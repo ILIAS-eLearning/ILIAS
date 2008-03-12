@@ -323,7 +323,6 @@ class ilCalendarRecurrenceCalculator
 						break;
 						
 					case ilCalendarRecurrence::FREQ_YEARLY:
-						
 						$this->log->write(__METHOD__.': Handling BYWEEKNO in YEARLY context');
 						$week_diff = $week_no - $seed->get(IL_CAL_FKT_DATE,'W',$this->timezone);
 						
@@ -332,7 +331,6 @@ class ilCalendarRecurrenceCalculator
 						$new_week->increment(ilDateTime::WEEK,$week_diff);
 						$weeks_list->add($new_week);
 						break;
-						
 				}				
 			}
 		}

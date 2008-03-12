@@ -62,8 +62,7 @@ class ilCalendarUtil
 	public static function _numericDayToString($a_day,$a_long = true)
 	{
 		global $lng;
-		
-		
+
 		$lng->loadLanguageModule('dateplaner');
 		static $days = array('Su','Mo','Tu','We','Th','Fr','Sa','Su');
 		
@@ -74,10 +73,13 @@ class ilCalendarUtil
 	 * Build a month day list
 	 *
 	 * @access public
+	 * @param int month
+	 * @param int year
+	 * @param int weekstart (0 => Sunday,1 => Monday)
 	 * @return ilDateList
 	 * 
 	 */
-	public static function _buildMonthDayList($a_month,$a_year)
+	public static function _buildMonthDayList($a_month,$a_year,$weekstart)
 	{
 		include_once('Services/Calendar/classes/class.ilDateList.php');
 
@@ -91,7 +93,7 @@ class ilCalendarUtil
 		$days_in_month = self::_getMaxDayOfMonth($a_year,$a_month);
 		$days_in_prev_month = self::_getMaxDayOfMonth($a_year,$prev_month);
 
-		$first_day_offset = ($o = date('w',gmmktime(0,0,0,$a_month,1,$a_year))) == 0 ? 6 : ($o - 1);
+		$first_day_offset = ($o = date('w',gmmktime(0,0,0,$a_month,1,$a_year))) == $weekstart ? 6 : ($o - $weekstart);
 		for($i = 0;$i < 42;$i++)
 		{
 			if($i < $first_day_offset)
