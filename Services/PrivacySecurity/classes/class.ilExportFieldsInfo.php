@@ -157,13 +157,12 @@ class ilExportFieldsInfo
 			'matriculation' => 0);
 
 		$settings_all = $this->settings->getAll();
-		
 		foreach($settings_all as $key => $value)
 		{
 			if(stristr($key,'usr_settings_course_export_') and $value)
 			{
 				$field = substr($key,27);
-				if(in_array($field,$this->possible_fields))
+				if(array_key_exists($field,$this->possible_fields))
 				{
 					$this->possible_fields[$field] = 1;
 				}
