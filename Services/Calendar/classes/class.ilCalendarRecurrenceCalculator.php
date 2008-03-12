@@ -94,7 +94,7 @@ class ilCalendarRecurrenceCalculator
 	 		// I think there is no difference in calculating a daily rule as monthly rule
 	 		if($this->recurrence->getFrequenceType() == ilCalendarRecurrence::FREQ_DAILY)
 	 		{
-		 		$this->recurrence->setFrequenceType(ilCalendarRecurrence::FREQ_MONTHLY);
+		 		#$this->recurrence->setFrequenceType(ilCalendarRecurrence::FREQ_MONTHLY);
 		 	}
 		}
 
