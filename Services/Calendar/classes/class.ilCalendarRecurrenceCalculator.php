@@ -129,7 +129,9 @@ class ilCalendarRecurrenceCalculator
 	 		$freq_res = $this->applyBYMONTHDAYRules($freq_res);
 			#echo "BYMONTH: ".$freq_res;
 
+	 		#$time = microtime(true);
 	 		$freq_res = $this->applyBYDAYRules($freq_res);
+	 		#echo "ZEIT: ".(microtime(true) - $time); 
 			#echo "BYDAY: ".$freq_res;
 
 
@@ -518,12 +520,56 @@ class ilCalendarRecurrenceCalculator
 		{
 			return $list;
 		}
+
+		$days_list = $this->initDateList();
+
 		// generate a list of e.g all Sundays for the given year
 		if($this->frequence_context == ilCalendarRecurrence::FREQ_YEARLY)
 		{
-			$byday_list = $this->getYearWeekDays();	
+			foreach($list->get() as $seed)
+			{
+				$current_year = $seed->get(IL_CAL_FKT_DATE,'Y');
+				$start = new ilDate($current_year.'-01-01',IL_CAL_DATE);
+
+				$year_days = $this->getYearWeekDays($seed);
+				foreach($this->recurrence->getBYDAYList() as $byday)
+				{
+					$day =  strtoupper(substr($byday,-2));
+					$num_by_day = (int) $byday;
+					
+					
+					if($num_by_day)
+					{
+						if($num_by_day > 0)
+						{
+							if(isset($year_days[$day][$num_by_day - 1]))
+							{
+								$year_day =  array($year_days[$day][$num_by_day - 1]);
+							}
+						}
+						else
+						{
+							if(isset($year_days[$day][count($year_days[$day]) + $num_by_day]))
+							{
+								$year_day = array($year_days[$day][count($year_days[$day]) + $num_by_day]);
+							}
+						}
+					}
+					else
+					{
+						$year_day = $year_days[$day];
+					}
+					
+					foreach($year_day as $day)
+					{
+						$tmp_date = clone $start;
+						$tmp_date->increment(IL_CAL_DAY,$day - 1);
+						$days_list->add($tmp_date);
+					}
+				}
+			}
 		}
-		return $list;
+		return $days_list;
 	
 	}
 	
@@ -532,9 +578,33 @@ class ilCalendarRecurrenceCalculator
 	 *
 	 * @access protected
 	 */
-	protected function getYearWeekDays()
+	protected function getYearWeekDays(ilDateTime $seed)
 	{
-	
+		$time = microtime(true);
+		
+		$year_days = array();
+		
+		$current_year = $seed->get(IL_CAL_FKT_DATE,'Y');
+		$start = new ilDate($current_year.'-01-01',IL_CAL_DATE);
+		$offset = $start->get(IL_CAL_FKT_DATE,'w');
+		$days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
+		for($i = 1;$i < $offset;$i++)
+		{
+			next($days);
+		}
+		
+		$num_days =  ilCalendarUtil::_isLeapYear($current_year) ? 366 : 365;
+		
+		for($i = 1;$i <= $num_days;$i++)
+		{
+			if(($current_day = next($days)) == false)
+			{
+				reset($days);
+				$current_day = next($days);
+			}
+			$year_days[$current_day][] = $i;
+		}
+		return $year_days;
 	}
 	
 	
@@ -545,7 +615,7 @@ class ilCalendarRecurrenceCalculator
 	 * @param object ilDateList
 	 * @return object ilDateList
 	 */
-	public function applyBYSETPOSRules(ilDateList $list)
+	protected function applyBYSETPOSRules(ilDateList $list)
 	{
 		// return unmodified, if no bysetpos rules are available
 		if(!$this->recurrence->getBYSETPOSList())
@@ -573,11 +643,11 @@ class ilCalendarRecurrenceCalculator
 	/**
 	 * Apply limits (count or until)
 	 *
-	 * @access public
+	 * @access protected
 	 * @param object ilDateList
 	 * 
 	 */
-	public function applyLimits(ilDateList $list)
+	protected function applyLimits(ilDateList $list)
 	{
 	 	// Check count if given
 	 	if($this->recurrence->getFrequenceUntilCount())
