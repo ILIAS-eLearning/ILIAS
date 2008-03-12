@@ -23,6 +23,7 @@
 
 include_once('Services/Calendar/classes/class.ilDate.php');
 include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
+include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
 
 
 /** 
@@ -39,6 +40,7 @@ include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php'
 class ilCalendarMonthGUI
 {
 	protected $seed = null;
+	protected $user_settings = null;
 
 	protected $lng;
 	protected $ctrl;
@@ -65,6 +67,8 @@ class ilCalendarMonthGUI
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
 		$this->tabs_gui->setSubTabActive('app_month');
+		
+		$this->user_settings = new ilCalendarUserSettings($ilUser); 
 		
 		$this->timezone = $ilUser->getUserTimeZone();
 	}
@@ -107,7 +111,7 @@ class ilCalendarMonthGUI
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::MONTH);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
 		
-		for($i = 1;$i < 8;$i++)
+		for($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++)
 		{
 			$this->tpl->setCurrentBlock('month_header_col');
 			$this->tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,true));
@@ -119,7 +123,9 @@ class ilCalendarMonthGUI
 		$this->scheduler->calculate();
 		
 		$counter = 0;
-		foreach(ilCalendarUtil::_buildMonthDayList($this->seed->get(IL_CAL_FKT_DATE,'m'),$this->seed->get(IL_CAL_FKT_DATE,'Y'))->get() as $date)
+		foreach(ilCalendarUtil::_buildMonthDayList($this->seed->get(IL_CAL_FKT_DATE,'m'),
+			$this->seed->get(IL_CAL_FKT_DATE,'Y'),
+			$this->user_settings->getWeekStart())->get() as $date)
 		{
 			$counter++;
 			

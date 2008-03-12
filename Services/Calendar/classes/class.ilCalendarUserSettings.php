@@ -6,9 +6,12 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
  
+include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+ 
 class ilCalendarUserSettings
 {
 	protected $user;
+	protected $settings;
 	
 	/**
 	 * Constructor
@@ -20,6 +23,7 @@ class ilCalendarUserSettings
 	public function __construct($user)
 	{
 		$this->user = $user;
+		$this->settings = ilCalendarSettings::_getInstance();
 		$this->read();
 	}
 	
@@ -46,6 +50,29 @@ class ilCalendarUserSettings
 	{
 		$this->timezone = $a_tz;
 	}
+	
+	/**
+	 * set week start
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function setWeekStart($a_weekstart)
+	{
+		$this->weekstart = $a_weekstart;
+	}
+	
+	/**
+	 * get weekstart
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getWeekStart()
+	{
+		return $this->weekstart;
+	}
 
 	/**
 	 * save
@@ -55,6 +82,7 @@ class ilCalendarUserSettings
 	public function save()
 	{
 		$this->user->writePref('user_tz',$this->getTimeZone());
+		$this->user->writePref('weekstart',$this->getWeekStart()); 
 	}
 	
 	
@@ -66,6 +94,11 @@ class ilCalendarUserSettings
 	protected function read()
 	{
 		$this->timezone = $this->user->getUserTimeZone();
+		if(($weekstart = $this->user->getPref('weekstart')) === false)
+		{
+			$weekstart = $this->settings->getDefaultWeekStart();
+		}
+		$this->weekstart = $weekstart;
 	}
 	
 }

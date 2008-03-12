@@ -114,6 +114,7 @@ class ilCalendarUserSettingsGUI
 	public function save()
 	{
 		$this->user_settings->setTimeZone($_POST['timezone']);
+		$this->user_settings->setWeekStart((int) $_POST['weekstart']);
 		$this->user_settings->save();	
 		
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
@@ -147,8 +148,8 @@ class ilCalendarUserSettingsGUI
 		$select->setValue($this->user_settings->getTimeZone());
 		$this->form->addItem($select);
 		
-		$radio = new ilRadioGroupInputGUI($this->lng->txt('cal_week_start'),'week_start');
-		$radio->setValue($this->settings->getDefaultWeekStart());
+		$radio = new ilRadioGroupInputGUI($this->lng->txt('cal_week_start'),'weekstart');
+		$radio->setValue($this->user_settings->getWeekStart());
 	
 		$option = new ilRadioOption($this->lng->txt('l_su'),0);
 		$radio->addOption($option);
