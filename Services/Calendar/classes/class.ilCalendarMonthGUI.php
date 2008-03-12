@@ -115,8 +115,7 @@ class ilCalendarMonthGUI
 		}
 		
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
-		$this->scheduler = new ilCalendarSchedule(new ilDate('2008-02-22',IL_CAL_DATE),
-			new ilDate('2008-04-06',IL_CAL_DATE));
+		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);
 		$this->scheduler->calculate();
 		
 		$counter = 0;

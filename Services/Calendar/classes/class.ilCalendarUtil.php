@@ -83,8 +83,8 @@ class ilCalendarUtil
 
 		$day_list = new ilDateList(ilDateList::TYPE_DATE);
 				
-		$prev_month = $a_month == 1 ? 1 : $a_month - 1;
-		$prev_year = $prev_month == 12 ? $a_year - 1 : $a_year; 
+		$prev_month = ($a_month == 1) ? 12 : $a_month - 1;
+		$prev_year = ($prev_month == 12) ? $a_year - 1 : $a_year;
 		$next_month = $a_month == 12 ? 1 : $a_month + 1;
 		$next_year = $a_month == 12 ? $a_year + 1 : $a_year;
 		
@@ -92,7 +92,6 @@ class ilCalendarUtil
 		$days_in_prev_month = self::_getMaxDayOfMonth($a_year,$prev_month);
 
 		$first_day_offset = ($o = date('w',gmmktime(0,0,0,$a_month,1,$a_year))) == 0 ? 6 : ($o - 1);
-		
 		for($i = 0;$i < 42;$i++)
 		{
 			if($i < $first_day_offset)
@@ -108,6 +107,7 @@ class ilCalendarUtil
 			{
 				$day = $i - $first_day_offset + 1;
 
+								
 				$day_list->add(new ilDate(gmmktime(0,0,0,$a_month,
 					$i - $first_day_offset + 1,
 					$a_year),

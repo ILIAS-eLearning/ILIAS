@@ -152,7 +152,7 @@ class ilDateList
 	 	$out = '<br />';
 	 	foreach($this->get() as $date)
 	 	{
-	 		$out .= $date->get(IL_CAL_DATETIME,'','Europe/Berlin').'<br/>';
+	 		$out .= $date->get(IL_CAL_DATETIME,'','UTC').'<br/>';
 	 	}
 	 	return $out;
 	}

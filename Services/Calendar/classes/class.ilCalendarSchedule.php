@@ -38,8 +38,13 @@ include_once('Services/Calendar/classes/class.ilCalendarEntry.php');
 
 class ilCalendarSchedule
 {
+	const TYPE_DAY = 1;
+	const TYPE_WEEK = 2;
+	const TYPE_MONTH = 3;
+	
 	protected $schedule = array();
 	protected $timezone;
+	protected $type = 0;
 	
 	protected $start = null;
 	protected $end = null;
@@ -50,15 +55,19 @@ class ilCalendarSchedule
 	 * Constructor
 	 *
 	 * @access public
+	 * @param ilDate seed date
+	 * @param int type of schedule (TYPE_DAY,TYPE_WEEK or TYPE_MONTH)
+	 * @param int user_id
 	 * 
 	 */
-	public function __construct(ilDate $start,ilDate $end,$a_user_id = 0)
+	public function __construct(ilDate $seed,$a_type,$a_user_id = 0)
 	{
 	 	global $ilUser,$ilDB;
 	 	
 	 	$this->db = $ilDB;
-	 	$this->start = clone $start;
-	 	$this->end = clone $end;
+
+		$this->type = $a_type;
+		$this->initPeriod($seed);
 	 	
 	 	if(!$a_user_id)
 	 	{
@@ -171,6 +180,38 @@ class ilCalendarSchedule
 			$events[] = new ilCalendarEntry($row->cal_id);
 		}
 		return $events ? $events : array();
+	}
+	
+	/**
+	 * init period of events
+	 *
+	 * @access protected
+	 * @param ilDate seed
+	 * @return
+	 */
+	protected function initPeriod(ilDate $seed)
+	{
+		switch($this->type)
+		{
+			case self::TYPE_DAY:
+				break;
+			
+			case self::TYPE_WEEK:
+				break;
+			
+			case self::TYPE_MONTH:
+				$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m');
+				list($year,$month) = explode('-',$year_month);
+			
+				$this->start = new ilDate($year_month.'-01',IL_CAL_DATE);
+				$this->start->increment(IL_CAL_DAY,-6);
+				
+				$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
+				$this->end->increment(IL_CAL_DAY,6);
+				break;
+		}
+		
+		return true;
 	}
 }
 
