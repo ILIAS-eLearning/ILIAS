@@ -587,22 +587,21 @@ class ilCalendarRecurrenceCalculator
 		$current_year = $seed->get(IL_CAL_FKT_DATE,'Y');
 		$start = new ilDate($current_year.'-01-01',IL_CAL_DATE);
 		$offset = $start->get(IL_CAL_FKT_DATE,'w');
-		$days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
-		for($i = 1;$i < $offset;$i++)
+		$days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA');
+		for($i = 0;$i < $offset;$i++)
 		{
 			next($days);
 		}
 		
 		$num_days =  ilCalendarUtil::_isLeapYear($current_year) ? 366 : 365;
-		
 		for($i = 1;$i <= $num_days;$i++)
 		{
-			if(($current_day = next($days)) == false)
+			if(($current_day = current($days)) == false)
 			{
-				reset($days);
-				$current_day = next($days);
+				$current_day = reset($days);
 			}
 			$year_days[$current_day][] = $i;
+			next($days);
 		}
 		return $year_days;
 	}
