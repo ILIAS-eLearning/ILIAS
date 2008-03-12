@@ -210,7 +210,7 @@ class ilCalendarRecurrence
 	 */
 	public function getInterval()
 	{
-	 	return $this->interval;
+	 	return $this->interval ? $this->interval : 1;
 	}
 	
 	/**

@@ -151,7 +151,6 @@ class ilCalendarRecurrenceCalculator
 			
 		// Restore default timezone
 		ilTimeZone::_restoreDefaultTimeZone();
-		
 	 	return $this->valid_dates;
 	}
 	

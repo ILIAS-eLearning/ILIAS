@@ -454,6 +454,7 @@ class ilAdvancedMDSettingsGUI
 	 */
 	public function editRecord()
 	{
+	 	// reset session
 	 	$_SESSION['num_values'] = 5;
 	 	
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.edit_record.html','Services/AdvancedMetaData');
@@ -836,7 +837,9 @@ class ilAdvancedMDSettingsGUI
 		$radio->addOption($radio_option);
 		
 		$values = $this->field_definition->getFieldValues();
-		$max_values = max(count($values),$_SESSION['num_values']);
+		
+		$max_values = max(count($values),$_SESSION['num_values'] ? $_SESSION['num_values'] : 5);
+		$_SESSION['num_values'] = $max_values;
 		for($i = 1; $i <= $max_values;$i++)
 		{
 			$title = new ilTextInputGUI($this->lng->txt('udf_value').' '.$i,'value_'.$i);
