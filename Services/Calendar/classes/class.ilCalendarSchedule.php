@@ -126,6 +126,8 @@ class ilCalendarSchedule
 			include_once('Services/Calendar/classes/class.ilCalendarRecurrences.php');
 			if($recs = ilCalendarRecurrences::_getRecurrences($event->getEntryId()))
 			{
+				$duration = $event->getEnd()->get(IL_CAL_UNIX) - $event->getStart()->get(IL_CAL_UNIX);
+				
 				foreach($recs as $rec)
 				{
 					$calc = new ilCalendarRecurrenceCalculator($event,$rec);
@@ -133,6 +135,7 @@ class ilCalendarSchedule
 					{
 						$this->schedule[$counter]['event'] = $event;
 						$this->schedule[$counter]['dstart'] = $rec_date->get(IL_CAL_UNIX);
+						$this->schedule[$counter]['dend'] = $this->schedule[$counter]['dstart'] + $duration; 
 						$this->schedule[$counter]['fullday'] = $event->isFullday();
 						$counter++;
 					}
@@ -156,9 +159,11 @@ class ilCalendarSchedule
 	 */
 	protected function getEvents()
 	{
-		$query = "SELECT cal_id FROM cal_entries ".
-			"WHERE start <= ".$this->db->quote($this->end->get(IL_CAL_DATE))." ".
-			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATE))." ".
+		$query = "SELECT cal_id FROM cal_entries AS ce LEFT JOIN cal_recurrence_rules AS crr USING (cal_id) ".
+			"WHERE (start <= ".$this->db->quote($this->end->get(IL_CAL_DATE))." ".
+			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATE)).") ".
+			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATE))." ".
+			"AND rule_id != 0) ".
 			"ORDER BY start";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
