@@ -498,7 +498,7 @@ class ilObjForumGUI extends ilObjectGUI
 										
 								$this->ctrl->setParameter($this, 'thr_pk', $objLastPost->getThreadId());
 								$this->tpl->setCurrentBlock('last_post');
-								$this->tpl->setVariable('LP_DATE', $objLastPost->getCreateDate());
+								$this->tpl->setVariable('LP_DATE', $frm->convertDate($objLastPost->getCreateDate()));
 								$this->tpl->setVariable('LP_FROM', $this->lng->txt('from'));
 								$this->tpl->setVariable('LP_HREF',
 								$this->ctrl->getLinkTarget($this, 'showThreadFrameset').'#'.$objLastPost->getId());

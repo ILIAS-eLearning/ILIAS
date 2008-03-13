@@ -247,7 +247,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 						ilFrameTargetInfo::_getFrame('MainContent').
 						"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
 							$last_user['usr_id']."&offset=".$Start."\">".$last_user['login']."</a>, ";
-						$lpCont .= $objLastPost->getCreateDate();
+						$lpCont .= ilFormat::formatDate($objLastPost->getCreateDate());
 					}
 					else
 					{
