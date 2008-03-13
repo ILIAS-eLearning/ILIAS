@@ -238,6 +238,8 @@ class ilObjForumListGUI extends ilObjectListGUI
 					{
 						$lpCont .= $lng->txt('forums_anonymous');					
 					}
+					
+					$lpCont .= ', '.ilFormat::formatDate($objLastPost->getCreateDate());
 				}
 				else
 				{
@@ -251,7 +253,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 					}
 					else
 					{
-						$lpCont .= $last_user['login'];
+						$lpCont .= $last_user['login'].', '.ilFormat::formatDate($objLastPost->getCreateDate());
 					}
 				}
 							
