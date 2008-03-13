@@ -1877,8 +1877,23 @@ class ilObjForumGUI extends ilObjectGUI
 								{
 									$tpl->setCurrentBlock('notify');
 									$tpl->setVariable('NOTIFY', $lng->txt('forum_notify_me'));
-									if ($_GET['show_post'] == 1) $tpl->setVariable('NOTIFY_CHECKED', $_POST['notify'] ? "checked=\"checked\"" : '');
-									else $tpl->setVariable('NOTIFY_CHECKED', $node->isNotificationEnabled() ? "checked=\"checked\"" : '');
+									
+									if($_GET['action'] == 'showreply')
+									{
+										$tpl->setVariable('NOTIFY_CHECKED', $_POST['notify'] ? ' checked="checked"' : '');
+									}
+									else if($_GET['action'] == 'showedit')
+									{
+										if(isset($_POST['SUB']))
+										{
+											$tpl->setVariable('NOTIFY_CHECKED', $_POST['notify'] ? ' checked="checked"' : '');	
+										}
+										else
+										{
+											$tpl->setVariable('NOTIFY_CHECKED', $node->isNotificationEnabled() ? "checked=\"checked\"" : '');	
+										}								
+									}
+									
 									$tpl->parseCurrentBlock();
 								}
 							}
