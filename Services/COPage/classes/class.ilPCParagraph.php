@@ -86,7 +86,8 @@ class ilPCParagraph extends ilPageContent
 	
 	
 	function create(&$a_pg_obj, $a_hier_id)
-	{		
+	{
+//echo "-$a_hier_id-";
 		$this->node =& $this->dom->create_element("PageContent");
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
 		$this->par_node =& $this->dom->create_element("Paragraph");
@@ -235,7 +236,6 @@ class ilPCParagraph extends ilPageContent
 	/**
 	* set attribute subcharacteristic
 	*/
-
 	function setSubCharacteristic($a_char)
 	{
 		if (!empty($a_char))

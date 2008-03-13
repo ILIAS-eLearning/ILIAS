@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -80,20 +80,16 @@ class ilPCSectionGUI extends ilPageContentGUI
 
 		$this->displayValidationError();
 
-		for($i=1; $i<=10; $i++)
-		{
-			$nr[$i] = $i;
-		}
-
 		// select fields for number of columns
-		$this->tpl->setVariable("TXT_STYLE", $this->lng->txt("cont_style_class"));
-		$order = array("il_Block" => $this->lng->txt("cont_sec_block"),
-			"il_Example" => $this->lng->txt("cont_sec_example"),
-			"il_Additional" => $this->lng->txt("cont_sec_additional"),
-			"il_Special" => $this->lng->txt("cont_sec_special"),
-			"il_Excursus" => $this->lng->txt("cont_sec_excursus"));
-		$select_class = ilUtil::formSelect ("","sec_class",$order,false,true);
-		$this->tpl->setVariable("SELECT_CLASS", $select_class);
+		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
+		$order = array("ilc_Block" => $this->lng->txt("cont_sec_block"),
+			"ilc_Example" => $this->lng->txt("cont_sec_example"),
+			"ilc_Citation" => $this->lng->txt("cont_citation"),
+			"ilc_Additional" => $this->lng->txt("cont_sec_additional"),
+			"ilc_Special" => $this->lng->txt("cont_sec_special"),
+			"ilc_Excursus" => $this->lng->txt("cont_sec_excursus"));
+		$select_class = ilUtil::formSelect ("","characteristic",$order,false,true);
+		$this->tpl->setVariable("SELECT_CHARACTERISTIC", $select_class);
 
 		$this->tpl->parseCurrentBlock();
 
@@ -104,7 +100,6 @@ class ilPCSectionGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
-
 	}
 
 
@@ -115,7 +110,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 	{
 		$this->content_obj = new ilPCSection($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
-		$this->content_obj->setStyleClass($_POST["sec_class"]);
+		$this->content_obj->setCharacteristic($_POST["characteristic"]);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
