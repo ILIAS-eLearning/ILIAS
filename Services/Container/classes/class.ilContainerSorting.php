@@ -54,13 +54,41 @@ class ilContainerSorting
 	}
 	
 	/**
+	 * Sort tree data
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function sortTreeData($a_tree_data)
+	{
+		$nodes_by_type = array();
+		foreach($a_tree_data as $node)
+		{
+			$type = $node['type'];
+			$nodes_by_type[$type][] = $node;
+		}
+		$sorted = $this->sortTreeDataByType($nodes_by_type);
+		foreach($sorted as $type => $nodes)
+		{
+			foreach($nodes as $node)
+			{
+				$sorted_nodes[] = $node;
+			}
+		}
+
+		return $sorted_nodes ? $sorted_nodes : $a_tree_data;
+	}
+	
+	
+	/**
 	 * Sort
 	 *
 	 * @access public
 	 * @param array of objects by type 
 	 * 
 	 */
-	public function sortTreeData($a_tree_data)
+	public function sortTreeDataByType($a_tree_data)
 	{
 		if(!$this->manual_sort_enabled)
 		{
@@ -102,6 +130,17 @@ class ilContainerSorting
 			}
 		}
 		return $sorted ? $sorted : array(); 
+	}
+	
+	/**
+	 * is manual sorting enabled
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function isManualSortingEnabled()
+	{
+		return (bool) $this->manual_sort_enabled;
 	}
 	
 	/**

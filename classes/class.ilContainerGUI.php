@@ -702,7 +702,7 @@ class ilContainerGUI extends ilObjectGUI
 						
 			$this->items[$type][$key] = $object;
 		}
-		$this->items = $sort->sortTreeData($this->items);
+		$this->items = $sort->sortTreeDataByType($this->items);
 	}
 
 	function renderItemList($a_type = "all")

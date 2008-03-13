@@ -2427,6 +2427,9 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		$tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
+
+		// Disabled (smeyer), since tags are not allowed for GET parameters
+		/*
 		$mail_to = ilMail::_getUserInternalMailboxAddress(
 			$this->object->getId(),
 			$this->object->getLogin(), 
@@ -2436,6 +2439,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$tpl->setVariable("MAIL_USR_LOGIN", urlencode(
 			$mail_to)
 		);
+		*/
+		$tpl->setVariable('MAIL_USR_LOGIN',urlencode($this->object->getLogin()));
 
 		$tpl->setVariable("TXT_NAME", $this->lng->txt("name"));
 		$tpl->setVariable("FIRSTNAME", $this->object->getFirstName());

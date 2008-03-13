@@ -509,7 +509,7 @@ class ilExplorer
 			$tab = ++$a_depth - 2;
 			if ($this->post_sort)
 			{
-				$objects = $this->sortNodes($objects);
+				$objects = $this->sortNodes($objects,$a_obj_id);
 			}
 			$ilBench->stop("Explorer", "setOutput_sortNodes");
 
@@ -1261,7 +1261,7 @@ class ilExplorer
 	* @param	array	node list as returned by iltree::getChilds();
 	* @return	array	sorted nodes
 	*/
-	function sortNodes($a_nodes)
+	function sortNodes($a_nodes,$a_parent_obj_id)
 	{
 		foreach ($a_nodes as $key => $node)
 		{
