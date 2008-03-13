@@ -358,16 +358,16 @@ class ilPCParagraph extends ilPageContent
 
 //echo "<br>first:".htmlentities($a_text);
 
-		if ($a_wysiwyg == 1)
-		{
+//		if ($a_wysiwyg == 1)
+//		{
 			//$a_text = str_replace("&","&amp;",$a_text);
 			//$a_text = str_replace("<","&lt;",$a_text);
 			//$a_text = str_replace(">","&gt;",$a_text);
 
-			$wysiwygUtil = new ilWysiwygUtil();
-			$a_text = $wysiwygUtil->convertFromPost($a_text);
+//			$wysiwygUtil = new ilWysiwygUtil();
+//			$a_text = $wysiwygUtil->convertFromPost($a_text);
 			//$a_text = addslashes($a_text);
-		}
+//		}
 
 //echo "<br>between:".htmlentities($a_text);
 
@@ -393,6 +393,8 @@ echo htmlentities($a_text);*/
 		$a_text = str_replace(chr(13),"<br />", $a_text);
 		$a_text = str_replace(chr(10),"<br />", $a_text);
 
+		$a_text = $this->input2xmlReplaceLists($a_text);
+		
 		// bb code to xml
 		$a_text = eregi_replace("\[com\]","<Comment Language=\"".$this->getLanguage()."\">",$a_text);
 		$a_text = eregi_replace("\[\/com\]","</Comment>",$a_text);
@@ -549,7 +551,187 @@ echo htmlentities($a_text);*/
 		//$a_text = addslashes($a_text);
 		return $a_text;
 	}
+	
+	/**
+	* Converts xml from DB to output in edit textarea.
+	*
+	* @param	string	$a_text		xml from db
+	*
+	* @return	string	string ready for edit textarea
+	*/
+	function input2xmlReplaceLists($a_text)
+	{
+		$rows = explode("<br />", $a_text);
+		
+		$old_level = 0;
 
+		$text = "";
+		
+		foreach ($rows as $row)
+		{
+			$level = 0;
+			if (substr($row, 0, 3) == "***")
+			{
+				$level = 3;
+			}
+			else if (substr($row, 0, 2) == "**")
+			{
+				$level = 2;
+			}
+			else if (substr($row, 0, 1) == "*")
+			{
+				$level = 1;
+			}
+			
+			// end previous line
+			if ($level < $old_level)
+			{
+				$text.= str_repeat("</SimpleListItem></SimpleBulletList>", ($old_level - $level));
+				if ($level > 0)
+				{
+					$text.= "</SimpleListItem>";
+				}
+			}
+			else if ($old_level > 0 && $level > 0 && ($level == $old_level))
+			{
+				$text.= "</SimpleListItem>";
+			}
+			else if (($level == $old_level) && $text != "")
+			{
+				$text.= "<br />";
+			}
+			
+			// start next line
+			if ($level > $old_level)
+			{
+				$text.= str_repeat("<SimpleBulletList><SimpleListItem>", ($level - $old_level));
+			}
+			else if ($old_level > 0 && $level > 0)
+			{
+				$text.= "<SimpleListItem>";
+			}
+			$text.= substr($row, $level);
+			
+			$old_level = $level;
+		}
+		
+//var_dump($text);
+		
+		return $text;
+	}
+	
+	/**
+	* Replaces <list> tags with *
+	*
+	* @param	string	$a_text		xml from db
+	*
+	* @return	string				string containing * for lists
+	*/
+	function xml2outputReplaceLists($a_text)
+	{
+		$segments = $this->segmentString($a_text, array("<SimpleBulletList>", "</SimpleBulletList>",
+			"</SimpleListItem>", "<SimpleListItem>"));
+		
+		$current_list = array();
+		$text = "";
+		for ($i=0; $i<= count($segments); $i++)
+		{
+			$list_start = false;
+			if ($segments[$i] == "<SimpleBulletList>")
+			{
+				if (count($current_list) == 0)
+				{
+					$list_start = true;
+				}
+				array_push($current_list, "*");
+				$li = false;
+			}
+			else if ($segments[$i] == "</SimpleBulletList>")
+			{
+				array_pop($current_list);
+				$li = false;
+			}
+			else if ($segments[$i] == "<SimpleListItem>")
+			{
+				$li = true;
+			}
+			else if ($segments[$i] == "</SimpleListItem>")
+			{
+				$li = false;
+			}
+			else
+			{
+				if ($li)
+				{
+					if ($list_start)
+					{
+						$text.= "<br />";
+					}
+					foreach($current_list as $list)
+					{
+						$text.= $list;
+					}
+				}
+				$text.= $segments[$i];
+				if ($li)
+				{
+					$text.= "<br />";
+				}
+				$li = false;
+			}
+		}
+		
+		return $text;
+	}
+	
+	/**
+	* Segments a string into an array at each position of a substring
+	*/
+	function segmentString($a_haystack, $a_needles)
+	{
+		$segments = array();
+		
+		$nothing_found = false;
+		while (!$nothing_found)
+		{
+			$nothing_found = true;
+			$found = -1;
+			foreach($a_needles as $needle)
+			{
+				$pos = stripos($a_haystack, $needle);
+				if (is_int($pos) && ($pos < $found || $found == -1))
+				{
+					$found = $pos;
+					$found_needle = $needle;
+					$nothing_found = false;
+				}
+			}
+			if ($found > 0)
+			{
+				$segments[] = substr($a_haystack, 0, $found);
+				$a_haystack = substr($a_haystack, $found);
+			}
+			if ($found > -1)
+			{
+				$segments[] = substr($a_haystack, 0, strlen($found_needle));
+				$a_haystack = substr($a_haystack, strlen($found_needle));
+			}
+		}
+		if ($a_haystack != "")
+		{
+			$segments[] = $a_haystack;
+		}
+		
+		return $segments;
+	}
+
+	/**
+	* Converts xml from DB to output in edit textarea.
+	*
+	* @param	string	$a_text		xml from db
+	*
+	* @return	string	string ready for edit textarea
+	*/
 	function xml2output($a_text)
 	{
 		// note: the order of the processing steps is crucial
@@ -576,6 +758,9 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("</Code>","[/code]",$a_text);
 		$a_text = eregi_replace("<Code/>","[code][/code]",$a_text);
 
+		// replace lists
+		$a_text = $this->xml2outputReplaceLists($a_text);
+		
 		// internal links
 		while (eregi("<IntLink($any)>", $a_text, $found))
 		{

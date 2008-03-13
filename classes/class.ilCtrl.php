@@ -970,13 +970,17 @@ class ilCtrl
 		
 		$this->getRequestToken();
 
-		$script = $this->getLinkTargetByClass($a_class, "post", $a_anchor, $a_asynch);
+		$script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch);
 		if ($a_fallback_cmd != "")
 		{
 			$script = ilUtil::appendUrlParameterString($script, "fallbackCmd=".$a_fallback_cmd);
 		}
 		$script = ilUtil::appendUrlParameterString($script, self::IL_RTOKEN_NAME.'='.$this->getRequestToken());
-		
+		if ($a_anchor != "")
+		{
+			$script = $script."#".$a_anchor;
+		}
+
 		return $script;
 	}
 	
@@ -1123,7 +1127,8 @@ class ilCtrl
 	*
 	* @param	string		$a_class		command target class
 	* @param	string		$a_cmd			command
-	* @param	array		$a_transits		transit classes (deprecated)
+	* @param	array		$a_anchor		# anchor
+	* @param	array		$a_asynch		asynchronous mode
 	*
 	* @return	string		target link
 	*/

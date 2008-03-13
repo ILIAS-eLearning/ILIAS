@@ -199,7 +199,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 			// link
 			$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $child["obj_id"]);
-			$link = $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view", "", true);
+			$link = $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "edit", "");
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
 			// title
