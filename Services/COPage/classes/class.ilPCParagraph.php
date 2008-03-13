@@ -561,7 +561,7 @@ echo htmlentities($a_text);*/
 	*/
 	function input2xmlReplaceLists($a_text)
 	{
-		$rows = explode("<br />", $a_text);
+		$rows = explode("<br />", $a_text."<br />");
 		
 		$old_level = 0;
 
@@ -615,7 +615,11 @@ echo htmlentities($a_text);*/
 			$old_level = $level;
 		}
 		
-//var_dump($text);
+		// remove "<br />" at the end
+		if (substr($text, strlen($text) - 6) == "<br />")
+		{
+			$text = substr($text, 0, strlen($text) - 6);
+		}
 		
 		return $text;
 	}
@@ -636,7 +640,8 @@ echo htmlentities($a_text);*/
 		$text = "";
 		for ($i=0; $i<= count($segments); $i++)
 		{
-			$list_start = false;
+//echo "<br>".htmlentities($segments[$i]);
+
 			if ($segments[$i] == "<SimpleBulletList>")
 			{
 				if (count($current_list) == 0)
@@ -666,6 +671,7 @@ echo htmlentities($a_text);*/
 					if ($list_start)
 					{
 						$text.= "<br />";
+						$list_start = false;
 					}
 					foreach($current_list as $list)
 					{
