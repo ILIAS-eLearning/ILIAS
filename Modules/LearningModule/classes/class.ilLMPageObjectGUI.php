@@ -207,7 +207,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			$this->checkTree();
 
 			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
-				"view", "", true));
+				"edit", "", true));
 		}
 	}
 

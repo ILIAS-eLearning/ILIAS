@@ -811,7 +811,6 @@
 		 </xsl:if>
 </xsl:template>
 
-
 <!-- Emph, Strong, Comment, Quotation -->
 <xsl:template match="Emph|Strong|Comment|Quotation">
 	<xsl:variable name="Tagname" select="name()"/>
@@ -1331,6 +1330,17 @@
 		<xsl:with-param name="langvar">ed_item_down</xsl:with-param></xsl:call-template>
 	</xsl:if>
 	
+</xsl:template>
+
+<!-- SimpleBulletList -->
+<xsl:template match="SimpleBulletList">
+	<ul><xsl:apply-templates/></ul>
+</xsl:template>
+<xsl:template match="SimpleNumberedList">
+	<ol><xsl:apply-templates/></ol>
+</xsl:template>
+<xsl:template match="SimpleListItem">
+	<li><xsl:apply-templates/></li>
 </xsl:template>
 
 <!-- FileList -->
