@@ -35,6 +35,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMediaObjectGUI, ilPCListGUI, ilPCListItemGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -316,9 +317,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$link_gui->setSetLinkTargetScript(
 					$this->ctrl->getLinkTarget($this, "setInternalLink"));
 				$link_gui->setReturn($this->int_link_return);
-				//$link_gui->filterLinkType("Media");
 				$ret =& $this->ctrl->forwardCommand($link_gui);
-				//$ret =& $link_gui->executeCommand();
 				break;
 
 			// Sourcecode
@@ -326,7 +325,6 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCSourcecodeGUI.php");
 				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id);
-				//$ret =& $src_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($src_gui);
 				break;
 
@@ -335,7 +333,6 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
-				//$ret =& $par_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
 
@@ -344,7 +341,6 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTableGUI.php");
 				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id);
-				//$ret =& $tab_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
@@ -353,7 +349,6 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTableDataGUI.php");
 				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
-				//$ret =& $td_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($td_gui);
 				break;
 
@@ -459,6 +454,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$ret =& $this->ctrl->forwardCommand($file_item_gui);
 				break;
 
+			// File List Item
 			case "ilpcquestiongui":
 			
 				// clear tabs!?
@@ -469,6 +465,14 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$cmd = $this->ctrl->getCmd();
 				$pc_question_gui->$cmd();
 				$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
+				break;
+
+			// Section
+			case "ilpcsectiongui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCSectionGUI.php");
+				$sec_gui =& new ilPCSectionGUI($this->page, $cont_obj, $hier_id);
+				$ret =& $this->ctrl->forwardCommand($sec_gui);
 				break;
 
 			default:

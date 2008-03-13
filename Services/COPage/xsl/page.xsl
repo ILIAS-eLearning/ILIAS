@@ -618,10 +618,10 @@
 <!-- Drop Area for Adding -->
 <xsl:template name="DropArea">
 	<xsl:param name="hier_id"/>
-
+<!-- <xsl:value-of select="$hier_id"/> -->
 	<!-- Drop area -->
 	<div class="il_droparea">
-		<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/></xsl:attribute>
+		<xsl:attribute name="id">TARGET<xsl:value-of select="$hier_id"/></xsl:attribute>
 		<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
 		<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
 		<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>');</xsl:attribute>
@@ -629,7 +629,7 @@
 	</div>
 	<!-- insert menu for drop area -->
 	<xsl:call-template name="EditMenu">
-		<xsl:with-param name="hier_id" select="@HierId" />
+		<xsl:with-param name="hier_id" select="$hier_id" />
 		<xsl:with-param name="droparea">y</xsl:with-param>
 	</xsl:call-template>
 
@@ -2096,6 +2096,38 @@
 <xsl:template match="MediaObject">
 	<xsl:apply-templates select="MediaAlias"/>
 </xsl:template>
+
+<!-- Section -->
+<xsl:template match="Section">
+	<div>
+		<xsl:if test="@Characteristic">
+			<xsl:attribute name="class"><xsl:value-of select="@Characteristic"/></xsl:attribute>
+		</xsl:if>
+		<xsl:call-template name="EditReturnAnchors"/>
+		<!-- command selectbox -->
+		<xsl:if test="$mode = 'edit'">
+			<xsl:call-template name="DropArea">
+				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+		<xsl:apply-templates/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	</div>
+</xsl:template>
+
 
 <!-- Question -->
 <xsl:template match="Question">

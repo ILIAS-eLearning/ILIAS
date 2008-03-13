@@ -857,7 +857,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
 		//$path = "//Paragraph | //Table | //TableRow | //TableData";
-		$path = "//PageContent | //TableRow | //TableData | //ListItem | //FileItem";
+		$path = "//PageContent | //TableRow | //TableData | //ListItem | //FileItem | //Section";
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -1715,11 +1715,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$curr_node =& $this->getContentNode($a_pos);
 		$curr_name = $curr_node->node_name();
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
-			($curr_name == "ListItem"))
+			($curr_name == "ListItem") || ($curr_name == "Section"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
-
 
 		if($a_mode != IL_INSERT_CHILD)			// determine parent hierarchical id
 		{										// of sibling at $a_pos

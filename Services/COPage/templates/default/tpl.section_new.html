@@ -1,0 +1,26 @@
+<form action="{FORMACTION}" name="post" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<!-- Title -->
+<tr class="std">
+	<td class="option">
+	{TXT_CHARACTERISTIC}
+	</td>
+	<td class="option_value">
+	{SELECT_CHARACTERISTIC}
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+</form>

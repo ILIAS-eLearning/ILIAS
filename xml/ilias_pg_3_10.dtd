@@ -222,7 +222,7 @@
 <!-- il_Block, il_Example, il_Special, il_Additional, il_Excursus -->
 <!ELEMENT Section (PageContent*)>
 <!ATTLIST List
-	StyleClass CDATA #IMPLIED
+	Characteristic CDATA #IMPLIED
 >
 
 <!-- Glossary -->

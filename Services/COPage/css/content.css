@@ -243,3 +243,69 @@ td.ilc_MediaCaption
 {
 	padding:5px;
 }
+
+div.ilc_Block {
+	border: 1px;
+	border-style: solid;
+	padding: 5px 10px;
+	margin: 10px 0px;
+	border-color: #A0A0A0;
+	background-color: #FFFFFF;
+	background-image: url(../../../templates/default/images/FramedBack.gif);
+	background-repeat:repeat-x;
+}
+
+div.ilc_Example {
+	border: 1px;
+	border-style: solid;
+	padding: 5px 10px;
+	margin: 10px 0px;
+	border-color: #A0A0F0;
+	background-color: #F7F7FF;
+	background-image: url(../../../templates/default/images/ExampleBack.gif);
+	background-repeat:repeat-x;
+}
+
+div.ilc_Additional {
+	border: 1px;
+	border-style: solid;
+	padding: 5px 10px;
+	margin: 10px 0px;
+	border-color: #90F090;
+	background-color: #F7FFF7;
+	background-image: url(../../../templates/default/images/AdditionalBack.gif);
+	background-repeat:repeat-x;
+}
+
+div.ilc_Special {
+	border: 1px;
+	border-style: solid;
+	padding: 5px 10px;
+	margin: 10px 0px;
+	border-color: #F0A0A0;
+	background-color: #FFF7F7;
+	background-image: url(../../../templates/default/images/SpecialBack.gif);
+	background-repeat:repeat-x;
+}
+
+div.ilc_Excursus {
+	border: 1px;
+	border-style: solid;
+	padding: 5px 10px;
+	margin: 10px 0px;
+	border-color: #F0F060;
+	background-color: #FFFFF7;
+	background-image: url(../../../templates/default/images/ExcursusBack.gif);
+	background-repeat: repeat-x;
+}
+
+div.ilc_Citation {
+	background:transparent url(../../../templates/default/images/CitationBack.gif) no-repeat;
+	font-style:italic;
+	font-weight:normal;
+	line-height:normal;
+	font-family:Georgia,Times,serif;
+	color: #402000;
+	margin: 0px 0px;
+	padding: 10px 30px 5px 60px;
+}
