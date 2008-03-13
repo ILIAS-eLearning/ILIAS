@@ -725,8 +725,8 @@ class ilConditionHandler
 
 
 		$query = "SELECT * FROM conditions WHERE ".
-			"trigger_obj_id = ".$ilDB->quote($trigger_obj->getId())." ".
-			"AND target_obj_id = ".$ilDB->quote($target_obj->getId());
+			"trigger_ref_id = ".$ilDB->quote($trigger_obj->getId())." ".
+			"AND target_ref_id = ".$ilDB->quote($target_obj->getId());
 
 		$res = $this->db->query($query);
 		if($res->numRows() > 1)

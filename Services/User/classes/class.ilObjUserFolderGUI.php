@@ -1852,7 +1852,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			// check assignment permission if called from local admin
 			if($this->object->getRefId() != USER_FOLDER_ID)
 			{
-				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
+				if(!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) && !ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{
 					continue;
 				}
@@ -2112,14 +2112,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				{
 					if (in_array($role_id, $global_roles))
 					{
-						if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
-						|| ($this->object->getRefId() != USER_FOLDER_ID 
-							&& ! ilObjRole::_getAssignUsersStatus($role_id))
-						)
+						if(!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 						{
-							ilUtil::delDir($import_dir);
-							$this->ilias->raiseError($this->lng->txt("usrimport_with_specified_role_not_permitted"), 
-								$this->ilias->error_obj->MESSAGE);
+							if ($role_id == SYSTEM_ROLE_ID && ! in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
+							|| ($this->object->getRefId() != USER_FOLDER_ID 
+								&& ! ilObjRole::_getAssignUsersStatus($role_id))
+							)
+							{
+								ilUtil::delDir($import_dir);
+								$this->ilias->raiseError($this->lng->txt("usrimport_with_specified_role_not_permitted"), 
+									$this->ilias->error_obj->MESSAGE);
+							}
 						}
 					}
 					else
