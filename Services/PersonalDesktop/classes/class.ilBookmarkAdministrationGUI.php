@@ -750,7 +750,7 @@ return;
 		$umail->savePostData($ilUser->getId(),array($filename),
 						 '','','','','',
 						 '',
-						 '');
+						 '', 0);
 		ilUtil::redirect('ilias.php?baseClass=ilMailGUI&type=attach');
 	}
 	/**
