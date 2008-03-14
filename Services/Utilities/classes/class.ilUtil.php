@@ -1525,13 +1525,13 @@ class ilUtil
 		$cdir = getcwd();
 		chdir($dir);
 
-		$user_agent = strtolower($_SERVER["HTTP_USER_AGENT"]);
 		$unzip = PATH_TO_UNZIP;
 		
-		if (is_integer(strpos($user_agent, "win")))
+		if (stristr(php_os, 'WIN'))
 		{
 			$unzipcmd = $unzip." ";
-		} else {
+		} else 
+		{
 			$unzipcmd = $unzip." -O CP850 ";
 		}
 		if ($overwrite) 
