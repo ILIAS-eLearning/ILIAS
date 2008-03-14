@@ -1526,8 +1526,8 @@ class ilUtil
 		chdir($dir);
 
 		$unzip = PATH_TO_UNZIP;
-		
-		if (stristr(php_os, 'WIN'))
+		#echo PHP_OS;
+		if (stripos(PHP_OS, 'WIN') !== false)
 		{
 			$unzipcmd = $unzip." ";
 		} else 
