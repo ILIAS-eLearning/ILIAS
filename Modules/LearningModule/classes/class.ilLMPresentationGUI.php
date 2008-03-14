@@ -1298,7 +1298,7 @@ class ilLMPresentationGUI
 			{
 				$public = ilLMObject::_isPagePublic($page_id);
 
-				while ($public === false)
+				while ($public === false && $page_id > 0)
 				{
 					$succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
 					$page_id = $succ_node["obj_id"];
@@ -1455,7 +1455,7 @@ class ilLMPresentationGUI
 		{
 			$page_id = $a_page_id;
 		}
-		
+
 		// no page found
 		if ($page_id == 0)
 		{

@@ -465,6 +465,13 @@ class ilObjLanguage extends ilObject
 		}
 		
 		$tmpPath = getcwd();
+		
+		// dir check
+		if (!is_dir($path))
+		{
+			$this->ilias->raiseError("Directory not found: ".$path, $this->ilias->error_obj->MESSAGE);
+		}
+
 		chdir($path);
 
 		// compute lang-file name format
