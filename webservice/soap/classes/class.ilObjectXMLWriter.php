@@ -220,7 +220,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 		foreach ($items as $item) {
 			if ($item["ref_id"] == $refid)
 				continue;
-			if ($item["title"] == "ILIAS" && $item["type"] == "root")
+			if ($item["type"] == "root")
 			{
 				$item["title"] = $lng->txt("repository");
 			}			

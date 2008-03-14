@@ -1522,6 +1522,32 @@ class ilUtil
 		$dir = $pathinfo["dirname"];
 		$file = $pathinfo["basename"];
 
+		$cdir = getcwd();
+		chdir($dir);
+
+		$user_agent = strtolower($_SERVER["HTTP_USER_AGENT"]);
+		$unzip = PATH_TO_UNZIP;
+		
+		if (is_integer(strpos($user_agent, "win")))
+		{
+			$unzipcmd = $unzip." ";
+		} else {
+			$unzipcmd = $unzip." -O CP850 ";
+		}
+		if ($overwrite) 
+		{
+			$unzipcmd .= "-o ";					
+		}
+		
+		$unzipcmd .= " ".ilUtil::escapeShellArg($file);
+		#echo $unzipcmd;
+		exec($unzipcmd, $arr);
+		chdir($cdir);
+		
+		return true;
+	}
+/*		
+		die();
 		// use php zip functions, if available
 		if (class_exists("ZipArchive") && version_compare(PHP_VERSION, "5.2.0", ">="))
 		{
@@ -1530,7 +1556,7 @@ class ilUtil
 			{
 				$name = zip_entry_name($zip_entry);
 				$entry_pathinfo = pathinfo($name);
-				$entry_dir = $entry_pathinfo["dirname"];
+				$entry_dir = $entry_pathinfo["dirname"];				
 				$entry_base = $entry_pathinfo["basename"];
 				
 				// If the file is not in the root dir
@@ -1602,7 +1628,7 @@ class ilUtil
 		}
 
 		// real unzip
-		if ($overvwrite)
+		if ($overwrite)
 		{
 			$unzipcmd = $unzip." ".ilUtil::escapeShellArg($file);
 		}
@@ -1613,7 +1639,7 @@ class ilUtil
 		exec($unzipcmd);
 
 		chdir($cdir);
-	}
+	}*/
 
 	/**
 	*	zips given directory/file into given zip.file
