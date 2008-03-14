@@ -64,7 +64,8 @@ class ilFileUtils
 		ilUtil::unzip($a_directory . "/" . $file);
 		unlink ($a_directory . "/" . $file);
 
-		// Stores filename and paths into $filearray to check for viruses and 
+		// Stores filename and paths into $filearray to check for viruses 
+		// Checks if filenames can be read, else -> throw exception and leave
 		ilFileUtils::recursive_dirscan($a_directory, $filearray);
 
 		// if there are no files unziped (->broken file!)
@@ -133,9 +134,16 @@ class ilFileUtils
 	 */	
 	function recursive_dirscan($dir, &$arr)
 	{
+		global $lng;
+
 		$dirlist = opendir($dir);
-	  	while ($file = readdir ($dirlist))
+	  	while (false !== ($file = readdir ($dirlist)))
 		{
+			if (!is_file($dir . "/" .  $file) && !is_dir($dir . "/" . $file)) 
+			{
+				throw new ilFileUtilsException($lng->txt("filenames_not_supported"), ilFileUtilsException::$BROKEN_FILE);
+			}
+
 			if ($file != '.' && $file != '..')
 			{
 	    			$newpath = $dir.'/'.$file;
@@ -151,7 +159,7 @@ class ilFileUtils
 	      			}
 			}
 		}
-		closedir($dirlist);		
+		closedir($dirlist);
 	}
 
 
@@ -171,8 +179,13 @@ class ilFileUtils
 	function createObjects($dir, $structure, $ref_id, $containerType)
 	{
 		$dirlist = opendir($dir);
-	  	while ($file = readdir ($dirlist))
+		
+	  	while (false !== ($file = readdir ($dirlist)))
 		{
+			if (!is_file($dir . "/" . $file) && !is_dir($dir . "/" . $file)) 
+			{
+				throw new ilFileUtilsException($lng->txt("filenames_not_supported") , ilFileUtilsException::$BROKEN_FILE);
+			}		
 			if ($file != '.' && $file != '..')
 			{
 	    			$newpath = $dir.'/'.$file;
@@ -224,7 +237,7 @@ class ilFileUtils
 			$newObj->setType("fold");		
 		}
 
-		$newObj->setTitle($name);
+		$newObj->setTitle(ilFileUtils::utf8_encode($name));
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($ref_id);
@@ -255,8 +268,8 @@ class ilFileUtils
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$fileObj = new ilObjFile();
 		$fileObj->setType($this->type);
-		$fileObj->setTitle(ilUtil::stripSlashes($filename));
-		$fileObj->setFileName(ilUtil::stripSlashes($filename));
+		$fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+		$fileObj->setFileName(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 		
 		// better use this, mime_content_type is deprecated
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -273,8 +286,30 @@ class ilFileUtils
 
 		$fileObj->createDirectory();
 
-		$fileObj->storeUnzipedFile($path. "/" . $filename,ilUtil::stripSlashes($filename));
-
+		$fileObj->storeUnzipedFile($path. "/" . $filename,ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+	}
+	
+	/**
+	 * utf8-encodes string if it is not a valid utf8-string.
+	 *
+	 * @author Jan Hippchen
+	 * @version 1.12.3.08	
+	 * @param string $string String to encode
+	 * @return string utf-8-encoded string
+	 */
+	function utf8_encode($string) {
+	   
+		// From http://w3.org/International/questions/qa-forms-utf-8.html
+		return (preg_match('%^(?:
+			[\x09\x0A\x0D\x20-\x7E]            # ASCII
+			| [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+			|  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+			| [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+			|  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+			|  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+			| [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+			|  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+			)*$%xs', $string))? $string : utf8_encode($string);
 	}
 	
 	

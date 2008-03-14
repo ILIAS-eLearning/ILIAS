@@ -22,13 +22,13 @@
 */
 
 
-include_once("classes/class.ilObjectGUI.php");
+include_once("./classes/class.ilObjectGUI.php");
 include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
 include_once("./Services/Table/classes/class.ilTableGUI.php");
-include_once("classes/class.ilObjFolderGUI.php");
+include_once("./Modules/Folder/classes/class.ilObjFolderGUI.php");
 include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-include_once ("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
+include_once("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
 
 
 /**
@@ -744,7 +744,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		}
 		
 		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
-		include_once("classes/class.ilObjStyleSheet.php");
+		include_once("Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
