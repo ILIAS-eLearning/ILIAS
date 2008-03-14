@@ -203,6 +203,8 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 
 	function isClickable($a_type, $a_node_id)
 	{
+		global $ilUser;
+		
 		if ($a_type == "st")
 		{
 			$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
@@ -212,6 +214,18 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 				return false;
 			}
 		}
+		
+		if ($a_type == "pg")
+		{
+			// check public area mode
+			include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+			if ($ilUser->getId() == ANONYMOUS_USER_ID && $this->lm_obj->getPublicAccessMode() == "selected"
+				&& !ilLMObject::_isPagePublic($a_node_id))
+			{
+				return false;
+			}
+		}
+
 		return true;
 	}
 
