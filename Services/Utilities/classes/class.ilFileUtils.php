@@ -194,7 +194,7 @@ class ilFileUtils
 				{
 					if ($structure) 
 					{
-						$new_ref_id = ilFileUtils::createContainer($file, $ref_id, $containerType);
+					  	$new_ref_id = ilFileUtils::createContainer(ilFileUtils::utf8_encode($file), $ref_id, $containerType);						
 						ilFileUtils::createObjects($newpath, $structure, $new_ref_id, $containerType);
 					}
 					else 
@@ -237,7 +237,7 @@ class ilFileUtils
 			$newObj->setType("fold");		
 		}
 
-		$newObj->setTitle(ilFileUtils::utf8_encode($name));
+		$newObj->setTitle($name);
 		$newObj->create();
 		$newObj->createReference();
 		$newObj->putInTree($ref_id);

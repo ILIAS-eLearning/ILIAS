@@ -1532,7 +1532,7 @@ class ilUtil
 			$unzipcmd = $unzip." ";
 		} else 
 		{
-			$unzipcmd = $unzip." -O CP850 ";
+			$unzipcmd = $unzip." ";
 		}
 		if ($overwrite) 
 		{
