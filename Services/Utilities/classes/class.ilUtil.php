@@ -1825,7 +1825,7 @@ class ilUtil
 	* @param $mime Mime of the file
 	* @param $isInline Set this to true, if the file shall be shown in browser
 	*/
-	function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false)
+	function deliverFile($a_file, $a_filename,$a_mime = '', $isInline = false, $removeAfterDelivery = false)
 	{
 		if ($isInline) {
 			$disposition = "inline"; // "inline" to view file in browser
@@ -1870,6 +1870,10 @@ class ilUtil
 
 		header("Connection: close");
 		ilUtil::readFile( $a_file );
+		if ($removeAfterDelivery)
+		{
+			unlink ($a_file);			
+		}
 		exit;
 	}
 

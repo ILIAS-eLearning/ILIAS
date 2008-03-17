@@ -433,19 +433,22 @@ class ilTree
 		// init childs
 		$childs = array();
 
+		$type_str = $this->buildTypeFilter($this->table_obj_data.".type", $a_type);
+				
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND ".$this->table_obj_data.".type='".$a_type."' ".
+			 $type_str.
 			 "ORDER BY ".$this->table_tree.".lft";
+			 
 		$r = $this->ilDB->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$childs[] = $this->fetchNodeData($row);
 		}
-
+		
 
 		return $childs;
 	}
@@ -770,11 +773,7 @@ class ilTree
 
 	    $subtree = array();
 		
-		$type_str = "";
-		if ($a_type != "")
-		{
-			$type_str = "AND ".$this->table_obj_data.".type='".$a_type."' ";
-		}
+		$type_str = $this->buildTypeFilter($this->table_obj_data.".type", $a_type);
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
@@ -782,7 +781,6 @@ class ilTree
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 $type_str.
 			 "ORDER BY ".$this->table_tree.".lft";
-
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2513,6 +2511,29 @@ class ilTree
             return true;
     }
 
+    /**
+     * build sql query for type filter
+     *
+     * @param mixed $types may be a single value or an array of value
+     * @return string sql filter string connection with OR
+     */
+    private function buildTypeFilter ($fieldname, $types) {
+    	$type_str = "";
+		if (is_array($types) && count ($types) > 0)
+		{
+			$type_str = " AND ";
+			if (is_array($types)) {
+				$type_filter = array();
+				foreach ($types as $type) {
+					$type_filter []= $fieldname."='".$type."'";
+				}
+				$type_str .= " (" . join (" OR ", $type_filter) .") ";				
+			}										
+		} elseif ($types != "") {
+				$type_str .= " AND ".$fieldname."='".$a_type."' "; 
+		}	
+		return $type_str;    	
+    }
 
 } // END class.tree
 ?>

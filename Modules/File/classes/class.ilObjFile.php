@@ -878,6 +878,24 @@ class ilObjFile extends ilObject
 			//move_uploaded_file($a_upload_file, $file);
 			rename($a_upload_file,  $file);
 	}
+	
+	/**
+	 * return absolute path for version
+	 *
+	 */
+	public static function _lookupAbsolutePath ($obj_id, $a_version = null) 
+	{
+		$file_storage = new ilFSStorageFile($obj_id);
+		$filename = ilObjFile::_lookupFileName($obj_id);
+		$version_subdir = "";
+		
+		if (!is_numeric($a_version))
+		{
+			$a_version = ilObjFile::_lookupVersion ($obj_id);
+		}
+		$version_subdir = DIRECTORY_SEPARATOR.sprintf("%03d", $a_version);		
+		return $file_storage->getAbsolutePath().$version_subdir.DIRECTORY_SEPARATOR.$filename;
+	}
 
 
 } // END class.ilObjFile

@@ -505,5 +505,15 @@ class ilObjFolderGUI extends ilContainerGUI
 	}
 
 
+	public function downloadFolderObject () {
+		global $ilAccess, $ilErr, $lng;
+			
+		if (!$ilAccess->checkAccess("read", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		$filename = $this->object->downloadFolder();
+		ilUtil::deliverFile($filename, ilUtil::getASCIIFilename($this->object->getTitle().".zip"));				
+	}
 } // END class.ilObjFolderGUI
 ?>
