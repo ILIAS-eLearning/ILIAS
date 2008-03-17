@@ -2860,7 +2860,7 @@ common#:#mail_system#:#System Message
 common#:#mail_system_message#:#User may send internal system messages
 common#:#mail_use_pear_mail#:#Use Pear Mail
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
-common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
+common#:#mail_pear_mail_needed#:#You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
 common#:#mail_visible#:#Mail settings are visible
 common#:#mail_write#:#Edit mail settings
 common#:#mail_z_local#:#User Folders
@@ -7935,3 +7935,4 @@ dateplaner#:#cal_def_timezone#:#Default Timezone
 dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.
 dateplaner#:#cal_def_week_start#:#Week Start
 common#:#obj_cals#:#Calendar
+common#:#webdav_pear_auth_http_needed#:#You need to install Pear Auth_HTTP to use this function. To do this, enter <code>pear install Auth_HTTP</code> on the terminal.

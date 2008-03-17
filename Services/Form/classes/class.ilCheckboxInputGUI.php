@@ -152,6 +152,11 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 			$a_tpl->setVariable("PROPERTY_CHECKED",
 				'checked="checked"');
 		}
+		if ($this->getDisabled())
+		{
+			$a_tpl->setVariable("DISABLED",
+				'disabled="disabled"');
+		}
 		$a_tpl->parseCurrentBlock();
 	}
 

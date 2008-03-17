@@ -238,7 +238,7 @@ class ilAuthUtils
 				// We use MySQL as storage container
 				// this starts already the session, AccountId is '' _authsession is null
 				// BEGIN WebDAV: Support HTTP authentication for WebDAV clients.				
-				if (WebDAV_Authentication == 'HTTP')
+				if (WebDAV_Authentication == 'HTTP' && include_once("Auth/HTTP.php"))
 				{
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
 					$auth_params['sessionSharing'] = false;
@@ -259,16 +259,16 @@ class ilAuthUtils
 			
 			case AUTH_LDAP:
 				// BEGIN WebDAV: Support HTTP Authentication for WebDAV clients.
-				// XXX - ilAuthLDAP and ilAuthLDAPHTTP should follow the PEAR design for Auth
+				// XXX - ilAuthLDAP and ilAuthHTTPLDAP should follow the PEAR design for Auth
 				//       objects consisting of a frontend part and a backend part.
 				// XXX - This hole patch should be revised, because WebDAV_Authentication
 				//       specifies a frontend part.
-				if (WebDAV_Authentication == 'HTTP')
+				if (WebDAV_Authentication == 'HTTP' && include_once("Auth/HTTP.php"))
 				{
-        			include_once 'Services/LDAP/classes/class.ilAuthLDAPHTTP.php';
+        			include_once 'Services/LDAP/classes/class.ilAuthHTTPLDAP.php';
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
 					$auth_params['sessionSharing'] = false;
-        			$ilAuth = new ilAuthLDAPHTTP($auth_params);
+        			$ilAuth = new ilAuthHTTPLDAP($auth_params);
 					$ilAuth->setRealm($realm);
 				}
 				else
@@ -282,7 +282,7 @@ class ilAuthUtils
 				
 			case AUTH_RADIUS:
 				// BEGIN PATCH WebDAV: Support HTTP Authentication for WebDAV clients.
-				if (WebDAV_Authentication == 'HTTP')
+				if (WebDAV_Authentication == 'HTTP' && include_once("Auth/HTTP.php"))
 				{
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
 					$auth_params['sessionSharing'] = false;
@@ -329,7 +329,7 @@ class ilAuthUtils
 											);
 				// We use MySQL as storage container
 				// BEGIN WebDAV: Support HTTP Authentication for WebDAV clients.
-				if (WebDAV_Authentication == 'HTTP')
+				if (WebDAV_Authentication == 'HTTP' && include_once("Auth/HTTP.php"))
 				{
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
 					$auth_params['sessionSharing'] = false;
