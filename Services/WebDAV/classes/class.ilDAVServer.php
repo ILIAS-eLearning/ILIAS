@@ -1439,7 +1439,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			substr($davPathComponents[1],0,5) == 'file_')
 		{
 			$ref_id = substr($davPathComponents[1],5);
-			$nodePath = $tree->getPathFull($ref_id, $tree->root_id);
+			$nodePath = $tree->getNodePath($ref_id, $tree->root_id);
 
 			// Poor IE needs this, in order to successfully display
 			// PDF documents
@@ -1455,7 +1455,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			}
 			else
 			{
-				$nodePath = $tree->toNodePath($titlePath);
+				$nodePath = $tree->getNodePathForTitlePath($titlePath);
 			}
 		}
 		if (is_null($nodePath))
@@ -1478,7 +1478,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		global $tree;
 	
 		$titlePath = $this->toTitlePath($davPath);
-		$nodePath = $tree->toNodePath($titlePath);
+		$nodePath = $tree->getNodePathForTitlePath($titlePath);
 		if (is_null($nodePath))
 		{
 			return null;
@@ -1532,7 +1532,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			$ref_id = substr($titlePath[0],4);
 
-			$nodePath =& $tree->getPathFull($ref_id, $tree->root_id);
+			$nodePath =& $tree->getNodePath($ref_id, $tree->root_id);
 			$relativeTitlePath = $titlePath;
 			$titlePath = array();
 			for ($i = 0; $i < count($nodePath); $i++)
@@ -1643,7 +1643,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		} else {
 			// Create URI and use some SQL queries to get the missing data
 			global $tree;
-			$nodePath = $tree->getPathFull($refId);
+			$nodePath = $tree->getNodePath($refId);
 			
 			if (is_null($nodePath)) 
 			{
@@ -1728,7 +1728,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		} else {
 			// Create URI and use some SQL queries to get the missing data
 			global $tree;
-			$nodePath = $tree->getPathFull($refId);
+			$nodePath = $tree->getNodePath($refId);
 			
 			if (is_null($nodePath)) 
 			{
@@ -1788,7 +1788,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		} else {
 			// Create URI and use some SQL queries to get the missing data
 			global $tree;
-			$nodePath = $tree->getPathFull($refId);
+			$nodePath = $tree->getNodePath($refId);
 			
 			if (is_null($nodePath) || count($nodePath) < 2)   
 			{
@@ -1833,7 +1833,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		} else {
 			// Create URI and use some SQL queries to get the missing data
 			global $tree;
-			$nodePath = $tree->getPathFull($refId);
+			$nodePath = $tree->getNodePath($refId);
 			
 			if (is_null($nodePath) || count($nodePath) < 2)   
 			{

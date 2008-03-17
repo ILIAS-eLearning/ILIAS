@@ -2249,8 +2249,8 @@ class ilObjUser extends ilObject
 		require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
 		if (ilDAVServer::_isActive()) 
 		{
-			require_once ('Services/Authentication/classes/class.ilAuthContainerDB.php');
-			$username = ilAuthContainerDB::toUsernameWithoutDomain($this->ilias->auth->getUsername());
+			require_once ('Services/Authentication/classes/class.ilAuthContainerMDB2.php');
+			$username = ilAuthContainerMDB2::toUsernameWithoutDomain($this->ilias->auth->getUsername());
 			$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
 				$ilDB->quote($username));
 		}

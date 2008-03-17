@@ -1,8 +1,7 @@
 <?php
 // BEGIN WebDAV: Strip Microsoft Domain Names from logins
 require_once 'Auth/Container.php';
-require_once 'Auth/Container/DB.php';
-require_once 'DB.php';
+require_once 'Auth/Container/MDB2.php';
 
 /**
  * Storage driver for fetching login data from a database. This driver
@@ -14,20 +13,19 @@ require_once 'DB.php';
  * This storage driver can use all databases which are supported
  * by the PEAR DB abstraction layer to fetch login data.
  *
- * @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
- * @version 1.0 2007-04-27 Created.
+ * @author Werner Randelshofer, Lucerne University of Applied Sciences and Arts, werner.randelshofer@hslu.ch
+ * @version $Id$
  */
-class ilAuthContainerDB extends Auth_Container_DB
+class ilAuthContainerMDB2 extends Auth_Container_MDB2
 {
-    function ilAuthContainerDB($dsn)
+    function ilAuthContainerMDB2($dsn)
     {
-    //error_log('ilAuthContainerDB '.var_export($dsn,true));
-    	$this->Auth_Container_DB($dsn);
+    	$this->Auth_Container_MDB2($dsn);
     }
     
     function getUser($username)
     {
-		$username = ilAuthContainerDB::toUsernameWithoutDomain($username);
+		$username = ilAuthContainerMDB2::toUsernameWithoutDomain($username);
 
 		// Fetch the data
 		return parent::getUser($username);
@@ -35,8 +33,8 @@ class ilAuthContainerDB extends Auth_Container_DB
 
     function fetchData($username, $password)
     {
-		$username = ilAuthContainerDB::toUsernameWithoutDomain($username);
-//error_log('ilAuthContainerDB::fetchData '.$username);
+		$username = ilAuthContainerMDB2::toUsernameWithoutDomain($username);
+
 		// Fetch the data
 		return parent::fetchData($username, $password);
     }

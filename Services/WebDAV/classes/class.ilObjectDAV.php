@@ -134,7 +134,7 @@ class ilObjectDAV
 	 */
 	function getResourceName()
 	{
-		return $this->obj->getTitle();
+		return $this->obj->getUntranslatedTitle();
 	}
 	/**
 	 * Sets the resource name of this object.

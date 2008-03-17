@@ -242,16 +242,16 @@ class ilAuthUtils
 				{
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
 					$auth_params['sessionSharing'] = false;
-					require_once 'class.ilAuthContainerDB.php';
-					$authContainerDB = new ilAuthContainerDB($auth_params);
+					require_once 'class.ilAuthContainerMDB2.php';
+					$authContainerDB = new ilAuthContainerMDB2($auth_params);
 					$ilAuth = new Auth_HTTP($authContainerDB, $auth_params,"",false);
 					$ilAuth->setRealm($realm);
 				}
 				else
 				{
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
-					require_once 'class.ilAuthContainerDB.php';
-					$authContainerDB = new ilAuthContainerDB($auth_params);
+					require_once 'class.ilAuthContainerMDB2.php';
+					$authContainerDB = new ilAuthContainerMDB2($auth_params);
 					$ilAuth = new Auth($authContainerDB, $auth_params,"",false);
 				}
 				// END WebDAV: Support HTTP authentication for WebDAV clients.				
@@ -334,16 +334,16 @@ class ilAuthUtils
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
 					$auth_params['sessionSharing'] = false;
 					//$ilAuth = new Auth_HTTP("DB", $auth_params,"",false);
-					require_once 'class.ilAuthContainerDB.php';
-					$authContainerDB = new ilAuthContainerDB($auth_params);
+					require_once 'class.ilAuthContainerMDB2.php';
+					$authContainerDB = new ilAuthContainerMDB2($auth_params);
 					$ilAuth = new Auth_HTTP($authContainerDB, $auth_params,"",false);
 					$ilAuth->setRealm($realm);
 				}
 				else
 				{
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
-					require_once 'class.ilAuthContainerDB.php';
-					$authContainerDB = new ilAuthContainerDB($auth_params);
+					require_once 'class.ilAuthContainerMDB2.php';
+					$authContainerDB = new ilAuthContainerMDB2($auth_params);
 					$ilAuth = new Auth($authContainerDB, $auth_params,"",false);
 				}
 				// END WebDAV: Support HTTP Authentication for WebDAV clients.

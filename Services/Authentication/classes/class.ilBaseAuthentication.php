@@ -316,8 +316,8 @@ class ilBaseAuthentication
 			$this->auth_params['cryptType'] = 'none';
 		}
 
-		require_once 'class.ilAuthContainerDB.php';
-		$authContainerDB = new ilAuthContainerDB($this->auth_params);
+		require_once 'class.ilAuthContainerMDB2.php';
+		$authContainerDB = new ilAuthContainerMDB2($this->auth_params);
 		$this->auth = new Auth($authContainerDB, $this->auth_params,"",false);
 
 		return true;
