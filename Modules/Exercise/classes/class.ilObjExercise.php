@@ -647,7 +647,7 @@ class ilObjExercise extends ilObject
 
 			foreach ($filearray["file"] as $key => $filename)
 			{
-				$a_http_post_files["name"] = $filename;
+				$a_http_post_files["name"] = ilFileUtils::utf8_encode($filename);
 				$a_http_post_files["type"] = "other";
 				$a_http_post_files["tmp_name"] = $filearray["path"][$key]."/".$filename;
 				$a_http_post_files["error"] = 0;

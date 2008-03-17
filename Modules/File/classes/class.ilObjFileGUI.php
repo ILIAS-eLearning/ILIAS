@@ -263,58 +263,63 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		$this->initZipUploadForm("create");
 		
-		if ($this->zip_form_gui->checkInput())
-		{
-			$zip_file = $this->zip_form_gui->getInput("zip_file");
-			$adopt_structure = $this->zip_form_gui->getInput("adopt_structure");
+		if ($rbacsystem->checkAccess("create", $ref_id, "file")) {
+			if ($this->zip_form_gui->checkInput())
+			{
+				$zip_file = $this->zip_form_gui->getInput("zip_file");
+				$adopt_structure = $this->zip_form_gui->getInput("adopt_structure");
 
-			include_once ("Services/Utilities/classes/class.ilFileUtils.php");
+				include_once ("Services/Utilities/classes/class.ilFileUtils.php");
 
-			// Create unzip-directory
-			$newDir = ilUtil::ilTempnam();
-			ilUtil::makeDir($newDir);
-		
-			// Check if permission is granted for creation of object, if necessary
-			if (ilObject::_lookupType($_GET["ref_id"], TRUE) == "cat")
+				// Create unzip-directory
+				$newDir = ilUtil::ilTempnam();
+				ilUtil::makeDir($newDir);
+
+				// Check if permission is granted for creation of object, if necessary
+				if (ilObject::_lookupType($_GET["ref_id"], TRUE) == "cat")
+				{
+					$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "cat");
+					$containerType = "Category";
+				}
+				else {
+					$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "fold");
+					$containerType = "Folder";			
+				}
+
+				// 	processZipFile ( 
+				//		Dir to unzip, 
+				//		Path to uploaded file, 
+				//		should a structure be created (+ permission check)?
+				//		ref_id of parent
+				//		object that contains files (folder or category)  
+				//		should sendInfo be persistent?)
+
+				try 
+				{
+					$processDone = ilFileUtils::processZipFile( $newDir, 
+						$zip_file["tmp_name"],
+						($adopt_structure && $permission),
+						$_GET["ref_id"],
+						$containerType,
+						true);
+					ilUtil::sendInfo($this->lng->txt("file_added"),true);					
+				}
+				catch (ilFileUtilsException $e) 
+				{
+					ilUtil::sendInfo($e->getMessage(), true);
+				}
+
+				ilUtil::delDir($newDir);
+				$this->ctrl->returnToParent($this);
+			}
+			else
 			{
-				$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "cat");
-				$containerType = "Category";
+				$this->zip_form_gui->setValuesByPost();
+				$this->createObject("zip_upload");
 			}
-			else {
-				$permission = $rbacsystem->checkAccess("create", $_GET["ref_id"], "fold");
-				$containerType = "Folder";			
-			}
-		
-			// 	processZipFile ( 
-			//		Dir to unzip, 
-			//		Path to uploaded file, 
-			//		should a structure be created (+ permission check)?
-			//		ref_id of parent
-			//		object that contains files (folder or category)  
-			//		should sendInfo be persistent?)
-			
-			try 
-			{
-				$processDone = ilFileUtils::processZipFile( $newDir, 
-					$zip_file["tmp_name"],
-					($adopt_structure && $permission),
-					$_GET["ref_id"],
-					$containerType,
-					true);
-				ilUtil::sendInfo($this->lng->txt("file_added"),true);					
-			}
-			catch (ilFileUtilsException $e) 
-			{
-				ilUtil::sendInfo($e->getMessage(), true);
-			}
-		
-			ilUtil::delDir($newDir);
-			$this->ctrl->returnToParent($this);
 		}
-		else
-		{
-			$this->zip_form_gui->setValuesByPost();
-			$this->createObject("zip_upload");
+		else {
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
 	}
 
