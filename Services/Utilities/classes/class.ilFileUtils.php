@@ -104,7 +104,7 @@ class ilFileUtils
 				// Archive contains same filenames in different directories 
 				if ($value != "1") 
 				{	
-					$doublettes .= " '" . $key . "'";
+					$doublettes .= " '" . ilFileUtils::utf8_encode($key) . "'";
 					
 				}	
 			}
@@ -264,29 +264,36 @@ class ilFileUtils
 	 */
 	function createFile ($filename, $path, $ref_id)
 	{
-		// create and insert file in grp_tree
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj = new ilObjFile();
-		$fileObj->setType($this->type);
-		$fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
-		$fileObj->setFileName(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
-		
-		// better use this, mime_content_type is deprecated
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$fileObj->setFileType(ilObjMediaObject::getMimeType($path. "/" . $filename));
-		
-		$fileObj->setFileSize(filesize($path. "/" . $filename));
-		$fileObj->create();
-		$fileObj->createReference();
-
-		$fileObj->putInTree($ref_id);
-		$fileObj->setPermissions($ref_id);
+		global $rbacsystem;	
+		if ($rbacsystem->checkAccess("create", $ref_id, "file")) {
 	
-		// upload file to filesystem
-
-		$fileObj->createDirectory();
-
-		$fileObj->storeUnzipedFile($path. "/" . $filename,ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+			// create and insert file in grp_tree
+			include_once("./Modules/File/classes/class.ilObjFile.php");
+			$fileObj = new ilObjFile();
+			$fileObj->setType($this->type);
+			$fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+			$fileObj->setFileName(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+		
+			// better use this, mime_content_type is deprecated
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			$fileObj->setFileType(ilObjMediaObject::getMimeType($path. "/" . $filename));
+			
+			$fileObj->setFileSize(filesize($path. "/" . $filename));
+			$fileObj->create();
+			$fileObj->createReference();
+	
+			$fileObj->putInTree($ref_id);
+			$fileObj->setPermissions($ref_id);
+		
+			// upload file to filesystem
+	
+			$fileObj->createDirectory();
+	
+			$fileObj->storeUnzipedFile($path. "/" . $filename,ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
+		}
+		else {
+			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
+		}
 	}
 	
 	/**
