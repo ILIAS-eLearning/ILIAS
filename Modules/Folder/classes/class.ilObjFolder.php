@@ -126,5 +126,80 @@ class ilObjFolder extends ilContainer
 	 	return true;
 	}
 	
+	/**
+	 * private functions which iterates through all folders and files 
+	 * and create an according file structure in a temporary directory. This function works recursive. 
+	 *
+	 * @param integer $refid reference it
+	 * @param tmpdictory $tmpdir
+	 * @return returns first created directory
+	 */
+	private static function recurseFolder ($refid, $title, $tmpdir) {
+		global $rbacsystem, $tree;
+				
+		$tmpdir = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($title);
+		ilUtil::makeDir($tmpdir);
+		
+		$subtree = $tree->getChildsByType($refid, array("fold","file"));
+		
+		foreach ($subtree as $child) 
+		{
+			if (!$rbacsystem->checkAccess("read", $child["ref_id"]))
+			{
+				continue;			
+			}
+			if (ilObject::_isInTrash($child["ref_id"]))
+			{
+				continue;
+			}
+			if ($child["type"] == "fold")
+			{
+				ilObjFolder::recurseFolder ($child["ref_id"], $child["title"], $tmpdir);
+			} else {
+				$newFilename = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($child["title"]);
+				// copy to temporal directory
+				$oldFilename = ilObjFile::_lookupAbsolutePath($child["obj_id"]);
+				if (!copy ($oldFilename, $newFilename))
+				{
+					throw new ilFileException("Could not copy ".$oldFilename." to ".$newFilename);
+				}	
+				touch($newFilename, filectime($oldFilename));								
+			}
+		}
+		
+	}
+	
+	public function downloadFolder() {
+		global $lng, $rbacsystem;
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		include_once 'Modules/File/classes/class.ilObjFile.php';
+		include_once 'Modules/File/classes/class.ilFileException.php';
+		
+		if (!$rbacsystem->checkAccess("read", $child["ref_id"]))
+		{
+			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): missing read permission!",$this->ilErr->WARNING);
+		}
+		if (ilObject::_isInTrash($child["ref_id"]))
+		{
+			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): object is trashed!",$this->ilErr->WARNING);
+		}
+		
+		$zip = PATH_TO_ZIP;
+		$tmpdir = ilUtil::ilTempnam();		
+		ilUtil::makeDir($tmpdir);
+		$basename = ilUtil::getAsciiFilename($this->getTitle());
+		$deliverFilename = $basename.".zip";
+		$zipbasedir = $tmpdir.DIRECTORY_SEPARATOR.$basename;
+		$tmpzipfile = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename;
+		try {
+			$tmpdir = ilObjFolder::recurseFolder ($this->getRefId(), $this->getTitle(), $tmpdir);
+			ilUtil::zip($zipbasedir, $tmpzipfile);
+			ilUtil::delDir($tmpdir);			
+			ilUtil::deliverFile($tmpzipfile, $deliverFilename, false, true);			
+		} catch (ilFileException $e) {
+			ilUtil::sendInfo($e->getMessage(), true);
+		}
+	}
+	
 } // END class.ilObjFolder
 ?>
