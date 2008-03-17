@@ -55,6 +55,9 @@ class ilObject
 	var $ref_id;// reference_id
 	var $type;
 	var $title;
+	// BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
+	var $untranslatedTitle;
+	// END WebDAV: WebDAV needs to access the untranslated title of an object
 	var $desc;
 	var $long_desc;
 	var $owner;
@@ -245,6 +248,9 @@ class ilObject
 		
 		$this->type = $obj["type"];
 		$this->title = $obj["title"];
+		// BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
+		$this->untranslatedTitle = $obj["title"];
+		// END WebDAV: WebDAV needs to access the untranslated title of an object
 		$this->desc = $obj["description"];
 		$this->owner = $obj["owner"];
 		$this->create_date = $obj["create_date"];
@@ -363,6 +369,17 @@ class ilObject
 	{
 		return $this->title;
 	}
+	// BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
+	/**
+	* get untranslated object title
+	* @access	public
+	* @return	string		object title
+	*/
+	function getUntranslatedTitle()
+	{
+		return $this->untranslatedTitle;
+	}
+	// END WebDAV: WebDAV needs to access the untranslated title of an object
 
 	/**
 	* set object title
@@ -378,6 +395,9 @@ class ilObject
 		}
 
 		$this->title = ilUtil::shortenText($a_title, $this->max_title, $this->add_dots);
+		// BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
+		$this->untranslatedTitle = $this->title;
+		// END WebDAV: WebDAV needs to access the untranslated title of an object
 	}
 
 	/**
@@ -1316,6 +1336,21 @@ class ilObject
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		ilBlockSetting::_deleteSettingsOfBlock($this->getId(), "news");
 
+		// BEGIN WebDAV: Delete WebDAV properties
+		$q = "DELETE FROM dav_property ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+		// END WebDAV: Delete WebDAV properties
+
+		// BEGIN ChangeEvent: Delete read and write events
+		$q = "DELETE FROM write_event ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+		$q = "DELETE FROM read_event ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+		// END ChangeEvent: Delete read and write events
+
 		return $remove;
 	}
 
@@ -1531,7 +1566,7 @@ class ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $objDefinition,$ilUser,$rbacadmin;
+		global $objDefinition,$ilUser,$rbacadmin, $ilDB;
 		
 		$location = $objDefinition->getLocation($this->getType());
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
@@ -1557,6 +1592,15 @@ class ilObject
 		
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		ilAdvancedMDValues::_cloneValues($this->getId(),$new_obj->getId());
+
+		// BEGIN WebDAV: Clone WebDAV properties
+		$q = "INSERT INTO dav_property (obj_id,node_id,ns,name,value) ".
+			"SELECT ".$ilDB->quote($new_obj->getId()).",node_id,ns,name,value ".
+			"FROM dav_property ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		$this->ilias->db->query($q);
+error_log('ilObject '.$q);
+		// END WebDAV: Clone WebDAV properties
 		
 		return $new_obj;
 	}

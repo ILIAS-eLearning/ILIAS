@@ -1123,10 +1123,13 @@ class ilTree
 		return $pathIds;
 	}
 
-	// BEGIN WebDAV: toNodePath function added
+	// BEGIN WebDAV: getNodePathForTitlePath function added
 	/**
-	* Converts a path consisting of object titles into a path consisting of tree nodes.
-	* Comparison is non-case sensitive.
+	* Converts a path consisting of object titles into a path consisting of tree
+	* nodes. The comparison is non-case sensitive.
+	*
+	* Note: this function returns the same result as getNodePath, 
+	* but takes a title path as parameter.
 	*
 	* @access	public
 	* @param	Array	Path array with object titles.
@@ -1134,9 +1137,9 @@ class ilTree
 	* @return	array	ordered path info (depth,parent,child,obj_id,type,title)
 	*               or null, if the title path can not be converted into a node path.
 	*/
-	function toNodePath($titlePath)
+	function getNodePathForTitlePath($titlePath)
 	{
-		//$this->writelog('toNodePath('.implode('/',$titlePath));
+		//$this->writelog('getNodePathForTitlePath('.implode('/',$titlePath));
 		global $ilDB, $log;
 		
 		require_once('include/Unicode/UtfNormal.php');
@@ -1196,15 +1199,62 @@ class ilTree
 			// Abort if we haven't found a path element for the current depth
 			if (count($nodePath) != $i + 1)
 			{
-				//$log->write('ilTree.toNodePath('.var_export($titlePath,true).'):null');
+				//$log->write('ilTree.getNodePathForTitlePath('.var_export($titlePath,true).'):null');
 				return null;
 			}
 		}
 		// Return the node path
-		//$log->write('ilTree.toNodePath('.var_export($titlePath,true).'):'.var_export($nodePath,true));
+		//$log->write('ilTree.getNodePathForTitlePath('.var_export($titlePath,true).'):'.var_export($nodePath,true));
 		return $nodePath;
 	}
-	// END WebDAV: toNodePath function added
+	// END WebDAV: getNodePathForTitlePath function added
+	// END WebDAV: getNodePath function added
+	/**
+	* Returns the node path for the specified object reference.
+	*
+	* Note: this function returns the same result as getNodePathForTitlePath, 
+	* but takes ref-id's as parameters.
+	*
+	* This function differs from getPathFull, in the following aspects:
+	* - The title of an object is not translated into the language of the user
+	* - This function is significantly faster than getPathFull.
+	*
+	* @access	public
+	* @param	integer	node_id of endnode
+	* @param	integer	node_id of startnode (optional)
+	* @return	array	ordered path info (depth,parent,child,obj_id,type,title)
+	*               or null, if the node_id can not be converted into a node path.
+	*/
+	function getNodePath($a_endnode_id, $a_startnode_id = 0)
+	{
+		global $ilDB;
+
+		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
+
+		$inClause = 't.child IN (';
+		for ($i=0; $i < count($pathIds); $i++)
+		{
+			if ($i > 0) $inClause .= ',';
+			$inClause .= $ilDB->quote($pathIds[$i]);
+		}
+		$inClause .= ')';
+
+		$q = 'SELECT t.depth,t.parent,t.child,d.obj_id,d.type,d.title '.
+			'FROM '.$this->table_tree.' AS t '.
+			'JOIN '.$this->table_obj_reference.' AS r ON r.ref_id=t.child '.
+			'JOIN '.$this->table_obj_data.' AS d ON d.obj_id=r.obj_id '.
+			'WHERE '.$inClause.' '.
+			'ORDER BY t.depth ';
+		$r = $ilDB->query($q);
+		
+		$titlePath = array();
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$titlePath[] = $row;
+		}
+		return $titlePath;
+	}
+	// END WebDAV: getNodePath function added
 
 	/**
 	* check consistence of tree
