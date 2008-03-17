@@ -95,9 +95,6 @@ class ilInitialisation
 		require_once "PEAR.php";
 		//require_once "DB.php";
 		require_once "Auth/Auth.php";
-		// BEGIN WebDAV: HTTP Authentication.
-		require_once "Auth/HTTP.php";
-		// END WebDAV: HTTP Authentication.
 
 		// HTML_Template_IT support
 		// (location changed with 4.3.2 & higher)

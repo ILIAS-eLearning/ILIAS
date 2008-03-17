@@ -142,24 +142,34 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$ilDAVServer = new ilDAVServer();
 		
 		// Enable webdav
+		$isPearAuthHTTPInstalled = include_once("Auth/HTTP.php");
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
 		$cb_prop->setValue('1');
-		$cb_prop->setChecked($this->object->isWebdavEnabled());
-		$cb_prop->setInfo(sprintf($lng->txt("enable_webdav_info"),$ilDAVServer->getMountURI($tree->getRootId())));
+		$cb_prop->setChecked($this->object->isWebdavEnabled() && $isPearAuthHTTPInstalled);
+		$cb_prop->setDisabled(! $isPearAuthHTTPInstalled);
+		$cb_prop->setInfo($isPearAuthHTTPInstalled ?
+			sprintf($lng->txt('enable_webdav_info'),$ilDAVServer->getMountURI($tree->getRootId())) :
+			$lng->txt('webdav_pear_auth_http_needed')
+		);
 		$form->addItem($cb_prop);
 
 		// Webdav help text
-		$rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
-		$rgi_prop->addOption(new ilRadioOption($lng->txt('use_default_instructions'), 'default'));
-		$rgi_prop->addOption(new ilRadioOption($lng->txt('use_customized_instructions'), 'custom'));
-		$rgi_prop->setValue($this->object->isCustomWebfolderInstructionsEnabled() ? 'custom':'default');
-		$form->addItem($rgi_prop);
-		$tai_prop = new ilTextAreaInputGUI('', 'custom_webfolder_instructions');
-		$tai_prop->setValue($this->object->getCustomWebfolderInstructions());
-		$tai_prop->setInfo($lng->txt("webfolder_instructions_info"));
-		$tai_prop->setCols(80);
-		$tai_prop->setRows(20);
-		$form->addItem($tai_prop);
+		if ($isPearAuthHTTPInstalled)
+		{
+			$rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
+			$rgi_prop->addOption(new ilRadioOption($lng->txt('use_default_instructions'), 'default'));
+			$rgi_prop->addOption(new ilRadioOption($lng->txt('use_customized_instructions'), 'custom'));
+			$rgi_prop->setValue($this->object->isCustomWebfolderInstructionsEnabled() ? 'custom':'default');
+			$rgi_prop->setDisabled(! $isPearAuthHTTPInstalled);
+			$form->addItem($rgi_prop);
+			$tai_prop = new ilTextAreaInputGUI('', 'custom_webfolder_instructions');
+			$tai_prop->setValue($this->object->getCustomWebfolderInstructions());
+			$tai_prop->setInfo($lng->txt("webfolder_instructions_info"));
+			$tai_prop->setCols(80);
+			$tai_prop->setRows(20);
+			$tai_prop->setDisabled(! $isPearAuthHTTPInstalled);
+			$form->addItem($tai_prop);
+		}
 
 		// Inline file extensions
 		$tai_prop = new ilTextAreaInputGUI($lng->txt('inline_file_extensions'), 'inline_file_extensions');

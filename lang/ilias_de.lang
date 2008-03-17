@@ -7935,3 +7935,4 @@ survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not pos
 common#:#show_profile#:#Show profile###11 03 2008 new variable
 common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###11 03 2008 new variable
 common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###11 03 2008 new variable
+common#:#webdav_pear_auth_http_needed#:#Sie benötigen PEAR-Auth_HTTP um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Auth_HTTP</code> ein.
