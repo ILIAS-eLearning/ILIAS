@@ -1029,9 +1029,8 @@ class ilCtrl
 
 		if ($_GET["rtoken"] == "")
 		{
-//			echo "ilCtrl::No Request Token Given!";		// for debugging, maybe changed later
-			//return false;
-			return true;
+			echo "ilCtrl::No Request Token Given!";		// for debugging, maybe changed later
+			return false;
 		}
 		
 		if (is_object($ilUser) && is_object($ilDB))
