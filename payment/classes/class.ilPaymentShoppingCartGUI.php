@@ -377,12 +377,12 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 						$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 						$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 						
-						$direct_paypal_info_output = true;
+						$price = $price_arr['unit_value'].".".$price_arr['sub_unit_value'];
 						
+						$direct_paypal_info_output = true;						
 						$assigned_coupons = '';					
 						if (!empty($_SESSION["coupons"][$coupon_session_id]))
-						{			
-							$price = $price_arr['unit_value'].".".$price_arr['sub_unit_value'];						
+						{												
 							$item["math_price"] = (float) $price;
 														
 							foreach ($_SESSION["coupons"][$coupon_session_id] as $key => $coupon)
@@ -449,8 +449,7 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 							}	
 							break;
 		
-						case PAY_METHOD_PAYPAL:
-							#$tpl->setVariable("SCRIPT_LINK", "https://".$this->paypalConfig["server_host"].$this->paypalConfig["server_path"]);							
+						case PAY_METHOD_PAYPAL:							
 							if ($this->totalAmount[PAY_METHOD_PAYPAL] == 0)
 							{
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
@@ -459,7 +458,8 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 							else
 							{
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('SCRIPT_LINK', ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'finishPaypal'));								
+								#$tpl->setVariable('SCRIPT_LINK', ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'finishPaypal'));
+								$tpl->setVariable("SCRIPT_LINK", "https://".$this->paypalConfig["server_host"].$this->paypalConfig["server_path"]);								
 							}	
 							
 							$tpl->setVariable("POPUP_BLOCKER", $this->lng->txt('popup_blocker'));
