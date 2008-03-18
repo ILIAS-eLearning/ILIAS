@@ -628,7 +628,7 @@ class ilObjectGUI
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 			
 			// BEGIN ChangeEvent: Record undelete. 
-			require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			if (ilChangeEvent::_isActive())
 			{
 				global $ilUser, $tree;
@@ -725,6 +725,19 @@ class ilObjectGUI
 				ilUtil::sendInfo('Object already deleted.',true);
 				$this->ctrl->returnToParent($this);
 			}
+
+			// BEGIN ChangeEvent: Record delete event.
+			include_once './Services/Component/classes/class.ilPlugin.php';
+			/*if (ilPlugin::isPluginActive('ilChangeEventPlugin'))
+			{
+				require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+
+				$obj_data = $this->tree->getNodeData($id);
+				$parent_data = $tree->getParentNodeData($obj_data['ref_id']);
+				ilChangeEvent::_recordWriteEvent($obj_data['obj_id'], $ilUser->getId(), 'delete', 
+					$parent_data['obj_id']);
+			}*/
+			// END ChangeEvent: Record delete event.
 			
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$node_data = $this->tree->getNodeData($id);
@@ -906,7 +919,7 @@ class ilObjectGUI
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 
 			// BEGIN ChangeEvent: Record remove from system.
-			require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			if (ilChangeEvent::_isActive())
 			{
 				// Record write event
