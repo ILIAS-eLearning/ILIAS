@@ -140,7 +140,7 @@ class ilObjFolder extends ilContainer
 		$tmpdir = $tmpdir.DIRECTORY_SEPARATOR.ilUtil::getASCIIFilename($title);
 		ilUtil::makeDir($tmpdir);
 		
-		$subtree = $tree->getChildsByType($refid, array("fold","file"));
+		$subtree = $tree->getChildsByTypeFilter($refid, array("fold","file"));
 		
 		foreach ($subtree as $child) 
 		{
