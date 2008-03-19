@@ -433,27 +433,59 @@ class ilTree
 		// init childs
 		$childs = array();
 
-		$type_str = $this->buildTypeFilter($this->table_obj_data.".type", $a_type);
-				
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
-			 $type_str.
+			 "AND ".$this->table_obj_data.".type='".$a_type."' ".
 			 "ORDER BY ".$this->table_tree.".lft";
-			 
 		$r = $this->ilDB->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$childs[] = $this->fetchNodeData($row);
 		}
-		
+
 
 		return $childs;
 	}
 
 
+	/**
+	* get child nodes of given node by object type
+	* @access	public
+	* @param	integer		node_id
+	* @param	array		array of object type
+	* @return	array		with node data of all childs or empty array
+	*/
+	public function getChildsByTypeFilter($a_node_id,$a_types)
+	{
+		if (!isset($a_node_id) or !isset($a_types))
+		{
+			$message = get_class($this)."::getChildsByType(): Missing parameter! node_id:".$a_node_id." type:".$a_types;
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+
+		// init childs
+		$childs = array();
+
+		$q = "SELECT * FROM ".$this->table_tree." ".
+			 $this->buildJoin().
+			 "WHERE parent = '".$a_node_id."' ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
+			 $this->buildTypeFilter($this->table_obj_data.".type", $a_types)." ".
+			 "ORDER BY ".$this->table_tree.".lft";
+		$r = $this->ilDB->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$childs[] = $this->fetchNodeData($row);
+		}
+
+
+		return $childs;
+	}
+	
 	/**
 	* insert new node with node_id under parent node with parent_id
 	* @access	public
@@ -773,7 +805,11 @@ class ilTree
 
 	    $subtree = array();
 		
-		$type_str = $this->buildTypeFilter($this->table_obj_data.".type", $a_type);
+		$type_str = "";
+		if ($a_type != "")
+		{
+			$type_str = "AND ".$this->table_obj_data.".type='".$a_type."' ";
+		}
 
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
@@ -781,6 +817,7 @@ class ilTree
 			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 $type_str.
 			 "ORDER BY ".$this->table_tree.".lft";
+
 		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2511,7 +2548,7 @@ class ilTree
             return true;
     }
 
-    /**
+ /**
      * build sql query for type filter
      *
      * @param mixed $types may be a single value or an array of value
