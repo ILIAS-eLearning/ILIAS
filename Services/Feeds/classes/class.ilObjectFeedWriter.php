@@ -37,7 +37,7 @@ include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
 */
 class ilObjectFeedWriter extends ilFeedWriter
 {
-	function ilObjectFeedWriter($a_ref_id)
+	function ilObjectFeedWriter($a_ref_id, $a_userid = false)
 	{
 		global $ilSetting, $lng;
 		
@@ -83,6 +83,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 			$loc = " [".$loc."] ";
 		}
 		
+		ilNewsItem::setPrivateFeedId($a_userid);
 		$news_item = new ilNewsItem();
 		$news_item->setContextObjId($obj_id);
 		$news_item->setContextObjType($obj_type);

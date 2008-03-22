@@ -6221,6 +6221,17 @@ news#:#news_subscribe#:#Abonniere
 news#:#news_unsubscribe#:#Löse Abonnement
 news#:#news_visibility_public#:#Öffentlich
 news#:#news_visibility_users#:#Angemeldete Benutzer
+news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres persönlichen privaten Newsfeeds. Dieser Newsfeed enthält alle Nachrichten, auch die, die von den jeweiligen Autoren als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- mit Ihrem Feed-Passwort.
+news#:#news_get_priv_feed_title#:#Persönliche private Newsfeed-URL
+news#:#news_enable_private_feed#:#Privaten Newsfeed aktivieren
+news#:#news_enable_private_feed_info#:#Erlaubt den Zugriff auf private und öffentliche Nachrichten über RSS. Authentifizierung erfolgt mittels speziellem Feed-Passwort.
+news#:#passwd_equals_ilpasswd#:#Bitte geben Sie ein anderes Passwort als ihr ILIAS-Passwort ein
+news#:#priv_feed_disabled#:#Privater News-Feed wurde deaktiviert.
+news#:#priv_feed_settings#:#Einstellungen privater News-Feed
+news#:#priv_feed_no_auth_title#:#Authentifizierung fehlgeschlagen
+news#:#priv_feed_no_auth_body#:#Bitte überprüfen Sie, ob Sie das Kennwort für den privaten Newsfeed gesetzt und richtig eingegeben haben.
+news#:#priv_feed_no_access_title#:#Private Newsfeeds sind nicht freigeschaltet.
+news#:#priv_feed_no_access_body#:#Bitte wenden Sie sich an den Systemadministrator für weitere Informationen.
 payment#:#currency_cent#:#Cent
 payment#:#currency_euro#:#Euro
 payment#:#duration#:#Dauer

@@ -41,6 +41,8 @@ include_once("./Services/News/classes/class.ilNewsItemGen.php");
 */
 class ilNewsItem extends ilNewsItemGen
 {
+
+	private static $privFeedId = false;
 	private $limitation;
 	
 	/**
@@ -177,6 +179,15 @@ class ilNewsItem extends ilNewsItemGen
 				$acc = $ilAccess->checkAccess("read", "", $ref_id);
 				$ilBench->stop("News", "getAggregatedNewsData_getContexts_checkAccess");
 				
+				if (!$acc)
+				{
+					continue;
+				}
+			}
+			if (ilNewsItem::getPrivateFeedId() != false) {
+				global $rbacsystem;
+				$acc = $rbacsystem->checkAccessOfUser(ilNewsItem::getPrivateFeedId(),"read", $ref_id);
+			
 				if (!$acc)
 				{
 					continue;
@@ -546,7 +557,7 @@ class ilNewsItem extends ilNewsItemGen
 	public function queryNewsForContext($a_for_rss_use = false, $a_time_period = 0,
 		$a_starting_date = "")
 	{
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $lng;
 		
 		$and = ($a_time_period > 0)
 			? " AND (TO_DAYS(now()) - TO_DAYS(creation_date)) <= ".((int)$a_time_period)
@@ -557,7 +568,7 @@ class ilNewsItem extends ilNewsItemGen
 			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date)." ";
 		}
 
-		if ($a_for_rss_use)
+		if ($a_for_rss_use && ilNewsItem::getPrivateFeedId() == false)
 		{
 			$query = "SELECT * ".
 				"FROM il_news_item ".
@@ -566,6 +577,19 @@ class ilNewsItem extends ilNewsItemGen
 					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
 					$and.
 					" ORDER BY creation_date DESC ";
+		}
+		elseif (ilNewsItem::getPrivateFeedId() != false) 
+		{
+			$query = "SELECT il_news_item.* ".
+				", il_news_read.user_id as user_read ".
+				"FROM il_news_item LEFT JOIN il_news_read ".
+				"ON il_news_item.id = il_news_read.news_id AND ".
+				" il_news_read.user_id = ".ilNewsItem::getPrivateFeedId().
+				" WHERE ".
+					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
+					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+					$and.
+					" ORDER BY creation_date DESC ";	
 		}
 		else
 		{
@@ -580,12 +604,11 @@ class ilNewsItem extends ilNewsItemGen
 					$and.
 					" ORDER BY creation_date DESC ";
 		}
-				
 		$set = $ilDB->query($query);
 		$result = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (!$a_for_rss_use || ($rec["visibility"] == NEWS_PUBLIC ||
+			if (!$a_for_rss_use || 	(ilNewsItem::getPrivateFeedId() != false) || ($rec["visibility"] == NEWS_PUBLIC ||
 				($rec["priority"] == 0 &&
 				ilBlockSetting::_lookup("news", "public_notifications",
 				0, $rec["context_obj_id"]))))
@@ -606,7 +629,7 @@ class ilNewsItem extends ilNewsItemGen
 	public function queryNewsForMultipleContexts($a_contexts, $a_for_rss_use = false,
 		$a_time_period = 0, $a_starting_date = "")
 	{
-		global $ilDB, $ilUser, $ilBench;
+		global $ilDB, $ilUser, $ilBench, $lng, $ilCtrl;
 		
 		$ilBench->start("News", "queryNewsForMultipleContexts");
 		
@@ -627,7 +650,7 @@ class ilNewsItem extends ilNewsItemGen
 			$type[$cont["obj_id"]] = $cont["obj_type"];
 		}
 		
-		if ($a_for_rss_use)
+		if ($a_for_rss_use && ilNewsItem::getPrivateFeedId() == false)
 		{
 			$query = "SELECT * ".
 				"FROM il_news_item ".
@@ -636,6 +659,18 @@ class ilNewsItem extends ilNewsItemGen
 					$and.
 					" ORDER BY creation_date DESC ";
 		}
+		elseif (ilNewsItem::getPrivateFeedId() != false) 
+		{
+			$query = "SELECT il_news_item.* ".
+				", il_news_read.user_id as user_read ".
+				"FROM il_news_item LEFT JOIN il_news_read ".
+				"ON il_news_item.id = il_news_read.news_id AND ".
+				" il_news_read.user_id = ".ilNewsItem::getPrivateFeedId().
+				" WHERE ".
+					"context_obj_id IN (".implode(",",ilUtil::quoteArray($ids)).") ".
+					$and.
+					" ORDER BY creation_date DESC ";		
+		}		
 		else
 		{
 			$query = "SELECT il_news_item.* ".
@@ -655,7 +690,7 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			if ($type[$rec["context_obj_id"]] == $rec["context_obj_type"])
 			{
-				if (!$a_for_rss_use || ($rec["visibility"] == NEWS_PUBLIC ||
+				if (!$a_for_rss_use || ilNewsItem::getPrivateFeedId() != false || ($rec["visibility"] == NEWS_PUBLIC ||
 					($rec["priority"] == 0 &&
 					ilBlockSetting::_lookup("news", "public_notifications",
 					0, $rec["context_obj_id"]))))
@@ -995,6 +1030,15 @@ class ilNewsItem extends ilNewsItemGen
 			$rss_period = 14;
 		}
 		return $rss_period;
+	}
+	function setPrivateFeedId ($a_userId) 
+	{
+		ilNewsItem::$privFeedId = $a_userId;
+	}
+
+	function getPrivateFeedId () {
+
+		return ilNewsItem::$privFeedId;
 	}
 }
 ?>

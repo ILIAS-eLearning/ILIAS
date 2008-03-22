@@ -3873,6 +3873,54 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	* Lookup news feed password for user
+	* @param	integer	user_id
+	* @return	string	feed_password md5-encoded, or false
+	*/
+	function _getFeedPass($a_user_id)
+	{
+		global $ilDB;
+
+		if ($a_user_id > 0)
+		{
+			$query = "SELECT value from usr_pref WHERE usr_id = ".
+				$ilDB->quote($a_user_id) ." AND keyword=\"priv_feed_pass\"";
+			$set = $ilDB->query($query);
+			if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				
+				return $rec["value"];
+			}
+		}
+		return false;
+	}		
+	
+	/**
+	* Set news feed password for user
+	* @param	integer	user_id
+	* @param 	string	new password
+	*/
+	function _setFeedPass($a_user_id, $a_password)
+	{
+		global $ilDB;
+
+		if ($a_user_id > 0 )
+		{
+		   if ($a_password=="")
+		   {
+		    $statement = $ilDB->prepare("REPLACE INTO usr_pref (usr_id,keyword,value) VALUES (? ,? , ?)");
+		    $data = array($a_user_id, "priv_feed_pass", "");
+		   }
+		   else
+		   {
+		    $statement = $ilDB->prepare("REPLACE INTO usr_pref (usr_id,keyword,value) VALUES (? ,? , ?)");
+		    $data = array($a_user_id, "priv_feed_pass", md5($a_password));
+		   }
+		  $statement->execute($data);
+		}	
+	}	
+
+	/**
 	* check if a login name already exists
 	* You may exclude a user from the check by giving his user id as 2nd paramter
 	* @access	public
