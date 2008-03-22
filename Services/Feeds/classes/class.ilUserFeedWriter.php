@@ -38,10 +38,10 @@ include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
 class ilUserFeedWriter extends ilFeedWriter
 {
 	
-	function ilUserFeedWriter($a_user_id, $a_hash)
+	function ilUserFeedWriter($a_user_id, $a_hash, $privFeed = false)
 	{
 		global $ilSetting, $lng;
-		
+
 		parent::ilFeedWriter();
 		
 		//$lng->loadLanguageModule("news");
@@ -64,6 +64,10 @@ class ilUserFeedWriter extends ilFeedWriter
 
 		if ($a_hash == $hash)
 		{
+			if ($privFeed) 
+			{
+				ilNewsItem::setPrivateFeedId($a_user_id);
+			}
 			$items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true, $rss_period);
 			if ($ilSetting->get('short_inst_name') != "")
 			{

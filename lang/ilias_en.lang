@@ -3120,6 +3120,17 @@ news#:#news_news_item_content_long#:#Long Text
 news#:#news_news_item_content_long_info#:#This text will not be published via RSS.
 news#:#news_visibility_users#:#Logged in Users
 news#:#news_visibility_public#:#Public
+news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under "Settings". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.
+news#:#news_get_priv_feed_title#:#Personal private Feed-URL
+news#:#news_enable_private_feed#:#Enable private Newsfeed
+news#:#news_enable_private_feed_info#:#If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentification is provided by password.
+news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.
+news#:#priv_feed_disabled#:#Private Newsfeed disabled.
+news#:#priv_feed_settings#:#Private Newsfeed settings
+news#:#priv_feed_no_access_title#:#Private Newsfeed is disabled
+news#:#priv_feed_no_access_body#:#Please contact the system administrator for further information.
+news#:#priv_feed_no_auth_title#:#Authentification failed
+news#:#priv_feed_no_auth_body#:#Please make sure you enabled your private Newsfeed and entered the password correctly.
 common#:#access_users#:#Logged in Users
 common#:#access_public#:#Public
 common#:#access_scope#:#Access

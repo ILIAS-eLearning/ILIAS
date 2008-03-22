@@ -129,6 +129,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		
 		$enable_internal_news = $ilSetting->get("block_activated_news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+		$enable_private_feed = $news_set->get("enable_private_feed");
 		$news_default_visibility = ($news_set->get("default_visibility") != "")
 			? $news_set->get("default_visibility")
 			: "users";
@@ -153,7 +154,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		$cb_prop->setInfo($lng->txt("news_enable_internal_news_info"));
 		$cb_prop->setChecked($enable_internal_news);
 		$form->addItem($cb_prop);
-		
+
 		// Enable rss for internal news
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("news_enable_internal_rss"),
 			"enable_internal_rss");
@@ -178,6 +179,14 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
 		$form->addItem($cb_prop);
 		
+		// Enable private news feed
+		$cb_prop = new ilCheckboxInputGUI($lng->txt("news_enable_private_feed"),
+			"enable_private_feed");
+		$cb_prop->setValue("1");
+		$cb_prop->setInfo($lng->txt("news_enable_private_feed_info"));
+		$cb_prop->setChecked($enable_private_feed);
+		$form->addItem($cb_prop);
+
 		// Default Visibility
 		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "news_default_visibility");
 		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
@@ -317,6 +326,15 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 		else
 		{
 			$ilSetting->set("block_activated_pdfeed", 0);
+		}
+
+		if ($_POST["enable_internal_rss"]!=0) 
+		{
+			$news_set->set("enable_private_feed", $_POST["enable_private_feed"]);
+		}
+		else
+		{
+			$news_set->set("enable_private_feed", 0);
 		}
 		$feed_set->set("proxy", trim($_POST["proxy"]));
 		$feed_set->set("proxy_port", trim($_POST["proxy_port"]));
