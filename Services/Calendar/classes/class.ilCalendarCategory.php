@@ -211,6 +211,17 @@ class ilCalendarCategory
 	}
 	
 	/**
+	 * validate
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function validate()
+	{
+		return strlen($this->getTitle()) and strlen($this->getColor()) and $this->getType();
+	}
+	
+	/**
 	 * read
 	 *
 	 * @access protected

@@ -48,7 +48,8 @@ class ilCalendarCategories
 		
 		$query = "SELECT cat_id FROM cal_categories ".
 			"WHERE obj_id = ".$ilDB->quote($a_user_id)." ".
-			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_USR)." ";
+			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_USR)." ".
+			"ORDER BY title ";
 		$res = $ilDB->query($query);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
