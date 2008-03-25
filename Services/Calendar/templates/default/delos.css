@@ -27,8 +27,14 @@ th.calstd {
 }
 tr.calstd {
 	background-color: inherit;
-	height: 80px;
+	height: 6em;
 }
+
+tr.calstdweek {
+	background-color: inherit;
+	height: 5em;
+}
+		
 
 td.calstd {
 	vertical-align: top;
@@ -74,13 +80,23 @@ p.il_calevent {
 	color:white;
 	margin-left: 5px;
 	margin-right: 5px;
-	font-size:75%;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:2px;
 	border-style:outset;
 	border-color:grey;
 }
+
+div.il_caleventweek {
+	position: relative;
+	float: left;
+	color:white;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:2px;
+	border-style:outset;
+	border-color:grey;
+}		
 
 p.il_cal_monthday {
 	margin-left: 4px;

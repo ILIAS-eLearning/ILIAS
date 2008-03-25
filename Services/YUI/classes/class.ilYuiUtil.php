@@ -146,5 +146,26 @@ class ilYuiUtil
 		$tpl->setVariable("CONTENT_BLOCK", $template->get());
 		$tpl->parseCurrentBlock();
 	}
+	
+	/**
+	 * init calendar
+	 *
+	 * @access public
+	 * @return
+	 * @static
+	 */
+	public static function initCalendar()
+	{
+		global $tpl;
+		
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo/yahoo.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/event/event.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/dom/dom.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/calendar/calendar.js');
+			
+		$tpl->addCss('./Services/YUI/js/2_5_0/calendar/assets/skins/sam/calendar.css');
+		$tpl->addCss('./Services/Calendar/css/calendar.css');
+	}
+	
 } // END class.ilUtil
 ?>

@@ -10,21 +10,49 @@ include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
  
 class ilCalendarUserSettings
 {
+	public static $instances = array();
+	
 	protected $user;
 	protected $settings;
 	
 	/**
 	 * Constructor
 	 *
-	 * @access public
+	 * @access private
 	 * @param
 	 * @return
 	 */
-	public function __construct($user)
+	private function __construct($a_user_id)
 	{
-		$this->user = $user;
+		global $ilUser;
+		
+		if($ilUser->getId() == $a_user_id)
+		{
+			$this->user = $ilUser;
+		}
+		else
+		{
+			$this->user = ilObjectFactory::getInstanceByObjId($a_user_id,false);
+		}
 		$this->settings = ilCalendarSettings::_getInstance();
 		$this->read();
+	}
+	
+	/**
+	 * get singleton instance
+	 *
+	 * @access public
+	 * @param int user id
+	 * @return ilCalendarUserSettings
+	 * @static
+	 */
+	public static function _getInstanceByUserId($a_user_id)
+	{
+		if(isset(self::$instances[$a_user_id]))
+		{
+			return self::$instances[$a_user_id];
+		}
+		return self::$instances[$a_user_id] = new ilCalendarUserSettings($a_user_id);
 	}
 	
 	/**

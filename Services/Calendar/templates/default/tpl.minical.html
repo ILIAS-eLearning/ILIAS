@@ -1,0 +1,56 @@
+<br />
+<font style="font-size: 150%">&nbsp;</font>
+<div class="yui-skin-sam">
+	<div id="cal1Container"></div>
+</div>
+
+<script>
+	function mySelectHandler(type,args,obj) {
+		var dates = args[0]; 
+	    var date = dates[0]; 
+	    var year = date[0];
+		var month = date[1];
+		var day = date[2];
+		
+		window.location = window.location.href + "&seed=" + year + "-" + month + "-" + day;
+	};
+
+	YAHOO.namespace("example.calendar"); 
+
+	YAHOO.example.calendar.init = function() {
+	
+		var navConfig = { 
+		      strings : { 
+		          month: "{TXT_CHOOSE_MONTH}", 
+		          year: "{TXT_CHOOSE_YEAR}", 
+		          submit: "{TXT_SUBMIT}", 
+		          cancel: "{TXT_CANCEL}", 
+		          invalidYear: "{TXT_INVALID_YEAR}" 
+		      }, 
+		      monthFormat: YAHOO.widget.Calendar.LONG, 
+		      initialFocus: "year"
+		}; 
+	
+		YAHOO.example.calendar.cal1 = new YAHOO.widget.Calendar("cal1",
+			"cal1Container",
+			{
+				START_WEEKDAY: {WEEKSTART},
+				SHOW_WEEK_HEADER: false,
+				SHOW_WEEK_FOOTER: true,
+				navigator:navConfig
+			}
+		);
+		YAHOO.example.calendar.cal1.cfg.setProperty("pagedate","{SEED_MY}");
+		YAHOO.example.calendar.cal1.select("{SEED_MDY}");
+		YAHOO.example.calendar.cal1.cfg.setProperty("WEEKDAYS_SHORT",[{WEEKDAYS_SHORT}]);
+		YAHOO.example.calendar.cal1.cfg.setProperty("MONTHS_LONG",[{MONTHS_LONG}]);
+		YAHOO.example.calendar.cal1.selectEvent.subscribe(mySelectHandler,
+			YAHOO.example.calendar.cal1, true);
+		YAHOO.example.calendar.cal1.render();
+	} 
+	
+	YAHOO.util.Event.onDOMReady(YAHOO.example.calendar.init); 
+</script>
+<br />
+
+

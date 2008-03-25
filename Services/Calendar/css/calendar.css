@@ -269,3 +269,31 @@
   background-color: #000;
   color: #0f0;
 }
+
+/* SELECTED DATE (YUI calendar)*/ 
+.yui-skin-sam .yui-calendar td.calcell.selected a {
+    background-color:#FFE79C;
+    color:#000;
+}
+
+/* OOM DATES */ 
+.yui-skin-sam .yui-calendar td.calcell.oom { 
+    background-color:#EDEDED; 
+    color:#a6a6a6; 
+    cursor:default; 
+}
+
+/* HOVER DATE */
+.yui-skin-sam .yui-calendar td.calcell.calcellhover {
+	background-color:#000;
+	color:#fff;
+	cursor:pointer;
+}
+
+.yui-skin-sam .yui-calendar td.calcell.calcellhover a {
+	background-color:#fff;
+	color:#000;
+}
+
+
+

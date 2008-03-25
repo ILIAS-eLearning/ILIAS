@@ -1,0 +1,101 @@
+<?php
+/*
+        +-----------------------------------------------------------------------------+
+        | ILIAS open source                                                           |
+        +-----------------------------------------------------------------------------+
+        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+        |                                                                             |
+        | This program is free software; you can redistribute it and/or               |
+        | modify it under the terms of the GNU General Public License                 |
+        | as published by the Free Software Foundation; either version 2              |
+        | of the License, or (at your option) any later version.                      |
+        |                                                                             |
+        | This program is distributed in the hope that it will be useful,             |
+        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+        | GNU General Public License for more details.                                |
+        |                                                                             |
+        | You should have received a copy of the GNU General Public License           |
+        | along with this program; if not, write to the Free Software                 |
+        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+        +-----------------------------------------------------------------------------+
+*/
+
+/**
+*
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
+* @version $Id$
+*
+* @ingroup  ServicesCalendar
+*/
+
+class ilCalendarAppointmentColors
+{
+	protected $db;
+	protected $user_id;
+	protected $appointment_colors;
+	
+	/**
+	 * Constructor
+	 *
+	 * @access public
+	 * @param int user_id
+	 * @return
+	 */
+	public function __construct($a_user_id)
+	{
+		global $ilDB;
+		
+		$this->db = $ilDB;
+		
+		$this->user_id = $a_user_id;
+		$this->read();
+	}
+	
+	/**
+	 * get color by appointment
+	 *
+	 * @access public
+	 * @param int calendar appointment id
+	 * @return
+	 */
+	public function getColorByAppointment($a_cal_id)
+	{
+		return isset($this->appointment_colors[$a_cal_id]) ? $this->appointment_colors[$a_cal_id] : 'red';
+	}
+	
+	/**
+	 * read
+	 *
+	 * @access private
+	 * @param
+	 * @return
+	 */
+	private function read()
+	{
+		$query = "SELECT cat.color, ass.cal_id  FROM cal_categories AS cat ".
+			"JOIN cal_category_assignments AS ass USING (cat_id) ".
+			"WHERE type = 1 ".
+			"AND obj_id = ".$this->db->quote($this->user_id)." ";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->appointment_colors[$row->cal_id] = $row->color;
+		}
+		
+	}
+	
+	/**
+	 * get selectable colors
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function _getSelectableColors()
+	{
+		
+	}
+}
+?>

@@ -24,6 +24,7 @@
 include_once('Services/Calendar/classes/class.ilDateTime.php');
 include_once('Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
 include_once('Services/Calendar/classes/class.ilCalendarEntry.php');
+include_once('Services/Calendar/classes/class.ilCalendarHidden.php');
 
 /** 
 * Represents a list of calendar appointments (including recurring events) for a specific user
@@ -44,6 +45,7 @@ class ilCalendarSchedule
 	
 	protected $schedule = array();
 	protected $timezone;
+	protected $hidden_cat = null;
 	protected $type = 0;
 	
 	protected $start = null;
@@ -75,6 +77,7 @@ class ilCalendarSchedule
 	 	}
 	 	
 	 	$this->timezone = $ilUser->getUserTimeZone();
+	 	$this->hidden_cat = ilCalendarHidden::_getInstanceByUserId($this->user->getId());
 	}
 
 	/**
@@ -113,6 +116,11 @@ class ilCalendarSchedule
 	 			(($unix_start <= $schedule['dend']) and ($unix_end > $schedule['dend'])) or
 	 			($unix_start >= $schedule['dstart'] and $unix_end < $schedule['dend']))
 	 		{
+	 			#echo date('Y-m-d H:i:s',$unix_start)."<br>";
+	 			#echo date('Y-m-d H:i:s',$unix_end)."<br>";
+	 			#echo date('Y-m-d H:i:s',$schedule['dstart'])."<br>";
+	 			#echo date('Y-m-d H:i:s',$schedule['dend'])."<br>"."<br>";
+	 			
 	 			$tmp_schedule[] = $schedule;
 	 		}
 	 	}
@@ -177,7 +185,10 @@ class ilCalendarSchedule
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$events[] = new ilCalendarEntry($row->cal_id);
+			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id))
+			{
+				$events[] = new ilCalendarEntry($row->cal_id);
+			}
 		}
 		return $events ? $events : array();
 	}

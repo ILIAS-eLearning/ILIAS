@@ -127,7 +127,7 @@ class ilCalendarRecurrenceCalculator
 
 
 	 		$freq_res = $this->applyBYMONTHDAYRules($freq_res);
-			#echo "BYMONTH: ".$freq_res;
+			#echo "BYMONTHDAY: ".$freq_res;
 
 	 		#$time = microtime(true);
 	 		$freq_res = $this->applyBYDAYRules($freq_res);
@@ -528,15 +528,19 @@ class ilCalendarRecurrenceCalculator
 		{
 			foreach($list->get() as $seed)
 			{
-				$current_year = $seed->get(IL_CAL_FKT_DATE,'Y');
-				$start = new ilDate($current_year.'-01-01',IL_CAL_DATE);
+				// TODO: maybe not correct in dst cases
+				$date_info = $seed->get(IL_CAL_FKT_GETDATE);
+				$date_info['mday'] = 1;
+				$date_info['mon'] = 1;
+				$start = $this->createDate($date_info,IL_CAL_FKT_GETDATE);
+
+				#$start = new ilDateTime($current_year.'-01-01 '.$current_hour.':00:00',IL_CAL_DATETIME,$this->timezone);
 
 				$year_days = $this->getYearWeekDays($seed);
 				foreach($this->recurrence->getBYDAYList() as $byday)
 				{
 					$day =  strtoupper(substr($byday,-2));
 					$num_by_day = (int) $byday;
-					
 					
 					if($num_by_day)
 					{
@@ -701,16 +705,16 @@ class ilCalendarRecurrenceCalculator
 	 *
 	 * @access protected
 	 */
-	protected function createDate($a_date)
+	protected function createDate($a_date,$a_format_type = IL_CAL_UNIX)
 	{
 		if($this->event->isFullday())
 		{
-			return new ilDate($a_date,IL_CAL_UNIX);
+			return new ilDate($a_date,$a_format_type);
 		}
 		else
 		{
 			// TODO: the timezone for this recurrence must be stored in the db
-			return new ilDateTime($a_date,IL_CAL_UNIX,$this->timezone);
+			return new ilDateTime($a_date,$a_format_type,$this->timezone);
 		}
 	}
 }

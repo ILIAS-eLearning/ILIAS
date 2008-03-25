@@ -153,7 +153,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 			echo $event->get(IL_CAL_DATETIME,'',$this->settings->getDefaultTimeZone()).'<br />';
 		}
 		*/
-		#$parser = new ilICalParser('./extern/EM.ics',ilICalParser::INPUT_FILE);
+		#$parser = new ilICalParser('./extern/Buddhist.ics',ilICalParser::INPUT_FILE);
 		#$parser = new ilICalParser('./Feiertage.ics',ilICalParser::INPUT_FILE);
 		#$parser->parse();
 		#$entry = new ilCalendarEntry(927);
