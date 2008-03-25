@@ -1219,6 +1219,7 @@ class ilCourseParticipants
 		$mail =& new ilFormatMail($a_usr_id);
 		$subject = sprintf($this->lng->txt("crs_new_subscription"),$ilObjDataCache->lookupTitle($this->course_id));
 		$body = sprintf($this->lng->txt("crs_new_subscription_body"),$ilObjDataCache->lookupTitle($this->course_id));
+		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_ref_id."&client_id=".CLIENT_ID);
 
 		$query = "SELECT usr_id FROM crs_members ".
 			"WHERE notification = '1' ".
