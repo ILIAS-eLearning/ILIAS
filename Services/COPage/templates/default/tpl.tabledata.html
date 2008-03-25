@@ -1,0 +1,48 @@
+<script language="JavaScript" type="text/javascript">
+<!--
+
+
+function handleTDInput(el)
+{
+	storeCaret(el);
+	text_name = el.id;
+}
+//-->
+</script>
+<form action="{FORMACTION}" id="post" name="post" method="post">
+<table class="fullwidth">
+<tr class="tblheader">
+	<td class="std">
+		{TXT_ACTION}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option_value">
+	{BB_MENU}
+	</td>
+</tr>
+<tr class="std">
+<td class="std">
+<table border="0" cellpadding="0" cellspacing="0">
+<!-- BEGIN row -->
+<tr>
+	<!-- BEGIN cell -->
+	<td>
+	<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onkeyup="handleTDInput(this);" onselect="handleTDInput(this);" onclick="handleTDInput(this);" onkeyup="handleTDInput(this);" style="width:140px; height:80px;" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+	</td>
+	<!-- END cell -->
+</tr>
+<!-- END row -->
+</table>
+</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+</form>

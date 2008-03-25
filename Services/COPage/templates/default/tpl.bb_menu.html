@@ -1,0 +1,43 @@
+<script language="JavaScript" type="text/javascript">
+<!--
+
+var help_line = {
+		s: '{TXT_STR}: [str]text[/str] (alt+s)',
+		e: '{TXT_EMP} [emp]text[/emp]  (alt+e)',
+		c: '{TXT_COM} [com]text[/com]  (alt+c)',
+		f: '{TXT_FN} [fn]text[/fn]  (alt+f)',
+		q: '{TXT_QUOT} [quot]text[/quot]  (alt+q)',
+		d: '{TXT_CODE} [code]code[/code]  (alt+d)',
+		i: '{TXT_ILN} [iln page=\"page_id\"]text[/iln]  (alt+i)',
+		x: '{TXT_XLN} [xln url=\"http://url\"]text[/xln]  (alt+x)',
+		t: '{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)'
+}
+
+// Define the bbCode tags
+var bbcode = new Array();
+var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]', '[tex]','[/tex]');
+imageTag = false;
+
+var form_name = 'post';
+var text_name = '{PAR_TA_NAME}';
+var load_draft = false;
+var upload = false;
+
+//-->
+</script>
+
+<div id="bbcodebuttons" style="position:relative;visibility:visible;">
+<input type="text" name="helpbox" size="90" maxlength="100" class="ilEditHelpline" value="{TXT_BB_TIP}" />
+<br />
+<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " onClick="bbstyle(0)" onMouseOver="helpline('s')" />
+<input type="button" class="ilEditSubmit" accesskey="e" name="addbbcode2" value=" emp " onClick="bbstyle(2)" onMouseOver="helpline('e')" />
+<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode4" value=" com " onClick="bbstyle(4)" onMouseOver="helpline('c')" />
+<input type="button" class="ilEditSubmit" accesskey="q" name="addbbcode6" value=" quot " onClick="bbstyle(6)" onMouseOver="helpline('q')" />
+<input type="button" class="ilEditSubmit" accesskey="d" name="addbbcode8" value=" code " onClick="bbstyle(8)" onMouseOver="helpline('d')" />
+<input type="button" class="ilEditSubmit" accesskey="t" name="addbbcode18" value=" tex " onClick="bbstyle(18)" onMouseOver="helpline('t')" />
+<input type="button" class="ilEditSubmit" accesskey="f" name="addbbcode10" value=" fn " onClick="bbstyle(10)" onMouseOver="helpline('f')" />
+<input type="button" class="ilEditSubmit" accesskey="x" name="addbbcode14" value=" xln " onClick="bbstyle(14)" onMouseOver="helpline('x')" />
+<!-- BEGIN bb_ilink_button -->
+<a class="ilEditSubmit" href="{BB_LINK_ILINK}" accesskey="i" onClick="bbstyle(12)" target="tree" onMouseOver="helpline('i')">&nbsp;iln&nbsp;</a>
+<!-- END bb_ilink_button -->
+</div>
