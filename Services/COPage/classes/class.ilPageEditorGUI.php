@@ -35,7 +35,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMediaObjectGUI, ilPCListGUI, ilPCListItemGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -255,6 +255,7 @@ $this->ctrl->debug("+ctype:".$ctype."+");
 		$this->ctrl->setCmd($cmd);
 		//$next_class = $this->ctrl->getNextClass($this);
 $this->ctrl->debug("+next_class:".$next_class."+");
+//echo("+next_class:".$next_class."+".$ctype."+");
 		if ($next_class == "")
 		{
 			switch($ctype)
@@ -267,8 +268,14 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 					$this->ctrl->setCmdClass("ilPCParagraphGUI");
 					break;
 
+				// advanced table
 				case "tab":
 					$this->ctrl->setCmdClass("ilPCTableGUI");
+					break;
+
+				// data table
+				case "dtab":
+					$this->ctrl->setCmdClass("ilPCDataTableGUI");
 					break;
 
 				case "td":
@@ -350,6 +357,14 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				include_once ("./Services/COPage/classes/class.ilPCTableDataGUI.php");
 				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
 				$ret =& $this->ctrl->forwardCommand($td_gui);
+				break;
+
+			// Data Table
+			case "ilpcdatatablegui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCDataTableGUI.php");
+				$tab_gui =& new ilPCDataTableGUI($this->page, $cont_obj, $hier_id);
+				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
 			// PC Media Object

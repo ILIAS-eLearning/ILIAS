@@ -289,10 +289,7 @@
 <xsl:template match="PageContent">
 	<xsl:if test="$mode = 'edit'">
 		<xsl:variable name="content_type" select="name(./*[1])"/>
-		<div class="il_editarea">
-		<xsl:if test="@Enabled='False'">
-			<xsl:attribute name="class">il_editarea_disabled</xsl:attribute>
-		</xsl:if>
+		<div>
 		<xsl:attribute name="value"><xsl:value-of select="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign" /></xsl:attribute>
 		<xsl:if test="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'RightFloat'">
 			<xsl:attribute name="style">float:right; clear:both;</xsl:attribute>
@@ -300,13 +297,19 @@
 		<xsl:if test="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'LeftFloat'">
 			<xsl:attribute name="style">float:left; clear:both;</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$javascript = 'enable'">
-			<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_editarea_active');</xsl:attribute>
-			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_editarea');</xsl:attribute>
-            <xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
-            <xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
-			<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
-			<xsl:attribute name="onDblClick">doMouseDblClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
+		<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
+			<xsl:attribute name="class">il_editarea</xsl:attribute>
+			<xsl:if test="@Enabled='False'">
+				<xsl:attribute name="class">il_editarea_disabled</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$javascript = 'enable'">
+				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_editarea_active');</xsl:attribute>
+				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_editarea');</xsl:attribute>
+				<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
+				<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
+				<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
+				<xsl:attribute name="onDblClick">doMouseDblClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
+			</xsl:if>
 		</xsl:if>
         <xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
 
@@ -316,13 +319,15 @@
 		</div>
 		
 		<!-- drop area -->
-		<div class="il_droparea">
-			<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
-			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
-			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>');</xsl:attribute>
-			<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/></xsl:attribute><img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
-		</div>
-		
+		<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
+			<div class="il_droparea">
+				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
+				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
+				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>');</xsl:attribute>
+				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/></xsl:attribute><img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
+			</div>
+		</xsl:if>
+
 		<!-- insert menu for drop area -->
 		<xsl:if test="$mode = 'edit'">
 			<xsl:if test="$javascript='enable'">
@@ -502,10 +507,16 @@
 		<xsl:with-param name="langvar">ed_insert_code</xsl:with-param>
 	</xsl:call-template>
 	
-	<!-- insert table -->
+	<!-- insert data table -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_dtab</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_dtable</xsl:with-param>
+	</xsl:call-template>
+
+	<!-- insert advanced table -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_tab</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_table</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_atable</xsl:with-param>
 	</xsl:call-template>
 	
 	<!-- insert media object -->
@@ -1008,7 +1019,7 @@
 					<!-- insert commands -->
 					<!-- <xsl:value-of select="@HierId"/> -->
 					<xsl:call-template name="EditReturnAnchors"/>
-					<xsl:if test="$mode = 'edit' or $mode = 'table_edit'">
+					<xsl:if test="($mode = 'edit' or $mode = 'table_edit') and (../../@DataTable != 'y' or not(../../@DataTable))">
 						<!-- checkbox -->
 						<xsl:if test="$mode = 'table_edit' or $javascript = 'disable'">
 							<input type="checkbox" name="target[]">
@@ -1173,6 +1184,11 @@
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
+	
+	<xsl:if test="@DataTable = 'y'">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editData</xsl:with-param>
+		<xsl:with-param name="langvar">ed_edit_data</xsl:with-param></xsl:call-template>
+	</xsl:if>
 	
 	<!--
 	<xsl:if test="$hier_id != 'pg'">

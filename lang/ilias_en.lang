@@ -4336,7 +4336,9 @@ content#:#cont_ed_insert_filelist#:#Insert File List
 content#:#cont_ed_insert_list#:#Insert List
 content#:#cont_ed_insert_media#:#Insert Media
 content#:#cont_ed_insert_par#:#Insert Paragr.
-content#:#cont_ed_insert_table#:#Insert Table
+content#:#cont_ed_insert_dtable#:#Insert Data Table
+content#:#cont_ed_insert_atable#:#Insert Advanced Table
+content#:#cont_ed_edit_data#:#Edit Data
 content#:#cont_ed_insert_section#:#Insert Section
 content#:#cont_ed_item_down#:#Move Item Down
 content#:#cont_ed_item_up#:#Move Item Up

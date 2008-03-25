@@ -97,6 +97,39 @@ class ilPageContentGUI
 		return $this->hier_id;
 	}
 
+		/**
+	* Get the bb menu incl. script
+	*/
+	function getBBMenu()
+	{
+		$btpl = new ilTemplate("tpl.bb_menu.html", true, true, "Services/COPage");
+
+		if ($this->pg_obj->getParentType() == "gdf" ||
+			$this->pg_obj->getParentType() == "lm" ||
+			$this->pg_obj->getParentType() == "dbk")
+		{
+			$btpl->setCurrentBlock("bb_ilink_button");
+			$btpl->setVariable("BB_LINK_ILINK",
+				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+			$btpl->parseCurrentBlock();
+		}
+
+		$btpl->setVariable("TXT_STR", $this->lng->txt("cont_text_str"));
+		$btpl->setVariable("TXT_EMP", $this->lng->txt("cont_text_emp"));
+		$btpl->setVariable("TXT_COM", $this->lng->txt("cont_text_com"));
+		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
+		$btpl->setVariable("TXT_QUOT", $this->lng->txt("cont_text_quot"));
+		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
+		$btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
+		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
+		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
+		$btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
+		
+		$btpl->setVariable("PAR_TA_NAME", "par_content");
+		
+		return $btpl->get();
+	}
+
 	/**
 	* delete content element
 	*/

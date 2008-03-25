@@ -586,13 +586,14 @@ class ilPageObjectGUI
 				$page_editor->setIntLinkReturn($this->int_link_return);
 				//$page_editor->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_editor);
+
 				break;
 
 			default:
 				$ret = $this->$cmd();
 				break;
 		}
-		
+//echo "+$ret+";
 		return $ret;
 	}
 

@@ -192,7 +192,6 @@ class ilPCParagraph extends ilPageContent
 			{
 				$content .= $this->dom->dump_node($childs[$i]);
 			}
-			//return $this->par_node->get_content();
 			return $content;
 		}
 		else
@@ -345,29 +344,21 @@ class ilPCParagraph extends ilPageContent
 		return $this->par_node->get_attribute("Language");
 	}
 
+	function input2xml($a_text, $a_wysiwyg = 0)
+	{
+		return $this->_input2xml($a_text, $this->getLanguage(), $a_wysiwyg);
+	}
+	
 	/**
 	* converts user input to xml
 	*/
-	function input2xml($a_text, $a_wysiwyg = 0)
+	static function _input2xml($a_text, $a_lang, $a_wysiwyg = 0)
 	{
 		$a_text = ilUtil::stripSlashes($a_text, false);
 
 		// note: the order of the processing steps is crucial
 		// and should be the same as in xml2output() in REVERSE order!
 		$a_text = trim($a_text);
-
-//echo "<br>first:".htmlentities($a_text);
-
-//		if ($a_wysiwyg == 1)
-//		{
-			//$a_text = str_replace("&","&amp;",$a_text);
-			//$a_text = str_replace("<","&lt;",$a_text);
-			//$a_text = str_replace(">","&gt;",$a_text);
-
-//			$wysiwygUtil = new ilWysiwygUtil();
-//			$a_text = $wysiwygUtil->convertFromPost($a_text);
-			//$a_text = addslashes($a_text);
-//		}
 
 //echo "<br>between:".htmlentities($a_text);
 
@@ -393,10 +384,10 @@ echo htmlentities($a_text);*/
 		$a_text = str_replace(chr(13),"<br />", $a_text);
 		$a_text = str_replace(chr(10),"<br />", $a_text);
 
-		$a_text = $this->input2xmlReplaceLists($a_text);
+		$a_text = ilPCParagraph::input2xmlReplaceLists($a_text);
 		
 		// bb code to xml
-		$a_text = eregi_replace("\[com\]","<Comment Language=\"".$this->getLanguage()."\">",$a_text);
+		$a_text = eregi_replace("\[com\]","<Comment Language=\"".$a_lang."\">",$a_text);
 		$a_text = eregi_replace("\[\/com\]","</Comment>",$a_text);
 		$a_text = eregi_replace("\[emp\]","<Emph>",$a_text);
 		$a_text = eregi_replace("\[\/emp\]","</Emph>",$a_text);
@@ -404,7 +395,7 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("\[\/str\]","</Strong>",$a_text);
 		$a_text = eregi_replace("\[fn\]","<Footnote>",$a_text);
 		$a_text = eregi_replace("\[\/fn\]","</Footnote>",$a_text);
-		$a_text = eregi_replace("\[quot\]","<Quotation Language=\"".$this->getLanguage()."\">",$a_text);
+		$a_text = eregi_replace("\[quot\]","<Quotation Language=\"".$a_lang."\">",$a_text);
 		$a_text = eregi_replace("\[\/quot\]","</Quotation>",$a_text);
 		$a_text = eregi_replace("\[code\]","<Code>",$a_text);
 		$a_text = eregi_replace("\[\/code\]","</Code>",$a_text);
@@ -631,9 +622,9 @@ echo htmlentities($a_text);*/
 	*
 	* @return	string				string containing * for lists
 	*/
-	function xml2outputReplaceLists($a_text)
+	static function xml2outputReplaceLists($a_text)
 	{
-		$segments = $this->segmentString($a_text, array("<SimpleBulletList>", "</SimpleBulletList>",
+		$segments = ilPCParagraph::segmentString($a_text, array("<SimpleBulletList>", "</SimpleBulletList>",
 			"</SimpleListItem>", "<SimpleListItem>"));
 		
 		$current_list = array();
@@ -693,7 +684,7 @@ echo htmlentities($a_text);*/
 	/**
 	* Segments a string into an array at each position of a substring
 	*/
-	function segmentString($a_haystack, $a_needles)
+	static function segmentString($a_haystack, $a_needles)
 	{
 		$segments = array();
 		
@@ -738,7 +729,7 @@ echo htmlentities($a_text);*/
 	*
 	* @return	string	string ready for edit textarea
 	*/
-	function xml2output($a_text)
+	static function xml2output($a_text)
 	{
 		// note: the order of the processing steps is crucial
 		// and should be the same as in input2xml() in REVERSE order!
@@ -765,7 +756,7 @@ echo htmlentities($a_text);*/
 		$a_text = eregi_replace("<Code/>","[code][/code]",$a_text);
 
 		// replace lists
-		$a_text = $this->xml2outputReplaceLists($a_text);
+		$a_text = ilPCParagraph::xml2outputReplaceLists($a_text);
 		
 		// internal links
 		while (eregi("<IntLink($any)>", $a_text, $found))

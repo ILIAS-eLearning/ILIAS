@@ -1657,9 +1657,9 @@ img.imgtab {
 
 div.il_droparea
 {
-	border-style: dotted;
+	border-style: solid;
 	border-width: 1px;
-	border-color: #A1CFF2;
+	border-color: #D0D0D0;
 	font-size: 1px;
 	background-image: url(images/drop_back.gif);
 	background-repeat: repeat;
@@ -1681,7 +1681,7 @@ div.il_editarea
 {
 	border-style: solid;
 	border-width: 1px;
-	border-color: white;
+	border-color: transparent;
 
 }
 
