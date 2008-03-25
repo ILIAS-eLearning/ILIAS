@@ -46,6 +46,8 @@ class ilICalParser
 	const INPUT_FILE = 2;
 	
 	protected $log = null;
+	
+	protected $category_id = null;
 
 	protected $ical = '';
 	protected $file = '';
@@ -74,6 +76,18 @@ class ilICalParser
 			$this->ical = file_get_contents($a_ical);
 		}
 	 	$this->log = $ilLog;
+	}
+	
+	/**
+	 * set category id
+	 *
+	 * @access public
+	 * @param int category id
+	 * @return
+	 */
+	public function setCategoryId($a_id)
+	{
+		
 	}
 	
 	/**

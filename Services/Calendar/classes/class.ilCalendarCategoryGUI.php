@@ -89,6 +89,51 @@ class ilCalendarCategoryGUI
 	}
 	
 	/**
+	 * add new calendar
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function add()
+	{
+		global $tpl;
+		
+		$this->tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
+		$this->initFormCategory('create');
+		$this->tpl->setVariable('EDIT_CAT',$this->form->getHTML());
+		$tpl->setContent($this->tpl->get());
+	}
+	
+	/**
+	 * save new calendar
+	 *
+	 * @access protected
+	 */
+	protected function save()
+	{
+		global $ilUser;
+
+		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+		$category = new ilCalendarCategory(0);
+		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$category->setColor($_POST['colors']);
+		$category->setType(ilCalendarCategory::TYPE_USR);
+		$category->setObjId($ilUser->getId());
+		
+		if(!$category->validate())
+		{
+			ilUtil::sendInfo($this->lng->txt('fill_out_all_required_fields'));
+			$this->add();
+			return false;
+		}
+		$category->add();
+		
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		$this->ctrl->returnToParent($this);
+		
+	}
+	
+	/**
 	 * edit category
 	 *
 	 * @access protected
@@ -132,6 +177,60 @@ class ilCalendarCategoryGUI
 		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
 		$this->ctrl->returnToParent($this);
 	
+	}
+	
+	/**
+	 * confirm delete
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function confirmDelete()
+	{
+		global $tpl;
+		
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+		$category = new ilCalendarCategory((int) $_GET['category_id']);
+		
+		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+		$confirmation_gui = new ilConfirmationGUI();
+		
+		$this->ctrl->setParameter($this,'category_id',(int) $_GET['category_id']);
+		$confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
+		$confirmation_gui->setHeaderText($this->lng->txt('cal_del_cal_sure'));
+		$confirmation_gui->setConfirm($this->lng->txt('delete'),'delete');
+		$confirmation_gui->setCancel($this->lng->txt('cancel'),'cancel');
+		$confirmation_gui->addItem('category_id',(int) $_GET['category_id'],$category->getTitle());
+		
+		$tpl->setContent($confirmation_gui->getHTML());
+	}
+	
+	/**
+	 * Delete
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function delete()
+	{
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+		$category = new ilCalendarCategory((int) $_GET['category_id']);
+		$category->delete();
+		
+		ilUtil::sendInfo($this->lng->txt('cal_cal_deleted'));
+		$this->ctrl->returnToParent($this);
 	}
 	
 	
@@ -185,13 +284,14 @@ class ilCalendarCategoryGUI
 				$this->ctrl->saveParameter($this,array('seed','category_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
+				$this->form->addCommandButton('confirmDelete',$this->lng->txt('delete'));
 				break;				
 			case 'create':
 				$category = new ilCalendarCategory(0);	
 				$this->ctrl->saveParameter($this,array('category_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
-				$this->form->setTitle($this->lng->txt('cal_edit_category'));
-				$this->form->addCommandButton('create',$this->lng->txt('save'));
+				$this->form->setTitle($this->lng->txt('cal_add_category'));
+				$this->form->addCommandButton('save',$this->lng->txt('save'));
 				break;
 		}
 		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
@@ -239,6 +339,7 @@ class ilCalendarCategoryGUI
 		$table_gui = new ilCalendarCategoryTableGUI($this);
 		$table_gui->setTitle($this->lng->txt('cal_table_categories'));
 		$table_gui->addMultiCommand('saveSelection',$this->lng->txt('show'));
+		$table_gui->addCommandButton('add',$this->lng->txt('add'));
 		$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'add'),
 			$this->lng->txt('new'));
 		$table_gui->parse();
