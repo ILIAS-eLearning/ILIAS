@@ -27,7 +27,7 @@
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI
+* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
 * @ingroup ServicesCalendar
 */
 
@@ -67,25 +67,26 @@ class ilCalendarPresentationGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser, $ilSetting;
-
+		global $ilUser, $ilSetting,$tpl;
 
 		$this->initSeed();
 		$this->prepareOutput();
 		$next_class = $this->getNextClass();
-
+		
 		switch($next_class)
 		{
 			case 'ilcalendarmonthgui':
 				$this->tabs_gui->setSubTabActive('app_month');
-				$this->setCmdClass('ilcalendarmonthgui');
-					
-				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
-				$month_gui = new ilCalendarMonthGUI($this->seed);
-				$this->ctrl->forwardCommand($month_gui);
+				$this->forwardToClass('ilcalendarmonthgui');
 				break;
 				
+			case 'ilcalendarweekgui':
+				$this->tabs_gui->setSubTabActive('app_week');
+				$this->forwardToClass('ilcalendarweekgui');
+				break;
+
 			case 'ilcalendarusersettingsgui':
+				$this->ctrl->setReturn($this,'loadHistory');
 				$this->tabs_gui->setSubTabActive('properties');
 				$this->setCmdClass('ilcalendarusersettingsgui');
 				
@@ -93,12 +94,24 @@ class ilCalendarPresentationGUI
 				$user_settings = new ilCalendarUserSettingsGUI();
 				$this->ctrl->forwardCommand($user_settings);
 				break;
+				
+			case 'ilcalendarcategorygui':
+				$this->ctrl->setReturn($this,'loadHistory');
+				$this->tabs_gui->setSubTabActive('app_month');
+
+				include_once('Services/Calendar/classes/class.ilCalendarCategoryGUI.php');				
+				$category = new ilCalendarCategoryGUI($ilUser->getId());
+				$this->ctrl->forwardCommand($category);
+				break;
 			
 			default:
 				$cmd = $this->ctrl->getCmd("show");
 				$this->$cmd();
 				break;
 		}
+		
+		$this->showSideBlocks();
+		
 		return true;
 	}
 	
@@ -113,7 +126,11 @@ class ilCalendarPresentationGUI
 		{
 			return $next_class;
 		}
-		return 'ilcalendarmonthgui';
+		if($this->ctrl->getCmdClass() != 'ilcalendarpresentationgui')
+		{
+			return 'ilcalendarmonthgui';
+		}
+		
 	}
 	
 	public function setCmdClass($a_class)
@@ -126,6 +143,69 @@ class ilCalendarPresentationGUI
 			$this->ctrl->setCmdClass(strtolower($a_class));
 		}
 		return true;
+	}
+	
+	/**
+	 * forward to class
+	 *
+	 * @access protected
+	 */
+	protected function forwardToClass($a_class)
+	{
+		switch($a_class)
+		{
+			case 'ilcalendarmonthgui':
+				$this->setCmdClass('ilcalendarmonthgui');
+				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
+				$month_gui = new ilCalendarMonthGUI($this->seed);
+				$this->ctrl->forwardCommand($month_gui);
+				break;
+				
+			case 'ilcalendarweekgui':
+				$this->setCmdClass('ilcalendarweekgui');
+				include_once('./Services/Calendar/classes/class.ilCalendarWeekGUI.php');
+				$week_gui = new ilCalendarWeekGUI($this->seed);
+				$this->ctrl->forwardCommand($week_gui);
+				break;
+		}
+	}
+	
+	/**
+	 * forward to last presentation class
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function loadHistory()
+	{
+		$this->ctrl->setCmd('');
+		$this->forwardToClass('ilcalendarmonthgui');
+	}
+	
+	/**
+	 * show side blocks
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function showSideBlocks()
+	{
+		global $ilUser;
+
+		$tpl =  new ilTemplate('tpl.cal_side_block.html',true,true,'Services/Calendar');
+
+		include_once('./Services/Calendar/classes/class.ilMiniCalendarGUI.php');
+		$mini = new ilMiniCalendarGUI($this->seed);
+		$mini->setPresentationMode(ilMiniCalendarGUI::PRESENTATION_CALENDAR);
+		$tpl->setVariable('MINICAL',$mini->getHTML());
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
+		$cat = new ilCalendarCategoryGUI($ilUser->getId());
+		$tpl->setVariable('CATEGORIES',$cat->getHTML());
+
+		$this->tpl->setLeftContent($tpl->get());
 	}
 	
 	
@@ -149,6 +229,7 @@ class ilCalendarPresentationGUI
 	 */
 	protected function prepareOutput()
 	{
+		#$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
 		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
 	}
@@ -162,6 +243,7 @@ class ilCalendarPresentationGUI
 	{
 		include_once('Services/Calendar/classes/class.ilDate.php');
 		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(time(),IL_CAL_UNIX);
+		$this->ctrl->saveParameter($this,array('seed'));
  	}
 	
 }

@@ -92,8 +92,10 @@ class ilCalendarUtil
 		
 		$days_in_month = self::_getMaxDayOfMonth($a_year,$a_month);
 		$days_in_prev_month = self::_getMaxDayOfMonth($a_year,$prev_month);
+		
+		$weekday = date('w',gmmktime(0,0,0,$a_month,1,$a_year));
+		$first_day_offset = (($weekday - $weekstart) < 0) ? 6 : $weekday - $weekstart; 
 
-		$first_day_offset = ($o = date('w',gmmktime(0,0,0,$a_month,1,$a_year))) == $weekstart ? 6 : ($o - $weekstart);
 		for($i = 0;$i < 42;$i++)
 		{
 			if($i < $first_day_offset)
@@ -245,7 +247,7 @@ class ilCalendarUtil
 				'Canada/Newfoundland' => 'GMT-3:00: Newfoundland', 
 				'Brazil/East' => 'GMT-3:00: Sao Paulo', 
 				'America/Argentina/Buenos_Aires' => 'GMT-3:00: Buenes Aires, Georgtown', 
-				'GMT+3' => 'GMT-3:00: Greenland, Uruguay, Surinam', 
+				'Etc/GMT+3' => 'GMT-3:00: Greenland, Uruguay, Surinam', 
 				'Atlantic/Cape_Verde' => 'GMT-2:00: Cape Verde, Greenland, South Georgia', 
 				'Atlantic/Azores' => 'GMT-1:00: Azores', 
 				'Africa/Casablanca' => 'GMT+0:00: Casablanca, Monrovia', 
@@ -338,11 +340,29 @@ class ilCalendarUtil
 			return cal_days_in_month(CAL_GREGORIAN,$a_month,$a_year);
 		}
 		
-		
 		$months = array(0,31,
 				self::_isLeapYear($a_year) ? 29 : 28,
 				31,30,31,30,31,31,30,31,30,31);
 		return $months[$a_month];
+	}
+	
+	/**
+	 * Calculate best font color from html hex color code
+	 *
+	 * @access public
+	 * @param string hex value of color
+	 * @return string #ffffff or #000000
+	 * @static
+	 */
+	public static function calculateFontColor($a_html_color_code)
+	{
+		if(strpos($a_html_color_code,'#') !== 0 or strlen($a_html_color_code) != 7)
+		{
+			return '#000000';
+		}
+		$hex = str_replace('#','0x',$a_html_color_code);
+		
+		return hexdec($hex) > 8000000 ? '#000000' : '#FFFFFF';
 	}
 }
 ?>

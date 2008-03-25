@@ -1,6 +1,4 @@
-<br/>
 {NAVIGATION}
-<br/>
 <table class="calstd">
 	<tr class="calheader">
 		<!-- BEGIN month_header_col -->
@@ -14,19 +12,40 @@
 			<div style="float:left">
 				<p class="il_cal_monthday">{MONTH_DAY}</p>
 			</div>
+			<noscript>
 			<div style="float:right">
 				<p class="il_cal_navigation">
 				<img style="vertical-align: bottom" title="" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" />
 				<img src="{OPEN_SRC}" alt="{OPEN_ALT}" title="{OPEN_ALT}" />
 				</p>
 			</div>
+			</noscript>
 			<div style="clear:both" />
 			<!-- BEGIN il_event -->
-			<p class="il_calevent" style="background-color:orange">{EVENT_TITLE}</p>
+			<p id="app-{NUM}" class="il_calevent" style="background-color:{EVENT_BGCOLOR};color:{EVENT_FONTCOLOR}">
+				<font class="small">{EVENT_TITLE}</font>
+			</p>
 			<!-- END il_event -->
 		</td>
 		<!-- END month_col -->
 	</tr>
 	<!-- END month_row -->
-</table>	
-		
+</table>
+
+
+<script type="text/javascript"> 
+    (function() { 
+        var dd, dd2, dd3; 
+        YAHOO.util.Event.onDOMReady(function() { 
+            // The first two instances will share a proxy 
+            // element, created automatically by the utility. 
+            // This element will be resized at drag time so 
+            // that it matches the size of the source element. 
+            // It is configured by default to have a 2 pixel 
+            // grey border. 
+           dd = new YAHOO.util.DDProxy("app-1"); 
+           dd2 = new YAHOO.util.DDProxy("app-2"); 
+           dd3 = new YAHOO.util.DDProxy("app-3"); 
+        }); 
+    })(); 
+</script> 

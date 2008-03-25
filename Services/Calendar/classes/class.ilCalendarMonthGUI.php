@@ -24,6 +24,7 @@
 include_once('Services/Calendar/classes/class.ilDate.php');
 include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
 include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
+include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 
 
 /** 
@@ -68,7 +69,8 @@ class ilCalendarMonthGUI
 		$this->tabs_gui = $ilTabs;
 		$this->tabs_gui->setSubTabActive('app_month');
 		
-		$this->user_settings = new ilCalendarUserSettings($ilUser); 
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
+		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
 		
 		$this->timezone = $ilUser->getUserTimeZone();
 	}
@@ -81,7 +83,7 @@ class ilCalendarMonthGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl,$tpl;
 
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
@@ -95,6 +97,8 @@ class ilCalendarMonthGUI
 				#echo "Zeit: ".(microtime(true) - $time);
 				break;
 		}
+		
+		$tpl->setContent($this->tpl->get());
 		return true;
 	}
 	
@@ -106,7 +110,11 @@ class ilCalendarMonthGUI
 	 */
 	public function show()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.month_view.html','Services/Calendar');
+		$this->tpl = new ilTemplate('tpl.month_view.html',true,true,'Services/Calendar');
+		
+		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
+		ilYuiUtil::initDragDrop();
+		
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::MONTH);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
@@ -184,6 +192,8 @@ class ilCalendarMonthGUI
 	 */
 	protected function showEvents(ilDate $date)
 	{
+		static $counter = 1;
+		
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
 			$this->tpl->setCurrentBlock('il_event');
@@ -197,7 +207,13 @@ class ilCalendarMonthGUI
 				$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
 				$title .= (' '.$item['event']->getTitle());
 			}
+			$this->tpl->setVariable('NUM',$counter++);
 			$this->tpl->setVariable('EVENT_TITLE',$title);
+			
+			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
+			$this->tpl->setVariable('EVENT_BGCOLOR',$color);
+			$this->tpl->setVariable('EVENT_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
+			
 			$this->tpl->parseCurrentBlock();
 		}
 	}

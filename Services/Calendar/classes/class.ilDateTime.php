@@ -37,6 +37,7 @@ define('IL_CAL_DATETIME',1);
 define('IL_CAL_DATE',2);
 define('IL_CAL_UNIX',3);
 define('IL_CAL_FKT_DATE',4);
+define('IL_CAL_FKT_GETDATE',5);
 
 define('IL_CAL_YEAR','year');
 define('IL_CAL_MONTH','month');
@@ -330,6 +331,19 @@ class ilDateTime
 				}
 				$this->unix = $unix;
 				break;
+				
+			case IL_CAL_FKT_GETDATE:
+				// Format like getdate parameters
+				$this->timezone->switchTZ();
+				$this->unix = mktime(
+					$a_date['hours'],
+					$a_date['minutes'],
+					$a_date['seconds'],
+					$a_date['mon'],
+					$a_date['mday'],
+					$a_date['year']);
+				$this->timezone->restoreTZ();
+				break;
 	 	}
 	 	return true;
 	}
@@ -379,7 +393,13 @@ class ilDateTime
 			 	$timezone->switchTZ();
 				$date = date($a_format_str,$this->getUnixTime());
 				$timezone->restoreTZ();
-				break;	
+				break;
+				
+			case IL_CAL_FKT_GETDATE:
+				$timezone->switchTZ();
+				$date = getdate($this->getUnixTime());
+				$timezone->restoreTZ();
+				break;
 	 	}
 		return $date;
 	}

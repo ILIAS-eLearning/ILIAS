@@ -3511,3 +3511,82 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#1183>
+
+DROP TABLE IF EXISTS `cal_categories_hidden`;
+CREATE TABLE `cal_categories_hidden` (
+  `user_id` int(11) NOT NULL,
+  `cat_id` int(11) NOT NULL,
+  PRIMARY KEY  (`user_id`,`cat_id`),
+  KEY `cat_id` (`cat_id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `cal_category_assignments`;
+CREATE TABLE `cal_category_assignments` (
+  `cal_id` int(11) NOT NULL,
+  `cat_id` int(11) NOT NULL,
+  KEY `cal_id` (`cal_id`,`cat_id`),
+  KEY `cat_id` (`cat_id`)
+) ENGINE=InnoDB;
+
+
+DROP TABLE IF EXISTS `cal_recurrence_rules`;
+CREATE TABLE `cal_recurrence_rules` (
+  `rule_id` int(11) NOT NULL auto_increment,
+  `cal_id` int(11) NOT NULL default '0',
+  `cal_recurrence` int(1) NOT NULL default '0',
+  `freq_type` varchar(20) NOT NULL default '',
+  `freq_until_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `freq_until_time` time NOT NULL default '00:00:00',
+  `freq_until_count` int(4) NOT NULL default '0',
+  `intervall` int(4) NOT NULL default '0',
+  `byday` varchar(64) NOT NULL default '',
+  `byweekno` varchar(64) NOT NULL default '0',
+  `bymonth` varchar(64) NOT NULL default '',
+  `bymonthday` varchar(64) NOT NULL default '',
+  `byyearday` varchar(64) NOT NULL default '',
+  `bysetpos` varchar(64) NOT NULL default '0',
+  `weekstart` varchar(2) NOT NULL default '',
+  PRIMARY KEY  (`rule_id`),
+  KEY `cal_id` (`cal_id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `cal_entries`;
+CREATE TABLE `cal_entries` (
+  `cal_id` int(11) NOT NULL auto_increment,
+  `title` text NOT NULL,
+  `description` text NOT NULL,
+  `location` text NOT NULL,
+  `fullday` tinyint(1) NOT NULL default '0',
+  `start` datetime NOT NULL default '0000-00-00 00:00:00',
+  `end` datetime NOT NULL default '0000-00-00 00:00:00',
+  `informations` text NOT NULL,
+  `public` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`cal_id`)
+) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `cal_categories`;
+CREATE TABLE `cal_categories` (
+  `cat_id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) NOT NULL,
+  `title` varchar(128)  NOT NULL,
+  `color` char(8) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`cat_id`)
+) ENGINE=InnoDB;
+
+ALTER TABLE `cal_categories_hidden`
+  ADD CONSTRAINT `cal_categories_hidden_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `cal_categories` (`cat_id`) ON DELETE CASCADE;
+
+ALTER TABLE `cal_category_assignments`
+  ADD CONSTRAINT `cal_category_assignments_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal_entries` (`cal_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `cal_category_assignments_ibfk_2` FOREIGN KEY (`cat_id`) REFERENCES `cal_categories` (`cat_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `cal_recurrence_rules`
+  ADD CONSTRAINT `cal_recurrence_rules_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal_entries` (`cal_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+<#1184>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

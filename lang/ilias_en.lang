@@ -7949,3 +7949,5 @@ dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the pr
 dateplaner#:#cal_def_week_start#:#Week Start
 common#:#obj_cals#:#Calendar
 common#:#webdav_pear_auth_http_needed#:#You need to install Pear Auth_HTTP to use this function. To do this, enter <code>pear install Auth_HTTP</code> on the terminal.
+dateplaner#:#cal_table_categories#:#Calendar Selection
+dateplaner#:#cal_type_usr#:#Personal Calendar

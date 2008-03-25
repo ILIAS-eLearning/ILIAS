@@ -62,7 +62,7 @@ class ilCalendarUserSettingsGUI
 		
 		$this->user = $ilUser;
 		$this->settings = ilCalendarSettings::_getInstance();
-		$this->user_settings = new ilCalendarUserSettings($this->user);
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 		
 	}
 	
@@ -106,6 +106,16 @@ class ilCalendarUserSettingsGUI
 	}
 	
 	/**
+	 * cancel editing
+	 *
+	 * @access public
+	 */
+	public function cancel()
+	{
+		$this->ctrl->returnToParent($this);
+	}
+	
+	/**
 	 * save settings
 	 *
 	 * @access public
@@ -117,8 +127,8 @@ class ilCalendarUserSettingsGUI
 		$this->user_settings->setWeekStart((int) $_POST['weekstart']);
 		$this->user_settings->save();	
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		$this->show();
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		$this->ctrl->returnToParent($this);
 	}
 	
 	/**

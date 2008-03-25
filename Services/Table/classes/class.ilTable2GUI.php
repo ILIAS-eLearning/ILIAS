@@ -746,7 +746,7 @@ class ilTable2GUI extends ilTableGUI
 		}
 		
 		// multi selection 
-		if (count($this->multi) > 0)
+		if (count($this->multi) > 1)
 		{
 			$this->tpl->setCurrentBlock("tbl_cmd_select");
 			$sel = array();
@@ -757,6 +757,22 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("SELECT_CMDS",
 				ilUtil::formSelect("", "selected_cmd", $sel, false, true));
 			$this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
+			$this->tpl->setVariable('SELECT_CMD','select_cmd');
+			$this->tpl->parseCurrentBlock();
+			$arrow = true;
+			$action_row = true;
+		}
+		elseif(count($this->multi == 1))
+		{
+			$this->tpl->setCurrentBlock("tbl_single_cmd");
+			$sel = array();
+			foreach ($this->multi as $mc)
+			{
+				$cmd = $mc['cmd'];
+				$txt = $mc['text'];
+			}
+			$this->tpl->setVariable("TXT_SINGLE_CMD",$txt);
+			$this->tpl->setVariable("SINGLE_CMD",$cmd);
 			$this->tpl->parseCurrentBlock();
 			$arrow = true;
 			$action_row = true;
