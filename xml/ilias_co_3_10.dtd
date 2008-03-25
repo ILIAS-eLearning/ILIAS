@@ -393,6 +393,7 @@
 	CellPadding CDATA #IMPLIED
 	CellSpacing CDATA #IMPLIED
 	Class CDATA #IMPLIED
+	DataTable (y | n) #IMPLIED
 >
 <!ELEMENT Caption (%titletext;)*>
 <!ATTLIST Caption

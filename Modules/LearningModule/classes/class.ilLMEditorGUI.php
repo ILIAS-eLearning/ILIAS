@@ -182,7 +182,7 @@ class ilLMEditorGUI
 					// Helmut Schottmüller, 2006-07-21
 					$this->displayLocator();
 				}
-
+//echo "*".$this->tpl->get()."*";
 				// (horrible) workaround for preventing template engine
 				// from hiding paragraph text that is enclosed
 				// in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
