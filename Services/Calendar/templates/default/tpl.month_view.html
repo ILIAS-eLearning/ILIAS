@@ -8,21 +8,24 @@
 	<!-- BEGIN month_row -->
 	<tr class="calstd">
 		<!-- BEGIN month_col -->
-		<td class="{TD_CLASS}">
+		<td class="{TD_CLASS}" >
 			<div style="float:left">
 				<p class="il_cal_monthday">{MONTH_DAY}</p>
 			</div>
-			<noscript>
 			<div style="float:right">
 				<p class="il_cal_navigation">
-				<img style="vertical-align: bottom" title="" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" />
+				<a href="{ADD_LINK}"><img style="vertical-align: bottom" src="{NEW_SRC}" alt="{NEW_ALT}" title="{NEW_ALT}" /></a>
+			<noscript>
 				<img src="{OPEN_SRC}" alt="{OPEN_ALT}" title="{OPEN_ALT}" />
+			</noscript>
 				</p>
 			</div>
-			</noscript>
 			<div style="clear:both" />
 			<!-- BEGIN il_event -->
-			<p id="app-{NUM}" class="il_calevent" style="background-color:{EVENT_BGCOLOR};color:{EVENT_FONTCOLOR}">
+			<p id="app-{NUM}" 
+				class="il_calevent" 
+				style="background-color:{EVENT_BGCOLOR};color:{EVENT_FONTCOLOR}"
+				ondblclick='redirectTo("{EVENT_EDIT_LINK}");'>
 				<font class="small">{EVENT_TITLE}</font>
 			</p>
 			<!-- END il_event -->
@@ -34,6 +37,11 @@
 
 
 <script type="text/javascript"> 
+	function redirectTo(link)
+	{
+		window.location = link;
+	}
+
     (function() { 
         var dd, dd2, dd3; 
         YAHOO.util.Event.onDOMReady(function() { 

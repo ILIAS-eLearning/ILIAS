@@ -172,6 +172,11 @@ class ilCalendarMonthGUI
 			
 			$this->tpl->setVariable('MONTH_DAY',$month_day);
 			$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
+			$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
+			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
+			$this->tpl->setVariable('ADD_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+			
 			$this->tpl->setVariable('OPEN_SRC',ilUtil::getImagePath('open.gif','calendar'));
 			$this->tpl->parseCurrentBlock();
 			
@@ -197,6 +202,10 @@ class ilCalendarMonthGUI
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
 			$this->tpl->setCurrentBlock('il_event');
+			
+			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$item['event']->getEntryId());
+			$this->tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 			
 			if($item['event']->isFullDay())
 			{

@@ -28,6 +28,7 @@
 * 
 * 
 * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
+* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI
 * @ingroup ServicesCalendar
 */
 
@@ -93,6 +94,15 @@ class ilCalendarPresentationGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php');
 				$user_settings = new ilCalendarUserSettingsGUI();
 				$this->ctrl->forwardCommand($user_settings);
+				break;
+				
+			case 'ilcalendarappointmentgui':
+				$this->ctrl->setReturn($this,'loadHistory');
+				$this->tabs_gui->setSubTabActive('app_month');
+				
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$this->ctrl->forwardCommand($app);
 				break;
 				
 			case 'ilcalendarcategorygui':

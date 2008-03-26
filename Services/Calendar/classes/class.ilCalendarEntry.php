@@ -106,7 +106,7 @@ class ilCalendarEntry
 	 */
 	public function getStart()
 	{
-		return $this->start ? $this->start : new ilDateTime();
+		return $this->start ? $this->start : $this->start = new ilDateTime();
 		
 	}
 	
@@ -128,7 +128,7 @@ class ilCalendarEntry
 	 */
 	public function getEnd()
 	{
-		return $this->end ? $this->end : new ilDateTime();
+		return $this->end ? $this->end : $this->end = new ilDateTime();
 	}
 	
 	/**
@@ -299,6 +299,17 @@ class ilCalendarEntry
 	 	$res = $this->db->query($query);
 		$this->entry_id = $this->db->getLastInsertId();		
 		return true;
+	}
+	
+	/**
+	 * validate
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function validate()
+	{
+		return (bool) strlen($this->getTitle());
 	}
 	
 	

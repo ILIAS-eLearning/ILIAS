@@ -5215,7 +5215,6 @@ dateplaner#:#date_format#:#m/d/Y H:i
 dateplaner#:#date_format_middle#:#m/d/y
 dateplaner#:#del_all#:#Delete all events
 dateplaner#:#del_one#:#Delete one event
-dateplaner#:#delete#:#Delete
 dateplaner#:#deletedDates#:#Deleted Events
 dateplaner#:#discard#:#Discard
 dateplaner#:#dv_Grouptime#:#Free time
@@ -5367,7 +5366,6 @@ dateplaner#:#singleDate#:#Single Event
 dateplaner#:#starttime_for_view#:#Start time for view:
 dateplaner#:#timedate#:#Time / Date
 dateplaner#:#timeslice#:#Time:
-dateplaner#:#title#:#ILIAS calendar
 dateplaner#:#to#:#to
 dateplaner#:#today#:#Today
 dateplaner#:#viewlist#:#View
@@ -7951,3 +7949,15 @@ common#:#obj_cals#:#Calendar
 common#:#webdav_pear_auth_http_needed#:#You need to install Pear Auth_HTTP to use this function. To do this, enter <code>pear install Auth_HTTP</code> on the terminal.
 dateplaner#:#cal_table_categories#:#Calendar Selection
 dateplaner#:#cal_type_usr#:#Personal Calendar
+dateplaner#:#yui_cal_choose_month#:#Month:
+dateplaner#:#yui_cal_choose_year#:#Year:
+dateplaner#:#cal_edit_appointment#:#Edit Appointment
+dateplaner#:#cal_what#:#Title
+dateplaner#:#cal_category_selection#:#Calendar Selection
+dateplaner#:#cal_start#:#Start
+dateplaner#:#cal_end#:#End
+dateplaner#:#cal_fullday#:#Fullday
+dateplaner#:#cal_fullday_title#:#No time specified
+dateplaner#:#cal_where#:#Location
+dateplaner#:#cal_new_app#:#New Appointment
+dateplaner#:#cal_add_appointment#:#Create Appointment

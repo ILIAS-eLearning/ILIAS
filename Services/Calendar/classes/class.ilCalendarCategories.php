@@ -83,5 +83,22 @@ class ilCalendarCategories
 		return $categories ? $categories : array();
 	}
 	
+	/**
+	 * prepare categories of users for selection
+	 *
+	 * @access public
+	 * @param int user id
+	 * @return
+	 * @static
+	 */
+	public static function _prepareCategoriesOfUserForSelection($a_user_id)
+	{
+		foreach(ilCalendarCategories::_getCategoriesOfUser($a_user_id) as $cat)
+		{
+			$cats[$cat->getCategoryID()] = $cat->getTitle();
+		}
+		return $cats ? $cats : array();
+	}
+	
 }
 ?>
