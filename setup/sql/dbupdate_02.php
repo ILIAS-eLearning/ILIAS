@@ -3590,3 +3590,7 @@ ALTER TABLE `cal_recurrence_rules`
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1185>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

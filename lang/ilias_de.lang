@@ -4975,7 +4975,6 @@ dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#del_all#:#alle Termine löschen
 dateplaner#:#del_one#:#einmalig löschen
-dateplaner#:#delete#:#löschen
 dateplaner#:#deletedDates#:#Gelöschte Gruppen Termine
 dateplaner#:#discard#:#abweisen
 dateplaner#:#dv_button_cancel#:#Abbrechen
@@ -5156,7 +5155,6 @@ dateplaner#:#Th_long#:#Donnerstag
 dateplaner#:#Th_short#:#Do
 dateplaner#:#timedate#:#Zeit / Datum
 dateplaner#:#timeslice#:#Zeitraum:
-dateplaner#:#title#:#Ilias Kalender
 dateplaner#:#to#:#bis
 dateplaner#:#today#:#Heute
 dateplaner#:#Tu_long#:#Dienstag
@@ -7949,3 +7947,15 @@ common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. IL
 common#:#webdav_pear_auth_http_needed#:#Sie benötigen PEAR-Auth_HTTP um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Auth_HTTP</code> ein.
 dateplaner#:#cal_table_categories#:#Kalenderauswahl
 dateplaner#:#cal_type_usr#:#Persönlicher Kalendar
+dateplaner#:#yui_cal_choose_month#:#Monat:
+dateplaner#:#yui_cal_choose_year#:#Jahr:
+dateplaner#:#cal_edit_appointment#:#Termin bearbeiten
+dateplaner#:#cal_what#:#Titel
+dateplaner#:#cal_category_selection#:#Kalenderauswahl
+dateplaner#:#cal_start#:#Start
+dateplaner#:#cal_end#:#Ende
+dateplaner#:#cal_fullday#:#Ganztags
+dateplaner#:#cal_fullday_title#:#Keine Uhrzeit festgelegt
+dateplaner#:#cal_where#:#Ort
+dateplaner#:#cal_new_app#:#Neuer Termin
+dateplaner#:#cal_add_appointment#:#Termin anlegen

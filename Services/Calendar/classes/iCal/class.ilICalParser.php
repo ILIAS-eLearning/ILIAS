@@ -47,7 +47,7 @@ class ilICalParser
 	
 	protected $log = null;
 	
-	protected $category_id = null;
+	protected $category = null;
 
 	protected $ical = '';
 	protected $file = '';
@@ -87,7 +87,8 @@ class ilICalParser
 	 */
 	public function setCategoryId($a_id)
 	{
-		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+		$this->category = new ilCalendarCategory($a_id);
 	}
 	
 	/**
@@ -514,6 +515,10 @@ class ilICalParser
 		}
 		// save calendar event
 		$entry->save();
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+		$ass = new ilCalendarCategoryAssignments($entry->getEntryId());
+		$ass->addAssignment($this->category->getCategoryID());
 		
 		
 		// Recurrences

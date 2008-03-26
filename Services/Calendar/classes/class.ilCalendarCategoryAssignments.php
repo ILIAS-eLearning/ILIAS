@@ -105,8 +105,8 @@ class ilCalendarCategoryAssignments
 	 */
 	public function addAssignment($a_cal_cat_id)
 	{
-		$query = "INSERT INTO cal_cat_assignments ".
-			"SET cal_id ".$this->db->quote($this->cal_id).", ".
+		$query = "INSERT INTO cal_category_assignments ".
+			"SET cal_id = ".$this->db->quote($this->cal_entry_id).", ".
 			"cat_id = ".$this->db->quote($a_cal_cat_id)." ";
 		$this->db->query($query);
 		$this->assignments[] = (int) $a_cal_cat_id;
@@ -123,8 +123,8 @@ class ilCalendarCategoryAssignments
 	 */
 	public function deleteAssignment($a_cat_id)
 	{
-		$query = "DELETE FROM cal_cat_assignments ".
-			"WHERE cal_id = ".$this->db->quote($this->cal_id).", ".
+		$query = "DELETE FROM cal_category_assignments ".
+			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id).", ".
 			"AND cat_id = ".$this->db->quote($a_cat_id)." ";
 		$this->db->query($query);
 		
@@ -132,6 +132,19 @@ class ilCalendarCategoryAssignments
 		{
 			unset($this->assignments[$key]);
 		}
+		return true;
+	}
+	
+	/**
+	 * delete assignments
+	 *
+	 * @access public
+	 */
+	public function deleteAssignments()
+	{
+		$query = "DELETE FROM cal_category_assignments ".
+			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id)." ";
+		$this->db->query($query);
 		return true;
 	}
 
@@ -144,12 +157,13 @@ class ilCalendarCategoryAssignments
 	 */
 	private function read()
 	{
-		$query = "SELECT * FROM cal_cat_assignments ".
+		$query = "SELECT * FROM cal_category_assignments ".
 			"WHERE cal_id = ".$this->db->quote($this->cal_entry_id)." ";
+			
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->assignments[] = $row->cal_cat_id;
+			$this->assignments[] = $row->cat_id;
 		}
 	}
 }
