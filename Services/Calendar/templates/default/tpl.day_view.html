@@ -1,0 +1,46 @@
+{NAVIGATION}
+<table class="calstd">
+	<thead>
+		<tr class="calheader">
+			<th class="calstd" colspan="{COLSPAN}">
+				<a class="callink" href="{NEW_APP_LINK}">
+					<font class="small">{HEADER_DATE}</font><br />
+					{HEADER_DAY}
+				</a>
+			</th>
+		</tr>
+		<!-- BEGIN fullday_apps -->
+		<tr class="calstd" style="height: 1em">
+			<td class="calstd" colspan="{COLSPAN}">
+				<!-- BEGIN fullday_app -->
+				<p class="il_calevent" 
+					style="background-color:{F_APP_BGCOLOR}; color:{F_APP_FONTCOLOR}">
+					<a class="callink" href="{F_APP_EDIT_LINK}"><font class="small">{F_APP_TITLE}</font></a>
+				</p>
+				<!-- END fullday_app -->
+			</td>
+		</tr>
+		<!-- END fullday_apps -->
+	</thead>
+	<tbody>
+		<!-- BEGIN time_row -->
+		<tr class="calstdtime">
+			<th class="calheadertime">
+				<a class="callink" href="{NEW_APP_HOUR_LINK}">{TIME}</a>
+			</th>
+			<!-- BEGIN app -->
+			<td class="calevent" style="background-color: {APP_BGCOLOR};color: {APP_COLOR}" rowspan="{APP_ROWSPAN}">
+				<a class="callink" href="{APP_EDIT_LINK}">
+					<font class="small">{APP_TITLE}</font>
+				</a>
+			</td>
+			<!-- END app -->
+			<!-- BEGIN empty_cell -->
+			<td class="calempty"></td>
+			<!-- END empty_cell -->
+		</tr>
+		<!-- END time_row -->
+		
+	</tbody>
+</table>
+

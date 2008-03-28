@@ -109,14 +109,12 @@ class ilCalendarWeekGUI
 	{
 		$this->tpl = new ilTemplate('tpl.week_view.html',true,true,'Services/Calendar');
 		
-		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::MONTH);
+		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::WEEK);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
 		
 		for($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++)
 		{
-			$this->tpl->setCurrentBlock('month_header_col');
 			$this->tpl->setVariable('TXT_WEEKDAY',ilCalendarUtil::_numericDayToString($i,true));
-			$this->tpl->parseCurrentBlock();
 		}
 
 	}

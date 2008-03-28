@@ -102,6 +102,8 @@ class ilCalendarSchedule
 		$unix_end = $start->get(IL_CAL_UNIX);
 		
 		$counter = 0;
+		
+		$tmp_date = new ilDateTime($unix_start,IL_CAL_UNIX,$this->timezone);
 	 	foreach($this->schedule as $schedule)
 	 	{
 	 		if($schedule['fullday'])
@@ -139,7 +141,6 @@ class ilCalendarSchedule
 		foreach($this->getEvents() as $event)
 		{
 			// Calculdate recurring events
-			
 			include_once('Services/Calendar/classes/class.ilCalendarRecurrences.php');
 			if($recs = ilCalendarRecurrences::_getRecurrences($event->getEntryId()))
 			{
@@ -154,6 +155,22 @@ class ilCalendarSchedule
 						$this->schedule[$counter]['dstart'] = $rec_date->get(IL_CAL_UNIX);
 						$this->schedule[$counter]['dend'] = $this->schedule[$counter]['dstart'] + $duration; 
 						$this->schedule[$counter]['fullday'] = $event->isFullday();
+						
+						switch($this->type)
+						{
+							case self::TYPE_DAY:
+							case self::TYPE_WEEK:
+								// store date info (used for calculation of overlapping events)
+								$tmp_date = new ilDateTime($this->schedule[$counter]['dstart'],IL_CAL_UNIX,$this->timezone);
+								$this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE);
+								
+								$tmp_date = new ilDateTime($this->schedule[$counter]['dend'],IL_CAL_UNIX,$this->timezone);
+								$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE);
+								break;
+
+							default:
+								break;
+						}
 						$counter++;
 					}
 				}
@@ -164,6 +181,25 @@ class ilCalendarSchedule
 				$this->schedule[$counter]['dstart'] = $event->getStart()->get(IL_CAL_UNIX);
 				$this->schedule[$counter]['dend'] = $event->getEnd()->get(IL_CAL_UNIX);
 				$this->schedule[$counter]['fullday'] = $event->isFullday();
+				
+				if(!$event->isFullday())
+				{
+					switch($this->type)
+					{
+						case self::TYPE_DAY:
+						case self::TYPE_WEEK:
+							// store date info (used for calculation of overlapping events)
+							$tmp_date = new ilDateTime($this->schedule[$counter]['dstart'],IL_CAL_UNIX,$this->timezone);
+							$this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE);
+							
+							$tmp_date = new ilDateTime($this->schedule[$counter]['dend'],IL_CAL_UNIX,$this->timezone);
+							$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE);
+							break;
+	
+						default:
+							break;
+					}
+				}
 				$counter++;
 			}
 		}
@@ -177,12 +213,13 @@ class ilCalendarSchedule
 	protected function getEvents()
 	{
 		$query = "SELECT cal_id FROM cal_entries AS ce LEFT JOIN cal_recurrence_rules AS crr USING (cal_id) ".
-			"WHERE (start <= ".$this->db->quote($this->end->get(IL_CAL_DATE))." ".
-			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATE)).") ".
-			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATE))." ".
+			"WHERE (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
+			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME)).") ".
+			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
 			"AND rule_id != 0) ".
 			"ORDER BY start";
 		$res = $this->db->query($query);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id))
@@ -190,6 +227,12 @@ class ilCalendarSchedule
 				$events[] = new ilCalendarEntry($row->cal_id);
 			}
 		}
+		/*
+		foreach($events as $event)
+		{
+			var_dump("<pre>",$event->getTitle(),"</pre>");
+		}
+		*/
 		return $events ? $events : array();
 	}
 	
@@ -205,6 +248,9 @@ class ilCalendarSchedule
 		switch($this->type)
 		{
 			case self::TYPE_DAY:
+				$this->start = clone $seed;
+				$this->end = clone $seed;
+				$this->end->increment(IL_CAL_DAY,1);
 				break;
 			
 			case self::TYPE_WEEK:

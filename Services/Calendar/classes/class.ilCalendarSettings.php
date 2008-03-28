@@ -57,6 +57,22 @@ class ilCalendarSettings
 	}
 	
 	/**
+	 * get singleton instance
+	 *
+	 * @access public
+	 * @static
+	 *
+	 */
+	public static function _getInstance()
+	{
+		if(self::$instance)
+		{
+			return self::$instance;
+		}
+		return self::$instance = new ilCalendarSettings();
+	}
+
+	/**
 	 * set enabled
 	 *
 	 * @access public
@@ -122,21 +138,6 @@ class ilCalendarSettings
 
 	
 
-	/**
-	 * get singleton instance
-	 *
-	 * @access public
-	 * @static
-	 *
-	 */
-	public static function _getInstance()
-	{
-		if(self::$instance)
-		{
-			return self::$instance;
-		}
-		return self::$instance = new ilCalendarSettings();
-	}
 	
 	/**
 	 * save 

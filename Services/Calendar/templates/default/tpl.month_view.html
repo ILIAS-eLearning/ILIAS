@@ -1,10 +1,13 @@
 {NAVIGATION}
 <table class="calstd">
+	<thead>
 	<tr class="calheader">
 		<!-- BEGIN month_header_col -->
 		<th class="calstd" width="14%">{TXT_WEEKDAY}</th>
 		<!--  END month_header_col -->
-	</tr>	
+	</tr>
+	</thead>
+	<tbody>
 	<!-- BEGIN month_row -->
 	<tr class="calstd">
 		<!-- BEGIN month_col -->
@@ -24,17 +27,16 @@
 			<!-- BEGIN il_event -->
 			<p id="app-{NUM}" 
 				class="il_calevent" 
-				style="background-color:{EVENT_BGCOLOR};color:{EVENT_FONTCOLOR}"
-				ondblclick='redirectTo("{EVENT_EDIT_LINK}");'>
-				<font class="small">{EVENT_TITLE}</font>
+				style="background-color:{EVENT_BGCOLOR}; color:{EVENT_FONTCOLOR}">
+				<a class="callink" href="{EVENT_EDIT_LINK}"><font class="small">{EVENT_TITLE}</font></a>
 			</p>
 			<!-- END il_event -->
 		</td>
 		<!-- END month_col -->
 	</tr>
 	<!-- END month_row -->
+	</tbody>
 </table>
-
 
 <script type="text/javascript"> 
 	function redirectTo(link)

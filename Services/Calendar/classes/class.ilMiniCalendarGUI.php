@@ -55,6 +55,7 @@ class ilMiniCalendarGUI
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		$this->tpl = new ilTemplate('tpl.minical.html',true,true,'Services/Calendar');
 		$this->lng = $lng;
+		$this->lng->loadLanguageModule('dateplaner');
 		$this->seed = $seed;
 	}
 	
@@ -95,8 +96,8 @@ class ilMiniCalendarGUI
 		ilYuiUtil::initCalendar();
 		
 		// Navigator
-		$this->tpl->setVariable('TXT_CHOOSE_MONTH',$this->lng->txt('yuical_choose_month'));
-		$this->tpl->setVariable('TXT_CHOOSE_YEAR',$this->lng->txt('yuical_choose_year'));
+		$this->tpl->setVariable('TXT_CHOOSE_MONTH',$this->lng->txt('yui_cal_choose_month'));
+		$this->tpl->setVariable('TXT_CHOOSE_YEAR',$this->lng->txt('yui_cal_choose_year'));
 		$this->tpl->setVariable('TXT_SUBMIT','OK');
 		$this->tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
 		$this->tpl->setVariable('TXT_INVALID_YEAR',$this->lng->txt('yuical_invalid_year'));
