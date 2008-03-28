@@ -20,19 +20,44 @@ table.calstd {
 th.calstd {
 	text-align: center;
 	border-spacing:0px;
+	background-color: #EDEDED;
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
 	border-color:#9EADBA;
 }
+
+th.calheadertime {
+	width: 6em;
+	text-align: center;
+	border-spacing:0px;
+	background-color: #EDEDED;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+}
+	
+th.calempty, td.calempty {
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#9EADBA;
+}
+
+
 tr.calstd {
 	background-color: inherit;
 	height: 8em;
 }
 
-tr.calstdweek {
+tr.calstdtime {
+	height: 2em;
 	background-color: inherit;
-	height: 5em;
+	border-right-width:1px;
+	border-right-style:solid;
+	border-right-color:#9EADBA;
 }
 		
 
@@ -87,16 +112,19 @@ p.il_calevent {
 	border-color:grey;
 }
 
-div.il_caleventweek {
-	position: relative;
-	float: left;
+td.calevent {
 	color:white;
+	vertical-align: top;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
 	border-spacing:0px;
 	border-collapse:collapse;
-	border-width:2px;
+	border-width:1px;
 	border-style:outset;
 	border-color:grey;
-}		
+}
 
 p.il_cal_monthday {
 	margin-left: 4px;
@@ -105,4 +133,12 @@ p.il_cal_monthday {
 
 p.il_cal_navigation {
 	margin-right: 4px;
+}
+
+a.callink:link, a.callink:visited {
+	color: inherit;
+}
+a.callink:hover {
+	text-decoration: underline;
+	color: inherit;
 }

@@ -136,7 +136,6 @@ class ilCalendarMonthGUI
 			$this->user_settings->getWeekStart())->get() as $date)
 		{
 			$counter++;
-			
 			$this->showEvents($date);
 			
 			$this->tpl->setCurrentBlock('month_col');

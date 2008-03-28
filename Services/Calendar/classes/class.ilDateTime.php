@@ -43,6 +43,7 @@ define('IL_CAL_YEAR','year');
 define('IL_CAL_MONTH','month');
 define('IL_CAL_WEEK','week');
 define('IL_CAL_DAY','day');
+define('IL_CAL_HOUR','hour');
 
 class ilDateTime
 {
@@ -50,6 +51,7 @@ class ilDateTime
 	const MONTH = 'month';
 	const WEEK = 'week';
 	const DAY = 'day';
+	const HOUR = 'hour';
 
 	protected $log;
 	
@@ -250,6 +252,10 @@ class ilDateTime
 				
 			case self::DAY:
 				$this->unix = strtotime($count_str.'day',$this->unix);
+				break;
+				
+			case self::HOUR:
+				$this->unix = strtotime($count_str.'hour',$this->unix);
 				break;
 				
 		}

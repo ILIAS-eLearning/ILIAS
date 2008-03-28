@@ -319,6 +319,12 @@ class ilCalendarCategoryGUI
 		foreach($colors as $current_color)
 		{
 			$tpl->setCurrentBlock('color_selection');
+			
+			if($category->getColor() == $current_color)
+			{
+				$tpl->setVariable('SELECTED','selected="selected"');
+			}
+			
 			$tpl->setVariable('COLOR',$current_color);
 			$tpl->parseCurrentBlock();
 		}

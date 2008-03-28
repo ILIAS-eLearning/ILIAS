@@ -40,7 +40,8 @@ class ilCalendarUtil
 	 * @access public
 	 * @static
 	 *
-	 * @param
+	 * @param int month (1-12)
+	 * @param bool short or long month translation
 	 */
 	public static function _numericMonthToString($a_month,$a_long = true)
 	{
@@ -57,7 +58,8 @@ class ilCalendarUtil
 	 * @access public
 	 * @static
 	 *
-	 * @param
+	 * @param int day of week (0 for sunday, 1 for monday)
+	 * @param bool short or long day translation
 	 */
 	public static function _numericDayToString($a_day,$a_long = true)
 	{

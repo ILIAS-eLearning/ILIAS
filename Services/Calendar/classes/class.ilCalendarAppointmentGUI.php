@@ -36,6 +36,8 @@ include_once('./Services/Calendar/classes/class.ilDateTime.php');
 class ilCalendarAppointmentGUI
 {
 	protected $seed = null;
+	protected $default_fulltime = true;
+	
 	protected $app = null;
 	protected $timezone = null;
 	
@@ -57,8 +59,9 @@ class ilCalendarAppointmentGUI
 		$this->lng = $lng;
 		$lng->loadLanguageModule('dateplaner');
 		$this->ctrl = $ilCtrl;
-		$this->seed = $seed;
+
 		$this->initTimeZone();
+		$this->initSeed($seed);
 		$this->initAppointment($a_appointment_id);
 	}
 	
@@ -281,6 +284,36 @@ class ilCalendarAppointmentGUI
 	}
 	
 	/**
+	 * init seed
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initSeed(ilDate $seed)
+	{
+		if(!isset($_GET['hour']))
+		{
+			$this->seed = clone $seed;
+			$this->default_fulltime = true;
+		}
+		else
+		{
+			if((int) $_GET['hour'] < 10)
+			{
+				$time = '0'.(int) $_GET['hour'].':00:00';
+			}
+			else
+			{
+				$time = (int) $_GET['hour'].':00:00';
+			}
+			$this->seed = new ilDateTime($seed->get(IL_CAL_DATE).' '.$time,IL_CAL_DATETIME,$this->timezone);
+			$this->default_fulltime = false;
+		}
+		
+	}
+	
+	/**
 	 * init appointment
 	 *
 	 * @access protected
@@ -294,21 +327,20 @@ class ilCalendarAppointmentGUI
 		
 		if(!$a_app_id)
 		{
-			$start = new ilDateTime(
-				$this->seed->get(IL_CAL_DATETIME),
-				IL_CAL_DATETIME,
-				$this->timezone);
+			$start = clone $this->seed;
 			$this->app->setStart($start);
 
 			$seed_end = clone $this->seed;
-			$seed_end->increment(IL_CAL_DAY,1);
-			$end = new ilDateTime(
-				$seed_end->get(IL_CAL_DATETIME),
-				IL_CAL_DATETIME,
-				$this->timezone);
-			$this->app->setEnd($end);
-
-			$this->app->setFullday(true);
+			if($this->default_fulltime)
+			{
+				$seed_end->increment(IL_CAL_DAY,1);
+			}
+			else
+			{
+				$seed_end->increment(IL_CAL_HOUR,2);
+			}
+			$this->app->setEnd($seed_end);
+			$this->app->setFullday($this->default_fulltime);
 		}
 		
 	}
