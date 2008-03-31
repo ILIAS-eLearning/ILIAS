@@ -1,0 +1,44 @@
+<!-- BEGIN element -->
+<!-- BEGIN drop_area -->
+<div class="il_droparea" id="droparea_{DNODE_ID}" onClick="doMouseClick(event, '{DNODE_ID}');" onMouseOver="doMouseOver(this.id, 'il_droparea_active');" onMouseOut="doMouseOut(this.id, 'il_droparea');" style="margin:3px 0px 6px 46px; height:8px; width: 400px;"><img src="{IMG_BLANK}" border="0" height="8px" width="8px"/></div>
+<!-- END drop_area -->
+<!-- BEGIN drop_area_menu -->
+<div style="position:absolute;left:0;top:0;visibility:hidden;" id="dropareamenu_{MNODE_ID}">
+<table class="il_editmenu" cellspacing="0" cellpadding="3">
+<!-- BEGIN menu_cmd -->
+<tr>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, 1);">
+{TXT_MENU_CMD}
+</td>
+<!-- BEGIN multi_add -->
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('{MENU_CMD}', '{CMD_NODE}', {FC}, {MA_NUM});">&nbsp;{MA_NUM}&nbsp;</td>
+<!-- END multi_add -->
+<!-- BEGIN multi_buffer -->
+<td class="small" colspan="{BUF_SPAN}">&nbsp;</td>
+<!-- END multi_buffer -->
+</tr>
+<!-- END menu_cmd -->
+</table>
+</div>
+<!-- END drop_area_menu -->
+<!-- BEGIN list_item -->
+<div style="margin-bottom:5px;">
+<!-- BEGIN img -->
+<!-- display: block, none, inline - visibility: hidden -->
+<div style="width:0px; height: 0px;"></div>
+<div style="position: absolute; margin: 1px 0px 0px 22px; ">
+<img style="position: absolute;" src="{IMGPATH}" border="0" width="19px"/>
+</div>
+<!-- END img -->
+<!-- BEGIN cbox -->
+<input style="position:absolute; padding: 0px; margin-top:2px;" type="checkbox" name="{CBOX_NAME}[]" value="{CNODE_ID}" /><!-- END cbox -->
+<div style="margin: 0px 0px 0px 46px; padding: 0px;">
+<!-- BEGIN text --><input name="title[{TNODE_ID}]" style="width: 400px; border-width:1px; border-style:solid; border-color:#BBBBBB;" type="text" maxlength="200" value="{VAL_TITLE}" /><!-- END text -->
+<!-- BEGIN add_lang_entry --><span style="font-size:110%;"><img style="padding: 0px 0px 2px 10px;" src="{TERM_IMG}" border="0"/> {TXT_TERM}</span><!-- END add_lang_entry -->
+</div>
+</div>
+<div style="margin-left:40px;">
+{CHILDS}
+</div>
+<!-- END list_item -->
+<!-- END element -->

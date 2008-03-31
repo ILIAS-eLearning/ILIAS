@@ -255,6 +255,59 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	}
 
 
+	/**
+	* Show subhiearchy of pages and subchapters
+	*/
+	function showHierarchy()
+	{
+		global $lng, $ilCtrl;
+		
+		$this->setTabs();
+		
+		$ilCtrl->setParameter($this, "backcmd", "showHierarchy");
+		
+		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
+		$form_gui = new ilChapterHierarchyFormGUI();
+		$form_gui->setFormAction($ilCtrl->getFormAction($this));
+		$form_gui->setTitle($this->obj->getTitle());
+		$form_gui->setTree($this->tree);
+		$form_gui->setCurrentTopNodeId($this->obj->getId());
+		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
+		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
+		
+		$this->tpl->setContent($form_gui->getHTML());
+	}
+	
+	/**
+	* Save all titles of chapters/pages
+	*/
+	function saveAllTitles()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["title"]))
+		{
+			include_once("./Services/MetaData/classes/class.ilMD.php");
+			foreach($_POST["title"] as $id => $title)
+			{
+				$lmobj = ilLMObjectFactory::getInstance($this->obj->getContentObject(), $id, false);
+				if (is_object($lmobj))
+				{
+					// Update Title and description
+					$md = new ilMD($this->obj->getContentObject()->getId(), $id, $lmobj->getType());
+	//echo "<br>-".$this->obj->getContentObject()->getId()."-".$id."-".$lmobj->getType()."-";
+					$md_gen = $md->getGeneral();
+	//echo "::".$md_gen->getTitle();
+					$md_gen->setTitle(ilUtil::stripSlashes($title));
+					$md_gen->update();
+					$md->update();
+					ilLMObject::_writeTitle($id, ilUtil::stripSlashes($title));
+				}
+			}
+		}
+		$ilCtrl->redirect($this, "showHierarchy");
+	}
+	
 	/*
 	* display subchapters of structure object
 	*/
@@ -722,6 +775,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $ilTabs;
 
+		// subelements
+		$ilTabs->addTarget("cont_pages_and_subchapters",
+			 $this->ctrl->getLinkTarget($this,'showHierarchy'),
+			 "showHierarchy", get_class($this));
+
 		// pages
 		$ilTabs->addTarget("cont_pages",
 			 $this->ctrl->getLinkTarget($this,'view'),
@@ -825,6 +883,113 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
+
+	/**
+	* Insert (multiple) chapters at node
+	*/
+	function insertChapter()
+	{
+		global $ilCtrl;
+		
+		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
+		
+		$num = ilChapterHierarchyFormGUI::getPostMulti();
+		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+		
+		if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert after node id
+		{
+			$parent_id = $this->tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else													// insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+		for ($i = 1; $i <= $num; $i++)
+		{
+			$chap = new ilStructureObject($this->content_object);
+			$chap->setType("st");
+			$chap->setTitle("");
+			$chap->setLMId($this->content_object->getId());
+			$chap->create();
+			ilLMObject::putInTree($chap, $parent_id, $target);
+		}
+
+		$ilCtrl->redirect($this, "showHierarchy");
+	}
+	
+	/**
+	* Insert (multiple) subchapters at node
+	*/
+	function insertSubchapter()
+	{
+		global $ilCtrl;
+		
+		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
+		
+		$num = ilChapterHierarchyFormGUI::getPostMulti();
+		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+		
+		if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert under parent
+		{
+			$parent_id = $node_id;
+			$target = "";
+		}
+		else													// we shouldnt end up here
+		{
+			$ilCtrl->redirect($this, "showHierarchy");
+			return;
+		}
+		for ($i = 1; $i <= $num; $i++)
+		{
+			$chap = new ilStructureObject($this->content_object);
+			$chap->setType("st");
+			$chap->setTitle("");
+			$chap->setLMId($this->content_object->getId());
+			$chap->create();
+			ilLMObject::putInTree($chap, $parent_id, $target);
+		}
+
+		$ilCtrl->redirect($this, "showHierarchy");
+	}
+
+	/**
+	* Insert (multiple) pages at node
+	*/
+	function insertPage()
+	{
+		global $ilCtrl;
+		
+		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
+		
+		$num = ilChapterHierarchyFormGUI::getPostMulti();
+		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+		
+		if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert after node id
+		{
+			$parent_id = $this->tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else													// insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+
+		for ($i = 1; $i <= $num; $i++)
+		{
+			$page = new ilLMPageObject($this->content_object);
+			$page->setType("pg");
+			$page->setTitle("");
+			$page->setLMId($this->content_object->getId());
+			$page->create();
+			ilLMObject::putInTree($page, $parent_id, $target);
+		}
+
+		$ilCtrl->redirect($this, "showHierarchy");
+	}
+
 
 }
 ?>

@@ -1,0 +1,29 @@
+<input type="hidden" id="il_hform_cmd" name="" value="" />
+<input type="hidden" id="il_hform_node" name="il_hform_node" value="" />
+<input type="hidden" id="il_hform_fc" name="il_hform_fc" value="" />
+<input type="hidden" id="il_hform_multi" name="il_hform_multi" value="" />
+<table class="fullwidth">
+<tr class="tblheader">
+	<th class="std">{TITLE}</th>
+</tr>
+<tr class="std">
+	<td class="tblrow1">
+	{NODES}
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2">
+		<div style="float:right;">
+			<!-- BEGIN cmd -->
+			<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
+			<!-- END cmd -->
+		</div>
+		<img border="0" alt="{MCMD_ALT}" src="{MCMD_IMG}" />
+		<!-- BEGIN multi_cmd -->
+		<input class="submit" type="SUBMIT" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
+		<!-- END multi_cmd -->
+	</td>
+</tr>
+<!-- END commands -->
+</table>
