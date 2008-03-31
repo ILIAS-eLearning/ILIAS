@@ -103,7 +103,7 @@ class ilCalendarPresentationGUI
 				
 			case 'ilcalendarappointmentgui':
 				$this->ctrl->setReturn($this,'');
-				$this->tabs_gui->setSubTabActive('app_month');
+				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 				
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
 				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
@@ -112,7 +112,7 @@ class ilCalendarPresentationGUI
 				
 			case 'ilcalendarcategorygui':
 				$this->ctrl->setReturn($this,'');
-				$this->tabs_gui->setSubTabActive('app_month');
+				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 
 				include_once('Services/Calendar/classes/class.ilCalendarCategoryGUI.php');				
 				$category = new ilCalendarCategoryGUI($ilUser->getId());
@@ -171,6 +171,7 @@ class ilCalendarPresentationGUI
 		switch($a_class)
 		{
 			case 'ilcalendarmonthgui':
+				$_SESSION['cal_last_tab'] = 'app_month'; 
 				$this->setCmdClass('ilcalendarmonthgui');
 				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 				$month_gui = new ilCalendarMonthGUI($this->seed);
@@ -178,6 +179,7 @@ class ilCalendarPresentationGUI
 				break;
 				
 			case 'ilcalendarweekgui':
+				$_SESSION['cal_last_tab'] = 'app_week'; 
 				$this->setCmdClass('ilcalendarweekgui');
 				include_once('./Services/Calendar/classes/class.ilCalendarWeekGUI.php');
 				$week_gui = new ilCalendarWeekGUI($this->seed);
@@ -185,6 +187,7 @@ class ilCalendarPresentationGUI
 				break;
 
 			case 'ilcalendardaygui':
+				$_SESSION['cal_last_tab'] = 'app_day'; 
 				$this->setCmdClass('ilcalendardaygui');
 				include_once('./Services/Calendar/classes/class.ilCalendarDayGUI.php');
 				$day_gui = new ilCalendarDayGUI($this->seed);
@@ -256,7 +259,7 @@ class ilCalendarPresentationGUI
 	{
 		
 		$this->tabs_gui->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
-		#$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
+		$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
 		$this->tabs_gui->addSubTabTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
 	}

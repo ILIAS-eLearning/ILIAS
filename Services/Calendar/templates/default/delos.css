@@ -38,13 +38,24 @@ th.calheadertime {
 	border-color:#9EADBA;
 }
 	
-th.calempty, td.calempty {
+td.calempty {
 	background-color:#ffffff;
 	border-spacing:0px;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
 	border-bottom-color:#9EADBA;
 }
+
+th.calempty {
+	background-color:#ffffff;
+}
+
+td.calrightborder {
+	border-spacing:0px;
+	border-right-width:1px;
+	border-right-style:solid;
+	border-right-color:#9EADBA;
+}	
 
 
 tr.calstd {
@@ -53,7 +64,7 @@ tr.calstd {
 }
 
 tr.calstdtime {
-	height: 2em;
+	height: 3em;
 	background-color: inherit;
 	border-right-width:1px;
 	border-right-style:solid;

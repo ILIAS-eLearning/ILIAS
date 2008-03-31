@@ -405,6 +405,9 @@ class ilDateTime
 				$timezone->switchTZ();
 				$date = getdate($this->getUnixTime());
 				$timezone->restoreTZ();
+
+				// add iso 8601 week day number (Sunday = 7)
+				$date['isoday'] = $date['wday'] == 0 ? 7 : $date['wday'];
 				break;
 	 	}
 		return $date;

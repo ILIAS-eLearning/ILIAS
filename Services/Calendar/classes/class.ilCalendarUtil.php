@@ -72,6 +72,37 @@ class ilCalendarUtil
 	}
 	
 	/**
+	 * build week day list
+	 *
+	 * @access public
+	 * @param ilDate a day in a week
+	 * @param int weekstart
+	 * @return ilDateList
+	 * @static
+	 */
+	public static function _buildWeekDayList($a_day,$a_weekstart)
+	{
+		include_once('Services/Calendar/classes/class.ilDateList.php');
+		$day_list = new ilDateList(ilDateList::TYPE_DATE);
+		
+		$start = clone $a_day;
+		$start_info = $start->get(IL_CAL_FKT_GETDATE);
+		$day_diff = $a_weekstart - $start_info['isoday'];
+		if($day_diff == 7)
+		{
+			$day_diff = 0;
+		}
+		$start->increment(IL_CAL_DAY,$day_diff);
+		$day_list->add($start);
+		for($i = 1; $i < 7;$i++)
+		{
+			$start->increment(IL_CAL_DAY,1);
+			$day_list->add($start);
+		}
+		return $day_list;
+	}
+	
+	/**
 	 * Build a month day list
 	 *
 	 * @access public
@@ -84,7 +115,6 @@ class ilCalendarUtil
 	public static function _buildMonthDayList($a_month,$a_year,$weekstart)
 	{
 		include_once('Services/Calendar/classes/class.ilDateList.php');
-
 		$day_list = new ilDateList(ilDateList::TYPE_DATE);
 				
 		$prev_month = ($a_month == 1) ? 12 : $a_month - 1;

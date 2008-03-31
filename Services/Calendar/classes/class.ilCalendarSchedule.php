@@ -21,10 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Services/Calendar/classes/class.ilDateTime.php');
-include_once('Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
-include_once('Services/Calendar/classes/class.ilCalendarEntry.php');
-include_once('Services/Calendar/classes/class.ilCalendarHidden.php');
+include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
+include_once('./Services/Calendar/classes/class.ilDateTime.php');
+include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
+include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
+include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
 
 /** 
 * Represents a list of calendar appointments (including recurring events) for a specific user
@@ -45,12 +46,14 @@ class ilCalendarSchedule
 	
 	protected $schedule = array();
 	protected $timezone;
+	protected $weekstart;
 	protected $hidden_cat = null;
 	protected $type = 0;
 	
 	protected $start = null;
 	protected $end = null;
 	protected $user = null;
+	protected $user_settings = null;
 	protected $db = null;
 	
 	/**
@@ -76,10 +79,13 @@ class ilCalendarSchedule
 	 		$this->user = $ilUser;
 	 	}
 	 	
+	 	$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+	 	$this->weekstart = $this->user_settings->getWeekStart();
 	 	$this->timezone = $ilUser->getUserTimeZone();
+	 	
 	 	$this->hidden_cat = ilCalendarHidden::_getInstanceByUserId($this->user->getId());
 	}
-
+	
 	/**
 	 * get byday
 	 *
@@ -254,6 +260,16 @@ class ilCalendarSchedule
 				break;
 			
 			case self::TYPE_WEEK:
+				$this->start = clone $seed;
+				$start_info = $this->start->get(IL_CAL_FKT_GETDATE);
+				$day_diff = $this->weekstart - $start_info['isoday'];
+				if($day_diff == 7)
+				{
+					$day_diff = 0;
+				}
+				$this->start->increment(IL_CAL_DAY,$day_diff);
+				$this->end = clone $this->start;
+				$this->end->increment(IL_CAL_DAY,7);
 				break;
 			
 			case self::TYPE_MONTH:
