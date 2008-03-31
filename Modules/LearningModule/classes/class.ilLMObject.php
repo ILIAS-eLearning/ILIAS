@@ -685,5 +685,54 @@ class ilLMObject
 		$ilDB->query($query);
 	}
 
+	/**
+	* put this object into content object tree
+	*/
+	static function putInTree($a_obj, $a_parent_id = "", $a_target_node_id = "")
+	{
+		$tree = new ilTree($a_obj->getContentObject()->getId());
+		$tree->setTableNames('lm_tree', 'lm_data');
+		$tree->setTreeTablePK("lm_id");
+
+		// determine parent
+		$parent_id = ($a_parent_id != "")
+			? $a_parent_id
+			: $tree->getRootId();
+
+		// determine target
+		if ($a_target_node_id != "")
+		{
+			$target = $a_target_node_id;
+		}
+		else
+		{
+			// determine last child that serves as predecessor
+			if ($a_obj->getType() == "st")
+			{
+				$s_types = array("st", "pg");
+				$childs =& $tree->getChildsByTypeFilter($parent_id, $s_types);
+			}
+			else
+			{
+				$s_types = "pg";
+				$childs =& $tree->getChildsByType($parent_id, $s_types);
+			}
+
+			if (count($childs) == 0)
+			{
+				$target = IL_FIRST_NODE;
+			}
+			else
+			{
+				$target = $childs[count($childs) - 1]["obj_id"];
+			}
+		}
+
+		if ($tree->isInTree($parent_id) && !$tree->isInTree($a_obj->getId()))
+		{
+			$tree->insertNode($a_obj->getId(), $parent_id, $target);
+		}
+	}
+
 }
 ?>

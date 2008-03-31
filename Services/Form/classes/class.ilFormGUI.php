@@ -158,6 +158,7 @@ class ilFormGUI
 				$tpl->parseCurrentBlock();
 			}*/
 		}
+
 		if ($this->getId() != "")
 		{
 			$tpl->setCurrentBlock("form_id");

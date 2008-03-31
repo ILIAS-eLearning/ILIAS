@@ -1714,6 +1714,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// BEGIN TABLE DATA
 		$counter = 0;
+//var_dump($_POST);
 		foreach($_POST["id"] as $id)
 		{
 			if ($id != IL_FIRST_NODE)

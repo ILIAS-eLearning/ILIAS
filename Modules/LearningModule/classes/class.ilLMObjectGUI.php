@@ -212,7 +212,7 @@ class ilLMObjectGUI
 
 
 	/**
-	* confirm deletion screen (delete page or structure objects)
+	* Confirm deletion screen (delete page or structure objects)
 	*/
 	function delete()
 	{
