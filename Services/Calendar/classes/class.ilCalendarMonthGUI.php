@@ -169,6 +169,11 @@ class ilCalendarMonthGUI
 				$month_day = $day;
 			}
 			
+			$this->ctrl->clearParametersByClass('ilcalendardaygui');
+			$this->ctrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
+			$this->tpl->setVariable('OPEN_DAY_VIEW',$this->ctrl->getLinkTargetByClass('ilcalendardaygui',''));
+			$this->ctrl->clearParametersByClass('ilcalendardaygui');
+			
 			$this->tpl->setVariable('MONTH_DAY',$month_day);
 			$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
 			$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));

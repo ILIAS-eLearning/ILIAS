@@ -1,20 +1,15 @@
 <tr class="{CSS_ROW}">
-	<td class="std" style="vertical-align:top;background-color: {BGCOLOR}" width="1">
+	<td class="std" style="vertical-align:top;background-color: {BGCOLOR}">
 		<input style="background-color: {BGCOLOR}" type="checkbox" name="cat_ids[]" value="{VAL_ID}" {VAL_CHECKED} />
 	</td>
 	<td class="std" style="vertical-align:top;" width="100%">
 		<div style="float:left">		
-			<font class="small">{VAL_TITLE}</font>
+			<font class="small"><a href="{EDIT_LINK}">{VAL_TITLE}</a></font>
 			<!-- BEGIN calendar_type -->
 			<div class="il_Description">
 				<i>{CAL_TYPE}</i>
 			</div>
 			<!-- END calendar_type -->
 		</div>
-		<!-- BEGIN  editable -->
-		<div style="float:right">
-			<a class="il_ContainerItemCommand2" href="{EDIT_LINK}">{TXT_EDIT}</a>
-		</div>
-		<!-- END editable -->
 	</td>
 </tr>
