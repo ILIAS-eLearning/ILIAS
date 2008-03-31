@@ -263,14 +263,20 @@ class ilCalendarRecurrenceCalculator
 		$month_list = $this->initDateList();
 		foreach($list->get() as $date)
 		{
+			#echo "SEED: ".$seed;
+			
 			foreach($this->recurrence->getBYMONTHList() as $month)
 			{
+				#echo "RULW_MONTH:".$month;
+				
 				// YEARLY rules extend the seed to every month given in the BYMONTH rule
 				// Rules < YEARLY must match the month of the seed
 				if($this->recurrence->getFrequenceType() == ilCalendarRecurrence::FREQ_YEARLY)
 				{
 					$month_date = $this->createDate($date->get(IL_CAL_UNIX,'',$this->timezone));
 					$month_date->increment(ilDateTime::MONTH,-($date->get(IL_CAL_FKT_DATE,'n',$this->timezone) - $month));
+					
+					#echo "BYMONTH: ".$month_date;
 					$month_list->add($month_date);
 				}
 				elseif($date->get(IL_CAL_FKT_DATE,'n',$this->timezone) == $month)
@@ -524,57 +530,69 @@ class ilCalendarRecurrenceCalculator
 		$days_list = $this->initDateList();
 
 		// generate a list of e.g all Sundays for the given year
-		if($this->frequence_context == ilCalendarRecurrence::FREQ_YEARLY)
+		// or e.g a list of all week days in a give month (FREQ = MONTHLY,WEEKLY or DAILY)
+		foreach($list->get() as $seed)
 		{
-			foreach($list->get() as $seed)
+			$seed_info = $seed->get(IL_CAL_FKT_GETDATE);
+			
+			// TODO: maybe not correct in dst cases
+			$date_info = $seed->get(IL_CAL_FKT_GETDATE);
+			$date_info['mday'] = 1;
+			$date_info['mon'] = 1;
+			$start = $this->createDate($date_info,IL_CAL_FKT_GETDATE);
+
+			switch($this->frequence_context)
 			{
-				// TODO: maybe not correct in dst cases
-				$date_info = $seed->get(IL_CAL_FKT_GETDATE);
-				$date_info['mday'] = 1;
-				$date_info['mon'] = 1;
-				$start = $this->createDate($date_info,IL_CAL_FKT_GETDATE);
-
-				#$start = new ilDateTime($current_year.'-01-01 '.$current_hour.':00:00',IL_CAL_DATETIME,$this->timezone);
-
-				$year_days = $this->getYearWeekDays($seed);
-				foreach($this->recurrence->getBYDAYList() as $byday)
-				{
-					$day =  strtoupper(substr($byday,-2));
-					$num_by_day = (int) $byday;
+				case ilCalendarRecurrence::FREQ_YEARLY:
+					$day_sequence = $this->getYearWeekDays($seed);
+					break;
 					
-					if($num_by_day)
+				default:
+					$day_sequence = $this->getMonthWeekDays($seed_info['year'],$seed_info['mon']);
+					break;
+			}
+
+			foreach($this->recurrence->getBYDAYList() as $byday)
+			{
+				$day =  strtoupper(substr($byday,-2));
+				$num_by_day = (int) $byday;
+				
+				if($num_by_day)
+				{
+					if($num_by_day > 0)
 					{
-						if($num_by_day > 0)
+						if(isset($day_sequence[$day][$num_by_day - 1]))
 						{
-							if(isset($year_days[$day][$num_by_day - 1]))
-							{
-								$year_day =  array($year_days[$day][$num_by_day - 1]);
-							}
-						}
-						else
-						{
-							if(isset($year_days[$day][count($year_days[$day]) + $num_by_day]))
-							{
-								$year_day = array($year_days[$day][count($year_days[$day]) + $num_by_day]);
-							}
+							$year_day =  array($day_sequence[$day][$num_by_day - 1]);
 						}
 					}
 					else
 					{
-						$year_day = $year_days[$day];
+						if(isset($day_sequence[$day][count($day_sequence[$day]) + $num_by_day]))
+						{
+							$year_day = array($day_sequence[$day][count($day_sequence[$day]) + $num_by_day]);
+						}
 					}
+				}
+				else
+				{
+					$year_day = $day_sequence[$day];
+				}
+				foreach($year_day as $day)
+				{
+					$tmp_date = clone $start;
+					#echo "DAY: ".$day.'<br>';
+					#echo 'VOR'.$tmp_date;
+					$tmp_date->increment(IL_CAL_DAY,$day);
+					#echo 'NACH'.$tmp_date;
 					
-					foreach($year_day as $day)
-					{
-						$tmp_date = clone $start;
-						$tmp_date->increment(IL_CAL_DAY,$day - 1);
-						$days_list->add($tmp_date);
-					}
+					$days_list->add($tmp_date);
 				}
 			}
 		}
+		#echo $days_list;
+
 		return $days_list;
-	
 	}
 	
 	/**
@@ -598,7 +616,7 @@ class ilCalendarRecurrenceCalculator
 		}
 		
 		$num_days =  ilCalendarUtil::_isLeapYear($current_year) ? 366 : 365;
-		for($i = 1;$i <= $num_days;$i++)
+		for($i = 0;$i < $num_days;$i++)
 		{
 			if(($current_day = current($days)) == false)
 			{
@@ -607,7 +625,45 @@ class ilCalendarRecurrenceCalculator
 			$year_days[$current_day][] = $i;
 			next($days);
 		}
+		
 		return $year_days;
+	}
+	
+	/**
+	 * get a list of month days
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function getMonthWeekDays($year,$month)
+	{
+		static $month_days = array();
+
+		if(isset($month_days[$year][$month]))
+		{
+			return $month_days[$year][$month];
+		}
+		
+		$month_str = $month < 10 ? ('0'.$month) : $month; 
+		$begin_month = new ilDate($year.'-'.$month_str.'-01',IL_CAL_DATE);
+		$begin_month_info = $begin_month->get(IL_CAL_FKT_GETDATE);
+		
+		$days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA');
+		for($i = 0;$i < $begin_month_info['wday'];$i++)
+		{
+			next($days);
+		}
+		for($i = $begin_month_info['yday']; $i < $begin_month_info['yday'] + ilCalendarUtil::_getMaxDayOfMonth($year,$month) ; $i++)
+		{
+			if(($current_day = current($days)) == false)
+			{
+				$current_day = reset($days);
+			}
+			$month_days[$year][$month][$current_day][] = $i;
+			next($days);
+		}
+		return $month_days[$year][$month];
 	}
 	
 	
