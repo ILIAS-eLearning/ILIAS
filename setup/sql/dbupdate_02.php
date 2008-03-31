@@ -3598,3 +3598,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1187>
+UPDATE mail AS m 
+  SET folder_id=(SELECT obj_id FROM mail_obj_data AS d WHERE d.user_id=m.user_id AND type='inbox' LIMIT 1)
+  WHERE folder_id=0;
