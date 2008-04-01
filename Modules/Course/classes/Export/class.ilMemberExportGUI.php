@@ -78,6 +78,19 @@ class ilMemberExportGUI
 	 */
 	public function executeCommand()
 	{
+		global $ilAccess,$rbacsystem;
+
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		
+		$privacy = ilPrivacySettings::_getInstance();
+		if(!$ilAccess->checkAccess('write','',$this->ref_id) 
+			or !$privacy->enabledExport()
+			or !$rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
