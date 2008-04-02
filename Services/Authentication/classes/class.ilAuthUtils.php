@@ -302,6 +302,9 @@ class ilAuthUtils
 			
 				// build option string for SHIB::Auth
 				$auth_params = array();
+				// BEGIN WebDAV: Support HTTP Authentication for WebDAV clients.
+				$auth_params['sessionName'] = "_authhttp".md5($realm);
+				// END WebDAV: Support HTTP Authentication for WebDAV clients.
 				$ilAuth = new ShibAuth($auth_params,true);
 				break;
 				
