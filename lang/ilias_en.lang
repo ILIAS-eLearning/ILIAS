@@ -4312,6 +4312,8 @@ content#:#cont_disable_html#:#HTML inactive
 content#:#cont_enable_html#:#HTML active
 content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Downloads
+content#:#cont_insert_as_subchapter#:#Insert as Subchapter
+content#:#cont_insert_as_chapter#:#Insert as Chapter
 content#:#cont_save_all_titles#:#Save Titles
 content#:#cont_downloads_desc#:#Enable download of all public export files.
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)

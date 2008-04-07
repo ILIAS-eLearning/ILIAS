@@ -44,10 +44,15 @@ class ilHierarchyFormGUI extends ilFormGUI
 		
 		$this->multi_commands = array();
 		$this->commands = array();
-		$tpl->addJavascript("./Services/Form/js/ServiceFormHierarchyForm.js");
+		$this->drag_target[] = array();
+		$this->drag_content[] = array();
 		$lng->loadLanguageModule("form");
 		$this->setCheckboxName("cbox");
 		parent::ilFormGUI();
+		
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initDragDrop();
+		$tpl->addJavascript("./Services/Form/js/ServiceFormHierarchyForm.js");
 	}
 
 	/**
@@ -151,6 +156,35 @@ class ilHierarchyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Makes a nodes (following droparea) a drag target
+	*
+	* @param	string	$a_id		node ID
+	* @param	string	$a_group	drag and drop group
+	*/
+	function makeDragTarget($a_id, $a_group, $a_type = "", $a_diss_text = "")
+	{
+		if ($a_id != "")
+		{
+			$this->drag_target[] = array("id" => $a_id, "group" => $a_group);
+			$this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
+		}
+	}
+	
+	/**
+	* Makes a node a drag content
+	*
+	* @param	string	$a_id		node ID
+	* @param	string	$a_group	drag and drop group
+	*/
+	function makeDragContent($a_id, $a_group)
+	{
+		if ($a_id != "")
+		{
+			$this->drag_content[] = array("id" => $a_id, "group" => $a_group);
+		}
+	}
+
+	/**
 	* Add a multi command (for selection of items)
 	*
 	* @param	string	$a_txt	command text
@@ -235,6 +269,50 @@ class ilHierarchyFormGUI extends ilFormGUI
 			$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.gif"));
 			$ttpl->parseCurrentBlock();
 		}
+		
+		// drag and drop initialisation
+		foreach($this->drag_target as $drag_target)
+		{
+			$ttpl->setCurrentBlock("dragtarget");
+			$ttpl->setVariable("EL_ID", $drag_target["id"]);
+			$ttpl->setVariable("GROUP", $drag_target["group"]);
+			$ttpl->parseCurrentBlock();
+		}
+		foreach($this->drag_content as $drag_content)
+		{
+			$ttpl->setCurrentBlock("dragcontent");
+			$ttpl->setVariable("EL_ID", $drag_content["id"]);
+			$ttpl->setVariable("GROUP", $drag_content["group"]);
+			$ttpl->parseCurrentBlock();
+		}
+		
+		// disambiguation menues
+		if (is_array($this->diss_menues))
+		{
+			foreach($this->diss_menues as $node_id => $d_menu)
+			{
+				foreach($d_menu as $group => $menu)
+				{
+					if (count($menu) > 1)
+					{
+						foreach($menu as $menu_item)
+						{
+							$ttpl->setCurrentBlock("dmenu_cmd");
+							$ttpl->setVariable("TYPE", $menu_item["type"]);
+							$ttpl->setVariable("TXT_MENU_CMD", $menu_item["text"]);
+							$ttpl->parseCurrentBlock();
+						}
+						
+						$ttpl->setCurrentBlock("disambiguation_menu");
+						$ttpl->setVariable("DNODE_ID", $node_id);
+						$ttpl->setVariable("GRP", $group);
+						$ttpl->parseCurrentBlock();
+					}
+				}
+			}
+		}
+		$this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
+		
 		
 		// nodes
 		$ttpl->setVariable("NODES", $nodes_html);
@@ -347,6 +425,8 @@ class ilHierarchyFormGUI extends ilFormGUI
 		// image
 		$a_tpl->setCurrentBlock("img");
 		$a_tpl->setVariable("IMGPATH", ilUtil::getImagePath("icon_".$a_child["type"].".gif"));
+		$a_tpl->setVariable("IMG_NODE", $a_child["node_id"]);
+		$a_tpl->setVariable("TYPE", $a_child["type"]);
 		$a_tpl->parseCurrentBlock();
 		
 		// checkbox
@@ -377,6 +457,9 @@ class ilHierarchyFormGUI extends ilFormGUI
 		$a_tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("blank.gif"));
 		$a_tpl->parseCurrentBlock();
 
+		// manage drag and drop areas
+		$this->manageDragAndDrop($a_child, $a_depth, false, $next_sibling, $grandchilds);
+		
 		// drop area menu
 		$menu_items = $this->getMenuItems($a_child, $a_depth, false, $next_sibling, $grandchilds);
 		if (count($menu_items) > 0)
@@ -472,6 +555,18 @@ class ilHierarchyFormGUI extends ilFormGUI
 	}
 	
 	/**
+	* Makes nodes drag and drop content and targets.
+	* Must be overwritten to support drag and drop.
+	*
+	* @param	object	$a_node		node array
+	*/
+	function manageDragAndDrop($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
+	{
+		//$this->makeDragTarget($a_node["id"], $a_group);
+		//$this->makeDragTarget($a_node["id"], $a_group);
+	}
+
+	/**
 	* Get multi number of _POST input
 	*/
 	static function getPostMulti()
@@ -496,4 +591,5 @@ class ilHierarchyFormGUI extends ilFormGUI
 	{
 		return (((int) $_POST["il_hform_fc"]) == 1);
 	}
+	
 }
