@@ -1,6 +1,7 @@
 <input type="hidden" id="il_hform_cmd" name="" value="" />
 <input type="hidden" id="il_hform_node" name="il_hform_node" value="" />
 <input type="hidden" id="il_hform_fc" name="il_hform_fc" value="" />
+<input type="hidden" id="il_hform_as_subitem" name="il_hform_as_subitem" value="" />
 <input type="hidden" id="il_hform_multi" name="il_hform_multi" value="" />
 <input type="hidden" id="il_hform_source_id" name="il_hform_source_id" value="" />
 <input type="hidden" id="il_hform_target_id" name="il_hform_target_id" value="" />
@@ -35,7 +36,7 @@
 <table class="il_editmenu" cellspacing="0" cellpadding="3">
 <!-- BEGIN dmenu_cmd -->
 <tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doDisam('{TYPE}');">
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doDisam('{SUBITEM}');">
 {TXT_MENU_CMD}
 </td>
 </tr>
@@ -43,13 +44,17 @@
 </table>
 </div>
 <!-- END disambiguation_menu -->
-
 <script language="JavaScript" type="text/javascript">
+var as_subitem = Object();
+<!-- BEGIN as_subitem_flag -->
+as_subitem['{SI_NODE_ID}' + '_' + '{SI_GRP}'] = "{SI_SI}";
+<!-- END as_subitem_flag -->
+
 <!-- BEGIN dragtarget -->
-	d = new ilDragTarget("droparea_" + {EL_ID}, "{GROUP}");
+	d = new ilDragTarget("droparea_" + "{EL_ID}", "{GROUP}");
 <!-- END dragtarget -->
 <!-- BEGIN dragcontent -->
-	d = new ilDragContent("il_img_" + {EL_ID}, "{GROUP}");
+	d = new ilDragContent("il_img_" + "{EL_ID}", "{GROUP}");
 <!-- END dragcontent -->
 </script>
 

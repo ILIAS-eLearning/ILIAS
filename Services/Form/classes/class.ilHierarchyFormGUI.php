@@ -161,12 +161,22 @@ class ilHierarchyFormGUI extends ilFormGUI
 	* @param	string	$a_id		node ID
 	* @param	string	$a_group	drag and drop group
 	*/
-	function makeDragTarget($a_id, $a_group, $a_type = "", $a_diss_text = "")
+	function makeDragTarget($a_id, $a_group, $a_first_child_drop_area = false, $a_as_subitem = false, $a_diss_text = "")
 	{
+		if ($a_first_child_drop_area == true)		// first child drop areas only insert as subitems
+		{
+			$a_as_subitem = true;
+		}
+		
 		if ($a_id != "")
 		{
+			if ($a_first_child_drop_area)
+			{
+				$a_id.= "fc";
+			}
+			
 			$this->drag_target[] = array("id" => $a_id, "group" => $a_group);
-			$this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
+			$this->diss_menues[$a_id][$a_group][] = array("subitem" => $a_as_subitem, "text" => $a_diss_text);
 		}
 	}
 	
@@ -286,7 +296,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 			$ttpl->parseCurrentBlock();
 		}
 		
-		// disambiguation menues
+		// disambiguation menues and "insert as first child" flags
 		if (is_array($this->diss_menues))
 		{
 			foreach($this->diss_menues as $node_id => $d_menu)
@@ -298,7 +308,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 						foreach($menu as $menu_item)
 						{
 							$ttpl->setCurrentBlock("dmenu_cmd");
-							$ttpl->setVariable("TYPE", $menu_item["type"]);
+							$ttpl->setVariable("SUBITEM", (int) $menu_item["subitem"]);
 							$ttpl->setVariable("TXT_MENU_CMD", $menu_item["text"]);
 							$ttpl->parseCurrentBlock();
 						}
@@ -307,6 +317,16 @@ class ilHierarchyFormGUI extends ilFormGUI
 						$ttpl->setVariable("DNODE_ID", $node_id);
 						$ttpl->setVariable("GRP", $group);
 						$ttpl->parseCurrentBlock();
+					}
+					else if (count($menu) == 1)
+					{
+						// set first child flag
+						$ttpl->setCurrentBlock("as_subitem_flag");
+						$ttpl->setVariable("SI_NODE_ID", $node_id);
+						$ttpl->setVariable("SI_GRP", $group);
+						$ttpl->setVariable("SI_SI", (int) $menu[0]["subitem"]);
+						$ttpl->parseCurrentBlock();
+						
 					}
 				}
 			}
@@ -344,7 +364,8 @@ class ilHierarchyFormGUI extends ilFormGUI
 			$ttpl->setVariable("IMG_BLANK", ilUtil::getImagePath("blank.gif"));
 			$ttpl->parseCurrentBlock();
 	
-			// drop menu after all childs
+			$this->manageDragAndDrop($a_par_node, $a_depth, true, null, $childs);
+
 			$menu_items = $this->getMenuItems($a_par_node, $a_depth, true, null, $childs);
 //var_dump($menu_items);
 			if (count($menu_items) > 0)

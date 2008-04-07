@@ -994,7 +994,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $ilCtrl;
 
-		$this->content_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"]);
+//echo "-".$_POST["il_hform_source_id"]."-".$_POST["il_hform_target_id"]."-".$_POST["il_hform_fc"]."-";
+		$this->content_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
+			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
 		$ilCtrl->redirect($this, "showHierarchy");
 	}
 }
