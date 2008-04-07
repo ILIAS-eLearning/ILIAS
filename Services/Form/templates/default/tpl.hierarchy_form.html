@@ -2,6 +2,8 @@
 <input type="hidden" id="il_hform_node" name="il_hform_node" value="" />
 <input type="hidden" id="il_hform_fc" name="il_hform_fc" value="" />
 <input type="hidden" id="il_hform_multi" name="il_hform_multi" value="" />
+<input type="hidden" id="il_hform_source_id" name="il_hform_source_id" value="" />
+<input type="hidden" id="il_hform_target_id" name="il_hform_target_id" value="" />
 <table class="fullwidth">
 <tr class="tblheader">
 	<th class="std">{TITLE}</th>
@@ -27,3 +29,27 @@
 </tr>
 <!-- END commands -->
 </table>
+
+<!-- BEGIN disambiguation_menu -->
+<div style="position:absolute;left:0;top:0;visibility:hidden;" id="diss_menu_{DNODE_ID}_{GRP}">
+<table class="il_editmenu" cellspacing="0" cellpadding="3">
+<!-- BEGIN dmenu_cmd -->
+<tr>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doDisam('{TYPE}');">
+{TXT_MENU_CMD}
+</td>
+</tr>
+<!-- END dmenu_cmd -->
+</table>
+</div>
+<!-- END disambiguation_menu -->
+
+<script language="JavaScript" type="text/javascript">
+<!-- BEGIN dragtarget -->
+	d = new ilDragTarget("droparea_" + {EL_ID}, "{GROUP}");
+<!-- END dragtarget -->
+<!-- BEGIN dragcontent -->
+	d = new ilDragContent("il_img_" + {EL_ID}, "{GROUP}");
+<!-- END dragcontent -->
+</script>
+

@@ -990,6 +990,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$ilCtrl->redirect($this, "showHierarchy");
 	}
 
+	function proceedDragDrop()
+	{
+		global $ilCtrl;
 
+		$this->content_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"]);
+		$ilCtrl->redirect($this, "showHierarchy");
+	}
 }
 ?>
