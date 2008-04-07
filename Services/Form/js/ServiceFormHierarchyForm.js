@@ -278,7 +278,7 @@ function doActionForm(cmd, node, first_child, multi)
 }
 
 
-function proceedDragDrop(source_id, target_id)    
+function proceedDragDrop(source_id, target_id, first_child_drop_area, as_subitem)    
 {
 
 	var obj = document.getElementById("form_hform");
@@ -289,15 +289,30 @@ function proceedDragDrop(source_id, target_id)
 	hform_source_id.value = source_id;
 	var hform_target_id = document.getElementById("il_hform_target_id");
 	hform_target_id.value = target_id;
+	if (first_child_drop_area)
+	{
+		var hform_fc = document.getElementById("il_hform_fc");
+		hform_fc.value = 1;
+	}
+	if (as_subitem)
+	{
+		var hform_as_subitem = document.getElementById("il_hform_as_subitem");
+		hform_as_subitem.value = 1;
+	}
 	doCloseContextMenuCounter = 2;
 	obj.submit();
 }
 
-function doDisam($type)
+function doDisam(as_subitem)
 {
-	if ($type == "st")
+//alert(as_subitem);
+	if (as_subitem == "1")
 	{
-		proceedDragDrop(cur_source_id,cur_target_id);
+		proceedDragDrop(cur_source_id,cur_target_id, cur_fc, true);
+	}
+	else
+	{
+		proceedDragDrop(cur_source_id,cur_target_id, cur_fc, false);
 	}
 }
 
@@ -345,6 +360,7 @@ ilDragContent.prototype.swapInit = function(id, sGroup, config)
 // (ending a valid drag drop operation)
 var cur_source_id;
 var cur_target_id;
+var cur_fc;
 ilDragContent.prototype.onDragDrop = function(e, id)
 {
 	target_id = id.substr(9);
@@ -356,10 +372,21 @@ ilDragContent.prototype.onDragDrop = function(e, id)
 		//ilFormSend("moveAfter", source_id, target_id);
 //		alert("Move " + source_id + " after " + target_id + "." + ilDetermineDragGroup(this) + "." + this.groups.grp_st + ".");
 	}
+
 	
 	// do we need to disambiguate here?
 	var dmenu_id = "diss_menu_" + target_id + "_" + ilDetermineDragGroup(this);
 	var dmenu = document.getElementById(dmenu_id);
+
+	if (target_id.substr(target_id.length - 2) == "fc")
+	{
+		target_id = target_id.substr(0, target_id.length - 2);
+		var first_child_drop_area = true;
+	}
+	else
+	{
+		var first_child_drop_area = false;
+	}
 
 	if (dmenu)
 	{
@@ -377,10 +404,20 @@ ilDragContent.prototype.onDragDrop = function(e, id)
 		doCloseContextMenuCounter = 20;
 		cur_source_id = source_id;
 		cur_target_id = target_id;
+		cur_fc = first_child_drop_area;
 	}
 	else
 	{
-		proceedDragDrop(source_id, target_id);
+		if (as_subitem[target_id + "_" + ilDetermineDragGroup(this)] == "1")
+		{
+			var as = true;
+		}
+		else
+		{
+			var as = false;
+		}
+
+		proceedDragDrop(source_id, target_id, first_child_drop_area, as);
 	}
 	
 };

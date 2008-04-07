@@ -2282,15 +2282,15 @@ class ilObjContentObject extends ilObject
 	*
 	* @param	string	$source_id		Source element ID
 	* @param	string	$target_id		Target element ID
-	* @param	string	$position		Position ("after" | "before")
+	* @param	string	$first_child	Insert as first child of target
 	* @param	string	$movecopy		Position ("move" | "copy")
 	*/
-	function executeDragDrop($source_id, $target_id, $position = "after", $movecopy = "move")
+	function executeDragDrop($source_id, $target_id, $first_child, $as_subitem = false, $movecopy = "move")
 	{
 		$lmtree = new ilTree($this->getId());
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
-
+//echo "-".$source_id."-".$target_id."-".$first_child."-".$as_subitem."-";
 		$source_obj = ilLMObjectFactory::getInstance($this, $source_id, true);
 		$source_obj->setLMId($this->getId());
 		$target_obj = ilLMObjectFactory::getInstance($this, $target_id, true);
@@ -2300,6 +2300,7 @@ class ilObjContentObject extends ilObject
 		// handle pages
 		if ($source_obj->getType() == "pg")
 		{
+//echo "1";
 			if ($lmtree->isInTree($source_obj->getId()))
 			{
 				$node_data = $lmtree->getNodeData($source_obj->getId());
@@ -2330,34 +2331,32 @@ class ilObjContentObject extends ilObject
 				// paste page
 				if(!$lmtree->isInTree($source_obj->getId()))
 				{
-					// move page after/before other page
-					if ($target_obj->getType() == "pg")
-					{
-						$target_pos = $target_id;
-						if ($position == "before")
-						{
-							$target_pos = IL_FIRST_NODE;
-							if ($pred = $lmtree->fetchPredecessorNode($target_id))
-							{
-								if ($lmtree->getParentId($pred["child"]) == $target_parent)
-								{
-									$target_pos = $pred["child"];
-								}
-							}
-						}
-						$parent = $target_parent;
-					}
-					else // move page into chapter
+					if ($first_child)			// as first child
 					{
 						$target_pos = IL_FIRST_NODE;
 						$parent = $target_id;
+					}
+					else if ($as_subitem)		// as last child
+					{
+						$parent = $target_id;
+						$target_pos = IL_FIRST_NODE;
+						$pg_childs =& $lmtree->getChildsByType($parent, "pg");
+						if (count($pg_childs) != 0)
+						{
+							$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
+						}
+					}
+					else						// at position
+					{
+						$target_pos = $target_id;
+						$parent = $target_parent;
 					}
 
 					// insert page into tree
 					$lmtree->insertNode($source_obj->getId(),
 						$parent, $target_pos);
 
-					// write hisroty entry
+					// write history entry
 					if ($movecopy == "move")
 					{
 						// write history comments
@@ -2377,11 +2376,7 @@ class ilObjContentObject extends ilObject
 		// handle chapters
 		if ($source_obj->getType() == "st")
 		{
-			// check wether target is a chapter
-			if ($target_obj->getType() != "st")
-			{
-				return;
-			}
+//echo "2";
 			$source_node = $lmtree->getNodeData($source_id);
 			$subnodes = $lmtree->getSubtree($source_node);
 
@@ -2396,38 +2391,30 @@ class ilObjContentObject extends ilObject
 
 			$target_pos = $target_id;
 
-			// insert before
-			if ($position == "before")
+			if ($first_child)		// as first subchapter
 			{
 				$target_pos = IL_FIRST_NODE;
-
-				// look for predecessor chapter on same level
-				$childs = $lmtree->getChildsByType($target_parent, "st");
-				$found = false;
-				foreach ($childs as $child)
+				$target_parent = $target_id;
+				
+				$pg_childs =& $lmtree->getChildsByType($target_parent, "pg");
+				if (count($pg_childs) != 0)
 				{
-					if ($child["obj_id"] == $target_id)
-					{
-						$found = true;
-					}
-					if (!$found)
-					{
-						$target_pos = $child["obj_id"];
-					}
+					$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
 				}
-
-				// if target_pos is still first node we must skip all pages
-				if ($target_pos == IL_FIRST_NODE)
+			}
+			else if ($as_subitem)		// as last subchapter
+			{
+				$target_parent = $target_id;
+				$target_pos = IL_FIRST_NODE;
+				$childs =& $lmtree->getChilds($target_parent);
+				if (count($childs) != 0)
 				{
-					$pg_childs =& $lmtree->getChildsByType($target_parent, "pg");
-					if (count($pg_childs) != 0)
-					{
-						$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
-					}
+					$target_pos = $childs[count($childs) - 1]["obj_id"];
 				}
 			}
 
 			// insert into
+/*
 			if ($position == "into")
 			{
 				$target_parent = $target_id;
@@ -2443,6 +2430,7 @@ class ilObjContentObject extends ilObject
 					}
 				}
 			}
+*/
 
 
 			// delete source tree

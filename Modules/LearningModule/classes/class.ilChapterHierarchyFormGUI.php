@@ -108,26 +108,53 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*
 	* @param	object	$a_node		node array
 	*/
-	function manageDragAndDrop($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
+	function manageDragAndDrop($a_node, $a_depth, $a_first_child_drop_area = false, $a_next_sibling = null, $a_childs = null)
 	{
 		global $lng;
 		
 		$this->makeDragContent($a_node["node_id"], "grp_".$a_node["type"]);
 		
-		if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0))
+		if (!$a_first_child_drop_area)
 		{
-			$this->makeDragTarget($a_node["node_id"], "grp_pg", "pg", "");
+			if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0))
+			{
+				if ($a_node["type"] == "st")
+				{
+					$this->makeDragTarget($a_node["node_id"], "grp_pg", $a_first_child_drop_area,
+						true, "");
+				}
+				else
+				{
+					$this->makeDragTarget($a_node["node_id"], "grp_pg", $a_first_child_drop_area,
+						false, "");
+				}
+			}
+			
+			if ($a_node["type"] != "pg")
+			{
+				$this->makeDragTarget($a_node["node_id"], "grp_st", $a_first_child_drop_area,
+					true, $lng->txt("cont_insert_as_subchapter"));
+			}
+			
+			if (($a_next_sibling["type"] != "pg" && ($a_depth == 0 || $a_next_sibling["type"] == "st"))
+				|| $a_node["type"] == "st")
+			{
+				$this->makeDragTarget($a_node["node_id"], "grp_st", $a_first_child_drop_area,
+					false, $lng->txt("cont_insert_as_chapter"));
+			}
 		}
-		
-		if ($a_node["type"] != "pg")
+		else
 		{
-			$this->makeDragTarget($a_node["node_id"], "grp_st", "sub", $lng->txt("cont_insert_as_subchapter"));
-		}
-		
-		if (($a_next_sibling["type"] != "pg" && ($a_depth == 0 || $a_next_sibling["type"] == "st"))
-			|| $a_node["type"] == "st")
-		{
-			$this->makeDragTarget($a_node["node_id"], "grp_st", "st", $lng->txt("cont_insert_as_chapter"));
+			if ($a_node["type"] == "st")
+			{
+				$this->makeDragTarget($a_node["node_id"], "grp_pg", $a_first_child_drop_area,
+					true);
+			}
+			if ($a_childs[0]["type"] != "pg")
+			{
+				$this->makeDragTarget($a_node["node_id"], "grp_st", $a_first_child_drop_area,
+					true);
+			}
 		}
 	}
 
