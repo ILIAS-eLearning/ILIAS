@@ -114,7 +114,7 @@ class ilPDFeedbackBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilAccess, $ilUser;
+		global $ilAccess, $ilUser,$tree;
 		
 		include_once('Services/Feedback/classes/class.ilFeedback.php');
 		$feedback = new ilFeedback();
@@ -122,6 +122,11 @@ class ilPDFeedbackBlockGUI extends ilBlockGUI
 		$this->feedbacks = array();
 		foreach($feedbacks as $feedback)
 		{
+			if($tree->isDeleted($feedback->getRefId()))
+			{
+				continue;
+			}
+			
 			// do not show feedback for tutors/admins
 			if (!$ilAccess->checkAccess("write", "", $feedback->getRefId())
 				&& $feedback->canVote($ilUser->getId(), $feedback->getId()) == 1
