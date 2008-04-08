@@ -259,7 +259,7 @@ class ilGroupXMLParser extends ilSaxParser
 		}
 
 		$this->__initGroupObject();
-
+	
 		$this->group_obj->setImportId($this->group_data["id"]);
 		$this->group_obj->setTitle($this->group_data["title"]);
 		$this->group_obj->setDescription($this->group_data["description"]);
@@ -307,6 +307,7 @@ class ilGroupXMLParser extends ilSaxParser
 			$this->group_obj->create();
 			$this->group_obj->createReference();
 			$this->group_obj->putInTree($this->__getParentId());
+			$this->group_obj->setPermissions($this->__getParentId());
 			$this->group_obj->initDefaultRoles();
 			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
 		} elseif ($ownerChanged) 
