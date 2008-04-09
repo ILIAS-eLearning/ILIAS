@@ -2358,13 +2358,16 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('USR_NAME', $usr_data['firstname'].' '.$usr_data['lastname']);
 							}
 							
-							if($user_obj->getGender() == 'f')
-							{
-								$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
-							}
-							else if($user_obj->getGender() == 'm')
-							{
-								$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
+							if($ilAccess->checkAccessOfUser($user_obj->getId(), 'moderate_frm', '', $_GET['ref_id']))
+							{						
+								if($user_obj->getGender() == 'f')
+								{
+									$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
+								}
+								else if($user_obj->getGender() == 'm')
+								{
+									$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
+								}
 							}
 						}
 						else
