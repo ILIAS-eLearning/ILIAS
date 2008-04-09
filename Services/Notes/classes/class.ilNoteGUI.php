@@ -157,18 +157,20 @@ class ilNoteGUI
 	{
 		global $ilUser;
 
-		$html = "";
+		$ntpl = new ilTemplate("tpl.notes_and_comments.html", true, true,
+			"Services/Notes");
+
 		if ($this->private_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
-			$html.= $this->getNoteListHTML(IL_NOTE_PRIVATE);
+			$ntpl->setVariable("NOTES", $this->getNoteListHTML(IL_NOTE_PRIVATE));
 		}
 		
 		if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled))
 		{
-			$html.= $this->getNoteListHTML(IL_NOTE_PUBLIC);
+			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC));
 		}
 		
-		return $html;
+		return $ntpl->get();
 	}
 
 	/**
@@ -209,6 +211,7 @@ class ilNoteGUI
 			? " (".count($all_notes).")"
 			: "";
 		
+		$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_note.gif"));
 		if ($this->delete_note)
 		{
 			$tpl->setVariable("TXT_NOTES", $lng->txt("info_delete_sure"));
