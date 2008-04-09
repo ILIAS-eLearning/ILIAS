@@ -2128,7 +2128,7 @@ class ilUtil
 		}
 
 		closedir($current_dir);
-		rmdir(${a_dir});
+		@rmdir(${a_dir});
 	}
 
 

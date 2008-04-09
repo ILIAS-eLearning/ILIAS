@@ -1067,9 +1067,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->object->members_obj->updateTutorDownloadTime($member_id);
 
 			// get member object (ilObjUser)
-			$tmp_obj =& ilObjectFactory::getInstanceByObjId($member_id);
-			$members[$member_id] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
-			unset($tmp_obj);
+			if (ilObject::_exists($member_id))
+			{
+				$tmp_obj =& ilObjectFactory::getInstanceByObjId($member_id);
+				$members[$member_id] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
+				unset($tmp_obj);
+			}
 		}
 	
 		$this->object->file_obj->downloadAllDeliveredFiles($members);
