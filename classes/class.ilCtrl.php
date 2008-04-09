@@ -877,7 +877,7 @@ class ilCtrl
 			{
 				if (!$this->verifyToken())
 				{
-					return "";
+					return $a_default_cmd;
 				}
 			}
 			

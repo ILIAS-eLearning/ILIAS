@@ -40,25 +40,25 @@ a.il_PrintBack
 <form action="{FORMACTION}" name="cmd" method="post">
 <div style="border-bottom-width: 1px;
 	border-bottom-style: solid; border-bottom-color: #606060; margin-bottom:5px; padding-bottom:5px;">
-<img alt="{TXT_NOTES}" src="{IMG_NOTES}" border="0" style="vertical-align:text-bottom;" />
+<a name="{A_NAME}"><img alt="{TXT_NOTES}" src="{IMG_NOTES}" border="0" style="vertical-align:text-bottom;" /></a>
 <span style="font-size:110%; color: #606060;">
 {TXT_NOTES}</span>
 </div>
-	<div class="il_ContainerItemCommands" style="text-align:right;">
+	<div class="il_ContainerItemCommands2" style="text-align:right;">
 	<!-- BEGIN show_notes -->
-	<a class="il_ContainerItemCommand" href="{LINK_SHOW_NOTES}">{TXT_SHOW_NOTES}</a>
+	<a class="il_ContainerItemCommand2" href="{LINK_SHOW_NOTES}">{TXT_SHOW_NOTES}</a>
 	<!-- END show_notes -->
 	<!-- BEGIN hide_notes -->
-	<a class="il_ContainerItemCommand" href="{LINK_HIDE_NOTES}">{TXT_HIDE_NOTES}</a>
+	<a class="il_ContainerItemCommand2" href="{LINK_HIDE_NOTES}">{TXT_HIDE_NOTES}</a>
 	<!-- END hide_notes -->
 	<!-- BEGIN all_pub_notes -->
-	<a class="il_ContainerItemCommand" href="{LINK_ALL_PUB_NOTES}">{TXT_ALL_PUB_NOTES}</a>
+	<a class="il_ContainerItemCommand2" href="{LINK_ALL_PUB_NOTES}">{TXT_ALL_PUB_NOTES}</a>
 	<!-- END all_pub_notes -->
 	<!-- BEGIN my_pub_notes -->
-	<a class="il_ContainerItemCommand" href="{LINK_MY_PUB_NOTES}">{TXT_MY_PUB_NOTES}</a>
+	<a class="il_ContainerItemCommand2" href="{LINK_MY_PUB_NOTES}">{TXT_MY_PUB_NOTES}</a>
 	<!-- END my_pub_notes -->
 	<!-- BEGIN add_note_btn -->
-	<a class="il_ContainerItemCommand" href="{LINK_ADD_NOTE}">{TXT_ADD_NOTE}</a>
+	<a class="il_ContainerItemCommand2" href="{LINK_ADD_NOTE}">{TXT_ADD_NOTE}</a>
 	<!-- END add_note_btn -->
 	</div>
 <table class="fullwidth_invisible" width="100%" style="clear:both;">
@@ -92,19 +92,20 @@ a.il_PrintBack
 </tr>
 <!-- END edit_note_form -->
 <!-- BEGIN note -->
-<tr class="{ROWCLASS}">
+<tr>
 	<!-- BEGIN checkbox_col -->
 	<td width="1%" valign="top"><input type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
 	</td>
 	<!-- END checkbox_col -->
 	<td class="std" colspan="{CNT_COL}">
 	<!-- BEGIN delete_ids --><input type="hidden" name="{HID_NOTE}" value="{HID_NOTE_ID}"/><!-- END delete_ids -->
-	<div style="margin: 5px 0px;">
+	<div style="padding: 10px 0px; border-bottom: 1px dotted #A0A0A0;">
+	<!-- BEGIN user_img --><div class="small" style="float:right; text-align:right; margin:0px 0px 4px 10px;"><img alt="{USR_ALT}" src="{USR_IMG}" border="0"/><br />[{USR_ALT}]</div><!-- END user_img -->
 	<a name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img --><img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}" border="0" style="vertical-align:text-bottom; margin-bottom:2px;"/><!-- END note_img --></a>
 	{VAL_SUBJECT}
-	<!-- BEGIN author --> ({VAL_AUTHOR})<!-- END author -->  
+	<!-- BEGIN author --><!-- END author -->  
 		<br /><div class="small" style="margin: 6px 0px;">{NOTE_TEXT}</div>
-	<div class="subtitle" style="text-align:right; margin-top:4px;">{TXT_CREATED} {VAL_DATE}<!-- BEGIN last_edit --><br />
+	<div class="il_BlockInfo" style="text-align:right; margin-top:4px;">{TXT_CREATED} {VAL_DATE}<!-- BEGIN last_edit --><br />
 	{TXT_LAST_EDIT} {DATE_LAST_EDIT}
 	<!-- END last_edit --></div>
 	<!-- BEGIN target_objects -->
@@ -117,12 +118,12 @@ a.il_PrintBack
 		<!-- END exp_target_object -->
 		</div>
 	<!-- END target_objects -->
-	<div class="il_ContainerItemCommands" style="text-align:right;">
+	<div class="il_ContainerItemCommands2" style="text-align:right; margin: 3px 0px;">
 	<!-- BEGIN delete_note -->
-	<a class="il_ContainerItemCommand" href="{LINK_DELETE_NOTE}">{TXT_DELETE_NOTE}</a>
+	<a class="il_ContainerItemCommand2" href="{LINK_DELETE_NOTE}">{TXT_DELETE_NOTE}</a>
 	<!-- END delete_note -->
 	<!-- BEGIN edit_note -->
-	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
+	<a class="il_ContainerItemCommand2" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
 	<!-- END edit_note -->
 	</div>
 	</div>

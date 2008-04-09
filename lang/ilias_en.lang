@@ -2409,8 +2409,7 @@ common#:#header_title#:#Header Title
 common#:#help#:#Help
 common#:#hide#:#Hide
 common#:#hide_details#:#Hide Details
-common#:#hide_private_notes#:#Hide private notes
-common#:#hide_public_notes#:#Hide public notes
+common#:#hide_private_notes#:#Hide Notes
 common#:#hide_structure#:#Disable Structured-View
 common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_dbk_delete_st#:#Chapter "%1" [%2] has been deleted.
@@ -3791,8 +3790,14 @@ common#:#show_members#:#Display Members
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.
 common#:#show_owner#:#Show Owner
-common#:#show_private_notes#:#Show private notes
-common#:#show_public_notes#:#Show public notes
+notes#:#notes_public_comments#:#Public Comments
+notes#:#notes_add_comment#:#Add Comment
+notes#:#notes_show_comments#:#Show Comments
+notes#:#notes_hide_comments#:#Hide Comments
+notes#:#notes_all_comments#:#All Comments
+notes#:#notes_my_comments#:#My Comments
+notes#:#notes_comment#:#Comment
+common#:#show_private_notes#:#Show Notes
 common#:#show_structure#:#Enable Structured-View
 common#:#show_users_online#:#Show active users
 common#:#signature#:#Signature
