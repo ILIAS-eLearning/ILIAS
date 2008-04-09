@@ -1494,7 +1494,16 @@ class ilObjChatGUI extends ilObjectGUI
 												"&kick_id=".$user_obj->getId());
 					}
 
-					$this->tpl->setVariable("MOD_ONLINE_USER_NAME_A",$user_obj->getLogin());
+					if($user_obj->getPref('public_profile') == 'y')
+					{
+        				$this->tpl->setVariable("MOD_ONLINE_USER_NAME_A", $user_obj->getFirstname()." ".$user_obj->getLastname()." (".$user_obj->getLogin().")");										
+					}
+					else
+					{
+						$this->tpl->setVariable("MOD_ONLINE_USER_NAME_A",$user_obj->getLogin());							
+					}
+					
+					
 					$this->tpl->parseCurrentBlock();
 				}
 				else
