@@ -1373,7 +1373,7 @@ class ilUtil
 		}
 
 		// BEGIN WebDAV: Fetch max(ctime) of a user
-		$q = "SELECT count(user_id) as num,user_id,data,firstname,lastname,title,login,last_login,max(ctime) AS ctime FROM usr_session ".
+		$q = "SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime FROM usr_session ".
 		"LEFT JOIN usr_data ON user_id=usr_id ".$where.
 		"AND expires>UNIX_TIMESTAMP() ".
 		"GROUP BY user_id ".
@@ -1435,7 +1435,7 @@ class ilUtil
 		// If the user is not in a course or a group, he has no associated users.
 		if (count($groups_and_courses_of_user) == 0)
 		{
-			$q = "SELECT count(user_id) as num,ctime,user_id,data,firstname,lastname,title,login,last_login ".
+			$q = "SELECT count(user_id) as num,ctime,user_id,firstname,lastname,title,login,last_login ".
 			"FROM usr_session ".
 			"JOIN usr_data ON user_id=usr_id ".
 			"WHERE user_id = ".$ilDB->quote($a_user_id)." ".
@@ -1444,7 +1444,7 @@ class ilUtil
 		}
 		else
 		{
-			$q = "SELECT count(user_id) as num,s.ctime,s.user_id,s.data,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
+			$q = "SELECT count(user_id) as num,s.ctime,s.user_id,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
 			"FROM usr_session AS s ".
 			"JOIN usr_data AS ud ON ud.usr_id = s.user_id ".
 			"JOIN rbac_ua AS ua ON ua.usr_id = s.user_id ".
