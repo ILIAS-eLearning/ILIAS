@@ -1414,9 +1414,9 @@ class ilObjForumGUI extends ilObjectGUI
 	function viewThreadObject()
 	{
 		global $tpl, $lng, $ilUser, $ilAccess, $ilTabs, $rbacsystem,
-			$rbacreview, $ilDB, $ilNavigationHistory, $ilCtrl;
+			   $rbacreview, $ilDB, $ilNavigationHistory, $ilCtrl;
 			
-		if (!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
+		if(!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
@@ -1460,7 +1460,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->prepareThreadScreen($forumObj);
 		
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_view.html', 'Modules/Forum');
-
+#$tpl2 = new ilTemplate('tpl.forums_threads_view.html', false, false, 'Modules/Forum');
+#vd($tpl2);
+#exit();
 		$formData = $_POST['formData'];
 		// form processing (edit & reply)
 		if ($_GET['action'] == 'ready_showreply' || $_GET['action'] == 'ready_showedit')
@@ -1512,7 +1514,7 @@ class ilObjForumGUI extends ilObjectGUI
 				
 		// get forum- and thread-data
 		$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($frm->getForumId()));		
-		if (is_array($topicData = $frm->getOneTopic()))
+		if(is_array($topicData = $frm->getOneTopic()))
 		{
 			// Visit-Counter for topic
 			$this->objCurrentTopic->updateVisits();
@@ -1522,7 +1524,7 @@ class ilObjForumGUI extends ilObjectGUI
 			// ********************************************************************************
 			// build location-links
 			include_once('./Modules/Forum/classes/class.ilForumLocatorGUI.php');
-			$frm_loc =& new ilForumLocatorGUI();
+			$frm_loc = new ilForumLocatorGUI();
 			$frm_loc->setRefId($_GET['ref_id']);
 			$frm_loc->setForum($frm);
 			$frm_loc->setThread($this->objCurrentTopic->getId(), $this->objCurrentTopic->getSubject());
@@ -1530,7 +1532,7 @@ class ilObjForumGUI extends ilObjectGUI
 																		 
 			// set tabs					
 			// menu template (contains linkbar, new topic and print thread button)
-			$menutpl =& new ilTemplate('tpl.forums_threads_menu.html', true, true, 'Modules/Forum');
+			$menutpl = new ilTemplate('tpl.forums_threads_menu.html', true, true, 'Modules/Forum');
 			
 			// make/unmake sticky			
 			/*if ($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
@@ -1552,7 +1554,7 @@ class ilObjForumGUI extends ilObjectGUI
 			}*/
 		
 			// mark read
-			if ($forumObj->getCountUnread($ilUser->getId(), (int) $this->objCurrentTopic->getId()))
+			if($forumObj->getCountUnread($ilUser->getId(), (int) $this->objCurrentTopic->getId()))
 			{
 				$menutpl->setCurrentBlock('btn_cell');
 				$this->ctrl->setParameter($this, 'mark_read', '1');
@@ -1560,7 +1562,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$menutpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'showThreadFrameset'));
 				$this->ctrl->clearParameters($this);
 				$t_frame = ilFrameTargetInfo::_getFrame('MainContent');
-				$menutpl->setVariable('BTN_TARGET', "target=\"$t_frame\"");
+				$menutpl->setVariable('BTN_TARGET', ' target="'.$t_frame.'"');
 				$menutpl->setVariable('BTN_TXT', $lng->txt('forums_mark_read'));
 				$menutpl->parseCurrentBlock();
 			}
@@ -1570,12 +1572,12 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->ctrl->setParameterByClass('ilforumexportgui', 'print_thread', $this->objCurrentTopic->getId());
 			$this->ctrl->setParameterByClass('ilforumexportgui', 'thr_top_fk', $this->objCurrentTopic->getForumId());
 			$menutpl->setVariable('BTN_LINK', $this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printThread'));
-			$menutpl->setVariable('BTN_TARGET', "target=\"_new\"");
+			$menutpl->setVariable('BTN_TARGET', ' target="'.$t_frame.'"');
 			$menutpl->setVariable('BTN_TXT', $lng->txt('forums_print_thread'));
 			$menutpl->parseCurrentBlock();
 		
 			// enable/disable notification
-			if ($this->ilias->getSetting('forum_notification') != 0)
+			if($this->ilias->getSetting('forum_notification') != 0)
 			{
 				$menutpl->setCurrentBlock('btn_cell');
 				if ($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
@@ -1589,6 +1591,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 				$menutpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'toggleThreadNotification'));
 				$this->ctrl->clearParameters($this);
+				$menutpl->setVariable('BTN_TARGET', ' target="'.$t_frame.'"');
 				$menutpl->parseCurrentBlock();
 			}
 		
@@ -1671,11 +1674,13 @@ class ilObjForumGUI extends ilObjectGUI
 						}
 					}
 		
-					if ($_SESSION['viewmode_'.$forumObj->getId()] == 'tree')
+					if($_SESSION['viewmode_'.$forumObj->getId()] == 'tree')
 					{
+						$tpl->setCurrentBlock('javascript_block');
 						$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 						$tpl->setVariable('JAVASCRIPT',	$this->ctrl->getLinkTarget($this, 'showExplorer'));
 						$this->ctrl->clearParameters($this);
+						$tpl->parseCurrentBlock();						
 					}
 
 				} // if ($_GET["cmd"] != "ready_censor")
@@ -1723,30 +1728,27 @@ class ilObjForumGUI extends ilObjectGUI
 					$Start = $_GET['offset'];
 				}
 		
-				$linkbar = ilUtil::Linkbar($ilCtrl->getLinkTarget($this, 'viewThread'),
-					$posNum, $pageHits, $Start, $params);
+				$linkbar = ilUtil::Linkbar($ilCtrl->getLinkTarget($this, 'viewThread'), $posNum, $pageHits, $Start, $params);
 
-				if ($linkbar != '')
+				if($linkbar != '')
 				{
 					$menutpl->setCurrentBlock('linkbar');
 					$menutpl->setVariable('LINKBAR', $linkbar);
 					$menutpl->parseCurrentBlock();
 				}
-			}
-		
-			$menutpl->setCurrentBlock('btn_row');
-			$menutpl->parseCurrentBlock();
-			$tpl->setVariable('THREAD_MENU', $menutpl->get());		
+			}		
+
+			$tpl->setVariable('THREAD_MENU', $menutpl->get());
 		
 			// assistance val for anchor-links
 			$jump = 0;
 
 			// generate post-dates
-			foreach ($subtree_nodes as $node)
+			foreach($subtree_nodes as $node)
 			{
 				$this->ctrl->clearParameters($this);
 				
-				if ($this->objCurrentPost->getId() && $this->objCurrentPost->getId() == $node->getId())
+				if($this->objCurrentPost->getId() && $this->objCurrentPost->getId() == $node->getId())
 				{
 					$jump++;
 				}
@@ -1769,21 +1771,21 @@ class ilObjForumGUI extends ilObjectGUI
 					}
 				}
 		
-				if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
+				if(($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 				{				
-					if ($this->objCurrentPost->getId() == $node->getId())
+					if($this->objCurrentPost->getId() == $node->getId())
 					{
-						# actions for "active" post						
+						# actions for "active" post
 						
 						// reply/edit
-						if (!$this->objCurrentTopic->isClosed() && ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit'))
+						if(!$this->objCurrentTopic->isClosed() && ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit'))
 						{
 							// edit attachments
-							if (count($file_obj->getFilesOfPost()) && $_GET['action'] == 'showedit')
+							if(count($file_obj->getFilesOfPost()) && $_GET['action'] == 'showedit')
 							{
-								foreach ($file_obj->getFilesOfPost() as $file)
+								foreach($file_obj->getFilesOfPost() as $file)
 								{
-									$tpl->setCurrentBlock('ATTACHMENT_EDIT_ROW');
+									$tpl->setCurrentBlock('attachment_edit_row');
 									$tpl->setVariable('FILENAME', $file['name']);
 									$tpl->setVariable('CHECK_FILE', ilUtil::formCheckbox(0, 'del_file[]', $file['name']));
 									$tpl->parseCurrentBlock();
@@ -1798,19 +1800,26 @@ class ilObjForumGUI extends ilObjectGUI
 							// add attachments
 							$tpl->setCurrentBlock('reply_attachment');
 							$tpl->setVariable('TXT_ATTACHMENTS_ADD', $lng->txt('forums_attachments_add'));
-							$tpl->setVariable('BUTTON_UPLOAD', $lng->txt('upload'));
+							#$tpl->setVariable('BUTTON_UPLOAD', $lng->txt('upload'));
 							$tpl->parseCurrentBlock();
+							
 							$tpl->setCurrentBlock('reply_post');
 							$tpl->setVariable('REPLY_ANKER', $node->getId());
 		
-							if ($this->objProperties->isAnonymized() && $_GET['action'] == 'showreply')
+							if($this->objProperties->isAnonymized() && $_GET['action'] == 'showreply')
 							{
+								$tpl->setCurrentBlock('alias');
 								$tpl->setVariable('TXT_FORM_ALIAS', $lng->txt('forums_your_name'));
-								$tpl->setVariable('TXT_ALIAS_INFO', $lng->txt('forums_use_alias'));
+								$tpl->setVariable('TXT_ALIAS_INFO', $lng->txt('forums_use_alias'));								
+								$tpl->setVariable('ALIAS_VALUE',  $_GET['show_post'] == 1 ?
+												  ilUtil::prepareFormOutput($_POST['formData']['alias'], true) :
+												  ''
+								);
+								$tpl->parseCurrentBlock();
 							}
 
 							$tpl->setVariable('TXT_FORM_SUBJECT', $lng->txt('forums_subject'));
-							if ($_GET['action'] == 'showreply')
+							if($_GET['action'] == 'showreply')
 							{
 								$tpl->setVariable('TXT_FORM_MESSAGE', $lng->txt('forums_your_reply'));
 							}
@@ -1819,16 +1828,8 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('TXT_FORM_MESSAGE', $lng->txt('forums_edit_post'));
 							}
 
-							if ($_GET['action'] == 'showreply')
+							if($_GET['action'] == 'showreply')
 							{
-								if ($this->objProperties->isAnonymized())
-								{
-									$tpl->setVariable('ALIAS_VALUE',
-										($_GET['show_post'] == 1 ?
-											ilUtil::prepareFormOutput($_POST['formData']['alias'], true) :
-											''));
-								}
-
 								$tpl->setVariable('SUBJECT_VALUE',
 									($_GET['show_post'] == 1 ?
 										$this->forwardInputToOutput($_POST['formData']['subject']) :
@@ -1867,7 +1868,7 @@ class ilObjForumGUI extends ilObjectGUI
 							include_once 'Services/Mail/classes/class.ilMail.php';
 							$umail = new ilMail($_SESSION['AccountId']);
 
-							if ($rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()))
+							if($rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()))
 							{
 								global $ilUser;
 								
@@ -1906,9 +1907,9 @@ class ilObjForumGUI extends ilObjectGUI
 							}
 
 							$tpl->setVariable('SUBMIT', $lng->txt('submit'));							
-							$tpl->setVariable('CANCEL_FORM_TXT', $lng->txt('cancel'));
-														
-							$tpl->setVariable('RESET', $lng->txt('reset'));
+							$tpl->setVariable('CANCEL_FORM_TXT', $lng->txt('cancel'));														
+							#$tpl->setVariable('RESET', $lng->txt('reset'));
+							
 							$this->ctrl->setParameter($this, 'action', 'ready_'.$_GET['action']);
 							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
 							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
@@ -1916,7 +1917,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
 							$tpl->setVariable('FORMACTION',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
 							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock('reply_post');
+							$tpl->parseCurrentBlock();
 		
 						} // if ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit')
 						else if (!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'delete')
@@ -1940,7 +1941,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('DEL_FORM_TARGET', $t_frame);
 								$tpl->setVariable('CANCEL_BUTTON', $lng->txt('cancel'));
 								$tpl->setVariable('CONFIRM_BUTTON', $lng->txt('confirm'));
-								$tpl->parseCurrentBlock('kill_cell');
+								$tpl->parseCurrentBlock();
 							}
 						} // else if ($_GET['action'] == 'delete')
 						else if (!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'censor')
@@ -1975,7 +1976,7 @@ class ilObjForumGUI extends ilObjectGUI
 									$tpl->setVariable('TXT_CENS', $lng->txt('forums_info_censor_post'));
 								}
 	
-								$tpl->parseCurrentBlock('censorship_cell');
+								$tpl->parseCurrentBlock();
 							}
 						}
 						else if (!$this->objCurrentTopic->isClosed() && $this->displayConfirmPostActivation())
@@ -1999,7 +2000,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('CANCEL_BUTTON',$lng->txt('cancel'));
 								$tpl->setVariable('CMD_CANCEL', 'cancelPostActivation');
 								$this->ctrl->clearParameters($this);
-								$tpl->parseCurrentBlock('confirm_activation');
+								$tpl->parseCurrentBlock();
 							}
 						} // else if ($this->displayConfirmPostActivation())
 						/*else if ($this->displayConfirmPostDeactivation())
@@ -2021,7 +2022,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('CANCEL_BUTTON',$lng->txt('cancel'));
 								$tpl->setVariable('CMD_CANCEL', 'cancelPostDeactivation');
 								$this->ctrl->clearParameters($this);
-								$tpl->parseCurrentBlock('confirm_deactivation');
+								$tpl->parseCurrentBlock();
 							}
 						} // else if ($this->displayConfirmPostDeactivation())
 						*/
@@ -2051,7 +2052,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$tpl->setVariable('DEL_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
 							$tpl->setVariable('DEL_BUTTON', $lng->txt('delete'));
 							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock('del_cell');
+							$tpl->parseCurrentBlock();
 						}
 						
 						if (!$this->objCurrentTopic->isClosed() &&
@@ -2067,7 +2068,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$tpl->setVariable('CENS_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
 							$tpl->setVariable('CENS_BUTTON', $lng->txt('censorship'));
 							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock('cens_cell');
+							$tpl->parseCurrentBlock();
 							
 							// button: activation/deactivation							
 							$tpl->setCurrentBlock('activate_deactivate_cell');
@@ -2088,7 +2089,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('ACTIVATE_DEACTIVATE_LINK', $this->ctrl->getLinkTarget($this, 'askForPostActivation', $node->getId()));
 							}			
 							$this->ctrl->clearParameters($this);			
-							$tpl->parseCurrentBlock('activate_deactivate_cell');
+							$tpl->parseCurrentBlock();
 						}
 						
 						// button: edit article
@@ -2106,7 +2107,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
 							$tpl->setVariable('EDIT_BUTTON', $lng->txt('edit'));
 							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock('edit_cell');
+							$tpl->parseCurrentBlock();
 						}			
 						
 						// button: reply
@@ -2123,7 +2124,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$tpl->setVariable('REPLY_LINK',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
 							$tpl->setVariable('REPLY_BUTTON', $lng->txt('reply'));
 							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock('reply_cell');							
+							$tpl->parseCurrentBlock();							
 						}
 						
 						// button: mark read
@@ -2152,16 +2153,7 @@ class ilObjForumGUI extends ilObjectGUI
 							$this->ctrl->clearParameters($this);
 							$tpl->parseCurrentBlock();									
 						}
-					} // if ($this->objCurrentPost->getId() != $node->getId())	
-					
-					// anker for every post					
-					$tpl->setVariable('POST_ANKER', $node->getId());					
-					
-					//permanent link for every post																
-					$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$node->getThreadId()."_".$node->getId()."&client_id=".CLIENT_ID);
-					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
-					$tpl->setVariable('PERMA_TARGET', '_top');
-					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.gif'));					
+					} // if ($this->objCurrentPost->getId() != $node->getId())										
 										
 					// download post attachments
 					$tmp_file_obj =& new ilFileDataForum($forumObj->getId(), $node->getId());
@@ -2188,6 +2180,16 @@ class ilObjForumGUI extends ilObjectGUI
 					}
 		
 					$tpl->setCurrentBlock('posts_row');
+					
+					// anker for every post					
+					$tpl->setVariable('POST_ANKER', $node->getId());					
+					
+					//permanent link for every post																
+					$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$node->getThreadId()."_".$node->getId()."&client_id=".CLIENT_ID);
+					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
+					$tpl->setVariable('PERMA_TARGET', '_top');
+					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.gif'));
+					
 					$rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					if ((  $_GET['action'] != 'delete' && $_GET['action'] != 'censor' && 
 						   #!$this->displayConfirmPostDeactivation() &&						    
@@ -2217,7 +2219,7 @@ class ilObjForumGUI extends ilObjectGUI
 					}				
 					
 					// set row color
-					$tpl->setVariable('ROWCOL', $rowCol);					
+					$tpl->setVariable('ROWCOL', $rowCol);
 		
 					// get author data
 					unset($author);
@@ -2299,15 +2301,15 @@ class ilObjForumGUI extends ilObjectGUI
 							$node->getChangeDate().' - '.strtolower($lng->txt('by')).' '.$edited_author);
 
 					} // if ($node->getUpdateUserId() > 0)					
-					
-					if ($this->objProperties->isAnonymized())
+
+					if($this->objProperties->isAnonymized())
 					{
 						if ($usr_data['login'] != '') $tpl->setVariable('AUTHOR', $usr_data['login']);
 						else $tpl->setVariable('AUTHOR', $lng->txt('forums_anonymous'));
 					}
 					else
 					{
-						if ($node->getUserId())
+						if($node->getUserId())
 						{
 							$user_obj = new ilObjUser($usr_data['usr_id']);
 							// user image
@@ -2322,8 +2324,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('USR_IMAGE', $xthumb_file.'?t='.rand(1, 99999));
 								$tpl->parseCurrentBlock();
 								//$tpl->setCurrentBlock('posts_row');
-							}
-							$tpl->setCurrentBlock('posts_row');
+							}							
 
 							if ($usr_data['public_profile'] == 'n')
 							{
@@ -2352,14 +2353,22 @@ class ilObjForumGUI extends ilObjectGUI
 							$tpl->setVariable('TXT_NUM_POSTS', $lng->txt('forums_posts').':');
 							$tpl->setVariable('NUM_POSTS', $numPosts);
 
-							if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']) && $usr_data['public_profile'] != 'n')
+							if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']) && $usr_data['public_profile'] != 'n')
 							{
 								$tpl->setVariable('USR_NAME', $usr_data['firstname'].' '.$usr_data['lastname']);
+							}
+							
+							if($user_obj->getGender() == 'f')
+							{
+								$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
+							}
+							else if($user_obj->getGender() == 'm')
+							{
+								$tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
 							}
 						}
 						else
 						{
-							$tpl->setCurrentBlock('posts_row');
 							$tpl->setVariable('AUTHOR', $usr_data['login']);
 						}
 					}
@@ -2431,7 +2440,7 @@ class ilObjForumGUI extends ilObjectGUI
 						$tpl->setVariable('POST', "<span class=\"moderator\">".nl2br($node->getCensorshipComment())."</span>");
 					}
 		
-					$tpl->parseCurrentBlock('posts_row');
+					$tpl->parseCurrentBlock();
 		
 				} // if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 		
@@ -2443,22 +2452,20 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			$tpl->setCurrentBlock('posts_no');
 			$tpl->setVAriable('TXT_MSG_NO_POSTS_AVAILABLE', $lng->txt('forums_posts_not_available'));
-			$tpl->parseCurrentBlock('posts_no');
-		}
+			$tpl->parseCurrentBlock();
+		}			
 		
-		$tpl->setCurrentBlock('posttable');
+		$tpl->setCurrentBlock('perma_link_bottom_block');
+		$tpl->setVariable('PERMA_LINK_BOTTOM', ILIAS_HTTP_PATH.'/goto.php?target='.'frm'.'_'.$_GET['ref_id'].'_'.$this->objCurrentTopic->getId().'&client_id='.CLIENT_ID);
+		$tpl->setVariable('TXT_PERMA_LINK_BOTTOM', $lng->txt('perma_link'));
+		$tpl->setVariable('PERMA_TARGET_BOTTOM', '_top');
+		$tpl->parseCurrentBlock();
+		
 		$tpl->setVariable('COUNT_POST', $lng->txt('forums_count_art').': '.$posNum);
 		$tpl->setVariable('TXT_AUTHOR', $lng->txt('author'));
-		$tpl->setVariable('TXT_POST', $lng->txt('forums_thread').': '.$this->objCurrentTopic->getSubject());		
-		$tpl->parseCurrentBlock('posttable');
+		$tpl->setVariable('TXT_POST', $lng->txt('forums_thread').': '.$this->objCurrentTopic->getSubject());
 		
 		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);
-		
-		$tpl->setCurrentBlock('perma_link');
-		$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$_GET["ref_id"]."_".$this->objCurrentTopic->getId()."&client_id=".CLIENT_ID);
-		$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
-		$tpl->setVariable('PERMA_TARGET', '_top');
-		$tpl->parseCurrentBlock();
 		
 		return true;
 	}
