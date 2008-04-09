@@ -455,11 +455,17 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited, a.il_Containe
 }
 
 /*Link, Visited, Hover, Focus, Activ*/
-a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited, a.il_ContainerItemCommand2:hover
+a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited
 {
 	font-size: 100%;
-	text-decoration: underline;
+	text-decoration: none;
+	border-bottom: 1px dotted #2020C0;
+	margin: 0px 0px 0px 3px;
 	white-space: nowrap;
+}
+a.il_ContainerItemCommand2:hover
+{
+	border-bottom: 1px solid #000000;
 }
 
 div.il_ContainerItemCommands2

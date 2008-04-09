@@ -48,6 +48,8 @@ class ilNoteGUI
 	function ilNoteGUI($a_rep_obj_id = "", $a_obj_id = "", $a_obj_type = "", $a_include_subobjects = false)
 	{
 		global $ilCtrl, $lng;
+		
+		$lng->loadLanguageModule("notes");
 
 		$this->rep_obj_id = $a_rep_obj_id;
 		$this->obj_id = $a_obj_id;
@@ -83,6 +85,24 @@ class ilNoteGUI
 			IL_NOTE_CONTRA => array(
 				"img" => ilUtil::getImagePath("note_contra.gif"),
 				"alt" => $lng->txt("note").", ".$lng->txt("contra"))
+			);
+			
+		$this->comment_img = array(
+			IL_NOTE_UNLABELED => array(
+				"img" => ilUtil::getImagePath("comment_unlabeled.gif"),
+				"alt" => $lng->txt("notes_comment")),
+			IL_NOTE_IMPORTANT => array(
+				"img" => ilUtil::getImagePath("comment_important.gif"),
+				"alt" => $lng->txt("notes_comment").", ".$lng->txt("important")),
+			IL_NOTE_QUESTION => array(
+				"img" => ilUtil::getImagePath("comment_question.gif"),
+				"alt" => $lng->txt("notes_comment").", ".$lng->txt("question")),
+			IL_NOTE_PRO => array(
+				"img" => ilUtil::getImagePath("comment_pro.gif"),
+				"alt" => $lng->txt("notes_comment").", ".$lng->txt("pro")),
+			IL_NOTE_CONTRA => array(
+				"img" => ilUtil::getImagePath("comment_contra.gif"),
+				"alt" => $lng->txt("notes_comment").", ".$lng->txt("contra"))
 			);
 	}
 	
@@ -155,7 +175,9 @@ class ilNoteGUI
 	*/
 	function getNotesHTML()
 	{
-		global $ilUser;
+		global $ilUser, $lng;
+		
+		$lng->loadLanguageModule("notes");
 
 		$ntpl = new ilTemplate("tpl.notes_and_comments.html", true, true,
 			"Services/Notes");
@@ -174,7 +196,7 @@ class ilNoteGUI
 	}
 
 	/**
-	* get notes list as html code
+	* get notes/comments list as html code
 	*/
 	function getNoteListHTML($a_type = IL_NOTE_PRIVATE)
 	{
@@ -211,7 +233,14 @@ class ilNoteGUI
 			? " (".count($all_notes).")"
 			: "";
 		
-		$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_note.gif"));
+		if ($a_type == IL_NOTE_PUBLIC)
+		{
+			$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_comment.gif"));
+		}
+		else
+		{
+			$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_note.gif"));
+		}
 		if ($this->delete_note)
 		{
 			$tpl->setVariable("TXT_NOTES", $lng->txt("info_delete_sure"));
@@ -219,14 +248,16 @@ class ilNoteGUI
 		else if ($a_type == IL_NOTE_PRIVATE)
 		{
 			$tpl->setVariable("TXT_NOTES", $lng->txt("private_notes").$cnt_str);
+			$tpl->setVariable("A_NAME", "notes_top");
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
 		}
 		else
 		{
-			$tpl->setVariable("TXT_NOTES", $lng->txt("public_notes").$cnt_str);
+			$tpl->setVariable("TXT_NOTES", $lng->txt("notes_public_comments").$cnt_str);
+			$tpl->setVariable("A_NAME", "comments_top");
 			$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PUBLIC);
 		}
-		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
+		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this, "getNotesHTML", "notes_top"));
 		
 		if ($this->export_html || $this->print)
 		{
@@ -241,7 +272,14 @@ class ilNoteGUI
 			if (!$this->inc_sub)	// we cannot offer add button if aggregated notes
 			{						// are displayed
 				$tpl->setCurrentBlock("add_note_btn");
-				$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("add_note"));
+				if ($a_type == IL_NOTE_PUBLIC)
+				{
+					$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("notes_add_comment"));
+				}
+				else
+				{
+					$tpl->setVariable("TXT_ADD_NOTE", $lng->txt("add_note"));
+				}
 				$tpl->setVariable("LINK_ADD_NOTE", $ilCtrl->getLinkTargetByClass("ilnotegui", "addNoteForm").
 					"#note_edit");
 				$tpl->parseCurrentBlock();
@@ -255,8 +293,16 @@ class ilNoteGUI
 			if ($ilUser->getPref("notes_".$suffix) == "n")
 			{
 				$tpl->setCurrentBlock("show_notes");
-				$tpl->setVariable("LINK_SHOW_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "showNotes"));
-				$tpl->setVariable("TXT_SHOW_NOTES", $lng->txt("show_".$suffix."_notes"));
+				$tpl->setVariable("LINK_SHOW_NOTES",
+					$this->ctrl->getLinkTargetByClass("ilnotegui", "showNotes", "notes_top"));
+				if ($a_type == IL_NOTE_PUBLIC)
+				{
+					$tpl->setVariable("TXT_SHOW_NOTES", $lng->txt("notes_show_comments"));
+				}
+				else
+				{
+					$tpl->setVariable("TXT_SHOW_NOTES", $lng->txt("show_".$suffix."_notes"));
+				}
 				$tpl->parseCurrentBlock();
 			}
 			else
@@ -265,8 +311,16 @@ class ilNoteGUI
 				if (($ilUser->getId() != ANONYMOUS_USER_ID))
 				{
 					$tpl->setCurrentBlock("hide_notes");
-					$tpl->setVariable("LINK_HIDE_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "hideNotes"));
-					$tpl->setVariable("TXT_HIDE_NOTES", $lng->txt("hide_".$suffix."_notes"));
+					$tpl->setVariable("LINK_HIDE_NOTES",
+						$this->ctrl->getLinkTargetByClass("ilnotegui", "hideNotes", "notes_top"));
+					if ($a_type == IL_NOTE_PUBLIC)
+					{
+						$tpl->setVariable("TXT_HIDE_NOTES", $lng->txt("notes_hide_comments"));
+					}
+					else
+					{
+						$tpl->setVariable("TXT_HIDE_NOTES", $lng->txt("hide_".$suffix."_notes"));
+					}
 					$tpl->parseCurrentBlock();
 					
 					// show all public notes / my notes only switch
@@ -275,15 +329,17 @@ class ilNoteGUI
 						if ($ilUser->getPref("notes_pub_all") == "n")
 						{
 							$tpl->setCurrentBlock("all_pub_notes");
-							$tpl->setVariable("LINK_ALL_PUB_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "showAllPublicNotes"));
-							$tpl->setVariable("TXT_ALL_PUB_NOTES", $lng->txt("note_all_pub_notes"));
+							$tpl->setVariable("LINK_ALL_PUB_NOTES",
+								$this->ctrl->getLinkTargetByClass("ilnotegui", "showAllPublicNotes", "notes_top"));
+							$tpl->setVariable("TXT_ALL_PUB_NOTES", $lng->txt("notes_all_comments"));
 							$tpl->parseCurrentBlock();
 						}
 						else
 						{
 							$tpl->setCurrentBlock("my_pub_notes");
-							$tpl->setVariable("LINK_MY_PUB_NOTES", $this->ctrl->getLinkTargetByClass("ilnotegui", "showMyPublicNotes"));
-							$tpl->setVariable("TXT_MY_PUB_NOTES", $lng->txt("note_my_pub_notes"));
+							$tpl->setVariable("LINK_MY_PUB_NOTES",
+								$this->ctrl->getLinkTargetByClass("ilnotegui", "showMyPublicNotes", "notes_top"));
+							$tpl->setVariable("TXT_MY_PUB_NOTES", $lng->txt("notes_my_comments"));
 							$tpl->parseCurrentBlock();
 						}
 					}
@@ -296,7 +352,14 @@ class ilNoteGUI
 		{
 			$tpl->setCurrentBlock("edit_note");
 			$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-			$tpl->setVariable("TXT_NOTE", $lng->txt("note"));
+			if ($a_type == IL_NOTE_PUBLIC)
+			{
+				$tpl->setVariable("TXT_NOTE", $lng->txt("notes_comment"));
+			}
+			else
+			{
+				$tpl->setVariable("TXT_NOTE", $lng->txt("note"));
+			}
 			$tpl->setVariable("NOTE_SUBJECT", "");
 			$tpl->setVariable("SUB_NOTE", "sub_note");
 			$tpl->setVariable("TA_NOTE", "note");
@@ -330,7 +393,14 @@ class ilNoteGUI
 				{
 					$tpl->setCurrentBlock("edit_note_form");
 					$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-					$tpl->setVariable("TXT_NOTE", $lng->txt("note"));
+					if ($a_type == IL_NOTE_PUBLIC)
+					{
+						$tpl->setVariable("TXT_NOTE", $lng->txt("notes_comment"));
+					}
+					else
+					{
+						$tpl->setVariable("TXT_NOTE", $lng->txt("note"));
+					}
 					$tpl->setVariable("NOTE_SUBJECT",
 						ilUtil::prepareFormOutput($note->getSubject()));
 					$tpl->setVariable("SUB_NOTE", "sub_note");
@@ -430,10 +500,16 @@ class ilNoteGUI
 					$tpl->setVariable("CNT_COL", $cnt_col);
 					
 					// output author account
-					if ($a_type == IL_NOTE_PUBLIC)
+					if ($a_type == IL_NOTE_PUBLIC && ilObject::_exists($note->getAuthor()))
 					{
 						$tpl->setCurrentBlock("author");
 						$tpl->setVariable("VAL_AUTHOR", ilObjUser::_lookupLogin($note->getAuthor()));
+						$tpl->parseCurrentBlock();
+						$tpl->setCurrentBlock("user_img");
+						$tpl->setVariable("USR_IMG",
+							ilObjUser::_getPersonalPicturePath($note->getAuthor(), "xxsmall"));
+						$tpl->setVariable("USR_ALT",
+							ilObjUser::_lookupLogin($note->getAuthor()));
 						$tpl->parseCurrentBlock();
 					}
 					
@@ -466,8 +542,16 @@ class ilNoteGUI
 					if (!$this->export_html && !$this->print)
 					{
 						$tpl->setCurrentBlock("note_img");
-						$tpl->setVariable("IMG_NOTE", $this->note_img[$note->getLabel()]["img"]);
-						$tpl->setVariable("ALT_NOTE", $this->note_img[$note->getLabel()]["alt"]);
+						if ($a_type == IL_NOTE_PUBLIC)
+						{
+							$tpl->setVariable("IMG_NOTE", $this->comment_img[$note->getLabel()]["img"]);
+							$tpl->setVariable("ALT_NOTE", $this->comment_img[$note->getLabel()]["alt"]);
+						}
+						else
+						{
+							$tpl->setVariable("IMG_NOTE", $this->note_img[$note->getLabel()]["img"]);
+							$tpl->setVariable("ALT_NOTE", $this->note_img[$note->getLabel()]["alt"]);
+						}
 						$tpl->parseCurrentBlock();
 					}
 					else
