@@ -34,9 +34,9 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analysis_options#:#Analysis options###23 Dec 2005 new variable
-administration#:#analyze_data#:#Analyser data integritet.###23 Dec 2005 content changed
-administration#:#analyzing#:#Analysere...
+administration#:#analysis_options#:#Analyse indstillinger
+administration#:#analyze_data#:#Analyser data integritet.
+administration#:#analyzing#:#Analyserer...
 administration#:#analyzing_tree_structure#:#Analysere træ struktur...
 administration#:#check_tree#:#Check træ struktur
 administration#:#check_tree_desc#:#Check konsistens af hele træ strukturen. Afhængig af træ størrelsen kan dette tage et par minutter!
@@ -46,9 +46,9 @@ administration#:#cleaning#:#Renser....
 administration#:#cleaning_final#:#Sidste rensning...
 administration#:#disabled#:#Ikke aktiveret
 administration#:#done#:#Færdig
-administration#:#dump_tree#:#Dump tree###23 Dec 2005 new variable
+administration#:#dump_tree#:#Dump træ
 administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.###23 Dec 2005 new variable
-administration#:#dumping_tree#:#Dumping tree...###23 Dec 2005 new variable
+administration#:#dumping_tree#:#Dumper træ
 administration#:#found#:#fundet.
 administration#:#found_none#:#ingen fundet.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
@@ -154,31 +154,31 @@ common#:#res_links#:#Repository Links###23 08 2007 new variable
 common#:#short_inst_name#:#Short Title###02 04 2007 new variable
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###25 02 2007 new variable
-common#:#access_unlimited#:#unlimited###25 02 2007 new variable
-common#:#usr_limited_access_only#:#Users with limited access only###25 02 2007 new variable
-common#:#usr_without_courses#:#Users without courses assigned###25 02 2007 new variable
+common#:#access_unlimited#:#ubegrænset
+common#:#usr_limited_access_only#:#Kun brugere med begrænset adgang
+common#:#usr_without_courses#:#Brugere uden kurser
 common#:#disabled#:#Ikke tilsluttet
 common#:#options#:#Indstillinger###Faneblad i mail
-common#:#search_results#:#Search results###09 06 2007 new variable
+common#:#search_results#:#Søgeresultater
 common#:#action#:#Handling
 common#:#apply#:#Godkend
 common#:#by#:#Af
-common#:#user_profile_instant_messengers#:#Contacts to Instant Messengers###25 02 2007 new variable
-common#:#instant_messengers#:#Instant Messengers###25 02 2007 new variable
+common#:#user_profile_instant_messengers#:#Kontakt til Instant Messengers
+common#:#instant_messengers#:#Instant Messengers###Har beholdt orinalt ord
 common#:#im_icq#:#ICQ
 common#:#im_yahoo#:#Yahoo
 common#:#im_msn#:#MSN
 common#:#im_aim#:#AIM
 common#:#im_skype#:#Skype
-common#:#im_icq_icon#:#ICQ Logo###25 02 2007 new variable
-common#:#im_yahoo_icon#:#Yahoo Logo###25 02 2007 new variable
-common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
-common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
-common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
-common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
-common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
-common#:#width#:#Width###29 05 2007 new variable
-common#:#height#:#Height###29 05 2007 new variable
+common#:#im_icq_icon#:#ICQ Logo
+common#:#im_yahoo_icon#:#Yahoo Logo
+common#:#im_msn_icon#:#MSN Logo
+common#:#im_aim_icon#:#AIM Logo
+common#:#im_skype_icon#:#Skype Logo
+common#:#not_enabled_or_configured#:#Ikke konfigureret eller aktiveret
+common#:#fold_create_grp#:#Tilføj ny gruppe
+common#:#width#:#bredde
+common#:#height#:#højde
 common#:#create_date#:#Oprettet på
 common#:#edit_content#:#Rediger indhold
 common#:#edit_properties#:#Egenskaber
@@ -187,8 +187,8 @@ common#:#filter#:#Filter:###21 Apr 2005 new variable
 common#:#last_update#:#Sidste opdatering
 common#:#legend#:#Legend
 common#:#please_select#:#-- Vælg --
-common#:#select_max_one_item#:#Please select one item only###21 Apr 2005 new variable
-common#:#set_edit_mode#:#Set Edit Mode###29 11 2006 new variable
+common#:#select_max_one_item#:#Vælg venligst kun en
+common#:#set_edit_mode#:#Sæt redigeringsmåde
 common#:#term#:#Term###21 Apr 2005 new variable
 common#:#anonymous#:#Anonym
 common#:#day#:#Dag
@@ -197,9 +197,9 @@ common#:#delete#:#Slet
 common#:#edit#:#Rediger
 common#:#from#:#Fra
 common#:#hours#:#time(r)
-common#:#login#:#Login###21 Apr 2005 new variable
+common#:#login#:#Login
 common#:#month#:#Måned
-common#:#months#:#Months
+common#:#months#:#Måneder
 common#:#note#:#Note
 common#:#save#:#Gem
 common#:#status#:#Status
@@ -303,14 +303,14 @@ common#:#announce#:#Annoncer
 common#:#announce_changes#:#Annoncer ændringer
 common#:#answers#:#Svar
 common#:#any_language#:#alle slags sprog
-common#:#append_search#:#Append search results###23 Dec 2005 new variable
-common#:#application_completed#:#Formularen er gennemført
+common#:#append_search#:#Læg til søgeresultater
+common#:#application_completed#:#Formularen er udført
 common#:#application_date#:#Formulardato
 common#:#applied_users#:#Godkendte brugere
 common#:#apply_filter#:#Godkend filter
 common#:#appointment#:#Aftale
 common#:#appointment_list#:#Aftaleliste
-common#:#approve_date#:#Godkendt den###20 Jun 2005 content changed
+common#:#approve_date#:#Godkendt den
 common#:#approve_recipient#:#Login ID på administratoren
 common#:#archive#:#Arkiver
 common#:#are_you_sure#:#Er du sikker?
@@ -491,7 +491,7 @@ common#:#objs_mcst#:#MediaCasts
 common#:#mcst_new#:#Ny mediaCast
 common#:#mcst_add#:#Tilføj mediaCast
 common#:#obj_pdts#:#Skrivebords indstillinger
-common#:#obj_pdts_desc#:#Configure the Personal Desktop###02 04 2007 new variable
+common#:#obj_pdts_desc#:#Konfigurer det personlige skrivebord
 common#:#move_blocks#:#Flyt blokke
 common#:#stop_moving_blocks#:#Stop blokflytning
 common#:#cat_a#:#en kategori
@@ -556,9 +556,9 @@ common#:#chac_write#:#Rediger chatindstillinger
 common#:#change#:#Ret
 common#:#change_active_assignment#:#ændre aktiv opgave
 common#:#change_assignment#:#Skift tildelinger
-common#:#perm_special_options#:#Special Options###25 02 2007 new variable
+common#:#perm_special_options#:#Særligt
 common#:#change_existing_objects#:#Ændrer eksisterende objekter
-common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.###25 02 2007 new variable
+common#:#change_existing_objects_desc#:#Rettighedsindstillingerne for denne rolle vil blive anvendt på ALLE eksisterende objekter. Hvis du kun ønsker at ændre rettighederne for specifikke objekttyper så vælg i afkrydsboksene til højre for objekttypen.
 common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.###25 02 2007 new variable
 common#:#change_existing_prefix#:#Change existing###25 02 2007 new variable
 common#:#change_existing_suffix#:#&nbsp;###25 02 2007 new variable
@@ -582,7 +582,7 @@ common#:#chat_add#:#Tilføj chat
 common#:#chat_delete#:#Slet chat
 common#:#chat_edit_permission#:#Rediger rettighedsindstillinger
 common#:#chat_invite#:#Chat###Mangler i officiel version
-common#:#chat_moderate#:#Moderer chat###01 Jul 2005 new variable
+common#:#chat_moderate#:#Moderer chat
 common#:#chat_new#:#Ny chat
 common#:#chat_read#:#Læse/skriveadgang til chat
 common#:#chat_users_active#:#Active users
@@ -611,10 +611,10 @@ common#:#choose_only_one_language#:#Vælg venligst kun et sprog
 common#:#chown_warning#:#Obs, du kan miste adgangsrettigheder til dette objekt efter ændring af ejer.
 common#:#city#:#By
 common#:#cleaned_file#:#Filen er renset.
-common#:#cleaning_failed#:#Cleaning failed.###21 Apr 2005 new variable
+common#:#cleaning_failed#:#Rensning fejlede.
 common#:#clear#:#Ryd
 common#:#clear_clipboard#:#Tom udklipsholder
-common#:#client#:#Client###21 Apr 2005 new variable
+common#:#client#:#Klient
 common#:#client_id#:#Klient ID
 common#:#client_ip#:#Klient IP
 common#:#clipboard#:#Udklipsholder
@@ -4091,7 +4091,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-pd#:#pd_enable_bookmarks#:#Enable Bookmarks###16 08 2007 new variable
+pd#:#pd_enable_bookmarks#:#Aktiver foretrukne
 pd#:#pd_enable_notes#:#Enable Notes###16 08 2007 new variable
 mcst#:#mcst_add_new_item#:#Add New Media Cast Item###02 04 2007 new variable
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.###02 04 2007 new variable
@@ -4165,8 +4165,8 @@ feed#:#block_feed_block_title#:#Title###25 02 2007 new variable
 feed#:#block_feed_block_feed_url#:#Feed URL###25 02 2007 new variable
 feed#:#feed_no_valid_url#:#The Feed URL is not valid.###10 05 2007 new variable
 feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php###25 02 2007 new variable
-pdesk#:#bm_num_bookmarks#:#Bookmark(s)###25 02 2007 new variable
-pdesk#:#bm_num_bookmark_folders#:#Folder(s)###25 02 2007 new variable
+pdesk#:#bm_num_bookmarks#:#Foretrukne
+pdesk#:#bm_num_bookmark_folders#:#Folder(e)
 pdesk#:#pdesk_intro#:#Velkommen til dit skrivebord!
 pdesk#:#pdesk_intro2#:#Dette er dit personlige sted til at organisere læring og arbejde. Du kan placere resurser fra andre områder her. Det kræver kun to skridt:
 pdesk#:#pdesk_intro3#:#Klik på '%s' og gennemse de arbejds og læreresurser. 
@@ -4190,8 +4190,8 @@ gmaps#:#gmaps_public_profile_info#:#Vis placering i offentlig profil
 gmaps#:#gmaps_enable_gmaps#:#Aktiver Google Maps
 gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.###02 04 2007 new variable
 gmaps#:#gmaps_zoom_level#:#Zoom niveau
-gmaps#:#gmaps_settings#:#Google Maps Settings###25 02 2007 new variable
-gmaps#:#gmaps_extt_gmaps#:#Google Maps###25 02 2007 new variable
+gmaps#:#gmaps_settings#:#Google Maps indstillinger
+gmaps#:#gmaps_extt_gmaps#:#Google Maps
 gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:###25 02 2007 new variable
 gmaps#:#gmaps_std_location#:#Standardplacering
 gmaps#:#gmaps_std_location_desc#:#Brede / længdegrad. Klik på kortet for at sætte position.
@@ -4199,12 +4199,12 @@ jsmath#:#jsmath_extt_jsmath#:#jsMath
 jsmath#:#jsmath_settings#:#jsMath indstillinger
 jsmath#:#jsmath_enable_jsmath#:#Aktiver jsMath
 jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.###29 05 2007 new variable
-jsmath#:#jsmath_path_to_jsmath#:#Path to jsMath###29 05 2007 new variable
+jsmath#:#jsmath_path_to_jsmath#:#Sti to jsMath###29 05 2007 new variable
 jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;###29 05 2007 new variable
 jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!###29 05 2007 new variable
 jsmath#:#jsmath_enable_user#:#Enable jsMath support###29 05 2007 new variable
 jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.###29 05 2007 new variable
-jsmath#:#jsmath_default_setting#:#Use as default###29 05 2007 new variable
+jsmath#:#jsmath_default_setting#:#Brug som standard
 jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.###29 05 2007 new variable
 jsmath#:#jsmath_no_javascript#:#If you don't see the correct mathematical formula next to this hint, then you have jsMath output enabled but your web browser doesn't support JavaScript or JavaScript is disabled. To see mathematical formulae, please activate JavaScript in your web browser and reload this page or go to <strong>Personal Desktop &gt; Personal Profile &gt; jsMath</strong> and disable jsMath output.###29 05 2007 new variable
 content#:#HTML export#:#HTMLeksport
@@ -4218,7 +4218,7 @@ content#:#citate#:#Citate
 content#:#citate_from#:#Citate From ...
 content#:#citate_page#:#Citate this Page
 content#:#citate_to#:#Citate To ...
-content#:#cont_Additional#:#Additional###21 Apr 2005 new variable
+content#:#cont_Additional#:#Yderligere
 content#:#cont_Circle#:#Cirkel
 content#:#cont_Citation#:#Citation###21 Apr 2005 new variable
 content#:#cont_Code#:#Kode
@@ -4253,10 +4253,10 @@ content#:#cont_api_adapter#:#API Adapter Navn
 content#:#cont_api_func_prefix#:#API Funktioner Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.###21 Apr 2005 new variable
 content#:#cont_assign_full#:#Assign Fullscreen
-content#:#cont_assign_std#:#Assign Standard###21 Apr 2005 new variable
+content#:#cont_assign_std#:#Tildel standard
 content#:#cont_assign_translation#:#Tildel Oversættelse
 content#:#cont_assignments_deleted#:#Opgaverne er blevet slettet
-content#:#cont_autoindent#:#Auto Indent###21 Apr 2005 new variable
+content#:#cont_autoindent#:#Automatisk indrykning
 content#:#cont_back#:#Tilbage
 content#:#cont_booktitle#:#Bogtitel
 content#:#cont_bottom#:#Bund
@@ -4356,17 +4356,17 @@ content#:#cont_ed_item_down#:#move item down###21 Apr 2005 new variable
 content#:#cont_ed_item_up#:#move item up###21 Apr 2005 new variable
 content#:#cont_ed_moveafter#:#flyt efter
 content#:#cont_ed_movebefore#:#move before###21 Apr 2005 new variable
-content#:#cont_ed_new_col_after#:#new column after###21 Apr 2005 new variable
-content#:#cont_ed_new_col_before#:#new column before###21 Apr 2005 new variable
-content#:#cont_ed_new_item_after#:#new item after###21 Apr 2005 new variable
-content#:#cont_ed_new_item_before#:#new item before###21 Apr 2005 new variable
-content#:#cont_ed_new_row_after#:#new row after###21 Apr 2005 new variable
-content#:#cont_ed_new_row_before#:#new row before###21 Apr 2005 new variable
-content#:#cont_ed_paste_clip#:#paste from clipboard###21 Apr 2005 new variable
-content#:#cont_ed_row_down#:#move row down###21 Apr 2005 new variable
-content#:#cont_ed_row_up#:#move row up###21 Apr 2005 new variable
-content#:#cont_ed_split_page#:#split to new page###21 Apr 2005 new variable
-content#:#cont_ed_split_page_next#:#split to next page###21 Apr 2005 new variable
+content#:#cont_ed_new_col_after#:#ny kolonne efter
+content#:#cont_ed_new_col_before#:#ny kolonne efter
+content#:#cont_ed_new_item_after#:#nyt element efter
+content#:#cont_ed_new_item_before#:#nyt element før
+content#:#cont_ed_new_row_after#:#ny række efter
+content#:#cont_ed_new_row_before#:#ny række før
+content#:#cont_ed_paste_clip#:#indsæt fra udklipsholder
+content#:#cont_ed_row_down#:#flyt række ned
+content#:#cont_ed_row_up#:#flyt række op
+content#:#cont_ed_split_page#:#split til ny side
+content#:#cont_ed_split_page_next#:#split til næste side
 content#:#cont_ed_width#:#Bredde
 content#:#cont_edit_area#:#Rediger Område
 content#:#cont_edit_file_list_properties#:#Rediger egenskaber for fil liste
@@ -4380,7 +4380,7 @@ content#:#cont_edit_tab_properties#:#Egenskaber for tables
 content#:#cont_edit_term#:#Rediger søgeord
 content#:#cont_edition#:#Edition###21 Apr 2005 new variable
 content#:#cont_empty_mep_folder#:#Der er ingen medie objekter i denne folder.
-content#:#cont_enable_js#:#JavaScript active###21 Apr 2005 new variable
+content#:#cont_enable_js#:#JavaScript aktiv
 content#:#cont_enable_media#:#Aktiver Media
 content#:#cont_export_files#:#Eksporterede Filer
 content#:#cont_external#:#eksternt
@@ -4486,27 +4486,27 @@ content#:#cont_nr_items#:#Antal ting
 content#:#cont_nr_rows#:#Antal linjer
 content#:#cont_obj_removed#:#Objekter er fjernede.
 content#:#cont_offline#:#Offline Versioner
-content#:#cont_offline_files#:#Offline versions###21 Apr 2005 new variable
-content#:#cont_offline_versions#:#Offline Versions###21 Apr 2005 new variable
-content#:#cont_online#:#Online###21 Apr 2005 new variable
-content#:#cont_or#:#or###21 Apr 2005 new variable
+content#:#cont_offline_files#:#Offline versioner
+content#:#cont_offline_versions#:#Offline versioner
+content#:#cont_online#:#Online
+content#:#cont_or#:#eller
 content#:#cont_order#:#Bestil Type
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationer
 content#:#cont_orig_size#:#Original Størrelse
 content#:#cont_page_deactivated#:#Page is deactivated.
 content#:#cont_page_deactivated_elements#:#Page contains deactivated elements.
-content#:#cont_page_header#:#Page Header###21 Apr 2005 new variable
-content#:#cont_page_link#:#Page Link###11 Mar 2005 new variable
+content#:#cont_page_header#:#Sidehoved
+content#:#cont_page_link#:#Sidelink
 content#:#cont_page_select_target_now#:#Side er markeret til flytning. Vælg destination nu.
 content#:#cont_pages#:#Sider
-content#:#cont_parameter#:#Parameter###21 Apr 2005 new variable
-content#:#cont_parameters#:#parametrer
-content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
+content#:#cont_parameter#:#Parameter
+content#:#cont_parameters#:#parametre
+content#:#cont_paste_from_clipboard#:#Indsæt fra udklipsholder
 content#:#cont_personal_clipboard#:#Personlig udklipsholder
 content#:#cont_pg_content#:#Sideindhold
 content#:#cont_pg_title#:#Side Titel
-content#:#cont_please_select#:#please select###21 Apr 2005 new variable
+content#:#cont_please_select#:#Vælg venligst
 content#:#cont_prereq_type#:#adlcp:prerequisites.type###21 Apr 2005 new variable
 content#:#cont_prerequisites#:#adlcp:prerequisites###21 Apr 2005 new variable
 content#:#cont_preview#:#Se eksempel
@@ -4516,23 +4516,23 @@ content#:#cont_public_notes#:#Offentlige noter
 content#:#cont_public_notes_desc#:#Allow users to share notes on every page of the learning module.
 content#:#cont_publisher#:#Udgiver
 content#:#cont_purpose#:#Formåler
-content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)###21 Apr 2005 new variable
+content#:#cont_ref_helptext#:#(f.eks. http://www.server.org/mitbillede.jpg)
 content#:#cont_ref_images#:#Referenced Images###21 Apr 2005 new variable
 content#:#cont_remove_fullscreen#:#fjern fuldskærm
 content#:#cont_removeiln#:#really remove internal link ?###21 Apr 2005 new variable
-content#:#cont_repository_item#:#Repository Item###21 Apr 2005 new variable
-content#:#cont_repository_item_links#:#Repository Item Links###21 Apr 2005 new variable
+content#:#cont_repository_item#:#Oversigts element
+content#:#cont_repository_item_links#:#Links til oversigts elementer
 content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
 content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
-content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Skaler billeder
 content#:#cont_resource#:#Resourcer
-content#:#cont_resource_type#:#type###21 Apr 2005 new variable
+content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resourcer
 content#:#cont_rvalue#:#Værdie
 content#:#cont_saved_map_area#:#Gemt kort område
 content#:#cont_saved_map_data#:#Gemt område data
 content#:#cont_sc_auto_review#:#Sæt til lære mode 'se review' hvis bruger har gennemført SCO
-content#:#cont_sc_less_mode_browse#:#Browse###21 Apr 2005 new variable
+content#:#cont_sc_less_mode_browse#:#Gennemse
 content#:#cont_sc_less_mode_normal#:#Normal###21 Apr 2005 new variable
 content#:#cont_sc_stat_browsed#:#Set igennem
 content#:#cont_sc_stat_completed#:#Gennemført
@@ -4543,7 +4543,7 @@ content#:#cont_sc_stat_passed#:#Bestået
 content#:#cont_sc_stat_running#:#Kører
 content#:#cont_sc_title#:#titel
 content#:#cont_school#:#Skole
-content#:#cont_score#:#Score###21 Apr 2005 new variable
+content#:#cont_score#:#Resultat
 content#:#cont_scorm_type#:#adlcp:scormtype###21 Apr 2005 new variable
 content#:#cont_select_item#:#Vælg mindst et obejkt.
 content#:#cont_select_max_one_item#:#Vælg kun en ting
@@ -4557,12 +4557,12 @@ content#:#cont_series#:#Serier
 content#:#cont_series_editor#:#Seriens redaktør
 content#:#cont_series_title#:#Seriens titel
 content#:#cont_series_volume#:#Seriens volume
-content#:#cont_set_after#:#insert after###21 Apr 2005 new variable
+content#:#cont_set_after#:#insæt efter
 content#:#cont_set_before#:#indsæt før
-content#:#cont_set_cancel#:#fortryd###21 Apr 2005 new variable
+content#:#cont_set_cancel#:#fortryd
 content#:#cont_set_class#:#Sæt klasse
 content#:#cont_set_edit_mode#:#Sæt til rediger Mode
-content#:#cont_set_into#:#insert into###21 Apr 2005 new variable
+content#:#cont_set_into#:#indsæt i
 content#:#cont_set_link#:#Rediger Link
 content#:#cont_set_shape#:#Rediger form
 content#:#cont_set_start_file#:#Sæt Start Fil
@@ -4605,10 +4605,10 @@ content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
 content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_emp#:#Emphatic Text:###29 Jun 2005 new variable
 content#:#cont_text_fn#:#Fodnote
-content#:#cont_text_iln#:#Internal Link, e.g.:###29 Jun 2005 new variable
+content#:#cont_text_iln#:#Internt link, f.eks: 
 content#:#cont_text_quot#:#Spørgsmål
-content#:#cont_text_str#:#Strong Text:###29 Jun 2005 new variable
-content#:#cont_text_tex#:#LaTeX Code:###05 10 2006 new variable
+content#:#cont_text_str#:#Fed tekst:
+content#:#cont_text_tex#:#LaTeX kode:
 content#:#cont_text_xln#:#External Link:###29 Jun 2005 new variable
 content#:#cont_time#:#Tid
 content#:#cont_time_limit_action#:#adlcp:timelimitaction###21 Apr 2005 new variable
@@ -4626,27 +4626,27 @@ content#:#cont_tree_fixed#:#Træstrukturen er blevet ordnet
 content#:#cont_update#:#Opdater
 content#:#cont_update_names#:#Opdateringsnavne
 content#:#cont_upload_file#:#Upload Fil
-content#:#cont_url#:#URL###21 Apr 2005 new variable
+content#:#cont_url#:#URL
 content#:#cont_usage#:#Usage
 content#:#cont_users_have_mob_in_clip1#:#Dette media objekt er i udklipsholderen til
 content#:#cont_users_have_mob_in_clip2#:#Bruger(ere).
 content#:#cont_validate_file#:#Godkend fil
-content#:#cont_version#:#version###21 Apr 2005 new variable
+content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Sidste Export Log
 content#:#cont_where_published#:#Udgivet
 content#:#cont_width#:#Bredde
 content#:#cont_wysiwyg#:#Indhold Wysiwyg
 content#:#cont_xml_base#:#xml:base###21 Apr 2005 new variable
 content#:#cont_year#:#år
-content#:#cont_zip_file_invalid#:#File is not a valid import file.<br>It does not contain a file '%s'.###20 Jul 2005 new variable
+content#:#cont_zip_file_invalid#:#Filen er ikke en gyldig fil til import.<br>Indeholder ikke en fil '%s'.
 content#:#copied_to_clipboard#:#Kopierede objekter til udklipholder.
 content#:#dgl_pagebreak#:#Pagebreak
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#The following resources linking to that term###20 Jun 2005 new variable
-content#:#lm_menu_edit_entry#:#Edit menu entry###21 Apr 2005 new variable
-content#:#lm_menu_entry_target#:#Target###21 Apr 2005 new variable
+content#:#lm_menu_edit_entry#:#Rediger menupunkt
+content#:#lm_menu_entry_target#:#Mål
 content#:#lm_menu_entry_title#:#Titel
-content#:#lm_menu_new_entry#:#Create a new menu entry###21 Apr 2005 new variable
+content#:#lm_menu_new_entry#:#Opret nyt menupunkt
 content#:#lm_menu_select_internal_object#:#Select internal object >>###21 Apr 2005 new variable
 content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu###21 Apr 2005 new variable
 content#:#msg_entry_added#:#Menu entry added###21 Apr 2005 new variable
@@ -4794,14 +4794,14 @@ crs#:#crs_header_remove_from_waiting_list#:#Venteliste: sæt bruger af
 crs#:#crs_hide_link_lms#:#Hide learning materials###21 Apr 2005 new variable
 crs#:#crs_hide_link_objectives#:#Hide objectives###21 Apr 2005 new variable
 crs#:#crs_hide_link_or#:#Hide other resources###21 Apr 2005 new variable
-crs#:#crs_hide_link_tst#:#Hide tests###21 Apr 2005 new variable
+crs#:#crs_hide_link_tst#:#Skjul tests
 crs#:#crs_html#:#HTML###21 Apr 2005 new variable
 crs#:#crs_important_info#:#Important Informations
 crs#:#crs_info_download#:#Filer til download
-crs#:#crs_info_reg#:#Registreringsinformation###23 Dec 2005 content changed
+crs#:#crs_info_reg#:#Registreringsinformation
 crs#:#crs_info_reg_confirmation#:#Dette kursus kræver godkendelse fra en kursus administrator. Du vil modtage en besked hvis du bliver godkendt.###23 Dec 2005 content changed
 crs#:#crs_info_reg_deactivated#:#Registrering er ikke mulig
-crs#:#crs_info_reg_direct#:#Det er nødvendigt at registrere sig til dette kursus###23 Dec 2005 content changed
+crs#:#crs_info_reg_direct#:#Det er nødvendigt at registrere sig til dette kursus
 crs#:#crs_info_reg_password#:#Registrering kræver et gyldigt password.
 crs#:#crs_info_settings#:#Kursusinformationer
 crs#:#crs_info_start#:#Please work through all of the course items stated below.<br />After you have processed all red marked objects new course items will be activated.###21 Apr 2005 new variable
@@ -4821,7 +4821,7 @@ crs#:#crs_mem_send_mail#:#Send mail###21 Apr 2005 new variable
 crs#:#crs_member#:#Medlem
 crs#:#crs_member_administration#:#Rediger kursusdeltagere
 crs#:#crs_member_blocked#:#Medlem (blokeret)
-crs#:#crs_member_of#:#Member of course:###18 Aug 2005 new variable
+crs#:#crs_member_of#:#Medlem af kursus:
 crs#:#crs_member_unblocked#:#Medlem (ublokeret)
 crs#:#crs_member_updated#:#Medlemmet er blevet opdateret
 crs#:#crs_members#:#Members
@@ -4844,14 +4844,14 @@ crs#:#crs_new_subscription_request_body2#:#You have to call the member administr
 crs#:#crs_no_archive_selected#:#Ingen arkiver valgt
 crs#:#crs_no_archives_available#:#Ingen arkiver til rådighed
 crs#:#crs_no_archives_selected#:#Vælg venligst et arkiv
-crs#:#crs_no_chapter_selected#:#Please select a chapter.###21 Apr 2005 new variable
-crs#:#crs_no_exercises#:#No exercises found inside this course###29 05 2007 new variable
+crs#:#crs_no_chapter_selected#:#Vælg venligst et kapitel
+crs#:#crs_no_exercises#:#Ingen øvelser fundet i dette kursus
 crs#:#crs_no_groupings_assigned#:#Der er ikke knyttet grupper til dette kursus
 crs#:#crs_no_groups_selected#:#Vælg venligst en gruppe
 crs#:#crs_no_items_found#:#Ingen genstande
 crs#:#crs_no_language#:#Intet sprog
-crs#:#crs_no_lm_selected#:#Please select one learning material.###21 Apr 2005 new variable
-crs#:#crs_no_lms_assigned#:#There are no learning materials assigned.###21 Apr 2005 new variable
+crs#:#crs_no_lm_selected#:#Vælg venligst et læremateriale
+crs#:#crs_no_lms_assigned#:#Der er ingen lærematerialer tilknyttet
 crs#:#crs_no_lms_inside_course#:#No learning materials found inside this course.###28 Feb 2006 new variable
 crs#:#crs_no_lms_inside_crs#:#No learning materials inside this course, which can be assigned to this learning objective.###21 Apr 2005 new variable
 crs#:#crs_no_member_selected#:#Vælg venligst et medlem
@@ -5408,7 +5408,7 @@ exercise#:#exc_notgraded#:#Not Graded
 exercise#:#exc_passed#:#Bestået
 exercise#:#exc_send_mail#:#Send mail
 exercise#:#exc_your_submission#:#Aflevering af opgave
-exercise#:#exc_crs_add_members#:#Add students of this course###08 12 2006 new variable
+exercise#:#exc_crs_add_members#:#Tilføj studerende af dette kursus
 forum#:#forums#:#Fora###
 forum#:#forums_overview#:#Forum oversigt
 forum#:#frm_statistics_ranking#:#Ranking
@@ -5474,9 +5474,9 @@ forum#:#frm_statistics_enabled_desc#:#Aktiver poststatistik for alle deltagere
 forum#:#frm_title_required#:#Indsæt venligst en titel.
 forum#:#is_read#:#marker som læst
 forum#:#new_post#:#Nyt indlæg
-forum#:#frm_wizard_page#:#Copy Forum (Step 2/2)###25 02 2007 new variable
-forum#:#fmr_copy_threads_info#:#You have the possibility to copy single threads. Only the beginning of the chosen threads will be duplicated.###25 02 2007 new variable
-forum#:#forums_notification_disabled#:#Notification disable###13 06 2007 new variable
+forum#:#frm_wizard_page#:#Kopier forum (Skridt 2/2)
+forum#:#fmr_copy_threads_info#:#Du har mulighed for at kopiere enkelte tråde. Kun begyndelsen af de valgte tråde vil blive kopieret.
+forum#:#forums_notification_disabled#:#Advisering deaktiveret
 grp#:#crs_add_grouping#:#Add Membership Limitation###07 09 2006 new variable
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?###07 09 2006 new variable
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.###07 09 2006 new variable
@@ -5488,10 +5488,10 @@ grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
 grp#:#crs_grp_table_assigned_courses#:#Assigned Groups###05 10 2006 new variable
 grp#:#grp_registration_unlimited#:#Ubegrænset registrering
 grp#:#crs_grp_added_grouping#:#Added new membership limitation.###07 09 2006 new variable
-grp#:#grp_map_settings#:#Map Settings###02 04 2007 new variable
-grp#:#grp_enable_map#:#Enable Group Map###02 04 2007 new variable
-grp#:#grp_members_map#:#Group Members Map###02 04 2007 new variable
-grp#:#grp_map_location#:#Group Map Location###02 04 2007 new variable
+grp#:#grp_map_settings#:#Kort indstillinger
+grp#:#grp_enable_map#:#Aktiver gruppekort
+grp#:#grp_members_map#:#Kort over gruppemedlemmer
+grp#:#grp_map_location#:#Gruppekort placering
 grp#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
 ilinc#:#ilinc_member_administration#:#Edit Participants###29 11 2006 new variable
 ilinc#:#akclassvalue1#:#Cost center 1
@@ -5543,18 +5543,18 @@ jscalendar#:#part_today#:#(idag)
 jscalendar#:#prev_month#:#Tidligere måned (hold for menu)
 jscalendar#:#prev_year#:#Tidligere år (hold for menu)
 jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb###21 Apr 2005 new variable
-jscalendar#:#s_03#:#Mar###21 Apr 2005 new variable
-jscalendar#:#s_04#:#Apr###21 Apr 2005 new variable
+jscalendar#:#s_02#:#Feb
+jscalendar#:#s_03#:#Mar
+jscalendar#:#s_04#:#Apr
 jscalendar#:#s_05#:#Maj
-jscalendar#:#s_06#:#Jun###21 Apr 2005 new variable
-jscalendar#:#s_07#:#Jul###21 Apr 2005 new variable
-jscalendar#:#s_08#:#Aug###21 Apr 2005 new variable
-jscalendar#:#s_09#:#Sep###21 Apr 2005 new variable
+jscalendar#:#s_06#:#Jun
+jscalendar#:#s_07#:#Jul
+jscalendar#:#s_08#:#Aug
+jscalendar#:#s_09#:#Sep
 jscalendar#:#s_10#:#Okt
-jscalendar#:#s_11#:#Nov###21 Apr 2005 new variable
-jscalendar#:#s_12#:#Dec###21 Apr 2005 new variable
-jscalendar#:#s_fr#:#Fr###21 Apr 2005 new variable
+jscalendar#:#s_11#:#Nov
+jscalendar#:#s_12#:#Dec
+jscalendar#:#s_fr#:#Fr
 jscalendar#:#s_mo#:#Ma
 jscalendar#:#s_sa#:#Lø
 jscalendar#:#s_su#:#Sø
@@ -5566,7 +5566,7 @@ jscalendar#:#time_part#:#(Shift-)klik eller træk for at ændre værdi
 jscalendar#:#tt_date_format#:#%a, %b %e###21 Apr 2005 new variable
 jscalendar#:#wk#:#wk###21 Apr 2005 new variable
 mail#:#also_as_email#:#Også som Email
-mail#:#bc#:#BCC###21 Apr 2005 new variable
+mail#:#bc#:#BCC
 mail#:#forward#:#Videresend
 mail#:#linebreak#:#Karakterer før linieskift
 mail#:#mail_account_mail#:#Account Mail
@@ -5577,13 +5577,13 @@ mail#:#mail_add_subject#:#Indtast et emne
 mail#:#mail_add_to_addressbook#:#Tilføj til adressebog
 mail#:#mail_add_type#:#Vælg venligst hvilken type mail du vil sende
 mail#:#mail_addr_entries#:#Emne
-mail#:#mail_mailing_lists_no_addressbook_entries#:#You have not any addressbook entries yet.###16 08 2007 new variable
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#You have already assigned all of your addressbook entries to this mailing list.###16 08 2007 new variable
+mail#:#mail_mailing_lists_no_addressbook_entries#:#Du har endnu ingen poster i din adressebog
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Du har allerede tilføjet hele din adressebog til denne mailinglist
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List###16 08 2007 new variable
 mail#:#mail_attachments#:#Vedhæftninger
 mail#:#mail_bc_not_valid#:#BCC modtageren er ikke gyldig
 mail#:#mail_bc_search#:#BCC søgning
-mail#:#mail_byte#:#Byte###21 Apr 2005 new variable
+mail#:#mail_byte#:#Bytes
 mail#:#mail_cc_not_valid#:#CC modtageren er ugyldig
 mail#:#mail_cc_search#:#CC søgning
 mail#:#mail_change_to_folder#:#Skift til mappe:
@@ -5601,10 +5601,10 @@ mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address 
 mail#:#mail_file_name#:#Filnavn
 mail#:#mail_file_size#:#Fil størrelse
 mail#:#mail_files_deleted#:#Filen/filerne er slettet
-mail#:#mail_folder_edit#:#Edit Folder###09 07 2007 new variable
+mail#:#mail_folder_edit#:#Rediger folder
 mail#:#mail_folder_created#:#Ny mappe oprettet
 mail#:#mail_folder_deleted#:#Mappe slettet
-mail#:#mail_folder_exists#:#En mappe med samme navn eksisterer
+mail#:#mail_folder_exists#:#En mappe med samme navn eksisterer i forvejen
 mail#:#mail_folder_name#:#Mappe navn
 mail#:#mail_folder_name_changed#:#Mappen er blevet omdøbt
 mail#:#mail_folder_options#:#Mappe Egenskaber
@@ -5647,11 +5647,11 @@ mail#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIA
 mail#:#mail_options_of#:#Egenskaber
 mail#:#mail_options_saved#:#Egenskaber gemt
 mail#:#mail_recipient_not_valid#:#Modtageren er ugyldig
-mail#:#mail_s#:#Mail###21 Apr 2005 new variable
+mail#:#mail_s#:#Mail
 mail#:#mail_s_unread#:#Ulæste Mail
-mail#:#mail_salutation_female#:#Salutation, female
-mail#:#mail_salutation_general#:#Salutation, general
-mail#:#mail_salutation_male#:#Salutation, male
+mail#:#mail_salutation_female#:#Velkomst, kvinder
+mail#:#mail_salutation_general#:#Velkomst, generelt
+mail#:#mail_salutation_male#:#Velkomst, mænd
 mail#:#mail_saved#:#Meddelelsen er gemt
 mail#:#mail_search_addressbook#:#søg i adressebogen
 mail#:#mail_search_system#:#søg i systemet
@@ -5664,10 +5664,10 @@ mail#:#mail_sure_delete_file#:#Filen vil blive slettet permanent
 mail#:#mail_sure_delete_folder#:#Mappen og dens indhold vil blive slettet permant
 mail#:#mail_to#:#Til
 mail#:#mail_user_addr_n_valid#:#Følgende brugere har ingen gyldig email adresse
-mail#:#mail_empty_trash#:#Empty Trash###09 07 2007 new variable
-mail#:#mail_empty_trash_confirmation#:#Are you sure you want to delete all mails in trash?###09 07 2007 new variable
-mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.###16 08 2007 new variable
-mail#:#mail_received_x_new_mails#:#You received %s new mails.###16 08 2007 new variable
+mail#:#mail_empty_trash#:#Tøm skrald
+mail#:#mail_empty_trash_confirmation#:#Er du sikker på du vil slette alle beskeder i din skraldespand?
+mail#:#mail_cronjob_notification_info#:#Du kan aktivere periodiske adviseringer omkring nye beskeder her.
+mail#:#mail_received_x_new_mails#:#Du har modtaget %s nye beskeder.
 mail#:#search_bc_recipient#:#Søg BCC modtager
 mail#:#search_cc_recipient#:#Søg CC modtager
 mail#:#send_mail_to#:#Mail til
@@ -5781,7 +5781,7 @@ meta#:#meta_c_GF#:#French Guiana###21 Apr 2005 new variable
 meta#:#meta_c_GH#:#Ghana###21 Apr 2005 new variable
 meta#:#meta_c_GI#:#Gibraltar###21 Apr 2005 new variable
 meta#:#meta_c_GL#:#Grønland
-meta#:#meta_c_GM#:#Gambia###21 Apr 2005 new variable
+meta#:#meta_c_GM#:#Gambia
 meta#:#meta_c_GN#:#Guinea###21 Apr 2005 new variable
 meta#:#meta_c_GP#:#Guadeloupe###21 Apr 2005 new variable
 meta#:#meta_c_GQ#:#Equatorial Guinea###21 Apr 2005 new variable
@@ -5794,7 +5794,7 @@ meta#:#meta_c_GY#:#Guyana###21 Apr 2005 new variable
 meta#:#meta_c_HM#:#Heard And Nc Donald Islands###21 Apr 2005 new variable
 meta#:#meta_c_HN#:#Honduras###21 Apr 2005 new variable
 meta#:#meta_c_HR#:#Kroatien
-meta#:#meta_c_HT#:#Haiti###21 Apr 2005 new variable
+meta#:#meta_c_HT#:#Haiti
 meta#:#meta_c_HU#:#Ungarn
 meta#:#meta_c_ID#:#Indonesien
 meta#:#meta_c_IE#:#Irland
@@ -6565,12 +6565,12 @@ payment#:#pays_bmf_timeout#:#Timeout###16 08 2007 new variable
 payment#:#pays_updated_bmf_settings#:#Your settings for BMF were updated.###16 08 2007 new variable
 payment#:#pays_bmf_settings_not_valid#:#Your settings for BMF aren't valid. Please check out whether all fields are filled out correctly.###16 08 2007 new variable
 pwassist#:#password_assistance#:#Password Hjælp
-pwassist#:#pwassist_enter_email#:#Indtast venligst din emailadresse og tryk på <b>udfør</b>. ILIAS sender en email til adressen med alle de registrerede brugernavne der anvender denne. Vælg derefter det ønskede brugernavn og brug <i>password service</i> til at få et nyt password. Hvis du ikke modtager en mail, så kontakt venligst din kursusadministrator eller %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilhørende e-mail adresse i felterne nedenfor.\nILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.
+pwassist#:#pwassist_enter_email#:#Indtast venligst din emailadresse og tryk på <b>udfør</b>. ILIAS sender en email til adressen med den/de registrerede brugernavne som er tilknyttet. Vælg derefter det ønskede brugernavn og brug <i>password service</i> til at få et nyt password. Hvis du ikke modtager en mail, så kontakt venligst din kursusadministrator eller %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilhørende e-mail adresse i felterne nedenfor.<br>ILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.
 pwassist#:#pwassist_invalid_email#:#Venligst ret din email addresse.\nDen angivne email addresse blev ikke fundet i databasen
 pwassist#:#pwassist_invalid_username_or_email#:#Check venligst de udfyldte felter. Brugernavn og Emailadressen du har indtastet matcher ikke nogen i databasen.
-pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###26 10 2006 new variable
+pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
 pwassist#:#pwassist_login_not_match#:#Indtast venligst et andet brugernavn.\nDet brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for.
 pwassist#:#pwassist_mail_body#:#Skift password på din brugerkonto:\n\t%1$s\n\nDenne besked er lavet automatisk af ILIAS serveren på %2$s\n\nDu (eller en person med ip %3$s) har bedt om password asistance til brugerkontoen %4$s.\n\nHvis du har aktiveret hjælp ved en fejltagelse kan du blot ignorere denne mail. Hvis du mistænker forsøg på indbrud på din konto kan du kontakte systemadministrator på %5$s. Hvis du ønsker at fortsætte indtast venligst \n%1$s\ni din browser. Bemærk at det skal være 1 linje men dit mailprogram muligvis har opdelt den.\n\nPå websiden skal du herefter vælge dit nye password til din konto.\n\nBemærk at denne service kun er tilgængelig i en begrænset periode af sikkerhedshensyn.
 pwassist#:#pwassist_mail_sent#:#En besked er blevet sendt til %1$s med instruktioner om hvordan du kommer videre.
@@ -6588,7 +6588,7 @@ rbac#:#filter_local_roles#:#Vis kun lokale roller i nuværende kontekst
 rbac#:#filter_local_roles_object#:#Vis kun lokale roller defineret på denne position
 rbac#:#filter_roles_local_policy#:#Vis kun roller der besidder en lokal rettighed på dette sted
 rbac#:#info_user_view_changed#:#User view changed###23 Mar 2006 new variable
-rbac#:#leave#:#Leave###23 Dec 2005 new variable
+rbac#:#leave#:#Forlad
 rbac#:#msg_no_roles_of_type#:#Ingen roller med det valgte filter
 rbac#:#perm_administrate#:#Administrer
 rbac#:#perm_class_create#:#Opret nyt objekt
