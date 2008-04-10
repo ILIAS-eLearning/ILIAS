@@ -1,0 +1,86 @@
+{FREQUENCE}
+<table class="nobackground">
+	<tbody>
+		<tr id="sub_DAILY_1">
+			<td class="std" style="padding-left: 40px">
+				{TXT_EVERY} <input type="text" 
+					name="count_DAILY" 
+					value="{COUNT_DAILY_VAL}" 
+					size="2" 
+					maxlength="3" style="text-align:right" /> {TXT_DAILY_FREQ_UNIT}
+					<hr />
+			</td>
+		</tr>
+		<tr id="sub_WEEKLY_1">
+			<td class="std" style="padding-left: 40px">
+				{TXT_EVERY} <input type="text" 
+					name="count_WEEKLY" 
+					value="{COUNT_WEEKLY_VAL}" 
+					size="2" maxlength="3" style="text-align:right" /> {TXT_WEEKLY_FREQ_UNIT}
+			</td>
+		</tr>
+		<tr id="sub_WEEKLY_2">
+			<td class="std" style="padding-left: 40px">
+				{TXT_ON}&nbsp;&nbsp; <!-- BEGIN byday_simple --> <font class="small">{TXT_DAY_SHORT}</font><input type="checkbox" 
+					name="byday_WEEKLY[]"
+					value="{BYDAY_WEEKLY_VAL}"
+					{BYDAY_WEEKLY_CHECKED} /><!-- END byday_simple -->
+					<hr />
+			</td>
+		</tr>
+		<tr id="sub_MONTHLY_1">
+			<td class="std" style="padding-left: 40px">
+				{TXT_EVERY} <input type="text" 
+					name="count_MONTHLY" 
+					value="{COUNT_MONTHLY_VAL}" 
+					size="2" maxlength="3" style="text-align:right" /> {TXT_MONTHLY_FREQ_UNIT}
+			</td>
+		</tr>
+		<tr id="sub_MONTHLY_2">
+			<td class="std" style="padding-left: 40px">
+				<input type="radio" {M_BYDAY_CHECKED} name="subtype_MONTHLY" value="1" /> {TXT_ON_THE} {SELECT_BYDAY_NUM_MONTHLY} {SEL_BYDAY_DAY_MONTHLY}
+			</td>
+		</tr>
+		<tr id="sub_MONTHLY_3">
+			<td class="std" style="padding-left: 40px">
+				<input type="radio" {M_BYMONTHDAY_CHECKED} name="subtype_MONTHLY" value="2" /> {TXT_ON_THE} {SELECT_BYMONTHDAY} {TXT_SUFFIX}
+				<hr />
+			</td>
+		</tr>
+		<tr id="sub_YEARLY_1">
+			<td class="std" style="padding-left: 40px">
+				{TXT_EVERY} <input type="text" 
+					name="count_YEARLY" 
+					value="{COUNT_YEARLY_VAL}" 
+					size="2" maxlength="3" style="text-align:right" /> {TXT_YEARLY_FREQ_UNIT}
+			</td>
+		</tr>
+		<tr id="sub_YEARLY_2">
+			<td class="std" style="padding-left: 40px" nowrap="nowrap">
+				<input type="radio" {Y_BYDAY_CHECKED} name="subtype_YEARLY" value="1" /> {TXT_ON_THE} {SELECT_BYDAY_NUM_YEARLY} {SELECT_BYDAY_DAY_YEARLY} {TXT_IN} {SELECT_BYMONTH_BYDAY}
+			</td>
+		</tr>
+		<tr id="sub_YEARLY_3">
+			<td class="std" style="padding-left: 40px">
+				<input type="radio" {Y_BYMONTHDAY_CHECKED} name="subtype_YEARLY" value="2" /> {TXT_ON_THE} {SELECT_BYMONTHDAY_NUM_YEARLY} {SELECT_BYMONTH_YEARLY}
+				<hr />
+			</td>
+		</tr>
+		<tr id="sub_UNTIL_1">
+			<td class="std" style="padding-left: 40px">
+				<input type="radio" {UNTIL_NO_CHECKED} name="until_type" value="1" /> {TXT_NO_ENDING}
+			</td>
+		</tr>
+		<tr id="sub_UNTIL_2">
+			<td class="std" style="padding-left: 40px">
+				<input type="radio" {UNTIL_COUNT_CHECKED} name="until_type" value="2" />{TXT_UNTIL_CREATE} <input type="text" size="2" maxlength="2" name="count" value="{VAL_COUNT}" /> {TXT_APPOINTMENTS}
+			</td>
+		</tr>
+		
+	</tbody>
+</table>
+			
+			
+		
+		
+			

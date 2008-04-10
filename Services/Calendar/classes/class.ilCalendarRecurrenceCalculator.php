@@ -149,6 +149,13 @@ class ilCalendarRecurrenceCalculator
 	 	}
 	 	while(true);
 
+		// Add start of event if it is in the period
+		if(ilDateTime::_after($this->event->getStart(),$this->period_start,IL_CAL_DAY) and
+			ilDateTime::_before($this->event->getStart(),$this->period_end,IL_CAL_DAY) or 1)
+		{
+			$this->valid_dates->add($this->event->getStart());
+		}
+
 		$this->valid_dates->sort();
 			
 		// Restore default timezone
@@ -547,13 +554,24 @@ class ilCalendarRecurrenceCalculator
 					$day_sequence = $this->getYearWeekDays($seed);
 					break;
 					
-				default:
+				case ilCalendarRecurrence::FREQ_MONTHLY:
 					$day_sequence = $this->getMonthWeekDays($seed_info['year'],$seed_info['mon']);
 					break;
-			}
 
+				case ilCalendarRecurrence::FREQ_WEEKLY:
+					// TODO or RFC bug: FREQ>WEEKLY;BYMONTH=1;BYDAY=FR returns FR 1.2.2008
+					// Ical says: apply BYMONTH rules and after that apply byday rules on that date list.    
+					$day_sequence = $this->getWeekWeekDays($seed_info);
+					break;
+
+				case ilCalendarRecurrence::FREQ_DAILY:
+					$day_sequence[strtoupper(substr($seed->get(IL_CAL_FKT_DATE,'D'),0,2))] = array($seed_info['yday']);
+					break;
+
+			}
 			foreach($this->recurrence->getBYDAYList() as $byday)
 			{
+				$year_day = array();
 				$day =  strtoupper(substr($byday,-2));
 				$num_by_day = (int) $byday;
 				
@@ -576,17 +594,25 @@ class ilCalendarRecurrenceCalculator
 				}
 				else
 				{
-					$year_day = $day_sequence[$day];
+					if(isset($day_sequence[$day]))
+					{
+						$year_day = $day_sequence[$day];
+					}
 				}
 				foreach($year_day as $day)
 				{
-					$tmp_date = clone $start;
-					#echo "DAY: ".$day.'<br>';
-					#echo 'VOR'.$tmp_date;
-					$tmp_date->increment(IL_CAL_DAY,$day);
-					#echo 'NACH'.$tmp_date;
-					
-					$days_list->add($tmp_date);
+					switch($this->frequence_context)
+					{
+						case ilCalendarRecurrence::FREQ_WEEKLY:
+						case ilCalendarRecurrence::FREQ_DAILY:
+						case ilCalendarRecurrence::FREQ_MONTHLY:
+						case ilCalendarRecurrence::FREQ_YEARLY:
+							$tmp_date = clone $start;
+							$tmp_date->increment(IL_CAL_DAY,$day);
+							$days_list->add($tmp_date);
+							break;
+					}
+
 				}
 			}
 		}
@@ -625,7 +651,6 @@ class ilCalendarRecurrenceCalculator
 			$year_days[$current_day][] = $i;
 			next($days);
 		}
-		
 		return $year_days;
 	}
 	
@@ -664,6 +689,25 @@ class ilCalendarRecurrenceCalculator
 			next($days);
 		}
 		return $month_days[$year][$month];
+	}
+	
+	/**
+	 * get weedays of week
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function getWeekWeekDays($seed_info)
+	{
+		$days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA');
+		
+		$start_day = $seed_info['yday'] - $seed_info['wday'];
+		foreach($days as $num => $day)
+		{
+			$week_days[$day][] = $start_day++;
+		}
+		return $week_days;
 	}
 	
 	

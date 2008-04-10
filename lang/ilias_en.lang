@@ -7971,5 +7971,37 @@ dateplaner#:#cal_fullday_title#:#No time specified
 dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_new_app#:#New Appointment
 dateplaner#:#cal_add_appointment#:#Create Appointment
+dateplaner#:#cal_recurrences#:#Recurrences
+dateplaner#:#cal_every#:#Every:
+dateplaner#:#cal_day_s#:#Day(s)
+dateplaner#:#cal_week_s#:#Week(s)
+dateplaner#:#cal_month_s#:#Month(s)
+dateplaner#:#cal_year_s#:#Year(s)
+dateplaner#:#cal_no_recurrences#:#No Recurrences
+dateplaner#:#cal_daily#:#Daily
+dateplaner#:#cal_weekly#:#Weekly
+dateplaner#:#cal_monthly#:#Monthly
+dateplaner#:#cal_yearly#:#Yearly
+dateplaner#:#cal_on#:#On:
+dateplaner#:#cal_on_the#:#On the:
+dateplaner#:#cal_first#:#First
+dateplaner#:#cal_second#:#Second
+dateplaner#:#cal_third#:#Third
+dateplaner#:#cal_fourth#:#Fourth
+dateplaner#:#cal_fifth#:#Fifth
+dateplaner#:#cal_last#:#Last
+dateplaner#:#cal_in#:#in
+dateplaner#:#cal_edit_category#:#Edit Calendar
+dateplaner#:#cal_calendar_name#:#Title
+dateplaner#:#cal_calendar_color#:#Color
+dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?
+dateplaner#:#cal_no_ending#:#No End Date
+dateplaner#:#cal_create#:#Create
+dateplaner#:#cal_appointments#:#Appointment(s)
 forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
+dateplaner#:#cal_assigned_appointments#:#Assigned Appointments
+dateplaner#:#cal_no_recurrence#:#No Recurrence
+dateplaner#:#cal_add_category#:#Create New Calendar
+dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
+dateplaner#:#cal_duration#:#Duration

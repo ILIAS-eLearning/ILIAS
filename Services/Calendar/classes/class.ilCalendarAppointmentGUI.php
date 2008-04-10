@@ -39,6 +39,7 @@ class ilCalendarAppointmentGUI
 	protected $default_fulltime = true;
 	
 	protected $app = null;
+	protected $rec = null;
 	protected $timezone = null;
 	
 	protected $tpl;
@@ -112,6 +113,7 @@ class ilCalendarAppointmentGUI
 		global $ilUser;
 		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceGUI.php');
 		$this->form = new ilPropertyFormGUI();
 		
 		switch($a_mode)
@@ -122,6 +124,7 @@ class ilCalendarAppointmentGUI
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
 				$this->form->addCommandButton('save',$this->lng->txt('cal_add_appointment'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('add','Debug');
 				break;
 
 			case 'edit':
@@ -129,10 +132,11 @@ class ilCalendarAppointmentGUI
 				$this->ctrl->saveParameter($this,array('seed','app_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
+				$this->form->addCommandButton('askDelete',$this->lng->txt('delete'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+				$this->form->addCommandButton('edit','Debug');
 				break;
 		}
-		
 		// title
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setValue($this->app->getTitle());
@@ -158,25 +162,32 @@ class ilCalendarAppointmentGUI
 		$calendar->setOptions(ilCalendarCategories::_prepareCategoriesOfUserForSelection($ilUser->getId()));
 		$this->form->addItem($calendar);
 		
+		$fullday = new ilCheckboxInputGUI($this->lng->txt('cal_fullday'),'fullday');
+		$fullday->setChecked($this->app->isFullday() ? true : false);
+		$fullday->setOptionTitle($this->lng->txt('cal_fullday_title'));
+		$this->form->addItem($fullday);
+
 		$start = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'start');
 		$start->setDate($this->app->getStart()->get(IL_CAL_DATE,'',$this->timezone));
 		$start->setShowTime(true);
 		$start->setMinuteStepSize(5);
 		$start->setTime($this->app->getStart()->get(IL_CAL_FKT_DATE,'H:i:s',$this->timezone));
-		$this->form->addItem($start);
+		$fullday->addSubItem($start);
 		
 		$end = new ilDateTimeInputGUI($this->lng->txt('cal_end'),'end');
 		$end->setDate($this->app->getEnd()->get(IL_CAL_DATE,'',$this->timezone));
 		$end->setTime($this->app->getEnd()->get(IL_CAL_FKT_DATE,'H:i:s',$this->timezone));
 		$end->setShowTime(true);
 		$end->setMinuteStepSize(5);
-		$this->form->addItem($end);
+		$fullday->addSubItem($end);
 		
-		$fullday = new ilCheckboxInputGUI($this->lng->txt('cal_fullday'),'fullday');
-		$fullday->setChecked($this->app->isFullday() ? true : false);
-		$fullday->setOptionTitle($this->lng->txt('cal_fullday_title'));
-		$this->form->addItem($fullday);
+		// Recurrence
+		include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
+		$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
+		$rec->setRecurrence($this->rec);
+		$this->form->addItem($rec);
 		
+	
 		$where = new ilTextInputGUI($this->lng->txt('cal_where'),'location');
 		$where->setValue($this->app->getLocation());
 		$where->setMaxLength(128);
@@ -217,6 +228,8 @@ class ilCalendarAppointmentGUI
 		if($this->app->validate())
 		{
 			$this->app->save();
+			$this->rec->setEntryId($this->app->getEntryId());
+			$this->saveRecurrenceSettings();
 			
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
@@ -256,6 +269,7 @@ class ilCalendarAppointmentGUI
 		if($this->app->validate())
 		{
 			$this->app->update();
+			$this->saveRecurrenceSettings();
 			
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
@@ -267,6 +281,48 @@ class ilCalendarAppointmentGUI
 		}
 		$this->edit();
 		
+	}
+	
+	/**
+	 * ask delete
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function askDelete()
+	{
+		global $tpl;
+		
+		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+		
+		$this->ctrl->saveParameter($this,array('seed','app_id'));
+	
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
+		$confirm->setCancel($this->lng->txt('cancel'),'edit');
+		$confirm->setConfirm($this->lng->txt('delete'),'delete');
+		$confirm->addItem('appointments[]',$this->app->getEntryId(),$this->app->getTitle());
+		$tpl->setContent($confirm->getHTML());
+		
+	}
+	
+	/**
+	 * delete
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function delete()
+	{
+		foreach($_POST['appointments'] as $app)
+		{
+			$app = new ilCalendarEntry($app);
+			$app->delete();
+		}
+		ilUtil::sendInfo($this->lng->txt('cal_deleted_app'),true);
+		$this->ctrl->returnToParent($this);
 	}
 	
 	/**
@@ -323,6 +379,7 @@ class ilCalendarAppointmentGUI
 	protected function initAppointment($a_app_id = 0)
 	{
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
 		$this->app = new ilCalendarEntry($a_app_id);
 		
 		if(!$a_app_id)
@@ -341,6 +398,12 @@ class ilCalendarAppointmentGUI
 			}
 			$this->app->setEnd($seed_end);
 			$this->app->setFullday($this->default_fulltime);
+			
+			$this->rec = new ilCalendarRecurrence();
+		}
+		else
+		{
+			$this->rec = ilCalendarRecurrences::_getFirstRecurrence($this->app->getEntryId());
 		}
 		
 	}
@@ -353,7 +416,7 @@ class ilCalendarAppointmentGUI
 	 * @return
 	 */
 	protected function load()
-	{$this->app->update();
+	{
 		$this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->app->setLocation(ilUtil::stripSlashes($_POST['location']));
 		$this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
@@ -387,6 +450,140 @@ class ilCalendarAppointmentGUI
 			$end_dt['minutes'] = (int) $_POST['end']['time']['m'];
 			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE,$this->timezone);
 			$this->app->setEnd($end);
+		}
+		$this->loadRecurrenceSettings();
+	}
+	
+	/**
+	 * load recurrence settings
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function loadRecurrenceSettings()
+	{
+		$this->rec->reset();
+		
+		switch($_POST['frequence'])
+		{
+			case IL_CAL_FREQ_DAILY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_DAILY']);
+				break;
+			
+			case IL_CAL_FREQ_WEEKLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_WEEKLY']);
+				if(is_array($_POST['byday_WEEKLY']))
+				{
+					$this->rec->setBYDAY(ilUtil::stripSlashes(implode(',',$_POST['byday_WEEKLY'])));
+				}				
+				break;
+
+			case IL_CAL_FREQ_MONTHLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_MONTHLY']);
+				switch((int) $_POST['subtype_MONTHLY'])
+				{
+					case 0:
+						// nothing to do;
+						break;
+					
+					case 1:
+						$this->rec->setBYDAY((int) $_POST['monthly_byday_num'].$_POST['monthly_byday_day']);
+						break;
+					
+					case 2:
+						$this->rec->setBYMONTHDAY((int) $_POST['monthly_bymonthday']);
+						break;
+				}
+				break;			
+			
+			case IL_CAL_FREQ_YEARLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_YEARLY']);
+				switch((int) $_POST['subtype_YEARLY'])
+				{
+					case 0:
+						// nothing to do;
+						break;
+					
+					case 1:
+						$this->rec->setBYMONTH((int) $_POST['yearly_bymonth_byday']);
+						$this->rec->setBYDAY((int) $_POST['yearly_byday_num'].$_POST['yearly_byday']);
+						break;
+					
+					case 2:
+						$this->rec->setBYMONTH((int) $_POST['yearly_bymonth_by_monthday']);
+						$this->rec->setBYMONTHDAY((int) $_POST['yearly_bymonthday']);
+						break;
+				}
+				break;			
+		}
+		
+		// UNTIL
+		switch((int) $_POST['until_type'])
+		{
+			case 1:
+				// nothing to do
+				break;
+				
+			case 2:
+				$this->rec->setFrequenceUntilCount((int) $_POST['count']);
+				break;
+		}
+		
+	}
+	
+	/**
+	 * save recurrence settings
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function saveRecurrenceSettings()
+	{
+		switch((string) $_POST['frequence'])
+		{
+			case '':	switch((string) $_POST['frequence'])
+		{
+			case '':
+				// No recurrence => delete if there is an recurrence rule
+				if($this->rec->getRecurrenceId())
+				{
+					$this->rec->delete();
+				}
+				break;
+			
+			default:
+				if($this->rec->getRecurrenceId())
+				{
+					$this->rec->update();
+				}
+				else
+				{
+					$this->rec->save();
+				}
+				break;
+		}
+				// No recurrence => delete if there is an recurrence rule
+				if($this->rec->getRecurrenceId())
+				{
+					$this->rec->delete();
+				}
+				break;
+			
+			default:
+				if($this->rec->getRecurrenceId())
+				{
+					$this->rec->update();
+				}
+				else
+				{
+					$this->rec->save();
+				}
+				break;
 		}
 	}
 

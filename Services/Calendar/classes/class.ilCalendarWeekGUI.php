@@ -134,6 +134,7 @@ class ilCalendarWeekGUI
 		$counter = 0;
 		foreach(ilCalendarUtil::_buildWeekDayList($this->seed,$this->user_settings->getWeekStart())->get() as $date)
 		{	
+			$date_info = $date->get(IL_CAL_FKT_GETDATE);
 			$this->tpl->setCurrentBlock('day_header_row');
 			
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
@@ -141,6 +142,8 @@ class ilCalendarWeekGUI
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 
 			$this->tpl->setVariable('DAY_COLSPAN',max($colspans[$counter],1));
+		
+			$this->tpl->setVariable('HEADER_DATE',$date_info['mday'].' '.ilCalendarUtil::_numericMonthToString($date_info['mon'],false));
 			$this->tpl->setVariable('DAYNAME',ilCalendarUtil::_numericDayToString($date->get(IL_CAL_FKT_DATE,'w'),true));
 			$this->tpl->parseCurrentBlock();
 			$counter++;
