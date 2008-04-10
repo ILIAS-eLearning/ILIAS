@@ -54,6 +54,25 @@ class ilCalendarRecurrences
 		}
 		return $recurrences ? $recurrences : array();
 	}
+	
+	/**
+	 * get first recurrence
+	 *
+	 * @access public
+	 * @param int cal id
+	 * @return
+	 * @static
+	 */
+	public static function _getFirstRecurrence($a_cal_id)
+	{
+		if($recs = self::_getRecurrences($a_cal_id))
+		{
+			return $recs[0];
+		}
+		$new_rec = new ilCalendarRecurrence();
+		$new_rec->setEntryId($a_cal_id);
+		return $new_rec;
+	}
 
 }
 ?>

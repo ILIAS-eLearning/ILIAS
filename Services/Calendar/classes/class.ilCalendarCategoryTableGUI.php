@@ -50,6 +50,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 	$this->ctrl = $ilCtrl;
 	 	
 		parent::__construct($a_parent_obj,'showCategories');
+		$this->setFormName('categories');
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('title'),'title',"100%");
 	 	

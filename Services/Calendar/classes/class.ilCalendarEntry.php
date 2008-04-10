@@ -302,6 +302,20 @@ class ilCalendarEntry
 	}
 	
 	/**
+	 * delete
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function delete()
+	{
+		$query = "DELETE FROM cal_entries ".
+			"WHERE cal_id = ".$this->db->quote($this->getEntryId())." ";
+		$this->db->query($query);
+		return true;
+	}
+	
+	/**
 	 * validate
 	 *
 	 * @access public

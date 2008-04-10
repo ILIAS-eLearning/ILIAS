@@ -68,7 +68,7 @@ class ilCalendarUtil
 		$lng->loadLanguageModule('dateplaner');
 		static $days = array('Su','Mo','Tu','We','Th','Fr','Sa','Su');
 		
-		return 	$a_long ? $lng->txt($days[$a_day].'_long') : $lng->txt($days[$a_day].'_long');
+		return 	$a_long ? $lng->txt($days[$a_day].'_long') : $lng->txt($days[$a_day].'_short');
 	}
 	
 	/**

@@ -99,7 +99,7 @@ class ilCalendarUserSettings
 	 */
 	public function getWeekStart()
 	{
-		return $this->weekstart;
+		return (int) $this->weekstart;
 	}
 
 	/**

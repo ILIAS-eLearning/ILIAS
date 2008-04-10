@@ -7959,5 +7959,37 @@ dateplaner#:#cal_fullday_title#:#Keine Uhrzeit festgelegt
 dateplaner#:#cal_where#:#Ort
 dateplaner#:#cal_new_app#:#Neuer Termin
 dateplaner#:#cal_add_appointment#:#Termin anlegen
+dateplaner#:#cal_recurrences#:#Wiederholungen
+dateplaner#:#cal_every#:#Alle:
+dateplaner#:#cal_day_s#:#Tag(e)
+dateplaner#:#cal_week_s#:#Woche(n)
+dateplaner#:#cal_month_s#:#Monat(e)
+dateplaner#:#cal_year_s#:#Jahr(e)
+dateplaner#:#cal_no_recurrences#:#Keine Wiederholungen anlegen
+dateplaner#:#cal_daily#:#Täglich
+dateplaner#:#cal_weekly#:#Wöchentlich
+dateplaner#:#cal_monthly#:#Monatlich
+dateplaner#:#cal_yearly#:#Jährlich
+dateplaner#:#cal_on#:#Am:
+dateplaner#:#cal_on_the#:#Am:
+dateplaner#:#cal_first#:#Ersten
+dateplaner#:#cal_second#:#Zweiten
+dateplaner#:#cal_third#:#Dritten
+dateplaner#:#cal_fourth#:#Vierten
+dateplaner#:#cal_fifth#:#Fänften
+dateplaner#:#cal_last#:#Letzten
+dateplaner#:#cal_in#:#im
+dateplaner#:#cal_edit_category#:#Kalender bearbeiten
+dateplaner#:#cal_calendar_name#:#Kalendername
+dateplaner#:#cal_calendar_color#:#Farbe
+dateplaner#:#cal_del_cal_sure#:#Möchten Sie wirklich die ausgewählten Kalender löschen?
+dateplaner#:#cal_no_ending#:#Kein Endtermin
+dateplaner#:#cal_create#:#Erzeuge
+dateplaner#:#cal_appointments#:#Termine
 forum#:#frm_moderator_f#:#Moderatorin
 forum#:#frm_moderator_m#:#Moderator
+dateplaner#:#cal_assigned_appointments#:#Termine dieses Kalenders
+dateplaner#:#cal_no_recurrence#:#Keine Wiederholung
+dateplaner#:#cal_add_category#:#Neuen Kalender anlegen
+dateplaner#:#cal_del_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
+dateplaner#:#cal_duration#:#Dauer

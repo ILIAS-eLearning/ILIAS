@@ -32,6 +32,12 @@ include_once('./Services/Calendar/classes/class.ilDate.php');
 * 
 * @ingroup ServicesCalendar 
 */
+
+define('IL_CAL_FREQ_DAILY',ilCalendarRecurrence::FREQ_DAILY);
+define('IL_CAL_FREQ_WEEKLY',ilCalendarRecurrence::FREQ_WEEKLY);
+define('IL_CAL_FREQ_MONTHLY',ilCalendarRecurrence::FREQ_MONTHLY);
+define('IL_CAL_FREQ_YEARLY',ilCalendarRecurrence::FREQ_YEARLY);
+
 class ilCalendarRecurrence
 {
 	const REC_RECURRENCE = 0;
@@ -82,6 +88,38 @@ class ilCalendarRecurrence
 	 	{
 	 		$this->read();
 	 	}
+	}
+	
+	/**
+	 * reset all settings
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function reset()
+	{
+		$this->setBYDAY('');
+		$this->setBYMONTHDAY('');
+		$this->setBYMONTH('');
+		$this->setBYSETPOS('');
+		$this->setBYWEEKNO('');
+		$this->setBYYEARDAY('');
+		$this->setFrequenceType('');
+		$this->setInterval(1);
+		$this->setFrequenceUntilCount(0);
+		
+		return true;
+	}
+	
+	/**
+	 * get recurrence id 
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getRecurrenceId()
+	{
+		return $this->recurrence_id;
 	}
 	
 	
@@ -557,14 +595,14 @@ class ilCalendarRecurrence
 	 		0 : 
 	 		$this->getFrequenceUntilDate()->get(IL_CAL_DATETIME,'','UTC');
 
-	 	$query = "UPDATE cal_recurrence_rules ".
+	 	$query = "UPDATE cal_recurrence_rules SET ".
 	 		"cal_id = ".$this->db->quote($this->cal_id).", ".
 	 		"cal_recurrence = 1,".
 	 		"freq_type = ".$this->db->quote($this->getFrequenceType()).", ".
 	 		"freq_until_date = ".$this->db->quote($until_date).", ".
 			"freq_until_count = ".$this->db->quote($this->getFrequenceUntilCount()).", ".
-			"intervall = ".$this->db->quote($this->getIntervall()).", ".
-			"byday = ".$this->db->quote($this->getBYDAY).", ".
+			"intervall = ".$this->db->quote($this->getInterval()).", ".
+			"byday = ".$this->db->quote($this->getBYDAY()).", ".
 			"byweekno = ".$this->db->quote($this->getBYWEEKNO()).", ".
 			"bymonth = ".$this->db->quote($this->getBYMONTH()).", ".
 			"bymonthday = ".$this->db->quote($this->getBYMONTHDAY()).", ".

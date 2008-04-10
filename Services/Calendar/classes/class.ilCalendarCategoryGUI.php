@@ -27,6 +27,8 @@
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilCalendarCategoryGUI: ilCalendarAppointmentGUI
+*
 * @ingroup ServicesCalendar
 */
 
@@ -152,6 +154,9 @@ class ilCalendarCategoryGUI
 		$this->tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
 		$this->initFormCategory('edit');
 		$this->tpl->setVariable('EDIT_CAT',$this->form->getHTML());
+		
+		$this->tpl->setVariable('CAT_APPOINTMENTS',$this->showAssignedAppointments());
+		
 		$tpl->setContent($this->tpl->get());
 	}
 	
@@ -334,9 +339,89 @@ class ilCalendarCategoryGUI
 		
 		
 	}
+
+	/**
+	 * show assigned aapointments
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function showAssignedAppointments()
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentsTableGUI.php');
+		
+		$table_gui = new ilCalendarAppointmentsTableGUI($this);
+		$table_gui->setTitle($this->lng->txt('cal_assigned_appointments'));
+		$table_gui->addMultiCommand('askDeleteAppointments',$this->lng->txt('delete'));
+		$table_gui->setAppointments(ilCalendarCategoryAssignments::_getAssignedAppointments((int) $_GET['category_id']));
+		
+		return $table_gui->getHTML();
+	}
 	
+	/**
+	 * ask delete appointments
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function askDeleteAppointments()
+	{
+		global $tpl;
+		
+		if(!count($_POST['appointments']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->edit();
+			return true;
+		}
+
+		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
+		$confirmation_gui = new ilConfirmationGUI();
+		
+		$this->ctrl->setParameter($this,'category_id',(int) $_GET['category_id']);
+		$confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
+		$confirmation_gui->setHeaderText($this->lng->txt('cal_del_app_sure'));
+		$confirmation_gui->setConfirm($this->lng->txt('delete'),'deleteAppointments');
+		$confirmation_gui->setCancel($this->lng->txt('cancel'),'edit');
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
+		foreach($_POST['appointments'] as $app_id)
+		{
+			$app = new ilCalendarEntry($app_id);			
+			$confirmation_gui->addItem('appointments[]',(int) $app_id,$app->getTitle());
+		}
+		
+		$tpl->setContent($confirmation_gui->getHTML());
+	}
 	
-	
+	/**
+	 * delete appointments
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function deleteAppointments()
+	{
+		if(!count($_POST['appointments']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->edit();
+			return true;
+		}
+		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
+		foreach($_POST['appointments'] as $app_id)
+		{
+			$app = new ilCalendarEntry($app_id);
+			$app->delete();		
+		}
+		
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->edit();
+		return true;
+		
+	}
 
 	public function getHTML()
 	{
