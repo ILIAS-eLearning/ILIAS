@@ -1,41 +1,41 @@
 
 function ilHideFrequencies()
 {
-	//form = document.getElementById("form_");
-	//form.method = "GET";
-	element = document.getElementById("sub_prop_interval_DAILY");
-	element.style.display = "none";
-	element = document.getElementById("sub_prop_interval_WEEKLY");
-	element.style.display = "none";
-	element = document.getElementById("sub_prop_WEEKLY_byday");
-	element.style.display = "none";
-	element = document.getElementById("sub_prop_interval_MONTHLY");
-	element.style.display = "none";
-	element = document.getElementById("sub_prop_interval_YEARLY");
-	element.style.display = "none";
-	ilShowSelected();
-}
+	sections = new Array('DAILY','WEEKLY','MONTHLY','YEARLY','UNTIL');
 	
-function ilShowSelected()
-{
-	select = document.getElementById('frequence');
-
-	for(var i = 0; i < select.options.length; i++)
+	// Hide all table rows
+	for(section = 0;section < 5;section++)
 	{
-		var value = select.options[i].value;
-		var selected = select.options[i].selected;
-
-		if(value == "DAILY" || value == "WEEKLY" || value == "MONTHLY" ||  value == "YEARLY")
+		for(part = 1;part < 4;part++)
 		{
-			var element = document.getElementById("sub_prop_interval_" + value);
-			if(selected != true)
+			if(element = document.getElementById('sub_' + sections[section] + '_' + part))
 			{
 				element.style.display = "none";
 			}
-			else
+		}
+	}
+	
+	// get selected frequence
+	if(element = document.getElementById('il_recurrence_1'))
+	{
+		if((index = element.selectedIndex) == 0)
+		{
+			return true;
+		}
+		value = element.options[index].value;
+
+		for(section = 0; section < 5;section++)
+		{
+			if(value != sections[section] && sections[section] != 'UNTIL')
+				continue;
+			for(part = 1;part < 4; part++)
 			{
-				element.style.display = "";
+				if(element = document.getElementById('sub_' + sections[section] + '_' + part))
+				{
+					element.style.display = "";
+				}
 			}
 		}
 	}
 }
+	
