@@ -705,6 +705,20 @@ class ilObjUser extends ilObject
 		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $user_rec["login"];
 	}
+	
+	/**
+	* lookup external account for login and authmethod
+	*/
+	function _lookupExternalAccount($a_user_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT ext_account FROM usr_data".
+			" WHERE usr_id =".$ilDB->quote($a_user_id);
+		$user_set = $ilDB->query($q);
+		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $user_rec["ext_account"];
+	}
 
 	/**
 	* lookup id by login
