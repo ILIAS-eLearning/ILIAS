@@ -547,9 +547,12 @@ class ilStartUpGUI
 			$user->update();
 			
 			// Assign to default role
-			if($_SESSION['tmp_role'])
+			if(is_array($_SESSION['tmp_roles']))
 			{
-				$rbacadmin->assignUser((int) $_SESSION['tmp_role'],$user->getId());
+				foreach($_SESSION['tmp_roles'] as $role)
+				{
+					$rbacadmin->assignUser((int) $role,$user->getId());
+				}
 			}
 
 			// Log migration
