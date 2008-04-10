@@ -3797,6 +3797,8 @@ notes#:#notes_hide_comments#:#Hide Comments
 notes#:#notes_all_comments#:#All Comments
 notes#:#notes_my_comments#:#My Comments
 notes#:#notes_comment#:#Comment
+notes#:#notes_activate_comments#:#Activate Public Comments
+notes#:#notes_deactivate_comments#:#Deactivate Public Comments
 common#:#show_private_notes#:#Show Notes
 common#:#show_structure#:#Enable Structured-View
 common#:#show_users_online#:#Show active users
