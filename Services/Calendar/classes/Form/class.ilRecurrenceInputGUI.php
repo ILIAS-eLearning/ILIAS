@@ -117,7 +117,15 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			IL_CAL_FREQ_WEEKLY=> $this->lng->txt('cal_weekly'),
 			IL_CAL_FREQ_MONTHLY => $this->lng->txt('cal_monthly'),
 			IL_CAL_FREQ_YEARLY => $this->lng->txt('cal_yearly'));
-		$tpl->setVariable('FREQUENCE',ilUtil::formSelect($this->recurrence->getFrequenceType(),'frequence',$options,false,true));
+		$tpl->setVariable('FREQUENCE',ilUtil::formSelect(
+			$this->recurrence->getFrequenceType(),
+			'frequence',
+			$options,
+			false,
+			true,
+			'',
+			'',
+			array('onchange' => 'ilHideFrequencies();','id' => 'il_recurrence_1')));
 		
 		$tpl->setVariable('TXT_EVERY',$this->lng->txt('cal_every'));
 
