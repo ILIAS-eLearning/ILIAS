@@ -62,12 +62,22 @@ class ilNoteGUI
 		$this->add_note_form = false;
 		$this->edit_note_form = false;
 		$this->private_enabled = false;
-		$this->public_enabled = false;
+		$notes_settings = new ilSetting("notes");
+		$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
+		if ($notes_settings->get("activate_".$id))
+		{
+			$this->public_enabled = true;
+		}
+		else
+		{
+			$this->public_enabled = false;
+		}
 		$this->enable_hiding = true;
 		$this->targets_enabled = false;
 		$this->multi_selection = false;
 		$this->export_html = false;
 		$this->print = false;
+		$this->comments_settings = false;
 		
 		$this->note_img = array(
 			IL_NOTE_UNLABELED => array(
@@ -139,6 +149,14 @@ class ilNoteGUI
 	}
 
 	/**
+	* enable private notes
+	*/
+	function enableCommentsSettings($a_enable = true)
+	{
+		$this->comments_settings = $a_enable;
+	}
+	
+	/**
 	* enable public notes
 	*/
 	function enablePublicNotesDeletion($a_enable = true)
@@ -175,7 +193,7 @@ class ilNoteGUI
 	*/
 	function getNotesHTML()
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilCtrl;
 		
 		$lng->loadLanguageModule("notes");
 
@@ -192,7 +210,66 @@ class ilNoteGUI
 			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC));
 		}
 		
+		// Comments Settings
+		if ($this->comments_settings)
+		{
+			$notes_settings = new ilSetting("notes");
+			$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
+			$active = $notes_settings->get("activate_".$id);
+
+			$ntpl->setCurrentBlock("comments_settings");
+			if ($active)
+			{
+				$ntpl->setVariable("TXT_COMMENTS_SETTINGS", $lng->txt("notes_deactivate_comments"));
+				$ntpl->setVariable("HREF_COMMENTS_SETTINGS",
+					$ilCtrl->getLinkTargetByClass("ilnotegui", "deactivateComments", "notes_top"));
+			}
+			else
+			{
+				$ntpl->setVariable("TXT_COMMENTS_SETTINGS", $lng->txt("notes_activate_comments"));
+				$ntpl->setVariable("HREF_COMMENTS_SETTINGS",
+					$ilCtrl->getLinkTargetByClass("ilnotegui", "activateComments", "notes_top"));
+			}
+			$ntpl->parseCurrentBlock();
+		}
+		
 		return $ntpl->get();
+	}
+	
+	/**
+	* Activate Comments
+	*/
+	function activateComments()
+	{
+		global $ilCtrl;
+		
+		$notes_settings = new ilSetting("notes");
+		
+		if ($this->comments_settings)
+		{
+			$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
+			$notes_settings->set("activate_".$id, 1);
+		}
+		
+		$ilCtrl->redirectByClass("ilnotegui", "getNotesHtml");
+	}
+
+	/**
+	* Deactivate Comments
+	*/
+	function deactivateComments()
+	{
+		global $ilCtrl;
+		
+		$notes_settings = new ilSetting("notes");
+		
+		if ($this->comments_settings)
+		{
+			$id = $this->rep_obj_id."_".$this->obj_id."_".$this->obj_type;
+			$notes_settings->set("activate_".$id, 0);
+		}
+		
+		$ilCtrl->redirectByClass("ilnotegui", "getNotesHtml");
 	}
 
 	/**
