@@ -181,8 +181,8 @@ function showTrackingItems()
 
 	$tbl->setHeaderNames(array($this->lng->txt("title")));
 
-	$header_params = array("ref_id" => $this->ref_id, "cmd" => $_GET["cmd"],
-		"cmdClass" => get_class($this));
+	$header_params = $this->ctrl->getParameterArray($this, "showTrackingItems");
+
 	$cols = array("title");
 	$tbl->setHeaderVars($cols, $header_params);
 	$tbl->setColumnWidth(array("100%"));
@@ -260,11 +260,11 @@ function showTrackingItem()
 	$tbl->setTitle(ilObjSCORM2004LearningModule::_lookupItemTitle($_GET["obj_id"]));
 
 	$tbl->setHeaderNames(array($this->lng->txt("name"),
-		$this->lng->txt("cont_status"), $this->lng->txt("cont_time"),
-		$this->lng->txt("cont_score"), $this->lng->txt("cont_last_access")));
+	$this->lng->txt("cont_status"), $this->lng->txt("cont_time"),
+	$this->lng->txt("cont_score"), $this->lng->txt("cont_last_access")));
 
-	$header_params = array("ref_id" => $this->ref_id, "cmd" => $_GET["cmd"],
-		"cmdClass" => get_class($this), "obj_id" => $_GET["obj_id"]);
+	$header_params = $this->ctrl->getParameterArray($this, "showTrackingItem");
+
 	$cols = array("name", "status", "time", "score");
 	$tbl->setHeaderVars($cols, $header_params);
 	//$tbl->setColumnWidth(array("25%",));
