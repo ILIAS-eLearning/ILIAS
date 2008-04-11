@@ -546,27 +546,8 @@ class ilCalendarAppointmentGUI
 	{
 		switch((string) $_POST['frequence'])
 		{
-			case '':	switch((string) $_POST['frequence'])
-		{
 			case '':
-				// No recurrence => delete if there is an recurrence rule
-				if($this->rec->getRecurrenceId())
-				{
-					$this->rec->delete();
-				}
-				break;
-			
-			default:
-				if($this->rec->getRecurrenceId())
-				{
-					$this->rec->update();
-				}
-				else
-				{
-					$this->rec->save();
-				}
-				break;
-		}
+			case 0:
 				// No recurrence => delete if there is an recurrence rule
 				if($this->rec->getRecurrenceId())
 				{

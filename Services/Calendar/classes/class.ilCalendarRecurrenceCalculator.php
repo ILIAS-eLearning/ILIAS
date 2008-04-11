@@ -79,13 +79,21 @@ class ilCalendarRecurrenceCalculator
 	 */
 	public function calculateDateList(ilDateTime $a_start,ilDateTime $a_end,$a_limit = -1)
 	{
+	 	$this->valid_dates = $this->initDateList();
+
+	 	// Check invalid settings: e.g no frequence given, invalid start/end dates ...
+	 	if(!$this->validateRecurrence())
+	 	{
+	 		$this->valid_dates->add($this->event->getStart());
+	 		return $this->valid_dates;
+	 	}
+	 	
 	 	// Performance fix: Switching the timezone for many dates seems to be
 	 	// quite time consuming.
 	 	// Therfore we adjust the timezone of all input dates (start,end, event start)
 	 	// to the same tz (UTC for fullday events, Recurrence tz for all others). 
 	 	$this->adjustTimeZones($a_start,$a_end);
-	 	$this->valid_dates = $this->initDateList();
-	 	
+
 	 	// Calculate recurrences based on frequency (e.g. MONTHLY)
 	 	$time = microtime(true);
 	 	
@@ -233,6 +241,8 @@ class ilCalendarRecurrenceCalculator
 	 */
 	protected function incrementByFrequency($start)
 	{
+		global $ilLog;
+
 		switch($this->recurrence->getFrequenceType())
 		{
 			case ilCalendarRecurrence::FREQ_YEARLY:
@@ -249,6 +259,10 @@ class ilCalendarRecurrenceCalculator
 			
 			case ilCalendarRecurrence::FREQ_DAILY:
 				$start->increment(ilDateTime::DAY,$this->recurrence->getInterval());
+				break;
+			
+			default:
+				$ilLog->write(__METHOD__.'No frequence defined.');
 				break;
 		}
 		return $start;
@@ -816,6 +830,17 @@ class ilCalendarRecurrenceCalculator
 			// TODO: the timezone for this recurrence must be stored in the db
 			return new ilDateTime($a_date,$a_format_type,$this->timezone);
 		}
+	}
+	
+	/**
+	 * validate recurrence
+	 *
+	 * @access protected
+	 * @return bool
+	 */
+	protected function validateRecurrence()
+	{
+		return $this->recurrence->validate();
 	}
 }
 
