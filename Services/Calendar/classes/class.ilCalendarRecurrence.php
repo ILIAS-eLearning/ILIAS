@@ -553,6 +553,31 @@ class ilCalendarRecurrence
 	}
 	
 	/**
+	 * validate
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function validate()
+	{
+		$valid_frequences = array(IL_CAL_FREQ_DAILY,IL_CAL_FREQ_WEEKLY,IL_CAL_FREQ_MONTHLY,IL_CAL_FREQ_YEARLY);
+		if(!in_array($this->getFrequenceType(),$valid_frequences))
+		{
+			return false;
+		}
+		if($this->getFrequenceUntilCount() < 0)
+		{
+			return false;
+		}
+		if($this->getInterval() <= 0)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	
+	/**
 	 * save
 	 *
 	 * @access public
