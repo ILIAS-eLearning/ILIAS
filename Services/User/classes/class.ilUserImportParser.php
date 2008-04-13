@@ -1007,7 +1007,7 @@ class ilUserImportParser extends ilSaxParser
 						
 					case "Update" :
 						$externalAccountHasChanged = trim($this->cdata) != ilObjUser::_lookupExternalAccount($this->user_id);
-						if ($externalAccountHasChanged && $elogin != $this->userObj->getLogin())
+						if ($externalAccountHasChanged && trim($elogin) != trim($this->userObj->getLogin()))
 						{
 							$this->logWarning($this->userObj->getLogin(),
 								$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->userObj->getExternalAccount().")");
@@ -1740,7 +1740,7 @@ class ilUserImportParser extends ilSaxParser
 						
 					case "Update" :
 						$externalAccountHasChanged = trim($this->cdata) != ilObjUser::_lookupExternalAccount($this->user_id);
-						if ($externalAccountHasChanged && $elogin != $this->userObj->getLogin())
+						if ($externalAccountHasChanged && trim($elogin) != trim($this->userObj->getLogin()))
 						{
 							$this->logWarning($this->userObj->getLogin(),
 								$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->cdata." for ".$elogin.")");
