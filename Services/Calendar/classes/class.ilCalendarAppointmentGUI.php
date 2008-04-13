@@ -544,10 +544,9 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function saveRecurrenceSettings()
 	{
-		switch((string) $_POST['frequence'])
+		switch($_POST['frequence'])
 		{
-			case '':
-			case 0:
+			case 'NONE':
 				// No recurrence => delete if there is an recurrence rule
 				if($this->rec->getRecurrenceId())
 				{

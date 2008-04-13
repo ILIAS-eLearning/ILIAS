@@ -112,7 +112,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	public function insert($a_tpl)
 	{
 		$tpl = new ilTemplate('tpl.recurrence_input.html',true,true,'Services/Calendar');
-		$options = array(0 => $this->lng->txt('cal_no_recurrences'),
+		$options = array('NONE' => $this->lng->txt('cal_no_recurrences'),
 			IL_CAL_FREQ_DAILY => $this->lng->txt('cal_daily'),
 			IL_CAL_FREQ_WEEKLY=> $this->lng->txt('cal_weekly'),
 			IL_CAL_FREQ_MONTHLY => $this->lng->txt('cal_monthly'),
