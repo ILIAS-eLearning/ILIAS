@@ -222,7 +222,7 @@ class ilCalendarSchedule
 			"WHERE (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
 			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME)).") ".
 			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
-			"AND rule_id != 0) ".
+			"AND NOT rule_id IS NULL) ".
 			"ORDER BY start";
 		$res = $this->db->query($query);
 		
