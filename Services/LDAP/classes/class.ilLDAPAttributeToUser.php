@@ -126,10 +126,14 @@ class ilLDAPAttributeToUser
 			// Required fields
 			if($user['ilInternalAccount'])
 			{
+				$usr_id = ilObjUser::_lookupId($user['ilInternalAccount']);
+				
 				++$cnt_update;
 				// User exists
-				$this->writer->xmlStartTag('User',array('Action' => 'Update'));
+				$this->writer->xmlStartTag('User',array('Id' => $usr_id,'Action' => 'Update'));
 				$this->writer->xmlElement('Login',array(),$user['ilInternalAccount']);
+				$this->writer->xmlElement('ExternalAccount',array(),$external_account);
+				$this->writer->xmlElement('AuthMode',array(type =>'ldap'),null);
 				
 				$rules = $this->mapping->getRulesForUpdate();
 			}
