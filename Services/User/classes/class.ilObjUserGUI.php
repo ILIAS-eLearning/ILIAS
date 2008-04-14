@@ -125,6 +125,23 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		return $return;
 	}
+	
+	/* Overwritten from base class
+	*/
+	function setTitleAndDescription()
+	{
+		if(strtolower(get_class($this->object)) == 'ilobjuser')
+		{
+			$this->tpl->setTitle('['.$this->object->getLogin().'] '.$this->object->getTitle());
+			$this->tpl->setDescription($this->object->getLongDescription());
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_" . $this->object->getType()));
+		}
+		else
+		{
+			parent::setTitleAndDescription();
+		}
+	}
+	
 
 
 	function cancelObject()
