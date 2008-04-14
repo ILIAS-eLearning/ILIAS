@@ -41,81 +41,14 @@
 			</div>
 			<!-- END attachments -->
 		</div>
-		<div style="text-align:right; margin: 0px 0px 3px 0px;">
-			<!-- BEGIN reply_cell -->
-			<a class="il_ContainerItemCommand" href="{REPLY_LINK}">{REPLY_BUTTON}</a>
-			<!-- END reply_cell -->
-			<!-- BEGIN edit_cell -->
-			<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{EDIT_BUTTON}</a>
-			<!-- END edit_cell -->
-			<!-- BEGIN print_cell -->
-			<a class="il_ContainerItemCommand" href="{PRINT_LINK}" target="_blank">{PRINT_BUTTON}</a>
-			<!-- END print_cell -->
-			<!-- BEGIN del_cell -->
-			<a class="il_ContainerItemCommand" href="{DEL_LINK}">{DEL_BUTTON}</a>
-			<!-- END del_cell -->
-			<!-- BEGIN cens_cell -->
-			<a class="il_ContainerItemCommand" href="{CENS_LINK}">{CENS_BUTTON}</a>
-			<!-- END cens_cell -->
-			<!-- BEGIN read_cell -->
-			<a class="il_ContainerItemCommand" href="{READ_LINK}">{READ_BUTTON}</a>
-			<!-- END read_cell -->
-			<!-- BEGIN activate_deactivate_cell -->
-			<a class="il_ContainerItemCommand" href="{ACTIVATE_DEACTIVATE_LINK}">{ACTIVATE_DEACTIVATE_BUTTON}</a>
-			<!-- END activate_deactivate_cell -->
-		</div>
-
-		<!-- BEGIN kill_cell -->
-		<form name="formular2" action="{DEL_FORMACTION}" target="{DEL_FORM_TARGET}" method="post">
-		{KILL_SPACER}<a name="{KILL_ANKER}"></a>
-		<p class="warning">{TXT_KILL}</p>
-		<input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}" />&nbsp;&nbsp;
-		<input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}" />
-		</form>
-		<br/>
-		<!-- END kill_cell -->
-
-		<!-- BEGIN confirm_activation -->
-		<form name="formular4" action="{ACT_FORMACTION}" method="post">
-		{ACT_SPACER}<a name="{ACT_ANKER}"></a>	
-		<p class="warning">{TXT_ACT}</p>
-		<input class="submit" type="submit" name="cmd[{CMD_CONFIRM}]" value="{CONFIRM_BUTTON}" />&nbsp;&nbsp;
-		<input class="submit" type="submit" name="cmd[{CMD_CONFIRM_BRANCH}]" value="{CONFIRM_BRANCH_BUTTON}" />&nbsp;&nbsp;
-		<input class="submit" type="submit" name="cmd[{CMD_CANCEL}]" value="{CANCEL_BUTTON}" />
-		</form>
-		<br/>
-		<!-- END confirm_activation -->
-
-		<!-- BEGIN confirm_deactivation -->
-		<form name="formular5" action="{DEACT_FORMACTION}" method="post">
-		{DEACT_SPACER}<a name="{CENS_ANKER}"></a>		
-		<p class="warning">{TXT_DEACT}</p>
-		<input class="submit" type="submit" name="cmd[{CMD_CONFIRM}]" value="{CONFIRM_BUTTON}" />&nbsp;&nbsp;
-		<input class="submit" type="submit" name="cmd[{CMD_CANCEL}]" value="{CANCEL_BUTTON}" />
-		</form>
-		<br/>
-		<!-- END confirm_deactivation -->
-
-		<!-- BEGIN censorship_cell -->
-		<form name="formular3" action="{CENS_FORMACTION}" method="post">
-		{CENS_SPACER}<a name="{CENS_ANKER}"></a>
-		<table class="std" width="95%">
-		<tr class="tblheader">
-			<td valign="top">{TXT_CENS_COMMENT}</td>
-		</tr>
-		<tr>
-			<td class="option_value">
-			<textarea id="{TXT_CENS_MESSAGE}" name="formData[cens_message]" cols="50" rows="5" wrap=virtual style="width:95%; height=80px">{CENS_MESSAGE}</textarea>
-			</td>
-		</tr>notify
-		</table>
-		<p class="warning">{TXT_CENS}</p>	
-		<input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}" />&nbsp;&nbsp;
-		<input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}" />
-		</form>
-		<br/>
-		<!-- END censorship_cell -->
-
+<!-- BEGIN commands_block -->
+		<div style="text-align: right; margin: 0px 0px 3px 0px;">
+		<!-- BEGIN commands -->
+		<a class="il_ContainerItemCommand" href="{COMMANDS_COMMAND}">{COMMANDS_TXT}</a>
+		<!-- END commands -->			
+		</div>		
+<!-- END commands_block -->
+		{FORM}
 		<!-- BEGIN reply_post -->
 		<a name="{REPLY_ANKER}"></a>
 		<form name="formular1" class="ilForm" action="{FORMACTION}" enctype="multipart/form-data" method="post">
