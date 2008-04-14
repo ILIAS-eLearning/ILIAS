@@ -447,7 +447,7 @@ class ilMail
 		return $this->lng->txt('mail_notification_subject');
 	}
 		
-	function formatNotificationMessage($user_id, Array $mail_data = array())
+	function formatNotificationMessage($user_id, $mail_data = array())
 	{
 		global $tpl, $lng;
 		
