@@ -143,7 +143,7 @@ class ilAdvancedMDValues
 	 *
 	 * @param array obj_ids
 	 */
-	public static function _preloadValuesByObjIds(array $obj_ids)
+	public static function _preloadValuesByObjIds($obj_ids)
 	{
 		global $ilDB;
 		
