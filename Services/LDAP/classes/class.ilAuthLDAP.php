@@ -101,8 +101,16 @@ class ilAuthLDAP extends Auth
 		$ilBench->start('Auth','LDAPLoginObserver');
 		$user_data = array_change_key_case($this->getAuthData(),CASE_LOWER);
 		
+		// user is authenticated
+		// Now we trust the username received from ldap and use it as external account name,
+		// to avoid problems with leading/trailing whitespace characters
+		$a_username = isset($user_data[$this->ldap_server->getUserAttribute()]) ?
+			$user_data[$this->ldap_server->getUserAttribute()] :
+			trim($a_username);
+		
 		$user_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount("ldap",$a_username);
 		$users[$a_username] = $user_data;
+		
 		
 		if($this->ldap_server->enabledSyncOnLogin())
 		{
