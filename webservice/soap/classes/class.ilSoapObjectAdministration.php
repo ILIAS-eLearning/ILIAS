@@ -328,10 +328,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$objs = array();
 		foreach($res->getUniqueResults() as $entry)
 		{
-			if(++$counter == 30)
+			/*if(++$counter == 30)
 			{
 				break;
-			}
+			}*/
 			$objs[] = ilObjectFactory::getInstanceByObjId($entry['obj_id'],false);
 		}
 		if(!count($objs))

@@ -1686,5 +1686,27 @@ class ilRbacReview
 		return $obj_id ? $obj_id : 0;
 	}
 	
+	/**
+	 * return if role is only attached to deleted role folders
+	 *
+	 * @param int $a_role_id
+	 * @return boolean
+	 */
+	public function isRoleDeleted ($a_role_id){
+		$rolf_list = $this->getFoldersAssignedToRole($a_role_id, false);
+		$deleted = true;
+		if (count($rolf_list))
+		{
+			foreach ($rolf_list as $rolf) {      	        
+	    		// only list roles that are not set to status "deleted"
+	    		if (!$this->isDeleted($rolf))
+				{
+	   				$deleted = false;
+	   				break;
+				}
+			}
+		}
+		return $deleted;	
+	}
 } // END class.ilRbacReview
 ?>
