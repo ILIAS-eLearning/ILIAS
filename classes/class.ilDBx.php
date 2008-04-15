@@ -99,7 +99,7 @@ class ilDBx extends PEAR
 
 		//connect to database
 		//$this->db = DB::connect($this->dsn, true);
-		$this->db = MDB2::connect($this->dsn);
+		$this->db = MDB2::connect($this->dsn, array("use_transactions" => true));
 		
 		$this->loadMDB2Extensions();
 		
@@ -147,11 +147,15 @@ class ilDBx extends PEAR
 	}
 
 	/**
-	* query 
-	* 
-	* this is the wrapper itself. query a string, and return the resultobject,
-	* or in case of an error, jump to errorpage
-	* 
+	* Simple query. This function should only be used for simple select queries
+	* without parameters. Data manipulation should not be done with it.
+	*
+	* Example:
+	* - "SELECT * FROM data"
+	*
+	* For simple data manipulation use manipulate().
+	* For complex queries/manipulations use prepare()/prepareManip() and execute.
+	*
 	* @param string
 	* @return object DB
 	*/
@@ -168,157 +172,328 @@ class ilDBx extends PEAR
 		{
 			return $r;
 		}
-	} //end function
-
-
-	/**
-	* getOne 
-	* 
-	* this is the wrapper itself. Runs a query and returns the first column of the first row
-	* or in case of an error, jump to errorpage
-	* 
-	* @param string
-	* @return object DB
-	*/
-	function getOne($sql)
-	{
-		//$r = $this->db->getOne($sql);
-		$set = $this->db->query($sql);
-		
-		if (MDB2::isError($set))
-		{
-			$this->raiseError($set->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
-			return;
-		}
-		
-		$r = $set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $r[0];
-
-	} //end function
-
-
-	/**
-	* wrapper for quote method
-	*/
-	function quote($a_query, $null_as_empty_string = true)
-	{
-		if ($null_as_empty_string)
-		{
-			// second test against 0 is crucial for MDB2
-			//if ($a_query == "" && $a_query !== 0)
-			if ($a_query == "")
-			{
-				$a_query = "";
-			}
-		}
-
-		if (method_exists($this->db, "quoteSmart"))
-		{
-			return $this->db->quoteSmart($a_query);
-		}
-		else
-		{
-			return $this->db->quote($a_query);
-		}
-	}
-	
-	/**
-	* Wrapper to find number of rows affected by a data changing query
-	*
-	* @return integer  number of rows
-	*/
-	function affectedRows()
-	{
-		return $this->db->affectedRows();
 	}
 
 	/**
-	* getrow
+	* Simple data manipulatoin. This function should only be used for simple data
+	* manipulations without parameters. Queries should not be done with it.
 	*
-	* this is the wrapper itself. query a string, and return the resultobject,
-	* or in case of an error, jump to errorpage
+	* Example:
+	* - "DELETE * FROM data"
 	*
-	* @param string
-	* @return object DB
+	* For simple data queries use query().
+	* For complex queries/manipulations use prepare()/prepareManip() and execute.
+	*
+	* @param	string		DML string
+	* @return	int			affected rows
 	*/
-	function getRow($sql,$mode = DB_FETCHMODE_OBJECT)
+	function manipulate($sql)
 	{
-		$set = $this->query($sql);
-		$r = $set->fetchRow($mode);
-		//$r = $this->db->getrow($sql,$mode);
+		$r = $this->db->exec($sql);
 
 		if (MDB2::isError($r))
 		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
+			$err = "<br>Details: ".mysql_error();
+			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql.$err."</font>", $this->error_class->FATAL);
 		}
 		else
 		{
 			return $r;
 		}
-	} //end function
+	}
 
+	/**
+	* Prepare a query (SELECT) statement to be used with execute.
+	*
+	* @param	String	Query String
+	* @param	Array	Placeholder Types
+	*
+	* @return	Resource handle for the prepared query on success, a MDB2 error on failure.
+	*/
+	function prepare($a_query, $a_types = null, $a_result_types = null)
+	{
+		$res = $this->db->prepare($a_query, $a_types, $a_result_types);
+		if (MDB2::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$a_query."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $res;
+		}
+	}
+
+	/**
+	* Prepare a data manipulation statement to be used with execute.
+	*
+	* @param	String	Query String
+	* @param	Array	Placeholder Types
+	*
+	* @return	Resource handle for the prepared query on success, a MDB2 error on failure.
+	*/
+	function prepareManip($a_query, $a_types = null)
+	{
+		$res = $this->db->prepare($a_query, $a_types, MDB2_PREPARE_MANIP);
+		if (MDB2::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$a_query."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $res;
+		}
+	}
+
+	/**
+	* Execute a query statement prepared by either prepare() or prepareManip()
+	*
+	* @param	object		Resource handle of the prepared query.
+	* @param	array		Array of data (to be used for placeholders)
+	*
+	* @return	mixed		A result handle or MDB2_OK on success, a MDB2 error on failure
+	*/
+	function execute($a_stmt, $a_data = null)
+	{
+		$res = $a_stmt->execute($a_data);
+
+		if (MDB2::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $res;
+		}
+	}
+
+	/**
+	* Execute a query statement prepared by either prepare() or prepareManip()
+	* with multiple data arrays.
+	*
+	* @param	object		Resource handle of the prepared query.
+	* @param	array		Array of array of data (to be used for placeholders)
+	*
+	* @return	mixed		A result handle or MDB2_OK on success, a MDB2 error on failure
+	*/
+	function executeMultiple($a_stmt, $a_data)
+	{
+		$res = $this->db->extended->executeMultiple($a_stmt,$a_data);
+
+		if (MDB2::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $res;
+		}
+	}
+	
+	/**
+	* Fetch row as associative array from result set
+	*
+	* @param	object	result set
+	*/
+	function fetchAssoc($a_set)
+	{
+		return $a_set->fetchRow(DB_FETCHMODE_ASSOC);
+	}
+
+	/**
+	* Check error
+	*/
+	static function isDbError($a_res)
+	{
+		return MDB2::isError($a_res);
+	}
+	
+	
+	/**
+	* Begin Transaction. Please note that we currently do not use savepoints.
+	*
+	* @return	boolean		MDB2_OK on success
+	*/
+	function beginTransaction()
+	{
+		if (!$this->db->supports('transactions'))
+		{
+			$this->raiseError("ilDB::beginTransaction: Transactions are not supported.", $this->error_class->FATAL);
+		}
+		$res = $this->db->beginTransaction();
+		if(MDB2::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
+		}
+		
+		return $res;
+	}
+	
+	/**
+	* Commit a transaction
+	*/
+	function commit()
+	{
+		$res = $this->db->commit();
+		if(MDB2::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
+		}
+		
+		return $res;
+	}
+
+	/**
+	* Rollback a transaction
+	*/
+	function rollback()
+	{
+		$res = $this->db->rollback();
+		if(MDB2::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
+		}
+		
+		return $res;
+	}
 
 	/**
 	* get last insert id
 	*/
 	function getLastInsertId()
 	{
-		$r = $this->query("SELECT LAST_INSERT_ID()");
-		$row = $r->fetchRow();
-
-		return $row[0] ? $row[0] : false;
-	}
-
-	/**
-	* Wrapper for Pear prepare
-	* @param String query
-	* @return resource
-	*/
-	function prepare($query)
-	{
-		return $this->db->prepare($query);
-	}
-
-	/**
-	* Wrapper for Pear executeMultiple
-	* @param resource (statement from prepare)
-	* @param array multidim array of data
-	* @return mixed a new DB_result/DB_OK  or a DB_Error, if fail
-	*/
-	function executeMultiple($stmt,$data)
-	{
-		$res = $this->db->executeMultiple($stmt,$data);
-
-		if (MDB2::isError($res))
+		$res = $this->db->lastInsertId();
+		if(MDB2::isError($res))
 		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
+			return false;
+		}
+		return $res;
+	}
+	
+	/**
+	* Lock existing table
+	* @param array (tablename => lock type READ, WRITE, READ LOCAL or LOW_PRIORITY) e.g array('tree' => 'WRITE')
+	* @return boolean
+	*/
+	function _lockTables($a_table_params)
+	{
+		global $ilDB;
+		
+		$lock_str = 'LOCK TABLES ';
+		$counter = 0;
+		foreach($a_table_params as $table_name => $type)
+		{
+			$lock_str .= $counter++ ? ',' : '';
+			$lock_str .= $table_name.' '.$type;
+		}
+
+		$ilDB->query($lock_str);
+
+		return true;
+	}
+	function _unlockTables()
+	{
+		global $ilDB;
+		
+		$ilDB->query('UNLOCK TABLES');
+
+		return true;
+	}
+	
+	/**
+	* get mysql version
+	*/
+	function getMySQLVersion()
+	{
+		return mysql_get_server_info();
+	}
+	
+
+	/**
+	* check wether current MySQL server is version 4.0.x or higher
+	*/
+	function isMysql4_0OrHigher()
+	{
+		$version = explode(".", $this->getMysqlVersion());
+		if((int) $version[0] >= 4)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	* check wether current MySQL server is version 4.1.x
+	*/
+	function isMysql4_1()
+	{
+		$version = explode(".", $this->getMysqlVersion());
+		if ($version[0] == "4" && $version[1] == "1")
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	* check wether current MySQL server is version 4.1.x or higher
+	*
+	* NOTE: Three sourcecodes use this or a similar handling:
+	* - classes/class.ilDBx.php
+	* - calendar/classes/class.ilCalInterface.php->setNames
+	* - setup/classes/class.ilClient.php
+	*/
+	function isMysql4_1OrHigher()
+	{
+		$version = explode(".", $this->getMysqlVersion());
+		if ((int)$version[0] >= 5 ||
+			((int)$version[0] == 4 && (int)$version[1] >= 1))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	 * load additional mdb2 extensions and set their constants 
+	 *
+	 * @access protected
+	 */
+	protected function loadMDB2Extensions()
+	{
+		if (!$this->isDbError($this->db))
+		{
+			$this->db->loadModule('Extended');
+			define('DB_AUTOQUERY_SELECT',MDB2_AUTOQUERY_SELECT);
+			define('DB_AUTOQUERY_INSERT',MDB2_AUTOQUERY_INSERT);
+			define('DB_AUTOQUERY_UPDATE',MDB2_AUTOQUERY_UPDATE);
+			define('DB_AUTOQUERY_DELETE',MDB2_AUTOQUERY_DELETE);
+		}
+	}
+
+	/**
+	* Check query size
+	*/
+	function checkQuerySize($a_query)
+	{
+		global $lang;
+
+		if(strlen($a_query) >= $this->max_allowed_packet_size)
+		{
+			return false;
 		}
 		else
 		{
-			return $res;
+			return true;
 		}
 	}
 
-	/**
-	* Wrapper for Pear executeMultiple
-	* @param resource (statement from prepare)
-	* @param array multidim array of data
-	* @return mixed a new DB_result/DB_OK  or a DB_Error, if fail
-	*/
-	function execute($stmt,$data)
-	{
-		$res = $this->db->execute($stmt,$data);
-
-		if (MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $res;
-		}
-	}
+//
+//
+// Older functions. Must be checked.
+//
+//
 
 	/**
 	* Wrapper for Pear autoExecute
@@ -341,22 +516,11 @@ class ilDBx extends PEAR
 			return $res;
 		}
 	}
-	function checkQuerySize($a_query)
-	{
-		global $lang;
 
-		if(strlen($a_query) >= $this->max_allowed_packet_size)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	// PRIVATE
-	function setMaxAllowedPacket()
+	/**
+	* Set maximum allowed packet size
+	*/
+	private function setMaxAllowedPacket()
 	{
 
 		// GET MYSQL VERSION
@@ -398,90 +562,6 @@ class ilDBx extends PEAR
 		return true;
 	}
 
-	/**
-	* Lock existing table
-	* @param array (tablename => lock type READ, WRITE, READ LOCAL or LOW_PRIORITY) e.g array('tree' => 'WRITE')
-	* @return boolean
-	*/
-	function _lockTables($a_table_params)
-	{
-		global $ilDB;
-		
-		$lock_str = 'LOCK TABLES ';
-		$counter = 0;
-		foreach($a_table_params as $table_name => $type)
-		{
-			$lock_str .= $counter++ ? ',' : '';
-			$lock_str .= $table_name.' '.$type;
-		}
-
-		$ilDB->query($lock_str);
-
-		return true;
-	}
-	function _unlockTables()
-	{
-		global $ilDB;
-		
-		$ilDB->query('UNLOCK TABLES');
-
-		return true;
-	}
-	
-	/**
-	* get mysql version
-	*/
-	function getMySQLVersion()
-	{
-		return mysql_get_server_info();
-	}
-	
-	/**
-	* check wether current MySQL server is version 4.1.x
-	*/
-	function isMysql4_1()
-	{
-		$version = explode(".", $this->getMysqlVersion());
-		if ($version[0] == "4" && $version[1] == "1")
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-	/**
-	* check wether current MySQL server is version 4.1.x or higher
-	*
-	* NOTE: Three sourcecodes use this or a similar handling:
-	* - classes/class.ilDBx.php
-	* - calendar/classes/class.ilCalInterface.php->setNames
-	* - setup/classes/class.ilClient.php
-	*/
-	function isMysql4_1OrHigher()
-	{
-		$version = explode(".", $this->getMysqlVersion());
-		if ((int)$version[0] >= 5 ||
-			((int)$version[0] == 4 && (int)$version[1] >= 1))
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-	/**
-	* check wether current MySQL server is version 4.0.x or higher
-	*/
-	function isMysql4_0OrHigher()
-	{
-		$version = explode(".", $this->getMysqlVersion());
-		if((int) $version[0] >= 4)
-		{
-			return true;
-		}
-		return false;
-	}
 	
 	/**
 	* Checks for the existence of a table column
@@ -508,30 +588,103 @@ class ilDBx extends PEAR
 		return $column_visibility;
 	}
 	
+	
+//
+//
+// Deprecated functions.
+//
+//
+
 	/**
-	 * load additional mdb2 extensions and set their constants 
-	 *
-	 * @access protected
-	 */
-	protected function loadMDB2Extensions()
+	* Wrapper for quote method. Deprecated, use prepare/prepareManip instead.
+	*/
+	function quote($a_query, $null_as_empty_string = true)
 	{
-		if (!$this->isDbError($this->db))
+		if ($null_as_empty_string)
 		{
-			$this->db->loadModule('Extended');
-			define('DB_AUTOQUERY_SELECT',MDB2_AUTOQUERY_SELECT);
-			define('DB_AUTOQUERY_INSERT',MDB2_AUTOQUERY_INSERT);
-			define('DB_AUTOQUERY_UPDATE',MDB2_AUTOQUERY_UPDATE);
-			define('DB_AUTOQUERY_DELETE',MDB2_AUTOQUERY_DELETE);
+			// second test against 0 is crucial for MDB2
+			//if ($a_query == "" && $a_query !== 0)
+			if ($a_query == "")
+			{
+				$a_query = "";
+			}
+		}
+
+		if (method_exists($this->db, "quoteSmart"))
+		{
+			return $this->db->quoteSmart($a_query);
+		}
+		else
+		{
+			return $this->db->quote($a_query);
 		}
 	}
 
 	/**
-	* Check error
+	* getOne. DEPRECATED. Should not be used anymore.
+	* 
+	* this is the wrapper itself. Runs a query and returns the first column of the first row
+	* or in case of an error, jump to errorpage
+	* 
+	* @param string
+	* @return object DB
 	*/
-	static function isDbError($a_res)
+	function getOne($sql)
 	{
-		return MDB2::isError($a_res);
+		//$r = $this->db->getOne($sql);
+		$set = $this->db->query($sql);
+		
+		if (MDB2::isError($set))
+		{
+			$this->raiseError($set->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
+			return;
+		}
+		
+		$r = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $r[0];
+
+	} //end function
+
+	/**
+	* getRow. DEPRECATED. Should not be used anymore
+	*
+	* this is the wrapper itself. query a string, and return the resultobject,
+	* or in case of an error, jump to errorpage
+	*
+	* @param string
+	* @return object DB
+	*/
+	function getRow($sql,$mode = DB_FETCHMODE_OBJECT)
+	{
+		$set = $this->query($sql);
+		$r = $set->fetchRow($mode);
+		//$r = $this->db->getrow($sql,$mode);
+
+		if (MDB2::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	} //end function
+
+
+	/**
+	* Wrapper to find number of rows affected by a data changing query
+	* 
+	* DEPRECATED: use manipulate or prepareManip/execute instead;
+	* both will return affected rows
+	*
+	* @return integer  number of rows
+	*/
+/*	function affectedRows()
+	{
+		return $this->db->affectedRows();
 	}
+*/
 	
 } //end Class
 ?>
