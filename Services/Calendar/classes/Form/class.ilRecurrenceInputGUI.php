@@ -257,6 +257,33 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 				$chosen_day = $parsed[2];
 			}
 		}
+		// check for last day
+		if(count($this->recurrence->getBYMONTHDAYList()) == 1)
+		{
+			$bymonthday = $this->recurrence->getBYMONTHDAY();
+			if(in_array($bymonthday,array(1,2,3,4,5,-1)))
+			{
+				$chosen = true;
+				$chosen_num_day = $bymonthday;
+				$chosen_day = 9;
+			}	
+		}
+		// Check for first, second... last weekday
+		if(count($this->recurrence->getBYSETPOSList()) == 1)
+		{
+			$bysetpos = $this->recurrence->getBYSETPOS();
+			if(in_array($bysetpos,array(1,2,3,4,5,-1)))
+			{
+				if($this->recurrence->getBYDAYList() == array('MO','TU','WE','TH','FR'))
+				{
+					$chosen = true;
+					$chosen_num_day = $bysetpos;
+					$chosen_day = 8;
+				}
+			}
+		}
+		
+		
 
 		if($chosen)
 		{
@@ -287,6 +314,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 		{
 			$days_select[$days[$i]] = ilCalendarUtil::_numericDayToString($i);
 		}
+		$days_select[8] = $this->lng->txt('cal_weekday');
+		$days_select[9] = $this->lng->txt('cal_day_of_month');
 		$tpl->setVariable('SEL_BYDAY_DAY_MONTHLY',ilUtil::formSelect(
 			$chosen_day,
 			'monthly_byday_day',

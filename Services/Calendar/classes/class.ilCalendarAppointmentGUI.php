@@ -490,7 +490,23 @@ class ilCalendarAppointmentGUI
 						break;
 					
 					case 1:
-						$this->rec->setBYDAY((int) $_POST['monthly_byday_num'].$_POST['monthly_byday_day']);
+						switch((int) $_POST['monthly_byday_day'])
+						{
+							case 8:
+								// Weekday
+								$this->rec->setBYSETPOS((int) $_POST['monthly_byday_num']);
+								$this->rec->setBYDAY('MO,TU,WE,TH,FR');
+								break;
+								
+							case 9:
+								// Day of month
+								$this->rec->setBYMONTHDAY((int) $_POST['monthly_byday_num']);
+								break;
+								
+							default:
+								$this->rec->setBYDAY((int) $_POST['monthly_byday_num'].$_POST['monthly_byday_day']);
+								break;
+						}
 						break;
 					
 					case 2:
