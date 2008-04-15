@@ -90,19 +90,12 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 			// if role type is not empty and does not match, then continue;
 			if (!empty($this->role_type) && strcasecmp ($this->role_type, $role["role_type"]) != 0 )
 			{
+				continue;				
+			}
+			if ($rbacreview->isRoleDeleted($role["obj_id"]))
+			{
 				continue;
 			}
-			$rolf_list = $rbacreview->getFoldersAssignedToRole($role["obj_id"], false);
-			$continue = true;
-			foreach ($rolf_list as $rolf) {      	        
-    		// only list roles that are not set to status "deleted"
-    		if (!$rbacreview->isDeleted($rolf))
-				{
-      				$continue = false;
-				}
-			}
-			if ($continue)
-				continue;
 			
 			$attrs = array(	'role_type' => ucwords($role["role_type"]), 
 				'id' => "il_".IL_INST_ID."_role_".$role["obj_id"]);

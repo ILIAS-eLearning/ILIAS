@@ -122,10 +122,14 @@ class ilObjectXMLWriter extends ilXmlWriter
 	function __appendObject(&$object)
 	{
 
-	  global $tree;
+	  global $tree, $rbacreview;
 
-	  $id = $object->getId();
-
+	  	$id = $object->getId();
+		if ($object->getType() == "role" && $rbacreview->isRoleDeleted($id))
+		{
+			return;				
+		}			
+	  
 		$attrs = array('type' => $object->getType(),
 			       'obj_id' => $id);
 
@@ -141,6 +145,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 		{
 			if (!$tree->isInTree($ref_id))
 				continue;
+			
 			$attr = array('ref_id' => $ref_id, 'parent_id'=> $tree->getParentId(intval($ref_id)));
 			$attr['accessInfo'] = $this->__getAccessInfo($object,$ref_id);			
 			$this->xmlStartTag('References',$attr);
@@ -157,11 +162,10 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 		if($this->enabledOperations())
 		{
-			$ops = $rbacreview->getOperationsOnTypeString($a_type);
+		    $ops = $rbacreview->getOperationsOnTypeString($a_type);
 		    if (is_array($ops))
 		    {
-    			
-		    	foreach($ops as $ops_id)
+    			foreach($ops as $ops_id)
     			{
     				$operation = $rbacreview->getOperation($ops_id);
 					
