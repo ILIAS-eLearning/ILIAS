@@ -39,6 +39,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	protected $recurrence;
 	protected $user_settings;
 	
+	protected $until_selection = true;
+	
 	protected $enabled_subforms = array(
 		IL_CAL_FREQ_DAILY,
 		IL_CAL_FREQ_WEEKLY,
@@ -68,6 +70,18 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	}
 	
 	/**
+	 * check input
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function checkInput()
+	{
+		return true;
+	}
+	
+	/**
 	 * set recurrence object
 	 *
 	 * @access public
@@ -78,6 +92,29 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	{
 		$this->recurrence = $a_rec;
 	}
+	
+	/**
+	 * enable until selection
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function enableUntilSelection($a_enabled)
+	{
+		$this->until_selection = $a_enabled;
+	}
+	
+	/**
+	 * enabled until selection
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function enabledUntilSelection()
+	{
+		return (bool) $this->until_selection;
+	}
+	
 	
 	/**
 	 * set enabled subforms
@@ -441,20 +478,34 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 	 */
 	protected function buildUntilSelection($tpl)
 	{
-		$tpl->setVariable('TXT_NO_ENDING',$this->lng->txt('cal_no_ending'));
-		$tpl->setVariable('TXT_UNTIL_CREATE',$this->lng->txt('cal_create'));
-		$tpl->setVariable('TXT_APPOINTMENTS',$this->lng->txt('cal_appointments'));
 		
-		$tpl->setVariable('VAL_COUNT',$this->recurrence->getFrequenceUntilCount() ? 
-			$this->recurrence->getFrequenceUntilCount() : 
-			5);
-		if($this->recurrence->getFrequenceUntilCount())
+		if($this->enabledUntilSelection())
 		{
-			$tpl->setVariable('UNTIL_COUNT_CHECKED','checked="checked"');
+			$tpl->setVariable('TXT_NO_ENDING',$this->lng->txt('cal_no_ending'));
+			$tpl->setVariable('TXT_UNTIL_CREATE',$this->lng->txt('cal_create'));
+			$tpl->setVariable('TXT_APPOINTMENTS',$this->lng->txt('cal_appointments'));
+			
+			$tpl->setVariable('VAL_COUNT',$this->recurrence->getFrequenceUntilCount() ? 
+				$this->recurrence->getFrequenceUntilCount() : 
+				2);
+			if($this->recurrence->getFrequenceUntilCount())
+			{
+				$tpl->setVariable('UNTIL_COUNT_CHECKED','checked="checked"');
+			}
+			else
+			{
+				$tpl->setVariable('UNTIL_NO_CHECKED','checked="checked"');
+			}
 		}
 		else
 		{
-			$tpl->setVariable('UNTIL_NO_CHECKED','checked="checked"');
+			$tpl->setVariable('TXT_FIXED_UNTIL_CREATE',$this->lng->txt('cal_create'));
+			$tpl->setVariable('TXT_FIXED_APPOINTMENTS',$this->lng->txt('cal_appointments'));
+			
+			$tpl->setVariable('VAL_FIXED_COUNT',$this->recurrence->getFrequenceUntilCount() ? 
+				$this->recurrence->getFrequenceUntilCount() : 
+				5);
+			
 		}
 	}	
 }

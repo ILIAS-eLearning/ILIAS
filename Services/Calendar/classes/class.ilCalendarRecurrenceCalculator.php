@@ -56,10 +56,10 @@ class ilCalendarRecurrenceCalculator
 	 * 
 	 *
 	 * @access public
-	 * @param
+	 * @param ilDatePeriod interface ilDatePeriod
 	 * 
 	 */
-	public function __construct(ilCalendarEntry $entry,ilCalendarRecurrence $rec)
+	public function __construct(ilDatePeriod $entry,ilCalendarRecurrence $rec)
 	{
 	 	global $ilLog;
 	 	
@@ -96,16 +96,6 @@ class ilCalendarRecurrenceCalculator
 
 	 	// Calculate recurrences based on frequency (e.g. MONTHLY)
 	 	$time = microtime(true);
-	 	
-		if($this->recurrence->getInterval() <= 1)
-		{
-	 		// I think there is no difference in calculating a daily rule as monthly rule
-	 		if($this->recurrence->getFrequenceType() == ilCalendarRecurrence::FREQ_DAILY)
-	 		{
-		 		#$this->recurrence->setFrequenceType(ilCalendarRecurrence::FREQ_MONTHLY);
-		 	}
-		}
-
 
 	 	$start = $this->optimizeStartingTime();
 	 	
@@ -159,7 +149,7 @@ class ilCalendarRecurrenceCalculator
 
 		// Add start of event if it is in the period
 		if(ilDateTime::_after($this->event->getStart(),$this->period_start,IL_CAL_DAY) and
-			ilDateTime::_before($this->event->getStart(),$this->period_end,IL_CAL_DAY) or 1)
+			ilDateTime::_before($this->event->getStart(),$this->period_end,IL_CAL_DAY))
 		{
 			$this->valid_dates->add($this->event->getStart());
 		}
@@ -766,19 +756,30 @@ class ilCalendarRecurrenceCalculator
 	 */
 	protected function applyLimits(ilDateList $list)
 	{
+ 		$list->sort();
+
+	 	// Check valid dates before starting time
+		foreach($list->get() as $check_date)
+		{
+			if(ilDateTime::_before($check_date,$this->event->getStart(),IL_CAL_DAY))
+			{
+				$list->remove($check_date);
+			}
+		}	 	
+	 	
+	 	
 	 	// Check count if given
 	 	if($this->recurrence->getFrequenceUntilCount())
 	 	{
-	 		$list->sort();
 	 		foreach($list->get() as $res)
 	 		{
-	 			if(count($this->valid_dates->get()) < $this->recurrence->getFrequenceUntilCount())
+	 			// check smaller than since the start time counts as one
+	 			if(count($this->valid_dates->get()) < $this->recurrence->getFrequenceUntilCount() - 1)
 	 			{
 	 				$this->valid_dates->add($res);
 	 			}
 	 			else
 	 			{
-	 				$this->valid_dates->add($res);
 	 				$this->limit_reached = true;
 	 				return false;
 	 			}
@@ -788,7 +789,6 @@ class ilCalendarRecurrenceCalculator
 	 	elseif($this->recurrence->getFrequenceUntilDate())
 	 	{
 	 		$date = $this->recurrence->getFrequenceUntilDate();
-	 		$list->sort();
 	 		foreach($list->get() as $res)
 	 		{
 	 			if(ilDateTime::_after($res,$date))

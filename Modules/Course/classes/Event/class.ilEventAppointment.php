@@ -31,8 +31,10 @@
 * @extends Object
 */
 
+include_once('./Services/Calendar/interfaces/interface.ilDatePeriod.php');
 
-class ilEventAppointment
+
+class ilEventAppointment implements ilDatePeriod
 {
 	var $ilErr;
 	var $ilDB;
@@ -52,6 +54,58 @@ class ilEventAppointment
 
 		$this->appointment_id = $a_appointment_id;
 		$this->__read();
+	}
+	
+	// Interface methods
+	/**
+	 * is fullday
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function isFullday()
+	{
+		return $this->enabledFullTime();
+	}
+	
+	/**
+	 * get start
+	 *
+	 * @access public
+	 * @param
+	 * @return ilDateTime
+	 */
+	public function getStart()
+	{
+		include_once('./Services/Calendar/classes/class.ilDate.php');
+		if($this->isFullday())
+		{
+			return new ilDate($this->getStartingTime(),IL_CAL_UNIX);
+		}
+		else
+		{
+			return new ilDateTime($this->getStartingTime(),IL_CAL_UNIX);
+		}
+	}
+	
+	/**
+	 * get end
+	 *
+	 * @access public
+	 * @return ilDateTime
+	 */
+	public function getEnd()
+	{
+		include_once('./Services/Calendar/classes/class.ilDate.php');
+		if($this->isFullday())
+		{
+			return new ilDate($this->getEndingTime(),IL_CAL_UNIX);
+		}
+		else
+		{
+			return new ilDateTime($this->getEndingTime(),IL_CAL_UNIX);			
+		}
 	}
 
 	function setAppointmentId($a_appointment_id)

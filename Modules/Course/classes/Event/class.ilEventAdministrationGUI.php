@@ -655,6 +655,8 @@ class ilEventAdministrationGUI
 			return true;
 		}
 	
+		$this->lng->loadLanguageModule('dateplaner');
+	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
 		$this->form = new ilPropertyFormGUI();
@@ -693,24 +695,39 @@ class ilEventAdministrationGUI
 		$section->setTitle($this->lng->txt('event_date_time'));
 		$this->form->addItem($section);
 		
+		$full = new ilCheckboxInputGUI($this->lng->txt('cal_from_until'),'fulltime');
+		$full->setChecked($this->appointment_obj->enabledFulltime() ? true : false);
+		$full->setOptionTitle($this->lng->txt('event_fulltime_info'));
+		$this->form->addItem($full);
+		
 		// start
 		$start = new ilDateTimeInputGUI($this->lng->txt('event_start_date'),'start');
 		$start->setMinuteStepSize(5);
 		$start->setUnixTime($this->appointment_obj->getStartingTime());
 		$start->setShowTime(true);
-		$this->form->addItem($start);
+		$full->addSubItem($start);
 		
 		// end
 		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
 		$end->setMinuteStepSize(5);
 		$end->setUnixTime($this->appointment_obj->getEndingTime());
 		$end->setShowTime(true);
-		$this->form->addItem($end);
+		$full->addSubItem($end);
 
-		$full = new ilCheckboxInputGUI($this->lng->txt('event_fullday'),'fulltime');
-		$full->setChecked($this->appointment_obj->enabledFulltime() ? true : false);
-		$full->setOptionTitle($this->lng->txt('event_fulltime_info'));
-		$this->form->addItem($full);
+		// Recurrence
+		if($a_mode == 'create')
+		{
+			if(!is_object($this->rec))
+			{
+				include_once('./Modules/Course/classes/Event/class.ilEventRecurrence.php');
+				$this->rec = new ilEventRecurrence();
+			}
+			include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');
+			$rec = new ilRecurrenceInputGUI($this->lng->txt('cal_recurrences'),'frequence');
+			$rec->enableUntilSelection(false);
+			$rec->setRecurrence($this->rec);
+			$this->form->addItem($rec);
+		}
 
 		// section
 		$section = new ilFormSectionHeaderGUI();
@@ -959,6 +976,7 @@ class ilEventAdministrationGUI
 		global $ilErr;
 
 		$this->__load();
+		$this->loadRecurrenceSettings();
 		$this->initForm('create');
 		
 		$ilErr->setMessage('');
@@ -982,16 +1000,76 @@ class ilEventAdministrationGUI
 		// create appointment
 		$this->appointment_obj->setEventId($event_id);
 		$this->appointment_obj->create();
-
+		
 		foreach($this->files as $file_obj)
 		{
 			$file_obj->setEventId($this->event_obj->getEventId());
 			$file_obj->create();
 		}
 
+		$this->createRecurringSessions();
+
 		ilUtil::sendInfo($this->lng->txt('event_add_new_event'),true);
 		$this->ctrl->returnToParent($this);
 		return true;
+	}
+
+	/**
+	 * create recurring sessions
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function createRecurringSessions()
+	{
+		if(!$this->rec->getFrequenceType())
+		{
+			return true;
+		}
+		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
+		$calc = new ilCalendarRecurrenceCalculator($this->appointment_obj,$this->rec);
+		
+		$period_start = clone $this->appointment_obj->getStart();
+		$period_end = clone $this->appointment_obj->getStart();
+		$period_end->increment(IL_CAL_YEAR,5);
+		$date_list = $calc->calculateDateList($period_start,$period_end);
+		
+		$period_diff = $this->appointment_obj->getEnd()->get(IL_CAL_UNIX) - $this->appointment_obj->getStart()->get(IL_CAL_UNIX);
+		
+		foreach($date_list->get() as $date)
+		{
+		 	$event_obj = $this->event_obj;
+		 	
+			$new_event = new ilEvent();
+			$new_event->setObjId($this->container_obj->getId());
+			$new_event->setTitle($event_obj->getTitle());
+			$new_event->setDescription($event_obj->getDescription());
+			$new_event->setLocation($event_obj->getLocation());
+			$new_event->setName($event_obj->getName());
+			$new_event->setPhone($event_obj->getPhone());
+			$new_event->setEmail($event_obj->getEmail());
+			$new_event->setDetails($event_obj->getDetails());
+			$new_event->enableRegistration($event_obj->enabledRegistration());
+			$new_event->enableParticipation($event_obj->enabledParticipation());
+			$new_event_id = $new_event->create();
+			
+			// Copy appointments
+			foreach($this->event_obj->getAppointments() as $app_obj)
+			{
+				$new_app = new ilEventAppointment();
+				$new_app->setEventId($new_event->getEventId());
+				$new_app->setStartingTime($date->get(IL_CAL_UNIX));
+				$new_app->setEndingTime($date->get(IL_CAL_UNIX) + $period_diff);
+				$new_app->toggleFullTime($app_obj->enabledFullTime());
+				$new_app->create();
+			}
+			
+			foreach($this->event_obj->getFiles() as $file_obj)
+			{
+				$file_obj->cloneFiles($new_event->getEventId());
+			}
+		}	
 	}
 
 	function confirmDelete()
@@ -1398,6 +1476,79 @@ class ilEventAdministrationGUI
 		$this->tabs_gui->clearTargets();
 	 	$this->getTabs($this->tabs_gui);
 	}
+	
+	/**
+	 * load recurrence settings
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function loadRecurrenceSettings()
+	{
+		include_once('./Modules/Course/classes/Event/class.ilEventRecurrence.php');
+		$this->rec = new ilEventRecurrence();
+		
+		switch($_POST['frequence'])
+		{
+			case IL_CAL_FREQ_DAILY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_DAILY']);
+				break;
+			
+			case IL_CAL_FREQ_WEEKLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_WEEKLY']);
+				if(is_array($_POST['byday_WEEKLY']))
+				{
+					$this->rec->setBYDAY(ilUtil::stripSlashes(implode(',',$_POST['byday_WEEKLY'])));
+				}				
+				break;
+
+			case IL_CAL_FREQ_MONTHLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_MONTHLY']);
+				switch((int) $_POST['subtype_MONTHLY'])
+				{
+					case 0:
+						// nothing to do;
+						break;
+					
+					case 1:
+						$this->rec->setBYDAY((int) $_POST['monthly_byday_num'].$_POST['monthly_byday_day']);
+						break;
+					
+					case 2:
+						$this->rec->setBYMONTHDAY((int) $_POST['monthly_bymonthday']);
+						break;
+				}
+				break;			
+			
+			case IL_CAL_FREQ_YEARLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_YEARLY']);
+				switch((int) $_POST['subtype_YEARLY'])
+				{
+					case 0:
+						// nothing to do;
+						break;
+					
+					case 1:
+						$this->rec->setBYMONTH((int) $_POST['yearly_bymonth_byday']);
+						$this->rec->setBYDAY((int) $_POST['yearly_byday_num'].$_POST['yearly_byday']);
+						break;
+					
+					case 2:
+						$this->rec->setBYMONTH((int) $_POST['yearly_bymonth_by_monthday']);
+						$this->rec->setBYMONTHDAY((int) $_POST['yearly_bymonthday']);
+						break;
+				}
+				break;			
+		}
+		
+		// UNTIL
+		$this->rec->setFrequenceUntilCount((int) $_POST['count']);
+	}
+	
 			
 
 } // END class.ilCourseContentGUI

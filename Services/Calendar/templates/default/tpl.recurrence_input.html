@@ -66,6 +66,7 @@
 				<hr />
 			</td>
 		</tr>
+		<!--  BEGIN until_selection -->
 		<tr id="sub_UNTIL_1">
 			<td class="std" style="padding-left: 40px">
 				<input type="radio" {UNTIL_NO_CHECKED} name="until_type" value="1" /> {TXT_NO_ENDING}
@@ -76,7 +77,14 @@
 				<input type="radio" {UNTIL_COUNT_CHECKED} name="until_type" value="2" />{TXT_UNTIL_CREATE} <input type="text" size="2" maxlength="2" name="count" value="{VAL_COUNT}" /> {TXT_APPOINTMENTS}
 			</td>
 		</tr>
-		
+		<!-- END until_selection -->
+		<!-- BEGIN until_fixed -->
+		<tr id="sub_UNTIL_1">
+			<td class="std" style="padding-left: 40px">
+				{TXT_FIXED_UNTIL_CREATE} <input type="text" size="2" maxlength="2" name="count" value="{VAL_FIXED_COUNT}" /> {TXT_FIXED_APPOINTMENTS}
+			</td>
+		</tr>
+		<!-- END until_fixed -->		
 	</tbody>
 </table>
 			
