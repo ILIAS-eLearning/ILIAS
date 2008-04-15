@@ -1,4 +1,3 @@
-
 function ilHideFrequencies()
 {
 	sections = new Array('DAILY','WEEKLY','MONTHLY','YEARLY','UNTIL');
@@ -38,4 +37,12 @@ function ilHideFrequencies()
 		}
 	}
 }
-	
+
+function ilUpdateSubTypeSelection(element_id)
+{
+	if(element = document.getElementById(element_id))
+	{
+		element.checked = 'checked';
+	}
+}
+

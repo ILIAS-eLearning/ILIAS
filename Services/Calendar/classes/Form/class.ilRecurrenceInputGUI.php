@@ -276,7 +276,10 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			'monthly_byday_num',
 			$num_options,
 			false,
-			true));
+			true,
+			'',
+			'',
+			array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_1');")));
 			
 		$days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
 		
@@ -289,7 +292,10 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			'monthly_byday_day',
 			$days_select,
 			false,
-			true));
+			true,
+			'',
+			'',
+			array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_1');")));
 	}
 	
 	/**
@@ -331,7 +337,10 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			'monthly_bymonthday',
 			$options,
 			false,
-			true));
+			true,
+			'',
+			'',
+			array('onchange' => "ilUpdateSubTypeSelection('sub_monthly_radio_2');")));
 	}
 	
 	/**
@@ -372,7 +381,11 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			'yearly_bymonthday',
 			$options,
 			false,
-			true));
+			true,
+			
+			'',
+			'',
+			array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_2');")));
 		
 		$options = array();	
 		for($m = 1;$m < 13;$m++)
@@ -384,7 +397,11 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			'yearly_bymonth_by_monthday',
 			$options,
 			false,
-			true));
+			true,
+			'',
+			'',
+			array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_2');")));
+			
 			
 		if($chosen)
 		{
@@ -431,7 +448,11 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			'yearly_byday_num',
 			$num_options,
 			false,
-			true));
+			true,
+			'',
+			'',
+			array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")));
+			
 		
 		$days = array(0 => 'SU',1 => 'MO',2 => 'TU',3 => 'WE',4 => 'TH',5 => 'FR',6 => 'SA',7 => 'SU');
 		for($i = (int) $this->user_settings->getWeekStart();$i < 7 + (int) $this->user_settings->getWeekStart();$i++)
@@ -443,7 +464,11 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			'yearly_byday',
 			$days_select,
 			false,
-			true));
+			true,
+			'',
+			'',
+			array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")));
+			
 	
 		$chosen = false;
 		$chosen_month = 1;
@@ -466,7 +491,11 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 			'yearly_bymonth_byday',
 			$options,
 			false,
-			true));
+			true,
+			'',
+			'',
+			array('onchange' => "ilUpdateSubTypeSelection('sub_yearly_radio_1');")));
+			
 	}
 	
 	/**

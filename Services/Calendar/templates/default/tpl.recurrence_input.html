@@ -38,12 +38,12 @@
 		</tr>
 		<tr id="sub_MONTHLY_2">
 			<td class="std" style="padding-left: 40px">
-				<input type="radio" {M_BYDAY_CHECKED} name="subtype_MONTHLY" value="1" /> {TXT_ON_THE} {SELECT_BYDAY_NUM_MONTHLY} {SEL_BYDAY_DAY_MONTHLY}
+				<input id="sub_monthly_radio_1" type="radio" {M_BYDAY_CHECKED} name="subtype_MONTHLY" value="1" /> <label for="sub_monthly_radio_1">{TXT_ON_THE}</label> {SELECT_BYDAY_NUM_MONTHLY} {SEL_BYDAY_DAY_MONTHLY}
 			</td>
 		</tr>
 		<tr id="sub_MONTHLY_3">
 			<td class="std" style="padding-left: 40px">
-				<input type="radio" {M_BYMONTHDAY_CHECKED} name="subtype_MONTHLY" value="2" /> {TXT_ON_THE} {SELECT_BYMONTHDAY} {TXT_SUFFIX}
+				<input id="sub_monthly_radio_2" type="radio" {M_BYMONTHDAY_CHECKED} name="subtype_MONTHLY" value="2" /> <label for="sub_monthly_radio_2">{TXT_ON_THE}</label> {SELECT_BYMONTHDAY} {TXT_SUFFIX}
 				<hr />
 			</td>
 		</tr>
@@ -57,24 +57,24 @@
 		</tr>
 		<tr id="sub_YEARLY_2">
 			<td class="std" style="padding-left: 40px" nowrap="nowrap">
-				<input type="radio" {Y_BYDAY_CHECKED} name="subtype_YEARLY" value="1" /> {TXT_ON_THE} {SELECT_BYDAY_NUM_YEARLY} {SELECT_BYDAY_DAY_YEARLY} {TXT_IN} {SELECT_BYMONTH_BYDAY}
+				<input id="sub_yearly_radio_1" type="radio" {Y_BYDAY_CHECKED} name="subtype_YEARLY" value="1" /> {TXT_ON_THE} {SELECT_BYDAY_NUM_YEARLY} {SELECT_BYDAY_DAY_YEARLY} {TXT_IN} {SELECT_BYMONTH_BYDAY}
 			</td>
 		</tr>
 		<tr id="sub_YEARLY_3">
 			<td class="std" style="padding-left: 40px">
-				<input type="radio" {Y_BYMONTHDAY_CHECKED} name="subtype_YEARLY" value="2" /> {TXT_ON_THE} {SELECT_BYMONTHDAY_NUM_YEARLY} {SELECT_BYMONTH_YEARLY}
+				<input id="sub_yearly_radio_2" type="radio" {Y_BYMONTHDAY_CHECKED} name="subtype_YEARLY" value="2" /> {TXT_ON_THE} {SELECT_BYMONTHDAY_NUM_YEARLY} {SELECT_BYMONTH_YEARLY}
 				<hr />
 			</td>
 		</tr>
 		<!--  BEGIN until_selection -->
 		<tr id="sub_UNTIL_1">
 			<td class="std" style="padding-left: 40px">
-				<input type="radio" {UNTIL_NO_CHECKED} name="until_type" value="1" /> {TXT_NO_ENDING}
+				<input id="sub_until_radio_1" type="radio" {UNTIL_NO_CHECKED} name="until_type" value="1" /> <label for="sub_until_radio_1">{TXT_NO_ENDING}</label>
 			</td>
 		</tr>
 		<tr id="sub_UNTIL_2">
 			<td class="std" style="padding-left: 40px">
-				<input type="radio" {UNTIL_COUNT_CHECKED} name="until_type" value="2" />{TXT_UNTIL_CREATE} <input type="text" size="2" maxlength="2" name="count" value="{VAL_COUNT}" /> {TXT_APPOINTMENTS}
+				<input id="sub_until_radio_2" type="radio" {UNTIL_COUNT_CHECKED} name="until_type" value="2" /><label for="sub_until_radio_2">{TXT_UNTIL_CREATE}</label> <input type="text" size="2" maxlength="2" name="count" value="{VAL_COUNT}" onclick="ilUpdateSubTypeSelection('sub_until_radio_2');"/> {TXT_APPOINTMENTS}
 			</td>
 		</tr>
 		<!-- END until_selection -->
