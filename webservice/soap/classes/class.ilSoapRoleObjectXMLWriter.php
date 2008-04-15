@@ -83,6 +83,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 		$this->__buildHeader();
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		foreach ($this->roles as $role)
 		{
@@ -126,6 +127,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 					$this->xmlStartTag('AssignedObject', $attrs);
 					$this->xmlElement ('Title', null, $ownerObj->getTitle());
 					$this->xmlElement ('Description', null, $ownerObj->getDescription());
+					ilObjectXMLWriter::appendPathToObject($this, $ref_id);
 					$this->xmlEndTag ('AssignedObject', $attrs);
 				}
 			}
@@ -147,7 +149,7 @@ class ilSoapRoleObjectXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_role_object_3_7.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Roles PUBLIC \"-//ILIAS//DTD ILIAS Roles//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_role_object_3_10.dtd\">");
 		$this->xmlSetGenCmt("Roles information of ilias system");
 		$this->xmlHeader();
 

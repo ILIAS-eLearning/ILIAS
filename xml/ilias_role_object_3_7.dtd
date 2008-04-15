@@ -1,9 +1,8 @@
 <!ELEMENT Roles (Role*)>
 
 <!-- Role -->
-<!ELEMENT Role (Title, Description, Translation?, Owner?)>
+<!ELEMENT Role (Title, Description, Translation?, AssignedObject?)>
 <!ATTLIST Role
-	obj_id CDATA #REQUIRED
 	id CDATA #REQUIRED
 	role_type (Global | Local | Linked | Template) #REQUIRED
 >

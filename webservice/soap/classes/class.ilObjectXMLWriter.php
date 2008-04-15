@@ -213,7 +213,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 	}
 
 	
-	static function appendPathToObject ($writer, $refid){
+	public static function appendPathToObject ($writer, $refid){
 		global $tree, $lng;
 		$items = $tree->getPathFull($refid);
 		$writer->xmlStartTag("Path");
