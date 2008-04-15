@@ -323,9 +323,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
 
-		
-
-
 		return $content_block->getHTML();
 	}
 

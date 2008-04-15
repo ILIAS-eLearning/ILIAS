@@ -602,9 +602,15 @@ class ilInfoScreenGUI
 	*/
 	function getHTML()
 	{
-		global $lng, $ilSetting, $tree, $ilAccess;
+		global $lng, $ilSetting, $tree, $ilAccess, $ilCtrl;
 		
-		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true);
+		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true, "Services/InfoScreen");
+
+		// other class handles form action (@todo: this is not implemented/tested)
+		if ($this->form_action == "")
+		{
+			$this->setFormAction($ilCtrl->getFormAction($this));
+		}
 
 		// add top buttons
 		if (count($this->top_buttons) > 0)
@@ -702,6 +708,12 @@ class ilInfoScreenGUI
 			}
 		}
 
+		// tagging
+		if (is_object($this->gui_object->object))
+		{
+			$this->addTagging($tpl);
+		}
+		
 		// additional information
 		if (is_object($this->gui_object->object))
 		{
@@ -1027,6 +1039,59 @@ class ilInfoScreenGUI
 		}
 	}
 
+	
+	/**
+	* Add tagging
+	*/
+	function addTagging($tpl)
+	{
+		global $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("tagging");
+		
+		include_once("Services/Tagging/classes/class.ilTaggingGUI.php");
+		$tagging_gui = new ilTaggingGUI();
+		$tagging_gui->setObject($this->gui_object->object->getId(),
+			$this->gui_object->object->getType());
+		
+		// section header
+		$tpl->setCurrentBlock("header_row");
+		$tpl->setVariable("TXT_SECTION",
+			$this->lng->txt("tagging_tags"));
+		$tpl->parseCurrentBlock();
+		$tpl->touchBlock("row");
+		
+		// tags of all users
+		$tpl->setCurrentBlock("pv");
+		$tpl->setVariable("TXT_PROPERTY_VALUE", "test");
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("property_row");
+		$tpl->setVariable("TXT_PROPERTY", $lng->txt("tagging_all_users"));
+		$tpl->parseCurrentBlock();
+		$tpl->touchBlock("row");
+
+		// user tags
+		$tpl->setCurrentBlock("pv");
+		$tpl->setVariable("TXT_PROPERTY_VALUE", $tagging_gui->getTaggingInputHTML());
+		$tpl->parseCurrentBlock();
+		$tpl->setCurrentBlock("property_row");
+		$tpl->setVariable("TXT_PROPERTY", $lng->txt("tagging_my_tags"));
+		$tpl->parseCurrentBlock();
+		$tpl->touchBlock("row");
+	}
+	
+	function saveTags()
+	{
+		global $ilCtrl;
+		
+		include_once("Services/Tagging/classes/class.ilTaggingGUI.php");
+		$tagging_gui = new ilTaggingGUI();
+		$tagging_gui->setObject($this->gui_object->object->getId(),
+			$this->gui_object->object->getType());
+		$tagging_gui->saveInput();
+		
+		return $this->showSummary();
+	}
 }
 
 ?>

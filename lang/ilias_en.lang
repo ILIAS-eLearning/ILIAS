@@ -3790,6 +3790,10 @@ common#:#show_members#:#Display Members
 common#:#pd_items_news#:#Include News of Personal Items
 common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.
 common#:#show_owner#:#Show Owner
+tagging#:#tagging_tags#:#Tags
+tagging#:#tagging_resources_for_tag#:#Resources tagged with %s
+tagging#:#tagging_all_users#:#All Users
+common#:#tagging_my_tags#:#My Tags
 notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_add_comment#:#Add Comment
 notes#:#notes_show_comments#:#Show Comments
