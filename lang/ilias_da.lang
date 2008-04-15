@@ -52,16 +52,16 @@ administration#:#dumping_tree#:#Dumper træ
 administration#:#found#:#fundet.
 administration#:#found_none#:#ingen fundet.
 administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
-administration#:#language_administration#:#Language Administration###23 08 2007 new variable
-administration#:#language_all_modules#:#All modules###23 08 2007 new variable
-administration#:#language_change_settings#:#Change Language Settings###23 08 2007 new variable
-administration#:#language_clear_local_changes#:#Clear local changes in the database###23 08 2007 new variable
+administration#:#language_administration#:#Sprogadministration
+administration#:#language_all_modules#:#Alle moduler
+administration#:#language_change_settings#:#Lav sprogindstillinger om
+administration#:#language_clear_local_changes#:#Fjern lokaleændringer i databasen
 administration#:#language_cleared_local#:#The local changes were cleared in the database.###23 08 2007 new variable
-administration#:#language_compare#:#Compare:###23 08 2007 new variable
-administration#:#language_default_entries#:# (default entries)###23 08 2007 new variable
-administration#:#language_delete_local_changes#:#Delete all local changes in the database###23 08 2007 new variable
+administration#:#language_compare#:#Sammenlign:
+administration#:#language_default_entries#:# (standard emner)
+administration#:#language_delete_local_changes#:#Slet alle lokale ændringer i databasen
 administration#:#language_error_clear_local#:#The local changed couldn't be cleared in the database!###23 08 2007 new variable
-administration#:#language_error_read_local#:#The local language file doesn't exist or can't be read!###23 08 2007 new variable
+administration#:#language_error_read_local#:#Den lokale sprogfil eksisterer ikke eller kan ikke læses
 administration#:#language_error_write_local#:#The local language file can't be written!###23 08 2007 new variable
 administration#:#language_export_file#:#Export Language File###23 08 2007 new variable
 administration#:#language_file_imported#:#The language file %s was imported.###23 08 2007 new variable
@@ -80,13 +80,13 @@ administration#:#language_mode_existing_replace#:#Replace existing entries###23 
 administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and reimport them if needed.###23 08 2007 new variable
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
 administration#:#language_process_maintenance#:#Process Maintenance###23 08 2007 new variable
-administration#:#language_save_local_changes#:#Save all changes to the local language file###23 08 2007 new variable
-administration#:#language_saved_local#:#All changes were saved to the local language file.###23 08 2007 new variable
+administration#:#language_save_local_changes#:#Gem alle ændringer i den lokale sprogfil
+administration#:#language_saved_local#:#Alle ændringer blev gemt i den lokale sprogfil
 administration#:#language_scope_commented#:#With comments from language manager###23 08 2007 new variable
 administration#:#language_scope_different#:#Different from compare language###23 08 2007 new variable
 administration#:#language_scope_equal#:#Equal to compare language###23 08 2007 new variable
 administration#:#language_scope_global#:#All entries###23 08 2007 new variable
-administration#:#language_scope_local#:#Local changes only###23 08 2007 new variable
+administration#:#language_scope_local#:#Kun lokale ændringer
 administration#:#language_scope_translate#:#All entries, empty for translation###23 08 2007 new variable
 administration#:#language_scope_unchanged#:#Unchanged entries only###23 08 2007 new variable
 administration#:#language_settings#:#Language Settings###23 08 2007 new variable
@@ -119,7 +119,7 @@ administration#:#purging_unbound_objs#:#Finder ikke bundne objekter...
 administration#:#removing_invalid_childs#:#Fjern ugyldige træ indgange...
 administration#:#removing_invalid_refs#:#Fjern ugyldige referencer...
 administration#:#removing_invalid_rolfs#:#Fjern ugyldige rollefoldere...
-administration#:#repair_options#:#Repair options###23 Dec 2005 new variable
+administration#:#repair_options#:#Reperationsmuligheder
 administration#:#restore_missing#:#Gendan manglende objekter
 administration#:#restore_missing_desc#:#Gendan manglende og ikke bundne objekter til recoveryfolder
 administration#:#restore_trash#:#Gendan slettede objekter
@@ -149,8 +149,8 @@ administration#:#view_last_log#:#Se sidste scanlog
 administration#:#view_log#:#Se detaljer
 administration#:#course_export#:#Kursus eksport
 administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.###25 02 2007 new variable
-common#:#access_expired#:#expired###25 02 2007 new variable
-common#:#res_links#:#Repository Links###23 08 2007 new variable
+common#:#access_expired#:#udløbet
+common#:#res_links#:#Oversigts links
 common#:#short_inst_name#:#Short Title###02 04 2007 new variable
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###25 02 2007 new variable
@@ -560,11 +560,11 @@ common#:#perm_special_options#:#Særligt
 common#:#change_existing_objects#:#Ændrer eksisterende objekter
 common#:#change_existing_objects_desc#:#Rettighedsindstillingerne for denne rolle vil blive anvendt på ALLE eksisterende objekter. Hvis du kun ønsker at ændre rettighederne for specifikke objekttyper så vælg i afkrydsboksene til højre for objekttypen.
 common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.###25 02 2007 new variable
-common#:#change_existing_prefix#:#Change existing###25 02 2007 new variable
-common#:#change_existing_suffix#:#&nbsp;###25 02 2007 new variable
-common#:#change_existing_prefix_single#:#Change###25 02 2007 new variable
-common#:#change_existing_suffix_single#:#&nbsp;###25 02 2007 new variable
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type###25 02 2007 new variable
+common#:#change_existing_prefix#:#Ret eksisterende
+common#:#change_existing_suffix#:#&nbsp;
+common#:#change_existing_prefix_single#:#Ret
+common#:#change_existing_suffix_single#:#&nbsp;
+common#:#change_existing_object_type_desc#:#Ret rettigheder på eksisterende objekter af denne type
 common#:#change_header_title#:#Rediger overskift
 common#:#change_lo_info#:#Rediger LO Info
 common#:#change_metadata#:#Rediger Metadata
@@ -600,7 +600,7 @@ common#:#check_link_desc#:#Hvis aktiveret, vil alle eksterne links i ILIAS lære
 common#:#check_max_allowed_packet_size#:#Sidefilens indhold er for stort.
 common#:#check_user_accounts#:#Check brugerkonti
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by email.###21 Apr 2005 new variable
-common#:#check_web_resources#:#Check webresurser###11 Mar 2005 new variable
+common#:#check_web_resources#:#Check webresurser
 common#:#check_web_resources_desc#:#Hvis sat til, vil alle webresurser blive checket om de er aktiveret
 common#:#checked_files#:#Importerbare filer
 common#:#chg_language#:#Skift Sprog
@@ -639,12 +639,12 @@ common#:#condition_update#:#Gem
 common#:#conditions_updated#:#Conditions er Gemt
 common#:#confirm#:#Bekræft
 common#:#confirmation#:#Bekræftelse
-common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
+common#:#conflict_handling#:#Konflikthåndtering
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformation
 common#:#container#:#Container
 common#:#content#:#Indhold
-common#:#content_styles#:#Content Styles###21 Apr 2005 new variable
+common#:#content_styles#:#Indholds stilark
 common#:#context#:#Kontekst
 common#:#continue_work#:#Fortsæt
 common#:#contra#:#Kontra
@@ -1106,7 +1106,7 @@ common#:#group_import_file#:#Importer fil
 common#:#group_info_reg#:#Adgangsbetingelser
 common#:#group_members#:#Gruppemedlemmer###Could be \\'Gruppemedlemmer\\'
 common#:#group_memstat#:#Medlemsstatus
-common#:#group_memstat_admin#:#Administrator###21 Apr 2005 new variable
+common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#medlemer
 common#:#group_name#:#Gruppenavn
 common#:#group_new_registrations#:#Nye ansøgninger
@@ -1118,7 +1118,7 @@ common#:#group_password_registration_msg#:#For at blive medlem af denne gruppe s
 common#:#group_registration#:#Indmeldelse
 common#:#group_registration_expiration_date#:#Udløbsdag
 common#:#group_registration_expiration_time#:#Udløbstid
-common#:#group_registration_expired#:#registreringsperioden er udløbet###23 Dec 2005 content changed
+common#:#group_registration_expired#:#Registreringsperioden er udløbet eller du er (endnu) ikke aktiveret
 common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
 common#:#group_registration_mode#:#Registrerings metode###23 Dec 2005 content changed
 common#:#group_registration_time#:#Indmeldelsesperiode
@@ -1238,12 +1238,12 @@ common#:#hist_file_replace#:#Fil erstattet, nyt navn '%1', ny version er %2
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Side oprettet.
-common#:#hist_lm_pg_cut#:#Page cut out of chapter "%1" [%2].
-common#:#hist_lm_pg_paste#:#Page pasted into chapter "%1" [%2].
+common#:#hist_lm_pg_cut#:#Side klippet ud af kapitel "%1" [%2].
+common#:#hist_lm_pg_paste#:#Side indsat i kapitel "%1" [%2].
 common#:#hist_lm_pg_update#:#Side ændret.
 common#:#hist_lm_st_create#:#Kapitel ændret.
-common#:#hist_lm_st_cut_page#:#Page "%1" [%2] cut out of chapter.
-common#:#hist_lm_st_paste_page#:#Page "%1" [%2] pasted into chapter.
+common#:#hist_lm_st_cut_page#:#Side "%1" [%2] klippet ud af kapitel.
+common#:#hist_lm_st_paste_page#:#Side "%1" [%2] indsat i kapitel.
 common#:#hist_no_entries#:#No entries in history.###21 Apr 2005 new variable
 common#:#hist_webr_add#:#Tilføjet ny webresurse med titel: \\
 common#:#hist_webr_delete#:#Slet webresurse. Titel: \\
@@ -1261,7 +1261,7 @@ common#:#hlm_read#:#Læserettigheder til HACP Læremodul
 common#:#hlm_visible#:#HACP Lærer module er synligt
 common#:#hlm_write#:#Rediger HACP lærer modul
 common#:#hobby#:#Interesser/Hobbyer
-common#:#home#:#Hjem###19 Jul 2005 content changed
+common#:#home#:#Hjem
 common#:#host#:#Udbyder
 common#:#hour#:#Hour
 common#:#hours_of_day#:#Timer på en dag
@@ -1317,7 +1317,7 @@ common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
 common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
 common#:#il_grp_member#:#Medlem
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
-common#:#il_icrs_member#:#LearnLinc Seminar member###14 Jul 2005 new variable
+common#:#il_icrs_member#:#LearnLinc seminarmedlem
 common#:#ilias_version#:#ILIAS version
 common#:#ilinc_add_user#:#Tilføj bruger(e)###06 Sep 2005 new variable
 common#:#ilinc_akclassvalue#:#Cost center
@@ -1338,10 +1338,10 @@ common#:#ilinc_err_member_could_not_be_removed#:#Member could not be removed. Pl
 common#:#ilinc_err_no_permission#:#You do not possess the permissions for this operation.###17 Aug 2005 new variable
 common#:#ilinc_err_registration_data#:#Skriv venligst et password, udløbsdatoen og tidsforløb for en gyldig tilmeldingsperiode 
 common#:#ilinc_header_edit_users#:#Rediger liste af tilknyttede brugere
-common#:#ilinc_id#:#iLinc ID###20 Jun 2005 new variable
-common#:#ilinc_login#:#iLinc Login###25 02 2007 new variable
-common#:#ilinc_passwd#:#iLinc Password###25 02 2007 new variable
-common#:#ilinc_involved_users#:#Involved Users###17 Aug 2005 new variable
+common#:#ilinc_id#:#iLinc ID
+common#:#ilinc_login#:#iLinc Login
+common#:#ilinc_passwd#:#iLinc Password
+common#:#ilinc_involved_users#:#Involverede brugere
 common#:#ilinc_mail_body_new_subscription#:#ou have been subscribed as to that LearnLinc Seminar.###06 Sep 2005 new variable
 common#:#ilinc_mail_body_subscription_cancelled#:#Dit medlemsskab er annulleret.
 common#:#ilinc_mail_subj_new_subscription#:#Ny tilmelding
@@ -1445,7 +1445,7 @@ common#:#ingmedia_welcome#:#, Velkommen til dit personlige skrivebord!!
 common#:#inifile#:#Ini-Fil
 common#:#input_error#:#Input fejl
 common#:#insert#:#Indsæt
-common#:#insert_object_here#:#Insert object here###21 Apr 2005 new variable
+common#:#insert_object_here#:#Insæt objekt her
 common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installationsinfo
 common#:#inst_name#:#Installationsnavn
@@ -1469,13 +1469,13 @@ common#:#join#:#Tilmeld
 common#:#buy#:#Køb
 common#:#kb#:#KByte
 common#:#keywords#:#Nøgleord
-common#:#lang_bg#:#Bulgarian###10 05 2007 new variable
+common#:#lang_bg#:#Bulgarsk
 common#:#lang_cs#:#Czech###21 Apr 2005 new variable
 common#:#lang_da#:#dansk
-common#:#lang_dateformat#:#Y-m-d###21 Apr 2005 new variable
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Tysk
 common#:#lang_el#:#grækenland
-common#:#lang_et#:#Estonian###10 05 2007 new variable
+common#:#lang_et#:#Estisk
 common#:#lang_en#:#Engelsk
 common#:#lang_es#:#Spansk
 common#:#lang_fi#:#Finsk
@@ -1492,9 +1492,9 @@ common#:#lang_path#:#sprog ski
 common#:#lang_pl#:#Polsk
 common#:#lang_pt#:#Portugisk
 common#:#lang_ro#:#Romanian###22 Apr 2005 new variable
-common#:#lang_ru#:#Russian###10 05 2007 new variable
-common#:#lang_sep_decimal#:#.###21 Apr 2005 new variable
-common#:#lang_sep_thousand#:#,###21 Apr 2005 new variable
+common#:#lang_ru#:#Russisk
+common#:#lang_sep_decimal#:#,
+common#:#lang_sep_thousand#:#.
 common#:#lang_sq#:#Albansk
 common#:#lang_sr#:#Serbisk
 common#:#lang_sv#:#Svensk
@@ -1515,7 +1515,7 @@ common#:#languages_updated#:#Alle installerede sprog er blevet opdateret
 common#:#last_access#:#Sidste adgang:
 common#:#last_change#:#Sidste ændring
 common#:#last_edited_on#:#Sidst redigeret
-common#:#last_login#:#Last login###28 Feb 2006 new variable
+common#:#last_login#:#Sidste login
 common#:#last_visit#:#Sidste besøg
 common#:#lastname#:#Efternavn
 common#:#launch#:#Kør
@@ -1529,10 +1529,10 @@ common#:#ldap_passwd#:#Dit nuværende password
 common#:#ldap_port#:#LDAP Port
 common#:#ldap_read#:#Læse adgang til LDAP indstillinger
 common#:#ldap_search_base#:#LDAP søgedatabase
-common#:#ldap_server#:#LDAP Server URL###21 Apr 2005 new variable
+common#:#ldap_server#:#LDAP server URL
 common#:#ldap_tls#:#Brug LDAP TLS
-common#:#ldap_v2#:#LDAPv2###21 Apr 2005 new variable
-common#:#ldap_v3#:#LDAPv3###21 Apr 2005 new variable
+common#:#ldap_v2#:#LDAPv2
+common#:#ldap_v3#:#LDAPv3
 common#:#ldap_version#:#LDAP protokol version
 common#:#ldap_visible#:#LDAP indstillinger er synlige
 common#:#ldap_write#:#Rediger LDAP indstillinger
@@ -1542,8 +1542,8 @@ common#:#learning_progress#:#Læringsfremskridt
 common#:#learning_resourc#:#Learning Resource
 common#:#learning_resource#:#Læreresurse
 common#:#learning_resources#:#Læreresourcer
-common#:#level#:#Level###21 Apr 2005 new variable
-common#:#link#:#Link###21 Apr 2005 new variable
+common#:#level#:#Niveau
+common#:#link#:#Link
 common#:#link_check#:#Linkcheck
 common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###21 Apr 2005 new variable
 common#:#link_check_message_b#:#Hvis aktiveret, vil du blive informeret om ugyldige links via din email
@@ -1624,12 +1624,12 @@ common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Serv
 common#:#login_to_ilias_via_shibboleth#:#Login til ILIAS via Shibboleth
 common#:#logout#:#Log af
 common#:#logout_text#:#Du er logget af ILIAS. Tak for besøget.
-common#:#logs#:#Log data###21 Apr 2005 new variable
+common#:#logs#:#Log data
 common#:#los#:#Lærer objekter
 common#:#los_last_visited#:#Sidst besøgte lærer objekter
-common#:#last_visited#:#Last Visited###08 12 2006 new variable
+common#:#last_visited#:#Sidst besøgt
 common#:#lres#:#Læreresurser
-common#:#mail#:#Mail###21 Apr 2005 new variable
+common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailboks
 common#:#mail_addressbook#:#Adressebog
 common#:#mail_allow_smtp#:#Tillad SMTP
@@ -1663,15 +1663,15 @@ common#:#mail_sent#:#Mail sendt!
 common#:#mail_smtp_mail#:#Brugeren kan sende mail via SMTP
 common#:#mail_system#:#Systembesked
 common#:#mail_system_message#:#Brugeren kan sende interne systembeskeder
-common#:#mail_use_pear_mail#:#Use Pear Mail###02 04 2007 new variable
-common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant email addresses.###02 04 2007 new variable
-common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.###02 04 2007 new variable
+common#:#mail_use_pear_mail#:#Brug PEAR Mail
+common#:#mail_use_pear_mail_info#:#Brug PEAR Mail til at parse mailadresser. Den indbyggede parser i ILIAS er meget begrænset. PEAR Mail understøtter fuldt ud gyldige internet mailadresser.
+common#:#mail_pear_mail_needed#:#Du skal installere PEAR Mail for at anvende denne funktionalitet. For at gøre dette skal du indtaste <code>pear install Mail</code> i et terminalvindue. Det kan være du har behov for at kontakte en systemadministrator.
 common#:#mail_visible#:#Mailindstillinger er synlige
 common#:#mail_write#:#Rediger mailindstillinger
 common#:#mail_z_local#:#Brugermappe
-common#:#mails#:#Mail###21 Apr 2005 new variable
-common#:#mails_pl#:#Mail(s)###25 02 2007 new variable
-common#:#main_menu_frame#:#Top Level Menu###28 Feb 2006 new variable
+common#:#mails#:#Mail
+common#:#mails_pl#:#Mail(s)
+common#:#main_menu_frame#:#Top level menu###28 Feb 2006 new variable
 common#:#manage_tracking_data#:#Kontroller sporingsdata
 common#:#mark_all_read#:#Marker alle som læst
 common#:#mark_all_unread#:#Marker alle som ulæst
@@ -1689,7 +1689,7 @@ common#:#mep_delete#:#Slet Mediebeholer
 common#:#mep_edit#:#Rediger mediebeholder indstillinger
 common#:#mep_edit_permission#:#ændrer rettighedsindstillinger
 common#:#mep_new#:#Ny mediebeholder
-common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
+common#:#mep_not_insert_already_exist#:#De følgende objekter er ikke blevet indsat fordi de allerede findes i mediebiblioteket:
 common#:#mep_read#:#Læs indhold i mediebeholder
 common#:#mep_visible#:#Mediabeholder er synlig
 common#:#mep_write#:#Rediger indhold i mediebeholder
@@ -1697,7 +1697,7 @@ common#:#mcst_delete#:#Slet Mediacast
 common#:#feed_delete#:#Slet Web feed
 common#:#message#:#Besked
 common#:#message_content#:#Indhold
-common#:#message_no_delivered_files#:#Du har ikke fremsendt en fil!
+common#:#message_no_delivered_files#:#Du har ikke vedhæftet en fil!
 common#:#message_to#:#Besked til:
 common#:#meta_data#:#Metadata
 common#:#migrate#:#Migrer
@@ -1714,7 +1714,7 @@ common#:#month_02_long#:#Feburar
 common#:#month_02_short#:#feb
 common#:#month_03_long#:#Marts
 common#:#month_03_short#:#mar
-common#:#month_04_long#:#April###21 Apr 2005 new variable
+common#:#month_04_long#:#April
 common#:#month_04_short#:#apr
 common#:#month_05_long#:#Maj
 common#:#month_05_short#:#Maj
@@ -1856,11 +1856,11 @@ common#:#feed_read#:#Læseadgang til Web feed
 common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
 common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#mcst_visible#:#MediaCast er synligt
-common#:#mcst_read#:#Læseadgang til MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Rediger MediaCast###02 04 2007 new variable
+common#:#mcst_read#:#Læseadgang til MediaCast
+common#:#mcst_write#:#Rediger MediaCast
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#Nyheds og web feeds indstillinger er synlige
-common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
+common#:#nwss_read#:#Indstillinger for læseadgang til Nyheds- og Webfeeds
 common#:#nwss_write#:#Rediger nyheds og web feeds indstillinger
 common#:#cat_create_feed#:#Opret web feed
 common#:#grp_create_feed#:#Opret web feed
@@ -1874,9 +1874,9 @@ common#:#access_public#:#Offentlig
 common#:#access_scope#:#Adgang
 common#:#activate_block#:#Aktiver
 common#:#next#:#næste
-common#:#no_agreement_description#:#There is currently no user agreement text provided with this installation. Please contact the system administrator.###02 04 2007 new variable
-common#:#delicious#:#del.icio.us Account###25 02 2007 new variable
-common#:#select_page#:#Select Page###25 02 2007 new variable
+common#:#no_agreement_description#:#Der er pt. ingen brugeraftale tilknyttet denne installation. Kontakt evt. systemadministrator.
+common#:#delicious#:#del.icio.us konto
+common#:#select_page#:#Vælg side
 common#:#nickname#:#øgenavn
 common#:#no#:#Nej
 common#:#no_access_item#:#Du har ikke rettigheder til adgang af objekterne.
@@ -1885,7 +1885,7 @@ common#:#no_access_link_object#:#Du har ikke tilladelse til at linke til dette o
 common#:#no_bm_in_personal_list#:#Ingen foretrukne er defineret.
 common#:#no_chat_in_personal_list#:#Ingen chats i din personlige liste
 common#:#no_checkbox#:#Ingen box er krydset af!
-common#:#no_condition_selected#:#Please select one precondition.###23 Dec 2005 new variable
+common#:#no_condition_selected#:#Vælg venligst en forudsætning
 common#:#no_conditions_found#:#Ingen forudgående betingelser fundet
 common#:#no_datasets#:#Tabellen er tom
 common#:#no_date#:#Ingen dato
@@ -1900,7 +1900,7 @@ common#:#no_limit#:#Ubegrænset
 common#:#no_lo_in_personal_list#:#Ingen lære objekter i din personlige liste.
 common#:#no_local_users#:#Der er ingen lokale brugere
 common#:#no_objects#:#Ingen objekter
-common#:#no_parent_access#:#No access to a superordinated object!###20 Jun 2005 new variable
+common#:#no_parent_access#:#Der er ikke adgang til et objekt på højere niveau
 common#:#no_permission#:#Du har ikke de nødvendige rettigheder.
 common#:#no_permission_to_join#:#Du har ikke tilladelse til at se denne gruppe!
 common#:#no_roles_user_can_be_assigned_to#:#Du kan ikke oprette brugere, da der ikke findes globale roller som kan tildeles disse.
@@ -1914,9 +1914,9 @@ common#:#no_xml_file_found_in_zip#:#XML fil i zip filen er ikke fundet:
 common#:#no_zip_file#:#Ingen zip file er fundet.
 common#:#non_internal_local_roles_only#:#Lokal roller (kun bruger definerede)
 common#:#none#:#Ingen
-common#:#normal#:#Normal###21 Apr 2005 new variable
-common#:#not_accessed#:#Not accessed###21 Apr 2005 new variable
-common#:#not_accessed_yet#:#Not accessed yet
+common#:#normal#:#Normal
+common#:#not_accessed#:#Ikke tilgået
+common#:#not_accessed_yet#:#Ikke tilgået endnu
 common#:#not_available#:#Ikke tilgængelig
 common#:#not_implemented_yet#:#Ikke implementeret endnu
 common#:#not_installed#:#Ikke installeret
@@ -1928,7 +1928,7 @@ common#:#num_users#:#Antal  brugere
 common#:#number_of_accesses#:#Antal adgang
 common#:#number_of_records#:#Antal data
 common#:#obj#:#Objekt
-common#:#obj_adm#:#Administration###21 Apr 2005 new variable
+common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#hoved system indstillingers mappe indeholder alle ting til at administrerer din ILIAS installation.
 common#:#obj_adve#:#Avanceret redigering
 common#:#obj_adve_desc#:#Administrationsindstillinger for avanceret redigering, så som JavaScript baserede Rich Text editors, LaTeX understøttelse osv.
@@ -1941,7 +1941,7 @@ common#:#obj_cat#:#Kategori
 common#:#obj_cen#:#Centra Event###21 Apr 2005 new variable
 common#:#obj_chac#:#Chatindstillinger
 common#:#obj_chac_desc#:#Konfigurer din chatserver her. Aktiver/deaktiver chats
-common#:#obj_chat#:#Chat###21 Apr 2005 new variable
+common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kursus
 common#:#obj_dbk#:#Digilibbog
 common#:#obj_exc#:#øvelse
@@ -1954,7 +1954,7 @@ common#:#obj_glo#:#Ordbog
 common#:#obj_grp#:#Gruppe
 common#:#obj_hlm#:#Læremodul HACP
 common#:#obj_htlm#:#Læremodul HTML
-common#:#obj_icla#:#iLinc Classroom###21 Apr 2005 new variable
+common#:#obj_icla#:#iLinc klasserum
 common#:#obj_icrs#:#iLinc kursus
 common#:#obj_ldap#:#LDAP Indstillinger
 common#:#obj_ldap_desc#:#Konfigurer globale LDAP indstillinger her.
@@ -1988,8 +1988,8 @@ common#:#obj_rolf_local#:#Lokale roller
 common#:#obj_rolf_local_desc#:#Indeholder lokale roller fra objekter.
 common#:#obj_rolt#:#Rolleskabelon
 common#:#obj_root#:#ILIAS systemnode
-common#:#invisible_block#:#Invisible Block###29 05 2007 new variable
-common#:#invisible_block_mess#:#You do not have the permission to view this block.###29 05 2007 new variable
+common#:#invisible_block#:#Usynlig blok
+common#:#invisible_block_mess#:#Du har ikke rettigheder til at se denne blok.
 common#:#obj_sahs#:#Læremodul SCORM/AICC
 common#:#obj_seas#:#Søgning
 common#:#obj_seas_desc#:#Administration af søgeindstillinger,
@@ -2009,10 +2009,10 @@ common#:#obj_type#:#Objekt Type
 common#:#obj_url#:#URL###21 Apr 2005 new variable
 common#:#obj_uset#:#Brugerindstillinger
 common#:#obj_usr#:#bruger
-common#:#obj_user#:#User###25 02 2007 new variable
+common#:#obj_user#:#Bruger
 common#:#obj_usrf#:#Brugerkonti
 common#:#obj_usrf_desc#:#Administrer dine brugerkonti her.
-common#:#obj_webr#:#Webresurse###11 Mar 2005 new variable
+common#:#obj_webr#:#Webresurse
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt er tilføjet
 common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
@@ -2060,9 +2060,9 @@ common#:#objs_url#:#URLs###21 Apr 2005 new variable
 common#:#objs_usr#:#Brugere
 common#:#objs_webr#:#Webresurser
 common#:#of#:#Af
-common#:#offline#:#offline###21 Apr 2005 new variable
+common#:#offline#:#offline
 common#:#offline_version#:#Offline Version###21 Apr 2005 new variable
-common#:#ok#:#OK###21 Apr 2005 new variable
+common#:#ok#:#OK
 common#:#go#:#Go###08 12 2006 new variable
 common#:#hh_mm_ss#:#HH:MM:SS###25 02 2007 new variable
 common#:#hh_mm#:#HH:MM###25 02 2007 new variable
@@ -2091,12 +2091,12 @@ common#:#parse#:#Parse###21 Apr 2005 new variable
 common#:#passed#:#Bestået
 common#:#passwd#:#Password###21 Apr 2005 new variable
 common#:#passwd_generation#:#Password generering
-common#:#passwd_generation_info#:#If enabled, passwords can only be selected from a pretended list.
-common#:#passwd_invalid#:#Det nye password er ugyldigt! Kun gyldige karakterer er gyldige (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~###28 Feb 2006 content changed
+common#:#passwd_generation_info#:#Hvis aktiveret kan passwords kun vælges fra en liste
+common#:#passwd_invalid#:#Det nye password er ugyldigt! Kun gyldige karakterer er gyldige (minimum 6 karaktere): A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Dine indtastninger for et nyt password matcher ikke. Venligst indtast påny.
 common#:#passwd_wrong#:#Det password du har indtastet er forkert!
-common#:#password#:#Password###21 Apr 2005 new variable
-common#:#password_assistance_disabled#:#Passwordhjælp er kun mulig når brugergenkendelse er sket via lokal ILIAS database.
+common#:#password#:#Password
+common#:#password_assistance_disabled#:#Passwordhjælp er kun mulig når brugergenkendelse sker via lokal ILIAS database.
 common#:#password_assistance_info#:#Hvis passwordhjælp er aktiveret vil et link med teksten <i>Glemt password</i> blive vist på loginbilledet til ILIAS. Brugere kan bruge dette link til at angive et nyt password til deres brugerkonto uden hjælp fra systemadministrator.
 common#:#paste#:#Indsæt
 common#:#pasteChapter#:#Indsæt
@@ -2125,7 +2125,7 @@ common#:#pdf_export#:#PDF Export
 common#:#per_object#:#adgang til objekt
 common#:#perm_role_info_1#:#Denne formular bestemmer rettighederne for <b>%s</b>rollen for nye objekter under <b>%s</b> objektet.
 common#:#perm_role_info_2#:#Hvis du ønsker at ændre rettighederne for <i>%srollen</i> for <b>eksisterende</b> objekter under <i>%sobjektet</i> skal du afkrydse <i>Ændrer eksisterende objekter</i> i bunden af formularen.
-common#:#perm_role_info_glob_1#:#This form determines the permissions of role '%s' for newly created objects in the repository.
+common#:#perm_role_info_glob_1#:#Denne formular angiver rettighederne for rollen '%s' for nye objekter i oversigten.
 common#:#perm_role_info_glob_2#:#If you want to change the permissions of role '%s' for all existing objects in the repository you must check the option 'Change Existing Objects' at the bottom of the screen.
 common#:#perm_settings#:#Rettigheder
 common#:#perma_link#:#Link hertil
@@ -2155,8 +2155,8 @@ common#:#please_enter_title#:#indtast en titel
 common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###21 Apr 2005 new variable
 common#:#please_select_a_delivered_file_to_download#:#Du skal vælge mindst en leveret fil for at downloade den!
 common#:#please_wait#:#Vent venligst...
-common#:#port#:#Port###21 Apr 2005 new variable
-common#:#position#:#Position###21 Apr 2005 new variable
+common#:#port#:#Port
+common#:#position#:#Position
 common#:#precondition_not_accessible#:#You do not have sufficient permission to view the precondition(s) of this item.###19 Apr 2006 new variable
 common#:#preconditions#:#Betingelser
 common#:#predefined_template#:#Fordefineret rolleskabelon
@@ -2166,7 +2166,7 @@ common#:#print#:#Udskriv
 common#:#print_view#:#Print View
 common#:#private_notes#:#Private noter
 common#:#pro#:#Pro###23 Dec 2005 new variable
-common#:#proceed#:#Proceed###12 11 2006 new variable
+common#:#proceed#:#Fortsæt
 common#:#profile#:#Profil
 common#:#profile_changed#:#Din profil er blevet ændret
 common#:#profile_incomplete#:#Din profil er ikke komplet. Udfyld venligt de manglende informationer.
@@ -2287,13 +2287,13 @@ common#:#role_new_search#:#Ny søgning
 common#:#role_no_groups_selected#:#Vælg venligst en gruppe
 common#:#role_no_results_found#:#Ingen reultater fundet
 common#:#role_no_roles_selected#:#Vælg en rolle
-common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###21 Apr 2005 new variable
+common#:#role_no_users_no_desk_items#:#Da du ikke kan tildele brugere til denne rolle kan du heller ikke tildele personlige skrivebords objekter.
 common#:#role_protect_permissions#:#Lås rettigheder###
 common#:#role_search_enter_search_string#:#indtast et søgeord
 common#:#role_search_users#:#Bruger søgning
 common#:#role_select_desktop_item#:#Vælg et eller flere objekter som skal tildeles denne rolle.
-common#:#role_select_one_item#:#Please select one object.###21 Apr 2005 new variable
-common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###21 Apr 2005 new variable
+common#:#role_select_one_item#:#Vælg venligst et objekt.
+common#:#role_sure_delete_desk_items#:#Er du sikker på du ønsker at SLETTE de følgende opgaver?
 common#:#role_templates_only#:#Kun rolleskabeloner
 common#:#role_user_deassign#:#Frakend bruger rolle
 common#:#role_user_edit#:#Rediger konto data
@@ -2323,10 +2323,10 @@ common#:#root_edit_permission#:#Ændre rettighedsindstillinger
 common#:#root_read#:#Læseadgang til ILIASsystemet
 common#:#root_visible#:#ILIASsystemet er synligt
 common#:#root_write#:#Rediger metadata fra system root node
-common#:#row#:#Row###29 11 2006 new variable
-common#:#rows#:#Rows###29 11 2006 new variable
-common#:#rte_editor_enabled#:#Rich Text Editor enabled###29 11 2006 new variable
-common#:#rte_editor_disabled#:#Rich Text Editor disabled###29 11 2006 new variable
+common#:#row#:#Række
+common#:#rows#:#Rækker
+common#:#rte_editor_enabled#:#Rig tekst editor aktiveret
+common#:#rte_editor_disabled#:#Rig tekst editor deaktiveret
 common#:#sahs#:#Læremodul SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Læremodul tilføjet
 common#:#sahs_create#:#Opret SCORM/AICC Læremodul
@@ -2338,8 +2338,8 @@ common#:#sahs_leave#:#Afmeld SCORM/AICC Læremodul
 common#:#sahs_read#:#Læseadgang til SCORM/AICC læremodul
 common#:#sahs_visible#:#SCORM/AICC læremoduler synlige
 common#:#sahs_write#:#Rediger SCORM/AICC Læremodul
-common#:#salutation#:#Salutation###21 Apr 2005 new variable
-common#:#salutation_f#:#Ms./Mrs.###21 Apr 2005 new variable
+common#:#salutation#:#Hilsen
+common#:#salutation_f#:#frk/fru###21 Apr 2005 new variable
 common#:#salutation_m#:#Hr.
 common#:#save_and_back#:#Gem og gå tilbage
 common#:#save_message#:#Gem besked
@@ -2356,7 +2356,7 @@ common#:#search_in#:#Søg i
 common#:#search_inactive#:#Inkluder alle inaktive brugere
 common#:#search_minimum_characters#:#Minumum længde for et ord er:
 common#:#search_new#:#Ny søgning
-common#:#search_note#:#If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.###21 Apr 2005 new variable
+common#:#search_note#:#Hvis &quot;søg i&quot; efterlades blank bliver der søgt i alle brugere. Dette gør det muligt at finde  alle aktive eller alle inaktive brugere.
 common#:#search_recipient#:#Søg efter modtager
 common#:#search_result#:#Søgeresultater
 common#:#search_to_short#:#Din forespørgsel er for kort.
@@ -2383,10 +2383,10 @@ common#:#select_questionpool#:#Spørgsmålsbibliotek til tests
 common#:#select_questionpool_option#:#--- Vælg et spørgsmålsbibliotek ---
 common#:#selected#:#Valgte
 common#:#selected_items#:#Personlige ting
-common#:#selected_items_back#:#Back to Personal Items###02 04 2007 new variable
-common#:#send#:#Send###21 Apr 2005 new variable
-common#:#send_mail#:#Send email###02 04 2007 new variable
-common#:#send_mail_selected#:#Select mail recipients from list###29 05 2007 new variable
+common#:#selected_items_back#:#Tilbage til skrivebord
+common#:#send#:#Send
+common#:#send_mail#:#Send email
+common#:#send_mail_selected#:#Vælg modtagere fra listen
 common#:#sender#:#Afsender
 common#:#sent#:#Sendt
 common#:#sequence#:#Sekvens
@@ -2455,9 +2455,9 @@ common#:#show_users_online#:#Vis brugere  online###20 Jun 2005 content changed
 common#:#signature#:#Signatur
 common#:#size#:#Størrelse
 common#:#skin_style#:#Standardudseende
-common#:#standard_icon#:#Standard Icon###31 05 2007 new variable
-common#:#tiny_icon#:#Small Icon###31 05 2007 new variable
-common#:#smtp#:#SMTP###21 Apr 2005 new variable
+common#:#standard_icon#:#Standard ikon
+common#:#tiny_icon#:#Lille ikon
+common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Ekstern brugeradministration (SOAP)
 common#:#soap_user_administration_desc#:#Hvis sat til, kan alle brugerkonti blive administreret af en ekstern SOAP-klient
 common#:#sort_by_this_column#:#Sorter efter denne kolonne
@@ -2471,7 +2471,7 @@ common#:#spl_read#:#Læseadgang til spørgsmålssamling til brug ved undersøgel
 common#:#spl_upload_file#:#Upload fil
 common#:#spl_visible#:#Afstemnning til undersøgelse
 common#:#spl_write#:#Rediger Spørgsmål til undersøgelsen
-common#:#ssl#:#SSL (HTTPS)###07 Sep 2005 new variable
+common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#et kapitel
 common#:#st_add#:#Tilføj kapitel
 common#:#st_added#:#Kapitel Tilføjet
@@ -2484,7 +2484,7 @@ common#:#step#:#Skridt
 common#:#stop_inheritance#:#Bryd arv
 common#:#street#:#Gade
 common#:#structure#:#Struktur
-common#:#sty#:#Style###21 Apr 2005 new variable
+common#:#sty#:#Stilark
 common#:#style_activation#:#Style Activation###21 Apr 2005 new variable
 common#:#stys_edit_permission#:#Skift rettighedsindstillinger
 common#:#stys_read#:#Læseadgang til layoutopsætning
@@ -2517,7 +2517,7 @@ common#:#svy_upload_file#:#Upload fil
 common#:#svy_visible#:#Undersøgelsen er synlig
 common#:#svy_warning_survey_not_complete#:#Spørgeskemaet er ikke færdigt!
 common#:#svy_write#:#Rediger Undersøgelse
-common#:#system#:#System###21 Apr 2005 new variable
+common#:#system#:#System
 common#:#system_check#:#Systemcheck
 common#:#system_choose_language#:#valg af system sprog
 common#:#system_groups#:#System Grupper
@@ -2570,7 +2570,7 @@ common#:#to#:#Til
 common#:#to_client_list#:#Til valg af klient
 common#:#to_desktop#:#Vis på skrivebord
 common#:#today#:#Idag
-common#:#toggleGlobalDefault#:#Toggle Global Default###21 Apr 2005 new variable
+common#:#toggleGlobalDefault#:#Skift global standard
 common#:#toggleGlobalFixed#:#Toggle Global Fixed###21 Apr 2005 new variable
 common#:#total#:#Total###21 Apr 2005 new variable
 common#:#tpl_path#:#Skabelonsti
@@ -2599,8 +2599,8 @@ common#:#tst_edit_permission#:#Ændre systemindstillinger
 common#:#tst_new#:#Ny test
 common#:#tst_no_content#:#Ingen tests tilgængelige
 common#:#tst_read#:#Læseadgang til test
-common#:#tst_run#:#Run###20 Jun 2005 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###29 11 2006 new variable
+common#:#tst_run#:#Kør
+common#:#tst_tst_statistics#:#Adgang til teststatistiker
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_upload_file#:#Upload fil
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.###17 Aug 2005 new variable
@@ -2823,23 +2823,23 @@ common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new va
 common#:#edit_grouping#:#Edit Membership Limitation###05 10 2006 new variable
 common#:#grouping_select_exactly_one#:#Please choose exactly one membership limitation.###05 10 2006 new variable
 common#:#mail_settings#:#Besked indstillinger
-common#:#my_courses#:#My Courses###18 12 2006 new variable
+common#:#my_courses#:#Mine kurser
 common#:#auth_selection#:#Login to###08 12 2006 new variable
-common#:#authenticate_ilias#:#Login to ILIAS###08 12 2006 new variable
+common#:#authenticate_ilias#:#Login på ILIAS
 common#:#authenticate_with#:#Login to:###08 12 2006 new variable
-common#:#obj_ps#:#Privacy and Security###22 12 2006 new variable
-common#:#obj_ps_desc#:#Configure global privacy and security settings here.###22 12 2006 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
-common#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable
-common#:#users_online_show_short_associated#:#Only course and group members###25 02 2007 new variable
-common#:#users_online_show_short_n#:#Don't show active users###25 02 2007 new variable
-common#:#users_online_show_short_y#:#Show all active users###25 02 2007 new variable
+common#:#obj_ps#:#Privatliv og sikkerhed
+common#:#obj_ps_desc#:#Konfigurer globale privatlivs og sikkerhedsindstillinger her.
+common#:#ps_edit_permission#:#Ændre rettighedsindstillinger
+common#:#ps_visible#:#Privatlivs og sikkerhedsindstillinger er synlige
+common#:#ps_read#:#Læseadgang til privacyindstillinger
+common#:#ps_write#:#Ret privacy
+common#:#ps_export_member_data#:#Brugeren må eksportere medlemsdata
+common#:#users_online_show_short_associated#:#Kun kursus og gruppemedlemmer
+common#:#users_online_show_short_n#:#Vis ikke aktive brugere
+common#:#users_online_show_short_y#:#Vis alle aktive brugere
 common#:#marked_entries#:#Marked Entries###25 02 2007 new variable
-common#:#obj_webr_duplicate#:#Copy Web Resource ###25 02 2007 new variable
-common#:#obj_webr_select#:# Please select one Web Resource ###25 02 2007 new variable
+common#:#obj_webr_duplicate#:#Kopier webresurse
+common#:#obj_webr_select#:#Vælg venligst en webresurse
 common#:#obj_file_duplicate#:#Copy File###25 02 2007 new variable
 common#:#obj_file_select#:# Please select one File ###25 02 2007 new variable
 common#:#obj_exc_duplicate#:#Copy Exercise###25 02 2007 new variable
@@ -2855,7 +2855,7 @@ common#:#obj_tst_duplicate#:#Copy Test###25 02 2007 new variable
 common#:#obj_tst_select#:# Please select one Test ###25 02 2007 new variable
 common#:#obj_svy_duplicate#:#Copy Survey###25 02 2007 new variable
 common#:#obj_svy_select#:# Please select one Survey ###25 02 2007 new variable
-common#:#obj_crs_duplicate#:#Copy Course###25 02 2007 new variable
+common#:#obj_crs_duplicate#:#Kopier kursus
 common#:#obj_crs_select#:# Please select one Course ###25 02 2007 new variable
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)###25 02 2007 new variable
 common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
@@ -2896,16 +2896,16 @@ common#:#svy_copy#:#Copy Survey###02 04 2007 new variable
 common#:#tst_copy#:#Copy Test###02 04 2007 new variable
 common#:#webr_copy#:#Copy Web Resource###02 04 2007 new variable
 common#:#missing_perm#:#Missing Permission###02 04 2007 new variable
-common#:#forums_anonymized#:#Forum anonymized###02 04 2007 new variable
+common#:#forums_anonymized#:#Forum anonymiseret
 common#:#forums_anonymous#:#anonym###02 04 2007 new variable
-common#:#forums_your_name#:#Your Name###02 04 2007 new variable
-common#:#forums_use_alias#:#You may use this alias for your posting. If you leave this field blank, your posting will be marked as anonymous###02 04 2007 new variable
-common#:#forums_enable_forum_notification#:#Enable notification for this forum###10 05 2007 new variable
-common#:#forums_disable_forum_notification#:#Disable notification for this forum###10 05 2007 new variable
-common#:#forums_forum_notification_enabled#:#You will be notified about new messages in this forum.###10 05 2007 new variable
-common#:#object_copy_in_progress#:#Started Copying.###10 05 2007 new variable
-common#:#further_informations#:#Further Informations###10 05 2007 new variable
-common#:#applications#:#Applications###29 05 2007 new variable
+common#:#forums_your_name#:#Dit navn
+common#:#forums_use_alias#:#Du må bruge dette alias til dit indlæg. Hvis du efterlader feltet blank bliver dit indlæg markeret som anonymt.
+common#:#forums_enable_forum_notification#:#Aktiver advisering for dette forum
+common#:#forums_disable_forum_notification#:#Deaktiver advisering for dette forum
+common#:#forums_forum_notification_enabled#:#Du vil blive adviseret om nye indlæg i dette forum.
+common#:#object_copy_in_progress#:#Kopiering begyndt
+common#:#further_informations#:#Yderligere information
+common#:#applications#:#Ansøgninger
 common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.###20 06 2007 new variable
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them###20 06 2007 new variable
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
@@ -3350,8 +3350,8 @@ assessment#:#no_questions_available#:#Der er ikke nogen spørgsmål tilgængelig
 assessment#:#no_target_selected_for_move#:#Du skal vælge en position!
 assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###21 Apr 2005 new variable
 assessment#:#not_worked_through#:#Ikke besvaret
-assessment#:#not_yet_accessed#:#Not yet accessed###12 11 2006 new variable
-assessment#:#nr_of_correct_answers#:#Number of requested answers
+assessment#:#not_yet_accessed#:#Endnu ikke tilgået
+assessment#:#nr_of_correct_answers#:#Antal korrekte svar
 assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online exam. To call the answers printview to print out your test results please press the &quot;Answers printview&quot; button.###23 Dec 2005 new variable
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
 assessment#:#optional_keywords#:#Optional input of keywords
@@ -3431,8 +3431,8 @@ assessment#:#question_marking#:#Show Question Marking###29 05 2007 new variable
 assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
 assessment#:#question_not_answered#:#The question was not answered###25 02 2007 new variable
 assessment#:#question_saved_for_upload#:#Spørgsmålet blev gemt automatisk for at gemme harddisk plads til at gemme uploaded filer. Hvis du stopper dette nu skal du slette spørgsmålet i spørgsmålsgruppen hvis du ikke ønsker at beholde det!
-assessment#:#question_short#:#Q###21 Apr 2005 new variable
-assessment#:#question_summary#:#List of Questions###10 05 2007 new variable
+assessment#:#question_short#:#Q
+assessment#:#question_summary#:#Liste over spørgsmål
 assessment#:#question_title#:#Titel
 assessment#:#question_type#:#Spørgsmåls type
 assessment#:#questionpool_not_entered#:#Indtast venligst et navn for spørgsmålsgruppe!
@@ -3448,7 +3448,7 @@ assessment#:#range_upper_limit#:#Upper limit
 assessment#:#rectangle#:#Rektangel
 assessment#:#rectangle_click_br_corner#:#Klik venligst på det nederste højre hjørne af det ønskede område.
 assessment#:#rectangle_click_tl_corner#:#Klik venligst på det øverste venstre hjørne af det ønskede område.
-assessment#:#region#:#Region###21 Apr 2005 new variable
+assessment#:#region#:#Region
 assessment#:#remove_as_participant#:#Remove as Fixed Participant###12 11 2006 new variable
 assessment#:#remove_question#:#Fjern
 assessment#:#remove_solution#:#Fjern foreslået løsning
@@ -3569,12 +3569,12 @@ assessment#:#tst_finish_confirm_cancel_button#:#Nej, gå tilbage til sidste svar
 assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers###12 11 2006 new variable
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?###01 Mar 2006 new variable
 assessment#:#tst_finished#:#Afsluttet
-assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status! ###12 11 2006 new variable
-assessment#:#tst_fixed_participants_disable#:#Confirm Status Change###12 11 2006 new variable
+assessment#:#tst_fixed_participants_data_exists#:#Der er allerede deltagere som har udført testen. Du må ikke ændre deltagernes status.
+assessment#:#tst_fixed_participants_disable#:#Bekræft ændring af status
 assessment#:#tst_fixed_participants_disable_description#:#You are about to disable the support for fixed participants in this test. There are already fixed participants in this test. If you remove these participants, the test results of the participants will not be deleted. Are you sure you want to proceed? ###12 11 2006 new variable
 assessment#:#tst_general_properties#:#Generelle egenskaber
 assessment#:#tst_generate_xls#:#Generer Excel
-assessment#:#tst_heading_scoring#:#Scoring###17 Aug 2005 new variable
+assessment#:#tst_heading_scoring#:#Resultat
 assessment#:#tst_hide_previous_results#:#Skjul tidligere resultater
 assessment#:#tst_hide_previous_results_description#:#If checked, the previous results of a learner will not be used as default values in future test passes
 assessment#:#tst_hide_previous_results_hide#:#If checked your results from a previous test pass will be hidden###23 Dec 2005 new variable
@@ -3829,30 +3829,30 @@ barometer#:#anonymous#:#Anonym
 barometer#:#barometer_title#:#Feedback
 barometer#:#best#:#Best
 barometer#:#change_course#:#Ændre kursus
-barometer#:#chart_type#:#Chart type
-barometer#:#chart_users#:#Chart user
-barometer#:#chart_votes#:#Chart votes
-barometer#:#bar_create#:#Create New Feedback###08 12 2006 new variable
-barometer#:#day#:#Day
-barometer#:#days#:#Days
+barometer#:#chart_type#:#Diagram type
+barometer#:#chart_users#:#Diagram bruger
+barometer#:#chart_votes#:#Diagram stemmer
+barometer#:#bar_create#:#Lav ny feedback
+barometer#:#day#:#Dag
+barometer#:#days#:#Dage
 barometer#:#delete#:#Delete
-barometer#:#duration#:#Duration
+barometer#:#duration#:#Periode
 barometer#:#edit#:#Rediger
-barometer#:#edit_barometer#:#Edit feedback
+barometer#:#edit_barometer#:#Ret feedback
 barometer#:#every#:#every
 barometer#:#feedb_edit_feedback#:#Edit Feedback
 barometer#:#feedb_feedback_list#:#Feedback List
 barometer#:#feedb_feedback_settings#:#Feedback Settings
 barometer#:#feedb_time#:#Time
-barometer#:#first_vote#:#1. Vote is the
-barometer#:#from#:#From
-barometer#:#hours#:#Hours
-barometer#:#lines#:#Lines
+barometer#:#first_vote#:#1. stemme er
+barometer#:#from#:#Fra
+barometer#:#hours#:#Timer
+barometer#:#lines#:#Linjer
 barometer#:#login#:#Login
-barometer#:#missing_fields#:#Please fill in all required information
-barometer#:#month#:#Month
-barometer#:#months#:#Months
-barometer#:#new_vote#:#New vote
+barometer#:#missing_fields#:#Udfyld venligst al den krævede information.
+barometer#:#month#:#Måned
+barometer#:#months#:#Måneder
+barometer#:#new_vote#:#Ny afstemning
 barometer#:#note#:#Kommentar
 barometer#:#optional#:#Optional
 barometer#:#pie#:#Pie
@@ -4075,10 +4075,10 @@ form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed f
 form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded completely.###02 04 2007 new variable
 form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.###02 04 2007 new variable
 form#:#form_msg_file_missing_tmp_dir#:#Temporary directory for file upload missing.###02 04 2007 new variable
-form#:#form_msg_file_cannot_write_to_disk#:#Cannot write to disk.###02 04 2007 new variable
+form#:#form_msg_file_cannot_write_to_disk#:#Kan ikke skrive til disken.
 form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.###02 04 2007 new variable
-form#:#form_msg_file_wrong_file_type#:#Wrong file type.###02 04 2007 new variable
-form#:#form_msg_file_virus_found#:#Virus found in uploaded file.###02 04 2007 new variable
+form#:#form_msg_file_wrong_file_type#:#Forkert filtype.
+form#:#form_msg_file_virus_found#:#Virus fundet i uploaded fil
 form#:#form_days#:#Days###02 04 2007 new variable
 form#:#form_hours#:#Hours###02 04 2007 new variable
 form#:#form_minutes#:#Minutes###02 04 2007 new variable
@@ -4128,7 +4128,7 @@ news#:#news_notifications#:#Adviseringer
 news#:#news_news_item_head#:#Nyhed
 news#:#news_hide_news_block#:#Skjul nyhedsbolk
 news#:#news_hide_news_block_info#:#Skjul blokken i den studerende/brugerens visning. Nyhedsblokken er kun synlig for brugere med skriverettigheder.
-news#:#news_default_visibility#:#Default Access###10 05 2007 new variable
+news#:#news_default_visibility#:#Standard adgang
 news#:#news_news_item_title#:#Overskrift
 news#:#news_news_item_content#:#Tekst
 news#:#news_news_item_content_long#:#Lang tekst
@@ -4143,28 +4143,28 @@ news#:#news_internal_news#:#Interne nyheder
 news#:#news_get_feed_url#:#Hent feed URL
 news#:#news_feed_url_for#:#Feed URL for '%s'###25 02 2007 new variable
 news#:#news_get_feed_title#:#Personlig feed URL
-news#:#news_get_feed_info#:#This is a personal news feed URL. The feed includes only news that are declared as public by the author. The feed is not protected by any authentication procedure. Please do not share this URL with other people.###25 02 2007 new variable
-news#:#news_feed_url#:#Feed URL###25 02 2007 new variable
+news#:#news_get_feed_info#:#Detete er en personlig nyhedsfeed URL. Feedet inkluderer kun nyheder som er angivet som offentlige af skribenten. Feeded er ikke beskyttet af autentificerings procerurer. Undlad venligst at dele denne URL med andre.
+news#:#news_feed_url#:#Feed URL
 news#:#news_settings#:#Nyhedsindstillinger
 news#:#news_notifications_public#:#Offentlige adviseringer
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.###25 02 2007 new variable
-news#:#news_public_feed#:#Extra Feed URL###25 02 2007 new variable
-news#:#news_public_feed_info#:#If this option is enabled, a separated news feed url for this item is provided.###25 02 2007 new variable
-news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###25 02 2007 new variable
-feed#:#feed_feed_items#:#Feed Item(s)###25 02 2007 new variable
-feed#:#feed_loading_feed#:#Loading Feed...###09 06 2007 new variable
-feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.###09 06 2007 new variable
+news#:#news_public_feed#:#Ekstra feed URL
+news#:#news_public_feed_info#:#Hvis denne mulighed er aktiveret leveres en separat feed url til objektet.
+news#:#news_news_item_visibility_info#:#Offentlige nyheder kan via RSS tilgås uden autentificering udenfor ILIAS. Udelad venligst enhver fortrolig eller privat information.
+feed#:#feed_feed_items#:#Feed(s)
+feed#:#feed_loading_feed#:#henter feed...
+feed#:#feed_no_js_click_here#:#Hvis feed'et ikke vises, så klik her.
 feed#:#feed_disable_rep_feeds#:#Disable External Web Feeds in Categories###02 04 2007 new variable
 feed#:#feed_disable_rep_feeds_info#:#This option deactivates all existing external web feed blocks, in case of an unexpected problem due to an external feed source.###02 04 2007 new variable
-feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop###25 02 2007 new variable
-feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop.###25 02 2007 new variable
-feed#:#feed_settings#:#External Web Feeds Settings###25 02 2007 new variable
-feed#:#feed_open_source_page#:#Go to Source of External News###25 02 2007 new variable
-feed#:#block_feed_block_head#:#External News Feed###25 02 2007 new variable
-feed#:#block_feed_block_title#:#Title###25 02 2007 new variable
-feed#:#block_feed_block_feed_url#:#Feed URL###25 02 2007 new variable
-feed#:#feed_no_valid_url#:#The Feed URL is not valid.###10 05 2007 new variable
-feed#:#block_feed_block_feed_url_info#:#Must be a valid RSS/Atom URL, e.g. http://www.ilias.de/iosbb/rss.php###25 02 2007 new variable
+feed#:#feed_nr_pd_feeds#:#Antal externe feeds på personligt skrivebord
+feed#:#feed_nr_pd_feeds_info#:#Angiver det maksimale antal eksterne webfeeds som brugerne på oprette på deres personlige skrivebord.
+feed#:#feed_settings#:#Externe webfeed indstillinger
+feed#:#feed_open_source_page#:#Gå til kilden for de eksterne nyheder
+feed#:#block_feed_block_head#:#Eksternt nyhedsfeed
+feed#:#block_feed_block_title#:#Titel
+feed#:#block_feed_block_feed_url#:#Feed URL
+feed#:#feed_no_valid_url#:#Den angivne URL er ikke brugbar.
+feed#:#block_feed_block_feed_url_info#:#Skal være en gyldigt RSS/Atom URL, f.eks. http://www.ilias.de/iosbb/rss.php
 pdesk#:#bm_num_bookmarks#:#Foretrukne
 pdesk#:#bm_num_bookmark_folders#:#Folder(e)
 pdesk#:#pdesk_intro#:#Velkommen til dit skrivebord!
@@ -4192,7 +4192,7 @@ gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups
 gmaps#:#gmaps_zoom_level#:#Zoom niveau
 gmaps#:#gmaps_settings#:#Google Maps indstillinger
 gmaps#:#gmaps_extt_gmaps#:#Google Maps
-gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:###25 02 2007 new variable
+gmaps#:#gmaps_api_key_desc#:#For at bruge Google Maps udbyggelsen skal du først have en Google Maps API key her:
 gmaps#:#gmaps_std_location#:#Standardplacering
 gmaps#:#gmaps_std_location_desc#:#Brede / længdegrad. Klik på kortet for at sætte position.
 jsmath#:#jsmath_extt_jsmath#:#jsMath
@@ -4207,8 +4207,8 @@ jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematica
 jsmath#:#jsmath_default_setting#:#Brug som standard
 jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.###29 05 2007 new variable
 jsmath#:#jsmath_no_javascript#:#If you don't see the correct mathematical formula next to this hint, then you have jsMath output enabled but your web browser doesn't support JavaScript or JavaScript is disabled. To see mathematical formulae, please activate JavaScript in your web browser and reload this page or go to <strong>Personal Desktop &gt; Personal Profile &gt; jsMath</strong> and disable jsMath output.###29 05 2007 new variable
-content#:#HTML export#:#HTMLeksport
-content#:#PDF export#:#PDFeksport
+content#:#HTML export#:#HTML eksport
+content#:#PDF export#:#PDF eksport
 content#:#add_menu_entry#:#Tilføj menuindgang
 content#:#all#:#Alle
 content#:#all_pages#:#Hele læremodulet
@@ -4469,9 +4469,9 @@ content#:#cont_msg_multiple_editions#:#Det er ikke muligt at vise detaljer af fo
 content#:#cont_name#:#Navn
 content#:#cont_new_area#:#Nyt Link
 content#:#cont_new_assignment#:#Ny Opgave
-content#:#cont_new_dir#:#Nyr Bibliotek
+content#:#cont_new_dir#:#Nyt Bibliotek
 content#:#cont_new_file#:#Ny Fil
-content#:#cont_new_media_obj#:#New Media Object###21 Apr 2005 new variable
+content#:#cont_new_media_obj#:#Nyt medieobjekt
 content#:#cont_new_term#:#Ny Term
 content#:#cont_no_access#:#Ingen adgang
 content#:#cont_no_assign_itself#:#Et objekt kan ikke uddeles til sig selv
@@ -5440,7 +5440,7 @@ forum#:#forums_new_thread#:#Nyt emne
 forum#:#forums_not_available#:#Fora ikke tilgængelige
 forum#:#forums_notification#:#Advisering
 forum#:#forums_notification_enabled#:#Advisering er aktiveret
-forum#:#forums_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %s
+forum#:#forums_notification_intro#:#Denne e-mail blev automatisk sendt til dig fra ILIAS installationen %s, %s
 forum#:#forums_notification_is_disabled#:#Advisering om nye indlæg i denne tråd er endnu ikke aktiveret.
 forum#:#forums_notification_is_enabled#:#Du er allerede tilmeldt advisering om nye indlæg i denne emnetråd.
 forum#:#forums_notification_show_post#:#Vis indlæg: %s
@@ -6165,8 +6165,8 @@ meta#:#meta_meta_metadata#:#Meta-Metadata###21 Apr 2005 new variable
 meta#:#meta_metadatascheme#:#Metadata Skema
 meta#:#meta_minimum_version#:#Minimums Version
 meta#:#meta_mixed#:#Blandet
-meta#:#meta_ms_windows#:#MS-Windows###21 Apr 2005 new variable
-meta#:#meta_multi_os#:#Multi-OS###21 Apr 2005 new variable
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
 meta#:#meta_name#:#Navn
 meta#:#meta_narrative_text#:#Narrative (fortællende) tekst
 meta#:#meta_networked#:#Netværk
@@ -7601,7 +7601,7 @@ common#:#msg_wrong_filetype#:#File is no zip-archive###23 09 2007 new variable
 common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.###23 09 2007 new variable
 common#:#archive_broken#:#Archive seems to be broken or empty.###23 09 2007 new variable
 common#:#precondition#:#Precondition###23 09 2007 new variable
-common#:#cond_ref_handling#:#Link Settings###23 09 2007 new variable
+common#:#cond_ref_handling#:#Link indstillinger
 common#:#cond_ref_shared#:#Shared Preconditions for all Links###23 09 2007 new variable
 common#:#cond_ref_unique#:#Unique Preconditions for Links###23 09 2007 new variable
 administration#:#obj_mds#:#Meta Data###23 09 2007 new variable
@@ -7819,72 +7819,72 @@ common#:#objs_wiki#:#Wikis###11 03 2008 new variable
 common#:#objs_lres#:#Learning Resources###11 03 2008 new variable
 common#:#wiki_new#:#New Wiki###11 03 2008 new variable
 common#:#wiki_add#:#Add Wiki###11 03 2008 new variable
-wiki#:#wiki_settings#:#Wiki Settings###11 03 2008 new variable
-wiki#:#wiki_what_links_to_page#:#What links to page "%s"?###11 03 2008 new variable
-wiki#:#wiki_start_page#:#Start Page###11 03 2008 new variable
-wiki#:#wiki_start_page_title#:#Start Page Title###11 03 2008 new variable
-wiki#:#wiki_main_page#:#Main Page###11 03 2008 new variable
-wiki#:#wiki_short_title#:#Short Title###11 03 2008 new variable
-wiki#:#wiki_short_title_desc#:#This title will be used in permanent links to the Wiki.###11 03 2008 new variable
-wiki#:#wiki_article#:#Article###11 03 2008 new variable
-wiki#:#wiki_discussion#:#Discussion###11 03 2008 new variable
-wiki#:#wiki_edit#:#Edit###11 03 2008 new variable
-wiki#:#wiki_history#:#History###11 03 2008 new variable
-wiki#:#wiki_navigation#:#Navigation###11 03 2008 new variable
-wiki#:#wiki_recent_changes#:#Recent Changes###11 03 2008 new variable
-wiki#:#wiki_what_links_here#:#What Links Here?###11 03 2008 new variable
-wiki#:#wiki_print_view#:#Print View###11 03 2008 new variable
-wiki#:#wiki_random_page#:#Random Page###11 03 2008 new variable
-wiki#:#wiki_all_pages#:#All Pages###11 03 2008 new variable
-wiki#:#wiki_new_pages#:#New Pages###11 03 2008 new variable
-wiki#:#wiki_popular_pages#:#Popular Pages###11 03 2008 new variable
-wiki#:#wiki_media_list#:#Media List###11 03 2008 new variable
-content#:#cont_revision#:#Revision###11 03 2008 new variable
-content#:#cont_pc_new#:#New Content###11 03 2008 new variable
-content#:#cont_pc_modified#:#Modified Content###11 03 2008 new variable
-content#:#cont_pc_deleted#:#Deleted Content###11 03 2008 new variable
-content#:#cont_page_compare#:#Compare Selected Revisions###11 03 2008 new variable
-content#:#cont_previous_rev#:#Previous Revision###11 03 2008 new variable
-content#:#cont_next_rev#:#Next Revision###11 03 2008 new variable
-content#:#cont_latest_rev#:#Latest Revision###11 03 2008 new variable
-content#:#content_page_history#:#Page History###11 03 2008 new variable
-content#:#content_current#:#Current###11 03 2008 new variable
-content#:#content_last#:#Last###11 03 2008 new variable
-content#:#cont_alphabetic#:#Alphabetic A, B, ...###11 03 2008 new variable
-content#:#cont_alphabetic_s#:#Alphabetic a, b, ... ###11 03 2008 new variable
-content#:#cont_roman#:#Roman I, II, ...###11 03 2008 new variable
-content#:#cont_roman_s#:#Roman i, ii, ...  ###11 03 2008 new variable
-content#:#cont_ed_insert_section#:#Insert Section###11 03 2008 new variable
-survey#:#info_anonymize_with_code#:#Anonymized Survey with Survey Code Access###11 03 2008 new variable
-survey#:#info_anonymize_registered_user#:#Anonymized Survey###11 03 2008 new variable
+wiki#:#wiki_settings#:#Wiki indstillinger
+wiki#:#wiki_what_links_to_page#:#Hvad linker til siden "%s"?
+wiki#:#wiki_start_page#:#Startside
+wiki#:#wiki_start_page_title#:#Startsidens titel
+wiki#:#wiki_main_page#:#Hovedside
+wiki#:#wiki_short_title#:#Kort titel
+wiki#:#wiki_short_title_desc#:#Denne tiltel vil blive brugt i permanente links til wiki'et
+wiki#:#wiki_article#:#Artikel
+wiki#:#wiki_discussion#:#Diskussion
+wiki#:#wiki_edit#:#Rediger
+wiki#:#wiki_history#:#Historis
+wiki#:#wiki_navigation#:#Navigation
+wiki#:#wiki_recent_changes#:#Seneste ændringer
+wiki#:#wiki_what_links_here#:#Hvad linker hertil?
+wiki#:#wiki_print_view#:#Udskriftsvisning
+wiki#:#wiki_random_page#:#Tilfældig side
+wiki#:#wiki_all_pages#:#Alle sider
+wiki#:#wiki_new_pages#:#Nye sider
+wiki#:#wiki_popular_pages#:#Populære sider
+wiki#:#wiki_media_list#:#Medieliste
+content#:#cont_revision#:#Revision
+content#:#cont_pc_new#:#Nyt indhold
+content#:#cont_pc_modified#:#Ændret indhold
+content#:#cont_pc_deleted#:#Slettet indhold
+content#:#cont_page_compare#:#Sammenlign valgte revisioner
+content#:#cont_previous_rev#:#Tidligere revision
+content#:#cont_next_rev#:#Næste revision
+content#:#cont_latest_rev#:#Seneste revision
+content#:#content_page_history#:#Sidehistorik
+content#:#content_current#:#Nuværende
+content#:#content_last#:#Sidste
+content#:#cont_alphabetic#:#Alfabetisk A, B, ...
+content#:#cont_alphabetic_s#:#Alfabetisk a, b, ... 
+content#:#cont_roman#:#Romersk I, II, ...
+content#:#cont_roman_s#:#Romersk i, ii, ...  ###11 03 2008 new variable
+content#:#cont_ed_insert_section#:#Indsæt sektion
+survey#:#info_anonymize_with_code#:#Anonymiseret undersøgelse med kodeadgang 
+survey#:#info_anonymize_registered_user#:#Anonymiseret undersøgelse
 survey#:#info_anonymize_without_code#:#Anonymized Survey without Access Restrictions###11 03 2008 new variable
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test###11 03 2008 new variable
 common#:#obj_spl_duplicate#:#Copy Question Pool Survey###11 03 2008 new variable
 common#:#obj_qpl_select#:#-- Please select one Question Pool Test --###11 03 2008 new variable
 common#:#obj_spl_select#:#-- Please select one Question Pool Survey --###11 03 2008 new variable
-common#:#obj_calendar#:#Calendar###11 03 2008 new variable
-common#:#obj_cals_desc#:#General Calendar settings.###11 03 2008 new variable
-rbac#:#cals_edit_permission#:#Change permission settings###11 03 2008 new variable
-rbac#:#cals_visible#:#Calendar settings are visible###11 03 2008 new variable
-rbac#:#cals_read#:#Read access to Calendar settings###11 03 2008 new variable
-rbac#:#cals_write#:#Edit Calendar settings###11 03 2008 new variable
-common#:#obj_cat_duplicate#:#Copy Category###11 03 2008 new variable
-common#:#obj_cat_select#:#-- Please select one Category --###11 03 2008 new variable
+common#:#obj_calendar#:#Kalender
+common#:#obj_cals_desc#:#Generelle kalenderindstillinger
+rbac#:#cals_edit_permission#:#Ret adgangsindstillinger
+rbac#:#cals_visible#:#Kalenderindstillinger er synlige
+rbac#:#cals_read#:#Læseadgang til kalenderindstillinger
+rbac#:#cals_write#:#Ret kalenderindstillinger
+common#:#obj_cat_duplicate#:#Kopier kategori
+common#:#obj_cat_select#:#-- Vælg venligst en kategori --
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
 survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
 survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
-payment#:#object_deleted#:#Object Deleted###11 03 2008 new variable
-payment#:#user_deleted#:#User Deleted###11 03 2008 new variable
+payment#:#object_deleted#:#Objekt slettet
+payment#:#user_deleted#:#Bruger slettet
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.###11 03 2008 new variable
 mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.###11 03 2008 new variable
 payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.###11 03 2008 new variable
-common#:#webfolder#:#Webfolder###11 03 2008 new variable
-common#:#mount_webfolder#:#Open as webfolder###11 03 2008 new variable
-common#:#obj_file_inline#:#Learning Module File###11 03 2008 new variable
-common#:#yesterday#:#Yesterday###11 03 2008 new variable
-common#:#tomorrow#:#Tomorrow###11 03 2008 new variable
-common#:#show_profile#:#Show profile###11 03 2008 new variable
+common#:#webfolder#:#Webfolder
+common#:#mount_webfolder#:#Åben som webfolder
+common#:#obj_file_inline#:#Læremodul fil
+common#:#yesterday#:#I går
+common#:#tomorrow#:#I morgen
+common#:#show_profile#:#Vis profil
 common#:#copy_selected_items#:#Copy###11 03 2008 new variable
 common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###11 03 2008 new variable
 common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###11 03 2008 new variable
@@ -7896,19 +7896,19 @@ common#:#filename_windows_special_characters#:#\/:*?"<>| are not allowed in Wind
 common#:#filename_windows_empty_extension#:#. at the end of a filename is not allowed on Windows###11 03 2008 new variable
 common#:#filename_windows_webdav_issue#:## is not supported in Windows webfolders###11 03 2008 new variable
 common#:#filename_special_filename#:#. and .. are reserved filenames###11 03 2008 new variable
-common#:#filename_visibility#:#Visibility###11 03 2008 new variable
-common#:#filename_hidden_unix_file#:#Hidden Unix file###11 03 2008 new variable
-common#:#filename_hidden_backup_file#:#Hidden backup file###11 03 2008 new variable
+common#:#filename_visibility#:#Synlighed
+common#:#filename_hidden_unix_file#:#Skjult Unixfil
+common#:#filename_hidden_backup_file#:#Skjult backupfil
 common#:#filename_interoperability#:#Interoperability###11 03 2008 new variable
 common#:#readcount_anonymous_users#:#Number of anonymous read accesses###11 03 2008 new variable
 common#:#readcount_users#:#Number of non-anonymous read accesses###11 03 2008 new variable
-common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users###11 03 2008 new variable
-common#:#state_changed#:#changed###11 03 2008 new variable
+common#:#accesscount_registered_users#:#Læst af antal unikke ILIAS brugere
+common#:#state_changed#:#ændret
 common#:#state_changed_inside#:#changed inside###11 03 2008 new variable
-common#:#state_new#:#new###11 03 2008 new variable
+common#:#state_new#:#ny
 common#:#state_unread#:#unread###11 03 2008 new variable
 common#:#filename_extension_short#:#Extension###11 03 2008 new variable
-common#:#accept_date#:#User agreement accepted on###11 03 2008 new variable
+common#:#accept_date#:#Brugeraftale blev accepteret
 common#:#obj_facs#:#File Access###11 03 2008 new variable
 common#:#obj_facs_desc#:#Configure access to file objects.###11 03 2008 new variable
 common#:#enable_webdav#:#Enable WebDAV access###11 03 2008 new variable
@@ -7920,18 +7920,18 @@ common#:#webfolder_instructions_titletext#:#Open %1$s as webfolder###11 03 2008 
 common#:#webfolder_instructions_text#:#<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[IF_WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>###11 03 2008 new variable
 common#:#use_default_instructions#:#Use default instructions.###11 03 2008 new variable
 common#:#use_customized_instructions#:#Use customized instructions:###11 03 2008 new variable
-common#:#inline_file_extensions#:#Web-enabled files###11 03 2008 new variable
+common#:#inline_file_extensions#:#Web-aktiverede filer
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.###11 03 2008 new variable
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.###11 03 2008 new variable
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">other Browser</a>.###11 03 2008 new variable
-common#:#deleted_user_account#:#Deleted user account###11 03 2008 new variable
-dateplaner#:#cal_user_settings#:#Calendar Settings###11 03 2008 new variable
-dateplaner#:#cal_user_timezone#:#Timezone###11 03 2008 new variable
-dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.###11 03 2008 new variable
-dateplaner#:#cal_week_start#:#Week Start###11 03 2008 new variable
-dateplaner#:#cal_global_settings#:#Global Settings###11 03 2008 new variable
-dateplaner#:#cal_server_tz#:#Server Timezone###11 03 2008 new variable
-dateplaner#:#cal_def_timezone#:#Default Timezone###11 03 2008 new variable
-dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.###11 03 2008 new variable
-dateplaner#:#cal_def_week_start#:#Week Start###11 03 2008 new variable
-common#:#obj_cals#:#Calendar###11 03 2008 new variable
+common#:#deleted_user_account#:#Brugerkonto slettet
+dateplaner#:#cal_user_settings#:#Kalenderindstillinger
+dateplaner#:#cal_user_timezone#:#Tidszone
+dateplaner#:#cal_timezone_info#:#Vælg venligst den nærmeste by i din tidszone.
+dateplaner#:#cal_week_start#:#Ugestart
+dateplaner#:#cal_global_settings#:#Globale indstillinger
+dateplaner#:#cal_server_tz#:#Server tidszone
+dateplaner#:#cal_def_timezone#:#Standard tidszone
+dateplaner#:#cal_def_timezone_info#:#Vælg venligst en tidszone du vil anvende til aftaler.
+dateplaner#:#cal_def_week_start#:#Ugestart
+common#:#obj_cals#:#Kalender
