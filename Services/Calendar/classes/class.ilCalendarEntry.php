@@ -34,7 +34,9 @@ include_once('Services/Calendar/classes/class.ilDate.php');
 * @ingroup ServicesCalendar 
 */
 
-class ilCalendarEntry
+include_once('./Services/Calendar/interfaces/interface.ilDatePeriod.php');
+
+class ilCalendarEntry implements ilDatePeriod
 {
 	protected $log;
 	protected $db;

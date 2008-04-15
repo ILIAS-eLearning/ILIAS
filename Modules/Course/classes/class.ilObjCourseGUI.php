@@ -156,7 +156,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create"),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_create.html",'Modules/Course');
-		$this->tpl->setVariable("FORMACTION",'repository.php?ref_id='.$_GET["ref_id"].'&cmd=post&new_type=crs');
+		
+		$this->ctrl->setParameter($this, "new_type",'crs');
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "save"));
+		
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("crs_new"));
 		$this->tpl->setVariable("TYPE_IMG",
 			ilUtil::getImagePath("icon_crs.gif"));
