@@ -3602,3 +3602,18 @@ $ilCtrlStructureReader->getStructure();
 UPDATE mail AS m 
   SET folder_id=(SELECT obj_id FROM mail_obj_data AS d WHERE d.user_id=m.user_id AND type='inbox' LIMIT 1)
   WHERE folder_id=0;
+  
+<#1188>
+CREATE TABLE `il_tag` (
+	`obj_id` INT,
+	`obj_type` CHAR(10),
+	`sub_obj_id` INT,
+	`sub_obj_type` CHAR(10),
+	`user_id` INT,
+	`tag` VARCHAR(100),
+	PRIMARY KEY (obj_id, obj_type, sub_obj_id,
+		sub_obj_type, user_id, tag),
+	INDEX obj (obj_id, obj_type, sub_obj_id, sub_obj_type),
+	INDEX tag (tag),
+	INDEX user_id (user_id)
+) TYPE = MYISAM;

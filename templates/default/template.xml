@@ -3,4 +3,7 @@
 	<style 	name = "Delos"
 			id = "delos"
 			image_directory = "images"/>
+	<style 	name = "Delos (Lean)"
+			id = "deloslean"
+			image_directory = "images"/>
 </template>

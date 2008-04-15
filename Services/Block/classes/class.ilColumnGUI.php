@@ -70,7 +70,9 @@ class ilColumnGUI
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/",
 		'ilCalendarCategoriesGUI' => 'Services/Calendar/',
 		'ilCalendarMonthBlockGUI'	=> 'Services/Calendar/',
-		'ilCalendarUserSettingsBlockGUI' => 'Services/Calendar/');
+		'ilCalendarUserSettingsBlockGUI' => 'Services/Calendar/',
+		'ilPDTaggingBlockGUI' => 'Services/Tagging/'
+			);
 	
 	static protected $block_types = array(
 			"ilPDMailBlockGUI" => "pdmail",
@@ -85,7 +87,8 @@ class ilColumnGUI
 			"ilPDSysMessageBlockGUI" => "pdsysmess",
 			"ilPDSelectedItemsBlockGUI" => "pditems",
 			"ilHtmlBlockGUI" => "html",
-			'ilCalendarMonthBlockGUI' => 'cal'
+			'ilCalendarMonthBlockGUI' => 'cal',
+			'ilPDTaggingBlockGUI' => 'pdtag'
 		);
 	
 		
@@ -105,7 +108,9 @@ class ilColumnGUI
 			"ilPDMailBlockGUI" => IL_COL_RIGHT,
 			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
 			"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
-			"ilBookmarkBlockGUI" => IL_COL_RIGHT),
+			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
+			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
+			),
 		'cal' => array(
 			'ilCalendarCategoriesGUI' => IL_COL_LEFT,
 			'ilCalendarMonthBlockGUI' => IL_COL_CENTER,
@@ -569,8 +574,8 @@ class ilColumnGUI
 			"feed" => $lng->txt("feed"),
 			"pdfeed" => $lng->txt("feed"),
 			"html" => $lng->txt("html_block"),
+			"pdtag" => $lng->txt("tagging_my_tags")
 			);
-			
 
 		foreach($this->blocks[$this->getSide()] as $block)
 		{

@@ -97,6 +97,7 @@ class ilSearchResultPresentationGUI
 
 						$item_list_gui = ilSearchObjectListFactory::_getInstance($item['type']);
 					}
+
 					$html = $item_list_gui->getListItemHTML(
 						$item["ref_id"],
 						$item["obj_id"], 
