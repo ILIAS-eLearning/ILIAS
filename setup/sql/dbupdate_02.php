@@ -3694,3 +3694,21 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
 		;
 #$ilDB->query($query);
 ?>
+<#1193>
+DROP TABLE IF EXISTS `il_rating`;
+CREATE TABLE `il_rating` (
+	`obj_id` INT,
+	`obj_type` CHAR(10),
+	`sub_obj_id` INT,
+	`sub_obj_type` CHAR(10),
+	`user_id` INT,
+	`rating` INT NOT NULL DEFAULT 0,
+	PRIMARY KEY (obj_id, obj_type, sub_obj_id,
+		sub_obj_type, user_id),
+	INDEX obj (obj_id, obj_type, sub_obj_id, sub_obj_type)
+) TYPE = MYISAM;
+<#1194>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

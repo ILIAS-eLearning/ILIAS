@@ -186,3 +186,5 @@ class ilTagging
 	}
 
 }
+
+?>

@@ -300,6 +300,16 @@ class ilDBx extends PEAR
 	}
 
 	/**
+	* Fetch row as object from result set
+	*
+	* @param	object	result set
+	*/
+	function fetchObject($a_set)
+	{
+		return $a_set->fetchObject(DB_FETCHMODE_OBJECT);
+	}
+
+	/**
 	* Check error
 	*/
 	static function isDbError($a_res)

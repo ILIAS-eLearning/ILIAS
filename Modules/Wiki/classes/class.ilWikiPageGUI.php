@@ -30,6 +30,7 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+* @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI
 *
 * @ingroup ModulesWiki
 */
@@ -57,6 +58,31 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		$page = new ilWikiPage($a_id, $a_old_nr);
 		$this->setPageObject($page);
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+		
+		$next_class = $this->ctrl->getNextClass($this);
+
+		switch($next_class)
+		{
+			case "ilratinggui":
+				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
+				$rating_gui = new ilRatingGUI();
+				$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
+					$this->getPageObject()->getId(), "wpg");
+				$this->ctrl->forwardCommand($rating_gui);
+				$ilCtrl->redirect($this, "preview");
+				break;
+				
+			default:
+				return parent::executeCommand();
+		}
 	}
 
 
@@ -140,9 +166,21 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 	function preview()
 	{
+		global $ilCtrl;
+		
 		$this->getWikiPage()->increaseViewCnt(); // todo: move to page object
 		$this->setSideBlock();
-		return parent::preview();
+		$wtpl = new ilTemplate("tpl.wiki_page_view_main_column.html",
+			true, true, "Modules/Wiki");
+		
+		// rating
+		include_once("./Services/Rating/classes/class.ilRatingGUI.php");
+		$rating_gui = new ilRatingGUI();
+		$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
+			$this->getPageObject()->getId(), "wpg");
+		$wtpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
+		$wtpl->setVariable("PAGE", parent::preview());
+		return $wtpl->get();
 	}
 	
 	function showPage()

@@ -21,18 +21,43 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Tagging/classes/class.ilTagging.php");
+include_once("./Services/Rating/classes/class.ilRating.php");
 
 /**
-* Class ilTaggingGUI. User interface class for tagging engine.
+* Class ilRatingGUI. User interface class for rating.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ingroup ServicesTagging
+* @ingroup ServicesRating
 */
-class ilTaggingGUI
+class ilRatingGUI
 {
+	function __construct()
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("rating");
+	}
+	
+		/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		global $ilCtrl;
+		
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd();
+		
+		switch($next_class)
+		{
+			default:
+				return $this->$cmd();
+				break;
+		}
+	}
+
 	/**
 	* Set Object.
 	*
@@ -50,9 +75,9 @@ class ilTaggingGUI
 		$this->sub_obj_id = $a_sub_obj_id;
 		$this->sub_obj_type = $a_sub_obj_type;
 		
-		$this->setSaveCmd("saveTags");
+		//$this->setSaveCmd("saveTags");
 		$this->setUserId($ilUser->getId());
-		$this->setInputFieldName("il_tags");
+		//$this->setInputFieldName("il_tags");
 	}
 	
 	/**
@@ -76,83 +101,52 @@ class ilTaggingGUI
 	}
 
 	/**
-	* Set Save Command.
-	*
-	* @param	string	$a_savecmd	Save Command
+	* Get HTML for rating of an object (and a user)
 	*/
-	function setSaveCmd($a_savecmd)
-	{
-		$this->savecmd = $a_savecmd;
-	}
-
-	/**
-	* Get Save Command.
-	*
-	* @return	string	Save Command
-	*/
-	function getSaveCmd()
-	{
-		return $this->savecmd;
-	}
-
-	/**
-	* Set Input Field Name.
-	*
-	* @param	string	$a_inputfieldname	Input Field Name
-	*/
-	function setInputFieldName($a_inputfieldname)
-	{
-		$this->inputfieldname = $a_inputfieldname;
-	}
-
-	/**
-	* Get Input Field Name.
-	*
-	* @return	string	Input Field Name
-	*/
-	function getInputFieldName()
-	{
-		return $this->inputfieldname;
-	}
-
-	/**
-	* Get Input HTML for Tagging of an object (and a user)
-	*/
-	function getTaggingInputHTML()
+	function getHTML()
 	{
 		global $lng, $ilCtrl;
 		
-		$ttpl = new ilTemplate("tpl.tags_input.html", true, true, "Services/Tagging");
-		$tags = ilTagging::getTagsForUserAndObject($this->obj_id, $this->obj_type,
+		$ttpl = new ilTemplate("tpl.rating_input.html", true, true, "Services/Rating");
+		$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
-		$ttpl->setVariable("VAL_TAGS",
-			ilUtil::prepareFormOutput(implode($tags, " ")));
-		$ttpl->setVariable("TXT_SAVE", $lng->txt("save"));
-		$ttpl->setVariable("CMD_SAVE", $this->savecmd);
-		$ttpl->setVariable("NAME_TAGS", $this->getInputFieldName());
+		
+		for($i = 1; $i <= 5; $i++)
+		{
+			$ttpl->setCurrentBlock("rating_link");
+			$ilCtrl->setParameter($this, "rating", $i);
+			$ttpl->setVariable("HREF_RATING", $ilCtrl->getLinkTarget($this, "saveRating"));
+			if ($rating >= $i)
+			{
+				$ttpl->setVariable("SRC_ICON",
+					ilUtil::getImagePath("icon_rate_on.gif"));
+			}
+			else
+			{
+				$ttpl->setVariable("SRC_ICON",
+					ilUtil::getImagePath("icon_rate_off.gif"));
+			}
+			$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
+			$ttpl->parseCurrentBlock();
+		}
+			
+		$ttpl->setVariable("TXT_YOUR_RATING", $lng->txt("rating_your_rating"));
+		if ($rating > 0)
+		{
+			$ttpl->setVariable("VAL_RATING", "(".$rating."/5)");
+		}
 		
 		return $ttpl->get();
 	}
 	
 	/**
-	* Save Input
+	* Save Rating
 	*/
-	function saveInput()
+	function saveRating()
 	{
-		$input = ilUtil::stripSlashes($_POST[$this->getInputFieldName()]);
-		$itags = explode(" ", $input);
-		$tags = array();
-		foreach($itags as $itag)
-		{
-			$itag = trim($itag);
-			if (!in_array($itag, $tags))
-			{
-				$tags[] = $itag;
-			}
-		}
-
-		ilTagging::writeTagsForUserAndObject($this->obj_id, $this->obj_type,
-			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), $tags);
+		ilRating::writeRatingForUserAndObject($this->obj_id, $this->obj_type,
+			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(),
+			ilUtil::stripSlashes($_GET["rating"]));
 	}
 }
 
