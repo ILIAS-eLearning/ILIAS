@@ -1524,8 +1524,9 @@ class ilObjChatGUI extends ilObjectGUI
 
 				if($user_obj->getPref('public_profile') == 'y')
 				{
-					$this->tpl->setVariable("ACTIVE_ROW_TXT_PROFILE",$this->lng->txt("chat_profile"));
-					$this->tpl->setVariable("ACTIVE_ROW_PROFILE_ID",$user_obj->getId());
+					$this->tpl->setVariable('ACTIVE_ROW_TXT_PROFILE', $this->lng->txt('chat_profile'));
+					$this->tpl->setVariable('ACTIVE_ROW_PROFILE_LINK', 
+						'chat.php?cmd=showUserProfile&amp;ref_id='.$_GET['ref_id'].'&amp;user='.$user_obj->getId());
 				}
 				/*
 				if(!$_REQUEST['room_id'] and $rbacsystem->checkAccess('moderate',$this->object->getRefId()))
@@ -2069,6 +2070,28 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+	
+	public function showUserProfile()
+	{
+		global $tpl;
+		
+		require_once './Services/User/classes/class.ilObjUserGUI.php';
+
+		$tpl->addBlockFile('CONTENT', 'content', 'tpl.chat_profile_view.html','Modules/Chat');
+
+		$user = new ilObjUserGUI('', (int)$_GET['user'], false, false);
+		$tpl->setVariable('USR_PROFILE', $user->getPublicProfile('', true, false));		
+		
+		$tpl->show();
+		exit();
+	}
+	
+	public function deliverVCard()
+	{
+		require_once './Services/User/classes/class.ilObjUserGUI.php';
+		$user = new ilObjUserGUI('', (int)$_GET['user'], false, false);
+		$user->deliverVCardObject();
 	}
 	
 	public function addLocatorItems()

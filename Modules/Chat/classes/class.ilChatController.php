@@ -108,6 +108,11 @@ class ilChatController
 		{
 			$this->cmd = "showFrames";
 		}
+		
+		if($_GET['vcard'] == 1 && (int)$_GET['user'])
+		{
+			$this->cmd = 'deliverVCard';
+		}
 	}
 } // END class.ilObjTest
 ?>
