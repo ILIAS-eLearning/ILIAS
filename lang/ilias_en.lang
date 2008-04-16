@@ -8009,3 +8009,5 @@ dateplaner#:#cal_no_recurrence#:#No Recurrence
 dateplaner#:#cal_add_category#:#Create New Calendar
 dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
 dateplaner#:#cal_duration#:#Duration
+dateplaner#:#cal_weekday#:#Weekday
+dateplaner#:#cal_day_of_month#:#Day of the month

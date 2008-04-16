@@ -46,11 +46,12 @@ class ilCalendarCategoryGUI
 	 * @param int user id
 	 * @return
 	 */
-	public function __construct($a_user_id)
+	public function __construct($a_user_id,$seed)
 	{
 		global $lng,$ilCtrl;
 		
 		$this->user_id = $a_user_id;
+		$this->seed = $seed;
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 		$this->ctrl = $ilCtrl;
@@ -68,8 +69,16 @@ class ilCalendarCategoryGUI
 		global $ilUser, $ilSetting,$tpl;
 
 		$next_class = $this->ctrl->getNextClass($this);
+		$this->ctrl->saveParameter($this,'category_id');
 		switch($next_class)
 		{
+			case 'ilcalendarappointmentgui':
+				$this->ctrl->setReturn($this,'edit');
+				
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$this->ctrl->forwardCommand($app);
+				break;
 			
 			default:
 				$cmd = $this->ctrl->getCmd("show");

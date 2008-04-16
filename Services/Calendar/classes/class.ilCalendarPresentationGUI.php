@@ -70,6 +70,8 @@ class ilCalendarPresentationGUI
 	{
 		global $ilUser, $ilSetting,$tpl;
 
+		$this->prepareOutput();
+
 		$this->initSeed();
 		$next_class = $this->getNextClass();
 		
@@ -114,7 +116,7 @@ class ilCalendarPresentationGUI
 				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
 
 				include_once('Services/Calendar/classes/class.ilCalendarCategoryGUI.php');				
-				$category = new ilCalendarCategoryGUI($ilUser->getId());
+				$category = new ilCalendarCategoryGUI($ilUser->getId(),$this->seed);
 				$this->ctrl->forwardCommand($category);
 				break;
 			
@@ -124,7 +126,6 @@ class ilCalendarPresentationGUI
 				break;
 		}
 		
-		$this->prepareOutput();
 		$this->showSideBlocks();
 		
 		return true;
@@ -230,7 +231,7 @@ class ilCalendarPresentationGUI
 		$tpl->setVariable('MINICAL',$mini->getHTML());
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
-		$cat = new ilCalendarCategoryGUI($ilUser->getId());
+		$cat = new ilCalendarCategoryGUI($ilUser->getId(),$this->seed);
 		$tpl->setVariable('CATEGORIES',$cat->getHTML());
 
 		$this->tpl->setLeftContent($tpl->get());
