@@ -2205,7 +2205,7 @@ common#:#refresh#:#Opdater
 common#:#refresh_languages#:#Opdater sprog
 common#:#refresh_list#:#Opdateringsliste
 common#:#refuse#:#Nægt
-common#:#reg_mail_body_salutation#:#Hej
+common#:#reg_mail_body_salutation#:#Kære
 common#:#reg_mail_body_text1#:#Velkommen til ILIAS e-læring
 common#:#reg_mail_body_text2#:#For at få adgang til  ILIAs brug følgende data:
 common#:#reg_mail_body_text3#:#Yderligere personlig information: 
@@ -5627,9 +5627,9 @@ mail#:#mail_moved#:#Mailen er blevet flyttet
 mail#:#mail_moved_to_trash#:#Mail er blevet flyttet til papirkurv
 mail#:#mail_notification_subject#:#New mail in your inbox###16 08 2007 new variable
 mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.
-mail#:#mail_nacc_client_name#:#Client Name.
-mail#:#mail_nacc_ilias_url#:#URL til ILIAS system.
-mail#:#mail_nacc_login#:#Login Account.
+mail#:#mail_nacc_client_name#:#Klientens navn.
+mail#:#mail_nacc_ilias_url#:#URL til ILIAS systemet.
+mail#:#mail_nacc_login#:#Brugerkonto
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
 mail#:#mail_nacc_salutation#:#Salutation.
@@ -5675,21 +5675,21 @@ mail#:#mail_no_valid_mailing_list#:#Ingen gyldig mailingliste
 mail#:#mail_list_members#:#Liste over medlemmer
 mail#:#mail_members_added_addressbook#:#Medlemmer tilføjet til adressebog
 mail#:#mail_in_addressbook#:#Er allerede i adressebog.
-mail#:#mail_select_only_one_entry#:#Please select only one entry.###25 02 2007 new variable
-mail#:#mail_select_course#:#Please select at least one course.###25 02 2007 new variable
-mail#:#mail_select_group#:#Please select at least one group.###25 02 2007 new variable
-mail#:#mail_my_entries#:#My Entries###25 02 2007 new variable
-mail#:#mail_my_courses#:#My Courses###25 02 2007 new variable
-mail#:#mail_my_groups#:#My Groups###25 02 2007 new variable
-mail#:#mail_my_mailing_lists#:#My Mailing Lists###16 08 2007 new variable
-mail#:#mail_mailing_lists#:#Mailing Lists###16 08 2007 new variable
-mail#:#mail_mailing_list#:#Mailing List###16 08 2007 new variable
+mail#:#mail_select_only_one_entry#:#Vælg venlist kun en kontakt
+mail#:#mail_select_course#:#Vælg venligst mindst ete kursus
+mail#:#mail_select_group#:#Vælg venligst mindst en gruppe
+mail#:#mail_my_entries#:#Mine kontakter
+mail#:#mail_my_courses#:#Mine kurser
+mail#:#mail_my_groups#:#Mine grupper
+mail#:#mail_my_mailing_lists#:#Mine maillister
+mail#:#mail_mailing_lists#:#Maillister
+mail#:#mail_mailing_list#:#Mailliste
 mail#:#mail_members_of_mailing_list#:#Members of Mailing List###16 08 2007 new variable
-mail#:#mail_into_addressbook#:#Take into Addressbook###25 02 2007 new variable
-mail#:#mail_group_members#:#Group Members###25 02 2007 new variable
-mail#:#mail_entry_of_addressbook#:#Entry of Address Book###16 08 2007 new variable
-mail#:#mail_new_entry#:#New Entry###25 02 2007 new variable
-mail#:#mail_edit_entry#:#Edit Entry###25 02 2007 new variable
+mail#:#mail_into_addressbook#:#Put i adressebog
+mail#:#mail_group_members#:#Gruppemedlemmer
+mail#:#mail_entry_of_addressbook#:#Kontakter i adressebog
+mail#:#mail_new_entry#:#Ny kontakt
+mail#:#mail_edit_entry#:#Ret kontakt
 mail#:#mail_select_attachment#:#Please select an attachment for download.###25 02 2007 new variable
 meta#:#md_days#:#Dage:
 meta#:#md_months#:#Måned:
@@ -6157,11 +6157,11 @@ meta#:#meta_linear#:#Liniær
 meta#:#meta_local_file#:#Lokal fil
 meta#:#meta_location#:#Placering
 meta#:#meta_low#:#Lav
-meta#:#meta_mac_os#:#MacOS###21 Apr 2005 new variable
+meta#:#meta_mac_os#:#MacOS
 meta#:#meta_manager#:#Manager###21 Apr 2005 new variable
-meta#:#meta_maximum_version#:#Maximum Version###21 Apr 2005 new variable
-meta#:#meta_medium#:#Medium###21 Apr 2005 new variable
-meta#:#meta_meta_metadata#:#Meta-Metadata###21 Apr 2005 new variable
+meta#:#meta_maximum_version#:#Maksimum version
+meta#:#meta_medium#:#Medie
+meta#:#meta_meta_metadata#:#Meta-Metadata
 meta#:#meta_metadatascheme#:#Metadata Skema
 meta#:#meta_minimum_version#:#Minimums Version
 meta#:#meta_mixed#:#Blandet
@@ -6243,25 +6243,25 @@ meta#:#md_advanced#:#Advanced Metadata###16 08 2007 new variable
 meta#:#md_adv_record_list#:#Datasets###16 08 2007 new variable
 meta#:#md_adv_file_list#:#Export Files###16 08 2007 new variable
 meta#:#md_record_list_table#:#Advanced Metadata Sets###16 08 2007 new variable
-meta#:#md_fields#:#Fields###16 08 2007 new variable
+meta#:#md_fields#:#Felter
 meta#:#md_obj_types#:#Assigned Objekts###16 08 2007 new variable
 meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)###16 08 2007 new variable
-meta#:#md_adv_substitution#:#Text###16 08 2007 new variable
-meta#:#md_adv_placeholders#:#Placeholders###16 08 2007 new variable
-meta#:#md_adv_placeholder_for#:#Placeholder for:###16 08 2007 new variable
-meta#:#md_record_export_table#:#Export Files###16 08 2007 new variable
+meta#:#md_adv_substitution#:#Tekst
+meta#:#md_adv_placeholders#:#Pladsholdere
+meta#:#md_adv_placeholder_for#:#Pladsholder for:
+meta#:#md_record_export_table#:#Eksport Files###16 08 2007 new variable
 meta#:#md_adv_records#:#Included Datasets###16 08 2007 new variable
-meta#:#md_adv_select_one_file#:#Please choose one file.###16 08 2007 new variable
-meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following export  files?###16 08 2007 new variable
-meta#:#md_adv_deleted_files#:#Deleted export files.###16 08 2007 new variable
-meta#:#md_adv_records_exported#:#A new export file has been created.###16 08 2007 new variable
+meta#:#md_adv_select_one_file#:#Vælg venligst kun en fil
+meta#:#md_adv_delete_files_sure#:#Vil du virkelig SLETTE de følgende eksportfiler?
+meta#:#md_adv_deleted_files#:#Slettede eksportfiler
+meta#:#md_adv_records_exported#:#En ny eksportfil er blevet lavet
 meta#:#md_adv_edit_record#:#Edit Dataset###16 08 2007 new variable
-meta#:#md_adv_field_table#:#Edit Fields###16 08 2007 new variable
-meta#:#md_adv_field_fields#:#Fields###16 08 2007 new variable
-meta#:#md_adv_searchable#:#Searchable###16 08 2007 new variable
-meta#:#md_adv_edit_field#:#Edit Field###16 08 2007 new variable
-meta#:#md_adv_create_field#:#Add Field###16 08 2007 new variable
-meta#:#md_adv_add_value#:#Add Value###16 08 2007 new variable
+meta#:#md_adv_field_table#:#Ret felter
+meta#:#md_adv_field_fields#:#Felter
+meta#:#md_adv_searchable#:#Søgbart
+meta#:#md_adv_edit_field#:#Ret felt
+meta#:#md_adv_create_field#:#Tilføj felt
+meta#:#md_adv_add_value#:#Tilføj værdi
 meta#:#md_adv_no_fields#:#No Fields Defined###16 08 2007 new variable
 meta#:#md_adv_deleted_records#:#Deleted Dataset###16 08 2007 new variable
 meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?###16 08 2007 new variable
@@ -6336,7 +6336,7 @@ payment#:#pay_filter#:#Filter###21 Apr 2005 new variable
 payment#:#pay_goto_buyed_objects#:#Gå til dine indkøb
 payment#:#pay_goto_shopping_cart#:#Gå til indkøbskurv
 payment#:#pay_header#:#Betaling
-payment#:#pay_hint_paypal#:#Hint for PayPal
+payment#:#pay_hint_paypal#:#Tip til Paypal
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
 payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping cart you'll leave ILIAS temporary and head for the PayPal website. Please follow the steps that are shown to you there. After paying successfully you'll be directed back to ILIAS automatically. Don't close the window of your browser at any time whilst the selling process. Otherwise the objects you've bought can't be activated for you automatically.
 payment#:#pay_item_already_in_sc#:#Du har allerede tilføjet dette objekt til din indkøbskurv.
@@ -7698,8 +7698,8 @@ forum#:#close_topics#:#Luk
 forum#:#reopen_topics#:#Genåben
 forum#:#post_censored_comment_by_moderator#:#Indlæg censureret, kommentar af moderator
 forum#:#activate_new_posts#:#Aktive indlæg
-mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders###02 11 2007 new variable
-mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
+mail#:#activate_serial_letter_placeholders#:#Brug felterstatninger
+mail#:#placeholders_advise#:#Felterne kan kun anvendes til modtagerne i 'Til'.%sModtagere i 'CC' og 'BCC' vil se teksten som den skrives.
 mail#:#search_recipients#:#Søg modtagere
 survey#:#on_additional#:#On, and additional###02 11 2007 new variable
 assessment#:#tst_show_solution_answers_only#:#Results print view (answers only)###14 11 2007 new variable
