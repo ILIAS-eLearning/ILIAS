@@ -1,0 +1,14 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="sess">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="sess" class_name="Session" dir="classes" default_pos="195" default_pres_pos="195"
+			checkbox="1" inherit="0" translate="0" rbac="1" allow_link="0" allow_copy="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="crs">crs</parent>
+			<parent id="recf">recf</parent>
+		</object>
+	</objects>
+</module>

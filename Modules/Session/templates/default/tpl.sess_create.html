@@ -1,0 +1,28 @@
+{EVENT_ADD_TABLE}
+
+<!-- BEGIN clone_event --> 
+<br />
+<form action="{FORMACTION}" method="post" name="cmd">
+<table class="std">
+	<tr class="tblheader">
+		<th class="std" colspan="2">
+			<img src="{CLONE_TITLE_IMG}" style="vertical-align:middle;" alt="{CLONE_TITLE_IMG_ALT}"	title="{CLONE_TITLE_IMG_ALT}" border="0" />
+			{CLONE_TITLE}
+		</th>
+	</tr>
+	<tr>
+		<td class="option">{CLONE_EVENT}</td>
+		<td class="option_value">{SEL_EVENT}</td>
+	</tr>
+	<tr class="tblfooter">
+		<td class="std" colspan="2">
+		<div align="right"><input class="submit" type="submit"
+			name="cmd[cloneEvent]" value="{TXT_BTN_CLONE_EVENT}" /> 
+			<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CLONE_CANCEL}" />
+		</div>
+		</td>
+	</tr>
+</table>
+</form>
+<!--  END clone_event -->
+
