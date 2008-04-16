@@ -208,7 +208,6 @@ class ilObjCourseAccess extends ilObjectAccess
 		}
 		return false;
 	}
-
 }
 
 ?>

@@ -225,6 +225,7 @@ switch($target_type)
 		require_once('./Modules/RootFolder/classes/class.ilObjRootFolderGUI.php');
 		ilObjRootFolderGUI::_goto($target_id);
 		break;
+		
 
 	//
 	// default implementation (should be used by all new object types)

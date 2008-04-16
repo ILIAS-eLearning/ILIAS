@@ -1384,18 +1384,6 @@ class ilEventAdministrationGUI
 		return true;
 	}
 
-	function __prepareDateSelect($a_unix_time)
-	{
-		return array('y' => date('Y',$a_unix_time),
-					 'm' => date('m',$a_unix_time),
-					 'd' => date('d',$a_unix_time));
-	}
-	function __prepareTimeSelect($a_unix_time)
-	{
-		return array('h' => date('G',$a_unix_time),
-					 'm' => date('i',$a_unix_time),
-					 's' => date('s',$a_unix_time));
-	}
 	function __toUnix($date,$time)
 	{
 		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
