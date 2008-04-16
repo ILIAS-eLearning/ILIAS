@@ -3336,6 +3336,8 @@ common#:#obj_st#:#Chapter
 common#:#obj_stys#:#Style and Layout
 common#:#obj_stys_desc#:#Manage system skin and style settings here
 common#:#obj_svy#:#Survey
+common#:#obj_svyf#:#Survey
+common#:#obj_svyf_desc#:#Platform settings for the Survey Tool
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
 common#:#obj_taxf_desc#:#Folder for taxonomies
@@ -8009,5 +8011,8 @@ dateplaner#:#cal_no_recurrence#:#No Recurrence
 dateplaner#:#cal_add_category#:#Create New Calendar
 dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
 dateplaner#:#cal_duration#:#Duration
+common#:#survey_defaults#:#Default Settings for Surveys
+common#:#survey_unlimited_invitation#:#Unlimited Invitation
+common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 dateplaner#:#cal_weekday#:#Weekday
 dateplaner#:#cal_day_of_month#:#Day of the month
