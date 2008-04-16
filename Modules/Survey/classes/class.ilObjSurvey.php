@@ -1467,10 +1467,20 @@ class ilObjSurvey extends ilObject
 * @access public
 * @see $invitation
 */
-  function getInvitationMode() 
+	function getInvitationMode() 
 	{
-    return $this->invitation_mode;
-  }
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$surveySetting = new ilSetting("survey");
+		$unlimited_invitation = $surveySetting->get("unlimited_invitation");
+		if (!$unlimited_invitation && $this->invitation_mode == MODE_UNLIMITED)
+		{
+			return MODE_PREDEFINED_USERS;
+		}
+		else
+		{
+			return $this->invitation_mode;
+		}
+	}
 
 /**
 * Gets the survey status

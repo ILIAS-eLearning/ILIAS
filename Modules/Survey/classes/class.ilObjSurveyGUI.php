@@ -2098,18 +2098,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Cancels an action on the invitation tab
-	*
-	* Cancels an action on the invitation tab
-	*
-	* @access private
-	*/
-	function cancelInvitationStatusObject()
-	{
-		$this->ctrl->redirect($this, "invite");
-	}
-
-	/**
 	* Saves the status of the invitation tab
 	*
 	* Saves the status of the invitation tab
@@ -2118,6 +2106,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function saveInvitationStatusObject()
 	{
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$surveySetting = new ilSetting("survey");
+		$unlimited_invitation = $surveySetting->get("unlimited_invitation");
+		$mode = $_POST["mode"];
+		if (!$unlimited_invitation)
+		{
+			$mode = MODE_PREDEFINED_USERS;
+		}
 		$this->object->setInvitationAndMode($_POST["invitation"], $_POST["mode"]);
 		$this->object->saveToDb();
 		$this->ctrl->redirect($this, "invite");
@@ -2367,17 +2363,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if ($this->object->getInvitation() == INVITATION_ON)
 		{
+			include_once "./Services/Administration/classes/class.ilSetting.php";
+			$surveySetting = new ilSetting("survey");
+			$unlimited_invitation = $surveySetting->get("unlimited_invitation");
+			if (!$unlimited_invitation)
+			{
+				$this->tpl->touchBlock("disabled_mode");
+			}
 			$this->tpl->setCurrentBlock("invitation_mode");
 			$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("invitation_mode"));
 			$this->tpl->setVariable("VALUE_UNLIMITED", $this->lng->txt("unlimited_users"));
 			$this->tpl->setVariable("VALUE_PREDEFINED", $this->lng->txt("predefined_users"));
-			if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
+			if (!$unlimited_invitation)
 			{
 				$this->tpl->setVariable("SELECTED_PREDEFINED", " selected=\"selected\"");
 			}
 			else
 			{
-				$this->tpl->setVariable("SELECTED_UNLIMITED", " selected=\"selected\"");
+				if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
+				{
+					$this->tpl->setVariable("SELECTED_PREDEFINED", " selected=\"selected\"");
+				}
+				else
+				{
+					$this->tpl->setVariable("SELECTED_UNLIMITED", " selected=\"selected\"");
+				}
 			}
 			$this->tpl->parseCurrentBlock();
 		}
@@ -2397,7 +2407,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
     if ($rbacsystem->checkAccess("write", $this->ref_id) or $rbacsystem->checkAccess('invite', $this->ref_id)) {
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
 		$this->tpl->parseCurrentBlock();
 	}
@@ -4088,7 +4097,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$tabs_gui->addTarget("invitation",
 				 $this->ctrl->getLinkTarget($this, "invite"),
 				 array("invite", "saveInvitationStatus",
-				 "cancelInvitationStatus", "searchInvitation", "inviteUserGroup",
+				 "searchInvitation", "inviteUserGroup",
 				 "disinviteUserGroup"),
 				 "");
 		}

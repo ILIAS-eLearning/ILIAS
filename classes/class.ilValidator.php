@@ -49,7 +49,7 @@ class ilValidator extends PEAR
     // inconsistencies as well.
 	// Werner, 2007-04-16
 	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf",
-		"trac","taxf","auth","rolf","assf","extt","adve","fold");
+		"trac","taxf","auth","rolf","assf","svyf","extt","adve","fold");
 	
 	/**
 	* set mode

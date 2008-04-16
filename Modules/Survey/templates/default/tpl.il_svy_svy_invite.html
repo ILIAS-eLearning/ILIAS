@@ -8,14 +8,14 @@
 <!-- BEGIN invitation_mode -->
 <tr>
   <td class="option">{TEXT_MODE}:</td>
-  <td class="option_value"><select name="mode"><option value="0"{SELECTED_UNLIMITED}>{VALUE_UNLIMITED}</option><option value="1"{SELECTED_PREDEFINED}>{VALUE_PREDEFINED}</option></select></td>
+  <td class="option_value"><select name="mode"<!--  BEGIN disabled_mode --> disabled="disabled"<!--  END disabled_mode -->><option value="0"{SELECTED_UNLIMITED}>{VALUE_UNLIMITED}</option><option value="1"{SELECTED_PREDEFINED}>{VALUE_PREDEFINED}</option></select></td>
 </tr>
 <!-- END invitation_mode -->
 <tr><td colspan="2" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <!-- BEGIN command_buttons -->
 <div align="right">
-<input name="cmd[saveInvitationStatus]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancelInvitationStatus]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+<input name="cmd[saveInvitationStatus]" type="submit" class="submit" id="save" value="{SAVE}" />
 </div>
 <!-- END command_buttons -->
 </td></tr>

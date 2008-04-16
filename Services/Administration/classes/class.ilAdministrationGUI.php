@@ -47,7 +47,7 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjAdvancedEditingGUI, ilObjPrivacySecurityGUI, ilObjNewsSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjPersonalDesktopSettingsGUI, ilObjMediaCastGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjLanguageExtGUI, ilObjMDSettingsGUI, ilObjComponentSettingsGUI
-* @ilCtrl_Calls ilAdministrationGUI: ilObjCalendarSettingsGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjCalendarSettingsGUI, ilObjSurveyAdministrationGUI
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI
 * // END WebDAV
@@ -211,11 +211,9 @@ class ilAdministrationGUI
 				if ($next_class != "" && $next_class != "iladministrationgui")
 				{
 					$class_path = $this->ctrl->lookupClassPath($next_class);
-
 					// get gui class instance
 					include_once($class_path);
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
-
 					if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
 						|| $next_class == "ilobjroletemplategui"
 						|| $next_class == "ilobjstylesheetgui"))
