@@ -256,6 +256,7 @@ class ilCalendarSchedule
 			case self::TYPE_DAY:
 				$this->start = clone $seed;
 				$this->end = clone $seed;
+				$this->start->increment(IL_CAL_DAY,-1);
 				$this->end->increment(IL_CAL_DAY,1);
 				break;
 			
@@ -268,6 +269,7 @@ class ilCalendarSchedule
 					$day_diff = 0;
 				}
 				$this->start->increment(IL_CAL_DAY,$day_diff);
+				$this->start->increment(IL_CAL_DAY,-1);
 				$this->end = clone $this->start;
 				$this->end->increment(IL_CAL_DAY,7);
 				break;

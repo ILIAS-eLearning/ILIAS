@@ -7976,7 +7976,7 @@ dateplaner#:#cal_first#:#Ersten
 dateplaner#:#cal_second#:#Zweiten
 dateplaner#:#cal_third#:#Dritten
 dateplaner#:#cal_fourth#:#Vierten
-dateplaner#:#cal_fifth#:#Fänften
+dateplaner#:#cal_fifth#:#Fünften
 dateplaner#:#cal_last#:#Letzten
 dateplaner#:#cal_in#:#im
 dateplaner#:#cal_edit_category#:#Kalender bearbeiten
@@ -7993,3 +7993,5 @@ dateplaner#:#cal_no_recurrence#:#Keine Wiederholung
 dateplaner#:#cal_add_category#:#Neuen Kalender anlegen
 dateplaner#:#cal_del_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_duration#:#Dauer
+dateplaner#:#cal_weekday#:#Wochentag
+dateplaner#:#cal_day_of_month#:#Tag des Monats

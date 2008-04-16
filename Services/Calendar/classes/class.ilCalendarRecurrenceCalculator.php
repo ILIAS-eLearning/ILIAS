@@ -69,6 +69,20 @@ class ilCalendarRecurrenceCalculator
 	}
 	
 	/**
+	 * calculate day list by month(s)
+	 * uses a cache of calculated recurring events
+	 * @access public
+	 * @param int month
+	 * @param int year
+	 * @return object ilDateList
+	 */
+	public function calculateDateListByMonth($a_month,$a_year)
+	{
+		
+	}
+	
+	
+	/**
 	 * calculate date list
 	 *
 	 * @access public
