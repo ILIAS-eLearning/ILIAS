@@ -508,10 +508,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 			$page);
-		$wpage_gui->setOutputMode(IL_PAGE_PREVIEW);
+		//$wpage_gui->setOutputMode(IL_PAGE_PREVIEW);
 		
-		$wpage_gui->setSideBlock();
-		$html = $ilCtrl->getHTML($wpage_gui);
+		//$wpage_gui->setSideBlock();
+		$ilCtrl->setCmdClass("ilwikipagegui");
+		$ilCtrl->setCmd("preview");
+		$html = $ilCtrl->forwardCommand($wpage_gui);
 		
 		$tpl->setContent($html);
 	}
