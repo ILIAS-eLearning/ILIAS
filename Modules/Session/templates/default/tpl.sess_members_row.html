@@ -1,0 +1,36 @@
+<!-- BEGIN standard -->
+<tr class="{CSS_ROW}">
+  <td class="std" valign="top" nowrap="1">
+	{LASTNAME}, {FIRSTNAME} [{LOGIN}]
+  </td>
+  <td class="std" valign="top" align="center"> 
+	<div style="text-align:left">
+	  <input type="text" maxlength="70" name="{MARK_NAME}" value="{MARK}" />
+	</div>
+  </td>
+  <td class="std" valign="top" align="center"> 
+	<div style="text-align:left">
+	  <input type="text" maxlength="70" name="{COMMENT_NAME}" value="{COMMENT}" />
+	</div>
+  </td>
+  <!-- BEGIN registered_col -->
+  <td class="std" valign="top">
+	<div style="text-align:center"><img src="{IMAGE_REGISTERED}" alt="{REGISTERED}" title="{REGISTERED}" border="0"></div>
+  </td>
+  <!-- END registered_col -->
+  <td class="std" valign="top">
+	<div style="text-align:left"><input type="checkbox" name="participants[]" value="{USER_ID}" {CHECKED} /></div>
+  </td>
+</tr>
+<!-- END standard -->
+<!-- BEGIN select_row -->
+	  <tr class="{ROWCLASS}">
+  <td class="{ROWCLASS}" colspan="{SELECT_SPAN}"></td>
+  <td class="std">
+	<div style="text-align:left">
+	  <input type="checkbox" name="chb_check_all" value="1" 
+		id="active_all" onclick="setChecked('cmd', 'participants', document.cmd.active_all.checked);" />&nbsp;{SELECT_ALL}
+	</div>
+  </td>
+	  </tr>
+<!-- END select_row -->

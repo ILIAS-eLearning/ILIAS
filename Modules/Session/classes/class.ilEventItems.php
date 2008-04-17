@@ -25,8 +25,8 @@
 /**
 * class ilEvent
 *
-* @author Stefan Meyer <smeyer.ilias@gmx.de> 
-* @version $Id$
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id: class.ilEventItems.php 15697 2008-01-08 20:04:33Z hschottm $
 * 
 */
 

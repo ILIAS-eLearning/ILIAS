@@ -30,7 +30,6 @@ include_once('./Modules/Session/classes/class.ilObjSession.php');
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI
-* @ilCtrl_IsCalledBy ilObjSessionGUI: ilRepositoryGUI, ilAdministrationGUI
 *
 * @ingroup ModulesSession 
 */
@@ -40,6 +39,9 @@ class ilObjSessionGUI extends ilObjectGUI
 	public $lng;
 	public $ctrl;
 	public $tpl;
+	
+	protected $course_ref_id = 0;
+	protected $course_obj_id = 0;
 
 	/**
 	 * Constructor
@@ -57,7 +59,8 @@ class ilObjSessionGUI extends ilObjectGUI
 		
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule("event");
-		$this->lng->loadLanguageModule('crs');		
+		$this->lng->loadLanguageModule('crs');
+		$this->lng->loadLanguageModule('trac');
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -76,7 +79,6 @@ class ilObjSessionGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		$this->prepareOutput();
-  
   		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -149,7 +151,7 @@ class ilObjSessionGUI extends ilObjectGUI
 	/**
 	 * info screen
 	 *
-	 * @access public
+	 * @access protected
 	 * @param
 	 * @return
 	 */
@@ -250,7 +252,7 @@ class ilObjSessionGUI extends ilObjectGUI
 	/**
 	 * create new event
 	 *
-	 * @access public
+	 * @access protected
 	 * @param
 	 * @return
 	 */
@@ -293,7 +295,7 @@ class ilObjSessionGUI extends ilObjectGUI
 	/**
 	 * save object
 	 *
-	 * @access public
+	 * @access protected
 	 * @param
 	 * @return
 	 */
@@ -351,7 +353,7 @@ class ilObjSessionGUI extends ilObjectGUI
 	/**
 	 * edit object
 	 *
-	 * @access public
+	 * @access protected
 	 * @param
 	 * @return
 	 */
@@ -397,7 +399,7 @@ class ilObjSessionGUI extends ilObjectGUI
 	/**
 	 * update object
 	 *
-	 * @access public
+	 * @access protected
 	 * @param
 	 * @return
 	 */
@@ -437,6 +439,374 @@ class ilObjSessionGUI extends ilObjectGUI
 		ilUtil::sendInfo($this->lng->txt('event_updated'));
 		$this->editObject();
 		return true;
+	}
+	
+	/**
+	 * show material assignment
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	public function materialsObject()
+	{
+		global $tree, $objDefinition;
+
+		$this->tabs_gui->setTabActive('crs_materials');
+
+		include_once 'Modules/Session/classes/class.ilEventItems.php';
+		$this->event_items = new ilEventItems($this->object->getId());
+		$items = $this->event_items->getItems();
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_materials.html','Modules/Session');
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'materials'));
+		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_sess.gif'));
+		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
+		$this->tpl->setVariable("TABLE_TITLE",$this->lng->txt('event_assign_materials_table'));
+		$this->tpl->setVariable("TABLE_INFO",$this->lng->txt('event_assign_materials_info'));
+
+		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
+		if(!$this->course_ref_id)
+		{
+			ilUtil::sendInfo('No course object found. Aborting');
+			return true;
+		}
+		$nodes = $tree->getSubTree($tree->getNodeData($this->course_ref_id));
+		$counter = 1;
+		foreach($nodes as $node)
+		{
+			// No side blocks here
+			if ($objDefinition->isSideBlock($node['type']) or $node['type'] == 'sess')
+			{
+				continue;
+			}
+			
+			if($node['type'] == 'rolf')
+			{
+				continue;
+			}
+			if($counter++ == 1)
+			{
+				continue;
+			}
+			$this->tpl->setCurrentBlock("material_row");
+			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor($counter,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("CHECK_COLL",ilUtil::formCheckbox(in_array($node['ref_id'],$items) ? 1 : 0,
+																	  'items[]',$node['ref_id']));
+			$this->tpl->setVariable("COLL_TITLE",$node['title']);
+
+			if(strlen($node['description']))
+			{
+				$this->tpl->setVariable("COLL_DESC",$node['description']);
+			}
+			$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($node['ref_id'],$items) ? 
+									ilUtil::getImagePath('icon_ok.gif') :
+									ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
+			$this->tpl->setVariable("COLL_PATH",$this->formatPath($node['ref_id']));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
+		$this->tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
+	}
+	
+	/**
+	 * save material assignment
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function saveMaterialsObject()
+	{
+		include_once './Modules/Session/classes/class.ilEventItems.php';
+		
+		$this->event_items = new ilEventItems($this->object->getId());
+		$this->event_items->setItems(is_array($_POST['items']) ? $_POST['items'] : array());
+		$this->event_items->update();
+
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->materialsObject();
+	}
+	
+	/**
+	 * edit members
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function editMembersObject()
+	{
+		global $tree;
+		
+		$this->tabs_gui->setTabActive('event_edit_members');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_members.html','Modules/Session');
+	
+		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
+		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
+		if(!$this->course_ref_id)
+		{
+			ilUtil::sendInfo('No course object found. Aborting');
+			return true;
+		}
+
+		// display print button
+		$this->__showButton($this->ctrl->getLinkTarget($this,'printViewMembers'),$this->lng->txt('print'),'target="_blank"');
+
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
+		$event_part = new ilEventParticipants($this->object->getId());
+
+		$members = $members_obj->getParticipants();
+		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
+
+		$this->tpl->addBlockfile("PARTICIPANTS_TABLE","participants_table", "tpl.table.html");
+		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.sess_members_row.html','Modules/Session');
+
+		// Table 
+		$tbl = new ilTableGUI();
+		$tbl->setTitle($this->lng->txt("event_tbl_participants"),
+					   'icon_usr.gif',
+					   $this->lng->txt('obj_usr'));
+		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'editMembers'));
+		$this->tpl->setVariable("COLUMN_COUNTS",6);
+		#$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		#$this->tpl->setCurrentBlock("tbl_action_btn");
+		#$this->tpl->setVariable("BTN_NAME", "updateMembers");
+		#$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("event_save_participants"));
+		#$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("plain_button");
+		$this->tpl->setVariable("PBTN_NAME",'updateMembers');
+		$this->tpl->setVariable("PBTN_VALUE",$this->lng->txt('save'));
+		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setCurrentBlock("plain_button");
+		$this->tpl->setVariable("PBTN_NAME",'cancel');
+		$this->tpl->setVariable("PBTN_VALUE",$this->lng->txt('cancel'));
+		$this->tpl->parseCurrentBlock();
+
+		if($this->object->enabledRegistration())
+		{
+			$tbl->setHeaderNames(array($this->lng->txt('name'),
+									   $this->lng->txt('trac_mark'),
+									   $this->lng->txt('trac_comment'),
+									   $this->lng->txt('event_tbl_registered'),
+									   $this->lng->txt('event_tbl_participated')));
+			$tbl->setHeaderVars(array("name",
+									  "mark",
+									  "comment",
+									  "registered",
+									  "participated"),
+								$this->ctrl->getParameterArray($this,'editMembers'));
+			$tbl->setColumnWidth(array('','','','',''));
+		}
+		else
+		{
+			$tbl->setHeaderNames(array($this->lng->txt('name'),
+									   $this->lng->txt('trac_mark'),
+									   $this->lng->txt('trac_comment'),
+									   $this->lng->txt('event_tbl_participated')));
+
+			$tbl->setHeaderVars(array("name",
+									  "mark",
+									  "comment",
+									  "participated"),
+								$this->ctrl->getParameterArray($this,'editMembers'));
+
+			$tbl->setColumnWidth(array('','','',''));
+		}
+
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setMaxCount(count($members));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
+		$tbl->disable('sort');
+		$tbl->enable('action');
+		$tbl->render();
+
+		$counter = 0;
+		foreach($sliced_users as $user_id)
+		{
+			$user_data = $event_part->getUser($user_id);
+
+			if($this->object->enabledRegistration())
+			{
+				$this->tpl->setCurrentBlock("registered_col");
+				$this->tpl->setVariable("IMAGE_REGISTERED",$event_part->isRegistered($user_id) ? 
+										ilUtil::getImagePath('icon_ok.gif') :
+										ilUtil::getImagePath('icon_not_ok.gif'));
+				$this->tpl->setVariable("REGISTERED",$event_part->isRegistered($user_id) ?
+										$this->lng->txt('event_registered') :
+										$this->lng->txt('event_not_registered'));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("tbl_content");
+			$name = ilObjUser::_lookupName($user_id);
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("LASTNAME",$name['lastname']);
+			$this->tpl->setVariable("FIRSTNAME",$name['firstname']);
+			$this->tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));
+			$this->tpl->setVariable("MARK",$user_data['mark']);
+			$this->tpl->setVariable("MARK_NAME",'mark['.$user_id.']');
+			$this->tpl->setVariable("COMMENT_NAME",'comment['.$user_id.']');
+			$this->tpl->setVariable("COMMENT",$user_data['comment']);
+
+			$this->tpl->setVariable("USER_ID",$user_id);
+			$this->tpl->setVariable("CHECKED",$event_part->hasParticipated($user_id) ? 'checked="checked"' : '');
+			$this->tpl->setVariable("IMAGE_PART",$event_part->hasParticipated($user_id) ? 
+									ilUtil::getImagePath('icon_ok.gif') :
+									ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable("PART",$event_part->hasParticipated($user_id) ?
+									$this->lng->txt('event_participated') :
+									$this->lng->txt('event_not_participated'));
+			$this->ctrl->setParameter($this,'user_id',$user_id);
+			$this->tpl->setVariable("EDIT_LINK",$this->ctrl->getLinkTarget($this,'editUser'));
+			$this->tpl->setVariable("TXT_EDIT",$this->lng->txt('edit'));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("select_row");
+		$this->tpl->setVariable("SELECT_SPAN",$this->object->enabledRegistration() ? 4 : 3);
+		$this->tpl->setVariable("ROWCLASS",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+		$this->tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
+		$this->tpl->parseCurrentBlock();
+		
+	}
+	
+	/**
+	 * update participants
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function updateMembersObject()
+	{
+		global $tree;
+		
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+
+		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
+		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
+		if(!$this->course_ref_id)
+		{
+			ilUtil::sendInfo('No course object found. Aborting');
+			return true;
+		}
+		
+		$_POST['participants'] = is_array($_POST['participants']) ? $_POST['participants'] : array();
+
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
+		$members = $members_obj->getParticipants();
+		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
+		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
+		
+		$event_part = new ilEventParticipants($this->object->getId());
+
+		foreach($sliced_users as $user)
+		{
+			$part = new ilEventParticipants($this->object->getId());
+			$part->setUserId($user);
+			$part->setMark(ilUtil::stripSlashes($_POST['mark'][$user]));
+			$part->setComment(ilUtil::stripSlashes($_POST['comment'][$user]));
+			$part->setParticipated(in_array($user,$_POST['participants']));
+			$part->setRegistered(ilEventParticipants::_isRegistered($user,$this->object->getId()));
+			$part->updateUser();
+		}
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->editMembersObject();
+	}
+	
+	/**
+	 * print view
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function printViewMembersObject()
+	{
+		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
+
+		global $ilErr,$ilAccess,$tree;
+		
+		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
+		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
+		if(!$this->course_ref_id)
+		{
+			ilUtil::sendInfo('No course object found. Aborting');
+			return true;
+		}
+		
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
+		$event_app = $this->object->getFirstAppointment();
+		$event_part = new ilEventParticipants($this->object->getId());
+		
+
+		$this->tpl = new ilTemplate('tpl.main.html',true,true);
+		// load style sheet depending on user's settings
+		$location_stylesheet = ilUtil::getStyleSheetLocation();
+		$this->tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
+
+		$tpl = new ilTemplate('tpl.sess_members_print.html',true,true,'Modules/Session');
+
+		$tpl->setVariable("EVENT",$this->lng->txt('event'));
+		$tpl->setVariable("EVENT_NAME",$this->object->getTitle());
+		$tpl->setVariable("DATE",ilFormat::formatUnixTime($event_app->getStartingTime(),false)." ".
+						  $event_app->formatTime());
+		$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
+		$tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
+		$tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
+		$tpl->setVariable("TXT_PARTICIPATED",$this->lng->txt('event_tbl_participated'));
+		if($this->object->enabledRegistration())
+		{
+			$tpl->setVariable("TXT_REGISTERED",$this->lng->txt('event_tbl_registered'));
+		}
+
+		$members = $members_obj->getParticipants();
+		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
+		foreach($members as $user_id)
+		{
+			
+			$user_data = $event_part->getUser($user_id);
+
+			if($this->object->enabledRegistration())
+			{
+				$tpl->setCurrentBlock("reg_col");
+				$tpl->setVariable("REGISTERED",$event_part->isRegistered($user_id) ? "X" : "");
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setVariable("COMMENT",$user_data['comment']);
+
+			$tpl->setCurrentBlock("member_row");
+			$name = ilObjUser::_lookupName($user_id);
+			$tpl->setVariable("LASTNAME",$name['lastname']);
+			$tpl->setVariable("FIRSTNAME",$name['firstname']);
+			$tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));
+			$tpl->setVariable("MARK",$user_data['mark']);
+			$tpl->setVariable("PARTICIPATED",$event_part->hasParticipated($user_id) ? "X" : "");
+			$tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setVariable("CONTENT",$tpl->get());
+		$this->tpl->setVariable("BODY_ATTRIBUTES",'onload="window.print()"');
+		$this->tpl->show();
+		exit;
+	
 	}
 
 	/**
@@ -656,6 +1026,34 @@ class ilObjSessionGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * format path
+	 *
+	 * @access protected
+	 * @param int ref_id
+	 */
+	protected function formatPath($a_ref_id)
+	{
+		global $tree;
+
+		$path = $this->lng->txt('path') . ': ';
+		$first = true;
+		foreach($tree->getPathFull($a_ref_id,$this->course_ref_id) as $node)
+		{
+			if($node['ref_id'] != $a_ref_id)
+			{
+				if(!$first)
+				{
+					$path .= ' -> ';
+				}
+				$first = false;
+				$path .= $node['title'];
+			}
+		}
+		return $path;
+	}
+	
+	
+	/**
 	 * Add session locator
 	 *
 	 * @access public
@@ -684,7 +1082,7 @@ class ilObjSessionGUI extends ilObjectGUI
 
 		#$tabs_gui->setBackTarget($this->lng->txt('back_to_crs_content'),$this->ctrl->getParentReturn($this));
 		$tabs_gui->addTarget('info_short',
-							 $this->ctrl->getLinkTarget($this,'info'));
+							 $this->ctrl->getLinkTarget($this,'infoScreen'));
 
 	 	if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 	 	{

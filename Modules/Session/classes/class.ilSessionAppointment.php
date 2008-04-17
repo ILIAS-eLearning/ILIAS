@@ -154,7 +154,7 @@ class ilSessionAppointment implements ilDatePeriod
 
 	function formatTime()
 	{
-		return ilEventAppointment::_timeToString($this->getStartingTime(),$this->getEndingTime());
+		return ilSessionAppointment::_timeToString($this->getStartingTime(),$this->getEndingTime());
 	}
 
 	function _timeToString($start,$end)

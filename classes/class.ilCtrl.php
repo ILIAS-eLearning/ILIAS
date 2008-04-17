@@ -951,6 +951,9 @@ class ilCtrl
 	* get form action url for gui class object
 	*
 	* @param	object		$a_gui_obj		gui object
+	* @param	string		$a_fallback_cmd	fallback command
+	* @param	string		$a_anchor		anchor
+	* @param	bool		$a_asnych		async
 	*/
 	function getFormAction(&$a_gui_obj, $a_fallback_cmd = "", $a_anchor = "", $a_asynch = false)
 	{
