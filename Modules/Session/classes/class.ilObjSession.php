@@ -63,6 +63,28 @@ class ilObjSession extends ilObject
 	}
 	
 	/**
+	 * lookup registration enabled
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function _lookupRegistrationEnabled($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT registration FROM event ".
+			"WHERE event_id = ".$ilDB->quote($a_obj_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return (bool) $row->registration;
+		}
+		return false;
+	}
+	
+	/**
 	 * set location 
 	 *
 	 * @access public

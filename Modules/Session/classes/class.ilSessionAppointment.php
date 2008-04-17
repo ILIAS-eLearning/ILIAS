@@ -55,6 +55,30 @@ class ilSessionAppointment implements ilDatePeriod
 		$this->__read();
 	}
 	
+	/**
+	 * lookup appointment
+	 *
+	 * @access public
+	 * @param int obj_id
+	 * @static
+	 */
+	public static function _lookupAppointment($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM event_appointment ".
+			"WHERE event_id = ".$ilDB->quote($a_obj_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$info['start'] = $row->starting_time;
+			$info['end'] = $row->ending_time;
+			$info['fullday'] = $row->fullday;
+			return $info;
+		}
+		return array();
+	}
+	
 	// Interface methods
 	/**
 	 * is fullday

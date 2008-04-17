@@ -99,8 +99,8 @@ class ilLPStatusCollection extends ilLPStatus
 		foreach(ilLPEventCollections::_getItems($a_obj_id) as $event_id)
 		{
 			#var_dump("<pre>","EVENT_ID: ",$event_id,"<pre>");
-			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgressByType($event_id,'event')));
-			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getCompletedByType($event_id,'event')));
+			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgress($event_id)));
+			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getCompleted($event_id)));
 		}
 
 		// Exclude all users with status completed.
@@ -156,7 +156,7 @@ class ilLPStatusCollection extends ilLPStatus
 		}
 		foreach(ilLPEventCollections::_getItems($a_obj_id) as $event_id)
 		{
-			$tmp_users = ilLPStatusWrapper::_getCompletedByType($event_id,'event');
+			$tmp_users = ilLPStatusWrapper::_getCompleted($event_id);
 			if(!$counter++)
 			{
 				$users = $tmp_users;

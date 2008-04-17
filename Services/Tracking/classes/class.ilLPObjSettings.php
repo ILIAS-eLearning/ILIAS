@@ -292,6 +292,9 @@ class ilLPObjSettings
 			case 'fold':
 				return array(LP_MODE_DEACTIVATED => $lng->txt('trac_mode_deactivated'),
 							 LP_MODE_COLLECTION => $lng->txt('trac_mode_collection'));
+			
+			case 'sess':
+				return array(LP_MODE_EVENT => $this->lng->txt('trac_mode_event'));
 
 			default:
 				return array();
@@ -339,6 +342,9 @@ class ilLPObjSettings
 			
 			case LP_MODE_SCORM_PACKAGE:
 				return $lng->txt('trac_mode_scorm_package');
+				
+			case LP_MODE_EVENT:
+				return $lng->txt('trac_mode_event');
 				
 
 		}
@@ -393,6 +399,9 @@ class ilLPObjSettings
 
 			case LP_MODE_SCORM_PACKAGE:
 				return $lng->txt('trac_mode_scorm_package_info');
+				
+			case LP_MODE_EVENT:
+				return $lng->txt('trac_mode_event_info');
 		}
 		
 	}
@@ -499,6 +508,9 @@ class ilLPObjSettings
 
 			case 'fold':
 				return LP_MODE_DEACTIVATED;
+				
+			case 'sess':
+				return LP_MODE_EVENT;
 					
 			default:
 				return LP_MODE_UNDEFINED;
