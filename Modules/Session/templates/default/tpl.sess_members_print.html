@@ -1,0 +1,41 @@
+<style>
+body { margin:20px; }
+</style>
+<strong>{EVENT}: {EVENT_NAME} ({DATE})</strong><br /><br />
+
+	<table class="std" border="2">
+		<tr class="tblheader" padding="1px">
+		  <th width="30%">{TXT_NAME}</th>
+		  <th width="10%">{TXT_MARK}</th>
+		  <th width="40%">{TXT_COMMENT}</th>
+		  <!-- BEGIN reg_header -->
+		  <th width="10%">{TXT_REGISTERED}</th>
+		  <!-- END reg_header -->
+		  <th width="10%">{TXT_PARTICIPATED}</th>
+		</tr>
+		<!-- BEGIN member_row -->
+		<tr class="std">
+		  <td class="option_value">
+			{LASTNAME}, {FIRSTNAME} [{LOGIN}]
+		  </td>
+		  <td class="option_value">
+			{MARK}
+		  </td>
+		  <td class="option_value">
+			{COMMENT}
+		  </td>
+		  <!-- BEGIN reg_col -->
+		  <td class="option_value" align="center">
+			<div align="center">
+			  <strong>{REGISTERED}</strong>
+			</div>
+		  </td>
+		  <!-- END reg_col -->
+		  <td class="option_value">
+			<div align="center">
+			  <strong>{PARTICIPATED}</strong>
+			</div>
+		  </td>
+		</tr>
+		<!-- END member_row -->
+	</table>
