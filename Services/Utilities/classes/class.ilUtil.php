@@ -4061,7 +4061,10 @@ class ilUtil
 		$size = 0;
 		if (!is_dir($directory)) 
 		{
-			$size = filesize($directory);
+			// BEGIN DiskQuota Suppress PHP warning when attempting to determine
+			//       dirsize of non-existing directory
+			$size = @filesize($directory);
+			// END DiskQuota Suppress PHP warning.
 			return ($size === false) ? -1 : $size;
 		}
 		if ($DIR = opendir($directory))
