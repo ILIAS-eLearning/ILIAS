@@ -90,6 +90,10 @@ class ilLPStatusFactory
 			case LP_MODE_SCORM_PACKAGE:
 				include_once 'Services/Tracking/classes/class.ilLPStatusSCORMPackage.php';
 				return 'ilLPStatusSCORMPackage';
+				
+			case LP_MODE_EVENT:
+				include_once('./Services/Tracking/classes/class.ilLPStatusEvent.php');
+				return 'ilLPStatusEvent';
 
 			default:
 				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);
@@ -165,6 +169,12 @@ class ilLPStatusFactory
 				include_once 'Services/Tracking/classes/class.ilLPStatusObjectives.php';
 
 				return new ilLPStatusObjectives($a_obj_id);
+				
+			case LP_MODE_EVENT:
+				include_once 'Services/Tracking/classes/class.ilLPStatusEvent.php';
+
+				return new ilLPStatusEvent($a_obj_id);
+				
 
 			default:
 				echo "ilLPStatusFactory: unknown type ".ilLPObjSettings::_lookupMode($a_obj_id);

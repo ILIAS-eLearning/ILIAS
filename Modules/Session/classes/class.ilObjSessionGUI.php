@@ -331,7 +331,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->object->setPermissions($_GET["ref_id"]);
 		
 		// create appointment
-		$this->object->getFirstAppointment()->setSessionId($event_id);
+		$this->object->getFirstAppointment()->setSessionId($this->object->getId());
 		$this->object->getFirstAppointment()->create();
 		
 		// TODO: files
@@ -492,6 +492,9 @@ class ilObjSessionGUI extends ilObjectGUI
 				continue;
 			}
 			$this->tpl->setCurrentBlock("material_row");
+			
+			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.gif'));
+			$this->tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$node['type']));
 			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor($counter,'tblrow1','tblrow2'));
 			$this->tpl->setVariable("CHECK_COLL",ilUtil::formCheckbox(in_array($node['ref_id'],$items) ? 1 : 0,
 																	  'items[]',$node['ref_id']));

@@ -144,6 +144,7 @@ class ilLPCollections
 
 			switch($node['type'])
 			{
+				case 'sess':
 				case 'exc':
 				case 'fold':
 				case 'grp':

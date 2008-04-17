@@ -85,12 +85,12 @@ class ilLPEventListGUI extends ilLPObjectItemListGUI
 
 	function __readMark()
 	{
-		include_once './Modules/Course/classes/Event/class.ilEventParticipants.php';
+		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		$this->mark = ilEventParticipants::_lookupMark($this->getId(),$this->getCurrentUser());
 	}
 	function __readComment()
 	{
-		include_once './Modules/Course/classes/Event/class.ilEventParticipants.php';
+		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		$this->comment = ilEventParticipants::_lookupComment($this->getId(),$this->getCurrentUser());
 	}
 
@@ -99,7 +99,7 @@ class ilLPEventListGUI extends ilLPObjectItemListGUI
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 		if($this->status_info['starting_time'] < time())
 		{
-			if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompletedByType($this->getId(),'event')))
+			if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompleted($this->getId())))
 			{
 				return $this->status = LP_STATUS_PARTICIPATED;
 			}
@@ -108,13 +108,13 @@ class ilLPEventListGUI extends ilLPObjectItemListGUI
 				return $this->status = LP_STATUS_NOT_PARTICIPATED;
 			}
 		}
-		if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompletedByType($this->getId(),'event')))
+		if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getCompleted($this->getId())))
 		{
 			return $this->status = LP_STATUS_PARTICIPATED;
 		}
 		if($this->status_info['registration'])
 		{
-			if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getInProgressByType($this->getId(),'event')))
+			if(in_array($this->getCurrentUser(),ilLPStatusWrapper::_getInProgress($this->getId())))
 			{
 				return $this->status = LP_STATUS_REGISTERED;
 			}

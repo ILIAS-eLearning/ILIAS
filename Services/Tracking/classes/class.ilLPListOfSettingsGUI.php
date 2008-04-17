@@ -269,7 +269,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		include_once 'classes/class.ilFrameTargetInfo.php';
 
 		// read assigned events
-		$events = ilEvent::_getEvents($this->getObjId());
+		#$events = ilEvent::_getEvents($this->getObjId());
+		$events = array();
 
 		$lp_collections = new ilLPCollections($this->getObjId());
 
@@ -313,6 +314,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			$anonymized = $this->__checkItemAnonymized($obj_id,$type);
 
 			$tpl->setCurrentBlock("materials");
+			
+			$tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$type.'_s.gif'));
+			$tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$type));
 
 			// Link to settings
 			$tpl->setVariable("COLL_MODE",
