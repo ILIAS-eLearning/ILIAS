@@ -85,7 +85,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
      * The WebDAVServer prints lots of log messages to the ilias log, if this	
 	 * variable is set to true.
 	 */
-	private $isDebug = false;
+	private $isDebug = true;
 	
 	/** 
 	* Constructor
@@ -316,7 +316,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	{
 		// Hide null resources which haven't got an active lock
 		if ($objDAV->isNullResource()) {
-			if (count($this->locks->getLocks($objDAV)) == 0) {
+			if (count($this->locks->getLocksOnObjectDAV($objDAV)) == 0) {
 				return;
 			}
 		}
@@ -397,7 +397,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Maybe we should only show locks on objects for users who have write permission.
 		// But if we don't show these locks, users who have write permission in an object
 		// further down in a hierarchy can't see who is locking their object.
-		$locks = $this->locks->getLocks($objDAV);
+		$locks = $this->locks->getLocksOnObjectDAV($objDAV);
 		$lockdiscovery = '';
 		foreach ($locks as $lock)
 		{
@@ -1241,14 +1241,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		if(isset($options["update"])) { // Lock Update
 			$this->writelog('LOCK update token='.var_export($options,true));
-			$success = $this->locks->updateLock(
+			$success = $this->locks->updateWithoutCheckingDAV(
 				$objDAV,
 				$options['update'],
 				$options['timeout']
 			);
 			if ($success)
 			{
-				$data = $this->locks->getLock($objDAV, $options['update']);
+				$data = $this->locks->getLockDAV($objDAV, $options['update']);
 				if ($data['ilias_owner'] == $ilias->account->getId())
 				{
 					$owner = $data['dav_owner'];
@@ -1274,7 +1274,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			// of the collection already has an exclusive lock.
 			//$owner = (strlen(trim($options['owner'])) == 0) ? $ilias->account->getLogin() : $options['owner'];
 			$this->writelog('lock owner='.$owner);
-			$success = $this->locks->lock(
+			$success = $this->locks->lockWithoutCheckingDAV(
 				$objDAV,
 				$ilias->account->getId(),
 				trim($options['owner']),
@@ -1285,8 +1285,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			);
 		}
 
-		return ($success) ? '204 No Content' : false;
-		//return $success;
+		// Note: As a workaround for the Microsoft WebDAV Client, we return
+		//       true/false here (resulting in the status '200 OK') instead of
+		//       '204 No Content').
+		//return ($success) ? '204 No Content' : false;
+		return $success;
 	}
 
 	/**
@@ -1311,7 +1314,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			return '403 Forbidden';
 		}
 
-		$success = $this->locks->unlock(
+		$success = $this->locks->unlockWithoutCheckingDAV(
 			$objDAV,
 			$options['token']
 		);
@@ -1319,7 +1322,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Delete null resource object if there are no locks associated to 
 		// it anymore
 		if ($objDAV->isNullResource() 
-		&& count($this->locks->getLocks($objDAV)) == 0)
+		&& count($this->locks->getLocksOnObjectDAV($objDAV)) == 0)
 		{
 			$parent = dirname($this->davDeslashify($options['path']));
 			$parentDAV =& $this->getObject($parent);
@@ -1359,7 +1362,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		if (! is_null($objPath))
 		{
 			$objDAV = $objPath[count($objPath) - 1];
-			$locks = $this->locks->getLocksOnPath($objPath);
+			$locks = $this->locks->getLocksOnPathDAV($objPath);
 			foreach ($locks as $lock)
 			{
 				$isLastPathComponent = $lock['obj_id'] == $objDAV->getObjectId()
@@ -1716,10 +1719,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			
 			
 			// Windows is unable to mount a ressource with a longer name than 91 characters,
-			// of with a name with the following characters: \ / : * ? " < > | '
-			// or with a name which contains a + character, an accent character or a comma.
+			// of with a name with the following characters: \ / : * ? " < > | ' ( ) , +
+			// or with a name which contains an accent character 0x80-0xff
 			if (strlen($baseUri.$this->davUrlEncode($ressourceName)) > 91 || 
-				preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\||\'|[\+\x80-\xff]|,/', $ressourceName) > 0)
+				preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\||\'|[\(\),\+\x80-\xff]/', $ressourceName) > 0)
 			{
 				$uri = $baseUri.'/ref_'.$refId.'/';
 			} else {
@@ -1737,11 +1740,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			} else {
 				$ressourceName = $nodePath[count($nodePath) - 1]['title'];
 				// Windows is unable to mount a ressource with a longer name than 91 characters,
-				// of with a name with the following characters: \ / : * ? " < > | '
-				// or with a name which contains a + character or an accent character.
-				
+				// of with a name with the following characters: \ / : * ? " < > | ' ( ) , +
+				// or with a name which contains an accent character 0x80-0xff
 				if (strlen($baseUri.$this->davUrlEncode($ressourceName)) > 91 || 
-				preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\||\'|[\+\x80-\xff]|,/', $ressourceName) > 0)
+					preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\||\'|[\(\),\+\x80-\xff]/', $ressourceName) > 0)
 				{
 					$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 1]['child'].'/';
 				} else if (count($nodePath) > 2)
@@ -1859,6 +1861,16 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		global $ilClientIniFile;
 		return $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1' &&
 			 include_once("Auth/HTTP.php");
+	}
+	/**
+	* Static getter. Returns true, if WebDAV actions are visible for repository items.
+	*
+	* @return	boolean	value
+	*/
+	public static function _isActionsVisible()
+	{
+		global $ilClientIniFile;
+		return $ilClientIniFile->readVariable('file_access','webdav_actions_visible') == '1';
 	}
 
 	/**

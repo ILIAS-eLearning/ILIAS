@@ -1202,12 +1202,19 @@ class ilTree
 		{
 			$joinClause = 'JOIN '.$this->table_obj_data.' AS d ON t.child=d.'.$this->obj_pk;
 		}
+
+		// The ORDER BY clause in the following SQL statement ensures that,
+		// in case of a multiple objects with the same title, always the Object
+		// with the oldest ref_id is chosen.
+		// This ensure, that, if a new object with the same title is added,
+		// WebDAV clients can still work with the older object.
 		$q = 'SELECT t.depth, t.parent, t.child, d.'.$this->obj_pk.' AS obj_id, d.type, d.title '.
 			'FROM '.$this->table_tree.' AS t '.
 			$joinClause.' '.
 			'WHERE '.$inClause.' '.
 			'AND t.depth <= '.count($titlePath).' '.
-			'AND t.tree = 1';
+			'AND t.tree = 1 '.
+			'ORDER BY t.depth, t.child ASC';
 		$r = $ilDB->query($q);
 		
 		$rows = array();
@@ -1226,6 +1233,8 @@ class ilTree
 				if ($row['parent'] == $parent && 
 				strtolower($row['title']) == $titlePath[$i])
 				{
+					// FIXME: We should test here, if the user has 'visible'
+					// permission for the object.
 					$nodePath[] = $row;
 					$parent = $row['child'];
 					break;

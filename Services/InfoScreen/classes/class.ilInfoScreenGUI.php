@@ -485,7 +485,7 @@ class ilInfoScreenGUI
 				// Show lock info
 				if ($ilias->account->getId() != ANONYMOUS_USER_ID)
 				{
-					$locks =& $davLocks->getLocksOnObject($a_obj->getId());
+					$locks =& $davLocks->getLocksOnObjectObj($a_obj->getId());
 					if (count($locks) > 0)
 					{
 						$lockUser = new ilObjUser($locks[0]['ilias_owner']);

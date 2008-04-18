@@ -77,8 +77,9 @@ class ilObjFolderListGUI extends ilObjectListGUI
 	{
 		global $lng, $ilUser, $ilias;
 
-		//$props = array();
+		// BEGIN WebDAV get parent properties
 		$props = parent::getProperties();
+		// END WebDAV get parent properties
 
 		return $props;
 	}

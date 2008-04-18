@@ -50,13 +50,13 @@ class ilObjFolderAccess extends ilObjectAccess
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
-		$commands[] = array("permission" => "read", "cmd" => "showSummary", "lang_var" => "info_short", "enable_anonymous" => "false", 'level'=>2);
-		$commands[] = array("permission" => "read", "cmd" => "downloadFolder", "lang_var" => "download", "enable_anonymous" => "false", 'level'=>2);
+		$commands[] = array("permission" => "read", "cmd" => "showSummary", "lang_var" => "info_short", "enable_anonymous" => "false");
+		$commands[] = array("permission" => "read", "cmd" => "downloadFolder", "lang_var" => "download", "enable_anonymous" => "false");
 		// BEGIN WebDAV: Mount Webfolder.
 		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-		if (ilDAVServer::_isActive())
+		if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
 		{
-			$commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false", 'level'=>2);
+			$commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false");
 		}
 		$commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "edit");
 		// END WebDAV: Mount Webfolder.

@@ -174,11 +174,11 @@ class ilObjCourseAccess extends ilObjectAccess
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "", "lang_var" => "view", "default" => true);
-		$commands[] = array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info_short", "enable_anonymous" => "false", 'level'=>2);
+		$commands[] = array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info_short", "enable_anonymous" => "false");
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
 		// BEGIN WebDAV: Mount as webfolder.
 		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
-		if (ilDAVServer::_isActive())
+		if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
 		{
 			$commands[] = array("permission" => "read", "cmd" => "mount_webfolder", "lang_var" => "mount_webfolder", "enable_anonymous" => "false");
 		}

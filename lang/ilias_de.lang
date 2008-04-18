@@ -7995,3 +7995,5 @@ dateplaner#:#cal_del_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine 
 dateplaner#:#cal_duration#:#Dauer
 dateplaner#:#cal_weekday#:#Wochentag
 dateplaner#:#cal_day_of_month#:#Tag des Monats
+common#:#display_webdav_actions#:#WebDAV Aktionen anzeigen
+common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' bei jeder Kategorie, Ordner, Gruppe und Kurs im Magazin an.

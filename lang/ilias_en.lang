@@ -8017,3 +8017,5 @@ common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 dateplaner#:#cal_weekday#:#Weekday
 dateplaner#:#cal_day_of_month#:#Day of the month
+common#:#display_webdav_actions#:#Display WebDAV actions
+common#:#display_webdav_actions_info#:#Displays the action 'open as webfolder' next to each category, folder, course and group item in the repository.
