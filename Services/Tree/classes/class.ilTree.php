@@ -1834,6 +1834,13 @@ class ilTree
 		if(!count($subnodes))
 		{
 			// possibly already deleted
+
+			// Unlock locked tables before returning
+			if($this->__isMainTree())
+			{
+				ilDBX::_unlockTables();
+			}
+
 			return false;
 		}
 
