@@ -3996,17 +3996,16 @@ class ilObjUser extends ilObject
 	 */
 
 	public static function _getUsersForRole($role_id, $active = -1) {
-		global $ilDB;
+		global $ilDB, $rbacreview;
 		$data = array();
 
+		$ids = $rbacreview->assignedUsers($role_id);
+
 		$query = "SELECT usr_data.*, usr_pref.value AS language
-		          FROM  usr_pref,usr_data
-		          LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id
-		          WHERE
-		           usr_pref.usr_id = usr_data.usr_id AND
-		           usr_pref.keyword = 'language' AND
-		           usr_data.usr_id != '".ANONYMOUS_USER_ID."' AND
-		           rbac_ua.rol_id=". $ilDB->quote($role_id);
+							FROM usr_data
+							LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
+							WHERE usr_data.usr_id IN (".implode(',',$ids).")";
+
 
 		 if (is_numeric($active) && $active > -1)
 			$query .= " AND usr_data.active = ".$ilDB->quote($active);
