@@ -906,7 +906,7 @@ class ilObjectGUI
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 
 			// BEGIN ChangeEvent: Record remove from system.
-			require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			if (ilChangeEvent::_isActive())
 			{
 				// Record write event
