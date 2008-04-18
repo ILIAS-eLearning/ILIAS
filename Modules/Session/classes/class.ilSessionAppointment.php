@@ -235,6 +235,23 @@ class ilSessionAppointment implements ilDatePeriod
 	{
 		return ilSessionAppointment::_appointmentToString($this->getStartingTime(),$this->getEndingTime(),$this->enabledFullTime());
 	}
+	
+	/**
+	 * clone appointment
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function cloneObject($new_id)
+	{
+		$new_app = new ilSessionAppointment();
+		$new_app->setSessionId($new_id);
+		$new_app->setStartingTime($this->getStartingTime());
+		$new_app->setEndingTime($this->getEndingTime());
+		$new_app->toggleFullTime($this->isFullday());
+		$new_app->create();
+	}
 
 	function create()
 	{
@@ -249,8 +266,12 @@ class ilSessionAppointment implements ilDatePeriod
 			"starting_time = ".$ilDB->quote($this->getStartingTime()).", ".
 			"ending_time = ".$ilDB->quote($this->getEndingTime()).", ".
 			"fulltime = ".$ilDB->quote($this->enabledFullTime())." ";
+		
+		$this->appointment_id = $ilDB->getLastInsertId();
 
 		$this->db->query($query);
+		
+		
 		return true;
 	}
 

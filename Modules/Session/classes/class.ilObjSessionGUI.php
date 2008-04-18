@@ -23,6 +23,7 @@
 
 include_once('./classes/class.ilObjectGUI.php');
 include_once('./Modules/Session/classes/class.ilObjSession.php');
+include_once('./Modules/Session/classes/class.ilSessionFile.php');
 
 /**
 *
@@ -42,6 +43,8 @@ class ilObjSessionGUI extends ilObjectGUI
 	
 	protected $course_ref_id = 0;
 	protected $course_obj_id = 0;
+	
+	protected $files = array();
 
 	/**
 	 * Constructor
@@ -78,6 +81,8 @@ class ilObjSessionGUI extends ilObjectGUI
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+		
 		$this->prepareOutput();
   		switch($next_class)
 		{
@@ -112,6 +117,41 @@ class ilObjSessionGUI extends ilObjectGUI
 			break;
 		}
   		return true;
+	}
+	
+	/**
+	 * register to session
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function registerObject()
+	{
+		global $ilUser;
+
+		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+		ilEventParticipants::_register($ilUser->getId(),$this->object->getId());
+
+		ilUtil::sendInfo($this->lng->txt('event_registered'),true);
+		$this->ctrl->returnToParent($this);
+	}
+	
+	/**
+	 * unregister from session
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function unregisterObject()
+	{
+		global $ilUser;
+
+		include_once './Modules/Session/classes/class.ilEventParticipants.php';
+		ilEventParticipants::_unregister($ilUser->getId(),$this->object->getId());
+
+		ilUtil::sendInfo($this->lng->txt('event_unregistered'),true);
+		$this->ctrl->returnToParent($this);
 	}
 	
 	/**
@@ -208,7 +248,6 @@ class ilObjSessionGUI extends ilObjectGUI
 
 		$details = $this->object->getDetails();
 
-		// TODO: Files
 		$files = $this->object->getFiles();
 		if(strlen($details) or is_array($files))
 		{
@@ -222,7 +261,7 @@ class ilObjSessionGUI extends ilObjectGUI
 
 			if(count($files))
 			{
-				$tpl = new ilTemplate('tpl.event_info_file.html',true,true,'Modules/Course');
+				$tpl = new ilTemplate('tpl.sess_info_file.html',true,true,'Modules/Session');
 
 				foreach($files as $file)
 				{
@@ -248,6 +287,19 @@ class ilObjSessionGUI extends ilObjectGUI
 	
 	}
 	
+	/**
+	 * send file
+	 *
+	 * @access public
+	 */
+	public function sendFileObject()
+	{
+		$file = new ilSessionFile((int) $_GET['file_id']);
+		
+		ilUtil::deliverFile($file->getAbsolutePath(),$file->getFileName(),$file->getFileType());
+		return true;
+	}
+	
 	
 	/**
 	 * create new event
@@ -266,30 +318,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->initForm('create');
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_create.html','Modules/Session');
 		$this->tpl->setVariable('EVENT_ADD_TABLE',$this->form->getHTML());
-		
-		// TODO: clone events
-		
-		/*
-		if(!count($events = ilEvent::_getEvents($this->container_obj->getId())) or 1)
-		{
-			return true;
-		}
-		$this->tpl->setCurrentBlock('clone_event');
-		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("CLONE_TITLE_IMG",ilUtil::getImagePath('icon_event.gif'));
-		$this->tpl->setVariable("CLONE_TITLE_IMG_ALT",$this->lng->txt('events'));
-		$this->tpl->setVariable('CLONE_TITLE',$this->lng->txt('events_clone_title'));
-		$this->tpl->setVariable('CLONE_EVENT',$this->lng->txt('event'));
-		$this->tpl->setVariable('TXT_BTN_CLONE_EVENT',$this->lng->txt('event_clone_btn'));
-		$this->tpl->setVariable('TXT_CLONE_CANCEL',$this->lng->txt('cancel'));
-		
-		$options[0] = $this->lng->txt('event_select_one');
-		foreach($events as $event_obj)
-		{
-			$options[$event_obj->getEventId()] = $event_obj->getTitle();
-		}
-		$this->tpl->setVariable('SEL_EVENT',ilUtil::formSelect(0,'clone_source',$options,false,true));
-		*/
+		$this->fillCloneTemplate('DUPLICATE','sess');
 	}
 	
 	/**
@@ -306,7 +335,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->object = new ilObjSession();
 
 		$this->load();
-		#$this->loadRecurrenceSettings();
+		$this->loadRecurrenceSettings();
 		$this->initForm('create');
 		
 		$ilErr->setMessage('');
@@ -333,22 +362,58 @@ class ilObjSessionGUI extends ilObjectGUI
 		// create appointment
 		$this->object->getFirstAppointment()->setSessionId($this->object->getId());
 		$this->object->getFirstAppointment()->create();
-		
-		// TODO: files
-		/*
+
 		foreach($this->files as $file_obj)
 		{
-			$file_obj->setEventId($this->event_obj->getEventId());
+			$file_obj->setSessionId($this->object->getEventId());
 			$file_obj->create();
 		}
-		*/
-		#$this->createRecurringSessions();
+		$this->createRecurringSessions();
 
 		ilUtil::sendInfo($this->lng->txt('event_add_new_event'),true);
 		$this->ctrl->returnToParent($this);
 		return true;
 	
 	}
+	
+	/**
+	 * create recurring sessions
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function createRecurringSessions()
+	{
+		global $tree;
+		
+		if(!$this->rec->getFrequenceType())
+		{
+			return true;
+		}
+		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
+		$calc = new ilCalendarRecurrenceCalculator($this->object->getFirstAppointment(),$this->rec);
+		
+		$period_start = clone $this->object->getFirstAppointment()->getStart();
+		$period_end = clone $this->object->getFirstAppointment()->getStart();
+		$period_end->increment(IL_CAL_YEAR,5);
+		$date_list = $calc->calculateDateList($period_start,$period_end);
+		
+		$period_diff = $this->object->getFirstAppointment()->getEnd()->get(IL_CAL_UNIX) - 
+			$this->object->getFirstAppointment()->getStart()->get(IL_CAL_UNIX);
+		
+		$parent_id = $tree->getParentId($this->object->getRefId());
+		
+		foreach($date_list->get() as $date)
+		{
+			$new_obj = $this->object->cloneObject($parent_id);
+			$new_obj->read();
+			$new_obj->getFirstAppointment()->setStartingTime($date->get(IL_CAL_UNIX));
+			$new_obj->getFirstAppointment()->setEndingTime($date->get(IL_CAL_UNIX) + $period_diff);
+			$new_obj->getFirstAppointment()->update();
+		}	
+	}
+	
 	
 	/**
 	 * edit object
@@ -365,15 +430,12 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_edit.html','Modules/Session');
 		$this->tpl->setVariable('EVENT_EDIT_TABLE',$this->form->getHTML());
 		
-		// TODO: files
-		
-		/*
-		if(!count($files = ilEventFile::_readFilesByEvent($this->event_obj->getEventId())))
+		if(!count($this->object->getFiles()))		
 		{
 			return true;
 		}
 		$rows = array();
-		foreach($files as $file)
+		foreach($this->object->getFiles() as $file)
 		{
 			$table_data['id'] = $file->getFileId();
 			$table_data['filename'] = $file->getFileName();
@@ -383,8 +445,8 @@ class ilObjSessionGUI extends ilObjectGUI
 			$rows[] = $table_data; 
 		}
 		
-		include_once("./Modules/Course/classes/Event/class.ilEventFileTableGUI.php");
-		$table_gui = new ilEventFileTableGUI($this, "edit");
+		include_once("./Modules/Session/classes/class.ilSessionFileTableGUI.php");
+		$table_gui = new ilSessionFileTableGUI($this, "edit");
 		$table_gui->setTitle($this->lng->txt("event_files"));
 		$table_gui->setData($rows);
 		$table_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
@@ -393,7 +455,6 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->tpl->setVariable('EVENT_FILE_TABLE',$table_gui->getHTML());
 
 		return true;
-		*/
 	}
 	
 	/**
@@ -428,17 +489,83 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->object->update();
 		$this->object->getFirstAppointment()->update();
 		
-		/* TODO: files
 		foreach($this->files as $file_obj)
 		{
-			$file_obj->setEventId($this->event_obj->getEventId());
+			$file_obj->setSessionId($this->object->getEventId());
 			$file_obj->create();
 		}
-		*/
 		
 		ilUtil::sendInfo($this->lng->txt('event_updated'));
 		$this->editObject();
 		return true;
+	}
+	
+	/**
+	 * confirm delete files
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function confirmDeleteFilesObject()
+	{
+		$this->tabs_gui->setTabActive('edit_properties');
+
+		if(!count($_POST['file_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->editObject();
+			return false;
+		}
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteFiles"));
+		$c_gui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "edit");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteFiles");
+
+		// add items to delete
+		foreach($_POST["file_id"] as $file_id)
+		{
+			$file = new ilSessionFile($file_id);
+			if($file->getSessionId() != $this->object->getEventId())
+			{
+				ilUtil::sendInfo($this->lng->txt('select_one'));
+				$this->edit();
+				return false;
+			}
+			$c_gui->addItem("file_id[]", $file_id, $file->getFileName());
+		}
+		
+		$this->tpl->setContent($c_gui->getHTML());
+		return true;	
+	}
+	
+	/**
+	 * delete files
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function deleteFilesObject()
+	{
+		if(!count($_POST['file_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->editObject();
+			return false;
+		}
+		foreach($_POST['file_id'] as $id)
+		{
+			$file = new ilSessionFile($id);
+			$file->delete();
+		}
+		$this->editObject();
+		return true;	
 	}
 	
 	/**
@@ -811,6 +938,136 @@ class ilObjSessionGUI extends ilObjectGUI
 		exit;
 	
 	}
+	
+	/**
+	 * list sessions of all user
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function eventsListObject()
+	{
+		global $ilErr,$ilAccess, $ilUser,$tree;
+
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_list.html','Modules/Session');
+		$this->__showButton($this->ctrl->getLinkTarget($this,'exportCSV'),$this->lng->txt('event_csv_export'));
+				
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+		
+		$this->tpl->addBlockfile("EVENTS_TABLE","events_table", "tpl.table.html");
+		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.sess_list_row.html','Modules/Session');
+		
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
+		$members = $members_obj->getParticipants();
+		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
+		
+		// Table 
+		$tbl = new ilTableGUI();
+		$tbl->setTitle($this->lng->txt("event_overview"),
+					   'icon_usr.gif',
+					   $this->lng->txt('obj_usr'));
+		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);	
+		
+		$course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
+		$events = array();
+		foreach($tree->getSubtree($tree->getNodeData($course_ref_id),false,'sess') as $event_id)
+		{
+			$tmp_event = ilObjectFactory::getInstanceByRefId($event_id,false);
+			if(!is_object($tmp_event) or $tmp_event->getType() != 'sess') 
+			{
+				continue;
+			}
+			$events[] = $tmp_event;
+		}
+		
+		$headerNames = array();
+		$headerVars = array();
+		$colWidth = array();
+		
+		$headerNames[] = $this->lng->txt('name');		
+		$headerVars[] = "name";		
+		$colWidth[] = '20%';		
+					
+		for ($i = 1; $i <= count($events); $i++)
+		{
+			$headerNames[] = $i;
+			$headerVars[] = "event_".$i;
+			$colWidth[] = 80/count($events)."%";	
+		}		
+		
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$tbl->setHeaderNames($headerNames);
+		$tbl->setHeaderVars($headerVars, $this->ctrl->getParameterArray($this,'eventsList'));
+		$tbl->setColumnWidth($colWidth);		
+
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setOffset($_GET["offset"]);				
+		$tbl->setLimit($ilUser->getPref("hits_per_page"));
+		$tbl->setMaxCount(count($members));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		
+		$sliced_users = array_slice($members,$_GET['offset'],$_SESSION['tbl_limit']);
+		$tbl->disable('sort');
+		$tbl->render();
+		
+		$counter = 0;
+		foreach($sliced_users as $user_id)
+		{			
+			foreach($events as $event_obj)
+			{								
+				$this->tpl->setCurrentBlock("eventcols");
+							
+				$event_part = new ilEventParticipants($this->object->getId());														
+										
+				{			
+					$this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ? 
+											ilUtil::getImagePath('icon_ok.gif') :
+											ilUtil::getImagePath('icon_not_ok.gif'));
+					
+					$this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?
+										$this->lng->txt('event_participated') :
+										$this->lng->txt('event_not_participated'));
+				}						
+				
+				$this->tpl->parseCurrentBlock();				
+			}			
+			
+			$this->tpl->setCurrentBlock("tbl_content");
+			$name = ilObjUser::_lookupName($user_id);
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("LASTNAME",$name['lastname']);
+			$this->tpl->setVariable("FIRSTNAME",$name['firstname']);
+			$this->tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));				
+			$this->tpl->parseCurrentBlock();			
+		}		
+		
+		$this->tpl->setVariable("HEAD_TXT_LEGEND", $this->lng->txt("legend"));		
+		$this->tpl->setVariable("HEAD_TXT_DIGIT", $this->lng->txt("event_digit"));
+		$this->tpl->setVariable("HEAD_TXT_EVENT", $this->lng->txt("event"));
+		$this->tpl->setVariable("HEAD_TXT_LOCATION", $this->lng->txt("event_location"));
+		$this->tpl->setVariable("HEAD_TXT_DATE_TIME",$this->lng->txt("event_date_time"));
+		$i = 1;
+		foreach($events as $event_obj)
+		{
+			$this->tpl->setCurrentBlock("legend_loop");
+			$this->tpl->setVariable("LEGEND_CSS_ROW",ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
+			$this->tpl->setVariable("LEGEND_DIGIT", $i++);
+			$this->tpl->setVariable("LEGEND_EVENT_TITLE", $event_obj->getTitle());
+			$this->tpl->setVariable("LEGEND_EVENT_DESCRIPTION", $event_obj->getDescription());	
+			$this->tpl->setVariable("LEGEND_EVENT_LOCATION", $event_obj->getLocation());
+			$this->tpl->setVariable("LEGEND_EVENT_APPOINTMENT", $event_obj->getFirstAppointment()->appointmentToString());		
+			$this->tpl->parseCurrentBlock();
+		}
+	
+	}
 
 	/**
 	 * Init Form 
@@ -829,6 +1086,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setTableWidth('60%');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		
 		// title
@@ -982,8 +1240,6 @@ class ilObjSessionGUI extends ilObjectGUI
 		$counter = 1;
 		$this->files = array();
 		
-		// TODO: files
-		/*
 		foreach($_FILES as $name => $data)
 		{
 			if(!strlen($data['tmp_name']))
@@ -995,7 +1251,7 @@ class ilObjSessionGUI extends ilObjectGUI
 				$_POST['file_name'.$counter] : 
 				$data['name'];
 			
-			$file = new ilEventFile();
+			$file = new ilSessionFile();
 			$file->setFileName($filename);
 			$file->setFileSize($data['size']);
 			$file->setFileType($data['type']);
@@ -1004,7 +1260,6 @@ class ilObjSessionGUI extends ilObjectGUI
 			$this->files[] = $file;
 			++$counter;
 		}
-		*/
 
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));
@@ -1015,6 +1270,95 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->object->setDetails(ilUtil::stripSlashes($_POST['details']));
 		$this->object->enableRegistration((int) $_POST['registration']);
 	}
+
+	/**
+	 * load recurrence settings
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function loadRecurrenceSettings()
+	{
+		include_once('./Modules/Session/classes/class.ilSessionRecurrence.php');
+		$this->rec = new ilSessionRecurrence();
+		
+		switch($_POST['frequence'])
+		{
+			case IL_CAL_FREQ_DAILY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_DAILY']);
+				break;
+			
+			case IL_CAL_FREQ_WEEKLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_WEEKLY']);
+				if(is_array($_POST['byday_WEEKLY']))
+				{
+					$this->rec->setBYDAY(ilUtil::stripSlashes(implode(',',$_POST['byday_WEEKLY'])));
+				}				
+				break;
+
+			case IL_CAL_FREQ_MONTHLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_MONTHLY']);
+				switch((int) $_POST['subtype_MONTHLY'])
+				{
+					case 0:
+						// nothing to do;
+						break;
+					
+					case 1:
+						switch((int) $_POST['monthly_byday_day'])
+						{
+							case 8:
+								// Weekday
+								$this->rec->setBYSETPOS((int) $_POST['monthly_byday_num']);
+								$this->rec->setBYDAY('MO,TU,WE,TH,FR');
+								break;
+								
+							case 9:
+								// Day of month
+								$this->rec->setBYMONTHDAY((int) $_POST['monthly_byday_num']);
+								break;
+								
+							default:
+								$this->rec->setBYDAY((int) $_POST['monthly_byday_num'].$_POST['monthly_byday_day']);
+								break;
+						}
+						break;
+					
+					case 2:
+						$this->rec->setBYMONTHDAY((int) $_POST['monthly_bymonthday']);
+						break;
+				}
+				break;			
+			
+			case IL_CAL_FREQ_YEARLY:
+				$this->rec->setFrequenceType($_POST['frequence']);
+				$this->rec->setInterval((int) $_POST['count_YEARLY']);
+				switch((int) $_POST['subtype_YEARLY'])
+				{
+					case 0:
+						// nothing to do;
+						break;
+					
+					case 1:
+						$this->rec->setBYMONTH((int) $_POST['yearly_bymonth_byday']);
+						$this->rec->setBYDAY((int) $_POST['yearly_byday_num'].$_POST['yearly_byday']);
+						break;
+					
+					case 2:
+						$this->rec->setBYMONTH((int) $_POST['yearly_bymonth_by_monthday']);
+						$this->rec->setBYMONTHDAY((int) $_POST['yearly_bymonthday']);
+						break;
+				}
+				break;			
+		}
+		
+		// UNTIL
+		$this->rec->setFrequenceUntilCount((int) $_POST['count']);
+	}
+	
 	
 	/**
 	 * 
@@ -1054,7 +1398,6 @@ class ilObjSessionGUI extends ilObjectGUI
 		}
 		return $path;
 	}
-	
 	
 	/**
 	 * Add session locator

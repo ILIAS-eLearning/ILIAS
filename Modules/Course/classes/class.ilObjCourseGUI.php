@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilEventAdministrationGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilEventAdministrationGUI, ilSessionOverviewGUI
 *
 * 
 * @extends ilContainerGUI
@@ -1445,8 +1445,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("events",
-													 $this->ctrl->getLinkTargetByClass('ileventadministrationgui','eventsList'),
-													 "", 'ileventadministrationgui');
+													 $this->ctrl->getLinkTargetByClass('ilsessionoverviewgui','listSessions'),
+													 "", 'ilsessionoverviewgui');
 				}
 
 				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
@@ -4502,6 +4502,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			case 'ilcourseagreementgui':
 				$this->forwardToAgreement();
+				break;
+				
+			case 'ilsessionoverviewgui':
+				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
+				
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->tabs_gui->setSubTabActive('events');
+				$overview = new ilSessionOverviewGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($overview);				
 				break;
 				
 			case 'ileventadministrationgui':

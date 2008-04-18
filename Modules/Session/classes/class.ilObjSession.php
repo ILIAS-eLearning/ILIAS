@@ -42,8 +42,10 @@ class ilObjSession extends ilObject
 	protected $email;
 	protected $details;
 	protected $registration;
+	protected $event_id;
 	
 	protected $appointments;
+	protected $files = array();
 	
 
 	/**
@@ -75,13 +77,24 @@ class ilObjSession extends ilObject
 		global $ilDB;
 		
 		$query = "SELECT registration FROM event ".
-			"WHERE event_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return (bool) $row->registration;
 		}
 		return false;
+	}
+	
+	/**
+	 * sget event id
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getEventId()
+	{
+		return $this->event_id;
 	}
 	
 	/**
@@ -286,7 +299,7 @@ class ilObjSession extends ilObject
 	 */
 	public function getFiles()
 	{
-		return array();
+		return $this->files ? $this->files : array();
 	}
 	
 	/**
@@ -308,6 +321,64 @@ class ilObjSession extends ilObject
 		return true;
 	}
 	
+	/**
+	 * Clone course (no member data)
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB,$ilUser;
+		
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	
+	 	$this->read();
+	 	
+		// Copy settings
+		$this->cloneSettings($new_obj);
+		
+		// Clone appointment
+		$this->getFirstAppointment()->cloneObject($new_obj->getId());
+
+		// Clone session files
+		foreach($this->files as $file)
+		{
+			$file->cloneFiles($new_obj->getEventId());
+		}
+	
+		// Copy learning progress settings
+		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+		$obj_settings = new ilLPObjSettings($this->getId());
+		$obj_settings->cloneSettings($new_obj->getId());
+		unset($obj_settings);
+		
+		return $new_obj;
+	}
+	
+	/**
+	 * clone settings
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function cloneSettings($new_obj)
+	{
+		$new_obj->setLocation($this->getLocation());
+		$new_obj->setName($this->getName());
+		$new_obj->setPhone($this->getPhone());
+		$new_obj->setEmail($this->getEmail());
+		$new_obj->setDetails($this->getDetails());
+		$new_obj->enableRegistration($this->enabledRegistration());
+		$new_obj->update();
+		
+		return true;
+	}
+	
+	
 	
 	/**
 	 * create new session
@@ -328,6 +399,7 @@ class ilObjSession extends ilObject
 			"registration = ".$this->db->quote($this->enabledRegistration())." ";
 
 		$this->db->query($query);
+		$this->event_id = $this->db->getLastInsertId();
 
 		return $this->getId();
 	}
@@ -374,7 +446,21 @@ class ilObjSession extends ilObject
 			"WHERE obj_id = ".$this->db->quote($this->getId())." ";
 		$this->db->query($query);
 		
-		// TODO: delete related data
+		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+		ilSessionAppointment::_deleteBySession($this->getId());
+		
+		include_once('./Modules/Session/classes/class.ilEventItems.php');
+		ilEventItems::_delete($this->getId());
+		
+		include_once('./Modules/Session/classes/class.ilEventParticipants.php');
+		ilEventParticipants::_deleteByEvent($this->getId());
+		
+		foreach($this->getFiles() as $file)
+		{
+			$file->delete();
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -400,11 +486,11 @@ class ilObjSession extends ilObject
 			$this->setEmail($row->tutor_email);
 			$this->setDetails($row->details);
 			$this->enableRegistration((bool) $row->registration);
+			$this->event_id = $row->event_id;
 		}
 
 		$this->initAppointments();
-		
-		// TODO: read related data
+		$this->initFiles();
 	}
 	
 	/**
@@ -419,6 +505,19 @@ class ilObjSession extends ilObject
 		// get assigned appointments
 		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
 		$this->appointments = ilSessionAppointment::_readAppointmentsBySession($this->getId());
+	}
+	
+	/**
+	 * init files
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initFiles()
+	{
+		include_once('./Modules/Session/classes/class.ilSessionFile.php');
+		$this->files = ilSessionFile::_readFilesByEvent($this->getEventId());
 	}
 }
 

@@ -21,9 +21,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./classes/class.ilObjectListGUI.php');
-
-
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -32,12 +29,15 @@ include_once('./classes/class.ilObjectListGUI.php');
 * @ingroup ModulesSession
 */
 
-class ilObjSessionListGUI extends ilObjectListGUI
+include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
+
+class ilSessionRecurrence extends ilCalendarRecurrence
 {
 	/**
 	 * Constructor
 	 *
 	 * @access public
+	 * @param
 	 * @return
 	 */
 	public function __construct()
@@ -46,72 +46,33 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	}
 	
 	/**
-	 * Initialisation
+	 * save => no db storage
 	 *
 	 * @access public
-	 * @return void
 	 */
-	public function init()
+	public function save()
 	{
-		$this->delete_enabled = true;
-		$this->cut_enabled = false;
-		$this->subscribe_enabled = true;
-		$this->link_enabled = false;
-		$this->payment_enabled = false;
-		$this->info_screen_enabled = true;
-		$this->subitems_enabled = true;
-		$this->type = "sess";
-		$this->gui_class_name = "ilobjsessiongui";
-		
-		// general commands array
-		include_once('./Modules/Session/classes/class.ilObjSessionAccess.php');
-		$this->commands = ilObjSessionAccess::_getCommands();
+		return false;
 	}
-	
+
 	/**
-	* Get command link url.
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	string		$a_cmd			command
-	*
-	*/
-	public function getCommandLink($a_cmd)
-	{
-		// separate method for this line
-		return "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
-	}
-	
-	/**
-	 * get properties
+	 * update => no db storage
 	 *
 	 * @access public
-	 * @param
-	 * @return
 	 */
-	public function getProperties()
+	public function update()
 	{
-		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
-		$app_info = ilSessionAppointment::_lookupAppointment($this->obj_id);
-		
-		$props = parent::getProperties();
-		$props[] = array(
-			'alert'		=> false,
-			'property'	=> $this->lng->txt('event_date'),
-			'value'		=> ilSessionAppointment::_appointmentToString($app_info['start'],$app_info['end'],$app_info['fullday']));
-		
-		return $props;
+		return false;
 	}
-	
+
 	/**
-	 * get subitems
+	 * delete => no db storage
 	 *
 	 * @access public
-	 * @return array array of ref_ids
 	 */
-	public function getSubitems()
+	public function delete()
 	{
-		return array(73,74,75);
+		return false;
 	}
-	
 }
 ?>
