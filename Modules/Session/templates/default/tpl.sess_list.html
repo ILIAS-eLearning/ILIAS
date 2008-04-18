@@ -1,0 +1,25 @@
+{EVENTS_TABLE}
+<p>
+<table class="fullwidth">
+<tr class="tbltitle">
+	<th class="std" colspan="4">{HEAD_TXT_LEGEND}</th>
+</tr>
+<tr class="tblheader">
+	<th class="std">{HEAD_TXT_DIGIT}</th>
+	<th class="std">{HEAD_TXT_EVENT}</th>
+	<th class="std">{HEAD_TXT_LOCATION}</th>
+	<th class="std">{HEAD_TXT_DATE_TIME}</th>
+</tr>
+<!-- BEGIN legend_loop -->
+<tr class="{LEGEND_CSS_ROW}">
+	<td class="std" valign="top" nowrap="1">{LEGEND_DIGIT}</td>
+	<td class="std" valign="top" nowrap="1">
+		{LEGEND_EVENT_TITLE}
+		<!-- BEGIN event_description --><div class="il_Description">{LEGEND_EVENT_DESCRIPTION}</div><!-- END event_description -->
+	</td>
+	<td class="std" valign="top" nowrap="1">{LEGEND_EVENT_LOCATION}</td>
+	<td class="std" valign="top" nowrap="1">{LEGEND_EVENT_APPOINTMENT}</td>
+</tr>
+<!-- END legend_loop -->
+</table>
+</p>

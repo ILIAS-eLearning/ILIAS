@@ -89,7 +89,7 @@ class ilLPObjSettings
 	 		"obj_type = ".$this->db->quote($this->getObjType()).", ".
 	 		"mode = ".$this->db->quote($this->getMode()).", ".
 	 		"visits = ".$this->db->quote($this->getVisits());
-	 		
+	 	
 	 	$this->db->query($query);
 		return true;
 	}

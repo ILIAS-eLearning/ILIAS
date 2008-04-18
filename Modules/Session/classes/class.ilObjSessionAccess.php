@@ -31,6 +31,9 @@
 
 class ilObjSessionAccess
 {
+	protected static $registrations = null;
+	protected static $registered = null;
+
 	/**
 	 * get list of command/permission combinations
 	 *
@@ -40,11 +43,11 @@ class ilObjSessionAccess
 	 */
 	public static function _getCommands()
 	{
-		// TODO: register button
-		
 		$commands = array
 		(
 			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info_short", "default" => true),
+			array("permission" => "read", "cmd" => "register", "lang_var" => "join"),
+			array("permission" => "read", "cmd" => "unregister", "lang_var" => "leave"),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);
 		
@@ -67,7 +70,22 @@ class ilObjSessionAccess
 	{
 		global $ilUser, $lng, $rbacsystem, $ilAccess;
 		
-		
+		switch($a_cmd)
+		{
+			case 'register':
+				if(self::_lookupRegistration($a_obj_id))
+				{
+					return !self::_lookupRegistered($a_usr_id,$a_obj_id);
+				}
+				return false;
+				
+			case 'unregister':
+				if(self::_lookupRegistration($a_obj_id))
+				{
+					return self::_lookupRegistered($a_usr_id,$a_obj_id);
+				}
+				return false;
+		}
 		return true;
 	}
 	
@@ -91,6 +109,60 @@ class ilObjSessionAccess
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * lookup registrations
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function _lookupRegistration($a_obj_id)
+	{
+		if(!is_null(self::$registrations))
+		{
+			return self::$registrations[$a_obj_id];
+		}
+		
+		global $ilDB;
+		
+		$query = "SELECT registration,obj_id FROM event ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			self::$registrations[$row->obj_id] = (bool) $row->registration;
+		}
+		return self::$registrations[$a_obj_id];
+	}
+	
+	/**
+	 * lookup if user has registered
+	 *
+	 * @access public
+	 * @param int usr_id
+	 * @param int obj_id
+	 * @return
+	 * @static
+	 */
+	public static function _lookupRegistered($a_usr_id,$a_obj_id)
+	{
+		if(isset(self::$registered[$a_usr_id]))
+		{
+			return (bool) self::$registered[$a_usr_id][$a_obj_id];
+		}
+		
+		global $ilDB;
+		
+		$query = "SELECT event_id, registered FROM event_participants ";
+		$res = $ilDB->query($query);
+		self::$registered[$a_usr_id] = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			self::$registered[$a_usr_id][$row->event_id] = (bool) $row->registered;
+		}
+		return (bool) self::$registered[$a_usr_id][$a_obj_id];
 	}
 	
 }
