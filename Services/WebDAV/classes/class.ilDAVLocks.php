@@ -30,6 +30,10 @@ require_once "Services/WebDAV/classes/class.ilObjNull.php";
 * Handles locking of DAV objects.
 * This class encapsulates the database table dav_lock.
 *
+* This class provides low-level functions, which do not check on existing
+* locks, before a certain lock-operation is performed.
+*
+*
 * @author Werner Randelshofer, Hochschule Luzern, werner.randelshofer@hslu.ch
 * @version $Id: class.ilDAVLocks.php,v 1.0 2005/07/08 12:00:00 wrandelshofer Exp $
 *
@@ -38,13 +42,106 @@ require_once "Services/WebDAV/classes/class.ilObjNull.php";
 class ilDAVLocks
 {
 	private $table = 'dav_lock';
+
+	/** Set this to true, to get debug output in the ILIAS log. */
+	private $isDebug = false;
 	
 	public function ilDAVLocks()
 	{
 	}
 	
 	/**
+	 * Creates a lock an object, unless there are locks on the object or its 
+	 * parents, which prevent the creation of the lock.
+	 *
+	 * As described in RFC2518, chapter 7.1, a write lock prevents all principals whithout
+	 * the lock from successfully executing a PUT, POST, PROPPATCH, LOCK, UNLOCK, MOVE,
+	 * DELETE, or MKCOL on the locked resource. All other current methods, GET in particular,
+	 * function independently of the lock.
+	 * For a collection, the lock also affects the ability to add and remove members.
+	 *
+	 * @param int Reference id of the object to be locked.
+	 * @param int The id of a node of the object. For example the id of a page of a
+	 * learning module. Specify 0 if the object does not have multiple nodes.
+	 * @param int ILIAS user id of the lock owner.
+	 * @param string DAV user of the lock owner.
+	 * @param string Lock token.
+	 * @param int expiration timestamp for the lock.
+	 * @param bool Depth of the lock. Must be 0 or 'infinity'.
+	 * @param bool Scope of the lock. Must be 'exclusive' or 'shared'.
+	 *
+	 * @return true, if creation of lock succeeded, returns a string 
+	 * if the creation failed.
+	 */
+	public function lockRef($refId, $iliasUserId, $davUser, $token, $expires, $depth, $scope)
+	{
+		$this->writelog('lockRef('.$refId.','.$iliasUserId.','.$davUser.','.$token.','.$expires.','.$depth.','.$scope.')');
+		global $tree, $txt;
+
+		$result = true;
+		$data = $tree->getNodeData($refId);
+
+		// Check whether a lock on the path to the object prevents the creation
+		// of a new lock
+		$locksOnPath = $this->getLocksOnPathRef($refId);
+
+		if ($scope == 'exclusive' && count($locksOnPath) > 0) {
+			$result = 'couldnt create exclusive lock due to existing lock on path '.var_export($locksOnPath,true);
+		}
+
+		foreach ($locksOnPath as $lock)
+		{
+			if ($lock['token'] == $token && 
+				$lock['obj_id'] == $data['obj_id'] &&
+				$lock['ilias_owner'] == $iliasUserId)
+			{
+				if ($this->updateLockWithoutCheckingObj($data['obj_id'], 0, $token, $expires))
+				{
+					return true;
+				} 
+				else 
+				{
+					return 'couldnt update lock';
+				}
+			}
+		}
+
+		if ($result === true)
+		{
+			foreach ($locksOnPath as $lock)
+			{
+				if ($lock['scope'] == 'exclusive' && 
+					($lock['depth'] == 'infinity' || $lock['obj_id'] == $data['obj_id']) &&
+					$lock['ilias_owner'] != $iliasUserId)
+				{
+					$result = 'couldnt create lock due to exclusive lock on path '.var_export($lock,true);
+					break;
+				}
+			}
+		}
+
+		// Check whether a lock on the children (subtree) of the object prevents
+		// the creation of a new lock
+		if ($result === true && $depth == 'infinity')
+		{
+			// XXX - if lock has depth infinity, we must check for locks in the subtree
+		}
+
+		if ($result === true)
+		{
+			$result = $this->lockWithoutCheckingObj(
+				$data['obj_id'], 0,
+				$iliasUserId, $davUser, $token, $expires, $depth, $scope
+				);
+		}
+		return $result;
+	}
+
+	/**
 	 * Creates a write lock.
+	 *
+	 * Important: This is a low-level function, which does not check on existing
+	 * locks, before creating the lock data.
 	 *
 	 * As described in RFC2518, chapter 7.1, a write lock prevents all principals whithout
 	 * the lock from successfully executing a PUT, POST, PROPPATCH, LOCK, UNLOCK, MOVE,
@@ -62,12 +159,40 @@ class ilDAVLocks
 	 *
 	 * @return true, if creation of lock succeeded.
 	 */
-	public function lock(&$objDAV, $iliasUserId, $davUser, $token, $expires, $depth, $scope)
+	public function lockWithoutCheckingDAV(&$objDAV, $iliasUserId, $davUser, $token, $expires, $depth, $scope)
 	{
-		global $ilDB;
-		
 		$objId  = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
+
+		return $this->lockWithoutCheckingObj($objId, $nodeId, $iliasUserId, $davUser, $token, $expires, $depth, $scope);
+	}
+	/**
+	 * Creates a write lock.
+	 *
+	 * Important: This is a low-level function, which does not check on existing
+	 * locks, before creating the lock data.
+	 *
+	 * As described in RFC2518, chapter 7.1, a write lock prevents all principals whithout
+	 * the lock from successfully executing a PUT, POST, PROPPATCH, LOCK, UNLOCK, MOVE,
+	 * DELETE, or MKCOL on the locked resource. All other current methods, GET in particular,
+	 * function independently of the lock.
+	 * For a collection, the lock also affects the ability to add and remove members.
+	 *
+	 * @param int id of the object to be locked.
+	 * @param int node The id of a node of the object. For example the id of a page of a
+	 * learning module. Specify 0 if the object does not have multiple nodes.
+.	 * @param int ILIAS user id of the lock owner.
+	 * @param string DAV user of the lock owner.
+	 * @param string Lock token.
+	 * @param int expiration timestamp for the lock.
+	 * @param bool Depth of the lock. Must be 0 or 'infinity'.
+	 * @param bool Scope of the lock. Must be 'exclusive' or 'shared'.
+	 *
+	 * @return true, if creation of lock succeeded.
+	 */
+	public function lockWithoutCheckingObj($objId, $nodeId, $iliasUserId, $davUser, $token, $expires, $depth, $scope)
+	{
+		global $ilDB;
 		
 		switch ($depth)
 		{
@@ -87,7 +212,6 @@ class ilDAVLocks
 			case 'shared' : $scope = 's'; break;
 			default : trigger_error('invalid scope '.$scope,E_ERROR); return;
 		}
-		$this->writelog('ilDAVLocks.lock depth='.$depth.' scope='.$scope);
 		
 		$q = 'INSERT INTO '.$this->table
 				.' SET obj_id   = '.$ilDB->quote($objId)
@@ -101,22 +225,42 @@ class ilDAVLocks
 				.', scope       = '.$ilDB->quote($scope)
 				;
 		$this->writelog('lock query='.$q);
-		$ilDB->query($q);
-		return true;
+		$result = $ilDB->query($q);
+		return ! PEAR::isError($result);
 	}
 	/**
 	 * Updates a write lock.
+	 *
+	 * Important: This is a low-level function, which does not check on existing
+	 * locks, before updating the lock data.
 	 *
 	 * @param string Lock token.
 	 * @param int expiration timestamp for the lock.
 	 *
 	 * @return true on success.
 	 */
-	public function updateLock(&$objDAV, $token, $expires)
+	public function updateLockWithoutCheckingDAV(&$objDAV, $token, $expires)
 	{
 		global $ilDB;
 		$objId  = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
+
+		return udpateLockWithoutCheckingObj($objId, $nodeId, $token, $expires);
+	}
+	/**
+	 * Updates a write lock.
+	 *
+	 * Important: This is a low-level function, which does not check on existing
+	 * locks, before updating the lock data.
+	 *
+	 * @param string Lock token.
+	 * @param int expiration timestamp for the lock.
+	 *
+	 * @return true on success.
+	 */
+	public function updateLockWithoutCheckingObj($objId, $nodeId, $token, $expires)
+	{
+		global $ilDB;
 		
 		$q = 'UPDATE '.$this->table
 				.' SET expires = '.$ilDB->quote($expires)
@@ -130,12 +274,15 @@ class ilDAVLocks
 	/**
 	 * Discards a write lock.
 	 *
+	 * Important: This is a low-level function, which does not check on existing
+	 * locks, before deleting the lock data.
+	 *
 	 * @param $objDAV DAV object to be locked.
 	 * @param string Lock token.
 	 *
 	 * @return true on success.
 	 */
-	public function unlock(&$objDAV, $token)
+	public function unlockWithoutCheckingDAV(&$objDAV, $token)
 	{
 		global $ilDB;
 		$this->writelog('unlock('.$objDAV.','.$token.')');
@@ -164,10 +311,8 @@ class ilDAVLocks
 		return $success;
 	}
 	
-
-	
 	/**
-	 * Returns the lock with the specified token on the specified object.
+	 * Returns the lock with the specified token on the specified DAV object.
 	 *
 	 * @param $objDAV DAV object to get the lock for.
 	 * @param string Lock token.
@@ -180,7 +325,7 @@ class ilDAVLocks
 	 *         'depth' => 0 or 'infinity'
 	 *         'scope' => 'exclusive' or 'shared'
 	 */
-	public function getLock(&$objDAV,$token)
+	public function getLockDAV(&$objDAV,$token)
 	{
 		global $ilDB;
 		$this->writelog('getLocks('.$objDAV.')');
@@ -220,36 +365,20 @@ class ilDAVLocks
 	 *         'depth' => 0 or 'infinity'
 	 *         'scope' => 'exclusive' or 'shared'
 	 */
-	public function getLocks(&$objDAV)
+	public function getLocksOnObjectDAV(&$objDAV)
 	{
-		global $ilDB;
-		$this->writelog('getLocks('.$objDAV.')');
 		$objId  = $objDAV->getObjectId();
 		$nodeId = $objDAV->getNodeId();
-		
-		$q = 'SELECT ilias_owner, dav_owner, token, expires, depth, scope'
-				.' FROM '.$this->table
-				.' WHERE obj_id = '.$ilDB->quote($objId)
-				.' AND node_id = '.$ilDB->quote($nodeId)
-				.' AND expires > '.$ilDB->quote(time())
-				;
-		$this->writelog('getLocks('.$objDAV.') query='.$q);
-		$r = $ilDB->query($q);
-		
-		$result = array();		
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			if ($row['depth'] == -1) $row['depth'] = 'infinity';
-			$row['scope'] = ($row['scope'] == 'x') ? 'exclusive' : 'shared';
-			$result[] = $row;
-		}
-		return $result;
+
+		return $this->getLocksOnObjectObj($objId, $nodeId);
 	}
 	/**
 	 * Returns all locks on the specified object id. This method does not take into
 	 * account inherited locks from parent objects.
 	 *
 	 * @param $objId object ID to get the locks for.
+	 * @param int node a node of the object. For example the id of a page of a
+	 * learning module. Specify 0 if the object does not have multiple nodes.
 	 * @return An array of associative arrays for all the locks that were found.
 	 *         Each associative array has the following keys:
 	 *         'ilias_owner' => user id,
@@ -259,7 +388,7 @@ class ilDAVLocks
 	 *         'depth' => 0 or 'infinity'
 	 *         'scope' => 'exclusive' or 'shared'
 	 */
-	public function getLocksOnObject($objId)
+	public function getLocksOnObjectObj($objId, $nodeId = 0)
 	{
 		global $ilDB;
 		$this->writelog('getLocks('.$objDAV.')');
@@ -298,10 +427,10 @@ class ilDAVLocks
 	 *         'depth' => 0 or 'infinity'
 	 *         'scope' => 'exclusive' or 'shared'
 	 */
-	public function getLocksOnPath(&$pathDAV)
+	public function getLocksOnPathDAV(&$pathDAV)
 	{
 		global $ilDB;
-		$this->writelog('getLocks('.$pathDAV.')');
+		$this->writelog('getLocksOnPath('.$pathDAV.')');
 		
 		$q = 'SELECT obj_id, node_id, ilias_owner, dav_owner, token, expires, depth, scope'
 					.' FROM '.$this->table
@@ -324,6 +453,60 @@ class ilDAVLocks
 		$q .= ')';
 				
 		$this->writelog('getLocksOnPath('.$objDAV.') query='.$q);
+		$r = $ilDB->query($q);
+		
+		$result = array();		
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($row['depth'] == -1) $row['depth'] = 'infinity';
+			$row['scope'] = ($row['scope'] == 'x') ? 'exclusive' : 'shared';
+			$result[] = $row;
+		}
+		return $result;
+	}
+	/**
+	 * Returns all locks on the specified object, specified by a reference id.
+	 *
+	 * @param $refId The reference id of the object
+	 * @return An array of associative arrays for all the locks that were found.
+	 *         Each associative array has the following keys:
+	 *         'obj_id' => object id
+	 *         'node_id' => node id
+	 *         'ilias_owner' => user id,
+	 *         'dav_owner' => user name,
+	 *         'token' => locktoken
+	 *         'expires' => expiration timestamp
+	 *         'depth' => 0 or 'infinity'
+	 *         'scope' => 'exclusive' or 'shared'
+	 */
+	public function getLocksOnPathRef($refId)
+	{
+		global $ilDB, $tree;
+		$this->writelog('getLocksOnPathForRefId('.$refId.')');
+
+		$pathFull = $tree->getPathFull($refId);
+		
+		$q = 'SELECT obj_id, node_id, ilias_owner, dav_owner, token, expires, depth, scope'
+					.' FROM '.$this->table
+					.' WHERE expires > '.$ilDB->quote(time())
+					.' AND ('
+					;
+		$isFirst = true;
+		foreach ($pathFull as $pathItem)
+		{
+			$objId  = $pathItem['obj_id'];
+			$nodeId = 0;
+			if ($isFirst) 
+			{
+				$isFirst = false;
+			} else {
+				$q .= ' OR ';
+			}
+			$q .= '(obj_id = '.$objId.' AND node_id = '.$nodeId.')';
+		}
+		$q .= ')';
+				
+		$this->writelog('getLocksOnPathRef('.$refId.') query='.$q);
 		$r = $ilDB->query($q);
 		
 		$result = array();		
@@ -392,10 +575,13 @@ class ilDAVLocks
 	protected function writelog($message) 
 	{
 		global $log, $ilias;
-		$log->write(
-			$ilias->account->getLogin()
-			.' DAV ilDAVLocks.'.str_replace("\n",";",$message)
-		);
+		if ($this->isDebug)
+		{
+			$log->write(
+				$ilias->account->getLogin()
+				.' DAV ilDAVLocks.'.str_replace("\n",";",$message)
+			);
+		}
 		/*
 		if ($this->logFile) 
 		{

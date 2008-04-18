@@ -124,7 +124,9 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	{
 		global $lng, $rbacsystem;
 
-		$props = array();
+		// BEGIN WebDAV get parent properties
+		$props = parent::getProperties();
+		// END WebDAV get parent properties
 
 		return $props;
 	}

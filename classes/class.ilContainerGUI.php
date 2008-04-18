@@ -1175,6 +1175,38 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		$this->renderObject();
 	}
+	// BEGIN WebDAV: Lock/Unlock objects
+	function lockObject()
+	{
+		global $tree, $ilUser, $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write",$_GET['item_ref_id']))
+		{
+				$this->ilErr->raiseError($this->lng->txt('err_no_permission'),$this->ilErr->MESSAGE);
+		}
+
+
+		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
+		if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
+		{
+			require_once 'Services/WebDAV/classes/class.ilDAVLocks.php';
+			$locks = new ilDAVLocks();
+
+			$result = $locks->lockRef($_GET['item_ref_id'],
+					$ilUser->getId(), $ilUser->getLogin(), 
+					'ref_'.$_GET['item_ref_id'].'_usr_'.$ilUser->getId(), 
+					time() + /*30*24*60**/60, 0, 'exclusive'
+					);
+
+			ilUtil::sendInfo(
+						$this->lng->txt(
+								($result === true) ? 'object_locked' : $result
+								),
+						true);
+		}
+		$this->renderObject();
+	}
+	// END WebDAV: Lock/Unlock objects
 
 	/**
 	* Get Actions

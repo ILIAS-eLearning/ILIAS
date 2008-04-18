@@ -23,7 +23,7 @@
 */
 
 require_once "class.ilObjectDAV.php";
-require_once "classes/class.ilObjNull.php";
+require_once "class.ilObjNull.php";
 
 /**
 * Class ilObjNullDAV

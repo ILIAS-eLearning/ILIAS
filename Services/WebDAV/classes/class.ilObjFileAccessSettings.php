@@ -46,6 +46,11 @@ class ilObjFileAccessSettings extends ilObject
 	private $webdavEnabled;
 
 	/**
+	 * Boolean property. Set this to true, to make WebDAV item actions visible for repository items.
+	 */
+	private $webdavActionsVisible;
+
+	/**
 	 * Boolean property. Set this to true, to use customized mount instructions.
 	 * If the value is false, the default mount instructions are used.
 	 */
@@ -94,6 +99,26 @@ class ilObjFileAccessSettings extends ilObject
 	{
 		return $this->webdavEnabled;
 	}
+	/**
+	* Sets the webdavActionsVisible property.
+	* 
+	* @param	boolean	new value
+	* @return	void
+	*/
+	public function setWebdavActionsVisible($newValue)
+	{
+		$this->webdavActionsVisible = $newValue;
+	}
+	/**
+	* Gets the webdavActionsVisible property.
+	* 
+	* @return	boolean	value
+	*/
+	public function isWebdavActionsVisible()
+	{
+		return $this->webdavActionsVisible;
+	}
+
 
 	/**
 	* Sets the customWebfolderInstructions property.
@@ -209,6 +234,7 @@ class ilObjFileAccessSettings extends ilObject
 			$ilClientIniFile->addGroup('file_access');
 		}
 		$ilClientIniFile->setVariable('file_access', 'webdav_enabled', $this->webdavEnabled ? '1' : '0');
+		$ilClientIniFile->setVariable('file_access', 'webdav_actions_visible', $this->webdavActionsVisible ? '1' : '0');
 		$ilClientIniFile->write();
 
 		require_once 'Services/Administration/classes/class.ilSetting.php';
@@ -227,6 +253,7 @@ class ilObjFileAccessSettings extends ilObject
 
 		global $ilClientIniFile;
 		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
+		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_actions_visible') == '1';
 
 		require_once 'Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('file_access');

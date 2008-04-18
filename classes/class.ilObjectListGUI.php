@@ -560,7 +560,7 @@ class ilObjectListGUI
 			$davLocks = new ilDAVLocks();
 			if ($ilias->account->getId() != ANONYMOUS_USER_ID)
 			{
-				$locks =& $davLocks->getLocksOnObject($this->obj_id);
+				$locks =& $davLocks->getLocksOnObjectObj($this->obj_id);
 				if (count($locks) > 0)
 				{
 					$lockUser = new ilObjUser($locks[0]['ilias_owner']);
@@ -1236,6 +1236,33 @@ class ilObjectListGUI
 		}
 		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
 		{
+			// BEGIN WebDAV: Lock/Unlock objects
+			/* This code section is temporarily commented out. 
+			   I will reactivate it at a later point, when I get the
+               the backend working properly. - Werner Randelshofer 2008-04-17
+			if (is_object($this->container_obj) && $this->rbacsystem->checkAccess("write", $this->ref_id))
+			{
+				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
+				if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
+				{
+					$this->ctrl->setParameter($this->container_obj, "ref_id",
+						$this->container_obj->object->getRefId());
+					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
+					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "lock");
+					$this->insertCommand($cmd_link, $this->lng->txt("lock"));
+
+					$this->ctrl->setParameter($this->container_obj, "ref_id",
+						$this->container_obj->object->getRefId());
+					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
+					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "unlock");
+					$this->insertCommand($cmd_link, $this->lng->txt("unlock"));
+				}
+			}
+			*/
+			// END WebDAV: Lock/Unlock objects
+
 			if (!$this->ilias->account->isDesktopItem($this->ref_id, $this->type))
 			{
 				if ($this->rbacsystem->checkAccess("read", $this->ref_id)
