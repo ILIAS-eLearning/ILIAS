@@ -554,8 +554,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
 
-		$roles = array();
-
 		if (strcasecmp($role_type,"") != 0 &&
 			strcasecmp($role_type,"local") != 0 &&
 			strcasecmp($role_type,"global") != 0 &&
@@ -566,6 +564,108 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError('Called service with wrong role_type parameter \''.$role_type.'\'','Client');
 		}
 		
+		$roles = $this->_getRoles($role_type, $id);
+		
+
+		include_once './webservice/soap/classes/class.ilSoapRoleObjectXMLWriter.php';
+
+		$xml_writer = new ilSoapRoleObjectXMLWriter();
+		$xml_writer->setObjects($roles);
+		$xml_writer->setType ($role_type);
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+	}
+
+	/**
+	 * search for roles.
+	 *
+	 * @param String $sid
+	 * @param String $searchterms comma separated search terms
+	 * @param String $operator must be or or and
+	 * @param String  $role_type can be empty which means "local & global", "local", "global", "user" = roles of user, "user_login" or "template"
+	 * 
+	 */
+	
+	function searchRoles ($sid, $key, $combination, $role_type) 
+	{	
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+
+		// Include main header
+		include_once './include/inc.header.php';
+
+		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
+		
+		
+		if (strcasecmp($role_type,"") != 0 &&
+			strcasecmp($role_type,"local") != 0 &&
+			strcasecmp($role_type,"global") != 0 && 			
+			strcasecmp($role_type,"template") != 0)
+		{
+			return $this->__raiseError('Called service with wrong role_type parameter \''.$role_type.'\'','Client');
+		}
+		
+		if($combination != 'and' and $combination != 'or')
+		{
+			return $this->__raiseError('No valid combination given. Must be "and" or "or".',
+									   'Client');
+		}
+		
+		include_once './Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser =& new ilQueryParser($key);
+		$query_parser->setMinWordLength(3);
+		$query_parser->setCombination($combination == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
+		$query_parser->parse();
+		if(!$query_parser->validate())
+		{
+			return $this->__raiseError($query_parser->getMessage(), 'Client');
+		}
+
+		include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
+
+		$object_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+		$object_search->setFilter(array("role","rolt"));
+
+		$res = $object_search->performSearch();
+		$res->filter(ROOT_FOLDER_ID, $combination == 'and' ? true : false);
+		
+		$obj_ids = array();
+		foreach($res->getUniqueResults() as $entry)
+		{
+			$obj_ids [] = $entry['obj_id'];			
+		}
+		
+		$roles = array();
+		if (count($obj_ids)> 0 )
+		{
+			#print_r($obj_ids);
+			$roles = $rbacreview->getRolesForIDs($obj_ids, $role_type == "template");
+		}
+		#print_r($roles);
+		include_once './webservice/soap/classes/class.ilSoapRoleObjectXMLWriter.php';
+		$xml_writer = new ilSoapRoleObjectXMLWriter();
+		$xml_writer->setObjects($roles);
+		$xml_writer->setType ($role_type);
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+		
+			
+	}
+	
+	private function _getRoles($role_type, $id)
+	{
+		global $ilUser, $rbacsystem, $rbacreview, $ilDB;
+		
+		$roles = array();
+	
+		
 		if (strcasecmp($role_type,"template") == 0) 		
 		// get templates
 		{
@@ -573,24 +673,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		} elseif (strcasecmp($role_type,"user")==0 || strcasecmp($role_type,"user_login")==0)
 		// handle user roles		
 		{
-			if (strcasecmp($role_type,"user")==0)
-			// get user roles for user id, which can be numeric or ilias id
-			{
-	            $user_id = !is_numeric($id) ? ilUtil::__extractId($id, IL_INST_ID) : $id; 
-	            if (!is_numeric($user_id))
-				{
-					return $this->__raiseError('ID must be either numeric or ILIAS conform id for type \'user\'','Client');
-				}                        
-			} elseif (strcasecmp($role_type, "user_login") == 0)
-	        // check for login
-	        {
-	        	$user_id = ilObjUser::_lookupId($id);
-	            if (!$user_id)
-	                // could not find a valid user
-	            {
-	            	return $this->__raiseError('User with login \''.$id.'\' does not exist!','Client');
-				}					
-	        }
+			$user_id = $this->parseUserID($id, $role_type);
             if ($user_id != $ilUser->getId())
             // check access for user folder
             {
@@ -601,7 +684,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			       return $this->__raiseError('Check access for time limit owner failed.','Server');
 		        }
             }
-	        $role_type = ""; // local and global roles for user			            
+	        $role_type = ""; // local and global roles for user
+	        			            
     		$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.rol_id IN ('%s') AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id AND rbac_ua.usr_id=".$user_id,
 					join ("','", $rbacreview->assignedRoles($user_id))
 			);
@@ -670,18 +754,29 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			   }
 		    }
 		}
-
-		include_once './webservice/soap/classes/class.ilSoapRoleObjectXMLWriter.php';
-
-		$xml_writer = new ilSoapRoleObjectXMLWriter();
-		$xml_writer->setObjects($roles);
-		$xml_writer->setType ($role_type);
-		if($xml_writer->start())
-		{
-			return $xml_writer->getXML();
-		}
+		return $roles;
 	}
-
-
+	
+	private function parseUserID ($id, $role_type) {
+		if (strcasecmp($role_type,"user")==0)
+		// get user roles for user id, which can be numeric or ilias id
+		{
+	        $user_id = !is_numeric($id) ? ilUtil::__extractId($id, IL_INST_ID) : $id; 
+	        if (!is_numeric($user_id))
+			{
+				return $this->__raiseError('ID must be either numeric or ILIAS conform id for type \'user\'','Client');
+			}                        
+		} elseif (strcasecmp($role_type, "user_login") == 0)
+	        // check for login
+	    {
+	      	$user_id = ilObjUser::_lookupId($id);
+	        if (!$user_id)
+	            // could not find a valid user
+	        {
+	          	return $this->__raiseError('User with login \''.$id.'\' does not exist!','Client');
+			}					
+	    }
+		return $user_id;		
+	}
 }
 ?>
