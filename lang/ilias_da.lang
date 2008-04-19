@@ -2015,7 +2015,7 @@ common#:#obj_usrf_desc#:#Administrer dine brugerkonti her.
 common#:#obj_webr#:#Webresurse
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt er tilføjet
-common#:#object_duplicated#:#Object duplicated###23 Dec 2005 new variable
+common#:#object_duplicated#:#Objekt kopieret
 common#:#object_imported#:#Objekt importeret
 common#:#objects#:#Objekter
 common#:#objf#:#Objektdefinitioner
@@ -2613,31 +2613,31 @@ common#:#txt_add_object_instruction2#:#.###21 Apr 2005 new variable
 common#:#txt_registered#:#Du har succesfuldt registreret dig som medlem af ILIAS. Klik venligst på kanppen nedenunder for at logge ind på ILIAS med din nye brugerkonto.
 common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an eMail including your generated password shortly.###13 06 2007 new variable
 common#:#txt_submitted#:#Du har succesfuldt sendt en ansøgning om en konto til ILIAS. Din forespørgsel vil set på af en system administrator, og vil blive aktiveret indenfor 48 timer, Du har ikke mulighed for at logge ind før din konto er aktiveret.
-common#:#typ#:#Objekt Type Definition
+common#:#typ#:#Objekt typedefinition
 common#:#type_your_message_here#:#Skriv din besked her
-common#:#udf_add_field#:#Add Field
-common#:#udf_added_field#:#Added new field.
-common#:#udf_delete_header#:#Delete Field
-common#:#udf_delete_sure#:#Are you sure you want to delete this field and all assigned user data ?
-common#:#udf_duplicate_entries#:#The values have to be unique.
+common#:#udf_add_field#:#Tilføj felt
+common#:#udf_added_field#:#Nyt felt tilføjet.
+common#:#udf_delete_header#:#Slet felt
+common#:#udf_delete_sure#:#Er du sikker på du vil SLETTE dette felt og alle indtastede brugerdata?
+common#:#udf_duplicate_entries#:#Værdierne skal være unikke
 common#:#udf_field_deleted#:#Deleted field.
 common#:#udf_name_already_exists#:#This field name already exists. Please choose a different name.
-common#:#udf_no_entries#:#Please enter minimum one value.
+common#:#udf_no_entries#:#Indtast mindst en værdi.
 common#:#udf_no_name_given#:#Please enter a field name.
-common#:#udf_type_select#:#Select Box (fixed values)
-common#:#udf_type_text#:#Text Field (optional values)
-common#:#udf_update_select_field#:#Edit Select Box
-common#:#udf_update_success#:#Saved modifications.
-common#:#udf_update_text_field#:#Edit Text Field
+common#:#udf_type_select#:#Rummemenu (begrænsede valgmuligheder)
+common#:#udf_type_text#:#Tekstfelt (valgfrie værdier)
+common#:#udf_update_select_field#:#Ret rullemenu
+common#:#udf_update_success#:#Ændringer gemt
+common#:#udf_update_text_field#:#Ret tekstfelt
 common#:#udf_value#:#Value
-common#:#udf_value_deleted#:#The value has been deleted.
-common#:#uid#:#UID###21 Apr 2005 new variable
-common#:#ums_create_new_account#:#Create New Account
+common#:#udf_value_deleted#:#Værdien blev slettet
+common#:#uid#:#UID
+common#:#ums_create_new_account#:#Lav ny konto
 common#:#ums_explanation#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found an account with your e-mail address. If this is your account, please login with your ILIAS password.
-common#:#ums_explanation_2#:#If this is not your account, please hit 'Create New Account'.
+common#:#ums_explanation_2#:#Tryk venligst på 'Opret ny konto' hvis dette ikke er din konto.
 common#:#ums_explanation_3#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password.
-common#:#ums_explanation_4#:#If none of them is your account, please hit 'Create New Account'.
-common#:#ums_login_account#:#Login Account
+common#:#ums_explanation_4#:#Hvis ingen af disse er din konto, så tryk på 'Opret ny konto'.
+common#:#ums_login_account#:#Login konto
 common#:#unambiguousness#:#Unambiguousness###21 Apr 2005 new variable
 common#:#uncheck_all#:#Fjern krydser
 common#:#uninstall#:#Afinstaller
@@ -2648,7 +2648,7 @@ common#:#unread#:#Ulæste
 common#:#unread_lowercase#:#ulæst
 common#:#unselected#:#Uvalgt
 common#:#unsubscribe#:#Fjern fra skrivebord###Hed tidligere Afmeld
-common#:#unzip#:#Unzip###21 Apr 2005 new variable
+common#:#unzip#:#Unzip
 common#:#up#:#Op
 common#:#update#:#Rediger
 common#:#update_applied#:#Opdatering gennemført
@@ -2840,20 +2840,20 @@ common#:#users_online_show_short_y#:#Vis alle aktive brugere
 common#:#marked_entries#:#Marked Entries###25 02 2007 new variable
 common#:#obj_webr_duplicate#:#Kopier webresurse
 common#:#obj_webr_select#:#Vælg venligst en webresurse
-common#:#obj_file_duplicate#:#Copy File###25 02 2007 new variable
-common#:#obj_file_select#:# Please select one File ###25 02 2007 new variable
-common#:#obj_exc_duplicate#:#Copy Exercise###25 02 2007 new variable
+common#:#obj_file_duplicate#:#Kopier fil
+common#:#obj_file_select#:#Vælg venligst en fil
+common#:#obj_exc_duplicate#:#Kopier øvelse
 common#:#obj_exc_select#:# Please select one Exercise ###25 02 2007 new variable
 common#:#auth_settings#:#Authentication Settings###25 02 2007 new variable
 common#:#login_information#:#Login Information###25 02 2007 new variable
 common#:#login_information_desc#:#Please enter a login information for the respective language.###25 02 2007 new variable
 common#:#login_information_settings_saved#:#The login information were saved successfully###25 02 2007 new variable
-common#:#obj_frm_duplicate#:#Copy Forum###25 02 2007 new variable
+common#:#obj_frm_duplicate#:#Kopier forum
 common#:#obj_frm_select#:# Please select one Forum ###25 02 2007 new variable
 common#:#btn_back#:#Back###25 02 2007 new variable
-common#:#obj_tst_duplicate#:#Copy Test###25 02 2007 new variable
+common#:#obj_tst_duplicate#:#Kopier test
 common#:#obj_tst_select#:# Please select one Test ###25 02 2007 new variable
-common#:#obj_svy_duplicate#:#Copy Survey###25 02 2007 new variable
+common#:#obj_svy_duplicate#:#Kopier undersøgelse
 common#:#obj_svy_select#:# Please select one Survey ###25 02 2007 new variable
 common#:#obj_crs_duplicate#:#Kopier kursus
 common#:#obj_crs_select#:# Please select one Course ###25 02 2007 new variable
@@ -2863,11 +2863,11 @@ common#:#omit_all#:#Omit all###25 02 2007 new variable
 common#:#copy_all#:#Copy all###25 02 2007 new variable
 common#:#link_all#:#Link all###25 02 2007 new variable
 common#:#omit#:#Omit###25 02 2007 new variable
-common#:#obj_fold_duplicate#:#Copy Folder###02 04 2007 new variable
+common#:#obj_fold_duplicate#:#Kopier mappe
 common#:#obj_fold_select#:# Please select one Folder ###02 04 2007 new variable
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###02 04 2007 new variable
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###02 04 2007 new variable
-common#:#obj_grp_duplicate#:#Copy Group###02 04 2007 new variable
+common#:#obj_grp_duplicate#:#Kopier gruppe
 common#:#obj_grp_select#:# Please select one Group ###02 04 2007 new variable
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)###02 04 2007 new variable
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###02 04 2007 new variable
@@ -2906,7 +2906,7 @@ common#:#forums_forum_notification_enabled#:#Du vil blive adviseret om nye indl�
 common#:#object_copy_in_progress#:#Kopiering begyndt
 common#:#further_informations#:#Yderligere information
 common#:#applications#:#Ansøgninger
-common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.###20 06 2007 new variable
+common#:#wizard_title_info#:#Indtast titlen på det objekt du ønsker at kopiere.
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them###20 06 2007 new variable
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
 common#:#ext_acccount_required#:#Please enter the name of the external account.###09 07 2007 new variable
@@ -5159,21 +5159,21 @@ crs#:#crs_info_agreement#:#The following data tyes are visible for course admini
 crs#:#crs_agree#:#Acceptance###25 02 2007 new variable
 crs#:#crs_info_agree#:#I accept, that the above data types are visible for course administrators.###25 02 2007 new variable
 crs#:#crs_agreement_required#:#You have to accept the user agreement, if you want to register to this course.###25 02 2007 new variable
-crs#:#user_fields#:#User Fields###25 02 2007 new variable
+crs#:#user_fields#:#Brugerfelter
 crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators###25 02 2007 new variable
 crs#:#event_overview#:#Participations in Sessions###25 02 2007 new variable
-crs#:#event_digit#:#Digit###25 02 2007 new variable
-crs#:#event_csv_export#:#CSV Export###25 02 2007 new variable
+crs#:#event_digit#:#Ciffer
+crs#:#event_csv_export#:#CSV eksport
 crs#:#event_participated#:#Participated###25 02 2007 new variable
 crs#:#event_not_participated#:#Not Participated###25 02 2007 new variable
 crs#:#crs_objective_assigned_materials#:#Assigned Learning Materials###02 04 2007 new variable
 crs#:#crs_objective_assigned_qst#:#Assigned Questions###02 04 2007 new variable
 crs#:#crs_objective_add_mat#:#Assign Materials###02 04 2007 new variable
-crs#:#crs_objective_add_qst#:#Assign Questions###02 04 2007 new variable
+crs#:#crs_objective_add_qst#:#Tildel spørgsmål
 crs#:#crs_show_link_session#:#Show sessions###13 06 2007 new variable
-crs#:#crs_hide_link_session#:#Hide sessions###13 06 2007 new variable
+crs#:#crs_hide_link_session#:#Skjul sessioner
 crs#:#save_status#:#Save Status###19 06 2007 new variable
-crs#:#crs_selected_users#:#Selected Participants###19 06 2007 new variable
+crs#:#crs_selected_users#:#Valgte deltagere
 crs#:#event_select_one#:# Please select one session ###09 07 2007 new variable
 crs#:#events_clone_title#:#Duplicate Session###09 07 2007 new variable
 crs#:#event_clone_btn#:#Duplicate Session###09 07 2007 new variable
@@ -7860,8 +7860,8 @@ survey#:#info_anonymize_registered_user#:#Anonymiseret undersøgelse
 survey#:#info_anonymize_without_code#:#Anonymized Survey without Access Restrictions###11 03 2008 new variable
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test###11 03 2008 new variable
 common#:#obj_spl_duplicate#:#Copy Question Pool Survey###11 03 2008 new variable
-common#:#obj_qpl_select#:#-- Please select one Question Pool Test --###11 03 2008 new variable
-common#:#obj_spl_select#:#-- Please select one Question Pool Survey --###11 03 2008 new variable
+common#:#obj_qpl_select#:#-- Vælg spørgsmål til test --
+common#:#obj_spl_select#:#-- Vælg spørgsmål til undersøgelse --
 common#:#obj_calendar#:#Kalender
 common#:#obj_cals_desc#:#Generelle kalenderindstillinger
 rbac#:#cals_edit_permission#:#Ret adgangsindstillinger
@@ -7870,7 +7870,7 @@ rbac#:#cals_read#:#Læseadgang til kalenderindstillinger
 rbac#:#cals_write#:#Ret kalenderindstillinger
 common#:#obj_cat_duplicate#:#Kopier kategori
 common#:#obj_cat_select#:#-- Vælg venligst en kategori --
-common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
+common#:#cat_wizard_page#:#Kopier kategori (Skridt 2/2)###11 03 2008 new variable
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
 survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
 survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
