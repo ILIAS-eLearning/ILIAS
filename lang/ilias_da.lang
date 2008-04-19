@@ -51,7 +51,7 @@ administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all 
 administration#:#dumping_tree#:#Dumper træ
 administration#:#found#:#fundet.
 administration#:#found_none#:#ingen fundet.
-administration#:#initializing_gaps#:#Initializing gaps in tree...###23 Dec 2005 new variable
+administration#:#initializing_gaps#:#Initialiserer huller i træ...
 administration#:#language_administration#:#Sprogadministration
 administration#:#language_all_modules#:#Alle moduler
 administration#:#language_change_settings#:#Lav sprogindstillinger om
@@ -60,51 +60,51 @@ administration#:#language_cleared_local#:#The local changes were cleared in the 
 administration#:#language_compare#:#Sammenlign:
 administration#:#language_default_entries#:# (standard emner)
 administration#:#language_delete_local_changes#:#Slet alle lokale ændringer i databasen
-administration#:#language_error_clear_local#:#The local changed couldn't be cleared in the database!###23 08 2007 new variable
+administration#:#language_error_clear_local#:#De lokale ændringer kunne ikke fjernes fra databasen!
 administration#:#language_error_read_local#:#Den lokale sprogfil eksisterer ikke eller kan ikke læses
-administration#:#language_error_write_local#:#The local language file can't be written!###23 08 2007 new variable
-administration#:#language_export_file#:#Export Language File###23 08 2007 new variable
-administration#:#language_file_imported#:#The language file %s was imported.###23 08 2007 new variable
+administration#:#language_error_write_local#:#Kunne ikke skrive den lokale sprogfil
+administration#:#language_export_file#:#Eksporter sprogfil
+administration#:#language_file_imported#:#Sprogfilen %s blev importeret
 administration#:#language_file_scope#:#Language file scope###23 08 2007 new variable
-administration#:#language_import_file#:#Import Language File###23 08 2007 new variable
-administration#:#language_load_local_changes#:#Load local language file into the database###23 08 2007 new variable
-administration#:#language_loaded_local#:#The local language file was loaded into the database.###23 08 2007 new variable
-administration#:#language_maintain#:#Maintain###23 08 2007 new variable
-administration#:#language_maintain_local_changes#:#Maintain local changes###23 08 2007 new variable
-administration#:#language_maintenance#:#Language Maintenance###23 08 2007 new variable
-administration#:#language_mode_existing#:#Existing Entries###23 08 2007 new variable
-administration#:#language_mode_existing_delete#:#Delete existing entries###23 08 2007 new variable
-administration#:#language_mode_existing_keepall#:#Keep all existing entries###23 08 2007 new variable
-administration#:#language_mode_existing_keepnew#:#Keep all local changes###23 08 2007 new variable
-administration#:#language_mode_existing_replace#:#Replace existing entries###23 08 2007 new variable
+administration#:#language_import_file#:#Importer sprogfil
+administration#:#language_load_local_changes#:#Indlæs lokal sprogfil til databasen
+administration#:#language_loaded_local#:#Den lokale sprogfil blev indlæst i databasen.
+administration#:#language_maintain#:#Vedligehold
+administration#:#language_maintain_local_changes#:#Vedligehold lokale ændringer
+administration#:#language_maintenance#:#Sprogvedligeholdelse
+administration#:#language_mode_existing#:#Eksisterende registreringer
+administration#:#language_mode_existing_delete#:#Slet eksisterende registreringer
+administration#:#language_mode_existing_keepall#:#Behold alle eksisterende
+administration#:#language_mode_existing_keepnew#:#Behold alle lokale ændringer
+administration#:#language_mode_existing_replace#:#Erstat eksisterende indgange
 administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and reimport them if needed.###23 08 2007 new variable
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
 administration#:#language_process_maintenance#:#Process Maintenance###23 08 2007 new variable
 administration#:#language_save_local_changes#:#Gem alle ændringer i den lokale sprogfil
 administration#:#language_saved_local#:#Alle ændringer blev gemt i den lokale sprogfil
-administration#:#language_scope_commented#:#With comments from language manager###23 08 2007 new variable
-administration#:#language_scope_different#:#Different from compare language###23 08 2007 new variable
+administration#:#language_scope_commented#:#Med kommentarer fra sproghåndtering
+administration#:#language_scope_different#:#Forskelligt fra sammenligningssprog
 administration#:#language_scope_equal#:#Equal to compare language###23 08 2007 new variable
 administration#:#language_scope_global#:#All entries###23 08 2007 new variable
 administration#:#language_scope_local#:#Kun lokale ændringer
 administration#:#language_scope_translate#:#All entries, empty for translation###23 08 2007 new variable
-administration#:#language_scope_unchanged#:#Unchanged entries only###23 08 2007 new variable
-administration#:#language_settings#:#Language Settings###23 08 2007 new variable
-administration#:#language_statistics#:#Statistics###23 08 2007 new variable
-administration#:#language_translation_disabled#:#Page translation disabled###23 08 2007 new variable
-administration#:#language_translation_enabled#:#Page translation enabled###23 08 2007 new variable
-administration#:#language_translation_mode#:#Translation mode###23 08 2007 new variable
+administration#:#language_scope_unchanged#:#Kun uændrede indgange
+administration#:#language_settings#:#Sprogindstillinger
+administration#:#language_statistics#:#Statistik
+administration#:#language_translation_disabled#:#Sideoversættelse deaktiveret
+administration#:#language_translation_enabled#:#Sideoversættelse aktiveret
+administration#:#language_translation_mode#:#Oversættelses status
 administration#:#log_scan#:#Log scannede resultater
 administration#:#log_scan_desc#:#Skriv scannede resultater til 'scanlog.log' i klientdatabiblioteket
 administration#:#nothing_to_purge#:#Intet at finde...
 administration#:#nothing_to_remove#:#Intet at fjerne...
 administration#:#nothing_to_restore#:#Intet at genskabe...
 administration#:#options#:#Egenskaber
-administration#:#output_options#:#Output options###23 Dec 2005 new variable
+administration#:#output_options#:#Output indstillinger
 administration#:#passwd_auto_generate#:#Password fremsendelse / dannelse
 administration#:#purge_missing#:#Find manglende objekter
 administration#:#purge_missing_desc#:#Fjern alle manglende og ikke bundne objekter fundet i system.
-administration#:#purge_count_limit#:#Limit count###10 05 2007 new variable
+administration#:#purge_count_limit#:#Begræns antal
 administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged. ###10 05 2007 new variable
 administration#:#purge_age_limit#:#Limit age###10 05 2007 new variable
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
@@ -183,7 +183,7 @@ common#:#create_date#:#Oprettet på
 common#:#edit_content#:#Rediger indhold
 common#:#edit_properties#:#Egenskaber
 common#:#export#:#Eksport
-common#:#filter#:#Filter:###21 Apr 2005 new variable
+common#:#filter#:#Filter:
 common#:#last_update#:#Sidste opdatering
 common#:#legend#:#Legend
 common#:#please_select#:#-- Vælg --
@@ -220,7 +220,7 @@ common#:#account_expires_body#:#Du har begrænset adgang, den vil udløbe:
 common#:#account_expires_subject#:#[ILIAS 3] Din konto udløber
 common#:#action_aborted#:#Handling afbrudt
 common#:#actions#:#Handlinger
-common#:#activate_assessment_logging#:#Activate Test&Assessment logging###21 Apr 2005 new variable
+common#:#activate_assessment_logging#:#Aktiver logging for Test&Assessment
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Betaling, Login)
 common#:#activate_tracking#:#Aktiver sporing
 common#:#activation#:#Aktivering
@@ -251,18 +251,18 @@ common#:#admin_panel_disable#:#Slå administrationskommandoer fra
 common#:#admin_panel_enable#:#Slå administrationskommandoer til
 common#:#administrate#:#Administrer
 common#:#administrate_users#:#Lokal brugeradministration
-common#:#administration#:#Administration###21 Apr 2005 new variable
-common#:#administrator#:#Administrator###21 Apr 2005 new variable
+common#:#administration#:#Administration
+common#:#administrator#:#Administrator
 common#:#adopt#:#Vedhæft###Bruges f.eks ved filer/mail
-common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
-common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
+common#:#advanced_editing_allow_html_tags#:#Tillad valgte HTML tags i tekstredigering
+common#:#advanced_editing_allow_javascript_editor#:#Brug rig tekst redigering
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool
 common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages
 common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
-common#:#advanced_editing_no_rte#:#Do not use rich text editing
+common#:#advanced_editing_no_rte#:#Brug ikke rig tekst redigering
 common#:#advanced_editing_settings#:#Indstillinger for avanceret redigering
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
@@ -272,10 +272,10 @@ common#:#adve_edit_permission#:#Ændre rettighedsindstillinger
 common#:#adve_general_settings#:#General Settings
 common#:#adve_lm_settings#:#LM / Glossary Settings
 common#:#adve_read#:#Access Advanced Editing Administration
-common#:#adve_survey_settings#:#Survey Settings
+common#:#adve_survey_settings#:#Undersøgelsesindstillinger
 common#:#adve_visible#:#Avanceret redigering administration er synlig
 common#:#adve_write#:#Avanceret redigering administration
-common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
+common#:#agree_date#:#Accepteret den
 common#:#all_authors#:#Alle forfattere
 common#:#all_global_roles#:#Globale roller
 common#:#all_lms#:#Alle læremoduler
@@ -353,23 +353,23 @@ common#:#assf_visible#:#Test- og assessmentadministration er synlig
 common#:#assf_write#:#Rediger test- og assessmentadministration
 common#:#assf_questiontypes#:#Question Settings###25 02 2007 new variable
 common#:#assf_allowed_questiontypes#:#Available Question Types###25 02 2007 new variable
-common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.###25 02 2007 new variable
+common#:#assf_allowed_questiontypes_desc#:#Alle afkrydsede spørgsmålstyper er tilgængelige i ILIAS installationen. Hvis du ikke ønsker bestemte spørgsmålstyper skal være tilgængelige skal du fjerne afkrydsningen.
 common#:#assign#:#Tildel
 common#:#assign_global_role#:#Tildel en global rolle
 common#:#assign_lo_forum#:#Tildel LO forum
-common#:#assign_local_role#:#Tildel en lokal rolle###23 Dec 2005 content changed
+common#:#assign_local_role#:#Tildel en lokal rolle
 common#:#assign_user_to_role#:#Tildel bruger en rolle
-common#:#assigned_roles#:#Tildelte roller###23 Dec 2005 content changed
-common#:#assigned_users#:#Tildelte brugere###23 Dec 2005 content changed
-common#:#associated_user#:#associated User###20 Jun 2005 new variable
-common#:#associated_users#:#associated Users###20 Jun 2005 new variable
-common#:#at_least_one_style#:#At least one style must remain activated.###21 Apr 2005 new variable
+common#:#assigned_roles#:#Tildelte roller
+common#:#assigned_users#:#Tildelte brugere
+common#:#associated_user#:#Tilknyttet bruger
+common#:#associated_users#:#Tilknyttede brugere
+common#:#at_least_one_style#:#Mindst et stilark skal være aktivt.
 common#:#at_location#:#Sted
 common#:#attachment#:#Vedhæft
 common#:#attachments#:#Vedhæftede
 common#:#attend#:#Vedhæft
 common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 2005 new variable
-common#:#auth_allow_local#:#Allow Local Authentication
+common#:#auth_allow_local#:#Tillad lokal autentificering
 common#:#auth_cas#:#CAS
 common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
 common#:#auth_cas_auth#:#Configure CAS Authentication
@@ -385,7 +385,7 @@ common#:#auth_create_users#:#Create non-existing users automatically
 common#:#auth_default#:#Standardinstillinger
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
 common#:#auth_edit_permission#:#Rediger rettighedsindstillinger
-common#:#auth_ldap#:#LDAP###21 Apr 2005 new variable
+common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Verificer brugere via LDAP serveren
 common#:#auth_ldap_enable#:#Aktiver LDAP-support
 common#:#auth_ldap_not_configured#:#LDAP er ikke konfigureret
@@ -396,28 +396,28 @@ common#:#auth_login_instructions#:#Instructions shown on login page
 common#:#auth_mode#:#Verifikationstilstand
 common#:#auth_mode_not_changed#:#(intet er ændret)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
-common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.
-common#:#auth_per_default#:#Per Default
+common#:#auth_new_account_mail_desc#:#Send mail til bruger omkring den nye konto, hvis brugeren er automatisk oprettet. Der generes kun et password hvis "Tillad lokal autentificering" også er aktiveret.
+common#:#auth_per_default#:#Som standard
 common#:#auth_radius#:#RADIUS###21 Apr 2005 new variable
 common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
 common#:#auth_radius_desc#:#Verificer brugere via RADIUS-serveren
-common#:#auth_radius_enable#:#Tillad RADIUS support###08 Jul 2005 new variable
+common#:#auth_radius_enable#:#Tillad RADIUS support
 common#:#auth_radius_not_configured#:#RADIUS er ikke konfigureret endnu
-common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
-common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
-common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
-common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
-common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
+common#:#auth_radius_port#:#Port
+common#:#auth_radius_server#:#Servere
+common#:#auth_radius_server_desc#:#Du kan tilføje flere servere ved at kommaseperere. Serverne roteres med Round robin algoritme når de forespørges.
+common#:#auth_radius_settings_saved#:#RADIUS indstillinger gemt
+common#:#auth_radius_shared_secret#:#Delt hemmelighed
 common#:#auth_read#:#Adgang til verifikationsindstllinger
 common#:#auth_remark_non_local_auth#:#Når man vælger en anden verifikationstilstand end standarden bliver brugerlogin og passwords slået fra og der kan ikke oprettes nye brugere
 common#:#auth_role_auth_mode#:#Autoriseringstilstand
 common#:#auth_script#:#Brugervalgte
 common#:#auth_script_desc#:#Verificer brugeren via eksternal script
 common#:#auth_select#:#Vælg verifikationstilstand
-common#:#auth_shib#:#Shibboleth###17 Aug 2005 new variable
+common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Autoriser brugere via Shibboleth. Kan bruges som en anden autoritationsmulighed
-common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###17 Aug 2005 new variable
-common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
+common#:#auth_shib_not_configured#:#Shibboleth er endnu ikke konfigureret
+common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP
 common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.
 common#:#auth_soap_auth#:#Configure SOAP Authentication
@@ -460,10 +460,10 @@ common#:#bkm_import_ok#:#Der blev importeret %d foretrukne og %d mapper.
 common#:#bkm_sendmail#:#Send som vedhæftet
 common#:#bm#:#Foretrukne
 common#:#bmf#:#Mappe til foretrukne
-common#:#bookmark_edit#:#Rediger Foretrukne
+common#:#bookmark_edit#:#Rediger foretrukne
 common#:#bookmark_folder_edit#:#Rediger mappe til foretrukne
 common#:#bookmark_folder_new#:#Ny mappe til foretrukne
-common#:#bookmark_new#:#Nye Foretrukne
+common#:#bookmark_new#:#Nye foretrukne
 common#:#bookmark_target#:#Mål
 common#:#bookmarks#:#Foretrukne
 common#:#bookmarks_of#:#Til foretrukne
@@ -479,11 +479,11 @@ common#:#by_type#:#Sorter efter type
 common#:#bytes#:#Bytes
 common#:#calendar#:#Kalender
 common#:#cancel#:#Afbryd
-common#:#cannot_find_xml#:#Kan ikke finde nogle XML-filer.
+common#:#cannot_find_xml#:#Kan ikke finde XML-filer.
 common#:#cannot_uninstall_language_in_use#:#Du kan ikke afinstallere et sprog der er i brug!
 common#:#cannot_uninstall_systemlanguage#:#Du kan ikke afinstallere systemsproget!
 common#:#cannot_unzip_file#:#Kan ikke udpakke fil.
-common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###21 Apr 2005 new variable
+common#:#cant_deactivate_if_users_assigned#:#Du kan ikke deaktivere et stilark når der stadig er brugere der anvender det.
 common#:#cat#:#Kategori
 common#:#mcst#:#MediaCast
 common#:#obj_mcst#:#MediaCast
