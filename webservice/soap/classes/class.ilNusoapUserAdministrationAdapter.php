@@ -1063,6 +1063,14 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getPathForRefId(): returns XMLResultSet with columns ref_id, type and title.');
 								
+		$this->server->register ('searchRoles',
+								array('sid' => 'xsd:string', 'key' => 'xsd:string', 'combination' => 'xsd:string', 'role_type' => 'xsd:string'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#searchRoles',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS searchRoles(): returns XML following role dtd with search results for given role type and search terms.');
 								
 		return true;
 

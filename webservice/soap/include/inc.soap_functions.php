@@ -766,4 +766,12 @@
 		$soa = new ilSoapObjectAdministration();
 		return $soa->getPathForRefId($sid, $ref_id);
 	}
+	
+	function searchRoles ($sid, $key, $combination, $role_type)
+	{
+		include_once 'webservice/soap/classes/class.ilSoapRBACAdministration.php';		
+		$roa = new ilSoapRBACAdministration();
+		return $roa->searchRoles($sid, $key, $combination, $role_type);
+	}
+	
 	?>

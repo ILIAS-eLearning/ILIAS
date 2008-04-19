@@ -1708,5 +1708,34 @@ class ilRbacReview
 		}
 		return $deleted;	
 	}
+	
+	
+	function getRolesForIDs($role_ids, $use_templates)
+	{
+		global $ilDB;
+		
+		$role_list = array();
+
+		$where = $this->__setTemplateFilter($use_templates);
+
+		$q = "SELECT DISTINCT * FROM object_data ".
+			 "JOIN rbac_fa ".$where.
+			 "AND object_data.obj_id = rbac_fa.rol_id ".
+			 "AND rbac_fa.assign = 'y' " .
+			 "AND object_data.obj_id IN (".implode(",", $role_ids).")";
+		
+		$r = $this->ilDB->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$row["desc"] = $row["description"];
+			$row["user_id"] = $row["owner"];
+			$role_list[] = $row;
+		}
+		
+		$role_list = $this->__setRoleType($role_list);
+
+		return $role_list;
+	}
 } // END class.ilRbacReview
 ?>
