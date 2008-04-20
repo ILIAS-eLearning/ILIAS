@@ -666,16 +666,16 @@ common#:#create_in#:#Oprettet i
 common#:#create_stylesheet#:#Opret layout
 common#:#created#:#Opret dato
 common#:#cron_forum_notification#:#Send forum advisering
-common#:#cron_forum_notification_cron#:#regularly per cron job###23 Dec 2005 new variable
+common#:#cron_forum_notification_cron#:#Ved cron job
 common#:#cron_forum_notification_desc#:#Hvis aktiveret får alle brugere der ønsker advisering om bestemte emner i fora tilsendt en email.
 common#:#cron_forum_notification_directly#:#Øjeblikkeligt ved nye indlæg
 common#:#cron_forum_notification_never#:#aldrig
 common#:#cron_mail_notification#:#Send mail advisering.
 common#:#cron_mail_notification_never#:#Aldrig
 common#:#cron_mail_notification_cron#:#I forbindelse med cron job
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.###16 08 2007 new variable
-common#:#cron_jobs#:#Cron jobs###21 Apr 2005 new variable
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation. Et cronjob er en automatiseret proces, som er prædefineret. Se yderligere i INSTALL-dokumentatio
+common#:#cron_mail_notification_desc#:#Hvis aktiveret sendes en (ekstern) email til brugere der ønsker advisering om ny post.
+common#:#cron_jobs#:#Cron job
+common#:#cron_jobs_desc#:#Et cron job er en automatiseret proces der udføres med løbende tidsintervaller. Du finder information omkring opsætning i 'INSTALL Documentation'. 
 common#:#cron_lucene_index#:#Updater Lucene-søgeindeks
 common#:#cron_lucene_index_info#:#Hvis aktiv vil lucenesøgeindekset blive opdateret.Konfigurer luceneserveren via: Administration -> Search'. Hvis slået til vil indekssøgesiden blive opdateret.
 common#:#crs#:#Kursus
@@ -3490,7 +3490,7 @@ assessment#:#select_qpl_option#:#--- Vælg et spørgsmålsbibliotek ---
 assessment#:#select_target_position_for_move_question#:#Vælg venligst en possition hvor du vil flytte spørgsmålet og tryk på indsæt knappen!
 assessment#:#select_tst_option#:#--- Vælg venligst en test ---
 assessment#:#selected_image#:#Vælg billede
-assessment#:#set_edit_mode#:#Set edit mode
+assessment#:#set_edit_mode#:#Vælg
 assessment#:#set_filter#:#Sæt filter
 assessment#:#set_manual_feedback#:#Set Manual Feedback###10 05 2007 new variable
 assessment#:#shape#:#Form
@@ -4092,23 +4092,23 @@ pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are remo
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
 pd#:#pd_enable_bookmarks#:#Aktiver foretrukne
-pd#:#pd_enable_notes#:#Enable Notes###16 08 2007 new variable
-mcst#:#mcst_add_new_item#:#Add New Media Cast Item###02 04 2007 new variable
-mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.###02 04 2007 new variable
-mcst#:#mcst_duration#:#Play Time###02 04 2007 new variable
+pd#:#pd_enable_notes#:#Aktiver noter
+mcst#:#mcst_add_new_item#:#Tilføj nyt Media Cast
+mcst#:#mcst_visibility_info#:#Offentlige objekter kan tilgås via RSS uden nogen form for autentificering.
+mcst#:#mcst_duration#:#Spilletid
 mcst#:#mcst_nr_items#:#Number of Items###02 04 2007 new variable
-mcst#:#mcst_last_submission#:#Last Submission###02 04 2007 new variable
+mcst#:#mcst_last_submission#:#Sidste bidrag
 mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.###02 04 2007 new variable
-mcst#:#mcst_media_cast#:#Media Cast###02 04 2007 new variable
-mcst#:#mcst_entry#:#Media Cast Entries###02 04 2007 new variable
-mcst#:#mcst_play_time#:#Play Time###02 04 2007 new variable
-mcst#:#mcst_det_playtime#:#Determine Play Time###02 04 2007 new variable
-mcst#:#mcst_settings#:#MediaCast Settings###02 04 2007 new variable
-mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed###02 04 2007 new variable
-mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.###02 04 2007 new variable
-block_html#:#block_html_block_head#:#HTML Block###25 02 2007 new variable
-block_html#:#block_html_block_title#:#Title###25 02 2007 new variable
-block_html#:#block_html_block_content#:#Content###25 02 2007 new variable
+mcst#:#mcst_media_cast#:#Media Cast
+mcst#:#mcst_entry#:#Media Cast indhold
+mcst#:#mcst_play_time#:#Spilletid
+mcst#:#mcst_det_playtime#:#Beregn spilletid
+mcst#:#mcst_settings#:#MediaCast indstillinger
+mcst#:#mcst_incl_files_in_rss#:#Inkluder mediefiler i feed
+mcst#:#mcst_incl_files_in_rss_info#:#Hvis aktiveret inkluderes mediefiler som vedhæftninger i RSS feed. Hvis deaktiveret adviseres abonnenter blot om filen.
+block_html#:#block_html_block_head#:#HTML blok
+block_html#:#block_html_block_title#:#Titel
+block_html#:#block_html_block_content#:#Indhold
 news#:#news_block_news_for_context#:#Nyheder
 news#:#news_loading_news#:#Henter nyheder
 news#:#news_no_js_click_here#:#Klik her hvis ingen nyheder vises.
@@ -6775,8 +6775,8 @@ survey#:#search_for#:#Søg efter
 survey#:#select_questionpool#:#Vælg en spørgs,ålsgruppe for at gemme spørgsmålet
 survey#:#end_date#:#Slutdato
 survey#:#SurveyMatrixQuestion#:#Matrix Question###29 11 2006 new variable
-survey#:#SurveyMetricQuestion#:#Metric question
-survey#:#SurveyNominalQuestion#:#Nominal question
+survey#:#SurveyMetricQuestion#:#Talspørgsmål
+survey#:#SurveyNominalQuestion#:#Multiple choice
 survey#:#SurveyOrdinalQuestion#:#Ordinal question
 survey#:#SurveyTextQuestion#:#Fritekst
 survey#:#add_category#:#Tilføj svar
@@ -6945,37 +6945,37 @@ survey#:#layout#:#Layout###22 12 2006 new variable
 survey#:#lower_limit#:#Laveste grænse
 survey#:#manage_phrases#:#Manage phrases###21 Apr 2005 new variable
 survey#:#material_added_successfully#:#You successfully set a material link!###21 Apr 2005 new variable
-survey#:#matrix_error_no_columns#:#Please fill in at least one column text!###29 11 2006 new variable
-survey#:#matrix_error_no_rows#:#Please fill in at least one row text!###29 11 2006 new variable
-survey#:#matrix_appearance#:#Appearance###29 11 2006 new variable
+survey#:#matrix_error_no_columns#:#Udfyld venligst mindst en kolonnetekst
+survey#:#matrix_error_no_rows#:#Udfyld venligst mindst en rækketekst
+survey#:#matrix_appearance#:#Udseende
 survey#:#matrix_row_delete_select_none#:#Please check at least one row to delete it!###29 11 2006 new variable
 survey#:#matrix_column_delete_select_none#:#Please check at least one column to delete it!###29 11 2006 new variable
 survey#:#matrix_question_radio_button_not_checked#:#Please select an option button for every row!###29 11 2006 new variable
 survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!###29 11 2006 new variable
 survey#:#matrix_row_separators#:#Row Separators###29 11 2006 new variable
-survey#:#matrix_column_separators#:#Column Separators###29 11 2006 new variable
-survey#:#matrix_neutral_column_separator#:#Neutral Column Separator###29 11 2006 new variable
-survey#:#matrix_neutral_column_separator_description#:#Select the check box if you want to have a separator (thick line) between the neutral column and the other columns in the output of the Matrix Question###29 11 2006 new variable
-survey#:#matrix_row_separators_description#:#Select the check box if you want to have separators (thin lines) between the rows in the output of the Matrix Question###29 11 2006 new variable
+survey#:#matrix_column_separators#:#Kolonneadskildelse
+survey#:#matrix_neutral_column_separator#:#Neutral kolonneseperator
+survey#:#matrix_neutral_column_separator_description#:#Lav afkrydsning hvis du ønsker en tyk linje mellem den neutrale kolonne og de andre kolonner i resultatet af matrix spørgsmålet
+survey#:#matrix_row_separators_description#:#Lav afkrydsning hvis du ønsker at have tynde linjer mellen rækker
 survey#:#matrix_column_separators_description#:#Select the check box if you want to have separators (thin lines) between the columns in the output of the Matrix Question###29 11 2006 new variable
 survey#:#matrix_bipolar_adjectives#:#Bipolar Adjectives###29 11 2006 new variable
 survey#:#matrix_bipolar_adjectives_description#:#You may use a pair of bipolar adjectives to scale the column responses to words, short phrases, or texts###29 11 2006 new variable
 survey#:#matrix_column_settings#:#Matrix Column Settings###29 11 2006 new variable
-survey#:#matrix_subtype_sr#:#Option Buttons (Single Response)###29 11 2006 new variable
-survey#:#matrix_subtype_mr#:#Check Boxes (Multiple Response)###29 11 2006 new variable
-survey#:#matrix_subtype_text#:#Text###29 11 2006 new variable
-survey#:#matrix_subtype_integer#:#Integer###29 11 2006 new variable
-survey#:#matrix_subtype_double#:#Floating Point###29 11 2006 new variable
-survey#:#matrix_subtype_date#:#Date###29 11 2006 new variable
+survey#:#matrix_subtype_sr#:#Radioknapper (et svar)
+survey#:#matrix_subtype_mr#:#Afkrydsningsbokse (flere svar)
+survey#:#matrix_subtype_text#:#Tekst
+survey#:#matrix_subtype_integer#:#Heltal
+survey#:#matrix_subtype_double#:#Decimal tal (float)
+survey#:#matrix_subtype_date#:#Dato
 survey#:#matrix_neutral_answer#:#Text for a Neutral Column ("Not Specified", "I don't know" etc.)###29 11 2006 new variable
-survey#:#matrix_standard_answers#:#Column Text###29 11 2006 new variable
-survey#:#matrix_rows#:#Matrix Rows###29 11 2006 new variable
-survey#:#matrix_columns#:#Matrix Columns###29 11 2006 new variable
+survey#:#matrix_standard_answers#:#Kolonnetekst
+survey#:#matrix_rows#:#Matrix rækker
+survey#:#matrix_columns#:#Matrix kolonner
 survey#:#matrix_subtype_time#:#Time###29 11 2006 new variable
 survey#:#matrix_subtype_description#:#Please select one of the above subtypes to define the behaviour of the answer fields.###29 11 2006 new variable
-survey#:#matrix_columns_rows#:#Column/Row Editor###29 11 2006 new variable
+survey#:#matrix_columns_rows#:#Kolonne/række redigering
 survey#:#maximum#:#Maksimal værdi
-survey#:#median#:#Median###21 Apr 2005 new variable
+survey#:#median#:#Median
 survey#:#median_between#:#mellem
 survey#:#menuback#:#Tilbage
 survey#:#menubacktosurvey#:#Tilbage til spørgeskema
@@ -7065,7 +7065,7 @@ survey#:#select_value#:#Vælg en værdi
 survey#:#selection#:#Selection###21 Apr 2005 new variable
 survey#:#show_questiontext#:#Display the Question Text###08 12 2006 new variable
 survey#:#show_questiontext_description#:#If this checkbox is selected, for every question in the question block the question text will be shown. If this checkbox is not selected, the question text of every question in the question block will be hidden. ###08 12 2006 new variable
-survey#:#spl_general_properties#:#General properties
+survey#:#spl_general_properties#:#Generelle indstillinger
 survey#:#spl_online_property#:#Aktiveret
 survey#:#spl_online_property_description#:#Spørgsmålsbiblioteket skal aktiveres før det kan anvendes i undersøgelser.
 survey#:#spl_select_file_for_import#:#Du skal vælge en fil at importere!
@@ -7073,7 +7073,7 @@ survey#:#start_date#:#Startdato
 survey#:#start_date_not_reached#:#Du kan ikke starte et spørgeskema før start dagen er nået!
 survey#:#start_survey#:#Start spørgeskema
 survey#:#subject_mail_survey_id#:#Din spørgeskema kode er '%s'
-survey#:#subtype#:#Under type
+survey#:#subtype#:#Undertype
 survey#:#survey_code#:#Survey access code###21 Apr 2005 new variable
 survey#:#survey_code_message_sent#:#En kode der giver lov til at genoptage spørgeskemaet bliver sendt til din INDBOX!
 survey#:#survey_code_no_codes#:#Du har ikke oprettet en kode til spørgeskaemet endnu
@@ -7562,8 +7562,8 @@ common#:#usr_filter_coursemember#:#Medlem af kursus
 common#:#usr_filter_groupmember#:#Medlem af gruppe
 common#:#usr_filter_role#:#Tilknyttet rolle.
 content#:#Pages#:#Sider
-content#:#cont_delete_track_data#:#Delete Tracking Data###23 09 2007 new variable
-content#:#cont_reference#:#Reference###23 09 2007 new variable
+content#:#cont_delete_track_data#:#Slet sporingsdata
+content#:#cont_reference#:#Reference
 content#:#seq_coursecomplete#:#The current course is completed.###23 09 2007 new variable
 content#:#seq_endsession#:#The current course session has ended.###23 09 2007 new variable
 content#:#seq_blocked#:#The sequencing session was blocked.###23 09 2007 new variable
@@ -7574,8 +7574,8 @@ content#:#seq_invalidnavreq#:#The sequencer received an invalid request.###23 09
 content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.###23 09 2007 new variable
 content#:#seq_abandonall#:#The current course session has been abandoned..###23 09 2007 new variable
 content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
-dateplaner#:#Text#:#Text###23 09 2007 new variable
-dateplaner#:#View#:#View:###23 09 2007 new variable
+dateplaner#:#Text#:#Tekst
+dateplaner#:#View#:#Vis:
 forum#:#threads_moved_successfully#:#De valgte emner blev flyttet til andet fora.
 forum#:#select_at_least_one_thread#:#Vælg mindst et emne.
 forum#:#no_forum_available_for_moving_threads#:#Der er intet forum hvor de valgte emner kan flyttes til.
@@ -7594,18 +7594,18 @@ forum#:#activate_current_and_childs#:#Aktiver alle indlæg
 forum#:#deactivate_current_and_childs#:#Deaktiver alle indlæg
 forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
-common#:#header_zip#:#Upload Zip-Archive###23 09 2007 new variable
-common#:#take_over_structure#:#Adopt Structure###23 09 2007 new variable
-common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.###23 09 2007 new variable
-common#:#msg_wrong_filetype#:#File is no zip-archive###23 09 2007 new variable
-common#:#zip_structure_error#:#Archive contains same filenames. Upload aborted.###23 09 2007 new variable
-common#:#archive_broken#:#Archive seems to be broken or empty.###23 09 2007 new variable
-common#:#precondition#:#Precondition###23 09 2007 new variable
+common#:#header_zip#:#Upload zip-arkiv
+common#:#take_over_structure#:#Brug struktur
+common#:#take_over_structure_info#:#Hvis aktiveret bliver folderne i zip-filen mappet til kategorier eller (hvis brugt i grupper eller kurser) til foldere.
+common#:#msg_wrong_filetype#:#Filen er ikke et zip-arkiv
+common#:#zip_structure_error#:#Arkivet indeholder identiske filnavne. Upload er afbrudt.
+common#:#archive_broken#:#Arkivfilen ser ud til at være korrupt eller tom.
+common#:#precondition#:#Forudsætning
 common#:#cond_ref_handling#:#Link indstillinger
-common#:#cond_ref_shared#:#Shared Preconditions for all Links###23 09 2007 new variable
+common#:#cond_ref_shared#:#Delte forudsætninger for alle links
 common#:#cond_ref_unique#:#Unique Preconditions for Links###23 09 2007 new variable
-administration#:#obj_mds#:#Meta Data###23 09 2007 new variable
-administration#:#obj_mds_desc#:#Configure Meta Data and Advanced Meta Data Settings###23 09 2007 new variable
+administration#:#obj_mds#:#Metadata
+administration#:#obj_mds_desc#:#Konfigurer metadata og avancerede metadata indstillinger
 common#:#msg_input_does_not_match_regexp#:#Please provide a valid value.###23 09 2007 new variable
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource###23 09 2007 new variable
 common#:#msg_input_either_file_or_url#:#You have to provide either a URL or a file###23 09 2007 new variable
@@ -7632,9 +7632,9 @@ meta#:#meta_cp_own#:#Egen copyrightinformation
 meta#:#md_adv_desc_show#:#Vis beskrivelse
 meta#:#md_adv_show#:#Vis
 common#:#udf_type_date#:#Datofelt
-common#:#sorting_header#:#Content Item Sorting###25 09 2007 new variable
+common#:#sorting_header#:#Sortering
 common#:#sorting_title_header#:#Sorter efter titel.
-common#:#sorting_info_title#:#Choose this mode to sort items automatically by title.###25 09 2007 new variable
+common#:#sorting_info_title#:#Vælg denne indstilling for at sortere emner automatisk efter titel.
 common#:#sorting_manual_header#:#Manuel sortering
 common#:#sorting_info_manual#:#Denne indstilling gør det muligt at sortere elementer manuelt.
 common#:#sorting_save#:#Gem sortering
@@ -7660,20 +7660,20 @@ common#:#mail_search_groups_not_found#:#No groups were found you are belonging t
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
 auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+common#:#frm_add_post#:#Skriv indlæg
+common#:#frm_moderate_frm#:#Slet indlæg, censur
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
-chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
+chat#:#chat_user_invited_private#:#Brugeren blev inviteret til det private chatrum
 chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom###23 10 2007 new variable
-chat#:#chat_no_online_users#:#No further users online.###23 10 2007 new variable
-search#:#search_lom#:#LOM Metadata###23 10 2007 new variable
-search#:#search_adv_md#:#Extended Metadata###23 10 2007 new variable
-search#:#adv_md_search_title#:#Search in Extended Metadata###23 10 2007 new variable
-ps#:#ps_edit_text_field#:#Edit Text Field###23 10 2007 new variable
+chat#:#chat_no_online_users#:#Ingen andre brugere online.
+search#:#search_lom#:#LOM metadata
+search#:#search_adv_md#:#Udviddede metadata
+search#:#adv_md_search_title#:#Søg i udvidede metadata
+ps#:#ps_edit_text_field#:#Rediger tekstfelt
 meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
-meta#:#md_copyright#:#Copyright###23 10 2007 new variable
-meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights###23 10 2007 new variable
+meta#:#md_copyright#:#Copyright
+meta#:#md_copyright_enable_info#:#Vælg denne for se listen over prædefinerede copyrights
 news#:#news_block_information#:#<b>Nyhedsblokken</b> viser alle de nyheder som er relateret til dine <i>personlige</i> ting som du har valgt på dit skrivebord.
 news#:#news_rss_period#:#RSS periode
 news#:#news_period_x_days#:#Sidste %s dage
@@ -7691,8 +7691,8 @@ news#:#news_hide_news_per_date#:#Vis nyheder efter
 news#:#news_hide_news_per_date_info#:#Kun nyheder fra en bestemt dato vises.
 news#:#news_hide_news_date#:#Startdato
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.###02 11 2007 new variable
-forum#:#topics_please_select_one_action#:#Please select an action.###02 11 2007 new variable
-forum#:#sticky#:#sticky###02 11 2007 new variable
+forum#:#topics_please_select_one_action#:#Vælg venligst en kommando
+forum#:#sticky#:#klistrer
 forum#:#topic_close#:#luk
 forum#:#close_topics#:#Luk
 forum#:#reopen_topics#:#Genåben
@@ -7708,23 +7708,23 @@ grp#:#grp_deleted_export_files#:#Eksportfiler slettet
 grp#:#grp_select_one_file#:#Vælg venligst en fil
 assessment#:#passes_finished#:#%s passes###14 11 2007 new variable
 assessment#:#pass_finished#:#%s pas###14 11 2007 new variable
-news#:#news_no_news_items#:#No news available.###15 11 2007 new variable
+news#:#news_no_news_items#:#Ingen nyheder
 common#:#enable_ext_lang_maint#:#Enable Extended Maintenance###20 11 2007 new variable
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance###20 11 2007 new variable
 assessment#:#tst_show_solution_signature#:#Show Signature Placeholder###20 11 2007 new variable
-rbac#:#recf_edit_permission#:#Change permission settings###20 11 2007 new variable
-rbac#:#recf_visible#:#Restored Objects are visible ###20 11 2007 new variable
-rbac#:#recf_read#:#Read access to Restored Objects###20 11 2007 new variable
+rbac#:#recf_edit_permission#:#Ændre rettighedsstillinger
+rbac#:#recf_visible#:#Genskabte objekter er synlige
+rbac#:#recf_read#:#Læseadgang til genskabte objekter
 rbac#:#recf_write#:#Edit Restored Objects###20 11 2007 new variable
 grp#:#grp_unsubscribe#:#Unsubscrib###20 11 2007 new variable
 trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.###20 11 2007 new variable
-common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?###27 11 2007 new variable
+common#:#lang_refresh_confirm#:#Er du sikker på du vil opdatere alle sprog?
 common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.###27 11 2007 new variable
 assessment#:#tst_no_export_randomtest#:#You cannot export a test with random selection of questions, because every used question pool has to be exported too which leads to enormous complexity of the export files.###27 11 2007 new variable
-common#:#lngf_write#:#Write access, needed for extended language maintenance###27 11 2007 new variable
-content#:#cont_last_access#:#Last Access###27 11 2007 new variable
-content#:#seq_close#:#Luk venligst afspilningsvinduet
-content#:#scplayer_showtree#:#Show Tree###27 11 2007 new variable
+common#:#lngf_write#:#Der kræves skriveadgang for udvidet sprogfils håndtering
+content#:#cont_last_access#:#Sidst tilgået
+content#:#seq_close#:#Luk afspilningsvinduet
+content#:#scplayer_showtree#:#Vis træ
 content#:#scplayer_hidetree#:#Skjul træ
 content#:#scplayer_continue#:#Fortsæt
 content#:#scplayer_previous#:#Forrige
@@ -7773,52 +7773,52 @@ cmps#:#cmps_update_db#:#Update DB###11 03 2008 new variable
 cmps#:#cmps_refresh#:#Refresh###11 03 2008 new variable
 cmps#:#cmps_activate#:#Activate###11 03 2008 new variable
 cmps#:#cmps_deactivate#:#Deactivate###11 03 2008 new variable
-cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version###11 03 2008 new variable
-cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version###11 03 2008 new variable
-cmps#:#cmps_dir#:#Directory###11 03 2008 new variable
-cmps#:#cmps_active#:#Active###11 03 2008 new variable
-cmps#:#cmps_inactive#:#Inactive###11 03 2008 new variable
-cmps#:#cmps_status#:#Status###11 03 2008 new variable
+cmps#:#cmps_ilias_min_version#:#Min ILIAS version
+cmps#:#cmps_ilias_max_version#:#Maks ILIAS version
+cmps#:#cmps_dir#:#Mappe
+cmps#:#cmps_active#:#Aktiv
+cmps#:#cmps_inactive#:#Inaktiv
+cmps#:#cmps_status#:#Status
 cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.###11 03 2008 new variable
-cmps#:#cmps_needs_update#:#Needs update.###11 03 2008 new variable
-cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.###11 03 2008 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.###11 03 2008 new variable
-cmps#:#cmps_show_details#:#Show Details###11 03 2008 new variable
+cmps#:#cmps_needs_update#:#Kræver opdatering
+cmps#:#cmps_needs_newer_plugin_version#:#Denne ILIAS version kræver en nyerere plugin. Opgrader venligst pluginet.
+cmps#:#cmps_needs_newer_ilias_version#:#Denne version af pluginet kører kun på en nyerere version af ILIAS. Du skal opgadere ILIAS før du kan anvende dette.
+cmps#:#cmps_show_details#:#Vis detaljer
 cmps#:#cmps_plugin_slot#:#Plugin Slot###11 03 2008 new variable
-cmps#:#cmps_component#:#Component###11 03 2008 new variable
-cmps#:#cmps_lang_prefix#:#Language Variables Prefix###11 03 2008 new variable
-cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes###11 03 2008 new variable
+cmps#:#cmps_component#:#Komponent
+cmps#:#cmps_lang_prefix#:#Prefix for sprogvariable
+cmps#:#cmps_plugin_db_prefixes#:#Database tabel prefix
 cmps#:#cmps_disable_creation#:#Disable Creation###11 03 2008 new variable
 cmps#:#cmps_rep_object#:#Repository Object Type###11 03 2008 new variable
 cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List###11 03 2008 new variable
-cmps#:#cmps_plugin_dirs#:#Plugin Directories###11 03 2008 new variable
+cmps#:#cmps_plugin_dirs#:#Plugin mapper
 cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes###11 03 2008 new variable
 common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.###11 03 2008 new variable
-cmps#:#cmps_edit_settings#:#Settings###11 03 2008 new variable
-cmps#:#cmps_modules#:#Modules###11 03 2008 new variable
-cmps#:#cmps_plugins#:#Plugins###11 03 2008 new variable
-cmps#:#cmps_plugin#:#Plugin###11 03 2008 new variable
-cmps#:#cmps_services#:#Services###11 03 2008 new variable
-cmps#:#cmps_service#:#Service###11 03 2008 new variable
-cmps#:#cmps_save_options#:#Save Options###11 03 2008 new variable
+cmps#:#cmps_edit_settings#:#Indstillinger
+cmps#:#cmps_modules#:#Moduler
+cmps#:#cmps_plugins#:#Plugins
+cmps#:#cmps_plugin#:#Plugin
+cmps#:#cmps_services#:#Services
+cmps#:#cmps_service#:#Service
+cmps#:#cmps_save_options#:#Gem indstillinger
 cmps#:#cmps_main_dir#:#Main Directory###11 03 2008 new variable
-cmps#:#cmps_plugin_file#:#Plugin File###11 03 2008 new variable
-cmps#:#cmps_db_update#:#DB Update Script###11 03 2008 new variable
-cmps#:#cmps_available#:#Available###11 03 2008 new variable
-cmps#:#cmps_missing#:#Missing###11 03 2008 new variable
-cmps#:#cmps_class_file#:#Class File###11 03 2008 new variable
-cmps#:#cmps_lang_files#:#Language Files###11 03 2008 new variable
-cmps#:#cmps_database#:#Database###11 03 2008 new variable
-cmps#:#cmps_languages#:#Languages###11 03 2008 new variable
+cmps#:#cmps_plugin_file#:#Plugin fil
+cmps#:#cmps_db_update#:#Database opdaterings script
+cmps#:#cmps_available#:#Tilgængelig
+cmps#:#cmps_missing#:#Mangler
+cmps#:#cmps_class_file#:#Klassefiler
+cmps#:#cmps_lang_files#:#Sprogfiler
+cmps#:#cmps_database#:#Database
+cmps#:#cmps_languages#:#Sprog
 cmps#:#cmps_basic_files#:#Basic Files###11 03 2008 new variable
-cmps#:#cmps_name#:#Name###11 03 2008 new variable
-cmps#:#cmps_id#:#ID###11 03 2008 new variable
-common#:#wiki#:#Wiki###11 03 2008 new variable
-common#:#obj_wiki#:#Wiki###11 03 2008 new variable
-common#:#objs_wiki#:#Wikis###11 03 2008 new variable
-common#:#objs_lres#:#Learning Resources###11 03 2008 new variable
-common#:#wiki_new#:#New Wiki###11 03 2008 new variable
-common#:#wiki_add#:#Add Wiki###11 03 2008 new variable
+cmps#:#cmps_name#:#Navn
+cmps#:#cmps_id#:#ID
+common#:#wiki#:#Wiki
+common#:#obj_wiki#:#Wiki
+common#:#objs_wiki#:#Wikier
+common#:#objs_lres#:#Læreresurser
+common#:#wiki_new#:#Ny Wiki
+common#:#wiki_add#:#Tilføj Wiki
 wiki#:#wiki_settings#:#Wiki indstillinger
 wiki#:#wiki_what_links_to_page#:#Hvad linker til siden "%s"?
 wiki#:#wiki_start_page#:#Startside
@@ -7853,13 +7853,13 @@ content#:#content_last#:#Sidste
 content#:#cont_alphabetic#:#Alfabetisk A, B, ...
 content#:#cont_alphabetic_s#:#Alfabetisk a, b, ... 
 content#:#cont_roman#:#Romersk I, II, ...
-content#:#cont_roman_s#:#Romersk i, ii, ...  ###11 03 2008 new variable
+content#:#cont_roman_s#:#Romersk i, ii, ...  
 content#:#cont_ed_insert_section#:#Indsæt sektion
 survey#:#info_anonymize_with_code#:#Anonymiseret undersøgelse med kodeadgang 
 survey#:#info_anonymize_registered_user#:#Anonymiseret undersøgelse
 survey#:#info_anonymize_without_code#:#Anonymized Survey without Access Restrictions###11 03 2008 new variable
-common#:#obj_qpl_duplicate#:#Copy Question Pool Test###11 03 2008 new variable
-common#:#obj_spl_duplicate#:#Copy Question Pool Survey###11 03 2008 new variable
+common#:#obj_qpl_duplicate#:#Kopier spørgsmål til test
+common#:#obj_spl_duplicate#:#Kopier spørgsmål til undersøgelse
 common#:#obj_qpl_select#:#-- Vælg spørgsmål til test --
 common#:#obj_spl_select#:#-- Vælg spørgsmål til undersøgelse --
 common#:#obj_calendar#:#Kalender
@@ -7870,8 +7870,8 @@ rbac#:#cals_read#:#Læseadgang til kalenderindstillinger
 rbac#:#cals_write#:#Ret kalenderindstillinger
 common#:#obj_cat_duplicate#:#Kopier kategori
 common#:#obj_cat_select#:#-- Vælg venligst en kategori --
-common#:#cat_wizard_page#:#Kopier kategori (Skridt 2/2)###11 03 2008 new variable
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
+common#:#cat_wizard_page#:#Kopier kategori (Skridt 2/2)
+common#:#cat_copy_threads_info#:#Vælg hvilke kategori objekter der skal kopieres, linkes eller udelades
 survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
 survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
 payment#:#object_deleted#:#Objekt slettet
@@ -7885,23 +7885,23 @@ common#:#obj_file_inline#:#Læremodul fil
 common#:#yesterday#:#I går
 common#:#tomorrow#:#I morgen
 common#:#show_profile#:#Vis profil
-common#:#copy_selected_items#:#Copy###11 03 2008 new variable
-common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###11 03 2008 new variable
+common#:#copy_selected_items#:#Kopier
+common#:#mail_no_recipient_found#:#Indtast en anden mailadresse. ILIAS kunne ikke finde en modtager med denne mailadresse.
 common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###11 03 2008 new variable
-common#:#disk_space_used#:#Disk space used###11 03 2008 new variable
-common#:#in_use_by#:#In use by###11 03 2008 new variable
-common#:#filename_extension_missing#:#Filename extension missing###11 03 2008 new variable
-common#:#filename_special_characters#:#/ is not allowed in filenames###11 03 2008 new variable
-common#:#filename_windows_special_characters#:#\/:*?"<>| are not allowed in Windows filenames###11 03 2008 new variable
+common#:#disk_space_used#:#Brugt diskplads
+common#:#in_use_by#:#Bruges af
+common#:#filename_extension_missing#:#Filnavns endelse (extension) mangler
+common#:#filename_special_characters#:#/ er ikke tilladt i filnavne
+common#:#filename_windows_special_characters#:#\/:*?"<>| er ikke tilladt i Windows filnavne
 common#:#filename_windows_empty_extension#:#. at the end of a filename is not allowed on Windows###11 03 2008 new variable
-common#:#filename_windows_webdav_issue#:## is not supported in Windows webfolders###11 03 2008 new variable
-common#:#filename_special_filename#:#. and .. are reserved filenames###11 03 2008 new variable
+common#:#filename_windows_webdav_issue#:## er ikke understøttet i en Windows webfolder
+common#:#filename_special_filename#:#. og .. er reserverede filnavne
 common#:#filename_visibility#:#Synlighed
 common#:#filename_hidden_unix_file#:#Skjult Unixfil
 common#:#filename_hidden_backup_file#:#Skjult backupfil
 common#:#filename_interoperability#:#Interoperability###11 03 2008 new variable
-common#:#readcount_anonymous_users#:#Number of anonymous read accesses###11 03 2008 new variable
-common#:#readcount_users#:#Number of non-anonymous read accesses###11 03 2008 new variable
+common#:#readcount_anonymous_users#:#Antal anonyme læsninger
+common#:#readcount_users#:#Antal ikke-anonyme læsninger
 common#:#accesscount_registered_users#:#Læst af antal unikke ILIAS brugere
 common#:#state_changed#:#ændret
 common#:#state_changed_inside#:#changed inside###11 03 2008 new variable
