@@ -73,7 +73,7 @@ class ilSessionAppointment implements ilDatePeriod
 		{
 			$info['start'] = $row->starting_time;
 			$info['end'] = $row->ending_time;
-			$info['fullday'] = $row->fullday;
+			$info['fullday'] = $row->fulltime;
 			return $info;
 		}
 		return array();
