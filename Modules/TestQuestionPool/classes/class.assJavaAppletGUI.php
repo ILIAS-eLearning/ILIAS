@@ -706,6 +706,14 @@ class assJavaAppletGUI extends assQuestionGUI
 				$template->setVariable("PARAM_VALUE", $infodata["value2"]);
 				$template->parseCurrentBlock();
 			}
+			include_once './Services/Administration/classes/class.ilSetting.php';
+			$soapSetting = new ilSetting();
+			if ($soapSetting->get("soap_user_administration") == 1)
+			{
+				$template->setCurrentBlock("appletparam");
+				$template->setVariable("PARAM_NAME", "server");
+				$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php");
+			}
 		}
 		
 		$questiontext = $this->object->getQuestion();

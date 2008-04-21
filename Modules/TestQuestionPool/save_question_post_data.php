@@ -18,7 +18,7 @@ if ($res === true)
 	global $lng;
 	$lng->loadLanguageModule("assessment");
 	echo $lng->txt("result_successful_saved");
-}
+}	
 else
 {
 	global $lng;
