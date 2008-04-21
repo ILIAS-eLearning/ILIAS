@@ -851,6 +851,9 @@ class ilNewsItem extends ilNewsItemGen
 		}
 	}
 
+	/**
+	* Lookup News Title
+	*/
 	static function _lookupTitle($a_news_id)
 	{
 		global $ilDB;
@@ -860,6 +863,21 @@ class ilNewsItem extends ilNewsItemGen
 		$set = $ilDB->query($query);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $rec["title"];
+	}
+
+	/**
+	* Lookup News Visibility
+	*/
+	static function _lookupVisibility($a_news_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT visibility FROM il_news_item WHERE id = ".
+			$ilDB->quote($a_news_id);
+		$set = $ilDB->query($query);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $rec["visibility"];
 	}
 	
 	/**
@@ -984,6 +1002,45 @@ class ilNewsItem extends ilNewsItemGen
 		return $rec["id"];
 	}
 	
+	/**
+	* Lookup media object usage(s)
+	*/
+	static function _lookupMediaObjectUsages($a_mob_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * ".
+			"FROM il_news_item ".
+			"WHERE ".
+				" mob_id = ".$ilDB->quote($a_mob_id);
+				
+		$usages = array();
+		$set = $ilDB->query($query);
+		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$usages[$rec["id"]] = array("type" => "news", "id" => $rec["id"]);
+		}
+		
+		return $usages;
+	}
+
+	/**
+	* Context Object ID
+	*/
+	static function _lookupContextObjId($a_news_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * ".
+			"FROM il_news_item ".
+			"WHERE ".
+				" id = ".$ilDB->quote($a_news_id);
+		$set = $ilDB->query($query);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $rec["context_obj_id"];
+	}
+
 	function _lookupDefaultPDPeriod()
 	{
 		$news_set = new ilSetting("news");

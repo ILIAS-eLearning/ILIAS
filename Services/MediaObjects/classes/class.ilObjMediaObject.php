@@ -823,11 +823,21 @@ class ilObjMediaObject extends ilObject
 	*/
 	function getUsages()
 	{
+		return $this->lookupUsages($this->getId());
+	}
+	
+	/**
+	* Lookup usages of media object
+	*
+	* @todo: This should be all in one context -> mob id table
+	*/
+	function lookupUsages($a_id)
+	{
 		global $ilDB;
 
 		// get usages in learning modules
 		$q = "SELECT * FROM mob_usage WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($a_id);
 		$us_set = $ilDB->query($q);
 		$ret = array();
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -838,19 +848,28 @@ class ilObjMediaObject extends ilObject
 
 		// get usages in media pools
 		$q = "SELECT DISTINCT mep_id FROM mep_tree WHERE child = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($a_id);
 		$us_set = $ilDB->query($q);
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ret[] = array("type" => "mep",
 				"id" => $us_rec["mep_id"]);
 		}
+		
+		// get usages in news items (media casts)
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		$news_usages = ilNewsItem::_lookupMediaObjectUsages($a_id);
+		foreach($news_usages as $nu)
+		{
+			$ret[] = $nu;
+		}
+		
 
 		// get usages in map areas
 		$q = "SELECT DISTINCT mob_id FROM media_item as it, map_area as area ".
 			" WHERE area.item_id = it.id ".
 			" AND area.link_type='int' ".
-			" AND area.target = ".$ilDB->quote("il__mob_".$this->getId());
+			" AND area.target = ".$ilDB->quote("il__mob_".$a_id);
 		$us_set = $ilDB->query($q);
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -859,7 +878,7 @@ class ilObjMediaObject extends ilObject
 		}
 
 		// get usages in personal clipboards
-		$users = ilObjUser::_getUsersForClipboadObject("mob", $this->getId());
+		$users = ilObjUser::_getUsersForClipboadObject("mob", $a_id);
 		foreach ($users as $user)
 		{
 			$ret[] = array("type" => "clip",
@@ -869,6 +888,106 @@ class ilObjMediaObject extends ilObject
 		return $ret;
 	}
 
+	/**
+	* Get's the repository object ID of a parent object, if possible
+	*/
+	function getParentObjectIdForUsage($a_usage, $a_include_all_access_obj_ids = false)
+	{
+		if(is_int(strpos($a_usage["type"], ":")))
+		{
+			$us_arr = explode(":", $a_usage["type"]);
+			$type = $us_arr[1];
+			$cont_type = $us_arr[0];
+		}
+		else
+		{
+			$type = $a_usage["type"];
+		}
+		
+		$id = $a_usage["id"];
+		$obj_id = false;
+		
+		switch($type)
+		{
+			case "html":					// "old" category pages
+				if ($cont_type == "cat")
+				{
+					$obj_id = $id;
+				}
+				// Test InfoScreen Text
+				if ($cont_type == "tst")
+				{
+					$obj_id = $id;
+					//var_dump($qinfo);
+				}
+				// Question Pool *Question* Text
+				if ($cont_type == "qpl")
+				{
+					include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+					$qinfo = assQuestion::_getQuestionInfo($id);
+					if ($qinfo["original_id"] > 0)
+					{
+						include_once("./Modules/Test/classes/class.ilObjTest.php");
+						$obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
+					}
+					else
+					{
+						$obj_id = $qinfo["obj_fi"];		// usage in pool
+					}
+				}
+				break;
+				
+			case "pg":
+			
+				// Question Pool Question Pages
+				if ($cont_type == "qpl")
+				{
+					include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+					$qinfo = assQuestion::_getQuestionInfo($id);
+					if ($qinfo["original_id"] > 0)
+					{
+						include_once("./Modules/Test/classes/class.ilObjTest.php");
+						$obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
+					}
+					else
+					{
+						$obj_id = $qinfo["obj_fi"];		// usage in pool
+					}
+				}
+				
+				// learning modules
+				if ($cont_type == "lm" || $cont_type == "dbk")
+				{
+					include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+					$obj_id = ilLMObject::_lookupContObjID($id);
+				}
+				
+				// glossary definition
+				if ($cont_type == "gdf")
+				{
+					include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
+					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+					$term_id = ilGlossaryDefinition::_lookupTermId($id);
+					$obj_id = ilGlossaryTerm::_lookGlossaryID($term_id);
+				}
+				
+				break;
+				
+			// Media Pool
+			case "mep":
+				$obj_id = $id;
+				break;
+
+			// News Context Object (e.g. MediaCast)
+			case "news":
+				include_once("./Services/News/classes/class.ilNewsItem.php");
+				$obj_id = ilNewsItem::_lookupContextObjId($id);
+				break;
+		}
+		
+		return $obj_id;
+	}
+	
 	/**
 	* resize image and return new image file ("_width_height" string appended)
 	*

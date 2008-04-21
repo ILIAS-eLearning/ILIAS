@@ -9532,8 +9532,20 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		return $results;
 	}
-	
-	
+
+	/**
+	* Get test Object ID for question ID
+	*/
+	function _lookupTestObjIdForQuestionId($a_q_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT t.obj_fi AS obj_id FROM tst_test_question AS q, tst_tests AS t WHERE".
+			" q.test_fi = t.test_id AND q.question_fi = ".$ilDB->quote($a_q_id));
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $rec["obj_id"];
+	}
+
 } // END class.ilObjTest
 
 ?>

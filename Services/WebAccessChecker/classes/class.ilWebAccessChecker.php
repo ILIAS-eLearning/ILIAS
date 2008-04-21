@@ -160,65 +160,102 @@ class ilWebAccessChecker
 	{
 		global $ilLog;
 		
-		// extract the object id (currently only for learning modules)
+		// extract the object id (html/scorm learning modules)
 		$pos1 = strpos($this->subpath, "lm_data/lm_") + 11;
 		$pos2 = strpos($this->subpath, "/", $pos1);
-		if ($pos1 === false or $pos2 === false)
-		{
-			$this->errorcode = 404;
-			$this->errortext = $this->lng->txt("url_not_found");
-			return false;
-		}
-		$obj_id = substr($this->subpath, $pos1, $pos2-$pos1);
-		if (!is_numeric($obj_id))
-		{
-			$this->errorcode = 404;
-			$this->errortext = $this->lng->txt("obj_not_found");
-			return false;
-		}
 
-		// look in cache, if already checked
-		if (is_array($this->checked_list))
+		if ($pos1 == 11 or $pos2 === false)
 		{
-			if (in_array($obj_id, $this->checked_list))
+			// media object
+			$pos1 = strpos($this->subpath, "mobs/mm_") + 8;
+			$pos2 = strpos($this->subpath, "/", $pos1);
+			if ($pos1 === false or $pos2 === false)
 			{
-//				return true;
+				$this->errorcode = 404;
+				$this->errortext = $this->lng->txt("url_not_found");
+				return false;
+			}
+			else
+			{
+				$mob_id = substr($this->subpath, $pos1, $pos2-$pos1);
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				$usages = ilObjMediaObject::lookupUsages($mob_id);
+				foreach($usages as $usage)
+				{
+					//var_dump($usage);
+					$oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
+					//var_dump($oid);
+					if ($oid > 0)
+					{
+						$obj_ids[] = $oid;
+					
+						// media objects in news (media casts)
+						if ($usage["type"] == "news")
+						{
+							include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
+							include_once("./Services/News/classes/class.ilNewsItem.php");
+							
+							if (ilObjMediaCastAccess::_lookupPublicFiles($oid) &&
+								ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC)
+							{
+								return true;
+							}
+						}
+					}
+				}
 			}
 		}
-
-		// find the object references
-		$obj_type = ilObject::_lookupType($obj_id);
-		$ref_ids  = ilObject::_getAllReferences($obj_id);
-		if (!$ref_ids)
+		$obj_ids[] = substr($this->subpath, $pos1, $pos2-$pos1);
+		foreach($obj_ids as $obj_id)
 		{
-			$this->errorcode = 403;
-			$this->errortext = $this->lng->txt("permission_denied");
-			return false;
-		}
-
-		// check, if one of the references is readable
-		$readable = false;
-
-		foreach($ref_ids as $ref_id)
-		{
-		  	if ($this->ilAccess->checkAccess("read", "view", $ref_id, $obj_type, $obj_id))
+			if (!is_numeric($obj_id))
 			{
-				$readable = true;
-				break;
+				$this->errorcode = 404;
+				$this->errortext = $this->lng->txt("obj_not_found");
+				return false;
+			}
+	
+			// look in cache, if already checked
+			if (is_array($this->checked_list))
+			{
+				if (in_array($obj_id, $this->checked_list))
+				{
+	//				return true;
+				}
+			}
+	
+			// find the object references
+			$obj_type = ilObject::_lookupType($obj_id);
+			$ref_ids  = ilObject::_getAllReferences($obj_id);
+			if (!$ref_ids)
+			{
+				$this->errorcode = 403;
+				$this->errortext = $this->lng->txt("permission_denied");
+				return false;
+			}
+	
+			// check, if one of the references is readable
+			$readable = false;
+	
+			foreach($ref_ids as $ref_id)
+			{
+				if ($this->ilAccess->checkAccess("read", "view", $ref_id, $obj_type, $obj_id))
+				{
+					$readable = true;
+					break;
+				}
+			}
+			if ($readable)
+			{
+				//add object to cache
+				$this->checked_list[] = $obj_id;
+				return true;
 			}
 		}
-		if ($readable)
-		{
-			//add object to cache
-			$this->checked_list[] = $obj_id;
-			return true;
-		}
-		else
-		{
-			$this->errorcode = 403;
-			$this->errortext = $this->lng->txt("permission_denied");
-			return false;
-		}
+		
+		$this->errorcode = 403;
+		$this->errortext = $this->lng->txt("permission_denied");
+		return false;
 	}
 	
 	
