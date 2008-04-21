@@ -205,7 +205,6 @@ class ilSurveyEvaluationGUI
 				// Creating a worksheet
 				include_once ("./classes/class.ilExcelUtils.php");
 				$mainworksheet =& $workbook->addWorksheet();
-				include_once ("./classes/class.ilExcelUtils.php");
 				$mainworksheet->writeString(0, 0, ilExcelUtils::_convert_text($this->lng->txt("title"), $_POST["export_format"]), $format_bold);
 				$mainworksheet->writeString(0, 1, ilExcelUtils::_convert_text($this->lng->txt("question"), $_POST["export_format"]), $format_bold);
 				$mainworksheet->writeString(0, 2, ilExcelUtils::_convert_text($this->lng->txt("question_type"), $_POST["export_format"]), $format_bold);
@@ -517,7 +516,7 @@ class ilSurveyEvaluationGUI
 				$separator = ";";
 				foreach ($csvfile as $csvrow)
 				{
-					$csvrow =& $this->object->processCSVRow($csvrow, TRUE, $separator);
+					$csvrow =& str_replace("\n", " ", $this->object->processCSVRow($csvrow, TRUE, $separator));
 					$csv .= join($csvrow, $separator) . "\n";
 				}
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
