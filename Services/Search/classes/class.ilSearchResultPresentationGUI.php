@@ -54,7 +54,7 @@ class ilSearchResultPresentationGUI
 		$this->type_ordering = array(
 			"cat", "crs", "grp", "chat", "frm", "lres",
 			"glo", "webr", "file",'mcst', "exc",
-			"tst", "svy", "mep", "qpl", "spl");
+			"tst", "svy", "sess","mep", "qpl", "spl");
 
 		$this->ctrl =& $ilCtrl;
 		

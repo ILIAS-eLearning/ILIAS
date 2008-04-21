@@ -105,13 +105,20 @@ class ilEventItems
 		return true;
 	}
 	
-	function _getItemsOfContainer($a_obj_id)
+	function _getItemsOfContainer($a_ref_id)
 	{
-		global $ilDB;
+		global $ilDB,$tree;
+		
+		$session_nodes = $tree->getChildsByType($a_ref_id,'sess');
+		foreach($session_nodes as $node)
+		{
+			$session_ids[] = $node['obj_id'];
+		}
+		$in = "IN (".implode(",",ilUtil::quoteArray($session_ids)).") ";
 
-		$query = "SELECT * FROM event AS e ".
-			"JOIN event_items AS ei ON e.event_id = ei.event_id ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+		$query = "SELECT item_id FROM event_items ".
+			"WHERE event_id ".$in;
+			
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

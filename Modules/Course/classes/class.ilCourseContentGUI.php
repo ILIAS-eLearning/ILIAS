@@ -465,10 +465,21 @@ class ilCourseContentGUI
 		$this->__showFeedBack();
 
 		// Event
-		$this->__showEvents();
-
-		// course materials
-		$this->__showMaterials();
+		
+		switch($this->course_obj->getOrderType())
+		{
+			case IL_CRS_SORT_TITLE:
+			case IL_CRS_SORT_MANUAL:
+				$this->__showMaterials('session');
+				$this->__showMaterials('nosession');
+				break;
+			
+			case IL_CRS_SORT_ACTIVATION:
+				$this->__showMaterials('all');
+				break;
+			
+		}
+		$this->container_gui->showAdministrationPanel($this->tpl);
 	}
 	
 	function setColumnSettings($column_gui)
@@ -572,196 +583,131 @@ class ilCourseContentGUI
 	}
 
 
-	// PRIVATE
-	function __showEvents()
+	
+	/**
+	 * display content row
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function displayRow($cont_data,$subitem = false)
 	{
-		global $ilUser;
+		static $row_num = 1;
 		
-		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
-		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
-
-		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
-
-		if(!count($event_objs = ilEvent::_getEvents($this->container_obj->getId())))
+		global $ilAccess;
+		
+		if(!$ilAccess->checkAccess('visible','',$cont_data['ref_id']))
 		{
-			return true;
+			return '';
 		}
 
-		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.event_row.html",'Modules/Course');
-
-		$counter = 0;
-		foreach($event_objs as $event_obj)
+		// BEGIN WebDAV: Don't display hidden Files.
+		if(!$this->container_gui->isActiveAdministrationPanel())
 		{
-			$appointment_obj =& $event_obj->getFirstAppointment();
-
-			// Info
-			$tpl->setCurrentBlock("event_commands");
-			$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-			$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','info'));
-			$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('info_short'));
-			$tpl->parseCurrentBlock();
-
-			if($event_obj->enabledRegistration() and ilEventParticipants::_isRegistered($ilUser->getId(),$event_obj->getEventId()))
+			require_once 'Modules/File/classes/class.ilObjFileAccess.php';
+			if (ilObjFileAccess::_isFileHidden($cont_data['title']))
 			{
-				$tpl->setCurrentBlock("event_commands");
-				$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','unregister'));
-				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('event_unregister'));
-				$tpl->parseCurrentBlock();
+				return false;
 			}
-			elseif($event_obj->enabledRegistration())
-			{
-				$tpl->setCurrentBlock("event_commands");
-				$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','register'));
-				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('event_register'));
-				$tpl->parseCurrentBlock();
-			}
-			if($this->is_tutor)
-			{
-				// Edit
-				$tpl->setCurrentBlock("event_commands");
-				$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','edit'));
-				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('edit'));
-				$tpl->parseCurrentBlock();
-
-
-				// Delete
-				$tpl->setCurrentBlock("event_commands");
-				$tpl->setVariable("EVENT_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','confirmDelete'));
-				$tpl->setVariable("EVENT_LINK_TXT",$this->lng->txt('delete'));
-				$tpl->parseCurrentBlock();
-			}
-
-			$event_items = $this->course_obj->items_obj->getItemsByEvent($event_obj->getEventId());
-			foreach ($event_items as $cont_data)
-			{
-				if($cont_data["child"] <= 0)
-				{
-					continue;
-				}
-				// BEGIN WebDAV: Render icon using list icon gui
-				$item_list_gui = $this->__getItemGUI($cont_data);
-					
-				$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
-														$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
-			
-				if (strlen($html))
-				// END WebDAV: Render icon using list icon gui
-				{
-					 /* Disabled: no manual sort
-					 foreach($this->__getOptions($cont_data,$num) as $key => $image)
-					 {
-						 $tpl->setCurrentBlock("img");
-						 $tpl->setVariable("IMG_TYPE",$image["gif"]);
-						 $tpl->setVariable("IMG_ALT",$image["lng"]);
-						 $tpl->setVariable("IMG_LINK",$image["lnk"]);
-						 $tpl->setVariable("IMG_TARGET",$image["tar"]);
-						 $tpl->parseCurrentBlock();
-					 }
-
-					 $tpl->setCurrentBlock("options");
-					 $tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
-					 $tpl->parseCurrentBlock();
-					 */
-
-					 if ($this->container_gui->isActiveAdministrationPanel())
-					 {
-						 $tpl->setCurrentBlock("block_row_check");
-						 $tpl->setVariable("ITEM_ID", $cont_data['ref_id']);
-						 $tpl->parseCurrentBlock();
-					 }
-
-					 // change row color
-					 $tpl->setVariable("ITEM_HTML",$html);
-					 $tpl->setVariable("MATERIAL_ROWCOL", ilUtil::switchColor($counter,"tblrow1","tblrow2"));
-					// BEGIN WebDAV: Render icon using list icon gui
-					 $tpl->setVariable("TYPE_IMG", ilUtil::getTypeIconPath($item_list_gui->getIconImageType(),$cont_data['obj_id'],'small'));
-					// END WebDAV: Render icon using list icon gui
-					 $tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
-				 }
-
-				 $tpl->setCurrentBlock("materials");
-				 $tpl->setVariable("ITEM_HTML",$html);
-				 $tpl->parseCurrentBlock();
-			}
-
-			$tpl->setCurrentBlock("tbl_content");
-			$tpl->setVariable("EVENT_ROWCOL",ilUtil::switchColor($counter,'tblrow1','tblrow2'));
-			$tpl->setVariable("EVENT_IMG",ilUtil::getImagePath('icon_event.gif'));
-			$tpl->setVariable("EVENT_ALT",$this->lng->txt('events'));
-			$tpl->setVariable("EVENT_TITLE",$event_obj->getTitle());
-
-			$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-			$tpl->setVariable("HREF_EVENT_TITLE",$this->ctrl->getLinkTargetByClass('ileventadministrationgui',
-																				   'info'));
-			if(strlen($desc = $event_obj->getDescription()))
-			{
-				$tpl->setVariable("EVENT_DESCRIPTION",$desc);
-			}
-			$tpl->setVariable("EVENT_TXT_DATE",$this->lng->txt('event_date'));
-			$tpl->setVariable("EVENT_DATE",$appointment_obj->appointmentToString());
-			$tpl->parseCurrentBlock();
-
-			$counter++;
 		}
+		// END WebDAV: Don't display hidden Files.
 
-		// create table
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-		$tbl = new ilTableGUI();
-		$tbl->setStyle('table','il_ContainerBlock');
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("events"),"icon_crs.gif",$this->lng->txt("events"));
-
-		if($this->is_tutor)
+		if($subitem)
 		{
-			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title"),
-									   ""));
-			$tbl->setHeaderVars(array("type","title","options"),
-								array("ref_id" => $this->course_obj->getRefId(),
-									  "cmdClass" => "ilobjcoursecontentgui",
-									  "cmdNode" => $_GET["cmdNode"]));
-			$tbl->setColumnWidth(array("1px","100%","24px"));
-			$tbl->disable("header");
+			$tpl = new ilTemplate('tpl.crs_subcontent_row.html',true,true,'Modules/Course');
 		}
 		else
 		{
-			$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title")));
-			$tbl->setHeaderVars(array("type","title"),
-								array("ref_id" => $this->course_obj->getRefId(),
-									  "cmdClass" => "ilobjcoursecontentgui",
-									  "cmdNode" => $_GET["cmdNode"]));
-			$tbl->setColumnWidth(array("1px",""));
-			$tbl->disable("header");
+			$row_num++;
+			$tpl = new ilTemplate('tpl.crs_content_row.html',true,true,'Modules/Course');
+		}
+		
+		
+		$item_list_gui = $this->__getItemGUI($cont_data);
+				
+		$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
+												$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
+												
+		if(!strlen($html))
+		{
+			return false;
+		}												
+												
+		if(!$subitem)
+		{
+			foreach($this->__getOptions($cont_data,$num) as $key => $image)
+			{
+				$tpl->setCurrentBlock("img");
+				$tpl->setVariable("IMG_TYPE",$image["gif"]);
+				$tpl->setVariable("IMG_ALT",$image["lng"]);
+				$tpl->setVariable("IMG_LINK",$image["lnk"]);
+				$tpl->setVariable("IMG_TARGET",$image["tar"]);
+				$tpl->parseCurrentBlock();
+			}
 		}
 
-		// footer
-		$tbl->disable("footer");
-		$tbl->disable('sort');
-		$tbl->disable("form");
+		if(!$subitem)
+		{
+			$tpl->setCurrentBlock("options");
+			$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($row_num,"tblrow1","tblrow2"));
+			$tpl->parseCurrentBlock();
+		}
 
-		// render table
-		$tbl->setTemplate($tpl);
-		$tbl->render();
+		if ($this->container_gui->isActiveAdministrationPanel())
+		{
+			$tpl->setCurrentBlock("block_row_check");
+			$tpl->setVariable("ITEM_ID", $cont_data['ref_id']);
+			$tpl->parseCurrentBlock();
+		}
 
-		$this->tpl->setCurrentBlock("cont_page_content");
-		$this->tpl->setVariable("CONTAINER_PAGE_CONTENT",$tpl->get());
-		$this->tpl->parseCurrentBlock();
+		// change row color
+		$tpl->setVariable("ITEM_HTML",$html);
+		$tpl->setVariable("ROWCOL", ilUtil::switchColor($row_num,"tblrow1","tblrow2"));
+		// BEGIN WebDAV: Render icon using list icon gui
+		$tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($item_list_gui->getIconImageType(),$cont_data['obj_id'],'small'));
+		// END WebDAV: Render icon using list icon gui
+		$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+		$tpl->setCurrentBlock("tbl_content");
+		$tpl->parseCurrentBlock();
+		
+		$html = $tpl->get();
+		
+		// show subitems
+		if($cont_data['type'] == 'sess')
+		{
+			foreach($this->course_obj->items_obj->getItemsByEvent($cont_data['obj_id']) as $item)
+			{
+				$html .= $this->displayRow($item,true);
+			}
+		}
+		return $html;
 	}
 
-	function __showMaterials()
+	function __showMaterials($a_selection)
 	{
 		global $ilAccess;
 
-		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
-
 		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
-		$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getId());
+		switch($a_selection)
+		{
+			case 'session':
+				$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getRefId());
+				$this->cont_arr = ilCourseItems::_sort(IL_CRS_SORT_ACTIVATION,$this->cont_arr);
+				break;
+				// Get all sessions => sort by start
+				
+			case 'nosession':
+				$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getRefId());
+				break;
+				// filtered => default sort
+				
+			case 'all':
+				$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getRefId());
+				break;
+				// all => sort default sort
+		}
 		
-
 		// NO ITEMS FOUND
 		if(!count($this->cont_arr))
 		{
@@ -769,91 +715,66 @@ class ilCourseContentGUI
 			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", "");
-			$this->container_gui->showAdministrationPanel($this->tpl);
 			return true;
 		}
 
 		// show course materials
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html",'Modules/Course');
 		$cont_num = count($this->cont_arr);
 		
 		$this->container_gui->clearAdminCommandsDetermination();
 
-		// render table content data
-		// counter for rowcolor change
 
 		$num = 0;
+		$html = '';
 		foreach ($this->cont_arr as $cont_data)
 		{
-			if(!$ilAccess->checkAccess('visible','',$cont_data['ref_id']))
+			switch($a_selection)
 			{
-				continue;
-			}
-			// BEGIN WebDAV: Don't display hidden Files.
-			if (! $this->container_gui->isActiveAdministrationPanel())
-			{
-				require_once 'Modules/File/classes/class.ilObjFileAccess.php';
-				if (ilObjFileAccess::_isFileHidden($cont_data['title']))
-				{
-					continue;
-				}
-			}
-			// END WebDAV: Don't display hidden Files.
-			
-			// BEGIN WebDAV: Render icon using list icon gui
-			$item_list_gui = $this->__getItemGUI($cont_data);
-				
-			$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
-													$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
-		
-			if(strlen($html))
-			// END WebDAV: Render icon using list icon gui
-			{
-				foreach($this->__getOptions($cont_data,$num) as $key => $image)
-				{
-					$tpl->setCurrentBlock("img");
-					$tpl->setVariable("IMG_TYPE",$image["gif"]);
-					$tpl->setVariable("IMG_ALT",$image["lng"]);
-					$tpl->setVariable("IMG_LINK",$image["lnk"]);
-					$tpl->setVariable("IMG_TARGET",$image["tar"]);
-					$tpl->parseCurrentBlock();
-				}
-
-				$tpl->setCurrentBlock("options");
-				$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
-				$tpl->parseCurrentBlock();
-
-				if ($this->container_gui->isActiveAdministrationPanel())
-				{
-					$tpl->setCurrentBlock("block_row_check");
-					$tpl->setVariable("ITEM_ID", $cont_data['ref_id']);
-					$tpl->parseCurrentBlock();
-				}
-
-				// change row color
-				$tpl->setVariable("ITEM_HTML",$html);
-				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
-				// BEGIN WebDAV: Render icon using list icon gui
-				$tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($item_list_gui->getIconImageType(),$cont_data['obj_id'],'small'));
-				// END WebDAV: Render icon using list icon gui
-				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
-				$tpl->setCurrentBlock("tbl_content");
-				$tpl->parseCurrentBlock();
-				// BEGIN WebDAV: increment counter only, if item is visible
-				// increment counter
-				$num++;
-				// END WebDAV: increment counter only, if item is visible
+				case 'all':
+					$html .= $this->displayRow($cont_data,$item_list_gui);
+					break;
+					
+				case 'session':
+					if($cont_data['type'] == 'sess')
+					{
+						$html .= $this->displayRow($cont_data,$item_list_gui);
+					}
+					break;
+					
+				case 'nosession':
+					if($cont_data['type'] != 'sess')
+					{
+						$html .= $this->displayRow($cont_data,$item_list_gui);
+					}
+					break;
 			}
 		}
-
+		if(strlen($html))
+		{
+			$tpl->setVariable('TBL_CONTENT',$html);
+		}
+		else
+		{
+			return true;
+		}
 		// create table
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
 		$tbl->setStyle('table','il_ContainerBlock');
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("crs_content"),"icon_crs.gif",$this->lng->txt("courses"));
+		
+		if($a_selection == 'session')
+		{
+			$title = $this->lng->txt('events');
+		}
+		else
+		{
+			$title = $this->lng->txt("crs_content");			
+		}
+		$tbl->setTitle($title,"icon_crs.gif",$title);
+		
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		if($this->is_tutor)
@@ -891,7 +812,6 @@ class ilCourseContentGUI
 		$this->tpl->setCurrentBlock("cont_page_content");
 		$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", $tpl->get());
 		$this->tpl->parseCurrentBlock();
-		$this->container_gui->showAdministrationPanel($this->tpl);
 
 		return true;
 
@@ -1332,7 +1252,7 @@ class ilCourseContentGUI
 		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
 		$items =& $this->items_obj->getItems();
 
-		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getId()),
+		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getRefId()),
 								 ilEvent::_getEventsAsArray($this->course_obj->getId()));
 		$sorted_items = $this->__sortByStart($all_items);
 
@@ -1385,7 +1305,7 @@ class ilCourseContentGUI
 
 		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
 
-		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getId()),
+		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getRefId()),
 								 ilEvent::_getEventsAsArray($this->course_obj->getId()));
 		$sorted_items = $this->__sortByStart($all_items);
 
@@ -1787,7 +1707,7 @@ class ilCourseContentGUI
 
 		// ACTIVATION
 		$activation = '';
-		if($cont_data['timing_type'] != IL_CRS_TIMINGS_DEACTIVATED)
+		if($cont_data['timing_type'] != IL_CRS_TIMINGS_DEACTIVATED and $cont_data['timing_type'] != IL_CRS_TIMINGS_FIXED)
 		{
 			$long = $cont_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION;
 
@@ -1889,145 +1809,6 @@ class ilCourseContentGUI
 		return $images ? $images : array();
 	}
 
-
-	function __showMaterial(&$tpl,$cont_data,$num)
-	{
-		include_once './classes/class.ilObjectListGUIFactory.php';
-
-		// ACTIVATION
-		$activation = '';
-		if($cont_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION)
-		{
-			$activation = ilFormat::formatUnixTime($cont_data['start'],true).' - '.
-				ilFormat::formatUnixTime($cont_data['end'],true);
-		}
-
-		// get item list gui object
-		if (!is_object ($this->list_gui[$cont_data["type"]]))
-		{
-			$item_list_gui =& ilObjectListGUIFactory::_getListGUIByType($cont_data["type"]);
-
-			$item_list_gui->setContainerObject($this->container_gui);
-			// Enable/disable subscription depending on course settings
-			$item_list_gui->enableSubscribe($this->course_obj->getAboStatus());
-
-			$this->list_gui[$cont_data["type"]] =& $item_list_gui;
-		}
-		else
-		{
-			$item_list_gui =& $this->list_gui[$cont_data["type"]];
-		}
-
-		// show administration command buttons (or not)
-		if (!$this->container_gui->isActiveAdministrationPanel())
-		{
-			$item_list_gui->enableDelete(false);
-			$item_list_gui->enableLink(false);
-			$item_list_gui->enableCut(false);
-		}
-
-		// add activation custom property
-		if ($activation != "")
-		{
-			$item_list_gui->addCustomProperty($this->lng->txt($cont_data['activation_info']), $activation,
-											  false, true);
-		}
-
-		if($this->is_tutor)
-		{
-			$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
-											 $this->container_obj->getRefId());
-			$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
-											 $cont_data['child']);
-
-			$item_list_gui->addCustomCommand($this->ctrl->getLinkTargetByClass('ilCourseItemAdministrationGUI',
-																			   'edit'),
-											 'activation');
-		}
-
-		$html = $item_list_gui->getListItemHTML($cont_data['ref_id'],
-												$cont_data['obj_id'], $cont_data['title'], $cont_data['description']);
-
-		$this->container_gui->determineAdminCommands($cont_data['ref_id'],
-													 $item_list_gui->adminCommandsIncluded());
-
-		if(strlen($html))
-		{
-			$tpl->setVariable("ITEM_HTML", $html);
-		}
-
-		// OPTIONS
-		if($this->is_tutor)
-		{
-			$images = array();
-			if($this->course_obj->getOrderType() == $this->course_obj->SORT_MANUAL)
-			{
-				if($num != 0)
-				{
-					$tmp_array["gif"] = ilUtil::getImagePath("a_up.gif");
-					$tmp_array["lng"] = $this->lng->txt("crs_move_up");
-
-					$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
-													 $this->container_obj->getRefId());
-					$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
-													 $cont_data['child']);
-					$tmp_array['lnk'] = $this->ctrl->getLinkTargetByClass('ilcourseitemadministrationgui','moveUp');
-					$tmp_array["tar"] = "";
-
-					$images[] = $tmp_array;
-				}
-				if($num != count($this->cont_arr) - 1)
-				{
-					$tmp_array["gif"] = ilUtil::getImagePath("a_down.gif");
-					$tmp_array["lng"] = $this->lng->txt("crs_move_down");
-					$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
-													 $this->container_obj->getRefId());
-					$this->ctrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
-													 $cont_data['child']);
-					$tmp_array['lnk'] = $this->ctrl->getLinkTargetByClass('ilcourseitemadministrationgui','moveDown');
-
-					$images[] = $tmp_array;
-				}
-			}
-
-			foreach($images as $key => $image)
-			{
-				$tpl->setCurrentBlock("img");
-				$tpl->setVariable("IMG_TYPE",$image["gif"]);
-				$tpl->setVariable("IMG_ALT",$image["lng"]);
-				$tpl->setVariable("IMG_LINK",$image["lnk"]);
-				$tpl->setVariable("IMG_TARGET",$image["tar"]);
-				$tpl->parseCurrentBlock();
-			}
-			unset($images);
-
-			$tpl->setCurrentBlock("options");
-			$tpl->setVariable("OPT_ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
-			$tpl->parseCurrentBlock();
-		} // END write perm
-
-		if(strlen($html))
-		{
-			if ($this->container_gui->isActiveAdministrationPanel())
-			{
-				$tpl->setCurrentBlock("block_row_check");
-				$tpl->setVariable("ITEM_ID", $cont_data['ref_id']);
-				$tpl->parseCurrentBlock();
-				//$nbsp = false;
-			}
-
-			// change row color
-			$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow1","tblrow2"));
-			$tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($cont_data['type'],$cont_data['obj_id'],'small'));
-			#$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
-			$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
-			$tpl->setCurrentBlock("tbl_content");
-			$tpl->parseCurrentBlock();
-			// increment counter
-			return ++$num;
-		}
-		return $num;
-	}
 
 	function __showFeedback()
 	{

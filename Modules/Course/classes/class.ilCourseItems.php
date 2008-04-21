@@ -34,6 +34,7 @@
 define('IL_CRS_TIMINGS_ACTIVATION',0);
 define('IL_CRS_TIMINGS_DEACTIVATED',1);
 define('IL_CRS_TIMINGS_PRESETTING',2);
+define('IL_CRS_TIMINGS_FIXED',3);
 
 class ilCourseItems
 {
@@ -307,14 +308,13 @@ class ilCourseItems
 	/**
 	* Get all items. (No events, no side blocks)
 	*/
-	function getFilteredItems($a_container_id)
+	function getFilteredItems($a_container_ref_id)
 	{
 		global $objDefinition;
 		
-		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
+		include_once 'Modules/Session/classes/class.ilEventItems.php';
 
-		$event_items = ilEventItems::_getItemsOfContainer($a_container_id);
-
+		$event_items = ilEventItems::_getItemsOfContainer($a_container_ref_id);
 		foreach($this->items as $item)
 		{
 			if(!in_array($item['ref_id'],$event_items) &&
@@ -328,7 +328,7 @@ class ilCourseItems
 
 	function getItemsByEvent($a_event_id)
 	{
-		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
+		include_once 'Modules/Session/classes/class.ilEventItems.php';
 
 		$event_items_obj = new ilEventItems($a_event_id);
 		$event_items = $event_items_obj->getItems();
@@ -613,9 +613,22 @@ class ilCourseItems
 				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$a_item['visible']				= $row->visible;
 			$a_item["position"]				= $row->position;
-
+			
 			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 			$data = ilTimingPlaned::_getPlanedTimings($this->getUserId(),$a_item['child']);
+
+			if($ilObjDataCache->lookupType($obj_id = $ilObjDataCache->lookupObjId($row->obj_id)) == 'sess')
+			{
+				include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+				$info = ilSessionAppointment::_lookupAppointment($obj_id);
+				$a_item['timing_type'] = IL_CRS_TIMINGS_FIXED;
+				$a_item['start'] = $info['start'];
+				$a_item['end'] = $info['end'];
+				$a_item['fullday'] = $info['fullday'];
+				$a_item['activation_info'] = 'crs_timings_suggested_info';
+				continue;
+			}
+
 
 			// Check for user entry
 			if($a_item['changeable'] and 
@@ -792,7 +805,7 @@ class ilCourseItems
 
 	function __isMovable($a_ref_id)
 	{
-		include_once 'Modules/Course/classes/Event/class.ilEventItems.php';
+		include_once 'Modules/Session/classes/class.ilEventItems.php';
 
 		global $ilObjDataCache;
 
@@ -831,6 +844,51 @@ class ilCourseItems
 		$res = $this->ilDB->query($query);
 
 		return true;
+	}
+	
+	/**
+	 * sort items
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function _sort($a_sort_mode,$a_items)
+	{
+		switch($a_sort_mode)
+		{
+			case IL_CRS_SORT_MANUAL:
+				return ilUtil::sortArray($a_items,"position","asc",true);
+				break;
+
+			case IL_CRS_SORT_TITLE:
+				return ilUtil::sortArray($a_items,"title","asc");
+				break;
+
+			case IL_CRS_SORT_ACTIVATION:
+				// Sort by starting time. If mode is IL_CRS_TIMINGS_DEACTIVATED then sort these items by title and append
+				// them to the array.
+				$inactive = $active = array();
+				foreach($a_items as $item)
+				{
+					if($item['timing_type'] == IL_CRS_TIMINGS_DEACTIVATED)
+					{
+						$inactive[] = $item;
+					}
+					else
+					{
+						$active[] = $item;
+					}
+				}
+				$sorted_active = ilUtil::sortArray($active,"start","asc");
+				$sorted_inactive = ilUtil::sortArray($inactive,'title','asc');
+				
+				return array_merge($sorted_active,$sorted_inactive);
+				break;
+		}
+		return true;
+		
 	}
 
 

@@ -53,7 +53,7 @@ class ilAbstractSearch
 	 * List of all searchable objects
 	 */
 	var $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
-						 'chat','icrs','icla','webr','mcst');
+						 'chat','icrs','icla','webr','mcst','sess');
 
 
 	/**
