@@ -1,35 +1,35 @@
 <?php
-  /*
-   +-----------------------------------------------------------------------------+
-   | ILIAS open source                                                           |
-   +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-   |                                                                             |
-   | This program is free software; you can redistribute it and/or               |
-   | modify it under the terms of the GNU General Public License                 |
-   | as published by the Free Software Foundation; either version 2              |
-   | of the License, or (at your option) any later version.                      |
-   |                                                                             |
-   | This program is distributed in the hope that it will be useful,             |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-   | GNU General Public License for more details.                                |
-   |                                                                             |
-   | You should have received a copy of the GNU General Public License           |
-   | along with this program; if not, write to the Free Software                 |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-   +-----------------------------------------------------------------------------+
-  */
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+ */
 
 
-  /**
-   * Soap rbac administration methods
-   *
-   * @author Stefan Meyer <smeyer@databay.de>
-   * @version $Id$
-   *
-   * @package ilias
-   */
+/**
+ * Soap rbac administration methods
+ *
+ * @author Stefan Meyer <smeyer@databay.de>
+ * @version $Id$
+ *
+ * @package ilias
+ */
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapRBACAdministration extends ilSoapAdministration
@@ -324,7 +324,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid ref id given. Please choose an existing reference id of an ILIAS object',
 									   'Client');
 		}
-		
+
 		if(ilObject::_isInTrash($target_id))
 		{
 			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
@@ -369,8 +369,8 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			}
 			$rolf_obj =& ilObjectFactory::getInstanceByRefId($rolf_id);
 			$role_obj = $rolf_obj->createRole($object_data['title'],$object_data['description'],
-				$object_data['import_id']);
-//echo "-".$object_data['import_id']."-";
+			$object_data['import_id']);
+			//echo "-".$object_data['import_id']."-";
 			$new_roles[] = $role_obj->getId();
 		}
 
@@ -492,7 +492,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid user id given.',
 									   'Client');
 		}
-		
+
 		if(ilObject::_isInTrash($ref_id))
 		{
 			return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
@@ -555,17 +555,107 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
 
 		if (strcasecmp($role_type,"") != 0 &&
-			strcasecmp($role_type,"local") != 0 &&
-			strcasecmp($role_type,"global") != 0 &&
-			strcasecmp($role_type,"user") != 0 &&
-			strcasecmp($role_type,"user_login") != 0 &&			
-			strcasecmp($role_type,"template") != 0)
+		strcasecmp($role_type,"local") != 0 &&
+		strcasecmp($role_type,"global") != 0 &&
+		strcasecmp($role_type,"user") != 0 &&
+		strcasecmp($role_type,"user_login") != 0 &&
+		strcasecmp($role_type,"template") != 0)
 		{
 			return $this->__raiseError('Called service with wrong role_type parameter \''.$role_type.'\'','Client');
 		}
-		
-		$roles = $this->_getRoles($role_type, $id);
-		
+
+		$roles = array();
+
+
+		if (strcasecmp($role_type,"template") == 0)
+		// get templates
+		{
+			$roles = $rbacreview->getRolesByFilter(6, $ilUser->getId());
+		} elseif (strcasecmp($role_type,"user")==0 || strcasecmp($role_type,"user_login")==0)
+		// handle user roles
+		{
+			$user_id = $this->parseUserID($id, $role_type);
+			if ($user_id != $ilUser->getId())
+			// check access for user folder
+			{
+				$tmpUser = new ilObjUser($user_id);
+				$timelimitOwner = $tmpUser->getTimeLimitOwner();
+				if(!$rbacsystem->checkAccess('read',$timelimitOwner))
+				{
+					return $this->__raiseError('Check access for time limit owner failed.','Server');
+				}
+			}
+			$role_type = ""; // local and global roles for user
+
+			$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.rol_id IN ('%s') AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id AND rbac_ua.usr_id=".$user_id,
+			join ("','", $rbacreview->assignedRoles($user_id))
+			);
+
+			$rbacresult = $ilDB->query($query);
+			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				if ($rbacrow["assign"] != "y")
+				continue;
+
+				$type = "";
+
+				if ($rbacrow["parent"] == ROLE_FOLDER_ID)
+				{
+					$type = "Global";
+				}
+				else
+				{
+					$type = "Local";
+				}
+				if (strlen($type) && $tmp_obj = ilObjectFactory::getInstanceByObjId($rbacrow["rol_id"],false))
+				{
+					/* @var $tmp_obj IlObjRole */
+					$roles[] = array (
+			                "obj_id" =>$rbacrow["rol_id"],
+				            "title" => $tmp_obj->getTitle(),
+				            "description" => $tmp_obj->getDescription(),
+				            "role_type" => $type);
+				}
+			}
+		} elseif ($id == "-1")
+		// get all roles of system role folder
+		{
+			if(!$rbacsystem->checkAccess('read',ROLE_FOLDER_ID))
+			{
+				return $this->__raiseError('Check access failed.','Server');
+			}
+
+			$roles = $rbacreview->getAssignableRoles(false, true);
+		}
+		else
+		// get local roles for a specific repository object
+		// needs permission to read permissions of this object
+		{
+			if(!$rbacsystem->checkAccess('edit_permission',$id))
+			{
+				return $this->__raiseError('Check access for local roles failed.','Server');
+			}
+
+			if (!is_numeric($id)) {
+				return $this->__raiseError('Id must be numeric to process roles of a repository object.','Client');
+			}
+
+			$role_type = "local";
+
+			$role_folder = $rbacreview->getRoleFolderOfObject($id);
+
+			if(count($role_folder))
+			{
+				foreach($rbacreview->getRolesOfRoleFolder($role_folder['ref_id'],false) as $role_id)
+				{
+					if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
+					{
+						$roles[] = array ("obj_id" => $role_id, "title" => $tmp_obj->getTitle(), "description" => $tmp_obj->getDescription(), "role_type" => $role_type);
+					}
+				}
+			}
+		}
+
 
 		include_once './webservice/soap/classes/class.ilSoapRoleObjectXMLWriter.php';
 
@@ -585,11 +675,11 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 	 * @param String $searchterms comma separated search terms
 	 * @param String $operator must be or or and
 	 * @param String  $role_type can be empty which means "local & global", "local", "global", "user" = roles of user, "user_login" or "template"
-	 * 
+	 *
 	 */
-	
-	function searchRoles ($sid, $key, $combination, $role_type) 
-	{	
+
+	function searchRoles ($sid, $key, $combination, $role_type)
+	{
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
@@ -599,22 +689,22 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		include_once './include/inc.header.php';
 
 		global $rbacsystem, $rbacreview, $ilUser, $ilDB;
-		
-		
+
+
 		if (strcasecmp($role_type,"") != 0 &&
-			strcasecmp($role_type,"local") != 0 &&
-			strcasecmp($role_type,"global") != 0 && 			
-			strcasecmp($role_type,"template") != 0)
+		strcasecmp($role_type,"local") != 0 &&
+		strcasecmp($role_type,"global") != 0 &&
+		strcasecmp($role_type,"template") != 0)
 		{
 			return $this->__raiseError('Called service with wrong role_type parameter \''.$role_type.'\'','Client');
 		}
-		
+
 		if($combination != 'and' and $combination != 'or')
 		{
 			return $this->__raiseError('No valid combination given. Must be "and" or "or".',
 									   'Client');
 		}
-		
+
 		include_once './Services/Search/classes/class.ilQueryParser.php';
 
 		$query_parser =& new ilQueryParser($key);
@@ -633,13 +723,13 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 		$res = $object_search->performSearch();
 		$res->filter(ROOT_FOLDER_ID, $combination == 'and' ? true : false);
-		
+
 		$obj_ids = array();
 		foreach($res->getUniqueResults() as $entry)
 		{
-			$obj_ids [] = $entry['obj_id'];			
+			$obj_ids [] = $entry['obj_id'];
 		}
-		
+
 		$roles = array();
 		if (count($obj_ids)> 0 )
 		{
@@ -655,128 +745,31 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		{
 			return $xml_writer->getXML();
 		}
-		
+
 			
 	}
-	
-	private function _getRoles($role_type, $id)
-	{
-		global $ilUser, $rbacsystem, $rbacreview, $ilDB;
-		
-		$roles = array();
-	
-		
-		if (strcasecmp($role_type,"template") == 0) 		
-		// get templates
-		{
-			$roles = $rbacreview->getRolesByFilter(6, $ilUser->getId());
-		} elseif (strcasecmp($role_type,"user")==0 || strcasecmp($role_type,"user_login")==0)
-		// handle user roles		
-		{
-			$user_id = $this->parseUserID($id, $role_type);
-            if ($user_id != $ilUser->getId())
-            // check access for user folder
-            {
-                $tmpUser = new ilObjUser($user_id);
-                $timelimitOwner = $tmpUser->getTimeLimitOwner();
-                if(!$rbacsystem->checkAccess('read',$timelimitOwner))
-		        {
-			       return $this->__raiseError('Check access for time limit owner failed.','Server');
-		        }
-            }
-	        $role_type = ""; // local and global roles for user
-	        			            
-    		$query = sprintf("SELECT object_data.title, rbac_fa.* FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.rol_id IN ('%s') AND rbac_ua.rol_id = rbac_fa.rol_id AND object_data.obj_id = rbac_fa.rol_id AND rbac_ua.usr_id=".$user_id,
-					join ("','", $rbacreview->assignedRoles($user_id))
-			);
 
-			$rbacresult = $ilDB->query($query);
-			while ($rbacrow = $rbacresult->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-					if ($rbacrow["assign"] != "y")
-						continue;
 
-					$type = "";
-
-					if ($rbacrow["parent"] == ROLE_FOLDER_ID)
-					{
-						$type = "Global";
-					}
-					else
-					{
-						$type = "Local";
-					}
-					if (strlen($type) && $tmp_obj = ilObjectFactory::getInstanceByObjId($rbacrow["rol_id"],false))
-					{
-				        /* @var $tmp_obj IlObjRole */
-			             $roles[] = array (
-			                "obj_id" =>$rbacrow["rol_id"],
-				            "title" => $tmp_obj->getTitle(),
-				            "description" => $tmp_obj->getDescription(),
-				            "role_type" => $type);
-			        }
-			}
-		} elseif ($id == "-1")
-		// get all roles of system role folder
-		{
-    		if(!$rbacsystem->checkAccess('read',ROLE_FOLDER_ID))
-    		{
-	   		  return $this->__raiseError('Check access failed.','Server');
-		    }
-
-		    $roles = $rbacreview->getAssignableRoles(false, true);
-		}
-		else
-		// get local roles for a specific repository object
-		// needs permission to read permissions of this object
-		{
-       		if(!$rbacsystem->checkAccess('edit_permission',$id))
-	   	    {
-		  	   return $this->__raiseError('Check access for local roles failed.','Server');
-		    }
-
-            if (!is_numeric($id)) {
-               return $this->__raiseError('Id must be numeric to process roles of a repository object.','Client');
-            }
-
-		    $role_type = "local";
-
-            $role_folder = $rbacreview->getRoleFolderOfObject($id);
-
-		    if(count($role_folder))
-		    {
-			   foreach($rbacreview->getRolesOfRoleFolder($role_folder['ref_id'],false) as $role_id)
-			   {
-			     if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
-			     {
-	   			         $roles[] = array ("obj_id" => $role_id, "title" => $tmp_obj->getTitle(), "description" => $tmp_obj->getDescription(), "role_type" => $role_type);
-		  	   	 }
-			   }
-		    }
-		}
-		return $roles;
-	}
-	
 	private function parseUserID ($id, $role_type) {
 		if (strcasecmp($role_type,"user")==0)
 		// get user roles for user id, which can be numeric or ilias id
 		{
-	        $user_id = !is_numeric($id) ? ilUtil::__extractId($id, IL_INST_ID) : $id; 
-	        if (!is_numeric($user_id))
+			$user_id = !is_numeric($id) ? ilUtil::__extractId($id, IL_INST_ID) : $id;
+			if (!is_numeric($user_id))
 			{
 				return $this->__raiseError('ID must be either numeric or ILIAS conform id for type \'user\'','Client');
-			}                        
+			}
 		} elseif (strcasecmp($role_type, "user_login") == 0)
-	        // check for login
-	    {
-	      	$user_id = ilObjUser::_lookupId($id);
-	        if (!$user_id)
-	            // could not find a valid user
-	        {
-	          	return $this->__raiseError('User with login \''.$id.'\' does not exist!','Client');
-			}					
-	    }
-		return $user_id;		
+		// check for login
+		{
+			$user_id = ilObjUser::_lookupId($id);
+			if (!$user_id)
+			// could not find a valid user
+			{
+				return $this->__raiseError('User with login \''.$id.'\' does not exist!','Client');
+			}
+		}
+		return $user_id;
 	}
 }
 ?>
