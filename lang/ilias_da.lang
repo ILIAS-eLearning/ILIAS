@@ -4188,7 +4188,7 @@ delic#:#delic_user_profile#:#Aktiver del.icio.us kontoindstillinger i brugerprof
 gmaps#:#gmaps_api_key#:#API nøgle
 gmaps#:#gmaps_public_profile_info#:#Vis placering i offentlig profil
 gmaps#:#gmaps_enable_gmaps#:#Aktiver Google Maps
-gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.###02 04 2007 new variable
+gmaps#:#gmaps_enable_gmaps_info#:#Aktiver Google Maps i brugerprofiler, grupper og kurser
 gmaps#:#gmaps_zoom_level#:#Zoom niveau
 gmaps#:#gmaps_settings#:#Google Maps indstillinger
 gmaps#:#gmaps_extt_gmaps#:#Google Maps
@@ -6943,7 +6943,7 @@ survey#:#invited_users#:#Inviterede brugere
 survey#:#label_resume_survey#:#Indtast din 32-cifrede spørgeskemakode
 survey#:#layout#:#Layout###22 12 2006 new variable
 survey#:#lower_limit#:#Laveste grænse
-survey#:#manage_phrases#:#Manage phrases###21 Apr 2005 new variable
+survey#:#manage_phrases#:#Standard fraser
 survey#:#material_added_successfully#:#You successfully set a material link!###21 Apr 2005 new variable
 survey#:#matrix_error_no_columns#:#Udfyld venligst mindst en kolonnetekst
 survey#:#matrix_error_no_rows#:#Udfyld venligst mindst en rækketekst
