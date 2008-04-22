@@ -257,7 +257,7 @@ common#:#adopt#:#Vedhæft###Bruges f.eks ved filer/mail
 common#:#advanced_editing_allow_html_tags#:#Tillad valgte HTML tags i tekstredigering
 common#:#advanced_editing_allow_javascript_editor#:#Brug rig tekst redigering
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool
-common#:#advanced_editing_cat_page_editing#:#Enable Content Editing for Category Pages
+common#:#advanced_editing_cat_page_editing#:#Aktiver indholdsredigering på kategorisider
 common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
@@ -267,7 +267,7 @@ common#:#advanced_editing_settings#:#Indstillinger for avanceret redigering
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test & Assessment Settings
-common#:#adve_cat_settings#:#Category Settings
+common#:#adve_cat_settings#:#Kategoriindstillinger
 common#:#adve_edit_permission#:#Ændre rettighedsindstillinger
 common#:#adve_general_settings#:#General Settings
 common#:#adve_lm_settings#:#LM / Glossary Settings
@@ -517,7 +517,7 @@ common#:#cat_create_lm#:#Opret ILIAS Læremodul
 common#:#cat_create_mep#:#Opret afstemning
 common#:#cat_create_qpl#:#Opret Spørgsmålsbeholder til tests
 common#:#cat_create_sahs#:#Opret SCORM/AICC Læremodul
-common#:#cat_create_spl#:#Opret Spørgsmålsbeholder til afstemninger/undersøgelser
+common#:#cat_create_spl#:#Opret spørgsmål til afstemninger/undersøgelser
 common#:#cat_create_svy#:#Opret undersøgelse
 common#:#cat_create_tst#:#Opret test
 common#:#cat_create_url#:#Opret URL
@@ -526,13 +526,13 @@ common#:#cat_delete#:#Slet kategori
 common#:#cat_edit#:#Rediger kategori
 common#:#cat_edit_permission#:#Ændre rettighedsindstillinger
 common#:#cat_new#:#Ny kategori
-common#:#cat_pages#:#Category Pages
-common#:#cat_pages_clear#:#Category page cleared.
+common#:#cat_pages#:#Kategorisider
+common#:#cat_pages_clear#:#Kategoriside renset.
 common#:#cat_pages_not_created#:#Category page not createded yet.
-common#:#cat_pages_undone#:#Last changes for cagegory page undone.
+common#:#cat_pages_undone#:#De seneste ændringer for kategorisiden er rullet tilbage.
 common#:#cat_read#:#Læserettigheder til kategori
 common#:#cat_read_users#:#Læserettigheder til lokale brugere
-common#:#cat_undo_last_page_changes#:#Undo Last Page Changes
+common#:#cat_undo_last_page_changes#:#Tilbagerul seneste sideændringer
 common#:#cat_visible#:#Kategorien er synlig
 common#:#cat_write#:#Rediger kategori
 common#:#categories#:#Kategorier
@@ -820,14 +820,14 @@ common#:#enable_calendar#:#Aktiver kalender
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_fora_statistics#:#Aktiver statistik i fora
-common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
+common#:#enable_fora_statistics_desc#:#Hvis deaktiveret har ingen adgang til forumstatistik.
 common#:#enable_hist_user_comments#:#Aktiver brugerfiler i loggen
 common#:#enable_hist_user_comments_desc#:#Giver forfatteren mulighed for at tilføje bemærkninger til loghistorikkens sider.
 common#:#enable_js_edit#:#Tillad JavaScript redigering
 common#:#enable_js_edit_info#:#Denne mulighed aktiverer JavaScriptredigering for alle indholdselementer (ILIAS læremoduler, ordbøger, spørgeskemaer, Digilibbøger)
 common#:#enable_password_assistance#:#Aktiver passwordhjælp
 common#:#enable_registration#:#Aktiver en ny registrering
-common#:#enable_trash#:#Enable Trash
+common#:#enable_trash#:#Aktiver skrald
 common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash and may be recovered later. When deactivating this option deleted Objects are removed irreversibly from the System!
 common#:#enabled#:#Aktiveret
 common#:#enter_filename_deliver#:#Lav øvelse før aflevering
@@ -1981,7 +1981,7 @@ common#:#obj_recf#:#Gendannede objekter
 common#:#obj_recf_desc#:#Indeholder gendannede objekter fra systemcheck.
 common#:#obj_role#:#Rolle
 common#:#obj_nwss#:#Nyheds og web feed indstillinger
-common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.###25 02 2007 new variable
+common#:#obj_nwss_desc#:#Indstillinger for interne nyheder og eksterne web feeds.
 common#:#obj_rolf#:#Roller
 common#:#obj_rolf_desc#:#Administrer dine roller her.
 common#:#obj_rolf_local#:#Lokale roller
@@ -3102,7 +3102,7 @@ assessment#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
 assessment#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
 assessment#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
 assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
-assessment#:#certificate_ph_introduction#:#The following placeholders may be used###11 10 2006 new variable
+assessment#:#certificate_ph_introduction#:#Nedenstående pladsholdere kan bruges
 assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###11 10 2006 new variable
 assessment#:#certificate_ph_firstname#:#First name of the user###11 10 2006 new variable
 assessment#:#certificate_ph_lastname#:#Last name of the user###11 10 2006 new variable
@@ -4079,17 +4079,17 @@ form#:#form_msg_file_cannot_write_to_disk#:#Kan ikke skrive til disken.
 form#:#form_msg_file_upload_stopped_ext#:#File upload stopped by extension.###02 04 2007 new variable
 form#:#form_msg_file_wrong_file_type#:#Forkert filtype.
 form#:#form_msg_file_virus_found#:#Virus fundet i uploaded fil
-form#:#form_days#:#Days###02 04 2007 new variable
-form#:#form_hours#:#Hours###02 04 2007 new variable
-form#:#form_minutes#:#Minutes###02 04 2007 new variable
-form#:#form_seconds#:#Seconds###02 04 2007 new variable
-pd#:#pd_settings#:#Personal Desktop Settings###02 04 2007 new variable
-pd#:#pd_enable_block_moving#:#Enable Block Moving###02 04 2007 new variable
+form#:#form_days#:#Dage
+form#:#form_hours#:#Timer
+form#:#form_minutes#:#Minutter
+form#:#form_seconds#:#Sekunder
+pd#:#pd_settings#:#Personlige skrivebordsindstillinger
+pd#:#pd_enable_block_moving#:#Aktiver blok-flytning
 pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.###02 04 2007 new variable
 pd#:#pd_enable_active_users#:#Enable Active Users Block###29 05 2007 new variable
-pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new variable
-pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
-pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
+pd#:#pd_time_before_removal#:#Maksimal inaktivitet (minutter)
+pd#:#pd_time_before_removal_info#:#Efter inaktivitet fjernes brugere fra listen over aktive brugere.
+pd#:#pd_osi_host#:#OSI vært
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
 pd#:#pd_enable_bookmarks#:#Aktiver foretrukne
 pd#:#pd_enable_notes#:#Aktiver noter
@@ -4199,10 +4199,10 @@ jsmath#:#jsmath_extt_jsmath#:#jsMath
 jsmath#:#jsmath_settings#:#jsMath indstillinger
 jsmath#:#jsmath_enable_jsmath#:#Aktiver jsMath
 jsmath#:#jsmath_enable_jsmath_info#:#Activates support for jsMath based mathematical output of LaTeX expressions.###29 05 2007 new variable
-jsmath#:#jsmath_path_to_jsmath#:#Sti to jsMath###29 05 2007 new variable
+jsmath#:#jsmath_path_to_jsmath#:#Sti to jsMath
 jsmath#:#jsmath_path_to_jsmath_desc#:#The path to the jsMath base directory relative to the ILIAS base directory, e.g. &quot;./Services/Javascript/jsMath&quot;###29 05 2007 new variable
 jsmath#:#jsmath_path_not_found#:#Cannot find jsMath.js in the given path. Please check the jsMath location on the server!###29 05 2007 new variable
-jsmath#:#jsmath_enable_user#:#Enable jsMath support###29 05 2007 new variable
+jsmath#:#jsmath_enable_user#:#Aktiver jsMath understøttelse
 jsmath#:#jsmath_enable_user_desc#:#Activate jsMath for the output of mathematical formulae. jsMath output produces scaleable formulae and requires activated Javascript. When jsMath output is deactived, formulae will be rendered as graphics.###29 05 2007 new variable
 jsmath#:#jsmath_default_setting#:#Brug som standard
 jsmath#:#jsmath_default_setting_info#:#If checked, jsMath will be used as default method to render LaTeX code for all users who did not enable or disable the jsMath support in their personal profile settings.###29 05 2007 new variable
@@ -4235,13 +4235,13 @@ content#:#cont_Number#:#Nummer
 content#:#cont_Poly#:#Polygon###21 Apr 2005 new variable
 content#:#cont_Rect#:#Rektangel
 content#:#cont_Remark#:#Bemærkning
-content#:#cont_TableContent#:#Table Content###21 Apr 2005 new variable
+content#:#cont_TableContent#:#Tabelindhold
 content#:#cont_Unordered#:#Usorteret
 content#:#cont_act_number#:#Kapitelnummerering
 content#:#cont_activate_page#:#Activate Page
 content#:#cont_active#:#Aktiver Menu
 content#:#cont_add_area#:#Tilføj område
-content#:#cont_add_change_comment#:#Add change comment###21 Apr 2005 new variable
+content#:#cont_add_change_comment#:#Tilføj ændringskommentar
 content#:#cont_add_definition#:#tilføj Definition
 content#:#cont_add_fullscreen#:#Tilføj Fuldskærmd
 content#:#cont_added_comment#:#Comment has been added to history.###21 Apr 2005 new variable
@@ -4291,16 +4291,16 @@ content#:#cont_content#:#Indhold
 content#:#cont_content_obj#:#Indholdsobjekt
 content#:#cont_contents#:#Indholdsfortegnelse
 content#:#cont_coords#:#Koordinater
-content#:#cont_copy_object#:#copy object###21 Apr 2005 new variable
+content#:#cont_copy_object#:#Kopier objekt
 content#:#cont_copy_to_clipboard#:#Kopier til udklipsholder
-content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
+content#:#cont_copy_to_media_pool#:#Kopier til mediebibliotek
 content#:#cont_create_dir#:#Opret bibliotek
 content#:#cont_create_export_file#:#Opret eksportfil
 content#:#cont_create_export_file_html#:#Opret eksportfil (HTML)
 content#:#cont_create_export_file_scorm#:#Opret eksportfil (SCORM)
 content#:#cont_create_export_file_xml#:#Opret eksportfil (XML)
 content#:#cont_create_folder#:#Opret mappe
-content#:#cont_create_html_version#:#Create HTML Package###21 Apr 2005 new variable
+content#:#cont_create_html_version#:#Opret HTML pakke
 content#:#cont_create_mob#:#Opret Media Objekt
 content#:#cont_credit_mode#:#Credit mode (for lærer mode 'normal')
 content#:#cont_credit_off#:#Ingen Credit
@@ -4321,12 +4321,12 @@ content#:#cont_dependencies#:#Afhænger
 content#:#cont_derive_from_obj#:#Væk fra Objektet
 content#:#cont_details#:#Detaljer
 content#:#cont_dir_file#:#Bibliotek/Fil
-content#:#cont_disable_js#:#JavaScript inactive###21 Apr 2005 new variable
+content#:#cont_disable_js#:#JavaScript deaktiveret
 content#:#cont_disable_media#:#Deaktiver Media
-content#:#cont_disable_html#:#HTML inactive###25 10 2006 new variable
-content#:#cont_enable_html#:#HTML active###25 10 2006 new variable
+content#:#cont_disable_html#:#HTML deaktiveret
+content#:#cont_enable_html#:#HTML aktivt
 content#:#cont_download_title#:#Download titel
-content#:#cont_downloads#:#Downloads###21 Apr 2005 new variable
+content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Aktiverer download af alle offentlige eksportfiler
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)###23 Dec 2005 new variable
 content#:#cont_ed_align_center#:#align: center###21 Apr 2005 new variable
@@ -4334,7 +4334,7 @@ content#:#cont_ed_align_left#:#align: left###21 Apr 2005 new variable
 content#:#cont_ed_align_left_float#:#align: left float###21 Apr 2005 new variable
 content#:#cont_ed_align_right#:#align: right###21 Apr 2005 new variable
 content#:#cont_ed_align_right_float#:#align: right float###21 Apr 2005 new variable
-content#:#cont_ed_class#:#Style###21 Apr 2005 new variable
+content#:#cont_ed_class#:#Stilark
 content#:#cont_ed_col_left#:#move column left###21 Apr 2005 new variable
 content#:#cont_ed_col_right#:#move column right###21 Apr 2005 new variable
 content#:#cont_ed_copy_clip#:#copy to clipboard###21 Apr 2005 new variable
@@ -7161,7 +7161,7 @@ trac#:#info_found_objects#:#The user tracking refers to the following objects of
 trac#:#info_valid_request#:#The maximum valid time between two requests of an user.###23 Dec 2005 new variable
 trac#:#newUT_settings#:#Learning Module Statistics
 trac#:#obj_types#:#Object types:###23 Dec 2005 new variable
-trac#:#search_terms#:#Search term(s)
+trac#:#search_terms#:#Søgeudtryk
 trac#:#select_one#:#Please select one object###23 Dec 2005 new variable
 trac#:#stats_access#:#Access
 trac#:#stats_accesses#:#Accesses
@@ -7493,18 +7493,18 @@ ps#:#ps_export_data#:#Datatyper for personlig profil
 ps#:#ps_perform_export#:#Start CSV eksport
 ps#:#ps_privacy_protection#:#Privatlivsindstillinger
 ps#:#ps_security_protection#:#Sikkerhedsindstillinger
-ps#:#ps_profile_export#:#Protection of User Profile Data###25 02 2007 new variable
-ps#:#ps_export_course#:#Advanced Export of User Profile Data in Courses###25 02 2007 new variable
-ps#:#ps_export_confirm#:#User Confirmation when Entering Courses###25 02 2007 new variable
-ps#:#ps_crs_user_fields#:#CourseSpecific User Fields###25 02 2007 new variable
+ps#:#ps_profile_export#:#Beskyttelse af brugerprofiler
+ps#:#ps_export_course#:#Eksport af avancerede profildata i kurser
+ps#:#ps_export_confirm#:#Brugerbekræftelse ved tilmelding til kurser
+ps#:#ps_crs_user_fields#:#Kursusspecifikke felter
 ps#:#ps_cdf_add_field#:#Tilføj brugerfelt
 ps#:#ps_cdf_name#:#Navn
 ps#:#ps_cdf_type#:#Type###25 02 2007 new variable
 ps#:#ps_cdf_required#:#Krævet felt
 ps#:#ps_cdf_no_fields#:#Ingen brugerfelter defineret
 ps#:#ps_field_type#:#Felttype
-ps#:#ps_type_txt_long#:#Text Field (Optional Values)###25 02 2007 new variable
-ps#:#ps_type_select_long#:#Selection Box (Fixed Values)###25 02 2007 new variable
+ps#:#ps_type_txt_long#:#Tekstfelt (valgfrie værdier)
+ps#:#ps_type_select_long#:#Rullemenu (faste værdier)
 ps#:#ps_new_text_field#:#Tilføj nyt tekst felt
 ps#:#ps_name_field#:#Navn
 ps#:#ps_type_text#:#Tekstfelt
@@ -7512,12 +7512,12 @@ ps#:#ps_type_select#:#Select Field###25 02 2007 new variable
 ps#:#ps_new_select_field#:#Ny rullemenu
 ps#:#ps_cdf_value#:#Værdi
 ps#:#ps_btn_add_value#:#Ny værdi
-ps#:#ps_cdf_no_name_given#:#Please enter a name.###25 02 2007 new variable
-ps#:#ps_cdf_added_field#:#Added new selection box.###25 02 2007 new variable
+ps#:#ps_cdf_no_name_given#:#Indtast et navn.
+ps#:#ps_cdf_added_field#:#Rullemenu tilføjet.
 ps#:#ps_cdf_select_one#:#Please select one.###25 02 2007 new variable
 ps#:#ps_cdf_delete_sure#:#Ønsker du at slette brugerfelterne?
 ps#:#ps_cdf_deleted#:#Deleted user fields###25 02 2007 new variable
-ps#:#ps_edit_select_field#:#Edit Selection Box###25 02 2007 new variable
+ps#:#ps_edit_select_field#:#Ret rullemenu
 ps#:#ps_cdf_deleted_field#:#Deleted value###25 02 2007 new variable
 ps#:#ps_files_deleted#:#Eksportfiler slettet
 ps#:#ps_agreement_accepted#:#User Agreement Accepted###25 02 2007 new variable
@@ -7529,9 +7529,9 @@ ps#:#ps_required_info#:#Further CourseSpecific fields are required for accessing
 ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.###25 02 2007 new variable
 ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.###25 02 2007 new variable
 ps#:#ps_auto_https#:#Autodetect HTTPS###25 02 2007 new variable
-ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###25 02 2007 new variable
-ps#:#ps_auto_https_header_name#:#Header Name###25 02 2007 new variable
-ps#:#ps_auto_https_header_value#:#Header Value###25 02 2007 new variable
+ps#:#ps_auto_https_description#:#Hvis aktiveret forsøger ILIAS selt at opdage HTTPS status ved at analysere header værdien neden for.
+ps#:#ps_auto_https_header_name#:#Header navn
+ps#:#ps_auto_https_header_value#:#Header værdi
 auth#:#auth_rad_migration#:#Konto migrering
 auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.###16 08 2007 new variable
 auth#:#auth_account_migration#:#Ny ILIAS konto
@@ -7656,8 +7656,8 @@ common#:#bold#:#Fed
 common#:#newline#:#Ny linje
 common#:#ext_cat_settings#:#Rediger avancerede kategori indstillinger
 common#:#edit_cat_settings#:#Avancerede indstillinger for kategori
-common#:#mail_search_groups_not_found#:#Fandt ingen grupper du er medlem af.
-common#:#mail_search_courses_not_found#:#Fandt ingen kurser du er medlem af.
+common#:#mail_search_groups_not_found#:#Du er ikke medlem af nogen gruppe.
+common#:#mail_search_courses_not_found#:#Du er ikke medlem af nogen kurser.
 auth#:#auth_radius_charset#:#Tegnsæt enkodning
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
 common#:#frm_add_post#:#Skriv indlæg
