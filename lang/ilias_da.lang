@@ -2679,7 +2679,7 @@ common#:#user_assignment#:#Tildelte brugere
 common#:#user_cant_receive_mail#:#Bruger har ikke adgang til mail systemet
 common#:#user_comment#:#Brugerkommentar
 common#:#user_defined_fields#:#Brugerdefinerede felter
-common#:#user_defined_list#:#Overview User-defined Fields
+common#:#user_defined_list#:#Liste over brugerdefinerede felter
 common#:#user_deleted#:#Bruger er slettet
 common#:#user_detail#:#Detaljerede data
 common#:#user_ext_account#:#External Account
@@ -2689,7 +2689,7 @@ common#:#user_imported#:#Brugerimport er gennemført.
 common#:#user_imported_with_warnings#:#Brugerimport er gennemført med advarsel
 common#:#user_language#:#Brugersprog
 common#:#user_new_account_mail#:#Post til nye konti
-common#:#user_new_account_mail_desc#:#This mail can be sent when an ILIAS user is created by other means then self-registration.
+common#:#user_new_account_mail_desc#:#Nedenstående besked kan sendes når en ILIAS bruger oprettes på andre måder end af brugeren selv.
 common#:#user_not_chosen#:#Du valgte ikke et gruppemedlem!
 common#:#user_not_known#:#Angiv venligst et gyldigt brugernavn.
 common#:#user_profile_other#:#Andre oplysninger
@@ -7788,9 +7788,9 @@ cmps#:#cmps_plugin_slot#:#Plugin plads
 cmps#:#cmps_component#:#Komponent
 cmps#:#cmps_lang_prefix#:#Prefix for sprogvariable
 cmps#:#cmps_plugin_db_prefixes#:#Database tabel prefix
-cmps#:#cmps_disable_creation#:#Disable Creation###11 03 2008 new variable
-cmps#:#cmps_rep_object#:#Repository Object Type###11 03 2008 new variable
-cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List###11 03 2008 new variable
+cmps#:#cmps_disable_creation#:#Deaktiver oprettelse
+cmps#:#cmps_rep_object#:#Oversigts objekttype
+cmps#:#cmps_add_new_rank#:#Position i opret rullemenu
 cmps#:#cmps_plugin_dirs#:#Plugin mapper
 cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes###11 03 2008 new variable
 common#:#obj_cmps_desc#:#Generelle indstillinger for Oversigtsmodiler, services og plugins
@@ -7909,7 +7909,7 @@ common#:#state_new#:#ny
 common#:#state_unread#:#unread###11 03 2008 new variable
 common#:#filename_extension_short#:#Extension###11 03 2008 new variable
 common#:#accept_date#:#Brugeraftale blev accepteret
-common#:#obj_facs#:#File Access###11 03 2008 new variable
+common#:#obj_facs#:#Filadgang
 common#:#obj_facs_desc#:#Konfigurer adgang til filobjekter
 common#:#enable_webdav#:#Aktiver WebDAV adgang
 common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>###11 03 2008 new variable
@@ -7921,7 +7921,7 @@ common#:#webfolder_instructions_text#:#<p>Follow the instructions below, to open
 common#:#use_default_instructions#:#Brug standard instruktioner
 common#:#use_customized_instructions#:#Brug tilpassede instruktioner
 common#:#inline_file_extensions#:#Web-aktiverede filer
-common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.###11 03 2008 new variable
+common#:#inline_file_extensions_info#:#Filer med disse endelser vises i browservinduet. <br/>Eksempler: <b>gif jpg mp3 pdf png</b><br/>Alle andre filer tilbydes som download.
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.###11 03 2008 new variable
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">other Browser</a>.###11 03 2008 new variable
 common#:#deleted_user_account#:#Brugerkonto slettet
