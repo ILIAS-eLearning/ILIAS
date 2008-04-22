@@ -628,7 +628,7 @@ class ilObjectGUI
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 			
 			// BEGIN ChangeEvent: Record undelete. 
-			require_once('Services/ChangeEvent/classes/class.ilChangeEvent.php');
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			if (ilChangeEvent::_isActive())
 			{
 				global $ilUser, $tree;
