@@ -7451,9 +7451,9 @@ ldap#:#ldap_group_user_filter#:#User Filter###10 05 2007 new variable
 ldap#:#ldap_group_optional_info#:#If enabled, the group membership is not required for a successful authentication. Please enter a user filter for the members of these groups:<br />(&(userattr=username)<strong>(userfilter)</strong>)###10 05 2007 new variable
 ldap#:#ldap_server_short#:#Server URL:###10 05 2007 new variable
 ldap#:#ldap_group_dn_short#:#Group DN:###10 05 2007 new variable
-ldap#:#ldap_group_member_short#:#Attribute:###10 05 2007 new variable
+ldap#:#ldap_group_member_short#:#Attribut:
 ldap#:#ldap_ilias_role_short#:#Role:###10 05 2007 new variable
-ldap#:#ldap_info_text#:#Information Text###10 05 2007 new variable
+ldap#:#ldap_info_text#:#Informationstekst
 ldap#:#ldap_info_text_info#:#If entered, this text will be shown in the repository and on the info screen for the object this role is assigned to.###10 05 2007 new variable
 ldap#:#ldap_info_text_short#:#Info Text:###10 05 2007 new variable
 ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop###13 06 2007 new variable
@@ -7465,13 +7465,13 @@ ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to
 ldap#:#ldap_role_grp_at#:#Attribute###23 08 2007 new variable
 ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.###23 08 2007 new variable
 ldap#:#ldap_role_grp_isdn#:#Attribute value is DN###23 08 2007 new variable
-ldap#:#ldap_role_by_attribute#:#LDAP Attribute###23 08 2007 new variable
+ldap#:#ldap_role_by_attribute#:#LDAP attribut
 ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.###23 08 2007 new variable
 ldap#:#ldap_role_at_name#:#Attribute Name###23 08 2007 new variable
 ldap#:#ldap_role_at_value#:#Attribute Value###23 08 2007 new variable
-ldap#:#ldap_tbl_role_ass#:#Avtive Rules###23 08 2007 new variable
+ldap#:#ldap_tbl_role_ass#:#Aktive regler
 ldap#:#ldap_rule_condition#:#condition###23 08 2007 new variable
-ldap#:#ldap_btn_add_role_ass#:#Add New Rule###23 08 2007 new variable
+ldap#:#ldap_btn_add_role_ass#:#Tilføj ny regel
 ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule###23 08 2007 new variable
 ldap#:#ldap_rule_type#:#Type of Assignment###23 08 2007 new variable
 ldap#:#ldap_confirm_del_role_ass#:#Delete Role Assignmen###23 08 2007 new variable
@@ -7482,49 +7482,49 @@ ps#:#ps_size#:#Filstørrelser
 ps#:#ps_select_one#:#Vælg venligst en eksportfil
 ps#:#ps_delete_export_files#:#Slettede eksportfiler
 ps#:#ps_export_settings#:#Eksport indstillinger
-ps#:#ps_user_selection#:#Participants Selection###25 02 2007 new variable
+ps#:#ps_user_selection#:#Valg af deltageree
 ps#:#ps_export_admin#:#Administratorer
 ps#:#ps_export_tutor#:#Tutorer
 ps#:#ps_export_member#:#Medlemmer
 ps#:#ps_export_sub#:#Abonnenter
-ps#:#ps_export_wait#:#Users on the Waiting List###25 02 2007 new variable
+ps#:#ps_export_wait#:#Brugere på venteliste
 ps#:#ps_export_user_data#:#Datatyper
 ps#:#ps_export_data#:#Datatyper for personlig profil
-ps#:#ps_perform_export#:#Start CSVExport###25 02 2007 new variable
-ps#:#ps_privacy_protection#:#Privacy Settings###25 02 2007 new variable
-ps#:#ps_security_protection#:#Security Settings###25 02 2007 new variable
+ps#:#ps_perform_export#:#Start CSV eksport
+ps#:#ps_privacy_protection#:#Privatlivsindstillinger
+ps#:#ps_security_protection#:#Sikkerhedsindstillinger
 ps#:#ps_profile_export#:#Protection of User Profile Data###25 02 2007 new variable
 ps#:#ps_export_course#:#Advanced Export of User Profile Data in Courses###25 02 2007 new variable
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses###25 02 2007 new variable
 ps#:#ps_crs_user_fields#:#CourseSpecific User Fields###25 02 2007 new variable
-ps#:#ps_cdf_add_field#:#Add User Field###25 02 2007 new variable
-ps#:#ps_cdf_name#:#Name###25 02 2007 new variable
+ps#:#ps_cdf_add_field#:#Tilføj brugerfelt
+ps#:#ps_cdf_name#:#Navn
 ps#:#ps_cdf_type#:#Type###25 02 2007 new variable
-ps#:#ps_cdf_required#:#Required Field###25 02 2007 new variable
-ps#:#ps_cdf_no_fields#:#No User Fields Defined###25 02 2007 new variable
-ps#:#ps_field_type#:#Field Type###25 02 2007 new variable
+ps#:#ps_cdf_required#:#Krævet felt
+ps#:#ps_cdf_no_fields#:#Ingen brugerfelter defineret
+ps#:#ps_field_type#:#Felttype
 ps#:#ps_type_txt_long#:#Text Field (Optional Values)###25 02 2007 new variable
 ps#:#ps_type_select_long#:#Selection Box (Fixed Values)###25 02 2007 new variable
 ps#:#ps_new_text_field#:#Tilføj nyt tekst felt
 ps#:#ps_name_field#:#Navn
-ps#:#ps_type_text#:#Text Field###25 02 2007 new variable
+ps#:#ps_type_text#:#Tekstfelt
 ps#:#ps_type_select#:#Select Field###25 02 2007 new variable
-ps#:#ps_new_select_field#:#New Selection Box###25 02 2007 new variable
-ps#:#ps_cdf_value#:#Value###25 02 2007 new variable
-ps#:#ps_btn_add_value#:#New Value###25 02 2007 new variable
+ps#:#ps_new_select_field#:#Ny rullemenu
+ps#:#ps_cdf_value#:#Værdi
+ps#:#ps_btn_add_value#:#Ny værdi
 ps#:#ps_cdf_no_name_given#:#Please enter a name.###25 02 2007 new variable
 ps#:#ps_cdf_added_field#:#Added new selection box.###25 02 2007 new variable
 ps#:#ps_cdf_select_one#:#Please select one.###25 02 2007 new variable
-ps#:#ps_cdf_delete_sure#:#Do you really want to delete these user fields ?###25 02 2007 new variable
+ps#:#ps_cdf_delete_sure#:#Ønsker du at slette brugerfelterne?
 ps#:#ps_cdf_deleted#:#Deleted user fields###25 02 2007 new variable
 ps#:#ps_edit_select_field#:#Edit Selection Box###25 02 2007 new variable
 ps#:#ps_cdf_deleted_field#:#Deleted value###25 02 2007 new variable
-ps#:#ps_files_deleted#:#Export Files Deleted###25 02 2007 new variable
+ps#:#ps_files_deleted#:#Eksportfiler slettet
 ps#:#ps_agreement_accepted#:#User Agreement Accepted###25 02 2007 new variable
-ps#:#ps_not_accepted#:#Not Accepted###25 02 2007 new variable
+ps#:#ps_not_accepted#:#Ikke accepteret
 ps#:#ps_cdf_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these course specific fields will reset all user agreements.###25 02 2007 new variable
 ps#:#ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.###25 02 2007 new variable
-ps#:#ps_cdf_info#:#Further CourseSpecific Data:###25 02 2007 new variable
+ps#:#ps_cdf_info#:#Yderligere kursusspecifik information
 ps#:#ps_required_info#:#Further CourseSpecific fields are required for accessing the course content.###25 02 2007 new variable
 ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.###25 02 2007 new variable
 ps#:#ps_error_message_https_header_missing#:#If you enable the automatic https detection you have to provide a header name and header value.###25 02 2007 new variable
@@ -7532,19 +7532,19 @@ ps#:#ps_auto_https#:#Autodetect HTTPS###25 02 2007 new variable
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.###25 02 2007 new variable
 ps#:#ps_auto_https_header_name#:#Header Name###25 02 2007 new variable
 ps#:#ps_auto_https_header_value#:#Header Value###25 02 2007 new variable
-auth#:#auth_rad_migration#:#Account Migration:###16 08 2007 new variable
+auth#:#auth_rad_migration#:#Konto migrering
 auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.###16 08 2007 new variable
-auth#:#auth_account_migration#:#New ILIAS Account###16 08 2007 new variable
+auth#:#auth_account_migration#:#Ny ILIAS konto
 auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).###16 08 2007 new variable
-auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created###16 08 2007 new variable
-common#:#delete_existing_file#:#Delete Existing File###23 09 2007 new variable
-assessment#:#identical_scoring#:#Identical Scoring###23 09 2007 new variable
+auth#:#auth_info_add#:#Vælg denne hvis du aldrig har registreret i ILIAS. Der oprettes derefter en ny konto.
+common#:#delete_existing_file#:#Slet eksisterende fil
+assessment#:#identical_scoring#:#Identiske scoringer
 assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. ###23 09 2007 new variable
 common#:#reset_filter#:#Reset filter###23 09 2007 new variable
-common#:#activate#:#Set Active###23 09 2007 new variable
-common#:#deactivate#:#Set Inactive###23 09 2007 new variable
-common#:#before#:#before###23 09 2007 new variable
-common#:#export_format_selection#:#Please select the export file format###23 09 2007 new variable
+common#:#activate#:#Set aktiv
+common#:#deactivate#:#Set inaktiv
+common#:#before#:#før
+common#:#export_format_selection#:#Vælg eksportfilens format
 common#:#export_format#:#Export format###23 09 2007 new variable
 common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?###23 09 2007 new variable
 common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?###23 09 2007 new variable
@@ -7621,10 +7621,10 @@ common#:#access_restrict_enter#:#Please set the period for the limited access re
 meta#:#md_copyright_settings#:#Copyright Settings###25 09 2007 new variable
 meta#:#md_copyright_enabled#:#Enable Copyright Selection###25 09 2007 new variable
 meta#:#md_copyright_selection#:#Copyright Presettings###25 09 2007 new variable
-meta#:#md_used#:#Usage###25 09 2007 new variable
+meta#:#md_used#:#Brug
 meta#:#md_copyright_preview#:#Copyright (Preview)###25 09 2007 new variable
 meta#:#md_copyright_edit#:#Edit Copyright Presetting###25 09 2007 new variable
-meta#:#md_copyright_value#:#Copyright###25 09 2007 new variable
+meta#:#md_copyright_value#:#Copyright
 meta#:#md_copyright_add#:#Add Copyright Presetting###25 09 2007 new variable
 meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?###25 09 2007 new variable
 meta#:#md_copyrights_deleted#:#Slettede copyright
@@ -7654,11 +7654,11 @@ forum#:#forums_post_needs_to_be_activated#:#A new article has been created, but 
 forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.###23 10 2007 new variable
 common#:#bold#:#Fed
 common#:#newline#:#Ny linje
-common#:#ext_cat_settings#:#Edit Advanced Category Settings###23 10 2007 new variable
-common#:#edit_cat_settings#:#Advanced Category Settings###23 10 2007 new variable
-common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.###23 10 2007 new variable
-common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
-auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
+common#:#ext_cat_settings#:#Rediger avancerede kategori indstillinger
+common#:#edit_cat_settings#:#Avancerede indstillinger for kategori
+common#:#mail_search_groups_not_found#:#Fandt ingen grupper du er medlem af.
+common#:#mail_search_courses_not_found#:#Fandt ingen kurser du er medlem af.
+auth#:#auth_radius_charset#:#Tegnsæt enkodning
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
 common#:#frm_add_post#:#Skriv indlæg
 common#:#frm_moderate_frm#:#Slet indlæg, censur
@@ -7671,7 +7671,7 @@ search#:#search_lom#:#LOM metadata
 search#:#search_adv_md#:#Udviddede metadata
 search#:#adv_md_search_title#:#Søg i udvidede metadata
 ps#:#ps_edit_text_field#:#Rediger tekstfelt
-meta#:#md_adv_import_record#:#Import Metadata Set###23 10 2007 new variable
+meta#:#md_adv_import_record#:#Importer metadata sæt
 meta#:#md_copyright#:#Copyright
 meta#:#md_copyright_enable_info#:#Vælg denne for se listen over prædefinerede copyrights
 news#:#news_block_information#:#<b>Nyhedsblokken</b> viser alle de nyheder som er relateret til dine <i>personlige</i> ting som du har valgt på dit skrivebord.
@@ -7686,7 +7686,7 @@ news#:#news_allow_shorter_periods#:#Tillad kortere perioder
 news#:#news_allow_longer_periods#:#Tillad længere perioder
 news#:#news_allow_shorter_periods_info#:#Brugere må vælge kortere nyhedsperioder på skrivebordet.
 news#:#news_allow_longer_periods_info#:#Brugere må vælge længere nyhedsperioder på skrivebordet.
-news#:#news_hidden_news_block#:#Block is currently hidden in learner's view.###02 11 2007 new variable
+news#:#news_hidden_news_block#:#Blokken er skjult i den studerendes visning
 news#:#news_hide_news_per_date#:#Vis nyheder efter
 news#:#news_hide_news_per_date_info#:#Kun nyheder fra en bestemt dato vises.
 news#:#news_hide_news_date#:#Startdato
@@ -7709,9 +7709,9 @@ grp#:#grp_select_one_file#:#Vælg venligst en fil
 assessment#:#passes_finished#:#%s passes###14 11 2007 new variable
 assessment#:#pass_finished#:#%s pas###14 11 2007 new variable
 news#:#news_no_news_items#:#Ingen nyheder
-common#:#enable_ext_lang_maint#:#Enable Extended Maintenance###20 11 2007 new variable
-common#:#disable_ext_lang_maint#:#Disable Extended Maintenance###20 11 2007 new variable
-assessment#:#tst_show_solution_signature#:#Show Signature Placeholder###20 11 2007 new variable
+common#:#enable_ext_lang_maint#:#Aktiver udvidet vedligeholdelse
+common#:#disable_ext_lang_maint#:#Deaktiver udvidet vedligeholdelse
+assessment#:#tst_show_solution_signature#:#Vis signatur pladsholdere
 rbac#:#recf_edit_permission#:#Ændre rettighedsstillinger
 rbac#:#recf_visible#:#Genskabte objekter er synlige
 rbac#:#recf_read#:#Læseadgang til genskabte objekter
@@ -7728,22 +7728,22 @@ content#:#scplayer_showtree#:#Vis træ
 content#:#scplayer_hidetree#:#Skjul træ
 content#:#scplayer_continue#:#Fortsæt
 content#:#scplayer_previous#:#Forrige
-content#:#scplayer_suspendall#:#Suspend All###27 11 2007 new variable
-content#:#scplayer_exitall#:#Exit All###27 11 2007 new variable
-content#:#scplayer_exit#:#Exit###27 11 2007 new variable
-content#:#scplayer_start#:#Start###27 11 2007 new variable
+content#:#scplayer_suspendall#:#Pause alle
+content#:#scplayer_exitall#:#Luk alle
+content#:#scplayer_exit#:#Luk
+content#:#scplayer_start#:#Start
 content#:#scplayer_phpmysqlcheck#:#You need MYSQL 4.1 or higher and enabled JSON-support to use the JavaScript-RTE###27 11 2007 new variable
 trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status###27 11 2007 new variable
 trac#:#trac_mode_scorm_package_info#:#The learning progress status will be determined by the SCORM course package status directly.###27 11 2007 new variable
 ps#:#ps_show_grp_access#:#Show last access time of group participants###27 11 2007 new variable
 administration#:#auth_auth_mode_determination#:#Authentication Method Determination (for Login)###27 11 2007 new variable
 administration#:#auth_kind_determination#:#Kind of Determination###27 11 2007 new variable
-administration#:#auth_by_user#:#By the User###27 11 2007 new variable
+administration#:#auth_by_user#:#Af brugeren
 administration#:#auth_automatic#:#Fixed Sequence###27 11 2007 new variable
 administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.###27 11 2007 new variable
-rbac#:#mds_edit_permission#:#Change permission settings###28 12 2007 new variable
-rbac#:#mds_visible#:#Metadata settings are visible###28 12 2007 new variable
-rbac#:#mds_read#:#Read access to Metadata settings###28 12 2007 new variable
+rbac#:#mds_edit_permission#:#Ændre rettigheder
+rbac#:#mds_visible#:#Metadata indstillinger er synlige
+rbac#:#mds_read#:#Læseadgang til metadata indstillinger
 rbac#:#mds_write#:#Edit Metadata setting###28 12 2007 new variable
 assessment#:#certificate_var_user_title#:#Dr.###11 03 2008 new variable
 assessment#:#certificate_var_user_institution#:#ILIAS Open Source###11 03 2008 new variable
@@ -7792,7 +7792,7 @@ cmps#:#cmps_disable_creation#:#Deaktiver oprettelse
 cmps#:#cmps_rep_object#:#Oversigts objekttype
 cmps#:#cmps_add_new_rank#:#Position i opret rullemenu
 cmps#:#cmps_plugin_dirs#:#Plugin mapper
-cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes###11 03 2008 new variable
+cmps#:#cmps_plugin_lang_prefixes#:#Plugin sprog prefixer
 common#:#obj_cmps_desc#:#Generelle indstillinger for Oversigtsmodiler, services og plugins
 cmps#:#cmps_edit_settings#:#Indstillinger
 cmps#:#cmps_modules#:#Moduler
@@ -7887,13 +7887,13 @@ common#:#tomorrow#:#I morgen
 common#:#show_profile#:#Vis profil
 common#:#copy_selected_items#:#Kopier
 common#:#mail_no_recipient_found#:#Indtast en anden mailadresse. ILIAS kunne ikke finde en modtager med denne mailadresse.
-common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###11 03 2008 new variable
+common#:#mail_multiple_recipients_found#:#Indtast en mere specifik mailadresse. ILIAS fandt flere mulige modtagere for denne adresse: %s
 common#:#disk_space_used#:#Brugt diskplads
 common#:#in_use_by#:#Bruges af
 common#:#filename_extension_missing#:#Filnavns endelse (extension) mangler
 common#:#filename_special_characters#:#/ er ikke tilladt i filnavne
 common#:#filename_windows_special_characters#:#\/:*?"<>| er ikke tilladt i Windows filnavne
-common#:#filename_windows_empty_extension#:#. at the end of a filename is not allowed on Windows###11 03 2008 new variable
+common#:#filename_windows_empty_extension#:#. i slutningen af et filnavn er ikke tilladt på Windows
 common#:#filename_windows_webdav_issue#:## er ikke understøttet i en Windows webfolder
 common#:#filename_special_filename#:#. og .. er reserverede filnavne
 common#:#filename_visibility#:#Synlighed
@@ -7922,7 +7922,7 @@ common#:#use_default_instructions#:#Brug standard instruktioner
 common#:#use_customized_instructions#:#Brug tilpassede instruktioner
 common#:#inline_file_extensions#:#Web-aktiverede filer
 common#:#inline_file_extensions_info#:#Filer med disse endelser vises i browservinduet. <br/>Eksempler: <b>gif jpg mp3 pdf png</b><br/>Alle andre filer tilbydes som download.
-common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.###11 03 2008 new variable
+common#:#webfolder_dir_info#:#Du endte her fordi din browser ikke kan åbne webfoldere. Læs <a href="%1$s">instruktioner i at åbne webfoldere</a>.
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">other Browser</a>.###11 03 2008 new variable
 common#:#deleted_user_account#:#Brugerkonto slettet
 dateplaner#:#cal_user_settings#:#Kalenderindstillinger
