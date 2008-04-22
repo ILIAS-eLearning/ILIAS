@@ -4001,6 +4001,9 @@ class ilObjUser extends ilObject
 
 		$ids = $rbacreview->assignedUsers($role_id);
 
+		if (count ($ids) == 0)
+			$ids = array (-1);
+			
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 							FROM usr_data
 							LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
