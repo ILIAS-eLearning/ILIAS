@@ -3681,7 +3681,7 @@ $ilCtrlStructureReader->getStructure();
 // new object type for course sessions
 $query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
 		"VALUES ('typ', 'sess', 'Session object', -1, now(), now())";
-#$ilDB->query($query);
+$ilDB->query($query);
 $typ_id =  $ilDB->getLastInsertId();
 
 // Register permissions for sessions 
@@ -3692,7 +3692,7 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
 		.", (".$ilDB->quote($typ_id).",'3')"
 		.", (".$ilDB->quote($typ_id).",'4')"
 		;
-#$ilDB->query($query);
+$ilDB->query($query);
 ?>
 <#1193>
 DROP TABLE IF EXISTS `il_rating`;
@@ -3712,3 +3712,123 @@ CREATE TABLE `il_rating` (
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1195>
+<?php
+global $ilLog;
+
+// Convert course sessions to ILIAS objects
+$query = "SELECT event_id,obj_id,title,description FROM event ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$course_obj_id = $row->obj_id;
+
+	// check if already migrated
+	$query = "SELECT type FROM object_data WHERE obj_id = ".$course_obj_id;
+	$obj_res = $ilDB->query($query);
+	$obj_row = $obj_res->fetchRow();
+	
+	if($obj_row[0] == 'sess')
+	{
+		$ilLog->write('DB Migration 1194: Session with event_id: '.$row->event_id.' already migrated.');
+		continue;
+	}
+
+	// find course ref_id
+	$query = "SELECT ref_id FROM object_reference WHERE obj_id = '".$course_obj_id."' ";
+	$ref_res = $ilDB->query($query);
+	$ref_row = $ref_res->fetchRow();
+	
+	if(!$ref_row[0])
+	{
+		$ilLog->write('DB Migration 1194: Found session without course ref_id. event_id: '.$row->event_id.', obj_id: '.$row->obj_id);
+		continue;
+	}
+	$course_ref_id = $ref_row[0];
+	
+	// Create object data entry
+	$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('sess', ".$ilDB->quote($row->title).", ".$ilDB->quote($row->description).", 6, now(), now())";
+	$ilDB->query($query);
+	$session_obj_id = $ilDB->getLastInsertId();
+	
+	// Insert long description
+	$query = "INSERT INTO object_description SET obj_id = ".$session_obj_id.", description =  ".$ilDB->quote($row->description);
+
+	// Create reference
+	$query = "INSERT INTO object_reference (obj_id) VALUES('".$session_obj_id."')";
+	$ilDB->query($query);
+	$session_ref_id = $ilDB->getLastInsertId();
+	
+	// check if course is deleted
+	// yes => insert into tree with negative tree id
+	$query = "SELECT tree FROM tree WHERE child = ".$course_ref_id;
+	$tree_res = $ilDB->query($query);
+	$tree_row = $tree_res->fetchRow();
+	$tree_id = $tree_row[0];
+	if($tree_id != 1)
+	{
+		$current_tree = new ilTree($tree_id);
+	}
+	else
+	{
+		$current_tree = new ilTree(ROOT_FOLDER_ID);
+	}
+	
+	// Insert into tree
+	$current_tree->insertNode($session_ref_id,$course_ref_id);
+	
+	// Update all event related tables
+	
+	// event
+	$query = "UPDATE event SET obj_id = ".$session_obj_id." ".
+		"WHERE event_id = ".$row->event_id;
+	$ilDB->query($query);
+	
+	// event_appointment
+	$query = "UPDATE event_appointment SET event_id = ".$session_obj_id." ".
+		"WHERE event_id = ".$row->event_id." ";
+	$ilDB->query($query);
+	
+	// event_id
+	$query = "UPDATE event_items SET event_id = ".$session_obj_id." ".
+		"WHERE event_id = ".$row->event_id." ";
+	$ilDB->query($query);
+		
+	// event participants
+	$query = "UPDATE event_participants SET event_id = ".$session_obj_id." ".
+		"WHERE event_id = ".$row->event_id." ";
+	$ilDB->query($query);
+	
+	// adjust permissions
+	$query = "SELECT * FROM rbac_pa WHERE ref_id = ".$course_ref_id;
+	$pa_res = $ilDB->query($query);
+	while($pa_row = $pa_res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$new_ops = array();
+		$operations = unserialize($pa_row->ops_id);
+		
+		if(in_array(1,$operations))
+		{
+			$new_ops[] = 1;
+		} 
+		if(in_array(2,$operations))
+		{
+			$new_ops[] = 2;
+		} 
+		if(in_array(3,$operations))
+		{
+			$new_ops[] = 3;
+		} 
+		if(in_array(4,$operations))
+		{
+			$new_ops[] = 4;
+		}
+		$query = "INSERT INTO rbac_pa SET ".
+			"rol_id = ".$ilDB->quote($pa_row->rol_id).", ".
+			"ops_id = ".$ilDB->quote(serialize($new_ops)).", ".
+			"ref_id = ".$ilDB->quote($session_ref_id)." ";
+		$ilDB->query($query);
+	}
+}
+?>
