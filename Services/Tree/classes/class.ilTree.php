@@ -1169,20 +1169,50 @@ class ilTree
 	* @access	public
 	* @param	Array	Path array with object titles.
 	*                       e.g. array('ILIAS','English','Course A')
+	* @param	ref_id	Startnode of the relative path. 
+	*                       Specify null, if the title path is an absolute path.
+	*                       Specify a ref id, if the title path is a relative 
+	*                       path starting at this ref id.
 	* @return	array	ordered path info (depth,parent,child,obj_id,type,title)
 	*               or null, if the title path can not be converted into a node path.
 	*/
-	function getNodePathForTitlePath($titlePath)
+	function getNodePathForTitlePath($titlePath, $a_startnode_id = null)
 	{
-		//$this->writelog('getNodePathForTitlePath('.implode('/',$titlePath));
 		global $ilDB, $log;
+		//$log->write('getNodePathForTitlePath('.implode('/',$titlePath));
 		
-		require_once('include/Unicode/UtfNormal.php');
+		// handle empty title path
+		if ($titlePath == null || count($titlePath) == 0)
+		{
+			if ($a_startnode_id == 0)
+			{
+				return null;
+			}
+			else
+			{
+				return $this->getNodePath($a_startnode_id);
+			}
+		}
 
-				
+		// fetch the node path up to the startnode
+		if ($a_startnode_id != null && $a_startnode_id != 0)
+		{
+			// Start using the node path to the root of the relative path
+			$nodePath = $this->getNodePath($a_startnode_id);
+			$parent = $a_startnode_id;
+		}
+		else
+		{
+			// Start using the root of the tree
+			$nodePath = array();
+			$parent = 0;
+		}
+
+		
 		// Convert title path into Unicode Normal Form C
 		// This is needed to ensure that we can compare title path strings with
 		// strings from the database.
+		require_once('include/Unicode/UtfNormal.php');
 		$inClause = 'd.title IN (';
 		for ($i=0; $i < count($titlePath); $i++)
 		{
@@ -1202,7 +1232,6 @@ class ilTree
 		{
 			$joinClause = 'JOIN '.$this->table_obj_data.' AS d ON t.child=d.'.$this->obj_pk;
 		}
-
 		// The ORDER BY clause in the following SQL statement ensures that,
 		// in case of a multiple objects with the same title, always the Object
 		// with the oldest ref_id is chosen.
@@ -1212,7 +1241,7 @@ class ilTree
 			'FROM '.$this->table_tree.' AS t '.
 			$joinClause.' '.
 			'WHERE '.$inClause.' '.
-			'AND t.depth <= '.count($titlePath).' '.
+			'AND t.depth <= '.(count($titlePath)+count($nodePath)).' '.
 			'AND t.tree = 1 '.
 			'ORDER BY t.depth, t.child ASC';
 		$r = $ilDB->query($q);
@@ -1224,31 +1253,31 @@ class ilTree
 			$row['ref_id'] = $row['child'];
 			$rows[] = $row;
 		}
-		
+
 		// Extract the path elements from the fetched rows
-		$nodePath = array();
-		$parent = 0;
 		for ($i = 0; $i < count($titlePath); $i++) {
+			$pathElementFound = false; 
 			foreach ($rows as $row) {
 				if ($row['parent'] == $parent && 
 				strtolower($row['title']) == $titlePath[$i])
 				{
-					// FIXME: We should test here, if the user has 'visible'
-					// permission for the object.
+					// FIXME - We should test here, if the user has 
+					// 'visible' permission for the object.
 					$nodePath[] = $row;
 					$parent = $row['child'];
+					$pathElementFound = true;
 					break;
 				}
 			}
 			// Abort if we haven't found a path element for the current depth
-			if (count($nodePath) != $i + 1)
+			if (! $pathElementFound)
 			{
-				//$log->write('ilTree.getNodePathForTitlePath('.var_export($titlePath,true).'):null');
+				//$log->write('ilTree.getNodePathForTitlePath('.var_export($titlePath,true).','.$a_startnode_id.'):null');
 				return null;
 			}
 		}
 		// Return the node path
-		//$log->write('ilTree.getNodePathForTitlePath('.var_export($titlePath,true).'):'.var_export($nodePath,true));
+		$log->write('ilTree.getNodePathForTitlePath('.var_export($titlePath,true).','.$a_startnode_id.'):'.var_export($nodePath,true));
 		return $nodePath;
 	}
 	// END WebDAV: getNodePathForTitlePath function added
@@ -1274,6 +1303,12 @@ class ilTree
 		global $ilDB;
 
 		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
+
+		// Abort if no path ids were found
+		if (count($pathIds) == 0)
+		{
+			return null;
+		}
 
 		$inClause = 't.child IN (';
 		for ($i=0; $i < count($pathIds); $i++)

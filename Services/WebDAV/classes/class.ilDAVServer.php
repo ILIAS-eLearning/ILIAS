@@ -1450,15 +1450,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		else
 		{
-			$titlePath = $this->toTitlePath($davPath);
-			if (count($titlePath) == 0)
+			$nodePath = $this->toNodePath($davPath);
+			if ($nodePath == null && count($davPathComponents) == 1)
 			{
-				//$nodePath = null;
 				return ilObjectDAV::createObject(-1,'mountPoint');
-			}
-			else
-			{
-				$nodePath = $tree->getNodePathForTitlePath($titlePath);
 			}
 		}
 		if (is_null($nodePath))
@@ -1466,7 +1461,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			return null;
 		} else {
 			$top = $nodePath[count($nodePath)  - 1];
-			return ilObjectDAV::createObject($top['ref_id'],$top['type']);
+			return ilObjectDAV::createObject($top['child'],$top['type']);
 		}
 	}
 	/**
@@ -1480,8 +1475,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$this->writelog('toObjectPath('.$davPath);
 		global $tree;
 	
-		$titlePath = $this->toTitlePath($davPath);
-		$nodePath = $tree->getNodePathForTitlePath($titlePath);
+		$nodePath = $this->toNodePath($davPath);
 		if (is_null($nodePath))
 		{
 			return null;
@@ -1489,7 +1483,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$objectPath = array();
 			foreach ($nodePath as $node)
 			{
-				$pathElement = ilObjectDAV::createObject($node['ref_id'],$node['type']);
+				$pathElement = ilObjectDAV::createObject($node['child'],$node['type']);
 				if (is_null($pathElement)) 
 				{
 					break;
@@ -1501,7 +1495,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	}
 	
 	/**
-	 * Converts a DAV path into an array of path titles.
+	 * Converts a DAV path into a node path.
 	 * The returned array is granted to represent an absolute path.
 	 *
 	 * The first component of a DAV Path is the ILIAS client id. The following
@@ -1511,9 +1505,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
      * @param  String davPath A DAV path expression.
 	 * @return Array<String> An Array of path titles.
 	 */
-	private function toTitlePath($davPath)
+	public function toNodePath($davPath)
 	{
 		global $tree;
+		$this->writelog('toNodePath('.$davPath.')...');		
 	
 		// Split the davPath into path titles
 		$titlePath = split('/',substr($davPath,1));
@@ -1530,32 +1525,35 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			array_pop($titlePath);
 		}
 
+		// If the path is empty, return null
+		if (count($titlePath) == 0)
+		{
+			$this->writelog('toNodePath('.$davPath.'):null, because path is empty.');		
+			return null;
+		}
+
+		// If the path is an absolute path, ref_id is null.
+		$ref_id = null;
+
 		// If the path is a relative folder path, convert it into an absolute path
 		if (count($titlePath) > 0 && substr($titlePath[0],0,4) == 'ref_')
 		{
 			$ref_id = substr($titlePath[0],4);
-
-			$nodePath =& $tree->getNodePath($ref_id, $tree->root_id);
-			$relativeTitlePath = $titlePath;
-			$titlePath = array();
-			for ($i = 0; $i < count($nodePath); $i++)
-			{
-				$titlePath[] = $nodePath[$i]['title'];
-			}
-			for ($i = 1; $i < count($relativeTitlePath); $i++)
-			{
-				$titlePath[] = $relativeTitlePath[$i];
-			}
+			array_shift($titlePath);
 		}
-		$this->writelog('toTitlePath():'.var_export($titlePath,true));		
-		return $titlePath;
+
+		$nodePath = $tree->getNodePathForTitlePath($titlePath, $ref_id);
+
+		$this->writelog('toNodePath():'.var_export($nodePath,true));		
+		return $nodePath;
 	}
-        /**
-        * davDeslashify - make sure path does not end in a slash
-        *
-        * @param   string directory path
-        * @returns string directory path without trailing slash
-        */
+
+	/**
+	* davDeslashify - make sure path does not end in a slash
+	*
+	* @param   string directory path
+	* @returns string directory path without trailing slash
+	*/
 	private function davDeslashify($path) 
 	{
 		$path = UtfNormal::toNFC($path);
@@ -1620,77 +1618,40 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 * The URI can be used as the value of a "href" attribute attribute
 	 * inside of an HTML anchor tag "<a>".
 	 *
-	 * Note: The current implementation will always return a 'mount-instructions'
-	 * URI, because there is no known browser yet, which supports webdav mounting.
-	 *
-	 * Note: The ressource name may be an illegal file name for the Windows operating system.
-	 * We do not do anything about that, because IE and Firefox on Windows use the Folder URI
-	 * instead of the Mount URI to mount a webfolder. Also, other WebDAV clients on Windows may
-	 * be able to handle such resource names.
-	 *
 	 * @param refId of the repository object.
 	 * @param nodeId of a childnode of the repository object. 
 	 * @param ressourceName ressource name (if known), to reduce SQL queries
 	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
 	 */
-	public function getMountURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
+	function getMountURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
 	{
-		$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:").
-					"//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+		if ($this->clientOS == 'windows') {
+			$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:");
+			$query = null;
+		} else if ($this->clientBrowser == 'konqueror') {
+			$baseUri = ($_SERVER["HTTPS"] === "on" ? "webdavs:" : "webdav:");
+			$query = null;
+		} else if ($this->clientBrowser == 'nautilus') {
+			$baseUri = ($_SERVER["HTTPS"] === "on" ? "davs:" : "dav:");
+			$query = null;
+		} else {
+			$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:");
+
+			// FIXME - For browsers which supports the webdav mounting protocol
+			// the query string must by 'mount'.
+			$query = 'mount-instructions';
+		}
+		$baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
 		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
 		
-		if (! is_null($ressourceName) && ! is_null($parentRefId))
+		$uri = $baseUri.'/ref_'.$refId.'/';
+
+		// Display instructions for browsers which can't mount a dav volume
+		if ($query != null)
 		{
-			// Quickly create URI from the known data without needing SQL queries
-			$uri = $baseUri.'/ref_'.$parentRefId.'/'.$ressourceName.'/';
-		} else {
-			// Create URI and use some SQL queries to get the missing data
-			global $tree;
-			$nodePath = $tree->getNodePath($refId);
-			
-			if (is_null($nodePath)) 
-			{
-				// No object path? Mount ILIAS root directory
-				$uri = $baseUri.'?mount-instructions';
-			} else {
-				if ($this->clientOS == 'windows')
-				{
-					// Windows is unable to mount a full-length DAV path.
-					// Therefore we shorten it to two elements.
-					if (count($nodePath) > 2)
-					{
-						$uri = $baseUri.'/ref_'.
-							$nodePath[count($nodePath) - 2]['child'].'/'.
-							$this->davUrlEncode($nodePath[count($nodePath) - 1]['title']).
-							'/';
-					} else {
-						$uri = $baseUri;
-						foreach ($nodePath as $node)
-						{
-							$uri .= '/'.$this->davUrlEncode($node['title']);
-						}
-						$uri .=	'/';
-					}
-				} else if ($this->clientBrowser == 'konqueror') {
-					$baseUri = ($_SERVER["HTTPS"] === "on" ? "webdavs:" : "webdav:");
-					$baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
-					$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).
-						'/webdav.php/'.CLIENT_ID;
-					$uri = $baseUri;
-					foreach ($nodePath as $node)
-					{
-						$uri .= '/'.$this->davUrlEncode($node['title']);
-					}
-				} else {
-					$uri = $baseUri;
-					foreach ($nodePath as $node)
-					{
-						$uri .= '/'.$this->davUrlEncode($node['title']);
-					}
-					$uri .=	'/?mount-instructions';
-				}
-			}
+			$uri .= '?'.$query;
 		}
+
 		return $uri;
 	}
 	/**
@@ -1707,63 +1668,9 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 * @param ressourceName ressource name (if known), to reduce SQL queries
 	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
 	 */
-	public function getFolderURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
+	function getFolderURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
 	{
-		$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:").
-				"//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
-		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
-		
-		if (! is_null($ressourceName) && ! is_null($parentRefId))
-		{
-			// Quickly create URI from the known data without needing SQL queries
-			
-			
-			// Windows is unable to mount a ressource with a longer name than 91 characters,
-			// of with a name with the following characters: \ / : * ? " < > | ' ( ) , +
-			// or with a name which contains an accent character 0x80-0xff
-			if (strlen($baseUri.$this->davUrlEncode($ressourceName)) > 91 || 
-				preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\||\'|[\(\),\+\x80-\xff]/', $ressourceName) > 0)
-			{
-				$uri = $baseUri.'/ref_'.$refId.'/';
-			} else {
-				$uri = $baseUri.'/ref_'.$parentRefId.'/'.$this->davUrlEncode($ressourceName).'/';
-			}
-		} else {
-			// Create URI and use some SQL queries to get the missing data
-			global $tree;
-			$nodePath = $tree->getNodePath($refId);
-			
-			if (is_null($nodePath)) 
-			{
-				// No object path? Mount ILIAS root directory
-				$uri = $baseUri.'/';
-			} else {
-				$ressourceName = $nodePath[count($nodePath) - 1]['title'];
-				// Windows is unable to mount a ressource with a longer name than 91 characters,
-				// of with a name with the following characters: \ / : * ? " < > | ' ( ) , +
-				// or with a name which contains an accent character 0x80-0xff
-				if (strlen($baseUri.$this->davUrlEncode($ressourceName)) > 91 || 
-					preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\||\'|[\(\),\+\x80-\xff]/', $ressourceName) > 0)
-				{
-					$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 1]['child'].'/';
-				} else if (count($nodePath) > 2)
-				{
-					// Windows is unable to mount a full-length DAV path.
-					// Therefore we shorten it to two elements.
-					$uri = $baseUri.'/ref_'.
-						$nodePath[count($nodePath) - 2]['child'].'/'.
-						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title']).'/';
-				} else {
-					$uri = $baseUri;
-					foreach ($nodePath as $node)
-					{
-						$uri .= '/'.$this->davUrlEncode($node['title']);
-					}
-					$uri .= '/';
-				}
-			}
-		}
-		return $uri;
+		return $this->getMountURI($refId, $nodeId, $ressourceName, $parentRefId);
 	}
 	/**
 	 * Returns an URI for getting a object using WebDAV by its name.
