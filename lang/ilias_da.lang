@@ -307,7 +307,7 @@ common#:#append_search#:#Læg til søgeresultater
 common#:#application_completed#:#Formularen er udført
 common#:#application_date#:#Formulardato
 common#:#applied_users#:#Godkendte brugere
-common#:#apply_filter#:#Godkend filter
+common#:#apply_filter#:#Anvend filter
 common#:#appointment#:#Aftale
 common#:#appointment_list#:#Aftaleliste
 common#:#approve_date#:#Godkendt den
@@ -2949,7 +2949,7 @@ search#:#search_details_info#:#Detaljeret søgning. Vælg hvilke typer objekter 
 search#:#search_direct#:#Direkte søgning
 search#:#search_fast_info#:#Søg efter titler, beskrivelser og nøgleord i alle objekter.
 search#:#search_for_grp_members#:#Søg efter gruppemedlemmer
-search#:#search_for_role_members#:#Search for role members
+search#:#search_for_role_members#:#Søg efter medlemmer med rolle
 search#:#search_for_users#:#Søg brugere
 search#:#search_full_info#:#Vælg denne indstilling for at søge i store mængder af data.
 search#:#search_group#:#Grupper
@@ -3457,19 +3457,19 @@ assessment#:#reset_definitions#:#Nulstil positioner
 assessment#:#reset_filter#:#Nulstil filter
 assessment#:#reset_pictures#:#Reset picture positions
 assessment#:#result#:#Resultat
-assessment#:#result_successful_saved#:#Your results have been saved successful!###25 02 2007 new variable
-assessment#:#result_unsuccessful_saved#:#There was an error saving the question results!###25 02 2007 new variable
+assessment#:#result_successful_saved#:#Dine resultater er blevet gemt!
+assessment#:#result_unsuccessful_saved#:#Der skete en FEJL da dine resultater skulle gemmes!
 assessment#:#save_before_upload_imagemap#:#Du skal tilføje dine ændringer før du kan uploade en billedmappe!
 assessment#:#save_before_upload_javaapplet#:#Du skal tilføje dine ændringer før du kan uploade et Java applet!
 assessment#:#save_edit#:#Gem og ændre indhold
 assessment#:#mark_tst_failed#:#Sorry, you failed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
 assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is: &quot;[mark]&quot;###29 05 2007 new variable
-assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;###29 05 2007 new variable
+assessment#:#mark_tst_ects#:#Din ECTS karakter er &quot;[markects]&quot;
 assessment#:#save_finish#:#Afslut testen
 assessment#:#save_introduction#:#Gå til introduktion
 assessment#:#save_next#:#Næste
 assessment#:#save_previous#:#Tidligere
-assessment#:#save_text_answer_points#:#Save text question points###21 Apr 2005 new variable
+assessment#:#save_text_answer_points#:#Gem point i tekstspørgsmål
 assessment#:#scored_pass#:#Scored pass
 assessment#:#scoring#:#Scoring###25 10 2006 new variable
 assessment#:#search_found_groups#:#Grupper fundet
@@ -3481,7 +3481,7 @@ assessment#:#search_users#:#Søg brugere
 assessment#:#see_details_for_further_information#:#Se detaljer for foreslået løsning
 assessment#:#select_an_answer#:#--- Vælg venligst et svar ---
 assessment#:#select_gap#:#Vælg hul
-assessment#:#number_of_answers#:#Number of Answers###25 02 2007 new variable
+assessment#:#number_of_answers#:#Antal svar
 assessment#:#numeric_gap#:#Numeric Gap###29 11 2006 new variable
 assessment#:#select_max_one_item#:#Vælg venligst kun en ting
 assessment#:#select_one_submitted_test#:#Angiv mindst en bruger som har afsluttet testen
@@ -3492,7 +3492,7 @@ assessment#:#select_tst_option#:#--- Vælg venligst en test ---
 assessment#:#selected_image#:#Vælg billede
 assessment#:#set_edit_mode#:#Vælg
 assessment#:#set_filter#:#Sæt filter
-assessment#:#set_manual_feedback#:#Set Manual Feedback###10 05 2007 new variable
+assessment#:#set_manual_feedback#:#Sæt manuel feedback
 assessment#:#shape#:#Form
 assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new variable
 assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
@@ -3657,14 +3657,14 @@ assessment#:#tst_qst_order#:#Orden
 assessment#:#tst_qst_resetsolved#:#Angiv ubesvaret
 assessment#:#tst_qst_result_sheet#:#Vis resultatark
 assessment#:#tst_qst_setsolved#:#Angiv besvaret
-assessment#:#tst_qst_summary_text#:#Here you can see all questions. Use the bulbs to mark a question as solved.###17 Aug 2005 new variable
+assessment#:#tst_qst_summary_text#:#Her kan du se alle spørgsmål. Brug pærene til at markere en opgave som løst.
 assessment#:#tst_question_no#:#Orden
 assessment#:#tst_question_offer#:#Vil du acceptere denne prøve eller vil du have en anden?
 assessment#:#tst_question_selection#:#Question selection###23 Dec 2005 new variable
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommende
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points###23 Dec 2005 new variable
-assessment#:#tst_question_mark#:#Mark this question###29 05 2007 new variable
-assessment#:#tst_question_marked#:#You marked the question###29 05 2007 new variable
+assessment#:#tst_question_mark#:#Marker dette spørgsmål
+assessment#:#tst_question_marked#:#Du har markeret spørgsmålet
 assessment#:#tst_question_marker#:#Marker###29 05 2007 new variable
 assessment#:#tst_question_unmark#:#Remove the mark for this question###29 05 2007 new variable
 assessment#:#tst_question_title#:#Titel
@@ -3690,15 +3690,15 @@ assessment#:#tst_report_after_date#:#After a fixed score reporting date###29 05 
 assessment#:#tst_result_user_name#:#Test resultat for %s
 assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s###12 11 2006 new variable
 assessment#:#tst_results#:#Test resultat
-assessment#:#tst_results_access#:#Access to Test Results###12 11 2006 new variable
-assessment#:#tst_results_access_finished#:#After Test is Finished###12 11 2006 new variable
-assessment#:#tst_results_access_date#:#Date###12 11 2006 new variable
+assessment#:#tst_results_access#:#Adgang til testresultater
+assessment#:#tst_results_access_finished#:#Efter testen er fuldført
+assessment#:#tst_results_access_date#:#Dato
 assessment#:#tst_results_access_always#:#Always###12 11 2006 new variable
 assessment#:#tst_results_access_description#:#This setting handles the access of the participants to their test results. If results can be accessed after the test is finished, the participants can access their test results after they finished a test pass for the first time. Even if a test has more than one allowed test pass, the participants can access their test results after finishing the first pass. If you choose a date access restriction, the participants will not be able to access their test results until the specified date and time is reached. You must choose this option if you want to use the ECTS scoring system of if you have to score questions manually. If "Always" is selected, the participants can access their test results at any time even if the did not finish the test yet.###18 12 2006 new variable
 assessment#:#tst_results_aggregated#:#Aggrerede testresultater
-assessment#:#tst_results_back_evaluation#:#Back to evaluation overview
+assessment#:#tst_results_back_evaluation#:#Tilbage til evalueringsoverblik
 assessment#:#tst_results_back_introduction#:#Tilbage til introduktionen
-assessment#:#tst_results_back_overview#:#Back to results overview
+assessment#:#tst_results_back_overview#:#Tilbage til resultatoverblik
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results ###12 11 2006 new variable
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s###29 11 2006 new variable
 assessment#:#tst_results_presentation#:#Test Results Presentation###12 11 2006 new variable
@@ -3821,7 +3821,7 @@ assessment#:#when#:#hvornår
 assessment#:#with_order#:#med orden
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#arbejdstid
-assessment#:#working_time_avg#:#Avg. Working Time###29 11 2006 new variable
+assessment#:#working_time_avg#:#Gns. arbejdstid
 assessment#:#you_received_a_of_b_points#:#Du fik %d af %d mulige point
 barometer#:#options#:#Options
 barometer#:#statistics#:#Statistik
@@ -3875,7 +3875,7 @@ barometer#:#votes#:#Votes
 barometer#:#weeks#:#Weeks
 barometer#:#worst#:#Worst
 barometer#:#year#:#Year
-barometer#:#barometer_add#:#Add new Feedbac###25 10 2006 new variable
+barometer#:#barometer_add#:#Tilføj feedback
 barometer#:#barometer_conflict_anon_req#:#Anonymization can not be combined with type 'Required'. Please choose one of these options.###16 08 2007 new variable
 bibitem#:#bibitem_add#:#Tilføj
 bibitem#:#bibitem_author#:#Forfatter
@@ -3898,8 +3898,8 @@ bibitem#:#bibitem_identifier#:#Identifier###21 Apr 2005 new variable
 bibitem#:#bibitem_inbook#:#I bog
 bibitem#:#bibitem_inproceedings#:#Under arbejde
 bibitem#:#bibitem_institution#:#Institution
-bibitem#:#bibitem_internet#:#Internet###21 Apr 2005 new variable
-bibitem#:#bibitem_isbn#:#ISBN###21 Apr 2005 new variable
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
 bibitem#:#bibitem_issn#:#ISSN###21 Apr 2005 new variable
 bibitem#:#bibitem_journal#:#Journal###21 Apr 2005 new variable
 bibitem#:#bibitem_journal_article#:#Journal artikel
@@ -3956,10 +3956,10 @@ chat#:#chat_blocked#:#Begrænset adgang
 chat#:#chat_blocked_unlocked#:#Lås op
 chat#:#chat_blocked_users#:#Blokerede brugere
 chat#:#chat_blue#:#blå
-chat#:#chat_bold#:#Bold###21 Apr 2005 new variable
+chat#:#chat_bold#:#Fed
 chat#:#chat_chatroom_body#:#Chatroom:
-chat#:#chat_chatroom_rename#:#Ændre chatroom
-chat#:#chat_chatrooms#:#Chatroom
+chat#:#chat_chatroom_rename#:#Ændre chatrum
+chat#:#chat_chatrooms#:#Chatrum
 chat#:#chat_color#:#Font farve
 chat#:#chat_delete_sure#:#Er du sikker på du vil slette dette chatroom
 chat#:#chat_drop_user#:#Bruger smidt ud
@@ -4066,9 +4066,9 @@ chat#:#chat_whisper#:#Visken
 chat#:#chat_yellow#:#Gul
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Mine chat
-chat#:#chat_server_ssl_settings#:#SSL Settings###12 11 2006 new variable
+chat#:#chat_server_ssl_settings#:#SSL indstillinger
 chat#:#chat_server_ssl_port#:#Server SSL Port###12 11 2006 new variable
-chat#:#chat_server_ssl_active#:#SSL active###12 11 2006 new variable
+chat#:#chat_server_ssl_active#:#SSL aktiv
 chat#:#chat_add_ssl_port#:#Please add the server SSL port###12 11 2006 new variable
 chat#:#chat_notification_intro#:#This email was automatically sent to you by the ILIAS installation %s, %###10 05 2007 new variable
 form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.###02 04 2007 new variable
@@ -4085,8 +4085,8 @@ form#:#form_minutes#:#Minutter
 form#:#form_seconds#:#Sekunder
 pd#:#pd_settings#:#Personlige skrivebordsindstillinger
 pd#:#pd_enable_block_moving#:#Aktiver blok-flytning
-pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.###02 04 2007 new variable
-pd#:#pd_enable_active_users#:#Enable Active Users Block###29 05 2007 new variable
+pd#:#pd_enable_block_moving_info#:#Tillad brugere at omrokere på indholdsblokkene på deres personlige skrivebord.
+pd#:#pd_enable_active_users#:#Aktiver 'aktive brugere' blok
 pd#:#pd_time_before_removal#:#Maksimal inaktivitet (minutter)
 pd#:#pd_time_before_removal_info#:#Efter inaktivitet fjernes brugere fra listen over aktive brugere.
 pd#:#pd_osi_host#:#OSI vært
@@ -7619,8 +7619,8 @@ common#:#info_accessFree_sure#:#Are you sure you want to remove the limited acce
 common#:#access_from#:#Access (from)###25 09 2007 new variable
 common#:#access_restrict_enter#:#Please set the period for the limited access restriction###25 09 2007 new variable
 meta#:#md_copyright_settings#:#Copyright Settings###25 09 2007 new variable
-meta#:#md_copyright_enabled#:#Enable Copyright Selection###25 09 2007 new variable
-meta#:#md_copyright_selection#:#Copyright Presettings###25 09 2007 new variable
+meta#:#md_copyright_enabled#:#Aktiver copyright muligheder
+meta#:#md_copyright_selection#:#Foruddefinerede copyright muligheder
 meta#:#md_used#:#Brug
 meta#:#md_copyright_preview#:#Copyright (Preview)###25 09 2007 new variable
 meta#:#md_copyright_edit#:#Edit Copyright Presetting###25 09 2007 new variable
