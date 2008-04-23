@@ -124,7 +124,7 @@ class ilTagging
 	{
 		global $ilDB;
 		
-		$q = "SELECT count(user_id) as cnt, * FROM il_tag WHERE ".
+		$q = "SELECT count(user_id) as cnt, tag FROM il_tag WHERE ".
 			"obj_id = ".$ilDB->quote($a_obj_id)." AND ".
 			"obj_type = ".$ilDB->quote($a_obj_type)." AND ".
 			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id)." AND ".
@@ -185,6 +185,28 @@ class ilTagging
 		return $objects;
 	}
 
+	/**
+	* Returns 100(%) for 1 and 150(%) for $max
+	* y = a + mx
+	* 100 = a + m (1)
+	* 150 = a + m * max (2)
+	* (1): a = 100 - m (3)
+	* (2): a = 150 - max*m (4)
+	* (3)&(4): m - 100 = max*m - 150 (5)
+	* (5) 50 = (max-1)*m
+	* => m = 50/(max -1)
+	* => a = 100 - 50/(max -1)
+	*/
+	static function calculateFontSize($cnt, $max)
+	{
+		$m = ($max == 1)
+			? 0
+			: 50 / ($max - 1);
+		$a = 100 - $m;
+		$font_size = round($a + ($m * $cnt));
+		return (int) $font_size;
+	}
+	
 }
 
 ?>
