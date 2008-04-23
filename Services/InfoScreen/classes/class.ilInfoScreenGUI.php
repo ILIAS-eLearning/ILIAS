@@ -1063,7 +1063,8 @@ class ilInfoScreenGUI
 		
 		// tags of all users
 		$tpl->setCurrentBlock("pv");
-		$tpl->setVariable("TXT_PROPERTY_VALUE", "test");
+		$tpl->setVariable("TXT_PROPERTY_VALUE",
+			$tagging_gui->getAllUserTagsForObjectHTML());
 		$tpl->parseCurrentBlock();
 		$tpl->setCurrentBlock("property_row");
 		$tpl->setVariable("TXT_PROPERTY", $lng->txt("tagging_all_users"));

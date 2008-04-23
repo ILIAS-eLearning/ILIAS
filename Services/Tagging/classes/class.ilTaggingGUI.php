@@ -154,6 +154,35 @@ class ilTaggingGUI
 		ilTagging::writeTagsForUserAndObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), $tags);
 	}
+	
+	/**
+	* Get Input HTML for Tagging of an object (and a user)
+	*/
+	function getAllUserTagsForObjectHTML()
+	{
+		global $lng, $ilCtrl;
+		
+		$ttpl = new ilTemplate("tpl.tag_cloud.html", true, true, "Services/Tagging");
+		$tags = ilTagging::getTagsForObject($this->obj_id, $this->obj_type,
+			$this->sub_obj_id, $this->sub_obj_type);
+			
+		$max = 1;
+		foreach ($tags as $tag)
+		{
+			$max = max($max, $tag["cnt"]);
+		}
+		reset($tags);
+		foreach ($tags as $tag)
+		{
+			$ttpl->setCurrentBlock("unlinked_tag");
+			$ttpl->setVariable("FONT_SIZE", ilTagging::calculateFontSize($tag["cnt"], $max)."%");
+			$ttpl->setVariable("TAG_TITLE", $tag["tag"]);
+			$ttpl->parseCurrentBlock();
+		}
+		
+		return $ttpl->get();
+	}
+
 }
 
 ?>

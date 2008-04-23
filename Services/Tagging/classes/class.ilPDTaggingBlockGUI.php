@@ -152,6 +152,13 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		$showdetails = ($this->getCurrentDetailLevel() > 2);
 		$tpl = new ilTemplate("tpl.tag_cloud.html", true, true,
 			"Services/Tagging");
+		$max = 1;
+		foreach($this->tags as $tag)
+		{
+			$max = max($tag["cnt"], $max);
+		}
+		reset($this->tags);
+
 		foreach($this->tags as $tag)
 		{
 			$tpl->setCurrentBlock("linked_tag");
@@ -159,9 +166,11 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 			$tpl->setVariable("HREF_TAG",
 				$ilCtrl->getLinkTarget($this, "showResourcesForTag"));
 			$tpl->setVariable("TAG_TITLE", $tag["tag"]);
+			$tpl->setVariable("FONT_SIZE",
+				ilTagging::calculateFontSize($tag["cnt"], $max)."%");
 			$tpl->parseCurrentBlock();
 		}
-
+		$tpl->setVariable("CLOUD_STYLE", ' class="small" ');
 		return $tpl->get();
 	}
 	
@@ -175,6 +184,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		$tpl = new ilTemplate("tpl.resources_for_tag.html", true, true, "Services/Tagging");
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI();
+		$content_block->setColSpan(2);
 		$content_block->setTitle(sprintf($lng->txt("tagging_resources_for_tag"),
 			"<i>".$_GET["tag"]."</i>"));
 		$content_block->setImage(ilUtil::getImagePath("icon_tag.gif"));
@@ -216,12 +226,19 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 					$obj["obj_id"], 
 					ilObject::_lookupTitle($obj["obj_id"]),
 					ilObject::_lookupDescription($obj["obj_id"]));
-				$css = ($css != "tblrow1") ? "tblrow1" : "tblrow2";
 					
-				$tpl->setCurrentBlock("res_row");
-				$tpl->setVariable("ROWCLASS", $css);
-				$tpl->setVariable("RESOURCE_HTML", $html);
-				$tpl->parseCurrentBlock();
+				if ($html != "")
+				{
+					$css = ($css != "tblrow1") ? "tblrow1" : "tblrow2";
+						
+					$tpl->setCurrentBlock("res_row");
+					$tpl->setVariable("ROWCLASS", $css);
+					$tpl->setVariable("RESOURCE_HTML", $html);
+					$tpl->setVariable("ALT_TYPE", $lng->txt("obj_".$type));
+					$tpl->setVariable("IMG_TYPE",
+						ilUtil::getImagePath("icon_".$type.".gif"));
+					$tpl->parseCurrentBlock();
+				}
 			}
 		}
 		$content_block->setContent($tpl->get());
