@@ -991,27 +991,34 @@ class ilUserImportParser extends ilSaxParser
 				$am = ($this->userObj->getAuthMode() == "default" || $this->userObj->getAuthMode() == "")
 					? ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode'))
 					: $this->userObj->getAuthMode();
-				$elogin = ($this->userObj->getExternalAccount() == "")
+				$loginForExternalAccount = ($this->userObj->getExternalAccount() == "")
 					? ""
 					: ilObjUser::_checkExternalAuthAccount($am, $this->userObj->getExternalAccount());
 				switch ($this->action)
 				{
 					case "Insert" :
-						if ($elogin != "")
+						if ($loginForExternalAccount != "")
 						{
-							$this->logWarning($this->userObj->getLogin(),
-								$lng->txt("usrimport_no_insert_ext_account_exists")." (".$this->userObj->getExternalAccount().")");
+							$this->logWarning($this->userObj->getLogin(), $lng->txt("usrimport_no_insert_ext_account_exists")." (".$this->userObj->getExternalAccount().")");
 							$this->action = "Ignore";
 						}
 						break;
 						
 					case "Update" :
-						$externalAccountHasChanged = trim($this->cdata) != ilObjUser::_lookupExternalAccount($this->user_id);
-						if ($externalAccountHasChanged && trim($elogin) != trim($this->userObj->getLogin()))
+						// this variable describes the ILIAS login which belongs to the given external account!!!
+						// it is NOT nescessarily the ILIAS login of the current user record !!
+						// so if we found an ILIAS login according to the authentication method
+						// check if the ILIAS login belongs to the current user record, otherwise somebody else is using it!
+						if ($loginForExternalAccount != "") 
 						{
-							$this->logWarning($this->userObj->getLogin(),
-								$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->userObj->getExternalAccount().")");
-							$this->action = "Ignore";
+							// check if we changed the value!
+							$externalAccountHasChanged = $this->userObj->getExternalAccount() != ilObjUser::_lookupExternalAccount($this->user_id);
+							// if it has changed and the external login 
+							if ($externalAccountHasChanged && trim($loginForExternalAccount) != trim($this->userObj->getLogin()))
+							{
+								$this->logWarning($this->userObj->getLogin(), $lng->txt("usrimport_no_update_ext_account_exists")." (".$this->userObj->getExternalAccount().")");
+								$this->action = "Ignore";
+							}							
 						}
 						break;
 				}
@@ -1727,27 +1734,30 @@ class ilUserImportParser extends ilSaxParser
 				$am = ($this->userObj->getAuthMode() == "default" || $this->userObj->getAuthMode() == "")
 					? ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode'))
 					: $this->userObj->getAuthMode();
-				$elogin = (trim($this->cdata) == "")
+				$loginForExternalAccount = (trim($this->cdata) == "")
 					? ""
 					: ilObjUser::_checkExternalAuthAccount($am, trim($this->cdata));
 				switch ($this->action)
 				{
 					case "Insert" :
-						if ($elogin != "")
+						if ($loginForExternalAccount != "")
 						{
-							$this->logWarning($this->userObj->getLogin(),
-								$lng->txt("usrimport_no_insert_ext_account_exists")." (".$this->cdata.")");
+							$this->logWarning($this->userObj->getLogin(), $lng->txt("usrimport_no_insert_ext_account_exists")." (".$this->cdata.")");
 						}
 						break;
 						
 					case "Update" :
-						$externalAccountHasChanged = trim($this->cdata) != ilObjUser::_lookupExternalAccount($this->user_id);
-						if ($externalAccountHasChanged && trim($elogin) != trim($this->userObj->getLogin()))
+						if ($loginForExternalAccount != "")
 						{
-							$this->logWarning($this->userObj->getLogin(),
-								$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->cdata." for ".$elogin.")");
+							$externalAccountHasChanged = trim($this->cdata) != ilObjUser::_lookupExternalAccount($this->user_id);
+							if ($externalAccountHasChanged && trim($loginForExternalAccount) != trim($this->userObj->getLogin()))
+							{
+								$this->logWarning($this->userObj->getLogin(),
+									$lng->txt("usrimport_no_update_ext_account_exists")." (".$this->cdata." for ".$loginForExternalAccount.")");
+							}
 						}
 						break;
+						
 				}
 				if ($externalAccountHasChanged)
 					$this->userObj->setExternalAccount(trim($this->cdata));
