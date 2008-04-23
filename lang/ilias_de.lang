@@ -7997,3 +7997,14 @@ dateplaner#:#cal_weekday#:#Wochentag
 dateplaner#:#cal_day_of_month#:#Tag des Monats
 common#:#display_webdav_actions#:#WebDAV Aktionen anzeigen
 common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' bei jeder Kategorie, Ordner, Gruppe und Kurs im Magazin an.
+rbac#:#sess_visible#:#Sitzungen sind sichtbar
+rbac#:#sess_read#:#Lesezugriff auf Sitzungen
+rbac#:#sess_write#:#Sitzungen bearbeiten
+rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
+common#:#obj_sess#:#Sitzung
+common#:#objs_sess#:#Sitzungen
+common#:#crs_create_sess#:#Neue Sitzung anlegen
+rbac#:#sess_copy#:#Kopieren
+common#:#obj_sess_duplicate#:#Sitzung kopieren
+common#:#obj_sess_select#:#-- Bitte wählen Sie eine Sitzung aus --
+common#:#sess#:#Sitzung
