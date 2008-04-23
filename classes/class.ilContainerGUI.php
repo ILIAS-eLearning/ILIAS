@@ -259,6 +259,7 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		if (is_array($subobj))
 		{
+			/*
 			// show addEvent button
 			if($this->object->getType() == 'crs')
 			{
@@ -271,12 +272,15 @@ class ilContainerGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			$this->tpl->setCurrentBlock("add_commands");
+			*/			
+			/*
 			// convert form to inline element, to show them in one row
 			if($this->object->getType() == 'crs')
 			{
 				$this->tpl->setVariable("FORMSTYLE",'display:inline');
 			}
+			*/
+			$this->tpl->setCurrentBlock("add_commands");
 			$formaction = "repository.php?ref_id=".$this->object->getRefId()."&cmd=post";
 			$formaction = $ilCtrl->appendRequestTokenParameterString($formaction);
 			$this->tpl->setVariable("H_FORMACTION",$formaction);

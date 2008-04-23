@@ -872,14 +872,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_important_info'),'important');
 		$area->setValue($this->object->getImportantInformation());
-		$area->setRows(3);
-		$area->setCols(80);
+		$area->setRows(6);
+		$area->setCols(120);
 		$this->form->addItem($area);
 		
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_syllabus'),'syllabus');
 		$area->setValue($this->object->getSyllabus());
-		$area->setRows(3);
-		$area->setCols(80);
+		$area->setRows(6);
+		$area->setCols(120);
 		$this->form->addItem($area);
 		
 		$section = new ilFormSectionHeaderGUI();
@@ -920,8 +920,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
 		$area->setValue($this->object->getContactConsultation());
-		$area->setRows(3);
-		$area->setCols(80);
+		$area->setRows(6);
+		$area->setCols(120);
 		$this->form->addItem($area);
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
