@@ -898,7 +898,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		// get sort variables from get vars
-		$sort_order = isset($_GET['sort_order']) ? $_GET['sort_order']: 'DESC';
+		$sort_order = isset($_GET['sort_order']) ? $_GET['sort_order']: 'desc';
 		$sort_by  = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'ranking';
 
 		if ($sort_by == 'title') $sort_by = 'ranking';
@@ -921,7 +921,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		// table properties
     	$tbl->enable('hits');
-    	$tbl->disable('sort');
+    	$tbl->enable('sort');
 		$tbl->setOrderColumn($sort_by);
 		$tbl->setOrderDirection($sort_order);
 		$tbl->setLimit(0);

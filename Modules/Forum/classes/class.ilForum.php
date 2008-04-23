@@ -1084,10 +1084,16 @@ class ilForum
 				  
 		$res = $this->ilias->db->query ($query);
 		
+		$counter = 0;
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-		    $statistic[] = $row;
-		}			  
+		    $statistic[$counter][] = $row['ranking'];
+		    $statistic[$counter][] = $row['login'];
+		    $statistic[$counter][] = $row['lastname'];
+		    $statistic[$counter][] = $row['firstname'];
+		    
+		    ++$counter;
+		}	  
 				  
 		return is_array($statistic) ? $statistic : array(); 
 	}
