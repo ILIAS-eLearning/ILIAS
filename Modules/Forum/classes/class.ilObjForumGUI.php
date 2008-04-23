@@ -334,10 +334,6 @@ class ilObjForumGUI extends ilObjectGUI
 				// navigation to browse
 				if ($thrNum > $pageHits)
 				{
-					$params = array(
-						'ref_id' => $_GET['ref_id']	
-						);
-			
 					if (!$_GET['offset'])
 					{
 						$Start = 0;
@@ -347,7 +343,7 @@ class ilObjForumGUI extends ilObjectGUI
 						$Start = $_GET['offset'];
 					}
 			
-					$linkbar = ilUtil::Linkbar(basename($_SERVER['PHP_SELF']), $thrNum, $pageHits, $Start, $params);
+					$linkbar = ilUtil::Linkbar($this->ctrl->getLinkTarget($this), $thrNum, $pageHits, $Start, array());
 			
 					if ($linkbar != '')
 					{
