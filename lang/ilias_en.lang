@@ -8019,3 +8019,14 @@ dateplaner#:#cal_weekday#:#Weekday
 dateplaner#:#cal_day_of_month#:#Day of the month
 common#:#display_webdav_actions#:#Display WebDAV actions
 common#:#display_webdav_actions_info#:#Displays the action 'open as webfolder' next to each category, folder, course and group item in the repository.
+rbac#:#sess_visible#:#Sessions are visible
+rbac#:#sess_read#:#Read access to Sessions
+rbac#:#sess_write#:#Edit Sessions
+rbac#:#sess_edit_permission#:#Change Permission Settings
+common#:#obj_sess#:#Session
+common#:#objs_sess#:#Sessions
+rbac#:#crs_create_sess#:#Create Session
+rbac#:#sess_copy#:#Copy Session
+common#:#obj_sess_duplicate#:#Copy Session
+common#:#obj_sess_select#:#-- Please select one Session --
+common#:#sess#:#Session

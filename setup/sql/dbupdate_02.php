@@ -3832,3 +3832,51 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
+<#1196>
+<?php
+// add create operation for 
+$query = "INSERT INTO rbac_operations ".
+	"SET operation = 'create_sess', description = 'create session',class = 'create'";
+$ilDB->query($query);
+
+// get new ops_id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops_id = $row[0];
+
+// add create sess for crs
+// get category type id
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='crs'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+?>
+
+<#1197>
+<?php
+
+$query = "SELECT ops_id FROM rbac_operations WHERE operation = 'copy'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops_id = $row[0];
+
+// new object type for course sessions
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'sess'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+
+
+// Register copy permissions for sessions 
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
+		."  (".$ilDB->quote($typ_id).",'".$ops_id."')";
+$ilDB->query($query);
+?>
+
+
