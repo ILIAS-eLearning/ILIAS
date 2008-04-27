@@ -120,7 +120,6 @@ h1 {
 h2 {
 	text-decoration: none;
 	font-weight: bold;
-	page-break-before: always;
 }
 
 h3 {
@@ -144,7 +143,6 @@ td {
 
 hr {
 	border: 1px double gray;
-	page-break-after: always;
 }
 
 .questionTitle {
@@ -171,8 +169,4 @@ td.freefield_line {
 
 table.freefield_bottom {
 	padding-top: 5em;
-}
-
-.questionPrintview {
-	page-break-after: always;
 }
