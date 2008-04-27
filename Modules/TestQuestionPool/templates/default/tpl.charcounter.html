@@ -1,46 +1,25 @@
 <script type="text/javascript">
+maxL={MAXCHARS};
 
-// char counter
-var charsToGo;
-
-function charCounter(charInputSrcName, maxCharCount, outputTargetName) 
-{
-	var charInputSrc = document.getElementById(charInputSrcName);
-	var outputTargetSrc = document.getElementById(outputTargetName);
-	
-	if (charInputSrc != null) 
-	{
-		// Check length
-		if (charInputSrc.value.length <= maxCharCount) 
-		{
-			// Calculate remaining chars
-			charsToGo = maxCharCount - charInputSrc.value.length;
-			outputTargetSrc.innerHTML = '(' + charsToGo + '&nbsp;{CHARACTERS})';
-		}
-		else
-		{
-			charInputSrc.value = charInputSrc.value.substring(0, maxCharCount);
-		}
-		charsToGo = maxCharCount - charInputSrc.value.length;
-	}
+function taLimit(taObj) {
+	if (taObj.value.length==maxL) return false;
+	return true;
 }
 
-function counterOutput(charInputSrcName, maxCharCount, outputTargetName)
-{
-	var charInputSrc = document.getElementById(charInputSrcName);
-	
-	// check for global variable
-	if (charsToGo == null) 
-	{
-		// calculate value
-		charsCount = maxCharCount - charInputSrc.value.length; 
-	}
-	else
-	{
-		charsCount = charsToGo;
-	}
-	document.write('<span name=\"'
-		+ outputTargetName + '\" id=\"' + outputTargetName +'\">('
-		+ charsCount + '&nbsp;{CHARACTERS})</span>')
+function taCount(taObj,Cnt) { 
+	cc = createObject('charcounter');
+	if (cc != null) cc.style.visibility = 'visible';
+	objCnt=createObject(Cnt);
+	objVal=taObj.value;
+	if (objVal.length>maxL) objVal=objVal.substring(0,maxL);
+	if (objCnt) objCnt.value=maxL-objVal.length;
+	return true;
+}
+function createObject(objId) {
+	if (document.getElementById) return document.getElementById(objId);
+	else if (document.layers) return eval("document." + objId);
+	else if (document.all) return eval("document.all." + objId);
+	else return eval("document." + objId);
 }
 </script>
+

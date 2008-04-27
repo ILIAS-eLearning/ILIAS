@@ -244,7 +244,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		{
 			$this->tpl->addBlockFile("CONTENT_BLOCK", "charcounter", "tpl.charcounter.html", "Modules/TestQuestionPool");
 			$this->tpl->setCurrentBlock("charcounter");
-			$this->tpl->setVariable("CHARACTERS", $this->lng->txt("characters"));
+			$this->tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$this->tpl->parseCurrentBlock();
 		}
 	}
@@ -345,6 +345,8 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("maxchars_counter");
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+			$template->setVariable("TEXTBOXSIZE", strlen($this->object->getMaxNumOfChars()));
+			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
@@ -399,6 +401,8 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("maxchars_counter");
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
+			$template->setVariable("TEXTBOXSIZE", strlen($this->object->getMaxNumOfChars()));
+			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
 			$template->parseCurrentBlock();
 		}
 		$template->setVariable("ESSAY", ilUtil::prepareFormOutput($user_solution));

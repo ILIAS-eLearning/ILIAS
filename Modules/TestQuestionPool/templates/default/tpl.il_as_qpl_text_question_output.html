@@ -1,14 +1,11 @@
+
 <div xmlns:xhtml="http://www.w3.org/1999/xhtml" class="ilc_Question">
 	{QUESTIONTEXT}<br />
 <!-- BEGIN maximum_char_hint -->
 	<p class="quote">{MAXIMUM_CHAR_HINT}</p>
 <!-- END maximum_char_hint -->
-<textarea class="fullwidth" cols="40" rows="10" name="TEXT" id="TEXT" <!-- BEGIN has_maxchars -->onKeyDown="charCounter('TEXT', {MAXCHARS}, 'charCount');" onKeyUp="charCounter('TEXT', {MAXCHARS}, 'charCount');" onChange="charCounter('TEXT', {MAXCHARS}, 'charCount');"<!-- END has_maxchars -->>{ESSAY}</textarea>
+<textarea class="fullwidth" cols="40" rows="10" name="TEXT" id="TEXT" onKeyPress="return taLimit(this);" onKeyUp="return taCount(this,'myCounter')">{ESSAY}</textarea>
 <!-- BEGIN maxchars_counter -->
-<br />
-<script language="JavaScript" type="text/javascript">
-	counterOutput('TEXT', {MAXCHARS}, 'charCount');
-</script>
-<br />
+<p id="charcounter" style="visibility: hidden;">(<input type="text" readonly="readonly" id="myCounter" style="border: 0; background: transparent;" size="{TEXTBOXSIZE}" value="{MAXCHARS}" /> {CHARACTERS})</p>
 <!-- END maxchars_counter -->
 </div>
