@@ -315,7 +315,7 @@ common#:#approve_recipient#:#Login ID på administratoren
 common#:#archive#:#Arkiver
 common#:#are_you_sure#:#Er du sikker?
 common#:#arrow_downright#:#Pil fra top til nederst højre
-common#:#articels_unread#:#Ulæste artikler
+common#:#articels_unread#:#ulæste artikler
 common#:#as_of#:#as of###21 Apr 2005 new variable
 common#:#ascending_order#:#Stigende orden
 common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###18 12 2006 new variable
@@ -445,14 +445,14 @@ common#:#available_languages#:#TIlgængelige sprog
 common#:#average_time#:#Gennemsnitstid
 common#:#back#:#Tilbage
 common#:#back_to_crs_content#:#Tilbage til kurusindhold
-common#:#back_to_fold_content#:#Back to Folder Content
-common#:#back_to_grp_content#:#Tilbage til gruppens indhold
-common#:#basedn#:#BaseDN###21 Apr 2005 new variable
+common#:#back_to_fold_content#:#Tilbage til folderindhold
+common#:#back_to_grp_content#:#Tilbage til gruppeindhold
+common#:#basedn#:#BaseDN
 common#:#basic_data#:#Standard Data
 common#:#basic_settings#:#Basic Settings
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmarkindstillinger
-common#:#benchmarks#:#Benchmarks###21 Apr 2005 new variable
+common#:#benchmarks#:#Benchmark
 common#:#bib_data#:#Bibliografisk data
 common#:#big_icon#:#Stort ikon
 common#:#bkm_import#:#Importer foretrukne
@@ -670,7 +670,7 @@ common#:#cron_forum_notification_cron#:#Ved cron job
 common#:#cron_forum_notification_desc#:#Hvis aktiveret får alle brugere der ønsker advisering om bestemte emner i fora tilsendt en email.
 common#:#cron_forum_notification_directly#:#Øjeblikkeligt ved nye indlæg
 common#:#cron_forum_notification_never#:#aldrig
-common#:#cron_mail_notification#:#Send mail advisering.
+common#:#cron_mail_notification#:#Send mail advisering
 common#:#cron_mail_notification_never#:#Aldrig
 common#:#cron_mail_notification_cron#:#I forbindelse med cron job
 common#:#cron_mail_notification_desc#:#Hvis aktiveret sendes en (ekstern) email til brugere der ønsker advisering om ny post.
@@ -1042,7 +1042,7 @@ common#:#forums_overview#:#Oversigt over fora
 common#:#forums_threads#:#Emner
 common#:#frm#:#Forum
 common#:#frm_a#:#et forum
-common#:#frm_latest_postings#:#Latest Articles###25 02 2007 new variable
+common#:#frm_latest_postings#:#Seneste indlæg
 common#:#frm_add#:#Tilføj forum
 common#:#frm_added#:#Forum er tilføjet
 common#:#frm_article#:#indlæg
@@ -5579,7 +5579,7 @@ mail#:#mail_add_type#:#Vælg venligst hvilken type mail du vil sende
 mail#:#mail_addr_entries#:#Emne
 mail#:#mail_mailing_lists_no_addressbook_entries#:#Du har endnu ingen poster i din adressebog
 mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Du har allerede tilføjet hele din adressebog til denne mailinglist
-mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List###16 08 2007 new variable
+mail#:#mail_assign_entry_to_mailing_list#:#Tilføj en bruger fra dit adressekortotek til mailinglisten
 mail#:#mail_attachments#:#Vedhæftninger
 mail#:#mail_bc_not_valid#:#BCC modtageren er ikke gyldig
 mail#:#mail_bc_search#:#BCC søgning
@@ -5597,7 +5597,7 @@ mail#:#mail_enter_valid_email_addr#:#Venligst angiv gyldig email.
 mail#:#mail_enter_valid_login#:#Venligst angiv et gyldigt login navn.
 mail#:#mail_entry_added#:#Tilføjet nyt emne
 mail#:#mail_entry_changed#:#Emnet er ændret
-mail#:#mail_entry_exists#:#An entry with the given login name or e-mail address already exists.###23 Dec 2005 new variable
+mail#:#mail_entry_exists#:#Der eksisterer allerede en indgang med det angivne logon eller email-adresse
 mail#:#mail_file_name#:#Filnavn
 mail#:#mail_file_size#:#Fil størrelse
 mail#:#mail_files_deleted#:#Filen/filerne er slettet
@@ -5625,8 +5625,8 @@ mail#:#mail_move_error#:#Fejl under flytning af mail
 mail#:#mail_move_to#:#Flyt til:
 mail#:#mail_moved#:#Mailen er blevet flyttet
 mail#:#mail_moved_to_trash#:#Mail er blevet flyttet til papirkurv
-mail#:#mail_notification_subject#:#New mail in your inbox###16 08 2007 new variable
-mail#:#mail_nacc_admin_mail#:#E-Mail address of Administrator.
+mail#:#mail_notification_subject#:#Ny post i din indbakke
+mail#:#mail_nacc_admin_mail#:#Administrators email-adresse
 mail#:#mail_nacc_client_name#:#Klientens navn.
 mail#:#mail_nacc_ilias_url#:#URL til ILIAS systemet.
 mail#:#mail_nacc_login#:#Brugerkonto
@@ -5637,7 +5637,7 @@ mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passe
 mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.
-mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used
+mail#:#mail_nacc_use_placeholder#:#Nedenstående felterstatninger kan anvendes
 mail#:#mail_new_file#:#Tilføj ny fil:
 mail#:#mail_no_attach_allowed#:#Ikke tilladt med vedhæftninger i systembeskeder
 mail#:#mail_no_attachments_found#:#Ingen vedhæftninger fundet
@@ -5684,7 +5684,7 @@ mail#:#mail_my_groups#:#Mine grupper
 mail#:#mail_my_mailing_lists#:#Mine maillister
 mail#:#mail_mailing_lists#:#Maillister
 mail#:#mail_mailing_list#:#Mailliste
-mail#:#mail_members_of_mailing_list#:#Members of Mailing List###16 08 2007 new variable
+mail#:#mail_members_of_mailing_list#:#Modtagere på mailinglisten
 mail#:#mail_into_addressbook#:#Put i adressebog
 mail#:#mail_group_members#:#Gruppemedlemmer
 mail#:#mail_entry_of_addressbook#:#Kontakter i adressebog
