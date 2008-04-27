@@ -41,13 +41,13 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 	function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 	{
+		include_once './include/inc.header.php';
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}			
 
 		// Include main header
-		include_once './include/inc.header.php';
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$active_id = ilObjTest::_getActiveIdOfUser($user_id, $test_id);
 		$ilDB = $GLOBALS['ilDB'];
