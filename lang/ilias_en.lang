@@ -7020,7 +7020,7 @@ survey#:#search_questions#:#Search Questions
 survey#:#search_roles#:#Found Roles
 survey#:#search_term#:#Search Term
 survey#:#search_type_all#:#Search in all Question Types
-survey#:#search_users#:#Found Users
+survey#:#found_users#:#Found Users
 survey#:#select_option#:#--- Please select an option ---
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
 survey#:#select_prior_question#:#Select a prior question
@@ -8032,3 +8032,12 @@ rbac#:#sess_copy#:#Copy Session
 common#:#obj_sess_duplicate#:#Copy Session
 common#:#obj_sess_select#:#-- Please select one Session --
 common#:#sess#:#Session
+survey#:#specialusers#:#Special Users
+survey#:#search_users#:#Search Users
+survey#:#adm_no_users_found#:#No users were found that match the search string.
+survey#:#adm_search_string_too_small#:#Please enter at least two characters in the search field!
+survey#:#adm_search_select_user#:#Please select at least one user!
+survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.
+survey#:#adm_special_users#:#Special users who are able to run a survey more than once
+survey#:#adm_removed_users#:#Users removed
+survey#:#adm_remove_select_user#:#Please select at least one user for removal!

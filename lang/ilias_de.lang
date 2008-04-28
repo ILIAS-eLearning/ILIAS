@@ -7109,7 +7109,7 @@ survey#:#search_questions#:#Fragen suchen
 survey#:#search_roles#:#Gefundene Rollen
 survey#:#search_term#:#Suchbegriff(e)
 survey#:#search_type_all#:#In allen Fragentypen suchen
-survey#:#search_users#:#Nutzer(innen)
+survey#:#found_users#:#Nutzer(innen)
 survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_phrase_to_add#:#Bitte wählen Sie eine Phrase aus, um sie einer Frage hinzuzufügen!
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen

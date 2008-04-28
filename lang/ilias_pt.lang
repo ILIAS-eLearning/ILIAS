@@ -5412,7 +5412,7 @@ survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
 survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Search term###27 May 2004 new variable
 survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
-survey#:#search_users#:#Users###27 May 2004 new variable
+survey#:#found_users#:#Users###27 May 2004 new variable
 survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable

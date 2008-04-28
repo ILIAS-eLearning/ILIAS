@@ -5393,7 +5393,7 @@ survey#:#search_questions#:#Шукати питання
 survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Шукати термін
 survey#:#search_type_all#:#Шукати в усіх типах питань
-survey#:#search_users#:#Користувачі###23 Dec 2005 content changed
+survey#:#found_users#:#Користувачі###23 Dec 2005 content changed
 survey#:#select_option#:#--- Будь ласка виберіть опцію ---
 survey#:#select_phrase_to_add#:#Будь ласка виберіть фразу щоб додати її до питання!
 survey#:#select_prior_question#:#Виберіть попереднє питання

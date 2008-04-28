@@ -6458,7 +6458,7 @@ survey#:#search_questions#:#Buscar preguntas
 survey#:#search_roles#:#Roles encontrados
 survey#:#search_term#:#Buscar término
 survey#:#search_type_all#:#Buscar en todos los tipos de pregunta
-survey#:#search_users#:#Usuarios
+survey#:#found_users#:#Usuarios
 survey#:#select_option#:#--- Por favor seleccione una opción ---
 survey#:#select_phrase_to_add#:#¡Por favor seleccione una conjunto para añadirlo a la pregunta!
 survey#:#select_prior_question#:#Seleccione una pregunta previa

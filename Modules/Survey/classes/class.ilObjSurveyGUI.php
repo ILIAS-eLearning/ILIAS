@@ -2273,7 +2273,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						if (count($users))
 						{
-							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("search_users"), $buttons);
+							$this->outUserGroupTable("usr", $users, "user_result", "user_row", $this->lng->txt("found_users"), $buttons);
 						}
 						else
 						{

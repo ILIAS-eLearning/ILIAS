@@ -4775,7 +4775,7 @@ survey#:#search_questions#:#Търсене на въпроси
 survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Търсене на термин
 survey#:#search_type_all#:#Търсене във всички типове въпроси
-survey#:#search_users#:#Потребители###23 Dec 2005 content changed
+survey#:#found_users#:#Потребители###23 Dec 2005 content changed
 survey#:#select_option#:#--- Моля, изберете опция ---
 survey#:#select_phrase_to_add#:#Моля, изберете фраза, която да добавите във въпроса!
 survey#:#select_prior_question#:#Изберете предишен въпрос
