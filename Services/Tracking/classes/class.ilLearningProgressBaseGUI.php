@@ -397,7 +397,7 @@ class ilLearningProgressBaseGUI
 			
 				if($progress['access_time'])
 				{
-					$info->addProperty($this->lng->txt('last_access'),date('Y-m-d H:i:s',$progress['access_time']));
+					$info->addProperty($this->lng->txt('last_access'),ilFormat::formatDate($progress['access_time']));
 				}
 				else
 				{
@@ -406,7 +406,7 @@ class ilLearningProgressBaseGUI
 				$info->addProperty($this->lng->txt('trac_visits'),(int) $progress['visits']);
 				if($type == 'lm')
 				{
-					$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_time']));
+					$info->addProperty($this->lng->txt('trac_spent_time'),ilFormat::_secondsToString($progress['spent_seconds']));
 				}
 				$info->addProperty($this->lng->txt('trac_status'),$this->lng->txt($this->__readStatus($item_id,$user_id)));
 				break;

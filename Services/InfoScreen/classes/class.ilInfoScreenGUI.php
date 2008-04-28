@@ -865,7 +865,7 @@ class ilInfoScreenGUI
 			$progress = ilLearningProgress::_getProgress($ilUser->getId(),$this->gui_object->object->getId());
 			if($progress['access_time'])
 			{
-				$tpl->setVariable("LAST_ACCESS",date('Y-m-d H:i:s',$progress['access_time']));
+				$tpl->setVariable("LAST_ACCESS",ilFormat::formatDate($progress['access_time']));
 			}
 			else
 			{
@@ -878,7 +878,7 @@ class ilInfoScreenGUI
 			if($this->gui_object->object->getType() == 'lm')
 			{
 				$tpl->setVariable("TXT_DURATION",$this->lng->txt('trac_spent_time'));
-				$tpl->setVariable("DURATION",ilFormat::_secondsToString($progress['spent_time']));
+				$tpl->setVariable("DURATION",ilFormat::_secondsToString($progress['spent_seconds']));
 			}
 
 			$tpl->parseCurrentBlock();

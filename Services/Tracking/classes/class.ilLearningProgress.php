@@ -47,72 +47,41 @@ class ilLearningProgress
 	// Static
 	function _tracProgress($a_user_id,$a_obj_id, $a_obj_type = '')
 	{
-		global $ilDB,$ilObjDataCache;
+		global $ilDB;
 
-		if(!strlen($a_obj_type))
-		{
-			$a_obj_type = $ilObjDataCache->lookupType($a_obj_id);
-		}
-
-		if($progress = ilLearningProgress::_getProgress($a_user_id,$a_obj_id))
-		{
-			ilLearningProgress::_updateProgress($progress);
-			return true;
-		}
-		$query = "INSERT INTO ut_learning_progress ".
-			"SET user_id = '".$a_user_id."', ".
-			"obj_type = '".$a_obj_type."', ".
-			"obj_id = '".$a_obj_id."', ".
-			"spent_time = '0',".
-			"access_time = '".time()."', ".
-			"visits = '1'";
-
-		$ilDB->query($query);
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+		ilChangeEvent::_recordReadEvent($a_obj_id, $a_usr_id);
 		return true;
 	}
 
 	function _getProgress($a_user_id,$a_obj_id)
 	{
-		global $ilDB;
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+		$events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
 
-		$query = "SELECT * FROM ut_learning_progress ".
-			"WHERE user_id = '".$a_user_id."' ".
-			"AND obj_id = '".$a_obj_id."'";
-		$res = $ilDB->query($query);
-
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		foreach($events as $row)
 		{
-			$progress['lp_id'] = $row->lp_id;
-			$progress['obj_id'] = $row->obj_id;
-			$progress['obj_type'] = $row->obj_type;
-			$progress['user_id'] = $row->user_id;
-			$progress['spent_time'] = $row->spent_time;
-			$progress['access_time'] = $row->access_time;
-			$progress['visits'] = $row->visits;
+			if ($progress)
+			{
+				$progress['spent_seconds'] += $row['spent_seconds'];
+				$progress['access_time'] = max($progress['access_time'], $row['ts']);
+			}
+			else
+			{
+				$progress['obj_id'] = $row['obj_id'];
+				$progress['user_id'] = $row['usr_id'];
+				$progress['spent_seconds'] = $row['spent_seconds'];
+				$progress['access_time'] = $row['ts'];
+				$progress['visits'] = $row['read_count'];
+			}
 		}
 		return $progress ? $progress : array();
 	}
 
 	function _updateProgress($data)
 	{
-		global $ilDB;
-
-		$spent = $data['spent_time'];
-		
-		include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
-		if((time() - $data['access_time']) <= ilObjUserTracking::_getValidTimeSpan())
-		{
-			$spent = $data['spent_time'] + time() - $data['access_time'];
-		}
-		$visits = $data['visits'] + 1;
-		
-		$query = "UPDATE ut_learning_progress ".
-			"SET visits = visits + 1, ".
-			"spent_time = '".$spent."', ".
-			"access_time = '".time()."' ". 
-			"WHERE lp_id = '".$data['lp_id']."'";
-
-		$ilDB->query($query);
+		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
+		ilChangeEvent::_recordReadEvent($data['obj_id'], $data['usr_id']);
 	}
 }
 ?>

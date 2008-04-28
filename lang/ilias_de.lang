@@ -7434,6 +7434,8 @@ trac#:#trac_total_online#:#Gesamtzeit online
 trac#:#trac_update_edit_user#:#Die Änderungen wurden übernommen
 trac#:#trac_updated_status#:#Der Status wurde aktualisiert.
 trac#:#trac_user_data#:#Benutzerdaten
+trac#:#trac_user_activities#:#Benutzeraktivitäten
+trac#:#trac_repository_changes#:#Änderungen im Magazin
 trac#:#trac_usr_list#:#Benutzer
 trac#:#trac_valid_request#:#Max. Zeit zwischen Anfragen
 trac#:#trac_view_crs#:#Zur Kursübersicht

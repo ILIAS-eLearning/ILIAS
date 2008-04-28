@@ -253,7 +253,7 @@ class ilObjFileAccessSettings extends ilObject
 
 		global $ilClientIniFile;
 		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1';
-		$this->webdavEnabled = $ilClientIniFile->readVariable('file_access','webdav_actions_visible') == '1';
+		$this->webdavActionsVisible = $ilClientIniFile->readVariable('file_access','webdav_actions_visible') == '1';
 
 		require_once 'Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('file_access');

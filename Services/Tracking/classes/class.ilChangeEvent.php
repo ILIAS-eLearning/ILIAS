@@ -115,14 +115,25 @@ class ilChangeEvent
 	function _recordReadEvent($obj_id, $usr_id, $isCatchupWriteEvents = true)
 	{
 		global $ilDB;
-			
+		include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
+		$validTimeSpan = ilObjUserTracking::_getValidTimeSpan();
+
+		// Important: In the SQL statement below, it is important that ts
+		//            is updated after spent_seconds is updated, because
+		//            spent_seconds computes its value from the old value of ts.
 		$q = "INSERT INTO read_event ".
-			"(obj_id, usr_id, ts, read_count) ".
-			"VALUES (".
-			$ilDB->quote($obj_id).",".
-			$ilDB->quote($usr_id).",".
-			"NOW(), 1".
-			") ON DUPLICATE KEY UPDATE ts=NOW(), read_count=read_count+1";
+				"(obj_id, usr_id, ts, read_count) ".
+				"VALUES (".
+				$ilDB->quote($obj_id).",".
+				$ilDB->quote($usr_id).",".
+				"NOW(), 1".
+				") ".
+			"ON DUPLICATE KEY ".
+			"UPDATE ".
+				"read_count=read_count+1, ".
+				"spent_seconds = IF (TIME_TO_SEC(TIMEDIFF(NOW(),ts)<=".$ilDB->quote($validTimeSpan)."),spent_seconds+TIME_TO_SEC(TIMEDIFF(NOW(),ts)),spent_seconds),".
+				"ts=NOW()".
+			"";
 		$r = $ilDB->query($q);
 		//error_log ('ilChangeEvent::_recordReadEvent '.$q);
 		
@@ -372,16 +383,27 @@ class ilChangeEvent
 	 * Reads all read events which occured on the object.
 	 *
 	 * @param $obj_id int The object
-	 * @param $usr_id int The user who is interested into these events.
+	 * @param $usr_id int Optional, the user who performed these events.
 	 */
-	public static function _lookupReadEvents($obj_id)
+	public static function _lookupReadEvents($obj_id, $usr_id = null)
 	{
 		global $ilDB;
 		
-		$q = "SELECT * ".
-			"FROM read_event ".
-			"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-			"ORDER BY ts DESC";
+		if ($usr_id == null)
+		{
+			$q = "SELECT * ".
+				"FROM read_event ".
+				"WHERE obj_id=".$ilDB->quote($obj_id)." ".
+				"ORDER BY ts DESC";
+		}
+		else 
+		{
+			$q = "SELECT * ".
+				"FROM read_event ".
+				"WHERE obj_id=".$ilDB->quote($obj_id)." ".
+				"AND usr_id=".$ilDB->quote($usr_id)." ".
+				"ORDER BY ts DESC";
+		}
 		$r = $ilDB->query($q);
 		$events = array();
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
