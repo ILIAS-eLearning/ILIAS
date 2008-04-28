@@ -2246,7 +2246,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
 			$this->cumulated =& $this->getCumulatedResults($survey_id, $nr_of_users);
 		}
-		
+		global $ilLog;
 		if (is_numeric($type))
 		{
 			foreach ($this->cumulated[$type]["variables"] as $key => $value)
