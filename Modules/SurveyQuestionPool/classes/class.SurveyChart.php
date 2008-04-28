@@ -50,6 +50,14 @@ class SurveyChart
 				break;
 		}
 		$this->graph->SetPlotType($GraphTyp);
+		if (strlen($Titel) > 40)
+		{
+			$this->graph->SetFont("title", "benjamingothic.ttf", 6);
+		}
+		if (strlen($Titel) > 80)
+		{
+			$Titel = substr($Titel, 0, 80) . "...";
+		}
 		$this->graph->SetTitle($Titel);
 		$this->graph->SetXTitle($XLabel);
 		$this->graph->SetYTitle($YLabel);
