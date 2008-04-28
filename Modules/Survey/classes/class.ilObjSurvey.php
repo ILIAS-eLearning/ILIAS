@@ -691,7 +691,7 @@ class ilObjSurvey extends ilObject
 	function insertQuestionblock($questionblock_id) 
 	{
 		global $ilDB;
-		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id =%s ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT survey_questionblock.title, survey_questionblock.show_questiontext, survey_questionblock_question.question_fi FROM survey_questionblock, survey_questionblock_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey_question.question_fi = survey_questionblock_question.question_fi AND survey_questionblock.questionblock_id = %s ORDER BY survey_survey_question.sequence",
 			$ilDB->quote($questionblock_id)
 		);
 		$result = $ilDB->query($query);
@@ -699,7 +699,7 @@ class ilObjSurvey extends ilObject
 		$show_questiontext = 0;
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$duplicate_id = $this->duplicateQuestionForSurvey($row["question_id"]);
+			$duplicate_id = $this->duplicateQuestionForSurvey($row["question_fi"]);
 			array_push($questions, $duplicate_id);
 			$title = $row["title"];
 			$show_questiontext = $row["show_questiontext"];
