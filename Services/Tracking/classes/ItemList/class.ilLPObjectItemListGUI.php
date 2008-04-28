@@ -140,7 +140,7 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 				$user_data = ilLearningProgress::_getProgress($this->getCurrentUser(),$this->getId());
 
 				return $this->user_status_info = array($this->lng->txt('trac_edit_time'),
-													   $this->__getPercent($this->status_info['tlt'],$user_data['spent_time']));
+													   $this->__getPercent($this->status_info['tlt'],$user_data['spent_seconds']));
 
 			case LP_MODE_VISITS:
 				if(!$this->status_info['visits'])
@@ -197,7 +197,7 @@ class ilLPObjectItemListGUI extends ilLPItemListGUI
 					{
 						case 'lm':
 							$progress = ilLearningProgress::_getProgress($this->getCurrentUser(),$object_id);
-							$user_time += min($progress['spent_time'],
+							$user_time += min($progress['spent_seconds'],
 											  ilLPStatusWrapper::_getTypicalLearningTime($object_id));
 							break;
 					}

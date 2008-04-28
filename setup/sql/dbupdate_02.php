@@ -3878,5 +3878,13 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
 		."  (".$ilDB->quote($typ_id).",'".$ops_id."')";
 $ilDB->query($query);
 ?>
+<#1198>
+ALTER TABLE read_event ADD COLUMN spent_seconds INT NOT NULL DEFAULT 0;
 
+INSERT INTO read_event (obj_id,usr_id,ts,read_count,spent_seconds)
+SELECT obj_id,user_id,FROM_UNIXTIME(access_time),visits,spent_time from ut_learning_progress
+ON DUPLICATE KEY
+UPDATE ts=if(FROM_UNIXTIME(access_time) > ts,FROM_UNIXTIME(access_time),ts),spent_seconds=spent_seconds+spent_time, read_count=read_count+visits;
+
+DROP TABLE ut_learning_progress;
 

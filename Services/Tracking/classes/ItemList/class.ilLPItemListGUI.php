@@ -698,7 +698,7 @@ class ilLPItemListGUI
 					if($progress['access_time'])
 					{
 						$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
-											ilFormat::formatUnixTime($progress['access_time'],true));
+											ilFormat::formatDate($progress['access_time'],true));
 					}
 					else
 					{

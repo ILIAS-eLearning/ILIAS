@@ -52,14 +52,14 @@ class ilLPStatusVisits extends ilLPStatus
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$required_visits = $status_info['visits'];
 
-		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
-			"WHERE visits < '".$required_visits."' ".
+		$query = "SELECT DISTINCT(usr_id) FROM read_event ".
+			"WHERE read_count < '".$required_visits."' ".
 			"AND obj_id = '".$a_obj_id."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$user_ids[] = $row->user_id;
+			$user_ids[] = $row->usr_id;
 		}
 		return $user_ids ? $user_ids : array();
 	}		
@@ -71,15 +71,15 @@ class ilLPStatusVisits extends ilLPStatus
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		$required_visits = $status_info['visits'];
 
-		$query = "SELECT DISTINCT(user_id) FROM ut_learning_progress ".
-			"WHERE visits >= '".$required_visits."' ".
+		$query = "SELECT DISTINCT(usr_id) FROM read_event ".
+			"WHERE read_count >= '".$required_visits."' ".
 			"AND obj_id = '".$a_obj_id."'";
 
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$user_ids[] = $row->user_id;
+			$user_ids[] = $row->usr_id;
 		}
 		return $user_ids ? $user_ids : array();
 	}

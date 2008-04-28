@@ -341,11 +341,12 @@ class ilObjUserTracking extends ilObject
 	function getDuration($a_obj_id)
 	{
 		global $ilDB;
-		$q = "SELECT spent_time FROM ut_learning_progress"
-			." WHERE obj_id = " . $ilDB->quote($a_obj_id);
+		$q = "SELECT AVG(spent_seconds) FROM read_event"
+			." WHERE obj_id = " . $ilDB->quote($a_obj_id)
+			." GROUP BY obj_id";
 		$res = $ilDB->query($q);
 		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		return $data["spent_time"];
+		return $data["spent_seconds"];
 	}
 
 	/**
@@ -512,7 +513,10 @@ class ilObjUserTracking extends ilObject
 		$query = "DELETE FROM ut_access WHERE user_id = '".$a_usr_id."'";
 		$ilDB->query($query);
 
-		$query = "DELETE FROM ut_learning_progress WHERE user_id = '".$a_usr_id."'";
+		$query = "DELETE FROM read_event WHERE usr_id = '".$a_usr_id."'";
+		$ilDB->query($query);
+
+		$query = "DELETE FROM write_event WHERE usr_id = '".$a_usr_id."'";
 		$ilDB->query($query);
 		
 		$query = "DELETE FROM ut_lp_filter WHERE usr_id = '".$a_usr_id."'";
