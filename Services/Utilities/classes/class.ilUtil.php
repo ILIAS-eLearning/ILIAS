@@ -3578,10 +3578,9 @@ class ilUtil
 
 		$and = "AND ((rol_id IN(".implode(",",ilUtil::quoteArray($a_roles)).") ";
 		
-
-		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM rbac_pa ".
-			"LEFT JOIN object_reference AS obr  ON obr.ref_id = rbac_pa.ref_id ".
-			"LEFT JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
+		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM object_reference AS obr ".
+			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
+			"JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id ".
 			$where.
 			$and.
 			"AND (ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%"). " ".
