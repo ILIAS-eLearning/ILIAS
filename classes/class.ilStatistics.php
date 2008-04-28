@@ -352,7 +352,7 @@ class ilStatistics
 		$rank = array_search($value, $this->stat_data);
 		if ($rank !== FALSE)
 		{
-			$rank += 1;
+			$rank = $this->count() - $rank;
 		}
 		return $rank;
 	}
