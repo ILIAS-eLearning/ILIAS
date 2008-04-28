@@ -696,12 +696,15 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $ilDB->query($query);
 		$questions = array();
+		$show_questiontext = 0;
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			array_push($questions, $row["question_id"]);
+			$duplicate_id = $this->duplicateQuestionForSurvey($row["question_id"]);
+			array_push($questions, $duplicate_id);
 			$title = $row["title"];
+			$show_questiontext = $row["show_questiontext"];
 		}
-		$this->createQuestionblock($title, $questions);
+		$this->createQuestionblock($title, $show_questiontext, $questions);
 	}
 	
 	/**

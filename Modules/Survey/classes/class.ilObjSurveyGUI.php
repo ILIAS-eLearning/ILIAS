@@ -458,7 +458,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function changeDatatypeObject()
 	{
-		$this->browseForQuestionsObject("", true, $_POST["datatype"]);
+		$this->ctrl->setParameter($this, "browsetype", $_POST["datatype"]);
+		$this->ctrl->redirect($this, "browseForQuestions");
 	}
 	
 	/**
@@ -558,10 +559,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if (array_key_exists("sel_questionpool", $_GET)) $filter_questionpool = $_GET["sel_questionpool"];
 		}
-		if (strcmp($this->ctrl->getCmd(), "changeDatatype") != 0)
-		{
-			if (array_key_exists("browsetype", $_GET))	$browsequestions = $_GET["browsetype"];
-		}
+		$browsequestions = (array_key_exists("browsetype", $_GET)) ? $_GET["browsetype"] : 1;
+		$this->ctrl->setParameter($this, "browsetype", $browsequestions);
 		if ($_POST["cmd"]["back"]) 
 		{
 			$show_questionbrowser = false;
@@ -601,7 +600,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$add_parameter .= "&filter_text=$filter_text";
 
-		$add_parameter .= "&browsetype=$browsequestions";
 		$filter_fields = array(
 			"title" => $this->lng->txt("title"),
 			"comment" => $this->lng->txt("description"),
