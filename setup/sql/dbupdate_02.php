@@ -3888,3 +3888,8 @@ UPDATE ts=if(FROM_UNIXTIME(access_time) > ts,FROM_UNIXTIME(access_time),ts),spen
 
 DROP TABLE ut_learning_progress;
 
+<#1199>
+ALTER TABLE `rbac_pa` ADD INDEX ( `ref_id` );
+
+
+
