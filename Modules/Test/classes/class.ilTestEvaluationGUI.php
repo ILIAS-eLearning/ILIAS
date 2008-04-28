@@ -797,7 +797,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_rank_median")), $format_title);
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_total_participants")), $format_title);
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_median")), $format_title);
-
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("scored_pass")), $format_title);
+		
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("pass")), $format_title);
 
 		include_once "./classes/class.ilExcelUtils.php";
@@ -896,6 +897,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getStatistics()->getStatistics()->rank_median()));
 				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getStatistics()->getStatistics()->count()));
 				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($median));
+				if ($this->object->getPassScoring() == SCORE_BEST_PASS)
+				{
+					$worksheet->write($row, $col++, $data->getParticipant($active_id)->getBestPass() + 1);
+				}
+				else
+				{
+					$worksheet->write($row, $col++, $data->getParticipant($active_id)->getLastPass() + 1);
+				}
 				$startcol = $col;
 				for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++)
 				{
@@ -1001,6 +1010,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$col++;
 		array_push($datarow, $this->lng->txt("tst_stat_result_median"));
 		$col++;
+		array_push($datarow, $this->lng->txt("scored_pass"));
+		$col++;
 
 		array_push($datarow, $this->lng->txt("pass"));
 		$col++;
@@ -1097,6 +1108,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				array_push($datarow2, $data->getStatistics()->getStatistics()->rank_median());
 				array_push($datarow2, $data->getStatistics()->getStatistics()->count());
 				array_push($datarow2, $median);
+				if ($this->object->getPassScoring() == SCORE_BEST_PASS)
+				{
+					array_push($datarow2, $data->getParticipant($active_id)->getBestPass() + 1);
+				}
+				else
+				{
+					array_push($datarow2, $data->getParticipant($active_id)->getLastPass() + 1);
+				}
 				for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++)
 				{
 					$finishdate = $this->object->getPassFinishDate($active_id, $pass);
@@ -1107,6 +1126,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 							for ($i = 1; $i < $col-1; $i++) 
 							{
 								array_push($datarow2, "");
+								array_push($datarow, "");
 							}
 							array_push($datarow, "");
 						}
