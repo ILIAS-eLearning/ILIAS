@@ -4865,7 +4865,7 @@ survey#:#search_questions#:#Поиск вопроса
 survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Поиск термина
 survey#:#search_type_all#:#Поиск во всех типах вопроса
-survey#:#search_users#:#Пользователи
+survey#:#found_users#:#Пользователи
 survey#:#select_option#:#--- Пожалуйста, выберите опцию ---
 survey#:#select_phrase_to_add#:#Пожалуйста, выберите фразу для добавления ее к вопросу!
 survey#:#select_prior_question#:#Выбор предыдущего вопроса 

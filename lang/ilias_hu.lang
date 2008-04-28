@@ -6919,7 +6919,7 @@ survey#:#search_questions#:#Kérdések szűréssel
 survey#:#search_roles#:#Talált szerepek
 survey#:#search_term#:#Fogalom keresése
 survey#:#search_type_all#:#Keresés minden kérdéstípusban
-survey#:#search_users#:#Talált felhasználók
+survey#:#found_users#:#Talált felhasználók
 survey#:#select_option#:#--- Válasszon ki egy beállítást! ---
 survey#:#select_phrase_to_add#:#Válasszon ki egy mondatot a kérdéshez való hozzáadáshoz!
 survey#:#select_prior_question#:#Előzetes kérdés kiválasztása

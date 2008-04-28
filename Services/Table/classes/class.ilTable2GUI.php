@@ -34,6 +34,7 @@ require_once("Services/Table/classes/class.ilTableGUI.php");
 class ilTable2GUI extends ilTableGUI
 {
 	protected $close_command = "";
+	private $unique_id;
 	
 	/**
 	* Constructor
@@ -44,12 +45,13 @@ class ilTable2GUI extends ilTableGUI
 		global $ilUser;
 		
 		parent::__construct(0, false);
+		$this->unique_id = md5(uniqid());
 		$this->parent_obj = $a_parent_obj;
 		$this->parent_cmd = $a_parent_cmd;
 		$this->buttons = array();
 		$this->header_commands = array();
 		$this->multi = array();
-		$this->formname = "table";
+		$this->formname = "table_" . $this->unique_id;
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
 		
 		$this->setLimit($ilUser->getPref("hits_per_page"));
@@ -580,6 +582,7 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setVariable("SELECT_ALL_TXT_SELECT_ALL", $lng->txt("select_all"));
 			$this->tpl->setVariable("SELECT_ALL_CHECKBOX_NAME", $this->getSelectAllCheckbox());
 			$this->tpl->setVariable("SELECT_ALL_FORM_NAME", $this->getFormName());
+			$this->tpl->setVariable("CHECKBOXNAME", "chb_select_all_" . $this->unique_id);
 			$this->tpl->parseCurrentBlock();
 			$footer = true;
 		}

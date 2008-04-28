@@ -6125,7 +6125,7 @@ survey#:#search_questions#:#Kërko pyetje
 survey#:#search_roles#:#Found roles###23 Dec 2005 new variable
 survey#:#search_term#:#Kërko termin
 survey#:#search_type_all#:#Kërko në të gjitha tipet e pyetjeve
-survey#:#search_users#:#Shfrytëzues###23 Dec 2005 content changed
+survey#:#found_users#:#Shfrytëzues###23 Dec 2005 content changed
 survey#:#select_option#:# --Ju lutem zgjedh një opsion --
 survey#:#select_phrase_to_add#:#Ju lutem zgjedh një frazë për ta shtuar në pyetje!
 survey#:#select_prior_question#:#Zgjedh pyetjen paraprake

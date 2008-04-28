@@ -32,6 +32,8 @@ include_once "./classes/class.ilObjectGUI.php";
 * @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI
 *
 * @extends ilObjectGUI
+* @ingroup ModulesSurvey
+* 
 */
 class ilObjSurveyAdministrationGUI extends ilObjectGUI
 {
@@ -43,9 +45,10 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 
 	function ilObjSurveyAdministrationGUI($a_data,$a_id,$a_call_by_reference)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $lng;
 
 		$this->type = "svyf";
+		$lng->loadLanguageModule("survey");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		if (!$rbacsystem->checkAccess('read',$this->object->getRefId()))
 		{
@@ -106,11 +109,124 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$this->ctrl->redirect($this);
 	}
 
+	function searchObject()
+	{
+		unset($_SESSION["survey_adm_found_users"]);
+		if (strlen($_POST["search"]) < 2)
+		{
+			ilUtil::sendInfo($this->lng->txt("adm_search_string_too_small"), TRUE);
+		}
+		else
+		{
+			include_once "./Services/User/classes/class.ilObjUser.php";
+			$found = ilObjUser::searchUsers($_POST["search"], $active = 1, $a_return_ids_only = false, $filter_settings = FALSE);
+			if (count($found))
+			{
+				$_SESSION["survey_adm_found_users"] = $found;
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("adm_no_users_found"), TRUE);
+				
+			}
+		}
+		$this->ctrl->redirect($this, "specialusers");
+	}
+	
+	/**
+	* Add one or more users as special users
+	* 
+	*/
+	function addSpecialUserObject()
+	{
+		if ((array_key_exists("user_id", $_POST)) && (count($_POST["user_id"])))
+		{
+			$this->object->addSpecialUsers($_POST["user_id"]);
+			unset($_SESSION["survey_adm_found_users"]);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("adm_search_select_user"), TRUE);
+		}
+		$this->ctrl->redirect($this, "specialusers");
+	}
+	
+	function removeSpecialUserObject()
+	{
+		if ((array_key_exists("special_user_id", $_POST)) && (count($_POST["special_user_id"])))
+		{
+			$this->object->removeSpecialUsers($_POST["special_user_id"]);
+			unset($_SESSION["adm_removed_users"]);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("adm_remove_select_user"), TRUE);
+		}
+		$this->ctrl->redirect($this, "specialusers");
+			}
+	
+	/**
+	* Add/remove users who may run a survey multiple times
+	*
+	* @access	public
+	*/
+	function specialusersObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_adm_specialusers.html", "Modules/Survey");
+		$found_users = "";
+		if (array_key_exists("survey_adm_found_users", $_SESSION))
+		{
+			if (count($_SESSION["survey_adm_found_users"]))
+			{
+				$data = $_SESSION["survey_adm_found_users"];
+				include_once("./Modules/Survey/classes/class.ilFoundUsersTableGUI.php");
+				$table_gui = new ilFoundUsersTableGUI($this, "specialusers");
+				$table_gui->setPrefix("fu");
+				
+				$table_gui->setTitle($this->lng->txt("found_users"));
+				$table_gui->setData($data);
+				
+				$table_gui->addCommandButton("addSpecialUser", $this->lng->txt("add"));
+				$table_gui->setSelectAllCheckbox("user_id");
+				$found_users = $table_gui->getHTML();
+			}
+		}
+		
+		if (strlen($found_users))
+		{
+			$this->tpl->setCurrentBlock("search_results");
+			$this->tpl->setVariable("SEARCH_RESULTS", $found_users);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_SEARCH_USER", $this->lng->txt("search_users"));
+		$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "search"));
+
+		$special_users = $this->object->getSpecialUsers();
+		if (count($special_users))
+		{
+			include_once("./Modules/Survey/classes/class.ilSpecialUsersTableGUI.php");
+			$table_gui = new ilSpecialUsersTableGUI($this, "specialusers");
+			$table_gui->setPrefix("su");
+					
+			$table_gui->setTitle($this->lng->txt("adm_special_users"));
+			$table_gui->setData($special_users);
+			
+			$table_gui->addCommandButton("removeSpecialUser", $this->lng->txt("remove"));
+			$table_gui->setSelectAllCheckbox("special_user_id");
+			$this->tpl->setVariable("SPECIAL_USERS", $table_gui->getHTML());
+		}
+		else
+		{
+			$this->tpl->setVariable("SPECIAL_USERS", $this->lng->txt("adm_no_special_users"));
+		}
+		$this->tpl->parseCurrentBlock();
+	}
 
 	/**
 	* display survey settings form
-	*/
-	/**
+	* 
 	* Default settings tab for Survey settings
 	*
 	* @access	public
@@ -178,8 +294,8 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("read",'',$this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
+			$tabs_gui->addTarget("settings", $this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
+			$tabs_gui->addTarget("specialusers", $this->ctrl->getLinkTarget($this, "specialusers"), array("specialusers"), "", "");
 		}
 		if ($ilAccess->checkAccess("edit_permission",'',$this->object->getRefId()))
 		{

@@ -3305,11 +3305,11 @@ class ilObjSurvey extends ilObject
 	*
 	* Checks if a user is allowed to take multiple survey
 	*
-	* @param string $username Login of the user
+	* @param int $userid user id of the user
 	* @return boolean TRUE if the user is allowed to take the survey more than once, FALSE otherwise
 	* @access public
 	*/
-	function isAllowedToTakeMultipleSurveys($username = "")
+	function isAllowedToTakeMultipleSurveys($userid = "")
 	{
 		$result = FALSE;
 		if ($this->getAnonymize())
@@ -3319,12 +3319,12 @@ class ilObjSurvey extends ilObject
 				if (strlen($username) == 0)
 				{
 					global $ilUser;
-					$username = $ilUser->getLogin();
+					$userid = $ilUser->getId();
 				}
 				global $ilSetting;
 				$surveysetting = new ilSetting("survey");
 				$allowedUsers = strlen($surveysetting->get("multiple_survey_users")) ? explode(",",$surveysetting->get("multiple_survey_users")) : array();
-				if (in_array($username, $allowedUsers))
+				if (in_array($userid, $allowedUsers))
 				{
 					$result = TRUE;
 				}

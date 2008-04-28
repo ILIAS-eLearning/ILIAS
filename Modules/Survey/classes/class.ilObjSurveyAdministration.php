@@ -27,6 +27,7 @@
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
+* @ingroup ModulesSurvey
 * @extends ilObject
 */
 
@@ -178,6 +179,28 @@ class ilObjSurveyAdministration extends ilObject
 		}
 
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
+	}
+	
+	function addSpecialUsers($arr_user_id)
+	{
+		$surveySetting = new ilSetting("survey");
+		$allowedUsers = strlen($surveySetting->get("multiple_survey_users")) ? explode(",",$surveySetting->get("multiple_survey_users")) : array();
+		$arr = array_unique(array_merge($allowedUsers, $arr_user_id));
+		$surveySetting->set("multiple_survey_users", implode(",", $arr));
+	}
+	
+	function removeSpecialUsers($arr_user_id)
+	{
+		$surveySetting = new ilSetting("survey");
+		$allowedUsers = strlen($surveySetting->get("multiple_survey_users")) ? explode(",",$surveySetting->get("multiple_survey_users")) : array();
+		$arr = array_diff($allowedUsers, $arr_user_id);
+		$surveySetting->set("multiple_survey_users", implode(",", array_values($arr)));
+	}
+	
+	function getSpecialUsers()
+	{
+		$surveySetting = new ilSetting("survey");
+		return strlen($surveySetting->get("multiple_survey_users")) ? explode(",",$surveySetting->get("multiple_survey_users")) : array();
 	}
 } // END class.ilObjSurveyAdministration.php
 ?>

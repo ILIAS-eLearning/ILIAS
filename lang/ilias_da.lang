@@ -6762,7 +6762,7 @@ survey#:#reset_filter#:#Nulstil filter
 survey#:#search_groups#:#Grupper fundet
 survey#:#search_roles#:#Roller fundet
 survey#:#search_term#:#Søge krav
-survey#:#search_users#:#Brugere
+survey#:#found_users#:#Brugere
 survey#:#select_target_position_for_move_question#:#Vælg venligst en destination for at flytte spørgsmålet/spørgsmålene og tryk på 1 af indsæt knapperne!
 survey#:#set_filter#:#Sæt filter
 survey#:#text_maximum_chars_allowed#:#Bemærk at kun de første %s karakterer tæller med i besvarelsen. 
