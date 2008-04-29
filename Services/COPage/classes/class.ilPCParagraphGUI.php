@@ -100,12 +100,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$tpl->parseCurrentBlock();
 			$tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		}
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		
 		$tpl->setVariable("PAR_TA_NAME", "par_content");
 		$tpl->setVariable("BB_MENU", $this->getBBMenu());
 		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
-
 		$this->setStyle();
 
 		$this->displayValidationError();
