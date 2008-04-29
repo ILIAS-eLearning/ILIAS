@@ -5581,14 +5581,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
 			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				array_push($rows, $row);
+				if ($row["plugin"])
+				{
+					if ($this->isPluginActive($row["type_tag"]))
+					{
+						array_push($rows, $row);
+					}
+				}
+				else
+				{
+					array_push($rows, $row);
+				}
 			}
 		}
 		$nextrow = $startrow + $maxentries;
@@ -9550,6 +9560,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return $rec["obj_id"];
 	}
 
+	/**
+	* Checks wheather or not a question plugin with a given name is active
+	*
+	* @param string $a_pname The plugin name
+	* @access public
+	*/
+	function isPluginActive($a_pname)
+	{
+		global $ilPluginAdmin;
+		if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "TestQuestionPool", "qst", $a_pname))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 } // END class.ilObjTest
 
 ?>

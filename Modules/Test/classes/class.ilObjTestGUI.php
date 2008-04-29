@@ -1425,13 +1425,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$rte->addRTESupport($obj_id, $obj_type, "assessment");
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", "Modules/Test");
-		$total = $this->object->evalTotalPersons();
-		if ($total == 0)
-		{
-			$this->tpl->setCurrentBlock("change_button");
-			$this->tpl->setVariable("BTN_CHANGE", $this->lng->txt("change"));
-			$this->tpl->parseCurrentBlock();
-		}
 		$this->lng->loadLanguageModule("jscalendar");
 		$this->tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
 		$this->tpl->setCurrentBlock("calendar_javascript");
@@ -1502,7 +1495,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
 		$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
 		$this->tpl->parseCurrentBlock();
-		
 		$total = $this->object->evalTotalPersons();
 		$data["anonymity"] = $this->object->getAnonymity();
 		$data["show_cancel"] = $this->object->getShowCancel();
