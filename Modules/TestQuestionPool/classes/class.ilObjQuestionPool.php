@@ -605,14 +605,24 @@ class ilObjQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
 			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				array_push($rows, $row);
+				if ($row["plugin"])
+				{
+					if ($this->isPluginActive($row["type_tag"]))
+					{
+						array_push($rows, $row);
+					}
+				}
+				else
+				{
+					array_push($rows, $row);
+				}
 			}
 		}
 		$nextrow = $startrow + $maxentries;
@@ -670,14 +680,24 @@ class ilObjQuestionPool extends ilObject
 				$order = " ORDER BY TIMESTAMP14,title";
 				break;
 		}
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $order";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $order";
 		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
 			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				array_push($rows, $row);
+				if ($row["plugin"])
+				{
+					if ($this->isPluginActive($row["type_tag"]))
+					{
+						array_push($rows, $row);
+					}
+				}
+				else
+				{
+					array_push($rows, $row);
+				}
 			}
 		}
 		return $rows;
@@ -1025,7 +1045,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = %s AND complete = %s",
+		$query = sprintf("SELECT question_id, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(original_id) AND obj_fi = %s AND complete = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
 			$ilDB->quote($this->getId()),
 			$ilDB->quote("1")
 		);
@@ -1035,7 +1055,17 @@ class ilObjQuestionPool extends ilObject
 		{
 			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				array_push($questions, $row["question_id"]);
+				if ($row["plugin"])
+				{
+					if ($this->isPluginActive($row["type_tag"]))
+					{
+						array_push($questions, $row["question_id"]);
+					}
+				}
+				else
+				{
+					array_push($questions, $row["question_id"]);
+				}
 			}
 		}
 		return $questions;
@@ -1696,5 +1726,23 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 	}
 	
+	/**
+	* Checks wheather or not a question plugin with a given name is active
+	*
+	* @param string $a_pname The plugin name
+	* @access public
+	*/
+	function isPluginActive($a_pname)
+	{
+		global $ilPluginAdmin;
+		if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "TestQuestionPool", "qst", $a_pname))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 } // END class.ilObjQuestionPool
 ?>
