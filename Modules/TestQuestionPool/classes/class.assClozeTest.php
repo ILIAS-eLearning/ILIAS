@@ -306,7 +306,12 @@ class assClozeTest extends assQuestion
 				$original_id
 			);
 			$result = $ilDB->query($query);
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO %s (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
@@ -352,7 +357,12 @@ class assClozeTest extends assQuestion
 			$result = $ilDB->query($query);
 		}
 
-		if ($result == DB_OK)
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
 		{
 			// delete old answers
 			$query = sprintf("DELETE FROM qpl_answer_cloze WHERE question_fi = %s",
@@ -1324,7 +1334,12 @@ class assClozeTest extends assQuestion
 			);
 			$result = $ilDB->query($query);
 
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				// write answers
 				// delete old answers

@@ -177,7 +177,12 @@ class assImagemapQuestion extends assQuestion
 				$original_id
 			);
 			$result = $ilDB->query($query);
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				$this->id = $ilDB->getLastInsertId();
 				$insertquery = sprintf("INSERT INTO qpl_question_imagemap (question_fi, image_file) VALUES (%s, %s)",
@@ -217,7 +222,12 @@ class assImagemapQuestion extends assQuestion
 				
 		}
 
-		if ($result == DB_OK)
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
 		{
 			$query = sprintf("DELETE FROM qpl_answer_imagemap WHERE question_fi = %s",
 				$ilDB->quote($this->id)
@@ -809,7 +819,12 @@ class assImagemapQuestion extends assQuestion
 			);
 			$result = $ilDB->query($query);
 
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				// write answers
 				// delete old answers

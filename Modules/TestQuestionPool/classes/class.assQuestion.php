@@ -698,9 +698,10 @@ class assQuestion
 			$ilDB->quote($sequence)
 			);
 		$result = $ilDB->query($query);
-		if ($result != DB_OK)
+		if (PEAR::isError($result)) 
 		{
-		// Fehlermeldung
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
 		}
 	}
 
@@ -2377,9 +2378,10 @@ class assQuestion
 				$ilDB->quote($pass . "")
 			);
 			$result = $ilDB->query($query);
-			if ($result != DB_OK)
+			if (PEAR::isError($result)) 
 			{
-				return FALSE;
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
 			}
 			assQuestion::_updateTestPassResults($active_id, $pass);
 			// finally update objective result

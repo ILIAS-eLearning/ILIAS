@@ -345,10 +345,12 @@ class ilObjQuestionPool extends ilObject
 				$ilDB->quote($this->getOnline() . ""),
 				$ilDB->quote($this->getId() . "")
 			);
-      $result = $ilDB->query($query);
-      if ($result != DB_OK) 
+			$result = $ilDB->query($query);
+			if (PEAR::isError($result)) 
 			{
-      }
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
 		}
 		else
 		{
@@ -356,10 +358,12 @@ class ilObjQuestionPool extends ilObject
 				$ilDB->quote($this->getOnline() . ""),
 				$ilDB->quote($this->getId() . "")
 			);
-      $result = $ilDB->query($query);
-      if ($result != DB_OK) 
+			$result = $ilDB->query($query);
+			if (PEAR::isError($result)) 
 			{
-      }
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
 		}
 	}
 	

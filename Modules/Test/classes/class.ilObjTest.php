@@ -1242,14 +1242,20 @@ class ilObjTest extends ilObject
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_create_new_test", ilObjAssessmentFolder::_getLogLanguage()));
 			}
-      $result = $ilDB->query($query);
-      if ($result == DB_OK) {
-        $this->test_id = $ilDB->getLastInsertId();
-      }
-    }
+			$result = $ilDB->query($query);
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
+			{
+				$this->test_id = $ilDB->getLastInsertId();
+			}
+		}
 		else
 		{
-      // Modify existing dataset
+			// Modify existing dataset
 			$oldrow = array();
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -1384,7 +1390,13 @@ class ilObjTest extends ilObject
     }
 		if (!$properties_only)
 		{
-			if ($result == DB_OK) {
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
+			{
 				if (!$this->isRandomTest())
 				{
 					$this->saveQuestionsToDb();
@@ -3300,9 +3312,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$ilDB->quote($sequence)
 			);
 		$result = $ilDB->query($query);
-		if ($result != DB_OK)
+		if (PEAR::isError($result)) 
 		{
-			// Error
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
 		}
 		else
 		{
@@ -9334,13 +9347,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 			);
 			$result = $ilDB->query($query);
 		}
-		if ($result == DB_OK)
+		if (PEAR::isError($result)) 
 		{
-			return TRUE;
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
 		}
 		else
 		{
-			return FALSE;
+			return TRUE;
 		}
 	}
 	

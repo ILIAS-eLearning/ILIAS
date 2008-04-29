@@ -137,7 +137,12 @@ class assQuestionTypeTemplate extends assQuestion
 			);
 			$result = $ilDB->query($query);
 			
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				// maybe you have more fields than the qpl_question table offers.
 				// so you have to write this content in your question type table which

@@ -162,9 +162,12 @@ class ASS_MarkSchema
         $ilDB->quote(sprintf("%d", $value->getPassed()))
       );
       $result = $ilDB->query($query);
-      if ($result == DB_OK) {
-      }
-    }
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+		}
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
 			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
