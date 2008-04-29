@@ -146,12 +146,12 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if($add_standard_elements)
 		{
-			$this->setContentStyle();
+			$this->fillNewContentStyle();
+			$this->fillContentStyle();
 			$this->fillWindowTitle();
 			$this->fillMainMenu();
 			$this->fillTabs();
 			$this->fillHeaderIcon();
-			//$this->fillNavigationHistory();
 			$this->fillCssFiles();
 			$this->fillJavaScriptFiles();
 		}
@@ -247,18 +247,31 @@ class ilTemplate extends ilTemplateX
 		}
 
 		// set standard parts (tabs and title icon)
-		if($a_fill_tabs)
+		if ($a_fill_tabs)
 		{
-			$this->setContentStyle();
+			// these fill blocks (and must be filled first) in tpl.adm_content.html
+			$this->fillHeaderIcon();
+			$this->fillSideIcons();
+			$this->fillStopFloating();
+			$this->fillPageFormAction();
+			$this->fillLeftContent();
+			$this->fillRightContent();
+			
+			// these fill just plain placeholder variables in tpl.adm_content.html
+			$this->fillTabs();
+			$this->fillMainContent();
+			$this->fillTitle();
+			$this->fillMainMenu();
+
+			// these fill blocks in tpl.main.html
+			$this->fillCssFiles();
+			$this->fillJavaScriptFiles();
+			$this->fillContentStyle();
+
+			// these fill just plain placeholder variables in tpl.main.html
+			$this->fillNewContentStyle();
 			$this->fillContentLanguage();
 			$this->fillWindowTitle();
-			$this->fillMainMenu();
-			$this->fillTabs();
-			$this->fillHeaderIcon();
-			//$this->fillNavigationHistory();
-			$this->fillCssFiles();
-			$this->fillPageFormAction();
-			$this->fillJavaScriptFiles();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
@@ -304,6 +317,11 @@ class ilTemplate extends ilTemplateX
 	function fillWindowTitle()
 	{
 		global $ilSetting;
+		
+		if ($this->header_page_title != "")
+		{
+			$this->setVariable("PAGETITLE", "- ".$this->header_page_title);
+		}
 		
 		if ($ilSetting->get('short_inst_name') != "")
 		{
@@ -384,7 +402,32 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
-	function setContentStyle()
+	/**
+	* Set content style (used for page content editor)
+	*/
+	function setContentStyleSheet($a_style)
+	{
+		$this->content_style_sheet = $a_style;
+	}
+	
+	/**
+	* Fill Content Style
+	*/
+	function fillContentStyle()
+	{
+		if ($this->content_style_sheet != "")
+		{
+			$this->setCurrentBlock("ContentStyle");
+			$this->setVariable("LOCATION_CONTENT_STYLESHEET",
+				$this->content_style_sheet);
+			$this->parseCurrentBlock();
+		}
+	}
+	
+	/**
+	* Fill Content Style
+	*/
+	private function fillNewContentStyle()
 	{
 		$this->setVariable("LOCATION_NEWCONTENT_STYLESHEET_TAG",
 			'<link rel="stylesheet" type="text/css" href="'.
@@ -398,18 +441,7 @@ class ilTemplate extends ilTemplateX
 		
 		$tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
 	}
-	
-	function fillNavigationHistory()
-	{
-		global $tpl, $ilMainMenu;
-
-		/* Now part of the main menu
-		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
-		$nav_hist = new ilNavigationHistoryGUI();
-		$tpl->setVariable("NAVIGATION_HISTORY", $nav_hist->getHTML());
-		*/
-	}
-	
+		
 	function fillHeaderIcon()
 	{
 		if ($this->icon_path != "")
@@ -919,7 +951,7 @@ class ilTemplate extends ilTemplateX
 	
 	function setHeaderPageTitle($a_title)
 	{
-		$this->setVariable("PAGETITLE", $a_title);
+		$this->header_page_title = $a_title;
 	}
 	
 	function setStyleSheetLocation($a_stylesheet)
@@ -943,9 +975,16 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setTitle($a_title)
 	{
-		$this->setVariable("HEADER", $a_title);
-		$this->setVariable("PAGETITLE",
-			"- ".$a_title);
+		$this->title = $a_title;
+		$this->header_page_title = $a_title;
+	}
+	
+	/**
+	* Fill title
+	*/
+	private function fillTitle()
+	{
+		$this->setVariable("HEADER", $this->title);
 	}
 	
 	/**
@@ -971,11 +1010,22 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
-	* stop floating (if no tabs are used)
+	* set stop floating (if no tabs are used)
 	*/
 	function stopTitleFloating()
 	{
-		$this->touchBlock("stop_floating");
+		$this->stop_floating = true;
+	}
+	
+	/**
+	* stop floating
+	*/
+	private function fillStopFloating()
+	{
+		if ($this->stop_floating)
+		{
+			$this->touchBlock("stop_floating");
+		}
 	}
 	
 	/**
@@ -983,7 +1033,18 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setContent($a_html)
 	{
-		$this->setVariable("ADM_CONTENT", $a_html);
+		$this->main_content = $a_html;
+	}
+	
+	/**
+	* Fill main content
+	*/
+	private function fillMainContent()
+	{
+		if (trim($this->main_content) != "")
+		{
+			$this->setVariable("ADM_CONTENT", $this->main_content);
+		}
 	}
 
 	/**
@@ -991,10 +1052,18 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setRightContent($a_html)
 	{
-		if (trim($a_html) != "")
+		$this->right_content = $a_html;
+	}
+	
+	/**
+	* Fill right content
+	*/
+	private function fillRightContent()
+	{
+		if (trim($this->right_content) != "")
 		{
 			$this->setCurrentBlock("right_column");
-			$this->setVariable("RIGHT_CONTENT", $a_html);
+			$this->setVariable("RIGHT_CONTENT", $this->right_content);
 			$this->parseCurrentBlock();
 		}
 	}
@@ -1004,10 +1073,18 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setLeftContent($a_html)
 	{
-		if (trim($a_html) != "")
+		$this->left_content = $a_html;
+	}
+		
+	/**
+	* Fill left content
+	*/
+	private function fillLeftContent()
+	{
+		if (trim($this->left_content) != "")
 		{
 			$this->setCurrentBlock("left_column");
-			$this->setVariable("LEFT_CONTENT", $a_html);
+			$this->setVariable("LEFT_CONTENT", $this->left_content);
 			$this->parseCurrentBlock();
 		}
 	}
@@ -1044,19 +1121,73 @@ class ilTemplate extends ilTemplateX
 	function setUpperIcon($a_link, $a_frame = "")
 	{
 		global $lng;
+		
+		$this->upper_icon = $a_link;
+		$this->upper_icon_frame = $a_frame;
+	}
 
-		if ($a_frame != "")
+	/**
+	* Fill side icons (upper icon, tree icon, webfolder icon)
+	*/
+	function fillSideIcons()
+	{
+		global $lng;
+		
+		if ($this->upper_icon == "" && $this->tree_flat_icon == ""
+			&& $this->mount_webfolder == "")
 		{
-			$this->setCurrentBlock("target_top");
-			$this->setVariable("TARGET_TOP", $a_frame);
+			return;
+		}
+		
+		// upper icon
+		if ($this->upper_icon != "")
+		{
+			if ($this->upper_icon_frame != "")
+			{
+				$this->setCurrentBlock("target_top");
+				$this->setVariable("TARGET_TOP", $this->upper_icon_frame);
+				$this->parseCurrentBlock();
+			}
+	
+			$this->setCurrentBlock("alt_top");
+			$this->setVariable("ALT_TOP", $lng->txt("up"));
+			$this->parseCurrentBlock();
+	
+			$this->setCurrentBlock("top");
+			$this->setVariable("LINK_TOP", $this->upper_icon);
+			$this->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
 			$this->parseCurrentBlock();
 		}
-
-		$this->setVariable("ALT_TOP", $lng->txt("up"));
-
-		$this->setCurrentBlock("top");
-		$this->setVariable("LINK_TOP", $a_link);
-		$this->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
+		
+		// tree/flat icon
+		if ($this->tree_flat_icon != "")
+		{
+			$this->setCurrentBlock("tree_mode");
+			$this->setVariable("LINK_MODE", $this->tree_flat_link);
+			$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$this->tree_flat_mode."view.gif"));
+			$this->setVariable("ALT_TREE",$lng->txt($this->tree_flat_mode."view"));
+			$this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
+			$this->parseCurrentBlock();
+		}
+		
+		// mount webfolder
+		if ($this->mount_webfolder != "")
+		{
+			require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+			$davServer = new ilDAVServer();
+			$a_link =  $davServer->getMountURI($a_ref_id);
+			$a_folder = $davServer->getFolderURI($a_ref_id);
+			
+			$this->setCurrentBlock("mount_webfolder");
+			$this->setVariable("LINK_MOUNT_WEBFOLDER", $a_link);
+			$this->setVariable("FOLDER_MOUNT_WEBFOLDER", $a_folder);
+			$this->setVariable("IMG_MOUNT_WEBFOLDER",ilUtil::getImagePath("ic_mount_webfolder.gif"));
+			$this->setVariable("ALT_MOUNT_WEBFOLDER",$lng->txt("mount_webfolder"));
+			$this->setVariable("TARGET_MOUNT_WEBFOLDER", '_blank');
+			$this->parseCurrentBlock();
+		}
+		
+		$this->setCurrentBlock("tree_icons");
 		$this->parseCurrentBlock();
 	}
 	
@@ -1064,22 +1195,11 @@ class ilTemplate extends ilTemplateX
 	/**
 	* shows icon for mounting a webfolder
 	*/
-	function showMountWebfolderIcon($a_ref_id)
+	function setMountWebfolderIcon($a_ref_id)
 	{
 		global $lng;
 		
-		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
-		$davServer = new ilDAVServer();
-		$a_link =  $davServer->getMountURI($a_ref_id);
-		$a_folder = $davServer->getFolderURI($a_ref_id);
-		
-		$this->setCurrentBlock("mount_webfolder");
-		$this->setVariable("LINK_MOUNT_WEBFOLDER", $a_link);
-		$this->setVariable("FOLDER_MOUNT_WEBFOLDER", $a_folder);
-		$this->setVariable("IMG_MOUNT_WEBFOLDER",ilUtil::getImagePath("ic_mount_webfolder.gif"));
-		$this->setVariable("ALT_MOUNT_WEBFOLDER",$lng->txt("mount_webfolder"));
-		$this->setVariable("TARGET_MOUNT_WEBFOLDER", '_blank');
-		$this->parseCurrentBlock();
+		$this->mount_webfolder = $a_ref_id;
 	}
 	// END WebDAV: Mount webfolder icon.
 
@@ -1092,13 +1212,8 @@ class ilTemplate extends ilTemplateX
 	{
 		global $lng;
 		
-		$this->setCurrentBlock("tree_mode");
-		$this->setVariable("LINK_MODE", $a_link);
-		$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_".$a_mode."view.gif"));
-		$this->setVariable("ALT_TREE",$lng->txt($a_mode."view"));
-		$this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
-//echo ":".ilFrameTargetInfo::_getFrame("MainContent").":";
-		$this->parseCurrentBlock();
+		$this->tree_flat_link = $a_link;
+		$this->tree_flat_mode = $a_mode;
 	}
 
 	/**

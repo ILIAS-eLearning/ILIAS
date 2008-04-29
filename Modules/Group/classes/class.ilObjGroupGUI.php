@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./classes/class.ilContainerGUI.php";
+include_once "./Services/Container/classes/class.ilContainerGUI.php";
 include_once "./classes/class.ilRegisterGUI.php";
 
 /**

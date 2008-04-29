@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./classes/class.ilContainerGUI.php";
+require_once "./Services/Container/classes/class.ilContainerGUI.php";
 
 /**
 * Class ilObjCategoryGUI
@@ -119,15 +119,20 @@ class ilObjCategoryGUI extends ilContainerGUI
 				// container page editing
 			case "ilpageobjectgui":
 				$this->checkPermission("write");
-				$this->tpl->getStandardTemplate();
+		/*		$this->tpl->getStandardTemplate();
 				$this->setLocator();
 				ilUtil::sendInfo();
 				ilUtil::infoPanel();
-				//$this->prepareOutput(false);
-				$ret = $this->forwardToPageObject();
 				$this->setTitleAndDescription();
-				$this->setPageEditorTabs();
-				return $ret;
+				$this->setTabs();
+				$this->showUpperIcon();*/
+				
+			$this->prepareOutput(false);
+				$ret = $this->forwardToPageObject();
+			//$ret = "Hallo";	
+			//$this->setTitleAndDescription();
+			//$this->setPageEditorTabs();
+				$this->tpl->setContent($ret);
 				break;
 
 			default:

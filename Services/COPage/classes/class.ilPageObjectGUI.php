@@ -1139,7 +1139,7 @@ class ilPageObjectGUI
 			echo $tpl->get("adm_content");
 			exit;
 		}
-		if($this->outputToTemplate())
+		if ($this->outputToTemplate())
 		{
 			$tpl->setVariable($this->getTemplateOutputVar(), $output);
 			$this->tpl->setVariable($this->getTemplateTargetVar(), $tpl->get());

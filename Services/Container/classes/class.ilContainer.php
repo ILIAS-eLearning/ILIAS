@@ -29,6 +29,7 @@ define('IL_CNTR_VIEW_TIMING',2);
 define('IL_CNTR_VIEW_ARCHIVE',3);
 define('IL_CNTR_VIEW_CUSTOM',4);
 
+require_once "./classes/class.ilObject.php";
 
 /**
 * Class ilContainer
@@ -40,9 +41,6 @@ define('IL_CNTR_VIEW_CUSTOM',4);
 *
 * @extends ilObject
 */
-
-require_once "class.ilObject.php";
-
 class ilContainer extends ilObject
 {
 	/**

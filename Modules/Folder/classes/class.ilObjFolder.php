@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./classes/class.ilContainer.php";
+require_once "./Services/Container/classes/class.ilContainer.php";
 
 /**
 * Class ilObjFolder

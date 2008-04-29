@@ -213,7 +213,8 @@ $this->ctrl->debug("hier_id:".$hier_id);
 					$cmdClass = "ilobjmediaobjectgui";
 				}
 			}
-			
+echo "-$cmd-".$this->ctrl->getCmd()."-";
+var_dump($_POST);
 			// note: ilinternallinkgui for page: no cont_obj is received
 			// ilinternallinkgui for mob: cont_obj is received
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
@@ -235,15 +236,15 @@ $this->ctrl->debug("gettingContentObject (no linked media)");
 			}
 		}
 $this->ctrl->debug("+ctype:".$ctype."+");
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 
 		if ($ctype != "media" || !is_object ($cont_obj))
 		{
 			if ($this->getHeader() != "")
 			{
-				$this->tpl->setVariable("HEADER", $this->getHeader());
+				$this->tpl->setTitle($this->getHeader());
 			}
 			$this->displayLocator();
 		}
@@ -428,7 +429,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilobjmediaobjectgui":
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
 				$mob_gui->getTabs($this->tabs_gui);
-				$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
+				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					ilObject::_lookupTitle($_GET["mob_id"]));
 				$ret =& $this->ctrl->forwardCommand($mob_gui);
 				break;
@@ -698,8 +699,6 @@ return true;
 		}
 		$this->ctrl->returnToParent($this);
 	}
-
-
 
 	/**
 	* display locator

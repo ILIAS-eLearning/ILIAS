@@ -30,7 +30,7 @@
 * 
 */
 
-require_once "./classes/class.ilContainer.php";
+require_once "./Services/Container/classes/class.ilContainer.php";
 
 define('IL_CRS_ACTIVATION_OFFLINE',0);
 define('IL_CRS_ACTIVATION_UNLIMITED',1);

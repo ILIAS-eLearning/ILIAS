@@ -298,7 +298,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		global $ilSetting;
 
-		include_once("classes/class.ilContainer.php");
+		include_once("./Services/Container/classes/class.ilContainer.php");
 		$xpage_id = ilContainer::_lookupContainerSetting(
 			ilObject::_lookupObjId($_POST["cat_id"]),
 			"xhtml_page");
@@ -324,7 +324,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		global $ilSetting;
 
-		include_once("./classes/class.ilContainer.php");
+		include_once("./Services/Container/classes/class.ilContainer.php");
 		$xpage_id = ilContainer::_lookupContainerSetting(
 			ilObject::_lookupObjId($_POST["cat_id"]),
 			"xhtml_page");
