@@ -1643,6 +1643,8 @@ common#:#check#:#Prüfen
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
+common#:#chg_ilias_password#:#ILIAS Passwort ändern
+common#:#chg_ilias_and_webfolder_password#:#ILIAS and Webordner Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
@@ -3862,6 +3864,8 @@ common#:#userfolder_export_file#:#Datei
 common#:#userfolder_export_files#:#Dateien
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#Benutzername
+common#:#ilias_username#:#ILIAS Benutzername
+common#:#ilias_and_webfolder_username#:#ILIAS und Webordner Benutzername
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
 common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
 common#:#users_online_show_n#:#Keine aktiven Benutzer anzeigen

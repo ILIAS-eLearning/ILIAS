@@ -258,6 +258,7 @@ class ilPersonalProfileGUI
 		// do nothing if auth mode is not local database
 		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
 			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
+			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("show_auth_allow_local")) &&
 			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local"))
 			)
 		{
@@ -801,6 +802,7 @@ class ilPersonalProfileGUI
 		
 		if (($ilUser->getAuthMode(true) == AUTH_LOCAL ||
 			($ilUser->getAuthMode(true) == AUTH_CAS && $ilSetting->get("cas_allow_local")) ||
+			($ilUser->getAuthMode(true) == AUTH_SHIBBOLETH && $ilSetting->get("shib_auth_allow_local")) ||
 			($ilUser->getAuthMode(true) == AUTH_SOAP && $ilSetting->get("soap_auth_allow_local"))
 			)
 			&&
@@ -823,7 +825,18 @@ class ilPersonalProfileGUI
 				}
 		
 				$this->tpl->setCurrentBlock("select_password");
-				$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_password"));
+				switch ($ilUser->getAuthMode(true))
+				{
+					case AUTH_LOCAL :
+						$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_password"));
+						break;
+					case AUTH_SHIBBOLETH :
+						$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_ilias_and_webfolder_password"));
+						break;
+					default :
+						$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_ilias_password"));
+						break;
+				}
 				$this->tpl->setVariable("TXT_CURRENT_PASSWORD", $this->lng->txt("current_password"));
 				$this->tpl->setVariable("TXT_SELECT_PASSWORD", $this->lng->txt("select_password"));
 				$this->tpl->setVariable("PASSWORD_CHOICE", $passwd_choice);
@@ -833,7 +846,26 @@ class ilPersonalProfileGUI
 			else
 			{
 				$this->tpl->setCurrentBlock("change_password");
-				$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_password"));
+				switch ($ilUser->getAuthMode(true))
+				{
+					case AUTH_LOCAL :
+						$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_password"));
+						break;
+					case AUTH_SHIBBOLETH :
+						require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
+						if (ilDAVServer::_isActive())
+						{
+							$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_ilias_and_webfolder_password"));
+						}
+						else
+						{
+							$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_ilias_password"));
+						}
+						break;
+					default :
+						$this->tpl->setVariable("TXT_CHANGE_PASSWORD", $this->lng->txt("chg_ilias_password"));
+						break;
+				}
 				$this->tpl->setVariable("TXT_CURRENT_PW", $this->lng->txt("current_password"));
 				$this->tpl->setVariable("TXT_DESIRED_PW", $this->lng->txt("desired_password"));
 				$this->tpl->setVariable("TXT_RETYPE_PW", $this->lng->txt("retype_password"));
@@ -853,7 +885,26 @@ class ilPersonalProfileGUI
 		$this->tpl->setVariable("USR_FULLNAME",$ilUser->getFullname());
 		
 		$this->tpl->setVariable("TXT_USR_DATA", $this->lng->txt("userdata"));
-		$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("username"));
+		switch ($ilUser->getAuthMode(true))
+		{
+			case AUTH_LOCAL :
+				$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("username"));
+				break;
+			case AUTH_SHIBBOLETH :
+				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
+				if (ilDAVServer::_isActive())
+				{
+					$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("ilias_and_webfolder_username"));
+				}
+				else
+				{
+					$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("ilias_username"));
+				}
+				break;
+			default :
+				$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("ilias_username"));
+				break;
+		}
 		$this->tpl->setVariable("TXT_PUBLIC_PROFILE", $this->lng->txt("public_profile"));
 		
 		$data = array();

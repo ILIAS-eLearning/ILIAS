@@ -808,6 +808,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("chk_shib_active", 'checked="checked"');
 		}
+		if ($settings['shib_auth_allow_local'] == '1')
+		{
+			$this->tpl->setVariable('CHK_SHIB_AUTH_ALLOW_LOCAL', 'checked="checked"');
+		}
 		
 		if (
 			!isset($settings["shib_hos_type"])
@@ -854,6 +858,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $this->lng->txt("shib_federation_name"));
 		$this->tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $this->lng->txt("auth_login_instructions"));
 		$this->tpl->setVariable("TXT_SHIB_DATA_CONV", $this->lng->txt("shib_data_conv"));
+		$this->tpl->setVariable("TXT_SHIB_AUTH_ALLOW_LOCAL", $this->lng->txt("auth_allow_local"));
 		foreach ($shib_settings as $setting)
 		{
 			$this->tpl->setVariable("TXT_".strtoupper($setting), $this->lng->txt($setting));
@@ -943,6 +948,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->ilias->setSetting("shib_login_instructions", $_POST["shib"]["login_instructions"]);
 		$this->ilias->setSetting("shib_login_button", $_POST["shib"]["login_button"]);
 		$this->ilias->setSetting("shib_data_conv", $_POST["shib"]["data_conv"]);
+		$this->ilias->setSetting("shib_auth_allow_local", ($_POST['shib']['auth_allow_local']=='1') ? '1' : '0');
 	
 		ilUtil::sendInfo($this->lng->txt("shib_settings_saved"),true);
 

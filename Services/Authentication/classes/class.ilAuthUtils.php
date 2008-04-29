@@ -112,6 +112,10 @@ class ilAuthUtils
 				{
 					$user_auth_mode = AUTH_LOCAL;
 				}
+				if ($user_auth_mode == AUTH_SHIBBOLETH && $ilSetting->get("shib_auth_allow_local"))
+				{
+					$user_auth_mode = AUTH_LOCAL;
+				}
 			}
         }
 		
