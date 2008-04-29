@@ -226,11 +226,16 @@ class SurveyTextQuestion extends SurveyQuestion
 				$ilDB->quote("$complete"),
 				$ilDB->quote($created),
 				$original_id
-      );
-      $result = $ilDB->query($query);
-      if ($result == DB_OK) 
+			);
+			$result = $ilDB->query($query);
+			if (PEAR::isError($result)) 
 			{
-        $this->id = $ilDB->getLastInsertId();
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
+			{
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO survey_question_text (question_fi, maxchars, width, height) VALUES (%s, %s, %s, %s)",
 					$ilDB->quote($this->id . ""),
 					$maxchars,
@@ -239,12 +244,12 @@ class SurveyTextQuestion extends SurveyQuestion
 					$maxchars
 				);
 				$ilDB->query($query);
-      }
-    } 
+			}
+		} 
 		else 
 		{
-      // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+			// update existing dataset
+			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$ilDB->quote($this->title),
 				$ilDB->quote($this->description),
 				$ilDB->quote($this->author),
@@ -261,13 +266,19 @@ class SurveyTextQuestion extends SurveyQuestion
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
-    }
-    if ($result == DB_OK) {
-      // saving material uris in the database
-      $this->saveMaterialsToDb();
-    }
+		}
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
+		{
+			// saving material uris in the database
+			$this->saveMaterialsToDb();
+		}
 		parent::saveToDb($original_id);
-  }
+	}
 
 	/**
 	* Returns an xml representation of the question

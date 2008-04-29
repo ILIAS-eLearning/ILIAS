@@ -670,9 +670,10 @@ class ilObjSurvey extends ilObject
 				$ilDB->quote($sequence)
 			);
 			$result = $ilDB->query($query);
-			if ($result != DB_OK) 
+			if (PEAR::isError($result)) 
 			{
-				// Error
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
 			}
 			$this->loadQuestionsFromDb();
 			return TRUE;
@@ -798,16 +799,21 @@ class ilObjSurvey extends ilObject
 				$ilDB->quote($this->getAnonymize() . ""),
 				$ilDB->quote($this->getShowQuestionTitles() . ""),
 				$ilDB->quote($created)
-      );
-      $result = $ilDB->query($query);
-      if ($result == DB_OK) 
+			);
+			$result = $ilDB->query($query);
+			if (PEAR::isError($result)) 
 			{
-        $this->survey_id = $ilDB->getLastInsertId();
-      }
-    } 
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
+			{
+				$this->survey_id = $ilDB->getLastInsertId();
+			}
+		} 
 		else 
 		{
-      // update existing dataset
+			// update existing dataset
 			$query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, outro = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s, anonymize = %s, show_question_titles = %s WHERE survey_id = %s",
 				$ilDB->quote($this->author . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
@@ -822,15 +828,20 @@ class ilObjSurvey extends ilObject
 				$ilDB->quote($this->getAnonymize() . ""),
 				$ilDB->quote($this->getShowQuestionTitles() . ""),
 				$ilDB->quote($this->survey_id)
-      );
-      $result = $ilDB->query($query);
-    }
-    if ($result == DB_OK) 
+			);
+			$result = $ilDB->query($query);
+		}
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
 		{
 			// save questions to db
 			$this->saveQuestionsToDb();
-    }
-  }
+		}
+	}
 
 /**
 * Saves the survey questions to the database
@@ -2381,7 +2392,13 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($ilUser->getId())
 		);
 		$result = $ilDB->query($query);
-		if ($result == DB_OK) {
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
+		{
 			$questionblock_id = $ilDB->getLastInsertId();
 			foreach ($questions as $index)
 			{
@@ -2917,7 +2934,13 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($value)
 		);
 		$result = $ilDB->query($query);
-		if ($result == DB_OK) {
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
+		{
 			$constraint_id = $ilDB->getLastInsertId();
 			$query = sprintf("INSERT INTO survey_question_constraint (question_constraint_id, survey_fi, question_fi, constraint_fi) VALUES (NULL, %s, %s, %s)",
 				$ilDB->quote($this->getSurveyId()),

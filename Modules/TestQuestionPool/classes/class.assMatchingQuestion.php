@@ -153,7 +153,12 @@ class assMatchingQuestion extends assQuestion
 			);
 
 			$result = $ilDB->query($query);
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_matching (question_fi, shuffle, matching_type) VALUES (%s, %s, %s)",
@@ -196,7 +201,12 @@ class assMatchingQuestion extends assQuestion
 			$result = $ilDB->query($query);
 		}
 
-		if ($result == DB_OK)
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
 		{
 			// Antworten schreiben
 			// alte Antworten löschen
@@ -879,7 +889,12 @@ class assMatchingQuestion extends assQuestion
 			);
 			$result = $ilDB->query($query);
 
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				// write answers
 				// delete old answers

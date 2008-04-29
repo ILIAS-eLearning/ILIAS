@@ -269,7 +269,12 @@ class assFlashApp extends assQuestion
 			);
 
 			$result = $ilDB->query($query);
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_flashapp (question_fi, flash_file, params) VALUES (%s, %s, %s)",

@@ -162,7 +162,12 @@ class assTextQuestion extends assQuestion
 			);
 			$result = $ilDB->query($query);
 			
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_essay (question_fi, maxNumOfChars, keywords, textgap_rating) VALUES (%s, %s, %s, %s)",

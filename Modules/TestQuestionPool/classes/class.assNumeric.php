@@ -153,7 +153,12 @@ class assNumeric extends assQuestion
 			);
 			$result = $ilDB->query($query);
 			
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_numeric (question_fi, maxNumOfChars) VALUES (%s, %s)",
@@ -192,7 +197,12 @@ class assNumeric extends assQuestion
 			);
 			$result = $ilDB->query($query);
 		}
-		if ($result == DB_OK)
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
 		{
 			// Write Ranges to the database
 			
@@ -688,7 +698,12 @@ class assNumeric extends assQuestion
 			);
 			$result = $ilDB->query($query);
 
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				// Write Ranges to the database
 				

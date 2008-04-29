@@ -715,11 +715,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote("$complete"),
 				$ilDB->quote($created),
 				$original_id
-      );
-      $result = $ilDB->query($query);
-      if ($result == DB_OK) 
+			);
+			$result = $ilDB->query($query);
+			if (PEAR::isError($result)) 
 			{
-        $this->id = $ilDB->getLastInsertId();
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
+			{
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO survey_question_matrix (question_fi, subtype, row_separators, column_separators, neutral_column_separator, bipolar_adjective1, bipolar_adjective2) VALUES (%s, %s, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id . ""),
 					$ilDB->quote(sprintf("%d", $this->getSubtype())),
@@ -755,11 +760,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
-    }
-    if ($result == DB_OK) 
+		}
+		if (PEAR::isError($result)) 
 		{
-      // saving material uris in the database
-      $this->saveMaterialsToDb();
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
+		{
+			// saving material uris in the database
+			$this->saveMaterialsToDb();
 			if ($withanswers)
 			{
 				$this->saveColumnsToDb();
@@ -1111,7 +1121,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			if ($result == DB_OK) 
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				// sync columns
 				$this->saveColumnsToDb($this->original_id);

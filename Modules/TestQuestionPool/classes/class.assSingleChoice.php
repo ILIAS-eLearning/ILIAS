@@ -156,7 +156,12 @@ class assSingleChoice extends assQuestion
 				$original_id
 			);
 			$result = $ilDB->query($query);
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO qpl_question_singlechoice (question_fi, shuffle) VALUES (%s, %s)",
@@ -196,7 +201,12 @@ class assSingleChoice extends assQuestion
 			);
 			$result = $ilDB->query($query);
 		}
-		if ($result == DB_OK)
+		if (PEAR::isError($result)) 
+		{
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
 		{
 			// Antworten schreiben
 			// alte Antworten löschen
@@ -760,7 +770,12 @@ class assSingleChoice extends assQuestion
 			);
 			$result = $ilDB->query($query);
 
-			if ($result == DB_OK)
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
 			{
 				// write answers
 				// delete old answers

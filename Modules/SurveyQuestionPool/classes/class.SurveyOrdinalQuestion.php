@@ -276,22 +276,27 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 				$ilDB->quote("$complete"),
 				$ilDB->quote($created),
 				$original_id
-      );
-      $result = $ilDB->query($query);
-      if ($result == DB_OK) 
+			);
+			$result = $ilDB->query($query);
+			if (PEAR::isError($result)) 
 			{
-        $this->id = $ilDB->getLastInsertId();
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
+			{
+				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO survey_question_ordinal (question_fi, orientation) VALUES (%s, %s)",
 					$ilDB->quote($this->id . ""),
 					$ilDB->quote(sprintf("%d", $this->orientation))
 				);
 				$ilDB->query($query);
-      }
-    } 
+			}
+		} 
 		else 
 		{
-      // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+			// update existing dataset
+			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$ilDB->quote($this->title),
 				$ilDB->quote($this->description),
 				$ilDB->quote($this->author),
@@ -306,18 +311,23 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
-    }
-    if ($result == DB_OK) 
+		}
+		if (PEAR::isError($result)) 
 		{
-      // saving material uris in the database
-      $this->saveMaterialsToDb();
+			global $ilias;
+			$ilias->raiseError($result->getMessage());
+		}
+		else
+		{
+			// saving material uris in the database
+			$this->saveMaterialsToDb();
 			if ($withanswers)
 			{
 				$this->saveCategoriesToDb();
 			}
-    }
+		}
 		parent::saveToDb($original_id);
-  }
+	}
 
 	function saveCategoriesToDb()
 	{
@@ -458,7 +468,13 @@ class SurveyOrdinalQuestion extends SurveyQuestion
 				$ilDB->quote($this->original_id . "")
 			);
 			$result = $ilDB->query($query);
-			if ($result == DB_OK) {
+			if (PEAR::isError($result)) 
+			{
+				global $ilias;
+				$ilias->raiseError($result->getMessage());
+			}
+			else
+			{
 				// save categories
 				
 				// delete existing category relations
