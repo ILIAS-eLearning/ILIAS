@@ -5300,13 +5300,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 */
   function &createQuestionGUI($question_type, $question_id = -1)
 	{
-    if ((!$question_type) and ($question_id > 0))
+		if ((!$question_type) and ($question_id > 0))
 		{
 			$question_type = $this->getQuestionType($question_id);
-    }
-		include_once "./Modules/TestQuestionPool/classes/class.".$question_type."GUI.php";
+		}
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		assQuestion::_includeClass($question_type, 1);
 		$question_type_gui = $question_type . "GUI";
-		$question =& new $question_type_gui();
+		$question = new $question_type_gui();
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);

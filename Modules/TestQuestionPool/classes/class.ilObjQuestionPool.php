@@ -456,21 +456,12 @@ class ilObjQuestionPool extends ilObject
 
 	function &createQuestion($question_type, $question_id = -1)
 	{
-		if ((!$question_type) and ($question_id > 0))
-		{
-			$question_type = $this->getQuestiontype($question_id);
-		}
-
-		include_once "./Modules/TestQuestionPool/classes/class.".$question_type."GUI.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		if ($question_id > 0) return assQuestion::_instanciateQuestionGUI($question_id);
+		assQuestion::_includeClass($question_type, 1);
 		$question_type_gui = $question_type . "GUI";
-		$question =& new $question_type_gui();
-
-		if ($question_id > 0)
-		{
-			$question->object->loadFromDb($question_id);
-		}
-
-		return $question;
+		$question_gui =& new $question_type_gui();
+		return $question_gui;
 	}
 
 	/**

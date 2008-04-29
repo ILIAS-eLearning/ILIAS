@@ -991,7 +991,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "preview"));
 
 			$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
-			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 			$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
 			$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -1180,10 +1181,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("overview_row_detail");
 				$this->tpl->setVariable("ROW_CLASS", $colors[$counter % 2]);
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-				$question_type_gui = assQuestion::_getQuestionType($row["question_id"]) . "GUI";
-				include_once "./Modules/TestQuestionPool/classes/class.".$question_type_gui.".php";
-				$question_gui = new $question_type_gui();
-				$question_gui->object->loadFromDb($row["question_id"]);
+				$question_gui = assQuestion::_instanciateQuestionGUI($row["question_id"]);
 				if (strcmp($_POST["output"], "detailed") == 0)
 				{
 					$this->tpl->setVariable("PREVIEW", $question_gui->getSolutionOutput($active_id = "", $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE));
