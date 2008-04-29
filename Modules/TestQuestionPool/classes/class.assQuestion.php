@@ -1967,7 +1967,7 @@ class assQuestion
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$question_type = assQuestion::_getQuestionType($question_id);
-			include_once "./Modules/TestQuestionPool/classes/class.".$question_type.".php";
+			assQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
 			return $question;
@@ -2721,6 +2721,36 @@ class assQuestion
 		else
 		{
 			return array();
+		}
+	}
+
+	/**
+	* Include the php class file for a given question type
+	*
+	* @param string $question_type The type tag of the question type
+	* @return integer 0 if the class should be included, 1 if the GUI class should be included
+	* @access public
+	*/
+	static function _includeClass($question_type, $gui = 0)
+	{
+		$type = $question_type;
+		if ($gui) $type .= "GUI";
+		if (file_exists("./Modules/TestQuestionPool/classes/class.".$type.".php"))
+		{
+			include_once "./Modules/TestQuestionPool/classes/class.".$type.".php";
+		}
+		else
+		{
+			global $ilPluginAdmin;
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
+			foreach ($pl_names as $pl_name)
+			{
+				$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+				if (strcmp($pl->getQuestionType(), $question_type) == 0)
+				{
+					$pl->includeClass("class.".$type.".php");
+				}
+			}
 		}
 	}
 }

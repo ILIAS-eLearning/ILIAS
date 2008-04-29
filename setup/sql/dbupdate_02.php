@@ -3887,9 +3887,7 @@ ON DUPLICATE KEY
 UPDATE ts=if(FROM_UNIXTIME(access_time) > ts,FROM_UNIXTIME(access_time),ts),spent_seconds=spent_seconds+spent_time, read_count=read_count+visits;
 
 DROP TABLE ut_learning_progress;
-
 <#1199>
 ALTER TABLE `rbac_pa` ADD INDEX ( `ref_id` );
-
-
-
+<#1200>
+ALTER TABLE  `qpl_question_type` ADD  `plugin` TINYINT NOT NULL DEFAULT  '0';

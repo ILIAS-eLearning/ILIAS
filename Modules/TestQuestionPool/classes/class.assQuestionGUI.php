@@ -252,8 +252,8 @@ class assQuestionGUI
 			$question_type = assQuestion::getQuestionTypeFromDb($question_id);
 		}
 		if (strlen($question_type) == 0) return NULL;
-		include_once "./Modules/TestQuestionPool/classes/class.".$question_type."GUI.php";
 		$question_type_gui = $question_type . "GUI";
+		assQuestion::_includeClass($question_type, 1);
 		$question =& new $question_type_gui();
 		if ($question_id > 0)
 		{
@@ -261,7 +261,7 @@ class assQuestionGUI
 		}
 		return $question;
 	}
-
+	
 	function _getGUIClassNameForId($a_q_id)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";

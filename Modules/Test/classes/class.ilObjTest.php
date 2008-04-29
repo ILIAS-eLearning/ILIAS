@@ -5328,18 +5328,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if (strcmp($question_id, "") != 0)
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$question_type = assQuestion::_getQuestionType($question_id);
-
-			if(!strlen($question_type))
-			{
-				return false;
-			}
-
-			include_once "./Modules/TestQuestionPool/classes/class.".$question_type.".php";
-			$question = new $question_type();
-
-			$question->loadFromDb($question_id);
-			return $question;
+			return assQuestion::_instanciateQuestion($question_id);
 		}
   }
 
