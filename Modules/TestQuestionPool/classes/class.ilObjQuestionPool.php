@@ -584,7 +584,7 @@ class ilObjQuestionPool extends ilObject
 				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "updated":
-				$order = " ORDER BY TIMESTAMP14 $sortorder";
+				$order = " ORDER BY timestamp14 $sortorder";
 				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 		}
@@ -593,7 +593,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -605,7 +605,7 @@ class ilObjQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
@@ -677,10 +677,10 @@ class ilObjQuestionPool extends ilObject
 				$order = " ORDER BY created,title";
 				break;
 			case "updated":
-				$order = " ORDER BY TIMESTAMP14,title";
+				$order = " ORDER BY timestamp14,title";
 				break;
 		}
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $order";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $order";
 		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
@@ -1697,7 +1697,7 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$questions = array();
-		$query = sprintf("SELECT qpl_questions.*, qpl_questions.TIMESTAMP+0 AS TIMESTAMP14, qpl_question_type.* FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+		$query = sprintf("SELECT qpl_questions.*, qpl_questions.TIMESTAMP+0 AS timestamp14, qpl_question_type.* FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
 			$ilDB->quote($this->getId() . "")
 		);
 		$result = $ilDB->query($query);

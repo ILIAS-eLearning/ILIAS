@@ -5521,7 +5521,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "updated":
-				$order = " ORDER BY TIMESTAMP14 $sortorder";
+				$order = " ORDER BY timestamp14 $sortorder";
 				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "qpl":
@@ -5551,7 +5551,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 		// get all questions in the test
-		$query = sprintf("SELECT qpl_questions.original_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, tst_test_question, object_data WHERE qpl_questions.question_id = tst_test_question.question_fi AND object_data.obj_id = qpl_questions.obj_fi AND tst_test_question.test_fi = %s",
+		$query = sprintf("SELECT qpl_questions.original_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, tst_test_question, object_data WHERE qpl_questions.question_id = tst_test_question.question_fi AND object_data.obj_id = qpl_questions.obj_fi AND tst_test_question.test_fi = %s",
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -5569,7 +5569,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$original_clause = " ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN ('" . join($original_ids, "','") . "')";
 		}
 
-		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14 FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -5581,8 +5581,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS TIMESTAMP14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
-    $query_result = $ilDB->query($query);
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
@@ -7714,7 +7714,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $ilDB;
 		if (is_null($pass)) $pass = 0;
-		$query = sprintf("SELECT tst_test_result.TIMESTAMP + 0 AS TIMESTAMP14 FROM tst_test_result WHERE active_fi = %s AND pass = %s ORDER BY tst_test_result.TIMESTAMP DESC",
+		$query = sprintf("SELECT tst_test_result.TIMESTAMP + 0 AS timestamp14 FROM tst_test_result WHERE active_fi = %s AND pass = %s ORDER BY tst_test_result.TIMESTAMP DESC",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -7722,7 +7722,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			return $row["TIMESTAMP14"];
+			return $row["timestamp14"];
 		}
 		else
 		{

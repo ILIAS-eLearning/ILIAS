@@ -225,7 +225,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
 			$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["TIMESTAMP14"], $matches);
+			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["timestamp14"], $matches);
 			$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", 
 				$matches[1], $matches[2], $matches[3], 
 				$matches[4], $matches[5], $matches[6]));

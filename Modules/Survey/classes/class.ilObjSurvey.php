@@ -3418,7 +3418,7 @@ class ilObjSurvey extends ilObject
 	function getLastActivePage($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT question_fi, TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_answer WHERE active_fi = %s ORDER BY TIMESTAMP14 DESC",
+		$query = sprintf("SELECT question_fi, TIMESTAMP + 0 AS timestamp14 FROM survey_answer WHERE active_fi = %s ORDER BY timestamp14 DESC",
 			$ilDB->quote($active_id)
 		);
 		$result = $ilDB->query($query);
@@ -3825,7 +3825,7 @@ class ilObjSurvey extends ilObject
 				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 			case "updated":
-				$order = " ORDER BY TIMESTAMP14 $sortorder";
+				$order = " ORDER BY timestamp14 $sortorder";
 				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 			case "qpl":
@@ -3853,10 +3853,10 @@ class ilObjSurvey extends ilObject
 			$existing = " AND survey_question.question_id NOT IN ('" . join($existing_questions, "','") . "')";
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order";
+		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order";
 		$query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
-		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
 		$query_result = $ilDB->query($query);
 		if ($startrow > $max -1)
 		{
@@ -4876,7 +4876,7 @@ class ilObjSurvey extends ilObject
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 */
-		$query = sprintf("SELECT survey_anonymous.*, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key)",
+		$query = sprintf("SELECT survey_anonymous.*, survey_anonymous.TIMESTAMP + 0 AS timestamp14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key)",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -4890,7 +4890,7 @@ class ilObjSurvey extends ilObject
 			if (in_array($row["survey_key"], $a_array) || (count($a_array) == 0))
 			{
 				$export .= $row["survey_key"] . ",";
-				$created = ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["TIMESTAMP14"]), "date");
+				$created = ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["timestamp14"]), "date");
 				$export .= "$created,";
 				if ($this->isSurveyCodeUsed($row["survey_key"]))
 				{
@@ -4927,9 +4927,9 @@ class ilObjSurvey extends ilObject
 		if (strlen($offset) == 0) $offset = 0;
 		if (strlen($limit) == 0) $limit = 10;
 		
-		$order = "ORDER BY TIMESTAMP14, survey_key ASC";
+		$order = "ORDER BY timestamp14, survey_key ASC";
 		$codes = array();
-		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS TIMESTAMP14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key) $order LIMIT $offset,$limit",
+		$query = sprintf("SELECT survey_anonymous.anonymous_id, survey_anonymous.survey_key, survey_anonymous.survey_fi, survey_anonymous.TIMESTAMP + 0 AS timestamp14, survey_finished.state FROM survey_anonymous LEFT JOIN survey_finished ON survey_anonymous.survey_key = survey_finished.anonymous_id WHERE survey_anonymous.survey_fi = %s AND ISNULL(survey_anonymous.user_key) $order LIMIT $offset,$limit",
 			$ilDB->quote($this->getSurveyId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -4938,7 +4938,7 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				$created = ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($row["TIMESTAMP14"]));
+				$created = ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($row["timestamp14"]));
 
 				$url = "";
 				
@@ -5137,25 +5137,25 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT TIMESTAMP+0 AS TIMESTAMP14 FROM survey_answer WHERE active_fi = %s ORDER BY TIMESTAMP DESC",
+		$query = sprintf("SELECT TIMESTAMP+0 AS timestamp14 FROM survey_answer WHERE active_fi = %s ORDER BY TIMESTAMP DESC",
 			$ilDB->quote($finished_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			return $row["TIMESTAMP14"];
+			return $row["timestamp14"];
 		}
 		else
 		{
-			$query = sprintf("SELECT TIMESTAMP+0 AS TIMESTAMP14 FROM survey_finished WHERE finished_id = %s",
+			$query = sprintf("SELECT TIMESTAMP+0 AS timestamp14 FROM survey_finished WHERE finished_id = %s",
 				$ilDB->quote($finished_id . "")
 			);
 			$result = $ilDB->query($query);
 			if ($result->numRows())
 			{
 				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-				return $row["TIMESTAMP14"];
+				return $row["timestamp14"];
 			}
 		}
 		return "";
