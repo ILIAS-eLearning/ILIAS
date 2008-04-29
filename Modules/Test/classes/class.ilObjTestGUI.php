@@ -1939,7 +1939,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("questiontype_row");
 			$this->tpl->setVariable("VALUE_QUESTION_TYPE", $value["type_tag"]);
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($value["type_tag"]));
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $key);
 			if (strcmp($filter_question_type, $value["type_tag"]) == 0)
 			{
 				$this->tpl->setVariable("SELECTED_QUESTION_TYPE", " selected=\"selected\"");
@@ -1997,6 +1997,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$existing_questions =& $this->object->getExistingQuestions();
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		if ((is_array($table["rows"])) && (count($table["rows"])))
 		{
 			foreach ($table["rows"] as $data)
@@ -2015,7 +2016,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
 					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+					$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
 					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP14"]), "date"));
@@ -3156,7 +3157,8 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+				$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
 				$total_points += $data["points"];
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
@@ -3197,14 +3199,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("QTypes");
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 			$question_types =& ilObjQuestionPool::_getQuestionTypes();
-			foreach ($question_types as $data)
+			foreach ($question_types as $trans => $data)
 			{
 				if ($data["type_tag"] == $lastquestiontype)
 				{
 					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
 				}
 				$this->tpl->setVariable("QUESTION_TYPE_ID", $data["type_tag"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+				$this->tpl->setVariable("QUESTION_TYPE", $trans);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->parseCurrentBlock();

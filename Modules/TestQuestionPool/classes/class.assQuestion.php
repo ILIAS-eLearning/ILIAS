@@ -1961,18 +1961,17 @@ class assQuestion
 * @return object The question instance
 * @access public
 */
-  function &_instanciateQuestion($question_id) 
+	function &_instanciateQuestion($question_id) 
 	{
 		if (strcmp($question_id, "") != 0)
 		{
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$question_type = assQuestion::_getQuestionType($question_id);
 			assQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
 			return $question;
 		}
-  }
+	}
 	
 /**
 * Returns the maximum available points for the question
@@ -2753,6 +2752,58 @@ class assQuestion
 			}
 		}
 	}
+
+	/**
+	* Return the translation for a given question type tag
+	*
+	* @param string $type_tag The type tag of the question type
+	* @access public
+	*/
+	static function _getQuestionTypeName($type_tag)
+	{
+		if (file_exists("./Modules/TestQuestionPool/classes/class.".$type_tag.".php"))
+		{
+			global $lng;
+			return $lng->txt($type_tag);
+		}
+		else
+		{
+			global $ilPluginAdmin;
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
+			foreach ($pl_names as $pl_name)
+			{
+				$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+				if (strcmp($pl->getQuestionType(), $type_tag) == 0)
+				{
+					return $pl->getQuestionTypeTranslation();
+				}
+			}
+		}
+		return "";
+	}
+
+/**
+* Creates an instance of a question gui with a given question id
+*
+* Creates an instance of a question gui with a given question id
+*
+* @param integer $question_id The question id
+* @return object The question gui instance
+* @access public
+*/
+	function &_instanciateQuestionGUI($question_id) 
+	{
+		if (strcmp($question_id, "") != 0)
+		{
+			$question_type = assQuestion::_getQuestionType($question_id);
+			$question_type_gui = $question_type . "GUI";
+			assQuestion::_includeClass($question_type, 1);
+			$question_gui = new $question_type_gui();
+			$question_gui->object->loadFromDb($question_id);
+			return $question_gui;
+		}
+	}
+	
 }
 
 ?>
