@@ -213,8 +213,8 @@ $this->ctrl->debug("hier_id:".$hier_id);
 					$cmdClass = "ilobjmediaobjectgui";
 				}
 			}
-echo "-$cmd-".$this->ctrl->getCmd()."-";
-var_dump($_POST);
+//echo "-$cmd-".$this->ctrl->getCmd()."-";
+//var_dump($_POST);
 			// note: ilinternallinkgui for page: no cont_obj is received
 			// ilinternallinkgui for mob: cont_obj is received
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
