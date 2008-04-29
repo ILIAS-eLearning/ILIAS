@@ -459,7 +459,6 @@ abstract class ilPlugin
 	public final function txt($a_var)
 	{
 		global $lng;
-		
 		return $lng->txt($this->getPrefix()."_".$a_var);
 	}
 	

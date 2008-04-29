@@ -1644,16 +1644,22 @@ class ilObjQuestionPool extends ilObject
 		{
 			if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types)))
 			{
-				if (!DEVMODE)
+				if ($row["plugin"] == 0)
 				{
-					if (strcmp($row["type_tag"], "assFlashApp") != 0)
-					{
-						$types[$lng->txt($row["type_tag"])] = $row;
-					}
+				$types[$lng->txt($row["type_tag"])] = $row;
 				}
 				else
 				{
-					$types[$lng->txt($row["type_tag"])] = $row;
+					global $ilPluginAdmin;
+					$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
+					foreach ($pl_names as $pl_name)
+					{
+						$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+						if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0)
+						{
+							$types[$pl->getQuestionTypeTranslation()] = $row;
+						}
+					}
 				}
 			}
 		}

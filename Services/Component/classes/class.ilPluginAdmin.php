@@ -55,6 +55,7 @@ class ilPluginAdmin
 		
 		if (!$this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname])
 		{
+			include_once "./Services/Component/classes/class.ilPluginSlot.php";
 			$slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 
 			$plugin_php_file = "./Customizing/global/plugins/".$a_ctype."/".
@@ -221,6 +222,7 @@ class ilPluginAdmin
 	*/
 	function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
 	{
+		include_once "./Services/Component/classes/class.ilPlugin.php";
 		return ilPlugin::getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id);
 	}
 }
