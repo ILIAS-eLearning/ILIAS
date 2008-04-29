@@ -389,7 +389,7 @@ class ilObjectGUI
 			return;
 		}
 
-		$tpl->showMountWebfolderIcon($this->object->getRefId());
+		$tpl->setMountWebfolderIcon($this->object->getRefId());
 	}
 	// END WebDAV: Show Mount Webfolder Icon.
 

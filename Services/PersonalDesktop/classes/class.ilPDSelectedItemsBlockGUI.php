@@ -582,7 +582,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		if ($ilSetting->get("custom_icons") &&
 		in_array($type, array("cat","grp","crs", "root")))
 		{
-			require_once("classes/class.ilContainer.php");
+			require_once("./Services/Container/classes/class.ilContainer.php");
 			if (($path = ilContainer::_lookupIconPath($par_id, "small")) != "")
 			{
 				$icon = $path;
@@ -668,7 +668,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 			if ($ilSetting->get("custom_icons") &&
 			in_array($a_image_type, array("cat","grp","crs")))
 			{
-				require_once("classes/class.ilContainer.php");
+				require_once("./Services/Container/classes/class.ilContainer.php");
 				if (($path = ilContainer::_lookupIconPath($a_item_obj_id, "small")) != "")
 				{
 					$icon = $path;

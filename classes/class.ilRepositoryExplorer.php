@@ -527,7 +527,7 @@ class ilRepositoryExplorer extends ilExplorer
 		/*
 		if ($this->ilias->getSetting("custom_icons"))
 		{
-			require_once("classes/class.ilContainer.php");
+			require_once("./Services/Container/classes/class.ilContainer.php");
 			if (($path = ilContainer::_lookupIconPath($a_obj_id, "tiny")) == "")
 			{
 				$path = ilUtil::getImagePath("icon_root_s.gif");
@@ -567,7 +567,7 @@ class ilRepositoryExplorer extends ilExplorer
 	 */
 	public function sortNodes($a_nodes,$a_parent_obj_id)
 	{
-		include_once('Services/Container/classes/class.ilContainerSorting.php');
+		include_once('./Services/Container/classes/class.ilContainerSorting.php');
 		$sort = new ilContainerSorting($a_parent_obj_id);
 		
 		if($sort->isManualSortingEnabled())

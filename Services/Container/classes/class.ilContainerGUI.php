@@ -34,8 +34,8 @@
 * @extends ilObjectGUI
 */
 
-require_once "class.ilObjectGUI.php";
-require_once "class.ilContainer.php";
+require_once "./classes/class.ilObjectGUI.php";
+require_once "./Services/Container/classes/class.ilContainer.php";
 
 class ilContainerGUI extends ilObjectGUI
 {
@@ -62,6 +62,8 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $tpl;
+		
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd("render");
 
@@ -69,7 +71,8 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			// page editing
 			case "ilpageobjectgui":
-				return $this->forwardToPageObject();
+				$ret = $this->forwardToPageObject();
+				$tpl->setContent($ret);
 				break;
 			
 			default:
@@ -109,16 +112,16 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		
 		// get page object
-		$page_object = new ilPageObject($this->object->getType(),
-			$this->object->getId(), true);
-
-		$this->ctrl->setReturnByClass("ilpageobjectgui", "view");
+//		$page_object = new ilPageObject($this->object->getType(),
+//			$this->object->getId(), 0, true);
+		$this->ctrl->setReturnByClass("ilpageobjectgui", "edit");
 		//$page_object =& $this->obj->getPageObject();
-		$page_object->buildDom();
+//		$page_object->buildDom();
 		//$page_object->addUpdateListener($this, "updateHistory");
-		$int_links = $page_object->getInternalLinks();
+//		$int_links = $page_object->getInternalLinks();
 		//$link_xml = $this->getLinkXML($int_links);
-		$page_gui =& new ilPageObjectGUI($page_object);
+		$page_gui =& new ilPageObjectGUI($this->object->getType(),
+			$this->object->getId());
 
 		// $view_frame = ilFrameTargetInfo::_getFrame("MainContent");
 		//$page_gui->setViewPageLink(ILIAS_HTTP_PATH."/goto.php?target=pg_".$this->obj->getId(),
@@ -133,10 +136,11 @@ class ilContainerGUI extends ilObjectGUI
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
 		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
 		$page_gui->setPresentationTitle("");
+		$page_gui->setTemplateOutput(false);
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");
 		$ret =& $this->ctrl->forwardCommand($page_gui);
-		
+
 		//$ret =& $page_gui->executeCommand();
 		return $ret;
 	}
@@ -259,7 +263,6 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		if (is_array($subobj))
 		{
-			/*
 			// show addEvent button
 			if($this->object->getType() == 'crs')
 			{
@@ -272,15 +275,12 @@ class ilContainerGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
-			*/			
-			/*
+			$this->tpl->setCurrentBlock("add_commands");
 			// convert form to inline element, to show them in one row
 			if($this->object->getType() == 'crs')
 			{
 				$this->tpl->setVariable("FORMSTYLE",'display:inline');
 			}
-			*/
-			$this->tpl->setCurrentBlock("add_commands");
 			$formaction = "repository.php?ref_id=".$this->object->getRefId()."&cmd=post";
 			$formaction = $ilCtrl->appendRequestTokenParameterString($formaction);
 			$this->tpl->setVariable("H_FORMACTION",$formaction);
@@ -532,17 +532,21 @@ class ilContainerGUI extends ilObjectGUI
 		$fs_gui->setMainFrameName("content");
 		$fs_gui->setSideFrameName("link_list");
 		
-		$fs_gui->setSideFrameSource(
-			$this->ctrl->getLinkTargetByClass("ilcontainerlinklistgui", "show"));
+		//$fs_gui->setSideFrameSource(
+		//	$this->ctrl->getLinkTargetByClass("ilcontainerlinklistgui", "show"));
 
+		// to do: check this
+		$fs_gui->setSideFrameSource("");
+			
+		/* old tiny stuff
 		$fs_gui->setMainFrameSource(
 			$this->ctrl->getLinkTarget(
-				$this, "editPageContent"));
+				$this, "editPageContent"));		*/
 			
-		/* old xml page handling
+		// page object stuff
 		$fs_gui->setMainFrameSource(
 			$this->ctrl->getLinkTargetByClass(
-				array("ilpageobjectgui"), "view"));*/
+				array("ilpageobjectgui"), "edit"));
 				
 		$fs_gui->show();
 		exit;

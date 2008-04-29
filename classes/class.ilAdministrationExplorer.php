@@ -149,7 +149,7 @@ class ilAdministrationExplorer extends ilExplorer
 			if ($this->ilias->getSetting("custom_icons") &&
 				in_array($a_type, array("cat","grp","crs")))
 			{
-				require_once("classes/class.ilContainer.php");
+				require_once("./Services/Container/classes/class.ilContainer.php");
 				if (($path = ilContainer::_lookupIconPath($a_obj_id, "small")) != "")
 				{
 					return $path;

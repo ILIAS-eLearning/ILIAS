@@ -72,62 +72,103 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	/**
 	* edit paragraph form
 	*/
-	function edit()
+	function edit($a_insert = false)
 	{
 		global $ilUser, $ilias;
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "Services/COPage");
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
-		$this->ctrl->setParameter($this, "ptype", "footnote");
-		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-		$this->tpl->setVariable("BB_MENU", $this->getBBMenu());
-		
-		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
+		// add paragraph edit template
+		$tpl = new ilTemplate("tpl.paragraph_edit.html", true, true, "Services/COPage");
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		
-		if ($this->pg_obj->getParentType() == "gdf" ||
-			$this->pg_obj->getParentType() == "lm" ||
-			$this->pg_obj->getParentType() == "dbk")
+		// operations
+		if ($a_insert)
 		{
-			if ($this->pg_obj->getParentType() != "gdf")
-			{
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(
-						ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
-			}
-			else
-			{
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
-			}
+			$tpl->setCurrentBlock("commands");
+			$tpl->setVariable("BTN_NAME", "create_par");
+			$tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+			$tpl->setVariable("BTN_CANCEL", "cancelCreate");
+			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$tpl->parseCurrentBlock();
+			$tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
 		}
 		else
 		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath(0));
+			$tpl->setCurrentBlock("commands");
+			$tpl->setVariable("BTN_NAME", "update");
+			$tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+			$tpl->setVariable("BTN_CANCEL", "cancelUpdate");
+			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$tpl->parseCurrentBlock();
+			$tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		}
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		
+		$tpl->setVariable("PAR_TA_NAME", "par_content");
+		$tpl->setVariable("BB_MENU", $this->getBBMenu());
+		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
+
+		$this->setStyle();
 
 		$this->displayValidationError();
 
 		// language and characteristic selection
-		if (key($_POST["cmd"]) == "update")
+		if (!$a_insert)
 		{
-			$s_lang = $_POST["par_language"];
-			$s_char = $_POST["par_characteristic"];
+			if (key($_POST["cmd"]) == "update")
+			{
+				$s_lang = $_POST["par_language"];
+				$s_char = $_POST["par_characteristic"];
+			}
+			else
+			{
+				$s_lang = $this->content_obj->getLanguage();
+				$s_char = $this->content_obj->getCharacteristic();
+			}
 		}
 		else
 		{
-			$s_lang = $this->content_obj->getLanguage();
-			$s_char = $this->content_obj->getCharacteristic();
+			if (key($_POST["cmd"]) == "create_par")
+			{
+				$s_lang = $_POST["par_language"];
+				$s_char = $_POST["par_characteristic"];
+			}
+			else
+			{
+				if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
+				{
+					$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+				}
+				else
+				{
+					$s_lang = $ilUser->getLanguage();
+				}
+	
+				// set characteristic of new paragraphs in list items to "List"
+				$cont_obj =& $this->pg_obj->getContentObject($this->getHierId());
+				if (is_object($cont_obj))
+				{
+					if ($cont_obj->getType() == "li" ||
+						($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "List"))
+					{
+						$s_char = "List";
+					}
+									
+					if ($cont_obj->getType() == "td" ||
+						($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "TableContent"))
+					{
+						$s_char = "TableContent";
+					}
+	
+				}
+			}
 		}
-		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		
+		$tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
 		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 		$lang = ilMDLanguageItem::_getLanguages();
 		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
-		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
+		$tpl->setVariable("SELECT_LANGUAGE", $select_lang);
+		
+		// characteristic
 		$char = array("" => $this->lng->txt("none"),
 			"Headline1" => $this->lng->txt("cont_Headline1"),
 			"Headline2" => $this->lng->txt("cont_Headline2"),
@@ -138,176 +179,64 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"Additional" => $this->lng->txt("cont_Additional"),
 			"List" => $this->lng->txt("cont_List"),
 			"Remark" => $this->lng->txt("cont_Remark"),
-			// "Code" => $this->lng->txt("cont_Code"),
 			"TableContent" => $this->lng->txt("cont_TableContent")
 			);
-		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
+		$tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
 		$select_char = ilUtil::formSelect ($s_char,
 			"par_characteristic",$char,false,true);
-		$this->tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
+		$tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
 
-		if (key($_POST["cmd"]) == "update")
+		if (key($_POST["cmd"]) == "update" || key($_POST["cmd"]) == "create_par")
 		{
 			$s_text = ilUtil::stripSlashes($_POST["par_content"], false);
 		}
-		else
+		else if (!$a_insert)
 		{
 			$s_text = $this->content_obj->xml2output($this->content_obj->getText());
 		}
 
-		$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
+		$tpl->setVariable("PAR_TA_CONTENT", $s_text);
 
-		$this->tpl->parseCurrentBlock();
-
-		// operations
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "update");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_CANCEL", "cancelUpdate");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-
+		$tpl->parseCurrentBlock();
+		
+		$this->tpl->setContent($tpl->get());
+		return $tpl->get();
 	}
 
-
+	/**
+	* Set Style
+	*/
+	private function setStyle()
+	{
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		
+		if ($this->pg_obj->getParentType() == "gdf" ||
+			$this->pg_obj->getParentType() == "lm" ||
+			$this->pg_obj->getParentType() == "dbk")
+		{
+			if ($this->pg_obj->getParentType() != "gdf")
+			{
+				$this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(
+						ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
+			}
+			else
+			{
+				$this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(0));
+			}
+		}
+		else
+		{
+			$this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(0));
+		}
+	}
+	
 	/**
 	* insert paragraph form
 	*/
 	function insert()
 	{
-		global $ilUser;
-
-		// add paragraph edit template
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", "Services/COPage");
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
-
-		$this->ctrl->setParameter($this, "ptype", "footnote");
-		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-		$this->tpl->setVariable("BB_MENU", $this->getBBMenu());
-
-		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
-		
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		
-		if ($this->pg_obj->getParentType() == "gdf" ||
-			$this->pg_obj->getParentType() == "lm" ||
-			$this->pg_obj->getParentType() == "dbk")
-		{
-			if ($this->pg_obj->getParentType() != "gdf")
-			{
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(
-						ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
-			}
-			else
-			{
-				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
-			}					
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath(0));
-		}
-		
-		$this->displayValidationError();
-
-		// language and characteristic selection
-		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
-		$lang = ilMDLanguageItem::_getLanguages();
-
-		// get values from new object (repeated form display on error)
-		//if (is_object($this->content_obj))
-		if (key($_POST["cmd"]) == "create_par")
-		{
-			$s_lang = $_POST["par_language"];
-			$s_char = $_POST["par_characteristic"];
-		}
-		else
-		{
-			if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
-			{
-				$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
-			}
-			else
-			{
-				$s_lang = $ilUser->getLanguage();
-			}
-
-			// set characteristic of new paragraphs in list items to "List"
-			$cont_obj =& $this->pg_obj->getContentObject($this->getHierId());
-			if (is_object($cont_obj))
-			{
-				if ($cont_obj->getType() == "li" ||
-					($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "List"))
-				{
-					$s_char = "List";
-				}
-								
-				if ($cont_obj->getType() == "td" ||
-					($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "TableContent"))
-				{
-					$s_char = "TableContent";
-				}
-
-			}
-		}
-
-		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
-		$lang = ilMDLanguageItem::_getLanguages();
-		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
-		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
-		$char = array("" => $this->lng->txt("none"),
-			"Headline1" => $this->lng->txt("cont_Headline1"),
-			"Headline2" => $this->lng->txt("cont_Headline2"),
-			"Headline3" => $this->lng->txt("cont_Headline3"),
-			"Example" => $this->lng->txt("cont_Example"),
-			"Citation" => $this->lng->txt("cont_Citation"),
-			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
-			"Additional" => $this->lng->txt("cont_Additional"),
-			"List" => $this->lng->txt("cont_List"),
-			"Remark" => $this->lng->txt("cont_Remark"),
-			//"Code" => $this->lng->txt("cont_Code"),
-			"TableContent" => $this->lng->txt("cont_TableContent")
-			);
-		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
-		$select_char = ilUtil::formSelect ($s_char,
-			"par_characteristic",$char,false,true);
-		$this->tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
-
-		// input text area
-		if (key($_POST["cmd"]) == "create_par")
-		{
-			$this->tpl->setVariable("PAR_TA_CONTENT",
-				ilUtil::stripSlashes($_POST["par_content"], false));
-		}
-		else
-		{
-			$this->tpl->setVariable("PAR_TA_CONTENT", "");
-		}
-		$this->tpl->parseCurrentBlock();
-
-/*		if (ilPageEditorGUI::_doJSEditing()) 
-		{
-			$this->tpl->touchBlock("initwysiwygeditor");
-		}
-*/
-		
-		// operations
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "create_par");	//--
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-
+		return $this->edit(true);
 	}
-
-
     
 	/**
 	* update paragraph in dom and update page in db
@@ -392,6 +321,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	/**
 	* popup window for wysiwyg editor
 	*/
+/*
 	function popup()
 	{
 		include_once "./Services/COPage/classes/class.ilWysiwygUtil.php";
@@ -399,5 +329,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$popup->show($_GET["ptype"]);
 		exit;
 	}
+*/
 }
 ?>
