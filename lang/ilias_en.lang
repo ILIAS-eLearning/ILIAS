@@ -1779,6 +1779,8 @@ common#:#check_web_resources_desc#:#If enabled all Web Resources will be checked
 common#:#checked_files#:#Importable files
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
+common#:#chg_ilias_password#:#Change ILIAS Password
+common#:#chg_ilias_and_webfolder_password#:#Change ILIAS and Webfolder Password
 common#:#choose_language#:#Choose Your Language
 common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
@@ -4068,6 +4070,8 @@ common#:#userfolder_export_file_size#:#File size
 common#:#userfolder_export_files#:#Files
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#User Name
+common#:#ilias_username#:#ILIAS User Name
+common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name
 common#:#users#:#Users
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online#:#Active Users
