@@ -193,7 +193,7 @@ class ilContainerGUI extends ilObjectGUI
 		if ($ilias->getSetting("custom_icons") &&
 			in_array($this->object->getType(), array("cat","grp","crs", "root")))
 		{
-			require_once("classes/class.ilContainer.php");
+			require_once("./Services/Container/classes/class.ilContainer.php");
 			if (($path = ilContainer::_lookupIconPath($this->object->getId(), "big")) != "")
 			{
 				$icon = $path;
@@ -1013,7 +1013,7 @@ class ilContainerGUI extends ilObjectGUI
 			if ($this->ilias->getSetting("custom_icons") &&
 				in_array($a_image_type, array("cat","grp","crs")))
 			{
-				require_once("classes/class.ilContainer.php");
+				require_once("./Services/Container/classes/class.ilContainer.php");
 				if (($path = ilContainer::_lookupIconPath($a_item_obj_id, "small")) != "")
 				{
 					$icon = $path;

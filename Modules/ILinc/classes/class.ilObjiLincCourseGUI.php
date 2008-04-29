@@ -34,7 +34,7 @@
 *
 */
 
-include_once "./classes/class.ilContainerGUI.php";
+include_once "./Services/Container/classes/class.ilContainerGUI.php";
 
 class ilObjiLincCourseGUI extends ilContainerGUI
 {

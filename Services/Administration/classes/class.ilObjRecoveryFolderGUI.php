@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once "./classes/class.ilContainerGUI.php";
+require_once "./Services/Container/classes/class.ilContainerGUI.php";
 
 /**
 * Class ilObjRecoveryFolderGUI
