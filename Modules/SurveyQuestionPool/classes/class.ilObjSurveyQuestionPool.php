@@ -576,7 +576,7 @@ class ilObjSurveyQuestionPool extends ilObject
 				$images["created"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 			case "updated":
-				$order = " ORDER BY TIMESTAMP14 $sortorder";
+				$order = " ORDER BY timestamp14 $sortorder";
 				$images["updated"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 		}
@@ -585,7 +585,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-    $query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS TIMESTAMP14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
+    $query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS timestamp14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -597,7 +597,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-    $query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS TIMESTAMP14, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
+    $query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())

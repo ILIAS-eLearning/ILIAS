@@ -388,7 +388,7 @@ class ilObjAssessmentFolder extends ilObject
 		$log = array();
 		if ($test_only == TRUE)
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY TIMESTAMP14",
+			$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY timestamp14",
 				$this->ilias->db->quote($test_id . ""),
 				$this->ilias->db->quote($ts_from . ""),
 				$this->ilias->db->quote($ts_to . ""),
@@ -397,7 +397,7 @@ class ilObjAssessmentFolder extends ilObject
 		}
 		else
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY TIMESTAMP14",
+			$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY timestamp14",
 				$this->ilias->db->quote($test_id . ""),
 				$this->ilias->db->quote($ts_from . ""),
 				$this->ilias->db->quote($ts_to . "")
@@ -406,11 +406,11 @@ class ilObjAssessmentFolder extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (!array_key_exists($row["TIMESTAMP14"], $log))
+			if (!array_key_exists($row["timestamp14"], $log))
 			{
-				$log[$row["TIMESTAMP14"]] = array();
+				$log[$row["timestamp14"]] = array();
 			}
-			array_push($log[$row["TIMESTAMP14"]], $row);
+			array_push($log[$row["timestamp14"]], $row);
 		}
 		krsort($log);
 		// flatten array
@@ -442,7 +442,7 @@ class ilObjAssessmentFolder extends ilObject
 		$log = array();
 		if ($test_only == TRUE)
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY TIMESTAMP14",
+			$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s AND test_only = %s ORDER BY timestamp14",
 				$ilDB->quote($test_id . ""),
 				$ilDB->quote($ts_from . ""),
 				$ilDB->quote($ts_to . ""),
@@ -451,7 +451,7 @@ class ilObjAssessmentFolder extends ilObject
 		}
 		else
 		{
-			$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY TIMESTAMP14",
+			$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM ass_log WHERE obj_fi = %s AND TIMESTAMP + 0 > %s AND TIMESTAMP + 0 < %s ORDER BY timestamp14",
 				$ilDB->quote($test_id . ""),
 				$ilDB->quote($ts_from . ""),
 				$ilDB->quote($ts_to . "")
@@ -460,9 +460,9 @@ class ilObjAssessmentFolder extends ilObject
 		$result = $ilDB->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if (!array_key_exists($row["TIMESTAMP14"], $log))
+			if (!array_key_exists($row["timestamp14"], $log))
 			{
-				$log[$row["TIMESTAMP14"]] = array();
+				$log[$row["timestamp14"]] = array();
 			}
 			$type_href = "";
 			if (array_key_exists("ref_id", $row))
@@ -489,7 +489,7 @@ class ilObjAssessmentFolder extends ilObject
 				}
 			}
 			$row["href"] = $type_href;
-			array_push($log[$row["TIMESTAMP14"]], $row);
+			array_push($log[$row["timestamp14"]], $row);
 		}
 		krsort($log);
 		// flatten array

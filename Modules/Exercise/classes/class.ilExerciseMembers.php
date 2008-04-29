@@ -423,7 +423,7 @@ class ilExerciseMembers
 	*/
 	function &getDeliveredFiles($a_member_id)
 	{
-		$query = sprintf("SELECT *, TIMESTAMP + 0 AS TIMESTAMP14 FROM exc_returned WHERE obj_id = %s AND user_id = %s ORDER BY TIMESTAMP14",
+		$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM exc_returned WHERE obj_id = %s AND user_id = %s ORDER BY timestamp14",
 			$this->ilias->db->quote($this->getObjId() . ""),
 			$this->ilias->db->quote($a_member_id . "")
 		);
