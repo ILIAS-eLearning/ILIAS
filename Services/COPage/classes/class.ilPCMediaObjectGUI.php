@@ -97,12 +97,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			case "ilobjmediaobjectgui":
 				include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
-				$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
-					$cont_obj->getMediaObject->getTitle());
-				$this->displayLocator("mob");
-				$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getMediaObject()->getId(),false, false);
+				$this->tpl->setTitle($this->lng->txt("mob").": ".
+					$this->content_obj->getMediaObject()->getTitle());
+			//	$this->displayLocator("mob");
+				$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
 				$mob_gui->setBackTitle($this->page_back_title);
-				$mob_gui->getTabs($this->tabs_gui);
+				//$mob_gui->getTabs($this->tabs_gui);
 				$ret =& $this->ctrl->forwardCommand($mob_gui);
 				break;
 			
@@ -139,7 +139,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
 		$this->tpl->setVariable("TXT_RESIZE", $this->lng->txt("cont_resize_image"));
 		$this->tpl->setVariable("TXT_RESIZE_EXPLANATION", $this->lng->txt("cont_resize_explanation"));
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
@@ -415,13 +415,13 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
 		$this->tpl->setVariable("INPUT_CAPTION", "mob_caption");
 		$this->tpl->setVariable("VAL_CAPTION", $std_alias_item->getCaption());
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// parameters
 		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
 		$this->tpl->setVariable("INPUT_PARAMETERS", "mob_parameters");
 		$this->tpl->setVariable("VAL_PARAMETERS", $std_alias_item->getParameterString());
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// object default values
 		$this->tpl->setVariable("VAL_OBJ_ST_SIZE", $std_item->getWidth()." / ".$std_item->getHeight());

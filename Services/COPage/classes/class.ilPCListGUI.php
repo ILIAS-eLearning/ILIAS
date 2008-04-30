@@ -99,7 +99,7 @@ class ilPCListGUI extends ilPageContentGUI
 		$select_items = ilUtil::formSelect ("2","nr_items",$nr,false,true);
 		$this->tpl->setVariable("SELECT_NR_ITEMS", $select_items);
 
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");

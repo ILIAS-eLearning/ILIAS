@@ -3891,3 +3891,9 @@ DROP TABLE ut_learning_progress;
 ALTER TABLE `rbac_pa` ADD INDEX ( `ref_id` );
 <#1200>
 ALTER TABLE  `qpl_question_type` ADD  `plugin` TINYINT NOT NULL DEFAULT  '0';
+
+<#1201>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

@@ -132,7 +132,10 @@ class ilObjCategoryGUI extends ilContainerGUI
 			//$ret = "Hallo";	
 			//$this->setTitleAndDescription();
 			//$this->setPageEditorTabs();
-				$this->tpl->setContent($ret);
+				if ($ret != "")
+				{
+					$this->tpl->setContent($ret);
+				}
 				break;
 
 			default:

@@ -24,26 +24,27 @@
 require_once("./Services/COPage/classes/class.ilPageContent.php");
 
 /**
-* Class ilPCSection
+* Class ilPCResources
 *
-* Section content object (see ILIAS DTD)
+* Resources content object (see ILIAS DTD). Inserts Repository Resources
+* of a Container Object,
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @ingroup ServicesCOPage
 */
-class ilPCSection extends ilPageContent
+class ilPCResources extends ilPageContent
 {
 	var $dom;
-	var $sec_node;
+	var $res_node;
 
 	/**
 	* Init page content component.
 	*/
 	function init()
 	{
-		$this->setType("sec");
+		$this->setType("repobj");
 	}
 
 	/**
@@ -52,11 +53,11 @@ class ilPCSection extends ilPageContent
 	function setNode(&$a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->sec_node =& $a_node->first_child();		// this is the Section node
+		$this->res_node =& $a_node->first_child();		// this is the Resources node
 	}
 
 	/**
-	* Create section node in xml.
+	* Create resources node in xml.
 	*
 	* @param	object	$a_pg_obj		Page Object
 	* @param	string	$a_hier_id		Hierarchical ID
@@ -65,41 +66,44 @@ class ilPCSection extends ilPageContent
 	{
 		$this->node = $this->createPageContentNode();
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
-		$this->sec_node =& $this->dom->create_element("Section");
-		$this->sec_node =& $this->node->append_child($this->sec_node);
-		$this->sec_node->set_attribute("Characteristic", "Block");
+		$this->res_node =& $this->dom->create_element("Resources");
+		$this->res_node =& $this->node->append_child($this->res_node);
 	}
 
 	/**
-	* Set Characteristic of section
+	* Set Type of Resource List (currently only one)
 	*
-	* @param	string	$a_char		Characteristic
+	* @param	string	$a_type		Resource Type Group
 	*/
-	function setCharacteristic($a_char)
+	function setResourceListType($a_type)
 	{
-		if (!empty($a_char))
+		if (!empty($a_type))
 		{
-			$this->sec_node->set_attribute("Characteristic", $a_char);
-		}
-		else
-		{
-			if ($this->sec_node->has_attribute("Characteristic"))
+			$children = $this->res_node->child_nodes();
+			for ($i=0; $i<count($children); $i++)
 			{
-				$this->sec_node->remove_attribute("Characteristic");
+				$this->res_node->remove_child($children[$i]);
 			}
+			$list_node =& $this->dom->create_element("ResourceList");
+			$list_node =& $this->res_node->append_child($list_node);
+			$list_node->set_attribute("Type", $a_type);
 		}
 	}
 
 	/**
-	* Get characteristic of section.
+	* Get Resource Lis Type.
 	*
-	* @return	string		characteristic
+	* @return	string		resource type group
 	*/
-	function getCharacteristic()
+	function getResourceListType()
 	{
-		if (is_object($this->sec_node))
+		if (is_object($this->res_node))
 		{
-			return $this->sec_node->get_attribute("Characteristic");
+			$children = $this->res_node->child_nodes();
+			if (is_object($children[0]))
+			{
+				return $children[0]->get_attribute("Type");
+			}
 		}
 	}
 }

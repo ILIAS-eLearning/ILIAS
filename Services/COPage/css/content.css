@@ -237,11 +237,15 @@ table.ilc_Media
 	background-color: #F5F5F5;
 	padding: 0px;
 	margin: 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #B0B0B0;
 }
 
 td.ilc_MediaCaption
 {
 	padding:5px;
+	font-size: 90%;
 }
 
 div.ilc_Block {

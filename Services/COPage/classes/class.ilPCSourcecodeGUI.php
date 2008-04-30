@@ -77,7 +77,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		//$content = $this->pg_obj->getContent();
 		//$cnt = 1;
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_src"));
-		
+
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
@@ -121,7 +121,8 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 		$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
-		$this->tpl->parseCurrentBlock();
+//var_dump($this->tpl);
+//		$this->tpl->parseCurrentBlock();
 			
 		if (strcmp($s_showlinenumbers,"y")==0)
 		{
@@ -144,7 +145,6 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_CANCEL", "cancelUpdate");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
-
 	}
 
 
@@ -246,7 +246,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		{
 			$this->tpl->setVariable("PAR_TA_CONTENT", "");
 		}
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");

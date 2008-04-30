@@ -35,7 +35,8 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCMediaObjectGUI, ilPCListGUI, ilPCListItemGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -310,6 +311,14 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				case "sec":
 					$this->ctrl->setCmdClass("ilPCSectionGUI");
 					break;
+					
+				case "repobj":
+					$this->ctrl->setCmdClass("ilPCResourcesGUI");
+					break;
+
+				case "map":
+					$this->ctrl->setCmdClass("ilPCMapGUI");
+					break;
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
@@ -489,6 +498,22 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				include_once ("./Services/COPage/classes/class.ilPCSectionGUI.php");
 				$sec_gui =& new ilPCSectionGUI($this->page, $cont_obj, $hier_id);
 				$ret =& $this->ctrl->forwardCommand($sec_gui);
+				break;
+
+			// Resources
+			case "ilpcresourcesgui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCResourcesGUI.php");
+				$res_gui =& new ilPCResourcesGUI($this->page, $cont_obj, $hier_id);
+				$ret =& $this->ctrl->forwardCommand($res_gui);
+				break;
+
+			// Map
+			case "ilpcmapgui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCMapGUI.php");
+				$map_gui =& new ilPCMapGUI($this->page, $cont_obj, $hier_id);
+				$ret =& $this->ctrl->forwardCommand($map_gui);
 				break;
 
 			default:
@@ -684,15 +709,15 @@ return true;
 	*/
 	function insertFromClipboard()
 	{
-		include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		include_once ("./Services/COPage/classes/class.ilPCMediaObject.php");
 		if ($_GET["clip_obj_id"] != "")
 		{
 			if ($_GET["clip_obj_type"] == "mob")
 			{
 //$this->dom =& $this->page->getDom();
 //echo "is_object:".is_object($this->dom).":";
-				$this->content_obj = new ilObjMediaObject($_GET["clip_obj_id"]);
-				$this->content_obj->setDom($this->page->getDom());
+				$this->content_obj = new ilPCMediaObject($this->page->getDom());
+				$this->content_obj->readMediaObject($_GET["clip_obj_id"]);
 				$this->content_obj->createAlias($this->page, $_GET["hier_id"]);
 				$this->updated = $this->page->update();
 			}

@@ -2062,6 +2062,11 @@ div.ilc_TableOfContents
 	margin-bottom: 0px;
 }
 
+table.ilc_media
+{
+	background-color:white;
+}
+
 h1.il_LMHead
 {
 	margin: 6px 15px 6px 15px;

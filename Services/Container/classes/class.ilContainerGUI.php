@@ -89,7 +89,11 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function &forwardToPageObject()
 	{
-		global $lng;
+		global $lng, $ilTabs;
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"), "./goto.php?target=".$this->object->getType()."_".
+			$this->object->getRefId(), "_top");
 
 		// page object
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
@@ -139,6 +143,8 @@ class ilContainerGUI extends ilObjectGUI
 		$page_gui->setTemplateOutput(false);
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");
+		$page_gui->setEnabledRepositoryObjects(true);
+		$page_gui->setEnabledFileLists(false);
 		$ret =& $this->ctrl->forwardCommand($page_gui);
 
 		//$ret =& $page_gui->executeCommand();

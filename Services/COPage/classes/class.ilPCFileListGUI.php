@@ -104,7 +104,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 
 
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
@@ -185,7 +185,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 
 
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
