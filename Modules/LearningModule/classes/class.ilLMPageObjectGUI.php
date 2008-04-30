@@ -149,7 +149,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 				
 				$ret = $this->ctrl->forwardCommand($page_gui);
-				
 				//$ret =& $page_gui->executeCommand();
 				$tpl->setContent($ret);
 				break;

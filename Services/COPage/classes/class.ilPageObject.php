@@ -321,7 +321,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						}
 
 						//$mob =& new ilObjMediaObject($mob_id);
-						$mob =& new ilPCMediaObject($this->dom);
+						$mob = new ilPCMediaObject($this->dom);
 						$mob->readMediaObject($mob_id);
 						
 						//$mob->setDom($this->dom);
@@ -331,14 +331,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 					case "List":
 						require_once("./Services/COPage/classes/class.ilPCList.php");
-						$list =& new ilPCList($this->dom);
+						$list = new ilPCList($this->dom);
 						$list->setNode($cont_node);
 						$list->setHierId($a_hier_id);
 						return $list;
 
 					case "FileList":
 						require_once("./Services/COPage/classes/class.ilPCFileList.php");
-						$file_list =& new ilPCFileList($this->dom);
+						$file_list = new ilPCFileList($this->dom);
 						$file_list->setNode($cont_node);
 						$file_list->setHierId($a_hier_id);
 						return $file_list;
@@ -346,10 +346,31 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 					// note: assessment handling is forwarded to assessment gui classes
 					case "Question":
 						require_once("./Services/COPage/classes/class.ilPCQuestion.php");
-						$pc_question =& new ilPCQuestion($this->dom);
+						$pc_question = new ilPCQuestion($this->dom);
 						$pc_question->setNode($cont_node);
 						$pc_question->setHierId($a_hier_id);
 						return $pc_question;
+
+					case "Section":
+						require_once("./Services/COPage/classes/class.ilPCSection.php");
+						$sec = new ilPCSection($this->dom);
+						$sec->setNode($cont_node);
+						$sec->setHierId($a_hier_id);
+						return $sec;
+						
+					case "Resources":
+						require_once("./Services/COPage/classes/class.ilPCResources.php");
+						$res = new ilPCResources($this->dom);
+						$res->setNode($cont_node);
+						$res->setHierId($a_hier_id);
+						return $res;
+						
+					case "Map":
+						require_once("./Services/COPage/classes/class.ilPCMap.php");
+						$map = new ilPCMap($this->dom);
+						$map->setNode($cont_node);
+						$map->setHierId($a_hier_id);
+						return $map;
 				}
 				break;
 
@@ -551,7 +572,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
 			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable",
-			"de_activate");
+			"de_activate", "ed_insert_repobj");
 
 		foreach ($lang_vars as $lang_var)
 		{

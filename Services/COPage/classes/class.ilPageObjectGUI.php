@@ -97,6 +97,11 @@ class ilPageObjectGUI
 		$this->lng =& $lng;
 		$this->setOutputMode(IL_PAGE_PRESENTATION);
 		
+		// defaults (as in learning modules)
+		$this->setEnabledMaps(false);
+		$this->setEnabledFileLists(true);
+		$this->setEnabledRepositoryObjects(false);
+		
 		if ($a_id > 0)
 		{
 			$this->initPageObject($a_parent_type, $a_id, $a_old_nr);
@@ -514,6 +519,66 @@ class ilPageObjectGUI
 	function getEnabledTabs()
 	{
 		return $this->enabledtabs;
+	}
+
+		/**
+	* Set Enable Repository Objects Content Component.
+	*
+	* @param	boolean	$a_enabledrepositoryobjects	Enable Repository Objects Content Component
+	*/
+	function setEnabledRepositoryObjects($a_enabledrepositoryobjects)
+	{
+		$this->enabledrepositoryobjects = $a_enabledrepositoryobjects;
+	}
+
+	/**
+	* Get Enable Repository Objects Content Component.
+	*
+	* @return	boolean	Enable Repository Objects Content Component
+	*/
+	function getEnabledRepositoryObjects()
+	{
+		return $this->enabledrepositoryobjects;
+	}
+
+	/**
+	* Set Enable Maps Content Component.
+	*
+	* @param	boolean	$a_enabledmaps	Enable Maps Content Component
+	*/
+	function setEnabledMaps($a_enabledmaps)
+	{
+		$this->enabledmaps = $a_enabledmaps;
+	}
+
+	/**
+	* Get Enable Maps Content Component.
+	*
+	* @return	boolean	Enable Maps Content Component
+	*/
+	function getEnabledMaps()
+	{
+		return $this->enabledmaps;
+	}
+
+	/**
+	* Set Enable File Lists Content Componente (Default is true).
+	*
+	* @param	boolean	$a_enabledfilelists	Enable File Lists Content Componente (Default is true)
+	*/
+	function setEnabledFileLists($a_enabledfilelists)
+	{
+		$this->enabledfilelists = $a_enabledfilelists;
+	}
+
+	/**
+	* Get Enable File Lists Content Componente (Default is true).
+	*
+	* @return	boolean	Enable File Lists Content Componente (Default is true)
+	*/
+	function getEnabledFileLists()
+	{
+		return $this->enabledfilelists;
 	}
 
 	/**
@@ -1056,7 +1121,9 @@ class ilPageObjectGUI
 						 'citate_from' => $this->lng->txt('citate_from'),
 						 'citate_to' => $this->lng->txt('citate_to'),
 						 'citate' => $this->lng->txt('citate'),
-
+						 'enable_rep_objects' => $this->getEnabledRepositoryObjects() ? "y" : "n",
+						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
+						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
 						 'javascript' => $sel_js_mode,
 						 'paragraph_plugins' => $paragraph_plugin_string);

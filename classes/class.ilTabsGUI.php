@@ -139,6 +139,8 @@ class ilTabsGUI
 		$this->back_target = "";
 		$this->back_2_target = "";
 		$this->back_2_title = "";
+		$this->setTabActive("");
+		$this->setSubTabActive("");
 	}
 
 	/**

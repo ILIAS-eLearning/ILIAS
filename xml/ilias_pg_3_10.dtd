@@ -3,7 +3,7 @@
 <!-- Initial version by Maik Stuehrenberg (Giessen University) for the BMBF-funded project MiLCA (Medienintensive Lehrmodule in der Computerlinguistik-Ausbildung), modelled after LOM version 1 Final Draft -->
 <!-- Modifications and adoption to ILIAS made by Maik Stuehrenberg (Giessen University), Martin Rus, Matthias Rulinski, Alexander Killing, Matthias Kunkel (ILIAS open source, University of Cologne), Sascha Hofmann (Databay AG, Aachen) -->
 <!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
-<!-- $Id: ilias_pg_3_7.dtd 9949 2006-02-18 16:25:36Z rkuester $ -->
+<!-- $Id$ -->
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
 <!-- Types of (textual) content -->
@@ -221,8 +221,23 @@
 <!-- Section -->
 <!-- il_Block, il_Example, il_Special, il_Additional, il_Excursus -->
 <!ELEMENT Section (PageContent*)>
-<!ATTLIST List
+<!ATTLIST Section
 	Characteristic CDATA #IMPLIED
+>
+
+<!-- Resources -->
+<!ELEMENT Resources (ResourceList*)>
+<!ELEMENT ResourceList>
+<!ATTLIST ResourceList
+	Type CDATA #REQUIRED
+>
+
+<!-- Map -->
+<!ELEMENT Map (Caption?)>
+<!ATTLIST Map
+	Latitude CDATA #REQUIRED
+	Longitude CDATA #REQUIRED
+	Zoom CDATA #REQUIRED
 >
 
 <!-- Glossary -->

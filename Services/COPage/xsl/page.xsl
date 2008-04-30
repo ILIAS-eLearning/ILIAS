@@ -66,6 +66,9 @@
 <xsl:param name="citate_to"/>
 <xsl:param name="citate_page"/>
 <xsl:param name="citate"/>
+<xsl:param name="enable_rep_objects"/>
+<xsl:param name="enable_map"/>
+<xsl:param name="enable_file_list"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -501,6 +504,14 @@
 		<xsl:with-param name="langvar">ed_insert_par</xsl:with-param>
 	</xsl:call-template>
 	
+	<!-- insert repository objects -->
+	<xsl:if test = "$enable_rep_objects = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_repobj</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_repobj</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 	<!-- insert code -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_src</xsl:with-param>
@@ -532,16 +543,26 @@
 	</xsl:call-template>
 	
 	<!-- insert file list -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_flst</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
-	</xsl:call-template>
+	<xsl:if test = "$enable_file_list = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_flst</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
 
 	<!-- insert section -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_sec</xsl:with-param>
 		<xsl:with-param name="langvar">ed_insert_section</xsl:with-param>
 	</xsl:call-template>
+	
+	<!-- insert map (geographical) -->
+	<xsl:if test = "$enable_map = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_map</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_map</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
 	
 	<!-- paste from clipboard -->
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
@@ -2127,6 +2148,28 @@
 			</xsl:call-template>
 		</xsl:if>
 		<xsl:apply-templates/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	</div>
+</xsl:template>
+
+<!-- Resources -->
+<xsl:template match="Resources">
+	<div>
+		[list-<xsl:value-of select="./ResourceList/@Type"/>]
+		<xsl:call-template name="EditReturnAnchors"/>
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->
 			<xsl:if test="$javascript='disable'">

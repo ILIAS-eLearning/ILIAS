@@ -155,7 +155,7 @@ class ilPCTableGUI extends ilPageContentGUI
 			array("top" => $this->lng->txt("cont_top"), "bottom" => $this->lng->txt("cont_bottom")),false,true);
 		$this->tpl->setVariable("SELECT_CAPTION", $select_align);
 
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
@@ -338,7 +338,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("CMD_HTML_IMPORT", "create_tab");
 		$this->tpl->setVariable("SELECT_ROWS", $select_rows);
 					
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");

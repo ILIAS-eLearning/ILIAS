@@ -143,22 +143,40 @@ class ilTemplate extends ilTemplateX
 			$this->addErrorMessage();
 		}
 
-		// set standard parts (tabs and title icon)
-		if($add_standard_elements)
-		{
-			$this->fillNewContentStyle();
-			$this->fillContentStyle();
-			$this->fillWindowTitle();
-			$this->fillMainMenu();
-			$this->fillTabs();
-			$this->fillHeaderIcon();
-			$this->fillCssFiles();
-			$this->fillJavaScriptFiles();
-		}
-
 		if ($add_ilias_footer)
 		{
 			$this->addILIASFooter();
+		}
+
+		// set standard parts (tabs and title icon)
+		if($add_standard_elements)
+		{
+			// these fill blocks (and must be filled first) in tpl.adm_content.html
+			$this->fillHeaderIcon();
+			$this->fillSideIcons();
+			$this->fillStopFloating();
+			$this->fillPageFormAction();
+			$this->fillLeftContent();
+			$this->fillRightContent();
+
+			// these fill just plain placeholder variables in tpl.adm_content.html
+			$this->setCurrentBlock("adm_content");
+			$this->fillTabs();
+			$this->fillMainContent();
+			$this->fillTitle();
+			$this->fillMainMenu();
+			$this->parseCurrentBlock();
+			
+			// these fill blocks in tpl.main.html
+			$this->fillCssFiles();
+			$this->fillJavaScriptFiles();
+			$this->fillContentStyle();
+
+			// these fill just plain placeholder variables in tpl.main.html
+			$this->setCurrentBlock("DEFAULT");
+			$this->fillNewContentStyle();
+			$this->fillContentLanguage();
+			$this->fillWindowTitle();
 		}
 
 		if ($handle_referer)
@@ -258,10 +276,12 @@ class ilTemplate extends ilTemplateX
 			$this->fillRightContent();
 			
 			// these fill just plain placeholder variables in tpl.adm_content.html
+			$this->setCurrentBlock("adm_content");
 			$this->fillTabs();
 			$this->fillMainContent();
 			$this->fillTitle();
 			$this->fillMainMenu();
+			$this->parseCurrentBlock();
 
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
@@ -269,6 +289,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillContentStyle();
 
 			// these fill just plain placeholder variables in tpl.main.html
+			$this->setCurrentBlock("DEFAULT");
 			$this->fillNewContentStyle();
 			$this->fillContentLanguage();
 			$this->fillWindowTitle();
@@ -984,7 +1005,10 @@ class ilTemplate extends ilTemplateX
 	*/
 	private function fillTitle()
 	{
-		$this->setVariable("HEADER", $this->title);
+		if ($this->title != "")
+		{
+			$this->setVariable("HEADER", $this->title);
+		}
 	}
 	
 	/**
@@ -1033,7 +1057,10 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setContent($a_html)
 	{
-		$this->main_content = $a_html;
+		if ($a_html != "")
+		{
+			$this->main_content = $a_html;
+		}
 	}
 	
 	/**

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -47,6 +47,11 @@ class ilPCParagraph extends ilPageContent
 		$this->setType("par");
 	}
 
+	/**
+	* Set Page Content Node
+	*
+	* @param	object	$a_node		Page Content DOM Node
+	*/
 	function setNode(&$a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
@@ -54,6 +59,11 @@ class ilPCParagraph extends ilPageContent
 	}
 
 
+	/**
+	* Create new page content (incl. paragraph) node at node
+	*
+	* @param	object	$node		Parent Node for Page Content
+	*/
 	function createAtNode(&$node)
 	{
 		$this->node = $this->createPageContentNode();
@@ -66,6 +76,8 @@ class ilPCParagraph extends ilPageContent
 	/**
 	* Create paragraph node (incl. page content node)
 	* after given node.
+	*
+	* @param	object	$node		Predecessing node
 	*/
 	function createAfter($node)
 	{
@@ -84,7 +96,13 @@ class ilPCParagraph extends ilPageContent
 		$this->par_node->set_attribute("Language", "");
 	}
 	
-	
+	/**
+	* Create paragraph node (incl. page content node)
+	* at given hierarchical ID.
+	*
+	* @param	object	$a_pg_obj		Page Object
+	* @param	string	$a_hier_id		Hierarchical ID
+	*/
 	function create(&$a_pg_obj, $a_hier_id)
 	{
 //echo "-$a_hier_id-";
@@ -98,7 +116,10 @@ class ilPCParagraph extends ilPageContent
 
 	
 	/**
-	* set (xml) content of text paragraph
+	* Set (xml) content of text paragraph.
+	*
+	* @param	string		$a_text			text content
+	* @param	boolean		$a_auto_split	auto split paragraph at headlines true/false
 	*/
 	function setText($a_text, $a_auto_split = false)
 	{
@@ -180,7 +201,9 @@ class ilPCParagraph extends ilPageContent
 	}
 
 	/**
-	* get (xml) content of paragraph
+	* Get (xml) content of paragraph.
+	*
+	* @return	string		Paragraph Content.
 	*/
 	function getText($a_short_mode = false)
 	{
@@ -202,6 +225,8 @@ class ilPCParagraph extends ilPageContent
 
 	/**
 	* Set Characteristic of paragraph
+	*
+	* @param	string	$a_char		Characteristic
 	*/
 	function setCharacteristic($a_char)
 	{
@@ -251,7 +276,9 @@ class ilPCParagraph extends ilPageContent
 	}
 
 	/**
-	* get AutoIndent
+	* Get AutoIndent (Code Paragraphs)
+	*
+	* @param	string		Auto Indent attribute
 	*/
 	function getAutoIndent()
 	{
@@ -985,7 +1012,7 @@ echo htmlentities($a_text);*/
 	}
 	
 	/**
-	* need to override getType from ilPageContent to distinguish between Pararagraph and Source
+	* Need to override getType from ilPageContent to distinguish between Pararagraph and Source
 	*/
 	function getType()
 	{

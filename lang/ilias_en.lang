@@ -4335,7 +4335,20 @@ content#:#cont_insert_as_chapter#:#Insert as Chapter
 content#:#cont_save_all_titles#:#Save Titles
 content#:#cont_downloads_desc#:#Enable download of all public export files.
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
+content#:#cont_sec_block#:#Block
+content#:#cont_sec_example#:#Example
+content#:#cont_sec_citation#:#Citation
+content#:#cont_sec_additional#:#Additional
+content#:#cont_sec_special#:#Special
+content#:#cont_sec_excursus#:#Excursus
+content#:#cont_insert_resources#:#Insert Resource List
+content#:#cont_update_resources#:#Update Resource List
+content#:#cont_type#:#Type
+content#:#cont_insert_section#:#Insert Section
+content#:#cont_update_section#:#Update Section
 content#:#cont_ed_align_center#:#Align: Center
+content#:#cont_ed_insert_repobj#:#Insert Resource List
+content#:#cont_ed_insert_map#:#Insert Map
 content#:#cont_ed_align_left#:#Align: Left
 content#:#cont_ed_align_left_float#:#Align: Left Float
 content#:#cont_ed_align_right#:#Align: Right

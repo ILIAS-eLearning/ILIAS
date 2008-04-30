@@ -402,7 +402,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$this->tpl->setVariable("CMD_HTML_IMPORT", "create_tab");
 		$this->tpl->setVariable("SELECT_ROWS", $select_rows);
 					
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
