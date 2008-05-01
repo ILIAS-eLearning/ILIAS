@@ -110,7 +110,7 @@ class ilChangeEvent
 	 * @param $obj_id int The object which was read.
 	 * @param $usr_id int The user who performed a read action.
 	 * @param $catchupWriteEvents boolean If true, this function catches up with
-	 *write events.
+	 * 	write events.
 	 */
 	function _recordReadEvent($obj_id, $usr_id, $isCatchupWriteEvents = true)
 	{
@@ -131,7 +131,7 @@ class ilChangeEvent
 			"ON DUPLICATE KEY ".
 			"UPDATE ".
 				"read_count=read_count+1, ".
-				"spent_seconds = IF (TIME_TO_SEC(TIMEDIFF(NOW(),ts)<=".$ilDB->quote($validTimeSpan)."),spent_seconds+TIME_TO_SEC(TIMEDIFF(NOW(),ts)),spent_seconds),".
+				"spent_seconds = IF (TIME_TO_SEC(TIMEDIFF(NOW(),ts))<=".$ilDB->quote($validTimeSpan).",spent_seconds+TIME_TO_SEC(TIMEDIFF(NOW(),ts)),spent_seconds),".
 				"ts=NOW()".
 			"";
 		$r = $ilDB->query($q);
