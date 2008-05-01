@@ -151,9 +151,9 @@ administration#:#course_export#:#Kursus eksport
 administration#:#confirm_message_course_export#:#You added the course export functionality for one or more fields. Please confirm your changes.###25 02 2007 new variable
 common#:#access_expired#:#udløbet
 common#:#res_links#:#Oversigts links
-common#:#short_inst_name#:#Short Title###02 04 2007 new variable
+common#:#short_inst_name#:#Kort titel
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
-common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###25 02 2007 new variable
+common#:#usr_filter_empty_result#:#Ingen brugere matcher det valgte filter
 common#:#access_unlimited#:#ubegrænset
 common#:#usr_limited_access_only#:#Kun brugere med begrænset adgang
 common#:#usr_without_courses#:#Brugere uden kurser
@@ -351,8 +351,8 @@ common#:#assf_edit_permission#:#Ændre rettighedsindstillinger
 common#:#assf_read#:#Gå til test- og assessmentadministration
 common#:#assf_visible#:#Test- og assessmentadministration er synlig
 common#:#assf_write#:#Rediger test- og assessmentadministration
-common#:#assf_questiontypes#:#Question Settings###25 02 2007 new variable
-common#:#assf_allowed_questiontypes#:#Available Question Types###25 02 2007 new variable
+common#:#assf_questiontypes#:#Spørgsmålsindstillinger
+common#:#assf_allowed_questiontypes#:#Tilgængelige spørgsmålstyper
 common#:#assf_allowed_questiontypes_desc#:#Alle afkrydsede spørgsmålstyper er tilgængelige i ILIAS installationen. Hvis du ikke ønsker bestemte spørgsmålstyper skal være tilgængelige skal du fjerne afkrydsningen.
 common#:#assign#:#Tildel
 common#:#assign_global_role#:#Tildel en global rolle
@@ -713,7 +713,7 @@ common#:#crs_delete#:#Slet kursus
 common#:#crs_edit#:#Rediger Kursus
 common#:#crs_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#crs_edit_permission#:#Ændre rettighedsindstillinger
-common#:#crs_info#:#Info###17 Aug 2005 new variable
+common#:#crs_info#:#Info
 common#:#crs_join#:#Tilmeld kursus
 common#:#crs_leave#:#Forlad kursus
 common#:#crs_management_system#:#Kursus styringssystem
@@ -730,16 +730,16 @@ common#:#crs_visible#:#Kursus er synligt
 common#:#crs_write#:#Rediger Kursus
 common#:#cumulative_time#:#Akkumuleret tid
 common#:#cur_number_rec#:#Nuværende antal registrerede
-common#:#current_ip#:#Nuværende IP:###20 Jul 2005 new variable
+common#:#current_ip#:#Nuværende IP:
 common#:#current_ip_alert#:#Obs: hvis du angiver en forkert ip vil du ikke længere kunne få adgang til systemet med denne profil.
 common#:#current_password#:#Nuværende password
-common#:#custom_icon_size_big#:#Custom icon size (big)
-common#:#custom_icon_size_standard#:#Custom icon size (standard)###31 05 2007 new variable
-common#:#custom_icon_size_tiny#:#Custom icon size (small)###31 05 2007 new variable
+common#:#custom_icon_size_big#:#Brugertilpasset ikonstørrelse (stor)
+common#:#custom_icon_size_standard#:#Brugertilpasset ikonstørrelse (standard)
+common#:#custom_icon_size_tiny#:#Brugertilpasset ikonstørrelse (lille)
 common#:#cut#:#Klip
 common#:#cutPage#:#Klip
 common#:#daily#:#dagligt
-common#:#data_privacy#:#Data Privacy Settings
+common#:#data_privacy#:#Data privatlivsindstillinger
 common#:#database#:#Database
 common#:#database_version#:#Nuværende databaseversion
 common#:#dataset#:#Ting
@@ -880,7 +880,7 @@ common#:#exc_edit_until#:#Rediger indtil
 common#:#exc_exercise_sent#:#Exercise Sent
 common#:#exc_feedback_sent#:#Feedback Sent
 common#:#exc_files#:#Filer
-common#:#exc_files_returned#:#Returned files###21 Apr 2005 new variable
+common#:#exc_files_returned#:#Returnerede filer
 common#:#exc_groups#:#Grupper
 common#:#exc_header_members#:#øvelse (medlemmer)
 common#:#exc_instruction#:#Arbejdsinstruktioner
@@ -904,14 +904,14 @@ common#:#exc_send_exercise#:#Send øvelse på mail!
 common#:#exc_sent#:#Øvelsen er blevet sendt til de valgte brugere
 common#:#exc_sent_at#:#Sent at <br />%s
 common#:#exc_status#:#Status
-common#:#exc_status_resubmitted#:#Resubmitted
+common#:#exc_status_resubmitted#:#Genafleveret
 common#:#exc_status_saved#:#Øvelse er blevet opdateret
 common#:#exc_status_sent#:#Delivered
 common#:#exc_status_solved#:#Løst
 common#:#exc_status_submitted#:#Submitted
 common#:#exc_submission#:#Submission
-common#:#exc_time_over_short#:#Time is over.
-common#:#exc_time_to_send#:#Remaining Working Time
+common#:#exc_time_over_short#:#Tiden er gået.
+common#:#exc_time_to_send#:#Tilbageværende arbejdstid
 common#:#exc_upload_error#:#Fejl i upload af fil
 common#:#exc_users#:#Brugere
 common#:#exc_visible#:#Øvelsen er synlig
@@ -921,11 +921,11 @@ common#:#execute#:#Udfør
 common#:#exercise_time_over#:#Du har nået sluttidspunktet. Du kan ikke længere aflevere.
 common#:#exp_html#:#Eksport HTML
 common#:#expand#:#Udvid
-common#:#explorer_frame#:#Explorer Tree###28 Feb 2006 new variable
+common#:#explorer_frame#:#Oversigtstræ
 common#:#export_group_members#:#Eksporter gruppemedlemmer (til Microsoft Excel)
 common#:#export_html#:#Eksporter som HTMLfil
 common#:#export_xml#:#Eksporter som en XMLfil
-common#:#extt_configure#:#configure...###14 Jul 2005 new variable
+common#:#extt_configure#:#konfigurer...
 common#:#extt_edit_permission#:#Ændre rettighedsindstillinger
 common#:#extt_ilinc#:#Netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Flere muligheder
@@ -939,7 +939,7 @@ common#:#extt_ilinc_customer_id#:#Kunde ID
 common#:#extt_ilinc_desc#:#Udbyder virtuelle klasseværelser.For at få mere at vide - kontakt venligst Netucate på www.netucate.com
 common#:#extt_ilinc_enable#:#Tillad LearnLinc support
 common#:#extt_ilinc_protocol_port#:#Protocol & Port###07 Sep 2005 new variable
-common#:#extt_ilinc_registrar_login#:#Login ID###14 Jul 2005 new variable
+common#:#extt_ilinc_registrar_login#:#Login ID
 common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
 common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
 common#:#extt_ilinc_settings_saved#:#LearnLincindstillinger er gemt
@@ -951,7 +951,7 @@ common#:#extt_title_configure#:#Konfigurer ekstern software
 common#:#extt_visible#:#3.parts software er aktiveret
 common#:#extt_write#:#Konfigurer 3.parts software
 common#:#faq_exercise#:#FAQ øvelse
-common#:#fax#:#Fax###21 Apr 2005 new variable
+common#:#fax#:#Fax
 common#:#feedback#:#Tilbagemelding
 common#:#feedback_recipient#:#Tilbagemelding fra modtager
 common#:#field_name#:#Field Name
@@ -971,7 +971,7 @@ common#:#file_new#:#Ny Fil
 common#:#file_not_found#:#Filen er ikke fundet
 common#:#file_not_valid#:#Filen er ikke gyldig!
 common#:#file_notice#:#Bemærk at den maksimale størrelse er 
-common#:#file_allowed_suffixes#:#Allowed file types:###02 04 2007 new variable
+common#:#file_allowed_suffixes#:#Tilladte filtyper:
 common#:#file_read#:#Download fil
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
@@ -1036,8 +1036,8 @@ common#:#forum_post_replied#:#Dit indlæg i forum er blevet besvaret.
 common#:#forums#:#Fora
 common#:#forums_articles#:#Indlæg###
 common#:#forums_last_post#:#Seneste indlæg
-common#:#forums_moderators#:#Moderators###17 Aug 2005 new variable
-common#:#forums_new_articles#:#Nye indlæg###
+common#:#forums_moderators#:#Moderatorer
+common#:#forums_new_articles#:#Nye indlæg#
 common#:#forums_overview#:#Oversigt over fora
 common#:#forums_threads#:#Emner
 common#:#frm#:#Forum
@@ -1066,7 +1066,7 @@ common#:#gdf_new#:#Ny Defination
 common#:#gender#:#Køn
 common#:#gender_f#:#Kvinde
 common#:#gender_m#:#Mand
-common#:#general_settings#:#General settings###21 Apr 2005 new variable
+common#:#general_settings#:#Generelle indstillinger
 common#:#generate#:#lav
 common#:#glo#:#Ordbog
 common#:#glo_a#:#en ordbog
@@ -1087,8 +1087,8 @@ common#:#glo_read#:#Læserettigheder til ordbog
 common#:#glo_upload_file#:#Fil
 common#:#glo_visible#:#Ordbog er synlig
 common#:#glo_write#:#Ændre ordbog
-common#:#global#:#Global###21 Apr 2005 new variable
-common#:#global_default#:#Global Default###21 Apr 2005 new variable
+common#:#global#:#Global
+common#:#global_default#:#Global standard
 common#:#global_fixed#:#Global Fixed###21 Apr 2005 new variable
 common#:#global_settings#:#Globale rettigheder
 common#:#global_user#:#Global bruger
@@ -4304,11 +4304,11 @@ content#:#cont_create_html_version#:#Opret HTML pakke
 content#:#cont_create_mob#:#Opret Media Objekt
 content#:#cont_credit_mode#:#Credit mode (for lærer mode 'normal')
 content#:#cont_credit_off#:#Ingen Credit
-content#:#cont_credit_on#:#Credit###21 Apr 2005 new variable
+content#:#cont_credit_on#:#Kreditering
 content#:#cont_credits#:#Credits###21 Apr 2005 new variable
 content#:#cont_cross_reference#:#Kryds referance
 content#:#cont_data_from_lms#:#adlcp:datafromlms###21 Apr 2005 new variable
-content#:#cont_de_activate#:#(De-)Activate
+content#:#cont_de_activate#:#(De)aktiver
 content#:#cont_deactivate_page#:#Deactivate Page
 content#:#cont_def_layout#:#Standardlayout
 content#:#cont_def_lesson_mode#:#Standard lære mode
@@ -4328,34 +4328,34 @@ content#:#cont_enable_html#:#HTML aktivt
 content#:#cont_download_title#:#Download titel
 content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Aktiverer download af alle offentlige eksportfiler
-content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)###23 Dec 2005 new variable
+content#:#cont_downloads_public_desc#:#Tillad download for anonyme brugere (i offentligt område)
 content#:#cont_ed_align_center#:#align: center###21 Apr 2005 new variable
 content#:#cont_ed_align_left#:#align: left###21 Apr 2005 new variable
 content#:#cont_ed_align_left_float#:#align: left float###21 Apr 2005 new variable
 content#:#cont_ed_align_right#:#align: right###21 Apr 2005 new variable
 content#:#cont_ed_align_right_float#:#align: right float###21 Apr 2005 new variable
 content#:#cont_ed_class#:#Stilark
-content#:#cont_ed_col_left#:#move column left###21 Apr 2005 new variable
-content#:#cont_ed_col_right#:#move column right###21 Apr 2005 new variable
-content#:#cont_ed_copy_clip#:#copy to clipboard###21 Apr 2005 new variable
+content#:#cont_ed_col_left#:#flyt kolonne til venstre
+content#:#cont_ed_col_right#:#flyt kolonne til højre
+content#:#cont_ed_copy_clip#:#kopier til udklipsholder
 content#:#cont_ed_delete#:#slet
 content#:#cont_ed_delete_col#:#Slet række
 content#:#cont_ed_delete_item#:#delete item###21 Apr 2005 new variable
 content#:#cont_ed_delete_row#:#Slet række
 content#:#cont_ed_edit#:#ændre
 content#:#cont_ed_edit_prop#:#edit properties###21 Apr 2005 new variable
-content#:#cont_ed_enable#:#(De-)Activate Elements
-content#:#cont_ed_go#:#Go###21 Apr 2005 new variable
-content#:#cont_ed_insert_code#:#insert Code###21 Apr 2005 new variable
+content#:#cont_ed_enable#:#(De)aktiver elementer
+content#:#cont_ed_go#:#Gå til
+content#:#cont_ed_insert_code#:#Insæt kode
 content#:#cont_ed_insert_filelist#:#Indsæt filliste
 content#:#cont_ed_insert_list#:#Indsæt liste
-content#:#cont_ed_insert_media#:#insert Media###21 Apr 2005 new variable
-content#:#cont_ed_insert_par#:#insert Paragr.###21 Apr 2005 new variable
-content#:#cont_ed_insert_table#:#insert Table###21 Apr 2005 new variable
-content#:#cont_ed_item_down#:#move item down###21 Apr 2005 new variable
-content#:#cont_ed_item_up#:#move item up###21 Apr 2005 new variable
+content#:#cont_ed_insert_media#:#insæt medie
+content#:#cont_ed_insert_par#:#insæt paragraf
+content#:#cont_ed_insert_table#:#insæt tabel
+content#:#cont_ed_item_down#:#flyt element ned
+content#:#cont_ed_item_up#:#flyt element op
 content#:#cont_ed_moveafter#:#flyt efter
-content#:#cont_ed_movebefore#:#move before###21 Apr 2005 new variable
+content#:#cont_ed_movebefore#:#flyt før
 content#:#cont_ed_new_col_after#:#ny kolonne efter
 content#:#cont_ed_new_col_before#:#ny kolonne efter
 content#:#cont_ed_new_item_after#:#nyt element efter
@@ -4463,8 +4463,8 @@ content#:#cont_mob_files#:#Objekt Filer
 content#:#cont_mob_inst_prop#:#Vigtige Egenskaber
 content#:#cont_mob_prop#:#Egenskaber for Objekt
 content#:#cont_mob_usages#:#I Brug
-content#:#cont_month#:#Mnåed
-content#:#cont_move_object#:#move object###21 Apr 2005 new variable
+content#:#cont_month#:#Måned
+content#:#cont_move_object#:#flyt objekt
 content#:#cont_msg_multiple_editions#:#Det er ikke muligt at vise detaljer af forskellige udgaver
 content#:#cont_name#:#Navn
 content#:#cont_new_area#:#Nyt Link
@@ -7857,7 +7857,7 @@ content#:#cont_roman_s#:#Romersk i, ii, ...
 content#:#cont_ed_insert_section#:#Indsæt sektion
 survey#:#info_anonymize_with_code#:#Anonymiseret undersøgelse med kodeadgang 
 survey#:#info_anonymize_registered_user#:#Anonymiseret undersøgelse
-survey#:#info_anonymize_without_code#:#Anonymized Survey without Access Restrictions###11 03 2008 new variable
+survey#:#info_anonymize_without_code#:#Anonymiseret undersøgelse uden adgangsrestriktioner
 common#:#obj_qpl_duplicate#:#Kopier spørgsmål til test
 common#:#obj_spl_duplicate#:#Kopier spørgsmål til undersøgelse
 common#:#obj_qpl_select#:#-- Vælg spørgsmål til test --
@@ -7906,8 +7906,8 @@ common#:#accesscount_registered_users#:#Læst af antal unikke ILIAS brugere
 common#:#state_changed#:#ændret
 common#:#state_changed_inside#:#changed inside###11 03 2008 new variable
 common#:#state_new#:#ny
-common#:#state_unread#:#unread###11 03 2008 new variable
-common#:#filename_extension_short#:#Extension###11 03 2008 new variable
+common#:#state_unread#:#ulæst
+common#:#filename_extension_short#:#Endelse
 common#:#accept_date#:#Brugeraftale blev accepteret
 common#:#obj_facs#:#Filadgang
 common#:#obj_facs_desc#:#Konfigurer adgang til filobjekter
