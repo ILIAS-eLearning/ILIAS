@@ -1,0 +1,19 @@
+<table width="100%">
+<tr>
+<td>
+	<form action="{EXPORT_ACTION}" method="post" name="search">
+	<input class="submit" type="submit" name="cmd[{IMPORT_NAME}]" value="{IMPORT_VALUE}"/>&nbsp;&nbsp;
+	<input class="submit" type="submit" name="cmd[{EXPORT_ALL_NAME}]" value="{EXPORT_ALL_VALUE}"/>
+	</form>
+	<td>
+<td align="right">
+<!-- BEGIN search -->
+	<form action="{SEARCH_ACTION}" method="post" name="search">
+<input class="submit" type="submit" name="cmd[resetSearch]" style="{STYLE}" value="Alle Benutzer"/> &nbsp; <b>{SEARCH_TXT_SEARCH}:</b>&nbsp;<input type="text" size="20" name="search_string" value="{SEARCH_VAL}" />&nbsp;&nbsp;<input class="submit" type="submit" name="cmd[{SEARCH_NAME}]" value="{SEARCH_VALUE}"/>
+</form>
+<!-- END search -->
+</td>
+</tr>
+</table>
+
+{USR_TABLE}

@@ -246,7 +246,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$doc = new DomDocument();
 		
 		//fix reload errors before loading
-		$this->fixReload();
+		//$this->fixReload();
 	  	$doc->load($this->imsmanifestFile);
 	  	$elements = $doc->getElementsByTagName("schemaversion");
 		$schema=$elements->item(0)->nodeValue;
@@ -300,27 +300,42 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 	}
 	
-	
+
 	/**
 	* get all tracked items of current user
 	*/
-	function getTrackedUsers()
+	function getTrackedUsers($a_search)
 	{
 		global $ilUser, $ilDB, $ilUser;
 
-		$query = "SELECT DISTINCT user_id FROM cmi_node, cp_node WHERE".
+		$query = "SELECT DISTINCT user_id,UNIX_TIMESTAMP(MAX(TIMESTAMP)) AS last_access FROM cmi_node, cp_node WHERE".
 			" cmi_node.cp_node_id = cp_node.cp_node_id ".
-			" AND cp_node.slm_id = ".$ilDB->quote($this->getId());
+			" AND cp_node.slm_id = ".$ilDB->quote($this->getId())."GROUP BY user_id";
 
 		$sco_set = $ilDB->query($query);
 
 		$items = array();
+		$temp = array();
+		
 		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
-			$items[] = array("user_full_name" => $name["lastname"].", ".
-				$name["firstname"]." [".ilObjUser::_lookupLogin($sco_rec["user_id"])."]",
-				"user_id" => $sco_rec["user_id"]);
+			if ($sco_rec['last_access'] != 0) {
+				$sco_rec['last_access'] = ilFormat::formatDate(date("Y-m-d H:i:s", $sco_rec['last_access']));
+			} else {
+				$sco_rec['last_access'] = "";
+			}
+			if (ilObject::_exists($sco_rec['user_id'])  && ilObject::_lookUpType($sco_rec['user_id'])=="usr" ) {					
+					$temp = array("user_full_name" => $name["lastname"].", ".
+					$name["firstname"]." [".ilObjUser::_lookupLogin($sco_rec["user_id"])."]",
+					"user_id" => $sco_rec["user_id"],"last_access" => $sco_rec['last_access']);
+					$user = new ilObjUser($sco_rec['user_id']);
+				if ($a_search != "" && (strpos(strtolower($user->getLastname()), strtolower($a_search)) !== false || strpos(strtolower($user->getFirstname()), strtolower($a_search)) !== false ) ) {
+					$items[] = $temp;
+				} else if ($a_search == "") {
+					$items[] = $temp;
+				}	
+			}	
 		}
 
 		return $items;
@@ -370,44 +385,214 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	function getTrackingDataAgg($a_sco_id)
 	{
 		global $ilDB;
-
-		// get all users with any tracking data
-		$query = "SELECT DISTINCT user_id FROM cmi_node WHERE".
-			" cp_node_id = ".$ilDB->quote($_GET["obj_id"]);
-		$user_set = $ilDB->query($query);
+      
+	    $scos = array();
 		$data = array();
-		while($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$query = "SELECT *,UNIX_TIMESTAMP(TIMESTAMP) AS last_access FROM cmi_node WHERE".
-				" cp_node_id = ".$ilDB->quote($_GET["obj_id"]).
-				" AND user_id =".$ilDB->quote($user_rec["user_id"]);
-			$data_set = $ilDB->query($query);
-			$score = $time = $status = "";
-			while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				
-				if ($data_rec["success_status"]!="") {
-					$status = $data_rec["success_status"];
-				} else {
-					if ($data_rec["completion_status"]=="") {
-						$status="unknown";
-					} else {
-						$status = $data_rec["completion_status"];
-					}	
-				}
-				
-				$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
-				
-				$score = $data_rec["scaled"];
-				
-				$last_access=ilFormat::formatDate(date("Y-m-d H:i:s", $data_rec["last_access"]));				
-			}
-
-			$data[] = array("user_id" => $user_rec["user_id"],
-				"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access);
+		//get all SCO's of this object		
+		$query = "SELECT cp_node_id FROM cp_node WHERE".
+				" nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($this->getId());		
+								
+		$val_set = $ilDB->query($query);
+		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+			array_push($scos,$val_rec['cp_node_id']);
 		}
+		foreach ($scos as $sco) {
+			$query = "SELECT *,UNIX_TIMESTAMP(TIMESTAMP) AS last_access FROM cmi_node WHERE".
+		   	" cp_node_id = ".$ilDB->quote($sco).
+		   	" AND user_id =".$ilDB->quote($_GET["user_id"]);
+		   	$data_set = $ilDB->query($query);
+	   		while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+	   		{
+	   			if ($data_rec["success_status"]!="") {
+	   				$status = $data_rec["success_status"];
+	   			} else {
+	   				if ($data_rec["completion_status"]=="") {
+	   					$status="unknown";
+	   				} else {
+	   					$status = $data_rec["completion_status"];
+	   				}	
+	   			}	
+	   			$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
+	   			$score = $data_rec["scaled"];
+	   			$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
+	   			$last_access=ilFormat::formatDate(date("Y-m-d H:i:s", $data_rec["last_access"]));
+				 $data[] = array("user_id" => $user_rec["user_id"],
+				   	"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
+	   		}
+      	}
+	  
 
 		return $data;
+	}
+	
+	/**
+	* get number of atttempts for a certain user and package
+	*/
+	function getAttemptsForUser($a_user_id){
+		global $ilDB;
+		
+		$query = "SELECT * FROM cmi_custom WHERE".
+			" user_id = ".$ilDB->quote($a_user_id).
+			" AND sco_id = 0".
+			" AND lvalue='package_attempts'".
+			" AND obj_id = ".$ilDB->quote($this->getId());
+
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]="";
+		}
+		return $val_rec["rvalue"];
+	}
+	
+	
+	/**
+	* get module version that tracking data for a user was recorded on
+	*/
+	function getModuleVersionForUser($a_user_id){
+		global $ilDB;
+		
+		$query = "SELECT * FROM cmi_custom WHERE".
+			" user_id = ".$ilDB->quote($a_user_id).
+			" AND sco_id = 0".
+			" AND lvalue='module_version'".
+			" AND obj_id = ".$ilDB->quote($this->getId());
+
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]="";
+		}
+		return $val_rec["rvalue"];
+	}
+	
+	
+	
+	function exportSelected($a_exportall=0, $a_user)
+	{
+		global $ilDB, $ilUser;
+	 	$scos = array();
+		 //get all SCO's of this object		
+		$query = "SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
+		 		" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($this->getId());
+        
+		$val_set = $ilDB->query($query);
+		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+			array_push($scos,$val_rec['cp_node_id']);
+		}	
+		$csv = null;
+		//a module is completed when all SCO's are completed
+		$user_array = array();
+		
+		if ($a_exportall == 1) {
+			$query3 = "SELECT DISTINCT user_id,UNIX_TIMESTAMP(MAX(TIMESTAMP)) AS last_access FROM cmi_node, cp_node WHERE".
+				"	 cmi_node.cp_node_id = cp_node.cp_node_id ".
+					" AND cp_node.slm_id = ".$ilDB->quote($this->getId())."GROUP BY user_id";
+			$val_set3 = $ilDB->query($query3);
+			while ($val_rec3 = $val_set3->fetchRow(DB_FETCHMODE_ASSOC)) {
+			 	array_push($user_array,$val_rec3['user_id']);
+			}
+			
+		} else {
+			$user_array = $a_user;
+		}
+		
+		
+		foreach ($user_array as $user)
+		{
+			$scos_c = $scos;
+			//copy SCO_array
+			//check if all SCO's are completed
+			for ($i=0;$i<count($scos);$i++){
+				$query = "SELECT * FROM cmi_node WHERE (user_id=".$ilDB->quote($user).
+						 " AND cp_node_id=".$ilDB->quote($scos[$i]).
+						 " AND completion_status='completed' AND success_status='passed')";
+				$val_set = $ilDB->query($query);
+				if ($val_set->numRows()>0) {
+					//delete from array
+					$key = array_search($scos[$i], $scos_c); 
+					unset ($scos_c[$key]);
+				}
+			}
+			//check for completion
+			if (count($scos_c) == 0) {
+				$completion = 1;
+			} else {
+				$completion = 0;
+			}
+			//write export entry
+			if (ilObject::_exists($user)  && ilObject::_lookUpType($user)=="usr" ) {
+				$e_user = new ilObjUser($user);
+				$login = $e_user->getLogin();
+				$firstname = $e_user->getFirstname();
+				$lastname = $e_user->getLastname();
+				$email = $e_user->getEmail();
+				$department = $e_user->getDepartment();
+			
+				$query2 = "SELECT DISTINCT user_id,MAX(DATE_FORMAT(TIMESTAMP,\"%d.%m.%y\")) AS date FROM cmi_node, cp_node WHERE".
+					" cmi_node.cp_node_id = cp_node.cp_node_id ".
+					" AND cp_node.slm_id = ".$ilDB->quote($this->getId())." GROUP BY user_id";
+				$val_set2 = $ilDB->query($query2);
+				$val_rec2 = $val_set2->fetchRow(DB_FETCHMODE_ASSOC);
+				if ($val_set2->numRows()>0) {
+					$date = $val_rec2['date'];
+				} else {
+					$date = "";
+				}	
+				$csv = $csv. "$department;$login;$lastname;$firstname;$email;$date;$completion\n";	
+			}
+		}
+		$header = "Department;Login;Lastname;Firstname;Email;Date;Status\n";
+		$this->sendExportFile($header,$csv);
+	}
+	
+	
+	function importSuccess($a_file) {
+		global $ilDB, $ilUser;
+		$scos = array();
+		//get all SCO's of this object		
+		$query = "SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
+				" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($this->getId());
+		
+		$val_set = $ilDB->query($query);
+		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+			array_push($scos,$val_rec['cp_node_id']);
+		}
+		
+		$fhandle = fopen($a_file, "r");
+
+		$obj_id = $ilDB->quote($this->getID());
+
+		$fields = fgetcsv($fhandle, 4096, ';');
+
+		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
+			$data = array_combine($fields, $csv_rows);
+			  //check the format
+			  $statuscheck = 0;
+			  if (count($csv_rows) == 6) {$statuscheck = 1;}
+			
+			  if ($this->get_user_id($data["Login"])>0) {
+					
+				$user_id = $ilDB->quote($this->get_user_id($data["Login"]));
+				$import = $data["Status"];
+				if ($import == "") {$import = 1;}
+					//iterate over all SCO's
+					if ($import == 1) {
+						foreach ($scos as $sco) {
+							$sco_id = $ilDB->quote($sco);
+							$date = $data['Date'];
+							$query = "REPLACE INTO cmi_node (cp_node_id,user_id,completion_status,success_status,TIMESTAMP)".
+									  "values ($sco_id,$user_id,'completed','passed',str_to_date(\"$date\", \"%d.%m.%Y\"))";
+						    $val_set = $ilDB->query($query);
+						}
+					}
+			  	} else {
+					//echo "Warning! User $csv_rows[0] does not exist in ILIAS. Data for this user was skipped.\n";
+				}
+		}
+		return 0;
 	}
 	
 	/**

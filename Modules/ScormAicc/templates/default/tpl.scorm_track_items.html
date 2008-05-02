@@ -1,5 +1,28 @@
+<!-- BEGIN standard_row -->
 <tr class="{CSS_ROW}">
 	<td class="std" valign="top">
-		<a href="{LINK_ITEM}">{TXT_ITEM_TITLE}</a>
+		<input class="{CSS_ROW}" type="checkbox" name="user[]" value="{CHECKBOX_ID}" {CHECKED}/>
 	</td>
+	<td class="std" valign="top">
+		<a href="{LINK_ITEM}">{VAL_USERNAME}</a>		
+	</td>
+	<td class="std">
+		{VAL_LAST}
+	</td>
+	<td class="std" align="center">
+		{VAL_ATTEMPT}
+	</td>
+	<td class="std" align="center">
+		{VAL_VERSION}
+	</td>
+	
 </tr>
+<!-- END standard_row -->
+<!-- BEGIN selectall -->
+<tr class="{CSS_ROW}">
+	<td class="std" valign="top">
+		<input type="checkbox" name="chb_select_all" id="chb_select_all" value="1" onclick="setChecked('cmd', 'user',  document.cmd.chb_select_all.checked);");" />
+	</td>
+	<td class="std" valign="top" colspan="4"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->

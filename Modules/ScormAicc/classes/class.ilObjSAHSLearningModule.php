@@ -103,6 +103,11 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
 		$this->setCreditMode($lm_rec["credit"]);
 		$this->setSubType($lm_rec["type"]);
+		$this->setSubType($lm_rec["type"]);
+		$this->setMaxAttempt($lm_rec["max_attempt"]);
+		$this->setModuleVersion($lm_rec["module_version"]);
+		
+		
 	}
 
 	/**
@@ -302,7 +307,6 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		$this->auto_review = $a_auto_review;
 	}
-
 	/**
 	* set auto review
 	*/
@@ -310,7 +314,41 @@ class ilObjSAHSLearningModule extends ilObject
 	{
 		return $this->auto_review;
 	}
+	
+	
+	/**
+	* get max attempt
+	*/
+	function getMaxAttempt()
+	{
+		return $this->max_attempt;
+	}
 
+
+	/**
+	* set max attempt
+	*/
+	function setMaxAttempt($a_max_attempt)
+	{
+		$this->max_attempt = $a_max_attempt;
+	}
+	
+	/**
+	* get max attempt
+	*/
+	function getModuleVersion()
+	{
+		return $this->module_version;
+	}
+	
+	/**
+	* set max attempt
+	*/
+	function setModuleVersion($a_module_version)
+	{
+		$this->module_version = $a_module_version;
+	}
+	
 	/**
 	* update meta data only
 	*/
@@ -356,6 +394,8 @@ class ilObjSAHSLearningModule extends ilObject
 			" auto_review = ".$ilDB->quote(ilUtil::tf2yn($this->getAutoReview())).",".
 			" default_lesson_mode = ".$ilDB->quote($this->getDefaultLessonMode()).",".
 			" type = ".$ilDB->quote($this->getSubType()).",".
+			" max_attempt = ".$ilDB->quote($this->getMaxAttempt()).",".
+			" module_version = ".$ilDB->quote($this->getModuleVersion()).",".
 			" credit = ".$ilDB->quote($this->getCreditMode())."".
 			" WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);

@@ -8013,3 +8013,17 @@ rbac#:#sess_copy#:#Kopieren
 common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_sess_select#:#-- Bitte wählen Sie eine Sitzung aus --
 common#:#sess#:#Sitzung
+content#:#cont_sc_max_attempt#:#Max. Anzahl von Versuchen
+content#:#cont_sc_max_attempt_exceed#:#Die maxmimale Anzahl von Versuchen für dieses Modul wurde erreich.
+content#:#cont_sc_new_version#:#Neue Version hochladen
+content#:#cont_sc_version#:#Modulversion
+content#:#cont_export_all#:#Alle exportieren
+content#:#cont_export_tracking#:#Protokolldaten exportieren
+content#:#cont_export_raw#:#CMI (RAW)-Daten
+content#:#cont_export_success#:#Erfolgsdaten (aggregiert)
+content#:#cont_export_type#:#Export-Typ
+content#:#cont_import_tracking#:#Protokolldaten importieren	
+content#:#cont_invalid_new_module#:#Modul nicht kompatibel! Die imsmanifest.xml muss identisch sein.
+content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
+common#:#attempts#:#Versuche
+common#:#decrease_attempts#:#Versuche - 1
