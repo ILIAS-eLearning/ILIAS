@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>ILIAS 3</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+	<!-- BEGIN ContentStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
+	<!-- END ContentStyle -->
+	<!-- BEGIN SyntaxStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_SYNTAX_STYLESHEET}" />
+	<!-- END SyntaxStyle -->
+    
+
+
+</head>
+
+
+<body style="padding:0px; margin:0px;">
+
+<!-- inserted javascript for navigating additionally by keys -->
+<script type="text/javascript">
+
+var visibl = "1";
+
+function TasteGedrueckt (Ereignis) {
+  if (!Ereignis)
+    Ereignis = window.event;
+  if (Ereignis.which) {
+    Tastencode = Ereignis.which;
+  } else if (Ereignis.keyCode) {
+    Tastencode = Ereignis.keyCode;
+  }
+  if ((Tastencode == 40) || (Tastencode == 13) || (Tastencode == 99) || (Tastencode == 34))
+  {
+    location.href = document.getElementById("succ").href+'&visibl='+visibl;
+  }
+  if ((Tastencode == 38) || (Tastencode == 105) || (Tastencode == 33))
+  {
+    location.href = document.getElementById("prev").href+'&visibl='+visibl;
+  }
+  if (Tastencode == 49)
+  {
+    document.getElementById("pptnavi").style.display = "none";
+    visibl = "0";
+  }
+  if (Tastencode == 50)
+  {
+    document.getElementById("pptnavi").style.display = "block";
+    visibl = "1";
+  }
+  
+}
+document.onkeydown = TasteGedrueckt;
+</script>
+<!-- end of inserted javascript -->
+
+<!-- BEGIN ilLMNavigation -->
+<!-- inserted DIV for switching navigation panel on and off -->
+<div id="pptnavi" title="Ein- und Ausblenden mit 1 und 2, navigieren mit Pfeil- oder Bildtasten">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0"> <tr>
+        <td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="left">
+        <!-- BEGIN ilLMNavigation_Prev -->
+        <a id="prev" href="{HREF_PREV}" {FRAME_PREV}>
+        <img style="vertical-align:middle; margin-right:5px;" border="0" src="{IMG_PREV}" alt="{ALT_PREV}" title="{ALT_PREV}"/>{TXT_PREV}</a>
+        <!-- END ilLMNavigation_Prev -->
+        </td>
+        <td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="right">
+        <!-- BEGIN ilLMNavigation_Next -->
+        <a id="succ" href="{HREF_SUCC}" {FRAME_SUCC}>
+        {TXT_SUCC}<img style="vertical-align:middle; margin-left:5px;" border="0" src="{IMG_SUCC}" alt="{ALT_SUCC}" title="{ALT_SUCC}"/></a>
+        <!-- END ilLMNavigation_Next -->
+        </td>
+    </tr>
+    </table>
+</div>
+<!-- END ilLMNavigation -->
+
+<!-- checking if navigation was on or off in previous page -->
+<script type="text/javascript">
+path = document.URL;
+if ((path.indexOf("visibl=0")) != -1)
+    {
+    document.getElementById("pptnavi").style.display = "none";
+    visibl = "0";
+    }
+if ((path.indexOf("visibl=1")) != -1)
+    {
+    document.getElementById("pptnavi").style.display = "block";
+    visibl = "1";
+    }
+</script>
+
+<!-- BEGIN ilPage -->
+{PAGE_CONTENT}
+<!-- END ilPage -->
+</body>
+</html>
