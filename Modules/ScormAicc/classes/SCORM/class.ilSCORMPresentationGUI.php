@@ -102,9 +102,26 @@ class ilSCORMPresentationGUI
 	*/
 	function frameset()
 	{
+		global $lng;
 //echo "h".strtolower(get_class($this->slm))."h";
 		include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
 		$items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
+		
+		//check for max_attempts and raise error if max_attempts is exceeded
+		if ($this->get_max_attempts()!=0) {
+			if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
+				header('Content-Type: text/html; charset=utf-8');
+				echo($lng->txt("cont_sc_max_attempt_exceed"));
+				exit;		
+			}
+		}
+		
+		//count attempt
+		//Cause there is no way to check if the Java-Applet is sucessfully loaded, an attempt equals opening the SCORM player
+		
+		$this->increase_attempt();
+		$this->save_module_version();
+
 
 		if (count($items) > 1
 			|| strtolower(get_class($this->slm)) == "ilobjaicclearningmodule"
@@ -134,10 +151,94 @@ class ilSCORMPresentationGUI
 			$this->tpl->setVariable("PRESENTATION_LINK", $pres_link);
 			$this->tpl->show("DEFAULT", false);
 		}
+		
 		exit;
+		
 	}
 
+	/**
+	* Get max. number of attempts allowed for this package
+	*/
+	function get_max_attempts() {
+		
+		global $ilDB;
+		
+		$query = "SELECT * FROM sahs_lm WHERE".
+				" id = ".$ilDB->quote($this->slm->getId());
 
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $val_rec["max_attempt"]; 
+	}
+	
+	/**
+	* Get number of actual attempts for the user
+	*/
+	function get_actual_attempts() {
+		global $ilDB, $ilUser;
+		
+		$query = "SELECT * FROM scorm_tracking WHERE".
+			" user_id = ".$ilDB->quote($ilUser->getId()).
+			" AND sco_id = 0".
+			" AND lvalue='package_attempts'".
+			" AND obj_id = ".$ilDB->quote($this->slm->getId());
+
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]=0;
+		}
+		return $val_rec["rvalue"];
+	}
+	
+	/**
+	* Increases attempts by one for this package
+	*/
+	function increase_attempt() {
+		global $ilDB, $ilUser;
+		
+		//get existing account - sco id is always 0
+		$query = "SELECT * FROM scorm_tracking WHERE".
+			" user_id = ".$ilDB->quote($ilUser->getId()).
+			" AND sco_id = 0".
+			" AND lvalue='package_attempts'".
+			" AND obj_id = ".$ilDB->quote($this->slm->getId());
+
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]=0;
+		}
+		$new_rec =  $val_rec["rvalue"]+1;
+		//increase attempt by 1
+		$query = "REPLACE INTO scorm_tracking (rvalue,user_id,sco_id,obj_id,lvalue) values(".
+		 		$ilDB->quote($new_rec).",".
+				$ilDB->quote($ilUser->getId()).",".
+				" 0,".
+				$ilDB->quote($this->slm->getId()).",".
+				$ilDB->quote("package_attempts").")";
+				
+		$val_set = $ilDB->query($query);
+	}
+	
+	
+	/**
+	* save the active module version to scorm_tracking
+	*/
+	function save_module_version() {
+		global $ilDB, $ilUser;
+		$query = "REPLACE INTO scorm_tracking (rvalue,user_id,sco_id,obj_id,lvalue) values(".
+		 		$ilDB->quote($this->slm->getModuleVersion()).",".
+				$ilDB->quote($ilUser->getId()).",".
+				" 0,".
+				$ilDB->quote($this->slm->getID()).",".
+				$ilDB->quote("module_version").")";
+				
+		$val_set = $ilDB->query($query);
+	}
+	
 	/**
 	* output table of content
 	*/
@@ -463,22 +564,7 @@ class ilSCORMPresentationGUI
 			.$lng->txt("cont_total_time").  ": "
 			.$_GET["totime"]
 		);
-
-		// BEGIN Bugfix proceed to the next SCO
-		//$this->tpl->setVariable("SCO_LAUNCH_ID", $_GET["launch"]);
-		$launch_id = $_GET['launch'];
-		if ($launch_id == 'null' || $launch_id == null) {
-			require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
-			$mtree = new ilSCORMTree($this->slm->getId());
-			$node_data = $mtree->fetchSuccessorNode($_GET['sahs_id']);
-			if ($node_data)
-			{
-				$launch_id = $node_data['child'];
-			}
-		}
-		$this->tpl->setVariable("SCO_LAUNCH_ID", $launch_id);
-		// END Bugfix proceed to the next SCO	
-
+		$this->tpl->setVariable("SCO_LAUNCH_ID", $_GET["launch"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
