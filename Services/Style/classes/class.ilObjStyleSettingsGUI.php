@@ -171,7 +171,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("CUST_ICON_TINY_WIDTH", $settings["custom_icon_tiny_width"]);
 		$this->tpl->setVariable("CUST_ICON_TINY_HEIGHT", $settings["custom_icon_tiny_height"]);
 
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 	}
 	
 	/**

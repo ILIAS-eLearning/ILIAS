@@ -1700,16 +1700,20 @@ class ilUtil
 	* @param	string		$a_to				target file
 	* @param	string		$a_target_format	target image file format
 	*/
-	function convertImage($a_from, $a_to, $a_target_format = "", $a_geometry = "")
+	function convertImage($a_from, $a_to, $a_target_format = "", $a_geometry = "",
+		$a_background_color = "")
 	{
 		$format_str = ($a_target_format != "")
-		? strtoupper($a_target_format).":"
-		: "";
+			? strtoupper($a_target_format).":"
+			: "";
 		$geometry = ($a_geometry != "")
-		? " -geometry ".$a_geometry."x".$a_geometry." "
-		: "";
+			? " -geometry ".$a_geometry."x".$a_geometry." "
+			: "";
+		$bg_color = ($a_background_color != "")
+			? " -background color ".$a_background_color." "
+			: "";
 		$convert_cmd = ilUtil::getConvertCmd()." ".
-		ilUtil::escapeShellArg($a_from)." ".$geometry.ilUtil::escapeShellArg($format_str.$a_to);
+			ilUtil::escapeShellArg($a_from)." ".$bg_color.$geometry.ilUtil::escapeShellArg($format_str.$a_to);
 		system($convert_cmd);
 	}
 

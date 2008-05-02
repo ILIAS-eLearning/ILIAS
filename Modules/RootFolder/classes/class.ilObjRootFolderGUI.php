@@ -130,7 +130,15 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 				// container page editing
 			case "ilpageobjectgui":
-				$this->tpl->getStandardTemplate();
+				$this->checkPermission("write");
+				$this->prepareOutput(false);
+				$ret = $this->forwardToPageObject();
+				if ($ret != "")
+				{
+					$this->tpl->setContent($ret);
+				}
+
+				/*$this->tpl->getStandardTemplate();
 				$this->setLocator();
 				ilUtil::sendInfo();
 				ilUtil::infoPanel();
@@ -138,7 +146,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$ret = $this->forwardToPageObject();
 				$this->setTitleAndDescription();
 				$this->setPageEditorTabs();
-				return $ret;
+				return $ret;*/
 				break;
 
 			case 'ilpermissiongui':
@@ -188,6 +196,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 		$this->getTemplateFile("edit",'');
 		$this->showSortingSettings();
+		
+		// hide header icon and title
+		$this->tpl->setVariable("TXT_HIDE_HEADER_ICON_AND_TITLE", $lng->txt("cntr_hide_icon_and_title"));
+		if (ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
+		{
+			$this->tpl->setVariable("CHK_HIDE_ICON", ' checked="checked" ');
+		}
 		
 		$array_push = true;
 
@@ -434,6 +449,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		$settings = new ilContainerSortingSettings($this->object->getId());
 		$settings->setSortMode((int) $_POST['sorting']);
 		$settings->update();
+		
+		ilContainer::_writeContainerSetting($this->object->getId(), "hide_header_icon_and_title",
+			ilUtil::stripSlashes($_POST["hide_header_icon_and_title"]));
 
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getTargetScript()."?".$this->link_params));
