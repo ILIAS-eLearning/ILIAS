@@ -773,5 +773,11 @@
 		$roa = new ilSoapRBACAdministration();
 		return $roa->searchRoles($sid, $key, $combination, $role_type);
 	}
+
 	
+	function getClients() {
+		include_once 'webservice/soap/classes/class.ilSoapAdministration.php';		
+		$roa = new ilSoapAdministration();
+		return $roa->getClients();
+	}
 	?>

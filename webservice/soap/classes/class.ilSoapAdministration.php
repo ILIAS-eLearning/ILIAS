@@ -236,7 +236,7 @@ class ilSoapAdministration
 	*	calculate bytes from K,M,G modifiers
 		e.g: 8M = 8 * 1024 * 1024 bytes
 	*/
-	private function return_bytes($val) {
+	public static function return_bytes($val) {
 		$val = trim($val);
 		$last = strtolower($val{strlen($val)-1});
 		switch($last) {
@@ -294,6 +294,74 @@ class ilSoapAdministration
 		}
 		
 		return true;
+	}
+
+	public function getClients() 
+	{		
+		require_once("Services/Init/classes/class.ilInitialisation.php");
+	
+		$init = new ilInitialisation();		
+		$init->requireCommonIncludes();
+		$init->initIliasIniFile();
+		
+		$ilias = & new ILIAS();
+		$GLOBALS['ilias'] =& $ilias;
+		
+		
+		$settings = array();
+		$clientdirs = glob(ILIAS_WEB_DIR."/*",GLOB_ONLYDIR);
+		if (is_array($clientdirs))
+		{		
+			foreach ($clientdirs as $clientdir) 
+			{
+				if (is_object($setting = $this->getSettings ($init, $clientdir)))
+					$settings[] = $setting;
+			}
+		}
+		
+		require_once ("webservice/soap/classes/class.ilSoapClientXMLWriter.php");
+		$writer = new ilSoapClientXMLWriter ();		
+		$writer->setSettings ($settings);
+		$writer->start();
+		return $writer->getXML();
+	}
+	
+	private function getSettings ($init, $client_dir) 
+	{
+		$ini_file = "./".$client_dir."/client.ini.php";
+		
+		// get settings from ini file
+		require_once("classes/class.ilIniFile.php");
+		$ilClientIniFile = new ilIniFile($ini_file);
+		$ilClientIniFile->read();
+		if ($ilClientIniFile->ERROR != "")
+		{
+			return false;
+		}
+		$client_id = $ilClientIniFile->readVariable('client','name');
+
+		// build dsn of database connection and connect
+		$dsn = $ilClientIniFile->readVariable("db","type")."://".$ilClientIniFile->readVariable("db", "user").
+					 ":".$ilClientIniFile->readVariable("db", "pass").
+					 "@".$ilClientIniFile->readVariable("db", "host").
+					 "/".$ilClientIniFile->readVariable("db", "name");
+		
+				
+		require_once "classes/class.ilDBx.php";
+		$ilDB = new ilDBx($dsn);
+		$GLOBALS['ilDB'] =& $ilDB;
+
+		require_once("Services/Administration/classes/class.ilSetting.php");
+		$settings = new ilSetting();
+		$GLOBALS["ilSetting"] = $settings;
+		// workaround to determine http path of client
+		$init->buildHTTPPAth();
+		$settings->httpPath = ILIAS_HTTP_PATH;
+		$settings->access = $ilClientIniFile->readVariable("client", "access");
+		$settings->description = $ilClientIniFile->readVariable("client","description");
+		$settings->session = min((int) ini_get("session.gc_maxlifetime"), (int) $ilClientIniFile->readVariable("session","expire"));
+		$settings->language = $ilClientIniFile->readVariable("language","default");
+		return $settings;
 	}
 }
 ?>

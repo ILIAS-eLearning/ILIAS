@@ -480,7 +480,7 @@
 
 <!-- Resources -->
 <!ELEMENT Resources (ResourceList*)>
-<!ELEMENT ResourceList>
+<!ELEMENT ResourceList EMPTY>
 <!ATTLIST ResourceList
 	Type CDATA #REQUIRED
 >
