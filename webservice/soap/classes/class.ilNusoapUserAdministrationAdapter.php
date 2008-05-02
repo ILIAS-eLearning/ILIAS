@@ -1072,6 +1072,15 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS searchRoles(): returns XML following role dtd with search results for given role type and search terms.');
 								
+		$this->server->register ('getClients',
+								array(),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getClients',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getClients(): returns XML following clients dtd');
+								
 		return true;
 
 	}
