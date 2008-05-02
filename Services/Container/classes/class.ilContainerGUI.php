@@ -269,24 +269,7 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		if (is_array($subobj))
 		{
-			// show addEvent button
-			if($this->object->getType() == 'crs')
-			{
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-				{
-					$this->tpl->setCurrentBlock("event_button");
-					$this->tpl->setVariable("E_FORMACTION",$this->ctrl->getFormActionByClass('ileventadministrationgui'));
-					$this->tpl->setVariable("BTN_NAME_EVENT",'addEvent');
-					$this->tpl->setVariable("TXT_ADD_EVENT",$this->lng->txt('add_event'));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
 			$this->tpl->setCurrentBlock("add_commands");
-			// convert form to inline element, to show them in one row
-			if($this->object->getType() == 'crs')
-			{
-				$this->tpl->setVariable("FORMSTYLE",'display:inline');
-			}
 			$formaction = "repository.php?ref_id=".$this->object->getRefId()."&cmd=post";
 			$formaction = $ilCtrl->appendRequestTokenParameterString($formaction);
 			$this->tpl->setVariable("H_FORMACTION",$formaction);
