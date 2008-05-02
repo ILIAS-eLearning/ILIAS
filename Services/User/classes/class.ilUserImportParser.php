@@ -47,6 +47,7 @@ require_once("classes/class.ilSaxParser.php");
 */
 class ilUserImportParser extends ilSaxParser
 {
+	var $approve_date_set = false;
 	var $time_limit_set = false;
 	var $time_limit_owner_set = false;
 
@@ -464,6 +465,7 @@ class ilUserImportParser extends ilSaxParser
 
 			case "User":
 				$this->auth_mode_set = false;
+				$this->approve_date_set = false;
 				$this->time_limit_set = false;
 				$this->time_limit_owner_set = false;	
 				$this->updateLookAndSkin = false;
@@ -1074,7 +1076,11 @@ class ilUserImportParser extends ilSaxParser
 							{
 								$this->userObj->setTimeLimitUnlimited(1);
 								$this->userObj->setTimeLimitMessage(0);
-								$this->userObj->setApproveDate(date("Y-m-d H:i:s"));
+
+								if (! $this->approve_date_set)
+								{
+									$this->userObj->setApproveDate(date("Y-m-d H:i:s"));
+								}
 							}
 
 
@@ -1422,11 +1428,37 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "TimeLimitFrom":
-				$this->userObj->setTimeLimitFrom($this->cdata);
+				if (is_numeric($this->cdata))
+				{
+					// Treat cdata as a unix timestamp
+					$this->userObj->setTimeLimitFrom($this->cdata);
+				}
+				else
+				{
+					// Try to convert cdata into unix timestamp, or ignore it
+					$timestamp = strtotime($this->cdata);
+					if ($timestamp !== false)
+					{
+						$this->userObj->setTimeLimitFrom($timestamp);
+					}
+				}
 				break;
 
 			case "TimeLimitUntil":
-				$this->userObj->setTimeLimitUntil($this->cdata);
+				if (is_numeric($this->cdata))
+				{
+					// Treat cdata as a unix timestamp
+					$this->userObj->setTimeLimitUntil($this->cdata);
+				}
+				else
+				{
+					// Try to convert cdata into unix timestamp, or ignore it
+					$timestamp = strtotime($this->cdata);
+					if ($timestamp !== false)
+					{
+						$this->userObj->setTimeLimitUntil($timestamp);
+					}
+				}
 				break;
 
 			case "TimeLimitMessage":
@@ -1434,7 +1466,38 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "ApproveDate":
-				$this->userObj->setApproveDate($this->cdata);
+				$this->approve_date_set = true;
+				if (is_numeric($this->cdata))
+				{
+					// Treat cdata as a unix timestamp
+					$this->userObj->setApproveDate(date('c', $this->cdata));
+				}
+				else
+				{
+					// Try to convert cdata into unix timestamp, or ignore it
+					$timestamp = strtotime($this->cdata);
+					if ($timestamp !== false)
+					{
+						$this->userObj->setApproveDate(date('c', $timestamp));
+					}
+				}
+				break;
+
+			case "AgreeDate":
+				if (is_numeric($this->cdata))
+				{
+					// Treat cdata as a unix timestamp
+					$this->userObj->setAgreeDate(date('c', $this->cdata));
+				}
+				else
+				{
+					// Try to convert cdata into unix timestamp, or ignore it
+					$timestamp = strtotime($this->cdata);
+					if ($timestamp !== false)
+					{
+						$this->userObj->setAgreeDate(date('c', $timestamp));
+					}
+				}
 				break;
 
 			case "iLincID":
@@ -1808,14 +1871,16 @@ class ilUserImportParser extends ilSaxParser
 				}
 				break;
 			case "TimeLimitFrom":
-				if (!preg_match("/\d+/", $this->cdata))
+				// Accept datetime or Unix timestamp
+				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata))
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitFrom",$this->cdata));
 				}
 				$this->userObj->setTimeLimitFrom($this->cdata);
 				break;
 			case "TimeLimitUntil":
-				if (!preg_match("/\d+/", $this->cdata))
+				// Accept datetime or Unix timestamp
+				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata))
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"TimeLimitUntil",$this->cdata));
 				}
@@ -1836,11 +1901,18 @@ class ilUserImportParser extends ilSaxParser
 				}
 				break;
 			case "ApproveDate":
-				if (!preg_match("/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $this->cdata))
+				// Accept datetime or Unix timestamp
+				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata))
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"ApproveDate",$this->cdata));
 				}
-				$this->userObj->setTimeLimitUntil($this->cdata);
+				break;
+			case "AgreeDate":
+				// Accept datetime or Unix timestamp
+				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata))
+				{
+					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"AgreeDate",$this->cdata));
+				}
 				break;
 			case "iLincID":
 				if (!preg_match("/\d+/", $this->cdata))

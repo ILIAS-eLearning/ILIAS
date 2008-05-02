@@ -89,11 +89,11 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT ClientIP (#PCDATA)><!-- content must be a valid IP address xxx.xxx.xxx.xxx -->
 <!ELEMENT TimeLimitOwner (#PCDATA)> <!-- content must be an integer value -->
 <!ELEMENT TimeLimitUnlimited (#PCDATA)> <!-- content must be 0 or 1 -->
-<!ELEMENT TimeLimitFrom (#PCDATA)> <!-- content must be a unix timestamp -->
-<!ELEMENT TimeLimitUntil (#PCDATA)> <!-- content must be a unix timestamp -->
+<!ELEMENT TimeLimitFrom (#PCDATA)> <!-- content must be a unix timestamp or a mysql datetime -->
+<!ELEMENT TimeLimitUntil (#PCDATA)> <!-- content must be a unix timestamp or a mysql datetime -->
 <!ELEMENT TimeLimitMessage (#PCDATA)> <!-- content must be 0 or 1 -->
-<!ELEMENT ApproveDate (#PCDATA)> <!-- content must be a mysql datetime -->
-<!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime -->
+<!ELEMENT ApproveDate (#PCDATA)> <!-- content must be a unix timestamp or a mysql datetime -->
+<!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a unix timestamp or a mysql datetime -->
 <!ELEMENT LastUpdate (#PCDATA)> <!-- @soap: read only property, is mysql timestamp e.g. 2003-08-15 10:07:30  -->
 <!ELEMENT LastLogin (#PCDATA)><!-- date of last login -->
 <!ELEMENT iLincID (#PCDATA)>

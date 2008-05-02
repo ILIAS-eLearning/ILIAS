@@ -977,13 +977,16 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["matriculation"] = $this->object->getMatriculation();
 		$data["fields"]["client_ip"] = $this->object->getClientIP();
 		$data["fields"]["referral_comment"] = $this->object->getComment();
+		$data["fields"]["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
 		$data["fields"]["create_date"] = $this->object->getCreateDate();
 		$data["fields"]["approve_date"] = $this->object->getApproveDate();
+		$data["fields"]["agree_date"] = $this->object->getAgreeDate();
+		$data["fields"]["last_login"] = $this->object->getLastLogin();
 		$data["fields"]["active"] = $this->object->getActive();
 		$data["fields"]["auth_mode"] = $this->object->getAuthMode();
 		$data["fields"]["ext_account"] = $this->object->getExternalAccount();
 
-		// BEGIN DiskQuota Get Picture, Owner, Last login, Approve Date and AcceptDate
+		// BEGIN DiskQuota Get Picture, Owner, Last login, Approve Date and AgreeDate
 		$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("personal_picture"));
 		$webspace_dir = ilUtil::getWebspaceDir("output");
 		$full_img = $this->object->getPref("profile_image");
@@ -1008,11 +1011,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("userfile"));
 		$this->tpl->setVariable("USER_FILE", $this->lng->txt("user_file"));
-		$data["fields"]["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
-		$data["fields"]["last_login"] = $this->object->getLastLogin();
-		$data["fields"]["approve_date"] = $this->object->getApproveDate();
-		$data["fields"]["accept_date"] = $this->object->getAcceptDate();
-		// END DiskQuota Get Picture, Owner, Last login, Approve Date and AcceptDate
+		// END DiskQuota Get Picture, Owner, Last login, Approve Date and AgreeDate
 
 		// BEGIN DiskQuota, Show disk space used
 		require_once "Modules/File/classes/class.ilObjFileAccess.php";
