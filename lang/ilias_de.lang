@@ -7821,7 +7821,6 @@ common#:#state_changed_inside#:#Inhalt geändert
 common#:#state_new#:#neu
 common#:#state_unread#:#ungelesen
 common#:#filename_extension_short#:#Endung
-common#:#accept_date#:#Nutzungslizenz akzeptiert am
 common#:#obj_facs#:#Dateizugriff
 common#:#obj_facs_desc#:#Konfigurieren Sie hier den Zugriff auf Dateien.
 common#:#enable_webdav#:#WebDAV Zugriff aktivieren

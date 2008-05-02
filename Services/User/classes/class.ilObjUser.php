@@ -328,7 +328,7 @@ class ilObjUser extends ilObject
         $this->setComment($a_data["referral_comment"]);
         $this->approve_date = $a_data["approve_date"];
         $this->active = $a_data["active"];
-		$this->accept_date = $a_data["agree_date"];
+		$this->agree_date = $a_data["agree_date"];
 
         // time limitation
         $this->setTimeLimitOwner($a_data["time_limit_owner"]);
@@ -387,7 +387,7 @@ class ilObjUser extends ilObject
                 . "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,"
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
-                . "referral_comment,matriculation,client_ip, approve_date,active,"
+                . "referral_comment,matriculation,client_ip, approve_date,agree_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
                 . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom) "
                 . "VALUES "
@@ -415,6 +415,7 @@ class ilObjUser extends ilObject
 				$ilDB->quote($this->matriculation).",".
 				$ilDB->quote($this->client_ip).",".
 				$ilDB->quote($this->approve_date).",".
+				$ilDB->quote($this->agree_date).",".
 				$ilDB->quote($this->active).",".
                 $ilDB->quote($this->getTimeLimitUnlimited()).",".
 				$ilDB->quote($this->getTimeLimitUntil()).",".
@@ -440,7 +441,7 @@ class ilObjUser extends ilObject
                 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,"
                 . "email,hobby,institution,department,street,city,zipcode,country,"
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
-                . "referral_comment,matriculation,client_ip, approve_date,active,"
+                . "referral_comment,matriculation,client_ip, approve_date,agree_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
                 . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom) "
                 . "VALUES "
@@ -468,6 +469,7 @@ class ilObjUser extends ilObject
 				$ilDB->quote($this->matriculation).",".
 				$ilDB->quote($this->client_ip).",".
 				$ilDB->quote($this->approve_date).",".
+				$ilDB->quote($this->agree_date).",".
 				$ilDB->quote($this->active).",".
                 $ilDB->quote($this->getTimeLimitUnlimited()).",".
 				$ilDB->quote($this->getTimeLimitUntil()).",".
@@ -1420,7 +1422,7 @@ class ilObjUser extends ilObject
 	*/
 	function hasAcceptedUserAgreement()
 	{
-		if ($this->accept_date != "0000-00-00 00:00:00" || $this->login == "root")
+		if ($this->agree_date != "0000-00-00 00:00:00" || $this->login == "root")
 		{
 			return true;
 		}
@@ -1966,7 +1968,7 @@ class ilObjUser extends ilObject
     * set date the user account was activated
     * 0000-00-00 00:00:00 indicates that the user has not yet been activated
     * @access   public
-    * @return   string      date of last update
+    * @return   void
     */
     function setApproveDate($a_str)
     {
@@ -1976,7 +1978,7 @@ class ilObjUser extends ilObject
     /**
     * get the date when the user account was approved
     * @access   public
-    * @return   string      date of last update
+    * @return   string      approve date
     */
     function getApproveDate()
     {
@@ -1989,9 +1991,19 @@ class ilObjUser extends ilObject
     * @access   public
     * @return   string      date of last update
     */
-    function getAcceptDate()
+    function getAgreeDate()
     {
-        return $this->accept_date;
+        return $this->agree_date;
+    }
+    /**
+    * set date the user account was accepted by the user
+    * 0000-00-00 00:00:00 indicates that the user has not accepted his account
+    * @access   public
+    * @return   void
+    */
+    function setAgreeDate($a_str)
+    {
+        $this->agree_date = $a_str;
     }
 	// END DiskQuota: show when user accepted user agreement
 

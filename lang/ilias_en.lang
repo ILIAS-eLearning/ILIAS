@@ -7955,7 +7955,6 @@ common#:#state_changed_inside#:#changed inside
 common#:#state_new#:#new
 common#:#state_unread#:#unread
 common#:#filename_extension_short#:#Extension
-common#:#accept_date#:#User agreement accepted on
 common#:#obj_facs#:#File Access
 common#:#obj_facs_desc#:#Configure access to file objects.
 common#:#enable_webdav#:#Enable WebDAV access
