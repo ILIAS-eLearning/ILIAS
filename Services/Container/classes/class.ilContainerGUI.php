@@ -152,6 +152,49 @@ class ilContainerGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Get container page HTML
+	*/
+	function getContainerPageHTML()
+	{
+		// page object
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+
+		// if page does not exist, return nothing
+		if (!ilPageObject::_exists($this->object->getType(),
+			$this->object->getId()))
+		{
+			return "";
+		}
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+		
+		// get page object
+		$page_gui =& new ilPageObjectGUI($this->object->getType(),
+			$this->object->getId());
+
+		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
+		//$page_gui->setTemplateTargetVar("ADM_CONTENT");
+		$page_gui->setLinkXML($link_xml);
+		$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+		$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
+		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
+		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
+		$page_gui->setPresentationTitle("");
+		$page_gui->setTemplateOutput(false);
+		//$page_gui->setLocator($contObjLocator);
+		$page_gui->setHeader("");
+		$page_gui->setEnabledRepositoryObjects(true);
+		$page_gui->setEnabledFileLists(false);
+		$ret = $page_gui->showPage();
+
+		//$ret =& $page_gui->executeCommand();
+		return $ret;
+	}
+	
+	/**
 	* prepare output
 	*/
 	function prepareOutput($a_show_subobjects = true)
@@ -190,22 +233,25 @@ class ilContainerGUI extends ilObjectGUI
 	function setTitleAndDescription()
 	{
 		global $ilias;
-//echo "1-".get_class($this)."-".$this->object->getTitle()."-";
-		$this->tpl->setTitle($this->object->getTitle());
-		$this->tpl->setDescription($this->object->getLongDescription());
-
-		// set tile icon
-		$icon = ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif");
-		if ($ilias->getSetting("custom_icons") &&
-			in_array($this->object->getType(), array("cat","grp","crs", "root")))
+		
+		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
 		{
-			require_once("./Services/Container/classes/class.ilContainer.php");
-			if (($path = ilContainer::_lookupIconPath($this->object->getId(), "big")) != "")
+			$this->tpl->setTitle($this->object->getTitle());
+			$this->tpl->setDescription($this->object->getLongDescription());
+	
+			// set tile icon
+			$icon = ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif");
+			if ($ilias->getSetting("custom_icons") &&
+				in_array($this->object->getType(), array("cat","grp","crs", "root")))
 			{
-				$icon = $path;
+				require_once("./Services/Container/classes/class.ilContainer.php");
+				if (($path = ilContainer::_lookupIconPath($this->object->getId(), "big")) != "")
+				{
+					$icon = $path;
+				}
 			}
+			$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
 		}
-		$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
 	}
 
 
@@ -717,8 +763,9 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			// render all items list
 			case "all":
-							
-				$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+	
+// old behaviour
+/*				$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
 					"xhtml_page");
 				if ($xpage_id > 0 && $ilSetting->get("enable_cat_page_edit"))
 				{
@@ -726,6 +773,9 @@ class ilContainerGUI extends ilObjectGUI
 					$xpage = new ilXHTMLPage($xpage_id);
 					$output_html.= $xpage->getContent();
 				}
+*/
+				// new behaviour
+				$output_html.= $this->getContainerPageHTML();
 				
 				// all item types
 				/*

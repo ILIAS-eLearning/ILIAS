@@ -119,19 +119,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 				// container page editing
 			case "ilpageobjectgui":
 				$this->checkPermission("write");
-		/*		$this->tpl->getStandardTemplate();
-				$this->setLocator();
-				ilUtil::sendInfo();
-				ilUtil::infoPanel();
-				$this->setTitleAndDescription();
-				$this->setTabs();
-				$this->showUpperIcon();*/
-				
-			$this->prepareOutput(false);
+				$this->prepareOutput(false);
 				$ret = $this->forwardToPageObject();
-			//$ret = "Hallo";	
-			//$this->setTitleAndDescription();
-			//$this->setPageEditorTabs();
 				if ($ret != "")
 				{
 					$this->tpl->setContent($ret);
