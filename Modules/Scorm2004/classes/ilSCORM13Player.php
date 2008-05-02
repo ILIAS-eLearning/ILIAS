@@ -31,7 +31,7 @@ require_once("./Services/YUI/classes/class.ilYuiUtil.php");
 class ilSCORM13Player
 {
 
-	const ENABLE_GZIP = 1;
+	const ENABLE_GZIP = 0;
 	
 	const NONE = 0;
 	const READONLY = 1;
@@ -318,6 +318,21 @@ class ilSCORM13Player
 		
 		//include scripts
 		$this->tpl->setVariable('JS_SCRIPTS', 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getRTEjs&ref_id='.$_GET["ref_id"]);	
+		
+		//check for max_attempts and raise error if max_attempts is exceeded
+		if ($this->get_max_attempts()!=0) {
+			if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
+				header('Content-Type: text/html; charset=utf-8');
+				echo($lng->txt("cont_sc_max_attempt_exceed"));
+				exit;		
+			}
+		}
+		
+		//count attempt
+		//Cause there is no way to check if the Java-Applet is sucessfully loaded, an attempt equals opening the SCORM player
+		
+		$this->increase_attempt();
+		$this->save_module_version();
 		
 		$this->tpl->show("DEFAULT", false);
 	}
@@ -981,6 +996,101 @@ class ilSCORM13Player
 		readfile($path);
 		die();
 	} 
+	
+	/**
+	* Get max. number of attempts allowed for this package
+	*/
+	function get_max_attempts() {
+		
+		global $ilDB;
+		
+		$query = "SELECT * FROM sahs_lm WHERE".
+				" id = ".$ilDB->quote($this->packageId);
+
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $val_rec["max_attempt"]; 
+	}
+	
+	function get_module_version() {
+		
+		global $ilDB;
+		
+		$query = "SELECT * FROM sahs_lm WHERE".
+				" id = ".$ilDB->quote($this->packageId);
+
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $val_rec["module_version"]; 
+	}
+	
+	/**
+	* Get number of actual attempts for the user
+	*/
+	function get_actual_attempts() {
+		global $ilDB, $ilUser;
+		
+		$query = "SELECT * FROM cmi_custom WHERE".
+			" user_id = ".$ilDB->quote($this->userId).
+			" AND sco_id = 0".
+			" AND lvalue='package_attempts'".
+			" AND obj_id = ".$ilDB->quote($this->packageId);
+
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]=0;
+		}
+		return $val_rec["rvalue"];
+	}
+	
+	/**
+	* Increases attempts by one for this package
+	*/
+	function increase_attempt() {
+		global $ilDB, $ilUser;
+		
+		//get existing account - sco id is always 0
+		$query = "SELECT * FROM cmi_custom WHERE".
+			" user_id = ".$ilDB->quote($this->userId).
+			" AND sco_id = 0".
+			" AND lvalue='package_attempts'".
+			" AND obj_id = ".$ilDB->quote($this->packageId);
+
+		$val_set = $ilDB->query($query);
+		$val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
+		if ($val_rec["rvalue"] == null) {
+			$val_rec["rvalue"]=0;
+		}
+		$new_rec =  $val_rec["rvalue"]+1;
+		//increase attempt by 1
+		$query = "REPLACE INTO cmi_custom (rvalue,user_id,sco_id,obj_id,lvalue) values(".
+		 		$ilDB->quote($new_rec).",".
+				$ilDB->quote($this->userId).",".
+				" 0,".
+				$ilDB->quote($this->packageId).",".
+				$ilDB->quote("package_attempts").")";
+				
+		$val_set = $ilDB->query($query);
+	}
+	
+	
+	/**
+	* save the active module version to scorm_tracking
+	*/
+	function save_module_version() {
+		global $ilDB, $ilUser;
+		$query = "REPLACE INTO cmi_custom (rvalue,user_id,sco_id,obj_id,lvalue) values(".
+		 		$ilDB->quote($this->get_Module_Version()).",".
+				$ilDB->quote($this->userId).",".
+				" 0,".
+				$ilDB->quote($this->packageId).",".
+				$ilDB->quote("module_version").")";
+				
+		$val_set = $ilDB->query($query);
+	}
 	
 }	
 

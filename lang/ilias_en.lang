@@ -8057,3 +8057,17 @@ survey#:#adm_no_special_users#:#There are no special users defined who are able 
 survey#:#adm_special_users#:#Special users who are able to run a survey more than once
 survey#:#adm_removed_users#:#Users removed
 survey#:#adm_remove_select_user#:#Please select at least one user for removal!
+content#:#cont_sc_max_attempt#:#Max. number of attempts
+content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module has been reached.
+content#:#cont_sc_new_version#:#Upload new version
+content#:#cont_sc_version#:#Version
+content#:#cont_export_all#:#Export all
+content#:#cont_export_tracking#:#Export Tracking Data
+content#:#cont_export_raw#:#CMI (RAW) data
+content#:#cont_export_success#:#Success-data (aggregated)
+content#:#cont_export_type#:#Export-Type
+content#:#cont_import_tracking#:#Import Tracking Data	
+content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsmanifest.xml is not changed
+content#:#cont_new_module_added#:#New version of module uploaded successfully
+common#:#attempts#:#Attempts
+common#:#decrease_attempts#:#Attempts - 1 

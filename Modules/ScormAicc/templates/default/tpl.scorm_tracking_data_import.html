@@ -1,0 +1,31 @@
+<form enctype="multipart/form-data" action="{FORMACTION}" {TARGET} method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+	<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+	{TXT_IMPORT_TRACKING}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_SELECT_LMTYPE}</td>
+	<td class="option_value">
+		{TXT_TYPE}
+	</td>
+</tr>
+<tr>
+	<td class="option">{TXT_SELECT_FILE}<span class="asterisk">*</span></td>
+	<td class="option_value">
+		<input type="file" name="datafile" value="{TXT_SAVE}" />
+	</td>
+</tr>
+<tr>
+	<td class="submit" align="right" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_UPLOAD}" />
+		<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+		<input type="hidden" name="type" value="csv">
+	</td>
+</tr>
+<br>
+</table>
+<span class="asterisk">*</span><span class="small"> {TXT_FILE_INFO}</span>
+</form>
+

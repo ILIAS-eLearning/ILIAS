@@ -3897,3 +3897,17 @@ ALTER TABLE  `qpl_question_type` ADD  `plugin` TINYINT NOT NULL DEFAULT  '0';
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1202>
+ALTER TABLE scorm_tracking ADD timestamp timestamp;
+
+<#1203>
+ALTER TABLE sahs_lm ADD max_attempt INT DEFAULT 0;
+
+<#1204>
+ALTER TABLE sahs_lm ADD module_version INT DEFAULT 1;
+
+<#1205>
+CREATE TABLE cmi_custom (sco_id INT DEFAULT 0, obj_id INT DEFAULT 0,user_id INT DEFAULT 0, lvalue varchar(64), rvalue text,timestamp timestamp);
+
+<#1206>
+ALTER TABLE cmi_custom ADD PRIMARY KEY (user_id, lvalue, obj_id,sco_id);
