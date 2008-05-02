@@ -476,6 +476,7 @@ class SurveyNominalQuestion extends SurveyQuestion
 				$ilias->raiseError($result->getMessage());
 			}
 			else
+			{
 				// save categories
 				
 				// delete existing category relations
