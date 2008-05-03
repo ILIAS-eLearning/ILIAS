@@ -174,11 +174,15 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			true, true, "Modules/Wiki");
 		
 		// rating
-		include_once("./Services/Rating/classes/class.ilRatingGUI.php");
-		$rating_gui = new ilRatingGUI();
-		$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
-			$this->getPageObject()->getId(), "wpg");
-		$wtpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
+		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId()))
+		{
+			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
+			$rating_gui = new ilRatingGUI();
+			$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
+				$this->getPageObject()->getId(), "wpg");
+			$wtpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
+		}
+		
 		$wtpl->setVariable("PAGE", parent::preview());
 		return $wtpl->get();
 	}

@@ -150,6 +150,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$newObj->setDescription($this->form_gui->getInput("description"));
 			$newObj->setStartPage($this->form_gui->getInput("startpage"));
 			$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
+			$newObj->setRating($this->form_gui->getInput("rating"));
 			$newObj->update();
 	
 			// setup rolefolder & default local roles
@@ -337,6 +338,9 @@ class ilObjWikiGUI extends ilObjectGUI
 			$this->form_gui->addItem($online);
 		}
 		
+		$rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
+		$this->form_gui->addItem($rating);
+		
 		// Form action and save button
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.gif"));
 		if ($a_mode != "create")
@@ -377,6 +381,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["startpage"] = $this->object->getStartPage();
 			$values["shorttitle"] = $this->object->getShortTitle();
 			$values["description"] = $this->object->getDescription();
+			$values["rating"] = $this->object->getRating();
 			$this->form_gui->setValuesByArray($values);
 		}
 	}
@@ -400,6 +405,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$this->object->setOnline($this->form_gui->getInput("online"));
 			$this->object->setStartPage($this->form_gui->getInput("startpage"));
 			$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
+			$this->object->setRating($this->form_gui->getInput("rating"));
 			$this->object->update();
 						
 			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);

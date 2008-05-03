@@ -71,6 +71,26 @@ class ilObjWiki extends ilObject
 	}
 
 	/**
+	* Set Enable Rating.
+	*
+	* @param	boolean	$a_rating	Enable Rating
+	*/
+	function setRating($a_rating)
+	{
+		$this->rating = $a_rating;
+	}
+
+	/**
+	* Get Enable Rating.
+	*
+	* @return	boolean	Enable Rating
+	*/
+	function getRating()
+	{
+		return $this->rating;
+	}
+
+	/**
 	* Set Start Page.
 	*
 	* @param	string	$a_startpage	Start Page
@@ -124,11 +144,13 @@ class ilObjWiki extends ilObject
 			", online".
 			", startpage".
 			", short".
+			", rating".
 			" ) VALUES (".
 			$ilDB->quote($this->getId())
 			.",".$ilDB->quote($this->getOnline())
 			.",".$ilDB->quote($this->getStartPage())
 			.",".$ilDB->quote($this->getShortTitle())
+			.",".$ilDB->quote($this->getRating())
 			.")";
 		$ilDB->query($query);
 		
@@ -164,6 +186,7 @@ class ilObjWiki extends ilObject
 			" online = ".$ilDB->quote($this->getOnline()).
 			",startpage = ".$ilDB->quote($this->getStartPage()).
 			",short = ".$ilDB->quote($this->getShortTitle()).
+			",rating = ".$ilDB->quote($this->getRating()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($query);
 
@@ -197,6 +220,7 @@ class ilObjWiki extends ilObject
 		$this->setOnline($rec["online"]);
 		$this->setStartPage($rec["startpage"]);
 		$this->setShortTitle($rec["short"]);
+		$this->setRating($rec["rating"]);
 
 	}
 
@@ -318,6 +342,37 @@ class ilObjWiki extends ilObject
 		}
 		
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
+	}
+	
+	/**
+	* Lookup whether rating is activated.
+	*
+	* @param	int			$a_wiki_id		Wiki ID
+	*
+	* @return	boolean		Rating activated?
+	*/
+	static function _lookupRating($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "rating");
+	}
+
+	/**
+	* Lookup a data field
+	*
+	* @param	int			$a_wiki_id		Wiki ID
+	* @param	string		$a_field		Field Name
+	*
+	* @return	mixed		field value
+	*/
+	private static function _lookup($a_wiki_id, $a_field)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM il_wiki_data WHERE id = ".
+			$ilDB->quote($a_wiki_id);
+		$set = $ilDB->query($query);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $rec[$a_field];
 	}
 	
 } // END class.ilObjWiki
