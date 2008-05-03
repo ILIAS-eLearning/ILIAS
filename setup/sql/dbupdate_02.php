@@ -3911,3 +3911,8 @@ CREATE TABLE cmi_custom (sco_id INT DEFAULT 0, obj_id INT DEFAULT 0,user_id INT 
 
 <#1206>
 ALTER TABLE cmi_custom ADD PRIMARY KEY (user_id, lvalue, obj_id,sco_id);
+
+<#1207>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

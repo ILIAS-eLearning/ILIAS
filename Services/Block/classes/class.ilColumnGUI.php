@@ -57,6 +57,7 @@ class ilColumnGUI
 	
 	static protected $locations = array(
 		"ilNewsForContextBlockGUI" => "Services/News/",
+		"ilCalendarBlockGUI" => "Services/Calendar/",
 		"ilPDNotesBlockGUI" => "Services/Notes/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
 		"ilUsersOnlineBlockGUI" => "Services/PersonalDesktop/",
@@ -68,9 +69,6 @@ class ilColumnGUI
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
 		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/",
-		'ilCalendarCategoriesGUI' => 'Services/Calendar/',
-		'ilCalendarMonthBlockGUI'	=> 'Services/Calendar/',
-		'ilCalendarUserSettingsBlockGUI' => 'Services/Calendar/',
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/'
 			);
 	
@@ -81,21 +79,26 @@ class ilColumnGUI
 			"ilPDNewsBlockGUI" => "pdnews",
 			"ilBookmarkBlockGUI" => "pdbookm",
 			"ilNewsForContextBlockGUI" => "news",
+			"ilCalendarBlockGUI" => "cal",
 			"ilExternalFeedBlockGUI" => "feed",
 			"ilPDExternalFeedBlockGUI" => "pdfeed",
 			"ilPDFeedbackBlockGUI" => "pdfeedb",
 			"ilPDSysMessageBlockGUI" => "pdsysmess",
 			"ilPDSelectedItemsBlockGUI" => "pditems",
 			"ilHtmlBlockGUI" => "html",
-			'ilCalendarMonthBlockGUI' => 'cal',
 			'ilPDTaggingBlockGUI' => 'pdtag'
 		);
 	
 		
 	protected $default_blocks = array(
 		"cat" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
-		"crs" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
-		"grp" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
+		"crs" => array(
+			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
+			"ilCalendarBlockGUI" => IL_COL_RIGHT
+			),
+		"grp" => array(
+			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
+			"ilCalendarBlockGUI" => IL_COL_RIGHT),
 		"frm" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"root" => array(),
 		"info" => array(
@@ -110,12 +113,8 @@ class ilColumnGUI
 			"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
-			),
-		'cal' => array(
-			'ilCalendarCategoriesGUI' => IL_COL_LEFT,
-			'ilCalendarMonthBlockGUI' => IL_COL_CENTER,
-			'ilCalendarUserSettingsBlockGUI' => IL_COL_CENTER
-			));
+			)
+		);
 
 	// these are only for pd blocks
 	// other blocks are rep objects now
@@ -131,6 +130,7 @@ class ilColumnGUI
 		);
 		
 	// check global activation for these block types
+	// @todo: add calendar
 	protected $check_global_activation = 
 		array("news" => true,
 			"pdnews" => true,

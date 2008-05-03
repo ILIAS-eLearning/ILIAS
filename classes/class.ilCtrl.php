@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -184,7 +184,7 @@ class ilCtrl
 	function &forwardCommand(&$a_gui_object)
 	{
 		$class = strtolower(get_class($a_gui_object));
-//echo "<br>forwarding to: -$class-";
+
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
 		if ($nr > 0)
 		{

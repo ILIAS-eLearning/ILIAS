@@ -355,7 +355,6 @@ class ilCourseContentGUI
 			ilChangeEvent::_recordReadEvent($obj_id, $ilUser->getId());
 		}
 		// END ChangeEvent: record read event.
-
 		$this->getCenterColumnHTML();
 		$this->tpl->setRightContent($this->getRightColumnHTML());
 	}
@@ -366,30 +365,31 @@ class ilCourseContentGUI
 	function getRightColumnHTML()
 	{
 		global $ilUser, $lng, $ilCtrl, $ilAccess;
-		
+
 		if ($ilCtrl->getNextClass() == "ilcourseobjectivepresentationgui")
 		{
 			$ilCtrl->setParameterByClass("ilcolumngui", "col_return", "objectives");
 		}
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
-			
+
 		$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
 		$obj_type = ilObject::_lookupType($obj_id);
 
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 		$column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
-		
+
 		if ($column_gui->getScreenMode() == IL_SCREEN_FULL)
 		{
 			return "";
 		}
-		
+
 		$this->setColumnSettings($column_gui);
 		
 		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&
 			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
 		{
+
 			$html = $ilCtrl->forwardCommand($column_gui);
 		}
 		else
