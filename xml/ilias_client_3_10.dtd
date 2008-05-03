@@ -18,7 +18,6 @@
 <!ELEMENT Firstname (#PCDATA)>
 <!ELEMENT Lastname (#PCDATA)>
 <!ELEMENT Title (#PCDATA)>
-<!ELEMENT Institution (#PCDATA)>
 <!ELEMENT Position (#PCDATA)>
 <!ELEMENT Email (#PCDATA)>
 <!ELEMENT Street  (#PCDATA)>
