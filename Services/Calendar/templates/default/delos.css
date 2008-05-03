@@ -153,3 +153,90 @@ a.callink:hover {
 	text-decoration: underline;
 	color: inherit;
 }
+
+// calendar block
+
+table.calmini
+{
+	width:100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+}
+
+.calminiheader {
+	color:#222222;
+	background-color: #EDEDED;
+}
+
+th.calmini {
+	text-align: center;
+	font-size:90%;
+	font-weight:normal;
+	background-color: #FFFFFF;
+}
+
+tr.calmini {
+}
+
+p.il_calmini_monthday {
+	margin: 1px;
+	text-align:center;
+}
+
+td.calministd {
+	vertical-align: top;
+	border-collapse:collapse;
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calmininow {
+	vertical-align: top;
+	background-color:#FFE79C;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calmininext { 
+	vertical-align: top;
+	background-color:#EDEDED;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calminiprev {
+	vertical-align: top;
+	background-color:#EDEDED;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calminiweek {
+	vertical-align: top;
+	background-color: #FFFFFF;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+

@@ -26,7 +26,6 @@
 * Class ilCalendarUtil
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
 *
 */
@@ -123,6 +122,7 @@ class ilCalendarUtil
 		$next_year = $a_month == 12 ? $a_year + 1 : $a_year;
 		
 		$days_in_month = self::_getMaxDayOfMonth($a_year,$a_month);
+
 		$days_in_prev_month = self::_getMaxDayOfMonth($a_year,$prev_month);
 		
 		$weekday = date('w',gmmktime(0,0,0,$a_month,1,$a_year));
@@ -130,6 +130,7 @@ class ilCalendarUtil
 
 		for($i = 0;$i < 42;$i++)
 		{
+
 			if($i < $first_day_offset)
 			{
 				$day = $days_in_prev_month - $first_day_offset + $i + 1;
@@ -163,7 +164,6 @@ class ilCalendarUtil
 			}
 		}
 		return $day_list;
-		 
 	}	
 	
 	/**
@@ -371,11 +371,10 @@ class ilCalendarUtil
 		{
 			return cal_days_in_month(CAL_GREGORIAN,$a_month,$a_year);
 		}
-		
 		$months = array(0,31,
 				self::_isLeapYear($a_year) ? 29 : 28,
 				31,30,31,30,31,31,30,31,30,31);
-		return $months[$a_month];
+		return $months[(int) $a_month];
 	}
 	
 	/**

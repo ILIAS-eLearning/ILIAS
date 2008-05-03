@@ -1,0 +1,32 @@
+<!-- BEGIN mini_month -->
+<table class="calmini" width="100%">
+	<thead>
+	<tr class="calminiheader">
+		<th class="calmini" colspan="8">
+		<a href="{PREV_MONTH}">&lt;</a>
+		{TXT_MONTH}
+		<a href="{NEXT_MONTH}">&gt;</a>
+		</th>
+	</tr>
+	<tr class="calminiheader">
+		<!-- BEGIN month_header_col -->
+		<th class="calmini" width="12.5%">{TXT_WEEKDAY}</th>
+		<!--  END month_header_col -->
+	</tr>
+	</thead>
+	<tbody>
+	<!-- BEGIN month_row -->
+	<tr class="calmini">
+		<!-- BEGIN month_col -->
+		<td class="{TD_CLASS}" width="12.5%">
+			<p class="il_calmini_monthday"><a href="{OPEN_DAY_VIEW}">{MONTH_DAY}</a></p>
+		</td>
+		<!-- END month_col -->
+		<td class="{TD_CLASS}" width="12.5%">
+			<p class="il_calmini_monthday"><a href="{OPEN_WEEK_VIEW}">{WEEK}</a></p>
+		</td>
+	</tr>
+	<!-- END month_row -->
+	</tbody>
+</table>
+<!-- END mini_month -->

@@ -21,6 +21,8 @@
         +-----------------------------------------------------------------------------+
 */
 
+include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
+
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -28,9 +30,6 @@
 *
 * @ingroup ServicesCalendar
 */
-
-include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
-
 class ilMiniCalendarGUI
 {
 	const PRESENTATION_CALENDAR = 1;
