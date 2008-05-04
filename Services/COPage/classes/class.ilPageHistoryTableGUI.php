@@ -70,11 +70,22 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 		
 		$ilCtrl->setParameter($this->getParentObject(), "old_nr", $a_set["nr"]);
 		$this->tpl->setVariable("HREF_OLD_PAGE",
-			$ilCtrl->getLinkTarget($this->getParentObject(), "preview")); 
-		$user = ilObjUser::_lookupName($a_set["user"]);
-		$login = ilObjUser::_lookupLogin($a_set["user"]);
-		$this->tpl->setVariable("TXT_USER",
-			$user["lastname"].", ".$user["firstname"]." [".$login."]");
+			$ilCtrl->getLinkTarget($this->getParentObject(), "preview"));
+			
+		if (ilObject::_exists($a_set["user"]))
+		{
+			// user name
+			$user = ilObjUser::_lookupName($a_set["user"]);
+			$login = ilObjUser::_lookupLogin($a_set["user"]);
+			$this->tpl->setVariable("TXT_LINKED_USER",
+				$user["lastname"].", ".$user["firstname"]." [".$login."]");
+				
+			// profile link
+			$ilCtrl->setParameterByClass("ilobjusergui", "user_id", $a_set["user"]);
+			$this->tpl->setVariable("USER_LINK",
+				$ilCtrl->getLinkTargetByClass("ilobjusergui", "showUserProfile"));
+		}
+			
 		$ilCtrl->setParameter($a_parent_obj, "old_nr", "");
 	}
 
