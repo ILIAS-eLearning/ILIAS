@@ -296,7 +296,7 @@ class ilSoapAdministration
 		return true;
 	}
 
-	public function getClients() 
+	public function getInstallationInfoXML() 
 	{		
 		require_once("Services/Init/classes/class.ilInitialisation.php");
 	
@@ -319,8 +319,8 @@ class ilSoapAdministration
 			}
 		}
 		
-		require_once ("webservice/soap/classes/class.ilSoapClientXMLWriter.php");
-		$writer = new ilSoapClientXMLWriter ();		
+		require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
+		$writer = new ilSoapInstallationInfoXMLWriter ();		
 		$writer->setSettings ($settings);
 		$writer->start();
 		return $writer->getXML();

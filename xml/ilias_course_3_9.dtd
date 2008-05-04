@@ -1,6 +1,11 @@
 <!-- Course dtd. -->
 <!ENTITY MetaData SYSTEM "./ilias_co_3_7.dtd">
 <!ENTITY AdvancedMetaData SYSTEM "./ilias_advanced_meta_data_3_9.dtd">
+<!-- include the reused dtd -->
+%MetaData;
+%AdvancedMetaData;
+
+<!-- new elements defined here -->
 
 <!ELEMENT Course (MetaData?,AdvancedMetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?)>
 <!ATTLIST Course
