@@ -555,7 +555,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 	if (!isset($_POST["user"]))
 	 	{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
-			exit;
 	 	}
     
 	 	foreach ($_POST["user"] as $user)
