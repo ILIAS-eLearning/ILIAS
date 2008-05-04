@@ -775,9 +775,9 @@
 	}
 
 	
-	function getClients() {
+	function getInstallationInfoXML() {
 		include_once 'webservice/soap/classes/class.ilSoapAdministration.php';		
 		$roa = new ilSoapAdministration();
-		return $roa->getClients();
+		return $roa->getInstallationInfoXML();
 	}
 	?>
