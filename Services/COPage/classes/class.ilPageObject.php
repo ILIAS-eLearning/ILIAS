@@ -66,6 +66,7 @@ class ilPageObject
 	var $update_listener_cnt;
 	var $offline_handler;
 	var $dom_builded;
+	var $history_saved;
 
 	/**
 	* Constructor
@@ -1211,7 +1212,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
 //echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
-//echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
+//echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":$a_no_history:"; nk();
 		// test validating
 		if($a_validate)
 		{
@@ -1236,9 +1237,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			if ($old_rec = $old_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				// only save, if something has changed
-//$ilCtrl->debug("-".$content."-".$old_rec["content"]."-");
-//echo htmlentities($old_rec["content"]);
-				if (($content != $old_rec["content"]) && !$a_no_history)
+				if (($content != $old_rec["content"]) && !$a_no_history &&
+					!$this->history_saved)
 				{
 					if ($old_rec["content"] != "<PageObject></PageObject>")
 					{
@@ -1251,7 +1251,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 							$ilDB->quote($old_rec["content"]).",".
 							$ilDB->quote($old_rec["user"]).",".
 							$ilDB->quote($last_nr["mnr"] + 1).")";
+//echo "<br><br>+$a_no_history+$h_query";
 						$ilDB->query($h_query);
+						$this->history_saved = true;		// only save one time
+					}
+					else
+					{
+						$this->history_saved = true;		// do not save on first change
 					}
 				}
 			}
@@ -2350,6 +2356,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 					break;
 			}
 		}
+
 		return $ret;
 	}
 	

@@ -3797,6 +3797,8 @@ common#:#pd_items_news_info#:#If activated, all news related to items that have 
 common#:#show_owner#:#Show Owner
 tagging#:#tagging_tags#:#Tags
 rating#:#rating_your_rating#:#Your Rating
+rating#:#rating_average_rating#:#Average Rating
+rating#:#rating_nr_users#:#%s User(s)
 tagging#:#tagging_resources_for_tag#:#Resources tagged with %s
 tagging#:#tagging_all_users#:#All Users
 common#:#tagging_my_tags#:#My Tags

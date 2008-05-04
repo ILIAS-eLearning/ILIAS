@@ -112,7 +112,7 @@ class ilWikiPage extends ilPageObject
 	* @access	public
 	* @return	boolean
 	*/
-	function update()
+	function update($a_validate = true, $a_no_history = false)
 	{
 		global $ilDB;
 		
@@ -122,7 +122,7 @@ class ilWikiPage extends ilPageObject
 			",wiki_id = ".$ilDB->quote($this->getWikiId()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($query);
-		parent::update();
+		parent::update($a_validate, $a_no_history);
 
 		return true;
 	}

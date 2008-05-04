@@ -1353,7 +1353,7 @@ class ilPageObjectGUI
 		global $tpl, $lng, $ilAccess;
 		
 		include_once("./Services/COPage/classes/class.ilPageHistoryTableGUI.php");
-		$table_gui = new ilPageHistoryTableGUI($this, "getHistory");
+		$table_gui = new ilPageHistoryTableGUI($this, "history");
 		$table_gui->setData($this->getPageObject()->getHistoryEntries());
 		return $table_gui->getHTML();
 	}

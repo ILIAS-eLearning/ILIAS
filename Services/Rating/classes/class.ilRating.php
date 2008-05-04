@@ -84,6 +84,29 @@ class ilRating
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $rec["rating"];
 	}
+	
+	/**
+	* Get overall rating for an object.
+	*
+	* @param	int			$a_obj_id			Object ID
+	* @param	string		$a_obj_type			Object Type
+	* @param	int			$a_sub_obj_id		Subobject ID
+	* @param	string		$a_sub_obj_type		Subobject Type
+	*/
+	static function getOverallRatingForObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type)
+	{
+		global $ilDB;
+		
+		$q = "SELECT count(*) as cnt, AVG(rating) as av FROM il_rating WHERE ".
+			"obj_id = ".$ilDB->quote($a_obj_id)." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type)." AND ".
+			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id)." AND ".
+			"sub_obj_type = ".$ilDB->quote($a_sub_obj_type);
+		$set = $ilDB->query($q);
+		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		return array("cnt" => $rec["cnt"], "avg" => $rec["av"]);
+	}
+
 }
 
 ?>

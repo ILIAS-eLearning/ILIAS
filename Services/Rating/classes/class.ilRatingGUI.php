@@ -108,9 +108,47 @@ class ilRatingGUI
 		global $lng, $ilCtrl;
 		
 		$ttpl = new ilTemplate("tpl.rating_input.html", true, true, "Services/Rating");
+		
+		// (1) overall rating
+		$rating = ilRating::getOverallRatingForObject($this->obj_id, $this->obj_type,
+			$this->sub_obj_id, $this->sub_obj_type);
+		if ($rating["cnt"] >= 1)
+		{
+			for($i = 1; $i <= 5; $i++)
+			{
+				$ttpl->setCurrentBlock("rating_icon");
+				if ($rating["avg"] >= $i)
+				{
+					$ttpl->setVariable("SRC_ICON",
+						ilUtil::getImagePath("icon_rate_on.gif"));
+				}
+				else if ($rating["avg"] + 1 <= $i)
+				{
+					$ttpl->setVariable("SRC_ICON",
+						ilUtil::getImagePath("icon_rate_off.gif"));
+				}
+				else
+				{
+					$nr = round(($rating["avg"] + 1 - $i) * 10);
+					$ttpl->setVariable("SRC_ICON",
+						ilUtil::getImagePath("icon_rate_$nr.gif"));
+				}
+				$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
+				$ttpl->parseCurrentBlock();
+			}
+			$ttpl->setCurrentBlock("rating_icon");
+			$ttpl->setVariable("TXT_OVERALL_RATING", $lng->txt("rating_average_rating"));
+			$ttpl->setVariable("NR_USERS",
+				sprintf($lng->txt("rating_nr_users"), $rating["cnt"]));
+			$ttpl->setVariable("VAL_OVERALL_RATING", "(".round($rating["avg"], 1)."/5)");
+			$ttpl->parseCurrentBlock();
+		}
+		
+		// (2) user rating
 		$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
 		
+		// user rating links
 		for($i = 1; $i <= 5; $i++)
 		{
 			$ttpl->setCurrentBlock("rating_link");
@@ -130,6 +168,7 @@ class ilRatingGUI
 			$ttpl->parseCurrentBlock();
 		}
 			
+		// user rating text
 		$ttpl->setVariable("TXT_YOUR_RATING", $lng->txt("rating_your_rating"));
 		if ($rating > 0)
 		{
