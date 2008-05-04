@@ -30,7 +30,7 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI, ilObjUserGUI
 *
 * @ingroup ModulesWiki
 */

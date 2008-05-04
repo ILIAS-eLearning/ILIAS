@@ -3918,4 +3918,8 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#1208>
 ALTER TABLE il_wiki_data ADD COLUMN rating TINYINT DEFAULT 0;
+<#1209>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

@@ -45,6 +45,7 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
+* @ilCtrl_Calls ilPageObjectGUI: ilObjUserGUI
 *
 * @ingroup ServicesCOPage
 */

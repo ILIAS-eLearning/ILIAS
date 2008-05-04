@@ -2403,8 +2403,6 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 	}
 
-	// stupid....
-	// I agree. yes, really stupid....
 	function getPublicProfileObject($a_additional = "", $no_ilctrl = false)
 	{
 		return $this->getPublicProfile($a_additional, $no_ilctrl);
