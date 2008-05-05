@@ -25,16 +25,26 @@
 //TODO: function getRoleId($groupRole) returns the object-id of grouprole
 
 require_once "./Services/Container/classes/class.ilContainer.php";
+include_once('./Services/Calendar/classes/class.ilDateTime.php');
 
+
+define('GRP_REGISTRATION_DEACTIVATED',-1);
 define('GRP_REGISTRATION_DIRECT',0);
 define('GRP_REGISTRATION_REQUEST',1);
 define('GRP_REGISTRATION_PASSWORD',2);
 
+define('GRP_REGISTRATION_LIMITED',1);
+define('GRP_REGISTRATION_UNLIMITED',2);
+
+define('GRP_TYPE_UNKNOWN',0);
+define('GRP_TYPE_CLOSED',1);
+define('GRP_TYPE_OPEN',2);
+define('GRP_TYPE_PUBLIC',3);
 
 /**
 * Class ilObjGroup
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 *
 * @version $Id$
@@ -43,6 +53,33 @@ define('GRP_REGISTRATION_PASSWORD',2);
 */
 class ilObjGroup extends ilContainer
 {
+	const ERR_MISSING_TITLE = 'grp_missing_title';
+	const ERR_MISSING_GROUP_TYPE = 'grp_missing_grp_type';
+	const ERR_MISSING_PASSWORD = 'grp_missing_password';
+	const ERR_WRONG_MAX_MEMBERS = 'grp_wrong_max_members';
+	const ERR_WRONG_REG_TIME_LIMIT = 'grp_wrong_reg_time_limit';
+	
+	protected $information;
+	protected $group_type = null;
+	protected $reg_type = GRP_REGISTRATION_DIRECT;
+	protected $reg_enabled = true;
+	protected $reg_unlimited = true;
+	protected $reg_start = null;
+	protected $reg_end = null;
+	protected $reg_password = '';
+	protected $reg_max_members = 0;
+	protected $waiting_list = false;
+	
+	
+	// Map
+	protected $latitude;
+	protected $longitude;
+	protected $location_zoom;
+	protected $enablemap;
+	
+	public $members_obj;
+
+
 	/**
 	* Group file object for handling of export files
 	*/
@@ -60,7 +97,7 @@ class ilObjGroup extends ilContainer
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjGroup($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		global $tree;
 
@@ -68,8 +105,355 @@ class ilObjGroup extends ilContainer
 
 		$this->type = "grp";
 		$this->ilObject($a_id,$a_call_by_reference);
-		$this->setRegisterMode(true);
+		$this->setRegisterMode(true); // ???
 	}
+	
+	// Setter/Getter
+	/**
+	 * set information
+	 *
+	 * @access public
+	 * @param string information
+	 * @return
+	 */
+	public function setInformation($a_information)
+	{
+		$this->information = $a_information;
+	}
+	
+	/**
+	 * get Information
+	 *
+	 * @access public
+	 * @param
+	 * @return string information
+	 */
+	public function getInformation()
+	{
+		return $this->information;
+	}
+	
+	/**
+	 * set group type
+	 *
+	 * @access public
+	 * @param int type
+	 */
+	public function setGroupType($a_type)
+	{
+		$this->group_type = $a_type;
+	}
+	
+	/**
+	 * get group type
+	 *
+	 * @access public
+	 * @return int group type
+	 */
+	public function getGroupType()
+	{
+		return $this->group_type;
+	}
+	
+	/**
+	 * set registration type
+	 *
+	 * @access public
+	 * @param int registration type
+	 * @return
+	 */
+	public function setRegistrationType($a_type)
+	{
+		$this->reg_type = $a_type;
+	}
+	
+	/**
+	 * get registration type
+	 *
+	 * @access public
+	 * @return int registration type
+	 */
+	public function getRegistrationType()
+	{
+		return $this->reg_type;
+	}
+	
+	/**
+	 * enable registration
+	 *
+	 * @access public
+	 * @param bool enabled
+	 */
+	public function enableRegistration($a_status)
+	{
+		$this->reg_enabled = $a_status;
+	}
+	
+	/**
+	 * is registration enabled
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function isRegistrationEnabled()
+	{
+		return $this->reg_enabled;
+	}
+	
+	/**
+	 * enable unlimited registration 
+	 *
+	 * @access public
+	 * @param bool
+	 * @return
+	 */
+	public function enableUnlimitedRegistration($a_status)
+	{
+		$this->reg_unlimited = $a_status;
+	}
+	
+	/**
+	 * is registration unlimited
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function isRegistrationUnlimited()
+	{
+		return $this->reg_unlimited;
+	}
+	
+	/**
+	 * set registration start
+	 *
+	 * @access public
+	 * @param object ilDateTime
+	 * @return
+	 */
+	public function setRegistrationStart($a_start)
+	{
+		$this->reg_start = $a_start;
+	}
+	
+	/**
+	 * get registration start
+	 *
+	 * @access public
+	 * @return int registration start 
+	 */
+	public function getRegistrationStart()
+	{
+		return $this->reg_start ? $this->reg_start : $this->reg_start = new ilDateTime(time(),IL_CAL_UNIX);
+	}
+	
+
+	/**
+	 * set registration end
+	 *
+	 * @access public
+	 * @param int unix time
+	 * @return
+	 */
+	public function setRegistrationEnd($a_end)
+	{
+		$this->reg_end = $a_end;
+	}
+	
+	/**
+	 * get registration end
+	 *
+	 * @access public
+	 * @return int registration end
+	 */
+	public function getRegistrationEnd()
+	{
+		return $this->reg_end ? $this->reg_end : $this->reg_end = new ilDateTime(time(),IL_CAL_UNIX);
+	}
+
+	/**
+	 * set password
+	 *
+	 * @access public
+	 * @param string password
+	 */
+	public function setPassword($a_pass)
+	{
+		$this->reg_password = $a_pass;
+	}
+	
+	/**
+	 * get password
+	 *
+	 * @access public
+	 * @return string password
+	 */
+	public function getPassword()
+	{
+		return $this->reg_password;
+	}
+
+	/**
+	 * set max members
+	 *
+	 * @access public
+	 * @param int max members
+	 */
+	public function setMaxMembers($a_max)
+	{
+		$this->reg_max_members = $a_max;
+	}
+	
+	/**
+	 * get max members
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getMaxMembers()
+	{
+		return $this->reg_max_members;
+	}
+	
+	/**
+	 * enable waiting list
+	 *
+	 * @access public
+	 * @param bool
+	 * @return
+	 */
+	public function enableWaitingList($a_status)
+	{
+		$this->waiting_list = $a_status;
+	}
+	
+	/**
+	 * is waiting list enabled
+	 *
+	 * @access public
+	 * @param
+	 * @return bool
+	 */
+	public function isWaitingListEnabled()
+	{
+		return $this->waiting_list;
+	}
+	
+	/**
+	* Set Latitude.
+	*
+	* @param	string	$a_latitude	Latitude
+	*/
+	function setLatitude($a_latitude)
+	{
+		$this->latitude = $a_latitude;
+	}
+
+	/**
+	* Get Latitude.
+	*
+	* @return	string	Latitude
+	*/
+	function getLatitude()
+	{
+		return $this->latitude;
+	}
+
+	/**
+	* Set Longitude.
+	*
+	* @param	string	$a_longitude	Longitude
+	*/
+	function setLongitude($a_longitude)
+	{
+		$this->longitude = $a_longitude;
+	}
+
+	/**
+	* Get Longitude.
+	*
+	* @return	string	Longitude
+	*/
+	function getLongitude()
+	{
+		return $this->longitude;
+	}
+
+	/**
+	* Set LocationZoom.
+	*
+	* @param	int	$a_locationzoom	LocationZoom
+	*/
+	function setLocationZoom($a_locationzoom)
+	{
+		$this->locationzoom = $a_locationzoom;
+	}
+
+	/**
+	* Get LocationZoom.
+	*
+	* @return	int	LocationZoom
+	*/
+	function getLocationZoom()
+	{
+		return $this->locationzoom;
+	}
+
+	/**
+	* Set Enable Group Map.
+	*
+	* @param	boolean	$a_enablemap	Enable Group Map
+	*/
+	function setEnableGroupMap($a_enablemap)
+	{
+		$this->enablemap = $a_enablemap;
+	}
+
+	/**
+	* Get Enable Group Map.
+	*
+	* @return	boolean	Enable Group Map
+	*/
+	function getEnableGroupMap()
+	{
+		return $this->enablemap;
+	}
+	
+	/**
+	 * validate group settings
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function validate()
+	{
+		global $ilErr;
+		
+		if($this->getTitle() == 'NO TITLE')
+		{
+			$this->title = '';
+			$ilErr->appendMessage(self::ERR_MISSING_TITLE);
+		}
+		if(!$this->getGroupType())
+		{
+			$ilErr->appendMessage(self::ERR_MISSING_GROUP_TYPE);
+		}
+		if($this->getRegistrationType() == GRP_REGISTRATION_PASSWORD and !strlen($this->getPassword()))
+		{
+			$ilErr->appendMessage(self::ERR_MISSING_PASSWORD);
+		}
+		if(!is_numeric($this->getMaxMembers()) or $this->getMaxMembers() < 0)
+		{
+			$ilErr->appendMessage(self::ERR_WRONG_MAX_MEMBERS);
+		}
+		if(ilDateTime::_before($this->getRegistrationEnd(),$this->getRegistrationStart()))
+		{
+			$ilErr->appendMessage(self::ERR_WRONG_REG_TIME_LIMIT);
+		}
+		return strlen($ilErr->getMessage()) == 0;
+	}
+	
+	
+	
 
 	/**
 	* Create group
@@ -78,22 +462,31 @@ class ilObjGroup extends ilContainer
 	{
 		global $ilDB;
 
-		parent::create();
+		if(!parent::create())
+		{
+			return false;
+		}
 
-		$query = "INSERT INTO grp_data (".
-			" grp_id".
-			", latitude".
-			", longitude".
-			", location_zoom".
-			", enable_group_map".
-			" ) VALUES (".
-			$ilDB->quote($this->getId())
-			.",".$ilDB->quote($this->getLatitude())
-			.",".$ilDB->quote($this->getLongitude())
-			.",".$ilDB->quote($this->getLocationZoom())
-			.",".$ilDB->quote($this->getEnableGroupMap())
-			.")";
+		$query = "INSERT INTO grp_settings ".
+			"SET obj_id = ".$ilDB->quote($this->getId()).", ".
+			"information = ".$ilDB->quote($this->getInformation()).", ".
+			"grp_type = ".$ilDB->quote((int) $this->getGroupType()).", ".
+			"registration_type = ".$ilDB->quote($this->getRegistrationType()).", ".
+			"registration_enabled = ".($this->isRegistrationEnabled() ? 1 : 0).", ".
+			"registration_unlimited = ".($this->isRegistrationUnlimited() ? 1 : 0).", ".
+			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
+			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
+			"registration_password = ".$ilDB->quote($this->getPassword()).", ".
+			"registration_max_members = ".$ilDB->quote($this->getMaxMembers()).", ".
+			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0).", ".
+			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
+			"longitude = ".$ilDB->quote($this->getLongitude()).", ".
+			"location_zoom = ".$ilDB->quote($this->getLocationZoom()).", ".
+			"enablemap = ".$ilDB->quote($this->getEnableGroupMap())." ";
+
 		$ilDB->query($query);
+		
+		return $this->getId();
 	}
 
 	/**
@@ -108,19 +501,53 @@ class ilObjGroup extends ilContainer
 			return false;
 		}
 
-		// update group data
-		$query = "UPDATE grp_data SET ".
-			" latitude = ".$ilDB->quote($this->getLatitude()).
-			", longitude = ".$ilDB->quote($this->getLongitude()).
-			", location_zoom = ".$ilDB->quote($this->getLocationZoom()).
-			", enable_group_map = ".$ilDB->quote($this->getEnableGroupMap()).
-			" WHERE grp_id = ".$ilDB->quote($this->getId());
+		$query = "UPDATE grp_settings ".
+			"SET information = ".$ilDB->quote($this->getInformation()).", ".
+			"grp_type = ".$ilDB->quote((int) $this->getGroupType()).", ".
+			"registration_type = ".$ilDB->quote($this->getRegistrationType()).", ".
+			"registration_enabled = ".($this->isRegistrationEnabled() ? 1 : 0).", ".
+			"registration_unlimited = ".($this->isRegistrationUnlimited() ? 1 : 0).", ".
+			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
+			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
+			"registration_password = ".$ilDB->quote($this->getPassword()).", ".
+			"registration_max_members = ".$ilDB->quote($this->getMaxMembers()).", ".
+			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0).", ".
+			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
+			"longitude = ".$ilDB->quote($this->getLongitude()).", ".
+			"location_zoom = ".$ilDB->quote($this->getLocationZoom()).", ".
+			"enablemap = ".$ilDB->quote($this->getEnableGroupMap())." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
 
 		$ilDB->query($query);
-
 		return true;
-
 	}
+	
+	/**
+	* delete group and all related data
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	public function delete()
+	{
+		global $ilDB;
+
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
+
+		$query = "DELETE FROM grp_settings ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		$ilDB->query($query);
+		
+		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
+		ilGroupParticipants::_deleteAllEntries($this->getId());
+		
+		return true;
+	}
+	
 
 	/**
 	* Read group
@@ -131,15 +558,28 @@ class ilObjGroup extends ilContainer
 
 		parent::read();
 
-		$query = "SELECT * FROM grp_data WHERE grp_id = ".
-			$ilDB->quote($this->getId());
-		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		$this->setLatitude($rec["latitude"]);
-		$this->setLongitude($rec["longitude"]);
-		$this->setLocationZoom($rec["location_zoom"]);
-		$this->setEnableGroupMap($rec["enable_group_map"]);
+		$query = "SELECT * FROM grp_settings ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->setInformation($row->information);
+			$this->setGroupType($row->grp_type);
+			$this->setRegistrationType($row->registration_type);
+			$this->enableRegistration($row->registration_enabled);	
+			$this->enableUnlimitedRegistration($row->registration_unlimited);
+			$this->setRegistrationStart(new ilDateTime($row->registration_start,IL_CAL_DATETIME,'UTC'));
+			$this->setRegistrationEnd(new ilDateTime($row->registration_end,IL_CAL_DATETIME,'UTC'));
+			$this->setPassword($row->registration_password);
+			$this->setMaxMembers($row->registration_max_members);
+			$this->enableWaitingList($row->waiting_list);
+			$this->setLatitude($row->latitude);
+			$this->setLongitude($row->longitude);
+			$this->setLocationZoom($row->location_zoom);
+			$this->setEnableGroupMap($row->enablemap);
+		}
+		$this->initParticipants();
 	}
 
 	/**
@@ -153,6 +593,7 @@ class ilObjGroup extends ilContainer
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
 		global $ilDB,$ilUser;
+// TODO: clone
 
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	$new_obj->setGroupStatus($this->readGroupStatus());
@@ -245,85 +686,6 @@ class ilObjGroup extends ilContainer
 		$ilLog->write(__METHOD__.' : Finished copying of role grp_member.');
 	}
 
-	/**
-	* Set Latitude.
-	*
-	* @param	string	$a_latitude	Latitude
-	*/
-	function setLatitude($a_latitude)
-	{
-		$this->latitude = $a_latitude;
-	}
-
-	/**
-	* Get Latitude.
-	*
-	* @return	string	Latitude
-	*/
-	function getLatitude()
-	{
-		return $this->latitude;
-	}
-
-	/**
-	* Set Longitude.
-	*
-	* @param	string	$a_longitude	Longitude
-	*/
-	function setLongitude($a_longitude)
-	{
-		$this->longitude = $a_longitude;
-	}
-
-	/**
-	* Get Longitude.
-	*
-	* @return	string	Longitude
-	*/
-	function getLongitude()
-	{
-		return $this->longitude;
-	}
-
-	/**
-	* Set LocationZoom.
-	*
-	* @param	int	$a_locationzoom	LocationZoom
-	*/
-	function setLocationZoom($a_locationzoom)
-	{
-		$this->locationzoom = $a_locationzoom;
-	}
-
-	/**
-	* Get LocationZoom.
-	*
-	* @return	int	LocationZoom
-	*/
-	function getLocationZoom()
-	{
-		return $this->locationzoom;
-	}
-
-	/**
-	* Set Enable Group Map.
-	*
-	* @param	boolean	$a_enablemap	Enable Group Map
-	*/
-	function setEnableGroupMap($a_enablemap)
-	{
-		$this->enablemap = $a_enablemap;
-	}
-
-	/**
-	* Get Enable Group Map.
-	*
-	* @return	boolean	Enable Group Map
-	*/
-	function getEnableGroupMap()
-	{
-		return $this->enablemap;
-	}
 
 	/**
 	* join Group, assigns user to role
@@ -778,49 +1140,6 @@ class ilObjGroup extends ilContainer
 		return $row["register"];
 	}
 
-	/**
-	* get Password
-	* @access	public
-	* @param	return password
-	*/
-	function getPassword()
-	{
-		global $ilDB;
-
-		$q = "SELECT * FROM grp_data WHERE grp_id= ".
-			$ilDB->quote($this->getId());
-		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $row["password"];
-	}
-
-	/**
-	* set Password
-	* @access	public
-	* @param	password
-	*/
-	function setPassword($a_password="")
-	{
-		global $ilDB;
-		
-		$q = "SELECT * FROM grp_data WHERE grp_id=".$ilDB->quote($this->getId());
-
-		$res = $this->ilias->db->query($q);
-
-		if ($res->numRows() == 0)
-		{
-			$q = "INSERT INTO grp_data (grp_id, password) VALUES(".
-				$ilDB->quote($this->getId()).",".$ilDB->quote($a_password).")";
-			$res = $this->ilias->db->query($q);
-		}
-		else
-		{
-			$q = "UPDATE grp_data SET password=".$ilDB->quote($a_password)." WHERE grp_id=".
-				$ilDB->quote($this->getId());
-			$res = $this->ilias->db->query($q);
-		}
-	}
 
 	/**
 	 * Set expiration
@@ -985,10 +1304,9 @@ class ilObjGroup extends ilContainer
 	* template of the parent role.
 	*
 	* @access	public
-	* @param	integer	group id (optional)
-	* @param	integer group status (0=public|1=private|2=closed)
+	* @param	integer group status GRP_TYPE_PUBLIC or GRP_TYPE_CLOSED
 	*/
-	function initGroupStatus($a_grpStatus = 0)
+	function initGroupStatus($a_grpStatus = GRP_TYPE_PUBLIC)
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
@@ -1000,12 +1318,14 @@ class ilObjGroup extends ilContainer
 		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$this->getDefaultGroupRoles());
 
 		//group status open (aka public) or group status closed
-		if ($a_grpStatus == 0 || $a_grpStatus == 1)
+		if ($a_grpStatus == GRP_TYPE_PUBLIC || $a_grpStatus == GRP_TYPE_CLOSED)
 		{
-			if ($a_grpStatus == 0)
+			if ($a_grpStatus == GRP_TYPE_PUBLIC)
 			{
 				$template_id = $this->getGrpStatusOpenTemplateId();
-			} else {
+			} 
+			else 
+			{
 				$template_id = $this->getGrpStatusClosedTemplateId();
 			}
 			//get defined operations from template
@@ -1238,30 +1558,6 @@ class ilObjGroup extends ilContainer
 	}
 
 
-	/**
-	* delete group and all related data
-	*
-	* @access	public
-	* @return	boolean	true if all object data were removed; false if only a references were removed
-	* TODO: Grouplinking is not longer permitted -> no other referneces possible
-	* TODO: If entire group is deleted entries of object in group that are lying in trash (-> negative tree ID) are not removed!
-	*/
-	function delete()
-	{
-		global $ilDB;
-
-		// always call parent delete function first!!
-		if (!parent::delete())
-		{
-			return false;
-		}
-
-		$query = "DELETE FROM grp_data WHERE grp_id = ".
-			$ilDB->quote($this->getId());
-		$this->ilias->db->query($query);
-
-		return true;
-	}
 
 	/**
 	* init default roles settings
@@ -1555,10 +1851,6 @@ class ilObjGroup extends ilContainer
 			return $res->numRows() ? true : false;
 		}
 
-
-
-
-
 		if (!array_intersect($local_roles,$user_roles))
 		{
 			return false;
@@ -1619,6 +1911,19 @@ class ilObjGroup extends ilContainer
 			$this->message .= "<br /> ";
 		}
 		$this->message .= $a_message;
+	}
+	
+	/**
+	 * init participants object
+	 * 
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function initParticipants()
+	{
+		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
+		$this->members_obj = ilGroupParticipants::_getInstanceByObjId($this->getId());
 	}
 
 

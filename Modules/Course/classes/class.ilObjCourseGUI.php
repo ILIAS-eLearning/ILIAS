@@ -4456,10 +4456,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$rep_search->setCallback($this,'assignMembersObject');
 
 				// Set tabs
-				$this->tabs_gui->setTabActive('members');
 				$this->ctrl->setReturn($this,'members');
 				$ret =& $this->ctrl->forwardCommand($rep_search);
 				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
 				$this->tabs_gui->setSubTabActive('members');
 				break;
 

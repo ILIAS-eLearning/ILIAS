@@ -7217,7 +7217,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		$result_array = array();
 
-		$query = sprintf("SELECT ref_id, title, description FROM `grp_data` g, object_data o, object_reference r WHERE o.obj_id=grp_id AND o.obj_id = r.obj_id AND ref_id IN ('%s')",
+		$query = sprintf("SELECT ref_id, title, description FROM `grp_settings` g, object_data o, object_reference r WHERE o.obj_id=grp_id AND o.obj_id = r.obj_id AND ref_id IN ('%s')",
 			join ($ids,"','")
 		);
 

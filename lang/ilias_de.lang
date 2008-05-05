@@ -8027,3 +8027,26 @@ content#:#cont_invalid_new_module#:#Modul nicht kompatibel! Die imsmanifest.xml 
 content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
 common#:#attempts#:#Versuche
 common#:#decrease_attempts#:#Versuche - 1
+grp#:#grp_closed#:#Geschlossene Gruppe
+grp#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
+grp#:#grp_reg_disabled#:#Keine Anmeldung möglich
+grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Teilnehmer in die Gruppe aufnehmen.
+grp#:#grp_reg_request#:#Antrag mit Bestätigung
+grp#:#grp_reg_request_info#:#Interessierte Benutzer können eine Anfrage zur Aufnahme an die Gruppenadministratoren übermitteln.
+grp#:#grp_reg_direct#:#Direkter Beitritt
+grp#:#grp_reg_direct_info#:#Direkter Beitritt
+grp#:#grp_pass_request#:#Beitritt mit Gruppenpasswort
+grp#:#grp_reg_password_info#:#Interessierte Benutzer müssen das Passwort kennen, um der Gruppe beitreten zu können.
+grp#:#grp_reg_limit_time#:#Zeitlich begrenzte Anmeldung
+grp#:#grp_reg_limit_num#:#Begrenzung der Teilnehmeranzahl
+grp#:#grp_reg_max_members_info#:#Sie können hier die maximale Anzahl von Gruppenmitgliedern festlegen. Wird die Zahl überschritten, sind keine Beitritte mehr möglich.
+grp#:#grp_waiting_list_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen.
+grp#:#grp_waiting_list#:#Warteliste aktivieren
+grp#:#grp_reg_limit_num_info#:#Zeiliche Begrenzung der Anmeldung
+grp#:#grp_reg_start#:#Start:
+grp#:#grp_reg_end#:#Ende:
+grp#:#grp_open#:#Offene Gruppe
+grp#:#grp_open_info#:#Die Gruppe und dessen Inhalt ist für Nicht-Mitglieder sichtbar. Eine direkte Anmeldung ist für alle möglich.
+grp#:#grp_public#:#Öffentliche Gruppe
+grp#:#grp_public_info#:#Die Gruppe ist für Nicht-Mitglieder sichtbar, es gelten jedoch besondere Regelungen, um die Mitgliedschaft zu erlangen.
+grp#:#grp_typ#:#Art der Gruppe
