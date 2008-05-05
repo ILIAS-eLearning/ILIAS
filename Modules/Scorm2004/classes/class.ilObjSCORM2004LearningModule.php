@@ -325,11 +325,16 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			} else {
 				$sco_rec['last_access'] = "";
 			}
-			if (ilObject::_exists($sco_rec['user_id'])  && ilObject::_lookUpType($sco_rec['user_id'])=="usr" ) {					
-					$temp = array("user_full_name" => $name["lastname"].", ".
-					$name["firstname"]." [".ilObjUser::_lookupLogin($sco_rec["user_id"])."]",
-					"user_id" => $sco_rec["user_id"],"last_access" => $sco_rec['last_access']);
+			if (ilObject::_exists($sco_rec['user_id'])  && ilObject::_lookUpType($sco_rec['user_id'])=="usr" ) {
 					$user = new ilObjUser($sco_rec['user_id']);
+					$temp = array("user_full_name" => $name["lastname"].", ".
+									$name["firstname"]." [".ilObjUser::_lookupLogin($sco_rec["user_id"])."]",
+								    "user_id" => $sco_rec["user_id"],"last_access" => $sco_rec['last_access'],
+									"user_id" => $sco_rec["user_id"],"last_access" => $sco_rec['last_access'],
+									"version"=> $this->getModuleVersionForUser($sco_rec["user_id"]),
+									"attempts" => $this->getAttemptsForUser($sco_rec["user_id"]),
+									"username" =>  $user->getLastname().", ".$user->getFirstname()
+								);
 				if ($a_search != "" && (strpos(strtolower($user->getLastname()), strtolower($a_search)) !== false || strpos(strtolower($user->getFirstname()), strtolower($a_search)) !== false ) ) {
 					$items[] = $temp;
 				} else if ($a_search == "") {
