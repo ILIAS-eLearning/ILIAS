@@ -1014,11 +1014,9 @@ class ilCtrl
 			$this->rtoken = md5(uniqid(rand(), true));
 			if (is_object($ilDB) && is_object($ilUser))
 			{
-				if (!is_array($_SESSION["rtokens"]))
-				{
-					$_SESSION["rtokens"] = array();
-				}
-				$_SESSION["rtokens"][$this->rtoken] = time();
+				$ilDB->query("INSERT INTO il_request_token (user_id, token, session) VALUES ".
+					"(".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($this->rtoken).
+					",".$ilDB->quote(session_id()).")");
 				return $this->rtoken;
 			}
 		}
@@ -1038,12 +1036,29 @@ class ilCtrl
 			return false;
 		}
 		
-		if (is_object($ilUser) && is_object($ilDB))
+		if (is_object($ilUser) && is_object($ilDB) && $ilUser->getId() > 0)
 		{
-			if (!is_array($_SESSION["rtokens"]))
+			$set = $ilDB->query("SELECT * FROM il_request_token WHERE ".
+				" user_id = ".$ilDB->quote($ilUser->getId())." AND ".  	 	 
+				" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME])); 		 
+			if ($set->numRows() > 0) 		 
+			{
+				// remove used token
+				$ilDB->query("DELETE FROM il_request_token WHERE ". 		 
+					" user_id = ".$ilDB->quote($ilUser->getId())." AND ". 		 
+					" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME]));
+					
+				// remove tokens from older sessions
+				$ilDB->query("DELETE FROM il_request_token WHERE ". 		 
+					" user_id = ".$ilDB->quote($ilUser->getId())." AND ". 		 
+					" session != ".$ilDB->quote(session_id()));
+				return true; 		 
+			} 		 
+			else
 			{
 				return false;
 			}
+			
 			if ($_SESSION["rtokens"][$_GET[self::IL_RTOKEN_NAME]] != "")
 			{
 				// remove used token

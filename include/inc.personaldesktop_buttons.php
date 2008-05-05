@@ -37,7 +37,7 @@ $script_name = basename($_SERVER["SCRIPT_NAME"]);
 
 $command = $_GET["cmd"] ? $_GET["cmd"] : "";
 
-if (ereg("whois",$command) or $script_name == "profile.php")
+if (ereg("whois",$command))
 {
 	$who_is_online = true;
 }

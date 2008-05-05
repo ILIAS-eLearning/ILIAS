@@ -512,7 +512,7 @@ class ilPersonalDesktopGUI
 		
 		$command = $_GET["cmd"] ? $_GET["cmd"] : "";
 		
-		if (ereg("whois",$command) or $script_name == "profile.php")
+		if (ereg("whois",$command))
 		{
 			$who_is_online = true;
 		}
@@ -728,36 +728,7 @@ class ilPersonalDesktopGUI
 		$_SESSION['il_pd_history'] = $a_class;
 		$this->cmdClass = $a_class;
 	}
-	
-	/**
-	* show profile of other user
-	*/
-	function showUserProfile()
-	{
-		global $lng, $ilCtrl;
-		
-		$this->prepareContentView();
-		
-		include_once('./Services/User/classes/class.ilObjUserGUI.php');
-		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-		
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI("ilpersonaldesktopgui", "show");
-		$content_block->setContent($user_gui->getPublicProfile("", false, true));
-		$content_block->setTitle($lng->txt("profile_of")." ".
-			$user_gui->object->getLogin());
-		$content_block->setColSpan(2);
-		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
-		$content_block->addHeaderCommand($ilCtrl->getLinkTarget($this, "show"),
-			$lng->txt("close"), true);
-		
-		$this->tpl->setContent($content_block->getHTML());
-		$this->tpl->setRightContent($this->getRightColumnHTML());
-		$this->tpl->setLeftContent($this->getLeftColumnHTML());
 
-		$this->tpl->show();
-	}
-	
 	/**
 	* Init ilColumnGUI
 	*/

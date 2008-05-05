@@ -1160,7 +1160,7 @@ class ilTemplate extends ilTemplateX
 	{
 		global $lng;
 		
-		if ($this->upper_icon == "" && $this->tree_flat_icon == ""
+		if ($this->upper_icon == "" && $this->tree_flat_link == ""
 			&& $this->mount_webfolder == "")
 		{
 			return;
@@ -1187,7 +1187,7 @@ class ilTemplate extends ilTemplateX
 		}
 		
 		// tree/flat icon
-		if ($this->tree_flat_icon != "")
+		if ($this->tree_flat_link != "")
 		{
 			$this->setCurrentBlock("tree_mode");
 			$this->setVariable("LINK_MODE", $this->tree_flat_link);
@@ -1238,7 +1238,7 @@ class ilTemplate extends ilTemplateX
 	function setTreeFlatIcon($a_link, $a_mode)
 	{
 		global $lng;
-		
+
 		$this->tree_flat_link = $a_link;
 		$this->tree_flat_mode = $a_mode;
 	}

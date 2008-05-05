@@ -30,7 +30,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilUsersOnlineBlockGUI: ilColumnGUI
-* @ilCtrl_Calls ilUsersOnlineBlockGUI: ilObjUserGUI,
+* @ilCtrl_Calls ilUsersOnlineBlockGUI: ilPublicUserProfileGUI
 */
 class ilUsersOnlineBlockGUI extends ilBlockGUI
 {
@@ -103,10 +103,10 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		switch($next_class)
 		{
 			// profile
-			case "ilobjusergui":
-				include_once('./Services/User/classes/class.ilObjUserGUI.php');
-				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-				$return = $ilCtrl->forwardCommand($user_gui);
+			case "ilpublicuserprofilegui":
+				include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$return = $ilCtrl->forwardCommand($profile_gui);
 				break;
 				
 			default:
@@ -479,7 +479,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setCurrentBlock("chat_info");
 				$this->tpl->setVariable("CHAT_ACTIVE_IN",$lng->txt('chat_active_in'));
-				$this->tpl->setVariable("CHAT_LINK","./chat.php?ref_id=".$ref_id."&room_id=0");
+				$this->tpl->setVariable("CHAT_LINK","./ilias.php?baseClass=ilChatPresentationGUI&ref_id=".$ref_id."&room_id=0");
 				$this->tpl->setVariable("CHAT_TITLE",ilObject::_lookupTitle($chat_id));
 				$this->tpl->parseCurrentBlock();
 				
@@ -505,7 +505,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setCurrentBlock("chat_link");
 			$this->tpl->setVariable("TXT_CHAT_INVITE",$lng->txt('chat_invite'));
-			$this->tpl->setVariable("CHAT_LINK",'./chat.php?ref_id='.ilObjChat::_getPublicChatRefId().
+			$this->tpl->setVariable("CHAT_LINK",'./ilias.php?baseClass=ilChatPresentationGUI&ref_id='.ilObjChat::_getPublicChatRefId().
 			'&usr_id='.$a_usr_id.'&cmd=invitePD');
 			$this->tpl->parseCurrentBlock();
 			
@@ -520,14 +520,16 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	function showUserProfile()
 	{
 		global $lng, $ilCtrl;
-		include_once('./Services/User/classes/class.ilObjUserGUI.php');
-		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 		
 		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
 		$content_block = new ilPDContentBlockGUI("ilpersonaldesktopgui", "show");
-		$content_block->setContent($user_gui->getPublicProfile("", false, true));
+		include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
+		$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+		$profile_gui->setAsRows(true);
+		$content_block->setContent($ilCtrl->getHTML($profile_gui));
+		
 		$content_block->setTitle($lng->txt("profile_of")." ".
-			$user_gui->object->getLogin());
+			ilObjUser::_lookupLogin($_GET["user"]));
 		$content_block->setColSpan(2);
 		$content_block->setImage(ilUtil::getImagePath("icon_usr.gif"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),

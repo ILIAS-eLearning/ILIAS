@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once "./classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjUserGUI
@@ -31,11 +32,8 @@
 *
 * @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjiLincUserGUI
 *
-* @extends ilObjectGUI
+* @ingroup ServicesUser
 */
-
-require_once "./classes/class.ilObjectGUI.php";
-
 class ilObjUserGUI extends ilObjectGUI
 {
 	var $ilCtrl;

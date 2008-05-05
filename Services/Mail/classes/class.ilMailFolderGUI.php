@@ -30,7 +30,8 @@ require_once "Services/Mail/classes/class.ilMail.php";
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilMailFolderGUI: ilMailAddressbookGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailOptionsGUI, ilObjUserGUI
+* @ilCtrl_Calls ilMailFolderGUI: ilMailAddressbookGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailOptionsGUI
+* @ilCtrl_Calls ilMailFolderGUI: ilPublicUserProfileGUI
 */
 class ilMailFolderGUI
 {
@@ -92,6 +93,12 @@ class ilMailFolderGUI
 				include_once 'Services/Mail/classes/class.ilMailOptionsGUI.php';
 
 				$this->ctrl->forwardCommand(new ilMailOptionsGUI());
+				break;
+
+			case 'ilpublicuserprofilegui':
+				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
 
 			default:
@@ -166,9 +173,9 @@ class ilMailFolderGUI
 	
 	public function showUser()
 	{
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		global $ilCtrl;
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_user.html", "Services/Mail");
+		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 		
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		
@@ -178,14 +185,15 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("back"));		
 		$this->tpl->parseCurrentBlock();	
 		
-		include_once 'Services/User/classes/class.ilObjUserGUI.php';		
-		$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 		
-		$this->tpl->setVariable("TBL_TITLE", $this->lng->txt("profile_of")." ".$user_gui->object->getLogin());
+		$this->tpl->setVariable("TBL_TITLE", $this->lng->txt("profile_of")." ".
+			ilObjUser::_lookupLogin($_GET["user"]));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_usr.gif"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT", $this->lng->txt("public_profile"));
 		
-		$this->tpl->setVariable('USER_PROFILE', $user_gui->getPublicProfile("", false, true));
+		include_once './Services/User/classes/class.ilPublicUserProfileGUI.php';		
+		$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+		$this->tpl->setContent($ilCtrl->getHTML($profile_gui));
 		$this->tpl->show();
 		
 		return true;
@@ -374,14 +382,7 @@ class ilMailFolderGUI
 				{
 					$this->tpl->setVariable('MAIL_FROM', $tmp_user->getFullname());
 				}
-				
-				/*$this->ctrl->setParameter("user", $tmp_user->getId());
-				$this->ctrl->getLinkTargetByClass("ilusersonlineblockgui", "showUserProfile");
-				$this->tpl->setVariable("PROFILE_LINK", "")
-				include_once("classes/class.ilObjUserGUI.php");
-				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-				*/;
-				
+
 				if(!($login = $tmp_user->getLogin()))
 				{
 					$login = $mail["import_name"]." (".$this->lng->txt("user_deleted").")";
@@ -1177,11 +1178,5 @@ class ilMailFolderGUI
 		}
 	}
 
-	function deliverVCard()
-	{
-		include_once 'Services/User/classes/class.ilObjUserGUI.php';
-		$userObj = new ilObjUserGUI('', $_GET['user']);
-		return $userObj->deliverVCardObject();
-	}
 }
 ?>
