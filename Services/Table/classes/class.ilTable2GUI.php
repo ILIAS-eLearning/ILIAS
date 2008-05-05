@@ -420,6 +420,11 @@ class ilTable2GUI extends ilTableGUI
 	{
 		global $lng;
 		
+		if(!$this->enabled['content'])
+		{
+			return $this->render();
+		}
+		
 		$this->nav_value = ($_POST[$this->getNavParameter()] != "")
 			? $_POST[$this->getNavParameter()]
 			: $_GET[$this->getNavParameter()];
@@ -765,7 +770,7 @@ class ilTable2GUI extends ilTableGUI
 			$arrow = true;
 			$action_row = true;
 		}
-		elseif(count($this->multi == 1))
+		elseif(count($this->multi) == 1)
 		{
 			$this->tpl->setCurrentBlock("tbl_single_cmd");
 			$sel = array();

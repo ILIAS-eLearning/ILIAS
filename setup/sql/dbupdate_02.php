@@ -3923,3 +3923,61 @@ ALTER TABLE il_wiki_data ADD COLUMN rating TINYINT DEFAULT 0;
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1210>
+DROP TABLE IF EXISTS `grp_settings`;
+CREATE TABLE `grp_settings` (
+  `obj_id` int(11) NOT NULL,
+  `information` text NOT NULL,
+  `grp_type` tinyint(1) NOT NULL,
+  `registration_type` tinyint(1) NOT NULL,
+  `registration_enabled` tinyint(1) NOT NULL,
+  `registration_unlimited` tinyint(1) NOT NULL,
+  `registration_start` datetime NOT NULL,
+  `registration_end` datetime NOT NULL,
+  `registration_password` char(32)  NOT NULL,
+  `registration_max_members` int(4) NOT NULL,
+  `waiting_list` tinyint(1) NOT NULL,
+  `latitude` varchar(30) NOT NULL,
+  `longitude` varchar(30) NOT NULL,
+  `location_zoom` int(11) NOT NULL,
+  `enablemap` tinyint(4) NOT NULL,
+  PRIMARY KEY  (`obj_id`)
+) Type=MyISAM;
+
+<#1211>
+<?php
+// Migrate existing groups
+$query = "SELECT * FROM grp_data ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$unlimited = ($row->expiration == '0000-00-00 00:00:00' ? 1 : 0);
+	
+	if($unlimited)
+	{
+		$start = '0000-00-00 00:00:00';
+	}
+	else
+	{
+		$start = '2002-01-01 00:00:00';
+	}
+	
+	$query = "INSERT INTO grp_settings ".
+		"SET obj_id = ".$ilDB->quote($row->grp_id).", ".
+		"information = '', ".
+		"grp_type = 0, ".
+		"registration_type = ".$ilDB->quote($row->register).", ".
+		"registration_enabled = 1, ".
+		"registration_unlimited = ".$unlimited.", ".
+		"registration_start = ".$ilDB->quote($start)." , ".
+		"registration_end = ".$ilDB->quote($row->expiration).", ".
+		"registration_password = ".$ilDB->quote($row->password).", ".
+		"registration_max_members = 0, ".
+		"waiting_list = 0, ".
+		"latitude = ".$ilDB->quote($row->latitude).", ".
+		"longitude = ".$this->db->quote($row->longitude).", ".
+		"location_zoom = ".$ilDB->quote($row->location_zoom).", ".
+		"enablemap = ".$ilDB->quote($row->enable_group_map)." ";
+	$ilDB->query($query);
+}
+?>

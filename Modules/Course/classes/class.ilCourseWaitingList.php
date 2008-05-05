@@ -21,164 +21,19 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('./Services/Membership/classes/class.ilWaitingList.php');
 
 /**
-* class ilobjcourse
+* Course waiting list
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * @version $Id$
 * 
-* @extends Object
+* @extends ilWaitingList
 */
 
-class ilCourseWaitingList
+class ilCourseWaitingList extends ilWaitingList
 {
-	private $db = null;
-	private $course_id = 0;
-	private $user_ids = array();
 	
-
-
-	function ilCourseWaitingList($a_course_id)
-	{
-		global $ilDB;
-
-		$this->db = $ilDB;
-		$this->course_id = $a_course_id;
-
-		$this->__read();
-	}
-
-	function getCourseId()
-	{
-		return $this->course_id;
-	}
-
-	function addToList($a_usr_id)
-	{
-		global $ilDB;
-		
-		if($this->isOnList($a_usr_id))
-		{
-			return false;
-		}
-		$query = "INSERT INTO crs_waiting_list ".
-			"SET obj_id = ".$ilDB->quote($this->getCourseId()).", ".
-			"usr_id = ".$ilDB->quote($a_usr_id).", ".
-			"sub_time = ".$ilDB->quote(time())." ";
-
-		$this->db->query($query);
-		$this->__read();
-
-		return false;
-	}
-
-	function updateSubscriptionTime($a_usr_id,$a_subtime)
-	{
-		global $ilDB;
-		
-		$query = "UPDATE crs_waiting_list ".
-			"SET sub_time = ".$ilDB->quote($a_subtime)." ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($this->getCourseId())." ";
-
-		$this->db->query($query);
-
-		return true;
-	}
-
-	function removeFromList($a_usr_id)
-	{
-		global $ilDB;
-		
-		$query = "DELETE FROM crs_waiting_list ".
-			" WHERE obj_id = ".$ilDB->quote($this->getCourseId())." ".
-			" AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-
-		$this->db->query($query);
-		$this->__read();
-
-		return true;
-	}
-
-	function isOnList($a_usr_id)
-	{	
-		return isset($this->users[$a_usr_id]) ? true : false;
-	}
-
-	function getCountUsers()
-	{
-		return count($this->users);
-	}
-
-	function getPosition($a_usr_id)
-	{
-		return isset($this->users[$a_usr_id]) ? $this->users[$a_usr_id]['position'] : -1;
-	}
-
-	function getAllUsers()
-	{
-		return $this->users ? $this->users : array();
-	}
-	
-	function getUser($a_usr_id)
-	{
-		return isset($this->users[$a_usr_id]) ? $this->users[$a_usr_id] : false;
-	}
-	
-	/**
-	 * Get all user ids of users on waiting list
-	 *
-	 * 
-	 */
-	public function getUserIds()
-	{
-	 	return $this->user_ids ? $this->user_ids : array();
-	}
-
-
-	// PRIVATE
-	function __read()
-	{
-		global $ilDB;
-		
-		$this->users = array();
-
-		$query = "SELECT * FROM crs_waiting_list ".
-			"WHERE obj_id = ".$ilDB->quote($this->getCourseId())." ORDER BY sub_time";
-
-		$res = $this->db->query($query);
-		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			++$counter;
-			$this->users[$row->usr_id]['position']	= $counter;
-			$this->users[$row->usr_id]['time']		= $row->sub_time;
-			$this->users[$row->usr_id]['usr_id']	= $row->usr_id;
-			
-			$this->user_ids[] = $row->usr_id;
-		}
-		return true;
-	}
-
-	// Static
-	function _deleteAll($a_course_id)
-	{
-		global $ilDB;
-
-		$query = "DELETE FROM crs_waiting_list WHERE obj_id = ".$ilDB->quote($a_course_id)." ";
-		$ilDB->query($query);
-
-		return true;
-	}
-	function _deleteUser($a_usr_id)
-	{
-		global $ilDB;
-
-		$query = "DELETE FROM crs_waiting_list WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
-		$ilDB->query($query);
-
-		return true;
-	}
 }
 ?>

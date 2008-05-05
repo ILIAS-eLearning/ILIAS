@@ -77,6 +77,38 @@ class ilLearningProgress
 		}
 		return $progress ? $progress : array();
 	}
+	
+	/**
+	 * lookup progress for a specific object
+	 *
+	 * @access public
+	 * @param int obj_id
+	 * @return array of progress data 
+	 */
+	public static function _lookupProgressByObjId($a_obj_id)
+	{
+		include_once('./Services/Tracking/classes/class.ilChangeEvent.php');
+		
+		foreach(ilChangeEvent::_lookupReadEvents($a_obj_id) as $row)
+		{
+			if(isset($progress[$row['usr_id']]))
+			{
+				$progress[$row['usr_id']]['spent_seconds'] += $row['spent_seconds'];
+				$progress[$row['usr_id']]['read_count'] += $row['read_count'];
+				$progress[$row['usr_id']]['ts'] = max($row['ts'],$progress[$ow['usr_id']]['ts']);
+			}
+			else
+			{
+				$progress[$row['usr_id']]['spent_seconds'] = $row['spent_seconds'];
+				$progress[$row['usr_id']]['read_count'] = $row['read_count'];
+				$progress[$row['usr_id']]['ts'] = $row['ts'];
+				
+			}
+			$progress[$row['usr_id']]['usr_id'] = $row['usr_id'];
+			$progress[$row['usr_id']]['obj_id'] = $row['obj_id'];
+		}
+		return $progress ? $progress : array();
+	}
 
 	function _updateProgress($data)
 	{
