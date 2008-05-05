@@ -52,7 +52,7 @@ class ilCourseRegisterGUI
 	
 	function __construct($a_course_id)
 	{
-		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilObjDataCache;
+		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilObjDataCache,$ilUser;
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this,array("ref_id"));
@@ -63,7 +63,7 @@ class ilCourseRegisterGUI
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
 
-		$this->user_id = $ilias->account->getId();
+		$this->user_id = $ilUser->getId();
 
 		$this->course_id = $a_course_id;
 		$this->course_obj_id = $ilObjDataCache->lookupObjId($this->course_id);
@@ -189,10 +189,8 @@ class ilCourseRegisterGUI
 		switch($this->course_obj->getSubscriptionType())
 		{
 			case $this->course_obj->SUBSCRIPTION_DIRECT:
-				
-				$tmp_obj =& ilObjectFactory::getInstanceByObjId($this->user_id);
 
-				if($this->course_obj->members_obj->add($tmp_obj->getId(),IL_CRS_MEMBER))
+				if($this->course_obj->members_obj->add($this->user_id,IL_CRS_MEMBER))
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilUtil::sendInfo($this->lng->txt("crs_subscription_successful"),true);
@@ -226,14 +224,12 @@ class ilCourseRegisterGUI
 
 			case $this->course_obj->SUBSCRIPTION_PASSWORD:
 
-				$tmp_obj =& ilObjectFactory::getInstanceByObjId($this->user_id);
-
 				if($this->course_obj->getSubscriptionPassword() != $_POST["password"])
 				{
 					ilUtil::sendInfo($this->lng->txt("crs_password_not_valid"),true);
 					$this->showRegistrationForm();
 				}
-				else if($this->course_obj->members_obj->add($tmp_obj->getId(),IL_CRS_MEMBER))
+				else if($this->course_obj->members_obj->add($this->user_id,IL_CRS_MEMBER))
 				{
 					$this->course_obj->members_obj->sendNotification($this->course_obj->members_obj->NOTIFY_ADMINS,$this->user_id);
 					ilUtil::sendInfo($this->lng->txt("crs_subscription_successful"),true);

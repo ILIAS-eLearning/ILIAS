@@ -2154,7 +2154,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-
+		
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setTableWidth('60%');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -2176,7 +2176,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// Group type
 		$grp_type = new ilRadioGroupInputGUI($this->lng->txt('grp_typ'),'grp_type');
-		$grp_type->setValue($this->object->getGroupType());
+		$grp_type->setValue($this->object->getGroupType() ? $this->object->getGroupType() : $this->object->readGroupStatus());
 		$grp_type->setRequired(true);
 
 		// OPEN GROUP

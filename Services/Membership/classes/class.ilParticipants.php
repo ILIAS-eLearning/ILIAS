@@ -652,9 +652,9 @@ class ilParticipants
 	 */
 	function dropDesktopItem($a_usr_id)
 	{
-		if(ilObjUser::_isDesktopItem($a_usr_id, $this->course_ref_id,$this->type))
+		if(ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
 		{
-			ilObjUser::_dropDesktopItem($a_usr_id, $this->course_ref_id,$this->type);
+			ilObjUser::_dropDesktopItem($a_usr_id, $this->ref_id,$this->type);
 		}
 
 		return true;
@@ -710,19 +710,19 @@ class ilParticipants
 			switch(substr($title,0,8))
 			{
 				case 'il_crs_m':
-					$this->course_role_data[IL_CRS_MEMBER] = $role_id;
+					$this->role_data[IL_CRS_MEMBER] = $role_id;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->members = array_unique(array_merge($assigned,$this->members));
 					break;
 
 				case 'il_crs_a':
-					$this->course_role_data[IL_CRS_ADMIN] = $role_id;
+					$this->role_data[IL_CRS_ADMIN] = $role_id;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->admins = $rbacreview->assignedUsers($role_id);
 					break;
 		
 				case 'il_crs_t':
-					$this->course_role_data[IL_CRS_TUTOR] = $role_id;
+					$this->role_data[IL_CRS_TUTOR] = $role_id;
 					$this->participants = array_unique(array_merge($assigned = $rbacreview->assignedUsers($role_id),$this->participants));
 					$this->tutors = $rbacreview->assignedUsers($role_id);
 					break;
