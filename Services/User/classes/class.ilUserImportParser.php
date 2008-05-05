@@ -464,6 +464,8 @@ class ilUserImportParser extends ilSaxParser
 				break;
 
 			case "User":
+				$this->prefs = array();
+				$this->currentPrefKey = null;
 				$this->auth_mode_set = false;
 				$this->approve_date_set = false;
 				$this->time_limit_set = false;
@@ -549,6 +551,9 @@ class ilUserImportParser extends ilSaxParser
 				$this->userObj->setLatitude($a_attribs["latitude"]);
 				$this->userObj->setLongitude($a_attribs["longitude"]);
 				$this->userObj->setLocationZoom($a_attribs["zoom"]);
+				break;
+			case 'Pref':
+				$this->currentPrefKey = $a_attribs["key"];
 				break;
 
 		}
@@ -1097,6 +1102,15 @@ class ilUserImportParser extends ilSaxParser
 							// Set default prefs						
 							$this->userObj->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
 							$this->userObj->setPref('show_users_online',$ilSetting->get('show_users_online','y'));
+
+							if (count ($this->prefs)) 
+							{
+								foreach ($this->prefs as $key => $value)
+								{
+									$this->userObj->setPref($key, $value);
+								}
+							}
+							
 							
 							$this->userObj->writePrefs();
 
@@ -1233,6 +1247,15 @@ class ilUserImportParser extends ilSaxParser
 								$updateUser->setPref("skin", $this->userObj->getPref("skin"));
 								$updateUser->setPref("style", $this->userObj->getPref("style"));
 							}
+							
+							if (count ($this->prefs)) 
+							{
+								foreach ($this->prefs as $key => $value)
+								{
+									$updateUser->setPref($key, $value);
+								}
+							}
+							
 							$updateUser->writePrefs();
 							
 							$updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
@@ -1563,8 +1586,11 @@ class ilUserImportParser extends ilSaxParser
 					$this->userObj->setInstantMessengerId($this->current_messenger_type, $this->cdata);
 				}
 				break;
-
-
+			case 'Pref':
+				if ($this->currentPrefKey != null)
+					$this->prefs[$this->currentPrefKey] = trim($this->cdata);
+				$this->currentPrefKey = null;
+				break;
 		}
 	}
 
