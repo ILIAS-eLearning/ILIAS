@@ -999,7 +999,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			  	$xmlWriter->setObjects($data);
 
 				$xmlWriter->setAttachRoles ($attachRoles);
-				$xmlWriter->setAttachPreferences(false);
+				$xmlWriter->setAttachPreferences(true);
 				
 				if($xmlWriter->start())
 				{
