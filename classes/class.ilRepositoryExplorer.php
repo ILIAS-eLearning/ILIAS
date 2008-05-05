@@ -122,7 +122,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=view&ref_id=".$a_node_id;
 
 			case "chat":
-				return "chat.php?cmd=view&ref_id=".$a_node_id;
+				return "ilias.php?baseClass=ilChatPresentationGUI&cmd=view&ref_id=".$a_node_id;
 
 			case "fold":
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjfoldergui";

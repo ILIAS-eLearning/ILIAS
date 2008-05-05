@@ -29,13 +29,16 @@ define ("IL_PASSWD_CRYPT", "crypt");		// ILIAS 2 Password
 require_once "classes/class.ilObject.php";
 
 /**
-* user class for ilias
+* @defgroup ServicesUser Services/User
+*
+* User application class
 *
 * @author	Sascha Hofmann <saschahofmann@gmx.de>
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Peter Gabriel <pgabriel@databay.de>
 * @version	$Id$
 *
+* @ingroup ServicesUser
 */
 class ilObjUser extends ilObject
 {
@@ -2574,20 +2577,6 @@ class ilObjUser extends ilObject
 
 		}
 		return $result_data ? $result_data : array();
-	}
-
-	/**
-	 * STATIC METHOD
-	 * create a link to the object
-	 * This method used by class.ilSearchGUI.php to a link to the results
-	 * @param	int uniq id
-	 * @return array array('link','target')
-	 * @static
-	 * @access	public
-	 */
-	function _getLinkToObject($a_id)
-	{
-		return array("profile.php?user=".$a_id,"");
 	}
 
 	/*

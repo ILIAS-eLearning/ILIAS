@@ -3,6 +3,7 @@
 	id="chat">
 	<baseclasses>
 		<baseclass name="ilChatHandlerGUI" dir="classes" />
+		<baseclass name="ilChatPresentationGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="chat" class_name="Chat" dir="classes" default_pos="60" default_pres_pos="80"

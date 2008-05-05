@@ -172,7 +172,7 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$this->tpl->setVariable("CHAT_LOGFILE",$logfile);
 		$this->tpl->setVariable("CHAT_ALLOWED",$allowed);
 		$this->tpl->setVariable("SELECT_LEVEL",$this->__getLogLevelSelect($loglevel));
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
 		
 		return true;
 	}

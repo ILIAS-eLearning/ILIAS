@@ -283,7 +283,7 @@ class ilObjChat extends ilObject
 		}
 		$body .= "\n\n";
 		$body .= $lang->txt('chat_to_chat_body');
-		$body .= ': '.ILIAS_HTTP_PATH."/chat.php?room_id=".$room_id."&ref_id=".$this->getRefId();
+		$body .= ': '.ILIAS_HTTP_PATH."/ilias.php?baseClass=ilChatPresentationGUI&room_id=".$room_id."&ref_id=".$this->getRefId();
 
 		return $body;
 	}

@@ -35,7 +35,7 @@ require_once './Modules/Forum/classes/class.ilForumTopic.php';
 * $Id$
 *
 * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI
-* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI
+* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI
 *
 * @ingroup ModulesForum
 */
@@ -129,6 +129,12 @@ class ilObjForumGUI extends ilObjectGUI
 
 			case 'ilcolumngui':
 				$this->showThreadsObject();
+				break;
+
+			case 'ilpublicuserprofilegui':
+				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
 
 			default:
@@ -2512,7 +2518,6 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		
 		require_once './Modules/Forum/classes/class.ilForum.php';
-		require_once ('./Services/User/classes/class.ilObjUserGUI.php');
 		
 		$lng->loadLanguageModule('forum');
 		
@@ -2532,7 +2537,6 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_user_view.html',	'Modules/Forum');		
 		
 		$_GET['obj_id'] = $_GET['user'];
-		$user_gui = new ilObjUserGUI('', $_GET['user'], false, false);
 		
 		// count articles of user
 		if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
@@ -2544,7 +2548,13 @@ class ilObjForumGUI extends ilObjectGUI
 			$numPosts = $frm->countActiveUserArticles(addslashes($_GET['user']));	
 		}
 		$add = array($lng->txt('forums_posts') => $numPosts);
-		$user_gui->insertPublicProfile('USR_PROFILE', 'usr_profile', $add);
+		
+		//$user_gui = new ilObjUserGUI('', $_GET['user'], false, false);
+		//$user_gui->insertPublicProfile('USR_PROFILE', 'usr_profile', $add);
+		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+		$profile_gui = new ilPublicUserProfileGUI($_GET['user']);
+		$profile_gui->setAdditional($add);
+		$tpl->setVariable("USR_PROFILE", $profile_gui->getHTML());
 		
 		if ($_GET['backurl'])
 		{

@@ -3981,3 +3981,13 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 ?>
+<#1212>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1213>
+ALTER TABLE il_request_token ADD COLUMN session VARCHAR(100);
+<#1214>
+ALTER TABLE il_request_token ADD INDEX session (session);
+ALTER TABLE il_request_token ADD INDEX token (token);
+

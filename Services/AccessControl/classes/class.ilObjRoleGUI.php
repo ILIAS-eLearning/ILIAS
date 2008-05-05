@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -102,8 +102,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		if($this->ctrl->getTargetScript() == 'repository.php' ||
 			$this->ctrl->getTargetScript() == 'role.php' ||
 			$this->ctrl->getTargetScript() == 'fblm_edit.php' ||
-			$this->ctrl->getTargetScript() == 'chat.php' ||
 			strtolower($_GET["baseClass"]) == 'ilchathandlergui' ||
+			strtolower($_GET["baseClass"]) == 'ilchatpresentationgui' ||
 			strtolower($_GET["baseClass"]) == 'illmeditorgui' ||
 			strtolower($_GET["baseClass"]) == 'ilexercisehandlergui' ||
 			strtolower($_GET["baseClass"]) == 'illinkresourcehandlergui' ||
