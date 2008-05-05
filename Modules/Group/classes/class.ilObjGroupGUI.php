@@ -385,7 +385,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->setSubTabs("settings");
 		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->setSubTabActive('icon_settings');
+		$this->tabs_gui->setSubTabActive('grp_icon_settings');
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_edit_icons.html",'Modules/Group');
 		$this->showCustomIconsEditing();
@@ -1780,17 +1780,25 @@ class ilObjGroupGUI extends ilContainerGUI
 								 get_class($this));
 		}
 		
-		if ($rbacsystem->checkAccess('join',$this->object->getRefId())
-		   and !ilObjGroup::_isMember($ilUser->getId(),$this->object->getRefId()))
+		// parent tabs (all container: edit_permission, clipboard, trash
+		parent::getTabs($tabs_gui);
+
+		if($ilAccess->checkAccess('join','',$this->object->getRefId()) and
+			!$this->object->members_obj->isMember($ilUser->getId()))
 		{
 			$tabs_gui->addTarget("join",
 								 $this->ctrl->getLinkTarget($this, "join"), 
 								 'join',
 								 "");
 		}
-
-	// parent tabs (all container: edit_permission, clipboard, trash
-		parent::getTabs($tabs_gui);
+		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
+			$this->object->members_obj->isMember($ilUser->getId()))
+		{
+			$tabs_gui->addTarget("grp_tab_leave",
+								 $this->ctrl->getLinkTarget($this, "leaveGrp"), 
+								 '',
+								 "");
+		}
 	}
 
 
@@ -2172,8 +2180,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$grp_type->setRequired(true);
 
 		// OPEN GROUP
-		$opt_open = new ilRadioOption($this->lng->txt('grp_open'),GRP_TYPE_OPEN,$this->lng->txt('grp_open_info'));
-		$grp_type->addOption($opt_open);
+		#$opt_open = new ilRadioOption($this->lng->txt('grp_open'),GRP_TYPE_OPEN,$this->lng->txt('grp_open_info'));
+		#$grp_type->addOption($opt_open);
 		
 		
 		// PUBLIC GROUP
@@ -2376,7 +2384,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				// custom icon
 				if ($this->ilias->getSetting("custom_icons"))
 				{
-					$this->tabs_gui->addSubTabTarget("icon_settings",
+					$this->tabs_gui->addSubTabTarget("grp_icon_settings",
 													 $this->ctrl->getLinkTarget($this,'editGroupIcons'),
 													 "editGroupIcons", get_class($this));
 				}
