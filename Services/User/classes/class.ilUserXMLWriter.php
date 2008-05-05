@@ -45,6 +45,7 @@ class ilUserXMLWriter extends ilXmlWriter
 	var $users;
 	var $user_id = 0;
 	var $attachRoles = false;
+	var $attachPreferences = false;
 
 	/**
 	 * fields to be exported
@@ -284,9 +285,26 @@ class ilUserXMLWriter extends ilXmlWriter
 
 		$this->__addElement("Feedhash", $row["feed_hash"]);
 
+		if ($this->attachPreferences)
+			$this->__handlePreferences ($row["usr_id"]);
+		
 		$this->xmlEndTag('User');
 	}
 
+	
+	private function __handlePreferences ($user_id) 
+	{		
+		$prefs = ilObjUser::_getPreferences($user_id);
+		if (count($prefs))
+		{
+			$this->xmlStartTag("Prefs");
+			foreach ($prefs as $key => $value) 
+			{
+				$this->xmlElement("Pref", array("key" => $key), $value);	
+			}
+			$this->xmlEndTag("Prefs");
+		}
+	}
 
 	function __addElement ($tagname, $value, $attrs = null, $settingsname = null)
 	{
@@ -351,6 +369,17 @@ class ilUserXMLWriter extends ilXmlWriter
 		return false;
 	}
 
+	
+	/**
+	 * if set to true, all preferences of a user will be set
+	 *
+	 * @param bool $attachPrefs
+	 */
+	
+	public function setAttachPreferences ($attachPrefs) 
+	{
+		$this->attachPreferences = $attachPrefs;
+	}
 }
 
 

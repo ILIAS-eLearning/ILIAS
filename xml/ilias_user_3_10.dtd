@@ -24,7 +24,7 @@
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
 	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
 	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
-	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, ExternalAccount?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?, Feedhash?)>
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, ExternalAccount?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?, Feedhash?, Prefs?)>
 
 <!--
 Id is ILIAS ID or unique identifier for this xml file
@@ -125,3 +125,13 @@ Id is ILIAS ID or unique identifier for this xml file
 	zoom CDATA #REQUIRED
 >
 <!ELEMENT Feedhash (#PCDATA)>
+<!-- preferences store indivual settings like mail forwarding, hits per page, etc. -->
+<!-- each setting is identitied by a unique key -->
+<!-- up to now the following keys will be delivered -->
+<!-- 
+
+-->
+<!ELEMENT Prefs (Pref*)>
+<!ELEMENT Pref (#PCDATA)>
+<!ATTLIST Pref
+	key ID #REQUIRED>

@@ -999,7 +999,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			  	$xmlWriter->setObjects($data);
 
 				$xmlWriter->setAttachRoles ($attachRoles);
-
+				$xmlWriter->setAttachPreferences(false);
+				
 				if($xmlWriter->start())
 				{
 					return $xmlWriter->getXML();
@@ -1062,6 +1063,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$xmlWriter = new ilUserXMLWriter();
 		$xmlWriter->setAttachRoles($attachRoles);
+		$xmlWriter->setAttachPreferences(true);
+		
 		$xmlWriter->setObjects($data);
 
 		if($xmlWriter->start())
@@ -1212,6 +1215,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		 $xmlWriter = new ilUserXMLWriter();
 		 $xmlWriter->setAttachRoles($attach_roles);
+		 $xmlWriter->setAttachPreferences(true);
+		 
 		 $xmlWriter->setObjects($data);
 
 		 if($xmlWriter->start())
@@ -1288,6 +1293,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once './Services/User/classes/class.ilUserXMLWriter.php';
 		$xmlWriter = new ilUserXMLWriter();
 		$xmlWriter->setAttachRoles($attach_roles);
+		$xmlWriter->setAttachPreferences(true);
 		$xmlWriter->setObjects($data);
 
 		if($xmlWriter->start())

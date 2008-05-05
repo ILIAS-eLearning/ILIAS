@@ -1137,19 +1137,9 @@ class ilObjUser extends ilObject
 		{
 			$this->oldPrefs = $this->prefs;
 		}
-
-		$this->prefs = array();
-
-		$q = "SELECT * FROM usr_pref WHERE usr_id = ".
-			$ilDB->quote($this->id);
-		$r = $this->ilias->db->query($q);
-
-		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$this->prefs[$row["keyword"]] = $row["value"];
-		} // while
-
-		return $r->numRows();
+		
+		$this->prefs = ilObjUser::_getPreferences($this->id);
+		return count($prefs);
 	}
 
 	/**
@@ -4152,6 +4142,29 @@ class ilObjUser extends ilObject
 			$data[] = $row;
 		}
 		return $data;
+	}
+	
+	/**
+	 * get preferences for user 
+	 *
+	 * @param int $user_id
+	 * @return array of keys (pref_keys) and values
+	 */
+	public static function _getPreferences ($user_id)
+	{
+		global $ilDB;
+
+		$prefs = array();
+
+		$q = "SELECT * FROM usr_pref WHERE usr_id = ".$ilDB->quote($user_id);
+		$r = $ilDB->query($q);
+#echo $q;
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$prefs[$row["keyword"]] = $row["value"];
+		} // while
+
+		return $prefs;
 	}
 
 } // END class ilObjUser
