@@ -2176,7 +2176,17 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// Group type
 		$grp_type = new ilRadioGroupInputGUI($this->lng->txt('grp_typ'),'grp_type');
-		$grp_type->setValue($this->object->getGroupType() ? $this->object->getGroupType() : $this->object->readGroupStatus());
+		
+		if($a_mode == 'edit')
+		{
+			$type = ($this->object->getGroupType() ? $this->object->getGroupType() : $this->object->readGroupStatus());
+		}
+		else
+		{
+			$type = ($this->object->getGroupType() ? $this->object->getGroupType() : GRP_TYPE_PUBLIC);
+		}
+		
+		$grp_type->setValue($type);
 		$grp_type->setRequired(true);
 
 		// OPEN GROUP
