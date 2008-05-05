@@ -3610,8 +3610,8 @@ common#:#signature#:#Signatur
 common#:#size#:#Größe
 common#:#skin_style#:#Standard-Skin / -Style
 common#:#smtp#:#SMTP
-common#:#soap_user_administration_desc#:#Wenn eingeschaltet, können alle Benutzerzugänge über einen externen SOAP-Client verwaltet werden.
-common#:#soap_user_administration#:#Externe Benutzerverwaltung (SOAP)
+common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über die SOAP-Schnittstelle verwaltet werden.
+common#:#soap_user_administration#:#Administration via SOAP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#spacer#:#Trenner
 common#:#spl_add#:#Fragenpool hinzufügen
