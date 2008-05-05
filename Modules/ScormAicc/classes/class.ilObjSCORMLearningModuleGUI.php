@@ -435,16 +435,23 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$tbl->setTitle($this->lng->txt("cont_tracking_items"));
 		}
 		
+//		$tbl->setHeaderNames(array("",$this->lng->txt("name"), $this->lng->txt("last_access"),$this->lng->txt("status"), $this->lng->txt("attempts"), $this->lng->txt("version")  ));
 		$tbl->setHeaderNames(array("",$this->lng->txt("name"), $this->lng->txt("last_access"), $this->lng->txt("attempts"), $this->lng->txt("version")  ));
 
 
 		$header_params = $this->ctrl->getParameterArray($this, "showTrackingItems");
 				
-		$tbl->setColumnWidth(array("1%", "40%", "40%", "10%","10%"));
+		$tbl->setColumnWidth(array("1%", "35%", "20%", "15%","15%","15%"));
 			
-		$cols = array("","user_id","timestamp","attempts");
+	//	$cols = array("user_id","username","last_access","status","attempts","version");
+		$cols = array("user_id","username","last_access","attempts","version");
+	
 		$tbl->setHeaderVars($cols, $header_params);
 
+		//set defaults
+		$_GET["sort_order"] = $_GET["sort_order"] ? $_GET["sort_order"] : "asc";
+		$_GET["sort_by"] = $_GET["sort_by"] ? $_GET["sort_by"] : "username";
+		
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
@@ -452,7 +459,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 		
-		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+		$this->tpl->setVariable("COLUMN_COUNTS", 6);
 		
 		// delete button
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
@@ -500,6 +507,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$items = $this->object->getTrackedUsers($_SESSION["scorm_search_string"]);
 
 		$tbl->setMaxCount(count($items));
+		
+		$items  = ilUtil::sortArray($items ,$_GET["sort_by"],$_GET["sort_order"]);
 		$items = array_slice($items, $_GET["offset"], $_GET["limit"]);
 
 		$tbl->render();
@@ -510,12 +519,12 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			{		
 				if (ilObject::_exists($item["user_id"]) && ilObject::_lookUpType($item["user_id"])=="usr") 
 				{	
-					$user = new ilObjUser($item["user_id"]);
 				     $this->tpl->setCurrentBlock("tbl_content");
-				     $this->tpl->setVariable("VAL_USERNAME", $user->getLastname().", ".$user->getFirstname());
+				     $this->tpl->setVariable("VAL_USERNAME",$item["username"]);
 				     $this->tpl->setVariable("VAL_LAST", $item["last_access"]);
-				     $this->tpl->setVariable("VAL_ATTEMPT", $this->object->getAttemptsForUser($item["user_id"]));
-				     $this->tpl->setVariable("VAL_VERSION", $this->object->getModuleVersionForUser($item["user_id"]));
+				     $this->tpl->setVariable("VAL_ATTEMPT",$item["attempts"]);
+				     $this->tpl->setVariable("VAL_VERSION", $item["version"]);
+				   //  $this->tpl->setVariable("VAL_STATUS", $item["status"]);
 				     $this->ctrl->setParameter($this, "user_id", $item["user_id"]);
 				     $this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 				     $this->tpl->setVariable("LINK_ITEM",
@@ -542,33 +551,122 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		
 	}
 	
+	
 	function resetSearch() {
 		unset($_SESSION["scorm_search_string"]);
 		$this->ctrl->redirect($this, "showTrackingItems");
 	}
 	
 	
-	function deleteTrackingForUser()
-	{
-	 	global $ilDB, $ilUser;
-    
-	 	if (!isset($_POST["user"]))
-	 	{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
-	 	}
-    
-	 	foreach ($_POST["user"] as $user)
-	 	{
-   	 		$query = "DELETE FROM scorm_tracking WHERE".
-	 			" user_id = ".$ilDB->quote($user).
-	 			" AND obj_id = ".$ilDB->quote($this->object->getID());
-	 		$ret = $ilDB->query($query);
-	 		
-	 	}
-    
-	 	//$this->ctrl->saveParameter($this, "cdir");
-	 	$this->ctrl->redirect($this, "showTrackingItems");
-	}
+	/**
+		* display deletion confirmation screen
+		*/
+		function deleteTrackingForUser()
+		{
+			if(!isset($_POST["user"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			}
+			// SAVE POST VALUES
+			$_SESSION["scorm_user_delete"] = $_POST["user"];
+
+			unset($this->data);
+			$this->data["cols"] = array("type","title", "description");
+
+			foreach($_POST["user"] as $id)
+			{
+				if (ilObject::_exists($id) && ilObject::_lookUpType($id)=="usr" ) {	
+					$user = new ilObjUser($id);
+					$this->data["data"]["$id"] = array(
+						"type"		  => "sahs",
+						"title"       => $user->getLastname().", ".$user->getFirstname(),
+						"desc"        => $this->lng->txt("cont_tracking_data")
+					);
+				}
+			}
+
+			$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
+									  "confirmedDelete"  => $this->lng->txt("confirm"));
+
+			$this->getTemplateFile("confirm");
+
+			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
+
+			$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
+			// BEGIN TABLE HEADER
+			foreach ($this->data["cols"] as $key)
+			{
+				$this->tpl->setCurrentBlock("table_header");
+				$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+				$this->tpl->parseCurrentBlock();
+			}
+			// END TABLE HEADER
+
+			// BEGIN TABLE DATA
+			$counter = 0;
+
+			foreach($this->data["data"] as $key => $value)
+			{
+				// BEGIN TABLE CELL
+				foreach($value as $key => $cell_data)
+				{
+					$this->tpl->setCurrentBlock("table_cell");
+
+					// CREATE TEXT STRING
+					if($key == "type")
+					{
+						$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+					}
+					else
+					{
+						$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->parseCurrentBlock();
+				// END TABLE CELL
+			}
+			// END TABLE DATA
+
+			// BEGIN OPERATION_BTN
+			foreach($this->data["buttons"] as $name => $value)
+			{
+				$this->tpl->setCurrentBlock("operation_btn");
+				$this->tpl->setVariable("BTN_NAME",$name);
+				$this->tpl->setVariable("BTN_VALUE",$value);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		/**
+		* cancel deletion of export files
+		*/
+		function cancelDelete()
+		{
+			session_unregister("scorm_user_delete");
+			ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
+			$this->ctrl->redirect($this, "showTrackingItems");
+		}	
+
+		function confirmedDelete()
+		{
+		 	global $ilDB, $ilUser;
+
+
+		 	foreach ($_SESSION["scorm_user_delete"] as $user)
+		 	{
+	   	 		$query = "DELETE FROM scorm_tracking WHERE".
+		 			" user_id = ".$ilDB->quote($user).
+		 			" AND obj_id = ".$ilDB->quote($this->object->getID());
+		 		$ret = $ilDB->query($query);
+
+		 	}
+
+		 	$this->ctrl->redirect($this, "showTrackingItems");
+		}
 	
 	/**
 	* overwrite..jump back to trackingdata not parent

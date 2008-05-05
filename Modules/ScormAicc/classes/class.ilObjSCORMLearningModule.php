@@ -274,9 +274,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return $items;
 	}
 	
-	/**
-	* get all tracked items of current user
-	*/
+
 	function getTrackedUsers($a_search)
 	{
 		global $ilUser, $ilDB, $ilUser;
@@ -297,6 +295,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				
 			if (ilObject::_exists($sco_rec['user_id']) && ilObject::_lookUpType($sco_rec["user_id"])=="usr" ) {	
 				$user = new ilObjUser($sco_rec['user_id']);
+				//$sco_rec['status'] = $this->getStatusForUser($sco_rec["user_id"]);
+				$sco_rec['version'] = $this->getModuleVersionForUser($sco_rec["user_id"]);
+				$sco_rec['attempts'] = $this->getAttemptsForUser($sco_rec["user_id"]);
+				$sco_rec['username'] =  $user->getLastname().", ".$user->getFirstname();
 				if ($a_search != "" && (strpos(strtolower($user->getLastname()), strtolower($a_search)) !== false || strpos(strtolower($user->getFirstname()), strtolower($a_search)) !== false ) ) {
 					$items[] = $sco_rec;
 				} else if ($a_search == "") {
@@ -308,6 +310,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 		return $items;
 	}
+	
 	/**
 	* get number of atttempts for a certain user and package
 	*/
