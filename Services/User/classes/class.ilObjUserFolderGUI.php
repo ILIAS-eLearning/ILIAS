@@ -2891,7 +2891,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tabs_gui->setSubTabActive('user_defined_fields');
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_select_field_type.html');
-
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this,'chooseDefinitions'));
 		$this->tpl->setVariable("TXT_SELECT_TYPE",$this->lng->txt('add_new_user_defined_field'));
 		$this->tpl->setVariable("FIELD_TYPE",$this->lng->txt('field_type'));
 		$this->tpl->setVariable("TYPE_TEXT",ilUtil::formRadioButton(1,'field_type',UDF_TYPE_TEXT));
