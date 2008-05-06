@@ -1014,6 +1014,10 @@ class ilCtrl
 			$this->rtoken = md5(uniqid(rand(), true));
 			if (is_object($ilDB) && is_object($ilUser))
 			{
+				// IMPORTANT: Please do NOT try to move this implementation to a
+				// session basis. This will fail due to framesets that are used
+				// occasionally in ILIAS, e.g. in the chat, where multiple
+				// forms are loaded in different frames.
 				$ilDB->query("INSERT INTO il_request_token (user_id, token, session) VALUES ".
 					"(".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($this->rtoken).
 					",".$ilDB->quote(session_id()).")");
