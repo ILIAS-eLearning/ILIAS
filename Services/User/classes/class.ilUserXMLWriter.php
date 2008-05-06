@@ -46,6 +46,7 @@ class ilUserXMLWriter extends ilXmlWriter
 	var $user_id = 0;
 	var $attachRoles = false;
 	var $attachPreferences = false;
+	var $notExportablePrefs;
 
 	/**
 	 * fields to be exported
@@ -70,6 +71,13 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->ilias =& $ilias;
 		$this->user_id = $ilUser->getId();
 		$this->attachRoles = false;
+		
+		$this->notExportablePrefs = array(
+			"priv_feed_pass", "language", "style", "skin", 'ilPageEditor_HTMLMode',
+			 'ilPageEditor_JavaScript', 'ilPageEditor_MediaMode', 'tst_javascript', 
+			 'tst_lastquestiontype', 'tst_multiline_answers', 'tst_use_previous_answers',
+			'graphicalAnswerSetting' 				
+		);
 	}
 
 	function setAttachRoles ($value)
@@ -142,7 +150,8 @@ class ilUserXMLWriter extends ilXmlWriter
 		$attrs = array (
 			'Id' => "il_".IL_INST_ID."_usr_".$row["usr_id"],
 			'Language' => $row["language"],
-			'Action' => "Update");
+			'Action' => "Update"
+		);
 
 		$this->xmlStartTag("User", $attrs);
 
@@ -286,30 +295,40 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement("Feedhash", $row["feed_hash"]);
 
 		if ($this->attachPreferences)
-			$this->__handlePreferences ($row["usr_id"]);
+			$this->__handlePreferences ($row);
 		
 		$this->xmlEndTag('User');
 	}
 
 	
-	private function __handlePreferences ($user_id) 
+	private function __handlePreferences ($row) 
 	{		
-		$prefs = ilObjUser::_getPreferences($user_id);
+		$prefs = ilObjUser::_getPreferences($row["usr_id"]);
+		
+		include_once ("Services/Mail/classes/class.ilMailOptions.php");
+		$mailOptions = new ilMailOptions($row["usr_id"]);
+		$prefs["mail_incoming_type"] = $mailOptions->getIncomingType();		
 		if (count($prefs))
 		{
 			$this->xmlStartTag("Prefs");
 			foreach ($prefs as $key => $value) 
 			{
-				$this->xmlElement("Pref", array("key" => $key), $value);	
+				if ($this->__isPrefExportable($key))
+					$this->xmlElement("Pref", array("key" => $key), $value);	
 			}
 			$this->xmlEndTag("Prefs");
 		}
 	}
+	
+	private function __isPrefExportable($key) {
+		return !in_array($key, $this->notExportablePrefs);
+	}
 
-	function __addElement ($tagname, $value, $attrs = null, $settingsname = null)
+	function __addElement ($tagname, $value, $attrs = null, $settingsname = null, $requiredTag = false)
 	{
 		if ($this->canExport($tagname, $settingsname))
-			$this->xmlElement ($tagname, $attrs, $value);
+			if (strlen($value) > 0 || $requiredTag)
+				$this->xmlElement ($tagname, $attrs, $value);
 
 	}
 

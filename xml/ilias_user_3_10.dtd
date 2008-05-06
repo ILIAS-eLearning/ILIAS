@@ -1,4 +1,4 @@
-<!ENTITY UDFDefinitions SYSTEM "ilias_udf_definition_3_10.dtd">
+<!ENTITY % UDFDefinitions SYSTEM "ilias_udf_definition_3_10.dtd">
 <!-- include the reused dtd -->
 %UDFDefinitions;
 <!-- new elements defined here -->
@@ -45,6 +45,7 @@ Id is ILIAS ID or unique identifier for this xml file
 	Id CDATA #REQUIRED
 	Type (Global | Local) #REQUIRED
 	Action (%relationshipAction;) "Assign"
+	
 >
 
 <!-- personal picture -->
@@ -127,9 +128,31 @@ Id is ILIAS ID or unique identifier for this xml file
 <!ELEMENT Feedhash (#PCDATA)>
 <!-- preferences store indivual settings like mail forwarding, hits per page, etc. -->
 <!-- each setting is identitied by a unique key -->
-<!-- up to now the following keys will be delivered -->
+<!-- up to now the following keys will be delivered, they accept the values after the colon -->
 <!-- 
-
+hits_per_page: numeric, unlimited = 9999
+public_city: y,n
+public_country: y,n
+public_department: y,n
+public_email: y,n
+public_fax: y,n
+public_hobby: y,n
+public_institution: y,n
+public_matriculation: y,n
+public_phone: y,n
+public_phone_home: y,n
+public_phone_mobile: y,n
+public_phone_office: y,n
+public_profile: y,n
+public_street: y,n
+public_upload: y,n
+public_zip: y,n
+send_info_mails: y,n
+show_users_online: y,n, associated
+user_tz: must be valid timezone, e.g. Europe/Berlin
+mail_incoming_type: 0 (local), 1 (email), 2 (both)
+mail_signature: text
+mail_linebreak: numeric
 -->
 <!ELEMENT Prefs (Pref*)>
 <!ELEMENT Pref (#PCDATA)>
