@@ -243,7 +243,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
 		$rte->addPlugin("latex");
-		$rte->addButton("latex");
+		$rte->addButton("latex"); $rte->addButton("pastelatex");
 		include_once "./classes/class.ilObject.php";
 		$obj_id = $_GET["q_id"];
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
@@ -679,7 +679,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
 		$rte->addPlugin("latex");
-		$rte->addButton("latex");
+		$rte->addButton("latex"); $rte->addButton("pastelatex");
 		include_once "./classes/class.ilObject.php";
 		$obj_id = $_GET["q_id"];
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);

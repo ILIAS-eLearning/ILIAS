@@ -152,7 +152,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
 		$rte->addPlugin("latex");
-		$rte->addButton("latex");
+		$rte->addButton("latex"); $rte->addButton("pastelatex");
 		include_once "./classes/class.ilObject.php";
 		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
