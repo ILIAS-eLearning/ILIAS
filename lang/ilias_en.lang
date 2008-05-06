@@ -8089,7 +8089,7 @@ grp#:#grp_reg_direct#:#Direct Registration
 grp#:#grp_reg_direct_info#:#Direct registration.
 grp#:#grp_pass_request#:#Join With Group Password
 grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.
-grp#:#grp_reg_limit_time#:#Registration Perios
+grp#:#grp_reg_limit_time#:#Registration Period
 grp#:#grp_reg_limit_num#:#Maximum Of Users
 grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
 grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
