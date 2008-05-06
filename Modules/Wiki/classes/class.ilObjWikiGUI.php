@@ -643,6 +643,22 @@ class ilObjWikiGUI extends ilObjectGUI
 	}
 
 	/**
+	* Orphaned pages
+	*/
+	function orphanedPagesObject()
+	{
+		global $tpl;
+		
+		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
+		
+		$table_gui = new ilWikiPagesTableGUI($this, "orphanedPages",
+			$this->object->getId(), IL_WIKI_ORPHANED_PAGES);
+			
+		$this->setSideBlock();
+		$tpl->setContent($table_gui->getHTML());
+	}
+
+	/**
 	* Go to specific page
 	*
 	* @param	string	$a_page		page title
@@ -734,6 +750,26 @@ class ilObjWikiGUI extends ilObjectGUI
 			
 		$this->setSideBlock();
 		$tpl->setContent($table_gui->getHTML());
+	}
+	
+	/**
+	* Show printable view of a wiki page
+	*/
+	function printViewObject()
+	{
+		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
+		$page_gui = new ilWikiPageGUI($_GET["wpg_id"]);
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+
+		// determine target frames for internal links
+		$page_gui->setOutputMode("print");
+		$page_content = $page_gui->showPage();
+		$tpl->setVariable("CONTENT", $page_content);
+		$tpl->show(false);
+		exit;
 	}
 
 }

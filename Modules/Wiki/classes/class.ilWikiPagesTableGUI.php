@@ -27,6 +27,7 @@ define ("IL_WIKI_ALL_PAGES", "all");
 define ("IL_WIKI_NEW_PAGES", "new");
 define ("IL_WIKI_POPULAR_PAGES", "popular");
 define ("IL_WIKI_WHAT_LINKS_HERE", "what_links");
+define ("IL_WIKI_ORPHANED_PAGES", "orphaned");
 
 /**
 * TableGUI class for wiki pages table
@@ -63,6 +64,12 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 				$this->addColumn($lng->txt("wiki_page"), "", "50%");
 				$this->addColumn($lng->txt("wiki_page_hits"), "", "50%");
 				$this->setRowTemplate("tpl.table_row_wiki_popular_page.html",
+					"Modules/Wiki");
+				break;
+
+			case IL_WIKI_ORPHANED_PAGES:
+				$this->addColumn($lng->txt("wiki_page"), "", "100%");
+				$this->setRowTemplate("tpl.table_row_wiki_orphaned_page.html",
 					"Modules/Wiki");
 				break;
 
@@ -121,6 +128,10 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 				$this->setDefaultOrderField("cnt");
 				$this->setDefaultOrderDirection("desc");
 				$pages = ilWikiPage::getPopularPages($this->wiki_id);
+				break;
+				
+			case IL_WIKI_ORPHANED_PAGES:
+				$pages = ilWikiPage::getOrphanedPages($this->wiki_id);
 				break;
 		}
 
