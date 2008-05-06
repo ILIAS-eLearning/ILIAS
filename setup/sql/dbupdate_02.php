@@ -4002,3 +4002,31 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE page_object CHANGE user last_change_user INT;
 ALTER TABLE page_object ADD COLUMN create_user INT;
 
+<#1218>
+ALTER TABLE `crs_subscribers` ADD `subject` VARCHAR( 255 ) NOT NULL AFTER `obj_id`;
+
+<#1219>
+RENAME TABLE `crs_subscribers`  TO `il_subscribers`;
+
+<#1220>
+<?php
+$query = "SELECT *,UNIX_TIMESTAMP(application_date) AS unix FROM grp_registration ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO il_subscribers ".
+		"SET obj_id = ".$ilDB->quote($row->grp_id).", ".
+		"usr_id = ".$ilDB->quote($row->user_id).", ".
+		"sub_time = ".$ilDB->quote($row->unix).", ".
+		"subject = ".$ilDB->quote($row->subject)." ";
+	$ilDB->query($query);
+}
+?>
+
+<#1221>
+DROP TABLE grp_registration;
+
+<#1222>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

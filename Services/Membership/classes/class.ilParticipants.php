@@ -167,7 +167,7 @@ class ilParticipants
 
 		$ilDB->query($query);
 
-		$query = "DELETE FROM crs_subscribers ".
+		$query = "DELETE FROM il_subscribers ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)."";
 
 		$ilDB->query($query);
@@ -190,7 +190,7 @@ class ilParticipants
 		$query = "DELETE FROM crs_members WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 		$ilDB->query($query);
 
-		$query = "DELETE FROM crs_subscribers WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
+		$query = "DELETE FROM il_subscribers WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
 		$ilDB->query($query);
 
 		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
@@ -815,6 +815,327 @@ class ilParticipants
 			$res = $ilDB->query($query);
 			return $res->numRows() ? true : false;
 		}
+	}
+	
+	/**
+	 * get all subscribers
+	 *
+	 * @access public
+	 */
+	public function getSubscribers()
+	{
+		$this->readSubscribers();
+
+		return $this->subscribers;
+	}
+
+	
+	/**
+	 * get number of subscribers
+	 *
+	 * @access public
+	 */
+	public function getCountSubscribers()
+	{
+		return count($this->getSubscribers());
+	}
+
+	/**
+	 * get subscriber data
+	 *
+	 * @access public
+	 */
+	public function getSubscriberData($a_usr_id)
+	{
+		return $this->readSubscriberData($a_usr_id);
+	}
+
+
+
+	/**
+	 * Assign subscribers
+	 *
+	 * @access public
+	 */
+	public function assignSubscribers($a_usr_ids)
+	{
+		if(!is_array($a_usr_ids) or !count($a_usr_ids))
+		{
+			return false;
+		}
+		foreach($a_usr_ids as $id)
+		{
+			if(!$this->assignSubscriber($id))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Assign subscriber
+	 *
+	 * @access public
+	 */
+	public function assignSubscriber($a_usr_id)
+	{
+		global $ilErr;
+		
+		$ilErr->setMessage("");
+		if(!$this->isSubscriber($a_usr_id))
+		{
+			$ilErr->appendMessage($this->lng->txt("crs_user_notsubscribed"));
+
+			return false;
+		}
+		if($this->isAssigned($a_usr_id))
+		{
+			$tmp_obj = ilObjectFactory::getInstanceByObjId($a_usr_id);
+			$ilErr->appendMessage($tmp_obj->getLogin().": ".$this->lng->txt("crs_user_already_assigned"));
+
+			return false;
+		}
+
+		if(!$tmp_obj =& ilObjectFactory::getInstanceByObjId($a_usr_id))
+		{
+			$ilErr->appendMessage($this->lng->txt("crs_user_not_exists"));
+
+			return false;
+		}
+
+		// TODO: must be group or course member role
+		$this->add($tmp_obj->getId(),IL_CRS_MEMBER);
+		$this->deleteSubscriber($a_usr_id);
+
+		return true;
+	}
+
+	/**
+	 * Assign subscriber
+	 *
+	 * @access public
+	 */
+	public function autoFillSubscribers()
+	{
+		$this->readSubscribers();
+
+		$counter = 0;
+		foreach($this->subscribers as $subscriber)
+		{
+			if(!$this->assignSubscriber($subscriber))
+			{
+				continue;
+			}
+			else
+			{
+				// TODO: notification
+				#$this->sendNotification($this->NOTIFY_ACCEPT_SUBSCRIBER,$subscriber);
+			}
+			++$counter;
+		}
+
+		return $counter;
+	}
+
+	/**
+	 * Add subscriber
+	 *
+	 * @access public
+	 */
+	public function addSubscriber($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "INSERT INTO il_subscribers ".
+			" VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($this->obj_id).",'', ".$ilDB->quote(time()).")";
+		$res = $this->ilDB->query($query);
+
+		return true;
+	}
+
+
+	/**
+	 * Update subscription time
+	 *
+	 * @access public
+	 */
+	public function updateSubscriptionTime($a_usr_id,$a_subtime)
+	{
+		global $ilDB;
+
+		$query = "UPDATE il_subscribers ".
+			"SET sub_time = ".$ilDB->quote($a_subtime)." ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id)." ";
+
+		$ilDB->query($query);
+
+		return true;
+	}
+	
+	/**
+	 * update subject
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function updateSubject($a_usr_id,$a_subject)
+	{
+		global $ilDB;
+		
+		$query = "UPDATE il_subscribers ".
+			"SET subject = ".$ilDB->quote($a_subject)." ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id)." ";
+		$ilDB->query($query);
+		return true;
+	}
+
+	
+	/**
+	 * Delete subsciber
+	 *
+	 * @access public
+	 */
+	public function deleteSubscriber($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM il_subscribers ".
+			"WHERE usr_id = ".$a_usr_id." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id)." ";
+
+		$res = $ilDB->query($query);
+
+		return true;
+	}
+
+	
+	/**
+	 * Delete subscibers
+	 *
+	 * @access public
+	 */
+	public function deleteSubscribers($a_usr_ids)
+	{
+		global $ilErr;
+		
+		if(!is_array($a_usr_ids) or !count($a_usr_ids))
+		{
+			$ilErr->setMessage('');
+			$ilErr->appendMessage($this->lng->txt("no_usr_ids_given"));
+
+			return false;
+		}
+		foreach($a_usr_ids as $id)
+		{
+			if(!$this->deleteSubscriber($id))
+			{
+				$ilErr->appendMessage($this->lng->txt("error_delete_subscriber"));
+
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * check if is subscriber
+	 *
+	 * @access public
+	 */
+	public function isSubscriber($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM il_subscribers ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id)."";
+
+		$res = $ilDB->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * check if user is subscriber
+	 *
+	 * @access public
+	 * @static
+	 */
+	public static function _isSubscriber($a_obj_id,$a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM il_subscribers ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)."";
+
+		$res = $ilDB->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * read subscribers
+	 *
+	 * @access protected
+	 */
+	protected function readSubscribers()
+	{
+		global $ilDB;
+
+		$this->subscribers = array();
+
+		$query = "SELECT usr_id FROM il_subscribers ".
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
+			"ORDER BY sub_time ";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// DELETE SUBSCRIPTION IF USER HAS BEEN DELETED
+			if(!ilObjectFactory::getInstanceByObjId($row->usr_id,false))
+			{
+				$this->deleteSubscriber($row->usr_id);
+			}
+			$this->subscribers[] = $row->usr_id;
+		}
+		return true;
+	}
+
+	/**
+	 * read subscribers
+	 *
+	 * @access protected
+	 */
+	protected function readSubscriberData($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM il_subscribers ".
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id)."";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data["time"] = $row->sub_time;
+			$data["usr_id"] = $row->usr_id;
+			$data['subject'] = $row->subject;
+		}
+		return $data ? $data : array();
 	}
 }
 ?>

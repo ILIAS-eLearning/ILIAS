@@ -1230,11 +1230,6 @@ class ilObjUser extends ilObject
 		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
 		ilEventParticipants::_deleteByUser($this->getId());
 
-		// Delete group registrations
-		$q = "DELETE FROM grp_registration WHERE user_id= ".
-			$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
-
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
 
