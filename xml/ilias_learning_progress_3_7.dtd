@@ -3,8 +3,8 @@
 <!ELEMENT Header (#PCDATA)>
 <!ELEMENT Footer (#PCDATA)>
 
-<!-- Object info or filter
-<!ELEMENT Info (InfoHeader?,InfoBody?>
+<!-- Object info or filter -->
+<!ELEMENT Info (InfoHeader?,InfoBody?)>
 <!ELEMENT InfoHeader (#PCDATA)>
 <!ELEMENT InfoBody (InfoRow*)>
 <!ELEMENT InfoRow (InfoColumn+)>
@@ -29,4 +29,6 @@
 <!ELEMENT ItemInfo (ItemInfoName,ItemInfoValue)>
 <!ATTLIST ItemInfo
     Style CDATA #REQUIRED>
+<!ELEMENT ItemInfoName (#PCDATA)>    
+<!ELEMENT ItemInfoValue (#PCDATA)>
 

@@ -603,7 +603,7 @@ class ilUserImportParser extends ilSaxParser
 				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
-
+				$this->currentPrefKey = null;
 				// if we have an object id, store it
 				$this->user_id = -1;
 
@@ -658,6 +658,9 @@ class ilUserImportParser extends ilSaxParser
 					$this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"),"AuthMode","type",""));
 				}
 				break;
+			case 'Pref':
+				$this->currentPrefKey = $a_attribs["key"];
+				break; 
 
 		}
 	}
@@ -1107,13 +1110,21 @@ class ilUserImportParser extends ilSaxParser
 							{
 								foreach ($this->prefs as $key => $value)
 								{
-									$this->userObj->setPref($key, $value);
+									if ($key != "mail_incoming_type" && 
+									    $key != "mail_signature" &&
+									    $key != "mail_linebreak"
+									)
+									{
+									   $this->userObj->setPref($key, $value);
+									}
 								}
 							}
-							
-							
+														
 							$this->userObj->writePrefs();
 
+							// update mail preferences, to be extended
+							$this->updateMailPreferences($this->userObj->getId());
+							
 							if (is_array($this->personalPicture))
 							{
 								if (strlen($this->personalPicture["content"]))
@@ -1252,11 +1263,17 @@ class ilUserImportParser extends ilSaxParser
 							{
 								foreach ($this->prefs as $key => $value)
 								{
-									$updateUser->setPref($key, $value);
+									if ($key != "mail_incoming_type")
+									{
+									    $updateUser->setPref($key, $value);
+									}
 								}
 							}
-							
+																					
 							$updateUser->writePrefs();
+							
+							// update mail preferences, to be extended
+							$this->updateMailPreferences($updateUser->getId());
 							
 							$updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
 
@@ -1587,7 +1604,7 @@ class ilUserImportParser extends ilSaxParser
 				}
 				break;
 			case 'Pref':
-				if ($this->currentPrefKey != null)
+				if ($this->currentPrefKey != null && strlen(trim($this->cdata)) > 0)
 					$this->prefs[$this->currentPrefKey] = trim($this->cdata);
 				$this->currentPrefKey = null;
 				break;
@@ -1636,7 +1653,7 @@ class ilUserImportParser extends ilSaxParser
 				{
 					$this->logFailure("---",sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Login", "Insert"));
 				}
-
+				
 				switch ($this->action)
 				{
 					case "Insert" :
@@ -1958,6 +1975,10 @@ class ilUserImportParser extends ilSaxParser
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"iLincPasswd",$this->cdata));
 				}
 				break;
+			case "Pref":				
+				if ($this->currentPrefKey != null)
+					$this->verifyPref($this->currentPrefKey, $this->cdata);
+				$this->currentPrefKey == null;
 		}
 	}
 
@@ -2340,6 +2361,88 @@ class ilUserImportParser extends ilSaxParser
 		$requiredFields = $this->readRequiredFields();
 		$fieldname = strtolower(trim($fieldname));
 		return array_key_exists($fieldname, $requiredFields);
+	}
+	
+	private function verifyPref ($key, $value) {
+		switch ($key) {
+		    case 'mail_linebreak':
+			case 'hits_per_page': 
+				if (!is_numeric($value) || $value < 0)
+					$this->logFailure("---", "Positiv numeric value expected for preference hits_per_page.");
+				break;			
+			case 'language': 				
+			case 'skin': 
+			case 'style': 
+			case 'ilPageEditor_HTMLMode': 
+			case 'ilPageEditor_JavaScript': 
+			case 'ilPageEditor_MediaMode':
+			case 'tst_javascript': 
+			case 'tst_lastquestiontype': 
+			case 'tst_multiline_answers':
+			case 'tst_use_previous_answers':
+			case 'graphicalAnswerSetting': 
+			case 'priv_feed_pass': 
+				$this->logFailure("---", "Preference $key is not supported.");				
+				break;				
+			case 'public_city': 
+			case 'public_country':
+			case 'public_department':
+			case 'public_email':
+			case 'public_fax':
+			case 'public_hobby':
+			case 'public_institution':
+			case 'public_matriculation':
+			case 'public_phone':
+			case 'public_phone_home':
+			case 'public_phone_mobile':
+			case 'public_phone_office':
+			case 'public_profile':
+			case 'public_street':
+			case 'public_upload':
+			case 'public_zip':				
+			case 'send_info_mails':
+				if ($value != 'y' && $value != 'n')
+					$this->logFailure("---", "Value 'y' or 'n' expected for preference $key.");				
+				break;
+			case 'show_users_online':
+				if ($value != 'y' && $value != 'n' && value != 'associated')
+				 	$this->logFailure("---", "Value 'y' or 'n' or 'associated' expected for preference $key.");
+				break;
+			case 'mail_incoming_type':
+			    if (!in_array($value, array ("0","1","2")))
+			        $this->logFailure("---", 'Value "0" (LOCAL),"1" (EMAIL) or "2" (BOTH) expected for preference $key.');
+				break;
+			case 'mail_signature':
+			    break;
+			case 'user_tz': 
+				include_once('Services/Calendar/classes/class.ilTimeZone.php');
+				try {
+					$tz = ilTimeZone::_getInstance($value);
+				} catch (ilTimeZoneException $tze) {
+					$this->logFailure("---", "Invalid timezone $value detected for preference $key.");					
+				}
+				break;
+			default:
+			    $this->logFailure("---", "Preference $key is not supported.");				
+				break;	
+		}
+	}
+	
+	private function updateMailPreferences ($usr_id) {
+	    if (array_key_exists("mail_incoming_type", $this->prefs) || 
+	        array_key_exists("mail_signature", $this->prefs) ||
+	        array_key_exists("mail_linebreak", $this->prefs)
+	        )
+	    {
+	        include_once("Services/Mail/classes/class.ilMailOptions.php"); 
+	        $mailOptions = new ilMailOptions($usr_id);
+	        $mailOptions->updateOptions(    
+	            array_key_exists("mail_signature", $this->prefs) ? $this->prefs["mail_signature"] : $mailOptions->getSignature(),
+	            array_key_exists("mail_linebreak", $this->prefs) ? $this->prefs["mail_linebreak"] : $mailOptions->getLinebreak(),
+	            array_key_exists("mail_incoming_type", $this->prefs) ? $this->prefs["mail_incoming_type"] : $mailOptions->getIncomingType(),
+	            $mailOptions->getCronjobNotification()
+	         );
+	    }
 	}
 
 }
