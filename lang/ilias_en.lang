@@ -8079,3 +8079,32 @@ content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsman
 content#:#cont_new_module_added#:#New version of module uploaded successfully
 common#:#attempts#:#Attempts
 common#:#decrease_attempts#:#Attempts - 1 
+grp#:#grp_closed#:#Closed Group
+grp#:#grp_closed_info#:#Group is not visible for non-members.
+grp#:#grp_reg_disabled#:#No Registration Possible
+grp#:#grp_reg_disabled_info#:#Only group administrators can add users to the group.
+grp#:#grp_reg_request#:#Request Membership
+grp#:#grp_reg_request_info#:#Interested users can send a request/message to group administrator.
+grp#:#grp_reg_direct#:#Direct Registration
+grp#:#grp_reg_direct_info#:#Direct registration.
+grp#:#grp_pass_request#:#Join With Group Password
+grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.
+grp#:#grp_reg_limit_time#:#Registration Perios
+grp#:#grp_reg_limit_num#:#Maximum Of Users
+grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
+grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+grp#:#grp_waiting_list#:#Enable Waiting List
+grp#:#grp_reg_limit_num_info#:#Limited Registration Period
+grp#:#grp_reg_start#:#Registration Start:
+grp#:#grp_reg_end#:#Registration End:
+grp#:#grp_open#:#Open Group
+grp#:#grp_open_info#:#Non-members can see this group and join it directly..
+grp#:#grp_public#:#Public Group
+grp#:#grp_public_info#:#Group is visible for non-members but has special requirements to join it.
+grp#:#grp_typ#:#Group Type
+grp#:#grp_admins#:#Administrators
+grp#:#grp_members#:#Members
+grp#:#grp_selected_users#:#Selected Participants
+grp#:#grp_delete_member#:#Delete
+grp#:#grp_notification#:#Notification
+grp#:#grp_edit_members#:#Edit Participants

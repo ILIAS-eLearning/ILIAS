@@ -23,17 +23,19 @@
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
+
 /**
-*
+* GUI class for course/group subscriptions
+* 
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesGroup
+* @ingroup ServicesMembership 
 */
-
-class ilGroupParticipantsTableGUI extends ilTable2GUI
+class ilSubscriberTableGUI extends ilTable2GUI
 {
-	protected $type = 'admin';
+	protected $participants = null;
+	protected $subscribers = array();
 	
 	/**
 	 * Constructor
@@ -42,7 +44,7 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true)
+	public function __construct($a_parent_obj,$participants,$show_content = true)
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -50,38 +52,24 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('grp');
 	 	$this->ctrl = $ilCtrl;
 	 	
-	 	$this->type = $a_type; 
-	 	
-	 	include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-	 	$this->privacy = ilPrivacySettings::_getInstance();
-	 	
 		parent::__construct($a_parent_obj,'members');
 
-		$this->setFormName('participants');
+		$this->setFormName('subscribers');
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj,'members'));
 
 	 	$this->addColumn('','f',"1");
-	 	$this->addColumn($this->lng->txt('lastname'),'lastname','20%');
+	 	$this->addColumn($this->lng->txt('lastname'),'name','20%');
 	 	$this->addColumn($this->lng->txt('login'),'login','25%');
+	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"15%");
+		$this->addColumn($this->lng->txt('subject'),'subject');
+		
+		$this->addMultiCommand('assignSubscribers',$this->lng->txt('assign'));
+		$this->addMultiCommand('refuseSubscribers',$this->lng->txt('refuse'));
+		
 
-	 	if($this->privacy->enabledAccessTimes())
-	 	{
-		 	$this->addColumn($this->lng->txt('last_access'),'access_time');
-	 	}
-		if($this->type == 'admin')
-		{
-			$this->setPrefix('admin');
-			$this->setSelectAllCheckbox('admins');
-		 	$this->addColumn($this->lng->txt('grp_notification'),'notification');
-			$this->addCommandButton('updateStatus',$this->lng->txt('save'));
-		}
-		else
-		{
-			$this->setPrefix('member');
-			$this->setSelectAllCheckbox('members');
-		}
-	 	$this->addColumn($this->lng->txt(''),'optional');
-	 	
-		$this->setRowTemplate("tpl.show_participants_row.html","Modules/Group");
+		$this->setPrefix('subscribers');
+		$this->setSelectAllCheckbox('subscribers');
+		$this->setRowTemplate("tpl.show_subscribers_row.html","Services/Membership");
 		
 		if($show_content)
 		{
@@ -97,7 +85,22 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 			$this->disable('footer');
 			$this->disable('numinfo');
 			$this->disable('select_all');
-		}		
+		}	
+		
+		$this->participants = $participants;
+	}
+	
+	/**
+	 * set subscribers
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function setSubscribers($a_sub)
+	{
+		$this->subscribers = $a_sub;
+		$this->readSubscriberData();
 	}
 	
 	/**
@@ -111,32 +114,44 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 	{
 		global $ilUser;
 		
-		$this->tpl->setVariable('VAL_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_NAME',$a_set['lastname'].', '.$a_set['firstname']);
-		
-		if($this->privacy->enabledAccessTimes())
-		{
-			$this->tpl->setVariable('VAL_ACCESS',$a_set['access_time']);
-		}
-		if($this->type == 'admin')
-		{
-			$this->tpl->setVariable('VAL_POSTNAME','admins');
-			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
-		}
-		else
-		{
-			$this->tpl->setVariable('VAL_POSTNAME','members');
-		}
-		
-		$this->ctrl->setParameter($this->parent_obj,'member_id',$a_set['usr_id']);
-		$this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this->parent_obj,'editMember'));
-		$this->tpl->setVariable('LINK_TXT',$this->lng->txt('edit'));
-		$this->ctrl->clearParameters($this->parent_obj);
-		
+				
+		$this->tpl->setVariable('VAL_ID',$a_set['id']);
+		$this->tpl->setVariable('VAL_NAME',$a_set['name']);
+		$this->tpl->setVariable('VAL_SUBTIME',ilFormat::formatUnixTime($a_set['sub_time'],true));
 		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
-
+		
+		if(strlen($a_set['subject']))
+		{
+			$this->tpl->setVariable('VAL_SUBJECT','"'.$a_set['subject'].'"');
+			
+		}
+	}
 	
+	/**
+	 * read data
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	public function readSubscriberData()
+	{
+		foreach($this->subscribers as $usr_id)
+		{
+			
+			$data = $this->participants->getSubscriberData($usr_id);
+			
+			$tmp_arr['id'] = $usr_id;
+			$tmp_arr['sub_time'] = $data['time'];
+			$tmp_arr['subject'] = $data['subject'];
+			
+			$name = ilObjUser::_lookupName($usr_id);
+			$tmp_arr['name'] = $name['lastname'].', '.$name['firstname'];
+			$tmp_arr['login'] = '['.ilObjUser::_lookupLogin($usr_id).']';
+			
+			$subscribers[] = $tmp_arr;
+		}
+		$this->setData($subscribers ? $subscribers : array());
 	}
 	
 }

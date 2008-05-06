@@ -8050,3 +8050,9 @@ grp#:#grp_open_info#:#Die Gruppe und dessen Inhalt ist für Nicht-Mitglieder sic
 grp#:#grp_public#:#Öffentliche Gruppe
 grp#:#grp_public_info#:#Die Gruppe ist für Nicht-Mitglieder sichtbar, es gelten jedoch besondere Regelungen, um die Mitgliedschaft zu erlangen.
 grp#:#grp_typ#:#Art der Gruppe
+grp#:#grp_admins#:#Administratoren
+grp#:#grp_members#:#Mitglieder
+grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
+grp#:#grp_delete_member#:#Löschen
+grp#:#grp_notification#:#Benachrichtigung
+grp#:#grp_edit_members#:#Teilnehmerverwaltung

@@ -764,41 +764,6 @@ class ilObjGroup extends ilContainer
 		}
 	}
 
-	/**
-	* displays list of applicants
-	* @access	public
-	*/
-	function getNewRegistrations()
-	{
-		global $ilDB;
-		
-		$appList = array();
-		$q = "SELECT * FROM grp_registration WHERE grp_id=".$ilDB->quote($this->getId());
-		$res = $this->ilias->db->query($q);
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if (ilObject::_exists($row->user_id) &&
-				ilObject::_lookupType($row->user_id) == "usr")
-			{
-				array_push($appList,$row);
-			}
-		}
-
-		return ($appList) ? $appList : false;
-	}
-
-	/**
-	* deletes an Entry from application list
-	* @access	public
-	*/
-	function deleteApplicationListEntry($a_userId)
-	{
-		global $ilDB;
-
-		$q = "DELETE FROM grp_registration WHERE user_id=".
-			$ilDB->quote($a_userId)." AND grp_id=".$ilDB->quote($this->getId());
-		$res = $this->ilias->db->query($q);
-	}
 
 	/**
 	* is called when a member decides to leave group
