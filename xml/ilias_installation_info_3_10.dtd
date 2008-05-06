@@ -1,7 +1,7 @@
 <!-- this dtd describes a list of ilias clients -->
 
-<!ENTITY % AdvancedMetaDataRecords SYSTEM "ilias_advanced_meta_data_records_3_9.dtd">
-<!ENTITY % UDFDefinitions SYSTEM "ilias_udf_definition_3_10.dtd">
+<!ENTITY AdvancedMetaDataRecords SYSTEM "ilias_advanced_meta_data_records_3_9.dtd">
+<!ENTITY UDFDefinitions SYSTEM "ilias_udf_definition_3_10.dtd">
 <!-- include the reused dtd -->
 %UDFDefinitions;
 %AdvancedMetaDataRecords;
