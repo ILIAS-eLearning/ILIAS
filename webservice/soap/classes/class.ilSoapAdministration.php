@@ -361,6 +361,7 @@ class ilSoapAdministration
 		$settings->description = $ilClientIniFile->readVariable("client","description");
 		$settings->session = min((int) ini_get("session.gc_maxlifetime"), (int) $ilClientIniFile->readVariable("session","expire"));
 		$settings->language = $ilClientIniFile->readVariable("language","default");
+		$settings->clientid = pathinfo($client_dir, PATHINFO_FILENAME);
 		return $settings;
 	}
 }

@@ -108,11 +108,13 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$this->xmlStartTag("Client", 
 			array(
 				"inst_id" => $setting->get("inst_id"),
+				"id" => $setting->clientid,
 				"enabled" => $setting->access == 1 ? "TRUE" : "FALSE",
 				"path" => $setting->httpPath,
-				"default_lang" => $setting->language 			
+				"default_lang" => $setting->language,
+			    
 			));
-		$this->xmlElement ("Id", null, $setting->get("inst_name"));
+		$this->xmlElement ("Name", null, $setting->get("inst_name"));
 		$this->xmlElement ("Description", null, $setting->description);
 		$this->xmlElement ("Institution", null, $setting->get("inst_institution"));
 		$this->xmlStartTag("Responsible");

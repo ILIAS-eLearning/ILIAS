@@ -14,14 +14,15 @@
 	version CDATA #REQUIRED>
 
 <!ELEMENT Clients (Client*)>	
-<!ELEMENT Client  (Id, Description, Institution, Settings, AdvancedMetaDataRecords, UDFDefinitions)>
+<!ELEMENT Client  (Name, Description, Institution, Settings, AdvancedMetaDataRecords, UDFDefinitions)>
 <!ATTLIST Client
 	inst_id CDATA #REQUIRED
+	id ID #REQUIRED
 	enabled (TRUE|FALSE) #REQUIRED
 	path	CDATA #REQUIRED
 	default_lang    CDATA #REQUIRED
 	>	
-<!ELEMENT Id (#PCDATA)>
+<!ELEMENT Name (#PCDATA)>
 <!ELEMENT Responsible (Firstname, Lastname, Title, Institution?, Position?, Email, Street, ZipCode, City, Country, Phone)>
 <!ELEMENT Firstname (#PCDATA)>
 <!ELEMENT Lastname (#PCDATA)>
