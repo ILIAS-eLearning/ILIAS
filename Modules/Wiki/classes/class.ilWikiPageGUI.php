@@ -22,6 +22,7 @@
 */
 
 include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 
 /**
 * Class ilWikiPage GUI class

@@ -157,6 +157,14 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "whatLinksHere"));
 			$tpl->setVariable("TXT_WHAT_LINKS_HERE", $lng->txt("wiki_what_links_here"));
 			$tpl->parseCurrentBlock();
+
+			// print view
+			$tpl->setCurrentBlock("print_view");
+			$tpl->setVariable("HREF_PRINT_VIEW",
+				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "printView"));
+			$tpl->setVariable("TXT_PRINT_VIEW", $lng->txt("wiki_print_view"));
+			$tpl->parseCurrentBlock();
+
 		}
 		
 		// start page
@@ -168,11 +176,6 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		$tpl->setVariable("HREF_RECENT_CHANGES",
 			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "recentChanges"));
 		$tpl->setVariable("TXT_RECENT_CHANGES", $lng->txt("wiki_recent_changes"));
-
-		// print view
-		$tpl->setVariable("HREF_PRINT_VIEW",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "printView"));
-		$tpl->setVariable("TXT_PRINT_VIEW", $lng->txt("wiki_print_view"));
 
 		// random page
 		$tpl->setVariable("HREF_RANDOM_PAGE",
@@ -194,10 +197,10 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "popularPages"));
 		$tpl->setVariable("TXT_POPULAR_PAGES", $lng->txt("wiki_popular_pages"));
 
-		// media list
-		$tpl->setVariable("HREF_MEDIA_LIST",
-			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "mediaList"));
-		$tpl->setVariable("TXT_MEDIA_LIST", $lng->txt("wiki_media_list"));
+		// orphaned pages
+		$tpl->setVariable("HREF_ORPHANED_PAGES",
+			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "orphanedPages"));
+		$tpl->setVariable("TXT_ORPHANED_PAGES", $lng->txt("wiki_orphaned_pages"));
 
 		$this->setDataSection($tpl->get());
 	}

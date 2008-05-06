@@ -375,5 +375,17 @@ class ilObjWiki extends ilObject
 		return $rec[$a_field];
 	}
 	
+	/**
+	* Lookup start page
+	*
+	* @param	int			$a_wiki_id		Wiki ID
+	*
+	* @return	boolean		Rating activated?
+	*/
+	static function _lookupStartPage($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "startpage");
+	}
+
 } // END class.ilObjWiki
 ?>

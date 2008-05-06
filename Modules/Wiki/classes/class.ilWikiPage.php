@@ -273,9 +273,7 @@ class ilWikiPage extends ilPageObject
 	}
 
 	/**
-	* Get all pages of wiki	
-	*
-	* @access	public
+	* Get links to a page	
 	*/
 	static function getLinksToPage($a_wiki_id, $a_page_id)
 	{
@@ -306,6 +304,49 @@ class ilWikiPage extends ilPageObject
 		}
 		
 		return $pages;
+	}
+
+	/**
+	* Get orphaned pages of wiki	
+	*
+	* @access	public
+	*/
+	static function getOrphanedPages($a_wiki_id)
+	{
+		global $ilDB;
+		
+		$pages = ilWikiPage::getAllPages($a_wiki_id);
+		
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		
+		$orphaned = array();
+		foreach ($pages as $k => $page)
+		{
+			$sources = ilInternalLink::_getSourcesOfTarget("wpg", $page["id"], 0);
+			
+			$ids = array();
+			foreach ($sources as $source)
+			{ 
+				if ($source["type"] == "wpg")
+				{
+					$ids[] = $source["id"];
+				}
+			}
+			// delete record of table il_wiki_data
+			$query = "SELECT count(*) AS cnt FROM il_wiki_page".
+				" WHERE id IN (".implode(",",ilUtil::quoteArray($ids)).")".
+				" AND wiki_id = ".$ilDB->quote($a_wiki_id).
+				" ORDER BY title";
+			$set = $ilDB->query($query);
+			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($rec["cnt"] == 0 &&
+				ilObjWiki::_lookupStartPage($a_wiki_id) != $page["title"])
+			{
+				$orphaned[] = $page;
+			}
+		}
+		
+		return $orphaned;
 	}
 
 	/**
