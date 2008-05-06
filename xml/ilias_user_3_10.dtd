@@ -1,4 +1,4 @@
-<!ENTITY % UDFDefinitions SYSTEM "ilias_udf_definition_3_10.dtd">
+<!ENTITY UDFDefinitions SYSTEM "ilias_udf_definition_3_10.dtd">
 <!-- include the reused dtd -->
 %UDFDefinitions;
 <!-- new elements defined here -->
