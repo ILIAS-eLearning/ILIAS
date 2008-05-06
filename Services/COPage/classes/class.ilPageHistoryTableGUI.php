@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -40,19 +40,15 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("content_page_history"));
 		
-		$this->addColumn("", "a", "1");
-		$this->addColumn("", "b", "1");
 		$this->addColumn("", "c", "1");
 		$this->addColumn("", "d", "1");
 		$this->addColumn($lng->txt("date"), "", "33%");
 		$this->addColumn($lng->txt("user"), "", "67%");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.page_history_row.html",
-			"Services/COPage");
+		$this->setRowTemplate("tpl.page_history_row.html", "Services/COPage");
 		$this->setDefaultOrderField("hdate");
 		$this->setDefaultOrderDirection("desc");
 		$this->addMultiCommand("compareVersion", $lng->txt("cont_page_compare"));
-		//$this->addCommandButton("compareVersion", $lng->txt("cont_page_compare"));
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 	}
 	
@@ -63,11 +59,10 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl, $ilAccess;
-		$this->tpl->setVariable("TXT_CUR", $lng->txt("content_current"));
-		$this->tpl->setVariable("TXT_LAST", $lng->txt("content_last"));
+
 		$this->tpl->setVariable("NR", $a_set["nr"]);
 		$this->tpl->setVariable("TXT_HDATE", $a_set["hdate"]);
-		
+
 		$ilCtrl->setParameter($this->getParentObject(), "old_nr", $a_set["nr"]);
 		$this->tpl->setVariable("HREF_OLD_PAGE",
 			$ilCtrl->getLinkTarget($this->getParentObject(), "preview"));
@@ -81,9 +76,13 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 				$user["lastname"].", ".$user["firstname"]." [".$login."]");
 				
 			// profile link
-			$ilCtrl->setParameterByClass("ilobjusergui", "user_id", $a_set["user"]);
+			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_set["user"]);
+			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+				rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
 			$this->tpl->setVariable("USER_LINK",
-				$ilCtrl->getLinkTargetByClass("ilobjusergui", "showUserProfile"));
+				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+			$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall", true);
+			$this->tpl->setVariable("IMG_USER", $img);
 		}
 			
 		$ilCtrl->setParameter($a_parent_obj, "old_nr", "");

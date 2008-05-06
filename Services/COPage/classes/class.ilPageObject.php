@@ -1143,7 +1143,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*/
 	function createFromXML()
 	{
-		global $lng, $ilDB;
+		global $lng, $ilDB, $ilUser;
 
 //echo "<br>PageObject::createFromXML[".$this->getId()."]";
 
@@ -1152,11 +1152,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$this->setXMLContent("<PageObject></PageObject>");
 		}
 		// create object
-		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type, created) VALUES ".
+		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type, create_user, last_change_user, created) VALUES ".
 			"(".$ilDB->quote($this->getId()).",".
 			$ilDB->quote($this->getParentId()).",".
 			$ilDB->quote($this->getXMLContent()).
-			", ".$ilDB->quote($this->getParentType()).", now())";
+			", ".$ilDB->quote($this->getParentType()).
+			", ".$ilDB->quote($ilUser->getId()).
+			", ".$ilDB->quote($ilUser->getId()).
+			", now())";
 
 		if(!$this->ilias->db->checkQuerySize($query))
 		{
@@ -1182,14 +1185,16 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*/
 	function updateFromXML()
 	{
-		global $lng, $ilDB;
+		global $lng, $ilDB, $ilUser;
+
 //echo "<br>PageObject::updateFromXML[".$this->getId()."]";
 //echo "update:".ilUtil::prepareDBString(($this->getXMLContent())).":<br>";
 //echo "update:".htmlentities(ilUtil::prepareDBString(($this->getXMLContent()))).":<br>";
 
 		$query = "UPDATE page_object ".
 			"SET content = ".$ilDB->quote($this->getXMLContent())." ".
-			", parent_id=".$ilDB->quote($this->getParentId())." ".
+			", parent_id = ".$ilDB->quote($this->getParentId())." ".
+			", last_change_user = ".$ilDB->quote($ilUser->getId())." ".
 			"WHERE page_id = ".$ilDB->quote($this->getId())." AND parent_type=".
 			$ilDB->quote($this->getParentType());
 
@@ -1265,7 +1270,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$query = "UPDATE page_object ".
 				"SET content = ".$ilDB->quote($content)." ".
 				", parent_id= ".$ilDB->quote($this->getParentId())." ".
-				", user= ".$ilDB->quote($ilUser->getId())." ".
+				", last_change_user= ".$ilDB->quote($ilUser->getId())." ".
 				" WHERE page_id = ".$ilDB->quote($this->getId()).
 				" AND parent_type= ".$ilDB->quote($this->getParentType());
 			if(!$this->ilias->db->checkQuerySize($query))
@@ -2471,7 +2476,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		global $ilDB;
 		
 		$page_changes = array();
-		
 		$q = "SELECT * FROM page_object ".
 			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
 			" AND parent_type = ".$ilDB->quote($a_parent_type).
@@ -2480,7 +2484,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		while($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$page_changes[] = array("date" => $page["last_change"],
-				"id" => $page["page_id"], "type" => "page");
+				"id" => $page["page_id"], "type" => "page",
+				"user" => $page["last_change_user"]);
 		}
 
 		$q = "SELECT * FROM page_history ".
@@ -2491,7 +2496,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		while ($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$page_changes[] = array("date" => $page["hdate"],
-				"id" => $page["page_id"], "type" => "hist");
+				"id" => $page["page_id"], "type" => "hist", "nr" => $page["nr"],
+				"user" => $page["user"]);
 		}
 		
 		$page_changes = ilUtil::sortArray($page_changes, "date", "desc");
@@ -2499,6 +2505,33 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $page_changes;
 	}
 	
+	/**
+	* Get all pages for parent object
+	*
+	* @param	string	$a_parent_type	Parent Type
+	* @param	int		$a_parent_id	Parent ID
+	* @param	int		$a_period		Time Period
+	*/
+	static function getAllPages($a_parent_type, $a_parent_id)
+	{
+		global $ilDB;
+		
+		$page_changes = array();
+		
+		$q = "SELECT * FROM page_object ".
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
+			" AND parent_type = ".$ilDB->quote($a_parent_type);
+		$set = $ilDB->query($q);
+		$pages = array();
+		while ($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$pages[$page["page_id"]] = array("date" => $page["last_change"],
+				"id" => $page["page_id"], "user" => $page["last_change_user"]);
+		}
+
+		return $pages;
+	}
+
 	/**
 	* Get new pages.
 	*
@@ -2521,7 +2554,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			if ($page["created"] != "0000-00-00 00:00:00")
 			{
 				$pages[] = array("created" => $page["created"],
-					"id" => $page["page_id"]);
+					"id" => $page["page_id"],
+					"user" => $page["create_user"],
+					);
 			}
 		}
 

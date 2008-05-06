@@ -254,16 +254,19 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 		
-		// delete record of table il_wiki_data
+		$pages = parent::getAllPages("wpg", $a_wiki_id);
+		
 		$query = "SELECT * FROM il_wiki_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
 			" ORDER BY title";
 		$set = $ilDB->query($query);
 		
-		$pages = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$pages[] = $rec;
+			if (isset($pages[$rec["id"]]))
+			{
+				$pages[$rec["id"]]["title"] = $rec["title"];
+			}
 		}
 		
 		return $pages;

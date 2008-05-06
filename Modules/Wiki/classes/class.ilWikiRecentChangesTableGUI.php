@@ -42,8 +42,10 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->wiki_id = $a_wiki_id;
 		
-		$this->addColumn("");
-		$this->setEnableHeader(false);
+		$this->addColumn($lng->txt("wiki_last_changed"), "", "33%");
+		$this->addColumn($lng->txt("wiki_page"), "", "33%");
+		$this->addColumn($lng->txt("wiki_last_changed_by"), "", "67%");
+		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_row_recent_changes.html",
 			"Modules/Wiki");
@@ -71,12 +73,34 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl;
-		
+
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$title = ilWikiPage::lookupTitle($a_set["id"]);
-		$this->tpl->setVariable("TXT_PAGE_TITLE", $title." (".$a_set["date"].") - ".$a_set["type"]);
+		$this->tpl->setVariable("TXT_PAGE_TITLE", $title);
+		$this->tpl->setVariable("DATE", $a_set["date"]);
+		$ilCtrl->setParameterByClass("ilwikipagegui", "page", rawurlencode($title));
+		$ilCtrl->setParameterByClass("ilwikipagegui", "old_nr", $a_set["nr"]);
 		$this->tpl->setVariable("HREF_PAGE",
-			$this->parent_obj->getGotoLink($title));
+			$ilCtrl->getLinkTargetByClass("ilwikipagegui", "preview"));
+
+		if (ilObject::_exists($a_set["user"]))
+		{
+			// user name
+			$user = ilObjUser::_lookupName($a_set["user"]);
+			$login = ilObjUser::_lookupLogin($a_set["user"]);
+			$this->tpl->setVariable("TXT_LINKED_USER",
+				$user["lastname"].", ".$user["firstname"]." [".$login."]");
+				
+			// profile link
+			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_set["user"]);
+			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+				rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
+			$this->tpl->setVariable("USER_LINK",
+				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+			$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall", true);
+			$this->tpl->setVariable("IMG_USER", $img);
+		}
+
 	}
 
 }

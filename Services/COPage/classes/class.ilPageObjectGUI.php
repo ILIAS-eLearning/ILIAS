@@ -45,7 +45,7 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
-* @ilCtrl_Calls ilPageObjectGUI: ilObjUserGUI
+* @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -640,6 +640,12 @@ class ilPageObjectGUI
 				$clip_gui->setPageBackTitle($this->page_back_title);
 				//$ret =& $clip_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($clip_gui);
+				break;
+				
+			case 'ilpublicuserprofilegui':
+				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
 
 			case "ilpageeditorgui":

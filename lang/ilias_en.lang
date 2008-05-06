@@ -1626,6 +1626,10 @@ wiki#:#wiki_short_title_desc#:#This title will be used in permanent links to the
 wiki#:#wiki_article#:#Article
 wiki#:#wiki_discussion#:#Discussion
 wiki#:#wiki_edit#:#Edit
+wiki#:#wiki_last_changed_by#:#Last Changed By
+wiki#:#wiki_created_by#:#Created By
+wiki#:#wiki_last_changed#:#Last Change
+wiki#:#wiki_page_hits#:#Page Hits
 wiki#:#wiki_history#:#History
 wiki#:#wiki_navigation#:#Navigation
 wiki#:#wiki_recent_changes#:#Recent Changes
@@ -1636,6 +1640,7 @@ wiki#:#wiki_all_pages#:#All Pages
 wiki#:#wiki_new_pages#:#New Pages
 wiki#:#wiki_popular_pages#:#Popular Pages
 wiki#:#wiki_media_list#:#Media List
+wiki#:#wiki_page#:#Page
 common#:#mcst#:#Mediacast
 common#:#obj_mcst#:#Mediacast
 common#:#objs_mcst#:#Mediacasts

@@ -39,6 +39,11 @@ class ilPublicUserProfileGUI
 	function __construct($a_user_id)
 	{
 		$this->setUserId($a_user_id);
+		
+		if ($_GET["back_url"] != "")
+		{
+			$this->setBackUrl($_GET["back_url"]);
+		}
 	}
 	
 	/**
@@ -102,6 +107,28 @@ class ilPublicUserProfileGUI
 	}
 
 	/**
+	* Set Back Link URL.
+	*
+	* @param	string	$a_backurl	Back Link URL
+	*/
+	function setBackUrl($a_backurl)
+	{
+		global $ilCtrl;
+		$this->backurl = $a_backurl;
+		$ilCtrl->setParameter($this, "back_url", rawurlencode($a_backurl));
+	}
+
+	/**
+	* Get Back Link URL.
+	*
+	* @return	string	Back Link URL
+	*/
+	function getBackUrl()
+	{
+		return $this->backurl;
+	}
+
+	/**
 	* Execute Command
 	*/
 	function executeCommand()
@@ -130,7 +157,17 @@ class ilPublicUserProfileGUI
 		}
 		$user = new ilObjUser($this->getUserId());
 		
-		$tpl = new ilTemplate("tpl.usr_public_profile.html", true, true);
+		$tpl = new ilTemplate("tpl.usr_public_profile.html", true, true,
+			"Services/User");
+			
+		// Back Link
+		if ($this->getBackUrl() != "")
+		{
+			$tpl->setCurrentBlock("back_url");
+			$tpl->setVariable("TXT_BACK", $lng->txt("back"));
+			$tpl->setVariable("HREF_BACK", $this->getBackUrl());
+			$tpl->parseCurrentBlock();
+		}
 		
 		if (!$this->getAsRows())
 		{
