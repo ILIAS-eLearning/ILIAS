@@ -30,7 +30,8 @@
 * 
 * @extends ilObjectGUI
 * 
-* @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI, ilInfoScreenGUI, ilRepositorySearchGUI, ilObjUserGUI
+* @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI, ilInfoScreenGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjiLincCourseGUI: ilPublicUserProfileGUI
 *
 */
 
@@ -1011,10 +1012,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
-			case 'ilobjusergui':
-				require_once './Services/User/classes/class.ilObjUserGUI.php';
-				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-				$html = $this->ctrl->forwardCommand($user_gui);
+			case 'ilpublicuserprofilegui':
+				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->__setSubTabs('members');
 				$this->tabs_gui->setTabActive('group_members');
 				$this->tabs_gui->setSubTabActive('grp_members_gallery');
@@ -2027,8 +2028,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$public_profile = $usr_obj->getPref("public_profile");
 
 				// SET LINK TARGET FOR USER PROFILE
-				$this->ctrl->setParameterByClass("ilobjusergui", "user", $member["id"]);
-				$profile_target = $this->ctrl->getLinkTargetByClass("ilobjusergui", "getPublicProfile");
+				$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user", $member["id"]);
+				$profile_target = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui","getHTML");
 			
 				// GET USER IMAGE
 				$file = $usr_obj->getPersonalPicturePath("xsmall");
@@ -2098,23 +2099,5 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	    exit;
 	}
 
-	function showProfileObject()
-	{
-		include_once './Services/User/classes/class.ilObjUserGUI.php';
-	    
-		$this->__setSubTabs('members');
-	    
-	    $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-	    
-	    // SHOW PUBLIC PROFILE OR WARNING IF NOT PUBLIC
-	    if (($out = $user_gui->getPublicProfile())!="")
-	  	{
-	      $this->tpl->setVariable("ADM_CONTENT","<center>".$out."</center>");
-	    }
-	    else 
-	    {
-	      ilUtil::sendInfo($this->lng->txt('public_profile_not_visible'));
-		}
-	}
 } // END class.ilObjiLincCourseGUI
 ?>

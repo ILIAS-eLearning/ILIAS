@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -31,7 +31,7 @@
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilObjUserGUI, ilMemberExportGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilEventAdministrationGUI, ilSessionOverviewGUI
 *
 * 
@@ -3532,8 +3532,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				$public_profile = $usr_obj->getPref("public_profile");
 				
 				// SET LINK TARGET FOR USER PROFILE
-				$this->ctrl->setParameterByClass("ilobjusergui", "user", $member["id"]);
-				$profile_target = $this->ctrl->getLinkTargetByClass("ilobjusergui","getPublicProfile");
+				$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user", $member["id"]);
+				$profile_target = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui","getHTML");
 			  
 				// GET USER IMAGE
 				$file = $usr_obj->getPersonalPicturePath("xsmall");
@@ -4480,10 +4480,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($course_content_obj);
 				break;
 
-			case 'ilobjusergui':
-				require_once './Services/User/classes/class.ilObjUserGUI.php';
-				$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
-				$html = $this->ctrl->forwardCommand($user_gui);
+			case 'ilpublicuserprofilegui':
+				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$html = $this->ctrl->forwardCommand($profile_gui);
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
 				$this->tabs_gui->setSubTabActive('crs_members_gallery');

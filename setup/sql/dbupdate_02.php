@@ -3990,4 +3990,8 @@ ALTER TABLE il_request_token ADD COLUMN session VARCHAR(100);
 <#1214>
 ALTER TABLE il_request_token ADD INDEX session (session);
 ALTER TABLE il_request_token ADD INDEX token (token);
+<#1215>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
