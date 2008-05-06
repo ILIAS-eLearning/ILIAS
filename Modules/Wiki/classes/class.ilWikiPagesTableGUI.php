@@ -49,11 +49,33 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 		$this->wiki_id = $a_wiki_id;
 		$this->page_id = $a_page_id;
 		
-		$this->addColumn("");
-		$this->setEnableHeader(false);
+		switch($this->pg_list_mode)
+		{
+			case IL_WIKI_NEW_PAGES:
+				$this->addColumn($lng->txt("created"), "", "33%");
+				$this->addColumn($lng->txt("wiki_page"), "", "33%");
+				$this->addColumn($lng->txt("wiki_created_by"), "", "34%");
+				$this->setRowTemplate("tpl.table_row_wiki_new_page.html",
+					"Modules/Wiki");
+				break;
+				
+			case IL_WIKI_POPULAR_PAGES:
+				$this->addColumn($lng->txt("wiki_page"), "", "50%");
+				$this->addColumn($lng->txt("wiki_page_hits"), "", "50%");
+				$this->setRowTemplate("tpl.table_row_wiki_popular_page.html",
+					"Modules/Wiki");
+				break;
+
+			default:
+				$this->addColumn($lng->txt("wiki_page"), "", "33%");
+				$this->addColumn($lng->txt("wiki_last_changed"), "", "33%");
+				$this->addColumn($lng->txt("wiki_last_changed_by"), "", "34%");
+				$this->setRowTemplate("tpl.table_row_wiki_page.html",
+					"Modules/Wiki");
+				break;
+		}
+		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.table_row_wiki_page.html",
-			"Modules/Wiki");
 		$this->getPages();
 		
 		switch($this->pg_list_mode)
@@ -115,18 +137,40 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 		
 		if ($this->pg_list_mode == IL_WIKI_NEW_PAGES)
 		{
-			$this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]." (".$a_set["created"].")");
+			$this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
+			$this->tpl->setVariable("DATE", $a_set["created"]);
 		}
 		else if ($this->pg_list_mode == IL_WIKI_POPULAR_PAGES)
 		{
-			$this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]." (".$a_set["cnt"].")");
+			$this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
+			$this->tpl->setVariable("HITS", $a_set["cnt"]);
 		}
 		else
 		{
 			$this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
+			$this->tpl->setVariable("DATE", $a_set["date"]);
 		}
 		$this->tpl->setVariable("HREF_PAGE",
 			$this->parent_obj->getGotoLink($a_set["title"]));
+
+		if (ilObject::_exists($a_set["user"]))
+		{
+			// user name
+			$user = ilObjUser::_lookupName($a_set["user"]);
+			$login = ilObjUser::_lookupLogin($a_set["user"]);
+			$this->tpl->setVariable("TXT_LINKED_USER",
+				$user["lastname"].", ".$user["firstname"]." [".$login."]");
+				
+			// profile link
+			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_set["user"]);
+			$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
+				rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
+			$this->tpl->setVariable("USER_LINK",
+				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+			$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall", true);
+			$this->tpl->setVariable("IMG_USER", $img);
+		}
+
 	}
 
 }

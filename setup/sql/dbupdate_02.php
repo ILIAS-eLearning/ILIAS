@@ -3994,4 +3994,11 @@ ALTER TABLE il_request_token ADD INDEX token (token);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1216>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1217>
+ALTER TABLE page_object CHANGE user last_change_user INT;
+ALTER TABLE page_object ADD COLUMN create_user INT;
 

@@ -58,17 +58,25 @@ class ilTable2GUI extends ilTableGUI
 	}
 	
 	/**
-	 * get parent object
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
+	* Get parent object
+	*
+	* @return	object		parent GUI object
+	*/
 	public function getParentObject()
 	{
 	 	return $this->parent_obj;
 	}
 	
+	/**
+	* Get parent command
+	*
+	* @return	string		get parent gui object default command
+	*/
+	public function getParentCmd()
+	{
+	 	return $this->parent_cmd;
+	}
+
 	/**
 	* Set text for an empty table.
 	*
@@ -418,16 +426,30 @@ class ilTable2GUI extends ilTableGUI
 	
 	final public function getHTML()
 	{
-		global $lng;
+		global $lng, $ilCtrl;
+		
+		$ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
 		
 		if(!$this->enabled['content'])
 		{
 			return $this->render();
 		}
-		
-		$this->nav_value = ($_POST[$this->getNavParameter()] != "")
-			? $_POST[$this->getNavParameter()]
-			: $_GET[$this->getNavParameter()];
+
+		if ($_POST[$this->getNavParameter()."1"] != "")
+		{
+			if ($_POST[$this->getNavParameter()."1"] != $_POST[$this->getNavParameter()])
+			{
+				$this->nav_value = $_POST[$this->getNavParameter()."1"];
+			}
+			else if ($_POST[$this->getNavParameter()."2"] != $_POST[$this->getNavParameter()])
+			{
+				$this->nav_value = $_POST[$this->getNavParameter()."2"];
+			}
+		}
+		else
+		{
+			$this->nav_value = $_GET[$this->getNavParameter()];
+		}
 		$nav = explode(":", $this->nav_value);
 		
 		// $nav[0] is order by
@@ -605,15 +627,14 @@ class ilTable2GUI extends ilTableGUI
 			
 			if ($this->lang_support)
 			{
-				$numinfo = "(".$this->lng->txt("dataset")." ".$start." - ".$end." ".strtolower($this->lng->txt("of"))." ".$this->max_count.")";
+				$numinfo = "(".$start." - ".$end." ".strtolower($this->lng->txt("of"))." ".$this->max_count.")";
 			}
 			else
 			{
-				$numinfo = "(Dataset ".$start." - ".$end." of ".$this->max_count.")";
+				$numinfo = "(".$start." - ".$end." of ".$this->max_count.")";
 			}
 			if ($this->max_count > 0)
 			{
-				//$numinfo = $this->lng->txt("no_datasets");
 				$this->tpl->setCurrentBlock("tbl_footer_numinfo");
 				$this->tpl->setVariable("NUMINFO", $numinfo);
 				$this->tpl->parseCurrentBlock();
@@ -630,7 +651,7 @@ class ilTable2GUI extends ilTableGUI
 							"prev"	=> $this->footer_previous,
 							"next"	=> $this->footer_next,
 							);
-			$linkbar = $this->getLinkbar();
+			$linkbar = $this->getLinkbar("1");
 			$this->tpl->setCurrentBlock("tbl_footer_linkbar");
 			$this->tpl->setVariable("LINKBAR", $linkbar);
 			$this->tpl->parseCurrentBlock();
@@ -642,6 +663,27 @@ class ilTable2GUI extends ilTableGUI
 			$this->tpl->setCurrentBlock("tbl_footer");
 			$this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());
 			$this->tpl->parseCurrentBlock();
+			
+			// top navigation, if number info or linkbar given
+			if ($numinfo != "" || $linkbar != "")
+			{
+				if ($numinfo != "")
+				{
+					$this->tpl->setCurrentBlock("top_numinfo");
+					$this->tpl->setVariable("NUMINFO", $numinfo);
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($linkbar != "")
+				{
+					$linkbar = $this->getLinkbar("2");
+					$this->tpl->setCurrentBlock("top_linkbar");
+					$this->tpl->setVariable("LINKBAR", $linkbar);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("top_navigation");
+				$this->tpl->setVariable("COLUMN_COUNT", $this->getColumnCount());
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 	
@@ -652,7 +694,7 @@ class ilTable2GUI extends ilTableGUI
 	*
 	* @return	array	linkbar or false on error
 	*/
-	function getLinkbar()
+	function getLinkbar($a_num)
 	{
 		global $ilCtrl, $lng;
 		
@@ -672,6 +714,17 @@ class ilTable2GUI extends ilTableGUI
 			{
 				$prevoffset = $this->getOffset() - $this->getLimit();
 				$LinkBar .= "<a class=\"small\" href=\"".$link.$prevoffset."\">".$layout_prev."&nbsp;</a>";
+			}
+			else
+			{
+				$LinkBar .= '<span class="il_BlockInfo">'.$layout_prev."&nbsp;</span>";
+			}
+			
+			// current value
+			if ($a_num == "1")
+			{
+				$LinkBar .= '<input type="hidden" name="'.$this->getNavParameter().
+					'" value="'.$this->getOrderField().":".$this->getOrderDirection().":".$this->getOffset().'" />';
 			}
 
 			// calculate number of pages
@@ -707,13 +760,18 @@ class ilTable2GUI extends ilTableGUI
 					$LinkBar .= "<span class=\"small\" > | </span>"; 
 				$newoffset = $this->getOffset() + $this->getLimit();
 				$LinkBar .= "<a class=\"small\" href=\"".$link.$newoffset."\">&nbsp;".$layout_next."</a>";
-
+			}
+			else
+			{
+				if ($LinkBar != "")
+					$LinkBar .= "<span class=\"small\" > | </span>"; 
+				$LinkBar .= '<span class="il_BlockInfo">&nbsp;'.$layout_next."</span>";
 			}
 			
 			if (count($offset_arr))
 			{				
 				$LinkBar .= "&nbsp;&nbsp;&nbsp;&nbsp;".ilUtil::formSelect($this->nav_value,
-					$this->getNavParameter(), $offset_arr, false, true, 0, "ilEditSelect").
+					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "ilEditSelect").
 					' <input class="ilEditSubmit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
 					$lng->txt("select_page").'"> ';
 			}

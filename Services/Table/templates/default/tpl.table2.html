@@ -13,6 +13,20 @@
     </th>
   </tr>
 <!-- END tbl_header_title -->
+<!-- BEGIN top_navigation -->
+  <tr class="tblfooter">
+    <td colspan="{COLUMN_COUNT}" class="tblfooter">
+	<div style="text-align:right;">
+		<!-- BEGIN top_numinfo -->
+		<span class="il_BlockInfo">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
+		<!-- END top_numinfo -->
+		<!-- BEGIN top_linkbar -->
+		{LINKBAR}
+		<!-- END top_linkbar -->
+	</div>
+	</td>
+  </tr>
+<!-- END top_navigation -->
 <!-- BEGIN tbl_header -->
   <tr class="tblheader">
 <!-- BEGIN tbl_header_th -->
@@ -56,17 +70,12 @@
 		<label for="{CHECKBOXNAME}">{SELECT_ALL_TXT_SELECT_ALL}</label>
 		<br />
 <!-- END select_all_checkbox -->
-	<div style="float:left;">
-		<!-- BEGIN tbl_footer_numinfo -->
-		{NUMINFO}
-		<!-- END tbl_footer_numinfo -->
-		<!-- BEGIN tbl_footer_info -->
-		<br /><font class="quote">{INFO_TEXT}</font>
-		<!-- END tbl_footer_info -->
-	</div>
 	<div style="text-align:right;">
+		<!-- BEGIN tbl_footer_numinfo -->
+		<span class="il_BlockInfo">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
+		<!-- END tbl_footer_numinfo -->
 		<!-- BEGIN tbl_footer_linkbar -->
-			{LINKBAR}
+		{LINKBAR}
 		<!-- END tbl_footer_linkbar -->
 	</div>
 	</td>

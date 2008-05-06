@@ -31,6 +31,7 @@ require_once "./classes/class.ilObjectGUI.php";
 * 
 * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
 * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -79,7 +80,14 @@ class ilObjWikiGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
 				$tpl->setContent($ret);
 				break;
-		
+
+			case 'ilpublicuserprofilegui':
+				require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
+				$profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+				$ret = $this->ctrl->forwardCommand($profile_gui);
+				$tpl->setContent($ret);
+				break;
+
 			default:
 				if(!$cmd)
 				{
