@@ -25,7 +25,7 @@ var TinyMCE_LatexPlugin = {
 	getInfo : function() {
 		return {
 			longname : 'LaTeX Plugin',
-			author : 'Helmut Schottmüller',
+			author : 'Helmut Schottm&uuml;ller',
 			authorurl : 'http://www.nasbrill-soft.de',
 			infourl : 'http://www.nasbrill-soft.de',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
@@ -40,32 +40,46 @@ var TinyMCE_LatexPlugin = {
 		switch (cn) {
 			case "latex":
 				return tinyMCE.getButtonHTML(cn, 'lang_latex_desc', '{$pluginurl}/images/latex.gif', 'mcelatex');
+
+			case "pastelatex":
+				return tinyMCE.getButtonHTML(cn, 'lang_latex_paste_desc', '{$pluginurl}/images/pastelatex.gif', 'mceLatexPaste', true);
 		}
 
 		return "";
 	},
 
-	execCommand : function(editor_id, element, command, user_interface, value) {
+	execCommand : function(editor_id, element, command, user_interface, value) { 
 		switch (command) {
 			case "mcelatex":
 				var anySelection = false;
 				var inst = tinyMCE.getInstanceById(editor_id);
 				var focusElm = inst.getFocusElement();
 				var selectedText = inst.selection.getSelectedText();
+				var template = new Array();
 
-				//if (tinyMCE.selectedElement)
-				//	anySelection = (tinyMCE.selectedElement.nodeName.toLowerCase() == "span") || (selectedText && selectedText.length > 0);
+				template['file']   = '../../plugins/latex/latex.php';
+				template['width']  = 600;
+				template['height'] = 300;
 
-				//if (anySelection || (focusElm != null && focusElm.nodeName.toLowerCase() == "span")) {
-					var template = new Array();
-
-					template['file']   = '../../plugins/latex/latex.php';
-					template['width']  = 600;
-					template['height'] = 300;
-
-					tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", resizable : "yes"});
-				//}
-
+				tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", resizable : "yes"});
+				return true;
+	
+			case "mceLatexPaste": 
+				if (user_interface) {
+					if ((tinyMCE.isMSIE && !tinyMCE.isOpera) && !tinyMCE.getParam('paste_use_dialog', false))
+						TinyMCE_LatexPlugin._insertLatex(clipboardData.getData("Text")); 
+					else { 
+						var template = new Array(); 
+						template['file']	= '../../plugins/latex/pastelatex.htm'; // Relative to theme 
+						template['width']  = 450; 
+						template['height'] = 400; 
+						var plain_text = ""; 
+						tinyMCE.openWindow(template, {editor_id : editor_id, plain_text: plain_text, resizable : "yes", scrollbars : "no", inline : "yes", mceDo : 'insert'}); 
+					}
+				} else
+				{
+					TinyMCE_LatexPlugin._insertLatex(value['html']);
+				}
 				return true;
 		}
 
@@ -75,24 +89,14 @@ var TinyMCE_LatexPlugin = {
 	handleNodeChange : function(editor_id, node, undo_index, undo_levels, visual_aid, any_selection) {
 			tinyMCE.switchClass(editor_id + '_latex', 'mceButtonNormal');
 			return true;
-		/*if (node == null)
-			return;
+	},
 
-		do {
-			if (node.nodeName.toLowerCase() == "span" && (tinyMCE.getAttrib(node, 'class') != "") && (tinyMCE.getAttrib(node, 'class') == "latex")) {
-				tinyMCE.switchClass(editor_id + '_latex', 'mceButtonSelected');
-				return true;
-			}
-		} while ((node = node.parentNode));
-
-		if (any_selection) {
-			tinyMCE.switchClass(editor_id + '_latex', 'mceButtonNormal');
-			return true;
+	_insertLatex : function(content) { 
+		if (content && content.length > 0) {
+			content = content.replace(new RegExp('\\$([^\\$]*)?\\$', 'g'), "<span class=\"latex\">$1</span>");
+			content = content.replace(new RegExp('\\\\', 'g'), "<br />");
+			tinyMCE.execCommand("mceInsertRawHTML", false, content); 
 		}
-
-		tinyMCE.switchClass(editor_id + '_latex', 'mceButtonDisabled');
-
-		return true;*/
 	}
 };
 
