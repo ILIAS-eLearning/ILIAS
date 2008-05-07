@@ -8109,3 +8109,18 @@ grp#:#grp_selected_users#:#Selected Participants
 grp#:#grp_delete_member#:#Delete
 grp#:#grp_notification#:#Notification
 grp#:#grp_edit_members#:#Edit Participants
+grp#:#grp_grp_info_reg#:#You can only register to one of these groups:
+common#:#mem_reg_period#:#Registration Period
+common#:#mem_start#:#Start
+common#:#mem_end#:#End
+common#:#mem_participants#:#Participants
+common#:#mem_max_users#:#Maximum of Users
+common#:#mem_free_places#:#Free Places
+common#:#mem_reg_type#:#Registration Type
+common#:#mem_reg_not_started#:#The registration has not started
+common#:#mem_waiting_list_position#:#Position on Waiting List
+common#:#mem_waiting_list#:#Users on Waiting List
+common#:#mem_alert_no_places#:#There are no free places available.
+common#:#mem_already_on_list#:#You are already subscribed to the waiting list.
+common#:#mem_reg_expired#:#The registration time is expired.
+common#:#mem_unlimited#:#Unlimited

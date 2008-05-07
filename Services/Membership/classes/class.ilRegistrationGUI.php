@@ -68,6 +68,7 @@ abstract class ilRegistrationGUI
 		$this->container = $a_container;
 		$this->ref_id = $this->container->getRefId();
 		$this->obj_id = ilObject::_lookupObjId($this->ref_id);
+		$this->type = ilObject::_lookupType($this->obj_id);
 		
 		// Init participants
 		$this->initParticipants();
@@ -147,6 +148,61 @@ abstract class ilRegistrationGUI
 	abstract protected function fillRegistrationType();
 	
 	/**
+	 * Show membership limitations
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function fillMembershipLimitation()
+	{
+		global $ilAccess;
+		
+		include_once('Modules/Course/classes/class.ilObjCourseGrouping.php');
+		if(!$items = ilObjCourseGrouping::_getGroupingItems($this->container))
+		{
+			return true;
+		}
+		
+		$mem = new ilCustomInputGUI($this->lng->txt('groupings'));
+		
+		$tpl = new ilTemplate('tpl.membership_limitation_form.html',true,true,'Services/Membership');
+		$tpl->setVariable('LIMIT_INTRO',$this->lng->txt($this->type.'_grp_info_reg'));
+		
+		foreach($items as $ref_id)
+		{
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			$type = ilObject::_lookupType($obj_id);
+			$title = ilObject::_lookupTitle($obj_id);
+			
+			if($ilAccess->checkAccess('visible','',$ref_id,$type))
+			{
+				include_once('./classes/class.ilLink.php');
+				$tpl->setVariable('LINK_ITEM','repository.php?ref_id='.$ref_id);
+				$tpl->setVariable('ITEM_LINKED_TITLE',$title);
+			}
+			else
+			{
+				$tpl->setVariable('ITEM_TITLE');
+			}
+			$tpl->setCurrentBlock('items');
+			$tpl->setVariable('TYPE_ICON',ilUtil::getTypeIconPath($type,$obj_id,'tiny'));
+			$tpl->setVariable('ALT_ICON',$this->lng->txt('obj_'.$type));
+			$tpl->parseCurrentBlock();
+		}
+		
+		$mem->setHtml($tpl->get());
+		
+		
+		if(!ilObjCourseGrouping::_checkGroupingDependencies($this->container))
+		{
+			$mem->setAlert($this->container->getMessage());
+			$this->enableRegistration(false);
+		}
+		$this->form->addItem($mem);
+	}
+	
+	
+	/**
 	 * cancel subscription
 	 *
 	 * @access public
@@ -222,6 +278,7 @@ abstract class ilRegistrationGUI
 		$this->form->setTitle($this->getFormTitle());
 		
 		$this->fillInformations();
+		$this->fillMembershipLimitation();
 		$this->fillRegistrationPeriod();
 		$this->fillMaxMembers();
 		$this->fillRegistrationType();

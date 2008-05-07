@@ -1727,7 +1727,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		parent::getTabs($tabs_gui);
 
 		if($ilAccess->checkAccess('join','',$this->object->getRefId()) and
-			!$this->object->members_obj->isMember($ilUser->getId()))
+			!$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
 			$tabs_gui->addTarget("join",
 								 $this->ctrl->getLinkTargetByClass('ilgroupregistrationgui', "show"), 
@@ -1735,7 +1735,7 @@ class ilObjGroupGUI extends ilContainerGUI
 								 "");
 		}
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
-			$this->object->members_obj->isMember($ilUser->getId()))
+			$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
 			$tabs_gui->addTarget("grp_tab_leave",
 								 $this->ctrl->getLinkTarget($this, "leaveGrp"), 

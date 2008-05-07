@@ -28,7 +28,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilNonEditableValueGUI extends ilFormPropertyGUI
+class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 {
 	protected $type;
 	protected $value;

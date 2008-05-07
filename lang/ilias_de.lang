@@ -8056,3 +8056,18 @@ grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
 grp#:#grp_delete_member#:#Löschen
 grp#:#grp_notification#:#Benachrichtigung
 grp#:#grp_edit_members#:#Teilnehmerverwaltung
+grp#:#grp_grp_info_reg#:#Die folgenden Gruppen unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einer dieser Gruppen beitreten:
+common#:#mem_reg_period#:#Anmeldungszeitraum
+common#:#mem_start#:#Anmeldungsbeginn:
+common#:#mem_end#:#Anmeldungsende:
+common#:#mem_participants#:#Teilnehmer
+common#:#mem_max_users#:#Maximale Teilnehmeranzahl:
+common#:#mem_free_places#:#Freie Plätze:
+common#:#mem_reg_type#:#Registrierungsart
+common#:#mem_reg_not_started#:#Die Anmeldung hat noch nicht begonnen.
+common#:#mem_waiting_list_position#:#Position auf der Warteliste
+common#:#mem_waiting_list#:#Personen auf der Warteliste:
+common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
+common#:#mem_already_on_list#:#Sie wurden bereits in die Warteliste aufgenommen.
+common#:#mem_reg_expired#:#Die Anmeldungszeit ist abgelaufen.
+common#:#mem_unlimited#:#Unbegrenzt

@@ -106,7 +106,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 
 		if($this->container->isRegistrationUnlimited())
 		{
-			$reg = new ilNonEditableValueGUI('mem_period');
+			$reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_period'));
 			$reg->setValue($this->lng->txt('mem_unlimited'));
 			$this->form->addItem($reg);
 			return true;
@@ -173,15 +173,16 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		
 		$tpl->setVariable('TXT_FREE',$this->lng->txt('mem_free_places'));
 		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
-		$tpl->setVariable('NUM_FREE',$free ? $free : $this->lng->txt('mem_no_places'));
+		$free = 0;
+		$tpl->setVariable('NUM_FREE',$free);
 
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 		$waiting_list = new ilGroupWaitingList($this->container->getId());
-		if($this->container->isWaitingListEnabled() and $waiting_list->getCountUsers())
+		if($this->container->isWaitingListEnabled() and (!$free or $waiting_list->getCountUsers()))
 		{
 			if($waiting_list->isOnList($ilUser->getId()))
 			{
-				$tpl->setVariable('TXT_WAIT',$this->lng->txt('mem_waiting_list_postition'));
+				$tpl->setVariable('TXT_WAIT',$this->lng->txt('mem_waiting_list_position'));
 				$tpl->setVariable('NUM_WAIT',$waiting_list->getPosition($ilUser->getId()));
 				
 			}
@@ -228,9 +229,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		switch($this->container->getRegistrationType())
 		{
 			case GRP_REGISTRATION_DEACTIVATED:
-				$reg = new ilNonEditableValueGUI($this->lng->txt('grp_info_reg'));
-				$reg->setValue($this->lng->txt('group_info_reg_deactivated'));
-				$reg->setAlert($this->lng->txt('grp_reg_alert_deactivated'));
+				$reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
+				$reg->setValue($this->lng->txt('grp_reg_disabled'));
+				$reg->setAlert($this->lng->txt('grp_reg_deactivated_alert'));
 				$this->form->addItem($reg);
 		
 				// Disable registration
@@ -239,30 +240,51 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				break;
 				
 			case GRP_REGISTRATION_PASSWORD:
-				$pass = new ilTextInputGUI($this->lng->txt('grp_info_reg'),'grp_passw');
+				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
+				$txt->setValue($this->lng->txt('grp_pass_request'));
+					
+
+				$pass = new ilTextInputGUI($this->lng->txt('passwd'),'grp_passw');
 				$pass->setInputType('password');
 				$pass->setSize(12);
 				$pass->setMaxLength(32);
-				$pass->setRequired(true);
-				$pass->setInfo($this->lng->txt('grp_reg_pass_info'));
-				$this->form->addItem($pass);
+				#$pass->setRequired(true);
+				$pass->setInfo($this->lng->txt('group_password_registration_msg'));
+				
+				$txt->addSubItem($pass);
+				$this->form->addItem($txt);
 				break;
 				
 			case GRP_REGISTRATION_REQUEST:
-				$sub = new ilTextAreaInputGUI($this->lng->txt('grp_info_reg'),'grp_subject');
+				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
+				$txt->setValue($this->lng->txt('grp_reg_request'));
+			
+				$sub = new ilTextAreaInputGUI($this->lng->txt('subject'),'grp_subject');
 				$sub->setValue($_POST['grp_subject']);
-				$sub->setInfo($this->lng->txt('grp_reg_app_info'));
+				#$sub->setInfo($this->lng->txt('grp_reg_direct_info'));
+				$sub->setCols(40);
+				$sub->setRows(5);
 				if($this->participants->isSubscriber($ilUser->getId()))
 				{
 					$sub->setAlert($this->lng->txt('grp_already_applied'));
 					$this->enableRegistration(false);					
 				}
-				$this->form->addItem($sub);
+				$txt->addSubItem($sub);
+				$this->form->addItem($txt);
 				break;
 				
+			case GRP_REGISTRATION_DIRECT:
+				$txt = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
+				$txt->setValue($this->lng->txt('group_req_direct'));
+				
+				$this->form->addItem($txt);
+				break;
+
 			default:
 				return true;
 		}
+		
+		return true;
 	}
 	
 	/**
