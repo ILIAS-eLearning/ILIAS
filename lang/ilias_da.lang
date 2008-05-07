@@ -79,13 +79,13 @@ administration#:#language_mode_existing_keepnew#:#Behold alle lokale ændringer
 administration#:#language_mode_existing_replace#:#Erstat eksisterende indgange
 administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and reimport them if needed.###23 08 2007 new variable
 administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.###23 08 2007 new variable
-administration#:#language_process_maintenance#:#Process Maintenance###23 08 2007 new variable
+administration#:#language_process_maintenance#:#Proces vedligeholdelse
 administration#:#language_save_local_changes#:#Gem alle ændringer i den lokale sprogfil
 administration#:#language_saved_local#:#Alle ændringer blev gemt i den lokale sprogfil
 administration#:#language_scope_commented#:#Med kommentarer fra sproghåndtering
-administration#:#language_scope_different#:#Forskelligt fra sammenligningssprog
-administration#:#language_scope_equal#:#Equal to compare language###23 08 2007 new variable
-administration#:#language_scope_global#:#All entries###23 08 2007 new variable
+administration#:#language_scope_different#:#Forskelligt fra sammenlignet sprog
+administration#:#language_scope_equal#:#Identisk med sammenlignet sprog
+administration#:#language_scope_global#:#Alle emner
 administration#:#language_scope_local#:#Kun lokale ændringer
 administration#:#language_scope_translate#:#All entries, empty for translation###23 08 2007 new variable
 administration#:#language_scope_unchanged#:#Kun uændrede indgange
@@ -336,12 +336,12 @@ common#:#assessment_log_user_answer#:#Bruger besvarede et spørgsmål
 common#:#assessment_log_user_answers#:#Vis brugeraktiviteter
 common#:#assessment_settings#:#Test & assessmentadministrationsindstillinger
 common#:#assessment_settings_reporting_language#:#Aktuelle sprog
-common#:#assessment_defaults#:#Default settings for Test & Assessment###29 05 2007 new variable
+common#:#assessment_defaults#:#Standard indstillinger for tests og vurderinger
 common#:#assessment_use_javascript#:#JavaScript for Drag & Drop###29 05 2007 new variable
 common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time###29 05 2007 new variable
-common#:#ass_log_output#:#Log Data Output###18 12 2006 new variable
-common#:#ass_log_admin#:#Log Data Administration###18 12 2006 new variable
-common#:#ass_log_count_datasets#:#Log Entries###18 12 2006 new variable
+common#:#ass_log_output#:#Log dataoutput
+common#:#ass_log_admin#:#Log dataadministration
+common#:#ass_log_count_datasets#:#Log emner
 common#:#ass_log_path#:#Test Location###18 12 2006 new variable
 common#:#ass_log_available_tests#:#Available Tests###18 12 2006 new variable
 common#:#ass_log_delete_entries#:#Delete Log Entries###18 12 2006 new variable
@@ -381,7 +381,7 @@ common#:#auth_cas_settings_saved#:#CAS settings saved
 common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_user_default_role_desc#:#Denne rolle tildeles automatisk CAS oprettede brugere.
 common#:#auth_configure#:#Konfigurer...
-common#:#auth_create_users#:#Create non-existing users automatically
+common#:#auth_create_users#:#Opret automatisk ikke-eksisterende brugere
 common#:#auth_default#:#Standardinstillinger
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
 common#:#auth_edit_permission#:#Rediger rettighedsindstillinger
@@ -398,7 +398,7 @@ common#:#auth_mode_not_changed#:#(intet er ændret)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
 common#:#auth_new_account_mail_desc#:#Send mail til bruger omkring den nye konto, hvis brugeren er automatisk oprettet. Der generes kun et password hvis "Tillad lokal autentificering" også er aktiveret.
 common#:#auth_per_default#:#Som standard
-common#:#auth_radius#:#RADIUS###21 Apr 2005 new variable
+common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
 common#:#auth_radius_desc#:#Verificer brugere via RADIUS-serveren
 common#:#auth_radius_enable#:#Tillad RADIUS support
