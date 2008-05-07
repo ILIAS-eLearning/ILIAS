@@ -8071,3 +8071,5 @@ common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
 common#:#mem_already_on_list#:#Sie wurden bereits in die Warteliste aufgenommen.
 common#:#mem_reg_expired#:#Die Anmeldungszeit ist abgelaufen.
 common#:#mem_unlimited#:#Unbegrenzt
+common#:#mail_attachments#:#Mailanhänge
+common#:#forum_attachments#:#Forumanhänge

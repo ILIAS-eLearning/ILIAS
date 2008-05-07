@@ -8124,3 +8124,5 @@ common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_already_on_list#:#You are already subscribed to the waiting list.
 common#:#mem_reg_expired#:#The registration time is expired.
 common#:#mem_unlimited#:#Unlimited
+common#:#mail_attachments#:#Mail attachments
+common#:#forum_attachments#:#Forum attachments
