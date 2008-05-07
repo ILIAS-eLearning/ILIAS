@@ -82,7 +82,10 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 	}		
 	function __createTitleWhereCondition()
 	{
-		$concat = ' CONCAT(title,coverage) ';
+		#$concat = ' CONCAT(title,coverage) '; // broken if coverage is null
+		// TODO: fix coverage search
+		$concat = ' title ';
+		
 		$where = " WHERE ";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)

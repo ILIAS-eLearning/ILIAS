@@ -379,6 +379,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$result_meta =& $this->__searchMeta($query_parser,'contribute');
 		$result->mergeEntries($result_meta);
 	
+		$result_meta =& $this->__searchMeta($query_parser,'title');
+		$result->mergeEntries($result_meta);
+	
+		$result_meta =& $this->__searchMeta($query_parser,'description');
+		$result->mergeEntries($result_meta);
+	
 		// Perform details search in object specific tables
 		if($this->getType() == SEARCH_DETAILS)
 		{
