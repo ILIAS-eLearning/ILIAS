@@ -421,29 +421,35 @@ class ilInfoScreenGUI
 
 		$this->addSection($lng->txt("description"));
 
-		// BEGIN ChangeEvent: Display standard object info
+		// BEGIN General: Display standard object info
+		$this->addProperty($lng->txt("create_date"), ilFormat::formatDate($a_obj->getCreateDate()));
+
+		global $ilUser;
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			if (ilObjUser::_lookupEmail($a_obj->getOwner()) === false)
+			{
+				$this->addProperty($lng->txt("owner"),$lng->txt('deleted_user_account'));
+			}
+			else
+			{
+				$ownerObj = new ilObjUser($a_obj->getOwner());
+				$this->addProperty($lng->txt("owner"),
+					$ownerObj->getFirstname().' '.
+					$ownerObj->getLastname().' '.
+					$ownerObj->getLogin(),
+					"./ilias.php?user=".$ownerObj->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+					);
+			}
+		}
+		// END General: Display standard object info
+
+		// BEGIN ChangeEvent: Display change event info
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		if (ilChangeEvent::_isActive())
 		{
-			global $ilUser;
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				if (ilObjUser::_lookupEmail($a_obj->getOwner()) === false)
-				{
-					$this->addProperty($lng->txt("owner"),$lng->txt('deleted_user_account'));
-				}
-				else
-				{
-					$ownerObj = new ilObjUser($a_obj->getOwner());
-					$this->addProperty($lng->txt("owner"),
-						$ownerObj->getFirstname().' '.
-						$ownerObj->getLastname().' '.
-						$ownerObj->getLogin(),
-						"./ilias.php?user=".$ownerObj->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
-						);
-				}
-
-				global $ilUser;
 				$readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
 				$count_users = 0;
 				$count_members = 0;
@@ -473,6 +479,8 @@ class ilInfoScreenGUI
 				$this->addProperty($this->lng->txt("accesscount_registered_users"),$count_users);
 			}
 		}
+		// END ChangeEvent: Display change event info
+
 		// BEGIN WebDAV: Display locking information
 		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
 		if (ilDAVServer::_isActive())
