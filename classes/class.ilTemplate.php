@@ -1202,6 +1202,7 @@ class ilTemplate extends ilTemplateX
 		{
 			require_once('Services/WebDAV/classes/class.ilDAVServer.php');
 			$davServer = new ilDAVServer();
+			$a_ref_id = $this->mount_webfolder;
 			$a_link =  $davServer->getMountURI($a_ref_id);
 			$a_folder = $davServer->getFolderURI($a_ref_id);
 			
