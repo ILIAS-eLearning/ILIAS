@@ -156,6 +156,15 @@ class ilObjFileListGUI extends ilObjectListGUI
 		// to do: implement extra smaller file info object
 		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
+
+		// Display a warning if filename extension is missing
+		if (! preg_match('/\\.[a-zA-Z0-9]+$/', $this->title))
+			{
+				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
+					"value" => $lng->txt("filename_extension_missing"),
+					'propertyNameVisible' => false);
+			} 
+
 		// BEGIN WebDAV: Only display relevant information.
 		$props[] = array("alert" => false, "property" => $lng->txt("type"),
 			"value" => ilObjFileAccess::_lookupSuffix($this->obj_id),

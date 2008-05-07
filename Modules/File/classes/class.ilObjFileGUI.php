@@ -350,7 +350,7 @@ class ilObjFileGUI extends ilObjectGUI
 				// If the file extension does not match the one in the title, append it to the title
 				$fileExtension = ilObjFileAccess::_getFileExtension($upload_file["name"]);
 				$titleExtension = ilObjFileAccess::_getFileExtension($title);
-				if ($titleExtension != $fileExtension)
+				if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
 				{
 					if (strlen($titleExtension) == 0)
 					{
@@ -458,7 +458,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$filename = empty($data["name"]["file"]) ? $this->object->getFileName() : $data["name"]["file"];
 		$fileExtension = ilObjFileAccess::_getFileExtension($filename);
 		$titleExtension = ilObjFileAccess::_getFileExtension($_POST['Fobject']['title']);
-		if ($titleExtension != $fileExtension)
+		if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
 		{
 				if (strlen($titleExtension) == 0)
 				{
