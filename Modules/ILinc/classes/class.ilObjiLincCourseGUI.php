@@ -1386,7 +1386,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		if (count($user_ids) == 1 and $this->ilias->account->getId() != $user_ids[0])
 		{
-			if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($iUser->getId())) 
+			if (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) 
 				and !in_array($this->ilias->account->getId(),$this->object->getAdminIds()))
 			{
 				$this->ilErr->raiseError($this->lng->txt("ilinc_err_no_permission"),$this->ilErr->MESSAGE);
