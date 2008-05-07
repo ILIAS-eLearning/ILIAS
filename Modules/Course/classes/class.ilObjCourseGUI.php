@@ -3516,14 +3516,18 @@ class ilObjCourseGUI extends ilContainerGUI
 					continue;
 				}
 				
+				// please do not use strtoupper on first/last name for output
+				// this messes up with some unicode characters, i guess
+				// depending on php verion, alex
 				array_push($ordered_members,array("id" => $member_id, 
 								  "login" => $usr_obj->getLogin(),
-								  "lastname" => strtoupper($usr_obj->getLastName()),
-								  "firstname" => strtoupper($usr_obj->getFirstName()),
+								  "lastname" => $usr_obj->getLastName(),
+								  "firstname" => $usr_obj->getFirstName(),
+								  "sortlastname" => strtoupper($usr_obj->getLastName()),
 								  "usr_obj" => $usr_obj));
 			}
 
-			$ordered_members=ilUtil::sortArray($ordered_members,"lastname","asc");
+			$ordered_members=ilUtil::sortArray($ordered_members,"sortlastname","asc");
 
 			foreach($ordered_members as $member)
 			{
