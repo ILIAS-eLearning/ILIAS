@@ -636,7 +636,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		else
 		{
 			$this->pg_obj->addHierIDs();
-			$this->edit();
+			$this->editAlias();
 		}
 	}
 
