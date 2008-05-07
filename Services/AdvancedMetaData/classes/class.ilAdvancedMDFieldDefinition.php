@@ -529,7 +529,7 @@ class ilAdvancedMDFieldDefinition
 	 	if(!strlen($this->getImportId()))
 	 	{
 	 		$query = "UPDATE adv_md_field_definition ".
-	 			"SET import_id = 'il_".(IL_INST_ID.'_adv_md_field_'.$this->field_id)."' ".
+	 			"SET import_id = ".$this->db->quote($this->generateImportId())." ".
 	 			"WHERE field_id = ".$this->db->quote($this->field_id)." ";
 	 		$this->db->query($query);
 	 	}
@@ -606,7 +606,7 @@ class ilAdvancedMDFieldDefinition
 	 	
 	 	
 	 	$writer->xmlStartTag('Field',array(
-	 		'id' => $this->getImportId(),
+	 		'id' => $this->generateImportId(),
 			'searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
 			'fieldType'	 => $type));
 		
@@ -672,5 +672,17 @@ class ilAdvancedMDFieldDefinition
 		}
 		return 0;
 	}
+	
+	/**
+	 * generate unique record id
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function generateImportId()
+	{
+		return 'il_'.IL_INST_ID.'_adv_md_field_'.$this->getFieldId();
+	}
+	
 }
 ?>

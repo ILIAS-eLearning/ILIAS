@@ -318,7 +318,7 @@ class ilAdvancedMDRecord
 	 	{
 		 	// set import id to default value
 		 	$query = "UPDATE adv_md_record ".
-		 		"SET import_id = 'il_".(IL_INST_ID.'_adv_md_record_'.$this->record_id)."' ".
+		 		"SET import_id = ".$this->db->quote($this->generateImportId())." ".
 		 		"WHERE record_id = ".$this->db->quote($this->record_id)." ";
 		 	$res = $this->db->query($query);
 	 	}
@@ -531,7 +531,7 @@ class ilAdvancedMDRecord
 	public function toXML(ilXmlWriter $writer)
 	{
 	 	$writer->xmlStartTag('Record',array('active' => $this->isActive() ? 1 : 0,
-	 		'id' => $this->getImportId()));
+	 		'id' => $this->generateImportId()));
 	 	$writer->xmlElement('Title',null,$this->getTitle());
 	 	$writer->xmlElement('Description',null,$this->getDescription());
 	 	
@@ -574,6 +574,17 @@ class ilAdvancedMDRecord
 	 	{
 	 		$this->obj_types[] = $row->obj_type;
 	 	}
+	}
+	
+	/**
+	 * generate unique record id
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function generateImportId()
+	{
+		return 'il_'.IL_INST_ID.'_adv_md_record_'.$this->getRecordId();
 	}
 	
 	/**
