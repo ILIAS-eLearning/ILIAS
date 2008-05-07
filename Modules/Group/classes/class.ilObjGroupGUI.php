@@ -23,7 +23,6 @@
 
 include_once "./Services/Container/classes/class.ilContainerGUI.php";
 include_once('./Modules/Group/classes/class.ilObjGroup.php');
-include_once "./classes/class.ilRegisterGUI.php";
 
 /**
 * Class ilObjGroupGUI
@@ -102,6 +101,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once('./Modules/Group/classes/class.ilGroupRegistrationGUI.php');
 				$registration = new ilGroupRegistrationGUI($this->object);
 				$this->ctrl->forwardCommand($registration);
+				$this->tabs_gui->setTabActive('join');
 				break;
 
 			case 'ilpermissiongui':
@@ -208,10 +208,10 @@ class ilObjGroupGUI extends ilContainerGUI
 					}
 					else	// no read -> show registration
 					{
-						#$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
+						include_once('./Modules/Group/classes/class.ilGroupRegistrationGUI.php');
+						$this->ctrl->redirectByClass("ilGroupRegistrationGUI", "show");
 					}
 				}
-
 				if(!$cmd)
 				{
 					$cmd = 'view';

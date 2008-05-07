@@ -993,13 +993,6 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('members');
 				break;
 
-			case "ilregistergui":
-				$this->ctrl->setReturn($this, "");   // ###
-				$reg_gui = new ilRegisterGUI();
-				//$reg_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($reg_gui);
-				break;
-
 			case "ilobjilincclassroomgui":
 				include_once ('./Modules/ILinc/classes/class.ilObjiLincClassroomGUI.php');
 				$icla_gui = new ilObjiLincClassroomGUI($_GET['class_id'],$this->ref_id);
@@ -1042,29 +1035,6 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 				$cmd .= 'Object';
 				$this->$cmd();
 				break;
-				
-				
-	/*			
-				if (!$this->getCreationMode() and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'grp'))
-				{
-					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
-				}
-				
-				if (!$this->getCreationMode()
-					&& !$rbacsystem->checkAccess('read',$this->object->getRefId())
-					|| $cmd == 'join')
-				{
-					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
-				}
-				
-				if(!$cmd)
-				{
-					$cmd = 'view';
-				}
-				$cmd .= 'Object';
-				$this->$cmd();
-				break;
-				*/
 		}
 	}
 	
