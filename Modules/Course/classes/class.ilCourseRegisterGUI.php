@@ -307,7 +307,7 @@ class ilCourseRegisterGUI
 			}
 		}
 		include_once('Modules/Course/classes/class.ilObjCourseGrouping.php');
-		if($courses = ilObjCourseGrouping::_getGroupingItemsAsString($this->course_obj))
+		if($courses = ilObjCourseGrouping::_getGroupingItems($this->course_obj))
 		{
 			$this->tpl->setVariable("INFO_REG_PRE",$this->lng->txt('crs_grp_info_reg').$courses.'<br>');
 		}

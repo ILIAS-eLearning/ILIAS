@@ -546,6 +546,19 @@ class ilObjCourseGrouping
 							}
 						}
 					}
+					elseif($container_obj->getType() == 'grp')
+					{
+						include_once('Modules/Group/classes/class.ilGroupParticipants.php');
+						$members = ilGroupParticipants::_getInstanceByObjId($condition['target_obj_id']);
+						if($members->isGroupingMember($ilUser->getId(),$condition['value']))
+						{
+							if(!$assigned_message)
+							{
+								$assigned_message = $lng->txt('crs_grp_already_assigned');
+							}
+						}
+						
+					}
 					else
 					{
 						if(ilObjGroup::_isMember($ilUser->getId(),$condition['target_ref_id'],$condition['value']))
@@ -573,7 +586,14 @@ class ilObjCourseGrouping
 		return true;
 	}
 
-	function _getGroupingItemsAsString(&$container_obj)
+	
+	/**
+	 * Get courses/groups that are assigned to the same membership limitation
+	 * 
+	 * @param object container object
+	 * @return array array of reference ids
+	 */
+	function _getGroupingItems($container_obj)
 	{
 		global $tree,$ilObjDataCache,$ilAccess,$tree;
 
@@ -608,13 +628,13 @@ class ilObjCourseGrouping
 				{
 					if(!$hash_table[$condition['target_ref_id']])
 					{
-						$courses .= (' <br/>'.$ilObjDataCache->lookupTitle($condition['target_obj_id']));
+						$items[] = $condition['target_ref_id'];
 					}
 					$hash_table[$condition['target_ref_id']] = true;
 				}
 			}
 		}
-		return $courses;
+		return $items ? $items : array();
 	}
 
 } // END class.ilObjCourseGrouping
