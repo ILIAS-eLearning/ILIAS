@@ -31,12 +31,12 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 		return parent::getUser($username);
     }
 
-    function fetchData($username, $password)
+    function fetchData($username, $password, $isChallengeResponse=false)
     {
 		$username = ilAuthContainerMDB2::toUsernameWithoutDomain($username);
 
 		// Fetch the data
-		return parent::fetchData($username, $password);
+		return parent::fetchData($username, $password, $isChallengeResponse);
     }
 
 	/**
