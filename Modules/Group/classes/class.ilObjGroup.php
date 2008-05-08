@@ -899,13 +899,15 @@ class ilObjGroup extends ilContainer
 
 		$q = "SELECT login,firstname,lastname,title,usr_id,last_login ".
 			 "FROM usr_data ".
-			 "WHERE usr_id IN (".implode(',',ilUtil::quoteArray($a_mem_ids)).")";
+			 "WHERE usr_id IN (".implode(',',ilUtil::quoteArray($a_mem_ids)).") ";
 
   		if (is_numeric($active) && $active > -1)
   			$q .= "AND active = '$active'";
+  			
+  		$q .= 'ORDER BY lastname,firstname';
 
   		$r = $ilDB->query($q);
-
+  		
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$mem_arr[] = array("id" => $row->usr_id,

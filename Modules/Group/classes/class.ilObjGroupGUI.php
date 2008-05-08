@@ -560,7 +560,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$map->addUserMarker($user_id);
 		}
-		
 		$tpl->setContent($map->getHTML());
 		$tpl->setLeftContent($map->getUserListHTML());
 	}
@@ -681,7 +680,7 @@ class ilObjGroupGUI extends ilContainerGUI
 								  "login" => $usr_obj->getLogin(),
 								  "lastname" => $usr_obj->getLastName(),
 								  "firstname" => $usr_obj->getFirstName(),
-								  "sortlastname" => strtoupper($usr_obj->getLastName()),
+								  "sortlastname" => strtoupper($usr_obj->getLastName()).strtoupper($usr_obj->getFirstName()),
 								  "usr_obj" => $usr_obj));
 			}
 
