@@ -111,25 +111,30 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 			$this->form->addItem($reg);
 			return true;
 		}
-		if(ilDateTime::_before($now,$this->container->getRegistrationStart()))
+		
+		$start = $this->container->getRegistrationStart();
+		$end = $this->container->getRegistrationEnd();
+		
+		
+		if(ilDateTime::_before($now,$start))
 		{
 			$tpl = new ilTemplate('tpl.registration_period_form.html',true,true,'Services/Membership');
 			$tpl->setVariable('TXT_FIRST',$this->lng->txt('mem_start'));
-			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($this->container->getRegistrationStart()->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($start->get(IL_CAL_UNIX),true));
 			
 			$tpl->setVariable('TXT_END',$this->lng->txt('mem_end'));
-			$tpl->setVariable('END',ilFormat::formatUnixTime($this->container->getRegistrationEnd()->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('END',ilFormat::formatUnixTime($end->get(IL_CAL_UNIX),true));
 			
 			$warning = $this->lng->txt('mem_reg_not_started');
 		}
-		elseif(ilDateTime::_after($now,$this->container->getRegistrationEnd()))
+		elseif(ilDateTime::_after($now,$end))
 		{
 			$tpl = new ilTemplate('tpl.registration_period_form.html',true,true,'Services/Membership');
 			$tpl->setVariable('TXT_FIRST',$this->lng->txt('mem_start'));
-			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($this->container->getRegistrationStart()->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($start->get(IL_CAL_UNIX),true));
 			
 			$tpl->setVariable('TXT_END',$this->lng->txt('mem_end'));
-			$tpl->setVariable('END',ilFormat::formatUnixTime($this->container->getRegistrationEnd()->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('END',ilFormat::formatUnixTime($end->get(IL_CAL_UNIX),true));
 			
 			$warning = $this->lng->txt('mem_reg_expired');
 		}
@@ -137,7 +142,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		{
 			$tpl = new ilTemplate('tpl.registration_period_form.html',true,true,'Services/Membership');
 			$tpl->setVariable('TXT_FIRST',$this->lng->txt('mem_end'));
-			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($this->container->getRegistrationEnd()->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($end->get(IL_CAL_UNIX),true));
 		}
 		
 		$reg = new ilCustomInputGUI($this->lng->txt('mem_reg_period'));
@@ -150,7 +155,6 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		}
 		$this->form->addItem($reg);
 		return true;
-		
 	}
 	
 	/**
@@ -231,7 +235,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 			case GRP_REGISTRATION_DEACTIVATED:
 				$reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
 				$reg->setValue($this->lng->txt('grp_reg_disabled'));
-				$reg->setAlert($this->lng->txt('grp_reg_deactivated_alert'));
+				#$reg->setAlert($this->lng->txt('grp_reg_deactivated_alert'));
 				$this->form->addItem($reg);
 		
 				// Disable registration
@@ -261,7 +265,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 			
 				$sub = new ilTextAreaInputGUI($this->lng->txt('subject'),'grp_subject');
 				$sub->setValue($_POST['grp_subject']);
-				#$sub->setInfo($this->lng->txt('grp_reg_direct_info'));
+				$sub->setInfo($this->lng->txt('group_req_registration_msg'));
 				$sub->setCols(40);
 				$sub->setRows(5);
 				if($this->participants->isSubscriber($ilUser->getId()))

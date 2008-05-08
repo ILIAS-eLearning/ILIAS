@@ -1021,12 +1021,6 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
 				
-				/*if (!$this->getCreationMode()
-					&& !$rbacsystem->checkAccess('read',$this->object->getRefId())
-					|| $cmd == 'join')
-				{
-					$this->ctrl->redirectByClass("ilRegisterGUI", "showRegistrationForm");
-				}*/
 				
 				if(!$cmd)
 				{

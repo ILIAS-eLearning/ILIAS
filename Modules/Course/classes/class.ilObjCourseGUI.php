@@ -22,13 +22,15 @@
 */
 
 
+require_once "./Services/Container/classes/class.ilContainerGUI.php";
+
 /**
 * Class ilObjCourseGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * $Id$
 *
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
@@ -37,11 +39,6 @@
 * 
 * @extends ilContainerGUI
 */
-
-require_once "./Services/Container/classes/class.ilContainerGUI.php";
-require_once "./Modules/Course/classes/class.ilCourseRegisterGUI.php";
-
-
 class ilObjCourseGUI extends ilContainerGUI
 {
 	/**
@@ -3268,8 +3265,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			and !$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
 			$tabs_gui->addTarget("join",
-								 $this->ctrl->getLinkTarget($this, "join"), 
-								 'join',
+								 $this->ctrl->getLinkTargetByClass('ilcourseregistrationgui', "show"), 
+								 'show',
 								 "");
 		}			
 	}
@@ -4380,10 +4377,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setTabActive('meta_data');
 				break;
 
-			case "ilcourseregistergui":
-				$this->ctrl->setReturn($this,"");
-				$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());
-				$ret =& $this->ctrl->forwardCommand($reg_gui);
+			case 'ilcourseregistrationgui':
+				$this->ctrl->setReturn($this,'');
+				include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
+				$registration = new ilCourseRegistrationGUI($this->object);
+				$this->ctrl->forwardCommand($registration);
 				break;
 				
 			case 'ilcourseuserfieldsgui':
@@ -4541,9 +4539,10 @@ class ilObjCourseGUI extends ilContainerGUI
 					|| $cmd == 'join'
 					|| $cmd == 'subscribe')
 				{
-					$this->ctrl->setReturn($this,"infoScreen");
-					$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());
-					$ret =& $this->ctrl->forwardCommand($reg_gui);
+					$this->ctrl->setReturn($this,"");
+					include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
+					$reg_gui = new ilCourseRegistrationGUI($this->object());
+					$ret = $this->ctrl->forwardCommand($reg_gui);
 					break;
 				}
 				

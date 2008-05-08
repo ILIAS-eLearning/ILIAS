@@ -4030,3 +4030,7 @@ DROP TABLE grp_registration;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1223>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
