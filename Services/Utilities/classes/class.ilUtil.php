@@ -2237,9 +2237,19 @@ class ilUtil
 					"gap", "sub", "sup", "pre", "strike");
 			}
 
+			// this currently removes parts of strings like "a <= b"
+			// because "a <= b" is treated like "<spam onclick='hurt()'>ss</spam>"
 			$a_str = ilUtil::maskSecureTags($a_str, $allow_array);
 			$a_str = strip_tags($a_str);		// strip all other tags
 			$a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
+			
+			// a possible solution could be something like:
+			// $a_str = str_replace("<", "&lt;", $a_str);
+			// $a_str = str_replace(">", "&gt;", $a_str);
+			// $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
+			//
+			// output would be ok then, but input fields would show
+			// "a &lt;= b" for input "a <= b" if data is brought back to a form
 		}
 		else
 		{
