@@ -293,8 +293,8 @@ class ilTabsGUI
 		}
 		
 		$targets = $a_get_sub_tabs ? $this->sub_target : $this->target;
-		// display tabs if there is at least one
-		if ((count($targets) > 0) || $this->back_title != "")
+        // do not display one tab only
+        if ((count($targets) > 1) || $this->back_title != "")
 		{
 			foreach ($targets as $target)
 			{
