@@ -94,7 +94,9 @@ var TinyMCE_LatexPlugin = {
 	_insertLatex : function(content) { 
 		if (content && content.length > 0) {
 			content = content.replace(new RegExp('\\$([^\\$]*)?\\$', 'g'), "<span class=\"latex\">$1</span>");
-			content = content.replace(new RegExp('\\\\', 'g'), "<br />");
+			content = content.replace(new RegExp('\\\\\\[', 'gi'), "<span class=\"latex\">");
+			content = content.replace(new RegExp('\\\\\\]', 'gi'), "</span>");
+			content = content.replace(new RegExp('\\\\\\\\', 'g'), "<br />");
 			tinyMCE.execCommand("mceInsertRawHTML", false, content); 
 		}
 	}
