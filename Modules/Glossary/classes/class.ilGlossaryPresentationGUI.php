@@ -435,7 +435,7 @@ class ilGlossaryPresentationGUI
 	*/
 	function listDefinitions()
 	{
-		global $ilUser;
+		global $ilUser, $ilAccess;
 		
 		require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -542,8 +542,7 @@ class ilGlossaryPresentationGUI
 		
 		if ($sources)
 		{
-			$this->tpl->setVariable("BACKLINK_TITLE",$this->lng->txt('glo_term_used_in'));
-			
+			$backlist_shown = false;
 			foreach ($sources as $src)
 			{
 				$type = explode(':',$src['type']);
@@ -556,11 +555,31 @@ class ilGlossaryPresentationGUI
 						$lm_id = ilLMObject::_lookupContObjID($src['id']);
 						$lm_title = ilObject::_lookupTitle($lm_id);
 						$this->tpl->setCurrentBlock('backlink_item');
-						$this->tpl->setVariable("BACKLINK_LINK",ILIAS_HTTP_PATH."/goto.php?target=".$type[1]."_".$src['id']);
-						$this->tpl->setVariable("BACKLINK_ITEM",$lm_title.": ".$title);
-						$this->tpl->parseCurrentBlock();
+						$ref_ids = ilObject::_getAllReferences($lm_id);
+						$access = false;
+						foreach($ref_ids as $rid)
+						{
+							if ($ilAccess->checkAccess("read", "", $rid))
+							{
+								$access = true;
+							}
+						}
+						if ($access)
+						{
+							$this->tpl->setCurrentBlock("backlink_item");
+							$this->tpl->setVariable("BACKLINK_LINK",ILIAS_HTTP_PATH."/goto.php?target=".$type[1]."_".$src['id']);
+							$this->tpl->setVariable("BACKLINK_ITEM",$lm_title.": ".$title);
+							$this->tpl->parseCurrentBlock();
+							$backlist_shown = true;
+						}
 					}
 				}
+			}
+			if ($backlist_shown)
+			{
+				$this->tpl->setCurrentBlock("backlink_list");
+				$this->tpl->setVariable("BACKLINK_TITLE",$this->lng->txt('glo_term_used_in'));
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 		
