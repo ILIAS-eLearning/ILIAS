@@ -360,7 +360,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		$exp->setOutput(0);
 		
-		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+		$output = $exp->getOutput();
+		$this->tpl->setVariable("EXPLORER",$output);
+		//$this->tpl->setVariable("EXPLORER", $exp->getOutput());
 
 		return true;
 	}
