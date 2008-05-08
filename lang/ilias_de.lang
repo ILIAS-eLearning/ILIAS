@@ -1341,7 +1341,7 @@ common#:#anonymous#:#Anonym
 common#:#answers#:#Antworten
 common#:#any_language#:#Alle Sprachen
 common#:#append_search#:#Suchergebnisse anhängen
-common#:#application_completed#:#Aufnahme erfolgt
+common#:#application_completed#:#Die Aufnahme wurde baentragt.
 common#:#application_date#:#Antragsdatum
 common#:#applications#:#Anwendungen
 common#:#applied_users#:#Angelegte Benutzer
@@ -2806,7 +2806,7 @@ common#:#mcst_read#:#Mediacast lesen
 common#:#mcst_visible#:#Mediacast ist sichtbar
 common#:#mcst_write#:#Mediacast bearbeiten
 common#:#mcst#:#Mediacast
-common#:#member_status#:#Mitgliedsstatus
+common#:#member_status#:#Status der Mitgliedschaft
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft ist beendet worden.
@@ -4732,7 +4732,7 @@ crs#:#crs_reg_type_info#:#Diese Einstellung ist nur wirksam, wenn die Anmeldung 
 crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Beitritte zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
-crs#:#crs_reg_user_already_subscribed#:#Sie sind bereits Mitglied dieses Kurses
+crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
 crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
 crs#:#crs_reg#:#Kursbeitritt
 crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um Beitritte zu deaktivieren. Es können keine Benutzer zum Kurs beitreten.
@@ -4850,7 +4850,7 @@ crs#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
 crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
 crs#:#crs_update_objective#:#Lernziel bearbeiten
 crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
-crs#:#crs_user_agreement#:#Freigebene Daten
+crs#:#crs_user_agreement#:#Freigegebene Daten
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
 crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
@@ -8029,7 +8029,7 @@ common#:#attempts#:#Versuche
 common#:#decrease_attempts#:#Versuche - 1
 grp#:#grp_closed#:#Geschlossene Gruppe
 grp#:#grp_closed_info#:#Die Gruppe ist für Nicht-Mitglieder unsichtbar.
-grp#:#grp_reg_disabled#:#Keine Anmeldung möglich
+grp#:#grp_reg_disabled#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Teilnehmer in die Gruppe aufnehmen.
 grp#:#grp_reg_request#:#Antrag mit Bestätigung
 grp#:#grp_reg_request_info#:#Interessierte Benutzer können eine Anfrage zur Aufnahme an die Gruppenadministratoren übermitteln.
@@ -8063,7 +8063,7 @@ common#:#mem_end#:#Anmeldungsende:
 common#:#mem_participants#:#Teilnehmer
 common#:#mem_max_users#:#Maximale Teilnehmeranzahl:
 common#:#mem_free_places#:#Freie Plätze:
-common#:#mem_reg_type#:#Registrierungsart
+common#:#mem_reg_type#:#Aufnahmeverfahren
 common#:#mem_reg_not_started#:#Die Anmeldung hat noch nicht begonnen.
 common#:#mem_waiting_list_position#:#Position auf der Warteliste
 common#:#mem_waiting_list#:#Personen auf der Warteliste:

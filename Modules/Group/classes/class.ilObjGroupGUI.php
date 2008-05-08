@@ -89,13 +89,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				}
 				break;
 
-			case "ilregistergui":
-				$this->ctrl->setReturn($this, "");   // ###
-				$reg_gui = new ilRegisterGUI();
-				$ret =& $this->ctrl->forwardCommand($reg_gui);
-				$this->tabs_gui->setTabActive('join');
-				break;
-				
 			case 'ilgroupregistrationgui':
 				$this->ctrl->setReturn($this,'');
 				include_once('./Modules/Group/classes/class.ilGroupRegistrationGUI.php');

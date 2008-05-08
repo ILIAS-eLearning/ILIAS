@@ -226,7 +226,7 @@ class ilCourseRegisterGUI
 
 				if($this->course_obj->getSubscriptionPassword() != $_POST["password"])
 				{
-					ilUtil::sendInfo($this->lng->txt("crs_password_not_valid"),true);
+					ilUtil::sendInfo($this->lng->txt("password_not_valid"),true);
 					$this->showRegistrationForm();
 				}
 				else if($this->course_obj->members_obj->add($this->user_id,IL_CRS_MEMBER))

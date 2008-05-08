@@ -201,6 +201,17 @@ abstract class ilRegistrationGUI
 		$this->form->addItem($mem);
 	}
 	
+	/**
+	 * Show user agreement
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function fillAgreement()
+	{
+		return true;
+	}
+	
 	
 	/**
 	 * cancel subscription
@@ -282,6 +293,7 @@ abstract class ilRegistrationGUI
 		$this->fillRegistrationPeriod();
 		$this->fillMaxMembers();
 		$this->fillRegistrationType();
+		$this->fillAgreement();
 		
 		if($this->isRegistrationPossible())
 		{
