@@ -2413,6 +2413,13 @@ class ilLMPresentationGUI
 		$exp->setOfflineMode($this->offlineMode());
 		$exp->forceExpandAll(true, false);
 
+		// highlight current node
+		if (!$this->offlineMode())
+		{
+			$page_id = $this->getCurrentPageId();
+			$exp->highlightNode($page_id);
+		}
+
 		$tree =& $this->lm->getTree();
 		if ($_GET["lmtocexpand"] == "")
 		{
