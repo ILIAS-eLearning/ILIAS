@@ -162,6 +162,7 @@ function followmouse1(e)
 function showMenu(id, x, y)
 {
 	var obj = document.getElementById(id);
+
 	obj.style.visibility = '';
 	obj.style.left = x + 10 + "px";
 	obj.style.top = y + "px";
@@ -322,6 +323,16 @@ function doMouseClick(e, id)
 	{
 		clickcmdid = id.substr(6);
 		var nextMenu = "dropareamenu_" + clickcmdid;
+	}
+	else if (id.substr(0, 4) == "COL_")		// used in table data editor
+	{
+		clickcmdid = id.substr(4);
+		var nextMenu = "col_menu";
+	}
+	else if (id.substr(0, 4) == "ROW_")		// used in table data editor
+	{
+		clickcmdid = id.substr(4);
+		var nextMenu = "row_menu";
 	}
 	else
 	{

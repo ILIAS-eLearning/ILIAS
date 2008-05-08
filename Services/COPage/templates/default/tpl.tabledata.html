@@ -26,6 +26,19 @@ function handleTDInput(el)
 <table border="0" cellpadding="0" cellspacing="0">
 <!-- BEGIN row -->
 <tr>
+	<!-- BEGIN empty_td -->
+	<td>&nbsp;</td>
+	<!-- END  empty_td -->
+	<!-- BEGIN col_icon -->
+	<td style="text-align: center;">
+		<img src="{COL_ICON}" alt="{COL_ICON_ALT}" onclick="doMouseClick(event, '{COL_ONCLICK}');" border="0" />
+	</td>
+	<!-- END col_icon -->
+	<!-- BEGIN row_icon -->
+	<td style="vertical-align: middle;">
+		<img src="{ROW_ICON}" alt="{ROW_ICON_ALT}" onclick="doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
+	</td>
+	<!-- END row_icon -->
 	<!-- BEGIN cell -->
 	<td>
 	<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onkeyup="handleTDInput(this);" onselect="handleTDInput(this);" onclick="handleTDInput(this);" onkeyup="handleTDInput(this);" style="width:140px; height:80px;" wrap="virtual">{PAR_TA_CONTENT}</textarea>
@@ -46,3 +59,26 @@ function handleTDInput(el)
 <!-- END commands -->
 </table>
 </form>
+
+<!-- column menu -->
+<div style="position:absolute;left:0;top:0;visibility:hidden;" id="col_menu">
+<table class="il_editmenu" cellspacing="0" cellpadding="3">
+<tr>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('cmd[exec]', 'command', 'insert_par', '');">Col1</td>
+</tr>
+<tr>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('cmd[exec]', 'command', 'insert_par', '');">Col1</td>
+</tr>
+</table>
+
+<!-- row menu -->
+</div><div style="position:absolute;left:0;top:0;visibility:hidden;" id="row_menu">
+<table class="il_editmenu" cellspacing="0" cellpadding="3">
+<tr>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('cmd[exec]', 'command', 'insert_par', '');">Row1</td>
+</tr>
+<tr>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('cmd[exec]', 'command', 'insert_par', '');">Row1</td>
+</tr>
+</table>
+</div>

@@ -173,6 +173,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function editData()
 	{
+		global $lng;
+		
 		$this->displayValidationError();
 		
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
@@ -184,6 +186,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$dtpl->setVariable("BB_MENU", $this->getBBMenu());
 		
 		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
+		$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
 
 		// get all rows
 		$xpc = xpath_new_context($this->dom);
@@ -198,8 +201,41 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$path2 = "//PageContent[@HierId=".$this->getHierId()."]".
 				"/Table/TableRow[$i+1]/TableData";
 			$res2 =& xpath_eval($xpc2, $path2);
+			
+			// if this is the first row -> col icons
+			if ($i == 0)
+			{
+				for($j = 0; $j < count($res2->nodeset); $j++)
+				{
+					if ($j == 0)
+					{
+						$dtpl->touchBlock("empty_td");
+					}
+
+					$dtpl->setCurrentBlock("col_icon");
+					$dtpl->setVariable("COL_ICON_ALT", $lng->txt("content_column"));
+					$dtpl->setVariable("COL_ICON", ilUtil::getImagePath("col.gif"));
+					$dtpl->setVariable("COL_ONCLICK", "COL_".$j);
+					$dtpl->parseCurrentBlock();
+				}
+				$dtpl->setCurrentBlock("row");
+				$dtpl->parseCurrentBlock();
+			}
+
+
 			for($j = 0; $j < count($res2->nodeset); $j++)
 			{
+				// first col: row icons
+				if ($j == 0)
+				{
+					$dtpl->setCurrentBlock("row_icon");
+					$dtpl->setVariable("ROW_ICON_ALT", $lng->txt("content_row"));
+					$dtpl->setVariable("ROW_ICON", ilUtil::getImagePath("row.gif"));
+					$dtpl->setVariable("ROW_ONCLICK", "ROW_".$i);
+					$dtpl->parseCurrentBlock();
+				}
+				
+				// cell
 				$dtpl->setCurrentBlock("cell");
 				
 				if (key($_POST["cmd"]) == "update")
