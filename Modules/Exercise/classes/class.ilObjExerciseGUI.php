@@ -174,6 +174,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		global $ilUser;
 		require_once "./Services/Utilities/classes/class.ilUtil.php";
 		
+		$this->checkPermission("read");
+		
 		$this->tabs_gui->setTabActive("exc_your_submission");
 		
 		if (mktime() > $this->object->getTimestamp())
@@ -271,6 +273,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function deliverFileObject()
 	{
 		global $ilUser, $lng;
+		
+		$this->checkPermission("read");
 
 		$this->tabs_gui->setTabActive("view");
 		$this->tabs_gui->setTabActive("exc_your_submission");
@@ -300,11 +304,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			? $_POST["file"]
 			: $_GET["file"];
 
-		if (!$rbacsystem->checkAccess("read", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),
-				$this->ilias->error_obj->MESSAGE);
-		}
+		$this->checkPermission("read");
+		
 		if (!isset($file))
 		{
 			ilUtil::sendInfo($this->lng->txt("exc_select_one_file"),true);
@@ -374,10 +375,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 	
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
+		$this->checkPermission("write");
+		
 		// LOAD SAVED DATA IN CASE OF ERROR
 		$title = $_SESSION["error_post_vars"]["Fobject"]["title"] ?
 		ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true) :
@@ -472,11 +471,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 	
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),
-				$this->ilias->error_obj->MESSAGE);
-		}	
+		$this->checkPermission("write");
 	
 		$this->object->setInstruction(ilUtil::stripSlashes($_POST["Fobject"]["instruction"]));
 		$this->object->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],
@@ -504,10 +499,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	function uploadZipObject()
 	{
 		global $rbacsystem;
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
+		
+		$this->checkPermission("write");
 
 		if(!$this->object->addUploadedFile($_FILES["zipfile"], true))
 		{
@@ -521,10 +514,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
+		$this->checkPermission("write");
+
 		if(!$this->object->addUploadedFile($_FILES["file"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("exc_upload_error"),true);
@@ -540,10 +531,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 	
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
+		$this->checkPermission("write");
 	
 		if ($_POST["downloadReturned"])
 		{
@@ -605,6 +593,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function downloadReturnedObject()
 	{
+		$this->checkPermission("write");
+
 		if (!$this->object->members_obj->deliverReturnedFiles($_GET["member_id"]))
 		{
 			$this->ctrl->redirect($this, "members");
@@ -617,6 +607,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function downloadNewReturnedObject()
 	{
+		$this->checkPermission("write");
+		
 		if (!$this->object->members_obj->deliverReturnedFiles($_GET["member_id"], true))
 		{
 			$this->ctrl->redirect($this, "members");
@@ -628,10 +620,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilAccess,$ilErr;
 
-		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
-		}
+		$this->checkPermission("write");
 		if(!count($_POST['user']))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
@@ -658,10 +647,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 	
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
+		$this->checkPermission("write");
 		
 		//add template for buttons	
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -1032,6 +1018,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function redirectFeedbackMailObject()
 	{
+		$this->checkPermission("write");
+		
 		if ($_GET["member_id"] != "")
 		{
 			$this->object->members_obj->setStatusFeedbackForMember($_GET["member_id"], 1);
@@ -1059,6 +1047,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function downloadAllObject()
 	{
+		$this->checkPermission("write");
+		
 		$members = array();
 
 		foreach($this->object->members_obj->getMembers() as $member_id)
@@ -1082,11 +1072,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 	
-		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),
-				$this->ilias->error_obj->MESSAGE);
-		}
+		$this->checkPermission("write");
 	
 		// SEARCH CANCELED
 		if(isset($_POST["cancel"]))
@@ -1181,43 +1167,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 	}
 
-	// PRIVATE METHODS
-/*
-	function __showMembersTableContent($a_data)
-	{
-  
- 		$counter = 0;
-  		foreach($a_data as $row)
-		{
-			foreach($row as $key => $column)
-			{
-				switch($key)
-				{
-					case 4:
-						$this->tpl->setCurrentBlock("text");
-						$this->tpl->setVariable("ROW_TEXT",$column);
-						$this->tpl->parseCurrentBlock();
-					break;
-		
-					default:
-						$this->tpl->setCurrentBlock("text");
-						$this->tpl->setVariable("ROW_TEXT",$column);
-						$this->tpl->parseCurrentBlock();
-					break;
-				}
-				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("ROW_CSS",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-		}
-  		$this->tpl->setCurrentBlock("tbl_content");
-		$this->tpl->parseCurrentBlock();
-  		
-		return true;
-	}
-*/
 	function __getMembersOfObject($a_result,$a_type)
 	{
 
@@ -1332,7 +1281,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "newMembers");
 		}
   		return $search->getResultByType($a_search_for);
-	}		
+	}
+
 	function __deassignMembers()
 	{
 		if(is_array($_POST["member"]))
@@ -1352,7 +1302,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function saveCommentsObject() 
 	{
-
+		$this->checkPermission("write");
+		
 		if(!isset($_POST['comments_value']))
 		{
 			continue;
@@ -1371,6 +1322,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function __saveStatus()
 	{
+		$this->checkPermission("write");
+		
 		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
 //var_dump($_POST["member"]);
@@ -1621,10 +1574,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilUser;
 
-		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
+		$this->checkPermission("visible");
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -1799,7 +1749,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}		
 
-
+	/**
+	* Add locator item
+	*/
 	function addLocatorItems()
 	{
 		global $ilLocator;
