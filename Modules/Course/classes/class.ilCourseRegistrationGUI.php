@@ -318,9 +318,13 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	{
 		global $ilUser;
 
+		if(!$this->isRegistrationPossible())
+		{
+			return true;
+		}
+
 		
 		$this->privacy = ilPrivacySettings::_getInstance();
-		
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');		
 		if(!$this->privacy->confirmationRequired() and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId()))
 		{
