@@ -2401,6 +2401,7 @@ class ilUserImportParser extends ilSaxParser
 			case 'public_upload':
 			case 'public_zip':				
 			case 'send_info_mails':
+			case 'hide_own_online_status':
 				if ($value != 'y' && $value != 'n')
 					$this->logFailure("---", "Value 'y' or 'n' expected for preference $key.");				
 				break;

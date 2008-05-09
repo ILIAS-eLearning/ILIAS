@@ -38,6 +38,7 @@
 	// USER ADMINISTRATION
 	function login($client,$username,$password)
 	{
+#echo "Hallo";
 		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
 
 		$sua =& new ilSoapUserAdministration();

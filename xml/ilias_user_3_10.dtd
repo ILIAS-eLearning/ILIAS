@@ -149,6 +149,7 @@ public_upload: y,n
 public_zip: y,n
 send_info_mails: y,n
 show_users_online: y,n, associated
+hide_own_online_status: y, n
 user_tz: must be valid timezone, e.g. Europe/Berlin
 mail_incoming_type: 0 (local), 1 (email), 2 (both)
 mail_signature: text
