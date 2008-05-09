@@ -1,12 +1,27 @@
 <script language="JavaScript" type="text/javascript">
 <!--
 
-
 function handleTDInput(el)
 {
 	storeCaret(el);
 	text_name = el.id;
 }
+
+function handleDataTableCommand(type, command)
+{
+	obj = document.getElementById("dtform");
+	hid_type = document.getElementById("dtform_type");
+	hid_type.value = type;
+	hid_cmd = document.getElementById("dtform_command");
+	hid_cmd.value = command;
+	hid_id = document.getElementById("dtform_nr");
+	hid_id.value = current_row_col;
+	
+    obj.submit();
+}
+
+var current_row_col;
+
 //-->
 </script>
 <form action="{FORMACTION}" id="post" name="post" method="post">
@@ -31,12 +46,12 @@ function handleTDInput(el)
 	<!-- END  empty_td -->
 	<!-- BEGIN col_icon -->
 	<td style="text-align: center;">
-		<img src="{COL_ICON}" alt="{COL_ICON_ALT}" onclick="doMouseClick(event, '{COL_ONCLICK}');" border="0" />
+		<img src="{COL_ICON}" alt="{COL_ICON_ALT}" onclick="current_row_col = {NR}; doMouseClick(event, '{COL_ONCLICK}');" border="0" />
 	</td>
 	<!-- END col_icon -->
 	<!-- BEGIN row_icon -->
 	<td style="vertical-align: middle;">
-		<img src="{ROW_ICON}" alt="{ROW_ICON_ALT}" onclick="doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
+		<img src="{ROW_ICON}" alt="{ROW_ICON_ALT}" onclick="current_row_col = {NR}; doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
 	</td>
 	<!-- END row_icon -->
 	<!-- BEGIN cell -->
@@ -60,25 +75,22 @@ function handleTDInput(el)
 </table>
 </form>
 
-<!-- column menu -->
-<div style="position:absolute;left:0;top:0;visibility:hidden;" id="col_menu">
+<!-- BEGIN menu -->
+</div><div style="position:absolute;left:0;top:0;visibility:hidden;" id="{TYPE}_menu_{MOVE}">
 <table class="il_editmenu" cellspacing="0" cellpadding="3">
+<!-- BEGIN menu_item -->
 <tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('cmd[exec]', 'command', 'insert_par', '');">Col1</td>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</td>
 </tr>
-<tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('cmd[exec]', 'command', 'insert_par', '');">Col1</td>
-</tr>
-</table>
-
-<!-- row menu -->
-</div><div style="position:absolute;left:0;top:0;visibility:hidden;" id="row_menu">
-<table class="il_editmenu" cellspacing="0" cellpadding="3">
-<tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('cmd[exec]', 'command', 'insert_par', '');">Row1</td>
-</tr>
-<tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doActionForm('cmd[exec]', 'command', 'insert_par', '');">Row1</td>
-</tr>
+<!-- END menu_item -->
 </table>
 </div>
+<!-- END menu -->
+
+<!-- data table command form -->
+<form style="visibility:hidden;" name="dtform" id="dtform" method="post" action="{FORMACTION2}">
+<input type="hidden" id="dtform_type" name="type" value="" />
+<input type="hidden" id="dtform_command" name="action" value="" />
+<input type="hidden" id="dtform_nr" name="id" value="" />
+</form>
+

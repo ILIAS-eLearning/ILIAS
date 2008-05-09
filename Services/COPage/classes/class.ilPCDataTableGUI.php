@@ -173,7 +173,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function editData()
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		
 		$this->displayValidationError();
 		
@@ -212,10 +212,30 @@ class ilPCDataTableGUI extends ilPCTableGUI
 						$dtpl->touchBlock("empty_td");
 					}
 
+					if ($j == 0)
+					{
+						if (count($res2->nodeset) == 1)
+						{
+							$move_type = "none";
+						}
+						else
+						{
+							$move_type = "forward";
+						}
+					}
+					else if ($j == (count($res2->nodeset) - 1))
+					{
+						$move_type = "backward";
+					}
+					else
+					{
+						$move_type = "both";
+					} 
 					$dtpl->setCurrentBlock("col_icon");
 					$dtpl->setVariable("COL_ICON_ALT", $lng->txt("content_column"));
 					$dtpl->setVariable("COL_ICON", ilUtil::getImagePath("col.gif"));
-					$dtpl->setVariable("COL_ONCLICK", "COL_".$j);
+					$dtpl->setVariable("COL_ONCLICK", "COL_".$move_type);
+					$dtpl->setVariable("NR", $j);
 					$dtpl->parseCurrentBlock();
 				}
 				$dtpl->setCurrentBlock("row");
@@ -228,17 +248,37 @@ class ilPCDataTableGUI extends ilPCTableGUI
 				// first col: row icons
 				if ($j == 0)
 				{
+					if ($i == 0)
+					{
+						if (count($res->nodeset) == 1)
+						{
+							$move_type = "none";
+						}
+						else
+						{
+							$move_type = "forward";
+						}
+					}
+					else if ($i == (count($res->nodeset) - 1))
+					{
+						$move_type = "backward";
+					}
+					else
+					{
+						$move_type = "both";
+					}
 					$dtpl->setCurrentBlock("row_icon");
 					$dtpl->setVariable("ROW_ICON_ALT", $lng->txt("content_row"));
 					$dtpl->setVariable("ROW_ICON", ilUtil::getImagePath("row.gif"));
-					$dtpl->setVariable("ROW_ONCLICK", "ROW_".$i);
+					$dtpl->setVariable("ROW_ONCLICK", "ROW_".$move_type);
+					$dtpl->setVariable("NR", $i);
 					$dtpl->parseCurrentBlock();
 				}
 				
 				// cell
 				$dtpl->setCurrentBlock("cell");
 				
-				if (key($_POST["cmd"]) == "update")
+				if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update")
 				{
 					$s_text = ilUtil::stripSlashes("cell_".$i."_".$j, false);
 				}
@@ -255,6 +295,50 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$dtpl->parseCurrentBlock();
 		}
 		
+		// init menues
+		$types = array("row", "col");
+		$moves = array("none", "backward", "both", "forward");
+		$commands = array(
+			"row" => array(	"newRowAfter" => "cont_ed_new_row_after",
+							"newRowBefore" => "cont_ed_new_row_before",
+							"moveRowUp" => "cont_ed_row_up",
+							"moveRowDown" => "cont_ed_row_down",
+							"deleteRow" => "cont_ed_delete_row"),
+			"col" => array(	"newColAfter" => "cont_ed_new_col_after",
+							"newColBefore" => "cont_ed_new_col_before",
+							"moveColLeft" => "cont_ed_col_left",
+							"moveColRight" => "cont_ed_col_right",
+							"deleteCol" => "cont_ed_delete_col")
+		);
+
+		foreach($types as $type)
+		{
+			foreach($moves as $move)
+			{
+				foreach($commands[$type] as $command => $lang_var)
+				{
+					if ($move == "none" && (substr($command, 0, 4) == "move"))
+					{
+						continue;
+					}
+					if (($move == "backward" && (in_array($command, array("movedown", "moveright")))) ||
+						($move == "forward" && (in_array($command, array("moveup", "moveleft")))))
+					{
+						continue;
+					}
+					$this->tpl->setCurrentBlock("menu_item");
+					$this->tpl->setVariable("MENU_ITEM_TITLE", $lng->txt($lang_var));
+					$this->tpl->setVariable("CMD", $command);
+					$this->tpl->setVariable("TYPE", $type);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("menu");
+				$this->tpl->setVariable("TYPE", $type);
+				$this->tpl->setVariable("MOVE", $move);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
 		// update/cancel
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "update");
@@ -263,6 +347,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 		
+		$this->tpl->setVariable("FORMACTION2",
+			$ilCtrl->getFormAction($this, "tableAction"));
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_table"));
 
 	}
@@ -497,6 +583,25 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		{
 			$this->insert();
 		}
+	}
+	
+	/**
+	* Perform operation on table (adding, moving, deleting rows/cols)
+	*/
+	function tableAction()
+	{
+		global $ilCtrl;
+
+		$cell_hier_id = ($_POST["type"] == "col")
+			? $this->hier_id."_1_".($_POST["id"] + 1)
+			: $this->hier_id."_".($_POST["id"] + 1)."_1";
+		$cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
+		if (is_object($cell_obj))
+		{
+			$cell_obj->$_POST["action"]();
+			$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		}
+		$ilCtrl->redirect($this, "editData");
 	}
 }
 ?>
