@@ -46,7 +46,7 @@ class ilUserXMLWriter extends ilXmlWriter
 	var $user_id = 0;
 	var $attachRoles = false;
 	var $attachPreferences = false;
-	var $notExportablePrefs;
+	private static $exportablePrefs;
 
 	/**
 	 * fields to be exported
@@ -72,12 +72,12 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->user_id = $ilUser->getId();
 		$this->attachRoles = false;
 		
-		$this->notExportablePrefs = array(
+/*		$this->exportablePrefs = array(
 			"priv_feed_pass", "language", "style", "skin", 'ilPageEditor_HTMLMode',
 			 'ilPageEditor_JavaScript', 'ilPageEditor_MediaMode', 'tst_javascript', 
 			 'tst_lastquestiontype', 'tst_multiline_answers', 'tst_use_previous_answers',
-			'graphicalAnswerSetting' 				
-		);
+			'graphicalAnswerSetting', "weekstart" 				
+		);*/
 	}
 
 	function setAttachRoles ($value)
@@ -308,21 +308,20 @@ class ilUserXMLWriter extends ilXmlWriter
 		include_once ("Services/Mail/classes/class.ilMailOptions.php");
 		$mailOptions = new ilMailOptions($row["usr_id"]);
 		$prefs["mail_incoming_type"] = $mailOptions->getIncomingType();		
+		$prefs["mail_signature"] = $mailOptions->getSignature();
+		$prefs["mail_linebreak"] = $mailOptions->getLinebreak();
 		if (count($prefs))
 		{
 			$this->xmlStartTag("Prefs");
 			foreach ($prefs as $key => $value) 
 			{
-				if ($this->__isPrefExportable($key))
+				if (ilUserXMLWriter::isPrefExportable($key))
 					$this->xmlElement("Pref", array("key" => $key), $value);	
 			}
 			$this->xmlEndTag("Prefs");
 		}
 	}
 	
-	private function __isPrefExportable($key) {
-		return !in_array($key, $this->notExportablePrefs);
-	}
 
 	function __addElement ($tagname, $value, $attrs = null, $settingsname = null, $requiredTag = false)
 	{
@@ -399,6 +398,52 @@ class ilUserXMLWriter extends ilXmlWriter
 	{
 		$this->attachPreferences = $attachPrefs;
 	}
+	
+	/**
+	 * return exportable preference keys as found in db
+	 *
+	 * @return array of string
+	 */
+	public static function getExportablePreferences() {
+		return array (
+				'hits_per_page',
+				'public_city',
+				'public_country',
+				'public_department',
+				'public_email',
+				'public_fax',
+				'public_hobby',
+				'public_institution',
+				'public_matriculation',
+				'public_phone',
+				'public_phone_home',
+				'public_phone_mobile',
+				'public_phone_office',
+				'public_profile',
+				'public_street',
+				'public_upload',
+				'public_zip',
+				'send_info_mails',
+				'show_users_online',
+				'hide_own_online_status',
+				'user_tz',
+				'weekstart',
+				'mail_incoming_type',
+				'mail_signature',
+				'mail_linebreak'
+		);
+	}
+	
+	/**
+	 * returns wether a key from db is exportable or not
+	 *
+	 * @param string $key
+	 * @return boolean
+	 */
+	public static function isPrefExportable($key) {
+		return in_array($key, ilUserXMLWriter::getExportablePreferences());
+	}
+	
 }
 
 

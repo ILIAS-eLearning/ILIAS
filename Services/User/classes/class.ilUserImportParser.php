@@ -37,6 +37,7 @@ define ("IL_USER_MAPPING_LOGIN", 1);
 define ("IL_USER_MAPPING_ID", 2);
 
 require_once("classes/class.ilSaxParser.php");
+require_once ('Services/User/classes/class.ilUserXMLWriter.php');
 
 /**
 * User Import Parser
@@ -1604,7 +1605,8 @@ class ilUserImportParser extends ilSaxParser
 				}
 				break;
 			case 'Pref':
-				if ($this->currentPrefKey != null && strlen(trim($this->cdata)) > 0)
+				if ($this->currentPrefKey != null && strlen(trim($this->cdata)) > 0 
+					&& ilUserXMLWriter::isPrefExportable($this->currentPrefKey))
 					$this->prefs[$this->currentPrefKey] = trim($this->cdata);
 				$this->currentPrefKey = null;
 				break;
@@ -2368,7 +2370,7 @@ class ilUserImportParser extends ilSaxParser
 		    case 'mail_linebreak':
 			case 'hits_per_page': 
 				if (!is_numeric($value) || $value < 0)
-					$this->logFailure("---", "Positiv numeric value expected for preference hits_per_page.");
+					$this->logFailure("---", "Wrong value '$value': Positiv numeric value expected for preference $key.");
 				break;			
 			case 'language': 				
 			case 'skin': 
@@ -2402,29 +2404,36 @@ class ilUserImportParser extends ilSaxParser
 			case 'public_zip':				
 			case 'send_info_mails':
 			case 'hide_own_online_status':
-				if ($value != 'y' && $value != 'n')
-					$this->logFailure("---", "Value 'y' or 'n' expected for preference $key.");				
+				if (!in_array($value, array('y', 'n')))
+					$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");				
 				break;
 			case 'show_users_online':
-				if ($value != 'y' && $value != 'n' && value != 'associated')
-				 	$this->logFailure("---", "Value 'y' or 'n' or 'associated' expected for preference $key.");
+				if (!in_array($value, array('y', 'n', 'associated')))
+				 	$this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' or 'associated' expected for preference $key.");
 				break;
 			case 'mail_incoming_type':
-			    if (!in_array($value, array ("0","1","2")))
-			        $this->logFailure("---", 'Value "0" (LOCAL),"1" (EMAIL) or "2" (BOTH) expected for preference $key.');
+			    if (!in_array($value, array("0","1","2")))
+			        $this->logFailure("---", "Wrong value '$value': Value \"0\" (LOCAL),\"1\" (EMAIL) or \"2\" (BOTH) expected for preference $key.");
 				break;
+			case 'weekstart':
+			    if (!in_array($value, array ("0","1")))
+			        $this->logFailure("---", "Wrong value '$value': Value \"0\" (Sunday) or \"1\" (Monday) expected for preference $key.");
+				break;
+				
 			case 'mail_signature':
 			    break;
 			case 'user_tz': 
 				include_once('Services/Calendar/classes/class.ilTimeZone.php');
 				try {
 					$tz = ilTimeZone::_getInstance($value);
+					return true;
 				} catch (ilTimeZoneException $tze) {
-					$this->logFailure("---", "Invalid timezone $value detected for preference $key.");					
+					$this->logFailure("---", "Wrong value '$value': Invalid timezone $value detected for preference $key.");					
 				}
 				break;
 			default:
-			    $this->logFailure("---", "Preference $key is not supported.");				
+				if (!ilUserXMLWriter::isPrefExportable($key))
+			    	$this->logFailure("---", "Preference $key is not supported.");				
 				break;	
 		}
 	}
