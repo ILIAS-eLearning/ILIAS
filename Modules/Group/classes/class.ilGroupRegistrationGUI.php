@@ -177,7 +177,6 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		
 		$tpl->setVariable('TXT_FREE',$this->lng->txt('mem_free_places'));
 		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
-		$free = 0;
 		$tpl->setVariable('NUM_FREE',$free);
 
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
@@ -200,20 +199,25 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		$alert = '';
 		if(!$free and !$this->container->isWaitingListEnabled())
 		{
+			// Disable registration
+			$this->enableRegistration(false);
 			$alert = $this->lng->txt('mem_alert_no_places');	
 		}
-		
-		if($this->container->isWaitingListEnabled() and $waiting_list->isOnList($ilUser->getId()))
+		elseif($this->container->isWaitingListEnabled() and $waiting_list->isOnList($ilUser->getId()))
 		{
+			// Disable registration
+			$this->enableRegistration(false);
 			$alert = $this->lng->txt('mem_already_on_list');
+		}
+		elseif(!$free and $this->container->isWaitingListEnabled())
+		{
+			$alert = $this->lng->txt('grp_set_on_waiting_list');
 		}
 		
 		$max = new ilCustomInputGUI($this->lng->txt('mem_participants'));
 		$max->setHtml($tpl->get());
 		if(strlen($alert))
 		{
-			// Disable registration
-			$this->enableRegistration(false);
 			$max->setAlert($alert);
 		}
 		$this->form->addItem($max);
@@ -308,12 +312,12 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		{
 			if(!strlen($pass = ilUtil::stripSlashes($_POST['grp_passw'])))
 			{
-				$this->join_error = $this->lng->txt('grp_reg_error_pass_empty');
+				$this->join_error = $this->lng->txt('err_wrong_password');
 				return false;
 			}
 			if(strcmp($pass,$this->container->getPassword()) !== 0)
 			{
-				$this->join_error = $this->lng->txt('grp_reg_err_wrong_pass');
+				$this->join_error = $this->lng->txt('err_wrong_password');
 				return false;
 			}
 		}
@@ -330,6 +334,18 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	protected function add()
 	{
 		global $ilUser,$tree;
+		
+		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
+		$waiting_list = new ilGroupWaitingList($this->container->getId());
+		if($this->container->isWaitingListEnabled() and (!$free or $waiting_list->getCountUsers()))
+		{
+			$waiting_list->addToList($ilUser->getId());
+			$info = sprintf($this->lng->txt('grp_added_to_list'),$waiting_list->getPosition($ilUser->getId()));
+			ilUtil::sendInfo($info,true);
+			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+		}
+				
 
 		switch($this->container->getRegistrationType())
 		{

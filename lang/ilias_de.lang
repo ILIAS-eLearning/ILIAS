@@ -8065,7 +8065,7 @@ common#:#mem_max_users#:#Maximale Teilnehmeranzahl:
 common#:#mem_free_places#:#Freie Plätze:
 common#:#mem_reg_type#:#Aufnahmeverfahren
 common#:#mem_reg_not_started#:#Die Anmeldung hat noch nicht begonnen.
-common#:#mem_waiting_list_position#:#Position auf der Warteliste
+common#:#mem_waiting_list_position#:#Ihre Position auf der Warteliste:
 common#:#mem_waiting_list#:#Personen auf der Warteliste:
 common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
 common#:#mem_already_on_list#:#Sie wurden bereits in die Warteliste aufgenommen.
@@ -8073,3 +8073,7 @@ common#:#mem_reg_expired#:#Die Anmeldungszeit ist abgelaufen.
 common#:#mem_unlimited#:#Unbegrenzt
 common#:#mail_attachments#:#Mailanhänge
 common#:#forum_attachments#:#Forumanhänge
+grp#:#grp_set_on_waiting_list#:#Sie können sich auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, wenn Ihr Antrag von der Gruppenleitung angenommen oder abgelehnt wurde.
+grp#:#grp_added_to_list#:#Sie sind in die Warteliste aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
+grp#:#grp_users_added#:#Der/die Benutzer wurde(n) in die Gruppe aufgenommen.
+grp#:#grp_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Gruppe.

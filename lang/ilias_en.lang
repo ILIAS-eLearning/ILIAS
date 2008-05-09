@@ -8111,18 +8111,22 @@ grp#:#grp_notification#:#Notification
 grp#:#grp_edit_members#:#Edit Participants
 grp#:#grp_grp_info_reg#:#You can only register to one of these groups:
 common#:#mem_reg_period#:#Registration Period
-common#:#mem_start#:#Start
-common#:#mem_end#:#End
+common#:#mem_start#:#Registration Start:
+common#:#mem_end#:#Registration End:
 common#:#mem_participants#:#Participants
-common#:#mem_max_users#:#Maximum of Users
-common#:#mem_free_places#:#Free Places
+common#:#mem_max_users#:#Maximum of Users:
+common#:#mem_free_places#:#Free Places:
 common#:#mem_reg_type#:#Registration Type
 common#:#mem_reg_not_started#:#The registration has not started
-common#:#mem_waiting_list_position#:#Position on Waiting List
-common#:#mem_waiting_list#:#Users on Waiting List
+common#:#mem_waiting_list_position#:#Your Position on the Waiting List:
+common#:#mem_waiting_list#:#Users on Waiting List:
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_already_on_list#:#You are already subscribed to the waiting list.
 common#:#mem_reg_expired#:#The registration time is expired.
 common#:#mem_unlimited#:#Unlimited
 common#:#mail_attachments#:#Mail attachments
 common#:#forum_attachments#:#Forum attachments
+grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
+grp#:#grp_users_added#:#Added user to the group.
+grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.
