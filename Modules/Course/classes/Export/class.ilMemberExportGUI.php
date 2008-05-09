@@ -300,9 +300,9 @@ class ilMemberExportGUI
 		$tbl->setTemplate($a_tpl);
 		$tbl->render();
 		
-		$this->tpl->setCurrentBlock('file_list');
+		#$this->tpl->setCurrentBlock('file_list');
 		$this->tpl->setVariable('FILE_LIST_TABLE',$a_tpl->get());
-		$this->tpl->parseCurrentBlock();
+		#$this->tpl->parseCurrentBlock();
 		
 	}
 	
