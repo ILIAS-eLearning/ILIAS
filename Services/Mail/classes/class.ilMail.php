@@ -2189,7 +2189,15 @@ class ilMail
 				$firstname = $usr_obj->getFirstname();
 				$lastname = $usr_obj->getLastname();
 			}
+			// The following line of code creates a properly formatted mailbox
+			// address. Unfortunately, it does not work, because ILIAS removes
+			// everything between '<' '>' characters
+			// Therefore, we just return the login - sic.
+			// FIXME - Make this work in a future release 
+			/*
 			return preg_replace('/[()<>@,;:\\".\[\]]/','',$firstname.' '.$lastname).' <'.$login.'>';
+			*/
+			return $login.'hhho';
 		}
 		else
 		{
