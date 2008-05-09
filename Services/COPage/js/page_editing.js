@@ -327,12 +327,12 @@ function doMouseClick(e, id)
 	else if (id.substr(0, 4) == "COL_")		// used in table data editor
 	{
 		clickcmdid = id.substr(4);
-		var nextMenu = "col_menu";
+		var nextMenu = "col_menu_" + clickcmdid;
 	}
 	else if (id.substr(0, 4) == "ROW_")		// used in table data editor
 	{
 		clickcmdid = id.substr(4);
-		var nextMenu = "row_menu";
+		var nextMenu = "row_menu_" + clickcmdid;
 	}
 	else
 	{
