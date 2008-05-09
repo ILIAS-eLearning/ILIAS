@@ -290,11 +290,22 @@ abstract class ilRegistrationGUI
 		
 		$this->fillInformations();
 		$this->fillMembershipLimitation();
-		$this->fillRegistrationPeriod();
-		$this->fillRegistrationType();
-		$this->fillMaxMembers();
-		$this->fillAgreement();
-		
+		if($this->isRegistrationPossible())
+		{
+			$this->fillRegistrationPeriod();
+		}
+		if($this->isRegistrationPossible())
+		{
+			$this->fillMaxMembers();
+		}
+		if($this->isRegistrationPossible())
+		{
+			$this->fillRegistrationType();
+		}
+		if($this->isRegistrationPossible())
+		{
+			$this->fillAgreement();
+		}
 		if($this->isRegistrationPossible())
 		{
 			$this->form->addCommandButton('join',$this->lng->txt('join'));
