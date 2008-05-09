@@ -826,6 +826,38 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->setShowHidePrefs();
+		
+		
+		// Waiting list table
+		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+		$waiting_list = new ilGroupWaitingList($this->object->getId());
+		if(count($wait = $waiting_list->getAllUsers()))
+		{
+			include_once('./Services/Membership/classes/class.ilWaitingListTableGUI.php');
+			if($ilUser->getPref('grp_wait_hide'))
+			{
+				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,false);
+				$this->ctrl->setParameter($this,'wait_hide',0);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,true);
+				$this->ctrl->setParameter($this,'wait_hide',1);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			$table_gui->setUsers($wait);
+			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.gif',$this->lng->txt('group_new_registrations'));
+			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
+		}		
 
 		
 		// Subscriber table
@@ -976,6 +1008,57 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 	
 	/**
+	 * add from waiting list 
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function assignFromWaitingListObject()
+	{
+		$this->checkPermission('write');
+		
+		if(!count($_POST["waiting"]))
+		{
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			$this->membersObject();
+			return false;
+		}
+		
+		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+		$waiting_list = new ilGroupWaitingList($this->object->getId());
+
+		$added_users = 0;
+		foreach($_POST["waiting"] as $user_id)
+		{
+			// TODO: check if user is deleted
+			if($this->object->members_obj->isAssigned($user_id))
+			{
+				continue;
+			}
+			$this->object->members_obj->add($user_id,IL_GRP_MEMBER);
+			#$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+			$waiting_list->removeFromList($user_id);
+
+			++$added_users;
+		}
+		if($added_users)
+		{
+			ilUtil::sendInfo($this->lng->txt("grp_users_added"));
+			$this->membersObject();
+
+			return true;
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("grp_users_already_assigned"));
+			$this->searchObject();
+
+			return false;
+		}
+	}
+	
+	/**
 	 * delete selected members
 	 *
 	 * @access public
@@ -1083,6 +1166,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		if(isset($_GET['subscriber_hide']))
 		{
 			$ilUser->writePref('grp_subscriber_hide',(int) $_GET['subscriber_hide']);
+		}
+		if(isset($_GET['wait_hide']))
+		{
+			$ilUser->writePref('grp_wait_hide',(int) $_GET['wait_hide']);
 		}
 	}
 	

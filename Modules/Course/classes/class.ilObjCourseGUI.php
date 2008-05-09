@@ -4552,14 +4552,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				if( !$this->creation_mode
 					&& $cmd != 'infoScreen'
 					&& $cmd != 'sendfile'
-					&& !$rbacsystem->checkAccess("read",$this->object->getRefId())
+					&& !$ilAccess->checkAccess("read",'',$this->object->getRefId())
 					|| $cmd == 'join'
 					|| $cmd == 'subscribe')
 				{
-					$this->ctrl->setReturn($this,"");
 					include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
-					$reg_gui = new ilCourseRegistrationGUI($this->object());
-					$ret = $this->ctrl->forwardCommand($reg_gui);
+					$this->ctrl->redirectByClass("ilCourseRegistrationGUI", "show");
 					break;
 				}
 				

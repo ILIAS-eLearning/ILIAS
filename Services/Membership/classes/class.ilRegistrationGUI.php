@@ -291,8 +291,8 @@ abstract class ilRegistrationGUI
 		$this->fillInformations();
 		$this->fillMembershipLimitation();
 		$this->fillRegistrationPeriod();
-		$this->fillMaxMembers();
 		$this->fillRegistrationType();
+		$this->fillMaxMembers();
 		$this->fillAgreement();
 		
 		if($this->isRegistrationPossible())

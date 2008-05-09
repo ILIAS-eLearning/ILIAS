@@ -60,7 +60,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	public function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-		
 		switch($next_class)
 		{
 			default:
@@ -215,20 +214,25 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		$alert = '';
 		if(!$free and !$this->container->enabledWaitingList())
 		{
+			// Disable registration
+			$this->enableRegistration(false);
 			$alert = $this->lng->txt('mem_alert_no_places');	
 		}
-		
-		if($this->container->enabledWaitingList() and $waiting_list->isOnList($ilUser->getId()))
+		elseif($this->container->enabledWaitingList() and $waiting_list->isOnList($ilUser->getId()))
 		{
+			// Disable registration
+			$this->enableRegistration(false);
 			$alert = $this->lng->txt('mem_already_on_list');
 		}
-		
+		elseif(!$free and $this->container->enabledWaitingList())
+		{
+			$alert = $this->lng->txt('crs_set_on_waiting_list');
+		}
+				
 		$max = new ilCustomInputGUI($this->lng->txt('mem_participants'));
 		$max->setHtml($tpl->get());
 		if(strlen($alert))
 		{
-			// Disable registration
-			$this->enableRegistration(false);
 			$max->setAlert($alert);
 		}
 		$this->form->addItem($max);
@@ -551,6 +555,18 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
 		// set aggreement accepted
 		$this->setAccepted(true);		
+
+		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+		$free = max(0,$this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
+		$waiting_list = new ilCourseWaitingList($this->container->getId());
+		if($this->container->enabledWaitingList() and (!$free or $waiting_list->getCountUsers()))
+		{
+			$waiting_list->addToList($ilUser->getId());
+			$info = sprintf($this->lng->txt('crs_added_to_list'),$waiting_list->getPosition($ilUser->getId()));
+			ilUtil::sendInfo($info,true);
+			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+		}
+
 
 		switch($this->container->getSubscriptionType())
 		{
