@@ -2624,7 +2624,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tabs_gui->setTabActive('members');
+		if($this->object->getShowMembers())
+		{
+			$this->tabs_gui->setTabActive('members');
+		}
+		else
+		{
+			$this->tabs_gui->setTabActive('crs_unsubscribe');
+		}
 		#$this->setSubTabs('members');
 
 
@@ -3268,7 +3275,17 @@ class ilObjCourseGUI extends ilContainerGUI
 								 $this->ctrl->getLinkTargetByClass('ilcourseregistrationgui', "show"), 
 								 'show',
 								 "");
-		}			
+		}
+		if($ilAccess->checkAccess('leave','',$this->object->getRefId())
+			and $this->object->members_obj->isAssigned($ilUser->getId())
+			and !$this->object->getShowMembers())
+		{
+			$tabs_gui->addTarget("crs_unsubscribe",
+								 $this->ctrl->getLinkTarget($this, "unsubscribe"), 
+								 'unsubscribe',
+								 "");
+			
+		}
 	}
 	
 	function fetchPrintSubscriberData($a_members)
