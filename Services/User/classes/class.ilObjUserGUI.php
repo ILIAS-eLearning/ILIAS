@@ -981,6 +981,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["auth_mode"] = $this->object->getAuthMode();
 		$data["fields"]["ext_account"] = $this->object->getExternalAccount();
 
+		/*
 		// BEGIN DiskQuota Get Picture, Owner, Last login, Approve Date and AgreeDate
 		$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("personal_picture"));
 		$webspace_dir = ilUtil::getWebspaceDir("output");
@@ -1007,7 +1008,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("userfile"));
 		$this->tpl->setVariable("USER_FILE", $this->lng->txt("user_file"));
 		// END DiskQuota Get Picture, Owner, Last login, Approve Date and AgreeDate
-
+		*/
 		// BEGIN DiskQuota, Show disk space used
 		require_once "Modules/File/classes/class.ilObjFileAccess.php";
 		require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
