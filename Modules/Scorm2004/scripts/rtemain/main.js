@@ -2367,6 +2367,17 @@ function save()
 				data.push(item[schem[i]]);
 			}
 			res.push(data);
+			for (z in collection[k])
+			{
+				if (z == 'interactions' || z == 'comments' || z == "objectives")
+				{
+					for (y in collection[k][z])
+					{
+						collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];
+					}
+					walk(collection[k][z],z.substr(0,z.length-1));
+				}
+			}
 			switch (k)
 			{
 				case 'node':
@@ -2541,12 +2552,17 @@ function setItemValue (key, dest, source, destkey)
 	if (source && source.hasOwnProperty(key)) 
 	{
 		var d = source[key];
-		if (!isNaN(d)) {
+		var temp=d;
+		if (!isNaN(parseFloat(d))) {
 			d = Number(d);
 		} else if (d==="true") {
 			d = true;
 		} else if (d==="false") {
 			d = false;
+		}
+		//special handling for titles - no conversion
+		if (key == "title") {
+			d=temp;
 		}
 		dest[destkey ? destkey : key] = d;
 	}
@@ -2730,10 +2746,10 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	updateControls();
 	
 	scoStartTime = currentTime();
-
-
+	
 	//clear existing completion status in case of 2nd attempt
 	if (currentAPI) {
+		
 		if ((item.exit=="normal" || item.exit=="" || item.exit=="time-out" || item.exit=="logout") && (item.exit!="suspend" && item.entry!="resume") ) {
 			//provide us with a clean data set
 			//pubAPI.cmi=Runtime.models.cmi;
@@ -2742,7 +2758,9 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
     		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
 			err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
 			pubAPI.cmi.entry="ab-initio";
-			pubAPI.cmi.suspend_data=null;
+			pubAPI.cmi.suspend_data = null;
+			//pubAPI.cmi.interactions = null;
+			//pubAPI.cmi.comments = null;
 			pubAPI.cmi.total_time="PT0H0M0S";
 		} 
 		
@@ -2979,7 +2997,8 @@ function onItemUndeliver(noControls) // onUndeliver called from sequencing proce
 	// throw away the resource
 	// it may change api data in this
 	removeResource();
-	undeliverFinish();
+	undeliverFinish();	
+	
 }
 
 function undeliverFinish(){
@@ -3055,13 +3074,11 @@ function onNavigationEnd()
 
 function onCommit(data) 
 {
-	//alert("oncommit");
 	return setAPI(data.cmi.cp_node_id, data);
 }
 
 function onTerminate(data) 
 {
-	//alert("onTerminate " + data.cmi.exit);
 	var navReq;
 	switch (data.cmi.exit)
 	{
@@ -3109,7 +3126,7 @@ function onTerminate(data)
 				}
 			})(navReq.type, navReq.target), 0);
 		*/	
-	}
+	}	
 	return true;
 }
 
