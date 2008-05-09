@@ -981,7 +981,6 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["auth_mode"] = $this->object->getAuthMode();
 		$data["fields"]["ext_account"] = $this->object->getExternalAccount();
 
-		/*
 		// BEGIN DiskQuota Get Picture, Owner, Last login, Approve Date and AgreeDate
 		$this->tpl->setVariable("TXT_UPLOAD",$this->lng->txt("personal_picture"));
 		$webspace_dir = ilUtil::getWebspaceDir("output");
@@ -990,25 +989,18 @@ class ilObjUserGUI extends ilObjectGUI
 		$small_img = substr($full_img, 0, $last_dot).
 				"_small".substr($full_img, $last_dot, strlen($full_img) - $last_dot);
 		$image_file = $webspace_dir."/usr_images/".$small_img;
-
 		if (@is_file($image_file))
 		{
-			$this->tpl->setCurrentBlock("pers_image");
 			$this->tpl->setVariable("IMG_PERSONAL", $image_file."?dummy=".rand(1,99999));
 			$this->tpl->setVariable("ALT_IMG_PERSONAL",$this->lng->txt("personal_picture"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("remove_pic");
 			$this->tpl->setVariable("TXT_REMOVE_PIC", $this->lng->txt("remove_personal_picture"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("content");
 		}
 
-		$this->tpl->setCurrentBlock("upload_pic");
 		$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("userfile"));
 		$this->tpl->setVariable("USER_FILE", $this->lng->txt("user_file"));
 		// END DiskQuota Get Picture, Owner, Last login, Approve Date and AgreeDate
-		*/
+
 		// BEGIN DiskQuota, Show disk space used
 		require_once "Modules/File/classes/class.ilObjFileAccess.php";
 		require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
