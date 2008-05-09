@@ -26,6 +26,7 @@
  * @version $Id$
 */
 require_once("./Services/YUI/classes/class.ilYuiUtil.php");
+require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 
 
 class ilSCORM13Player
@@ -156,6 +157,7 @@ class ilSCORM13Player
 		
 		$this->page = $_REQUEST['page'];
 		
+		$this->slm =& new ilObjSCORM2004LearningModule($_GET["ref_id"], true);
 		
 				
 		$this->ilias =& $ilias;
@@ -579,8 +581,8 @@ class ilSCORM13Player
 	{
 		global $ilLog;
 		
-//		$ilLog->write("SCORM: persistCMIData");
-		
+		if ($this->slm->getDefaultLessonMode() == "browse") {return;}
+				
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
 		$return = $this->setCMIData($this->userId, $this->packageId, $data);
 		if ($this->jsMode) 

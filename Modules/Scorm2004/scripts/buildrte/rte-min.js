@@ -1,4 +1,4 @@
-// Build: 2008224021552 
+// Build: 2008508230331 
 
 function ADLAuxiliaryResource()
 {}
@@ -2354,7 +2354,12 @@ function save()
 {var item=collection[k];if(item.dirty===0){continue;}
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
-res.push(data);switch(k)
+res.push(data);for(z in collection[k])
+{if(z=='interactions'||z=='comments'||z=="objectives")
+{for(y in collection[k][z])
+{collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];}
+walk(collection[k][z],z.substr(0,z.length-1));}}
+switch(k)
 {case'node':walk(item.objectives,"objective");if(item.dirty!==2){continue;}
 walk(item.comments,"comment");walk(item.interactions,"interaction");walk(item.correct_responses,"correct_response");break;case'interaction':walk(item.correct_responses,"correct_response");walk(item.objectives,"objective");break;}}}
 if(save.timeout)
@@ -2394,7 +2399,8 @@ return api;}
 var api={cmi:{},adl:{}};var data=activitiesByCAM[cp_node_id];getAPIWalk(Runtime.models.cmi.cmi,data,api.cmi);return api;}
 function setItemValue(key,dest,source,destkey)
 {if(source&&source.hasOwnProperty(key))
-{var d=source[key];if(!isNaN(d)){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
+{var d=source[key];var temp=d;if(!isNaN(parseFloat(d))){d=Number(d);}else if(d==="true"){d=true;}else if(d==="false"){d=false;}
+if(key=="title"){d=temp;}
 dest[destkey?destkey:key]=d;}}
 function setAPI(cp_node_id,api)
 {function setAPIWalk(model,data,api)

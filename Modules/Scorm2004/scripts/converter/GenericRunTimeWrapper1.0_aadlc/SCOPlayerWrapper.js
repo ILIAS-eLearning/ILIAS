@@ -1,4 +1,4 @@
-/*******************************************************************************
+ /*******************************************************************************
 **
 ** FileName: SCOPlayerWrapper.js
 **
@@ -588,18 +588,25 @@ function convertCore(name,arrayOfComponents)
 {
    var coreReturnValue = "";
    var updatedName = getNewValue(name);
-
    if (api == null)
    {
       api = getAPIHandle();
    }
-   
    // Special "core" case for lesson_status
    if ( updatedName == "cmi.core.lesson_status" )
    {
+      if ( statusRequest == null && api.GetValue('cmi.completion_status'))
+      {
+         statusRequest = api.GetValue('cmi.completion_status');
+      }
+      else if( statusRequest == null && api.GetValue('cmi.success_status'))
+      {
+         statusRequest = api.GetValue('cmi.success_status');
+      }
+
       if ( statusRequest == null )
       {
-         // The cmi.core.lesson_status was never set by the SCO.  
+         // The cmi.core.lesson_status was never set by the SCO.
          // Return the default value of not attempted
          _InternalErrorCode = 1;
          coreReturnValue = "not attempted";
@@ -613,17 +620,17 @@ function convertCore(name,arrayOfComponents)
       }
       else
       {
-         _InternalErrorCode = API_CALL_PASSED_TO_LMS; 
-         coreReturnValue = api.GetValue(statusRequest);
+         _InternalErrorCode = API_CALL_PASSED_TO_LMS;
+         //coreReturnValue = api.GetValue(statusRequest);
+         coreReturnValue=statusRequest;
          return coreReturnValue;
       }
    }
    else
    {
-      _InternalErrorCode = API_CALL_PASSED_TO_LMS; 
+      _InternalErrorCode = API_CALL_PASSED_TO_LMS;
       coreReturnValue = api.GetValue(updatedName);
    }
-   
    return coreReturnValue;
 }
 
