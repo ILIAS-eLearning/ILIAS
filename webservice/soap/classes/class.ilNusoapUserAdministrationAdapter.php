@@ -1080,6 +1080,15 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getInstallationInfoXML(): returns XML following installation_info dtd');
+		
+		$this->server->register ('getClientInfoXML',
+								array('clientid' => 'xsd:string'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getClientInfoXML',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getClientInfoXML(): returns XML following installation_info dtd, contains the client the data of given client id');
 								
 		return true;
 

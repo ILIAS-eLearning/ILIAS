@@ -11,15 +11,16 @@
 
 <!ELEMENT Installation (Settings, Clients)>
 <!ATTLIST Installation
-	version CDATA #REQUIRED>
+	version CDATA #REQUIRED
+	path	CDATA #REQUIRED
+>
 
 <!ELEMENT Clients (Client*)>	
-<!ELEMENT Client  (Name, Description, Institution, Settings, AdvancedMetaDataRecords, UDFDefinitions)>
+<!ELEMENT Client  (Name, Description, Institution, Settings, AdvancedMetaDataRecords?, UDFDefinitions?)>
 <!ATTLIST Client
 	inst_id CDATA #REQUIRED
 	id ID #REQUIRED
 	enabled (TRUE|FALSE) #REQUIRED
-	path	CDATA #REQUIRED
 	default_lang    CDATA #REQUIRED
 	>	
 <!ELEMENT Name (#PCDATA)>

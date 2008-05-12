@@ -74,6 +74,7 @@ class ilSoapAdministration
 	// PROTECTED
 	function __checkSession($sid)
 	{
+		//return true;
 		list($sid,$client) = $this->__explodeSid($sid);
 		$this->sauth->setClient($client);
 		$this->sauth->setSid($sid);
@@ -310,28 +311,61 @@ class ilSoapAdministration
 		
 		$settings = array();
 		$clientdirs = glob(ILIAS_WEB_DIR."/*",GLOB_ONLYDIR);
+		require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");	
+		$writer = new ilSoapInstallationInfoXMLWriter ();
+		$writer->start();		
 		if (is_array($clientdirs))
 		{		
 			foreach ($clientdirs as $clientdir) 
-			{
-				if (is_object($setting = $this->getSettings ($init, $clientdir)))
-					$settings[] = $setting;
+			{				
+				if (is_object($clientInfo= $this->getClientInfo($init, $clientdir)))
+				{
+					$writer->addClient ($clientInfo);
+				}
 			}
 		}
+		$writer->end();
 		
-		require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
-		$writer = new ilSoapInstallationInfoXMLWriter ();		
-		$writer->setSettings ($settings);
-		$writer->start();
 		return $writer->getXML();
 	}
 	
-	private function getSettings ($init, $client_dir) 
+	public function getClientInfoXML($clientid) 
+	{		
+		require_once("Services/Init/classes/class.ilInitialisation.php");
+	
+		$init = new ilInitialisation();		
+		$init->requireCommonIncludes();
+		$init->initIliasIniFile();
+		
+		$ilias = & new ILIAS();
+		$GLOBALS['ilias'] =& $ilias;
+		
+		
+		$settings = array();
+		$clientdir = ILIAS_WEB_DIR."/".$clientid;
+		require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
+		$writer = new ilSoapInstallationInfoXMLWriter ();		
+		$writer->setExportAdvancedMetaDataDefinitions (true);
+		$writer->setExportUDFDefinitions (true);
+		$writer->start();
+		if (is_object($client = $this->getClientInfo($init, $clientdir)))
+		{
+			$writer->addClient($client);
+		}
+		else
+			return $this->__raiseError("Client ID $clientid does not exist!", 'Client');
+		$writer->end();
+		return $writer->getXML();
+	}
+	
+	private function getClientInfo ($init, $client_dir) 
 	{
+		global $ilDB;
 		$ini_file = "./".$client_dir."/client.ini.php";
 		
 		// get settings from ini file
 		require_once("classes/class.ilIniFile.php");
+		
 		$ilClientIniFile = new ilIniFile($ini_file);
 		$ilClientIniFile->read();
 		if ($ilClientIniFile->ERROR != "")
@@ -349,14 +383,13 @@ class ilSoapAdministration
 				
 		require_once "classes/class.ilDBx.php";
 		$ilDB = new ilDBx($dsn);
-		$GLOBALS['ilDB'] =& $ilDB;
+		$GLOBALS['ilDB'] = $ilDB;
 
 		require_once("Services/Administration/classes/class.ilSetting.php");
 		$settings = new ilSetting();
 		$GLOBALS["ilSetting"] = $settings;
 		// workaround to determine http path of client
-		$init->buildHTTPPAth();
-		$settings->httpPath = ILIAS_HTTP_PATH;
+		define ("IL_INST_ID",  $settings->get("inst_id",0));
 		$settings->access = $ilClientIniFile->readVariable("client", "access");
 		$settings->description = $ilClientIniFile->readVariable("client","description");
 		$settings->session = min((int) ini_get("session.gc_maxlifetime"), (int) $ilClientIniFile->readVariable("session","expire"));
@@ -364,5 +397,7 @@ class ilSoapAdministration
 		$settings->clientid = pathinfo($client_dir, PATHINFO_FILENAME);
 		return $settings;
 	}
+	
+	
 }
 ?>

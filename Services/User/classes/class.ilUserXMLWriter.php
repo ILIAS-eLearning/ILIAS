@@ -144,6 +144,8 @@ class ilUserXMLWriter extends ilXmlWriter
 			include_once ('./Services/User/classes/class.ilObjUserFolder.php');
 			$this->setSettings(ilObjUserFolder::getExportSettings());
 		}
+
+		$prefs = ilObjUser::_getPreferences($row["usr_id"]);
 		
 		if (strlen($row["language"]) == 0) $row["language"] = "en";
 
@@ -264,13 +266,11 @@ class ilUserXMLWriter extends ilXmlWriter
 			$this->__addElement ("ExternalAccount", $row["ext_account"], null, "ext_account");
 		}
 
-	    if ($this->canExport("skin_style"))
+	    if ($this->canExport("Look","skin_style"))
 	    {
-
-	    	$this->__addElement("Look",null,array(
-	    		"Skin"	=>	ilObjUser::_lookupPref($row["usr_id"], "skin") ,
-	    		"Style"	=>	ilObjUser::_lookupPref($row["usr_id"], "style")
-	    	),"skin_style");
+	    	$this->__addElement("Look", null, array(
+	    		"Skin"	=>	$prefs["skin"], "Style"	=>	$prefs["style"]
+	    	), "skin_style", true);
 
 	    }
 
@@ -295,15 +295,14 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement("Feedhash", $row["feed_hash"]);
 
 		if ($this->attachPreferences)
-			$this->__handlePreferences ($row);
+			$this->__handlePreferences ($prefs, $row);
 		
 		$this->xmlEndTag('User');
 	}
 
 	
-	private function __handlePreferences ($row) 
+	private function __handlePreferences ($prefs, $row) 
 	{		
-		$prefs = ilObjUser::_getPreferences($row["usr_id"]);
 		
 		include_once ("Services/Mail/classes/class.ilMailOptions.php");
 		$mailOptions = new ilMailOptions($row["usr_id"]);
