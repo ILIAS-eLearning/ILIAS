@@ -4,13 +4,9 @@ include_once "./classes/class.ilXmlWriter.php";
 
 class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 {
-	/**
-	 * array of ilSetting Objects
-	 *
-	 * @var array
-	 */
-	private $settings;
-
+	private $exportAdvMDDefs = false;
+	private $exportUDFDefs = false;
+	
 	/**
 	* constructor
 	* @param	string	xml version
@@ -36,12 +32,18 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	{
 		$this->__buildHeader();
 		$this->__buildInstallationInfo();
-		$this->xmlStartTag("Clients");
-		if (is_array($this->settings)) 
+		$this->xmlStartTag("Clients");		
+	}
+	
+	public function addClient ($client) {
+		if (is_object($client)) 
 		{
-			foreach ($this->settings as $setting)
-				$this->__buildSetting ($setting);
+			$this->__buildClient ($client);
 		}
+		
+	}
+	
+	public function end() {
 		$this->xmlEndTag("Clients");
 		$this->__buildFooter();		
 		
@@ -65,14 +67,17 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		}
 		$host = $_SERVER['HTTP_HOST'];
 
-		$path = pathinfo($_SERVER['REQUEST_URI']);
-		if(!$path['extension'])
+		$path = dirname($_SERVER['REQUEST_URI']);
+
+			// dirname cuts the last directory from a directory path e.g content/classes return content
+
+		$module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
+
+		$dirs = explode('/',$module);
+		$uri = $path;
+		foreach($dirs as $dir)
 		{
-			$uri = $_SERVER['REQUEST_URI'];
-		}
-		else
-		{
-			$uri = dirname($_SERVER['REQUEST_URI']);
+			$uri = dirname($uri);
 		}
 		$httppath = ilUtil::removeTrailingPathSeparators($protocol.$host.$uri);		
 		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD Group//EN\" \"".$httppath."/xml/ilias_client_3_10.dtd\">");  
@@ -81,6 +86,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$this->xmlStartTag("Installation",
 			array (
 				"version" => ILIAS_VERSION,
+				"path" => $httppath,
 			));			
 		
 		return true;
@@ -96,7 +102,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	 *
 	 * @param ilSetting $setting
 	 */
-	private function __buildSetting($setting) {
+	private function __buildClient($setting) {
 		$auth_modes = ilAuthUtils::_getActiveAuthModes();
 		$auth_mode_default =  strtoupper(ilAuthUtils::_getAuthModeName(array_shift($auth_modes)));
 		$auth_mode_names = array();
@@ -110,7 +116,6 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 				"inst_id" => $setting->get("inst_id"),
 				"id" => $setting->clientid,
 				"enabled" => $setting->access == 1 ? "TRUE" : "FALSE",
-				"path" => $setting->httpPath,
 				"default_lang" => $setting->language,
 			    
 			));
@@ -139,35 +144,42 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$this->xmlElement("Setting", array("key" => "authentication_default_method"), $auth_mode_default);
 		$this->xmlEndTag("Settings");
 		
-		
-		// create advanced meta data record xml
-		include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-		include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordXMLWriter.php';
-		
-		$record_ids = array();
-		$record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();
-		foreach($record_types as $type) {
-			$records = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($type);
-			foreach ($records as $record){
-				$record_ids [] = $record->getRecordId();
-			}			
-		}
-		$record_ids = array_unique($record_ids);
-		$this->xmlStartTag('AdvancedMetaDataRecords');
-		if (count($record_ids) > 0)
+		if ($this->exportAdvMDDefs) 
 		{
-		 	foreach($record_ids as $record_id)
-		 	{
-	 			$record_obj = ilAdvancedMDRecord::_getInstanceByrecordId($record_id);
-	 			$record_obj->toXML($this);
-	 		}
-		}
-	 	$this->xmlEndTag('AdvancedMetaDataRecords');		
+		// create advanced meta data record xml
+			include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
+			include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordXMLWriter.php';
+			
+			$record_ids = array();
+			$record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();
+			
+			foreach($record_types as $type) {
+				$records = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($type);
+				foreach ($records as $record){
+					$record_ids [] = $record->getRecordId();
+				}			
+			}
+			$record_ids = array_unique($record_ids);
+			$this->xmlStartTag('AdvancedMetaDataRecords');
 		
-		// create user defined fields record xml
-	    include_once ("./Services/User/classes/class.ilUserDefinedFields.php");
-		$udf_data = & ilUserDefinedFields::_getInstance();
-		$udf_data->addToXML($this);
+			if (count($record_ids) > 0)
+			{
+			 	foreach($record_ids as $record_id)
+		 		{
+		 			$record_obj = ilAdvancedMDRecord::_getInstanceByrecordId($record_id);
+		 			$record_obj->toXML($this);
+	 			}
+			}
+	 		$this->xmlEndTag('AdvancedMetaDataRecords');
+		}		
+		
+		if ($this->exportUDFDefs)
+		{
+			// create user defined fields record xml
+		    include_once ("./Services/User/classes/class.ilUserDefinedFields.php");
+			$udf_data = & ilUserDefinedFields::_newInstance();
+			$udf_data->addToXML($this);
+		}
 				
 
 		$this->xmlEndTag("Client");
@@ -181,6 +193,27 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$this->xmlElement("Setting", array("key" => "upload_max_filesize"), ilSoapAdministration::return_bytes(ini_get("upload_max_filesize")));
 		$this->xmlEndTag("Settings");			
 	}
+
+	/**
+	 * write access, if set to true advanced meta data definitions will be exported s well
+	 *
+	 * @param boolean $value
+	 */
+	public function setExportAdvancedMetaDataDefinitions ($value) {
+		$this->exportAdvMDDefs = $value ? true : false;
+	}
+	
+	
+	/**
+	 * write access, if set to true, user defined field definitions will be exported as well
+	 *
+	 * @param boolean $value
+	 */
+	public function setExportUDFDefinitions ($value) 
+	{
+		$this->exportUDFDefs = $value ? true: false;
+	}
+	
 }
 
 ?>

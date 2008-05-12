@@ -781,4 +781,10 @@
 		$roa = new ilSoapAdministration();
 		return $roa->getInstallationInfoXML();
 	}
+	
+	function getClientInfoXML($clientid) {
+		include_once 'webservice/soap/classes/class.ilSoapAdministration.php';		
+		$roa = new ilSoapAdministration();
+		return $roa->getClientInfoXML($clientid);
+	}
 	?>
