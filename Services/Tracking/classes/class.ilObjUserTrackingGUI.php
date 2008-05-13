@@ -159,7 +159,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		}
 
 		$this->tabs_gui->setTabActive('settings');
-		
+	
 		// Tracking settings
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.trac_settings.html","Services/Tracking");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this));
@@ -206,8 +206,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		}
 		// Max time gap
 		$this->tpl->setVariable("VALID_REQUEST",$this->object->getValidTimeSpan());
-
-		$this->tpl->parseCurrentBlock();
 
 	}
 
