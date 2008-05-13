@@ -247,7 +247,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement ("TimeLimitFrom", $row["time_limit_from"], null, "time_limit_from");
 		$this->__addElement ("TimeLimitUntil", $row["time_limit_until"], null, "time_limit_until");
 		$this->__addElement ("TimeLimitMessage", $row["time_limit_message"], null, "time_limit_message");
-		$this->__addElement ("ApproveDate", $row["approve_date"], null, "client_ip");
+		$this->__addElement ("ApproveDate", $row["approve_date"], null, "approve_date");
 		$this->__addElement ("AgreeDate", $row["agree_date"], null, "agree_date");
 
 		if ((int) $row["ilinc_id"] !=0) {
