@@ -165,7 +165,7 @@ class ilTimeZone
 	 		self::_switchTimeZone(self::$default_timezone);
 	 		return true;
 	 	}
-	 	catch(ilTimeZoneExxception $e)
+	 	catch(ilTimeZoneException $e)
 	 	 {
 			// Shouldn't happen since this has been checked during initialisation
 			$this->log->write(__METHOD__.': Unsupported timezone given: Timzone: '.$this->timezone);
