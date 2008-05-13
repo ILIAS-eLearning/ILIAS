@@ -280,7 +280,7 @@ class ilUserImportParser extends ilSaxParser
 	*/
 	function ilUserImportParser($a_xml_file = '', $a_mode = IL_USER_IMPORT, $a_conflict_rule = IL_FAIL_ON_CONFLICT)
 	{
-		global $lng, $tree, $ilias, $ilUser;
+		global $lng, $tree, $ilias, $ilUser, $styleDefinition;
 
 		$this->roles = array();
 		$this->mode = $a_mode;
@@ -297,7 +297,6 @@ class ilUserImportParser extends ilSaxParser
 		
 		// get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
 		$this->userStyles = array();
-		$styleDefinition = new ilStyleDefinition();
 		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
 		$templates = $styleDefinition->getAllTemplates();
 		
