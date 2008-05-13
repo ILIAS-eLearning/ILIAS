@@ -109,7 +109,32 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		foreach ($auth_modes as $mode) {
 			$auth_mode_names[] = strtoupper(ilAuthUtils::_getAuthModeName($mode));
 		}
+		// determine skins/styles
+		$skin_styles = array();
+		$styleDefinition = new ilStyleDefinition();
+		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
+		$templates = $styleDefinition->getAllTemplates();
 		
+		if (is_array($templates))
+		{
+		
+			foreach($templates as $template)
+			{
+				// get styles information of template
+				$styleDef =& new ilStyleDefinition($template["id"]);
+				$styleDef->startParsing();
+				$styles = $styleDef->getStyles();
+				
+				foreach($styles as $style)
+				{
+					if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					{
+						continue;
+					}
+					$skin_styles [] = $template["id"].":".$style["id"];
+				}
+			}			
+		}
 		
 		$this->xmlStartTag("Client", 
 			array(
@@ -142,6 +167,8 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$this->xmlElement("Setting", array("key" => "soap_enabled"), $setting->get("soap_user_administration"));
 		$this->xmlElement("Setting", array("key" => "authentication_methods"), join(",", $auth_mode_names));
 		$this->xmlElement("Setting", array("key" => "authentication_default_method"), $auth_mode_default);
+		$this->xmlElement("Setting", array("key" => "skins"), join(",", $skin_styles));
+		$this->xmlElement("Setting", array("key" => "skins_default"), $setting->default_skin_style);
 		$this->xmlEndTag("Settings");
 		
 		if ($this->exportAdvMDDefs) 
