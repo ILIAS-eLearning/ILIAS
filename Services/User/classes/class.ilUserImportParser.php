@@ -294,8 +294,34 @@ class ilUserImportParser extends ilSaxParser
 		$this->ilincdata = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
-		include_once './Services/User/classes/class.ilObjUser.php'; 
-		$this->userStyles = ilObjUser::_getAllUserAssignedStyles();
+		
+		// get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
+		$this->userStyles = array();
+		$styleDefinition = new ilStyleDefinition();
+		include_once("./Services/Style/classes/class.ilObjStyleSettings.php");
+		$templates = $styleDefinition->getAllTemplates();
+		
+		if (is_array($templates))
+		{
+		
+			foreach($templates as $template)
+			{
+				// get styles information of template
+				$styleDef =& new ilStyleDefinition($template["id"]);
+				$styleDef->startParsing();
+				$styles = $styleDef->getStyles();
+				
+				foreach($styles as $style)
+				{
+					if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					{
+						continue;
+					}
+					$this->userStyles [] = $template["id"].":".$style["id"];
+				}
+			}			
+		}
+		
 		$settings = $ilias->getAllSettings();
 		if ($settings["usr_settings_hide_skin_style"] == 1)
 		{
@@ -1253,6 +1279,20 @@ class ilUserImportParser extends ilSaxParser
 								$updateUser->setTimeLimitOwner($this->userObj->getTimeLimitOwner());
 							}							
 
+							
+							if (count ($this->prefs)) 
+							{
+								foreach ($this->prefs as $key => $value)
+								{
+									if ($key != "mail_incoming_type" && 
+									    $key != "mail_signature" &&
+									    $key != "mail_linebreak"
+									){
+									    $updateUser->setPref($key, $value);
+									}
+								}
+							}
+							
 							// save user preferences (skin and style)
 							if ($this->updateLookAndSkin)
 							{
@@ -1260,16 +1300,6 @@ class ilUserImportParser extends ilSaxParser
 								$updateUser->setPref("style", $this->userObj->getPref("style"));
 							}
 							
-							if (count ($this->prefs)) 
-							{
-								foreach ($this->prefs as $key => $value)
-								{
-									if ($key != "mail_incoming_type")
-									{
-									    $updateUser->setPref($key, $value);
-									}
-								}
-							}
 																					
 							$updateUser->writePrefs();
 							
@@ -1655,7 +1685,7 @@ class ilUserImportParser extends ilSaxParser
 				{
 					$this->logFailure("---",sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Login", "Insert"));
 				}
-				
+
 				switch ($this->action)
 				{
 					case "Insert" :
