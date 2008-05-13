@@ -135,6 +135,9 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 				}
 			}			
 		}
+		// timezones
+		include_once('Services/Calendar/classes/class.ilTimeZone.php');
+		
 		
 		$this->xmlStartTag("Client", 
 			array(
@@ -168,7 +171,10 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 		$this->xmlElement("Setting", array("key" => "authentication_methods"), join(",", $auth_mode_names));
 		$this->xmlElement("Setting", array("key" => "authentication_default_method"), $auth_mode_default);
 		$this->xmlElement("Setting", array("key" => "skins"), join(",", $skin_styles));
-		$this->xmlElement("Setting", array("key" => "skins_default"), $setting->default_skin_style);
+		$this->xmlElement("Setting", array("key" => "default_skin"), $setting->default_skin_style);
+		$this->xmlElement("Setting", array("key" => "default_timezone"), ilTimeZone::_getDefaultTimeZone());
+		$this->xmlElement("Setting", array("key" => "default_hits_per_page"), $setting->default_hits_per_page);
+		$this->xmlElement("Setting", array("key" => "default_show_users_online"), $setting->default_show_users_online);
 		$this->xmlEndTag("Settings");
 		
 		if ($this->exportAdvMDDefs) 

@@ -395,6 +395,8 @@ class ilSoapAdministration
 		$settings->session = min((int) ini_get("session.gc_maxlifetime"), (int) $ilClientIniFile->readVariable("session","expire"));
 		$settings->language = $ilClientIniFile->readVariable("language","default");
 		$settings->clientid = pathinfo($client_dir, PATHINFO_FILENAME);
+		$settings->default_show_users_online = $settings->get("show_users_online");
+		$settings->default_hits_per_page = $settings->get("hits_per_page");
 		$skin = $ilClientIniFile->readVariable("layout","skin");
 		$style = $ilClientIniFile->readVariable("layout","style");
 		$settings->default_skin_style = $skin.":".$style;
