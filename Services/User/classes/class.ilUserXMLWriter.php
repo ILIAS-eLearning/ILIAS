@@ -258,12 +258,12 @@ class ilUserXMLWriter extends ilXmlWriter
 
 		if (strlen($row["auth_mode"])>0)
 		{
-			$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]),"auth_mode");
+			$this->__addElement ("AuthMode", null, array ("type" => $row["auth_mode"]),"auth_mode", true);
 		}
 
 		if (strlen($row["ext_account"])>0)
 		{
-			$this->__addElement ("ExternalAccount", $row["ext_account"], null, "ext_account");
+			$this->__addElement ("ExternalAccount", $row["ext_account"], null, "ext_account", true);
 		}
 
 	    if ($this->canExport("Look","skin_style"))
@@ -325,7 +325,7 @@ class ilUserXMLWriter extends ilXmlWriter
 	function __addElement ($tagname, $value, $attrs = null, $settingsname = null, $requiredTag = false)
 	{
 		if ($this->canExport($tagname, $settingsname))
-			if (strlen($value) > 0 || $requiredTag)
+			if (strlen($value) > 0 || $requiredTag || (is_array($attrs) && count($attrs) > 0))
 				$this->xmlElement ($tagname, $attrs, $value);
 
 	}
