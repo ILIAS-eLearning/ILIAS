@@ -8077,3 +8077,14 @@ grp#:#grp_set_on_waiting_list#:#Sie können sich auf die Warteliste für diese G
 grp#:#grp_added_to_list#:#Sie sind in die Warteliste aufgenommen worden.<br />Sie haben Platz %s auf der Warteliste.
 grp#:#grp_users_added#:#Der/die Benutzer wurde(n) in die Gruppe aufgenommen.
 grp#:#grp_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Gruppe.
+grp#:#grp_header_waiting_list#:#Warteliste
+grp#:#grp_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
+grp#:#grp_general_informations#:#Allgemeine Informationen
+grp#:#grp_information#:#Wichtige Informationen
+grp#:#grp_settings#:#Gruppeneinstellungen
+grp#:#grp_info_settings#:#Gruppeninfo
+grp#:#grp_icon_settings#:#Gruppen-Icon
+grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
+grp#:#reg_grp_max_members#:#Maximale Teilnehmeranzahl
+grp#:#grp_reg_limited#:#Anmeldungszeitraum
+grp#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
