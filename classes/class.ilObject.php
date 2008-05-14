@@ -1599,7 +1599,6 @@ class ilObject
 			"FROM dav_property ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
-error_log('ilObject '.$q);
 		// END WebDAV: Clone WebDAV properties
 		
 		return $new_obj;
