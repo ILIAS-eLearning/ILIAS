@@ -71,7 +71,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('grp_notification'),'notification');
 	 	$this->addColumn($this->lng->txt('objs_role'),'roles');
 
-		$this->addCommandButton('updateMembers',$this->lng->txt('grp_save_status'));
+		$this->addCommandButton('updateMembers',$this->lng->txt('save'));
 		$this->addCommandButton('members',$this->lng->txt('cancel'));
 	 	
 		$this->setRowTemplate("tpl.edit_participants_row.html","Modules/Group");

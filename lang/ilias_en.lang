@@ -8130,3 +8130,14 @@ grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting lis
 grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
 grp#:#grp_users_added#:#Added user to the group.
 grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.
+grp#:#grp_header_waiting_list#:#Waiting List
+grp#:#grp_users_removed_from_list#:#The selected users have been removed from the waiting list.
+grp#:#grp_general_informations#:#General Informations
+grp#:#grp_information#:#Important Informations
+grp#:#grp_settings#:#Group Settings
+grp#:#grp_info_settings#:#Group Informations
+grp#:#grp_icon_settings#:#Group-Icon
+grp#:#grp_information_info#:#This information will be show on the info page and for new registrations.
+grp#:#reg_grp_max_members#:#Maximum Of Users
+grp#:#grp_reg_limited#:#Registration Period
+grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group

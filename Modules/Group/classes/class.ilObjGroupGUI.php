@@ -98,6 +98,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilpermissiongui':
+				$this->tabs_gui->setTabActive('perm_settings');
 				include_once("./classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -601,11 +602,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
-		$this->form->setTitle($this->lng->txt('grp_general_info'));
+		$this->form->setTitle($this->lng->txt('grp_general_informations'));
 		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
 		$this->form->addCommandButton('editInfo',$this->lng->txt('cancel'));
 		
-		$area = new ilTextAreaInputGUI($this->lng->txt('grp_important_info'),'important');
+		$area = new ilTextAreaInputGUI($this->lng->txt('grp_information'),'important');
 		$area->setInfo($this->lng->txt('grp_information_info'));
 		$area->setValue($this->object->getInformation());
 		$area->setRows(8);
@@ -855,7 +856,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$table_gui->setUsers($wait);
-			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.gif',$this->lng->txt('group_new_registrations'));
+			$table_gui->setTitle($this->lng->txt('grp_header_waiting_list'),'icon_usr.gif',$this->lng->txt('group_new_registrations'));
 			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
 		}		
 
@@ -1056,6 +1057,36 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			return false;
 		}
+	}
+	
+	/**
+	 * refuse from waiting list
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function refuseFromListObject()
+	{
+		$this->checkPermission('write');
+		
+		if(!count($_POST['waiting']))
+		{
+			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			$this->membersObject();
+			return false;
+		}
+		
+		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+		$waiting_list = new ilGroupWaitingList($this->object->getId());
+
+		foreach($_POST["waiting"] as $user_id)
+		{
+			$waiting_list->removeFromList($user_id);
+		}
+		
+		ilUtil::sendInfo($this->lng->txt('grp_users_removed_from_list'));
+		$this->membersObject();
+		return true;
 	}
 	
 	/**
@@ -1462,133 +1493,44 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 
 
-	/**
-	* displays confirmation form
-	* @access public
-	*/
-	function confirmationObject($user_id="", $confirm, $cancel, $info="", $status="",$a_cmd_return_location = "")
-	{
-		$this->data["cols"] = array("type", "title", "description", "last_change");
-
-		if (is_array($user_id))
-		{
-			foreach ($user_id as $id)
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-
-				$this->data["data"]["$id"] = array(
-					"type"        => $obj_data->getType(),
-					"title"       => $obj_data->getTitle(),
-					"desc"        => $obj_data->getDescription(),
-					"last_update" => $obj_data->getLastUpdateDate(),
-
-					);
-			}
-		}
-		else
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
-
-			$this->data["data"]["$id"] = array(
-				"type"        => $obj_data->getType(),
-				"title"       => $obj_data->getTitle(),
-				"desc"        => $obj_data->getDescription(),
-				"last_update" => $obj_data->getLastUpdateDate(),
-				);
-		}
-
-		//write  in sessionvariables
-		if(is_array($user_id))
-		{
-			$_SESSION["saved_post"]["user_id"] = $user_id;
-		}
-		else
-		{
-			$_SESSION["saved_post"]["user_id"][0] = $user_id;
-		}
-
-		if (isset($status))
-		{
-			$_SESSION["saved_post"]["status"] = $status;
-		}
-
-		$this->data["buttons"] = array( $cancel  => $this->lng->txt("cancel"),
-						$confirm  => $this->lng->txt("confirm"));
-
-		$this->getTemplateFile("confirm");
-
-		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
-
-		ilUtil::infoPanel();
-
-		ilUtil::sendInfo($this->lng->txt($info));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this)."&cmd_return_location=".$a_cmd_return_location);
-
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		foreach ($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach ($value as $key => $cell_data)
-			{
-				$this->tpl->setCurrentBlock("table_cell");
-
-				// CREATE TEXT STRING
-				if ($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
-
-		// BEGIN OPERATION_BTN
-		foreach ($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("spacer.gif"));
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
-	}
 
 	/**
 	* leave Group
 	* @access public
 	*/
-	function leaveGrpObject()
+	public function leaveObject()
 	{
-		$member = array($_GET["mem_id"]);
-		//set methods that are called after confirmation
-		$confirm = "confirmedDeleteMember";
-		$cancel  = "canceled";
-		$info	 = "info_delete_sure";
-		$status  = "";
-		$return  = "";
-		$this->confirmationObject($member, $confirm, $cancel, $info, $status, $return);
+		$this->checkPermission('leave');
+		
+		$this->tabs_gui->setTabActive('grp_btn_unsubscribe');
+		
+		$tpl = new ilTemplate('tpl.unsubscribe.html',true,true,'Modules/Group');
+		$tpl->setVariable('UNSUB_FORMACTION',$this->ctrl->getFormAction($this));
+		$tpl->setVariable('TXT_SUBMIT',$this->lng->txt('grp_btn_unsubscribe'));
+		$tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
+		
+		ilUtil::sendInfo($this->lng->txt('grp_dismiss_myself'));
+		$this->tpl->setContent($tpl->get());		
 	}
+	
+	/**
+	 * unsubscribe from group
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function unsubscribeObject()
+	{
+		global $ilUser,$tree;
+		
+		$this->checkPermission('leave');
+		
+		$this->object->members_obj->delete($ilUser->getId());
+		
+		ilUtil::sendInfo($this->lng->txt('grp_msg_membership_annulled'));
+		ilUtil::redirect('repository.php?ref_id='.$tree->getParentId($this->object->getRefId()));
+	}
+	
 
 	/**
 	* displays confirmation formular with users that shall be assigned to group
@@ -1820,8 +1762,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
 			$this->object->members_obj->isAssigned($ilUser->getId()))
 		{
-			$tabs_gui->addTarget("grp_tab_leave",
-								 $this->ctrl->getLinkTarget($this, "leaveGrp"), 
+			$tabs_gui->addTarget("grp_btn_unsubscribe",
+								 $this->ctrl->getLinkTarget($this, "leave"), 
 								 '',
 								 "");
 		}
