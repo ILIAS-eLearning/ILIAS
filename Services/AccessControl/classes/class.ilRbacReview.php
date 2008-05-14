@@ -571,12 +571,10 @@ class ilRbacReview
 				}
 			}
 		}
-		
 		if (!$a_keep_protected)
 		{
 			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
 		}
-		
 		return $parent_roles;
 	}
 
@@ -1215,11 +1213,12 @@ class ilRbacReview
 			 "AND parent = ".$ilDB->quote($a_parent)."";
 		$r  = $this->ilDB->query($q);
 
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops_arr[] = $row->ops_id;
 		}
-
+		
 		return $ops_arr;
 	}
 	

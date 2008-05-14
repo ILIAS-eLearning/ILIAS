@@ -156,6 +156,26 @@ class ilObjGroup extends ilContainer
 	}
 	
 	/**
+	 * check if group type is modified
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function isGroupTypeModified($a_old_type)
+	{
+		if($a_old_type == GRP_TYPE_UNKNOWN)
+		{
+			$group_type = $this->readGroupStatus();
+		}
+		else
+		{
+			$group_type = $a_old_type;
+		}
+		return $group_type != $this->getGroupType(); 
+	}
+	
+	/**
 	 * set registration type
 	 *
 	 * @access public
@@ -1264,6 +1284,104 @@ class ilObjGroup extends ilContainer
 			return false;
 		}
 	}
+	
+	/**
+	 * Change group type
+	 * 
+	 * Revokes permissions of all parent non-protected roles 
+	 * and initiates these roles with the according il_grp_(open|closed) template.
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function updateGroupType()
+	{
+		global $tree,$rbacreview,$rbacadmin;
+		
+		$parent_roles = $rbacreview->getParentRoleIds($this->getRefId());
+		$real_parent_roles = array_diff(array_keys($parent_roles),$this->getDefaultGroupRoles());
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
+		
+		// Delete parent roles with stopped inheritance
+		foreach($real_parent_roles as $role_id)
+		{
+			// Delete local role
+			if(isset($rolf_data['child']) and $rolf_data['child'])
+			{
+				$rbacadmin->deleteLocalRole($role_id,$rolf_data['child']);
+			}
+		}
+		$parent_roles = $rbacreview->getParentRoleIds($this->getRefId());
+		$real_parent_roles = array_diff(array_keys($parent_roles),$this->getDefaultGroupRoles());
+		
+		switch($this->getGroupType())
+		{
+			case GRP_TYPE_PUBLIC:
+				$template_id = $this->getGrpStatusOpenTemplateId();
+				break;
+				
+			case GRP_TYPE_CLOSED:
+				$template_id = $this->getGrpStatusClosedTemplateId();
+				break;
+		}
+		
+		$first = true;
+		foreach($tree->getFilteredSubTree($this->getRefId(),array('rolf','grp')) as $subnode)
+		{
+			// Read template operations
+			$template_ops = $rbacreview->getOperationsOfRole($template_id,$subnode['type'], ROLE_FOLDER_ID);
+			
+			$rolf_data = $rbacreview->getRoleFolderOfObject($subnode['child']);
+			
+			
+			// for all parent roles
+			foreach($real_parent_roles as $role_id)
+			{
+				if($rbacreview->isProtected($parent_roles[$role_id]['parent'],$role_id))
+				{
+					continue;
+				}
+
+				// Delete local role
+				if(isset($rolf_data['child']) and $rolf_data['child'])
+				{
+					$rbacadmin->deleteLocalRole($role_id,$rolf_data['child']);
+				}
+				
+				// Store current operations
+				$current_ops = $rbacreview->getOperationsOfRole($role_id,$subnode['type'],$parent_roles[$role_id]['parent']);
+
+				// Revoke permissions
+				$rbacadmin->revokePermission($subnode['child'],$role_id);
+
+				// Grant permissions
+				$granted = array();
+				foreach($template_ops as $operation)
+				{
+					if(in_array($operation,$current_ops))
+					{
+						$granted[] = $operation;
+					}
+				}
+				if($granted)
+				{
+					$rbacadmin->grantPermission($role_id, $granted,$subnode['child']);
+				}
+				
+				if($first)
+				{
+					// This is the group itself
+					$rbacadmin->copyRolePermissionIntersection(
+						$template_id, ROLE_FOLDER_ID,
+						$role_id, $parent_roles[$role_id]['parent'],
+						$rolf_data["child"],$role_id);
+					$rbacadmin->assignRoleToFolder($role_id,$rolf_data["child"],"n");
+					
+				}
+			}
+			$first = false;
+		}
+	}
 
 	/**
 	* set group status
@@ -1318,7 +1436,13 @@ class ilObjGroup extends ilContainer
 
 				// Delete the linked role for the parent role
 				// (just in case if it already exists).
-				$rbacadmin->deleteLocalRole($parentRole,$rolf_data["child"]);
+				
+				// Added additional check, since this operation is very dangerous.
+				// If there is no role folder ALL parent roles are deleted. 
+				if(isset($rolf_data['child']) and $rolf_data['child'])
+				{
+					$rbacadmin->deleteLocalRole($parentRole,$rolf_data["child"]);
+				}
 
 				// Grant permissions on the group object for
 				// the parent role. In the foreach loop we

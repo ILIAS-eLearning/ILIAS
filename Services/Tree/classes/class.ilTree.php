@@ -775,6 +775,44 @@ class ilTree
 			ilObject::_resetDeletedDate($a_node_id);
 		}
 	}
+	
+	/**
+	 * get filtered subtree
+	 * 
+	 * get all subtree nodes beginning at a specific node
+	 * excluding specific object types and their child nodes.
+	 * 
+	 * E.g getFilteredSubTreeNodes()
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getFilteredSubTree($a_node_id,$a_filter = array())
+	{
+		$node = $this->getNodeData($a_node_id);
+		
+		$first = true;
+		$depth = 0;
+		foreach($this->getSubTree($node) as $subnode)
+		{
+			if($depth and $subnode['depth'] > $depth)
+			{
+				continue;
+			}
+			if(!$first and in_array($subnode['type'],$a_filter))
+			{
+				$depth = $subnode['depth'];
+				$first = false;
+				continue;
+			}
+			$depth = 0;
+			$first = false;
+			$filtered[] = $subnode; 
+		}
+		return $filtered ? $filtered : array();
+	}
+	
 
 	/**
 	* get all nodes in the subtree under specified node
