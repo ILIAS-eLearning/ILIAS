@@ -353,7 +353,7 @@ class ilRbacAdmin
 			$message = get_class($this)."::revokePermission(): Missing parameter! ref_id: ".$a_ref_id;
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-$log->write("ilRBACadmin::revokePermission(), 0");
+#$log->write("ilRBACadmin::revokePermission(), 0");
 
 		// bypass protected status of roles
 		if ($a_keep_protected != true)
@@ -389,7 +389,7 @@ $log->write("ilRBACadmin::revokePermission(), 0");
 
 		if (!$a_rol_id)
 		{
-$log->write("ilRBACadmin::revokePermission(), 1");
+#$log->write("ilRBACadmin::revokePermission(), 1");
 
 			$role_ids = array();
 			
@@ -416,7 +416,7 @@ $log->write("ilRBACadmin::revokePermission(), 1");
 		}
 		else
 		{
-$log->write("ilRBACadmin::revokePermission(), 2");	
+#$log->write("ilRBACadmin::revokePermission(), 2");	
 			// exclude system role from rbac
 			if ($a_rol_id == SYSTEM_ROLE_ID)
 			{
