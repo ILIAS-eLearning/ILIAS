@@ -53,6 +53,10 @@ define('GRP_TYPE_PUBLIC',3);
 */
 class ilObjGroup extends ilContainer
 {
+	const CAL_REG_START = 1;
+	const CAL_REG_END 	= 2;
+	
+	
 	const ERR_MISSING_TITLE = 'grp_missing_title';
 	const ERR_MISSING_GROUP_TYPE = 'grp_missing_grp_type';
 	const ERR_MISSING_PASSWORD = 'grp_missing_password';
@@ -480,7 +484,7 @@ class ilObjGroup extends ilContainer
 	*/
 	function create()
 	{
-		global $ilDB;
+		global $ilDB,$ilAppEventHandler;
 
 		if(!parent::create())
 		{
@@ -505,6 +509,12 @@ class ilObjGroup extends ilContainer
 			"enablemap = ".$ilDB->quote($this->getEnableGroupMap())." ";
 
 		$ilDB->query($query);
+
+		$ilAppEventHandler->raise('Modules/Group',
+			'create',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareAppointments('create')));
 		
 		return $this->getId();
 	}
@@ -514,7 +524,7 @@ class ilObjGroup extends ilContainer
 	*/
 	function update()
 	{
-		global $ilDB;
+		global $ilDB,$ilAppEventHandler;
 
 		if (!parent::update())
 		{
@@ -539,6 +549,14 @@ class ilObjGroup extends ilContainer
 			"WHERE obj_id = ".$ilDB->quote($this->getId())." ";
 
 		$ilDB->query($query);
+		
+		$ilAppEventHandler->raise('Modules/Group',
+			'update',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareAppointments('update')));
+				
+		
 		return true;
 	}
 	
@@ -564,6 +582,13 @@ class ilObjGroup extends ilContainer
 		
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		ilGroupParticipants::_deleteAllEntries($this->getId());
+		
+		$ilAppEventHandler->raise('Modules/Group',
+			'delete',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareAppointments('delete')));
+		
 		
 		return true;
 	}
@@ -2011,6 +2036,80 @@ class ilObjGroup extends ilContainer
 			$this->message .= "<br /> ";
 		}
 		$this->message .= $a_message;
+	}
+	
+	/**
+	 * Prepare calendar appointments
+	 *
+	 * @access protected
+	 * @param string mode UPDATE|CREATE|DELETE
+	 * @return
+	 */
+	protected function prepareAppointments($a_mode = 'create')
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php');
+		
+		switch($a_mode)
+		{
+			case 'create':
+				if($this->isRegistrationUnlimited())
+				{
+					return array();
+				}
+				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+				$app->setTitle('grp_cal_reg_start');
+				$app->setDescription('grp_cal_reg_start_desc');	
+				$app->setAction(IL_CALENDAR_ACTION_CREATE);	
+				$app->setStart($this->getRegistrationStart());
+				$apps[] = $app;
+
+				$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
+				$app->setTitle('grp_cal_reg_end');
+				$app->setDescription('grp_cal_reg_end_desc');	
+				$app->setAction(IL_CALENDAR_ACTION_CREATE);	
+				$app->setStart($this->getRegistrationEnd());
+				$apps[] = $app;
+				
+				return $apps;
+				
+			case 'update':
+				if($this->isRegistrationUnlimited())
+				{
+					$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+					$app->setAction(IL_CALENDAR_ACTION_DELETE);
+					$apps[] = $app;
+					
+					$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
+					$app->setAction(IL_CALENDAR_ACTION_DELETE);
+					$apps[] = $app;
+					return $apps;
+				}			
+				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+				$app->setTitle('grp_cal_reg_start');
+				$app->setDescription('grp_cal_reg_start_desc');	
+				$app->setAction(IL_CALENDAR_ACTION_UPDATE);	
+				$app->setStart($this->getRegistrationStart());
+				$apps[] = $app;
+
+				$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
+				$app->setTitle('grp_cal_reg_end');
+				$app->setDescription('grp_cal_reg_end_desc');	
+				$app->setAction(IL_CALENDAR_ACTION_UPDATE);	
+				$app->setStart($this->getRegistrationEnd());
+				$apps[] = $app;
+				
+				return $apps;
+				
+			case 'delete':
+				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+				$app->setAction(IL_CALENDAR_ACTION_DELETE);
+				$apps[] = $app;
+				
+				$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
+				$app->setAction(IL_CALENDAR_ACTION_DELETE);
+				$apps[] = $app;
+				return $apps;
+		}
 	}
 	
 	/**

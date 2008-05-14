@@ -133,11 +133,20 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceCalculator.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
+		
 
 		#$parser = new ilICalParser('./extern/Feiertage.ics',ilICalParser::INPUT_FILE);
 		#$parser->setCategoryId(6);
 		#$parser->parse();
-
+		$calc = new ilCalendarRecurrenceCalculator(
+			new ilCalendarEntry(273),
+			new ilCalendarRecurrence(43));
+	
+		$list = $calc->calculateDateList(
+				new ilDateTime('2008-04-01',IL_CAL_DATE),
+				new ilDateTime('2008-04-31',IL_CAL_DATE));
+				
+		#echo "RESULT: ".$list;
 		/*
 		$zeit = microtime(true);
 		
@@ -157,8 +166,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 			echo $event->get(IL_CAL_DATETIME,'',$this->settings->getDefaultTimeZone()).'<br />';
 		}
 		*/
-		#$parser = new ilICalParser('./extern/Feiertage.ics',ilICalParser::INPUT_FILE);
-		#$parser->setCategory()
+		#$parser = new ilICalParser('./extern/fc.ics',ilICalParser::INPUT_FILE);
+		#$parser->setCategoryId(11);
 		#$parser = new ilICalParser('./Feiertage.ics',ilICalParser::INPUT_FILE);
 		#$parser->parse();
 		#$entry = new ilCalendarEntry(927);

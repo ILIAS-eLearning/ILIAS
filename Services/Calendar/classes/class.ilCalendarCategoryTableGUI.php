@@ -114,7 +114,10 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$hidden = $hidden_obj->getHidden();
 		
 		$categories = array();
-		foreach(ilCalendarCategories::_getCategoriesOfUser($ilUser->getId()) as $category)
+
+		$all = array_merge(ilCalendarCategories::_getCategoriesOfUser($ilUser->getId()),ilCalendarCategories::_getObjectCategories());
+		
+		foreach($all as $category)
 		{
 			$tmp_arr['id'] = $category->getCategoryID();
 			$tmp_arr['hidden'] = (bool) in_array($category->getCategoryId(),$hidden);

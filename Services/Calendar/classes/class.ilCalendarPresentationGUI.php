@@ -70,9 +70,9 @@ class ilCalendarPresentationGUI
 	{
 		global $ilUser, $ilSetting,$tpl;
 
+		$this->initSeed();
 		$this->prepareOutput();
 
-		$this->initSeed();
 		$next_class = $this->getNextClass();
 		
 		switch($next_class)
