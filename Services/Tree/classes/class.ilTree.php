@@ -637,7 +637,7 @@ class ilTree
 					// spread tree if there is not enough space to insert the new node
 					if ($availableSpace < 2)
 					{
-						$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') creating gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.'+'.(2 + $this->gap * 2));
+						//$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') creating gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.'+'.(2 + $this->gap * 2));
 						$q = "UPDATE ".$this->table_tree." SET ".
 							"lft = CASE ".
 							"WHEN lft > ".$parentRgt." ".
@@ -756,7 +756,7 @@ class ilTree
 		$depth = $this->getDepth($a_parent_id) + 1;
 
 		// insert node
-		$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') inserting node:'.$a_node_id.' parent:'.$a_parent_id." ".$lft."..".$rgt." depth:".$depth);
+		//$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') inserting node:'.$a_node_id.' parent:'.$a_parent_id." ".$lft."..".$rgt." depth:".$depth);
 		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.",child,parent,lft,rgt,depth) ".
 			 "VALUES ".
 			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
