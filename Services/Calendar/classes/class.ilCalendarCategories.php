@@ -84,6 +84,28 @@ class ilCalendarCategories
 	}
 	
 	/**
+	 * get all object categories
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function _getObjectCategories()
+	{
+		global $ilDB;
+		
+		$query = "SELECT cat_id FROM cal_categories ".
+			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_OBJ)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$categories[] = new ilCalendarCategory($row->cat_id);
+		}
+		return $categories ? $categories : array();
+		
+	}
+	
+	/**
 	 * prepare categories of users for selection
 	 *
 	 * @access public

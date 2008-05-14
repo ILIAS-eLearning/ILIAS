@@ -2244,15 +2244,13 @@ class ilObjGroupGUI extends ilContainerGUI
 			$start->setShowTime(true);
 			$start->setDate($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'Y-m-d'));
 			$start->setTime($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'H:i:s'));
-			// TODO: set default time to 8:00
 			$time_limit->addSubItem($start);
 			
 			$end = new ilDateTimeInputGUI($this->lng->txt('grp_reg_end'),'registration_end');
 			$end->setShowTime(true);
 			$end->setDate($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'Y-m-d'));
-			// TODO: set default time to 16:00
-			
 			$end->setTime($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'H:i:s'));
+			
 			$time_limit->addSubItem($end);
 		
 		$this->form->addItem($time_limit);

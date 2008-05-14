@@ -62,6 +62,7 @@ class ilAppEventHandler
 		// this information should be determined by service/module
 		// xml files in the future
 		$this->listener["Services/News"] = array("Modules/Forum");
+		$this->listener['Modules/Group'] = array('Services/Calendar');
 	}
 	
 	
