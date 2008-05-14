@@ -654,7 +654,7 @@ class ilTree
 					}
 					else
 					{
-						$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') reusing gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.' for node '.$a_node_id.' '.$lft.'..'.$rgt);
+						//$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') reusing gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.' for node '.$a_node_id.' '.$lft.'..'.$rgt);
 					}				
 				}
 				// Treatment for trees without gaps
@@ -963,7 +963,7 @@ class ilTree
 		// We only close the gap, if the resulting gap will be larger then the gap value 
 		if ($a_node['rgt'] - $a_node['lft'] >= $this->gap * 2)
 		{
-			$this->log->write('ilTree.deleteTree('.$a_node['child'].') closing gap at '.$a_node['lft'].'...'.$a_node['rgt']);
+			//$this->log->write('ilTree.deleteTree('.$a_node['child'].') closing gap at '.$a_node['lft'].'...'.$a_node['rgt']);
 			// close gaps
 			$q = "UPDATE ".$this->table_tree." SET ".
 				 "lft = CASE ".
@@ -981,7 +981,7 @@ class ilTree
 		}
 		else
 		{
-			$this->log->write('ilTree.deleteTree('.$a_node['child'].') leaving gap open '.$a_node['lft'].'...'.$a_node['rgt']);
+			//$this->log->write('ilTree.deleteTree('.$a_node['child'].') leaving gap open '.$a_node['lft'].'...'.$a_node['rgt']);
 		}
 
 		if($this->__isMainTree())
@@ -1315,7 +1315,7 @@ class ilTree
 			}
 		}
 		// Return the node path
-		$log->write('ilTree.getNodePathForTitlePath('.var_export($titlePath,true).','.$a_startnode_id.'):'.var_export($nodePath,true));
+		//$log->write('ilTree.getNodePathForTitlePath('.var_export($titlePath,true).','.$a_startnode_id.'):'.var_export($nodePath,true));
 		return $nodePath;
 	}
 	// END WebDAV: getNodePathForTitlePath function added
