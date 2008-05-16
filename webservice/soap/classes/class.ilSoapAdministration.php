@@ -373,6 +373,12 @@ class ilSoapAdministration
 			return false;
 		}
 		$client_id = $ilClientIniFile->readVariable('client','name');
+		if ($ilClientIniFile->variableExists('client', 'expose'))
+		{
+		    $client_expose = $ilClientIniFile->readVariable('client','expose');
+		    if ($client_expose == "0")
+		        return false;
+		}
 
 		// build dsn of database connection and connect
 		$dsn = $ilClientIniFile->readVariable("db","type")."://".$ilClientIniFile->readVariable("db", "user").
