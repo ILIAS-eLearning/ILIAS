@@ -523,7 +523,7 @@ class ilRbacReview
 	 * @param 
 	 * @return
 	 */
-	protected function getParentRoles()
+	protected function getParentRoles($a_path,$a_templates,$a_keep_protected)
 	{
 		global $log,$ilDB,$tree;
 		
@@ -577,7 +577,7 @@ class ilRbacReview
 		
 		if (!$a_keep_protected)
 		{
-			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
+			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$a_path);
 		}
 		return $parent_roles;
 	}
