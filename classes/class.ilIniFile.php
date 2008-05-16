@@ -365,6 +365,19 @@ class ilIniFile
 	}
 
 	/**
+	* returns if a variable exists or not
+	* @access	public
+	* @param	string		group name
+	* @param	string		value
+	* @return	mixed		return true if value exists or false
+	*/	
+	function variableExists($a_group, $a_var_name) 
+	{
+	    return isset($this->GROUPS[$a_group][$a_var_name]);
+	}
+	
+	
+	/**
 	* reads a single variable from a group
 	* @access	public
 	* @param	string		group name
