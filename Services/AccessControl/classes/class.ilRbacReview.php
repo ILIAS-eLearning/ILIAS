@@ -515,8 +515,78 @@ class ilRbacReview
 		}
 		return false;
 	}
+	
+	/**
+	 * get parent roles (NEW implementation)
+	 *
+	 * @access protected
+	 * @param 
+	 * @return
+	 */
+	protected function getParentRoles()
+	{
+		global $log,$ilDB,$tree;
+		
+		$parent_roles = array();
+		$role_hierarchy = array();
+
+		$node = $tree->getNodeData($a_path);
+		$lft = $node['lft'];
+		$rgt = $node['rgt'];
+
+
+		// Role folder id		
+		$relevant_rolfs[] = ROLE_FOLDER_ID;
+		
+		// Role folder of current object
+		if($rolf = $this->getRoleFolderIdOfObject($a_path))
+		{
+			$relevant_rolfs[] = $rolf;
+		}
+		
+		// role folder of objects in path
+		$query = "SELECT * FROM tree ".
+			"JOIN object_reference as obr ON child = ref_id ".
+			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
+			"WHERE type = 'rolf' ".
+			"AND lft < ".$lft." ".
+			"AND rgt > ".$rgt;
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$relevant_rolfs[] = $row->child;
+		}
+		
+		foreach($relevant_rolfs as $rolf)
+		{
+			$roles = $this->getRoleListByObject($rolf,$a_templates);
+
+			foreach ($roles as $role)
+			{
+				$id = $role["obj_id"];
+				$role["parent"] = $rolf;
+				$parent_roles[$id] = $role;
+				
+				if (!array_key_exists($role['obj_id'],$role_hierarchy))
+				{
+					$role_hierarchy[$id] = $rolf;
+				}
+			}
+		}
+		
+		if (!$a_keep_protected)
+		{
+			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,$path);
+		}
+		return $parent_roles;
+	}
+	
 
 	/**
+	* DEPRECTED use getParentRoles instead.
+	* This version is much to slow on big installations
+	* 
 	* Get parent roles in a path. If last parameter is set 'true'
 	* it delivers also all templates in the path
 	* @access	private
@@ -602,8 +672,9 @@ class ilRbacReview
 
 		// add system folder since it may not in the path
 		$pathIds[0] = SYSTEM_FOLDER_ID;
-		//$log->write("ilRBACreview::getParentRoleIds(), 1");	
-		return $this->__getParentRoles($pathIds,$a_templates,$a_keep_protected);
+		//$log->write("ilRBACreview::getParentRoleIds(), 1");
+		return $this->getParentRoles($a_endnode_id,$a_templates,$a_keep_protected);
+		#return $this->__getParentRoles($pathIds,$a_templates,$a_keep_protected);
 	}
 
 	/**
