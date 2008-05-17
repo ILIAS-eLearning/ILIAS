@@ -186,17 +186,23 @@ class ilFileXMLParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+	    $this->cdata = trim($this->cdata);
 		switch($a_name)
 		{
 			  case 'File':
-           $this->result = true;
+			      $this->result = true;    
 				break;
-			case 'Filename':
-			    $this->file->setFilename(trim($this->cdata));
-			    $this->file->setTitle(trim($this->cdata));
+			case 'Filename':			    
+			    if (strlen($this->cdata) == 0)
+			          throw new ilFileException("Filename ist missing!");
+			    
+			    $this->file->setFilename($this->cdata);
+			    $this->file->setTitle($this->cdata);
+			    
 				break;
 			case 'Title':
    			    $this->file->setTitle(trim($this->cdata));
+   			    break;
 			case 'Description':
 			    $this->file->setDescription(trim($this->cdata));
 				break;
@@ -265,15 +271,18 @@ class ilFileXMLParser extends ilSaxParser
        }
 
        $filedir = $this->file->getDirectory($this->file->getVersion());
-		   	if (!is_dir($filedir))
-		   {
-				$this->file->createDirectory();
-				ilUtil::makeDir($filedir);
-		   }
+		  if (!is_dir($filedir))
+		  {
+			$this->file->createDirectory();
+			ilUtil::makeDir($filedir);
+		  }
+		   
 
-	   $filename = $filedir."/".$this->file->getFileName();
-	   return rename($this->tmpFilename, $filename);
-	   //@file_put_contents($filename, $this->content);
+		  $filename = $filedir."/".$this->file->getFileName();
+		   if (file_exists($filename))
+		       unlink($filename);
+		  return rename($this->tmpFilename, $filename);
+	   // @file_put_contents($filename, $this->content);
 	}
 
 
