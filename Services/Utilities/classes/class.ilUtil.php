@@ -2335,6 +2335,15 @@ class ilUtil
 		return $a_str;
 	}
 
+	/**
+	* Remove unsecure characters from a plain text string.
+	* This function currently returns the string without doing any changes.
+	*/
+	function securePlainString($a_str)
+	{
+		return $a_str;
+	}
+
 	function maskAttributeTag($a_str, $tag, $tag_att)
 	{
 		global $ilLog;

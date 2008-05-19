@@ -1015,8 +1015,8 @@ class ilMailFolderGUI
 		// MESSAGE
 		$this->tpl->setVariable("TXT_MESSAGE", $this->lng->txt("message"));
 		
-		$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(ilUtil::secureString($mailData["m_message"]))));
-		#$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars($mailData["m_message"]))));
+		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+		$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars(ilUtil::securePlainString($mailData["m_message"])))));
 		
 		$isTrashFolder = false;
 		if ($this->mbox->getTrashFolder() == $_GET["mobj_id"])

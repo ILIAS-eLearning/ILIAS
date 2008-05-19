@@ -805,15 +805,15 @@ class ilMail
 			"sender_id"       => $a_row->sender_id,
 			"attachments"     => unserialize(stripslashes($a_row->attachments)), 
 			"send_time"       => $a_row->send_time,
-			"rcp_to"          => stripslashes($a_row->rcp_to),
-			"rcp_cc"          => stripslashes($a_row->rcp_cc),
-			"rcp_bcc"         => stripslashes($a_row->rcp_bcc),
+			"rcp_to"          => $a_row->rcp_to,
+			"rcp_cc"          => $a_row->rcp_cc,
+			"rcp_bcc"         => $a_row->rcp_bcc,
 			"m_status"        => $a_row->m_status,
 			"m_type"          => unserialize(stripslashes($a_row->m_type)),
 			"m_email"         => $a_row->m_email,
-			"m_subject"       => stripslashes($a_row->m_subject),
-			"m_message"       => stripslashes($a_row->m_message),			
-			"import_name"	  => stripslashes($a_row->import_name),
+			"m_subject"       => $a_row->m_subject,
+			"m_message"       => $a_row->m_message,			
+			"import_name"	  => $a_row->import_name,
 			"use_placeholders"=> $a_row->use_placeholders);
 	}
 
