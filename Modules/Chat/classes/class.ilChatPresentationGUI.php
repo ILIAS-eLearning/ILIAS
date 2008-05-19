@@ -78,6 +78,16 @@ class ilChatPresentationGUI
 					unset($_REQUEST["message"]);
 					ilUtil::sendInfo("You are not entitled to view this room",true);
 				}
+				
+				// check server accessibility
+				if(!$chat_gui->object->server_conf->getActiveStatus())
+				{
+					$tmp_tpl = new ilTemplate('tpl.chat_srv_off_redirect_js.html', true, true, 'Modules/Chat');
+					$tmp_tpl->setVariable('OPENER_LOCATION', 'goto.php?target=chat_'.(int)$_GET['ref_id'].'&client_id='.CLIENT_ID);
+					echo $tmp_tpl->get();
+					exit();
+				}
+				
 				$chat_gui->object->server_comm->setRecipientId((int) $_GET["p_id"]);
 				$ret = $ilCtrl->forwardCommand($chat_gui);
 				break;
