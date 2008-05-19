@@ -141,7 +141,10 @@ class ilPDMailGUI
 		
 		// MESSAGE
 		$tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
-		$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(ilUtil::secureString($mail_data["m_message"]))));
+
+		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+		$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars(
+			ilUtil::securePlainString($mail_data["m_message"])))));
 		
 		return $tpl->get();
 	}
