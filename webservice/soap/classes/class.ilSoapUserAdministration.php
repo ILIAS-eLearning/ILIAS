@@ -646,7 +646,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		include_once './Services/User/classes/class.ilUserImportParser.php';
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		include_once './classes/class.ilObjectFactory.php';
-		global $rbacreview, $rbacsystem, $tree, $lng,$ilUser;
+		global $rbacreview, $rbacsystem, $tree, $lng,$ilUser,$ilLog;
 
     	// this takes time but is nescessary
    		$error = false;
@@ -695,7 +695,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
     			// get folder
     		$import_folder = ilObjectFactory::getInstanceByRefId($folder_id, false);
-
     		// id does not exist
     		if (!$import_folder)
     				return $this->__raiseError('Wrong reference id.','Server');
@@ -742,116 +741,16 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		//print_r($roles);
 
 
-		// get global roles
-		$all_gl_roles = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
-
-		//print_r($all_gl_roles );
-
-		$permitted_global_roles = array();
-
-		foreach ($all_gl_roles as $obj_data)
-		{
-			// check assignment permission if called from local admin
-			if($folder_id != USER_FOLDER_ID && $folder_id != 0)
-			{
-				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
-				{
-				    continue;
-				}
-			}
-			// exclude anonymous role from list
-			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
-			{
-				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
-				{
-					$permitted_global_roles[$obj_data["obj_id"]] = $obj_data["title"];
-				}
-			}
-		}
-
-		//print_r($permitted_global_roles);
-
-		// get local roles
-		$loc_roles = $rbacreview->getAssignableRoles();
-
-	//	print_r($loc_roles);
-
-		$permitted_local_roles = array();
-
-		foreach ($loc_roles as $key => $loc_role)
-		{
-				// fetch context path of role
-				$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
-
-				// only process role folders that are not set to status "deleted"
-				// and for which the user has write permissions.
-				// We also don't show the roles which are in the ROLE_FOLDER_ID folder.
-				// (The ROLE_FOLDER_ID folder contains the global roles).
-				if (!$rbacreview->isDeleted($rolf[0])
-				&& $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0]))
-				&& $rolf[0] != ROLE_FOLDER_ID
-				)
-				{
-					// A local role is only displayed, if it is contained in the subtree of
-					// the localy administrated category. If the import function has been
-					// invoked from the user folder object, we show all local roles, because
-					// the user folder object is considered the parent of all local roles.
-					// Thus, if we start from the user folder object, we initialize the
-					// isInSubtree variable with true. In all other cases it is initialized
-					// with false, and only set to true if we find the object id of the
-					// locally administrated category in the tree path to the local role.
-					$isInSubtree = $folder_id == USER_FOLDER_ID || $folder_id == 0;
-
-					$path = "";
-
-					if ($tree->isInTree($rolf[0]))
-					{
-
-						// Create path. Paths which have more than 4 segments
-						// are truncated in the middle.
-						$tmpPath = $tree->getPathFull($rolf[0]);
-
-                        for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
-						{
-							if ($i > 1)
-							{
-								$path = $path.' > ';
-							}
-							if ($i < 3 || $i > $n - 3)
-							{
-								$path = $path.$tmpPath[$i]['title'];
-							}
-							else if ($i == 3 || $i == $n - 3)
-							{
-								$path = $path.'...';
-							}
-
-							$isInSubtree |= $tmpPath[$i]['ref_id'] == $folder_id;
-						}
-					}
-					if ($loc_role["role_type"] != "Global" && $isInSubtree)
-					{
-					    $permitted_local_roles[$loc_role['obj_id']] = $loc_role["title"];
-					}
-				}
-		} //foreach local role
-
-
-		//print_r($permitted_local_roles);
 
 		// roles to be assigned, skip if one is not allowed!
-
 		$permitted_roles = array();
-#print_r($permitted_global_roles);
-#print_r($permitted_local_roles);
 		foreach ($roles as $role_id => $role)
 		{
-			$role_name = $role["name"];
 			if (!is_numeric ($role_id))
 			{
 				// check if internal id
 				$internalId = ilUtil::__extractId($role_id, IL_INST_ID);
+				
 				if (is_numeric($internalId))
 				{
 					$role_id = $internalId;
@@ -864,11 +763,17 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					$role_id = $role->role_id;
 				}*/
 			}
-			if (array_key_exists($role_id, $permitted_local_roles)
-			||  array_key_exists($role_id, $permitted_global_roles))
-
+			
+			if($this->isPermittedRole($folder_id,$role_id))
+			{
 				$permitted_roles[$role_id] = $role_id;
-			else return $this->__raiseError("Could not find role ".$role_name.". Either you use an invalid/deleted role or you try to assign a local role into the non-standard user folder and this role is not in its subtree.",'Server');
+			}
+			else
+			{
+				$role_name = ilObject::_lookupTitle($role_id);
+				return $this->__raiseError("Could not find role ".$role_name.". Either you use an invalid/deleted role ".
+					"or you try to assign a local role into the non-standard user folder and this role is not in its subtree.",'Server');				
+			}
 		}
 
 		$global_roles = $rbacreview->getGlobalRoles();
@@ -920,6 +825,107 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		return $this->__getImportProtocolAsXML ($importParser->getProtocol());
 
+	}
+	
+	/**
+	 * check if assignment is allowed
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function isPermittedRole($a_folder,$a_role)
+	{
+		static $checked_roles = array();
+		static $global_roles = null;
+		
+		
+		if(isset($checked_roles[$a_role]))
+		{
+			return $checked_roles[$a_role];
+		}
+		
+		global $rbacsystem,$rbacreview,$ilUser,$tree,$ilLog;
+		
+		$locations = $rbacreview->getFoldersAssignedToRole($a_role,true);
+		$location = $locations[0];
+		
+		// global role
+		if($location == ROLE_FOLDER_ID)
+		{
+			$ilLog->write(__METHOD__.': Check global role');
+			// check assignment permission if called from local admin
+			
+			
+			if($a_folder != USER_FOLDER_ID and $a_folder != 0)
+			{
+			$ilLog->write(__METHOD__.': '.$a_folder);
+				include_once './Services/AccessControl/classes/class.ilObjRole.php';
+				if(!ilObjRole::_getAssignUsersStatus($a_role))
+				{
+					$ilLog->write(__METHOD__.': No assignment allowed');
+				    $checked_roles[$a_role] = false;
+				    return false;
+				}
+			}
+			// exclude anonymous role from list
+			if ($a_role == ANONYMOUS_ROLE_ID)
+			{
+				$ilLog->write(__METHOD__.': Anonymous role chosen.');
+			    $checked_roles[$a_role] = false;
+				return false;
+			}
+			// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
+			if($a_role == SYSTEM_ROLE_ID and !in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
+			{
+				$ilLog->write(__METHOD__.': System role assignment forbidden.');
+			    $checked_roles[$a_role] = false;
+				return false;
+			}
+			
+			// Global role assignment ok
+			$ilLog->write(__METHOD__.': Assignment allowed.');
+		    $checked_roles[$a_role] = true;
+			return true;
+		}
+		elseif($location)
+		{
+			$ilLog->write(__METHOD__.': Check local role.');
+
+			// It's a local role
+			$rolfs = $rbacreview->getFoldersAssignedToRole($a_role,true);
+			$rolf = $rolfs[0];
+
+
+			// only process role folders that are not set to status "deleted"
+			// and for which the user has write permissions.
+			// We also don't show the roles which are in the ROLE_FOLDER_ID folder.
+			// (The ROLE_FOLDER_ID folder contains the global roles).
+			if($rbacreview->isDeleted($rolf)
+				|| !$rbacsystem->checkAccess('edit_permission',$tree->getParentId($rolf)))
+			{
+				$ilLog->write(__METHOD__.': Role deleted or no permission.');
+			    $checked_roles[$a_role] = false;
+				return false;
+			}
+			// A local role is only displayed, if it is contained in the subtree of
+			// the localy administrated category. If the import function has been
+			// invoked from the user folder object, we show all local roles, because
+			// the user folder object is considered the parent of all local roles.
+			// Thus, if we start from the user folder object, we initializ$isInSubtree = $folder_id == USER_FOLDER_ID || $folder_id == 0;e the
+			// isInSubtree variable with true. In all other cases it is initialized
+			// with false, and only set to true if we find the object id of the
+			// locally administrated category in the tree path to the local role.
+			if($a_folder != USER_FOLDER_ID and $a_folder != 0 and !$tree->isGrandChild($a_folder,$rolf))
+			{
+				$ilLog->write(__METHOD__.': Not in path of category.');
+			    $checked_roles[$a_role] = false;
+			    return false;
+			}
+			$ilLog->write(__METHOD__.': Assignment allowed.');
+		    $checked_roles[$a_role] = true;
+		    return true;
+		}
 	}
 
 
