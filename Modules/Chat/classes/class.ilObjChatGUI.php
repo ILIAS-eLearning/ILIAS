@@ -1038,14 +1038,20 @@ class ilObjChatGUI extends ilObjectGUI
 	*/
 	function showUserFrameObject()
 	{
-		global $ilCtrl;
-		
+		global $ilCtrl, $ilMainMenu;
+				
 		$this->object->chat_room->setUserId($_SESSION["AccountId"]);
 		$this->object->chat_room->updateLastVisit();
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		$this->__loadStylesheet(true);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.chat_user_frame.html",'Modules/Chat');
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		
+		$ilMainMenu->setSmallMode(true);
+		$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+		$this->tpl->addJavascript("./Services/Javascript/js/Basic.js");
+		$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+		$this->tpl->fillJavaScriptFiles();
 		
 		if($_REQUEST["room_id"])
 		{
