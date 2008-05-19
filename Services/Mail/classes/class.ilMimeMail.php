@@ -454,7 +454,7 @@ class ilMimeMail
 				echo "Class Mail, method attach : file $filename can't be found"; exit;
 			}
 			$subhdr= "--$this->boundary\nContent-type: $ctype;\n name=\"$basename\"\nContent-Transfer-Encoding:".
-				"base64\nContent-Disposition: $disposition;\n  filename=\"$basename\"\n";
+				"base64\nContent-Disposition: $disposition;\n  filename=\"$basename\"\n\n";
 			$ata[$k++] = $subhdr;
 			// non encoded line length
 			$linesz= filesize( $filename)+1;
