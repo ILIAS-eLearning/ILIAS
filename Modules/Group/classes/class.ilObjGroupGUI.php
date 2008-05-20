@@ -1002,6 +1002,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function assignSubscribersObject()
 	{
+		global $lng, $ilIliasIniFile;
+
 		$this->checkPermission('write');
 		
 		if(!count($_POST['subscribers']))
@@ -1013,6 +1015,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		foreach($_POST['subscribers'] as $usr_id)
 		{
+			$mail = new ilMail($_SESSION["AccountId"]);
+
+			// XXX - The message should be sent in the language of the receiver,
+			// instead of in the language of the current user
+			$mail->sendMail(ilObjUser::_lookupLogin($usr_id),"","",
+				sprintf($lng->txt('grp_accept_subscriber'), $this->object->getTitle()),
+				sprintf(str_replace('\n',"\n",$lng->txt('grp_accept_subscriber_body')), 
+						$this->object->getTitle(), $ilIliasIniFile->readVariable('server','http_path').'/goto.php?client_id='.CLIENT_ID.'&target=grp_'.$this->object->getRefId()),
+				array(),array('system'));	
 			$this->object->members_obj->add($usr_id,IL_GRP_MEMBER);
 			$this->object->members_obj->deleteSubscriber($usr_id);
 		}
@@ -1029,6 +1040,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function refuseSubscribersObject()
 	{
+		global $lng;
+
 		$this->checkPermission('write');
 		
 		if(!count($_POST['subscribers']))
@@ -1040,6 +1053,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		foreach($_POST['subscribers'] as $usr_id)
 		{
+			$mail = new ilMail($_SESSION["AccountId"]);
+			// XXX - The message should be sent in the language of the receiver,
+			// instead of in the language of the current user
+			$mail->sendMail(ilObjUser::_lookupLogin($usr_id),"","",
+				sprintf($lng->txt('grp_reject_subscriber'), $this->object->getTitle()),
+				sprintf(str_replace('\n',"\n",$lng->txt('grp_reject_subscriber_body')), 
+						$this->object->getTitle()),
+				array(),array('system'));	
 			$this->object->members_obj->deleteSubscriber($usr_id);
 		}
 		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_removed"));

@@ -370,10 +370,12 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 					global $ilIliasIniFile;
 
 					$mail = new ilMail($_SESSION["AccountId"]);
+					// XXX - The message should be sent in the language of the receiver,
+					// instead of in the language of the current user
 					$mail->sendMail($rbacreview->getRoleMailboxAddress($grp_admin_role['rol_id']),"","",
-						sprintf($lng->txt('membership_request_subject'), $ilUser->getFirstname(), $ilUser->getLastname(), $this->container->getTitle()),
-						sprintf(str_replace('\n',"\n",$lng->txt('membership_request_body')), $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getLogin(), $ilUser->getEmail(), 
-								$this->container->getTitle(), $ilIliasIniFile->readVariable('server','http_path').'/goto.php?client_id='.CLIENT_ID.'&target=grp_'.$this->container->getRefId(), $_POST["subject"]),
+						sprintf($lng->txt('grp_membership_request_subject'), $ilUser->getFirstname(), $ilUser->getLastname(), $this->container->getTitle()),
+						sprintf(str_replace('\n',"\n",$lng->txt('grp_membership_request_body')), $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getLogin(), $ilUser->getEmail(), 
+								$this->container->getTitle(), $ilIliasIniFile->readVariable('server','http_path').'/goto.php?client_id='.CLIENT_ID.'&target=grp_'.$this->container->getRefId(), $_POST["grp_subject"]),
 						array(),array('system'));	
 				}
 
