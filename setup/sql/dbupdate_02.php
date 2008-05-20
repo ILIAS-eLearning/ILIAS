@@ -4034,3 +4034,46 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1224>
+ALTER TABLE `chat_invitations` ADD INDEX `invitations` ( `guest_id` , `guest_informed` , `invitation_time` );
+
+<#1225>
+<?php
+
+$query = "SELECT * FROM object_data WHERE type = 'typ' AND title = 'sess'";
+$res = $ilDB->query($query);
+
+$permissions_empty = true;
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+        $permissions_empty = false;
+}
+if($permissions_empty)
+{
+        // new object type for course sessions
+        $query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+                        "VALUES ('typ', 'sess', 'Session object', -1, now(), now())";
+        $ilDB->query($query);
+        $typ_id =  $ilDB->getLastInsertId();
+
+        // Register permissions for sessions
+        // 1: edit_permissions, 2: visible, 3: read, 4:write
+        $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
+                        ."  (".$ilDB->quote($typ_id).",'1')"
+                        .", (".$ilDB->quote($typ_id).",'2')"
+                        .", (".$ilDB->quote($typ_id).",'3')"
+                        .", (".$ilDB->quote($typ_id).",'4')"
+                        ;
+        $ilDB->query($query);
+
+        $query = "SELECT ops_id FROM rbac_operations WHERE operation = 'copy'";
+        $res = $ilDB->query($query);
+        $row = $res->fetchRow();
+        $ops_id = $row[0];
+
+        // Register copy permissions for sessions
+        $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
+                        ."  (".$ilDB->quote($typ_id).",'".$ops_id."')";
+        $ilDB->query($query);
+}
+?>
