@@ -1014,14 +1014,14 @@ class ilForum
 	*/
 	function getAllThreads($a_topic_id, $is_moderator = false)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 		
 		$this->threads = array();
 		
 		$query = "SELECT *, MAX(pos_date) AS post_date 
 				  FROM `frm_threads`
 				  LEFT JOIN frm_posts ON pos_thr_fk = thr_pk ";
-		if (!$is_moderator) $query .= " AND pos_status = '1' ";
+		if (!$is_moderator) $query .= " AND (pos_status = '1' OR (pos_status = '0' AND pos_usr_id = ".$ilDB->quote($ilUser->getId()).")) ";
 		$query .="WHERE 1
 				  AND thr_top_fk = ".$ilDB->quote($a_topic_id)."
 				  GROUP BY thr_pk
@@ -1065,7 +1065,7 @@ class ilForum
 	
 	public function getUserStatistic($is_moderator = false)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 		
 		$statistic = array();
 		
@@ -1073,7 +1073,7 @@ class ilForum
  						FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d , usr_pref p
 						WHERE p.usr_id = u.usr_id AND p.keyword='public_profile'";
 		               
-		if (!$is_moderator) $query .= " AND pos_status = '1' ";
+		if (!$is_moderator) $query .= " AND (pos_status = '1' OR (pos_status = '0' AND pos_usr_id = ".$ilDB->quote($ilUser->getId()).")) ";
                   
 		$query .="AND f.pos_pk = t.pos_fk 
 				  AND t.thr_fk = th.thr_pk
@@ -1245,14 +1245,14 @@ class ilForum
 	
 	public function countActiveUserArticles($a_user_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 		
 		$q = "SELECT * 
 			  FROM frm_data
 			  INNER JOIN frm_posts ON pos_top_fk = top_pk
 			  WHERE 1
 			  AND top_frm_fk = ".$ilDB->quote($this->getForumId())."
-			  AND pos_status = '1'			   
+			  AND (pos_status = '1' OR (pos_status = '0' AND pos_usr_id = ".$ilDB->quote($ilUser->getId())."))	   
 			  AND pos_usr_id = ".$ilDB->quote($a_user_id)." ";				
 		$res = $this->ilias->db->query($q);			
 		

@@ -303,10 +303,12 @@ class ilForumTopic
 	*/
 	public function countActivePosts()
 	{
+		global $ilUser;
+		
 		$query = "SELECT COUNT(*) AS cnt
 				  FROM frm_posts
 				  WHERE 1				 
-				  AND pos_status = '1'
+				  AND (pos_status = '1' OR (pos_status = '0' AND pos_usr_id = ".$this->db->quote($ilUser->getId())."))
 				  AND pos_thr_fk = ".$this->db->quote($this->id)." ";
 
 		$res = $this->db->query($query);
@@ -348,13 +350,15 @@ class ilForumTopic
 	*/
 	public function countReadActivePosts($a_user_id)
 	{
+		global $ilUser;
+		
 		$query = "SELECT COUNT(*) AS cnt				  
 				  FROM frm_user_read
 				  INNER JOIN frm_posts ON pos_pk = post_id
 				  WHERE 1			  
 				  AND usr_id = ".$this->db->quote($a_user_id)."
 				  AND thread_id = ".$this->db->quote($this->id)."				  
-				  AND pos_status = '1'";
+				  AND (pos_status = '1' OR (pos_status = '0' AND pos_usr_id = ".$this->db->quote($ilUser->getId())."))";
 
 		$res = $this->db->query($query);
 		
@@ -399,6 +403,8 @@ class ilForumTopic
 	*/
 	public function countNewActivePosts($a_user_id)
 	{
+		global $ilUser;
+		
 		$timest = $this->getLastThreadAccess($a_user_id);
 		
 		$query = "SELECT COUNT(pos_pk) AS cnt
@@ -408,7 +414,7 @@ class ilForumTopic
 				  AND pos_thr_fk = ".$this->db->quote($this->id)."
 				  AND (pos_date > '".date('Y-m-d H:i:s', $timest)."' OR pos_update > '".date('Y-m-d H:i:s', $timest)."') 
 				  AND pos_usr_id != ".$this->db->quote($a_user_id)." 
-				  AND pos_status = '1'
+				  AND (pos_status = '1' OR (pos_status = '0' AND pos_usr_id = ".$this->db->quote($ilUser->getId())."))
 				  AND usr_id IS NULL ";
 		
 		$res = $this->db->query($query);
@@ -475,13 +481,15 @@ class ilForumTopic
 	*/
 	public function getLastActivePost()
 	{
+		global $ilUser;
+		
 		if ($this->id)
 		{
 			$query = "SELECT pos_pk
 					  FROM frm_posts 
 					  WHERE 1
 					  AND pos_thr_fk = ".$this->db->quote($this->id)."				 
-					  AND pos_status = '1'					   
+					  AND (pos_status = '1' OR (pos_status = '0' AND pos_usr_id = ".$this->db->quote($ilUser->getId())."))	
 					  ORDER BY pos_date DESC
 					  LIMIT 1";
 	
@@ -554,7 +562,7 @@ class ilForumTopic
 
 		 	if (!$this->is_moderator)
 		 	{
-				if (!$tmp_object->isActivated())
+				if (!$tmp_object->isActivated() && $tmp_object->getUserId() != $ilUser->getId())
 			 	{
 			 		$deactivated[] = $tmp_object;
 			 		unset($tmp_object);
@@ -666,6 +674,8 @@ class ilForumTopic
 	*/
 	public function getPostChilds($a_node_id, $type = '')
 	{
+		global $ilUser;
+		
 		$childs = array();
 
 		$count = 0;
@@ -689,7 +699,8 @@ class ilForumTopic
 			{
 				$tmp_obj = new ilForumPost($row->pos_pk);
 				
-				if ($this->is_moderator || $tmp_obj->isActivated())
+				if ($this->is_moderator || 
+				   ($tmp_obj->isActivated() || (!$tmp_obj->isActivated() && $tmp_obj->getUserId() == $ilUser->getId())))
 				{
 					$childs[] = ($type == 'explorer' ? $tmp_obj->getDataAsArrayForExplorer() : $tmp_obj->getDataAsArray());
 					++$active_count;
