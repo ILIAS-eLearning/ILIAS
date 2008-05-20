@@ -287,7 +287,7 @@ class ilSoapUtils extends ilSoapAdministration
 			$ilLog->write(__METHOD__.': Cannot call SOAP server');
 			$cp_options->read();			
 			include_once('./webservice/soap/include/inc.soap_functions.php');
-			$res = ilClone($sid,$cp_options->getCopyId());
+			$res = ilSoapFunctions::ilClone($sid,$cp_options->getCopyId());
 		}
 		return true;
 	}
@@ -314,7 +314,7 @@ class ilSoapUtils extends ilSoapAdministration
 			$ilLog->write(__METHOD__.': Cannot call SOAP server');
 			$cp_options->read();
 			include_once('./webservice/soap/include/inc.soap_functions.php');
-			$res = ilCloneDependencies($sid,$cp_options->getCopyId());
+			$res = ilSoapFunctions::ilCloneDependencies($sid,$cp_options->getCopyId());
 		}
 		return true;
 	}

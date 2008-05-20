@@ -57,36 +57,14 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	private function __buildHeader()
 	{
 		// we have to build the http path here since this request is client independent!
-		if($_SERVER["HTTPS"] == "on")
-		{
-			$protocol = 'https://';
-		}
-		else
-		{
-			$protocol = 'http://';
-		}
-		$host = $_SERVER['HTTP_HOST'];
-
-		$path = dirname($_SERVER['REQUEST_URI']);
-
-			// dirname cuts the last directory from a directory path e.g content/classes return content
-
-		$module = ilUtil::removeTrailingPathSeparators(ILIAS_MODULE);
-
-		$dirs = explode('/',$module);
-		$uri = $path;
-		foreach($dirs as $dir)
-		{
-			$uri = dirname($uri);
-		}
-		$httppath = ilUtil::removeTrailingPathSeparators($protocol.$host.$uri);		
-		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD Group//EN\" \"".$httppath."/xml/ilias_client_3_10.dtd\">");  
+		$httpPath = ilSoapFunctions::buildHTTPPath();	
+		$this->xmlSetDtdDef("<!DOCTYPE Installation PUBLIC \"-//ILIAS//DTD Group//EN\" \"".$httpPath ."/xml/ilias_client_3_10.dtd\">");  
 		$this->xmlSetGenCmt("Export of ILIAS clients.");
 		$this->xmlHeader();
 		$this->xmlStartTag("Installation",
 			array (
 				"version" => ILIAS_VERSION,
-				"path" => $httppath,
+				"path" => $httpPath,
 			));			
 		
 		return true;

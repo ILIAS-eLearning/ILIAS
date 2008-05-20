@@ -36,22 +36,16 @@ define ("ILIAS_MODULE", "webservice/soap");
 define ("IL_SOAPMODE_NUSOAP", 0);
 define ("IL_SOAPMODE_INTERNAL", 1);
 
-define ("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);
+define ("IL_SOAPMODE", IL_SOAPMODE_INTERNAL);
 if (IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"], "post") == 0)
 {
-		// called by webservice
-		//ini_set("soap.wsdl_cache_enabled", "1"); 
-		include_once('webservice/soap/include/inc.soap_functions.php');
-		$soapServer = new SoapServer("webservice/soap/server.wsdl");
-		$soapServer->setClass("ilSoapFunctions");
-		$soapServer->handle();				
+	// called by webservice
+	//ini_set("soap.wsdl_cache_enabled", "1"); 
+	include_once('webservice/soap/include/inc.soap_functions.php');
+	$soapServer = new SoapServer(ilSoapFunctions::buildHTTPPath()."./webservice/soap/nusoapserver.php?wsdl");
+	$soapServer->setClass("ilSoapFunctions");
+	$soapServer->handle();				
 } else {
-	global $HTTP_RAW_POST_DATA;
-	$HTTP_RAW_POST_DATA = file_get_contents("php://input");
-	include_once './webservice/soap/classes/class.ilNusoapUserAdministrationAdapter.php';
-	$server =& new ilNusoapUserAdministrationAdapter(true);
-	$server->start();
-	break;
+	include ('webservice/soap/nusoapserver.php');	
 }
-
 ?>

@@ -372,7 +372,7 @@ class ilContainer extends ilObject
 			$wizard_options->disableSOAP();
 			$wizard_options->read();			
 			include_once('./webservice/soap/include/inc.soap_functions.php');
-			$res = ilClone($new_session_id.'::'.$client_id, $copy_id);
+			$res = ilSoapFunctions::ilClone($new_session_id.'::'.$client_id, $copy_id);
 		}
 		// Check if copy is in progress or if this has been called by soap (don't wait for finishing)
 		if($soap_call || ilCopyWizardOptions::_isFinished($copy_id))

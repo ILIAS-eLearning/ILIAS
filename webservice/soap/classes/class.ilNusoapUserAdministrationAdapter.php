@@ -34,7 +34,7 @@
 include_once './webservice/soap/lib/nusoap.php';
 include_once './webservice/soap/include/inc.soap_functions.php';
 
-class ilNusoapUserAdministrationAdapter
+class ilNusoapUserAdministrationAdapter 
 {
 	/*
 	 * @var object Nusoap-Server
@@ -51,6 +51,8 @@ class ilNusoapUserAdministrationAdapter
 		global $debug; $debug = true;
 		$this->server =& new soap_server();
 		$this->server->decode_utf8 = false;
+		$this->server->class = "ilSoapFunctions";
+		
 		if($a_use_wsdl)
 		{
 			$this->__enableWSDL();
@@ -906,7 +908,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#getNIC',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS getNIC(): return client information from current client as xml result set containing installation_id, installation_version, installation_url, installation_description, installation_language_default as columns');
+								'ILIAS getNIC(): DEPRECATED: use getClientInfoXML instead. was: return client information from current client as xml result set containing installation_id, installation_version, installation_url, installation_description, installation_language_default as columns');
 
         $this->server->register('getExerciseXML',
 								array('sid' => 'xsd:string', "ref_id" => 'xsd:int', "attachment_mode" => "xsd:int"),
