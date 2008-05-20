@@ -1880,184 +1880,187 @@ class ilObjForumGUI extends ilObjectGUI
 					if($this->objCurrentPost->getId() == $node->getId())
 					{
 						# actions for "active" post
-						
-						// reply/edit
-						if(!$this->objCurrentTopic->isClosed() && ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit'))
+						if($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
+						   (!$ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) && $node->isActivated()))
 						{
-							// edit attachments
-							if(count($file_obj->getFilesOfPost()) && $_GET['action'] == 'showedit')
+							// reply/edit
+							if(!$this->objCurrentTopic->isClosed() && ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit'))
 							{
-								foreach($file_obj->getFilesOfPost() as $file)
+								// edit attachments
+								if(count($file_obj->getFilesOfPost()) && $_GET['action'] == 'showedit')
 								{
-									$tpl->setCurrentBlock('attachment_edit_row');
-									$tpl->setVariable('FILENAME', $file['name']);
-									$tpl->setVariable('CHECK_FILE', ilUtil::formCheckbox(0, 'del_file[]', $file['name']));
+									foreach($file_obj->getFilesOfPost() as $file)
+									{
+										$tpl->setCurrentBlock('attachment_edit_row');
+										$tpl->setVariable('FILENAME', $file['name']);
+										$tpl->setVariable('CHECK_FILE', ilUtil::formCheckbox(0, 'del_file[]', $file['name']));
+										$tpl->parseCurrentBlock();
+									}
+			
+									$tpl->setCurrentBlock('reply_attachment_edit');
+									$tpl->setVariable('TXT_ATTACHMENTS_EDIT', $lng->txt('forums_attachments_edit'));
+									$tpl->setVariable('ATTACHMENT_EDIT_DELETE', $lng->txt('forums_delete_file'));
 									$tpl->parseCurrentBlock();
 								}
-		
-								$tpl->setCurrentBlock('reply_attachment_edit');
-								$tpl->setVariable('TXT_ATTACHMENTS_EDIT', $lng->txt('forums_attachments_edit'));
-								$tpl->setVariable('ATTACHMENT_EDIT_DELETE', $lng->txt('forums_delete_file'));
+			
+								// add attachments
+								$tpl->setCurrentBlock('reply_attachment');
+								$tpl->setVariable('TXT_ATTACHMENTS_ADD', $lng->txt('forums_attachments_add'));
+								#$tpl->setVariable('BUTTON_UPLOAD', $lng->txt('upload'));
 								$tpl->parseCurrentBlock();
-							}
-		
-							// add attachments
-							$tpl->setCurrentBlock('reply_attachment');
-							$tpl->setVariable('TXT_ATTACHMENTS_ADD', $lng->txt('forums_attachments_add'));
-							#$tpl->setVariable('BUTTON_UPLOAD', $lng->txt('upload'));
-							$tpl->parseCurrentBlock();
-							
-							$tpl->setCurrentBlock('reply_post');
-							$tpl->setVariable('REPLY_ANKER', $node->getId());
-		
-							if($this->objProperties->isAnonymized() && $_GET['action'] == 'showreply')
-							{
-								$tpl->setCurrentBlock('alias');
-								$tpl->setVariable('TXT_FORM_ALIAS', $lng->txt('forums_your_name'));
-								$tpl->setVariable('TXT_ALIAS_INFO', $lng->txt('forums_use_alias'));								
-								$tpl->setVariable('ALIAS_VALUE',  $_GET['show_post'] == 1 ?
-												  ilUtil::prepareFormOutput($_POST['formData']['alias'], true) :
-												  ''
-								);
-								$tpl->parseCurrentBlock();
-							}
-
-							$tpl->setVariable('TXT_FORM_SUBJECT', $lng->txt('forums_subject'));
-							if($_GET['action'] == 'showreply')
-							{
-								$tpl->setVariable('TXT_FORM_MESSAGE', $lng->txt('forums_your_reply'));
-							}
-							else
-							{
-								$tpl->setVariable('TXT_FORM_MESSAGE', $lng->txt('forums_edit_post'));
-							}
-
-							if($_GET['action'] == 'showreply')
-							{
-								$tpl->setVariable('SUBJECT_VALUE',
-									($_GET['show_post'] == 1 ?
-										$this->forwardInputToOutput($_POST['formData']['subject']) :
-										$this->prepareFormOutput($this->objCurrentTopic->getSubject())));
-
-								if (!empty($_POST['addQuote']))
+								
+								$tpl->setCurrentBlock('reply_post');
+								$tpl->setVariable('REPLY_ANKER', $node->getId());
+			
+								if($this->objProperties->isAnonymized() && $_GET['action'] == 'showreply')
 								{
-									$tpl->setVariable('MESSAGE_VALUE',
-										($_GET['show_post'] == 1 ?
-											ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
-											$frm->prepareText($node->getMessage(), 1, $node->getLoginName())."\n".
-											ilUtil::prepareFormOutput($_POST['formData']['message'], true)
-											));
+									$tpl->setCurrentBlock('alias');
+									$tpl->setVariable('TXT_FORM_ALIAS', $lng->txt('forums_your_name'));
+									$tpl->setVariable('TXT_ALIAS_INFO', $lng->txt('forums_use_alias'));								
+									$tpl->setVariable('ALIAS_VALUE',  $_GET['show_post'] == 1 ?
+													  ilUtil::prepareFormOutput($_POST['formData']['alias'], true) :
+													  ''
+									);
+									$tpl->parseCurrentBlock();
+								}
+	
+								$tpl->setVariable('TXT_FORM_SUBJECT', $lng->txt('forums_subject'));
+								if($_GET['action'] == 'showreply')
+								{
+									$tpl->setVariable('TXT_FORM_MESSAGE', $lng->txt('forums_your_reply'));
 								}
 								else
 								{
+									$tpl->setVariable('TXT_FORM_MESSAGE', $lng->txt('forums_edit_post'));
+								}
+	
+								if($_GET['action'] == 'showreply')
+								{
+									$tpl->setVariable('SUBJECT_VALUE',
+										($_GET['show_post'] == 1 ?
+											$this->forwardInputToOutput($_POST['formData']['subject']) :
+											$this->prepareFormOutput($this->objCurrentTopic->getSubject())));
+	
+									if (!empty($_POST['addQuote']))
+									{
+										$tpl->setVariable('MESSAGE_VALUE',
+											($_GET['show_post'] == 1 ?
+												ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
+												$frm->prepareText($node->getMessage(), 1, $node->getLoginName())."\n".
+												ilUtil::prepareFormOutput($_POST['formData']['message'], true)
+												));
+									}
+									else
+									{
+										$tpl->setVariable('MESSAGE_VALUE',
+											($_GET['show_post'] == 1 ?
+												ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
+												''));
+									}
+								}
+								else
+								{
+									$tpl->setVariable('SUBJECT_VALUE',
+										($_GET['show_post'] == 1 ?
+											$this->forwardInputToOutput($_POST['formData']['subject']) :
+											$this->prepareFormOutput($node->getSubject())));
 									$tpl->setVariable('MESSAGE_VALUE',
 										($_GET['show_post'] == 1 ?
 											ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
-											''));
+											$frm->prepareText($node->getMessage(), 2)));
 								}
-							}
-							else
-							{
-								$tpl->setVariable('SUBJECT_VALUE',
-									($_GET['show_post'] == 1 ?
-										$this->forwardInputToOutput($_POST['formData']['subject']) :
-										$this->prepareFormOutput($node->getSubject())));
-								$tpl->setVariable('MESSAGE_VALUE',
-									($_GET['show_post'] == 1 ?
-										ilUtil::prepareFormOutput($_POST['formData']['message'], true) :
-										$frm->prepareText($node->getMessage(), 2)));
-							}
-							
-							// NOTIFY
-							include_once 'Services/Mail/classes/class.ilMail.php';
-							$umail = new ilMail($_SESSION['AccountId']);
-
-							if($rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()))
-							{
-								global $ilUser;
 								
-								// only if gen. notification is disabled and forum isn't anonymous
-								if (!$frm->isThreadNotificationEnabled($ilUser->getId(), $node->getThreadId()) &&
-									!$this->objProperties->isAnonymized())
+								// NOTIFY
+								include_once 'Services/Mail/classes/class.ilMail.php';
+								$umail = new ilMail($_SESSION['AccountId']);
+	
+								if($rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()))
 								{
-									$tpl->setCurrentBlock('notify');
-									$tpl->setVariable('NOTIFY', $lng->txt('forum_notify_me'));
+									global $ilUser;
 									
-									if($_GET['action'] == 'showreply')
+									// only if gen. notification is disabled and forum isn't anonymous
+									if (!$frm->isThreadNotificationEnabled($ilUser->getId(), $node->getThreadId()) &&
+										!$this->objProperties->isAnonymized())
 									{
-										$tpl->setVariable('NOTIFY_CHECKED', $_POST['notify'] ? ' checked="checked"' : '');
-									}
-									else if($_GET['action'] == 'showedit')
-									{
-										if(isset($_POST['SUB']))
+										$tpl->setCurrentBlock('notify');
+										$tpl->setVariable('NOTIFY', $lng->txt('forum_notify_me'));
+										
+										if($_GET['action'] == 'showreply')
 										{
-											$tpl->setVariable('NOTIFY_CHECKED', $_POST['notify'] ? ' checked="checked"' : '');	
+											$tpl->setVariable('NOTIFY_CHECKED', $_POST['notify'] ? ' checked="checked"' : '');
 										}
-										else
+										else if($_GET['action'] == 'showedit')
 										{
-											$tpl->setVariable('NOTIFY_CHECKED', $node->isNotificationEnabled() ? "checked=\"checked\"" : '');	
-										}								
+											if(isset($_POST['SUB']))
+											{
+												$tpl->setVariable('NOTIFY_CHECKED', $_POST['notify'] ? ' checked="checked"' : '');	
+											}
+											else
+											{
+												$tpl->setVariable('NOTIFY_CHECKED', $node->isNotificationEnabled() ? "checked=\"checked\"" : '');	
+											}								
+										}
+										
+										$tpl->parseCurrentBlock();
 									}
-									
+								}
+								
+								if ($_GET['action'] == 'showreply' || !empty($_POST['addQuote']))
+								{
+									$tpl->setCurrentBlock('quotation');
+									$tpl->setVariable('TXT_ADD_QUOTE', $lng->txt('forum_add_quote'));
 									$tpl->parseCurrentBlock();
 								}
-							}
-							
-							if ($_GET['action'] == 'showreply' || !empty($_POST['addQuote']))
-							{
-								$tpl->setCurrentBlock('quotation');
-								$tpl->setVariable('TXT_ADD_QUOTE', $lng->txt('forum_add_quote'));
+	
+								$tpl->setVariable('SUBMIT', $lng->txt('submit'));							
+								$tpl->setVariable('CANCEL_FORM_TXT', $lng->txt('cancel'));														
+								#$tpl->setVariable('RESET', $lng->txt('reset'));
+								
+								$this->ctrl->setParameter($this, 'action', 'ready_'.$_GET['action']);
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('FORMACTION',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								$this->ctrl->clearParameters($this);
 								$tpl->parseCurrentBlock();
-							}
-
-							$tpl->setVariable('SUBMIT', $lng->txt('submit'));							
-							$tpl->setVariable('CANCEL_FORM_TXT', $lng->txt('cancel'));														
-							#$tpl->setVariable('RESET', $lng->txt('reset'));
-							
-							$this->ctrl->setParameter($this, 'action', 'ready_'.$_GET['action']);
-							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-							$this->ctrl->setParameter($this, 'offset', $Start);
-							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-							$tpl->setVariable('FORMACTION',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock();
-		
-						} // if ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit')
-						else if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'delete')
-						{
-							if($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
-							  ($node->isOwner($ilUser->getId()) && !$node->hasReplies()))
+			
+							} // if ($_GET['action'] == 'showreply' || $_GET['action'] == 'showedit')
+							else if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'delete')
 							{
-								// confirmation: delete
-								$tpl->setVariable('FORM', $this->getDeleteFormHTML());							
-							}
-						} // else if ($_GET['action'] == 'delete')
-						else if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'censor')
-						{
-							if($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+								if($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
+								  ($node->isOwner($ilUser->getId()) && !$node->hasReplies()))
+								{
+									// confirmation: delete
+									$tpl->setVariable('FORM', $this->getDeleteFormHTML());							
+								}
+							} // else if ($_GET['action'] == 'delete')
+							else if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'censor')
 							{
-								// confirmation: censor / remove censorship
-								$tpl->setVariable('FORM', $this->getCensorshipFormHTML());							
+								if($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+								{
+									// confirmation: censor / remove censorship
+									$tpl->setVariable('FORM', $this->getCensorshipFormHTML());							
+								}
 							}
+							else if (!$this->objCurrentTopic->isClosed() && $this->displayConfirmPostActivation())
+							{
+								if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+								{
+									// confirmation: activate
+									$tpl->setVariable('FORM', $this->getActivationFormHTML());							
+								}
+							} // else if ($this->displayConfirmPostActivation())
+							/*else if ($this->displayConfirmPostDeactivation())
+							{
+								if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+								{
+									// confirmation: deactivate
+									$tpl->setVariable('FORM', $this->getDeactivationFormHTML()));								
+								}
+							} // else if ($this->displayConfirmPostDeactivation())
+							*/
 						}
-						else if (!$this->objCurrentTopic->isClosed() && $this->displayConfirmPostActivation())
-						{
-							if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
-							{
-								// confirmation: activate
-								$tpl->setVariable('FORM', $this->getActivationFormHTML());							
-							}
-						} // else if ($this->displayConfirmPostActivation())
-						/*else if ($this->displayConfirmPostDeactivation())
-						{
-							if ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
-							{
-								// confirmation: deactivate
-								$tpl->setVariable('FORM', $this->getDeactivationFormHTML()));								
-							}
-						} // else if ($this->displayConfirmPostDeactivation())
-						*/
 					} // if ($this->objCurrentPost->getId() == $node->getId())				
 					
 					if ($this->objCurrentPost->getId() != $node->getId() ||
@@ -2069,121 +2072,125 @@ class ilObjForumGUI extends ilObjectGUI
 						 !$this->displayConfirmPostActivation()
 						))
 					{
-						# buttons for every post except the "active"						
-						if (!$this->objCurrentTopic->isClosed() &&
-						   ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
-						   ($node->isOwner($ilUser->getId()) && !$node->hasReplies())))
-						{
-							// button: delete							
-							$tpl->setCurrentBlock('commands');							
-							$this->ctrl->setParameter($this, 'action', 'delete');
-							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-							$this->ctrl->setParameter($this, 'offset', $Start);
-							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-							$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
-							$tpl->setVariable('COMMANDS_TXT', $lng->txt('delete'));
-							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock();
-						}
-						
-						if (!$this->objCurrentTopic->isClosed() &&
-							$ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
-						{	
-							// button: censor							
-							$tpl->setCurrentBlock('commands');
-							$this->ctrl->setParameter($this, 'action', 'censor');
-							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-							$this->ctrl->setParameter($this, 'offset', $Start);
-							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);									
-							$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
-							$tpl->setVariable('COMMANDS_TXT', $lng->txt('censorship'));
-							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock();
-							
-							// button: activation/deactivation							
-							$tpl->setCurrentBlock('commands');
-							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-							$this->ctrl->setParameter($this, 'offset', $Start);
-							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-							/*if ($node->isActivated())
-							{								
-								$tpl->setVariable('ACTIVATE_DEACTIVATE_LINK', $this->ctrl->getLinkTarget($this, 'askForPostDeactivation', $node->getId()));
-								$tpl->setVariable('ACTIVATE_DEACTIVATE_BUTTON', $lng->txt('deactivate_post'));
-							}
-							else
-							*/
-							if (!$node->isActivated())
-							{								
-								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'askForPostActivation', $node->getId()));
-								$tpl->setVariable('COMMANDS_TXT', $lng->txt('activate_post'));
-							}
-							$this->ctrl->clearParameters($this);			
-							$tpl->parseCurrentBlock();
-						}
-						
-						// button: edit article
-						if (!$this->objCurrentTopic->isClosed() &&
-							($node->isOwner($ilUser->getId()) ||
-							 $ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id'])) &&									
-							 !$node->isCensored())
-						{
-							$tpl->setCurrentBlock('commands');
-							$this->ctrl->setParameter($this, 'action', 'showedit');
-							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-							$this->ctrl->setParameter($this, 'offset', $Start);
-							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-							$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-							$tpl->setVariable('COMMANDS_TXT', $lng->txt('edit'));
-							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock();
-						}			
-						
-						// button: reply
-						if (!$this->objCurrentTopic->isClosed() &&
-							$ilAccess->checkAccess('add_post', '', (int) $_GET['ref_id']) && 
-							!$node->isCensored())
+						if($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
+						   (!$ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) && $node->isActivated()))
 						{						
-							$tpl->setCurrentBlock('commands');
-							$this->ctrl->setParameter($this, 'action', 'showreply');
-							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-							$this->ctrl->setParameter($this, 'offset', $Start);
-							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-							$tpl->setVariable('COMMANDS_COMMAND',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-							$tpl->setVariable('COMMANDS_TXT', $lng->txt('reply'));
-							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock();				
-						}
-						
-						// button: mark read
-						if (!$node->isRead($ilUser->getId()))
-						{	
-							$tpl->setCurrentBlock('commands');
-							$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-							$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-							$this->ctrl->setParameter($this, 'offset', $Start);
-							$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-							$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-							$tpl->setVariable('COMMANDS_TXT', $lng->txt('is_read'));
-							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock();
-						}										
-						
-						// button: print
-						if (!$node->isCensored())
-						{							
-							$tpl->setCurrentBlock('commands');
-							$this->ctrl->setParameterByClass('ilforumexportgui', 'print_post', $node->getId());
-							$this->ctrl->setParameterByClass('ilforumexportgui', 'top_pk', $node->getForumId());
-							$this->ctrl->setParameterByClass('ilforumexportgui', 'thr_pk', $node->getThreadId());
-							$tpl->setVariable('COMMANDS_COMMAND',	$this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printPost'));
-							$tpl->setVariable('COMMANDS_TXT', $lng->txt('print'));
-							$this->ctrl->clearParameters($this);
-							$tpl->parseCurrentBlock();									
+							# buttons for every post except the "active"						
+							if (!$this->objCurrentTopic->isClosed() &&
+							   ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
+							   ($node->isOwner($ilUser->getId()) && !$node->hasReplies())))
+							{
+								// button: delete							
+								$tpl->setCurrentBlock('commands');							
+								$this->ctrl->setParameter($this, 'action', 'delete');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('delete'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();
+							}
+							
+							if (!$this->objCurrentTopic->isClosed() &&
+								$ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']))
+							{	
+								// button: censor							
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameter($this, 'action', 'censor');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);									
+								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));							
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('censorship'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();
+								
+								// button: activation/deactivation							
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								/*if ($node->isActivated())
+								{								
+									$tpl->setVariable('ACTIVATE_DEACTIVATE_LINK', $this->ctrl->getLinkTarget($this, 'askForPostDeactivation', $node->getId()));
+									$tpl->setVariable('ACTIVATE_DEACTIVATE_BUTTON', $lng->txt('deactivate_post'));
+								}
+								else
+								*/
+								if (!$node->isActivated())
+								{								
+									$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'askForPostActivation', $node->getId()));
+									$tpl->setVariable('COMMANDS_TXT', $lng->txt('activate_post'));
+								}
+								$this->ctrl->clearParameters($this);			
+								$tpl->parseCurrentBlock();
+							}
+							
+							// button: edit article
+							if (!$this->objCurrentTopic->isClosed() &&
+								($node->isOwner($ilUser->getId()) ||
+								 $ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id'])) &&									
+								 !$node->isCensored())
+							{
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameter($this, 'action', 'showedit');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('edit'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();
+							}			
+							
+							// button: reply
+							if (!$this->objCurrentTopic->isClosed() &&
+								$ilAccess->checkAccess('add_post', '', (int) $_GET['ref_id']) && 
+								!$node->isCensored())
+							{						
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameter($this, 'action', 'showreply');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$tpl->setVariable('COMMANDS_COMMAND',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('reply'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();				
+							}
+							
+							// button: mark read
+							if (!$node->isRead($ilUser->getId()))
+							{	
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('is_read'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();
+							}										
+							
+							// button: print
+							if (!$node->isCensored())
+							{							
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameterByClass('ilforumexportgui', 'print_post', $node->getId());
+								$this->ctrl->setParameterByClass('ilforumexportgui', 'top_pk', $node->getForumId());
+								$this->ctrl->setParameterByClass('ilforumexportgui', 'thr_pk', $node->getThreadId());
+								$tpl->setVariable('COMMANDS_COMMAND',	$this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printPost'));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('print'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();									
+							}
 						}
 					} // if ($this->objCurrentPost->getId() != $node->getId())										
 										
@@ -2334,6 +2341,12 @@ class ilObjForumGUI extends ilObjectGUI
 
 					} // if ($node->getUpdateUserId() > 0)					
 
+					// if post is not activated display message for the owner
+					if(!$node->isActivated() && $node->isOwner($ilUser->getId()))
+					{
+						$tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
+					}
+			
 					if($this->objProperties->isAnonymized())
 					{
 						if ($usr_data['login'] != '') $tpl->setVariable('AUTHOR', $usr_data['login']);
