@@ -4328,7 +4328,16 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->setVariable("CHECK_MAILBOX",ilUtil::formCheckbox(1,'roles[]',
 					htmlspecialchars($role_addr)
 			));
-			$this->tpl->setVariable("MAILBOX",ilObjRole::_getTranslation($ilObjDataCache->lookupTitle($role_id)). " (" . $role_addr . ")");
+			if (ilMail::_usePearMail())
+			{
+				// if pear mail is enabled, mailbox addresses are already localized in the language of the user
+				$this->tpl->setVariable("MAILBOX",$role_addr);
+			}
+			else
+			{
+				// if pear mail is not enabled, we need to localize mailbox addresses in the language of the user
+				$this->tpl->setVariable("MAILBOX",ilObjRole::_getTranslation($ilObjDataCache->lookupTitle($role_id)). " (" . $role_addr . ")");
+			}
 
 			$this->tpl->parseCurrentBlock();
 		}
