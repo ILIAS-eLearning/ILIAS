@@ -42,7 +42,7 @@ if (IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"]
 	// called by webservice
 	//ini_set("soap.wsdl_cache_enabled", "1"); 
 	include_once('webservice/soap/include/inc.soap_functions.php');
-	$soapServer = new SoapServer(ilSoapFunctions::buildHTTPPath()."./webservice/soap/nusoapserver.php?wsdl");
+	$soapServer = new SoapServer(ilSoapFunctions::buildHTTPPath()."/webservice/soap/nusoapserver.php?wsdl");
 	$soapServer->setClass("ilSoapFunctions");
 	$soapServer->handle();				
 } else {
