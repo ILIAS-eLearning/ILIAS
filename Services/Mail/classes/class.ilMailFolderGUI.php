@@ -971,7 +971,8 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("CSSROW_FROM", (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		// TO
 		$this->tpl->setVariable('TXT_TO', $this->lng->txt('mail_to'));		
-		$this->tpl->setVariable('TO', $this->umail->formatNamesForOutput($mailData['rcp_to']));	
+		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+		$this->tpl->setVariable('TO', ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_to']), false));	
 		$this->tpl->setVariable('CSSROW_TO', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		
 		// CC
@@ -979,14 +980,16 @@ class ilMailFolderGUI
 		{
 			$this->tpl->setCurrentBlock('cc');
 			$this->tpl->setVariable('TXT_CC',$this->lng->txt('cc'));
-			$this->tpl->setVariable('CC', $this->umail->formatNamesForOutput($mailData['rcp_cc']));
+			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+			$this->tpl->setVariable('CC', ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_cc']), false));
 			$this->tpl->setVariable('CSSROW_CC', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 			$this->tpl->parseCurrentBlock();
 		}
 		
 		// SUBJECT
 		$this->tpl->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
-		$this->tpl->setVariable('SUBJECT', htmlspecialchars($mailData['m_subject']));
+		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+		$this->tpl->setVariable('SUBJECT', ilUtil::htmlencodePlainString($mailData['m_subject'], true));
 		$this->tpl->setVariable('CSSROW_SUBJ', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		
 		// DATE
@@ -1016,7 +1019,7 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("TXT_MESSAGE", $this->lng->txt("message"));
 		
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars(ilUtil::securePlainString($mailData["m_message"])))));
+		$this->tpl->setVariable("MAIL_MESSAGE", ilUtil::htmlencodePlainString($mailData["m_message"], true));
 		
 		$isTrashFolder = false;
 		if ($this->mbox->getTrashFolder() == $_GET["mobj_id"])

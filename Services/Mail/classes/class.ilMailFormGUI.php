@@ -696,11 +696,11 @@ class ilMailFormGUI
 		
 		// MAIL DATA
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable("RCP_TO", htmlspecialchars(ilUtil::securePlainString($mailData["rcp_to"])));
-		$this->tpl->setVariable("RCP_CC", htmlspecialchars(ilUtil::securePlainString($mailData["rcp_cc"])));
-		$this->tpl->setVariable("RCP_BCC", htmlspecialchars(ilUtil::securePlainString($mailData["rcp_bcc"])));
+		$this->tpl->setVariable("RCP_TO", ilUtil::htmlencodePlainString($mailData["rcp_to"], false));
+		$this->tpl->setVariable("RCP_CC", ilUtil::htmlencodePlainString($mailData["rcp_cc"], false));
+		$this->tpl->setVariable("RCP_BCC", ilUtil::htmlencodePlainString($mailData["rcp_bcc"], false));
 		
-		$this->tpl->setVariable("M_SUBJECT", htmlspecialchars(ilUtil::securePlainString($mailData["m_subject"])));
+		$this->tpl->setVariable("M_SUBJECT", ilUtil::htmlencodePlainString($mailData["m_subject"], false));
 		
 		if (is_array($mailData["attachments"]) &&
 			count($mailData["attachments"]))
@@ -722,7 +722,7 @@ class ilMailFormGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable("M_MESSAGE",ilUtil::securePlainString($mailData["m_message"]));
+		$this->tpl->setVariable("M_MESSAGE",htmlspecialchars($mailData["m_message"], false));
 		$this->tpl->parseCurrentBlock();
 		
 		

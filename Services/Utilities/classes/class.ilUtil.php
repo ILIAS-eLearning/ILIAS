@@ -773,11 +773,11 @@ class ilUtil
 		$ret = $a_text;
 		
 		// www-URL ohne ://-Angabe
-		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
+		$ret = eregi_replace("(^|[[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
 			"\\1http://\\2\\3", $ret);
 
 		// ftp-URL ohne ://-Angabe
-		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
+		$ret = eregi_replace("(^|[[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
 			"\\1ftp://\\2\\3", $ret);
 		
 		// E-Mail (this does not work as expected, users must add mailto: manually)
@@ -2343,6 +2343,75 @@ class ilUtil
 	{
 		return $a_str;
 	}
+	/**
+	* Encodes a plain text string into HTML for display in a browser.
+	* This function encodes HTML special characters: < > & with &lt; &gt; &amp;
+	* and converts newlines into <br>
+	* 
+	* If $a_make_links_clickable is set to true, URLs in the plain string which
+	* are considered to be safe, are made clickable.
+	*
+	*
+	* @param string the plain text string
+	* @param boolean set this to true, to make links in the plain string
+	* clickable. 
+	* @param boolean set this to true, to detect goto links
+	*/
+	function htmlencodePlainString($a_str, $a_make_links_clickable, $a_detect_goto_links = false)
+	{
+		$encoded = "";
+
+		if ($a_make_links_clickable)
+		{
+			// Find text sequences in the plain text string which match
+			// the URI syntax rules, and pass them to ilUtil::makeClickable.
+			// Encode all other text sequences in the plain text string using
+			// htmlspecialchars and nl2br.
+			// The following expressions matches URI's as specified in RFC 2396.
+			//
+			// The expression matches URI's, which start with some well known
+			// schemes, like "http:", or with "www.". This must be followed
+			// by at least one of the following RFC 2396 expressions: 
+			// - alphanum:           [a-zA-Z0-9] 
+			// - reserved:           [;\/?:|&=+$,]
+			// - mark:               [\\-_.!~*\'()]
+			// - escaped:            %[0-9a-fA-F]{2}
+			// - fragment delimiter: #
+			// - uric_no_slash:      [;?:@&=+$,]
+			$matches = array();
+			$numberOfMatches = preg_match_all('/(?:(?:http|https|ftp|ftps|mailto):|www\.)(?:[a-zA-Z0-9]|[;\/?:|&=+$,]|[\\-_.!~*\'()]|%[0-9a-fA-F]{2}|#|[;?:@&=+$,])+/',$a_str, $matches, PREG_OFFSET_CAPTURE);
+			$pos1 = 0;
+			$encoded = "";
+			foreach ($matches as $match)
+			{
+			}
+			foreach ($matches[0] as $match)
+			{
+				$matched_text = $match[0];
+				$pos2 = $match[1];
+				if ($matched_offset != previous_offset)
+				{
+					// encode plain text
+					$encoded .= nl2br(htmlspecialchars(substr($a_str, $pos1, $pos2 - $pos1)));
+				}
+				// encode URI
+				$encoded .= 'uri: '.ilUtil::makeClickable($matched_text, $a_detect_goto_links);
+				
+
+				$pos1 = $pos2 + strlen($matched_text);
+			}
+			if ($pos1 < strlen($a_str))
+			{
+				$encoded .= nl2br(htmlspecialchars(substr($a_str, $pos1)));
+			}
+		}
+		else
+		{
+			$encoded = nl2br(htmlspecialchars($a_str));
+		}
+		return $encoded;
+	}
+
 
 	function maskAttributeTag($a_str, $tag, $tag_att)
 	{
