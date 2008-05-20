@@ -2689,16 +2689,16 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	public function performMoveThreadsObject()
 	{
-		global $lng, $ilAccess;
+		global $lng, $ilAccess, $ilObjDataCache;
 		
 		if (!$ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
 		
-		if (is_numeric($_POST['obj_id']) && $_POST['obj_id'] > 0)
+		if (is_numeric($_POST['frm_ref_id']) && $_POST['frm_ref_id'] > 0)
 		{			
-			$this->object->Forum->moveThreads($_SESSION['threads2move'], $_GET['ref_id'], $_POST['obj_id']);
+			$this->object->Forum->moveThreads($_SESSION['threads2move'], $_GET['ref_id'], $ilObjDataCache->lookupObjId($_POST['frm_ref_id']));
 						
 			unset($_SESSION['threads2move']);
 			unset($_SESSION['forums_search_submitted']);
@@ -2741,12 +2741,12 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
 		
-		if (! (is_numeric($_POST['obj_id']) && $_POST['obj_id'] > 0))
+		if (! (is_numeric($_POST['frm_ref_id']) && $_POST['frm_ref_id'] > 0))
 		{
 			ilUtil::sendInfo($lng->txt('no_forum_selected'));		
 			$this->moveThreadsObject();
 			return true;
-		}		
+		}
 		
 		$this->moveThreadsObject(true);
 	
@@ -2772,7 +2772,7 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	public function moveThreadsObject($confirm = false)
 	{
-		global $ilAccess, $lng, $ilDB;
+		global $ilAccess, $lng, $ilDB, $tree, $ilObjDataCache;
 		
 		if (!$ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 		{
@@ -2814,7 +2814,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$c_gui->addHiddenItem('thr_id[]', $thr_pk);
 			}			
 			
-			$c_gui->addHiddenItem('obj_id', $_POST['obj_id']);
+			$c_gui->addHiddenItem('frm_ref_id', $_POST['frm_ref_id']);
 						
 			$this->tpl->setVariable('CONFIRM_TABLE', $c_gui->getHTML());
 		}	
@@ -2873,7 +2873,7 @@ class ilObjForumGUI extends ilObjectGUI
 				
 				$res->filter(ROOT_FOLDER_ID, true);
 				
-				if (!count($forums = $res->getResultsByObjId()))
+				if (!count($forums = $res->getResults()))
 				{
 					ilUtil::sendInfo($this->lng->txt('search_no_match'));
 				}
@@ -2901,9 +2901,9 @@ class ilObjForumGUI extends ilObjectGUI
 			$tbl->setTitle($this->lng->txt('to_forum'));
 			$tbl->setLimit(0);		
 			$tbl->setRowTemplate('tpl.forums_threads_move_frm_row.html', 'Modules/Forum');
-			$tbl->addColumn('', 'radio', '10%');
-		 	$tbl->addColumn($this->lng->txt('title'), 'top_name', '90%');
-			$tbl->disable('header');
+			$tbl->addColumn('', 'radio', '1%');
+		 	$tbl->addColumn($this->lng->txt('title'), 'top_name', '10%');
+		 	$tbl->addColumn($this->lng->txt('path'), 'path', '89%');
 			$tbl->disable('footer');
 			$tbl->disable('sort');
 			$tbl->disable('linkbar');
@@ -2918,41 +2918,66 @@ class ilObjForumGUI extends ilObjectGUI
 			{		
 				foreach ($forums_ref_ids as $ref_id)
 				{
-					if (ilObject::_lookupObjectId($_GET['ref_id']) != ilObject::_lookupObjectId($ref_id))
+					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $ilObjDataCache->lookupObjId($ref_id))
 					{
-						$this->object->Forum->setWhereCondition(" top_frm_fk = '".ilObject::_lookupObjectId($ref_id)."' ");
+						$this->object->Forum->setWhereCondition(" top_frm_fk = '".$ilObjDataCache->lookupObjId($ref_id)."' ");
 							
 						if(!is_null($frmData = $this->object->Forum->getOneTopic()))
 						{
 							$check = 0;			
-							if (isset($_POST['obj_id']) && $_POST['obj_id'] == ilObject::_lookupObjectId($ref_id)) $check = 1;  
+							if (isset($_POST['frm_ref_id']) && $_POST['frm_ref_id'] == $ref_id) $check = 1;  
 										
-							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'obj_id', $frmData['top_frm_fk']);
+							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'frm_ref_id', $ref_id);
 							$result[$counter]['top_name'] = $frmData['top_name'];
+							
+							$path_arr = $tree->getPathFull($ref_id, ROOT_FOLDER_ID);
+							$path_counter = 0;
+							$path = '';
+							foreach($path_arr as $data)
+							{
+								if($path_counter++)
+								{
+									$path .= " -> ";
+								}
+								$path .= $data['title'];
+							}
+							$result[$counter]['path'] = $this->lng->txt('path').': '.$path;
 							
 							++$counter;
 						}
-					}			
+					}
 				}	 	
 			}
 			if (is_array($forums))
 			{
 				foreach ($forums as $obj_id => $val)
 				{
-					if (ilObject::_lookupObjectId($_GET['ref_id']) != $obj_id)
+					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $val['obj_id'])
 					{	
-						$this->object->Forum->setWhereCondition(" top_frm_fk = '".$obj_id."' ");		
+						$this->object->Forum->setWhereCondition(" top_frm_fk = '".$val['obj_id']."' ");		
 						if(!is_null($frmData = $this->object->Forum->getOneTopic()))				
 						{
 							$check = 0;			
-							if (isset($_POST['obj_id']) && $_POST['obj_id'] == $obj_id) $check = 1;  
+							if (isset($_POST['frm_ref_id']) && $_POST['frm_ref_id'] == $ref_id) $check = 1;  
 										
-							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'obj_id', $obj_id);
+							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'frm_ref_id', $ref_id);
 							$result[$counter]['top_name'] = $frmData['top_name'];
+							$path_arr = $tree->getPathFull($ref_id, ROOT_FOLDER_ID);
+							$path_counter = 0;
+							$path = '';
+							foreach($path_arr as $data)
+							{
+								if($path_counter++)
+								{
+									$path .= " -> ";
+								}
+								$path .= $data['title'];
+							}
+							$result[$counter]['path'] = $this->lng->txt('path').': '.$path;
 							
 							++$counter;
 						}
-					}			
+					}
 				}
 			}
 			
