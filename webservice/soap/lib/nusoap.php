@@ -3535,7 +3535,14 @@ class soap_server extends nusoap_base {
 			$method = substr($this->methodname, strpos($this->methodname, $delim) + strlen($delim));
 			$this->debug("in invoke_method, class=$class method=$method delim=$delim");
 		}
-
+		// set class handler
+		// added to support single operations
+		if ($class == '' && $this->class !='')
+		{
+		    $class = $this->class;
+		    $delim = "..";
+		    $method = $this->methodname;
+		}
 		// does method exist?
 		if ($class == '') {
 			if (!function_exists($this->methodname)) {
@@ -3544,7 +3551,7 @@ class soap_server extends nusoap_base {
 				$this->fault('Client',"method '$this->methodname' not defined in service");
 				return;
 			}
-		} else {
+		} else {			    		    	    		  
 			$method_to_compare = (substr(phpversion(), 0, 2) == '4.') ? strtolower($method) : $method;
 			if (!in_array($method_to_compare, get_class_methods($class))) {
 				$this->debug("in invoke_method, method '$this->methodname' not found in class '$class'!");
