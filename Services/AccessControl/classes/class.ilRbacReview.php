@@ -268,9 +268,9 @@ class ilRbacReview
      * The il_crs_member_345 role of the course object "English Course 1" is 
 	 * returned as one of the following mailbox addresses:
 	 *
-	 * a)   #member@[English Course 1]
-	 * b)   #il_crs_member_345@[English Course 1]
-	 * c)   #il_crs_member_345
+	 * a)   Course Member <#member@[English Course 1]>
+	 * b)   Course Member <#il_crs_member_345@[English Course 1]>
+	 * c)   Course Member <#il_crs_member_345>
 	 *
 	 * Address a) is returned, if the title of the object is unique, and
  	 * if there is only one local role with the substring "member" defined for
@@ -287,9 +287,9 @@ class ilRbacReview
      * The "Admin" role of the category object "Courses" is 
 	 * returned as one of the following mailbox addresses:
 	 *
-	 * a)   #Admin@Courses
-	 * b)   #Admin
-     * c)   Admin <#il_role_34211>
+	 * a)   Course Administrator <#Admin@Courses>
+	 * b)   Course Administrator <#Admin>
+     * c)   Course Adminstrator <#il_role_34211>
 	 *
 	 * Address a) is returned, if the title of the object is unique, and
  	 * if there is only one local role with the substring "Admin" defined for
@@ -320,11 +320,12 @@ class ilRbacReview
      *
 	 *
 	 * @param int a role id
+	 * @param boolean is_localize whether mailbox addresses should be localized
 	 * @return	String mailbox address or null, if role does not exist.
 	 */
-	function getRoleMailboxAddress($a_role_id)
+	function getRoleMailboxAddress($a_role_id, $is_localize = true)
 	{
-		global $log;
+		global $log, $lng;
 
 		include_once "Services/Mail/classes/class.ilMail.php";
 		if (ilMail::_usePearMail())
@@ -461,9 +462,32 @@ class ilRbacReview
 			{
 				$local_part = '"'.$local_part.'"';
 			}
-			return ($domain == null) ?
-				$local_part :
-				$local_part.'@'.$domain;
+
+			$mailbox = ($domain == null) ?
+					$local_part :
+					$local_part.'@'.$domain;
+
+			if ($is_localize)
+			{
+				if (substr($role_title,0,3) == 'il_')
+				{
+					$phrase = $lng->txt(substr($role_title, 0, strrpos($role_title,'_')));
+				}
+				else
+				{
+					$phrase = $role_title;
+				}
+
+				// make phrase RFC 822 conformant:
+				// - strip excessive whitespace 
+				// - strip special characters
+				$phrase = preg_replace('/\s\s+/', ' ', $phrase);
+				$phrase = preg_replace('/[()<>@,;:\\".\[\]]/', '', $phrase);
+
+				$mailbox = $phrase.' <'.$mailbox.'>';
+			}
+
+			return $mailbox;
 		}
 		else 
 		{
