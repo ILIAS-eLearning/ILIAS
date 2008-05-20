@@ -333,7 +333,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function add()
 	{
-		global $ilUser,$tree;
+		global $ilUser,$tree, $rbacreview, $lng;
 		
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
@@ -354,6 +354,29 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				$this->participants->updateSubscriptionTime($ilUser->getId(),time());
 				$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['grp_subject']));
 				
+				// send an e-mail to the group administrators, so that they know,
+				// that a new registration request has been issued
+				$roles = $rbacreview->getAssignableChildRoles($this->container->getRefId());
+				$grp_admin_role = null;
+				foreach ($roles as $role)
+				{
+					if (strpos($role['title'], 'il_grp_admin') !== false) {
+						$grp_admin_role = $role;
+						break;
+					}
+				}
+				if ($grp_admin_role != null)
+				{
+					global $ilIliasIniFile;
+
+					$mail = new ilMail($_SESSION["AccountId"]);
+					$mail->sendMail($rbacreview->getRoleMailboxAddress($grp_admin_role['rol_id']),"","",
+						sprintf($lng->txt('membership_request_subject'), $ilUser->getFirstname(), $ilUser->getLastname(), $this->container->getTitle()),
+						sprintf(str_replace('\n',"\n",$lng->txt('membership_request_body')), $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getLogin(), $ilUser->getEmail(), 
+								$this->container->getTitle(), $ilIliasIniFile->readVariable('server','http_path').'/goto.php?client_id='.CLIENT_ID.'&target=grp_'.$this->container->getRefId(), $_POST["subject"]),
+						array(),array('system'));	
+				}
+
 				ilUtil::sendInfo($this->lng->txt("application_completed"),true);
 				ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 				break;

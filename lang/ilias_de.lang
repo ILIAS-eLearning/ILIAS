@@ -8088,3 +8088,5 @@ grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der I
 grp#:#reg_grp_max_members#:#Maximale Teilnehmeranzahl
 grp#:#grp_reg_limited#:#Anmeldungszeitraum
 grp#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
+common#:#membership_request_subject#:#%1$s %2$s möchte zur Gruppe "%3$s" beitreten.
+common#:#membership_request_body#:#%1$s %2$s hat einen Aufnahmeantrag für die Gruppe "%5$s" gestellt.\n\nBitte bearbeiten Sie den Antrag auf der "Aufnahmeanträge" Seite der Gruppe.\n\nGruppe: "%5$s", %6$s\n\nAntragsteller: %1$s %2$s, %3$s, mailto:%4$s.\n\nBetreff:\n%7$s

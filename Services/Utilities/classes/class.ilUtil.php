@@ -2395,7 +2395,7 @@ class ilUtil
 					$encoded .= nl2br(htmlspecialchars(substr($a_str, $pos1, $pos2 - $pos1)));
 				}
 				// encode URI
-				$encoded .= 'uri: '.ilUtil::makeClickable($matched_text, $a_detect_goto_links);
+				$encoded .= ilUtil::makeClickable($matched_text, $a_detect_goto_links);
 				
 
 				$pos1 = $pos2 + strlen($matched_text);
