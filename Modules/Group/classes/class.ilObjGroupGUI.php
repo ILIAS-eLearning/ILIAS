@@ -54,7 +54,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 	function &executeCommand()
 	{
-		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory;
+		global $ilUser,$rbacsystem,$ilAccess, $ilNavigationHistory,$ilErr;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
