@@ -571,6 +571,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $tpl;
 		
 		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
 		
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
 		if (!ilGoogleMapUtil::isActivated() || !$this->object->getEnableGroupMap())
@@ -683,14 +684,16 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
 		
+		/*
 		// Unsubscribe
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
 		   $this->object->isMember($ilUser->getId()))
 		{
-			$this->__showButton($this->ctrl->getLinkTarget($this,'RemoveMember')."&mem_id=".$ilUser->getId(),$this->lng->txt("grp_unsubscribe"));
+			$this->__showButton($this->ctrl->getLinkTarget($this,'removeMember')."&mem_id=".$ilUser->getId(),$this->lng->txt("grp_unsubscribe"));
 		}
-		
+		*/
 		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
 		
 		$member_ids = $this->object->getGroupMemberIds();
 		$admin_ids = $this->object->getGroupAdminIds();
@@ -1650,6 +1653,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html',"Services/Mail");
 
 		$this->setSubTabs('members');
+		$this->tabs_gui->setTabActive('members');
 
 		$this->tpl->setVariable("MAILACTION",'ilias.php?baseClass=ilMailGUI&type=role');
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
