@@ -1,0 +1,72 @@
+#button-container {
+
+	padding: .5em;
+
+}
+
+#color-picker-button {
+
+	vertical-align: baseline;
+
+}
+
+#color-picker-button button {
+
+	outline: none;  /* Safari */
+	line-height: 1.5;
+
+}
+
+
+/*
+	Style the Button instance's label as a square whose background color 
+	represents the current value of the ColorPicker instance.
+*/
+
+#current-color {
+
+	display: block;
+	display: inline-block;
+	*display: block;    /* For IE */
+	margin-top: .5em;
+	*margin: .25em 0;    /* For IE */
+	width: 1em;
+	height: 1em;
+	overflow: hidden;
+	text-indent: 1em;
+	background-color: #000000;
+	white-space: nowrap;
+
+}
+
+
+/* Hide default colors for the ColorPicker instance. */
+
+#color-picker-container .yui-picker-controls,
+#color-picker-container .yui-picker-swatch,
+#color-picker-container .yui-picker-websafe-swatch {
+
+	display: none;
+
+}
+
+
+/*
+	Size the body element of the Menu instance to match the dimensions of 
+	the ColorPicker instance.
+*/
+		
+#color-picker-menu .bd {
+
+	width: 220px;    
+	height: 190px;
+
+}
+
+
+#button-container {
+
+	padding: .5em .25em;
+	margin-top: .5em;
+
+}

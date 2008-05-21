@@ -214,7 +214,7 @@ class ilCalendarWeekGUI
 	protected function showFulldayAppointment($a_app)
 	{
 		$this->tpl->setCurrentBlock('fullday_app');
-		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getTitle());
+		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle());
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
@@ -240,7 +240,7 @@ class ilCalendarWeekGUI
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
-		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getTitle());
+		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle());
 		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setCurrentBlock('day_cell');

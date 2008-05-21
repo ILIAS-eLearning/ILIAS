@@ -274,6 +274,7 @@ class ilCalendarPresentationGUI
 	{
 		include_once('Services/Calendar/classes/class.ilDate.php');
 		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(time(),IL_CAL_UNIX);
+		$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
 		$this->ctrl->saveParameter($this,array('seed'));
  	}
 	

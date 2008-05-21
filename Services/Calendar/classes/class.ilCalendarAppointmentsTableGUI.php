@@ -142,7 +142,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
  			$rec = ilCalendarRecurrences::_getFirstRecurrence($entry->getEntryId());
 			
 			$tmp_arr['id'] = $entry->getEntryId();
-			$tmp_arr['title'] = $entry->getTitle();
+			$tmp_arr['title'] = $entry->getPresentationTitle();
 			$tmp_arr['description'] = $entry->getDescription();
 			$tmp_arr['fullday'] = $entry->isFullday();
  			$tmp_arr['begin'] = $entry->getStart()->get(IL_CAL_UNIX);

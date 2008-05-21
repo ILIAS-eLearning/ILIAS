@@ -40,13 +40,12 @@ class ilCalendarAppointmentTemplate
 {
 	protected $context_id;
 	protected $title;
+	protected $subtitle;
 	protected $description;
 	protected $information;
 	protected $start;
 	protected $end;
 	protected $fullday = false;
-	
-	protected $action;
 
 	protected $type;
 	
@@ -59,29 +58,6 @@ class ilCalendarAppointmentTemplate
 	public function __construct($a_id)
 	{
 		$this->context_id = $a_id;
-	}
-	
-	/**
-	 * set action
-	 *
-	 * @access public
-	 * @param int action
-	 * @return
-	 */
-	public function setAction($a_action)
-	{
-		$this->action = $a_action;
-	}
-	
-	/**
-	 * get action
-	 *
-	 * @access public
-	 * @return int action
-	 */
-	public function getAction()
-	{
-		return $this->action;
 	}
 	
 	/**
@@ -104,6 +80,31 @@ class ilCalendarAppointmentTemplate
 	public function getTitle()
 	{
 		return $this->title;
+	}
+	
+	/**
+	 * set subtitle 
+	 * Used for automatic generated appointments.
+	 * Will be translated automatically and be appended to the title.
+	 *
+	 * @access public
+	 * @param string subtitle
+	 * @return void
+	 */
+	public function setSubtitle($a_subtitle)
+	{
+		$this->subtitle = $a_subtitle;
+	}
+	
+	/**
+	 * get subtitle
+	 *
+	 * @access public
+	 * @return string subtitle
+	 */
+	public function getSubtitle()
+	{
+		return $this->subtitle;
 	}
 	
 	/**

@@ -54,6 +54,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('title'),'title',"100%");
 	 	
+	 	$this->setPrefix('categories');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_category_row.html","Services/Calendar");
 		$this->disable('sort');

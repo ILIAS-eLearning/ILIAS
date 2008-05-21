@@ -167,5 +167,50 @@ class ilYuiUtil
 		$tpl->addCss('./Services/Calendar/css/calendar.css');
 	}
 	
+	/**
+	 * init button control
+	 * In the moment used for calendar color picker button
+	 *
+	 * @access public
+	 * @return void
+	 * @static
+	 */
+	public static function initButtonControl()
+	{
+		global $tpl;
+		
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/element/element-beta-min.js");
+		
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/container/container_core-min.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/menu/menu-min.js');
+		
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/button/button-min.js');
+
+		$tpl->addCss("./Services/YUI/js/2_5_0/button/assets/skins/sam/button.css");
+		$tpl->addCss("./Services/YUI/js/2_5_0/menu/assets/skins/sam/menu.css");
+	}
+	
+	/**
+	 * init color picker button
+	 *
+	 * @access public
+	 * @return void
+	 * @static
+	 */
+	public static function initColorPicker()
+	{
+		global $tpl;
+
+		self::initButtonControl();
+		
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/slider/slider-min.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/colorpicker/colorpicker-min.js');
+
+		$tpl->addCss('./Services/Form/css/color_picker.css');
+		$tpl->addCss("./Services/YUI/js/2_5_0/colorpicker/assets/skins/sam/colorpicker.css");
+	}
+	
 } // END class.ilUtil
 ?>
