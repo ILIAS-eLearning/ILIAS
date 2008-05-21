@@ -8141,6 +8141,8 @@ grp#:#grp_information_info#:#This information will be show on the info page and 
 grp#:#reg_grp_max_members#:#Maximum Of Users
 grp#:#grp_reg_limited#:#Registration Period
 grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group
+dateplaner#:#grp_cal_reg_end#:#Registration Start
+dateplaner#:#grp_cal_reg_start#:#Registration End
 grp#:#grp_membership_request_subject#:#%1$s %2$s would like to join group "%3$s".
 grp#:#grp_membership_request_body#:#%1$s %2$s has requested membership for group "%5$s".\n\nPlease accept or refuse this request on the "Join Requests" page of the group.\n\nGroup: %5$s", %6$s\n\nRequestor: %1$s %2$s, %3$s, mailto:%4$s.\n\nSubject:\n%7$s
 grp#:#grp_accept_subscriber#:#Admission to group "%s" 

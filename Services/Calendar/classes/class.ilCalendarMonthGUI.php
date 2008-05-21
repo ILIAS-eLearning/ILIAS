@@ -212,12 +212,12 @@ class ilCalendarMonthGUI
 			
 			if($item['event']->isFullDay())
 			{
-				$title = $item['event']->getTitle();
+				$title = $item['event']->getPresentationTitle();
 			}
 			else
 			{
 				$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
-				$title .= (' '.$item['event']->getTitle());
+				$title .= (' '.$item['event']->getPresentationTitle());
 			}
 			$this->tpl->setVariable('NUM',$counter++);
 			$this->tpl->setVariable('EVENT_TITLE',$title);

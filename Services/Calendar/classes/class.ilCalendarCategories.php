@@ -80,6 +80,8 @@ class ilCalendarCategories
 		{
 			$categories[] = $row->cat_id;
 		}
+		
+
 		return $categories ? $categories : array();
 	}
 	
@@ -90,7 +92,7 @@ class ilCalendarCategories
 	 * @param
 	 * @return
 	 */
-	public function _getObjectCategories()
+	public static function _getObjectCategories()
 	{
 		global $ilDB;
 		
@@ -120,6 +122,28 @@ class ilCalendarCategories
 			$cats[$cat->getCategoryID()] = $cat->getTitle();
 		}
 		return $cats ? $cats : array();
+	}
+	
+	/**
+	 * lookup category by obj_id
+	 *
+	 * @access public
+	 * @param int obj_id
+	 * @return int cat_id
+	 * @static
+	 */
+	public static function _lookupCategoryIdByObjId($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT cat_id FROM cal_categories  ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->cat_id;
+		}
+		return 0;
 	}
 	
 }

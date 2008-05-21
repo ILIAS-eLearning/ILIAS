@@ -104,7 +104,7 @@ class ilDateTime
 	 * @param string PHP timezone identifier
 	 * @throws ilDateTimeException
 	 */
-	public function switchTimeZone($a_timezone_identifier)
+	public function switchTimeZone($a_timezone_identifier = '')
 	{
 	 	try
 	 	{
@@ -422,7 +422,7 @@ class ilDateTime
 	 */
 	public function __toString()
 	{
-		return $this->get(IL_CAL_DATETIME,'',$this->timezone->getIdentifier()).'<br>';
+		return $this->get(IL_CAL_DATETIME,'','UTC').'<br>';
 	}
 }
 ?>

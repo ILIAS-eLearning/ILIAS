@@ -91,6 +91,23 @@ class ilCalendarRecurrence
 	}
 	
 	/**
+	 * delete
+	 *
+	 * @access public
+	 * @param int appointment id
+	 * @return
+	 * @static
+	 */
+	public static function _delete($a_cal_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM calendar_recurrence_rules ".
+			"WHERE cal_id = ".$ilDB->quote($a_cal_id)." ";
+		$res = $ilDB->query($query);
+	}
+	
+	/**
 	 * reset all settings
 	 *
 	 * @access public

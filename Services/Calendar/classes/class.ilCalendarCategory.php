@@ -208,6 +208,15 @@ class ilCalendarCategory
 		$query = "DELETE FROM cal_categories ".
 			"WHERE cat_id = ".$this->db->quote($this->cat_id)." ";
 		$this->db->query($query);
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+		
+		foreach(ilCalendarCategoryAssignments::_getAssignedAppointments($this->cat_id) as $app_id)
+		{
+			include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
+			ilCalendarEntry::_delete($app_id);
+		}
+		ilCalendarCategoryAssignments::_deleteByCategoryId($this->cat_id);
 	}
 	
 	/**

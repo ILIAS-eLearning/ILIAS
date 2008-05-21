@@ -170,7 +170,7 @@ class ilCalendarDayGUI
 	protected function showFulldayAppointment($a_app)
 	{
 		$this->tpl->setCurrentBlock('fullday_app');
-		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getTitle());
+		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle());
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
@@ -193,7 +193,7 @@ class ilCalendarDayGUI
 	{
 		$this->tpl->setCurrentBlock('app');
 		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
-		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getTitle());
+		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle());
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_BGCOLOR',$color);

@@ -498,8 +498,8 @@ class ilObjGroup extends ilContainer
 			"registration_type = ".$ilDB->quote($this->getRegistrationType()).", ".
 			"registration_enabled = ".($this->isRegistrationEnabled() ? 1 : 0).", ".
 			"registration_unlimited = ".($this->isRegistrationUnlimited() ? 1 : 0).", ".
-			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
-			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
+			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'')).", ".
+			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'')).", ".
 			"registration_password = ".$ilDB->quote($this->getPassword()).", ".
 			"registration_max_members = ".$ilDB->quote($this->getMaxMembers()).", ".
 			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0).", ".
@@ -537,8 +537,8 @@ class ilObjGroup extends ilContainer
 			"registration_type = ".$ilDB->quote($this->getRegistrationType()).", ".
 			"registration_enabled = ".($this->isRegistrationEnabled() ? 1 : 0).", ".
 			"registration_unlimited = ".($this->isRegistrationUnlimited() ? 1 : 0).", ".
-			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
-			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
+			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'')).", ".
+			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'')).", ".
 			"registration_password = ".$ilDB->quote($this->getPassword()).", ".
 			"registration_max_members = ".$ilDB->quote($this->getMaxMembers()).", ".
 			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0).", ".
@@ -568,7 +568,7 @@ class ilObjGroup extends ilContainer
 	*/
 	public function delete()
 	{
-		global $ilDB;
+		global $ilDB,$ilAppEventHandler;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -614,8 +614,8 @@ class ilObjGroup extends ilContainer
 			$this->setRegistrationType($row->registration_type);
 			$this->enableRegistration($row->registration_enabled);	
 			$this->enableUnlimitedRegistration($row->registration_unlimited);
-			$this->setRegistrationStart(new ilDateTime($row->registration_start,IL_CAL_DATETIME,'UTC'));
-			$this->setRegistrationEnd(new ilDateTime($row->registration_end,IL_CAL_DATETIME,'UTC'));
+			$this->setRegistrationStart(new ilDateTime($row->registration_start,IL_CAL_DATETIME));
+			$this->setRegistrationEnd(new ilDateTime($row->registration_end,IL_CAL_DATETIME));
 			$this->setPassword($row->registration_password);
 			$this->setMaxMembers($row->registration_max_members);
 			$this->enableWaitingList($row->waiting_list);
@@ -2052,63 +2052,30 @@ class ilObjGroup extends ilContainer
 		switch($a_mode)
 		{
 			case 'create':
+			case 'update':
 				if($this->isRegistrationUnlimited())
 				{
 					return array();
 				}
 				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
-				$app->setTitle('grp_cal_reg_start');
-				$app->setDescription('grp_cal_reg_start_desc');	
-				$app->setAction(IL_CALENDAR_ACTION_CREATE);	
+				$app->setTitle($this->getTitle());
+				$app->setSubtitle('grp_cal_reg_start');
+				$app->setDescription($this->getDescription());	
 				$app->setStart($this->getRegistrationStart());
 				$apps[] = $app;
 
 				$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
-				$app->setTitle('grp_cal_reg_end');
-				$app->setDescription('grp_cal_reg_end_desc');	
-				$app->setAction(IL_CALENDAR_ACTION_CREATE);	
-				$app->setStart($this->getRegistrationEnd());
-				$apps[] = $app;
-				
-				return $apps;
-				
-			case 'update':
-				if($this->isRegistrationUnlimited())
-				{
-					$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
-					$app->setAction(IL_CALENDAR_ACTION_DELETE);
-					$apps[] = $app;
-					
-					$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
-					$app->setAction(IL_CALENDAR_ACTION_DELETE);
-					$apps[] = $app;
-					return $apps;
-				}			
-				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
-				$app->setTitle('grp_cal_reg_start');
-				$app->setDescription('grp_cal_reg_start_desc');	
-				$app->setAction(IL_CALENDAR_ACTION_UPDATE);	
-				$app->setStart($this->getRegistrationStart());
-				$apps[] = $app;
-
-				$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
-				$app->setTitle('grp_cal_reg_end');
-				$app->setDescription('grp_cal_reg_end_desc');	
-				$app->setAction(IL_CALENDAR_ACTION_UPDATE);	
+				$app->setTitle($this->getTitle());
+				$app->setSubtitle('grp_cal_reg_end');
+				$app->setDescription($this->getDescription());
 				$app->setStart($this->getRegistrationEnd());
 				$apps[] = $app;
 				
 				return $apps;
 				
 			case 'delete':
-				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
-				$app->setAction(IL_CALENDAR_ACTION_DELETE);
-				$apps[] = $app;
-				
-				$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
-				$app->setAction(IL_CALENDAR_ACTION_DELETE);
-				$apps[] = $app;
-				return $apps;
+				// Nothing to do: The category and all assigned appointments will be deleted.
+				return array();
 		}
 	}
 	

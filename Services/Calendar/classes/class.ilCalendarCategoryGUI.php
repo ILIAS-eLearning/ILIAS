@@ -127,7 +127,7 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		$category = new ilCalendarCategory(0);
 		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$category->setColor($_POST['colors']);
+		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
 		$category->setType(ilCalendarCategory::TYPE_USR);
 		$category->setObjId($ilUser->getId());
 		
@@ -166,6 +166,9 @@ class ilCalendarCategoryGUI
 		
 		$this->tpl->setVariable('CAT_APPOINTMENTS',$this->showAssignedAppointments());
 		
+		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
+		ilYuiUtil::initButtonControl();
+		
 		$tpl->setContent($this->tpl->get());
 	}
 	
@@ -182,10 +185,11 @@ class ilCalendarCategoryGUI
 			ilUtil::sendInfo($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
+		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		$category = new ilCalendarCategory((int) $_GET['category_id']);
 		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$category->setColor($_POST['colors']);
+		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
 		$category->update();
 		
 		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
@@ -262,6 +266,7 @@ class ilCalendarCategoryGUI
 	
 		$selection = $_POST['cat_ids'] ? $_POST['cat_ids'] : array();
 		$hidden = array();
+		
 		foreach(ilCalendarCategories::_getAvailableCategoriesOfUser($this->user_id) as $category_id)
 		{
 			if(!in_array($category_id,$selection))
@@ -277,6 +282,19 @@ class ilCalendarCategoryGUI
 		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
 		$this->ctrl->returnToParent($this);	
 	}
+	
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function showCategories()
+	{
+		$this->ctrl->returnToParent($this);
+	}
+	
 	
 	/**
 	 * init edit/create category form 
@@ -318,32 +336,10 @@ class ilCalendarCategoryGUI
 		$title->setValue($category->getTitle());
 		$this->form->addItem($title);
 		
-		// calendar color
-		$color = new ilCustomInputGUI($this->lng->txt('cal_calendar_color'),'color');
+		$color = new ilColorPickerInputGUI($this->lng->txt('cal_calendar_color'),'color');
+		$color->setValue($category->getColor());
 		$color->setRequired(true);
-		$tpl = new ilTemplate('tpl.color_selection.html',true,true,'Services/Calendar');
-		
-		$colors[] = '#FFFFFF'; 
-		for($i = 1000000;$i < 16777215;$i += 500000)
-		{
-			$colors[] = '#'.dechex($i);
-		}
-		$colors[] = '#000000';
-		
-		foreach($colors as $current_color)
-		{
-			$tpl->setCurrentBlock('color_selection');
-			
-			if($category->getColor() == $current_color)
-			{
-				$tpl->setVariable('SELECTED','selected="selected"');
-			}
-			
-			$tpl->setVariable('COLOR',$current_color);
-			$tpl->parseCurrentBlock();
-		}
-		$color->setHTML($tpl->get());
-		$this->form->addItem($color);		
+		$this->form->addItem($color);
 		
 		
 		
