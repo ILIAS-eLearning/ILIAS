@@ -2046,14 +2046,14 @@ class ilObjGroupGUI extends ilContainerGUI
 		$workbook->close();
 	}
 	
-/**
-* Clean output string from german umlauts
-*
-* Clean output string from german umlauts. Replaces �� -> ae etc.
-*
-* @param string $str String to clean
-* @return string Cleaned string
-*/
+	/**
+	* Clean output string from german umlauts
+	*
+	* Clean output string from german umlauts. Replaces �� -> ae etc.
+	*
+	* @param string $str String to clean
+	* @return string Cleaned string
+	*/
 	function cleanString($str)
 	{
 		return str_replace(array("��","��","��","��","��","��","��"), array("ae","oe","ue","ss","Ae","Oe","Ue"), $str);

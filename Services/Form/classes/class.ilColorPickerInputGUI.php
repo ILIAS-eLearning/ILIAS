@@ -32,7 +32,9 @@
 
 class ilColorPickerInputGUI extends ilTextInputGUI
 {
-	protected $hex = '04427e';
+	const DEFAULT_COLOR = '04427e';
+	
+	protected $hex;
 
 
 	/**
@@ -83,7 +85,7 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 		{
 			return substr($this->hex,1);
 		}
-		return $this->hex;
+		return $this->hex ? $this->hex : self::DEFAULT_COLOR;
 	}
 	
 	/**
