@@ -26,7 +26,7 @@
 * Class for indexing hmtl ,pdf, txt files and htlm Learning modules.
 * This indexer is called by cron.php
 *
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
 * @package ilias
@@ -60,7 +60,7 @@ class ilLuceneIndexer
 		global $tree;
 
 		$query = "SELECT * FROM file_data ".
-			"WHERE file_type IN ('text/plain','application/pdf','text/html')";
+			"WHERE file_type IN ('text/plain','application/pdf','text/html','text/x-pdf','application/x-pdf')";
 
 		$res = $this->db->query($query);
 
