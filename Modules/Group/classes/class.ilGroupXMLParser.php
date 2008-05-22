@@ -29,7 +29,7 @@ require_once('./Services/User/classes/class.ilObjUser.php');
  * Group Import Parser
  *
  * @author Stefan Meyer <smeyer@databay.de>
- * @version $Id: class.ilGroupImportParser.php 15678 2008-01-06 20:40:55Z akill $
+ * @version $Id: class.ilGroupXMLParser.php 15678 2008-01-06 20:40:55Z akill $
  *
  * @extends ilSaxParser
 
@@ -56,13 +56,13 @@ class ilGroupXMLParser extends ilSaxParser
 	 * @access	public
 	 */
 
-	function ilGroupImportParser($a_xml,$a_parent_id)
+	function ilGroupXMLParser($a_xml, $a_parent_id)
 	{
 		define('EXPORT_VERSION',2);
 
-		parent::ilSaxParser();
+		parent::ilSaxParser(null);
 
-		$this->mode =  ilGroupImportParser::$CREATE;
+		$this->mode =  ilGroupXMLParser::$CREATE;
 		$this->grp = null;
 
 		$this->setXMLContent($a_xml);
@@ -107,7 +107,7 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		parent::startParsing();
 
-		if ($this->mode == ilGroupImportParser::$CREATE)
+		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
 			return is_object($this->group_obj) ? $this->group_obj->getRefId() : false;
 		}
@@ -302,7 +302,7 @@ class ilGroupXMLParser extends ilSaxParser
 		/**
 		 * mode can be create or update
 		 */
-		if ($this->mode == ilGroupImportParser::$CREATE)
+		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
 			$this->group_obj->create();
 			$this->group_obj->createReference();
@@ -341,7 +341,7 @@ class ilGroupXMLParser extends ilSaxParser
 		}
 		$this->group_obj->setPassword($this->group_data['password']);
 
-		if ($this->mode == ilGroupImportParser::$CREATE)
+		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
 			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
 		}
@@ -502,10 +502,10 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		include_once "./Modules/Group/classes/class.ilObjGroup.php";
 
-		if ($this->mode == ilGroupImportParser::$CREATE)
+		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
 			$this->group_obj =& new ilObjGroup();
-		} elseif ($this->mode == ilGroupImportParser::$UPDATE) {
+		} elseif ($this->mode == ilGroupXMLParser::$UPDATE) {
 			$this->group_obj = $this->grp;
 		}
 
