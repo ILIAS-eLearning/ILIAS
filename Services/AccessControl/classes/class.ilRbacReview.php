@@ -575,17 +575,17 @@ class ilRbacReview
 			"WHERE type = 'rolf' ".
 			"AND lft < ".$lft." ".
 			"AND rgt > ".$rgt;
-		
+	
+	
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$relevant_rolfs[] = $row->child;
 		}
-		
 		foreach($relevant_rolfs as $rolf)
 		{
 			$roles = $this->getRoleListByObject($rolf,$a_templates);
-
+			
 			foreach ($roles as $role)
 			{
 				$id = $role["obj_id"];
@@ -697,8 +697,8 @@ class ilRbacReview
 		// add system folder since it may not in the path
 		$pathIds[0] = SYSTEM_FOLDER_ID;
 		//$log->write("ilRBACreview::getParentRoleIds(), 1");
-		return $this->getParentRoles($a_endnode_id,$a_templates,$a_keep_protected);
-		#return $this->__getParentRoles($pathIds,$a_templates,$a_keep_protected);
+		#return $this->getParentRoles($a_endnode_id,$a_templates,$a_keep_protected);
+		return $this->__getParentRoles($pathIds,$a_templates,$a_keep_protected);
 	}
 
 	/**
