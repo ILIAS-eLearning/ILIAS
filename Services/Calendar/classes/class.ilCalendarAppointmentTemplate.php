@@ -26,6 +26,7 @@ define('IL_CALENDAR_ACTION_UPDATE',2);
 define('IL_CALENDAR_ACTION_DELETE',3);
 
 include_once('./Services/Calendar/classes/class.ilDate.php');
+include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 
 /**
 * Apointment templates are used for automatic generated apointments.
@@ -43,9 +44,11 @@ class ilCalendarAppointmentTemplate
 	protected $subtitle;
 	protected $description;
 	protected $information;
+	protected $location;
 	protected $start;
 	protected $end;
 	protected $fullday = false;
+	protected $translation_type = IL_CAL_TRANSLATION_SYSTEM;
 
 	protected $type;
 	
@@ -152,6 +155,29 @@ class ilCalendarAppointmentTemplate
 	}
 	
 	/**
+	 * set location
+	 *
+	 * @access public
+	 * @param strin $a_location location
+	 * @return
+	 */
+	public function setLocation($a_location)
+	{
+		$this->location = $a_location;
+	}
+	
+	/**
+	 * get location 
+	 *
+	 * @access public
+	 * @return string location
+	 */
+	public function getLocation()
+	{
+		return $this->location;
+	}
+	
+	/**
 	 * set start
 	 *
 	 * @access public
@@ -217,6 +243,30 @@ class ilCalendarAppointmentTemplate
 	public function isFullday()
 	{
 		return $this->fullday;
+	}
+	
+	/**
+	 * set translation type
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function setTranslationType($a_type)
+	{
+		$this->translation_type = $a_type;
+	}
+	
+	/**
+	 * get translation type
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getTranslationType()
+	{
+		return $this->translation_type;
 	}
 	
 }
