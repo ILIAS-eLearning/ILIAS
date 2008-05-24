@@ -2280,14 +2280,18 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 			$start = new ilDateTimeInputGUI($this->lng->txt('grp_reg_start'),'registration_start');
 			$start->setShowTime(true);
-			$start->setDate($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getUserTimeZone()));
-			$start->setTime($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getUserTimeZone()));
+			#$start->setDate($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getUserTimeZone()));
+			$start->setDate($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'Y-m-d'));
+			#$start->setTime($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getUserTimeZone()));
+			$start->setTime($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'H:i:s'));
 			$time_limit->addSubItem($start);
 			
 			$end = new ilDateTimeInputGUI($this->lng->txt('grp_reg_end'),'registration_end');
 			$end->setShowTime(true);
 			$end->setDate($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getUserTimeZone()));
 			$end->setTime($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getUserTimeZone()));
+			$end->setDate($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'Y-m-d'));
+			$end->setTime($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'H:i:s'));
 			
 			$time_limit->addSubItem($end);
 		
@@ -2379,8 +2383,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		$dt['minutes'] = (int) $_POST[$a_field]['time']['m'];
 		$dt['seconds'] = (int) $_POST[$a_field]['time']['s'];
 		
-		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getUserTimeZone());
-		$date->switchTimeZone();
+		#$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getUserTimeZone());
+		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE);
+		#$date->switchTimeZone();
 		return $date;		
 	}
 	
