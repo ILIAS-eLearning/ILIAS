@@ -411,6 +411,7 @@ class ilObjSessionGUI extends ilObjectGUI
 			$new_obj->getFirstAppointment()->setStartingTime($date->get(IL_CAL_UNIX));
 			$new_obj->getFirstAppointment()->setEndingTime($date->get(IL_CAL_UNIX) + $period_diff);
 			$new_obj->getFirstAppointment()->update();
+			$new_obj->update();
 		}	
 	}
 	
@@ -1076,6 +1077,8 @@ class ilObjSessionGUI extends ilObjectGUI
 	 */
 	protected function initForm($a_mode)
 	{
+		global $ilUser;
+		
 		if(is_object($this->form))
 		{
 			return true;
@@ -1130,14 +1133,14 @@ class ilObjSessionGUI extends ilObjectGUI
 		// start
 		$start = new ilDateTimeInputGUI($this->lng->txt('event_start_date'),'start');
 		$start->setMinuteStepSize(5);
-		$start->setUnixTime($this->object->getFirstAppointment()->getStartingTime());
+		$start->setUnixTime($this->object->getFirstAppointment()->getStart()->get(IL_CAL_UNIX,''));
 		$start->setShowTime(true);
 		$full->addSubItem($start);
 		
 		// end
 		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
 		$end->setMinuteStepSize(5);
-		$end->setUnixTime($this->object->getFirstAppointment()->getEndingTime());
+		$end->setUnixTime($this->object->getFirstAppointment()->getEnd()->get(IL_CAL_UNIX,''));
 		$end->setShowTime(true);
 		$full->addSubItem($end);
 
@@ -1236,6 +1239,38 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->object->getFirstAppointment()->setStartingTime($this->__toUnix($_POST['start']['date'],$_POST['start']['time']));
 		$this->object->getFirstAppointment()->setEndingTime($this->__toUnix($_POST['end']['date'],$_POST['end']['time']));
 		$this->object->getFirstAppointment()->toggleFullTime((bool) $_POST['fulltime']);
+		
+		include_once('./Services/Calendar/classes/class.ilDate.php');
+		if($this->object->getFirstAppointment()->isFullday())
+		{
+			$start = new ilDate($_POST['start']['date']['y'].'-'.$_POST['start']['date']['m'].'-'.$_POST['start']['date']['d'],
+				IL_CAL_DATE);
+			$this->object->getFirstAppointment()->setStart($start);
+				
+			$end = new ilDate($_POST['end']['date']['y'].'-'.$_POST['end']['date']['m'].'-'.$_POST['end']['date']['d'],
+				IL_CAL_DATE);
+			$this->object->getFirstAppointment()->setEnd($end);
+		}
+		else
+		{
+			$start_dt['year'] = (int) $_POST['start']['date']['y'];
+			$start_dt['mon'] = (int) $_POST['start']['date']['m'];
+			$start_dt['mday'] = (int) $_POST['start']['date']['d'];
+			$start_dt['hours'] = (int) $_POST['start']['time']['h'];
+			$start_dt['minutes'] = (int) $_POST['start']['time']['m'];
+			
+			// TODO: TZ
+			$start = new ilDateTime($start_dt,IL_CAL_FKT_GETDATE);
+			$this->object->getFirstAppointment()->setStart($start);
+
+			$end_dt['year'] = (int) $_POST['end']['date']['y'];
+			$end_dt['mon'] = (int) $_POST['end']['date']['m'];
+			$end_dt['mday'] = (int) $_POST['end']['date']['d'];
+			$end_dt['hours'] = (int) $_POST['end']['time']['h'];
+			$end_dt['minutes'] = (int) $_POST['end']['time']['m'];
+			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE);
+			$this->object->getFirstAppointment()->setEnd($end);
+		}
 
 		$counter = 1;
 		$this->files = array();

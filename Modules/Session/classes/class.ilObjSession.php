@@ -387,6 +387,8 @@ class ilObjSession extends ilObject
 	 */
 	public function create()
 	{
+		global $ilAppEventHandler;
+	
 		parent::create();
 		
 		$query = "INSERT INTO event SET ".
@@ -400,6 +402,12 @@ class ilObjSession extends ilObject
 
 		$this->db->query($query);
 		$this->event_id = $this->db->getLastInsertId();
+		
+		$ilAppEventHandler->raise('Modules/Session',
+			'create',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareCalendarAppointments('create')));
 
 		return $this->getId();
 	}
@@ -413,6 +421,8 @@ class ilObjSession extends ilObject
 	 */
 	public function update()
 	{
+		global $ilAppEventHandler;
+
 		if(!parent::update())
 		{
 			return false;
@@ -427,6 +437,13 @@ class ilObjSession extends ilObject
 			"WHERE obj_id = ".$this->db->quote($this->getId())." ";
 
 		$this->db->query($query);
+		
+		$ilAppEventHandler->raise('Modules/Session',
+			'update',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareCalendarAppointments('update')));
+	
 		return true;
 	}
 	
@@ -438,6 +455,8 @@ class ilObjSession extends ilObject
 	 */
 	public function delete()
 	{
+		global $ilAppEventHandler;
+		
 		if(!parent::delete())
 		{
 			return false;
@@ -459,6 +478,13 @@ class ilObjSession extends ilObject
 		{
 			$file->delete();
 		}
+		
+		$ilAppEventHandler->raise('Modules/Session',
+			'delete',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareCalendarAppointments('delete')));
+		
 		
 		return true;
 	}
@@ -519,6 +545,43 @@ class ilObjSession extends ilObject
 		include_once('./Modules/Session/classes/class.ilSessionFile.php');
 		$this->files = ilSessionFile::_readFilesByEvent($this->getEventId());
 	}
+	
+	
+	/**
+	 * Prepare calendar appointments
+	 *
+	 * @access protected
+	 * @param string mode UPDATE|CREATE|DELETE
+	 * @return
+	 */
+	protected function prepareCalendarAppointments($a_mode = 'create')
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php');
+		
+		switch($a_mode)
+		{
+			case 'create':
+			case 'update':
+
+				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+				$app->setTranslationType(IL_CAL_TRANSLATION_NONE);
+				$app->setTitle($this->getTitle());
+				$app->setDescription($this->getDescription());
+				
+				$sess_app = $this->getFirstAppointment();
+				$app->setFullday($sess_app->isFullday());
+				$app->setStart($sess_app->getStart());
+				$app->setEnd($sess_app->getEnd());
+				$apps[] = $app;
+
+				return $apps;
+				
+			case 'delete':
+				// Nothing to do: The category and all assigned appointments will be deleted.
+				return array();
+		}
+	}
+	
 }
 
 ?>
