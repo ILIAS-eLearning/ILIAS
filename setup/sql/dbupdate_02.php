@@ -4077,3 +4077,32 @@ if($permissions_empty)
         $ilDB->query($query);
 }
 ?>
+<#1226>
+
+ALTER TABLE `event_appointment` ADD `start` DATETIME NOT NULL AFTER `event_id` ,
+ADD `end` DATETIME NOT NULL AFTER `start` ;
+
+<#1227>
+<?php
+// migrate DB structure of session appointments
+$query = "SELECT * FROM event_appointment ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->fulltime)
+	{
+		$query = "UPDATE event_appointment SET ".
+			"start = ".$ilDB->quote(gmdate('Y-m-d',$row->starting_time)).", ".
+			"end = ".$ilDB->quote(gmdate('Y-m-d',$row->ending_time))." ".
+			"WHERE appointment_id = ".$ilDB->quote($row->appointment_id)." ";
+	}
+	else
+	{
+		$query = "UPDATE event_appointment SET ".
+			"start = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->starting_time)).", ".
+			"end = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->ending_time))." ".
+			"WHERE appointment_id = ".$ilDB->quote($row->appointment_id)." ";
+	}	
+	$ilDB->query($query);
+}
+?>

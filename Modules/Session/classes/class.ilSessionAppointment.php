@@ -21,7 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
+include_once('./Services/Calendar/interfaces/interface.ilDatePeriod.php');
+include_once('./Services/Calendar/classes/class.ilDate.php');
 /**
 * class ilSessionAppointment
 *
@@ -30,15 +31,15 @@
 * 
 * @ingroup ModulesSession
 */
-
-include_once('./Services/Calendar/interfaces/interface.ilDatePeriod.php');
-
 class ilSessionAppointment implements ilDatePeriod
 {
 	var $ilErr;
 	var $ilDB;
 	var $tree;
 	var $lng;
+
+	protected $start = null;
+	protected $end = null;
 
 	var $starting_time = null;
 	var $ending_time = null;
@@ -71,9 +72,13 @@ class ilSessionAppointment implements ilDatePeriod
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$info['start'] = $row->starting_time;
-			$info['end'] = $row->ending_time;
 			$info['fullday'] = $row->fulltime;
+			
+			$date = new ilDateTime($row->start,IL_CAL_DATETIME,'UTC');
+			$info['start'] =  $date->getUnixTime();
+			$date = new ilDateTime($row->end,IL_CAL_DATETIME,'UTC');
+			$info['end'] = $date->getUnixTime();
+			
 			return $info;
 		}
 		return array();
@@ -101,15 +106,18 @@ class ilSessionAppointment implements ilDatePeriod
 	 */
 	public function getStart()
 	{
-		include_once('./Services/Calendar/classes/class.ilDate.php');
-		if($this->isFullday())
-		{
-			return new ilDate($this->getStartingTime(),IL_CAL_UNIX);
-		}
-		else
-		{
-			return new ilDateTime($this->getStartingTime(),IL_CAL_UNIX);
-		}
+		return $this->start ? $this->start : $this->start = new ilDateTime(date('Y-m-d').' 08:00:00',IL_CAL_DATETIME);
+	}
+	
+	/**
+	 * set start
+	 *
+	 * @access public
+	 * @param object $data ilDateTime
+	 */
+	public function setStart($a_start)
+	{
+		$this->start = $a_start;
 	}
 	
 	/**
@@ -120,15 +128,19 @@ class ilSessionAppointment implements ilDatePeriod
 	 */
 	public function getEnd()
 	{
-		include_once('./Services/Calendar/classes/class.ilDate.php');
-		if($this->isFullday())
-		{
-			return new ilDate($this->getEndingTime(),IL_CAL_UNIX);
-		}
-		else
-		{
-			return new ilDateTime($this->getEndingTime(),IL_CAL_UNIX);			
-		}
+		return $this->end ? $this->end : $this->end = new ilDateTime(date('Y-m-d').' 16:00:00',IL_CAL_DATETIME);
+	}
+	
+	/**
+	 * set end
+	 *
+	 * @access public
+	 * @param object $date ilDateTime
+	 * @return
+	 */
+	public function setEnd($a_end)
+	{
+		$this->end = $a_end;
 	}
 
 	function setAppointmentId($a_appointment_id)
@@ -152,6 +164,8 @@ class ilSessionAppointment implements ilDatePeriod
 	function setStartingTime($a_starting_time)
 	{
 		$this->starting_time = $a_starting_time;
+		$this->start = new ilDateTime($this->starting_time,IL_CAL_UNIX);
+		
 	}
 	function getStartingTime()
 	{
@@ -161,6 +175,7 @@ class ilSessionAppointment implements ilDatePeriod
 	function setEndingTime($a_ending_time)
 	{
 		$this->ending_time = $a_ending_time;
+		$this->end = new ilDateTime($this->starting_time,IL_CAL_UNIX);
 	}
 	function getEndingTime()
 	{
@@ -183,9 +198,11 @@ class ilSessionAppointment implements ilDatePeriod
 
 	function _timeToString($start,$end)
 	{
+		global $ilUser,$lng;
+
 		$start = date($this->lng->txt('lang_timeformat_no_sec'),$start);
 		$end = date($this->lng->txt('lang_timeformat_no_sec'),$end);
-	
+		
 		return $start.' - '. $end;
 	}
 
@@ -263,8 +280,8 @@ class ilSessionAppointment implements ilDatePeriod
 		}
 		$query = "INSERT INTO event_appointment ".
 			"SET event_id = ".$ilDB->quote($this->getSessionId()).", ".
-			"starting_time = ".$ilDB->quote($this->getStartingTime()).", ".
-			"ending_time = ".$ilDB->quote($this->getEndingTime()).", ".
+			"start = ".$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
+			"end = ".$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
 			"fulltime = ".$ilDB->quote($this->enabledFullTime())." ";
 		
 		$this->appointment_id = $ilDB->getLastInsertId();
@@ -285,8 +302,8 @@ class ilSessionAppointment implements ilDatePeriod
 		}
 		$query = "UPDATE event_appointment ".
 			"SET event_id = ".$ilDB->quote($this->getSessionId()).", ".
-			"starting_time = ".$ilDB->quote($this->getStartingTime()).", ".
-			"ending_time = ".$ilDB->quote($this->getEndingTime()).", ".
+			"start = ".$ilDB->quote($this->getStart()->get(IL_CAL_DATETIME,'','UTC')).", ".
+			"end = ".$ilDB->quote($this->getEnd()->get(IL_CAL_DATETIME,'','UTC')).", ".
 			"fulltime = ".$ilDB->quote($this->enabledFullTime())." ".
 			"WHERE appointment_id = ".$ilDB->quote($this->getAppointmentId())." ";
 
@@ -363,9 +380,20 @@ class ilSessionAppointment implements ilDatePeriod
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setSessionId($row->event_id);
-			$this->setStartingTime($row->starting_time);
-			$this->setEndingTime($row->ending_time);
 			$this->toggleFullTime($row->fulltime);
+			
+			if($this->isFullday())
+			{
+				$this->start = new ilDate($row->start,IL_CAL_DATETIME);
+				$this->end = new ilDate($row->end,IL_CAL_DATETIME);
+			}
+			else
+			{
+				$this->start = new ilDateTime($row->start,IL_CAL_DATETIME,'UTC');
+				$this->end = new ilDateTime($row->end,IL_CAL_DATETIME,'UTC');
+			}
+			$this->starting_time = $this->start->getUnixTime();
+			$this->ending_time = $this->end->getUnixTime();			
 		}
 		return true;
 	}
