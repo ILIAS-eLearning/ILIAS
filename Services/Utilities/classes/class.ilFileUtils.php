@@ -329,15 +329,13 @@ class ilFileUtils
 	{
 		$fh = fopen($filein, 'rb');
 		$fh2= fopen($fileout, 'wb');
-		$chunksize = 1024;
-		
-		while (!feof ($fh)) {
-			$chunk = fgets($fh, $chunksize);
-			if ($chunk === false) 
-			{
-				break;
-			}
-			fwrite ($fh2, base64_decode($chunk));			
+		stream_filter_append($fh2, 'convert.base64-decode');
+
+		while (!feof($fh)){
+		    $chunk = fgets($fh);
+		    if ($chunk === false)
+		        break;
+		    fwrite ($fh2, $chunk);
 		}
 		fclose ($fh);
 		fclose ($fh2);
@@ -353,16 +351,15 @@ class ilFileUtils
 	{
 		$fh = fopen($filein, 'rb');
 		$fh2= fopen($fileout, 'wb');
-		$chunksize = 76;
+		stream_filter_append($fh2, 'convert.base64-encode');
 		
 		while (feof ($fh)) {
-			$chunk = fgets($fh, $chunksize);
+			$chunk = fgets($fh,76);
 			if ($chunk === false) 
 			{
 				break;
 			}
-			$chunk .= '\n';
-			fwrite ($fh2, base64_encode($chunk));			
+			fwrite ($fh2, $chunk);			
 		}
 		fclose ($fh);
 		fclose ($fh2);
