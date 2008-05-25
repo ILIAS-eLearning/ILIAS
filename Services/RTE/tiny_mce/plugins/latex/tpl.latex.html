@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+    <meta name="author" content="Helmut Schottmüller" />
+    <meta name="generator" content="JEdit" />
+		<title>{#latex.desc}</title>
+		<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+		<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+		<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+		<script language="javascript" type="text/javascript" src="jscripts/latex.js"></script>
+		<link href="css/latex.css" rel="stylesheet" type="text/css" />
+		<base target="_self" />
+		<script language="javascript" type="text/javascript">
+			function latexCodeChanged()
+			{
+				var image = document.getElementById("preview");
+				var textarea = document.getElementById("latex_code");
+				if (textarea.value.length == 0)
+				{
+					image.setAttribute("src", '{HREF_LATEX_CONVERTER}');
+				}
+				else
+				{
+					image.setAttribute("src", "{HREF_LATEX_CONVERTER}?" + encodeURIComponent(textarea.value));
+				}
+			}
+		</script>
+		
+	</head>
+<body id="glossaryrefs" onload="tinyMCEPopup.executeOnLoad('init();');" style="display: none">
+    <form onsubmit="insertAction();return false;" action="#">
+
+		<div class="panel_glossary">
+			<div id="general_panel" class="panel current">
+				<fieldset>
+					<legend>{#latex.code_input}</legend>
+
+					<table border="0" cellpadding="4" cellspacing="0">
+						<tr>
+							<td valign="top"><label id="latex_code_label" for="latex_code">{#latex.latex_code}</label>:</td>
+							<td valign="top">
+								<textarea wrap="virtual" style="width:95%;" rows="10" cols="70" id="latex_code" name="latex_code" onkeyup="latexCodeChanged();">{LATEX_CODE}</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td valign="top">{#latex.preview}:</td>
+							<td valign="top">
+								<p>
+									<img id="preview" src="{URL_PREVIEW}" alt="{#latex.preview}" />
+								</p>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+			</div>
+
+		<div class="mceActionPanel">
+			<div style="float: left">
+				<input type="button" id="insert" name="insert" value="{#insert}" onclick="LatexDialog.insert();" />
+			</div>
+
+			<div style="float: right">
+				<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+			</div>
+		</div>
+    </form>
+</body>
+</html>
