@@ -44,17 +44,20 @@ define('IL_CRS_SUBSCRIPTION_CONFIRMATION',2);
 define('IL_CRS_SUBSCRIPTION_DIRECT',3);
 define('IL_CRS_SUBSCRIPTION_PASSWORD',4);
 
-define('IL_CRS_VIEW_STANDARD',0);
-define('IL_CRS_VIEW_OBJECTIVE',1);
-define('IL_CRS_VIEW_TIMING',2);
-define('IL_CRS_VIEW_ARCHIVE',3);
+define('IL_CRS_VIEW_SESSIONS', 0);
+define('IL_CRS_VIEW_OBJECTIVE', 1);
+define('IL_CRS_VIEW_TIMING', 2);
+define('IL_CRS_VIEW_ARCHIVE', 3);
+define('IL_CRS_VIEW_SIMPLE', 4);
+define('IL_CRS_VIEW_BY_TYPE', 5);
 
 define('IL_CRS_ARCHIVE_DOWNLOAD',3);
 define('IL_CRS_ARCHIVE_NONE',0);
 
-define('IL_CRS_SORT_MANUAL',1);
-define('IL_CRS_SORT_TITLE',2);
-define('IL_CRS_SORT_ACTIVATION',3);
+										// alex: I copied this to ilContainer as
+define('IL_CRS_SORT_MANUAL',1);			// IL_CNTR_SORT_MANUAL
+define('IL_CRS_SORT_TITLE',2);			// IL_CNTR_SORT_TITLE
+define('IL_CRS_SORT_ACTIVATION',3);		// IL_CNTR_SORT_ACTIVATION
 
 class ilObjCourse extends ilContainer
 {
@@ -90,7 +93,8 @@ class ilObjCourse extends ilContainer
 		$this->SHOW_MEMBERS_DISABLED = 0;
 
 		$this->type = "crs";
-		$this->ilObject($a_id,$a_call_by_reference);
+
+		parent::__construct($a_id,$a_call_by_reference);
 
 		if($a_id)
 		{
@@ -328,6 +332,18 @@ class ilObjCourse extends ilContainer
 		return false;
 	}
 
+	function _lookupAboStatus($a_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT abo FROM crs_settings WHERE obj_id = ".$ilDB->quote($a_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->abo;
+		}
+		return false;
+	}
 
 	function getOrderType()
 	{
@@ -1430,6 +1446,17 @@ class ilObjCourse extends ilContainer
 		// Course objectives
 		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 		ilCourseObjectiveResult::_deleteUser($a_usr_id);
+	}
+
+	/**
+	* Add additional information to sub item, e.g. used in
+	* courses for timings information etc.
+	*/
+	function addAdditionalSubItemInformation(&$a_item_data)
+	{
+		$this->initCourseItemObject();
+
+		$this->items_obj->addAdditionalSubItemInformation($a_item_data);
 	}
 
 } //END class.ilObjCourse

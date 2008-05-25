@@ -21,6 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+include_once './Modules/Course/classes/Event/class.ilEvent.php';
+
+
 /**
 * Class ilCourseContentGUI
 *
@@ -33,9 +37,6 @@
 * @ilCtrl_Calls ilCourseContentGUI: ilEventAdministrationGUI, ilColumnGUI
 *
 */
-
-include_once './Modules/Course/classes/Event/class.ilEvent.php';
-
 class ilCourseContentGUI
 {
 	var $container_gui;
@@ -64,7 +65,6 @@ class ilCourseContentGUI
 		$this->container_gui =& $container_gui_obj;
 		$this->container_obj =& $this->container_gui->object;
 
-		//
 		$this->__initCourseObject();
 	}
 
@@ -457,7 +457,8 @@ class ilCourseContentGUI
 		include_once './classes/class.ilObjectListGUIFactory.php';
 		include_once './Modules/Course/classes/Event/class.ilEvent.php';
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_page.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_page.html",
+			"Services/Container");
 
 		$this->container_gui->showPossibleSubObjects();
 
@@ -712,7 +713,8 @@ class ilCourseContentGUI
 		if(!count($this->cont_arr))
 		{
 			#ilUtil::sendInfo($this->lng->txt("crs_no_items_found"));
-			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html");
+			$this->tpl->addBlockFile("CONTENT_TABLE", "content_tab", "tpl.container_page.html",
+				"Services/Container");
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("CONTAINER_PAGE_CONTENT", "");
 			return true;
@@ -1701,6 +1703,7 @@ class ilCourseContentGUI
 
 
 	// BEGIN WebDAV: Get Icon of Item from List Item GUI
+/* this moved to ilContainerContentGUI and ilContainerGUI->modifyItemGUI */
 	function __getItemGUI($cont_data,$a_show_path = false)
 	{
 		include_once './classes/class.ilObjectListGUIFactory.php';
@@ -1762,8 +1765,8 @@ class ilCourseContentGUI
 											 $cont_data['child']);
 
 			$item_list_gui->addCustomCommand($this->ctrl->getLinkTargetByClass('ilCourseItemAdministrationGUI',
-																			   'edit'),
-											 'activation');
+											'edit'),
+											'activation');
 		}
 
 		return $item_list_gui;
@@ -1830,59 +1833,12 @@ class ilCourseContentGUI
 
 	function __setSubTabs()
 	{
-		global $ilAccess;
-
-		if($this->container_obj->getType() != 'crs')
+		if($this->container_obj->getType() == 'crs')
 		{
-			return true;
+			$this->container_gui->setContentSubTabs();
 		}
-		if(!$ilAccess->checkAccess('write','',
-								   $this->course_obj->getRefId(),'crs',$this->course_obj->getId()))
-		{
-			$this->is_tutor = false;
-			// No further tabs if objective view or archives
-			if($this->course_obj->enabledObjectiveView())
-			{
-				return false;
-			}
-		}
-		else
-		{
-			$this->is_tutor = true;
-		}
-
-		// These subtabs should also work, if the command is called directly in
-		// ilObjCourseGUI, so please use ...ByClass methods.
-		// (see ilObjCourseGUI->executeCommand: case "ilcolumngui")
-		
-		if($this->course_obj->enabledObjectiveView())
-		{
-			// Objective gui
-			$this->tabs_gui->addSubTabTarget('learners_view',
-				$this->ctrl->getLinkTargetByClass(array('ilcoursecontentgui', 'ilcourseobjectivepresentationgui'),'view'));
-		}
-		if(!$_SESSION['crs_timings_panel'][$this->course_obj->getId()])
-		{
-			$this->tabs_gui->addSubTabTarget('crs_content',
-				$this->ctrl->getLinkTargetByClass("ilobjcoursegui",'view'));
-		}
-		include_once 'Modules/Course/classes/class.ilCourseItems.php';
-		if(!$this->course_obj->enabledObjectiveView() and $this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING)
-		{
-			$this->tabs_gui->addSubTabTarget('timings_timings',
-				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','editUserTimings'));
-		}
-
-		if($this->is_tutor)
-		{
-			$this->tabs_gui->addSubTabTarget('crs_archives',
-				$this->ctrl->getLinkTargetByClass(
-					array('ilcoursecontentgui', 'ilcoursearchivesgui'),'view'));
-		}
-
-		return true;
 	}
-
+	
 	function __initCourseObject()
 	{
 		global $tree;

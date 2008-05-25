@@ -1,4 +1,19 @@
+<div style="width:0px; height: 0px;"></div>
+<!-- BEGIN check --><input style="position:absolute;" type="checkbox" name="id[]" value="{VAL_ID}" /><!-- END check -->
+<!-- BEGIN icon --><img style="position: absolute; <!-- BEGIN i_1 -->margin: 0px 0px 0px 25px;<!-- END i_1 --> padding: 0px;" alt="{ALT_ICON}" title="{ALT_ICON}" src="{SRC_ICON}" border="0" width="22px"/><!-- END icon -->
+<div style="margin: 0px 0px 0px <!-- BEGIN d_0 -->0<!-- END d_0 --><!-- BEGIN d_1 -->25<!-- END d_1 --><!-- BEGIN d_2 -->50<!-- END d_2 -->px; padding: 0px;">
 <div class="il_ContainerListItem">
+<div style="float:left;">
+<!-- BEGIN position -->
+<input type="text" style="margin: 0px 3px;" name="position{POS_ID}" value="{POS_VAL}" size="3" maxlength="4" />
+<!-- END position -->
+<!-- BEGIN item_title -->
+<span class="il_ContainerItemTitle">{TXT_TITLE}</span>
+<!-- END item_title -->
+<!-- BEGIN item_title_linked -->
+<a href="{HREF_TITLE_LINKED}" class="il_ContainerItemTitle" <!-- BEGIN title_linked_frame -->target="{TARGET_TITLE_LINKED}"<!-- END title_linked_frame --> >{TXT_TITLE_LINKED}</a>
+<!-- END item_title_linked -->
+</div>
 <!-- BEGIN command_block -->
 <div style="float:right;">
 <!-- BEGIN payment -->
@@ -11,19 +26,11 @@
 </div>
 </div>
 <!-- END command_block -->
-<div>
-<!-- BEGIN item_title -->
-<span class="il_ContainerItemTitle">{TXT_TITLE}</span>
-<!-- END item_title -->
-<!-- BEGIN item_title_linked -->
-<a href="{HREF_TITLE_LINKED}" class="il_ContainerItemTitle" <!-- BEGIN title_linked_frame -->target="{TARGET_TITLE_LINKED}"<!-- END title_linked_frame --> >{TXT_TITLE_LINKED}</a>
-<!-- END item_title_linked -->
-</div>
 <!-- BEGIN item_description -->
-<div class="il_Description">{TXT_DESC}</div>
+<div style="clear:both;" class="il_Description">{TXT_DESC}</div>
 <!-- END item_description -->
 <!-- BEGIN item_properties -->
-<div class="il_ItemProperties">
+<div style="clear:both;" class="il_ItemProperties">
 <!-- BEGIN item_property -->
 <!-- BEGIN separator_prop --><!-- END separator_prop -->
 <!-- BEGIN newline_prop --><br /><!-- END newline_prop -->
@@ -51,7 +58,11 @@
 <div class="il_Preconditions">
 {TXT_PRECONDITIONS}:</div>
 <!-- BEGIN precondition -->
-<div style="margin-left:40px">{TRIGGER_ITEM}</div>
+<div style="margin-left:50px">{TRIGGER_ITEM}</div>
 <!-- END precondition -->
 <!-- END preconditions -->
+<!-- BEGIN subitem -->
+<div style="margin: 5px 0px; padding-top:5px; border-top: 1px dotted #C0C0C0;">{SUBITEM}</div>
+<!-- END subitem -->
+</div>
 </div>

@@ -45,9 +45,11 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function ilContainerGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $lng;
 
 		$this->rbacsystem =& $rbacsystem;
+		
+		$lng->loadLanguageModule("cntr");
 
 		//$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		
@@ -333,6 +335,37 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function renderObject()
 	{
+		switch ($this->object->getViewMode())
+		{
+			// all items in one block
+			case ilContainer::VIEW_SIMPLE:
+				include_once("./Services/Container/classes/class.ilContainerSimpleContentGUI.php");
+				$container_view = new ilContainerSimpleContentGUI($this);
+				break;
+
+			// all items in one block
+			case ilContainer::VIEW_SESSIONS:
+			case IL_CRS_VIEW_OBJECTIVE:			// not nice this workaround
+			case IL_CRS_VIEW_TIMING:			// not nice this workaround
+				include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
+				$container_view = new ilContainerSessionsContentGUI($this);
+				break;
+			
+			// all items in one block
+			case ilContainer::VIEW_BY_TYPE:
+			default:
+				include_once("./Services/Container/classes/class.ilContainerByTypeContentGUI.php");
+				$container_view = new ilContainerByTypeContentGUI($this);
+				break;
+		}
+		
+		$container_view->setOutput();
+		
+		// 'add object'
+		$this->showPossibleSubObjects();
+
+		
+/* Old implementation
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		if (ilChangeEvent::_isActive())
@@ -350,6 +383,7 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			$this->tpl->setRightContent($this->getRightColumnHTML());
 		}
+*/
 	}
 
 	/**
@@ -357,6 +391,7 @@ class ilContainerGUI extends ilObjectGUI
 	* (this should include multiple lists in the future that together
 	* build the blocks of a container page)
 	*/
+/*
 	function getContent()
 	{
 		global $ilBench, $tree;
@@ -408,6 +443,7 @@ class ilContainerGUI extends ilObjectGUI
 		
 		$ilBench->stop("ilContainerGUI", "0000__renderObject");
 	}
+*/
 
 	/**
 	* show administration panel
@@ -428,16 +464,13 @@ class ilContainerGUI extends ilObjectGUI
 			
 			// administration panel
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
-				&& in_array($this->object->getType(), array("cat", "root")))
+				&& $this->object->enablePageEditing())
 			{
-				if ($ilSetting->get("enable_cat_page_edit"))
-				{
-					$tpl->setCurrentBlock("edit_cmd");
-					$tpl->setVariable("TXT_EDIT_PAGE", $this->lng->txt("edit_page"));
-					$tpl->setVariable("LINK_EDIT_PAGE", $this->ctrl->getLinkTarget($this, "editPageFrame"));
-					$tpl->setVariable("FRAME_EDIT_PAGE", ilFrameTargetInfo::_getFrame("MainContent"));
-					$tpl->parseCurrentBlock();
-				}
+				$tpl->setCurrentBlock("edit_cmd");
+				$tpl->setVariable("TXT_EDIT_PAGE", $this->lng->txt("edit_page"));
+				$tpl->setVariable("LINK_EDIT_PAGE", $this->ctrl->getLinkTarget($this, "editPageFrame"));
+				$tpl->setVariable("FRAME_EDIT_PAGE", ilFrameTargetInfo::_getFrame("MainContent"));
+				$tpl->parseCurrentBlock();
 			}
 			
 			$tpl->setCurrentBlock("admin_panel_cmd");
@@ -477,11 +510,9 @@ class ilContainerGUI extends ilObjectGUI
 				$tpl->parseCurrentBlock();
 				
 			}
-			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
-				&& in_array($this->object->getType(), array("cat", "root")))
+			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
-				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-				if(ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainerSortingSettings::MODE_MANUAL)
+				if ($this->object->getOrderType() == IL_CNTR_SORT_MANUAL)
 				{
 					$tpl->setCurrentBlock('admin_panel_cmd');
 					$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt('sorting_save'));
@@ -687,67 +718,6 @@ class ilContainerGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "");
 	}
 
-	/**
-	* Get grouped repository object types.
-	*
-	* @return	array	array of object types
-	*/
-	function getGroupedObjTypes()
-	{
-		global $objDefinition;
-		
-		if (empty($this->type_grps))
-		{
-			$this->type_grps = $objDefinition->getGroupedRepositoryObjectTypes($this->object->getType());
-		}
-		return $this->type_grps;
-	}
-	
-	/**
-	* get all subitems of the container
-	*/
-	function getSubItems()
-	{
-		global $objDefinition, $ilBench;
-
-		$type_grps = $this->getGroupedObjTypes();
-
-		$objects = $this->tree->getChilds($this->object->getRefId(), "title");
-
-		$found = false;
-
-		include_once('Services/Container/classes/class.ilContainerSorting.php');
-		$sort = new ilContainerSorting($this->object->getId());
-
-		foreach ($objects as $key => $object)
-		{
-
-			// hide object types in devmode
-			if ($objDefinition->getDevMode($object["type"]))
-			{
-				continue;
-			}
-			// BEGIN WebDAV: Don't display hidden files.
-			require_once 'Modules/File/classes/class.ilObjFileAccess.php';
-			if (!$this->isActiveAdministrationPanel() && ilObjFileAccess::_isFileHidden($object['title']))
-			{
-				continue;
-			}
-			// END WebDAV: Don't display hidden files.
-
-			
-			// group object type groups together (e.g. learning resources)
-			$type = $objDefinition->getGroupOfObj($object["type"]);
-			if ($type == "")
-			{
-				$type = $object["type"];
-			}
-						
-			$this->items[$type][$key] = $object;
-		}
-		$this->items = $sort->sortTreeDataByType($this->items);
-	}
-
 	function renderItemList($a_type = "all")
 	{
 		global $objDefinition, $ilBench, $ilSetting;
@@ -757,7 +727,7 @@ class ilContainerGUI extends ilObjectGUI
 		$output_html = "";
 		$this->clearAdminCommandsDetermination();
 		
-		$type_grps = $this->getGroupedObjTypes();
+		$type_grps = $this->object->getGroupedObjTypes();
 		
 		switch ($a_type)
 		{
@@ -942,7 +912,8 @@ class ilContainerGUI extends ilObjectGUI
 				//	$this->object->getId()))
 				if ($xpage_id > 0)
 				{				
-					$page_block = new ilTemplate("tpl.container_page_block.html", false, false);
+					$page_block = new ilTemplate("tpl.container_page_block.html", false, false,
+						"Services/Container");
 					$page_block->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
 					$output_html = $page_block->get();
 				}
@@ -993,7 +964,8 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function &newBlockTemplate()
 	{
-		$tpl = new ilTemplate ("tpl.container_list_block.html", true, true);
+		$tpl = new ilTemplate ("tpl.container_list_block.html", true, true,
+			"Services/Container");
 		$this->cur_row_type = "row_type_1";
 		return $tpl;
 	}
@@ -1957,13 +1929,17 @@ class ilContainerGUI extends ilObjectGUI
 		parent::setColumnSettings($column_gui);
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-			$this->isActiveAdministrationPanel())
+			$this->isActiveAdministrationPanel() &&
+			$this->allowBlocksMoving())
 		{
 			$column_gui->setEnableMovement(true);
 		}
 		
-		$column_gui->setRepositoryItems($this->items);
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		$column_gui->setRepositoryItems(
+			$this->object->getSubItems($this->isActiveAdministrationPanel(), true));
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
+			&& $this->allowBlocksConfigure())
 		{
 			$column_gui->setBlockProperty("news", "settings", true);
 			//$column_gui->setBlockProperty("news", "public_notifications_option", true);
@@ -1977,14 +1953,29 @@ class ilContainerGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* Standard is to allow blocks moving
+	*/
+	function allowBlocksMoving()
+	{
+		true;
+	}
+
+	/**
+	* Standard is to allow blocks configuration
+	*/
+	function allowBlocksConfigure()
+	{
+		true;
+	}
 	
 	/**
-	 * 
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
+	* 
+	*
+	* @access public
+	* @param
+	* 
+	*/
 	public function cloneWizardPageTreeObject()
 	{
 	 	$this->cloneWizardPageObject(true);
@@ -2269,6 +2260,42 @@ class ilContainerGUI extends ilObjectGUI
 		return $newRef;
 	}
 	// END PATCH WebDAV: Support a copy command in the repository
+
+	/**
+	* Modify Item ListGUI for presentation in container
+	*/
+	function modifyItemGUI(&$a_item_list_gui, $a_item_data, $a_show_path)
+	{
+		global $lng;
+		
+		if($a_show_path)
+		{
+			$a_item_list_gui->addCustomProperty($lng->txt('path'),
+				ilContainer_buildPath($a_item_data['ref_id'], $this->object->getRefId()),
+				false, true);
+		}
+	}
+	
+	/**
+	* build path
+	*/
+	static function _buildPath($a_ref_id, $a_course_ref_id)
+	{
+		global $tree;
+
+		$path_arr = $tree->getPathFull($a_ref_id, $a_course_ref_id);
+		$counter = 0;
+		foreach($path_arr as $data)
+		{
+			if($counter++)
+			{
+				$path .= " > ";
+			}
+			$path .= $data['title'];
+		}
+
+		return $path;
+	}
 
 }
 ?>

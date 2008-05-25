@@ -23,11 +23,11 @@
 
 // note: the values are derived from ilObjCourse constants
 // to enable easy migration from course view setting to container view setting
-define('IL_CNTR_VIEW_STANDARD',0);
-define('IL_CNTR_VIEW_OBJECTIVE',1);
-define('IL_CNTR_VIEW_TIMING',2);
-define('IL_CNTR_VIEW_ARCHIVE',3);
-define('IL_CNTR_VIEW_CUSTOM',4);
+
+define('IL_CNTR_SORT_MANUAL',1);
+define('IL_CNTR_SORT_TITLE',2);
+define('IL_CNTR_SORT_ACTIVATION',3);
+
 
 require_once "./classes/class.ilObject.php";
 
@@ -43,15 +43,29 @@ require_once "./classes/class.ilObject.php";
 */
 class ilContainer extends ilObject
 {
+	// container view constants
+	const VIEW_SESSIONS = 0;
+	const VIEW_OBJECTIVE = 1;
+	const VIEW_TIMING = 2;
+	const VIEW_ARCHIVE = 3;
+	const VIEW_SIMPLE = 4;
+	const VIEW_BY_TYPE = 5;
+	const VIEW_INHERIT = 6;
+
+	
+	const SORT_MANUAL = 1;
+	const SORT_TITLE = 2;
+	const SORT_ACTIVATION = 3;
+	
 	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjContainer($a_id = 0, $a_call_by_reference = true)
+	function ilContainer($a_id = 0, $a_call_by_reference = true)
 	{
-		$this->ilObject($a_id, $a_call_by_reference);
+		parent::__construct($a_id, $a_call_by_reference);
 	}
 	
 	
@@ -385,6 +399,141 @@ class ilContainer extends ilObject
 		}	
 	}
 	
+	/**
+	* Get container view mode
+	*/
+	function getViewMode()
+	{
+		return ilContainer::VIEW_BY_TYPE;
+	}
+
+	/**
+	* Get order type default implementation
+	*/
+	function getOrderType()
+	{
+		return IL_CNTR_SORT_TITLE;
+		
+		// @todo
+		//include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
+		//ilContainerSortingSettings::_lookupSortMode($this->getId());
+	}
 	
-} // END class.ilObjCategory
+	/**
+	* Get subitems of container
+	*
+	* @return	array
+	*/
+	function getSubItems($a_include_hidden_files = false, $a_include_side_block = false)
+	{
+		global $objDefinition, $ilBench, $tree;
+
+		if (is_array($this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]))
+		{
+			return $this->items[(int) $a_include_hidden_files][(int) $a_include_side_block];
+		}
+
+		$type_grps = $this->getGroupedObjTypes();
+
+		$objects = $tree->getChilds($this->getRefId(), "title");
+
+		$found = false;
+
+		include_once('Services/Container/classes/class.ilContainerSorting.php');
+		$sort = new ilContainerSorting($this->getId());
+
+		// get items attached to a session
+		include_once './Modules/Session/classes/class.ilEventItems.php';
+		$event_items = ilEventItems::_getItemsOfContainer($this->getRefId());
+		
+		foreach ($objects as $key => $object)
+		{
+			// hide object types in devmode
+			if ($objDefinition->getDevMode($object["type"]) || $object["type"] == "adm"
+				|| $object["type"] == "rolf")
+			{
+				continue;
+			}
+
+			// Do not display hidden files
+			require_once 'Modules/File/classes/class.ilObjFileAccess.php';
+			if (!$a_include_hidden_files && ilObjFileAccess::_isFileHidden($object['title']))
+			{
+				continue;
+			}
+
+			// filter out items that are attached to an event
+			if (in_array($object['ref_id'],$event_items))
+			{
+				continue;
+			}
+			
+			// filter side block items
+			if (!$a_include_side_block && $objDefinition->isSideBlock($object['type']))
+			{
+				continue;
+			}
+			
+			// group object type groups together (e.g. learning resources)
+			$type = $objDefinition->getGroupOfObj($object["type"]);
+			if ($type == "")
+			{
+				$type = $object["type"];
+			}
+			
+			$this->addAdditionalSubItemInformation($object);
+			
+			$this->items[$type][$key] = $object;
+			$this->items["_all"][$key] = $object;
+			if ($object["type"] != "sess")
+			{
+				$this->items["_non_sess"][$key] = $object;
+			}
+		}
+
+		$this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]
+			= $sort->sortTreeDataByType($this->items);
+
+		return $this->items;
+	}
+	
+	/**
+	* Add additional information to sub item, e.g. used in
+	* courses for timings information etc.
+	*/
+	function addAdditionalSubItemInformation(&$object)
+	{
+	}
+	
+	/**
+	* Get grouped repository object types.
+	*
+	* @return	array	array of object types
+	*/
+	function getGroupedObjTypes()
+	{
+		global $objDefinition;
+		
+		if (empty($this->type_grps))
+		{
+			$this->type_grps = $objDefinition->getGroupedRepositoryObjectTypes($this->getType());
+		}
+		return $this->type_grps;
+	}
+	
+	/**
+	* Check whether page editing is allowed for container
+	*/
+	function enablePageEditing()
+	{
+		global $ilSetting;
+		
+		// @todo: this will need a more general approach
+		if ($ilSetting->get("enable_cat_page_edit"))
+		{
+			return true;
+		}
+	}
+	
+} // END class ilContainer
 ?>

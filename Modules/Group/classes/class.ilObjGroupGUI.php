@@ -34,7 +34,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI
 *
 * @extends ilObjectGUI
 */
@@ -174,12 +174,24 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case "ilcolumngui":
+				$this->checkPermission("read");
 				//$this->prepareOutput();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-				$this->getSubItems();
+				//$this->getSubItems();
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 					ilObjStyleSheet::getContentStylePath(0));
 				$this->renderObject();
+				break;
+
+			// container page editing
+			case "ilpageobjectgui":
+				$this->checkPermission("write");
+				//$this->prepareOutput(false);
+				$ret = $this->forwardToPageObject();
+				if ($ret != "")
+				{
+					$this->tpl->setContent($ret);
+				}
 				break;
 
 			default:

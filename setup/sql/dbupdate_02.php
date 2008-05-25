@@ -4106,3 +4106,33 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 ?>
+<#1228>
+ALTER TABLE container_sorting ADD COLUMN child_id INT NOT NULL;
+ALTER TABLE container_sorting ADD COLUMN position decimal(10,2) NOT NULL;
+<#1229>
+ALTER TABLE container_sorting DROP PRIMARY KEY;
+<#1230>
+<?php
+$set = $ilDB->query("SELECT * FROM container_sorting");
+$rows = array();
+while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$rows[] = $rec;
+}
+$ilDB->query("DELETE FROM container_sorting");
+$ilDB->query("ALTER TABLE container_sorting ADD PRIMARY KEY (obj_id, child_id)");
+foreach($rows as $row)
+{
+	$pos = unserialize($row["items"]);
+	foreach($pos as $i => $p)
+	{
+		$ilDB->query("REPLACE INTO container_sorting (obj_id, child_id, type, position) VALUES (".
+			$ilDB->quote($row["obj_id"]).",".
+			$ilDB->quote($i).",".
+			$ilDB->quote($row["type"]).",".
+			$ilDB->quote($p).
+			")");
+	}
+}
+?>
+
