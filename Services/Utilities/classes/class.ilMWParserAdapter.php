@@ -13,7 +13,7 @@ if (!function_exists("wfProfileOut"))
 	}
 }
 
-if(!function_exists('codepointToUtf8'))
+if (!function_exists('codepointToUtf8'))
 {
 	// From include/normal/UtfNormalUtil.php
 	function codepointToUtf8( $codepoint ) {

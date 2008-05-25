@@ -529,6 +529,13 @@ class ilCourseItems
 		}
 		$this->__purgeDeleted();
 		$this->__sort();
+		
+		// one array for items per child id
+		$this->items_per_child = array();
+		foreach($this->items as $item)
+		{
+			$this->items_per_child[$item["child"]] = $item;
+		}
 
 		return true;
 	}
@@ -1055,6 +1062,17 @@ class ilCourseItems
 	 	}
 
 		return $ac_times ? $ac_times : array();
+	}
+	
+	/**
+	* Adds information to object/item array needed to be displayed in repository
+	*/
+	function addAdditionalSubItemInformation(&$a_item)
+	{
+		if (is_array($this->items_per_child[$a_item["child"]]))
+		{
+			$a_item = array_merge($a_item, $this->items_per_child[$a_item["child"]]);
+		}
 	}
 }
 ?>

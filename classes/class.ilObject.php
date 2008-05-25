@@ -1684,7 +1684,7 @@ class ilObject
 		return true;	 	
 	}
 	
-	public function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "",
+	public static function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "",
 		$a_offline = false)
 	{
 		global $ilSetting;

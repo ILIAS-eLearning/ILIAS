@@ -54,9 +54,15 @@ class ilObjectListGUI
 	var $info_screen_enabled = false;
 	var $condition_depth = 0;
 	var $std_cmd_only = false;
+	var $sub_item_html = array();
 
 	protected $substitutions = null;
 	protected $substitutions_enabled = false;
+	
+	protected $icons_enabled = false;
+	protected $checkboxes_enabled = false;
+	protected $position_enabled = false;
+	
 	/**
 	* constructor
 	*
@@ -201,6 +207,60 @@ class ilObjectListGUI
 	{
 		return $this->description_enabled;
 	}
+	
+	/**
+	* En/Dis-able icons
+	*
+	* @param boolean	icons on/off
+	*/
+	function enableIcon($a_status)
+	{
+		$this->icons_enabled = $a_status;
+	}
+	
+	/**
+	* Are icons enabled?
+	*
+	* @return boolean	icons enabled?
+	*/
+	function getIconStatus()
+	{
+		return $this->icons_enabled;
+	}
+		
+	/**
+	* En/Dis-able checkboxes
+	*
+	* @param boolean	checkbox on/off
+	*/
+	function enableCheckbox($a_status)
+	{
+		$this->checkboxes_enabled = $a_status;
+	}
+	
+	/**
+	* Are checkboxes enabled?
+	*
+	* @return boolean	icons enabled?
+	*/
+	function getCheckboxStatus()
+	{
+		return $this->checkboxes_enabled;
+	}
+
+	/**
+	* Set position input field
+	*
+	* @param	string		$a_field_index			e.g. "[crs][34]"
+	* @param	string		$a_position_value		e.g. "2.0"
+	*/
+	function setPositionInputField($a_field_index, $a_position_value)
+	{
+		$this->position_enabled = true;
+		$this->position_field_index = $a_field_index;
+		$this->position_value = $a_position_value;
+	}
+
 	/**
 	* En/disable delete
 	*
@@ -361,6 +421,16 @@ class ilObjectListGUI
 		$this->info_screen_enabled = $a_info_screen;
 	}
 
+	/**
+	* Add HTML for subitem (used for sessions)
+	*
+	* @param	string	$a_html		subitems HTML
+	*/
+	function addSubItemHTML($a_html)
+	{
+		$this->sub_item_html[] = $a_html;
+	}
+	
 	/**
 	*
 	* @param bool
@@ -1473,6 +1543,65 @@ class ilObjectListGUI
 	}
 	
 	/**
+	* Insert icons and checkboxes
+	*/
+	function insertIconsAndCheckboxes()
+	{
+		global $lng;
+		
+		$cnt = 0;
+		if ($this->getCheckboxStatus())
+		{
+			$this->tpl->setCurrentBlock("check");
+			$this->tpl->setVariable("VAL_ID", $this->ref_id);
+			$this->tpl->parseCurrentBlock();
+			$cnt += 1;
+		}
+		if ($this->getIconStatus())
+		{
+			if ($cnt == 1)
+			{
+				$this->tpl->touchBlock("i_1");	// indent
+			}
+			$this->tpl->setCurrentBlock("icon");
+			$this->tpl->setVariable("ALT_ICON", $lng->txt("obj_".$this->type));
+			$this->tpl->setVariable("SRC_ICON",
+				ilObject::_getIcon($this->obj_id, "small", $this->type));
+			$this->tpl->parseCurrentBlock();
+			$cnt += 1;
+		}
+		
+		$this->tpl->touchBlock("d_".$cnt);	// indent main div
+	}
+	
+	/**
+	* Insert subitems
+	*/
+	function insertSubItems()
+	{
+		foreach ($this->sub_item_html as $sub_html)
+		{
+			$this->tpl->setCurrentBlock("subitem");
+			$this->tpl->setVariable("SUBITEM", $sub_html);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	/**
+	* Insert field for positioning
+	*/
+	function insertPositionField()
+	{
+		if ($this->position_enabled)
+		{
+			$this->tpl->setCurrentBlock("position");
+			$this->tpl->setVariable("POS_ID", $this->position_field_index);
+			$this->tpl->setVariable("POS_VAL", $this->position_value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	/**
 	* returns whether any admin commands (link, delete, cut)
 	* are included in the output
 	*/
@@ -1572,10 +1701,21 @@ class ilObjectListGUI
 		$ilBench->start("ilObjectListGUI", "8000_insert_path");
 		$this->insertPath();
 		$ilBench->stop("ilObjectListGUI", "8000_insert_path");
+		
+		// icons and checkboxes
+		$this->insertIconsAndCheckboxes();
+		
+		// input field for position
+		$this->insertPositionField();
+
+		// subitems
+		$this->insertSubItems();
 
 		// reset properties and commands
 		$this->cust_prop = array();
 		$this->cust_commands = array();
+		$this->sub_item_html = array();
+		$this->position_enabled = false;
 
 		return $this->tpl->get();
 	}

@@ -5108,11 +5108,15 @@ crs#:#crs_users_already_assigned#:#The user is already assigned to this course
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list
 crs#:#crs_view_archive#:#Archive View
 crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.
-crs#:#crs_view_info_standard#:#This content presentation mode is similar to the presentation of the repository content.
+cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
+cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
+cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
 crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.
 crs#:#crs_view_mode#:#Course Presentation
 crs#:#crs_view_objective#:#Objective Oriented View
-crs#:#crs_view_standard#:#Standard View
+cntr#:#cntr_view_sessions#:#Sessions View
+cntr#:#cntr_view_simple#:#Simple View
+cntr#:#cntr_view_by_type#:#Grouped-by-Type View
 crs#:#crs_view_timing#:#Timings View
 crs#:#crs_visibility#:#Availability
 crs#:#crs_visibility_limitless#:#Unlimited

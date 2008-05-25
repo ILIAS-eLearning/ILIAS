@@ -177,11 +177,19 @@ class ilContainerSorting
 	 */
 	public function saveByType($a_type,$a_items)
 	{
-	 	$query = "REPLACE INTO container_sorting SET ".
-	 		"obj_id = ".$this->db->quote($this->obj_id).", ".
-	 		"type = ".$this->db->quote($a_type).", ".
-	 		"items = ".$this->db->quote(serialize($a_items))." ";
-	 	$res = $this->db->query($query);
+		if (is_array($a_items))
+		{
+			foreach($a_items as $child_id => $position)
+			{
+				$query = "REPLACE INTO container_sorting SET ".
+					"obj_id = ".$this->db->quote($this->obj_id).", ".
+					"type = ".$this->db->quote($a_type).", ".
+					"child_id = ".$this->db->quote($child_id).", ".
+					"position = ".$this->db->quote($position);
+				$res = $this->db->query($query);
+			}
+		}
+//echo "-<br>$query-";
 	}
 	
 	
@@ -202,13 +210,14 @@ class ilContainerSorting
 	 	$this->manual_sort_enabled = ilContainerSortingSettings::_isManualSortingEnabled($this->obj_id);
 	 	
 	 	$query = "SELECT * FROM container_sorting ".
-	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ";
+	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ORDER BY position";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->sorting[$row->type] = unserialize($row->items);
+	 		$this->sorting[$row->type][$row->child_id] = $row->position;
 	 	}
-		return true;	
+//var_dump($this->sorting);
+		return true;
 	}
 }
 

@@ -35,6 +35,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilEventAdministrationGUI, ilSessionOverviewGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI
 *
 * 
 * @extends ilContainerGUI
@@ -295,12 +296,25 @@ class ilObjCourseGUI extends ilContainerGUI
 			return true;
 		}
 
-
-		include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
-		$course_content_obj = new ilCourseContentGUI($this);
-
-		$this->ctrl->setCmdClass(get_class($course_content_obj));
-		$this->ctrl->forwardCommand($course_content_obj);
+		// views handled by general container logic
+		if ($this->object->getViewMode() == ilContainer::VIEW_SIMPLE ||
+			$this->object->getViewMode() == ilContainer::VIEW_BY_TYPE ||
+			$this->object->getViewMode() == ilContainer::VIEW_SESSIONS ||
+			$this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE ||
+			$this->object->getViewMode() == IL_CRS_VIEW_TIMING
+			)
+		{
+			$this->setContentSubTabs();
+			return parent::renderObject();
+		}
+		else
+		{
+			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
+			$course_content_obj = new ilCourseContentGUI($this);
+	
+			$this->ctrl->setCmdClass(get_class($course_content_obj));
+			$this->ctrl->forwardCommand($course_content_obj);
+		}
 
 		return true;
 	}
@@ -1183,21 +1197,33 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// Viewmode
 		$this->tpl->setVariable("TXT_VIEWMODE",$this->lng->txt('crs_view_mode'));
-		$this->tpl->setVariable("TXT_STANDARD_VIEW",$this->lng->txt('crs_view_standard'));
+		$this->tpl->setVariable("TXT_SESSIONS_VIEW",$this->lng->txt('cntr_view_sessions'));
+		$this->tpl->setVariable("TXT_SIMPLE_VIEW",$this->lng->txt('cntr_view_simple'));
+		$this->tpl->setVariable("TXT_BY_TYPE_VIEW",$this->lng->txt('cntr_view_by_type'));
 		$this->tpl->setVariable("TXT_OBJ_VIEW",$this->lng->txt('crs_view_objective'));
 		$this->tpl->setVariable("TXT_TIMING_VIEW",$this->lng->txt('crs_view_timing'));
 		$this->tpl->setVariable("TXT_ARCHIVE_VIEW",$this->lng->txt('crs_view_archive'));
 		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt('crs_archive_download'));
 
-		$this->tpl->setVariable("VIEW_STANDARD_INFO",$this->lng->txt('crs_view_info_standard'));
+		$this->tpl->setVariable("VIEW_SESSIONS_INFO",$this->lng->txt('cntr_view_info_sessions'));
+		$this->tpl->setVariable("VIEW_SIMPLE_INFO",$this->lng->txt('cntr_view_info_simple'));
+		$this->tpl->setVariable("VIEW_BY_TYPE_INFO",$this->lng->txt('cntr_view_info_by_type'));
 		$this->tpl->setVariable("VIEW_OBJECTIVE_INFO",$this->lng->txt('crs_view_info_objective'));
 		$this->tpl->setVariable("VIEW_TIMING_INFO",$this->lng->txt('crs_view_info_timing'));
 		$this->tpl->setVariable("VIEW_ARCHIVE_INFO",$this->lng->txt('crs_archive_info'));
 
-		$this->tpl->setVariable("VIEW_STANDARD",ilUtil::formRadioButton(
-									($this->object->getViewMode() == IL_CRS_VIEW_STANDARD) ? true : false,
+		$this->tpl->setVariable("VIEW_SESSIONS",ilUtil::formRadioButton(
+									($this->object->getViewMode() == IL_CRS_VIEW_SESSIONS) ? true : false,
 									'view_mode',
-									IL_CRS_VIEW_STANDARD));
+									ilContainer::VIEW_SESSIONS));
+		$this->tpl->setVariable("VIEW_SIMPLE",ilUtil::formRadioButton(
+									($this->object->getViewMode() == IL_CRS_VIEW_SIMPLE) ? true : false,
+									'view_mode',
+									ilContainer::VIEW_SIMPLE));
+		$this->tpl->setVariable("VIEW_BY_TYPE",ilUtil::formRadioButton(
+									($this->object->getViewMode() == IL_CRS_VIEW_BY_TYPE) ? true : false,
+									'view_mode',
+									ilContainer::VIEW_BY_TYPE));
 		$this->tpl->setVariable("VIEW_OBJECTIVE",ilUtil::formRadioButton(
 									($this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE) ? true : false,
 									'view_mode',
@@ -4438,6 +4464,17 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('groupings');
 				break;
 
+			case "ilcolumngui":
+				$this->checkPermission("read");
+				//$this->prepareOutput();
+				//$this->getSubItems();
+				//include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+				//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				//	ilObjStyleSheet::getContentStylePath(0));
+				//$this->renderObject();
+				$this->viewObject();
+				break;
+
 			case "ilconditionhandlerinterface":
 				include_once './classes/class.ilConditionHandlerInterface.php';
 				
@@ -4551,6 +4588,17 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 				$events = new ilEventAdministrationGUI($this);
 				$this->ctrl->forwardCommand($events);				
+				break;
+				
+			// container page editing
+			case "ilpageobjectgui":
+				//$this->prepareOutput(false);
+				$this->checkPermission("write");
+				$ret = $this->forwardToPageObject();
+				if ($ret != "")
+				{
+					$this->tpl->setContent($ret);
+				}
 				break;
 				
 			default:
@@ -4916,6 +4964,129 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tpl->setContent($map->getHTML());
 		$tpl->setLeftContent($map->getUserListHTML());
 	}
+
+	/**
+	* Modify Item ListGUI for presentation in container
+	*/
+	function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+	{
+		return ilObjCourseGUI::_modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path,
+			$this->object->getAboStatus(), $this->object->getRefId(), $this->object->getId());
+	}
+	
+	/**
+	* We need a static version of this, e.g. in folders of the course
+	*/
+	static function _modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path,
+		$a_abo_status, $a_course_ref_id, $a_course_obj_id, $a_parent_ref_id = 0)
+	{
+		global $lng, $ilCtrl, $ilAccess;
+		
+		// this is set for folders within the course
+		if ($a_parent_ref_id == 0)
+		{
+			$a_parent_ref_id = $a_course_ref_id;
+		}
+		
+		// ACTIVATION
+		$activation = '';
+		if ($a_item_data['timing_type'] != IL_CRS_TIMINGS_DEACTIVATED and
+			$a_item_data['timing_type'] != IL_CRS_TIMINGS_FIXED)
+		{
+			$long = $a_item_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION;
+
+			$activation = ilFormat::formatUnixTime($a_item_data['start'],$long).' - '.
+				ilFormat::formatUnixTime($a_item_data['end'], $long);
+		}
+
+		$a_item_list_gui->enableSubscribe($a_abo_status);
+		
+		// add activation custom property
+		if ($activation != "")
+		{
+			$a_item_list_gui->addCustomProperty($lng->txt($a_item_data['activation_info']), $activation,
+				false, true);
+		}
+
+		$is_tutor = ($ilAccess->checkAccess('write','',
+			$a_course_ref_id,'crs', $a_course_obj_id));
+		
+		if($a_show_path and $is_tutor)
+		{
+			$a_item_list_gui->addCustomProperty($lng->txt('path'),
+				ilContainer::_buildPath($a_item_data['ref_id'], $a_course_ref_id),
+				false,
+				true);
+		}
+
+		if($is_tutor)
+		{
+			$ilCtrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
+				$a_parent_ref_id);
+			$ilCtrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
+				$a_item_data['child']);
+			$a_item_list_gui->addCustomCommand($ilCtrl->getLinkTargetByClass(
+				array('ilcoursecontentgui', 'ilCourseItemAdministrationGUI'),
+				'edit'),
+				'activation');
+		}
+	}
+	
+	function setContentSubTabs()
+	{
+		global $ilAccess;
+
+		if ($this->object->getType() != 'crs')
+		{
+			return true;
+		}
+		if (!$ilAccess->checkAccess('write','',
+			$this->object->getRefId(),'crs',$this->object->getId()))
+		{
+			$is_tutor = false;
+			// No further tabs if objective view or archives
+			if($this->object->enabledObjectiveView())
+			{
+				return false;
+			}
+		}
+		else
+		{
+			$is_tutor = true;
+		}
+
+		// These subtabs should also work, if the command is called directly in
+		// ilObjCourseGUI, so please use ...ByClass methods.
+		// (see ilObjCourseGUI->executeCommand: case "ilcolumngui")
+		
+		if($this->object->enabledObjectiveView())
+		{
+			// Objective gui
+			$this->tabs_gui->addSubTabTarget('learners_view',
+				$this->ctrl->getLinkTargetByClass(array('ilcoursecontentgui', 'ilcourseobjectivepresentationgui'),'view'));
+		}
+		if(!$_SESSION['crs_timings_panel'][$this->object->getId()])
+		{
+			$this->tabs_gui->addSubTabTarget('crs_content',
+				$this->ctrl->getLinkTargetByClass("ilobjcoursegui",'view'));
+		}
+		include_once 'Modules/Course/classes/class.ilCourseItems.php';
+		if(!$this->object->enabledObjectiveView() and $this->object->getViewMode() == IL_CRS_VIEW_TIMING)
+		{
+			$this->tabs_gui->addSubTabTarget('timings_timings',
+				$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','editUserTimings'));
+		}
+
+		if($this->is_tutor)
+		{
+			$this->tabs_gui->addSubTabTarget('crs_archives',
+				$this->ctrl->getLinkTargetByClass(
+					array('ilcoursecontentgui', 'ilcoursearchivesgui'),'view'));
+		}
+
+		return true;
+	}
+
 
 } // END class.ilObjCourseGUI
 ?>

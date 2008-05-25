@@ -4,7 +4,7 @@
 	<baseclasses>
 	</baseclasses>
 	<objects>
-		<object id="sess" class_name="Session" dir="classes" default_pos="195" default_pres_pos="195"
+		<object id="sess" class_name="Session" dir="classes" default_pos="15" default_pres_pos="15"
 			checkbox="1" inherit="0" translate="0" rbac="1" allow_link="0" allow_copy="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="crs">crs</parent>
