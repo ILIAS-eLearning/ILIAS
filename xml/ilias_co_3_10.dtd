@@ -65,7 +65,7 @@
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (((MetaData, PageContent*) | PageAlias), Layout?)>
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map | Plugged), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -491,6 +491,18 @@
 	Latitude CDATA #REQUIRED
 	Longitude CDATA #REQUIRED
 	Zoom CDATA #REQUIRED
+>
+
+<!-- Plugged Component -->
+<!-- il_Block, il_Example, il_Special, il_Additional, il_Excursus -->
+<!ELEMENT Plugged (PluggedParameter*)>
+<!ATTLIST Plugged
+	PluginID CDATA #REQUIRED
+	PluginVersion CDATA #REQUIRED
+>
+<!ELEMENT PluggedParameter (#PCDATA)>
+<!ATTLIST PluggedParameter
+	Name CDATA #REQUIRED
 >
 
 <!-- Glossary -->
