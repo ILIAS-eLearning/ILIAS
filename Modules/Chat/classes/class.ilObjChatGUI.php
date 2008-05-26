@@ -1695,7 +1695,8 @@ class ilObjChatGUI extends ilObjectGUI
 					$this->tpl->setVariable("ROOM_ONLINE",
 											$this->object->chat_room->getCountActiveUser($priv_room["chat_id"],$priv_room["room_id"])); 
 		
-					if ($priv_room["owner"] != $_SESSION["AccountId"])
+					if ($priv_room["owner"] != $_SESSION["AccountId"] &&
+						!$rbacsystem->checkAccess('moderate', $this->object->getRefId()))
 					{
 						if($user_obj =& ilObjectFactory::getInstanceByObjId($priv_room['owner'],false))
 						{

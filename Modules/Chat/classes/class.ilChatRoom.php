@@ -164,10 +164,14 @@ class ilChatRoom
 	
 	function checkAccess()
 	{
+		global $rbacsystem;
+		
 		if ($this->getObjId() ||
 			$this->getRoomId())
 		{
-			if(!$this->isInvited($this->getUserId()) and !$this->isOwner())
+			if(!$this->isInvited($this->getUserId()) && 
+			   !$this->isOwner() &&
+			   !$rbacsystem->checkAccess('moderate', $_GET['ref_id']))
 			{
 				$this->setRoomId(0);
 				return false;
@@ -504,12 +508,16 @@ class ilChatRoom
 	
 	function getRooms()
 	{
-		global $tree;
-		global $ilDB;
+		global $tree, $ilDB, $rbacsystem;
 
 		$query = "SELECT DISTINCT(cr.room_id) as room_id,owner,title,cr.chat_id as chat_id FROM chat_rooms AS cr NATURAL LEFT JOIN chat_invitations ".
 			"WHERE (owner = ".$ilDB->quote($this->getUserId()).") ".
 			"OR (guest_id = ".$ilDB->quote($this->getUserId()).")";
+			
+		if($rbacsystem->checkAccess('moderate', $_GET['ref_id']))
+		{
+			$query .= " OR (1) ";
+		}
 
 		$res = $this->ilias->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -601,6 +609,13 @@ class ilChatRoom
 
 	function checkWriteAccess()
 	{
+		global $rbacsystem;
+		
+		if($rbacsystem->checkAccess('moderate', $_GET['ref_id']))
+		{
+			return true;
+		}
+		
 		if($this->isKicked($this->getUserId()))
 		{
 			return false;
