@@ -4135,4 +4135,29 @@ foreach($rows as $row)
 	}
 }
 ?>
+<#1231>
+CREATE TABLE `qpl_answer_matching_term` (
+  `term_id` int(11) NOT NULL auto_increment,
+  `question_fi` int(11) NOT NULL,
+  `term` text NOT NULL,
+  PRIMARY KEY  (`term_id`),
+	INDEX (  `question_fi` )
+) Type=MyISAM;
+<#1232>
+<?php
+// migrate matching question terms
+$query = "SELECT * FROM qpl_answer_matching";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$insertquery = sprintf("INSERT INTO qpl_answer_matching_term (term_id, question_fi, term) VALUES (NULL, %s, %s)",
+		$ilDB->quote($row->question_fi),
+		$ilDB->quote($row->answertext)
+	);
+	$ilDB->query($insertquery);
+	$newTermID = $ilDB->getLastInsertId();
 
+	$updatequery = sprintf("UPDATE qpl_answer_matching SET answertext = '$newTermID' WHERE answer_id = " . $ilDB->quote($row->answer_id));
+	$ilDB->query($updatequery);
+}
+?>

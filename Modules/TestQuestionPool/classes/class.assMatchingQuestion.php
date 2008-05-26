@@ -53,6 +53,13 @@ class assMatchingQuestion extends assQuestion
 	* @var integer
 	*/
 	var $matching_type;
+	
+	/**
+	* The terms of the matching question
+	*
+	* @var array
+	*/
+	var $terms;
 
 	/**
 	* assMatchingQuestion constructor
@@ -78,6 +85,7 @@ class assMatchingQuestion extends assQuestion
 		$this->assQuestion($title, $comment, $author, $owner, $question);
 		$this->matchingpairs = array();
 		$this->matching_type = $matching_type;
+		$this->terms = array();
 	}
 
 	/**
@@ -209,6 +217,34 @@ class assMatchingQuestion extends assQuestion
 		else
 		{
 			// Antworten schreiben
+			
+			// delete old terms
+			$query = sprintf("DELETE FROM qpl_answer_matching_term WHERE question_fi = %s",
+				$ilDB->quote($this->id)
+			);
+			$result = $ilDB->query($query);
+			
+			// write terms
+			$newterms = array();
+			foreach ($this->terms as $key => $value)
+			{
+				$query = sprintf("INSERT INTO qpl_answer_matching_term (term_id, question_fi, term) VALUES (NULL, %s, %s)",
+					$ilDB->quote($this->getId()),
+					$ilDB->quote($value . "")
+				);
+				$term_result = $ilDB->query($query);
+				$newTermID = $ilDB->getLastInsertId();
+				$newterms[$newTermID] = $value;
+				foreach ($this->matchingpairs as $mkey => $mvalue)
+				{
+					if (strcmp($this->matchingpairs[$mkey]->getTerm(), $key) == 0)
+					{
+						$this->matchingpairs[$mkey]->setTerm($newTermID);
+					}
+				}
+			}
+			$this->terms = $newterms;
+
 			// alte Antworten löschen
 			$query = sprintf("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
 				$ilDB->quote($this->id)
@@ -223,7 +259,7 @@ class assMatchingQuestion extends assQuestion
 					$ilDB->quote($this->id),
 					$ilDB->quote($matching_obj->getTerm() . ""),
 					$ilDB->quote($matching_obj->getPoints() . ""),
-					$ilDB->quote($matching_obj->getTermId() . ""),
+					$ilDB->quote($matching_obj->getTerm() . ""),
 					$ilDB->quote($matching_obj->getDefinition() . ""),
 					$ilDB->quote($matching_obj->getDefinitionId() . "")
 				);
@@ -246,7 +282,7 @@ class assMatchingQuestion extends assQuestion
 	{
 		global $ilDB;
 
-    $query = sprintf("SELECT qpl_questions.*, qpl_question_matching.* FROM qpl_questions, qpl_question_matching WHERE question_id = %s AND qpl_questions.question_id = qpl_question_matching.question_fi",
+		$query = sprintf("SELECT qpl_questions.*, qpl_question_matching.* FROM qpl_questions, qpl_question_matching WHERE question_id = %s AND qpl_questions.question_id = qpl_question_matching.question_fi",
 			$ilDB->quote($question_id)
 		);
 		$result = $ilDB->query($query);
@@ -278,6 +314,19 @@ class assMatchingQuestion extends assQuestion
 				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
 					array_push($this->matchingpairs, new ASS_AnswerMatching($data->answertext, $data->points, $data->aorder, $data->matchingtext, $data->matching_order));
+				}
+			}
+
+			$query = sprintf("SELECT * FROM qpl_answer_matching_term WHERE question_fi = %s ORDER BY term ASC",
+				$ilDB->quote($question_id)
+			);
+			$result = $ilDB->query($query);
+			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
+			if ($result->numRows() > 0)
+			{
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+				{
+					$this->terms[$data->term_id] = $data->term;
 				}
 			}
 		}
@@ -492,22 +541,16 @@ class assMatchingQuestion extends assQuestion
 		$term = "",
 		$picture_or_definition = "",
 		$points = 0.0,
-		$term_id = 0,
+		$term = 0,
 		$picture_or_definition_id = 0
 	)
 	{
-		// append answer
-		if ($term_id == 0)
-		{
-			$term_id = $this->get_random_id();
-		}
-
 		if ($picture_or_definition_id == 0)
 		{
 			$picture_or_definition_id = $this->get_random_id();
 		}
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
-		$matchingpair = new ASS_AnswerMatching($term, $points, $term_id, $picture_or_definition, $picture_or_definition_id);
+		$matchingpair = new ASS_AnswerMatching($term, $points, $term, $picture_or_definition, $picture_or_definition_id);
 		array_push($this->matchingpairs, $matchingpair);
 	}
 
@@ -611,6 +654,111 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
+	* Returns the terms of the matching question
+	*
+	* Returns the terms of the matching question
+	*
+	* @return array An array containing the terms (sorted alphabetically)
+	* @access public
+	* @see $terms
+	*/
+	function getTerms()
+	{
+		natcasesort($this->terms);
+		return $this->terms;
+	}
+	
+	/**
+	* Returns a term with a given ID
+	*
+	* Returns a term with a given ID
+	*
+	* @param string $id The id of the term
+	* @return string The term
+	* @access public
+	* @see $terms
+	*/
+	function getTermWithID($id)
+	{
+		return $this->terms[$id];
+	}
+	
+	/**
+	* Returns the number of terms
+	*
+	* Returns the number of terms
+	*
+	* @return integer The number of terms
+	* @access public
+	* @see $terms
+	*/
+	function getTermCount()
+	{
+		return count($this->terms);
+	}
+	
+	/**
+	* Adds a term
+	*
+	* Adds a term
+	*
+	* @param string $term The text of the term
+	* @access public
+	* @see $terms
+	*/
+	function addTerm($term)
+	{
+		$newkey = count($this->terms);
+		while (array_key_exists("term_" . $newkey, $this->terms))
+		{
+			$newkey += 11;
+		}
+		$this->terms["term_" . $newkey] = $term;
+	}
+	
+	/**
+	* Deletes all terms
+	*
+	* Deletes all terms
+	*
+	* @access public
+	* @see $terms
+	*/
+	function flushTerms()
+	{
+		$this->terms = array();
+	}
+
+	/**
+	* Deletes a term
+	*
+	* Deletes a term
+	*
+	* @param string $term_id The id of the term to delete
+	* @access public
+	* @see $terms
+	*/
+	function deleteTerm($term_id)
+	{
+		unset($this->terms[$term_id]);
+	}
+
+	/**
+	* Sets a specific term
+	*
+	* Sets a specific term
+	*
+	* @param string $term The text of the term
+	* @param string $index The index of the term
+	* @access public
+	* @see $terms
+	*/
+	function setTerm($term, $index)
+	{
+		$this->terms[$index] = $term;
+	}
+
+	/**
 	* Returns the points, a learner has reached answering the question
 	*
 	* Returns the points, a learner has reached answering the question
@@ -650,7 +798,7 @@ class assMatchingQuestion extends assQuestion
 		{
 			foreach ($this->matchingpairs as $answer_key => $answer_value)
 			{
-				if (($answer_value->getDefinitionId() == $value) and ($answer_value->getTermId() == $found_value1[$key]))
+				if (($answer_value->getDefinitionId() == $value) and ($answer_value->getTerm() == $found_value1[$key]))
 				{
 					$points += $answer_value->getPoints();
 				}
@@ -796,20 +944,17 @@ class assMatchingQuestion extends assQuestion
 			{
 				if (preg_match("/^sel_matching_(\d+)/", $key, $matches))
 				{
-					if (!(preg_match("/initial_value_\d+/", $value)))
+					if ($value > -1) // -1 is the unselected value in the non javascript version
 					{
-						if ($value > -1) // -1 is the unselected value in the non javascript version
-						{
-							$entered_values++;
-							$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-								$ilDB->quote($active_id),
-								$ilDB->quote($this->getId()),
-								$ilDB->quote(trim($value)),
-								$ilDB->quote(trim($matches[1])),
-								$ilDB->quote($pass . "")
-							);
-							$result = $ilDB->query($query);
-						}
+						$entered_values++;
+						$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+							$ilDB->quote($active_id),
+							$ilDB->quote($this->getId()),
+							$ilDB->quote(trim($value)),
+							$ilDB->quote(trim($matches[1])),
+							$ilDB->quote($pass . "")
+						);
+						$result = $ilDB->query($query);
 					}
 				}
 			}
@@ -910,7 +1055,7 @@ class assMatchingQuestion extends assQuestion
 						$ilDB->quote($this->original_id . ""),
 						$ilDB->quote($matching_obj->getTerm() . ""),
 						$ilDB->quote($matching_obj->getPoints() . ""),
-						$ilDB->quote($matching_obj->getTermId() . ""),
+						$ilDB->quote($matching_obj->getTerm() . ""),
 						$ilDB->quote($matching_obj->getDefinition() . ""),
 						$ilDB->quote($matching_obj->getDefinitionId() . "")
 					);
