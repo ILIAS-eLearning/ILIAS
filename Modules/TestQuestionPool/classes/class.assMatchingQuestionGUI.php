@@ -59,10 +59,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 	function getCommand($cmd)
 	{
-		if (substr($cmd, 0, 6) == "delete")
-		{
-			$cmd = "delete";
-		}
 		if (substr($cmd, 0, 6) == "upload")
 		{
 			$cmd = "upload";
@@ -85,62 +81,109 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", "Modules/TestQuestionPool");
 
 		$tblrow = array("tblrow1top", "tblrow2top");
-		// Vorhandene Anworten ausgeben
-		for ($i = 0; $i < $this->object->get_matchingpair_count(); $i++)
+
+		for ($termcount = 1; $termcount <= 10; $termcount++)
 		{
-			$thispair = $this->object->get_matchingpair($i);
-			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+			$this->tpl->setCurrentBlock("termcountvalues");
+			$this->tpl->setVariable("TERMCOUNTVALUE", $termcount);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if (($this->ctrl->getCmd() == "addTerm") && (!$has_error))
+		{
+			for ($i = 0; $i < $_POST["termcount"]; $i++)
 			{
-				$this->tpl->setCurrentBlock("pictures");
-				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("PICTURE_ID", $thispair->getPictureId());
-				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
-				$filename = $thispair->getPicture();
-				if ($filename)
+				$this->object->addTerm("");
+			}
+		}
+		
+		if ($this->object->getTermCount())
+		{
+			$this->tpl->setCurrentBlock("termfooter");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
+			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("termhead");
+			$this->tpl->setVariable("TEXT_TERMS", $this->lng->txt("terms"));
+			$this->tpl->parseCurrentBlock();
+			foreach ($this->object->getTerms() as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("terms");
+				$this->tpl->setVariable("TERM_VALUE", ' value="' . $value . '"');
+				$this->tpl->setVariable("TERM_ID", $key);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		if ($this->object->get_matchingpair_count() && $this->object->getTermCount())
+		{
+			// Vorhandene Anworten ausgeben
+			for ($i = 0; $i < $this->object->get_matchingpair_count(); $i++)
+			{
+				$thispair = $this->object->get_matchingpair($i);
+				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 				{
-					$imagepath = $this->object->getImagePathWeb() . $thispair->getPicture();
-					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" />");
-					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->getPicture());
-					$this->tpl->setVariable("VALUE_PICTURE", $thispair->getPicture());
+					$this->tpl->setCurrentBlock("pictures");
+					$this->tpl->setVariable("ANSWER_ORDER", $i);
+					$this->tpl->setVariable("PICTURE_ID", $thispair->getPictureId());
+					$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
+					$filename = $thispair->getPicture();
+					if ($filename)
+					{
+						$imagepath = $this->object->getImagePathWeb() . $thispair->getPicture();
+						$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" />");
+						$this->tpl->setVariable("IMAGE_FILENAME", $thispair->getPicture());
+						$this->tpl->setVariable("VALUE_PICTURE", $thispair->getPicture());
+					}
+					$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 				}
-				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
-			}
-			elseif ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
-			{
-				$this->tpl->setCurrentBlock("definitions");
+				elseif ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
+				{
+					$this->tpl->setCurrentBlock("definitions");
+					$this->tpl->setVariable("ANSWER_ORDER", $i);
+					$this->tpl->setVariable("DEFINITION_ID", $thispair->getDefinitionId());
+					$this->tpl->setVariable("VALUE_DEFINITION", ilUtil::prepareFormOutput($thispair->getDefinition()));
+					$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
+				}
+				$this->tpl->parseCurrentBlock();
+				foreach ($this->object->getTerms() as $termkey => $termvalue)
+				{
+					$this->tpl->setCurrentBlock("termoptions");
+					$this->tpl->setVariable("TERMOPTION_VALUE", $termkey);
+					$this->tpl->setVariable("TERMOPTION_TEXT", ilUtil::prepareFormOutput($termvalue));
+					if (strcmp($termkey, $thispair->getTerm()) == 0)
+					{
+						$this->tpl->setVariable("TERMOPTION_SELECTED", ' selected="selected"');
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("answers");
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("DEFINITION_ID", $thispair->getDefinitionId());
-				$this->tpl->setVariable("VALUE_DEFINITION", ilUtil::prepareFormOutput($thispair->getDefinition()));
+				$this->tpl->setVariable("TERM_ID", $thispair->getTerm());
+				$this->tpl->setVariable("VALUE_TERM", ilUtil::prepareFormOutput($thispair->getTerm()));
+				$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
+				$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", $thispair->getPoints());
 				$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("answers");
-			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
-			$this->tpl->setVariable("ANSWER_ORDER", $i);
-			$this->tpl->setVariable("TERM_ID", $thispair->getTermId());
-			$this->tpl->setVariable("VALUE_TERM", ilUtil::prepareFormOutput($thispair->getTerm()));
-			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
-			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", $thispair->getPoints());
-			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
 		
-		if ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
-		{
-			/*
-			$this->tpl->setCurrentBlock("multiline_answers");
-			if ($multiline_answers)
+			if ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
 			{
-				$this->tpl->setVariable("SELECTED_SHOW_MULTILINE_ANSWERS", " selected=\"selected\"");
+				/*
+				$this->tpl->setCurrentBlock("multiline_answers");
+				if ($multiline_answers)
+				{
+					$this->tpl->setVariable("SELECTED_SHOW_MULTILINE_ANSWERS", " selected=\"selected\"");
+				}
+				$this->tpl->setVariable("TEXT_HIDE_MULTILINE_ANSWERS", $this->lng->txt("multiline_definitions_hide"));
+				$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_definitions_show"));
+				$this->tpl->parseCurrentBlock();
+				*/
 			}
-			$this->tpl->setVariable("TEXT_HIDE_MULTILINE_ANSWERS", $this->lng->txt("multiline_definitions_hide"));
-			$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_definitions_show"));
-			$this->tpl->parseCurrentBlock();
-			*/
-		}
-		
-		if ($this->object->get_matchingpair_count())
-		{
+
 			$this->tpl->setCurrentBlock("answerhead");
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("TERM", $this->lng->txt("term"));
@@ -170,7 +213,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$allow_add_pair = 1;
 		foreach ($_POST as $key => $value)
 		{
-			if (preg_match("/(term|picture|definition)_(\d+)_(\d+)/", $key, $matches))
+			if (preg_match("/(termoption|picture|definition)_(\d+)_(\d+)/", $key, $matches))
 			{
 				if (!$value)
 				{
@@ -178,6 +221,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				}
 			}
 		}
+		if ($this->object->getTermCount() == 0) $allow_add_pair = 0;
 		$add_random_id = "";
 		if (($this->ctrl->getCmd() == "addPair") and $allow_add_pair and (!$has_error))
 		{
@@ -199,6 +243,13 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$this->tpl->setVariable("VALUE_DEFINITION", "");
 			}
 			$this->tpl->parseCurrentBlock();
+			foreach ($this->object->getTerms() as $termkey => $termvalue)
+			{
+				$this->tpl->setCurrentBlock("termoptions");
+				$this->tpl->setVariable("TERMOPTION_VALUE", $termkey);
+				$this->tpl->setVariable("TERMOPTION_TEXT", ilUtil::prepareFormOutput($termvalue));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_matchingpair_count() + 1);
@@ -212,7 +263,14 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 		else if ($this->ctrl->getCmd() == "addPair")
 		{
-			$this->error .= $this->lng->txt("fill_out_all_matching_pairs") . "<br />";
+			if ($this->object->getTermCount() == 0)
+			{
+				$this->error .= $this->lng->txt("no_terms_message") . "<br />";
+			}
+			else
+			{
+				$this->error .= $this->lng->txt("fill_out_all_matching_pairs") . "<br />";
+			}
 		}
 
 		$internallinks = array(
@@ -238,7 +296,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			if ($this->object->get_matchingpair_count() > 0)
 			{
 				$thispair = $this->object->get_matchingpair($this->object->get_matchingpair_count()-1);
-				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_matching.term_".($this->object->get_matchingpair_count()-1)."_" . $thispair->getTermId().".focus(); document.frm_matching.term_".($this->object->get_matchingpair_count()-1)."_" . $thispair->getTermId().".scrollIntoView(\"true\");"));
+				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_matching.term_".($this->object->get_matchingpair_count()-1)."_" . $thispair->getTerm().".focus(); document.frm_matching.term_".($this->object->get_matchingpair_count()-1)."_" . $thispair->getTerm().".scrollIntoView(\"true\");"));
 			}
 			else
 			{
@@ -298,6 +356,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$questiontext = $this->object->getQuestion();
 		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
 		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_matching_pair"));
+		$this->tpl->setVariable("VALUE_ADD_TERM", $this->lng->txt("add"));
+		$this->tpl->setVariable("TEXT_TERMS", $this->lng->txt("terms"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS_PICTURES", $this->lng->txt("match_terms_and_pictures"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS_DEFINITIONS", $this->lng->txt("match_terms_and_definitions"));
@@ -363,6 +423,15 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	}
 
 	/**
+	* add term(s)
+	*/
+	function addTerm()
+	{
+		$result = $this->writePostData();
+		$this->editQuestion($result);
+	}
+
+	/**
 	* upload matching picture or material
 	*/
 	function upload()
@@ -370,7 +439,23 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->writePostData();
 		$this->editQuestion();
 	}
-
+	
+	/**
+	* delete term(s)
+	*/
+	function deleteTerms()
+	{
+		$this->writePostData();
+		if (is_array($_POST["delete_terms"]))
+		{
+			$terms = $_POST["delete_terms"];
+			foreach ($terms as $key => $value)
+			{
+				$this->object->deleteTerm($value);
+			}
+		}
+		$this->editQuestion(0);
+	}
 
 	/**
 	* delete matching pair
@@ -414,6 +499,12 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$this->error .= $this->lng->txt("fill_out_all_required_fields_add_matching") . "<br />";
 		}
 
+		if (($result) and ($_POST["cmd"]["addTerm"]))
+		{
+			// You cannot add matching pairs before you enter the required data
+			$this->error .= $this->lng->txt("empty_terms_exist") . "<br />";
+		}
+
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
@@ -429,6 +520,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flush_matchingpairs();
+		$this->object->flushTerms();
 		$saved = false;
 
 		// Add all answers from the form into the object
@@ -436,7 +528,17 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		foreach ($postvalues as $key => $value)
 		{
 			$matching_text = "";
-			if (preg_match("/term_(\d+)_(\d+)/", $key, $matches))
+			if (preg_match("/terms_(.*)/", $key, $matches))
+			{
+				$this->object->setTerm($value, $matches[1]);
+				if (strlen($value) == 0)
+				{
+					$result = 1;
+					ilUtil::sendInfo($this->lng->txt("empty_term_message"));
+//					$this->setErrorMessage($this->lng->txt("empty_term_message"));
+				}
+			}
+			if (preg_match("/termoption_(\d+)_(\d+)/", $key, $matches))
 			{
 				// find out random id for term
 				foreach ($_POST as $key2 => $value2)
@@ -500,7 +602,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					ilUtil::stripSlashes($_POST["$key"]),
 					ilUtil::stripSlashes($matching_text),
 					ilUtil::stripSlashes($points),
-					ilUtil::stripSlashes($matches[2]),
+					ilUtil::stripSlashes($value),
 					ilUtil::stripSlashes($matchingtext_id)
 				);
 			}
@@ -522,10 +624,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $user_post_solution); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
-		{
-			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"setDragelementPositions();show_solution();\"");
-		}
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
@@ -549,7 +647,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		{
 			foreach ($this->object->matchingpairs as $pair)
 			{
-				array_push($solutions, array("value1" => $pair->getTermId(), "value2" => $pair->getDefinitionId()));
+				array_push($solutions, array("value1" => $pair->getTerm(), "value2" => $pair->getDefinitionId()));
 			}
 		}
 		foreach ($keys as $idx)
@@ -565,7 +663,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					{
 						if ($answer->getDefinitionId() == $solution["value2"])
 						{
-							if ($answer->getTermId() == $solution["value1"])
+							if ($answer->getTerm() == $solution["value1"])
 							{
 								$ok = TRUE;
 							}
@@ -620,11 +718,11 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			{
 				if ($answer->getDefinitionId() == $solution["value2"])
 				{
-					foreach ($this->object->matchingpairs as $pair)
+					foreach ($this->object->getTerms() as $termindex => $termvalue)
 					{
-						if ($pair->getTermId() == $solution["value1"])
+						if ($termindex == $solution["value1"])
 						{
-							$template->setVariable("SOLUTION", ilUtil::prepareFormOutput($pair->getTerm()));
+							$template->setVariable("SOLUTION", ilUtil::prepareFormOutput($termvalue));
 							$hasoutput = TRUE;
 						}
 					}
@@ -662,24 +760,25 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		
 		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
-		$keys2 = $keys;
+		$keys2 = array_keys($this->object->getTerms());
 		if ($this->object->getShuffle())
 		{
 			if (($this->object->getShuffle() == 3) || ($this->object->getShuffle() == 1))
 				$keys = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
 			if (($this->object->getShuffle() == 2) || ($this->object->getShuffle() == 1))
-				$keys2 = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
+				$keys2 = $this->object->pcArrayShuffle($keys2);
 		}
 
+		$terms = $this->object->getTerms();
 		foreach ($keys as $idx)
 		{
 			$answer = $this->object->matchingpairs[$idx];
-			foreach ($keys2 as $comboidx)
+			foreach ($keys2 as $termkey)
 			{
 				$comboanswer = $this->object->matchingpairs[$comboidx];
 				$template->setCurrentBlock("matching_selection");
-				$template->setVariable("VALUE_SELECTION", $comboanswer->getTermId());
-				$template->setVariable("TEXT_SELECTION", ilUtil::prepareFormOutput($comboanswer->getTerm()));
+				$template->setVariable("VALUE_SELECTION", $termkey);
+				$template->setVariable("TEXT_SELECTION", ilUtil::prepareFormOutput($terms[$termkey]));
 				$template->parseCurrentBlock();
 			}
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
@@ -728,13 +827,14 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
 
+		$allterms = $this->object->getTerms();
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		// shuffle output
 		$keys = array_keys($this->object->matchingpairs);
-		$keys2 = $keys;
+		$keys2 = array_keys($this->object->getTerms());
 		if (is_array($user_post_solution))
 		{
 			$keys = $_SESSION["matching_keys"];
@@ -747,7 +847,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				if (($this->object->getShuffle() == 3) || ($this->object->getShuffle() == 1))
 					$keys = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
 				if (($this->object->getShuffle() == 2) || ($this->object->getShuffle() == 1))
-					$keys2 = $this->object->pcArrayShuffle(array_keys($this->object->matchingpairs));
+					$keys2 = $this->object->pcArrayShuffle($keys2);
 			}
 		}
 		$_SESSION["matching_keys"] = $keys;
@@ -776,76 +876,73 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			{ 
 				$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			}
-			$solution_script .= "";
 			foreach ($solutions as $idx => $solution_value)
 			{
 				if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 				{
 					if (($solution_value["value2"] > 1) && ($solution_value["value1"] > 1))
 					{
-						$solution_script .= "addSolution(" . $solution_value["value1"] . "," . $solution_value["value2"] . ");\n";
+						$template->setCurrentBlock("restoreposition");
+						$template->setVariable("TERM_ID", $solution_value["value1"]);
+						$template->setVariable("PICTURE_DEFINITION_ID", $solution_value["value2"]);
+						$template->parseCurrentBlock();
 					}
 				}
 			}
 		}
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
+			include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+			ilYuiUtil::initDragDrop();
+			
+			// create pictures/definitions
+			$arrayindex = 0;
 			foreach ($keys as $idx)
-			{
-				$answer = $this->object->matchingpairs[$idx];
-				$template->setCurrentBlock("dragelements");
-				$template->setVariable("DRAGELEMENT", $answer->getDefinitionId());
-				$template->parseCurrentBlock();
-				$template->setCurrentBlock("dropzones");
-				$template->setVariable("DROPZONE", $answer->getTermId());
-				$template->parseCurrentBlock();
-				$template->setCurrentBlock("hidden_values");
-				$template->setVariable("MATCHING_ID", $answer->getDefinitionId());
-				$template->parseCurrentBlock();
-			}
-
-			foreach ($keys as $arrayindex => $idx)
 			{
 				$answer = $this->object->matchingpairs[$idx];
 				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 				{
-					$template->setCurrentBlock("matching_pictures");
+					$template->setCurrentBlock("js_match_picture");
 					$template->setVariable("DEFINITION_ID", $answer->getPictureId());
 					$template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $answer->getPicture());
 					$template->setVariable("THUMBNAIL_HREF", $this->object->getImagePathWeb() . $answer->getPicture() . ".thumb.jpg");
 					$template->setVariable("THUMB_ALT", $this->lng->txt("image"));
 					$template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.gif", false));
-					$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
-					$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
 					$template->parseCurrentBlock();
 				}
 				else
 				{
-					$template->setCurrentBlock("matching_terms");
-					$template->setVariable("DEFINITION_ID", $answer->getDefinitionId());
-					$template->setVariable("DEFINITION_TEXT", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
+					$template->setCurrentBlock("js_match_definition");
+					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($answer->getDefinition(), TRUE));
 					$template->parseCurrentBlock();
 				}
-				$template->setCurrentBlock("javascript_matching_row");
-				$template->setVariable("MATCHES", $this->lng->txt("matches"));
-				$shuffledTerm = $this->object->matchingpairs[$keys2[$arrayindex]];
-				$template->setVariable("DROPZONE_ID", $shuffledTerm->getTermId());
-				$template->setVariable("TERM_ID", $shuffledTerm->getTermId());
-				$template->setVariable("TERM_TEXT", $shuffledTerm->getTerm());
+				$template->setCurrentBlock("droparea");
+				$template->setVariable("ID_DROPAREA", $answer->getDefinitionId());
+				$template->setVariable("ID_DROPAREA", $answer->getDefinitionId());
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("init_dropareas");
+				$template->setVariable("COUNTER", $arrayindex++);
+				$template->setVariable("ID_DROPAREA", $answer->getDefinitionId());
+				$template->parseCurrentBlock();
+			}
+
+			// create terms
+			$arrayindex = 0;
+			foreach ($keys2 as $termid)
+			{
+				$template->setCurrentBlock("draggable");
+				$template->setVariable("ID_DRAGGABLE", $termid);
+				$template->setVariable("VALUE_DRAGGABLE", $this->object->prepareTextareaOutput($this->object->getTermWithId($termid)));
+				$template->parseCurrentBlock();
+				$template->setCurrentBlock("init_draggables");
+				$template->setVariable("COUNTER", $arrayindex++);
+				$template->setVariable("ID_DRAGGABLE", $termid);
 				$template->parseCurrentBlock();
 			}
 			
-			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
-			{
-				$template->setVariable("RESET_TEXT", $this->lng->txt("reset_pictures"));
-			}
-			else
-			{
-				$template->setVariable("RESET_TEXT", $this->lng->txt("reset_definitions"));
-			}
-			$template->setVariable("JAVASCRIPT_HINT", $this->lng->txt("matching_question_javascript_hint"));
-			$template->setVariable("SHOW_SOLUTIONS", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
+			$template->setVariable("RESET_BUTTON", $this->lng->txt("reset_terms"));
+			
+			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("output", "test_javascript.css", "Modules/TestQuestionPool"));
 		}
 		else
 		{
@@ -854,13 +951,12 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$answer = $this->object->matchingpairs[$idx];
 				foreach ($keys2 as $comboidx)
 				{
-					$comboanswer = $this->object->matchingpairs[$comboidx];
 					$template->setCurrentBlock("matching_selection");
-					$template->setVariable("VALUE_SELECTION", $comboanswer->getTermId());
-					$template->setVariable("TEXT_SELECTION", ilUtil::prepareFormOutput($comboanswer->getTerm()));
+					$template->setVariable("VALUE_SELECTION", $comboidx);
+					$template->setVariable("TEXT_SELECTION", ilUtil::prepareFormOutput($allterms[$comboidx]));
 					foreach ($solutions as $solution)
 					{
-						if (($comboanswer->getTermId() == $solution["value1"]) && ($answer->getDefinitionId() == $solution["value2"]))
+						if ((strcmp($solution["value1"], $comboidx) == 0) && ($answer->getDefinitionId() == $solution["value2"]))
 						{
 							$template->setVariable("SELECTED_SELECTION", " selected=\"selected\"");
 						}
@@ -1043,7 +1139,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$url,
 				array("editQuestion", "save", "cancel", "addSuggestedSolution",
 					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
-					"addPair", "delete", "editMode", "upload",
+					"addPair", "addTerm", "delete", "deleteTerms", "editMode", "upload",
 					"saveEdit"),
 				$classname, "", $force_active);
 		}

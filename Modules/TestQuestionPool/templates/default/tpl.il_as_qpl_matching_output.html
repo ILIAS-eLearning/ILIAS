@@ -1,154 +1,259 @@
 <div xmlns:xhtml="http://www.w3.org/1999/xhtml" class="ilc_Question">
 	{QUESTIONTEXT}
-<!-- BEGIN hidden_values -->
-<input type="hidden" name="sel_matching_{MATCHING_ID}" id="sel_matching_{MATCHING_ID}" value="initial_value_{MATCHING_ID}" />
-<!-- END hidden_values -->
-
 <!-- BEGIN javascript_output -->
-<table border="0" width="100%">
+<div style="text-align: right; margin: 0 0 1em 0;"><input type="button" class="submit" name="reset" value="{RESET_BUTTON}" onclick="resetpositions()"></div>
+<table style="width: 100%">
 	<tr>
-		<td colspan="4" align="right">
-			<a href="javascript:resetAnimated();">{RESET_TEXT}</a>
+		<td style="width: 66%; vertical-align: top;">
+<!-- BEGIN droparea --><div class="droparea" id="{ID_DROPAREA}">
+<!-- BEGIN js_match_definition -->
+				{DEFINITION}
+<!-- END js_match_definition -->		
+<!-- BEGIN js_match_picture -->
+				<a href="{IMAGE_HREF}" target="_new" id="enlarge_{DEFINITION_ID}">
+					<img src="{THUMBNAIL_HREF}" border="0" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
+				</a>
+<!-- END js_match_picture -->		
+			<input id="data_{ID_DROPAREA}" type="hidden" name="sel_matching_{ID_DROPAREA}" value="-1">
+	</div><!-- END droparea -->
+		</td>
+		<td style="width: 33% vertical-align: top; float: right;">
+<!-- BEGIN draggable --><div class="draggable" id="{ID_DRAGGABLE}">{VALUE_DRAGGABLE}</div><!-- END draggable -->
 		</td>
 	</tr>
-<!-- BEGIN javascript_matching_row -->
-	<tr>
-		<td width="120">
-			<div class="termtext" id="term_{TERM_ID}">{TERM_TEXT}</div>
-		</td>
-		<td width="50">
-			{MATCHES}
-		</td>
-		<td align="left" width="140">
-			<div class="dropzone" id="dropzone_{DROPZONE_ID}" />
-		</td>
-<!-- BEGIN matching_terms -->
-		<td align="right">
-			<div class="textbox" id="definition_{DEFINITION_ID}">{DEFINITION_TEXT}</div>
-		</td>
-<!-- END matching_terms -->
-<!-- BEGIN matching_pictures -->
-		<td align="right">
-			<div class="imagebox" id="definition_{DEFINITION_ID}">
-				<table border="0">
-					<tr>
-						<td align="left">
-							<img src="{THUMBNAIL_HREF}" border="0" id="thumb_{DEFINITION_ID}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" />
-						</td>
-						<td valign="top">
-							<a href="{IMAGE_HREF}" target="_new" id="enlarge_{DEFINITION_ID}">
-								<img border="0" src="{ENLARGE_HREF}" alt="{ENLARGE_ALT}" title="{ENLARGE_TITLE}" />
-							</a>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</td>
-<!-- END matching_pictures -->
-	</tr>
-<!-- END javascript_matching_row -->
 </table>
-<p>{JAVASCRIPT_HINT}</p>
 
-<script type="text/javascript" src="./Modules/TestQuestionPool/js/rico/prototype.js"></script>
-<script type="text/javascript" src="./Modules/TestQuestionPool/js/rico/rico.js"></script>
 <script type="text/javascript">
-	var CustomDraggable = Class.create();
 
-	function getIdFromElementId(elementid)
-	{
-		var underscore = elementid.indexOf('_');
-		var id = '';
-		if (underscore >=0 )
-		{
-			id = elementid.substr(underscore+1, elementid.length);
-		}
-		return id;
-	}
-	
-	CustomDraggable.prototype = (new Rico.Draggable()).extend( {
-		initialize: function( htmlElement, name ) 
-		{
-			this.type        = 'Custom';
-			this.htmlElement = $(htmlElement);
-			this.name        = name;
+(function() {
+
+matchingQuestion = function(id, sGroup, config) {
+    matchingQuestion.superclass.constructor.apply(this, arguments);
+    this.initMatching(id, sGroup, config);
+};
+
+YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy, {
+
+    initMatching: function(id, sGroup, config) {
+        if (!id) { 
+            return; 
+        }
+
+        var el = this.getDragEl()
+        YAHOO.util.Dom.setStyle(el, "borderColor", "transparent");
+        YAHOO.util.Dom.setStyle(el, "opacity", 0.76);
+
+        // specify that this is not currently a drop target
+        this.isTarget = false;
+				this.id = id;
+        this.originalStyles = [];
+        this.droparea = null;
+
+        this.startPos = YAHOO.util.Dom.getXY( this.getEl() );
+    },
+
+    startDrag: function(x, y) {
+        var Dom = YAHOO.util.Dom;
+
+        var dragEl = this.getDragEl();
+        var clickEl = this.getEl();
+
+        dragEl.innerHTML = clickEl.innerHTML;
+        dragEl.className = clickEl.className;
+
+        Dom.setStyle(dragEl, "color",  Dom.getStyle(clickEl, "color"));
+        Dom.setStyle(dragEl, "backgroundColor", Dom.getStyle(clickEl, "backgroundColor"));
+
+        Dom.setStyle(clickEl, "opacity", 0.5);
+
+        var targets = YAHOO.util.DDM.getRelated(this, true);
+        for (var i=0; i<targets.length; i++) {
+            
+            var targetEl = this.getTargetDomRef(targets[i]);
+
+            if (!this.originalStyles[targetEl.id]) {
+                this.originalStyles[targetEl.id] = targetEl.className;
+            }
+
+            targetEl.className = targetEl.className + " target";
+        }
+    },
+
+    getTargetDomRef: function(oDD) {
+        if (oDD.draggable) {
+            return oDD.draggable.getEl();
+        } else {
+            return oDD.getEl();
+        }
+    },
+
+    endDrag: function(e) {
+        // reset the linked element styles
+        YAHOO.util.Dom.setStyle(this.getEl(), "opacity", 1);
+
+        this.resetTargets();
+    },
+
+		backToStart: function() {
+			YAHOO.util.Dom.setXY(this.getEl(), this.startPos);
+			if (this.droparea != null)
+			{
+				this.droparea.draggable = null;
+				dataElement = YAHOO.util.Dom.get("data_" + this.droparea.id);
+				if (dataElement != null) dataElement.value = -1;
+			}
+      this.droparea = null;
+      this.isTarget = false;
+      this.originalStyles = [];
 		},
-
-		endDrag: function() 
+		
+		getTargetId: function() {
+			if (this.droparea != null)
+			{
+				return this.droparea.id;
+			}
+			return this.droparea;
+		},
+		
+		dropIntoElement: function(draggableId, dropareaId)
 		{
-			var el = this.htmlElement;
-			var parent = el.parentNode;
-			var underscore = el.id.indexOf('_');
-			var def = getIdFromElementId(el.id);
-			var term = getIdFromElementId(parent.id);
-			
-			var hiddenelement = 'sel_matching_' + def;
-			$(hiddenelement).value = term;
-		}
-	});
+			if (this.id == draggableId)
+			{
+				oDD = YAHOO.util.DDM.getDDById(dropareaId);
+				region = YAHOO.util.Dom.getRegion(oDD.getEl());
+				width = region.right - region.left;
+				if (this.config.width != null) width = this.config.width;
+				YAHOO.util.Dom.setXY(this.getEl(), new YAHOO.util.Point(YAHOO.util.Dom.getX(oDD.getEl()) + width + 20, YAHOO.util.Dom.getY(oDD.getEl())));
+				this.resetTargets();
+				this.droparea = oDD;
+				this.droparea.draggable = this;
+				dataElement = YAHOO.util.Dom.get("data_" + dropareaId);
+				if (dataElement != null) dataElement.value = draggableId;
+			}
+		},
+		
+    resetTargets: function() {
 
-	var dropzones = new Array();
-	var dragelements = new Array();
-	var dragelementspos = new Array();
-	
-<!-- BEGIN dragelements -->
-	dragelements.push('definition_{DRAGELEMENT}');
-<!-- END dragelements -->
-<!-- BEGIN dropzones -->
-	dropzones.push('dropzone_{DROPZONE}');
-<!-- END dropzones -->
+        // reset the target styles
+        var targets = YAHOO.util.DDM.getRelated(this, true);
+        for (var i=0; i<targets.length; i++) {
+            var targetEl = this.getTargetDomRef(targets[i]);
+            var oldStyle = this.originalStyles[targetEl.id];
+            if (oldStyle) {
+                targetEl.className = oldStyle;
+            }
+        }
+    },
 
-	for (var i = 0; i < dragelements.length; i++)
-	{
-		dndMgr.registerDraggable(new CustomDraggable(dragelements[i], dragelements[i]));
-	}
-	for (var i = 0; i < dropzones.length; i++)
-	{
-		dndMgr.registerDropZone(new Rico.Dropzone(dropzones[i]));
-	}
+    onDragDrop: function(e, id) {
+        // get the drag and drop object that was targeted
+        var oDD;
+        
+        if ("string" == typeof id) {
+            oDD = YAHOO.util.DDM.getDDById(id);
+        } else {
+            oDD = YAHOO.util.DDM.getBestMatch(id);
+        }
 
-	function setDragelementPositions()
-	{
-		for (var i = 0; i < dragelements.length; i++)
-		{
-			dragelementspos.push(RicoUtil.toDocumentPosition($(dragelements[i])));
-		}
-	}
-	
-	function resetFast()
-	{
-		for (var i = 0; i < dragelements.length; i++)
-		{
-			$(dragelements[i]).style.position = "absolute";
-			new Rico.Effect.Position(dragelements[i], $(dragelementspos[i]).x, $(dragelementspos[i]).y, 1, 1, true);
-		}
-	}
-	
-	function addSolution(dropzone, dragelement)
-	{
-		var dragname = 'definition_' + dragelement;
-		var dropname = 'dropzone_' + dropzone;
-		$(dropname).appendChild($(dragname));
-		var hiddenname = 'sel_matching_' + dragelement;
-		$(hiddenname).value = dropzone;
-	}
+        var el = this.getEl();
 
-	function resetAnimated()
-	{
-		for (var i = 0; i < dragelements.length; i++)
-		{
-			$(dragelements[i]).style.position = "absolute";
-			new Rico.Effect.Position(dragelements[i], $(dragelementspos[i]).x, $(dragelementspos[i]).y, 200, 20, true);
-		}
-		for (var i = 0; i < dragelements.length; i++)
-		{
-			var id = getIdFromElementId(dragelements[i]);
-			$('sel_matching_' + id).value = 'initial_value_' + id;
-		}
-	}
+        // check if the droparea has a draggable in it already
+        if (oDD.draggable) {
+            // check if the dragged draggable was already in a droparea
+            if (this.droparea) {
+                // check to see if the draggable that is already in the
+                // droparea can go to the droparea the dragged draggable is in
+                // YAHOO.util.DDM.isLegalTarget is a new method
+                if ( YAHOO.util.DDM.isLegalTarget(oDD.draggable, this.droparea) ) {
+                    YAHOO.util.DDM.moveToEl(oDD.draggable.getEl(), el);
+                    this.droparea.draggable = oDD.draggable;
+                    oDD.draggable.droparea = this.droparea;
+                } else {
+                    YAHOO.util.Dom.setXY(oDD.draggable.getEl(), oDD.draggable.startPos);
+                    this.droparea.draggable = null;
+                    oDD.draggable.droparea = null
+                }
+            } else {
+                // the draggable in the droparea will be moved to the dragged
+                // draggables start position
+                oDD.draggable.droparea = null;
+                YAHOO.util.DDM.moveToEl(oDD.draggable.getEl(), el);
+            }
+        } else {
+            // Move the draggable into the emply droparea
+            // I may be moving off a droparea so I need to clear the draggable ref
+            if (this.droparea) {
+                this.droparea.draggable = null;
+            }
+        }
+
+//        YAHOO.util.DDM.moveToEl(el, oDD.getEl());
+				region = YAHOO.util.Dom.getRegion(oDD.getEl());
+				width = region.right - region.left;
+				if (this.config.width != null) width = this.config.width;
+				YAHOO.util.Dom.setXY(el, new YAHOO.util.Point(YAHOO.util.Dom.getX(oDD.getEl())+width + 20, YAHOO.util.Dom.getY(oDD.getEl())));
+        this.resetTargets();
+
+        this.droparea = oDD;
+        this.droparea.draggable = this;
+				dataElement = YAHOO.util.Dom.get("data_" + this.droparea.id);
+				if (dataElement != null) dataElement.value = this.id;
+    },
+
+    swap: function(el1, el2) {
+        var Dom = YAHOO.util.Dom;
+        var pos1 = Dom.getXY(el1);
+        var pos2 = Dom.getXY(el2);
+        Dom.setXY(el1, pos2);
+        Dom.setXY(el2, pos1);
+    },
+
+    onDragOver: function(e, id) {
+    },
+
+    onDrag: function(e, id) {
+    }
+
+});
+
+var dropareas = [], draggables = [],
+    Event = YAHOO.util.Event, DDM = YAHOO.util.DDM;
+
+Event.onDOMReady(function() { 
+    // dropareas
+<!-- BEGIN init_dropareas -->dropareas[{COUNTER}] = new YAHOO.util.DDTarget("{ID_DROPAREA}", "dropareas");<!-- END init_dropareas -->
+    
+    // draggable items
+<!-- BEGIN init_draggables -->draggables[{COUNTER}] = new matchingQuestion("{ID_DRAGGABLE}", "dropareas"<!-- BEGIN fixedwidth -->, { width: {VALUE_FIXEDWIDTH} }<!-- END fixedwidth -->);<!-- END init_draggables -->
+
+    DDM.mode = 0; // point, intersect = 1
+		restorepositions();
+});
+
+resetpositions = function() {
+  for (var i=0; i<draggables.length; i++) {
+		draggables[i].backToStart();
+	}	
+};
+
+restorepositions = function() {
+  for (var i=0; i<draggables.length; i++) {
+<!-- BEGIN restoreposition -->
+		draggables[i].dropIntoElement("{TERM_ID}", "{PICTURE_DEFINITION_ID}");
+<!-- END restoreposition -->
+	}	
+};
+
+results = function() {
+  for (var i=0; i<draggables.length; i++) {
+		alert(draggables[i].id + " is in " + draggables[i].getTargetId());
+	}	
+};
+
+})();
 </script>
-{SHOW_SOLUTIONS}
 <!-- END javascript_output -->
+
 <!-- BEGIN non_javascript_output -->
 <table class="nobackground">
 <!-- BEGIN standard_matching_row -->

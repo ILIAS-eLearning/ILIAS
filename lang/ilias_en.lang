@@ -696,9 +696,8 @@ assessment#:#remove_as_participant#:#Remove as Fixed Participant
 assessment#:#remove_question#:#Remove
 assessment#:#remove_solution#:#Remove Suggested Solution
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
-assessment#:#reset_definitions#:#Reset Definition Positions
 assessment#:#reset_filter#:#Reset Filter
-assessment#:#reset_pictures#:#Reset Picture Positions
+assessment#:#reset_terms#:#Reset Term Positions
 assessment#:#result#:#Result
 assessment#:#result_successful_saved#:#Your results have been saved successful!
 assessment#:#result_unsuccessful_saved#:#There was an error saving the question results!
@@ -8154,3 +8153,7 @@ grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2
 grp#:#grp_reject_subscriber#:#Declined for group "%s" 
 grp#:#grp_reject_subscriber_body#:#Your request to join group "%s" has been declined.
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
+assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.
+assessment#:#terms#:#Terms
+assessment#:#empty_term_message#:#There is a least one empty term field.
+assessment#:#no_terms_message#:#Please add at least on term.

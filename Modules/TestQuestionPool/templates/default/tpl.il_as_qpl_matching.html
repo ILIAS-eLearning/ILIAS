@@ -70,6 +70,45 @@
 </table>
 <table class="fullwidth">
 	<tr>
+		<td colspan="6" class="option">
+			<input name="cmd[addTerm]" type="submit" class="submit" id="addTerm" value="{VALUE_ADD_TERM}" />
+			<select name="termcount">
+				<!-- BEGIN termcountvalues -->
+				<option value="{TERMCOUNTVALUE}">{TERMCOUNTVALUE}</option>
+				<!-- END termcountvalues -->
+			</select>
+			{TEXT_TERMS}
+		</td>
+	</tr>
+	<!-- BEGIN termhead -->
+	<tr class="tblheader">
+		<th class="std"></th>
+		<th class="std">{TEXT_TERMS}</th>
+	</tr>
+	<!-- END termhead -->
+	<!-- BEGIN terms -->
+	<tr>
+		<td><input type="checkbox" name="delete_terms[]" value="{TERM_ID}" /></td>
+		<td><input type="text" size="80" class="fullwidth" name="terms_{TERM_ID}"{TERM_VALUE}  /></td>
+	</tr>
+	<!-- END terms -->
+	<!-- BEGIN termfooter -->
+	<tr>
+		<td class="submit">
+			<input type="checkbox" name="chb_check_all_terms" id="chb_check_all_terms" value="1" onclick="setChecked('frm_matching', 'delete_terms', document.frm_matching.chb_check_all_terms.checked);" />
+		</td>
+		<td class="submit"><label for="chb_check_all_terms"><strong>{SELECT_ALL}</strong></label></td>
+	</tr>
+	<tr>
+		<td class="submit">{ARROW}</td>
+		<td class="submit">
+			<input type="submit" class="submit" name="cmd[deleteTerms]" value="{DELETE}" />
+		</td>
+	</tr>
+	<!-- END termfooter -->
+</table>
+<table class="fullwidth">
+	<tr>
 		<td colspan="6" class="option"><input name="cmd[addPair]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 	</tr>
 	<!-- BEGIN answerhead -->
@@ -104,7 +143,11 @@
 		<!-- END pictures -->
 		<td class="{COLOR_CLASS}"><div align="center">{TEXT_MATCHES}</div></td>
 		<td class="{COLOR_CLASS}" width="25%">
-			<input class="fullwidth" name="term_{ANSWER_ORDER}_{TERM_ID}" type="text" id="term_{ANSWER_ORDER}_{TERM_ID}" size="20" value="{VALUE_TERM}" />
+			<select name="termoption_{ANSWER_ORDER}_{TERM_ID}">
+				<!-- BEGIN termoptions -->
+				<option value="{TERMOPTION_VALUE}"{TERMOPTION_SELECTED}>{TERMOPTION_TEXT}</option>
+				<!-- END termoptions -->
+			</select>
 		</td>
 		<td class="{COLOR_CLASS}"><input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHINGPAIR_POINTS}" /></td>
 	</tr>
