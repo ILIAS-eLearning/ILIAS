@@ -40,6 +40,7 @@ class ilImagemapPreview
 	var $areas;
 	var $linewidth_outer;
 	var $linewidth_inner;
+	var $lng;
 
 	/**
 	* ilImagemapPreview constructor
@@ -51,6 +52,8 @@ class ilImagemapPreview
 	*/
 	function ilImagemapPreview($imagemap_filename = "")
 	{
+		global $lng;
+		$this->lng =& $lng;
 		$this->imagemap_filename = $imagemap_filename;
 		$this->preview_filename = $preview_filename;
 		if (!@is_file($this->preview_filename))
