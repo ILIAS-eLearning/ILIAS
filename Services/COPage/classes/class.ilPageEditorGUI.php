@@ -36,7 +36,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -192,6 +192,7 @@ $this->ctrl->debug("hier_id:".$hier_id);
 		if ($cmd == "insert" || $cmd == "create")
 		{
 			$ctype = $com[1];
+			$add_type = $com[2];
 			if ($ctype == "mob") $ctype = "media";
 		}
 		else
@@ -319,12 +320,16 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				case "map":
 					$this->ctrl->setCmdClass("ilPCMapGUI");
 					break;
+
+				case "plug":
+					$this->ctrl->setCmdClass("ilPCPluggedGUI");
+					break;
+
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
 
 //echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>";
-
 		switch($next_class)
 		{
 			case "ilinternallinkgui":
@@ -514,6 +519,15 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				include_once ("./Services/COPage/classes/class.ilPCMapGUI.php");
 				$map_gui =& new ilPCMapGUI($this->page, $cont_obj, $hier_id);
 				$ret =& $this->ctrl->forwardCommand($map_gui);
+				break;
+
+			// Plugged Component
+			case "ilpcpluggedgui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCPluggedGUI.php");
+				$plugged_gui =& new ilPCPluggedGUI($this->page, $cont_obj, $hier_id,
+					$add_type);
+				$ret =& $this->ctrl->forwardCommand($plugged_gui);
 				break;
 
 			default:

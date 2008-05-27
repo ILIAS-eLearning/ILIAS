@@ -3327,6 +3327,8 @@ common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_role#:#Role
 common#:#obj_nwss#:#News and Web Feeds
+common#:#obj_mcts#:#Mediacast Settings
+common#:#obj_mcts_desc#:#General settings for mediacast.
 common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.
 common#:#obj_rolf#:#Roles
 common#:#obj_rolf_desc#:#Manage your roles here.

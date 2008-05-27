@@ -372,6 +372,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$map->setNode($cont_node);
 						$map->setHierId($a_hier_id);
 						return $map;
+
+					case "Plugged":
+						require_once("./Services/COPage/classes/class.ilPCPlugged.php");
+						$plugged = new ilPCPlugged($this->dom);
+						$plugged->setNode($cont_node);
+						$plugged->setHierId($a_hier_id);
+						return $plugged;
+
 				}
 				break;
 
@@ -573,7 +581,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
 			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable",
-			"de_activate", "ed_insert_repobj");
+			"de_activate", "ed_insert_repobj", "ed_insert_map");
 
 		foreach ($lang_vars as $lang_var)
 		{
