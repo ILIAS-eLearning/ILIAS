@@ -759,6 +759,9 @@ abstract class ilPlugin
 		return $rec;
 	}
 	
+	/**
+	* Get all active plugins for a slot
+	*/
 	static final function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
 	{
 		global $ilDB, $ilPluginAdmin;
@@ -767,6 +770,7 @@ abstract class ilPlugin
 			" AND component_name = ".$ilDB->quote($a_cname).
 			" AND slot_id = ".$ilDB->quote($a_slot_id).
 			" AND active = 1";
+
 		$set = $ilDB->query($q);
 		$plugins = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))

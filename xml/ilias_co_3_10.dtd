@@ -494,10 +494,9 @@
 >
 
 <!-- Plugged Component -->
-<!-- il_Block, il_Example, il_Special, il_Additional, il_Excursus -->
 <!ELEMENT Plugged (PluggedParameter*)>
 <!ATTLIST Plugged
-	PluginID CDATA #REQUIRED
+	PluginName CDATA #REQUIRED
 	PluginVersion CDATA #REQUIRED
 >
 <!ELEMENT PluggedParameter (#PCDATA)>

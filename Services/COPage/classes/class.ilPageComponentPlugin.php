@@ -33,6 +33,10 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 */
 abstract class ilPageComponentPlugin extends ilPlugin
 {
+	const TXT_CMD_INSERT = "cmd_insert";
+	const CMD_INSERT = "insert";
+	const CMD_EDIT = "edit";
+	
 	/**
 	* Get Component Type
 	*
@@ -79,6 +83,85 @@ abstract class ilPageComponentPlugin extends ilPlugin
 	protected final function slotInit()
 	{
 		// nothing to do here
+	}
+	
+	/**
+	* Determines the resources that allow to include the
+	* new content component.
+	*
+	* @param	string		$a_type		Parent type (e.g. "cat", "lm", "glo", "wiki", ...)
+	*
+	* @return	boolean		true/false if the resource type allows
+	*/
+	abstract function isValidParentType($a_type);
+	
+	/**
+	* Determines the resources that allow to include the
+	* new content component.
+	*
+	* @param	string		$a_text_id		values: TXT_CMD_INSERT
+	*
+	* @return	string		User Interface Text String
+	*/
+	abstract function getUIText($a_text_id);
+
+	/**
+	* Set Mode.
+	*
+	* @param	string	$a_mode	Mode
+	*/
+	final function setMode($a_mode)
+	{
+		$this->mode = $a_mode;
+	}
+
+	/**
+	* Get Mode.
+	*
+	* @return	string	Mode
+	*/
+	final function getMode()
+	{
+		return $this->mode;
+	}
+
+	/**
+	* Set Properties.
+	*
+	* @param	array	$a_properties	Properties
+	*/
+	final function setProperties($a_properties)
+	{
+		$this->properties = $a_properties;
+	}
+
+	/**
+	* Get Properties.
+	*
+	* @return	array	Properties
+	*/
+	final function getProperties()
+	{
+		return $this->properties;
+	}
+
+	/**
+	* Add save cancel button to insert/edit form
+	*/
+	final function addSaveCancelButtons($a_form)
+	{
+		global $lng;
+		
+		if ($this->getMode() == ilPageComponentPlugin::CMD_INSERT)
+		{
+			$a_form->addCommandButton("create_plug", $lng->txt("save"));
+			$a_form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+		}
+		else
+		{
+			$a_form->addCommandButton("update_plug", $lng->txt("save"));
+			$a_form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+		}
 	}
 }
 ?>

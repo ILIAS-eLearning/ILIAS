@@ -491,7 +491,9 @@ class ilCtrl
 			{
 				if (DEVMODE)
 				{
-					die ("Internal Error: ilCtrl Node Error.");
+					die ("Internal Error: ilCtrl Node Error. cmdClass: '".$_GET["cmdClass"]
+						."', cmdNode: '".$_GET["cmdNode"]."' . Internally cmdNode is assigned to ".
+						"class '".$this->call_node[$_GET["cmdNode"]]["class"]."'.");
 				}
 				else
 				{

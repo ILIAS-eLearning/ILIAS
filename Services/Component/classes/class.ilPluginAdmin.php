@@ -120,7 +120,7 @@ class ilPluginAdmin
 	}
 	
 	/**
-	* Get version.
+	* Get version of plugin.
 	*
 	* @param	string	$a_ctype	Component Type
 	* @param	string	$a_cname	Component Name
@@ -224,6 +224,19 @@ class ilPluginAdmin
 	{
 		include_once "./Services/Component/classes/class.ilPlugin.php";
 		return ilPlugin::getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id);
+	}
+	
+	/**
+	* Get Plugin Object
+	*
+	* @param	string	$a_ctype	Component Type
+	* @param	string	$a_cname	Component Name
+	* @param	string	$a_slot_id	Slot ID
+	* @param	string	$a_pname	Plugin Name
+	*/
+	static function getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	{
+		return ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
 	}
 }
 

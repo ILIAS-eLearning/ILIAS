@@ -564,6 +564,14 @@
 		</xsl:call-template>
 	</xsl:if>
 	
+	<!-- insert plugged component -->
+	<xsl:for-each select="//ComponentPlugins/ComponentPlugin">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_plug_<xsl:value-of select="@Name" /></xsl:with-param>
+			<xsl:with-param name="text"><xsl:value-of select="@InsertText" /></xsl:with-param>
+		</xsl:call-template>
+	</xsl:for-each>
+	
 	<!-- paste from clipboard -->
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
 	<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>
@@ -610,18 +618,29 @@
 <xsl:template name="EditMenuItem">
 	<xsl:param name="command"/>
 	<xsl:param name="langvar"/>
+	<xsl:param name="text"/>
 	
 	<xsl:if test = "$javascript = 'disable'">
 		<option>
 			<xsl:attribute name="value"><xsl:value-of select="$command"/></xsl:attribute>
-			<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
+			<xsl:if test="$text = ''">
+				<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
+			</xsl:if>
+			<xsl:if test="$text != ''">
+				<xsl:value-of select="$text"/>
+			</xsl:if>
 		</option>
 	</xsl:if>
 	<xsl:if test = "$javascript = 'enable'">
 		<tr>
 			<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);">
 			<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>', '');</xsl:attribute>
-			<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
+			<xsl:if test="$text = ''">
+				<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
+			</xsl:if>
+			<xsl:if test="$text != ''">
+				<xsl:value-of select="$text"/>
+			</xsl:if>
 			</td>
 		</tr>
 	</xsl:if>
@@ -2187,6 +2206,49 @@
 	</div>
 </xsl:template>
 
+<!-- Map -->
+<xsl:template match="Map">
+	<div style="margin:20px 0px;">
+		[[[[[Map;<xsl:value-of select="@Latitude"/>;<xsl:value-of select="@Longitude"/>;<xsl:value-of select="@Zoom"/>]]]]]
+		<xsl:call-template name="EditReturnAnchors"/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	</div>
+</xsl:template>
+
+<!-- Plugged -->
+<xsl:template match="Plugged">
+	<div>
+		{{{{{Plugged;<xsl:value-of select="@PluginID"/>;<xsl:value-of select="@PluginVersion"/>}}}}}
+		<xsl:call-template name="EditReturnAnchors"/>
+		<xsl:if test="$mode = 'edit'">
+			<!-- <xsl:value-of select="../@HierId"/> -->
+			<xsl:if test="$javascript='disable'">
+				<br />
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+					</xsl:attribute>
+				</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	</div>
+</xsl:template>
 
 <!-- Question -->
 <xsl:template match="Question">

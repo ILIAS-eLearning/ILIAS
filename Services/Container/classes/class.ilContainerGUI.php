@@ -147,6 +147,7 @@ class ilContainerGUI extends ilObjectGUI
 		$page_gui->setHeader("");
 		$page_gui->setEnabledRepositoryObjects(true);
 		$page_gui->setEnabledFileLists(false);
+		$page_gui->setEnabledMaps(true);
 		$ret =& $this->ctrl->forwardCommand($page_gui);
 
 		//$ret =& $page_gui->executeCommand();

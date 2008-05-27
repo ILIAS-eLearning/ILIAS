@@ -21,7 +21,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map | Plugged), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -238,6 +238,17 @@
 	Latitude CDATA #REQUIRED
 	Longitude CDATA #REQUIRED
 	Zoom CDATA #REQUIRED
+>
+
+<!-- Plugged Component -->
+<!ELEMENT Plugged (PluggedProperty*)>
+<!ATTLIST Plugged
+	PluginName CDATA #REQUIRED
+	PluginVersion CDATA #REQUIRED
+>
+<!ELEMENT PluggedProperty (#PCDATA)>
+<!ATTLIST PluggedProperty
+	Name CDATA #REQUIRED
 >
 
 <!-- Glossary -->

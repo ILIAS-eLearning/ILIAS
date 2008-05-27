@@ -113,6 +113,10 @@ function ilUpdateLocationInput(id, map, loc)
 	//loc = map.getCenter();
 	zoom = map.getZoom();
 	lat_input = document.getElementById(id + "_lat");
+	if (!lat_input)
+	{
+		return;
+	}
 	//lat_input.setAttribute("value", loc.lat());
 	lat_input.value = loc.lat();
 	lng_input = document.getElementById(id + "_lng");

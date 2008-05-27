@@ -603,6 +603,38 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* Put information about activated plugins into XML
+	*/
+	function getComponentPluginsXML()
+	{
+		$xml = "";
+		if($this->getOutputMode() == "edit")
+		{
+			global $ilPluginAdmin;
+			
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE,
+				"COPage", "pgcp");
+			foreach ($pl_names as $pl_name)
+			{
+				$plugin = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
+					"COPage", "pgcp", $pl_name);
+				if ($plugin->isValidParentType($this->getPageObject()->getParentType()))
+				{
+					$xml = '<ComponentPlugin Name="'.$plugin->getPluginName().
+						'" InsertText="'.$plugin->getUIText(ilPageComponentPlugin::TXT_CMD_INSERT).'" />';
+				}
+			}
+		}
+		if ($xml != "")
+		{
+			$xml = "<ComponentPlugins>".$xml."</ComponentPlugins>";
+		}
+		
+		return $xml;
+	}
+	
+	
+	/**
 	* execute command
 	*/
 	function &executeCommand()
@@ -1011,7 +1043,9 @@ class ilPageObjectGUI
 //echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>";
 //echo "<br>-".htmlentities($this->getLinkXML())."-";
 		$content = $this->obj->getXMLFromDom(false, true, true,
-			$this->getLinkXML().$this->getQuestionXML());
+			$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
+			
+		// get page component plugins
 
 		// check validation errors
 		if($builded !== true)
@@ -1199,6 +1233,8 @@ class ilPageObjectGUI
 		{
 			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
 		}
+		
+		$output = $this->insertMaps($output);
 
 		// output
 		if ($ilCtrl->isAsynch())
@@ -1224,6 +1260,51 @@ class ilPageObjectGUI
 			$tpl->setVariable($this->getTemplateOutputVar(), $output);
 			return $tpl->get();
 		}
+	}
+	
+	/**
+	* Insert Maps
+	*/
+	function insertMaps($a_html)
+	{
+		$c_pos = 0;
+		$start = strpos($a_html, "[[[[[Map;");
+		if (is_int($start))
+		{
+			$end = strpos($a_html, "]]]]]", $start);
+		}
+		$i = 1;
+		while ($end > 0)
+		{
+			$param = substr($a_html, $start + 9, $end - $start - 9);
+			
+			$param = explode(";", $param);
+			if (is_numeric($param[0]) && is_numeric($param[1]) && is_numeric($param[2]))
+			{
+				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
+				$map_gui = new ilGoogleMapGUI();
+				$map_gui->setMapId("map_".$i);
+				$map_gui->setLatitude($param[0]);
+				$map_gui->setLongitude($param[1]);
+				$map_gui->setZoom($param[2]);
+				$map_gui->setEnableTypeControl(true);
+				$map_gui->setEnableNavigationControl(true);
+				$map_gui->setEnableCentralMarker(true);
+				$h2 = substr($a_html, 0, $start).
+					$map_gui->getHtml().
+					substr($a_html, $end + 5);
+				$a_html = $h2;
+				$i++;
+			}
+			$start = strpos($a_html, "[[[[[Map;", $start + 5);
+			$end = 0;
+			if (is_int($start))
+			{
+				$end = strpos($a_html, "]]]]]", $start);
+			}
+		}
+				
+		return $a_html;
 	}
 
 	/**
