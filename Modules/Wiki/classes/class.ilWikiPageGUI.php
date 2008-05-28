@@ -52,6 +52,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
+		
+		$this->setEnabledMaps(true);
 
 	}
 	

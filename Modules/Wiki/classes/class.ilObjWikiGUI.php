@@ -279,6 +279,14 @@ class ilObjWikiGUI extends ilObjectGUI
 					$this->ctrl->getLinkTarget($this, "editSettings"), array("editSettings"),
 					array(strtolower(get_class($this)), ""));
 			}
+			
+			// contributors
+			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
+			{
+				$tabs_gui->addTarget("wiki_contributors",
+					$this->ctrl->getLinkTarget($this, "listContributors"), array("listContributors"),
+					array(strtolower(get_class($this)), ""));
+			}
 	
 			// edit permissions
 			if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
@@ -426,6 +434,21 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* List all contributors
+	*/
+	function listContributorsObject()
+	{
+		global $tpl;
+		
+		include_once("./Modules/Wiki/classes/class.ilWikiContributorsTableGUI.php");
+		
+		$table_gui = new ilWikiContributorsTableGUI($this, "listContributors",
+			$this->object->getId());
+
+		$tpl->setContent($table_gui->getHTML());
+	}
+	
 	// add wiki to locator
 	function addLocatorItems()
 	{

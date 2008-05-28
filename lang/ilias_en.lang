@@ -1620,6 +1620,10 @@ common#:#objs_wiki#:#Wikis
 common#:#objs_lres#:#Learning Resources
 common#:#wiki_new#:#New Wiki
 common#:#wiki_add#:#Add Wiki
+wiki#:#wiki_contributors#:#Contributors
+wiki#:#wiki_contributor#:#Contributor
+wiki#:#wiki_page_changes#:#Page Changes
+wiki#:#wiki_grading#:#Grading
 wiki#:#wiki_settings#:#Wiki Settings
 wiki#:#wiki_activate_rating#:#Activate Rating
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
