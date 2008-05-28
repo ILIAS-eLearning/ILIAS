@@ -33,13 +33,17 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilMediaCastTableGUI extends ilTable2GUI
 {
-
+	protected $downloadable = false;
 	function ilMediaCastTableGUI($a_parent_obj, $a_parent_cmd = "")
 	{
 		global $ilCtrl, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
+		// Check whether download-buttons will be displayed
+		$mediacast = new ilObjMediaCast($a_parent_obj->id);
+		$this->downloadable = $mediacast->getDownloadable();
+
 		$this->addColumn("", "f", "1");
 		$this->addColumn($lng->txt("mcst_entry"), "", "33%");
 		$this->addColumn("", "", "33%");
@@ -77,10 +81,10 @@ class ilMediaCastTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("CMD_DET_PLAYTIME",
 				$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "determinePlaytime"));
 			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("edit_checkbox");
+			$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
-		$this->tpl->setVariable("CMD_DOWNLOAD",
-			$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
 
 			
 		// access
@@ -132,21 +136,41 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$lng->txt("mcst_play_time"));
 			$this->tpl->setVariable("VAL_DURATION",
 				$a_set["playtime"]);
+			if ($this->downloadable) {
+				$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
+				// to keep always the order of the purposes
+				// iterate through purposes and display the according mediaitems 				
+				foreach (ilObjMediaCast::$purposes as $purpose) 
+				{
+    				$a_mob = $mob->getMediaItem($purpose);
+    				if (!is_object($a_mob))
+    				    continue;
+  					$ilCtrl->setParameterByClass("ilobjmediacastgui", "purpose", $a_mob->getPurpose());
+    					
+   					$this->tpl->setCurrentBlock("downloadable");
+   					$this->tpl->setVariable("TXT_DOWNLOAD", $lng->txt("mcst_download_" . strtolower($a_mob->getPurpose())));
+   					$this->tpl->setVariable("CMD_DOWNLOAD",
+   						$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
+   					$this->tpl->parseCurrentBlock();
+				}
+			}
 				
 			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
 			$mpl = new ilMediaPlayerGUI();
-			if (strcasecmp("Reference", $med->getLocationType()) == 0)
-				$mpl->setFile($med->getLocation());
-			else
-				$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
-			$mpl->setDisplayHeight($med->getHeight());
+			if (is_object($med))
+			{
+			    if (strcasecmp("Reference", $med->getLocationType()) == 0)
+			        $mpl->setFile($med->getLocation());
+			    else
+			        $mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+			    $mpl->setDisplayHeight($med->getHeight());
+			}
 
-			$this->tpl->setVariable("PLAYER",
-				$mpl->getMp3PlayerHtml());
-			$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+			$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
+
 		}
 		
-	}
+	}	
 
 }
 ?>

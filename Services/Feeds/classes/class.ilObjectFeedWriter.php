@@ -37,7 +37,7 @@ include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
 */
 class ilObjectFeedWriter extends ilFeedWriter
 {
-	function ilObjectFeedWriter($a_ref_id, $a_userid = false)
+	function ilObjectFeedWriter($a_ref_id, $a_userid = false, $a_purpose = false)
 	{
 		global $ilSetting, $lng;
 		
@@ -63,6 +63,16 @@ class ilObjectFeedWriter extends ilFeedWriter
 			return;
 		}
 
+		if ($ilSetting->get('short_inst_name') != "")
+		{
+			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".$loc.$obj_title);
+		}
+		else
+		{
+			$this->setChannelTitle("ILIAS"." - ".$loc.$obj_title.($a_purpose ? " - ".$a_purpose : ""));
+		}
+		$this->setChannelAbout(ILIAS_HTTP_PATH);
+		$this->setChannelLink(ILIAS_HTTP_PATH);
 		// not nice, to do: general solution
 		if ($obj_type == "mcst")
 		{
@@ -70,6 +80,14 @@ class ilObjectFeedWriter extends ilFeedWriter
 			
 			if (!ilObjMediaCastAccess::_lookupOnline($obj_id))
 			{
+				$lng->loadLanguageModule("mcst");
+				
+				$feed_item = new ilFeedItem();
+				$feed_item->setTitle($lng->txt("mcst_media_cast_not_online"));
+				$feed_item->setDescription($lng->txt("mcst_media_cast_not_online_text"));
+				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
+					"&amp;target=".$item["context_obj_type"]);
+				$this->addItem($feed_item);				
 				return;
 			}
 		}
@@ -88,22 +106,27 @@ class ilObjectFeedWriter extends ilFeedWriter
 		$news_item->setContextObjId($obj_id);
 		$news_item->setContextObjType($obj_type);
 		$items = $news_item->getNewsForRefId($a_ref_id, true, false, 0, true);
-		if ($ilSetting->get('short_inst_name') != "")
-		{
-			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".$loc.$obj_title);
+
+		if ($a_purpose) {
+			include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
 		}
-		else
-		{
-			$this->setChannelTitle("ILIAS"." - ".$loc.$obj_title);
-		}
-		$this->setChannelAbout(ILIAS_HTTP_PATH);
-		$this->setChannelLink(ILIAS_HTTP_PATH);
-		//$this->setChannelDescription("ILIAS Channel Description");
+		
 		$i = 0;
 		foreach($items as $item)
 		{
 			$i++;
 			
+			if ($a_purpose != false && $obj_type == "mcst") 
+			{
+    			$mob = ilMediaItem::_getMediaItemsOfMObId($item[mob_id], $a_purpose);
+
+				if ($mob == false) 
+				{
+					continue;
+				}
+
+			}
+
 			$obj_title = ilObject::_lookupTitle($item["context_obj_id"]);
 			
 			$feed_item = new ilFeedItem();
@@ -147,18 +170,17 @@ class ilObjectFeedWriter extends ilFeedWriter
 				if ($go_on)
 				{
 					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-					$url = ilObjMediaObject::_lookupStandardItemPath($item["mob_id"], true);
-					$file = ilObjMediaObject::_lookupStandardItemPath($item["mob_id"], false, false);
+					$url = ilObjMediaObject::_lookupItemPath($item["mob_id"], true, true, $mob["purpose"]);
+					$file = ilObjMediaObject::_lookupItemPath($item["mob_id"], false, false, $mob["purpose"]);
 					if (is_file($file))
 					{
 						$size = filesize($file);
 					}
 					$feed_item->setEnclosureUrl($url);
-					$feed_item->setEnclosureType("audio/mpeg");
+					$feed_item->setEnclosureType((isset($mob["format"]))?$mob["format"]:"audio/mpeg");
 					$feed_item->setEnclosureLength($size);
 				}
 			}
-			
 			$this->addItem($feed_item);
 		}
 	}

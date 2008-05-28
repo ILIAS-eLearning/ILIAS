@@ -76,15 +76,29 @@ class ilMediaPlayerGUI
 	function getDisplayHeight () {
 		return $this->displayHeight;
 	}
+
 	/**
 	* Get Html for MP3 Player
 	*/
 	function getMp3PlayerHtml()
 	{
 		global $tpl;
+		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
+		$mimeType = ilObjMediaObject::getMimeType(basename($this->getFile()));
+
+		if (strpos($mimeType,"flv") === false 
+		 && strpos($mimeType,"audio/mpeg") === false
+		 && strpos($mimeType,"image/png") === false
+		 && strpos($mimeType,"image/gif") === false
+		 )
+		{
+   			$html = '<embed src="'.$this->getFile().'" '.
+   					'type="'.$mimeType.'" '.
+   					'autoplay="false" '.
+   					'width="400" height="'.($this->displayHeight + 20).'"></embed>';
+   			return $html;
+		}
 		
-		//$tpl->addJavaScript("./Services/MediaObjects/flash_mp3_player/ufo.js");
-		//$mp_tpl = new ilTemplate("tpl.mp3_player.html", true, true, "Services/MediaObjects");	
 		$tpl->addJavaScript("./Services/MediaObjects/flash_flv_player/swfobject.js");		
 		$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 		$mp_tpl->setVariable("FILE", $this->getFile());

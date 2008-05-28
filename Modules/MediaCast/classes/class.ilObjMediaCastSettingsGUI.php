@@ -48,6 +48,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule('mcst');
+		$this->initMediaCastSettings();
 	}
 
 	/**
@@ -121,29 +122,9 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	*/
 	public function editSettings()
 	{
-		global $ilCtrl, $lng, $ilSetting;
-		
-		$mcst_set = new ilSetting("mcst");
-		
-		// @todo
-		$todo = $mcst_set->get("todo");
-		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		$form->setTitle($lng->txt("mcst_settings"));
-
-		// @todo
-		$ti = new ilTextInputGUI($lng->txt("mcst_setting"), "todo");
-		$ti->setInfo($lng->txt("mcst_setting_info"));
-		$ti->setValue($todo);
-		$form->addItem($ti);
-		
-		// command buttons
-		$form->addCommandButton("saveSettings", $lng->txt("save"));
-		$form->addCommandButton("view", $lng->txt("cancel"));
-
-		$this->tpl->setContent($form->getHTML());
+		$this->tabs_gui->setTabActive('mcst_edit_settings');		
+		$this->initFormSettings();
+		return true;
 	}
 
 	/**
@@ -151,14 +132,54 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl, $ilSetting;
-		
-		$mcst_set = new ilSetting("mcst");
-		$mcst_set->set("todo", $_POST["todo"]);
+		global $ilCtrl;
+		foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes) {
+			$purposeSuffixes[$purpose] = explode(",", preg_replace("/[^\w,]/", "", strtolower($_POST[$purpose])));			
+		}
+
+		$this->settings->setPurposeSuffixes($purposeSuffixes);
+
+		$this->settings->save();
 		
 		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
 		
 		$ilCtrl->redirect($this, "view");
+	}
+	
+	/**
+	 * iniitialize settings storage for media cast
+	 *
+	 */
+	protected function initMediaCastSettings()
+	{
+		include_once('Modules/MediaCast/classes/class.ilMediaCastSettings.php');
+		$this->settings = ilMediaCastSettings::_getInstance();
+	}
+	
+	/**
+	 * Init settings property form
+	 *
+	 * @access protected
+	 */
+	protected function initFormSettings()
+	{
+	    global $lng;
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('mcst_file_extension_settings'));
+		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
+		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		foreach ($this->settings->getPurposeSuffixes() as $purpose => $filetypes) 
+		{
+			$text = new ilTextInputGUI($lng->txt("mcst_".strtolower($purpose)."_settings_title"),$purpose);
+			$text->setValue(implode(",",$filetypes));
+			$text->setInfo($lng->txt("mcst_".strtolower($purpose)."_settings_info"));
+			$form->addItem($text);
+		}
+		
+		$this->tpl->setContent($form->getHTML());
 	}
 }
 ?>

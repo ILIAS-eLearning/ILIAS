@@ -32,8 +32,10 @@ require_once "./classes/class.ilObject.php";
 */
 class ilObjMediaCast extends ilObject
 {
-	protected $online = false;
+	public static $purposes = array ("Standard","VideoPortable", "AudioPortable");    
+    protected $online = false;
 	protected $publicfiles = false;
+	protected $downloadable = true;
 	
 	/**
 	* Constructor
@@ -108,6 +110,25 @@ class ilObjMediaCast extends ilObject
 	}
 
 	/**
+	* Set Downloadable.
+	*
+	* @param	boolean	$a_downloadable	Downloadable
+	*/
+	function setDownloadable($a_downloadable)
+	{
+		$this->downloadable = $a_downloadable;
+	}
+	/**
+	* Get Downloadable.
+	*
+	* @return	boolean	Downloadable
+	*/
+	function getDownloadable()
+	{
+		return $this->downloadable;
+	}
+	
+	/**
 	* Create mew media cast
 	*/
 	function create()
@@ -120,10 +141,12 @@ class ilObjMediaCast extends ilObject
 			" id".
 			", online".
 			", public_files".
+			", downloadable".
 			" ) VALUES (".
 			$ilDB->quote($this->getId())
 			.",".$ilDB->quote($this->getOnline())
 			.",".$ilDB->quote($this->getPublicFiles())
+			.",".$ilDB->quote($this->getDownloadable())
 			.")";
 		$ilDB->query($query);
 
@@ -148,6 +171,7 @@ class ilObjMediaCast extends ilObject
 		$query = "UPDATE il_media_cast_data SET ".
 			" online = ".$ilDB->quote($this->getOnline()).
 			", public_files = ".$ilDB->quote($this->getPublicFiles()).
+			", downloadable = ".$ilDB->quote($this->getDownloadable()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($query);
 
@@ -171,7 +195,8 @@ class ilObjMediaCast extends ilObject
 
 		$this->setOnline($rec["online"]);
 		$this->setPublicFiles($rec["public_files"]);
-
+		$this->setDownloadable($rec["downloadable"]);
+		
 	}
 
 

@@ -156,5 +156,15 @@ class ilFormSectionHeaderGUI
 		$a_tpl->setVariable('HEAD_COLSPAN',2);
 		$a_tpl->parseCurrentBlock();
 	}
+	
+	/**
+	* Set value by array
+	*
+	* @param	array	$a_values	value array
+	*/
+	function setValueByArray($a_values)
+	{
+		// nothing to do since is a header
+	}
 
 }

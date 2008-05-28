@@ -51,7 +51,7 @@ if ($_GET["user_id"] != "")
 else if ($_GET["ref_id"] != "")
 {
 	include_once("./Services/Feeds/classes/class.ilObjectFeedWriter.php");
-	$writer = new ilObjectFeedWriter($_GET["ref_id"]);
+	$writer = new ilObjectFeedWriter($_GET["ref_id"], false, $_GET["purpose"]);
 	$writer->showFeed();
 }
 ?>

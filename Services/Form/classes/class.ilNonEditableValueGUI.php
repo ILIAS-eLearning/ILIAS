@@ -142,5 +142,16 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->setVariable("VALUE", $this->getValue());
 		$a_tpl->parseCurrentBlock();
 	}
+	
+		/**
+	* Set value by array
+	*
+	* @param	array	$a_values	value array
+	*/
+	function setValueByArray($a_values)
+	{
+		$this->setValue($a_values[$this->getPostVar()]);
+	}
+	
 
 }
