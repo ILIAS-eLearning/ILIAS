@@ -4216,4 +4216,11 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#1236>
+<?php
+# DB Update
+$query = "ALTER TABLE `il_media_cast_data` ADD COLUMN `downloadable` TINYINT(4) DEFAULT 0 AFTER `public_files`";
+$this->db->query($query);
+$query = "ALTER TABLE `media_item` MODIFY COLUMN `purpose` ENUM('Standard','Fullscreen','Additional','AudioPortable','VideoPortable') DEFAULT NULL";
+$this->db->query($query);
+?>
