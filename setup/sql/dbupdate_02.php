@@ -4224,3 +4224,84 @@ $this->db->query($query);
 $query = "ALTER TABLE `media_item` MODIFY COLUMN `purpose` ENUM('Standard','Fullscreen','Additional','AudioPortable','VideoPortable') DEFAULT NULL";
 $this->db->query($query);
 ?>
+
+<#1237>
+<?php
+// register new object type 'wiki' for wikis
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		"VALUES ('typ', 'wiki', 'Wiki', -1, now(), now())";
+$this->db->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'wiki'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add rbac operations for feed object
+// 1: edit_permissions, 2: visible, 3: read, 4:write
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+
+// new permission: edit content
+$query = "INSERT INTO rbac_operations SET operation = 'edit_content', ".
+	"description = 'Edit content', ".
+	"class = 'object'";
+
+$res = $ilDB->query($query);
+$new_ops_id = $ilDB->getLastInsertId();
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$new_ops_id."')";
+$this->db->query($query);
+
+// add create operation for wikis
+$query = "INSERT INTO rbac_operations ".
+	"SET operation = 'create_wiki', class='create', description = 'create wiki'";
+$ilDB->query($query);
+
+// get new ops_id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops_id = $row[0];
+
+// add create wiki for crs,cat,fold and grp
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='cat'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='crs'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='grp'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='fold'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$ilDB->query($query);
+
+?>
