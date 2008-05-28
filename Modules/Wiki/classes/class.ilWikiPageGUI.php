@@ -88,40 +88,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}
 	}
 
-
-/*	function &executeCommand()
-	{
-  		global $ilUser, $ilCtrl;
-  
-		$next_class = $ilCtrl->getNextClass($this);
-		$cmd = $ilCtrl->getCmd();
-
-  		switch($next_class)
-		{
-			default:
-//				$ilCtrl->setReturnByClass("ilPageObjectGUI", "view");
-//				$ilCtrl->setReturn($this, "editPage");
-//				$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
-//				$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
-//				$page_gui->setTemplateTargetVar("ADM_CONTENT");
-				$this->setOutputMode("edit");
-//				$page_gui->setLocator($gloss_loc);
-//				$page_gui->setIntLinkHelpDefault("GlossaryItem", $_GET["ref_id"]);
-//				$page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass("ilobjglossarygui", "quickList"));
-//				$page_gui->setPageBackTitle($this->lng->txt("cont_definition"));
-//				$page_gui->setLinkParams("ref_id=".$_GET["ref_id"]);
-//				$page_gui->setHeader($this->getWikiPage()->getTitle());
-//				$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
-				$this->setTemplateOutput(false);
-				$this->setPresentationTitle($this->getWikiPage()->getTitle());
-				return $this->$cmd();	
-				break;
-		}
-  
-  		return true;
-	}
-*/
-
 	/**
 	* Set Wiki Page Object.
 	*

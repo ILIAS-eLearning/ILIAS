@@ -1624,6 +1624,10 @@ wiki#:#wiki_contributors#:#Contributors
 wiki#:#wiki_contributor#:#Contributor
 wiki#:#wiki_page_changes#:#Page Changes
 wiki#:#wiki_grading#:#Grading
+wiki#:#wiki_notgraded#:#Not Graded
+wiki#:#wiki_passed#:#Passed
+wiki#:#wiki_failed#:#Failed
+wiki#:#wiki_mark#:#Mark
 wiki#:#wiki_settings#:#Wiki Settings
 wiki#:#wiki_activate_rating#:#Activate Rating
 wiki#:#wiki_what_links_to_page#:#What links to page "%s"?

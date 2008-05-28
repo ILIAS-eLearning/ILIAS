@@ -4312,4 +4312,8 @@ CREATE TABLE wiki_contributor (
   status INT,
   PRIMARY KEY (wiki_id, user_id)
 ) TYPE=MyISAM;
+<#1239>
+ALTER TABLE wiki_contributor ADD COLUMN status_time TIMESTAMP;
+<#1240>
+RENAME TABLE `wiki_contributor`  TO `il_wiki_contributor`;
 
