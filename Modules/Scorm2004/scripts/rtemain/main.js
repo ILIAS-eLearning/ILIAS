@@ -2312,7 +2312,7 @@ function load()
 		id = row[remoteMapping.objective.id];
 		cmi_interaction_id = row[remoteMapping.objective.cmi_interaction_id];
 		cmi_node_id = row[remoteMapping.objective.cmi_node_id];
-		if (cmi_interaction_id===null ) // objective to an activity or shared
+		if (cmi_interaction_id===null || cmi_interaction_id==0) // objective to an activity or shared
 		{
 			act = activitiesByCMI[cmi_node_id];
 			if (act && act.objectives[id]) // local objective specified in manifest
