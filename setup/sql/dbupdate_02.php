@@ -4305,3 +4305,11 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id.
 $ilDB->query($query);
 
 ?>
+<#1238>
+CREATE TABLE wiki_contributor (
+  wiki_id INT NOT NULL,
+  user_id INT NOT NULL,
+  status INT,
+  PRIMARY KEY (wiki_id, user_id)
+) TYPE=MyISAM;
+

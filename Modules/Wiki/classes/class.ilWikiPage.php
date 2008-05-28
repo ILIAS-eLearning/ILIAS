@@ -374,6 +374,20 @@ class ilWikiPage extends ilPageObject
 	}
 	
 	/**
+	* Get all contributors of wiki
+	*
+	* @access	public
+	*/
+	static function getParentObjectContributors($a_wiki_id)
+	{
+		global $ilDB;
+		
+		$contributors = parent::getParentObjectContributors("wpg", $a_wiki_id);
+		
+		return $contributors;
+	}
+
+	/**
 	* save internal links of page
 	*
 	* @param	string		xml page code
