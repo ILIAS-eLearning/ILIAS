@@ -178,6 +178,7 @@ class ilObjCourse extends ilContainer
 		return $this->activation_type == IL_CRS_ACTIVATION_UNLIMITED;
 		
 	} 
+	
 	function getActivationStart()
 	{
 		return $this->activation_start ? $this->activation_start : time();
