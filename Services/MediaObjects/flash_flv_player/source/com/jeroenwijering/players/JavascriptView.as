@@ -2,7 +2,7 @@
 * Javascript user interface management of the players MCV pattern.
 *
 * @author	Jeroen Wijering
-* @version	1.3
+* @version	1.5
 **/
 
 
@@ -19,6 +19,16 @@ class com.jeroenwijering.players.JavascriptView extends AbstractView {
 	private var elaps:Number;
 	/** Previous remaining value **/
 	private var remain:Number;
+	/** Previous state value **/
+	private var state:Number = 4;
+	/** Status change abbreviations **/
+	private var statuses:Array = new Array(
+		'PAUSED',
+		'BUFFERING',
+		'PLAYING',
+		'COMPLETE',
+		'NOT STARTED'
+	);
 
 
 	/** Constructor **/
@@ -53,12 +63,27 @@ class com.jeroenwijering.players.JavascriptView extends AbstractView {
 					ExternalInterface.call("getUpdate",typ,pr1,pr2,
 						config["javascriptid"]);
 					break;
+				case "state":
+					sendStatusChange(pr1);
+					ExternalInterface.call("getUpdate",typ,pr1,pr2,
+						config["javascriptid"]);
+					break;
 				default:
 					ExternalInterface.call("getUpdate",typ,pr1,pr2,
 						config["javascriptid"]);
 					break;
 			}
 		}
+	};
+
+
+	/** state change function for longtail **/
+	private function sendStatusChange(stt) {
+		if(!(state == 3 && stt == 0)) {
+			ExternalInterface.call("playerStatusChange",
+				statuses[state],statuses[stt]);
+		}
+		state = stt;
 	};
 
 

@@ -50,13 +50,13 @@ class com.jeroenwijering.players.AbstractModel {
 				setItem(prm);
 				break;
 			case "start":
-				isActive == true ? setStart(prm): null;
+				if(isActive == true) { setStart(prm); }
 				break;
 			case "pause":
-				isActive == true ? setPause(prm): null;
+				if(isActive == true) { setPause(prm); }
 				break;
 			case "stop":
-				isActive == true ? setStop(): null;
+				if(isActive == true) { setStop(); }
 				break;
 			case "volume":
 				setVolume(prm);
@@ -77,7 +77,7 @@ class com.jeroenwijering.players.AbstractModel {
 				fnd = true;
 			}
 		}
-		if(feeder.feed[idx]["start"] != undefined) {
+		if(feeder.feed[idx]["start"] > 0) {
 			currentPosition = feeder.feed[idx]["start"];
 		}
 		if(fnd == true) {
@@ -103,7 +103,7 @@ class com.jeroenwijering.players.AbstractModel {
 
 	/** Set volume and pass through if active. **/
 	private function setVolume(vol:Number) { 
-		isActive == true ? sendUpdate("volume",vol): null;
+		if(isActive == true) { sendUpdate("volume",vol); }
 	};
 
 
@@ -111,6 +111,9 @@ class com.jeroenwijering.players.AbstractModel {
 	private function sendUpdate(typ:String,prm:Number,pr2:Number) {
 		for(var i=0; i<registeredViews.length; i++) {
 			registeredViews[i].getUpdate(typ,prm,pr2);
+		}
+		if(typ == 'size') {
+			controller.getEvent(typ,prm,pr2);
 		}
 	};
 

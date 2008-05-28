@@ -2,49 +2,46 @@
 * User input management of the players MCV pattern.
 *
 * @author	Jeroen Wijering
-* @version	1.9
+* @version	1.12
 **/
 
 
 import com.jeroenwijering.players.AbstractController;
+import com.jeroenwijering.utils.Randomizer;
+import flash.geom.Rectangle;
 
 
 class com.jeroenwijering.players.PlayerController extends AbstractController {
 
-	
+
 	/** use SharedObject to save current file, item and volume **/
 	private var playerSO:SharedObject;
+	/** save independent mute state **/
+	private var muted:Boolean;
 
 
 	/** Constructor, save arrays and set currentItem. **/
 	function PlayerController(cfg:Object,fed:Object) {
 		super(cfg,fed);
-		playerSO = SharedObject.getLocal("com.jeroenwijerin.players", "/");
-		if(playerSO.data.volume != undefined && _root.volume == undefined) {
-			config["volume"] = playerSO.data.volume;
-		}
-		if(playerSO.data.usecaptions != undefined && 
-			_root.usecaptions == undefined) {
-			config["usecaptions"] = playerSO.data.usecaptions;
-		}
-		if(playerSO.data.useaudio != undefined && 
-			_root.useaudio == undefined) {
-			config["useaudio"] = playerSO.data.useaudio;
-		}
+		playerSO = SharedObject.getLocal("com.jeroenwijering.players", "/");
 	};
 
 
 	/** Complete the build of the MCV cycle and start flow of events. **/
 	public function startMCV(mar:Array) {
-		registeredModels = mar;
-		if(feeder.feed[currentItem-1]['category']=='preroll') {
-			currentItem--;
+		if(mar != undefined) { registeredModels = mar; }
+		itemsPlayed = 0;
+		if(config["shuffle"] == "true") {
+			randomizer = new Randomizer(feeder.feed);
+			currentItem = randomizer.pick();
+		} else {
+			currentItem = 0;
 		}
 		sendChange("item",currentItem);
 		if(config["autostart"] == "muted") {
 			sendChange("volume",0);
 		} else {
-			sendChange("volume",config["volume"]);
+			sendChange("volume",Number(config["volume"]));
 		}
 		if(config["usecaptions"] == "false") { 
 			config["clip"].captions._visible = false;
@@ -65,11 +62,8 @@ class com.jeroenwijering.players.PlayerController extends AbstractController {
 
 
 	/** PlayPause switch **/
-	private function setPlaypause(dpl:Number) {
-		if((feeder.feed[currentItem]['category'] == 'preroll' ||
-			feeder.feed[currentItem]['category'] == 'postroll') && dpl==1) {
-			getURL(feeder.feed[currentItem]["link"],config["linktarget"]);
-		} else if(isPlaying == true) {
+	private function setPlaypause() {
+		if(isPlaying == true) {
 			isPlaying = false;
 			sendChange("pause");
 		} else { 
@@ -81,22 +75,21 @@ class com.jeroenwijering.players.PlayerController extends AbstractController {
 
 	/** Play previous item. **/
 	private function setPrev() {
-		if(currentItem == 0) { var i:Number = feeder.feed.length - 1; }
-		else { var i:Number = currentItem-1; }
-		setPlayitem(i);
+		if(currentItem == 0) { 
+			setPlayitem(feeder.feed.length - 1); 
+		} else { 
+			setPlayitem(currentItem-1);
+		}
 	};
 
 
 	/** Play next item. **/
 	private function setNext() {
 		if(currentItem == feeder.feed.length - 1) { 
-			var i:Number = 0; 
-		} else if(feeder.feed[currentItem]['category']=='preroll') {
-			var i:Number = currentItem+2;
+			setPlayitem(0); 
 		} else { 
-			var i:Number = currentItem+1;
+			setPlayitem(currentItem+1);
 		}
-		setPlayitem(i);
 	};
 
 
@@ -111,10 +104,7 @@ class com.jeroenwijering.players.PlayerController extends AbstractController {
 
 	/** Forward scrub number to model. **/
 	private function setScrub(prm) {
-		if(feeder.feed[currentItem]['category'] == 'preroll' || 
-			feeder.feed[currentItem]['category'] == 'postroll') {
-				return;
-		} else if(isPlaying == true) {
+		if(isPlaying == true) {
 			sendChange("start",prm);
 		} else {
 			sendChange("pause",prm);
@@ -124,12 +114,6 @@ class com.jeroenwijering.players.PlayerController extends AbstractController {
 
 	/** Play a new item. **/
 	private function setPlayitem(itm:Number) {
-		if(feeder.feed[itm-1]['category']=='preroll' && currentItem!=itm-1) {
-			itm--;
-		} else if (feeder.feed[itm]['category']=='postroll' && 
-			currentItem==itm+1) {
-			itm--;
-		}
 		if(itm != currentItem) {
 			itm > feeder.feed.length-1 ? itm = feeder.feed.length-1: null;
 			if(feeder.feed[currentItem]['file'] != feeder.feed[itm]['file']) {
@@ -162,47 +146,32 @@ class com.jeroenwijering.players.PlayerController extends AbstractController {
 			config["streamscript"] != undefined) {
 			sendChange("stop");
 		}
-		if(feeder.feed[currentItem]['category'] == 'preroll' || 
-			feeder.feed[currentItem+1]['category'] == 'postroll') {
-			setPlayitem(currentItem+1);
-		} else if(config["repeat"] == "false" || (config["repeat"] == "list"
-			&& itemsPlayed == feeder.feed.length)) {
+		if(config["repeat"] == "false" || (config["repeat"] == "list"
+			&& itemsPlayed >= feeder.feed.length)) {
 			sendChange("pause",0);
 			isPlaying = false;
 			itemsPlayed = 0;
-			if(feeder.feed[currentItem]['category'] == 'postroll') {
-				currentItem--;
-				sendChange("stop");
-				sendChange("item",currentItem);
-			}
 		} else {
+			var itm;
 			if(config["shuffle"] == "true") {
-				var i:Number = randomizer.pick();
+				itm = randomizer.pick();
 			} else if(currentItem == feeder.feed.length - 1) {
-				var i:Number = 0;
+				itm = 0;
 			} else { 
-				var i:Number = currentItem+1;
+				itm = currentItem+1;
 			}
-			setPlayitem(i);
+			setPlayitem(itm);
 		}
-	};
-
-
-	/** Check volume percentage and forward to models. **/
-	private function setVolume(prm) {
-		if (prm < 0 ) { prm = 0; } else if (prm > 100) { prm = 100; }
-		if(config["volume"] == 0 && prm == 0) { prm = 80; }
-		config["volume"] = prm;
-		sendChange("volume",prm);
-		playerSO.data.volume = prm;
-		playerSO.flush();
 	};
 
 
 	/** Fullscreen switch function. **/
 	private function setFullscreen() {
 		if(Stage["displayState"] == "normal" && 
-			config["usefullscreen"] == "true") { 
+			config["usefullscreen"] == "true") {
+			if(sizes[0] > 400) {
+				Stage["fullScreenSourceRect"] = new Rectangle(0,0,sizes[0],sizes[1]);
+			}
 			Stage["displayState"] = "fullScreen";
 		} else if (Stage["displayState"] == "fullScreen" && 
 			config["usefullscreen"] == "true") {
@@ -242,6 +211,27 @@ class com.jeroenwijering.players.PlayerController extends AbstractController {
 			config["clip"].controlbar.au.icn._alpha = 100;
 		}
 		playerSO.data.useaudio = config["useaudio"];
+		playerSO.flush();
+	};
+
+
+	/** Check volume percentage and forward to models. **/
+	private function setVolume(prm) {
+		if (prm < 0 ) { prm = 0; } else if (prm > 100) { prm = 100; }
+		if(prm == 0) {
+			if(muted == true) {
+				muted = false;
+				sendChange("volume",config['volume']);
+			} else {
+				muted = true;
+				sendChange("volume",0);
+			}
+		} else {
+			sendChange("volume",prm);
+			config['volume'] = prm;
+			muted = false;
+		}
+		playerSO.data.volume = config["volume"];
 		playerSO.flush();
 	};
 

@@ -2,7 +2,7 @@
 * Parses ATOM feeds and returns an indexed array with all elements
 *
 * @author	Jeroen Wijering
-* @version	1.3
+* @version	1.4
 **/
 
 
@@ -29,6 +29,7 @@ class com.jeroenwijering.feeds.ATOMParser extends AbstractParser {
 	private function parse(xml:XML):Array {
 		var arr = new Array();
 		var tpl = xml.firstChild.firstChild;
+		var ttl;
 		while(tpl != null) {
 			if (tpl.nodeName.toLowerCase() == "entry") {
 				var obj = new Object();
@@ -59,12 +60,14 @@ class com.jeroenwijering.feeds.ATOMParser extends AbstractParser {
 						}
 					} else if(nnm=="link" && nod.attributes.rel=="enclosure"){
 						var typ = nod.attributes.type.toLowerCase();
-						if(mimetypes[typ] != undefined && obj['type']!="flv"){
+						if(mimetypes[typ] != undefined){
 							obj["file"] = nod.attributes.href;
 							obj["type"] = mimetypes[typ];
 							if(obj["file"].substr(0,4) == "rtmp") {
-								obj["type"] == "rtmp";
+								obj["type"] = "rtmp";
 							}
+						} else if(obj["type"] != undefined && typ == "video/x-flv") {
+							obj["fallback"] = nod.attributes.href;
 						}
 					} else if (nnm=="link" && nod.attributes.rel=="captions"){
 						obj["captions"] = nod.attributes.href;
@@ -77,7 +80,7 @@ class com.jeroenwijering.feeds.ATOMParser extends AbstractParser {
 				obj["author"] == undefined ? obj["author"] = ttl: null;
 				arr.push(obj);
 			} else if (tpl.nodeName == "title") { 
-				var ttl = tpl.firstChild.nodeValue;
+				ttl = tpl.firstChild.nodeValue;
 			}
 			tpl = tpl.nextSibling;
 		}

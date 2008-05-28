@@ -2,7 +2,7 @@
 * Abstract controller class of the MCV pattern, extended by all controlllers.
 *
 * @author	Jeroen Wijering
-* @version	1.7
+* @version	1.8
 **/
 
 
@@ -29,19 +29,15 @@ class com.jeroenwijering.players.AbstractController
 	/** Current item **/
 	private var isPlaying:Boolean;
 	/** Number of items played: used for repeat=list **/
-	private var itemsPlayed:Number = 0;
+	private var itemsPlayed:Number;
+	/** Array that saves the original video dimensions. **/
+	private var sizes:Array;
 
 
 	/** Constructor. **/
 	function AbstractController(cfg:Object,fed:Object) {
 		config = cfg;
 		feeder = fed;
-		if(config["shuffle"] == "true") {
-			randomizer = new Randomizer(feeder.feed);
-			currentItem = randomizer.pick();
-		} else {
-			currentItem = 0;
-		}
 		feeder.addListener(this);
 	};
 
@@ -51,29 +47,29 @@ class com.jeroenwijering.players.AbstractController
 
 
 	/** Receive events from the views. **/
-	public function getEvent(typ:String,prm:Number) {
-		trace("controller: "+typ+": "+prm);
+	public function getEvent(typ:String,prm:Number,pr2:Number) {
+		//trace("controller: "+typ+": "+prm);
 		switch(typ) {
 			case "playpause": 
-				setPlaypause(prm);
+				setPlaypause();
 				break;
 			case "prev":
-				setPrev();
+				if(noCommercial()) { setPrev(); }
 				break;
 			case "next":
-				setNext();
+				if(noCommercial()) { setNext(); }
 				break;
 			case "stop":
-				setStop();
+				if(noCommercial()) { setStop(); }
 				break;
 			case "scrub":
-				setScrub(prm);
+				if(noCommercial()) { setScrub(prm); }
 				break;
 			case "volume":
 				setVolume(prm);
 				break;
 			case "playitem":
-				setPlayitem(prm);
+				if(noCommercial()) { setPlayitem(prm); }
 				break;
 			case "getlink":
 				setGetlink(prm);
@@ -90,9 +86,24 @@ class com.jeroenwijering.players.AbstractController
 			case "audio":
 				setAudio();
 				break;
+			case "size":
+				saveSizes(prm,pr2);
+				break;
 			default:
 				trace("controller: incompatible event received");
 				break;
+		}
+	};
+
+
+	/** Check for commercial **/
+	private function noCommercial():Boolean {
+		if(feeder.feed[currentItem]['category'] == 'commercial' ||
+			feeder.feed[currentItem]['category'] == 'preroll' || 
+			feeder.feed[currentItem]['category'] == 'postroll') {
+			return false;
+		} else {
+			return true;
 		}
 	};
 
@@ -143,6 +154,12 @@ class com.jeroenwijering.players.AbstractController
 	private function setCaptions() {};
 
 
+	/** Switch captions on and off **/
+	private function saveSizes(pr1:Number,pr2:Number) {
+		sizes = new Array(pr1,pr2);
+	};
+
+
 	/** Switch audiotrack on and off **/
 	private function setAudio() {};
 
@@ -156,25 +173,32 @@ class com.jeroenwijering.players.AbstractController
 
 
 	/** check with feedupdates if current item is also changed **/
-	public function onFeedUpdate() {
-		for(var i=0;i < feeder.feed.length; i++) {
-			if (feeder.feed[i]['file'] == currentURL) {
-				currentItem = i;
+	public function onFeedUpdate(typ:String) {
+		if(typ == 'new') {
+			setStop();
+			startMCV();
+		} else  if (typ == 'add') {
+			if (feeder.feed[currentItem+1]['file'] == currentURL) {
+				currentItem++;
 				sendChange("item",currentItem);
 			}
-		}
-		if(feeder.feed[currentItem]['file'] != currentURL) {
-			setStop();
 			if(randomizer != undefined) {
 				randomizer = new Randomizer(feeder.feed);
 			}
-			if(currentItem >= feeder.feed.length) {
-				if(config["shuffle"] == "false") {
-					currentItem = 0;
-				} else {
-					currentItem = randomizer.pick();
-				}
+		} else if(typ == 'remove') {
+			if (feeder.feed[currentItem-1]['file'] == currentURL) {
+				currentItem--;
 				sendChange("item",currentItem);
+				if(randomizer != undefined) {
+					randomizer = new Randomizer(feeder.feed);
+				}
+			} else if(feeder.feed[currentItem]['file'] != currentURL) {
+				setStop();
+				startMCV();
+			} else {
+				if(randomizer != undefined) {
+					randomizer = new Randomizer(feeder.feed);
+				}
 			}
 		}
 	};

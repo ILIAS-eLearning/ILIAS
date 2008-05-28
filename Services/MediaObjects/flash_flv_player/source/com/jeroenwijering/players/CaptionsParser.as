@@ -74,11 +74,11 @@ class com.jeroenwijering.players.CaptionsParser {
 					delete obj;
 				}
 			} else { 
-				parseArray.push( {txt:"File not found: " +
+				ref.parseArray.push( {txt:"File not found: " +
 					ref.parseURL,bgn:1,dur:5}); 
 			}
-			if( parseArray.length == 0) {
-				parseArray.push({txt:"Empty file: " +
+			if(ref.parseArray.length == 0) {
+				ref.parseArray.push({txt:"Empty file: " +
 					ref.parseURL,bgn:1,dur:5});
 			}
 			delete ref.parseLV;
@@ -106,32 +106,36 @@ class com.jeroenwijering.players.CaptionsParser {
 					if(bdy.firstChild.firstChild.attributes.begin==undefined){
 						for(var i=0; i<bdy.childNodes.length; i++) {
 							var obj = new Object();
-							var bgn:String = bdy.childNodes[i].attributes.begin;
-							obj["bgn"] = Number(bgn.substr(0,bgn.length-1));
-							var dur:String = bdy.childNodes[i].attributes.dur;
-							obj["dur"] = Number(dur.substr(0,dur.length-1));
-							obj["txt"] =
-								bdy.childNodes[i].firstChild.firstChild.nodeValue;
+							var bgn = bdy.childNodes[i].attributes.begin;
+							obj["bgn"] = StringMagic.toSeconds(bgn);
+							var dur = bdy.childNodes[i].attributes.dur;
+							obj["dur"] = StringMagic.toSeconds(dur);
+							obj["txt"] = String(bdy.childNodes[i].firstChild.childNodes.join(''));
 							ref.parseArray.push(obj);
 						}
 					} else {
 						var div = bdy.firstChild;
 						for(var i=0; i<div.childNodes.length; i++) {
 							var obj = new Object();
-							var bgn:String = div.childNodes[i].attributes.begin;
-							obj["bgn"] = Number(bgn.substring(bgn.lastIndexOf(':')+1));
-							var end:String = div.childNodes[i].attributes.end;
-							obj["dur"] = Number(end.substring(end.lastIndexOf(':')+1)) - obj['bgn'];
-							obj["txt"] = String(div.childNodes[i].childNodes);
+							var bgn = div.childNodes[i].attributes.begin;
+							obj["bgn"] = StringMagic.toSeconds(bgn);
+							var end = div.childNodes[i].attributes.end;
+							if (end == undefined) {
+								var dur = div.childNodes[i].attributes.dur;
+								obj["dur"] = StringMagic.toSeconds(dur);
+							} else { 
+								obj["dur"] = StringMagic.toSeconds(end)-obj['bgn'];
+							}
+							obj["txt"] = div.childNodes[i].childNodes.join('');
 							ref.parseArray.push(obj);
 						}
 					}
 				}
 			} else { 
-				parseArray.push( {txt:"File not found: "+ref.parseURL}); 
+				ref.parseArray.push( {txt:"File not found: "+ref.parseURL}); 
 			}
-			if(parseArray.length == 0) { 
-				parseArray.push({txt:"Incompatible file: "+ref.parseURL});
+			if(ref.parseArray.length == 0) { 
+				ref.parseArray.push({txt:"Incompatible file: "+ref.parseURL});
 			}
 			delete ref.parseXML;
 			ref.onParseComplete();

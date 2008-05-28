@@ -2,7 +2,7 @@
 * Parses ATOM feeds and returns an indexed array with all elements.
 *
 * @author	Jeroen Wijering
-* @version	1.3
+* @version	1.5
 **/
 
 
@@ -46,7 +46,9 @@ class com.jeroenwijering.feeds.XSPFParser extends AbstractParser {
 							obj["file"] = nod.firstChild.nodeValue;
 							var typ = obj["file"].substr(-3).toLowerCase();
 							if(obj["file"].substr(0,4) == "rtmp") {
-								obj["type"] == "rtmp";
+								obj["type"] = "rtmp";
+							} else if(obj['file'].indexOf('youtube.com') > -1) {
+								obj["type"] = "youtube";
 							} else if(mimetypes[typ] != undefined) {
 								obj["type"] = mimetypes[typ];
 							}
@@ -59,12 +61,8 @@ class com.jeroenwijering.feeds.XSPFParser extends AbstractParser {
 						} else if(nnm == "link" && 
 							nod.attributes.rel == "audio") {
 							obj["audio"] = nod.firstChild.nodeValue;
-						} else if(nnm == "meta" && 
-							nod.attributes.rel == "start") {
-							obj["start"] = nod.firstChild.nodeValue;
-						} else if(nnm == "meta" &&
-							nod.attributes.rel == "type") {
-							obj["type"] = nod.firstChild.nodeValue;
+						} else if(nnm == "meta") {
+							obj[nod.attributes.rel] = nod.firstChild.nodeValue;
 						}
 					}
 					arr.push(obj);

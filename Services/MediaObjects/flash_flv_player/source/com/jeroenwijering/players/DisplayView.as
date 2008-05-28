@@ -54,22 +54,24 @@ class com.jeroenwijering.players.DisplayView extends AbstractView {
 		tgt.col = new Color(tgt);
 		tgt.col.setRGB(config["backcolor"]);
 		// display items
-		var tgt = config["clip"].display;
+		tgt = config["clip"].display;
+		tgt.col = new Color(tgt.back);
+		tgt.col.setRGB(config["screencolor"]);
 		tgt.setMask(config["clip"].mask);
 		if(config["showicons"] == "false") {
 			tgt.playicon._visible = false;
 			tgt.muteicon._visible = false;
 		}
 		tgt.activity._visible = false;
-		tgt.back.tabEnabled = false;
+		tgt.link.tabEnabled = false;
 		if(config["autostart"] == "muted") {
-			tgt.back.onRelease = function() { 
+			tgt.link.onRelease = function() { 
 				ref.sendEvent("volume",80);
 				ref.firstClick();
 			};
 		} else if (config["autostart"] == "false") {
 			tgt.muteicon._visible = false;
-			tgt.back.onRelease = function() { 
+			tgt.link.onRelease = function() { 
 				ref.sendEvent("playpause");
 				ref.firstClick();
 			};
@@ -84,9 +86,6 @@ class com.jeroenwijering.players.DisplayView extends AbstractView {
 				tgt.logo._y = 10;
 			};
 			lll.loadImage(config["logo"]);
-			tgt.logo.onRelease = function() { 
-				ref.sendEvent("getlink",ref.currentItem);
-			};
 		}
 	};
 
@@ -103,24 +102,26 @@ class com.jeroenwijering.players.DisplayView extends AbstractView {
 			config["clip"]._y = startPos[1];
 			tgt._width = config["width"];
 			tgt._height = config["height"];
-			if(config["displayheight"] >= config["height"] - 
-				config['controlbar'] && config["displaywidth"] == 
-				config["width"]) { tgt._height--; }
 		} 
-		var tgt = config["clip"].display;
+		tgt = config["clip"].display;
 		scaleClip(tgt.thumb,thumbSize[0],thumbSize[1]);
 		scaleClip(tgt.image,itemSize[0],itemSize[1]);
 		scaleClip(tgt.video,itemSize[0],itemSize[1]);
 		if(Stage["displayState"] == "fullScreen") {
+			tgt.youtube.setSize(Stage.width,Stage.height);
+		} else {
+			tgt.youtube.setSize(config['displaywidth'],config['displayheight']);
+		}
+		if(Stage["displayState"] == "fullScreen") {
 			config["clip"].mask._width = 
-				tgt.back._width = Stage.width;
+				tgt.back._width =  tgt.link._width = Stage.width;
 			config["clip"].mask._height = 
-				tgt.back._height = Stage.height;
+				tgt.back._height = tgt.link._height = Stage.height;
 		 } else {
 			config["clip"].mask._width = 
-				tgt.back._width = config["displaywidth"];
+				tgt.back._width = tgt.link._width = config["displaywidth"];
 			config["clip"].mask._height = 
-				tgt.back._height = config["displayheight"];
+				tgt.back._height = tgt.link._height = config["displayheight"];
 		}
 		tgt.playicon._x = tgt.activity._x = tgt.muteicon._x =
 			Math.round(tgt.back._width/2);
@@ -152,16 +153,14 @@ class com.jeroenwijering.players.DisplayView extends AbstractView {
 		switch(stt) {
 			case 0:
 				if (config["linkfromdisplay"] == "false" && 
-					config["showicons"] == "true" &&
-					feeder.feed[currentItem]['category'] != 'preroll' &&
-					feeder.feed[currentItem]['category'] != 'postroll') {
+					config["showicons"] == "true") {
 					tgt.playicon._visible = true;
 				}
 				tgt.activity._visible = false;
 				break;
 			case 1:
 				tgt.playicon._visible = false;
-				if (config["showicons"] == "true") {
+				if (config["showicons"] == "true" && feeder.feed[currentItem]['type'] != 'youtube') {
 					tgt.activity._visible = true;
 				}
 				break;
@@ -179,6 +178,7 @@ class com.jeroenwijering.players.DisplayView extends AbstractView {
 		var tgt = config["clip"].display;
 		scaleClip(tgt.image,itemSize[0],itemSize[1]);
 		scaleClip(tgt.video,itemSize[0],itemSize[1]);
+		tgt.youtube.setSize(config['displaywidth'],config['displayheight']);
 	};
 
 
@@ -186,25 +186,26 @@ class com.jeroenwijering.players.DisplayView extends AbstractView {
 	private function scaleClip(tgt:MovieClip,wid:Number,hei:Number):Void {
 		var tcf = tgt.mc._currentframe;
 		tgt.mc.gotoAndStop(1);
+		var stw = config["displaywidth"];
+		var sth = config["displayheight"];
 		if(Stage["displayState"] == "fullScreen") {
-			var stw:Number = Stage.width;
-			var sth:Number = Stage.height;
-		} else {
-			var stw = config["displaywidth"];
-			var sth = config["displayheight"];
+			stw = Stage.width;
+			sth = Stage.height;
 		}
-		var xsr:Number = stw/wid;
-		var ysr:Number = sth/hei;
-		if (xsr < ysr && config["overstretch"] == "false" || 
+		var xsr = stw/wid;
+		var ysr = sth/hei;
+		var mxm = Math.max(xsr,ysr);
+		if ((Math.abs(xsr-ysr)/mxm < 0.1 && config["overstretch"] != "none") 
+			|| config["overstretch"] == "fit") {
+			tgt._width = stw;
+			tgt._height = sth;
+		} else if (xsr < ysr && config["overstretch"] == "false" || 
 			ysr < xsr && config["overstretch"] == "true") { 
 			tgt._width = wid*xsr;
 			tgt._height = hei*xsr;
 		} else if(config["overstretch"] == "none") {
 			tgt._width = wid;
 			tgt._height = hei;
-		} else if (config["overstretch"] == "fit") {
-			tgt._width = stw;
-			tgt._height = sth;
 		} else { 
 			tgt._width = wid*ysr;
 			tgt._height = hei*ysr;
@@ -231,11 +232,14 @@ class com.jeroenwijering.players.DisplayView extends AbstractView {
 
 	/** OnResize Handler: catches stage resizing **/
 	public function onResize() {
-		if(_root.displayheight > config["height"]+10) {
+		if(config['displayheight'] >= config["height"]) {
 			config["height"] = config["displayheight"] = Stage.height;
-			config["width"] = config["displaywidth"] = Stage.width;
+			if(config['displaywidth'] == config["width"]) {
+				config["displaywidth"] = Stage.width;
+			}
+			config["width"] = Stage.width;
 		}
-		setDimensions(); 
+		setDimensions();
 	};
 
 
@@ -252,11 +256,11 @@ class com.jeroenwijering.players.DisplayView extends AbstractView {
 		tgt.playicon._visible = false;
 		tgt.muteicon._visible = false;
 		if(config["linkfromdisplay"] == "true") {
-			tgt.back.onRelease = function() { 
-				ref.sendEvent("getlink",ref.currentItem); 
+			tgt.link.onRelease = function() { 
+				ref.sendEvent("getlink",ref.currentItem);
 			};
 		} else {
-			tgt.back.onRelease = function() { 
+			tgt.link.onRelease = function() { 
 				ref.sendEvent("playpause",1);
 			};
 		}

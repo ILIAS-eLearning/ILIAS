@@ -2,45 +2,19 @@
 * A couple of commonly used string operations.
 *
 * @author	Jeroen Wijering
-* @version	1.2
+* @version	1.3
 **/
 
 
 class com.jeroenwijering.utils.StringMagic {
 
-	
-	/** Array with day string representations. **/
-	static var DAYS:Array = Array("Sunday","Monday","Tuesday","Wednesday",
-		"Thursday","Friday","Saturday");
-	/** Array with month string representations. **/
-	static var MONTHS_EN:Array= Array("January","February","March","April","May",
-		"June","July","August","September","October","November","December");
-	static var MONTHS_NL:Array= Array("Januari","Februari","Maart","April","Mei",
-		"Juni","Juli","Augustus","September","Oktober","November","December");
-	/** Supporting array to translate RFC2822 months to number. **/
-	static var MONTH_INDEXES:Object = {January:0,February:1,March:2,April:3,
-		May:4,June:5,July:6,August:7,September:8,October:9,November:10,
-		December:11,Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,
-		Oct:9,Nov:10,Dec:11};
-	static var TEXTS:Object = {
-		en:Array(" days"," day"," hours"," hour",
-			" minutes"," minute"," ago"),
-		nl:Array(" dagen"," dag"," uur",
-			" uur"," minuten"," minuut"," geleden")
-	}
 
-
-	/** 
-	* Strip tags and breaks from a string
-	* 
-	* @param str	The string to process.
-	* @return		The filered string.
-	**/
+	/** Strip tags and breaks from a string. **/
 	static function stripTagsBreaks(str:String):String {
 		if(str.length == 0 || str == undefined) { return ""; }
 		var tmp:Array = str.split("\n");
 		str = tmp.join("");
-		var tmp:Array = str.split("\r");
+		tmp = str.split("\r");
 		str = tmp.join("");
 		var i:Number = str.indexOf("<");
 		while(i != -1) {
@@ -53,13 +27,12 @@ class com.jeroenwijering.utils.StringMagic {
 	};
 
 
-	/**
-	* Chop string into a number of lines five lines max.
-	*
-	* @param str	The input string.
-	* @param cap	The average number of characters a line should have.
-	* @param nbr	The max number of lines the return can have.
-	* @return		The string with linebreaks included.
+	/** 
+	* Chop string into a number of lines. 
+	* 
+	* @param str	The string to chop.
+	* @param cap	The maximum number of characters per line.
+	* @param nbr	The maximum number of lines.
 	**/
 	static function chopString(str:String,cap:Number,nbr:Number):String {
 		for(var i=cap; i<str.length; i+=cap) {
@@ -78,12 +51,7 @@ class com.jeroenwijering.utils.StringMagic {
 	};
 
 
-	/** 
-	* Add a leading zero and convert number to string.
-	*
-	* @param nbr	The number to convert.
-	* @return		Te resulting string.
-	**/
+	/** Add a leading zero and convert number to string. **/
 	static function addLeading(nbr:Number):String { 
 		if(nbr < 10) { 
 			return "0"+Math.floor(nbr); 
@@ -94,60 +62,30 @@ class com.jeroenwijering.utils.StringMagic {
 
 
 	/** 
-	* Build a delaystring for a timestamp. 
-	* 
-	* @param stp	The stamp the delay should be calculated of.
-	* @param sht	Use short notation or not.
-	* @param lan	Language to use, defaults to english
+	* Convert a string to seconds, with these formats supported:
+	* 00:03:00.1 / 03:00.1 / 180.1s / 3.2m / 3.2h
 	**/
-	static function delayString(stp:Number,sht:Boolean,lan:String):String {
-		lan == undefined ? lan = "en": null;
-		var dat = new Date();
-		var dif = Math.round(dat.valueOf()/1000) - stp;
-		dif < 0 || isNaN(dif) ? dif = 0: null;
-		if(sht == true) {
-			var hr:Number = Math.floor(dif/3600);
-			var mi:Number = Math.floor(dif%3600/60);
-			return hr+":"+StringMagic.addLeading(mi) + 
-				StringMagic.TEXTS[lan][6];
-		} else { 
-			var ret:String = "";
-			var dy:Number = Math.floor(dif/86400);
-			if(dy >1) {
-				ret = dy + StringMagic.TEXTS[lan][0]; 
-			} else if (dy == 1) { 
-				ret = dy+StringMagic.TEXTS[lan][1];
-			}
-			var hr:Number = Math.floor(dif%86400/3600);
-			if(hr > 1) { 
-				ret.length > 0 ? ret = ret+", "+hr+StringMagic.TEXTS[lan][2]:
-					ret=hr+StringMagic.TEXTS[lan][2];
-			} else if (hr == 1) {
-				ret.length > 0 ? ret = ret+", "+hr+StringMagic.TEXTS[lan][3]:
-					ret = hr+StringMagic.TEXTS[lan][3];
-			}
-			var mi:Number = Math.floor(dif%3600/60);
-			if(mi == 1 && dy == 0) { 
-				ret.length>0 ? ret=ret+", "+mi+StringMagic.TEXTS[lan][5]:
-					ret=mi+StringMagic.TEXTS[lan][5];
-			} else if(!(mi == 0 && ret.length > 0) && dy == 0) {
-				ret.length>0 ? ret=ret+", "+mi+StringMagic.TEXTS[lan][4]:
-					ret=mi+StringMagic.TEXTS[lan][4];
-			}
-			return ret+StringMagic.TEXTS[lan][6];
+	static function toSeconds(str:String):Number {
+		var arr = str.split(':');
+		var sec;
+		if (str.substr(-1) == 's') {
+			sec = Number(str.substr(0,str.length-2));
+		} else if (str.substr(-1) == 'm') {
+			sec = Number(str.substr(0,str.length-2))*60;
+		} else if(str.substr(-1) == 'h') {
+			sec = Number(str.substr(0,str.length-2))*3600;
+		} else if(arr.length > 1) {
+			sec = Number(arr[arr.length-1]);
+			sec += Number(arr[arr.length-2])*60;
+			sec += Number(arr[arr.length-3])*3600;
+		} else {
+			sec = Number(str);
 		}
-	};
-
-
-	/** Remove char from string **/
-	static function removeCharFromString(str:String, char:String):String {
-		var my_array:Array = str.split(char);
-		var newStr = new String();
-		for (var i = 0; i<my_array.length; i++) {
-			trace(my_array[i]);
-			newStr += my_array[i];
+		if(isNaN(sec)) {
+			return 0;
+		} else {
+			return sec;
 		}
-		return newStr;
 	};
 
 

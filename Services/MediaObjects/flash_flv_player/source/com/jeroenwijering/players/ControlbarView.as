@@ -2,15 +2,17 @@
 * Controlbar user interface management of the players MCV pattern.
 *
 * @author	Jeroen Wijering
-* @version	1.11
+* @version	1.13
 **/
 
 
 import com.jeroenwijering.players.*;
 import com.jeroenwijering.utils.*;
+import com.jeroenwijering.feeds.FeedListener;
 
 
-class com.jeroenwijering.players.ControlbarView extends AbstractView { 
+class com.jeroenwijering.players.ControlbarView extends AbstractView 
+	implements FeedListener { 
 
 
 	/** currently active item **/
@@ -33,6 +35,8 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		setColorsClicks();
 		setDimensions();
 		Stage.addListener(this);
+		feeder.addListener(this);
+		Mouse.addListener(this);
 	};
 
 
@@ -46,6 +50,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		tgt.playpause.col1.setRGB(config["frontcolor"]);
 		tgt.playpause.col2 = new Color(tgt.playpause.pas);
 		tgt.playpause.col2.setRGB(config["frontcolor"]);
+		tgt.playpause.pas._visible = false;
 		tgt.playpause.onRollOver = function() { 
 			this.col1.setRGB(ref.config["lightcolor"]);
 			this.col2.setRGB(ref.config["lightcolor"]);
@@ -54,7 +59,16 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 			this.col1.setRGB(ref.config["frontcolor"]);
 			this.col2.setRGB(ref.config["frontcolor"]);
 		};
-		tgt.playpause.onPress = function() { ref.sendEvent("playpause"); };
+		tgt.playpause.onRelease = function() { ref.sendEvent("playpause"); };
+		tgt.stop.col = new Color(tgt.stop.icn);
+		tgt.stop.col.setRGB(config["frontcolor"]);
+		tgt.stop.onRollOver = function() { 
+			this.col.setRGB(ref.config["lightcolor"]);
+		};
+		tgt.stop.onRollOut = function() { 
+			this.col.setRGB(ref.config["frontcolor"]);
+		};
+		tgt.stop.onRelease = function() { ref.sendEvent("stop"); };
 		tgt.prev.col = new Color(tgt.prev.icn);
 		tgt.prev.col.setRGB(config["frontcolor"]);
 		tgt.prev.onRollOver = function() { 
@@ -63,7 +77,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		tgt.prev.onRollOut = function() { 
 			this.col.setRGB(ref.config["frontcolor"]);
 		};
-		tgt.prev.onPress = function() { ref.sendEvent("prev"); };
+		tgt.prev.onRelease = function() { ref.sendEvent("prev"); };
 		tgt.next.col = new Color(tgt.next.icn);
 		tgt.next.col.setRGB(config["frontcolor"]);
 		tgt.next.onRollOver = function() { 
@@ -72,7 +86,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		tgt.next.onRollOut = function() { 
 			this.col.setRGB(ref.config["frontcolor"]);
 		};
-		tgt.next.onPress = function() { ref.sendEvent("next"); };
+		tgt.next.onRelease = function() { ref.sendEvent("next"); };
 		tgt.scrub.elpTxt.textColor = config["frontcolor"];
 		tgt.scrub.remTxt.textColor = config["frontcolor"];
 		tgt.scrub.col = new Color(tgt.scrub.icn);
@@ -87,7 +101,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		tgt.scrub.bck.onRollOut = function() { 
 			this._parent.col.setRGB(ref.config["frontcolor"]); 
 		};
-		tgt.scrub.bck.onPress = function() {
+		tgt.scrub.bck.onPress= function() {
 			this.onEnterFrame = function() {
 				var xm = this._parent._xmouse;
 				if(xm < this._parent.bck._width + this._parent.bck._x && 
@@ -115,7 +129,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 			this.col1.setRGB(ref.config["frontcolor"]);
 			this.col2.setRGB(ref.config["frontcolor"]);
 		};
-		tgt.fs.onPress = function() {
+		tgt.fs.onRelease = function() {
 			ref.sendEvent("fullscreen");
 			this.col1.setRGB(ref.config["frontcolor"]);
 			this.col2.setRGB(ref.config["frontcolor"]);
@@ -128,7 +142,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		tgt.cc.onRollOut = function() { 
 			this.col.setRGB(ref.config["frontcolor"]);
 		};
-		tgt.cc.onPress = function() {
+		tgt.cc.onRelease = function() {
 			ref.sendEvent("captions");
 		};
 		tgt.au.col = new Color(tgt.au.icn);
@@ -139,7 +153,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		tgt.au.onRollOut = function() { 
 			this.col.setRGB(ref.config["frontcolor"]);
 		};
-		tgt.au.onPress = function() {
+		tgt.au.onRelease = function() {
 			ref.sendEvent("audio");
 		};
 		tgt.dl.col = new Color(tgt.dl.icn);
@@ -150,7 +164,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		tgt.dl.onRollOut = function() { 
 			this.col.setRGB(ref.config["frontcolor"]);
 		};
-		tgt.dl.onPress = function() {
+		tgt.dl.onRelease = function() {
 			ref.sendEvent("getlink",ref.currentItem);
 		};
 		tgt.vol.col = new Color(tgt.vol.bar);
@@ -167,7 +181,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 			this.col.setRGB(ref.config["frontcolor"]);
 			this.col3.setRGB(ref.config["frontcolor"]);
 		};
-		tgt.vol.onPress = function() { 
+		tgt.vol.onRelease = function() { 
 			this.onEnterFrame = function() { 
 				this.msk._width = this._xmouse-12;
 			}; 
@@ -176,9 +190,6 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 			ref.sendEvent("volume",(this._xmouse-12)*5);
 			delete this.onEnterFrame; 
 		};
-		if(config["displayheight"] == config["height"]) {
-			Mouse.addListener(this);
-		}
 	};
 
 
@@ -186,34 +197,31 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 	private function setDimensions() {
 		clearInterval(hideInt);
 		var tgt = config["clip"].controlbar;
+		var cbw  = 400;
 		// overall position and width
 		if(Stage["displayState"] == "fullScreen") {
 			tgt._x = Math.round(Stage.width/2-200);
-			var cbw = 400;
 			tgt._y = Stage.height - 40;
 			tgt._alpha = 100;
-			tgt.back._alpha = 40;
+			tgt.back._alpha = 50;
 			tgt.fs.fs._visible = false;
 			tgt.fs.ns._visible = true;
-		} else if(config["displayheight"] == config["height"]) {
+		} else if(config["displayheight"] == config["height"]-config['searchbar']) {
 			tgt._y = config["displayheight"] - 40;
 			if(config["displaywidth"] > 450 && 
 				config["displaywidth"] == config["width"]) {
 				tgt._x = Math.round(Stage.width/2-200);
-				var cbw = 400;
 			} else {
 				tgt._x = 20;
-				var cbw = config["displaywidth"] - 40;
+				cbw = config["displaywidth"] - 40;
 			}
-			tgt._alpha = 0;
-			tgt._visible = false;
 			tgt.back._alpha = 40;
 			tgt.fs.fs._visible = true;
 			tgt.fs.ns._visible = false;
 		} else {
 			tgt._x = 0;
 			tgt._y = config["displayheight"];
-			var cbw = config["width"];
+			cbw = config["width"];
 			tgt._alpha = 100;
 			tgt.back._alpha = 100;
 			tgt.fs.fs._visible = true;
@@ -231,9 +239,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		}
 		tgt.back._width = cbw;
 		// all buttons
-		if(feeder.feed.length - feeder.numads == 1 ||
-			(config["displayheight"] < config["height"] - 50 && cbw < 200) ||
-			(config["displaywidth"] < config["width"] - 50 && cbw < 200)) {
+		if(feeder.feed.length < 2) {
 			tgt.prev._visible = tgt.next._visible = false;
 			tgt.scrub.shd._width = cbw-17;
 			tgt.scrub._x = 17;
@@ -242,8 +248,16 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 			tgt.scrub.shd._width = cbw-51;
 			tgt.scrub._x = 51;
 		}
+		if(config['showstop'] == 'true') {
+			tgt.scrub.shd._width -= 17;
+			tgt.scrub._x += 17;
+		} else {
+			tgt.stop._visible = false;
+			tgt.prev._x = 17;
+			tgt.next._x = 34;
+		}
 		var xp = cbw;
-		if(cbw > 50 && config["showvolume"] == "true") {
+		if(cbw > 50) {
 			xp -= 37;
 			tgt.scrub.shd._width -= 37;
 			tgt.vol._x = xp;
@@ -256,6 +270,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 			xp -= 17;
 			tgt.scrub.shd._width -= 17;
 			tgt.au._x = xp;
+			tgt.au._visible = true;
 		} else {
 			tgt.au._visible = false;
 		}
@@ -263,6 +278,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 			xp -= 17;
 			tgt.scrub.shd._width -= 17;
 			tgt.cc._x = xp;
+			tgt.cc._visible = true;
 		} else {
 			tgt.cc._visible = false;
 		}
@@ -324,12 +340,19 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 		itemProgress = Math.round(rem/(itemLength)*100);
 		var tgt = config["clip"].controlbar.scrub;
 		var w = Math.floor(elp/(elp+rem)*barWidths) - 2;
-		elp == 0 || w < 2 ? tgt.bar._width = 0: tgt.bar._width = w - 2;
-		tgt.icn._x = tgt.bar._width + tgt.bar._x + 1;
+		if(rem > 0) { 
+			tgt.icn._visible = true;
+			tgt.bar._visible = true;
+			elp == 0 || w < 2 ? tgt.bar._width = 0: tgt.bar._width = w - 2;
+			tgt.icn._x = tgt.bar._width + tgt.bar._x + 1;
+		} else {
+			tgt.icn._visible = false;
+			tgt.bar._visible = false;
+		}
 		tgt.elpTxt.text = StringMagic.addLeading(elp/60) + ":" +
 			StringMagic.addLeading(elp%60);
 		if(tgt.bck._width == barWidths) {
-			if(_root.showdigits == "total") {
+			if(config['showdigits'] == "total") {
 				tgt.remTxt.text = StringMagic.addLeading((elp+rem)/60)+ ":" +
 					StringMagic.addLeading((elp+rem)%60);
 			} else {
@@ -344,12 +367,7 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 	private function setItem(prm:Number) { 
 		wasLoaded = false; 
 		currentItem = prm;
-		if(feeder.feed[currentItem]['category'] == "preroll" ||
-			feeder.feed[currentItem]['category'] == "postroll") {
-			config["clip"].controlbar.scrub.icn._alpha = 0;
-		} else {
-			config["clip"].controlbar.scrub.icn._alpha = 100;
-		}
+		config["clip"].controlbar.scrub.icn._alpha = 100;
 	};
 
 
@@ -378,9 +396,12 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 
 	/** Catches stage resizing **/
 	public function onResize() {
-		if(_root.displayheight > config["height"]+10) {
+		if(config['displayheight'] > config["height"]+10) {
 			config["height"] = config["displayheight"] = Stage.height;
-			config["width"] = config["displaywidth"] = Stage.width;
+			config["width"] = Stage.width;
+			if(config['displaywidth'] == config["width"]) {
+				config["displaywidth"] = Stage.width;
+			}
 		}
 		setDimensions(); 
 	};
@@ -388,28 +409,39 @@ class com.jeroenwijering.players.ControlbarView extends AbstractView {
 
 	/** Catches fullscreen escape  **/
 	public function onFullScreen(fs:Boolean) {
-		if(fs == false) { setDimensions(); }
+		if(fs == false) { 
+			setDimensions();
+			Animations.fadeIn(config['clip'].controlbar);
+		} else {
+			hideInt = setInterval(this,"hideBar",1000);
+		}
 	};
 
 
 	/** after a delay, the controlbar is hidden **/
 	private function hideBar() {
 		Animations.fadeOut(config['clip'].controlbar);
+		Mouse.hide();
 		clearInterval(hideInt);
 	}
 
 
 	/** Mouse move shows controlbar **/
 	public function onMouseMove() {
-		if(Stage["displayState"] != 'fullScreen' && 
-			config["clip"]._xmouse < config["displaywidth"] && 
-			config["showicons"] == "true") {
+		Mouse.show();
+		if(config["displayheight"] == config["height"]-config['searchbar'] ||
+			Stage["displayState"] == "fullScreen") {
 			Animations.fadeIn(config['clip'].controlbar);
 			clearInterval(hideInt);
-			if(!config["clip"].controlbar.hitTest(_xmouse,_ymouse)) {
-				hideInt = setInterval(this,"hideBar",2000);
+			if(!config["clip"].controlbar.hitTest(_root._xmouse,_root._ymouse)) {
+				hideInt = setInterval(this,"hideBar",500);
 			}
 		}
+	};
+
+
+	public function onFeedUpdate(typ:String) {
+		setDimensions();
 	};
 
 

@@ -6,12 +6,11 @@
 * myscroller.scrollTo(200);
 *
 * @author	Jeroen Wijering
-* @version	1.7
+* @version	1.8
 **/
 
 
 import com.jeroenwijering.utils.Animations;
-import com.jeroenwijering.utils.Draw;
 
 
 class com.jeroenwijering.utils.Scroller {
@@ -34,7 +33,7 @@ class com.jeroenwijering.utils.Scroller {
 	/** corrent scroll index **/
 	private var currentScroll:Number = 0;
 	/** autoscroll multiplier **/
-	private var AUTOSCROLL_SPEED:Number = 0.5;
+	private var AUTOSCROLL_SPEED:Number = 0.25;
 	/** Movieclip the scrollbar is drawn into **/
 	private var SCROLLER_CLIP:MovieClip;
 	/** Color object of the scrollbar back **/
@@ -43,15 +42,7 @@ class com.jeroenwijering.utils.Scroller {
 	private var SCROLLER_FRONT_COLOR:Color;
 
 
-	/**
-	* Sets up scrolling behaviour and scrollbar
-	*
-	* @param tgt	MovieClip that should be masked
-	* @param msk	Movieclip that shoulld be used as mask
-	* @param asc	(optional) Boolean for using autoscroll
-	* @param fcl	(optional) scrollbar color
-	* @param hcl	(optional) scrollbar rollover color
-	**/
+	/** Sets up scrolling behaviour and scrollbar **/
 	function Scroller(tgt:MovieClip,msk:MovieClip,asc:Boolean,
 		fcl:Number,hcl:Number) {
 		targetClip = tgt;
@@ -81,19 +72,19 @@ class com.jeroenwijering.utils.Scroller {
 		SCROLLER_CLIP.createEmptyMovieClip("back",0);
 		SCROLLER_CLIP.back._alpha = 0;
 		SCROLLER_CLIP.back._y = -3;
-		Draw.square(SCROLLER_CLIP.back,12,maskClip._height,frontColor);
+		drawSquare(SCROLLER_CLIP.back,12,maskClip._height,frontColor);
 		SCROLLER_CLIP.createEmptyMovieClip("bar",1);
 		SCROLLER_CLIP.bar._x = 4;
 		SCROLLER_CLIP.bar._alpha = 50;
-		Draw.square(SCROLLER_CLIP.bar,4,maskClip._height-5,frontColor);
+		drawSquare(SCROLLER_CLIP.bar,4,maskClip._height-5,frontColor);
 		SCROLLER_CLIP.createEmptyMovieClip("front",2);
 		SCROLLER_CLIP.front._x = 3;
-		Draw.square(SCROLLER_CLIP.front,6,
+		drawSquare(SCROLLER_CLIP.front,6,
 			SCROLLER_CLIP.bar._height*sizeRatio,frontColor);
 		SCROLLER_CLIP.front.createEmptyMovieClip("bg",1);
 		SCROLLER_CLIP.front.bg._x = -3;
 		SCROLLER_CLIP.front.bg._alpha = 0;
-		Draw.square(SCROLLER_CLIP.front.bg,12,
+		drawSquare(SCROLLER_CLIP.front.bg,12,
 			SCROLLER_CLIP.front._height,frontColor);
 		SCROLLER_FRONT_COLOR = new Color(SCROLLER_CLIP.front);
 		setScrollbarEvents();
@@ -129,7 +120,7 @@ class com.jeroenwijering.utils.Scroller {
 			SCROLLER_CLIP.back.onRollOut = function() {
 			instance.SCROLLER_FRONT_COLOR.setRGB(instance.frontColor);
 		};
-		SCROLLER_CLIP.back.onPress = function() { 
+		SCROLLER_CLIP.back.onRelease = function() { 
 			if(this._ymouse > this._parent.front._y + 
 				this._parent.front._height) { 
 				instance.scrollTo(instance.currentScroll + 
@@ -153,11 +144,7 @@ class com.jeroenwijering.utils.Scroller {
 	};
 
 
-	/**
-	* Scroll the MovieClip to a given Y position.
-	*
-	* @param yps	The y position the clip should scroll to.
-	**/
+	/** Scroll the MovieClip to a given Y position. **/
 	public function scrollTo(yps:Number):Void {
 		if(arguments.length == 0 && autoScroll == false) {
 			yps = SCROLLER_CLIP.front._y*maskClip._height / 
@@ -181,6 +168,20 @@ class com.jeroenwijering.utils.Scroller {
 		Mouse.removeListener(this);
 		scrollTo(0);
 		SCROLLER_CLIP.removeMovieClip();
+	};
+
+
+	/** Draw a square in a given movieclip. **/
+	private function drawSquare(tgt:MovieClip,wth:Number,hei:Number,
+		clr:Number) {
+		tgt.clear();
+		tgt.beginFill(clr,100);
+		tgt.moveTo(0,0);
+		tgt.lineTo(wth,0);
+		tgt.lineTo(wth,hei);
+		tgt.lineTo(0,hei);
+		tgt.lineTo(0,0);
+		tgt.endFill();
 	};
 
 

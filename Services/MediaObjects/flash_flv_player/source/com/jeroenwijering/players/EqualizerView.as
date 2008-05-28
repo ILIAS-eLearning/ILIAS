@@ -54,7 +54,7 @@ class com.jeroenwijering.players.EqualizerView extends AbstractView {
 	};
 
 
-	/** Draw a rondom frame for the equalizer **/
+	/** Draw a random frame for the equalizer **/
 	private function drawEqualizer(tgt:MovieClip) {
 		tgt.clear();
 	    tgt.beginFill(0x000000, 100);
@@ -69,7 +69,7 @@ class com.jeroenwijering.players.EqualizerView extends AbstractView {
 			tgt.lineTo(j*6+4,-1);
 			tgt.lineTo(j*6,-1); 
 		}
-		tgt.lineTo(j*6,0);
+		tgt.lineTo(eqStripes*6,0);
 		tgt.lineTo(0,0);
 		tgt.endFill();
 	};
