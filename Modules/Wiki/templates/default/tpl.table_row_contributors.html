@@ -1,0 +1,29 @@
+<tr class="{CSS_ROW}">
+  <td class="std" valign="top">
+  <input type="checkbox" name="sel_user_id[]" value="{USER_ID}" />
+  <input type="hidden" name="user_id[]" value="{USER_ID}" />
+  </td>
+  <td class="std" valign="top">
+  <img border="0" src="{IMG_USER}" title="{TXT_NAME}" alt="{TXT_NAME}" style="vertical-align:text-bottom" />
+  </td>
+  <td class="std" valign="top">
+  {TXT_NAME}<br />{TXT_LOGIN}
+  </td>
+  <td class="std" valign="top">
+  <div class="small">
+  <!-- BEGIN page --><div>{PAGE} ({CNT})</div><!-- END page -->
+  </div>
+  </td>
+  <td class="std" valign="top"><span class="small" style="white-space: nowrap;">
+  	<img border="0" src="{IMG_STATUS}" alt="{ALT_STATUS}" style="vertical-align:middle;"/>
+  	<select name="status[{USER_ID}]" >
+		<option value="{VAL_NOTGRADED}" {SEL_0}>{TXT_NOTGRADED}</option>
+		<option value="{VAL_PASSED}" {SEL_1}>{TXT_PASSED}</option>
+		<option value="{VAL_FAILED}" {SEL_2}>{TXT_FAILED}</option>
+	</select><br /><br />
+  {TXT_MARK}: <input type="text" name="{NAME_MARK}" value="{VAL_MARK}" size="5" maxlength="32" />
+  <!-- BEGIN status_date -->
+  <br /><br />{TXT_LAST_CHANGE}:<br />{VAL_STATUS_DATE}
+  <!-- END status_date -->
+  </td>
+</tr>

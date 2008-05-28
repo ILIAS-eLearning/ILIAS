@@ -449,6 +449,36 @@ class ilObjWikiGUI extends ilObjectGUI
 		$tpl->setContent($table_gui->getHTML());
 	}
 	
+	/**
+	* Save grading
+	*/
+	function saveGradingObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission("write");
+		
+		$users = (is_array($_POST["sel_user_id"]))
+			? $_POST["sel_user_id"]
+			: (is_array($_POST["user_id"])
+				? $_POST["user_id"]
+				: array());
+		
+		include_once("./Modules/Wiki/classes/class.ilWikiContributor.php");
+		include_once("./Services/Tracking/classes/class.ilLPMarks.php");
+		foreach($users as $user_id)
+		{
+			ilWikiContributor::_writeStatus($this->object->getId(), $user_id,
+				ilUtil::stripSlashes($_POST["status"][$user_id]));
+			$marks_obj = new ilLPMarks($this->object->getId(),$user_id);
+			$marks_obj->setMark(ilUtil::stripSlashes($_POST['mark'][$user_id]));
+			$marks_obj->setComment(ilUtil::stripSlashes($_POST['lcomment'][$user_id]));
+			$marks_obj->update();
+		}
+		
+		$ilCtrl->redirect($this, "listContributors");
+	}
+	
 	// add wiki to locator
 	function addLocatorItems()
 	{
