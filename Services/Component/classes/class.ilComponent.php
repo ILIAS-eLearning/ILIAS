@@ -296,7 +296,7 @@ abstract class ilComponent
 			return false;
 		}
 	}
-	
+
 	/**
 	* Check whether version number is greater than another version number
 	*
