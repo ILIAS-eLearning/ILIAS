@@ -257,7 +257,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function setValuesByPost()
 	{
-		foreach($this->items as $item)
+	    foreach($this->items as $item)
 		{
 			$item->setValueByArray($_POST);
 		}

@@ -286,13 +286,19 @@ class ilObjMediaObject extends ilObject
 		return $this->media_items;
 	}
 
+	/**
+	 * get item for media purpose
+	 *
+	 * @param string $a_purpose
+	 * @return ilMediaItem
+	 */
 	function &getMediaItem($a_purpose)
 	{
-		for($i=0; $i<count($this->media_items); $i++)
+	    foreach ($this->media_items as $media_item)
 		{
-			if($this->media_items[$i]->getPurpose() == $a_purpose)
+		    if($media_item->getPurpose() == $a_purpose)
 			{
-				return $this->media_items[$i];
+				return $media_item;
 			}
 		}
 		return false;
@@ -304,13 +310,24 @@ class ilObjMediaObject extends ilObject
 	*/
 	function removeMediaItem($a_purpose)
 	{
-		for($i=0; $i<count($this->media_items); $i++)
-		{
-			if($this->media_items[$i]->getPurpose() == $a_purpose)
+	    foreach ($this->media_items as $key => $media_item)
+	    {
+			if($media_item->getPurpose() == $a_purpose)
 			{
-				unset($this->media_items[$i]);
+				unset($this->media_items[$key]);
 			}
 		}
+		// update numbers and keys
+		$i = 1;
+		$media_items = array();
+		foreach ($this->media_items as $media_item)
+	    {
+			$media_items [$i] = $media_item;
+	        $media_item->setMobId($this->getId());
+			$media_item->setNr($i);
+			$i++;			
+		}
+		$this->media_items = $media_items;
 	}
 	
 	/**
@@ -334,9 +351,21 @@ class ilObjMediaObject extends ilObject
 		return false;
 	}
 
+	
 	function hasFullscreenItem()
 	{
-		if(is_object($this->getMediaItem("Fullscreen")))
+		return $this->hasPurposeItem("Fullscreen");
+	}
+	
+	/**
+	 * returns wether object has media item with specific purpose
+	 *
+	 * @param string $purpose
+	 * @return boolean
+	 */
+	function hasPurposeItem($purpose)
+	{
+		if(is_object($this->getMediaItem($purpose)))
 		{
 			return true;
 		}
@@ -345,6 +374,8 @@ class ilObjMediaObject extends ilObject
 			return false;
 		}
 	}
+	
+	
 
 	/**
 	* read media object data from db
@@ -458,7 +489,7 @@ class ilObjMediaObject extends ilObject
 		$j = 1;
 		foreach($media_items as $key => $val)
 		{
-			$item =& $media_items[$key];
+		    $item =& $media_items[$key];
 			if (is_object($item))
 			{
 				$item->setMobId($this->getId());
@@ -507,10 +538,28 @@ class ilObjMediaObject extends ilObject
 	static function _lookupStandardItemPath($a_mob_id, $a_url_encode = false,
 		$a_web = true)
 	{
-		$location = ($a_url_encode)
-			? rawurlencode(ilMediaItem::_lookupLocationForMobId($a_mob_id, "Standard"))
-			: ilMediaItem::_lookupLocationForMobId($a_mob_id, "Standard");
-		
+		return ilObjMediaObject::_lookupItemPath($a_mob_id, $a_url_encode, $a_web, "Standard");
+	}
+	
+	/**
+	* Get path for item with specific purpose.
+	*
+	* @param	int		$a_mob_id		media object id
+	*/
+	static function _lookupItemPath($a_mob_id, $a_url_encode = false,
+		$a_web = true, $a_purpose = "")
+	{
+		if ($a_purpose == "")
+		{
+			$a_purpose = "Standard";
+		}
+		$location = ilMediaItem::_lookupLocationForMobId($a_mob_id, $a_purpose);
+		if (preg_match("/https?\:/i",$location))
+		    return $location;
+		    
+		if ($a_url_encode)
+		    $location = rawurlencode($location);
+
 		$path = ($a_web)
 			? ILIAS_HTTP_PATH
 			: ".";

@@ -1673,6 +1673,28 @@ mcst#:#mcst_det_playtime#:#Determine Play Time
 mcst#:#mcst_settings#:#Mediacast Settings
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.
+mcst#:#mcst_edit_item#:#Edit Mediacast Item
+mcst#:#mcst_standard_title#:#Normal Media File
+mcst#:#mcst_audioportable_title#:#Additional Audio File for Portable Devices
+mcst#:#mcst_videoportable_title#:#Additional Video File for Portable Devices
+mcst#:#mcst_download_standard#:#Download
+mcst#:#mcst_download_videoportable#:#Download Video File
+mcst#:#mcst_download_audioportable#:#Download Audio File
+mcst#:#mcst_clear_purpose_title#:#Delete
+mcst#:#mcst_downloadable#:#Downloadable
+mcst#:#mcst_downloadable_info#:#If this option is enabled, media files can be downloaded directly.
+mcst#:#mcst_media_cast_not_online#:#Mediacast is not online
+mcst#:#mcst_media_cast_not_online_text#:#Mediacast is not online or has been disabled
+mcst#:#mcst_global_settings#:#Global Settings
+mcst#:#mcst_current_value_info#:#Shows the current value of this format.
+mcst#:#mcst_standard_settings_title#:#File Extensions for Standard Format
+mcst#:#mcst_standard_settings_info#:#Comma separated list of file suffixes
+mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format
+mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes
+mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format
+mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes
+mcst#:#mcst_edit_settings#:#MediaCast Settings
+mcst#:#mcst_file_extension_settings#:#File Extensions
 common#:#before#:#before
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category

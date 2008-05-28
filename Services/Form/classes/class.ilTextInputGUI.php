@@ -148,8 +148,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		global $lng;
 		
-		$_POST[$this->getPostVar()] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
@@ -173,15 +172,17 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			case 'password':
 				$a_tpl->setVariable('PROP_INPUT_TYPE','password');
-				break;			
+				break;	
+			case 'hidden':
+				$a_tpl->setVariable('PROP_INPUT_TYPE','hidden');
+				break;				    
 			case 'text':
 			default:
 				$a_tpl->setVariable('PROP_INPUT_TYPE','text');
 		}
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("PROPERTY_VALUE",
-			ilUtil::prepareFormOutput($this->getValue()));
+		$a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
 		$a_tpl->setVariable("SIZE", $this->getSize());
 		$a_tpl->setVariable("MAXLENGTH", $this->getMaxLength());
 		if ($this->getDisabled())

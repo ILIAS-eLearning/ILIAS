@@ -298,7 +298,28 @@ class ilMediaItem
 
 		return "";
 	}
-	
+
+	/* read media item with specific purpose and mobId
+	*
+	* @param	integer		$a_mobId	 	media object id
+	* @param	string		$a_purpose	 	media object purpose
+	* @return 	array		$mob			media object
+	*/
+	function _getMediaItemsOfMObId($a_mobId, $a_purpose)
+	{
+		global $ilDB;
+		
+		// read media_object record
+		$query = "SELECT * FROM media_item WHERE mob_id = ".$ilDB->quote($a_mobId)." ".
+			"AND purpose=" . $ilDB->quote($a_purpose) . " ORDER BY nr";
+		$item_set = $ilDB->query($query);
+		
+		while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $item_rec;
+		}
+		return false;
+	}
 	
 	/**
 	* read media items into media objects (static)

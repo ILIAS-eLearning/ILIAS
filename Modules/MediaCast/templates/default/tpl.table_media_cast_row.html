@@ -1,6 +1,8 @@
 <tr class="{CSS_ROW}">
 <td class="std" style="vertical-align:top;">
+<!-- BEGIN edit_checkbox -->
 <input type="checkbox" name="item_id[]" value="{VAL_ID}" />
+<!-- END edit_checkbox -->
 </td>
 <td class="std" style="vertical-align:top;">
 <p class="small"><b>{VAL_TITLE}</b></p>
@@ -28,6 +30,11 @@
 {VAL_LAST_UPDATE}
 </p>
 <!-- END last_update -->
+<!-- BEGIN downloadable -->
+<p>
+<a class="il_ContainerItemCommand" href="{CMD_DOWNLOAD}">{TXT_DOWNLOAD}</a>
+</p>
+<!-- END downloadable -->
 </td>
 <td class="std">
 {PLAYER}
@@ -36,7 +43,6 @@
 <a class="il_ContainerItemCommand" href="{CMD_EDIT}">{TXT_EDIT}</a>
 <a class="il_ContainerItemCommand" href="{CMD_DET_PLAYTIME}">{TXT_DET_PLAYTIME}</a>
 <!-- END edit -->
-<a class="il_ContainerItemCommand" href="{CMD_DOWNLOAD}">{TXT_DOWNLOAD}</a>
 </div>
 </td>
 </tr>
