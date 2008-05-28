@@ -8097,3 +8097,5 @@ grp#:#grp_accept_subscriber#:#Aufnahme in Gruppe "%s"
 grp#:#grp_reject_subscriber_body#:#Ihr Antrag für die Gruppe "%s" ist abgelehnt worden.
 grp#:#grp_reject_subscriber#:#Ablehnung für Gruppe "%s"
 forum#:#frm_post_not_activated_yet#:#Der Post wurde noch nicht aktiviert.
+crs#:#crs_reg_period#:#Anmeldungszeitraum
+crs#:#crs_presentation_type#:#Kursansicht

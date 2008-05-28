@@ -998,14 +998,17 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function updateObject()
 	{
+		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));		
+		
 		$this->object->setActivationType((int) $_POST['activation_type']);
-		$this->object->setActivationStart($this->toUnix($_POST['activation_start'],$_POST['activation_start_time']));
-		$this->object->setActivationEnd($this->toUnix($_POST['activation_end'],$_POST['activation_end_time']));
+		$this->object->setActivationStart($this->toUnix($_POST['activation_start']['date'],$_POST['activation_start']['time']));
+		$this->object->setActivationEnd($this->toUnix($_POST['activation_end']['date'],$_POST['activation_end']['time']));
 		$this->object->setSubscriptionLimitationType((int) $_POST['subscription_limitation_type']);
 		$this->object->setSubscriptionType((int) $_POST['subscription_type']);
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
-		$this->object->setSubscriptionStart($this->toUnix($_POST['subscription_start'],$_POST['subscription_start_time']));
-		$this->object->setSubscriptionEnd($this->toUnix($_POST['subscription_end'],$_POST['subscription_end_time']));
+		$this->object->setSubscriptionStart($this->toUnix($_POST['subscription_start']['date'],$_POST['subscription_start']['time']));
+		$this->object->setSubscriptionEnd($this->toUnix($_POST['subscription_end']['date'],$_POST['subscription_end']['time']));
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
 		$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
@@ -1019,8 +1022,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->object->setOrderType((int) $_POST['order_type']);
 		}
-		$this->object->setArchiveStart($this->toUnix($_POST['archive_start'],$_POST['archive_start_time']));
-		$this->object->setArchiveEnd($this->toUnix($_POST['archive_end'],$_POST['archive_end_time']));
+		$this->object->setArchiveStart($this->toUnix($_POST['archive_start']['date'],$_POST['archive_start']['time']));
+		$this->object->setArchiveEnd($this->toUnix($_POST['archive_end']['date'],$_POST['archive_end']['time']));
 		$this->object->setArchiveType($_POST['archive_type']);
 		$this->object->setAboStatus((int) $_POST['abo']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
@@ -1046,8 +1049,263 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		$this->editObject();
 	}
+	
+	/**
+	 * edit object
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function editObject()
+	{
+		$this->checkPermission('write');
+		
+		$this->setSubTabs('properties');
+		$this->tabs_gui->setTabActive('settings');
+		$this->tabs_gui->setSubTabActive('crs_settings');
+		
+		$this->initForm();
 
-	function editObject()
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * init form
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initForm()
+	{
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		include_once('./Services/Calendar/classes/class.ilDateTime.php');
+		
+		if(!is_object($this->form))
+		{
+			$this->form = new ilPropertyFormGUI();
+		}
+
+		$this->form->setTitle($this->lng->txt('crs_edit'));
+		$this->form->setTitleIcon(ilUtil::getImagePath('icon_crs_s.gif'));
+	
+		$this->form->addCommandButton('update',$this->lng->txt('save'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		$this->form->setTableWidth('75%');
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		// title
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setValue($this->object->getTitle());
+		$title->setSize(40);
+		$title->setMaxLength(128);
+		$title->setRequired(true);
+		$this->form->addItem($title);
+		
+		// desc
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
+		$desc->setValue($this->object->getDescription());
+		$desc->setRows(2);
+		$desc->setCols(40);
+		$this->form->addItem($desc);
+		
+		// reg type
+		$act_type = new ilRadioGroupInputGUI($this->lng->txt('crs_visibility'),'activation_type');
+		$act_type->setValue($this->object->getActivationType());
+		
+			$opt = new ilRadioOption($this->lng->txt('crs_visibility_unvisible'),IL_CRS_ACTIVATION_OFFLINE);
+			$opt->setInfo($this->lng->txt('crs_availability_unvisible_info'));
+			$act_type->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('crs_visibility_limitless'),IL_CRS_ACTIVATION_UNLIMITED);
+			$opt->setInfo($this->lng->txt('crs_availability_limitless_info'));
+			$act_type->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('crs_visibility_until'),IL_CRS_ACTIVATION_LIMITED);
+			$opt->setInfo($this->lng->txt('crs_availability_until_info'));
+
+				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'activation_start');
+				$start->setShowTime(true);
+				$start_date = new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX);
+				$start->setDate($start_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
+				$start->setTime($start_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$opt->addSubItem($start);
+
+				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'activation_end');
+				$end->setShowTime(true);
+				$end_date = new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX);
+				$end->setDate($end_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
+				$end->setTime($end_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$opt->addSubItem($end);
+				
+			$act_type->addOption($opt);
+		
+		$this->form->addItem($act_type);
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('crs_reg'));
+		$this->form->addItem($section);
+		
+		$reg_type = new ilRadioGroupInputGUI($this->lng->txt('crs_reg_period'),'subscription_limitation_type');
+		$reg_type->setValue($this->object->getSubscriptionLimitationType());		
+		
+			$opt = new ilRadioOption($this->lng->txt('crs_reg_deactivated'),IL_CRS_SUBSCRIPTION_DEACTIVATED);
+			$opt->setInfo($this->lng->txt('crs_registration_deactivated'));
+			$reg_type->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('crs_registration_unlimited'),IL_CRS_SUBSCRIPTION_UNLIMITED);
+			$opt->setInfo($this->lng->txt('crs_reg_unlim_info'));
+			$reg_type->addOption($opt);
+
+			$opt = new ilRadioOption($this->lng->txt('crs_registration_limited'),IL_CRS_SUBSCRIPTION_LIMITED);
+			$opt->setInfo($this->lng->txt('crs_reg_lim_info'));
+
+				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'subscription_start');
+				$start->setShowTime(true);
+				$start_date = new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX);
+				$start->setDate($start_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
+				$start->setTime($start_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$opt->addSubItem($start);
+
+				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'subscription_end');
+				$end->setShowTime(true);
+				$end_date = new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX);
+				$end->setDate($end_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
+				$end->setTime($end_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$opt->addSubItem($end);
+				
+			$reg_type->addOption($opt);
+
+		$this->form->addItem($reg_type);
+		
+		
+		
+		$reg_proc = new ilRadioGroupInputGUI($this->lng->txt('crs_registration_type'),'subscription_type');
+		$reg_proc->setValue($this->object->getSubscriptionType());
+		$reg_proc->setInfo($this->lng->txt('crs_reg_type_info'));
+
+			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_confirmation'),IL_CRS_SUBSCRIPTION_CONFIRMATION);
+			$reg_proc->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_direct'),IL_CRS_SUBSCRIPTION_DIRECT);
+			$reg_proc->addOption($opt);
+
+			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'),IL_CRS_SUBSCRIPTION_PASSWORD);
+			
+				$pass = new ilTextInputGUI('','subscription_password');
+				$pass->setSize(12);
+				$pass->setMaxLength(12);
+				$pass->setValue($this->object->getSubscriptionPassword());
+			
+			$opt->addSubItem($pass);
+			$reg_proc->addOption($opt);
+
+		$this->form->addItem($reg_proc);
+		
+		$max = new ilTextInputGUI($this->lng->txt('crs_subscription_max_members'),'subscription_max');
+		$max->setSize(4);
+		$max->setMaxLength(4);
+		$max->setValue($this->object->getSubscriptionMaxMembers());
+		$max->setInfo($this->lng->txt('crs_reg_max_info'));
+		
+		$wait = new ilCheckboxInputGUI('','waiting_list');
+		$wait->setOptionTitle($this->lng->txt('crs_waiting_list'));
+		$wait->setChecked($this->object->enabledWaitingList());
+		$wait->setInfo($this->lng->txt('crs_wait_info'));
+		$max->addSubItem($wait);
+		
+		$this->form->addItem($max);
+		
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('crs_view_mode'));
+		
+		$this->form->addItem($pres);
+		
+		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
+		$view_type->setValue($this->object->getViewMode());
+		
+			$opt = new ilRadioOption($this->lng->txt('cntr_view_sessions'),IL_CRS_VIEW_SESSIONS);
+			$opt->setInfo($this->lng->txt('cntr_view_info_sessions'));
+			$view_type->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),IL_CRS_VIEW_SIMPLE);
+			$opt->setInfo($this->lng->txt('cntr_view_info_simple'));
+			$view_type->addOption($opt);
+
+			$opt = new ilRadioOption($this->lng->txt('cntr_view_by_type'),IL_CRS_VIEW_BY_TYPE);
+			$opt->setInfo($this->lng->txt('cntr_view_info_by_type'));
+			$view_type->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('crs_view_objective'),IL_CRS_VIEW_OBJECTIVE);
+			$opt->setInfo($this->lng->txt('crs_view_info_objective'));
+			$view_type->addOption($opt);
+
+			$opt = new ilRadioOption($this->lng->txt('crs_view_timing'),IL_CRS_VIEW_TIMING);
+			$opt->setInfo($this->lng->txt('crs_view_info_timing'));
+			$view_type->addOption($opt);
+
+			$opt = new ilRadioOption($this->lng->txt('crs_view_archive'),IL_CRS_VIEW_ARCHIVE);
+			$opt->setInfo($this->lng->txt('crs_archive_info'));
+			
+				$down = new ilCheckboxInputGUI('','archive_type');
+				$down->setOptionTitle($this->lng->txt('crs_archive_download'));
+				$down->setChecked($this->object->getArchiveType() == IL_CRS_ARCHIVE_DOWNLOAD);
+				$opt->addSubItem($down);
+				
+				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'archive_start');
+				$start->setShowTime(true);
+				$start_date = new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX);
+				$start->setDate($start_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
+				$start->setTime($start_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$opt->addSubItem($start);
+
+				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'archive_end');
+				$end->setShowTime(true);
+				$end_date = new ilDateTime($this->object->getArchiveEnd(),IL_CAL_UNIX);
+				$end->setDate($end_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
+				$end->setTime($end_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$opt->addSubItem($end);
+				
+			$view_type->addOption($opt);
+		$this->form->addItem($view_type);
+			
+		$sort = new ilRadioGroupInputGUI($this->lng->txt('crs_sortorder_abo'),'order_type');
+		$sort->setValue($this->object->getOrderType());
+		
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_manual'),IL_CRS_SORT_TITLE);
+			$opt->setInfo($this->lng->txt('crs_sort_title_info'));
+			$sort->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_title'),IL_CRS_SORT_MANUAL);
+			$opt->setInfo($this->lng->txt('crs_sort_manual_info'));
+			$sort->addOption($opt);
+
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_activation'),IL_CRS_SORT_ACTIVATION);
+			$opt->setInfo($this->lng->txt('crs_sort_timing_info'));
+			$sort->addOption($opt);
+
+		$this->form->addItem($sort);
+		
+		$further = new ilFormSectionHeaderGUI();
+		$further->setTitle($this->lng->txt('crs_further_settings'));
+		$this->form->addItem($further);
+		
+		$desk = new ilCheckboxInputGUI($this->lng->txt('crs_add_remove_from_desktop'),'abo');
+		$desk->setChecked($this->object->getAboStatus());
+		$desk->setInfo($this->lng->txt('crs_add_remove_from_desktop_info'));
+		$this->form->addItem($desk);
+		
+		$mem = new ilCheckboxInputGUI($this->lng->txt('crs_show_members'),'show_members');
+		$mem->setChecked($this->object->getShowMembers());
+		$mem->setInfo($this->lng->txt('crs_show_members_info'));
+		$this->form->addItem($mem);
+	
+		
+	}
+
+
+	function edit2Object()
 	{
 		global $ilAccess,$ilErr;
 
@@ -1550,7 +1808,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ctrl->setParameter($this, "ref_id", $newObj->getRefId());
 		ilUtil::redirect($this->getReturnLocation("save",
 			$this->ctrl->getLinkTarget($this, "edit")));
-		//ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
 	}
 
 
