@@ -13,7 +13,7 @@ interface com.jeroenwijering.feeds.FeedListener {
 
 
 	/** invoked when the feed object has updated **/
-	function onFeedUpdate();
+	function onFeedUpdate(typ:String);
 
 
 }

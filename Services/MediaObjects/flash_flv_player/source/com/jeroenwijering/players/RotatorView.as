@@ -2,12 +2,15 @@
 * Rotator user interface View of the MCV cycle.
 *
 * @author	Jeroen Wijering
-* @version	1.4
+* @version	1.5
 **/
 
 
 import com.jeroenwijering.players.*;
 import com.jeroenwijering.utils.ImageLoader;
+import com.jeroenwijering.utils.Animations;
+import flash.geom.Transform;
+import flash.geom.ColorTransform;
 
 class com.jeroenwijering.players.RotatorView extends AbstractView { 
 
@@ -24,13 +27,16 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 	private var transitionDone:Boolean = false;
 	/** boolean to detect first run **/ 
 	private var firstRun:Boolean = true;
+	/** interval for hiding the display **/
+	private var hideInt:Number;
 	/** array with all transitions **/ 
 	private var allTransitions:Array = new Array(
-		"fade",
 		"bgfade",
 		"blocks",
 		"bubbles",
 		"circles",
+		"fade",
+		"flash",
 		"fluids",
 		"lines",
 		"slowfade"
@@ -41,6 +47,9 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 	function RotatorView(ctr:AbstractController,cfg:Object,fed:Object) { 
 		super(ctr,cfg,fed);
 		setColorsClicks();
+		if(config["shownavigation"] == "true") {
+			Mouse.addListener(this);
+		}
 	};
 
 
@@ -56,17 +65,19 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 			tgt.img1.bg._width = tgt.img2.bg._width = config["width"];
 			tgt.img1.bg._height = tgt.img2.bg._height = config["height"];
 			tgt.img1.col = new Color(tgt.img1.bg);
-			tgt.img1.col.setRGB(config["backcolor"]);
+			tgt.img1.col.setRGB(config["screencolor"]);
 			tgt.img2.col = new Color(tgt.img2.bg);
-			tgt.img2.col.setRGB(config["backcolor"]);
+			tgt.img2.col.setRGB(config["screencolor"]);
 		}
 		if(config["linkfromdisplay"] == "true") {
-			tgt.button.onPress = function() { 
+			tgt.button.onRelease = function() { 
 				ref.sendEvent("getlink",ref.currentItem); 
 			};
 			tgt.playicon._visible = false;
 		} else {
-			tgt.button.onPress = function() { ref.sendEvent("next"); };
+			tgt.button.onRelease = function() { 
+				ref.sendEvent("next"); 
+			};
 		}
 		tgt.img1.swapDepths(1);
 		tgt.img2.swapDepths(2);
@@ -81,15 +92,11 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 			lll.onLoadFinished = function() {
 				ref.config['clip'].logo._x = ref.config["displaywidth"] -
 					ref.config['clip'].logo._width -10;
-				ref.config['clip'].logo._y = ref.config["displayheight"] -
-					ref.config['clip'].logo._height -10;
+				ref.config['clip'].logo._y = 10;
 			};
 			lll.loadImage(config["logo"]);
-			tgt.logo.onRelease = function() { 
-				ref.sendEvent("getlink",ref.currentItem);
-			};
 		}
-		var tgt:MovieClip = config["clip"].navigation;
+		tgt = config["clip"].navigation;
 		if (config["shownavigation"] == "true") {
 			tgt._y = config["height"] - 40;
 			tgt._x = config["width"]/2 - 50;
@@ -116,17 +123,24 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 			tgt.itmBtn.onRollOut = function() {
 				this.txt.textColor = ref.config["frontcolor"];
 			};
-			tgt.prevBtn.onPress = function() { 
+			tgt.prevBtn.onRelease = function() { 
 				ref.sendEvent("prev");
 				this.col2.setRGB(ref.config["frontcolor"]);
 			};
-			tgt.itmBtn.onPress = function() { ref.sendEvent("playpause"); };
-			tgt.nextBtn.onPress = function() { 
+			tgt.itmBtn.onRelease = function() { ref.sendEvent("playpause"); };
+			tgt.nextBtn.onRelease = function() { 
 				ref.sendEvent("next");
 				this.col2.setRGB(ref.config["frontcolor"]);
 			};
 			// set sizes, colors and buttons for image title
-			if(feeder.feed[0]["title"] == undefined) {
+			var len = 0;
+			for(var i=0; i<feeder.feed.length; i++) {
+				if(feeder.feed[i]['title'] != undefined && 
+					feeder.feed[i]['title'].length > len) {
+					len = feeder.feed[i]['title'].length;
+				} 
+			}
+			if(len == 0) {
 				useTitle = false; 
 				tgt.titleBtn._visible = false;
 			} else {
@@ -138,19 +152,22 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 				tgt.titleBtn.col2.setRGB(config["backcolor"]);
 				tgt.titleBtn.col3 = new Color(tgt.titleBtn.right);
 				tgt.titleBtn.col3.setRGB(config["backcolor"]);
-				tgt.titleBtn.txt.autoSize = true;
-				tgt.titleBtn.txt.textColor = config["frontcolor"];
+				tgt.titleBtn.tf._width = len*6;
+				tgt.titleBtn.tf.textColor = config["frontcolor"];
 				if(feeder.feed[0]["link"] != undefined) {
 					tgt.titleBtn.onRollOver = function() {
-						this.txt.textColor = ref.config["lightcolor"];
+						this.tf.textColor = ref.config["lightcolor"];
 					};
 					tgt.titleBtn.onRollOut = function() {
-						this.txt.textColor = ref.config["frontcolor"];
+						this.tf.textColor = ref.config["frontcolor"];
 					};
-					tgt.titleBtn.onPress = function() {
+					tgt.titleBtn.onRelease = function() {
 						ref.sendEvent("getlink",ref.currentItem);
 					};
 				};
+				tgt.titleBtn.mid._width = len*6;
+				tgt.titleBtn.right._x = len*6+4;
+				tgt.nextBtn._x = len*6 + 79;
 			}
 			if(feeder.audio == true) {
 				tgt.audioBtn.col1 = new Color(tgt.audioBtn.bck);
@@ -167,7 +184,7 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 					this.col2.setRGB(ref.config["frontcolor"]);
 					this.col3.setRGB(ref.config["frontcolor"]);
 				};
-				tgt.audioBtn.onPress = function() {
+				tgt.audioBtn.onRelease = function() {
 					ref.sendEvent("audio");
 					this.col2.setRGB(ref.config["frontcolor"]);
 					this.col3.setRGB(ref.config["frontcolor"]);
@@ -177,10 +194,12 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 				} else {
 					tgt.audioBtn.icnOn._visible = false;
 				}
+				tgt.audioBtn._x = len*6 + 104;
 			} else {
 				tgt.audioBtn._x = 0;
 				tgt.audioBtn._visible = false;
-			}
+			}	
+			tgt._x = Math.round(config["width"]/2 - tgt._width/2);
 		} else {
 			tgt._visible = false;
 		}
@@ -194,7 +213,9 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 		var tgt = config["clip"];
 		tgt.navigation.itmBtn.txt.text = (currentItem+1) + " / " + 
 			feeder.feed.length;
-		useTitle == true ? setTitle(): null;
+		if (useTitle == true) {
+			tgt.navigation.titleBtn.tf.text=feeder.feed[currentItem]["title"];
+		}
 		tgt.img1.swapDepths(tgt.img2);
 		downClip = upClip;
 		if (upClip == tgt.img1) {
@@ -202,19 +223,6 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 		} else {
 			upClip = tgt.img1;
 		}
-	};
-
-
-	/** Set new title in navigation bar. **/
-	private function setTitle() {
-		var tgt = config["clip"].navigation;
-		tgt.titleBtn.txt.text = feeder.feed[currentItem]["title"];
-		var len:Number = Math.ceil(tgt.titleBtn.txt._width);
-		tgt.titleBtn.mid._width = len + 16;
-		tgt.titleBtn.right._x = len + 20;
-		tgt.nextBtn._x = len + 95;
-		if(feeder.audio == true) { tgt.audioBtn._x = len + 120; }
-		tgt._x = Math.round(config["width"]/2 - tgt._width/2);
 	};
 
 
@@ -250,11 +258,8 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 	/** (Re)set the ken burns fade **/
 	private function moveClip() {
 		var dir = random(4);
-		if(upClip.smc == undefined) {
-			var clp = upClip.mc;
-		} else {
-			var clp = upClip.smc;
-		}
+		var clp = upClip.smc;
+		if(upClip.smc == undefined) { clp = upClip.mc; }
 		clp._xscale *= config['rotatetime']/20 + 1;
 		clp._yscale *= config['rotatetime']/20 + 1;
 		if(dir == 0) { 
@@ -293,9 +298,6 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 				trs = allTransitions[random(allTransitions.length)];
 			}
 			switch (trs) {
-				case "fade":
-					doFade();
-					break;
 				case "bgfade":
 					doBGFade();
 					break;
@@ -307,6 +309,12 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 					break;
 				case "circles":
 					doCircles();
+					break;
+				case "fade":
+					doFade();
+					break;
+				case "flash":
+					doFlash();
 					break;
 				case "fluids":
 					doFluids();
@@ -416,6 +424,26 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 	};
 
 
+	/** Function for the flash transition **/
+	private function doFlash() {
+		upClip._alpha = 100;
+		upClip.col = new Color(upClip);
+		upClip.ctf = new Object({rb:255,gb:255,bb:255});
+		upClip.col.setTransform(upClip.ctf);
+		upClip.onEnterFrame = function() {
+			if(this.ctf.rb < 1) {
+				this.ctf =  new Object({rb:0,gb:0,bb:0});
+				this.col.setTransform(this.ctf);
+				delete this.onEnterFrame;
+			} else {
+				this.ctf.rb /= 1.05;
+				this.ctf.gb /= 1.05;
+				this.ctf.bb /= 1.05;
+				this.col.setTransform(this.ctf);
+			}
+		};
+	};
+
 	/** Function for the fluids transition **/
 	private function doFluids() {
 		upClip._alpha = 100;
@@ -458,7 +486,7 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 	private function playClip(tgt:MovieClip,rot:Number) {
 		tgt.ref = this;
 		tgt.onEnterFrame = function() {
-			nextFrame();
+			this.nextFrame();
 			rot == undefined ? null: this._rotation +=rot;
 			if(this._currentframe  == this._totalframes) {
 				this.ref.downClip._alpha = 0;
@@ -467,6 +495,23 @@ class com.jeroenwijering.players.RotatorView extends AbstractView {
 				this.removeMovieClip();
 			}
 		};
+	};
+
+
+	/** after a delay, the controlbar is hidden **/
+	private function hideBar() {
+		Animations.fadeOut(config['clip'].navigation);
+		clearInterval(hideInt);
+	}
+
+
+	/** Mouse move shows controlbar **/
+	public function onMouseMove() {
+		Animations.fadeIn(config['clip'].navigation);
+		clearInterval(hideInt);
+		if(!config["clip"].navigation.hitTest(_root._xmouse,_root._ymouse)) {
+			hideInt = setInterval(this,"hideBar",500);
+		}
 	};
 
 

@@ -31,7 +31,7 @@ class com.jeroenwijering.players.AbstractView {
 
 	/** Receive updates from the models. **/
 	public function getUpdate(typ:String,pr1:Number,pr2:Number):Void {
-		trace("view: "+typ+": "+pr1+","+pr2);
+		//trace("view: "+typ+": "+pr1+","+pr2);
 		switch(typ) {
 			case "state":
 				setState(pr1);

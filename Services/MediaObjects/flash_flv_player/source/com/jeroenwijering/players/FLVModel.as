@@ -14,7 +14,8 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 
 
 	/** array with extensions used by this model **/
-	private var mediatypes:Array = new Array("flv","rtmp","mp4","m4v","3gp");
+	private var mediatypes:Array = new Array(
+		"flv","rtmp","mp4","m4v","m4a","mov","3gp","3g2");
 	/** NetConnection object reference **/
 	private var connectObject:NetConnection;
 	/** NetStream object reference **/
@@ -27,8 +28,6 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 	private var currentLoaded:Number = 0;
 	/** interval ID of the position update function **/
 	private var positionInterval:Number;
-	/** Duration metadata of the current video **/
-	private var metaDuration:Number = 0
 	/** current state of the video that is playing **/
 	private var currentState:Number;
 	/** Current volume **/
@@ -39,10 +38,19 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 	private var metaKeyframes:Object = new Object();
 	/** Boolean to check whether a stop event is fired **/
 	private var stopFired:Boolean = false;
+	/** Boolean to check whether a flusk event is fired **/
+	private var flushFired:Boolean = false;
 	/** Switch for FLV type currently played **/
 	private var flvType:String;
+	/** check h264 for time offset **/
+	private var isH264:Boolean;
+	/** check h264 for time offset **/
+	private var timeOffset:Number = 0;
 	/** reference to the captions object for parsing captionate data **/
 	public var capView:Object;
+	/** buffer iterator (prevents buffericon showing on slow PC's) **/
+	public var bufferCount:Number = 0;
+
 
 
 	/** Constructor **/
@@ -51,12 +59,12 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 		super(vws,ctr,cfg,fed);
 		connectObject = new NetConnection();
 		videoClip = fcl;
-		if(config["smoothing"] == "false") { 
+		if(config["smoothing"] == "false") {
 			videoClip.display.smoothing = false;
 			videoClip.display.deblocking = 1;
 		} else {
 			videoClip.display.smoothing = true;
-			videoClip.display.deblocking = 2;
+			videoClip.display.deblocking = 3;
 		}
 		videoClip.createEmptyMovieClip("snd",videoClip.getNextHighestDepth());
 		soundObject = new Sound(videoClip.snd);
@@ -80,11 +88,13 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 
 	/** Start a specific video **/
 	private function setStart(pos:Number) {
+		stopFired = false;
+		flushFired = false;
 		if (pos != undefined) { currentPosition = pos; }
-		if(pos < 1) { 
+		if(pos < 1) {
 			pos = 0; 
-		} else if (pos > metaDuration - 1) { 
-			pos = metaDuration - 1; 
+		} else if (pos > feeder.feed[currentItem]["duration"] - 1) { 
+			pos = feeder.feed[currentItem]["duration"] - 1; 
 		}
 		if (flvType=="RTMP" && feeder.feed[currentItem]["id"] != currentURL) {
 			connectObject.connect(feeder.feed[currentItem]["file"]);
@@ -108,33 +118,36 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 				streamObject.play(currentURL);
 			}
 		} else {
-			if(pos != undefined) { streamObject.seek(pos); }
-			streamObject.pause(false);
+			if(flvType == "HTTP" && pos != undefined) {
+				playKeyframe(currentPosition);
+			} else if (flvType != "HTTP" && pos != undefined) {
+				streamObject.seek(currentPosition);
+				streamObject.pause(false);
+			} else if(flvType == "RTMP" && currentPosition > 0 && 
+				feeder.feed[currentItem]["duration"] == 0) {
+				connectObject.connect(feeder.feed[currentItem]["file"]);
+				setStreamObject(connectObject);
+				streamObject.play(currentURL);
+			} else {
+				streamObject.pause(false);
+			}
 		}
 		videoClip._visible = true;
 		videoClip._parent.thumb._visible = false;
-		if(flvType == "HTTP" && pos > 0) {
-			playKeyframe(currentPosition);
-		} else if (flvType == "FLV" && pos > 0) {
-			streamObject.seek(currentPosition);
-		} else if (flvType == "RTMP" && pos > 0) { 
-			streamObject.seek(currentPosition);
-		}
 		clearInterval(positionInterval);
-		positionInterval = setInterval(this,"updatePosition",200);
+		positionInterval = setInterval(this,"updatePosition",100);
 		clearInterval(loadedInterval);
-		loadedInterval = setInterval(this,"updateLoaded",200);
+		loadedInterval = setInterval(this,"updateLoaded",100);
 	};
 
 
 	/** Read and broadcast the amount of the flv that's currently loaded **/
 	private function updateLoaded() {
+		var pct:Number = Math.round(streamObject.bufferLength/
+			streamObject.bufferTime*100);
 		if(flvType == "FLV") {
-			var pct:Number = Math.round(streamObject.bytesLoaded/
+			pct = Math.round(streamObject.bytesLoaded/
 				streamObject.bytesTotal*100);
-		} else {
-			var pct:Number = Math.round(streamObject.bufferLength/
-				streamObject.bufferTime*100);
 		}
 		if(isNaN(pct)) { 
 			currentLoaded = 0;
@@ -152,29 +165,35 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 
 	/** Read and broadcast the current position of the song **/
 	private function updatePosition() {
-		var pos = streamObject.time;
-		if(pos == currentPosition && currentState != 1 && 
-			streamObject.bufferLength < config["bufferlength"]-1) {
-			currentState = 1;
-			sendUpdate("state",1);
+		var pos = streamObject.time + timeOffset;
+		if(pos == currentPosition && currentState != 1 && stopFired != true) {
+			if(bufferCount == 5) { 
+				currentState = 1;
+				sendUpdate("state",1);
+				bufferCount = 0;
+			} else { 
+				bufferCount++;
+			}
 		} else if (pos != currentPosition && currentState != 2) { 
+			bufferCount = 0;
 			currentState = 2;
 			sendUpdate("state",2);
+		} else {
+			bufferCount = 0;
 		}
 		if (pos != currentPosition) {
 			currentPosition = pos;
-			if(metaDuration<currentPosition) {
-				metaDuration = currentPosition;
-			}
-			sendUpdate("time",currentPosition,metaDuration-currentPosition);
-		} else if (streamObject.bufferLength < config["bufferlength"]-1 
-			&& stopFired == true) {
+			sendUpdate("time",currentPosition,
+				Math.max(feeder.feed[currentItem]["duration"]-currentPosition,0));
+		} else if (stopFired == true || 
+			(flushFired == true && flvType != "RTMP" && bufferCount == 5)) {
 			currentState = 3;
 			videoClip._visible = false;
 			videoClip._parent.thumb._visible = true;
 			sendUpdate("state",3);
 			sendCompleteEvent();
 			stopFired = false;
+			flushFired = false;
 		}
 	};
 
@@ -185,7 +204,8 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 		clearInterval(positionInterval);
 		if(pos != undefined) {
 			currentPosition = pos;
-			sendUpdate("time",currentPosition,Math.abs(metaDuration-currentPosition));
+			sendUpdate("time",currentPosition,
+				Math.abs(feeder.feed[currentItem]["duration"]-currentPosition));
 			streamObject.seek(currentPosition);
 		}
 		streamObject.pause(true);
@@ -203,11 +223,12 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 		delete currentLoaded;
 		delete currentPosition;
 		delete metaKeyframes;
-		metaDuration = 0;
 		currentLoaded = 0;
 		stopFired = false;
+		timeOffset = 0;
 		streamObject.close();
 		delete streamObject;
+		videoClip.display.clear();
 	};
 
 
@@ -221,28 +242,49 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 
 	/** Connect a new stream object to video/audio/callbacks **/
 	private function setStreamObject(cnt:NetConnection) {
+		_root.tf.text = 'metadata!';
 		var ref = this;
 		currentLoaded = 0;
 		sendUpdate("load",0);
 		streamObject = new NetStream(cnt);
 		streamObject.setBufferTime(config["bufferlength"]);
 		streamObject.onMetaData = function(obj) {
-			obj.duration>1 ? ref.metaDuration = obj.duration: null;
+			for (var i in obj) {
+				trace(i+': '+obj[i]);
+			}
+			if(obj.duration > 1) {
+				ref.feeder.feed[ref.currentItem]["duration"] = obj.duration;
+			}
 			if(obj.width > 10) {
 				ref.sendUpdate("size",obj.width,obj.height);
 			}
-			ref.frameRate = obj.framerate;
-			ref.metaKeyframes = obj.keyframes;
-			if(ref.feeder.feed[ref.currentItem]['start'] > 0 &&
-				ref.flvType == "HTTP") {
-				ref.playKeyframe(ref.feeder.feed[ref.currentItem]['start']);
+			if(obj.seekpoints != undefined) {
+				ref.isH264 = true;
+				ref.metaKeyframes = new Object();
+				ref.metaKeyframes.times = new Array();
+				ref.metaKeyframes.filepositions = new Array();
+				for (var j in obj.seekpoints) {
+					ref.metaKeyframes.times.unshift(
+						Number(obj.seekpoints[j]['time']));
+					ref.metaKeyframes.filepositions.unshift(
+						Number(obj.seekpoints[j]['time']));
+				}
+			} else {
+				ref.metaKeyframes = obj.keyframes;
+			}
+			if(ref.feeder.feed[ref.currentItem]['start'] > 0) {
+				if(ref.flvType == "HTTP") {
+					ref.playKeyframe(ref.feeder.feed[ref.currentItem]['start']);
+				} else if (ref.flvType == "RTMP") {
+					ref.setStart(ref.feeder.feed[ref.currentItem]['start']);
+				}
 			}
 			delete obj;
 			delete this.onMetaData;
 		};
 		streamObject.onStatus = function(object) {
-			if(object.code == "NetStream.Buffer.Flush" || 
-				object.code == "NetStream.Play.Stop") {
+			trace("status: "+object.code);
+			if(object.code == "NetStream.Play.Stop" && ref.flvType!='RTMP') {
 				ref.stopFired = true;
 			} else if (object.code == "NetStream.Play.StreamNotFound") {
 				ref.currentState = 3;
@@ -250,8 +292,17 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 				ref.sendUpdate("state",3);
 				ref.sendCompleteEvent();
 				ref.stopFired = false;
+				ref.flushFired = false;
+			} else if (object.code == "NetStream.Buffer.Flush") {
+				ref.flushFired = true;
 			}
 		};
+		streamObject.onPlayStatus = function(object) {
+			if( object.code == "NetStream.Play.Complete" ||
+				object.code == "NetStream.Play.Stop") {
+				ref.stopFired = true;
+			}
+		}; 
 		streamObject.onCaption = function(cap:Array) {
 			ref.capView.onCaptionate(cap);
 		};
@@ -268,6 +319,9 @@ class com.jeroenwijering.players.FLVModel extends AbstractModel {
 				if(config["streamscript"] == "lighttpd") {
 					streamObject.play(currentURL+"?start="+
 						metaKeyframes.filepositions[i]);
+					if(isH264 == true) {
+						timeOffset = metaKeyframes.filepositions[i];
+					}
 				} else {
 					streamObject.play(config["streamscript"]+"?file="+
 						currentURL+"&pos="+metaKeyframes.filepositions[i]);

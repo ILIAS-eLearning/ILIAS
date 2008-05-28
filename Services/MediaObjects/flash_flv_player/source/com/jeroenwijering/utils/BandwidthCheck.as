@@ -11,6 +11,7 @@
 * @version	1.0
 **/
 
+
 class com.jeroenwijering.utils.BandwidthCheck {
 
 

@@ -2,7 +2,7 @@
 * Parses RSS, ATOM and XSPF lists and returns them as a numerical array.
 *
 * @author	Jeroen Wijering
-* @version	1.5
+* @version	1.7
 **/
 
 
@@ -17,17 +17,13 @@ class com.jeroenwijering.feeds.FeedManager {
 	/** XML file **/
 	private var feedXML:XML;
 	/** Flag for captions. **/
-	public var captions:Boolean = false;
+	public var captions:Boolean;
 	/** Flag for extra audiotrack. **/
-	public var audio:Boolean = false;
+	public var audio:Boolean;
 	/** Flag for all items in mp3 **/
-	public var onlymp3s:Boolean = false;
+	public var onlymp3s:Boolean;
 	/** Flag for chapter index **/
-	public var ischapters:Boolean = true;
-	/** Flag for advertisements **/
-	public var numads:Number = 0;
-	/** Flag for overlays **/
-	public var overlays:Boolean = false;
+	public var ischapters:Boolean;
 	/** Flag for enclosures **/
 	private var enclosures:Boolean;
 	/** Reference to the parser object **/
@@ -38,15 +34,10 @@ class com.jeroenwijering.feeds.FeedManager {
 	private var prefix:String = "";
 	/** Stream to use **/
 	private var stream:String;
-	/** URL to the talkr API **/
-	private var talkrURL = "http://www.talkr.com/app/get_mp3.app";
-	/** array with all supported filetypes **/
-	private var filetypes:Array = Array(
-		"flv","mp3","rbs","jpg","gif","png","rtmp","swf","mp4","m4v","3gp"
-	);
 	/** Array with all file elements **/
 	private var elements:Object = {
 		file:"",
+		fallback:"",
 		title:"",
 		link:"",
 		id:"",
@@ -56,14 +47,20 @@ class com.jeroenwijering.feeds.FeedManager {
 		audio:"",
 		category:"",
 		start:"",
-		type:""
+		type:"",
+		duration:""
 	};
+	/** array with all supported filetypes **/
+	private var filetypes:Array = new Array(
+		"flv","mp3","rbs","jpg","gif","png","rtmp",
+		"swf","mp4","m4v","m4a","mov","3gp","3g2"
+	);
 
 
 	/** Constructor. **/
 	function FeedManager(enc:Boolean,jvs:String,pre:String,str:String) {
 		enc == true ? enclosures = true: enclosures = false;
-		jvs == "true" ? enableJavascript(): null;
+		if(jvs == "true") { enableJavascript(); }
 		pre == undefined ? null: prefix = pre;
 		str == undefined ? null: stream = "_"+str;
 		listeners = new Array();
@@ -81,6 +78,8 @@ class com.jeroenwijering.feeds.FeedManager {
 				"removeItem",this,removeItem);
 			flash.external.ExternalInterface.addCallback(
 				"itemData",this,itemData);
+			flash.external.ExternalInterface.addCallback(
+				"getLength",this,getLength);
 		}
 	};
 
@@ -88,28 +87,26 @@ class com.jeroenwijering.feeds.FeedManager {
 	/** Load an XML playlist or single media file. **/
 	public function loadFile(obj:Object) {
 		feed = new Array();
-		for (var itm in elements) {
-			if(obj[itm] != undefined && obj[itm].indexOf('asfunction') == -1){ 
-				_root[itm] = obj[itm];
-			}
-		}
 		var ftp = "xml";
 		for(var i = filetypes.length; --i >= 0;) {
 			if(obj['file'].substr(0,4).toLowerCase() == "rtmp") {
 				ftp = "rtmp";
-			} else if(_root.type == filetypes[i] ||
-				obj['file'].substr(-3).toLowerCase() == filetypes[i]) {
+			} else if(obj['file'].indexOf('youtube.com') > -1) {
+				ftp = "youtube";
+			} else if(obj['type'] == filetypes[i]) {
+				ftp = filetypes[i]; 
+			} else if (obj['file'].substr(-3).toLowerCase() == filetypes[i]) {
 				ftp = filetypes[i]; 
 			}
 		}
-		if (ftp == "xml" && obj['file'].indexOf('asfunction') == -1) {
-			loadXML(obj['file']);
+		if (ftp == "xml") {
+			loadXML(unescape(obj['file']));
 		} else {
 			feed[0] = new Object();
 			feed[0]['type'] = ftp;
-			for(var cfv in elements) {
-				if(_root[cfv] != undefined) {
-					feed[0][cfv] = unescape(_root[cfv]); 
+			for(var itm in elements) {
+				if(obj[itm] != undefined) {
+					feed[0][itm] = obj[itm];
 				}
 			}
 			playersPostProcess();
@@ -125,7 +122,6 @@ class com.jeroenwijering.feeds.FeedManager {
 		feedXML.onLoad = function(scs:Boolean) {
 			if(scs) {
 				var fmt = this.firstChild.nodeName.toLowerCase();
-				trace("FORMAT: "+fmt)
 				if( fmt == 'rss') {
 					ref.parser = new RSSParser(ref.prefix);
 					ref.feed = ref.parser.parse(this);
@@ -134,6 +130,12 @@ class com.jeroenwijering.feeds.FeedManager {
 					ref.feed = ref.parser.parse(this);
 				} else if (fmt == 'playlist') { 
 					ref.parser = new XSPFParser(ref.prefix);
+					ref.feed = ref.parser.parse(this);
+				} else if (fmt == 'asx') { 
+					ref.parser = new ASXParser(ref.prefix);
+					ref.feed = ref.parser.parse(this);
+				} else if (fmt == 'videolist') { 
+					ref.parser = new AgriyaParser(ref.prefix);
 					ref.feed = ref.parser.parse(this);
 				}
 				if(_root.audio != undefined) {
@@ -150,26 +152,18 @@ class com.jeroenwijering.feeds.FeedManager {
 
 	/** set a number of flags specifically used by the players **/
 	private function playersPostProcess(url:String) {
-		url == undefined ? null: filterOverlays();
 		onlymp3s = true;
 		feed.length > 1 ? ischapters = true: ischapters = false;
 		captions = false;
 		audio = false;
-		numads = 0;
 		for(var i=0; i<feed.length; i++) {
-			if(enclosures == true && feed[i]['type'] == undefined && 
-				url != undefined) {
-				feed[i]["type"] = "mp3";
-				feed[i]["file"] = talkrURL + "?feed_url=" + url + 
-					"&permalink=" + feed[i]["link"];
-			} else if (stream == undefined) {
-				feed[i]["file"] = prefix + feed[i]["file"];
-			} else {
+			feed[i]["file"] = prefix+feed[i]["file"];
+			if(stream != undefined) {
 				if(feed[i]["type"] == "rtmp") {
 					feed[i]["id"] += stream;
-					feed[i]["file"] = prefix + feed[i]["file"];
+					feed[i]["file"] = feed[i]["file"];
 				} else if(feed[i]["type"] == "flv") {
-					feed[i]["file"] = prefix + 
+					feed[i]["file"] = 
 						feed[i]["file"].substr(0,feed[i]["file"].length-4) + 
 						stream + feed[i]["file"].substr(-4);
 				}
@@ -179,31 +173,25 @@ class com.jeroenwijering.feeds.FeedManager {
 			if(feed[i]['file'] != feed[0]['file']) { ischapters = false; }
 			if(feed[i]["captions"] != undefined) { captions = true; }
 			if(feed[i]["audio"] != undefined) { audio = true; }
-			if(feed[i]['category'] == "preroll" || 
-				feed[i]['category'] == "postroll") {
-				numads++;
-				if(feed[i]['category'] == "preroll") {
-					feed[i]['image'] = feed[i+1]['image'];
+			if(feed[i]['duration'] == undefined || isNaN(feed[i]['duration'])){
+				feed[i]['duration'] = 0; 
+			}
+			if(feed[i]['fallback'] != undefined) {
+				var maj = Number(System.capabilities.version.split(' ')[1].substr(0,1));
+				var min = Number(System.capabilities.version.split(',')[2]);
+				if(maj < 9 || (maj == 9 && min < 90)) {
+					feed[i]['file'] = feed[i]['fallback'];
 				}
 			}
 		}
-		updateListeners();
+		updateListeners('new');
 	}
 
 
-	/** Filter overlay ads out of the feeds **/
-	private function filterOverlays() {
-		var j = 0;
-		while(j < feed.length) {
-			if(feed[j]['category'] == 'overlay') {
-				feed[j+1]['overlayfile'] = feed[j]['file'];
-				feed[j+1]['overlaylink'] = feed[j]['link'];
-				feed.splice(j,1);
-				overlays = true;
-			}
-			j++;
-		}
-	};
+	/** Return the lenght of the feed array. **/
+	public function getLength():Number {
+		return feed.length;
+	}
 
 
 	/** Add an item to the feed **/
@@ -218,7 +206,7 @@ class com.jeroenwijering.feeds.FeedManager {
 			arr1.push(obj);
 			feed = arr1.concat(arr2);
 		}
-		updateListeners();
+		updateListeners('add');
 	};
 
 
@@ -231,7 +219,7 @@ class com.jeroenwijering.feeds.FeedManager {
 		} else {
 			feed.splice(idx,1);
 		}
-		updateListeners();
+		updateListeners('remove');
 	};
 
 
@@ -259,9 +247,9 @@ class com.jeroenwijering.feeds.FeedManager {
 
 
 	/** Notify all listeners of a feed update **/
-	private function updateListeners() {
+	private function updateListeners(typ:String) {
 		for(var i = listeners.length; --i >= 0; ) {
-			listeners[i].onFeedUpdate();
+			listeners[i].onFeedUpdate(typ);
 		}
 	};
 

@@ -24,8 +24,6 @@ class com.jeroenwijering.players.MP3Model extends AbstractModel {
 	private var currentLoaded:Number = 0;
 	/** interval ID of the position update function **/
 	private var positionInterval:Number;
-	/** Duration of the current sound **/
-	private var soundDuration:Number = 0;
 	/** current state of the sound that is playing **/
 	private var currentState:Number;
 	/** Current volume **/
@@ -44,8 +42,8 @@ class com.jeroenwijering.players.MP3Model extends AbstractModel {
 	private function setStart(pos:Number) {
 		if(pos < 1 ) { 
 			pos = 0; 
-		} else if (pos > soundDuration - 1) { 
-			pos = soundDuration - 1;
+		} else if (pos > feeder.feed[currentItem]["duration"] - 1) { 
+			pos = feeder.feed[currentItem]["duration"] - 1;
 		}
 		clearInterval(positionInterval);
 		if(feeder.feed[currentItem]["file"] != currentURL) {
@@ -67,16 +65,16 @@ class com.jeroenwijering.players.MP3Model extends AbstractModel {
 			soundObject.loadSound(currentURL,true);
 			soundObject.setVolume(currentVolume);
 			sendUpdate("load",0);
-			loadedInterval = setInterval(this,"updateLoaded",200);
+			loadedInterval = setInterval(this,"updateLoaded",100);
 		}
 		if(pos != undefined) { 
 			currentPosition = pos;
-			pos == 0 ? sendUpdate("time",0,soundDuration): null;
+			if(pos == 0) { sendUpdate("time",0,feeder.feed[currentItem]["duration"]); }
 		}
 		soundObject.start(currentPosition);
 		updatePosition();
 		sendUpdate("size",0,0);
-		positionInterval = setInterval(this,"updatePosition",200);
+		positionInterval = setInterval(this,"updatePosition",100);
 	};
 
 
@@ -101,7 +99,7 @@ class com.jeroenwijering.players.MP3Model extends AbstractModel {
 	/** Read and broadcast the current position of the song **/
 	private function updatePosition() {
 		var pos = soundObject.position/1000;
-		soundDuration = soundObject.duration/(10*currentLoaded);
+		feeder.feed[currentItem]["duration"] = soundObject.duration/(10*currentLoaded);
 		if(pos == currentPosition && currentState != 1) {
 			currentState = 1;
 			sendUpdate("state",1);
@@ -111,7 +109,7 @@ class com.jeroenwijering.players.MP3Model extends AbstractModel {
 		}
 		if (pos != currentPosition) {
 			currentPosition = pos;
-			sendUpdate("time",currentPosition,soundDuration-currentPosition);
+			sendUpdate("time",currentPosition,feeder.feed[currentItem]["duration"]-currentPosition);
 		}
 	};
 
@@ -120,8 +118,8 @@ class com.jeroenwijering.players.MP3Model extends AbstractModel {
 	private function setPause(pos:Number) {
 		if(pos < 1) { 
 			pos = 0; 
-		} else if (pos > soundDuration - 1) { 
-			pos = soundDuration - 1; 
+		} else if (pos > feeder.feed[currentItem]["duration"] - 1) { 
+			pos = feeder.feed[currentItem]["duration"] - 1; 
 		}
 		soundObject.stop();
 		clearInterval(positionInterval);
@@ -129,7 +127,7 @@ class com.jeroenwijering.players.MP3Model extends AbstractModel {
 		sendUpdate("state",0);
 		if(pos != undefined) {
 			currentPosition = pos;
-			sendUpdate("time",currentPosition,soundDuration-currentPosition);
+			sendUpdate("time",currentPosition,feeder.feed[currentItem]["duration"]-currentPosition);
 		}
 	};
 
@@ -141,7 +139,6 @@ class com.jeroenwijering.players.MP3Model extends AbstractModel {
 		clearInterval(loadedInterval);
 		delete currentURL;
 		delete soundObject;
-		soundDuration = 0;
 		currentLoaded = 0;
 	};
 

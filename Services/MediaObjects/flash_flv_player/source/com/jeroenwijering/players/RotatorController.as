@@ -2,11 +2,12 @@
 * Rotator extension of the controller.
 *
 * @author	Jeroen Wijering
-* @version	1.5
+* @version	1.6
 **/
 
 
 import com.jeroenwijering.players.AbstractController;
+import com.jeroenwijering.utils.Randomizer;
 
 
 class com.jeroenwijering.players.RotatorController extends AbstractController{
@@ -34,7 +35,14 @@ class com.jeroenwijering.players.RotatorController extends AbstractController{
 
 	/** Complete the build of the MCV cycle and start flow of events. **/
 	public function startMCV(mar:Array) {
-		registeredModels = mar;
+		if(mar != undefined) { registeredModels = mar; }
+		itemsPlayed = 0;
+		if(config["shuffle"] == "true") {
+			randomizer = new Randomizer(feeder.feed);
+			currentItem = randomizer.pick();
+		} else {
+			currentItem = 0;
+		}
 		sendChange("item",currentItem);
 		if(config["autostart"] == "false") {
 			sendChange("start",0);
@@ -61,17 +69,21 @@ class com.jeroenwijering.players.RotatorController extends AbstractController{
 
 	/** Play previous item. **/
 	private  function setPrev() {
-		if(currentItem == 0) { var i:Number = feeder.feed.length - 1; } 
-		else { var i:Number = currentItem-1; }
-		setPlayitem(i);
+		if(currentItem == 0) { 
+			setPlayitem(feeder.feed.length - 1);
+		} else { 
+			setPlayitem(currentItem-1); 
+		}
 	};
 
 
 	/** Play next item. **/
 	private function setNext() {
-		if(currentItem == feeder.feed.length - 1) { var i:Number = 0; } 
-		else { var i:Number = currentItem+1; }
-		setPlayitem(i);
+		if(currentItem == feeder.feed.length - 1) {
+			setPlayitem(0);
+		} else { 
+			setPlayitem(currentItem+1); 
+		}
 	};
 
 
@@ -122,19 +134,18 @@ class com.jeroenwijering.players.RotatorController extends AbstractController{
 	private function setComplete() { 
 		itemsPlayed++;
 		if(config["repeat"]=="false" || (config["repeat"] == "list"
-		 	&& itemsPlayed == feeder.feed.length)) {
+		 	&& itemsPlayed >= feeder.feed.length)) {
 			sendChange("pause",0);
 			isPlaying = false;
 			itemsPlayed = 0;
 		} else {
 			if(config["shuffle"] == "true") {
-				var i:Number = randomizer.pick();
+				setPlayitem(randomizer.pick());
 			} else if(currentItem == feeder.feed.length - 1) {
-				var i:Number = 0;
+				setPlayitem(0);
 			} else { 
-				var i:Number = currentItem+1;
+				setPlayitem(currentItem+1);
 			}
-			setPlayitem(i);
 		}
 	};
 

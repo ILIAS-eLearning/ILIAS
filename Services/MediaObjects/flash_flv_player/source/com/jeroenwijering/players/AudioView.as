@@ -42,11 +42,12 @@ class com.jeroenwijering.players.AudioView extends AbstractView {
 		audioClip.setStart = function() {
 			if(ref.stopTime == undefined && ref.sync == false) {
 				ref.audioObject.loadSound(ref.feeder.feed[0]['audio'],true);
+				ref.audioObject.setVolume(Number(ref.config['volume']));
 				ref.audioObject.start(0);
 			} else if (ref.sync == false) {
 				ref.audioObject.start(ref.stopTime);
 			} else if(ref.currentState == 2) {
-				ref.audioObject.start(currentTime);
+				ref.audioObject.start(ref.currentTime);
 			}
 		};
 		audioClip.setStop = function() { 
@@ -54,7 +55,6 @@ class com.jeroenwijering.players.AudioView extends AbstractView {
 			ref.stopTime = ref.audioObject.position/1000;
 		};
 		audioObject = new Sound (audioClip);
-		audioObject.setVolume(config['volume']);
 		if(config['useaudio'] == "true" && sync == false) { 
 			audioClip.setStart();
 		}
@@ -95,6 +95,7 @@ class com.jeroenwijering.players.AudioView extends AbstractView {
 		if (isLoaded != feeder.feed[currentItem]['audio']) {
 			isLoaded = feeder.feed[currentItem]['audio'];
 			audioObject.loadSound(isLoaded,true);
+			audioObject.setVolume(Number(config['volume']));
 		}
 	};
 

@@ -36,7 +36,7 @@ class com.jeroenwijering.players.InputView extends AbstractView {
 
 	/** KeyDown handler, forwarded by Key object **/
 	public function onKeyDown() {
-		if (Key.getCode() == 32) {
+		if (Key.getCode() == 32 && SearchView.focussed != true) {
 			sendEvent("playpause"); 
 		} else if (Key.getCode() == 37) {
 			if(feeder.feed.length == 1) {

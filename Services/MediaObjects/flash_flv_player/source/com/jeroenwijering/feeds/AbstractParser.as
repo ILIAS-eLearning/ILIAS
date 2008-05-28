@@ -24,7 +24,12 @@ class com.jeroenwijering.feeds.AbstractParser {
 		NOVT:6,LKT:6,MMT:6.5,KRAT:7,ICT:7,WIT:7,WAST:7,IRKT:8,ULAT:8,CST:8,
 		CIT:8,BNT:8,YAKT:9,JST:9,KST:9,EIT:9,ACST:9.5,VLAT:10,ACDT:10.5,
 		SAKT:10,GST:10,MAGT:11,IDLE:12,PETT:12,NZST:12
-	};
+	};	
+	/** Supporting array to translate RFC2822 months to number. **/
+	private var MONTH_INDEXES:Object = {January:0,February:1,March:2,April:3,
+		May:4,June:5,July:6,August:7,September:8,October:9,November:10,
+		December:11,Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,
+		Oct:9,Nov:10,Dec:11};
 
 
 	/** Constructor. **/
@@ -47,11 +52,6 @@ class com.jeroenwijering.feeds.AbstractParser {
 		mimetypes["audio/mpeg"] = "mp3";
 		mimetypes["flv"] = "flv";
 		mimetypes["video/x-flv"] = "flv";
-		mimetypes["mp4"] = "flv";
-		mimetypes["m4v"] = "flv";
-		mimetypes["3gp"] = "flv";
-		mimetypes["video/H264"] = "flv";
-		mimetypes["video/mp4"] = "flv";
 		mimetypes["jpeg"] = "jpg";
 		mimetypes["jpg"] = "jpg";
 		mimetypes["image/jpeg"] = "jpg";
@@ -64,12 +64,18 @@ class com.jeroenwijering.feeds.AbstractParser {
 		mimetypes["application/x-shockwave-flash"] = "swf";
 		mimetypes["rtmp"] = "rtmp";
 		mimetypes["application/x-fcs"] = "rtmp";
+		mimetypes["audio/x-m4a"] = "m4a";
+		mimetypes["video/x-m4v"] = "m4v";
+		mimetypes["video/h264"] = "mp4";
+		mimetypes["video/3gpp"] = "3gp";
+		mimetypes["video/x-3gpp2"] = "3g2";
+		mimetypes["audio/x-3gpp2"] = "3g2";
 	};
 
 
 	/** Parse a specific object. **/
 	function parse(xml:XML):Array {
-		var arr = new Array();
+		var arr:Array = new Array();
 		for(var i=0; i<xml.firstChild.childNodes.length; i++) {
 			arr.push(xml.firstChild.childNodes[i].nodeName);
 		}
@@ -78,11 +84,11 @@ class com.jeroenwijering.feeds.AbstractParser {
 
 
 	/** Translate RFC2822 date strings to timestamp. **/
-	private function rfc2Date(dat):Number {
+	private function rfc2Date(dat:String):Number {
 		if(isNaN(dat)) {
 			var darr:Array = dat.split(' ');
 			darr[1] == "" ? darr.splice(1,1) : null;
-			var month:Number = StringMagic.MONTH_INDEXES[darr[2]];
+			var month:Number = MONTH_INDEXES[darr[2]];
 			var date:Number = darr[1].substring(0,2);
 			var year:Number = darr[3];
 			var zone = darr[5];
@@ -96,10 +102,9 @@ class com.jeroenwijering.feeds.AbstractParser {
 				stamp -= 3600*Number(zone.substring(0,3)) - 
 					60*Number(zone.substring(3,2));
 			}
-			var dat = new Date(stamp*1000);
 			return stamp;
 		} else {
-			return dat;
+			return Number(dat);
 		}
 	};
 
@@ -124,7 +129,6 @@ class com.jeroenwijering.feeds.AbstractParser {
 				} else {
 					stamp += hr*3600 + mn*60;
 				}
-				var dat = new Date(stamp*1000);
 			}
 			return stamp;
 		} else {

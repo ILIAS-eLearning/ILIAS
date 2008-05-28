@@ -2,7 +2,7 @@
 * Pick random array indexes without having the same picked twice times.
 * 
 * @author	Jeroen Wijering
-* @version	1.1
+* @version	1.2
 **/
 
 
@@ -15,7 +15,11 @@ class com.jeroenwijering.utils.Randomizer {
 	private var bufferArray:Array;
 
 
-	/** Constructor. **/
+	/** 
+	* Constructor.
+	*
+	* @param arr	Array to randomize.
+	**/
 	public function Randomizer(arr:Array) {
 		originalArray = arr;
 		bufferArray = new Array();
@@ -26,14 +30,11 @@ class com.jeroenwijering.utils.Randomizer {
 	public function pick():Number {
 		if(bufferArray.length == 0) {
 			for(var k=0; k<originalArray.length; k++) {
-				if(originalArray[k]['category'] != "preroll" &&
-					originalArray[k]['category'] != "postroll") {
-					bufferArray.push(k);
-				}
+				bufferArray.push(k);
 			}
 		}
-		var ran:Number = random(bufferArray.length);
-		var idx:Number = bufferArray[ran];
+		var ran = random(bufferArray.length);
+		var idx = bufferArray[ran];
 		bufferArray.splice(ran,1);
 		return idx;
 	};
