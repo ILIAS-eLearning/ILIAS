@@ -1,4 +1,4 @@
-// Build: 2008508230331 
+// Build: 2008528124553 3.10 Beta
 
 function ADLAuxiliaryResource()
 {}
@@ -2334,7 +2334,7 @@ for(i=cmi.data.correct_response.length;i--;)
 {setItemValue(j,dat,row,remoteMapping.correct_response[j]);}
 act=interactions[row[remoteMapping.correct_response.cmi_interaction_id]];act.correct_response[dat.cmi_correct_response_id]=dat;}
 for(i=cmi.data.objective.length;i--;)
-{row=cmi.data.objective[i];id=row[remoteMapping.objective.id];cmi_interaction_id=row[remoteMapping.objective.cmi_interaction_id];cmi_node_id=row[remoteMapping.objective.cmi_node_id];if(cmi_interaction_id===null)
+{row=cmi.data.objective[i];id=row[remoteMapping.objective.id];cmi_interaction_id=row[remoteMapping.objective.cmi_interaction_id];cmi_node_id=row[remoteMapping.objective.cmi_node_id];if(cmi_interaction_id===null||cmi_interaction_id==0)
 {act=activitiesByCMI[cmi_node_id];if(act&&act.objectives[id])
 {dat=act.objectives[id];}
 else if(act)
