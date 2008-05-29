@@ -286,7 +286,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function showInfoScreen()
 	{
-		global $tpl;
+		global $tpl,$ilUser;
 		
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -294,7 +294,8 @@ class ilCalendarAppointmentGUI
 		$info->addSection($this->lng->txt('cal_details'));
 
 		// Appointment
-		$info->addProperty($this->lng->txt('appointment'),$this->app->getStart());
+		$info->addProperty($this->lng->txt('appointment'),
+			ilFormat::formatDate($this->app->getStart()->get(IL_CAL_DATETIME,'',$ilUser->getUserTimeZone())));
 		$info->addProperty($this->lng->txt('title'),$this->app->getPresentationTitle());
 
 		// Description
