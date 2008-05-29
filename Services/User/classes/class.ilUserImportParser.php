@@ -1258,6 +1258,7 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getTimeLimitUntil())) $updateUser->setTimeLimitUntil($this->userObj->getTimeLimitUntil());
 							if (! is_null($this->userObj->getTimeLimitMessage())) $updateUser->setTimeLimitMessage($this->userObj->getTimeLimitMessage());
 							if (! is_null($this->userObj->getApproveDate())) $updateUser->setApproveDate($this->userObj->getApproveDate());
+							if (! is_null($this->userObj->getAgreeDate())) $updateUser->setAgreeDate($this->userObj->getAgreeDate());
 							if (! is_null($this->userObj->getLanguage())) $updateUser->setLanguage($this->userObj->getLanguage());
 							if (! is_null($this->userObj->getExternalAccount())) $updateUser->setExternalAccount($this->userObj->getExternalAccount());
 							
@@ -1566,6 +1567,8 @@ class ilUserImportParser extends ilSaxParser
 					if ($timestamp !== false)
 					{
 						$this->userObj->setAgreeDate(date('c', $timestamp));
+					} else if ($this->cdata == "0000-00-00 00:00:00") {
+					    $this->userObj->setAgreeDate($this->cdata);
 					}
 				}
 				break;
@@ -1983,7 +1986,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 			case "AgreeDate":
 				// Accept datetime or Unix timestamp
-				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata))
+				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata) && !$this->cdata == "0000-00-00 00:00:00")
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"AgreeDate",$this->cdata));
 				}
