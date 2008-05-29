@@ -2353,8 +2353,8 @@ common#:#group_registration_expiration_date#:#Expiration Date
 common#:#group_registration_expiration_time#:#Expiration Time
 common#:#group_registration_expired#:#The time period for joining this group has expired
 common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.
-common#:#group_registration_mode#:#Registration procedure
-common#:#group_registration_time#:#Registration period
+common#:#group_registration_mode#:#Registration Procedure
+common#:#group_registration_time#:#Registration Period
 common#:#group_req_direct#:#Join directly
 common#:#group_req_password#:#Join with group password
 common#:#group_req_registration#:#Request membership
@@ -5562,7 +5562,7 @@ forum#:#new_post#:#New Post
 forum#:#activate_new_posts#:#Activate Posts
 forum#:#thread#:#Topic
 forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.
-grp#:#grp_registration_unlimited#:#Unlimited registration period
+grp#:#grp_registration_unlimited#:#Unlimited
 ilinc#:#ilinc_member_administration#:#Edit Participants
 ilinc#:#akclassvalue1#:#Cost center 1
 ilinc#:#akclassvalue2#:#Cost center 2
@@ -8203,3 +8203,9 @@ dateplaner#:#crs_cal_reg_start#:#Registration Start
 dateplaner#:#crs_cal_reg_end#:#Registration End
 dateplaner#:#cal_default_calendar#:#Personal Appointments
 dateplaner#:#cal_details#:#Appointment Details
+grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You will get a message from a group administrator when your request has been admitted or declined.
+grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.
+grp#:#grp_reg_deac_info_screen#:#Group admittance is closed.
+grp#:#grp_reg_direct_info_screen#:#You can join this group directly.
+common#:#cal_from#:#From:
+common#:#cal_until#:#Until:
