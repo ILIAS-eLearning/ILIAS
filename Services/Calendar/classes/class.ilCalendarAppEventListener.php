@@ -50,23 +50,25 @@ class ilCalendarAppEventListener implements ilAppEventListener
 		switch($a_component)
 		{
 			case 'Modules/Group':
-			case 'Modules/Course':
 			case 'Modules/Session':
+				break;
+
+			case 'Modules/Course':
 				switch($a_event)
 				{
 					case 'create':
 						$ilLog->write(__METHOD__.': Handling create event');
-						#self::createCategory($a_parameter['object']);
-						#self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
+						self::createCategory($a_parameter['object']);
+						self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
 						break;
 					case 'update':
 						$ilLog->write(__METHOD__.': Handling update event');
-						#self::deleteAppointments($a_parameter['obj_id']);
-						#self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
+						self::deleteAppointments($a_parameter['obj_id']);
+						self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
 						break;
 					case 'delete':
 						$ilLog->write(__METHOD__.': Handling delete event');
-						#self::deleteCategory($a_parameter['obj_id']);
+						self::deleteCategory($a_parameter['obj_id']);
 						break;
 				}
 				break;
@@ -120,6 +122,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
 		foreach($a_appointments as $app_templ)
 		{
 			$app = new ilCalendarEntry();
+			$app->setContextId($app_templ->getContextId());
 			$app->setTitle($app_templ->getTitle());
 			$app->setSubtitle($app_templ->getSubtitle());
 			$app->setDescription($app_templ->getDescription());
