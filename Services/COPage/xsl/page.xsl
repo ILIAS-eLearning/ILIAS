@@ -68,6 +68,7 @@
 <xsl:param name="citate"/>
 <xsl:param name="enable_rep_objects"/>
 <xsl:param name="enable_map"/>
+<xsl:param name="enable_tabs"/>
 <xsl:param name="enable_file_list"/>
 
 <xsl:template match="PageObject">
@@ -561,6 +562,14 @@
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">insert_map</xsl:with-param>
 			<xsl:with-param name="langvar">ed_insert_map</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
+	<!-- insert tabbed content -->
+	<xsl:if test = "$enable_tabs = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_tabs</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_tabs</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 	
@@ -2225,6 +2234,129 @@
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
+	</div>
+</xsl:template>
+
+<!-- Tabs -->
+<xsl:template match="Tabs">
+	<xsl:call-template name="EditReturnAnchors"/>
+	<xsl:if test="@Type = 'HorizontalTabs'">
+		<div class="yui-skin-sam">
+		<div>
+		<xsl:if test="$mode != 'edit'">
+			<xsl:attribute name="id">tabs<xsl:number count="Tabs" level="any" /></xsl:attribute>
+			<xsl:attribute name="class">yui-navset</xsl:attribute>
+		</xsl:if>
+			<xsl:if test="$mode != 'edit'">
+				<ul class="yui-nav">
+					<xsl:for-each select="./Tab">
+						<li>
+							<xsl:if test="position() = 1">
+								<xsl:attribute name="class">selected</xsl:attribute>
+							</xsl:if>
+						<a>
+						<xsl:attribute name="href">#tab<xsl:number count="Tab" level="any" /></xsl:attribute>
+						&amp;nbsp;<xsl:value-of select="./TabCaption" />&amp;nbsp;
+						</a></li>
+					</xsl:for-each>
+				</ul>
+				<div class="yui-content">
+					<xsl:apply-templates/>
+				</div>
+			</xsl:if>
+		<xsl:if test="$mode != 'edit'">
+			<script type="text/javascript"> 
+				var tabView<xsl:number count="Tabs" level="any" /> = new YAHOO.widget.TabView('tabs<xsl:number count="Tabs" level="any" />'); 
+			</script>
+		</xsl:if>
+			<xsl:if test="$mode = 'edit'">
+				<xsl:apply-templates/>
+			</xsl:if>
+		</div>
+		</div>
+	</xsl:if>
+	<xsl:if test="@Type = 'Accordion'">
+		<ul>
+		<xsl:apply-templates/>
+		</ul>
+	</xsl:if>
+	<!-- command selectbox -->
+	<xsl:if test="$mode = 'edit'">
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test = "$javascript='disable'">
+		<input type="checkbox" name="target[]">
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+			</xsl:attribute>
+		</input>
+		</xsl:if>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="edit">p</xsl:with-param>
+		</xsl:call-template>
+		<xsl:if test = "$javascript='disable'">
+			<br/>
+		</xsl:if>
+	</xsl:if>
+</xsl:template>
+
+<!-- Tab -->
+<xsl:template match="Tab">
+	<xsl:if test="$mode = 'edit'">
+		<div class="il_edit_pc_tab_head">
+		<xsl:if test="$javascript='disable'">
+			<!-- checkbox -->
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+				</xsl:attribute>
+			</input>
+			<select size="1" class="ilEditSelect">
+				<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+				</xsl:attribute>
+				<xsl:if test = "$javascript = 'disable'">
+					<xsl:call-template name="EditMenuInsertItems"/>
+				</xsl:if>
+				<xsl:call-template name="ListItemMenu"/>
+			</select>
+			<input class="ilEditSubmit" type="submit">
+				<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+			</input>
+			<br/>
+		</xsl:if>
+		<xsl:if test="$javascript = 'enable'">
+			<xsl:call-template name="Icon">
+				<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/></xsl:with-param>
+				<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
+				<xsl:with-param name="float">y</xsl:with-param>
+			</xsl:call-template>
+			<div style="position:absolute;left:0;top:0;visibility:hidden;">
+				<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
+				<table class="il_editmenu" cellspacing="0" cellpadding="3">
+					<xsl:call-template name="ListItemMenu"/>
+				</table>
+			</div>
+		</xsl:if>
+		&amp;nbsp;<xsl:value-of select="./TabCaption" />
+		</div>
+	</xsl:if>
+	<div>
+	<xsl:if test="$mode != 'edit'">
+		<xsl:attribute name="id">tab<xsl:number count="Tab" level="any"/></xsl:attribute>
+	</xsl:if>
+	<xsl:if test="$mode = 'edit'">
+		<xsl:attribute name="class">il_edit_pc_tab</xsl:attribute>
+	</xsl:if>
+	<xsl:call-template name="EditReturnAnchors"/>
+	<!-- insert commands -->
+	<!-- <xsl:value-of select="@HierId"/> -->
+	<xsl:if test="$mode = 'edit'">
+		<xsl:if test="$javascript = 'enable'">
+			<xsl:call-template name="DropArea">
+				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:if>
+	<xsl:apply-templates select="PageContent"/>
 	</div>
 </xsl:template>
 

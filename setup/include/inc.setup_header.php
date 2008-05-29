@@ -31,6 +31,8 @@
 
 define("DEBUG",false);
 
+require_once "../include/inc.check_pear.php";
+
 //include files from PEAR
 require_once "PEAR.php";
 
@@ -49,7 +51,6 @@ else
 
 require_once "./classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class 
 
-require_once "../include/inc.check_pear.php";
 require_once "./classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class 
 require_once "../Services/Logging/classes/class.ilLog.php";
 require_once "../Services/Utilities/classes/class.ilUtil.php";

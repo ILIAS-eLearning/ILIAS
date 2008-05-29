@@ -212,5 +212,20 @@ class ilYuiUtil
 		$tpl->addCss("./Services/YUI/js/2_5_0/colorpicker/assets/skins/sam/colorpicker.css");
 	}
 	
+	/**
+	* Init YUI TabView component
+	*/
+	public static function initTabView()
+	{
+		global $tpl;
+		
+		$tpl->addCss("./Services/YUI/js/2_5_0/tabview/assets/skins/sam/tabview.css");
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/element/element-beta-min.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/tabview/tabview-min.js');
+
+		//<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/tabview/tabview-min.js"></script> 
+	}
+	
 } // END class.ilUtil
 ?>

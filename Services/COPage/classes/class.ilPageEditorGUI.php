@@ -36,7 +36,7 @@ include_once ("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -321,6 +321,14 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 					$this->ctrl->setCmdClass("ilPCMapGUI");
 					break;
 
+				case "tabs":
+					$this->ctrl->setCmdClass("ilPCTabsGUI");
+					break;
+					
+				case "tabstab":
+					$this->ctrl->setCmdClass("ilPCTabGUI");
+					break;
+
 				case "plug":
 					$this->ctrl->setCmdClass("ilPCPluggedGUI");
 					break;
@@ -521,6 +529,23 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$ret =& $this->ctrl->forwardCommand($map_gui);
 				break;
 
+			// Tabs
+			case "ilpctabsgui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCTabsGUI.php");
+				$tabs_gui =& new ilPCTabsGUI($this->page, $cont_obj, $hier_id);
+				$ret =& $this->ctrl->forwardCommand($tabs_gui);
+				break;
+
+			// Tab
+			case "ilpctabgui":
+				$this->tabs_gui->clearTargets();
+				include_once ("./Services/COPage/classes/class.ilPCTabGUI.php");
+				$tab_gui = new ilPCTabGUI($this->page, $cont_obj, $hier_id);
+				//$ret =& $list_item_gui->executeCommand();
+				$ret =& $this->ctrl->forwardCommand($tab_gui);
+				break;
+
 			// Plugged Component
 			case "ilpcpluggedgui":
 				$this->tabs_gui->clearTargets();
@@ -531,7 +556,6 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				break;
 
 			default:
-
 				if ($cmd == "pasteFromClipboard")
 				{
 					$ret =& $this->pasteFromClipboard($hier_id);

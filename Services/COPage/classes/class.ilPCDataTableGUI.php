@@ -190,7 +190,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 		// get all rows
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId=".$this->getHierId()."]".
+		$path = "//PageContent[@HierId='".$this->getHierId()."']".
 			"/Table/TableRow";
 		$res =& xpath_eval($xpc, $path);
 
@@ -198,7 +198,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		{
 
 			$xpc2 = xpath_new_context($this->dom);
-			$path2 = "//PageContent[@HierId=".$this->getHierId()."]".
+			$path2 = "//PageContent[@HierId='".$this->getHierId()."']".
 				"/Table/TableRow[$i+1]/TableData";
 			$res2 =& xpath_eval($xpc2, $path2);
 			

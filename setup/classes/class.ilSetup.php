@@ -476,27 +476,13 @@ class ilSetup extends PEAR
 				break;
 
 			case 4:
-				$second = (integer) substr($version,2,1);
-				if ($second >= 3)
-				{
-					$arr["status"] = true;
-					$arr["comment"] = "";
-				}
-				elseif ($second == 2)
-				{
-					$arr["status"] = false;
-					$arr["comment"] = $this->lng->txt("pre_php_version_4.2");
-				}
-				else
-				{
-					$arr["status"] = false;
-					$arr["comment"] = $this->lng->txt("pre_php_version_4.1");
-				}
+				$arr["status"] = false;
+				$arr["comment"] = "PHP ".$version.". ".$this->lng->txt("pre_php_version_4");
 				break;
 
 			case 5:
+			case 6:
 				$arr["status"] = true;
-				$arr["comment"] = $this->lng->txt("pre_php_version_5");
 				break;
 
 			default:
@@ -522,6 +508,25 @@ class ilSetup extends PEAR
 		return false;
 	}
 	
+	/**
+	* check authentication status
+	* @return	boolean
+	*/
+	function checkPEARHTMLTemplateIT()
+	{
+
+		return false;
+	}
+
+	/**
+	* Check PEAR Auth and Auth_HTTP
+	* @return	boolean
+	*/
+	function checkPEARAuth()
+	{
+		return false;
+	}
+
 	/**
 	* preliminaries
 	*

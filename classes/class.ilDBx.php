@@ -22,10 +22,9 @@
 */
 
 
-
 //pear DB abstraction layer
 //require_once ("DB.php");
-require_once ("MDB2.php");
+include_once ("MDB2.php");
 
 define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
 define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);

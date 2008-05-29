@@ -21,7 +21,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map | Plugged), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map | Plugged | Tabs), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -233,12 +233,13 @@
 >
 
 <!-- Map -->
-<!ELEMENT Map (Caption?)>
+<!ELEMENT Map (MapCaption?)>
 <!ATTLIST Map
 	Latitude CDATA #REQUIRED
 	Longitude CDATA #REQUIRED
 	Zoom CDATA #REQUIRED
 >
+<!ELEMENT MapCaption (%titletext;)*>
 
 <!-- Plugged Component -->
 <!ELEMENT Plugged (PluggedProperty*)>
@@ -250,6 +251,14 @@
 <!ATTLIST PluggedProperty
 	Name CDATA #REQUIRED
 >
+
+<!-- TabbedContent -->
+<!ELEMENT Tabs (Tab*)>
+<!ATTLIST Tabs
+	Type (HorizontalTabs | Accordion) #IMPLIED
+>
+<!ELEMENT Tab (TabCaption?, PageContent*)>
+<!ELEMENT TabCaption (%titletext;)*>
 
 <!-- Glossary -->
 <!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->

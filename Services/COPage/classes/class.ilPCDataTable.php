@@ -70,7 +70,7 @@ class ilPCDataTable extends ilPCTable
 	function getCellNode($i, $j)
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId=".$this->getHierId()."]".
+		$path = "//PageContent[@HierId='".$this->getHierId()."']".
 			"/Table/TableRow[$i+1]/TableData[$j+1]/PageContent[1]/Paragraph[1]";
 		$res =& xpath_eval($xpc, $path);
 
@@ -81,7 +81,7 @@ class ilPCDataTable extends ilPCTable
 		else		// no node -> delete all childs and create paragraph
 		{
 			$xpc2 = xpath_new_context($this->dom);
-			$path2 = "//PageContent[@HierId=".$this->getHierId()."]".
+			$path2 = "//PageContent[@HierId='".$this->getHierId()."']".
 				"/Table/TableRow[".($i+1)."]/TableData[".($j+1)."]";
 			//$path2 = "//PageContent";
 			
