@@ -2117,26 +2117,52 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$info->addSection($this->lng->txt('group_registration'));
 		$info->showLDAPRoleGroupMappingInfo();
-		switch($this->object->getRegistrationFlag())
+		
+		if(!$this->object->isRegistrationEnabled())
 		{
-			case GRP_REGISTRATION_DIRECT:
-				$info->addProperty($this->lng->txt('group_registration_mode'),
-								   $this->lng->txt('group_req_direct'));
-				break;
-												   
-			case GRP_REGISTRATION_REQUEST:
-				$info->addProperty($this->lng->txt('group_registration_mode'),
-								   $this->lng->txt('group_req_registration'));
-				break;
-
-			case GRP_REGISTRATION_PASSWORD:
-				$info->addProperty($this->lng->txt('group_registration_mode'),
-								   $this->lng->txt('group_req_password'));
-				break;
+			$info->addProperty($this->lng->txt('group_registration_mode'),
+				$this->lng->txt('grp_reg_deac_info_screen'));
+			
 		}
-		$date_times = $this->object->getExpirationDateTime();
-		$info->addProperty($this->lng->txt('group_registration_time'),
-						   $date_times[0].' '.$date_times[1]);
+		else
+		{
+			switch($this->object->getRegistrationType())
+			{
+				case GRP_REGISTRATION_DIRECT:
+					$info->addProperty($this->lng->txt('group_registration_mode'),
+									   $this->lng->txt('grp_reg_direct_info_screen'));
+					break;
+													   
+				case GRP_REGISTRATION_REQUEST:
+					$info->addProperty($this->lng->txt('group_registration_mode'),
+									   $this->lng->txt('grp_reg_req_info_screen'));
+					break;
+	
+				case GRP_REGISTRATION_PASSWORD:
+					$info->addProperty($this->lng->txt('group_registration_mode'),
+									   $this->lng->txt('grp_reg_passwd_info_screen'));
+					break;
+					
+			}
+			
+			if($this->object->isRegistrationUnlimited())
+			{
+				$info->addProperty($this->lng->txt('group_registration_time'),
+					$this->lng->txt('grp_registration_unlimited'));
+			}
+			elseif($this->object->getRegistrationStart()->getUnixTime() < time())
+			{
+				$info->addProperty($this->lng->txt("group_registration_time"),
+								   $this->lng->txt('cal_until').' '.
+								   ilFormat::formatUnixTime($this->object->getRegistrationEnd()->getUnixTime(),true));
+			}
+			elseif($this->object->getRegistrationStart()->getUnixTime() >= time())
+			{
+				$info->addProperty($this->lng->txt("group_registration_time"),
+								   $this->lng->txt('cal_from').' '.
+								   ilFormat::formatUnixTime($this->object->getRegistrationStart()->getUnixTime(),true));
+			}
+		}
 
 		// BEGIN WebDAV Display locking information
 		// BEGIN ChangeEvent: Display owner and file reads.

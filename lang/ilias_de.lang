@@ -8129,3 +8129,9 @@ dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_details#:#Termindetails
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Allgemeine Einstellungen des Mediacast
+grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppen-Administrator Ihren Antrag angenommen oder abgelehnt hat.
+grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppen-Passwort von einem Gruppen-Administrator erhalten haben, können Sie in dieser Gruppe beitreten.
+grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
+grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
+common#:#cal_from#:#Von:
+common#:#cal_until#:#Bis:
