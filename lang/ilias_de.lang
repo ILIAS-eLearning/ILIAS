@@ -8135,3 +8135,6 @@ grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
 common#:#cal_from#:#Von:
 common#:#cal_until#:#Bis:
+dateplaner#:#cal_cal_type#:#Kalenderart
+dateplaner#:#cal_type_personal#:#Privater Kalender
+dateplaner#:#cal_type_system#:#Öffentlicher Kalender

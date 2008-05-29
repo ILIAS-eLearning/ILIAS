@@ -1929,7 +1929,7 @@ common#:#crs_create_tst#:#Create Test
 common#:#crs_create_webr#:#Create Web Resource
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
-common#:#crs_edit_learning_progress#:#Edit learning progress
+common#:#crs_edit_learning_progress#:#Edit Learning Progress
 common#:#crs_edit_permission#:#Change permission settings
 common#:#crs_info#:#Info
 common#:#crs_join#:#Join Course
@@ -1979,7 +1979,7 @@ common#:#dbk_add#:#Add Digilib Book
 common#:#dbk_added#:#Digilib Book added
 common#:#dbk_create#:#Create Digilib Book
 common#:#dbk_delete#:#Delete Digilib Book
-common#:#dbk_edit_learning_progress#:#Edit learning progress
+common#:#dbk_edit_learning_progress#:#Edit Learning Progress
 common#:#dbk_edit_permission#:#Change permission settings
 common#:#dbk_new#:#New Digilib Book
 common#:#dbk_read#:#Read access to Digilib Book
@@ -2502,7 +2502,7 @@ common#:#htlm#:#Learning Module HTML
 common#:#htlm_add#:#Add HTML Learning Module
 common#:#htlm_delete#:#Delete HTML Learning Module
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
-common#:#htlm_edit_learning_progress#:#Edit learning progress
+common#:#htlm_edit_learning_progress#:#Edit Learning Progress
 common#:#htlm_edit_permission#:#Change permission settings
 common#:#htlm_new#:#New HTML Learning Module
 common#:#htlm_read#:#Read HTML Learning Module
@@ -2816,7 +2816,7 @@ common#:#lm_add#:#Add ILIAS Learning Module
 common#:#lm_added#:#ILIAS Learning Module added
 common#:#lm_create#:#Create ILIAS Learning Module
 common#:#lm_delete#:#Delete ILIAS Learning Module
-common#:#lm_edit_learning_progress#:#Edit learning progress
+common#:#lm_edit_learning_progress#:#Edit Learning Progress
 common#:#lm_edit_permission#:#Change permission settings
 common#:#lm_join#:#Subscribe to ILIAS Learning Module
 common#:#lm_leave#:#Unsubscribe from ILIASLearning Module
@@ -3718,7 +3718,7 @@ common#:#sahs#:#Learning Module SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Learning Module added
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
 common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
-common#:#sahs_edit_learning_progress#:#Edit learning progress
+common#:#sahs_edit_learning_progress#:#Edit Learning Progress
 common#:#sahs_edit_permission#:#Change permission settings
 common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
 common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
@@ -4003,7 +4003,7 @@ common#:#tst#:#Test
 common#:#tst_add#:#Add test
 common#:#tst_anon_eval#:#Results
 common#:#tst_delete#:#Delete Test
-common#:#tst_edit_learning_progress#:#Edit learning progress
+common#:#tst_edit_learning_progress#:#Edit Learning Progress
 common#:#tst_edit_permission#:#Change permission settings
 common#:#tst_new#:#New test
 common#:#tst_no_content#:#No tests available
@@ -6542,7 +6542,7 @@ pwassist#:#pwassist_password_assigned#:#The password has been successfully assig
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.
 pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
-rbac#:#edit_learning_progress#:#Edit learning progress
+rbac#:#edit_learning_progress#:#Edit Learning Progress
 rbac#:#filter_all_roles#:#Show all roles of current context
 rbac#:#filter_global_roles#:#Show only global roles
 rbac#:#filter_local_roles#:#Show only local roles of current context
@@ -8209,3 +8209,6 @@ grp#:#grp_reg_deac_info_screen#:#Group admittance is closed.
 grp#:#grp_reg_direct_info_screen#:#You can join this group directly.
 common#:#cal_from#:#From:
 common#:#cal_until#:#Until:
+dateplaner#:#cal_cal_type#:#Calendar Type
+dateplaner#:#cal_type_personal#:#Private Calendar
+dateplaner#:#cal_type_system#:#Public Calendar
