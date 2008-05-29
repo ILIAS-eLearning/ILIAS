@@ -63,6 +63,8 @@ class ilAppEventHandler
 		// xml files in the future
 		$this->listener["Services/News"] = array("Modules/Forum");
 		$this->listener['Modules/Group'] = array('Services/Calendar');
+		$this->listener['Modules/Session'] = array('Services/Calendar');
+		$this->listener['Modules/Course'] = array('Services/Calendar');
 	}
 	
 	

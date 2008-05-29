@@ -134,10 +134,12 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		
+		
 
 		#$parser = new ilICalParser('./extern/Feiertage.ics',ilICalParser::INPUT_FILE);
 		#$parser->setCategoryId(6);
 		#$parser->parse();
+		/*
 		$calc = new ilCalendarRecurrenceCalculator(
 			new ilCalendarEntry(273),
 			new ilCalendarRecurrence(43));
@@ -145,7 +147,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$list = $calc->calculateDateList(
 				new ilDateTime('2008-04-01',IL_CAL_DATE),
 				new ilDateTime('2008-04-31',IL_CAL_DATE));
-				
+		*/		
 		#echo "RESULT: ".$list;
 		/*
 		$zeit = microtime(true);

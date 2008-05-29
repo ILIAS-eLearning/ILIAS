@@ -115,20 +115,16 @@ class ilCalendarSchedule
 	 		if($schedule['fullday'])
 	 		{
 		 		if(($f_unix_start == $schedule['dstart']) or
+		 			$f_unix_start == $schedule['dend'] or
 		 			($f_unix_start > $schedule['dstart'] and $f_unix_end <= $schedule['dend']))
 	 			{
 		 			$tmp_schedule[] = $schedule;
 	 			}
 	 		}
-	 		elseif((($unix_start <= $schedule['dstart']) and ($unix_end > $schedule['dstart'])) or
-	 			(($unix_start <= $schedule['dend']) and ($unix_end > $schedule['dend'])) or
-	 			($unix_start >= $schedule['dstart'] and $unix_end < $schedule['dend']))
+	 		elseif(($schedule['dstart'] == $unix_start) or
+	 			(($schedule['dstart'] <= $unix_start) and ($schedule['dend'] > $unix_start)) or
+	 			(($schedule['dstart'] >= $unix_start) and ($schedule['dstart'] < $unix_end)))
 	 		{
-	 			#echo date('Y-m-d H:i:s',$unix_start)."<br>";
-	 			#echo date('Y-m-d H:i:s',$unix_end)."<br>";
-	 			#echo date('Y-m-d H:i:s',$schedule['dstart'])."<br>";
-	 			#echo date('Y-m-d H:i:s',$schedule['dend'])."<br>"."<br>";
-	 			
 	 			$tmp_schedule[] = $schedule;
 	 		}
 	 	}
@@ -218,11 +214,24 @@ class ilCalendarSchedule
 	 */
 	protected function getEvents()
 	{
-		$query = "SELECT cal_id FROM cal_entries AS ce LEFT JOIN cal_recurrence_rules AS crr USING (cal_id) ".
-			"WHERE (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
+		global $ilUser;
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories();
+		
+		if(!count($cats))
+		{
+			return array();
+		}
+		
+		// TODO: optimize
+		$query = "SELECT ce.cal_id AS cal_id FROM cal_entries AS ce LEFT JOIN cal_recurrence_rules AS crr USING (cal_id) ".
+			"JOIN cal_category_assignments AS ca ON ca.cal_id = ce.cal_id ".
+			"WHERE ((start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
 			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME)).") ".
 			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
-			"AND NOT rule_id IS NULL) ".
+			"AND NOT rule_id IS NULL)) ".
+			"AND ca.cat_id IN (".implode(',',ilUtil::quoteArray($cats)).') '.
 			"ORDER BY start";
 		$res = $this->db->query($query);
 		

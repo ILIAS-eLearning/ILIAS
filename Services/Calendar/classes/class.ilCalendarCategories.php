@@ -34,94 +34,51 @@ include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 
 class ilCalendarCategories
 {
-	/**
-	 * get all categories of an user
-	 *
-	 * @access public
-	 * @param int user_id
-	 * @return array array(ilCalendarCategory)
-	 * @static
-	 */
-	public static function _getCategoriesOfUser($a_user_id)
-	{
-		global $ilDB;
-		
-		$query = "SELECT cat_id FROM cal_categories ".
-			"WHERE obj_id = ".$ilDB->quote($a_user_id)." ".
-			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_USR)." ".
-			"ORDER BY title ";
-		$res = $ilDB->query($query);
-		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$categories[] = new ilCalendarCategory($row->cat_id);
-		}
-		return $categories ? $categories : array();
-	}
+	protected static $instance = null;
 	
-	/**
-	 * get available (hidden and visible) categories of user
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 * @static
-	 */
-	public static function _getAvailableCategoriesOfUser($a_user_id)
-	{
-		global $ilDB;
-		
-		$query = "SELECT cat_id FROM cal_categories ".
-			"WHERE obj_id = ".$ilDB->quote($a_user_id)." ".
-			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_USR)." ";
-		$res = $ilDB->query($query);
-		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$categories[] = $row->cat_id;
-		}
-		
+	protected $db;
+	
+	protected $user_id;
+	
+	protected $categories = array();
+	protected $categories_info = array();
 
-		return $categories ? $categories : array();
-	}
-	
+
 	/**
-	 * get all object categories
+	 * Singleton instance
 	 *
-	 * @access public
-	 * @param
+	 * @access protected
+	 * @param int $a_usr_id user id
 	 * @return
 	 */
-	public static function _getObjectCategories()
+	protected function __construct($a_usr_id = 0)
 	{
-		global $ilDB;
+		global $ilUser,$ilDB;
 		
-		$query = "SELECT cat_id FROM cal_categories ".
-			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_OBJ)." ";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$this->user_id = $a_usr_id;
+		if(!$this->user_id)
 		{
-			$categories[] = new ilCalendarCategory($row->cat_id);
+			$this->user_id = $ilUser->getId();
 		}
-		return $categories ? $categories : array();
-		
+		$this->db = $ilDB;
+		$this->read();
 	}
-	
+
 	/**
-	 * prepare categories of users for selection
+	 * get singleton instance
 	 *
 	 * @access public
-	 * @param int user id
+	 * @param int $a_usr_id user id
 	 * @return
 	 * @static
 	 */
-	public static function _prepareCategoriesOfUserForSelection($a_user_id)
+	public static function _getInstance($a_usr_id = 0)
 	{
-		foreach(ilCalendarCategories::_getCategoriesOfUser($a_user_id) as $cat)
+		if(self::$instance)
 		{
-			$cats[$cat->getCategoryID()] = $cat->getTitle();
+			return self::$instance;
 		}
-		return $cats ? $cats : array();
+		return self::$instance = new ilCalendarCategories($a_usr_id);
 	}
 	
 	/**
@@ -137,13 +94,169 @@ class ilCalendarCategories
 		global $ilDB;
 		
 		$query = "SELECT cat_id FROM cal_categories  ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_OBJ)." ";
+			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->cat_id;
 		}
 		return 0;
+	}
+	
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getCategoryInfo($a_cat_id)
+	{
+		return $this->categories_info[$a_cat_id];
+	}
+	
+	
+	/**
+	 * get categories
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getCategoriesInfo()
+	{
+		return $this->categories_info ? $this->categories_info : array();
+	}
+	
+	/**
+	 * get categories
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getCategories()
+	{
+		return $this->categories ? $this->categories : array();
+	}
+	
+	/**
+	 * prepare categories of users for selection
+	 *
+	 * @access public
+	 * @param int user id
+	 * @return
+	 */
+	public function prepareCategoriesOfUserForSelection()
+	{
+		global $lng;
+		
+		$has_personal_calendar = false;
+		foreach($this->categories_info as $info)
+		{
+			if($info['type'] == ilCalendarCategory::TYPE_USR)
+			{
+				$has_personal_calendar = true;
+			}
+
+			if($info['editable'])
+			{
+				$cats[$info['cat_id']] = $info['title'];
+			}
+		}
+		// If there 
+		if(!$has_personal_calendar)
+		{
+			$cats[0] = $lng->txt('cal_default_calendar'); 
+		}
+		return $cats ? $cats : array();
+	}
+	
+	/**
+	 * check if category is editable
+	 *
+	 * @access public
+	 * @param int $a_cat_id category id
+	 * @return
+	 */
+	public function isEditable($a_cat_id)
+	{
+		return isset($this->categories_info[$a_cat_id]['editable']) and $this->categories_info[$a_cat_id]['editable'];
+	}
+	
+	
+	
+	/**
+	 * Read categories of user
+	 *
+	 * @access protected
+	 * @param
+	 * @return void
+	 */
+	protected function read()
+	{
+		// user categories
+		$query = "SELECT * FROM cal_categories ".
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR)." ".
+			"AND obj_id = ".$this->db->quote($this->user_id)." ";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->categories[] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
+			$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['title'] = $row->title;
+			$this->categories_info[$row->cat_id]['color'] = $row->color;
+			$this->categories_info[$row->cat_id]['type'] = $row->type;
+			$this->categories_info[$row->cat_id]['editable'] = true;
+		}
+		
+		include_once('./Services/Membership/classes/class.ilParticipants.php');
+		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
+		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'grp'));
+		
+	}
+
+	/**
+	 * read selected categories
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function readSelectedCategories($a_obj_ids)
+	{
+		global $ilAccess;
+		
+		if(!count($a_obj_ids))
+		{
+			return true;
+		}
+
+		$query = "SELECT * FROM cal_categories ".
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_OBJ)." ".
+			"AND obj_id IN (".implode(',',ilUtil::quoteArray($a_obj_ids)).') ';
+		
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->categories[] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
+			$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['color'] = $row->color;
+			$this->categories_info[$row->cat_id]['title'] = ilObject::_lookupTitle($row->obj_id);
+			$this->categories_info[$row->cat_id]['type'] = $row->type;
+	
+			$this->categories_info[$row->cat_id]['editable'] = false;
+			foreach(ilObject::_getAllReferences($row->obj_id) as $ref_id)
+			{
+				if($ilAccess->checkAccess('write','',$ref_id))
+				{
+					$this->categories_info[$row->cat_id]['editable'] = true;
+					break;
+				}
+			}
+		}
 	}
 	
 }

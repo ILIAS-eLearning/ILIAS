@@ -161,6 +161,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$ilCtrl->forwardCommand($week_gui);
 				break;
 
+			case "ilcalendarmonthgui":
+				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
+				$month_gui = new ilCalendarMonthGUI($this->seed);
+				$ilCtrl->forwardCommand($month_gui);
+				break;
+
 			default:
 				return $this->$cmd();
 		}
@@ -290,6 +296,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			}
 		}
 		$a_tpl->setCurrentBlock('mini_month');
+		
+		$ilCtrl->setParameterByClass('ilcalendarmonthgui','seed',$date->get(IL_CAL_DATE));
+		$a_tpl->setVariable('OPEN_MONTH_VIEW',$ilCtrl->getLinkTargetByClass('ilcalendarmonthgui',''));
 		$a_tpl->setVariable('TXT_MONTH',
 			$lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
 				' '.$this->seed->get(IL_CAL_FKT_DATE,'Y'));

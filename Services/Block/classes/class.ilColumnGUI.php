@@ -133,6 +133,7 @@ class ilColumnGUI
 	// @todo: add calendar
 	protected $check_global_activation = 
 		array("news" => true,
+			"cal"	=> true,
 			"pdnews" => true,
 			"pdfeed" => true,			
 			"pdusers" => true,
@@ -1058,6 +1059,11 @@ class ilColumnGUI
 			else if ($ilSetting->get("block_activated_".$a_type))
 			{
 				return true;
+			}
+			elseif($a_type == 'cal')
+			{
+				include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+				return ilCalendarSettings::_getInstance()->isEnabled();
 			}
 			return false;
 		}

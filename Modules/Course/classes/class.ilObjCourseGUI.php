@@ -1011,7 +1011,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setSubscriptionEnd($this->toUnix($_POST['subscription_end']['date'],$_POST['subscription_end']['time']));
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
-		$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
+		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
 		$this->object->setViewMode((int) $_POST['view_mode']);
 
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
@@ -1105,7 +1105,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// desc
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
-		$desc->setValue($this->object->getDescription());
+		$desc->setValue($this->object->getLongDescription());
 		$desc->setRows(2);
 		$desc->setCols(40);
 		$this->form->addItem($desc);

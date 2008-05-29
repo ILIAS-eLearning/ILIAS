@@ -72,6 +72,39 @@ class ilCalendarHidden
 	}
 	
 	/**
+	 * delete by category
+	 *
+	 * @access public
+	 * @param int category id
+	 * @static
+	 */
+	public static function _deleteCategories($a_cat_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM cal_categories_hidden ".
+			"WHERE cat_id = ".$ilDB->quote($a_cat_id)." ";
+		$ilDB->query($query);
+	}
+	
+	/**
+	 * Delete by user
+	 *
+	 * @access public
+	 * @param int user_id
+	 * @return
+	 * @static
+	 */
+	public static function _deleteUser($a_user_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM cal_categories_hidden ".
+			"WHERE user_id = ".$ilDB->quote($a_user_id)." ";
+		$ilDB->query($query);
+	}
+	
+	/**
 	 * check whether an appoinment is visible or not
 	 *
 	 * @access public

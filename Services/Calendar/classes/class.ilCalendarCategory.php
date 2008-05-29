@@ -32,6 +32,8 @@
 
 class ilCalendarCategory
 {
+	const DEFAULT_COLOR = '#04427e';
+	
 	const TYPE_USR = 1;
 	const TYPE_OBJ = 2;
 	
@@ -176,7 +178,7 @@ class ilCalendarCategory
 			
 		$this->db->query($query);
 		$this->cat_id = $this->db->getLastInsertId();
-		return true;
+		return $this->cat_id;
 	}
 	
 	/**
@@ -208,9 +210,11 @@ class ilCalendarCategory
 		$query = "DELETE FROM cal_categories ".
 			"WHERE cat_id = ".$this->db->quote($this->cat_id)." ";
 		$this->db->query($query);
+
+		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
+		ilCalendarHidden::_deleteCategories($this->cat_id);
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
-		
 		foreach(ilCalendarCategoryAssignments::_getAssignedAppointments($this->cat_id) as $app_id)
 		{
 			include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
@@ -252,6 +256,10 @@ class ilCalendarCategory
 			$this->type = $row->type;
 			$this->color = $row->color;
 			$this->title = $row->title;
+		}
+		if($this->getType() == self::TYPE_OBJ)
+		{
+			$this->title = ilObject::_lookupTitle($this->getObjId());
 		}
 	}
 }

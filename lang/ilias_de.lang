@@ -8121,5 +8121,11 @@ grp#:#grp_reject_subscriber#:#Ablehnung für Gruppe "%s"
 forum#:#frm_post_not_activated_yet#:#Der Post wurde noch nicht aktiviert.
 crs#:#crs_reg_period#:#Anmeldungszeitraum
 crs#:#crs_presentation_type#:#Kursansicht
+dateplaner#:#crs_cal_activation_start#:#Kursbeginn
+dateplaner#:#crs_cal_activation_end#:#Kursende
+dateplaner#:#crs_cal_reg_start#:#Anmeldungsbeginn
+dateplaner#:#crs_cal_reg_end#:#Anmeldungsende
+dateplaner#:#cal_default_calendar#:#Persönliche Termine
+dateplaner#:#cal_details#:#Termindetails
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Allgemeine Einstellungen des Mediacast

@@ -102,7 +102,7 @@ class ilCalendarRecurrence
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM calendar_recurrence_rules ".
+		$query = "DELETE FROM cal_recurrence_rules ".
 			"WHERE cal_id = ".$ilDB->quote($a_cal_id)." ";
 		$res = $ilDB->query($query);
 	}

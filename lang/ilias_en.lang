@@ -8197,3 +8197,9 @@ assessment#:#empty_term_message#:#There is a least one empty term field.
 assessment#:#no_terms_message#:#Please add at least on term.
 crs#:#crs_reg_period#:#Registration Period
 crs#:#crs_presentation_type#:#Presentation Type
+dateplaner#:#crs_cal_activation_start#:#Course Start
+dateplaner#:#crs_cal_activation_end#:#Course End
+dateplaner#:#crs_cal_reg_start#:#Registration Start
+dateplaner#:#crs_cal_reg_end#:#Registration End
+dateplaner#:#cal_default_calendar#:#Personal Appointments
+dateplaner#:#cal_details#:#Appointment Details

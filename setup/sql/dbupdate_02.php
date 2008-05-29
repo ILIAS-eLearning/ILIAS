@@ -3436,42 +3436,8 @@ $ilCtrlStructureReader->getStructure();
 ?>
 
 <#1172>
-CREATE TABLE IF NOT EXISTS `cal_entries` (
-  `cal_id` int(11) NOT NULL auto_increment,
-  `title` text collate utf8_unicode_ci NOT NULL,
-  `description` text collate utf8_unicode_ci NOT NULL,
-  `location` text collate utf8_unicode_ci NOT NULL,
-  `fullday` tinyint(1) NOT NULL default '0',
-  `start` datetime NOT NULL default '0000-00-00 00:00:00',
-  `end` datetime NOT NULL default '0000-00-00 00:00:00',
-  `informations` text collate utf8_unicode_ci NOT NULL,
-  `public` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`cal_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 <#1173>
-CREATE TABLE IF NOT EXISTS `cal_recurrence_rules` (
-  `rule_id` int(11) NOT NULL auto_increment,
-  `cal_id` int(11) NOT NULL default '0',
-  `cal_recurrence` int(1) NOT NULL default '0',
-  `freq_type` varchar(20) collate utf8_unicode_ci NOT NULL default '',
-  `freq_until_date` date NOT NULL default '0000-00-00',
-  `freq_until_time` time NOT NULL default '00:00:00',
-  `freq_until_count` int(4) NOT NULL default '0',
-  `intervall` int(4) NOT NULL default '0',
-  `byday` varchar(64) collate utf8_unicode_ci NOT NULL default '',
-  `byweekno` int(3) NOT NULL default '0',
-  `bymonth` varchar(64) collate utf8_unicode_ci NOT NULL default '',
-  `bymonthday` varchar(64) collate utf8_unicode_ci NOT NULL default '',
-  `byyearday` varchar(64) collate utf8_unicode_ci NOT NULL default '',
-  `bysetpos` int(3) NOT NULL default '0',
-  `weekstart` varchar(2) collate utf8_unicode_ci NOT NULL default '',
-  PRIMARY KEY  (`rule_id`),
-  KEY `cal_id` (`cal_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-ALTER TABLE `cal_recurrence_rules`
-  ADD CONSTRAINT `cal_recurrence_rules_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal_entries` (`cal_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 <#1174>
 ALTER TABLE il_plugin ADD COLUMN db_version INT NOT NULL DEFAULT 0;
@@ -3514,77 +3480,6 @@ $ilCtrlStructureReader->getStructure();
 
 <#1183>
 
-DROP TABLE IF EXISTS `cal_categories_hidden`;
-CREATE TABLE `cal_categories_hidden` (
-  `user_id` int(11) NOT NULL,
-  `cat_id` int(11) NOT NULL,
-  PRIMARY KEY  (`user_id`,`cat_id`),
-  KEY `cat_id` (`cat_id`)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS `cal_category_assignments`;
-CREATE TABLE `cal_category_assignments` (
-  `cal_id` int(11) NOT NULL,
-  `cat_id` int(11) NOT NULL,
-  KEY `cal_id` (`cal_id`,`cat_id`),
-  KEY `cat_id` (`cat_id`)
-) ENGINE=InnoDB;
-
-
-DROP TABLE IF EXISTS `cal_recurrence_rules`;
-CREATE TABLE `cal_recurrence_rules` (
-  `rule_id` int(11) NOT NULL auto_increment,
-  `cal_id` int(11) NOT NULL default '0',
-  `cal_recurrence` int(1) NOT NULL default '0',
-  `freq_type` varchar(20) NOT NULL default '',
-  `freq_until_date` datetime NOT NULL default '0000-00-00 00:00:00',
-  `freq_until_time` time NOT NULL default '00:00:00',
-  `freq_until_count` int(4) NOT NULL default '0',
-  `intervall` int(4) NOT NULL default '0',
-  `byday` varchar(64) NOT NULL default '',
-  `byweekno` varchar(64) NOT NULL default '0',
-  `bymonth` varchar(64) NOT NULL default '',
-  `bymonthday` varchar(64) NOT NULL default '',
-  `byyearday` varchar(64) NOT NULL default '',
-  `bysetpos` varchar(64) NOT NULL default '0',
-  `weekstart` varchar(2) NOT NULL default '',
-  PRIMARY KEY  (`rule_id`),
-  KEY `cal_id` (`cal_id`)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS `cal_entries`;
-CREATE TABLE `cal_entries` (
-  `cal_id` int(11) NOT NULL auto_increment,
-  `title` text NOT NULL,
-  `description` text NOT NULL,
-  `location` text NOT NULL,
-  `fullday` tinyint(1) NOT NULL default '0',
-  `start` datetime NOT NULL default '0000-00-00 00:00:00',
-  `end` datetime NOT NULL default '0000-00-00 00:00:00',
-  `informations` text NOT NULL,
-  `public` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`cal_id`)
-) ENGINE=InnoDB;
-
-DROP TABLE IF EXISTS `cal_categories`;
-CREATE TABLE `cal_categories` (
-  `cat_id` int(11) NOT NULL auto_increment,
-  `obj_id` int(11) NOT NULL,
-  `title` varchar(128)  NOT NULL,
-  `color` char(8) NOT NULL,
-  `type` tinyint(1) NOT NULL,
-  PRIMARY KEY  (`cat_id`)
-) ENGINE=InnoDB;
-
-ALTER TABLE `cal_categories_hidden`
-  ADD CONSTRAINT `cal_categories_hidden_ibfk_1` FOREIGN KEY (`cat_id`) REFERENCES `cal_categories` (`cat_id`) ON DELETE CASCADE;
-
-ALTER TABLE `cal_category_assignments`
-  ADD CONSTRAINT `cal_category_assignments_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal_entries` (`cal_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `cal_category_assignments_ibfk_2` FOREIGN KEY (`cat_id`) REFERENCES `cal_categories` (`cat_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
-ALTER TABLE `cal_recurrence_rules`
-  ADD CONSTRAINT `cal_recurrence_rules_ibfk_1` FOREIGN KEY (`cal_id`) REFERENCES `cal_entries` (`cal_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 <#1184>
 <?php
@@ -4316,4 +4211,75 @@ CREATE TABLE wiki_contributor (
 ALTER TABLE wiki_contributor ADD COLUMN status_time TIMESTAMP;
 <#1240>
 RENAME TABLE `wiki_contributor`  TO `il_wiki_contributor`;
+
+<#1241>
+DROP TABLE IF EXISTS `cal_categories_hidden`;
+<#1242>
+DROP TABLE IF EXISTS `cal_category_assignments`;
+<#1243>
+DROP TABLE IF EXISTS `cal_recurrence_rules`;
+<#1244>
+DROP TABLE IF EXISTS `cal_categories`;
+<#1245>
+DROP TABLE IF EXISTS `cal_entries`;
+
+<#1246>
+CREATE TABLE `cal_categories` (
+  `cat_id` int(11) NOT NULL auto_increment,
+  `obj_id` int(11) NOT NULL,
+  `title` char(128)  NOT NULL,
+  `color` char(8) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`cat_id`)
+) Type=MyISAM;
+
+CREATE TABLE `cal_categories_hidden` (
+  `user_id` int(11) NOT NULL,
+  `cat_id` int(11) NOT NULL,
+  PRIMARY KEY  (`user_id`,`cat_id`),
+  KEY `cat_id` (`cat_id`)
+) Type=MyISAM;
+
+CREATE TABLE `cal_category_assignments` (
+  `cal_id` int(11) NOT NULL,
+  `cat_id` int(11) NOT NULL,
+  KEY `cal_id` (`cal_id`,`cat_id`),
+  KEY `cat_id` (`cat_id`)
+) Type=MyISAM;
+
+CREATE TABLE `cal_entries` (
+  `cal_id` int(11) NOT NULL auto_increment,
+  `last_update` datetime NOT NULL default '0000-00-00 00:00:00',
+  `title` char(128) NOT NULL,
+  `subtitle` char(64) NOT NULL,
+  `description` text NOT NULL,
+  `location` text NOT NULL,
+  `fullday` tinyint(1) NOT NULL default '0',
+  `start` datetime NOT NULL default '0000-00-00 00:00:00',
+  `end` datetime NOT NULL default '0000-00-00 00:00:00',
+  `informations` text NOT NULL,
+  `auto_generated` tinyint(1) NOT NULL default '0',
+  `context_id` tinyint(2) NOT NULL default '0',
+  `translation_type` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`cal_id`)
+) Type=MyISAM ;
+
+CREATE TABLE `cal_recurrence_rules` (
+  `rule_id` int(11) NOT NULL auto_increment,
+  `cal_id` int(11) NOT NULL default '0',
+  `cal_recurrence` int(1) NOT NULL default '0',
+  `freq_type`char(20) NOT NULL default '',
+  `freq_until_date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `freq_until_count` int(4) NOT NULL default '0',
+  `intervall` int(4) NOT NULL default '0',
+  `byday` char(64) NOT NULL default '',
+  `byweekno`char(64) NOT NULL default '0',
+  `bymonth` char(64) NOT NULL default '',
+  `bymonthday` char(64) NOT NULL default '',
+  `byyearday` char(64) NOT NULL default '',
+  `bysetpos` char(64) NOT NULL default '0',
+  `weekstart` char(2) NOT NULL default '',
+  PRIMARY KEY  (`rule_id`),
+  KEY `cal_id` (`cal_id`)
+) Type=MyISAM;
 

@@ -532,6 +532,7 @@ class ilPersonalDesktopGUI
 		$inc_type = (strtolower($this->cmdClass) == "ilpersonalprofilegui")
 		? "tabactive"
 		: "tabinactive";
+		
 		$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPersonalProfileGUI"),
 		$this->lng->txt("personal_profile"));
 		
@@ -562,10 +563,10 @@ class ilPersonalDesktopGUI
 			$settings = ilCalendarSettings::_getInstance();
 			if($settings->isEnabled())
 			{
-				$inc_type = ($ilCtrl->getNextClass() == "ilcalendarpresentationgui")
+				$inc_type = (strtolower($this->cmdClass) == "ilcalendarpresentationgui")
 					? "tabactive"
 					: "tabinactive";
-					
+
 				$inhalt1[] = array($inc_type,
 					$this->ctrl->getLinkTargetByClass("ilcalendarpresentationgui"),
 					$this->lng->txt("calendar"));
@@ -710,6 +711,7 @@ class ilPersonalDesktopGUI
 		$stored_classes = array('ilpersonaldesktopgui',
 								'ilpersonalprofilegui',
 								'ilpdnotesgui',
+								'ilcalendarpresentationgui',
 								'ilbookmarkadministrationgui',
 								'illearningprogressgui',
 								'ilpaymentadmingui');

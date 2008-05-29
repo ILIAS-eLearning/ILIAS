@@ -197,7 +197,7 @@ class ilCalendarDayGUI
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_BGCOLOR',$color);
-		$this->tpl->setVariable('APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
+		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
