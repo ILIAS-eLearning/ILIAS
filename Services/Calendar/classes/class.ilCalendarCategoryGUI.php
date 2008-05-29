@@ -356,6 +356,7 @@ class ilCalendarCategoryGUI
 				}
 				break;				
 			case 'create':
+				$editable = true;
 				$category = new ilCalendarCategory(0);	
 				$this->ctrl->saveParameter($this,array('category_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
