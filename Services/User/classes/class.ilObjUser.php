@@ -528,6 +528,14 @@ class ilObjUser extends ilObject
 
         $this->syncActive();
 
+        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == "0000-00-00 00:00:00")) 
+        {
+            $agreedate_update = "agree_date= ".$ilDB->quote($this->agree_date).",";
+        } else
+        {
+            $agreedate_update = "";
+        }
+            
 		$pw_udpate = '';
 		switch ($this->passwd_type)
 		{
@@ -568,6 +576,7 @@ class ilObjUser extends ilObject
             "matriculation= ".$ilDB->quote($this->matriculation).",".
             "client_ip= ".$ilDB->quote($this->client_ip).",".
             "approve_date= ".$ilDB->quote($this->approve_date).",".
+			$agreedate_update.
             "active= ".$ilDB->quote($this->active).",".
             "time_limit_owner= ".$ilDB->quote($this->getTimeLimitOwner()).",".
             "time_limit_unlimited= ".$ilDB->quote($this->getTimeLimitUnlimited()).",".
