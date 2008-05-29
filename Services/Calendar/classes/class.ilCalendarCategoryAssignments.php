@@ -128,7 +128,7 @@ class ilCalendarCategoryAssignments
 		$query = "SELECT ce.cal_id FROM cal_categories AS cc ".
 			"JOIN cal_category_assignments AS cca ON cc.cat_id = cca.cat_id ".
 			"JOIN cal_entries AS ce ON cca.cal_id = ce.cal_id ".
-			"WHERE public = 1 ".
+			"WHERE auto_generated = 1 ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

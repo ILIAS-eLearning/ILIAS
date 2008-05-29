@@ -1512,7 +1512,7 @@ class ilObjCourse extends ilContainer
 			case 'update':
 				if(!$this->getActivationUnlimitedStatus())
 				{
-					$app = new ilCalendarAppointmentTemplate(CAL_ACTIVATION_START);
+					$app = new ilCalendarAppointmentTemplate(self::CAL_ACTIVATION_START);
 					$app->setTitle($this->getTitle());
 					$app->setSubtitle('crs_cal_activation_start');
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
@@ -1520,7 +1520,7 @@ class ilObjCourse extends ilContainer
 					$app->setStart(new ilDateTime($this->getActivationStart(),IL_CAL_UNIX));
 					$apps[] = $app;
 
-					$app = new ilCalendarAppointmentTemplate(CAL_ACTIVATION_END);
+					$app = new ilCalendarAppointmentTemplate(self::CAL_ACTIVATION_END);
 					$app->setTitle($this->getTitle());
 					$app->setSubtitle('crs_cal_activation_end');
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
@@ -1530,7 +1530,7 @@ class ilObjCourse extends ilContainer
 				}
 				if($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_LIMITED)
 				{
-					$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+					$app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
 					$app->setTitle($this->getTitle());
 					$app->setSubtitle('crs_cal_reg_start');
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
@@ -1538,7 +1538,7 @@ class ilObjCourse extends ilContainer
 					$app->setStart(new ilDateTime($this->getSubscriptionStart(),IL_CAL_UNIX));
 					$apps[] = $app;
 
-					$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
+					$app = new ilCalendarAppointmentTemplate(self::CAL_REG_END);
 					$app->setTitle($this->getTitle());
 					$app->setSubtitle('crs_cal_reg_end');
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);

@@ -4330,3 +4330,107 @@ $ilDB->query($query);
 $query = "INSERT INTO rbac_ta SET typ_id = ".$ilDB->quote($sess).", ops_id = ".$ilDB->quote($new_ops_id)." ";
 $ilDB->query($query);
 ?>
+
+<#1248>
+<?php
+
+$wd = getcwd();
+chdir('..');
+
+include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+
+$query = "SELECT obd.obj_id AS obj_id ,title,description,activation_type,activation_start,activation_end, ".
+	"subscription_limitation_type,subscription_start,subscription_end FROM crs_settings AS cs JOIN ".
+	"object_data as obd ON obd.obj_id = cs.obj_id ".
+	"WHERE subscription_limitation_type = 2 OR ".
+	"activation_type = 2 ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$color = ilCalendarAppointmentColors::_getRandomColorByType('crs');
+	
+	$query = "INSERT INTO cal_categories SET ".
+		"obj_id = ".$row->obj_id.", ".
+		"title = '".$row->title."', ".
+		"color = '".$color."', ".
+		"type = 2";
+	$ilDB->query($query);
+	
+	$cat_id = $ilDB->getLastInsertId();
+	
+	if($row->subscription_limitation_type == 2)
+	{
+		$query = "INSERT INTO cal_entries SET ".
+			"title = ".$ilDB->quote($row->title).", ".
+			"subtitle = ".$ilDB->quote('crs_cal_reg_start').", ".
+			"description = ".$ilDB->quote($row->description).", ".
+			"start = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->subscription_start)).", ".
+			"end = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->subscription_start)).", ".
+			"auto_generated = 1,".
+			"context_id = 1, ".
+			"translation_type = 1";
+		$ilDB->query($query);
+		
+		$cal_id = $ilDB->getLastInsertId();
+		
+		$query = "INSERT INTO cal_category_assignments ".
+			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
+		$ilDB->query($query);
+
+		$query = "INSERT INTO cal_entries SET ".
+			"title = ".$ilDB->quote($row->title).", ".
+			"subtitle = ".$ilDB->quote('crs_cal_reg_end').", ".
+			"description = ".$ilDB->quote($row->description).", ".
+			"start = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->subscription_end)).", ".
+			"end = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->subscription_end)).", ".
+			"auto_generated = 1,".
+			"context_id = 2, ".
+			"translation_type = 1";
+		$ilDB->query($query);
+		
+		$cal_id = $ilDB->getLastInsertId();
+		
+		$query = "INSERT INTO cal_category_assignments ".
+			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
+		$ilDB->query($query);
+	}
+	if($row->activation_type == 2)
+	{
+		$query = "INSERT INTO cal_entries SET ".
+			"title = ".$ilDB->quote($row->title).", ".
+			"subtitle = ".$ilDB->quote('crs_cal_activation_start').", ".
+			"description = ".$ilDB->quote($row->description).", ".
+			"start = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->activation_start)).", ".
+			"end = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->activation_start)).", ".
+			"auto_generated = 1,".
+			"context_id = 3, ".
+			"translation_type = 1";
+		$ilDB->query($query);
+		
+		$cal_id = $ilDB->getLastInsertId();
+		
+		$query = "INSERT INTO cal_category_assignments ".
+			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
+		$ilDB->query($query);
+
+		$query = "INSERT INTO cal_entries SET ".
+			"title = ".$ilDB->quote($row->title).", ".
+			"subtitle = ".$ilDB->quote('crs_cal_activation_end').", ".
+			"description = ".$ilDB->quote($row->description).", ".
+			"start = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->activation_end)).", ".
+			"end = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->activation_end)).", ".
+			"auto_generated = 1,".
+			"context_id = 3, ".
+			"translation_type = 1";
+		$ilDB->query($query);
+		
+		$cal_id = $ilDB->getLastInsertId();
+		
+		$query = "INSERT INTO cal_category_assignments ".
+			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
+		$ilDB->query($query);
+	}
+}
+
+chdir($wd);
+?>

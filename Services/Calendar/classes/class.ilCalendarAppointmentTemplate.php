@@ -269,5 +269,16 @@ class ilCalendarAppointmentTemplate
 		return $this->translation_type;
 	}
 	
+	/**
+	 * get context id
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getContextId()
+	{
+		return $this->context_id;
+	}
+	
 }
 ?>
