@@ -398,10 +398,13 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function delete()
 	{
-		foreach($_POST['appointments'] as $app)
+		foreach($_POST['appointments'] as $app_id)
 		{
-			$app = new ilCalendarEntry($app);
+			$app = new ilCalendarEntry($app_id);
 			$app->delete();
+			
+			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+			ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
 		}
 		ilUtil::sendInfo($this->lng->txt('cal_deleted_app'),true);
 		$this->ctrl->returnToParent($this);

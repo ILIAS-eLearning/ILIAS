@@ -39,10 +39,12 @@ class ilCalendarSettings
 	
 	private static $instance = null;
 
+	private $db = null;
 	private $storage = null;
 	private $timezone = null;
 	private $week_start = 0;
 	private $enabled = false;
+	private $cal_settings_id = 0;
 
 	/**
 	 * singleton contructor
@@ -52,8 +54,13 @@ class ilCalendarSettings
 	 */
 	private function __construct()
 	{
+	 	global $ilDB;
+
+		$this->db = $ilDB;	 	
+	 	
 	 	$this->initStorage();
-		$this->read();			 	
+		$this->read();	
+		$this->readCalendarSettingsId();
 	}
 	
 	/**
@@ -136,7 +143,17 @@ class ilCalendarSettings
 	 	return $this->timezone;
 	}
 
-	
+	/**
+	 * Get calendar settings id
+	 * (Used for permission checks)
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getCalendarSettingsId()
+	{
+		return $this->cal_settings_id;
+	}
 
 	
 	/**
@@ -163,6 +180,26 @@ class ilCalendarSettings
 		$this->setEnabled($this->storage->get('enabled'));
 		$this->setDefaultTimeZone($this->storage->get('default_timezone',ilTimeZone::_getDefaultTimeZone()));
 		$this->setDefaultWeekStart($this->storage->get('default_week_start',self::WEEK_START_MONDAY));
+	}
+	
+	/**
+	 * Read ref_id of calendar settings
+	 *
+	 * @access private
+	 * @param
+	 * @return
+	 */
+	private function readCalendarSettingsId()
+	{
+		$query = "SELECT ref_id FROM object_reference AS obr ".
+			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
+			"WHERE type = 'cals'";
+			
+		$res = $this->db->query($query);
+		$row = $res->fetchRow();
+		
+		$this->cal_settings_id = $row[0];
+		return true;
 	}
 	
 	/**

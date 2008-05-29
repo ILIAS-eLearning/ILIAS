@@ -112,9 +112,14 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 		$js_tpl->setVariable('INIT_COLOR_SHORT',$this->getHexcode());
 		
 		
-		$a_tpl->setVariable('PROP_COLOR_JS',$js_tpl->get());		
-		
-		
+		if($this->getDisabled())
+		{
+			$a_tpl->setVariable('COLOR_DISABLED','disabled="disabled"');
+		}
+		else
+		{
+			$a_tpl->setVariable('PROP_COLOR_JS',$js_tpl->get());		
+		}
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("PROP_COLOR_ID", $this->getFieldId());
 		$a_tpl->setVariable("PROPERTY_VALUE_COLOR",ilUtil::prepareFormOutput($this->getHexcode()));
