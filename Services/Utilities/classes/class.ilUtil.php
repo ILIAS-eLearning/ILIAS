@@ -959,7 +959,17 @@ class ilUtil
 		{
 			$startyear = $year - 5;
 		}
-		for ($i = $startyear; $i <= $year + 5; $i++)
+		
+		if(($year + 5) < (date('Y',time()) + 5))
+		{
+			$end_year = date('Y',time()) + 5;
+		}
+		else
+		{
+			$end_year = $year + 5;
+		}
+		
+		for ($i = $startyear; $i <= $end_year; $i++)
 		{
 			$sel_year .= "<option value=\"$i\">" . sprintf("%04d", $i) . "</option>\n";
 		}

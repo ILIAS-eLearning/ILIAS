@@ -2250,7 +2250,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// desc
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
-		$desc->setValue($this->object->getDescription());
+		$desc->setValue($this->object->getLongDescription());
 		$desc->setRows(2);
 		$desc->setCols(40);
 		$this->form->addItem($desc);
