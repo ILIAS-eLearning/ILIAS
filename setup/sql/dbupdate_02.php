@@ -4283,3 +4283,50 @@ CREATE TABLE `cal_recurrence_rules` (
   KEY `cal_id` (`cal_id`)
 ) Type=MyISAM;
 
+<#1247>
+<?php
+
+// new permission
+$query = "INSERT INTO rbac_operations SET operation = 'edit_event', ".
+	"description = 'Edit calendar event', ".
+	"class = 'object'";
+
+$res = $ilDB->query($query);
+$new_ops_id = $ilDB->getLastInsertId();
+
+// Calendar settings
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cals' ";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$cals = $row[0];
+
+// Course
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'crs' ";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$crs = $row[0];
+
+// Group
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'grp' ";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$grp = $row[0];
+
+// Session
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'sess' ";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$sess = $row[0];
+
+$query = "INSERT INTO rbac_ta SET typ_id = ".$ilDB->quote($cals).", ops_id = ".$ilDB->quote($new_ops_id)." ";
+$ilDB->query($query);
+
+$query = "INSERT INTO rbac_ta SET typ_id = ".$ilDB->quote($crs).", ops_id = ".$ilDB->quote($new_ops_id)." ";
+$ilDB->query($query);
+
+$query = "INSERT INTO rbac_ta SET typ_id = ".$ilDB->quote($grp).", ops_id = ".$ilDB->quote($new_ops_id)." ";
+$ilDB->query($query);
+
+$query = "INSERT INTO rbac_ta SET typ_id = ".$ilDB->quote($sess).", ops_id = ".$ilDB->quote($new_ops_id)." ";
+$ilDB->query($query);
+?>

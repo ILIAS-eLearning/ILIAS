@@ -196,10 +196,30 @@ class ilCalendarCategories
 	 */
 	protected function read()
 	{
+		global $rbacsystem;
+		
+		// global categories
+		$query = "SELECT * FROM cal_categories ".
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_GLOBAL)." ".
+			"ORDER BY title ";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->categories[] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
+			$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
+			$this->categories_info[$row->cat_id]['title'] = $row->title;
+			$this->categories_info[$row->cat_id]['color'] = $row->color;
+			$this->categories_info[$row->cat_id]['type'] = $row->type;
+			$this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+		}
+
 		// user categories
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR)." ".
-			"AND obj_id = ".$this->db->quote($this->user_id)." ";
+			"AND obj_id = ".$this->db->quote($this->user_id)." ".
+			"ORDER BY title ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -215,6 +235,7 @@ class ilCalendarCategories
 		include_once('./Services/Membership/classes/class.ilParticipants.php');
 		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
 		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'grp'));
+		
 		
 	}
 

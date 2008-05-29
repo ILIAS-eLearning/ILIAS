@@ -128,8 +128,17 @@ class ilCalendarCategoryGUI
 		$category = new ilCalendarCategory(0);
 		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
-		$category->setType(ilCalendarCategory::TYPE_USR);
-		$category->setObjId($ilUser->getId());
+		
+		if(isset($_POST['type']))
+		{
+			$category->setType((int) $_POST['type']);
+			$category->setObjId(0);
+		}
+		else
+		{
+			$category->setType(ilCalendarCategory::TYPE_USR);
+			$category->setObjId($ilUser->getId());
+		}
 		
 		if(!$category->validate())
 		{
@@ -307,12 +316,29 @@ class ilCalendarCategoryGUI
 	 */
 	protected function initFormCategory($a_mode)
 	{
+		global $rbacsystem;
+		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo((int) $_GET['category_id']);
-		$editable = $cat_info['type'] == ilCalendarCategory::TYPE_USR;
+		
+		$editable = false;
+		switch($cat_info['type'])
+		{
+			case ilCalendarCategory::TYPE_USR:
+				$editable = true;
+				break;
+			
+			case ilCalendarCategory::TYPE_GLOBAL:
+				$editable = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+				break;
+				
+			case ilCalendarCategory::TYPE_OBJ:
+				$editable = false;
+				break;
+		}
 		
 		$this->form = new ilPropertyFormGUI();
 		switch($a_mode)
@@ -322,10 +348,11 @@ class ilCalendarCategoryGUI
 				$this->form->setTitle($this->lng->txt('cal_edit_category'));
 				$this->ctrl->saveParameter($this,array('seed','category_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
-				$this->form->addCommandButton('update',$this->lng->txt('save'));
 				if($editable)
 				{
+					$this->form->addCommandButton('update',$this->lng->txt('save'));
 					$this->form->addCommandButton('confirmDelete',$this->lng->txt('delete'));
+					$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 				}
 				break;				
 			case 'create':
@@ -334,9 +361,9 @@ class ilCalendarCategoryGUI
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
 				$this->form->setTitle($this->lng->txt('cal_add_category'));
 				$this->form->addCommandButton('save',$this->lng->txt('save'));
+				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 				break;
 		}
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		// Calendar name
 		$title = new ilTextInputGUI($this->lng->txt('cal_calendar_name'),'title');
@@ -350,8 +377,30 @@ class ilCalendarCategoryGUI
 		$title->setValue($category->getTitle());
 		$this->form->addItem($title);
 		
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+		if($a_mode == 'create' and $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId()))
+		{
+			$type = new ilRadioGroupInputGUI($this->lng->txt('cal_cal_type'),'type');
+			$type->setValue($category->getType());
+			$type->setRequired(true);
+			
+				$opt = new ilRadioOption($this->lng->txt('cal_type_personal'),ilCalendarCategory::TYPE_USR);
+				$type->addOption($opt);
+				
+				$opt = new ilRadioOption($this->lng->txt('cal_type_system'),ilCalendarCategory::TYPE_GLOBAL);
+				$type->addOption($opt);
+				
+			$this->form->addItem($type);
+		}
+		
+		
 		$color = new ilColorPickerInputGUI($this->lng->txt('cal_calendar_color'),'color');
 		$color->setValue($category->getColor());
+		if(!$editable)
+		{
+			$color->setDisabled(true);
+		}
 		$color->setRequired(true);
 		$this->form->addItem($color);
 		
@@ -371,9 +420,8 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentsTableGUI.php');
 		
-		$table_gui = new ilCalendarAppointmentsTableGUI($this);
+		$table_gui = new ilCalendarAppointmentsTableGUI($this,(int) $_GET['category_id']);
 		$table_gui->setTitle($this->lng->txt('cal_assigned_appointments'));
-		$table_gui->addMultiCommand('askDeleteAppointments',$this->lng->txt('delete'));
 		$table_gui->setAppointments(ilCalendarCategoryAssignments::_getAssignedAppointments((int) $_GET['category_id']));
 		
 		return $table_gui->getHTML();
@@ -434,6 +482,9 @@ class ilCalendarCategoryGUI
 		{
 			$app = new ilCalendarEntry($app_id);
 			$app->delete();		
+
+			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+			ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
 		}
 		
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));

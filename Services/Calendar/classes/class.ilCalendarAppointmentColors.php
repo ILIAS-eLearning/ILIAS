@@ -108,8 +108,7 @@ class ilCalendarAppointmentColors
 	private function read()
 	{
 		$query = "SELECT cat.color, ass.cal_id  FROM cal_categories AS cat ".
-			"JOIN cal_category_assignments AS ass USING (cat_id) ".
-			"WHERE type = 1 OR type = 2";
+			"JOIN cal_category_assignments AS ass USING (cat_id) ";
 			#"AND obj_id = ".$this->db->quote($this->user_id)." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

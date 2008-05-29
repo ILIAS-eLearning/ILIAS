@@ -152,6 +152,7 @@ class ilCalendarCategoryAssignments
 		$query = "DELETE FROM cal_category_assignments ".
 			"WHERE cal_id = ".$ilDB->quote($a_app_id)." ";
 		$res = $ilDB->query($query);
+		
 		return true;
 	}
 	

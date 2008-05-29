@@ -36,10 +36,11 @@ class ilCalendarCategory
 	
 	const TYPE_USR = 1;
 	const TYPE_OBJ = 2;
+	const TYPE_GLOBAL = 3;
 	
 	protected $cat_id;
 	protected $color;
-	protected $type;
+	protected $type = self::TYPE_USR;
 	protected $obj_id;
 	protected $title;
 	
