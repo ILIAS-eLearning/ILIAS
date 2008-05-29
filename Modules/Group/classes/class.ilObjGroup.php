@@ -1991,7 +1991,7 @@ class ilObjGroup extends ilContainer
 				$app->setTitle($this->getTitle());
 				$app->setSubtitle('grp_cal_reg_start');
 				$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
-				$app->setDescription($this->getDescription());	
+				$app->setDescription($this->getLongDescription());	
 				$app->setStart($this->getRegistrationStart());
 				$apps[] = $app;
 
@@ -1999,7 +1999,7 @@ class ilObjGroup extends ilContainer
 				$app->setTitle($this->getTitle());
 				$app->setSubtitle('grp_cal_reg_end');
 				$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
-				$app->setDescription($this->getDescription());
+				$app->setDescription($this->getLongDescription());
 				$app->setStart($this->getRegistrationEnd());
 				$apps[] = $app;
 				

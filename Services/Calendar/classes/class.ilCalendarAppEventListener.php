@@ -49,10 +49,10 @@ class ilCalendarAppEventListener implements ilAppEventListener
 		
 		switch($a_component)
 		{
-			case 'Modules/Group':
 			case 'Modules/Session':
 				break;
 
+			case 'Modules/Group':
 			case 'Modules/Course':
 				switch($a_event)
 				{
@@ -92,7 +92,6 @@ class ilCalendarAppEventListener implements ilAppEventListener
 		$cat->setTitle($a_obj->getTitle());
 		$cat->setType(ilCalendarCategory::TYPE_OBJ);
 		$cat->setColor(ilCalendarAppointmentColors::_getRandomColorByType($a_obj->getType()));
-		$cat->setColor(ilCalendarAppointmentColors::_getRandomColorByType('crs'));
 		$cat->setObjId($a_obj->getId());
 		return $cat->add();
 	}
