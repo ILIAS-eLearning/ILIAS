@@ -373,6 +373,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$map->setHierId($a_hier_id);
 						return $map;
 
+					case "Tabs":
+						require_once("./Services/COPage/classes/class.ilPCTabs.php");
+						$map = new ilPCTabs($this->dom);
+						$map->setNode($cont_node);
+						$map->setHierId($a_hier_id);
+						return $map;
+
 					case "Plugged":
 						require_once("./Services/COPage/classes/class.ilPCPlugged.php");
 						$plugged = new ilPCPlugged($this->dom);
@@ -402,6 +409,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				$file_item =& new ilPCFileItem($this->dom);
 				$file_item->setNode($cont_node);
 				$file_item->setHierId($a_hier_id);
+				return $file_item;
+
+			case "Tab":
+				require_once("./Services/COPage/classes/class.ilPCTab.php");
+				$tab =& new ilPCTab($this->dom);
+				$tab->setNode($cont_node);
+				$tab->setHierId($a_hier_id);
 				return $file_item;
 
 		}
@@ -581,7 +595,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
 			"ed_col_left", "ed_col_right", "ed_split_page_next","ed_enable",
-			"de_activate", "ed_insert_repobj", "ed_insert_map");
+			"de_activate", "ed_insert_repobj", "ed_insert_map", "ed_insert_tabs");
 
 		foreach ($lang_vars as $lang_var)
 		{
@@ -897,7 +911,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
 		//$path = "//Paragraph | //Table | //TableRow | //TableData";
-		$path = "//PageContent | //TableRow | //TableData | //ListItem | //FileItem | //Section";
+		$path = "//PageContent | //TableRow | //TableData | //ListItem | //FileItem | //Section | //Tab";
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -953,7 +967,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						break;
 					}
 				}
-
+//echo "<br>par:".$par_hier_id." ($ctag)";
 				if (($par_hier_id != "") && ($par_hier_id != "pg"))		// set id to parent_id."_1"
 				{
 					$node_hier_id = $par_hier_id."_1";
@@ -1005,7 +1019,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	{
 		return $this->hier_ids;
 	}
-
 
 	/**
 	* get ids of all first table rows
@@ -1765,7 +1778,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$curr_node =& $this->getContentNode($a_pos);
 		$curr_name = $curr_node->node_name();
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
-			($curr_name == "ListItem") || ($curr_name == "Section"))
+			($curr_name == "ListItem") || ($curr_name == "Section")
+			|| ($curr_name == "Tab"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}

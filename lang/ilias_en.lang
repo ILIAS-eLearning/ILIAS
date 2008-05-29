@@ -4394,6 +4394,12 @@ content#:#cont_insert_section#:#Insert Section
 content#:#cont_update_section#:#Update Section
 content#:#cont_ed_align_center#:#Align: Center
 content#:#cont_ed_insert_repobj#:#Insert Resource List
+content#:#cont_ed_insert_tabs#:#Insert Tabs
+content#:#cont_insert_tabs#:#Insert Tabs
+content#:#cont_update_tabs#:#Update Tabs
+content#:#cont_number_of_tabs#:#Number of Tabs
+content#:#cont_tabs_hor_tabs#:#Horizontal Tabs
+content#:#cont_tabs_accordion#:#Accordion
 content#:#cont_ed_insert_map#:#Insert Map
 content#:#cont_ed_align_left#:#Align: Left
 content#:#cont_ed_align_left_float#:#Align: Left Float

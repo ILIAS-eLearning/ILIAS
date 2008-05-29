@@ -4508,6 +4508,10 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 chdir($wd);
 ?>
+<#1250>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
 
 

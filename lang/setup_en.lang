@@ -349,9 +349,7 @@ pre_javascript_comment#:#You may run ILIAS without JavaScript, but some interfac
 pre_javascript_enabled#:#JavaScript Enabled
 pre_php_version#:#PHP Version
 pre_php_version_3#:#Your PHP version is much too old for using ILIAS 3! Please upgrade PHP.
-pre_php_version_4.1#:#PEAR classes won't work properly with this version! Please upgrade PHP.
-pre_php_version_4.2#:#DOMXML and XSLT support won't work properly with this version!
-pre_php_version_5#:#ILIAS 3 has not been tested with PHP 5 yet. Use with own risk.
+pre_php_version_4#:#Your PHP version is not supported. Please update to PHP 5 higher.
 pre_php_version_unknown#:#ILIAS Setup don't know this version. Use with own risk!
 preliminaries#:#Preliminaries
 prev#:#Previous

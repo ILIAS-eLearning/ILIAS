@@ -1669,12 +1669,12 @@ div.il_droparea
 	font-size: 1px;
 	background-image: url(images/drop_back.gif);
 	background-repeat: repeat;
-	margin: 3px 0px;
+	padding: 2px 0px;
 }
 
 div.il_droparea_active
 {
-	margin: 3px 0px;
+	padding: 2px 0px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #000000;
@@ -1688,7 +1688,6 @@ div.il_editarea
 	border-style: solid;
 	border-width: 1px;
 	border-color: transparent;
-
 }
 
 div.il_editarea_disabled
@@ -1715,6 +1714,27 @@ div.il_editarea_active_selected
 	border-style: solid;
 	border-width: 2px;
 	border-color: #000000;
+}
+
+div.il_edit_pc_tab_head
+{
+	background-color: #F0F0F0;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #909090;
+	border-bottom-width: 0px;
+	font-size: 90%;
+	margin-top: 5px;
+	padding: 2px;
+}
+
+div.il_edit_pc_tab
+{
+	border-style: solid;
+	border-width: 1px;
+	border-color: #909090;
+	margin-bottom: 5px;
+	padding: 5px;
 }
 
 table.il_editmenu

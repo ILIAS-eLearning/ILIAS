@@ -76,6 +76,7 @@ class ilPageObjectGUI
 	var $editpreview = false;
 	var $use_meta_data = false;
 	var $enabledtabs = true;
+	var $enabledpctabs = false;
 
 	/**
 	* Constructor
@@ -100,6 +101,7 @@ class ilPageObjectGUI
 		
 		// defaults (as in learning modules)
 		$this->setEnabledMaps(false);
+		$this->setEnabledPCTabs(false);
 		$this->setEnabledFileLists(true);
 		$this->setEnabledRepositoryObjects(false);
 		
@@ -560,6 +562,26 @@ class ilPageObjectGUI
 	function getEnabledMaps()
 	{
 		return $this->enabledmaps;
+	}
+
+	/**
+	* Set Enable Tabs Content Component.
+	*
+	* @param	boolean	$a_enabledpctabs	Enable Tabs Content Component
+	*/
+	function setEnabledPCTabs($a_enabledpctabs)
+	{
+		$this->enabledpctabs = $a_enabledpctabs;
+	}
+
+	/**
+	* Get Enable Tabs Content Component.
+	*
+	* @return	boolean	Enable Tabs Content Component
+	*/
+	function getEnabledPCTabs()
+	{
+		return $this->enabledpctabs;
 	}
 
 	/**
@@ -1135,6 +1157,12 @@ class ilPageObjectGUI
 
         //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
         //echo "-".$this->sourcecode_download_script.":";
+		
+		if ($this->getEnabledPCTabs())
+		{
+			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+			ilYuiUtil::initTabView();
+		}
 
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
@@ -1164,6 +1192,7 @@ class ilPageObjectGUI
 						 'citate' => $this->lng->txt('citate'),
 						 'enable_rep_objects' => $this->getEnabledRepositoryObjects() ? "y" : "n",
 						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
+						 'enable_tabs' => $this->getEnabledPCTabs() ? "y" : "n",
 						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
 						 'javascript' => $sel_js_mode,

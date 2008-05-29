@@ -21,30 +21,92 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("./Services/COPage/classes/class.ilPageContent.php");
+
 /**
-* setup file for ilias
-* 
-* this file helps setting up ilias
-* main purpose is writing the ilias.ini to the filesystem
-* it can set up the database to if the settings are correct and the dbuser has the rights
+* Class ilPCTab
 *
-* @author Sascha Hofmann <shofmann@databay.de> 
+* Tab content object (see ILIAS DTD)
+*
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package ilias-setup
+* @ingroup ServicesCOPage
 */
-
-// get pear
-// look for embedded pear
-if (is_dir("../pear"))
+class ilPCTab extends ilPageContent
 {
-	ini_set("include_path", "../pear:".ini_get("include_path"));
+	var $dom;
+
+	/**
+	* Init page content component.
+	*/
+	function init()
+	{
+		$this->setType("tabstab");
+	}
+
+	/**
+	* insert new tab item after current one
+	*/
+	function newItemAfter()
+	{
+		$tab = $this->getNode();
+		$new_tab =& $this->dom->create_element("Tab");
+		if ($next_tab =& $tab->next_sibling())
+		{
+			$new_tab =& $next_tab->insert_before($new_tab, $next_tab);
+		}
+		else
+		{
+			$parent_tabs = $tab->parent_node();
+			$new_tab =& $parent_tabs->append_child($new_tab);
+		}
+	}
+
+
+	/**
+	* insert new tab item before current one
+	*/
+	function newItemBefore()
+	{
+		$tab = $this->getNode();
+		$new_tab = $this->dom->create_element("Tab");
+		$new_tab = $tab->insert_before($new_tab, $tab);
+	}
+
+
+	/**
+	* delete tab
+	*/
+	function deleteItem()
+	{
+		$tab =& $this->getNode();
+		$tab->unlink($tab);
+	}
+
+	/**
+	* move tab item down
+	*/
+	function moveItemDown()
+	{
+		$tab = $this->getNode();
+		$next = $tab->next_sibling();
+		$next_copy = $next->clone_node(true);
+		$next_copy = $tab->insert_before($next_copy, $tab);
+		$next->unlink($next);
+	}
+
+	/**
+	* move tab item up
+	*/
+	function moveItemUp()
+	{
+		$tab = $this->getNode();
+		$prev = $tab->previous_sibling();
+		$tab_copy = $tab->clone_node(true);
+		$tab_copy =& $prev->insert_before($tab_copy, $prev);
+		$tab->unlink($tab);
+	}
+
 }
-
-require_once "./include/inc.setup_header.php";
-
-// display info messages
-//ilUtil::sendInfo();
-
-$setup =& new ilSetupGUI();
 ?>
