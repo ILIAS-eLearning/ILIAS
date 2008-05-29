@@ -82,7 +82,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
 		$this->tpl->setVariable('BGCOLOR',$a_set['color']);
 		
-		if($a_set['editable'])
+		if($a_set['editable'] or 1)
 		{
 			#$this->tpl->setCurrentBlock('title_link');
 			$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
@@ -114,18 +114,16 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$hidden_obj = ilCalendarHidden::_getInstanceByUserId($ilUser->getId());
 		$hidden = $hidden_obj->getHidden();
 		
-		$categories = array();
-
-		$all = array_merge(ilCalendarCategories::_getCategoriesOfUser($ilUser->getId()),ilCalendarCategories::_getObjectCategories());
-		
+		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+		$all = $cats->getCategoriesInfo();
 		foreach($all as $category)
 		{
-			$tmp_arr['id'] = $category->getCategoryID();
-			$tmp_arr['hidden'] = (bool) in_array($category->getCategoryId(),$hidden);
-			$tmp_arr['title'] = $category->getTitle();
-			$tmp_arr['type'] = $category->getType();
-			$tmp_arr['color'] = $category->getColor();
-			$tmp_arr['editable'] = true;
+			$tmp_arr['id'] = $category['cat_id'];
+			$tmp_arr['hidden'] = (bool) in_array($category['cat_id'],$hidden);
+			$tmp_arr['title'] = $category['title'];
+			$tmp_arr['type'] = $category['type'];
+			$tmp_arr['color'] = $category['color'];
+			$tmp_arr['editable'] = $category['editable'];
 			
 			$categories[] = $tmp_arr;
 		}

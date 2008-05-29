@@ -2057,7 +2057,7 @@ class ilObjGroup extends ilContainer
 				{
 					return array();
 				}
-				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+				$app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
 				$app->setTitle($this->getTitle());
 				$app->setSubtitle('grp_cal_reg_start');
 				$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
@@ -2065,7 +2065,7 @@ class ilObjGroup extends ilContainer
 				$app->setStart($this->getRegistrationStart());
 				$apps[] = $app;
 
-				$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
+				$app = new ilCalendarAppointmentTemplate(self::CAL_REG_END);
 				$app->setTitle($this->getTitle());
 				$app->setSubtitle('grp_cal_reg_end');
 				$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);

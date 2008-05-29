@@ -48,7 +48,7 @@ class ilCalendarPresentationGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl,$lng,$tpl,$ilTabs;
+		global $ilCtrl,$lng,$tpl,$ilTabs,$ilUser;
 	
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
@@ -56,6 +56,10 @@ class ilCalendarPresentationGUI
 		
 		$this->tpl = $tpl; 	
 		$this->tabs_gui = $ilTabs;
+		
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 	}
 	
 	
@@ -70,11 +74,11 @@ class ilCalendarPresentationGUI
 	{
 		global $ilUser, $ilSetting,$tpl;
 
+
 		$this->initSeed();
 		$this->prepareOutput();
 
 		$next_class = $this->getNextClass();
-		
 		switch($next_class)
 		{
 			case 'ilcalendarmonthgui':
@@ -142,11 +146,10 @@ class ilCalendarPresentationGUI
 		{
 			return $next_class;
 		}
-		if($this->ctrl->getCmdClass() == strtolower(get_class($this)))
+		if($this->ctrl->getCmdClass() == strtolower(get_class($this)) or $this->ctrl->getCmdClass() == '')
 		{
 			return isset($_SESSION['cal_last_class']) ? $_SESSION['cal_last_class'] : 'ilcalendarmonthgui';
 		}
-		
 	}
 	
 	public function setCmdClass($a_class)
@@ -273,7 +276,7 @@ class ilCalendarPresentationGUI
 	public function initSeed()
 	{
 		include_once('Services/Calendar/classes/class.ilDate.php');
-		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(time(),IL_CAL_UNIX);
+		$this->seed = $_REQUEST['seed'] ? new ilDate($_REQUEST['seed'],IL_CAL_DATE) : new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
 		$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
 		$this->ctrl->saveParameter($this,array('seed'));
  	}

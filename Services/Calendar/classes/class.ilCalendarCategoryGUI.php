@@ -153,7 +153,7 @@ class ilCalendarCategoryGUI
 	protected function edit()
 	{
 		global $tpl;
-		
+
 		if(!$_GET['category_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('select_one'),true);
@@ -262,12 +262,15 @@ class ilCalendarCategoryGUI
 	 */
 	public function saveSelection()
 	{
+		global $ilUser;
+		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 	
 		$selection = $_POST['cat_ids'] ? $_POST['cat_ids'] : array();
 		$hidden = array();
 		
-		foreach(ilCalendarCategories::_getAvailableCategoriesOfUser($this->user_id) as $category_id)
+		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+		foreach($cats->getCategories() as $category_id)
 		{
 			if(!in_array($category_id,$selection))
 			{
@@ -307,6 +310,10 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo((int) $_GET['category_id']);
+		$editable = $cat_info['type'] == ilCalendarCategory::TYPE_USR;
+		
 		$this->form = new ilPropertyFormGUI();
 		switch($a_mode)
 		{
@@ -316,7 +323,10 @@ class ilCalendarCategoryGUI
 				$this->ctrl->saveParameter($this,array('seed','category_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
-				$this->form->addCommandButton('confirmDelete',$this->lng->txt('delete'));
+				if($editable)
+				{
+					$this->form->addCommandButton('confirmDelete',$this->lng->txt('delete'));
+				}
 				break;				
 			case 'create':
 				$category = new ilCalendarCategory(0);	
@@ -330,6 +340,10 @@ class ilCalendarCategoryGUI
 		
 		// Calendar name
 		$title = new ilTextInputGUI($this->lng->txt('cal_calendar_name'),'title');
+		if($a_mode == 'edit')
+		{
+			$title->setDisabled(!$editable);
+		}
 		$title->setRequired(true);
 		$title->setMaxLength(64);
 		$title->setSize(32);

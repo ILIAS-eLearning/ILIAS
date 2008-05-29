@@ -75,6 +75,23 @@ class ilCalendarCategoryAssignments
 	}
 	
 	/**
+	 * Lookup category id
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function _lookupCategory($a_cal_id)
+	{
+		if(count($cats = self::_lookupCategories($a_cal_id)))
+		{
+			return $cats[0];
+		}
+		return 0;
+	}
+	
+	/**
 	 * lookup appointment ids by calendar
 	 *
 	 * @access public

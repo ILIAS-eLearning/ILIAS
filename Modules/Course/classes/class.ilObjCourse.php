@@ -61,6 +61,11 @@ define('IL_CRS_SORT_ACTIVATION',3);		// IL_CNTR_SORT_ACTIVATION
 
 class ilObjCourse extends ilContainer
 {
+	const CAL_REG_START = 1;
+	const CAL_REG_END = 2;
+	const CAL_ACTIVATION_START = 3;
+	const CAL_ACTIVATION_END = 4;
+
 	var $members_obj;
 	var $archives_obj;
 	var $items_obj;
@@ -73,6 +78,7 @@ class ilObjCourse extends ilContainer
 	*/
 	function ilObjCourse($a_id = 0,$a_call_by_reference = true)
 	{
+		
 		#define("ILIAS_MODULE","course");
 		#define("KEEP_IMAGE_PATH",1);
 
@@ -304,6 +310,7 @@ class ilObjCourse extends ilContainer
 	
 	function getSubscriptionNotify()
 	{
+		return true;
 		return $this->subscription_notify ? true : false;
 	}
 	function setSubscriptionNotify($a_value)
@@ -545,6 +552,8 @@ class ilObjCourse extends ilContainer
 	}
 	function create($a_upload = false)
 	{
+		global $ilAppEventHandler;
+		
 		parent::create($a_upload);
 
 		if(!$a_upload)
@@ -552,6 +561,13 @@ class ilObjCourse extends ilContainer
 			$this->createMetaData();
 		}
 		$this->__createDefaultSettings();
+		
+		$ilAppEventHandler->raise('Modules/Course',
+			'create',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareAppointments('create')));
+		
 	}
 	
 	/**
@@ -842,12 +858,13 @@ class ilObjCourse extends ilContainer
 	*/
 	function delete()
 	{
+		global $ilAppEventHandler;
+		
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
-
 
 		// delete meta data
 		$this->deleteMetaData();
@@ -880,6 +897,13 @@ class ilObjCourse extends ilContainer
 		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 		ilCourseDefinedFieldDefinition::_deleteByContainer($this->getId());
 		
+		$ilAppEventHandler->raise('Modules/Course',
+			'delete',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareAppointments('delete')));
+		
+		
 		return true;
 	}
 
@@ -890,9 +914,18 @@ class ilObjCourse extends ilContainer
 	*/
 	function update()
 	{
+		global $ilAppEventHandler;
+
 		$this->updateMetaData();
 		$this->updateSettings();
 		parent::update();
+		
+		$ilAppEventHandler->raise('Modules/Course',
+			'update',
+			array('object' => $this,
+				'obj_id' => $this->getId(),
+				'appointments' => $this->prepareAppointments('update')));
+		
 	}
 
 	function updateSettings()
@@ -1025,6 +1058,7 @@ class ilObjCourse extends ilContainer
 			"show_members = '1'";
 
 		$res = $ilDB->query($query);
+		$this->__readSettings();
 	}
 	
 
@@ -1459,6 +1493,68 @@ class ilObjCourse extends ilContainer
 
 		$this->items_obj->addAdditionalSubItemInformation($a_item_data);
 	}
+	
+	/**
+	 * Prepare calendar appointments
+	 *
+	 * @access protected
+	 * @param string mode UPDATE|CREATE|DELETE
+	 * @return
+	 */
+	protected function prepareAppointments($a_mode = 'create')
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php');
+		include_once('./Services/Calendar/classes/class.ilDateTime.php');
+		
+		switch($a_mode)
+		{
+			case 'create':
+			case 'update':
+				if(!$this->getActivationUnlimitedStatus())
+				{
+					$app = new ilCalendarAppointmentTemplate(CAL_ACTIVATION_START);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('crs_cal_activation_start');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart(new ilDateTime($this->getActivationStart(),IL_CAL_UNIX));
+					$apps[] = $app;
+
+					$app = new ilCalendarAppointmentTemplate(CAL_ACTIVATION_END);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('crs_cal_activation_end');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart(new ilDateTime($this->getActivationEnd(),IL_CAL_UNIX));
+					$apps[] = $app;
+				}
+				if($this->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_LIMITED)
+				{
+					$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('crs_cal_reg_start');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart(new ilDateTime($this->getSubscriptionStart(),IL_CAL_UNIX));
+					$apps[] = $app;
+
+					$app = new ilCalendarAppointmentTemplate(CAL_REG_END);
+					$app->setTitle($this->getTitle());
+					$app->setSubtitle('crs_cal_reg_end');
+					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+					$app->setDescription($this->getLongDescription());	
+					$app->setStart(new ilDateTime($this->getSubscriptionEnd(),IL_CAL_UNIX));
+					$apps[] = $app;
+				}
+				
+				return $apps ? $apps : array();
+				
+			case 'delete':
+				// Nothing to do: The category and all assigned appointments will be deleted.
+				return array();
+		}
+	}
+	
 
 } //END class.ilObjCourse
 ?>

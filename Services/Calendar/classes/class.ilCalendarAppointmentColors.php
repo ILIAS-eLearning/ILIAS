@@ -31,6 +31,40 @@
 
 class ilCalendarAppointmentColors
 {
+	protected static $colors = array('crs' => array(
+										"#ADD8E6",	 
+										"#BFEFFF",
+										"#B2DFEE",
+										"#9AC0CD",
+										"#68838B",
+										"#E0FFFF",
+										"#E0FFFF",
+										"#D1EEEE",
+										"#B4CDCD",
+										"#7A8B8B",
+										"#87CEFA",
+										"#B0E2FF",
+										"#A4D3EE",
+										"#8DB6CD",
+										"#607B8B",
+										"#B0C4DE",
+										"#CAE1FF",
+										"#BCD2EE",
+										"#A2B5CD",
+										"#E7B8BB"),
+									'grp' => array(
+										"#EEDD82",
+										"#FFEC8B",
+										"#EEDC82",
+										"#CDBE70",
+										"#8B814C",
+										"#FAFAD2",
+										"#FFFFE0",
+										"#FFF8DC",
+										"#EEEED1",
+										"#CDCDB4"));										
+									
+	
 	protected $db;
 	protected $user_id;
 	protected $appointment_colors;
@@ -75,13 +109,15 @@ class ilCalendarAppointmentColors
 	{
 		$query = "SELECT cat.color, ass.cal_id  FROM cal_categories AS cat ".
 			"JOIN cal_category_assignments AS ass USING (cat_id) ".
-			"WHERE type = 1 ".
-			"AND obj_id = ".$this->db->quote($this->user_id)." ";
+			"WHERE type = 1 OR type = 2";
+			#"AND obj_id = ".$this->db->quote($this->user_id)." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->appointment_colors[$row->cal_id] = $row->color;
 		}
+
+		
 		
 	}
 	
@@ -93,9 +129,9 @@ class ilCalendarAppointmentColors
 	 * @return
 	 * @static
 	 */
-	public static function _getSelectableColors()
+	public static function _getRandomColorByType($a_type)
 	{
-		
+		return self::$colors[$a_type][rand(0,count(self::$colors[$a_type]) - 1)];
 	}
 }
 ?>

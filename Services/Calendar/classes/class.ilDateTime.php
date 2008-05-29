@@ -284,6 +284,7 @@ class ilDateTime
 	public function getUTCOffset()
 	{
 	 	$this->timezone->switchTZ();
+	 	// TODO: calculate UTC offset of given date
 	 	$offset = mktime(0,0,0,2,1,1970) - gmmktime(0,0,0,2,1,1970);
 	 	$this->timezone->restoreTZ();
 	 	return $offset; 	
