@@ -122,7 +122,7 @@ details#:#Details
 dir_exists_create#:#Das angegebene Verzeichnis existiert bereits. Deaktivieren Sie die Option 'Anlegen', um dieses Verzeichnis als Datenverzeichnis zu wählen
 disable#:#ausschalten
 disable_check#:#nicht prüfen
-disable_logging#:#deaktivieren
+disable_logging#:#Deaktivieren
 disabled#:#ausgeschaltet
 display_clientlist#:#Freie Mandantenauswahl
 duplicate_ctrl#:#Fehler: Doppelte Kontrollstrukturdefinition (Klasse %s) in den Dateien:<br /><br />- %s<br />- %s<br /><br />Bitte entfernen Sie die Datei, die nicht zur offiziellen ILIAS Distribution gehört.<br />Führen Sie danach die Funktion 'Tools' -> 'Kontrollstrukur' -> 'Neu Laden' im ILIAS Setup aus.
@@ -170,13 +170,13 @@ info_text_3rdparty#:#In diesem Schritt werden die Erweiterungen von Fremdanbiete
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
 info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
-info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
+info_text_db_collation2#:#Mehr Information zum Thema MySQL-Collations entnehmen Sie bitte der MySQL Webseite.
 info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
 info_text_finish1#:#Gratulation! Die Client-Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
 info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess. Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
 info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige rundeinstellungen vorgenommen werden.
-info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht, können Sie über eine Option im nächsten Installationschritt Setup dazu veranlassen, eine Datenbank für Sie anzulegen.
+info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. ILIAS baut eine Testverbindung mit Ihren Verbindungsangaben auf.
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldete Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
@@ -184,7 +184,7 @@ info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren 
 info_text_nic2#:#an ilias-info@uni-koeln.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
 info_text_nic3#:#Sie haben Ihre Installation registriert. Ihre Kennung ist
 info_text_password#:#Hier könnnen Sie das Administrator-Password für das Setup-Programm ändern.
-info_text_pathes#:#ILIAS3 ist mandantenfähig. D.h., Sie können mit einer Systeminstallation von ILIAS mehrere Mandanten betreiben, die jeweils auf eine eigene Datenbank und eigene Datenverzeichnisse zugreifen. Unten stellen Sie bitte das Hauptverzeichnis für Dateien ausserhalb des Webspaces (Das Haupt-Webspaceverzeichnis ist standardmässig das Verzeichnis 'data' unterhalb des ILIAS-Hauptverzeichnisses), die Position der Log-Datei sowie die Befehlszeil zu den unten aufgeführten Drittanbieter-Programmen. Setup überprüft die Pfade zu den Programmen. Sollte die Prüfung fehlschlagen oder haben Sie das entsprechende Programm nicht installiert, wählen Sie bitte 'nicht prüfen'.<br/> Alle Einstellung sind für alle Mandanten gültig.<br/><br/>Achtung: Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (oder bei Linux per Symlink)!
+info_text_pathes#:#ILIAS3 ist mandantenfähig. Sie können mit einer Installation mehrere ILIAS Instanzen (Mandanten) betreiben, die jeweils eigene Datenbanken und Datenverzeichnisse nutzen. Geben Sie bitte ein Verzeichnis für Daten ausserhalb des Webspaces, den Pfad der Log-Datei, sowie die Pfade zu den unten aufgeführten Drittanbieter-Programmen an. Diese Einstellung sind für alle Mandanten gültig.<br/><br/>Bei aktivierten Safe Mode müssen Sie bei den Drittanbieter-Programmen nur die auszuführende Datei ohne den Pfad angeben. Diese Dateien müssen im geschützten Basisverzeichnis von PHP liegen (ggf. per Symlink).
 ini_client_id_exists#:#Diese Mandanten ID ist bereits vergeben. Wählen Sie eine andere Kennung
 ini_client_id_invalid#:#Die gewählte Mandanten ID enthält ungültige Zeichen.
 ini_client_id_no_change#:#Die Mandanten ID kann nicht mehr geändert werden, nachdem die Datenverzeichnisse angelegt wurden.
@@ -254,7 +254,7 @@ log_path#:#Ort der Logdatei
 log_path_comment#:#Pfad und Dateiname angeben. Datei wird ggf. erzeugt
 logged_out#:#Sie sind nun ausgeloggt.
 logging#:#Logging
-login#:#einloggen
+login#:#Einloggen
 login_invalid#:#Anmeldung fehlgeschlagen. Login ist ungültig
 login_to_ilias#:#bei ILIAS anmelden
 logout#:#ausloggen
@@ -344,7 +344,7 @@ pre_php_version_4.1#:#Einige PEAR Module arbeiten nicht vernünftig unter dieser
 pre_php_version_4.2#:#Die DOMXML und XSLT Unterstüzung arbeiten nicht vernünftig unter dieser PHP-Version.
 pre_php_version_5#:#ILIAS 3 wurde noch nicht getestet mit PHP 5. Benutzung also auf eigene Gefahr.
 pre_php_version_unknown#:#Unbekannte PHP-Version. Benutzung auf eigene Gefahr.
-preliminaries#:#Vorbereitende Massnahmen
+preliminaries#:#Systemvoraussetzungen
 prev#:#Zurück
 reload#:#Neu Laden
 required_field#:#Erforderliche Angaben
@@ -363,7 +363,7 @@ set_newpasswd#:#Bitte neues Passwort eingeben
 set_oldpasswd#:#Bitte altes Passwort eingeben
 settings_changed#:#Einstellungen geändert
 settings_saved#:#Einstellungen gespeichert
-setup#:#setup
+setup#:#Setup
 setup_3rdparty_data#:#Fremdanbietererweiterungen installieren
 setup_basic_settings#:#Grundeinstellungen bei Erstinstallation
 setup_contact_data#:#Kontaktdaten ausfüllen
@@ -394,7 +394,7 @@ setup_process_step_db#:#Datenbank installieren/aktualisieren
 setup_process_step_finish#:#Installation abschliessen
 setup_process_step_ini#:#Basisverzeichnisse erzeugen
 setup_process_step_lang#:#Systemsprachen installieren
-setup_process_step_nic#:#bei ILIAS-NIC registrieren
+setup_process_step_nic#:#ILIAS-NIC Registrierung
 setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS 3 einloggen.
 setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-Routine hilft Ihnen bei der
 sophos#:#Sophos
@@ -449,3 +449,29 @@ step_access#:#Zugriff
 determine_tools_paths#:#Pfade Automatisch Ermitteln
 client_deleted#:#Mandant Gelöscht
 create_directory#:#Verzeichnis Anlegen
+3rd_party_software_req#:#Erforderliche Drittanbieter-Programme
+3rd_party_software_opt#:#Optionale Drittanbieter-Programme
+user#:#Benutzer
+db_error_please_check#:#Bitte überprüfen Sie Datenbank Host, Benutzer und Passwort.
+need_mysql_4_1_or_higher#:#Diese MySQL Version wird leider nicht unterstüzt. Bitte installieren Sie MysQL 4.1.x oder höher.
+info_text_db2#:#Bitte stellen Sie sicher, dass die Datenbank mit der Option "CHARACTER SET utf8" erstellt wird.
+data_directories#:#Datenverzeichnisse
+data_directory_outside_ws#:#Datenverzeichnis ausserhalb des Webspaces
+data_directory_in_ws#:#Datenverzeichnis im Webspace
+data_directory_in_ws_info#:#Dieses Verzeichnis kann nicht geändert werden.
+data_directory_info#:#Bitte geben Sie ein Verzeichnis ausserhalb des Webspaces, welches vom Webserver beschrieben werden kann, an.
+pre_dom#:#DOM-Unterstützung
+pre_dom_missing#:#Bitte aktivieren Sie die DOM-Unterstützung in Ihrer PHP-Installation.
+pre_xsl#:#XSL-Unterstützung
+pre_xsl_missing#:#Bitte aktivieren Sie die XSL-Unterstützung in Ihrer PHP-Installation. Siehe <a target="_blank" href="%s">PHP Dokumentation</a>.
+pre_gd#:#GD-Unterstützung 
+pre_gd_missing#:#Bitte aktivieren Sie die GD-Unterstützung in Ihrer PHP-Installation. Siehe <a target="_blank" href="%s">PHP Dokumentation</a>.
+pre_memory#:#PHP-Memory-Limit-Einstellung (php.ini)
+pre_memory_limit_too_low#:#Bitte stellen Sie in der php.ini Datei einen "memory_limit"-Wert von mindestens 40M ein. Wir empfehlen 80M oder mehr.
+pre_memory_limit_recommend#:#Wir empfehlen einen Wert von 80M oder mehr.
+pre_root#:#Beschreibbares Hauptverzeichnis im Webspace
+pre_php#:#PHP Version
+pre_php_version_4#:#Diese PHP-Version wird nicht unterstützt. Bitte installieren Sie PHP 5.2.1 oder höher.
+pre_mysql#:#MySQL-Unterstützung
+pre_mysql_missing#:#Bitte aktivieren Sie die MySQL-Unterstützung (Version 4.1 oder höher) in Ihrer PHP-Installation.
+pre_mysql_4_1_or_higher#:#Sie benötigen MySQL 4.1 oder höher, um ILIAS zu installieren.
