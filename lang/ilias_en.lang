@@ -8218,3 +8218,7 @@ common#:#cal_until#:#Until:
 dateplaner#:#cal_cal_type#:#Calendar Type
 dateplaner#:#cal_type_personal#:#Private Calendar
 dateplaner#:#cal_type_system#:#Public Calendar
+rbac#:#crs_edit_event#:#Edit Calendar Events
+rbac#:#grp_edit_event#:#Edit Calendar Events
+rbac#:#sess_edit_event#:#Edit Calendar Events
+rbac#:#cals_edit_event#:#Administrate Public Calendars
