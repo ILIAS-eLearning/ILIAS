@@ -1,8 +1,8 @@
 {MESSAGE}
 <div class="il_Header">
-<h1>{TXT_SETUP_TITLE}</h1>
+<h1>{TXT_PRE_TITLE}</h1>
 </div>
-<p>{TXT_SETUP_WELCOME}
+<!-- <p>{TXT_SETUP_WELCOME}
 <ul>
   <li>{TXT_SETUP_INIFILE_DESC}</li>
   <li>{TXT_SETUP_DATABASE_DESC}</li>
@@ -15,31 +15,15 @@
 <p>{TXT_ENV_INTRO}</p>
 <p>{TXT_ENV_COMMENT}</p>
 <h3>{TXT_PRE_TITLE}</h3>
-<p>{TXT_PRE_INTRO}</p>
-<table>
+<p>{TXT_PRE_INTRO}</p>-->
+<table style="border-color:#9EADBA; border-style:solid; border-width:1px; margin-top:10px; padding:0px;" cellpadding="0" cellspacing="0">
 <!-- BEGIN preliminary -->
 <tr>
-  <td>&nbsp;-&nbsp;</td>
-  <td>&nbsp;{TXT_PRE}&nbsp;</td>
-  <td>&nbsp;{STATUS_PRE}&nbsp;</td>
-  <td>&nbsp;<i>{COMMENT_PRE}</i>&nbsp;</td>
+	<td style="padding:5px;">{TXT_PRE}</td>
+	<td style="padding:5px;">{STATUS_PRE}</td>
+	<td style="padding:5px;"><i>{COMMENT_PRE}</i></td>
 </tr>
 <!-- END preliminary -->
-<!-- BEGIN preliminary_js -->
-<tr>
-  <td>&nbsp;-&nbsp;</td>
-  <td>&nbsp;{TXT_PRE}&nbsp;</td>
-<script type="text/javascript">
-<!--
-document.write("<td>&nbsp;<font color=\"green\"><strong>OK</strong></font>&nbsp;</td><td>&nbsp;<i></i>&nbsp;</td>");
-//-->
-</script>
-<noscript>
-  <td>&nbsp;{STATUS_PRE}&nbsp;</td>
-  <td>&nbsp;<i>{COMMENT_PRE}</i>&nbsp;</td>
-</noscript>
-</tr>
-<!-- END preliminary_js -->
 </table>
 <br/>
 <!-- BEGIN premessage -->

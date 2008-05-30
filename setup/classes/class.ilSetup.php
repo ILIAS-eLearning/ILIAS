@@ -400,12 +400,19 @@ class ilSetup extends PEAR
 		if (is_writable($a_dir))
 		{
 			$arr["status"] = true;
-			$arr["comment"] = "";
+			$cdir = getcwd();
+			chdir("..");
+			$arr["comment"] = getcwd();
+			chdir($cdir);
 		}
 		else
 		{
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("pre_folder_write_error");
+			$cdir = getcwd();
+			chdir("..");
+			$arr["comment"] = getcwd().": ".$arr["comment"];
+			chdir($cdir);
 		}
 
 		return $arr;
@@ -419,17 +426,20 @@ class ilSetup extends PEAR
 	function checkCreatable($a_dir = "..")
 	{
 		clearstatcache();
-		if (mkdir($a_dir."/crst879dldsk9d", 0774))
+		if (@mkdir($a_dir."/crst879dldsk9d", 0774))
 		{
 			$arr["status"] = true;
 			$arr["comment"] = "";
 
-			rmdir($a_dir."/crst879dldsk9d");
+			@rmdir($a_dir."/crst879dldsk9d");
 		}
 		else
 		{
 			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("pre_folder_create_error");
+			$cdir = getcwd();
+			chdir("..");
+			$arr["comment"] = getcwd().": ".$this->lng->txt("pre_folder_create_error");
+			chdir($cdir);
 		}
 
 		return $arr;
@@ -464,7 +474,9 @@ class ilSetup extends PEAR
 	function checkPHPVersion()
 	{
 		$version =  phpversion();
+
 		$arr["version"] = $version;
+		$version_comp = explode(".", $version);
 		$first = (integer) substr($version,0,1);
 
 		switch ($first)
@@ -481,14 +493,44 @@ class ilSetup extends PEAR
 				break;
 
 			case 5:
+				$arr["status"] = true;
+				$arr["comment"] = "PHP ".$version;
+				if ((int)$version_comp[1] < 2 || ($version_comp[1] == 2 && $version_comp[2] == 0))
+				{
+					$arr["comment"].= ". ".$this->lng->txt("pre_php_version_5");
+				}
+				break;
+				
 			case 6:
 				$arr["status"] = true;
-				break;
+				$arr["comment"] = "PHP ".$version;
 
 			default:
 				$arr["status"] = true;
 				$arr["comment"] = $this->lng->txt("pre_php_version_unknown");
 				break;
+		}
+
+		return $arr;
+	}
+
+	/**
+	* Check MySQL
+	* @return	boolean
+	*/
+	function checkMySQL()
+	{
+		global $ilDB;
+		
+		if (function_exists("mysql_query"))
+		{
+			$arr["status"] = true;
+			$arr["comment"] = $this->lng->txt("pre_mysql_4_1_or_higher");
+		}
+		else
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("pre_mysql_missing");
 		}
 
 		return $arr;
@@ -507,24 +549,105 @@ class ilSetup extends PEAR
 
 		return false;
 	}
+
 	
 	/**
-	* check authentication status
+	* Check MySQL
 	* @return	boolean
 	*/
-	function checkPEARHTMLTemplateIT()
+	function checkDom()
 	{
+		global $ilDB;
+		
+		if (class_exists("DOMDocument"))
+		{
+			$arr["status"] = true;
+		}
+		else
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("pre_dom_missing");
+		}
 
-		return false;
+		return $arr;
+	}
+	
+	/**
+	* Check MySQL
+	* @return	boolean
+	*/
+	function checkXsl()
+	{
+		global $ilDB;
+		
+		if (class_exists("XSLTProcessor"))
+		{
+			$arr["status"] = true;
+		}
+		else
+		{
+			$arr["status"] = false;
+			$arr["comment"] = sprintf($this->lng->txt("pre_xsl_missing"),
+				"http://php.net/manual/en/book.xsl.php");
+		}
+
+		return $arr;
 	}
 
 	/**
-	* Check PEAR Auth and Auth_HTTP
+	* Check MySQL
 	* @return	boolean
 	*/
-	function checkPEARAuth()
+	function checkGd()
 	{
-		return false;
+		global $ilDB;
+		
+		if (function_exists("imagefill") && function_exists("imagecolorallocate"))
+		{
+			$arr["status"] = true;
+		}
+		else
+		{
+			$arr["status"] = false;
+			$arr["comment"] = sprintf($this->lng->txt("pre_gd_missing"),
+				"http://php.net/manual/en/book.image.php");
+		}
+
+		return $arr;
+	}
+
+	/**
+	* Check Memory Limit
+	* @return	boolean
+	*/
+	function checkMemoryLimit()
+	{
+		global $ilDB;
+		
+		$limit = ini_get("memory_limit");
+
+		$limit_ok = true;
+		if (is_int(strpos($limit, "M")))
+		{
+			$limit_n = (int) $limit;
+			if ($limit_n < 40)
+			{
+				$limit_ok = false;
+			}
+		}
+		
+		if ($limit_ok)
+		{
+			$arr["status"] = true;
+			$arr["comment"] = $limit.". ".$this->lng->txt("pre_memory_limit_recommend");
+		}
+		else
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $limit.". ".$this->lng->txt("pre_memory_limit_too_low");
+		}
+
+		return $arr;
 	}
 
 	/**
@@ -538,9 +661,14 @@ class ilSetup extends PEAR
 	{
 		$a = array();
 		$a["php"] = $this->checkPHPVersion();
+		$a["mysql"] = $this->checkMySQL();
 		$a["root"] = $this->checkWritable();
-		$a["create"] = $this->checkCreatable();
-		$a["cookies"] = $this->checkCookiesEnabled();
+		$a["folder_create"] = $this->checkCreatable();
+		$a["cookies_enabled"] = $this->checkCookiesEnabled();
+		$a["dom"] = $this->checkDom();
+		$a["xsl"] = $this->checkXsl();
+		$a["gd"] = $this->checkGd();
+		$a["memory"] = $this->checkMemoryLimit();
 
 		return $a;
 	}

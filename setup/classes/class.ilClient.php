@@ -377,12 +377,15 @@ class ilClient
 	*/
 	function checkDatabaseHost()
 	{
+		global $lng;
+		
 		//connect to databasehost
 		$db = $this->db_connections->connectHost($this->dsn_host);
 
 		if (MDB2::isError($db))
 		{
-			$this->error = $db->getMessage()."! Please check database hostname, username & password.";
+			//$this->error = $db->getMessage()."! Please check database hostname, username & password.";
+			$this->error = $db->getMessage()." - ".$lng->txt("db_error_please_check");
 			return false;
 		}
 		
