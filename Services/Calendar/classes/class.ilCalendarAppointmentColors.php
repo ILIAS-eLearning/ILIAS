@@ -50,8 +50,7 @@ class ilCalendarAppointmentColors
 										"#B0C4DE",
 										"#CAE1FF",
 										"#BCD2EE",
-										"#A2B5CD",
-										"#E7B8BB"),
+										"#A2B5CD"),
 									'grp' => array(
 										"#EEDD82",
 										"#FFEC8B",
@@ -62,7 +61,13 @@ class ilCalendarAppointmentColors
 										"#FFFFE0",
 										"#FFF8DC",
 										"#EEEED1",
-										"#CDCDB4"));										
+										"#CDCDB4"),
+									'sess' => array(
+										"#C1FFC1",
+										"#B4EEB4",
+										"#98FB98",
+										"#90EE90"));
+																				
 									
 	
 	protected $db;
@@ -131,6 +136,26 @@ class ilCalendarAppointmentColors
 	public static function _getRandomColorByType($a_type)
 	{
 		return self::$colors[$a_type][rand(0,count(self::$colors[$a_type]) - 1)];
+	}
+	
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function dumpColors()
+	{
+		foreach(self::$colors['grp'] as $color)
+		{
+			echo '<font color="'.$color.'">HALLO</font><br/>';
+		}
+		foreach(self::$colors['crs'] as $color)
+		{
+			echo '<font color="'.$color.'">HALLO</font><br/>';
+		}
 	}
 }
 ?>
