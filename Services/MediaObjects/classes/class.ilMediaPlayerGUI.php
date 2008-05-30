@@ -89,13 +89,12 @@ class ilMediaPlayerGUI
 		if (strpos($mimeType,"flv") === false 
 		 && strpos($mimeType,"audio/mpeg") === false
 		 && strpos($mimeType,"image/png") === false
-		 && strpos($mimeType,"image/gif") === false
-		 )
+		 && strpos($mimeType,"image/gif") === false)		
 		{
    			$html = '<embed src="'.$this->getFile().'" '.
    					'type="'.$mimeType.'" '.
    					'autoplay="false" '.
-   					'width="400" height="'.($this->displayHeight + 20).'"></embed>';
+   					'width="320" height="240"></embed>';
    			return $html;
 		}
 		
@@ -103,7 +102,8 @@ class ilMediaPlayerGUI
 		$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 		$mp_tpl->setVariable("FILE", $this->getFile());
 		$mp_tpl->setVariable("PLAYER_NR", self::$nr);
-		$mp_tpl->setVariable("DISPLAY_HEIGHT", $this->displayHeight + 20);		
+		$mp_tpl->setVariable("DISPLAY_HEIGHT", "240");
+		$mp_tpl->setVariable("DISPLAY_WIDTH", "320");
 		self::$nr++;
 		
 		return $mp_tpl->get();

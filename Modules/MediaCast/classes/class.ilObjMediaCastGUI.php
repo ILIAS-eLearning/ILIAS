@@ -167,28 +167,44 @@ class ilObjMediaCastGUI extends ilObjectGUI
     			// create dummy object in db (we need an id)
 			    $items = $this->object->getItemsArray();
     			include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-
+    			$html = "";
 			    foreach (ilObjMediaCast::$purposes as $purpose) 			        
 			    {
+    			    			        
 			        foreach ($items as  $id => $item)
     				{
     			        $mob = new ilObjMediaObject($item["mob_id"]);
     			        $mob->read();
     				    if ($mob->hasPurposeItem($purpose))
         				{        			        
+        				    if ($html == "") {
+        				        $html = "<TABLE cellpadding='1' cellspacing='0'><TR>";
+        				    }
         				    $url = ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&"."ref_id=".$_GET["ref_id"]."&purpose=$purpose";
-        				    $table_gui->addHeaderCommand(
-            						$url, $lng->txt("news_feed_url"), "_blank",
-            							ilUtil::getImagePath("rss_".strtolower($purpose).".gif"), 0);        				
+        				    $title = $lng->txt("news_feed_url");
+        				    $icon = ilUtil::getImagePath("rss_icon_".strtolower($purpose).".gif");
+        				    $target = "_blank";
+
+        				    $row1 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
             				if ($this->object->getPublicFiles())
-            					$table_gui->addHeaderCommand(        			
-            						preg_replace("/https?/i","itpc",$url),
-            							$lng->txt("news_feed_url"), "_blank",
-            							ilUtil::getImagePath("itunes_".strtolower($purpose).".gif"), 1);
+            				{
+            				    $url = preg_replace("/https?/i","itpc",$url);
+            				    $title = $lng->txt("news_feed_url");
+            				    $icon = ilUtil::getImagePath("itunes_icon.gif");
+            				    $row2 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
+            				}
             				break;
-        				}
+        				}        				
+        				
     				}
 			    }
+			    if ($html != "") {
+				    $html .= $row1."</TR>";
+				    if ($row2 != "")
+				        $html .= "<TR>".$row2."</TR>";
+				    $html .= "</TABLE>";
+				    $table_gui->setHeaderHTML($html);
+				}
 			}
 		}
 
@@ -240,7 +256,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		// Property Title
 		$text_input = new ilTextInputGUI($lng->txt("title"), "title");
-		$text_input->setRequired(true);
 		$text_input->setMaxLength(200);
 		$this->form_gui->addItem($text_input);
 		
@@ -376,15 +391,22 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			// create dummy object in db (we need an id)
 			include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 			$mob = new ilObjMediaObject();
-
-			$mob->setTitle($this->form_gui->getInput("title"));
-			$mob->setDescription("");
 			$mob->create();
 
 			//handle standard purpose
-			$file = $this->createMediaItemForPurpose($mob, "Standard");
+			$file = $this->createMediaItemForPurpose($mob, "Standard");						
+
+			// set title and description
+			// set title to basename of file if left empty
+			$title = $this->form_gui->getInput("title") != "" ? $this->form_gui->getInput("title") : basename($file);
+			$description = $this->form_gui->getInput("description"); 
+			$mob->setTitle($title);
+			$mob->setDescription($description);
+			
+			
 			// determine duration for standard purpose			
-			$duration = $this->getDuration($file);
+			$duration = $this->getDuration($file);						
+			
 			// handle other purposes
 			foreach ($this->additionalPurposes as $purpose) 
 			{
@@ -415,8 +437,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$mc_item->setContextObjType($this->object->getType());
 			$mc_item->setUserId($ilUser->getId());
 			$mc_item->setPlaytime($duration);
-			$mc_item->setTitle($this->form_gui->getInput("title"));
-			$mc_item->setContent($this->form_gui->getInput("description"));
+			$mc_item->setTitle($title);
+			$mc_item->setContent($description);
 			$mc_item->setLimitation(false);
 			if ($enable_internal_rss)
 			{
@@ -559,8 +581,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 			$mob = new ilObjMediaObject($mob_id);
 
-			$mob->setTitle($this->form_gui->getInput("title"));
-			$mob->setDescription("");
 
 			foreach (ilObjMediaCast::$purposes as $purpose)
 			{
@@ -585,12 +605,18 @@ class ilObjMediaCastGUI extends ilObjectGUI
     			    }
 			    } else
 			    {			        
-  			        $file = $this->updateMediaItem($mob, $media_item);
+  			        $file = $this->updateMediaItem($mob, $media_item);  			        
 			    }
 			    
 			    if ($purpose == "Standard")
     			{
     			    $duration = $this->getDuration($file);
+    			    $title = $this->form_gui->getInput("title") != "" ? $this->form_gui->getInput("title") : basename($file);
+  			        $description = $this->form_gui->getInput("description"); 
+			
+  			        $mob->setTitle($title);
+  			        $mob->setDescription($description);
+    			    
     			}			    
 			}
 			
@@ -609,8 +635,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			{
 			    $mc_item->setPlaytime($duration);
 		    }
-			$mc_item->setTitle($this->form_gui->getInput("title"));
-			$mc_item->setContent($this->form_gui->getInput("description"));
+			$mc_item->setTitle($title);
+			$mc_item->setContent($description);
 			if ($enable_internal_rss)
 			{
 				$mc_item->setVisibility($this->form_gui->getInput("visibility"));
@@ -902,10 +928,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 			// Extra Feed
 			include_once("./Services/Block/classes/class.ilBlockSetting.php");
-			$public_feed = ilBlockSetting::_lookup("news", "public_feed",
-				0, $this->object->getId());
-			$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"),
-				"extra_feed");
+			$public_feed = ilBlockSetting::_lookup("news", "public_feed", 0, $this->object->getId());
+			$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"), "extra_feed");
 			$ch->setInfo($lng->txt("news_public_feed_info"));
 			$ch->setChecked($public_feed);
 			$this->form_gui->addItem($ch);
@@ -914,7 +938,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
 			$incl_files->setChecked($this->object->getPublicFiles());
 			$incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
-			$this->form_gui->addItem($incl_files);
+			$ch->addSubItem($incl_files);
 		}
 		
 		// Form action and save button
@@ -973,7 +997,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		if (is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "listItems"), "", $_GET["ref_id"]);
 		}
 	}
 

@@ -35,6 +35,7 @@ class ilTable2GUI extends ilTableGUI
 {
 	protected $close_command = "";
 	private $unique_id;
+	private $headerHTML;
 	
 	/**
 	* Constructor
@@ -551,6 +552,12 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
+			if (isset ($this->headerHTML)) {
+				$this->tpl->setCurrentBlock("tbl_header_html");
+				$this->tpl->setVariable ("HEADER_HTML", $this->headerHTML);
+			    $this->tpl->parseCurrentBlock();
+			}
+			
 			// close command
 			if ($this->close_command != "")
 			{
@@ -860,5 +867,15 @@ class ilTable2GUI extends ilTableGUI
 		}
 	}
 	
+	/**
+	 * set header html
+	 *
+	 * @param string $html
+	 */
+	
+	public function setHeaderHTML($html) 
+	{
+	    $this->headerHTML = $html;
+	}
 }
 ?>

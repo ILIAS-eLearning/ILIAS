@@ -1,9 +1,9 @@
 <p id="player{PLAYER_NR}">
 <script type="text/javascript">
-	var s{PLAYER_NR} = new SWFObject("./Services/MediaObjects/flash_flv_player/flvplayer.swf","single","300","{DISPLAY_HEIGHT}","6");
+	var s{PLAYER_NR} = new SWFObject("./Services/MediaObjects/flash_flv_player/flvplayer.swf","single","{DISPLAY_WIDTH}","{DISPLAY_HEIGHT}","6");
 	s{PLAYER_NR}.addParam("allowfullscreen","true");
 	s{PLAYER_NR}.addVariable("file","{FILE}");
-	s{PLAYER_NR}.addVariable("width","300");
+	s{PLAYER_NR}.addVariable("width","{DISPLAY_WIDTH}");
 	s{PLAYER_NR}.addVariable("height","{DISPLAY_HEIGHT}");
 	s{PLAYER_NR}.write("player{PLAYER_NR}");
 </script>
