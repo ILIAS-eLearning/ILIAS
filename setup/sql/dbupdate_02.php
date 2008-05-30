@@ -4578,7 +4578,62 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		"parent = ".$ilDB->quote($row->parent)." ";
 	$ilDB->query($query);
 }
-?> 
+?>
 
+<#1253>
+<?php
+// Adjust role template permission 'edit_event' for groups
+$query = "SELECT ops_id FROM rbac_operations WHERE operation = 'edit_event'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops = $row[0];
+
+$query = "DELETE FROM rbac_templates WHERE type = 'grp' AND ops_id = ".$ilDB->quote($ops)." ";
+$ilDB->query($query);
+
+$query = "SELECT * FROM rbac_templates WHERE type = 'grp' AND ops_id = 4";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO rbac_templates SET ".
+		"rol_id = ".$ilDB->quote($row->rol_id).", ".
+		"type = 'grp', ".
+		"ops_id = ".$ilDB->quote($ops).", ".
+		"parent = ".$ilDB->quote($row->parent)." ";
+	$ilDB->query($query);
+}
+?>
+
+<#1254>
+<?php
+$query = "SELECT ops_id FROM rbac_operations WHERE operation = 'edit_event'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops = $row[0];
+
+// Add permission 'edit_event' to existing courses
+$query = "SELECT ref_id FROM object_data AS obd JOIN object_reference AS obr ON obd.obj_id = obr.obj_id WHERE type = 'crs' ".
+	"OR type = 'grp' OR type = 'sess'";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	// get rbac_pa entries
+	$query = "SELECT * FROM rbac_pa WHERE ref_id = ".$ilDB->quote($row->ref_id)." ";
+	$pa_res = $ilDB->query($query);
+	while($pa_row = $pa_res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$current_ops = unserialize($pa_row->ops_id);
+		if(in_array(4,$current_ops) and !in_array($ops,$current_ops))
+		{
+			$current_ops[] = (int) $ops;
+			$query = "UPDATE rbac_pa SET ops_id = ".$ilDB->quote(serialize($current_ops))." ".
+				"WHERE rol_id = ".$ilDB->quote($pa_row->rol_id)." ".
+				"AND ref_id = ".$ilDB->quote($pa_row->ref_id)." ";
+			$ilDB->query($query);
+			
+		}
+	}
+}
+?>
 
 
