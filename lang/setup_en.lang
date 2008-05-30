@@ -354,7 +354,7 @@ pre_xsl#:#XSL Support
 pre_xsl_missing#:#Please enable XSL support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.
 pre_gd#:#GD Support
 pre_gd_missing#:#Please enable GD support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.
-pre_memory#:#PHP Memory Limit Setting
+pre_memory#:#PHP Memory Limit Setting (php.ini)
 pre_memory_limit_too_low#:#Please set the value for "memory_limit" at least to 40M in your php.ini. We recommend 80M or more.
 pre_memory_limit_recommend#:#We recommend a value of 80M or more.
 pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS 3.

@@ -453,3 +453,29 @@ step_access#:#Access###14 02 2008 new variable
 determine_tools_paths#:#Try to Determine Tools Paths###14 02 2008 new variable
 client_deleted#:#Client deleted.###14 02 2008 new variable
 create_directory#:#Create Directory###14 02 2008 new variable
+3rd_party_software_req#:#Required 3rd Party Tools###30 05 2008 new variable
+3rd_party_software_opt#:#Optional 3rd Party Tools###30 05 2008 new variable
+user#:#User###30 05 2008 new variable
+db_error_please_check#:#Please check database hostname, username and password.###30 05 2008 new variable
+need_mysql_4_1_or_higher#:#Your MySQL version is not supported. Please install MysQL 4.1.x or higher to run ILIAS.###30 05 2008 new variable
+info_text_db2#:#Please ensure that your database is created with the "CHARACTER SET utf8" option.###30 05 2008 new variable
+data_directories#:#Data Directories###30 05 2008 new variable
+data_directory_outside_ws#:#Data Directory outside Webspace###30 05 2008 new variable
+data_directory_in_ws#:#Data Directory in Webspace###30 05 2008 new variable
+data_directory_in_ws_info#:#This directory is cannot be changed.###30 05 2008 new variable
+data_directory_info#:#Please enter a directory outside of the webspace that is writable for the web server.###30 05 2008 new variable
+pre_dom#:#DOM Support###30 05 2008 new variable
+pre_dom_missing#:#Please enable DOM support in your PHP installation.###30 05 2008 new variable
+pre_xsl#:#XSL Support###30 05 2008 new variable
+pre_xsl_missing#:#Please enable XSL support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.###30 05 2008 new variable
+pre_gd#:#GD Support###30 05 2008 new variable
+pre_gd_missing#:#Please enable GD support in your PHP installation, see <a target="_blank" href="%s">PHP Documentation</a>.###30 05 2008 new variable
+pre_memory#:#PHP Memory Limit Setting###30 05 2008 new variable
+pre_memory_limit_too_low#:#Please set the value for "memory_limit" at least to 40M in your php.ini. We recommend 80M or more.###30 05 2008 new variable
+pre_memory_limit_recommend#:#We recommend a value of 80M or more.###30 05 2008 new variable
+pre_root#:#Writable Webspace Main Folder###30 05 2008 new variable
+pre_php#:#PHP Version###30 05 2008 new variable
+pre_php_version_4#:#Your PHP version is not supported. Please update to PHP 5.2.1 or higher.###30 05 2008 new variable
+pre_mysql#:#MySQL Support###30 05 2008 new variable
+pre_mysql_missing#:#Please enable MySQL support (version 4.1 or higher) in your PHP installation.###30 05 2008 new variable
+pre_mysql_4_1_or_higher#:#You need MySQL 4.1 or higher to run ILIAS.###30 05 2008 new variable
