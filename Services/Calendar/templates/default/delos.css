@@ -186,6 +186,19 @@ p.il_calmini_monthday {
 	text-align:center;
 }
 
+td.calminiapp {
+	vertical-align: top;
+	border-collapse:collapse;
+	background-color:#DAE2FF;
+	border-spacing:0px;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
 td.calministd {
 	vertical-align: top;
 	border-collapse:collapse;
