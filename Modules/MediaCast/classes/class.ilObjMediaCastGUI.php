@@ -123,7 +123,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		// always send a message
 		ilUtil::sendInfo($this->lng->txt("object_added"),true);
 		
-		ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=listItems");
+		ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
 	}
 	
 	
