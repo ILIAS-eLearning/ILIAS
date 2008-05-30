@@ -4544,7 +4544,41 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 ?>
- 
+
+<#1252>
+<?php
+
+// Adjust role template permission 'edit_event'
+$query = "SELECT ops_id FROM rbac_operations WHERE operation = 'edit_event'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops = $row[0];
+
+$query = "DELETE FROM rbac_templates WHERE type = 'crs' AND ops_id = ".$ilDB->quote($ops)." ";
+$ilDB->query($query);
+
+$query = "DELETE FROM rbac_templates WHERE type = 'sess' AND ops_id = ".$ilDB->quote($ops)." ";
+$ilDB->query($query);
+
+$query = "SELECT * FROM rbac_templates WHERE type = 'crs' AND ops_id = 4";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO rbac_templates SET ".
+		"rol_id = ".$ilDB->quote($row->rol_id).", ".
+		"type = 'sess', ".
+		"ops_id = ".$ilDB->quote($ops).", ".
+		"parent = ".$ilDB->quote($row->parent)." ";
+	$ilDB->query($query);
+	
+	$query = "INSERT INTO rbac_templates SET ".
+		"rol_id = ".$ilDB->quote($row->rol_id).", ".
+		"type = 'crs', ".
+		"ops_id = ".$ilDB->quote($ops).", ".
+		"parent = ".$ilDB->quote($row->parent)." ";
+	$ilDB->query($query);
+}
+?> 
 
 
 
