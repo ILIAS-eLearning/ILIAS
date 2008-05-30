@@ -4513,5 +4513,38 @@ chdir($wd);
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1251>
+<?php
+
+// Adjust role template permission for sessions
+
+$ops = array(1,2,3,4);
+
+$query = "SELECT ops_id FROM rbac_operations WHERE operation = 'copy'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$ops[] = $row[0];
+
+$query = "DELETE FROM rbac_templates WHERE type = 'sess'";
+$ilDB->query($query);
+
+
+$query = "SELECT * FROM rbac_templates ".
+	"WHERE type = 'crs' ".
+	"AND ops_id IN ('".implode("','",$ops)."') ";
+	
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO rbac_templates ".
+		"SET rol_id = ".$ilDB->quote($row->rol_id).", ".
+		"type = 'sess', ".
+		"ops_id = ".$ilDB->quote($row->ops_id).", ".
+		"parent = ".$ilDB->quote($row->parent)." ";
+	$ilDB->query($query);
+}
+?>
+ 
+
 
 
