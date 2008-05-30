@@ -22,6 +22,7 @@
 */
 
 include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 
 /**
 * class for calendar categories
@@ -34,6 +35,9 @@ include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 
 class ilCalendarCategories
 {
+	const MODE_PERSONAL_DESKTOP = 1;
+	const MODE_REPOSITORY = 2;
+	
 	protected static $instance = null;
 	
 	protected $db;
@@ -42,6 +46,9 @@ class ilCalendarCategories
 	
 	protected $categories = array();
 	protected $categories_info = array();
+	
+	protected $root_ref_id = 0;
+	protected $root_obj_id = 0;
 
 
 	/**
@@ -61,7 +68,6 @@ class ilCalendarCategories
 			$this->user_id = $ilUser->getId();
 		}
 		$this->db = $ilDB;
-		$this->read();
 	}
 
 	/**
@@ -103,6 +109,31 @@ class ilCalendarCategories
 			return $row->cat_id;
 		}
 		return 0;
+	}
+	
+	/**
+	 * initialize visible categories
+	 *
+	 * @access public
+	 * @param int mode 
+	 * @param int ref_id of root node
+	 * @return
+	 */
+	public function initialize($a_mode,$a_source_ref_id = 0)
+	{
+		switch($a_mode)
+		{
+			case self::MODE_PERSONAL_DESKTOP:
+				$this->readPDCalendars();
+				break;
+				
+			case self::MODE_REPOSITORY:
+				$this->root_ref_id = $a_source_ref_id;
+				$this->root_obj_id = ilObject::_lookupObjId($this->root_ref_id);
+				$this->readReposCalendars();
+				break;
+		}
+		
 	}
 	
 	/**
@@ -194,7 +225,63 @@ class ilCalendarCategories
 	 * @param
 	 * @return void
 	 */
-	protected function read()
+	protected function readPDCalendars()
+	{
+		global $rbacsystem;
+		
+		
+		$this->readPublicCalendars();
+		
+		$this->readPrivateCalendars();
+		
+		include_once('./Services/Membership/classes/class.ilParticipants.php');
+		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
+		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'grp'));
+	}
+
+	/**
+	 * Read available repository calendars 
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function readReposCalendars()
+	{
+		global $ilAccess;
+		
+		$this->readPublicCalendars();
+		$this->readPrivateCalendars();
+		
+		$query = "SELECT ref_id,obd.obj_id AS obj_id FROM tree AS t1 ".
+			"JOIN tree AS t2 ON t1.child = t2.child ".
+			"JOIN object_reference AS obr ON t1.child = obr.ref_id ".
+			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
+			"WHERE t2.lft >= t1.lft AND t2.lft <=  t1.rgt ".
+			"AND t1.tree = 1 ".
+			"AND t2.tree = 1 ".
+			"AND t1.child = ".$this->db->quote($this->root_ref_id)." ".
+			"AND type IN('crs','grp','sess')";
+			
+		$res = $this->db->query($query);
+		$obj_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($ilAccess->checkAccess('read','',$row->ref_id))
+			{
+				$obj_ids[] = $row->obj_id;
+			}
+		}
+		$this->readSelectedCategories($obj_ids);
+	}
+	
+	/**
+	 * Read public calendars
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function readPublicCalendars()
 	{
 		global $rbacsystem;
 		
@@ -214,7 +301,17 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
 		}
-
+		return true;
+	}
+	
+	/**
+	 * Read private calendars
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function readPrivateCalendars()
+	{
 		// user categories
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR)." ".
@@ -231,13 +328,8 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = true;
 		}
-		
-		include_once('./Services/Membership/classes/class.ilParticipants.php');
-		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
-		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'grp'));
-		
-		
 	}
+
 
 	/**
 	 * read selected categories

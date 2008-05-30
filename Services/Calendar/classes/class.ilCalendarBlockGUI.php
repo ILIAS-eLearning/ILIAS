@@ -51,6 +51,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		$this->setImage(ilUtil::getImagePath("icon_cals_s.gif"));
 		$ilCtrl->saveParameter($this, "seed");
+		
+		// TODO: the switch between repository and personal desktop mode must be done somwhere else
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
+		
 
 		$lng->loadLanguageModule("dateplaner");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -217,7 +222,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function addMiniMonth($a_tpl)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng,$ilUser;
 		
 		// weekdays
 		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
@@ -243,9 +248,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			$counter++;
 			//$this->showEvents($date);
 			
+			
 			$a_tpl->setCurrentBlock('month_col');
 			
-			if(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
+			if(count($this->scheduler->getByDay($date,$ilUser->getUserTimeZone())))
+			{
+				$a_tpl->setVariable('TD_CLASS','calminiapp');
+			}
+			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
 			{
 				$a_tpl->setVariable('TD_CLASS','calmininow');
 			}
