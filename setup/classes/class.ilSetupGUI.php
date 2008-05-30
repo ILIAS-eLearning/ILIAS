@@ -230,6 +230,11 @@ class ilSetupGUI extends ilSetup
 				$this->toggleClientList();
 				break;
 
+			case "preliminaries":
+				$this->checkPreliminaries();
+				$this->displayPreliminaries();
+				break;
+
 			default:
 				$this->cmdClient();
 				break;
@@ -539,6 +544,11 @@ class ilSetupGUI extends ilSetup
 				$this->tpl->setVariable("TXT_EDIT_PATHES",$this->lng->txt("basic_settings"));
 				$this->tpl->parseCurrentBlock();
 
+				// preliminaries
+				$this->tpl->setCurrentBlock("preliminaries");
+				$this->tpl->setVariable("TXT_PRELIMINARIES",$this->lng->txt("preliminaries"));
+				$this->tpl->parseCurrentBlock();
+
 				// change password link
 				$this->tpl->setCurrentBlock("change_password");
 				$this->tpl->setVariable("TXT_CHANGE_PASSWORD",ucfirst($this->lng->txt("password")));
@@ -690,88 +700,44 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_PRE_TITLE", $this->lng->txt("preliminaries"));
 		$this->tpl->setVariable("TXT_PRE_INTRO", $this->lng->txt("pre_intro"));
 
-		// display phpversion
-		$this->tpl->setCurrentBlock("preliminary");
-		$this->tpl->setVariable("TXT_PRE", $this->lng->txt("pre_php_version").": ".$arCheck["php"]["version"]);
-
-		if ($this->preliminaries_result["php"]["status"] == true)
+		$preliminaries = array("php", "mysql", "root", "folder_create",
+			"cookies_enabled", "dom", "xsl", "gd", "memory");
+		foreach ($preliminaries as $preliminary)
 		{
-			$this->tpl->setVariable("STATUS_PRE", $OK);
+			$this->tpl->setCurrentBlock("preliminary");
+			$this->tpl->setVariable("TXT_PRE", $this->lng->txt("pre_".$preliminary));
+			if ($this->preliminaries_result[$preliminary]["status"] == true)
+			{
+				$this->tpl->setVariable("STATUS_PRE", $OK);
+			}
+			else
+			{
+				$this->tpl->setVariable("STATUS_PRE", $FAILED);
+			}
+			$this->tpl->setVariable("COMMENT_PRE", $this->preliminaries_result[$preliminary]["comment"]);
+			$this->tpl->parseCurrentBlock();
 		}
-		else
-		{
-			$this->tpl->setVariable("STATUS_PRE", $FAILED);
-			$this->tpl->setVariable("COMMENT_PRE", $this->preliminaries_result["php"]["comment"]);
-		}
-
-		$this->tpl->parseCurrentBlock();
-	
-		// check if ilias3 folder is writable
-		$this->tpl->setCurrentBlock("preliminary");
-		$this->tpl->setVariable("TXT_PRE", $this->lng->txt("pre_folder_write"));
-
-		if ($this->preliminaries_result["root"]["status"] == true)
-		{
-			$this->tpl->setVariable("STATUS_PRE", $OK);
-		}
-		else
-		{
-			$this->tpl->setVariable("STATUS_PRE", $FAILED);
-			$this->tpl->setVariable("COMMENT_PRE", $this->preliminaries_result["root"]["comment"]);
-		}
-		$this->tpl->parseCurrentBlock();
-		
-		// check if ilias3 can create new folders
-		$this->tpl->setCurrentBlock("preliminary");
-		$this->tpl->setVariable("TXT_PRE", $this->lng->txt("pre_folder_create"));
-
-		if ($this->preliminaries_result["create"]["status"] == true)
-		{
-			$this->tpl->setVariable("STATUS_PRE", $OK);
-		}
-		else
-		{
-			$this->tpl->setVariable("STATUS_PRE", $FAILED);
-			$this->tpl->setVariable("COMMENT_PRE", $this->preliminaries_result["create"]["comment"]);
-		}
-
-		$this->tpl->parseCurrentBlock();
-
-		// check cookies
-		$this->tpl->setCurrentBlock("preliminary");
-		$this->tpl->setVariable("TXT_PRE", $this->lng->txt("pre_cookies_enabled"));
-
-		if ($this->preliminaries_result["cookies"]["status"] == true)
-		{
-			$this->tpl->setVariable("STATUS_PRE", $OK);
-		}
-		else
-		{
-			$this->tpl->setVariable("STATUS_PRE", $FAILED);
-			$this->tpl->setVariable("COMMENT_PRE", $this->preliminaries_result["cookies"]["comment"]);
-		}
-
-		$this->tpl->parseCurrentBlock();
-
-		// check javascript
-		$this->tpl->setCurrentBlock("preliminary_js");
-		$this->tpl->setVariable("TXT_PRE", $this->lng->txt("pre_javascript_enabled"));
-		$this->tpl->setVariable("STATUS_PRE", $FAILED);
-		$this->tpl->setVariable("COMMENT_PRE", $this->lng->txt("pre_javascript_comment"));
-		$this->tpl->parseCurrentBlock();
 
 		// summary
 		if ($this->preliminaries === true)
 		{
-			$cmd = "install";
-
+			if ($this->isInstalled())
+			{
+				$cmd = "mastersettings";
+			}
+			else
+			{
+				$cmd = "install";
+			}
 			$btn_text = ($this->cmd == "preliminaries") ? "" : "installation";
+//echo "-".$this->display_mode."-";
 			$this->setButtonNext($cmd,$btn_text);
 		}
 		else
 		{
 			$this->tpl->setCurrentBlock("premessage");
-			$this->tpl->setVariable("TXT_PRE_ERR", $this->lng->txt("pre_error"));
+			$this->tpl->setVariable("TXT_PRE_ERR", sprintf($this->lng->txt("pre_error"),
+				"http://www.ilias.de/docu/goto.php?target=pg_6531_367&client_id=docu"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
@@ -829,13 +795,11 @@ class ilSetupGUI extends ilSetup
 
 		// general
 		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("dsfsdave"));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("setup_basic_settings"));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("basic_settings"));
 		$this->tpl->setVariable("SUBMIT_CMD", "install");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_first_install")."<br/>".$this->lng->txt("info_text_pathes"));
-		$this->tpl->setVariable("TXT_DET_TOOLS_PATH", $this->lng->txt("determine_tools_paths"));
-		$this->tpl->setVariable("CMD_DET_TOOLS_PATH", "determineToolsPathInstall");
 
 		
 		if ($this->safe_mode)
@@ -848,10 +812,20 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "");
 		}
 
+		// determine ws data directory
+		$cwd = getcwd();
+		chdir("..");
+		$data_dir_ws = getcwd()."/data";
+		chdir($cwd);
+
 		// datadir
 		$this->tpl->setCurrentBlock("setup_datadir");
-		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("main_datadir_outside_webspace"));
-		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("datadir_path"));
+		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("data_directories"));
+		$this->tpl->setVariable("TXT_DATADIR_PATH_IN_WS", $this->lng->txt("data_directory_in_ws"));
+		$this->tpl->setVariable("TXT_DATADIR_PATH_IN_WS_INFO", $this->lng->txt("data_directory_in_ws_info"));
+		$this->tpl->setVariable("TXT_DATADIR_PATH_INFO", $this->lng->txt("data_directory_info"));
+		$this->tpl->setVariable("DATADIR_IN_WS", $data_dir_ws);
+		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("data_directory_outside_ws"));
 		$this->tpl->setVariable("TXT_DATADIR_COMMENT1", $this->lng->txt("datadir_path_comment1"));
 		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("create_directory"));
 		// values
@@ -896,7 +870,8 @@ class ilSetupGUI extends ilSetup
 		// tools
 		$this->tpl->setCurrentBlock("setup_tools");
 		$this->tpl->setVariable("TXT_DISABLE_CHECK", $this->lng->txt("disable_check"));
-		$this->tpl->setVariable("TXT_TOOLS_TITLE", $this->lng->txt("3rd_party_software"));
+		$this->tpl->setVariable("TXT_REQ_TOOLS_TITLE", $this->lng->txt("3rd_party_software_req"));
+		$this->tpl->setVariable("TXT_OPT_TOOLS_TITLE", $this->lng->txt("3rd_party_software_opt"));
 		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("convert_path"));
 		$this->tpl->setVariable("TXT_ZIP_PATH", $this->lng->txt("zip_path"));
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
@@ -929,6 +904,14 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("JAVA_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"java"));
 			$this->tpl->setVariable("HTMLDOC_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"htmldoc"));
 			$this->tpl->setVariable("LATEX_URL", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"latex"));
+		}
+		else
+		{
+			$det = $this->determineTools();
+			$this->tpl->setVariable("CONVERT_PATH", $det["convert_path"]);
+			$this->tpl->setVariable("ZIP_PATH", $det["zip_path"]);
+			$this->tpl->setVariable("UNZIP_PATH", $det["unzip_path"]);
+			$this->tpl->setVariable("JAVA_PATH", $det["java_path"]);
 		}
 								
 		$this->tpl->setVariable("TXT_VIRUS_SCANNER", $this->lng->txt("virus_scanner"));
@@ -1230,6 +1213,13 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->parseCurrentBlock();
 
 		}
+		
+		//???
+		$this->btn_next_on = true;
+		$this->btn_next_lng = $this->lng->txt("create_new_client")." >>";
+		$this->btn_next_cmd = "newclient";
+		//$this->displayNavButtons();
+
 	}
 
 	/**
@@ -1251,7 +1241,7 @@ class ilSetupGUI extends ilSetup
 	/**
 	* Determine Tools
 	*/
-	function determineTools($a_tools)
+	function determineTools($a_tools = "")
 	{
 		$tools = array("convert", "zip", "unzip", "java", "htmldoc");
 		$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin");
@@ -1314,18 +1304,21 @@ class ilSetupGUI extends ilSetup
 
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html");
 
+		$this->tpl->setCurrentBlock("det_tools");
+		$this->tpl->setVariable("TXT_DET_TOOLS_PATH", $this->lng->txt("determine_tools_paths"));
+		$this->tpl->setVariable("CMD_DET_TOOLS_PATH", "determineToolsPath");
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 
 		// for checkboxes & radio buttons
 		$checked = "checked=\"checked\"";
 
 		// general
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("change_basic_settings"));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("basic_settings"));
 		$this->tpl->setVariable("SUBMIT_CMD", "mastersettings");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
-		$this->tpl->setVariable("TXT_DET_TOOLS_PATH", $this->lng->txt("determine_tools_paths"));
-		$this->tpl->setVariable("CMD_DET_TOOLS_PATH", "determineToolsPath");
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_pathes"));
 		
 		if ($this->safe_mode)
@@ -1337,10 +1330,19 @@ class ilSetupGUI extends ilSetup
 		{
 			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "");
 		}
+		
+		// determine ws data directory
+		$cwd = getcwd();
+		chdir("..");
+		$data_dir_ws = getcwd()."/data";
+		chdir($cwd);
+		
 		// datadir
 		$this->tpl->setCurrentBlock("display_datadir");
-		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("main_datadir_outside_webspace"));
-		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("datadir_path"));
+		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("data_directories"));
+		$this->tpl->setVariable("TXT_DATADIR_PATH_IN_WS", $this->lng->txt("data_directory_in_ws"));
+		$this->tpl->setVariable("DATADIR_IN_WS", $data_dir_ws);
+		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("data_directory_outside_ws"));
 		$this->tpl->setVariable("DATADIR_PATH", $this->ini->readVariable("clients","datadir"));
 		$this->tpl->setVariable("TXT_DATADIR_COMMENT2", $this->lng->txt("datadir_path_comment2"));
 		$this->tpl->parseCurrentBlock();
@@ -1370,7 +1372,8 @@ class ilSetupGUI extends ilSetup
 		// tools
 		$this->tpl->setCurrentBlock("setup_tools");
 		$this->tpl->setVariable("TXT_DISABLE_CHECK", $this->lng->txt("disable_check"));
-		$this->tpl->setVariable("TXT_TOOLS_TITLE", $this->lng->txt("3rd_party_software"));
+		$this->tpl->setVariable("TXT_REQ_TOOLS_TITLE", $this->lng->txt("3rd_party_software_req"));
+		$this->tpl->setVariable("TXT_OPT_TOOLS_TITLE", $this->lng->txt("3rd_party_software_opt"));
 		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("convert_path"));
 		$this->tpl->setVariable("TXT_ZIP_PATH", $this->lng->txt("zip_path"));
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
@@ -1540,7 +1543,13 @@ class ilSetupGUI extends ilSetup
 			// try to connect to database
 			if (!$this->client->checkDatabaseHost())
 			{
-				$this->raiseError($this->lng->txt($this->client->getError()),$this->error_obj->MESSAGE);
+				$this->raiseError($this->client->getError(),$this->error_obj->MESSAGE);
+			}
+
+			// check database version
+			if (!$this->client->isMysql4_1OrHigher())
+			{
+				$this->raiseError($this->lng->txt("need_mysql_4_1_or_higher"),$this->error_obj->MESSAGE);
 			}
 			
 			// check if db exists
@@ -1922,17 +1931,17 @@ class ilSetupGUI extends ilSetup
 			
 			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
 			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
-			$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
+			//$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
 			
-			if ($ilDB->isMySQL4_1OrHigher())
+			/*if ($ilDB->isMySQL4_1OrHigher())
 			{
 				$this->tpl->setVariable("VAL_DB_MODE", $this->lng->txt("mysql_4_1_x_or_higher_mode"));
 			}
 			else
 			{
 				$this->tpl->setVariable("VAL_DB_MODE", $this->lng->txt("mysql_4_0_x_or_lower_mode"));
-			}
-			$this->tpl->setVariable("TXT_CHECK_VERSIONS", $this->lng->txt("check_db_versions"));
+			}*/
+			//$this->tpl->setVariable("TXT_CHECK_VERSIONS", $this->lng->txt("check_db_versions"));
 		}
 		else
 		{
@@ -1948,16 +1957,26 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("DB_CREATE_CHECK",$checked);
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_install"));
-			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_db"));
-			
-			// output version
 			$ilDB = new ilDbx($this->client->dsn_host);
-			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
-			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
-			$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
 			
 			if ($ilDB->isMySQL4_1OrHigher())
+			{
+				$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_install"));
+				$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_db")."<br />".
+					"<p><code>CREATE DATABASE &lt;your_db&gt; CHARACTER SET utf8 COLLATE &lt;your_collation&gt;</code></p>".
+					"<p><b>".$this->lng->txt("info_text_db2")."</b></p><br/>");
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_INFO", "<p><b>".$this->lng->txt("need_mysql_4_1_or_higher")."</b></p><br />");
+			}
+			
+			// output version
+			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
+			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
+			//$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
+			
+			/*if ($ilDB->isMySQL4_1OrHigher())
 			{
 				$this->tpl->setVariable("VAL_DB_MODE", $this->lng->txt("mysql_4_1_x_or_higher_mode"));
 			}
@@ -1965,7 +1984,7 @@ class ilSetupGUI extends ilSetup
 			{
 				$this->tpl->setVariable("VAL_DB_MODE", $this->lng->txt("mysql_4_0_x_or_lower_mode"));
 			}
-			$this->tpl->setVariable("TXT_CHECK_VERSIONS", $this->lng->txt("check_db_versions"));
+			$this->tpl->setVariable("TXT_CHECK_VERSIONS", $this->lng->txt("check_db_versions"));*/
 			
 			// collation selection ( see utf8 collations at
 			// http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html )
@@ -2003,10 +2022,10 @@ class ilSetupGUI extends ilSetup
 				$this->tpl->setVariable("TXT_COLLATION", $this->lng->txt("collation"));
 				$this->tpl->parseCurrentBlock();
 				//$this->tpl->setCurrentBlock("setup_content");
-				$this->tpl->setVariable("COLLATION_INFO1", $this->lng->txt("info_text_db_collation1"));
-				$this->tpl->setVariable("COLLATION_EXAMPLE",
-					"<br /><br />".$this->lng->txt("example").": CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci");
-				$this->tpl->setVariable("COLLATION_INFO2", "<br /><br />".$this->lng->txt("info_text_db_collation2")." ".
+				//$this->tpl->setVariable("COLLATION_INFO1", $this->lng->txt("info_text_db_collation1"));
+				//$this->tpl->setVariable("COLLATION_EXAMPLE",
+				//	"<br /><br />".$this->lng->txt("example").": CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci");
+				$this->tpl->setVariable("COLLATION_INFO2", "<br />".$this->lng->txt("info_text_db_collation2")." ".
 					"<a target=\"_new\" href=\"http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html\">".
 					" MySQL Reference Manual :: 10.11.1 Unicode Character Sets</a>");
 			}
@@ -2608,7 +2627,9 @@ class ilSetupGUI extends ilSetup
 //echo "<b>1</b>";
 		if ($this->validateSetup())
 		{
-			$txt_info = $this->lng->txt("info_text_finish1");
+			$txt_info = $this->lng->txt("info_text_finish1")."<br /><br />".
+				"<p>".$this->lng->txt("user").": <b>root</b><br />".
+				$this->lng->txt("password").": <b>homer</b></p>";
 			$this->setButtonNext("login_new","login");
 //echo "<b>2</b>";
 			$this->client->reconnect();		// if this is not done, the writing of

@@ -9,13 +9,13 @@
 	<td class="option_value" colspan="2">MySQL</td>
 </tr>
 <tr>
-	<td class="option">{TXT_DB_VERSION} <span style="color:#FF0000;">[*]</span></td>
+	<td class="option">{TXT_DB_VERSION}</td>
 	<td class="option_value" colspan="2">{VAL_DB_VERSION}</td>
 </tr>
-<tr>
+<!-- <tr>
 	<td class="option">{TXT_DB_MODE} <span style="color:#FF0000;">[*]</span></td>
 	<td class="option_value" colspan="2">{VAL_DB_MODE}</td>
-</tr>
+</tr> -->
 <tr>
 	<td class="option">{TXT_DB_HOST}</td>
 	<td class="option_value" colspan="2">{DB_HOST}</td>
@@ -28,15 +28,10 @@
 	<td class="option">{TXT_DB_USER}</td>
 	<td class="option_value" colspan="2">{DB_USER}</td>
 </tr>
-<tr>
+<!-- <tr>
 	<td class="option">{TXT_DB_PASS}</td>
 	<td class="option_value" colspan="2">{DB_PASS}</td>
-</tr>
-<!-- BEGIN option_db_create -->
-<tr>
-	<td class="option_desc" colspan="3"><div align="right"><label for="chk_db_create">{TXT_DB_CREATE}</label>&nbsp;<input type="checkbox" name="form[chk_db_create]" value="1" id="chk_db_create" {DB_CREATE_CHECK}/>&nbsp;</div></td>
-</tr>
-<!-- END option_db_create -->
+</tr> -->
 <!-- BEGIN collation_selection -->
 <tr>
 	<td class="option">{TXT_COLLATION}</td>
@@ -49,17 +44,20 @@
 	</td>
 </tr>
 <!-- END collation_selection -->
+<!-- BEGIN option_db_create -->
+<tr>
+	<td class="option"><label for="chk_db_create">{TXT_DB_CREATE}</label></td>
+	<td class="option_value" colspan="2"><input type="checkbox" name="form[chk_db_create]" value="1" id="chk_db_create" {DB_CREATE_CHECK}/></td>
+</tr>
+<!-- END option_db_create -->
 <!-- BEGIN btn_submit -->
 <tr>
-	<td class="submit" colspan="3">&nbsp;
+	<td class="submit" colspan="3">
 	<div align="right"><input class="submit" type="submit" name="cmd[db]" value="{TXT_SAVE}"/></div>
 	</td>
 </tr>
 <!-- END btn_submit -->
 </table>
 </form>
-<div style="background:#FFFFFF;"><span style="color:#FF0000;">[*]</span> {TXT_CHECK_VERSIONS}
-<br /><br />{COLLATION_INFO1}
-{COLLATION_EXAMPLE}
 {COLLATION_INFO2}
 </div>
