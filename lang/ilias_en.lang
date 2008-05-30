@@ -1692,11 +1692,11 @@ mcst#:#mcst_standard_title#:#Normal Media File
 mcst#:#mcst_audioportable_title#:#Additional Audio File for Portable Devices
 mcst#:#mcst_videoportable_title#:#Additional Video File for Portable Devices
 mcst#:#mcst_download_standard#:#Download
-mcst#:#mcst_download_videoportable#:#Download Video File
-mcst#:#mcst_download_audioportable#:#Download Audio File
+mcst#:#mcst_download_videoportable#:#Download Video Portable
+mcst#:#mcst_download_audioportable#:#Download Audio Portable
 mcst#:#mcst_clear_purpose_title#:#Delete
-mcst#:#mcst_downloadable#:#Downloadable
-mcst#:#mcst_downloadable_info#:#If this option is enabled, media files can be downloaded directly.
+mcst#:#mcst_downloadable#:#Download Links
+mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading are provided.
 mcst#:#mcst_media_cast_not_online#:#Mediacast is not online
 mcst#:#mcst_media_cast_not_online_text#:#Mediacast is not online or has been disabled
 mcst#:#mcst_global_settings#:#Global Settings
@@ -3191,7 +3191,7 @@ news#:#news_settings#:#News Settings
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.
 news#:#news_public_feed#:#Extra RSS Feed
-news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed is provided for this item.
+news#:#news_public_feed_info#:#If this option is enabled, a separate RSS feed is provided for this Mediacast.
 news#:#news_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
 feed#:#feed_feed_items#:#Feed Item(s)
 feed#:#feed_proxy#:#Proxy Host
