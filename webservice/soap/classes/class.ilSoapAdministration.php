@@ -55,7 +55,7 @@ class ilSoapAdministration
 
 	function ilSoapAdministration($use_nusoap = true)
 	{
-		define('USER_FOLDER_ID',7);
+	    define('USER_FOLDER_ID',7);
 		define('NUSOAP',1);
 		define('PHP5',2);
 
@@ -67,6 +67,7 @@ class ilSoapAdministration
 		{ 
 			$this->error_method = PHP5;
 		}
+		#echo ("SOAP: using soap mode ".IL_SOAPMODE == IL_SOAPMODE_NUSOAP ? "NUSOAP": "PHP5");
 		$this->__initAuthenticationObject();
 
 	}
@@ -144,7 +145,8 @@ class ilSoapAdministration
 
 	function __raiseError($a_message,$a_code)
 	{
-		switch($this->error_method)
+		#echo $a_message, $a_code;
+	    switch($this->error_method)
 		{
 			case NUSOAP:
 				return new soap_fault($a_code,'',$a_message);
@@ -263,6 +265,15 @@ class ilSoapAdministration
 		return true;
 	}
 
+	/**
+	 * check access for ref id: expected type, permission, return object instance if returnobject is true
+	 *
+	 * @param unknown_type $ref_id
+	 * @param string or array $expected_type
+	 * @param unknown_type $permission
+	 * @param unknown_type $returnObject
+	 * @return Object or type
+	 */
 	public function checkObjectAccess($ref_id, $expected_type, $permission, $returnObject = false) {
 		global $rbacsystem;
 		if(!is_numeric($ref_id))
@@ -280,21 +291,25 @@ class ilSoapAdministration
 									   'Client');			
 		}
 		
-		if (ilObjectFactory::getTypeByRefId($ref_id) != $expected_type)
+		$type = ilObjectFactory::getTypeByRefId($ref_id);
+		if ((is_array($expected_type) && !in_array($type, $expected_type)) 
+		    || 
+		    (!is_array($expected_type) && $type != $expected_type)
+		    )
 		{
-			return $this->__raiseError('Wrong type for id.', 'Client');						
+			return $this->__raiseError("Wrong type $type for id. Expected: ".(is_array($expected_type) ? join (",",$expected_type) : $expected_type), 'Client');						
 		}
 		
-		if (!$rbacsystem->checkAccess($permission, $ref_id, $expected_type))
+		if (!$rbacsystem->checkAccess($permission, $ref_id, $type))
 		{
-			return $this->__raiseError('Missing permission $permission for type $expected_type.', 'Client');
+			return $this->__raiseError('Missing permission $permission for type $type.', 'Client');
 		}
 		
 		if ($returnObject) {
 			return ilObjectFactory::getInstanceByRefId($ref_id);
 		}
 		
-		return true;
+		return $type;
 	}
 
 	public function getInstallationInfoXML() 
