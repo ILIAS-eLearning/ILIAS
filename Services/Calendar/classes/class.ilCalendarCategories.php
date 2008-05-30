@@ -254,14 +254,12 @@ class ilCalendarCategories
 		$this->readPrivateCalendars();
 		
 		$query = "SELECT ref_id,obd.obj_id AS obj_id FROM tree AS t1 ".
-			"JOIN tree AS t2 ON t1.child = t2.child ".
 			"JOIN object_reference AS obr ON t1.child = obr.ref_id ".
 			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
-			"WHERE t2.lft >= t1.lft AND t2.lft <=  t1.rgt ".
-			"AND t1.tree = 1 ".
-			"AND t2.tree = 1 ".
-			"AND t1.child = ".$this->db->quote($this->root_ref_id)." ".
-			"AND type IN('crs','grp','sess')";
+			"WHERE t1.lft >= (SELECT lft FROM tree WHERE child = ".$this->db->quote($this->root_ref_id)." ) ".
+			"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id)." ) ".
+			"AND type IN('crs','grp','sess') ".
+			"AND tree = 1";
 			
 		$res = $this->db->query($query);
 		$obj_ids = array();
@@ -273,6 +271,8 @@ class ilCalendarCategories
 			}
 		}
 		$this->readSelectedCategories($obj_ids);
+		
+		
 	}
 	
 	/**
@@ -283,7 +283,7 @@ class ilCalendarCategories
 	 */
 	protected function readPublicCalendars()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilAccess;
 		
 		// global categories
 		$query = "SELECT * FROM cal_categories ".

@@ -4352,7 +4352,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	
 	$query = "INSERT INTO cal_categories SET ".
 		"obj_id = ".$row->obj_id.", ".
-		"title = '".$row->title."', ".
+		"title = ".$ilDB->quote($row->title).", ".
 		"color = '".$color."', ".
 		"type = 2";
 	$ilDB->query($query);
@@ -4459,7 +4459,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	
 	$query = "INSERT INTO cal_categories SET ".
 		"obj_id = ".$row->obj_id.", ".
-		"title = '".$row->title."', ".
+		"title = ".$ilDB->quote($row->title).", ".
 		"color = '".$color."', ".
 		"type = 2";
 	$ilDB->query($query);
@@ -4635,5 +4635,55 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
+<#1255>
+<?php
+$wd = getcwd();
+chdir('..');
+
+global $ilLog;
+
+include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+
+$query = "SELECT obd.obj_id AS obj_id ,obd.title,obd.description AS description,start,end, location,fulltime ".
+	"FROM event AS e ".
+	"JOIN object_data as obd ON obd.obj_id = e.obj_id ".
+	"LEFT JOIN object_description AS od ON od.obj_id = obd.obj_id ".
+	"JOIN event_appointment AS ea ON e.obj_id = ea.event_id ";
+$ilLog->write($query);
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$color = ilCalendarAppointmentColors::_getRandomColorByType('sess');
+	
+	$query = "INSERT INTO cal_categories SET ".
+		"obj_id = ".$ilDB->quote($row->obj_id).", ".
+		"title = ".$ilDB->quote($row->title).", ".
+		"color = '".$color."', ".
+		"type = 2";
+	$ilDB->query($query);
+	
+	$cat_id = $ilDB->getLastInsertId();
+	
+	$query = "INSERT INTO cal_entries SET ".
+		"title = ".$ilDB->quote($row->title).", ".
+		"subtitle = '', ".
+		"description = ".$ilDB->quote($row->description).", ".
+		"fullday = ".$ilDB->quote($row->fulltime).", ".
+		"start = ".$ilDB->quote($row->start).", ".
+		"end = ".$ilDB->quote($row->end).", ".
+		"auto_generated = 1,".
+		"context_id = 1, ".
+		"translation_type = 0 ";
+	$ilDB->query($query);
+	$cal_id = $ilDB->getLastInsertId();
+	
+	$query = "INSERT INTO cal_category_assignments ".
+		"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
+	$ilDB->query($query);
+	
+}
+chdir($wd);
+?>
+
 
 

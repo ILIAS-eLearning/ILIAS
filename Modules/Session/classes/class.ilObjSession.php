@@ -34,6 +34,8 @@ include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
 
 class ilObjSession extends ilObject
 {
+	const CAL_REG_START = 1;
+	
 	protected $db;
 	
 	protected $location;
@@ -563,10 +565,10 @@ class ilObjSession extends ilObject
 			case 'create':
 			case 'update':
 
-				$app = new ilCalendarAppointmentTemplate(CAL_REG_START);
+				$app = new ilCalendarAppointmentTemplate(self::CAL_REG_START);
 				$app->setTranslationType(IL_CAL_TRANSLATION_NONE);
 				$app->setTitle($this->getTitle());
-				$app->setDescription($this->getDescription());
+				$app->setDescription($this->getLongDescription());
 				
 				$sess_app = $this->getFirstAppointment();
 				$app->setFullday($sess_app->isFullday());

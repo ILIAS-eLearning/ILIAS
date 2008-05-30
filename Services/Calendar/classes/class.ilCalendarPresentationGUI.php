@@ -61,6 +61,7 @@ class ilCalendarPresentationGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$cats->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP);
+	
 	}
 	
 	

@@ -50,8 +50,6 @@ class ilCalendarAppEventListener implements ilAppEventListener
 		switch($a_component)
 		{
 			case 'Modules/Session':
-				break;
-
 			case 'Modules/Group':
 			case 'Modules/Course':
 				switch($a_event)
