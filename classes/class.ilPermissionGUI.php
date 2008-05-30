@@ -459,8 +459,7 @@ class ilPermissionGUI
 		$action[3] = $this->lng->txt('filter_local_roles');
 		$action[4] = $this->lng->txt('filter_roles_local_policy');
 		$action[5] = $this->lng->txt('filter_local_roles_object');
-		
-		return ilUtil::formSelect($_SESSION['perm_filtered_roles'],"filter",$action,false,true);
+		return ilUtil::formSelect($_SESSION['perm_filtered_roles'], "filter",$action,false,true);
 	}
 	
 	function __filterRoles($a_roles,$a_filter)
@@ -616,7 +615,7 @@ class ilPermissionGUI
 	
 	function getRolesData()
 	{
-		global $rbacsystem, $rbacreview;
+		global $rbacsystem, $rbacreview, $tree;
 
 		// first get all roles in
 		$roles = $rbacreview->getParentRoleIds($this->gui_obj->object->getRefId());
@@ -627,8 +626,12 @@ class ilPermissionGUI
 		// set default filter (all roles) if no filter is set
 		if ($_SESSION['perm_filtered_roles'] == 0)
         {
-        	$_SESSION['perm_filtered_roles'] = 1;
+            if ($tree->checkForParentType($this->gui_obj->object->getRefId(),'crs') || $tree->checkForParentType($this->gui_obj->object->getRefId(),'grp'))
+                $_SESSION['perm_filtered_roles'] = 3;
+            else
+                $_SESSION['perm_filtered_roles'] = 1;
         }
+        
         
   		// remove filtered roles from array
       	$roles = $this->__filterRoles($roles,$_SESSION["perm_filtered_roles"]);

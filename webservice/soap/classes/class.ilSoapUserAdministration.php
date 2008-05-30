@@ -942,79 +942,72 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-    	global $ilDB, $rbacreview, $rbacsystem;
-
-
+    	global $ilDB, $tree, $rbacreview, $rbacsystem;
 
 		if ($ref_id == -1)
 			$ref_id = USER_FOLDER_ID;
 
-//echo "ref_id:".$ref_id;
-
-		if(!$rbacsystem->checkAccess('read', $ref_id))
-		{
-			return $this->__raiseError('Check access failed.','Server');
-		}
-
-		if (!$object = ilObjectFactory::getInstanceByRefId($ref_id, false))
-		{
-			return $this->__raiseError("No object for reference id $ref_id", "Server");
-		}
-
-
-		$type = $object->getType();
-
-		if ($type =="cat" || $type == "crs" || $type=="grp" || $type=="usrf")
-		{
-		    $data = array();
-			switch ($type) {
-			    case "usrf":
-			        $data = ilObjUser::_getUsersForFolder(USER_FOLDER_ID, $active);
-			        break;
-				case "cat":
-					$data =  ilObjUser::_getUsersForFolder($ref_id, $active);
-					break;
-				case "crs":
-				{
-					$object->initCourseMemberObject();
-
-					// GET ALL MEMBERS
-					$members = array();
-					$roles = $object->__getLocalRoles();
-
-					foreach($roles as $role_id)
-					{
-						$members = array_merge($rbacreview->assignedUsers($role_id, array()),$members);
-					}
-
-					$data = $members;
-
-					break;
-				}
-				case "grp":
-					$member_ids = $object->getGroupMemberIds();
-					$data = ilObjUser::_getUsersForGroup($member_ids, $active);
-					break;
-			}
-
-			if (is_array($data))
+		$type = $this->checkObjectAccess($ref_id, array("crs","cat","grp","usrf","sess"), "read");
+		if ($this->isFault($type))
+		    return $type;
+		    
+	    $data = array();
+		switch ($type) {
+		    case "usrf":
+		        $data = ilObjUser::_getUsersForFolder(USER_FOLDER_ID, $active);
+		        break;
+			case "cat":
+				$data =  ilObjUser::_getUsersForFolder($ref_id, $active);
+				break;
+			case "crs":
 			{
-			  	include_once './Services/User/classes/class.ilUserXMLWriter.php';
+				$object->initCourseMemberObject();
 
-			  	$xmlWriter = new ilUserXMLWriter();
-			  	$xmlWriter->setObjects($data);
+				// GET ALL MEMBERS
+				$roles = $object->__getLocalRoles();
 
-				$xmlWriter->setAttachRoles ($attachRoles);
-				$xmlWriter->setAttachPreferences(true);
-				
-				if($xmlWriter->start())
+				foreach($roles as $role_id)
 				{
-					return $xmlWriter->getXML();
+					$data = array_merge($rbacreview->assignedUsers($role_id, array()),$data);
 				}
+
+				break;
 			}
-			return $this->__raiseError('Error in processing information. This is likely a bug.','Server');
+			case "grp":
+				$member_ids = $object->getGroupMemberIds();
+				$data = ilObjUser::_getUsersForGroup($member_ids, $active);
+				break;
+			case "sess":
+			    $course_ref_id = $tree->checkForParentType($ref_id,'crs');
+			    if(!$course_ref_id)
+			    {
+			        return $this->__raiseError("No course for session", "Client");
+			    }
+
+			    $event_obj_id = ilObject::_lookupObjId($ref_id);
+			    include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+			    $event_part = new ilEventParticipants($event_obj_id);
+			    $member_ids = array_keys($event_part->getParticipants());
+			    $data = ilObjUser::_getUsersForIds($member_ids, $active);
+			    break;
 		}
-		return $this->__raiseError('Type '.$type.' not yet supported','Client');
+
+		if (is_array($data))
+		{
+		  	include_once './Services/User/classes/class.ilUserXMLWriter.php';
+
+		  	$xmlWriter = new ilUserXMLWriter();
+		  	$xmlWriter->setObjects($data);
+
+			$xmlWriter->setAttachRoles ($attachRoles);
+			$xmlWriter->setAttachPreferences(true);
+			
+			if($xmlWriter->start())
+			{
+				return $xmlWriter->getXML();
+			}
+		}
+		return $this->__raiseError('Error in processing information. This is likely a bug.','Server');
 	}
 
 

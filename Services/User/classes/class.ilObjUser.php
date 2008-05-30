@@ -4061,6 +4061,17 @@ class ilObjUser extends ilObject
 	*/
 	public static function _getUsersForGroup ($a_mem_ids, $active = -1)
 	{
+		return ilObjUser::_getUsersForIds($a_mem_ids, $active);
+	}
+	
+	
+	/**
+	* return user data for given user id
+	* @param int array of member ids
+	* @param int active can be -1 (ignore), 1 = active, 0 = not active user
+	*/
+	public static function _getUsersForIds ($a_mem_ids, $active = -1, $timelimitowner = -1)
+	{
 		global $rbacadmin, $rbacreview, $ilDB;
 
 		// quote all ids
@@ -4077,6 +4088,9 @@ class ilObjUser extends ilObject
 
   	    if (is_numeric($active) && $active > -1)
   			$query .= " AND active = '$active'";
+  		
+  		if ($timelimitowner != USER_FOLDER_ID && $timelimitowner != -1)
+		    $query .= " AND usr_data.time_limit_owner = ".$ilDB->quote($timelimitowner);
 
   		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
@@ -4089,6 +4103,7 @@ class ilObjUser extends ilObject
 
 		return $mem_arr ? $mem_arr : array();
 	}
+	
 
 
 	/**
