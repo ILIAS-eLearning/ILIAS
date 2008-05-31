@@ -40,6 +40,7 @@ class ilPrivacySettings
 		private $export_course;
 		private $export_confirm;
 		private $fora_statistics;
+		private $anonymous_fora;
 		private $access_times;
 		private $ref_id;
 
@@ -106,7 +107,21 @@ class ilPrivacySettings
 			return $this->fora_statistics;
 		}
 
-
+	/**
+	*	write access to property anonymous fora
+	* @param bool $a_status	value to set property
+	*/	
+	public function disableAnonymousFora ($a_status) {
+		$this->anonymous_fora = (bool) $a_status;
+	}
+	
+	/**
+	*	read access to property enable anonymous fora
+	* @return bool true if enabled, false otherwise
+	*/
+	 public function disabledAnonymousFora () {
+			return $this->anonymous_fora;
+		}
 
 	public function confirmationRequired()
 	{
@@ -151,6 +166,7 @@ class ilPrivacySettings
 	 	$this->settings->set('ps_export_confirm',(bool) $this->confirmationRequired());
 	 	$this->settings->set('ps_export_course',(bool) $this->enabledExport());
 	 	$this->settings->set('enable_fora_statistics',(bool) $this->enabledForaStatistics());
+	 	$this->settings->set('disable_anonymous_fora',(bool) $this->disabledAnonymousFora());
 	 	$this->settings->set('ps_access_times',(bool) $this->enabledAccessTimes());
 	}
 	/**
@@ -176,6 +192,7 @@ class ilPrivacySettings
 		$this->export_course = (bool) $this->settings->get('ps_export_course',false);
 		$this->export_confirm = (bool) $this->settings->get('ps_export_confirm',false);
 		$this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics',false);
+		$this->anonymous_fora = (bool) $this->settings->get('disable_anonymous_fora',false);
 		$this->show_access_times = (bool) $this->settings->get('ps_access_times',false);
 
 	}

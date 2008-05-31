@@ -164,7 +164,10 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->object->setDescription(ilUtil::stripSlashes(trim($_POST["desc"])));
 
 		$this->objProperties->setDefaultView(((int) $_POST['default_view']));
-		$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);
+		if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
+		{
+			$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);		
+		}
 		if ($ilSetting->get('enable_fora_statistics'))
 		{
 			$this->objProperties->setStatisticsStatus(((int) $_POST['statistics_enabled'] == 1) ? true : false);
@@ -217,12 +220,15 @@ class ilObjForumGUI extends ilObjectGUI
 		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), '2'));
 		$rg_pro->setValue($this->objProperties->getDefaultView());		
 		$form->addItem($rg_pro);	
-		
-		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'),	'anonymized');
-		$cb_prop->setValue('1');
-		$cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
-		$cb_prop->setChecked($this->objProperties->isAnonymized() ? 1 : 0);
-		$form->addItem($cb_prop);
+
+		if (!$ilSetting->get('disable_anonymous_fora') || $this->objProperties->isAnonymized())
+		{		
+			$cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'),	'anonymized');
+			$cb_prop->setValue('1');
+			$cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
+			$cb_prop->setChecked($this->objProperties->isAnonymized() ? 1 : 0);
+			$form->addItem($cb_prop);
+		}
 		
 		if ($ilSetting->get('enable_fora_statistics'))
 		{
@@ -659,7 +665,12 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$anonymized = $_POST['anonymized'] ? $_POST['anonymized'] : 0;
 
-		$this->tpl->setVariable("CHECK_ANONYMIZED",ilUtil::formCheckbox($anonymized == 1 ? 1 : 0,'anonymized',1));
+		$this->tpl->setVariable("CHECK_ANONYMIZED",
+				ilUtil::formCheckbox(
+				$anonymized == 1 && !$this->ilias->getSetting('disable_anonymous_fora',true) ? 1 : 0,
+				'anonymized',1,
+				!$this->ilias->getSetting("disable_anonymous_fora", true)?false:true));
+	
 
 		// Statistics enabled or not
 		
@@ -773,7 +784,10 @@ class ilObjForumGUI extends ilObjectGUI
 		// save settings
 		$this->objProperties->setObjId($forumObj->getId());
 		$this->objProperties->setDefaultView(((int) $_POST['sort']));
-		$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);
+		if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
+		{
+			$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);
+		}
 		$this->objProperties->setStatisticsStatus(((int) $_POST['statistics_enabled'] == 1) ? true : false);
 		$this->objProperties->insert();		
 			

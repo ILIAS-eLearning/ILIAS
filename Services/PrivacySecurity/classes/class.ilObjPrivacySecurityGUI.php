@@ -163,6 +163,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('TXT_STATISTICS',$this->lng->txt('enable_fora_statistics'));
 	 	$this->tpl->setVariable('TXT_FORA_STATISTICS',$this->lng->txt('enable_fora_statistics_desc'));
 	 	$this->tpl->setVariable('CHECK_FORA_STATISTICS',ilUtil::formCheckbox($privacy->enabledForaStatistics() ? 1 : 0,'fora_statistics',1));
+
+		// Anonymous Fora enabled
+	 	$this->tpl->setVariable('TXT_ANONYMITY',$this->lng->txt('disable_anonymous_fora'));
+	 	$this->tpl->setVariable('TXT_ANONYMOUS_FORA',$this->lng->txt('disable_anonymous_fora_desc'));
+	 	$this->tpl->setVariable('CHECK_ANONYMOUS_FORA',ilUtil::formCheckbox($privacy->disabledAnonymousFora() ? 1 : 0,'anonymous_fora',1));
 		
 
 	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
@@ -236,6 +241,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->enableExport((int) $_POST['export_course']);
 		$privacy->setConfirmationRequired((int) $_POST['export_confirm']);
 		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
+		$privacy->disableAnonymousFora ((int) $_POST['anonymous_fora']);
 		$privacy->showAccessTimes((int) $_POST['access_times']);
 
         // validate settings
