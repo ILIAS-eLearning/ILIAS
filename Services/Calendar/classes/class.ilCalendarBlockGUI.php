@@ -52,11 +52,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$this->setImage(ilUtil::getImagePath("icon_cals_s.gif"));
 		$ilCtrl->saveParameter($this, "seed");
 		
-		// TODO: the switch between repository and personal desktop mode must be done somwhere else
-		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
-		
-
 		$lng->loadLanguageModule("dateplaner");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$this->setBlockId($ilCtrl->getContextObjId());
@@ -143,6 +138,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl;
 
+		// TODO: the switch between repository and personal desktop mode must be done somwhere else
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
+		
+		
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
 
@@ -223,6 +223,13 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	function addMiniMonth($a_tpl)
 	{
 		global $ilCtrl, $lng,$ilUser;
+		
+		if(!is_object($this->categories))
+		{
+			// TODO: the switch between repository and personal desktop mode must be done somwhere else
+			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+			$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
+		}
 		
 		// weekdays
 		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
@@ -307,12 +314,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		$a_tpl->setCurrentBlock('mini_month');
 		
-		$ilCtrl->setParameterByClass('ilcalendarmonthgui','seed',$date->get(IL_CAL_DATE));
-		$a_tpl->setVariable('OPEN_MONTH_VIEW',$ilCtrl->getLinkTargetByClass('ilcalendarmonthgui',''));
 		$a_tpl->setVariable('TXT_MONTH',
 			$lng->txt('month_'.$this->seed->get(IL_CAL_FKT_DATE,'m').'_long').
 				' '.$this->seed->get(IL_CAL_FKT_DATE,'Y'));
 		$myseed = clone($this->seed);
+		$ilCtrl->setParameterByClass('ilcalendarmonthgui','seed',$myseed->get(IL_CAL_DATE));
+		$a_tpl->setVariable('OPEN_MONTH_VIEW',$ilCtrl->getLinkTargetByClass('ilcalendarmonthgui',''));
 		$myseed->increment(ilDateTime::MONTH, -1);
 		$ilCtrl->setParameterByClass("ilcolumngui",'seed',$myseed->get(IL_CAL_DATE));
 		$a_tpl->setVariable('PREV_MONTH',

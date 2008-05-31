@@ -129,7 +129,7 @@ class ilCalendarCategoryGUI
 		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
 		
-		if(isset($_POST['type']))
+		if(isset($_POST['type']) and $_POST['type'] == ilCalendarCategory::TYPE_GLOBAL)
 		{
 			$category->setType((int) $_POST['type']);
 			$category->setObjId(0);
