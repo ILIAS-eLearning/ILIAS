@@ -181,22 +181,13 @@ th.calmini {
 tr.calmini {
 }
 
+a.calminiapp {
+	font-weight: bold;
+}
+
 p.il_calmini_monthday {
 	margin: 1px;
 	text-align:center;
-}
-
-td.calminiapp {
-	vertical-align: top;
-	border-collapse:collapse;
-	background-color:#DAE2FF;
-	border-spacing:0px;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
-	font-size:90%;
-	text-align:center;
-	vertical-align:middle;
 }
 
 td.calministd {

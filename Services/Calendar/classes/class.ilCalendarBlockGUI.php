@@ -260,9 +260,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			
 			if(count($this->scheduler->getByDay($date,$ilUser->getUserTimeZone())))
 			{
-				$a_tpl->setVariable('TD_CLASS','calminiapp');
+				$a_tpl->setVariable('DAY_CLASS','calminiapp');
+				#$a_tpl->setVariable('TD_CLASS','calminiapp');
 			}
-			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
+			if(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
 			{
 				$a_tpl->setVariable('TD_CLASS','calmininow');
 			}

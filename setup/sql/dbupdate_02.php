@@ -4685,5 +4685,49 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 chdir($wd);
 ?>
 
+<#1256>
+<?php
+$wd = getcwd();
+chdir('..');
 
+global $ilLog;
 
+include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+
+// Create missing crs calendars
+
+$query = "SELECT obd.obj_id,obd.title,obd.type FROM object_data AS obd ".
+	"LEFT JOIN cal_categories AS cc on obd.obj_id = cc.obj_id AND cc.type = 2 ".
+	"WHERE cc.obj_id IS NULL and obd.type = 'crs' ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$color = ilCalendarAppointmentColors::_getRandomColorByType('crs');
+	
+	$query = "INSERT INTO cal_categories SET ".
+		"obj_id = ".$ilDB->quote($row->obj_id).", ".
+		"title = ".$ilDB->quote($row->title).", ".
+		"color = '".$color."', ".
+		"type = 2";
+	$ilDB->query($query);
+}
+
+// Create missing grp calendars
+$query = "SELECT obd.obj_id,obd.title,obd.type FROM object_data AS obd ".
+	"LEFT JOIN cal_categories AS cc on obd.obj_id = cc.obj_id AND cc.type = 2 ".
+	"WHERE cc.obj_id IS NULL and obd.type = 'grp' ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$color = ilCalendarAppointmentColors::_getRandomColorByType('grp');
+	
+	$query = "INSERT INTO cal_categories SET ".
+		"obj_id = ".$ilDB->quote($row->obj_id).", ".
+		"title = ".$ilDB->quote($row->title).", ".
+		"color = '".$color."', ".
+		"type = 2";
+	$ilDB->query($query);
+}
+
+chdir($wd);
+?>
