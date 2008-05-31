@@ -170,7 +170,7 @@ class ilPersonalDesktopGUI
 				
 				$this->getStandardTemplates();
 				$this->setTabs();
-				include_once("classes/class.ilPDNotesGUI.php");
+				include_once("./Services/Notes/classes/class.ilPDNotesGUI.php");
 				$pd_notes_gui = new ilPDNotesGUI();
 				$ret =& $this->ctrl->forwardCommand($pd_notes_gui);
 				break;

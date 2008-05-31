@@ -205,9 +205,11 @@ class ilNoteGUI
 			$ntpl->setVariable("NOTES", $this->getNoteListHTML(IL_NOTE_PRIVATE));
 		}
 		
+		$comments_col = false;
 		if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled))
 		{
 			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC));
+			$comments_col = true;
 		}
 		
 		// Comments Settings
@@ -230,6 +232,13 @@ class ilNoteGUI
 				$ntpl->setVariable("HREF_COMMENTS_SETTINGS",
 					$ilCtrl->getLinkTargetByClass("ilnotegui", "activateComments", "notes_top"));
 			}
+			$ntpl->parseCurrentBlock();
+			$comments_col = true;
+		}
+		
+		if ($comments_col)
+		{
+			$ntpl->setCurrentBlock("comments_col");
 			$ntpl->parseCurrentBlock();
 		}
 		
