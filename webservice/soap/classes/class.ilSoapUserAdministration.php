@@ -947,12 +947,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		if ($ref_id == -1)
 			$ref_id = USER_FOLDER_ID;
 
-		$type = $this->checkObjectAccess($ref_id, array("crs","cat","grp","usrf","sess"), "read");
-		if ($this->isFault($type))
-		    return $type;
+		$object = $this->checkObjectAccess($ref_id, array("crs","cat","grp","usrf","sess"), "read", true);
+		if ($this->isFault($object))
+		    return $object;
 		    
 	    $data = array();
-		switch ($type) {
+		switch ($object->getType()) {
 		    case "usrf":
 		        $data = ilObjUser::_getUsersForFolder(USER_FOLDER_ID, $active);
 		        break;
