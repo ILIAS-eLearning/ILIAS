@@ -33,6 +33,7 @@ class ilMediaPlayerGUI
 {
 	var $file;
 	var $displayHeight;
+	var $mimeType;
 	static $nr = 1;
 
 	function __construct()
@@ -77,6 +78,11 @@ class ilMediaPlayerGUI
 		return $this->displayHeight;
 	}
 
+
+	function setMimeType ($value) {
+	    $this->mimeType = $value;
+	}
+
 	/**
 	* Get Html for MP3 Player
 	*/
@@ -84,7 +90,7 @@ class ilMediaPlayerGUI
 	{
 		global $tpl;
 		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
-		$mimeType = ilObjMediaObject::getMimeType(basename($this->getFile()));
+		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
 
 		if (strpos($mimeType,"flv") === false 
 		 && strpos($mimeType,"audio/mpeg") === false
