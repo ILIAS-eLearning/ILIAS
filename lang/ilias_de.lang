@@ -1876,6 +1876,8 @@ common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) fü
 common#:#enable_custom_icons#:#Standard-Symbole aktivieren
 common#:#enable_fora_statistics_desc#:#Wenn dies deaktiviert ist, kann niemand auf die Forenstatistiken zugreifen.
 common#:#enable_fora_statistics#:#Forenstatistiken aktivieren
+common#:#disable_anonymous_fora#:#Anonyme Foren deaktivieren
+common#:#disable_anonymous_fora_desc#:#Wenn diese Option ausgewählt ist, können Foren nicht mehr anonym geschaltet werden. Anonyme Foren können jedoch noch immer nicht-anonym geschaltet werden.
 common#:#enable_hist_user_comments_desc#:#Damit können Sie Anmerkungen zu ihren Änderungen in der Seitenchronik festhalten. Wählen Sie diesen Modus, wenn mehrere Autoren an diesem Lernmodul arbeiten und über Änderungen informiert sein sollten.
 common#:#enable_hist_user_comments#:#Erlaube Kommentare in Seitenchronik
 common#:#enable_js_edit_info#:#Diese Option aktiviert den JavaScript-Editor für alle Content-Module (ILIAS-Lernmodule, Glossare, Testfragen, Digilib-Bücher)
