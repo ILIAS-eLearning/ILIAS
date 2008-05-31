@@ -186,6 +186,10 @@ class ilCalendarCategories
 		$has_personal_calendar = false;
 		foreach($this->categories_info as $info)
 		{
+			if($info['obj_type'] == 'sess')
+			{
+				continue;
+			}
 			if($info['type'] == ilCalendarCategory::TYPE_USR)
 			{
 				$has_personal_calendar = true;
@@ -358,6 +362,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['title'] = ilObject::_lookupTitle($row->obj_id);
+			$this->categories_info[$row->cat_id]['obj_type'] = ilObject::_lookupType($row->obj_id);
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 	
 			$this->categories_info[$row->cat_id]['editable'] = false;
