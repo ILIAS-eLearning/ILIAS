@@ -65,13 +65,13 @@ a.il_PrintBack
 <!-- BEGIN note_row -->
 <!-- BEGIN edit_note_form -->
 <tr class="std">
-	<td class="option" width="1%"><a name="note_edit" />{TXT_SUBJECT}</td>
+	<td class="option" width="1"><a name="note_edit" />{TXT_SUBJECT}</td>
 	<td class="option_value" >
 		<input type="text" style="width:95%" maxlength="200" name="{SUB_NOTE}" value="{NOTE_SUBJECT}" />
 	</td>
 </tr>
 <tr class="std">
-	<td class="option" width="1%">{TXT_NOTE}</td>
+	<td class="option" width="1">{TXT_NOTE}</td>
 	<td class="option_value">
 		<textarea name="{TA_NOTE}" style="width:95%" rows="7" wrap="virtual">{NOTE_CONTENT}</textarea>
 	</td>
@@ -94,7 +94,7 @@ a.il_PrintBack
 <!-- BEGIN note -->
 <tr>
 	<!-- BEGIN checkbox_col -->
-	<td width="1%" valign="top"><input type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
+	<td width="1" valign="top"><input type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
 	</td>
 	<!-- END checkbox_col -->
 	<td class="std" colspan="{CNT_COL}">
@@ -133,14 +133,14 @@ a.il_PrintBack
 <!-- END note_row -->
 <!-- BEGIN multiple_commands -->
 <tr>
-	<td class="submit" width="1%">
+	<td width="1">
 	<input type="checkbox" name="all" value="check_all" onClick="CheckAll();" />
 	</td>
-	<td class="submit">{TXT_SELECT_ALL}
+	<td>{TXT_SELECT_ALL}
 	</td>
 </tr>
 <tr>
-	<td class="submit" colspan="2">
+	<td colspan="2">
 		<img border="0" src="{IMG_ARROW}" alt="{ALT_ARROW}" />
 		<input type="submit" class="submit" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" />
 		<input type="submit" class="submit" name="cmd[exportNotesHTML]" value="{TXT_EXPORT_NOTES}" />
@@ -150,7 +150,7 @@ a.il_PrintBack
 <!-- END multiple_commands -->
 <!-- BEGIN delete_cancel -->
 <tr>
-	<td class="submit" colspan="2">
+	<td colspan="2">
 		<input type="submit" class="submit" name="cmd[confirmDelete]" value="{TXT_DEL_NOTES}" />
 		<input type="submit" class="submit" name="cmd[cancelDelete]" value="{TXT_CANCEL_DEL_NOTES}" />
 	</td>
