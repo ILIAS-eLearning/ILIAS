@@ -43,6 +43,8 @@ include_once("./Services/Form/classes/class.ilNonEditableValueGUI.php");
 include_once("./Services/Form/classes/class.ilRegExpInputGUI.php");
 include_once('./Services/Form/classes/class.ilColorPickerInputGUI.php');
 include_once('./Services/Form/classes/class.ilPasswordInputGUI.php');
+include_once('./Services/Form/classes/class.ilUserLoginInputGUI.php');
+include_once('./Services/Form/classes/class.ilEMailInputGUI.php');
 
 /**
 * This class represents a property form user interface

@@ -33,6 +33,8 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $value;
 	protected $size = 20;
 	protected $max_length = 40;
+	protected $validateauthpost = "";
+	protected $requiredonauth = false;
 	
 	/**
 	* Constructor
@@ -136,6 +138,46 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
+	* Set Validate required status against authentication POST var.
+	*
+	* @param	string	$a_validateauthpost		POST var
+	*/
+	function setValidateAuthPost($a_validateauthpost)
+	{
+		$this->validateauthpost = $a_validateauthpost;
+	}
+
+	/**
+	* Get Validate required status against authentication POST var.
+	*
+	* @return	string		POST var
+	*/
+	function getValidateAuthPost()
+	{
+		return $this->validateauthpost;
+	}
+
+	/**
+	* Set input required, if authentication mode allows password setting.
+	*
+	* @param	boolean	$a_requiredonauth		require input
+	*/
+	function setRequiredOnAuth($a_requiredonauth)
+	{
+		$this->requiredonauth = $a_requiredonauth;
+	}
+
+	/**
+	* Get input required, if authentication mode allows password setting.
+	*
+	* @return	boolean		require input
+	*/
+	function getRequiredOnAuth()
+	{
+		return $this->requiredonauth;
+	}
+
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -152,13 +194,35 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 
 			return false;
 		}
+		if ($this->getValidateAuthPost() != "")
+		{
+			$auth = ilAuthUtils::_getAuthMode($_POST[$this->getValidateAuthPost()]);
+
+			// check, if password is required dependent on auth mode
+			if ($this->getRequiredOnAuth() && ilAuthUtils::_allowPasswordModificationByAuthMode($auth)
+				&& trim($_POST[$this->getPostVar()]) == "")
+			{
+				$this->setAlert($lng->txt("form_password_required_for_auth"));
+	
+				return false;
+			}
+			
+			// check, if password is allowed to be set for given auth mode
+			if (trim($_POST[$this->getPostVar()]) != "" &&
+				!ilAuthUtils::_allowPasswordModificationByAuthMode($auth))
+			{
+				$this->setAlert($lng->txt("form_password_not_allowed_for_auth"));
+	
+				return false;
+			}
+		}
 		if ($_POST[$this->getPostVar()] != $_POST[$this->getPostVar()."_retype"])
 		{
 			$this->setAlert($lng->txt("passwd_not_match"));
 
 			return false;
 		}
-		if (!ilUtil::isPassword($_POST[$this->getPostVar()]))
+		if (!ilUtil::isPassword($_POST[$this->getPostVar()]) && $_POST[$this->getPostVar()] != "")
 		{
 			$this->setAlert($lng->txt("passwd_invalid"));
 

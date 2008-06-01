@@ -1325,6 +1325,9 @@ form#:#form_days#:#Days
 form#:#form_hours#:#Hours
 form#:#form_minutes#:#Minutes
 form#:#form_seconds#:#Seconds
+form#:#form_retype_password#:#Retype Password
+form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.
+form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.
 common#:#hide_own_online_status#:#Hide My Online Status
 common#:#3rd_party_software#:#3rd party software
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
