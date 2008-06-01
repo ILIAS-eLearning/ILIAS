@@ -223,7 +223,8 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	* display user create form
 	*/
-	function createObject()
+/*
+	function createOldObject()
 	{
 		global $ilias, $rbacsystem, $rbacreview, $styleDefinition, $ilSetting,$ilUser;
 		
@@ -720,6 +721,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->__showUserDefinedFields();
 
 	}
+*/
 
 	function __checkUserDefinedRequiredFields()
 	{
@@ -785,132 +787,831 @@ class ilObjUserGUI extends ilObjectGUI
 		return true;
 	}
 
-	
-	/**
-	* set admin tabs
-	* @access	public
-	*
-	function setAdminTabs()
+	function initCreate()
 	{
-		global $rbacsystem;
-
-		$tabs = array();
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+		global $tpl, $rbacsystem, $rbacreview, $ilUser;
 		
-		if (isset($_POST["new_type"]) and $_POST["new_type"] == "usr")
+		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
-			$type = "usrf";
+			$this->tabs_gui->clearTargets();
+		}
+
+		// role selection
+		$obj_list = $rbacreview->getRoleListByObject(ROLE_FOLDER_ID);
+		$rol = array();
+		foreach ($obj_list as $obj_data)
+		{
+			// allow only 'assign_users' marked roles if called from category
+			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
+			{
+				include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		
+				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
+				{
+					continue;
+				}
+			}
+			// exclude anonymous role from list
+			if ($obj_data["obj_id"] != ANONYMOUS_ROLE_ID)
+			{
+				// do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
+				if ($obj_data["obj_id"] != SYSTEM_ROLE_ID or in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
+				{
+					$rol[$obj_data["obj_id"]] = $obj_data["title"];
+				}
+			}
+		}
+		
+		// raise error if there is no global role user can be assigned to
+		if(!count($rol))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_roles_users_can_be_assigned_to"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$keys = array_keys($rol);
+		
+		// set pre defined user role to default
+		if (in_array(4,$keys))
+		{
+			$this->default_role = 4;
 		}
 		else
 		{
-			$type = $this->type;
-		}
-		$d = $this->objDefinition->getProperties($type);
-
-		foreach ($d as $key => $row)
-		{
-			$tabs[] = array($row["lng"], $row["name"]);
-		}
-
-		// check for call_by_reference too to avoid hacking
-		if (isset($_GET["obj_id"]) and $this->call_by_reference === false)
-		{
-			$object_link = "&obj_id=".$_GET["obj_id"];
-		}
-
-		foreach ($tabs as $row)
-		{
-			$i++;
-
-			if ($row[1] == $_GET["cmd"])
+			if (count($keys) > 1 and in_array(2,$keys))
 			{
-				$tabtype = "tabactive";
-				$tab = $tabtype;
+				// remove admin role as preselectable role
+				foreach ($keys as $key => $val)
+				{
+					if ($val == 2)
+					{
+						unset($keys[$key]);
+						break;
+					}
+				}
+			}
+		
+			$this->default_role = array_shift($keys);
+		}
+		$this->selectable_roles = $rol;
+	}
+	
+	/**
+	* Display user create form
+	*/
+	function createObject()
+	{
+		global $tpl, $rbacsystem, $rbacreview, $ilUser;
+		
+		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
+			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$this->initCreate();
+		$this->initForm("create");
+		return $tpl->setContent($this->form_gui->getHtml());
+	}
+	
+	/**
+	* save user data
+	* @access	public
+	*/
+	function saveObject()
+	{
+        global $ilAccess, $ilSetting, $tpl, $ilUser, $rbacadmin;
+        
+        include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
+
+		// User folder
+		if (!$ilAccess->checkAccess('create_user', "", $this->usrf_ref_id) &&
+			!$ilAccess->checkAccess('cat_administrate_users', "", $this->usrf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->initCreate();
+		$this->initForm("create");
+		if ($this->form_gui->checkInput())
+		{
+// @todo: external account; time limit check and savings
+			
+			// set password type manually
+			$_POST["passwd_type"] = IL_PASSWD_PLAIN;
+			
+			// checks passed. save user
+			$userObj = new ilObjUser();
+			$userObj->assignData($_POST);
+			$userObj->setTitle($userObj->getFullname());
+			$userObj->setDescription($userObj->getEmail());
+	
+			$userObj->setTimeLimitOwner($this->object->getRefId());
+			$userObj->setTimeLimitUnlimited($_POST["time_limit_unlimited"]);
+// @todo
+//			$userObj->setTimeLimitFrom($this->__toUnix($_POST["time_limit"]["from"]));
+//			$userObj->setTimeLimitUntil($this->__toUnix($_POST["time_limit"]["until"]));
+			
+			$udf = array();
+			foreach($_POST as $k => $v)
+			{
+				if (substr($k, 0, 4) == "udf_")
+				{
+					$udf[substr($k, 5)] = $v;
+				}
+			}
+
+			$userObj->setUserDefinedData($udf);
+	
+			$userObj->create();
+			
+			include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
+			if(ilAuthUtils::_isExternalAccountEnabled())
+			{
+				$userObj->setExternalAccount($_POST["ext_account"]);
+			}
+	
+			//insert user data in table user_data
+			$userObj->saveAsNew();
+	
+			// setup user preferences
+			$userObj->setLanguage($_POST["language"]);
+	
+			//set user skin and style
+			$sknst = explode(":", $_POST["skin_style"]);
+	
+			if ($userObj->getPref("style") != $sknst[1] ||
+				$userObj->getPref("skin") != $sknst[0])
+			{
+				$userObj->setPref("skin", $sknst[0]);
+				$userObj->setPref("style", $sknst[1]);
+			}
+	
+			$userObj->setPref("hits_per_page", $_POST["hits_per_page"]);
+			$userObj->setPref("show_users_online", $_POST["show_users_online"]);							
+			$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
+			
+			$userObj->writePrefs();
+	
+			//set role entries
+			$rbacadmin->assignUser($_POST["default_role"],$userObj->getId(),true);
+	
+			$msg = $this->lng->txt("user_added");
+			
+			$ilUser->setPref('send_info_mails', ($_POST["send_mail"]));
+			$ilUser->writePrefs();
+	
+			// send new account mail
+			if ($_POST["send_mail"] != "")
+			{
+				include_once("Services/Mail/classes/class.ilAccountMail.php");
+				$acc_mail = new ilAccountMail();		
+				$acc_mail->setUserPassword($_POST["passwd"]);
+				$acc_mail->setUser($userObj);
+				
+				if ($acc_mail->send())
+				{
+					$msg = $msg."<br />".$this->lng->txt("mail_sent");
+				}
+				else
+				{
+					$msg = $msg."<br />".$this->lng->txt("mail_not_sent");
+				}
+			}
+	
+			ilUtil::sendInfo($msg, true);
+	
+			if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
+			{
+				$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
 			}
 			else
 			{
-				$tabtype = "tabinactive";
-				$tab = "tab";
+				$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
 			}
-
-			$show = true;
-
-			// only check permissions for tabs if object is a permission object
-			// TODO: automize checks by using objects.xml definitions!!
-			if (true)
-			//if ($this->call_by_reference)
-			{
-				// only show tab when the corresponding permission is granted
-				switch ($row[1])
-				{
-					case 'view':
-						if (!$rbacsystem->checkAccess('visible',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					case 'edit':
-						if (!$rbacsystem->checkAccess('write',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					case 'perm':
-						if (!$rbacsystem->checkAccess('edit_permission',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					case 'trash':
-						if (!$this->tree->getSavedNodeData($this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					// user object only
-					case 'roleassignment':
-						if (!$rbacsystem->checkAccess('edit_roleassignment',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-
-					// role object only
-					case 'userassignment':
-						if (!$rbacsystem->checkAccess('edit_userassignment',$this->ref_id))
-						{
-							$show = false;
-						}
-						break;
-				} //switch
-			}
-
-			if (!$show)
-			{
-				continue;
-			}
-
-			$this->tpl->setCurrentBlock("tab");
-			$this->tpl->setVariable("TAB_TYPE", $tabtype);
-			$this->tpl->setVariable("TAB_TYPE2", $tab);
-			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
-			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
-			$this->tpl->setVariable("TAB_LINK", $this->tab_target_script."?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
-			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
-			$this->tpl->parseCurrentBlock();
 		}
-	}*/
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$tpl->setContent($this->form_gui->getHtml());
+		}
+	}
+
+	/**
+	* Display user edit form
+	*
+	* @access	public
+	*/
+    function editObject()
+    {
+        global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
+			,$ilSetting, $ilCtrl;
+			
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
+
+        //load ILIAS settings
+        $settings = $ilias->getAllSettings();
+
+		// User folder
+		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+		}
+		// if called from local administration $this->usrf_ref_id is category id 
+		// Todo: this has to be fixed. Do not mix user folder id and category id
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			// check if user is assigned to category
+			if(!$rbacsystem->checkAccess('cat_administrate_users',$this->object->getTimeLimitOwner()))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			$this->tabs_gui->clearTargets();
+		}
+
+		// get form
+		$this->initForm("edit");
+		$this->getValues();
+		$this->tpl->setContent($this->form_gui->getHTML());
+	}
+	
+	/**
+	* Update user
+	*/
+	public function updateObject()
+	{
+		global $tpl, $rbacsystem, $ilias, $ilUser;
+		
+		// User folder
+		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+		}
+		// if called from local administration $this->usrf_ref_id is category id 
+		// Todo: this has to be fixed. Do not mix user folder id and category id
+		if($this->usrf_ref_id != USER_FOLDER_ID)
+		{
+			// check if user is assigned to category
+			if(!$rbacsystem->checkAccess('cat_administrate_users',$this->object->getTimeLimitOwner()))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
+		$this->initForm("edit");
+		if ($this->form_gui->checkInput())
+		{
+// @todo: external account; time limit
+			// if not allowed or empty -> do no change password
+			if (!ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['auth_mode']))
+				|| trim($_POST['auth_mode']) == "")
+			{
+				$_POST['passwd'] = "********";
+			}
+			$_POST["passwd_type"] = IL_PASSWD_PLAIN;
+			
+			$this->object->assignData($_POST);
+			
+// @todo
+			$this->object->setUserDefinedData($_POST['udf']);
+			
+			$this->object->updateLogin($_POST["login"]);
+			$this->object->setTitle($this->object->getFullname());
+			$this->object->setDescription($this->object->getEmail());
+			$this->object->setLanguage($_POST["language"]);
+	
+			//set user skin and style
+			$sknst = explode(":", $_POST["skin_style"]);
+	
+			if ($this->object->getPref("style") != $sknst[1] ||
+				$this->object->getPref("skin") != $sknst[0])
+			{
+				$this->object->setPref("skin", $sknst[0]);
+				$this->object->setPref("style", $sknst[1]);
+			}
+	
+			$this->object->setPref("hits_per_page", $_POST["hits_per_page"]);
+			$this->object->setPref("show_users_online", $_POST["show_users_online"]);
+			if ($_POST["hide_own_online_status"])
+			{
+				$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);	
+			}
+			else
+			{
+				$this->object->setPref("hide_own_online_status", "n");
+			}
+			
+			$this->update = $this->object->update();
+	
+			$ilUser->setPref('send_info_mails', $_POST["send_mail"]);
+			$ilUser->writePrefs();
+	
+			$mail_message = $this->__sendProfileMail();
+			$msg = $this->lng->txt('saved_successfully').$mail_message;
+	
+			// feedback
+			ilUtil::sendInfo($msg,true);
+	
+			if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
+			{
+				$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
+			}
+			else
+			{
+				$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
+			}
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$tpl->setContent($this->form_gui->getHtml());
+		}
+	}
+	
+	/**
+	* Get values from user object and put them into form
+	*/
+	function getValues()
+	{
+		global $ilUser;
+		
+		$data = array();
+
+		// login data
+		$data["auth_mode"] = $this->object->getAuthMode();
+		$data["login"] = $this->object->getLogin();
+		//$data["passwd"] = "********";
+		//$data["passwd2"] = "********";
+		$data["ext_account"] = $this->object->getExternalAccount();
+		
+		// system information
+		$data["create_date"] = $this->object->getCreateDate();
+		$data["approve_date"] = $this->object->getApproveDate();
+		$data["agree_date"] = $this->object->getAgreeDate();
+		$data["last_login"] = $this->object->getLastLogin();
+		$data["active"] = $this->object->getActive();
+		$data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
+		$from = $this->object->getTimeLimitFrom();
+		$data["time_limit_from"]["date"] = date("Y-m-d", $from);
+		$data["time_limit_from"]["time"] = date("H:i:s", $from);
+		$until = $this->object->getTimeLimitUntil();
+		$data["time_limit_until"]["date"] = date("Y-m-d", $until);
+		$data["time_limit_until"]["time"] = date("H:i:s", $until);
+		require_once "Modules/File/classes/class.ilObjFileAccess.php";
+		require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
+		require_once "Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
+		require_once "Services/Mail/classes/class.ilObjMailAccess.php";
+		require_once "Modules/Forum/classes/class.ilObjForumAccess.php";
+		$data["disk_space_used"] =
+			ilObjFileAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjFileBasedLMAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjSAHSLearningModuleAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjMailAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjForumAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>';
+		
+		// personal data
+		$data["gender"] = $this->object->getGender();
+		$data["firstname"] = $this->object->getFirstname();
+		$data["lastname"] = $this->object->getLastname();
+		$data["title"] = $this->object->getUTitle();
+		$data["institution"] = $this->object->getInstitution();
+		$data["department"] = $this->object->getDepartment();
+		$data["street"] = $this->object->getStreet();
+		$data["city"] = $this->object->getCity();
+		$data["zipcode"] = $this->object->getZipcode();
+		$data["country"] = $this->object->getCountry();
+		$data["phone_office"] = $this->object->getPhoneOffice();
+		$data["phone_home"] = $this->object->getPhoneHome();
+		$data["phone_mobile"] = $this->object->getPhoneMobile();
+		$data["fax"] = $this->object->getFax();
+		$data["email"] = $this->object->getEmail();
+		$data["hobby"] = $this->object->getHobby();
+		$data["referral_comment"] = $this->object->getComment();
+		
+		// instant messengers
+		$data["im_icq"] = $this->object->getInstantMessengerId('icq');
+		$data["im_yahoo"] = $this->object->getInstantMessengerId('yahoo');
+		$data["im_msn"] = $this->object->getInstantMessengerId('msn');
+		$data["im_aim"] = $this->object->getInstantMessengerId('aim');
+		$data["im_skype"] = $this->object->getInstantMessengerId('skype');
+		
+		// other data
+		$data["matriculation"] = $this->object->getMatriculation();
+		$data["client_ip"] = $this->object->getClientIP();
+		
+		// user defined fields
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$this->user_defined_fields = ilUserDefinedFields::_getInstance();
+		$user_defined_data = $this->object->getUserDefinedData();
+		foreach($this->user_defined_fields->getDefinitions() as $field_id => $definition)
+		{
+			$data["udf_".$field_id] = $user_defined_data[$field_id];
+		}
+
+		// settings
+		$data["language"] = $this->object->getLanguage();
+		$data["skin_style"] = $this->object->skin.":".$this->object->prefs["style"];
+		$data["hits_per_page"] = $this->object->prefs["hits_per_page"];
+		$data["show_users_online"] = $this->object->prefs["show_users_online"];
+		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"];
+		
+		// note: this option is used from / set for the user currently administrating
+		$data["send_mail"] = $ilUser->getPref('send_info_mails');
+		
+		$this->form_gui->setValuesByArray($data);
+	}
+	
+	/**
+	* Init user form
+	*/
+	function initForm($a_mode)
+	{
+		global $lng, $ilCtrl, $styleDefinition, $ilSetting, $ilClientIniFile, $ilUser;
+
+		$settings = $ilSetting->getAll();
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+		if ($a_mode == "create")
+		{
+			$this->form_gui->setTitle($lng->txt("usr_new"));
+		}
+		else
+		{
+			$this->form_gui->setTitle($lng->txt("usr_edit"));
+		}
+		
+		// login data
+		$sec_l = new ilFormSectionHeaderGUI();
+		$sec_l->setTitle($lng->txt("login_data"));
+		$this->form_gui->addItem($sec_l);
+		
+		// authentication mode
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
+		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
+		$am = new ilSelectInputGUI($lng->txt("auth_mode"), "auth_mode");
+		$option = array();
+		foreach ($active_auth_modes as $auth_name => $auth_key)
+		{
+			if ($auth_name == 'default')
+			{
+				$name = $this->lng->txt('auth_'.$auth_name)." (".$this->lng->txt('auth_'.ilAuthUtils::_getAuthModeName($auth_key)).")";
+			}
+			else
+			{
+				$name = $this->lng->txt('auth_'.$auth_name);
+			}
+			$option[$auth_name] = $name;
+		}
+		$am->setOptions($option);
+		$this->form_gui->addItem($am);
+		
+		// login
+		$lo = new ilUserLoginInputGUI($lng->txt("login"), "login");
+		$lo->setRequired(true);
+		if ($a_mode == "create")
+		{
+			$lo->setCheckUnused(true);
+		}
+		$this->form_gui->addItem($lo);
+		
+		// passwords
+		if ($a_mode == "create" ||
+			($a_mode == "save" && ilAuthUtils::_allowPasswordModificationByAuthMode(
+				ilAuthUtils::_getAuthMode($_POST['auth_mode']))) ||
+			($a_mode == "edit" &&
+				ilAuthUtils::_allowPasswordModificationByAuthMode($this->object->getAuthMode(true)))
+			)
+		{
+			$pw = new ilPasswordInputGUI($lng->txt("passwd"), "passwd");
+			$pw->setSize(32);
+			$pw->setMaxLength(32);
+			$pw->setValidateAuthPost("auth_mode");
+			if ($a_mode == "create")
+			{
+				$pw->setRequiredOnAuth(true);
+			}
+			$this->form_gui->addItem($pw);
+		}
+		// @todo: invisible/hidden passwords
+				
+		// external account
+		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
+		if(ilAuthUtils::_isExternalAccountEnabled())
+		{
+			$ext = new ilTextInputGUI($lng->txt("user_ext_account"), "ext_account");
+			$ext->setSize(40);
+			$ext->setMaxLength(50);
+			$ext->setInfo($lng->txt("user_ext_account_desc"));
+			$this->form_gui->addItem($ext);
+		}
+		
+		// login data
+		$sec_si = new ilFormSectionHeaderGUI();
+		$sec_si->setTitle($this->lng->txt("system_information"));
+		$this->form_gui->addItem($sec_si);
+
+		// create date, approve date, agreement date, last login
+		if ($a_mode == "edit")
+		{
+			$sia = array("create_date", "approve_date", "agree_date", "last_login");
+			foreach($sia as $a)
+			{
+				$siai = new ilNonEditableValueGUI($lng->txt($a), $a);
+				$this->form_gui->addItem($siai);
+			}
+		}
+		
+		// active
+		$ac = new ilCheckboxInputGUI($lng->txt("active"), "active");
+		$ac->setChecked(true);
+		$this->form_gui->addItem($ac);
+		
+		// access	@todo: get fields right (names change)
+		$lng->loadLanguageModule('crs');
+		$ac = new ilCheckboxInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
+		$ac->setChecked(true);
+		$ac->setOptionTitle($lng->txt("crs_unlimited"));
+		
+		// access.from
+		$acfrom = new ilDateTimeInputGUI($this->lng->txt("crs_from"), "time_limit_from");
+		$acfrom->setShowTime(true);
+		$ac->addSubItem($acfrom);
+
+		// access.to
+		$acto = new ilDateTimeInputGUI($this->lng->txt("crs_to"), "time_limit_until");
+		$acto->setShowTime(true);
+		$ac->addSubItem($acto);
+		
+		$this->form_gui->addItem($ac);
+		
+		// disk space used
+		if ($a_mode == "edit")
+		{
+			$ds = new ilNonEditableValueGUI($lng->txt("disk_space_used"), "disk_space_used");
+			$this->form_gui->addItem($ds);
+		}
+
+		// personal data
+		$sec_pd = new ilFormSectionHeaderGUI();
+		$sec_pd->setTitle($this->lng->txt("personal_data"));
+		$this->form_gui->addItem($sec_pd);
+		
+		// gender
+		$gndr = new ilRadioGroupInputGUI($lng->txt("gender"), "gender");
+		$gndr->setRequired(isset($settings["require_gender"]) && $settings["require_gender"]);
+		$female = new ilRadioOption($lng->txt("gender_f"), "f");
+		$gndr->addOption($female);
+		$male = new ilRadioOption($lng->txt("gender_m"), "m");
+		$gndr->addOption($male);
+		$this->form_gui->addItem($gndr);
+		
+		// firstname, lastname, title
+		$fields = array("firstname" => true, "lastname" => true,
+			"title" => isset($settings["require_title"]) && $settings["require_title"]);
+		foreach($fields as $field => $req)
+		{
+			$inp = new ilTextInputGUI($lng->txt($field), $field);
+			$inp->setSize(32);
+			$inp->setMaxLength(32);
+			$inp->setRequired($req);
+			$this->form_gui->addItem($inp);
+		}
+		
+		// personal image
+		$pi = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
+		if ($a_mode == "edit" || $a_mode == "upload")
+		{
+			$pi->setImage(ilObjUser::_getPersonalPicturePath($this->object->getId()));
+		}
+		$this->form_gui->addItem($pi);
+		
+		// contact data
+		$sec_cd = new ilFormSectionHeaderGUI();
+		$sec_cd->setTitle($this->lng->txt("contact_data"));
+		$this->form_gui->addItem($sec_cd);
+		
+		// institution, department, street, city, zip code, country, phone office
+		// phone home, phone mobile, fax, e-mail
+		$fields = array(
+			array("institution", 40, 80),
+			array("department", 40, 80),
+			array("street", 40, 40),
+			array("city", 40, 40),
+			array("zipcode", 10, 10),
+			array("country", 40, 40),
+			array("phone_office", 30, 30),
+			array("phone_home", 30, 30),
+			array("phone_mobile", 30, 30),
+			array("fax", 30, 30));
+		foreach ($fields as $field)
+		{
+			$inp = new ilTextInputGUI($lng->txt($field[0]), $field[0]);
+			$inp->setSize($field[1]);
+			$inp->setMaxLength($field[2]);
+			$inp->setRequired(isset($settings["require_".$field[0]]) &&
+				$settings["require_".$field[0]]);
+			$this->form_gui->addItem($inp);
+		}
+		
+		// email
+		$em = new ilEMailInputGUI($lng->txt("email"), "email");
+		$em->setRequired(isset($settings["require_email"]) &&
+			$settings["require_email"]);
+		$this->form_gui->addItem($em);
+		
+		// interests/hobbies
+		$hob = new ilTextAreaInputGUI($lng->txt("hobby"), "hobby");
+		$hob->setRows(3);
+		$hob->setCols(40);
+		$hob->setRequired(isset($settings["require_hobby"]) &&
+			$settings["require_hobby"]);
+		$this->form_gui->addItem($hob);
+		
+		// referral comment
+		$rc = new ilTextAreaInputGUI($lng->txt("referral_comment"), "referral_comment");
+		$rc->setRows(3);
+		$rc->setCols(40);
+		$rc->setRequired(isset($settings["require_referral_comment"]) &&
+			$settings["require_referral_comment"]);
+		$this->form_gui->addItem($rc);
+		
+		// instant messengers
+		$sec_im = new ilFormSectionHeaderGUI();
+		$sec_im->setTitle($this->lng->txt("instant_messengers"));
+		$this->form_gui->addItem($sec_im);
+		
+		// icq, yahoo, msn, aim, skype
+		$fields = array("icq", "yahoo", "msn", "aim", "skype");
+		foreach ($fields as $field)
+		{
+			$im = new ilTextInputGUI($lng->txt("im_".$field), "im_".$field);
+			$im->setSize(40);
+			$im->setMaxLength(40);
+			$this->form_gui->addItem($im);
+		}
+
+		// other information
+		$sec_oi = new ilFormSectionHeaderGUI();
+		$sec_oi->setTitle($this->lng->txt("user_profile_other"));
+		$this->form_gui->addItem($sec_oi);
+		
+		// matriculation number
+		$mr = new ilTextInputGUI($lng->txt("matriculation"), "matriculation");
+		$mr->setSize(40);
+		$mr->setMaxLength(40);
+		$mr->setRequired(isset($settings["require_referral_matriculation"]) &&
+			$settings["require_referral_matriculation"]);
+		$this->form_gui->addItem($mr);
+		
+		// client IP
+		$ip = new ilTextInputGUI($lng->txt("client_ip"), "client_ip");
+		$ip->setSize(40);
+		$ip->setMaxLength(40);
+		$ip->setInfo($this->lng->txt("current_ip")." ".$_SERVER["REMOTE_ADDR"]." <br />".
+			'<small class="warning">'.$this->lng->txt("current_ip_alert")."</span>");
+		$this->form_gui->addItem($ip);
+		
+		// additional user defined fields
+		include_once './Services/User/classes/class.ilUserDefinedFields.php';
+		$user_defined_fields = ilUserDefinedFields::_getInstance();
+		foreach($user_defined_fields->getDefinitions() as $field_id => $definition)
+		{
+			if($definition['field_type'] == UDF_TYPE_TEXT)	// text input
+			{
+				$udf = new ilTextInputGUI($definition['field_name'],
+					"udf_".$definition['field_id']);
+				$udf->setSize(40);
+				$udf->setMaxLength(255);
+			}
+			else			// selection input
+			{
+				$udf = new ilSelectInputGUI($definition['field_name'],
+					"udf_".$definition['field_id']);
+				$udf->setOptions($user_defined_fields->fieldValuesToSelectArray(
+							$definition['field_values']));
+			}
+			$udf->setRequired($definition['required']);
+			$this->form_gui->addItem($udf);
+		}
+
+		// settings
+		$sec_st = new ilFormSectionHeaderGUI();
+		$sec_st->setTitle($this->lng->txt("settings"));
+		$this->form_gui->addItem($sec_st);
+		
+		// role
+		if ($a_mode == "create")
+		{
+			$role = new ilSelectInputGUI($lng->txt("default_role"),
+				'default_role');
+			$role->setRequired(true);
+			$role->setValue($this->default_role);
+			$role->setOptions($this->selectable_roles);
+			$this->form_gui->addItem($role);
+		}
+		
+		// language
+		$lang = new ilSelectInputGUI($lng->txt("language"),
+			'language');
+		$languages = $this->lng->getInstalledLanguages();
+		$options = array();
+		foreach($languages as $l)
+		{
+			$options[$l] = $lng->txt("lang_".$l);
+		}
+		$lang->setOptions($options);
+		$lang->setValue($ilSetting->get("language"));
+		$this->form_gui->addItem($lang);
+		
+		// skin/style
+		$sk = new ilSelectInputGUI($lng->txt("skin_style"),
+			'skin_style');
+		$templates = $styleDefinition->getAllTemplates();
+		include("./Services/Style/classes/class.ilObjStyleSettings.php");
+		$options = array();
+		if (count($templates) > 0 && is_array ($templates))
+		{
+			foreach ($templates as $template)
+			{
+				$styleDef =& new ilStyleDefinition($template["id"]);
+				$styleDef->startParsing();
+				$styles = $styleDef->getStyles();
+				foreach ($styles as $style)
+				{
+					if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+					{
+						continue;
+					}
+					$options[$template["id"].":".$style["id"]] = 
+						$styleDef->getTemplateName()." / ".$style["name"];
+				}
+			}
+		}
+		$sk->setOptions($options);
+		$sk->setValue($ilClientIniFile->readVariable("layout","skin").
+			":".$ilClientIniFile->readVariable("layout","style"));
+
+		$this->form_gui->addItem($sk);
+
+		// hits per page
+		$hpp = new ilSelectInputGUI($lng->txt("hits_per_page"),
+			'hits_per_page');
+		$options = array(10 => 10, 15 => 15, 20 => 20, 30 => 30, 40 => 40,
+			50 => 50, 100 => 100, 9999 => $this->lng->txt("no_limit"));
+		$hpp->setOptions($options);
+		$hpp->setValue($ilSetting->get("hits_per_page"));
+		$this->form_gui->addItem($hpp);
+
+		// users online
+		$uo = new ilSelectInputGUI($lng->txt("users_online"),
+			'show_users_online');
+		$options = array(
+			"y" => $lng->txt("users_online_show_y"),
+			"associated" => $lng->txt("users_online_show_associated"),
+			"n" => $lng->txt("users_online_show_n"));
+		$uo->setOptions($options);
+		$uo->setValue($ilSetting->get("show_users_online"));
+		$this->form_gui->addItem($uo);
+		
+		// hide online status
+		$os = new ilCheckboxInputGUI($lng->txt("hide_own_online_status"), "hide_own_online_status");
+		$this->form_gui->addItem($os);
+		
+		// Options
+		$sec_op = new ilFormSectionHeaderGUI();
+		$sec_op->setTitle($this->lng->txt("options"));
+		$this->form_gui->addItem($sec_op);
+		
+		// send email
+		$se = new ilCheckboxInputGUI($lng->txt("inform_user_mail"), "send_mail");
+		$se->setChecked($ilUser->getPref("send_info_mails"));
+		$this->form_gui->addItem($se);
+		
+		// @todo: handle all required fields
+		
+		// command buttons
+		if ($a_mode == "create" || $a_mode == "save")
+		{
+			$this->form_gui->addCommandButton("save", $lng->txt("save"));
+		}
+		if ($a_mode == "edit" || $a_mode == "update")
+		{
+			$this->form_gui->addCommandButton("update", $lng->txt("save"));
+		}
+		$this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+	}
 
 	/**
 	* display user edit form
 	*
 	* @access	public
 	*/
-    function editObject()
+    function editOldObject()
     {
         global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
 			,$ilSetting;
@@ -1541,40 +2242,6 @@ class ilObjUserGUI extends ilObjectGUI
         $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_YEAR",$this->__getDateSelect("year","time_limit[until][year]",
                                                                                     date("Y",$time_limit_until)));
 		$this->tpl->parseCurrentBlock();
-
-		/*
-		if ($user_is_online)
-		{
-			// BEGIN TABLE ROLES
-			$this->tpl->setCurrentBlock("TABLE_ROLES");
-
-			$counter = 0;
-
-			foreach ($data["active_role"] as $role_id => $role)
-			{
-				++$counter;
-				$css_row = ilUtil::switchColor($counter,"tblrow2","tblrow1");
-				($role["active"]) ? $checked = "checked=\"checked\"" : $checked = "";
-
-				$this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",$css_row);
-				$this->tpl->setVariable("ROLECONTEXT",$role["context"]);
-				$this->tpl->setVariable("ROLENAME",$role["title"]);
-				$this->tpl->setVariable("CHECKBOX_ID", $role_id);
-				$this->tpl->setVariable("CHECKED", $checked);
-				$this->tpl->parseCurrentBlock();
-			}
-			// END TABLE ROLES
-
-			// BEGIN ACTIVE ROLES
-			$this->tpl->setCurrentBlock("ACTIVE_ROLE");
-			$this->tpl->setVariable("ACTIVE_ROLE_FORMACTION",
-				$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TXT_ACTIVE_ROLES",$this->lng->txt("active_roles"));
-			$this->tpl->setVariable("TXT_ASSIGN",$this->lng->txt("change_active_assignment"));
-			$this->tpl->parseCurrentBlock();
-			// END ACTIVE ROLES
-		}*/
-		
 		
 		$this->__showUserDefinedFields();
 	}
@@ -1702,7 +2369,8 @@ class ilObjUserGUI extends ilObjectGUI
 	* save user data
 	* @access	public
 	*/
-	function saveObject()
+/*
+	function saveObjectOld()
 	{
         global $ilias, $rbacsystem, $rbacadmin, $ilSetting;
         
@@ -1927,12 +2595,12 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
 		}
 	}
-
+*/
 	/**
 	* Does input checks and updates a user account if everything is fine.
 	* @access	public
 	*/
-	function updateObject()
+	function updateObjectOld()
 	{
         global $ilias, $rbacsystem, $rbacadmin,$ilUser;
 
