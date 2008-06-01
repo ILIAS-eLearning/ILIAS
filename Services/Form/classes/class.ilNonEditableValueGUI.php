@@ -41,8 +41,9 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 	*
 	* @param
 	*/
-	function __construct($a_title = "")
+	function __construct($a_title = "", $a_id = "")
 	{
+		parent::__construct($a_title, $a_id);
 		$this->setTitle($a_title);
 		$this->setType("non_editable_value");
 	}
@@ -112,7 +113,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 		return $this->info;
 	}
 
-		/**
+	/**
 	* Set Value.
 	*
 	* @param	string	$a_value	Value
