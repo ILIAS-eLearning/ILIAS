@@ -916,10 +916,9 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				if (substr($k, 0, 4) == "udf_")
 				{
-					$udf[substr($k, 5)] = $v;
+					$udf[(int) substr($k, 4)] = $v;
 				}
 			}
-
 			$userObj->setUserDefinedData($udf);
 	
 			$userObj->create();
@@ -1075,8 +1074,15 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			$this->object->assignData($_POST);
 			
-// @todo
-			$this->object->setUserDefinedData($_POST['udf']);
+			$udf = array();
+			foreach($_POST as $k => $v)
+			{
+				if (substr($k, 0, 4) == "udf_")
+				{
+					$udf[(int) substr($k, 4)] = $v;
+				}
+			}
+			$this->object->setUserDefinedData($udf);
 			
 			$this->object->updateLogin($_POST["login"]);
 			$this->object->setTitle($this->object->getFullname());
