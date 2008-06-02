@@ -1896,7 +1896,7 @@ common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification_cron#:#regularly per cron job
 common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail.
 common#:#cron_jobs#:#Cron jobs
-common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find information about the setup in the 'INSTALL Documentation.
 common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at 'Administration -> Search'.
 common#:#crs#:#Course
@@ -2705,7 +2705,7 @@ common#:#java_server_host#:#Host
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
 common#:#java_server_no_connection#:#Attention: Cannot connect to Java server.
 common#:#java_server_port#:#Port
-common#:#java_server_readme#:#Setup informations
+common#:#java_server_readme#:#Setup information
 common#:#join#:#Join
 common#:#buy#:#Buy
 common#:#kb#:#KByte
@@ -4862,7 +4862,7 @@ crs#:#crs_free_places#:#Available Places
 crs#:#crs_from#:#From:
 crs#:#crs_further_settings#:#Further Settings
 crs#:#crs_general_info#:#General Informations
-crs#:#crs_general_informations#:#General Informations
+crs#:#crs_general_informations#:#General Information
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_assign#:#Change assignment
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
@@ -5199,9 +5199,9 @@ crs#:#event_file_size_info#:#Filesize
 crs#:#event_full_time_info#:#full-time
 crs#:#event_fullday#:#Full-Time
 crs#:#event_fulltime_info#:#No Time Specified
-crs#:#event_further_informations#:#Further Informations
-crs#:#event_general_infos#:#General Informations
-crs#:#event_general_properties#:#General Informations
+crs#:#event_further_informations#:#Further Information
+crs#:#event_general_infos#:#General Information
+crs#:#event_general_properties#:#General Information
 crs#:#event_lecturer#:#Name
 crs#:#event_location#:#Location
 crs#:#event_participation#:#Participation
@@ -6661,7 +6661,7 @@ search#:#search_lucene#:#Lucene search
 search#:#search_lucene_host#:#Lucene-Server
 search#:#search_lucene_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
 search#:#search_lucene_port#:#Lucene-Port
-search#:#search_lucene_readme#:#Setup informations
+search#:#search_lucene_readme#:#Setup information
 search#:#search_meta#:#Metadata
 search#:#search_minimum_three#:#Your search must be at least three characters long
 search#:#search_move_folder_not_allowed#:#Folder cannot be moved.
@@ -7376,7 +7376,7 @@ trac#:#trac_mode_visits#:#Number of Visits
 trac#:#trac_modifications_saved#:#Saved settings
 trac#:#trac_modus#:#Mode
 trac#:#trac_no_attempted#:#Not Attempted
-trac#:#trac_no_content#:#No informations about the learning progress available.
+trac#:#trac_no_content#:#No information about the learning progress available.
 trac#:#trac_no_sahs_items_found#:#No objects found.
 trac#:#trac_not_accessed#:#Not Accessed
 trac#:#trac_not_assigned#:#Not Assigned
@@ -7741,7 +7741,7 @@ pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, si
 ldap#:#ldap_info_text#:#Information Text
 ldap#:#ldap_info_text_info#:#If entered, this text will be shown on the info screen for the object this role is assigned to. Optionally this text is available in the Repository and on the Personal Desktop.
 ldap#:#ldap_info_text_short#:#Info Text:
-common#:#further_informations#:#Further Informations
+common#:#further_informations#:#Further Information
 chat#:#chat_notification_intro#:#This mail was automatically sent to you by the ILIAS installation %s, %s
 common#:#applications#:#Applications
 search#:#search_page#:#Results:
@@ -8184,11 +8184,11 @@ grp#:#grp_users_added#:#Added user to the group.
 grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.
 grp#:#grp_header_waiting_list#:#Waiting List
 grp#:#grp_users_removed_from_list#:#The selected users have been removed from the waiting list.
-grp#:#grp_general_informations#:#General Informations
-grp#:#grp_information#:#Important Informations
+grp#:#grp_general_informations#:#General Information
+grp#:#grp_information#:#Important Information
 grp#:#grp_settings#:#Group Settings
-grp#:#grp_info_settings#:#Group Informations
-grp#:#grp_icon_settings#:#Group-Icon
+grp#:#grp_info_settings#:#Group Information
+grp#:#grp_icon_settings#:#Group Icon
 grp#:#grp_information_info#:#This information will be show on the info page and for new registrations.
 grp#:#reg_grp_max_members#:#Maximum Of Users
 grp#:#grp_reg_limited#:#Registration Period
