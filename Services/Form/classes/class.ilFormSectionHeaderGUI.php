@@ -34,6 +34,7 @@ class ilFormSectionHeaderGUI
 	protected $title;
 	protected $info;
 	protected $section_icon;
+	protected $section_anchor;
 	
 	/**
 	* Constructor
@@ -134,6 +135,15 @@ class ilFormSectionHeaderGUI
 	{
 		return $this->info;
 	}
+	
+	/**
+	 * set section label;
+	 *
+	 * @param unknown_type $value
+	 */
+	function setSectionAnchor($value) {
+	    $this->section_anchor = $value;
+	}
 
 	/**
 	* Insert property html
@@ -154,6 +164,8 @@ class ilFormSectionHeaderGUI
 		$a_tpl->setCurrentBlock("header");
 		$a_tpl->setVariable("TXT_TITLE", $this->getTitle());
 		$a_tpl->setVariable('HEAD_COLSPAN',2);
+		if (isset($this->section_anchor))
+		    $a_tpl->setVariable('LABEL', $this->section_anchor);
 		$a_tpl->parseCurrentBlock();
 	}
 	

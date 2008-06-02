@@ -293,8 +293,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     		$this->form_gui->addItem($section);
     		if ($a_mode != "create")
     		{
-    		    $value = new ilTextInputGUI("", "value_".$purpose);
-    		    $value->setInputType("hidden");
+    		    $value = new ilHiddenInputGUI("value_".$purpose);
     		    $label = new ilNonEditableValueGUI($lng->txt("value"));
     		    $label->setPostVar("label_value_".$purpose);	
     		    $label->setInfo($lng->txt("mcst_current_value_info"));

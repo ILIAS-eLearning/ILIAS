@@ -9,7 +9,7 @@
 	<tr class="tblheader">
 		<td class="std" colspan="{HEAD_COLSPAN}">
 		<!-- BEGIN title_icon --><img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/><!-- END title_icon -->
-		{TXT_TITLE}</td>
+		<a name="{LABEL}"/>{TXT_TITLE}</td>
 	</tr>
 	<!-- END header -->
 	<!-- BEGIN prop -->
@@ -30,6 +30,9 @@
 		<!-- BEGIN non_editable_value -->
 		{VALUE}
 		<!-- END non_editable_value -->
+		<!-- BEGIN prop_hidden -->
+		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
+		<!-- END prop_hidden -->
 		<!-- BEGIN prop_text -->
 		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
 		<!-- END prop_text -->
