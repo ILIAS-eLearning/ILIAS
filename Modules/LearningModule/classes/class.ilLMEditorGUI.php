@@ -223,7 +223,7 @@ class ilLMEditorGUI
 				$fs_gui->setMainFrameSource(
 					$this->ctrl->getLinkTargetByClass(
 						array("ilobjdlbookgui", "illmpageobjectgui"),
-						"view"));
+						"edit"));
 			}
 			else
 			{
@@ -240,7 +240,7 @@ class ilLMEditorGUI
 				$fs_gui->setMainFrameSource(
 					$this->ctrl->getLinkTargetByClass(
 						array("ilobjlearningmodulegui", "illmpageobjectgui"),
-						"view"));
+						"edit"));
 			}
 			else
 			{
