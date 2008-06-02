@@ -1132,9 +1132,9 @@ class ilObjTest extends ilObject
 * @param object $db A pear DB object
 * @access public
 */
-  function saveToDb($properties_only = FALSE)
-  {
-    global $ilDB;
+	function saveToDb($properties_only = FALSE)
+	{
+		global $ilDB, $ilLog;
 
 		$complete = 0;
 		if ($this->isComplete())
@@ -7377,13 +7377,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 	 */
 	function setActiveTestSubmitted($user_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 
 		$query = sprintf("UPDATE tst_active SET submitted = 1, submittimestamp = NOW() WHERE test_fi = %s AND user_fi = %s",
 			$ilDB->quote($this->getTestId() . ""),
 			$ilDB->quote($user_id . "")
 		);
-		$ilDB->query($query);
+		$result = $ilDB->query($query);
+		$this->testSession = NULL;
 	}
 
 	/**
