@@ -1066,7 +1066,7 @@ class ilObjUserGUI extends ilObjectGUI
 // @todo: external account; time limit
 			// if not allowed or empty -> do no change password
 			if (!ilAuthUtils::_allowPasswordModificationByAuthMode(ilAuthUtils::_getAuthMode($_POST['auth_mode']))
-				|| trim($_POST['auth_mode']) == "")
+				|| trim($_POST['passwd']) == "")
 			{
 				$_POST['passwd'] = "********";
 			}
@@ -1286,12 +1286,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->form_gui->addItem($lo);
 		
 		// passwords
-		if ($a_mode == "create" ||
-			($a_mode == "save" && ilAuthUtils::_allowPasswordModificationByAuthMode(
-				ilAuthUtils::_getAuthMode($_POST['auth_mode']))) ||
-			($a_mode == "edit" &&
-				ilAuthUtils::_allowPasswordModificationByAuthMode($this->object->getAuthMode(true)))
-			)
+// @todo: do not show passwords, if there is not a single auth, that
+// allows password setting
 		{
 			$pw = new ilPasswordInputGUI($lng->txt("passwd"), "passwd");
 			$pw->setSize(32);
