@@ -121,7 +121,7 @@ class ilTestSession
 	
 	function saveToDb()
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 		
 		$submitted = ($this->isSubmitted()) ? "1" : "0";
 		$submittedTimestamp = (strlen($this->getSubmittedTimestamp())) ? $ilDB->quote($this->getSubmittedTimestamp()) : "NULL";
