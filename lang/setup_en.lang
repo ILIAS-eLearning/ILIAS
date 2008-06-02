@@ -180,7 +180,7 @@ info_text_db2#:#Please ensure that your database is created with the "CHARACTER 
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.
 info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.
 info_text_delete#:#You may delete this client by clicking on the delete button below. However, only your client.ini file is removed, keeping all files stored in clients data directories and the database. Files and database have to be removed manually by the system's administrator.
-info_text_finish1#:#Congratulations! Your client setup were successful. Click on 'Login' to enter your ILIAS installation.
+info_text_finish1#:#Congratulations! Your client setup was successful. Click on 'Login' to enter your ILIAS installation.
 info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!
 info_text_first_client#:#Your basic settings have been saved. Now we will setup your first client. Setup will guide you through the installation process. On the panel to the right you can always see the current status of the installation process.
 info_text_first_install#:#It seems that you install ILIAS 3 for the very first time, because no ilias.ini.php file was found. In this file ILIAS stores a master password to protect ILIAS setup from unauthorized access.
