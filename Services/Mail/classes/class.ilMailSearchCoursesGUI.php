@@ -159,8 +159,8 @@ class ilMailSearchCoursesGUI
 			$mail_data["use_placeholders"]
 		);
 
-		$this->ctrl->returnToParent($this);
-		#ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
+		#$this->ctrl->returnToParent($this);
+		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
 	}
 
 	function mailMembers()
@@ -203,8 +203,8 @@ class ilMailSearchCoursesGUI
 			$mail_data["use_placeholders"]
 		);
 
-		$this->ctrl->returnToParent($this);
-		#ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
+		#$this->ctrl->returnToParent($this);
+		ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
 	}
 
 	/**
