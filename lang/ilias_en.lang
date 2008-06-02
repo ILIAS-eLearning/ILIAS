@@ -4243,6 +4243,7 @@ common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#cont_revision#:#Revision
+content#:#cont_pages_and_subchapters#:#Subchapters and Pages
 content#:#cont_pc_new#:#New Content
 content#:#cont_pc_modified#:#Modified Content
 content#:#cont_pc_deleted#:#Deleted Content

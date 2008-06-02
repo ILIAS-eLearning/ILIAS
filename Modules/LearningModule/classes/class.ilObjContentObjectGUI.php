@@ -2616,7 +2616,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 						$this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $row["child"]);
 						$this->ctrl->addLocation(
 							$title,
-							$this->ctrl->getLinkTargetByClass("illmpageobjectgui", "view"));
+							$this->ctrl->getLinkTargetByClass("illmpageobjectgui", "edit"));
 						break;
 				}
 			}

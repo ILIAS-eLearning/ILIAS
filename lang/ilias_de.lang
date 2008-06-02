@@ -620,9 +620,7 @@ assessment#:#remove_as_participant#:#Als festen Teilnehmer entfernen
 assessment#:#remove_question#:#Entfernen
 assessment#:#remove_solution#:#Musterlösung entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
-assessment#:#reset_definitions#:#Position der Definitionen zurücksetzen
 assessment#:#reset_filter#:#Filter zurücksetzen
-assessment#:#reset_pictures#:#Position der Bilder zurücksetzen
 assessment#:#result_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
 assessment#:#result_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein Fehler aufgetreten!
 assessment#:#result#:#Ergebnis
@@ -2318,7 +2316,6 @@ common#:#HH#:#SS:MM
 common#:#hide_details#:#Details ausblenden
 common#:#hide_own_online_status#:#Eigenen Online-Status nicht anzeigen
 common#:#hide_private_notes#:#Private Notizen ausblenden
-common#:#hide_public_notes#:#Öffentliche Notizen ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hide#:#Ausblenden
 common#:#hist_dbk_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
@@ -3604,7 +3601,6 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#show_private_notes#:#Private Notizen zeigen
-common#:#show_public_notes#:#Öffentliche Notizen zeigen
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#show#:#Anzeigen
@@ -4117,7 +4113,6 @@ content#:#cont_ed_insert_filelist#:#Dateiliste einf.
 content#:#cont_ed_insert_list#:#Liste einfügen
 content#:#cont_ed_insert_media#:#Medien einfügen
 content#:#cont_ed_insert_par#:#Absatz einfügen
-content#:#cont_ed_insert_table#:#Tabelle einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
 content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_moveafter#:#Verschieben nach
@@ -4858,11 +4853,9 @@ crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurs
 crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 crs#:#crs_view_archive#:#Archivansicht
 crs#:#crs_view_info_objective#:#Wählen Sie Darstellung, um eine für Lernziele optimierte Ansicht anzubieten.
-crs#:#crs_view_info_standard#:#Diese Ansicht präsentiert die Kursmaterialien ähnlich wie im Magazin.
 crs#:#crs_view_info_timing#:#Ansicht für Lernplanung
 crs#:#crs_view_mode#:#Kursdarstellung
 crs#:#crs_view_objective#:#Lernziel orientierte Ansicht
-crs#:#crs_view_standard#:#Standard Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_visibility_limitless#:#Unbegrenzt
 crs#:#crs_visibility_until#:#Zeitlich begrenzt
@@ -8032,7 +8025,6 @@ rbac#:#sess_write#:#Sitzungen bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
 common#:#obj_sess#:#Sitzung
 common#:#objs_sess#:#Sitzungen
-common#:#crs_create_sess#:#Neue Sitzung anlegen
 rbac#:#sess_copy#:#Kopieren
 common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_sess_select#:#-- Bitte wählen Sie eine Sitzung aus --
@@ -8144,3 +8136,95 @@ rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
 rbac#:#grp_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#cals_edit_event#:#Öffentliche Kalender verwalten
+assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
+form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
+form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
+form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
+common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
+common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
+common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
+common#:#grp_create_write#:#Create Wiki###02 06 2008 new variable
+wiki#:#wiki_contributors#:#Contributors###02 06 2008 new variable
+wiki#:#wiki_contributor#:#Contributor###02 06 2008 new variable
+wiki#:#wiki_page_changes#:#Page Changes###02 06 2008 new variable
+wiki#:#wiki_grading#:#Grading###02 06 2008 new variable
+wiki#:#wiki_notgraded#:#Not Graded###02 06 2008 new variable
+wiki#:#wiki_passed#:#Passed###02 06 2008 new variable
+wiki#:#wiki_failed#:#Failed###02 06 2008 new variable
+wiki#:#wiki_mark#:#Mark###02 06 2008 new variable
+wiki#:#wiki_activate_rating#:#Activate Rating###02 06 2008 new variable
+wiki#:#wiki_orphaned_pages#:#Orphaned Pages###02 06 2008 new variable
+wiki#:#wiki_last_changed_by#:#Last Changed By###02 06 2008 new variable
+wiki#:#wiki_created_by#:#Created By###02 06 2008 new variable
+wiki#:#wiki_last_changed#:#Last Change###02 06 2008 new variable
+wiki#:#wiki_page_hits#:#Page Hits###02 06 2008 new variable
+wiki#:#wiki_page#:#Page###02 06 2008 new variable
+common#:#obj_svyf#:#Survey###02 06 2008 new variable
+common#:#obj_svyf_desc#:#Platform settings for the Survey Tool###02 06 2008 new variable
+tagging#:#tagging_tags#:#Tags###02 06 2008 new variable
+rating#:#rating_your_rating#:#Your Rating###02 06 2008 new variable
+rating#:#rating_average_rating#:#Average Rating###02 06 2008 new variable
+rating#:#rating_nr_users#:#%s User(s)###02 06 2008 new variable
+tagging#:#tagging_resources_for_tag#:#Resources tagged with %s###02 06 2008 new variable
+tagging#:#tagging_all_users#:#All Users###02 06 2008 new variable
+common#:#tagging_my_tags#:#My Tags###02 06 2008 new variable
+notes#:#notes_public_comments#:#Public Comments###02 06 2008 new variable
+notes#:#notes_add_comment#:#Add Comment###02 06 2008 new variable
+notes#:#notes_show_comments#:#Show Comments###02 06 2008 new variable
+notes#:#notes_hide_comments#:#Hide Comments###02 06 2008 new variable
+notes#:#notes_all_comments#:#All Comments###02 06 2008 new variable
+notes#:#notes_my_comments#:#My Comments###02 06 2008 new variable
+notes#:#notes_comment#:#Comment###02 06 2008 new variable
+notes#:#notes_activate_comments#:#Activate Public Comments###02 06 2008 new variable
+notes#:#notes_deactivate_comments#:#Deactivate Public Comments###02 06 2008 new variable
+content#:#cont_pages_and_subchapters#:#Subchapters and Pages###02 06 2008 new variable
+content#:#cont_insert_as_subchapter#:#Insert as Subchapter###02 06 2008 new variable
+content#:#cont_insert_as_chapter#:#Insert as Chapter###02 06 2008 new variable
+content#:#cont_save_all_titles#:#Save Titles###02 06 2008 new variable
+content#:#cont_sec_block#:#Block###02 06 2008 new variable
+content#:#cont_sec_example#:#Example###02 06 2008 new variable
+content#:#cont_sec_citation#:#Citation###02 06 2008 new variable
+content#:#cont_sec_additional#:#Additional###02 06 2008 new variable
+content#:#cont_sec_special#:#Special###02 06 2008 new variable
+content#:#cont_sec_excursus#:#Excursus###02 06 2008 new variable
+content#:#cont_insert_resources#:#Insert Resource List###02 06 2008 new variable
+content#:#cont_update_resources#:#Update Resource List###02 06 2008 new variable
+content#:#cont_type#:#Type###02 06 2008 new variable
+content#:#cont_insert_section#:#Insert Section###02 06 2008 new variable
+content#:#cont_update_section#:#Update Section###02 06 2008 new variable
+content#:#cont_ed_insert_repobj#:#Insert Resource List###02 06 2008 new variable
+content#:#cont_ed_insert_tabs#:#Insert Tabs###02 06 2008 new variable
+content#:#cont_insert_tabs#:#Insert Tabs###02 06 2008 new variable
+content#:#cont_update_tabs#:#Update Tabs###02 06 2008 new variable
+content#:#cont_number_of_tabs#:#Number of Tabs###02 06 2008 new variable
+content#:#cont_tabs_hor_tabs#:#Horizontal Tabs###02 06 2008 new variable
+content#:#cont_tabs_accordion#:#Accordion###02 06 2008 new variable
+content#:#cont_ed_insert_map#:#Insert Map###02 06 2008 new variable
+content#:#cont_ed_insert_dtable#:#Insert Data Table###02 06 2008 new variable
+content#:#cont_ed_insert_atable#:#Insert Advanced Table###02 06 2008 new variable
+content#:#cont_ed_edit_data#:#Edit Data###02 06 2008 new variable
+cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.###02 06 2008 new variable
+cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
+cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.###02 06 2008 new variable
+cntr#:#cntr_view_sessions#:#Sessions View###02 06 2008 new variable
+cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
+cntr#:#cntr_view_by_type#:#Grouped-by-Type View###02 06 2008 new variable
+common#:#survey_defaults#:#Default Settings for Surveys###02 06 2008 new variable
+common#:#survey_unlimited_invitation#:#Unlimited Invitation###02 06 2008 new variable
+common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.###02 06 2008 new variable
+rbac#:#crs_create_sess#:#Create Session###02 06 2008 new variable
+survey#:#specialusers#:#Special Users###02 06 2008 new variable
+survey#:#search_users#:#Search Users###02 06 2008 new variable
+survey#:#adm_no_users_found#:#No users were found that match the search string.###02 06 2008 new variable
+survey#:#adm_search_string_too_small#:#Please enter at least two characters in the search field!###02 06 2008 new variable
+survey#:#adm_search_select_user#:#Please select at least one user!###02 06 2008 new variable
+survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
+survey#:#adm_special_users#:#Special users who are able to run a survey more than once###02 06 2008 new variable
+survey#:#adm_removed_users#:#Users removed###02 06 2008 new variable
+survey#:#adm_remove_select_user#:#Please select at least one user for removal!###02 06 2008 new variable
+assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.###02 06 2008 new variable
+assessment#:#terms#:#Terms###02 06 2008 new variable
+assessment#:#empty_term_message#:#There is a least one empty term field.###02 06 2008 new variable
+assessment#:#no_terms_message#:#Please add at least on term.###02 06 2008 new variable
