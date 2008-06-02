@@ -1275,7 +1275,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 							"now(),".
 							$ilDB->quote($old_rec["parent_id"]).",".
 							$ilDB->quote($old_rec["content"]).",".
-							$ilDB->quote($old_rec["user"]).",".
+							$ilDB->quote($old_rec["last_change_user"]).",".
 							$ilDB->quote($last_nr["mnr"] + 1).")";
 //echo "<br><br>+$a_no_history+$h_query";
 						$ilDB->query($h_query);
