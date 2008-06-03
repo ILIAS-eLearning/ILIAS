@@ -4731,3 +4731,5 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 chdir($wd);
 ?>
+<#1257>
+ALTER TABLE il_wiki_data ADD COLUMN introduction TEXT;
