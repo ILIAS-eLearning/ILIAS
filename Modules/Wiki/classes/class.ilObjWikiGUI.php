@@ -209,8 +209,44 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
-		
 		$info->enablePrivateNotes();
+		if (trim($this->object->getIntroduction()) != "")
+		{
+			$info->addSection($lng->txt("wiki_introduction"));
+			$info->addProperty("", nl2br($this->object->getIntroduction()));
+		}
+		
+		// feedback from tutor; mark, status, comment 
+		include_once("./Modules/Wiki/classes/class.ilWikiContributor.php");
+		include_once("./Services/Tracking/classes/class.ilLPMarks.php");
+		$lpcomment = ilLPMarks::_lookupComment($ilUser->getId(), $this->object->getId());
+		$mark = ilLPMarks::_lookupMark($ilUser->getId(), $this->object->getId());
+		$status = ilWikiContributor::_lookupStatus($this->object->getId(), $ilUser->getId());
+		if ($lpcomment != "" || $mark != "" || $status != ilWikiContributor::STATUS_NOT_GRADED)
+		{
+			$info->addSection($this->lng->txt("wiki_feedback_from_tutor"));
+			if ($lpcomment != "")
+			{
+				$info->addProperty($this->lng->txt("wiki_comment"),
+					$lpcomment);
+			}
+			if ($mark != "")
+			{
+				$info->addProperty($this->lng->txt("wiki_mark"),
+					$mark);
+			}
+
+			if ($status == ilWikiContributor::STATUS_PASSED) 
+			{
+				$info->addProperty($this->lng->txt("status"),
+					$this->lng->txt("wiki_passed"));
+			}
+			if ($status == ilWikiContributor::STATUS_FAILED) 
+			{
+				$info->addProperty($this->lng->txt("status"),
+					$this->lng->txt("wiki_failed"));
+			}
+		}
 		
 		/*
 		$info->enableNews();
@@ -341,6 +377,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		$des = new ilTextAreaInputGUI($lng->txt("description"), "description");
 		$this->form_gui->addItem($des);
 
+		// Introduction
+		$intro = new ilTextAreaInputGUI($lng->txt("wiki_introduction"), "intro");
+		$intro->setCols(40);
+		$intro->setRows(4);
+		$this->form_gui->addItem($intro);
+
 		// Start Page
 		$sp = new ilTextInputGUI($lng->txt("wiki_start_page"), "startpage");
 		$sp->setMaxLength(200);
@@ -398,6 +440,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["shorttitle"] = $this->object->getShortTitle();
 			$values["description"] = $this->object->getDescription();
 			$values["rating"] = $this->object->getRating();
+			$values["intro"] = $this->object->getIntroduction();
 			$this->form_gui->setValuesByArray($values);
 		}
 	}
@@ -422,6 +465,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$this->object->setStartPage($this->form_gui->getInput("startpage"));
 			$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
 			$this->object->setRating($this->form_gui->getInput("rating"));
+			$this->object->setIntroduction($this->form_gui->getInput("intro"));
 			$this->object->update();
 						
 			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);

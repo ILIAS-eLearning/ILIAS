@@ -130,6 +130,26 @@ class ilObjWiki extends ilObject
 		return $this->shorttitle;
 	}
 
+		/**
+	* Set Introduction.
+	*
+	* @param	string	$a_introduction	Introduction
+	*/
+	function setIntroduction($a_introduction)
+	{
+		$this->introduction = $a_introduction;
+	}
+
+	/**
+	* Get Introduction.
+	*
+	* @return	string	Introduction
+	*/
+	function getIntroduction()
+	{
+		return $this->introduction;
+	}
+
 	/**
 	* Create new wiki
 	*/
@@ -145,12 +165,14 @@ class ilObjWiki extends ilObject
 			", startpage".
 			", short".
 			", rating".
+			", introduction".
 			" ) VALUES (".
 			$ilDB->quote($this->getId())
 			.",".$ilDB->quote($this->getOnline())
 			.",".$ilDB->quote($this->getStartPage())
 			.",".$ilDB->quote($this->getShortTitle())
 			.",".$ilDB->quote($this->getRating())
+			.",".$ilDB->quote($this->getIntroduction())
 			.")";
 		$ilDB->query($query);
 		
@@ -187,6 +209,7 @@ class ilObjWiki extends ilObject
 			",startpage = ".$ilDB->quote($this->getStartPage()).
 			",short = ".$ilDB->quote($this->getShortTitle()).
 			",rating = ".$ilDB->quote($this->getRating()).
+			",introduction = ".$ilDB->quote($this->getIntroduction()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		$ilDB->query($query);
 
@@ -221,6 +244,7 @@ class ilObjWiki extends ilObject
 		$this->setStartPage($rec["startpage"]);
 		$this->setShortTitle($rec["short"]);
 		$this->setRating($rec["rating"]);
+		$this->setIntroduction($rec["introduction"]);
 
 	}
 
