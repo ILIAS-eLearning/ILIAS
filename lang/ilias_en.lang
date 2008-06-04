@@ -8230,3 +8230,5 @@ rbac#:#crs_edit_event#:#Edit Calendar Events
 rbac#:#grp_edit_event#:#Edit Calendar Events
 rbac#:#sess_edit_event#:#Edit Calendar Events
 rbac#:#cals_edit_event#:#Administrate Public Calendars
+common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_link_to_this_chat#:#Link to this chat

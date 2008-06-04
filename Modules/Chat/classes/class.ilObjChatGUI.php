@@ -436,7 +436,7 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("active");
 			$this->tpl->setVariable("ROOM_LINK",$script."&ref_id=".$this->ref_id."&room_id=0");
-			$this->tpl->setVariable("ROOM_TARGET","_blank");
+			$this->tpl->setVariable("ROOM_TARGET","chat");
 			$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -463,7 +463,7 @@ class ilObjChatGUI extends ilObjectGUI
 			{
 				$this->tpl->setCurrentBlock("active");
 				$this->tpl->setVariable("ROOM_LINK",$script."&ref_id=".$this->ref_id."&room_id=".$room["room_id"]);
-				$this->tpl->setVariable("ROOM_TARGET","_blank");
+				$this->tpl->setVariable("ROOM_TARGET","chat");
 				$this->tpl->setVariable("ROOM_TXT_LINK",$this->lng->txt("show"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1038,7 +1038,7 @@ class ilObjChatGUI extends ilObjectGUI
 	*/
 	function showUserFrameObject()
 	{
-		global $ilCtrl, $ilMainMenu;
+		global $ilCtrl, $ilMainMenu, $ilLocator;
 				
 		$this->object->chat_room->setUserId($_SESSION["AccountId"]);
 		$this->object->chat_room->updateLastVisit();
@@ -1052,6 +1052,10 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->addJavascript("./Services/Javascript/js/Basic.js");
 		$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
 		$this->tpl->fillJavaScriptFiles();
+		
+		$ilLocator->addRepositoryItems($this->object->getRefId());
+		$ilLocator->addItem($this->object->getTitle(), 'repository.php?ref_id='.$this->object->getRefId(), '_top', $this->object->getRefId());
+		$this->tpl->setLocator();
 		
 		if($_REQUEST["room_id"])
 		{
@@ -1190,6 +1194,13 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->tpl->setVariable("MODERATOR_TARGET","_top");
 			$this->tpl->parseCurrentBlock("moderator");
 		}
+		// permanent link
+		$this->tpl->setCurrentBlock('perma_link');
+		$this->tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH.'/goto.php?target='.$this->object->getType().'_'.$this->object->getRefId().'&client_id='.CLIENT_ID);
+		$this->tpl->setVariable('TXT_PERMA_LINK', $this->lng->txt('chat_link_to_this_chat'));
+		$this->tpl->setVariable('PERMA_TARGET', '_top');
+		$this->tpl->parseCurrentBlock();
+		
 		$this->tpl->show(false);
 		exit;
 	}

@@ -8228,3 +8228,5 @@ assessment#:#empty_terms_exist#:#There are already empty term fields. Please fil
 assessment#:#terms#:#Terms###02 06 2008 new variable
 assessment#:#empty_term_message#:#There is a least one empty term field.###02 06 2008 new variable
 assessment#:#no_terms_message#:#Please add at least on term.###02 06 2008 new variable
+common#:#chat_invite_public_room#:#Öffentl. Chat
+common#:#chat_link_to_this_chat#:#Link zu diesem Chat

@@ -504,7 +504,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		and $rbacsystem->checkAccessOfUser($a_usr_id,'read',ilObjChat::_getPublicChatRefId()))
 		{
 			$this->tpl->setCurrentBlock("chat_link");
-			$this->tpl->setVariable("TXT_CHAT_INVITE",$lng->txt('chat_invite'));
+			$this->tpl->setVariable("TXT_CHAT_INVITE",$lng->txt('chat_invite_public_room'));
 			$this->tpl->setVariable("CHAT_LINK",'./ilias.php?baseClass=ilChatPresentationGUI&ref_id='.ilObjChat::_getPublicChatRefId().
 			'&usr_id='.$a_usr_id.'&cmd=invitePD');
 			$this->tpl->parseCurrentBlock();
