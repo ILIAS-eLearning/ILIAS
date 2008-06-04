@@ -10,7 +10,7 @@
 		<a class="il_ContainerItemCommand" href="ilias.php?baseClass=ilMailGUI&type=new&rcp_to={MAIL_USR_LOGIN}">{TXT_MAIL}</a>
 		<!-- END mailto_link -->
 		<!-- BEGIN chat_link -->
-		<a class="il_ContainerItemCommand" href="{CHAT_LINK}" target="_blank">{TXT_CHAT_INVITE}</a>
+		<a class="il_ContainerItemCommand" href="{CHAT_LINK}" target="chat" onclick="openChatWindow(this); return false;">{TXT_CHAT_INVITE}</a>
 		<!-- END chat_link -->
 		</div>
 	
@@ -23,7 +23,7 @@
 		</div>
 		<!--  BEGIN chat_info -->
 		<div class="il_Description_no_margin">
-		{CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="_blank">{CHAT_TITLE}</a>
+		{CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="chat" onclick="openChatWindow(this); return false;">{CHAT_TITLE}</a>
 		</div>
 		<!--  END chat_info -->
 		<!-- BEGIN instant_messengers -->

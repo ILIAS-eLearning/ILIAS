@@ -196,3 +196,34 @@ function disableButton(formname, button, new_text)
 	}
 	document.forms[formname].submit();
 }
+
+/**
+ * Opens a chat window
+ *
+ * @param   object	the link which was clicked
+ * @param   int		desired width of the new window
+ * @param   int		desired height of the new window
+ */
+function openChatWindow(oLink, width, height)
+{
+	if(width == null)
+	{
+		width = screen.availWidth;
+	}
+	leftPos = (screen.availWidth / 2)- (width / 2);	
+	
+	if(height == null)
+	{
+		height = screen.availHeight;
+	}
+	topPos = (screen.availHeight / 2)- (height / 2);				
+
+	oChatWindow = window.open(
+		oLink.href, 
+		oLink.target, 
+		'width=' + width + ',height=' + height + ',left=' + leftPos + ',top=' + topPos +
+		',resizable=yes,scrollbars=yes,status=yes,toolbar=yes,menubar=yes,location=yes'
+	);
+
+	oChatWindow.focus();
+}
