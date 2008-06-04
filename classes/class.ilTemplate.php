@@ -151,7 +151,18 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if($add_standard_elements)
 		{
-			// these fill blocks (and must be filled first) in tpl.adm_content.html
+			// these fill blocks in tpl.main.html
+			$this->fillCssFiles();
+			$this->fillJavaScriptFiles();
+			$this->fillContentStyle();
+
+			// these fill just plain placeholder variables in tpl.main.html
+			$this->setCurrentBlock("DEFAULT");
+			$this->fillNewContentStyle();
+			$this->fillContentLanguage();
+			$this->fillWindowTitle();
+
+			// these fill blocks in tpl.adm_content.html
 			$this->fillHeaderIcon();
 			$this->fillSideIcons();
 			$this->fillStopFloating();
@@ -166,17 +177,6 @@ class ilTemplate extends ilTemplateX
 			$this->fillTitle();
 			$this->fillMainMenu();
 			$this->parseCurrentBlock();
-			
-			// these fill blocks in tpl.main.html
-			$this->fillCssFiles();
-			$this->fillJavaScriptFiles();
-			$this->fillContentStyle();
-
-			// these fill just plain placeholder variables in tpl.main.html
-			$this->setCurrentBlock("DEFAULT");
-			$this->fillNewContentStyle();
-			$this->fillContentLanguage();
-			$this->fillWindowTitle();
 		}
 
 		if ($handle_referer)
@@ -267,7 +267,18 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if ($a_fill_tabs)
 		{
-			// these fill blocks (and must be filled first) in tpl.adm_content.html
+			// these fill blocks in tpl.main.html
+			$this->fillCssFiles();
+			$this->fillJavaScriptFiles();
+			$this->fillContentStyle();
+
+			// these fill just plain placeholder variables in tpl.main.html
+			$this->setCurrentBlock("DEFAULT");
+			$this->fillNewContentStyle();
+			$this->fillContentLanguage();
+			$this->fillWindowTitle();
+
+			// these fill blocks in tpl.adm_content.html
 			$this->fillHeaderIcon();
 			$this->fillSideIcons();
 			$this->fillStopFloating();
@@ -283,16 +294,6 @@ class ilTemplate extends ilTemplateX
 			$this->fillMainMenu();
 			$this->parseCurrentBlock();
 
-			// these fill blocks in tpl.main.html
-			$this->fillCssFiles();
-			$this->fillJavaScriptFiles();
-			$this->fillContentStyle();
-
-			// these fill just plain placeholder variables in tpl.main.html
-			$this->setCurrentBlock("DEFAULT");
-			$this->fillNewContentStyle();
-			$this->fillContentLanguage();
-			$this->fillWindowTitle();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
