@@ -99,7 +99,7 @@ class ilMediaPlayerGUI
 		{
    			$html = '<embed src="'.$this->getFile().'" '.
    					'type="'.$mimeType.'" '.
-   					'autoplay="false" '.
+   					'autoplay="false" autostart="false" '.
    					'width="320" height="240"></embed>';
    			return $html;
 		}
