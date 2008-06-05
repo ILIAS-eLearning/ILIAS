@@ -58,68 +58,26 @@ class ilObjectFactory
 	}
 	
 	/**
-	 * returns all objects of an owner, filtered by type, objects are not deleted. if type is empty string or empty array no type filter is assigned and all types will be returned
+	 * returns all objects of an owner, filtered by type, objects are not deleted!
 	 *
-	 * @param mixed $object_type type or array of types
-	 * @param int $owner_id
-	 * @param boolean $id_only if true, delivers obj_ids only (faster), otherwise an array of objects
-	 * @return array
+	 * @param unknown_type $object_type
+	 * @param unknown_type $owner_id
+	 * @return unknown
 	 */
-	function getObjectsForOwner ($object_type, $owner_id, $date_filter = false, $id_only = true)
+	function getObjectsForOwner ($object_type, $owner_id)
 	{
-		global $ilias, $ilDB, $objDefinition;
+		global $ilias, $ilDB;
 
-		if (is_array($object_type) && count($object_type) > 0)
-		{
-		    if (join(",",ilUtil::quoteArray($object_type)) != join(",",ilUtil::quoteArray(array())))
-		        $owner_filter = " AND object_data.type IN (".join(",",ilUtil::quoteArray($object_type)).")";
-		} elseif (strlen($object_type) > 0) 
-	    {
-	        $owner_filter = " AND object_data.type = ".$ilDB->quote($object_type);
-	    }
-	    
-	    if ($date_filter)
-	        $date_filter = ilObjectFactory::buildDateFilter($date_filter);
-	    else 
-	        $date_filter = "";	        
-
-		$query = "SELECT ".($id_only ? "object_data.obj_id" : "object_data.*")." FROM object_data, object_reference ".
+		$query = "SELECT * FROM object_data,object_reference ".
 			"WHERE object_reference.obj_id = object_data.obj_id ".
-			$owner_filter.
-			$date_filter.
+			" AND object_data.type=".$ilDB->quote($object_type).
 			" AND object_reference.deleted = '0000-00-00 00:00:00'".
-			" AND object_data.owner = ".$ilDB->quote($owner_id)." ORDER BY type, title";
-#echo $query;
+			" AND object_data.owner = ".$ilDB->quote($owner_id);
+				
 		$res = $ilias->db->query($query);
 		$obj_ids = array();
 		while($object_rec = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-		    if ($id_only)
-			{
-			    $obj_ids [] = $object_rec["obj_id"];
-			}
-			else 
-			{
-			    $class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
-		
-        		// check class
-        		if ($class_name == "ilObj")
-        		{
-        			$message = "ilObjectFactory::getInstanceByObjId(): Not able to determine object class for type".$object_rec["type"].".";
-        			include_once ("./Services/Exceptions/classes/class.ilException.php");
-        			throw new ilException ($message);
-        		}
-        
-        		// get location
-        		$location = $objDefinition->getLocation($object_rec["type"]);
-        
-        		// create instance
-        		include_once($location."/class.".$class_name.".php");
-        		$obj =& new $class_name(0, false);	// this avoids reading of data
-        		$obj->setId($a_obj_id);
-        		$obj->setObjDataRecord($object_rec);
-        		$obj->read();
-        		$obj_ids [] = $obj;
-        	}			    
+			$obj_ids [] = $object_rec["obj_id"];
 		}
 		
 		return $obj_ids;
@@ -318,22 +276,6 @@ class ilObjectFactory
 
 		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $object_rec["type"];
-	}
-	
-	private static function buildDateFilter ($dateFilter)
-	{
-	    global $ilDB;
-	    // each row has a column name as filter field
-	    $filter = "";
-	    foreach ($dateFilter as $fieldname => $settings)
-	    {
-	        $fieldfilter = "";
-	        foreach ($settings as $setting) {
-	           $fieldfilter .= " " . $fieldname . " ". $setting ["lop"] . " " . $ilDB->quote($setting["value"]) . " " . $setting["bop"];	                
-	        }
-	        $filter .= " AND (".$fieldfilter.") ";
-	    }
-	    return strlen($filter) > 0 ? " $filter" : "";
 	}
 }
 ?>
