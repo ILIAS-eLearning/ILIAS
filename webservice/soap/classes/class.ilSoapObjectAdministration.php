@@ -31,6 +31,7 @@
    * @package ilias
    */
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
+include_once ("./Services/Exceptions/classes/class.ilException.php");
 
 class ilSoapObjectAdministration extends ilSoapAdministration
 {
@@ -1014,6 +1015,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 		global $rbacreview, $objDefinition, $rbacsystem, $lng, $ilUser;
 
+		if (strlen(trim($copy_settings_xml)) == 0)
+		{
+		    return $this->__raiseError("Copy settings XML expected!", "Client");
+		}
+		
+		
 		include_once './webservice/soap/classes/class.ilCopyWizardSettingsXMLParser.php';
 		$xml_parser = new ilCopyWizardSettingsXMLParser($copy_settings_xml);
 		try {
@@ -1170,6 +1177,137 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		
 		return true;		
 	}
+	
+/**
+	 * get courses which belong to a specific user, fullilling the status
+	 *
+	 * @param string $sid
+	 * @param string $parameters following xmlresultset, columns (user_id, types with csv-list of object types, date_filter = )
+	 * @param string xml following object dtd
+	 */
+	function getObjectsByOwner($sid, $parameters) {
+		
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+		// Include main header
+		include_once './include/inc.header.php';
+		global $rbacreview, $ilObjDataCache, $tree;
+		
+		if (strlen(trim($parameters)) == 0)
+		{
+		    return $this->__raiseError("Parameters XML expected!", "Client");
+		}
+		
+		include_once 'webservice/soap/classes/class.ilXMLResultSetParser.php';
+		$parser = new ilXMLResultSetParser($parameters);
+		try {
+			$parser->startParsing();
+		} catch (ilSaxParserException $exception) {
+			return $this->__raiseError($exception->getMessage(), "Client");
+		}
+		$xmlResultSet = $parser->getXMLResultSet();
 
+		if (!$xmlResultSet->hasColumn ("user_id"))
+			return $this->__raiseError("parameter user_id is missing", "Client");
+			
+		if (!$xmlResultSet->hasColumn ("types"))
+			return $this->__raiseError("parameter status is missing", "Client");
+		
+		$user_id = (int) $xmlResultSet->getValue (0, "user_id");
+		$types = split(",", $xmlResultSet->getValue (0, "types"));
+				
+		try{		    
+		    $createdatefilter = ilSoapObjectAdministration::parseDateParameterSettings($xmlResultSet, "cd");
+		    $lastupdatefilter = ilSoapObjectAdministration::parseDateParameterSettings($xmlResultSet, "lu");		    
+		    if (count($createdatefilter))
+		        $datefilter ["create_date"] = $createdatefilter;
+		    if (count($lastupdatefilter))
+		        $datefilter ["last_update"] = $lastupdatefilter;
+		    
+		    
+		    $owned_objects = ilObjectFactory::getObjectsForOwner($types, $user_id, $datefilter, false);
+		} catch (ilException $e) {
+		    return $this->__raiseError($e->getMessage(), "Client");
+		}
+		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
+
+		$xml_writer = new ilObjectXMLWriter();
+		if($user_id)
+		{
+			$xml_writer->setUserId($user_id);
+			$xml_writer->enableOperations(true);
+		}
+		$xml_writer->setObjects($owned_objects);
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+
+		return $this->__raiseError('Cannot create object xml !','Server');
+	}
+
+	/**
+	 * parses xml result for date filtering settings
+	 *
+	 * @param ilXMLResultSet $xmlResultSet
+	 * @param String $field_prefix
+	 * @return array
+	 * 
+	 * e.g.
+           [0] => Array
+                (
+                    [lop] => >=
+                    [value] => 2008-05-22
+                    [bop] => AND
+                )
+
+            [1] => Array
+                (
+                    [lop] => <=
+                    [value] => 2008-05-25
+                )
+        
+	 * which equals to the expression xx >= 2008-05-22 AND xx <= 2008-05-25
+     * 
+	 */
+	private static function parseDateParameterSettings($xmlResultSet, $field_prefix) {
+		$i = 1;		    	    
+	    while (true) {
+	        // value for create date
+	        $cdv = $field_prefix."v_".$i;
+	        // lexical operator for create date
+	        $cdlop = $field_prefix."lop_".$i;
+	        // boolean operator for create date
+	        $cdbop = $field_prefix."bop_".$i;
+	        // value and lexical operator are required
+	        if ($xmlResultSet->hasColumn($cdlop) && $xmlResultSet->hasColumn($cdv)) {
+	            $operator = $xmlResultSet->getValue(0, $cdlop);
+	            if(!in_array("$operator", array("<","<=",">",">=","=","<>")))
+	                throw new ilException ("Lexical operator '$operator' must be in <,>,<=,>=,=,<>");
+
+	            $value = $xmlResultSet->getValue(0, $cdv);
+	            if (!strtotime($value) && !is_numeric($value)) {
+	                throw new ilException ("Value '$value' must be Mysql Datetime format or unix time format");  
+	            }
+	            $cd_filter = array(
+	    			"lop" => $operator,
+	    			"value" => $value 
+	            );
+	            // if we have a least two date filter values, we need at least one bool operator
+	            if ($xmlResultSet->hasColumn($field_prefix."v_".($i+1))) {
+	                $cd_filter["bop"] = strtoupper($xmlResultSet->getValue(0, $cdbop));
+	                if (!in_array($cd_filter["bop"], array ("AND","OR", "AND NOT", "OR NOT")))
+	                    throw new ilException ("Boolean operator '".$cd_filter["bop"]."' must be AND,OR, AND NOT, OR NOT");		    
+	            }
+	            
+	            $datefilter []= $cd_filter;
+	            $i++; 
+	        } else 
+	            break;		        		       
+	    }
+	    return $datefilter;
+	}
 }
 ?>

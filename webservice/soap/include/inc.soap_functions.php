@@ -788,6 +788,12 @@ class ilSoapFunctions {
 		return $roa->getClientInfoXML($clientid);
 	}
 	
+	public static function getObjectsByOwner ($sid, $parameters) {
+	    include_once 'webservice/soap/classes/class.ilSoapObjectAdministration.php';
+		$soa = new ilSoapObjectAdministration();
+		return $soa->getObjectsByOwner($sid, $parameters);	    
+	}
+	
 	/**
 	 * builds http path if no client is available
 	 *
@@ -818,16 +824,8 @@ class ilSoapFunctions {
 		}
 		return ilUtil::removeTrailingPathSeparators($protocol.$host.$uri);	
 	}
-}
-
-/*	function  ilClone($sid,$copy_identifier)
-	{
-		return ilSoapFunctions::ilClone($sid,$copy_identifier);
-	}
 	
-	function  ilCloneDependencies($sid,$copy_identifier)
-	{
-		return ilSoapFunctions::ilCloneDependencies($sid,$copy_identifier);
-	}*/
+	
+}
 
 	?>
