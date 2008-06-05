@@ -890,16 +890,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$tmp_obj = $object_data["instance"];
 				$tmp_obj->setTitle($object_data['title']);
 				$tmp_obj->setDescription($object_data['description']);
-				if(strlen($object_data['owner']))
-				{
-					$tmp_obj->setOwner($object_data['owner']);
-				}
 				switch ($object_data['type']) {
 					case 'cat':
 						$tmp_obj->updateTranslation($object_data["title"],$object_data["description"], $lng->getLangKey(), $lng->getLangKey());
 						break;
 				}
 				$tmp_obj->update();
+				if(strlen($object_data['owner']) && is_numeric($object_data['owner']))
+				{
+				    $tmp_obj->setOwner($object_data['owner']);
+					$tmp_obj->updateOwner();
+				}
+				
 			}
 			return true;
 		}
