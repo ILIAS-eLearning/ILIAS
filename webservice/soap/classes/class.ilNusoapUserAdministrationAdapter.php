@@ -1092,6 +1092,15 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getClientInfoXML(): returns XML following installation_info dtd, contains the client the data of given client id');
 								
+		$this->server->register ('getObjectsForOwner',
+								array('sid' => 'xsd:string', 'parameters' => 'xsd:string'),
+								array('xml' => 'xsd:string'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#getObjectsForOwner',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS getObjectsForOwner(): returns Object xml. $parameters has to contain a column user_id and a column type. Additionally, one can define a date filter: columns: Pv_I : value, Plop_I: lexical operator, Pbop_I: boolean operator with P in [cd,lu], cd = create_date, lu = last_update; i = [1..n], to create a boolean expression');								
+								
 		return true;
 
 	}
