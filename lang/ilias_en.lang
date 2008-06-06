@@ -2050,7 +2050,7 @@ common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
-common#:#disable_anonymous_fora#:#Disable anonymous fora
+common#:#disable_anonymous_fora#:#Disable Anonymous Forum
 common#:#disable_anonymous_fora_desc#:#If option is enabled, nobody is able to make a forum anonymous. Making an anonymous forum non-anonymous is still possible.
 common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
