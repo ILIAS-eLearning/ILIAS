@@ -1,0 +1,36 @@
+<tr class="{CSS_ROW}">
+	<td class="std" valign="top">
+		<input type="checkbox" name="objective[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
+	</td>
+	<td class="std" valign="top">
+		<input type="text" name="position[{VAL_ID}]" value="{VAL_POSITION}" size="2" maxlength="5" />
+	<td class="std" valign="top">
+  		<label for="{VAL_ID}">
+			{VAL_TITLE}
+			<!-- BEGIN desc -->
+			<div class="il_Description">{VAL_DESC}</div>
+			<!-- END desc -->
+		</label>
+	</td>
+	<td class="std" valign="top">
+		<!-- BEGIN mat_row -->
+		<!-- BEGIN lm --><img src="{LM_IMG}" alt="{LM_ALT}" title="{LM_ALT}" border="0" vspace="0" /> {LM_TITLE} -> <!-- END lm -->
+		<img src="{MAT_IMG}" alt="{MAT_ALT}" title="{MAT_ALT}" border="0" vspace="0" /> {MAT_TITLE}<br />
+		<!-- END mat_row -->
+	</td>
+	<td class="std" valign="top">
+		<!-- BEGIN self_test_row -->
+		<img src="{SELF_TST_IMG}" alt="{SELF_TST_ALT}" title="{SELF_TST_ALT}" border="0" vspace="0" /> {SELF_TST_TITLE}
+			<ul style="margin: 0px"><!-- BEGIN self_qst_row --><li style="margin: 0px;padding: 1px">{SELF_QST_TITLE}</li><!-- END self_qst_row --></ul>
+		<!-- END self_test_row -->
+	</td>
+	<td class="std" valign="top">
+		<!-- BEGIN final_test_row -->
+		<img src="{FINAL_TST_IMG}" alt="{FINAL_TST_ALT}" title="{FINAL_TST_ALT}" border="0" vspace="0" /> {FINAL_TST_TITLE}
+			<ul style="margin: 0px"><!-- BEGIN final_qst_row --><li style="margin: 0px;padding: 1px">{FINAL_QST_TITLE}</li><!-- END final_qst_row --></ul>
+		<!-- END final_test_row -->
+	</td>
+	<td class="std" valign="top">
+		<a href="{EDIT_LINK}" class="il_ContainerItemCommand2">{TXT_EDIT}</a>
+	</td>
+</tr>

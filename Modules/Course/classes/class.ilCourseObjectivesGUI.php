@@ -33,6 +33,11 @@
 
 class ilCourseObjectivesGUI
 {
+	const MODE_UNDEFINED = 0;
+	const MODE_CREATE = 1;
+	const MODE_UPDATE = 2;
+	
+	
 	var $ctrl;
 	var $ilias;
 	var $ilErr;
@@ -53,6 +58,7 @@ class ilCourseObjectivesGUI
 
 		$this->ilErr =& $ilErr;
 		$this->lng =& $lng;
+		$this->lng->loadLanguageModule('crs');
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
 		$this->tabs_gui =& $ilTabs;
@@ -83,327 +89,39 @@ class ilCourseObjectivesGUI
 	}
 	
 	/**
-	 * List question assignent 
+	 * list objectives
 	 *
-	 * @access public
-	 * 
+	 * @access protected
+	 * @param
+	 * @return
 	 */
-	public function listQuestionAssignment()
+	protected function listObjectives()
 	{
-	 	global $ilAccess;
+	 	global $ilAccess,$ilErr,$ilObjDataCache;
 	 	
-	 	if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
-	 	{
-	 		$this->ilErr->raiseError($this->lng->txt('msg_no_perm_write',$this->ilErr->MESSAGE));
-	 	}
-		if(!isset($_GET['objective_id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-			return false;
-		}
-		include_once('Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
-		if(!$assignable = ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_tests_inside_crs'));
-			$this->listObjectives();
-			return false;
-		}
-		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_objective_list_questions.html','Modules/Course');
-		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives'));
-		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
-		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-		
-		// Back button
-		$this->__showButton('listObjectives',$this->lng->txt('back'));
-		
-		// Title
-		$this->__initObjectivesObject((int) $_GET['objective_id']);
-		$this->__initQuestionObject((int) $_GET['objective_id']);
-		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives_lm_assignment'));
-		$this->tpl->setVariable('OBJECTIVE_TITLE',$this->objectives_obj->getTitle());
-		
-		// Footer
-		$this->tpl->setVariable('DOWNRIGHT',ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable('BTN_ASSIGN',$this->lng->txt('crs_objective_assign_lm'));
-		$this->tpl->setVariable('BTN_CANCEL',$this->lng->txt('cancel'));
-		
-		$counter = 0;
-		foreach($assignable as $node)
-		{
-			if(!$tmp_tst =& ilObjectFactory::getInstanceByRefId((int) $node['ref_id'],false))
-			{
-				continue;
-			}		
-
-			$assignable = false;
-			foreach($qst = $this->__sortQuestions($tmp_tst->getAllQuestions()) as $question_data)
-			{
-				$tmp_question =& ilObjTest::_instanciateQuestion($question_data['question_id']);
-
-				$this->tpl->setCurrentBlock('chapter');
-				$this->tpl->setVariable('CHAPTER_TITLE',$tmp_question->getTitle());
-				$id = ilCourseObjectiveQuestion::_isAssigned((int) $_GET['objective_id'],
-					$tmp_tst->getRefId(),
-					$question_data['question_id']);
-				$this->tpl->setVariable('CHECK_CHAPTER',ilUtil::formCheckbox(
-						$id ? 1 : 0,
-						'questions[]',$node['ref_id'].'_'.$question_data['question_id']));
-				$this->tpl->parseCurrentBlock();
-	
-			}
-			if(count($qst))
-			{
-				$this->tpl->setCurrentBlock('chapters');
-				$this->tpl->setVariable('TXT_CHAPTER',$this->lng->txt('objs_qst'));
-				$this->tpl->parseCurrentBlock();
-			}			
-			
-			
-			if(strlen($node['description']))
-			{
-				$this->tpl->setCurrentBlock('row_desc');
-				$this->tpl->setVariable('DESCRIPTION',$node['description']);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock('table_content');
-			$this->tpl->setVariable('ROWCOL',ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'.gif'));
-			$this->tpl->setVariable('TYPE_ALT',$this->lng->txt('obj_'.$node['type']));
-			$this->tpl->setVariable('MAT_TITLE',$node['title']);
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-	
-	/**
-	 * Assign materials
-	 *
-	 * @access public
-	 */
-	public function assignQuestions()
-	{
-		global $ilAccess,$ilObjDataCache;
-
-		// MINIMUM ACCESS LEVEL = 'write'
+		$_SESSION['objective_mode'] = self::MODE_UNDEFINED;
 		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
 		{
 			$this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
 		}
-		if(!isset($_GET['objective_id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-			return false;
-		}
-
-		$this->__initQuestionObject((int) $_GET['objective_id']);
 		
-		if(!is_array($_POST['questions']))
-		{
-			$this->objectives_qst_obj->deleteAll();
-		}
-		else
-		{
-			// Delete unchecked
-			foreach($this->objectives_qst_obj->getQuestions() as $question)
-			{
-				$id = $question['ref_id'].'_'.$question['question_id'];
-				if(!in_array($id,$_POST['questions']))
-				{
-					$this->objectives_qst_obj->delete($question['qst_ass_id']);
-				}
-			}
-			// Add checked
-			foreach($_POST['questions'] as $question_id)
-			{
-				list($test_ref_id,$qst_id) = explode('_',$question_id);
-				$test_obj_id = $ilObjDataCache->lookupObjId($test_ref_id);
-
-				if(ilCourseObjectiveQuestion::_isAssigned((int) $_GET['objective_id'],$test_ref_id,$qst_id))
-				{
-					continue;
-				}
-				
-				$this->objectives_qst_obj->setTestRefId($test_ref_id);
-				$this->objectives_qst_obj->setTestObjId($test_obj_id);
-				$this->objectives_qst_obj->setQuestionId($qst_id);
-				$this->objectives_qst_obj->add();
-			}
-		}
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_objectives.html','Modules/Course');
 		
-		ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
-		$this->listObjectives();
-	}
-	
-
-	/**
-	 * Show assignment of course materials
-	 *
-	 * @access public
-	 * 
-	 */
-	public function listMaterialAssignment()
-	{
-	 	global $ilAccess, $objDefinition;
-	 	
-	 	if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
-	 	{
-	 		$this->ilErr->raiseError($this->lng->txt('msg_no_perm_write',$this->ilErr->MESSAGE));
-	 	}
-		if(!isset($_GET['objective_id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-			return false;
-		}
-		include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
-		if(!$assignable = ilCourseObjectiveMaterials::_getAssignableMaterials($this->course_obj->getRefId()))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_lms_found'));
-			$this->listObjectives();
-			return false;
-		}
+		include_once('./Modules/Course/classes/class.ilCourseObjectivesTableGUI.php');
+		$table = new ilCourseObjectivesTableGUI($this,$this->course_obj);
+		$table->setTitle($this->lng->txt('crs_objectives'),'icon_lobj.gif',$this->lng->txt('crs_objectives'));
+		$table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId()));
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_objective_list_materials.html','Modules/Course');
-		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives'));
-		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
-		
-		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-		
-		// Back button
-		$this->__showButton('listObjectives',$this->lng->txt('back'));
-		
-		// Title
-		$this->__initObjectivesObject((int) $_GET['objective_id']);
-		$this->__initLMObject((int) $_GET['objective_id']);
-		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives_lm_assignment'));
-		$this->tpl->setVariable('OBJECTIVE_TITLE',$this->objectives_obj->getTitle());
-		
-		// Footer
-		$this->tpl->setVariable('DOWNRIGHT',ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable('BTN_ASSIGN',$this->lng->txt('crs_objective_assign_lm'));
-		$this->tpl->setVariable('BTN_CANCEL',$this->lng->txt('cancel'));
-		
-		$counter = 0;
-		foreach($assignable as $node)
-		{
-			// no side blocks here
-			if($objDefinition->isSideBlock($node['type']))
-			{
-				continue;
-			}
-			
-			if($node['type'] == 'lm')
-			{
-				include_once('Modules/LearningModule/classes/class.ilLMObject.php');
-				foreach($chapters = $this->__getAllChapters($node['child']) as $chapter => $depth)
-				{
-					for($i = $depth;$i > 1;$i--)
-					{
-						$this->tpl->touchBlock('begin_depth');
-						$this->tpl->touchBlock('end_depth');
-					}
-				
-					$this->tpl->setCurrentBlock('chapter');
-					$this->tpl->setVariable('CHAPTER_TITLE',ilLMObject::_lookupTitle($chapter));
-					$this->tpl->setVariable('CHECK_CHAPTER',ilUtil::formCheckbox(
-						$this->objectives_lm_obj->isChapterAssigned($node['ref_id'],$chapter) ? 1 : 0,
-						'chapters[]',$node['child'].'_'.$chapter));
-					$this->tpl->parseCurrentBlock();
-				}
-				if(count($chapters))
-				{
-					$this->tpl->setCurrentBlock('chapters');
-					$this->tpl->setVariable('TXT_CHAPTER',$this->lng->txt('objs_st'));
-					$this->tpl->parseCurrentBlock();
-				}			
-			}
-			if(strlen($node['description']))
-			{
-				$this->tpl->setCurrentBlock('row_desc');
-				$this->tpl->setVariable('DESCRIPTION',$node['description']);
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$this->tpl->setCurrentBlock('table_content');
-			$this->tpl->setVariable('ROWCOL',ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
-			$this->tpl->setVariable('CHECK_MAT',ilUtil::formCheckbox($this->objectives_lm_obj->isAssigned($node['child']) ? 1 : 0,
-				'materials[]',$node['child']));
-			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'.gif'));
-			$this->tpl->setVariable('TYPE_ALT',$this->lng->txt('obj_'.$node['type']));
-			$this->tpl->setVariable('MAT_TITLE',$node['title']);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-
-		
+		$this->tpl->setVariable('OBJECTIVES_TABLE',$table->getHTML());
 	}
 	
 	/**
-	 * Assign materials
+	 * save position
 	 *
-	 * @access public
+	 * @access protected
+	 * @return
 	 */
-	public function assignMaterials()
-	{
-		global $ilAccess,$ilObjDataCache;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$ilAccess->checkAccess("write",'',$this->course_obj->getRefId()))
-		{
-			$this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-		if(!isset($_GET['objective_id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-			return false;
-		}
-
-		$this->__initLMObject((int) $_GET['objective_id']);
-		$this->objectives_lm_obj->deleteAll();
-		
-		if(is_array($_POST['materials']))
-		{
-			foreach($_POST['materials'] as $node_id)
-			{
-				$obj_id = $ilObjDataCache->lookupObjId($node_id);
-				$type = $ilObjDataCache->lookupType($obj_id);
-				
-				$this->objectives_lm_obj->setLMRefId($node_id);
-				$this->objectives_lm_obj->setLMObjId($obj_id);
-				$this->objectives_lm_obj->setType($type);
-				$this->objectives_lm_obj->add();
-			}
-		}
-		if(is_array($_POST['chapters']))
-		{
-			foreach($_POST['chapters'] as $chapter)
-			{
-				list($ref_id,$chapter_id) = explode('_',$chapter);
-				
-				$this->objectives_lm_obj->setLMRefId($ref_id);
-				$this->objectives_lm_obj->setLMObjId($chapter_id);
-				$this->objectives_lm_obj->setType('st');
-				$this->objectives_lm_obj->add();
-			}
-		}
-		ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
-		$this->listObjectives();
-	}
-
-	
-	/**
-	 * Show objectives
-	 *
-	 * @access public
-	 * 
-	 */
-	public function listObjectives()
+	protected function saveSorting()
 	{
 	 	global $ilAccess,$ilErr,$ilObjDataCache;
 	 	
@@ -411,284 +129,18 @@ class ilCourseObjectivesGUI
 		{
 			$this->ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
 		}
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_show_objectives.html','Modules/Course');
-		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable('TABLE_TITLE',$this->lng->txt('crs_objectives'));
-		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
-		$this->tpl->setVariable('TBL_TITLE_IMG_ALT',$this->lng->txt('crs_objectives'));
-		$this->tpl->setVariable('HEAD_TITLE',$this->lng->txt('title'));
-		$this->tpl->setVariable('HEAD_MATERIALS',$this->lng->txt('crs_objective_assigned_materials'));
-		$this->tpl->setVariable('HEAD_QUESTIONS',$this->lng->txt('crs_objective_assigned_qst'));
-		$this->tpl->setVariable('DOWNRIGHT',ilUtil::getImagePath('arrow_downright.gif'));
-		$this->tpl->setVariable('BTN_DELETE',$this->lng->txt('delete'));
-		$this->tpl->setVariable('BTN_ADD',$this->lng->txt('crs_add_objective'));
 		
-		if(!count($objectives = ilCourseObjective::_getObjectiveIds($this->course_obj->getId())))
-		{
-			$this->tpl->setCurrentBlock('table_empty');
-			$this->tpl->setVariable('EMPTY_TXT',$this->lng->txt('crs_no_objectives_created'));
-			$this->tpl->parseCurrentBlock();
-			return true;
-		}
+		asort($_POST['position'],SORT_NUMERIC);
 		
-		$counter = 0;
-		foreach($objectives as $objective)
+		$counter = 1;
+		foreach($_POST['position'] as $objective_id => $position)
 		{
-			$objective_obj = $this->__initObjectivesObject($objective);
-	
-			// Up down links
-			++$counter;
-			if(count($objectives) > 1)
-			{
-				if($counter == 1)
-				{
-					$this->tpl->setVariable("NO_IMG_PRE_TYPE",ilUtil::getImagePath('empty.gif'));
-				}					
-				if($counter > 1) 
-				{
-					$this->tpl->setCurrentBlock("img");
-					$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
-					$this->tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'moveObjectiveUp'));
-					$this->tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('a_up.gif'));
-					$this->tpl->setVariable("IMG_ALT",$this->lng->txt('crs_move_up'));
-					$this->tpl->parseCurrentBlock();
-				}
-				if($counter < count($objectives))
-				{
-					$this->tpl->setCurrentBlock("img");
-					$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
-					$this->tpl->setVariable("IMG_LINK",$this->ctrl->getLinkTarget($this,'moveObjectiveDown'));
-					$this->tpl->setVariable("IMG_TYPE",ilUtil::getImagePath('a_down.gif'));
-					$this->tpl->setVariable("IMG_ALT",$this->lng->txt('crs_move_down'));
-					$this->tpl->parseCurrentBlock();
-				}
-				if($counter == count($objectives))
-				{
-					$this->tpl->setCurrentBlock("no_img_post");
-					$this->tpl->setVariable("NO_IMG_POST_TYPE",ilUtil::getImagePath('empty.gif'));
-					$this->tpl->parseCurrentBlock();
-				}					
-			}
-			
-			// Assigned Tests
-			$this->__initQuestionObject($objective_obj->getObjectiveId());
-			foreach($this->objectives_qst_obj->getTests() as $tst)
-			{
-				foreach($this->objectives_qst_obj->getQuestionsOfTest($tst['obj_id']) as $qst)
-				{
-					$this->tpl->setCurrentBlock('qst_row');
-					$this->tpl->setVariable('QST_TITLE',$qst['title']);
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock('test_row');
-				$this->tpl->setVariable('TST_IMG',ilUtil::getImagePath('icon_tst_s.gif'));
-				$this->tpl->setVariable('TST_ALT',$this->lng->txt('obj_tst'));
-				$this->tpl->setVariable('TST_TITLE',$tst['title']);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// Assigned Materials
-			$this->__initLMObject($objective_obj->getObjectiveId());
-			foreach($this->objectives_lm_obj->getMaterials() as $material)
-			{
-				$this->tpl->setCurrentBlock('material_row');
-		
-				$container_obj_id = $ilObjDataCache->lookupObjId($material['ref_id']);
-				$title = $ilObjDataCache->lookupTitle($container_obj_id);
-				switch($material['type'])
-				{
-					case 'st':
-						include_once('Modules/LearningModule/classes/class.ilLMObject.php');
-						$img = ilUtil::getImagePath('icon_lm_s.gif');
-						$alt = $this->lng->txt('obj_'.$material['type']);
-						$chapter_title = 
-						$title .= (' -> '.ilLMObject::_lookupTitle($material['obj_id'])); 
-						break;
-					default: 
-						$img = ilUtil::getImagePath('icon_'.$material['type'].'_s.gif');
-						$alt = $this->lng->txt('obj_'.$material['type']);
-						break;
-				}
-				$this->tpl->setVariable('MAT_IMG',$img);
-				$this->tpl->setVariable('MAT_ALT',$alt);
-				$this->tpl->setVariable('MAT_TITLE',$title);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("table_content");
-			$this->tpl->setVariable('LABEL_ID',$objective_obj->getObjectiveId());
-			$this->tpl->setVariable("ROWCOL",ilUtil::switchColor($counter,"tblrow2","tblrow1"));
-			$this->tpl->setVariable("CHECK_OBJECTIVE",ilUtil::formCheckbox(0,'objective[]',$objective_obj->getObjectiveId()));
-			$this->tpl->setVariable("TITLE",$objective_obj->getTitle());
-			$this->tpl->setVariable("DESCRIPTION",$objective_obj->getDescription());
-			
-			$this->ctrl->setParameter($this,'objective_id',$objective_obj->getObjectiveId());
-			$this->tpl->setVariable('LINK_MAT',$this->ctrl->getLinkTarget($this,'listMaterialAssignment'));
-			$this->tpl->setVariable('ADD_MAT',$this->lng->txt('crs_objective_add_mat'));
-			$this->tpl->setVariable('LINK_QST',$this->ctrl->getLinkTarget($this,'listQuestionAssignment'));
-			$this->tpl->setVariable('ADD_QST',$this->lng->txt('crs_objective_add_qst'));
-			$this->tpl->setVariable('LINK_EDIT',$this->ctrl->getLinkTarget($this,'editObjective'));
-			$this->tpl->setVariable('EDIT',$this->lng->txt('edit'));
-			$this->tpl->parseCurrentBlock();
+			$objective = new ilCourseObjective($this->course_obj,$objective_id);
+			$objective->writePosition($counter++);
 		}
-	 	
-	}
-
-	function moveObjectiveUp()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-		if(!$_GET['objective_id'])
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-			
-			return true;
-		}
-		$objective_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
-
-		$objective_obj->moveUp((int) $_GET['objective_id']);
-		ilUtil::sendInfo($this->lng->txt('crs_moved_objective'));
-
+		ilUtil::sendInfo($this->lng->txt('crs_objective_saved_sorting'));
 		$this->listObjectives();
-
-		return true;
 	}
-	function moveObjectiveDown()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-		if(!$_GET['objective_id'])
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-			
-			return true;
-		}
-		$objective_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
-
-		$objective_obj->moveDown((int) $_GET['objective_id']);
-		ilUtil::sendInfo($this->lng->txt('crs_moved_objective'));
-
-		$this->listObjectives();
-
-		return true;
-	}
-
-
-	function addObjective()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_add_objective.html",'Modules/Course');
-		
-		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
-		$this->tpl->setVariable('TBL_TITLE_IMG_ALT',$this->lng->txt('crs_objectives'));
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('crs_add_objective'));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('description'));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt('required_field'));
-		$this->tpl->setVariable("CMD_SUBMIT",'saveObjective');
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('add'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-
-		return true;
-	}
-
-	function editObjective()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-		if(!isset($_GET['objective_id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-
-			return false;
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_add_objective.html",'Modules/Course');
-
-		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt('crs_update_objective'));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable('TBL_TITLE_IMG',ilUtil::getImagePath('icon_lobj.gif'));
-		$this->tpl->setVariable('TBL_TITLE_IMG_ALT',$this->lng->txt('crs_objectives'));
-		$this->tpl->setVariable("TXT_DESC",$this->lng->txt('description'));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD",$this->lng->txt('required_field'));
-		$this->tpl->setVariable("CMD_SUBMIT",'updateObjective');
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('save'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-
-		$objective_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
-
-		$this->tpl->setVariable("TITLE",$objective_obj->getTitle());
-		$this->tpl->setVariable("DESC",$objective_obj->getDescription());
-
-		return true;
-	}
-
-	function updateObjective()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-		if(!isset($_GET['objective_id']))
-		{		
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-
-			return false;
-		}
-		if(!$_POST['objective']['title'])
-		{		
-			ilUtil::sendInfo($this->lng->txt('crs_objective_no_title_given'));
-			$this->editObjective();
-			
-			return false;
-		}
-
-
-		$objective_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
-
-		$objective_obj->setObjectiveId((int) $_GET['objective_id']);
-		$objective_obj->setTitle(ilUtil::stripSlashes($_POST['objective']['title']));
-		$objective_obj->setDescription(ilUtil::stripSlashes($_POST['objective']['description']));
-
-		$objective_obj->update();
-		
-		ilUtil::sendInfo($this->lng->txt('crs_objective_modified'));
-		$this->listObjectives();
-
-		return true;
-	}
-
 
 	function askDeleteObjective()
 	{
@@ -810,160 +262,6 @@ class ilCourseObjectivesGUI
 	}
 
 
-	function saveObjective()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-		if(!$_POST['objective']['title'])
-		{
-			ilUtil::sendInfo('crs_no_title_given',true);
-
-			$this->addObjective();
-			return false;
-		}
-
-		$objective_obj =& $this->__initObjectivesObject();
-
-		$objective_obj->setTitle(ilUtil::stripSlashes($_POST['objective']['title']));
-		$objective_obj->setDescription(ilUtil::stripSlashes($_POST['objective']['description']));
-		$objective_obj->add();
-		
-		ilUtil::sendInfo($this->lng->txt('crs_added_objective'));
-		$this->listObjectives();
-
-		return true;
-	}
-
-	// Question assignment
-	function listAssignedQuestions()
-	{
-		global $rbacsystem;
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-		if(!isset($_GET['objective_id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'));
-			$this->listObjectives();
-
-			return false;
-		}
-
-		$this->ctrl->setParameter($this,'objective_id',(int) $_GET['objective_id']);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_list_qst.html",'Modules/Course');
-
-		if(!count($this->__getAllTests()))
-		{
-			#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
-			ilUtil::sendInfo($this->lng->txt('crs_no_tests_inside_crs'));
-			
-			return true;
-		}
-
-		$this->__initQuestionObject((int) $_GET['objective_id']);
-		if(!count($questions = $this->objectives_qst_obj->getQuestions()))
-		{
-			ilUtil::sendInfo($this->lng->txt('crs_no_questions_assigned'));
-			#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
-			$this->__showButton('assignTestSelect',$this->lng->txt('crs_objective_assign_question'));
-
-			return true;
-		}
-
-		$tpl =& new ilTemplate("tpl.table.html", true, true);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_objectives_list_qst_row.html",'Modules/Course');
-
-		#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
-
-		$counter = 0;
-		foreach($this->__sortQuestions($questions) as $question)
-		{
-			++$counter;
-
-			include_once './Modules/Test/classes/class.ilObjTest.php';
-
-			$tmp_question =& ilObjTest::_instanciateQuestion($question['question_id']);
-
-			$tpl->setCurrentBlock("tbl_content");
-			$tpl->setVariable("ROWCOL",ilUtil::switchColor($counter,"tblrow2","tblrow1"));
-			$tpl->setVariable("CHECK_OBJECTIVE",ilUtil::formCheckbox(0,'question[]',$question['qst_ass_id']));
-			$tpl->setVariable("TITLE",$tmp_question->getTitle());
-			$tpl->setVariable("DESCRIPTION",$tmp_question->getComment());
-			$tpl->parseCurrentBlock();
-
-			unset($tmp_question);
-		}
-
-		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		// Show action row
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME",'askDeassignQuestion');
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt('crs_objective_deassign_question'));
-		$tpl->parseCurrentBlock();
-
-		// Show add button
-		$tpl->setCurrentBlock("plain_button");
-		$tpl->setVariable("PBTN_NAME",'assignTestSelect');
-		$tpl->setVariable("PBTN_VALUE",$this->lng->txt('crs_objective_assign_question'));
-		$tpl->parseCurrentBlock();
-
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("COLUMN_COUNTS",2);
-		$tpl->setVariable("WIDTH","width=\"50%\"");
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
-		$tpl->parseCurrentBlock();
-
-		// create table
-		$tbl = new ilTableGUI();
-		$tbl->setStyle('table','std');
-
-		// title & header columns
-		$objectives_obj =& $this->__initObjectivesObject((int) $_GET['objective_id']);
-		$header_title = $this->lng->txt("crs_objectives_assigned_questions").' ('.$objectives_obj->getTitle().')';
-
-		$tbl->setTitle($header_title,"icon_lobj.gif",$this->lng->txt("crs_objectives"));
-
-		$tbl->setHeaderNames(array('',$this->lng->txt("title")));
-		$tbl->setHeaderVars(array("","title"), 
-							array("ref_id" => $this->course_obj->getRefId(),
-								  "objective_id" => (int) $_GET['objective_id'],
-								  "cmdClass" => "ilcourseobjectivesgui",
-								  "cmdNode" => $_GET["cmdNode"]));
-		$tbl->setColumnWidth(array("1%","99%"));
-
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount(0);
-
-		// footer
-		$tbl->disable("footer");
-		$tbl->disable('sort');
-
-		// render table
-		$tbl->setTemplate($tpl);
-		$tbl->render();
-
-		$this->tpl->setVariable("OBJECTIVES_TABLE", $tpl->get());
-
-		return true;
-	}
-
-
-	function __sortQuestions($a_qst_ids)
-	{
-		return ilUtil::sortArray($a_qst_ids,'title','asc');
-	}
-
 
 	function editQuestionAssignment()
 	{
@@ -979,7 +277,6 @@ class ilCourseObjectivesGUI
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_objectives_edit_question_assignments.html','Modules/Course');
 
-		#$this->__showButton('listObjectives',$this->lng->txt('crs_objective_overview_objectives'));
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CSS_TABLE",'fullwidth');
@@ -1150,47 +447,6 @@ class ilCourseObjectivesGUI
 		return true;
 	}
 
-	function __showButton($a_cmd,$a_text,$a_target = '')
-	{
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,$a_cmd));
-		$this->tpl->setVariable("BTN_TXT",$a_text);
-
-		if($a_target)
-		{
-			$this->tpl->setVariable("BTN_TARGET",$a_target);
-		}
-
-		$this->tpl->parseCurrentBlock();
-	}
-
-
-
-	function __getAllChapters($a_ref_id)
-	{
-		$tmp_lm =& ilObjectFactory::getInstanceByRefId($a_ref_id);
-
-		$tree = new ilTree($tmp_lm->getId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
-
-		foreach($tree->getSubTree($tree->getNodeData($tree->getRootId())) as $node)
-		{
-		
-			if($node['type'] == 'st')
-			{
-				$depth = $node['depth'] - 1;
-				$child = $node['child'];
-				$chapter[$child] = $depth;
-			}
-		}
-
-		return $chapter ? $chapter : array();
-	}
-
 	/**
 	* set sub tabs
 	*/
@@ -1213,5 +469,774 @@ class ilCourseObjectivesGUI
 								 false);
 
 	}
+	
+	
+	/**
+	 * create objective
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function create()
+	{
+		global $tpl;
+		
+		$_SESSION['objective_mode'] = self::MODE_CREATE;
+		
+		$this->ctrl->saveParameter($this,'objective_id');
+		$w_tpl = $this->initWizard(1);
+		
+		if(!is_object($this->objective))
+		{
+			$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		}
+		
+		
+		$this->initFormTitle('create',1);
+		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
+		$tpl->setContent($w_tpl->get());
+	}
+
+	/**
+	 * edit objective
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function edit()
+	{
+		global $tpl;
+		
+		$_SESSION['objective_mode'] = self::MODE_UPDATE;
+		
+		$this->ctrl->saveParameter($this,'objective_id');
+		$w_tpl = $this->initWizard(1);
+		
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+		
+		if(!is_object($this->objective))
+		{
+			$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		}
+		
+		$this->initFormTitle('create',1);
+		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
+		$tpl->setContent($w_tpl->get());
+	}
+
+	/**
+	 * save
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function save()
+	{
+		global $ilAccess,$ilErr;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		$this->objective->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$this->objective->setDescription(ilUtil::stripSlashes($_POST['description']));
+		
+		if(!$this->objective->validate())
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_title_given'));
+			$this->create();
+			return false;
+		}
+		
+		if(!$_GET['objective_id'])
+		{
+			$objective_id = $this->objective->add();
+			ilUtil::sendInfo($this->lng->txt('crs_added_objective'),true);
+		}
+		else
+		{
+			$this->objective->update();
+			ilUtil::sendInfo($this->lng->txt('crs_objective_modified'),true);
+			$objective_id = $_GET['objective_id'];
+		}
+		
+		$this->ctrl->saveParameter($this,'objective_id');
+		$this->ctrl->setParameter($this,'objective_id',$objective_id);
+		$this->ctrl->redirect($this,'materialAssignment');
+		return true;
+	}
+	
+	/**
+	 * material assignment
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function materialAssignment()
+	{
+		global $ilAccess,$ilErr,$tpl;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->ctrl->saveParameter($this,'objective_id');
+
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterialAssignmentTableGUI.php');
+		$table = new ilCourseObjectiveMaterialAssignmentTableGUI($this,$this->course_obj,(int) $_GET['objective_id']);
+		$table->setTitle($this->lng->txt('crs_objective_wiz_materials'),
+			'icon_lobj.gif',$this->lng->txt('crs_objectives'));
+
+		include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
+		$table->parse(ilCourseObjectiveMaterials::_getAssignableMaterials($this->course_obj->getRefId()));
+		
+		$w_tpl = $this->initWizard(2);
+		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
+		$tpl->setContent($w_tpl->get());
+	}
+	
+	/**
+	 * update material assignment
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function updateMaterialAssignment()
+	{
+		global $ilAccess,$ilErr,$ilObjDataCache;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->__initLMObject((int) $_GET['objective_id']);
+		$this->objectives_lm_obj->deleteAll();
+		
+		if(is_array($_POST['materials']))
+		{
+			foreach($_POST['materials'] as $node_id)
+			{
+				$obj_id = $ilObjDataCache->lookupObjId($node_id);
+				$type = $ilObjDataCache->lookupType($obj_id);
+				
+				$this->objectives_lm_obj->setLMRefId($node_id);
+				$this->objectives_lm_obj->setLMObjId($obj_id);
+				$this->objectives_lm_obj->setType($type);
+				$this->objectives_lm_obj->add();
+			}
+		}
+		if(is_array($_POST['chapters']))
+		{
+			foreach($_POST['chapters'] as $chapter)
+			{
+				include_once('./Modules/LearningModule/classes/class.ilLMObject.php');
+				
+				list($ref_id,$chapter_id) = explode('_',$chapter);
+				
+				$this->objectives_lm_obj->setLMRefId($ref_id);
+				$this->objectives_lm_obj->setLMObjId($chapter_id);
+				$this->objectives_lm_obj->setType(ilLMObject::_lookupType($chapter_id));
+				$this->objectives_lm_obj->add();
+			}
+		}
+		ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+		$this->selfAssessmentAssignment();
+		
+	}
+
+	/**
+	 * self assessment assignemnt
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function selfAssessmentAssignment()
+	{
+		global $ilAccess,$ilErr,$tpl;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->ctrl->saveParameter($this,'objective_id');
+
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php');
+		$table = new ilCourseObjectiveQuestionAssignmentTableGUI($this,
+			$this->course_obj,
+			(int) $_GET['objective_id'],
+			ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT);
+		$table->setTitle($this->lng->txt('crs_objective_wiz_self'),
+			'icon_lobj.gif',$this->lng->txt('crs_objective'));
+		$table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
+		
+		$w_tpl = $this->initWizard(3);
+		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
+		$tpl->setContent($w_tpl->get());
+	}
+	
+	/**
+	 * update self assessment assignment
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function updateSelfAssessmentAssignment()
+	{
+		global $ilAccess,$ilErr,$ilObjDataCache;
+		
+		$checked_questions = $_POST['questions'] ? $_POST['questions'] : array();
+		
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->__initQuestionObject((int) $_GET['objective_id']);
+
+		// Delete unchecked
+		foreach($this->objectives_qst_obj->getSelfAssessmentQuestions() as $question)
+		{
+			$id = $question['ref_id'].'_'.$question['question_id'];
+			if(!in_array($id,$checked_questions))
+			{
+				$this->objectives_qst_obj->delete($question['qst_ass_id']);
+			}
+		}
+		// Add checked
+		foreach($checked_questions as $question_id)
+		{
+			list($test_ref_id,$qst_id) = explode('_',$question_id);
+			$test_obj_id = $ilObjDataCache->lookupObjId($test_ref_id);
+	
+			if($this->objectives_qst_obj->isSelfAssessmentQuestion($qst_id))
+			{
+				continue;
+			}
+			$this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT);
+			$this->objectives_qst_obj->setTestRefId($test_ref_id);
+			$this->objectives_qst_obj->setTestObjId($test_obj_id);
+			$this->objectives_qst_obj->setQuestionId($qst_id);
+			$this->objectives_qst_obj->add();
+		}
+		
+		// TODO: not nice
+		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
+		$this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
+		$this->questions->updateLimits();
+
+		ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+		$this->selfAssessmentLimits();
+	}
+	
+	/**
+	 * self assessment limits
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function selfAssessmentLimits()
+	{
+		global $ilAccess,$ilErr,$tpl;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->ctrl->saveParameter($this,'objective_id');
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		
+		$this->__initQuestionObject((int) $_GET['objective_id']);
+		
+		$this->initFormLimits('selfAssessment');
+		$w_tpl = $this->initWizard(4);
+		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
+		$tpl->setContent($w_tpl->get());
+	}
+	
+	/**
+	 * update self assessment limits
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function updateSelfAssessmentLimits()
+	{
+		global $ilAccess,$ilErr,$ilObjDataCache;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->__initQuestionObject((int) $_GET['objective_id']);
+
+		if((int) $_POST['limit'] <= 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getSelfAssessmentPoints())
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getSelfAssessmentPoints()));
+			$this->selfAssessmentLimits();
+			return false;
+		}
+		
+		foreach($this->objectives_qst_obj->getSelfAssessmentTests() as $test)
+		{
+			$this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT);
+			$this->objectives_qst_obj->setTestSuggestedLimit((int) $_POST['limit']);
+			$this->objectives_qst_obj->updateTest($test['test_objective_id']);
+		}
+
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->finalTestAssignment();
+		
+	}
+	
+	
+	/**
+	 * final test assignment
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function finalTestAssignment()
+	{
+		global $ilAccess,$ilErr,$tpl;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->ctrl->saveParameter($this,'objective_id');
+
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php');
+		$table = new ilCourseObjectiveQuestionAssignmentTableGUI($this,
+			$this->course_obj,
+			(int) $_GET['objective_id'],
+			ilCourseObjectiveQuestion::TYPE_FINAL_TEST);
+
+		$table->setTitle($this->lng->txt('crs_objective_wiz_final'),
+			'icon_lobj.gif',$this->lng->txt('crs_objective'));
+		$table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
+		
+		$w_tpl = $this->initWizard(5);
+		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
+		$tpl->setContent($w_tpl->get());
+		
+	}
+
+	/**
+	 * update self assessment assignment
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function updateFinalTestAssignment()
+	{
+		global $ilAccess,$ilErr,$ilObjDataCache;
+		
+		$checked_questions = $_POST['questions'] ? $_POST['questions'] : array();
+		
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->__initQuestionObject((int) $_GET['objective_id']);
+
+		// Delete unchecked
+		foreach($this->objectives_qst_obj->getFinalTestQuestions() as $question)
+		{
+			$id = $question['ref_id'].'_'.$question['question_id'];
+			if(!in_array($id,$checked_questions))
+			{
+				$this->objectives_qst_obj->delete($question['qst_ass_id']);
+			}
+		}
+		// Add checked
+		foreach($checked_questions as $question_id)
+		{
+			list($test_ref_id,$qst_id) = explode('_',$question_id);
+			$test_obj_id = $ilObjDataCache->lookupObjId($test_ref_id);
+	
+			if($this->objectives_qst_obj->isFinalTestQuestion($qst_id))
+			{
+				continue;
+			}
+			
+			$this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_FINAL_TEST);
+			$this->objectives_qst_obj->setTestRefId($test_ref_id);
+			$this->objectives_qst_obj->setTestObjId($test_obj_id);
+			$this->objectives_qst_obj->setQuestionId($qst_id);
+			$this->objectives_qst_obj->add();
+		}
+		
+		// TODO: not nice
+		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
+		$this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
+		$this->questions->updateLimits();
+
+		ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+		$this->finalTestLimits();
+	}
+	
+	/**
+	 * self assessment limits
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function finalTestLimits()
+	{
+		global $ilAccess,$ilErr,$tpl;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->ctrl->saveParameter($this,'objective_id');
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		
+		$this->__initQuestionObject((int) $_GET['objective_id']);
+		
+		$this->initFormLimits('final');
+		$w_tpl = $this->initWizard(6);
+		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
+		$tpl->setContent($w_tpl->get());
+	}
+	
+	/**
+	 * update self assessment limits
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function updateFinalTestLimits()
+	{
+		global $ilAccess,$ilErr,$ilObjDataCache;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+		if(!$_GET['objective_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_no_objective_selected'),true);
+			$this->ctrl->redirect($this,'listObjectives');
+		}
+
+		$this->__initQuestionObject((int) $_GET['objective_id']);
+
+		if((int) $_POST['limit'] <= 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getFinalTestPoints())
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getFinalTestPoints()));
+			$this->finalTestLimits();
+			return false;
+		}
+		
+		foreach($this->objectives_qst_obj->getFinalTests() as $test)
+		{
+			$this->objectives_qst_obj->setTestStatus(ilCourseObjectiveQuestion::TYPE_FINAL_TEST);
+			$this->objectives_qst_obj->setTestSuggestedLimit((int) $_POST['limit']);
+			$this->objectives_qst_obj->updateTest($test['test_objective_id']);
+		}
+
+		ilUtil::sendInfo($this->lng->txt('crs_added_objective'));
+		$this->listObjectives();
+	}
+	
+	/**
+	 * init limit form
+	 *
+	 * @access protected
+	 * @param string mode selfAssessment or final
+	 * @return
+	 */
+	protected function initFormLimits($a_mode)
+	{
+		if(!is_object($this->form))
+		{
+			include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+			$this->form = new ilPropertyFormGUI();
+		}
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setTableWidth('100%');
+		$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.gif'),$this->lng->txt('crs_objective'));
+		
+		switch($a_mode)
+		{
+			case 'selfAssessment':
+				$this->form->setTitle($this->lng->txt('crs_objective_wiz_self_limit'));
+				$this->form->addCommandButton('updateSelfAssessmentLimits',$this->lng->txt('crs_wiz_next'));
+				$this->form->addCommandButton('selfAssessmentAssignment',$this->lng->txt('crs_wiz_back'));
+
+				$tests = $this->objectives_qst_obj->getSelfAssessmentTests();
+				$max_points = $this->objectives_qst_obj->getSelfAssessmentPoints();
+
+				break;
+			
+			case 'final':
+				$this->form->setTitle($this->lng->txt('crs_objective_wiz_final_limit'));
+				$this->form->addCommandButton('updateFinalTestLimits',$this->lng->txt('crs_wiz_next'));
+				$this->form->addCommandButton('finalTestAssignment',$this->lng->txt('crs_wiz_back'));
+
+				$tests = $this->objectives_qst_obj->getFinalTests();
+				$max_points = $this->objectives_qst_obj->getFinalTestPoints();
+
+				break;
+		}
+		
+		$over = new ilCustomInputGUI($this->lng->txt('crs_objective_qst_summary'),'');
+		
+		$tpl = new ilTemplate('tpl.crs_objective_qst_summary.html',true,true,'Modules/Course');
+		
+		
+		$limit = 0;
+		
+		foreach($tests as $test)
+		{
+			$limit = $test['limit'];
+
+			foreach($this->objectives_qst_obj->getQuestionsOfTest($test['obj_id']) as $question)
+			{
+				$tpl->setCurrentBlock('qst');
+				$tpl->setVariable('QST_TITLE',$question['title']);
+				if(strlen($question['description']))
+				{
+					$tpl->setVariable('QST_DESCRIPTION',$question['description']);
+				}
+				$tpl->setVariable('QST_POINTS',$question['points'].' '.
+					'Punkt(e)');
+					#$this->lng->txt('crs_objective_points'));
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock('tst');
+			$tpl->setVariable('TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
+			if($desc = ilObject::_lookupDescription($test['obj_id']))
+			{
+				$tpl->setVariable('TST_DESC',$desc);
+			}
+			$tpl->setVariable('TST_TYPE_IMG',ilUtil::getTypeIconPath('tst',$test['obj_id'],'tiny'));
+			$tpl->setVariable('TST_ALT_IMG',$this->lng->txt('obj_tst'));
+			$tpl->parseCurrentBlock();
+		}
+		
+		$tpl->setVariable('TXT_ALL_POINTS',$this->lng->txt('crs_objective_all_points'));
+		$tpl->setVariable('TXT_POINTS',$this->lng->txt('crs_objective_points'));
+		$tpl->setVariable('POINTS',$max_points);
+		
+		$over->setHtml($tpl->get());
+		$this->form->addItem($over);
+		
+		$req = new ilTextInputGUI($this->lng->txt('crs_obj_required_points'),'limit');
+		$req->setValue($limit);
+		$req->setMaxLength(5);
+		$req->setSize(3);
+		$req->setRequired(true);
+		$req->setInfo($this->lng->txt('crs_obj_required_info'));
+		
+		$this->form->addItem($req);
+		
+	}
+
+	
+	/**
+	 * init form title
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function initFormTitle($a_mode,$a_step_number)
+	{
+		if(!is_object($this->form))
+		{
+			include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+			$this->form = new ilPropertyFormGUI();
+		}
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.gif'),$this->lng->txt('crs_objective'));
+		
+		switch($a_mode)
+		{
+			case 'create':
+				$this->form->setTitle($this->lng->txt('crs_objective_wiz_title'));
+				$this->form->addCommandButton('save',$this->lng->txt('crs_wiz_next'));
+				$this->form->addCommandButton('listObjectives',$this->lng->txt('cancel'));
+				break;
+			
+			case 'update':
+				break;
+		}
+		
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setValue($this->objective->getTitle());
+		$title->setRequired(true);
+		$title->setSize(40);
+		$title->setMaxLength(70);
+		$this->form->addItem($title);
+		
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'description');
+		$desc->setValue($this->objective->getDescription());
+		$desc->setCols(40);
+		$desc->setRows(5);
+		$this->form->addItem($desc);
+		
+		
+	}
+	
+	
+	/**
+	 * init wizard
+	 
+	 * @access protected
+	 * @param string mode 'create' or 'edit'
+	 * @return
+	 */
+	protected function initWizard($a_step_number)
+	{
+		$options = array(
+			1 => $this->lng->txt('crs_objective_wiz_title'),
+			2 => $this->lng->txt('crs_objective_wiz_materials'),
+			3 => $this->lng->txt('crs_objective_wiz_self'),
+			4 => $this->lng->txt('crs_objective_wiz_self_limit'),
+			5 => $this->lng->txt('crs_objective_wiz_final'),
+			6 => $this->lng->txt('crs_objective_wiz_final_limit'));
+			
+		$info = array(
+			1 => $this->lng->txt('crs_objective_wiz_title_info'),
+			2 => $this->lng->txt('crs_objective_wiz_materials_info'),
+			3 => $this->lng->txt('crs_objective_wiz_self_info'),
+			4 => $this->lng->txt('crs_objective_wiz_self_limit_info'),
+			5 => $this->lng->txt('crs_objective_wiz_final_info'),
+			6 => $this->lng->txt('crs_objective_wiz_final_limit_info'));
+
+		$links = array(
+			1 => $this->ctrl->getLinkTarget($this,'edit'),
+			2 => $this->ctrl->getLinkTarget($this,'materialAssignment'),
+			3 => $this->ctrl->getLinkTarget($this,'selfAssessmentAssignment'),
+			4 => $this->ctrl->getLinkTarget($this,'selfAssessmentLimits'),
+			5 => $this->ctrl->getLinkTarget($this,'finalTestAssignment'),
+			6 => $this->ctrl->getLinkTarget($this,'finalTestLimits'));
+		
+		
+		$tpl = new ilTemplate('tpl.objective_wizard.html',true,true,'Modules/Course');
+		
+		if($_SESSION['objective_mode'] == self::MODE_CREATE)
+		{
+			$tpl->setCurrentBlock('step_info');
+			$tpl->setVariable('STEP_INFO_STEP',$this->lng->txt('crs_objective_step'));
+			$tpl->setVariable('STEP_INFO_NUM',$a_step_number);
+			$tpl->setVariable('STEP_INFO_INFO',$info[$a_step_number]);
+			$tpl->parseCurrentBlock();
+		}
+		
+		
+		$tpl->setVariable('WIZ_IMG',ilUtil::getImagePath('icon_lobj.gif'));
+		$tpl->setVariable('WIZ_IMG_ALT',$this->lng->txt('crs_objectives'));
+		
+		if($_SESSION['objective_mode'] == self::MODE_CREATE)
+		{
+			$tpl->setVariable('WIZ_NAV_TITLE',$this->lng->txt('crs_add_objective'));
+		}
+		else
+		{
+			$tpl->setVariable('WIZ_NAV_TITLE',$this->lng->txt('crs_update_objective'));
+		}
+		
+		foreach($options as $step => $title)
+		{
+			if($_SESSION['objective_mode'] == self::MODE_UPDATE)
+			{
+				$tpl->setCurrentBlock('begin_link_option');
+				$tpl->setVariable('WIZ_OPTION_LINK',$links[$step]);
+				$tpl->parseCurrentBlock();
+			
+				$tpl->touchBlock('end_link_option');
+			}
+			
+
+			$tpl->setCurrentBlock('nav_option');
+			$tpl->setVariable('OPTION_CLASS',$step == $a_step_number ? 'option_value_details' : 'std');
+			$tpl->setVariable('WIZ_NUM',$step.'.');
+			$tpl->setVariable('WIZ_OPTION',$title);
+			$tpl->parseCurrentBlock();
+		}
+		
+		
+		return $tpl;
+	}
+	
 }
 ?>

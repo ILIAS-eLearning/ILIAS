@@ -276,7 +276,7 @@ class ilCourseObjectiveMaterials
 			"WHERE ref_id = ".$this->db->quote($a_ref_id)." ".
 			"AND obj_id = ".$this->db->quote($a_obj_id)." ".
 			"AND objective_id = ".$this->db->quote($this->getObjectiveId())." ".
-			"AND type = 'st'";
+			"AND (type = 'st' OR type = 'pg')";
 		$res = $this->db->query($query);
 		return $res->numRows() ? true : false;
 	}

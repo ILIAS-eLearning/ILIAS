@@ -3520,6 +3520,7 @@ class ilObjCourseGUI extends ilContainerGUI
 								 get_class($this), "", $force_active);
 		}
 		
+
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');

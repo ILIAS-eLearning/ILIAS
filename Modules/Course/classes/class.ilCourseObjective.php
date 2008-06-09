@@ -50,7 +50,6 @@ class ilCourseObjective
 		{
 			$this->__read();
 		}
-		$this->__cleanStructure();
 	}
 	
 	/**
@@ -181,6 +180,33 @@ class ilCourseObjective
 		$this->db->query($query);
 		
 		return true;
+	}
+	
+	/**
+	 * write position
+	 *
+	 * @access public
+	 * @param int new position
+	 * @return
+	 */
+	public function writePosition($a_position)
+	{
+		$query = "UPDATE crs_objectives ".
+			"SET position = ".$this->db->quote((string) $a_position)." ".
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId())." ";
+		$this->db->query($query);
+	}
+	
+	/**
+	 * validate
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function validate()
+	{
+		return (bool) strlen($this->getTitle());
 	}
 	
 	function delete()
@@ -410,31 +436,5 @@ class ilCourseObjective
 
 		return true;
 	}
-
-	function __cleanStructure()
-	{
-		global $ilDB;
-		
-		$query = "SELECT * FROM crs_objectives ".
-			"WHERE crs_id = ".$ilDB->quote($this->course_obj->getId())." ".
-			"ORDER BY position";
-
-		$res = $this->db->query($query);
-
-		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if($row->position != ++$counter)
-			{
-				$query = "UPDATE crs_objectives SET ".
-					"position = ".$ilDB->quote($counter)." ".
-					"WHERE objective_id = ".$ilDB->quote($row->objective_id)." ";
-
-				$this->db->query($query);
-			}
-		}
-		return true;
-	}
-
 }
 ?>

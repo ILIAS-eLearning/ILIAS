@@ -1,0 +1,35 @@
+<table class="fullwidth_invisible" >
+	<tr class="std">
+		<td class="std" width="60%">
+			<!-- BEGIN step_info -->
+			<h1>{STEP_INFO_STEP} {STEP_INFO_NUM}</h1>
+			{STEP_INFO_INFO}
+			<br />
+			<br />
+			<!-- END step_info -->
+			{WIZ_CONTENT}
+		</td>
+		<td style="padding-left: 2em" class="std" valign="top">
+			<table class="std">
+				<thead>
+					<tr class="tblheader">
+						<th>
+							<img src="{WIZ_IMG}" alt="{WIZ_IMG_ALT}" border="0"> {WIZ_NAV_TITLE}
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- BEGIN nav_option -->
+					<tr class="std">
+						<td class="{OPTION_CLASS}">
+							<!-- BEGIN begin_link_option --><a href="{WIZ_OPTION_LINK}"><!-- END begin_link_option -->
+								{WIZ_NUM} {WIZ_OPTION}
+							<!-- BEGIN end_link_option --></a><!-- END end_link_option -->
+						</td>
+					</tr>
+					<!-- END nav_option -->
+				</tbody>
+			</table>
+		</td>
+	</tr>
+</table>

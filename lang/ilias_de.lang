@@ -4460,7 +4460,7 @@ crs#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_member#:#Mitglied(er) hinzufügen
-crs#:#crs_add_objective#:#Lernziel hinzufügen
+crs#:#crs_add_objective#:#Neues Lernziel hinzufügen
 crs#:#crs_add_remove_from_desktop_info#:#Wenn eingeschaltet, haben die Teilnehmer die Möglichkeit Kursmaterialien auf ihren Persönlichen Schreibtisch zu platzieren bzw. zu entfernen.
 crs#:#crs_add_remove_from_desktop#:#Auf den Schreibtisch
 crs#:#crs_add_starter#:#Startobjekt hinzufügen
@@ -8228,5 +8228,23 @@ assessment#:#empty_terms_exist#:#There are already empty term fields. Please fil
 assessment#:#terms#:#Terms###02 06 2008 new variable
 assessment#:#empty_term_message#:#There is a least one empty term field.###02 06 2008 new variable
 assessment#:#no_terms_message#:#Please add at least on term.###02 06 2008 new variable
+crs#:#crs_objective_err_limit#:#Bitte geben Sie eine Punktzahl zwischen %s und %s Punkten ein.
+crs#:#crs_objective_qst_summary#:#Fragenübersicht
+crs#:#crs_obj_required_points#:#Benötigte Punktzahl
+crs#:#crs_objective_all_points#:#Erreichbare Punktzahl
+crs#:#crs_objective_points#:#Punkt(e)
+crs#:#crs_objective_wiz_title#:#Beschreibung des Lernziels
+crs#:#crs_objective_wiz_materials#:#Kursmaterialien zuordnen
+crs#:#crs_objective_wiz_self#:#Fragen des Einstiegstests festlegen
+crs#:#crs_objective_wiz_self_limit#:#Grenzen des Einstiegstests festlegen
+crs#:#crs_objective_wiz_final#:#Fragen des Abschlusstests festlegen
+crs#:#crs_objective_wiz_final_limit#:#Grenzen des Abschlusstests festlegen
+crs#:#crs_wiz_next#:#Speichern
+crs#:#crs_wiz_back#:#Zurück
+crs#:#crs_objective_step#:#Schritt
+crs#:#crs_objective_self_assessment#:#Einstiegstest
+crs#:#crs_objective_final_test#:#Abschlusstest
+crs#:#crs_no_title_given#:#Bitte geben Sie einen Titel ein.
+crs#:#crs_objective_saved_sorting#:#Die Reihenfolge wurde gespeichert.
 common#:#chat_invite_public_room#:#Öffentl. Chat
 common#:#chat_link_to_this_chat#:#Link zu diesem Chat
