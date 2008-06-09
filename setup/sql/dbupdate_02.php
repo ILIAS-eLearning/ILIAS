@@ -4739,3 +4739,71 @@ CHANGE rcp_to rcp_to TEXT NULL DEFAULT NULL ,
 CHANGE rcp_cc rcp_cc TEXT NULL DEFAULT NULL ,
 CHANGE rcp_bcc rcp_bcc TEXT NULL DEFAULT NULL ,
 CHANGE m_type m_type VARCHAR(255) NULL DEFAULT NULL;
+
+<#1259>
+<?php
+// Migrate objective percents to points
+$query = "SELECT * FROM crs_objective_tst ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "SELECT * FROM crs_objective_qst ".
+		"WHERE objective_id = ".$ilDB->quote($row->objective_id)." ".
+		"AND ref_id = ".$ilDB->quote($row->ref_id)." ";
+	$qst_res = $ilDB->query($query);
+
+	$sum_points = 0;
+	while($qst_row = $qst_res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		// Read possible points
+		$query = "SELECT points FROM qpl_questions WHERE question_id = ".$ilDB->quote($qst_row->question_id)." ";
+		$p_res = $ilDB->query($query);
+		
+		while($p_row = $p_res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$sum_points += $p_row->points;	
+		}
+	}
+	$required = $sum_points * $row->tst_limit / 100;
+	
+	$query = "UPDATE crs_objective_tst ".
+		"SET tst_limit = ".$ilDB->quote($required)." ".
+		"WHERE test_objective_id = ".$ilDB->quote($row->test_objective_id)." ";
+	$ilDB->query($query);
+}
+?>
+
+<#1260>
+<?php
+$query = "SELECT * FROM crs_objective_tst ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if(!isset($objectives[$row->objective_id][$row->tst_status]))
+	{
+		$objectives[$row->objective_id][$row->tst_status] = $row->tst_limit;
+	}
+	else
+	{
+		$objectives[$row->objective_id][$row->tst_status] += $row->tst_limit;
+	}
+}
+
+foreach($objectives as $objective_id => $status)
+{
+	if(isset($status[0]))
+	{
+		$query = "UPDATE crs_objective_tst SET tst_limit = ".$ilDB->quote($status[0])." ".
+			"WHERE objective_id = ".$ilDB->quote($objective_id)." ".
+			"AND tst_status = 0 ";
+		$ilDB->query($query);
+	}
+	if(isset($status[1]))
+	{
+		$query = "UPDATE crs_objective_tst SET tst_limit = ".$ilDB->quote($status[1])." ".
+			"WHERE objective_id = ".$ilDB->quote($objective_id)." ".
+			"AND tst_status = 1 ";
+		$ilDB->query($query);
+	}
+}
+?>

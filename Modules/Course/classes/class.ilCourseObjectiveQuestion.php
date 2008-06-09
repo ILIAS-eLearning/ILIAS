@@ -33,10 +33,14 @@
 
 class ilCourseObjectiveQuestion
 {
-	var $db = null;
+	const TYPE_SELF_ASSESSMENT = 0;
+	const TYPE_FINAL_TEST = 1;
+	
+	public $db = null;
 
-	var $objective_id = null;
-	var $questions;
+	public $objective_id = null;
+	public $questions;
+	protected $tests = array();
 
 	function ilCourseObjectiveQuestion($a_objective_id)
 	{
@@ -174,6 +178,13 @@ class ilCourseObjectiveQuestion
 	{
 		global $ilDB;
 		
+		$query = "UPDATE crs_objective_tst ".
+			"SET tst_status = ".$this->db->quote($this->getTestStatus())." ".
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId())." ".
+			"AND ref_id = ".$this->db->quote($this->getTestRefId())." ";
+		$this->db->query($query);
+		
+
 		// CHECK if entry already exists
 		$query = "SELECT * FROM crs_objective_tst ".
 			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
@@ -184,12 +195,26 @@ class ilCourseObjectiveQuestion
 		{
 			return false;
 		}
+		
+		// Check for existing limit
+		$query = "SELECT tst_limit FROM crs_objective_tst ".
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId())." ".
+			"AND tst_status = ".$this->db->quote($this->getTestStatus())." ";
+			
+		$res = $this->db->query($query);
+		
+		$limit = -1;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$limit = $row->tst_limit;
+		}
+		
 		$query = "INSERT INTO crs_objective_tst ".
 			"SET objective_id = ".$ilDB->quote($this->getObjectiveId()).", ".
 			"ref_id = ".$ilDB->quote($this->getTestRefId()).", ".
 			"obj_id = ".$ilDB->quote($this->getTestObjId()).", ".
 			"tst_status = ".$ilDB->quote($this->getTestStatus()).", ".
-			"tst_limit = '100'";
+			"tst_limit = ".$this->db->quote($limit)." ";
 
 		$this->db->query($query);
 
@@ -213,6 +238,8 @@ class ilCourseObjectiveQuestion
 			"AND ref_id = ".$ilDB->quote($a_test_ref_id)." ";
 
 		$this->db->query($query);
+
+		unset($this->tests[$a_test_ref_id]);
 
 		return true;
 	}
@@ -257,6 +284,43 @@ class ilCourseObjectiveQuestion
 		return $tests ? $tests : array();
 	}
 	
+	/**
+	 * get self assessment tests
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getSelfAssessmentTests()
+	{
+		foreach($this->tests as $test)
+		{
+			if($test['status'] == self::TYPE_SELF_ASSESSMENT)
+			{
+				$self[] = $test;
+			}
+		}
+		return $self ? $self : array();
+	}
+	
+	/**
+	 * get final tests
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getFinalTests()
+	{
+		foreach($this->tests as $test)
+		{
+			if($test['status'] == self::TYPE_FINAL_TEST)
+			{
+				$final[] = $test;
+			}
+		}
+		return $final ? $final : array();
+	}
+	
 	function _getTest($a_test_objective_id)
 	{
 		global $ilDB;
@@ -283,6 +347,112 @@ class ilCourseObjectiveQuestion
 	{
 		return $this->questions ? $this->questions : array();
 	}
+	
+	/**
+	 * get self assessment questions
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getSelfAssessmentQuestions()
+	{
+		foreach($this->questions as $question)
+		{
+			if($question['test_type'] == self::TYPE_SELF_ASSESSMENT)
+			{
+				$self[] = $question; 
+			}
+		}
+		return $self ? $self : array();
+	}
+
+	/**
+	 * get self assessment points
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getSelfAssessmentPoints()
+	{
+		foreach($this->getSelfAssessmentQuestions() as $question)
+		{
+			$points += $question['points'];
+		}
+		return $points ? $points : 0;
+	}
+	
+	/**
+	 * get final test points
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getFinalTestPoints()
+	{
+		foreach($this->getFinalTestQuestions() as $question)
+		{
+			$points += $question['points'];
+		}
+		return $points ? $points : 0;
+	}
+	
+	/**
+	 * check if question is self assessment question
+	 * @param int question id
+	 * @access public
+	 * @return
+	 */
+	public function isSelfAssessmentQuestion($a_question_id)
+	{
+		foreach($this->questions as $question)
+		{
+			if($question['question_id'] == $a_question_id)
+			{
+				return $question['test_type'] == self::TYPE_SELF_ASSESSMENT;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * is final test question
+	 *
+	 * @access public
+	 * @param int question id
+	 * @return
+	 */
+	public function isFinalTestQuestion($a_question_id)
+	{
+		foreach($this->questions as $question)
+		{
+			if($question['question_id'] == $a_question_id)
+			{
+				return $question['test_type'] == self::TYPE_FINAL_TEST;
+			}
+		}
+		return false;
+		
+	}
+	
+	/**
+	 * get final test questions
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getFinalTestQuestions()
+	{
+		foreach($this->questions as $question)
+		{
+			if($question['test_type'] == self::TYPE_FINAL_TEST)
+			{
+				$final[] = $question; 
+			}
+		}
+		return $final ? $final : array();
+	}
+	
+	
 	
 	/**
 	 * Get questions of test
@@ -379,6 +549,21 @@ class ilCourseObjectiveQuestion
 
 		return $points;
 	}
+	
+	/**
+	 * lookup maximimum point
+	 *
+	 * @access public
+	 * @param int question id
+	 * @return
+	 * @static
+	 */
+	public static function _lookupMaximumPointsOfQuestion($a_question_id)
+	{
+		include_once('Modules/TestQuestionPool/classes/class.assQuestion.php');
+		return assQuestion::_getMaximumPoints($a_question_id);
+	}
+	
 
 	function getNumberOfQuestionsByTest($a_test_ref_id)
 	{
@@ -406,10 +591,57 @@ class ilCourseObjectiveQuestion
 		return $qst ? $qst : array();
 	}
 
+	/**
+	 * update limits
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function updateLimits()
+	{
+		foreach($this->tests as $ref_id => $test_data)
+		{
+			switch($test_data['status'])
+			{
+				case self::TYPE_SELF_ASSESSMENT:
+					$points = $this->getSelfAssessmentPoints();
+					break;
+				
+				case self::TYPE_FINAL_TEST:
+					$points = $this->getFinalTestPoints();
+					break;
+			}
+			if($test_data['limit'] == -1 or $test_data['limit'] > $points)
+			{
+				switch($test_data['status'])
+				{
+					case self::TYPE_SELF_ASSESSMENT:
+						$points = $this->getSelfAssessmentPoints();
+						break;
+					
+					case self::TYPE_FINAL_TEST:
+						$points = $this->getFinalTestPoints();
+						break;
+				}
+				$query = "UPDATE crs_objective_tst ".
+					"SET tst_limit = ".$this->db->quote($points)." ".
+					"WHERE test_objective_id = ".$this->db->quote($test_data['test_objective_id'])." ";
+				$this->db->query($query);
+			}
+		}
+	}
+
 
 	function add()
 	{
 		global $ilDB;
+		
+		$query = "DELETE FROM crs_objective_qst ".
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId())." ".
+			"AND question_id = ".$this->db->quote($this->getQuestionId())." ";
+		$this->db->query($query);
+		
 		
 		$query = "INSERT INTO crs_objective_qst ".
 			"SET objective_id = ".$ilDB->quote($this->getObjectiveId()).", ".
@@ -420,6 +652,8 @@ class ilCourseObjectiveQuestion
 		$this->db->query($query);
 
 		$this->__addTest();
+		
+		$this->__read();
 
 		return true;
 	}
@@ -491,7 +725,19 @@ class ilCourseObjectiveQuestion
 
 		$container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
 		$container_ref_id  = current($container_ref_ids);
-
+		
+		// Read test data
+		$query = "SELECT * FROM crs_objective_tst ".
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->tests[$row->ref_id]['test_objective_id'] = $row->test_objective_id;
+			$this->tests[$row->ref_id]['ref_id'] = $row->ref_id;
+			$this->tests[$row->ref_id]['obj_id'] = $row->obj_id;
+			$this->tests[$row->ref_id]['status'] = $row->tst_status;
+			$this->tests[$row->ref_id]['limit'] = $row->tst_limit;
+		}
 
 		$this->questions = array();
 		$query = "SELECT * FROM crs_objective_qst as coq ".
@@ -512,14 +758,19 @@ class ilCourseObjectiveQuestion
 				$this->delete($row->question_id);
 				continue;
 			}
+	
 			$qst['ref_id'] = $row->ref_id;
 			$qst['obj_id'] = $row->obj_id;
 			$qst['question_id'] = $row->question_id;
 			$qst['qst_ass_id'] = $row->qst_ass_id;
 			$qst['title'] = $question->getTitle();
+			$qst['description'] = $question->getComment();
+			$qst['test_type'] = $this->tests[$row->ref_id]['status'];
+			$qst['points'] = $question->getPoints();
 
 			$this->questions[$row->qst_ass_id] = $qst;
 		}
+
 		return true;
 	}
 

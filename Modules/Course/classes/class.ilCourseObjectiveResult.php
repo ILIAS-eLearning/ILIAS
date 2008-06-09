@@ -333,10 +333,19 @@ class ilCourseObjectiveResult
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			/*
 			$objectives[$row->obj."_".$row->ref]['questions'][$row->question_id] = $row->question_id;
 			$objectives[$row->obj."_".$row->ref]['tst_status'] = $row->tst_status;
 			$objectives[$row->obj."_".$row->ref]['tst_limit'] = $row->tst_limit;
 			$objectives[$row->obj."_".$row->ref]['objective_id'] = $row->obj;
+			*/
+			
+			$objectives[$row->obj."_".$row->tst_status]['questions'][$row->question_id] = $row->question_id;
+			$objectives[$row->obj."_".$row->tst_status]['tst_status'] = $row->tst_status;
+			$objectives[$row->obj."_".$row->tst_status]['tst_limit'] = $row->tst_limit;
+			$objectives[$row->obj."_".$row->tst_status]['objective_id'] = $row->obj;
+			
+			
 		}
 		return $objectives ? $objectives : array();
 	}
@@ -422,6 +431,9 @@ class ilCourseObjectiveResult
 		{
 			return false;
 		}
+			
+		return $reached_points >= $objective_data['tst_limit'] ? true : false;
+		
 		return (($reached_points / $max_points * 100) >= $objective_data['tst_limit']) ? true : false;
 	}
 
