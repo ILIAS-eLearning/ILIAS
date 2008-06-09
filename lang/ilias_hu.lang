@@ -1,7 +1,7 @@
 ﻿/**
 * ILIAS language file
 *
-* @module		language file Hungary 080303
+* @module		language file English
 * @modulegroup	language
 * @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
@@ -249,6 +249,13 @@ assessment#:#certificate_text#:#Bizonyítványszöveg
 assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
 assessment#:#certificate_var_user_firstname#:#Jane
 assessment#:#certificate_var_user_lastname#:#Doe
+assessment#:#certificate_var_user_title#:#Dr.
+assessment#:#certificate_var_user_institution#:#ILIAS Open Source
+assessment#:#certificate_var_user_department#:#Felhasználói támogatás
+assessment#:#certificate_var_user_street#:#Etele út 68.
+assessment#:#certificate_var_user_city#:#Budapest
+assessment#:#certificate_var_user_zipcode#:#1115
+assessment#:#certificate_var_user_country#:#Magyarország
 assessment#:#certificate_var_result_passed#:#teljesítve
 assessment#:#certificate_var_result_points#:#38
 assessment#:#certificate_var_result_percent#:#83%
@@ -275,12 +282,13 @@ assessment#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változa
 assessment#:#certificate_ph_testtitle#:#Teszt címe
 assessment#:#certificate_ph_date#:#Aktuális dátum
 assessment#:#certificate_ph_datetime#:#Aktuális dátum és idő
-assessment#:#certificate_unit_description#:#Adja meg a mértékegységet [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in
-assessment#:#certificate_visibility#:#Láthatóság
-assessment#:#certificate_visibility_introduction#:#A teszteredményekben a gomb felajánlja a felhasználóknak ezt a bizonyítványt
-assessment#:#certificate_visibility_always#:#Mindig látható
-assessment#:#certificate_visibility_never#:#Nem látható
-assessment#:#certificate_visibility_passed#:#Csak akkor látható, ha egy felhasználó teljesítette a tesztet.
+assessment#:#certificate_ph_title#:#Név előtag
+assessment#:#certificate_ph_institution#:#Felhasználó intézménye
+assessment#:#certificate_ph_department#:#Felhasználó szervezeti egysége
+assessment#:#certificate_ph_street#:#Felhasználói cím - utca
+assessment#:#certificate_ph_city#:#Felhasználói cím - város
+assessment#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
+assessment#:#certificate_ph_country#:#Felhasználói cím - ország
 assessment#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
 assessment#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
 assessment#:#change_properties_from_random_to_standard#:#Ön a tesztet véletlenkiválasztásosról nem véletlenkiválasztásos tesztre akarja módosítani. A kérdéssorhoz adott információk kikerülnek a véletlenkiválasztásos tesztből. Tényleg meg akarja változtatni a teszt tulajdonságait?
@@ -303,6 +311,60 @@ assessment#:#cloze_textgap_case_sensitive#:#Kis-/nagybetűre érzékeny
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-távolság %s
 assessment#:#cloze_textgap_rating#:#Szöveghely minősítés
 assessment#:#code#:#Kód
+common#:#obj_cmps#:#Modulok, szolgáltatások és plug-inek
+cmps#:#cmps_group#:#Csoportok
+cmps#:#cmps_current_version#:#Jelenlegi verzió
+cmps#:#cmps_file_version#:#Fájlverzió frissítése
+cmps#:#cmps_refresh_plugins_inf#:#Plug-in információk frissítése
+cmps#:#cmps_module#:#Modul
+cmps#:#cmps_no_language_file_available#:#Nem érhető el nyelvi fájl.
+cmps#:#cmps_no_db_update_file_available#:#Nem érhető el DB frissítési szkript.
+cmps#:#cmps_version#:#Verzió
+cmps#:#cmps_update#:#Frissítés
+cmps#:#cmps_update_db#:#DB frissítése
+cmps#:#cmps_refresh#:#Frissítés
+cmps#:#cmps_activate#:#Aktiválás
+cmps#:#cmps_deactivate#:#Deaktiválás
+cmps#:#cmps_ilias_min_version#:#Min. ILIAS verzió
+cmps#:#cmps_ilias_max_version#:#Max. ILIAS verzió
+cmps#:#cmps_dir#:#Könyvtár
+cmps#:#cmps_active#:#Aktív
+cmps#:#cmps_inactive#:#Inaktív
+cmps#:#cmps_status#:#Állapot
+cmps#:#cmps_needs_upgrade#:#A jelenleg telepített plug-in verzió régebbi mint egy előzőleg telepített verzió. Frissítse a plug-int!
+cmps#:#cmps_needs_update#:#Frissítés szükséges.
+cmps#:#cmps_needs_newer_plugin_version#:#Ehhez az ILIAS-verzióhoz újabb plug-in verzió szükséges. Frissítse a plug-int!
+cmps#:#cmps_needs_newer_ilias_version#:#Ez a plug-in verzió csak újabb ILIAS-verzión fut. Frissítse az ILIAS-t!
+cmps#:#cmps_show_details#:#Részletek megjelenítése
+cmps#:#cmps_plugin_slot#:#Plug-in csatlakozás
+cmps#:#cmps_component#:#Komponens
+cmps#:#cmps_lang_prefix#:#Nyelvi változó előtag
+cmps#:#cmps_plugin_db_prefixes#:#DB-tábla előtag
+cmps#:#cmps_disable_creation#:#Létrehozás letiltása
+cmps#:#cmps_rep_object#:#Taneszköz tárolóbeli objektumtípus
+cmps#:#cmps_add_new_rank#:#Pozíció az "Új objektum hozzáadása" listában
+cmps#:#cmps_plugin_dirs#:#Plug-in könyvtár
+cmps#:#cmps_plugin_lang_prefixes#:#Plug-in nyelvi előtag
+common#:#obj_cmps_desc#:#Általános beállítások a taneszköz tárolóbeli modulokhoz, szolgáltatásokhoz és plug-inekhez.
+cmps#:#cmps_edit_settings#:#Beállítások
+cmps#:#cmps_modules#:#Modulok
+cmps#:#cmps_plugins#:#Plug-inek
+cmps#:#cmps_plugin#:#Plug-in
+cmps#:#cmps_services#:#Szolgáltatások
+cmps#:#cmps_service#:#Szolgáltatás
+cmps#:#cmps_save_options#:#Beállítások mentése
+cmps#:#cmps_main_dir#:#Főkönyvtár
+cmps#:#cmps_plugin_file#:#Plug-in fájl
+cmps#:#cmps_db_update#:#DB-frissítési szkript
+cmps#:#cmps_available#:#Elérhető
+cmps#:#cmps_missing#:#Hiányzik
+cmps#:#cmps_class_file#:#Osztályfájl
+cmps#:#cmps_lang_files#:#Nyelvi fájlok
+cmps#:#cmps_database#:#Adatbázis
+cmps#:#cmps_languages#:#Nyelvek
+cmps#:#cmps_basic_files#:#Alapfájlok
+cmps#:#cmps_name#:#Név
+cmps#:#cmps_id#:#ID
 common#:#user_profile_instant_messengers#:#Azonnali üzenetküldő
 common#:#instant_messengers#:#Azonnali üzenetküldő alkalmazások
 common#:#im_icq#:#ICQ
@@ -631,6 +693,7 @@ assessment#:#remove_question#:#Eltávolítás
 assessment#:#remove_solution#:#Ajánlott megoldás eltávolítása
 assessment#:#report_date_not_reached#:#Nem érte el a jelentéskészítési dátumot. A teszteredményeket megtekintheti %n
 assessment#:#reset_filter#:#Szűrő visszaállítása
+assessment#:#reset_terms#:#Szakkifejezés pozícióinak visszaállítása
 assessment#:#result#:#Eredmény
 assessment#:#result_successful_saved#:#Eredményei sikeresen mentésre kerültek.
 assessment#:#result_unsuccessful_saved#:#Hiba fordult elő a kérdéseredmények mentésekor.
@@ -1005,9 +1068,9 @@ assessment#:#worked_through#:#Megválaszolva
 assessment#:#working_time#:#Megoldási idő
 assessment#:#working_time_avg#:#Átlag megoldási idő
 assessment#:#you_received_a_of_b_points#:#Ön %d pontot kapott a lehetséges %d pontból
+barometer#:#anonymous#:#Anonymous
 barometer#:#barometer_add#:#Új visszacsatolás felvétele
 barometer#:#barometer_conflict_anon_req#:#Az anonimizáció nem kombináltható a 'Kötelező' típussal. Válasszon ezek közül a beállítások közül!
-barometer#:#anonymous#:#Anonymous
 barometer#:#barometer_title#:#Visszajelzés
 barometer#:#best#:#Legjobb válasz pontszáma
 barometer#:#change_course#:#Kurzus változtatása
@@ -1248,11 +1311,6 @@ chat#:#chat_whisper#:#Súgó
 chat#:#chat_yellow#:#sárga
 chat#:#chats#:#Csevegések
 chat#:#my_chats#:#Csevegéseim
-chat#:#chat_server_ssl_settings#:#SSL beállítások
-chat#:#chat_server_ssl_port#:#Szerver SSL Port
-chat#:#chat_server_ssl_active#:#SSL aktíve
-chat#:#chat_add_ssl_port#:#Vegye fel a szerver SSL portját!
-chat#:#chat_notification_intro#:#Ezt az e-mail-t automatikusan küldte Önnek az ILIAS %s, %s installációja
 form#:#form_msg_file_size_exceeds#:#A feltöltött fájl elérte a maximálisan engedélyezett fájlméretet.
 form#:#form_msg_file_partially_uploaded#:#A fájl nem került teljes mértékben feltöltésre.
 form#:#form_msg_file_no_upload#:#Ez a beviteli adat kötelező. Válasszon ki egy feltöltendő fájlt.
@@ -1265,6 +1323,9 @@ form#:#form_days#:#Napok
 form#:#form_hours#:#Órák
 form#:#form_minutes#:#Percek
 form#:#form_seconds#:#Másodpercek
+form#:#form_retype_password#:#Jelszó újragépelése
+form#:#form_password_required_for_auth#:#Jelszó szükséges a hitelesítési mód választásához.
+form#:#form_password_not_allowed_for_auth#:#A választott hitelesítési módhoz nem lehet megváltoztatni a jelszót.
 common#:#hide_own_online_status#:#On-line állapotom elrejtése
 common#:#3rd_party_software#:#Harmadik fél szoftvere
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
@@ -1431,10 +1492,10 @@ common#:#attachment#:#Csatolás
 common#:#attachments#:#Csatolások
 common#:#attend#:#Résztvevő
 common#:#auth_active_roles#:#Globális szerepek elérhetők a regisztrációs nyomtatványon
-common#:#auth_allow_local#:#Helyi autentikáció engedélyezése
+common#:#auth_allow_local#:#Helyi hitelesítés engedélyezése
 common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#A CAS felhasználók számára ez engedélyezi a helyi ILIAS-uk felhasználói nevével és a helyi jelszavukkal való autentikációjukat.
-common#:#auth_cas_auth#:#CAS autentikáció konfigurálása
+common#:#auth_cas_allow_local_desc#:#A CAS felhasználók számára ez engedélyezi a helyi ILIAS-uk felhasználói nevével és a helyi jelszavukkal való hitelesítésüket.
+common#:#auth_cas_auth#:#CAS hitelesítés konfigurálása
 common#:#auth_cas_auth_desc#:#A CAS-nak 4.3.1 vagy magasabb PHP-ra van szüksége CURL támogatással (7.5 vagy magasabb)
 common#:#auth_cas_create_users_desc#:#ILIAS felhasználói fiók automatikus létrehozása azon felhasználók számára, akik sikeresen autentikáltak CAS-on keresztül anélkül, hogy lett volna már ILIAS fiókuk.
 common#:#auth_cas_port_desc#:#Pl. 443 ha a teljes CAS szerver URI https://auth.yourserver.com:443/cas/
@@ -1448,21 +1509,21 @@ common#:#auth_default#:#Alapértelmezett beállítás
 common#:#auth_default_mode_changed_to#:#Alapértelmezett hitelesítési mód a következőre változott:
 common#:#auth_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#auth_ldap#:#LDAP
-common#:#auth_ldap_desc#:#Felhasználói autentikáció LDAP szerveren keresztül
+common#:#auth_ldap_desc#:#Felhasználói hitelesítés LDAP szerveren keresztül
 common#:#auth_ldap_enable#:#LDAP támogatás engedélyezése
 common#:#auth_ldap_not_configured#:#Az LDAP még nincs konfigurálva.
 common#:#auth_ldap_settings_saved#:#LDAP beállítások elmentve.
 common#:#auth_local#:#ILIAS adatbázis
-common#:#auth_local_desc#:#Felhasználói autentikáció helyi ILIAS adatbázison keresztül (alapértelmezett)
+common#:#auth_local_desc#:#Felhasználói hitelesítés helyi ILIAS adatbázison keresztül (alapértelmezett)
 common#:#auth_login_instructions#:#Utasítások megjelenítve a bejelentkező képernyőn
-common#:#auth_mode#:#Autentikációs mód
+common#:#auth_mode#:#Hitelesítési mód
 common#:#auth_mode_not_changed#:#(Semmi nem változott)
-common#:#auth_mode_roles_changed#:#Autentikációs mód megváltoztatva ehhez a szerephez.
-common#:#auth_new_account_mail_desc#:#Új bejelentkezési levél küldése a felhasználónak, ha a felhasználó automatikusan lett létrehozva. Jelszó csak akkor lesz generálva, ha a "helyi autentikáció engedélyezve" is aktiválva van.
+common#:#auth_mode_roles_changed#:#Megváltozott a hitelesítés mód ehhez a szerephez.
+common#:#auth_new_account_mail_desc#:#Új bejelentkezési levél küldése a felhasználónak, ha a felhasználó automatikusan lett létrehozva. Jelszó csak akkor lesz generálva, ha a "helyi hitelesítés engedélyezve" is aktiválva van.
 common#:#auth_per_default#:#Per Default
 common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#RADIUS-autentikáció konfigurálása
-common#:#auth_radius_desc#:#Felhasználói autentikáció RADIUS szerveren keresztül
+common#:#auth_radius_configure#:#RADIUS-hitelesítés konfigurálása
+common#:#auth_radius_desc#:#Felhasználói hitelesítés RADIUS szerveren keresztül
 common#:#auth_radius_enable#:#RADIUS támogatás engedélyezése
 common#:#auth_radius_not_configured#:#RADIUS még nem konfigurált
 common#:#auth_radius_port#:#Port
@@ -1470,35 +1531,35 @@ common#:#auth_radius_server#:#Szerverek
 common#:#auth_radius_server_desc#:#Vesszővel elválasztva összetett szervereket vehet fel. A szerverek a round robin módon kerülnek rotálásra.
 common#:#auth_radius_settings_saved#:#A RADIUS-beállítások mentésre kerültek
 common#:#auth_radius_shared_secret#:#Megosztott titok
-common#:#auth_read#:#Autentikációs beállítások elérése
-common#:#auth_remark_non_local_auth#:#Ha az ILIAS-adatbázistól eltérő autentikációs módot választ, nem változtathatja meg a továbbiakban felhasználói nevét és jelszavát.
-common#:#auth_role_auth_mode#:#Autentikációs mód
+common#:#auth_read#:#Hitelesítési beállítások elérése
+common#:#auth_remark_non_local_auth#:#Ha az ILIAS-adatbázistól eltérő hitelesítési módot választ, nem változtathatja meg a továbbiakban felhasználói nevét és jelszavát.
+common#:#auth_role_auth_mode#:#Hitelesítési mód
 common#:#auth_script#:#Szokásos
-common#:#auth_script_desc#:#Felhasználók autentikációja külső script-en keresztül
-common#:#auth_select#:#Autentikációs mód kiválasztása
+common#:#auth_script_desc#:#Felhasználók hitelesítése külső script-en keresztül
+common#:#auth_select#:#Hitelesítési mód kiválasztása
 common#:#auth_shib#:#Shibboleth
-common#:#auth_shib_desc#:#A felhasználói autentikáció Shibboleth-en keresztül. Másodlagos autentikációs módszerként használható.
+common#:#auth_shib_desc#:#A felhasználói hitelesítés Shibboleth-en keresztül. Másodlagos hitelesítési módszerként használható.
 common#:#auth_shib_not_configured#:#Shibboleth még nincs konfigurálva.
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP
-common#:#auth_soap_allow_local_desc#:#Ez lehetővé teszi a SOAP felhasználóknak helyi a ILIAS-uk felhasználói nevével és a helyi jelszavukkal való autentikációt.
-common#:#auth_soap_auth#:#SOAP autentikáció konfigurálása
-common#:#auth_soap_auth_desc#:#Ez a beállítás csak a SOAP-alapú felhasználói autentikációval foglalkozik, az ILIAS SOAP interfésszel nem.
-common#:#auth_soap_create_users_desc#:#ILIAS felhasználói fiók automatikus létrehozása azon felhasználóknak, akik sikeresen autentikáltak SOAP-on keresztül anélkül, hogy lett volna már ILIAS fiókuk.
-common#:#auth_soap_namespace#:#Namespace
+common#:#auth_soap_allow_local_desc#:#Ez lehetővé teszi a SOAP felhasználóknak a helyi ILIAS-uk felhasználói nevével és jelszavával való hitelesítést.
+common#:#auth_soap_auth#:#SOAP hitelesítés konfigurálása
+common#:#auth_soap_auth_desc#:#Ez a beállítás csak a SOAP-alapú felhasználói hitelesítéssel foglalkozik, az ILIAS SOAP interfésszel nem.
+common#:#auth_soap_create_users_desc#:#ILIAS felhasználói fiók automatikus létrehozása azon felhasználóknak, akik sikeresen hitelesítésre kerültek SOAP-on keresztül anélkül, hogy lett volna már ILIAS fiókuk.
+common#:#auth_soap_namespace#:#Névtér
 common#:#auth_soap_namespace_desc#:#Ahogy a WSDL-ben meghatározott. Specifikálva kell legyen, ha a .NET SOAP stílus van használatban.
 common#:#auth_soap_port_desc#:#Pl. 8080 ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_server_desc#:#Pl. auth.yourserver.com ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php
-common#:#auth_soap_settings_saved#:#SOAP autentikációs beállítások mentve
+common#:#auth_soap_settings_saved#:#SOAP hitelesítési beállítások mentve.
 common#:#auth_soap_uri_desc#:#Helyi URI, pl. dir/server.php ha a teljes SOAP szerver URI http://auth.yourserver.com:8080/dir/server.php
 common#:#auth_soap_use_dotnet#:#.NET SOAP stílus használata
 common#:#auth_soap_use_https#:#Használjon HTTPS-t
-common#:#auth_soap_user_default_role#:#Az alapértelmezett szerep hozzárendelése SOAP autentikációs felhasználókhoz
+common#:#auth_soap_user_default_role#:#Az alapértelmezett szerep hozzárendelése SOAP hitelesítési felhasználókhoz
 common#:#auth_soap_user_default_role_desc#:#Ez a szerep hozzá van rendelve az automatikusan létrejött SOAP felhasználókhoz.
 common#:#auth_user_default_role#:#Alapértelmezett szerep
-common#:#auth_visible#:#Az autentikációs beállítások láthatók
-common#:#auth_write#:#Autentikációs beállítások szerkesztése
-common#:#authentication_settings#:#Autentikáció
+common#:#auth_visible#:#Az hitelesítési beállítások láthatók
+common#:#auth_write#:#Hitelesítési beállítások szerkesztése
+common#:#authentication_settings#:#Hitelesítés
 common#:#author#:#Szerző
 common#:#authors#:#Szerzők
 common#:#auto_registration#:#Automatikusan jóváhagyott regisztráció
@@ -1553,6 +1614,53 @@ common#:#obj_mcst#:#MediaCast
 common#:#objs_mcst#:#MediaCasts
 common#:#mcst_new#:#Új MediaCast
 common#:#mcst_add#:#MediaCast felvétele
+common#:#wiki#:#Wiki
+common#:#wiki_edit_content#:#Wikilap szerkesztése
+common#:#wiki_write#:#Wikibeállítások, tanulók osztályozása
+common#:#cat_create_write#:#Wiki létrehozása
+common#:#fold_create_write#:#Wiki létrehozása
+common#:#crs_create_write#:#Wiki létrehozása
+common#:#grp_create_write#:#Wiki létrehozása
+common#:#obj_wiki#:#Wiki
+common#:#objs_wiki#:#Wikik
+common#:#objs_lres#:#Tananyagok
+common#:#wiki_new#:#Új wiki
+common#:#wiki_add#:#Wiki hozzáadása
+wiki#:#wiki_contributors#:#Együttműködők
+wiki#:#wiki_contributor#:#Együttműködő
+wiki#:#wiki_page_changes#:#Lapmódosítások
+wiki#:#wiki_grading#:#Osztályozás
+wiki#:#wiki_notgraded#:#Nem osztályozott
+wiki#:#wiki_passed#:#Átment
+wiki#:#wiki_failed#:#Nem ment át
+wiki#:#wiki_mark#:#Osztályzat
+wiki#:#wiki_settings#:#Wikibeállítások
+wiki#:#wiki_activate_rating#:#Aktív besorolások
+wiki#:#wiki_what_links_to_page#:#Mi linkel: "%s" lapra?
+wiki#:#wiki_start_page#:#Kezdőlap
+wiki#:#wiki_start_page_title#:#Kezdőlap címe
+wiki#:#wiki_main_page#:#Főlap
+wiki#:#wiki_short_title#:#Cím kiválasztása
+wiki#:#wiki_orphaned_pages#:#Árva lapok
+wiki#:#wiki_short_title_desc#:#Ez a cím állandó linkekben lesz használva a wikihez.
+wiki#:#wiki_article#:#Cikk
+wiki#:#wiki_discussion#:#Megbeszélés
+wiki#:#wiki_edit#:#Szerkesztés
+wiki#:#wiki_last_changed_by#:#Legutóbb változtatta
+wiki#:#wiki_created_by#:#Létrehozta
+wiki#:#wiki_last_changed#:#Legutolsó módosítás
+wiki#:#wiki_page_hits#:#Laplátogatások
+wiki#:#wiki_history#:#Történet
+wiki#:#wiki_navigation#:#Navigáció
+wiki#:#wiki_recent_changes#:#Új lapok
+wiki#:#wiki_what_links_here#:#Mi linkel ide?
+wiki#:#wiki_print_view#:#Nyomtatási nézet
+wiki#:#wiki_random_page#:#Véletlen lap
+wiki#:#wiki_all_pages#:#Minden lap
+wiki#:#wiki_new_pages#:#Új lapok
+wiki#:#wiki_popular_pages#:#Kedvelt lapok
+wiki#:#wiki_media_list#:#Médialista
+wiki#:#wiki_page#:#Lap
 common#:#obj_pdts#:#Munkaasztal
 common#:#obj_pdts_desc#:#Munkaasztal konfigurálása
 common#:#move_blocks#:#Blokkok mozgatása
@@ -1568,7 +1676,7 @@ pd#:#pd_osi_host_info#:#Valós idejű üzenetküldő on-line állapot jelző hos
 pd#:#pd_enable_bookmarks#:#Könyvjelzők engedélyezése
 pd#:#pd_enable_notes#:#Jegyzetek engedélyezése
 mcst#:#mcst_add_new_item#:#Új Media Cast tétel felvétele
-mcst#:#mcst_visibility_info#:#Nyilvános tételek elérhetők RSS-en kereszül autentikáció nélkül.
+mcst#:#mcst_visibility_info#:#Nyilvános tételek elérhetők RSS-en kereszül hitelesítés nélkül.
 mcst#:#mcst_duration#:#Lejátszási idő
 mcst#:#mcst_nr_items#:#Tételek száma
 mcst#:#mcst_last_submission#:#Utolsó elküldés
@@ -1580,6 +1688,28 @@ mcst#:#mcst_det_playtime#:#Lejátszási idő meghatározása
 mcst#:#mcst_settings#:#Media Cast beállítások
 mcst#:#mcst_incl_files_in_rss#:#Beleértve a médiafájlokat a csatornában
 mcst#:#mcst_incl_files_in_rss_info#:#Ha engedélyezett, a médiafájlok csatolásként kerülnek be az RSS-csatornába. Máskülönben a csatorna csak értesíti a feliratkozottat az új tételről.
+mcst#:#mcst_edit_item#:#Mediacast tétel szerkesztése
+mcst#:#mcst_standard_title#:#Normál Media fájl
+mcst#:#mcst_audioportable_title#:#További hangfájl hordozható eszközökhöz
+mcst#:#mcst_videoportable_title#:#További videofájl hordozható eszközökhöz
+mcst#:#mcst_download_standard#:#Letöltés
+mcst#:#mcst_download_videoportable#:#Videofájl letöltése
+mcst#:#mcst_download_audioportable#:#Hangfájl letöltése
+mcst#:#mcst_clear_purpose_title#:#Törlés
+mcst#:#mcst_downloadable#:#Linkek letöltése
+mcst#:#mcst_downloadable_info#:#Ha engedélyezett ez a link, linkek kerülnek felajánlásra letöltéshez.
+mcst#:#mcst_media_cast_not_online#:#A mediacast nem on-line
+mcst#:#mcst_media_cast_not_online_text#:#A mediacast nem on-line vagy le van tiltva
+mcst#:#mcst_global_settings#:#Globális beállítások
+mcst#:#mcst_current_value_info#:#Ezen formátum aktuális értékének megjelenítése
+mcst#:#mcst_standard_settings_title#:#Fájlkiterjesztések standardformátumokhoz
+mcst#:#mcst_standard_settings_info#:#Toldalékok vesszővel elválasztott listája
+mcst#:#mcst_audioportable_settings_title#:#Fájlkiterjesztések hangformátumhoz
+mcst#:#mcst_audioportable_settings_info#:#Toldalékok vesszővel elválasztott listája
+mcst#:#mcst_videoportable_settings_title#:#Fájlkiterjesztések videoformátumhoz
+mcst#:#mcst_videoportable_settings_info#:#Toldalékok vesszővel elválasztott listája
+mcst#:#mcst_edit_settings#:#MediaCast beállítások
+mcst#:#mcst_file_extension_settings#:#Fájlkiterjesztések
 common#:#before#:#előtte
 common#:#cat_a#:#egy kategória
 common#:#cat_add#:#Kategória hozzáadása
@@ -1692,6 +1822,8 @@ common#:#check_web_resources_desc#:#Ha engedélyezett, minden aktív webforrás 
 common#:#checked_files#:#Importálható fájlok
 common#:#chg_language#:#Nyelv cseréje
 common#:#chg_password#:#Jelszócsere
+common#:#chg_ilias_password#:#ILIAS-jelszó megváltoztatása
+common#:#chg_ilias_and_webfolder_password#:#ILIAS- és webmappa megváltoztatása
 common#:#choose_language#:#Válassza ki a használni kívánt nyelvet!
 common#:#choose_location#:#Területválasztás
 common#:#choose_only_one_language#:#Csak egy nyelvet válasszon!
@@ -1871,7 +2003,7 @@ common#:#delete_all#:#Mindet töröl
 common#:#delete_all_rec#:#Minden rekord törlése
 common#:#delete_object#:#Objektum(ok) törlése
 common#:#delete_selected#:#Kijelöltek törlése
-common#:#delete_selected_items#:#Kiválasztott elemek törlése
+common#:#delete_selected_items#:#Törlés
 common#:#delete_tr_data#:#Nyomkövetési adatok törlése
 common#:#deleted#:#Törölve
 common#:#deleted_user#:#A felhasználó törölve lett.
@@ -1916,7 +2048,9 @@ common#:#enable_custom_icons#:#Ikonbeállítások engedélyezése
 common#:#enable_custom_icons_info#:#Ikonok definiálásának engedélyezése egyszerű kategóriákhoz, kurzusokhoz és csoportokhoz. A kategóriák, kurzusok és csoportok tulajdonságcsoportja dialógust fog nyújtani a képek feltöltéséhez.
 common#:#enable_fora_statistics#:#Statisztika engedélyezése a fórumban
 common#:#enable_fora_statistics_desc#:#Ha nem engedélyezett, senki nem éri el a fórumstatisztikát.
-common#:#enable_hist_user_comments#:#Felhasználói megjegyzés engedélyezése "history"-ban
+common#:#disable_anonymous_fora#:#Anonymous fórum letiltása
+common#:#disable_anonymous_fora_desc#:#Ha ez a beállítás engedélyezett, senki sem tud anonimousként fórumot létrehozni. Nem anonimous még mindig létrehozhat anonimous fórumot.
+common#:#enable_hist_user_comments#:#Felhasználói megjegyzésekengedélyezése a "történetben"
 common#:#enable_hist_user_comments_desc#:#Lehetőséget ad a szerzőknek, hogy megjegyzés tegyenek a lapok történetéről.
 common#:#enable_js_edit#:#JavaScript szerkesztés engedélyezése
 common#:#enable_js_edit_info#:#Ez a beállítás minden tartalomobjektumhoz (ILIAS-tananyagok, fogalomtárak, tesztkérdések, digitális könyvek) lehetővé teszi JavaScript szerkesztését.
@@ -1929,9 +2063,9 @@ common#:#enter_filename_deliver#:#Adja meg a fájlt az átadáshoz.
 common#:#enumerate#:#Felsorolás
 common#:#err_1_param#:#Csak 1 paramétert!
 common#:#err_2_param#:#Csak 2 paramétert!
-common#:#err_auth_cas_no_ilias_user#:#A bejelentkezés nem sikerült. A CAS autentikáció sikeres, de nincs megfelelő ILIAS felhasználó. Vegye fel a kapcsolatot a rendszeradminisztrátorral.
-common#:#err_auth_ext_user_exists#:#%s' külső bejelentkezés '%s' autentikációs módhoz már létezik. (Felhasználó '%s')
-common#:#err_auth_soap_no_ilias_user#:#A bejelentkezés nem sikerült. A SOAP autentikáció sikeres, de nincs megfelelő ILIAS felhasználó. Vegye fel a kapcsolatot a rendszeradminisztrátorral.
+common#:#err_auth_cas_no_ilias_user#:#A bejelentkezés nem sikerült. A CAS hitelesítés sikeres, de nincs megfelelő ILIAS felhasználó. Vegye fel a kapcsolatot a rendszeradminisztrátorral.
+common#:#err_auth_ext_user_exists#:#%s' külső bejelentkezés '%s' hitelesítési módhoz már létezik. (Felhasználó '%s')
+common#:#err_auth_soap_no_ilias_user#:#A bejelentkezés nem sikerült. A SOAP hitelesítés sikeres, de nincs megfelelő ILIAS felhasználó. Vegye fel a kapcsolatot a rendszeradminisztrátorral.
 common#:#err_count_param#:#Ok: nem megfelelő paraméterszám
 common#:#err_enter_current_passwd#:#Adja meg jelenlegi jelszavát!
 common#:#err_in_line#:#Hiba van a sorban.
@@ -2324,7 +2458,7 @@ common#:#header_title#:#Fejléccím
 common#:#help#:#Segítség
 common#:#hide#:#elrejt
 common#:#hide_details#:#Részletek elrejtése
-common#:#hide_private_notes#:#Jegyzeteim elrejtése
+common#:#hide_private_notes#:#Jegyzetek elrejtése
 common#:#hide_structure#:#Tiltott struktúranézet
 common#:#hist_dbk_delete_pg#:#Lap: "%1" [%2] törölve.
 common#:#hist_dbk_delete_st#:#Fejezet: "%1" [%2] törölve.
@@ -2335,7 +2469,7 @@ common#:#hist_dbk_pg_update#:#Lap módosítva.
 common#:#hist_dbk_st_cut_page#:#Lap: "%1" [%2] kivágva fejezetből.
 common#:#hist_dbk_st_paste_page#:#Lap: "%1" [%2] beillesztve fejezetbe.
 common#:#hist_file_create#:#Fájl létrehozva, a fájl neve "%1".
-common#:#file_created#:#Egy új fájl került felvételre.
+common#:#file_created#:#A fájl felvételre került.
 common#:#file_updated#:#A fájl feltöltésre került.
 common#:#hist_file_replace#:#Fájl lecserélve, az új fájl neve "%1", az új verzió %2.
 common#:#hist_lm_delete_pg#:#Lap: "%1" [%2] törölve.
@@ -2629,7 +2763,7 @@ common#:#lastname#:#Utónév
 common#:#launch#:#Indítás
 common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP BaseDN
-common#:#ldap_configure#:#LDAP autentikáció konfigurálása
+common#:#ldap_configure#:#LDAP hitelesítés konfigurálása
 common#:#ldap_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#ldap_login_key#:#Tulajdonság bejelentkezési névhez
 common#:#ldap_objectclass#:#Felhasználói fiókok objektumosztálya
@@ -2660,7 +2794,7 @@ common#:#link_check_message_enabled#:#Üzenetek engedélyezve.
 common#:#link_check_subject#:#[ILIAS 3] Linkellenőrzés
 common#:#link_checker_refreshed#:#Frissített nézet
 common#:#link_dynamic_info#:#Dinamikus paramétereket vehet fel, mint az ILIAS felhasználói azonosító.
-common#:#link_selected_items#:#Kiválasztott elemek linkelése
+common#:#link_selected_items#:#Linkelés
 common#:#linked_object#:#Az objektum linkelve van.
 common#:#linked_pages#:#Csatolt lapok
 common#:#links_add_param#:#Paraméter felvétele:
@@ -2730,7 +2864,7 @@ common#:#login_exists#:#Már van ilyen bejelentkezési nevű felhasználó. Vál
 common#:#login_invalid#:#A választott bejelentkezés nem érvényes! Csak a következő karakterek használhatók (minimum 3 karakter): A-Z a-z 0-9 _.+*@!$%~
 common#:#login_time#:#On-line használat ideje
 common#:#login_to_ilias#:#Bejelentkezés az ILIAS-ba
-common#:#login_to_ilias_via_cas#:#Központi autentikációs szolgáltatáson keresztüli bejelentkezés az ILIAS-ba
+common#:#login_to_ilias_via_cas#:#Központi hitelesítési szolgáltatáson keresztüli bejelentkezés az ILIAS-ba
 common#:#login_to_ilias_via_shibboleth#:#ILIAS-ba bejelentkezés ezen keresztül:
 common#:#logout#:#Kijelentkezés
 common#:#logout_text#:#Kijelentkezett az ILIAS-ból. Munkamenete lezárásra került.
@@ -2850,7 +2984,7 @@ common#:#move_up#:#Feljebb helyezés
 common#:#move_down#:#Lejjebb helyezés
 common#:#moveChapter#:#Áthelyez
 common#:#movePage#:#Áthelyez
-common#:#move_selected_items#:#Kiválasztott elemek áthelyezése
+common#:#move_selected_items#:#Áthelyezés
 common#:#move_to#:#Áthelyez (hova)
 common#:#move_users_to_style#:#Felhasználók stílushoz rendelése
 common#:#msg_cancel#:#Tevékenység megszakítva.
@@ -3038,6 +3172,17 @@ news#:#news_news_item_content_long#:#Hosszú szöveg
 news#:#news_news_item_content_long_info#:#Ez a szöveg nem kerül publikálásra RSS-en keresztül.
 news#:#news_visibility_users#:#Bejelentkezve a felhasználók közé
 news#:#news_visibility_public#:#Nyilvános
+news#:#news_get_priv_feed_info#:#Ez egy személyes hírforrás URL-je. A hírforrás  olyan híreket tartalmaz, amelyeket a szerző személyesnek és nyilvánosnak minősített. Ezt a hírforrást jelszó védi, amely a "Beállítások" alatt módosítható. Ne ossza meg senkivel ezt az URL-t! Cserélje le -a jelszót- ezen az URL-en az ön hírforrásjelszavával!
+news#:#news_get_priv_feed_title#:#Személyes URL-forrás
+news#:#news_enable_private_feed#:#Személyes hírforrás engedélyezése
+news#:#news_enable_private_feed_info#:#Ha engedélyezett, a nyilvános és a személyes hírek az ILIAS-on kívüli személyes RSS-sel is fenntarthatók. A hitelesítés fejlszóhoz között.
+news#:#passwd_equals_ilpasswd#:#Adjon meg egy, az ILIAS-jelszavától különböző jelszót!
+news#:#priv_feed_disabled#:#Személyes hírforrás letiltva.
+news#:#priv_feed_settings#:#Személyes hírforrás beállításai
+news#:#priv_feed_no_access_title#:#A személyes hírforrás le van tiltva.
+news#:#priv_feed_no_access_body#:#További információkért vegye fel a kapcsolatot a rendszeradminisztrátorral!
+news#:#priv_feed_no_auth_title#:#A hitelesítés nem sikerült.
+news#:#priv_feed_no_auth_body#:#Ellenőrizze, hogy engedélyezte a szmélyes hírforrását, és hogy a jelszót pontosan adta meg!
 common#:#access_users#:#Bejelentkezve a felhasználók közé
 common#:#access_public#:#Nyilvános
 common#:#access_scope#:#Hozzáférés
@@ -3045,7 +3190,7 @@ news#:#news_news_item_visibility#:#Hozzáférés
 news#:#news_news_items#:#Új tétel
 news#:#news_subscribe#:#Felíratkozás
 news#:#news_unsubscribe#:#Leíratkozás
-news#:#news_internal_news#:#Belső hírek
+news#:#news_internal_news#:#Hírek
 news#:#news_get_feed_url#:#Hírforrás URL-jének kérése
 news#:#news_feed_url_for#:#Hírforrás URL-je ehhez: '%s'
 news#:#news_get_feed_title#:#Személyes hírforrás URL-je
@@ -3055,7 +3200,7 @@ news#:#news_settings#:#Hírek beállításai
 news#:#news_notifications_public#:#Nyilvános értesítések
 news#:#news_notifications_public_info#:#He engedélyezett ez a beállítás, a személyes RSS-csatornák elérhetők az ILIAS-on kívül is. Tehát így bejelentkezés nélkül is elérhetővé teszi a megjegyzéseket.
 news#:#news_public_feed#:#Extra RSS-csatorna
-news#:#news_public_feed_info#:#Ha ez a beállítás engedélyezett, külön RSS-csatorna lesz ehhez a tételhez.
+news#:#news_public_feed_info#:#Ha ez a beállítás engedélyezett, külön RSS-csatorna lesz ehhez a Mediacasthoz.
 news#:#news_news_item_visibility_info#:#A nyilvános hírek elérhetők bejelentkezés nélkül, az ILIAS-on kívül, RSS-en keresztül. Ne tegyen bele bizalmas információkat.
 feed#:#feed_feed_items#:#Hírforrástétel(ek)
 feed#:#feed_proxy#:#Proxy Host
@@ -3181,8 +3326,8 @@ common#:#obj_adve_desc#:#Adminisztrációs beállítások korszerű szövegszerk
 common#:#obj_alm#:#AICC-tananyag
 common#:#obj_assf#:#Teszt és kiértékelés
 common#:#obj_assf_desc#:#Platformbeállítások a Teszt és kiértékelés eszközhöz
-common#:#obj_auth#:#Autentikáció és regisztráció
-common#:#obj_auth_desc#:#Autentikációs mód konfigurálása (helyi, LDAP, ...) és új felhasználói fiók regisztrációs beállításai
+common#:#obj_auth#:#Hitelesítés és regisztráció
+common#:#obj_auth_desc#:#Hitelesítési mód konfigurálása (helyi, LDAP, ...) és új felhasználói fiók regisztrációs beállításai
 common#:#obj_cat#:#Kategória
 common#:#obj_cen#:#Centra esemény
 common#:#obj_chac#:#Csevegésszerver
@@ -3227,6 +3372,8 @@ common#:#obj_recf#:#Visszaállított objektumok
 common#:#obj_recf_desc#:#Rendszerellenőrzés során helyreállított objektumok
 common#:#obj_role#:#Szerep
 common#:#obj_nwss#:#Hírek és webhírforrások
+common#:#obj_mcts#:#Mediacast
+common#:#obj_mcts_desc#:#Általános beállítások a Mediacasthoz.
 common#:#obj_nwss_desc#:#Beállítások belső hírekhez és külső hírforrásokhoz
 common#:#obj_rolf#:#Szerepek
 common#:#obj_rolf_desc#:#Szerepek menedzselése
@@ -3244,6 +3391,8 @@ common#:#obj_st#:#Fejezet
 common#:#obj_stys#:#Stílus és képernyőfelület
 common#:#obj_stys_desc#:#Rendszermegjelenés és a stílusbeállítások menedzselése
 common#:#obj_svy#:#Kérdőív
+common#:#obj_svyf#:#Kérdőív
+common#:#obj_svyf_desc#:#Platformbeállítások a kérdőív-eszközhöz
 common#:#obj_tax#:#Osztályozás
 common#:#obj_taxf#:#Osztályozások
 common#:#obj_taxf_desc#:#Mappa az osztályozásoknak
@@ -3348,7 +3497,7 @@ common#:#password_assistance_info#:#Ha engedélyezett a jelszótámogatás, "Elf
 common#:#paste#:#Beillesztés
 common#:#pasteChapter#:#Beillesztés
 common#:#pastePage#:#Beillesztés
-common#:#paste_clipboard_items#:#Elemek bemásolása a vágólapról
+common#:#paste_clipboard_items#:#Bemásolás
 common#:#path#:#Elérési útvonal
 common#:#path_not_set#:#Az útvonal nincs beállítva.
 common#:#path_to_babylon#:#Útvonal Babylonhoz
@@ -3683,7 +3832,7 @@ common#:#shib_phone_home#:#Tulajdonságok az otthoni telefonszámhoz
 common#:#shib_phone_mobile#:#Tulajdonságok a mobil telefonszámhoz
 common#:#shib_phone_office#:#Tulajdonságok az irodai telefonszámhoz
 common#:#shib_read#:#Olvasási elérés a Shibboleth-beállításokhoz
-common#:#shib_select_home_organization#:#%s-n keresztüli autentikációhoz válassza ki szervezetét a legördülő listából!
+common#:#shib_select_home_organization#:#%s-n keresztüli hitelesítéshez válassza ki szervezetét a legördülő listából!
 common#:#shib_settings_saved#:#A Shibboleth-beállítások mentésre kerültek
 common#:#shib_street#:#Tulajdonságok az utcához
 common#:#shib_title#:#Tulajdonságok a címhez
@@ -3699,7 +3848,23 @@ common#:#show_members#:#Tagok megjelenítése
 common#:#pd_items_news#:#Személyes tételek híreit beleértve
 common#:#pd_items_news_info#:#Ha aktivált, a munkaasztalra kitett tételekhez kapcsolódó minden hír benne lesz a hírek blokkban.
 common#:#show_owner#:#Tulajdonos
-common#:#show_private_notes#:#Jegyzeteim megjelenítése
+tagging#:#tagging_tags#:#Címkék
+rating#:#rating_your_rating#:#Az Ön értékelése
+rating#:#rating_average_rating#:#Átlagértékelés
+rating#:#rating_nr_users#:#%s Felhasználó(k)
+tagging#:#tagging_resources_for_tag#:#Források ezzel a címkével: %s
+tagging#:#tagging_all_users#:#Minden felhasználó
+common#:#tagging_my_tags#:#Az én címkéim
+notes#:#notes_public_comments#:#Nyilvános megjegyzések
+notes#:#notes_add_comment#:#Megjegyzés hozzáadása
+notes#:#notes_show_comments#:#Megjegyzések megjelenítése
+notes#:#notes_hide_comments#:#Megjegyzések elrejtése
+notes#:#notes_all_comments#:#Minden megjegyzés
+notes#:#notes_my_comments#:#Az én megjegyzéseim
+notes#:#notes_comment#:#Megjegyzés
+notes#:#notes_activate_comments#:#Nyilvános megjegyzések aktiválása
+notes#:#notes_deactivate_comments#:#Nyilvános megjegyzések deaktiválása
+common#:#show_private_notes#:#Jegyzek megjelenítése
 common#:#show_structure#:#Strukturált nézet engedélyezése
 common#:#show_users_online#:#Bejelentkezett felhasználók megjelenítése
 common#:#signature#:#Aláírás
@@ -3708,8 +3873,8 @@ common#:#skin_style#:#Alapértelmezett felület/stílus
 common#:#standard_icon#:#Standard ikon
 common#:#tiny_icon#:#Kis ikon
 common#:#smtp#:#SMTP
-common#:#soap_user_administration#:#Külső felhasználó adminisztráció (SOAP)
-common#:#soap_user_administration_desc#:#Ha engedélyezett, minden felhasználói fiók külső SOAP-klienssel adminisztrálható.
+common#:#soap_user_administration#:#SOAP-on keresztüli adminisztráció
+common#:#soap_user_administration_desc#:#Ha engedélyezett, az ILIAS adminisztrálható SOAP-on keresztül.
 common#:#sort_by_this_column#:#Rendezés erre az oszlopra
 common#:#spacer#:#Térközállító
 common#:#spl#:#Kérdőív-kérdésgyűjtemény
@@ -3941,7 +4106,7 @@ common#:#user_activated#:#Felhasználó jóváhagyva
 common#:#user_deactivated#:#Felhasználó nem lett jóváhagyva
 common#:#user_detail#:#Adatok részletezése
 common#:#user_ext_account#:#Külső belépési jogosultság
-common#:#user_ext_account_desc#:#Belépési jogosultság külső autentikációhoz (CAS, SOAP, LDAP vagy Radius autentikációhoz)
+common#:#user_ext_account_desc#:#Belépési jogosultság külső hitelesítéshez (CAS, SOAP, LDAP vagy Radius hitelesítéshez)
 common#:#user_import_failed#:#A felhasználóimport nem sikerült.
 common#:#user_imported#:#A felhasználói importálás befejeződött.
 common#:#user_imported_with_warnings#:#A felhasználóimport befejeződött a figyelmeztetésekkel.
@@ -3961,6 +4126,8 @@ common#:#userfolder_export_file_size#:#Fájlméret
 common#:#userfolder_export_files#:#Fájlok
 common#:#userfolder_export_xml#:#XML
 common#:#username#:#Felhasználói név
+common#:#ilias_username#:#ILIAS-felhasználó neve
+common#:#ilias_and_webfolder_username#:#ILIAS és webmappa felhasználójának neve
 common#:#users#:#Felhasználók
 common#:#users_not_imported#:#Az alábbi felhasználók nem léteznek, üzeneteik nem importálhatók
 common#:#users_online#:#Aktív felhasználók
@@ -4080,6 +4247,18 @@ common#:#you_may_add_local_roles#:#Helyi szerepek felvétele
 common#:#your_message#:#Az Ön üzenete
 common#:#zip#:#Irányítószám
 common#:#zipcode#:#Irányítószám
+content#:#cont_revision#:#Átdolgozás
+content#:#cont_pages_and_subchapters#:#Alfejezetek és lapok
+content#:#cont_pc_new#:#Új tartalom
+content#:#cont_pc_modified#:#Módosított tartalom
+content#:#cont_pc_deleted#:#Törölt tartalom
+content#:#cont_page_compare#:#Kiválasztott átdolgozások összehasolítása
+content#:#cont_previous_rev#:#Previous Revision
+content#:#cont_next_rev#:#Következő átdolgozás
+content#:#cont_latest_rev#:#Legfrissebb átdolgozás
+content#:#content_page_history#:#Laptörténet
+content#:#content_current#:#Aktuális
+content#:#content_last#:#Utolsó
 content#:#HTML export#:#HTML-export
 content#:#cont_map_file_not_generated#:#Sajnos nem lehet térképfájlt generálni a szerkesztéshez.
 content#:#PDF export#:#PDF-export
@@ -4097,6 +4276,8 @@ content#:#cont_Additional#:#További
 common#:#edit_grouping#:#Tagságkorlátozás szerkesztése
 common#:#grouping_select_exactly_one#:#Csak egy tagságkorlátozást válasszon!
 common#:#no_start_file#:#Nincs kezdőfájl.
+content#:#cont_Alphabetic#:#Ábécérend a, b,…
+content#:#cont_alphabetic_s#:#Alfabetikus a, b, ...
 content#:#cont_Circle#:#Kör
 content#:#cont_delete_track_data#:#Nyomkövetési adatok törlése
 content#:#cont_Citation#:#Idézet
@@ -4114,6 +4295,8 @@ content#:#cont_Number#:#Szám
 content#:#cont_Poly#:#Sokszög
 content#:#cont_Rect#:#Téglalap
 content#:#cont_Remark#:#Észrevétel
+content#:#cont_Roman#:#Római I, II,...
+content#:#cont_roman_s#:#Római i, ii,...
 content#:#cont_TableContent#:#Tartalomtáblázat
 content#:#cont_Unordered#:#Listajeles
 content#:#cont_act_number#:#Fejezetszámozás
@@ -4206,9 +4389,31 @@ content#:#cont_disable_html#:#HTML inaktív
 content#:#cont_enable_html#:#HTML aktív
 content#:#cont_download_title#:#Cím letöltése
 content#:#cont_downloads#:#Letöltések
+content#:#cont_insert_as_subchapter#:#Alfejeztként beszúrás
+content#:#cont_insert_as_chapter#:#Fejezetként beszúrás
+content#:#cont_save_all_titles#:#Címek mentése
 content#:#cont_downloads_desc#:#Letöltés engedélyezése minden nyilvános exportfájlra.
 content#:#cont_downloads_public_desc#:#Akár névtelen felhasználók is letölthetik (a nyilvános területen)
+content#:#cont_sec_block#:#Blokk
+content#:#cont_sec_example#:#Példa
+content#:#cont_sec_citation#:#Idézet
+content#:#cont_sec_additional#:#További
+content#:#cont_sec_special#:#Speciális
+content#:#cont_sec_excursus#:#Eltérés
+content#:#cont_insert_resources#:#Forráslista beszúrása
+content#:#cont_update_resources#:#Forráslista frissítése
+content#:#cont_type#:#Típus
+content#:#cont_insert_section#:#Bekezdés beszúrása
+content#:#cont_update_section#:#Bekezdés frissítése
 content#:#cont_ed_align_center#:#igazítás: középre
+content#:#cont_ed_insert_repobj#:#Forráslista beszúrása
+content#:#cont_ed_insert_tabs#:#Tabulátorok beszúrása
+content#:#cont_insert_tabs#:#Tabulátorok beszúrása
+content#:#cont_update_tabs#:#Tabulátorok frissítése
+content#:#cont_number_of_tabs#:#Tabulátorok száma
+content#:#cont_tabs_hor_tabs#:#Vízszintes tabulátorok
+content#:#cont_tabs_accordion#:#Harmonika
+content#:#cont_ed_insert_map#:#Térkép beszúrása
 content#:#cont_ed_align_left#:#igazítás: balra
 content#:#cont_ed_align_left_float#:#igazítás: körbefuttatás jobbról
 content#:#cont_ed_align_right#:#igazítás: jobbra
@@ -4230,6 +4435,10 @@ content#:#cont_ed_insert_filelist#:#fájllista beszúrása
 content#:#cont_ed_insert_list#:#lista beszúrása
 content#:#cont_ed_insert_media#:#média beszúrása
 content#:#cont_ed_insert_par#:#bekezdés beszúrása
+content#:#cont_ed_insert_dtable#:#Adattábla beszúrása
+content#:#cont_ed_insert_atable#:#Továbbfejlesztett táblázat beszúrása
+content#:#cont_ed_edit_data#:#Adatok szerkesztése
+content#:#cont_ed_insert_section#:#Bekezdés beszúrása
 content#:#cont_ed_item_down#:#elem lefelé mozgatása
 content#:#cont_ed_item_up#:#elem felfelé mozgatása
 content#:#cont_ed_moveafter#:#mozgatás utána
@@ -4955,9 +5164,15 @@ crs#:#crs_users_already_assigned#:#A felhasználót hozzárendeltük ehhez a kur
 crs#:#crs_users_removed_from_list#:#A kiválasztott felhasználók eltávolításra kerültek a várólistáról
 crs#:#crs_view_archive#:#Tömörített állományok nézet
 crs#:#crs_view_info_objective#:#Ez a prezentációs mód a tanulási célkitűzésekhez használt
+cntr#:#cntr_view_info_sessions#:#Ez a tartalommegjelenítés először csoportosítja az összes munkamenetet. Azután a további kurzustartalom kerül listázásra.
+cntr#:#cntr_view_info_simple#:#Ez a tartalommegjelenítés egy blokkban minden tételt listáz.
+cntr#:#cntr_view_info_by_type#:#Ez a tartalommegjelenítés forrástípus alapján csoportosítja az összes tételt.
 crs#:#crs_view_info_timing#:#Prezentációs mód időzített előbeállításokhoz
 crs#:#crs_view_mode#:#Kurzusprezentáció
 crs#:#crs_view_objective#:#Objektum-orientált nézet
+cntr#:#cntr_view_sessions#:#Munkamenetek nézete
+cntr#:#cntr_view_simple#:#Egyszerű  nézet
+cntr#:#cntr_view_by_type#:#Típus szerint csoportosított nézet
 crs#:#crs_view_timing#:#Időzítésnézet
 crs#:#crs_visibility#:#Hozzáférhetőség
 crs#:#crs_visibility_limitless#:#Nem korlátozott
@@ -5370,7 +5585,7 @@ forum#:#frm_wizard_page#:#Fórum másolása (2/2. lépés)
 forum#:#fmr_copy_threads_info#:#Lehetősége van egyszerű hozzászólások másolására. Csak a kiválasztott hozzászólások kezdete lesz megkétszerezve.
 forum#:#post_activation_desc#:#Ha engedélyezett, a moderátornak engedélyeznie kell az új hozzászólásokat.
 forum#:#forums_notification_disabled#:#Értesítés letiltása
-grp#:#grp_registration_unlimited#:#Nem korlátozott regisztrációs periódus
+grp#:#grp_registration_unlimited#:#Nem korlátozott
 ilinc#:#ilinc_member_administration#:#Résztvevők szerkesztése
 ilinc#:#akclassvalue1#:#1. költségközpont
 ilinc#:#akclassvalue2#:#2. költségközpont
@@ -6906,6 +7121,7 @@ survey#:#search_questions#:#Kérdések szűréssel
 survey#:#search_roles#:#Talált szerepek
 survey#:#search_term#:#Fogalom keresése
 survey#:#search_type_all#:#Keresés minden kérdéstípusban
+survey#:#search_users#:#Felhasználók keresése
 survey#:#found_users#:#Talált felhasználók
 survey#:#select_option#:#--- Válasszon ki egy beállítást! ---
 survey#:#select_phrase_to_add#:#Válasszon ki egy mondatot a kérdéshez való hozzáadáshoz!
@@ -6963,7 +7179,7 @@ survey#:#survey_start#:#vissza a kezdőlapra
 survey#:#survey_use_start_button#:#Meg kell nyomnia a kérdőív használatához a kezdés gombot!
 survey#:#svy_all_user_data_deleted#:#Minden, ehhez a kérdőívhez kapcsolódó felhasználói adat törlésre került.
 survey#:#svy_check_evaluation_access_introduction#:#Mivel ez a kérdőíves kiértékelés csak a kérdőívben résztvevők számára elérhető, meg kell adnia kérdőívelérési kódját a kiértékelés megnyitásához.
-survey#:#svy_check_evaluation_authentication_needed#:#Autentikáció szükséges
+survey#:#svy_check_evaluation_authentication_needed#:#Hitelesítés szükséges
 survey#:#svy_check_evaluation_wrong_key#:#Rossz kérdőívelérési kódot adott meg, vagy nem jogosult a kérdőív kitöltésére. Elérése a kérdőíves kiértékeléshez elutasítva.
 survey#:#svy_create_export_file#:#Exportfájl létrehozása
 survey#:#svy_delete_all_user_data#:#Minden felhasználói adat törlése
@@ -7193,7 +7409,7 @@ trac#:#trac_not_completed#:#Nem fejezte be
 trac#:#trac_not_participated#:#Nem vett részt
 trac#:#trac_not_registered#:#Nem regisztrált
 trac#:#trac_num_visits#:#Látogatások száma
-trac#:#trac_objects#:#Felhasználók tanulmányokban való előrehaladása
+trac#:#trac_objects#:#Felhasználók tanulmányi előmenetele
 trac#:#trac_occurrences#:#Útvonal:
 trac#:#trac_participated#:#Résztvett
 trac#:#trac_processing_time#:#Feltételezett feldolgozási idő
@@ -7218,6 +7434,8 @@ trac#:#trac_total_online#:#Teljes on-line eltöltött idő
 trac#:#trac_update_edit_user#:#Mentett beállítások
 trac#:#trac_updated_status#:#Tanulmányi előmenetel állapota mentve.
 trac#:#trac_user_data#:#Felhasználói adatok
+trac#:#trac_user_activities#:#Felhasználói aktivitás
+trac#:#trac_repository_changes#:#Változások a taneszköz tárolóban
 trac#:#trac_usr_list#:#Felhasználók
 trac#:#trac_valid_request#:#Kérések közötti maximális idő
 trac#:#trac_view_crs#:#Vissza a kurzushoz
@@ -7523,7 +7741,7 @@ trac#:#trac_mode_manual_by_tutor_info#:#Az általános állapotot csak tutorok �
 ldap#:#ldap_group_membership#:#Csoporttagság
 ldap#:#ldap_group_member_optional#:#A csoporttagság választható
 ldap#:#ldap_group_user_filter#:#Felhasználói szűrő
-ldap#:#ldap_group_optional_info#:#Ha engedélyezett, nem szükséges a csoporttagság a sikeres autentikációhoz. Adjon meg egy felhasználószűrőt ehhez a csoporthoz:<br />(&(userattr=username)<strong>(userfilter)</strong>)
+ldap#:#ldap_group_optional_info#:#Ha engedélyezett, nem szükséges a csoporttagság a sikeres hitelesítéshez. Adjon meg egy felhasználószűrőt ehhez a csoporthoz:<br />(&(userattr=username)<strong>(userfilter)</strong>)
 ldap#:#ldap_server_short#:#Szerver-URL:
 ldap#:#ldap_group_dn_short#:#Csoport DN:
 ldap#:#ldap_group_member_short#:#Tulajdonság:
@@ -7665,7 +7883,7 @@ ldap#:#ldap_btn_add_role_ass#:#Új szerep hozzáadása
 ldap#:#ldap_edit_role_ass_rule#:#Hozzárendelési szerep szerepének szerkesztése
 ldap#:#ldap_rule_type#:#Hozzárendelési típus
 ldap#:#ldap_confirm_del_role_ass#:#Szerepösszerendelés törlése
-common#:#header_zip#:#Zip-fájl feltöltése
+common#:#header_zip#:#Több fájl feltöltése Zip-ben
 common#:#take_over_structure#:#Struktúra adaptálása
 common#:#take_over_structure_info#:#Ha aktivált, a zip fájlban levő könyvtárak létrehozásra kerülnek a kategóriákban, vagy ha csoportokban vagy kurzusokban használja, mappákba.
 common#:#msg_wrong_filetype#:#A fájl nem zip-fájl.
@@ -7750,481 +7968,257 @@ payment#:#user_deleted#:#A felhasználó törölve
 payment#:#statistics_filter_advice#:#Válassza ki a kedvelt szűrőbeállításait, majd kattintson a "Nézet frissítése" gombra.
 mail#:#advice_mail_body_secured#:#Biztonsági okokból az ILIAS néhány elemet eltávolított az Ön üzenetéből. Ellenőrizze az üzenetet, és küldje újra a levelet.
 payment#:#pay_crs_max_members_exceeded#:#Ön nem tud jelentkezni erre a kurzusra, mert betelt a maximális felhasználói létszám.
-assessment#:#certificate_var_user_title#:#Dr.###12 03 2008 new variable
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source###12 03 2008 new variable
-assessment#:#certificate_var_user_department#:#Customer Support###12 03 2008 new variable
-assessment#:#certificate_var_user_street#:#100 Main Street###12 03 2008 new variable
-assessment#:#certificate_var_user_city#:#Anytown, NY###12 03 2008 new variable
-assessment#:#certificate_var_user_zipcode#:#12345###12 03 2008 new variable
-assessment#:#certificate_var_user_country#:#USA###12 03 2008 new variable
-assessment#:#certificate_ph_title#:#Title of the user###12 03 2008 new variable
-assessment#:#certificate_ph_institution#:#Institution of the user###12 03 2008 new variable
-assessment#:#certificate_ph_department#:#Department of the user###12 03 2008 new variable
-assessment#:#certificate_ph_street#:#Street of the user's address###12 03 2008 new variable
-assessment#:#certificate_ph_city#:#City of the user's address###12 03 2008 new variable
-assessment#:#certificate_ph_zipcode#:#ZIP code of the user's address###12 03 2008 new variable
-assessment#:#certificate_ph_country#:#Country of the user's address###12 03 2008 new variable
-content#:#cont_alphabetic#:#Alphabetic A, B, ...###12 03 2008 new variable
-content#:#cont_alphabetic_s#:#Alphabetic a, b, ...###12 03 2008 new variable
-content#:#cont_roman#:#Roman I, II, ...###12 03 2008 new variable
-content#:#cont_roman_s#:#Roman i, ii, ...###12 03 2008 new variable
-common#:#obj_cmps#:#Modules, Services and Plugins###02 06 2008 new variable
-cmps#:#cmps_group#:#Group###02 06 2008 new variable
-cmps#:#cmps_current_version#:#Current Version###02 06 2008 new variable
-cmps#:#cmps_file_version#:#Update File Version###02 06 2008 new variable
-cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information###02 06 2008 new variable
-cmps#:#cmps_module#:#Module###02 06 2008 new variable
-cmps#:#cmps_no_language_file_available#:#No language file available.###02 06 2008 new variable
-cmps#:#cmps_no_db_update_file_available#:#No DB update script available.###02 06 2008 new variable
-cmps#:#cmps_version#:#Version###02 06 2008 new variable
-cmps#:#cmps_update#:#Update###02 06 2008 new variable
-cmps#:#cmps_update_db#:#Update DB###02 06 2008 new variable
-cmps#:#cmps_refresh#:#Refresh###02 06 2008 new variable
-cmps#:#cmps_activate#:#Activate###02 06 2008 new variable
-cmps#:#cmps_deactivate#:#Deactivate###02 06 2008 new variable
-cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version###02 06 2008 new variable
-cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version###02 06 2008 new variable
-cmps#:#cmps_dir#:#Directory###02 06 2008 new variable
-cmps#:#cmps_active#:#Active###02 06 2008 new variable
-cmps#:#cmps_inactive#:#Inactive###02 06 2008 new variable
-cmps#:#cmps_status#:#Status###02 06 2008 new variable
-cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.###02 06 2008 new variable
-cmps#:#cmps_needs_update#:#Needs update.###02 06 2008 new variable
-cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.###02 06 2008 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.###02 06 2008 new variable
-cmps#:#cmps_show_details#:#Show Details###02 06 2008 new variable
-cmps#:#cmps_plugin_slot#:#Plugin Slot###02 06 2008 new variable
-cmps#:#cmps_component#:#Component###02 06 2008 new variable
-cmps#:#cmps_lang_prefix#:#Language Variables Prefix###02 06 2008 new variable
-cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes###02 06 2008 new variable
-cmps#:#cmps_disable_creation#:#Disable Creation###02 06 2008 new variable
-cmps#:#cmps_rep_object#:#Repository Object Type###02 06 2008 new variable
-cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List###02 06 2008 new variable
-cmps#:#cmps_plugin_dirs#:#Plugin Directories###02 06 2008 new variable
-cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes###02 06 2008 new variable
-common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.###02 06 2008 new variable
-cmps#:#cmps_edit_settings#:#Settings###02 06 2008 new variable
-cmps#:#cmps_modules#:#Modules###02 06 2008 new variable
-cmps#:#cmps_plugins#:#Plugins###02 06 2008 new variable
-cmps#:#cmps_plugin#:#Plugin###02 06 2008 new variable
-cmps#:#cmps_services#:#Services###02 06 2008 new variable
-cmps#:#cmps_service#:#Service###02 06 2008 new variable
-cmps#:#cmps_save_options#:#Save Options###02 06 2008 new variable
-cmps#:#cmps_main_dir#:#Main Directory###02 06 2008 new variable
-cmps#:#cmps_plugin_file#:#Plugin File###02 06 2008 new variable
-cmps#:#cmps_db_update#:#DB Update Script###02 06 2008 new variable
-cmps#:#cmps_available#:#Available###02 06 2008 new variable
-cmps#:#cmps_missing#:#Missing###02 06 2008 new variable
-cmps#:#cmps_class_file#:#Class File###02 06 2008 new variable
-cmps#:#cmps_lang_files#:#Language Files###02 06 2008 new variable
-cmps#:#cmps_database#:#Database###02 06 2008 new variable
-cmps#:#cmps_languages#:#Languages###02 06 2008 new variable
-cmps#:#cmps_basic_files#:#Basic Files###02 06 2008 new variable
-cmps#:#cmps_name#:#Name###02 06 2008 new variable
-cmps#:#cmps_id#:#ID###02 06 2008 new variable
-assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
-form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
-form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
-form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki#:#Wiki###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
-common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#grp_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#obj_wiki#:#Wiki###02 06 2008 new variable
-common#:#objs_wiki#:#Wikis###02 06 2008 new variable
-common#:#objs_lres#:#Learning Resources###02 06 2008 new variable
-common#:#wiki_new#:#New Wiki###02 06 2008 new variable
-common#:#wiki_add#:#Add Wiki###02 06 2008 new variable
-wiki#:#wiki_contributors#:#Contributors###02 06 2008 new variable
-wiki#:#wiki_contributor#:#Contributor###02 06 2008 new variable
-wiki#:#wiki_page_changes#:#Page Changes###02 06 2008 new variable
-wiki#:#wiki_grading#:#Grading###02 06 2008 new variable
-wiki#:#wiki_notgraded#:#Not Graded###02 06 2008 new variable
-wiki#:#wiki_passed#:#Passed###02 06 2008 new variable
-wiki#:#wiki_failed#:#Failed###02 06 2008 new variable
-wiki#:#wiki_mark#:#Mark###02 06 2008 new variable
-wiki#:#wiki_settings#:#Wiki Settings###02 06 2008 new variable
-wiki#:#wiki_activate_rating#:#Activate Rating###02 06 2008 new variable
-wiki#:#wiki_what_links_to_page#:#What links to page "%s"?###02 06 2008 new variable
-wiki#:#wiki_start_page#:#Start Page###02 06 2008 new variable
-wiki#:#wiki_start_page_title#:#Start Page Title###02 06 2008 new variable
-wiki#:#wiki_main_page#:#Main Page###02 06 2008 new variable
-wiki#:#wiki_short_title#:#Short Title###02 06 2008 new variable
-wiki#:#wiki_orphaned_pages#:#Orphaned Pages###02 06 2008 new variable
-wiki#:#wiki_short_title_desc#:#This title will be used in permanent links to the Wiki.###02 06 2008 new variable
-wiki#:#wiki_article#:#Article###02 06 2008 new variable
-wiki#:#wiki_discussion#:#Discussion###02 06 2008 new variable
-wiki#:#wiki_edit#:#Edit###02 06 2008 new variable
-wiki#:#wiki_last_changed_by#:#Last Changed By###02 06 2008 new variable
-wiki#:#wiki_created_by#:#Created By###02 06 2008 new variable
-wiki#:#wiki_last_changed#:#Last Change###02 06 2008 new variable
-wiki#:#wiki_page_hits#:#Page Hits###02 06 2008 new variable
-wiki#:#wiki_history#:#History###02 06 2008 new variable
-wiki#:#wiki_navigation#:#Navigation###02 06 2008 new variable
-wiki#:#wiki_recent_changes#:#Recent Changes###02 06 2008 new variable
-wiki#:#wiki_what_links_here#:#What Links Here?###02 06 2008 new variable
-wiki#:#wiki_print_view#:#Print View###02 06 2008 new variable
-wiki#:#wiki_random_page#:#Random Page###02 06 2008 new variable
-wiki#:#wiki_all_pages#:#All Pages###02 06 2008 new variable
-wiki#:#wiki_new_pages#:#New Pages###02 06 2008 new variable
-wiki#:#wiki_popular_pages#:#Popular Pages###02 06 2008 new variable
-wiki#:#wiki_media_list#:#Media List###02 06 2008 new variable
-wiki#:#wiki_page#:#Page###02 06 2008 new variable
-mcst#:#mcst_edit_item#:#Edit Mediacast Item###02 06 2008 new variable
-mcst#:#mcst_standard_title#:#Normal Media File###02 06 2008 new variable
-mcst#:#mcst_audioportable_title#:#Additional Audio File for Portable Devices###02 06 2008 new variable
-mcst#:#mcst_videoportable_title#:#Additional Video File for Portable Devices###02 06 2008 new variable
-mcst#:#mcst_download_standard#:#Download###02 06 2008 new variable
-mcst#:#mcst_download_videoportable#:#Download Video Portable###02 06 2008 new variable
-mcst#:#mcst_download_audioportable#:#Download Audio Portable###02 06 2008 new variable
-mcst#:#mcst_clear_purpose_title#:#Delete###02 06 2008 new variable
-mcst#:#mcst_downloadable#:#Download Links###02 06 2008 new variable
-mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading are provided.###02 06 2008 new variable
-mcst#:#mcst_media_cast_not_online#:#Mediacast is not online###02 06 2008 new variable
-mcst#:#mcst_media_cast_not_online_text#:#Mediacast is not online or has been disabled###02 06 2008 new variable
-mcst#:#mcst_global_settings#:#Global Settings###02 06 2008 new variable
-mcst#:#mcst_current_value_info#:#Shows the current value of this format.###02 06 2008 new variable
-mcst#:#mcst_standard_settings_title#:#File Extensions for Standard Format###02 06 2008 new variable
-mcst#:#mcst_standard_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
-mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format###02 06 2008 new variable
-mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
-mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format###02 06 2008 new variable
-mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
-mcst#:#mcst_edit_settings#:#MediaCast Settings###02 06 2008 new variable
-mcst#:#mcst_file_extension_settings#:#File Extensions###02 06 2008 new variable
-common#:#chg_ilias_password#:#Change ILIAS Password###02 06 2008 new variable
-common#:#chg_ilias_and_webfolder_password#:#Change ILIAS and Webfolder Password###02 06 2008 new variable
-common#:#disable_anonymous_fora#:#Disable anonymous fora###02 06 2008 new variable
-common#:#disable_anonymous_fora_desc#:#If option is enabled, nobody is able to make a forum anonymous. Making an anonymous forum non-anonymous is still possible.###02 06 2008 new variable
-news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under "Settings". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.###02 06 2008 new variable
-news#:#news_get_priv_feed_title#:#Personal private Feed-URL###02 06 2008 new variable
-news#:#news_enable_private_feed#:#Enable private Newsfeed###02 06 2008 new variable
-news#:#news_enable_private_feed_info#:#If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentification is provided by password.###02 06 2008 new variable
-news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.###02 06 2008 new variable
-news#:#priv_feed_disabled#:#Private Newsfeed disabled.###02 06 2008 new variable
-news#:#priv_feed_settings#:#Private Newsfeed settings###02 06 2008 new variable
-news#:#priv_feed_no_access_title#:#Private Newsfeed is disabled###02 06 2008 new variable
-news#:#priv_feed_no_access_body#:#Please contact the system administrator for further information.###02 06 2008 new variable
-news#:#priv_feed_no_auth_title#:#Authentification failed###02 06 2008 new variable
-news#:#priv_feed_no_auth_body#:#Please make sure you enabled your private Newsfeed and entered the password correctly.###02 06 2008 new variable
-common#:#obj_mcts#:#Mediacast###02 06 2008 new variable
-common#:#obj_mcts_desc#:#General settings for mediacast.###02 06 2008 new variable
-common#:#obj_svyf#:#Survey###02 06 2008 new variable
-common#:#obj_svyf_desc#:#Platform settings for the Survey Tool###02 06 2008 new variable
-tagging#:#tagging_tags#:#Tags###02 06 2008 new variable
-rating#:#rating_your_rating#:#Your Rating###02 06 2008 new variable
-rating#:#rating_average_rating#:#Average Rating###02 06 2008 new variable
-rating#:#rating_nr_users#:#%s User(s)###02 06 2008 new variable
-tagging#:#tagging_resources_for_tag#:#Resources tagged with %s###02 06 2008 new variable
-tagging#:#tagging_all_users#:#All Users###02 06 2008 new variable
-common#:#tagging_my_tags#:#My Tags###02 06 2008 new variable
-notes#:#notes_public_comments#:#Public Comments###02 06 2008 new variable
-notes#:#notes_add_comment#:#Add Comment###02 06 2008 new variable
-notes#:#notes_show_comments#:#Show Comments###02 06 2008 new variable
-notes#:#notes_hide_comments#:#Hide Comments###02 06 2008 new variable
-notes#:#notes_all_comments#:#All Comments###02 06 2008 new variable
-notes#:#notes_my_comments#:#My Comments###02 06 2008 new variable
-notes#:#notes_comment#:#Comment###02 06 2008 new variable
-notes#:#notes_activate_comments#:#Activate Public Comments###02 06 2008 new variable
-notes#:#notes_deactivate_comments#:#Deactivate Public Comments###02 06 2008 new variable
-common#:#ilias_username#:#ILIAS User Name###02 06 2008 new variable
-common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name###02 06 2008 new variable
-content#:#cont_revision#:#Revision###02 06 2008 new variable
-content#:#cont_pages_and_subchapters#:#Subchapters and Pages###02 06 2008 new variable
-content#:#cont_pc_new#:#New Content###02 06 2008 new variable
-content#:#cont_pc_modified#:#Modified Content###02 06 2008 new variable
-content#:#cont_pc_deleted#:#Deleted Content###02 06 2008 new variable
-content#:#cont_page_compare#:#Compare Selected Revisions###02 06 2008 new variable
-content#:#cont_previous_rev#:#Previous Revision###02 06 2008 new variable
-content#:#cont_next_rev#:#Next Revision###02 06 2008 new variable
-content#:#cont_latest_rev#:#Latest Revision###02 06 2008 new variable
-content#:#content_page_history#:#Page History###02 06 2008 new variable
-content#:#content_current#:#Current###02 06 2008 new variable
-content#:#content_last#:#Last###02 06 2008 new variable
-content#:#cont_insert_as_subchapter#:#Insert as Subchapter###02 06 2008 new variable
-content#:#cont_insert_as_chapter#:#Insert as Chapter###02 06 2008 new variable
-content#:#cont_save_all_titles#:#Save Titles###02 06 2008 new variable
-content#:#cont_sec_block#:#Block###02 06 2008 new variable
-content#:#cont_sec_example#:#Example###02 06 2008 new variable
-content#:#cont_sec_citation#:#Citation###02 06 2008 new variable
-content#:#cont_sec_additional#:#Additional###02 06 2008 new variable
-content#:#cont_sec_special#:#Special###02 06 2008 new variable
-content#:#cont_sec_excursus#:#Excursus###02 06 2008 new variable
-content#:#cont_insert_resources#:#Insert Resource List###02 06 2008 new variable
-content#:#cont_update_resources#:#Update Resource List###02 06 2008 new variable
-content#:#cont_type#:#Type###02 06 2008 new variable
-content#:#cont_insert_section#:#Insert Section###02 06 2008 new variable
-content#:#cont_update_section#:#Update Section###02 06 2008 new variable
-content#:#cont_ed_insert_repobj#:#Insert Resource List###02 06 2008 new variable
-content#:#cont_ed_insert_tabs#:#Insert Tabs###02 06 2008 new variable
-content#:#cont_insert_tabs#:#Insert Tabs###02 06 2008 new variable
-content#:#cont_update_tabs#:#Update Tabs###02 06 2008 new variable
-content#:#cont_number_of_tabs#:#Number of Tabs###02 06 2008 new variable
-content#:#cont_tabs_hor_tabs#:#Horizontal Tabs###02 06 2008 new variable
-content#:#cont_tabs_accordion#:#Accordion###02 06 2008 new variable
-content#:#cont_ed_insert_map#:#Insert Map###02 06 2008 new variable
-content#:#cont_ed_insert_dtable#:#Insert Data Table###02 06 2008 new variable
-content#:#cont_ed_insert_atable#:#Insert Advanced Table###02 06 2008 new variable
-content#:#cont_ed_edit_data#:#Edit Data###02 06 2008 new variable
-content#:#cont_ed_insert_section#:#Insert Section###02 06 2008 new variable
-cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.###02 06 2008 new variable
-cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
-cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.###02 06 2008 new variable
-cntr#:#cntr_view_sessions#:#Sessions View###02 06 2008 new variable
-cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
-cntr#:#cntr_view_by_type#:#Grouped-by-Type View###02 06 2008 new variable
-trac#:#trac_user_activities#:#Benutzeraktivitäten###02 06 2008 new variable
-trac#:#trac_repository_changes#:#Changes in the repository###02 06 2008 new variable
-common#:#obj_calendar#:#Calendar###02 06 2008 new variable
-common#:#obj_cals_desc#:#General Calendar settings.###02 06 2008 new variable
-rbac#:#cals_edit_permission#:#Change permission settings###02 06 2008 new variable
-rbac#:#cals_visible#:#Calendar settings are visible###02 06 2008 new variable
-rbac#:#cals_read#:#Read access to Calendar settings###02 06 2008 new variable
-rbac#:#cals_write#:#Edit Calendar settings###02 06 2008 new variable
-common#:#obj_cat_duplicate#:#Copy Category###02 06 2008 new variable
-common#:#obj_cat_select#:#-- Please select one Category --###02 06 2008 new variable
-common#:#cat_wizard_page#:#Copy Category (Step 2/2)###02 06 2008 new variable
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###02 06 2008 new variable
-common#:#webfolder#:#Webfolder###02 06 2008 new variable
-common#:#mount_webfolder#:#Open as webfolder###02 06 2008 new variable
-common#:#obj_file_inline#:#Learning Module File###02 06 2008 new variable
-common#:#yesterday#:#Yesterday###02 06 2008 new variable
-common#:#tomorrow#:#Tomorrow###02 06 2008 new variable
-common#:#show_profile#:#Show profile###02 06 2008 new variable
-common#:#copy_selected_items#:#Copy###02 06 2008 new variable
-common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###02 06 2008 new variable
-common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###02 06 2008 new variable
-common#:#disk_space_used#:#Disk space used###02 06 2008 new variable
-common#:#in_use_by#:#In use by###02 06 2008 new variable
-common#:#filename_extension_missing#:#Filename extension missing###02 06 2008 new variable
-common#:#filename_special_characters#:#/ is not allowed in filenames###02 06 2008 new variable
-common#:#filename_windows_special_characters#:#\/:*?"<>| are not allowed in Windows filenames###02 06 2008 new variable
-common#:#filename_windows_empty_extension#:#. at the end of a filename is not allowed on Windows###02 06 2008 new variable
-common#:#filename_windows_webdav_issue#:## is not supported in Windows webfolders###02 06 2008 new variable
-common#:#filename_special_filename#:#. and .. are reserved filenames###02 06 2008 new variable
-common#:#filename_visibility#:#Visibility###02 06 2008 new variable
-common#:#filename_hidden_unix_file#:#Hidden Unix file###02 06 2008 new variable
-common#:#filename_hidden_backup_file#:#Hidden backup file###02 06 2008 new variable
-common#:#filename_interoperability#:#Interoperability###02 06 2008 new variable
-common#:#readcount_anonymous_users#:#Number of anonymous read accesses###02 06 2008 new variable
-common#:#readcount_users#:#Number of non-anonymous read accesses###02 06 2008 new variable
-common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users###02 06 2008 new variable
-common#:#state_changed#:#changed###02 06 2008 new variable
-common#:#state_changed_inside#:#changed inside###02 06 2008 new variable
-common#:#state_new#:#new###02 06 2008 new variable
-common#:#state_unread#:#unread###02 06 2008 new variable
-common#:#filename_extension_short#:#Extension###02 06 2008 new variable
-common#:#obj_facs#:#File Access###02 06 2008 new variable
-common#:#obj_facs_desc#:#Configure access to file objects.###02 06 2008 new variable
-common#:#enable_webdav#:#Enable WebDAV access###02 06 2008 new variable
-common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>###02 06 2008 new variable
-common#:#webfolder_index_of#:#Index of %1$s###02 06 2008 new variable
-common#:#webfolder_instructions#:#Webfolder instructions###02 06 2008 new variable
-common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Clear the field to get the default instructions.###02 06 2008 new variable
-common#:#webfolder_instructions_titletext#:#Open %1$s as webfolder###02 06 2008 new variable
-common#:#webfolder_instructions_text#:#<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[IF_WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>###02 06 2008 new variable
-common#:#use_default_instructions#:#Use default instructions.###02 06 2008 new variable
-common#:#use_customized_instructions#:#Use customized instructions:###02 06 2008 new variable
-common#:#inline_file_extensions#:#Web-enabled files###02 06 2008 new variable
-common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.###02 06 2008 new variable
-common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.###02 06 2008 new variable
-common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">other Browser</a>.###02 06 2008 new variable
-common#:#deleted_user_account#:#Deleted user account###02 06 2008 new variable
-dateplaner#:#cal_user_settings#:#Calendar Settings###02 06 2008 new variable
-dateplaner#:#cal_user_timezone#:#Timezone###02 06 2008 new variable
-dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.###02 06 2008 new variable
-dateplaner#:#cal_week_start#:#Week Start###02 06 2008 new variable
-dateplaner#:#cal_global_settings#:#Global Settings###02 06 2008 new variable
-dateplaner#:#cal_server_tz#:#Server Timezone###02 06 2008 new variable
-dateplaner#:#cal_def_timezone#:#Default Timezone###02 06 2008 new variable
-dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.###02 06 2008 new variable
-dateplaner#:#cal_def_week_start#:#Week Start###02 06 2008 new variable
-common#:#obj_cals#:#Calendar###02 06 2008 new variable
-common#:#webdav_pear_auth_http_needed#:#You need to install Pear Auth_HTTP to use this function. To do this, enter <code>pear install Auth_HTTP</code> on the terminal.###02 06 2008 new variable
-dateplaner#:#cal_table_categories#:#Calendar Selection###02 06 2008 new variable
-dateplaner#:#cal_type_usr#:#Personal Calendar###02 06 2008 new variable
-dateplaner#:#yui_cal_choose_month#:#Month:###02 06 2008 new variable
-dateplaner#:#yui_cal_choose_year#:#Year:###02 06 2008 new variable
-dateplaner#:#cal_edit_appointment#:#Edit Appointment###02 06 2008 new variable
-dateplaner#:#cal_what#:#Title###02 06 2008 new variable
-dateplaner#:#cal_category_selection#:#Calendar Selection###02 06 2008 new variable
-dateplaner#:#cal_start#:#Start###02 06 2008 new variable
-dateplaner#:#cal_end#:#End###02 06 2008 new variable
-dateplaner#:#cal_fullday#:#Fullday###02 06 2008 new variable
-dateplaner#:#cal_fullday_title#:#No time specified###02 06 2008 new variable
-dateplaner#:#cal_where#:#Location###02 06 2008 new variable
-dateplaner#:#cal_new_app#:#New Appointment###02 06 2008 new variable
-dateplaner#:#cal_add_appointment#:#Create Appointment###02 06 2008 new variable
-dateplaner#:#cal_recurrences#:#Recurrences###02 06 2008 new variable
-dateplaner#:#cal_every#:#Every:###02 06 2008 new variable
-dateplaner#:#cal_day_s#:#Day(s)###02 06 2008 new variable
-dateplaner#:#cal_week_s#:#Week(s)###02 06 2008 new variable
-dateplaner#:#cal_month_s#:#Month(s)###02 06 2008 new variable
-dateplaner#:#cal_year_s#:#Year(s)###02 06 2008 new variable
-dateplaner#:#cal_no_recurrences#:#No Recurrences###02 06 2008 new variable
-dateplaner#:#cal_daily#:#Daily###02 06 2008 new variable
-dateplaner#:#cal_weekly#:#Weekly###02 06 2008 new variable
-dateplaner#:#cal_monthly#:#Monthly###02 06 2008 new variable
-dateplaner#:#cal_yearly#:#Yearly###02 06 2008 new variable
-dateplaner#:#cal_on#:#On:###02 06 2008 new variable
-dateplaner#:#cal_on_the#:#On the:###02 06 2008 new variable
-dateplaner#:#cal_first#:#First###02 06 2008 new variable
-dateplaner#:#cal_second#:#Second###02 06 2008 new variable
-dateplaner#:#cal_third#:#Third###02 06 2008 new variable
-dateplaner#:#cal_fourth#:#Fourth###02 06 2008 new variable
-dateplaner#:#cal_fifth#:#Fifth###02 06 2008 new variable
-dateplaner#:#cal_last#:#Last###02 06 2008 new variable
-dateplaner#:#cal_in#:#in###02 06 2008 new variable
-dateplaner#:#cal_edit_category#:#Edit Calendar###02 06 2008 new variable
-dateplaner#:#cal_calendar_name#:#Title###02 06 2008 new variable
-dateplaner#:#cal_calendar_color#:#Color###02 06 2008 new variable
-dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?###02 06 2008 new variable
-dateplaner#:#cal_no_ending#:#No End Date###02 06 2008 new variable
-dateplaner#:#cal_create#:#Create###02 06 2008 new variable
-dateplaner#:#cal_appointments#:#Appointment(s)###02 06 2008 new variable
-forum#:#frm_moderator_f#:#Moderator###02 06 2008 new variable
-forum#:#frm_moderator_m#:#Moderator###02 06 2008 new variable
-dateplaner#:#cal_assigned_appointments#:#Assigned Appointments###02 06 2008 new variable
-dateplaner#:#cal_no_recurrence#:#No Recurrence###02 06 2008 new variable
-dateplaner#:#cal_add_category#:#Create New Calendar###02 06 2008 new variable
-dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?###02 06 2008 new variable
-dateplaner#:#cal_duration#:#Duration###02 06 2008 new variable
-common#:#survey_defaults#:#Default Settings for Surveys###02 06 2008 new variable
-common#:#survey_unlimited_invitation#:#Unlimited Invitation###02 06 2008 new variable
-common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.###02 06 2008 new variable
-dateplaner#:#cal_weekday#:#Weekday###02 06 2008 new variable
-dateplaner#:#cal_day_of_month#:#Day of the month###02 06 2008 new variable
-common#:#display_webdav_actions#:#Display WebDAV actions###02 06 2008 new variable
-common#:#display_webdav_actions_info#:#Displays the action 'open as webfolder' next to each category, folder, course and group item in the repository.###02 06 2008 new variable
-rbac#:#sess_visible#:#Sessions are visible###02 06 2008 new variable
-rbac#:#sess_read#:#Read access to Sessions###02 06 2008 new variable
-rbac#:#sess_write#:#Edit Sessions###02 06 2008 new variable
-rbac#:#sess_edit_permission#:#Change Permission Settings###02 06 2008 new variable
-common#:#obj_sess#:#Session###02 06 2008 new variable
-common#:#objs_sess#:#Sessions###02 06 2008 new variable
-rbac#:#crs_create_sess#:#Create Session###02 06 2008 new variable
-rbac#:#sess_copy#:#Copy Session###02 06 2008 new variable
-common#:#obj_sess_duplicate#:#Copy Session###02 06 2008 new variable
-common#:#obj_sess_select#:#-- Please select one Session --###02 06 2008 new variable
-common#:#sess#:#Session###02 06 2008 new variable
-survey#:#specialusers#:#Special Users###02 06 2008 new variable
-survey#:#search_users#:#Search Users###02 06 2008 new variable
-survey#:#adm_no_users_found#:#No users were found that match the search string.###02 06 2008 new variable
-survey#:#adm_search_string_too_small#:#Please enter at least two characters in the search field!###02 06 2008 new variable
-survey#:#adm_search_select_user#:#Please select at least one user!###02 06 2008 new variable
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
-survey#:#adm_special_users#:#Special users who are able to run a survey more than once###02 06 2008 new variable
-survey#:#adm_removed_users#:#Users removed###02 06 2008 new variable
-survey#:#adm_remove_select_user#:#Please select at least one user for removal!###02 06 2008 new variable
-content#:#cont_sc_max_attempt#:#Max. number of attempts###02 06 2008 new variable
-content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module has been reached.###02 06 2008 new variable
-content#:#cont_sc_new_version#:#Upload new version###02 06 2008 new variable
-content#:#cont_sc_version#:#Version###02 06 2008 new variable
-content#:#cont_export_all#:#Export all###02 06 2008 new variable
-content#:#cont_export_tracking#:#Export Tracking Data###02 06 2008 new variable
-content#:#cont_export_raw#:#CMI (RAW) data###02 06 2008 new variable
-content#:#cont_export_success#:#Success-data (aggregated)###02 06 2008 new variable
-content#:#cont_export_type#:#Export-Type###02 06 2008 new variable
-content#:#cont_import_tracking#:#Import Tracking Data	###02 06 2008 new variable
-content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsmanifest.xml is not changed###02 06 2008 new variable
-content#:#cont_new_module_added#:#New version of module uploaded successfully###02 06 2008 new variable
-common#:#attempts#:#Attempts###02 06 2008 new variable
-common#:#decrease_attempts#:#Attempts - 1 ###02 06 2008 new variable
-grp#:#grp_closed#:#Closed Group###02 06 2008 new variable
-grp#:#grp_closed_info#:#Group is not visible for non-members.###02 06 2008 new variable
-grp#:#grp_reg_disabled#:#No Registration Possible###02 06 2008 new variable
-grp#:#grp_reg_disabled_info#:#Only group administrators can add users to the group.###02 06 2008 new variable
-grp#:#grp_reg_request#:#Request Membership###02 06 2008 new variable
-grp#:#grp_reg_request_info#:#Interested users can send a request/message to group administrator.###02 06 2008 new variable
-grp#:#grp_reg_direct#:#Direct Registration###02 06 2008 new variable
-grp#:#grp_reg_direct_info#:#Direct registration.###02 06 2008 new variable
-grp#:#grp_pass_request#:#Join With Group Password###02 06 2008 new variable
-grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.###02 06 2008 new variable
-grp#:#grp_reg_limit_time#:#Registration Period###02 06 2008 new variable
-grp#:#grp_reg_limit_num#:#Maximum Of Users###02 06 2008 new variable
-grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.###02 06 2008 new variable
-grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###02 06 2008 new variable
-grp#:#grp_waiting_list#:#Enable Waiting List###02 06 2008 new variable
-grp#:#grp_reg_limit_num_info#:#Limited Registration Period###02 06 2008 new variable
-grp#:#grp_reg_start#:#Registration Start:###02 06 2008 new variable
-grp#:#grp_reg_end#:#Registration End:###02 06 2008 new variable
-grp#:#grp_open#:#Open Group###02 06 2008 new variable
-grp#:#grp_open_info#:#Non-members can see this group and join it directly..###02 06 2008 new variable
-grp#:#grp_public#:#Public Group###02 06 2008 new variable
-grp#:#grp_public_info#:#Group is visible for non-members but has special requirements to join it.###02 06 2008 new variable
-grp#:#grp_typ#:#Group Type###02 06 2008 new variable
-grp#:#grp_admins#:#Administrators###02 06 2008 new variable
-grp#:#grp_members#:#Members###02 06 2008 new variable
-grp#:#grp_selected_users#:#Selected Participants###02 06 2008 new variable
-grp#:#grp_delete_member#:#Delete###02 06 2008 new variable
-grp#:#grp_notification#:#Notification###02 06 2008 new variable
-grp#:#grp_edit_members#:#Edit Participants###02 06 2008 new variable
-grp#:#grp_grp_info_reg#:#You can only register to one of these groups:###02 06 2008 new variable
-common#:#mem_reg_period#:#Registration Period###02 06 2008 new variable
-common#:#mem_start#:#Registration Start:###02 06 2008 new variable
-common#:#mem_end#:#Registration End:###02 06 2008 new variable
-common#:#mem_participants#:#Participants###02 06 2008 new variable
-common#:#mem_max_users#:#Maximum of Users:###02 06 2008 new variable
-common#:#mem_free_places#:#Free Places:###02 06 2008 new variable
-common#:#mem_reg_type#:#Registration Type###02 06 2008 new variable
-common#:#mem_reg_not_started#:#The registration has not started###02 06 2008 new variable
-common#:#mem_waiting_list_position#:#Your Position on the Waiting List:###02 06 2008 new variable
-common#:#mem_waiting_list#:#Users on Waiting List:###02 06 2008 new variable
-common#:#mem_alert_no_places#:#There are no free places available.###02 06 2008 new variable
-common#:#mem_already_on_list#:#You are already subscribed to the waiting list.###02 06 2008 new variable
-common#:#mem_reg_expired#:#The registration time is expired.###02 06 2008 new variable
-common#:#mem_unlimited#:#Unlimited###02 06 2008 new variable
-common#:#mail_attachments#:#Mail attachments###02 06 2008 new variable
-common#:#forum_attachments#:#Forum attachments###02 06 2008 new variable
-grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###02 06 2008 new variable
-grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###02 06 2008 new variable
-grp#:#grp_users_added#:#Added user to the group.###02 06 2008 new variable
-grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.###02 06 2008 new variable
-grp#:#grp_header_waiting_list#:#Waiting List###02 06 2008 new variable
-grp#:#grp_users_removed_from_list#:#The selected users have been removed from the waiting list.###02 06 2008 new variable
-grp#:#grp_general_informations#:#General Information###02 06 2008 new variable
-grp#:#grp_information#:#Important Information###02 06 2008 new variable
-grp#:#grp_settings#:#Group Settings###02 06 2008 new variable
-grp#:#grp_info_settings#:#Group Information###02 06 2008 new variable
-grp#:#grp_icon_settings#:#Group Icon###02 06 2008 new variable
-grp#:#grp_information_info#:#This information will be show on the info page and for new registrations.###02 06 2008 new variable
-grp#:#reg_grp_max_members#:#Maximum Of Users###02 06 2008 new variable
-grp#:#grp_reg_limited#:#Registration Period###02 06 2008 new variable
-grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group###02 06 2008 new variable
-dateplaner#:#grp_cal_reg_end#:#Registration End ###02 06 2008 new variable
-dateplaner#:#grp_cal_reg_start#:#Registration Start###02 06 2008 new variable
-grp#:#grp_membership_request_subject#:#%1$s %2$s would like to join group "%3$s".###02 06 2008 new variable
-grp#:#grp_membership_request_body#:#%1$s %2$s has requested membership for group "%5$s".\n\nPlease accept or refuse this request on the "Join Requests" page of the group.\n\nGroup: %5$s", %6$s\n\nRequestor: %1$s %2$s, %3$s, mailto:%4$s.\n\nSubject:\n%7$s###02 06 2008 new variable
-grp#:#grp_accept_subscriber#:#Admission to group "%s" ###02 06 2008 new variable
-grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2$s ###02 06 2008 new variable
-grp#:#grp_reject_subscriber#:#Declined for group "%s" ###02 06 2008 new variable
-grp#:#grp_reject_subscriber_body#:#Your request to join group "%s" has been declined.###02 06 2008 new variable
-forum#:#frm_post_not_activated_yet#:#Not activated yet.###02 06 2008 new variable
-assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.###02 06 2008 new variable
-assessment#:#terms#:#Terms###02 06 2008 new variable
-assessment#:#empty_term_message#:#There is a least one empty term field.###02 06 2008 new variable
-assessment#:#no_terms_message#:#Please add at least on term.###02 06 2008 new variable
-crs#:#crs_reg_period#:#Registration Period###02 06 2008 new variable
-crs#:#crs_presentation_type#:#Presentation Type###02 06 2008 new variable
-dateplaner#:#crs_cal_activation_start#:#Course Start###02 06 2008 new variable
-dateplaner#:#crs_cal_activation_end#:#Course End###02 06 2008 new variable
-dateplaner#:#crs_cal_reg_start#:#Registration Start###02 06 2008 new variable
-dateplaner#:#crs_cal_reg_end#:#Registration End###02 06 2008 new variable
-dateplaner#:#cal_default_calendar#:#Personal Appointments###02 06 2008 new variable
-dateplaner#:#cal_details#:#Appointment Details###02 06 2008 new variable
-grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You will get a message from a group administrator when your request has been admitted or declined.###02 06 2008 new variable
-grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.###02 06 2008 new variable
-grp#:#grp_reg_deac_info_screen#:#Group admittance is closed.###02 06 2008 new variable
-grp#:#grp_reg_direct_info_screen#:#You can join this group directly.###02 06 2008 new variable
-common#:#cal_from#:#From:###02 06 2008 new variable
-common#:#cal_until#:#Until:###02 06 2008 new variable
-dateplaner#:#cal_cal_type#:#Calendar Type###02 06 2008 new variable
-dateplaner#:#cal_type_personal#:#Private Calendar###02 06 2008 new variable
-dateplaner#:#cal_type_system#:#Public Calendar###02 06 2008 new variable
-rbac#:#crs_edit_event#:#Edit Calendar Events###02 06 2008 new variable
-rbac#:#grp_edit_event#:#Edit Calendar Events###02 06 2008 new variable
-rbac#:#sess_edit_event#:#Edit Calendar Events###02 06 2008 new variable
-rbac#:#cals_edit_event#:#Administrate Public Calendars###02 06 2008 new variable
+chat#:#chat_server_ssl_settings#:#SSL beállítások
+chat#:#chat_server_ssl_port#:#Szerver SSL Port
+chat#:#chat_server_ssl_active#:#SSL aktíve
+chat#:#chat_add_ssl_port#:#Vegye fel a szerver SSL portját!
+chat#:#chat_notification_intro#:#Ezt az e-mail-t automatikusan küldte Önnek az ILIAS %s, %s installációja
+common#:#obj_calendar#:#Határidőnapló
+common#:#obj_cals_desc#:#Általános határidőnapló-beállítások
+rbac#:#cals_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#cals_visible#:#A határidőbeállítások láthatók
+rbac#:#cals_read#:#Olvasási elérés hatirdőnapló-beállításokhoz
+rbac#:#cals_write#:#Határidőnapló-beállítások szerkesztése
+common#:#obj_cat_duplicate#:#Kategória másolása
+common#:#obj_cat_select#:#-- Válasszon egy kategóriát --
+common#:#cat_wizard_page#:#Kategória másolása (2/2. lépés)
+common#:#cat_copy_threads_info#:#Döntse el melyik kategóriatételeket kell másolni, linkelni vagy kihagyni!
+common#:#webfolder#:#Webmappa
+common#:#mount_webfolder#:#Megnyitás webmappaként
+common#:#obj_file_inline#:#Tananyagfájl
+common#:#yesterday#:#Tegnap
+common#:#tomorrow#:#Holnap
+common#:#show_profile#:#Profil megjelenítése
+common#:#copy_selected_items#:#Másolás
+common#:#mail_no_recipient_found#:#Adjon meg egy másik e-mail címet! Az ILIAS nem talál címzettet ezzel az e-mail címmel.
+common#:#mail_multiple_recipients_found#:#Jellemzőbb e-mail címet adjon meg! Az ILIAS több lehetséges címzettet talált ezzel a címmel: %s
+common#:#disk_space_used#:#Lemezterület használatban
+common#:#in_use_by#:#Használja
+common#:#filename_extension_missing#:#Hiányzik a fájlnévkiterjesztés
+common#:#filename_special_characters#:#/ nem engedélyezett fájlnevek
+common#:#filename_windows_special_characters#:#\/:*?"<>| nem engedélyezettek Windows fájlnevekben
+common#:#filename_windows_empty_extension#:#. a fájlnév végén nem engedélyezett Windowsban
+common#:#filename_windows_webdav_issue#:## nem támogatott Windows webmappákban
+common#:#filename_special_filename#:#. és .. fenntartott fájlnevek
+common#:#filename_visibility#:#Láthatóság
+common#:#filename_hidden_unix_file#:#Rejtett Unix fájl
+common#:#filename_hidden_backup_file#:#Rejtett backup fájl
+common#:#filename_interoperability#:#Együttműködés
+common#:#readcount_anonymous_users#:#Anonymous olvasási elérések száma
+common#:#readcount_users#:#Nem anonymous olvasási elérések száma
+common#:#accesscount_registered_users#:#Különböző ILIAS-felhasználók által olvasva
+common#:#state_changed#:#változott
+common#:#state_changed_inside#:#változott benn
+common#:#state_new#:#új
+common#:#state_unread#:#nem olvasott
+common#:#filename_extension_short#:#Kiterjesztés
+common#:#obj_facs#:#Fáljelérés
+common#:#obj_facs_desc#:#Elérés konfigurálása fájlobjektumokhoz.
+common#:#enable_webdav#:#WebDAV elérés engedélyezése
+common#:#enable_webdav_info#:#WebDAV klienseknek engedély a taneszköz tároló webmappaként való eléréséhez. A felhasználók a webmappákat a "megnyitás webmappaként" paranccsal nyithatják meg a taneszköz tárolóban, vagy az alábbi címen belépve egy WebDAV kliensben: <a href="%1$s" folder="%1$s">%1$s</a>
+common#:#webfolder_index_of#:#%1$s indexe
+common#:#webfolder_instructions#:#Webmappa utasítások
+common#:#webfolder_instructions_info#:#Azokban a böngészőkben, amelyek webmappákat nem tudnak megnyitni közvetlenül, a webmappautasítások láthatók. HTML-kódot és az alábbi dzsókerlemeket használhatja: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Törölje ki a mezőt, hogy megkapja az alapértelmezett utasításokat!
+common#:#webfolder_instructions_titletext#:#%1$s webmappaként megnyitása
+common#:#webfolder_instructions_text#:#<p>Kövesse az alábbi utasításokat <b>[WEBFOLDER_TITLE]</b> wemappaként megnyitásához:</p>[IF_WINDOWS]<h3>Utasítások Windows XP - Internet Explorer esethez</h3><ol><li>Internet Explorer indítása</li><li>'Fájl &gt; Megnyitás...' menü választása</li><li>A 'Megnyitás'-mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>'Megnyitás webmappaként' parancs választása, majd az 'OK' választása.</li><li>Adja meg bejelentkezési jelszavát, majd válassza az 'OK'-t.</li></ol><h3>Utasítások Windows XP - nincs Internet Explorer esethez</h3><ol><li>Duplakattintás a 'Hálózati helyeim' munkaasztal ikonon.</li><li>Kattintás a 'Hálózati hely hozzáadása'-ra a 'Hálózati feladatok' nemüben az ablak bal oldalán.</li><li>A 'Hálózati hely hozzáadása' varázsló fog megnyílni, 'Következő' választása.</li><li>'Másik hálózati hely választása' lehetőség kiválasztása, és a 'Következő' választása.<li>Az 'Internet vagy hálózati cím' mezőben adja meg:<br/><b>[WEBFOLDER_URI]</b><br/>aztán a 'Következő' választása.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd 'OK' választása.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Utasítások Mac OS X-hez</h3><ol><li>Nyissa meg a Keresőt</li><li>Válassza a 'Menj &gt; Csatlakozás a szerverhez...' menüt</li><li>A címmezőben adja meg az alábbi címet:<br/><b>[WEBFOLDER_URI]</b>, és válassza a 'Csatlakozás'-t.</li><li>Adja meg felhasználói nevét és jelszavát, majd válassza az 'OK'-t.</li></ol>[/IF_MAC][IF_LINUX]<h3>Utasítások Linux - Konqueror esethez</h3><ol><li>A Konqueror böngésző indítása</li><li>A címmezőben adja meg az alábbi címet:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Nyomja meg az Enter billentyűt.</li><li>Adja meg bejelentkezési nevét és jelszavát, és válassza az 'OK'-t.</li></ol><h3>Utasítások Linux - Nautilus esethez</h3><ol><li>Indítsa el a Nautilus böngészőt</li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Nyomja meg az Enter billentyűt.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az 'OK'-t.</li></ol>[/IF_LINUX]<p>Ha nem sikerül megnyitni a webmappát, vegye fel a kapcsolatot az adminisztrátorral <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>
+common#:#use_default_instructions#:#Alapértelmezett utasítások használata.
+common#:#use_customized_instructions#:#Szokásos utasítások használata:
+common#:#inline_file_extensions#:#Webképes fájlok
+common#:#inline_file_extensions_info#:#Az ezekkel a kiterjesztésekkel rendelkező fájlok megjelennek a böngészőablakban.<br/>Például: <b>gif jpg mp3 pdf png</b><br/> Minden további fájl leltöltésre lesz felajánlva.
+common#:#webfolder_dir_info#:#Böngészője nem tud megnyitni webmappákat. Olvassa el a <a href="%1$s">utasításokat a webmappák megnyitásához</a>.
+common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href="%1$s">Internet Explorerrel</a>, <a href="%2$s">Konquerorral</a>, <a href="%3$s">más böngészővel</a>.
+common#:#deleted_user_account#:#Törölt felhasználói fiók
+dateplaner#:#cal_user_settings#:#Határidő-beállítások
+dateplaner#:#cal_user_timezone#:#Időzőna
+dateplaner#:#cal_timezone_info#:#Válassza ki a legközelebbi várost az időzónájában!
+dateplaner#:#cal_week_start#:#Hét kezdete
+dateplaner#:#cal_global_settings#:#Általános beállítások
+dateplaner#:#cal_server_tz#:#Szerver időzónája
+dateplaner#:#cal_def_timezone#:#Alapértelmezett időzóna
+dateplaner#:#cal_def_timezone_info#:#Válassza ki az alapértelmezett időzónát a találkozók megjelenítéséhez!
+dateplaner#:#cal_def_week_start#:#Hét kezdete
+common#:#obj_cals#:#Határidőnapló
+common#:#webdav_pear_auth_http_needed#:#Pear Auth_HTTP-t kell telepítenie ennek a funkciónak a használatához. Ehhez adja meg a terminálon: <code>pear install Auth_HTTP</code>.
+dateplaner#:#cal_table_categories#:#Határidőnapló kiválasztása
+dateplaner#:#cal_type_usr#:#Személyes határidőnapló
+dateplaner#:#yui_cal_choose_month#:#Hónap:
+dateplaner#:#yui_cal_choose_year#:#Év:
+dateplaner#:#cal_edit_appointment#:#Találkozó szerkesztése
+dateplaner#:#cal_what#:#Cím
+dateplaner#:#cal_category_selection#:#Határidőnapló kiválasztása
+dateplaner#:#cal_start#:#Kezdés
+dateplaner#:#cal_end#:#Befejezés
+dateplaner#:#cal_fullday#:#Teljes nap
+dateplaner#:#cal_fullday_title#:#Nincs megadva idő
+dateplaner#:#cal_where#:#Hely
+dateplaner#:#cal_new_app#:#Új találkozó
+dateplaner#:#cal_add_appointment#:#Találkozó létrehozása
+dateplaner#:#cal_recurrences#:#Ismétlődések
+dateplaner#:#cal_every#:#Minden:
+dateplaner#:#cal_day_s#:#Nap(ok)
+dateplaner#:#cal_week_s#:#Het(ek)
+dateplaner#:#cal_month_s#:#Hónap(ok)
+dateplaner#:#cal_year_s#:#Év(ek)
+dateplaner#:#cal_no_recurrences#:#Nincsenek ismétlődések
+dateplaner#:#cal_daily#:#Naponta
+dateplaner#:#cal_weekly#:#Hetente
+dateplaner#:#cal_monthly#:#Havonta
+dateplaner#:#cal_yearly#:#Évente
+dateplaner#:#cal_on#:#Ekkkor:
+dateplaner#:#cal_on_the#:#Ekkor:
+dateplaner#:#cal_first#:#Először
+dateplaner#:#cal_second#:#Másodszor
+dateplaner#:#cal_third#:#Harmadszor
+dateplaner#:#cal_fourth#:#Negyedszer
+dateplaner#:#cal_fifth#:#Ötödször
+dateplaner#:#cal_last#:#Utoljára
+dateplaner#:#cal_in#:#in
+dateplaner#:#cal_edit_category#:#Határidőnapló szerkesztése
+dateplaner#:#cal_calendar_name#:#Cím
+dateplaner#:#cal_calendar_color#:#Szín
+dateplaner#:#cal_del_cal_sure#:#Biztosan törölni szeretné a kiválasztott határidőnaplókat?
+dateplaner#:#cal_no_ending#:#Nincs befejeződátum
+dateplaner#:#cal_create#:#Létrehozás
+dateplaner#:#cal_appointments#:#Találkozó(k)
+forum#:#frm_moderator_f#:#Moderátor
+forum#:#frm_moderator_m#:#Moderátor
+dateplaner#:#cal_assigned_appointments#:#Hozzárendelt találkozók
+dateplaner#:#cal_no_recurrence#:#Nincsenek ismétlődések
+dateplaner#:#cal_add_category#:#Új határidőnapló létrehozása
+dateplaner#:#cal_del_app_sure#:#Biztosan törölni szeretné a kiválasztott találkozókat?
+dateplaner#:#cal_duration#:#Időtartam
+common#:#survey_defaults#:#Alapértelmezett beállítások kérdőívekhez
+common#:#survey_unlimited_invitation#:#Nem korlátozott meghívás
+common#:#survey_unlimited_invitation_desc#:#Nem korlátozott meghívás engedélyezése a kérdőívekben. A nem korátozott meghívás minden regisztrált felhasználó munkaasztalára kiteszi a kérdőívet.
+dateplaner#:#cal_weekday#:#Hétköznap
+dateplaner#:#cal_day_of_month#:#A hónap napja
+common#:#display_webdav_actions#:#WebDAV tevékenységek kijelzése
+common#:#display_webdav_actions_info#:#Megjeleníti a 'megnyitás webmappaként' tevékenységet minden kategória, mappa, kurzus és csoport mellett a taneszköz tárolóban.
+rbac#:#sess_visible#:#A munkamenetek láthatóak
+rbac#:#sess_read#:#Olvasási elérés a munkamenetekhez
+rbac#:#sess_write#:#Munkamenetek szerkesztése
+rbac#:#sess_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#obj_sess#:#Munkamenet
+common#:#objs_sess#:#Munkamenetek
+rbac#:#crs_create_sess#:#Munkamenet létrehozása
+rbac#:#sess_copy#:#Munkamenet másolása
+common#:#obj_sess_duplicate#:#Munkamenet másolása
+common#:#obj_sess_select#:#-- Válasszon egy munkamenetet --
+common#:#sess#:#Munkamenet
+survey#:#specialusers#:#Speciális felhasználók
+survey#:#adm_no_users_found#:#Nem találhatók olyan felhasználók, akik illeszkednek a keresőszövegre.
+survey#:#adm_search_string_too_small#:#Legalább 2 karaktert adjon meg a keresési mezőben!
+survey#:#adm_search_select_user#:#Válasszon legalább egy felhasználót!
+survey#:#adm_no_special_users#:#Nincs olyan speciális felhasználó, aki több mint egyszer futtathatna kérdőívet.
+survey#:#adm_special_users#:#Speciális felhasználók, akik több mint egyszer futtathatnak kérdőívet
+survey#:#adm_removed_users#:#Felhasználók eltávolítva.
+survey#:#adm_remove_select_user#:#Legalább egy felhasználót válasszon az eltávolításhoz!
+content#:#cont_sc_max_attempt#:#Csatlakozók max. száma
+content#:#cont_sc_max_attempt_exceed#:#Az ehhez a modulhoz csatlakozók száma elérte a maximumot.
+content#:#cont_sc_new_version#:#Új verzió feltöltése
+content#:#cont_sc_version#:#Verzió
+content#:#cont_export_all#:#Minden exportálása
+content#:#cont_export_tracking#:#Nyomkövetési adatok exportja
+content#:#cont_export_raw#:#CMI (RAW) adatok
+content#:#cont_export_success#:#Eredmények (halmozott)
+content#:#cont_export_type#:#Exporttípus
+content#:#cont_import_tracking#:#Nyomkövetési adatok importja
+content#:#cont_invalid_new_module#:#Inkompatibilis modul! Bizonyosodjon meg arról, hogy nem változott meg az imsmanifest.xml!
+content#:#cont_new_module_added#:#A modul új verziója sikeresen feltöltődött.
+common#:#attempts#:#Csatlakozók
+common#:#decrease_attempts#:#Csatlakozók - 1
+grp#:#grp_closed#:#Lezárt csoport
+grp#:#grp_closed_info#:#A csoportot nem látják  akik nem tagok.
+grp#:#grp_reg_disabled#:#Nem lehetséges a regisztráció
+grp#:#grp_reg_disabled_info#:#Csak csoportadminisztrátorok vehetnek fel felhasználót a csoporthoz.
+grp#:#grp_reg_request#:#Megkívánt a tagság
+grp#:#grp_reg_request_info#:#Az érdekelt felhasználók kérést/üzenetet küldhetnek a csoportadminisztrátornak.
+grp#:#grp_reg_direct#:#Közvetlen regisztráció
+grp#:#grp_reg_direct_info#:#Közvetlen regisztráció
+grp#:#grp_pass_request#:#Csatlakozás csoportjelszóval
+grp#:#grp_reg_password_info#:#A felhasználóknak be kell gépelniük a pontos jelszót a csoporthoz való csatlakozáshoz.
+grp#:#grp_reg_limit_time#:#Regisztrációs időszak
+grp#:#grp_reg_limit_num#:#Felhasználók maximuma
+grp#:#grp_reg_max_members_info#:#Adja meg a csoporthoz csatlakozók maximális számát!
+grp#:#grp_waiting_list_info#:#Ha engedélyezett, és a maximális felhasználói szám elérésre került, az új regisztrációk várólistára kerülnek.
+grp#:#grp_waiting_list#:#Várakozólista engedélyezése
+grp#:#grp_reg_limit_num_info#:#Korlátozott regisztrációs időszak
+grp#:#grp_reg_start#:#Regisztráció kezdete:
+grp#:#grp_reg_end#:#Regisztráció vége:
+grp#:#grp_open#:#Nyitott csoport
+grp#:#grp_open_info#:#A nem tagok láthatják ezt a csoportot, és közvetlenül csatlakozhatnak.
+grp#:#grp_public#:#Nyilvános csoport
+grp#:#grp_public_info#:#A csoport látható nem tagok számára is, de speciális követelmények szükségesek a csatlakozáshoz.
+grp#:#grp_typ#:#Csoporttípus
+grp#:#grp_admins#:#Adminisztrátorok
+grp#:#grp_members#:#Tagok
+grp#:#grp_selected_users#:#Kiválasztott résztvevők
+grp#:#grp_delete_member#:#Törlés
+grp#:#grp_notification#:#Értesítés
+grp#:#grp_edit_members#:#Résztvevők szerkesztése
+grp#:#grp_grp_info_reg#:#Csak egy csoportba regisztrálhat ezek közül:
+common#:#mem_reg_period#:#Regisztrációs időszak
+common#:#mem_start#:#Regisztráció kezdete:
+common#:#mem_end#:#Regisztráció vége:
+common#:#mem_participants#:#Résztvevők
+common#:#mem_max_users#:#Felhasználók maximuma:
+common#:#mem_free_places#:#Szabad helyek:
+common#:#mem_reg_type#:#Regisztráció típusa
+common#:#mem_reg_not_started#:#A regisztráció még nem kezdődött el.
+common#:#mem_waiting_list_position#:#Az Ön helye a várólistán:
+common#:#mem_waiting_list#:#Felhasználók a várólistán:
+common#:#mem_alert_no_places#:#Nem érhetők el szabad helyek.
+common#:#mem_already_on_list#:#Ön feliratkozott a várólistára.
+common#:#mem_reg_expired#:#A regisztrációs idő lejárt.
+common#:#mem_unlimited#:#Nem korlátozott
+common#:#mail_attachments#:#E-mail csatolások
+common#:#forum_attachments#:#Fórumcsatolások
+grp#:#grp_set_on_waiting_list#:#Felveheti csatlakozási kérését a várólistára. Egy üzenetet fog kapni a csoportadminisztrátortól, ha kérését jóváhagyják vagy elutasítják.
+grp#:#grp_added_to_list#:#Hozzá lett rendelve a várólistához. A %s helyhez került hozzárendelésre a várólistán.
+grp#:#grp_users_added#:#Csoporthoz felvett felhasználó.
+grp#:#grp_users_already_assigned#:#A felhasználó már hozzárendelésre került ehhez a csoporthoz.
+grp#:#grp_header_waiting_list#:#Várólista
+grp#:#grp_users_removed_from_list#:#A kiválasztott felhasználó eltávolításra került a várólistáról.
+grp#:#grp_general_informations#:#Általános információk
+grp#:#grp_information#:#Fontos információk
+grp#:#grp_settings#:#Csoportbeállítások
+grp#:#grp_info_settings#:#Csoportiformációk
+grp#:#grp_icon_settings#:#Csoportikon
+grp#:#grp_information_info#:#Ez az információ az információs lapon és az új regisztráltaknak fog megjelenni.
+grp#:#reg_grp_max_members#:#Felhasználók maximuma
+grp#:#grp_reg_limited#:#Regisztrációs időszak
+grp#:#grp_btn_unsubscribe#:#Kiíratkozás a csoportból
+dateplaner#:#grp_cal_reg_end#:#Regisztráció vége
+dateplaner#:#grp_cal_reg_start#:#Regisztráció kezdete
+grp#:#grp_membership_request_subject#:#%1$s %2$s szeretne csatlakozni a "%3$s" csoporthoz.
+grp#:#grp_membership_request_body#:#%1$s %2$s rendelkezik a megkívánt tagsággal a  "%5$s" csoporthoz.\n\nFogadja el vagy utasítsa el ezt a kérést a csoport "Csatlakozási kérés" lapján\n\nCsoport: %5$s", %6$s\n\nKérő: %1$s %2$s, %3$s, Címzett:%4$s.\n\nTárgy:\n%7$s
+grp#:#grp_accept_subscriber#:#Engedély a "%s" csoporthoz
+grp#:#grp_accept_subscriber_body#:#Van engedélye a "%1$s".\n\n%2$s csoporthoz
+grp#:#grp_reject_subscriber#:#Elutasítva a "%s" csoporttól
+grp#:#grp_reject_subscriber_body#:#Kérése a "%s" csoporthoz csatlakozásra elutasításra került.
+forum#:#frm_post_not_activated_yet#:#Még nincs aktiválva.
+assessment#:#empty_terms_exist#:#Üres kifejezésmezők vannak. Töltse ki ezeket a mezőket, mielőtt további kifejezéseket venne fel!
+assessment#:#terms#:#Kifejezések
+assessment#:#empty_term_message#:#Legalább egy üres kifejezésmező van.
+assessment#:#no_terms_message#:#Legalább egy kifejezést adjon meg!
+crs#:#crs_reg_period#:#Regisztrációs időszak
+crs#:#crs_presentation_type#:#Megjelenés típusa
+dateplaner#:#crs_cal_activation_start#:#Kurzusidítás
+dateplaner#:#crs_cal_activation_end#:#Kurzus vége
+dateplaner#:#crs_cal_reg_start#:#Regisztráció kezdete
+dateplaner#:#crs_cal_reg_end#:#Regisztráció vége
+dateplaner#:#cal_default_calendar#:#Személyes találkozók
+dateplaner#:#cal_details#:#Találkozó részletei
+grp#:#grp_reg_req_info_screen#:#Kérhet tagságot ehhez a csoporthoz. Egy üzenetet fog kapni a csoportadminisztrátortól, ha kérését jóváhagyják vagy elutasítják.
+grp#:#grp_reg_passwd_info_screen#:#Ha a csoportadminisztrátor odaadta Önnek a csoportjelszót, csatlakozhat ehhez a csoporthoz.
+grp#:#grp_reg_deac_info_screen#:#A csoport le van zárva.
+grp#:#grp_reg_direct_info_screen#:#Közvetlenül csatlakozhat ehhez a csoporthoz.
+common#:#cal_from#:#Mettől:
+common#:#cal_until#:#Meddig:
+dateplaner#:#cal_cal_type#:#Határidőnapló típusa
+dateplaner#:#cal_type_personal#:#Személyes határidőnapló
+dateplaner#:#cal_type_system#:#Nyilvános határidőnapló
+rbac#:#crs_edit_event#:#Határidőnapló-események szerkesztése
+rbac#:#grp_edit_event#:#Határidőnapló-események szerkesztése
+rbac#:#sess_edit_event#:#Határidőnapló-események szerkesztése
+rbac#:#cals_edit_event#:#Nyilvános határidőnapló adminisztrálása
