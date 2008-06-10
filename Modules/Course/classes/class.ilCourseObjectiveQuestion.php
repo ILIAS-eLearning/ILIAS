@@ -244,15 +244,38 @@ class ilCourseObjectiveQuestion
 		return true;
 	}
 
-	function updateTest($a_test_objective_id)
+	/**
+	 * update test limits
+	 *
+	 * @access public
+	 * @param int objective_id
+	 * @param int status
+	 * @param int limit
+	 * @return
+	 * @static
+	 */
+	public static function _updateTestLimits($a_objective_id,$a_status,$a_limit)
 	{
 		global $ilDB;
 		
 		$query = "UPDATE crs_objective_tst ".
-			"SET tst_status = ".$ilDB->quote($this->getTestStatus()).", ".
+			"SET tst_limit = ".$ilDB->quote($a_limit)." ".
+			"WHERE tst_status = ".$ilDB->quote($a_status)." ".
+			"AND objective_id = ".$ilDB->quote($a_objective_id);
+	
+		$ilDB->query($query);
+		return true;
+	}
+
+	function updateTestLimits($a_objective_id,$a_status)
+	{
+		global $ilDB;
+		
+		$query = "UPDATE crs_objective_tst ".
+			"SET tst_limit = ".$ilDB->quote($this->getT()).", ".
 			"tst_limit = ".$ilDB->quote($this->getTestSuggestedLimit())." ".
 			"WHERE test_objective_id = ".$ilDB->quote($a_test_objective_id)."";
-
+	
 		$this->db->query($query);
 
 		return true;
@@ -775,6 +798,25 @@ class ilCourseObjectiveQuestion
 	}
 
 	// STATIC
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function _hasTests($a_course_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT co.objective_id FROM crs_objectives AS co JOIN ".
+			"crs_objective_tst AS cot ON co.objective_id = cot.objective_id ".
+			"WHERE crs_id = ".$ilDB->quote($a_course_id)." ";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+	
+	
 	function _isAssigned($a_objective_id,$a_tst_ref_id,$a_question_id)
 	{
 		global $ilDB;

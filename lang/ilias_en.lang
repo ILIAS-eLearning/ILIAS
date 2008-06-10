@@ -5003,7 +5003,7 @@ crs#:#crs_objectives_assigned_questions#:#Assigned questions
 crs#:#crs_objectives_chapter_assignment#:#Chapter assignment
 crs#:#crs_objectives_deassign_question_sure#:#Are you sure, you want to delete the following questions?
 crs#:#crs_objectives_deleted#:#Delete learning objectives
-crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment
+crs#:#crs_objectives_edit_question_assignments#:#Edit Question Assignment
 crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related materials. <br />After you have reviewed all red marked objectives, you can take the exam again.
 crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!
 crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related materials.
@@ -5153,7 +5153,7 @@ crs#:#crs_unlimited#:#Unlimited
 crs#:#crs_unsubscribe#:#Unsubscribe
 crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
 crs#:#crs_unsubscribed_from_crs#:#You have been unsubscribed from this course
-crs#:#crs_update_objective#:#Edit learning objective
+crs#:#crs_update_objective#:#Edit Learning Objective
 crs#:#crs_users_added#:#Added user to the course
 crs#:#crs_users_already_assigned#:#The user is already assigned to this course
 crs#:#crs_users_removed_from_list#:#The selected users have been removed from the waiting list
@@ -8250,3 +8250,4 @@ crs#:#crs_objective_saved_sorting#:#Saved sorting.
 crs#:#crs_no_title_given#:#Please insert a title for the objective.
 common#:#chat_invite_public_room#:#Public Chat
 common#:#chat_link_to_this_chat#:#Link to this chat
+crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.

@@ -1,0 +1,106 @@
+<tr class="{CSS_ROW}">
+	<td valign="top">
+		{VAL_TITLE}
+		<!-- BEGIN desc -->
+		<div class="il_Description">{VAL_DESC}</div>
+		<!-- END desc -->
+	</td>
+	<td valign="top">
+		<table class="fullwidth_invisible" style="background-color: inherit">
+			<!-- BEGIN self_tst -->
+			<tr style="background-color: inherit">
+				<td class="std" colspan="2">
+					<img src="{SELF_TYPE_IMG}" alt="{SELF_TYPE_ALT}" title="{SELF_TYPE_ALT}" border="0" vspace="0" /> {SELF_TST_TITLE}
+				</td>
+			</tr>
+			<!-- BEGIN self_desc -->
+			<tr style="background-color: inherit">
+				<td class="std" colspan="2">
+					<div class="il_Description">{SELF_TST_DESC}</div>
+				</td>
+			</tr>
+			<!-- END self_desc -->
+			<!-- BEGIN self_qst -->
+			<tr style="background-color: inherit">
+				<td style="padding-left: 20px">
+					{SELF_QST_TITLE}
+					<!-- BEGIN self_qst_desc --><div class="il_Description">{SELF_QST_DESCRIPTION}</div><!-- END self_qst_desc -->
+				</td>
+				<td valign="top" style="text-align: right" nowrap="nowrap">
+					{SELF_QST_POINTS} {SELF_QST_TXT_POINTS}
+				</td>
+			</tr>
+			<!-- END self_qst -->
+			<!-- END self_tst -->
+			<tr style="background-color: inherit">
+				<td style="text-align:left">
+					<br />
+					{SELF_TXT_ALL_POINTS}
+				</td>
+				<td style="text-align:right">
+					<br />
+					{SELF_POINTS} {SELF_TXT_POINTS}
+				</td>
+			</tr>
+			<tr style="background-color: inherit">
+				<td style="text-align:left">
+					<strong>{SELF_TXT_REQ_POINTS}</strong>
+				</td>
+				<td style="text-align:right">
+					<input style="text-align:right" type="text" name=self[{SELF_ID}] value="{SELF_LIMIT}" size="2" maxlength="5" /> {SELF_TXT_POINTS}
+				</td>
+			</tr>
+		</table>
+	
+	
+	</td>
+	<td valign="top">
+		<table class="fullwidth_invisible" style="background-color: inherit;padding:1em">
+			<!-- BEGIN final_tst -->
+			<tr style="background-color: inherit">
+				<td class="std" colspan="2">
+					<img src="{FINAL_TYPE_IMG}" alt="{FINAL_TYPE_ALT}" title="{FINAL_TYPE_ALT}" border="0" vspace="0" /> {FINAL_TST_TITLE}
+				</td>
+			</tr>
+			<!-- BEGIN final_desc -->
+			<tr style="background-color: inherit">
+				<td class="std" colspan="2">
+					<div class="il_Description">{FINAL_TST_DESC}</div>
+				</td>
+			</tr>
+			<!-- END final_desc -->
+			<!-- BEGIN final_qst -->
+			<tr style="background-color: inherit">
+				<td style="padding-left: 20px">
+					{FINAL_QST_TITLE}
+					<!-- BEGIN final_qst_desc --><div class="il_Description">{FINAL_QST_DESCRIPTION}</div><!-- END final_qst_desc -->
+				</td>
+				<td valign="top" style="text-align: right" nowrap="nowrap">
+					{FINAL_QST_POINTS} {FINAL_QST_TXT_POINTS}
+				</td>
+			</tr>
+			<!-- END final_qst -->
+			<!-- END final_tst -->
+			<tr style="background-color: inherit">
+				<td style="text-align:left">
+					<br />
+					{FINAL_TXT_ALL_POINTS}
+				</td>
+				<td style="text-align:right">
+					<br />
+					{FINAL_POINTS} {FINAL_TXT_POINTS}
+				</td>
+			</tr>
+			<tr style="background-color: inherit">
+				<td style="text-align:left">
+					<strong>{FINAL_TXT_REQ_POINTS}</strong>
+				</td>
+				<td style="text-align:right">
+					<input style="text-align:right" type="text" name=final[{FINAL_ID}] value="{FINAL_LIMIT}" size="2" maxlength="5" /> {FINAL_TXT_POINTS}
+				</td>
+			</tr>
+		</table>
+	
+	
+	</td>
+</tr>
