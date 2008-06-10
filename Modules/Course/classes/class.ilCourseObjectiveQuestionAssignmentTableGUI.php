@@ -158,6 +158,7 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 	{
 		global $objDefinition;
 
+		$tests = array();
 		foreach($a_assignable as $node)
 		{
 			$tmp_data = array();

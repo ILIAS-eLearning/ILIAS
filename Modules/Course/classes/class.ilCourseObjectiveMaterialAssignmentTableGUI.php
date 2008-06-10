@@ -73,6 +73,9 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 		#$this->setDefaultOrderField('title');
 		$this->setLimit(200);
 		
+		$this->setNoEntriesText($this->lng->txt('crs_no_objective_lms_found'));
+		
+		
 		$this->addCommandButton('updateMaterialAssignment',$this->lng->txt('crs_wiz_next'));
 		$this->addCommandButton('create',$this->lng->txt('crs_wiz_back'));
 		
@@ -147,6 +150,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 	{
 		global $objDefinition;
 
+		$materials = array();
 		foreach($a_assignable as $node)
 		{
 			// no side blocks here
@@ -184,6 +188,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
 			
 			$materials[] = $tmp_data;
 		}
+		
 		$this->setData($materials);
 	}
 	
