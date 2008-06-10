@@ -8249,3 +8249,4 @@ crs#:#crs_objective_saved_sorting#:#Die Reihenfolge wurde gespeichert.
 common#:#chat_invite_public_room#:#Öffentl. Chat
 common#:#chat_link_to_this_chat#:#Link zu diesem Chat
 crs#:#crs_objective_limit_err#:#Die benötigte Punktzahl darf die Gesamtpunktzahl nicht übersteigen.
+crs#:#crs_no_objective_lms_found#:#Dieser Kurs enthält keine Materialien, die dem Lernziel zugeordnet werden könnten.

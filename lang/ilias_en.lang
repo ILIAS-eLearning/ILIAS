@@ -8251,3 +8251,4 @@ crs#:#crs_no_title_given#:#Please insert a title for the objective.
 common#:#chat_invite_public_room#:#Public Chat
 common#:#chat_link_to_this_chat#:#Link to this chat
 crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.
+crs#:#crs_no_objective_lms_found#:#This course does not contain any materials.
