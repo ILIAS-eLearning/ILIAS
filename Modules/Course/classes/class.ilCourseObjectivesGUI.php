@@ -260,157 +260,88 @@ class ilCourseObjectivesGUI
 
 		return true;
 	}
-
-
-
-	function editQuestionAssignment()
+	
+	/**
+	 * question overiew
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function questionOverview()
 	{
-		global $rbacsystem;
-
-		$this->tabs_gui->setSubTabActive('crs_objective_overview_question_assignment');
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
-		}
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_objectives_edit_question_assignments.html','Modules/Course');
-
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("CSS_TABLE",'fullwidth');
-		$this->tpl->setVariable("WIDTH",'80%');
-		$this->tpl->setVariable("COLUMN_COUNT",5);
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_lobj.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('crs_objectives'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('crs_objectives_edit_question_assignments'));
+		global $ilAccess,$ilErr,$ilTabs;
 		
-		$head_titles = array(array($this->lng->txt('title'),"35%"),
-							 array($this->lng->txt('crs_objectives_nr_questions'),"10%"),
-							 array($this->lng->txt('crs_objectives_max_points'),"10%"),
-							 array($this->lng->txt('options'),"35%"));
-
-		$counter = 0;
-		foreach($head_titles as $title)
+		$ilTabs->setSubTabActive('crs_objective_overview_question_assignment');
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
-			$this->tpl->setCurrentBlock("tbl_header_no_link");
-
-			if(!$counter)
-			{
-				$this->tpl->setVariable("TBL_HEADER_COLSPAN",' colspan="2"');
-				++$counter;
-			}
-			$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",$title[0]);
-			$this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK",$title[1]);
-			$this->tpl->parseCurrentBlock();
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 		}
 
-		foreach(ilCourseObjective::_getObjectiveIds($this->course_obj->getId()) as $objective_id)
-		{
-			$tmp_objective_obj =& $this->__initObjectivesObject($objective_id);
-			
-			$this->__initQuestionObject($objective_id);
-
-			$counter = 1;
-			foreach($this->objectives_qst_obj->getTests() as $test_data)
-			{
-				$show_buttons = true;
-
-				$tmp_test =& ilObjectFactory::getInstanceByRefId($test_data['ref_id']);
-
-				$this->tpl->setCurrentBlock("test_row");
-				$this->tpl->setVariable("TEST_TITLE",$tmp_test->getTitle());
-				$this->tpl->setVariable("TEST_QST",$this->objectives_qst_obj->getNumberOfQuestionsByTest($test_data['ref_id']));
-				$this->tpl->setVariable("TEST_POINTS",$this->objectives_qst_obj->getMaxPointsByTest($test_data['ref_id']));
-
-				// Options
-				$this->tpl->setVariable("TXT_CHANGE_STATUS",$this->lng->txt('crs_change_status'));
-				$this->tpl->setVariable("CHECK_CHANGE_STATUS",ilUtil::formCheckbox((int) $test_data['tst_status'],
-																				   'test['.$test_data['test_objective_id'].'][status]'
-																				   ,1));
-				$this->tpl->setVariable("TXT_SUGGEST",$this->lng->txt('crs_suggest_lm'));
-				$this->tpl->setVariable("SUGGEST_NAME",'test['.$test_data['test_objective_id'].'][limit]');
-				$this->tpl->setVariable("SUGGEST_VALUE",(int) $test_data['tst_limit']);
-
-				$this->tpl->parseCurrentBlock();
-
-
-
-				++$counter;
-			}
-			$this->tpl->setCurrentBlock("objective_row");
-			$this->tpl->setVariable("OBJ_TITLE",$tmp_objective_obj->getTitle());
-			$this->tpl->setVariable("OBJ_DESCRIPTION",$tmp_objective_obj->getDescription());
-			$this->tpl->setVariable("OBJ_QST",count($this->objectives_qst_obj->getQuestions()));
-			$this->tpl->setVariable("OBJ_POINTS",$this->objectives_qst_obj->getMaxPointsByObjective());
-			$this->tpl->setVariable("ROWSPAN",$counter);
-			$this->tpl->parseCurrentBlock();
-			
-			// Options
-			unset($tmp_objective_obj);
-		}
-		// Buttons
-		if($show_buttons)
-		{
-			$this->tpl->setCurrentBlock("edit_footer");
-			$this->tpl->setVariable("TXT_RESET",$this->lng->txt('reset'));
-			$this->tpl->setVariable("TXT_UPDATE",$this->lng->txt('save'));
-			$this->tpl->setVariable("CMD_UPDATE",'updateQuestionAssignment');
-			$this->tpl->parseCurrentBlock();
-		}
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionsTableGUI.php');
+		$table = new ilCourseObjectiveQuestionsTableGUI($this,$this->course_obj);
+		$table->setTitle($this->lng->txt('crs_objectives_edit_question_assignments'),'icon_lobj.gif',$this->lng->txt('crs_objectives'));
+		$table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId()));
+		
+		$this->tpl->setContent($table->getHTML());
 	}
-
-	function updateQuestionAssignment()
+	
+	/**
+	 * update question overview
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function saveQuestionOverview()
 	{
-		global $rbacsystem;
-
-		$this->tabs_gui->setSubTabActive('crs_objective_overview_question_assignment');
-
-
-		// MINIMUM ACCESS LEVEL = 'write'
-		if(!$rbacsystem->checkAccess("write", $this->course_obj->getRefId()))
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
+		
+		global $ilAccess,$ilErr;
+		
+		if(!$ilAccess->checkAccess('write','',$this->course_obj->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilErr->MESSAGE);
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 		}
-		if(!is_array($_POST['test']))
+		$error = false;
+		foreach($_POST['self'] as $objective_id => $limit)
 		{
-			ilUtil::sendInfo('Internal error: CRSM learning objectives');
-			$this->editQuestionAssignment();
-
-			return false;
-		}
-		// Validate
-		foreach($_POST['test'] as $test_obj_id => $data)
-		{
-			if(!preg_match('/1?[0-9][0-9]?/',$data['limit']) or 
-			   $data['limit'] < 0 or 
-			   $data['limit'] > 100)
+			$qst = new ilCourseObjectiveQuestion($objective_id);
+			$max_points = $qst->getSelfAssessmentPoints();
+			
+			if($limit < 0 or $limit > $max_points)
 			{
-				ilUtil::sendInfo($this->lng->txt('crs_objective_insert_percent'));
-				$this->editQuestionAssignment();
-
+				ilUtil::sendInfo($this->lng->txt('crs_objective_limit_err'));
+				$this->questionOverview();
+				return false;
+			}
+		}		
+		foreach($_POST['final'] as $objective_id => $limit)
+		{
+			$qst = new ilCourseObjectiveQuestion($objective_id);
+			$max_points = $qst->getFinalTestPoints();
+			
+			if($limit < 0 or $limit > $max_points)
+			{
+				ilUtil::sendInfo($this->lng->txt('crs_objective_limit_err'));
+				$this->questionOverview();
 				return false;
 			}
 		}
 		
-		foreach($_POST['test'] as $test_obj_id => $data)
+		foreach($_POST['self'] as $objective_id => $limit)
 		{
-			include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
-
-			$test_data = ilCourseObjectiveQuestion::_getTest($test_obj_id);
-
-			$this->__initQuestionObject($test_data['objective_id']);
-			$this->objectives_qst_obj->setTestStatus($data['status'] ? 1 : 0);
-			$this->objectives_qst_obj->setTestSuggestedLimit($data['limit']);
-			$this->objectives_qst_obj->updateTest($test_obj_id);
+			ilCourseObjectiveQuestion::_updateTestLimits($objective_id,ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT,$limit);
 		}
-		ilUtil::sendInfo($this->lng->txt('crs_objective_updated_test'));
-		$this->editQuestionAssignment();
-
+		
+		foreach($_POST['final'] as $objective_id => $limit)
+		{
+			ilCourseObjectiveQuestion::_updateTestLimits($objective_id,ilCourseObjectiveQuestion::TYPE_FINAL_TEST,$limit);
+		}
+		
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->questionOverview();
 		return true;
 	}
-		
 
 	// PRIVATE
 	function __initCourseObject()
@@ -460,14 +391,17 @@ class ilCourseObjectivesGUI
 								 array(),
 								 '',
 								 true);
-			
-		$ilTabs->addSubTabTarget("crs_objective_overview_question_assignment",
-								 $this->ctrl->getLinkTarget($this, "editQuestionAssignment"),
-								 "editQuestionAssignment",
-								 array(),
-								 '',
-								 false);
-
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
+		
+		if(ilCourseObjectiveQuestion::_hasTests($this->course_obj->getId()))
+		{
+			$ilTabs->addSubTabTarget("crs_objective_overview_question_assignment",
+									 $this->ctrl->getLinkTarget($this, "questionOverview"),
+									 "editQuestionAssignment",
+									 array(),
+									 '',
+									 false);
+		}
 	}
 	
 	
@@ -532,11 +466,10 @@ class ilCourseObjectivesGUI
 	/**
 	 * save
 	 *
-	 * @access public
-	 * @param
+	 * @access protected
 	 * @return
 	 */
-	public function save()
+	protected function save()
 	{
 		global $ilAccess,$ilErr;
 		
@@ -1078,8 +1011,7 @@ class ilCourseObjectivesGUI
 					$tpl->setVariable('QST_DESCRIPTION',$question['description']);
 				}
 				$tpl->setVariable('QST_POINTS',$question['points'].' '.
-					'Punkt(e)');
-					#$this->lng->txt('crs_objective_points'));
+					$this->lng->txt('crs_objective_points'));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock('tst');
