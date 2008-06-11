@@ -111,6 +111,31 @@ class ilObjRemoteCourseListGUI extends ilObjectListGUI
 
 		return array();
 	}
+	
+	/**
+	 * get command frame
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getCommandFrame($a_cmd)
+	{
+		switch($a_cmd)
+		{
+			case 'show':
+				include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+				include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
+				
+				if(ilECSExport::_isRemote(ilECSImport::_lookupEContentId($this->obj_id)))
+				{
+					return '_blank';
+				}
+				
+			default:
+				return parent::getCommandFrame($a_cmd);
+		}
+	}
 
 } // END class.ilObjRemoteCourseListGUI
 ?>

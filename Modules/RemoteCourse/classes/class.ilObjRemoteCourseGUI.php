@@ -121,6 +121,34 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * show remote course
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function showObject()
+	{
+		global $ilUser;
+
+		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
+
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			ilUtil::redirect($this->object->getRemoteLink());
+		}
+		elseif(ilECSExport::_isRemote(ilECSImport::_lookupEContentId($this->object->getId())))
+		{
+			ilUtil::redirect($this->object->getFullRemoteLink());
+		}
+		else
+		{
+			ilUtil::redirect($this->object->getRemoteLink());
+		}		
+	}
+	
+	/**
 	 * get tabs
 	 *
 	 * @access public
@@ -208,21 +236,23 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 
-		// No access for anonymous
-		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
-			if(ilECSExport::_isRemote(ilECSImport::_lookupEContentId($this->object->getId())))
-			{
-				$info->addButton($this->lng->txt('rcrs_call'),
-					$this->ctrl->getLinkTarget($this,'call'),
-					'target="_blank"');
-			}
-			else
-			{
-				$info->addButton($this->lng->txt('rcrs_call'),
-				$this->object->getRemoteLink());
-			}		
+			$info->addButton($this->lng->txt('rcrs_call'),
+			$this->object->getRemoteLink(),
+			'target="_blank"');
 		}
+		elseif(ilECSExport::_isRemote(ilECSImport::_lookupEContentId($this->object->getId())))
+		{
+			$info->addButton($this->lng->txt('rcrs_call'),
+				$this->ctrl->getLinkTarget($this,'call'),
+				'target="_blank"');
+		}
+		else
+		{
+			$info->addButton($this->lng->txt('rcrs_call'),
+			$this->object->getRemoteLink());
+		}		
 		
 		$info->addSection($this->lng->txt('crs_general_info'));
 		$info->addProperty($this->lng->txt('title'),$this->object->getTitle());

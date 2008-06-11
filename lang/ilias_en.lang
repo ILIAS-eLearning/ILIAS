@@ -8294,8 +8294,8 @@ common#:#obj_rcrs#:#Course-Link
 common#:#objs_rcrs#:#Course-Links
 ecs#:#ecs_export#:#Course Releases
 ecs#:#ecs_export_obj_settings#:#Course Release Settings
-ecs#:#ecs_export_disabled#:#Do Not Release This Course
-ecs#:#ecs_export_enabled#:#Release This Course
+ecs#:#ecs_export_disabled#:#Do not release this Course
+ecs#:#ecs_export_enabled#:#Release this Course
 ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
 ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.

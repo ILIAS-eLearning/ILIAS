@@ -109,7 +109,7 @@ class ilObjRemoteCourseAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info",
+			array("permission" => "read", "cmd" => "show", "lang_var" => "info",
 				"default" => true),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
 		);
