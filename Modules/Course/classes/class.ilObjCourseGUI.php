@@ -3434,15 +3434,20 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		// learning objectives
+		
 		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{
-			$force_active = (strtolower($_GET["cmdClass"]) == "ilcourseobjectivesgui")
-				? true
-				: false;
-			$tabs_gui->addTarget("crs_objectives",
-								 $this->ctrl->getLinkTarget($this,"listObjectives"), 
-								 "listObjectives",
-								 get_class($this), "", $force_active);
+			include_once('./Modules/Course/classes/class.ilCourseObjective.php');
+			if($this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE or ilCourseObjective::_getCountObjectives($this->object->getId()))
+			{
+				$force_active = (strtolower($_GET["cmdClass"]) == "ilcourseobjectivesgui")
+					? true
+					: false;
+				$tabs_gui->addTarget("crs_objectives",
+									 $this->ctrl->getLinkTarget($this,"listObjectives"), 
+									 "listObjectives",
+									 get_class($this), "", $force_active);
+			}
 		}
 		
 

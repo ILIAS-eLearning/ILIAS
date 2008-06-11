@@ -473,7 +473,15 @@ class ilCourseObjectivePresentationGUI
 							
 						
 							$this->tpl->setCurrentBlock("chapters");
-							$this->tpl->setVariable("TXT_CHAPTER",$this->lng->txt('chapter'));
+							
+							if($lm_obj_data['type'] == 'st')
+							{
+								$this->tpl->setVariable("TXT_CHAPTER",$this->lng->txt('chapter'));
+							}
+							else
+							{
+								$this->tpl->setVariable("TXT_CHAPTER",$this->lng->txt('page'));																
+							}
 							$this->tpl->setVariable("CHAPTER_LINK_LMS","ilias.php?baseClass=ilLMPresentationGUI&ref_id=".
 													$lm_obj_data['ref_id'].
 													'&obj_id='.$lm_obj_data['obj_id']);

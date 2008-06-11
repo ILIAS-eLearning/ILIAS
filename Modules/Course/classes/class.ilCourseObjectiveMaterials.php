@@ -205,6 +205,10 @@ class ilCourseObjectiveMaterials
 			{
 				$chapters[] = $lm_data;
 			}
+			if($lm_data['type'] == 'pg')
+			{
+				$chapters[] = $lm_data;
+			}
 		}
 		return $chapters ? $chapters : array();
 	}
@@ -257,7 +261,7 @@ class ilCourseObjectiveMaterials
 		$query = "SELECT * FROM crs_objective_lm ".
 			"WHERE ref_id = ".$this->db->quote($a_ref_id)." ".
 			"AND objective_id = ".$this->db->quote($this->getObjectiveId())." ".
-			"AND type != 'st'";
+			"AND type != 'st' AND type != 'pg' ";
 		$res = $this->db->query($query);
 		return $res->numRows() ? true : false;
 	}
