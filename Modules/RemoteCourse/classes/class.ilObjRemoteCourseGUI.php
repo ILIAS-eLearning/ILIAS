@@ -48,6 +48,38 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('rcrs');
 		$this->lng->loadLanguageModule('crs');
 	}
+	
+	/**
+	* redirect script
+	*
+	* @param	string		$a_target
+	* @static
+	*/
+	public static function _goto($a_target)
+	{
+		global $rbacsystem, $ilErr, $lng, $ilAccess;
+
+		if ($ilAccess->checkAccess("visible", "", $a_target))
+		{
+			$_GET["cmd"] = "infoScreen";
+			$_GET["ref_id"] = $a_target;
+			include("repository.php");
+			exit;
+		}
+		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+			include("repository.php");
+			exit;
+		}
+		
+		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}		
+	
 
 	/**
 	 * Execute command
@@ -120,6 +152,28 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * call remote course
+	 *
+	 * @access public
+	 * 
+	 */
+	public function callObject()
+	{
+		// check if the assigned course is hosted on the same installation
+		if($this->object->createAuthResource())
+		{
+			ilUtil::redirect($this->object->getFullRemoteLink());
+		 	return true;
+		}
+		else
+		{
+			ilUtil::sendInfo('Cannot call remote course.');
+			$this->infoScreenObject();
+			return false;
+		}
+	}
+	
+	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
 	* works through ilCtrl in the future this may be changed
@@ -141,7 +195,7 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 	 */
 	public function infoScreen()
 	{
-		global $ilErr,$ilAccess;
+		global $ilErr,$ilAccess,$ilUser;
 
 		if(!$ilAccess->checkAccess('visible','',$this->object->getRefId()))
 		{
@@ -151,15 +205,38 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+
+		// No access for anonymous
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			if(ilECSExport::_isRemote(ilECSImport::_lookupEContentId($this->object->getId())))
+			{
+				$info->addButton($this->lng->txt('rcrs_call'),
+					$this->ctrl->getLinkTarget($this,'call'),
+					'target="_blank"');
+			}
+			else
+			{
+				$info->addButton($this->lng->txt('rcrs_call'),
+				$this->object->getRemoteLink());
+			}		
+		}
+		
 		$info->addSection($this->lng->txt('crs_general_info'));
 		$info->addProperty($this->lng->txt('title'),$this->object->getTitle());
+		if(strlen($this->object->getOrganization()))
+		{
+			$info->addProperty($this->lng->txt('organization'),$this->object->getOrganization());
+		}
 		if(strlen($this->object->getDescription()))
 		{
 			$info->addProperty($this->lng->txt('description'),$this->object->getDescription());
 		}
 		if(strlen($loc = $this->object->getLocalInformation()))
 		{
-			$info->addProperty($this->lng->txt('local_information'),$this->object->getLocalInformation());
+			$info->addProperty($this->lng->txt('rcrs_local_informations'),$this->object->getLocalInformation());
 		}
 		
 		// Access
@@ -245,7 +322,6 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('75%');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt('rcrs_general_info'));
 		$this->form->addCommandButton('update',$this->lng->txt('save'));
@@ -259,14 +335,15 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		$this->form->addItem($text);
 		
 		
+		/*
 		$area = new ilTextAreaInputGUI($this->lng->txt('description'),'description');
 		$area->setValue($this->object->getDescription());
 		$area->setRows(3);
 		$area->setCols(80);
 		$area->setDisabled(true);
 		$this->form->addItem($area);
-
-		$area = new ilTextAreaInputGUI($this->lng->txt('local_info'),'local_info');
+		*/
+		$area = new ilTextAreaInputGUI($this->lng->txt('rcrs_local_informations'),'local_info');
 		$area->setValue($this->object->getLocalInformation());
 		$area->setRows(3);
 		$area->setCols(80);

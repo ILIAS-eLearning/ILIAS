@@ -36,6 +36,64 @@ include_once("classes/class.ilObjectAccess.php");
 class ilObjRemoteCourseAccess extends ilObjectAccess
 {
 	/**
+	* checks wether a user may invoke a command or not
+	* (this method is called by ilAccessHandler::checkAccess)
+	*
+	* @param	string		$a_cmd		command (not permission!)
+	* @param	string		$a_permission	permission
+	* @param	int			$a_ref_id	reference id
+	* @param	int			$a_obj_id	object id
+	* @param	int			$a_user_id	user id (if not provided, current user is taken)
+	*
+	* @return	boolean		true, if everything is ok
+	*/
+	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	{
+		global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
+
+		if ($a_user_id == "")
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		switch ($a_permission)
+		{
+			case "visible":
+				include_once './Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php';
+				$active = ilObjRemoteCourse::_lookupOnline($a_obj_id);
+				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
+
+				if(!$active)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+				}
+				if(!$tutor and !$active)
+				{
+					return false;
+				}
+				break;
+
+			case 'read':
+				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
+				if($tutor)
+				{
+					return true;
+				}				
+				include_once 'Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php';
+				$active = ilObjRemoteCourse::_lookupOnline($a_obj_id);
+
+				if(!$active)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					return false;
+				}
+				break;
+		}
+		return true;
+	}
+
+
+	/**
 	 * get commands
 	 * 
 	 * this method returns an array of all possible commands/permission combinations

@@ -32,6 +32,7 @@ define ("AUTH_SOAP",7);
 // BEGIN WebDAV: Add support for HTTP authentication
 define ("AUTH_HTTP",8);
 // END WebDAV: Add support for HTTP authentication
+define ("AUTH_ECS",9);
 
 define('AUTH_MULTIPLE',20);
 
@@ -94,13 +95,13 @@ class ilAuthUtils
 		}*/
 //var_dump($_SESSION);
 		// determine authentication method if no session is found and username & password is posted
-		// does this if statement make any sense? we enter this block nearly everytime.
+		// does this if statement make any sense? we enter this block nearly everytime.	
         if (empty($_SESSION) ||
             (!isset($_SESSION['_authsession']['registered']) ||
              $_SESSION['_authsession']['registered'] !== true))
         {
 			// no sesssion found
-			if ($_POST['username'] != '' and $_POST['password'] != '')
+			if ($_POST['username'] != '' and $_POST['password'] != '' or isset($_GET['ecs_hash']))
 			{
 				$user_auth_mode = ilAuthUtils::_getAuthModeOfUser($_POST['username'], $_POST['password'], $ilDB);
 
@@ -326,6 +327,11 @@ class ilAuthUtils
 				$ilAuth = new ilAuthMultiple();
 				break;
 				
+			case AUTH_ECS:
+				include_once('./Services/WebServices/ECS/classes/class.ilAuthECS.php');
+				$ilAuth = new ilAuthECS($_GET['ecs_hash']);
+				break;
+				
 			default:
 				// build option string for PEAR::Auth
 				$auth_params = array(
@@ -371,11 +377,15 @@ class ilAuthUtils
 	{
 		global $ilDB;
 		
+		if(isset($_GET['ecs_hash']))
+		{
+			return AUTH_ECS;
+		}
 		if(isset($_POST['auth_mode']))
 		{
 			return (int) $_POST['auth_mode'];
 		}
-		
+
 		include_once('./Services/Authentication/classes/class.ilAuthModeDetermination.php');
 		$det = ilAuthModeDetermination::_getInstance();
 		
@@ -445,6 +455,9 @@ class ilAuthUtils
 			case "soap":
 				return AUTH_SOAP;
 				break;
+				
+			case 'ecs':
+				return AUTH_ECS;
 
 
 			default:
@@ -491,6 +504,9 @@ class ilAuthUtils
 				return "soap";
 				break;
 				
+			case AUTH_ECS:
+				return 'ecs';
+				
 			default:
 				return "default";
 				break;	
@@ -515,6 +531,13 @@ class ilAuthUtils
 		if ($ilias->getSetting("script_active")) $modes['script'] = AUTH_SCRIPT;
 		if ($ilias->getSetting("cas_active")) $modes['cas'] = AUTH_CAS;
 		if ($ilias->getSetting("soap_auth_active")) $modes['soap'] = AUTH_SOAP;
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		
+		if(ilECSSettings::_getInstance()->isEnabled())
+		{
+			$modes['ecs'] = AUTH_ECS;
+		}
 		return $modes;
 	}
 	
@@ -526,7 +549,8 @@ class ilAuthUtils
 			AUTH_SHIBBOLETH => ilAuthUtils::_getAuthModeName(AUTH_SHIBBOLETH),
 			AUTH_CAS => ilAuthUtils::_getAuthModeName(AUTH_CAS),
 			AUTH_SOAP => ilAuthUtils::_getAuthModeName(AUTH_SOAP),
-			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS));
+			AUTH_RADIUS => ilAuthUtils::_getAuthModeName(AUTH_RADIUS),
+			AUTH_ECS => ilAuthUtils::_getAuthModeName(AUTH_ECS));
 	}
 	
 	/**
@@ -665,6 +689,7 @@ class ilAuthUtils
 		{
 			case AUTH_LDAP:
 			case AUTH_RADIUS:
+			case AUTH_ECS:
 				return false;
 			default:
 				return true;
