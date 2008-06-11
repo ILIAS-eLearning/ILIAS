@@ -65,8 +65,8 @@ class ilAppEventHandler
 		$this->listener['Modules/Group'] = array('Services/Calendar');
 		$this->listener['Modules/Session'] = array('Services/Calendar');
 		$this->listener['Modules/Course'] = array('Services/Calendar');
-		$this->listener['Modules/Course'] = array('Services/WebServices/ECS');
-		$this->listener['Modules/RemoteCourse'] = array('Services/WebServices/ECS');
+		#$this->listener['Modules/Course'] = array('Services/WebServices/ECS');
+		#$this->listener['Modules/RemoteCourse'] = array('Services/WebServices/ECS');
 	}
 	
 	
