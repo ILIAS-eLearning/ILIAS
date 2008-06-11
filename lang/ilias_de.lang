@@ -7954,6 +7954,103 @@ content#:#cont_latest_rev#:#Latest Revision###11 03 2008 new variable
 content#:#content_page_history#:#Page History###11 03 2008 new variable
 content#:#content_current#:#Current###11 03 2008 new variable
 content#:#content_last#:#Last###11 03 2008 new variable
+ecs#:#ecs_server_settings#:#ECS Funktionalitäten
+ecs#:#ecs_settings#:#Einstellungen
+ecs#:#ecs_communities#:#Teilnehmer
+ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
+ecs#:#ecs_connection_settings#:#Verbindungsdaten
+ecs#:#ecs_active#:#ECS Funktionalitäten aktivieren
+ecs#:#ecs_server_url#:#Server URL
+ecs#:#ecs_protocol#:#Protokoll
+ecs#:#ecs_port#:#Port
+ecs#:#ecs_client_cert#:#Clientzertifikat
+ecs#:#ecs_ca_cert#:#CA Zertifikat
+ecs#:#ecs_cert_key#:#Zertifikatschlüssel
+ecs#:#ecs_key_password#:#Schlüsselpasswort
+ecs#:#cert_serial#:#Seriennummer des Zertifikates
+ecs#:#ecs_local_settings#:#Lokale Einstellungen
+ecs#:#ecs_polling#:#Frequenz der Abfragen
+ecs#:#ecs_polling_info#:#Bitte legen Sie eine Frequenz für Anfragen an den ECS-Server fest.
+ecs#:#ecs_import_id#:#Import ID
+ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Kurslinks angelegt werden sollen.
+ecs#:#ecs_error_extract_serial#:#Fehler beim Auslesen Seriennummer des Zertifikates. Bitte überprüfen Sie das Clientzertifikat.
+ecs#:#ecs_participants#:#Teilnehmer
+ecs#:#ecs_participants_infos#:#Weitere Informationen
+ecs#:#ecs_active_header#:#Export erlaubt
+ecs#:#ecs_enable_participant#:#Kursexport erlauben
+ecs#:#ecs_dns#:#Domänenname
+ecs#:#ecs_email#:#E-Mail
+ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu ILIAS Erweiterten Metadaten
+ecs#:#ecs_field_study_courses#:#Studiengänge
+ecs#:#ecs_field_lecturer#:#Dozent(en)
+ecs#:#ecs_field_courseType#:#Veranstaltungsart
+ecs#:#ecs_field_credits#:#Credits
+ecs#:#ecs_field_start#:#Starttermin
+ecs#:#ecs_field_term#:#Semester
+ecs#:#ecs_field_day#:#Tag
+ecs#:#ecs_field_time#:#Uhrzeit
+ecs#:#ecs_field_room#:#Raum
+ecs#:#ecs_field_cycle#:#Zyklus
+ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
+common#:#obj_rcrs#:#Kurs-Link
+common#:#objs_rcrs#:#Kurs-Links
+ecs#:#ecs_export#:#Kursfreigaben
+ecs#:#ecs_export_obj_settings#:#Einstellungen für Kursfreigaben
+ecs#:#ecs_export_disabled#:#Nicht freigeben
+ecs#:#ecs_export_enabled#:#Freigeben
+ecs#:#ecs_publish_as#:#Veröffentlichen unter:
+ecs#:#ecs_publish_for#:#Freigabe für:
+ecs#:#ecs_check_import_id#:#Bitte überprüfen Sie die Einstellung zur Import ID.
+rcrs#:#rcrs_general_info#:#Allgemeine Informationen
+meta#:#md_adv_field_names#:#Feldnamen
+meta#:#md_adv_fields_show#:#Feldnamen anzeigen
+rcrs#:#rcrs_local_informations#:#Weitere Informationen
+ecs#:#ecs_abr#:#Kürzel
+ecs#:#ecs_read_remote_links#:#Kurs-Links aktualisieren
+ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
+ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Benutzerzugänge
+ecs#:#ecs_role#:#Rollenzuordnung
+ecs#:#ecs_global_role_info#:#Bitte wählen Sie eine globale Rolle aus, der neue ECS-Benutzer zugeordnet werden.
+rcrs#:#rcrs_call#:#Kurs aufrufen
+ecs#:#ecs_field_begin#:#Starttermin
+ecs#:#ecs_field_end#:#Endtermin
+ecs#:#ecs_import#:#Import
+ecs#:#ecs_imported_content#:#Importierte Materialien
+ecs#:#ecs_imported_from#:#Importiert von
+ecs#:#ecs_meta_data#:#Metadaten
+mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
+ecs#:#ecs_rcrs_created_body_a#:#Ein neuer Kurs-Link wurde angelegt:
+ecs#:#ecs_new_econtent_subject#:#Neuer Kurs-Link
+ecs#:#ecs_notifications#:#Benachrichtigungen
+ecs#:#ecs_user_rcp#:#Benachrichtigungen über ECS-Nutzer
+ecs#:#ecs_econ_rcp#:#Benachrichtigungen über Kurs-Links
+ecs#:#ecs_user_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue ECS-Nutzer per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_econ_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue Kurs-Links per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_new_user_subject#:#Neue ECS-Nutzer
+ecs#:#ecs_new_user_body#:#Ein neuer ECS-Benutzer wurde angelegt.
+ecs#:#ecs_new_user_profile#:#Profildaten:
+form#:#form_months#:#Monate
+ecs#:#ecs_account_duration#:#Verlängerung der Aktivierungszeit
+ecs#:#ecs_account_duration_info#:#Die Aktivierungszeit neuer ECS-Nutzer ist auf die Session-Dauer begrenzt. Erst mit der Aufnahme in einen Kurs wird das Ende der AKtivierungszeit verlängert.
+common#:#udf_type_datetime#:#Datum und Uhrzeit
+ecs#:#ecs_no_value#:#Nicht angegeben
+ecs#:#ecs_field_semester_hours#:#Semesterwochenstunden
+common#:#object_id#:#Objekt-Id
+ecs#:#ecs_field_courseID#:#Veranstaltungs-ID
+common#:#organization#:#Anbieter
+common#:#auth_ecs#:#ECS
+ecs#:#ecs_approval_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue Kursfreigaben per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_approval_rcp#:#Benachrichtigungen über Kursfreigaben
+ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
+ecs#:#ecs_export_created_body_a#:#Ein neuer Kurs wurde freigegeben:
+ecs#:#ecs_released#:#Export
+ecs#:#ecs_released_content#:#Freigegebener E-Content
+rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rcrs_visible#:#Kurs-Links sind sichtbar
+rbac#:#rcrs_read#:#Lesezugriff auf Kurs-Links
+rbac#:#rcrs_delete#:#Kurs-Links löschen
+rbac#:#cat_create_rcrs#:#Neuen Kurs-Links anlegen
+rbac#:#rcrs_write#:#Kurs-Link bearbeiten
 content#:#cont_alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_alphabetic_s#:#Alphabetisch a, b, ...
 content#:#cont_roman#:#Römisch I, II, ...
