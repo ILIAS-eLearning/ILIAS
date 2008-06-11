@@ -916,6 +916,7 @@ class ilObjectListGUI
 	 */
 	public function insertSubstitutions()
 	{
+		$fields_shown = false;
 		foreach($this->substitutions->getParsedSubstitutions($this->ref_id,$this->obj_id) as $data)
 		{
 			if($data['bold'])
@@ -925,7 +926,10 @@ class ilObjectListGUI
 			}
 			$this->tpl->touchBlock("std_prop");
 			$this->tpl->setCurrentBlock('item_property');
-			$this->tpl->setVariable('TXT_PROP',$data['name']);
+			if($data['show_field'])
+			{
+				$this->tpl->setVariable('TXT_PROP',$data['name']);
+			}
 			$this->tpl->setVariable('VAL_PROP',$data['value']);
 			$this->tpl->parseCurrentBlock();
 
@@ -933,6 +937,12 @@ class ilObjectListGUI
 			{
 				$this->tpl->touchBlock('newline_prop');
 			}
+			$fields_shown = false;
+			
+		}
+		if($fields_shown)
+		{
+			$this->tpl->touchBlock('newline_prop');
 		}
 	}
 
