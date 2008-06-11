@@ -749,6 +749,16 @@ class ilInfoScreenGUI
 					'" /> '.$lng->txt("delic_add_to_delicious").
 					'</a>';
 			}
+			
+			include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
+			$settings = ilECSSettings::_getInstance();
+			if($settings->isEnabled())
+			{
+				$tpl->setCurrentBlock("property_row");
+				$tpl->setVariable("TXT_PROPERTY", $this->lng->txt("object_id"));
+				$tpl->setVariable("TXT_PROPERTY_VALUE",$this->gui_object->object->getId());
+				$tpl->parseCurrentBlock();
+			}
 				
 			$tpl->setCurrentBlock("property_row");
 			$tpl->setVariable("TXT_PROPERTY", $this->lng->txt("perma_link"));

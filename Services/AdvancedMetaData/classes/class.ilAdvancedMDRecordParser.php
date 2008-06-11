@@ -165,7 +165,11 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 						
 					case 'Date':
 						$this->getCurrentField()->setFieldType(ilAdvancedMDFieldDefinition::TYPE_DATE);
-						break;				
+						break;
+						
+					case 'DateTime':
+						$this->getCurrentField()->setFieldType(ilAdvancedMDFieldDefinition::TYPE_DATETIME);
+						break;			
 
 					case 'Text':
 						$this->getCurrentField()->setFieldType(ilAdvancedMDFieldDefinition::TYPE_TEXT);

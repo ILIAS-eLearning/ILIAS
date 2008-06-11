@@ -92,6 +92,7 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 	 	switch($this->getDefinition()->getFieldType())
 	 	{
 			case ilAdvancedMDFieldDefinition::TYPE_DATE:
+			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
 				$query = "SELECT amv.obj_id,type ".
 					"FROM adv_md_values AS amv ".
 					"JOIN object_data USING (obj_id) ".

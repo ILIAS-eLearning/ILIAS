@@ -130,7 +130,8 @@ class ilAdvancedMDSettingsGUI
 	 		$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
 	 		$sub->resetSubstitutions(array());
 			$sub->enableDescription($_POST['enabled_desc_'.$obj_type]);
-			$sub->enableFieldNames(true);
+			$sub->enableFieldNames((int) $_POST['enabled_field_names_'.$obj_type]);
+			
 			asort($_POST['position'][$obj_type],SORT_NUMERIC);
 			foreach($_POST['position'][$obj_type] as $field_id => $pos)
 			{
@@ -833,6 +834,9 @@ class ilAdvancedMDSettingsGUI
 		$radio_option = new ilRadioOption($this->lng->txt("udf_type_date"),ilAdvancedMDFieldDefinition::TYPE_DATE);
 		$radio->addOption($radio_option);
 
+		$radio_option = new ilRadioOption($this->lng->txt("udf_type_datetime"),ilAdvancedMDFieldDefinition::TYPE_DATETIME);
+		$radio->addOption($radio_option);
+
 		$radio_option = new ilRadioOption($this->lng->txt("udf_type_select"),ilAdvancedMDFieldDefinition::TYPE_SELECT);
 		$radio->addOption($radio_option);
 		
@@ -955,7 +959,7 @@ class ilAdvancedMDSettingsGUI
 
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
-		$this->form->setTableWidth('100%');
+		#$this->form->setTableWidth('100%');
 
 		// substitution
 		foreach($visible_records as $obj_type => $records)
@@ -975,6 +979,12 @@ class ilAdvancedMDSettingsGUI
 			$check->setChecked($sub->isDescriptionEnabled() ? true : false);
 			$this->form->addItem($check);
 			
+			$check = new ilCheckboxInputGUI($this->lng->txt('md_adv_field_names'),'enabled_field_names_'.$obj_type);
+			$check->setValue(1);
+			$check->setOptionTitle($this->lng->txt('md_adv_fields_show'));
+			$check->setChecked($sub->enabledFieldNames() ? true : false);
+			$this->form->addItem($check);
+			
 			#$area = new ilTextAreaInputGUI($this->lng->txt('md_adv_substitution'),'substitution_'.$obj_type);
 			#$area->setUseRte(true);
 			#$area->setRteTagSet('standard');
@@ -990,6 +1000,11 @@ class ilAdvancedMDSettingsGUI
 			foreach($definitions as $definition_id)
 			{
 				$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($definition_id);
+				
+				if($def->isDeleted())
+				{
+					continue;
+				}
 				
 				$title = ilAdvancedMDRecord::_lookupTitle($def->getRecordId());
 				$title = $def->getTitle().' ('.$title.')';
