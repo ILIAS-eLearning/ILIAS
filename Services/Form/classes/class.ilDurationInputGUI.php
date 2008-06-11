@@ -30,10 +30,12 @@
 */
 class ilDurationInputGUI extends ilFormPropertyGUI
 {
+	protected $months = 0;
 	protected $days = 0;
 	protected $hours = 0;
 	protected $minutes = 0;
 	protected $seconds = 0;
+	protected $showmonths = false;
 	protected $showdays = false;
 	protected $showhours = true;
 	protected $showminutes = true;
@@ -120,6 +122,29 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	{
 		$this->seconds = $a_seconds;
 	}
+	
+	/**
+	 * set months
+	 *
+	 * @access public
+	 * @param int months
+	 * 
+	 */
+	public function setMonths($a_months)
+	{
+	 	$this->months = $a_months;
+	}
+	
+	/**
+	 * get months
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getMonths()
+	{
+	 	return $this->months;
+	}
 
 	/**
 	* Get Seconds.
@@ -129,6 +154,27 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	function getSeconds()
 	{
 		return $this->seconds;
+	}
+	
+	/**
+	 * Set show months
+	 *
+	 * @access public
+	 * @param boolean $a_show_month
+	 */
+	public function setShowMonths($a_show_months)
+	{
+	 	$this->showmonths = $a_show_months;
+	}
+	
+	/**
+	 * Get show months 
+	 *
+	 * @access public
+	 */
+	public function getShowMonths()
+	{
+	 	return $this->showmonths;
 	}
 
 	/**
@@ -218,6 +264,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
+		$this->setMonths($a_values[$this->getPostVar()]["MM"]);
 		$this->setDays($a_values[$this->getPostVar()]["dd"]);
 		$this->setHours($a_values[$this->getPostVar()]["hh"]);
 		$this->setMinutes($a_values[$this->getPostVar()]["mm"]);
@@ -233,6 +280,8 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
+		$_POST[$this->getPostVar()]["MM"] = 
+			ilUtil::stripSlashes($_POST[$this->getPostVar()]["MM"]);
 		$_POST[$this->getPostVar()]["dd"] = 
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]["dd"]);
 		$_POST[$this->getPostVar()]["hh"] = 
@@ -253,6 +302,20 @@ class ilDurationInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
+		if($this->getShowMonths())
+		{
+			$a_tpl->setCurrentBlock("dur_months");
+			$a_tpl->setVariable("TXT_MONTHS", $lng->txt("form_months"));
+			$val = array();
+			for ($i=0; $i<=36; $i++)
+			{
+				$val[$i] = $i;
+			}
+			$a_tpl->setVariable("SELECT_MONTHS",
+				ilUtil::formSelect($this->getMonths(), $this->getPostVar()."[MM]",
+				$val, false, true));
+			$a_tpl->parseCurrentBlock();
+		}
 		if ($this->getShowDays())
 		{
 			$a_tpl->setCurrentBlock("dur_days");

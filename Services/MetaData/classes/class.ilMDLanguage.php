@@ -39,6 +39,33 @@ class ilMDLanguage extends ilMDBase
 						 $a_obj_id,
 						 $a_obj_type);
 	}
+	
+	/**
+	 * Lookup first language
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _lookupFirstLanguage($a_rbac_id,$a_obj_id,$a_obj_type)
+	{
+		global $ilDB;
+		
+		$lang = '';
+		$query = "SELECT language FROM il_meta_language ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND obj_type = ".$ilDB->quote($a_obj_type)." ".
+			"AND parent_type = 'meta_general' ".
+			"ORDER BY meta_language_id LIMIT 1 ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$lang = $row->language;
+		}
+		return $lang;
+	}
 
 	// SET/GET
 	function setLanguage(&$lng_obj)

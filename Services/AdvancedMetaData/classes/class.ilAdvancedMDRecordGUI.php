@@ -147,9 +147,11 @@ class ilAdvancedMDRecordGUI
 			switch($def->getFieldType())
 			{
 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+					
 					if(is_array($value) and $_POST['md_activated'][$field_id])
 					{
-						$value = $this->toUnixTime($value['date']);
+						$value = $this->toUnixTime($value['date'],$value['time']);
 					}
 					else
 					{
@@ -238,6 +240,17 @@ class ilAdvancedMDRecordGUI
 						$time->setInfo($def->getDescription());
 	 					$this->form->addItem($time);
 	 					break;
+	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
+	 					$time->setShowTime(true);
+	 					$time->setUnixTime($value->getValue());
+	 					$time->enableDateActivation($this->lng->txt('enabled'),
+							'md_activated['.$def->getFieldId().']',
+							$value->getValue() ? true : false);
+						$time->setDisabled($value->isDisabled());
+	 					$this->form->addItem($time);
+	 					break;
 	 			}
 	 		}
 	 	}
@@ -306,6 +319,7 @@ class ilAdvancedMDRecordGUI
 						$this->form->addItem($select);	 					
 	 					break;
 	 					
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
 	 					$check = new ilCheckboxInputGUI($field->getTitle(),$field->getFieldId());
 	 					$check->setValue(1);
@@ -313,26 +327,40 @@ class ilAdvancedMDRecordGUI
 	 						$this->search_values[$field->getFieldId()] : 0);
 	 				
 	 					$time = new ilDateTimeInputGUI($this->lng->txt('from'),'date_start['.$field->getFieldId().']');
-	 					$time->setShowTime(false);
+	 					if($field->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_DATE)
+	 					{
+	 						$time->setShowTime(false);
+	 					}
+	 					else
+	 					{
+	 						$time->setShowTime(true);
+	 					}
 						if(isset($this->search_values['date_start'][$field->getFieldId()]))
 						{
-							$time->setUnixTime($this->toUnixTime($this->search_values['date_start'][$field->getFieldId()]['date']));							
+							$time->setUnixTime($this->toUnixTime($this->search_values['date_start'][$field->getFieldId()]['date'],$this->search_values['date_start'][$field->getFieldId()]['time']));							
 						}
 						else
 						{
-							$time->setUnixTime(time());
+							$time->setUnixTime(mktime(8,0,0,date('m'),date('d'),date('Y')));
 						}
 	 					$check->addSubItem($time);
 
 	 					$time = new ilDateTimeInputGUI($this->lng->txt('until'),'date_end['.$field->getFieldId().']');
-	 					$time->setShowTime(false);
+	 					if($field->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_DATE)
+	 					{
+	 						$time->setShowTime(false);
+	 					}
+	 					else
+	 					{
+	 						$time->setShowTime(true);
+	 					}
 						if(isset($this->search_values['date_end'][$field->getFieldId()]))
 						{
-							$time->setUnixTime($this->toUnixTime($this->search_values['date_end'][$field->getFieldId()]['date']));							
+							$time->setUnixTime($this->toUnixTime($this->search_values['date_end'][$field->getFieldId()]['date'],$this->search_values['date_end'][$field->getFieldId()]['time']));							
 						}
 						else
 						{
-		 					$time->setUnixTime(time() + 60 * 60 * 24 * 31);
+		 					$time->setUnixTime(mktime(16,0,0,date('m')+1,date('d'),date('Y')));
 						}
 	 					$check->addSubItem($time);
 
@@ -378,6 +406,12 @@ class ilAdvancedMDRecordGUI
 							$this->info->addProperty($def->getTitle(),ilFormat::formatUnixTime($value->getValue()));
 						}
 	 					break;
+	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+	 					if($value->getValue())
+						{
+							$this->info->addProperty($def->getTitle(),ilFormat::formatUnixTime($value->getValue(),true));
+						}
+	 					break;
 	 			}
 	 		}
 	 	}
@@ -391,7 +425,7 @@ class ilAdvancedMDRecordGUI
 	 * @param
 	 * 
 	 */
-	private function toUnixTime($date)
+	private function toUnixTime($date,$time = array())
 	{
 		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
 	}

@@ -428,7 +428,7 @@ class ilInitialisation
 		$ilDB = new ilDBx(IL_DSN);
 		$GLOBALS['ilDB'] =& $ilDB;
 	}
-
+	
 	/**
 	* initialise event handler ilAppEventHandler
 	*/
@@ -785,7 +785,7 @@ class ilInitialisation
 		$_SESSION['lang'] = ($_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
 
 		// prefer personal setting when coming from login screen
-		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the user agreement should be displayes (Helmut Schottmüller, 2006-10-14)
+		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the user agreement should be displayes (Helmut Schottm��ller, 2006-10-14)
 		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() > 0)
 		{
 			$_SESSION['lang'] = $ilUser->getPref("language");

@@ -1133,6 +1133,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 				$end = $this->toUnixTime($_POST['date_end'][$key]['date']);
 											
 			}
+			if($def->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_DATETIME)
+			{
+				$start = $this->toUnixTime($_POST['date_start'][$key]['date'],$_POST['date_start'][$key]['time']);
+				$end = $this->toUnixTime($_POST['date_end'][$key]['date'],$_POST['date_end'][$key]['time']);
+			}
 			
 			$query_parser = new ilQueryParser(ilUtil::stripSlashes($value));
 			if($_POST['boolean'][$key] == 1)
@@ -1398,9 +1403,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	 * @param
 	 * 
 	 */
-	private function toUnixTime($date)
+	private function toUnixTime($date,$time = array())
 	{
-		return mktime(0,0,0,$date['m'],$date['d'],$date['y']);
+		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
 	}
 	
 	/**

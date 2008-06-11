@@ -44,6 +44,7 @@ class ilAdvancedMDSubstitution
 	protected $enabled_field_names = true;
 	protected $active = false;
 	protected $date_fields = array();
+	protected $datetime_fields = array();
 	protected $active_fields = array();
 	
 	
@@ -141,7 +142,7 @@ class ilAdvancedMDSubstitution
 	 */
 	public function enabledFieldNames()
 	{
-	 	return (bool) $this->hide_field_names;
+	 	return (bool) $this->enabled_field_names;
 	}
 	
 	/**
@@ -153,7 +154,7 @@ class ilAdvancedMDSubstitution
 	 */
 	public function enableFieldNames($a_status)
 	{
-	 	$this->hide_field_names = $a_status;
+	 	$this->enabled_field_names = $a_status;
 	}
 	
 	/**
@@ -195,6 +196,10 @@ class ilAdvancedMDSubstitution
 			{
 				$value = ilFormat::formatUnixTime((int) $values[$field_id]);
 			}
+			elseif(in_array($field_id,$this->datetime_fields))
+			{
+				$value = ilFormat::formatUnixTime((int) $values[$field_id],true);
+			}
 			else
 			{
 				$value = $values[$field_id];
@@ -211,6 +216,7 @@ class ilAdvancedMDSubstitution
 			{
 				$substituted[$counter]['newline'] = false;
 			}
+			$substituted[$counter]['show_field'] = $this->enabledFieldNames();
 			$counter++;
   		}
   		
@@ -370,6 +376,7 @@ class ilAdvancedMDSubstitution
 	{
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 	$this->date_fields = ilAdvancedMDFieldDefinition::_lookupDateFields();
+	 	$this->datetime_fields = ilAdvancedMDFieldDefinition::_lookupDatetimeFields();
 	 	
 	 	// Check active status
 	 	$query = "SELECT active,field_id,amfd.title FROM adv_md_record AS amr ".

@@ -161,12 +161,11 @@ class ilAdvancedMDRecord
 	 */
 	public static function _getAssignableObjectTypes()
 	{
-	 	return array('crs','cat');
-	 	return array('crs','rcrs');
+	 	return array('cat','crs','rcrs');
 	}
 	
 	/**
-	 * get activate obj types
+	 * get activated obj types
 	 *
 	 * @access public
 	 * @static

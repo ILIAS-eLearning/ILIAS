@@ -33,6 +33,7 @@ class ilAdvancedMDFieldDefinition
 	const TYPE_SELECT = 1;
 	const TYPE_TEXT = 2;
 	const TYPE_DATE = 3;
+	const TYPE_DATETIME = 4;
 
 	private static $instances = array();
 	
@@ -101,6 +102,50 @@ class ilAdvancedMDFieldDefinition
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row['field_id'] ? $row['field_id'] : 0;
+	}
+	
+	/**
+	 * Lookup field type
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int field_id
+	 */
+	public static function _lookupFieldType($a_field_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT field_type FROM adv_md_field_definition ".
+			"WHERE field_id = ".$ilDB->quote($a_field_id)." ";
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row['field_type'] ? $row['field_type'] : 0;
+	}
+	
+	
+	/**
+	 * Lookup datetime fields
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _lookupDateTimeFields()
+	{
+		global $ilDB;
+		
+		$query = "SELECT field_id FROM adv_md_field_definition ".
+			"WHERE field_type = ".self::TYPE_DATETIME." ";
+		$res = $ilDB->query($query);
+		
+		$date_fields = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$date_fields[] = $row->field_id; 
+		}
+		return $date_fields;
 	}
 	
 	/**
@@ -244,6 +289,18 @@ class ilAdvancedMDFieldDefinition
 		$query = "DELETE FROM adv_md_field_definition ".
 			"WHERE record_id  = ".$ilDB->quote($a_record_id)." ";
 		$res = $ilDB->query($query);	
+	}
+	
+	/**
+	 * is deleted
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function isDeleted()
+	{
+	 	return $this->record_id ? false : true;
 	}
 
 	// Setter, Getter...
@@ -601,6 +658,10 @@ class ilAdvancedMDFieldDefinition
 	 			
 	 		case self::TYPE_DATE:
 	 			$type = 'Date';
+	 			break;
+	 			
+	 		case self::TYPE_DATETIME:
+	 			$type = 'DateTime';
 	 			break;
 	 	}
 	 	
