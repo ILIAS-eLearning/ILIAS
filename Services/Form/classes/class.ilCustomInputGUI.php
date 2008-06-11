@@ -28,7 +28,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilCustomInputGUI extends ilFormPropertyGUI
+class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI 
 {
 	protected $html;
 	
