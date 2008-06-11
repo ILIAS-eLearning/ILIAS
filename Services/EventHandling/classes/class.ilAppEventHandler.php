@@ -65,6 +65,8 @@ class ilAppEventHandler
 		$this->listener['Modules/Group'] = array('Services/Calendar');
 		$this->listener['Modules/Session'] = array('Services/Calendar');
 		$this->listener['Modules/Course'] = array('Services/Calendar');
+		$this->listener['Modules/Course'] = array('Services/WebServices/ECS');
+		$this->listener['Modules/RemoteCourse'] = array('Services/WebServices/ECS');
 	}
 	
 	
@@ -81,11 +83,17 @@ class ilAppEventHandler
 		{
 			foreach ($this->listener[$a_component] as $listener)
 			{
-				// detemine class and file
-				$comp = explode("/", $listener);
-				$class = "il".$comp[1]."AppEventListener";
+				// Allow listeners like Services/WebServices/ECS
+				$last_slash = strripos($listener,'/');
+				$comp = substr($listener,0,$last_slash);
+				$class = 'il'.substr($listener,$last_slash + 1).'AppEventListener';
 				$file = "./".$listener."/classes/class.".$class.".php";
-
+				
+				// detemine class and file
+				#$comp = explode("/", $listener);
+				#$class = "il".$comp[1]."AppEventListener";
+				#$file = "./".$listener."/classes/class.".$class.".php";
+				
 				// if file exists, call listener
 				if (is_file($file))
 				{

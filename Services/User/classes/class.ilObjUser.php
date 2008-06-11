@@ -3404,8 +3404,29 @@ class ilObjUser extends ilObject
 
 		return true;
 	}
-
-
+	
+	
+	/**
+	 * lookup auth mode
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param int usr_id
+	 */
+	public static function _lookupAuthMode($a_usr_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT auth_mode FROM usr_data ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->auth_mode;
+		}
+		return '';
+	}
 
 	/**
 	* check whether external account and authentication method

@@ -145,6 +145,27 @@ class ilCurlConnection
 	}
 	
 	/**
+	 * Get informations about a specific transfer
+	 *
+	 * @access public
+	 * @param int option e.g CURLINFO_EFFECTIVE_URL
+	 * @return mixed 
+	 * 
+	 */
+	public function getInfo($opt = 0)
+	{
+		if($opt)
+		{
+			$res = curl_getinfo($this->ch,$opt);
+		}
+		else
+		{
+			$res = curl_getinfo($this->ch);
+		}
+		return $res;
+	}
+	
+	/**
 	 * Close connection
 	 *
 	 * @access public

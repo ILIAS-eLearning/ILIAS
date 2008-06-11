@@ -21,96 +21,101 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "classes/class.ilObjectListGUI.php";
-
 /** 
-* 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
 * 
-* @ingroup ModulesRemoteCourse 
+* @ingroup ServicesWebServicesECS 
 */
-class ilObjRemoteCourseListGUI extends ilObjectListGUI
+
+class ilECSCommunity
 {
+	protected $json_obj = null;
+	protected $title = '';
+	protected $description = '';
+	protected $id = 0;
+	
+	protected $participants = array();
+	protected $position = 0;
+	
 	/**
 	 * Constructor
 	 *
 	 * @access public
+	 * @param object json object
 	 * 
 	 */
-	public function __construct()
+	public function __construct($json_obj)
 	{
-	 	parent::__construct();
+		$this->json_obj = $json_obj;
+		$this->read();		 	
 	}
 	
 	/**
-	 * init
+	 * get title
 	 *
 	 * @access public
-	 */
-	public function init()
-	{
-		$this->static_link_enabled = true;
-		$this->delete_enabled = true;
-		$this->cut_enabled = true;
-		$this->subscribe_enabled = true;
-		$this->link_enabled = false;
-		$this->info_screen_enabled = true;
-		$this->type = 'rcrs';
-		$this->gui_class_name = 'ilremotecoursegui';
-		
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
-		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
-		if($this->substitutions->isActive())
-		{
-			$this->substitutions_enabled = true;
-		}
-		
-		// general commands array
-		include_once('Modules/RemoteCourse/classes/class.ilObjRemoteCourseAccess.php');
-		$this->commands = ilObjRemoteCourseAccess::_getCommands();
-		
-	}
-
-
-	/**
-	* inititialize new item
-	*
-	* @param	int			$a_ref_id		reference id
-	* @param	int			$a_obj_id		object id
-	* @param	string		$a_title		title
-	* @param	string		$a_description	description
-	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
-	{
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
-	}
-
-	/**
-	 * get properties (offline)
-	 *
-	 * @access public
-	 * @param
 	 * 
 	 */
-	public function getProperties()
+	public function getTitle()
 	{
-		global $lng;
-
-		include_once('Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
-
-		if($org = ilObjRemoteCourse::_lookupOrganization($this->obj_id))
-		{
-			$this->addCustomProperty($lng->txt('organization'),$org,false,true);
-		}
-		if(!ilObjRemoteCourse::_lookupOnline($this->obj_id))
-		{
-			$this->addCustomProperty($lng->txt("status"),$lng->txt("offline"),true,true);
-		}
-
-		return array();
+	 	return $this->title;
 	}
+	
+	/**
+	 * getDescription
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getDescription()
+	{
+	 	return $this->description;
+	}
+	
+	/**
+	 * get participants
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getParticipants()
+	{
+	 	return $this->participants ? $this->participants : array();
+	}
+	
+	/**
+	 * get id
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getId()
+	{
+	 	return $this->id;
+	}
+	
+	
+	/**
+	 * Read community entries and participants
+	 *
+	 * @access private
+	 * 
+	 */
+	private function read()
+	{
+	 	$this->title = $this->json_obj->community->name;
+	 	$this->description = $this->json_obj->community->description;
+	 	$this->id = $this->json_obj->community->id;
+	 	
+		foreach($this->json_obj->participants as $participant)
+		{
+			include_once('./Services/WebServices/ECS/classes/class.ilECSParticipant.php');
+			$this->participants[] = new ilECSParticipant($participant,$this->getId());
+		}
+	}
+}
 
-} // END class.ilObjRemoteCourseListGUI
+
 ?>

@@ -32,10 +32,15 @@
 */
 class ilECSSettings
 {
+	const ERROR_EXTRACT_SERIAL = 'ecs_error_extract_serial';
+	const ERROR_REQUIRED = 'fill_out_all_required_fields';
+	const ERROR_INVALID_IMPORT_ID = 'ecs_check_import_id';
+	
+	const DEFAULT_DURATION = 6;
+	
+	
 	const PROTOCOL_HTTP = 0;
 	const PROTOCOL_HTTPS = 1;
-	
-	public $fisch = 5;
 	
 	protected static $instance = null;
 
@@ -49,6 +54,13 @@ class ilECSSettings
 	private $key_pathword;
 	private $polling;
 	private $import_id;
+	private $cert_serial;
+	private $global_role;
+	private $duration;
+	
+	private $user_recipients = array();
+	private $econtent_recipients = array();
+	private $approval_recipients = array();
 
 	/**
 	 * Singleton contructor
@@ -365,6 +377,177 @@ class ilECSSettings
 	}
 	
 	/**
+	 * set cert serial number
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function setCertSerialNumber($a_cert_serial)
+	{
+	 	$this->cert_serial_number = $a_cert_serial;
+	}
+	
+	/**
+	 * get cert serial number
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getCertSerialNumber()
+	{
+	 	return $this->cert_serial_number;
+	}
+	
+	/**
+	 * get global role
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getGlobalRole()
+	{
+	 	return $this->global_role;
+	}
+	
+	/**
+	 * set default global role
+	 *
+	 * @access public
+	 *
+	 * @param int role_id
+	 */
+	public function setGlobalRole($a_role_id)
+	{
+		$this->global_role = $a_role_id;
+	}
+	
+	/**
+	 * set Duration
+	 *
+	 * @access public
+	 * @param int duration
+	 * 
+	 */
+	public function setDuration($a_duration)
+	{
+	 	$this->duration = $a_duration;
+	}
+	
+	/**
+	 * get duration
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getDuration()
+	{
+	 	return $this->duration ? $this->duration : self::DEFAULT_DURATION;
+	}
+	
+	/** 
+	 * Get new user recipients
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getUserRecipients()
+	{
+	 	return explode(',',$this->user_recipients);
+	}
+	
+	/** 
+	 * Get new user recipients
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getUserRecipientsAsString()
+	{
+	 	return $this->user_recipients;
+	}
+	
+	/**
+	 * set user recipients
+	 *
+	 * @access public
+	 * @param array of recipients (array of user login names)
+	 * 
+	 */
+	public function setUserRecipients($a_logins)
+	{
+	 	$this->user_recipients = $a_logins;
+	}
+	
+	/**
+	 * get Econtent recipients
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getEContentRecipients()
+	{
+	 	return explode(',',$this->econtent_recipients);
+	}
+	
+	/** 
+	 * get EContent recipients as string
+	 *
+	 * @access public
+	 * 
+	 */
+	public function getEContentRecipientsAsString()
+	{
+	 	return $this->econtent_recipients;
+	}
+	
+	/**
+	 * set EContent recipients
+	 *
+	 * @access public
+	 * @param array of user obj_ids
+	 * 
+	 */
+	public function setEContentRecipients($a_logins)
+	{
+	 	$this->econtent_recipients = $a_logins;
+	}
+	
+	/**
+	 * get approval recipients
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function getApprovalRecipients()
+	{
+		return explode(',',$this->approval_recipients);
+	}
+	
+	/**
+	 * get approval recipients as string
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getApprovalRecipientsAsString()
+	{
+		return $this->approval_recipients;
+	}
+	
+	/**
+	 * set approval recipients
+	 *
+	 * @access public
+	 * @param string recipients
+	 */
+	public function setApprovalRecipients($a_rcp)
+	{
+		$this->approval_recipients = $a_rcp;
+	}
+	
+	/**
 	 * Validate settings
 	 *
 	 * @access public
@@ -376,14 +559,50 @@ class ilECSSettings
 	{
 	 	if(!$this->isEnabled())
 	 	{
-	 		return true;
+	 		return '';
 	 	}
 		if(!$this->getServer() or !$this->getPort() or !$this->getClientCertPath() or !$this->getCACertPath()
-			or !$this->getKeyPath() or !$this->getKeyPassword())
+			or !$this->getKeyPath() or !$this->getKeyPassword() or !$this->getPollingTime() or !$this->getImportId()
+			or !$this->getGlobalRole() or !$this->getDuration())
+		{
+			return self::ERROR_REQUIRED;
+		}
+		
+		// Check import id
+		if(!$this->fetchSerialID())
+		{
+			return self::ERROR_EXTRACT_SERIAL;
+		}
+		if(!$this->checkImportId())
+		{
+			return self::ERROR_INVALID_IMPORT_ID;			
+		}
+		return '';
+	}
+	
+	/**
+	 * check import id
+	 *
+	 * @access public
+	 * 
+	 */
+	public function checkImportId()
+	{
+	 	global $ilObjDataCache,$tree;
+	 	
+	 	if(!$this->getImportId())
+	 	{
+	 		return false;
+	 	}
+		if($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($this->getImportId())) != 'cat')
 		{
 			return false;
 		}
-		return true;
+		if($tree->isDeleted($this->getImportId()))
+		{
+			return false;
+		}
+	 	return true;
 	}
 	
 	/**
@@ -404,7 +623,51 @@ class ilECSSettings
 	 	$this->storage->set('key_password',$this->getKeyPassword());
 	 	$this->storage->set('import_id',$this->getImportId());
 	 	$this->storage->set('polling',$this->getPollingTime());
+	 	$this->storage->set('cert_serial',$this->getCertSerialNumber());
+	 	$this->storage->set('global_role',(int) $this->getGlobalRole());
+	 	$this->storage->set('user_rcp',$this->getUserRecipientsAsString());
+	 	$this->storage->set('econtent_rcp',$this->getEContentRecipientsAsString());
+	 	$this->storage->set('approval_rcp',$this->getApprovalRecipientsAsString());
+	 	$this->storage->set('duration',$this->getDuration());
 	}
+	
+	/**
+	 * Fetch serial ID from cert
+	 *
+	 * @access private
+	 * 
+	 */
+	private function fetchSerialID()
+	{
+	 	if(!file_exists($this->getClientCertPath()) or !is_readable($this->getClientCertPath()))
+	 	{
+	 		return false;
+	 	}
+	 	$lines = file($this->getClientCertPath());
+	 	$found = false;
+	 	foreach($lines as $line)
+	 	{
+			if($found)
+			{
+				$serial = trim(str_replace(':','',$line));
+				break;
+			}
+	 		if(strpos($line,'Serial Number:') !== false)
+	 		{
+	 			$found = true;
+	 		}
+	 	}
+		if($found)
+		{
+			$this->setCertSerialNumber($serial);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	
 	/**
 	 * Init storage class (ilSetting)
@@ -434,6 +697,12 @@ class ilECSSettings
 		$this->setPollingTime($this->storage->get('polling',128));
 		$this->setImportId($this->storage->get('import_id'));
 		$this->setEnabledStatus((int) $this->storage->get('active'));
+		$this->setCertSerialNumber($this->storage->get('cert_serial'));
+		$this->setGlobalRole($this->storage->get('global_role'));
+		$this->econtent_recipients = $this->storage->get('econtent_rcp');
+		$this->approval_recipients = $this->storage->get('approval_rcp');
+		$this->user_recipients = $this->storage->get('user_rcp');
+		$this->setDuration($this->storage->get('duration'));
 	}
 }
 ?>
