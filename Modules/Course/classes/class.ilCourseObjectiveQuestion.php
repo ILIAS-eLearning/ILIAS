@@ -267,12 +267,12 @@ class ilCourseObjectiveQuestion
 		return true;
 	}
 
-	function updateTestLimits($a_objective_id,$a_status)
+	function updateTest($a_objective_id)
 	{
 		global $ilDB;
 		
 		$query = "UPDATE crs_objective_tst ".
-			"SET tst_limit = ".$ilDB->quote($this->getT()).", ".
+			"SET tst_status = ".$ilDB->quote($this->getTestStatus()).", ".
 			"tst_limit = ".$ilDB->quote($this->getTestSuggestedLimit())." ".
 			"WHERE test_objective_id = ".$ilDB->quote($a_test_objective_id)."";
 	
