@@ -4807,3 +4807,73 @@ foreach($objectives as $objective_id => $status)
 	}
 }
 ?>
+
+<#1261>
+CREATE TABLE IF NOT EXISTS `ecs_events` (
+`event_id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+`type` CHAR( 32 ) NOT NULL ,
+`id` INT( 11 ) NOT NULL ,
+`op` CHAR( 32 ) NOT NULL ,
+PRIMARY KEY ( `event_id` )
+) TYPE = MYISAM ;
+
+<#1262>
+<?php
+
+$query = "DESCRIBE ecs_import ";
+$res = $ilDB->query($query);
+
+$mid_missing = true;
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->field == 'mid')
+	{
+		$mid_missing = false;
+		continue;
+	}
+}
+
+if($mid_missing)
+{
+	$query = "ALTER TABLE ecs_import ADD mid INT( 11 ) NOT NULL DEFAULT '0' AFTER obj_id ";
+	$ilDB->query($query);
+}
+?>
+
+<#1263>
+ALTER TABLE `usr_data` CHANGE `auth_mode` `auth_mode` ENUM( 'default', 'local', 'ldap', 'radius', 'shibboleth', 'script', 'cas', 'soap', 'ecs' ) NOT NULL DEFAULT 'default';
+
+<#1264>
+<?php
+$query = "DESCRIBE remote_course_settings ";
+$res = $ilDB->query($query);
+
+$mid_missing = true;
+$org_missing = true;
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->field == 'mid')
+	{
+		$mid_missing = false;
+	}
+	if($row->field == 'organization')
+	{
+		$org_missing = false;
+	}
+}
+if($mid_missing)
+{
+	$query = "ALTER TABLE remote_course_settings ADD mid INT( 11 ) NOT NULL DEFAULT '0'";
+	$ilDB->query($query);
+}
+if($org_missing)
+{
+	$query = "ALTER TABLE remote_course_settings ADD organization TEXT NOT NULL";
+	$ilDB->query($query);
+}
+?>
+
+<#1265>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
