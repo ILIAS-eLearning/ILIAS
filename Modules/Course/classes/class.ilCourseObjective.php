@@ -75,6 +75,24 @@ class ilCourseObjective
 	}
 	
 	/**
+	 * get count objectives
+	 *
+	 * @access public
+	 * @param int obj_id
+	 * @return
+	 * @static
+	 */
+	public static function _getCountObjectives($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM crs_objectives ".
+			"WHERE crs_id = ".$ilDB->quote($a_obj_id)." ";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+	
+	/**
 	 * clone objectives
 	 *
 	 * @access public

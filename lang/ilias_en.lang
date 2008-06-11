@@ -4987,8 +4987,8 @@ crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100
 crs#:#crs_objective_modified#:#Updated learning objective.
 crs#:#crs_objective_no_title_given#:#Please enter a title.
 crs#:#crs_objective_not_accomplished#:#Not accomplished
-crs#:#crs_objective_overview_objectives#:#Overview objectives
-crs#:#crs_objective_overview_question_assignment#:#Overview question assignment
+crs#:#crs_objective_overview_objectives#:#Overview Objectives
+crs#:#crs_objective_overview_question_assignment#:#Overview Question Assignment
 crs#:#crs_objective_pretest#:#Self assessment
 crs#:#crs_objective_question_assignment#:#Question assignment
 crs#:#crs_objective_result#:#After test
@@ -8230,21 +8230,21 @@ rbac#:#crs_edit_event#:#Edit Calendar Events
 rbac#:#grp_edit_event#:#Edit Calendar Events
 rbac#:#sess_edit_event#:#Edit Calendar Events
 rbac#:#cals_edit_event#:#Administrate Public Calendars
-crs#:#crs_objective_err_limit#:#Bitte geben Sie eine Punktzahl zwischen %s und %s Punkten ein.
+crs#:#crs_objective_err_limit#:#Please enter points between %s and %s.
 crs#:#crs_objective_qst_summary#:#Overview Question Assignment
 crs#:#crs_obj_required_points#:#Required Points
 crs#:#crs_objective_all_points#:#Total Points
 crs#:#crs_objective_points#:#Point(s)
 crs#:#crs_objective_wiz_title#:#Learning Objective Description
 crs#:#crs_objective_wiz_materials#:#Assignment of Course Materials
-crs#:#crs_objective_wiz_self#:#Self Assessment Questions
-crs#:#crs_objective_wiz_self_limit#:#Limits for Self Assessment
+crs#:#crs_objective_wiz_self#:#Initial Test Questions
+crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test
 crs#:#crs_objective_wiz_final#:#Final Test Questions
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test
 crs#:#crs_wiz_next#:#Save
 crs#:#crs_wiz_back#:#Back
 crs#:#crs_objective_step#:#Step
-crs#:#crs_objective_self_assessment#:#Self Assessment
+crs#:#crs_objective_self_assessment#:#Initial Test
 crs#:#crs_objective_final_test#:#Final Test
 crs#:#crs_objective_saved_sorting#:#Saved sorting.
 crs#:#crs_no_title_given#:#Please insert a title for the objective.
