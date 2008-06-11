@@ -824,10 +824,15 @@ class ilObjectGUI
 					$rbacadmin->revokePermission($subnode["child"]);
 					// remove item from all user desktops
 					$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
-				
+					
 					// TODO: inform users by mail that object $id was deleted
 					//$mail->sendMail($id,$msg,$affected_users);
 				}
+				
+				// TODO: needs other handling
+				// This class shouldn't have to know anything about ECS
+				include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
+				ilECSContentWriter::_handleDelete($subnodes);				
 
 				if(!$this->tree->saveSubTree($id, true))
 				{
