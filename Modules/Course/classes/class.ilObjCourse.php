@@ -1482,7 +1482,92 @@ class ilObjCourse extends ilContainer
 		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 		ilCourseObjectiveResult::_deleteUser($a_usr_id);
 	}
-
+	
+	/**
+	 * Save ECS settings (add- update- deleteResource)
+	 *
+	 * @access public
+	 * @param bool Export flag
+	 * @param int owner mid
+	 * @param array array of participant mids
+	 * @throws ilECSConnectorException, ilECSContentWriterException
+	 */
+	public function handleECSSettings($a_export,$a_owner,$a_mids)
+	{
+		try
+		{
+			include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
+			
+			$writer = new ilECSContentWriter($this);
+			$writer->setExportable($a_export);
+			$writer->setOwnerId($a_owner);
+			$writer->setParticipantIds((array) $a_mids);
+			$writer->refresh();
+		}
+		catch(ilECSConnectorException $exc)
+		{
+			throw $exc;
+		}
+		catch(ilECSContentWriterException $exc)
+		{
+			throw $exc;
+		}
+	}
+	
+	/**
+	 * Overwriten Metadata update listener for ECS functionalities
+	 *
+	 * @access public
+	 * 
+	 */
+	public function MDUpdateListener($a_element)
+	{
+	 	global $ilLog;
+	 	
+	 	parent::MDUpdateListener($a_element);
+	 	
+	 	switch($a_element)
+	 	{
+	 		case 'General':
+				$this->updateECSContent();
+	 			break;
+	 		default:
+	 			return true;
+	 	}
+	}
+	
+	/**
+	 * Update ECS Content
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	public function updateECSContent()
+	{
+		global $ilLog;
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		$settings = ilECSSettings::_getInstance();
+		if(!$settings->isEnabled())
+		{
+			return true;
+		}
+	 	try
+	 	{
+		 	// Update ECS EContent
+		 	include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
+		 	$writer = new ilECSContentWriter($this);
+		 	$writer->refreshSettings();
+	 	}
+	 	catch(ilException $exc)
+	 	{
+	 		$ilLog->write(__METHOD__.': Cannot save ECS settings. '.$exc->getMessage());
+	 		return false;
+	 	}
+	 	return true;
+	}
+	
 	/**
 	* Add additional information to sub item, e.g. used in
 	* courses for timings information etc.
@@ -1555,6 +1640,5 @@ class ilObjCourse extends ilContainer
 		}
 	}
 	
-
 } //END class.ilObjCourse
 ?>

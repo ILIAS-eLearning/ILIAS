@@ -991,6 +991,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$file_obj->create();
 		$record_gui->saveValues();
 
+		$this->object->updateECSContent();
+
 		ilUtil::sendInfo($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();
 		return true;
@@ -1041,6 +1043,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			// END ChangeEvent: Record write event
 
+			// Update ecs export settings
+			if(!$this->updateECSExportSettings())
+			{
+				$this->editObject();
+				return false;
+			}
+
 			ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		}
 		else
@@ -1049,6 +1058,63 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		$this->editObject();
 	}
+
+	/**
+	 * Update ECS Export Settings
+	 *
+	 * @access protected
+	 */
+	protected function updateECSExportSettings()
+	{
+		global $rbacadmin;
+
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		
+		// ECS enabled
+		$ecs_settings = ilECSSettings::_getInstance();
+		if(!$ecs_settings->isEnabled())
+		{
+			return true;
+		}
+		if($_POST['ecs_export'] and !$_POST['ecs_owner'])
+		{
+			ilUtil::sendInfo($this->lng->txt('ecs_no_owner'));
+			return false;
+		}
+		try
+		{
+			$this->object->handleECSSettings((bool) $_POST['ecs_export'],(int) $_POST['ecs_owner'],(array) $_POST['ecs_mids']);
+			
+			// update performed now grant/revoke ecs user permissions
+			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+			$export = new ilECSExport($this->object->getId());
+			if($export->isExported())
+			{
+				// Grant permission
+				$rbacadmin->grantPermission($ecs_settings->getGlobalRole(),
+					ilRbacReview::_getOperationIdsByName(array('join','visible')),
+					$this->object->getRefId());
+				
+			}
+			else
+			{
+				$rbacadmin->revokePermission($this->object->getRefId(),
+					$ecs_settings->getGlobalRole());
+			}
+		}
+		catch(ilECSConnectorException $exc)
+		{
+			ilUtil::sendInfo('Error connecting to ECS server: '.$exc->getMessage());
+			return false;
+		}
+		catch(ilECSContentWriterException $exc)
+		{
+			ilUtil::sendInfo('Course export failed with message: '.$exc->getMessage());
+			return false;
+		}
+		return true;
+	}
+	
 	
 	/**
 	 * edit object
@@ -1300,267 +1366,126 @@ class ilObjCourseGUI extends ilContainerGUI
 		$mem->setChecked($this->object->getShowMembers());
 		$mem->setInfo($this->lng->txt('crs_show_members_info'));
 		$this->form->addItem($mem);
-	
 		
+		$this->fillECSExportSettings();
 	}
-
-
-	function edit2Object()
-	{
-		global $ilAccess,$ilErr;
-
-		if(!$ilAccess->checkAccess('write','',$this->ref_id))
-		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
-		}
-		$this->setSubTabs('properties');
-		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->setSubTabActive('crs_settings');
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_settings.html','Modules/Course');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-		// Visibility
-		$this->tpl->setVariable("TXT_VISIBILITY",$this->lng->txt('crs_visibility'));
-		$this->tpl->setVariable("TXT_VISIBILITY_UNVISIBLE",$this->lng->txt('crs_visibility_unvisible'));
-		$this->tpl->setVariable("TXT_VISIBILITY_LIMITLESS",$this->lng->txt('crs_visibility_limitless'));
-		$this->tpl->setVariable("TXT_VISIBILITY_UNTIL",$this->lng->txt('crs_visibility_until'));
-		$this->tpl->setVariable("ACTIVATION_UNV_INFO",$this->lng->txt('crs_availability_unvisible_info'));
-		$this->tpl->setVariable("ACTIVATION_UNL_INFO",$this->lng->txt('crs_availability_limitless_info'));
-		$this->tpl->setVariable("ACTIVATION_LIM_INFO",$this->lng->txt('crs_availability_until_info'));
-
-		$this->tpl->setVariable("ACTIVATION_OFFLINE",
-								ilUtil::formRadioButton(($this->object->getActivationType() == IL_CRS_ACTIVATION_OFFLINE) ? 1 : 0,
-														'activation_type',
-														IL_CRS_ACTIVATION_OFFLINE));
-		
-		$this->tpl->setVariable("ACTIVATION_UNLIMITED",
-								ilUtil::formRadioButton(($this->object->getActivationType() == IL_CRS_ACTIVATION_UNLIMITED) ? 1 : 0,
-														'activation_type',
-														IL_CRS_ACTIVATION_UNLIMITED));
-		
-		$this->tpl->setVariable("ACTIVATION_UNTIL",
-								ilUtil::formRadioButton(($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED) ? 1 : 0,
-														'activation_type',
-														IL_CRS_ACTIVATION_LIMITED));
-		$this->tpl->setVariable("TXT_BEGIN",$this->lng->txt('crs_start'));
-		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_end'));
-		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('time'));
-		
-		$date = $this->__prepareDateSelect($this->object->getActivationStart());
-		$this->tpl->setVariable("ACTIVATION_START_DATE_SELECT",
-								ilUtil::makeDateSelect('activation_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareTimeSelect($this->object->getActivationStart());
-		$this->tpl->setVariable("ACTIVATION_START_TIME_SELECT",
-								ilUtil::makeTimeSelect('activation_start_time',true,$date['h'],$date['m'],0,false));
-
-		$date = $this->__prepareDateSelect($this->object->getActivationEnd());
-		$this->tpl->setVariable("ACTIVATION_END_DATE_SELECT",
-								ilUtil::makeDateSelect('activation_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareTimeSelect($this->object->getActivationEnd());
-		$this->tpl->setVariable("ACTIVATION_END_TIME_SELECT",
-								ilUtil::makeTimeSelect('activation_end_time',true,$date['h'],$date['m'],0,false));
-
-		// Registration
-		$this->tpl->setVariable("TXT_REGISTRATION_DEACTIVATED",$this->lng->txt('crs_reg_deactivated'));
-		$this->tpl->setVariable("TXT_REGISTRATION_UNLIMITED",$this->lng->txt('crs_registration_unlimited'));
-		$this->tpl->setVariable("TXT_REGISTRATION_LIMITED",$this->lng->txt('crs_registration_limited'));
-		$this->tpl->setVariable("TXT_REGISTRATION_TYPE",$this->lng->txt('crs_registration_type'));
-
-		$this->tpl->setVariable("REG_DEAC_INFO",$this->lng->txt('crs_registration_deactivated'));
-		$this->tpl->setVariable("REG_UNLIM_INFO",$this->lng->txt('crs_reg_unlim_info'));
-		$this->tpl->setVariable("REG_LIM_INFO",$this->lng->txt('crs_reg_lim_info'));
-		$this->tpl->setVariable("REG_MAX_INFO",$this->lng->txt('crs_reg_max_info'));
-		$this->tpl->setVariable("REG_NOTY_INFO",$this->lng->txt('crs_reg_notify_info'));
-		$this->tpl->setVariable("REG_WAIT_INFO",$this->lng->txt('crs_wait_info'));
-		$this->tpl->setVariable('REG_TYPE_INFO',$this->lng->txt('crs_reg_type_info'));
-		
-
-		$this->tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("crs_reg"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_UNLIMITED",$this->lng->txt("crs_unlimited"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_START",$this->lng->txt("crs_start"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_END",$this->lng->txt("crs_end"));
-
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_OPTIONS",$this->lng->txt("crs_subscription_type"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_MAX_MEMBERS",$this->lng->txt("crs_subscription_max_members"));
-		$this->tpl->setVariable("TXT_SUBSCRIPTION_NOTIFY",$this->lng->txt("crs_subscription_notify"));
-		$this->tpl->setVariable("TXT_DEACTIVATED",$this->lng->txt("crs_subscription_options_deactivated"));
-		$this->tpl->setVariable("TXT_CONFIRMATION",$this->lng->txt("crs_subscription_options_confirmation"));
-		$this->tpl->setVariable("TXT_DIRECT",$this->lng->txt("crs_subscription_options_direct"));
-		$this->tpl->setVariable("TXT_PASSWORD",$this->lng->txt("crs_subscription_options_password"));
-		$this->tpl->setVariable("TXT_WAIT",$this->lng->txt('crs_waiting_list'));
-		$this->tpl->setVariable("TXT_NOTIFY",$this->lng->txt('crs_notification'));
-
-		$this->tpl->setVariable("REGISTRATION_DEACTIVATED",
-								ilUtil::formRadioButton(($this->object->getSubscriptionLimitationType() == 
-														 IL_CRS_SUBSCRIPTION_DEACTIVATED) ? 1 : 0,
-														'subscription_limitation_type',
-														IL_CRS_SUBSCRIPTION_DEACTIVATED));
-		
-		$this->tpl->setVariable("REGISTRATION_UNLIMITED",
-								ilUtil::formRadioButton(($this->object->getSubscriptionLimitationType() == 
-														 IL_CRS_SUBSCRIPTION_UNLIMITED) ? 1 : 0,
-														'subscription_limitation_type',
-														IL_CRS_SUBSCRIPTION_UNLIMITED));
-		
-		$this->tpl->setVariable("REGISTRATION_LIMITED",
-								ilUtil::formRadioButton(($this->object->getSubscriptionLimitationType() == 
-														 IL_CRS_SUBSCRIPTION_LIMITED) ? 1 : 0,
-														'subscription_limitation_type',
-														IL_CRS_SUBSCRIPTION_LIMITED));
-
-		$this->tpl->setVariable("RADIO_SUB_CONFIRMATION",
-								ilUtil::formRadioButton(($this->object->getSubscriptionType() == 
-														 IL_CRS_SUBSCRIPTION_CONFIRMATION) ? 1 : 0,
-														'subscription_type',
-														IL_CRS_SUBSCRIPTION_CONFIRMATION));
-		
-		$this->tpl->setVariable("RADIO_SUB_DIRECT",
-								ilUtil::formRadioButton(($this->object->getSubscriptionType() == 
-														 IL_CRS_SUBSCRIPTION_DIRECT) ? 1 : 0,
-														'subscription_type',
-														IL_CRS_SUBSCRIPTION_DIRECT));
-		
-		$this->tpl->setVariable("RADIO_SUB_PASSWORD",
-								ilUtil::formRadioButton(($this->object->getSubscriptionType() == 
-														 IL_CRS_SUBSCRIPTION_PASSWORD) ? 1 : 0,
-														'subscription_type',
-														IL_CRS_SUBSCRIPTION_PASSWORD));
-		$this->tpl->setVariable("SUBSCRIPTION_PASSWORD",$this->object->getSubscriptionPassword());
-
-		$date = $this->__prepareDateSelect($this->object->getSubscriptionStart());
-		$this->tpl->setVariable("SUBSCRIPTION_START_DATE_SELECT",
-								ilUtil::makeDateSelect('subscription_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareTimeSelect($this->object->getSubscriptionStart());
-		$this->tpl->setVariable("SUBSCRIPTION_START_TIME_SELECT",
-								ilUtil::makeTimeSelect('subscription_start_time',true,$date['h'],$date['m'],0,false));
-
-		$date = $this->__prepareDateSelect($this->object->getSubscriptionEnd());
-		$this->tpl->setVariable("SUBSCRIPTION_END_DATE_SELECT",
-								ilUtil::makeDateSelect('subscription_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareTimeSelect($this->object->getSubscriptionEnd());
-		$this->tpl->setVariable("SUBSCRIPTION_END_TIME_SELECT",
-								ilUtil::makeTimeSelect('subscription_end_time',true,$date['h'],$date['m'],0,false));
-
-		$this->tpl->setVariable("SUBSCRIPTION_MAX_MEMBERS",$this->object->getSubscriptionMaxMembers());
-		$this->tpl->setVariable("CHECK_WAIT",ilUtil::formCheckbox($this->object->enabledWaitingList(),
-																  'waiting_list',
-																  1));
-		$this->tpl->setVariable("CHECK_SUBSCRIPTION_NOTIFY",ilUtil::formCheckbox($this->object->getSubscriptionNotify(),
-																				 'subscription_notification',
-																				 1));
-		
-		// Viewmode
-		$this->tpl->setVariable("TXT_VIEWMODE",$this->lng->txt('crs_view_mode'));
-		$this->tpl->setVariable("TXT_SESSIONS_VIEW",$this->lng->txt('cntr_view_sessions'));
-		$this->tpl->setVariable("TXT_SIMPLE_VIEW",$this->lng->txt('cntr_view_simple'));
-		$this->tpl->setVariable("TXT_BY_TYPE_VIEW",$this->lng->txt('cntr_view_by_type'));
-		$this->tpl->setVariable("TXT_OBJ_VIEW",$this->lng->txt('crs_view_objective'));
-		$this->tpl->setVariable("TXT_TIMING_VIEW",$this->lng->txt('crs_view_timing'));
-		$this->tpl->setVariable("TXT_ARCHIVE_VIEW",$this->lng->txt('crs_view_archive'));
-		$this->tpl->setVariable("TXT_DOWNLOAD",$this->lng->txt('crs_archive_download'));
-
-		$this->tpl->setVariable("VIEW_SESSIONS_INFO",$this->lng->txt('cntr_view_info_sessions'));
-		$this->tpl->setVariable("VIEW_SIMPLE_INFO",$this->lng->txt('cntr_view_info_simple'));
-		$this->tpl->setVariable("VIEW_BY_TYPE_INFO",$this->lng->txt('cntr_view_info_by_type'));
-		$this->tpl->setVariable("VIEW_OBJECTIVE_INFO",$this->lng->txt('crs_view_info_objective'));
-		$this->tpl->setVariable("VIEW_TIMING_INFO",$this->lng->txt('crs_view_info_timing'));
-		$this->tpl->setVariable("VIEW_ARCHIVE_INFO",$this->lng->txt('crs_archive_info'));
-
-		$this->tpl->setVariable("VIEW_SESSIONS",ilUtil::formRadioButton(
-									($this->object->getViewMode() == IL_CRS_VIEW_SESSIONS) ? true : false,
-									'view_mode',
-									ilContainer::VIEW_SESSIONS));
-		$this->tpl->setVariable("VIEW_SIMPLE",ilUtil::formRadioButton(
-									($this->object->getViewMode() == IL_CRS_VIEW_SIMPLE) ? true : false,
-									'view_mode',
-									ilContainer::VIEW_SIMPLE));
-		$this->tpl->setVariable("VIEW_BY_TYPE",ilUtil::formRadioButton(
-									($this->object->getViewMode() == IL_CRS_VIEW_BY_TYPE) ? true : false,
-									'view_mode',
-									ilContainer::VIEW_BY_TYPE));
-		$this->tpl->setVariable("VIEW_OBJECTIVE",ilUtil::formRadioButton(
-									($this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE) ? true : false,
-									'view_mode',
-									IL_CRS_VIEW_OBJECTIVE));
-		$this->tpl->setVariable("VIEW_TIMING",ilUtil::formRadioButton(
-									($this->object->getViewMode() == IL_CRS_VIEW_TIMING) ? true : false,
-									'view_mode',
-									IL_CRS_VIEW_TIMING));
-		$this->tpl->setVariable("VIEW_ARCHIVE",ilUtil::formRadioButton(
-									($this->object->getViewMode() == IL_CRS_VIEW_ARCHIVE) ? true : false,
-									'view_mode',
-									IL_CRS_VIEW_ARCHIVE));
-
-		$date = $this->__prepareDateSelect($this->object->getArchiveStart());
-		$this->tpl->setVariable("ARCHIVE_START_DATE_SELECT",
-								ilUtil::makeDateSelect('archive_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareTimeSelect($this->object->getArchiveStart());
-		$this->tpl->setVariable("ARCHIVE_START_TIME_SELECT",
-								ilUtil::makeTimeSelect('archive_start_time',true,$date['h'],$date['m'],0,false));
-
-		$date = $this->__prepareDateSelect($this->object->getArchiveEnd());
-		$this->tpl->setVariable("ARCHIVE_END_DATE_SELECT",
-								ilUtil::makeDateSelect('archive_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareTimeSelect($this->object->getArchiveEnd());
-		$this->tpl->setVariable("ARCHIVE_END_TIME_SELECT",
-								ilUtil::makeTimeSelect('archive_end_time',true,$date['h'],$date['m'],0,false));
-
-		$this->tpl->setVariable("CHECK_ARCHIVE_DOWNLOAD",ilUtil::formCheckbox(
-									$this->object->getArchiveType() == IL_CRS_ARCHIVE_DOWNLOAD ? true : false,
-									'archive_type',
-									IL_CRS_ARCHIVE_DOWNLOAD));
-
-		// Sorting
-		$this->tpl->setVariable("TXT_SORT",$this->lng->txt('crs_sortorder_abo'));
-		$this->tpl->setVariable("TXT_MANUAL",$this->lng->txt("crs_sort_manual"));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("crs_sort_title"));
-		$this->tpl->setVariable("TXT_SORT_ACTIVATION",$this->lng->txt("crs_sort_activation"));
-
-		$this->tpl->setVariable("SORT_TITLE",ilUtil::formRadioButton(
-									$this->object->getOrderType() == IL_CRS_SORT_TITLE ? true : false,
-									'order_type',
-									IL_CRS_SORT_TITLE));
-		$this->tpl->setVariable("SORT_MANUAL",ilUtil::formRadioButton(
-									$this->object->getOrderType() == IL_CRS_SORT_MANUAL ? true : false,
-									'order_type',
-									IL_CRS_SORT_MANUAL));
-		$this->tpl->setVariable("SORT_TIMING",ilUtil::formRadioButton(
-									$this->object->getOrderType() == IL_CRS_SORT_ACTIVATION ? true : false,
-									'order_type',
-									IL_CRS_SORT_ACTIVATION));
-
-		$this->tpl->setVariable("SORT_TITLE_INFO",$this->lng->txt('crs_sort_title_info'));
-		$this->tpl->setVariable("SORT_MANUAL_INFO",$this->lng->txt('crs_sort_manual_info'));
-		$this->tpl->setVariable("SORT_TIMING_INFO",$this->lng->txt('crs_sort_timing_info'));
-
-		// Further settings
-		$this->tpl->setVariable("TXT_FURTHER_SETTINGS",$this->lng->txt('crs_further_settings'));
-		$this->tpl->setVariable("TXT_ADD_REMOVE_DESKTOP_ITEMS",$this->lng->txt('crs_add_remove_from_desktop'));
-		$this->tpl->setVariable("TXT_ADD_DESKTOP_INFO",$this->lng->txt('crs_add_remove_from_desktop_info'));
-
-		$this->tpl->setVariable("CHECK_DESKTOP",ilUtil::formCheckbox($this->object->getAboStatus(),
-																	 'abo',
-																	 1));
-		
-		$this->tpl->setVariable("TXT_SHOW_MEMBERS",$this->lng->txt('crs_show_members'));
-		$this->tpl->setVariable("TXT_SHOW_MEMBERS_INFO",$this->lng->txt('crs_show_members_info'));
-
-		$this->tpl->setVariable("SHOW_MEMBERS",ilUtil::formCheckbox($this->object->getShowMembers(),
-																	 'show_members',
-																	 1));
-
-		// Footer
-		$this->tpl->setVariable("TXT_BTN_UPDATE",$this->lng->txt('save'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-	}
-
 				
+	/**
+	 * 
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function fillECSExportSettings()
+	{
+		global $ilLog;
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		
+		// ECS enabled
+		$ecs_settings = ilECSSettings::_getInstance();
+		if(!$ecs_settings->isEnabled())
+		{
+			return true;
+		}
+		
+		$this->lng->loadLanguageModule('ecs');
+		
+		$ecs = new ilFormSectionHeaderGUI();
+		$ecs->setTitle($this->lng->txt('ecs_export'));
+		$this->form->addItem($ecs);
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+		$ecs_export = new ilECSExport($this->object->getId());
+		
+		$exp = new ilRadioGroupInputGUI($this->lng->txt('ecs_export_obj_settings'),'ecs_export');
+		$exp->setRequired(true);
+		$exp->setValue($ecs_export->isExported() ? 1 : 0);
+		
+			$off = new ilRadioOption($this->lng->txt('ecs_export_disabled'),0);
+			$exp->addOption($off);
+			
+			$on = new ilRadioOption($this->lng->txt('ecs_export_enabled'),1);
+			$exp->addOption($on);
+			
+		$this->form->addItem($exp);
+
+		try
+		{
+			$owner = 0;
+			$members = array();
+			if($ecs_export->getEContentId())
+			{
+				include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
+				
+				$econtent_reader = new ilECSEContentReader($ecs_export->getEContentId());
+				$econtent_reader->read();
+				if($content = $econtent_reader->getEContent())
+				{
+					$members = $content[0]->getParticipants();
+					$owner = $content[0]->getOwner();
+				}
+			}
+			
+			include_once('./Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
+			$reader = ilECSCommunityReader::_getInstance();
+			if(count($parts = $reader->getPublishableParticipants()) > 1)
+			{
+				$publish_as = new ilCustomInputGUI('','');
+				$publish_as->setHtml('<strong>'.$this->lng->txt('ecs_publish_as').'</strong>');
+				
+				$coms = new ilRadioGroupInputGUI('','ecs_owner');
+				$coms->setValue($owner);
+				
+				foreach($parts as $participant)
+				{
+					$community = $reader->getCommunityById($participant->getCommunityId());
+					
+					$part = new ilRadioOption($community->getTitle(),$participant->getMID());
+					$part->setInfo($community->getDescription());
+					$coms->addOption($part);
+				}
+				$publish_as->addSubItem($coms);
+				$on->addSubItem($publish_as);
+			}
+			elseif(count($parts) == 1)
+			{
+				$hidden = new ilHiddenInputGUI('ecs_owner');
+				$owner_ids = $reader->getOwnMIDs();
+				$hidden->setValue($owner_ids[0]);
+				$on->addSubItem($hidden);
+			}
+			
+			$publish_for = new ilCustomInputGUI('','');
+			$publish_for->setHtml('<strong>'.$this->lng->txt('ecs_publish_for').'</strong>');
+			
+			foreach($reader->getEnabledParticipants() as $participant)
+			{
+				$community = $reader->getCommunityById($participant->getCommunityId());
+				
+				$com = new ilCheckboxInputGUI('','ecs_mids[]');
+				$com->setOptionTitle($community->getTitle().': '.$participant->getParticipantName());
+				$com->setValue($participant->getMID());
+				$com->setChecked(in_array($participant->getMID(),$members));
+				$publish_for->addSubItem($com);
+			}
+			
+			$on->addSubItem($publish_for);
+		}
+		catch(ilECSConnectorException $exc)
+		{
+			$ilLog->write(__METHOD__.': Error connecting to ECS server. '.$exc->getMessage());
+			return true;
+		}
+		catch(ilECSReaderException $exc)
+		{
+			$ilLog->write(__METHOD__.': Error parsing ECS query: '.$exc->getMessage());
+			return true;
+		}
+		return true;		
+	}
+
 
 	/**
 	* edit container icons
