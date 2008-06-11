@@ -7963,7 +7963,7 @@ administration#:#auth_auth_mode_determination#:#Authentication Method Determinat
 administration#:#auth_kind_determination#:#Kind of Determination
 administration#:#auth_by_user#:#By the User
 administration#:#auth_automatic#:#Fixed Sequence
-administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.
+administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods. 
 rbac#:#mds_edit_permission#:#Change permission settings
 rbac#:#mds_visible#:#Metadata settings are visible
 rbac#:#mds_read#:#Read access to Metadata settings
@@ -8252,3 +8252,100 @@ common#:#chat_invite_public_room#:#Public Chat
 common#:#chat_link_to_this_chat#:#Link to this chat
 crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.
 crs#:#crs_no_objective_lms_found#:#This course does not contain any materials.
+ecs#:#ecs_server_settings#:#ECS Functionalities
+ecs#:#ecs_settings#:#Settings
+ecs#:#ecs_communities#:#Participants
+ecs#:#ecs_mappings#:#ECS Data Mapping
+ecs#:#ecs_connection_settings#:#Connection Settings
+ecs#:#ecs_active#:#Enable ECS Functionalities
+ecs#:#ecs_server_url#:#Server URL
+ecs#:#ecs_protocol#:#Protocol
+ecs#:#ecs_port#:#Port
+ecs#:#ecs_client_cert#:#Client Certificate
+ecs#:#ecs_ca_cert#:#CA Certificate
+ecs#:#ecs_cert_key#:#Certificate Key
+ecs#:#ecs_key_password#:#Key Password
+ecs#:#cert_serial#:#Certificate Serial Number
+ecs#:#ecs_local_settings#:#Local Settings
+ecs#:#ecs_polling#:#Polling Time
+ecs#:#ecs_polling_info#:#Please define the polling time for creation and update of Course-Links
+ecs#:#ecs_import_id#:#Import ID
+ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course-Links will be created
+ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.
+ecs#:#ecs_participants#:#Participants
+ecs#:#ecs_participants_infos#:#Further Informations
+ecs#:#ecs_active_header#:#Export Allowed
+ecs#:#ecs_enable_participant#:#Allow Export
+ecs#:#ecs_dns#:#Domainname
+ecs#:#ecs_email#:#E-Mail
+ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data
+ecs#:#ecs_field_study_courses#:#Study Course(s)
+ecs#:#ecs_field_lecturer#:#Lecturer(s)
+ecs#:#ecs_field_courseType#:#Course Type
+ecs#:#ecs_field_credits#:#Credits
+ecs#:#ecs_field_start#:#Start
+ecs#:#ecs_field_term#:#Term
+ecs#:#ecs_field_day#:#Day
+ecs#:#ecs_field_time#:#Time
+ecs#:#ecs_field_room#:#Room
+ecs#:#ecs_field_cycle#:#Cycle
+ecs#:#ecs_ignore_field#:#Disable export/update of this field
+common#:#obj_rcrs#:#Course-Link
+common#:#objs_rcrs#:#Course-Links
+ecs#:#ecs_export#:#Course Releases
+ecs#:#ecs_export_obj_settings#:#Course Release Settings
+ecs#:#ecs_export_disabled#:#Do Not Release This Course
+ecs#:#ecs_export_enabled#:#Release This Course
+ecs#:#ecs_publish_as#:#Publish as:
+ecs#:#ecs_publish_for#:#Release for:
+ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.
+rcrs#:#rcrs_general_info#:#General Informations
+meta#:#md_adv_field_names#:#Field Names
+meta#:#md_adv_fields_show#:#Show Field Names
+rcrs#:#rcrs_local_informations#:#Further Informations
+ecs#:#ecs_abr#:#Abbreviation
+ecs#:#ecs_read_remote_links#:#Update Remote-Courses
+ecs#:#ecs_remote_imported#:#Informations about remote courses have been refreshed.
+ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts
+ecs#:#ecs_role#:#Role Assignment
+ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.
+rcrs#:#rcrs_call#:#Call Remote Course
+ecs#:#ecs_field_begin#:#Begin
+ecs#:#ecs_field_end#:#End
+ecs#:#ecs_import#:#Import
+ecs#:#ecs_imported_content#:#Imported E-Content
+ecs#:#ecs_imported_from#:#Imported From
+ecs#:#ecs_meta_data#:#Meta Data
+mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
+ecs#:#ecs_rcrs_created_body_a#:#A new Remote Course has been created:
+ecs#:#ecs_new_econtent_subject#:#New E-Content created
+ecs#:#ecs_notifications#:#Notifications
+ecs#:#ecs_user_rcp#:#Notification About ECS Users
+ecs#:#ecs_econ_rcp#:#Notification About New E-Content
+ecs#:#ecs_user_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new ECS users per e-mail.
+ecs#:#ecs_econ_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new ECS content per e-mail.
+ecs#:#ecs_new_user_subject#:#New ECS User Account
+ecs#:#ecs_new_user_body#:#A new ECS user account has been created.
+ecs#:#ecs_new_user_profile#:#User profile data:
+form#:#form_months#:#Months
+ecs#:#ecs_account_duration#:#Activation Period Extension
+ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.
+common#:#udf_type_datetime#:#Date and Time
+ecs#:#ecs_no_value#:#Not available
+ecs#:#ecs_field_semester_hours#:#Semester Periods per Week
+common#:#object_id#:#Object-Id
+ecs#:#ecs_field_courseID#:#Course ID
+common#:#organization#:#Provider
+common#:#auth_ecs#:#ECS
+ecs#:#ecs_approval_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new approved courses per e-mail.
+ecs#:#ecs_approval_rcp#:#Notification About Approved Courses
+ecs#:#ecs_new_approval_subject#:#A new course has been released
+ecs#:#ecs_export_created_body_a#:#A new course has been released
+ecs#:#ecs_released#:#Export
+ecs#:#ecs_released_content#:#Released E-Content
+rbac#:#rcrs_edit_permission#:#Change permission settings
+rbac#:#rcrs_visible#:#Course-Link is visible
+rbac#:#rcrs_read#:#Read access to Course-Link
+rbac#:#rcrs_delete#:#Delete Course-Link
+rbac#:#cat_create_rcrs#:#Create Course-Links
+rbac#:#rcrs_write#:#Edit Course-Link
