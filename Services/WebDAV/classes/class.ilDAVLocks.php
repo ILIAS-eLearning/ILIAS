@@ -452,7 +452,7 @@ class ilDAVLocks
 		}
 		$q .= ')';
 				
-		$this->writelog('getLocksOnPath('.$objDAV.') query='.$q);
+		$this->writelog('getLocksOnPath('.get_class($objDAV).') query='.$q);
 		$r = $ilDB->query($q);
 		
 		$result = array();		
