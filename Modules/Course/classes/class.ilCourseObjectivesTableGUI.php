@@ -95,30 +95,31 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		}
 		
 		// materials
-		foreach($a_set['materials'] as $material)
+		foreach($a_set['materials'] as $ref_id => $data)
 		{
-			switch($material['type'])
+			if($data['items'])
 			{
-				case 'st':
-				case 'pg':
-					$this->tpl->setCurrentBlock('lm');
-					$this->tpl->setVariable('LM_IMG',ilUtil::getImagePath('icon_lm_s.gif'));
-					$this->tpl->setVariable('LM_ALT',$this->lng->txt('obj_lm'));
-					$this->tpl->setVariable('LM_TITLE',ilObject::_lookupTitle(ilObject::_lookupObjId($material['ref_id'])));
-					$this->tpl->parseCurrentBlock();
-				
+				$this->tpl->touchBlock('ul_begin');
+				foreach($data['items'] as $pg_st)
+				{
+					$this->tpl->setCurrentBlock('st_pg');
+					$this->tpl->setVariable('MAT_IMG',ilUtil::getImagePath('icon_'.$pg_st['type'].'_s.gif'));
+					$this->tpl->setVariable('MAT_ALT',$this->lng->txt('obj_'.$pg_st['type']));
 					include_once('Modules/LearningModule/classes/class.ilLMObject.php');
-					$title = ilLMObject::_lookupTitle($material['obj_id']);
-					break;
-					
-				default:
-					$title = ilObject::_lookupTitle($material['obj_id']);
-					break;
+					$title = ilLMObject::_lookupTitle($pg_st['obj_id']);
+					$this->tpl->setVariable('MAT_TITLE',$title);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->touchBlock('ul_end');
+			}
+			else
+			{
+				$this->tpl->touchBlock('new_line');
 			}
 			$this->tpl->setCurrentBlock('mat_row');
-			$this->tpl->setVariable('MAT_IMG',ilUtil::getImagePath('icon_'.$material['type'].'_s.gif'));
-			$this->tpl->setVariable('MAT_ALT',$this->lng->txt('obj_'.$material['type']));
-			$this->tpl->setVariable('MAT_TITLE',$title);
+			$this->tpl->setVariable('LM_IMG',ilUtil::getImagePath('icon_'.$data['type'].'_s.gif'));
+			$this->tpl->setVariable('LM_ALT',$this->lng->txt('obj_'.$data['type']));
+			$this->tpl->setVariable('LM_TITLE',ilObject::_lookupTitle($data['obj_id']));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -184,10 +185,22 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			$ass_materials = new ilCourseObjectiveMaterials($objective_id);
 			foreach($ass_materials->getMaterials() as $material)
 			{
-				$materials[] = $material;
+				$materials[$material['ref_id']]['obj_id'] = $obj_id = ilObject::_lookupObjId($material['ref_id']);
+				$materials[$material['ref_id']]['type'] = ilObject::_lookupType($obj_id);  
+
+				switch($material['type'])
+				{
+					case 'pg':
+					case 'st':
+						$materials[$material['ref_id']]['items'][] = $material;
+						break;
+					default:
+						
+				}
+
+
 			}
 			$objective_data['materials'] = $materials;
-			
 			$question_obj = new ilCourseObjectiveQuestion($objective_id);
 			
 			// self assessment questions
