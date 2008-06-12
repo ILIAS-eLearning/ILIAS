@@ -174,7 +174,11 @@ class ilImagemapPreview
 				$convert_cmd .= "\" ";
 			}
 		}
-		$convert_cmd = $convert_prefix . $convert_cmd .  escapeshellcmd(str_replace(" ", "\ ", $this->imagemap_filename)) ." " . escapeshellcmd($this->preview_filename);
+		
+		$source = ilUtil::escapeShellCmd(str_replace(" ", "\ ", $this->imagemap_filename));
+		$target = ilUtil::escapeShellCmd($this->preview_filename);
+		
+		$convert_cmd = $convert_prefix . $convert_cmd .  $source ." " . $target;
 		system($convert_cmd);
 	}
 

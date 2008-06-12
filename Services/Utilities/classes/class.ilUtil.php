@@ -3186,6 +3186,7 @@ class ilUtil
 		}
 		return false;
 	}
+	
 
 	function escapeShellArg($a_arg)
 	{
@@ -3200,6 +3201,23 @@ class ilUtil
 			return escapeshellarg($a_arg);
 		}
 	}
+	
+	/**
+	 * escape shell cmd
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function escapeShellCmd($a_arg)
+	{
+		if(ini_get('safe_mode') == 1)
+		{
+			return $a_arg;
+		}
+		return escapeshellcmd($a_arg);
+	}
+	
 
 	/*
 	* Calculates a Microsoft Excel date/time value
