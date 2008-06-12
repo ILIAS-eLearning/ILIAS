@@ -521,6 +521,16 @@ class ilECSSettingsGUI
 		
 		$rcourses = ilUtil::_getObjectsByOperations('rcrs','visible',$ilUser->getId(),-1);
 		
+		if(count($rcourses))
+		{
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportImported"));
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("csv_export"));
+			$this->tpl->parseCurrentBlock();
+		}	 	
+		
+		
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_imported.html','Services/WebServices/ECS');
 		$this->tpl->addBlockfile('BUTTONS','buttons','tpl.buttons.html');
 
@@ -547,6 +557,108 @@ class ilECSSettingsGUI
 	}
 	
 	/**
+	 * csv export of imported remote courses
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function exportImported()
+	{
+		global $ilObjDataCache,$ilUser;
+		
+		$rcourses = ilUtil::_getObjectsByOperations('rcrs','visible',$ilUser->getId(),-1);
+		
+		// Read participants
+		include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
+		try
+		{
+			$reader = ilECSCommunityReader::_getInstance();
+		}
+		catch(ilECSConnectorException $e)
+		{
+			$reader = null;
+		}
+		
+		// read obj_ids
+		$ilObjDataCache->preloadReferenceCache($rcourses);
+		$obj_ids = array();
+		foreach($rcourses as $rcrs_ref_id)
+		{
+			$obj_ids[$rcrs_ref_id] = $ilObjDataCache->lookupObjId($rcrs_ref_id);
+		}
+
+		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
+		$writer = new ilCSVWriter();
+		
+		$writer->addColumn($this->lng->txt('title'));
+		$writer->addColumn($this->lng->txt('description'));
+		$writer->addColumn($this->lng->txt('ecs_imported_from'));			
+		$writer->addColumn($this->lng->txt('ecs_field_courseID'));			
+		$writer->addColumn($this->lng->txt('ecs_field_term'));			
+		$writer->addColumn($this->lng->txt('ecs_field_lecturer'));			
+		$writer->addColumn($this->lng->txt('ecs_field_courseType'));			
+		$writer->addColumn($this->lng->txt('ecs_field_semester_hours'));			
+		$writer->addColumn($this->lng->txt('ecs_field_credits'));			
+		$writer->addColumn($this->lng->txt('ecs_field_room'));			
+		$writer->addColumn($this->lng->txt('ecs_field_cycle'));			
+		$writer->addColumn($this->lng->txt('ecs_field_begin'));			
+		$writer->addColumn($this->lng->txt('ecs_field_end'));			
+		$writer->addColumn($this->lng->txt('last_update'));	
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
+		$settings = ilECSDataMappingSettings::_getInstance();
+		
+		foreach($obj_ids as $ref_id => $obj_id)
+		{
+			include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+			$values = ilAdvancedMDValues::_getValuesByObjId($obj_id);
+			
+			$writer->addRow();
+			$writer->addColumn(ilObject::_lookupTitle($obj_id));
+			$writer->addColumn(ilObject::_lookupDescription($obj_id));
+			
+			$mid = ilObjRemoteCourse::_lookupMID($obj_id);	
+			if($reader and ($participant = $reader->getParticipantByMID($mid)))
+			{
+				$writer->addColumn($participant->getParticipantName());
+			}
+			$field = $settings->getMappingByECSName('courseID');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('term');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('lecturer');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('courseType');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('semester_hours');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('credits');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('room');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('cycle');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('begin');
+			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			
+			$field = $settings->getMappingByECSName('end');
+			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			
+			$writer->addColumn($ilObjDataCache->lookupLastUpdate($obj_id));
+		}
+		ilUtil::deliverData($writer->getCSVString(), date("Y_m_d")."_ecs_import.csv", "text/csv");	
+	}
+	
+	/**
 	 * Show released materials 
 	 *
 	 * @access protected
@@ -562,6 +674,16 @@ class ilECSSettingsGUI
 		$exported = ilECSExport::_getExportedIDs();
 		
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.ecs_released.html','Services/WebServices/ECS');
+	 	
+	 	
+		if(count($exported))
+		{
+			$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportReleased"));
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("csv_export"));
+			$this->tpl->parseCurrentBlock();
+		}	 	
 
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSReleasedContentTableGUI.php');
  		$table_gui = new ilECSReleasedContentTableGUI($this,'released');
@@ -569,10 +691,88 @@ class ilECSSettingsGUI
  		$table_gui->setTitle($this->lng->txt('ecs_released_content'));
  		$table_gui->parse($exported);
 		$this->tpl->setVariable('TABLE_REL',$table_gui->getHTML());
-		$this->tpl->parseCurrentBlock();
 
 		return true;
 	
+	}
+	
+	/**
+	 * export released
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function exportReleased()
+	{
+		global $ilObjDataCache;
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+		$exported = ilECSExport::_getExportedIDs();
+		$ilObjDataCache->preloadObjectCache($exported);
+		
+		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
+		$writer = new ilCSVWriter();
+		
+		$writer->addColumn($this->lng->txt('title'));
+		$writer->addColumn($this->lng->txt('description'));			
+		$writer->addColumn($this->lng->txt('ecs_field_courseID'));			
+		$writer->addColumn($this->lng->txt('ecs_field_term'));			
+		$writer->addColumn($this->lng->txt('ecs_field_lecturer'));			
+		$writer->addColumn($this->lng->txt('ecs_field_courseType'));			
+		$writer->addColumn($this->lng->txt('ecs_field_semester_hours'));			
+		$writer->addColumn($this->lng->txt('ecs_field_credits'));			
+		$writer->addColumn($this->lng->txt('ecs_field_room'));			
+		$writer->addColumn($this->lng->txt('ecs_field_cycle'));			
+		$writer->addColumn($this->lng->txt('ecs_field_begin'));			
+		$writer->addColumn($this->lng->txt('ecs_field_end'));			
+		$writer->addColumn($this->lng->txt('last_update'));	
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
+		$settings = ilECSDataMappingSettings::_getInstance();
+
+		foreach($exported as $obj_id)
+		{
+			include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+			$values = ilAdvancedMDValues::_getValuesByObjId($obj_id);
+			
+			$writer->addRow();
+			$writer->addColumn(ilObject::_lookupTitle($obj_id));
+			$writer->addColumn(ilObject::_lookupDescription($obj_id));
+			
+			$field = $settings->getMappingByECSName('courseID');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('term');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('lecturer');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('courseType');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('semester_hours');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('credits');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('room');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('cycle');
+			$writer->addColumn(isset($values[$field]) ? $values[$field] : '');
+			
+			$field = $settings->getMappingByECSName('begin');
+			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			
+			$field = $settings->getMappingByECSName('end');
+			$writer->addColumn(isset($values[$field]) ?  ilFormat::formatUnixTime($values[$field],true) : '');
+			
+			$writer->addColumn($ilObjDataCache->lookupLastUpdate($obj_id));
+		}
+
+		ilUtil::deliverData($writer->getCSVString(), date("Y_m_d")."_ecs_export.csv", "text/csv");	
 	}
 	
 	
