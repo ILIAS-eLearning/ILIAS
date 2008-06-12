@@ -54,7 +54,7 @@ class ilObjectDAV
 	*/
 	function ilObjectDAV($refId, $obj = null) 
 	{
-		$this->writelog('<constructor>('.$refId.','.$obj.')');
+		$this->writelog('<constructor>('.$refId.','.get_class($obj).')');
 		$this->refId = $refId;
 		$this->obj =& $obj;
 	}
