@@ -419,13 +419,13 @@ class ilCourseObjectivesGUI
 		$_SESSION['objective_mode'] = self::MODE_CREATE;
 		
 		$this->ctrl->saveParameter($this,'objective_id');
-		$w_tpl = $this->initWizard(1);
 		
 		if(!is_object($this->objective))
 		{
 			$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		}
-		
+		$this->__initQuestionObject((int) $_GET['objective_id']);		
+		$w_tpl = $this->initWizard(1);
 		
 		$this->initFormTitle('create',1);
 		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
@@ -435,17 +435,16 @@ class ilCourseObjectivesGUI
 	/**
 	 * edit objective
 	 *
-	 * @access public
+	 * @access protected
 	 * @return
 	 */
-	public function edit()
+	protected function edit()
 	{
 		global $tpl;
 		
 		$_SESSION['objective_mode'] = self::MODE_UPDATE;
 		
 		$this->ctrl->saveParameter($this,'objective_id');
-		$w_tpl = $this->initWizard(1);
 		
 		if(!$_GET['objective_id'])
 		{
@@ -458,6 +457,8 @@ class ilCourseObjectivesGUI
 			$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		}
 		
+		$this->__initQuestionObject((int) $_GET['objective_id']);		
+		$w_tpl = $this->initWizard(1);
 		$this->initFormTitle('create',1);
 		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
 		$tpl->setContent($w_tpl->get());
@@ -539,6 +540,7 @@ class ilCourseObjectivesGUI
 		include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
 		$table->parse(ilCourseObjectiveMaterials::_getAssignableMaterials($this->course_obj->getRefId()));
 		
+		$this->__initQuestionObject((int) $_GET['objective_id']);
 		$w_tpl = $this->initWizard(2);
 		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
 		$tpl->setContent($w_tpl->get());
@@ -633,6 +635,7 @@ class ilCourseObjectivesGUI
 			'icon_lobj.gif',$this->lng->txt('crs_objective'));
 		$table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
 		
+		$this->__initQuestionObject((int) $_GET['objective_id']);
 		$w_tpl = $this->initWizard(3);
 		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
 		$tpl->setContent($w_tpl->get());
@@ -694,9 +697,27 @@ class ilCourseObjectivesGUI
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 		$this->questions = new ilCourseObjectiveQuestion((int) $_GET['objective_id']);
 		$this->questions->updateLimits();
+		
+		if($checked_questions)
+		{
+			ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+			$this->selfAssessmentLimits();
+			return true;
+		}
+		else
+		{
+			switch($_SESSION['objective_mode'])
+			{
+				case self::MODE_CREATE:
+					$this->finalTestAssignment();
+					return true;
 
-		ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
-		$this->selfAssessmentLimits();
+				case self::MODE_UPDATE:
+					$this->selfAssessmentAssignment();
+					ilUtil::sendInfo($this->lng->txt('crs_objectives_assigned_lm'));
+					return true;
+			}
+		}
 	}
 	
 	/**
@@ -724,9 +745,9 @@ class ilCourseObjectivesGUI
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
+		$w_tpl = $this->initWizard(4);
 		
 		$this->initFormLimits('selfAssessment');
-		$w_tpl = $this->initWizard(4);
 		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
 		$tpl->setContent($w_tpl->get());
 	}
@@ -809,6 +830,7 @@ class ilCourseObjectivesGUI
 			'icon_lobj.gif',$this->lng->txt('crs_objective'));
 		$table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
 		
+		$this->__initQuestionObject((int) $_GET['objective_id']);
 		$w_tpl = $this->initWizard(5);
 		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
 		$tpl->setContent($w_tpl->get());
@@ -902,9 +924,9 @@ class ilCourseObjectivesGUI
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
-		
-		$this->initFormLimits('final');
 		$w_tpl = $this->initWizard(6);
+
+		$this->initFormLimits('final');
 		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
 		$tpl->setContent($w_tpl->get());
 	}
@@ -1151,11 +1173,23 @@ class ilCourseObjectivesGUI
 		{
 			if($_SESSION['objective_mode'] == self::MODE_UPDATE)
 			{
-				$tpl->setCurrentBlock('begin_link_option');
-				$tpl->setVariable('WIZ_OPTION_LINK',$links[$step]);
-				$tpl->parseCurrentBlock();
-			
-				$tpl->touchBlock('end_link_option');
+				$hide_link = false;
+				if($step == 4 and !count($this->objectives_qst_obj->getSelfAssessmentQuestions()))
+				{
+					$hide_link = true;					
+				}
+				if($step == 6 and !count($this->objectives_qst_obj->getFinalTestQuestions()))
+				{
+					$hide_link = true;
+				}
+				if(!$hide_link)
+				{
+					$tpl->setCurrentBlock('begin_link_option');
+					$tpl->setVariable('WIZ_OPTION_LINK',$links[$step]);
+					$tpl->parseCurrentBlock();
+				
+					$tpl->touchBlock('end_link_option');
+				}
 			}
 			
 
