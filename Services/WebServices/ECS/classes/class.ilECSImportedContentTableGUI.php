@@ -75,7 +75,7 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		include_once('./classes/class.ilLink.php');
 		
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
-		$this->tpl->setVariable('VAL_LINK',ilLink::_getLink($a_set['ref_id'],'rcrs'));
+		#$this->tpl->setVariable('VAL_LINK',ilLink::_getLink($a_set['ref_id'],'rcrs'));
 		$this->tpl->setVariable('VAL_DESC',$a_set['desc']);
 		$this->tpl->setVariable('VAL_REMOTE',$a_set['from']);
 		$this->tpl->setVariable('VAL_REMOTE_INFO',$a_set['from_info']);
@@ -175,10 +175,11 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		$obj_ids = array();
 		foreach($a_rcrs as $rcrs_ref_id)
 		{
-			$obj_ids[$rcrs_ref_id] = $ilObjDataCache->lookupObjId($rcrs_ref_id);
+			$obj_id = $ilObjDataCache->lookupObjId($rcrs_ref_id);
+			$obj_ids[$obj_id] = $ilObjDataCache->lookupObjId($rcrs_ref_id);
 		}
 		
-		foreach($obj_ids as $ref_id => $obj_id)
+		foreach($obj_ids as $obj_id => $obj_id)
 		{
 			$tmp_arr['ref_id'] = $ref_id;
 			$tmp_arr['obj_id'] = $obj_id;

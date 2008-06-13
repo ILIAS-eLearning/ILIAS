@@ -585,7 +585,8 @@ class ilECSSettingsGUI
 		$obj_ids = array();
 		foreach($rcourses as $rcrs_ref_id)
 		{
-			$obj_ids[$rcrs_ref_id] = $ilObjDataCache->lookupObjId($rcrs_ref_id);
+			$obj_id = $ilObjDataCache->lookupObjId($rcrs_ref_id);
+			$obj_ids[$obj_id] = $obj_id; 
 		}
 
 		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
@@ -609,7 +610,7 @@ class ilECSSettingsGUI
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		$settings = ilECSDataMappingSettings::_getInstance();
 		
-		foreach($obj_ids as $ref_id => $obj_id)
+		foreach($obj_ids as $obj_id)
 		{
 			include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 			$values = ilAdvancedMDValues::_getValuesByObjId($obj_id);
