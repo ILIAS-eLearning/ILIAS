@@ -795,6 +795,14 @@ class ilObjectDAV
 			*/
 		}
 	}
+
+	/**
+	 * This method is needed, because the object class in PHP 5.2 does not
+	 * have a default implementation of this method anymore.
+	 */
+	function __toString() {
+		return get_class($this).'#'.$this->getObjectId();
+	}
 }
 // END WebDAV
 ?>
