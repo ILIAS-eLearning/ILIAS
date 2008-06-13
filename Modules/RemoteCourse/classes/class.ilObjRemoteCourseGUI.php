@@ -140,6 +140,7 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		}
 		elseif(ilECSExport::_isRemote(ilECSImport::_lookupEContentId($this->object->getId())))
 		{
+			$this->object->createAuthResource();
 			ilUtil::redirect($this->object->getFullRemoteLink());
 		}
 		else

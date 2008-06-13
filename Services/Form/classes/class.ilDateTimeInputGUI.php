@@ -28,7 +28,7 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilDateTimeInputGUI extends ilFormPropertyGUI
+class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 {
 	protected $date;
 	protected $showdate = true;
