@@ -141,6 +141,7 @@ class ilAdvancedMDRecordGUI
 			return false;
 		}
 		
+
 		foreach($_POST['md'] as $field_id => $value)
 		{
 			$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
@@ -168,6 +169,48 @@ class ilAdvancedMDRecordGUI
 			$this->values[] = $val;
 			unset($value);
 		}
+		$this->loadECSDurationPost();
+	}
+	
+	/**
+	 * load ecs duration post
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function loadECSDurationPost()
+	{
+		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		
+		if(!ilECSSettings::_getInstance()->isEnabled())
+		{
+			return false;
+		}
+		$mapping = ilECSDataMappingSettings::_getInstance();
+		
+		if(!$start_id = $mapping->getMappingByECSName('begin'))
+		{
+			return false;
+		}
+		if(!$end_id = $mapping->getMappingByECSName('end'))
+		{
+			return false;
+		}
+		if(!$_POST['md_activated'][$start_id])
+		{
+			$end = 0;
+		}
+		else
+		{
+			$end = $this->toUnixTime($_POST['md'][$start_id]['date'],$_POST['md'][$start_id]['time']);
+			$end = $end + (60 * 60 * $_POST['ecs_duration']['hh']) + (60 * $_POST['ecs_duration']['mm']);
+		}
+		$val = ilAdvancedMDValue::_getInstance($this->obj_id,$end_id);
+		$val->setValue($end);
+		$this->values[] = $val;
+		return true;
 	}
 	
 	/**
@@ -204,6 +247,11 @@ class ilAdvancedMDRecordGUI
 	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
 	 		{
+	 			if($this->handleECSDefinitions($def))
+	 			{
+	 				continue;
+	 			}
+	 			
 	 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
 				$value = ilAdvancedMDValue::_getInstance($this->obj_id,$def->getFieldId());
 	 			
@@ -428,6 +476,150 @@ class ilAdvancedMDRecordGUI
 	private function toUnixTime($date,$time = array())
 	{
 		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
+	}
+	
+	/**
+	 * handle ecs definitions
+	 *
+	 * @access private
+	 * @param object ilAdvMDFieldDefinition
+	 * @return
+	 */
+	private function handleECSDefinitions($a_definition)
+	{
+		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		
+		if(!ilECSSettings::_getInstance()->isEnabled() or ($this->obj_type != 'crs' and $this->obj_type != 'rcrs'))
+		{
+			return false;
+		}
+		$mapping = ilECSDataMappingSettings::_getInstance();
+		
+		if($mapping->getMappingByECSName('begin') == $a_definition->getFieldId())
+		{
+			$this->showECSStart($a_definition);
+			return true;
+		}
+		if($mapping->getMappingByECSName('end') == $a_definition->getFieldId())
+		{
+			return true;
+		}
+		if($mapping->getMappingByECSName('cycle') == $a_definition->getFieldId())
+		{
+			return true;
+		}
+		if($mapping->getMappingByECSName('room') == $a_definition->getFieldId())
+		{
+			return true;
+		}
+	}
+	
+	/**
+	 * Show special form for ecs start
+	 * 
+	 * @access private
+	 * @param object ilAdvMDFieldDefinition
+	 */
+	private function showECSStart($def)
+	{
+		$this->lng->loadLanguageModule('ecs');
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
+		$value_start = ilAdvancedMDValue::_getInstance($this->obj_id,$def->getFieldId());
+		
+		$time = new ilDateTimeInputGUI($this->lng->txt('ecs_event_appointment'),'md['.$def->getFieldId().']');
+		$time->setShowTime(true);
+		$time->setUnixTime($value_start->getValue());
+		$time->enableDateActivation($this->lng->txt('enabled'),
+			'md_activated['.$def->getFieldId().']',
+			$value_start->getValue() ? true : false);
+		$time->setDisabled($value_start->isDisabled());
+		
+		$mapping = ilECSDataMappingSettings::_getInstance();
+		if($field_id = $mapping->getMappingByECSName('end'))
+		{
+			$value_end = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
+			
+			list($hours,$minutes) = $this->parseDuration($value_start->getValue(),$value_end->getValue());
+			
+			$duration = new ilDurationInputGUI($this->lng->txt('ecs_duration'),'ecs_duration');
+			$duration->setHours($hours);
+			$duration->setMinutes($minutes);
+			#$duration->setInfo($this->lng->txt('ecs_duration_info'));
+			$duration->setShowHours(true);
+			$duration->setShowMinutes(true);
+			$time->addSubItem($duration);
+		}
+
+		if($field_id = $mapping->getMappingByECSName('cycle'))
+		{
+			$value = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
+			$cycle_def = new ilAdvancedMDFieldDefinition($field_id);
+			switch($cycle_def->getFieldType())
+			{
+ 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+ 					$text = new ilTextInputGUI($cycle_def->getTitle(),'md['.$cycle_def->getFieldId().']');
+ 					$text->setValue($value->getValue());
+ 					$text->setSize(20);
+ 					$text->setMaxLength(512);
+ 					$text->setDisabled($value->isDisabled());
+ 					$time->addSubItem($text);
+ 					break;
+ 					
+ 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+ 					$select = new ilSelectInputGUI($cycle_def->getTitle(),'md['.$cycle_def->getFieldId().']');
+ 					$select->setOptions($cycle_def->getFieldValuesForSelect());
+ 					$select->setValue($value->getValue());
+ 					$select->setDisabled($value->isDisabled());
+ 					$time->addSubItem($select);
+ 					break;
+			}
+		}
+		if($field_id = $mapping->getMappingByECSName('room'))
+		{
+			$value = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id);
+			$room_def = new ilAdvancedMDFieldDefinition($field_id);
+			switch($room_def->getFieldType())
+			{
+ 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+ 					$text = new ilTextInputGUI($room_def->getTitle(),'md['.$room_def->getFieldId().']');
+ 					$text->setValue($value->getValue());
+ 					$text->setSize(20);
+ 					$text->setMaxLength(512);
+ 					$text->setDisabled($value->isDisabled());
+ 					$time->addSubItem($text);
+ 					break;
+ 					
+ 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+ 					$select = new ilSelectInputGUI($room_def->getTitle(),'md['.$room_def->getFieldId().']');
+ 					$select->setOptions($cycle_def->getFieldValuesForSelect());
+ 					$select->setValue($value->getValue());
+ 					$select->setDisabled($value->isDisabled());
+ 					$time->addSubItem($select);
+ 					break;
+			}
+		}
+		$this->form->addItem($time);
+	}
+
+	/**
+	 * parse hours and minutes from duration
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function parseDuration($u_start,$u_end)
+	{
+		if($u_start >= $u_end)
+		{
+			return array(0,0);
+		}
+		$diff = $u_end - $u_start;
+		$hours = (int) ($diff / (60 * 60));
+		$min = (int) (($diff % 3600) / 60);
+		return array($hours,$min); 
 	}
 	
 }

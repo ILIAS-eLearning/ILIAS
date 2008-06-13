@@ -70,10 +70,17 @@ class ilECSAppEventListener implements ilAppEventListener
 							
 							if($user->getTimeLimitUntil() < $end)
 							{
+								$start = $user->getTimeLimitFrom();
+								$end = $user->getTimeLimitUntil();
+								
 								$user->setTimeLimitUntil($end);
 								$user->update();
 								
-								self::_sendNotification($user);
+								// send notification only for session accounts
+								if($end - $start < 60 * 60 * 24)
+								{
+									self::_sendNotification($user);
+								}
 							}
 							unset($user);
 						}

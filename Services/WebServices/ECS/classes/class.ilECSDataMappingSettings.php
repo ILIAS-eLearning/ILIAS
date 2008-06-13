@@ -29,7 +29,6 @@
 * 
 * @ingroup ServicesWebServicesECS
 */
-
 class ilECSDataMappingSettings
 {
 	private static $instance = null;
