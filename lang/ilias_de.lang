@@ -2930,7 +2930,7 @@ common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind
 common#:#msg_no_title#:#Bitte geben Sie einen Titel ein
-common#:#msg_no_type_accessible#:#Leider haben Sie keine Zugriffsrechte um auf einen [type] zuzugreifen.
+common#:#msg_no_type_accessible#:#Leider haben Sie keine Zugriffsrechte, um auf Objekte vom Typ [type] zuzugreifen.
 common#:#msg_no_type_available#:#Leider ist derzeit kein Objekt vom Typ [type] vorhanden.
 common#:#msg_no_url#:#Sie haben keine URL eingegeben
 common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
