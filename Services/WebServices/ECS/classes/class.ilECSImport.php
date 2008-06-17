@@ -99,6 +99,29 @@ class ilECSImport
 	}
 	
 	/**
+	 * lookup obj ids by mid 
+	 *
+	 * @access public
+	 * @param int mid
+	 * @return array obj ids
+	 * @static
+	 */
+	public static function _lookupObjIdsByMID($a_mid)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM ecs_import ".
+			"WHERE mid = ".$ilDB->quote($a_mid)." ";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+		return $obj_ids ? $obj_ids : array();
+	}
+	
+	/**
 	 * get econent_id
 	 *
 	 * @access public

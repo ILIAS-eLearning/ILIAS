@@ -414,8 +414,28 @@ class ilECSSettingsGUI
 		global $ilLog;
 
 		
+		$mids = $_POST['mid'] ? $_POST['mid'] : array();
+		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
 		$part = ilECSParticipantSettings::_getInstance();
+		
+		foreach($part->getEnabledParticipants() as $mid)
+		{
+			if(!in_array($mid,$mids))
+			{
+				// Delete all remote courses
+				include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
+				foreach(ilObjRemoteCourse::_lookupObjIdsByMID($mid) as $obj_id)
+				{
+					foreach(ilObject::_getAllReferences($obj_id) as $ref_id)
+					{
+						$to_delete = ilObjectFactory::getInstanceByRefId($ref_id,false);
+						$to_delete->delete();
+					}
+				}
+			}
+		}
+		
 		$part->setEnabledParticipants($_POST['mid'] ? $_POST['mid'] : array());
 		$part->save();
 		
