@@ -219,8 +219,18 @@ class ilECSTaskScheduler
 	 */
 	private function handleUpdate($ecscontent)
 	{
+		global $ilLog;
+		
+
 	 	foreach($ecscontent as $content)
 	 	{
+			include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
+			if(!ilECSParticipantSettings::_getInstance()->isEnabled($content->getOwner()))
+			{
+				$ilLog->write('Ignoring disabled participant. MID: '.$content->getOwner());
+				continue;
+			}
+			
 			include_once('Services/WebServices/ECS/classes/class.ilECSImport.php');
 
 			// new mids

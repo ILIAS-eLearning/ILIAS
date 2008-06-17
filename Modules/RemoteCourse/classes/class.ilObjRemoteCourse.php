@@ -321,6 +321,29 @@ class ilObjRemoteCourse extends ilObject
 	}
 	
 	/**
+	 * lookup obj ids by mid
+	 *
+	 * @access public
+	 * @param int mid
+	 * @return array obj ids
+	 * @static
+	 */
+	public static function _lookupObjIdsByMID($a_mid)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM remote_course_settings ".
+			"WHERE mid = ".$ilDB->quote($a_mid)." ";
+			
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+		return $obj_ids ? $obj_ids : array();
+	}
+	
+	/**
 	 * create authentication resource on ecs server
 	 *
 	 * @access public
