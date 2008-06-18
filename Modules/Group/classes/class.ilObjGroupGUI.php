@@ -2228,7 +2228,6 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $ilUser;
 		
-		
 		if(is_object($this->form))
 		{
 			return true;

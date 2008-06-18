@@ -82,7 +82,7 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 
 	function showDetails()
 	{
-		if($this->object->getType() == 'crs' && $this->object->getSubscriptionMaxMembers() > 0)
+		if($this->object->getType() == 'crs' && $this->object->isSubscriptionMembershipLimited())
 		{
 			$this->object->initCourseMemberObject();
 			
@@ -236,7 +236,7 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 
 	function addToShoppingCart()
 	{
-		if($this->object->getType() == 'crs' && $this->object->getSubscriptionMaxMembers() > 0)
+		if($this->object->getType() == 'crs' && $this->object->isSubscriptionMembershipLimited())
 		{
 			$this->object->initCourseMemberObject();
 			

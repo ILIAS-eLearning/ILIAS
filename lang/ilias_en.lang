@@ -8355,3 +8355,5 @@ ecs#:#ecs_event_appointment#:#Event Date
 common#:#res_links_short#:#Links
 grp#:#reg_grp_max_members_short#:#Number of Members
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
+crs#:#crs_subscription_max_members_short#:#Number of Members
+crs#:#max_members_not_numeric#:#Please check the maximum number of users.
