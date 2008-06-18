@@ -1185,6 +1185,9 @@ class HTTP_WebDAV_Server
 
                 fclose($stream);            
 		//$this->writelog('PUT wrote '.$written.' bytes');
+        	// BEGIN WebDAV W. Randelshofer finish the put-operation
+                $this->PUTfinished($options);
+        	// END WebDAV W. Randelshofer finish the put-operation
             } 
 
             $this->http_status($stat);

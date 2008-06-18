@@ -55,7 +55,11 @@ class ilObjFileDAV extends ilObjectDAV
 	*/
 	function ilObjFileDAV($refid, $obj = null) 
 	{
-		$this->ilObjectDAV($refid, $obj);
+               $this->ilObjectDAV($refid, $obj);
+              
+               // Set debug to true, if you want to get debug output for this
+               // object
+               //$this->isDebug = false;
 	}
 	
 	/**
@@ -118,6 +122,7 @@ class ilObjFileDAV extends ilObjectDAV
 	 */
 	function setContentLength($length)
 	{
+              $this->writeLog('setContentLength('.$length.')');
 		$this->obj->setFileSize($length);
 	}
 	/**
@@ -143,7 +148,6 @@ class ilObjFileDAV extends ilObjectDAV
 	 */
 	function getContentOutputStream()
 	{
-	
 		// Create a new version
 		if (! $this->isNewFile)
 		{
@@ -162,6 +166,21 @@ class ilObjFileDAV extends ilObjectDAV
 		}
 		
 		return fopen($file,'w');
+	}
+	/**
+	 * Returns the length of the content output stream.
+         * <p>
+         * This method is used by the ilDAVServer, if a PUT operation
+         * has been performed for which the client did not specify the
+         * content length.
+         * 
+	 * @param Integer.
+	 */
+	function getContentOutputStreamLength()
+	{
+		$file = $this->obj->getFile();  
+		return file_exists($file) ? filesize($file) : 0;
+                
 	}
 	/**
 	 * Returns the content of the object as a byte array.
