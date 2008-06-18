@@ -191,7 +191,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		
 		$tpl->setVariable('TXT_FREE',$this->lng->txt('mem_free_places'));
 		$free = max(0,$this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
-		$free = 0;
 		$tpl->setVariable('NUM_FREE',$free);
 
 		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
