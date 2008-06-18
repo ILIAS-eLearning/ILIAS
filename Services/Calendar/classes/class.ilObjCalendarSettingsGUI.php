@@ -95,6 +95,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		}
 		return true;
 	}
+	
 
 	/**
 	 * Get tabs
@@ -240,7 +241,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitle($this->lng->txt('cal_global_settings'));
 		$this->form->addCommandButton('save',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		#$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		$check = new ilCheckboxInputGUI($this->lng->txt('enable_calendar'),'enable');
 		$check->setValue(1);

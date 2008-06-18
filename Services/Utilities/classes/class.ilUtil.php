@@ -79,6 +79,7 @@ class ilUtil
 	 			case 'cat':
 	 			case 'crs':
 	 			case 'grp':
+	 				include_once('./Services/Container/classes/class.ilContainer.php');
 	 				if(strlen($path = ilContainer::_lookupIconPath($a_obj_id,$a_size)))
 	 				{
 	 					return $path;
