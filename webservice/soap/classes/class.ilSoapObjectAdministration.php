@@ -1132,8 +1132,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$row = new ilXMLResultSetRow();
 			$xmlResultSet->addRow($row);
 			$row->setValue("ref_id", $item["ref_id"]);	
-			$row->setValue("title", $item["title"]);
 			$row->setValue("type", $item["type"]);
+			$row->setValue("title", $item["title"]);
 		}		
 		$writer->start();
 		return $writer->getXML();
