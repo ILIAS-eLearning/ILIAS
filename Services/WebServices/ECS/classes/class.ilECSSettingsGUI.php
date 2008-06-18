@@ -406,10 +406,10 @@ class ilECSSettingsGUI
 	/**
 	 * update whitelist
 	 *
-	 * @access public
+	 * @access protected
 	 * 
 	 */
-	public function updateCommunities()
+	protected function updateCommunities()
 	{
 		global $ilLog;
 
@@ -434,6 +434,58 @@ class ilECSSettingsGUI
 					}
 				}
 			}
+		}
+		
+
+		try
+		{
+			// Update all exported econtent
+			include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
+			include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
+			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+			
+			$reader = new ilECSEContentReader();
+			$reader->read();
+			$all_content = $reader->getEContent();
+			
+			// read update events
+			foreach($all_content as $content)
+			{
+				if(ilECSExport::_isRemote($content->getEContentId()))
+				{
+					$ilLog->write(__METHOD__.': Ignoring remote EContent: '.$content->getTitle());
+					// Do not handle remote courses.
+					continue;
+				}
+				$members = array_intersect($mids,$content->getEligibleMembers());
+				if(!$members)
+				{
+					$ilLog->write(__METHOD__.': Deleting EContent: '.$content->getTitle());
+					$connector = new ilECSConnector();
+					$connector->deleteResource($content->getEContentId());
+					
+					ilECSExport::_deleteEContentIds(array($content->getEContentId()));
+				}
+				elseif(count($members) != count($content->getEligibleMembers()))
+				{
+					$ilLog->write(__METHOD__.': Update eligible members for EContent: '.$content->getTitle());
+					$content->setEligibleMembers($members);
+					$connector = new ilECSConnector();
+					$connector->updateResource($content->getEContentId(),json_encode($content));
+				}
+			}
+		}
+		catch(ilECSConnectorException $e)
+		{
+			ilUtil::sendInfo('Cannot connect to ECS server: '.$e1->getMessage());
+			$this->communities();
+			return false;
+		}
+		catch(ilException $e)
+		{
+			ilUtil::sendInfo('Update failed: '.$e1->getMessage());
+			$this->communities();
+			return false;
 		}
 		
 		$part->setEnabledParticipants($_POST['mid'] ? $_POST['mid'] : array());
@@ -470,10 +522,10 @@ class ilECSSettingsGUI
 	/**
 	 * Save mappings
 	 *
-	 * @access public
+	 * @access protected
 	 * 
 	 */
-	public function saveMappings()
+	protected function saveMappings()
 	{
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		$mapping_settings = ilECSDataMappingSettings::_getInstance();
