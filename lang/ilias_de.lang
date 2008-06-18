@@ -8353,3 +8353,5 @@ ecs#:#ecs_event_appointment#:#Veranstaltungstermin
 common#:#res_links_short#:#Verknüpfungen
 grp#:#reg_grp_max_members_short#:#Teilnehmeranzahl
 grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
+crs#:#crs_subscription_max_members_short#:#Teilnehmeranzahl
+crs#:#max_members_not_numeric#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.

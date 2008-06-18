@@ -279,6 +279,30 @@ class ilObjCourse extends ilContainer
 		}
 		return false;
 	}
+	
+	/**
+	 * enable max members
+	 *
+	 * @access public
+	 * @param bool status
+	 * @return
+	 */
+	public function enableSubscriptionMembershipLimitation($a_status)
+	{
+		$this->subscription_membership_limitation = $a_status;
+	}
+	
+	/**
+	 * is membership limited
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function isSubscriptionMembershipLimited()
+	{
+		return (bool) $this->subscription_membership_limitation;
+	}
 
 	function getSubscriptionMaxMembers()
 	{
@@ -809,7 +833,7 @@ class ilObjCourse extends ilContainer
 		{
 			$this->appendMessage($this->lng->txt("crs_password_required"));
 		}
-		if($this->getSubscriptionMaxMembers() and !is_numeric($this->getSubscriptionMaxMembers()))
+		if($this->isSubscriptionMembershipLimited() and ($this->getSubscriptionMaxMembers() <= 0 or !is_numeric($this->getSubscriptionMaxMembers())))
 		{
 			$this->appendMessage($this->lng->txt("max_members_not_numeric"));
 		}
@@ -960,6 +984,7 @@ class ilObjCourse extends ilContainer
 			"subscription_end = ".$ilDB->quote($this->getSubscriptionEnd()).", ".
 			"subscription_type = ".$ilDB->quote($this->getSubscriptionType()).", ".
 			"subscription_password = ".$ilDB->quote($this->getSubscriptionPassword()).", ".
+			"subscription_membership_limitation = ".$ilDB->quote((int) $this->isSubscriptionMembershipLimited()).", ".
 			"subscription_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers()).", ".
 			"subscription_notify = ".$ilDB->quote($this->getSubscriptionNotify()).", ".
 			"view_mode = ".$ilDB->quote($this->getViewMode()).", ".
@@ -1004,6 +1029,7 @@ class ilObjCourse extends ilContainer
 		$new_obj->setSubscriptionEnd($this->getSubscriptionEnd());
 		$new_obj->setSubscriptionType($this->getSubscriptionType());
 		$new_obj->setSubscriptionPassword($this->getSubscriptionPassword());
+		$new_obj->enableSubscriptionMembershipLimitation($this->isSubscriptionMembershipLimited());
 		$new_obj->setSubscriptionMaxMembers($this->getSubscriptionMaxMembers());
 		$new_obj->setSubscriptionNotify($this->getSubscriptionNotify());
 		$new_obj->setViewMode($this->getViewMode());
@@ -1041,6 +1067,7 @@ class ilObjCourse extends ilContainer
 			"subscription_end = ".$ilDB->quote($this->getSubscriptionEnd()).", ".
 			"subscription_type = ".$ilDB->quote(IL_CRS_SUBSCRIPTION_DIRECT).", ".
 			"subscription_password = ".$ilDB->quote($this->getSubscriptionPassword()).", ".
+			"subscription_membership_limitation = ".$ilDB->quote(0).", ".
 			"subscription_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers()).", ".
 			"subscription_notify = '1', ".
 			"view_mode = '0', ".
@@ -1088,6 +1115,7 @@ class ilObjCourse extends ilContainer
 			$this->setSubscriptionEnd($row->subscription_end);
 			$this->setSubscriptionType($row->subscription_type);
 			$this->setSubscriptionPassword($row->subscription_password);
+			$this->enableSubscriptionMembershipLimitation($row->subscription_membership_limitation);
 			$this->setSubscriptionMaxMembers($row->subscription_max_members);
 			$this->setSubscriptionNotify($row->subscription_notify);
 			$this->setViewMode($row->view_mode);

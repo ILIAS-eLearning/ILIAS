@@ -181,7 +181,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	{
 		global $ilUser;
 		
-		if(!$this->container->getSubscriptionMaxMembers())
+		if(!$this->container->isSubscriptionMembershipLimited())
 		{
 			return true;
 		}
@@ -558,7 +558,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
 		$free = max(0,$this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
 		$waiting_list = new ilCourseWaitingList($this->container->getId());
-		if($this->container->enabledWaitingList() and (!$free or $waiting_list->getCountUsers()))
+		if($this->container->isSubscriptionMembershipLimited() and $this->container->enabledWaitingList() and (!$free or $waiting_list->getCountUsers()))
 		{
 			$waiting_list->addToList($ilUser->getId());
 			$info = sprintf($this->lng->txt('crs_added_to_list'),$waiting_list->getPosition($ilUser->getId()));

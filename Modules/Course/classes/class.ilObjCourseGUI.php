@@ -1011,6 +1011,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
 		$this->object->setSubscriptionStart($this->toUnix($_POST['subscription_start']['date'],$_POST['subscription_start']['time']));
 		$this->object->setSubscriptionEnd($this->toUnix($_POST['subscription_end']['date'],$_POST['subscription_end']['time']));
+		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
@@ -1269,19 +1270,27 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->form->addItem($reg_proc);
 		
-		$max = new ilTextInputGUI($this->lng->txt('crs_subscription_max_members'),'subscription_max');
-		$max->setSize(4);
-		$max->setMaxLength(4);
-		$max->setValue($this->object->getSubscriptionMaxMembers());
-		$max->setInfo($this->lng->txt('crs_reg_max_info'));
 		
-		$wait = new ilCheckboxInputGUI('','waiting_list');
-		$wait->setOptionTitle($this->lng->txt('crs_waiting_list'));
-		$wait->setChecked($this->object->enabledWaitingList());
-		$wait->setInfo($this->lng->txt('crs_wait_info'));
-		$max->addSubItem($wait);
+		$lim = new ilCheckboxInputGUI($this->lng->txt('crs_subscription_max_members_short'),'subscription_membership_limitation');
+		$lim->setValue(1);
+		$lim->setOptionTitle($this->lng->txt('crs_subscription_max_members'));
+		$lim->setChecked($this->object->isSubscriptionMembershipLimited());
 		
-		$this->form->addItem($max);
+			$max = new ilTextInputGUI('','subscription_max');
+			$max->setSize(4);
+			$max->setMaxLength(4);
+			$max->setValue($this->object->getSubscriptionMaxMembers());
+			$max->setInfo($this->lng->txt('crs_reg_max_info'));
+		
+		$lim->addSubItem($max);
+		
+			$wait = new ilCheckboxInputGUI('','waiting_list');
+			$wait->setOptionTitle($this->lng->txt('crs_waiting_list'));
+			$wait->setChecked($this->object->enabledWaitingList());
+			$wait->setInfo($this->lng->txt('crs_wait_info'));
+			$lim->addSubItem($wait);
+		
+		$this->form->addItem($lim);
 		
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));
@@ -2700,7 +2709,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->object->initCourseMemberObject();
 
-		if($this->object->getSubscriptionMaxMembers() and 
+		if($this->object->isSubscriptionMembershipLimited() and $this->object->getSubscriptionMaxMembers() and 
 		   $this->object->getSubscriptionMaxMembers() <= $this->object->members_obj->getCountMembers())
 		{
 			ilUtil::sendInfo($this->lng->txt("crs_max_members_reached"));
@@ -3047,7 +3056,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->object->initCourseMemberObject();
-		if($this->object->getSubscriptionMaxMembers() and 
+		if($this->object->isSubscriptionMembershipLimited() and $this->object->getSubscriptionMaxMembers() and 
 		   $this->object->getSubscriptionMaxMembers() <= $this->object->members_obj->getCountMembers())
 		{
 			ilUtil::sendInfo($this->lng->txt("crs_max_members_reached"));

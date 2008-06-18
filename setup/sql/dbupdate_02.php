@@ -4896,3 +4896,23 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 ?>
 
+<#1268>
+ALTER TABLE `crs_settings` ADD `subscription_membership_limitation` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `subscription_password`;
+
+<#1269>
+<?php
+
+// update new group setting field registration_membership limited
+$query = "SELECT obj_id,subscription_max_members FROM crs_settings ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->subscription_max_members)
+	{
+		$query = "UPDATE crs_settings SET subscription_membership_limitation = 1 WHERE obj_id = ".$ilDB->quote($row->obj_id)." ";
+		$ilDB->query($query); 
+	}
+}
+?>
+
+
