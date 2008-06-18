@@ -45,7 +45,11 @@ class ilObjectDAV
 	 */
 	var $obj;
 
-    var $debug = false;
+	/**
+         * The ObjectDAV prints lots of log messages to the ilias log, if this	
+	 * variable is set to true.
+	 */
+	private $isDebug = false;
 	
 	/** 
 	* Constructor
@@ -260,6 +264,19 @@ class ilObjectDAV
 	function getContentOutputStream()
 	{
 		return null;
+	}
+	/**
+	 * Returns the length of the content output stream.
+         * <p>
+         * This method is used by the ilDAVServer, if a PUT operation
+         * has been performed for which the client did not specify the
+         * content length.
+         * 
+	 * @param Integer.
+	 */
+	function getContentOutputStreamLength()
+	{
+		// subclass responsibility
 	}
 	/**
 	 * Returns the content of the object as a byte array.
@@ -779,12 +796,12 @@ class ilObjectDAV
          */
 	function writelog($message) 
 	{
-		if ($this->debug)
+		if ($this->isDebug)
 		{
 			global $log, $ilias;
 			$log->write(
 				$ilias->account->getLogin()
-				.' DAV ilObjectDAV.'.str_replace("\n",";",$message)
+				.' DAV .'.get_class($this).' '.str_replace("\n",";",$message)
 			);
 			/*
 			$fh = fopen('/opt/ilias/log/ilias.log', 'a');
