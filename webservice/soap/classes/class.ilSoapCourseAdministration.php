@@ -374,7 +374,12 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 
 		global $rbacsystem;
 
-		if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
+		$tmp_course = $this->checkObjectAccess($course_id, "crs", "read", true);
+		if ($this->isFault($tmp_course)) {
+		    return $tmp_course;
+		}
+		
+		/*if(($obj_type = ilObject::_lookupType(ilObject::_lookupObjId($course_id))) != 'crs')
 		{
 			$course_id = end($ref_ids = ilObject::_getAllReferences($course_id));
 			if(ilObject::_lookupType(ilObject::_lookupObjId($course_id)) != 'crs')
@@ -391,7 +396,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		if(!$rbacsystem->checkAccess('read',$course_id))
 		{
 			return $this->__raiseError('Check access failed. No permission to read course','Server');
-		}
+		}*/
 
 		include_once 'Modules/Course/classes/class.ilCourseXMLWriter.php';
 

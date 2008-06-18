@@ -268,10 +268,10 @@ class ilSoapAdministration
 	/**
 	 * check access for ref id: expected type, permission, return object instance if returnobject is true
 	 *
-	 * @param unknown_type $ref_id
+	 * @param int $ref_id
 	 * @param string or array $expected_type
-	 * @param unknown_type $permission
-	 * @param unknown_type $returnObject
+	 * @param string $permission
+	 * @param boolean $returnObject
 	 * @return Object or type
 	 */
 	public function checkObjectAccess($ref_id, $expected_type, $permission, $returnObject = false) {
@@ -283,12 +283,12 @@ class ilSoapAdministration
 		}
 		if (!ilObject::_exists($ref_id, true)) {
 			return $this->__raiseError('No object for id.',
-									   'Client');
+									   'CLIENT_OBJECT_NOT_FOUND');
 		}
 		
 		if (ilObject::_isInTrash($ref_id)) {
-			return $this->__raiseError('Client is in trash.',
-									   'Client');			
+			return $this->__raiseError('Object is already trashed.',
+									   'CLIENT_OBJECT_DELETED');			
 		}
 		
 		$type = ilObjectFactory::getTypeByRefId($ref_id);
@@ -297,12 +297,12 @@ class ilSoapAdministration
 		    (!is_array($expected_type) && $type != $expected_type)
 		    )
 		{
-			return $this->__raiseError("Wrong type $type for id. Expected: ".(is_array($expected_type) ? join (",",$expected_type) : $expected_type), 'Client');						
+			return $this->__raiseError("Wrong type $type for id. Expected: ".(is_array($expected_type) ? join (",",$expected_type) : $expected_type), 'CLIENT_OBJECT_WRONG_TYPE');						
 		}
 		
 		if (!$rbacsystem->checkAccess($permission, $ref_id, $type))
 		{
-			return $this->__raiseError('Missing permission $permission for type $type.', 'Client');
+			return $this->__raiseError('Missing permission $permission for type $type.', 'CLIENT_OBJECT_WRONG_PERMISSION');
 		}
 		
 		if ($returnObject) {
