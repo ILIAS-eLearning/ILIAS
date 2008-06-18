@@ -53,8 +53,9 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 	 	
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
 	 	$this->addColumn($this->lng->txt('title'),'title','25%');
-	 	$this->addColumn($this->lng->txt('ecs_imported_from'),'from','30%');
-	 	$this->addColumn($this->lng->txt('ecs_meta_data'),'md','35%');
+	 	$this->addColumn($this->lng->txt('res_links_short'),'link','25%');
+	 	$this->addColumn($this->lng->txt('ecs_imported_from'),'from','15%');
+	 	$this->addColumn($this->lng->txt('ecs_meta_data'),'md','25%');
 	 	$this->addColumn($this->lng->txt('last_update'),'last_update','10%');
 		$this->setRowTemplate('tpl.content_row.html','Services/WebServices/ECS');
 		$this->setDefaultOrderField('title');
@@ -72,6 +73,8 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
+		global $tree;
+		
 		include_once('./classes/class.ilLink.php');
 		
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
@@ -84,6 +87,19 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_ABR',$this->lng->txt('ecs_abr'));
 		$this->tpl->setVariable('VAL_LAST_UPDATE',$a_set['last_update']);
 		
+		// Links
+		foreach(ilObject::_getAllReferences($a_set['obj_id']) as $ref_id)
+		{
+			$parent = $tree->getParentId($ref_id);
+			$p_obj_id = ilObject::_lookupObjId($parent);
+			$p_title = ilObject::_lookupTitle($p_obj_id);
+			$p_type = ilObject::_lookupType($p_obj_id);
+			$this->tpl->setCurrentBlock('link');
+			$this->tpl->setVariable('LINK_IMG',ilUtil::getTypeIconPath($p_type,$p_obj_id,'tiny'));
+			$this->tpl->setVariable('LINK_CONTAINER',$p_title);
+			$this->tpl->setVariable('LINK_LINK',ilLink::_getLink($parent,$p_type));
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$this->tpl->setVariable('TXT_TERM',$this->lng->txt('ecs_field_term'));
 		$this->tpl->setVariable('TXT_CRS_TYPE',$this->lng->txt('ecs_field_courseType'));
@@ -181,7 +197,6 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		
 		foreach($obj_ids as $obj_id => $obj_id)
 		{
-			$tmp_arr['ref_id'] = $ref_id;
 			$tmp_arr['obj_id'] = $obj_id;
 			$tmp_arr['title'] = $ilObjDataCache->lookupTitle($obj_id);
 			$tmp_arr['desc'] = $ilObjDataCache->lookupDescription($obj_id);
