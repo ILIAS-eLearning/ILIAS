@@ -299,7 +299,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if(!$this->object->validate())
 		{
 			$err = $this->lng->txt('err_check_input').'<br />';
-			$err .= $ilErr->getMessage();
+			$err .= $this->lng->txt($ilErr->getMessage());
 			ilUtil::sendInfo($err);
 			$this->createObject();
 			return true;
@@ -391,7 +391,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		if(!$this->object->validate())
 		{
 			$err = $this->lng->txt('err_check_input').'<br />';
-			$err .= $ilErr->getMessage();
+			$err .= $this->lng->txt($ilErr->getMessage());
 			ilUtil::sendInfo($err);
 			$this->editObject();
 			return true;
@@ -2336,19 +2336,26 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->form->addItem($time_limit);
 				
 			// max member
-		$max = new ilTextInputGUI($this->lng->txt('reg_grp_max_members'),'registration_max_members');
-			$max->setValue($this->object->getMaxMembers());
-			$max->setSize(3);
-			$max->setMaxLength(4);
-			$max->setInfo($this->lng->txt('grp_reg_max_members_info'));
+		$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');
+		$lim->setValue(1);
+		$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
+		$lim->setChecked($this->object->isMembershipLimited());
+			
+			
+			$max = new ilTextInputGUI('','registration_max_members');
+				$max->setValue($this->object->getMaxMembers());
+				$max->setSize(3);
+				$max->setMaxLength(4);
+				$max->setInfo($this->lng->txt('grp_reg_max_members_info'));
+		$lim->addSubItem($max);		
 		
 			$wait = new ilCheckboxInputGUI('','waiting_list');
 			$wait->setValue(1);
 			$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
 			$wait->setInfo($this->lng->txt('grp_waiting_list_info'));
 			$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
-			$max->addSubItem($wait);
-		$this->form->addItem($max);
+		$lim->addSubItem($wait);
+		$this->form->addItem($lim);
 		
 		switch($a_mode)
 		{
@@ -2364,7 +2371,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->form->setTitle($this->lng->txt('grp_edit'));
 				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp_s.gif'));
 			
-				$this->form->addCommandButton('update',$this->lng->txt('update'));
+				$this->form->addCommandButton('update',$this->lng->txt('save'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 				return true;
 
@@ -2395,6 +2402,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->object->enableUnlimitedRegistration((bool) !$_POST['reg_limit_time']);
 		$this->object->setRegistrationStart($this->loadDate('registration_start'));
 		$this->object->setRegistrationEnd($this->loadDate('registration_end'));
+		$this->object->enableMembershipLimitation((bool) $_POST['registration_membership_limited']);
 		$this->object->setMaxMembers((int) $_POST['registration_max_members']);
 		$this->object->enableWaitingList((bool) $_POST['waiting_list']);
 		

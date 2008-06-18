@@ -5093,7 +5093,7 @@ crs#:#crs_structure#:#Course structure
 crs#:#crs_subscribers#:#Subscribers
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
 crs#:#crs_subscription#:#Subscription
-crs#:#crs_subscription_max_members#:#Maximum of Users
+crs#:#crs_subscription_max_members#:#Limited Number of Members
 crs#:#crs_subscription_notify#:#Notify for subscriptions
 crs#:#crs_subscription_options_confirmation#:#Request Membership
 crs#:#crs_subscription_options_deactivated#:#Deactivated
@@ -8146,7 +8146,7 @@ grp#:#grp_reg_direct_info#:#Direct registration.
 grp#:#grp_pass_request#:#Join With Group Password
 grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.
 grp#:#grp_reg_limit_time#:#Registration Period
-grp#:#grp_reg_limit_num#:#Maximum Of Users
+grp#:#grp_reg_limit_num#:#Maximum Number of Users
 grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
 grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 grp#:#grp_waiting_list#:#Enable Waiting List
@@ -8193,7 +8193,7 @@ grp#:#grp_settings#:#Group Settings
 grp#:#grp_info_settings#:#Group Information
 grp#:#grp_icon_settings#:#Group Icon
 grp#:#grp_information_info#:#This information will be show on the info page and for new registrations.
-grp#:#reg_grp_max_members#:#Maximum Of Users
+grp#:#reg_grp_max_members#:#Limited Number of Members
 grp#:#grp_reg_limited#:#Registration Period
 grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 dateplaner#:#grp_cal_reg_end#:#Registration End 
@@ -8353,3 +8353,5 @@ common#:#csv_export#:#CSV-Export
 ecs#:#ecs_duration#:#Duration
 ecs#:#ecs_event_appointment#:#Event Date
 common#:#res_links_short#:#Links
+grp#:#reg_grp_max_members_short#:#Number of Members
+grp#:#grp_wrong_max_members#:#Please check the maximum number of users.

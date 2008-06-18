@@ -167,7 +167,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	{
 		global $ilUser;
 		
-		if(!$this->container->getMaxMembers())
+		if(!$this->container->isMembershipLimited())
 		{
 			return true;
 		}
@@ -338,7 +338,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 		include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
 		$free = max(0,$this->container->getMaxMembers() - $this->participants->getCountMembers());
 		$waiting_list = new ilGroupWaitingList($this->container->getId());
-		if($this->container->isWaitingListEnabled() and (!$free or $waiting_list->getCountUsers()))
+		if($this->container->isMembershipLimited() and $this->container->isWaitingListEnabled() and (!$free or $waiting_list->getCountUsers()))
 		{
 			$waiting_list->addToList($ilUser->getId());
 			$info = sprintf($this->lng->txt('grp_added_to_list'),$waiting_list->getPosition($ilUser->getId()));

@@ -4877,3 +4877,22 @@ if($org_missing)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1266>
+ALTER TABLE `grp_settings` ADD `registration_membership_limited` TINYINT( 1 ) NOT NULL DEFAULT '0' AFTER `registration_password` ;
+
+<#1267>
+<?php
+
+// update new group setting field registration_membership limited
+$query = "SELECT obj_id,registration_max_members FROM grp_settings ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	if($row->registration_max_members)
+	{
+		$query = "UPDATE grp_settings SET registration_membership_limited = 1 WHERE obj_id = ".$ilDB->quote($row->obj_id)." ";
+		$ilDB->query($query); 
+	}
+}
+?>
+
