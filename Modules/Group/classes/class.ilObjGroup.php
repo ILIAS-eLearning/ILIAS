@@ -71,6 +71,7 @@ class ilObjGroup extends ilContainer
 	protected $reg_start = null;
 	protected $reg_end = null;
 	protected $reg_password = '';
+	protected $reg_membership_limitation = false;
 	protected $reg_max_members = 0;
 	protected $waiting_list = false;
 	
@@ -304,6 +305,29 @@ class ilObjGroup extends ilContainer
 	{
 		return $this->reg_password;
 	}
+	
+	/**
+	 * enable max member limitation
+	 *
+	 * @access public
+	 * @param bool status
+	 * @return
+	 */
+	public function enableMembershipLimitation($a_status)
+	{
+		$this->reg_membership_limitation = $a_status;
+	}
+	
+	/**
+	 * is max member limited
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function isMembershipLimited()
+	{
+		return (bool) $this->reg_membership_limitation;
+	}
 
 	/**
 	 * set max members
@@ -454,13 +478,13 @@ class ilObjGroup extends ilContainer
 		{
 			$ilErr->appendMessage(self::ERR_MISSING_PASSWORD);
 		}
-		if(!is_numeric($this->getMaxMembers()) or $this->getMaxMembers() < 0)
-		{
-			$ilErr->appendMessage(self::ERR_WRONG_MAX_MEMBERS);
-		}
 		if(ilDateTime::_before($this->getRegistrationEnd(),$this->getRegistrationStart()))
 		{
 			$ilErr->appendMessage(self::ERR_WRONG_REG_TIME_LIMIT);
+		}
+		if($this->isMembershipLimited() and (!is_numeric($this->getMaxMembers()) or $this->getMaxMembers() <= 0))
+		{
+			$ilErr->appendMessage(self::ERR_WRONG_MAX_MEMBERS);
 		}
 		return strlen($ilErr->getMessage()) == 0;
 	}
@@ -490,6 +514,7 @@ class ilObjGroup extends ilContainer
 			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'')).", ".
 			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'')).", ".
 			"registration_password = ".$ilDB->quote($this->getPassword()).", ".
+			"registration_membership_limited = ".$ilDB->quote((int) $this->isMembershipLimited()).", ".
 			"registration_max_members = ".$ilDB->quote($this->getMaxMembers()).", ".
 			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0).", ".
 			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
@@ -529,6 +554,7 @@ class ilObjGroup extends ilContainer
 			"registration_start = ".$ilDB->quote($this->getRegistrationStart()->get(IL_CAL_DATETIME,'')).", ".
 			"registration_end = ".$ilDB->quote($this->getRegistrationEnd()->get(IL_CAL_DATETIME,'')).", ".
 			"registration_password = ".$ilDB->quote($this->getPassword()).", ".
+			"registration_membership_limited = ".$ilDB->quote((int) $this->isMembershipLimited()).", ".
 			"registration_max_members = ".$ilDB->quote($this->getMaxMembers()).", ".
 			"waiting_list = ".$ilDB->quote($this->isWaitingListEnabled() ? 1 : 0).", ".
 			"latitude = ".$ilDB->quote($this->getLatitude()).", ".
@@ -605,6 +631,7 @@ class ilObjGroup extends ilContainer
 			$this->setRegistrationStart(new ilDateTime($row->registration_start,IL_CAL_DATETIME));
 			$this->setRegistrationEnd(new ilDateTime($row->registration_end,IL_CAL_DATETIME));
 			$this->setPassword($row->registration_password);
+			$this->enableMembershipLimitation((bool) $row->registration_membership_limited);
 			$this->setMaxMembers($row->registration_max_members);
 			$this->enableWaitingList($row->waiting_list);
 			$this->setLatitude($row->latitude);
@@ -638,6 +665,7 @@ class ilObjGroup extends ilContainer
 		$new_obj->setRegistrationEnd($this->getRegistrationEnd());
 		$new_obj->enableUnlimitedRegistration($this->isRegistrationUnlimited());
 		$new_obj->setPassword($this->getPassword());
+		$new_obj->enableMembershipLimitation($this->isMembershipLimited());
 		$new_obj->setMaxMembers($this->getMaxMembers());
 		$new_obj->enableWaitingList($this->isWaitingListEnabled());
 		

@@ -8198,7 +8198,7 @@ grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_icon_settings#:#Gruppen-Icon
 grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
-grp#:#reg_grp_max_members#:#Maximale Teilnehmeranzahl
+grp#:#reg_grp_max_members#:#Begrenzte Teilnehmeranzahl
 grp#:#grp_reg_limited#:#Anmeldungszeitraum
 grp#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
 dateplaner#:#grp_cal_reg_end#:#Anmeldungsende
@@ -8351,3 +8351,5 @@ common#:#csv_export#:#CSV-Export
 ecs#:#ecs_duration#:#Dauer
 ecs#:#ecs_event_appointment#:#Veranstaltungstermin
 common#:#res_links_short#:#Verknüpfungen
+grp#:#reg_grp_max_members_short#:#Teilnehmeranzahl
+grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
