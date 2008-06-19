@@ -81,13 +81,6 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 */
 	private $clientBrowser = 'unknown';
 
-	/**
-         * The WebDAVServer prints lots of log messages to the ilias log, if this	
-	 * variable is set to true.
-	 */
-	private $isDebug = false;
-        
-    
         /**
          * This variable holds the DAV object of which the output stream was
          * returned by method PUT.
@@ -100,6 +93,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
          */
         private $putObjDAV = null;
 	
+	/**
+         * The WebDAVServer prints lots of log messages to the ilias log, if this	
+	 * variable is set to true.
+	 */
+	private $isDebug = false;
+    
 	/** 
 	* Constructor
 	*
@@ -604,7 +603,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				substr($this->base_uri, strrpos($this->base_uri,':')).
 				$fullPath
 				;
-		header('Content-Type: text/html');
+		header('Content-Type: text/html; charset=UTF-8');
 		
 		$webfolderTitle = $objectPath[count($objectPath) - 1]->getResourceName();
 		$webfolderURI = $this->base_uri.$fullPath;
@@ -856,10 +855,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'update');
 			}
 		}
-		$out =& $objDAV->getContentOutputStream();
-                
                 // store this object, we reuse it in method PUTfinished
                 $this->putObjDAV = $objDAV;
+                
+		$out =& $objDAV->getContentOutputStream();
 		$this->writelog('PUT outputstream='.$out);
 		return $out;
 	}
