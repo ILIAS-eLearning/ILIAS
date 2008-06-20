@@ -125,7 +125,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$_POST['member'] = array_unique(array_merge((array) $_POST['members'],
 				(array) $_POST['tutors'],
 				(array) $_POST['admins'],
-				(array) $_POST['waiting']));
+				(array) $_POST['waiting'],
+				(array) $_POST['subscribers']));
 		}
 		
 
@@ -1964,7 +1965,37 @@ class ilObjCourseGUI extends ilContainerGUI
 			$table_gui->setUsers($wait);
 			$table_gui->setTitle($this->lng->txt('crs_waiting_list'),'icon_usr.gif',$this->lng->txt('crs_waiting_list'));
 			$this->tpl->setVariable('TABLE_WAIT',$table_gui->getHTML());
-		}		
+		}
+
+		// Subscriber table
+		if(count($subscribers = $part->getSubscribers()))
+		{
+			include_once('./Services/Membership/classes/class.ilSubscriberTableGUI.php');
+			if($ilUser->getPref('crs_subscriber_hide'))
+			{
+				$table_gui = new ilSubscriberTableGUI($this,$part,false);
+				$this->ctrl->setParameter($this,'subscriber_hide',0);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table_gui = new ilSubscriberTableGUI($this,$part,true);
+				$this->ctrl->setParameter($this,'subscriber_hide',1);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			$table_gui->setSubscribers($subscribers);
+			$table_gui->setTitle($this->lng->txt('group_new_registrations'),'icon_usr.gif',$this->lng->txt('group_new_registrations'));
+			$this->tpl->setVariable('TABLE_SUB',$table_gui->getHTML());
+		}
+				
 		
 		
 		if(count($part->getAdmins()))
@@ -2507,17 +2538,14 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 
 		
-	function addSubscribers()
+	public function assignSubscribersObject()
 	{
 		global $rbacsystem;
 
-		// MINIMUM ACCESS LEVEL = 'administrate'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
 
-		if(!is_array($_POST["subscriber"]))
+		$this->checkPermission('write');
+
+		if(!is_array($_POST["subscribers"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("crs_no_subscribers_selected"));
 			$this->membersObject();
@@ -2526,7 +2554,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		$this->object->initCourseMemberObject();
 		
-		if(!$this->object->members_obj->assignSubscribers($_POST["subscriber"]))
+		if(!$this->object->members_obj->assignSubscribers($_POST["subscribers"]))
 		{
 			ilUtil::sendInfo($this->object->getMessage());
 			$this->membersObject();
@@ -2536,9 +2564,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		else
 		{
 			// SEND NOTIFICATION
-			foreach($_POST["subscriber"] as $usr_id)
+			foreach($_POST["subscribers"] as $usr_id)
 			{
-				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
+				#$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
 			}
 		}
 		ilUtil::sendInfo($this->lng->txt("crs_subscribers_assigned"));
@@ -2806,45 +2834,38 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
-	function removeSubscribersObject()
+	function refuseSubscribersObject()
 	{
 		global $rbacsystem;
 
-		// MINIMUM ACCESS LEVEL = 'administrate'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!is_array($_SESSION["crs_delete_subscriber_ids"]) or !count($_SESSION["crs_delete_subscriber_ids"]))
+		$this->checkPermission('write');
+		
+		if(!$_POST['subscribers'])
 		{
 			ilUtil::sendInfo($this->lng->txt("crs_no_subscribers_selected"));
 			$this->membersObject();
-
 			return false;
 		}
+	
 		$this->object->initCourseMemberObject();
 
-		if(!$this->object->members_obj->deleteSubscribers($_SESSION["crs_delete_subscriber_ids"]))
+		if(!$this->object->members_obj->deleteSubscribers($_POST["subscribers"]))
 		{
 			ilUtil::sendInfo($this->object->getMessage());
-			unset($_SESSION["crs_delete_subscriber_ids"]);
 			$this->membersObject();
-
 			return false;
 		}
 		else
 		{
 			// SEND NOTIFICATION
-			foreach($_SESSION["crs_delete_subscriber_ids"] as $usr_id)
+			foreach($_POST['subscribers'] as $usr_id)
 			{
-				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$usr_id);
+				#$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$usr_id);
 			}
 		}
 
-		unset($_SESSION["crs_delete_subscriber_ids"]);
 		ilUtil::sendInfo($this->lng->txt("crs_subscribers_deleted"));
 		$this->membersObject();
-
 		return true;
 	}
 

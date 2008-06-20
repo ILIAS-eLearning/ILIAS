@@ -50,6 +50,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('grp');
+		$this->lng->loadLanguageModule('crs');
 	 	$this->ctrl = $ilCtrl;
 	 	
 		parent::__construct($a_parent_obj,'members');
@@ -59,12 +60,14 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('lastname'),'name','20%');
-	 	$this->addColumn($this->lng->txt('login'),'login','25%');
+	 	$this->addColumn($this->lng->txt('login'),'login','10%');
 	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"15%");
-		$this->addColumn($this->lng->txt('subject'),'subject');
+		$this->addColumn($this->lng->txt('subject'),'subject','45%');
+		$this->addColumn('','mail','10%');
 		
 		$this->addMultiCommand('assignSubscribers',$this->lng->txt('assign'));
 		$this->addMultiCommand('refuseSubscribers',$this->lng->txt('refuse'));
+		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
 		
 
 		$this->setPrefix('subscribers');
@@ -119,6 +122,12 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_NAME',$a_set['name']);
 		$this->tpl->setVariable('VAL_SUBTIME',ilFormat::formatUnixTime($a_set['sub_time'],true));
 		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
+		
+		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['id']);
+		$link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'sendMailToSelectedUsers');
+		$this->tpl->setVariable('MAIL_LINK',$link);
+		$this->tpl->setVariable('MAIL_TITLE',$this->lng->txt('crs_mem_send_mail'));
+		
 		
 		if(strlen($a_set['subject']))
 		{
