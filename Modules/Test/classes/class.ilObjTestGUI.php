@@ -5345,6 +5345,12 @@ class ilObjTestGUI extends ilObjectGUI
 			array("eval_a"),
 			"", "");
 	
+		// settings
+		$ilTabs->addSubTabTarget("settings",
+			$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "evalSettings"),
+			array("evalSettings", "saveEvalSettings"),
+			"", "");
+	
 	}
 	
 	function getParticipantsSubTabs()
@@ -5515,6 +5521,8 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 			case "statistics":
 			case "eval_a":
+			case "evalSettings":
+			case "saveEvalSettings":
 			case "detailedEvaluation":
 			case "outEvaluation":
 			case "exportEvaluation":
@@ -5626,7 +5634,7 @@ class ilObjTestGUI extends ilObjectGUI
 				// statistics tab
 				$tabs_gui->addTarget("statistics",
 					 $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
-					 array("statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalUserDetail",
+					 array("statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalSettings", "saveEvalSettings", "evalUserDetail",
 					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails")
 					 , "");
 			}

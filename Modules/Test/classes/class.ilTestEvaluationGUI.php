@@ -71,6 +71,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			array_push($headernames, $this->lng->txt("name"));
 			array_push($headernames, $this->lng->txt("login"));
 		}
+		$additionalFields = $this->object->getEvaluationAdditionalFields();
+		if (count($additionalFields))
+		{
+			foreach ($additionalFields as $fieldname)
+			{
+				array_push($headernames, $this->lng->txt($fieldname));
+			}
+		}
 		array_push($headernames, $this->lng->txt("tst_reached_points"));
 		array_push($headernames, $this->lng->txt("tst_mark"));
 		if ($this->object->ects_output)
@@ -247,6 +255,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->tpl->setVariable("EVALUATION_DATA", $this->lng->txt("tst_no_evaluation_data"));
 		}
+		$additionalFields = $this->object->getEvaluationAdditionalFields();
+
 		foreach ($data->getParticipants() as $active_id => $userdata)
 		{
 			$remove = FALSE;
@@ -277,6 +287,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					else
 					{
 						array_push($evaluationrow, "");
+					}
+				}
+				if (count($additionalFields))
+				{
+					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
+					foreach ($additionalFields as $fieldname)
+					{
+						if (strcmp($fieldname, "gender") == 0)
+						{
+							array_push($evaluationrow, $this->lng->txt("gender_" . $userfields[$fieldname]));
+						}
+						else
+						{
+							array_push($evaluationrow, $userfields[$fieldname]);
+						}
 					}
 				}
 				array_push($evaluationrow, $userdata->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getMaxpoints());
@@ -764,6 +789,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$format_title->setPattern(1);
 		$format_title->setFgColor('silver');
 		$worksheet =& $workbook->addWorksheet();
+		$additionalFields = $this->object->getEvaluationAdditionalFields();
 		$row = 0;
 		$col = 0;
 		include_once "./classes/class.ilExcelUtils.php";
@@ -776,6 +802,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("name")), $format_title);
 			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("login")), $format_title);
+		}
+		if (count($additionalFields))
+		{
+			foreach ($additionalFields as $fieldname)
+			{
+				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt($fieldname)), $format_title);
+			}
 		}
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("tst_stat_result_resultspoints")), $format_title);
 		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("maximum_points")), $format_title);
@@ -838,6 +871,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				{
 					$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getParticipant($active_id)->getName()));
 					$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getParticipant($active_id)->getLogin()));
+				}
+				if (count($additionalFields))
+				{
+					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
+					foreach ($additionalFields as $fieldname)
+					{
+						if (strcmp($fieldname, "gender") == 0)
+						{
+							$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("gender_" . $userfields[$fieldname])));
+						}
+						else
+						{
+							$worksheet->write($row, $col++, ilExcelUtils::_convert_text($userfields[$fieldname]));
+						}
+					}
 				}
 				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getParticipant($active_id)->getReached()));
 				$worksheet->write($row, $col++, ilExcelUtils::_convert_text($data->getParticipant($active_id)->getMaxpoints()));
@@ -977,6 +1025,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			array_push($datarow, $this->lng->txt("login"));
 			$col++;
 		}
+		$additionalFields = $this->object->getEvaluationAdditionalFields();
+		if (count($additionalFields))
+		{
+			foreach ($additionalFields as $fieldname)
+			{
+				array_push($datarow, $this->lng->txt($fieldname));
+				$col++;
+			}
+		}
 		array_push($datarow, $this->lng->txt("tst_stat_result_resultspoints"));
 		$col++;
 		array_push($datarow, $this->lng->txt("maximum_points"));
@@ -1052,6 +1109,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				{
 					array_push($datarow2, $data->getParticipant($active_id)->getName());
 					array_push($datarow2, $data->getParticipant($active_id)->getLogin());
+				}
+				if (count($additionalFields))
+				{
+					$userfields = ilObjUser::_lookupFields($userdata->getUserID());
+					foreach ($additionalFields as $fieldname)
+					{
+						if (strcmp($fieldname, "gender") == 0)
+						{
+							array_push($datarow2, $this->lng->txt("gender_" . $userfields[$fieldname]));
+						}
+						else
+						{
+							array_push($datarow2, $userfields[$fieldname]);
+						}
+					}
 				}
 				array_push($datarow2, $data->getParticipant($active_id)->getReached());
 				array_push($datarow2, $data->getParticipant($active_id)->getMaxpoints());
@@ -1179,6 +1251,61 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			return $question_id;
 		}
+	}
+	
+	function saveEvalSettings()
+	{
+		$results = $_POST;
+		$additionalFields = array();
+		foreach ($results as $key => $value)
+		{
+			if (preg_match("/cb_(\w+)/", $key, $matches) && ($value == 1))
+			{
+				array_push($additionalFields, $matches[1]);
+			}
+		}
+		$this->object->setEvaluationAdditionalFields($additionalFields);
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), TRUE);
+		$this->ctrl->redirect($this, "evalSettings");
+	}
+	
+	function evalSettings()
+	{
+		global $ilAccess;
+
+		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
+		{
+			// allow only evaluation access
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "saveEvalSettings"));
+		$form->setTitle($this->lng->txt("assessment_eval_settings"));
+		
+		// Additional User fields
+		$fields = array("gender", "email", "institution", "street", "city", "zipcode", "country", "department", "matriculation");
+		$additionalFields = $this->object->getEvaluationAdditionalFields();
+		
+		foreach ($fields as $dbfield)
+		{
+			$checkbox = new ilCheckboxInputGUI($this->lng->txt($dbfield), "cb_" . $dbfield);
+//			$checkbox->setInfo($lng->txt("assessment_use_javascript_desc"));
+			if ($this->object->getAnonymity()) 
+			{
+				$checkbox->setDisabled(TRUE);
+			}
+			else
+			{
+				if (in_array($dbfield, $additionalFields)) $checkbox->setChecked(TRUE);
+			}
+			$form->addItem($checkbox);
+		}
+		$form->addCommandButton("saveEvalSettings", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 }
 ?>
