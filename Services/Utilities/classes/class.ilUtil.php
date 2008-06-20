@@ -1101,7 +1101,7 @@ class ilUtil
 			try {
 				$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
 				if (! is_a($addresses, 'PEAR_Error') &&
-					count($addresses) == 1 && $addresses[0].host != 'ilias')
+					count($addresses) == 1 && $addresses[0]->host != 'ilias')
 				{
 					return true;
 				}
