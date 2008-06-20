@@ -4813,7 +4813,7 @@ crs#:#crs_archive_select_type#:#Archive view
 crs#:#crs_archive_type#:#Archive type
 crs#:#crs_archive_type_disabled#:#Not available
 crs#:#crs_archives_deleted#:#The archive(s) have been deleted
-crs#:#crs_auto_fill#:#Auto fill
+crs#:#crs_auto_fill#:#Auto Fill
 crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below).
 crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).
 crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.

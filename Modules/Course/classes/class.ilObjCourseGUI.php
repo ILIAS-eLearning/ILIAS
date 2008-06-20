@@ -116,7 +116,18 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function sendMailToSelectedUsersObject()
 	{
-		$_POST['member'] = array_unique(array_merge((array) $_POST['members'],(array) $_POST['tutors'],(array) $_POST['admins']));
+		if(isset($_GET['member_id']))
+		{
+			$_POST['member'] = array($_GET['member_id']);
+		}
+		else
+		{
+			$_POST['member'] = array_unique(array_merge((array) $_POST['members'],
+				(array) $_POST['tutors'],
+				(array) $_POST['admins'],
+				(array) $_POST['waiting']));
+		}
+		
 
 		if (!count($_POST["member"]))
 		{
@@ -885,13 +896,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_important_info'),'important');
 		$area->setValue($this->object->getImportantInformation());
 		$area->setRows(6);
-		$area->setCols(120);
+		$area->setCols(80);
 		$this->form->addItem($area);
 		
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_syllabus'),'syllabus');
 		$area->setValue($this->object->getSyllabus());
 		$area->setRows(6);
-		$area->setCols(120);
+		$area->setCols(80);
 		$this->form->addItem($area);
 		
 		$section = new ilFormSectionHeaderGUI();
@@ -933,7 +944,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
 		$area->setValue($this->object->getContactConsultation());
 		$area->setRows(6);
-		$area->setCols(120);
+		$area->setCols(80);
 		$this->form->addItem($area);
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
@@ -1822,6 +1833,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$completed = ilLPStatusWrapper::_getCompleted($this->object->getId());
 			$in_progress = ilLPStatusWrapper::_getInProgress($this->object->getId());
 			$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->object->getId());
+			$failed = ilLPStatusWrapper::_getFailed($this->object->getId());
 		}
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
@@ -1853,6 +1865,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				elseif(in_array($usr_id,$in_progress))
 				{
 					$tmp_data['progress'] = LP_STATUS_IN_PROGRESS;
+				}
+				elseif(in_array($usr_id,$failed))
+				{
+					$tmp_data['progress'] = LP_STATUS_FAILED;
 				}
 				else
 				{
@@ -1918,6 +1934,38 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
 		$this->setShowHidePrefs();
+		
+		// Waiting list table
+		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+		$waiting_list = new ilCourseWaitingList($this->object->getId());
+		if(count($wait = $waiting_list->getAllUsers()))
+		{
+			include_once('./Services/Membership/classes/class.ilWaitingListTableGUI.php');
+			if($ilUser->getPref('crs_wait_hide'))
+			{
+				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,false);
+				$this->ctrl->setParameter($this,'wait_hide',0);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,true);
+				$this->ctrl->setParameter($this,'wait_hide',1);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			$table_gui->setUsers($wait);
+			$table_gui->setTitle($this->lng->txt('crs_waiting_list'),'icon_usr.gif',$this->lng->txt('crs_waiting_list'));
+			$this->tpl->setVariable('TABLE_WAIT',$table_gui->getHTML());
+		}		
+		
 		
 		if(count($part->getAdmins()))
 		{
@@ -2348,16 +2396,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		return false;
 	}
 
-	function addFromWaitingList()
+	public function assignFromWaitingListObject()
 	{
 		global $rbacsystem;
 
-		// MINIMUM ACCESS LEVEL = 'administrate'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!is_array($_POST["waiting_list"]))
+		$this->checkPermission('write');
+
+		if(!count($_POST["waiting"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("crs_no_users_selected"));
 			$this->membersObject();
@@ -2365,12 +2410,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 		$this->object->initCourseMemberObject();
-		$this->object->initWaitingList();
+
+		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+		$waiting_list = new ilCourseWaitingList($this->object->getId());
 
 		$added_users = 0;
-		foreach($_POST["waiting_list"] as $user_id)
+		foreach($_POST["waiting"] as $user_id)
 		{
-			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id))
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
 			{
 				continue;
 			}
@@ -2379,26 +2426,56 @@ class ilObjCourseGUI extends ilContainerGUI
 				continue;
 			}
 			$this->object->members_obj->add($user_id,IL_CRS_MEMBER);
-			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
-			$this->object->waiting_list_obj->removeFromList($user_id);
+			#$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+			$waiting_list->removeFromList($user_id);
 
 			++$added_users;
 		}
+
 		if($added_users)
 		{
 			ilUtil::sendInfo($this->lng->txt("crs_users_added"));
 			$this->membersObject();
-
 			return true;
 		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt("crs_users_already_assigned"));
-			$this->searchObject();
-
+			$this->membersObject();
 			return false;
 		}
 	}
+	
+	/**
+	 * refuse from waiting list
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function refuseFromListObject()
+	{
+		$this->checkPermission('write');
+		
+		if(!count($_POST['waiting']))
+		{
+			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			$this->membersObject();
+			return false;
+		}
+		
+		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
+		$waiting_list = new ilCourseWaitingList($this->object->getId());
+
+		foreach($_POST["waiting"] as $user_id)
+		{
+			$waiting_list->removeFromList($user_id);
+		}
+		
+		ilUtil::sendInfo($this->lng->txt('crs_users_removed_from_list'));
+		$this->membersObject();
+		return true;
+	}
+	
 
 	function performRemoveFromWaitingListObject()
 	{
@@ -2474,12 +2551,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		// MINIMUM ACCESS LEVEL = 'administrate'
-		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		
+		$this->checkPermission('write');
 		$this->object->initCourseMemberObject();
 
 		if($this->object->isSubscriptionMembershipLimited() and $this->object->getSubscriptionMaxMembers() and 
@@ -4197,6 +4269,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function &executeCommand()
 	{
+		
+		
 		global $rbacsystem,$ilUser,$ilAccess,$ilErr,$ilTabs,$ilNavigationHistory;
 
 		$next_class = $this->ctrl->getNextClass($this);

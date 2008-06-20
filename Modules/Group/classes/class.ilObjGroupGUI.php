@@ -820,6 +820,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$completed = ilLPStatusWrapper::_getCompleted($this->object->getId());
 			$in_progress = ilLPStatusWrapper::_getInProgress($this->object->getId());
 			$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->object->getId());
+			$failed = ilLPStatusWrapper::_getFailed($this->object->getId());
 		}
 
 		if($privacy->enabledGroupAccessTimes())
@@ -847,6 +848,10 @@ class ilObjGroupGUI extends ilContainerGUI
 				elseif(in_array($usr_id,$in_progress))
 				{
 					$tmp_data['progress'] = LP_STATUS_IN_PROGRESS;
+				}
+				elseif(in_array($usr_id,$failed))
+				{
+					$tmp_data['progress'] = LP_STATUS_FAILED;
 				}
 				else
 				{
@@ -1136,7 +1141,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		$added_users = 0;
 		foreach($_POST["waiting"] as $user_id)
 		{
-			// TODO: check if user is deleted
+			if(!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id,false))
+			{
+				continue;
+			}
 			if($this->object->members_obj->isAssigned($user_id))
 			{
 				continue;
@@ -1264,8 +1272,16 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function sendMailToSelectedUsersObject()
 	{
-		$_POST['participants'] = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members']));
-
+		if(isset($_GET['member_id']))
+		{
+			$_POST['participants'] = array($_GET['member_id']);
+		}
+		else
+		{
+			$_POST['participants'] = array_unique(array_merge((array) $_POST['admins'],
+				(array) $_POST['members'],
+				(array) $_POST['waiting']));
+		}
 		if (!count($_POST['participants']))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"));

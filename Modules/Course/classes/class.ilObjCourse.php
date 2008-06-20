@@ -1141,7 +1141,7 @@ class ilObjCourse extends ilContainer
 
 		if(!is_object($this->waiting_list_obj))
 		{
-			$this->waiting_list_obj =& new ilCourseWaitingList($this->getId());
+			$this->waiting_list_obj = new ilCourseWaitingList($this->getId());
 		}
 		return true;
 	}

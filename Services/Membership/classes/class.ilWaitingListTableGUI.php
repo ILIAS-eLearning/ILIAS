@@ -61,12 +61,13 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('lastname'),'name','20%');
 	 	$this->addColumn($this->lng->txt('login'),'login','25%');
-	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"55%");
+	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"45%");
+	 	$this->addColumn('','mail','10%');
 		
 		$this->addMultiCommand('assignFromWaitingList',$this->lng->txt('assign'));
 		$this->addMultiCommand('refuseFromList',$this->lng->txt('refuse'));
+		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
 		
-
 		$this->setPrefix('waiting');
 		$this->setSelectAllCheckbox('waiting');
 		$this->setRowTemplate("tpl.show_waiting_list_row.html","Services/Membership");
@@ -119,6 +120,11 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_NAME',$a_set['name']);
 		$this->tpl->setVariable('VAL_SUBTIME',ilFormat::formatUnixTime($a_set['sub_time'],true));
 		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
+		
+		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['id']);
+		$link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'sendMailToSelectedUsers');
+		$this->tpl->setVariable('MAIL_LINK',$link);
+		$this->tpl->setVariable('MAIL_TITLE',$this->lng->txt('crs_mem_send_mail'));
 	}
 	
 	/**
