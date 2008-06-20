@@ -1280,7 +1280,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			$_POST['participants'] = array_unique(array_merge((array) $_POST['admins'],
 				(array) $_POST['members'],
-				(array) $_POST['waiting']));
+				(array) $_POST['waiting'],
+				(array) $_POST['subscribers']));
 		}
 		if (!count($_POST['participants']))
 		{

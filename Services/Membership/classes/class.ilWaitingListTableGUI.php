@@ -60,8 +60,8 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
 	 	$this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('lastname'),'name','20%');
-	 	$this->addColumn($this->lng->txt('login'),'login','25%');
-	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"45%");
+	 	$this->addColumn($this->lng->txt('login'),'login','10%');
+	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"60%");
 	 	$this->addColumn('','mail','10%');
 		
 		$this->addMultiCommand('assignFromWaitingList',$this->lng->txt('assign'));

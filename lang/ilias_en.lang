@@ -1426,7 +1426,7 @@ common#:#answers#:#Answers
 common#:#any_language#:#Any language
 common#:#append_search#:#Append search results
 common#:#application_completed#:#Application is complete
-common#:#application_date#:#Application date
+common#:#application_date#:#Application Date
 common#:#applied_users#:#Applied users
 common#:#apply#:#Apply
 common#:#apply_filter#:#Apply filter
@@ -2349,7 +2349,7 @@ common#:#group_memstat#:#Member Status
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Member
 common#:#group_name#:#Group name
-common#:#group_new_registrations#:#Join requests
+common#:#group_new_registrations#:#Join Requests
 common#:#group_no_registration#:#Join group
 common#:#group_no_registration_msg#:#You can join this group directly.
 common#:#group_not_available#:#No group available
@@ -5090,7 +5090,7 @@ crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Status in course "%s"
 crs#:#crs_status_changed_body#:#Your status in course "%s" has been changed.
 crs#:#crs_structure#:#Course structure
-crs#:#crs_subscribers#:#Subscribers
+crs#:#crs_subscribers#:#Join Requests
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
 crs#:#crs_subscription#:#Subscription
 crs#:#crs_subscription_max_members#:#Limited Number of Members
