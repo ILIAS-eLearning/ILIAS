@@ -717,6 +717,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				sprintf($lng->txt('webfolder_mount_dir_with'), 
 					"$hrefIE\" folder=\"$hrefIE", // Internet Explorer
 					'webdav'.substr($href,4), // Konqueror
+					'dav'.substr($href,4), // Nautilus
 					$href.'?mount' // RFC 4709
 				)
 			."</font></p>\n";
