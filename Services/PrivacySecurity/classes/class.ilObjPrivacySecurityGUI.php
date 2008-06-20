@@ -153,11 +153,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('TXT_EXPORT_COURSE',$this->lng->txt('ps_export_course'));
 	 	$this->tpl->setVariable('TXT_EXPORT_CONFIRM',$this->lng->txt('ps_export_confirm'));
 	 	$this->tpl->setVariable('TXT_GRP_ACCESS',$this->lng->txt('ps_show_grp_access'));
+	 	$this->tpl->setVariable('TXT_CRS_ACCESS',$this->lng->txt('ps_show_crs_access'));
 
 	 	// Check export
 	 	$this->tpl->setVariable('CHECK_EXPORT_COURSE',ilUtil::formCheckbox($privacy->enabledExport() ? 1 : 0,'export_course',1));
 	 	$this->tpl->setVariable('CHECK_EXPORT_CONFIRM',ilUtil::formCheckbox($privacy->confirmationRequired() ? 1 : 0,'export_confirm',1));
-	 	$this->tpl->setVariable('CHECK_GRP_ACCESS',ilUtil::formCheckbox($privacy->enabledAccessTimes() ? 1 : 0,'access_times',1));
+	 	$this->tpl->setVariable('CHECK_GRP_ACCESS',ilUtil::formCheckbox($privacy->enabledGroupAccessTimes() ? 1 : 0,'grp_access_times',1));
+	 	$this->tpl->setVariable('CHECK_CRS_ACCESS',ilUtil::formCheckbox($privacy->enabledCourseAccessTimes() ? 1 : 0,'crs_access_times',1));
 
 		// Fora statistics
 	 	$this->tpl->setVariable('TXT_STATISTICS',$this->lng->txt('enable_fora_statistics'));
@@ -242,7 +244,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$privacy->setConfirmationRequired((int) $_POST['export_confirm']);
 		$privacy->enableForaStatistics ((int) $_POST['fora_statistics']);
 		$privacy->disableAnonymousFora ((int) $_POST['anonymous_fora']);
-		$privacy->showAccessTimes((int) $_POST['access_times']);
+		$privacy->showGroupAccessTimes((int) $_POST['grp_access_times']);
+		$privacy->showCourseAccessTimes((int) $_POST['crs_access_times']);
 
         // validate settings
         $code = $privacy->validate();
@@ -280,9 +283,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		}
 
 
-		/**
-		 * @var ilSecuritySettings
-		 */
 		$security = ilSecuritySettings::_getInstance();
 
 		// auto https detection settings

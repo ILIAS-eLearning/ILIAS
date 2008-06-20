@@ -28,10 +28,10 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesGroup
+* @ingroup ModulesCourse
 */
 
-class ilGroupEditParticipantsTableGUI extends ilTable2GUI
+class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 {
 	public $container = null;
 	
@@ -47,7 +47,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 	global $lng,$ilCtrl;
 	 	
 	 	$this->lng = $lng;
-		$this->lng->loadLanguageModule('grp');
+		$this->lng->loadLanguageModule('crs');
 	 	$this->ctrl = $ilCtrl;
 	 	
 	 	$this->container = $a_parent_obj;
@@ -55,7 +55,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 	include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	 	
-	 	$this->participants = ilGroupParticipants::_getInstanceByObjId($a_parent_obj->object->getId());
+	 	$this->participants = ilCourseParticipants::_getInstanceByObjId($a_parent_obj->object->getId());
 	 	
 		parent::__construct($a_parent_obj,'editMembers');
 		$this->setFormName('participants');
@@ -64,17 +64,19 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('lastname'),'lastname','20%');
 	 	$this->addColumn($this->lng->txt('login'),'login','25%');
 
-	 	if($this->privacy->enabledGroupAccessTimes())
+	 	if($this->privacy->enabledCourseAccessTimes())
 	 	{
 		 	$this->addColumn($this->lng->txt('last_access'),'access_time');
 	 	}
-	 	$this->addColumn($this->lng->txt('grp_notification'),'notification');
+	 	$this->addColumn($this->lng->txt('crs_passed'),'passed');
+	 	$this->addColumn($this->lng->txt('crs_blocked'),'blocked');
+	 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
 	 	$this->addColumn($this->lng->txt('objs_role'),'roles');
 
 		$this->addCommandButton('updateMembers',$this->lng->txt('save'));
 		$this->addCommandButton('members',$this->lng->txt('cancel'));
 	 	
-		$this->setRowTemplate("tpl.edit_participants_row.html","Modules/Group");
+		$this->setRowTemplate("tpl.edit_participants_row.html","Modules/Course");
 		
 		$this->disable('sort');
 		$this->enable('header');
@@ -96,17 +98,18 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
 
-		if($this->privacy->enabledGroupAccessTimes())
+		if($this->privacy->enabledCourseAccessTimes())
 		{
 			$this->tpl->setVariable('VAL_ACCESS',$a_set['access_time']);
 		}
-		$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
+		$this->tpl->setVariable('VAL_PASSED_CHECKED',$a_set['passed'] ? 'checked="checked"' : '');
+		$this->tpl->setVariable('VAL_BLOCKED_CHECKED',$a_set['blocked'] ? 'checked="checked"' : '');
 		
 		$this->tpl->setVariable('NUM_ROLES',count($this->participants->getRoles()));
 		
 		$assigned = $this->participants->getAssignedRoles($a_set['usr_id']);
-		foreach($this->container->object->getLocalGroupRoles(true) as $name => $role_id)
+		foreach($this->container->object->getLocalCourseRoles(true) as $name => $role_id)
 		{
 			$this->tpl->setCurrentBlock('roles');
 			$this->tpl->setVariable('ROLE_ID',$role_id);

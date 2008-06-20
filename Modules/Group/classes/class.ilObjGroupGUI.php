@@ -814,7 +814,15 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
 
-		if($privacy->enabledAccessTimes())
+		if($this->show_tracking)
+		{
+			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+			$completed = ilLPStatusWrapper::_getCompleted($this->object->getId());
+			$in_progress = ilLPStatusWrapper::_getInProgress($this->object->getId());
+			$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->object->getId());
+		}
+
+		if($privacy->enabledGroupAccessTimes())
 		{
 			include_once('./Services/Tracking/classes/class.ilLearningProgress.php');
 			$progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
@@ -830,7 +838,23 @@ class ilObjGroupGUI extends ilContainerGUI
 			$tmp_data['usr_id'] = $usr_id;
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 
-			if($privacy->enabledAccessTimes())
+			if($this->show_tracking)
+			{
+				if(in_array($usr_id,$completed))
+				{
+					$tmp_data['progress'] = LP_STATUS_COMPLETED;
+				}
+				elseif(in_array($usr_id,$in_progress))
+				{
+					$tmp_data['progress'] = LP_STATUS_IN_PROGRESS;
+				}
+				else
+				{
+					$tmp_data['progress'] = LP_STATUS_NOT_ATTEMPTED;
+				}
+			}
+
+			if($privacy->enabledGroupAccessTimes())
 			{
 				if(isset($progress[$usr_id]['ts']) and $progress[$usr_id]['ts'])
 				{
@@ -861,6 +885,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Modules/Group/classes/class.ilGroupParticipantsTableGUI.php');
 		
 		$this->checkPermission('write');
+		
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
+		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
+			ilObjUserTracking::_enabledUserRelatedData() and
+			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
+		
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 
@@ -946,7 +977,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('grp_admin_hide'))
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',false);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',false,$this->show_tracking);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -956,7 +987,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',true);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',true,$this->show_tracking);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -973,7 +1004,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('grp_member_hide'))
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'member',false);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'member',false,$this->show_tracking);
 				$this->ctrl->setParameter($this,'member_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -983,7 +1014,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'member',true);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'member',true,$this->show_tracking);
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),

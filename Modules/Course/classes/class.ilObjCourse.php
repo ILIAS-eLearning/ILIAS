@@ -1353,6 +1353,45 @@ class ilObjCourse extends ilContainer
 
 		return $row["obj_id"];
 	}
+	
+	/**
+	* get ALL local roles of course, also those created and defined afterwards
+	* only fetch data once from database. info is stored in object variable
+	* @access	public
+	* @return	return array [title|id] of roles...
+	*/
+	public function getLocalCourseRoles($a_translate = false)
+	{
+		global $rbacadmin,$rbacreview;
+
+		if (empty($this->local_roles))
+		{
+			$this->local_roles = array();
+			$rolf  = $rbacreview->getRoleFolderOfObject($this->getRefId());
+			$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+
+			foreach ($role_arr as $role_id)
+			{
+				if ($rbacreview->isAssignable($role_id,$rolf["ref_id"]) == true)
+				{
+					$role_Obj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
+
+					if ($a_translate)
+					{
+						$role_name = ilObjRole::_getTranslation($role_Obj->getTitle());
+					}
+					else
+					{
+						$role_name = $role_Obj->getTitle();
+					}
+					$this->local_roles[$role_name] = $role_Obj->getId();
+				}
+			}
+		}
+
+		return $this->local_roles;
+	}
+	
 
 
 	/**

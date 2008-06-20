@@ -28,10 +28,10 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ingroup ModulesGroup
+* @ingroup ModulesCourse
 */
 
-class ilGroupParticipantsTableGUI extends ilTable2GUI
+class ilCourseParticipantsTableGUI extends ilTable2GUI
 {
 	protected $type = 'admin';
 	protected $show_learning_progress = false;
@@ -43,14 +43,14 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true,$show_learning_progress = false)
+	public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true,$a_show_learning_progress = false)
 	{
 	 	global $lng,$ilCtrl;
 	 	
-	 	$this->show_learning_progress = $show_learning_progress;
+	 	$this->show_learning_progress = $a_show_learning_progress;
 	 	
 	 	$this->lng = $lng;
-		$this->lng->loadLanguageModule('grp');
+		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('trac');
 	 	$this->ctrl = $ilCtrl;
 	 	
@@ -64,33 +64,43 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 		$this->setFormName('participants');
 
 	 	$this->addColumn('','f',"1");
-	 	$this->addColumn($this->lng->txt('lastname'),'lastname','20%');
-	 	$this->addColumn($this->lng->txt('login'),'login','25%');
-	 	
+	 	$this->addColumn($this->lng->txt('lastname'),'lastname','25%');
+	 	$this->addColumn($this->lng->txt('login'),'login','15%');
+
 		if($this->show_learning_progress)
 		{
 			$this->addColumn($this->lng->txt('learning_progress'),'progress');
 		}
 
-	 	if($this->privacy->enabledGroupAccessTimes())
+	 	if($this->privacy->enabledCourseAccessTimes())
 	 	{
-		 	$this->addColumn($this->lng->txt('last_access'),'access_time');
+		 	$this->addColumn($this->lng->txt('last_access'),'access_time','16em');
 	 	}
+		$this->addColumn($this->lng->txt('crs_member_passed'),'passed');
 		if($this->type == 'admin')
 		{
 			$this->setPrefix('admin');
 			$this->setSelectAllCheckbox('admins');
-		 	$this->addColumn($this->lng->txt('grp_notification'),'notification');
-			$this->addCommandButton('updateStatus',$this->lng->txt('save'));
+		 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
+			$this->addCommandButton('updateAdminStatus',$this->lng->txt('save'));
+		}
+		elseif($this->type == 'tutor')
+		{
+			$this->setPrefix('tutor');
+			$this->setSelectAllCheckbox('tutors');
+		 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
+			$this->addCommandButton('updateTutorStatus',$this->lng->txt('save'));
 		}
 		else
 		{
 			$this->setPrefix('member');
+			$this->addColumn($this->lng->txt('crs_blocked'),'blocked');
 			$this->setSelectAllCheckbox('members');
+			$this->addCommandButton('updateMemberStatus',$this->lng->txt('save'));
 		}
 	 	$this->addColumn($this->lng->txt(''),'optional');
 	 	
-		$this->setRowTemplate("tpl.show_participants_row.html","Modules/Group");
+		$this->setRowTemplate("tpl.show_participants_row.html","Modules/Course");
 		
 		if($show_content)
 		{
@@ -123,11 +133,10 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME',$a_set['lastname'].', '.$a_set['firstname']);
 		
-		if($this->privacy->enabledGroupAccessTimes())
+		if($this->privacy->enabledCourseAccessTimes())
 		{
 			$this->tpl->setVariable('VAL_ACCESS',$a_set['access_time']);
 		}
-		
 		if($this->show_learning_progress)
 		{
 			$this->tpl->setCurrentBlock('lp');
@@ -151,17 +160,31 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		
 		if($this->type == 'admin')
 		{
 			$this->tpl->setVariable('VAL_POSTNAME','admins');
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
 			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
 		}
+		elseif($this->type == 'tutor')
+		{
+			$this->tpl->setVariable('VAL_POSTNAME','tutors');
+			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
+		}
 		else
 		{
+			$this->tpl->setCurrentBlock('blocked');
+			$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
+			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',$a_set['blocked'] ? 'checked="checked"' : '');
+			$this->tpl->parseCurrentBlock();
+			
 			$this->tpl->setVariable('VAL_POSTNAME','members');
 		}
+		
+		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
+		$this->tpl->setVariable('VAL_PASSED_CHECKED',$a_set['passed'] ? 'checked="checked"' : '');
+		
 		
 		$this->ctrl->setParameter($this->parent_obj,'member_id',$a_set['usr_id']);
 		$this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this->parent_obj,'editMember'));
@@ -169,8 +192,6 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 		$this->ctrl->clearParameters($this->parent_obj);
 		
 		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
-
-	
 	}
 	
 }

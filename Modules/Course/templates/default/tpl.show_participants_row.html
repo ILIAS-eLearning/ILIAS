@@ -1,6 +1,7 @@
 <tr class="{CSS_ROW}">
 	<td class="std">
 		<input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input type="hidden" name="visible_member_ids[]" value="{VAL_ID}" />		
 	</td>
 	<td class="std">
 		{VAL_NAME}
@@ -18,11 +19,19 @@
 		{VAL_ACCESS}
 	</td>
 	<!--  END access_time -->
+	<td class="std">
+		<input type="checkbox" name="passed[]" value="{VAL_PASSED_ID}" {VAL_PASSED_CHECKED} />
+	</td>
 	<!-- BEGIN notification -->
 	<td class="std">
 		<input type="checkbox" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
 	</td>
 	<!-- END notification -->
+	<!-- BEGIN blocked -->
+	<td class="std">
+		<input type="checkbox" name="blocked[]" value="{VAL_BLOCKED_ID}" {VAL_BLOCKED_CHECKED} />
+	</td>
+	<!-- END blocked -->
 	<td class="std">
 		<div style="float:right;">
 		  <a class="il_ContainerItemCommand2" href="{LINK_NAME}">{LINK_TXT}</a>&nbsp;&nbsp;

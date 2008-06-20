@@ -41,7 +41,8 @@ class ilPrivacySettings
 		private $export_confirm;
 		private $fora_statistics;
 		private $anonymous_fora;
-		private $access_times;
+		private $show_grp_access_times;
+		private $show_crs_access_times;
 		private $ref_id;
 
     /**
@@ -95,7 +96,8 @@ class ilPrivacySettings
 	*	write access to property fora statitics
 	* @param bool $a_status	value to set property
 	*/	
-	public function enableForaStatistics ($a_status) {
+	public function enableForaStatistics ($a_status) 
+	{
 		$this->fora_statistics = (bool) $a_status;
 	}
 	
@@ -103,25 +105,28 @@ class ilPrivacySettings
 	*	read access to property enable fora statistics
 	* @return bool true if enabled, false otherwise
 	*/
-	 public function enabledForaStatistics () {
+	public function enabledForaStatistics () 
+	{
 			return $this->fora_statistics;
-		}
+	}
 
 	/**
-	*	write access to property anonymous fora
+	* write access to property anonymous fora
 	* @param bool $a_status	value to set property
 	*/	
-	public function disableAnonymousFora ($a_status) {
+	public function disableAnonymousFora ($a_status) 
+	{
 		$this->anonymous_fora = (bool) $a_status;
 	}
 	
 	/**
-	*	read access to property enable anonymous fora
+	* read access to property enable anonymous fora
 	* @return bool true if enabled, false otherwise
 	*/
-	 public function disabledAnonymousFora () {
+	public function disabledAnonymousFora () 
+	{
 			return $this->anonymous_fora;
-		}
+	}
 
 	public function confirmationRequired()
 	{
@@ -140,9 +145,9 @@ class ilPrivacySettings
 	 * @param
 	 * 
 	 */
-	public function showAccessTimes($a_status)
+	public function showGroupAccessTimes($a_status)
 	{
-	 	$this->show_access_times = $a_status;
+	 	$this->show_grp_access_times = $a_status;
 	}
 	
 	/**
@@ -151,9 +156,32 @@ class ilPrivacySettings
 	 * @access public
 	 * 
 	 */
-	public function enabledAccessTimes()
+	public function enabledGroupAccessTimes()
 	{
-	 	return (bool) $this->show_access_times;
+	 	return (bool) $this->show_grp_access_times;
+	}
+	
+	/**
+	 * show course access times
+	 *
+	 * @access public
+	 * @param bool status
+	 * @return
+	 */
+	public function showCourseAccessTimes($a_status)
+	{
+		$this->show_crs_access_times = $a_status;
+	}
+	
+	/**
+	 * check if access time are enabled in courses
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function enabledCourseAccessTimes()
+	{
+		return (bool) $this->show_crs_access_times;
 	}
 
 	/**
@@ -167,7 +195,8 @@ class ilPrivacySettings
 	 	$this->settings->set('ps_export_course',(bool) $this->enabledExport());
 	 	$this->settings->set('enable_fora_statistics',(bool) $this->enabledForaStatistics());
 	 	$this->settings->set('disable_anonymous_fora',(bool) $this->disabledAnonymousFora());
-	 	$this->settings->set('ps_access_times',(bool) $this->enabledAccessTimes());
+	 	$this->settings->set('ps_access_times',(bool) $this->enabledGroupAccessTimes());
+	 	$this->settings->set('ps_crs_access_times',(bool) $this->enabledCourseAccessTimes());
 	}
 	/**
 	 * read settings
@@ -193,7 +222,8 @@ class ilPrivacySettings
 		$this->export_confirm = (bool) $this->settings->get('ps_export_confirm',false);
 		$this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics',false);
 		$this->anonymous_fora = (bool) $this->settings->get('disable_anonymous_fora',false);
-		$this->show_access_times = (bool) $this->settings->get('ps_access_times',false);
+		$this->show_grp_access_times = (bool) $this->settings->get('ps_access_times',false);
+		$this->show_crs_access_times = (bool) $this->settings->get('ps_crs_access_times',false);
 
 	}
 
@@ -202,7 +232,8 @@ class ilPrivacySettings
 	 *
 	 * @return 0, if everything is ok, an error code otherwise
 	 */
-	public function validate() {
+	public function validate() 
+	{
 	    return 0;
 	}
 

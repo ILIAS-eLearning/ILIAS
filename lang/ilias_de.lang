@@ -8355,4 +8355,5 @@ grp#:#reg_grp_max_members_short#:#Teilnehmeranzahl
 grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
 crs#:#crs_subscription_max_members_short#:#Teilnehmeranzahl
 crs#:#max_members_not_numeric#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
+ps#:#ps_show_crs_access#:#Anzeige der letzten Zugriffszeit von Kursteilnehmern
 assessment#:#assessment_eval_settings#:#Die folgenden Datenfelder in der Auswertung für alle Nutzerinnen anzeigen
