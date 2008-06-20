@@ -155,7 +155,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				case LP_STATUS_NOT_ATTEMPTED:
 					$this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
 					$this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/not_attempted.gif'));
-					break;				
+					break;
+					
+				case LP_STATUS_FAILED:
+					$this->tpl->setVariable('LP_STATUS_ALT',$this->lng->txt($a_set['progress']));
+					$this->tpl->setVariable('LP_STATUS_PATH',ilUtil::getImagePath('scorm/failed.gif'));
+					break;
+							
 			}
 			$this->tpl->parseCurrentBlock();
 		}
