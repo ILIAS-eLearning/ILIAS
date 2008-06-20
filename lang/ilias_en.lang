@@ -8357,3 +8357,4 @@ grp#:#reg_grp_max_members_short#:#Number of Members
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
 crs#:#crs_subscription_max_members_short#:#Number of Members
 crs#:#max_members_not_numeric#:#Please check the maximum number of users.
+assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users
