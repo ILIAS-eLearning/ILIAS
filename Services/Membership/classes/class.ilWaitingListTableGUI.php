@@ -143,7 +143,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 			
 			$name = ilObjUser::_lookupName($usr_id);
 			$tmp_arr['name'] = $name['lastname'].', '.$name['firstname'];
-			$tmp_arr['login'] = '['.ilObjUser::_lookupLogin($usr_id).']';
+			$tmp_arr['login'] = ''.ilObjUser::_lookupLogin($usr_id).'';
 			
 			$wait[] = $tmp_arr;
 		}

@@ -1459,9 +1459,11 @@ class ilObjSessionGUI extends ilObjectGUI
 	 */
 	public function getTabs($tabs_gui)
 	{
-	 	global $ilAccess,$ilTabs;
+	 	global $ilAccess,$ilTabs,$tree;
 
-		#$tabs_gui->setBackTarget($this->lng->txt('back_to_crs_content'),$this->ctrl->getParentReturn($this));
+		$parent_id = $tree->getParentId($this->object->getRefId());
+
+		$tabs_gui->setBackTarget($this->lng->txt('back_to_crs_content'),'repository.php?ref_id='.$parent_id);
 		$tabs_gui->addTarget('info_short',
 							 $this->ctrl->getLinkTarget($this,'infoScreen'));
 
