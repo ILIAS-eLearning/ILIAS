@@ -1923,7 +1923,7 @@ class ilForum
 	{
 		global $ilDB;
 		
-		if (!$this->isForumNotificationEnabled($user_id, $forum_id))
+		if (!$this->isForumNotificationEnabled($user_id))
 		{
 			/* Remove all notifications of threads that belong to the forum */ 
 			$q = "SELECT frm_notification.thread_id FROM frm_data, frm_notification, frm_threads WHERE " .
@@ -1932,9 +1932,10 @@ class ilForum
 					"frm_threads.thr_top_fk = frm_data.top_pk AND " .
 					"frm_data.top_frm_fk = ".$this->id." " .
 					"GROUP BY frm_notification.thread_id";
+
 			$res = $this->ilias->db->query($q);
-			if (!ilDBx::isDbError($res) &&
-				is_object($res) &&
+
+			if (is_object($res) &&
 				$res->numRows() > 0)
 			{
 				$thread_ids = "";
@@ -1987,10 +1988,15 @@ class ilForum
 	{
 		global $ilDB;
 		
-		$q = "SELECT COUNT(*) FROM frm_notification WHERE ";
-		$q .= "user_id = ".$ilDB->quote($user_id)." AND ";
-		$q .= "frm_id = ".$ilDB->quote($this->id);
-		return $this->ilias->db->getOne($q);
+		$query = $ilDB->prepare("SELECT COUNT(*) AS cnt FROM frm_notification WHERE user_id = ? AND frm_id = ?",
+		         	array("integer", "integer"));
+		$result = $ilDB->execute($query, array($user_id, $this->id));		
+		while($record = $ilDB->fetchAssoc($result))
+		{
+			return (bool)$record['cnt'];
+		}
+		
+		return false;
 	}
 
 	/**
@@ -2026,10 +2032,15 @@ class ilForum
 	{
 		global $ilDB;
 		
-		$q = "SELECT COUNT(*) FROM frm_notification WHERE ";
-		$q .= "user_id = ".$ilDB->quote($user_id)." AND ";
-		$q .= "thread_id = ".$ilDB->quote($thread_id)."";
-		return $this->ilias->db->getOne($q);
+		$query = $ilDB->prepare("SELECT COUNT(*) AS cnt FROM frm_notification WHERE user_id = ? AND thread_id = ?",
+		         	array("integer", "integer"));
+		$result = $ilDB->execute($query, array($user_id, $thread_id));		
+		while($record = $ilDB->fetchAssoc($result))
+		{
+			return (bool)$record['cnt'];
+		}
+		
+		return false;
 	}
 
 	function sendThreadNotifications($post_data)
@@ -2039,29 +2050,45 @@ class ilForum
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
 		
-		// GET THREAD DATA
-		$q = "SELECT thr_subject FROM frm_threads WHERE ";
-		$q .= "thr_pk = ".$ilDB->quote($post_data["pos_thr_fk"])."";
-		$thread_subject = $this->ilias->db->getOne($q);
-		$post_data["thr_subject"] = $thread_subject;
+		// GET THREAD DATA		
+		$query = $ilDB->prepare("SELECT thr_subject FROM frm_threads WHERE thr_pk = ?",
+			     	array('integer'));
+			
+		$result = $ilDB->execute($query, array($post_data['pos_thr_fk']));			
+		while($record = $ilDB->fetchAssoc($result))
+		{
+			$post_data['thr_subject'] = $record['thr_subject'];
+			break;
+		}
 
 		// GET AUTHOR OF NEW POST
-		$post_data["pos_usr_name"] = ilObjUser::_lookupLogin($post_data["pos_usr_id"]);
+		if(ilForumProperties::getInstance(self::_lookupObjIdForForumId($post_data['pos_top_fk']))->isAnonymized())
+		{
+			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'];
+		}
+		else
+		{
+			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_usr_id']);
+		}
+		if($post_data['pos_usr_name'] == '')
+		{
+			$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
+		}
 
 		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
 		$q = "SELECT user_id FROM frm_notification WHERE ";
 		$q .= "thread_id = ".$ilDB->quote($post_data["pos_thr_fk"])." AND ";
 		$q .= "user_id <> ".$ilDB->quote($_SESSION["AccountId"])."";
 		$res = $this->ilias->db->query($q);
+		
+		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{								
 			// SEND NOTIFICATIONS BY E-MAIL
-			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
-			$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
+			$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 											   $this->formatNotificationSubject(),
 											   $this->formatNotification($post_data),
 											   array(),array("system"));
-			unset($tmp_mail_obj);
 		}
 	}
 	
@@ -2073,13 +2100,29 @@ class ilForum
 		include_once './Services/User/classes/class.ilObjUser.php';
 		
 		// GET THREAD DATA
-		$q = "SELECT thr_subject FROM frm_threads WHERE ";
-		$q .= "thr_pk = ".$ilDB->quote($post_data["pos_thr_fk"])."";
-		$thread_subject = $this->ilias->db->getOne($q);
-		$post_data["thr_subject"] = $thread_subject;
+		$query = $ilDB->prepare("SELECT thr_subject FROM frm_threads WHERE thr_pk = ?",
+			     	array('integer'));
+			
+		$result = $ilDB->execute($query, array($post_data['pos_thr_fk']));			
+		while($record = $ilDB->fetchAssoc($result))
+		{
+			$post_data['thr_subject'] = $record['thr_subject'];
+			break;
+		}
 
 		// GET AUTHOR OF NEW POST
-		$post_data["pos_usr_name"] = ilObjUser::_lookupLogin($post_data["pos_usr_id"]);
+		if(ilForumProperties::getInstance(self::_lookupObjIdForForumId($post_data['pos_top_fk']))->isAnonymized())
+		{
+			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'];
+		}
+		else
+		{
+			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_usr_id']);
+		}
+		if($post_data['pos_usr_name'] == '')
+		{
+			$post_data['pos_usr_name'] = $this->lng->txt('forums_anonymous');
+		}
 
 		// GET USERS WHO WANT TO BE INFORMED ABOUT NEW POSTS
 		$q = "SELECT frm_notification.user_id FROM frm_notification, frm_data WHERE ";
@@ -2088,15 +2131,15 @@ class ilForum
 		$q .= "frm_notification.user_id <> ".$ilDB->quote($_SESSION["AccountId"])." ";
 		$q .= "GROUP BY frm_notification.user_id";
 		$res = $this->ilias->db->query($q);
+		
+		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{								
-			// SEND NOTIFICATIONS BY E-MAIL
-			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
-			$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
+			// SEND NOTIFICATIONS BY E-MAIL			
+			$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 											   $this->formatNotificationSubject(),
 											   $this->formatNotification($post_data),
 											   array(),array("system"));
-			unset($tmp_mail_obj);
 		}
 	}
 	
@@ -2140,10 +2183,15 @@ class ilForum
 		if (is_array($moderators = $this->getModerators()))
 		{
 			// GET THREAD DATA
-			$q = "SELECT thr_subject FROM frm_threads WHERE ";
-			$q .= "thr_pk = ".$ilDB->quote($post_data["pos_thr_fk"])."";
-			$thread_subject = $this->ilias->db->getOne($q);
-			$post_data["thr_subject"] = $thread_subject;
+			$query = $ilDB->prepare("SELECT thr_subject FROM frm_threads WHERE thr_pk = ?",
+			     	 	array('integer'));
+			
+			$result = $ilDB->execute($query, array($post_data['pos_thr_fk']));			
+			while($record = $ilDB->fetchAssoc($result))
+			{
+				$post_data['thr_subject'] = $record['thr_subject'];
+				break;
+			}
 	
 			// GET AUTHOR OF NEW POST
 			$post_data["pos_usr_name"] = ilObjUser::_lookupLogin($post_data["pos_usr_id"]);
@@ -2151,14 +2199,13 @@ class ilForum
 			$subject = $this->formatPostActivationNotificationSubject();
 			$message = $this->formatPostActivationNotification($post_data);
 			
+			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			foreach ($moderators as $moderator)
 			{
-				$tmp_mail_obj = new ilMail($ilUser->getId());
-				$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($moderator), '', '',
+				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($moderator), '', '',
 												   $subject,
 												   $message,
 												   array(), array("system"));
-				unset($tmp_mail_obj);
 			}
 		}
 	}

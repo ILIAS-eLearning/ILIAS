@@ -59,15 +59,7 @@ class ilPDMailGUI
 		// SET MAIL DATA
 		$counter = 1;
 		
-		$tpl = new ilTemplate("tpl.pd_mail.html", true, true, "Services/Mail");
-		
-		$tmp_user = new ilObjUser($mail_data["sender_id"]);
-		
-		// image
-		$tpl->setCurrentBlock("pers_image");
-		$tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
-		$tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
-		$tpl->parseCurrentBlock();
+		$tpl = new ilTemplate("tpl.pd_mail.html", true, true, "Services/Mail");	
 
 		// attachments
 		if($mail_data["attachments"])
@@ -89,16 +81,36 @@ class ilPDMailGUI
 
 		// FROM
 		$tpl->setVariable("TXT_FROM", $lng->txt("from"));
-		if(ilObjUser::_lookupPref($mail_data['sender_id'], 'public_profile') == 'y')
-		{
-			$tpl->setVariable("FROM", $tmp_user->getFullname());
+		$tmp_user = new ilObjUser($mail_data["sender_id"]);
+		if($mail_data['sender_id'] != ANONYMOUS_USER_ID)
+		{		
+			// image
+			$tpl->setCurrentBlock("pers_image");
+			$tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
+			$tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
+			$tpl->parseCurrentBlock();
+			if(ilObjUser::_lookupPref($mail_data['sender_id'], 'public_profile') == 'y')
+			{
+				$tpl->setVariable("FROM", $tmp_user->getFullname());
+			}
+	
+			if(!($login = $tmp_user->getLogin()))
+			{
+				$login = $mail_data["import_name"]." (".$lng->txt("user_deleted").")";
+			}
+			$tpl->setVariable("MAIL_LOGIN",$login);
 		}
-
-		if(!($login = $tmp_user->getLogin()))
-		{
-			$login = $mail_data["import_name"]." (".$lng->txt("user_deleted").")";
+		else
+		{		
+			// image						
+			$tpl->setCurrentBlock('pers_image');
+			$tpl->setVariable('IMG_SENDER', $tmp_user->getPersonalPicturePath('xsmall'));
+			$tpl->setVariable('ALT_SENDER', ilMail::_getAnonymousName());
+			$tpl->parseCurrentBlock();
+			
+			$tpl->setVariable('MAIL_LOGIN', ilMail::_getAnonymousName());
+			
 		}
-		$tpl->setVariable("MAIL_LOGIN",$login);
 
 		// TO
 		$tpl->setVariable("TXT_TO", $lng->txt("mail_to"));

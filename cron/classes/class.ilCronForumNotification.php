@@ -54,6 +54,7 @@ class ilCronForumNotification
 		$frm =& $forumObj->Forum;
 
 		$numRows = 0;
+		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($row["pos_usr_id"] != $row["user_id"])
@@ -83,12 +84,10 @@ class ilCronForumNotification
 						$lng[$user_language]->loadLanguageModule("forum");
 					}
 					$frm->setLanguage($lng[$user_language]);
-					$tmp_mail_obj = new ilMail($row["pos_usr_id"]);
-					$message = $tmp_mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
+					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 													   $frm->formatNotificationSubject(),
 													   $frm->formatNotification($row, 1),
 													   array(),array("normal"));
-					unset($tmp_mail_obj);
 					$numRows++;
 					
 				}

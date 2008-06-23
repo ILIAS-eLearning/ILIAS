@@ -1838,6 +1838,25 @@ class ilMail
 		
 		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 3";
 		$a_m_subject = "[".$inst_name."] ".$a_m_subject;
+		
+		if($this->user_id != ANONYMOUS_USER_ID)
+		{
+			$sender = $this->addFullname($this->getEmailOfSender());	
+		}
+		else
+		{
+			if(trim($this->ilias->getSetting('mail_external_sender_noreply')) != '')
+			{
+				include_once "Services/Mail/classes/class.ilMimeMail.php";
+				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
+						  '<noreply@'.trim($this->ilias->getSetting('mail_external_sender_noreply')).'>';
+			}
+			else
+			{
+				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
+						  '<noreply@'.$_SERVER['SERVER_NAME'].'>';
+			}
+		}
 
 		if($this->isSOAPEnabled())
 		{
@@ -1862,7 +1881,7 @@ class ilMail
 												$a_rcp_to,
 												$a_rcp_cc,
 												$a_rcp_bcc,
-												$this->addFullname($this->getEmailOfSender()),
+												$sender,
 												$a_m_subject,
 												$a_m_message,
 												$attachments));
@@ -1873,8 +1892,6 @@ class ilMail
 		{
 			// send direct
 			include_once "Services/Mail/classes/class.ilMimeMail.php";
-
-			$sender = $this->addFullname($this->getEmailOfSender());
 
 			$mmail = new ilMimeMail();
 			$mmail->autoCheck(false);
@@ -2257,6 +2274,11 @@ class ilMail
 		return sprintf($lang->txt('mail_auto_generated_info'),
 			$ilSetting->get('inst_name','ILIAS 3'),
 			ILIAS_HTTP_PATH."\n\n");
+	}
+	
+	public static function _getAnonymousName()
+	{		
+		return 'ILIAS';
 	}
 } // END class.ilMail
 ?>

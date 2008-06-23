@@ -77,6 +77,7 @@ class ilObjMailGUI extends ilObjectGUI
 				$settings["mail_maxsize_box"] = $_POST["mail_maxsize_box"];
 				$settings["mail_maxtime_mail"] = $_POST["mail_maxtime_mail"];
 				$settings["mail_maxtime_attach"] = $_POST["mail_maxtime_attach"];
+				$settings['mail_external_sender_noreply'] = ilUtil::stripSlashes($_POST['mail_external_sender_noreply']);
 			}
 			else // all required fields ok
 			{
@@ -98,6 +99,7 @@ class ilObjMailGUI extends ilObjectGUI
 				$this->ilias->setSetting("mail_maxtime_mail",$_POST["mail_maxtime_mail"]);
 				$this->ilias->setSetting("mail_maxtime_attach",$_POST["mail_maxtime_attach"]);
 				$this->ilias->setSetting("pear_mail_enable",$_POST["pear_mail_enable"]);
+				$this->ilias->setSetting('mail_external_sender_noreply', ilUtil::stripSlashes($_POST['mail_external_sender_noreply']));
 
 				$settings = $this->ilias->getAllSettings();
 
@@ -201,6 +203,11 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->tpl->setVariable("MAIL_MAXSIZE_BOX", $settings["mail_maxsize_box"]);
 		$this->tpl->setVariable("MAIL_MAXTIME_MAIL", $settings["mail_maxtime_mail"]);
 		$this->tpl->setVariable("MAIL_MAXTIME_ATTACH", $settings["mail_maxtime_attach"]);
+		
+		// noreply
+		$this->tpl->setVariable('TXT_MAIL_EXTERNAL_SENDER_NOREPLY', $this->lng->txt('mail_external_sender_noreply'));
+		$this->tpl->setVariable('MAIL_EXTERNAL_SENDER_NOREPLY', $settings['mail_external_sender_noreply']);
+		$this->tpl->setVariable('INFO_MAIL_EXTERNAL_SENDER_NOREPLY', $this->lng->txt('info_mail_external_sender_noreply'));
 
 		$this->tpl->parseCurrentBlock();
 	}
