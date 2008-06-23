@@ -641,8 +641,9 @@ class ilObjChatGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->object->chat_room->getErrorMessage(),$this->ilias->error_obj->MESSAGE);
 		}
 		unset($_GET["room_id_delete"]);
-		ilUtil::sendInfo($this->lng->txt("chat_rooms_deleted"),true);
-		$this->showFramesObject();
+		ilUtil::sendInfo($this->lng->txt("chat_rooms_deleted"), true);				
+		//$this->showFramesObject();
+		$this->ctrl->redirect($this, 'showFrames');
 	}
 
 	function confirmedDeleteRoomObject()
