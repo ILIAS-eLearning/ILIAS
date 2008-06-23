@@ -591,13 +591,19 @@ class ilInitialisation
 
 		// check client ip
 		$clientip = $ilUser->getClientIP();
-		if (trim($clientip) != "" and $clientip != $_SERVER["REMOTE_ADDR"])
+		if (trim($clientip) != "")
 		{
-			$ilLog ->logError(1,
+			$clientip = preg_replace("/[^0-9.?*,:]+/","",$clientip);
+			$clientip = str_replace(".","\\.",$clientip);
+			$clientip = str_replace(Array("?","*",","), Array("[0-9]","[0-9]*","|"), $clientip);
+			if (!preg_match("/^".$clientip."$/", $_SERVER["REMOTE_ADDR"])) 
+			{
+				$ilLog ->logError(1,
 				$ilias->account->getLogin().":".$_SERVER["REMOTE_ADDR"].":".$message);
-			$ilAuth->logout();
-			@session_destroy();
-			ilUtil::redirect("login.php?wrong_ip=true");
+				$ilAuth->logout();
+				@session_destroy();
+				ilUtil::redirect("login.php?wrong_ip=true");
+			}
 		}
 	}
 
