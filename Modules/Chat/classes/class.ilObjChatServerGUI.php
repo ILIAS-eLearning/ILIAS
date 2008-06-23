@@ -139,6 +139,10 @@ class ilObjChatServerGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_ACT_SUBMIT",$this->lng->txt("change"));
 			$this->tpl->setVariable("SELECT_ACT_STATUS",$this->__getStatusSelect($active));
 		}
+		else if(!$this->object->server_conf->isAlive())
+		{
+			ilUtil::sendInfo($this->lng->txt('chat_cannot_connect_to_server'));
+		}
 			
 
 
