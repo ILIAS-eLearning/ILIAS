@@ -4914,5 +4914,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
-
-
+<#1270>
+ALTER TABLE `usr_data` CHANGE `client_ip` `client_ip` VARCHAR( 255 );
+<#1271>
+ALTER TABLE `tst_invited_user` CHANGE `clientip` `clientip` VARCHAR( 255 );
