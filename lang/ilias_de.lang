@@ -8359,3 +8359,5 @@ ps#:#ps_show_crs_access#:#Anzeige der letzten Zugriffszeit von Kursteilnehmern
 assessment#:#assessment_eval_settings#:#Die folgenden Datenfelder in der Auswertung für alle Nutzerinnen anzeigen
 mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.
+chat#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chatserver aufbauen.
+mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.
