@@ -514,9 +514,19 @@ function _getQuestionCount($test_id)
 				if ($result->numRows())
 				{
 					$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-					if (strcmp($row["clientip"],"")!=0 && strcmp($row["clientip"],$_SERVER["REMOTE_ADDR"])!=0)
+					if (trim($row['clientip']) != "")
 					{
-						return $lng->txt("tst_user_wrong_clientip");
+						$row['clientip'] = preg_replace("/[^0-9.?*,:]+/","",$row['clientip']);
+						$row['clientip'] = str_replace(".","\\.",$row['clientip']);
+						$row['clientip'] = str_replace(Array("?","*",","), Array("[0-9]","[0-9]*","|"), $row['clientip']);
+						if (!preg_match("/^".$row['clientip']."$/", $_SERVER["REMOTE_ADDR"])) 
+						{
+							return $lng->txt("tst_user_wrong_clientip");
+						}
+						else
+						{
+							return true;
+						}	
 					}
 					else
 					{

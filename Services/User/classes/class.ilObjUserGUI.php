@@ -1473,7 +1473,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// client IP
 		$ip = new ilTextInputGUI($lng->txt("client_ip"), "client_ip");
 		$ip->setSize(40);
-		$ip->setMaxLength(40);
+		$ip->setMaxLength(255);
 		$ip->setInfo($this->lng->txt("current_ip")." ".$_SERVER["REMOTE_ADDR"]." <br />".
 			'<small class="warning">'.$this->lng->txt("current_ip_alert")."</span>");
 		$this->form_gui->addItem($ip);
