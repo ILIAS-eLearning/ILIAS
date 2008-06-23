@@ -268,12 +268,16 @@ class ilAddressbook
 	{
 		global $ilDB;
 		
-		if ($a_login != "")
+		if ($a_login != '')
 		{
-			$query = "SELECT addr_id FROM $this->table_addr ".
-					 "WHERE user_id = ".$ilDB->quote($this->user_id)." 
-                      AND login = ".$ilDB->quote($a_login)." ";
-			return $this->ilias->db->getOne($query);
+			$query = $ilDB->prepare("SELECT addr_id FROM ".$this->table_addr." WHERE user_id = ? AND login = ?",
+			     	 	array('integer', 'text'));
+			
+			$result = $ilDB->execute($query, array($this->user_id, $a_login));			
+			while($record = $ilDB->fetchAssoc($result))
+			{
+				return $record['addr_id'];
+			}
 		}
 		
 		return 0;
@@ -286,10 +290,14 @@ class ilAddressbook
 		
 		if ($a_login != "")
 		{
-			$query = "SELECT addr_id FROM $this->table_addr ".
-				"WHERE user_id = ".$ilDB->quote($this->user_id)." ".
-				"AND login = ".$ilDB->quote($a_login)." ";
-			return $this->ilias->db->getOne($query);
+			$query = $ilDB->prepare("SELECT addr_id FROM ".$this->table_addr." WHERE user_id = ? AND login = ?",
+			     	 	array('integer', 'text'));
+			
+			$result = $ilDB->execute($query, array($this->user_id, $a_login));			
+			while($record = $ilDB->fetchAssoc($result))
+			{
+				return $record['addr_id'];
+			}
 		}
 		
 		return 0;

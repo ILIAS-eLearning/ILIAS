@@ -8359,3 +8359,5 @@ crs#:#crs_subscription_max_members_short#:#Number of Members
 crs#:#max_members_not_numeric#:#Please check the maximum number of users.
 ps#:#ps_show_crs_access#:#Show last access time of course participants
 assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users
+mail#:#mail_external_sender_noreply#:#noreply-Adresse
+mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.

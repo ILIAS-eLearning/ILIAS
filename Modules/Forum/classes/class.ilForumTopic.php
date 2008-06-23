@@ -729,14 +729,18 @@ class ilForumTopic
 	public function isNotificationEnabled($a_user_id)
 	{
 		if ($this->id && $a_user_id)
-		{			
-			$query = "SELECT COUNT(*) 
-					  FROM frm_notification 
-					  WHERE 1
-					  AND user_id = ".$this->db->quote($a_user_id)."  
-					  AND thread_id = ".$this->db->quote($this->id)." ";
+		{					
+			$query = $this->db->prepare("SELECT COUNT(*) AS cnt FROM frm_notification WHERE user_id = ? AND thread_id = ?",
+			         	array("integer", "integer"));
 			
-			return ($this->db->getOne($query)) ? true : false;
+			$result = $this->db->execute($query, array($a_user_id, $this->id));			
+			while($record = $this->db->fetchAssoc($result))
+			{
+				return (bool)$record['cnt'];
+			}
+			
+			return false;
+			
 		}
 		
 		return false;		

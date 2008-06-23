@@ -377,25 +377,40 @@ class ilMailFolderGUI
 			}
 			else
 			{
-				$tmp_user = new ilObjUser($mail["sender_id"]);
-				if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
+				if($mail["sender_id"] != ANONYMOUS_USER_ID)
 				{
-					$this->tpl->setVariable('MAIL_FROM', $tmp_user->getFullname());
+					$tmp_user = new ilObjUser($mail["sender_id"]); 
+					if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
+					{
+						$this->tpl->setVariable('MAIL_FROM', $tmp_user->getFullname());
+					}					
+					if(!($login = $tmp_user->getLogin()))
+					{
+						$login = $mail["import_name"]." (".$this->lng->txt("user_deleted").")";
+					}
+					$pic_path = $tmp_user->getPersonalPicturePath("xxsmall");
+					
+					$this->tpl->setCurrentBlock("pers_image");
+					$this->tpl->setVariable("IMG_SENDER", $pic_path);
+					$this->tpl->setVariable("ALT_SENDER", $login);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("mails");
+			
+					$this->tpl->setVariable("MAIL_LOGIN",$login);
 				}
-
-				if(!($login = $tmp_user->getLogin()))
+				else
 				{
-					$login = $mail["import_name"]." (".$this->lng->txt("user_deleted").")";
+					$tmp_user = new ilObjUser(ANONYMOUS_USER_ID);					
+					$pic_path = $tmp_user->getPersonalPicturePath('xxsmall');
+					
+					$this->tpl->setCurrentBlock('pers_image');
+					$this->tpl->setVariable('IMG_SENDER', $pic_path);
+					$this->tpl->setVariable('ALT_SENDER', ilMail::_getAnonymousName());
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock('mails');
+			
+					$this->tpl->setVariable('MAIL_LOGIN', ilMail::_getAnonymousName());
 				}
-				$pic_path = $tmp_user->getPersonalPicturePath("xxsmall");
-				
-				$this->tpl->setCurrentBlock("pers_image");
-				$this->tpl->setVariable("IMG_SENDER", $pic_path);
-				$this->tpl->setVariable("ALT_SENDER", $login);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("mails");
-		
-				$this->tpl->setVariable("MAIL_LOGIN",$login);
 			}
 			$this->tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
 			// IF ACTUAL FOLDER IS DRAFT BOX, DIRECT TO COMPOSE MESSAGE
@@ -876,7 +891,8 @@ class ilMailFolderGUI
 		
 		//buttons
 		$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
-		if($mailData["sender_id"])
+		if($mailData["sender_id"] &&
+		   $mailData["sender_id"] != ANONYMOUS_USER_ID)
 		{
 			$tplbtn->setCurrentBlock("btn_cell");
 			$this->ctrl->setParameterByClass("ilmailformgui", "mail_id", $_GET["mail_id"]);
@@ -918,7 +934,9 @@ class ilMailFolderGUI
 		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$this->ctrl->clearParameters($this);
 		
-		if ($mailData["sender_id"] && $mailData["sender_id"] != $ilUser->getId())
+		if ($mailData["sender_id"] && 
+		    $mailData["sender_id"] != $ilUser->getId() && 
+			$mailData["sender_id"] != ANONYMOUS_USER_ID)
 		{
 			require_once "Services/Mail/classes/class.ilAddressbook.php";
 			$abook = new ilAddressbook($ilUser->getId());
@@ -944,31 +962,38 @@ class ilMailFolderGUI
 		$counter = 1;
 		
 		// FROM
-		$this->tpl->setVariable('TXT_FROM', $this->lng->txt('from'));
-		
-		$tmp_user = new ilObjUser($mailData['sender_id']);
-		
-		$this->ctrl->setParameter($this, 'mail_id', $_GET['mail_id']);
-		$this->ctrl->setParameter($this, 'user', $tmp_user->getId());		
-		
-		if(ilObjUser::_lookupPref($mailData['sender_id'], 'public_profile') == 'y')
+		if($mailData["sender_id"] != ANONYMOUS_USER_ID)
 		{
-			$this->tpl->setVariable('PROFILE_LINK_FROM', $this->ctrl->getLinkTarget($this, 'showUser'));
-			$this->tpl->setVariable('FROM', $tmp_user->getFullname());
-		}	
-		
-		$this->tpl->setCurrentBlock("pers_image");
-		$this->tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
-		$this->tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		
-		if(!($login = $tmp_user->getLogin()))
-		{
-			$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
+			$tmp_user = new ilObjUser($mailData['sender_id']);		
+			$this->ctrl->setParameter($this, 'mail_id', $_GET['mail_id']);
+			$this->ctrl->setParameter($this, 'user', $tmp_user->getId());				
+			if(ilObjUser::_lookupPref($mailData['sender_id'], 'public_profile') == 'y')
+			{
+				$this->tpl->setVariable('PROFILE_LINK_FROM', $this->ctrl->getLinkTarget($this, 'showUser'));
+				$this->tpl->setVariable('FROM', $tmp_user->getFullname());
+			}			
+			$this->tpl->setCurrentBlock("pers_image");
+			$this->tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
+			$this->tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("adm_content");		
+			if(!($login = $tmp_user->getLogin()))
+			{
+				$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
+			}
+			$this->tpl->setVariable("MAIL_LOGIN",$login);
+			$this->tpl->setVariable("CSSROW_FROM", (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		}
-		$this->tpl->setVariable("MAIL_LOGIN",$login);
-		$this->tpl->setVariable("CSSROW_FROM", (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
+		else
+		{
+			$tmp_user = new ilObjUser(ANONYMOUS_USER_ID);		
+			$this->tpl->setVariable('MAIL_LOGIN', ilMail::_getAnonymousName());
+			$this->tpl->setCurrentBlock('pers_image');
+			$this->tpl->setVariable('IMG_SENDER', $tmp_user->getPersonalPicturePath('xsmall'));
+			$this->tpl->setVariable('ALT_SENDER', ilMail::_getAnonymousName());
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		// TO
 		$this->tpl->setVariable('TXT_TO', $this->lng->txt('mail_to'));		
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
@@ -1107,15 +1132,21 @@ class ilMailFolderGUI
 		$mailData = $this->umail->getMail($_GET["mail_id"]);
 		
 		// SET MAIL DATA
-		// FROM
-		$tplprint->setVariable("TXT_FROM", $this->lng->txt("from"));
-		
-		$tmp_user = new ilObjUser($mailData["sender_id"]); 
-		if(!($login = $tmp_user->getFullname()))
+		// FROM		 
+		if($mailData["sender_id"] != ANONYMOUS_USER_ID)
 		{
-			$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
+			$tmp_user = new ilObjUser($mailData["sender_id"]);
+			if(!($login = $tmp_user->getFullname()))
+			{
+				$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
+			}
+			$tplprint->setVariable("FROM", $login);
 		}
-		$tplprint->setVariable("FROM", $login);
+		else
+		{
+			$tplprint->setVariable('FROM', ilMail::_getAnonymousName());
+		}
+		
 		// TO
 		$tplprint->setVariable("TXT_TO", $this->lng->txt("mail_to"));
 		$tplprint->setVariable("TO", $mailData["rcp_to"]);

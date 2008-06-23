@@ -715,13 +715,18 @@ class ilObjForum extends ilObject
 	* @access	private
 	*/
 	function isThreadNotificationEnabled($user_id, $thread_id)
-	{
+	{		
 		global $ilDB;
 		
-		$q = "SELECT COUNT(*) FROM frm_notification WHERE ";
-		$q .= "user_id = " .$ilDB->quote($user_id). " AND ";
-		$q .= "thread_id = ".$ilDB->quote($thread_id). "";
-		return $this->ilias->db->getOne($q);
+		$query = $ilDB->prepare("SELECT COUNT(*) AS cnt FROM frm_notification WHERE user_id = ? AND thread_id = ?",
+		         	array("integer", "integer"));
+		$result = $ilDB->execute($query, array($user_id, $thread_id));		
+		while($record = $ilDB->fetchAssoc($result))
+		{
+			return (bool)$record['cnt'];
+		}
+		
+		return false;
 	}
 } // END class.ilObjForum
 ?>

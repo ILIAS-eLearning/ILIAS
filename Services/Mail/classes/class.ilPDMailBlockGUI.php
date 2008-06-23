@@ -192,13 +192,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		global $ilUser, $ilCtrl, $lng;
 
 		// GET SENDER NAME
-		$user = new ilObjUser($mail["sender_id"]);
-		
-		if(!($fullname = $user->getFullname()))
-		{
-			$fullname = $lng->txt("unknown");
-		}
-
+		$user = new ilObjUser($mail["sender_id"]);		
 		if ($this->getCurrentDetailLevel() > 2)
 		{
 			$this->tpl->setCurrentBlock("image");
@@ -206,20 +200,40 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$this->tpl->setVariable("ALT_SENDER", $user->getLogin());
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("long");
-			if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
+			if($mail['sender_id'] != ANONYMOUS_USER_ID)
 			{
-				$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
+				if(ilObjUser::_lookupPref($mail['sender_id'], 'public_profile') == 'y')
+				{
+					if(!($fullname = $user->getFullname()))
+					{
+						$fullname = $lng->txt("unknown");
+					}
+					$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
+				}
+				$this->tpl->setVariable("NEW_MAIL_FROM_LOGIN", $user->getLogin());
 			}
-			$this->tpl->setVariable("NEW_MAIL_FROM_LOGIN", $user->getLogin());
+			else
+			{
+				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', ilMail::_getAnonymousName());				
+			}
 			$this->tpl->setVariable('NEW_MAIL_DATE', ilFormat::formatDate($mail['send_time'], 'date', true));
 			$this->tpl->setVariable("TXT_FROM", $lng->txt("from"));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("short");
-			$this->tpl->setVariable("NEW_MAIL_FROM_LOGIN", $user->getLogin());
-			$this->tpl->parseCurrentBlock();
+			if($mail['sender_id'] != ANONYMOUS_USER_ID)
+			{
+				$this->tpl->setCurrentBlock('short');
+				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', $user->getLogin());
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock('short');
+				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', ilMail::_getAnonymousName());
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		
 		$this->tpl->setVariable("NEW_MAIL_SUBJ", htmlentities($mail["m_subject"],ENT_NOQUOTES,'UTF-8'));

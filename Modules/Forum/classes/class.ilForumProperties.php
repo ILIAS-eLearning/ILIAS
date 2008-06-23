@@ -201,9 +201,16 @@ class ilForumProperties
 	{
 		global $ilDB;
 		
-		$q = "SELECT anonymized FROM frm_settings WHERE ";
-		$q .= "obj_id = ".$ilDB->quote($a_obj_id)."";
-		return $ilDB->getOne($q);
+		$query = $ilDB->prepare("SELECT anonymized FROM frm_settings WHERE obj_id = ?",
+		     	 	array('integer'));
+		
+		$result = $ilDB->execute($query, array($a_obj_id));			
+		while($record = $ilDB->fetchAssoc($result))
+		{
+			return $record['anonymized'];
+		}
+		
+		return 0;
 	}
 	
 	public function setPostActivation($a_post_activation)
