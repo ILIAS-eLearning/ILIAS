@@ -8360,3 +8360,6 @@ assessment#:#assessment_eval_settings#:#Die folgenden Datenfelder in der Auswert
 mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.
 chat#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chatserver aufbauen.
+crs#:#sess_gen_attendance_list#:#Teilnehmerliste erstellen
+crs#:#sess_date_time#:#Sitzungstermin
+common#:#err_auth_mode_inactive#:#Zur Zeit ist leider keine Anmeldung möglich.

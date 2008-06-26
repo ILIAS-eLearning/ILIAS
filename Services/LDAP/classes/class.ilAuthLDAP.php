@@ -97,7 +97,6 @@ class ilAuthLDAP extends Auth
 	{
 		global $ilBench;
 		
-		
 		$ilBench->start('Auth','LDAPLoginObserver');
 		$user_data = array_change_key_case($this->getAuthData(),CASE_LOWER);
 		
