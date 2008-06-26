@@ -50,14 +50,14 @@ class ilLearningProgress
 		global $ilDB;
 
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-		ilChangeEvent::_recordReadEvent($a_obj_id, $a_usr_id);
+		ilChangeEvent::_recordReadEvent($a_obj_id, $a_user_id);
 		return true;
 	}
 
 	function _getProgress($a_user_id,$a_obj_id)
 	{
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
-		$events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
+		$events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
 
 		foreach($events as $row)
 		{

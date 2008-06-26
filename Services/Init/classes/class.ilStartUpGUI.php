@@ -378,6 +378,7 @@ class ilStartUpGUI
 		// TODO: Move this to header.inc since an expired session could not detected in login script
 		$status = $ilAuth->getStatus();
 		
+		
 		if ($status == "")
 		{
 			$status = $_GET["auth_stat"];
@@ -414,6 +415,11 @@ class ilStartUpGUI
 				case AUTH_RADIUS_NO_ILIAS_USER:
 					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
 						$lng->txt('err_auth_radius_no_ilias_user'));
+					break;
+					
+				case AUTH_MODE_INACTIVE:
+					$tpl->setVariable('TXT_MSG_LOGIN_FAILED',
+						$lng->txt('err_auth_mode_inactive'));
 					break;
 							
 					

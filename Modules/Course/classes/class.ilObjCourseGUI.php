@@ -1911,6 +1911,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 		
 		
+		if(isset($_GET['member_table_nav']))
+		{
+			list($_SESSION['crs_print_sort'],$_SESSION['crs_print_order'],$tmp) = explode(':',$_GET['member_table_nav']);
+		}
+		
+
 		$this->checkPermission('write');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
 			ilObjUserTracking::_enabledUserRelatedData() and
@@ -3369,9 +3375,30 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function fetchPrintMemberData($a_members)
 	{
-		global $ilAccess;
+		global $ilAccess,$lng;
 
-		$is_admin = (bool) $ilAccess->checkAccess("write",'',$this->object->getRefId());
+		$lng->loadLanguageModule('trac');
+
+		#$is_admin = (bool) $ilAccess->checkAccess("write",'',$this->object->getRefId());
+		$is_admin = true;
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+
+		if($privacy->enabledCourseAccessTimes())
+		{
+			include_once('./Services/Tracking/classes/class.ilLearningProgress.php');
+			$progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
+		}
+		
+		if($this->show_tracking)
+		{
+			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
+			$completed = ilLPStatusWrapper::_getCompleted($this->object->getId());
+			$in_progress = ilLPStatusWrapper::_getInProgress($this->object->getId());
+			$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->object->getId());
+			$failed = ilLPStatusWrapper::_getFailed($this->object->getId());
+		}
 		
 		foreach($a_members as $member_id)
 		{
@@ -3423,11 +3450,48 @@ class ilObjCourseGUI extends ilContainerGUI
 									  $this->lng->txt('crs_member_not_passed');
 					
 				}
+				if($privacy->enabledCourseAccessTimes())
+				{
+					if(isset($progress[$member_id]['ts']) and $progress[$member_id]['ts'])
+					{
+						$print_member[$member_id]['access'] = ilFormat::formatDate($progress[$member_id]['ts'],'datetime',true); 
+					}
+					else
+					{
+						$print_member[$member_id]['access'] = $this->lng->txt('no_date');
+					}
+				}
+				if($this->show_tracking)
+				{
+					if(in_array($member_id,$completed))
+					{
+						$print_member[$member_id]['progress'] = $this->lng->txt(LP_STATUS_COMPLETED);
+					}
+					elseif(in_array($member_id,$in_progress))
+					{
+						$print_member[$member_id]['progress'] = $this->lng->txt(LP_STATUS_IN_PROGRESS);
+					}
+					elseif(in_array($member_id,$failed))
+					{
+						$print_member[$member_id]['progress'] = $this->lng->txt(LP_STATUS_FAILED);
+					}
+					else
+					{
+						$print_member[$member_id]['progress'] = $this->lng->txt(LP_STATUS_NOT_ATTEMPTED);
+					}
+				}
+				
 			}
 		}
 		
 		switch($_SESSION['crs_print_sort'])
 		{
+			case 'progress':
+				return ilUtil::sortArray($print_member,'progress',$_SESSION['crs_print_order']);
+			
+			case 'access_time':
+				return ilUtil::sortArray($print_member,'access',$_SESSION['crs_print_order']);
+			
 			case 'lastname':
 				return ilUtil::sortArray($print_member,'name',$_SESSION['crs_print_order']);
 				
@@ -3451,11 +3515,27 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
-		$is_admin = (bool) $rbacsystem->checkAccess("write", $this->object->getRefId());
-
-		$tpl =& new ilTemplate('tpl.crs_members_print.html',true,true,'Modules/Course');
+		$this->checkPermission('write');
+		
+		$is_admin = true;
+		$tpl = new ilTemplate('tpl.crs_members_print.html',true,true,'Modules/Course');
 
 		$this->object->initCourseMemberObject();
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		if($privacy->enabledCourseAccessTimes())
+		{
+			include_once('./Services/Tracking/classes/class.ilLearningProgress.php');
+			$progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
+		}
+
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
+		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
+			ilObjUserTracking::_enabledUserRelatedData() and
+			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
+		
 
 		// MEMBERS
 		if(count($members = $this->object->members_obj->getParticipants()))
@@ -3464,6 +3544,19 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 			foreach($members as $member_data)
 			{
+				if($this->show_tracking)
+				{
+					$tpl->setCurrentBlock('progress_row');
+					$tpl->setVariable('VAL_PROGRESS',$member_data['progress']);
+					$tpl->parseCurrentBlock();
+				}
+				
+				if($privacy->enabledCourseAccessTimes())
+				{
+					$tpl->setCurrentBlock('access_row');
+					$tpl->setVariable('VAL_ACCESS',$member_data['access']);
+					$tpl->parseCurrentBlock();
+				}
 				$tpl->setCurrentBlock("members_row");
 				$tpl->setVariable("LOGIN",$member_data['login']);
 				$tpl->setVariable("NAME",$member_data['name']);
@@ -3486,7 +3579,22 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tpl->setVariable("TXT_LOGIN",$this->lng->txt('username'));
 			$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
 			$tpl->setVariable("TXT_ROLE",$this->lng->txt('crs_role'));
-
+			
+			if($this->show_tracking)
+			{
+				$tpl->setCurrentBlock('progress');
+				$tpl->setVariable('TXT_PROGRESS',$this->lng->txt('learning_progress'));
+				$tpl->parseCurrentBlock();
+			}
+			
+			if($privacy->enabledCourseAccessTimes())
+			{
+				$tpl->setCurrentBlock('access');
+				$tpl->setVariable('TXT_ACCESS',$this->lng->txt('last_access'));
+				$tpl->parseCurrentBlock();
+			}
+			
+			
 			if($is_admin)
 			{
 				$tpl->setVariable("TXT_STATUS",$this->lng->txt('crs_status'));

@@ -196,9 +196,6 @@ class ilRepositoryExplorer extends ilExplorer
 			case "exc":
 				return "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=view&ref_id=".$a_node_id;
 
-			case "chat":
-				return "chat.php?cmd=view&ref_id=".$a_node_id;
-
 			case "fold":
 				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 				

@@ -34,11 +34,16 @@ define ("AUTH_HTTP",8);
 // END WebDAV: Add support for HTTP authentication
 define ("AUTH_ECS",9);
 
+
+define ("AUTH_INACTIVE",18);
+
 define('AUTH_MULTIPLE',20);
 
 define('AUTH_SOAP_NO_ILIAS_USER', -100);
 define('AUTH_LDAP_NO_ILIAS_USER',-200);
-define('AUTH_RADIUS_NI_ILIAS_USER',-300);
+define('AUTH_RADIUS_NO_ILIAS_USER',-300);
+
+define('AUTH_MODE_INACTIVE',-1000);
 
 
 // an external user cannot be found in ilias, but his email address
@@ -332,6 +337,11 @@ class ilAuthUtils
 				$ilAuth = new ilAuthECS($_GET['ecs_hash']);
 				break;
 				
+			case AUTH_INACTIVE:
+				include_once('./Services/Authentication/classes/class.ilAuthInactive.php');
+				$ilAuth = new ilAuthInactive(AUTH_MODE_INACTIVE);
+				break;
+				
 			default:
 				// build option string for PEAR::Auth
 				$auth_params = array(
@@ -392,7 +402,7 @@ class ilAuthUtils
 		if(!$det->isManualSelection())
 		{
 			return AUTH_MULTIPLE;
-		}	
+		}
 
 
 		$db =& $ilDB;
@@ -412,7 +422,10 @@ class ilAuthUtils
 		$r = $db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 //echo "+".$row->auth_mode."+";
-		return ilAuthUtils::_getAuthMode($row->auth_mode,$db);
+
+		$auth_mode =  self::_getAuthMode($row->auth_mode,$db);
+		
+		return in_array($auth_mode,self::_getActiveAuthModes()) ? $auth_mode : AUTH_INACTIVE;
 	}
 	
 	function _getAuthMode($a_auth_mode,$a_db_handler = '')
@@ -515,10 +528,10 @@ class ilAuthUtils
 	
 	function _getActiveAuthModes()
 	{
-		global $ilias;
+		global $ilias,$ilSetting;
 		
 		$modes = array(
-						'default'	=> $ilias->getSetting("auth_mode"),
+						'default'	=> $ilSetting->get("auth_mode"),
 						'local'		=> AUTH_LOCAL
 						);
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
@@ -526,11 +539,11 @@ class ilAuthUtils
 		{
 			$modes['ldap'] = AUTH_LDAP;			
 		}			
-		if ($ilias->getSetting("radius_active")) $modes['radius'] = AUTH_RADIUS;
-		if ($ilias->getSetting("shib_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
-		if ($ilias->getSetting("script_active")) $modes['script'] = AUTH_SCRIPT;
-		if ($ilias->getSetting("cas_active")) $modes['cas'] = AUTH_CAS;
-		if ($ilias->getSetting("soap_auth_active")) $modes['soap'] = AUTH_SOAP;
+		if ($ilSetting->get("radius_active")) $modes['radius'] = AUTH_RADIUS;
+		if ($ilSetting->get("shib_active")) $modes['shibboleth'] = AUTH_SHIBBOLETH;
+		if ($ilSetting->get("script_active")) $modes['script'] = AUTH_SCRIPT;
+		if ($ilSetting->get("cas_active")) $modes['cas'] = AUTH_CAS;
+		if ($ilSetting->get("soap_auth_active")) $modes['soap'] = AUTH_SOAP;
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
 		
