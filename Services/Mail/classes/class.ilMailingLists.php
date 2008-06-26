@@ -48,7 +48,7 @@ class ilMailingLists
 		return new ilMailingList($this->user, $id);
 	}
 	
-	public function getSelected(Array $a_ids = array())
+	public function getSelected($a_ids = array())
 	{
 		$entries = array();
 		
