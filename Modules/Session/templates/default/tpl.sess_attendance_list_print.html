@@ -1,0 +1,34 @@
+<style>
+body { margin:20px; }
+</style>
+
+<h1><strong>{ATTENDANCE_LIST}</strong></h1>
+<h1><strong>{EVENT_NAME} ({DATE})</strong></h1>
+
+<table class="std" border="2" width="100%">
+	<thead>
+		<tr class="tblheader" padding="1px">
+		  <th>{TXT_NAME}</th>
+		  <th>{TXT_MARK}</th>
+		  <th>{TXT_COMMENT}</th>
+		  <th>{TXT_SIGNATURE}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- BEGIN member_row -->
+		<tr class="std">
+		  <td class="option_value">
+			{LASTNAME}, {FIRSTNAME} [{LOGIN}]
+		  </td>
+		  <td class="option_value">
+			{MARK}
+		  </td>
+		  <td class="option_value">
+			{COMMENT}
+		  </td>
+		  <td class="option_value">
+		  </td>
+		</tr>
+		<!-- END member_row -->
+	</tbody>
+</table>

@@ -8366,3 +8366,9 @@ crs#:#sess_gen_attendance_list#:#Generate Attendance List
 crs#:#sess_date_time#:#Session Appointment
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#missing_precondition#:#Missing Precondition
+crs#:#sess_gen_mark_title#:#Generate Column for Notes
+crs#:#sess_gen_comment#:#Generate Column for Comments
+crs#:#sess_gen_signature#:#Generate Column for Signatures
+crs#:#sess_print_attendance_list#:#Print Attendance List
+crs#:#sess_signature#:#Signature
+crs#:#sess_attendance_list#:#Attendance List

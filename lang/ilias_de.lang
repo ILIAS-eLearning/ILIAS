@@ -8364,3 +8364,9 @@ crs#:#sess_gen_attendance_list#:#Teilnehmerliste erstellen
 crs#:#sess_date_time#:#Sitzungstermin
 common#:#err_auth_mode_inactive#:#Zur Zeit ist leider keine Anmeldung möglich.
 common#:#missing_precondition#:#Fehlende Vorbedingung
+crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
+crs#:#sess_gen_comment#:#Erzeuge Spalte für Kommentare
+crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
+crs#:#sess_print_attendance_list#:#Teilnehmerliste drucken
+crs#:#sess_signature#:#Unterschrift
+crs#:#sess_attendance_list#:#Teilnehmerliste
