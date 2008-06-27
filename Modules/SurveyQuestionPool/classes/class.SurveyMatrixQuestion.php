@@ -109,7 +109,45 @@ class SurveyMatrixQuestion extends SurveyQuestion
 */
 	var $neutralColumnSeparator;
 	
+	/*
+	 * Layout of the matrix question
+	 * 
+	 * @var array
+	 */
 	var $layout;
+	
+	/*
+	 * Use placeholders for the column titles
+	 * 
+	 * @var boolean
+	 */
+	var $columnPlaceholders;
+	
+	/*
+	 * Show a legend
+	 * 
+	 * @var boolean
+	 */
+	var $legend;
+	
+	var $singleLineRowCaption;
+	
+	var $repeatColumnHeader;
+	
+	var $columnHeaderPosition;
+	
+	/*
+	 * Use random order for rows
+	 * 
+	 * @var boolean
+	 */
+	var $randomRows;
+	
+	var $columnOrder;
+	
+	var $columnImages;
+	
+	var $rowImages;
 	
 	
 /**
@@ -601,11 +639,20 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$this->complete = $data->complete;
 			$this->original_id = $data->original_id;
 			$this->setSubtype($data->subtype);
-			$this->setBipolarAdjective(0, $data->bipolar_adjective1);
-			$this->setBipolarAdjective(1, $data->bipolar_adjective2);
 			$this->setRowSeparators($data->row_separators);
 			$this->setNeutralColumnSeparator($data->neutral_column_separator);
 			$this->setColumnSeparators($data->column_separators);
+			$this->setColumnPlaceholders($data->column_placeholders);
+			$this->setLegend($data->legend);
+			$this->getSingleLineRowCaption($data->singleline_row_caption);
+			$this->getRepeatColumnHeader($data->repeat_column_header);
+			$this->getColumnHeaderPosition($data->column_header_position);
+			$this->getRandomRows($data->random_rows);
+			$this->getColumnOrder($data->column_order);
+			$this->getColumnImages($data->column_images);
+			$this->getRowImages($data->row_images);
+			$this->setBipolarAdjective(0, $data->bipolar_adjective1);
+			$this->setBipolarAdjective(1, $data->bipolar_adjective2);
 			$this->setLayout($data->layout);
 			// loads materials uris from database
 			$this->loadMaterialFromDb($id);
@@ -676,8 +723,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 *
 * @access public
 */
-  function saveToDb($original_id = "", $withanswers = true)
-  {
+	function saveToDb($original_id = "", $withanswers = true)
+	{
 		global $ilDB;
 		$complete = 0;
 		if ($this->isComplete()) 
@@ -698,12 +745,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		ilRTE::_cleanupMediaObjectUsage($this->questiontext, "spl:html",
 			$this->getId());
 
-    if ($this->id == -1) 
+		if ($this->id == -1) 
 		{
-      // Write new dataset
-      $now = getdate();
-      $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			// Write new dataset
+			$now = getdate();
+			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+			$query = sprintf("INSERT INTO survey_question (question_id, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getQuestionTypeID()),
 				$ilDB->quote($this->obj_id),
 				$ilDB->quote($this->owner),
@@ -717,30 +764,54 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$original_id
 			);
 			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
+			if ($result == DB_OK) 
 			{
 				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO survey_question_matrix (question_fi, subtype, row_separators, column_separators, neutral_column_separator, bipolar_adjective1, bipolar_adjective2) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				$query = sprintf("INSERT INTO survey_question_matrix (
+					question_fi, 
+					subtype, 
+					column_separators, 
+					row_separators, 
+					neutral_column_separator,
+					column_placeholders,
+					legend,
+					singleline_row_caption,
+					repeat_column_header,
+					column_header_position,
+					random_rows,
+					column_order,
+					column_images,
+					row_images, 
+					bipolar_adjective1, 
+					bipolar_adjective2,
+					layout
+					) 
+					VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id . ""),
 					$ilDB->quote(sprintf("%d", $this->getSubtype())),
-					$ilDB->quote($this->getRowSeparators() . ""),
 					$ilDB->quote($this->getColumnSeparators() . ""),
+					$ilDB->quote($this->getRowSeparators() . ""),
 					$ilDB->quote($this->getNeutralColumnSeparator() . ""),
+					$ilDB->quote($this->getColumnPlaceholders() . ""),
+					$ilDB->quote($this->getLegend() . ""),
+					$ilDB->quote($this->getSingleLineRowCaption() . ""),
+					$ilDB->quote($this->getRepeatColumnHeader() . ""),
+					$ilDB->quote($this->getColumnHeaderPosition() . ""),
+					$ilDB->quote($this->getRandomRows() . ""),
+					$ilDB->quote($this->getColumnOrder() . ""),
+					$ilDB->quote($this->getColumnImages() . ""),
+					$ilDB->quote($this->getRowImages() . ""),
 					$ilDB->quote($this->getBipolarAdjective(0) . ""),
-					$ilDB->quote($this->getBipolarAdjective(1) . "")
+					$ilDB->quote($this->getBipolarAdjective(1) . ""),
+					$ilDB->quote(serialize($this->getLayout()) . "")
 				);
 				$ilDB->query($query);
-      }
-    } 
+			}
+		} 
 		else 
 		{
-      // update existing dataset
-      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+			// update existing dataset
+			$query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
 				$ilDB->quote($this->title),
 				$ilDB->quote($this->description),
 				$ilDB->quote($this->author),
@@ -748,25 +819,47 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$ilDB->quote(sprintf("%d", $this->obligatory)),
 				$ilDB->quote("$complete"),
 				$ilDB->quote($this->id)
-      );
-      $result = $ilDB->query($query);
-			$query = sprintf("UPDATE survey_question_matrix SET subtype = %s, row_separators = %s, column_separators = %s, neutral_column_separator = %s, bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
+			);
+			$result = $ilDB->query($query);
+			$query = sprintf("UPDATE survey_question_matrix SET 
+				subtype = %s, 
+				column_separators = %s, 
+				row_separators = %s, 
+				neutral_column_separator = %s, 
+				column_placeholders = %s,
+				legend = %s,
+				singleline_row_caption = %s,
+				repeat_column_header = %s,
+				column_header_position = %s,
+				random_rows = %s,
+				column_order = %s,
+				column_images = %s,
+				row_images = %s, 
+				bipolar_adjective1 = %s, 
+				bipolar_adjective2 = %s, 
+				layout = %s
+				WHERE question_fi = %s",
 				$ilDB->quote(sprintf("%d", $this->getSubtype())),
-				$ilDB->quote($this->getRowSeparators() . ""),
 				$ilDB->quote($this->getColumnSeparators() . ""),
+				$ilDB->quote($this->getRowSeparators() . ""),
 				$ilDB->quote($this->getNeutralColumnSeparator() . ""),
+				$ilDB->quote($this->getColumnPlaceholders() . ""),
+				$ilDB->quote($this->getLegend() . ""),
+				$ilDB->quote($this->getSingleLineRowCaption() . ""),
+				$ilDB->quote($this->getRepeatColumnHeader() . ""),
+				$ilDB->quote($this->getColumnHeaderPosition() . ""),
+				$ilDB->quote($this->getRandomRows() . ""),
+				$ilDB->quote($this->getColumnOrder() . ""),
+				$ilDB->quote($this->getColumnImages() . ""),
+				$ilDB->quote($this->getRowImages() . ""),
 				$ilDB->quote($this->getBipolarAdjective(0) . ""),
 				$ilDB->quote($this->getBipolarAdjective(1) . ""),
+				$ilDB->quote(serialize($this->getLayout()) . ""),
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
 		}
-		if (PEAR::isError($result)) 
-		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
+		if ($result == DB_OK) 
 		{
 			// saving material uris in the database
 			$this->saveMaterialsToDb();
@@ -775,10 +868,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$this->saveColumnsToDb();
 				$this->saveRowsToDb();
 			}
-    }
+		}
 		parent::saveToDb($original_id);
-  }
-	
+	}
+		
 	function saveBipolarAdjectives($adjective1, $adjective2)
 	{
 		global $ilDB;

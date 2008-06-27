@@ -1635,6 +1635,12 @@ class assQuestion
 		// update question count of question pool
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
+
+			// update the question time stamp
+		$query = sprintf("UPDATE qpl_questions SET TIMESTAMP = NULL WHERE question_id = %s",
+			$this->getId()
+		);
+		$ilDB->query($query);
 	}
 	
 /**
