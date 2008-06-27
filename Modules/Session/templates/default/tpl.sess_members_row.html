@@ -1,25 +1,26 @@
 <!-- BEGIN standard -->
 <tr class="{CSS_ROW}">
   <td class="std" valign="top" nowrap="1">
+  	<input type="hidden" name="visible_participants[]" value="{VAL_ID}" />
 	{LASTNAME}, {FIRSTNAME} [{LOGIN}]
   </td>
   <td class="std" valign="top" align="center"> 
 	<div style="text-align:left">
-	  <input type="text" maxlength="70" name="{MARK_NAME}" value="{MARK}" />
+	  <input type="text" size="16" maxlength="70" name="mark[{VAL_ID}]" value="{MARK}" />
 	</div>
   </td>
   <td class="std" valign="top" align="center"> 
 	<div style="text-align:left">
-	  <input type="text" maxlength="70" name="{COMMENT_NAME}" value="{COMMENT}" />
+	  <input type="text" size="30" maxlength="70" name="comment[{VAL_ID}]" value="{COMMENT}" />
 	</div>
   </td>
   <!-- BEGIN registered_col -->
-  <td class="std" valign="top">
-	<div style="text-align:center"><img src="{IMAGE_REGISTERED}" alt="{REGISTERED}" title="{REGISTERED}" border="0"></div>
+  <td class="std" valign="top" style="text-align:center">
+	<img src="{IMAGE_REGISTERED}" alt="{REGISTERED}" title="{REGISTERED}" border="0">
   </td>
   <!-- END registered_col -->
-  <td class="std" valign="top">
-	<div style="text-align:left"><input type="checkbox" name="participants[]" value="{USER_ID}" {CHECKED} /></div>
+  <td class="std" valign="top" style="text-align:center">
+	<input type="checkbox" name="participants[{VAL_ID}]" value="1" {PART_CHECKED} />
   </td>
 </tr>
 <!-- END standard -->
