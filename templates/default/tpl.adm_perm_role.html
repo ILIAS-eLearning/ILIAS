@@ -110,7 +110,16 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN ADOPT_PERM_ROW -->
   <tr class={CSS_ROW_ADOPT}>
     <td class="std">{CHECK_ADOPT}</td>
-	<td class="std"><label for="{LABEL_ID}">{ROLE_NAME}</label></td>
+	<td class="std">
+		<label for="{LABEL_ID}">
+			{ROLE_NAME}
+			<!-- BEGIN ADOPT_PERM_DESC -->
+			<div class="il_Description">
+				{ROLE_DESC}
+			</div>
+			<!-- END ADOPT_PERM_DESC -->
+		</label>
+	</td>
 	<td class="std">{TYPE}</td>
   </tr>
 <!-- END ADOPT_PERM_ROW -->

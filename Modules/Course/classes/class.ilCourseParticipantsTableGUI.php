@@ -35,6 +35,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 {
 	protected $type = 'admin';
 	protected $show_learning_progress = false;
+	protected $show_timings = false;
 	
 	/**
 	 * Constructor
@@ -43,11 +44,12 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true,$a_show_learning_progress = false)
+	public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true,$a_show_learning_progress = false,$a_show_timings = false)
 	{
 	 	global $lng,$ilCtrl;
 	 	
 	 	$this->show_learning_progress = $a_show_learning_progress;
+	 	$this->show_timings = $a_show_timings;
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -193,9 +195,22 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		
 		
 		$this->ctrl->setParameter($this->parent_obj,'member_id',$a_set['usr_id']);
+		$this->tpl->setCurrentBlock('link');
 		$this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this->parent_obj,'editMember'));
 		$this->tpl->setVariable('LINK_TXT',$this->lng->txt('edit'));
+		$this->tpl->parseCurrentBlock();
 		$this->ctrl->clearParameters($this->parent_obj);
+		
+		
+		if($this->show_timings)
+		{
+			$this->ctrl->setParameterByClass('ilcoursecontentgui','member_id',$a_set['usr_id']);
+			$this->tpl->setCurrentBlock('link');
+			$this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTargetByClass('ilcoursecontentgui','showUserTimings'));
+			$this->tpl->setVariable('LINK_TXT',$this->lng->txt('timings_timings'));
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		
 		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
 	}
