@@ -186,6 +186,33 @@ class ilCourseItems
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;
 	}
+	
+	/**
+	 * check if there is any active timing
+	 *
+	 * @access public
+	 * @param int ref_id
+	 * @return
+	 */
+	public function _hasTimings($a_ref_id)
+	{
+		global $tree,$ilDB;
+
+		$subtree = $tree->getSubTree($tree->getNodeData($a_ref_id));
+		
+		foreach($subtree as $node)
+		{
+			$ref_ids[] = $node['ref_id'];
+		}
+
+		$query = "SELECT * FROM crs_items ".
+			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING)." ".
+			"AND obj_id IN(".implode(",",ilUtil::quoteArray($ref_ids)).") ".
+			"AND parent_id IN(".implode(",",ilUtil::quoteArray($ref_ids)).")";
+
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true :false;
+	}
 
 	function _hasChangeableTimings($a_ref_id)
 	{

@@ -1915,7 +1915,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			list($_SESSION['crs_print_sort'],$_SESSION['crs_print_order'],$tmp) = explode(':',$_GET['member_table_nav']);
 		}
-		
 
 		$this->checkPermission('write');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
@@ -1923,6 +1922,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
 		$part = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
 
+		include_once('./Modules/Course/classes/class.ilCourseItems.php');
+		$this->timings_enabled = (ilCourseItems::_hasTimings($this->object->getRefId()) and 
+			($this->object->getViewMode() == IL_CRS_VIEW_TIMING));
+			
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_member_administration');
@@ -2008,7 +2011,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('crs_admin_hide'))
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',false,$this->show_tracking);
+				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',false,$this->show_tracking,$this->timings_enabled);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -2018,7 +2021,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',true,$this->show_tracking);
+				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',true,$this->show_tracking,$this->timings_enabled);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -2034,7 +2037,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('crs_tutor_hide'))
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'tutor',false,$this->show_tracking);
+				$table_gui = new ilCourseParticipantsTableGUI($this,'tutor',false,$this->show_tracking,$this->timings_enabled);
 				$this->ctrl->setParameter($this,'tutor_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -2044,7 +2047,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'tutor',true,$this->show_tracking);
+				$table_gui = new ilCourseParticipantsTableGUI($this,'tutor',true,$this->show_tracking,$this->timings_enabled);
 				$this->ctrl->setParameter($this,'tutor_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -2060,7 +2063,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('crs_member_hide'))
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'member',false,$this->show_tracking);
+				$table_gui = new ilCourseParticipantsTableGUI($this,'member',false,$this->show_tracking,$this->timings_enabled);
 				$this->ctrl->setParameter($this,'member_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -2070,7 +2073,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'member',true,$this->show_tracking);
+				$table_gui = new ilCourseParticipantsTableGUI($this,'member',true,$this->show_tracking,$this->timings_enabled);
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),

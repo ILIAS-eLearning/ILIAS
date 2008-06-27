@@ -636,12 +636,24 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			// BEGIN ADOPT_PERMISSIONS
 			$parent_role_ids = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
+			$ids = array();
+			foreach($parent_role_ids as $id => $tmp)
+			{
+				$ids[] = $id;
+			}
+
+			// Sort ids
+			$sorted_ids = ilUtil::_sortIds($ids,'object_data','type,title','obj_id');
 
 			// Sort roles by title
 			$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
 			$key = 0;
-			foreach ($sorted_roles as $par)
+			
+			foreach($sorted_ids as $id)
 			{
+				$par = $parent_role_ids[$id];
+			#foreach ($sorted_roles as $par)
+			#{
 				if ($par["obj_id"] != SYSTEM_ROLE_ID)
 				{
 					$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
@@ -650,6 +662,7 @@ class ilObjRoleGUI extends ilObjectGUI
 					$output["adopt"][$key]["role_id"] = $par["obj_id"];
 					$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
 					$output["adopt"][$key]["role_name"] = $par["title"];
+					$output["adopt"][$key]["role_desc"] = $par["desc"];
 				}
 				$key++;
 			}
@@ -747,6 +760,11 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->tpl->setVariable("LABEL_ID",$value["role_id"]);
 				$this->tpl->setVariable("TYPE",$value["type"]);
 				$this->tpl->setVariable("ROLE_NAME",$value["role_name"]);
+				if(strlen($value['role_desc']))
+				{
+					$this->tpl->setVariable('ROLE_DESC',$value['role_desc']);
+				}
+
 				$this->tpl->parseCurrentBlock();
 			}
 			
