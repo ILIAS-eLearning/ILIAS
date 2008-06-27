@@ -169,7 +169,7 @@ class assClozeTestGUI extends assQuestionGUI
 				// text gap answer
 				$gap = $matches[2];
 				$order = $matches[3];
-				$this->object->addGapAnswer($gap, $order, ilUtil::stripSlashes($value));
+				$this->object->addGapAnswer($gap, $order, ilUtil::stripSlashes($value, FALSE));
 			}
 		}
 	}
@@ -372,7 +372,7 @@ class assClozeTestGUI extends assQuestionGUI
 				foreach ($gap->getItemsRaw() as $item)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_TEXT_GAP", ilUtil::prepareFormOutput($item->getAnswertext()));
+					$this->tpl->setVariable("VALUE_TEXT_GAP", $item->getAnswertext());
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . $item->getOrder());
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $item->getOrder());
@@ -424,7 +424,7 @@ class assClozeTestGUI extends assQuestionGUI
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
 					$this->tpl->setVariable("TEXT_LOWER_LIMIT", $this->lng->txt("range_lower_limit"));
 					$this->tpl->setVariable("TEXT_UPPER_LIMIT", $this->lng->txt("range_upper_limit"));
-					$this->tpl->setVariable("VALUE_NUMERIC_GAP", ilUtil::prepareFormOutput($item->getAnswertext()));
+					$this->tpl->setVariable("VALUE_NUMERIC_GAP", $item->getAnswertext());
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . $item->getOrder());
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $item->getOrder());
@@ -474,7 +474,7 @@ class assClozeTestGUI extends assQuestionGUI
 				foreach ($gap->getItemsRaw() as $item)
 				{
 					$this->tpl->setVariable("TEXT_VALUE", $this->lng->txt("value"));
-					$this->tpl->setVariable("VALUE_SELECT_GAP", ilUtil::prepareFormOutput($item->getAnswertext()));
+					$this->tpl->setVariable("VALUE_SELECT_GAP", $item->getAnswertext());
 					$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i" . "_" . $item->getOrder());
 					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("VALUE_INDEX", $item->getOrder());

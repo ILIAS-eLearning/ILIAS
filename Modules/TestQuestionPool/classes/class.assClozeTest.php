@@ -931,7 +931,7 @@ class assClozeTest extends assQuestion
 			{
 				array_push($answers, str_replace(",", "\\,", $item->getAnswerText()));
 			}
-			$output = preg_replace("/\[gap\].*?\[\/gap\]/", "[_gap]" . join(",", $answers) . "[/_gap]", $output, 1);
+			$output = preg_replace("/\[gap\].*?\[\/gap\]/", "[_gap]" . ilUtil::prepareFormOutput(join(",", $answers)) . "[/_gap]", $output, 1);
 		}
 		$output = str_replace("_gap]", "gap]", $output);
 		$this->question = $output;
@@ -1096,7 +1096,7 @@ class assClozeTest extends assQuestion
 	function calculateReachedPoints($active_id, $pass = NULL)
 	{
 		global $ilDB;
-
+		
 		$found_value1 = array();
 		$found_value2 = array();
 		if (is_null($pass))
@@ -1242,7 +1242,7 @@ class assClozeTest extends assQuestion
 		{
 			if (preg_match("/^gap_(\d+)/", $key, $matches)) 
 			{ 
-				$value = ilUtil::stripSlashes($value, TRUE);
+				$value = ilUtil::stripSlashes($value, FALSE);
 				if (strlen($value))
 				{
 					$gap = $this->getGap($matches[1]);
