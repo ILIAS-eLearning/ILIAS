@@ -1,29 +1,35 @@
 <tr class="{CSS_ROW}">
-	<td class="std">
+	<td class="std" style="vertical-align: top">
 		<input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
 	</td>
-	<td class="std">
+	<td class="std" style="vertical-align: top">
 		{VAL_NAME}
+		<!-- BEGIN access_warning -->
+		<br />
+		<font class="smallred">
+			{PARENT_ACCESS}
+		</font>
+		<!-- END access_warning -->
 	</td>
-	<td class="std">
+	<td class="std" style="vertical-align: top">
 		{VAL_LOGIN}
 	</td>
 	<!-- BEGIN lp -->
-	<td class="std">
+	<td class="std" style="vertical-align: top">
 		<img src="{LP_STATUS_PATH}" alt="{LP_STATUS_ALT}" title="{LP_STATUS_ALT}" /> {LP_STATUS_ALT}
 	</td>
 	<!-- END lp -->
 	<!--  BEGIN access_time -->
-	<td class="std">
+	<td class="std" style="vertical-align: top">
 		{VAL_ACCESS}
 	</td>
 	<!--  END access_time -->
 	<!-- BEGIN notification -->
-	<td class="std">
+	<td class="std" style="vertical-align: top">
 		<input type="checkbox" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
 	</td>
 	<!-- END notification -->
-	<td class="std">
+	<td class="std" style="vertical-align: top">
 		<div style="float:right;">
 		  <a class="il_ContainerItemCommand2" href="{LINK_NAME}">{LINK_TXT}</a>&nbsp;&nbsp;
 		</div>

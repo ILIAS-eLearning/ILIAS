@@ -8250,7 +8250,6 @@ crs#:#crs_objective_saved_sorting#:#Saved sorting.
 crs#:#crs_no_title_given#:#Please insert a title for the objective.
 common#:#chat_invite_public_room#:#Public Chat
 common#:#chat_link_to_this_chat#:#Link to this chat
-<<<<<<< .working
 crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.
 crs#:#crs_no_objective_lms_found#:#This course does not contain any materials.
 ecs#:#ecs_server_settings#:#ECS Functionalities
@@ -8366,3 +8365,4 @@ chat#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to
 crs#:#sess_gen_attendance_list#:#Generate Attendance List
 crs#:#sess_date_time#:#Session Appointment
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
+common#:#missing_precondition#:#Missing Precondition

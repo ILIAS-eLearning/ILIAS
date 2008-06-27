@@ -1159,23 +1159,6 @@ class ilObjGroup extends ilContainer
 		}
 	}
 
-	/**
-	* get Registration Flag
-	* @access	public
-	* @param	return flag => [ 0 = no registration| 1 = registration]
-	*/
-	function getRegistrationFlag()
-	{
-		global $ilDB;
-		
-		$q = "SELECT * FROM grp_data WHERE grp_id=".
-			$ilDB->quote($this->getId());
-		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $row["register"];
-	}
-
 
 	/**
 	 * Set expiration
