@@ -8363,3 +8363,4 @@ chat#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Ch
 crs#:#sess_gen_attendance_list#:#Teilnehmerliste erstellen
 crs#:#sess_date_time#:#Sitzungstermin
 common#:#err_auth_mode_inactive#:#Zur Zeit ist leider keine Anmeldung möglich.
+common#:#missing_precondition#:#Fehlende Vorbedingung

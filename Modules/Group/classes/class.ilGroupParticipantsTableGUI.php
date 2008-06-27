@@ -118,10 +118,16 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $ilUser;
+		global $ilUser,$ilAccess;
 		
 		$this->tpl->setVariable('VAL_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME',$a_set['lastname'].', '.$a_set['firstname']);
+		if(!$ilAccess->checkAccessOfUser($a_set['usr_id'],'read','',$this->getParentObject()->object->getRefId()) and 
+			is_array($info = $ilAccess->getInfo()))
+		{
+			$this->tpl->setVariable('PARENT_ACCESS',$info[0]['text']);
+		}
+		
 		
 		if($this->privacy->enabledGroupAccessTimes())
 		{
