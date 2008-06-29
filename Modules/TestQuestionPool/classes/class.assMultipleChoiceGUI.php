@@ -36,6 +36,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class assMultipleChoiceGUI extends assQuestionGUI
 {
+	var $choiceKeys;
+	
 	/**
 	* assMultipleChoiceGUI constructor
 	*
@@ -576,7 +578,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
 	{
 		// shuffle output
-		$keys = array_keys($this->object->answers);
+		$keys = $this->getChoiceKeys();
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
@@ -722,11 +724,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	function getPreview($show_question_only = FALSE)
 	{
 		// shuffle output
-		$keys = array_keys($this->object->answers);
-		if ($this->object->getShuffle())
-		{
-			$keys = $this->object->pcArrayShuffle($keys);
-		}
+		$keys = $this->getChoiceKeys();
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -773,11 +771,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
 		// shuffle output
-		$keys = array_keys($this->object->answers);
-		if ($this->object->getShuffle())
-		{
-			$keys = $this->object->pcArrayShuffle($keys);
-		}
+		$keys = $this->getChoiceKeys();
 
 		// get page object output
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
@@ -1082,6 +1076,29 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		{
 			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
 		}
+	}
+	
+	/*
+	 * Create the key index numbers for the array of choices
+	 * 
+	 * @return array
+	 */
+	function getChoiceKeys()
+	{
+		if (strcmp($_GET["activecommand"], "directfeedback") == 0)
+		{
+			if (is_array($_SESSION["choicekeys"])) $this->choiceKeys = $_SESSION["choicekeys"];
+		}
+		if (!is_array($this->choiceKeys))
+		{
+			$this->choiceKeys = array_keys($this->object->answers);
+			if ($this->object->getShuffle())
+			{
+				$this->choiceKeys = $this->object->pcArrayShuffle($this->choiceKeys);
+			}
+		}
+		$_SESSION["choicekeys"] = $this->choiceKeys;
+		return $this->choiceKeys;
 	}
 }
 ?>
