@@ -117,10 +117,39 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			}
 		}
 		
-		if ($this->object->get_matchingpair_count() && $this->object->getTermCount())
+		// Check the creation of new answer text fields
+		$allow_add_pair = 1;
+		if ($this->object->getTermCount() == 0) $allow_add_pair = 0;
+		if ($allow_add_pair)
+		{
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/(termoption|picture|definition)_(\d+)_(\d+)/", $key, $matches))
+				{
+					if (strlen($value) == 0)
+					{
+						$allow_add_pair = 0;
+					}
+				}
+			}
+			if (!$allow_add_pair)
+			{
+				$this->error .= $this->lng->txt("fill_out_all_matching_pairs") . "<br />";
+			}
+		}
+		if (($this->ctrl->getCmd() == "addPair") && ($this->object->getTermCount() == 0))
+		{
+			$this->error .= $this->lng->txt("no_terms_message") . "<br />";
+		}
+		if (($this->ctrl->getCmd() == "addPair") and $allow_add_pair and (!$has_error))
+		{
+			$this->object->	addMatchingPair();
+		}
+		
+		if ($this->object->getMatchingPairCount() && $this->object->getTermCount())
 		{
 			// Vorhandene Anworten ausgeben
-			for ($i = 0; $i < $this->object->get_matchingpair_count(); $i++)
+			for ($i = 0; $i < $this->object->getMatchingPairCount(); $i++)
 			{
 				$thispair = $this->object->get_matchingpair($i);
 				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
@@ -209,70 +238,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// call to other question data i.e. estimated working time block
 		$this->outOtherQuestionData();
 
-		// Check the creation of new answer text fields
-		$allow_add_pair = 1;
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/(termoption|picture|definition)_(\d+)_(\d+)/", $key, $matches))
-			{
-				if (!$value)
-				{
-					$allow_add_pair = 0;
-				}
-			}
-		}
-		if ($this->object->getTermCount() == 0) $allow_add_pair = 0;
-		$add_random_id = "";
-		if (($this->ctrl->getCmd() == "addPair") and $allow_add_pair and (!$has_error))
-		{
-			$i++;
-			// Template für neue Antwort erzeugen
-			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
-			{
-				$this->tpl->setCurrentBlock("pictures");
-				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
-				$this->tpl->setVariable("PICTURE_ID", $this->object->get_random_id());
-				$this->tpl->setVariable("VALUE_PICTURE", "");
-				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
-			}
-			elseif ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
-			{
-				$this->tpl->setCurrentBlock("definitions");
-				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
-				$this->tpl->setVariable("DEFINITION_ID", $this->object->get_random_id());
-				$this->tpl->setVariable("VALUE_DEFINITION", "");
-			}
-			$this->tpl->parseCurrentBlock();
-			foreach ($this->object->getTerms() as $termkey => $termvalue)
-			{
-				$this->tpl->setCurrentBlock("termoptions");
-				$this->tpl->setVariable("TERMOPTION_VALUE", $termkey);
-				$this->tpl->setVariable("TERMOPTION_TEXT", ilUtil::prepareFormOutput($termvalue));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("answers");
-			$this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
-			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_matchingpair_count() + 1);
-			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
-			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
-			$add_random_id = $this->object->get_random_id();
-			$this->tpl->setVariable("TERM_ID", $add_random_id);
-			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%s", 0));
-			$this->tpl->setVariable("COLOR_CLASS", $tblrow[$i % 2]);
-			$this->tpl->parseCurrentBlock();
-		}
-		else if ($this->ctrl->getCmd() == "addPair")
-		{
-			if ($this->object->getTermCount() == 0)
-			{
-				$this->error .= $this->lng->txt("no_terms_message") . "<br />";
-			}
-			else
-			{
-				$this->error .= $this->lng->txt("fill_out_all_matching_pairs") . "<br />";
-			}
-		}
-
 		$internallinks = array(
 			"lm" => $this->lng->txt("obj_lm"),
 			"st" => $this->lng->txt("obj_st"),
@@ -293,10 +258,10 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			"function initialSelect() {\n%s\n}</script>";
 		if ($delete)
 		{
-			if ($this->object->get_matchingpair_count() > 0)
+			if ($this->object->getMatchingPairCount() > 0)
 			{
-				$thispair = $this->object->get_matchingpair($this->object->get_matchingpair_count()-1);
-				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_matching.term_".($this->object->get_matchingpair_count()-1)."_" . $thispair->getTerm().".focus(); document.frm_matching.term_".($this->object->get_matchingpair_count()-1)."_" . $thispair->getTerm().".scrollIntoView(\"true\");"));
+				$thispair = $this->object->get_matchingpair($this->object->getMatchingPairCount()-1);
+				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_matching.term_".($this->object->getMatchingPairCount()-1)."_" . $thispair->getTerm().".focus(); document.frm_matching.term_".($this->object->getMatchingPairCount()-1)."_" . $thispair->getTerm().".scrollIntoView(\"true\");"));
 			}
 			else
 			{
@@ -308,7 +273,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			switch ($this->ctrl->getCmd())
 			{
 				case "addPair":
-					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_matching.term_".($this->object->get_matchingpair_count())."_" . $add_random_id.".focus(); document.frm_matching.term_".($this->object->get_matchingpair_count())."_" . $add_random_id.".scrollIntoView(\"true\");"));
+					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_matching.term_".($this->object->getMatchingPairCount())."_" . $add_random_id.".focus(); document.frm_matching.term_".($this->object->getMatchingPairCount())."_" . $add_random_id.".scrollIntoView(\"true\");"));
 					break;
 				default:
 					$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_matching.title.focus();"));
@@ -598,7 +563,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 					$result = 1;
 					$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
 				}
-				$this->object->add_matchingpair(
+				$this->object->addMatchingPair(
 					ilUtil::stripSlashes($_POST["$key"]),
 					ilUtil::stripSlashes($matching_text),
 					ilUtil::stripSlashes($points),

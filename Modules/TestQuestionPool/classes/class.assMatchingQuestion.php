@@ -333,19 +333,6 @@ class assMatchingQuestion extends assQuestion
 		parent::loadFromDb($question_id);
 	}
 
-	/**
-	* Adds an answer to the question
-	*
-	* Adds an answer to the question
-	*
-	* @access public
-	*/
-	function addMatchingPair($answertext, $points, $answerorder, $matchingtext, $matchingorder)
-	{
-		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
-		array_push($this->matchingpairs, new ASS_AnswerMatching($answertext, $points, $answerorder, $matchingtext, $matchingorder));
-	}
-	
 	
 	/**
 	* Duplicates an assMatchingQuestion
@@ -537,7 +524,7 @@ class assMatchingQuestion extends assQuestion
 	* @see $matchingpairs
 	* @see ASS_AnswerMatching
 	*/
-	function add_matchingpair(
+	function addMatchingPair(
 		$term = "",
 		$picture_or_definition = "",
 		$points = 0.0,
@@ -648,7 +635,7 @@ class assMatchingQuestion extends assQuestion
 	* @access public
 	* @see $matchingpairs
 	*/
-	function get_matchingpair_count()
+	function getMatchingPairCount()
 	{
 		return count($this->matchingpairs);
 	}
