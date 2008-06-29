@@ -9587,11 +9587,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 	 */
 	function setEvaluationAdditionalFields($fields)
 	{
-		if (count($fields))
-		{
-			$assessmentSetting = new ilSetting("assessment");
-			$assessmentSetting->set("evalFields_" . $this->getId(), serialize($fields));
-		}
+		$assessmentSetting = new ilSetting("assessment");
+		$assessmentSetting->set("evalFields_" . $this->getId(), serialize($fields));
 	}
 	
 	/**
