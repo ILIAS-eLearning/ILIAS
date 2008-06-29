@@ -4136,7 +4136,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 "");
 		}
 				 
-		if ($ilAccess->checkAccess("write", "", $this->ref_id))
+		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
 		{
 			// permissions
 			$tabs_gui->addTarget("perm_settings",

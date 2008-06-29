@@ -1795,6 +1795,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
+		global $ilAccess;
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		switch ($next_class)
 		{
@@ -1877,9 +1879,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
 			 "", "");
 
-		// permissions
-		$tabs_gui->addTarget("perm_settings",
+		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		{
+			$tabs_gui->addTarget("perm_settings",
 			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
 
 	/**
