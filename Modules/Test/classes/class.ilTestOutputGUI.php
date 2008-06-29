@@ -1869,7 +1869,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function outParticipantsResultsOverview()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_overview_participants.html", "Modules/Test");
+		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$active_id = $_GET["active_id"];
 		if ($this->object->getNrOfTries() == 1)
@@ -1880,33 +1880,34 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$overview = $this->getPassOverview($active_id, "iltestoutputgui", "outParticipantsPassDetails");
-		$this->tpl->setVariable("PASS_OVERVIEW", $overview);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("back"));
-		$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
-		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
+		$template->setVariable("PASS_OVERVIEW", $overview);
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
+		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
+		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$template->setVariable("PRINT_URL", "javascript:window.print();");
 		
 		$result_pass = $this->object->_getResultPass($active_id);
 		$result_array =& $this->object->getTestResult($active_id, $result_pass);
 		$statement = $this->getFinalStatement($result_array["test"]);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		$user_data = $this->getResultsUserdata($active_id);
-		$this->tpl->setVariable("USER_DATA", $user_data);
-		$this->tpl->setVariable("TEXT_OVERVIEW", $this->lng->txt("tst_results_overview"));
-		$this->tpl->setVariable("USER_MARK", $statement["mark"]);
+		$template->setVariable("USER_DATA", $user_data);
+		$template->setVariable("TEXT_OVERVIEW", $this->lng->txt("tst_results_overview"));
+		$template->setVariable("USER_MARK", $statement["mark"]);
 		if (strlen($statement["markects"]))
 		{
-			$this->tpl->setVariable("USER_MARK_ECTS", $statement["markects"]);
+			$template->setVariable("USER_MARK_ECTS", $statement["markects"]);
 		}
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
-		$this->tpl->parseCurrentBlock();
+		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$template->parseCurrentBlock();
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
 			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 	}
 	
 /**
@@ -1929,59 +1930,62 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
-		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_pass_details_overview_participants.html", "Modules/Test");
+		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", TRUE, TRUE, "Modules/Test");
+
+		if ($this->object->getNrOfTries() == 1)
+		{
+			$statement = $this->getFinalStatement($result_array["test"]);
+			$template->setCurrentBlock("user_mark");
+			$template->setVariable("USER_MARK", $statement["mark"]);
+			$template->parseCurrentBlock();
+			if (strlen($statement["markects"]))
+			{
+				$template->setCurrentBlock("user_mark_ects");
+				$template->setVariable("USER_MARK_ECTS", $statement["markects"]);
+				$template->parseCurrentBlock();
+			}
+		}
+		
 
 		if (array_key_exists("statistics", $_GET) && ($_GET["statistics"] == 1))
 		{
-			$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("back"));
+			$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
 			$this->ctrl->setParameterByClass("ilTestEvaluationGUI", "active_id", $active_id);
-			$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilTestEvaluationGUI", "detailedEvaluation"));
+			$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilTestEvaluationGUI", "detailedEvaluation"));
 		}
 		else
 		{
 			if ($this->object->getNrOfTries() == 1)
 			{
-				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("back"));
-				$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
+				$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
+				$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
 			}
 			else
 			{
-				$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outParticipantsResultsOverview"));
-				$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
+				$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
+				$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outParticipantsResultsOverview"));
 			}
 		}
-		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
+		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$template->setVariable("PRINT_URL", "javascript:window.print();");
 
-		$this->tpl->parseCurrentBlock();
-
-		if ($this->object->getNrOfTries() == 1)
-		{
-			$statement = $this->getFinalStatement($result_array["test"]);
-			$this->tpl->setVariable("USER_MARK", $statement["mark"]);
-			if (strlen($statement["markects"]))
-			{
-				$this->tpl->setVariable("USER_MARK_ECTS", $statement["markects"]);
-			}
-		}
-		
 		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, TRUE);
 		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
-		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("PASS_DETAILS", $overview);
-		$this->tpl->setVariable("USER_DETAILS", $user_data);
+		$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
+		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("PASS_DETAILS", $overview);
+		$template->setVariable("USER_DETAILS", $user_data);
 		$uname = $this->object->userLookupFullName($user_id);
-		$this->tpl->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
-		$this->tpl->parseCurrentBlock();
+		$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
+		$template->parseCurrentBlock();
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
 			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 	}
 }
 ?>
