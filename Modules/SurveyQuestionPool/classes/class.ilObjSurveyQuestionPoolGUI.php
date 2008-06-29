@@ -629,8 +629,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// default sort order
 			$_GET["sort"] = array("title" => "ASC");
 		}
-		$sort = ($_GET["sort"]) ? $_GET["sort"] : "title";
-		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : "ASC";
+		$sort = ($_GET["sort"]) ? $_GET["sort"] : (($_SESSION["spl_sort"]) ? $_SESSION["spl_sort"] : "title");
+		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : (($_SESSION["spl_sortorder"]) ? $_SESSION["spl_sortorder"] : "ASC");
+		$_SESSION["spl_sort"] = $sort;
+		$_SESSION["spl_sortorder"] = $sortorder;
 		$this->ctrl->setParameter($this, "sort", $sort);
 		$this->ctrl->setParameter($this, "sortorder", $sortorder);
 		$table = $this->object->getQuestionsTable($sort, $sortorder, $filter_text, $filter_type, $startrow);

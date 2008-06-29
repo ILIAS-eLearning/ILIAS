@@ -942,8 +942,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$startrow = $_GET["startrow"];
 		}
-		$sort = ($_GET["sort"]) ? $_GET["sort"] : "title";
-		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : "ASC";
+		$sort = ($_GET["sort"]) ? $_GET["sort"] : (($_SESSION["qpl_sort"]) ? $_SESSION["qpl_sort"] : "title");
+		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : (($_SESSION["qpl_sortorder"]) ? $_SESSION["qpl_sortorder"] : "ASC");
+		$_SESSION["qpl_sort"] = $sort;
+		$_SESSION["qpl_sortorder"] = $sortorder;
 		$this->ctrl->setParameter($this, "sort", $sort);
 		$this->ctrl->setParameter($this, "sortorder", $sortorder);
 		$table = $this->object->getQuestionsTable($sort, $sortorder, $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
