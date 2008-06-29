@@ -1360,6 +1360,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 array("ilobjsurveyquestionpoolgui", "ilsurveyphrasesgui"), "", $force_active);
 
 		global $rbacsystem;
+		global $ilAccess;
 		if ($rbacsystem->checkAccess('write', $this->ref_id))
 		{
 			// meta data
@@ -1381,9 +1382,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			 "downloadExportFile", "cancelDeleteExportFile", "deleteExportFile"),
 			 "", "");
 
-		// permissions
-		$tabs_gui->addTarget("perm_settings",
-			$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		if ($ilAccess->checkAccess("edit_permission", "", $this->ref_id))
+		{
+				$tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
 
 	/**
