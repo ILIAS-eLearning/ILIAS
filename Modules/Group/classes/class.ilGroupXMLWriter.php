@@ -22,6 +22,9 @@
     +-----------------------------------------------------------------------------+
 */
 
+include_once "./classes/class.ilXmlWriter.php";
+include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
+
 /**
 * XML writer class
 *
@@ -30,9 +33,6 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id: class.ilGroupXMLWriter.php 16108 2008-02-28 17:36:41Z rkuester $
 */
-
-include_once "./classes/class.ilXmlWriter.php";
-
 class ilGroupXMLWriter extends ilXmlWriter
 {
 	private $ilias;
@@ -58,6 +58,8 @@ class ilGroupXMLWriter extends ilXmlWriter
 
 		$this->ilias =& $ilias;
 		$this->group_obj =& $group_obj;
+		$this->participants = ilGroupParticipants::_getInstanceByObjId($this->group_obj->getId()); 
+		
 	}
 
 	function start()
@@ -88,7 +90,19 @@ class ilGroupXMLWriter extends ilXmlWriter
 
 		$attrs["exportVersion"] = $this->EXPORT_VERSION;
 		$attrs["id"] = "il_".$this->ilias->getSetting('inst_id').'_grp_'.$this->group_obj->getId();
-		$attrs['type'] = $this->group_obj->readGroupStatus() ? 'open' : 'closed';
+		
+		switch($this->group_obj->readGroupStatus())
+		{
+			case GRP_TYPE_PUBLIC:
+				$attrs['type'] = 'open';
+				break;
+				
+			case GRP_TYPE_CLOSED:
+			default:
+				$attrs['type'] = 'closed';
+				break;
+		}
+		
 		$this->xmlStartTag("group", $attrs);
 
 		return true;
@@ -105,24 +119,35 @@ class ilGroupXMLWriter extends ilXmlWriter
 
 		$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$this->group_obj->getOwner();
 		$this->xmlElement('owner',$attr);
+		
+		$this->xmlElement('information',null,$this->group_obj->getInformation());
 	}
 
 	function __buildRegistration()
 	{
-		switch($this->group_obj->getRegistrationFlag())
+		
+		// registration type
+		switch($this->group_obj->getRegistrationType())
 		{
-			case '0':
-				$attr['type'] = 'disabled';
+			case GRP_REGISTRATION_DIRECT:
+				$attrs['type'] = 'direct';
 				break;
-			case '1':
-				$attr['type'] = 'enabled';
+			case GRP_REGISTRATION_REQUEST:
+				$attrs['type'] = 'confirmation';
 				break;
-			case '2':
-				$attr['type'] = 'password';
+			case GRP_REGISTRATION_PASSWORD:
+				$attrs['type'] = 'password';
+				break;
+				
+			default:
+			case GRP_REGISTRATION_DEACTIVATED:
+				$attrs['type'] = 'disabled';
 				break;
 		}
-		$this->xmlStartTag('registration',$attr);
-
+		$attrs['waitingList'] = $this->group_obj->isWaitingListEnabled() ? 'Yes' : 'No';
+		
+		$this->xmlStartTag('registration',$attrs);
+		
 		if(strlen($pwd = $this->group_obj->getPassword()))
 		{
 			$this->xmlElement('password',null,$pwd);
@@ -131,6 +156,22 @@ class ilGroupXMLWriter extends ilXmlWriter
 		{
 			$this->xmlElement('expiration',null,$timest);
 		}
+
+		
+		// limited registration period
+		if(!$this->group_obj->isRegistrationUnlimited())
+		{
+			$this->xmlStartTag('temporarilyAvailable');
+			$this->xmlElement('start',null,$this->group_obj->getRegistrationStart()->get(IL_CAL_UNIX));
+			$this->xmlElement('end',null,$this->group_obj->getRegistrationEnd()->get(IL_CAL_UNIX));
+			$this->xmlEndTag('temporarilyAvailable');
+		}
+
+		// max members
+		$attrs = array();
+		$attrs['enabled'] = $this->group_obj->isMembershipLimited() ? 'Yes' : 'No';
+		$this->xmlElement('maxMembers',$attrs,$this->group_obj->getMaxMembers());
+
 		$this->xmlEndTag('registration');
 	}
 		
@@ -139,6 +180,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 		foreach($this->group_obj->getGroupAdminIds() as $id)
 		{
 			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_usr_'.$id;
+			$attr['notification'] = $this->participants->isNotificationEnabled($id) ? 'Yes' : 'No';
 
 			$this->xmlElement('admin',$attr);
 		}
