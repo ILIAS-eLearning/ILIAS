@@ -278,6 +278,29 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->initForm('create');
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.grp_create.html','Modules/Group');
 		$this->tpl->setVariable('CREATE_FORM',$this->form->getHTML());
+		
+		// IMPORT
+		$this->tpl->setVariable('IMP_FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_IMPORT_CRS", $this->lng->txt("import_grp"));
+		$this->tpl->setVariable("TXT_CRS_FILE", $this->lng->txt("file"));
+		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+		$this->tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
+
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf=get_cfg_var("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms=get_cfg_var("post_max_size");
+
+		// use the smaller one as limit
+		$max_filesize=min($umf, $pms);
+		if (!$max_filesize) 
+			$max_filesize=max($umf, $pms);
+	
+		// gives out the limit as a littel notice :)
+		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice").$max_filesize);
+		
+		
 		$this->fillCloneTemplate('DUPLICATE','grp');
 	}
 	

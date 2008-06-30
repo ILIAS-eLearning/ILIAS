@@ -1126,72 +1126,6 @@ class ilObjGroup extends ilContainer
 	}
 
 	/**
-	* set Registration Flag
-	* @access	public
-	* @param	integer [ 0 = no registration| 1 = registration]
-	*/
-	function setRegistrationFlag($a_regFlag="")
-	{
-		global $ilDB;
-
-		$q = "SELECT * FROM grp_data WHERE grp_id= ".
-			$ilDB->quote($this->getId());
-		$res = $this->ilias->db->query($q);
-
-		if (!isset($a_regFlag))
-		{
-			$a_regFlag = 0;
-		}
-
-		if ($res->numRows() == 0)
-		{
-			$q = "INSERT INTO grp_data (grp_id, register) VALUES(".
-				$ilDB->quote($this->getId()).",".
-				$ilDB->quote($a_regFlag).")";
-			$res = $this->ilias->db->query($q);
-		}
-		else
-		{
-			$q = "UPDATE grp_data SET register=".
-				$ilDB->quote($a_regFlag)." WHERE grp_id=".
-				$ilDB->quote($this->getId());
-			$res = $this->ilias->db->query($q);
-		}
-	}
-
-
-	/**
-	 * Set expiration
-	 *
-	 * @access public
-	 * @param string expiration
-	 *
-	 */
-	public function updateExpiration($a_date)
-	{
-		global $ilDB;
-
-		$q = "SELECT * FROM grp_data WHERE grp_id= ".
-			$ilDB->quote($this->getId());
-		$res = $this->ilias->db->query($q);
-		$date = $a_date;
-
-		if ($res->numRows() == 0)
-		{
-			$q = "INSERT INTO grp_data (grp_id, expiration) VALUES(".
-				$ilDB->quote($this->getId()).",".$ilDB->quote($date).")";
-			$res = $this->ilias->db->query($q);
-		}
-		else
-		{
-			$q = "UPDATE grp_data SET expiration=".
-				$ilDB->quote($date)." WHERE grp_id=".$ilDB->quote($this->getId());
-			$res = $this->ilias->db->query($q);
-		}
-
-	}
-
-	/**
 	* set Expiration Date and Time
 	* @access	public
 	* @param	date
@@ -1716,7 +1650,7 @@ class ilObjGroup extends ilContainer
 		$xml_writer->start();
 
 		$xml = $xml_writer->getXML();
-
+		
 		$name = time().'__'.$this->ilias->getSetting('inst_id').'__grp_'.$this->getId();
 
 		$this->__initFileObject();

@@ -23,6 +23,8 @@
 
 require_once("classes/class.ilSaxParser.php");
 require_once('./Services/User/classes/class.ilObjUser.php');
+include_once('./Services/Calendar/classes/class.ilDateTime.php');
+include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 
 
 /**
@@ -38,6 +40,8 @@ class ilGroupXMLParser extends ilSaxParser
 {
 	public static $CREATE = 1;
 	public static $UPDATE = 2;
+	
+	private $participants = null;
 
 	var $group_data;
 	var $group_obj;
@@ -145,23 +149,35 @@ class ilGroupXMLParser extends ilSaxParser
 
 			case 'title':
 				break;
-
+				
 			case "owner":
 				$this->group_data["owner"] = $a_attribs["id"];
 				break;
 
 			case 'registration':
 				$this->group_data['registration_type'] = $a_attribs['type'];
+				$this->group_data['waiting_list_enabled'] = $a_attribs['waitingList'] == 'Yes' ? true : false;
 				break;
+				
+			case 'maxMembers':
+				$this->group_data['max_members_enabled'] = $a_attribs['enabled'] == 'Yes' ? true : false;
+				break; 
 
 			case "admin":
 				if (!isset($a_attribs['action']) || $a_attribs['action'] == "Attach")
 				{
 					$this->group_data["admin"]["attach"][] = $a_attribs["id"];
-				} elseif (isset($a_attribs['action']) || $a_attribs['action'] == "Detach")
+				} 
+				elseif (isset($a_attribs['action']) || $a_attribs['action'] == "Detach")
 				{
 					$this->group_data["admin"]["detach"][] = $a_attribs["id"];
 				}
+				
+				if(isset($a_attribs['notification']) and $a_attribs['notification'] == 'Yes')
+				{
+					$this->group_data['notifications'][] = $a_attribs['id'];
+				}
+				
 				break;
 
 			case "member":
@@ -205,13 +221,29 @@ class ilGroupXMLParser extends ilSaxParser
 			case "description":
 				$this->group_data["description"] = trim($this->cdata);
 				break;
+				
+			case 'information':
+				$this->group_data['information'] = trim($this->cdata);
+				break;
 
 			case 'password':
 				$this->group_data['password'] = trim($this->cdata);
 				break;
+				
+			case 'maxMembers':
+				$this->group_data['max_members'] = trim($this->cdata);
+				break;
 
 			case 'expiration':
-				$this->group_data['expiration'] = trim($this->cdata);
+				$this->group_data['expiration_end'] = trim($this->cdata);
+				break;
+				
+			case 'start':
+				$this->group_data['expiration_start'] = trim($this->cdata);
+				break;
+				
+			case 'end':
+				$this->group_data['expiration_end'] = trim($this->cdata);
 				break;
 
 			case "folder":
@@ -279,26 +311,6 @@ class ilGroupXMLParser extends ilSaxParser
 			}
 		}
 
-		switch($this->group_data['registration_type'])
-		{
-			case 'disabled':
-				$flag = 0;
-				break;
-
-			case 'enabled':
-				$flag = 1;
-				break;
-
-			case 'password':
-				$flag = 2;
-				break;
-
-			default:
-				$flag = 0;
-		}
-		$this->group_obj->setRegistrationFlag($flag);
-		// CREATE IT
-
 		/**
 		 * mode can be create or update
 		 */
@@ -309,42 +321,82 @@ class ilGroupXMLParser extends ilSaxParser
 			$this->group_obj->putInTree($this->__getParentId());
 			$this->group_obj->setPermissions($this->__getParentId());
 			$this->group_obj->initDefaultRoles();
-			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
-		} elseif ($ownerChanged) 
+			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? GRP_TYPE_PUBLIC : GRP_TYPE_CLOSED);
+		} 
+		else
 		{
+			switch($this->group_data['type'])
+			{
+				case 'open':
+					$grp_status = GRP_TYPE_PUBLIC;
+					break;
+					
+				case 'closed':
+					$grp_status = GRP_TYPE_CLOSED;
+					break;
+					
+			}
+			
 			$this->group_obj->updateOwner();
+			if($this->group_obj->getGroupStatus() != $grp_status)
+			{
+				$this->group_obj->setGroupType($grp_status);
+				$this->group_obj->updateGroupType();
+			}
 		}
 
 		// SET GROUP SPECIFIC DATA
 		switch($this->group_data['registration_type'])
 		{
-			case 'disabled':
-				$flag = 0;
+			case 'direct':
+			case 'enabled':
+				$flag = GRP_REGISTRATION_DIRECT;
 				break;
 
-			case 'enabled':
-				$flag = 1;
+			case 'disabled':
+				$flag = GRP_REGISTRATION_DEACTIVATED;
+				break;
+
+			case 'confirmation':
+				$flag = GRP_REGISTRATION_REQUEST;
 				break;
 
 			case 'password':
-				$flag = 2;
+				$flag = GRP_REGISTRATION_PASSWORD;
 				break;
 
 			default:
-				$flag = 0;
+				$flag = GRP_REGISTRATION_DIRECT;
 		}
-		$this->group_obj->setRegistrationFlag($flag);
-		if($this->group_data['expiration'])
+		$this->group_obj->setRegistrationType($flag);
+		
+		$end = new ilDateTime(time(),IL_CAL_UNIX);
+		if($this->group_data['expiration_end'])
 		{
-			#$this->group_obj->setExpirationDateTime(date('Y-m-d H:i:s',$this->group_data['expiration']));
-			$this->group_obj->updateExpiration(date('YmdHis',$this->group_data['expiration']));
+			$end = new ilDateTime($this->group_data['expiration_end'],IL_CAL_UNIX);
 		}
-		$this->group_obj->setPassword($this->group_data['password']);
 
+		$start = clone $end;
+		if($this->group_data['expiration_start'])
+		{
+			$start = new ilDateTime($this->group_data['expiration_start'],IL_CAL_UNIX);
+		}
+
+		$this->group_obj->setRegistrationStart($start);
+		$this->group_obj->setRegistrationEnd($end);
+		$this->group_obj->setPassword($this->group_data['password']);
+		$this->group_obj->enableUnlimitedRegistration(!isset($this->group_data['expiration_end']));
+		$this->group_obj->enableMembershipLimitation($this->group_data['max_members_enabled']);
+		$this->group_obj->setMaxMembers($this->group_data['max_members'] ? $this->group_data['max_members'] : 0);
+		$this->group_obj->enableWaitingList($this->group_data['waiting_list_enabled']);
+		
+		
 		if ($this->mode == ilGroupXMLParser::$CREATE)
 		{
 			$this->group_obj->initGroupStatus($this->group_data["type"] == "open" ? 0 : 1);
 		}
+
+		$this->group_obj->update();
 
 		// ASSIGN ADMINS/MEMBERS
 		$this->__assignMembers();
@@ -406,78 +458,61 @@ class ilGroupXMLParser extends ilSaxParser
 	{
 		global $ilias,$ilUser;
 
+		$this->participants = ilGroupParticipants::_getInstanceByObjId($this->group_obj->getId());
 
-		$this->group_obj->addMember($ilUser->getId(),$this->group_obj->getDefaultAdminRole());
+		$this->participants->add($ilUser->getId(),IL_GRP_ADMIN);
+		$this->participants->updateNotification($ilUser->getId(),true);
+		
 #print_r($this->group_data["admin"]["attach"]);
 		// attach ADMINs
 		if (count($this->group_data["admin"]["attach"]))
 		{
-
 			foreach($this->group_data["admin"]["attach"] as $user)
 			{
 				if($id_data = $this->__parseId($user))
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-//						if (!$this->group_obj->isMember($id_data['usr_id']))
+						$this->participants->add($id_data['usr_id'],IL_GRP_ADMIN);
+						if(in_array($user,(array) $this->group_data['notifications']))
 						{
-							$this->group_obj->addMember($id_data['usr_id'], $this->group_obj->getDefaultAdminRole());
-						}
-						/*else
-						{
-							$this->group_obj->setMemberStatus ($id_data['user_id'],$this->group_obj->getDefaultAdminRole());
-						}*/
+							$this->participants->updateNotification($id_data['usr_id'],true);
+						}							
 					}
 				}
 			}
 		}
-#print_r($this->group_data["admin"]["detach"]);
 		// detach ADMINs
 		if (count($this->group_data["admin"]["detach"]))
 		{
-
 			foreach($this->group_data["admin"]["detach"] as $user)
 			{
 				if($id_data = $this->__parseId($user))
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-						if ($this->group_obj->isMember($id_data['usr_id']))
+						if($this->participants->isAssigned($id_data['usr_id']))
 						{
-							$this->group_obj->removeMember($id_data['usr_id']);
+							$this->participants->delete($id_data['usr_id']);
 						}
-
 					}
 				}
 			}
 		}
-#print_r($this->group_data["member"]["attach"]);
-
 		// MEMBER
 		if (count($this->group_data["member"]["attach"]))
 		{
-
 			foreach($this->group_data["member"]["attach"] as $user)
 			{
 				if($id_data = $this->__parseId($user))
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-						//if (!$this->group_obj->isMember($id_data['usr_id']))
-						{
-							$this->group_obj->addMember($id_data['usr_id'],$this->group_obj->getDefaultMemberRole());
-						}
-/*						else
-						{
-							$this->group_obj->setMemberStatus ($id_data['user_id'],$this->group_obj->getDefaultMemberRole());
-						}
-*/
+						$this->participants->add($id_data['usr_id'],IL_GRP_MEMBER);
 					}
 				}
 			}
 		}
-
-#print_r($this->group_data["member"]["detach"]);
 
 		if (count($this->group_data["member"]["detach"]))
 		{
@@ -487,9 +522,9 @@ class ilGroupXMLParser extends ilSaxParser
 				{
 					if($id_data['local'] or $id_data['imported'])
 					{
-						if ($this->group_obj->isMember($id_data['usr_id']))
+						if($this->participants->isAssigned($id_data['usr_id']))
 						{
-							$this->group_obj->removeMember($id_data['usr_id']);
+							$this->participants->delete($id_data['usr_id']);
 						}
 					}
 				}
