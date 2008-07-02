@@ -1853,6 +1853,7 @@ class ilMail
 			}
 			else
 			{
+				include_once "Services/Mail/classes/class.ilMimeMail.php";
 				$sender = ilMimeMail::_mimeEncode(self::_getAnonymousName()).
 						  '<noreply@'.$_SERVER['SERVER_NAME'].'>';
 			}
