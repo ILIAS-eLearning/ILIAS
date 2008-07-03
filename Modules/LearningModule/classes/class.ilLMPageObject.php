@@ -129,13 +129,12 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* copy page
 	*/
-	function &copy()
+	function copy($a_target_lm)
 	{
-
 		// copy page 
-		$lm_page =& new ilLMPageObject($this->getContentObject());
+		$lm_page = new ilLMPageObject($a_target_lm);
 		$lm_page->setTitle($this->getTitle());
-		$lm_page->setLMId($this->getLMId());
+		$lm_page->setLMId($a_target_lm->getId());
 		$lm_page->setType($this->getType());
 		$lm_page->setDescription($this->getDescription());
 		$lm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
@@ -143,10 +142,10 @@ class ilLMPageObject extends ilLMObject
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($this->getLMId(), $lm_page->getId(), $this->getType());
+		$new_md = $md->cloneMD($a_target_lm->getId(), $lm_page->getId(), $this->getType());
 
 		// copy page content
-		$page =& $lm_page->getPageObject();
+		$page = $lm_page->getPageObject();
 		$page->setXMLContent($this->page_object->getXMLContent());
 		$page->buildDom();
 		$page->update();
@@ -157,7 +156,7 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* copy a page to another content object (learning module / dlib book)
 	*/
-	function &copyToOtherContObject(&$a_cont_obj)
+	function copyToOtherContObject(&$a_cont_obj)
 	{
 		// copy page
 		$lm_page =& new ilLMPageObject($a_cont_obj);

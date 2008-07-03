@@ -55,7 +55,7 @@ class ilStructureObject extends ilLMObject
 	}
 
 	/**
-	*
+	* Delete Chapter
 	*/
 	function delete($a_delete_meta_data = true)
 	{
@@ -68,9 +68,9 @@ class ilStructureObject extends ilLMObject
 	}
 
 	/**
-	* private
+	* Delete sub tree
 	*/
-	function delete_rec(&$a_tree, $a_delete_meta_data = true)
+	private function delete_rec(&$a_tree, $a_delete_meta_data = true)
 	{
 		$childs = $a_tree->getChilds($this->getId());
 		foreach ($childs as $child)
@@ -95,19 +95,21 @@ class ilStructureObject extends ilLMObject
 	/**
 	* copy chapter
 	*/
-	function &copy(&$a_target_tree, $a_parent, $a_pos = IL_LAST_NODE)
+	function copy($a_target_lm)
 	{
-		$lm =& $this->getContentObject();
+/*		$lm =& $this->getContentObject();
 		$source_tree = new ilTree($lm->getId());
 		$source_tree->setTableNames('lm_tree','lm_data');
 		$source_tree->setTreeTablePK("lm_id");
+*/
 
 		// copy chapter
-		$target_lm_id = $a_target_tree->getTreeId();
-		$target_lm = ilObjectFactory::getInstanceByObjId($target_lm_id);
-		$chap =& new ilStructureObject($target_lm);
+//		$target_lm_id = $a_target_tree->getTreeId();
+//		$target_lm = ilObjectFactory::getInstanceByObjId($target_lm_id);
+		
+		$chap = new ilStructureObject($a_target_lm);
 		$chap->setTitle($this->getTitle());
-		$chap->setLMId($target_lm_id);
+		$chap->setLMId($a_target_lm->getId());
 		$chap->setType($this->getType());
 		$chap->setDescription($this->getDescription());
 		$chap->create(true);
@@ -115,9 +117,10 @@ class ilStructureObject extends ilLMObject
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
-		$new_md =& $md->cloneMD($target_lm_id, $chap->getId(), $this->getType());
+		$new_md =& $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
 		
 		// insert chapter in tree
+/*
 		$a_target_tree->insertNode($chap->getId(), $a_parent, $a_pos);
 
 		$childs =& $source_tree->getChilds($this->getId());
@@ -134,7 +137,7 @@ class ilStructureObject extends ilLMObject
 				$a_target_tree->insertNode($newobj->getId(), $chap->getId());
 			}
 		}
-
+*/
 		return $chap;
 	}
 

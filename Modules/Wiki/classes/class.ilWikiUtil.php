@@ -55,9 +55,10 @@ class ilWikiUtil
 	* @param	string		input string
 	* @return	string		output string
 	*/
-	static function collectInternalLinks($s, $a_wiki_id)
+	static function collectInternalLinks($s, $a_wiki_id, $a_collect_non_ex = false)
 	{
-		return ilWikiUtil::processInternalLinks($s, $a_wiki_id, IL_WIKI_MODE_COLLECT);
+		return ilWikiUtil::processInternalLinks($s, $a_wiki_id, IL_WIKI_MODE_COLLECT,
+			$a_collect_non_ex);
 	}
 	
 	/**
@@ -68,10 +69,9 @@ class ilWikiUtil
 	* mode
 	*/
 	static function processInternalLinks($s, $a_wiki_id,
-		$a_mode = IL_WIKI_MODE_REPLACE)
+		$a_mode = IL_WIKI_MODE_REPLACE, $a_collect_non_ex = false)
 	{
 		$collect = array();
-
 		// both from mediawiki DefaulSettings.php
 		$wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
 		
@@ -130,6 +130,7 @@ class ilWikiUtil
 		for ($k = 0; isset( $a[$k] ); $k++)
 		{
 			$line = $a[$k];
+
 /*			if ( $useLinkPrefixExtension ) {
 				wfProfileIn( $fname.'-prefixhandling' );
 				if ( preg_match( $e2, $s, $m ) ) {
@@ -279,7 +280,6 @@ class ilWikiUtil
 
 			# Link not escaped by : , create the various objects
 			if( $noforce ) {
-
 				# Interwikis
 				/*wfProfileIn( "$fname-interwiki" );
 				if( $iw && $this->mOptions->getInterwikiMagic() && $nottalk && $wgContLang->getLanguageName( $iw ) ) {
@@ -379,7 +379,9 @@ class ilWikiUtil
 			{
 				//$s .= ilWikiUtil::makeLink($nt, $a_wiki_id, $text, '', $trail, $prefix);
 				include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-				if (ilWikiPage::_wikiPageExists($a_wiki_id, $text) &&
+				if ((ilWikiPage::_wikiPageExists($a_wiki_id, $text) ||
+					$a_collect_non_ex)
+				&&
 					!in_array($text, $collect))
 				{
 					$collect[] = $text;

@@ -146,7 +146,7 @@ class ilPageEditorGUI
 	function &executeCommand()
 	{
 $this->ctrl->debug("ilPageEditorGUI->execute");
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd("displayPage");
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
 		$hier_id = $_GET["hier_id"];
@@ -229,7 +229,7 @@ $this->ctrl->debug("hier_id:".$hier_id);
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
 				($cmdClass != "ilinternallinkgui" || ($next_class == "ilobjmediaobjectgui")))
 			{
-				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
+				if ($_GET["pgEdMediaMode"] != "editLinkedMedia" && $cmd != "displayPage")
 				{
 $this->ctrl->debug("gettingContentObject (no linked media)");
 					$cont_obj =& $this->page->getContentObject($hier_id);
@@ -763,6 +763,14 @@ return true;
 		$this->ctrl->returnToParent($this);
 	}
 
+	/**
+	* Default for POST reloads and missing 
+	*/
+	function displayPage()
+	{
+		$this->ctrl->returnToParent($this);
+	}
+	
 	/**
 	* display locator
 	*/

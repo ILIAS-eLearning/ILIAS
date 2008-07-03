@@ -104,6 +104,8 @@ class ilWikiPage extends ilPageObject
 		
 		// create page object
 		parent::create();
+		
+		$this->saveInternalLinks($this->getXMLContent());
 	}
 
 	/**
@@ -290,7 +292,7 @@ class ilWikiPage extends ilPageObject
 				$ids[] = $source["id"];
 			}
 		}
-		// delete record of table il_wiki_data
+		// get wiki page record
 		$query = "SELECT * FROM il_wiki_page".
 			" WHERE id IN (".implode(",",ilUtil::quoteArray($ids)).")".
 			" AND wiki_id = ".$ilDB->quote($a_wiki_id).
@@ -394,17 +396,58 @@ class ilWikiPage extends ilPageObject
 	*/
 	function saveInternalLinks($a_xml)
 	{
+		global $ilDB;
+		
+		
+		// *** STEP 1: Standard Processing ***
+		
 		parent::saveInternalLinks($a_xml);
+		
+		
+		// *** STEP 2: Other Pages -> This Page ***
+		
+		// Check, whether ANOTHER page links to this page as a "missing" page
+		// (this is the case, when this page is created newly)
+		$stmt = $ilDB->prepare("SELECT * FROM il_wiki_missing_page WHERE ".
+			" wiki_id = ? AND target_name = ?", array("integer", "text"));
+		$set = $ilDB->execute($stmt, array($this->getWikiId(), $this->getTitle()));
+		while ($anmiss = $ilDB->fetchAssoc($set))	// insert internal links instead 
+		{
+			ilInternalLink::_saveLink("wpg", $anmiss["source_id"], "wpg",
+				$this->getId(), 0);
+		}
+		
+		// now remove the missing page entries
+		$stmt = $ilDB->prepareManip("DELETE FROM il_wiki_missing_page WHERE ".
+			" wiki_id = ? AND target_name = ?", array("integer", "text"));
+		$ilDB->execute($stmt, array($this->getWikiId(), $this->getTitle()));
+		
+		
+		// *** STEP 3: This Page -> Other Pages ***
+		
+		// remove the exising "missing page" links for THIS page (they will be re-inserted below)
+		$stmt = $ilDB->prepareManip("DELETE FROM il_wiki_missing_page WHERE ".
+			" wiki_id = ? AND source_id = ?", array("integer", "integer"));
+		$ilDB->execute($stmt, array($this->getWikiId(), $this->getId()));
+		
+		// collect the wiki links of the page
 		include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
-		$int_wiki_links = ilWikiUtil::collectInternalLinks($a_xml, $this->getWikiId());
+		$int_wiki_links = ilWikiUtil::collectInternalLinks($a_xml, $this->getWikiId(), true);
+
 		foreach($int_wiki_links as $wlink)
 		{
 			$page_id = ilWikiPage::_getPageIdForWikiTitle($this->getWikiId(), $wlink);
 			
-			if ($page_id > 0)
+			if ($page_id > 0)		// save internal link for existing page
 			{
 				ilInternalLink::_saveLink("wpg", $this->getId(), "wpg",
 					$page_id, 0);
+			}
+			else		// save missing link for non-existing page
+			{
+				$stmt = $ilDB->prepareManip("REPLACE INTO il_wiki_missing_page (wiki_id, source_id, target_name)".
+					" VALUES (?,?,?)", array("integer", "integer", "text"));
+				$ilDB->execute($stmt, array($this->getWikiId(), $this->getId(), $wlink));
 			}
 		}
 	}

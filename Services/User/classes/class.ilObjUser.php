@@ -3169,26 +3169,75 @@ class ilObjUser extends ilObject
 	*									(learning modules, forums) obj_id for others
 	* @param	string	$a_type			object type
 	*/
-	function addObjectToClipboard($a_item_id, $a_type, $a_title)
+	function addObjectToClipboard($a_item_id, $a_type, $a_title,
+		$a_parent = 0, $a_time = 0, $a_order_nr = 0)
 	{
 		global $ilDB;
+		
+		if ($a_time == 0)
+		{
+			$a_time = date("Y-m-d H:i:s", time());
+		}
+		
+		$st = $ilDB->prepare("SELECT * FROM personal_clipboard WHERE ".
+			"parent = ? AND item_id = ? AND type = ? AND user_id = ?",
+			array("integer", "integer", "text", "integer"));
+		$item_set = $ilDB->execute($st,
+			array(0, $a_item_id, $a_type, $this->getId()));
 
-		$q = "SELECT * FROM personal_clipboard WHERE ".
-			"item_id = ".$ilDB->quote($a_item_id)." AND type = ".
-			$ilDB->quote($a_type)." AND user_id = ".
-			$ilDB->quote($this->getId());
-		$item_set = $this->ilias->db->query($q);
-
-		// only insert if item is not already on desktop
+		// only insert if item is not already in clipboard
 		if (!$d = $item_set->fetchRow())
 		{
-			$q = "INSERT INTO personal_clipboard (item_id, type, user_id, title) VALUES ".
-				" (".$ilDB->quote($a_item_id).",".$ilDB->quote($a_type).",".
-				$ilDB->quote($this->getId()).",".$ilDB->quote($a_title).")";
-			$this->ilias->db->query($q);
+			$st = $ilDB->prepareManip("INSERT INTO personal_clipboard ".
+				"(item_id, type, user_id, title, parent, insert_time, order_nr) VALUES ".
+				" (?,?,?,?,?,?,?)",
+				array("integer", "text", "integer", "text", "integer", "timestamp", "integer"));
+			$ilDB->execute($st,
+				array($a_item_id, $a_type, $this->getId(), $a_title, $a_parent, $a_time, $a_order_nr));
+		}
+		else
+		{
+			$st = $ilDB->prepareManip("UPDATE personal_clipboard SET insert_time = ? ".
+				"WHERE user_id = ? AND item_id = ? AND type = ? AND parent = 0",
+				array("timestamp", "integer", "integer", "text"));
+			$ilDB->execute($st, array($a_time, $this->getId(), $a_item_id, $a_type));
 		}
 	}
 
+	/**
+	* Check whether clipboard has objects of a certain type
+	*/
+	function clipboardHasObjectsOfType($a_type)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepare("SELECT * FROM personal_clipboard WHERE ".
+			"parent = ? AND type = ? AND user_id = ?",
+			array("integer", "text", "integer"));
+		$set = $ilDB->execute($st,
+			array(0, $a_type, $this->getId()));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	* Delete objects of type for user
+	*/
+	function clipboardDeleteObjectsOfType($a_type)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("DELETE FROM personal_clipboard WHERE ".
+			"type = ? AND user_id = ?",
+			array("text", "integer"));
+		$ilDB->execute($st,
+			array($a_type, $this->getId()));
+	}
+	
 	/**
 	* get all clipboard objects of user and specified type
 	*/
@@ -3201,8 +3250,36 @@ class ilObjUser extends ilObject
 			: "";
 		$q = "SELECT * FROM personal_clipboard WHERE ".
 			"user_id = ".$ilDB->quote($this->getId())." ".
-			$type_str;
+			$type_str.
+			" ORDER BY order_nr";
 		$objs = $this->ilias->db->query($q);
+		$objects = array();
+		while ($obj = $objs->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($obj["type"] == "mob")
+			{
+				$obj["title"] = ilObject::_lookupTitle($obj["item_id"]);
+			}
+			$objects[] = array ("id" => $obj["item_id"],
+				"type" => $obj["type"], "title" => $obj["title"],
+				"insert_time" => $obj["insert_time"]);
+		}
+		return $objects;
+	}
+
+	/**
+	* Get childs of an item
+	*/
+	function getClipboardChilds($a_parent, $a_insert_time)
+	{
+		global $ilDB, $ilUser;
+
+		$st = $ilDB->prepare("SELECT * FROM personal_clipboard WHERE ".
+			"user_id = ? AND parent = ? AND insert_time = ? ".
+			" ORDER BY order_nr",
+			array("integer", "integer", "timestamp"));
+		$objs = $ilDB->execute($st,
+			array($ilUser->getId(), $a_parent, $a_insert_time));
 		$objects = array();
 		while ($obj = $objs->fetchRow(DB_FETCHMODE_ASSOC))
 		{

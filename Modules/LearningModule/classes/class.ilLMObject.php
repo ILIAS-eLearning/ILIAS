@@ -734,5 +734,209 @@ class ilLMObject
 		}
 	}
 
+	/**
+	* Get learningmodule tree
+	*
+	* @param	int		learning module object id
+	*
+	* @return	object		tree object
+	*/
+	static function getTree($a_cont_obj_id)
+	{
+		$tree = new ilTree($a_cont_obj_id);
+		$tree->setTableNames('lm_tree', 'lm_data');
+		$tree->setTreeTablePK("lm_id");
+		$tree->readRootId();
+		
+		return $tree;
+	}
+	
+	/**
+	* Copy a set of chapters/pages into the clipboard
+	*/
+	function clipboardCut($a_cont_obj_id, $a_ids)
+	{
+		$tree = ilLMObject::getTree($a_cont_obj_id);
+		
+		if (!is_array($a_ids))
+		{
+			return false;
+		}
+		else
+		{
+			// get all "top" ids, i.e. remove ids, that have a selected parent
+			foreach($a_ids as $id)
+			{
+				$path = $tree->getPathId($id);
+				$take = true;
+				foreach($path as $path_id)
+				{
+					if ($path_id != $id && in_array($path_id, $a_ids))
+					{
+						$take = false;
+					}
+				}
+				if ($take)
+				{
+					$cut_ids[] = $id;
+				}
+			}
+		}
+		
+		ilLMObject::clipboardCopy($a_cont_obj_id, $cut_ids);
+		
+		// remove the objects from the tree
+		// note: we are getting chapters which are *not* in the tree
+		// we do not delete any pages/chapters here
+		foreach ($cut_ids as $id)
+		{
+			$curnode = $tree->getNodeData($id);
+			if ($tree->isInTree($id))
+			{
+				$tree->deleteTree($curnode);
+			}
+		}
+
+	}
+
+	/**
+	* Copy a set of chapters/pages into the clipboard
+	*/
+	static function clipboardCopy($a_cont_obj_id, $a_ids)
+	{
+		global $ilUser;
+		
+		$tree = ilLMObject::getTree($a_cont_obj_id);
+		
+		$ilUser->clipboardDeleteObjectsOfType("pg");
+		$ilUser->clipboardDeleteObjectsOfType("st");
+		
+		// put them into the clipboard
+		$time = date("Y-m-d H:i:s", time());
+		foreach ($a_ids as $id)
+		{
+			$curnode = "";
+			if ($tree->isInTree($id))
+			{
+				$curnode = $tree->getNodeData($id);
+				$subnodes = $tree->getSubTree($curnode);
+				foreach($subnodes as $subnode)
+				{
+					if ($subnode["child"] != $id)
+					{
+						$ilUser->addObjectToClipboard($subnode["child"],
+							$subnode["type"], $subnode["title"],
+							$subnode["parent"], $time, $subnode["lft"]);
+					}
+				}
+			}
+			$order = ($curnode["lft"] > 0)
+				? $curnode["lft"]
+				: (int) ($order + 1);
+			$ilUser->addObjectToClipboard($id,
+				ilLMObject::_lookupType($id), ilLMObject::_lookupTitle($id), 0, $time,
+				$order);
+		}
+	}
+	
+	/**
+	* Paste item (tree) from clipboard to current lm
+	*/
+	static function pasteTree($a_target_lm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
+		$a_as_copy = false)
+	{
+		global $ilUser, $ilias;
+		
+		$item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
+		$item_type = ilLMObject::_lookupType($a_item_id);
+		$lm_obj = $ilias->obj_factory->getInstanceByObjId($item_lm_id);
+		if ($item_type == "st")
+		{
+			$item = new ilStructureObject($lm_obj, $a_item_id);
+		}
+		else
+		{
+			$item = new ilLMPageObject($lm_obj, $a_item_id);
+		}
+
+		if ($item_lm_id != $a_target_lm->getId() && !$a_as_copy)
+		{
+			// @todo: check whether st is NOT in tree
+			
+			// "move" metadata to new lm
+			include_once("Services/MetaData/classes/class.ilMD.php");
+			$md = new ilMD($item_lm_id, $item->getId(), $item->getType());
+			$new_md = $md->cloneMD($a_target_lm->getId(), $item->getId(), $item->getType());
+			
+			// update lm object
+			$item->setLMId($a_target_lm->getId());
+			$item->setContentObject($a_target_lm);
+			$item->update();
+			
+			// delete old meta data set
+			$md->deleteAll();
+			
+			if ($item_type == "pg")
+			{
+				$page = $item->getPageObject();
+				$page->buildDom();
+				$page->setParentId($a_target_lm->getId());
+				$page->update();
+			}
+		}
+
+		if ($a_as_copy)
+		{
+			$target_item = $item->copy($a_target_lm);
+		}
+		else
+		{
+			$target_item = $item;
+		}
+		
+//echo "-".$target_item->getId()."-".$a_parent_id."-".$a_target."-";
+		ilLMObject::putInTree($target_item, $a_parent_id, $a_target);
+		
+		$childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
+//echo "<br>-".$item->getId()."-".$a_insert_time."-";
+//echo "-";
+
+		foreach($childs as $child)
+		{
+			ilLMObject::pasteTree($a_target_lm, $child["id"], $target_item->getId(),
+				IL_LAST_NODE, $a_insert_time,
+				$a_as_copy);
+		}
+		
+		return $target_item->getId();
+		// @todo: write history (see pastePage)
+	}
+
+	/**
+	* Save titles for lm objects
+	*
+	* @param	array		titles (key is ID, value is title)
+	*/
+	static function saveTitles($a_lm, $a_titles)
+	{
+		if (is_array($a_titles))
+		{
+			include_once("./Services/MetaData/classes/class.ilMD.php");
+			foreach($a_titles as $id => $title)
+			{
+				$lmobj = ilLMObjectFactory::getInstance($a_lm, $id, false);
+				if (is_object($lmobj))
+				{
+					// Update Title and description
+					$md = new ilMD($a_lm->getId(), $id, $lmobj->getType());
+					$md_gen = $md->getGeneral();
+					$md_gen->setTitle($title);
+					$md_gen->update();
+					$md->update();
+					ilLMObject::_writeTitle($id, $title);
+				}
+			}
+		}
+	}
 }
 ?>

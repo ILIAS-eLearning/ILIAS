@@ -49,42 +49,78 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*/
 	function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs)
 	{
+		global $lng, $ilUser;
+		
 		$cmds = array();
 		
 		if (!$a_first_child)		// drop area of node
 		{
-			if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0))
+			if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0 && $this->getMaxDepth() != 0))
 			{
 				if ($a_node["type"] == "st")
 				{
-					$cmds[] = array("text" => "insert Page", "cmd" => "insertPage", "multi" => 10,
+					$cmds[] = array("text" => $lng->txt("cont_insert_page"), "cmd" => "insertPage", "multi" => 10,
 						"as_subitem" => true);
+					if ($ilUser->clipboardHasObjectsOfType("pg"))
+					{
+						$cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+							"cmd" => "insertPageClip", "as_subitem" => true);
+					}
 				}
 				else
 				{
-					$cmds[] = array("text" => "insert Page", "cmd" => "insertPage", "multi" => 10);
+					$cmds[] = array("text" => $lng->txt("cont_insert_page"), "cmd" => "insertPage", "multi" => 10);
+					if ($ilUser->clipboardHasObjectsOfType("pg"))
+					{
+						$cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+							"cmd" => "insertPageClip");
+					}
 				}
 			}
-			if ($a_node["type"] != "pg")
+			if ($a_node["type"] != "pg" && $this->getMaxDepth() != 0)
 			{
-				$cmds[] = array("text" => "insert Subchapter", "cmd" => "insertSubchapter", "multi" => 10);
+				$cmds[] = array("text" => $lng->txt("cont_insert_subchapter"),
+					"cmd" => "insertSubchapter", "multi" => 10);
+				if ($ilUser->clipboardHasObjectsOfType("st"))
+				{
+					$cmds[] = array("text" => $lng->txt("cont_insert_subchapter_from_clip"),
+						"cmd" => "insertSubchapterClip");
+				}
 			}
 			
 			if (($a_next_sibling["type"] != "pg" && ($a_depth == 0 || $a_next_sibling["type"] == "st"))
 				|| $a_node["type"] == "st")
 			{
-				$cmds[] = array("text" => "insert Chapter", "cmd" => "insertChapter", "multi" => 10);
+				$cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
+					"cmd" => "insertChapter", "multi" => 10);
+				if ($ilUser->clipboardHasObjectsOfType("st"))
+				{
+					$cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
+						"cmd" => "insertChapterClip");
+				}
 			}
 		}
 		else						// drop area before first child of node
 		{
-			if ($a_node["type"] == "st")
+			if ($a_node["type"] == "st" && $this->getMaxDepth() != 0)
 			{
-				$cmds[] = array("text" => "insert Page", "cmd" => "insertPage", "multi" => 10);
+				$cmds[] = array("text" => $lng->txt("cont_insert_page"),
+					"cmd" => "insertPage", "multi" => 10);
+				if ($ilUser->clipboardHasObjectsOfType("pg"))
+				{
+					$cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+						"cmd" => "insertPageClip");
+				}
 			}
 			if ($a_childs[0]["type"] != "pg")
 			{
-				$cmds[] = array("text" => "insert Chapter", "cmd" => "insertChapter", "multi" => 10);
+				$cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
+					"cmd" => "insertChapter", "multi" => 10);
+				if ($ilUser->clipboardHasObjectsOfType("st"))
+				{
+					$cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
+						"cmd" => "insertChapterClip");
+				}
 			}
 		}
 
@@ -116,7 +152,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 		
 		if (!$a_first_child_drop_area)
 		{
-			if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0))
+			if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0 && $this->getMaxDepth() != 0))
 			{
 				if ($a_node["type"] == "st")
 				{
@@ -130,7 +166,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 				}
 			}
 			
-			if ($a_node["type"] != "pg")
+			if ($a_node["type"] != "pg" && $this->getMaxDepth() != 0)
 			{
 				$this->makeDragTarget($a_node["node_id"], "grp_st", $a_first_child_drop_area,
 					true, $lng->txt("cont_insert_as_subchapter"));
@@ -145,7 +181,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 		}
 		else
 		{
-			if ($a_node["type"] == "st")
+			if ($a_node["type"] == "st" && $this->getMaxDepth() != 0)
 			{
 				$this->makeDragTarget($a_node["node_id"], "grp_pg", $a_first_child_drop_area,
 					true);

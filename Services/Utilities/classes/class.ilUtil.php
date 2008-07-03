@@ -2201,6 +2201,22 @@ class ilUtil
 	}
 
 	/**
+	* Strip slashes from array
+	*/
+	function stripSlashesArray($a_arr, $a_strip_html = true, $a_allow = "")
+	{
+		if (is_array($a_arr))
+		{
+			foreach ($a_arr as $k => $v)
+			{
+				$a_arr[$k] = ilUtil::stripSlashes($v, $a_strip_html, $a_allow);
+			}
+		}
+		
+		return $a_arr;
+	}
+	
+	/**
 	* strip slashes if magic qoutes is enabled
 	*
 	* @param	boolean		strip also html tags
