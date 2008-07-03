@@ -373,7 +373,6 @@ class ilMD extends ilMDBase
 		{
 			default:
 				include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
-				
 				$mdxmlcopier =& new ilMDXMLCopier($md2xml->getXML(),$a_rbac_id,$a_obj_id,$a_obj_type);
 				break;
 		}

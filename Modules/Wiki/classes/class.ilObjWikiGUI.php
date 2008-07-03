@@ -779,10 +779,10 @@ class ilObjWikiGUI extends ilObjectGUI
 		else
 		{
 			// create the page
-			$start_page = new ilWikiPage();
-			$start_page->setWikiId($this->object->getId());
-			$start_page->setTitle($_GET["page"]);
-			$start_page->create();
+			$page = new ilWikiPage();
+			$page->setWikiId($this->object->getId());
+			$page->setTitle($_GET["page"]);
+			$page->create();
 
 			// redirect to newly created page
 			$ilCtrl->setParameterByClass("ilwikipagegui", "page", rawurlencode($a_page));

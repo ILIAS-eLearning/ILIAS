@@ -147,6 +147,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $tree;
 
+$this->showHierarchy();
+return;
+		
 		$this->setTabs();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", "Modules/LearningModule");
@@ -273,9 +276,39 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$form_gui->setTree($this->tree);
 		$form_gui->setCurrentTopNodeId($this->obj->getId());
 		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
+		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
+		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
-		
+
 		$this->tpl->setContent($form_gui->getHTML());
+	}
+	
+	/**
+	* Copy items to clipboard, then cut them from the current tree
+	*/
+	function cutItems()
+	{
+		global $ilCtrl;
+		
+		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		ilLMObject::clipboardCut($this->content_object->getId(), $items);
+		ilEditClipboard::setAction("cut");
+		
+		$ilCtrl->redirect($this, "showHierarchy");
+	}
+	
+	/**
+	* Copy items to clipboard
+	*/
+	function copyItems()
+	{
+		global $ilCtrl;
+		
+		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		ilLMObject::clipboardCopy($this->content_object->getId(), $items);
+		ilEditClipboard::setAction("copy");
+		
+		$ilCtrl->redirect($this, "showHierarchy");
 	}
 	
 	/**
@@ -285,26 +318,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $ilCtrl;
 		
-		if (is_array($_POST["title"]))
-		{
-			include_once("./Services/MetaData/classes/class.ilMD.php");
-			foreach($_POST["title"] as $id => $title)
-			{
-				$lmobj = ilLMObjectFactory::getInstance($this->obj->getContentObject(), $id, false);
-				if (is_object($lmobj))
-				{
-					// Update Title and description
-					$md = new ilMD($this->obj->getContentObject()->getId(), $id, $lmobj->getType());
-	//echo "<br>-".$this->obj->getContentObject()->getId()."-".$id."-".$lmobj->getType()."-";
-					$md_gen = $md->getGeneral();
-	//echo "::".$md_gen->getTitle();
-					$md_gen->setTitle(ilUtil::stripSlashes($title));
-					$md_gen->update();
-					$md->update();
-					ilLMObject::_writeTitle($id, ilUtil::stripSlashes($title));
-				}
-			}
-		}
+		ilLMObject::saveTitles($this->content_object, ilUtil::stripSlashesArray($_POST["title"]));
+		
 		$ilCtrl->redirect($this, "showHierarchy");
 	}
 	
@@ -778,8 +793,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// subelements
 		$ilTabs->addTarget("cont_pages_and_subchapters",
 			 $this->ctrl->getLinkTarget($this,'showHierarchy'),
-			 "showHierarchy", get_class($this));
+			 array("view", "showHierarchy"), get_class($this));
 
+/*
 		// pages
 		$ilTabs->addTarget("cont_pages",
 			 $this->ctrl->getLinkTarget($this,'view'),
@@ -789,6 +805,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$ilTabs->addTarget("cont_subchapters",
 			 $this->ctrl->getLinkTarget($this,'subchap'),
 			 "subchap", get_class($this));
+*/
 
 		// preconditions
 		$ilTabs->addTarget("preconditions",
@@ -887,7 +904,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	/**
 	* Insert (multiple) chapters at node
 	*/
-	function insertChapter()
+	function insertChapter($a_as_sub = false)
 	{
 		global $ilCtrl;
 		
@@ -896,15 +913,31 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$num = ilChapterHierarchyFormGUI::getPostMulti();
 		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
 		
-		if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert after node id
+		if ($a_as_sub)		// as subchapter
 		{
-			$parent_id = $this->tree->getParentId($node_id);
-			$target = $node_id;
+			if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert under parent
+			{
+				$parent_id = $node_id;
+				$target = "";
+			}
+			else													// we shouldnt end up here
+			{
+				$ilCtrl->redirect($this, "showHierarchy");
+				return;
+			}
 		}
-		else													// insert as first child
+		else				// as chapter
 		{
-			$parent_id = $node_id;
-			$target = IL_FIRST_NODE;
+			if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert after node id
+			{
+				$parent_id = $this->tree->getParentId($node_id);
+				$target = $node_id;
+			}
+			else													// insert as first child
+			{
+				$parent_id = $node_id;
+				$target = IL_FIRST_NODE;
+			}
 		}
 		for ($i = 1; $i <= $num; $i++)
 		{
@@ -926,32 +959,75 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $ilCtrl;
 		
+		$this->insertChapter(true);
+	}
+
+	/**
+	* Insert Chapter from clipboard
+	*/
+	function insertChapterClip($a_as_sub = false)
+	{
+		global $ilUser, $ilCtrl;
+		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
 		$num = ilChapterHierarchyFormGUI::getPostMulti();
 		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+
+		if ($a_as_sub)		// as subchapter
+		{
+			if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert under parent
+			{
+				$parent_id = $node_id;
+				$target = "";
+			}
+			else													// we shouldnt end up here
+			{
+				$ilCtrl->redirect($this, "showHierarchy");
+				return;
+			}
+		}
+		else	// as chapter
+		{
+			if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert after node id
+			{
+				$parent_id = $this->tree->getParentId($node_id);
+				$target = $node_id;
+			}
+			else													// insert as first child
+			{
+				$parent_id = $node_id;
+				$target = IL_FIRST_NODE;
+			}
+		}
 		
-		if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert under parent
+		// copy and paste
+		$chapters = $ilUser->getClipboardObjects("st");
+		foreach ($chapters as $chap)
 		{
-			$parent_id = $node_id;
-			$target = "";
-		}
-		else													// we shouldnt end up here
-		{
-			$ilCtrl->redirect($this, "showHierarchy");
-			return;
-		}
-		for ($i = 1; $i <= $num; $i++)
-		{
-			$chap = new ilStructureObject($this->content_object);
-			$chap->setType("st");
-			$chap->setTitle("");
-			$chap->setLMId($this->content_object->getId());
-			$chap->create();
-			ilLMObject::putInTree($chap, $parent_id, $target);
+			$cid = ilLMObject::pasteTree($this->content_object, $chap["id"], $parent_id,
+				$target, $chap["insert_time"],
+				(ilEditClipboard::getAction() == "copy"));
+			$target = $cid;
 		}
 
+		if (ilEditClipboard::getAction() == "cut")
+		{
+			$ilUser->clipboardDeleteObjectsOfType("pg");
+			$ilUser->clipboardDeleteObjectsOfType("st");
+			ilEditClipboard::clear();
+		}
+		
+		$this->content_object->checkTree();
 		$ilCtrl->redirect($this, "showHierarchy");
+	}
+
+	/**
+	* Insert Chapter from clipboard
+	*/
+	function insertSubchapterClip()
+	{
+		$this->insertChapterClip(true);
 	}
 
 	/**
@@ -990,6 +1066,53 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$ilCtrl->redirect($this, "showHierarchy");
 	}
 
+	/**
+	* Insert pages from clipboard
+	*/
+	function insertPageClip()
+	{
+		global $ilCtrl, $ilUser;
+		
+		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
+		
+		$num = ilChapterHierarchyFormGUI::getPostMulti();
+		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+		
+		if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert after node id
+		{
+			$parent_id = $this->tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else													// insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+
+		// cut and paste
+		$pages = $ilUser->getClipboardObjects("pg");
+		foreach ($pages as $pg)
+		{
+			$cid = ilLMObject::pasteTree($this->content_object, $pg["id"], $parent_id, $target,
+				$pg["insert_time"],
+				(ilEditClipboard::getAction() == "copy"));
+			$target = $cid;
+		}
+
+		if (ilEditClipboard::getAction() == "cut")
+		{
+			$ilUser->clipboardDeleteObjectsOfType("pg");
+			$ilUser->clipboardDeleteObjectsOfType("st");
+			ilEditClipboard::clear();
+		}
+		
+		$ilCtrl->redirect($this, "showHierarchy");
+	}
+
+	
+	/**
+	* Perform drag and drop action
+	*/
 	function proceedDragDrop()
 	{
 		global $ilCtrl;

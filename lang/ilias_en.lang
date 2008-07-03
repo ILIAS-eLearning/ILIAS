@@ -4245,6 +4245,12 @@ common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#cont_revision#:#Revision
+content#:#cont_insert_page#:#Insert Page
+content#:#cont_insert_chapter#:#Insert Chapter
+content#:#cont_insert_subchapter#:#Insert Subchapter
+content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard
+content#:#cont_insert_chapter_from_clip#:#Paste Chapters from Clipboard
+content#:#cont_insert_subchapter_from_clip#:#Paste Subchapters from Clipboard
 content#:#cont_pages_and_subchapters#:#Subchapters and Pages
 content#:#cont_pc_new#:#New Content
 content#:#cont_pc_modified#:#Modified Content

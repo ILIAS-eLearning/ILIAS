@@ -4918,3 +4918,20 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ALTER TABLE `usr_data` CHANGE `client_ip` `client_ip` VARCHAR( 255 );
 <#1271>
 ALTER TABLE `tst_invited_user` CHANGE `clientip` `clientip` VARCHAR( 255 );
+
+<#1272>
+DROP TABLE IF EXISTS il_wiki_missing_page;
+CREATE TABLE il_wiki_missing_page
+(
+	wiki_id INT NOT NULL,
+	source_id INT NOT NULL,
+	target_name varchar(200) NOT NULL DEFAULT '',
+	INDEX wiki_id (wiki_id)
+);
+
+<#1273>
+ALTER TABLE personal_clipboard ADD COLUMN insert_time TIMESTAMP;
+ALTER TABLE personal_clipboard ADD COLUMN parent INT NOT NULL DEFAULT 0;
+<#1274>
+ALTER TABLE personal_clipboard ADD COLUMN order_nr INT NOT NULL DEFAULT 0;
+

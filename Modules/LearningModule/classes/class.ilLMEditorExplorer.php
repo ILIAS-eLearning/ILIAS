@@ -74,14 +74,14 @@ class ilLMEditorExplorer extends ilLMExplorer
 			$this->ctrl->setParameterByClass("ilObjLearningModuleGUI",
 				"obj_id", "");
 			$link = $this->ctrl->getLinkTargetByClass("ilObjLearningModuleGUI",
-				"properties");
+				"chapters");
 		}
 		else
 		{
 			$this->ctrl->setParameterByClass("ilObjDlBookGUI",
 				"obj_id", "");
 			$link = $this->ctrl->getLinkTargetByClass("ilObjDlBookGUI",
-				"properties");
+				"chapters");
 		}
 		$tpl->setVariable("LINK_TARGET", $link);
 

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -42,6 +42,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 	{
 		global $lng, $tpl;
 		
+		$this->maxdepth = -1;
 		$this->multi_commands = array();
 		$this->commands = array();
 		$this->drag_target[] = array();
@@ -153,6 +154,26 @@ class ilHierarchyFormGUI extends ilFormGUI
 	function getCheckboxName()
 	{
 		return $this->checkboxname;
+	}
+
+	/**
+	* Set Maximum Depth.
+	*
+	* @param	int	$a_maxdepth	Maximum Depth
+	*/
+	function setMaxDepth($a_maxdepth)
+	{
+		$this->maxdepth = $a_maxdepth;
+	}
+
+	/**
+	* Get Maximum Depth.
+	*
+	* @return	int	Maximum Depth
+	*/
+	function getMaxDepth()
+	{
+		return $this->maxdepth;
 	}
 
 	/**
@@ -349,6 +370,11 @@ class ilHierarchyFormGUI extends ilFormGUI
 	*/
 	function getLevelHTML($a_par_node, $a_depth, &$a_childs)
 	{
+		if ($this->getMaxDepth() > -1 && $this->getMaxDepth() < $a_depth)
+		{
+			return "";
+		}
+		
 		$childs = $this->getChilds($a_par_node["node_id"]);
 		$a_childs = $childs;
 //var_dump($a_par_node);

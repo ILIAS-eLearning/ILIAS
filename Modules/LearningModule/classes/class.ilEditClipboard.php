@@ -47,6 +47,11 @@ class ilEditClipboard
 		}
 	}
 
+	function setAction($a_action)
+	{
+		$_SESSION["ilEditClipboard"] = array("action" => $a_action);
+	}
+
 	function getAction()
 	{
 		if (isset($_SESSION["ilEditClipboard"]))

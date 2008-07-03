@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -2293,9 +2293,13 @@ class ilObjContentObject extends ilObject
 //echo "-".$source_id."-".$target_id."-".$first_child."-".$as_subitem."-";
 		$source_obj = ilLMObjectFactory::getInstance($this, $source_id, true);
 		$source_obj->setLMId($this->getId());
-		$target_obj = ilLMObjectFactory::getInstance($this, $target_id, true);
-		$target_obj->setLMId($this->getId());
-		$target_parent = $lmtree->getParentId($target_id);
+
+		if (!$first_child)
+		{
+			$target_obj = ilLMObjectFactory::getInstance($this, $target_id, true);
+			$target_obj->setLMId($this->getId());
+			$target_parent = $lmtree->getParentId($target_id);
+		}
 
 		// handle pages
 		if ($source_obj->getType() == "pg")
