@@ -727,14 +727,14 @@ class ilPageObjectGUI
 	{
 		$act_meth = $this->act_meth;
 		$this->act_obj->$act_meth(false);
-		$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+		$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
 	}
 
 	function activatePage()
 	{
 		$act_meth = $this->act_meth;
 		$this->act_obj->$act_meth(true);
-		$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+		$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
 	}
 
 	/*

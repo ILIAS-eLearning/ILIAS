@@ -2312,7 +2312,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$query = "SELECT * FROM page_object WHERE page_id = ".
 			$ilDB->quote($a_id)." AND ".
 			" parent_type = ".$ilDB->quote($a_parent_type)." AND ".
-			" content LIKE '%PageContent Enabled=\"False\"%'";
+			" content LIKE '% Enabled=\"False\"%'";
 		$obj_set = $ilDB->query($query);
 		
 		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
