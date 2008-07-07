@@ -8023,11 +8023,11 @@ common#:#clear_clipboard#:#Clear Clipboard
 common#:#disk_space_used#:#Disk space used
 common#:#in_use_by#:#In use by
 common#:#filename_extension_missing#:#Filename extension missing
-common#:#filename_special_characters#:#/ is not allowed in filenames
-common#:#filename_windows_special_characters#:#\/:*?"<>| are not allowed in Windows filenames
-common#:#filename_windows_empty_extension#:#. at the end of a filename is not allowed on Windows
-common#:#filename_windows_webdav_issue#:## is not supported in Windows webfolders
-common#:#filename_special_filename#:#. and .. are reserved filenames
+common#:#filename_special_characters#:#Due to the character / this object is not visible in webfolders
+common#:#filename_windows_special_characters#:#Due to one of the characters \/:*?"<>| this object is not visible in Windows webfolders
+common#:#filename_windows_empty_extension#:#Due to the character . at the end of the name this object is not visible in Windows webfolders
+common#:#filename_windows_webdav_issue#:#Due to the character # this object is not visible in Windows webfolders
+common#:#filename_special_filename#:#Objects with names . and .. are not visible in webfolders
 common#:#filename_visibility#:#Visibility
 common#:#filename_hidden_unix_file#:#Hidden Unix file
 common#:#filename_hidden_backup_file#:#Hidden backup file
