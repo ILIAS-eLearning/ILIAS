@@ -1692,7 +1692,7 @@ div.il_editarea
 
 div.il_editarea_disabled
 {
-	border: 1px dotted red;
+	border: 2px dotted red;
 }
 
 div.il_editarea_active
@@ -1711,7 +1711,7 @@ div.il_editarea_selected
 
 div.il_editarea_disabled_selected
 {
-	border: 1px solid red;
+	border: 2px solid red;
 }
 
 div.il_editarea_active_selected
