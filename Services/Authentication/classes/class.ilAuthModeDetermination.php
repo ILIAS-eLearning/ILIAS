@@ -205,7 +205,7 @@ class ilAuthModeDetermination
 						}
 						break;
 						
-					case AUTH_RADOIUS:
+					case AUTH_RADIUS:
 						if($rad_active)
 						{
 							$this->position[] = $auth_mode;  
