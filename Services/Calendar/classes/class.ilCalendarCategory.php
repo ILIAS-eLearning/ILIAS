@@ -62,6 +62,7 @@ class ilCalendarCategory
 		$this->read();
 	}
 	
+	
 	/**
 	 * get category id
 	 *

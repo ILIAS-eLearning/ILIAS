@@ -884,40 +884,6 @@ class ilObjGroup extends ilContainer
 	}
 
 	/**
-	* removes Member from group
-	* @access	public
-	*/
-	function removeMember($a_user_id, $a_grp_id="")
-	{
-		if (isset($a_user_id) && isset($a_grp_id) && $this->isMember($a_user_id))
-		{
-			if (count($this->getGroupMemberIds()) > 1)
-			{
-				if ($this->isAdmin($a_user_id) && count($this->getGroupAdminIds()) < 2)
-				{
-					return "grp_err_administrator_required";
-				}
-				else
-				{
-					$this->leave($a_user_id);
-					#$member = new ilObjUser($a_user_id);
-					#$member->dropDesktopItem($this->getRefId(), "grp");
-
-					return "";
-				}
-			}
-			else
-			{
-				return "grp_err_last_member";
-			}
-		}
-		else
-		{
-			$this->ilias->raiseError(get_class($this)."::removeMember(): Missing parameters !",$this->ilias->error_obj->WARNING);
-		}
-	}
-
-	/**
 	* get all group Member ids regardless of role
 	* @access	public
 	* @return	return array of users (obj_ids) that are assigned to
@@ -1489,51 +1455,6 @@ class ilObjGroup extends ilContainer
 		return substr($str_member_roles,0,-2);
 	}
 
-	/**
-	* set member status
-	* @access	public
-	* @param	integer	user id
-	* @param	integer member role id
-	*/
-	function setMemberStatus($a_user_id, $a_member_role)
-	{
-		if (isset($a_user_id) && isset($a_member_role))
-		{
-			$this->removeMember($a_user_id);
-			$this->addMember($a_user_id, $a_member_role);
-		}
-	}
-
-	/**
-	* is Member
-	* @access	public
-	* @param	integer	user_id
-	* @param	return true if user is member
-	*/
-	function isMember($a_userId = "")
-	{
-		if (strlen($a_userId) == 0)
-		{
-			$user_id = $this->ilias->account->getId();
-		}
-		else
-		{
-			$user_id = $a_userId;
-		}
-
-		if ($this->getType() == "grp")
-		{
-			$arr_members = $this->getGroupMemberIds();
-			if (in_array($user_id, $arr_members))
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
 
 	/**
 	* is Admin
@@ -1795,19 +1716,6 @@ class ilObjGroup extends ilContainer
 		return 0;
 	}
 
-
-	function isUserRegistered($a_user_id = 0)
-	{
-		global $rbacsystem;
-
-
-		if (!$this->isMember() or !$rbacsystem->checkAccess("join", $this->ref_id))
-		{
-			return false;
-		}
-
-		return true;
-	}
 
 	function _isMember($a_user_id,$a_ref_id,$a_field = '')
 	{

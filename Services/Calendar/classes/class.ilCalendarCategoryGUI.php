@@ -162,6 +162,8 @@ class ilCalendarCategoryGUI
 	protected function edit()
 	{
 		global $tpl;
+		
+		$this->readPermissions();
 
 		if(!$_GET['category_id'])
 		{
@@ -170,6 +172,21 @@ class ilCalendarCategoryGUI
 		}
 		
 		$this->tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		$shared = new ilCalendarShared((int) $_GET['category_id']);
+		
+		if($shared->getShared() and $this->isEditable())
+		{
+			include_once('./Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php');
+			$table = new ilCalendarSharedListTableGUI($this,'edit');
+			$table->setTitle($this->lng->txt('cal_shared_header'));
+			$table->setCalendarId((int) $_GET['category_id']);
+			$table->parse();
+			$this->tpl->setVariable('SHARED_TABLE',$table->getHTML());
+		}
+		
+		
 		$this->initFormCategory('edit');
 		$this->tpl->setVariable('EDIT_CAT',$this->form->getHTML());
 		
@@ -193,6 +210,13 @@ class ilCalendarCategoryGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
+		}
+		$this->readPermissions();
+		if(!$this->isEditable())
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			$this->edit();
+			return false;
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
@@ -220,6 +244,13 @@ class ilCalendarCategoryGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
+		}
+		$this->readPermissions();
+		if(!$this->isEditable())
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			$this->edit();
+			return false;
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
@@ -252,6 +283,15 @@ class ilCalendarCategoryGUI
 			ilUtil::sendInfo($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
+		
+		$this->readPermissions();
+		if(!$this->isEditable())
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			$this->edit();
+			return false;
+		}
+		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		$category = new ilCalendarCategory((int) $_GET['category_id']);
 		$category->delete();
@@ -274,6 +314,15 @@ class ilCalendarCategoryGUI
 		global $ilUser;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		
+		$this->readPermissions();
+		if(!$this->isEditable())
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			$this->edit();
+			return false;
+		}
+		
 	
 		$selection = $_POST['cat_ids'] ? $_POST['cat_ids'] : array();
 		$hidden = array();
@@ -307,6 +356,252 @@ class ilCalendarCategoryGUI
 		$this->ctrl->returnToParent($this);
 	}
 	
+	/**
+	 * share calendar
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function shareSearch()
+	{
+		global $tpl;
+		
+		$this->readPermissions();
+		if(!$this->isEditable())
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			$this->edit();
+			return false;
+		}
+		
+		$_SESSION['cal_query'] = '';
+		
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		
+		$this->ctrl->saveParameter($this,'category_id');
+	
+		$this->initFormSearch();
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	 * share perform search
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function sharePerformSearch()
+	{
+		$this->lng->loadLanguageModule('search');
+		
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		$this->ctrl->saveParameter($this,'category_id');
+		
+		
+		if(!isset($_POST['query']))
+		{
+			$query = $_SESSION['cal_query'];
+		}
+		elseif($_POST['query'])
+		{
+			$query = $_SESSION['cal_query'] = $_POST['query'];
+		}
+		
+		if(!$query)
+		{
+			ilUtil::sendInfo($this->lng->txt('msg_no_search_string'));
+			$this->shareSearch();
+			return false;
+		}
+		
+		// TODO: switch search for roles/users
+
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		include_once 'Services/Search/classes/class.ilSearchResult.php';
+		
+		$res_sum = new ilSearchResult();
+		
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($query));
+		$query_parser->setCombination(QP_COMBINATION_OR);
+		$query_parser->setMinWordLength(3);
+		$query_parser->parse();
+		
+		$search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+		$search->enableActiveCheck(true);
+		
+		$search->setFields(array('login'));
+		$res = $search->performSearch();
+		$res_sum->mergeEntries($res);
+		
+		$search->setFields(array('firstname'));
+		$res = $search->performSearch();
+		$res_sum->mergeEntries($res);
+
+		$search->setFields(array('lastname'));
+		$res = $search->performSearch();
+		$res_sum->mergeEntries($res);
+		
+		$res_sum->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
+		
+		if(!count($res_sum->getResults()))
+		{
+			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+			$this->shareSearch();
+			return true;
+		}
+	
+		$this->showUserList($res_sum->getResultIds());
+	}
+	
+	/**
+	 * share assign
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function shareAssign()
+	{
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		if(!count($_POST['user_ids']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->sharePerformSearch();
+			return false;
+		}
+		
+		$this->readPermissions();
+		if(!$this->isEditable())
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			$this->edit();
+			return false;
+		}
+		
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		$shared = new ilCalendarShared((int) $_GET['category_id']);
+		
+		foreach($_POST['user_ids'] as $user_id)
+		{
+			$shared->share($user_id,ilCalendarShared::TYPE_USR);
+		}
+		ilUtil::sendInfo($this->lng->txt('cal_shared_selected_usr'));
+		$this->edit();
+	}
+	
+	/**
+	 * desassign users/roles from calendar
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function shareDeassign()
+	{
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		if(!count($_POST['obj_ids']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->edit();
+			return false;
+		}
+		
+		$this->readPermissions();
+		if(!$this->isEditable())
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			$this->edit();
+			return false;
+		}
+		
+
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		$shared = new ilCalendarShared((int) $_GET['category_id']);
+		
+		foreach($_POST['obj_ids'] as $obj_id)
+		{
+			$shared->stopSharing($obj_id);
+		}
+		ilUtil::sendInfo($this->lng->txt('cal_unshared_selected_usr'));
+		$this->edit();
+		return true;
+	}
+	
+	
+	/**
+	 * show user list
+	 *
+	 * @access protected
+	 * @param array array of user ids
+	 * @return
+	 */
+	protected function showUserList($a_ids = array())
+	{
+		global $tpl;
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarSharedUserListTableGUI.php');
+		
+		$table = new ilCalendarSharedUserListTableGUI($this,'sharePerformSearch');
+		$table->setTitle($this->lng->txt('cal_share_search_usr_header'));
+		$table->setFormAction($this->ctrl->getFormAction($this));
+		$table->setUsers($a_ids);
+		$table->parse();
+		
+		$table->addCommandButton('shareSearch',$this->lng->txt('search_new'));
+		$table->addCommandButton('edit',$this->lng->txt('cancel'));
+		
+		$tpl->setContent($table->getHTML());
+	}
+	
+	
+	
+	/**
+	 * init form search
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initFormSearch()
+	{
+		if(!is_object($this->form))
+		{
+			include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+			$this->form = new ilPropertyFormGUI();
+			$this->form->setFormAction($this->ctrl->getFormAction($this));
+			$this->form->setTitle($this->lng->txt('cal_share_search_header'));
+		}
+		
+		$search = new ilTextInputGUI($this->lng->txt('cal_search'),'query');
+		$search->setValue($_POST['query']);
+		$search->setSize(16);
+		$search->setMaxLength(128);
+		$search->setRequired(true);
+		$search->setInfo($this->lng->txt('cal_search_info_share'));
+		
+		$this->form->addItem($search);
+		$this->form->addCommandButton('sharePerformSearch',$this->lng->txt('search'));
+		$this->form->addCommandButton('edit',$this->lng->txt('cancel'));
+	}
+	
 	
 	/**
 	 * init edit/create category form 
@@ -316,7 +611,7 @@ class ilCalendarCategoryGUI
 	 */
 	protected function initFormCategory($a_mode)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
@@ -324,21 +619,6 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo((int) $_GET['category_id']);
 		
-		$editable = false;
-		switch($cat_info['type'])
-		{
-			case ilCalendarCategory::TYPE_USR:
-				$editable = true;
-				break;
-			
-			case ilCalendarCategory::TYPE_GLOBAL:
-				$editable = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
-				break;
-				
-			case ilCalendarCategory::TYPE_OBJ:
-				$editable = false;
-				break;
-		}
 		
 		$this->form = new ilPropertyFormGUI();
 		switch($a_mode)
@@ -348,15 +628,20 @@ class ilCalendarCategoryGUI
 				$this->form->setTitle($this->lng->txt('cal_edit_category'));
 				$this->ctrl->saveParameter($this,array('seed','category_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
-				if($editable)
+				if($this->isEditable())
 				{
 					$this->form->addCommandButton('update',$this->lng->txt('save'));
+					
+					if($cat_info['type'] == ilCalendarCategory::TYPE_USR)
+					{
+						$this->form->addCommandButton('shareSearch',$this->lng->txt('cal_share'));
+					}
 					$this->form->addCommandButton('confirmDelete',$this->lng->txt('delete'));
 					$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 				}
 				break;				
 			case 'create':
-				$editable = true;
+				$this->editable = true;
 				$category = new ilCalendarCategory(0);	
 				$this->ctrl->saveParameter($this,array('category_id'));
 				$this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -370,7 +655,7 @@ class ilCalendarCategoryGUI
 		$title = new ilTextInputGUI($this->lng->txt('cal_calendar_name'),'title');
 		if($a_mode == 'edit')
 		{
-			$title->setDisabled(!$editable);
+			$title->setDisabled(!$this->isEditable());
 		}
 		$title->setRequired(true);
 		$title->setMaxLength(64);
@@ -398,7 +683,7 @@ class ilCalendarCategoryGUI
 		
 		$color = new ilColorPickerInputGUI($this->lng->txt('cal_calendar_color'),'color');
 		$color->setValue($category->getColor());
-		if(!$editable)
+		if(!$this->isEditable())
 		{
 			$color->setDisabled(true);
 		}
@@ -507,6 +792,52 @@ class ilCalendarCategoryGUI
 		$table_gui->parse();
 		
 		return $table_gui->getHTML();
+	}
+	
+	
+	/**
+	 * read permissions
+	 *
+	 * @access private
+	 * @param
+	 * @return
+	 */
+	private function readPermissions()
+	{
+		global $ilUser,$rbacsystem;
+		
+		$this->editable = false;
+		
+
+		$cat = new ilCalendarCategory((int) $_GET['category_id']);
+		switch($cat->getType())
+		{
+			case ilCalendarCategory::TYPE_USR:
+				if($cat->getObjId() == $ilUser->getId())
+				{
+					$this->editable = true;
+				}
+				break;
+			
+			case ilCalendarCategory::TYPE_GLOBAL:
+				$this->editable = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+				break;
+				
+			case ilCalendarCategory::TYPE_OBJ:
+				$this->editable = false;
+				break;
+		}
+		
+	}
+	
+	/**
+	 * check if calendar is editable
+	 * @access private
+	 * @return
+	 */
+	private function isEditable()
+	{
+		return $this->editable;
 	}
 }
 ?>

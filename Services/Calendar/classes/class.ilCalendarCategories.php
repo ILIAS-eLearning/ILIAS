@@ -190,7 +190,7 @@ class ilCalendarCategories
 			{
 				continue;
 			}
-			if($info['type'] == ilCalendarCategory::TYPE_USR)
+			if($info['type'] == ilCalendarCategory::TYPE_USR and $info['editable'])
 			{
 				$has_personal_calendar = true;
 			}
@@ -235,7 +235,6 @@ class ilCalendarCategories
 		
 		
 		$this->readPublicCalendars();
-		
 		$this->readPrivateCalendars();
 		
 		include_once('./Services/Membership/classes/class.ilParticipants.php');
@@ -316,11 +315,32 @@ class ilCalendarCategories
 	 */
 	protected function readPrivateCalendars()
 	{
+		global $ilUser;
+
+		// First read private calendars of user
+		$query = "SELECT cat_id FROM cal_categories ".
+			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR)." ".
+			"AND obj_id = ".$this->db->quote($this->user_id)." ";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cat_ids[] = $row->cat_id;
+		}
+		
+		// Read shared calendars
+		include_once('./Services/Calendar/classes/class.ilCalendarSharedStatus.php');
+		if(!$cat_ids = array_merge((array) $cat_ids,ilCalendarSharedStatus::getAcceptedCalendars($ilUser->getId())))
+		{
+			return true;
+		}
+		
+		
 		// user categories
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_USR)." ".
-			"AND obj_id = ".$this->db->quote($this->user_id)." ".
+			"AND cat_id IN (".implode(',',ilUtil::quoteArray($cat_ids)).') '.
 			"ORDER BY title ";
+			
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -330,9 +350,10 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['title'] = $row->title;
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
-			$this->categories_info[$row->cat_id]['editable'] = true;
+			$this->categories_info[$row->cat_id]['editable'] = $row->obj_id == $ilUser->getId();
 		}
 	}
+	
 
 
 	/**

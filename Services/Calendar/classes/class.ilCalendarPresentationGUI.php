@@ -28,7 +28,7 @@
 * 
 * 
 * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
-* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI
+* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI
 * @ingroup ServicesCalendar
 */
 
@@ -83,6 +83,11 @@ class ilCalendarPresentationGUI
 		$next_class = $this->getNextClass();
 		switch($next_class)
 		{
+			case 'ilcalendarinboxgui':
+				$this->tabs_gui->setSubTabActive('app_inbox');
+				$this->forwardToClass('ilcalendarinboxgui');
+				break;
+			
 			case 'ilcalendarmonthgui':
 				$this->tabs_gui->setSubTabActive('app_month');
 				$this->forwardToClass('ilcalendarmonthgui');
@@ -199,6 +204,14 @@ class ilCalendarPresentationGUI
 				$day_gui = new ilCalendarDayGUI($this->seed);
 				$this->ctrl->forwardCommand($day_gui);
 				break;
+				
+			case 'ilcalendarinboxgui':
+				$_SESSION['cal_last_tab'] = 'app_inbox';
+				$this->setCmdClass('ilcalendarinboxgui');
+				include_once('./Services/Calendar/classes/class.ilCalendarInboxGUI.php');
+				$inbox_gui = new ilCalendarinboxGUI($this->seed);
+				$this->ctrl->forwardCommand($inbox_gui);
+				break;
 
 		}
 	}
@@ -263,7 +276,7 @@ class ilCalendarPresentationGUI
 	 */
 	protected function prepareOutput()
 	{
-		
+		$this->tabs_gui->addSubTabTarget('app_inbox',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
 		$this->tabs_gui->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));

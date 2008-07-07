@@ -9,9 +9,15 @@ body { margin:20px; }
 	<thead>
 		<tr class="tblheader" padding="1px">
 		  <th>{TXT_NAME}</th>
+		  <!-- BEGIN head_mark -->
 		  <th>{TXT_MARK}</th>
+		  <!-- END head_mark -->
+		  <!-- BEGIN head_comment -->
 		  <th>{TXT_COMMENT}</th>
+		  <!-- END head_comment -->
+		  <!-- BEGIN head_signature -->
 		  <th>{TXT_SIGNATURE}</th>
+		  <!-- END head_signature -->
 		</tr>
 	</thead>
 	<tbody>
@@ -20,14 +26,20 @@ body { margin:20px; }
 		  <td class="option_value">
 			{LASTNAME}, {FIRSTNAME} [{LOGIN}]
 		  </td>
+		  <!-- BEGIN row_mark -->
 		  <td class="option_value">
 			{MARK}
 		  </td>
+		  <!-- END row_mark -->
+		  <!-- BEGIN row_comment -->		  
 		  <td class="option_value">
 			{COMMENT}
 		  </td>
+		  <!-- END row_comment -->
+		  <!-- BEGIN row_signature -->
 		  <td class="option_value">
 		  </td>
+		  <!-- END row_signature -->
 		</tr>
 		<!-- END member_row -->
 	</tbody>

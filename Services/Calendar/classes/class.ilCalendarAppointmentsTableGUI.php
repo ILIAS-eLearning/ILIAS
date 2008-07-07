@@ -82,6 +82,7 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField('begin');
 		
 		$this->setSelectAllCheckbox('appointments');
+		$this->setPrefix('apps');
 	}
 	
 	

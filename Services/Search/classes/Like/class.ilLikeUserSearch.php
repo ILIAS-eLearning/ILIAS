@@ -53,6 +53,7 @@ class ilLikeUserSearch extends ilUserSearch
 		$field = $fields[0].' ';
 
 		$and = "  WHERE ( ";
+		
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -71,6 +72,7 @@ class ilLikeUserSearch extends ilUserSearch
 				$and .= ("LIKE ('%".$word."%')");
 			}
 		}
+		
 		return $and.") ";
 	}
 }

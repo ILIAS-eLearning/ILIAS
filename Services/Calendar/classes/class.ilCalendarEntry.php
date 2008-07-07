@@ -77,6 +77,7 @@ class ilCalendarEntry implements ilDatePeriod
 		}
 	}
 	
+	
 	/**
 	 * delete entry
 	 *

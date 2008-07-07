@@ -785,17 +785,17 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->form->setTarget('_blank');
 		$this->form->setTitle($this->lng->txt('sess_gen_attendance_list'));
 		
-		$mark = new ilCheckboxInputGUI($this->lng->txt('trac_mark','show_mark'));
+		$mark = new ilCheckboxInputGUI($this->lng->txt('trac_mark'),'show_mark');
 		$mark->setOptionTitle($this->lng->txt('sess_gen_mark_title'));
 		$mark->setValue(1);
 		$this->form->addItem($mark);
 		
-		$comment = new ilCheckboxInputGUI($this->lng->txt('trac_comment','show_comment'));
+		$comment = new ilCheckboxInputGUI($this->lng->txt('trac_comment'),'show_comment');
 		$comment->setOptionTitle($this->lng->txt('sess_gen_comment'));
 		$comment->setValue(1);
 		$this->form->addItem($comment);
 		
-		$signature = new ilCheckboxInputGUI($this->lng->txt('sess_signature','show_signature'));
+		$signature = new ilCheckboxInputGUI($this->lng->txt('sess_signature'),'show_signature');
 		$signature->setOptionTitle($this->lng->txt('sess_gen_signature'));
 		$signature->setValue(1);
 		$this->form->addItem($signature);
@@ -842,11 +842,21 @@ class ilObjSessionGUI extends ilObjectGUI
 		$tpl->setVariable("EVENT_NAME",$this->object->getTitle());
 		$tpl->setVariable("DATE",ilFormat::formatUnixTime($event_app->getStartingTime(),false)." ".
 						  $event_app->formatTime());
+		
 		$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
-		$tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
-		$tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
-		$tpl->setVariable("TXT_SIGNATURE",$this->lng->txt('sess_signature'));
-
+		if($_POST['show_mark'])
+		{
+			$tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
+		}						  
+		if($_POST['show_comment'])
+		{
+			$tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));	
+		}
+		if($_POST['show_signature'])
+		{
+			$tpl->setVariable("TXT_SIGNATURE",$this->lng->txt('sess_signature'));	
+		}
+		
 		$members = $members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');
 				
@@ -854,14 +864,24 @@ class ilObjSessionGUI extends ilObjectGUI
 		{
 			$user_data = $event_part->getUser($user_id);
 
-			$tpl->setVariable("COMMENT",$user_data['comment']);
+			if($_POST['show_mark'])
+			{
+				$tpl->setVariable("MARK",$user_data['mark']);
+			}
+			if($_POST['show_comment'])
+			{
+				$tpl->setVariable("COMMENT",$user_data['comment']);
+			}
+			if($_POST['show_signature'])
+			{
+					$tpl->touchBlock('row_signature');
+			}
 
 			$tpl->setCurrentBlock("member_row");
 			$name = ilObjUser::_lookupName($user_id);
 			$tpl->setVariable("LASTNAME",$name['lastname']);
 			$tpl->setVariable("FIRSTNAME",$name['firstname']);
 			$tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));
-			$tpl->setVariable("MARK",$user_data['mark']);
 			$tpl->parseCurrentBlock();
 		}
 

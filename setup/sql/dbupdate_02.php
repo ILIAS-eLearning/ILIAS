@@ -4935,3 +4935,22 @@ ALTER TABLE personal_clipboard ADD COLUMN parent INT NOT NULL DEFAULT 0;
 <#1274>
 ALTER TABLE personal_clipboard ADD COLUMN order_nr INT NOT NULL DEFAULT 0;
 
+<#1275>
+DROP TABLE IF EXISTS cal_shared;
+CREATE TABLE `cal_shared` (
+  `cal_id` int(11) NOT NULL,
+  `obj_id` int(11) NOT NULL,
+  `obj_type` int(1) NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
+  PRIMARY KEY  (`cal_id`,`obj_id`)
+) Type=MyISAM;
+
+<#1276>
+DROP TABLE IF EXISTS cal_shared_status;
+CREATE TABLE `cal_shared_status` (
+`cal_id` INT( 11 ) NOT NULL ,
+`usr_id` INT( 11 ) NOT NULL ,
+`status` INT( 1 ) NOT NULL ,
+PRIMARY KEY ( `cal_id` , `usr_id` )
+) Type = MYISAM ;
+

@@ -280,6 +280,21 @@ class ilSearchResult
 		return $this->results ? $this->results : array();
 	}
 	
+	/**
+	 * get result ids
+	 *
+	 * @access public
+	 * @return array result ids
+	 */
+	public function getResultIds()
+	{
+		foreach($this->getResults() as $id => $tmp)
+		{
+			$ids[] = $id;
+		}
+		return $ids ? $ids : array();
+	}
+	
 	function getResultsByObjId()
 	{
 		$tmp_res = array();
