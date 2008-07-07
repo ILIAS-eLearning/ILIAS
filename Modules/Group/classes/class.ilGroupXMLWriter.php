@@ -54,7 +54,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 
 		parent::ilXmlWriter();
 
-		$this->EXPORT_VERSION = "2";
+		$this->EXPORT_VERSION = "3";
 
 		$this->ilias =& $ilias;
 		$this->group_obj =& $group_obj;
@@ -84,7 +84,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 	// PRIVATE
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE group PUBLIC \"-//ILIAS//DTD Group//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_group_3_8.dtd\">");  
+		$this->xmlSetDtdDef("<!DOCTYPE group PUBLIC \"-//ILIAS//DTD Group//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_group_3_10.dtd\">");  
 		$this->xmlSetGenCmt("Export of ILIAS group ". $this->group_obj->getId()." of installation ".$this->ilias->getSetting('inst_id').".");
 		$this->xmlHeader();
 
