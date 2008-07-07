@@ -4948,11 +4948,11 @@ crs#:#tutor_phone#:#Telefon
 crs#:#tutor_title#:#Titel
 crs#:#user_fields#:#Benutzerdaten
 dateplaner#:#add_data#:#zusätzliche Informationen
-dateplaner#:#app_#:#Gruppen Termine Eingang
+dateplaner#:#app_#:#Termineingang
 dateplaner#:#app_date#:#Termin eintragen
 dateplaner#:#app_day#:#Tagesansicht
 dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wählen)
-dateplaner#:#app_inbox#:#Gruppen Termine Eingang
+dateplaner#:#app_inbox#:#Termineingang
 dateplaner#:#app_list#:#Terminliste
 dateplaner#:#app_month#:#Monatsansicht
 dateplaner#:#app_properties#:#Einstellungen
@@ -8370,3 +8370,20 @@ crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
 crs#:#sess_print_attendance_list#:#Teilnehmerliste drucken
 crs#:#sess_signature#:#Unterschrift
 crs#:#sess_attendance_list#:#Teilnehmerliste
+grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
+grp#:#grp_type_changed_info#:#Die Gruppenart wurde geändert.
+grp#:#grp_change_type#:#Gruppenart ändern
+dateplaner#:#cal_share#:#Kalender freigeben
+dateplaner#:#cal_shared_header#:#Kalender Freigaben
+dateplaner#:#cal_unshare_cal#:#Freigabe beenden
+dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
+dateplaner#:#cal_share_search_header#:#Kalender freigeben
+dateplaner#:#cal_search#:#Suchbegriff
+dateplaner#:#cal_search_info_share#:#Bitte geben Sie den Namen der Person/Rolle ein, für die Sie diesen Kalender freigeben möchten.
+dateplaner#:#cal_share_search_usr_header#:#Benutzerauswahl
+dateplaner#:#cal_share_cal#:#Kalender freigeben
+dateplaner#:#cal_shared_selected_usr#:#Der Kalender wurde für die ausgewählten Benutzer/Rollen freigegeben.
+dateplaner#:#cal_shared_calendars#:#Kalender Freigaben (Einladungen)
+dateplaner#:#cal_apps#:#Anzahl Termine
+dateplaner#:#cal_share_accept#:#Einladung annehmen
+dateplaner#:#cal_share_decline#:#Einladung ablehnen

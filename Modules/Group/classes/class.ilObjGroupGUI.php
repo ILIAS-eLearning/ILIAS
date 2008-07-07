@@ -422,7 +422,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		if($this->object->isGroupTypeModified($old_type) and !$update_group_type)
 		{
-			ilUtil::sendInfo('grp_warn_grp_type_changed');
+			ilUtil::sendInfo($this->lng->txt('grp_warn_grp_type_changed'));
 			$this->editObject(true);
 			return true;
 		}
@@ -719,14 +719,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.crs_members_gallery.html','Modules/Course');
 		
-		/*
-		// Unsubscribe
-		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
-		   $this->object->isMember($ilUser->getId()))
-		{
-			$this->__showButton($this->ctrl->getLinkTarget($this,'removeMember')."&mem_id=".$ilUser->getId(),$this->lng->txt("grp_unsubscribe"));
-		}
-		*/
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		
@@ -1816,33 +1808,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		ilUtil::sendInfo($this->lng->txt("grp_msg_applicants_removed"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
 	}
-
-	/**
-	* displays form in which the member-status can be changed
-	* @access public
-	*/
-	function updateMemberStatusObject()
-	{
-		global $rbacsystem,$ilAccess;
-
-		if (!$ilAccess->checkAccess("edit_permission",'',$this->object->getRefId()) )
-		{
-			$this->ilErr->raiseError("permission_denied",$this->ilErr->MESSAGE);
-		}
-
-		if (isset($_POST["member_status_select"]))
-		{
-			foreach ($_POST["member_status_select"] as $key=>$value)
-			{
-				$this->object->setMemberStatus($key,$value);
-			}
-		}
-
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
-		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members"));
-	}
-
-
 
 	// get tabs
 	function getTabs(&$tabs_gui)

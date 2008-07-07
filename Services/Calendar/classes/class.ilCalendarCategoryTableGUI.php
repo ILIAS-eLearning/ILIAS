@@ -94,9 +94,21 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		}
 		switch($a_set['type'])
 		{
-			case ilCalendarCategory::TYPE_USR:
-				#$this->tpl->setVariable('CAL_TYPE',$this->lng->txt('cal_type_usr'));
+			case ilCalendarCategory::TYPE_GLOBAL:
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usrf_s.gif'));
+				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_system'));
 				break;
+				
+			case ilCalendarCategory::TYPE_USR:
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usr_s.gif'));
+				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_system'));
+				break;
+			
+			case ilCAlendarCategory::TYPE_OBJ:
+				$type = ilObject::_lookupType($a_set['obj_id']);
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_'.$type.'_s.gif'));
+				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_system'));
+				break;				
 		}
 	}
 	
@@ -120,6 +132,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$all = $cats->getCategoriesInfo();
 		foreach($all as $category)
 		{
+			$tmp_arr['obj_id'] = $category['obj_id'];
 			$tmp_arr['id'] = $category['cat_id'];
 			$tmp_arr['hidden'] = (bool) in_array($category['cat_id'],$hidden);
 			$tmp_arr['title'] = $category['title'];

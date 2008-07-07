@@ -2615,7 +2615,7 @@ common#:#import_file_not_valid#:#The import file is not valid.
 common#:#import_finished#:#Number of imported messages.
 common#:#import_forum_finished#:#The forum has been imported.
 common#:#import_glossary#:#Import Glossary
-common#:#import_grp#:#Import group
+common#:#import_grp#:#Import Group
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import ILIAS Learning module
@@ -5295,11 +5295,11 @@ dateplaner#:#We_long#:#Wednesday
 dateplaner#:#We_short#:#We
 dateplaner#:#Week_long#:#Week View
 dateplaner#:#add_data#:#Additional Data
-dateplaner#:#app_#:#Group Events Inbox
+dateplaner#:#app_#:#Inbox
 dateplaner#:#app_date#:#Create Event
 dateplaner#:#app_day#:#Day View
 dateplaner#:#app_freetime#:#Free time of other group members (catch a time)
-dateplaner#:#app_inbox#:#Group Events Inbox
+dateplaner#:#app_inbox#:#Inbox
 dateplaner#:#app_list#:#List of Events
 dateplaner#:#app_month#:#Month View
 dateplaner#:#app_properties#:#Properties
@@ -8378,3 +8378,20 @@ crs#:#sess_gen_signature#:#Generate Column for Signatures
 crs#:#sess_print_attendance_list#:#Print Attendance List
 crs#:#sess_signature#:#Signature
 crs#:#sess_attendance_list#:#Attendance List
+grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.
+grp#:#grp_type_changed_info#:#Changing the group type will reset all permission settings.
+grp#:#grp_change_type#:#Change Group Type
+dateplaner#:#cal_share#:#Share Calendar
+dateplaner#:#cal_shared_header#:#Shared Calendars
+dateplaner#:#cal_unshare_cal#:#Stop Sharing
+dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
+dateplaner#:#cal_share_search_header#:#Share Calendar
+dateplaner#:#cal_search#:#Search Term
+dateplaner#:#cal_search_info_share#:#Please enter the name of the desired user/role for sharing the calendar.
+dateplaner#:#cal_share_search_usr_header#:#User Selection
+dateplaner#:#cal_share_cal#:#Share calendar
+dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.
+dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)
+dateplaner#:#cal_apps#:#Number of Appointments
+dateplaner#:#cal_share_accept#:#Accept Invitation
+dateplaner#:#cal_share_decline#:#Decline Invitation

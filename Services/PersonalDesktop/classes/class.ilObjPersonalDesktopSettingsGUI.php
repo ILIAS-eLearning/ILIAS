@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 include_once("./classes/class.ilObjectGUI.php");
-
+include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 
 /**
 * News Settings.
@@ -126,7 +126,8 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		
 		$pd_set = new ilSetting("pd");
 		
-		$enable_calendar = $ilSetting->get("enable_calendar");		
+		$enable_calendar = ilCalendarSettings::_getInstance()->isEnabled();
+		#$enable_calendar = $ilSetting->get("enable_calendar");		
 		$enable_block_moving = $pd_set->get("enable_block_moving");
 		$enable_active_users = $ilSetting->get("block_activated_pdusers");		
 		
@@ -202,8 +203,12 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $ilSetting;
 		
-		$pd_set = new ilSetting("pd");		
-		$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
+		$pd_set = new ilSetting("pd");
+		
+		ilCalendarSettings::_getInstance()->setEnabled( $_POST["enable_calendar"]);
+		ilCalendarSettings::_getInstance()->save();
+			
+		#$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
 		$ilSetting->set("disable_bookmarks", (int) ($_POST["enable_bookmarks"] ? 0 : 1));
 		$ilSetting->set("disable_notes", (int) ($_POST["enable_notes"] ? 0 : 1));
 		
