@@ -107,6 +107,15 @@ class ilCalendarRecurrenceCalculator
 	 	// Therfore we adjust the timezone of all input dates (start,end, event start)
 	 	// to the same tz (UTC for fullday events, Recurrence tz for all others). 
 	 	$this->adjustTimeZones($a_start,$a_end);
+	 	
+	 	
+		// Add start of event if it is in the period
+		if((ilDateTime::_after($this->event->getStart(),$this->period_start,IL_CAL_DAY) and
+			ilDateTime::_before($this->event->getStart(),$this->period_end,IL_CAL_DAY)) or
+			ilDateTime::_equals($this->event->getStart(),$this->period_start,IL_CAL_DAY))
+		{
+			$this->valid_dates->add($this->event->getStart());
+		}
 
 	 	// Calculate recurrences based on frequency (e.g. MONTHLY)
 	 	$time = microtime(true);
@@ -161,12 +170,6 @@ class ilCalendarRecurrenceCalculator
 	 	}
 	 	while(true);
 
-		// Add start of event if it is in the period
-		if(ilDateTime::_after($this->event->getStart(),$this->period_start,IL_CAL_DAY) and
-			ilDateTime::_before($this->event->getStart(),$this->period_end,IL_CAL_DAY))
-		{
-			$this->valid_dates->add($this->event->getStart());
-		}
 
 		$this->valid_dates->sort();
 			
@@ -788,7 +791,7 @@ class ilCalendarRecurrenceCalculator
 	 		foreach($list->get() as $res)
 	 		{
 	 			// check smaller than since the start time counts as one
-	 			if(count($this->valid_dates->get()) < $this->recurrence->getFrequenceUntilCount() - 1)
+	 			if(count($this->valid_dates->get()) < $this->recurrence->getFrequenceUntilCount())
 	 			{
 	 				$this->valid_dates->add($res);
 	 			}

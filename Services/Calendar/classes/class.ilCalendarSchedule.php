@@ -262,7 +262,7 @@ class ilCalendarSchedule
 		{
 			return array();
 		}
-		
+
 		// TODO: optimize
 		$query = "SELECT ce.cal_id AS cal_id FROM cal_entries AS ce LEFT JOIN cal_recurrence_rules AS crr USING (cal_id) ".
 			"JOIN cal_category_assignments AS ca ON ca.cal_id = ce.cal_id ".
@@ -319,7 +319,7 @@ class ilCalendarSchedule
 				$this->start->increment(IL_CAL_DAY,$day_diff);
 				$this->start->increment(IL_CAL_DAY,-1);
 				$this->end = clone $this->start;
-				$this->end->increment(IL_CAL_DAY,7);
+				$this->end->increment(IL_CAL_DAY,9);
 				break;
 			
 			case self::TYPE_MONTH:

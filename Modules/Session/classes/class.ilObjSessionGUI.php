@@ -395,6 +395,8 @@ class ilObjSessionGUI extends ilObjectGUI
 		$calc = new ilCalendarRecurrenceCalculator($this->object->getFirstAppointment(),$this->rec);
 		
 		$period_start = clone $this->object->getFirstAppointment()->getStart();
+		
+		
 		$period_end = clone $this->object->getFirstAppointment()->getStart();
 		$period_end->increment(IL_CAL_YEAR,5);
 		$date_list = $calc->calculateDateList($period_start,$period_end);
@@ -404,8 +406,14 @@ class ilObjSessionGUI extends ilObjectGUI
 		
 		$parent_id = $tree->getParentId($this->object->getRefId());
 		
+		$counter = 0;
 		foreach($date_list->get() as $date)
 		{
+			if(!$counter++)
+			{
+				continue;
+			}
+			
 			$new_obj = $this->object->cloneObject($parent_id);
 			$new_obj->read();
 			$new_obj->getFirstAppointment()->setStartingTime($date->get(IL_CAL_UNIX));
