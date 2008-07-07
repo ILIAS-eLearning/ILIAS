@@ -1313,6 +1313,12 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
+form#:#form_min_value#:#Minimum Value
+form#:#form_max_value#:#Maximum Value
+form#:#form_format#:#Format
+form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.
+form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.
+form#:#form_msg_numeric_value_required#:#Please enter a numeric value.
 form#:#form_msg_file_size_exceeds#:#The uploaded file exceeds the max. allowed file size.
 form#:#form_msg_file_partially_uploaded#:#The file could not be uploaded completely.
 form#:#form_msg_file_no_upload#:#This input is required. Please select a file for upload.
@@ -4244,6 +4250,10 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
+content#:#cont_insert_map#:#Insert Map
+content#:#cont_update_map#:#Edit Map
+content#:#cont_location#:#Location
+content#:#cont_align#:#Alignment
 content#:#cont_revision#:#Revision
 content#:#cont_insert_page#:#Insert Page
 content#:#cont_insert_chapter#:#Insert Chapter
@@ -4277,6 +4287,11 @@ content#:#citate_page#:#Citate this Page
 content#:#citate_to#:#Citate To ...
 content#:#cont_Additional#:#Additional
 common#:#no_start_file#:#No Start File.
+content#:#cont_left#:#Left
+content#:#cont_right#:#Right
+content#:#cont_center#:#Center
+content#:#cont_left_float#:#Left, Floating
+content#:#cont_right_float#:#Right, Floating
 content#:#cont_alphabetic#:#Alphabetic A, B, ...
 content#:#cont_alphabetic_s#:#Alphabetic a, b, ... 
 content#:#cont_Circle#:#Circle
@@ -4435,7 +4450,7 @@ content#:#cont_ed_insert_code#:#Insert Code
 content#:#cont_ed_insert_filelist#:#Insert File List
 content#:#cont_ed_insert_list#:#Insert List
 content#:#cont_ed_insert_media#:#Insert Media
-content#:#cont_ed_insert_par#:#Insert Paragr.
+content#:#cont_ed_insert_par#:#Insert Text
 content#:#cont_ed_insert_dtable#:#Insert Data Table
 content#:#cont_ed_insert_atable#:#Insert Advanced Table
 content#:#cont_ed_edit_data#:#Edit Data
@@ -4462,8 +4477,8 @@ content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
 content#:#cont_edit_mob_files#:#Object Files
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties
-content#:#cont_edit_par#:#Edit Paragraph
-content#:#cont_edit_src#:#Edit source code
+content#:#cont_edit_par#:#Edit Text
+content#:#cont_edit_src#:#Edit Source Code
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
@@ -4504,7 +4519,7 @@ content#:#cont_insert_file_list#:#Insert File List
 content#:#cont_insert_list#:#Insert List
 content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_new_footnote#:#insert new footnote
-content#:#cont_insert_par#:#Insert Paragraph
+content#:#cont_insert_par#:#Insert Text
 content#:#cont_insert_search#:#Please insert a search term
 content#:#cont_insert_src#:#Insert source code
 content#:#cont_insert_table#:#Insert Table

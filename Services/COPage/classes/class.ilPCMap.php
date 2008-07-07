@@ -170,6 +170,135 @@ class ilPCMap extends ilPageContent
 			return $this->map_node->get_attribute("Zoom");
 		}
 	}
+	
+	/**
+	* Set Layout
+	*
+	* @param	integer	$a_width			Width
+	* @param	integer	$a_height			Height
+	* @param	integer	$a_horizonal_align	Horizontal Alignment
+	*/
+	function setLayout($a_width, $a_height, $a_horizontal_align)
+	{
+		if (is_object($this->map_node))
+		{
+			ilDomUtil::setFirstOptionalElement($this->dom, $this->map_node,
+				"Layout", array(), "", array("Width" => $a_width,
+					"Height" => $a_height, "HorizontalAlign" => $a_horizontal_align));
+		}
+	}
+
+	/**
+	* Get Width.
+	*
+	* @return	integer	Width
+	*/
+	function getWidth()
+	{
+		if (is_object($this->map_node))
+		{
+			$childs = $this->map_node->child_nodes();
+			foreach($childs as $child)
+			{
+				if ($child->node_name() == "Layout")
+				{
+					return $child->get_attribute("Width");
+				}
+			}
+		}
+	}
+
+	/**
+	* Get Height.
+	*
+	* @return	integer	Height
+	*/
+	function getHeight()
+	{
+		if (is_object($this->map_node))
+		{
+			$childs = $this->map_node->child_nodes();
+			foreach($childs as $child)
+			{
+				if ($child->node_name() == "Layout")
+				{
+					return $child->get_attribute("Height");
+				}
+			}
+		}
+	}
+
+	/**
+	* Get Horizontal Alignment.
+	*
+	* @return	string	Horizontal Alignment
+	*/
+	function getHorizontalAlign()
+	{
+		if (is_object($this->map_node))
+		{
+			$childs = $this->map_node->child_nodes();
+			foreach($childs as $child)
+			{
+				if ($child->node_name() == "Layout")
+				{
+					return $child->get_attribute("HorizontalAlign");
+				}
+			}
+		}
+	}
+
+	/**
+	* Set Caption.
+	*
+	* @param	string	$a_caption	Caption
+	*/
+	function setCaption($a_caption)
+	{
+		if (is_object($this->map_node))
+		{
+			ilDomUtil::setFirstOptionalElement($this->dom, $this->map_node,
+				"MapCaption", array(), $a_caption, array());
+		}
+	}
+
+	/**
+	* Get Caption.
+	*
+	* @return	string	Caption
+	*/
+	function getCaption()
+	{
+		if (is_object($this->map_node))
+		{
+			$childs = $this->map_node->child_nodes();
+			foreach($childs as $child)
+			{
+				if ($child->node_name() == "MapCaption")
+				{
+					return $child->get_content();
+				}
+			}
+		}
+	}
+
+	static function handleCaptionInput($a_text)
+	{
+		$a_text = str_replace(chr(13).chr(10),"<br />",$a_text);
+		$a_text = str_replace(chr(13),"<br />", $a_text);
+		$a_text = str_replace(chr(10),"<br />", $a_text);
+		
+		return $a_text;
+	}
+	
+	static function handleCaptionFormOutput($a_text)
+	{
+		$a_text = str_replace("<br />", "\n", $a_text);
+		$a_text = str_replace("<br/>", "\n", $a_text);
+		
+		return $a_text;
+	}
+
 }
 
 ?>
