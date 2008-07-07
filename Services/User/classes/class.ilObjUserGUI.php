@@ -1352,11 +1352,15 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->form_gui->addItem($ac);
 		
 		// disk space used
+		// W. Randelshofer 2008-07-07: Deactivated display of disk space usage,
+        // because determining the disk space usage may take several minutes. 
+		/*
 		if ($a_mode == "edit")
 		{
 			$ds = new ilNonEditableValueGUI($lng->txt("disk_space_used"), "disk_space_used");
 			$this->form_gui->addItem($ds);
 		}
+         */
 
 		// personal data
 		$sec_pd = new ilFormSectionHeaderGUI();
@@ -1705,6 +1709,9 @@ class ilObjUserGUI extends ilObjectGUI
 		// END DiskQuota Get Picture, Owner, Last login, Approve Date and AgreeDate
 
 		// BEGIN DiskQuota, Show disk space used
+		// W. Randelshofer 2008-07-07: Deactivated display of disk space usage,
+        // because determining the disk space usage may take several minutes. 
+		/*
 		require_once "Modules/File/classes/class.ilObjFileAccess.php";
 		require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
 		require_once "Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
@@ -1718,6 +1725,7 @@ class ilObjUserGUI extends ilObjectGUI
 			ilObjMailAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
 			ilObjForumAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'
 		);
+        */
 		// END DiskQuota, Show disk space used
 
 		if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
