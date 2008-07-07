@@ -43,6 +43,7 @@ class ilCalendarSchedule
 	const TYPE_DAY = 1;
 	const TYPE_WEEK = 2;
 	const TYPE_MONTH = 3;
+	const TYPE_INBOX = 4;
 	
 	protected $schedule = array();
 	protected $timezone;
@@ -206,6 +207,44 @@ class ilCalendarSchedule
 			}
 		}
 	}
+	
+	/**
+	 * get new/changed events
+	 *
+	 * @access protected
+	 * @return
+	 */
+	public function getChangedEvents()
+	{
+		global $ilUser;
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories();
+		
+		if(!count($cats))
+		{
+			return array();
+		}
+		
+		$start = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
+		$start->increment(IL_CAL_MONTH,-1);
+		
+		
+		$query = "SELECT ce.cal_id AS cal_id FROM cal_entries AS ce  ".
+			"JOIN cal_category_assignments AS ca ON ca.cal_id = ce.cal_id ".
+			"WHERE last_update > '".$start->get(IL_CAL_DATETIME)."' ".
+			"AND ca.cat_id IN (".implode(',',ilUtil::quoteArray($cats)).') '.
+			"ORDER BY last_update";
+		$res = $this->db->query($query);
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$events[] = new ilCalendarEntry($row->cal_id);
+		}
+
+		return $events ? $events : array();
+	}
+	
 	
 	/**
 	 * Read events (will be moved to another class, since only active and/or visible calendars are shown)
