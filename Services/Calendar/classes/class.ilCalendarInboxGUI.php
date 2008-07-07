@@ -25,6 +25,7 @@ include_once('Services/Calendar/classes/class.ilDate.php');
 include_once('Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php');
 include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
 include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
 
 
 
@@ -116,6 +117,16 @@ class ilCalendarInboxGUI
 			$this->tpl->setVariable('SHARED_CAL_TABLE',$table->getHTML());
 		}
 		
+		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
+		$events = $schedule->getChangedEvents();
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php');
+		
+		$table_gui = new ilCalendarChangedAppointmentsTableGUI($this,'inbox');
+		$table_gui->setTitle($this->lng->txt('cal_changed_events_header'));
+		$table_gui->setAppointments($events);
+		
+		$this->tpl->setVariable('CHANGED_TABLE',$table_gui->getHTML());
 
 	}
 	
