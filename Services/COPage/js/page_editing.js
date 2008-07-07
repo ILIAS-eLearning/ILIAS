@@ -3,6 +3,7 @@ var Mposx = 0;
 var Mposy = 0;
 var sel_edit_areas = Array();
 var edit_area_class = Array();
+var edit_area_original_class = Array();
 var openedMenu="";					// menu currently opened
 var current_mouse_over_id;
 
@@ -121,13 +122,24 @@ function doMouseOver (id, mclass)
 	setTimeout("stopHigh=false",10);
 	obj = document.getElementById(id);
 	edit_area_class[id] = mclass;
+	if (obj.className != "il_editarea_selected")
+	{
+		edit_area_original_class[id] = obj.className;
+	}
 	if (sel_edit_areas[id])
 	{
 		obj.className = "il_editarea_active_selected";
 	}
 	else
 	{
-		obj.className = mclass;
+		if (obj.className == "il_editarea_disabled")
+		{
+			obj.className = "il_editarea_disabled_selected";
+		}
+		else
+		{
+			obj.className = mclass;
+		}
 	}
 	
 	current_mouse_over_id = id;
@@ -147,7 +159,8 @@ function doMouseOut(id, mclass)
 	}
 	else
 	{
-		obj.className = mclass;
+		//obj.className = mclass;
+		obj.className = edit_area_original_class[id];
 	}
 }
 
@@ -605,15 +618,27 @@ function ilFormSend(cmd, source_id, target_id)
 
 function ilEditMultiAction(cmd)
 {
-	//hid_target = document.getElementById("ajaxform_target");
-	//hid_target.value = target_id;
-	//hid_cmd = document.getElementById("ajaxform_cmd");
-	//hid_cmd.name = "command" + source_id;
-	//hid_cmd.value = cmd;
-	hid_exec = document.getElementById("ajaxform_exec");
+	hid_exec = document.getElementById("cmform_exec");
 	hid_exec.name = "cmd[" + cmd + "]";
-    form = document.getElementById("ajaxform");
+	hid_cmd = document.getElementById("cmform_cmd");
+	hid_cmd.name = cmd;
+    form = document.getElementById("cmform");
 	
-	var str = form.action;
-	return ilCOPageJSHandler(str);
+	var sel_ids = "";
+	var delim = "";
+	for (var key in sel_edit_areas)
+	{
+		if (sel_edit_areas[key])
+		{
+			sel_ids = sel_ids + delim + key.substr(7);
+			delim = ";";
+		}
+	}
+
+	hid_target = document.getElementById("cmform_target");
+	hid_target.value = sel_ids;
+	
+	form.submit();
+	
+	return false;
 }

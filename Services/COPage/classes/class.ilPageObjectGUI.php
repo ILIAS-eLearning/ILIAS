@@ -773,20 +773,6 @@ class ilPageObjectGUI
 */
 				$tpl->setVariable("WYSIWYG_ACTION",
 					$ilCtrl->getFormActionByClass("ilpageeditorgui", "", "", true));
-//echo "-".$ilCtrl->getFormActionByClass("ilpageeditorgui", "", "", true)."-";
-
-/*				$tpl->setVariable("JS_DRAGDROP", ILIAS_HTTP_PATH."/Services/COPage/js/wz_dragdrop.js");
-				$tpl->setVariable("IMG_DRAGDROP",
-					ilUtil::getImagePath("icon_drag.gif"));
-*/
-				include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-				ilYuiUtil::initDragDrop();
-				ilYuiUtil::initConnection();
-				$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
-				//$GLOBALS["tpl"]->addJavaScript("./Services/RTE/tiny_mce/tiny_mce.js");
-				$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilpageedit.js");
-				//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/wz_dragdrop.js");
-				$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
 				if (!ilPageEditorGUI::_isBrowserJSEditCapable())
 				{
@@ -852,6 +838,24 @@ class ilPageObjectGUI
 					$sel_js_mode = (ilPageEditorGUI::_doJSEditing())
 						? "enable"
 						: "disable";
+				}
+				
+				// get js files for JS enabled editing
+				if ($sel_js_mode == "enable")
+				{
+					include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+					ilYuiUtil::initDragDrop();
+					ilYuiUtil::initConnection();
+					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
+					//$GLOBALS["tpl"]->addJavaScript("./Services/RTE/tiny_mce/tiny_mce.js");
+					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilpageedit.js");
+					//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/wz_dragdrop.js");
+					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
+					$tpl->touchBlock("init_dragging");
+				}
+
+				if($ilias->getSetting("enable_js_edit"))
+				{
 					$tpl->setVariable("SEL_JAVA_SCRIPT", 
 						ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true,
 						0, "ilEditSelect"));
