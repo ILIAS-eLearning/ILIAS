@@ -82,6 +82,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		$tpl = $this->newBlockTemplate();
 		if (is_array($this->items["sess"]))
 		{
+			$this->items['sess'] = ilUtil::sortArray($this->items['sess'],'start','DESC',true,true);
+			
 			// all rows
 			$item_html = array();
 			foreach($this->items["sess"] as $item_data)

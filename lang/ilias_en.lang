@@ -5206,7 +5206,7 @@ crs#:#event_assign_materials#:#Assign Materials
 crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the session.
 crs#:#event_assign_materials_table#:#Assignment of Course Materials
 crs#:#event_btn_add#:#Add Session
-crs#:#event_date#:#Date of Session:
+crs#:#event_date#:#Date of Session
 crs#:#event_date_time#:#Date & Time
 crs#:#event_delete_file#:#Delete File?
 crs#:#event_delete_sure#:#Do really want to delete this session?
