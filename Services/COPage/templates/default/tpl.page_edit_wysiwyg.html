@@ -52,7 +52,7 @@ parent.tree.location.replace('{LINK_TREE}');
 </form>
 
 <!-- form used for ajax actions -->
-<form style="visibility:hidden;" name="ajaxform" id="ajaxform" method="post" action="{WYSIWYG_ACTION}">
+<form name="ajaxform" id="ajaxform" method="post" action="{WYSIWYG_ACTION}">
 <input type="hidden" id="ajaxform_target" name="target[]" value="" />
 <input type="hidden" id="ajaxform_cmd" name="" value="" />
 <input type="hidden" id="ajaxform_exec" name="" value="Ok" />
@@ -76,7 +76,9 @@ parent.tree.location.replace('{LINK_TREE}');
 <!-- END add_dhtml -->
 	
 //alert("initDragElements: outer");
+<!-- BEGIN init_dragging -->
 initDragElements();
+<!-- END init_dragging -->
 
 </script>
 

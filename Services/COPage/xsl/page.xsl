@@ -324,7 +324,7 @@
 		</div>
 		
 		<!-- drop area -->
-		<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
+		<xsl:if test="(not(../../../@DataTable) or (../../../@DataTable = 'n')) and ($javascript != 'disable')">
 			<div class="il_droparea">
 				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
 				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>

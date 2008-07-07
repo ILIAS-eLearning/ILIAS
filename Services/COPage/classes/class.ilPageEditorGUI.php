@@ -692,6 +692,10 @@ return true;
 	*/
 	function deleteSelected()
 	{
+		if (is_int(strpos($_POST["target"][0], ";")))
+		{
+			$_POST["target"] = explode(";", $_POST["target"][0]);
+		}
 		if (is_array($_POST["target"]))
 		{
 			$updated = $this->page->deleteContents($_POST["target"]);
@@ -712,6 +716,11 @@ return true;
 	*/
 	function activateSelected()
 	{
+//var_dump($_POST);
+		if (is_int(strpos($_POST["target"][0], ";")))
+		{
+			$_POST["target"] = explode(";", $_POST["target"][0]);
+		}
 		if (is_array($_POST["target"]))
 		{
 			$updated = $this->page->switchEnableMultiple($_POST["target"]);
