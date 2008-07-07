@@ -7821,14 +7821,14 @@ common#:#disk_space_used#:#Belegter Festplattenspeicher
 pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern. 
 common#:#in_use_by#:#In Bearbeitung durch
 common#:#filename_interoperability#:#Interoperabilität
-common#:#filename_special_characters#:#/ ist in Dateinamen nicht erlaubt
-common#:#filename_windows_special_characters#:#\/:*?"<>| sind in Windows Dateinamen nicht erlaubt
+common#:#filename_special_characters#:#Wegen dem Zeichen / ist dieses Objekt in Webordnern nicht sichtbar
+common#:#filename_windows_special_characters#:#Wegen eines der Zeichen \/:*?"<>| ist dieses Objekt in Windows Webordnern nicht sichtbar
 common#:#filename_visibility#:#Sichtbarkeit
 common#:#filename_hidden_unix_file#:#Versteckte Unix Datei
 common#:#filename_hidden_backup_file#:#Versteckte Backup Datei
-common#:#filename_windows_empty_extension#:#. ist am Ende eines Windows Dateinamens nicht erlaubt
-common#:#filename_windows_webdav_issue#:## wird von Windows Webordnern nicht unterstützt
-common#:#filename_special_filename#:#. und .. sind reservierte Dateinamen
+common#:#filename_windows_empty_extension#:#Wegen des Zeichens . am Ende des Namens ist dieses Objekt in Windows Webordnern nicht sichtbar
+common#:#filename_windows_webdav_issue#:#Wegen des Zeichens # ist dieses Objekt in Windows Webordnern nicht sichtbar
+common#:#filename_special_filename#:#Objekte mit den Namen . und .. sind in Webordnern nicht sichtbar
 common#:#filename_extension_missing#:#Dateiendung fehlt
 common#:#readcount_anonymous_users#:#Anzahl anonyme Lesezugriffe
 common#:#readcount_users#:#Anzahl nicht-anonyme Lesezugriffe
