@@ -1316,6 +1316,8 @@ class ilPageObjectGUI
 				$map_gui->setLatitude($param[0]);
 				$map_gui->setLongitude($param[1]);
 				$map_gui->setZoom($param[2]);
+				$map_gui->setWidth($param[3]."px");
+				$map_gui->setHeight($param[4]."px");
 				$map_gui->setEnableTypeControl(true);
 				$map_gui->setEnableNavigationControl(true);
 				$map_gui->setEnableCentralMarker(true);

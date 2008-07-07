@@ -486,12 +486,13 @@
 >
 
 <!-- Map -->
-<!ELEMENT Map (Caption?)>
+<!ELEMENT Map (MapCaption?, Layout?)>
 <!ATTLIST Map
 	Latitude CDATA #REQUIRED
 	Longitude CDATA #REQUIRED
 	Zoom CDATA #REQUIRED
 >
+<!ELEMENT MapCaption (%titletext;)*>
 
 <!-- Plugged Component -->
 <!ELEMENT Plugged (PluggedParameter*)>

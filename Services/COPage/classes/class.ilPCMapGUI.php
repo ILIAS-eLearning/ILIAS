@@ -72,7 +72,11 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
-		$this->edit(true);
+		global $tpl;
+		
+		$this->displayValidationError();
+		$this->initForm("create");
+		$tpl->setContent($this->form->getHTML());
 	}
 
 	/**
@@ -83,68 +87,137 @@ class ilPCMapGUI extends ilPageContentGUI
 		global $ilCtrl, $tpl, $lng;
 		
 		$this->displayValidationError();
+		$this->initForm("update");
+		$this->getValues();
+		$tpl->setContent($this->form->getHTML());
+
+		return $ret;
+	}
+
+	/**
+	* Get values from object into form
+	*/
+	function getValues()
+	{
+		$values = array();
+		
+		$values["location"]["latitude"] = $this->content_obj->getLatitude();
+		$values["location"]["longitude"] = $this->content_obj->getLongitude();
+		$values["location"]["zoom"] = $this->content_obj->getZoom();
+		$values["width"] = $this->content_obj->getWidth();
+		$values["height"] = $this->content_obj->getHeight();
+		$values["caption"] = $this->content_obj->handleCaptionFormOutput($this->content_obj->getCaption());
+		$values["horizontal_align"] = $this->content_obj->getHorizontalAlign();
+		
+		$this->form->setValuesByArray($values);
+	}
+	
+	/**
+	* Init map creation/update form
+	*/
+	function initForm($a_mode)
+	{
+		global $ilCtrl, $lng;
 		
 		// edit form
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($ilCtrl->getFormAction($this));
-		if ($a_insert)
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		if ($a_mode == "create")
 		{
-			$form->setTitle($this->lng->txt("cont_insert_map"));
+			$this->form->setTitle($this->lng->txt("cont_insert_map"));
 		}
 		else
 		{
-			$form->setTitle($this->lng->txt("cont_update_map"));
+			$this->form->setTitle($this->lng->txt("cont_update_map"));
 		}
 		
 		// location
 		$loc_prop = new ilLocationInputGUI($this->lng->txt("cont_location"),
 			"location");
-		if (!$a_insert)
-		{
-			$loc_prop->setLatitude($this->content_obj->getLatitude());
-			$loc_prop->setLongitude($this->content_obj->getLongitude());
-			$loc_prop->setZoom($this->content_obj->getZoom());
-		}
-		$form->addItem($loc_prop);
+		$loc_prop->setRequired(true);
+		$this->form->addItem($loc_prop);
 		
+		// width
+		$width_prop = new ilNumberInputGUI($this->lng->txt("cont_width"),
+			"width");
+		$width_prop->setSize(4);
+		$width_prop->setMaxLength(4);
+		$width_prop->setRequired(true);
+		$width_prop->setMinValue(250);
+		$this->form->addItem($width_prop);
+		
+		// height
+		$height_prop = new ilNumberInputGUI($this->lng->txt("cont_height"),
+			"height");
+		$height_prop->setSize(4);
+		$height_prop->setMaxLength(4);
+		$height_prop->setRequired(true);
+		$height_prop->setMinValue(200);
+		$this->form->addItem($height_prop);
+
+		// horizonal align
+		$align_prop = new ilSelectInputGUI($this->lng->txt("cont_align"),
+			"horizontal_align");
+		$options = array(
+			"Left" => $lng->txt("cont_left"),
+			"Center" => $lng->txt("cont_center"),
+			"Right" => $lng->txt("cont_right"),
+			"LeftFloat" => $lng->txt("cont_left_float"),
+			"RightFloat" => $lng->txt("cont_right_float"));
+		$align_prop->setOptions($options);
+		$this->form->addItem($align_prop);
+		
+		// caption
+		$caption_prop = new ilTextAreaInputGUI($this->lng->txt("cont_caption"),
+			"caption");
+		$this->form->addItem($caption_prop);
+
 		// save/cancel buttons
-		if ($a_insert)
+		if ($a_mode == "create")
 		{
-			$form->addCommandButton("create_map", $lng->txt("save"));
-			$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+			$this->form->addCommandButton("create_map", $lng->txt("save"));
+			$this->form->addCommandButton("cancelCreate", $lng->txt("cancel"));
 		}
 		else
 		{
-			$form->addCommandButton("update_map", $lng->txt("save"));
-			$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->addCommandButton("update_map", $lng->txt("save"));
+			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
-		$html = $form->getHTML();
-		$tpl->setContent($html);
-		return $ret;
-
+		//$html = $form->getHTML();
 	}
-
 
 	/**
 	* Create new Map.
 	*/
 	function create()
 	{
-		$this->content_obj = new ilPCMap($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
-		$this->content_obj->setLatitude($_POST["location"]["latitude"]);
-		$this->content_obj->setLongitude($_POST["location"]["longitude"]);
-		$this->content_obj->setZoom($_POST["location"]["zoom"]);
-		$this->updated = $this->pg_obj->update();
-		if ($this->updated === true)
+		global $tpl;
+		
+		$this->initForm("create");
+		if ($this->form->checkInput())
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			$this->content_obj = new ilPCMap($this->dom);
+			$location = $this->form->getInput("location");
+			$this->content_obj->create($this->pg_obj, $this->hier_id);
+			$this->content_obj->setLatitude($location["latitude"]);
+			$this->content_obj->setLongitude($location["longitude"]);
+			$this->content_obj->setZoom($location["zoom"]);
+			$this->content_obj->setLayout($this->form->getInput("width"),
+				$this->form->getInput("height"),
+				$this->form->getInput("horizontal_align"));
+			$this->content_obj->setCaption(
+				$this->content_obj->handleCaptionInput($this->form->getInput("caption")));
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+				return;
+			}
 		}
-		else
-		{
-			$this->insert();
-		}
+		$this->displayValidationError();
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHTML());
 	}
 
 	/**
@@ -152,19 +225,28 @@ class ilPCMapGUI extends ilPageContentGUI
 	*/
 	function update()
 	{
-		$this->content_obj->setLatitude($_POST["location"]["latitude"]);
-		$this->content_obj->setLongitude($_POST["location"]["longitude"]);
-		$this->content_obj->setZoom($_POST["location"]["zoom"]);
-		$this->updated = $this->pg_obj->update();
-		if ($this->updated === true)
+		$this->initForm("update");
+		if ($this->form->checkInput())
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			$location = $this->form->getInput("location");
+			$this->content_obj->setLatitude($location["latitude"]);
+			$this->content_obj->setLongitude($location["longitude"]);
+			$this->content_obj->setZoom($location["zoom"]);
+			$this->content_obj->setLayout($this->form->getInput("width"),
+				$this->form->getInput("height"),
+				$this->form->getInput("horizontal_align"));
+			$this->content_obj->setCaption(
+				$this->content_obj->handleCaptionInput($this->form->getInput("caption")));
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+				return;
+			}
 		}
-		else
-		{
-			$this->pg_obj->addHierIDs();
-			$this->edit();
-		}
+		$this->displayValidationError();
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHTML());
 	}
 }
 ?>

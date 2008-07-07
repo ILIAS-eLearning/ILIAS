@@ -46,6 +46,7 @@ include_once('./Services/Form/classes/class.ilPasswordInputGUI.php');
 include_once('./Services/Form/classes/class.ilUserLoginInputGUI.php');
 include_once('./Services/Form/classes/class.ilEMailInputGUI.php');
 include_once('./Services/Form/classes/class.ilHiddenInputGUI.php');
+include_once('./Services/Form/classes/class.ilNumberInputGUI.php');
 
 /**
 * This class represents a property form user interface

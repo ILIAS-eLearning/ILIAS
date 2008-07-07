@@ -295,12 +295,13 @@
 		<xsl:variable name="content_type" select="name(./*[1])"/>
 		<div>
 		<xsl:attribute name="value"><xsl:value-of select="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign" /></xsl:attribute>
-		<xsl:if test="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'RightFloat'">
+		<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'RightFloat') or (./Map/Layout/@HorizontalAlign = 'RightFloat')">
 			<xsl:attribute name="style">float:right; clear:both;</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'LeftFloat'">
+		<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'LeftFloat') or (./Map/Layout/@HorizontalAlign = 'LeftFloat')">
 			<xsl:attribute name="style">float:left; clear:both;</xsl:attribute>
 		</xsl:if>
+		<div>
 		<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
 			<xsl:attribute name="class">il_editarea</xsl:attribute>
 			<xsl:if test="@Enabled='False'">
@@ -341,6 +342,8 @@
 				</xsl:call-template>
 			</xsl:if>
 		</xsl:if>
+		
+		</div>
 	</xsl:if>
 	<xsl:if test="$mode != 'edit' and (not(@Enabled) or @Enabled='True')">
 		<xsl:if test="//PageObject/DivClass/@HierId = ./@HierId">
@@ -2217,9 +2220,45 @@
 
 <!-- Map -->
 <xsl:template match="Map">
-	<div style="margin:20px 0px;">
-		[[[[[Map;<xsl:value-of select="@Latitude"/>;<xsl:value-of select="@Longitude"/>;<xsl:value-of select="@Zoom"/>]]]]]
-		<xsl:call-template name="EditReturnAnchors"/>
+	<div style="clear:both;">
+		<xsl:if test="./Layout[1]/@HorizontalAlign = 'Left'">
+			<xsl:attribute name="align">left</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="./Layout[1]/@HorizontalAlign = 'Center'">
+			<xsl:attribute name="align">center</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="./Layout[1]/@HorizontalAlign = 'Right'">
+			<xsl:attribute name="align">right</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="./Layout[1]/@HorizontalAlign = 'LeftFloat'">
+			<xsl:if test="$mode != 'edit'">
+				<xsl:attribute name="style">clear:both; float:left;</xsl:attribute>
+			</xsl:if>
+		</xsl:if>
+		<xsl:if test="./Layout[1]/@HorizontalAlign = 'RightFloat'">
+			<xsl:if test="$mode != 'edit'">
+				<xsl:attribute name="style">clear:both; float:right;</xsl:attribute>
+			</xsl:if>
+		</xsl:if>
+		<table class="ilc_Media" width="1">
+			<xsl:if test="(./Layout[1]/@HorizontalAlign = 'LeftFloat')">
+				<xsl:attribute name="style">margin-left: 0px; style="float:left;"</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="./Layout[1]/@HorizontalAlign = 'RightFloat'">
+				<xsl:attribute name="style">margin-right: 0px; style="float:right;</xsl:attribute>
+			</xsl:if>
+			<tr><td class="ilc_Mob">
+				<div>
+					[[[[[Map;<xsl:value-of select="@Latitude"/>;<xsl:value-of select="@Longitude"/>;<xsl:value-of select="@Zoom"/>;<xsl:value-of select="./Layout[1]/@Width"/>;<xsl:value-of select="./Layout[1]/@Height"/>]]]]]
+					<xsl:call-template name="EditReturnAnchors"/>
+				</div>
+			</td></tr>
+			<xsl:if test="count(./MapCaption[1]) != 0">
+				<tr><td class="ilc_MediaCaption">
+				<xsl:value-of select="./MapCaption[1]"/>
+				</td></tr>
+			</xsl:if>
+		</table>
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->
 			<xsl:if test="$javascript='disable'">

@@ -233,7 +233,7 @@
 >
 
 <!-- Map -->
-<!ELEMENT Map (MapCaption?)>
+<!ELEMENT Map (MapCaption?, Layout?)>
 <!ATTLIST Map
 	Latitude CDATA #REQUIRED
 	Longitude CDATA #REQUIRED
