@@ -168,8 +168,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl->parseCurrentBlock();
 */
 		$this->setSourcecodeDownloadScript("ilias.php?baseClass=ilWikiHandlerGUI&amp;ref_id=".$_GET["ref_id"]);
-		$this->setFullscreenLink("ilias.php?baseClass=ilWikiHandlerGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
-		$this->setFileDownloadLink("ilias.php?baseClass=ilWikiHandlerGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
+		//$this->setFullscreenLink("ilias.php?baseClass=ilWikiHandlerGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
 		$this->setLinkXML($this->getLinkXML());
 		$this->setTemplateOutput(false);
 		$this->setPresentationTitle($this->getWikiPage()->getTitle());
