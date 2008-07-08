@@ -1168,6 +1168,15 @@ class ilPageObjectGUI
 			ilYuiUtil::initTabView();
 		}
 
+		$file_download_link = $this->getFileDownloadLink();
+		if ($file_download_link ==  "")
+		{
+			$file_download_link = $ilCtrl->getLinkTarget($this, "downloadFile");
+		}
+		$fullscreen_link = ($this->getFullscreenLink() == "")
+			? $ilCtrl->getLinkTarget($this, "displayMediaFullscreen")
+			: $this->getFullscreenLink();
+		
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
@@ -1179,8 +1188,8 @@ class ilPageObjectGUI
 						 'enable_split_new' => $enable_split_new,
 						 'enable_split_next' => $enable_split_next,
 						 'link_params' => $this->link_params,
-						 'file_download_link' => $this->getFileDownloadLink(),
-						 'fullscreen_link' => $this->getFullscreenLink(),
+						 'file_download_link' => $file_download_link,
+						 'fullscreen_link' => $fullscreen_link,
 						 'med_disabled_path' => $med_disabled_path,
 						 'img_path' => $img_path,
 						 'parent_id' => $this->obj->getParentId(),
@@ -1295,6 +1304,68 @@ class ilPageObjectGUI
 		}
 	}
 	
+	/**
+	* Download file of file lists
+	*/
+	function downloadFile()
+	{
+		$file = explode("_", $_GET["file_id"]);
+		require_once("./Modules/File/classes/class.ilObjFile.php");
+		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj->sendFile();
+		exit;
+	}
+	
+	/**
+	* Show media in fullscreen mode
+	*/
+	function displayMediaFullscreen()
+	{
+		$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+		$tpl->setCurrentBlock("ilMedia");
+
+		//$int_links = $page_object->getInternalLinks();
+		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
+		
+		// @todo
+		//$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
+		
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		$media_obj = new ilObjMediaObject($_GET["mob_id"]);
+		require_once("./Services/COPage/classes/class.ilPageObject.php");
+		$pg_obj = new ilPageObject($this->getParentObject()->getType(), $this->getId());
+		$pg_obj->buildDom();
+
+		$xml = "<dummy>";
+		// todo: we get always the first alias now (problem if mob is used multiple
+		// times in page)
+		$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+		$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
+		$xml.= $link_xml;
+		$xml.="</dummy>";
+
+		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
+//echo "<b>XML:</b>".htmlentities($xml);
+		// determine target frames for internal links
+		$wb_path = ilUtil::getWebspaceDir("output");
+		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
+			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => "",
+			'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+	//echo xslt_error($xh);
+		xslt_free($xh);
+
+		// unmask user html
+		$tpl->setVariable("MEDIA_CONTENT", $output);
+		$tpl->show();
+		exit;
+	}
+
+
 	/**
 	* Insert Maps
 	*/
