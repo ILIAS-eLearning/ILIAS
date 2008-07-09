@@ -61,8 +61,12 @@ class ilWikiHandlerGUI
 		// add entry to navigation history
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
+			if ($_GET["page"] != "")
+			{
+				$add = "&amp;page=".rawurlencode($_GET["page"]);
+			}
 			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"ilias.php?baseClass=ilWikiHandlerGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "wiki");
+				"./goto.php?target=wiki_".$_GET["ref_id"].$add, "wiki");
 		}
 
 		switch ($next_class)

@@ -112,13 +112,15 @@ class ilMainMenuGUI
 		require_once("Services/Navigation/classes/class.ilNavigationHistoryGUI.php");
 		$nav_hist = new ilNavigationHistoryGUI();
 		$nav_html = $nav_hist->getHTML();
+
 		if ($nav_html != "")
 		{
+
 			$this->tpl->setCurrentBlock("nav_history");
 			$this->tpl->setVariable("NAVIGATION_HISTORY", $nav_html);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		// administration button
 		if(ilMainMenuGUI::_checkAdministrationPermission())
 		{
