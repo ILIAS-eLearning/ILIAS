@@ -2379,9 +2379,9 @@ class ilObjForumGUI extends ilObjectGUI
 								$user_obj->getPref('public_profile') == 'y' &&
 								@is_file($xthumb_file))
 							{
-								$tpl->setCurrentBlock('usr_image');
+								#$tpl->setCurrentBlock('usr_image');
 								$tpl->setVariable('USR_IMAGE', $xthumb_file.'?t='.rand(1, 99999));
-								$tpl->parseCurrentBlock();
+								#$tpl->parseCurrentBlock();
 								//$tpl->setCurrentBlock('posts_row');
 							}							
 
