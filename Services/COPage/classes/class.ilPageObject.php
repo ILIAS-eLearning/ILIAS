@@ -2056,7 +2056,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 			$content = "";
 
-
 			// get XML Content
 			$childs = $context_node->child_nodes();
 
@@ -2118,9 +2117,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$newcontent = str_replace("<br/><br/>", "<br/> <br/>",$newcontent);	
 			// falls drei hintereinander...
 			$newcontent = str_replace("<br/><br/>", "<br/> <br/>",$newcontent);
-			
-			
-					
+
 			$context_node->set_content($newcontent);
 			if ($outputmode != "presentation" && is_object($this->offline_handler)
 				&& trim($downloadtitle) != "")

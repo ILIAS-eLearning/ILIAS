@@ -77,6 +77,7 @@ class ilPageObjectGUI
 	var $use_meta_data = false;
 	var $enabledtabs = true;
 	var $enabledpctabs = false;
+	var $link_xml_set = false;
 
 	/**
 	* Constructor
@@ -236,6 +237,7 @@ class ilPageObjectGUI
 	function setLinkXML($link_xml)
 	{
 		$this->link_xml = $link_xml;
+		$this->link_xml_set = true;
 	}
 
 	function getLinkXML()
@@ -1066,8 +1068,16 @@ class ilPageObjectGUI
 		}
 
 		$this->obj->addSourceCodeHighlighting($this->getOutputMode());
+
 //echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>";
 //echo "<br>-".htmlentities($this->getLinkXML())."-";
+
+		// set default link xml, if nothing was set yet
+		if (!$this->link_xml_set)
+		{
+			$this->setDefaultLinkXml();
+		}
+
 		$content = $this->obj->getXMLFromDom(false, true, true,
 			$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
 			
@@ -1150,7 +1160,6 @@ class ilPageObjectGUI
         $paragraph_plugins = new ilParagraphPlugins();
 	    $paragraph_plugins->initialize ();
 
-
         if ($this->getOutputMode() == IL_PAGE_PRESENTATION)
 		{
 		    $paragraph_plugin_string = $paragraph_plugins->serializeToString();
@@ -1168,14 +1177,18 @@ class ilPageObjectGUI
 			ilYuiUtil::initTabView();
 		}
 
-		$file_download_link = $this->getFileDownloadLink();
-		if ($file_download_link ==  "")
-		{
-			$file_download_link = $ilCtrl->getLinkTarget($this, "downloadFile");
-		}
+		// default values for various parameters (should be used by
+		// all instances in the future)
+		$file_download_link = ($this->getFileDownloadLink() == "")
+			? $ilCtrl->getLinkTarget($this, "downloadFile")
+			: $this->getFileDownloadLink();
 		$fullscreen_link = ($this->getFullscreenLink() == "")
 			? $ilCtrl->getLinkTarget($this, "displayMediaFullscreen")
 			: $this->getFullscreenLink();
+		if ($this->sourcecode_download_script == "")
+		{
+			$this->sourcecode_download_script = $ilCtrl->getLinkTarget($this, "");
+		}
 		
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
@@ -1210,6 +1223,7 @@ class ilPageObjectGUI
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
 						 'javascript' => $sel_js_mode,
 						 'paragraph_plugins' => $paragraph_plugin_string);
+						 
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
 
@@ -1305,6 +1319,68 @@ class ilPageObjectGUI
 	}
 	
 	/**
+	* Set standard link xml
+	*/
+	function setDefaultLinkXml()
+	{
+		$int_links = $this->getPageObject()->getInternalLinks();
+		
+		$link_info = "<IntLinkInfos>";
+		$targetframe = "None";
+		foreach ($int_links as $int_link)
+		{
+			$target = $int_link["Target"];
+			if (substr($target, 0, 4) == "il__")
+			{
+				$target_arr = explode("_", $target);
+				$target_id = $target_arr[count($target_arr) - 1];
+				$type = $int_link["Type"];
+				
+				switch($type)
+				{
+					case "PageObject":
+					case "StructureObject":
+						$lm_id = ilLMObject::_lookupContObjID($target_id);
+						$ltarget="_top";
+						if ($type == "PageObject")
+						{
+							$href = "./goto.php?target=pg_".$target_id;
+						}
+						else
+						{
+							$href = "./goto.php?target=st_".$target_id;
+						}
+						break;
+
+					case "GlossaryItem":
+						$ltarget="_blank";
+						$href =
+							$this->getLink($_GET["ref_id"], $a_cmd = "glossary", $target_id, $nframe, $type);
+						break;
+
+					case "MediaObject":
+						$ltarget="_blank";
+						$href =
+							$this->getLink($_GET["ref_id"], $a_cmd = "media", $target_id, $nframe, $type);
+						break;
+
+					case "RepositoryItem":
+						$ltarget="_top";
+						$obj_type = ilObject::_lookupType($target_id, true);
+						$obj_id = ilObject::_lookupObjId($target_id);
+						$href = "./goto.php?target=".$obj_type."_".$target_id;
+						break;
+
+				}
+				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+			}
+		}
+		$link_info.= "</IntLinkInfos>";
+		$this->setLinkXML($link_info);
+	}
+	
+	/**
 	* Download file of file lists
 	*/
 	function downloadFile()
@@ -1333,7 +1409,7 @@ class ilPageObjectGUI
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$media_obj = new ilObjMediaObject($_GET["mob_id"]);
 		require_once("./Services/COPage/classes/class.ilPageObject.php");
-		$pg_obj = new ilPageObject($this->getParentObject()->getType(), $this->getId());
+		$pg_obj = $this->getPageObject();
 		$pg_obj->buildDom();
 
 		$xml = "<dummy>";
@@ -1352,7 +1428,7 @@ class ilPageObjectGUI
 		// determine target frames for internal links
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
-		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
+		$params = array ('mode' => "fullscreen", 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => "",
 			'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
@@ -1360,11 +1436,22 @@ class ilPageObjectGUI
 		xslt_free($xh);
 
 		// unmask user html
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+				ilObjStyleSheet::getContentStylePath(0));
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setVariable("MEDIA_CONTENT", $output);
-		$tpl->show();
+		echo $tpl->get();
 		exit;
 	}
 
+	/**
+	* download source code paragraph
+	*/
+	function download_paragraph()
+	{
+		$pg_obj = $this->getPageObject();
+		$pg_obj->send_paragraph($_GET["par_id"], $_GET["downloadtitle"]);
+	}
 
 	/**
 	* Insert Maps

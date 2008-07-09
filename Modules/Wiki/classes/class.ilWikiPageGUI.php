@@ -53,6 +53,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
 		
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+		
 		$this->setEnabledMaps(true);
 
 	}
@@ -167,9 +172,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			ilObjStyleSheet::getContentStylePath(0));
 		$tpl->parseCurrentBlock();
 */
-		$this->setSourcecodeDownloadScript("ilias.php?baseClass=ilWikiHandlerGUI&amp;ref_id=".$_GET["ref_id"]);
-		//$this->setFullscreenLink("ilias.php?baseClass=ilWikiHandlerGUI&amp;cmd=fullscreen&amp;ref_id=".$_GET["ref_id"]);
-		$this->setLinkXML($this->getLinkXML());
 		$this->setTemplateOutput(false);
 		$this->setPresentationTitle($this->getWikiPage()->getTitle());
 		$this->getWikiPage()->increaseViewCnt();
@@ -177,12 +179,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		
 		return $output;
 	}
-	
-	function getLinkXML()
-	{
-		return "";
-	}
-	
+
 	/**
 	* Finalizing output processing.
 	*/

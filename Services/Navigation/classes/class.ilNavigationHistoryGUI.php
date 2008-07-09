@@ -32,7 +32,7 @@ class ilNavigationHistoryGUI
 {
 
 	private $items;
-static $test;
+
 	/**
 	* Constructor.
 	*	
@@ -64,7 +64,7 @@ static $test;
 		}
 		
 		$GLOBALS["tpl"]->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
-		
+
 		$tpl = new ilTemplate("tpl.navigation_history.html", true, true,
 			"Services/Navigation");
 			

@@ -151,6 +151,9 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if($add_standard_elements)
 		{
+			// to get also the js files for the main menu
+			$this->getMainMenu();
+			
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
 			$this->fillJavaScriptFiles();
@@ -267,6 +270,9 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if ($a_fill_tabs)
 		{
+			// to get also the js files for the main menu
+			$this->getMainMenu();
+
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
 			$this->fillJavaScriptFiles();
@@ -457,11 +463,18 @@ class ilTemplate extends ilTemplateX
 			.'" />');
 	}
 	
+	function getMainMenu()
+	{
+		global $ilMainMenu;
+		
+		$this->main_menu = $ilMainMenu->getHTML();
+	}
+	
 	function fillMainMenu()
 	{
 		global $tpl, $ilMainMenu;
 		
-		$tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
+		$tpl->setVariable("MAINMENU", $this->main_menu);
 	}
 		
 	function fillHeaderIcon()
