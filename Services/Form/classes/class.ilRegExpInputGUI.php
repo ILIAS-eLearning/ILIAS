@@ -24,7 +24,7 @@
 /**
 * This class represents a regular expression input property in a property form.
 *
-* @author Roland Küstermann <roland.kuestermann@kit.edu> 
+* @author Roland KÃ¼stermann <roland.kuestermann@kit.edu> 
 * @version $Id$
 * @ingroup	ServicesForm
 */
@@ -45,24 +45,25 @@ class ilRegExpInputGUI extends ilTextInputGUI
 	}
 
 	/**
-	* Check input, strip slashes etc. set alert, if input is not ok.
+	* Set Message, if input does not match.
 	*
-	* @return	boolean		Input ok, true/false
-	*/	
-	function checkInput()
+	* @param	string	$a_nomatchmessage	Message, if input does not match
+	*/
+	function setNoMatchMessage($a_nomatchmessage)
 	{
-		global $lng; 
-		$value = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		if (!$this->getRequired() && strcasecmp($value, "")== 0)
-			return true;
-			
-		$result = preg_match ($this->pattern, $value);
-		if (!$result)
-			$this->setAlert($lng->txt("msg_input_does_not_match_regexp"));
-		return $result;
-		
+		$this->nomatchmessage = $a_nomatchmessage;
 	}
-	
+
+	/**
+	* Get Message, if input does not match.
+	*
+	* @return	string	Message, if input does not match
+	*/
+	function getNoMatchMessage()
+	{
+		return $this->nomatchmessage;
+	}
+
 	/**
 	 * set pattern
 	 * 
@@ -82,6 +83,40 @@ class ilRegExpInputGUI extends ilTextInputGUI
 	{
 		return $this->pattern;
 	}
-	
+
+	/**
+	* Check input, strip slashes etc. set alert, if input is not ok.
+	*
+	* @return	boolean		Input ok, true/false
+	*/	
+	function checkInput()
+	{
+		global $lng;
+		
+		// this line is necessary, otherwise it is a security issue (Alex)
+		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		
+		$value = $_POST[$this->getPostVar()];
+		
+		if (!$this->getRequired() && strcasecmp($value, "") == 0)
+		{
+			return true;
+		}
+			
+		$result = preg_match ($this->pattern, $value);
+		if (!$result)
+		{
+			if ($this->getNoMatchMessage() == "")
+			{
+				$this->setAlert($lng->txt("msg_input_does_not_match_regexp"));
+			}
+			else
+			{
+				$this->setAlert($this->getNoMatchMessage());
+			}
+		}
+		return $result;
+		
+	}
 
 }

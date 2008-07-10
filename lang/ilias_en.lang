@@ -1630,6 +1630,8 @@ common#:#objs_lres#:#Learning Resources
 common#:#wiki_new#:#New Wiki
 common#:#wiki_add#:#Add Wiki
 wiki#:#wiki_contributors#:#Contributors
+wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.
+wiki#:#wiki_msg_short_name_regexp#:#Short title must not start with a number and must not contain the following characters:
 wiki#:#wiki_feedback_from_tutor#:#Feedback from Tutor
 wiki#:#wiki_introduction#:#Introduction
 wiki#:#wiki_contributor#:#Contributor
@@ -1647,7 +1649,7 @@ wiki#:#wiki_start_page_title#:#Start Page Title
 wiki#:#wiki_main_page#:#Main Page
 wiki#:#wiki_short_title#:#Short Title
 wiki#:#wiki_orphaned_pages#:#Orphaned Pages
-wiki#:#wiki_short_title_desc#:#This title will be used in permanent links to the Wiki.
+wiki#:#wiki_short_title_desc#:#This title can be used in links to the wiki.
 wiki#:#wiki_article#:#Article
 wiki#:#wiki_discussion#:#Discussion
 wiki#:#wiki_edit#:#Edit
