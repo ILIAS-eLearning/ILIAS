@@ -370,8 +370,8 @@ class ilTestServiceGUI
 					$maintemplate->setVariable("QUESTION_PRINTVIEW", $template->get());
 					$maintemplate->setVariable("QUESTION_SCORING", $scoretemplate->get());
 					$maintemplate->parseCurrentBlock();
-					$counter ++;
 				}
+				$counter ++;
 			}
 		}
 		if ($counter == 1)

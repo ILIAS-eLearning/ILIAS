@@ -105,6 +105,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_manual_scoring.html", "Modules/Test");
+
+		if (array_key_exists("question", $_POST))
+		{
+			$keys = array_keys($_POST["question"]);
+			$question_id = $keys[0];
+			$this->tpl->setCurrentBlock("lastchanged");
+			$this->tpl->setVariable("LAST_CHANGED", $question_id);
+			$this->tpl->parseCurrentBlock();
+		}
 		$counter = 1;
 		foreach ($participants as $participant_active_id => $data)
 		{
