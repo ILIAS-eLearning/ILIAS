@@ -471,6 +471,8 @@ class ilCalendarCategoryGUI
 	 */
 	public function shareAssign()
 	{
+		global $ilUser;
+		
 		if(!$_GET['category_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('select_one'),true);
@@ -497,7 +499,10 @@ class ilCalendarCategoryGUI
 		
 		foreach($_POST['user_ids'] as $user_id)
 		{
-			$shared->share($user_id,ilCalendarShared::TYPE_USR);
+			if($ilUser->getId() != $user_id)
+			{
+				$shared->share($user_id,ilCalendarShared::TYPE_USR);	
+			}
 		}
 		ilUtil::sendInfo($this->lng->txt('cal_shared_selected_usr'));
 		$this->edit();

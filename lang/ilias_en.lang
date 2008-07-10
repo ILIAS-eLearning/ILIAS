@@ -8413,3 +8413,5 @@ dateplaner#:#cal_apps#:#Number of Appointments
 dateplaner#:#cal_share_accept#:#Accept Invitation
 dateplaner#:#cal_share_decline#:#Decline Invitation
 dateplaner#:#cal_changed_events_header#:#Changed Appointments 
+dateplaner#:#cal_accepted#:#Accepted
+dateplaner#:#cal_declined#:#Declined

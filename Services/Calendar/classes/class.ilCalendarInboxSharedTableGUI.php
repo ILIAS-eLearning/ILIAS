@@ -56,7 +56,8 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 		$this->addColumn('','cal_ids','1px');
 		$this->addColumn($this->lng->txt('name'),'title','50%');
 		$this->addColumn($this->lng->txt('cal_apps'),'apps','20%');
-		$this->addColumn($this->lng->txt('create_date'),'create_date','30%');
+		$this->addColumn($this->lng->txt('create_date'),'create_date','20%');
+		$this->addColumn($this->lng->txt('cal_accepted'),'accepted','5%');
 		
 		$this->addMultiCommand('acceptShared',$this->lng->txt('cal_share_accept'));
 		$this->addMultiCommand('declineShared',$this->lng->txt('cal_share_decline'));
@@ -87,6 +88,17 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable('APPS_COUNT',$a_set['apps']);
 		$this->tpl->setVariable('CREATE_DATE',ilFormat::fmtDatetime($a_set['create_date'],'',''));
+		
+		if($a_set['accepted'])
+		{
+			$this->tpl->setVariable('ACC_IMG',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('ALT_ACC',$this->lng->txt('cal_accepted'));
+		}
+		if($a_set['declined'])
+		{
+			$this->tpl->setVariable('DEC_IMG',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('ALT_DEC',$this->lng->txt('cal_declined'));
+		}
 	}
 	
 	
@@ -115,9 +127,12 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 		
 		$counter = 0;
 		$calendars = array();
+		
+		$status = new ilCalendarSharedStatus($ilUser->getId());
+		
 		foreach($this->cal_data as $data)
 		{
-			if(ilCalendarSharedStatus::hasStatus($ilUser->getId(),$data['cal_id']))
+			if($status->isDeclined($data['cal_id']))
 			{
 				continue;
 			}
@@ -130,6 +145,8 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 			$calendars[$counter]['name'] = $tmp_calendar->getTitle();
 			$calendars[$counter]['owner'] = $tmp_calendar->getObjId();
 			$calendars[$counter]['apps'] = count(ilCalendarCategoryAssignments::_getAssignedAppointments($data['cal_id']));
+			$calendars[$counter]['accepted'] = $status->isAccepted($data['cal_id']);
+			$calendars[$counter]['declined'] = $status->isDeclined($data['cal_id']);
 			
 			$counter++;
 		}

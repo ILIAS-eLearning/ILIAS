@@ -155,7 +155,7 @@ class ilCalendarPresentationGUI
 		}
 		if($this->ctrl->getCmdClass() == strtolower(get_class($this)) or $this->ctrl->getCmdClass() == '')
 		{
-			return isset($_SESSION['cal_last_class']) ? $_SESSION['cal_last_class'] : 'ilcalendarmonthgui';
+			return isset($_SESSION['cal_last_class']) ? $_SESSION['cal_last_class'] : 'ilcalendarinboxgui';
 		}
 	}
 	
