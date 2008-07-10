@@ -30,6 +30,7 @@
 			
 			<fo:page-sequence>
 				<xsl:attribute name="master-reference"><xsl:value-of select="//title"/></xsl:attribute>
+				<xsl:attribute name="font-size">60%</xsl:attribute>
 				<xsl:attribute name="line-height">1.4em</xsl:attribute>
 				<fo:flow>
 					<xsl:attribute name="flow-name"><xsl:text>xsl-region-body</xsl:text></xsl:attribute>
@@ -87,7 +88,7 @@
 		<fo:block>
 			<fo:inline>
 				<xsl:attribute name="font-weight">bold</xsl:attribute>
-				<xsl:attribute name="font-size">18pt</xsl:attribute>
+				<xsl:attribute name="font-size">125$</xsl:attribute>
 				<xsl:apply-templates/>
 			</fo:inline>
 		</fo:block>
@@ -97,7 +98,7 @@
 		<fo:block>
 			<fo:inline>
 				<xsl:attribute name="font-weight">bold</xsl:attribute>
-				<xsl:attribute name="font-size">14pt</xsl:attribute>
+				<xsl:attribute name="font-size">110%</xsl:attribute>
 				<xsl:apply-templates/>
 			</fo:inline>
 		</fo:block>
@@ -152,25 +153,25 @@
 		<fo:inline>
 			<xsl:choose>
 				<xsl:when test="@size='1'">
-					<xsl:attribute name="font-size"><xsl:text>8pt</xsl:text></xsl:attribute>
+					<xsl:attribute name="font-size"><xsl:text>80%</xsl:text></xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@size='2'">
-					<xsl:attribute name="font-size"><xsl:text>10pt</xsl:text></xsl:attribute>
+					<xsl:attribute name="font-size"><xsl:text>90%</xsl:text></xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@size='3'">
-					<xsl:attribute name="font-size"><xsl:text>12pt</xsl:text></xsl:attribute>
+					<xsl:attribute name="font-size"><xsl:text>100%</xsl:text></xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@size='4'">
-					<xsl:attribute name="font-size"><xsl:text>14pt</xsl:text></xsl:attribute>
+					<xsl:attribute name="font-size"><xsl:text>110%</xsl:text></xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@size='5'">
-					<xsl:attribute name="font-size"><xsl:text>18pt</xsl:text></xsl:attribute>
+					<xsl:attribute name="font-size"><xsl:text>120%</xsl:text></xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@size='6'">
-					<xsl:attribute name="font-size"><xsl:text>24pt</xsl:text></xsl:attribute>
+					<xsl:attribute name="font-size"><xsl:text>130%</xsl:text></xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@size='7'">
-					<xsl:attribute name="font-size"><xsl:text>36pt</xsl:text></xsl:attribute>
+					<xsl:attribute name="font-size"><xsl:text>140%</xsl:text></xsl:attribute>
 				</xsl:when>
 			</xsl:choose>
 			<xsl:if test="@face">
@@ -426,7 +427,6 @@
 					<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
 					<xsl:attribute name="color">#222222</xsl:attribute>
 					<xsl:attribute name="padding">3px</xsl:attribute>
-					<xsl:attribute name="display-align">top</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='tblrow2'">
 					<xsl:attribute name="background-color">#F1F1F1</xsl:attribute>
@@ -437,7 +437,6 @@
 					<xsl:attribute name="background-color">#F1F1F1</xsl:attribute>
 					<xsl:attribute name="color">#222222</xsl:attribute>
 					<xsl:attribute name="padding">3px</xsl:attribute>
-					<xsl:attribute name="display-align">top</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='tblrowmarked'">
 					<xsl:attribute name="background-color">#FFE4E4</xsl:attribute>
@@ -448,7 +447,16 @@
 					<xsl:attribute name="background-color">#FFE4E4</xsl:attribute>
 					<xsl:attribute name="color">#222222</xsl:attribute>
 					<xsl:attribute name="padding">3px</xsl:attribute>
-					<xsl:attribute name="vertical-align">top</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="@class='bipolar'">
+					<xsl:attribute name="background-color">#FFE4E4</xsl:attribute>
+					<xsl:attribute name="color">#222222</xsl:attribute>
+					<xsl:attribute name="padding">3px</xsl:attribute>
+					<xsl:attribute name="text-align">center</xsl:attribute>
+					<xsl:attribute name="display-align">center</xsl:attribute>
+					<xsl:attribute name="border-width">1px</xsl:attribute>
+					<xsl:attribute name="border-style">solid</xsl:attribute>
+					<xsl:attribute name="border-color">#9EADBA</xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@class='middle'">
 					<xsl:attribute name="display-align">center</xsl:attribute>
@@ -457,6 +465,14 @@
 			
 			<xsl:if test="@width">
 				<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
+			</xsl:if>
+			
+			<xsl:if test="@rowspan">
+				<xsl:attribute name="number-rows-spanned"><xsl:value-of select="@rowspan"/></xsl:attribute>
+			</xsl:if>
+
+			<xsl:if test="@colspan">
+				<xsl:attribute name="number-columns-spanned"><xsl:value-of select="@colspan"/></xsl:attribute>
 			</xsl:if>
 			<fo:block>
 				<xsl:apply-templates/>
@@ -481,14 +497,31 @@
 				<xsl:attribute name="src"><xsl:value-of select="@src"/></xsl:attribute>
 				<xsl:attribute name="vertical-align">middle</xsl:attribute>
 				<xsl:if test="@width">
-					<xsl:attribute name="content-width"><xsl:value-of select="@width"/></xsl:attribute>
+					<xsl:choose>
+						<xsl:when test="@width &gt; 700">
+							<xsl:attribute name="content-width"><xsl:value-of select="round(@width * (700 div @width))"/></xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="content-width"><xsl:value-of select="@width"/></xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:if>
 				<xsl:if test="@height">
-					<xsl:attribute name="content-height"><xsl:value-of select="@height"/></xsl:attribute>
+					<xsl:choose>
+						<xsl:when test="@width &gt; 700">
+							<xsl:attribute name="content-height"><xsl:value-of select="round(@height * (700 div @width))"/></xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="content-height"><xsl:value-of select="@height"/></xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:if>
 				<xsl:if test="@style='border-style: inset; border-width: 1px;'">
 					<xsl:attribute name="border-style">inset</xsl:attribute>
 					<xsl:attribute name="border-width">1px</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="@style='vertical-align: top;'">
+					<xsl:attribute name="vertical-align">top</xsl:attribute>
 				</xsl:if>
 			</fo:external-graphic>
 		</fo:inline>

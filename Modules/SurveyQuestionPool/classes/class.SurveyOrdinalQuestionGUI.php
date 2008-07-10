@@ -179,7 +179,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 				{
 					$category = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("ordinal_row");
-					$template->setVariable("TEXT_ORDINAL", $category);
+					$template->setVariable("TEXT_ORDINAL", ilUtil::prepareFormOutput($category));
 					$template->setVariable("VALUE_ORDINAL", $i);
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					if (is_array($working_data))
@@ -220,7 +220,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 					$category = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("text_col_ordinal");
 					$template->setVariable("VALUE_ORDINAL", $i);
-					$template->setVariable("TEXT_ORDINAL", $category);
+					$template->setVariable("TEXT_ORDINAL", ilUtil::prepareFormOutput($category));
 					$template->setVariable("QUESTION_ID", $this->object->getId());
 					$template->parseCurrentBlock();
 				}
@@ -295,7 +295,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
 					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-					$template->setVariable("TEXT_ORDINAL", $category);
+					$template->setVariable("TEXT_ORDINAL", ilUtil::prepareFormOutput($category));
 					$template->parseCurrentBlock();
 				}
 				break;
@@ -324,7 +324,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 				{
 					$category = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("comborow");
-					$template->setVariable("TEXT_ORDINAL", $category);
+					$template->setVariable("TEXT_ORDINAL", ilUtil::prepareFormOutput($category));
 					$template->setVariable("VALUE_ORDINAL", $i);
 					if (is_array($working_data))
 					{
@@ -451,7 +451,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 			$category = $this->object->categories->getCategory($i);
 			$this->tpl->setVariable("CATEGORY_ORDER", $i);
 			$this->tpl->setVariable("CATEGORY_NUMBER", $i+1);
-			$this->tpl->setVariable("VALUE_CATEGORY", $category);
+			$this->tpl->setVariable("VALUE_CATEGORY", ilUtil::prepareFormOutput($category));
 			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
 			$this->tpl->parseCurrentBlock();
 		}

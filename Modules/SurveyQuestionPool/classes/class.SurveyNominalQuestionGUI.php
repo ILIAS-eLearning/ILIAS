@@ -195,7 +195,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 					if ($this->object->getSubtype() == SUBTYPE_MCSR)
 					{
 						$template->setCurrentBlock("nominal_row_sr");
-						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 						$template->setVariable("VALUE_NOMINAL", $i);
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
@@ -216,7 +216,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 					else
 					{
 						$template->setCurrentBlock("nominal_row_mr");
-						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 						$template->setVariable("VALUE_NOMINAL", $i);
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						if (is_array($working_data))
@@ -266,7 +266,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 						$category = $this->object->categories->getCategory($i);
 						$template->setCurrentBlock("text_col_nominal");
 						$template->setVariable("VALUE_NOMINAL", $i);
-						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						$template->parseCurrentBlock();
 					}
@@ -299,7 +299,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 						$category = $this->object->categories->getCategory($i);
 						$template->setCurrentBlock("text_col_nominal_mr");
 						$template->setVariable("VALUE_NOMINAL", $i);
-						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						$template->parseCurrentBlock();
 					}
@@ -311,7 +311,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 				{
 					$category = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("comborow_nominal");
-					$template->setVariable("TEXT_NOMINAL", $category);
+					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 					$template->setVariable("VALUE_NOMINAL", $i);
 					if (is_array($working_data))
 					{
@@ -380,7 +380,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
 						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 						$template->parseCurrentBlock();
 					}
 					else
@@ -389,7 +389,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
 						$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 						$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
-						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 						$template->parseCurrentBlock();
 					}
 				}
@@ -411,7 +411,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 					{
 						$category = $this->object->categories->getCategory($i);
 						$template->setCurrentBlock("text_col_nominal");
-						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 						$template->parseCurrentBlock();
 					}
 				}
@@ -430,7 +430,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 					{
 						$category = $this->object->categories->getCategory($i);
 						$template->setCurrentBlock("text_col_nominal_mr");
-						$template->setVariable("TEXT_NOMINAL", $category);
+						$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 						$template->parseCurrentBlock();
 					}
 				}
@@ -441,7 +441,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 				{
 					$category = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("comborow_nominal");
-					$template->setVariable("TEXT_NOMINAL", $category);
+					$template->setVariable("TEXT_NOMINAL", ilUtil::prepareFormOutput($category));
 					$template->setVariable("VALUE_NOMINAL", $i);
 					$template->parseCurrentBlock();
 				}
