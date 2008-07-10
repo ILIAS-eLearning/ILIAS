@@ -1,4 +1,4 @@
-@page { size: auto;
+	@page { size: auto;
         margin-top: 1cm;
         margin-bottom:1cm;
         margin-left: 1cm;
@@ -154,7 +154,7 @@ hr {
 }
 
 
-div.ilc_Question {
+div.surveySheet {
 	padding-top: 5px;	
 	padding-bottom: 5px;	
 	padding-left: 2px;
@@ -173,6 +173,6 @@ table.freefield_bottom {
 	padding-top: 5em;
 }
 
-.questionPrintview {
-	page-break-after: always;
+.surveySheet {
+	/* page-break-after: always;*/
 }
