@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -202,16 +202,20 @@ class ilObjWiki extends ilObject
 		{			
 			return false;
 		}
-
+		
 		// update wiki data
-		$query = "UPDATE il_wiki_data SET ".
-			" online = ".$ilDB->quote($this->getOnline()).
-			",startpage = ".$ilDB->quote($this->getStartPage()).
-			",short = ".$ilDB->quote($this->getShortTitle()).
-			",rating = ".$ilDB->quote($this->getRating()).
-			",introduction = ".$ilDB->quote($this->getIntroduction()).
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$ilDB->query($query);
+		$st = $ilDB->prepareManip("UPDATE il_wiki_data SET ".
+			" online = ?, startpage = ?, short = ?, ".
+			" rating = ?, introduction = ? ".
+			" WHERE id = ?",
+			array("boolean","text","text","boolean","text","integer")); 
+		$ilDB->execute($st, array(
+			$this->getOnline(),
+			$this->getStartPage(),
+			$this->getShortTitle(),
+			$this->getRating(),
+			$this->getIntroduction(),
+			$this->getId()));
 
 		// check whether start page exists
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
@@ -276,6 +280,24 @@ class ilObjWiki extends ilObject
 		return true;
 	}
 
+	/**
+	* Check availability of short title
+	*/
+	static function checkShortTitleAvailability($a_short_title)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepare("SELECT * FROM il_wiki_data WHERE short = ?",
+			array("text"));
+		$res = $ilDB->execute($st, array($a_short_title));
+		if ($ilDB->fetchAssoc($res))
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	* init default roles settings
 	* 

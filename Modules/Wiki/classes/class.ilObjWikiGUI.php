@@ -22,6 +22,8 @@
 */
 
 require_once "./classes/class.ilObjectGUI.php";
+require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
+
 
 /**
 * Class ilObjWikiGUI
@@ -142,44 +144,51 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin, $tpl;
+		global $rbacadmin, $tpl, $lng;
 
 		$this->initSettingsForm("create");
 		if ($this->form_gui->checkInput())
 		{
-			// 
-			$_POST["Fobject"]["title"] = $this->form_gui->getInput("title");
-			$_POST["Fobject"]["desc"] = $this->form_gui->getInput("description");
-			
-			// create and insert forum in objecttree
-			$newObj = parent::saveObject();
-			
-			$newObj->setTitle($this->form_gui->getInput("title"));
-			$newObj->setDescription($this->form_gui->getInput("description"));
-			$newObj->setStartPage($this->form_gui->getInput("startpage"));
-			$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
-			$newObj->setRating($this->form_gui->getInput("rating"));
-			$newObj->update();
-	
-			// setup rolefolder & default local roles
-			//$roles = $newObj->initDefaultRoles();
-	
-			// ...finally assign role to creator of object
-			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
-	
-			// add first page
-			
+			if (!ilObjWiki::checkShortTitleAvailability($this->form_gui->getInput("shorttitle")))
+			{
+				$short_item = $this->form_gui->getItemByPostVar("shorttitle");
+				$short_item->setAlert($lng->txt("wiki_short_title_already_in_use"));
+			}
+			else
+			{
+				// 
+				$_POST["Fobject"]["title"] = $this->form_gui->getInput("title");
+				$_POST["Fobject"]["desc"] = $this->form_gui->getInput("description");
 				
-			// always send a message
-			ilUtil::sendInfo($this->lng->txt("object_added"),true);
-			
-			ilUtil::redirect("ilias.php?baseClass=ilWikiHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
+				// create and insert forum in objecttree
+				$newObj = parent::saveObject();
+				
+				$newObj->setTitle($this->form_gui->getInput("title"));
+				$newObj->setDescription($this->form_gui->getInput("description"));
+				$newObj->setIntroduction($this->form_gui->getInput("introduction"));
+				$newObj->setStartPage($this->form_gui->getInput("startpage"));
+				$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
+				$newObj->setRating($this->form_gui->getInput("rating"));
+				$newObj->update();
+		
+				// setup rolefolder & default local roles
+				//$roles = $newObj->initDefaultRoles();
+		
+				// ...finally assign role to creator of object
+				//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
+		
+				// add first page
+				
+					
+				// always send a message
+				ilUtil::sendInfo($this->lng->txt("object_added"),true);
+				
+				ilUtil::redirect("ilias.php?baseClass=ilWikiHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
+			}
 		}
-		else
-		{
-			$this->form_gui->setValuesByPost();
-			$tpl->setContent($this->form_gui->getHtml());
-		}
+
+		$this->form_gui->setValuesByPost();
+		$tpl->setContent($this->form_gui->getHtml());
 	}
 	
 	/**
@@ -366,8 +375,10 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($tit);
 
 		// Short Title
-		$stit = new ilTextInputGUI($lng->txt("wiki_short_title"), "shorttitle");
+		$stit = new ilRegExpInputGUI($lng->txt("wiki_short_title"), "shorttitle");
+		$stit->setPattern("/^[^0-9][^_\&]+$/");
 		$stit->setRequired(true);
+		$stit->setNoMatchMessage($lng->txt("wiki_msg_short_name_regexp")." &amp; _");
 		$stit->setSize(20);
 		$stit->setMaxLength(20);
 		$stit->setInfo($lng->txt("wiki_short_title_desc"));
@@ -451,31 +462,38 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function saveSettingsObject()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$this->checkPermission("write");
 		
 		$this->initSettingsForm();
+		
 		if ($this->form_gui->checkInput())
 		{
-			
-			$this->object->setTitle($this->form_gui->getInput("title"));
-			$this->object->setDescription($this->form_gui->getInput("description"));
-			$this->object->setOnline($this->form_gui->getInput("online"));
-			$this->object->setStartPage($this->form_gui->getInput("startpage"));
-			$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
-			$this->object->setRating($this->form_gui->getInput("rating"));
-			$this->object->setIntroduction($this->form_gui->getInput("intro"));
-			$this->object->update();
-						
-			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
-			$ilCtrl->redirect($this, "editSettings");
+			if (!ilObjWiki::checkShortTitleAvailability($this->form_gui->getInput("shorttitle")) &&
+				$this->form_gui->getInput("shorttitle") != $this->object->getShortTitle())
+			{
+				$short_item = $this->form_gui->getItemByPostVar("shorttitle");
+				$short_item->setAlert($lng->txt("wiki_short_title_already_in_use"));
+			}
+			else
+			{
+				$this->object->setTitle($this->form_gui->getInput("title"));
+				$this->object->setDescription($this->form_gui->getInput("description"));
+				$this->object->setOnline($this->form_gui->getInput("online"));
+				$this->object->setStartPage($this->form_gui->getInput("startpage"));
+				$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
+				$this->object->setRating($this->form_gui->getInput("rating"));
+				$this->object->setIntroduction($this->form_gui->getInput("intro"));
+				$this->object->update();
+							
+				ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+				$ilCtrl->redirect($this, "editSettings");
+			}
 		}
-		else
-		{
-			$this->form_gui->setValuesByPost();
-			$this->tpl->setContent($this->form_gui->getHTML());
-		}
+		
+		$this->form_gui->setValuesByPost();
+		$this->tpl->setContent($this->form_gui->getHTML());
 	}
 
 	/**
