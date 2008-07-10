@@ -33,6 +33,7 @@ class ilCalendarSharedStatus
 {
 	const STATUS_ACCEPTED = 1;
 	const STATUS_DECLINED = 2;
+	const STATUS_DELETED = 3;
 	
 	protected $db = null;
 	
@@ -58,6 +59,30 @@ class ilCalendarSharedStatus
 		$this->read();
 	}
 	
+	/**
+	 * is accepted
+	 *
+	 * @access public
+	 * @param int cal_id
+	 * @return
+	 */
+	public function isAccepted($a_cal_id)
+	{
+		return isset($this->calendars[$a_cal_id]) and $this->calendars[$a_cal_id] == self::STATUS_ACCEPTED;
+	}
+	
+	/**
+	 * is declined
+	 *
+	 * @access public
+	 * @param int cal_id
+	 * @return
+	 */
+	public function isDeclined($a_cal_id)
+	{
+		return isset($this->calendars[$a_cal_id]) and $this->calendars[$a_cal_id] == self::STATUS_DECLINED;
+	}
+
 	/**
 	 * get accepted shared calendars
 	 *

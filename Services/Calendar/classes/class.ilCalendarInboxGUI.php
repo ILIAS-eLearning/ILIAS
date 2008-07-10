@@ -162,8 +162,9 @@ class ilCalendarInboxGUI
 			$status->accept($calendar_id);
 		}
 		
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		$this->inbox();
+		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+		// redfirect for loading new calendar+
+		$this->ctrl->redirect($this,'inbox');
 		return true;
 	}
 	

@@ -8388,3 +8388,5 @@ dateplaner#:#cal_apps#:#Anzahl Termine
 dateplaner#:#cal_share_accept#:#Einladung annehmen
 dateplaner#:#cal_share_decline#:#Einladung ablehnen
 dateplaner#:#cal_changed_events_header#:#Geänderte Termine
+dateplaner#:#cal_accepted#:#Angenommen
+dateplaner#:#cal_declined#:#Abgelehnt
