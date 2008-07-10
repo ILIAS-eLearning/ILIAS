@@ -5276,6 +5276,7 @@ class ilObjSurvey extends ilObject
 		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
 		xslt_error($xh);
 		xslt_free($xh);
+		global $ilLog; $ilLog->write($output);
 		return $output;
 	}
 	

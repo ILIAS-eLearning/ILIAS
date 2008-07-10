@@ -276,7 +276,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_neutral"], "%"));
 			if ($this->object->getNeutralColumnSeparator())
 			{
-				array_push($style, "border-left: $neutralstyle!important;\"");
+				array_push($style, "border-left: $neutralstyle!important;");
 			}
 			if (count($style) > 0)
 			{
@@ -484,7 +484,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		
 		if ($question_title)
 		{
-			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
 		}
 		$template->setCurrentBlock("question_data_matrix");
 		if (strcmp($error_message, "") != 0)
@@ -568,7 +568,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			array_push($style, sprintf("width: %.2f%s!important", $layout["percent_neutral"], "%"));
 			if ($this->object->getNeutralColumnSeparator())
 			{
-				array_push($style, "border-left: $neutralstyle!important;\"");
+				array_push($style, "border-left: $neutralstyle!important;");
 			}
 			if (count($style) > 0)
 			{
@@ -732,9 +732,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		
 		if ($question_title)
 		{
-			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
 		}
-		$template->setCurrentBlock("question_data_matrix");
+		$template->setCurrentBlock();
 		if ($show_questiontext)
 		{
 			$questiontext = $this->object->getQuestiontext();
