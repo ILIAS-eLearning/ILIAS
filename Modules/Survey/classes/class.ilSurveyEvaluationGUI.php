@@ -298,7 +298,12 @@ class ilSurveyEvaluationGUI
 		global $ilUser;
 		global $rbacsystem;
 		global $ilias;
-		
+
+		if (!$rbacsystem->checkAccess("read",$_GET["ref_id"]))
+		{
+			ilUtil::sendInfo($this->lng->txt("permission_denied"));
+			return;
+		}
 		switch ($this->object->getEvaluationAccess())
 		{
 			case EVALUATION_ACCESS_OFF:
