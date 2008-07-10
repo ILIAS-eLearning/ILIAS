@@ -539,7 +539,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
 				$tpl->parseCurrentBlock();
 			}
-			
+						
 			// media player
 			if ($item["content_type"] == NEWS_AUDIO &&
 				$item["mob_id"] > 0 && ilObject::_exists($item["mob_id"]))
@@ -563,6 +563,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			// access
 			if ($enable_internal_rss && $item["visibility"] != "")
 			{
+				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 				$tpl->setCurrentBlock("access");
 				$tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
 				if ($item["visibility"] == NEWS_PUBLIC ||
@@ -619,6 +620,16 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 				$obj_type = ilObject::_lookupType($obj_id);
 				$obj_title = ilObject::_lookupTitle($obj_id);
+				
+				// file hack, not nice
+				if ($obj_type == "file")
+				{
+					$tpl->setCurrentBlock("download");
+					$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+					$tpl->setVariable("HREF_DOWNLOAD",
+						"./repository.php?ref_id=".$item["ref_id"]."&amp;cmd=sendfile");
+					$tpl->parseCurrentBlock();
+				}
 				
 				// forum hack, not nice
 				$add = "";
