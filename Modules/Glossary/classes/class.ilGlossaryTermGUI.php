@@ -29,7 +29,7 @@ require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI
+* @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilPageObjectGUI
 *
 * @ingroup ModulesGlossary
 */
@@ -232,8 +232,7 @@ class ilGlossaryTermGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page =& new ilPageObject("gdf", $def["id"]);
-			$page_gui =& new ilPageObjectGUI($page);
+			$page_gui = new ilPageObjectGUI("gdf", $def["id"]);
 			$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 			if (!$a_offline)
 			{
@@ -289,7 +288,7 @@ class ilGlossaryTermGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page =& new ilPageObject("gdf", $def["id"]);
+			$page = new ilPageObject("gdf", $def["id"]);
 			$page->buildDom();
 			$page_links = $page->getInternalLinks();
 			foreach($page_links as $key => $page_link)
@@ -349,8 +348,7 @@ class ilGlossaryTermGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page =& new ilPageObject("gdf", $def["id"]);
-			$page_gui =& new ilPageObjectGUI($page);
+			$page_gui = new ilPageObjectGUI("gdf", $def["id"]);
 			$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 			$page_gui->setTemplateOutput(false);
 			$output = $page_gui->preview();
@@ -387,7 +385,7 @@ class ilGlossaryTermGUI
 			$this->ctrl->setParameter($this, "def", $def["id"]);
 			$this->ctrl->setParameterByClass("ilTermDefinitionEditorGUI", "def", $def["id"]);
 			$this->tpl->setVariable("LINK_EDIT",
-				$this->ctrl->getLinkTargetByClass(array("ilTermDefinitionEditorGUI", "ilPageObjectGUI"), "view"));
+				$this->ctrl->getLinkTargetByClass(array("ilTermDefinitionEditorGUI", "ilPageObjectGUI"), "edit"));
 			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("LINK_DELETE",
 				$this->ctrl->getLinkTarget($this, "confirmDefinitionDeletion"));

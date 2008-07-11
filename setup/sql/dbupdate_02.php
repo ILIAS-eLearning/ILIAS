@@ -4963,3 +4963,8 @@ ALTER TABLE tst_tests ADD COLUMN resultoutput INT NOT NULL DEFAULT 0;
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1279>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

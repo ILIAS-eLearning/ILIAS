@@ -130,7 +130,7 @@ class ilTermDefinitionEditorGUI
 					$gloss_loc->display();
 				}
 				$this->setTabs();
-				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
+				$this->ctrl->setReturnByClass("ilPageObjectGUI", "edit");
 				$this->ctrl->setReturn($this, "listDefinitions");
 				$page =& $this->definition->getPageObject();
 				$page->addUpdateListener($this, "saveShortText");
