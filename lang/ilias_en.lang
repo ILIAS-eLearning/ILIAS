@@ -4253,6 +4253,8 @@ common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#cont_insert_map#:#Insert Map
+content#:#cont_page_with_deactivated_elements#:#Page contains deactivated elements
+content#:#cont_deactivated_page#:#Deactivated Page
 content#:#cont_update_map#:#Edit Map
 content#:#cont_location#:#Location
 content#:#cont_align#:#Alignment

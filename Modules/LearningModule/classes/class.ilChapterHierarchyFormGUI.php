@@ -38,8 +38,9 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	*
 	* @param
 	*/
-	function __construct()
+	function __construct($a_lm_type)
 	{
+		$this->lm_type = $a_lm_type;
 		parent::__construct();
 		$this->setCheckboxName("id");
 	}
@@ -192,6 +193,70 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 					true);
 			}
 		}
+	}
+
+	/**
+	* Get icon path for an item.
+	*
+	* @param	array		itema array
+	* @return	string		icon path
+	*/
+	function getIcon($a_item)
+	{
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		
+		if ($a_item["type"] == "pg")
+		{
+			$active = ilLMObject::_lookupActive($a_item["node_id"]);
+			if (!$active)
+			{
+				return ilUtil::getImagePath("icon_pg_d.gif");
+			}
+			else
+			{
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_item["node_id"],
+					$this->lm_type);
+				if ($contains_dis)
+				{
+					return ilUtil::getImagePath("icon_pg_del.gif");
+				}
+			}
+		}
+		return ilUtil::getImagePath("icon_".$a_item["type"].".gif");
+	}
+
+	/**
+	* Get icon alt text
+	*
+	* @param	array		itema array
+	* @return	string		icon alt text
+	*/
+	function getIconAlt($a_item)
+	{
+		global $lng;
+		
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		
+		if ($a_item["type"] == "pg")
+		{
+			$active = ilLMObject::_lookupActive($a_item["node_id"]);
+			if (!$active)
+			{
+				return $lng->txt("cont_deactivated_page");
+			}
+			else
+			{
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_item["node_id"],
+					$this->lm_type);
+				if ($contains_dis)
+				{
+					return $lng->txt("cont_page_with_deactivated_elements");
+				}
+			}
+		}
+		return ilUtil::getImagePath("icon_".$a_item["type"].".gif");
 	}
 
 }

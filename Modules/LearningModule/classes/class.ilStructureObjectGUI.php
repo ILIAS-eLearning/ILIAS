@@ -270,7 +270,7 @@ return;
 		$ilCtrl->setParameter($this, "backcmd", "showHierarchy");
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
-		$form_gui = new ilChapterHierarchyFormGUI();
+		$form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType());
 		$form_gui->setFormAction($ilCtrl->getFormAction($this));
 		$form_gui->setTitle($this->obj->getTitle());
 		$form_gui->setTree($this->tree);
@@ -278,6 +278,7 @@ return;
 		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
 		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
 		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
+		$form_gui->addMultiCommand($lng->txt("cont_de_activate"), "activatePages");
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 
 		$this->tpl->setContent($form_gui->getHTML());
@@ -734,11 +735,42 @@ return;
 	{
 		if (is_array($_POST["id"]))
 		{
+			$act_items = array();
+			// get all "top" ids, i.e. remove ids, that have a selected parent
 			foreach($_POST["id"] as $id)
 			{
-				$act = ilLMObject::_lookupActive($id);
-				ilLMObject::_writeActive($id, !$act);
-//echo "-".$a_id."-".!$act."-";
+				$path = $this->tree->getPathId($id);
+				$take = true;
+				foreach($path as $path_id)
+				{
+					if ($path_id != $id && in_array($path_id, $_POST["id"]))
+					{
+						$take = false;
+					}
+				}
+				if ($take)
+				{
+					$act_items[] = $id;
+				}
+			}
+
+			
+			foreach($act_items as $id)
+			{
+				$childs = $this->tree->getChilds($id);
+				foreach($childs as $child)
+				{
+					if (ilLMObject::_lookupType($child["child"]) == "pg")
+					{
+						$act = ilLMObject::_lookupActive($child["child"]);
+						ilLMObject::_writeActive($child["child"], !$act);
+					}
+				}
+				if (ilLMObject::_lookupType($id) == "pg")
+				{
+					$act = ilLMObject::_lookupActive($id);
+					ilLMObject::_writeActive($id, !$act);
+				}
 			}
 		}
 
