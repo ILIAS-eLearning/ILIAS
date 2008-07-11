@@ -31,9 +31,7 @@
 *
 * @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
-* // BEGIN ChangeEvent add info tab to folder object
-* @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI
-* // END ChangeEvent add info tab to folder object
+* @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI, ilColumnGUI
 *
 * @extends ilObjectGUI
 */

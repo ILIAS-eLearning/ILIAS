@@ -30,7 +30,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI
+* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
 *
 * @ingroup ServicesInfoScreen
 */
@@ -80,7 +80,7 @@ class ilInfoScreenGUI
 	{
 		global $rbacsystem;
 		global $tpl;
-		global $lng, $ilAccess;
+		global $lng, $ilAccess, $ilCtrl;
 
 		// load additional language modules
 		$lng->loadLanguageModule("barometer");
@@ -111,6 +111,14 @@ class ilInfoScreenGUI
 				$this->showSummary();
 				break;
 
+			case "ilpublicuserprofilegui":
+				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
+				$user_profile = new ilPublicUserProfileGUI($_GET["user_id"]);
+				$user_profile->setBackUrl($ilCtrl->getLinkTarget($this, "showSummary"));
+				$html = $ilCtrl->forwardCommand($user_profile);
+				$tpl->setContent($html);
+				break;
+				
 			default:
 				return $this->$cmd();
 				break;
@@ -417,40 +425,52 @@ class ilInfoScreenGUI
 	*/
 	function addObjectSections($a_obj)
 	{
-		global $lng;
+		global $lng, $ilCtrl, $ilUser;
+		
+		$this->obj_section_obj = ($a_obj);
+	}
 
+	/**
+	* Insert object secions within output
+	*/
+	private function insertObjectSections()
+	{
+		global $lng, $ilCtrl, $ilUser;
+		
+		if (!is_object($this->obj_section_obj))
+		{
+			return;
+		}
 		$this->addSection($lng->txt("description"));
 
-		// BEGIN General: Display standard object info
-		$this->addProperty($lng->txt("create_date"), ilFormat::formatDate($a_obj->getCreateDate()));
+		$this->addProperty($lng->txt("create_date"), ilFormat::formatDate(
+			$this->obj_section_obj->getCreateDate()));
 
-		global $ilUser;
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			if (ilObjUser::_lookupEmail($a_obj->getOwner()) === false)
+			if (ilObjUser::_lookupEmail($this->obj_section_obj->getOwner()) === false)
 			{
 				$this->addProperty($lng->txt("owner"),$lng->txt('deleted_user_account'));
 			}
 			else
 			{
-				$ownerObj = new ilObjUser($a_obj->getOwner());
+				$ownerObj = new ilObjUser($this->obj_section_obj->getOwner());
+				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
 				$this->addProperty($lng->txt("owner"),
 					$ownerObj->getFirstname().' '.
 					$ownerObj->getLastname().' '.
 					$ownerObj->getLogin(),
-					"./ilias.php?user=".$ownerObj->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+						$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML")
 					);
 			}
 		}
-		// END General: Display standard object info
 
-		// BEGIN ChangeEvent: Display change event info
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		if (ilChangeEvent::_isActive())
 		{
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				$readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
+				$readEvents = ilChangeEvent::_lookupReadEvents($this->obj_section_obj->getId());
 				$count_users = 0;
 				$count_members = 0;
 				$count_user_reads = 0;
@@ -493,7 +513,7 @@ class ilInfoScreenGUI
 				// Show lock info
 				if ($ilias->account->getId() != ANONYMOUS_USER_ID)
 				{
-					$locks =& $davLocks->getLocksOnObjectObj($a_obj->getId());
+					$locks =& $davLocks->getLocksOnObjectObj($this->obj_section_obj->getId());
 					if (count($locks) > 0)
 					{
 						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
@@ -671,6 +691,8 @@ class ilInfoScreenGUI
 			}
 		}
 
+		$this->insertObjectSections();
+		
 		for($i = 1; $i <= $this->sec_nr; $i++)
 		{
 			if (is_array($this->section[$i]["properties"]))

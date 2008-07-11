@@ -365,15 +365,14 @@ class ilCtrl
 			$par = $this->call_node[$par]["parent"];
 		}
 
-		// BEGIN Plugins: Make ILIAS robust against unknown object types
-		/*
+		// Please do NOT change these lines.
+		// Developers must be aware, if they use classes unknown to the controller
+		// otherwise certain problem will be extremely hard to track down...
 		echo "ERROR: Can't find target class $a_class for node $a_par_node ".
 			"(".$this->call_node[$a_par_node]["class"].").<br>";
-		exit;*/
 		error_log( "ERROR: Can't find target class $a_class for node $a_par_node ".
 			"(".$this->call_node[$a_par_node]["class"].")");
-		return $a_par_node;
-		// END Plugins: Make ILIAS robust against unknown object types	
+		exit;
 	}
 
 	/**
