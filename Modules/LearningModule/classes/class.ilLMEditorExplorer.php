@@ -187,7 +187,7 @@ class ilLMEditorExplorer extends ilLMExplorer
 			$active = ilLMObject::_lookupActive($a_id);
 			if (!$active)
 			{
-				return $lng->txt("cont_deactivated_page");
+				return $lng->txt("cont_page_deactivated");
 			}
 			else
 			{
@@ -196,7 +196,7 @@ class ilLMEditorExplorer extends ilLMExplorer
 					$this->lm_obj->getType());
 				if ($contains_dis)
 				{
-					return $lng->txt("cont_page_with_deactivated_elements");
+					return $lng->txt("cont_page_deactivated_elements");
 				}
 			}
 		}

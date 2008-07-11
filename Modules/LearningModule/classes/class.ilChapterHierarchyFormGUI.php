@@ -243,7 +243,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 			$active = ilLMObject::_lookupActive($a_item["node_id"]);
 			if (!$active)
 			{
-				return $lng->txt("cont_deactivated_page");
+				return $lng->txt("cont_page_deactivated");
 			}
 			else
 			{
@@ -252,7 +252,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 					$this->lm_type);
 				if ($contains_dis)
 				{
-					return $lng->txt("cont_page_with_deactivated_elements");
+					return $lng->txt("cont_page_deactivated_elements");
 				}
 			}
 		}
