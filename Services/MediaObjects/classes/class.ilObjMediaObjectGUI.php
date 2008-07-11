@@ -1275,6 +1275,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 						{
 							case "lm":
 								require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+								require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 								require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 								$lm_obj =& new ilObjLearningModule($page_obj->getParentId(), false);
 								$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("obj_".$cont_type).
@@ -1284,6 +1285,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 							case "dbk":
 								require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 								require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+								require_once("./Modules/LearningModule/classes/class.ilObjDlBook.php");
 								$lm_obj =& new ilObjDlBook($page_obj->getParentId(), false);
 								$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("obj_".$cont_type).
 									": ".$lm_obj->getTitle().", ".$this->lng->txt("page").": ".
