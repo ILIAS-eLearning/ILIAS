@@ -4953,4 +4953,6 @@ CREATE TABLE `cal_shared_status` (
 `status` INT( 1 ) NOT NULL ,
 PRIMARY KEY ( `cal_id` , `usr_id` )
 ) Type = MYISAM ;
-
+<#1277>
+ALTER TABLE tst_tests ADD COLUMN kiosk INT NOT NULL DEFAULT 0;
+ALTER TABLE tst_tests ADD COLUMN resultoutput INT NOT NULL DEFAULT 0;
