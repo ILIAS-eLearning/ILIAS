@@ -1256,41 +1256,45 @@ return;
 		$pages = ilLMPageObject::getPageList($this->object->getId());
 		foreach ($pages as $page)
 		{
-			// check activation
+			$this->tpl->setCurrentBlock("table_row");
+			
+						// check activation
 			if (!ilLMPageObject::_lookupActive($page["obj_id"]))
 			{
-				$this->tpl->setCurrentBlock("deactivated");
-				$this->tpl->setVariable("TXT_DEACTIVATED",
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_d.gif"));
+				$this->tpl->setVariable("IMG_ALT",
 					$this->lng->txt("cont_page_deactivated"));
-				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
 				if (ilPageObject::_lookupContainsDeactivatedElements($page["obj_id"],
 					$this->object->getType()))
 				{
-					$this->tpl->setCurrentBlock("deactivated");
-					$this->tpl->setVariable("TXT_DEACTIVATED",
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_del.gif"));
+					$this->tpl->setVariable("IMG_ALT",
 						$this->lng->txt("cont_page_deactivated_elements"));
-					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg.gif"));
+					$this->tpl->setVariable("IMG_ALT",
+						$this->lng->txt("pg"));
 				}
 			}
 
-			$this->tpl->setCurrentBlock("table_row");
 			// color changing
 			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
 
 			// checkbox
 			$this->tpl->setVariable("CHECKBOX_ID", $page["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg.gif"));
 
 			// link
 			$this->ctrl->setParameter($this, "backcmd", "");
 			$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $page["obj_id"]);
 //echo "<br>:".$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view").":";
 			$this->tpl->setVariable("LINK_TARGET",
-				$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view"));
+				$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "edit"));
 
 			// title
 			$this->tpl->setVariable("TEXT_CONTENT", $page["title"]);
