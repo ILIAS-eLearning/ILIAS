@@ -496,8 +496,8 @@ class ilGlossaryPresentationGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page =& new ilPageObject("gdf", $def["id"]);
-			$page_gui =& new ilPageObjectGUI($page);
+			$page_gui =& new ilPageObjectGUI("gdf", $def["id"]);
+			$page = $page_gui->getPageObject();
 
 			// internal links
 			$page->buildDom();

@@ -8372,6 +8372,10 @@ rbac#:#rcrs_read#:#Read access to Course-Link
 rbac#:#rcrs_delete#:#Delete Course-Link
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#rcrs_write#:#Edit Course-Link
+rbac#:#cat_create_wiki#:#Create Wiki
+rbac#:#crs_create_wiki#:#Create Wiki
+rbac#:#grp_create_wiki#:#Create Wiki
+rbac#:#fold_create_wiki#:#Create Wiki
 common#:#csv_export#:#CSV-Export
 ecs#:#ecs_duration#:#Duration
 ecs#:#ecs_event_appointment#:#Event Date
