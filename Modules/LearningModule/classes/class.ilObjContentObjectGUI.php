@@ -1128,7 +1128,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$ilCtrl->setParameter($this, "backcmd", "chapters");
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
-		$form_gui = new ilChapterHierarchyFormGUI();
+		$form_gui = new ilChapterHierarchyFormGUI($this->object->getType());
 		$form_gui->setFormAction($ilCtrl->getFormAction($this));
 		$form_gui->setTitle($this->object->getTitle());
 		$form_gui->setTree($this->lm_tree);

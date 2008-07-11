@@ -30,7 +30,7 @@
 * @ingroup ModulesIliasLearningModule
 */
 
-require_once("classes/class.ilExplorer.php");
+require_once("./classes/class.ilExplorer.php");
 
 class ilLMExplorer extends ilExplorer
 {

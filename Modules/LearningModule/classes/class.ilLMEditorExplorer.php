@@ -148,27 +148,61 @@ class ilLMEditorExplorer extends ilLMExplorer
 	/**
 	* get style class for node
 	*/
-	function getNodeStyleClass($a_id, $a_type)
+	function getImage($a_name, $a_type = "", $a_id = "")
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		
-		$active = ilLMObject::_lookupActive($a_id);
-		if (!$active)
+		if ($a_type == "pg")
 		{
-			return "il_PageDisabled";
-		}
-		else
-		{
-			include_once("./Services/COPage/classes/class.ilPageObject.php");
-			$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_id,
-				$this->lm_obj->getType());
-			if ($contains_dis)
+			$active = ilLMObject::_lookupActive($a_id);
+			if (!$active)
 			{
-				return "il_PageDeactivatedElements";
+				$a_name = "icon_pg_d_s.gif";
+			}
+			else
+			{
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_id,
+					$this->lm_obj->getType());
+				if ($contains_dis)
+				{
+					$a_name = "icon_pg_del_s.gif";
+				}
 			}
 		}
-		return "";
+		return ilUtil::getImagePath($a_name);
 	}
+	
+	/**
+	* get image alt text
+	*/
+	function getImageAlt($a_default_text, $a_type = "", $a_id = "")
+	{
+		global $lng;
+		
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		
+		if ($a_type == "pg")
+		{
+			$active = ilLMObject::_lookupActive($a_id);
+			if (!$active)
+			{
+				return $lng->txt("cont_deactivated_page");
+			}
+			else
+			{
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_id,
+					$this->lm_obj->getType());
+				if ($contains_dis)
+				{
+					return $lng->txt("cont_page_with_deactivated_elements");
+				}
+			}
+		}
+		return $a_default_text;
+	}
+
 
 } // END class.ilLMEditorExplorer
 ?>

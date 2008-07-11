@@ -471,7 +471,8 @@ class ilHierarchyFormGUI extends ilFormGUI
 	{
 		// image
 		$a_tpl->setCurrentBlock("img");
-		$a_tpl->setVariable("IMGPATH", ilUtil::getImagePath("icon_".$a_child["type"].".gif"));
+		$a_tpl->setVariable("IMGPATH", $this->getIcon($a_child));
+		$a_tpl->setVariable("IMGALT", $this->getIconAlt($a_child));
 		$a_tpl->setVariable("IMG_NODE", $a_child["node_id"]);
 		$a_tpl->setVariable("TYPE", $a_child["type"]);
 		$a_tpl->parseCurrentBlock();
@@ -575,6 +576,30 @@ class ilHierarchyFormGUI extends ilFormGUI
 		$a_tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* Get icon path for an item.
+	*
+	* @param	array		item array
+	* @return	string		icon path
+	*/
+	function getIcon($a_item)
+	{
+		return ilUtil::getImagePath("icon_".$a_item["type"].".gif");
+	}
+	
+	/**
+	* Get icon alt text for an item.
+	*
+	* @param	array		item array
+	* @return	string		icon alt text
+	*/
+	function getIconAlt($a_item)
+	{
+		global $lng;
+		
+		return $lng->txt($a_item["type"]);
+	}
+
 	/**
 	* Get menu items for drop area of node.
 	*
