@@ -110,6 +110,11 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
+			case 'ilinfoscreengui':
+				$this->prepareOutput();
+				$this->infoScreen();
+				break;
+				
 			case 'ilcontainerlinklistgui':
 				include_once("./classes/class.ilContainerLinkListGUI.php");
 				$link_list_gui =& new ilContainerLinkListGUI();
@@ -126,7 +131,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$this->tpl->setContent($ret);
 				}
 				break;
-
+				
 			default:
 				$this->checkPermission("read");
 				
@@ -463,7 +468,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->redirectToRefId($_GET["ref_id"]);
 	}
 	
-	// BEGIN ChangeEvent show info screen on category object
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -475,12 +479,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->infoScreen();
 	}
+
 	/**
 	* show information screen
 	*/
 	function infoScreen()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilCtrl;
 
 		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
@@ -511,20 +516,22 @@ class ilObjCategoryGUI extends ilContainerGUI
 			}
 		}
 
-		
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		
-		// BEGIN WebDAV Display locking information
-		// BEGIN ChangeEvent Display owner and file reads.
+		// add object sections
 		$info->addObjectSections($this->object);
-		// END ChangeEvent Display owner and file reads.
-		// END WebDAV Display locking information
 
 		// forward the command
-		$this->ctrl->forwardCommand($info);
+		if ($ilCtrl->getNextClass() == "ilinfoscreengui")
+		{
+			$ilCtrl->forwardCommand($info);
+		}
+		else
+		{
+			return $ilCtrl->getHTML($info);
+		}
 	}
-	// END ChangeEvent show info screen on category object
 	
 	/**
 	 * Edit extended category settings

@@ -38,8 +38,10 @@ class ilPublicUserProfileGUI
 	*/
 	function __construct($a_user_id)
 	{
-		$this->setUserId($a_user_id);
+		global $ilCtrl;
 		
+		$this->setUserId($a_user_id);
+		$ilCtrl->saveParameter($this, "user_id");
 		if ($_GET["back_url"] != "")
 		{
 			$this->setBackUrl($_GET["back_url"]);
@@ -136,7 +138,7 @@ class ilPublicUserProfileGUI
 		global $ilCtrl;
 		
 		$cmd = $ilCtrl->getCmd();
-		
+
 		return $this->$cmd();
 	}
 	
