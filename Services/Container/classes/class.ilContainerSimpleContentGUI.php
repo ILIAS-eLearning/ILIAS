@@ -77,17 +77,29 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 		$this->items = $this->getContainerObject()->getSubItems();
 		$this->clearAdminCommandsDetermination();
 		
+		$output_html = $this->getContainerGUI()->getContainerPageHTML();
+		
+		// get embedded blocks
+		if ($output_html != "")
+		{
+			$output_html = $this->insertPageEmbeddedBlocks($output_html);
+		}
+
+		
 		$tpl = $this->newBlockTemplate();
 		if (is_array($this->items["_all"]))
 		{
 			// all rows
 			$item_html = array();
-			foreach($this->items["_all"] as $item_data)
+			foreach($this->items["_all"] as $k => $item_data)
 			{
-				$html = $this->renderItem($item_data, true);
-				if ($html != "")
+				if ($this->rendere_items[$item_data["child"]] !== true)
 				{
-					$item_html[] = $html;
+					$html = $this->renderItem($item_data, true);
+					if ($html != "")
+					{
+						$item_html[] = $html;
+					}
 				}
 			}
 			
@@ -102,7 +114,8 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 			}
 		}
 
-		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $tpl->get());
+		$output_html .= $tpl->get();
+		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
 	}
 
 } // END class.ilContainerSimpleContentGUI

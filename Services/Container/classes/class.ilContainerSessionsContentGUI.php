@@ -77,6 +77,14 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		$this->items = $this->getContainerObject()->getSubItems();
 		$this->clearAdminCommandsDetermination();
 		
+		$output_html = $this->getContainerGUI()->getContainerPageHTML();
+		
+		// get embedded blocks
+		if ($output_html != "")
+		{
+			$output_html = $this->insertPageEmbeddedBlocks($output_html);
+		}
+
 		// sessions
 		$done_sessions = false;
 		$tpl = $this->newBlockTemplate();
@@ -88,10 +96,13 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			$item_html = array();
 			foreach($this->items["sess"] as $item_data)
 			{
-				$html = $this->renderItem($item_data, true);
-				if ($html != "")
+				if ($this->rendere_items[$item_data["child"]] !== true)
 				{
-					$item_html[] = $html;
+					$html = $this->renderItem($item_data, true);
+					if ($html != "")
+					{
+						$item_html[] = $html;
+					}
 				}
 			}
 			
@@ -118,14 +129,17 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			$item_html = array();
 			foreach($this->items["_all"] as $item_data)
 			{
-				if ($item_data["type"] == "sess")
+				if ($this->rendere_items[$item_data["child"]] !== true)
 				{
-					continue;
-				}
-				$html = $this->renderItem($item_data, true);
-				if ($html != "")
-				{
-					$item_html[] = $html;
+					if ($item_data["type"] == "sess")
+					{
+						continue;
+					}
+					$html = $this->renderItem($item_data, true);
+					if ($html != "")
+					{
+						$item_html[] = $html;
+					}
 				}
 			}
 			
@@ -140,7 +154,9 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			}
 		}
 
-		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $tpl->get());
+		$output_html .= $tpl->get();
+		
+		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
 	}
 
 } // END class.ilContainerSessionsContentGUI

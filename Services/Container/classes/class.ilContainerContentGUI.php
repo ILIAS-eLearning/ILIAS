@@ -330,13 +330,14 @@ abstract class ilContainerContentGUI
 						
 						// all rows
 						$item_rendered = false;
-						foreach($this->items[$type] as $item_data)
+						foreach($this->items[$type] as $k => $item_data)
 						{
 							$html = $this->renderItem($item_data);
 							if ($html != "")
 							{
 								$this->addStandardRow($tpl, $html);
 								$item_rendered = true;
+								$this->rendere_items[$item_data["child"]] = true;
 							}
 						}
 					
@@ -549,6 +550,23 @@ abstract class ilContainerContentGUI
 	{
 		$a_tpl->touchBlock("separator_row");
 		$a_tpl->touchBlock("container_row");
+	}
+
+	/**
+	* Get grouped repository object types.
+	*
+	* @return	array	array of object types
+	*/
+	function getGroupedObjTypes()
+	{
+		global $objDefinition;
+		
+		if (empty($this->type_grps))
+		{
+			$this->type_grps =
+				$objDefinition->getGroupedRepositoryObjectTypes($this->getContainerObject()->getType());
+		}
+		return $this->type_grps;
 	}
 
 } // END class.ilContainerContentGUI

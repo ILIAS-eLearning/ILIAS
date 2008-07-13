@@ -313,7 +313,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($this->object->getViewMode() == ilContainer::VIEW_SIMPLE ||
 			$this->object->getViewMode() == ilContainer::VIEW_BY_TYPE ||
 			$this->object->getViewMode() == ilContainer::VIEW_SESSIONS ||
-			$this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE ||
 			$this->object->getViewMode() == IL_CRS_VIEW_TIMING
 			)
 		{
@@ -332,6 +331,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		return true;
 	}
 
+	function renderContainer()
+	{
+		return parent::renderObject();
+	}
+	
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
