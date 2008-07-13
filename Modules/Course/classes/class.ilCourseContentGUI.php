@@ -356,7 +356,11 @@ class ilCourseContentGUI
 		}
 		// END ChangeEvent: record read event.
 		$this->getCenterColumnHTML();
-		$this->tpl->setRightContent($this->getRightColumnHTML());
+		
+		if (!$this->no_right_column)
+		{
+			$this->tpl->setRightContent($this->getRightColumnHTML());
+		}
 	}
 
 	/**
@@ -443,6 +447,7 @@ class ilCourseContentGUI
 		}
 		
 		$this->getDefaultView();
+		$this->no_right_column = true;	// workaround
 	}
 		
 	function getDefaultView()
@@ -457,17 +462,19 @@ class ilCourseContentGUI
 		include_once './classes/class.ilObjectListGUIFactory.php';
 		include_once './Modules/Course/classes/Event/class.ilEvent.php';
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_page.html",
-			"Services/Container");
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_page.html",
+		//	"Services/Container");
 
-		$this->container_gui->showPossibleSubObjects();
+		//$this->container_gui->showPossibleSubObjects();
 
 		// Feedback
 		$this->__showFeedBack();
 
 		// Event
 		
-		switch($this->course_obj->getOrderType())
+		$this->container_gui->renderContainer();
+		
+/*		switch($this->course_obj->getOrderType())
 		{
 			case IL_CRS_SORT_TITLE:
 			case IL_CRS_SORT_MANUAL:
@@ -479,7 +486,7 @@ class ilCourseContentGUI
 				$this->__showMaterials('all');
 				break;
 			
-		}
+		}*/
 		$this->container_gui->showAdministrationPanel($this->tpl);
 	}
 	

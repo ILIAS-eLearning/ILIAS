@@ -87,23 +87,6 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	}
 	
 	/**
-	* Get grouped repository object types.
-	*
-	* @return	array	array of object types
-	*/
-	function getGroupedObjTypes()
-	{
-		global $objDefinition;
-		
-		if (empty($this->type_grps))
-		{
-			$this->type_grps =
-				$objDefinition->getGroupedRepositoryObjectTypes($this->getContainerObject()->getType());
-		}
-		return $this->type_grps;
-	}
-
-	/**
 	* Render Items
 	*/
 	function renderItemList()
