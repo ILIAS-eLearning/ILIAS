@@ -4775,6 +4775,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 <#1260>
 <?php
+$objectives = array();
 $query = "SELECT * FROM crs_objective_tst ";
 $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
