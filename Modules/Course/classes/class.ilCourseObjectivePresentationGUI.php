@@ -446,7 +446,8 @@ class ilCourseObjectivePresentationGUI
 			if(isset($continue_data["$lm_id"]))
 			{
 				$this->tpl->setVariable("TEXT_INFO_LMS",$this->lng->txt('last_access'));
-				$this->tpl->setVariable("INFO_LMS",ilFormat::formatUnixTime($continue_data["$lm_id"]['last_access'],true));
+				$this->tpl->setVariable('INFO_LMS',ilDatePresentation::formatDate(new ilDateTime($continue_data[$lm_id]['last_access'],IL_CAL_UNIX)));
+				
 			}
 			elseif($obj_type == 'lm')
 			{

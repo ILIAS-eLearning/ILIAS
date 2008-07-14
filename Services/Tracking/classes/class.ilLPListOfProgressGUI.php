@@ -287,7 +287,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		{
 			$this->tpl->setCurrentBlock('timing');
 			$this->tpl->setVariable('END_EDITING_TIME',$item_list->getEditingTime() ? 
-									ilFormat::formatUnixTime($item_list->getEditingTime()) : 
+									ilDatePresentation::formatDate(new ilDateTime($item_list->getEditingTime(),IL_CAL_UNIX)) :
 									'');
 			$this->tpl->parseCurrentBlock();
 		}

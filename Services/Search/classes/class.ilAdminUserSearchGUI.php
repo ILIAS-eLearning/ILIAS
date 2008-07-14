@@ -652,7 +652,7 @@ class ilAdminUserSearchGUI
             }
             else
             {
-            	$txt_access = ilFormat::formatUnixTime($tmp_obj->getTimeLimitUntil());
+            	$txt_access = ilDatePresentation::formatDate(new ilDateTime($tmp_obj->getTimeLimitUntil(),IL_CAL_UNIX));
             }
 					
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"id[]",$usr_id);

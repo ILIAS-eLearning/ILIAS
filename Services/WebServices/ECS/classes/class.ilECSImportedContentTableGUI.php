@@ -153,11 +153,11 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		}
 		if($field = $settings->getMappingByECSName('begin'))
 		{
-			$this->tpl->setVariable('VAL_START',isset($values[$field]) ? ilFormat::formatUnixTime($values[$field],true) : '--');
+			$this->tpl->setVariable('VAL_START',isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field],IL_CAL_UNIX)) : '--');
 		}
 		if($field = $settings->getMappingByECSName('end'))
 		{
-			$this->tpl->setVariable('VAL_END',isset($values[$field]) ? ilFormat::formatUnixTime($values[$field],true) : '--');
+			$this->tpl->setVariable('VAL_END',isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field],IL_CAL_UNIX)) : '--');
 		}
 	}
 	

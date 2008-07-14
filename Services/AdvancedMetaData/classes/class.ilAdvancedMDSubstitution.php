@@ -194,11 +194,11 @@ class ilAdvancedMDSubstitution
 			
 			if(in_array($field_id,$this->date_fields))
 			{
-				$value = ilFormat::formatUnixTime((int) $values[$field_id]);
+				$value = ilDatePresentation::formatDate(new ilDate((int) $values[$field_id],IL_CAL_UNIX));
 			}
 			elseif(in_array($field_id,$this->datetime_fields))
 			{
-				$value = ilFormat::formatUnixTime((int) $values[$field_id],true);
+				$value = ilDatePresentation::formatDate(new ilDateTime((int) $values[$field_id],IL_CAL_UNIX));
 			}
 			else
 			{
@@ -221,36 +221,6 @@ class ilAdvancedMDSubstitution
   		}
   		
   		return $substituted ? $substituted : array();
-  		/*
-  		$string = $this->getSubstitutionString();
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		foreach(ilAdvancedMDValues::_getValuesByObjId($a_obj_id) as $field_id => $value)
-		{
-			if(!in_array($field_id,$this->active_fields))
-			{
-				continue;
-			}
-			
-			if(in_array($field_id,$this->date_fields) and $value)
-			{
-				$value = ilFormat::formatUnixTime((int) $value);
-			}
-			
-			if($value)
-			{
-				// Substitute variables
-				$string = str_replace('[F_'.$field_id.']',$value,$string);
-				// Delete block varaibles
-				$string = preg_replace('/\[\/?IF_F_'.$field_id.'\]/U','',$string);
-			}
-		}
-		// Replace fixed variables
-		$string = str_replace('[OBJ_ID]',$a_obj_id,$string);
-		
-		// Delete all other blocks
-		$string = preg_replace('/\[IF_F_\d+\].*\[\/IF_F_\d+\]/U','',$string);
-		return $string;
-		*/
 	}
 	
 	/**

@@ -451,13 +451,13 @@ class ilAdvancedMDRecordGUI
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
 	 					if($value->getValue())
 						{
-							$this->info->addProperty($def->getTitle(),ilFormat::formatUnixTime($value->getValue()));
+							$this->info->addProperty($def->getTitle(),ilDatePresentation::formatDate(new ilDate($value->getValue(),IL_CAL_UNIX)));
 						}
 	 					break;
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
 	 					if($value->getValue())
 						{
-							$this->info->addProperty($def->getTitle(),ilFormat::formatUnixTime($value->getValue(),true));
+							$this->info->addProperty($def->getTitle(),ilDatePresentation::formatDate(new ilDateTime($value->getValue(),IL_CAL_UNIX)));
 						}
 	 					break;
 	 			}

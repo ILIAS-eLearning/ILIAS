@@ -2705,7 +2705,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("PAY_METHOD_".$_POST["pay_method"], " selected");
 
 		$this->tpl->setVariable("TXT_ORDER_DATE",$this->lng->txt('paya_order_date'));
-		$this->tpl->setVariable("ORDER_DATE",ilFormat::formatUnixTime(time(), true));
+		$this->tpl->setVariable("ORDER_DATE",ilDatePresentation::formatDate(new ilDateTime(time(),IL_CAL_UNIX)));
 
 		$this->tpl->setVariable("TXT_DURATION",$this->lng->txt('duration'));
 		include_once './payment/classes/class.ilPaymentPrices.php';
