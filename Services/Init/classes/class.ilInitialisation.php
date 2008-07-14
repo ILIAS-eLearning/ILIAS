@@ -79,10 +79,10 @@ class ilInitialisation
 		$ilBench =& new ilBenchmark();
 		$GLOBALS['ilBench'] =& $ilBench;
 
-		// BEGIN WebDAV: Measure response time until footer is displayed on form
-		// The stop statement is in class.ilTemplate.php function add ILIAS footer
+		// BEGIN Usability: Measure response time until footer is displayed on form
+		// The stop statement is in class.ilTemplate.php function addILIASfooter()
 		$ilBench->start("Core", "ElapsedTimeUntilFooter");
-		// END WebDAV: Measure response time until footer is displayed on form
+		// END Usability: Measure response time until footer is displayed on form
 
 		$ilBench->start("Core", "HeaderInclude");
 
