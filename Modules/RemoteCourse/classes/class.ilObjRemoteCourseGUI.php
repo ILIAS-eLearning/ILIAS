@@ -430,8 +430,9 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 	 			return $this->lng->txt('crs_unlimited');
 	 		
 	 		case ilObjRemoteCourse::ACTIVATION_LIMITED:
-	 			return $this->lng->txt('crs_from').' '.ilFormat::formatUnixTime($this->object->getStartingTime(),true).
-	 				'<br /> '.$this->lng->txt('crs_to').' '.ilFormat::formatUnixTime($this->object->getEndingTime(),true);
+	 			return ilDatePresentation::formatDateDuration(
+	 				new ilDateTime($this->object->getStartingTime(),IL_CAL_UNIX),
+	 				new ilDateTime($this->object->getEndingTime(),IL_CAL_UNIX));
 	 	}
 	 	return '';
 	}

@@ -2195,14 +2195,12 @@ class ilObjGroupGUI extends ilContainerGUI
 				$info->addProperty($this->lng->txt("group_registration_time"),
 								   $this->lng->txt('cal_until').' '.
 								   ilDatePresentation::formatDate($this->object->getRegistrationEnd()));
-								   #ilFormat::formatUnixTime($this->object->getRegistrationEnd()->getUnixTime(),true));
 			}
 			elseif($this->object->getRegistrationStart()->getUnixTime() >= time())
 			{
 				$info->addProperty($this->lng->txt("group_registration_time"),
 								   $this->lng->txt('cal_from').' '.
 								   ilDatePresentation::formatDate($this->object->getRegistrationStart()));
-								   #ilFormat::formatUnixTime($this->object->getRegistrationStart()->getUnixTime(),true));
 			}
 		}
 
