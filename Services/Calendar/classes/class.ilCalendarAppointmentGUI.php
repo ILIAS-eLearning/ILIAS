@@ -290,12 +290,15 @@ class ilCalendarAppointmentGUI
 		
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->setFormAction($this->ctrl->getFormAction($this));
 
 		$info->addSection($this->lng->txt('cal_details'));
 
 		// Appointment
 		$info->addProperty($this->lng->txt('appointment'),
-			ilFormat::formatDate($this->app->getStart()->get(IL_CAL_DATETIME,'',$ilUser->getUserTimeZone())));
+			ilDatePresentation::formatDateDuration(
+				$this->app->getStart(),
+				$this->app->getEnd()));
 		$info->addProperty($this->lng->txt('title'),$this->app->getPresentationTitle());
 
 		// Description

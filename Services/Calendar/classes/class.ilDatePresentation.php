@@ -119,12 +119,21 @@ class ilDatePresentation
 			{
 				$date_str = self::formatDate(
 					new ilDate($start->get(IL_CAL_DATE),IL_CAL_DATE));
-					
+				
 				$begin_time_info = $start->get(IL_CAL_FKT_GETDATE,'',$ilUser->getUserTimeZone());
 				$end_time_info = $end->get(IL_CAL_FKT_GETDATE,'',$ilUser->getUserTimeZone());
+
+				// $start == $end
+				if(ilDateTime::_equals($start,$end))
+				{
+					return $date_str.' '.sprintf('%02d',$begin_time_info['hours']).':'.sprintf('%02d',$begin_time_info['minutes']);
+				}
+				else
+				{
+					return $date_str.' '.sprintf('%02d',$begin_time_info['hours']).':'.sprintf('%02d',$begin_time_info['minutes']).' - '.
+						sprintf('%02d',$end_time_info['hours']).':'.sprintf('%02d',$end_time_info['minutes']);
+				}
 				
-				return $date_str.' '.sprintf('%02d',$begin_time_info['hours']).':'.sprintf('%02d',$begin_time_info['minutes']).' - '.
-					sprintf('%02d',$end_time_info['hours']).':'.sprintf('%02d',$end_time_info['minutes']);
 			}
 		}
 		// Different days

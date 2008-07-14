@@ -120,12 +120,12 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 		if($a_set['fullday'])
 		{
 			$start = new ilDate($a_set['begin'],IL_CAL_UNIX);
-			$this->tpl->setVariable('VAL_BEGIN',ilFormat::formatDate($start->get(IL_CAL_DATE),'date'));
+			$this->tpl->setVariable('VAL_BEGIN',ilDatePresentation::formatDate($start));
 		}
 		else
 		{
 			$start = new ilDateTime($a_set['begin'],IL_CAL_UNIX,'UTC');
-			$this->tpl->setVariable('VAL_BEGIN',ilFormat::formatDate($start->get(IL_CAL_DATETIME,'',$ilUser->getUserTimeZone()),'datetime'));
+			$this->tpl->setVariable('VAL_BEGIN',ilDatePresentation::formatDate($start));
 		}
 		if($a_set['duration'])
 		{
@@ -136,7 +136,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_DURATION','');
 		}
 		$update = new ilDateTime($a_set['last_update'],IL_CAL_UNIX,$ilUser->getUserTimeZone());
-		$this->tpl->setVariable('VAL_LAST_UPDATE',ilFormat::formatDate($update->get(IL_CAL_DATETIME,'',$ilUser->getUserTimeZone()),'datetime'));
+		$this->tpl->setVariable('VAL_LAST_UPDATE',ilDatePresentation::formatDate($update));
 		
 		
 	}

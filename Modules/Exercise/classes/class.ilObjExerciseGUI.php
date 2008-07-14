@@ -847,8 +847,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("TXT_MAIL_SENT",
 							sprintf($this->lng->txt("exc_sent_at"),
-							ilFormat::formatDate($st, "datetime", true)
-							));
+							ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
 					}
 					else
 					{
@@ -863,7 +862,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$this->object->getLastSubmission($member_id);
 				if ($last_sub)
 				{
-					$last_sub = ilFormat::formatDate($last_sub, "datetime", true);
+					$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATE));
 				}
 				else
 				{
@@ -949,8 +948,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("status_date");
 					$this->tpl->setVariable("TXT_LAST_CHANGE", $this->lng->txt("last_change"));
-					$this->tpl->setVariable("VAL_STATUS_DATE",
-						ilFormat::formatDate($sd, "datetime", true));
+					$this->tpl->setVariable('VAL_STATUS_DATE',
+						ilDatePresentation::formatDate(new ilDateTime($sd,IL_CAL_DATETIME)));
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("member_row");
 				}
@@ -980,7 +979,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("feedback_date");
 					$this->tpl->setVariable("TXT_FEEDBACK_MAIL_SENT",
 						sprintf($this->lng->txt("exc_sent_at"),
-						ilFormat::formatDate($ft, "datetime", true)));
+						ilDatePresentation::formatDate(new ilDateTime($ft,IL_CAL_DATETIME))));
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("member_row");
 				}
@@ -1598,11 +1597,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// schedule
 		$info->addSection($this->lng->txt("exc_schedule"));
-		// BEGIN Usability: Use ilFormat to format date consistently
-		require_once 'classes/class.ilFormat.php';
 		$info->addProperty($this->lng->txt("exc_edit_until"),
-			ilFormat::formatDate(ilFormat::unixtimestamp2datetime($this->object->getTimestamp()), 'datetime', true));
-		// END Usability: Use ilFormat to format date consistently
+			ilDatePresentation::formatDate(new ilDateTime($this->object->getTimestamp(),IL_CAL_UNIX)));
 		
 		if ($this->object->getTimestamp()-time() <= 0)
 		{
@@ -1670,7 +1666,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$last_sub = $this->object->getLastSubmission($ilUser->getId());
 			if ($last_sub)
 			{
-				$last_sub = ilFormat::formatDate($last_sub, "datetime", true);
+				$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
 			}
 			else
 			{

@@ -5030,7 +5030,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$a_item_data['timing_type'] != IL_CRS_TIMINGS_FIXED)
 		{
 			$long = $a_item_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION;
-			$activation = ilDateDuration::formatDateDuration(
+			$activation = ilDatePresentation::formatDateDuration(
 				new ilDateTime($a_item_data['start'],IL_CAL_UNIX),
 				new ilDateTime($a_item_data['end'],IL_CAL_UNIX));
 		}

@@ -87,7 +87,7 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('FIRSTNAME',$name['firstname']);
 		
 		$this->tpl->setVariable('APPS_COUNT',$a_set['apps']);
-		$this->tpl->setVariable('CREATE_DATE',ilFormat::fmtDatetime($a_set['create_date'],'',''));
+		$this->tpl->setVariable('CREATE_DATE',ilDatePresentation::formatDate(new ilDateTime($a_set['create_date'],IL_CAL_DATETIME)));
 		
 		if($a_set['accepted'])
 		{

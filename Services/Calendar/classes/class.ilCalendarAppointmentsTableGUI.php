@@ -135,12 +135,12 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 		if($a_set['fullday'])
 		{
 			$start = new ilDate($a_set['begin'],IL_CAL_UNIX);
-			$this->tpl->setVariable('VAL_BEGIN',ilFormat::formatDate($start->get(IL_CAL_DATE),'date'));
+			$this->tpl->setVariable('VAL_BEGIN',ilDatePresentation::formatDate($start));
 		}
 		else
 		{
 			$start = new ilDateTime($a_set['begin'],IL_CAL_UNIX,'UTC');
-			$this->tpl->setVariable('VAL_BEGIN',ilFormat::formatDate($start->get(IL_CAL_DATETIME,'',$ilUser->getUserTimeZone()),'datetime'));
+			$this->tpl->setVariable('VAL_BEGIN',ilDatePresentation::formatDate($start));
 		}
 		if($a_set['duration'])
 		{
