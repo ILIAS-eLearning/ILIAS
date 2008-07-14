@@ -464,7 +464,8 @@ class ilMail
 			$tpl->setCurrentBlock('mails');
 			$tpl->setVariable('NR', $counter + 1);			
 			$tpl->setVariable('TXT_SENT', $this->lng->txt('sent'));
-			$tpl->setVariable('SEND_TIME', ilFormat::formatDate($mail['send_time']));
+			$tpl->setVariable('SEND_TIME', ilDatePresentation::formatDate(new ilDateTime($mail['send_time'],IL_CAL_DATETIME)));
+			
 			$tpl->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
 			$tpl->setVariable('SUBJECT', $mail['m_subject']);		
 			$tpl->parseCurrentBlock();

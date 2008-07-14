@@ -94,13 +94,13 @@ class ilNewsForContextTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock("ni_update");
 			$this->tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
 			$this->tpl->setVariable("VAL_LAST_UPDATE",
-				ilFormat::formatDate($a_set["update_date"], "datetime", true));
+				ilDatePresentation::formatDate(new ilDateTime($a_set["update_date"],IL_CAL_DATETIME)));
 			$this->tpl->parseCurrentBlock();
 		}
 		
 		// creation date
 		$this->tpl->setVariable("VAL_CREATION_DATE",
-			ilFormat::formatDate($a_set["creation_date"], "datetime", true));
+			ilDatePresentation::formatDate(new ilDateTime($a_set["creation_date"],IL_CAL_UNIX)));
 		$this->tpl->setVariable("TXT_CREATED", $lng->txt("created"));
 		
 		// title

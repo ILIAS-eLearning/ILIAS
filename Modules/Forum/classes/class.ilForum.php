@@ -1295,13 +1295,8 @@ class ilForum
     function convertDate($date)
     {
         global $lng;
-		
-		if ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
-        {
-			return  $lng->txt("today").", ".ilFormat::formatDate($date,"time", true);
-		}
-		
-		return ilFormat::formatDate($date, "datetime", true);
+        
+        return ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_DATETIME));
     }
 	
 	/**

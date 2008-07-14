@@ -342,7 +342,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$info->addSection($this->lng->txt("trac_user_data"));
 			$info->addProperty($this->lng->txt('username'),$this->tracked_user->getLogin());
 			$info->addProperty($this->lng->txt('name'),$this->tracked_user->getFullname());
-			$info->addProperty($this->lng->txt('last_login'),ilFormat::formatDate($this->tracked_user->getLastLogin()));
+			$info->addProperty($this->lng->txt('last_login'),
+				ilDatePresentation::formatDate(new ilDateTime($this->tracked_user->getLastLogin(),IL_CAL_DATETIME)));
 			$info->addProperty($this->lng->txt('trac_total_online'),
 							   ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($this->tracked_user->getId())));
 		}

@@ -706,7 +706,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					
 					if ($key == "last_login")
 					{
-						$val = ilFormat::formatDate($val);
+						$val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
 					}
 
 					if ($key != "access_until")

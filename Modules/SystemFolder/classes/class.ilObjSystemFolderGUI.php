@@ -162,7 +162,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 											);
 
 			unset($this->data["data"][$key]["ref_id"]);
-			//$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
 
 		//var_dump("<pre>",$this->data,"</pre>");

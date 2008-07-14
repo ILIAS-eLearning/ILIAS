@@ -357,7 +357,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->tpl->setCurrentBlock("long");
 			//$this->tpl->setVariable("VAL_CONTENT", $news["content"]);
 			$this->tpl->setVariable("VAL_CREATION_DATE",
-				ilFormat::formatDate($news["creation_date"], "datetime", true));
+				ilDatePresentation::formatDate(new ilDateTime($news["creation_date"],IL_CAL_DATETIME)));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -598,7 +598,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				$tpl->setCurrentBlock("ni_update");
 				$tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
 				$tpl->setVariable("VAL_LAST_UPDATE",
-					ilFormat::formatDate($item["update_date"], "datetime", true));
+					ilDatePresentation::formatDate(new ilDateTime($item["update_date"],IL_CAL_DATETIME)));
 				$tpl->parseCurrentBlock();
 			}
 			
@@ -607,7 +607,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			{
 				$tpl->setCurrentBlock("ni_update");
 				$tpl->setVariable("VAL_CREATION_DATE",
-					ilFormat::formatDate($item["creation_date"], "datetime", true));
+					ilDatePresentation::formatDate(new ilDateTime($item["creation_date"],IL_CAL_DATETIME)));
 				$tpl->setVariable("TXT_CREATED", $lng->txt("created"));
 				$tpl->parseCurrentBlock();
 			}

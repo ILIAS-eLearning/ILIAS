@@ -130,7 +130,8 @@ class ilPDMailGUI
 		
 		// DATE
 		$tpl->setVariable("TXT_DATE", $lng->txt("date"));
-		$tpl->setVariable("DATE", ilFormat::formatDate($mail_data["send_time"]));
+		$tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($mail_date['send_time'],IL_CAL_DATETIME)));
+		
 		
 		// ATTACHMENTS
 		/*

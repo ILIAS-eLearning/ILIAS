@@ -84,7 +84,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 											);		
 
 			unset($this->data["data"][$key]["obj_id"]);
-			$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
+			$this->data["data"][$key]["last_change"] = ilDatePresentation::formatDate(new ilDateTime($this->data["data"][$key]["last_change"],IL_CAL_DATETIME));
 		}
 
 		$this->displayList(); 	

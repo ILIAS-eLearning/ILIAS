@@ -626,7 +626,7 @@ class ilLPItemListGUI
 			$writer->xmlStartTag('InfoRow');
 			$writer->xmlElement('InfoColumn',array('Style' => 'option'),$this->lng->txt('last_login'));
 			$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
-								ilFormat::formatDate(ilObjUser::_lookupLastLogin($this->getCurrentUser())));
+								ilDatePresentation::formatDate(new ilDateTime(ilObjUser::_lookupLastLogin($this->getCurrentUser(),IL_CAL_DATETIME))));
 			$writer->xmlEndTag('InfoRow');
 
 			include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
@@ -699,7 +699,7 @@ class ilLPItemListGUI
 					if($progress['access_time'])
 					{
 						$writer->xmlElement('InfoColumn',array('Style' => 'option_value'),
-											ilFormat::formatDate($progress['access_time'],true));
+											ilDatePresentation::formatDate(new ilDateTime($progress['access_time'],IL_CAL_DATETIME)));
 					}
 					else
 					{

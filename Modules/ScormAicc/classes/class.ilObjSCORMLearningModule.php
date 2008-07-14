@@ -288,7 +288,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		while($sco_rec = $sco_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{	
 			if ($sco_rec['last_access'] != 0) {
-				$sco_rec['last_access'] = ilFormat::formatDate(date("Y-m-d H:i:s", $sco_rec['last_access']));
+				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_UNIX));
 			} else {
 				$sco_rec['last_access'] = "";
 			}	
