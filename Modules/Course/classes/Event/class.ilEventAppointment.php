@@ -168,8 +168,6 @@ class ilEventAppointment implements ilDatePeriod
 
 	function _appointmentToString($start,$end,$fulltime)
 	{
-		global $lng;
-
 		$start_day = date('j',$start);
 		$start_month = date('n',$start);
 		$start_year = date('Y',$start);

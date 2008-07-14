@@ -254,6 +254,7 @@ class ilSessionOverviewGUI
 		
 		foreach($events as $event_obj)
 		{			
+			// TODO: do not export relative dates
 			$this->csv->addColumn($event_obj->getTitle().' ('.$event_obj->getFirstAppointment()->appointmentToString().')');
 		}
 		
@@ -278,8 +279,8 @@ class ilSessionOverviewGUI
 			
 			$this->csv->addRow();
 		}
-		
-		ilUtil::deliverData($this->csv->getCSVString(), date("Y_m_d")."_course_events.csv", "text/csv");
+		$date = new ilDate(time(),IL_CAL_UNIX);
+		ilUtil::deliverData($this->csv->getCSVString(),$date->get(IL_CAL_FKT_DATE,'Y-m-d')."_course_events.csv", "text/csv");
 	}
 }
 ?>

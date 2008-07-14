@@ -229,7 +229,8 @@ class ilCourseArchivesGUI
 
 			$this->tpl->setVariable("VAL_NAME",$link);
 			$this->tpl->setVariable("VAL_SIZE",$archive_data['archive_size']);
-			$this->tpl->setVariable("VAL_DATE",ilFormat::formatUnixTime($archive_data['archive_name'],true));
+			$this->tpl->setVariable('VAL_DATE',ilDatePresentation::formatDate(new ilDateTime($archive_data['archive_name'],IL_CAL_UNIX)));
+			
 			if($archive_data["archive_lang"])
 			{
 				$this->tpl->setVariable("VAL_LANG",$this->lng->txt('lang_'.$archive_data["archive_lang"]));

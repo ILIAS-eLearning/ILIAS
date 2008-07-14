@@ -210,44 +210,20 @@ class ilSessionAppointment implements ilDatePeriod
 	{
 		global $lng;
 
-		$start_day = date('j',$start);
-		$start_month = date('n',$start);
-		$start_year = date('Y',$start);
-
-		$end_day = date('j',$end);
-		$end_month = date('n',$end);
-		$end_year = date('Y',$end);
-
-		if($start_day == $end_day and
-		   $start_month == $end_month and
-		   $start_year == $end_year)
+		if($fulltime)
 		{
-			$date_time = ilFormat::formatUnixTime($start,false);
-			if(!$fulltime)
-			{
-				$date_time .= (' '.ilSessionAppointment::_timeToString($start,$end));
-			}
-			else
-			{
-				$date_time .= (' ('.$lng->txt('event_full_time_info').')');
-			}
+			return ilDatePresentation::formatDateDuration(
+				new ilDate($start,IL_CAL_UNIX),
+				new ilDate($end,IL_CAL_UNIX)).' ('.$lng->txt('event_full_time_info').')';
 		}
 		else
 		{
-			if(!$fulltime)
-			{
-				$date_time = ilFormat::formatUnixTime($start,true) . ' - '.
-					ilFormat::formatUnixTime($end,true);
-			}
-			else
-			{
-				$date_time = ilFormat::formatUnixTime($start,false) . ' - '.
-					ilFormat::formatUnixTime($end,false);
-				$date_time .= (' ('.$lng->txt('event_full_time_info').')');
-			}
+			return ilDatePresentation::formatDateDuration(
+				new ilDateTime($start,IL_CAL_UNIX),
+				new ilDateTime($end,IL_CAL_UNIX));
 		}
-		return $date_time;
 	}
+
 	function appointmentToString()
 	{
 		return ilSessionAppointment::_appointmentToString($this->getStartingTime(),$this->getEndingTime(),$this->enabledFullTime());

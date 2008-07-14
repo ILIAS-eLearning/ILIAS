@@ -1447,6 +1447,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		global $rbacsystem;
 
+		$this->tabs_gui->setTabActive('export');
+
 		$this->lng->loadLanguageModule('content');
 
 		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
@@ -1522,7 +1524,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->tpl->setVariable("CHECKBOX_ID",$exp_file["file"]);
 
 			$file_arr = explode("__", $exp_file["file"]);
-			$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+			$this->tpl->setVariable('TXT_DATE',ilDatePresentation::formatDate(new ilDateTime($file_arr[0],IL_CAL_UNIX)));
+
 
 			$this->tpl->parseCurrentBlock();
 		}
