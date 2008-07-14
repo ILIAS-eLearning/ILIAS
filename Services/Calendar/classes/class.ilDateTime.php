@@ -147,13 +147,13 @@ class ilDateTime
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
-				return $start->get(IL_CAL_FKT_DATE,'Y') < $end->get(IL_CAL_FKT_DATE,'Y');
+				return $start->get(IL_CAL_FKT_DATE,'Y','UTC') < $end->get(IL_CAL_FKT_DATE,'Y','UTC');
 				
 			case IL_CAL_MONTH:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ym') < $end->get(IL_CAL_FKT_DATE,'Ym');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym','UTC') < $end->get(IL_CAL_FKT_DATE,'Ym','UTC');
 			
 			case IL_CAL_DAY:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd') < $end->get(IL_CAL_FKT_DATE,'Ymd');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd','UTC') < $end->get(IL_CAL_FKT_DATE,'Ymd','UTC');
 
 			case '':
 			default:
@@ -177,13 +177,13 @@ class ilDateTime
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
-				return $start->get(IL_CAL_FKT_DATE,'Y') == $end->get(IL_CAL_FKT_DATE,'Y');
+				return $start->get(IL_CAL_FKT_DATE,'Y','UTC') == $end->get(IL_CAL_FKT_DATE,'Y','UTC');
 
 			case IL_CAL_MONTH:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ym') == $end->get(IL_CAL_FKT_DATE,'Ym');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym','UTC') == $end->get(IL_CAL_FKT_DATE,'Ym','UTC');
 
 			case IL_CAL_DAY:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd') == $end->get(IL_CAL_FKT_DATE,'Ymd');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd','UTC') == $end->get(IL_CAL_FKT_DATE,'Ymd','UTC');
 
 			case '':
 			default:
@@ -208,13 +208,13 @@ class ilDateTime
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
-				return $start->get(IL_CAL_FKT_DATE,'Y') > $end->get(IL_CAL_FKT_DATE,'Y');
+				return $start->get(IL_CAL_FKT_DATE,'Y','UTC') > $end->get(IL_CAL_FKT_DATE,'Y','UTC');
 
 			case IL_CAL_MONTH:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ym') > $end->get(IL_CAL_FKT_DATE,'Ym');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym','UTC') > $end->get(IL_CAL_FKT_DATE,'Ym','UTC');
 
 			case IL_CAL_DAY:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd') > $end->get(IL_CAL_FKT_DATE,'Ymd');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd','UTC') > $end->get(IL_CAL_FKT_DATE,'Ymd','UTC');
 
 			case '':
 			default:

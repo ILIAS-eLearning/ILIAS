@@ -117,6 +117,7 @@ class ilInitialisation
 		require_once "classes/class.ilias.php";
 		require_once './Services/User/classes/class.ilObjUser.php';
 		require_once "classes/class.ilFormat.php";
+		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
 		require_once "classes/class.ilSaxParser.php";
 		require_once "./Services/Object/classes/class.ilObjectDefinition.php";
 		require_once "./Services/Style/classes/class.ilStyleDefinition.php";

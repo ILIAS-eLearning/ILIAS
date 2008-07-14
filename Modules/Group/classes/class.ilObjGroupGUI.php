@@ -878,7 +878,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				if(isset($progress[$usr_id]['ts']) and $progress[$usr_id]['ts'])
 				{
-					$tmp_data['access_time'] = ilFormat::formatDate($progress[$usr_id]['ts'],'datetime',true);
+					$tmp_data['access_time'] = ilDatePresentation::formatDate(
+						new ilDateTime($progress[$usr_id]['ts'],IL_CAL_DATETIME));
 				}
 				else
 				{
@@ -2190,13 +2191,15 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				$info->addProperty($this->lng->txt("group_registration_time"),
 								   $this->lng->txt('cal_until').' '.
-								   ilFormat::formatUnixTime($this->object->getRegistrationEnd()->getUnixTime(),true));
+								   ilDatePresentation::formatDate($this->object->getRegistrationEnd()));
+								   #ilFormat::formatUnixTime($this->object->getRegistrationEnd()->getUnixTime(),true));
 			}
 			elseif($this->object->getRegistrationStart()->getUnixTime() >= time())
 			{
 				$info->addProperty($this->lng->txt("group_registration_time"),
 								   $this->lng->txt('cal_from').' '.
-								   ilFormat::formatUnixTime($this->object->getRegistrationStart()->getUnixTime(),true));
+								   ilDatePresentation::formatDate($this->object->getRegistrationStart()));
+								   #ilFormat::formatUnixTime($this->object->getRegistrationStart()->getUnixTime(),true));
 			}
 		}
 

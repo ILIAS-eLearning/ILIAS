@@ -443,8 +443,10 @@ class ilInfoScreenGUI
 		}
 		$this->addSection($lng->txt("description"));
 
-		$this->addProperty($lng->txt("create_date"), ilFormat::formatDate(
-			$this->obj_section_obj->getCreateDate()));
+		$this->addProperty(
+			$lng->txt("create_date"),
+			ilDatePresentation::formatDate(new ilDateTime($this->obj_section_obj->getCreateDate(),IL_CAL_DATETIME)));
+			#ilFormat::formatDate($this->obj_section_obj->getCreateDate()));
 
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
