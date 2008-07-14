@@ -140,20 +140,21 @@ class ilDateTime
 	 * @param object ilDateTime
 	 * @param object ilDateTime
 	 * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is one or more years earlier than end 
+	 * @param string timezone
 	 * @return bool 
 	 */
-	public static function _before(ilDateTime $start,ilDateTime $end,$a_compare_field = '')
+	public static function _before(ilDateTime $start,ilDateTime $end,$a_compare_field = '',$a_tz = '')
 	{
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
-				return $start->get(IL_CAL_FKT_DATE,'Y','UTC') < $end->get(IL_CAL_FKT_DATE,'Y','UTC');
+				return $start->get(IL_CAL_FKT_DATE,'Y',$a_tz) < $end->get(IL_CAL_FKT_DATE,'Y',$a_tz);
 				
 			case IL_CAL_MONTH:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ym','UTC') < $end->get(IL_CAL_FKT_DATE,'Ym','UTC');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym',$a_tz) < $end->get(IL_CAL_FKT_DATE,'Ym',$a_tz);
 			
 			case IL_CAL_DAY:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd','UTC') < $end->get(IL_CAL_FKT_DATE,'Ymd','UTC');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd',$a_tz) < $end->get(IL_CAL_FKT_DATE,'Ymd',$a_tz);
 
 			case '':
 			default:
@@ -171,19 +172,20 @@ class ilDateTime
 	 * @param object ilDateTime
 	 * @param object ilDateTime
 	 * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is the same years than end 
+	 * @param string timzone
 	 */
-	public static function _equals(ilDateTime $start,ilDateTime $end,$a_compare_field = '')
+	public static function _equals(ilDateTime $start,ilDateTime $end,$a_compare_field = '',$a_tz = '')
 	{
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
-				return $start->get(IL_CAL_FKT_DATE,'Y','UTC') == $end->get(IL_CAL_FKT_DATE,'Y','UTC');
+				return $start->get(IL_CAL_FKT_DATE,'Y',$a_tz) == $end->get(IL_CAL_FKT_DATE,'Y',$a_tz);
 
 			case IL_CAL_MONTH:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ym','UTC') == $end->get(IL_CAL_FKT_DATE,'Ym','UTC');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym',$a_tz) == $end->get(IL_CAL_FKT_DATE,'Ym',$a_tz);
 
 			case IL_CAL_DAY:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd','UTC') == $end->get(IL_CAL_FKT_DATE,'Ymd','UTC');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd',$a_tz) == $end->get(IL_CAL_FKT_DATE,'Ymd',$a_tz);
 
 			case '':
 			default:
@@ -201,20 +203,21 @@ class ilDateTime
 	 * @param object ilDateTime
 	 * @param object ilDateTime 
 	 * @param string field used for comparison. E.g <code>IL_CAL_YEAR</code> checks if start is one or more years after than end 
+	 * @param string timezone
 	 * @static
 	 */
-	public static function _after(ilDateTime $start,ilDateTime $end,$a_compare_field = '')
+	public static function _after(ilDateTime $start,ilDateTime $end,$a_compare_field = '',$a_tz = '')
 	{
 		switch($a_compare_field)
 		{
 			case IL_CAL_YEAR:
-				return $start->get(IL_CAL_FKT_DATE,'Y','UTC') > $end->get(IL_CAL_FKT_DATE,'Y','UTC');
+				return $start->get(IL_CAL_FKT_DATE,'Y',$a_tz) > $end->get(IL_CAL_FKT_DATE,'Y',$a_tz);
 
 			case IL_CAL_MONTH:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ym','UTC') > $end->get(IL_CAL_FKT_DATE,'Ym','UTC');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ym',$a_tz) > $end->get(IL_CAL_FKT_DATE,'Ym',$a_tz);
 
 			case IL_CAL_DAY:
-				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd','UTC') > $end->get(IL_CAL_FKT_DATE,'Ymd','UTC');
+				return (int) $start->get(IL_CAL_FKT_DATE,'Ymd',$a_tz) > $end->get(IL_CAL_FKT_DATE,'Ymd',$a_tz);
 
 			case '':
 			default:

@@ -132,10 +132,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			$tpl = new ilTemplate('tpl.registration_period_form.html',true,true,'Services/Membership');
 			$tpl->setVariable('TXT_FIRST',$this->lng->txt('mem_start'));
-			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($start->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('FIRST',ilDatePresentation::formatDate($start));
 			
 			$tpl->setVariable('TXT_END',$this->lng->txt('mem_end'));
-			$tpl->setVariable('END',ilFormat::formatUnixTime($end->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('END',ilDatePresentation::formatDate($end));
 			
 			$warning = $this->lng->txt('mem_reg_not_started');
 		}
@@ -143,10 +143,11 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			$tpl = new ilTemplate('tpl.registration_period_form.html',true,true,'Services/Membership');
 			$tpl->setVariable('TXT_FIRST',$this->lng->txt('mem_start'));
-			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($start->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('FIRST',ilDatePresentation::formatDate($start));
 			
 			$tpl->setVariable('TXT_END',$this->lng->txt('mem_end'));
-			$tpl->setVariable('END',ilFormat::formatUnixTime($end->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('END',ilDatePresentation::formatDate($end));
+			
 			
 			$warning = $this->lng->txt('mem_reg_expired');
 		}
@@ -154,7 +155,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			$tpl = new ilTemplate('tpl.registration_period_form.html',true,true,'Services/Membership');
 			$tpl->setVariable('TXT_FIRST',$this->lng->txt('mem_end'));
-			$tpl->setVariable('FIRST',ilFormat::formatUnixTime($end->get(IL_CAL_UNIX),true));
+			$tpl->setVariable('FIRST',ilDatePresentation::formatDate($end));
 		}
 		
 		$reg = new ilCustomInputGUI($this->lng->txt('mem_reg_period'));

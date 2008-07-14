@@ -120,7 +120,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
 				
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_NAME',$a_set['name']);
-		$this->tpl->setVariable('VAL_SUBTIME',ilFormat::formatUnixTime($a_set['sub_time'],true));
+		#$this->tpl->setVariable('VAL_SUBTIME',ilFormat::formatUnixTime($a_set['sub_time'],true));
+		$this->tpl->setVariable('VAL_SUBTIME',ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'],IL_CAL_UNIX)));
 		$this->tpl->setVariable('VAL_LOGIN',$a_set['login']);
 		
 		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['id']);

@@ -318,7 +318,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 			$date = explode("-", $this->getDate());
 			$a_tpl->setVariable("DATE_SELECT",
 				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date[0], $date[1], $date[2],
-					'','',array('disabled' => $this->getDisabled())));
+					'',true,array('disabled' => $this->getDisabled())));
 			$a_tpl->parseCurrentBlock();
 				
 		}
