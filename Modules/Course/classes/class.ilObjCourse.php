@@ -745,10 +745,6 @@ class ilObjCourse extends ilContainer
 		$lp_collection = new ilLPCollections($this->getId());
 		$lp_collection->cloneCollections($a_target_id,$a_copy_id);		
 	 	
-		// Clone events including assigned materials
-		include_once('Modules/Course/classes/Event/class.ilEvent.php');
-		ilEvent::_cloneEvent($this->getId(),$ilObjDataCache->lookupObjId($a_target_id),$a_copy_id);
-
 	 	return true;
 	}
 	
@@ -911,9 +907,6 @@ class ilObjCourse extends ilContainer
 
 		include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 		ilObjCourseGrouping::_deleteAll($this->getId());
-
-		include_once './Modules/Course/classes/Event/class.ilEvent.php';
-		ilEvent::_deleteAll($this->getId());
 
 		include_once './Modules/Course/classes/class.ilCourseFile.php';
 		ilCourseFile::_deleteByCourse($this->getId());

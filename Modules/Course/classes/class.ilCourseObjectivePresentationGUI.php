@@ -29,7 +29,7 @@
 * 
 * @extends ilObjectGUI
 * 
-* @ilCtrl_Calls ilCourseObjectivePresentationGUI: ilEventAdministrationGUI
+* @ilCtrl_Calls ilCourseObjectivePresentationGUI: 
 * 
 */
 
@@ -73,15 +73,6 @@ class ilCourseObjectivePresentationGUI
 		$next_class = $this->ctrl->getNextClass();
 		switch($next_class)
 		{
-			
-			case 'ileventadministrationgui':
-				include_once 'Modules/Course/classes/Event/class.ilEventAdministrationGUI.php';
-
-				$this->ctrl->setReturn($this,'');
-				$event_gui = new ilEventAdministrationGUI($this->container_gui,(int) $_GET['event_id']);
-				$this->ctrl->forwardCommand($event_gui);
-				break;
-
 			default:
 				$cmd = $this->ctrl->getCmd();
 				if (!$cmd = $this->ctrl->getCmd())
@@ -133,9 +124,6 @@ class ilCourseObjectivePresentationGUI
 		$this->__showTests();
 		$ilBench->stop('Objectives','Objectives_tests');
 
-		$ilBench->start('Objectives','Objectives_sessions');
-		$this->__showSessions();
-		$ilBench->stop('Objectives','Objectives_sessions');
 
 		// (5) show other resources
 		$ilBench->start('Objectives','Objectives_or');
@@ -514,88 +502,6 @@ class ilCourseObjectivePresentationGUI
 			++$counter;
 		}
 	}
-	
-	function __showSessions()
-	{
-		global $ilUser;
-
-		include_once('./Modules/Course/classes/Event/class.ilEvent.php');
-		include_once('./Modules/Course/classes/Event/class.ilEventParticipants.php');
-		
-		if(!count($event_objs = ilEvent::_getEvents($this->container_obj->getId())))
-		{
-			return true;
-		}
-		$this->tpl->addBlockfile('SESSION_BLOCK','session_block','tpl.crs_objectives_view_session_table.html','Modules/Course');
-		$this->tpl->setVariable("TBL_TITLE_SESSION",$this->lng->txt('events'));
-		
-		$this->__showHideLinks('session');
-
-		if(isset($_SESSION['crs_hide_session']))
-		{
-			return true;
-		}
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_SESSION_1","75%");
-		$this->tpl->setVariable("TBL_HEADER_NAME_SESSION_1",$this->lng->txt('description'));
-
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_SESSION","5%");
-		$this->tpl->setVariable("TBL_HEADER_NAME_SESSION",$this->lng->txt('crs_nr'));
-
-		$this->tpl->setVariable("TBL_HEADER_WIDTH_SESSION_2","20%");
-		$this->tpl->setVariable("TBL_HEADER_NAME_SESSION_2",'');
-		
-		$counter = 1;
-		foreach($event_objs as $event_obj)
-		{
-			if(strlen($event_obj->getDescription()))
-			{
-				$this->tpl->setCurrentBlock('session_desc_block');
-				$this->tpl->setVariable('SESSION_DESC',$event_obj->getDescription());
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setVariable("READ_TITLE_SESSION",$event_obj->getTitle());
-			$this->tpl->setVariable("READ_TARGET_SESSION",'');
-	
-			$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-			$this->tpl->setVariable("READ_LINK_SESSION",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','info'));
-			
-			$this->tpl->setCurrentBlock("session_link");
-			$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-			$this->tpl->setVariable("LINK_SESSION",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','info'));
-			$this->tpl->setVariable("TXT_LINK_SESSION",$this->lng->txt('info_short'));
-			$this->tpl->parseCurrentBlock();
-			
-			if($event_obj->enabledRegistration() and ilEventParticipants::_isRegistered($ilUser->getId(),$event_obj->getEventId()))
-			{
-				$this->tpl->setCurrentBlock("session_link");
-				$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-				$this->tpl->setVariable("LINK_SESSION",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','unregister'));
-				$this->tpl->setVariable("TXT_LINK_SESSION",$this->lng->txt('event_unregister'));
-				$this->tpl->parseCurrentBlock();
-			}
-			elseif($event_obj->enabledRegistration())
-			{
-				$this->tpl->setCurrentBlock("session_link");
-				$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$event_obj->getEventId());
-				$this->tpl->setVariable("LINK_SESSION",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','register'));
-				$this->tpl->setVariable("TXT_LINK_SESSION",$this->lng->txt('event_register'));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("session_row");
-			$this->tpl->setVariable('TXT_EVENT_DATE',$this->lng->txt('event_date'));
-			$first_appointment =& $event_obj->getFirstAppointment();
-			$this->tpl->setVariable('EVENT_DATE',$first_appointment->appointmentToString());			
-			$this->tpl->setVariable("OBJ_NR_SESSION",$counter.'.');
-			$this->tpl->setVariable("OBJ_CLASS_CENTER_SESSION",'option_value_center');
-			$this->tpl->setVariable("OBJ_CLASS_SESSION",'option_value');
-			$this->tpl->parseCurrentBlock();
-			
-			$counter++;
-		}
-	}
-	
 
 	function __showTests()
 	{

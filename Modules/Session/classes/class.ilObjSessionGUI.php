@@ -1186,7 +1186,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		{
 			if(!is_object($this->rec))
 			{
-				include_once('./Modules/Course/classes/Event/class.ilEventRecurrence.php');
+				include_once('./Modules/Session/classes/class.ilEventRecurrence.php');
 				$this->rec = new ilEventRecurrence();
 			}
 			include_once('./Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php');

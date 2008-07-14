@@ -570,6 +570,7 @@ class ilLPItemListGUI
 	{
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->setFormAction($this->ctrl->getFormActionByClass('illplistofprogressgui'));
 
 		$info->addSection($this->lng->txt('details'));
 

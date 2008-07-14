@@ -254,13 +254,6 @@ class ilPDFPresentation extends ilLearningProgressBaseGUI
 			return true;
 		}
 		
-		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
-		foreach(ilLPEventCollections::_getItems($ilObjDataCache->lookupObjId($a_item_id)) as $event_id)
-		{
-			$this->writer->xmlStartTag('Item');
-			$this->__renderContainerRow($a_item_id,$event_id,$a_usr_id,'event',$level+2);
-			$this->writer->xmlEndTag('Item');
-		}
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		foreach(ilLPCollectionCache::_getItems($ilObjDataCache->lookupObjId($a_item_id)) as $child_id)
 		{

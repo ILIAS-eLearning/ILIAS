@@ -34,7 +34,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilEventAdministrationGUI, ilSessionOverviewGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI
 *
 * 
@@ -4613,17 +4613,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('events');
 				$overview = new ilSessionOverviewGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($overview);				
-				break;
-				
-			case 'ileventadministrationgui':
-			
-				include_once('Modules/Course/classes/Event/class.ilEventAdministrationGUI.php');
-				$this->setSubTabs('members');
-				$this->tabs_gui->setTabActive('members');
-				$this->tabs_gui->setSubTabActive('events');
-				
-				$events = new ilEventAdministrationGUI($this);
-				$this->ctrl->forwardCommand($events);				
 				break;
 				
 			// container page editing

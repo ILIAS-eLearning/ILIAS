@@ -1236,7 +1236,7 @@ class ilObjUser extends ilObject
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		ilObjUserTracking::_deleteUser($this->getId());
 
-		include_once 'Modules/Course/classes/Event/class.ilEventParticipants.php';
+		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		ilEventParticipants::_deleteByUser($this->getId());
 
 		// Delete user defined field entries
