@@ -145,12 +145,13 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __showDetails()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache,$ilCtrl;
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_lm_details.html','Services/Tracking');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->setFormAction($ilCtrl->getFormAction($this));
 
 		$this->__appendUserInfo($info);
 		$this->__showObjectDetails($info,$this->details_obj_id);
@@ -162,12 +163,14 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __showContainerList()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache,$ilCtrl;
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_progress_container.html','Services/Tracking');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->setFormAction($ilCtrl->getFormAction($this));
+		
 
 		$this->__appendUserInfo($info);
 		$this->__showObjectDetails($info,$this->details_obj_id);
@@ -357,7 +360,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __showProgressList()
 	{
-		global $ilUser,$ilObjDataCache;
+		global $ilUser,$ilObjDataCache,$ilCtrl;
 
 		include_once './Services/Tracking/classes/ItemList/class.ilLPItemListFactory.php';
 
@@ -367,6 +370,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		// User info
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
+		$info->setFormAction($ilCtrl->getFormAction($this));
+		
 		$this->__appendUserInfo($info);
 		$this->tpl->setVariable("USER_INFO",$info->getHTML());
 
