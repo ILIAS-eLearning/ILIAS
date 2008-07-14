@@ -66,6 +66,8 @@ class ilObjSession extends ilObject
 		$this->db = $ilDB;
 	}
 	
+	
+	
 	/**
 	 * lookup registration enabled
 	 *

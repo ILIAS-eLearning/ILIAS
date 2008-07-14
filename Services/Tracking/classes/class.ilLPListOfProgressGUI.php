@@ -196,13 +196,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tpl->setVariable('HEAD_TIME_PASSED',$this->lng->txt('trac_time_passed'));
 		}
 		$this->container_row_counter = 0;
-		// show events
-		include_once './Services/Tracking/classes/class.ilLPEventCollections.php';
-		foreach(ilLPEventCollections::_getItems($this->details_obj_id) as $event_id)
-		{
-			$this->__renderContainerRow($this->details_id,$event_id,'event',0);
-		}
-		// show items
 
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 		foreach(ilLPCollectionCache::_getItems($this->details_obj_id) as $item_id)

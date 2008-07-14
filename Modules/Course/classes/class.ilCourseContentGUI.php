@@ -21,10 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-include_once './Modules/Course/classes/Event/class.ilEvent.php';
-
-
 /**
 * Class ilCourseContentGUI
 *
@@ -34,7 +30,7 @@ include_once './Modules/Course/classes/Event/class.ilEvent.php';
 * @extends ilObjectGUI
 *
 * @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI, ilCourseObjectivePresentationGUI, ilCourseItemAdministrationGUI
-* @ilCtrl_Calls ilCourseContentGUI: ilEventAdministrationGUI, ilColumnGUI
+* @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI
 *
 */
 class ilCourseContentGUI
@@ -98,14 +94,6 @@ class ilCourseContentGUI
 
 			case 'ilcourseobjectivepresentationgui':
 				$this->view();				// forwarding moved to getCenterColumnHTML()
-				break;
-
-			case 'ileventadministrationgui':
-				include_once 'Modules/Course/classes/Event/class.ilEventAdministrationGUI.php';
-
-				$this->ctrl->setReturn($this,'');
-				$event_gui = new ilEventAdministrationGUI($this->container_gui,(int) $_GET['event_id']);
-				$this->ctrl->forwardCommand($event_gui);
 				break;
 
 			case "ilcolumngui":
@@ -460,7 +448,6 @@ class ilCourseContentGUI
 		global $rbacsystem;
 
 		include_once './classes/class.ilObjectListGUIFactory.php';
-		include_once './Modules/Course/classes/Event/class.ilEvent.php';
 
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_page.html",
 		//	"Services/Container");
@@ -1216,7 +1203,7 @@ class ilCourseContentGUI
 
 	function __editAdvancedUserTimings()
 	{
-		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Session/classes/class.ilEvent.php';
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','Modules/Course');
 		$this->__showTimingsPanel();

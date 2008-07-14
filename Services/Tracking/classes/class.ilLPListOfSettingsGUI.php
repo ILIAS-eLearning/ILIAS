@@ -135,15 +135,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$lp_collections->add($ref_id);
 			}
 		}
-		if($_POST['event_ids'])
-		{
-			include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
-			$event_collections = new ilLPEventCollections($this->getObjId());
-			foreach($_POST['event_ids'] as $event_id)
-			{
-				$event_collections->add($event_id);
-			}
-		}
 		ilUtil::sendInfo($this->lng->txt('trac_settings_saved'));
 		$this->show();
 	}
@@ -163,15 +154,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			foreach($_POST['item_ids'] as $ref_id)
 			{
 				$lp_collections->delete($ref_id);
-			}
-		}
-		if($_POST['event_ids'])
-		{
-			include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
-			$event_collections = new ilLPEventCollections($this->getObjId());
-			foreach($_POST['event_ids'] as $event_id)
-			{
-				$event_collections->delete($event_id);
 			}
 		}
 		ilUtil::sendInfo($this->lng->txt('trac_settings_saved'));
@@ -263,14 +245,10 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		global $ilObjDataCache,$tree;
 
 		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-		include_once 'Services/Tracking/classes/class.ilLPEventCollections.php';
-		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Session/classes/class.ilEvent.php';
 		include_once 'classes/class.ilLink.php';
 		include_once 'classes/class.ilFrameTargetInfo.php';
 
-		// read assigned events
-		#$events = ilEvent::_getEvents($this->getObjId());
-		$events = array();
 
 		$lp_collections = new ilLPCollections($this->getObjId());
 
@@ -297,12 +275,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		}
 
 		// Show header
-		if(count($events))
-		{
-			$tpl->setCurrentBlock("header_materials");
-			$tpl->setVariable("TXT_HEADER_MATERIALS",$this->lng->txt('crs_materials'));
-			$tpl->parseCurrentBlock();
-		}
 		$tpl->addBlockFile('MATERIALS','materials','tpl.trac_collections_row.html','Services/Tracking');
 		$counter = 0;
 		// Show materials
@@ -349,33 +321,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 							  : $this->lng->txt('trac_not_assigned'));
 
 			
-			$tpl->parseCurrentBlock();
-		}
-
-		$event_collections = new ilLPEventCollections($this->getObjId());
-		
-		// show events
-		if(count($events))
-		{
-			$tpl->setCurrentBlock("header_events");
-			$tpl->setVariable("TXT_HEADER_NAME",$this->lng->txt('events'));
-			$tpl->parseCurrentBlock();
-		}
-		$tpl->addBlockFile('EVENT','event','tpl.trac_collections_event_row.html','Services/Tracking');
-		foreach($events as $event_obj)
-		{
-			$tpl->setCurrentBlock("event");
-			$tpl->setVariable("EVENT_COLL_DESC",$event_obj->getDescription());
-			$tpl->setVariable("EVENT_COLL_TITLE",$event_obj->getTitle());
-			$tpl->setVariable("EVENT_ROW_CLASS",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-			$tpl->setVariable("EVENT_CHECK_TRAC",ilUtil::formCheckbox(0,'event_ids[]',$event_obj->getEventId()));
-
-			$tpl->setVariable("EVENT_ASSIGNED_IMG_OK",$event_collections->isAssigned($event_obj->getEventId())
-							  ? ilUtil::getImagePath('icon_ok.gif') 
-							  : ilUtil::getImagePath('icon_not_ok.gif'));
-			$tpl->setVariable("EVENT_ASSIGNED_STATUS",$event_collections->isAssigned($event_obj->getEventId())
-							  ? $this->lng->txt('trac_assigned')
-							  : $this->lng->txt('trac_not_assigned'));
 			$tpl->parseCurrentBlock();
 		}
 			

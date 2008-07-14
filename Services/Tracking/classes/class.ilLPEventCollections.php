@@ -108,7 +108,7 @@ class ilLPEventCollections
 
 	function _getItems($a_obj_id)
 	{
-		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Session/classes/class.ilEvent.php';
 
 		global $ilObjDataCache;
 		global $ilDB;
@@ -133,7 +133,7 @@ class ilLPEventCollections
 	// Private
 	function __read()
 	{
-		include_once 'Modules/Course/classes/Event/class.ilEvent.php';
+		include_once 'Modules/Session/classes/class.ilEvent.php';
 
 		global $ilObjDataCache;
 
