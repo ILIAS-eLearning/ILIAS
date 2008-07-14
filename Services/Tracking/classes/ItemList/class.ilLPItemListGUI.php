@@ -560,7 +560,8 @@ class ilLPItemListGUI
 												  'alert' :
 												  'text'));
 			$writer->xmlElement('ItemInfoName',null,$this->lng->txt('trac_head_timing').": ");
-			$writer->xmlElement('ItemInfoValue',null,ilFormat::formatUnixTime($this->editing_time));
+			$writer->xmlElement('ItemInfoValue',null,ilDatePresentation::formatDate(new ilDateTime($this->editing_time,IL_CAL_UNIX)));
+			
 			$writer->xmlEndTag('ItemInfo');
 		}
 	}

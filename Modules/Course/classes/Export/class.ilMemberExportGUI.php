@@ -375,7 +375,7 @@ class ilMemberExportGUI
 			$this->tpl->setCurrentBlock('table_row');
 			$this->tpl->setVariable('CSS_ROW',ilUtil::switchColor($counter++,'tblrow1','tblrow2'));
 			$this->tpl->setVariable('TEXT_TYPE',strtoupper($file['type']));
-			$this->tpl->setVariable('DATE',ilFormat::formatUnixTime($file['timest'],true));
+			$this->tpl->setVariable('DATE',ilDatePresentation::formatDate(new ilDateTime($file['timest'],IL_CAL_UNIX)));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock('operation_btn');

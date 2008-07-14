@@ -462,7 +462,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			}
 			else
 			{
-				$txt_access = ilFormat::formatUnixTime($val["time_limit_until"]);
+				$txt_access = ilDatePresentation::formatDate(new ilDateTime($val["time_limit_until"],IL_CAL_UNIX));
 			}
             
 			//visible data part

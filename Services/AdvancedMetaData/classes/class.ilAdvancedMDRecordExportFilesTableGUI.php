@@ -73,7 +73,7 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
 	{
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_SIZE',sprintf("%.1f KB",$a_set['file_size']/1024));
-		$this->tpl->setVariable('VAL_DATE',ilFormat::formatUnixTime($a_set['date'],true));
+		$this->tpl->setVariable('VAL_DATE',ilDatePresentation::formatDate(new ilDateTime($a_set['date'],IL_CAL_UNIX)));
 		
 		foreach($a_set['record_arr'] as $title)
 		{

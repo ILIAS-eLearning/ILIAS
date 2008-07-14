@@ -263,7 +263,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 			$this->obj_tpl->setCurrentBlock('timing');
 			$this->obj_tpl->setVariable('END_EDITING_TIME',$item_list->getEditingTime() ? 
-									ilFormat::formatUnixTime($item_list->getEditingTime()) : 
+									ilDatePresentation::formatDate(new ilDateTime($item_list->getEditingTime(),IL_CAL_UNIX)) :
 									'');
 			$this->obj_tpl->parseCurrentBlock();
 		}

@@ -485,9 +485,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		else
 		{
-			$info->addProperty($this->lng->txt("crs_visibility"),
-							   ilFormat::formatUnixTime($this->object->getActivationStart(),true)." - ".
-							   ilFormat::formatUnixTime($this->object->getActivationEnd(),true));
+			$info->addProperty($this->lng->txt('crs_visiblity'),
+				ilDatePresentation::formatDateDuration(
+					new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX),
+					new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX)));
+					
 		}
 		switch($this->object->getSubscriptionLimitationType())
 		{
@@ -525,13 +527,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$info->addProperty($this->lng->txt("crs_reg_until"),
 								   $this->lng->txt('crs_to').' '.
-								   ilFormat::formatUnixTime($this->object->getSubscriptionEnd(),true));
+								   ilDatePresentation::formatDate(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX)));
 			}
 			elseif($this->object->getSubscriptionStart() > time())
 			{
 				$info->addProperty($this->lng->txt("crs_reg_until"),
 								   $this->lng->txt('crs_from').' '.
-								   ilFormat::formatUnixTime($this->object->getSubscriptionStart(),true));
+								   ilDatePresentation::formatDate(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX)));
 			}
 		}
 		
@@ -541,8 +543,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			if($this->object->getArchiveType() != IL_CRS_ARCHIVE_NONE)
 			{
 				$info->addProperty($this->lng->txt("crs_archive"),
-								   ilFormat::formatUnixTime($this->object->getArchiveStart(),true)." - ".
-								   ilFormat::formatUnixTime($this->object->getArchiveEnd(),true));
+					ilDatePresentation::formatDateDuration(
+						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX),
+						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX)));
 			}
 		}		
 		// Confirmation
@@ -2219,8 +2222,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$f_result[$counter][]	= ilUtil::formCheckbox(0,"waiting_list[]",$waiting_data['usr_id']);
 					$f_result[$counter][]	= $tmp_obj->getLastname().', '.$tmp_obj->getFirstname().$message;
 					$f_result[$counter][]   = $tmp_obj->getLogin();
-					#$f_result[$counter][]   = ilFormat::formatUnixTime($waiting_data["time"],true);
-					$f_result[$counter][] = date('Y-m-d H:i:s',$waiting_data['time']);
+					$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($waiting_data['time'],IL_CAL_UNIX));
 					unset($tmp_obj);
 					++$counter;
 				}
@@ -2248,8 +2250,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					$f_result[$counter][]	= ilUtil::formCheckbox(0,"subscriber[]",$member_id);
 					$f_result[$counter][]	= $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
 					$f_result[$counter][]	= $tmp_obj->getLogin();
-					#$f_result[$counter][]   = ilFormat::formatUnixTime($member_data["time"],true);
-					$f_result[$counter][] = date('Y-m-d H:i:s',$member_data['time']);
+					$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($member_data['time'],IL_CAL_UNIX));
 
 					unset($tmp_obj);
 					++$counter;
@@ -2657,8 +2658,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$f_result[$counter][]	= $tmp_obj->getLogin();
 				$f_result[$counter][]	= $tmp_obj->getFirstname();
 				$f_result[$counter][]	= $tmp_obj->getLastname();
-				#$f_result[$counter][]   = strftime("%Y-%m-%d %R",$member_data["time"]);
-				$f_result[$counter][]   = ilFormat::formatUnixTime($member_data["time"],true);
+				$f_result[$counter][]   = ilDatePresentation::formatDate(new ilDateTime($member_data['time']),IL_CAL_UNIX);
 
 				unset($tmp_obj);
 				++$counter;
@@ -2708,7 +2708,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$f_result[$counter][]	= $tmp_obj->getFirstname();
 				$f_result[$counter][]	= $tmp_obj->getLastname();
 				#$f_result[$counter][]   = strftime("%Y-%m-%d %R",$user_data["time"]);
-				$f_result[$counter][]   = ilFormat::formatUnixTime($user_data["time"],true);
+				$f_result[$counter][]   = ilDatePresentation::formatDate(new ilDateTime($user_data['time'],IL_CAL_UNIX));
 
 				unset($tmp_obj);
 				++$counter;
@@ -3361,7 +3361,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$print_member[$member_id]['login'] = $tmp_obj->getLogin();
 				$print_member[$member_id]['name'] = $tmp_obj->getLastname().', '.$tmp_obj->getFirstname();
-				$print_member[$member_id]['time'] = ilFormat::formatUnixTime($member_data['time'],true);
+				$print_member[$member_id]['time'] = ilDatePresentation::formatDate(new ilDateTime($member_data['time'],IL_CAL_UNIX));
 			}
 		}
 		switch($_SESSION['crs_print_sort'])
@@ -5030,9 +5030,9 @@ class ilObjCourseGUI extends ilContainerGUI
 			$a_item_data['timing_type'] != IL_CRS_TIMINGS_FIXED)
 		{
 			$long = $a_item_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION;
-
-			$activation = ilFormat::formatUnixTime($a_item_data['start'],$long).' - '.
-				ilFormat::formatUnixTime($a_item_data['end'], $long);
+			$activation = ilDateDuration::formatDateDuration(
+				new ilDateTime($a_item_data['start'],IL_CAL_UNIX),
+				new ilDateTime($a_item_data['end'],IL_CAL_UNIX));
 		}
 
 		$a_item_list_gui->enableSubscribe($a_abo_status);
