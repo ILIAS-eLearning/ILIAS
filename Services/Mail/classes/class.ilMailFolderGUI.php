@@ -429,7 +429,8 @@ class ilMailFolderGUI
 				$this->ctrl->clearParameters($this);
 			}
 			$this->tpl->setVariable("MAIL_SUBJECT", htmlspecialchars($mail["m_subject"]));
-			$this->tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
+			$this->tpl->setVariable("MAIL_DATE", ilDatePresentation::formatDate(new ilDateTime($mail['send_time'],IL_CAL_DATETIME)));
+			
 			$this->tpl->parseCurrentBlock();
 		}
 		// END MAILS
@@ -1019,7 +1020,7 @@ class ilMailFolderGUI
 		
 		// DATE
 		$this->tpl->setVariable('TXT_DATE', $this->lng->txt('date'));
-		$this->tpl->setVariable('DATE', ilFormat::formatDate($mailData['send_time']));
+		$this->tpl->setVariable('DATE',ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'],IL_CAL_DATETIME)));
 		$this->tpl->setVariable('CSSROW_DATE', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 		
 		// ATTACHMENTS
@@ -1165,7 +1166,8 @@ class ilMailFolderGUI
 		
 		// DATE
 		$tplprint->setVariable("TXT_DATE", $this->lng->txt("date"));
-		$tplprint->setVariable("DATE", ilFormat::formatDate($mailData["send_time"]));
+		$tplprint->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($mailData["send_time"],IL_CAL_DATETIME)));
+		
 		
 		// MESSAGE
 		$tplprint->setVariable("TXT_MESSAGE", $this->lng->txt("message"));

@@ -216,7 +216,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			{
 				$this->tpl->setVariable('NEW_MAIL_FROM_LOGIN', ilMail::_getAnonymousName());				
 			}
-			$this->tpl->setVariable('NEW_MAIL_DATE', ilFormat::formatDate($mail['send_time'], 'date', true));
+			$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'],IL_CAL_DATE)));
 			$this->tpl->setVariable("TXT_FROM", $lng->txt("from"));
 			$this->tpl->parseCurrentBlock();
 		}

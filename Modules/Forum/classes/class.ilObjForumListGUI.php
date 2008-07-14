@@ -238,8 +238,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 					{
 						$lpCont .= $lng->txt('forums_anonymous');					
 					}
-					
-					$lpCont .= ', '.ilFormat::formatDate($objLastPost->getCreateDate());
+					$lpCont .= ', '.ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(),IL_CAL_DATETIME));
 				}
 				else
 				{
@@ -249,11 +248,11 @@ class ilObjForumListGUI extends ilObjectListGUI
 						ilFrameTargetInfo::_getFrame('MainContent').
 						"\" href=\"repository.php?cmd=showUser&cmdClass=ilobjforumgui&ref_id=".$this->ref_id."&user=".
 							$last_user['usr_id']."&offset=".$Start."\">".$last_user['login']."</a>, ";
-						$lpCont .= ilFormat::formatDate($objLastPost->getCreateDate());
+						$lpCont .= ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(),IL_CAL_DATETIME));
 					}
 					else
 					{
-						$lpCont .= $last_user['login'].', '.ilFormat::formatDate($objLastPost->getCreateDate());
+						$lpCont .= $last_user['login'].', '.ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(),IL_CAL_DATETIME));
 					}
 				}
 							

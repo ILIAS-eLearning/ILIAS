@@ -138,7 +138,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 				$this->tpl->setCurrentBlock("status_date");
 				$this->tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
 				$this->tpl->setVariable("VAL_STATUS_DATE",
-					ilFormat::formatDate($sd, "datetime", true));
+					ilDatePresentation::formatDate(new ilDateTime($sd,IL_CAL_DATETIME)));
 				$this->tpl->parseCurrentBlock();
 			}
 			switch($status)

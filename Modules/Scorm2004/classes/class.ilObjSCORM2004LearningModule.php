@@ -321,7 +321,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
 			if ($sco_rec['last_access'] != 0) {
-				$sco_rec['last_access'] = ilFormat::formatDate(date("Y-m-d H:i:s", $sco_rec['last_access']));
+				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_UNIX));
+				
 			} else {
 				$sco_rec['last_access'] = "";
 			}
@@ -420,7 +421,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	   			$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
 	   			$score = $data_rec["scaled"];
 	   			$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
-	   			$last_access=ilFormat::formatDate(date("Y-m-d H:i:s", $data_rec["last_access"]));
+	   			$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
 				 $data[] = array("user_id" => $user_rec["user_id"],
 				   	"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
 	   		}

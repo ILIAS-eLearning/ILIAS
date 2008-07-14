@@ -736,7 +736,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$f_result[$counter][] = $tmp_obj->getLogin();
 			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
-			$f_result[$counter][] = ilFormat::formatDate($tmp_obj->getLastLogin());
+			$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($tmp_obj->getLastLogin(),IL_CAL_DATETIME));
 
 			unset($tmp_obj);
 			++$counter;
@@ -805,7 +805,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$f_result[$counter][] = $tmp_obj->getLogin();
 			$f_result[$counter][] = $tmp_obj->getLastname();
 			$f_result[$counter][] = $tmp_obj->getFirstname();
-			$f_result[$counter][] = ilFormat::formatDate($tmp_obj->getLastLogin());
+			$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($tmp_obj->getLastLogin(),IL_CAL_DATETIME));
 
 			unset($tmp_obj);
 			++$counter;
@@ -1228,7 +1228,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 					$f_result[$counter][] = $tmp_obj->getLogin();
 					$f_result[$counter][] = $tmp_obj->getFirstname();
 					$f_result[$counter][] = $tmp_obj->getLastname();
-					$f_result[$counter][] = ilFormat::formatDate($tmp_obj->getLastLogin());
+					$f_result[$counter][] = ilDatePresentation::formatDate(new ilDateTime($tmp_obj->getLastLogin(),IL_CAL_DATETIME));
 
 					unset($tmp_obj);
 					++$counter;

@@ -446,7 +446,6 @@ class ilInfoScreenGUI
 		$this->addProperty(
 			$lng->txt("create_date"),
 			ilDatePresentation::formatDate(new ilDateTime($this->obj_section_obj->getCreateDate(),IL_CAL_DATETIME)));
-			#ilFormat::formatDate($this->obj_section_obj->getCreateDate()));
 
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
@@ -907,7 +906,7 @@ class ilInfoScreenGUI
 			$progress = ilLearningProgress::_getProgress($ilUser->getId(),$this->gui_object->object->getId());
 			if($progress['access_time'])
 			{
-				$tpl->setVariable("LAST_ACCESS",ilFormat::formatDate($progress['access_time']));
+				$tpl->setVariable('LAST_ACCESS',ilDatePresentation::formatDate(new ilDateTime($progress['access_time'],IL_CAL_DATETIME)));
 			}
 			else
 			{
