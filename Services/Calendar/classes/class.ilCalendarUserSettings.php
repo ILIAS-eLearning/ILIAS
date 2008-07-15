@@ -15,6 +15,10 @@ class ilCalendarUserSettings
 	protected $user;
 	protected $settings;
 	
+	private $timezone;
+	private $weekstart;
+	private $time_format;
+	
 	/**
 	 * Constructor
 	 *
@@ -101,6 +105,29 @@ class ilCalendarUserSettings
 	{
 		return (int) $this->weekstart;
 	}
+	
+	/**
+	 * set time format
+	 *
+	 * @access public
+	 * @param int time
+	 * @return
+	 */
+	public function setTimeFormat($a_format)
+	{
+		$this->time_format = $a_format;
+	}
+	
+	/**
+	 * get time format
+	 *
+	 * @access public
+	 * @return int time format
+	 */
+	public function getTimeFormat()
+	{
+		return $this->time_format;
+	}
 
 	/**
 	 * save
@@ -111,6 +138,7 @@ class ilCalendarUserSettings
 	{
 		$this->user->writePref('user_tz',$this->getTimeZone());
 		$this->user->writePref('weekstart',$this->getWeekStart()); 
+		$this->user->writePref('time_format',$this->getTimeFormat());
 	}
 	
 	
@@ -121,7 +149,8 @@ class ilCalendarUserSettings
 	 */
 	protected function read()
 	{
-		$this->timezone = $this->user->getUserTimeZone();
+		$this->timezone = $this->user->getTimeZone();
+		$this->time_format = $this->user->getTimeFormat();
 		if(($weekstart = $this->user->getPref('weekstart')) === false)
 		{
 			$weekstart = $this->settings->getDefaultWeekStart();

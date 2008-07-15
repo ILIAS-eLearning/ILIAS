@@ -70,7 +70,7 @@ class ilCalendarInboxGUI
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
 		
-		$this->timezone = $ilUser->getUserTimeZone();
+		$this->timezone = $ilUser->getTimeZone();
 	}
 	
 	/**

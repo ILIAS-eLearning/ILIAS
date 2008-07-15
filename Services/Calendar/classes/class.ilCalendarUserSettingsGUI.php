@@ -125,6 +125,7 @@ class ilCalendarUserSettingsGUI
 	{
 		$this->user_settings->setTimeZone($_POST['timezone']);
 		$this->user_settings->setWeekStart((int) $_POST['weekstart']);
+		$this->user_settings->setTimeFormat((int) $_POST['time_format']);
 		$this->user_settings->save();	
 		
 		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
@@ -156,6 +157,14 @@ class ilCalendarUserSettingsGUI
 		$select->setOptions(ilCalendarUtil::_getShortTimeZoneList());
 		$select->setInfo($this->lng->txt('cal_timezone_info'));
 		$select->setValue($this->user_settings->getTimeZone());
+		$this->form->addItem($select);
+		
+		$select = new ilSelectInputGUI($this->lng->txt('cal_user_time_format'),'time_format');
+		$select->setOptions(array(
+			ilCalendarSettings::TIME_FORMAT_24 => '13:00',
+			ilCalendarSettings::TIME_FORMAT_12 => '1:00pm'));
+		$select->setInfo($this->lng->txt('cal_time_format_info'));
+		$select->setValue($this->user_settings->getTimeFormat());
 		$this->form->addItem($select);
 		
 		$radio = new ilRadioGroupInputGUI($this->lng->txt('cal_week_start'),'weekstart');

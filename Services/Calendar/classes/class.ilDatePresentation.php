@@ -22,6 +22,7 @@
 */
 
 include_once('./Services/Calendar/classes/class.ilDate.php');
+include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 
 /**
 * Class for date presentation
@@ -54,7 +55,7 @@ class ilDatePresentation
 		// Converting pure dates to user timezone might return wrong dates
 		if($has_time)
 		{
-			$date_info = $date->get(IL_CAL_FKT_GETDATE,'',$ilUser->getUserTimeZone());	
+			$date_info = $date->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());	
 		}
 		else
 		{
@@ -85,9 +86,16 @@ class ilDatePresentation
 		if(!$has_time)
 		{
 			return $date_str;
-		}	
+		}
 		
-		return $date_str.', '.sprintf('%02d',$date_info['hours']).':'.sprintf('%02d',$date_info['minutes']);		
+		switch($ilUser->getTimeFormat())
+		{
+			case ilCalendarSettings::TIME_FORMAT_24:
+				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
+				
+			case ilCalendarSettings::TIME_FORMAT_12:
+				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'h:i a');
+		}
 	}
 	
 	/**
@@ -109,7 +117,7 @@ class ilDatePresentation
 		$has_time = !is_a($start,'ilDate');
 		
 		// Same day
-		if(ilDateTime::_equals($start,$end,IL_CAL_DAY,$ilUser->getUserTimeZone()))
+		if(ilDateTime::_equals($start,$end,IL_CAL_DAY,$ilUser->getTimeZone()))
 		{
 			if(!$has_time)
 			{
@@ -120,20 +128,31 @@ class ilDatePresentation
 				$date_str = self::formatDate(
 					new ilDate($start->get(IL_CAL_DATE),IL_CAL_DATE));
 				
-				$begin_time_info = $start->get(IL_CAL_FKT_GETDATE,'',$ilUser->getUserTimeZone());
-				$end_time_info = $end->get(IL_CAL_FKT_GETDATE,'',$ilUser->getUserTimeZone());
-
 				// $start == $end
 				if(ilDateTime::_equals($start,$end))
 				{
-					return $date_str.' '.sprintf('%02d',$begin_time_info['hours']).':'.sprintf('%02d',$begin_time_info['minutes']);
+					switch($ilUser->getTimeFormat())
+					{
+						case ilCalendarSettings::TIME_FORMAT_24:
+							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
+							
+						case ilCalendarSettings::TIME_FORMAT_12:
+							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone());
+					}
 				}
 				else
 				{
-					return $date_str.' '.sprintf('%02d',$begin_time_info['hours']).':'.sprintf('%02d',$begin_time_info['minutes']).' - '.
-						sprintf('%02d',$end_time_info['hours']).':'.sprintf('%02d',$end_time_info['minutes']);
+					switch($ilUser->getTimeFormat())
+					{
+						case ilCalendarSettings::TIME_FORMAT_24:
+							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone()).' - '.
+								$end->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
+							
+						case ilCalendarSettings::TIME_FORMAT_12:
+							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone()).' - '.
+								$end->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone());
+					}
 				}
-				
 			}
 		}
 		// Different days
@@ -156,10 +175,10 @@ class ilDatePresentation
 		
 		if(!is_object(self::$today))
 		{
-			self::$today = new ilDateTime(time(),IL_CAL_UNIX,$ilUser->getUserTimeZone());
+			self::$today = new ilDateTime(time(),IL_CAL_UNIX,$ilUser->getTimeZone());
 		}
 		
-		return ilDateTime::_equals(self::$today,$date,IL_CAL_DAY,$ilUser->getUserTimeZone());
+		return ilDateTime::_equals(self::$today,$date,IL_CAL_DAY,$ilUser->getTimeZone());
 	}
 	
 	/**
@@ -176,11 +195,11 @@ class ilDatePresentation
 		
 		if(!is_object(self::$yesterday))
 		{
-			self::$yesterday = new ilDateTime(time(),IL_CAL_UNIX,$ilUser->getUserTimeZone());
+			self::$yesterday = new ilDateTime(time(),IL_CAL_UNIX,$ilUser->getTimeZone());
 			self::$yesterday->increment(IL_CAL_DAY,-1);
 		}
 		
-		return ilDateTime::_equals(self::$yesterday,$date,IL_CAL_DAY,$ilUser->getUserTimeZone());
+		return ilDateTime::_equals(self::$yesterday,$date,IL_CAL_DAY,$ilUser->getTimeZone());
 	}
 
 	/**
@@ -197,11 +216,11 @@ class ilDatePresentation
 		
 		if(!is_object(self::$tomorrow))
 		{
-			self::$tomorrow = new ilDateTime(time(),IL_CAL_UNIX,$ilUser->getUserTimeZone());
+			self::$tomorrow = new ilDateTime(time(),IL_CAL_UNIX,$ilUser->getTimeZone());
 			self::$tomorrow->increment(IL_CAL_DAY,1);
 		}
 		
-		return ilDateTime::_equals(self::$tomorrow,$date,IL_CAL_DAY,$ilUser->getUserTimeZone());
+		return ilDateTime::_equals(self::$tomorrow,$date,IL_CAL_DAY,$ilUser->getTimeZone());
 	}
 
 }

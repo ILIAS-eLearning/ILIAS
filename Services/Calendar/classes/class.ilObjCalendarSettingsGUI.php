@@ -206,6 +206,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setEnabled((int) $_POST['enable']);
 		$this->settings->setDefaultWeekStart((int) $_POST['default_week_start']);
 		$this->settings->setDefaultTimeZone(ilUtil::stripSlashes($_POST['default_timezone']));
+		$this->settings->setDefaultTimeFormat((int) $_POST['default_time_format']);
 		$this->settings->save();
 		
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
@@ -257,6 +258,15 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$select->setInfo($this->lng->txt('cal_def_timezone_info'));
 		$select->setValue($this->settings->getDefaultTimeZone());
 		$this->form->addItem($select);
+		
+		$select = new ilSelectInputGUI($this->lng->txt('cal_def_time_format'),'default_time_format');
+		$select->setOptions(array(
+			ilCalendarSettings::TIME_FORMAT_24 => '13:00',
+			ilCalendarSettings::TIME_FORMAT_12 => '1:00pm'));
+		$select->setInfo($this->lng->txt('cal_def_time_format_info'));
+		$select->setValue($this->settings->getDefaultTimeFormat());
+		$this->form->addItem($select);
+		
 		
 		$radio = new ilRadioGroupInputGUI($this->lng->txt('cal_def_week_start'),'default_week_start');
 		$radio->setValue($this->settings->getDefaultWeekStart());

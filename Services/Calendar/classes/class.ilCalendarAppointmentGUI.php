@@ -425,7 +425,7 @@ class ilCalendarAppointmentGUI
 	{
 		global $ilUser;
 		
-		$this->timezone = $ilUser->getUserTimeZone();
+		$this->timezone = $ilUser->getTimeZone();
 	}
 	
 	/**

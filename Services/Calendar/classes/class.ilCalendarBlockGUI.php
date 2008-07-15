@@ -258,7 +258,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			
 			$a_tpl->setCurrentBlock('month_col');
 			
-			if(count($this->scheduler->getByDay($date,$ilUser->getUserTimeZone())))
+			if(count($this->scheduler->getByDay($date,$ilUser->getTimeZone())))
 			{
 				$a_tpl->setVariable('DAY_CLASS','calminiapp');
 				#$a_tpl->setVariable('TD_CLASS','calminiapp');

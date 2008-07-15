@@ -8390,3 +8390,8 @@ dateplaner#:#cal_share_decline#:#Einladung ablehnen
 dateplaner#:#cal_changed_events_header#:#Geänderte Termine
 dateplaner#:#cal_accepted#:#Angenommen
 dateplaner#:#cal_declined#:#Abgelehnt
+trac#:#trac_mode_event#:#Teilnahme an Sitzungen
+dateplaner#:#cal_user_time_format#:#Zeitformat
+dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Dartellung der Zeit.
+dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Darstellung der Zeit aus.
+dateplaner#:#cal_def_time_format#:#Default-Zeitformat

@@ -72,7 +72,7 @@ class ilCalendarMonthGUI
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
 		
-		$this->timezone = $ilUser->getUserTimeZone();
+		$this->timezone = $ilUser->getTimeZone();
 	}
 	
 	/**
@@ -216,7 +216,18 @@ class ilCalendarMonthGUI
 			}
 			else
 			{
-				$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+				switch($this->user_settings->getTimeFormat())
+				{
+					case ilCalendarSettings::TIME_FORMAT_24:
+						$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+						break;
+						
+					case ilCalendarSettings::TIME_FORMAT_12:
+						$title = $item['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+						break;
+				}
+				
+				
 				$title .= (' '.$item['event']->getPresentationTitle());
 			}
 			$this->tpl->setVariable('NUM',$counter++);

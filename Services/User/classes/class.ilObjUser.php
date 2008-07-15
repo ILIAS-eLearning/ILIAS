@@ -1076,7 +1076,7 @@ class ilObjUser extends ilObject
 	 * @access public
 	 * 
 	 */
-	public function getUserTimeZone()
+	public function getTimeZone()
 	{
 	 	if($tz = $this->getPref('user_tz'))
 	 	{
@@ -1088,6 +1088,26 @@ class ilObjUser extends ilObject
 	 		$settings = ilCalendarSettings::_getInstance();
 	 		return $settings->getDefaultTimeZone();
 	 	}
+	}
+	
+	/**
+	 * get time format
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getTimeFormat()
+	{
+	 	if($format = $this->getPref('time_format'))
+	 	{
+	 		return $format; 
+	 	}
+	 	else
+	 	{
+	 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
+	 		$settings = ilCalendarSettings::_getInstance();
+	 		return $settings->getDefaultTimeFormat();
+	 	}		
 	}
 
 	/**
