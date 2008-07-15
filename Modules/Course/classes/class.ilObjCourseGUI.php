@@ -486,7 +486,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		else
 		{
 			$info->addProperty($this->lng->txt('crs_visiblity'),
-				ilDatePresentation::formatDateDuration(
+				ilDatePresentation::formatPeriod(
 					new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX),
 					new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX)));
 					
@@ -543,7 +543,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			if($this->object->getArchiveType() != IL_CRS_ARCHIVE_NONE)
 			{
 				$info->addProperty($this->lng->txt("crs_archive"),
-					ilDatePresentation::formatDateDuration(
+					ilDatePresentation::formatPeriod(
 						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX),
 						new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX)));
 			}
@@ -5019,7 +5019,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$a_item_data['timing_type'] != IL_CRS_TIMINGS_FIXED)
 		{
 			$long = $a_item_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION;
-			$activation = ilDatePresentation::formatDateDuration(
+			$activation = ilDatePresentation::formatPeriod(
 				new ilDateTime($a_item_data['start'],IL_CAL_UNIX),
 				new ilDateTime($a_item_data['end'],IL_CAL_UNIX));
 		}
