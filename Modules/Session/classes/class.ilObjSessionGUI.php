@@ -872,11 +872,11 @@ class ilObjSessionGUI extends ilObjectGUI
 
 			if($_POST['show_mark'])
 			{
-				$tpl->setVariable("MARK",$user_data['mark']);
+				$tpl->setVariable("MARK",$user_data['mark'] ? $user_data['mark'] : ' ');
 			}
 			if($_POST['show_comment'])
 			{
-				$tpl->setVariable("COMMENT",$user_data['comment']);
+				$tpl->setVariable("COMMENT",$user_data['comment'] ? $user_data['comment'] : ' ');
 			}
 			if($_POST['show_signature'])
 			{

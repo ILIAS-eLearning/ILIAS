@@ -756,8 +756,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
-					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["timestamp14"]), "date"));
+					$this->tpl->setVariable('QUESTION_CREATED',ilDatePresentation::formatDate(new ilDate($data["created"],IL_CAL_TIMESTAMP)));
+					$this->tpl->setVariable('QUESTION_UPDATED',ilDatePresentation::formatDate(new ilDate($data["timestamp14"],IL_CAL_TIMESTAMP)));
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]);
 					$this->tpl->parseCurrentBlock();
@@ -2538,7 +2538,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("VALUE_USER_NAME", $user_name);
 					$this->tpl->setVariable("VALUE_USER_LOGIN", $user_login);
 					$last_access = $this->object->_getLastAccess($user_data["active_id"]);
-					$this->tpl->setVariable("LAST_ACCESS", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($last_access)));
+					$this->tpl->setVariable('LAST_ACCESS',ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_TIMESTAMP)));
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}

@@ -1612,7 +1612,9 @@ class ilObjSurvey extends ilObject
 			$now = mktime();
 			if ($now < $epoch_time) 
 			{
-				array_push($messages, $this->lng->txt("start_date_not_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->getStartYear().$this->getStartMonth().$this->getStartDay()."000000"), "date") . ")");
+				array_push($messages,$this->lng->txt('start_date_not_reached').' ('.
+					ilDatePresentation::formatDate(
+						new ilDate($this->getStartYear().$this->getStartMonth().$this->getStartDay()."000000",IL_CAL_TIMESTAMP)). ")");
 				$result = FALSE;
 			}
 		}
@@ -1623,7 +1625,9 @@ class ilObjSurvey extends ilObject
 			$now = mktime();
 			if ($now > $epoch_time) 
 			{
-				array_push($messages, $this->lng->txt("end_date_reached") . " (".ilFormat::formatDate(ilFormat::ftimestamp2dateDB($this->getEndYear().$this->getEndMonth().$this->getEndDay()."000000"), "date") . ")");
+				array_push($messages,$this->lng->txt('end_date_reached').' ('.
+					ilDatePresentation::formatDate(
+						new ilDate($this->getEndYear().$this->getEndMonth().$this->getEndDay()."000000",IL_CAL_TIMESTAMP)). ")");
 				$result = FALSE;
 			}
 		}
@@ -4890,7 +4894,10 @@ class ilObjSurvey extends ilObject
 			if (in_array($row["survey_key"], $a_array) || (count($a_array) == 0))
 			{
 				$export .= $row["survey_key"] . ",";
-				$created = ilFormat::formatDate(ilFormat::ftimestamp2dateDB($row["timestamp14"]), "date");
+				
+				// No relative (today, tomorrow...) dates in export.
+				$date = new ilDate($row['timestamp14'],IL_CAL_TIMESTAMP);
+				$created = $date->get(IL_CAL_DATE);
 				$export .= "$created,";
 				if ($this->isSurveyCodeUsed($row["survey_key"]))
 				{
@@ -4938,7 +4945,7 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				$created = ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($row["timestamp14"]));
+				$created = ilDatePresentation::formatDate(new ilDateTime($row["timestamp14"],IL_CAL_TIMESTAMP));
 
 				$url = "";
 				

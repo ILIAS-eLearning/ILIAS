@@ -356,11 +356,14 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("output_row");
 				$this->tpl->setVariable("ROW_CLASS", $tblrow[$key % 2]);
-				$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($log["timestamp14"]), "datetime"));
+				$date = new ilDateTime($log["timestamp14"],IL_CAL_TIMESTAMP);
+				$this->tpl->setVariable("TXT_DATETIME",$date->get(IL_CAL_FKT_DATE,'Y-m-d H:i'));
 				$csvrow = array();
 				if (strcmp($this->ctrl->getCmd(), "exportLog") == 0)
 				{
-					array_push($csvrow, ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($log["timestamp14"]), "datetime"));
+					$date = new ilDate($log['timestamp14'],IL_CAL_TIMESTAMP);
+					array_push($csvrow, $date->get(IL_CAL_FKT_DATE,'Y-m-d H:i'));
+					
 				}
 				if ($log["question_fi"] || $log["original_fi"])
 				{

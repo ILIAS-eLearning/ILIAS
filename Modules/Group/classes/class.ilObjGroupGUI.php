@@ -2184,7 +2184,12 @@ class ilObjGroupGUI extends ilContainerGUI
 					break;
 					
 			}
-			
+			/*			
+			$info->addProperty($this->lng->txt('group_registration_time'),
+				ilDatePresentation::formatPeriod(
+					$this->object->getRegistrationStart(),
+					$this->object->getRegistrationEnd()));
+			*/
 			if($this->object->isRegistrationUnlimited())
 			{
 				$info->addProperty($this->lng->txt('group_registration_time'),

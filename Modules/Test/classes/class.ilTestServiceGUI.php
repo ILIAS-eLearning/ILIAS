@@ -174,7 +174,8 @@ class ilTestServiceGUI
 					$template->setVariable("COLOR_CLASS", $color_class[$pass % 2]);
 				}
 				$template->setVariable("VALUE_PASS", $pass + 1);
-				$template->setVariable("VALUE_DATE", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($finishdate), "date"));
+				$template->setVariable("VALUE_DATE",ilDatePresentation::formatDate(new ilDate($finishdate,IL_CAL_TIMESTAMP)));
+				
 				if (!$short)
 				{
 					$template->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-1));

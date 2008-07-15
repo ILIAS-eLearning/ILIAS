@@ -2010,8 +2010,8 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
 					$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-					$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
-					$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["timestamp14"]), "date"));
+					$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_TIMESTAMP)));
+					$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data['timestamp14'],IL_CAL_TIMESTAMP)));
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["obj_fi"]]["title"]);
 					$this->tpl->parseCurrentBlock();
@@ -3705,7 +3705,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("ROW_CLASS", $tblrow[$counter % 2]);
 					$username = $this->object->userLookupFullName($entry["user_fi"], TRUE);
 					$this->tpl->setVariable("TXT_USER", $username);
-					$this->tpl->setVariable("TXT_DATETIME", ilFormat::formatDate(ilFormat::ftimestamp2datetimeDB($entry["timestamp14"]), "datetime"));
+					$this->tpl->setVariable("TXT_DATETIME", ilDatePresentation::formatDate(new ilDateTime($entry["timestamp14"],IL_CAL_TIMESTAMP)));
 					if (strlen($entry["ref_id"]) && strlen($entry["href"]))
 					{
 						$this->tpl->setVariable("TXT_TEST_REFERENCE", $this->lng->txt("perma_link"));
@@ -4499,7 +4499,7 @@ class ilObjTestGUI extends ilObjectGUI
 						}
 						else
 						{
-							$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilFormat::formatDate($last_access));
+							$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME)));
 						}
 					}
 					else
@@ -4569,7 +4569,8 @@ class ilObjTestGUI extends ilObjectGUI
 					if (strlen($data->active_id))
 					{
 						$last_access = $this->object->_getLastAccess($data->active_id);
-						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilFormat::formatDate($last_access));
+						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME)));
+						
 					}
 					else
 					{
