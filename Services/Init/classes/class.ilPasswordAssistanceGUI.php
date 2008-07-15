@@ -481,12 +481,10 @@ class ilPasswordAssistanceGUI
 				$server_url,
 				$_SERVER['REMOTE_ADDR'],
 				$userObj->getLogin(),
-				// BEGIN PATCH Mail Provide alternative assist URL
-				// BEGIN PATCH Wiki This patch is needed for Wiki too
+				// BEGIN Mail Provide alternative assist URL
 				'mailto:'.$contact_address,
 				$alternative_pwassist_url
-				// END PATCH Wiki This patch is needed for Wiki too
-				// END PATCH Mail Provide alternative assist URL
+				// END Mail Provide alternative assist URL
 				)
 			)
 		);
