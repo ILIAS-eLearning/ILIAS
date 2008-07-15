@@ -5160,9 +5160,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$reporting_date = $this->object->getReportingDate();
 		if ($reporting_date)
 		{
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $reporting_date, $matches);
-			$txt_reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-			$info->addProperty($this->lng->txt("tst_score_reporting_date"), $txt_reporting_date);
+			#preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $reporting_date, $matches);
+			#$txt_reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+			#$info->addProperty($this->lng->txt("tst_score_reporting_date"), $txt_reporting_date);
+			$info->addProperty($this->lng->txt('tst_score_reporting_date'),
+				ilDatePresentation::formatDate(new ilDateTime($reporting_date,IL_CAL_TIMESTAMP)));
 		}
 	
 		$info->addSection($this->lng->txt("tst_session_settings"));
@@ -5184,16 +5186,20 @@ class ilObjTestGUI extends ilObjectGUI
 		$starting_time = $this->object->getStartingTime();
 		if ($starting_time)
 		{
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $starting_time, $matches);
-			$txt_starting_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-			$info->addProperty($this->lng->txt("tst_starting_time"), $txt_starting_time);
+			#preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $starting_time, $matches);
+			#$txt_starting_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+			#$info->addProperty($this->lng->txt("tst_starting_time"), $txt_starting_time);
+			$info->addProperty($this->lng->txt("tst_starting_time"),
+				ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_TIMESTAMP)));
 		}
 		$ending_time = $this->object->getEndingTime();
 		if ($ending_time)
 		{
-			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $ending_time, $matches);
-			$txt_ending_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-			$info->addProperty($this->lng->txt("tst_ending_time"), $txt_ending_time);
+			#preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $ending_time, $matches);
+			#$txt_ending_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+			#$info->addProperty($this->lng->txt("tst_ending_time"), $txt_ending_time);
+			$info->addProperty($this->lng->txt("tst_ending_time"),
+				ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_TIMESTAMP)));
 		}
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		// forward the command

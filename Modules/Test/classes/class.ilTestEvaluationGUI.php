@@ -450,13 +450,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$atime_seconds -= $time_minutes * 60;
 		$this->tpl->setVariable("VALUE_ATIMEOFWORK", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $atime_seconds));
 		$this->tpl->setVariable("TXT_FIRSTVISIT", $this->lng->txt("tst_stat_result_firstvisit"));
-		$this->tpl->setVariable("VALUE_FIRSTVISIT", 
-			date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $data->getParticipant($active_id)->getFirstVisit())
-		);
+		#$this->tpl->setVariable("VALUE_FIRSTVISIT", 
+		#	date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $data->getParticipant($active_id)->getFirstVisit())
+		#);
+		$this->tpl->setVariable('VAL_FIRST_VISIT',ilDatePresentation::formatDate(
+			new ilDateTime($data->getParticipant($active_id)->getFirstVisit(),IL_CAL_UNIX)));
 		$this->tpl->setVariable("TXT_LASTVISIT", $this->lng->txt("tst_stat_result_lastvisit"));
-		$this->tpl->setVariable("VALUE_LASTVISIT",
-			date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $data->getParticipant($active_id)->getLastVisit())
-		);
+		#$this->tpl->setVariable("VALUE_LASTVISIT",
+		#	date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $data->getParticipant($active_id)->getLastVisit())
+		#);
+		$this->tpl->setVariable('VAL_FIRST_VISIT',ilDatePresentation::formatDate(
+			new ilDateTime($data->getParticipant($active_id)->getLastVisit(),IL_CAL_UNIX)));
+		
 		$this->tpl->setVariable("TXT_NROFPASSES", $this->lng->txt("tst_nr_of_passes"));
 		$this->tpl->setVariable("VALUE_NROFPASSES", $data->getParticipant($active_id)->getLastPass() + 1);
 		$this->tpl->setVariable("TXT_SCOREDPASS", $this->lng->txt("scored_pass"));
