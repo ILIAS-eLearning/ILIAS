@@ -138,9 +138,10 @@ class ilPCParagraph extends ilPageContent
 		}
 
 		// DOMXML_LOAD_PARSING, DOMXML_LOAD_VALIDATING, DOMXML_LOAD_RECOVERING
+
 		$temp_dom = @domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
 			DOMXML_LOAD_PARSING, $error);
-
+			
 		//$this->text = $a_text;
 		// remove all childs
 		if(empty($error))
@@ -160,11 +161,16 @@ class ilPCParagraph extends ilPageContent
 			{
 				$new_par_node =& $res->nodeset[0];
 				$new_childs = $new_par_node->child_nodes();
+				
 				for($i=0; $i<count($new_childs); $i++)
 				{
-
 					$cloned_child =& $new_childs[$i]->clone_node(true);
 					$this->par_node->append_child($cloned_child);
+				}
+				$orig_characteristic = $this->getCharacteristic();
+				if ($text[0]["level"] > 0)
+				{
+					$this->par_node->set_attribute("Characteristic", 'Headline'.$text[0]["level"]);
 				}
 			}
 			
@@ -185,7 +191,7 @@ class ilPCParagraph extends ilPageContent
 					}
 					else
 					{
-						$next_par->setCharacteristic($this->getCharacteristic());
+						$next_par->setCharacteristic($orig_characteristic);
 					}
 					$ok = $next_par->setText($text[$i]["text"], false);
 					$c_node = $next_par->node;
@@ -588,15 +594,15 @@ echo htmlentities($a_text);*/
 		foreach ($rows as $row)
 		{
 			$level = 0;
-			if (substr($row, 0, 3) == "***")
+			if (str_replace("#", "*", substr($row, 0, 3)) == "***")
 			{
 				$level = 3;
 			}
-			else if (substr($row, 0, 2) == "**")
+			else if (str_replace("#", "*", substr($row, 0, 2)) == "**")
 			{
 				$level = 2;
 			}
-			else if (substr($row, 0, 1) == "*")
+			else if (str_replace("#", "*", substr($row, 0, 1)) == "*")
 			{
 				$level = 1;
 			}
@@ -604,7 +610,10 @@ echo htmlentities($a_text);*/
 			// end previous line
 			if ($level < $old_level)
 			{
-				$text.= str_repeat("</SimpleListItem></SimpleBulletList>", ($old_level - $level));
+				for ($i = $old_level; $i > $level; $i--)
+				{
+					$text.= "</SimpleListItem></".$clist[$i].">";
+				}
 				if ($level > 0)
 				{
 					$text.= "</SimpleListItem>";
@@ -622,7 +631,18 @@ echo htmlentities($a_text);*/
 			// start next line
 			if ($level > $old_level)
 			{
-				$text.= str_repeat("<SimpleBulletList><SimpleListItem>", ($level - $old_level));
+				for($i = $old_level + 1; $i <= $level; $i++)
+				{
+					if (substr($row, $i - 1, 1) == "*")
+					{
+						$clist[$i] = "SimpleBulletList";
+					}
+					else
+					{
+						$clist[$i] = "SimpleNumberedList";
+					}
+					$text.= "<".$clist[$i]."><SimpleListItem>";
+				}
 			}
 			else if ($old_level > 0 && $level > 0)
 			{
@@ -652,14 +672,12 @@ echo htmlentities($a_text);*/
 	static function xml2outputReplaceLists($a_text)
 	{
 		$segments = ilPCParagraph::segmentString($a_text, array("<SimpleBulletList>", "</SimpleBulletList>",
-			"</SimpleListItem>", "<SimpleListItem>"));
+			"</SimpleListItem>", "<SimpleListItem>", "<SimpleNumberedList>", "</SimpleNumberedList>"));
 		
 		$current_list = array();
 		$text = "";
 		for ($i=0; $i<= count($segments); $i++)
 		{
-//echo "<br>".htmlentities($segments[$i]);
-
 			if ($segments[$i] == "<SimpleBulletList>")
 			{
 				if (count($current_list) == 0)
@@ -669,7 +687,21 @@ echo htmlentities($a_text);*/
 				array_push($current_list, "*");
 				$li = false;
 			}
+			else if ($segments[$i] == "<SimpleNumberedList>")
+			{
+				if (count($current_list) == 0)
+				{
+					$list_start = true;
+				}
+				array_push($current_list, "#");
+				$li = false;
+			}
 			else if ($segments[$i] == "</SimpleBulletList>")
+			{
+				array_pop($current_list);
+				$li = false;
+			}
+			else if ($segments[$i] == "</SimpleNumberedList>")
 			{
 				array_pop($current_list);
 				$li = false;
@@ -895,10 +927,13 @@ echo htmlentities($a_text);*/
 	*/
 	function autoSplit($a_text)
 	{
+		$a_text = "<br />".$a_text."<br />";		// add preceding and trailing br
+		
 		$chunks = array();
 		$c_text = $a_text;
 		while ($c_text != "")
 		{
+//var_dump($c_text); flush();
 			$s1 = strpos($c_text, "<br />=");
 			if (is_int($s1))
 			{
@@ -982,6 +1017,24 @@ echo htmlentities($a_text);*/
 		if (count($chunks) == 0)
 		{
 			$chunks[] = array("level" => 0, "text" => "");
+		}
+		
+		// remove preceding br
+		if (substr($chunks[0]["text"], 0, 6) == "<br />")
+		{
+			$chunks[0]["text"] = substr($chunks[0]["text"], 6);
+		}
+
+		// remove trailing br
+		if (substr($chunks[count($chunks) - 1]["text"],
+			strlen($chunks[count($chunks) - 1]["text"]) - 6, 6) == "<br />")
+		{
+			$chunks[count($chunks) - 1]["text"] =
+				substr($chunks[0]["text"], 0, strlen($chunks[count($chunks) - 1]["text"]) - 6);
+			if ($chunks[count($chunks) - 1]["text"] == "")
+			{
+				unset($chunks[count($chunks) - 1]);
+			}
 		}
 		
 		return $chunks;
