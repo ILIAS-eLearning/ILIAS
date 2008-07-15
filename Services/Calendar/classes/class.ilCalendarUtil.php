@@ -85,7 +85,7 @@ class ilCalendarUtil
 		$day_list = new ilDateList(ilDateList::TYPE_DATE);
 		
 		$start = clone $a_day;
-		$start_info = $start->get(IL_CAL_FKT_GETDATE);
+		$start_info = $start->get(IL_CAL_FKT_GETDATE,'','UTC');
 		$day_diff = $a_weekstart - $start_info['isoday'];
 		if($day_diff == 7)
 		{

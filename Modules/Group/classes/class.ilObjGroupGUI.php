@@ -2370,8 +2370,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 			$end = new ilDateTimeInputGUI($this->lng->txt('grp_reg_end'),'registration_end');
 			$end->setShowTime(true);
-			$end->setDate($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone()));
-			$end->setTime($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone()));
 			$end->setDate($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'Y-m-d'));
 			$end->setTime($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'H:i:s'));
 			
