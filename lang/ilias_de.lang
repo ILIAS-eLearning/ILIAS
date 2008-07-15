@@ -8395,3 +8395,45 @@ dateplaner#:#cal_user_time_format#:#Zeitformat
 dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Dartellung der Zeit.
 dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Darstellung der Zeit aus.
 dateplaner#:#cal_def_time_format#:#Default-Zeitformat
+payment#:#topics#:#Themen
+payment#:#topic#:#Thema
+payment#:#edit_topic#:#Thema Bearbeiten
+payment#:#new_topic#:#Neues Thema
+payment#:#topic_title#:#Titel
+common#:#shop#:#Shop
+payment#:#advanced_search#:#Erweiterte Suche
+payment#:#set_filter#:#Filter setzen
+payment#:#reset_filter#:#Filter zurücksetzen
+payment#:#filter_by#:#nach
+payment#:#sort_asc#:#aufsteigend sortieren
+payment#:#sort_desc#:#absteigend sortieren
+payment#:#sort#:#Sortieren
+payment#:#sort_by#:#Sortiere Objekte nach
+payment#:#price_from#:#ab
+payment#:#select_one_topic#:#Sie müssen mindestens ein Thema auswählen
+payment#:#topics_deleted#:#Die gewählten Themen wurden erfolgreich gelöscht
+payment#:#no_topics_yet#:#Es wurden noch keine Themen eingetragen
+payment#:#topic_saved#:#Das Thema wurde erfolgreich gespeichert
+payment#:#topic_edited#:#Das Thema wurde erfolgreich editiert
+payment#:#sure_delete_topics#:#Sollen die gewählten Themen wirklich gelöscht werden?
+payment#:#pay_topics_default_sorting_type#:#Standard-Sortierung der Themen
+payment#:#pay_topics_default_sorting_direction#:#Standard-Sortierungrichtung der Themen
+payment#:#pay_topics_allow_custom_sorting#:#Benutzerspezifisches Sortieren der Themen
+payment#:#pay_topics_allow_custom_sorting_info#:#Wenn aktiviert, können Benutzer die Sortierung der Themen im Shopbereich selbstständig festlegen.
+payment#:#pay_topics_sort_by_title#:#Nach Title
+payment#:#pay_topics_sort_by_date#:#Nach Datum
+payment#:#pay_topics_sort_manually#:#Händisch
+payment#:#pay_sorting_value#:#Sortierwert
+payment#:#pay_save_sorting#:#Sortierung Speichern
+payment#:#pay_max_hits#:#Maximalanzahl von Treffern
+payment#:#pay_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
+payment#:#pay_personal_settings#:#Persönliche Einstellungen
+payment#:#pay_manual_sorting_of_topics#:#Manuelle Sortierung der Themen
+payment#:#sort_topics_by#:#Sortiere Themen nach
+payment#:#sort_topics_by_title#:#Titel
+payment#:#sort_topics_by_date#:#Datum
+payment#:#sort_topics_manually#:#Manuell
+payment#:#pay_enable_shop#:#Webshop aktivieren
+payment#:#pay_enable_shop_info#:#Wenn aktiviert, ist der ILIAS Webshop verfügbar und Objekte können von Benutzern gekauft werden.
+payment#:#payment_shop_not_objects_found#:#Es konnten keine kaufbaren Objekte gefunden werden.
+payment#:#payment_login_to_buy_object#:#Bitte melden Sie Sich bei ILIAS an, um Objekte in den Warenkorb legen zu können.
