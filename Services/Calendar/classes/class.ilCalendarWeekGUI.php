@@ -70,7 +70,7 @@ class ilCalendarWeekGUI
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		$this->app_colors = new ilCalendarAppointmentColors($ilUser->getId());
 		
-		$this->timezone = $ilUser->getUserTimeZone();
+		$this->timezone = $ilUser->getTimeZone();
 	}
 	
 	/**
@@ -269,7 +269,16 @@ class ilCalendarWeekGUI
 		{
 			$hours[$i][$num_day]['apps_start'] = array();
 			$hours[$i][$num_day]['apps_num'] = 0;
-			$hours[$i][$num_day]['txt'] = $i < 10 ? ('0'.$i.':00') : ($i.':00');
+			switch($this->user_settings->getTimeFormat())
+			{
+				case ilCalendarSettings::TIME_FORMAT_24:
+					$hours[$i][$num_day]['txt'] = sprintf('%02d:00',$i);
+					break;
+				
+				case ilCalendarSettings::TIME_FORMAT_12:
+					$hours[$i][$num_day]['txt'] = date('h a',mktime($i,0,0,1,1,2000));
+					break; 					
+			}
 		}
 		
 		$date_info = $date->get(IL_CAL_FKT_GETDATE);

@@ -135,7 +135,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_DURATION','');
 		}
-		$update = new ilDateTime($a_set['last_update'],IL_CAL_UNIX,$ilUser->getUserTimeZone());
+		$update = new ilDateTime($a_set['last_update'],IL_CAL_UNIX,$ilUser->getTimeZone());
 		$this->tpl->setVariable('VAL_LAST_UPDATE',ilDatePresentation::formatDate($update));
 		
 		

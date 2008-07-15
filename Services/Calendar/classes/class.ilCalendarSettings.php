@@ -37,11 +37,15 @@ class ilCalendarSettings
 	const WEEK_START_MONDAY = 1;
 	const WEEK_START_SUNDAY = 0;
 	
+	const TIME_FORMAT_24 = 1;
+	const TIME_FORMAT_12 = 2;
+	
 	private static $instance = null;
 
 	private $db = null;
 	private $storage = null;
 	private $timezone = null;
+	private $time_format = null;
 	private $week_start = 0;
 	private $enabled = false;
 	private $cal_settings_id = 0;
@@ -142,6 +146,29 @@ class ilCalendarSettings
 	{
 	 	return $this->timezone;
 	}
+	
+	/**
+	 * set default time format
+	 *
+	 * @access public
+	 * @param int time format
+	 * @return
+	 */
+	public function setDefaultTimeFormat($a_format)
+	{
+		$this->time_format = $a_format;
+	}
+	
+	/**
+	 * get default time format
+	 *
+	 * @access public
+	 * @return int time format
+	 */
+	public function getDefaultTimeFormat()
+	{
+		return $this->time_format;
+	}
 
 	/**
 	 * Get calendar settings id
@@ -166,6 +193,7 @@ class ilCalendarSettings
 	 	$this->storage->set('enabled',(int) $this->isEnabled());
 	 	$this->storage->set('default_timezone',$this->getDefaultTimeZone());
 	 	$this->storage->set('default_week_start',$this->getDefaultWeekStart());
+	 	$this->storage->set('default_time_format',$this->getDefaultTimeFormat());
 	}
 
 	/**
@@ -180,6 +208,7 @@ class ilCalendarSettings
 		$this->setEnabled($this->storage->get('enabled'));
 		$this->setDefaultTimeZone($this->storage->get('default_timezone',ilTimeZone::_getDefaultTimeZone()));
 		$this->setDefaultWeekStart($this->storage->get('default_week_start',self::WEEK_START_MONDAY));
+		$this->setDefaultTimeFormat($this->storage->get('default_time_format',self::TIME_FORMAT_24));
 	}
 	
 	/**

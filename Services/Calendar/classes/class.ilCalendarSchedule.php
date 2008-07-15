@@ -82,7 +82,7 @@ class ilCalendarSchedule
 	 	
 	 	$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 	 	$this->weekstart = $this->user_settings->getWeekStart();
-	 	$this->timezone = $ilUser->getUserTimeZone();
+	 	$this->timezone = $ilUser->getTimeZone();
 	 	
 	 	$this->hidden_cat = ilCalendarHidden::_getInstanceByUserId($this->user->getId());
 	}

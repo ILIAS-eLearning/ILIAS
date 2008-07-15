@@ -8419,3 +8419,8 @@ dateplaner#:#cal_share_decline#:#Decline Invitation
 dateplaner#:#cal_changed_events_header#:#Changed Appointments 
 dateplaner#:#cal_accepted#:#Accepted
 dateplaner#:#cal_declined#:#Declined
+trac#:#trac_mode_event#:#Participation in Sessions
+dateplaner#:#cal_user_time_format#:#Time Format
+dateplaner#:#cal_time_format_info#:#Please choose a format for the presentation of time.
+dateplaner#:#cal_def_time_format_info#:#Please choose a format for the presentation of time.
+dateplaner#:#cal_def_time_format#:#Default Time Format
