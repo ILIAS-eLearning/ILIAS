@@ -1306,6 +1306,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$str_time_left .= $time_left_seconds . " " . $this->lng->txt("seconds");
 		}
 		$date = getdate($starting_time);
+		$formattedStartingTime = ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_FKT_GETDATE));
+		/*
 		$formattedStartingTime = ilFormat::formatDate(
 			$date["year"]."-".
 			sprintf("%02d", $date["mon"])."-".
@@ -1314,6 +1316,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			sprintf("%02d", $date["minutes"]).":".
 			sprintf("%02d", $date["seconds"])
 		);
+		*/
 		$datenow = getdate();
 		$this->tpl->setCurrentBlock("enableprocessingtime");
 		$this->tpl->setVariable("USER_WORKING_TIME", 

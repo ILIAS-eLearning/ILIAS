@@ -135,8 +135,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		
-		
-
 		#$parser = new ilICalParser('./extern/Feiertage.ics',ilICalParser::INPUT_FILE);
 		#$parser->setCategoryId(6);
 		#$parser->parse();

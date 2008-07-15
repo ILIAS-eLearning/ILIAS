@@ -38,6 +38,7 @@ define('IL_CAL_DATE',2);
 define('IL_CAL_UNIX',3);
 define('IL_CAL_FKT_DATE',4);
 define('IL_CAL_FKT_GETDATE',5);
+define('IL_CAL_TIMESTAMP',6);
 
 define('IL_CAL_YEAR','year');
 define('IL_CAL_MONTH','month');
@@ -354,6 +355,23 @@ class ilDateTime
 					$a_date['year']);
 				$this->timezone->restoreTZ();
 				break;
+				
+			case IL_CAL_TIMESTAMP:
+				if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $a_date,$d_parts) == false)
+				{
+					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
+					throw new ilDateTimeException('Cannot parse date.');
+				}
+				$this->timezone->switchTZ();
+				$this->unix = mktime(
+					isset($d_parts[4]) ? $d_parts[4] : 0, 
+					isset($d_parts[5]) ? $d_parts[5] : 0,
+					isset($d_parts[6]) ? $d_parts[6] : 0,
+					$d_parts[2],
+					$d_parts[3],
+					$d_parts[1]);
+				$this->timezone->restoreTZ();
+				break;
 	 	}
 	 	return true;
 	}
@@ -389,16 +407,19 @@ class ilDateTime
 	 		case IL_CAL_UNIX:
 	 			$date = $this->getUnixTime();
 	 			break;
+	 		
 	 		case IL_CAL_DATE:
 			 	$timezone->switchTZ();
 				$date = date('Y-m-d',$this->getUnixTime());
 				$timezone->restoreTZ();
 				break;
+			
 			case IL_CAL_DATETIME:
 			 	$timezone->switchTZ();
 				$date = date('Y-m-d H:i:s',$this->getUnixTime());
 				$timezone->restoreTZ();
 				break;
+			
 			case IL_CAL_FKT_DATE:
 			 	$timezone->switchTZ();
 				$date = date($a_format_str,$this->getUnixTime());
@@ -412,6 +433,12 @@ class ilDateTime
 
 				// add iso 8601 week day number (Sunday = 7)
 				$date['isoday'] = $date['wday'] == 0 ? 7 : $date['wday'];
+				break;
+				
+			case IL_CAL_TIMESTAMP:
+				$timezone->switchTZ();
+				$date = date('YmdHis',$this->getUnixTime());
+				$timezone->restoreTZ();
 				break;
 	 	}
 		return $date;

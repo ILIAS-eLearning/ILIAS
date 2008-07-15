@@ -40,7 +40,6 @@ class ilDatePresentation
 	
 	/**
 	 * Format a date
-	 * 
 	 * @access public
 	 * @param object $date ilDate or ilDateTime
 	 * @return string date presentation in user specific timezone and language 
@@ -94,7 +93,7 @@ class ilDatePresentation
 				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
 				
 			case ilCalendarSettings::TIME_FORMAT_12:
-				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'h:i a');
+				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone());
 		}
 	}
 	
