@@ -1706,7 +1706,7 @@ class ilCourseContentGUI
 		{
 			$long = $cont_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION;
 
-			$activation = ilDatePresentation::formatDateDuration(
+			$activation = ilDatePresentation::formatPeriod(
 				new ilDateTime($cont_data['start'],IL_CAL_UNIX),
 				new ilDateTime($cont_data['end'],IL_CAL_UNIX));
 				

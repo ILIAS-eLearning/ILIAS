@@ -296,7 +296,7 @@ class ilCalendarAppointmentGUI
 
 		// Appointment
 		$info->addProperty($this->lng->txt('appointment'),
-			ilDatePresentation::formatDateDuration(
+			ilDatePresentation::formatPeriod(
 				$this->app->getStart(),
 				$this->app->getEnd()));
 		$info->addProperty($this->lng->txt('title'),$this->app->getPresentationTitle());

@@ -212,13 +212,13 @@ class ilSessionAppointment implements ilDatePeriod
 
 		if($fulltime)
 		{
-			return ilDatePresentation::formatDateDuration(
+			return ilDatePresentation::formatPeriod(
 				new ilDate($start,IL_CAL_UNIX),
 				new ilDate($end,IL_CAL_UNIX)).' ('.$lng->txt('event_full_time_info').')';
 		}
 		else
 		{
-			return ilDatePresentation::formatDateDuration(
+			return ilDatePresentation::formatPeriod(
 				new ilDateTime($start,IL_CAL_UNIX),
 				new ilDateTime($end,IL_CAL_UNIX));
 		}

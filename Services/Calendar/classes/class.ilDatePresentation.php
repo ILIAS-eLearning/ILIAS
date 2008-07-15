@@ -91,7 +91,7 @@ class ilDatePresentation
 	}
 	
 	/**
-	 * Format a duration of two date
+	 * Format a period of two date
 	 * Shows:	14. Jul 2008 18:00 - 20:00
 	 * or:		Today 18:00 - 20:00
 	 * or:		14. Jul 2008 - 16. Jul 2008
@@ -102,7 +102,7 @@ class ilDatePresentation
 	 * @return
 	 * @static
 	 */
-	public static function formatDateDuration(ilDateTime $start,ilDateTime $end)
+	public static function formatPeriod(ilDateTime $start,ilDateTime $end)
 	{
 		global $ilUser;
 		
