@@ -8424,3 +8424,45 @@ dateplaner#:#cal_user_time_format#:#Time Format
 dateplaner#:#cal_time_format_info#:#Please choose a format for the presentation of time.
 dateplaner#:#cal_def_time_format_info#:#Please choose a format for the presentation of time.
 dateplaner#:#cal_def_time_format#:#Default Time Format
+payment#:#topics#:#Topics
+payment#:#topic#:#Topic
+payment#:#edit_topic#:#Edit Topic
+payment#:#new_topic#:#New Topic
+payment#:#topic_title#:#Title
+payment#:#advanced_search#:#Advanced Search
+payment#:#set_filter#:#Set Filter
+payment#:#reset_filter#:#Reset Filter
+payment#:#filter_by#:#by
+payment#:#sort_asc#:#sort ascending
+payment#:#sort_desc#:#sort descending
+payment#:#sort#:#Sort
+payment#:#sort_by#:#Sort Objects by
+common#:#shop#:#Shop
+payment#:#price_from#:#from
+payment#:#select_one_topic#:#Please select at least one topic
+payment#:#topics_deleted#:#The chosen topics were deleted successfully
+payment#:#no_topics_yet#:#No topics created yet
+payment#:#topic_saved#:#The topic was saved successfully
+payment#:#topic_edited#:#The topic was edited successfully
+payment#:#sure_delete_topics#:#Are you sure you want to delete the chosen topics?
+payment#:#pay_topics_default_sorting_type#:#Default Sorting Type of Topics
+payment#:#pay_topics_default_sorting_direction#:#Default Sorting Direction of Topics
+payment#:#pay_topics_allow_custom_sorting#:#Custom Sorting of Topics
+payment#:#pay_topics_allow_custom_sorting_info#:#If enabled, every user can determine the sorting of topics in the webshop independently.
+payment#:#pay_topics_sort_by_title#:#By Title
+payment#:#pay_topics_sort_by_date#:#By Date
+payment#:#pay_topics_sort_manually#:#Manually
+payment#:#pay_sorting_value#:#Sorting Value
+payment#:#pay_save_sorting#:#Save Sorting
+payment#:#pay_max_hits#:#Max hits
+payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of search results.
+payment#:#pay_personal_settings#:#Personal Settings
+payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics
+payment#:#sort_topics_by#:#Sort Topics by
+payment#:#sort_topics_by_title#:#Title
+payment#:#sort_topics_by_date#:#Date
+payment#:#sort_topics_manually#:#Manually
+payment#:#pay_enable_shop#:#Enable Webshop
+payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.
+payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.
+payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.
