@@ -165,10 +165,10 @@ class ilCalendarSchedule
 							case self::TYPE_WEEK:
 								// store date info (used for calculation of overlapping events)
 								$tmp_date = new ilDateTime($this->schedule[$counter]['dstart'],IL_CAL_UNIX,$this->timezone);
-								$this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE);
+								$this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timezone);
 								
 								$tmp_date = new ilDateTime($this->schedule[$counter]['dend'],IL_CAL_UNIX,$this->timezone);
-								$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE);
+								$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timzone);
 								break;
 
 							default:
@@ -193,10 +193,10 @@ class ilCalendarSchedule
 						case self::TYPE_WEEK:
 							// store date info (used for calculation of overlapping events)
 							$tmp_date = new ilDateTime($this->schedule[$counter]['dstart'],IL_CAL_UNIX,$this->timezone);
-							$this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE);
+							$this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timezone);
 							
 							$tmp_date = new ilDateTime($this->schedule[$counter]['dend'],IL_CAL_UNIX,$this->timezone);
-							$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE);
+							$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timezone);
 							break;
 	
 						default:
@@ -266,9 +266,9 @@ class ilCalendarSchedule
 		// TODO: optimize
 		$query = "SELECT ce.cal_id AS cal_id FROM cal_entries AS ce LEFT JOIN cal_recurrence_rules AS crr USING (cal_id) ".
 			"JOIN cal_category_assignments AS ca ON ca.cal_id = ce.cal_id ".
-			"WHERE ((start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
-			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME)).") ".
-			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME))." ".
+			"WHERE ((start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'))." ".
+			"AND end >= ".$this->db->quote($this->start->get(IL_CAL_DATETIME,'','UTC')).") ".
+			"OR (start <= ".$this->db->quote($this->end->get(IL_CAL_DATETIME,'','UTC'))." ".
 			"AND NOT rule_id IS NULL)) ".
 			"AND ca.cat_id IN (".implode(',',ilUtil::quoteArray($cats)).') '.
 			"ORDER BY start";
@@ -310,7 +310,7 @@ class ilCalendarSchedule
 			
 			case self::TYPE_WEEK:
 				$this->start = clone $seed;
-				$start_info = $this->start->get(IL_CAL_FKT_GETDATE);
+				$start_info = $this->start->get(IL_CAL_FKT_GETDATE,'','UTC');
 				$day_diff = $this->weekstart - $start_info['isoday'];
 				if($day_diff == 7)
 				{
@@ -323,7 +323,7 @@ class ilCalendarSchedule
 				break;
 			
 			case self::TYPE_MONTH:
-				$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m');
+				$year_month = $seed->get(IL_CAL_FKT_DATE,'Y-m','UTC');
 				list($year,$month) = explode('-',$year_month);
 			
 				$this->start = new ilDate($year_month.'-01',IL_CAL_DATE);

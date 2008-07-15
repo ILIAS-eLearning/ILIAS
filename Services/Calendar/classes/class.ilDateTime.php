@@ -57,6 +57,7 @@ class ilDateTime
 	protected $log;
 	
 	protected $timezone = null;
+	protected $default_timezone = null;
 	
 	protected $unix = 0;
 	
@@ -81,6 +82,7 @@ class ilDateTime
 	 	try
 	 	{
 		 	$this->timezone = ilTimeZone::_getInstance($a_tz);
+		 	$this->default_timezone = ilTimeZone::_getInstance('');
 		 	
 		 	if(!$a_date)
 		 	{
@@ -288,7 +290,7 @@ class ilDateTime
 	public function getUTCOffset()
 	{
 	 	$this->timezone->switchTZ();
-	 	// TODO: calculate UTC offset of given date
+	 	// TODO: This is wrong: calculate UTC offset of given date
 	 	$offset = mktime(0,0,0,2,1,1970) - gmmktime(0,0,0,2,1,1970);
 	 	$this->timezone->restoreTZ();
 	 	return $offset; 	
@@ -399,7 +401,8 @@ class ilDateTime
 		}
 		else
 		{
-			$timezone = $this->timezone;
+			#$timezone = $this->timezone;
+			$timezone = $this->default_timezone; 
 		}
 
 	 	switch($a_format)

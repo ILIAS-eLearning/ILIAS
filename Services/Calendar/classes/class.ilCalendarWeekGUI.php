@@ -60,7 +60,7 @@ class ilCalendarWeekGUI
 		global $ilCtrl, $lng, $ilUser,$ilTabs,$tpl;
 		
 		$this->seed = $seed_date;
-		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
+		$this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE,'','UTC');
 
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -134,7 +134,7 @@ class ilCalendarWeekGUI
 		$counter = 0;
 		foreach(ilCalendarUtil::_buildWeekDayList($this->seed,$this->user_settings->getWeekStart())->get() as $date)
 		{	
-			$date_info = $date->get(IL_CAL_FKT_GETDATE);
+			$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
 			$this->tpl->setCurrentBlock('day_header_row');
 			
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
@@ -281,7 +281,7 @@ class ilCalendarWeekGUI
 			}
 		}
 		
-		$date_info = $date->get(IL_CAL_FKT_GETDATE);
+		$date_info = $date->get(IL_CAL_FKT_GETDATE,'','UTC');
 		
 		
 		foreach($daily_apps as $app)

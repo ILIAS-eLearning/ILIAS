@@ -102,8 +102,8 @@ class ilMiniCalendarGUI
 		$this->tpl->setVariable('TXT_INVALID_YEAR',$this->lng->txt('yuical_invalid_year'));
 		
 		$this->tpl->setVariable('MINICALENDAR','&nbsp;');
-		$this->tpl->setVariable('SEED_MY',$this->seed->get(IL_CAL_FKT_DATE,'m/Y'));
-		$this->tpl->setVariable('SEED_MDY',$this->seed->get(IL_CAL_FKT_DATE,'m/d/Y'));
+		$this->tpl->setVariable('SEED_MY',$this->seed->get(IL_CAL_FKT_DATE,'m/Y','UTC'));
+		$this->tpl->setVariable('SEED_MDY',$this->seed->get(IL_CAL_FKT_DATE,'m/d/Y','UTC'));
 		$this->tpl->setVariable('MONTHS_LONG',$this->getMonthList());
 		$this->tpl->setVariable('WEEKDAYS_SHORT',$this->getWeekdayList());
 		$this->tpl->setVariable('WEEKSTART',(int) $this->user_settings->getWeekstart());

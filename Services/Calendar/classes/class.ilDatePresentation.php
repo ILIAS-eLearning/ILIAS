@@ -125,7 +125,7 @@ class ilDatePresentation
 			else
 			{
 				$date_str = self::formatDate(
-					new ilDate($start->get(IL_CAL_DATE),IL_CAL_DATE));
+					new ilDate($start->get(IL_CAL_DATE,'',$ilUser->getTimeZone()),IL_CAL_DATE));
 				
 				// $start == $end
 				if(ilDateTime::_equals($start,$end))
