@@ -175,7 +175,7 @@ class ilSessionAppointment implements ilDatePeriod
 	function setEndingTime($a_ending_time)
 	{
 		$this->ending_time = $a_ending_time;
-		$this->end = new ilDateTime($this->starting_time,IL_CAL_UNIX);
+		$this->end = new ilDateTime($this->ending_time,IL_CAL_UNIX);
 	}
 	function getEndingTime()
 	{

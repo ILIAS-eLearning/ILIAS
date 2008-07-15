@@ -403,7 +403,6 @@ class ilObjSessionGUI extends ilObjectGUI
 		
 		$period_diff = $this->object->getFirstAppointment()->getEnd()->get(IL_CAL_UNIX) - 
 			$this->object->getFirstAppointment()->getStart()->get(IL_CAL_UNIX);
-		
 		$parent_id = $tree->getParentId($this->object->getRefId());
 		
 		$counter = 0;

@@ -239,8 +239,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 		// Details link
 		if($type != 'sahs_item' and
-		   $type != 'objective' and
-		   $type != 'event')
+		   $type != 'objective')
 		{
 			if(!$ilAccess->checkAccess('read','',$item_id))
 			{
@@ -297,8 +296,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 
 		if($type == 'sahs_item' or
-		   $type == 'objective' or
-		   $type == 'event')
+		   $type == 'objective')
 		{
 			return true;
 		}

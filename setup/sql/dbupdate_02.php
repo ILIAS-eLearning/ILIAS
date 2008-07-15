@@ -4969,3 +4969,40 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1280>
+<?php
+
+$query = "SELECT * FROM ut_lp_event_collections ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$event_id = $row->item_id;
+	$crs_obj_id = $row->obj_id;
+	
+	// Read event ref_id
+	$query = "SELECT ref_id FROM event AS e ".
+		"JOIN object_data AS od ON e.obj_id = od.obj_id ".
+		"JOIN object_reference AS obr ON od.obj_id = obr.obj_id ".
+		"WHERE event_id = ".$ilDB->quote($row->item_id)." ";
+	$ref_res = $ilDB->query($query);
+	while($ref_row = $ref_res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$event_ref_id = $ref_row->ref_id;
+	}
+	
+	if($event_ref_id)
+	{
+		$query = "DELETE FROM ut_lp_collections ".
+			"WHERE item_id = ".$ilDB->quote($event_ref_id)." ";
+		$ilDB->query($query);
+		
+		$query = "INSERT INTO ut_lp_collections ".
+			"SET obj_id = ".$ilDB->quote($crs_obj_id).", ".
+			"item_id = ".$ilDB->quote($event_ref_id)." ";
+		$ilDB->query($query);
+	}
+} 
+?>
+
+<#1281>
+DROP TABLE ut_lp_event_collections;
