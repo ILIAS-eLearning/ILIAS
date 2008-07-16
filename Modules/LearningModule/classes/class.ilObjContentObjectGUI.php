@@ -1426,8 +1426,10 @@ return;
 				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
 				$lm_obj =& $this->ilias->obj_factory->getInstanceByObjId($lm_id);
 				$lm_page = new ilLMPageObject($lm_obj, $id);
-				$new_page =& $lm_page->copyToOtherContObject($this->object);
+				$copied_nodes = array();
+				$new_page =& $lm_page->copyToOtherContObject($this->object, $copied_nodes);
 				$id = $new_page->getId();
+				ilLMObject::updateInternalLinks($copied_nodes);
 			}
 		}
 
@@ -1933,12 +1935,13 @@ return;
 		{
 			$id = ilEditClipboard::getContentObjectId();
 
+			$copied_nodes = array();
 			if (ilLMObject::_lookupContObjID($id)
 				== $this->object->getID())
 			{
 				$source_obj = ilLMObjectFactory::getInstance($this->object, $id, true);
 				$source_obj->setLMId($this->object->getId());
-				$source_obj->copy($target_tree, $parent, $target);
+				$source_obj->copy($target_tree, $parent, $target, $copied_nodes);
 			}
 			else
 			{
@@ -1947,10 +1950,12 @@ return;
 				$source_lm =& ilObjectFactory::getInstanceByObjId($lm_id);
 				$source_obj = ilLMObjectFactory::getInstance($source_lm, $id, true);
 				$source_obj->setLMId($lm_id);
-				$source_obj->copy($target_tree, $parent, $target);
+				$source_obj->copy($target_tree, $parent, $target, $copied_nodes);
 			}
 		}
 
+		ilLMObject::updateInternalLinks($copied_nodes);
+		
 		ilEditClipboard::clear();
 
 		// check the tree
@@ -3311,13 +3316,15 @@ return;
 		
 		// copy and paste
 		$chapters = $ilUser->getClipboardObjects("st");
+		$copied_nodes = array();
 		foreach ($chapters as $chap)
 		{
 			$cid = ilLMObject::pasteTree($this->object, $chap["id"], $parent_id,
-				$target, $chap["insert_time"],
+				$target, $chap["insert_time"], $copied_nodes,
 				(ilEditClipboard::getAction() == "copy"));
 			$target = $cid;
 		}
+		ilLMObject::updateInternalLinks($copied_nodes);
 
 		if (ilEditClipboard::getAction() == "cut")
 		{
