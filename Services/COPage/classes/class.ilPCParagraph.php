@@ -587,6 +587,8 @@ echo htmlentities($a_text);*/
 	{
 		$rows = explode("<br />", $a_text."<br />");
 		
+//var_dump($a_text);
+
 		$old_level = 0;
 
 		$text = "";
@@ -641,6 +643,10 @@ echo htmlentities($a_text);*/
 					{
 						$clist[$i] = "SimpleNumberedList";
 					}
+					if ($old_level == 0)
+					{
+						$text.= "<br />";
+					}
 					$text.= "<".$clist[$i]."><SimpleListItem>";
 				}
 			}
@@ -659,6 +665,8 @@ echo htmlentities($a_text);*/
 			$text = substr($text, 0, strlen($text) - 6);
 		}
 		
+//var_dump($text);
+
 		return $text;
 	}
 	
@@ -720,7 +728,7 @@ echo htmlentities($a_text);*/
 				{
 					if ($list_start)
 					{
-						$text.= "<br />";
+//						$text.= "<br />";
 						$list_start = false;
 					}
 					foreach($current_list as $list)
@@ -929,6 +937,8 @@ echo htmlentities($a_text);*/
 	{
 		$a_text = "<br />".$a_text."<br />";		// add preceding and trailing br
 		
+//var_dump($a_text);
+		
 		$chunks = array();
 		$c_text = $a_text;
 		while ($c_text != "")
@@ -1019,6 +1029,7 @@ echo htmlentities($a_text);*/
 			$chunks[] = array("level" => 0, "text" => "");
 		}
 		
+
 		// remove preceding br
 		if (substr($chunks[0]["text"], 0, 6) == "<br />")
 		{
@@ -1030,13 +1041,16 @@ echo htmlentities($a_text);*/
 			strlen($chunks[count($chunks) - 1]["text"]) - 6, 6) == "<br />")
 		{
 			$chunks[count($chunks) - 1]["text"] =
-				substr($chunks[0]["text"], 0, strlen($chunks[count($chunks) - 1]["text"]) - 6);
+				substr($chunks[count($chunks) - 1]["text"], 0, strlen($chunks[count($chunks) - 1]["text"]) - 6);
 			if ($chunks[count($chunks) - 1]["text"] == "")
 			{
 				unset($chunks[count($chunks) - 1]);
 			}
 		}
+
 		
+//var_dump($chunks);
+
 		return $chunks;
 	}
 	
