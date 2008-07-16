@@ -165,19 +165,40 @@ class ilCalendarSharedStatus
 	 * delete status
 	 *
 	 * @access public
-	 * @param int usr_id
+	 * @param int usr_id or role_id
 	 * @param int calendar_id
 	 * @return
 	 * @static
 	 */
-	public static function deleteStatus($a_usr_id,$a_calendar_id)
+	public static function deleteStatus($a_id,$a_calendar_id)
 	{
-		global $ilDB;
+		global $ilDB,$rbacreview;
 		
-		$query = "DELETE FROM cal_shared_status ".
-			"WHERE cal_id = ".$ilDB->quote($a_calendar_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+		
+		if(ilObject::_lookupType($a_id) == 'usr')
+		{
+			$query = "DELETE FROM cal_shared_status ".
+				"WHERE cal_id = ".$ilDB->quote($a_calendar_id)." ".
+				"AND usr_id = ".$ilDB->quote($a_id)." ";
+			$ilDB->query($query);
+			
+		}
+		elseif(ilObject::_lookupType($a_id) == 'role')
+		{
+			$assigned_users = $rbacreview->assignedUsers($a_id);
+			
+			if(!count($assigned_users))
+			{
+				return true;
+			}
+			
+			$query = "DELETE FROM cal_shared_status ".
+				"WHERE cal_id = ".$ilDB->quote($a_calendar_id)." ".
+				"AND usr_id IN (".implode(',',ilUtil::quoteArray($assigned_users)).") ";
+			$ilDB->query($query);
+			
+		}		
+		
 		return true;
 	}
 	

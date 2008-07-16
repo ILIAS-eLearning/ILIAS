@@ -93,7 +93,7 @@ class ilDatePresentation
 				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
 				
 			case ilCalendarSettings::TIME_FORMAT_12:
-				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone());
+				return $date_str.', '.$date->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
 		}
 	}
 	
@@ -148,8 +148,8 @@ class ilDatePresentation
 								$end->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
 							
 						case ilCalendarSettings::TIME_FORMAT_12:
-							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone()).' - '.
-								$end->get(IL_CAL_FKT_DATE,'h:i a',$ilUser->getTimeZone());
+							return $date_str.', '.$start->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone()).' - '.
+								$end->get(IL_CAL_FKT_DATE,'g:i a',$ilUser->getTimeZone());
 					}
 				}
 			}
