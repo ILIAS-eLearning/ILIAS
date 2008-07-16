@@ -97,47 +97,19 @@ class ilStructureObject extends ilLMObject
 	*/
 	function copy($a_target_lm)
 	{
-/*		$lm =& $this->getContentObject();
-		$source_tree = new ilTree($lm->getId());
-		$source_tree->setTableNames('lm_tree','lm_data');
-		$source_tree->setTreeTablePK("lm_id");
-*/
-
-		// copy chapter
-//		$target_lm_id = $a_target_tree->getTreeId();
-//		$target_lm = ilObjectFactory::getInstanceByObjId($target_lm_id);
-		
 		$chap = new ilStructureObject($a_target_lm);
 		$chap->setTitle($this->getTitle());
 		$chap->setLMId($a_target_lm->getId());
 		$chap->setType($this->getType());
 		$chap->setDescription($this->getDescription());
 		$chap->create(true);
+		$a_copied_nodes[$this->getId()] = $chap->getId();
 		
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$new_md =& $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
 		
-		// insert chapter in tree
-/*
-		$a_target_tree->insertNode($chap->getId(), $a_parent, $a_pos);
-
-		$childs =& $source_tree->getChilds($this->getId());
-		foreach($childs as $child)
-		{
-			$lmobj = ilLMObjectFactory::getInstance($this->getContentObject(), $child["obj_id"], true);
-			if ($child["type"] == "st")
-			{
-				$newobj =& $lmobj->copy($a_target_tree, $chap->getId());
-			}
-			else
-			{
-				$newobj =& $lmobj->copyToOtherContObject($target_lm);
-				$a_target_tree->insertNode($newobj->getId(), $chap->getId());
-			}
-		}
-*/
 		return $chap;
 	}
 

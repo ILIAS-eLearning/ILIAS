@@ -560,7 +560,37 @@ class ilLMObject
 
 		return 0;
 	}
-	
+
+	/**
+	* Get all items for an import ID
+	*
+	* (only for items notnot in trash)
+	*
+	* @param	int		$a_import_id		import id
+	*
+	* @return	int		id
+	*/
+	function _getAllObjectsForImportId($a_import_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM lm_data WHERE import_id = ".$ilDB->quote($a_import_id)." ".
+			" ORDER BY create_date DESC";
+		$obj_set = $ilDB->query($q);
+		
+		$items = array();
+		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			// check, whether lm is not trashed
+			if (ilObject::_hasUntrashedReference($obj_rec["lm_id"]))
+			{
+				$items[] = $obj_rec;
+			}
+		}
+
+		return $items;
+	}
+
 	/**
 	* checks wether a lm content object with specified id exists or not
 	*
@@ -843,7 +873,7 @@ class ilLMObject
 	* Paste item (tree) from clipboard to current lm
 	*/
 	static function pasteTree($a_target_lm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
-		$a_as_copy = false)
+		&$a_copied_nodes, $a_as_copy = false)
 	{
 		global $ilUser, $ilias;
 		
@@ -854,7 +884,7 @@ class ilLMObject
 		{
 			$item = new ilStructureObject($lm_obj, $a_item_id);
 		}
-		else
+		else if ($item_type == "pg")
 		{
 			$item = new ilLMPageObject($lm_obj, $a_item_id);
 		}
@@ -888,6 +918,7 @@ class ilLMObject
 		if ($a_as_copy)
 		{
 			$target_item = $item->copy($a_target_lm);
+			$a_copied_nodes[$item->getId()] = $target_item->getId();
 		}
 		else
 		{
@@ -904,8 +935,7 @@ class ilLMObject
 		foreach($childs as $child)
 		{
 			ilLMObject::pasteTree($a_target_lm, $child["id"], $target_item->getId(),
-				IL_LAST_NODE, $a_insert_time,
-				$a_as_copy);
+				IL_LAST_NODE, $a_insert_time, $a_copied_nodes, $a_as_copy);
 		}
 		
 		return $target_item->getId();
@@ -934,6 +964,116 @@ class ilLMObject
 					$md_gen->update();
 					$md->update();
 					ilLMObject::_writeTitle($id, $title);
+				}
+			}
+		}
+	}
+
+	/**
+	* Update internal links, after multiple pages have been copied
+	*/
+	static function updateInternalLinks($a_copied_nodes, $a_parent_type = "lm")
+	{
+		foreach($a_copied_nodes as $original_id => $copied_id)
+		{
+//echo "<br><br>-$original_id-$copied_id-";
+			if (ilLMObject::_lookupType($copied_id) == "pg")
+			{
+				//
+				// 1. Outgoing links from the copied page.
+				//
+				$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
+				$copy_lm = ilLMObject::_lookupContObjID($copied_id);
+//echo "<br>-outgoing links-";
+				$fix = array();
+				foreach($targets as $target)
+				{
+					if (($target["inst"] == 0 || $target["inst"] = IL_INST_ID) &&
+						($target["type"] == "pg" || $target["type"] == "st"))
+					{
+						// first check, whether target is also within the copied set
+						if ($a_copied_nodes[$target["id"]] > 0)
+						{
+							$fix[$target["id"]] = $a_copied_nodes[$target["id"]];
+						}
+						else
+						{
+							// now check, if a copy if the target is already in the same lm
+							$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$target["type"]."_".$target["id"]);
+//var_dump($lm_data);
+							$found = false;
+							foreach($lm_data as $item)
+							{
+								if (!$found && ($item["lm_id"] == $copy_lm))
+								{
+									$fix[$target["id"]] = $item["obj_id"];
+								}
+							}
+							
+							if (!$found)
+							{
+								// we now could look for copies next to the copy lm
+							}
+						}
+					}
+				}
+//echo "<br>Fix:";
+//var_dump($fix);
+				// outgoing links to be fixed
+				if (count($fix) > 0)
+				{
+					$page = new ilPageObject(ilObject::_lookupType($copy_lm), $copied_id);
+					$page->moveIntLinks($fix);
+					$page->update();
+				}
+				
+				//
+				// 2. Incoming links to the original pages
+				//
+				// A->B			A2			(A+B currently copied)
+				// A->C			B2
+				// B->A
+				// C->A			C2->A		(C already copied)
+				$original_lm = ilLMObject::_lookupContObjID($original_id);
+				$original_type = ilObject::_lookupType($original_lm);
+				
+				// This gets sources that link to A+B (so we have C here)
+				$sources = ilInternalLink::_getSourcesOfTarget($original_type.":pg", $original_id, 0);
+				
+				$fix = array();
+				foreach($sources as $source)
+				{
+					if (($source["inst"] == 0 || $source["inst"] = IL_INST_ID) &&
+						($source["type"] == "pg" || $source["type"] == "st"))
+					{
+						// check, if a copy if the source is already in the same lm
+						// now we look for the latest copy of C in LM2
+						$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$source["type"]."_".$source["id"]);
+						$found = false;
+						foreach($lm_data as $item)
+						{
+							if (!$found && ($item["lm_id"] == $copy_lm))
+							{
+								$fix[$item["obj_id"]][$original_id] = $copied_id;
+							}
+						}
+						
+						if (!$found)
+						{
+							// we now could look for copies next to the copy lm
+						}
+					}
+				}
+
+				// incoming links to be fixed
+				if (count($fix) > 0)
+				{
+					foreach ($fix as $page_id => $fix_array)
+					{
+						$page = new ilPageObject(ilObject::_lookupType($copy_lm), $page_id);
+						$page->moveIntLinks($fix_array);
+						$page->update();
+					}
 				}
 			}
 		}

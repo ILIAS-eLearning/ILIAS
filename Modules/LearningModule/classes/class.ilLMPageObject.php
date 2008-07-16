@@ -137,6 +137,7 @@ class ilLMPageObject extends ilLMObject
 		$lm_page->setLMId($a_target_lm->getId());
 		$lm_page->setType($this->getType());
 		$lm_page->setDescription($this->getDescription());
+		$lm_page->setImportId("il__pg_".$this->getId());
 		$lm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
 
 		// copy meta data
@@ -156,15 +157,17 @@ class ilLMPageObject extends ilLMObject
 	/**
 	* copy a page to another content object (learning module / dlib book)
 	*/
-	function copyToOtherContObject(&$a_cont_obj)
+	function &copyToOtherContObject(&$a_cont_obj, &$a_copied_nodes)
 	{
 		// copy page
 		$lm_page =& new ilLMPageObject($a_cont_obj);
 		$lm_page->setTitle($this->getTitle());
 		$lm_page->setLMId($a_cont_obj->getId());
+		$lm_page->setImportId("il__pg_".$this->getId());
 		$lm_page->setType($this->getType());
 		$lm_page->setDescription($this->getDescription());
 		$lm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
+		$a_copied_nodes[$this->getId()] = $lm_page->getId();
 
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");

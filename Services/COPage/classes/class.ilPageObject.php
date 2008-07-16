@@ -1110,7 +1110,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
-	* resolves all internal link targets of the page, if targets are available
+	* Resolves all internal link targets of the page, if targets are available
+	* (after import)
 	*/
 	function resolveIntLinks()
 	{
@@ -1157,6 +1158,39 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$mob_id = $id_arr[count($id_arr) - 1];
 			ilMediaItem::_resolveMapAreaLinks($mob_id);
 		}
+	}
+
+	/**
+	* Move internal links from one destination to another
+	*
+	* @param	array	keys are the old targets, values are the new targets
+	*/
+	function moveIntLinks($a_from_to)
+	{
+		$this->buildDom();
+		
+		// resolve normal internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//IntLink";
+		$res =& xpath_eval($xpc, $path);
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$target = $res->nodeset[$i]->get_attribute("Target");
+			$type = $res->nodeset[$i]->get_attribute("Type");
+			$obj_id = ilInternalLink::_extractObjIdOfTarget($target);
+			if ($a_from_to[$obj_id] > 0)
+			{
+				if ($type == "PageObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg")
+				{
+					$res->nodeset[$i]->set_attribute("Target", "il__pg_".$a_from_to[$obj_id]);
+				}
+				if ($type == "StructureObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "st")
+				{
+					$res->nodeset[$i]->set_attribute("Target", "il__st_".$a_from_to[$obj_id]);
+				}
+			}
+		}
+		unset($xpc);
 	}
 
 	/**

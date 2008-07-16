@@ -631,8 +631,10 @@ return;
 				$lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
 				$lm_obj =& $this->ilias->obj_factory->getInstanceByObjId($lm_id);
 				$lm_page = new ilLMPageObject($lm_obj, $id);
-				$new_page =& $lm_page->copyToOtherContObject($this->content_object);
+				$copied_nodes = array();
+				$new_page =& $lm_page->copyToOtherContObject($this->content_object, $copied_nodes);
 				$id = $new_page->getId();
+				ilLMObject::updateInternalLinks($copied_nodes);
 			}
 		}
 		
@@ -1035,13 +1037,16 @@ return;
 		
 		// copy and paste
 		$chapters = $ilUser->getClipboardObjects("st");
+		$copied_nodes = array();
+
 		foreach ($chapters as $chap)
 		{
 			$cid = ilLMObject::pasteTree($this->content_object, $chap["id"], $parent_id,
-				$target, $chap["insert_time"],
+				$target, $chap["insert_time"], $copied_nodes,
 				(ilEditClipboard::getAction() == "copy"));
 			$target = $cid;
 		}
+		ilLMObject::updateInternalLinks($copied_nodes);
 
 		if (ilEditClipboard::getAction() == "cut")
 		{
@@ -1123,13 +1128,15 @@ return;
 
 		// cut and paste
 		$pages = $ilUser->getClipboardObjects("pg");
+		$copied_nodes = array();
 		foreach ($pages as $pg)
 		{
 			$cid = ilLMObject::pasteTree($this->content_object, $pg["id"], $parent_id, $target,
-				$pg["insert_time"],
+				$pg["insert_time"], $copied_nodes,
 				(ilEditClipboard::getAction() == "copy"));
 			$target = $cid;
 		}
+		ilLMObject::updateInternalLinks($copied_nodes);
 
 		if (ilEditClipboard::getAction() == "cut")
 		{
