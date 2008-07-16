@@ -2362,16 +2362,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 			$start = new ilDateTimeInputGUI($this->lng->txt('grp_reg_start'),'registration_start');
 			$start->setShowTime(true);
-			#$start->setDate($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone()));
-			$start->setDate($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'Y-m-d'));
-			#$start->setTime($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone()));
-			$start->setTime($this->object->getRegistrationStart()->get(IL_CAL_FKT_DATE,'H:i:s'));
+			$start->setDate($this->object->getRegistrationStart());
 			$time_limit->addSubItem($start);
 			
 			$end = new ilDateTimeInputGUI($this->lng->txt('grp_reg_end'),'registration_end');
 			$end->setShowTime(true);
-			$end->setDate($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'Y-m-d'));
-			$end->setTime($this->object->getRegistrationEnd()->get(IL_CAL_FKT_DATE,'H:i:s'));
+			$end->setDate($this->object->getRegistrationEnd());
 			
 			$time_limit->addSubItem($end);
 		
@@ -2471,9 +2467,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$dt['minutes'] = (int) $_POST[$a_field]['time']['m'];
 		$dt['seconds'] = (int) $_POST[$a_field]['time']['s'];
 		
-		#$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
-		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE);
-		#$date->switchTimeZone();
+		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
 		return $date;		
 	}
 	

@@ -393,12 +393,12 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 		$radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_until'),ilObjRemoteCourse::ACTIVATION_LIMITED);
 		
 		$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'start');
-		$start->setUnixTime(time());
+		$start->setDate(new ilDateTime(time(),IL_CAL_UNIX));
 		$start->setDisabled(true);
 		$start->setShowTime(true);
 		$radio_opt->addSubItem($start);
 		$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'end');
-		$end->setUnixTime(time());
+		$end->setDate(new ilDateTime(time(),IL_CAL_UNIX));
 		$end->setDisabled(true);
 		$end->setShowTime(true);
 		$radio_opt->addSubItem($end);

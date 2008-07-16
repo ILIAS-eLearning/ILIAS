@@ -321,14 +321,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$myseed = clone($this->seed);
 		$ilCtrl->setParameterByClass('ilcalendarmonthgui','seed',$myseed->get(IL_CAL_DATE));
 		$a_tpl->setVariable('OPEN_MONTH_VIEW',$ilCtrl->getLinkTargetByClass('ilcalendarmonthgui',''));
+		
 		$myseed->increment(ilDateTime::MONTH, -1);
 		$ilCtrl->setParameterByClass("ilcolumngui",'seed',$myseed->get(IL_CAL_DATE));
 		$a_tpl->setVariable('PREV_MONTH',
 			$ilCtrl->getLinkTargetByClass("ilcolumngui", ""));
+			
 		$myseed->increment(ilDateTime::MONTH, 2);
 		$ilCtrl->setParameterByClass("ilcolumngui",'seed',$myseed->get(IL_CAL_DATE));
 		$a_tpl->setVariable('NEXT_MONTH',
 			$ilCtrl->getLinkTargetByClass("ilcolumngui", ""));
+
 		$ilCtrl->setParameterByClass("ilcolumngui",'seed',$_GET["seed"]);
 		$a_tpl->parseCurrentBlock();
 	}

@@ -889,7 +889,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
+	
 		$this->initCreate();
 		$this->initForm("create");
 		if ($this->form_gui->checkInput())
@@ -901,6 +901,13 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			// checks passed. save user
 			$userObj = new ilObjUser();
+			
+			$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from'],IL_CAL_DATETIME,$ilUser->getTimeZone());
+			$_POST['time_limit_from'] = $from->get(IL_CAL_UNIX);
+			
+			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until'],IL_CAL_DATETIME,$ilUser->getTimeZone());
+			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
+			
 			$userObj->assignData($_POST);
 			$userObj->setTitle($userObj->getFullname());
 			$userObj->setDescription($userObj->getEmail());
@@ -1059,7 +1066,6 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 			}
 		}
-
 		$this->initForm("edit");
 		if ($this->form_gui->checkInput())
 		{
@@ -1071,6 +1077,13 @@ class ilObjUserGUI extends ilObjectGUI
 				$_POST['passwd'] = "********";
 			}
 			$_POST["passwd_type"] = IL_PASSWD_PLAIN;
+			
+			$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
+			$_POST['time_limit_from'] = $from->get(IL_CAL_UNIX);
+			
+			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
+			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
+			
 			
 			$this->object->assignData($_POST);
 			
@@ -1160,12 +1173,16 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["last_login"] = $this->object->getLastLogin();
 		$data["active"] = $this->object->getActive();
 		$data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
-		$from = $this->object->getTimeLimitFrom();
-		$data["time_limit_from"]["date"] = date("Y-m-d", $from);
-		$data["time_limit_from"]["time"] = date("H:i:s", $from);
-		$until = $this->object->getTimeLimitUntil();
-		$data["time_limit_until"]["date"] = date("Y-m-d", $until);
-		$data["time_limit_until"]["time"] = date("H:i:s", $until);
+		
+		$from = new ilDateTime($this->object->getTimeLimitFrom() ? $this->object->getTimeLimitFrom() : time(),IL_CAL_UNIX);
+		$data["time_limit_from"]["date"] = $from->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		$data["time_limit_from"]["time"] = $from->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+
+		$until = new ilDateTime($this->object->getTimeLimitUntil() ? $this->object->getTimeLimitUntil() : time(),IL_CAL_UNIX);
+		$data['time_limit_until']['date'] = $until->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		$data['time_limit_until']['time'] = $until->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+
+		
 		require_once "Modules/File/classes/class.ilObjFileAccess.php";
 		require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
 		require_once "Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
@@ -3333,6 +3350,5 @@ class ilObjUserGUI extends ilObjectGUI
 			
 		return "<br/>".$this->lng->txt("mail_sent");
 	}
-
 } // END class.ilObjUserGUI
 ?>

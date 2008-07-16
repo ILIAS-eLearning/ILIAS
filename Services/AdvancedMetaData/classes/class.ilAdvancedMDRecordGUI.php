@@ -236,6 +236,8 @@ class ilAdvancedMDRecordGUI
 	 */
 	private function parseEditor()
 	{
+	 	global $ilUser;
+	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 	 	foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type) as $record_obj)
 	 	{
@@ -278,9 +280,12 @@ class ilAdvancedMDRecordGUI
 	 					break;
 	 					
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+	 					
+	 					$unixtime = $value->getValue() ? $value->getValue() : mktime(8,0,0,date('m'),date('d'),date('Y'));
+	 				
 	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
 	 					$time->setShowTime(false);
-	 					$time->setUnixTime($value->getValue());
+	 					$time->setDate(new ilDate($unixtime,IL_CAL_UNIX));
 	 					$time->enableDateActivation($this->lng->txt('enabled'),
 							'md_activated['.$def->getFieldId().']',
 							$value->getValue() ? true : false);
@@ -290,9 +295,12 @@ class ilAdvancedMDRecordGUI
 	 					break;
 	 					
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+
+	 					$unixtime = $value->getValue() ? $value->getValue() : mktime(8,0,0,date('m'),date('d'),date('Y'));
+
 	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
 	 					$time->setShowTime(true);
-	 					$time->setUnixTime($value->getValue());
+	 					$time->setDate(new ilDateTime($unixtime,IL_CAL_UNIX,$ilUser->getTimeZone()));
 	 					$time->enableDateActivation($this->lng->txt('enabled'),
 							'md_activated['.$def->getFieldId().']',
 							$value->getValue() ? true : false);
@@ -383,13 +391,13 @@ class ilAdvancedMDRecordGUI
 	 					{
 	 						$time->setShowTime(true);
 	 					}
-						if(isset($this->search_values['date_start'][$field->getFieldId()]))
+						if(isset($this->search_values['date_start'][$field->getFieldId()]) and 0)
 						{
-							$time->setUnixTime($this->toUnixTime($this->search_values['date_start'][$field->getFieldId()]['date'],$this->search_values['date_start'][$field->getFieldId()]['time']));							
+							#$time->setUnixTime($this->toUnixTime($this->search_values['date_start'][$field->getFieldId()]['date'],$this->search_values['date_start'][$field->getFieldId()]['time']));							
 						}
 						else
 						{
-							$time->setUnixTime(mktime(8,0,0,date('m'),date('d'),date('Y')));
+							$time->setDate(new iDateTime(mktime(8,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
 						}
 	 					$check->addSubItem($time);
 
@@ -402,13 +410,13 @@ class ilAdvancedMDRecordGUI
 	 					{
 	 						$time->setShowTime(true);
 	 					}
-						if(isset($this->search_values['date_end'][$field->getFieldId()]))
+						if(isset($this->search_values['date_end'][$field->getFieldId()]) and 0)
 						{
-							$time->setUnixTime($this->toUnixTime($this->search_values['date_end'][$field->getFieldId()]['date'],$this->search_values['date_end'][$field->getFieldId()]['time']));							
+							#$time->setUnixTime($this->toUnixTime($this->search_values['date_end'][$field->getFieldId()]['date'],$this->search_values['date_end'][$field->getFieldId()]['time']));							
 						}
 						else
 						{
-		 					$time->setUnixTime(mktime(16,0,0,date('m')+1,date('d'),date('Y')));
+							$time->setDate(new iDateTime(mktime(16,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
 						}
 	 					$check->addSubItem($time);
 
@@ -523,14 +531,18 @@ class ilAdvancedMDRecordGUI
 	 */
 	private function showECSStart($def)
 	{
+		global $ilUser;
+		
 		$this->lng->loadLanguageModule('ecs');
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
 		$value_start = ilAdvancedMDValue::_getInstance($this->obj_id,$def->getFieldId());
 		
+		$unixtime = $value_start->getValue() ? $value_start->getValue() : mktime(8,0,0,date('m'),date('d'),date('Y'));
+		
 		$time = new ilDateTimeInputGUI($this->lng->txt('ecs_event_appointment'),'md['.$def->getFieldId().']');
 		$time->setShowTime(true);
-		$time->setUnixTime($value_start->getValue());
+		$time->setDate(new ilDateTime($unixtime,IL_CAL_UNIX));
 		$time->enableDateActivation($this->lng->txt('enabled'),
 			'md_activated['.$def->getFieldId().']',
 			$value_start->getValue() ? true : false);

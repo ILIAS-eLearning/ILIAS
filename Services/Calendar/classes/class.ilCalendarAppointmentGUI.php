@@ -169,15 +169,13 @@ class ilCalendarAppointmentGUI
 		$this->form->addItem($fullday);
 
 		$start = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'start');
-		$start->setDate($this->app->getStart()->get(IL_CAL_DATE,'',$this->timezone));
+		$start->setDate($this->app->getStart());
 		$start->setShowTime(true);
 		$start->setMinuteStepSize(5);
-		$start->setTime($this->app->getStart()->get(IL_CAL_FKT_DATE,'H:i:s',$this->timezone));
 		$fullday->addSubItem($start);
 		
 		$end = new ilDateTimeInputGUI($this->lng->txt('cal_end'),'end');
-		$end->setDate($this->app->getEnd()->get(IL_CAL_DATE,'',$this->timezone));
-		$end->setTime($this->app->getEnd()->get(IL_CAL_FKT_DATE,'H:i:s',$this->timezone));
+		$end->setDate($this->app->getEnd());
 		$end->setShowTime(true);
 		$end->setMinuteStepSize(5);
 		$fullday->addSubItem($end);

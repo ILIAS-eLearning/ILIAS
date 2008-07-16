@@ -926,8 +926,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			
 				$dt_prop = new ilDateTimeInputGUI($lng->txt("news_hide_news_date"),
 					"hide_news_date");
-				$dt_prop->setDate($hide_news_date[0]);
-				$dt_prop->setTime($hide_news_date[1]);
+				$dt_prop->setDate(new ilDateTime($hide_news_date[0].' '.$hide_news_date[1],IL_CAL_DATETIME));
+				#$dt_prop->setDate($hide_news_date[0]);
+				#$dt_prop->setTime($hide_news_date[1]);
 				$dt_prop->setShowTime(true);
 				//$dt_prop->setInfo($lng->txt("news_hide_news_date_info"));
 				$hnpd->addSubItem($dt_prop);
@@ -1035,8 +1036,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				ilBlockSetting::_write($this->getBlockType(), "hide_news_per_date", $_POST["hide_news_per_date"],
 					0, $this->block_id);
 //echo "-".$this->getBlockType()."-".$this->block_id."-"; // news obj_id
+
+				// Convert datetime to utc
+				$tmp_date = new ilDateTime($_POST["hide_news_date"]["date"]." ".$_POST["hide_news_date"]["time"],IL_CAL_DATETIME,$ilUser->getTimeZone());
+				$utc_datetime = $tmp_date->get(IL_CAL_DATETIME,'','UTC');
+
 				ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
-					$_POST["hide_news_date"]["date"]." ".$_POST["hide_news_date"]["time"],
+					$utc_datetime,
 					0, $this->block_id);
 			}
 				
