@@ -53,7 +53,7 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
 		
 		$this->addColumn('','id','1px');
 		$this->addColumn($this->lng->txt('type'),'type','1px');
-		$this->addColumn($this->lng->txt('login'),'name','20%');
+		$this->addColumn($this->lng->txt('title'),'title','20%');
 		
 		$this->addMultiCommand('shareDeassign',$this->lng->txt('cal_unshare_cal'));
 		$this->setPrefix('shared');
@@ -81,7 +81,7 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
 	public function fillRow($a_set)
 	{
 		$this->tpl->setVariable('VAL_ID',$a_set['obj_id']);
-		$this->tpl->setVariable('NAME',$a_set['name']);
+		$this->tpl->setVariable('NAME',$a_set['title']);
 		
 		if(strlen($a_set['description']))
 		{
@@ -89,7 +89,7 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$a_set['type'].'_s.gif'));
-		$this->tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$a_set['type']));
+		$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$a_set['type']));
 		
 	}
 	
@@ -112,14 +112,14 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
 					$data['type'] = 'usr';
 					
 					$name = ilObjUser::_lookupName($item['obj_id']);
-					$data['name'] = $name['lastname'].', '.$name['firstname'];
+					$data['title'] = $name['lastname'].', '.$name['firstname'];
 					$data['description'] = '';
 					break;
 					
 					
 				case ilCalendarShared::TYPE_ROLE:
 					$data['type'] = 'role';
-					$data['name'] = ilObject::_lookupTitle($item['obj_id']);
+					$data['title'] = ilObject::_lookupTitle($item['obj_id']);
 					$data['description'] = ilObject::_lookupDescription($item['obj_id']);
 					break;
 			}

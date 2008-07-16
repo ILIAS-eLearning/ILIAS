@@ -6723,7 +6723,7 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_tst_svy#:#Tests/Surveys
-search#:#search_type#:#Search type
+search#:#search_type#:#Search Type
 search#:#search_user#:#Users
 search#:#until#:#up to
 style#:#sty_all#:#All
@@ -8466,3 +8466,5 @@ payment#:#pay_enable_shop#:#Enable Webshop
 payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.
 payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.
+dateplaner#:#cal_share_search_role_header#:#Role Selection
+common#:#assigned_members#:#Assigned Members

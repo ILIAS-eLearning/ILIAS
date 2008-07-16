@@ -32,9 +32,9 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @ingroup ServicesCalendar
 */
 
-class ilCalendarSharedUserListTableGUI extends ilTable2GUI
+class ilCalendarSharedRoleListTableGUI extends ilTable2GUI
 {
-	protected $user_ids = array();
+	protected $role_ids = array();
 	
 	/**
 	 * Constructor
@@ -48,14 +48,14 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
 	{
 		parent::__construct($parent_obj,$parent_cmd);
 		
-		$this->setRowTemplate('tpl.calendar_shared_user_list_row.html','Services/Calendar');
+		$this->setRowTemplate('tpl.calendar_shared_role_list_row.html','Services/Calendar');
 		
 		$this->addColumn('','id','1px');
-		$this->addColumn($this->lng->txt('name'),'last_firstname','60%');
-		$this->addColumn($this->lng->txt('login'),'login','40%');
+		$this->addColumn($this->lng->txt('objs_role'),'title','75%');
+		$this->addColumn($this->lng->txt('assigned_members'),'num','25%');
 		
-		$this->addMultiCommand('shareAssign',$this->lng->txt('cal_share_cal'));
-		$this->setSelectAllCheckbox('user_ids');
+		$this->addMultiCommand('shareAssignRoles',$this->lng->txt('cal_share_cal'));
+		$this->setSelectAllCheckbox('role_ids');
 		$this->setPrefix('search');
 	}
 	
@@ -66,9 +66,9 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
 	 * @param array array of user ids
 	 * @return bool
 	 */
-	public function setUsers($a_user_ids)
+	public function setRoles($a_role_ids)
 	{
-		$this->user_ids = $a_user_ids;
+		$this->role_ids = $a_role_ids;
 	}
 	
 	/**
@@ -79,11 +79,15 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
+	
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		
-		$this->tpl->setVariable('LASTNAME',$a_set['lastname']);
-		$this->tpl->setVariable('FIRSTNAME',$a_set['firstname']);
-		$this->tpl->setVariable('LOGIN',$a_set['login']);
+		$this->tpl->setVariable('TITLE',$a_set['title']);
+		if(strlen($a_set['description']))
+		{
+			$this->tpl->setVariable('DESCRIPTION',$a_set['description']);
+		}
+		$this->tpl->setVariable('NUM_USERS',$a_set['num']);
 	}
 	
 	
@@ -95,22 +99,20 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
+		global $rbacreview;
 		
 		$users = array();
-		foreach($this->user_ids as $id)
+		foreach($this->role_ids as $id)
 		{
-			$name = ilObjUser::_lookupName($id);
-			
+			$tmp_data['title'] = ilObject::_lookupTitle($id);
+			$tmp_data['description'] = ilObject::_lookupDescription($id);
 			$tmp_data['id'] = $id;
-			$tmp_data['lastname']  = $name['lastname'];
-			$tmp_data['firstname'] = $name['firstname'];
-			$tmp_data['login'] = ilObjUser::_lookupLogin($id);
-			$tmp_data['last_firstname'] = $tmp_data['lastname'].$tmp_data['firstname'].$tmp_data['login'];
+			$tmp_data['num'] = count($rbacreview->assignedUsers($id));
 			
-			$users[] = $tmp_data;
+			$roles[] = $tmp_data;
 		}
 
-		$this->setData($users ? $users : array());
+		$this->setData($roles ? $roles : array());
 	}
 	
 	
