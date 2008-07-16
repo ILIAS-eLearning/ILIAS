@@ -147,7 +147,7 @@ class ilCalendarShared
 	 */
 	public static function getSharedCalendarsForUser($a_usr_id  = 0)
 	{
-		global $ilDB,$ilUser;
+		global $ilDB,$ilUser,$rbacreview;
 		
 		if(!$a_usr_id)
 		{
@@ -160,14 +160,43 @@ class ilCalendarShared
 			"ORDER BY create_date";
 		$res = $ilDB->query($query);
 		$counter = 0;
+		$calendars = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			$calendars[] = $row->cal_id; 
+			
 			$shared[$counter]['cal_id'] = $row->cal_id;
 			$shared[$counter]['create_date'] = $row->create_date;
 			$shared[$counter]['obj_type'] = $row->obj_type;
 			
 			$counter++;
-		}	
+		}
+		
+		$assigned_roles = $rbacreview->assignedRoles($ilUser->getId());
+		
+		$query = "SELECT * FROM cal_shared ".
+			"WHERE obj_type = ".$ilDB->quote(self::TYPE_ROLE)." ".
+			"AND obj_id IN (".implode(",",ilUtil::quoteArray($assigned_roles)).") ";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if(in_array($row->cal_id,$calendars))
+			{
+				continue;
+			}
+			if(ilCalendarCategories::_isOwner($ilUser->getId(),$row->cal_id))
+			{
+				continue;
+			}
+			
+			$shared[$counter]['cal_id'] = $row->cal_id;
+			$shared[$counter]['create_date'] = $row->create_date;
+			$shared[$counter]['obj_type'] = $row->obj_type;
+			$counter++;
+		}
+		
+			
 		
 		return $shared ? $shared : array();
 		// TODO: return also role calendars

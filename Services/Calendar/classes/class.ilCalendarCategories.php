@@ -112,6 +112,27 @@ class ilCalendarCategories
 	}
 	
 	/**
+	 * check if user is owner of a category
+	 *
+	 * @access public
+	 * @param int usr_id
+	 * @param int cal_id
+	 * @return bool
+	 * @static
+	 */
+	public static function _isOwner($a_usr_id,$a_cal_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM cal_categories ".
+			"WHERE cat_id = ".$ilDB->quote($a_cal_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_usr_id)." ".
+			"AND type = ".$ilDB->quote(ilCalendarCategory::TYPE_USR)." ";
+		$res = $ilDB->query($query);
+		return $res->numRows() ? true : false;
+	}
+	
+	/**
 	 * initialize visible categories
 	 *
 	 * @access public

@@ -8437,3 +8437,5 @@ payment#:#pay_enable_shop#:#Webshop aktivieren
 payment#:#pay_enable_shop_info#:#Wenn aktiviert, ist der ILIAS Webshop verfügbar und Objekte können von Benutzern gekauft werden.
 payment#:#payment_shop_not_objects_found#:#Es konnten keine kaufbaren Objekte gefunden werden.
 payment#:#payment_login_to_buy_object#:#Bitte melden Sie Sich bei ILIAS an, um Objekte in den Warenkorb legen zu können.
+dateplaner#:#cal_share_search_role_header#:#Rollenauswahl
+common#:#assigned_members#:#Zugeordnete TeilnehmerInnen

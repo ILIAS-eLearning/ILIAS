@@ -34,6 +34,9 @@
 
 class ilCalendarCategoryGUI
 {
+	const SEARCH_USER = 1;
+	const SEARCH_ROLE = 2;
+	
 	protected $user_id;
 	protected $tpl;
 	protected $ctrl;
@@ -410,10 +413,12 @@ class ilCalendarCategoryGUI
 		if(!isset($_POST['query']))
 		{
 			$query = $_SESSION['cal_query'];
+			$type = $_SESSION['cal_type'];
 		}
 		elseif($_POST['query'])
 		{
 			$query = $_SESSION['cal_query'] = $_POST['query'];
+			$type = $_SESSION['cal_type'] = $_POST['query_type'];
 		}
 		
 		if(!$query)
@@ -423,7 +428,6 @@ class ilCalendarCategoryGUI
 			return false;
 		}
 		
-		// TODO: switch search for roles/users
 
 		include_once 'Services/Search/classes/class.ilQueryParser.php';
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -436,22 +440,40 @@ class ilCalendarCategoryGUI
 		$query_parser->setMinWordLength(3);
 		$query_parser->parse();
 		
-		$search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
-		$search->enableActiveCheck(true);
-		
-		$search->setFields(array('login'));
-		$res = $search->performSearch();
-		$res_sum->mergeEntries($res);
-		
-		$search->setFields(array('firstname'));
-		$res = $search->performSearch();
-		$res_sum->mergeEntries($res);
 
-		$search->setFields(array('lastname'));
-		$res = $search->performSearch();
-		$res_sum->mergeEntries($res);
+		switch($type)
+		{
+			case self::SEARCH_USER:
+				$search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+				$search->enableActiveCheck(true);
+				
+				$search->setFields(array('login'));
+				$res = $search->performSearch();
+				$res_sum->mergeEntries($res);
+				
+				$search->setFields(array('firstname'));
+				$res = $search->performSearch();
+				$res_sum->mergeEntries($res);
 		
-		$res_sum->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
+				$search->setFields(array('lastname'));
+				$res = $search->performSearch();
+				$res_sum->mergeEntries($res);
+				
+				$res_sum->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
+				break;
+				
+			case self::SEARCH_ROLE:
+				 
+				include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+				$search = new ilLikeObjectSearch($query_parser);
+				$search->setFilter(array('role'));
+				
+				$res = $search->performSearch();
+				$res_sum->mergeEntries($res);
+				
+				$res_sum->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
+				break;
+		}				 
 		
 		if(!count($res_sum->getResults()))
 		{
@@ -460,7 +482,16 @@ class ilCalendarCategoryGUI
 			return true;
 		}
 	
-		$this->showUserList($res_sum->getResultIds());
+		switch($type)
+		{
+			case self::SEARCH_USER:
+				$this->showUserList($res_sum->getResultIds());
+				break;
+				
+			case self::SEARCH_ROLE:
+				$this->showRoleList($res_sum->getResultIds());
+				break;
+		}
 	}
 	
 	/**
@@ -503,6 +534,48 @@ class ilCalendarCategoryGUI
 			{
 				$shared->share($user_id,ilCalendarShared::TYPE_USR);	
 			}
+		}
+		ilUtil::sendInfo($this->lng->txt('cal_shared_selected_usr'));
+		$this->edit();
+	}
+	
+	/**
+	 * share assign roles
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function shareAssignRoles()
+	{
+		global $ilUser;
+		
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		if(!count($_POST['role_ids']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->sharePerformSearch();
+			return false;
+		}
+		
+		$this->readPermissions();
+		if(!$this->isEditable())
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'));
+			$this->edit();
+			return false;
+		}
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		$shared = new ilCalendarShared((int) $_GET['category_id']);
+		
+		foreach($_POST['role_ids'] as $role_id)
+		{
+			$shared->share($role_id,ilCalendarShared::TYPE_ROLE);	
 		}
 		ilUtil::sendInfo($this->lng->txt('cal_shared_selected_usr'));
 		$this->edit();
@@ -576,6 +649,31 @@ class ilCalendarCategoryGUI
 		$tpl->setContent($table->getHTML());
 	}
 	
+	/**
+	 * show role list
+	 *
+	 * @access protected
+	 * @param array array of role ids
+	 * @return
+	 */
+	protected function showRoleList($a_ids = array())
+	{
+		global $tpl;
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarSharedRoleListTableGUI.php');
+		
+		$table = new ilCalendarSharedRoleListTableGUI($this,'sharePerformSearch');
+		$table->setTitle($this->lng->txt('cal_share_search_role_header'));
+		$table->setFormAction($this->ctrl->getFormAction($this));
+		$table->setRoles($a_ids);
+		$table->parse();
+		
+		$table->addCommandButton('shareSearch',$this->lng->txt('search_new'));
+		$table->addCommandButton('edit',$this->lng->txt('cancel'));
+		
+		$tpl->setContent($table->getHTML());
+	}
+	
 	
 	
 	/**
@@ -587,6 +685,10 @@ class ilCalendarCategoryGUI
 	 */
 	protected function initFormSearch()
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule('search');
+		
 		if(!is_object($this->form))
 		{
 			include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
@@ -594,6 +696,18 @@ class ilCalendarCategoryGUI
 			$this->form->setFormAction($this->ctrl->getFormAction($this));
 			$this->form->setTitle($this->lng->txt('cal_share_search_header'));
 		}
+		
+		$type = new ilRadioGroupInputGUI($this->lng->txt('search_type'),'query_type');
+		$type->setValue($_POST['query_type'] ? $_POST['query_type'] : self::SEARCH_USER);
+		$type->setRequired(true);
+		
+		$user = new ilRadioOption($this->lng->txt('obj_user'),self::SEARCH_USER);
+		$type->addOption($user);
+		
+		$role = new ilRadioOption($this->lng->txt('obj_role'),self::SEARCH_ROLE);
+		$type->addOption($role);
+		
+		$this->form->addItem($type);
 		
 		$search = new ilTextInputGUI($this->lng->txt('cal_search'),'query');
 		$search->setValue($_POST['query']);
