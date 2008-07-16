@@ -316,17 +316,9 @@ class ilCalendarCategoryGUI
 	{
 		global $ilUser;
 		
+		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		
-		$this->readPermissions();
-		if(!$this->isEditable())
-		{
-			ilUtil::sendInfo($this->lng->txt('permission_denied'));
-			$this->edit();
-			return false;
-		}
-		
-	
+			
 		$selection = $_POST['cat_ids'] ? $_POST['cat_ids'] : array();
 		$hidden = array();
 		
