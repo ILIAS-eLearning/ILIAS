@@ -1169,14 +1169,14 @@ class ilObjSessionGUI extends ilObjectGUI
 		// start
 		$start = new ilDateTimeInputGUI($this->lng->txt('event_start_date'),'start');
 		$start->setMinuteStepSize(5);
-		$start->setUnixTime($this->object->getFirstAppointment()->getStart()->get(IL_CAL_UNIX,''));
+		$start->setDate($this->object->getFirstAppointment()->getStart());
 		$start->setShowTime(true);
 		$full->addSubItem($start);
 		
 		// end
 		$end = new ilDateTimeInputGUI($this->lng->txt('event_end_date'),'end');
 		$end->setMinuteStepSize(5);
-		$end->setUnixTime($this->object->getFirstAppointment()->getEnd()->get(IL_CAL_UNIX,''));
+		$end->setDate($this->object->getFirstAppointment()->getEnd());
 		$end->setShowTime(true);
 		$full->addSubItem($end);
 
@@ -1272,6 +1272,8 @@ class ilObjSessionGUI extends ilObjectGUI
 	 */
 	protected function load()
 	{
+		global $ilUser;
+
 		$this->object->getFirstAppointment()->setStartingTime($this->__toUnix($_POST['start']['date'],$_POST['start']['time']));
 		$this->object->getFirstAppointment()->setEndingTime($this->__toUnix($_POST['end']['date'],$_POST['end']['time']));
 		$this->object->getFirstAppointment()->toggleFullTime((bool) $_POST['fulltime']);
@@ -1295,8 +1297,7 @@ class ilObjSessionGUI extends ilObjectGUI
 			$start_dt['hours'] = (int) $_POST['start']['time']['h'];
 			$start_dt['minutes'] = (int) $_POST['start']['time']['m'];
 			
-			// TODO: TZ
-			$start = new ilDateTime($start_dt,IL_CAL_FKT_GETDATE);
+			$start = new ilDateTime($start_dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
 			$this->object->getFirstAppointment()->setStart($start);
 
 			$end_dt['year'] = (int) $_POST['end']['date']['y'];
@@ -1304,7 +1305,7 @@ class ilObjSessionGUI extends ilObjectGUI
 			$end_dt['mday'] = (int) $_POST['end']['date']['d'];
 			$end_dt['hours'] = (int) $_POST['end']['time']['h'];
 			$end_dt['minutes'] = (int) $_POST['end']['time']['m'];
-			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE);
+			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
 			$this->object->getFirstAppointment()->setEnd($end);
 		}
 

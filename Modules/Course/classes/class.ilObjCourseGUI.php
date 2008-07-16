@@ -1023,14 +1023,21 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));		
 		
+		$activation_start = $this->loadDate('activation_start');
+		$activation_end = $this->loadDate('activation_end');
+		$subscription_start = $this->loadDate('subscription_start');
+		$subscription_end = $this->loadDate('subscription_end');
+		$archive_start = $this->loadDate('archive_start');
+		$archive_end = $this->loadDate('archive_end');
+
 		$this->object->setActivationType((int) $_POST['activation_type']);
-		$this->object->setActivationStart($this->toUnix($_POST['activation_start']['date'],$_POST['activation_start']['time']));
-		$this->object->setActivationEnd($this->toUnix($_POST['activation_end']['date'],$_POST['activation_end']['time']));
+		$this->object->setActivationStart($activation_start->get(IL_CAL_UNIX));
+		$this->object->setActivationEnd($activation_end->get(IL_CAL_UNIX));
 		$this->object->setSubscriptionLimitationType((int) $_POST['subscription_limitation_type']);
 		$this->object->setSubscriptionType((int) $_POST['subscription_type']);
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
-		$this->object->setSubscriptionStart($this->toUnix($_POST['subscription_start']['date'],$_POST['subscription_start']['time']));
-		$this->object->setSubscriptionEnd($this->toUnix($_POST['subscription_end']['date'],$_POST['subscription_end']['time']));
+		$this->object->setSubscriptionStart($subscription_start->get(IL_CAL_UNIX));
+		$this->object->setSubscriptionEnd($subscription_end->get(IL_CAL_UNIX));
 		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
@@ -1045,8 +1052,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->object->setOrderType((int) $_POST['order_type']);
 		}
-		$this->object->setArchiveStart($this->toUnix($_POST['archive_start']['date'],$_POST['archive_start']['time']));
-		$this->object->setArchiveEnd($this->toUnix($_POST['archive_end']['date'],$_POST['archive_end']['time']));
+		$this->object->setArchiveStart($archive_start->get(IL_CAL_UNIX));
+		$this->object->setArchiveEnd($archive_end->get(IL_CAL_UNIX));
 		$this->object->setArchiveType($_POST['archive_type']);
 		$this->object->setAboStatus((int) $_POST['abo']);
 		$this->object->setShowMembers((int) $_POST['show_members']);
@@ -1215,15 +1222,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'activation_start');
 				$start->setShowTime(true);
 				$start_date = new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX);
-				$start->setDate($start_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
-				$start->setTime($start_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$start->setDate($start_date);
 				$opt->addSubItem($start);
 
 				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'activation_end');
 				$end->setShowTime(true);
 				$end_date = new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX);
-				$end->setDate($end_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
-				$end->setTime($end_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$end->setDate($end_date);
 				$opt->addSubItem($end);
 				
 			$act_type->addOption($opt);
@@ -1251,15 +1256,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'subscription_start');
 				$start->setShowTime(true);
 				$start_date = new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX);
-				$start->setDate($start_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
-				$start->setTime($start_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$start->setDate($start_date);
 				$opt->addSubItem($start);
 
 				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'subscription_end');
 				$end->setShowTime(true);
 				$end_date = new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX);
-				$end->setDate($end_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
-				$end->setTime($end_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$end->setDate($end_date);
 				$opt->addSubItem($end);
 				
 			$reg_type->addOption($opt);
@@ -1351,15 +1354,13 @@ class ilObjCourseGUI extends ilContainerGUI
 				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'archive_start');
 				$start->setShowTime(true);
 				$start_date = new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX);
-				$start->setDate($start_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
-				$start->setTime($start_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$start->setDate($start_date);
 				$opt->addSubItem($start);
 
 				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'archive_end');
 				$end->setShowTime(true);
 				$end_date = new ilDateTime($this->object->getArchiveEnd(),IL_CAL_UNIX);
-				$end->setDate($end_date->get(IL_CAL_FKT_DATE,'Y-m-d'));
-				$end->setTime($end_date->get(IL_CAL_FKT_DATE,'H:i:s'));
+				$end->setDate($end_date);
 				$opt->addSubItem($end);
 				
 			$view_type->addOption($opt);
@@ -5111,6 +5112,31 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		return true;
 	}
+	
+	/**
+	 * load date
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function loadDate($a_field)
+	{
+		global $ilUser;
+
+		include_once('./Services/Calendar/classes/class.ilDateTime.php');
+		
+		$dt['year'] = (int) $_POST[$a_field]['date']['y'];
+		$dt['mon'] = (int) $_POST[$a_field]['date']['m'];
+		$dt['mday'] = (int) $_POST[$a_field]['date']['d'];
+		$dt['hours'] = (int) $_POST[$a_field]['time']['h'];
+		$dt['minutes'] = (int) $_POST[$a_field]['time']['m'];
+		$dt['seconds'] = (int) $_POST[$a_field]['time']['s'];
+		
+		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
+		return $date;		
+	}
+	
 
 
 } // END class.ilObjCourseGUI

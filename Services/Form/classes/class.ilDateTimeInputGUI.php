@@ -30,6 +30,7 @@
 */
 class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 {
+	protected $date_obj = null;
 	protected $date;
 	protected $showdate = true;
 	protected $time = "00:00:00";
@@ -79,30 +80,19 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 	 	return $this->activation_post_var;
 	}
-	
-	/**
-	 * Set unix time. This function will call setDate() and set
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function setUnixTime($a_time)
-	{
- 		if($a_time)
- 		{
- 			$this->setDate(date('Y-m-d',$a_time));
- 			$this->setTime(date('G:i:s',$a_time));
- 		}
-	}
-	
 
 	/**
-	* Set Date, yyyy-mm-dd.
-	*
-	* @param	string	$a_date	Date, yyyy-mm-dd
+	* set date
+	* E.g	$dt_form->setDate(new ilDateTime(time(),IL_CAL_UTC));
+	* or 	$dt_form->setDate(new ilDateTime('2008-06-12 08:00:00',IL_CAL_DATETIME));
+	* 
+	* For fullday (no timezone conversion) events use:
+	* 
+	* 		$dt_form->setDate(new ilDate('2008-08-01',IL_CAL_DATE));
+	*		
+	* @param	object	$a_date	ilDate or ilDateTime  object
 	*/
-	function setDate($a_date)
+	function setDate(ilDateTime $a_date)
 	{
 		$this->date = $a_date;
 	}
@@ -110,7 +100,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	/**
 	* Get Date, yyyy-mm-dd.
 	*
-	* @return	string	Date, yyyy-mm-dd
+	* @return	object	Date, yyyy-mm-dd
 	*/
 	function getDate()
 	{
@@ -135,26 +125,6 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	function getShowDate()
 	{
 		return $this->showdate;
-	}
-
-	/**
-	* Set Time, 00:00:00.
-	*
-	* @param	string	$a_time	Time, 00:00:00
-	*/
-	function setTime($a_time)
-	{
-		$this->time = $a_time;
-	}
-
-	/**
-	* Get Time, 00:00:00.
-	*
-	* @return	string	Time, 00:00:00
-	*/
-	function getTime()
-	{
-		return $this->time;
 	}
 
 	/**
@@ -230,8 +200,18 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		$this->setDate($a_values[$this->getPostVar()]["date"]);
-		$this->setTime($a_values[$this->getPostVar()]["time"]);
+		global $ilUser;
+		
+		if(isset($a_values[$this->getPostVar()]["time"]))
+		{
+			$this->setDate(new ilDateTime($a_values[$this->getPostVar()]["date"].' '.$a_values[$this->getPostVar()]["time"],
+				IL_CAL_DATETIME,$ilUser->getTimeZone()));
+		}
+		else
+		{
+			$this->setDate(new ilDate($a_values[$this->getPostVar()]["date"],
+				IL_CAL_DATE));
+		}
 	}
 
 	/**
@@ -241,7 +221,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	*/	
 	function checkInput()
 	{
-		global $lng;
+		global $lng,$ilUser;
 		
 		$ok = true;
 		
@@ -259,19 +239,30 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 			ilUtil::stripSlashes($_POST[$this->getPostVar()]["time"]["s"]);
 
 		// verify date
-		$timestamp = mktime(0,0,0,
-			$_POST[$this->getPostVar()]["date"]["m"],
-			$_POST[$this->getPostVar()]["date"]["d"],
-			$_POST[$this->getPostVar()]["date"]["y"]);
-
-		if ($_POST[$this->getPostVar()]["date"]["d"] != (int) date("d",$timestamp) ||
-			$_POST[$this->getPostVar()]["date"]["m"] != (int) date("m",$timestamp) ||
-			$_POST[$this->getPostVar()]["date"]["y"] != (int) date("Y",$timestamp))
+		
+		$dt['year'] = (int) $_POST[$this->getPostVar()]['date']['y'];
+		$dt['mon'] = (int) $_POST[$this->getPostVar()]['date']['m'];
+		$dt['mday'] = (int) $_POST[$this->getPostVar()]['date']['d'];
+		$dt['hours'] = (int) $_POST[$this->getPostVar()]['time']['h'];
+		$dt['minutes'] = (int) $_POST[$this->getPostVar()]['time']['m'];
+		$dt['seconds'] = (int) $_POST[$this->getPostVar()]['time']['s'];
+		
+		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
+			
+		$timestamp = $date->get(IL_CAL_UNIX);	
+			
+		if ($_POST[$this->getPostVar()]["date"]["d"] != $date->get(IL_CAL_FKT_DATE,'d',$ilUser->getTimeZone()) ||
+			$_POST[$this->getPostVar()]["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
+			$_POST[$this->getPostVar()]["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
 		{
 			$this->setAlert($lng->txt("exc_date_not_valid"));
 			$ok = false;
 		}
 		
+		$_POST[$this->getPostVar()]['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		$_POST[$this->getPostVar()]['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+
+		/*
 		$_POST[$this->getPostVar()]["time"] =
 			str_pad($_POST[$this->getPostVar()]["time"]["h"], 2 , "0", STR_PAD_LEFT).":".
 			str_pad($_POST[$this->getPostVar()]["time"]["m"], 2 , "0", STR_PAD_LEFT).":".
@@ -281,7 +272,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 			str_pad($_POST[$this->getPostVar()]["date"]["y"], 4 , "0", STR_PAD_LEFT)."-".
 			str_pad($_POST[$this->getPostVar()]["date"]["m"], 2 , "0", STR_PAD_LEFT)."-".
 			str_pad($_POST[$this->getPostVar()]["date"]["d"], 2 , "0", STR_PAD_LEFT);
-
+		*/
 		return $ok;
 	}
 
@@ -291,8 +282,20 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function insert(&$a_tpl)
 	{
-		global $lng;
+		global $lng,$ilUser;
 		
+		if(is_a($this->getDate(),'ilDate'))
+		{
+			$date_info = $this->getDate()->get(IL_CAL_FKT_GETDATE,'','UTC'); 
+		}
+		elseif(is_a($this->getDate(),'ilDateTime'))
+		{
+			$date_info = $this->getDate()->get(IL_CAL_FKT_GETDATE,'',$ilUser->getTimeZone());
+		}
+		else
+		{
+			$date_info = getdate(time());
+		}
 		
 		$lng->loadLanguageModule("jscalendar");
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
@@ -315,20 +318,19 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 			$a_tpl->setVariable("TXT_DATE_CALENDAR", $lng->txt("open_calendar"));
 			$a_tpl->setVariable("DATE_ID", $this->getPostVar());
 			$a_tpl->setVariable("INPUT_FIELDS_DATE", $this->getPostVar()."[date]");
-			$date = explode("-", $this->getDate());
 			$a_tpl->setVariable("DATE_SELECT",
-				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date[0], $date[1], $date[2],
+				ilUtil::makeDateSelect($this->getPostVar()."[date]", $date_info['year'], $date_info['mon'], $date_info['mday'],
 					'',true,array('disabled' => $this->getDisabled())));
 			$a_tpl->parseCurrentBlock();
-				
+			
 		}
-		if ($this->getShowTime())
+		if($this->getShowTime())
 		{
 			$a_tpl->setCurrentBlock("prop_time");
-			$time = explode(":", $this->getTime());
+			#$time = explode(":", $this->getTime());
 			$a_tpl->setVariable("TIME_SELECT",
 				ilUtil::makeTimeSelect($this->getPostVar()."[time]", !$this->getShowSeconds(),
-				$time[0], $time[1], $time[2],
+				$date_info['hours'], $date_info['minutes'], $date_info['seconds'],
 				true,array('minute_steps' => $this->getMinuteStepSize(),
 							'disabled' => $this->getDisabled())));
 				
