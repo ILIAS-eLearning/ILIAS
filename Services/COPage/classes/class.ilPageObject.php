@@ -2250,7 +2250,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				$content = $mydom->dump_node($childs[0]);
 				$content = substr($content, strpos($content, ">") + 1,
 					strrpos($content, "<") - (strpos($content, ">") + 1));
-				
+//var_dump($content);
+				$content = ilPCParagraph::xml2output($content);
+//var_dump($content);
 			}
 			//$hashes[$hier_id] =
 			//	array("PCID" => $pc_id, "hash" => md5($dump));
@@ -2476,8 +2478,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 					if ($l_hashes[$pc_id]["content"] != "" &&
 						$r_hashes[$pc_id]["content"] != "")
 					{
-						$wldiff = new WordLevelDiff(array($l_hashes[$pc_id]["content"]),
-							array($r_hashes[$pc_id]["content"]));
+						$new_left = str_replace("\n", "<br />", $l_hashes[$pc_id]["content"]);
+						$new_right = str_replace("\n", "<br />", $r_hashes[$pc_id]["content"]);
+						$wldiff = new WordLevelDiff(array($new_left),
+							array($new_right));
 						$new_left = $wldiff->orig();
 						$new_right = $wldiff->closing();
 						$l_page->setParagraphContent($l_hashes[$pc_id]["hier_id"], $new_left[0]);

@@ -31,7 +31,7 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI
 *
 * @ingroup ModulesWiki
 */
@@ -76,6 +76,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		global $ilCtrl;
 		
 		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
 
 		switch($next_class)
 		{
@@ -87,6 +88,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$this->ctrl->forwardCommand($rating_gui);
 				$ilCtrl->redirect($this, "preview");
 				break;
+				
+			case "ilpageobjectgui":
+				$page_gui = new ilPageObjectGUI("wpg",
+					$this->getPageObject()->getId(), $this->getPageObject()->old_nr);
+				return $ilCtrl->forwardCommand($page_gui);
 				
 			default:
 				return parent::executeCommand();

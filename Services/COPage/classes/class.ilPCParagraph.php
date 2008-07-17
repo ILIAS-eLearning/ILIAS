@@ -643,10 +643,6 @@ echo htmlentities($a_text);*/
 					{
 						$clist[$i] = "SimpleNumberedList";
 					}
-					if ($old_level == 0)
-					{
-						$text.= "<br />";
-					}
 					$text.= "<".$clist[$i]."><SimpleListItem>";
 				}
 			}
@@ -665,8 +661,6 @@ echo htmlentities($a_text);*/
 			$text = substr($text, 0, strlen($text) - 6);
 		}
 		
-//var_dump($text);
-
 		return $text;
 	}
 	
@@ -681,7 +675,7 @@ echo htmlentities($a_text);*/
 	{
 		$segments = ilPCParagraph::segmentString($a_text, array("<SimpleBulletList>", "</SimpleBulletList>",
 			"</SimpleListItem>", "<SimpleListItem>", "<SimpleNumberedList>", "</SimpleNumberedList>"));
-		
+
 		$current_list = array();
 		$text = "";
 		for ($i=0; $i<= count($segments); $i++)
@@ -728,7 +722,7 @@ echo htmlentities($a_text);*/
 				{
 					if ($list_start)
 					{
-//						$text.= "<br />";
+						$text.= "<br />";
 						$list_start = false;
 					}
 					foreach($current_list as $list)
@@ -745,6 +739,14 @@ echo htmlentities($a_text);*/
 			}
 		}
 		
+		// remove trailing <br />, if text ends with list
+		if ($segments[count($segments) - 1] == "</SimpleBulletList>" ||
+			$segments[count($segments) - 1] == "</SimpleNumberedList>" &&
+			substr($text, strlen($text) - 6) == "<br />")
+		{
+			$text = substr($text, 0, strlen($text) - 6);
+		}
+
 		return $text;
 	}
 	
@@ -935,9 +937,11 @@ echo htmlentities($a_text);*/
 	*/
 	function autoSplit($a_text)
 	{
+		$a_text = str_replace ("=<SimpleBulletList>", "=<br /><SimpleBulletList>", $a_text);
+		$a_text = str_replace ("=<SimpleNumberedList>", "=<br /><SimpleNumberedList>", $a_text);
+		$a_text = str_replace ("</SimpleBulletList>=", "</SimpleBulletList><br />=", $a_text);
+		$a_text = str_replace ("</SimpleNumberedList>=", "</SimpleNumberedList><br />=", $a_text);
 		$a_text = "<br />".$a_text."<br />";		// add preceding and trailing br
-		
-//var_dump($a_text);
 		
 		$chunks = array();
 		$c_text = $a_text;
@@ -1047,10 +1051,6 @@ echo htmlentities($a_text);*/
 				unset($chunks[count($chunks) - 1]);
 			}
 		}
-
-		
-//var_dump($chunks);
-
 		return $chunks;
 	}
 	
