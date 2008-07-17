@@ -923,8 +923,7 @@ class ilObject
 		
 		if ($a_as_string)
 		{
-			include_once("classes/class.ilFormat.php");
-			return ilFormat::formatDate($ilObjDataCache->lookupLastUpdate($a_id), "datetime", true);
+			return ilDatePresentation::formatDate(new ilDateTime($ilObjDataCache->lookupLastUpdate($a_id),IL_CAL_DATETIME));
 		}
 		else
 		{

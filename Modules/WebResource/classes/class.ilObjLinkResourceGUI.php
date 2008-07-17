@@ -333,7 +333,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 			if($item['last_check'])
 			{
-				$last_check = date('Y-m-d H:i:s',$item['last_check']);
+				$last_check = ilDatePresentation::formatDate(new ilDateTime($item['last_check'],IL_CAL_UNIX));
 			}
 			else
 			{
@@ -593,9 +593,9 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DISABLE",$this->lng->txt('disable_check'));
 		$this->tpl->setVariable("DISABLE_CHECK",ilUtil::formCheckbox($item['disable_check'] ? 1 : 0,'disable',1));
 		$this->tpl->setVariable("TXT_CREATED",$this->lng->txt('created'));
-		$this->tpl->setVariable("CREATED",date('Y-m-d H:i:s',$item['create_date']));
+		$this->tpl->setVariable('CREATED',ilDatePresentation::formatDate(new ilDateTime($item['create_date'],IL_CAL_UNIX)));
 		$this->tpl->setVariable("TXT_MODIFIED",$this->lng->txt('last_change'));
-		$this->tpl->setVariable("MODIFIED",date('Y-m-d H:i:s',$item['last_update']));
+		$this->tpl->setVariable('MODIFIED',ilDatePresentation::formatDate(new ilDateTime($item['last_update'],IL_CAL_UNIX)));
 		$this->tpl->setVariable("TXT_LAST_CHECK",$this->lng->txt('webr_last_check'));
 
 		// add dynamic params
@@ -658,7 +658,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 
 		if($item['last_check'])
 		{
-			$last_check = date('Y-m-d H:i:s',$item['last_check']);
+			$last_check = ilDatePresentation::formatDate(new ilDateTime($item['last_check'],IL_CAL_UNIX));
 		}
 		else
 		{
@@ -985,7 +985,7 @@ class ilObjLinkResourceGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("LAST_MODIFIED");
 			$this->tpl->setVariable("AS_OF",$this->lng->txt('last_change').": ");
-			$this->tpl->setVariable("LAST_CHECK",date('Y-m-d H:i:s',$last_access));
+			$this->tpl->setVariable('LAST_CHECK',ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_UNIX)));
 			$this->tpl->parseCurrentBlock();
 		}
 
