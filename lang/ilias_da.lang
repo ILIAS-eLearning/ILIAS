@@ -719,7 +719,7 @@ common#:#crs_leave#:#Forlad kursus
 common#:#crs_management_system#:#Kursus styringssystem
 common#:#crs_member_not_passed#:#Ikke Bestået
 common#:#crs_member_passed#:#Bestået
-common#:#crs_members_gallery#:#Kursusdeltageres galleri
+common#:#crs_members_gallery#:#Galleri
 common#:#crs_new#:#Nyt kursus
 common#:#crs_no_content#:#Uden Indhold
 common#:#crs_read#:#Læseadgang til kursus
@@ -2636,7 +2636,7 @@ common#:#ums_explanation_2#:#Tryk venligst på 'Opret ny konto' hvis dette ikke 
 common#:#ums_explanation_3#:#Your external account could not be mapped to an ILIAS account. But ILIAS has found multiple accounts with your e-mail address. If one of those is your account, please login with your ILIAS password.
 common#:#ums_explanation_4#:#Hvis ingen af disse er din konto, så tryk på 'Opret ny konto'.
 common#:#ums_login_account#:#Login konto
-common#:#unambiguousness#:#Unambiguousness###21 Apr 2005 new variable
+common#:#unambiguousness#:#Entydig id
 common#:#uncheck_all#:#Fjern krydser
 common#:#uninstall#:#Afinstaller
 common#:#uninstalled#:#afinstalleret.
@@ -4669,9 +4669,9 @@ crs#:#assigned#:#Assigned###21 Apr 2005 new variable
 crs#:#contact_email_not_valid#:#Kontakt e-mailen er ikke gyldig.
 crs#:#crs_accept_subscriber#:#Kursustilmelding
 crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.###23 Dec 2005 content changed
-crs#:#crs_access_password#:#Password###21 Apr 2005 new variable
+crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Aktivering
-crs#:#crs_news#:#Course News###02 04 2007 new variable
+crs#:#crs_news#:#Kursusnyheder
 crs#:#crs_add_archive_html#:#Tilføj HTML-Arkiv
 crs#:#crs_add_archive_xml#:#Tilføj XML-Arkiv
 crs#:#crs_add_grouping#:#Tilknyt kursusgruppe
@@ -4680,8 +4680,8 @@ crs#:#crs_add_html_archive#:#Tilføj HTML-arkiv
 crs#:#crs_add_member#:#Tilføj medlem(er)
 crs#:#crs_add_objective#:#Tilføj emne
 crs#:#crs_add_remove_from_desktop#:#Tilføj/Fjern fra skriveborg
-crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.
-crs#:#crs_add_starter#:#Tilføj startemne
+crs#:#crs_add_remove_from_desktop_info#:#Tillad kursister at tilføje kursusobjekter på deres 'Mit Skrivebord'
+crs#:#crs_add_starter#:#Tilføj startobjekt
 crs#:#crs_add_subscribers#:#Tilføj abonnent###23 Dec 2005 content changed
 crs#:#crs_added_member#:#Kursusdeltagere
 crs#:#crs_added_member_body#:#Du er blevet accepteret til dette kursus.###23 Dec 2005 content changed
@@ -4696,22 +4696,22 @@ crs#:#crs_administrators#:#Administrators
 crs#:#crs_allow_abo#:#Allow subscription of course items###21 Apr 2005 new variable
 crs#:#crs_already_assigned_to_list#:#Du er allerede sat på ventelisten.
 crs#:#crs_archive#:#Arkiver
-crs#:#crs_archive_disabled#:#Deaktiveret###23 Dec 2005 content changed
-crs#:#crs_archive_download#:#Download###21 Apr 2005 new variable
-crs#:#crs_archive_info#:#If enabled, all course content will we suppressed. Only HTML archives of this course will be available to course members.###23 Dec 2005 new variable
+crs#:#crs_archive_disabled#:#Deaktiveret
+crs#:#crs_archive_download#:#Download
+crs#:#crs_archive_info#:#Hvis arkivoversigten aktiveres bliver alt kursusmaterialet suspenderet. Kun HTML arkiver af kurset vil være tilgængeligt for kursusmedlemmerne.
 crs#:#crs_archive_lang#:#Sprog
 crs#:#crs_archive_read#:#Læserettighed
-crs#:#crs_archive_select_type#:#Arkiv adgangstype###23 Dec 2005 content changed
+crs#:#crs_archive_select_type#:#Arkiv adgangstype
 crs#:#crs_archive_type#:#Arkiv type
-crs#:#crs_archive_type_disabled#:#Ingen adgang###23 Dec 2005 content changed
+crs#:#crs_archive_type_disabled#:#Ingen adgang
 crs#:#crs_archives_deleted#:#Arkivet/Arkiverne er blevet slettet
 crs#:#crs_auto_fill#:#Auto fill###21 Apr 2005 new variable
-crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below).###21 Apr 2005 new variable
-crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time.###21 Apr 2005 new variable
-crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.###21 Apr 2005 new variable
+crs#:#crs_availability_limitless_info#:#Vælg denne indstilling for at gøre kurset tilgængeligt for brugere. Adgangen afhænger af indstillingerne nedenfor.
+crs#:#crs_availability_until_info#:#Vælg denne indstilling før at gøre kurset tilgængeligt for brugere/kursuster i en begrænset periode.
+crs#:#crs_availability_unvisible_info#:#Vælg denne indstilling mens du forbereder kurset. Kun kursusadministratorer og tutorer kan se og redigere kurset.
 crs#:#crs_blocked#:#Adgæng nægtet
 crs#:#crs_blocked_member#:#Kursusdeltagere status
-crs#:#crs_blocked_member_body#:#Dit medlemskab er blevet lukket.###23 Dec 2005 content changed
+crs#:#crs_blocked_member_body#:#Dit medlemskab er blevet afbrudt.
 crs#:#crs_cancel_subscription#:#Afmelding fra
 crs#:#crs_cancel_subscription_body#:#En bruger har afmeldt sig kurset.###23 Dec 2005 content changed
 crs#:#crs_change_status#:#Changes status of objective:###21 Apr 2005 new variable
@@ -4721,13 +4721,13 @@ crs#:#crs_contact_consultation#:#Konsultation
 crs#:#crs_contact_email#:#Email###21 Apr 2005 new variable
 crs#:#crs_contact_name#:#Navn
 crs#:#crs_contact_phone#:#Telefon
-crs#:#crs_contact_responsibility#:#Ansvarlighed
+crs#:#crs_contact_responsibility#:#Ansvarlig
 crs#:#crs_content#:#Kursus indhold
 crs#:#crs_copy_cat_not_allowed#:#Det er ikke muligt at kopiere kategorier
 crs#:#crs_count_members#:#Antal deltagere
-crs#:#crs_count_questions#:#Number of questions###21 Apr 2005 new variable
+crs#:#crs_count_questions#:#Antal spørgsmål
 crs#:#crs_create_date#:#Opret dato
-crs#:#crs_crs_structure#:#Course structure###21 Apr 2005 new variable
+crs#:#crs_crs_structure#:#Struktur
 crs#:#crs_dates#:#Datoer
 crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?###21 Apr 2005 new variable
 crs#:#crs_delete_file#:#Delete File?
@@ -4740,16 +4740,16 @@ crs#:#crs_delete_subscribers#:#Slet abonnent
 crs#:#crs_delete_subscribers_sure#:#Vil du slette de følgende brugere
 crs#:#crs_details#:#Kursusdetaljer
 crs#:#crs_dismiss_member#:#Kursusmedlemskab
-crs#:#crs_dismiss_member_body#:#Dit medlemskab er blevet lukket###23 Dec 2005 content changed
+crs#:#crs_dismiss_member_body#:#Dit medlemskab er blevet afbrudt
 crs#:#crs_edit_archive#:#Rediger Arkiver
-crs#:#crs_edit_content#:#Edit items###21 Apr 2005 new variable
-crs#:#crs_edit_start_objects#:#Edit Start Objects
+crs#:#crs_edit_content#:#Rediger indgange
+crs#:#crs_edit_start_objects#:#Rediger startobjekter
 crs#:#crs_edit_timings#:#Edit Timings
 crs#:#crs_end#:#Slut
 crs#:#crs_existing_files#:#Existing Files:
 crs#:#crs_export#:#Eksporter kursus
 crs#:#crs_file#:#File
-crs#:#crs_file_download#:#Filer til download
+crs#:#crs_file_download#:#Filer der kan downloades
 crs#:#crs_file_name#:#Filnavn
 crs#:#crs_file_size_info#:#Filesize
 crs#:#crs_filename#:#Filnavn
@@ -4791,7 +4791,7 @@ crs#:#crs_hide_link_objectives#:#Hide objectives###21 Apr 2005 new variable
 crs#:#crs_hide_link_or#:#Hide other resources###21 Apr 2005 new variable
 crs#:#crs_hide_link_tst#:#Skjul tests
 crs#:#crs_html#:#HTML###21 Apr 2005 new variable
-crs#:#crs_important_info#:#Important Informations
+crs#:#crs_important_info#:#Vigtig information
 crs#:#crs_info_download#:#Filer til download
 crs#:#crs_info_reg#:#Registreringsinformation
 crs#:#crs_info_reg_confirmation#:#Dette kursus kræver godkendelse fra en kursus administrator. Du vil modtage en besked hvis du bliver godkendt.###23 Dec 2005 content changed
@@ -4858,7 +4858,7 @@ crs#:#crs_no_question_selected#:#Vær venlig at vælge et spørgsmål
 crs#:#crs_no_questions_assigned#:#Der er ingen spørgsmål knyttet
 crs#:#crs_no_results_found#:#Ingen resultater fundet
 crs#:#crs_no_roles_selected#:#Vælg venligst en rolle
-crs#:#crs_no_starter_created#:#No start objects assigned to this course.###21 Apr 2005 new variable
+crs#:#crs_no_starter_created#:#Der er ikke valgt startobjekter til dette kursus.
 crs#:#crs_no_subscribers_selected#:#Vælg venligst en bruger
 crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.###21 Apr 2005 new variable
 crs#:#crs_no_users_added#:#Ingen deltagere tilføjet
@@ -4919,11 +4919,11 @@ crs#:#crs_pdf#:#PDF###21 Apr 2005 new variable
 crs#:#crs_persons_on_waiting_list#:#Personer på venteliste
 crs#:#crs_print_list#:#Udskriv liste
 crs#:#crs_question_assignment#:#Question assignment###21 Apr 2005 new variable
-crs#:#crs_reg#:#Kursustilmelding
+crs#:#crs_reg#:#Tilmelding
 crs#:#crs_reg_deactivated#:#Lukket
-crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.###21 Apr 2005 new variable
+crs#:#crs_reg_lim_info#:#Tilmelding er kun mulig i en begrænset periode.
 crs#:#crs_reg_max_info#:#Vælg det maksimale antal brugere der kan tilmeldes dette kursus. '0' for ubegrænset.
-crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###21 Apr 2005 new variable
+crs#:#crs_reg_notify_info#:#Hvis denne funktion aktiveres bliver alle kursusadministratorer/tutorer med adviseringsstatus informeret om nye tilmeldinger.
 crs#:#crs_reg_subscription_deactivated#:#Registration er slået fra
 crs#:#crs_reg_subscription_end_earlier#:#Tidsgrænsen for registration er udløbet
 crs#:#crs_reg_subscription_max_members_reached#:#Maximal antal brugere overskrevet.
@@ -4954,7 +4954,7 @@ crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIA
 crs#:#crs_select_one_archive#:#Vælg venligst et arkiv
 crs#:#crs_select_one_object#:#Please select one course item.###21 Apr 2005 new variable
 crs#:#crs_select_registration_type#:#Vælg en tilmeldingsmetode
-crs#:#crs_select_starter#:#Select start object###21 Apr 2005 new variable
+crs#:#crs_select_starter#:#Vælg startobjekt
 crs#:#crs_set_on_waiting_list#:#Please register to the course to be assigned to the waiting list.###09 Jul 2005 new variable
 crs#:#crs_settings#:#Kursus indstillinger
 crs#:#crs_settings_saved#:#Indstillinger gemt
@@ -4963,17 +4963,17 @@ crs#:#crs_show_link_objectives#:#Show objectives###21 Apr 2005 new variable
 crs#:#crs_show_link_or#:#Show other resources###21 Apr 2005 new variable
 crs#:#crs_show_link_tst#:#Vis tests
 crs#:#crs_show_members#:#Vis deltagere
-crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send mail to members feature.
+crs#:#crs_show_members_info#:#Tillad kursister at se hinanden i medlemsgalleriet og sende beskeder/mails.
 crs#:#crs_show_objectives_view#:#Objective view###21 Apr 2005 new variable
 crs#:#crs_size#:#Filstørrelse
 crs#:#crs_sort_activation#:#Sorter efter aktivering
 crs#:#crs_sort_manual#:#Sorter manuelt###08 Jun 2005 content changed
-crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course items manually.
-crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.
-crs#:#crs_sort_title#:#Sorter efter titel
+crs#:#crs_sort_manual_info#:#Denne indstilling gør det muligt at sortere elementer manuelt.
+crs#:#crs_sort_timing_info#:#Sortering af elementer efter deres aktiveringsdato eller tidsindstillinger.
+crs#:#crs_sort_title#:#Titler
 crs#:#crs_sort_title_info#:#Vælg denne indstilling for at sortere kursusdele automatisk efter titel
 crs#:#crs_sortorder#:#Sorter
-crs#:#crs_sortorder_abo#:#Sortering af kursusdele
+crs#:#crs_sortorder_abo#:#Sortering af elementer
 crs#:#crs_start#:#Start###21 Apr 2005 new variable
 crs#:#crs_start_objects#:#Start objects###21 Apr 2005 new variable
 crs#:#crs_starter_deleted#:#Removed assignment.###21 Apr 2005 new variable
@@ -4987,13 +4987,13 @@ crs#:#crs_subscribers_deleted#:#Slet abonnent/abonnenter
 crs#:#crs_subscription#:#Abonnement
 crs#:#crs_subscription_max_members#:#Maksimalt antal deltagere
 crs#:#crs_subscription_notify#:#Advisering for abonnementer
-crs#:#crs_subscription_options_confirmation#:#Subscription with confirmation###21 Apr 2005 new variable
+crs#:#crs_subscription_options_confirmation#:#Tilmelding med godkendelse
 crs#:#crs_subscription_options_deactivated#:#Deaktiveret
-crs#:#crs_subscription_options_direct#:#Direct subscription###21 Apr 2005 new variable
-crs#:#crs_subscription_options_password#:#Subscription with password###21 Apr 2005 new variable
-crs#:#crs_subscription_requested#:#You have requested membership for the course.###23 Dec 2005 new variable
+crs#:#crs_subscription_options_direct#:#Direkte tilmelding
+crs#:#crs_subscription_options_password#:#Tilmeldig med password
+crs#:#crs_subscription_requested#:#Du har anmodet om tilmelding til kurset.
 crs#:#crs_subscription_successful#:#Du er nu tilmeldt kurset.
-crs#:#crs_subscription_type#:#Subscription type###21 Apr 2005 new variable
+crs#:#crs_subscription_type#:#Tilmeldingstype
 crs#:#crs_suggest_lm#:#Suggest learning materials if:###21 Apr 2005 new variable
 crs#:#crs_suggestion_end#:#Suggested End
 crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives###21 Apr 2005 new variable
@@ -5050,7 +5050,7 @@ crs#:#crs_users_added#:#Tilføjet bruger til dette kursus
 crs#:#crs_users_already_assigned#:#Brugeren er allerede tilmeldt dette kursus
 crs#:#crs_users_removed_from_list#:#De valgte brugere er fjernet fra ventelisten
 crs#:#crs_view_archive#:#Arkivoversigt
-crs#:#crs_view_info_objective#:#This presentation mode is used for the presentation of learning objectives.
+crs#:#crs_view_info_objective#:#Denne indstilling bruges til at præsentere læremål
 crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.
 crs#:#crs_view_mode#:#Kursus layout
 crs#:#crs_view_objective#:#Mål orienteret visning
@@ -5088,7 +5088,7 @@ crs#:#event_full_time_info#:#full-time
 crs#:#event_fullday#:#Full-Time
 crs#:#event_fulltime_info#:#Ingen tid angivet
 crs#:#event_further_informations#:#Flere informationer
-crs#:#event_general_infos#:#General Informations
+crs#:#event_general_infos#:#Generalt
 crs#:#event_general_properties#:#General Informations
 crs#:#event_lecturer#:#Navn
 crs#:#event_location#:#Location
@@ -5138,14 +5138,14 @@ crs#:#tutor_phone#:#Phone
 crs#:#tutor_title#:#Titel
 crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:###07 09 2006 new variable
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.###05 10 2006 new variable
-crs#:#crs_map_settings#:#Map Settings###02 04 2007 new variable
-crs#:#crs_enable_map#:#Enable Course Map###02 04 2007 new variable
-crs#:#crs_map_location#:#Course Map Location###02 04 2007 new variable
-crs#:#crs_members_map#:#Course Members Map###02 04 2007 new variable
+crs#:#crs_map_settings#:#Kortindstillinger
+crs#:#crs_enable_map#:#Brug kortet
+crs#:#crs_map_location#:#Placering
+crs#:#crs_members_map#:#Kort over kursister
 crs#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable
 crs#:#crs_subscriber#:#Subscriber###25 02 2007 new variable
-crs#:#export_members#:#Export Participants###25 02 2007 new variable
+crs#:#export_members#:#Eksporter kursister
 crs#:#crs_agreement_header#:#User Agreement###25 02 2007 new variable
 crs#:#crs_user_agreement#:#Released Data Types###25 02 2007 new variable
 crs#:#crs_info_agreement#:#The following data tyes are visible for course administrators:###25 02 2007 new variable
@@ -8153,12 +8153,12 @@ grp#:#grp_reg_start#:#Registration Start:###02 06 2008 new variable
 grp#:#grp_reg_end#:#Registration End:###02 06 2008 new variable
 grp#:#grp_open#:#Open Group###02 06 2008 new variable
 grp#:#grp_open_info#:#Non-members can see this group and join it directly..###02 06 2008 new variable
-grp#:#grp_public#:#Public Group###02 06 2008 new variable
+grp#:#grp_public#:#Offentlig gruppe
 grp#:#grp_public_info#:#Group is visible for non-members but has special requirements to join it.###02 06 2008 new variable
-grp#:#grp_typ#:#Group Type###02 06 2008 new variable
-grp#:#grp_admins#:#Administrators###02 06 2008 new variable
-grp#:#grp_members#:#Members###02 06 2008 new variable
-grp#:#grp_selected_users#:#Selected Participants###02 06 2008 new variable
+grp#:#grp_typ#:#Gruppetype
+grp#:#grp_admins#:#Administratorer
+grp#:#grp_members#:#Medlemmer
+grp#:#grp_selected_users#:#Valgte deltagere
 grp#:#grp_delete_member#:#Delete###02 06 2008 new variable
 grp#:#grp_notification#:#Notification###02 06 2008 new variable
 grp#:#grp_edit_members#:#Edit Participants###02 06 2008 new variable
