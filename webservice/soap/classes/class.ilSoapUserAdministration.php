@@ -1256,11 +1256,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	        }
 	        if (count($field_query))
-	           $query [] = join(" OR ", $field_query);
+	           $query [] = join(" ".strtoupper($queryOperator)." ", $field_query);
 
 	    }
 
-	    return count ($query) ? " AND ((". join(") ".strtoupper($queryOperator)." (", $query) ."))" : "AND 0";
+	    return count ($query) ? " AND ((". join(") OR (", $query) ."))" : "AND 0";
 	}
 
 
