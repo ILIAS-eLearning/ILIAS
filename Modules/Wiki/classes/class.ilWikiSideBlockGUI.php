@@ -142,12 +142,13 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilAccess;
 		
 		$tpl = new ilTemplate("tpl.wiki_side_block_content.html", true, true, "Modules/Wiki");
 		
 		$wp = $this->getPageObject();
 		
+/*
 		if (is_object($wp))
 		{
 			// what links here
@@ -164,7 +165,29 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "printView"));
 			$tpl->setVariable("TXT_PRINT_VIEW", $lng->txt("wiki_print_view"));
 			$tpl->parseCurrentBlock();
+		}
+*/
+		// info
+		$tpl->setCurrentBlock("info");
+		$tpl->setVariable("HREF_INFO",
+			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "infoScreen"));
+		$tpl->setVariable("TXT_INFO", $lng->txt("info_short"));
+		$tpl->parseCurrentBlock();
+		
+		// settings
+		if ($ilAccess->checkAccess('write', "", $_GET["ref_id"]))
+		{
+			$tpl->setCurrentBlock("settings");
+			$tpl->setVariable("HREF_SETTINGS",
+				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "editSettings"));
+			$tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
+			$tpl->parseCurrentBlock();
 
+			$tpl->setCurrentBlock("contributors");
+			$tpl->setVariable("HREF_CONTRIBUTORS",
+				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "listContributors"));
+			$tpl->setVariable("TXT_CONTRIBUTORS", $lng->txt("wiki_contributors"));
+			$tpl->parseCurrentBlock();
 		}
 		
 		// start page

@@ -51,7 +51,7 @@ class ilObjWikiAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "show",
+			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
 				"default" => true),
 			array("permission" => "write", "cmd" => "editSettings", "lang_var" => "edit")
 		);

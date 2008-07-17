@@ -420,7 +420,7 @@ class ilObjWiki extends ilObject
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $rec[$a_field];
 	}
-	
+
 	/**
 	* Lookup start page
 	*

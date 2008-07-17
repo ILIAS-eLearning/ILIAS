@@ -198,5 +198,21 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		return $output;
 	}
 	
+	/**
+	* All links to a specific page
+	*/
+	function whatLinksHere()
+	{
+		global $tpl;
+		
+		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
+		
+		$this->setSideBlock($_GET["wpg_id"]);
+		$table_gui = new ilWikiPagesTableGUI($this, "",
+			$this->getWikiPage()->getWikiId(), IL_WIKI_WHAT_LINKS_HERE, $_GET["wpg_id"]);
+			
+		$tpl->setContent($table_gui->getHTML());
+	}
+
 } // END class.ilWikiPageGUI
 ?>
