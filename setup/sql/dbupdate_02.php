@@ -5019,3 +5019,8 @@ DROP TABLE ut_lp_event_collections;
 <#1282>
 ALTER TABLE `grp_settings` CHANGE `registration_start` `registration_start` TIMESTAMP NULL DEFAULT '0000-00-00 00:00:00',
 CHANGE `registration_end` `registration_end` TIMESTAMP NULL DEFAULT '0000-00-00 00:00:00';
+
+<#1283>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

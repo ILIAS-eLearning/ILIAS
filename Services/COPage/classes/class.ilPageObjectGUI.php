@@ -718,6 +718,7 @@ class ilPageObjectGUI
 				break;
 
 			default:
+				$cmd = $this->ctrl->getCmd("preview");
 				$ret = $this->$cmd();
 				break;
 		}
@@ -1717,6 +1718,7 @@ class ilPageObjectGUI
 		$lpage_gui->setPreventHTMLUnmasking(true);
 		$lhtml = $lpage_gui->showPage();
 		$lhtml = $this->replaceDiffTags($lhtml);
+		$lhtml = str_replace("&lt;br /&gt;", "<br />", $lhtml);
 		$tpl->setVariable("LEFT", $lhtml);
 		
 		// right page
@@ -1727,6 +1729,7 @@ class ilPageObjectGUI
 		$rpage_gui->setPreventHTMLUnmasking(true);
 		$rhtml = $rpage_gui->showPage();
 		$rhtml = $this->replaceDiffTags($rhtml);
+		$rhtml = str_replace("&lt;br /&gt;", "<br />", $rhtml);
 		$tpl->setVariable("RIGHT", $rhtml);
 		
 		$tpl->setVariable("TXT_NEW", $lng->txt("cont_pc_new"));
