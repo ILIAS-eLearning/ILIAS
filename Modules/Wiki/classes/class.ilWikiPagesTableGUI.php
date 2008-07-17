@@ -162,7 +162,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("DATE", $a_set["date"]);
 		}
 		$this->tpl->setVariable("HREF_PAGE",
-			$this->parent_obj->getGotoLink($a_set["title"]));
+			ilObjWikiGUI::getGotoLink($_GET["ref_id"], $a_set["title"]));
 
 		if (ilObject::_exists($a_set["user"]))
 		{

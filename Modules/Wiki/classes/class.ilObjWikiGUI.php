@@ -54,7 +54,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
-  		global $ilUser, $ilCtrl, $tpl;
+  		global $ilUser, $ilCtrl, $tpl, $ilTabs;
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -81,6 +81,7 @@ class ilObjWikiGUI extends ilObjectGUI
 					$_GET["page"], $_GET["old_nr"]);
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
 				$tpl->setContent($ret);
+				$this->addPageTabs();
 				break;
 
 			case 'ilpublicuserprofilegui':
@@ -105,11 +106,19 @@ class ilObjWikiGUI extends ilObjectGUI
 					$this->checkPermission("visible");
 				}
 				$this->$cmd();
-	
 			break;
 		}
   
   		return $ret;
+	}
+	
+	/**
+	* Start page
+	*/
+	function viewObject()
+	{
+		$this->checkPermission("read");
+		$this->gotoStartPageObject();
 	}
 	
 	/**
@@ -169,6 +178,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$newObj->setStartPage($this->form_gui->getInput("startpage"));
 				$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
 				$newObj->setRating($this->form_gui->getInput("rating"));
+				$newObj->setOnline($this->form_gui->getInput("online"));
 				$newObj->update();
 		
 				// setup rolefolder & default local roles
@@ -183,7 +193,8 @@ class ilObjWikiGUI extends ilObjectGUI
 				// always send a message
 				ilUtil::sendInfo($this->lng->txt("object_added"),true);
 				
-				ilUtil::redirect("ilias.php?baseClass=ilWikiHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
+				//ilUtil::redirect("ilias.php?baseClass=ilWikiHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=editSettings");
+				ilUtil::redirect(ilObjWikiGUI::getGotoLink($newObj->getRefId()));
 			}
 		}
 
@@ -265,7 +276,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$info->setBlockProperty("news", "settings", true);
 		}*/
 		
-		$info->addButton($lng->txt("wiki_start_page"), $this->getGotoLink());
+		$info->addButton($lng->txt("wiki_start_page"), ilObjWikiGUI::getGotoLink($this->object->getRefId()));
 		
 		// general information
 		$this->lng->loadLanguageModule("meta");
@@ -286,9 +297,25 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $ilCtrl;
 		
-		ilUtil::redirect($this->getGotoLink());
+		ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId()));
 	}
 
+	function addPageTabs()
+	{
+		global $ilTabs, $ilCtrl;
+		
+		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		$ilCtrl->setParameter($this, "wpg_id",
+			ilWikiPage::getPageIdForTitle($this->object->getId(), $_GET["page"]));
+		$ilCtrl->setParameter($this, "page", $_GET["page"]);
+		$ilTabs->addTarget("wiki_what_links_here",
+			$this->ctrl->getLinkTargetByClass("ilwikipagegui",
+			"whatLinksHere"), "whatLinksHere");
+		$ilTabs->addTarget("wiki_print_view",
+			$this->ctrl->getLinkTarget($this,
+			"printView"), "printView");	
+	}
+	
 	/**
 	* get tabs
 	* @access	public
@@ -298,8 +325,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $ilCtrl, $ilAccess;
 		
-		// wiki page tabs
-//echo "-".$ilCtrl->getNextClass()."-";
+		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui")))
 		{
@@ -401,11 +427,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($sp);
 
 		// Online
-		if ($a_mode != "create")
-		{
-			$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
-			$this->form_gui->addItem($online);
-		}
+		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
+		$this->form_gui->addItem($online);
 		
 		$rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
 		$this->form_gui->addItem($rating);
@@ -591,13 +614,13 @@ class ilObjWikiGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 
-	function getGotoLink($a_page = "")
+	static function getGotoLink($a_ref_id, $a_page = "")
 	{
 		if ($a_page == "")
 		{
-			$a_page = $this->object->getStartPage();
+			$a_page = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($a_ref_id));
 		}
-		$goto = "./goto.php?target=wiki_".$this->object->getRefId()."_".
+		$goto = "./goto.php?target=wiki_".$a_ref_id."_".
 			rawurlencode($a_page);
 			
 		return $goto;
@@ -613,10 +636,11 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->checkPermission("read");
 
 		$ilTabs->clearTargets();
-		
+
 		$page = ($_GET["page"] != "")
 			? $_GET["page"]
 			: $this->object->getStartPage();
+		$_GET["page"] = $page;
 			
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		if (!ilWikiPage::exists($this->object->getId(), $page))
@@ -643,6 +667,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$ilCtrl->setCmdClass("ilwikipagegui");
 		$ilCtrl->setCmd("preview");
 		$html = $ilCtrl->forwardCommand($wpage_gui);
+		$this->addPageTabs();
 		
 		$tpl->setContent($html);
 	}
@@ -724,22 +749,6 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->setSideBlock();
 		$tpl->setContent($table_gui->getHTML());
 	}
-
-	/**
-	* All links to a specific page
-	*/
-	function whatLinksHereObject()
-	{
-		global $tpl;
-		
-		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
-		
-		$this->setSideBlock($_GET["wpg_id"]);
-		$table_gui = new ilWikiPagesTableGUI($this, "",
-			$this->object->getId(), IL_WIKI_WHAT_LINKS_HERE, $_GET["wpg_id"]);
-			
-		$tpl->setContent($table_gui->getHTML());
-	}
 	
 	/**
 	* Popular pages
@@ -792,7 +801,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$a_page))
 		{
 			// to do: get rid of this redirect
-			ilUtil::redirect($this->getGotoLink($a_page));
+			ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId(), $a_page));
 		}
 		else
 		{
