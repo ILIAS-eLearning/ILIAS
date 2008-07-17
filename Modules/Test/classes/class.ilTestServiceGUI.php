@@ -265,7 +265,7 @@ class ilTestServiceGUI
 * @return string HTML code of the list of answers
 * @access public
 */
-	function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = FALSE, $only_answered_questions = FALSE, $show_question_only = FALSE)
+	function getPassListOfAnswers(&$result_array, $active_id, $pass, $show_solutions = FALSE, $only_answered_questions = FALSE, $show_question_only = FALSE, $show_reached_points = FALSE)
 	{
 		$maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", TRUE, TRUE, "Modules/Test");
 
@@ -282,6 +282,12 @@ class ilTestServiceGUI
 					$maintemplate->setCurrentBlock("printview_question");
 					$question_gui = $this->object->createQuestionGUI("", $question);
 
+					if ($show_reached_points)
+					{
+						$template->setCurrentBlock("result_points");
+						$template->setVariable("RESULT_POINTS", $this->lng->txt("tst_reached_points") . ": " . $question_gui->object->getReachedPoints($active_id, $pass) . " " . $this->lng->txt("of") . " " . $question_gui->object->getMaximumPoints());
+						$template->parseCurrentBlock();
+					}
 					$template->setVariable("COUNTER_QUESTION", $counter.". ");
 					$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()));
 
@@ -801,7 +807,7 @@ class ilTestServiceGUI
 	*
 	* @access public
 	*/
-	function getResultsOfUserOutput($active_id, $pass, $show_pass_details = TRUE, $show_answers = TRUE, $show_question_only = FALSE)
+	function getResultsOfUserOutput($active_id, $pass, $show_pass_details = TRUE, $show_answers = TRUE, $show_question_only = FALSE, $show_reached_points = FALSE)
 	{
 		global $ilias, $tpl;
 
@@ -838,7 +844,7 @@ class ilTestServiceGUI
 			}
 			if ($show_answers)
 			{
-				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, $showAllAnswers, $show_question_only);
+				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, $showAllAnswers, $show_question_only, $show_reached_points);
 			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
