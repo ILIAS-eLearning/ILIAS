@@ -79,7 +79,6 @@ class ilCalendarSchedule
 	 	{
 	 		$this->user = $ilUser;
 	 	}
-	 	
 	 	$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
 	 	$this->weekstart = $this->user_settings->getWeekStart();
 	 	$this->timezone = $ilUser->getTimeZone();
@@ -148,7 +147,6 @@ class ilCalendarSchedule
 			if($recs = ilCalendarRecurrences::_getRecurrences($event->getEntryId()))
 			{
 				$duration = $event->getEnd()->get(IL_CAL_UNIX) - $event->getStart()->get(IL_CAL_UNIX);
-				
 				foreach($recs as $rec)
 				{
 					$calc = new ilCalendarRecurrenceCalculator($event,$rec);
@@ -156,7 +154,7 @@ class ilCalendarSchedule
 					{
 						$this->schedule[$counter]['event'] = $event;
 						$this->schedule[$counter]['dstart'] = $rec_date->get(IL_CAL_UNIX);
-						$this->schedule[$counter]['dend'] = $this->schedule[$counter]['dstart'] + $duration; 
+						$this->schedule[$counter]['dend'] = $this->schedule[$counter]['dstart'] + $duration;
 						$this->schedule[$counter]['fullday'] = $event->isFullday();
 						
 						switch($this->type)
@@ -168,7 +166,7 @@ class ilCalendarSchedule
 								$this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timezone);
 								
 								$tmp_date = new ilDateTime($this->schedule[$counter]['dend'],IL_CAL_UNIX,$this->timezone);
-								$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timzone);
+								$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timezone);
 								break;
 
 							default:
@@ -194,7 +192,7 @@ class ilCalendarSchedule
 							// store date info (used for calculation of overlapping events)
 							$tmp_date = new ilDateTime($this->schedule[$counter]['dstart'],IL_CAL_UNIX,$this->timezone);
 							$this->schedule[$counter]['start_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timezone);
-							
+
 							$tmp_date = new ilDateTime($this->schedule[$counter]['dend'],IL_CAL_UNIX,$this->timezone);
 							$this->schedule[$counter]['end_info'] = $tmp_date->get(IL_CAL_FKT_GETDATE,'',$this->timezone);
 							break;
@@ -304,8 +302,8 @@ class ilCalendarSchedule
 			case self::TYPE_DAY:
 				$this->start = clone $seed;
 				$this->end = clone $seed;
-				$this->start->increment(IL_CAL_DAY,-1);
-				$this->end->increment(IL_CAL_DAY,1);
+				$this->start->increment(IL_CAL_DAY,-2);
+				$this->end->increment(IL_CAL_DAY,2);
 				break;
 			
 			case self::TYPE_WEEK:
