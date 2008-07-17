@@ -63,7 +63,7 @@ class ilWikiHandlerGUI
 		{
 			if ($_GET["page"] != "")
 			{
-				$add = "&amp;page=".rawurlencode($_GET["page"]);
+				$add = "_".rawurlencode($_GET["page"]);
 			}
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				"./goto.php?target=wiki_".$_GET["ref_id"].$add, "wiki");
