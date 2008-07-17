@@ -4956,9 +4956,18 @@ PRIMARY KEY ( `cal_id` , `usr_id` )
 ) Type = MYISAM ;
 
 <#1277>
-ALTER TABLE tst_tests ADD COLUMN kiosk INT NOT NULL DEFAULT 0;
-ALTER TABLE tst_tests ADD COLUMN resultoutput INT NOT NULL DEFAULT 0;
-
+<?php
+if (!$ilDB->tableColumnExists("tst_tests", "kiosk"))
+{
+	$query = "ALTER TABLE tst_tests ADD COLUMN kiosk INT NOT NULL DEFAULT 0";
+	$res = $ilDB->query($query);
+}
+if (!$ilDB->tableColumnExists("tst_tests", "resultoutput"))
+{
+	$query = "ALTER TABLE tst_tests ADD COLUMN resultoutput INT NOT NULL DEFAULT 0";
+	$res = $ilDB->query($query);
+}
+?>
 <#1278>
 <?php
 $ilCtrlStructureReader->getStructure();
