@@ -7470,6 +7470,7 @@ trac#:#vm_days_of_period#:#Tage innerhalb des Zeitraums
 trac#:#vm_times_of_day#:#Tageszeiten innerhalb des Zeitraums
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
+assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 common#:#custom_icon_size_standard#:#Grösse des angepassten Icons (standard)
 common#:#custom_icon_size_tiny#:#Grösse des angepassten Icons (klein)
 common#:#standard_icon#:#Standard-Icon

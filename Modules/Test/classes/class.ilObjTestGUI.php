@@ -4248,6 +4248,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				array_push($buttons, array("showPassOverview" => "show_pass_overview"));
 				array_push($buttons, array("showUserAnswers" => "show_user_answers"));
+				array_push($buttons, array("showDetailedResults" => "show_detailed_results"));
 			}
 			if (count($invited_users))
 			{
@@ -4270,6 +4271,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				array_push($buttons, array("showPassOverview" => "show_pass_overview"));
 				array_push($buttons, array("showUserAnswers" => "show_user_answers"));
+				array_push($buttons, array("showDetailedResults" => "show_detailed_results"));
 			}
 			if (count($invited_users))
 			{
@@ -4297,6 +4299,22 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
 		$this->tpl->parseCurrentBlock();
+	}
+
+ /**
+	* Shows the pass overview and the answers of one ore more users for the scored pass
+	*
+	* Shows the pass overview and the answers of one ore more users for the scored pass
+	*
+	* @access	public
+	*/
+	function showDetailedResultsObject()
+	{
+		if (count($_POST))
+		{
+			$_SESSION["show_user_results"] = $_POST["chbUser"];
+		}
+		$this->showUserResults($show_pass_details = TRUE, $show_answers = TRUE, $show_reached_points = TRUE);
 	}
 
  /**
@@ -4338,7 +4356,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function showUserResults($show_pass_details, $show_answers)
+	function showUserResults($show_pass_details, $show_answers, $show_reached_points = FALSE)
 	{
 		$template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", TRUE, TRUE, "Modules/Test");
 		
@@ -4361,7 +4379,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			if ($active_id > 0)
 			{
-				$results = $serviceGUI->getResultsOfUserOutput($active_id, $this->object->_getResultPass($active_id), $show_pass_details, $show_answers, FALSE);
+				$results = $serviceGUI->getResultsOfUserOutput($active_id, $this->object->_getResultPass($active_id), $show_pass_details, $show_answers, FALSE, $show_reached_points);
 			}
 			if ($count < count($_SESSION["show_user_results"]))
 			{
