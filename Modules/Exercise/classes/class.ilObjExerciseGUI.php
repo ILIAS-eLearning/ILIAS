@@ -227,12 +227,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
 			$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
+			/*
 			preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $file["timestamp14"], $matches);
 			$stamp = strtotime(sprintf("%04d-%02d-%02d %02d:%02d:%02d", 
 				$matches[1], $matches[2], $matches[3], 
 				$matches[4], $matches[5], $matches[6]));
 			$date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], $stamp);
-			$this->tpl->setVariable("DELIVERED_DATE", $date);
+			*/
+			$date = new ilDateTime($file['timestamp14'],IL_CAL_TIMESTAMP);
+			$this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
@@ -860,9 +863,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 				// see if files have been resubmmited after solved
 				$last_sub =
 					$this->object->getLastSubmission($member_id);
+					
 				if ($last_sub)
 				{
-					$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATE));
+					$last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub,IL_CAL_DATETIME));
 				}
 				else
 				{

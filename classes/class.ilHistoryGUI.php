@@ -108,7 +108,7 @@ class ilHistoryGUI
 				$this->tpl->setCurrentBlock("tbl_content");
 				$css_row = ($css_row != "tblrow1") ? "tblrow1" : "tblrow2";
 				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("TXT_DATE", $entry["date"]);
+				$this->tpl->setVariable('TXT_DATE',ilDatePresentation::formatDate(new ilDateTime($entry["date"],IL_CAL_DATETIME)));
 				$name = ilObjUser::_lookupName($entry["user_id"]);
 				$login = ilObjUser::_lookupLogin($entry["user_id"]);
 				$this->tpl->setVariable("TXT_USER",
@@ -257,7 +257,8 @@ class ilHistoryGUI
 				$this->tpl->setCurrentBlock("tbl_content");
 				$css_row = ($css_row != "tblrow1") ? "tblrow1" : "tblrow2";
 				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("TXT_DATE", $entry["date"]);
+				$this->tpl->setVariable('TXT_DATE',ilDatePresentation::formatDate(new ilDateTime($entry['date'],IL_CAL_DATETIME)));
+				
 				$name = ilObjUser::_lookupName($entry["user_id"]);
 				$this->tpl->setVariable("TXT_USER",
 					$name["title"]." ".$name["firstname"]." ".$name["lastname"]." [".$entry["user_id"]."]");
