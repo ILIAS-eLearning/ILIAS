@@ -59,6 +59,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl->parseCurrentBlock();
 		
 		$this->setEnabledMaps(true);
+		$this->setPreventHTMLUnmasking(true);
 
 	}
 	

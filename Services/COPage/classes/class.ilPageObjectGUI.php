@@ -799,7 +799,6 @@ class ilPageObjectGUI
 					$tpl->parseCurrentBlock();
 				}
 
-
 				$med_mode = array("enable" => $this->lng->txt("cont_enable_media"),
 					"disable" => $this->lng->txt("cont_disable_media"));
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
@@ -819,9 +818,12 @@ class ilPageObjectGUI
 				$sel_html_mode = ($ilUser->getPref("ilPageEditor_HTMLMode") == "disable")
 					? "disable"
 					: "enable";
-				$tpl->setVariable("SEL_HTML_MODE",
-					ilUtil::formSelect($sel_html_mode, "html_mode", $html_mode, false, true,
-					0, "ilEditSelect"));
+				if (!$this->getPreventHTMLUnmasking())
+				{
+					$tpl->setVariable("SEL_HTML_MODE",
+						ilUtil::formSelect($sel_html_mode, "html_mode", $html_mode, false, true,
+						0, "ilEditSelect"));
+				}
 
 				if ($this->getViewPageLink() != "")
 				{
@@ -1068,8 +1070,6 @@ class ilPageObjectGUI
 			$this->obj->addFileSizes();
 		}
 
-		$this->obj->addSourceCodeHighlighting($this->getOutputMode());
-
 //echo "<br>-".htmlentities($this->obj->getXMLContent())."-<br><br>";
 //echo "<br>-".htmlentities($this->getLinkXML())."-";
 
@@ -1292,6 +1292,7 @@ class ilPageObjectGUI
 		}
 		
 		$output = $this->insertMaps($output);
+		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());
 
 		// output
 		if ($ilCtrl->isAsynch())

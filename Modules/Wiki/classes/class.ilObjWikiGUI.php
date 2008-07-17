@@ -671,69 +671,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		$tpl->setContent($html);
 	}
-	
-	/**
-	* edit wiki page
-	*/
-/*
-	function editPageObject()
-	{
-		global $lng, $ilCtrl, $tpl;
 		
-		$this->checkPermission("write");
-		
-		$page = $_GET["page"];
-			
-		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		if (!ilWikiPage::exists($this->object->getId(), $page))
-		{
-			ilUtil::sendInfo($lng->txt("wiki_not_existing"));
-			$this->infoScreen();
-			return;
-		}
-		
-		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
-		$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
-			$page);
-		$wpage_gui->setMode(IL_WIKI_PAGE_EDIT);
-			
-		$html = $ilCtrl->getHTML($wpage_gui);
-		
-		$tpl->setContent($html);
-	}
-*/
-	
-	/**
-	* View Page History
-	*/
-/*
-	function viewHistoryObject()
-	{
-		global $lng, $ilCtrl, $tpl;
-		
-		$this->checkPermission("write");
-		
-		$page = $_GET["page"];
-			
-		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-		if (!ilWikiPage::exists($this->object->getId(), $page))
-		{
-			ilUtil::sendInfo($lng->txt("wiki_not_existing"));
-			$this->infoScreen();
-			return;
-		}
-		
-		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
-		$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
-			$page);
-		$wpage_gui->setMode(IL_WIKI_PAGE_HISTORY);
-			
-		$html = $ilCtrl->getHTML($wpage_gui);
-		
-		$tpl->setContent($html);
-	}
-*/
-	
 	/**
 	* All pages of wiki
 	*/

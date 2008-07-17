@@ -729,7 +729,8 @@
 	<xsl:choose>
 		<xsl:when test="@Characteristic = 'Code'">
 			<xsl:call-template name='Sourcecode'>
-				<xsl:with-param name="p_id" select="$p_id" />
+				<!-- <xsl:with-param name="p_id" select="$p_id" /> -->
+				<xsl:with-param name="p_id"><xsl:number count="Paragraph" level="any"/></xsl:with-param>
 			</xsl:call-template>
 		</xsl:when>
 		<xsl:otherwise>
@@ -758,7 +759,8 @@
 <xsl:template name="Sourcecode">
 	<xsl:param name="p_id" select="-1"/>
 	<p class="ilc_Code"><table class="ilc_Sourcecode" cellpadding="0" cellspacing="0" border="0">
-		<xsl:value-of select="." />
+		<!--- <xsl:value-of select="." /> -->
+		[[[[[Code;<xsl:number count="Paragraph" level="any"/>]]]]]
 		<xsl:if test="@DownloadTitle != ''" >
 				<xsl:variable name="downloadtitle" select="@DownloadTitle"/>
 				<xsl:choose>
