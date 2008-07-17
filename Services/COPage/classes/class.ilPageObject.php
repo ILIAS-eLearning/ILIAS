@@ -2068,7 +2068,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* attribute the line numbers and html tags for the syntax
 	* highlighting will be inserted using the dom xml functions
 	*/
-	function addSourceCodeHighlighting($outputmode = "presentation")
+	function insertSourceCodeParagraphs($a_output, $outputmode = "presentation")
 	{
 		$xpc = xpath_new_context($this->dom);
 		$path = "//Paragraph"; //"[@Characteristic = 'Code']";
@@ -2152,7 +2152,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			// falls drei hintereinander...
 			$newcontent = str_replace("<br/><br/>", "<br/> <br/>",$newcontent);
 
-			$context_node->set_content($newcontent);
+			//$context_node->set_content($newcontent);
+//var_dump($newcontent);
+			$a_output = str_replace("[[[[[Code;".($i + 1)."]]]]]", $newcontent, $a_output);
+			
 			if ($outputmode != "presentation" && is_object($this->offline_handler)
 				&& trim($downloadtitle) != "")
 			{
@@ -2160,6 +2163,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				$this->offline_handler->handleCodeParagraph ($this->id, $i + 1, $downloadtitle, $plain_content);
 			}
 		}
+		
+		return $a_output;
 	}
 	
 
@@ -2271,10 +2276,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		$xpc = xpath_new_context($mydom);
 
-		$path = "//PageContent[position () = $par_id]/Paragraph";
+		//$path = "//PageContent[position () = $par_id]/Paragraph";
+		//$path = "//Paragraph[$par_id]";
+		$path = "/descendant::Paragraph[position() = $par_id]";
 
 		$res = & xpath_eval($xpc, $path);
-
+		
 		if (count ($res->nodeset) != 1)
 			die ("Should not happen");
 
