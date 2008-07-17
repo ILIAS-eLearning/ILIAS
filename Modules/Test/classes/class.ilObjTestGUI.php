@@ -4122,6 +4122,28 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
  /**
+	* Evaluates the actions on the participants page
+	*
+	* Evaluates the actions on the participants page
+	*
+	* @access	public
+	*/
+	function participantsActionObject()
+	{
+		$command = $_POST["command"];
+		if (strlen($command))
+		{
+			$method = $command . "Object";
+			if (method_exists($this, $method))
+			{
+				$this->$method();
+				return;
+			}
+		}
+		$this->ctrl->redirect($this, "participants");
+	}
+
+ /**
 	* Creates the output of the test participants
 	*
 	* Creates the output of the test participants
@@ -4221,11 +4243,11 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
 			}
-			$buttons = array("save","delete_user_data", "remove_as_participant");
+			$buttons = array(array("saveClientIP" => "save"),array("deleteSingleUserResults" => "delete_user_data"), array("removeParticipant" => "remove_as_participant"));
 			if (!$this->object->getAnonymity())
 			{
-				array_push($buttons, "show_pass_overview");
-				array_push($buttons, "show_user_answers");
+				array_push($buttons, array("showPassOverview" => "show_pass_overview"));
+				array_push($buttons, array("showUserAnswers" => "show_user_answers"));
 			}
 			if (count($invited_users))
 			{
@@ -4243,11 +4265,11 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
 			}
-			$buttons = array("delete_user_data");
+			$buttons = array(array("deleteSingleUserResults" => "delete_user_data"));
 			if (!$this->object->getAnonymity())
 			{
-				array_push($buttons, "show_pass_overview");
-				array_push($buttons, "show_user_answers");
+				array_push($buttons, array("showPassOverview" => "show_pass_overview"));
+				array_push($buttons, array("showUserAnswers" => "show_user_answers"));
 			}
 			if (count($invited_users))
 			{
@@ -4469,6 +4491,24 @@ class ilObjTestGUI extends ilObjectGUI
 		switch($a_type)
 		{
 			case "iv_usr":
+				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+				{
+					foreach ($buttons as $arr)
+					{
+						foreach ($arr as $val => $cat)
+						{
+							$this->tpl->setCurrentBlock("commandoption");
+							$this->tpl->setVariable("OPTION_NAME", $this->lng->txt($cat));
+							$this->tpl->setVariable("OPTION_VALUE", $val);
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+					$this->tpl->setCurrentBlock("user_action_buttons");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
+					$this->tpl->setVariable("VALUE_SUBMIT", $this->lng->txt("submit"));
+					$this->tpl->parseCurrentBlock();
+				}
+
 				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
 				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
 				$counter = 0;
@@ -4534,18 +4574,26 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
 				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
 				$this->tpl->setVariable("TEXT_IV_LAST_ACCESS", $this->lng->txt("last_access"));
-					
-				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-				{
-					foreach ($buttons as $cat)
-					{
-						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
-					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-				}
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "iv_participants":
+				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+				{
+					foreach ($buttons as $arr)
+					{
+						foreach ($arr as $val => $cat)
+						{
+							$this->tpl->setCurrentBlock("commandoption");
+							$this->tpl->setVariable("OPTION_NAME", $this->lng->txt($cat));
+							$this->tpl->setVariable("OPTION_VALUE", $val);
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+					$this->tpl->setCurrentBlock("user_action_buttons");
+					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
+					$this->tpl->setVariable("VALUE_SUBMIT", $this->lng->txt("submit"));
+					$this->tpl->parseCurrentBlock();
+				}
 				$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />";
 				$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("checkbox_checked")."\" />" ;
 				$counter = 0;
@@ -4603,15 +4651,6 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TEXT_IV_TEST_FINISHED", $this->lng->txt("tst_finished"));
 				$this->tpl->setVariable("TEXT_IV_TEST_STARTED", $this->lng->txt("tst_started"));
 				$this->tpl->setVariable("TEXT_IV_LAST_ACCESS", $this->lng->txt("last_access"));
-					
-				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-				{
-					foreach ($buttons as $cat)
-					{
-						$this->tpl->setVariable("VALUE_" . strtoupper($cat), $this->lng->txt($cat));
-					}
-					$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
-				}
 				$this->tpl->parseCurrentBlock();
 				break;
 			case "usr":
@@ -5373,7 +5412,7 @@ class ilObjTestGUI extends ilObjectGUI
 				"deleteAllUserResults",
 				"cancelDeleteAllUserData", "deleteSingleUserResults",
 				"outParticipantsResultsOverview", "outParticipantsPassDetails",
-				"showPassOverview", "showUserAnswers"
+				"showPassOverview", "showUserAnswers", "participantsAction"
 			),
 			"", "");
 	
@@ -5614,7 +5653,7 @@ class ilObjTestGUI extends ilObjectGUI
 					 "deleteAllUserResults",
 					 "cancelDeleteAllUserData", "deleteSingleUserResults",
 					 "outParticipantsResultsOverview", "outParticipantsPassDetails",
-					 "showPassOverview", "showUserAnswers"), 
+					 "showPassOverview", "showUserAnswers", "participantsAction"), 
 					 "");
 
 				// export tab

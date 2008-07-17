@@ -58,13 +58,12 @@
 <tr>
 	<td class="submit">{ARROW}</td>
 	<td class="submit" colspan="9">
-		<input type="submit" class="submit" name="cmd[saveClientIP]" value="{VALUE_SAVE}" />
-		<input type="submit" class="submit" name="cmd[deleteSingleUserResults]" value="{VALUE_DELETE_USER_DATA}" />
-		<input type="submit" class="submit" name="cmd[removeParticipant]" value="{VALUE_REMOVE_AS_PARTICIPANT}" />
-<!-- BEGIN personalized -->		
-		<input type="submit" class="submit" name="cmd[showPassOverview]" value="{VALUE_SHOW_PASS_OVERVIEW}" />
-		<input type="submit" class="submit" name="cmd[showUserAnswers]" value="{VALUE_SHOW_USER_ANSWERS}" />
-<!-- END personalized -->		
+		<select name="command">
+<!-- BEGIN commandoption -->		
+			<option value="{OPTION_VALUE}">{OPTION_NAME}</option>
+<!-- END commandoption -->		
+		</select>
+		<input type="submit" class="submit" name="cmd[participantsAction]" value="{VALUE_SUBMIT}" />
 	</td>
 </tr>
 <!-- END user_action_buttons -->
