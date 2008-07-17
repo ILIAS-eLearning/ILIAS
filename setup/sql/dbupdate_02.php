@@ -5024,3 +5024,5 @@ CHANGE `registration_end` `registration_end` TIMESTAMP NULL DEFAULT '0000-00-00 
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1284>
+ALTER TABLE `il_media_cast_data` ADD COLUMN `access` TINYINT(4) DEFAULT 0 AFTER `downloadable`;
