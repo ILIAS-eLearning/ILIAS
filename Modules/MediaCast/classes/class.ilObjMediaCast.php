@@ -36,6 +36,12 @@ class ilObjMediaCast extends ilObject
     protected $online = false;
 	protected $publicfiles = false;
 	protected $downloadable = true;
+	/**
+	 * access to rss news
+	 *
+	 * @var 0 = logged in users, 1 = public access
+	 */
+	protected $defaultAccess = 0;
 	
 	/**
 	* Constructor
@@ -129,6 +135,26 @@ class ilObjMediaCast extends ilObject
 	}
 	
 	/**
+	 * return default access for news items
+	 *
+	 * @return int 0 for logged in users, 1 for public access
+	 */
+	function getDefaultAccess() {
+	    return $this->defaultAccess;
+	}
+	
+	/**
+	 * set default access: 0 logged in users, 1 for public access
+	 *
+	 * @param int $value
+	 */
+	function setDefaultAccess($value) {
+	    $this->defaultAccess = (int) $value == 0 ? 0 : 1;
+	}
+	
+	
+	
+	/**
 	* Create mew media cast
 	*/
 	function create()
@@ -142,11 +168,13 @@ class ilObjMediaCast extends ilObject
 			", online".
 			", public_files".
 			", downloadable".
+		    ", access".
 			" ) VALUES (".
 			$ilDB->quote($this->getId())
 			.",".$ilDB->quote($this->getOnline())
 			.",".$ilDB->quote($this->getPublicFiles())
 			.",".$ilDB->quote($this->getDownloadable())
+			.",".$ilDB->quote($this->getDefaultAccess())
 			.")";
 		$ilDB->query($query);
 
@@ -172,7 +200,9 @@ class ilObjMediaCast extends ilObject
 			" online = ".$ilDB->quote($this->getOnline()).
 			", public_files = ".$ilDB->quote($this->getPublicFiles()).
 			", downloadable = ".$ilDB->quote($this->getDownloadable()).
+		    ", access = ".$ilDB->quote($this->getDefaultAccess()).
 			" WHERE id = ".$ilDB->quote($this->getId());
+		
 		$ilDB->query($query);
 
 		return true;
@@ -196,6 +226,7 @@ class ilObjMediaCast extends ilObject
 		$this->setOnline($rec["online"]);
 		$this->setPublicFiles($rec["public_files"]);
 		$this->setDownloadable($rec["downloadable"]);
+		$this->setDefaultAccess($rec["access"]);
 		
 	}
 

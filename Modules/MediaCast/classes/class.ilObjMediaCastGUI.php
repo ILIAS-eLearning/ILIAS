@@ -274,7 +274,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$radio_group->addOption($radio_option);
 			$radio_group->setInfo($lng->txt("mcst_visibility_info"));
 			$radio_group->setRequired(true);
-			$radio_group->setValue("users");
+			$radio_group->setValue($this->object->getDefaultAccess() == 0 ? "users" : "public");
 			$this->form_gui->addItem($radio_group);
 		}
 		
@@ -938,6 +938,19 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$incl_files->setChecked($this->object->getPublicFiles());
 			$incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
 			$ch->addSubItem($incl_files);
+			
+			// Default Visibility
+			$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "defaultaccess");
+			$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "0");
+			$radio_group->addOption($radio_option);					
+			$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "1");
+			$radio_group->addOption($radio_option);
+			$radio_group->setInfo($lng->txt("mcst_visibility_info"));
+			$radio_group->setRequired(false);			
+			$radio_group->setValue($this->object->getDefaultAccess());			
+			$ch->addSubItem($radio_group);
+			//$this->form_gui->addItem($radio_group);
+			
 		}
 		
 		// Form action and save button
@@ -968,6 +981,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			if ($enable_internal_rss)
 			{
 				$this->object->setPublicFiles($this->form_gui->getInput("public_files"));
+				$this->object->setDefaultAccess($this->form_gui->getInput("defaultaccess"));				
 			}
 			$this->object->update();
 			
