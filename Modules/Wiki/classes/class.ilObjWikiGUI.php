@@ -577,7 +577,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 	function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $ilAccess, $ilErr, $lng, $ilNavigationHistory;
 		
 		$tarr = explode("_", $a_target);
 		$a_target = (int)$tarr[0];
@@ -590,6 +590,12 @@ class ilObjWikiGUI extends ilObjectGUI
 			$_GET["page"] = $a_page;
 			$_GET["baseClass"] = "ilwikihandlergui";
 			$_GET["cmdClass"] = "ilobjwikigui";
+/*			if ($a_page != "")
+			{
+				$add = "&amp;page=".rawurlencode($_GET["page"]);
+				$ilNavigationHistory->addItem($_GET["ref_id"],
+					"./goto.php?target=wiki_".$_GET["ref_id"].$add, "wiki");
+			}*/
 			include("ilias.php");
 			exit;
 		}
