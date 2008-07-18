@@ -37,6 +37,9 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 */
 class ilCalendarBlockGUI extends ilBlockGUI
 {
+	const CAL_MODE_REPOSITORY = 1;
+	const CAL_MODE_PD = 2;
+
 	static $block_type = "cal";
 	static $st_data;
 	
@@ -54,9 +57,21 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		$lng->loadLanguageModule("dateplaner");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$this->setBlockId($ilCtrl->getContextObjId());
+		
+		// TODO: needs another switch between PD and respostory mode
+		if(isset($_GET['ref_id']))
+		{
+			$this->initCategories(self::CAL_MODE_REPOSITORY);
+			$this->setBlockId($ilCtrl->getContextObjId());
+		}
+		else
+		{
+			$this->initCategories(self::CAL_MODE_PD);
+			$this->setBlockId(0);
+		}
+
 		$this->setLimit(5);			// @todo: needed?
-		$this->setAvailableDetailLevels(3);
+		$this->setAvailableDetailLevels(2);
 		$this->setEnableNumInfo(false);
 				
 		$this->setTitle($lng->txt("calendar"));
@@ -224,13 +239,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng,$ilUser;
 		
-		if(!is_object($this->categories))
-		{
-			// TODO: the switch between repository and personal desktop mode must be done somwhere else
-			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-			$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
-		}
-		
 		// weekdays
 		include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
 		for($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++)
@@ -384,8 +392,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	function getOverview()
 	{
 		global $ilUser, $lng, $ilCtrl;
-				
-		return '<div class="small">'.((int) count($this->getData()))." ".$lng->txt("cal_cal")."</div>";
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
+		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
+		$events = $schedule->getChangedEvents();
+		return '<div class="small">'.((int) count($events))." ".$lng->txt("cal_changed_events_header")."</div>";
 	}
 
 	function addCloseCommand($a_content_block)
@@ -394,6 +405,36 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);
+	}
+	
+	/**
+	 * init categories
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initCategories($a_mode)
+	{
+		$this->mode = $a_mode;
+		switch($this->mode)
+		{
+			case self::CAL_MODE_REPOSITORY:
+				if(!is_object($this->categories))
+				{
+					include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+					$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
+				}
+				break;
+			
+			case self::CAL_MODE_PD:
+				if(!is_object($this->categories))
+				{
+					include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+					$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP,(int)$_GET['ref_id']);
+				}
+				break;
+		}
 	}
 }
 
