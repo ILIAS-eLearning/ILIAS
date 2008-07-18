@@ -4482,8 +4482,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				}
 				break;
 		}
-
-
 		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
 			"qpl_questions.points AS maxpoints " .
@@ -4497,6 +4495,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		);
 		$result = $ilDB->query($query);
 		$pass = NULL;
+		$checked = array();
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$remove = FALSE;
@@ -4509,31 +4508,47 @@ function loadQuestions($active_id = "", $pass = NULL)
 						switch ($filterby)
 						{
 							case "group":
-								if (count($groupids))
+								if (!array_key_exists($row["usr_id"], $checked))
 								{
-									include_once "./Services/User/classes/class.ilObjUser.php";
-									$groups = ilObjUser::getGroupMemberships($row["usr_id"]);
-									$foundfilter = FALSE;
-									if (count(array_intersect($groupids, $groups))) $foundfilter = TRUE;
-									if (!$foundfilter) $remove = TRUE;
+									if (count($groupids))
+									{
+										include_once "./Services/User/classes/class.ilObjUser.php";
+										$groups = ilObjUser::getGroupMemberships($row["usr_id"]);
+										$foundfilter = FALSE;
+										if (count(array_intersect($groupids, $groups))) $foundfilter = TRUE;
+										if (!$foundfilter) $remove = TRUE;
+									}
+									else
+									{
+										$remove = TRUE;
+									}
+									$checked[$row["usr_id"]] = $remove;
 								}
 								else
 								{
-									$remove = TRUE;
+									$remove = $checked[$row["usr_id"]];
 								}
 								break;
 							case "course":
-								if (count($courseids))
+								if (!array_key_exists($row["usr_id"], $checked))
 								{
-									include_once "./Services/User/classes/class.ilObjUser.php";
-									$courses = ilObjUser::getCourseMemberships($row["usr_id"]);
-									$foundfilter = FALSE;
-									if (count(array_intersect($courseids, $courses))) $foundfilter = TRUE;
-									if (!$foundfilter) $remove = TRUE;
+									if (count($courseids))
+									{
+										include_once "./Services/User/classes/class.ilObjUser.php";
+										$courses = ilObjUser::getCourseMemberships($row["usr_id"]);
+										$foundfilter = FALSE;
+										if (count(array_intersect($courseids, $courses))) $foundfilter = TRUE;
+										if (!$foundfilter) $remove = TRUE;
+									}
+									else
+									{
+										$remove = TRUE;
+									}
+									$checked[$row["usr_id"]] = $remove;
 								}
 								else
 								{
-									$remove = TRUE;
+									$remove = $checked[$row["usr_id"]];
 								}
 								break;
 						}
