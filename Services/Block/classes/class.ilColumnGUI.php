@@ -104,6 +104,7 @@ class ilColumnGUI
 		"info" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"pd" => array(
+			"ilCalendarBlockGUI" => IL_COL_RIGHT,
 			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
 			"ilPDFeedbackBlockGUI" => IL_COL_LEFT,
 			"ilPDNewsBlockGUI" => IL_COL_LEFT,
@@ -575,7 +576,8 @@ class ilColumnGUI
 			"feed" => $lng->txt("feed"),
 			"pdfeed" => $lng->txt("feed"),
 			"html" => $lng->txt("html_block"),
-			"pdtag" => $lng->txt("tagging_my_tags")
+			"pdtag" => $lng->txt("tagging_my_tags"),
+			"cal" => $lng->txt('calendar'),
 			);
 
 		foreach($this->blocks[$this->getSide()] as $block)
@@ -722,6 +724,7 @@ class ilColumnGUI
 			}
 				
 			//if (is_int(strpos($_GET["block_id"], "block_".$block["type"]."_".$block["id"])))
+
 			if ($_GET["block_id"] == "block_".$block["type"]."_".$block["id"])
 			{
 				$gui_class = $block["class"];
