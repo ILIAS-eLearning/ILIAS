@@ -4457,6 +4457,33 @@ function loadQuestions($active_id = "", $pass = NULL)
 				}
 			}
 		}
+		$courseids = array();
+		$groupids = array();
+		switch ($filterby)
+		{
+			case "group":
+				$query = sprintf("SELECT obj_id FROM object_data WHERE type = 'grp' AND title LIKE %s",
+					$ilDB->quote("%$filtertext%")
+				);
+				$result = $ilDB->query($query);
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					array_push($groupids, $row["obj_id"]);
+				}
+				break;
+			case "course":
+				$query = sprintf("SELECT obj_id FROM object_data WHERE type = 'crs' AND title LIKE %s",
+					$ilDB->quote("%$filtertext%")
+				);
+				$result = $ilDB->query($query);
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					array_push($courseids, $row["obj_id"]);
+				}
+				break;
+		}
+
+
 		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
 			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
 			"qpl_questions.points AS maxpoints " .
@@ -4485,28 +4512,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 								include_once "./Services/User/classes/class.ilObjUser.php";
 								$groups = ilObjUser::getGroupMemberships($row["usr_id"]);
 								$foundfilter = FALSE;
-								foreach ($groups as $groupid)
-								{
-									$title = ilObject::_lookupTitle($groupid);
-									if (@preg_match("/$filtertext/i", $title))
-									{
-										$foundfilter = TRUE;
-									}
-								}
+								if (count(array_intersect($groupids, $groups))) $foundfilter = TRUE;
 								if (!$foundfilter) $remove = TRUE;
 								break;
 							case "course":
 								include_once "./Services/User/classes/class.ilObjUser.php";
 								$courses = ilObjUser::getCourseMemberships($row["usr_id"]);
 								$foundfilter = FALSE;
-								foreach ($courses as $courseid)
-								{
-									$title = ilObject::_lookupTitle($courseid);
-									if (@preg_match("/$filtertext/i", $title))
-									{
-										$foundfilter = TRUE;
-									}
-								}
+								if (count(array_intersect($courseids, $courses))) $foundfilter = TRUE;
 								if (!$foundfilter) $remove = TRUE;
 								break;
 						}
