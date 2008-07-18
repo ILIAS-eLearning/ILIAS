@@ -4509,18 +4509,32 @@ function loadQuestions($active_id = "", $pass = NULL)
 						switch ($filterby)
 						{
 							case "group":
-								include_once "./Services/User/classes/class.ilObjUser.php";
-								$groups = ilObjUser::getGroupMemberships($row["usr_id"]);
-								$foundfilter = FALSE;
-								if (count(array_intersect($groupids, $groups))) $foundfilter = TRUE;
-								if (!$foundfilter) $remove = TRUE;
+								if (count($groupids))
+								{
+									include_once "./Services/User/classes/class.ilObjUser.php";
+									$groups = ilObjUser::getGroupMemberships($row["usr_id"]);
+									$foundfilter = FALSE;
+									if (count(array_intersect($groupids, $groups))) $foundfilter = TRUE;
+									if (!$foundfilter) $remove = TRUE;
+								}
+								else
+								{
+									$remove = TRUE;
+								}
 								break;
 							case "course":
-								include_once "./Services/User/classes/class.ilObjUser.php";
-								$courses = ilObjUser::getCourseMemberships($row["usr_id"]);
-								$foundfilter = FALSE;
-								if (count(array_intersect($courseids, $courses))) $foundfilter = TRUE;
-								if (!$foundfilter) $remove = TRUE;
+								if (count($courseids))
+								{
+									include_once "./Services/User/classes/class.ilObjUser.php";
+									$courses = ilObjUser::getCourseMemberships($row["usr_id"]);
+									$foundfilter = FALSE;
+									if (count(array_intersect($courseids, $courses))) $foundfilter = TRUE;
+									if (!$foundfilter) $remove = TRUE;
+								}
+								else
+								{
+									$remove = TRUE;
+								}
 								break;
 						}
 					}
