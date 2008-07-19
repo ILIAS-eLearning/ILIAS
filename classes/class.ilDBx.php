@@ -146,6 +146,30 @@ class ilDBx extends PEAR
 	}
 
 	/**
+	* Create a new table in the database
+	*/
+	function createTable($a_name, $a_definition_array, $a_options = "")
+	{
+		if ($a_options == "")
+		{
+			$a_options = array();
+		}
+		
+		$manager = $this->db->loadModule('manager');
+		$r = $manager->createTable($a_name, $a_definition_array, $a_options);
+
+		if (MDB2::isError($r))
+		{
+			//$err = "<br>Details: ".mysql_error();
+			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql.$err."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+	
+	/**
 	* Simple query. This function should only be used for simple select queries
 	* without parameters. Data manipulation should not be done with it.
 	*
