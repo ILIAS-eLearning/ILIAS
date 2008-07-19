@@ -288,6 +288,11 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		// forward the command
 		$this->ctrl->forwardCommand($info);
+
+		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		{
+			$this->setSideBlock();
+		}
 	}
 	
 	/**
@@ -300,6 +305,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId()));
 	}
 
+	/**
+	* Add Page Tabs
+	*/
 	function addPageTabs()
 	{
 		global $ilTabs, $ilCtrl;
@@ -317,18 +325,47 @@ class ilObjWikiGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Add Pages SubTabs
+	*/
+	function addPagesSubTabs()
+	{
+		global $ilTabs, $ilCtrl;
+		
+		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		$ilCtrl->setParameter($this, "wpg_id",
+			ilWikiPage::getPageIdForTitle($this->object->getId(), $_GET["page"]));
+		$ilCtrl->setParameter($this, "page", $_GET["page"]);
+		$ilTabs->addSubTabTarget("wiki_all_pages",
+			$this->ctrl->getLinkTarget($this, "allPages"), "allPages");
+		$ilTabs->addSubTabTarget("wiki_recent_changes",
+			$this->ctrl->getLinkTarget($this, "recentChanges"), "recentChanges");
+		$ilTabs->addSubTabTarget("wiki_new_pages",
+			$this->ctrl->getLinkTarget($this, "newPages"), "newPages");
+		$ilTabs->addSubTabTarget("wiki_popular_pages",
+			$this->ctrl->getLinkTarget($this, "popularPages"), "popularPages");
+		$ilTabs->addSubTabTarget("wiki_orphaned_pages",
+			$this->ctrl->getLinkTarget($this, "orphanedPages"), "orphanedPages");
+	}
+
+	/**
 	* get tabs
 	* @access	public
 	* @param	object	tabs gui object
 	*/
 	function getTabs($tabs_gui)
 	{
-		global $ilCtrl, $ilAccess;
+		global $ilCtrl, $ilAccess, $lng;
 		
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui")))
 		{
+			if ($_GET["page"] != "")
+			{
+				$tabs_gui->setBackTarget($lng->txt("wiki_last_visited_page"),
+					$this->getGotoLink($_GET["ref_id"], $_GET["page"]));
+			}
+			
 			// info screen
 			if ($ilAccess->checkAccess('visible', "", $this->object->getRefId()))
 			{
@@ -342,7 +379,15 @@ class ilObjWikiGUI extends ilObjectGUI
 					"showSummary",
 					"", "", $force_active);
 			}
-	
+
+			// pages
+			if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
+			{
+				$tabs_gui->addTarget("wiki_pages",
+					$this->ctrl->getLinkTarget($this, "allPages"),
+					"allPages");
+			}
+
 			// settings
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 			{
@@ -381,6 +426,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->getSettingsFormValues();
 		
 		$tpl->setContent($this->form_gui->getHtml());
+		$this->setSideBlock();
 	}
 	
 	/**
@@ -532,6 +578,8 @@ class ilObjWikiGUI extends ilObjectGUI
 			$this->object->getId());
 
 		$tpl->setContent($table_gui->getHTML());
+		
+		$this->setSideBlock();
 	}
 	
 	/**
@@ -571,7 +619,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		if (is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+			$ilLocator->addItem($this->object->getTitle(),
+				$this->getGotoLink($this->object->getRefId()), "", $_GET["ref_id"]);
 		}
 	}
 
@@ -687,6 +736,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
+		$this->addPagesSubTabs();
+		
 		$table_gui = new ilWikiPagesTableGUI($this, "allPages",
 			$this->object->getId(), IL_WIKI_ALL_PAGES);
 			
@@ -699,9 +750,12 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function popularPagesObject()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
+		
+		$this->addPagesSubTabs();
+		$ilTabs->setTabActive("wiki_pages");
 		
 		$table_gui = new ilWikiPagesTableGUI($this, "popularPages",
 			$this->object->getId(), IL_WIKI_POPULAR_PAGES);
@@ -715,9 +769,12 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function orphanedPagesObject()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
+		
+		$this->addPagesSubTabs();
+		$ilTabs->setTabActive("wiki_pages");
 		
 		$table_gui = new ilWikiPagesTableGUI($this, "orphanedPages",
 			$this->object->getId(), IL_WIKI_ORPHANED_PAGES);
@@ -778,9 +835,12 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function recentChangesObject()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiRecentChangesTableGUI.php");
+		
+		$this->addPagesSubTabs();
+		$ilTabs->setTabActive("wiki_pages");
 		
 		$table_gui = new ilWikiRecentChangesTableGUI($this, "recentChanges",
 			$this->object->getId());
@@ -809,9 +869,12 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function newPagesObject()
 	{
-		global $tpl;
+		global $tpl, $ilTabs;
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
+		
+		$this->addPagesSubTabs();
+		$ilTabs->setTabActive("wiki_pages");
 		
 		$table_gui = new ilWikiPagesTableGUI($this, "newPages",
 			$this->object->getId(), IL_WIKI_NEW_PAGES);
