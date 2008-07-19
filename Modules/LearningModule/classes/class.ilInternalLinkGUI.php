@@ -281,15 +281,15 @@ class ilInternalLinkGUI
 		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
 		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
 		
-		if ($this->isEnabledJavaScript())
+/*		if ($this->isEnabledJavaScript())
 		{
 			$tpl->setVariable("BTN_CLOSE_JS", $this->lng->txt("close"));
 		}
 		else 
-		{
+		{*/
 			$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
 			$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
-		}
+//		}
 
 		$chapterRowBlock = "chapter_row";
 		if ($this->isEnabledJavaScript())

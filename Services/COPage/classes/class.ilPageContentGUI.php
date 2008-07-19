@@ -97,7 +97,7 @@ class ilPageContentGUI
 		return $this->hier_id;
 	}
 
-		/**
+	/**
 	* Get the bb menu incl. script
 	*/
 	function getBBMenu()

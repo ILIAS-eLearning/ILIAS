@@ -246,11 +246,10 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 		$dt['hours'] = (int) $_POST[$this->getPostVar()]['time']['h'];
 		$dt['minutes'] = (int) $_POST[$this->getPostVar()]['time']['m'];
 		$dt['seconds'] = (int) $_POST[$this->getPostVar()]['time']['s'];
-		
 		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
-			
+var_dump($dt['seconds']);
 		$timestamp = $date->get(IL_CAL_UNIX);	
-			
+var_dump($timestamp);
 		if ($_POST[$this->getPostVar()]["date"]["d"] != $date->get(IL_CAL_FKT_DATE,'d',$ilUser->getTimeZone()) ||
 			$_POST[$this->getPostVar()]["date"]["m"] != $date->get(IL_CAL_FKT_DATE,'m',$ilUser->getTimeZone()) ||
 			$_POST[$this->getPostVar()]["date"]["y"] != $date->get(IL_CAL_FKT_DATE,'Y',$ilUser->getTimeZone()))
@@ -273,6 +272,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 			str_pad($_POST[$this->getPostVar()]["date"]["m"], 2 , "0", STR_PAD_LEFT)."-".
 			str_pad($_POST[$this->getPostVar()]["date"]["d"], 2 , "0", STR_PAD_LEFT);
 		*/
+		$this->setDate($date);
 		return $ok;
 	}
 

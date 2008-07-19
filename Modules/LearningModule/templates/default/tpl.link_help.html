@@ -72,7 +72,7 @@ body { margin:0px; }
 			<!-- BEGIN thumbnail_js -->
 			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
 			<!-- END thumbnail_js -->
-			<td class="std"><b><a href="#" onClick="opener.addInternalLink('{LINK_CHAPTER}','{TXT_CHAPTER}');setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a></b></td>
+			<td class="std"><b><a href="#" onClick="parent.content.addInternalLink('{LINK_CHAPTER}','{TXT_CHAPTER}');setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a></b></td>
 		</tr>
 	<!-- END chapter_row_js -->
 	

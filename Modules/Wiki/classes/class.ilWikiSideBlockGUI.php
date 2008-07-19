@@ -55,7 +55,7 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		$this->setAvailableDetailLevels(3);*/
 		$this->setEnableNumInfo(false);
 		
-		$this->setTitle($lng->txt("wiki_navigation"));
+		$this->setTitle($lng->txt("wiki_quick_navigation"));
 		//$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
 		//$this->setData($data);
 		$this->allow_moving = false;

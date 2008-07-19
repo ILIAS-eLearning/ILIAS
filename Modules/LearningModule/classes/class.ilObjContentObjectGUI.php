@@ -662,8 +662,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, "lmexpand", $_GET["lmexpand"]);
 		$this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "explorer"));
 		$this->tpl->parseCurrentBlock();
-		//$this->tpl->show(false);
-
+		$this->tpl->show(false);
+		exit;
 	}
 
 	/**
