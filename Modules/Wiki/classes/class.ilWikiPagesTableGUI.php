@@ -149,7 +149,8 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 		if ($this->pg_list_mode == IL_WIKI_NEW_PAGES)
 		{
 			$this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
-			$this->tpl->setVariable("DATE", $a_set["created"]);
+			$this->tpl->setVariable("DATE",
+				ilDatePresentation::formatDate(new ilDateTime($a_set["created"], IL_CAL_DATETIME)));
 		}
 		else if ($this->pg_list_mode == IL_WIKI_POPULAR_PAGES)
 		{
@@ -159,7 +160,8 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 		else
 		{
 			$this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
-			$this->tpl->setVariable("DATE", $a_set["date"]);
+			$this->tpl->setVariable("DATE",
+				ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME)));
 		}
 		$this->tpl->setVariable("HREF_PAGE",
 			ilObjWikiGUI::getGotoLink($_GET["ref_id"], $a_set["title"]));

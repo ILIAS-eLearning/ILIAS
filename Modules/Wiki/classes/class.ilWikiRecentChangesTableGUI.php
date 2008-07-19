@@ -77,7 +77,8 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$title = ilWikiPage::lookupTitle($a_set["id"]);
 		$this->tpl->setVariable("TXT_PAGE_TITLE", $title);
-		$this->tpl->setVariable("DATE", $a_set["date"]);
+		$this->tpl->setVariable("DATE",
+			ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME)));
 		$ilCtrl->setParameterByClass("ilwikipagegui", "page", rawurlencode($title));
 		$ilCtrl->setParameterByClass("ilwikipagegui", "old_nr", $a_set["nr"]);
 		$this->tpl->setVariable("HREF_PAGE",
