@@ -86,7 +86,7 @@ class ilParticipants
 	 *
 	 * @access public
 	 * @param int $a_usr_id usr_id
-	 * @param string $a_type crs or group
+	 * @param string $a_type crs or grp
 	 * @return
 	 * @static
 	 */

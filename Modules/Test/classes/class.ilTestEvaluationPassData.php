@@ -47,6 +47,11 @@ class ilTestEvaluationPassData
 	*/
 	var $pass;
 	
+	public function __sleep()
+	{
+		return array('answeredQuestions', 'pass');
+	}
+
 	/**
 	* Constructor
 	*

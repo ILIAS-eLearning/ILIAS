@@ -251,7 +251,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$evaluation_rows = array();
 		$counter = 1;
 		$data =& $this->object->getCompleteEvaluationData(FALSE, $filterby, $filtertext);
-		if (count($data->getParticipants()) == 0)
+		$foundParticipants =& $data->getParticipants();
+		if (count($foundParticipants) == 0)
 		{
 			$this->tpl->setVariable("EVALUATION_DATA", $this->lng->txt("tst_no_evaluation_data"));
 		}
@@ -326,7 +327,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$counter++;
 			}
 		}
-		if (count($data->getParticipants()) > 0)
+		if (count($foundParticipants) > 0)
 		{
 			$table->setData($evaluation_rows);
 			$tableoutput = $table->render();
@@ -362,7 +363,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		$filteroutput = $template->get();
 		
-		if (count($data->getParticipants()) > 0)
+		if (count($foundParticipants) > 0)
 		{
 			$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
 			$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
@@ -562,11 +563,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", "Modules/Test");
-		if (count($data->getParticipants())) 
+		$foundParticipants =& $data->getParticipants();
+		if (count($foundParticipants)) 
 		{
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_persons"));
-			$this->tpl->setVariable("TXT_VALUE", count($data->getParticipants()));
+			$this->tpl->setVariable("TXT_VALUE", count($foundParticipants));
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$counter++;
 			$this->tpl->parseCurrentBlock();
@@ -592,7 +594,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$total_passed_reached = 0;
 			$total_passed_max = 0;
 			$total_passed_time = 0;
-			foreach ($data->getParticipants() as $userdata)
+			foreach ($foundParticipants as $userdata)
 			{
 				if ($userdata->getPassed()) 
 				{
@@ -677,7 +679,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$answered = 0;
 			$reached = 0;
 			$max = 0;
-			foreach ($data->getParticipants() as $userdata)
+			foreach ($foundParticipants as $userdata)
 			{
 				for ($i = 0; $i <= $userdata->getLastPass(); $i++)
 				{

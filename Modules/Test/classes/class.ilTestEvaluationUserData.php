@@ -148,6 +148,12 @@ class ilTestEvaluationUserData
 	*/
 	var $questions;
 
+	public function __sleep()
+	{
+		return array('questions', 'passes', 'passed', 'lastVisit', 'firstVisit', 'timeOfWork', 'numberOfQuestions', 
+		'questionsWorkedThrough', 'markECTS', 'mark_official', 'mark', 'maxpoints', 'reached', 'user_id', 'login', 'name');
+	}
+
 	/**
 	* Constructor
 	*

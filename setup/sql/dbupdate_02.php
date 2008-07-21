@@ -5026,3 +5026,11 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#1284>
 ALTER TABLE `il_media_cast_data` ADD COLUMN `access` TINYINT(4) DEFAULT 0 AFTER `downloadable`;
+<#1285>
+<#1286>
+CREATE TABLE `data_cache` (
+  `module` varchar(50) NOT NULL DEFAULT 'common',
+  `keyword` varchar(50) NOT NULL DEFAULT '',
+  `value` mediumtext NULL DEFAULT NULL,
+  PRIMARY KEY  (`module`,`keyword`)
+);
