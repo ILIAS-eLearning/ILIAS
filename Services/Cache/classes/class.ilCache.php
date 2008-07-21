@@ -30,7 +30,6 @@
 */
 class ilCache
 {
-	private $cache = array();
 	private $module = "";
 	
 	/**
@@ -141,7 +140,7 @@ class ilCache
 	* @param	string	$a_key keyword
 	* @param	string $a_val value
 	*/
-	function setValue($a_key, $a_val)
+	public function setValue($a_key, $a_val)
 	{
 		global $ilDB, $ilLog;
 		
