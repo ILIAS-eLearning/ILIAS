@@ -1168,6 +1168,7 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		// system information
 		$data["create_date"] = $this->object->getCreateDate();
+		$data["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
 		$data["approve_date"] = $this->object->getApproveDate();
 		$data["agree_date"] = $this->object->getAgreeDate();
 		$data["last_login"] = $this->object->getLastLogin();
@@ -1337,7 +1338,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// create date, approve date, agreement date, last login
 		if ($a_mode == "edit")
 		{
-			$sia = array("create_date", "approve_date", "agree_date", "last_login");
+			$sia = array("create_date", "approve_date", "agree_date", "last_login", "owner");
 			foreach($sia as $a)
 			{
 				$siai = new ilNonEditableValueGUI($lng->txt($a), $a);
