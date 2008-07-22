@@ -108,7 +108,7 @@ class ilMediaPlayerGUI
 		$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 		$mp_tpl->setVariable("FILE", $this->getFile());
 		$mp_tpl->setVariable("PLAYER_NR", self::$nr);
-		$mp_tpl->setVariable("DISPLAY_HEIGHT", "240");
+		$mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType,"audio/mpeg") === false ? "240" : "20");
 		$mp_tpl->setVariable("DISPLAY_WIDTH", "320");
 		self::$nr++;
 		
