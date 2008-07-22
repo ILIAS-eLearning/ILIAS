@@ -61,8 +61,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->files = $a_files;
 	}
 
-	function createObject()
+	function createObject($a_reload = false)
 	{
+		global $tpl;
+		
+		$this->getTemplateFile("edit", "exc");
+		
+		if (!$a_reload)
+		{
+			$this->initPropertiesForm("create");
+		}
+		$this->tpl->setVariable("EDIT_FORM", $this->form_gui->getHtml());
+		
+		$this->fillCloneTemplate('DUPLICATE','exc');
+return;
 		parent::createObject();
 
 		$this->tpl->setVariable("INSTRUCTION",
@@ -344,43 +356,59 @@ class ilObjExerciseGUI extends ilObjectGUI
 	{
 		global $rbacadmin;
 	
-		// CHECK INPUT
-		include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
-		$tmp_obj =& new ilObjExercise();
-	
-		$tmp_obj->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
-		if(!$tmp_obj->checkDate())
+		$this->initPropertiesForm("create");
+
+		if ($this->form_gui->checkInput())
 		{
-			$this->ilias->raiseError($this->lng->txt("exc_date_not_valid"), $this->ilias->error_obj->MESSAGE);
-		}
-		unset($tmp_obj);
-		// END INPUT CHECK
+			// always call parent method first to create an object_data entry & a reference
+			$newObj = parent::saveObject();
 		
-		// always call parent method first to create an object_data entry & a reference
-		$newObj = parent::saveObject();
-	
-		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
-		//$roles = $newObj->initDefaultRoles();
-	
-		// put here your object specific stuff	
-	
-		$newObj->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],$_POST["d_month"],$_POST["d_year"]);
-	
-		$newObj->setInstruction(ilUtil::stripSlashes($_POST["Fobject"]["instruction"]));
-		$newObj->saveData();
-	
-		// always send a message
-		ilUtil::sendInfo($this->lng->txt("exc_added"),true);
-		ilUtil::redirect("ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
+			// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
+			//$roles = $newObj->initDefaultRoles();
+		
+			// put here your object specific stuff	
+		
+			$newObj->setTitle($this->form_gui->getInput("title"));
+			$newObj->setDescription($this->form_gui->getInput("desc"));
+			$newObj->setInstruction($this->form_gui->getInput("instruction"));
+			$edit_date =
+				$this->form_gui->getItemByPostVar("edit_date")->getDate();
+			$newObj->setTimestamp($edit_date->get(IL_CAL_UNIX));
+			
+			$newObj->saveData();
+			$newObj->update();
+		
+			// always send a message
+			ilUtil::sendInfo($this->lng->txt("exc_added"),true);
+			ilUtil::redirect("ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$this->createObject(true);
+		}
 	}
   
 	function editObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $tpl;
 	
 		$this->checkPermission("write");
 		
+		$this->getTemplateFile("edit", "exc");
+		
+		$this->initPropertiesForm("edit");
+		$this->getPropertiesValues();
+		//$tpl->setContent($this->form_gui->getHtml());
+		
+		$this->tpl->setVariable("EDIT_FORM", $this->form_gui->getHtml());
+		
+		//$this->getTemplateFile("edit","exc");
+		
+//return;
+		
 		// LOAD SAVED DATA IN CASE OF ERROR
+/*
 		$title = $_SESSION["error_post_vars"]["Fobject"]["title"] ?
 		ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true) :
 		ilUtil::prepareFormOutput($this->object->getTitle());
@@ -452,14 +480,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("FILE_ROW");
 				$this->tpl->setVariable("ROW_FILE",$file["name"]);
 				$this->tpl->setVariable("ROW_CHECKBOX",$this->lng->txt("exc_ask_delete")."&nbsp".
-						ilUtil::formCheckbox(0,"delete_file[]",$file["name"]));
+					ilUtil::formCheckbox(0,"delete_file[]",$file["name"]));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("FILE_DATA");
 			$this->tpl->setVariable("TXT_FILES",$this->lng->txt("exc_files").":");
 			$this->tpl->parseCurrentBlock();
 		}
-	
+*/
 		$this->tpl->setCurrentBlock("FILES");
 		$this->tpl->setVariable("TXT_HEADER_FILE",$this->lng->txt("file_add"));
 		$this->tpl->setVariable("TXT_FILE",$this->lng->txt("file"));
@@ -470,11 +498,155 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
   
+	/**
+	* Init properties form.
+	*
+	* @param        int        $a_mode        "create"/"edit"
+	*/
+	public function initPropertiesForm($a_mode = "create")
+	{
+		global $lng, $ilCtrl;
+
+		// init form
+		$lng->loadLanguageModule("form");
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setTableWidth("60%");
+		if ($a_mode == "edit")
+		{
+			$this->form_gui->setTitle($lng->txt("exc_edit_exercise"));
+		}
+		else
+		{
+			$this->form_gui->setTitle($lng->txt("exc_new"));
+		}
+		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_exc.gif"));
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+
+		
+		// on creation: Type
+		if ($a_mode == "create")
+		{
+			$type_input = new ilHiddenInputGUI("new_type");
+			$type_input->setValue("exc");
+			$this->form_gui->addItem($type_input);
+		}
+		
+		// Title
+		$title_input = new ilTextInputGUI($lng->txt("title"), "title");
+		$title_input->setRequired(true);
+		$title_input->setMaxLength(128);
+		$this->form_gui->addItem($title_input);
+		
+		// Description
+		$desc_input = new ilTextAreaInputGUI($lng->txt("desc"), "desc");
+		$this->form_gui->addItem($desc_input);
+		
+		// Work Instructions
+		$desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
+		$this->form_gui->addItem($desc_input);
+		
+		// Edit until...
+		$edit_date = new ilDateTimeInputGUI($lng->txt("exc_edit_until"), "edit_date");
+		//$dt_prop->setDate(new ilDateTime("2006-12-24 15:44:00", IL_CAL_DATETIME);
+		$edit_date->setShowTime(true);
+		//$dt_prop->setInfo("Info text for the start date.");
+		$this->form_gui->addItem($edit_date);
+
+		// files
+		if ($a_mode == "edit")
+		{
+			if(count($files = $this->object->getFiles()))
+			{
+				// Files section header
+				$files_head = new ilFormSectionHeaderGUI();
+				$files_head->setTitle($lng->txt("files"));
+				$this->form_gui->addItem($files_head);
+
+				foreach($files as $file)
+				{
+					$i++;
+					$file_cb = new ilCheckboxInputGUI($this->lng->txt("exc_ask_delete"),
+						"delete_file_".$i);
+					$file_cb->setOptionTitle($file["name"]);
+					$file_cb->setValue($file["name"]);
+					$this->form_gui->addItem($file_cb);
+				}
+			}
+		}
+
+		// save and cancel commands
+		if ($a_mode == "create")
+		{
+			$this->form_gui->addCommandButton("save", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form_gui->addCommandButton("update", $lng->txt("save"));
+			$this->form_gui->addCommandButton("cancelEdit", $lng->txt("cancel"));
+		}
+	}
+	
+	/**
+	* Get values for properties form
+	*/
+	function getPropertiesValues()
+	{
+		$values["title"] = $this->object->getTitle();
+		$values["desc"] = $this->object->getLongDescription();
+		$values["instruction"] = $this->object->getInstruction();
+		$this->form_gui->setValuesByArray($values);
+		
+//echo "-".$this->object->getTimestamp()."-";
+		$edit_date = new ilDateTime($this->object->getTimestamp(), IL_CAL_UNIX);
+		$ed_item = $this->form_gui->getItemByPostVar("edit_date");
+		$ed_item->setDate($edit_date);
+	}
+		
+	/**
+	* Update exercise from values from form
+	*/
 	function updateObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $tpl;
 	
 		$this->checkPermission("write");
+		
+		$this->initPropertiesForm("edit");
+		if ($this->form_gui->checkInput())
+		{
+			$this->object->setTitle($this->form_gui->getInput("title"));
+			$this->object->setDescription($this->form_gui->getInput("desc"));
+			$this->object->setInstruction($this->form_gui->getInput("instruction"));
+			$edit_date =
+				$this->form_gui->getItemByPostVar("edit_date")->getDate();
+			$this->object->setTimestamp($edit_date->get(IL_CAL_UNIX));
+			
+			// delete files
+			$del_files = array();
+			foreach ($_POST as $k => $v)
+			{
+				if (substr($k, 0, 12) == "delete_file_" && $v != "")
+				{
+					$del_files[] = $v;
+				}
+			}
+
+			$this->object->deleteFiles($del_files);
+			
+			$this->object->update();
+			
+			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+			$this->ctrl->redirect($this, "edit");
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$tpl->setContent($this->form_gui->getHTML());
+		}
+		
+return;
 	
 		$this->object->setInstruction(ilUtil::stripSlashes($_POST["Fobject"]["instruction"]));
 		$this->object->setDate($_POST["d_hour"],$_POST["d_minutes"],$_POST["d_day"],
@@ -490,7 +662,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 	
-		$this->ctrl->redirect($this, "edit");	
+		$this->ctrl->redirect($this, "edit");
 	}
   
 	function cancelEditObject()

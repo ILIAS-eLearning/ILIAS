@@ -977,7 +977,8 @@ class ilUtil
 		$sel_year .= "</select>\n";
 		$sel_year = preg_replace("/(value\=\"$year\")/", "$1 selected=\"selected\"", $sel_year);
 
-		$dateformat = $lng->text["lang_dateformat"];
+		//$dateformat = $lng->text["lang_dateformat"];
+		$dateformat = "d-m-Y";
 		$dateformat = strtolower(preg_replace("/\W/", "", $dateformat));
 		$dateformat = strtolower(preg_replace("/(\w)/", "%%$1", $dateformat));
 		$dateformat = preg_replace("/%%d/", $sel_day, $dateformat);

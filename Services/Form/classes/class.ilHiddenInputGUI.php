@@ -25,7 +25,7 @@
 /**
 * This class represents a hidden form property in a property form.
 *
-* @author Roland Küstermann (rkuestermann@mps.de)
+* @author Roland KÃ¼stermann (rkuestermann@mps.de)
 * @version $Id$
 * @ingroup	ServicesForm
 */
@@ -41,6 +41,7 @@ class ilHiddenInputGUI extends ilFormPropertyGUI {
 	function __construct($a_postvar)
 	{
 		parent::__construct("", $a_postvar);
+		$this->setType("hidden");
 	}
 
 	/**
@@ -91,7 +92,7 @@ class ilHiddenInputGUI extends ilFormPropertyGUI {
 	*/
 	function insert(&$a_tpl)
 	{
-		$a_tpl->setCurrentBlock("prop_hidden");		
+		$a_tpl->setCurrentBlock("hidden");		
 		$a_tpl->setVariable('PROP_INPUT_TYPE','hidden');
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("ID", $this->getFieldId());

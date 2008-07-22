@@ -30,9 +30,6 @@
 		<!-- BEGIN non_editable_value -->
 		{VALUE}
 		<!-- END non_editable_value -->
-		<!-- BEGIN prop_hidden -->
-		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
-		<!-- END prop_hidden -->
 		<!-- BEGIN prop_text -->
 		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
 		<!-- END prop_text -->
@@ -161,6 +158,9 @@
 	<!-- BEGIN commands -->
 	<tr>
 	<td class="submit" colspan="2">
+		<!-- BEGIN hidden -->
+		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
+		<!-- END hidden -->
 		<!-- BEGIN required_text -->
 		<div style="float:left;">
 			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}</span>

@@ -1625,12 +1625,10 @@ class Title {
 		$dbkey = trim( $dbkey, '_' );
 
 		if ( '' == $dbkey ) {
-echo "1";
 			return false;
 		}
 
 		if( false !== strpos( $dbkey, UTF8_REPLACEMENT ) ) {
-echo "2";
 			# Contained illegal UTF-8 sequences or forbidden Unicode chars.
 			return false;
 		}
@@ -1657,7 +1655,6 @@ echo "2";
 					$this->mNamespace = $ns;
 				} elseif( $this->getInterwikiLink( $p ) ) {
 					if( !$firstPass ) {
-echo "3";
 						# Can't make a local interwiki link to an interwiki link.
 						# That's just crazy!
 						return false;
@@ -1670,7 +1667,6 @@ echo "3";
 					# Redundant interwiki prefix to the local wiki
 					if ( 0 == strcasecmp( $this->mInterwiki, $wgLocalInterwiki ) ) {
 						if( $dbkey == '' ) {
-echo "4";
 							# Can't have an empty self-link
 							return false;
 						}
@@ -1710,7 +1706,6 @@ echo "4";
 		# Reject illegal characters.
 		#
 		if( preg_match( $rxTc, $dbkey ) ) {
-echo "5-$rxTc-$dbkey-";
 			return false;
 		}
 

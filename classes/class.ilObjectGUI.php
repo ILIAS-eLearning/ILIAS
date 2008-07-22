@@ -1114,13 +1114,13 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->MESSAGE);
 		}
 //echo ":".$_GET["new_type"].":".$_POST["new_type"].":";
-		$location = $objDefinition->getLocation($_GET["new_type"]);
+		$location = $objDefinition->getLocation($new_type);
 
 			// create and insert object in objecttree
-		$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
+		$class_name = "ilObj".$objDefinition->getClassName($new_type);
 		include_once($location."/class.".$class_name.".php");
 		$newObj = new $class_name();
-		$newObj->setType($_GET["new_type"]);
+		$newObj->setType($new_type);
 		$newObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$newObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$newObj->create();

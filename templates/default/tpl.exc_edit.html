@@ -1,54 +1,7 @@
-	<form action="{FORMACTION}" {TARGET} method="post">
-	  <table class="std" width="60%">
-		  <tr class="tblheader">
-			<td class="std" colspan="2">
-				<!-- BEGIN img -->
-				<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
-				<!-- END img -->
-				{TXT_HEADER}
-			</td>
-		  </tr>
-		  <tr>
-			<td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
-			<td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="128" style="width:300px;"/></td>
-		  </tr>
-		  <tr>
-			<td class="option">{TXT_DESC}</td>
-			<td class="option_value"><textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
-		  </tr>
-		  <tr>
-			<td class="option">{TXT_INSTRUCTION}</td>
-			<td class="option_value"><textarea name="Fobject[instruction]" rows="4" cols="40" style="width:300px;">{INSTRUCTION}</textarea></td>
-		  </tr>
-		  <tr>
-			<td class="option">{TXT_EDIT_UNTIL}</td>
-			<td class="option_value" nowrap="nowrap">{TXT_HOUR}&nbsp;{SELECT_HOUR}&nbsp;{SELECT_MINUTES}&nbsp;{TXT_DAY}&nbsp;{SELECT_DAY}&nbsp;{SELECT_MONTH}&nbsp;{SELECT_YEAR}&nbsp;</td>
-		  </tr>
-		  <!-- BEGIN FILE_DATA -->
-		  <tr>
-			<td class="option">{TXT_FILES}</td>
-			<td class="option_value">&nbsp;</td>
-		  </tr>
-		  <!-- BEGIN FILE_ROW -->
-		  <tr>
-			<td class="sub_option">{ROW_CHECKBOX}</td>
-			<td class="option_value">{ROW_FILE}</td>
-		  </tr>
-		  <!-- END FILE_ROW -->
-		  <!-- END FILE_DATA -->
-		  <tr>
-			<td class="submit" colspan="2">
-			  <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
-			  <div align="right">
-				<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
-				<input class="submit" type="submit" name="cmd[{CMD_CANCEL}]" value="{TXT_CANCEL}" />
-			  </div>
-			</td>
-		  </tr>
-	  </table>
-	</form>
-	<br>
+	{EDIT_FORM}
 	<!-- BEGIN FILES -->
+	<br />
+	
 	<form action="{FORMACTION_FILE}" {TARGET} method="post" enctype="multipart/form-data">
 	  <table class="std" width="60%">
 		  <tr class="tblheader">
@@ -73,7 +26,7 @@
 		  </tr>
 	  </table>
 
-	  <br>
+	  <br />
 
 	  <table class="std" width="60%">
 	  		  <tr class="tblheader">
