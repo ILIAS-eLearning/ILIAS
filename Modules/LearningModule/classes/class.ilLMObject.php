@@ -984,7 +984,7 @@ class ilLMObject
 				//
 				$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
 				$copy_lm = ilLMObject::_lookupContObjID($copied_id);
-//echo "<br>-outgoing links-";
+
 				$fix = array();
 				foreach($targets as $target)
 				{
@@ -1002,6 +1002,7 @@ class ilLMObject
 							$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$target["type"]."_".$target["id"]);
 //var_dump($lm_data);
 							$found = false;
+
 							foreach($lm_data as $item)
 							{
 								if (!$found && ($item["lm_id"] == $copy_lm))
@@ -1038,17 +1039,18 @@ class ilLMObject
 				$original_type = ilObject::_lookupType($original_lm);
 				
 				// This gets sources that link to A+B (so we have C here)
-				$sources = ilInternalLink::_getSourcesOfTarget($original_type.":pg", $original_id, 0);
-				
+				$sources = ilInternalLink::_getSourcesOfTarget("pg", $original_id, 0);
 				$fix = array();
 				foreach($sources as $source)
 				{
-					if (($source["inst"] == 0 || $source["inst"] = IL_INST_ID) &&
-						($source["type"] == "pg" || $source["type"] == "st"))
+					$stype = explode(":", $source["type"]);
+					$source_type = $stype[1];
+
+					if ($source_type == "pg" || $source_type == "st")
 					{
 						// check, if a copy if the source is already in the same lm
 						// now we look for the latest copy of C in LM2
-						$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$source["type"]."_".$source["id"]);
+						$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$source_type."_".$source["id"]);
 						$found = false;
 						foreach($lm_data as $item)
 						{

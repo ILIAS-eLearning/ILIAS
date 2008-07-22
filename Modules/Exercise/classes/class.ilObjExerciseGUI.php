@@ -392,102 +392,16 @@ return;
 	function editObject()
 	{
 		global $rbacsystem, $tpl;
-	
+
 		$this->checkPermission("write");
-		
+
 		$this->getTemplateFile("edit", "exc");
-		
+
 		$this->initPropertiesForm("edit");
 		$this->getPropertiesValues();
-		//$tpl->setContent($this->form_gui->getHtml());
-		
+
 		$this->tpl->setVariable("EDIT_FORM", $this->form_gui->getHtml());
-		
-		//$this->getTemplateFile("edit","exc");
-		
-//return;
-		
-		// LOAD SAVED DATA IN CASE OF ERROR
-/*
-		$title = $_SESSION["error_post_vars"]["Fobject"]["title"] ?
-		ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true) :
-		ilUtil::prepareFormOutput($this->object->getTitle());
-		$desc  = $_SESSION["error_post_vars"]["Fobject"]["desc"] ?
-		$_SESSION["error_post_vars"]["Fobject"]["desc"] :
-		$this->object->getLongDescription();
-	
-		$instruction  = $_SESSION["error_post_vars"]["Fobject"]["instruction"] ?
-		$_SESSION["error_post_vars"]["Fobject"]["instruction"] :
-		$this->object->getInstruction();
-	
-		$hour  = $_SESSION["error_post_vars"]["Fobject"]["d_hour"] ?
-		$_SESSION["error_post_vars"]["Fobject"]["d_hour"] :
-		date("H",$this->object->getTimestamp());
-	
-		$minutes  = $_SESSION["error_post_vars"]["Fobject"]["d_minutes"] ?
-		$_SESSION["error_post_vars"]["Fobject"]["d_minutes"] :
-		date("i",$this->object->getTimestamp());
-	
-		$day  = $_SESSION["error_post_vars"]["Fobject"]["d_day"] ?
-		$_SESSION["error_post_vars"]["Fobject"]["d_day"] :
-		date("d",$this->object->getTimestamp());
-	
-		$month  = $_SESSION["error_post_vars"]["Fobject"]["d_month"] ?
-		$_SESSION["error_post_vars"]["Fobject"]["d_month"] :
-		date("m",$this->object->getTimestamp());
-	
-		$year  = $_SESSION["error_post_vars"]["Fobject"]["year"] ?
-		$_SESSION["error_post_vars"]["Fobject"]["year"] :
-		date("Y",$this->object->getTimestamp());
-	
-		// SET TPL VARIABLES
-		$this->getTemplateFile("edit","exc");
-	
-		// TEXT VAIRABLES
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
-		$this->tpl->setVariable("TXT_INSTRUCTION", $this->lng->txt("exc_instruction"));
-		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("exc_edit_exercise"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "update"));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_EDIT_UNTIL",$this->lng->txt("exc_edit_until"));
-	
-		// SHOW INPUT
-		$this->tpl->setVariable("TITLE",$title);
-		$this->tpl->setVariable("DESC",$desc);
-		$this->tpl->setVariable("INSTRUCTION",$instruction);
-			 
-		// SHOW DATE SELECTS
-		$this->tpl->setVariable("TXT_HOUR",$this->lng->txt("time_h"));
-		$this->tpl->setVariable("TXT_DAY",$this->lng->txt("time_d"));
-		$this->tpl->setVariable("SELECT_HOUR",$this->__getDateSelect("hour",$hour));	
-		$this->tpl->setVariable("SELECT_MINUTES",$this->__getDateSelect("minutes",$minutes));
-		$this->tpl->setVariable("SELECT_DAY",$this->__getDateSelect("day",$day));
-		$this->tpl->setVariable("SELECT_MONTH",$this->__getDateSelect("month",$month));
-		$this->tpl->setVariable("SELECT_YEAR",$this->__getDateSelect("year",$year));
-	
-		$this->tpl->setVariable("CMD_SUBMIT","update");
-		$this->tpl->setVariable("CMD_CANCEL","cancelEdit");
-	
-		// SHOW FILES
-		if(count($files = $this->object->getFiles()))
-		{
-			foreach($files as $file)
-			{
-				$this->tpl->setCurrentBlock("FILE_ROW");
-				$this->tpl->setVariable("ROW_FILE",$file["name"]);
-				$this->tpl->setVariable("ROW_CHECKBOX",$this->lng->txt("exc_ask_delete")."&nbsp".
-					ilUtil::formCheckbox(0,"delete_file[]",$file["name"]));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("FILE_DATA");
-			$this->tpl->setVariable("TXT_FILES",$this->lng->txt("exc_files").":");
-			$this->tpl->parseCurrentBlock();
-		}
-*/
+
 		$this->tpl->setCurrentBlock("FILES");
 		$this->tpl->setVariable("TXT_HEADER_FILE",$this->lng->txt("file_add"));
 		$this->tpl->setVariable("TXT_FILE",$this->lng->txt("file"));
