@@ -1299,6 +1299,7 @@ class ilCourseContentGUI
 
 		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
 
+		include_once("./Modules/Session/classes/class.ilEvent.php");
 		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getRefId()),
 								 ilEvent::_getEventsAsArray($this->course_obj->getId()));
 		$sorted_items = $this->__sortByStart($all_items);

@@ -374,7 +374,10 @@ class ilPropertyFormGUI extends ilFormGUI
 		$this->required_text = false;
 		foreach($this->items as $item)
 		{
-			$this->insertItem($item);
+			if ($item->getType() != "hidden")
+			{
+				$this->insertItem($item);
+			}
 		}
 
 		// required
@@ -394,7 +397,18 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		if ($required_text || count($this->buttons) > 0)
+		// hidden properties
+		$hidden_fields = false;
+		foreach($this->items as $item)
+		{
+			if ($item->getType() == "hidden")
+			{
+				$item->insert($this->tpl);
+				$hidden_fields = true;
+			}
+		}
+		
+		if ($required_text || count($this->buttons) > 0 || $hidden_fields)
 		{
 			$this->tpl->setCurrentBlock("commands");
 			$this->tpl->parseCurrentBlock();
