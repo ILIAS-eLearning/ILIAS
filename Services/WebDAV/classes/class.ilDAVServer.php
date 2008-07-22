@@ -1690,7 +1690,26 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
 		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
 		
-		$uri = $baseUri.'/ref_'.$refId.'/';
+                // Create a nice URI for the root-node of the tree
+		if ($refId == 1) {
+                        global $tree;
+                        $nodePath = $tree->getNodePath($refId);
+		
+                        if (count($nodePath) > 1) 
+                        {
+				$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 2]['child'].'/'.
+						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
+                                                '/');
+			} else {
+				$uri = $baseUri.'/'.
+						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
+                                                '/');
+                        }
+		}
+                else
+                {
+                        $uri = $baseUri.'/ref_'.$refId.'/';
+                }
 
 		// Display instructions for browsers which can't mount a dav volume
 		if ($query != null)
