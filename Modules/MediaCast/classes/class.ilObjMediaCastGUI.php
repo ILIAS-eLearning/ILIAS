@@ -937,7 +937,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
 			$incl_files->setChecked($this->object->getPublicFiles());
 			$incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
-			$ch->addSubItem($incl_files);
+			#$ch->addSubItem($incl_files);
+			$this->form_gui->addItem($incl_files);
 			
 			// Default Visibility
 			$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "defaultaccess");
@@ -948,8 +949,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$radio_group->setInfo($lng->txt("mcst_visibility_info"));
 			$radio_group->setRequired(false);			
 			$radio_group->setValue($this->object->getDefaultAccess());			
-			$ch->addSubItem($radio_group);
-			//$this->form_gui->addItem($radio_group);
+			#$ch->addSubItem($radio_group);
+			$this->form_gui->addItem($radio_group);
 			
 		}
 		
