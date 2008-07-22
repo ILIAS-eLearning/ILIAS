@@ -705,7 +705,7 @@ class ilObjectListGUI
 				$state = ilChangeEvent::_lookupChangeState($this->obj_id, $ilUser->getId());
 				if ($state > 0)
 				{
-					$props[] = array("alert" => false, "property" => $lng->txt("event"),
+					$props[] = array("alert" => true, "property" => $lng->txt("event"),
 						"value" => $lng->txt(($state == 1) ? 'state_unread' : 'state_changed'),
 						'propertyNameVisible' => false);
 				}
@@ -714,7 +714,7 @@ class ilObjectListGUI
 					$state = ilChangeEvent::_lookupInsideChangeState($this->obj_id, $ilUser->getId());
 					if ($state > 0)
 					{
-						$props[] = array("alert" => false, "property" => $lng->txt("event"),
+						$props[] = array("alert" => true, "property" => $lng->txt("event"),
 							"value" => $lng->txt('state_changed_inside'),
 							'propertyNameVisible' => false);
 					}
