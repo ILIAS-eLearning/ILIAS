@@ -21,6 +21,7 @@
         +-----------------------------------------------------------------------------+
 */
 
+
 include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 
 /**
