@@ -604,7 +604,8 @@ class ilNoteGUI
 					{
 						$tpl->setCurrentBlock("last_edit");
 						$tpl->setVariable("TXT_LAST_EDIT", $lng->txt("last_edited_on"));
-						$tpl->setVariable("DATE_LAST_EDIT", $note->getUpdateDate());
+						$tpl->setVariable("DATE_LAST_EDIT",
+							ilDatePresentation::formatDate(new ilDateTime($note->getUpdateDate(), IL_CAL_DATETIME)));
 						$tpl->parseCurrentBlock();
 					}
 					
@@ -669,7 +670,8 @@ class ilNoteGUI
 					$tpl->setVariable("ROWCLASS", $rowclass);
 					$tpl->setVariable("TXT_DATE", $lng->txt("date"));
 					$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
-					$tpl->setVariable("VAL_DATE", $note->getCreationDate());
+					$tpl->setVariable("VAL_DATE",
+						ilDatePresentation::formatDate(new ilDateTime($note->getCreationDate(), IL_CAL_DATETIME)));
 					$tpl->setVariable("NOTE_TEXT", nl2br($note->getText()));
 					$tpl->setVariable("VAL_SUBJECT", $note->getSubject());
 					$tpl->setVariable("NOTE_ID", $note->getId());
@@ -756,12 +758,14 @@ class ilNoteGUI
 		{
 			$tpl->setCurrentBlock("last_edit");
 			$tpl->setVariable("TXT_LAST_EDIT", $lng->txt("last_edited_on"));
-			$tpl->setVariable("DATE_LAST_EDIT", $note->getUpdateDate());
+			$tpl->setVariable("DATE_LAST_EDIT",
+				ilDatePresentation::formatDate(new ilDateTime($note->getUpdateDate(), IL_CAL_DATETIME)));
 			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setVariable("TXT_CREATED", $lng->txt("create_date"));
-		$tpl->setVariable("VAL_DATE", $note->getCreationDate());
+		$tpl->setVariable("VAL_DATE",
+			ilDatePresentation::formatDate(new ilDateTime($note->getCreationDate(), IL_CAL_DATETIME)));
 		$tpl->setVariable("VAL_SUBJECT", $note->getSubject());
 		$tpl->setVariable("NOTE_TEXT", nl2br($note->getText()));
 		$this->showTargets($tpl, $target["rep_obj_id"], $note_id, $target["obj_type"], $target["obj_id"]);

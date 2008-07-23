@@ -188,7 +188,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 				"img" => $img,
 				"alt" => $alt,
 				"text" => ilUtil::shortenText($note->getText(), 150, true, true),
-				"date" => substr($note->getCreationDate(),0,10),
+				"date" => $note->getCreationDate(),
 				"id" => $note->getId(),
 				"obj_type" => $target["obj_type"],
 				"obj_id" => $target["obj_id"],
@@ -236,7 +236,8 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setCurrentBlock("details");
 			$this->tpl->setVariable("NOTE_TEXT", $a_set["text"]);
-			$this->tpl->setVariable("VAL_DATE", $a_set["date"]);
+			$this->tpl->setVariable("VAL_DATE",
+				ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME)));
 			$this->tpl->parseCurrentBlock();
 				
 			// target objects
