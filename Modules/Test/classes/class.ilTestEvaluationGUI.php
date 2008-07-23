@@ -731,6 +731,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 */
 	function exportEvaluation()
 	{
+		$filterby = "";
+		if (array_key_exists("g_filterby", $_GET))
+		{
+			$filterby = $_GET["g_filterby"];
+		}
 		$filtertext = "";
 		if (array_key_exists("g_userfilter", $_GET))
 		{
@@ -747,10 +752,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		switch ($_POST["export_type"])
 		{
 			case "excel":
-				$this->exportToExcel($filtertext, $passedonly);
+				$this->exportToExcel($filterby, $filtertext, $passedonly);
 				break;
 			case "csv":
-				$this->exportToCSV($filtertext, $passedonly);
+				$this->exportToCSV($filterby, $filtertext, $passedonly);
 				break;
 			case "certificate":
 				if ($passedonly)
@@ -775,7 +780,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 * @param boolean $passedonly TRUE if only passed user datasets should be exported, FALSE otherwise
 * @access public
 */
-	function exportToExcel($filtertext, $passedonly)
+	function exportToExcel($filterby, $filtertext, $passedonly)
 	{
 		include_once "./classes/class.ilExcelWriterAdapter.php";
 		$excelfile = ilUtil::ilTempnam();
@@ -843,18 +848,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		include_once "./classes/class.ilExcelUtils.php";
 		$counter = 1;
-		$data =& $this->object->getCompleteEvaluationData();
+		$data =& $this->object->getCompleteEvaluationData(TRUE, $filterby, $filtertext);
 		foreach ($data->getParticipants() as $active_id => $userdata) 
 		{
 			$remove = FALSE;
-			if (strlen($filtertext))
-			{
-				$username = $value["name"];
-				if (!@preg_match("/$filtertext/i", $data->getParticipant($active_id)->getName()))
-				{
-					$remove = TRUE;
-				}
-			}
 			if ($passedonly)
 			{
 				if ($data->getParticipant($active_id)->getPassed() == FALSE)
@@ -1015,7 +1012,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 * @param boolean $passedonly TRUE if only passed user datasets should be exported, FALSE otherwise
 * @access public
 */
-	function exportToCSV($filtertext, $passedonly)
+	function exportToCSV($filterby, $filtertext, $passedonly)
 	{
 		$rows = array();
 		$datarow = array();
@@ -1083,21 +1080,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		array_push($datarow, $this->lng->txt("pass"));
 		$col++;
 
-		$data =& $this->object->getCompleteEvaluationData();
+		$data =& $this->object->getCompleteEvaluationData(TRUE, $filterby, $filtertext);
 		$headerrow = $datarow;
 		$counter = 1;
 		foreach ($data->getParticipants() as $active_id => $userdata) 
 		{
 			$datarow = $headerrow;
 			$remove = FALSE;
-			if (strlen($filtertext))
-			{
-				$username = $value["name"];
-				if (!@preg_match("/$filtertext/i", $data->getParticipant($active_id)->getName()))
-				{
-					$remove = TRUE;
-				}
-			}
 			if ($passedonly)
 			{
 				if ($data->getParticipant($active_id)->getPassed() == FALSE)
