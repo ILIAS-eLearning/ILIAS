@@ -174,12 +174,15 @@ class ilTemplate extends ilTemplateX
 			$this->fillRightContent();
 
 			// these fill just plain placeholder variables in tpl.adm_content.html
-			$this->setCurrentBlock("adm_content");
-			$this->fillTabs();
-			$this->fillMainContent();
-			$this->fillTitle();
-			$this->fillMainMenu();
-			$this->parseCurrentBlock();
+			if ($this->blockExists("content"))
+			{
+				$this->setCurrentBlock("content");
+				$this->fillTabs();
+				$this->fillMainContent();
+				$this->fillTitle();
+				$this->fillMainMenu();
+				$this->parseCurrentBlock();
+			}
 		}
 
 		if ($handle_referer)
@@ -293,13 +296,16 @@ class ilTemplate extends ilTemplateX
 			$this->fillRightContent();
 			
 			// these fill just plain placeholder variables in tpl.adm_content.html
-			$this->setCurrentBlock("adm_content");
-			$this->fillTabs();
-			$this->fillMainContent();
-			$this->fillTitle();
-			$this->fillMainMenu();
-			$this->parseCurrentBlock();
-
+			// these fill just plain placeholder variables in tpl.adm_content.html
+			if ($this->blockExists("content"))
+			{
+				$this->setCurrentBlock("content");
+				$this->fillTabs();
+				$this->fillMainContent();
+				$this->fillTitle();
+				$this->fillMainMenu();
+				$this->parseCurrentBlock();
+			}
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
