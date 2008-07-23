@@ -61,7 +61,8 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 		global $lng, $ilCtrl, $ilAccess;
 
 		$this->tpl->setVariable("NR", $a_set["nr"]);
-		$this->tpl->setVariable("TXT_HDATE", $a_set["hdate"]);
+		$this->tpl->setVariable("TXT_HDATE",
+			ilDatePresentation::formatDate(new ilDateTime($a_set["hdate"], IL_CAL_DATETIME)));
 
 		$ilCtrl->setParameter($this->getParentObject(), "old_nr", $a_set["nr"]);
 		$this->tpl->setVariable("HREF_OLD_PAGE",
