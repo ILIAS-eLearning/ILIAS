@@ -936,7 +936,8 @@ class ilPageObjectGUI
 							
 							$tpl->setCurrentBlock("hist_nav");
 							$tpl->setVariable("TXT_REVISION", $lng->txt("cont_revision"));
-							$tpl->setVariable("VAL_REVISION_DATE", $hist_info["current"]["hdate"]);
+							$tpl->setVariable("VAL_REVISION_DATE",
+								ilDatePresentation::formatDate(new ilDateTime($hist_info["current"]["hdate"], IL_CAL_DATETIME)));
 							$login = ilObjUser::_lookupLogin($hist_info["current"]["user"]);
 							$name = ilObjUser::_lookupName($hist_info["current"]["user"]);
 							$tpl->setVariable("VAL_REV_USER",

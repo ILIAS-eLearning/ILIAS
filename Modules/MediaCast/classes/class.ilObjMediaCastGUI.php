@@ -810,7 +810,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		if (count($med_items) > 0)
 		{
 			$cur = current($med_items);
-			$last = $cur["creation_date"];
+			$last = ilDatePresentation::formatDate(new ilDateTime($cur["creation_date"], IL_CAL_DATETIME));
 		}
 		else
 		{

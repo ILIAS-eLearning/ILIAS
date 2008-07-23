@@ -113,7 +113,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_LAST_UPDATE",
 					$lng->txt("last_update"));
 				$this->tpl->setVariable("VAL_LAST_UPDATE",
-					$a_set["update_date"]);
+					ilDatePresentation::formatDate(new ilDateTime($a_set["update_date"], IL_CAL_DATETIME)));
 				$this->tpl->parseCurrentBlock();
 			}
 			
@@ -131,7 +131,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_CREATED",
 				$lng->txt("created"));
 			$this->tpl->setVariable("VAL_CREATED",
-				$a_set["creation_date"]);
+				ilDatePresentation::formatDate(new ilDateTime($a_set["creation_date"], IL_CAL_DATETIME)));
 			$this->tpl->setVariable("TXT_DURATION",
 				$lng->txt("mcst_play_time"));
 			$this->tpl->setVariable("VAL_DURATION",
