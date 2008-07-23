@@ -53,6 +53,8 @@ class ilObjMediaCast extends ilObject
 	{
 		$this->type = "mcst";
 		$this->ilObject($a_id,$a_call_by_reference);
+		$mcst_set = new ilSetting("mcst");	
+		$this->setDefaultAccess($mcst_set->get("defaultaccess") == "users" ? 0 : 1);
 	}
 
 	/**

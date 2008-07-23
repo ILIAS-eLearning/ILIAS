@@ -8474,3 +8474,7 @@ common#:#assigned_members#:#Assigned Members
 payment#:#pay_abstract#:#Abstract
 payment#:#pay_edit_abstract#:#Edit Abstract
 payment#:#pay_thumbnail#:#Thumbnail
+mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
+mcst#:#mcst_default_visibility#:#Default Access
+mcst#:#mcst_visibility_users#:#Logged in Users
+mcst#:#mcst_visibility_public#:#Public

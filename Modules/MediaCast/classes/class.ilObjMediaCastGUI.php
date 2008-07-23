@@ -921,38 +921,32 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
-		// if rss is globally activated...
-		if ($enable_internal_rss)
-		{
+		//Default Visibility
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "defaultaccess");
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "0");
+		$radio_group->addOption($radio_option);					
+		$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "1");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
+		$radio_group->setRequired(false);			
+		$radio_group->setValue($this->object->getDefaultAccess());			
+		#$ch->addSubItem($radio_group);
+		$this->form_gui->addItem($radio_group);
 		
-			// Extra Feed
-			include_once("./Services/Block/classes/class.ilBlockSetting.php");
-			$public_feed = ilBlockSetting::_lookup("news", "public_feed", 0, $this->object->getId());
-			$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"), "extra_feed");
-			$ch->setInfo($lng->txt("news_public_feed_info"));
-			$ch->setChecked($public_feed);
-			$this->form_gui->addItem($ch);
-			
-			// Include Files in Pubic Items
-			$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
-			$incl_files->setChecked($this->object->getPublicFiles());
-			$incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
-			#$ch->addSubItem($incl_files);
-			$this->form_gui->addItem($incl_files);
-			
-			// Default Visibility
-			$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "defaultaccess");
-			$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "0");
-			$radio_group->addOption($radio_option);					
-			$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "1");
-			$radio_group->addOption($radio_option);
-			$radio_group->setInfo($lng->txt("mcst_visibility_info"));
-			$radio_group->setRequired(false);			
-			$radio_group->setValue($this->object->getDefaultAccess());			
-			#$ch->addSubItem($radio_group);
-			$this->form_gui->addItem($radio_group);
-			
-		}
+		//Extra Feed
+		include_once("./Services/Block/classes/class.ilBlockSetting.php");
+		$public_feed = ilBlockSetting::_lookup("news", "public_feed", 0, $this->object->getId());
+		$ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"), "extra_feed");
+		$ch->setInfo($lng->txt("news_public_feed_info"));
+		$ch->setChecked($public_feed);
+		$this->form_gui->addItem($ch);
+		
+		// Include Files in Pubic Items
+		$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
+		$incl_files->setChecked($this->object->getPublicFiles());
+		$incl_files->setInfo($lng->txt("mcst_incl_files_in_rss_info"));
+		#$ch->addSubItem($incl_files);
+		$this->form_gui->addItem($incl_files);
 		
 		// Form action and save button
 		$this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));

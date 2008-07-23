@@ -8474,3 +8474,7 @@ rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
 payment#:#pay_abstract#:#Abstract
 payment#:#pay_edit_abstract#:#Abstract Bearbeiten
 payment#:#pay_thumbnail#:#Thumbnail
+mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
+mcst#:#mcst_default_visibility#:#Standardzugriff
+mcst#:#mcst_visibility_users#:#Öffentlich
+mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
