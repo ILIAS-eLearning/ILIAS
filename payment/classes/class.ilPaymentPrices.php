@@ -38,7 +38,7 @@ class ilPaymentPrices
 	var $currency;
 	var $duration;
 
-	var $prices;
+	private $prices = array();
 	
 	function ilPaymentPrices($a_pobject_id = 0)
 	{
@@ -100,31 +100,28 @@ class ilPaymentPrices
 	function _getPriceString($a_price_id)
 	{
 		include_once './payment/classes/class.ilPaymentCurrency.php';
-		include_once './payment/classes/class.ilGeneralSettings.php';
-
+		
 		global $lng;
-
-		$genSet = new ilGeneralSettings();
-		$unit_string = $genSet->get("currency_unit");
-
-		$pr_str = '';
+		
 		$price = ilPaymentPrices::_getPrice($a_price_id);
-
-		$pr_str = number_format( ((int) $price["unit_value"]) . "." . sprintf("%02d", ((int) $price["sub_unit_value"])) , 2, ",", ".");
-		return $pr_str . " " . $unit_string;
-
-/*		$unit_string = $lng->txt('currency_'.ilPaymentCurrency::_getUnit($price['currency']));
-		$subunit_string = $lng->txt('currency_'.ilPaymentCurrency::_getSubUnit($price['currency']));
-
-		if((int) $price['unit_value'])
-		{
-			$pr_str .= $price['unit_value'].' '.$unit_string.' ';
-		}
-		if((int) $price['sub_unit_value'])
-		{
-			$pr_str .= $price['sub_unit_value'].' '.$subunit_string;
-		}
-		return $pr_str; */
+		
+		return self::_formatPriceToString($price['unit_value'], $price['sub_unit_value']);		
+	}
+	
+	public static function _formatPriceToString($unit_value, $subunit_value)
+	{
+		include_once './payment/classes/class.ilGeneralSettings.php';
+		
+		$genSet = new ilGeneralSettings();
+		$unit_string = $genSet->get('currency_unit');
+		
+		$pr_str = number_format( ((int) $unit_value) . '.' . sprintf('%02d', ((int) $subunit_value)), 2, ',', '.');
+		return $pr_str . ' ' . $unit_string;
+	}
+	
+	public static function _formatPriceToFloat($unit_value, $subunit_value)
+	{	
+		return (float) number_format(((int) $unit_value).'.'.sprintf('%02d', ((int) $subunit_value)), 2, '.', '');
 	}
 	
 	function _getPriceStringFromAmount($a_price)
@@ -357,6 +354,31 @@ class ilPaymentPrices
 			$this->prices[$row->price_id]['unit_value'] = $row->unit_value;
 			$this->prices[$row->price_id]['sub_unit_value'] = $row->sub_unit_value;
 		}
+	}
+	
+	public function getNumberOfPrices()
+	{
+		return count($this->prices);
+	}
+	
+	public function getLowestPrice()
+	{				
+		$lowest_price_id = 0;
+		$lowest_price = 0;
+
+		foreach ($this->prices as $price_id => $data)
+		{
+			$current_price = self::_formatPriceToFloat($data['unit_value'], $data['sub_unit_value']);
+
+			if($lowest_price  == 0|| 
+			   $lowest_price > (float)$current_price)
+			{
+				$lowest_price = (float)$current_price;
+				$lowest_price_id = $price_id;
+			}
+		}
+		
+		return is_array($this->prices[$lowest_price_id]) ? $this->prices[$lowest_price_id] : array();
 	}
 }
 ?>

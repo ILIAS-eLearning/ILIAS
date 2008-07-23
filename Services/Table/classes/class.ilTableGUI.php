@@ -655,7 +655,7 @@ class ilTableGUI
 				? basename($_SERVER["PHP_SELF"])
 				: $this->getBase();
 
-			$linkbar = ilUtil::Linkbar($base,$this->max_count,$this->limit,$this->offset,$params,$layout);
+			$linkbar = ilUtil::Linkbar($base,$this->max_count,$this->limit,$this->offset,$params,$layout, $this->prefix);
 			$this->tpl->setCurrentBlock("tbl_footer_linkbar");
 			$this->tpl->setVariable("LINKBAR", $linkbar);
 			$this->tpl->parseCurrentBlock();

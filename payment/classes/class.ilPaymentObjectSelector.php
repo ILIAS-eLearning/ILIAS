@@ -115,8 +115,7 @@ class ilPaymentObjectSelector extends ilExplorer
 			case 'tst':
 			case 'sahs':
 			case 'file':
-
-				;
+			case 'htlm':
 				break;
 			default:
 				return false;

@@ -64,6 +64,65 @@ class ilObjectSearchFactory
 		}
 			
 	}
+	
+	/**
+	 * get reference of ilFulltext/LikeShopObjectSearch.
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltext/LikeShopObjectSearch
+	 * @static
+     * @access public
+	 * 
+	 */
+	public static function _getShopObjectSearchInstance($query_parser)
+	{
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+
+		$search_settings = new ilSearchSettings();
+
+		if($search_settings->enabledIndex())
+		{
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextShopObjectSearch.php';
+
+			return new ilFulltextShopObjectSearch($query_parser);
+		}
+		else
+		{
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeShopObjectSearch.php';
+
+			return new ilLikeShopObjectSearch($query_parser);
+		}
+	}
+	
+	/*
+	 * get reference of ilFulltext/LikeShopMetaDataSearch.
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltext/LikeShopMetaDataSearch
+	 */
+	public static function _getShopMetaDataSearchInstance($query_parser)
+	{
+		include_once 'Services/Search/classes/class.ilSearchSettings.php';
+
+		$search_settings = new ilSearchSettings();
+
+		if($search_settings->enabledIndex())
+		{
+			// FULLTEXT
+			include_once 'Services/Search/classes/Fulltext/class.ilFulltextShopMetaDataSearch.php';
+
+			return new ilFulltextShopMetaDataSearch($query_parser);
+		}
+		else
+		{
+			// LIKE
+			include_once 'Services/Search/classes/Like/class.ilLikeShopMetaDataSearch.php';
+
+			return new ilLikeShopMetaDataSearch($query_parser);
+		}
+	}
 
 	/*
 	 * get reference of ilFulltext/LikeMetaDataSearch.

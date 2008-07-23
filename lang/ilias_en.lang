@@ -6457,9 +6457,9 @@ payment#:#paya_deleted_last_price#:#The last price has been deleted.
 payment#:#paya_deleted_object#:#Stoped payment for the selected object.
 payment#:#paya_details_updated#:#Details updated.
 payment#:#paya_disabled#:#Disabled
-payment#:#paya_edit_details#:#Edit details
-payment#:#paya_edit_pay_method#:#Edit pay method
-payment#:#paya_edit_prices#:#Edit prices
+payment#:#paya_edit_details#:#Edit Details
+payment#:#paya_edit_pay_method#:#Edit Pay Method
+payment#:#paya_edit_prices#:#Edit Prices
 payment#:#paya_edit_prices_first#:#Please edit the prices first.
 payment#:#paya_enabled#:#Enabled
 payment#:#paya_enter_login#:#Please enter an user name.
@@ -6470,9 +6470,9 @@ payment#:#paya_error_no_object_id_given#:#Please choose an object.
 payment#:#paya_error_update_booking#:#Error saving statistic data.
 payment#:#paya_expires#:#Expire payment
 payment#:#paya_filter_reseted#:#Filter reseted.
-payment#:#paya_header#:#Payment administration
+payment#:#paya_header#:#Payment Administration
 payment#:#paya_insert_only_numbers#:#Please insert only integers.
-payment#:#paya_locator#:#Payment administration
+payment#:#paya_locator#:#Payment Administration
 payment#:#paya_months#:#Month(s)
 payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given
 payment#:#paya_no_bookings#:#No statistic available.
@@ -6500,7 +6500,7 @@ payment#:#paya_price_not_valid#:#This price is not valid. Please insert only num
 payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.
 payment#:#paya_select_pay_method_first#:#Please select one pay method first.
 payment#:#paya_sell_object#:#Sell object
-payment#:#paya_shopping_cart#:#Shopping cart
+payment#:#paya_shopping_cart#:#Shopping Cart
 payment#:#paya_statistic#:#Statistic
 payment#:#paya_sure_delete_object#:#Are you sure, you want to stop payment for this object? All assigned data will get lost.
 payment#:#paya_sure_delete_selected_prices#:#Are you sure you want to delete the selected prices?
@@ -8471,3 +8471,6 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.
 dateplaner#:#cal_share_search_role_header#:#Role Selection
 common#:#assigned_members#:#Assigned Members
+payment#:#pay_abstract#:#Abstract
+payment#:#pay_edit_abstract#:#Edit Abstract
+payment#:#pay_thumbnail#:#Thumbnail

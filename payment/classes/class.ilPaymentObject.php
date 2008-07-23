@@ -21,6 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define ('PAY_METHOD_NOT_SPECIFIED', 0);
+define ('PAY_METHOD_BILL', 1);
+define ('PAY_METHOD_BMF', 2);
+define ('PAY_METHOD_PAYPAL', 3);
+
 /**
 * Class ilPaymentObject
 * 
@@ -29,29 +34,23 @@
 *
 * @package ilias-core
 */
-
-define ("PAY_METHOD_NOT_SPECIFIED", 0);
-define ("PAY_METHOD_BILL", 1);
-define ("PAY_METHOD_BMF", 2);
-define ("PAY_METHOD_PAYPAL", 3);
-
 class ilPaymentObject
 {
-	var $db = null;
-	var $user_obj = null;
-	var $pobject_id = null;
+	private $db = null;
+	private $user_obj = null;
+	private $pobject_id = null;
+	private $ref_id = null;
+	private $status = null;
+	private $pay_method = null;
+	private $vendor_id = null;
+	private $topic_id = 0;
 
-	var $ref_id = null;
-	var $status = null;
-	var $pay_method = null;
-	var $vendor_id = null;
-
-	function ilPaymentObject(&$user_obj,$a_pobject_id = null)
+	public function __construct($user_obj, $a_pobject_id = null)
 	{
 		global $ilDB;
 
-		$this->db =& $ilDB;
-		$this->user_obj =& $user_obj;
+		$this->db = $ilDB;
+		$this->user_obj = $user_obj;
 
 		$this->STATUS_NOT_BUYABLE = 0;
 		$this->STATUS_BUYABLE = 1;
@@ -66,97 +65,121 @@ class ilPaymentObject
 		$this->__read();
 	}
 
-	// SETTER GETTER
-	function getPobjectId()
+	// SETTER GETTER	
+	public function getTopicId()
+	{
+		return $this->topic_id;
+	}
+	public function setTopicId($a_topic_id)
+	{
+		$this->topic_id = $a_topic_id;
+	}
+	public function getPobjectId()
 	{
 		return $this->pobject_id;
 	}
-
-	function setRefId($a_ref_id)
+	public function setRefId($a_ref_id)
 	{
 		$this->ref_id = $a_ref_id;
 	}
-	function getRefId()
+	public function getRefId()
 	{
 		return $this->ref_id;
 	}
-	function setStatus($a_status)
+	public function setStatus($a_status)
 	{
 		$this->status = $a_status;
 	}
-	function getStatus()
+	public function getStatus()
 	{
 		return $this->status;
 	}
-	function setPayMethod($a_method)
+	public function setPayMethod($a_method)
 	{
 		$this->pay_method = $a_method;
 	}
-	function getPayMethod()
+	public function getPayMethod()
 	{
 		return $this->pay_method;
 	}
-	function setVendorId($a_vendor_id)
+	public function setVendorId($a_vendor_id)
 	{
-		$this->vendor_id= $a_vendor_id;
+		$this->vendor_id = $a_vendor_id;
 	}
-	function getVendorId()
+	public function getVendorId()
 	{
 		return $this->vendor_id;
 	}
-
 	
-
-	// return new unique id
-	function add()
-	{
-		$query = "INSERT INTO payment_objects ".
-			"VALUES('','".
-			$this->getRefId()."','".
-			$this->getStatus()."',' ".
-			$this->getPayMethod()."',' ".
-			$this->getVendorId()."')";
-
-		$this->db->query($query);
-
-		$query = "SELECT LAST_INSERT_ID() as new_id";
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->new_id;
-		}
-		return false;
+	public function add()
+	{	
+		$statement = $this->db->prepareManip(
+			'INSERT INTO payment_objects
+			 SET
+			 ref_id = ?,
+			 status = ?,
+			 pay_method = ?,
+			 vendor_id = ?,
+			 pt_topic_fk = ?', 
+			array('integer', 'integer', 'integer', 'integer', 'integer'));
+		$data = array($this->getRefId(), 
+					  $this->getStatus(),
+					  $this->getPayMethod(),
+					  $this->getVendorId(),
+					  $this->getTopicId());
+		$this->db->execute($statement, $data);
+		
+		return (int)$this->db->getLastInsertId();
 	}
-	function delete()
+	
+	public function delete()
 	{
 		if($this->getPobjectId())
 		{
-			$query = "DELETE FROM payment_objects ".
-				"WHERE pobject_id = '".$this->getPobjectId()."'";
+			include_once 'Services/Payment/classes/class.ilFileDataShop.php';
+			$oFileData = new ilFileDataShop($this->getPobjectId());
+			$oFileData->deassignFileFromPaymentObject();
 			
-			$this->db->query($query);
+			$statement = $this->db->prepareManip('DELETE FROM payment_objects WHERE pobject_id = ?', 
+				array('integer'));
+			$data = array($this->getPobjectId());
+			$this->db->execute($statement, $data);			
 			
 			return true;
 		}
+		
 		return false;
 	}
 
-	function update()
+	public function update()
 	{
-		$query = "UPDATE payment_objects ".
-			"SET ref_id = '".$this->getRefId()."', ".
-			"status = '".$this->getStatus()."', ".
-			"pay_method = '".$this->getPayMethod()."', ".
-			"vendor_id = '".$this->getVendorId()."' ".
-			"WHERE pobject_id = '".$this->getPobjectId()."'";
-
-		$this->db->query($query);
-
-		return true;
+		if((int)$this->getPobjectId())
+		{		
+			$statement = $this->db->prepareManip(
+				'UPDATE payment_objects
+				 SET
+				 ref_id = ?,
+				 status = ?,
+				 pay_method = ?,
+				 vendor_id = ?,
+				 pt_topic_fk = ?
+				 WHERE pobject_id = ?', 
+				array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'));
+			$data = array($this->getRefId(), 
+						  $this->getStatus(),
+						  $this->getPayMethod(),
+						  $this->getVendorId(),
+						  $this->getTopicId(),
+						  $this->getPobjectId());
+			$this->db->execute($statement, $data);	
+	
+			return true;
+		}
+		
+		return false;
 	}
 	// STATIC
-	function _lookupPobjectId($a_ref_id)
+	public function _lookupPobjectId($a_ref_id)
 	{
 		global $ilDB;
 
@@ -168,6 +191,28 @@ class ilPaymentObject
 		{
 			return $row->pobject_id;
 		}
+		return 0;
+	}
+	
+	public static function _lookupTopicId($a_ref_id)
+	{
+		global $ilDB;
+		
+		static $cache = array();
+		if(isset($cache[$a_ref_id]))
+		{
+			return $cache[$a_ref_id];
+		}
+
+		$statement = $ilDB->prepare('SELECT pt_topic_fk FROM payment_objects WHERE ref_id = ?',
+		        	 	array('integer'));
+		$result = $ilDB->execute($statement, array($a_ref_id));
+		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cache[$a_ref_id] = $row->pt_topic_fk;
+			return (int)$cache[$a_ref_id];
+		}
+		
 		return 0;
 	}
 
@@ -191,17 +236,16 @@ class ilPaymentObject
 
 			default:
 				$pm = -1;
+		}		
+		
+		$statement = $ilDB->prepare('SELECT COUNT(pay_method) AS pm FROM payment_objects WHERE pay_method = ?',
+				 	array('integer'));
+		$result = $ilDB->execute($statement, array($pm));
+		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return (int)$row->pm;
 		}
 		
-		$query = 'SELECT count(pay_method) as pm FROM payment_objects '.
-			"WHERE pay_method = '".$pm."'";
-
-		$res = $ilDB->query($query);
-
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->pm;
-		}
 		return 0;
 	}
 
@@ -239,6 +283,7 @@ class ilPaymentObject
 			$objects[$row->pobject_id]['status'] = $row->status;
 			$objects[$row->pobject_id]['pay_method'] = $row->pay_method;
 			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
+			$objects[$row->pobject_id]['topic_id'] = $row->pt_topic_fk;
 		}
 		return $objects ? $objects : array();
 	}
@@ -316,6 +361,7 @@ class ilPaymentObject
 			$objects[$row->pobject_id]['status'] = $row->status;
 			$objects[$row->pobject_id]['pay_method'] = $row->pay_method;
 			$objects[$row->pobject_id]['vendor_id'] = $row->vendor_id;
+			$objects[$row->pobject_id]['topic_id'] = $row->pt_topic_fk;
 		}
 		return $objects ? $objects : array();
 	}
@@ -363,10 +409,17 @@ class ilPaymentObject
 		global $rbacsystem,$ilDB;
 
 		// check write access
-		if($rbacsystem->checkAccess('write',$a_ref_id))
+		if($rbacsystem->checkAccess('write', $a_ref_id))
 		{
 			return true;
 		}
+		
+		include_once 'payment/classes/class.ilGeneralSettings.php';
+		if(!(bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
+		{
+			return true;
+		}
+		
 		$query = "SELECT * FROM payment_objects ".
 			"WHERE ref_id = '".$a_ref_id."' ".
 			"AND (status = '1' OR status = '2')";
@@ -381,6 +434,7 @@ class ilPaymentObject
 		}
 		return true;
 	}
+	
 	// base method to check access for a specific object
 	function _getActivation($a_ref_id)
 	{
@@ -396,60 +450,66 @@ class ilPaymentObject
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		return ilPaymentBookings::_getActivation($row->pobject_id);
 	}
-	function _isBuyable($a_ref_id)
+	
+	public static function _isBuyable($a_ref_id)
 	{
 		global $ilDB;
-
-		$query = "SELECT * FROM payment_objects ".
-			"WHERE ref_id = '".$a_ref_id."' ".
-			"AND (status = 1 or status = 2)";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		
+		include_once 'payment/classes/class.ilGeneralSettings.php';
+		if(!(bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
+		{
+			return false;
+		}
+		
+		$statement = $ilDB->prepare('SELECT * FROM payment_objects
+									 WHERE ref_id = ? AND (status = 1 or status = 2)',
+	        	 	 	array('integer'));
+		$result = $ilDB->execute($statement, array($a_ref_id));
+		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return true;
 		}
+		
 		return false;
 	}
-	function _isInCart($a_ref_id)
+	
+	public static function _isInCart($a_ref_id)
 	{
 		global $ilDB, $ilUser;
-
-		$query = "SELECT psc_id FROM payment_objects AS po, payment_shopping_cart AS psc ".
-			"WHERE ref_id = '".$a_ref_id."' ".
-			"AND customer_id = '".$ilUser->getId()."' ".
-			"AND po.pobject_id = psc.pobject_id";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		
+		$statement = $ilDB->prepare('SELECT psc_id
+									 FROM payment_objects AS po, payment_shopping_cart AS psc
+									 WHERE ref_id = ? AND customer_id = ? AND po.pobject_id = psc.pobject_id',
+	        	 	 	array('integer', 'integer'));
+		$result = $ilDB->execute($statement, array($a_ref_id, $ilUser->getId()));
+		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return true;
 		}
+		
 		return false;
 	}
-		
-	// PRIVATE
-	function __read()
+
+	private function __read()
 	{
 		if($this->getPobjectId())
 		{
-			$query = "SELECT * FROM payment_objects ".
-				"WHERE pobject_id = '".$this->getPobjectId()."'";
-
-			$res = $this->db->query($query);
-			while($row =& $res->fetchRow(DB_FETCHMODE_OBJECT))
+			$statement = $this->db->prepare('SELECT * FROM payment_objects WHERE pobject_id = ?',
+		        	 	 	array('integer'));
+			$result = $this->db->execute($statement, array($this->getPobjectId()));
+			while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setRefId($row->ref_id);
 				$this->setStatus($row->status);
 				$this->setPayMethod($row->pay_method);
 				$this->setVendorId($row->vendor_id);
+				$this->setTopicId($row->pt_topic_fk);
 				
 				return true;
 			}
 		}
+		
 		return false;
 	}
-				
-
 } // END class.ilPaymentObject
 ?>

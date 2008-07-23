@@ -50,18 +50,15 @@ class ilPurchaseBMFGUI
 
 	function ilPurchaseBMFGUI(&$user_obj)
 	{
-		global $ilias,$ilDB,$lng,$tpl,$rbacsystem;
-		$this->ilias =& $ilias;
-		$this->db =& $ilDB;
-		$this->lng =& $lng;		
-
-		global $ilCtrl;
-
-		$this->ctrl =& $ilCtrl;
-		$this->tpl =& $tpl;
+		global $ilias, $ilDB, $lng, $tpl, $rbacsystem, $ilCtrl,  $ilTabs;
+		$this->ilias = $ilias;
+		$this->db = $ilDB;
+		$this->lng = $lng;
+		$this->ctrl = $ilCtrl;
+		$this->tpl = $tpl;
 
 		// Get user object
-		$this->user_obj =& $user_obj;
+		$this->user_obj = $user_obj;
 		
 		$this->coupon_obj = new ilPaymentCoupons($this->user_obj);
 		
@@ -99,6 +96,9 @@ class ilPurchaseBMFGUI
 		$this->error = "";
 
 		$this->lng->loadLanguageModule("payment");
+		
+		$ilTabs->clearTargets();
+		$ilTabs->clearSubTabs();
 	}
 	
 	function cancel()
@@ -670,8 +670,8 @@ class ilPurchaseBMFGUI
 							{
 								$this->tpl->setCurrentBlock("buyed_objects");
 								#$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", "./payment.php?baseClass=ilpaymentbuyedobjectsgui&cmd=2");
-								$link = $this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui', 'showItems');
-								
+								#$link = $this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui', 'showItems');
+								$link = $this->ctrl->getLinkTargetByClass('ilshopboughtobjectsgui');
 								$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", $link);
 								$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
 								$this->tpl->parseCurrentBlock("buyed_objects");
@@ -1049,7 +1049,8 @@ class ilPurchaseBMFGUI
 				{
 					$this->tpl->setCurrentBlock("buyed_objects");
 					#$this->ctrl->redirectByClass("ilPaymentBuyedObjectsGUI", "ilpaymentbuyedobjectsgui");
-					$link = $this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui', 'showItems');
+					#$link = $this->ctrl->getLinkTargetByClass('ilpaymentbuyedobjectsgui', 'showItems');
+					$link = $this->ctrl->getLinkTargetByClass('ilshopboughtobjectsgui');
 					$this->tpl->setVariable("LINK_GOTO_BUYED_OBJECTS", $link);
 					$this->tpl->setVariable("TXT_GOTO_BUYED_OBJECTS", $this->lng->txt('pay_goto_buyed_objects'));
 					$this->tpl->parseCurrentBlock("buyed_objects");

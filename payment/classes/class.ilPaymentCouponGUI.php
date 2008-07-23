@@ -1,5 +1,5 @@
 <?php
-class ilPaymentCouponGUI extends ilPaymentBaseGUI
+class ilPaymentCouponGUI extends ilShopBaseGUI
 {
 	var $ctrl;
 
@@ -9,24 +9,28 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 	var $coupon_obj = null;
 	var $pobject = null;	
 
-	function ilPaymentCouponGUI(&$user_obj)
+	public function ilPaymentCouponGUI($user_obj)
 	{
-		global $ilCtrl;
-
-		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, 'baseClass');
-
-		$this->ilPaymentBaseGUI();
-
-		$this->user_obj =& $user_obj;		
+		parent::__construct();
 		
+		$this->ctrl->saveParameter($this, 'baseClass');
+		$this->user_obj = $user_obj;		
 		$this->__initCouponObject();
 	}
 	
-	/**
-	* execute command
-	*/
-	function &executeCommand()
+	protected function prepareOutput()
+	{
+		global $ilTabs;
+		
+		$this->setSection(6);
+		
+		parent::prepareOutput();
+
+		$ilTabs->setTabActive('paya_header');
+		$ilTabs->setSubTabActive('paya_coupons_coupons');		
+	}
+	
+	public function executeCommand()
 	{
 		global $tree;
 
@@ -38,7 +42,7 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 				{
 					$cmd = 'showCoupons';
 				}
-				
+				$this->prepareOutput();
 				$this->$cmd();
 				break;
 		}
@@ -641,7 +645,7 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 		
 		if ($view == "choice")
 		{	
-			$this->tpl->touchBlock("code_choice");			
+			$this->tpl->setCurrentBlock("code_choice");			
 			
 			$this->tpl->setVariable("TXT_TYPE", $this->lng->txt('paya_coupons_generate_codes'));
 			$this->tpl->setVariable("TXT_AUTO", $this->lng->txt('paya_coupons_type_auto'));
@@ -653,11 +657,13 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 			$this->tpl->setVariable("TYPE_".strtoupper(isset($_POST["generate"]["type"]) ? $_POST["generate"]["type"] : "auto"), " checked=\"checked\"");
 			$this->tpl->setVariable("LENGTH", ilUtil::prepareFormOutput($_POST["generate"]["length"] ? $_POST["generate"]["length"] : 12, true));
 			
-			$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));	
+			$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
+			
+			$this->tpl->parseCurrentBlock();	
 		}
 		else if ($view == "input")
 		{
-			$this->tpl->touchBlock("code_input");
+			$this->tpl->setCurrentBlock("code_input");
 			
 			if (is_numeric($_POST["generate"]["number"]) && $_POST["generate"]["number"] > 0)
 			{
@@ -668,6 +674,8 @@ class ilPaymentCouponGUI extends ilPaymentBaseGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
+			
+			$this->tpl->parseCurrentBlock();
 		}		
 		
 		$this->tpl->setVariable("TXT_SEND",$this->lng->txt('send'));

@@ -8471,3 +8471,6 @@ rbac#:#cat_create_wiki#:#Create Wiki###23 07 2008 new variable
 rbac#:#crs_create_wiki#:#Create Wiki###23 07 2008 new variable
 rbac#:#grp_create_wiki#:#Create Wiki###23 07 2008 new variable
 rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
+payment#:#pay_abstract#:#Abstract
+payment#:#pay_edit_abstract#:#Abstract Bearbeiten
+payment#:#pay_thumbnail#:#Thumbnail

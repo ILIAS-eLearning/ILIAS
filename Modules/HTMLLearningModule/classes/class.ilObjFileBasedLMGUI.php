@@ -30,7 +30,7 @@
 * $Id$
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
-*
+* @ilCtrl_Calls ilObjFileBasedLMGUI: ilShopPurchaseGUI
 * @ingroup ModulesHTMLLearningModule
 */
 
@@ -66,13 +66,13 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->output_prepared = $a_prepare_output;
 
 	}
-
+	
 	/**
 	* execute command
 	*/
 	function &executeCommand()
-	{	
-		global $ilUser, $ilLocator;
+	{
+		global $ilUser, $ilLocator;		
 	
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			$this->getCreationMode() == true)
@@ -88,6 +88,21 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+			
+		if(!$this->getCreationMode())
+		{
+			include_once 'payment/classes/class.ilPaymentObject.php';				
+			if(ilPaymentObject::_isBuyable($_GET['ref_id']) &&
+			   !ilPaymentObject::_hasAccess($_GET['ref_id']))
+			{
+				$this->tpl->getStandardTemplate();				
+				
+				include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+				$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);				
+				$ret = $this->ctrl->forwardCommand($pp);
+				return true;
+			}
+		}
 
 		switch($next_class)
 		{
@@ -133,7 +148,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
-			default:
+			default:				
 				$cmd = $this->ctrl->getCmd("frameset");
 				if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 					$this->getCreationMode() == true)

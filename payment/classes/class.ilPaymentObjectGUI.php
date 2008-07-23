@@ -20,63 +20,132 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+
+include_once 'payment/classes/class.ilPaymentObject.php';
+include_once 'payment/classes/class.ilPaymentBookings.php';
+include_once 'Services/Payment/classes/class.ilFileDataShop.php';
+
 /**
 * Class ilPaymentObjectGUI
 *
 * @author Stefan Meyer
 * @version $Id$
+* @ilCtrl_Calls ilPaymentObjectGUI: ilPageObjectGUI
 *
 * @package core
 */
-include_once './payment/classes/class.ilPaymentObject.php';
-include_once './payment/classes/class.ilPaymentBookings.php';
-
-class ilPaymentObjectGUI extends ilPaymentBaseGUI
+class ilPaymentObjectGUI extends ilShopBaseGUI
 {
 	var $ctrl;
 	var $lng;
-	var $user_obj;
-	
+	var $user_obj;	
 	var $pobject = null;
 
-	function ilPaymentObjectGUI(&$user_obj)
-	{
-		global $ilCtrl,$lng;
+	public function ilPaymentObjectGUI($user_obj)
+	{		
+		parent::__construct();
 
-		$this->ctrl =& $ilCtrl;
-		$this->ilPaymentBaseGUI();
-		$this->user_obj =& $user_obj;
-
-		$this->lng =& $lng;
+		$this->user_obj = $user_obj;
 		$this->lng->loadLanguageModule('crs');
-
 	}
-	/**
-	* execute command
-	*/
-	function &executeCommand()
+	
+	protected function prepareOutput()
 	{
-		global $tree;
+		global $ilTabs;
+		
+		$this->setSection(6);
+		
+		parent::prepareOutput();
 
+		$ilTabs->setTabActive('paya_header');
+		$ilTabs->setSubTabActive('paya_object');
+	}
+	
+	public function executeCommand()
+	{
 		$cmd = $this->ctrl->getCmd();
-		switch ($this->ctrl->getNextClass($this))
+		switch($this->ctrl->getNextClass($this))
 		{
-
+			case 'ilpageobjectgui':
+				$this->prepareOutput();
+				$ret = $this->forwardToPageObject();
+				if($ret != '')
+				{
+					$this->tpl->setContent($ret);
+				}				
+				break;
+			
 			default:
 				if(!$cmd = $this->ctrl->getCmd())
 				{
 					$cmd = 'showObjects';
 				}
+				$this->prepareOutput();
 				$this->$cmd();
 				break;
 		}
 	}
+	
+	public function forwardToPageObject()
+	{	
+		global $ilTabs;
+		
+		if(!(int)$_GET['pobject_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
+			return $this->showObjects();
+		}
+		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
+		$this->__initPaymentObject((int)$_GET['pobject_id']);		
+		
+		$this->lng->loadLanguageModule('content');
+		
+		$ilTabs->clearTargets();
+		$ilTabs->clearSubTabs();
+		$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'editDetails'), '_top');
+
+		// page objec
+		include_once 'Services/COPage/classes/class.ilPageObject.php';
+		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+		
+		$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
+
+		if(!ilPageObject::_exists('shop', $this->pobject->getPobjectId()))
+		{
+			// doesn't exist -> create new one
+			$new_page_object = new ilPageObject('shop');
+			$new_page_object->setParentId(0);
+			$new_page_object->setId($this->pobject->getPobjectId());
+			$new_page_object->createFromXML();
+		}
+				
+		$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+
+		$page_gui = new ilPageObjectGUI('shop', $this->pobject->getPobjectId());
+		$this->ctrl->setParameter($page_gui, 'pobject_id', (int)$_GET['pobject_id']);
+		$page_gui->setIntLinkHelpDefault('StructureObject', $this->pobject->getPobjectId());
+		$page_gui->setTemplateTargetVar('ADM_CONTENT');
+		$page_gui->setLinkXML('');
+		$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
+		$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
+		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
+		$page_gui->setPresentationTitle('');
+		$page_gui->setTemplateOutput(false);
+		$page_gui->setHeader('');
+		$page_gui->setEnabledRepositoryObjects(false);
+		$page_gui->setEnabledFileLists(true);
+		$page_gui->setEnabledMaps(true);
+		$page_gui->setEnabledPCTabs(true);
+
+		return $this->ctrl->forwardCommand($page_gui);
+	}
 
 	function showObjects()
 	{
-		$this->showButton('showObjectSelector',$this->lng->txt('paya_sell_object'));
+		$this->showButton('showObjectSelector', $this->lng->txt('paya_sell_object'));
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_objects.html','payment');
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paya_objects.html', 'payment');
 
 		if(!count($objects = ilPaymentObject::_getObjectsData($this->user_obj->getId())))
 		{
@@ -156,22 +225,24 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	function editDetails($a_show_confirm = false)
 	{
-		if(!$_GET['pobject_id'])
+		if(!(int)$_GET['pobject_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
-
-			$this->showObjects();
-			return true;
+			return $this->showObjects();
 		}
-		$this->__initPaymentObject((int) $_GET['pobject_id']);
-		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
+		
+		$this->__initPaymentObject((int)$_GET['pobject_id']);
+		$this->ctrl->setParameter($this,'pobject_id', (int)$_GET['pobject_id']);
 
-		$this->showButton('editDetails',$this->lng->txt('paya_edit_details'));
-		$this->showButton('editPrices',$this->lng->txt('paya_edit_prices'));
-#		$this->__showPayMethodLink();
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html','payment');
-		$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
+		$this->showButton('editDetails', $this->lng->txt('paya_edit_details'));
+		$this->showButton('editPrices', $this->lng->txt('paya_edit_prices'));		
+		// edit abstract
+		$this->tpl->setCurrentBlock('btn_cell');
+		$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$this->tpl->setVariable('BTN_TXT', $this->lng->txt('pay_edit_abstract'));		
+		$this->tpl->parseCurrentBlock();		
+				
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html','payment');		
 
 		if($a_show_confirm)
 		{
@@ -181,31 +252,77 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			$this->tpl->setVariable("CONFIRM_CMD",'performDelete');
 			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('confirm'));
 			$this->tpl->parseCurrentBlock();
-		}			
-
+		}
 		
-		$tmp_obj =& ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
+		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
 		
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$tmp_obj->getType().'_b.gif'));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$tmp_obj->getType()));
-		$this->tpl->setVariable("TITLE",$tmp_obj->getTitle());
-		$this->tpl->setVariable("DESCRIPTION",$tmp_obj->getDescription());
-		$this->tpl->setVariable("TXT_PATH",$this->lng->txt('path'));
-		$this->tpl->setVariable("PATH",$this->__getHTMLPath($this->pobject->getRefId()));
-		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
-		$this->tpl->setVariable("VENDOR",$this->__showVendorSelector($this->pobject->getVendorId()));
-		$this->tpl->setVariable("TXT_COUNT_PURCHASER",$this->lng->txt('paya_count_purchaser'));
-		$this->tpl->setVariable("COUNT_PURCHASER",ilPaymentBookings::_getCountBookingsByObject((int) $_GET['pobject_id']));
-		$this->tpl->setVariable("TXT_STATUS",$this->lng->txt('status'));
-		$this->tpl->setVariable("STATUS",$this->__showStatusSelector());
-		$this->tpl->setVariable("TXT_PAY_METHOD",$this->lng->txt('paya_pay_method'));
-		$this->tpl->setVariable("PAY_METHOD",$this->__showPayMethodSelector());
-
-		$this->tpl->setVariable("INPUT_CMD",'updateDetails');
-		$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('save'));
-
-		$this->tpl->setVariable("DELETE_CMD",'deleteObject');
-		$this->tpl->setVariable("DELETE_VALUE",$this->lng->txt('delete'));
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$oForm = new ilPropertyFormGUI();
+		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
+		$oForm->setTitle($tmp_obj->getTitle());
+		$oForm->setTitleIcon(ilUtil::getImagePath('icon_'.$tmp_obj->getType().'_b.gif'));
+		
+		// repository path
+		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('path'));
+		$oPathGUI->setValue($this->__getHTMLPath($this->pobject->getRefId()));
+		$oForm->addItem($oPathGUI);
+		
+		// number of purchasers
+		$oPurchasersGUI = new ilNonEditableValueGUI($this->lng->txt('paya_count_purchaser'));
+		$oPurchasersGUI->setValue(ilPaymentBookings::_getCountBookingsByObject((int)$_GET['pobject_id']));
+		$oForm->addItem($oPurchasersGUI);
+		
+		// vendors
+		$oVendorsGUI = new ilSelectInputGUI($this->lng->txt('paya_vendor'), 'vendor');		
+		$oVendorsGUI->setOptions($this->__getVendors());
+		$oVendorsGUI->setValue($this->pobject->getVendorId());
+		$oForm->addItem($oVendorsGUI);
+		
+		// status
+		$oStatusGUI = new ilSelectInputGUI($this->lng->txt('status'), 'status');
+		$oStatusGUI->setOptions($this->__getStatus());
+		$oStatusGUI->setValue($this->pobject->getStatus());
+		$oForm->addItem($oStatusGUI);
+		
+		// pay methods
+		$oPayMethodsGUI = new ilSelectInputGUI($this->lng->txt('paya_pay_method'), 'pay_method');
+		$oPayMethodsGUI->setOptions($this->__getPayMethods());
+		$oPayMethodsGUI->setValue($this->pobject->getPayMethod());
+		$oForm->addItem($oPayMethodsGUI);		
+		
+		// topics
+		ilShopTopics::_getInstance()->read();
+		if(is_array($topics = ilShopTopics::_getInstance()->getTopics()) && count($topics))
+		{
+			$oTopicsGUI = new ilSelectInputGUI($this->lng->txt('topic'), 'topic_id');
+			include_once 'Services/Payment/classes/class.ilShopTopics.php';
+			ilShopTopics::_getInstance()->read();
+			$topic_options = array();
+			$topic_options[''] = $this->lng->txt('please_choose');
+			
+			foreach($topics as $oTopic)
+			{			
+				$topic_options[$oTopic->getId()] = $oTopic->getTitle();
+			}
+			
+			$oTopicsGUI->setOptions($topic_options);
+			$oTopicsGUI->setValue($this->pobject->getTopicId());
+			$oForm->addItem($oTopicsGUI);
+		}
+		
+		$oThumbnail = new ilImageFileInputGUI($this->lng->txt('pay_thumbnail'), 'thumbnail');
+		$oFile = new ilFileDataShop($this->pobject->getPobjectId());
+		if(($webpath_file = $oFile->getCurrentImageWebPath()) !== false)
+		{
+			$oThumbnail->setImage($webpath_file);
+		}
+		$oForm->addItem($oThumbnail);
+		
+		// buttons
+		$oForm->addCommandButton('updateDetails', $this->lng->txt('save'));
+		$oForm->addCommandButton('deleteObject', $this->lng->txt('delete'));		
+		
+		$this->tpl->setVariable('PAYMENT_OBJECT_FORM', $oForm->getHTML());
 	}
 
 	function deleteObject()
@@ -612,10 +729,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		$this->editPrices(true);
 		return true;
-	}
-			
-		
-		
+	}		
 
 	function updatePrice()
 	{
@@ -681,8 +795,8 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 			$this->showObjects();
 			return true;
 		}
-		$this->__initPaymentObject((int) $_GET['pobject_id']);
-		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
+		$this->__initPaymentObject((int)$_GET['pobject_id']);
+		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);		
 
 		// read old settings
 		$old_pay_method = $this->pobject->getPayMethod();
@@ -727,13 +841,39 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 				$this->editDetails();
 						
 				return false;
-			}				
+			}
 		}
 		
-
-		$this->pobject->setStatus((int) $_POST['status']);
-		$this->pobject->setVendorId((int) $_POST['vendor']);
-		$this->pobject->setPayMethod((int) $_POST['pay_method']);
+		$this->pobject->setStatus((int)$_POST['status']);
+		$this->pobject->setVendorId((int)$_POST['vendor']);
+		$this->pobject->setPayMethod((int)$_POST['pay_method']);
+		$this->pobject->setTopicId((int)$_POST['topic_id']);
+		
+		if((int)$_POST['thumbnail']['delete'])
+		{
+			$oFile = new ilFileDataShop($this->pobject->getPobjectId());
+			$oFile->deassignFileFromPaymentObject();
+		}
+		else if($_FILES['thumbnail']['tmp_name'] != '')
+		{
+			$this->lng->loadLanguageModule('form');
+			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+			$oThumbnail = new ilImageFileInputGUI($this->lng->txt('pay_thumbnail'), 'thumbnail');
+			if($oThumbnail->checkInput())
+			{
+				$oFile = new ilFileDataShop($this->pobject->getPobjectId());
+				if(($oFile->storeUploadedFile($_FILES['thumbnail'])) !== false)
+				{
+					$oFile->assignFileToPaymentObject();
+				}
+			}
+			else
+			{
+				ilUtil::sendInfo($oThumbnail->getAlert());	
+				return $this->editDetails();
+			}	
+		}
+		
 		$this->pobject->update();
 
 		ilUtil::sendInfo($this->lng->txt('paya_details_updated'));
@@ -767,43 +907,55 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	function showSelectedObject()
 	{
-		if(!$_GET['sell_id'])
+		if(!(int)$_GET['sell_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
-			
-			$this->showObjectSelector();
-			return true;
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));			
+			return $this->showObjectSelector();
 		}
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.paya_selected_object.html','payment');
-		$this->showButton('showObjectSelector',$this->lng->txt('back'));
-
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays.gif',false));
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('details'));
-
-		$this->ctrl->setParameter($this,'sell_id',$_GET['sell_id']);
-		$this->tpl->setVariable("SO_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable("TXT_DESCRIPTION",$this->lng->txt('description'));
-		$this->tpl->setVariable("TXT_OWNER",$this->lng->txt('owner'));
-		$this->tpl->setVariable("TXT_PATH",$this->lng->txt('path'));
-		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('paya_vendor'));
-		$this->tpl->setVariable("BTN1_NAME",'showObjects');
-		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("BTN2_NAME",'addObject');
-		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt('next'));
-
-		// fill values
-		$this->tpl->setVariable("DETAILS",$this->lng->txt('details'));
 		
-		if($tmp_obj =& ilObjectFactory::getInstanceByRefId($_GET['sell_id']))
-		{
-			$this->tpl->setVariable("TITLE",$tmp_obj->getTitle());
-			$this->tpl->setVariable("DESCRIPTION",$tmp_obj->getDescription());
-			$this->tpl->setVariable("OWNER",$tmp_obj->getOwnerName());
-			$this->tpl->setVariable("PATH",$this->__getHTMLPath((int) $_GET['sell_id']));
-			$this->tpl->setVariable("VENDOR",$this->__showVendorSelector());
-		}
-		return true;
+		$this->showButton('showObjectSelector',$this->lng->txt('back'));
+		
+		// save ref_id of selected object
+		$this->ctrl->setParameter($this, 'sell_id', (int)$_GET['sell_id']);
+		
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$oForm = new ilPropertyFormGUI();
+		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
+		$oForm->setTitle($this->lng->txt('details'));
+		$oForm->setTitleIcon(ilUtil::getImagePath('icon_pays.gif', false));
+		
+		$tmp_obj = ilObjectFactory::getInstanceByRefId($_GET['sell_id']);		
+		
+		// title
+		$oTitleGUI = new ilNonEditableValueGUI($this->lng->txt('title'));
+		$oTitleGUI->setValue($tmp_obj->getTitle());
+		$oForm->addItem($oTitleGUI);
+		
+		// description
+		$oDescriptionGUI = new ilNonEditableValueGUI($this->lng->txt('description'));
+		$oDescriptionGUI->setValue($tmp_obj->getDescription());
+		$oForm->addItem($oDescriptionGUI);
+		
+		// owner
+		$oOwnerGUI = new ilNonEditableValueGUI($this->lng->txt('owner'));
+		$oOwnerGUI->setValue($tmp_obj->getOwnerName());
+		$oForm->addItem($oOwnerGUI);
+		
+		// path
+		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('paya_count_purchaser'));
+		$oPathGUI->setValue($this->__getHTMLPath((int)$_GET['sell_id']));
+		$oForm->addItem($oPathGUI);
+		
+		// vendors
+		$oVendorsGUI = new ilSelectInputGUI($this->lng->txt('paya_vendor'), 'vendor');		
+		$oVendorsGUI->setOptions($this->__getVendors());
+		$oForm->addItem($oVendorsGUI);
+		
+		// buttons
+		$oForm->addCommandButton('addObject', $this->lng->txt('next'));
+		$oForm->addCommandButton('showObjects', $this->lng->txt('cancel'));		
+		
+		$this->tpl->setVariable('ADM_CONTENT', $oForm->getHTML());
 	}
 
 	function addObject()
@@ -812,57 +964,49 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 			
-			$this->showObjectSelector();
-			return true;
+			return $this->showObjectSelector();
 		}
-		if(!(int) $_POST['vendor'])
+		if(!(int)$_POST['vendor'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_vendor_selected'));
 			
-			$this->showSelectedObject();
-			return true;
+			return $this->showSelectedObject();
 		}
 		if(!ilPaymentObject::_isPurchasable($_GET['sell_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_object_not_purchasable'));
 
-			$this->showObjectSelector();
-			return true;
+			return $this->showObjectSelector();
 		}
-
 		
-		include_once './payment/classes/class.ilPaymentObject.php';
+		include_once 'payment/classes/class.ilPaymentObject.php';
 
-		$p_obj =& new ilPaymentObject($this->user_obj);
+		$p_obj = new ilPaymentObject($this->user_obj);
 		
-		$p_obj->setRefId((int) $_GET['sell_id']);
+		$p_obj->setRefId((int)$_GET['sell_id']);
 		$p_obj->setStatus($p_obj->STATUS_NOT_BUYABLE);
 		$p_obj->setPayMethod($p_obj->PAY_METHOD_NOT_SPECIFIED);
-		$p_obj->setVendorId((int) $_POST['vendor']);
+		$p_obj->setVendorId((int)$_POST['vendor']);
+		$p_obj->setTopicId((int)$_POST['topic_id']);
 
 		if($new_id = $p_obj->add())
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_added_new_object'));
-			
+			ilUtil::sendInfo($this->lng->txt('paya_added_new_object'));			
 			$_GET['pobject_id'] = $new_id;
-			$this->editDetails();
-
-			return true;
+			return $this->editDetails();
 		}
 		else
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_err_adding_object'));
-			$this->showObjects();
-
-			return false;
+			return $this->showObjects();
 		}
 	}
 	
-	// PRIVATE
-	function __showVendorSelector($a_selected = 0)
+	private function __getVendors()
 	{
-		include_once './payment/classes/class.ilPaymentVendors.php';
+		include_once 'payment/classes/class.ilPaymentVendors.php';
 		
+		$options = array();
 		$vendors = array();
 		if(ilPaymentVendors::_isVendor($this->user_obj->getId()))
 		{
@@ -870,50 +1014,48 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		}
 		if($vend = ilPaymentTrustees::_getVendorsForObjects($this->user_obj->getId()))
 		{
-			$vendors = array_merge($vendors,$vend);
+			$vendors = array_merge($vendors, $vend);
 		}
 		foreach($vendors as $vendor)
 		{
-			$tmp_obj =& ilObjectFactory::getInstanceByObjId($vendor,false);
-
-			$action[$vendor] = $tmp_obj->getFullname().' ['.$tmp_obj->getLogin().']';
+			$tmp_obj = ilObjectFactory::getInstanceByObjId($vendor, false);
+			$options[$vendor] = $tmp_obj->getFullname().' ['.$tmp_obj->getLogin().']';
 		}
 		
-		return ilUtil::formSelect($a_selected,'vendor',$action,false,true);
+		return $options;
 	}
-
-	function __showStatusSelector()
+	
+	private function __getStatus()
 	{
-		$action = array();
-		$action[$this->pobject->STATUS_NOT_BUYABLE] = $this->lng->txt('paya_not_buyable');
-		$action[$this->pobject->STATUS_BUYABLE] = $this->lng->txt('paya_buyable');
-		$action[$this->pobject->STATUS_EXPIRES] = $this->lng->txt('paya_expires');
-
-		return ilUtil::formSelect($this->pobject->getStatus(),'status',$action,false,true);
+		$option = array();
+		$option[$this->pobject->STATUS_NOT_BUYABLE] = $this->lng->txt('paya_not_buyable');
+		$option[$this->pobject->STATUS_BUYABLE] = $this->lng->txt('paya_buyable');
+		$option[$this->pobject->STATUS_EXPIRES] = $this->lng->txt('paya_expires');
+		
+		return $option;
 	}
-
-	function __showPayMethodSelector()
+	
+	private function __getPayMethods()
 	{
-		include_once './payment/classes/class.ilPayMethods.php';
+		include_once 'payment/classes/class.ilPayMethods.php';
 
-		$action = array();
+		$options = array();
 
-		$action[$this->pobject->PAY_METHOD_NOT_SPECIFIED] = $this->lng->txt('paya_pay_method_not_specified');
+		$options[$this->pobject->PAY_METHOD_NOT_SPECIFIED] = $this->lng->txt('paya_pay_method_not_specified');
 		if(ilPayMethods::_enabled('pm_bill'))
 		{
-			$action[$this->pobject->PAY_METHOD_BILL] = $this->lng->txt('pays_bill');
+			$options[$this->pobject->PAY_METHOD_BILL] = $this->lng->txt('pays_bill');
 		}
 		if(ilPayMethods::_enabled('pm_bmf'))
 		{
-			$action[$this->pobject->PAY_METHOD_BMF] = $this->lng->txt('pays_bmf');
+			$options[$this->pobject->PAY_METHOD_BMF] = $this->lng->txt('pays_bmf');
 		}
 		if(ilPayMethods::_enabled('pm_paypal'))
 		{
-			$action[$this->pobject->PAY_METHOD_PAYPAL] = $this->lng->txt('pays_paypal');
+			$options[$this->pobject->PAY_METHOD_PAYPAL] = $this->lng->txt('pays_paypal');
 		}
-
-
-		return ilUtil::formSelect($this->pobject->getPayMethod(),'pay_method',$action,false,true);
+		
+		return $options;
 	}
 
 	function __showPayMethodLink()

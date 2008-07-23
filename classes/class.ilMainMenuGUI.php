@@ -159,6 +159,32 @@ class ilMainMenuGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		
+		// webshop
+		include_once 'payment/classes/class.ilGeneralSettings.php';
+		if((bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
+		{
+			$this->tpl->setCurrentBlock('shopbutton');
+			$this->tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController'));
+			$this->tpl->setVariable('TARGET_SHOP', $this->target);			
+			
+			include_once 'payment/classes/class.ilPaymentShoppingCart.php';
+			$objShoppingCart = new ilPaymentShoppingCart($ilUser);
+			$items = $objShoppingCart->getEntries();
+			
+			$this->tpl->setVariable('TXT_SHOP', $lng->txt('shop').(count($items) > 0 ? ' ('.count($items).')' : ''));			
+			
+			if($this->active == 'shop')
+			{
+				$this->tpl->setVariable('MM_CLASS', 'MMActive');
+			}
+			else
+			{
+				$this->tpl->setVariable('MM_CLASS', 'MMInactive');
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// help button
 		//$this->tpl->setCurrentBlock("userhelp");

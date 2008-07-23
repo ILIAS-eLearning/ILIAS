@@ -57,8 +57,6 @@ class ilPaymentBaseGUI
 
 		$this->ADMIN = 4;
 		$this->BASE = 5;
-
-		$this->lng->loadLanguageModule('payment');
 	}
 
 	function setSection($a_section)
@@ -102,27 +100,8 @@ class ilPaymentBaseGUI
 		$this->__buildButtons();
 	}
 
-	function showButton($a_cmd,$a_text,$a_target = '')
-	{
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,$a_cmd));
-		$this->tpl->setVariable("BTN_TXT",$a_text);
-		if($a_target)
-		{
-			$this->tpl->setVariable("BTN_TARGET",$a_target);
-		}
-
-		$this->tpl->parseCurrentBlock();
-	}
-	function &initTableGUI()
-	{
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-
-		return new ilTableGUI(0,false);
-	}
+	
+	
 	function setTableGUIBasicData(&$tbl,&$result_set,$a_default_order_column = '')
 	{
 		$offset = $_GET["offset"];

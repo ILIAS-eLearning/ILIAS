@@ -28,7 +28,7 @@
 * @author Jens Conze <jc@databay.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -72,6 +72,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->PAY_METHODS = 6;
 		$this->OBJECTS = 7;
 		$this->SECTION_BMF = 8;
+		$this->TOPICS = 9;
 
 		$this->lng->loadLanguageModule('payment');
 	}
@@ -89,7 +90,22 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-
+				
+			case 'ilpageobjectgui':
+				$this->prepareOutput();
+				$ret = $this->forwardToPageObject();
+				if($ret != '')
+				{
+					$this->tpl->setContent($ret);
+				}				
+				break;
+				
+			case 'ilshoptopicsgui':
+				include_once 'Services/Payment/classes/class.ilShopTopicsGUI.php';
+				$topics_gui = new ilShopTopicsGUI($this);
+				$ret = $this->ctrl->forwardCommand($topics_gui);
+				break;
+				
 			default:
 				if ($cmd == "" || $cmd == "view")
 				{
@@ -178,6 +194,61 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				break;
 		}
 		return true;
+	}
+	
+	public function forwardToPageObject()
+	{	
+		global $ilTabs;
+		
+		if(!(int)$_GET['pobject_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
+			return $this->showObjects();
+		}
+		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
+		$this->__initPaymentObject((int)$_GET['pobject_id']);		
+		
+		$this->lng->loadLanguageModule('content');
+		
+		$ilTabs->clearTargets();
+		$ilTabs->clearSubTabs();
+		$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'editObject'));
+
+		// page objec
+		include_once 'Services/COPage/classes/class.ilPageObject.php';
+		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
+		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
+		
+		$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
+
+		if(!ilPageObject::_exists('shop', $this->pobject->getPobjectId()))
+		{
+			// doesn't exist -> create new one
+			$new_page_object = new ilPageObject('shop');
+			$new_page_object->setParentId(0);
+			$new_page_object->setId($this->pobject->getPobjectId());
+			$new_page_object->createFromXML();
+		}
+				
+		$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
+
+		$page_gui = new ilPageObjectGUI('shop', $this->pobject->getPobjectId());
+		$this->ctrl->setParameter($page_gui, 'pobject_id', (int)$_GET['pobject_id']);
+		$page_gui->setIntLinkHelpDefault('StructureObject', $this->pobject->getPobjectId());
+		$page_gui->setTemplateTargetVar('ADM_CONTENT');
+		$page_gui->setLinkXML('');
+		$page_gui->setFileDownloadLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'downloadFile'));
+		$page_gui->setFullscreenLink($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'displayMediaFullscreen'));
+		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'download_paragraph'));
+		$page_gui->setPresentationTitle('');
+		$page_gui->setTemplateOutput(false);
+		$page_gui->setHeader('');
+		$page_gui->setEnabledRepositoryObjects(false);
+		$page_gui->setEnabledFileLists(true);
+		$page_gui->setEnabledMaps(true);
+		$page_gui->setEnabledPCTabs(true);
+
+		return $this->ctrl->forwardCommand($page_gui);
 	}
 	
 	function saveBmfSettingsObject()
@@ -360,6 +431,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->pobject->setStatus((int) $_POST['status']);
 		$this->pobject->setVendorId((int) $_POST['vendor']);
 		$this->pobject->setPayMethod((int) $_POST['pay_method']);
+		$this->pobject->setTopicId((int) $_POST['topic_id']);
 		
 		$this->pobject->update();
 
@@ -750,11 +822,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->__showButton('objects',$this->lng->txt('back'));		
 		$this->__showButton('editObject',$this->lng->txt('paya_edit_details'));
 		$this->__showButton('editPrices',$this->lng->txt('paya_edit_prices'));
+		$this->tpl->setCurrentBlock('btn_cell');
+		$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$this->tpl->setVariable('BTN_TXT', $this->lng->txt('pay_edit_abstract'));		
+		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_adm_edit_objects.html','payment');
 				
-		$this->__initPaymentObject((int) $_GET['pobject_id']);
-		
+		$this->__initPaymentObject((int) $_GET['pobject_id']);		
 		
 		if($a_show_confirm)
 		{
@@ -785,6 +860,22 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("STATUS",$this->__showStatusSelector());
 		$this->tpl->setVariable("TXT_PAY_METHOD",$this->lng->txt('paya_pay_method'));
 		$this->tpl->setVariable("PAY_METHOD",$this->__showPayMethodSelector());
+		
+		// topics
+		include_once 'Services/Payment/classes/class.ilShopTopics.php';
+		ilShopTopics::_getInstance()->read();
+		if (is_array($topics = ilShopTopics::_getInstance()->getTopics()) && count($topics))
+		{
+			$selectable_topics = array();
+			$selectable_topics[''] = $this->lng->txt('please_choose');
+			foreach ($topics as $topic)
+			{
+				$selectable_topics[$topic->getId()] = $topic->getTitle();
+			}
+			
+			$this->tpl->setVariable('TXT_TOPIC', $this->lng->txt('topic'));
+			$this->tpl->setVariable('TOPICS', ilUtil::formSelect(array($this->pobject->getTopicId()), 'topic_id', $selectable_topics, false, true));
+		}
 
 		$this->tpl->setVariable("INPUT_CMD",'updateObjectDetails');
 		$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('save'));
@@ -1603,6 +1694,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				
 			$tabs_gui->addTarget("pay_methods",
 				$this->ctrl->getLinkTarget($this, "payMethods"), "payMethods", "", "");
+			
+			$tabs_gui->addTarget('topics',
+					$this->ctrl->getLinkTargetByClass('ilshoptopicsgui', ''), 'payment_topics', '', '');
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -1636,6 +1730,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$form->setTitle($this->lng->txt('pays_general_settings'));
 		
 		$form->addCommandButton('saveGeneralSettings',$this->lng->txt('save'));
+		
+		// enable webshop
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('pay_enable_shop'), 'shop_enabled');
+		$formItem->setChecked((int)$genSetData['shop_enabled']);
+		$formItem->setInfo($this->lng->txt('pay_enable_shop_info'));
+		$form->addItem($formItem);
 		
 		$formItem = new ilTextInputGUI($this->lng->txt("pays_currency_unit"), "currency_unit");
 		$formItem->setSize(5);
@@ -1674,7 +1774,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 							? ilUtil::prepareFormOutput($_POST['add_info'],true)
 							: ilUtil::prepareFormOutput($genSetData['add_info'],true));
 		$form->addItem($formItem);
-		
+
 		$formItem = new ilTextInputGUI($this->lng->txt("pays_vat_rate"), "vat_rate");
 		$formItem->setSize(5);
 		$formItem->setValue($this->error != "" && isset($_POST['vat_rate'])
@@ -1686,7 +1786,46 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem->setValue($this->error != "" && isset($_POST['pdf_path'])
 							? ilUtil::prepareFormOutput($_POST['pdf_path'],true)
 							: ilUtil::prepareFormOutput($genSetData['pdf_path'],true));
-		$form->addItem($formItem);			
+		$form->addItem($formItem);
+		
+		// default sorting type
+		$formItem = new ilSelectInputGUI($this->lng->txt('pay_topics_default_sorting_type'), 'topics_sorting_type');
+		$formItem->setValue($genSetData['topics_sorting_type']);
+		$options = array(
+			1 => $this->lng->txt('pay_topics_sort_by_title'),
+			2 => $this->lng->txt('pay_topics_sort_by_date'),
+			3 => $this->lng->txt('pay_topics_sort_manually')
+		);
+		$formItem->setOptions($options);
+		$form->addItem($formItem);
+		
+		// default sorting direction
+		$formItem = new ilSelectInputGUI($this->lng->txt('pay_topics_default_sorting_direction'), 'topics_sorting_direction');
+		$formItem->setValue($genSetData['topics_sorting_direction']);
+		$options = array(
+			'asc' => $this->lng->txt('sort_asc'),
+			'desc' => $this->lng->txt('sort_desc'),
+		);
+		$formItem->setOptions($options);
+		$form->addItem($formItem);
+		
+		// custom sorting
+		$formItem = new ilCheckboxInputGUI($this->lng->txt('pay_topics_allow_custom_sorting'), 'topics_allow_custom_sorting');
+		$formItem->setChecked((int)$genSetData['topics_allow_custom_sorting']);
+		$formItem->setInfo($this->lng->txt('pay_topics_allow_custom_sorting_info'));
+		$form->addItem($formItem);
+		
+		// max hits
+		$formItem = new ilSelectInputGUI($this->lng->txt('pay_max_hits'), 'max_hits');
+		$formItem->setValue($genSetData['max_hits']);
+		$options = array();
+		for($i = 10; $i <= 100; $i += 10)
+		{
+			$options[$i] = $i;
+		}
+		$formItem->setOptions($options);
+		$formItem->setInfo($this->lng->txt('pay_max_hits_info'));
+		$form->addItem($formItem);
 				
 		$this->tpl->setVariable('GENERAL_SETTINGS',$form->getHTML());
 	}
@@ -1716,7 +1855,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->generalSettingsObject();
 			return;
 		}
-
+		
 		$genSet->clearAll();
 		$values = array(
 			"currency_unit" => ilUtil::stripSlashes($_POST['currency_unit']),
@@ -1725,7 +1864,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			"bank_data" => ilUtil::stripSlashes($_POST['bank_data']),
 			"add_info" => ilUtil::stripSlashes($_POST['add_info']),
 			"vat_rate" => (float) str_replace(",", ".", ilUtil::stripSlashes($_POST['vat_rate'])),
-			"pdf_path" => ilUtil::stripSlashes($_POST['pdf_path'])
+			"pdf_path" => ilUtil::stripSlashes($_POST['pdf_path']),
+			"topics_allow_custom_sorting" => ilUtil::stripSlashes($_POST['topics_allow_custom_sorting']),
+			"topics_sorting_type" => ilUtil::stripSlashes($_POST['topics_sorting_type']),
+			"topics_sorting_direction" => ilUtil::stripSlashes($_POST['topics_sorting_direction']),
+			"max_hits" => ilUtil::stripSlashes($_POST['max_hits']),
+			"shop_enabled" => ilUtil::stripSlashes($_POST['shop_enabled'])			
 		);
 		$genSet->setAll($values);
 		$this->generalSettingsObject();
