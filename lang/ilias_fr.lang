@@ -7821,7 +7821,6 @@ wiki#:#wiki_article#:#Article###11 03 2008 new variable
 wiki#:#wiki_discussion#:#Discussion###11 03 2008 new variable
 wiki#:#wiki_edit#:#Edit###11 03 2008 new variable
 wiki#:#wiki_history#:#History###11 03 2008 new variable
-wiki#:#wiki_navigation#:#Navigation###11 03 2008 new variable
 wiki#:#wiki_recent_changes#:#Recent Changes###11 03 2008 new variable
 wiki#:#wiki_what_links_here#:#What Links Here?###11 03 2008 new variable
 wiki#:#wiki_print_view#:#Print View###11 03 2008 new variable
@@ -8228,3 +8227,247 @@ rbac#:#crs_edit_event#:#Edit Calendar Events###02 06 2008 new variable
 rbac#:#grp_edit_event#:#Edit Calendar Events###02 06 2008 new variable
 rbac#:#sess_edit_event#:#Edit Calendar Events###02 06 2008 new variable
 rbac#:#cals_edit_event#:#Administrate Public Calendars###02 06 2008 new variable
+assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)###23 07 2008 new variable
+form#:#form_min_value#:#Minimum Value###23 07 2008 new variable
+form#:#form_max_value#:#Maximum Value###23 07 2008 new variable
+form#:#form_format#:#Format###23 07 2008 new variable
+form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.###23 07 2008 new variable
+form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.###23 07 2008 new variable
+form#:#form_msg_numeric_value_required#:#Please enter a numeric value.###23 07 2008 new variable
+wiki#:#wiki_last_visited_page#:#Last Visited Page###23 07 2008 new variable
+wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.###23 07 2008 new variable
+wiki#:#wiki_msg_short_name_regexp#:#Short title must not start with a number and must not contain the following characters:###23 07 2008 new variable
+wiki#:#wiki_feedback_from_tutor#:#Feedback from Tutor###23 07 2008 new variable
+wiki#:#wiki_introduction#:#Introduction###23 07 2008 new variable
+wiki#:#wiki_pages#:#Pages###23 07 2008 new variable
+wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation###23 07 2008 new variable
+content#:#cont_insert_map#:#Insert Map###23 07 2008 new variable
+content#:#cont_update_map#:#Edit Map###23 07 2008 new variable
+content#:#cont_location#:#Location###23 07 2008 new variable
+content#:#cont_align#:#Alignment###23 07 2008 new variable
+content#:#cont_insert_page#:#Insert Page###23 07 2008 new variable
+content#:#cont_insert_chapter#:#Insert Chapter###23 07 2008 new variable
+content#:#cont_insert_subchapter#:#Insert Subchapter###23 07 2008 new variable
+content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard###23 07 2008 new variable
+content#:#cont_insert_chapter_from_clip#:#Paste Chapters from Clipboard###23 07 2008 new variable
+content#:#cont_insert_subchapter_from_clip#:#Paste Subchapters from Clipboard###23 07 2008 new variable
+content#:#cont_left#:#Left###23 07 2008 new variable
+content#:#cont_right#:#Right###23 07 2008 new variable
+content#:#cont_center#:#Center###23 07 2008 new variable
+content#:#cont_left_float#:#Left, Floating###23 07 2008 new variable
+content#:#cont_right_float#:#Right, Floating###23 07 2008 new variable
+crs#:#crs_objective_err_limit#:#Please enter points between %s and %s.###23 07 2008 new variable
+crs#:#crs_objective_qst_summary#:#Overview Question Assignment###23 07 2008 new variable
+crs#:#crs_obj_required_points#:#Required Points###23 07 2008 new variable
+crs#:#crs_objective_all_points#:#Total Points###23 07 2008 new variable
+crs#:#crs_objective_points#:#Point(s)###23 07 2008 new variable
+crs#:#crs_objective_wiz_title#:#Learning Objective Description###23 07 2008 new variable
+crs#:#crs_objective_wiz_materials#:#Assignment of Course Materials###23 07 2008 new variable
+crs#:#crs_objective_wiz_self#:#Initial Test Questions###23 07 2008 new variable
+crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test###23 07 2008 new variable
+crs#:#crs_objective_wiz_final#:#Final Test Questions###23 07 2008 new variable
+crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test###23 07 2008 new variable
+crs#:#crs_wiz_next#:#Save###23 07 2008 new variable
+crs#:#crs_wiz_back#:#Back###23 07 2008 new variable
+crs#:#crs_objective_step#:#Step###23 07 2008 new variable
+crs#:#crs_objective_self_assessment#:#Initial Test###23 07 2008 new variable
+crs#:#crs_objective_final_test#:#Final Test###23 07 2008 new variable
+crs#:#crs_objective_saved_sorting#:#Saved sorting.###23 07 2008 new variable
+crs#:#crs_no_title_given#:#Please insert a title for the objective.###23 07 2008 new variable
+common#:#chat_invite_public_room#:#Public Chat###23 07 2008 new variable
+common#:#chat_link_to_this_chat#:#Link to this chat###23 07 2008 new variable
+crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.###23 07 2008 new variable
+crs#:#crs_no_objective_lms_found#:#This course does not contain any materials.###23 07 2008 new variable
+ecs#:#ecs_server_settings#:#ECS Functionalities###23 07 2008 new variable
+ecs#:#ecs_settings#:#Settings###23 07 2008 new variable
+ecs#:#ecs_communities#:#Participants###23 07 2008 new variable
+ecs#:#ecs_mappings#:#ECS Data Mapping###23 07 2008 new variable
+ecs#:#ecs_connection_settings#:#Connection Settings###23 07 2008 new variable
+ecs#:#ecs_active#:#Enable ECS Functionalities###23 07 2008 new variable
+ecs#:#ecs_server_url#:#Server URL###23 07 2008 new variable
+ecs#:#ecs_protocol#:#Protocol###23 07 2008 new variable
+ecs#:#ecs_port#:#Port###23 07 2008 new variable
+ecs#:#ecs_client_cert#:#Client Certificate###23 07 2008 new variable
+ecs#:#ecs_ca_cert#:#CA Certificate###23 07 2008 new variable
+ecs#:#ecs_cert_key#:#Certificate Key###23 07 2008 new variable
+ecs#:#ecs_key_password#:#Key Password###23 07 2008 new variable
+ecs#:#cert_serial#:#Certificate Serial Number###23 07 2008 new variable
+ecs#:#ecs_local_settings#:#Local Settings###23 07 2008 new variable
+ecs#:#ecs_polling#:#Polling Time###23 07 2008 new variable
+ecs#:#ecs_polling_info#:#Please define the polling time for creation and update of Course-Links###23 07 2008 new variable
+ecs#:#ecs_import_id#:#Import ID###23 07 2008 new variable
+ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course-Links will be created###23 07 2008 new variable
+ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.###23 07 2008 new variable
+ecs#:#ecs_participants#:#Participants###23 07 2008 new variable
+ecs#:#ecs_participants_infos#:#Further Informations###23 07 2008 new variable
+ecs#:#ecs_active_header#:#Export Allowed###23 07 2008 new variable
+ecs#:#ecs_enable_participant#:#Allow Export###23 07 2008 new variable
+ecs#:#ecs_dns#:#Domainname###23 07 2008 new variable
+ecs#:#ecs_email#:#E-Mail###23 07 2008 new variable
+ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data###23 07 2008 new variable
+ecs#:#ecs_field_study_courses#:#Study Course(s)###23 07 2008 new variable
+ecs#:#ecs_field_lecturer#:#Lecturer(s)###23 07 2008 new variable
+ecs#:#ecs_field_courseType#:#Course Type###23 07 2008 new variable
+ecs#:#ecs_field_credits#:#Credits###23 07 2008 new variable
+ecs#:#ecs_field_start#:#Start###23 07 2008 new variable
+ecs#:#ecs_field_term#:#Term###23 07 2008 new variable
+ecs#:#ecs_field_day#:#Day###23 07 2008 new variable
+ecs#:#ecs_field_time#:#Time###23 07 2008 new variable
+ecs#:#ecs_field_room#:#Room###23 07 2008 new variable
+ecs#:#ecs_field_cycle#:#Cycle###23 07 2008 new variable
+ecs#:#ecs_ignore_field#:#Disable export/update of this field###23 07 2008 new variable
+common#:#obj_rcrs#:#Course-Link###23 07 2008 new variable
+common#:#objs_rcrs#:#Course-Links###23 07 2008 new variable
+ecs#:#ecs_export#:#Course Releases###23 07 2008 new variable
+ecs#:#ecs_export_obj_settings#:#Course Release Settings###23 07 2008 new variable
+ecs#:#ecs_export_disabled#:#Do not release this Course###23 07 2008 new variable
+ecs#:#ecs_export_enabled#:#Release this Course###23 07 2008 new variable
+ecs#:#ecs_publish_as#:#Publish as:###23 07 2008 new variable
+ecs#:#ecs_publish_for#:#Release for:###23 07 2008 new variable
+ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.###23 07 2008 new variable
+rcrs#:#rcrs_general_info#:#General Informations###23 07 2008 new variable
+meta#:#md_adv_field_names#:#Field Names###23 07 2008 new variable
+meta#:#md_adv_fields_show#:#Show Field Names###23 07 2008 new variable
+rcrs#:#rcrs_local_informations#:#Further Informations###23 07 2008 new variable
+ecs#:#ecs_abr#:#Abbreviation###23 07 2008 new variable
+ecs#:#ecs_read_remote_links#:#Update Remote-Courses###23 07 2008 new variable
+ecs#:#ecs_remote_imported#:#Informations about remote courses have been refreshed.###23 07 2008 new variable
+ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts###23 07 2008 new variable
+ecs#:#ecs_role#:#Role Assignment###23 07 2008 new variable
+ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.###23 07 2008 new variable
+rcrs#:#rcrs_call#:#Call Remote Course###23 07 2008 new variable
+ecs#:#ecs_field_begin#:#Begin###23 07 2008 new variable
+ecs#:#ecs_field_end#:#End###23 07 2008 new variable
+ecs#:#ecs_import#:#Import###23 07 2008 new variable
+ecs#:#ecs_imported_content#:#Imported E-Content###23 07 2008 new variable
+ecs#:#ecs_imported_from#:#Imported From###23 07 2008 new variable
+ecs#:#ecs_meta_data#:#Meta Data###23 07 2008 new variable
+mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s###23 07 2008 new variable
+ecs#:#ecs_rcrs_created_body_a#:#A new Remote Course has been created:###23 07 2008 new variable
+ecs#:#ecs_new_econtent_subject#:#New E-Content created###23 07 2008 new variable
+ecs#:#ecs_notifications#:#Notifications###23 07 2008 new variable
+ecs#:#ecs_user_rcp#:#Notification About ECS Users###23 07 2008 new variable
+ecs#:#ecs_econ_rcp#:#Notification About New E-Content###23 07 2008 new variable
+ecs#:#ecs_user_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new ECS users per e-mail.###23 07 2008 new variable
+ecs#:#ecs_econ_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new ECS content per e-mail.###23 07 2008 new variable
+ecs#:#ecs_new_user_subject#:#New ECS User Account###23 07 2008 new variable
+ecs#:#ecs_new_user_body#:#A new ECS user account has been created.###23 07 2008 new variable
+ecs#:#ecs_new_user_profile#:#User profile data:###23 07 2008 new variable
+form#:#form_months#:#Months###23 07 2008 new variable
+ecs#:#ecs_account_duration#:#Activation Period Extension###23 07 2008 new variable
+ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.###23 07 2008 new variable
+common#:#udf_type_datetime#:#Date and Time###23 07 2008 new variable
+ecs#:#ecs_no_value#:#Not available###23 07 2008 new variable
+ecs#:#ecs_field_semester_hours#:#Semester Periods per Week###23 07 2008 new variable
+common#:#object_id#:#Object-Id###23 07 2008 new variable
+ecs#:#ecs_field_courseID#:#Course ID###23 07 2008 new variable
+common#:#organization#:#Provider###23 07 2008 new variable
+common#:#auth_ecs#:#ECS###23 07 2008 new variable
+ecs#:#ecs_approval_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new approved courses per e-mail.###23 07 2008 new variable
+ecs#:#ecs_approval_rcp#:#Notification About Approved Courses###23 07 2008 new variable
+ecs#:#ecs_new_approval_subject#:#A new course has been released###23 07 2008 new variable
+ecs#:#ecs_export_created_body_a#:#A new course has been released###23 07 2008 new variable
+ecs#:#ecs_released#:#Export###23 07 2008 new variable
+ecs#:#ecs_released_content#:#Released E-Content###23 07 2008 new variable
+rbac#:#rcrs_edit_permission#:#Change permission settings###23 07 2008 new variable
+rbac#:#rcrs_visible#:#Course-Link is visible###23 07 2008 new variable
+rbac#:#rcrs_read#:#Read access to Course-Link###23 07 2008 new variable
+rbac#:#rcrs_delete#:#Delete Course-Link###23 07 2008 new variable
+rbac#:#cat_create_rcrs#:#Create Course-Links###23 07 2008 new variable
+rbac#:#rcrs_write#:#Edit Course-Link###23 07 2008 new variable
+rbac#:#cat_create_wiki#:#Create Wiki###23 07 2008 new variable
+rbac#:#crs_create_wiki#:#Create Wiki###23 07 2008 new variable
+rbac#:#grp_create_wiki#:#Create Wiki###23 07 2008 new variable
+rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
+common#:#csv_export#:#CSV-Export###23 07 2008 new variable
+ecs#:#ecs_duration#:#Duration###23 07 2008 new variable
+ecs#:#ecs_event_appointment#:#Event Date###23 07 2008 new variable
+common#:#res_links_short#:#Links###23 07 2008 new variable
+grp#:#reg_grp_max_members_short#:#Number of Members###23 07 2008 new variable
+grp#:#grp_wrong_max_members#:#Please check the maximum number of users.###23 07 2008 new variable
+crs#:#crs_subscription_max_members_short#:#Number of Members###23 07 2008 new variable
+crs#:#max_members_not_numeric#:#Please check the maximum number of users.###23 07 2008 new variable
+ps#:#ps_show_crs_access#:#Show last access time of course participants###23 07 2008 new variable
+assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users###23 07 2008 new variable
+mail#:#mail_external_sender_noreply#:#noreply-Adresse###23 07 2008 new variable
+mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.###23 07 2008 new variable
+chat#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.###23 07 2008 new variable
+crs#:#sess_gen_attendance_list#:#Generate Attendance List###23 07 2008 new variable
+crs#:#sess_date_time#:#Session Appointment###23 07 2008 new variable
+common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.###23 07 2008 new variable
+common#:#missing_precondition#:#Missing Precondition###23 07 2008 new variable
+crs#:#sess_gen_mark_title#:#Generate Column for Notes###23 07 2008 new variable
+crs#:#sess_gen_comment#:#Generate Column for Comments###23 07 2008 new variable
+crs#:#sess_gen_signature#:#Generate Column for Signatures###23 07 2008 new variable
+crs#:#sess_print_attendance_list#:#Print Attendance List###23 07 2008 new variable
+crs#:#sess_signature#:#Signature###23 07 2008 new variable
+crs#:#sess_attendance_list#:#Attendance List###23 07 2008 new variable
+grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.###23 07 2008 new variable
+grp#:#grp_type_changed_info#:#Changing the group type will reset all permission settings.###23 07 2008 new variable
+grp#:#grp_change_type#:#Change Group Type###23 07 2008 new variable
+dateplaner#:#cal_share#:#Share Calendar###23 07 2008 new variable
+dateplaner#:#cal_shared_header#:#Shared Calendars###23 07 2008 new variable
+dateplaner#:#cal_unshare_cal#:#Stop Sharing###23 07 2008 new variable
+dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.###23 07 2008 new variable
+dateplaner#:#cal_share_search_header#:#Share Calendar###23 07 2008 new variable
+dateplaner#:#cal_search#:#Search Term###23 07 2008 new variable
+dateplaner#:#cal_search_info_share#:#Please enter the name of the desired user/role for sharing the calendar.###23 07 2008 new variable
+dateplaner#:#cal_share_search_usr_header#:#User Selection###23 07 2008 new variable
+dateplaner#:#cal_share_cal#:#Share calendar###23 07 2008 new variable
+dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.###23 07 2008 new variable
+dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)###23 07 2008 new variable
+dateplaner#:#cal_apps#:#Number of Appointments###23 07 2008 new variable
+dateplaner#:#cal_share_accept#:#Accept Invitation###23 07 2008 new variable
+dateplaner#:#cal_share_decline#:#Decline Invitation###23 07 2008 new variable
+dateplaner#:#cal_changed_events_header#:#Changed Appointments ###23 07 2008 new variable
+dateplaner#:#cal_accepted#:#Accepted###23 07 2008 new variable
+dateplaner#:#cal_declined#:#Declined###23 07 2008 new variable
+trac#:#trac_mode_event#:#Participation in Sessions###23 07 2008 new variable
+dateplaner#:#cal_user_time_format#:#Time Format###23 07 2008 new variable
+dateplaner#:#cal_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
+dateplaner#:#cal_def_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
+dateplaner#:#cal_def_time_format#:#Default Time Format###23 07 2008 new variable
+payment#:#topics#:#Topics###23 07 2008 new variable
+payment#:#topic#:#Topic###23 07 2008 new variable
+payment#:#edit_topic#:#Edit Topic###23 07 2008 new variable
+payment#:#new_topic#:#New Topic###23 07 2008 new variable
+payment#:#topic_title#:#Title###23 07 2008 new variable
+payment#:#advanced_search#:#Advanced Search###23 07 2008 new variable
+payment#:#set_filter#:#Set Filter###23 07 2008 new variable
+payment#:#reset_filter#:#Reset Filter###23 07 2008 new variable
+payment#:#filter_by#:#by###23 07 2008 new variable
+payment#:#sort_asc#:#sort ascending###23 07 2008 new variable
+payment#:#sort_desc#:#sort descending###23 07 2008 new variable
+payment#:#sort#:#Sort###23 07 2008 new variable
+payment#:#sort_by#:#Sort Objects by###23 07 2008 new variable
+common#:#shop#:#Shop###23 07 2008 new variable
+payment#:#price_from#:#from###23 07 2008 new variable
+payment#:#select_one_topic#:#Please select at least one topic###23 07 2008 new variable
+payment#:#topics_deleted#:#The chosen topics were deleted successfully###23 07 2008 new variable
+payment#:#no_topics_yet#:#No topics created yet###23 07 2008 new variable
+payment#:#topic_saved#:#The topic was saved successfully###23 07 2008 new variable
+payment#:#topic_edited#:#The topic was edited successfully###23 07 2008 new variable
+payment#:#sure_delete_topics#:#Are you sure you want to delete the chosen topics?###23 07 2008 new variable
+payment#:#pay_topics_default_sorting_type#:#Default Sorting Type of Topics###23 07 2008 new variable
+payment#:#pay_topics_default_sorting_direction#:#Default Sorting Direction of Topics###23 07 2008 new variable
+payment#:#pay_topics_allow_custom_sorting#:#Custom Sorting of Topics###23 07 2008 new variable
+payment#:#pay_topics_allow_custom_sorting_info#:#If enabled, every user can determine the sorting of topics in the webshop independently.###23 07 2008 new variable
+payment#:#pay_topics_sort_by_title#:#By Title###23 07 2008 new variable
+payment#:#pay_topics_sort_by_date#:#By Date###23 07 2008 new variable
+payment#:#pay_topics_sort_manually#:#Manually###23 07 2008 new variable
+payment#:#pay_sorting_value#:#Sorting Value###23 07 2008 new variable
+payment#:#pay_save_sorting#:#Save Sorting###23 07 2008 new variable
+payment#:#pay_max_hits#:#Max hits###23 07 2008 new variable
+payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of search results.###23 07 2008 new variable
+payment#:#pay_personal_settings#:#Personal Settings###23 07 2008 new variable
+payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics###23 07 2008 new variable
+payment#:#sort_topics_by#:#Sort Topics by###23 07 2008 new variable
+payment#:#sort_topics_by_title#:#Title###23 07 2008 new variable
+payment#:#sort_topics_by_date#:#Date###23 07 2008 new variable
+payment#:#sort_topics_manually#:#Manually###23 07 2008 new variable
+payment#:#pay_enable_shop#:#Enable Webshop###23 07 2008 new variable
+payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.###23 07 2008 new variable
+payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###23 07 2008 new variable
+payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
+dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
+common#:#assigned_members#:#Assigned Members###23 07 2008 new variable

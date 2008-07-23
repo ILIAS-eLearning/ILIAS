@@ -7935,7 +7935,6 @@ wiki#:#wiki_article#:#Article###11 03 2008 new variable
 wiki#:#wiki_discussion#:#Discussion###11 03 2008 new variable
 wiki#:#wiki_edit#:#Edit###11 03 2008 new variable
 wiki#:#wiki_history#:#History###11 03 2008 new variable
-wiki#:#wiki_navigation#:#Navigation###11 03 2008 new variable
 wiki#:#wiki_recent_changes#:#Recent Changes###11 03 2008 new variable
 wiki#:#wiki_what_links_here#:#What Links Here?###11 03 2008 new variable
 wiki#:#wiki_print_view#:#Print View###11 03 2008 new variable
@@ -8440,3 +8439,35 @@ payment#:#payment_shop_not_objects_found#:#Es konnten keine kaufbaren Objekte ge
 payment#:#payment_login_to_buy_object#:#Bitte melden Sie Sich bei ILIAS an, um Objekte in den Warenkorb legen zu können.
 dateplaner#:#cal_share_search_role_header#:#Rollenauswahl
 common#:#assigned_members#:#Zugeordnete TeilnehmerInnen
+form#:#form_min_value#:#Minimum Value###23 07 2008 new variable
+form#:#form_max_value#:#Maximum Value###23 07 2008 new variable
+form#:#form_format#:#Format###23 07 2008 new variable
+form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.###23 07 2008 new variable
+form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.###23 07 2008 new variable
+form#:#form_msg_numeric_value_required#:#Please enter a numeric value.###23 07 2008 new variable
+wiki#:#wiki_last_visited_page#:#Last Visited Page###23 07 2008 new variable
+wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.###23 07 2008 new variable
+wiki#:#wiki_msg_short_name_regexp#:#Short title must not start with a number and must not contain the following characters:###23 07 2008 new variable
+wiki#:#wiki_feedback_from_tutor#:#Feedback from Tutor###23 07 2008 new variable
+wiki#:#wiki_introduction#:#Introduction###23 07 2008 new variable
+wiki#:#wiki_pages#:#Pages###23 07 2008 new variable
+wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation###23 07 2008 new variable
+content#:#cont_insert_map#:#Insert Map###23 07 2008 new variable
+content#:#cont_update_map#:#Edit Map###23 07 2008 new variable
+content#:#cont_location#:#Location###23 07 2008 new variable
+content#:#cont_align#:#Alignment###23 07 2008 new variable
+content#:#cont_insert_page#:#Insert Page###23 07 2008 new variable
+content#:#cont_insert_chapter#:#Insert Chapter###23 07 2008 new variable
+content#:#cont_insert_subchapter#:#Insert Subchapter###23 07 2008 new variable
+content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard###23 07 2008 new variable
+content#:#cont_insert_chapter_from_clip#:#Paste Chapters from Clipboard###23 07 2008 new variable
+content#:#cont_insert_subchapter_from_clip#:#Paste Subchapters from Clipboard###23 07 2008 new variable
+content#:#cont_left#:#Left###23 07 2008 new variable
+content#:#cont_right#:#Right###23 07 2008 new variable
+content#:#cont_center#:#Center###23 07 2008 new variable
+content#:#cont_left_float#:#Left, Floating###23 07 2008 new variable
+content#:#cont_right_float#:#Right, Floating###23 07 2008 new variable
+rbac#:#cat_create_wiki#:#Create Wiki###23 07 2008 new variable
+rbac#:#crs_create_wiki#:#Create Wiki###23 07 2008 new variable
+rbac#:#grp_create_wiki#:#Create Wiki###23 07 2008 new variable
+rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
