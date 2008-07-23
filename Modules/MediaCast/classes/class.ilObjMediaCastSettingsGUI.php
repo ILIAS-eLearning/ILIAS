@@ -138,6 +138,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 		}
 
 		$this->settings->setPurposeSuffixes($purposeSuffixes);
+		$this->settings->setDefaultAccess ($_POST["defaultaccess"]);
 
 		$this->settings->save();
 		
@@ -178,7 +179,17 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 			$text->setInfo($lng->txt("mcst_".strtolower($purpose)."_settings_info"));
 			$form->addItem($text);
 		}
-		
+		//Default Visibility
+		$radio_group = new ilRadioGroupInputGUI($lng->txt("mcst_default_visibility"), "defaultaccess");
+		$radio_option = new ilRadioOption($lng->txt("mcst_visibility_users"), "users");
+		$radio_group->addOption($radio_option);					
+		$radio_option = new ilRadioOption($lng->txt("mcst_visibility_public"), "public");
+		$radio_group->addOption($radio_option);
+		$radio_group->setInfo($lng->txt("mcst_news_item_visibility_info"));
+		$radio_group->setRequired(false);			
+		$radio_group->setValue($this->settings->getDefaultAccess());			
+		#$ch->addSubItem($radio_group);
+		$form->addItem($radio_group);
 		$this->tpl->setContent($form->getHTML());
 	}
 }

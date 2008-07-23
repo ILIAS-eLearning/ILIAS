@@ -33,7 +33,7 @@
 class ilMediaCastSettings
 {
 	private static $instance = null;
-	
+	private $defaultAccess = "users";
 	private $purposeSuffixes = array();
 
 	/**
@@ -84,7 +84,15 @@ class ilMediaCastSettings
 	public function getPurposeSuffixes()
 	{
 	 	return $this->purposeSuffixes;
-	}	
+	}
+
+	public function getDefaultAccess() {
+	    return $this->defaultAccess;
+	}
+	
+	public function setDefaultAccess($value) {
+	    $this->defaultAccess = $value == "users" ? "users" : "public";
+	}
 	
 	/**
 	 * save 
@@ -96,6 +104,7 @@ class ilMediaCastSettings
 		foreach ($this->purposeSuffixes as $purpose => $filetypes) {
 			$this->storage->set($purpose . "_types", implode(",",$filetypes));
 		}
+		$this->storage->set("defaultaccess",$this->defaultAccess);
 	}
 
 	/**
@@ -111,7 +120,8 @@ class ilMediaCastSettings
 			if ($this->storage->get($purpose."_types") != false) {
 				$this->purposeSuffixes[$purpose] = explode(",",$this->storage->get($purpose."_types"));
 			}
-		}		
+		}	
+		$this->setDefaultAccess($this->storage->get("defaultaccess"));	
 	}
 	
 	/**
@@ -129,6 +139,7 @@ class ilMediaCastSettings
 	 	$this->purposeSuffixes["Standard"] = array("mp3","flv","mp4","m4v","mov","wmv","gif","png");
         $this->purposeSuffixes["AudioPortable"] = array("mp3");
         $this->purposeSuffixes["VideoPortable"] = array("mp4","m4v","mov");
+        $this->setDefaultAccess("users");
 	}
 }
 ?>
