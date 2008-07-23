@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="paym">
 	<baseclasses>
+		<baseclass name="ilShopController" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="pays" class_name="PaymentSettings" dir="classes"

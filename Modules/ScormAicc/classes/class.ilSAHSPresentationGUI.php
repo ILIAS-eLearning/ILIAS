@@ -33,6 +33,7 @@
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilscorm13player
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilShopPurchaseGUI
 * 
 * @ingroup ModulesScormAicc
 */
@@ -59,7 +60,7 @@ class ilSAHSPresentationGUI
 	*/
 	function &executeCommand()
 	{
-		global $lng,$ilAccess, $ilNavigationHistory, $ilCtrl;
+		global $lng,$ilAccess, $ilNavigationHistory, $ilCtrl, $ilLocator, $ilObjDataCache;
 
 		include_once "./classes/class.ilObjectGUI.php";
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
@@ -73,13 +74,28 @@ class ilSAHSPresentationGUI
 				"ilias.php?cmd=infoScreen&baseClass=ilSAHSPresentationGUI&ref_id=".$_GET["ref_id"], "lm");
 		}
 
-		// payment
-		include_once './payment/classes/class.ilPaymentObject.php';
-		include_once './classes/class.ilSearch.php';
-		if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
+		include_once 'payment/classes/class.ilPaymentObject.php';
+		if(ilPaymentObject::_isBuyable($_GET['ref_id']) &&
+		   !ilPaymentObject::_hasAccess($_GET['ref_id']))
 		{
-			ilUtil::redirect('./payment.php?view=start_purchase&ref_id='.$_GET['ref_id']);
+			$ilLocator->addRepositoryItems();
+			$ilLocator->addItem($ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($_GET['ref_id'])), 
+								'ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id='.$_GET['ref_id'],
+								'',
+								$_GET['ref_id'],
+								'sahs');
+			$this->tpl->setLocator();
+			$this->tpl->getStandardTemplate();
+					
+			include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';	
+			$this->ctrl->setReturn($this, '');
+			$pp_gui = new ilShopPurchaseGUI($_GET['ref_id']);
+			$this->ctrl->forwardCommand($pp_gui);			
+			$this->tpl->show();
+			exit();
 		}
+		
+		include_once './classes/class.ilSearch.php';
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();

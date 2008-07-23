@@ -85,6 +85,13 @@ class ilObjFileListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
+		include_once 'payment/classes/class.ilPaymentObject.php';
+		if(ilPaymentObject::_isBuyable($this->ref_id) && 
+		   !ilPaymentObject::_hasAccess($this->ref_id))
+		{					
+			return '';
+		}
+		
 		switch($a_cmd)
 		{
 			// BEGIN WebDAV: View inline objects in a blank window

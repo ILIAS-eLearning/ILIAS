@@ -33,7 +33,7 @@ require_once "./Modules/File/classes/class.ilObjFileAccess.php";
 * @author Sascha Hofmann <shofmann@databay.de> 
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjFileGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilShopPurchaseGUI
 *
 * @ingroup ModulesFile
 */
@@ -56,11 +56,7 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory;
-		
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-		$this->prepareOutput();
+		global $ilAccess, $ilNavigationHistory;	
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
@@ -68,7 +64,29 @@ class ilObjFileGUI extends ilObjectGUI
 		{
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				"repository.php?cmd=infoScreen&ref_id=".$_GET["ref_id"], "file");
+		}		
+		
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		
+		if(!$this->getCreationMode())
+		{
+			include_once 'payment/classes/class.ilPaymentObject.php';				
+			if(ilPaymentObject::_isBuyable($this->object->getRefId()) && 
+			   !ilPaymentObject::_hasAccess($this->object->getRefId()))
+			{
+				$this->setLocator();
+				$this->tpl->getStandardTemplate();			
+
+				include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+				$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);				
+				$ret = $this->ctrl->forwardCommand($pp);
+				return true;
+			}
 		}
+		
+		$this->prepareOutput();
+		
 //var_dump($_GET);
 //var_dump($_POST);
 //var_dump($_SESSION);

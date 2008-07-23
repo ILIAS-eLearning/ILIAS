@@ -1,15 +1,16 @@
 <!-- BEGIN confirm_delete -->
-  <form action="{CONFIRM_FORMACTION}" method="post">
-	<table class="fullwidth_invisible">
-	  <tr>
-		<td align="center">
-			<input class="submit" type="submit" name="cmd[{CONFIRM_CMD}]" value="{TXT_CONFIRM}" />
-		  <input class="submit" type="submit" name="cmd[editObject]" value="{TXT_CANCEL}" />
-		</td>
-	  </tr>
-	</table>
-  </form>
-  <!-- END confirm_delete -->
+<form action="{CONFIRM_FORMACTION}" method="post">
+<table class="fullwidth_invisible">
+<tr>
+	<td align="center">
+		<input class="submit" type="submit" name="cmd[{CONFIRM_CMD}]" value="{TXT_CONFIRM}" />
+		<input class="submit" type="submit" name="cmd[editObject]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+</table>
+</form>
+<!-- END confirm_delete -->
+{PAYMENT_OBJECT_FORM}
 <form action="{DETAILS_FORMACTION}" method="post">
 	<table class="std">
 	  <tr class="tbltitle">
@@ -42,6 +43,12 @@
 		<td class="option">{TXT_PAY_METHOD}</td>
 		<td class="option_value">{PAY_METHOD}</td>
 	  </tr>
+	  <!-- BEGIN topics -->
+	  <tr>
+		<td class="option">{TXT_TOPIC}</td>
+		<td class="option_value">{TOPICS}</td>
+	  </tr>
+	  <!-- END topics -->
 	  <tr class="tblfooter" >
 		<td class="submit" colspan="2" ><input class="submit" type="submit" name="cmd[{INPUT_CMD}]" value="{INPUT_VALUE}" />&nbsp;<input class="submit" type="submit" name="cmd[{DELETE_CMD}]" value="{DELETE_VALUE}"</td>
 	  </tr>

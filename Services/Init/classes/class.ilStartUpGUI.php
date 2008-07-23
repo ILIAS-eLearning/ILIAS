@@ -366,13 +366,18 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 		$tpl->setVariable("LANG_ID", $_GET["lang"]);
 
-		if ($_GET["inactive"])
+		if($_GET['inactive'])
 		{
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_inactive"));
+			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt('err_inactive'));
 		}
-		elseif ($_GET["expired"])
+		else if($_GET['expired'])
 		{
-			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_session_expired"));
+			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt('err_session_expired'));
+		}
+		else if($_GET['login_to_purchase_object'])
+		{
+			$lng->loadLanguageModule('payment');
+			$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt('payment_login_to_buy_object'));
 		}
 
 		// TODO: Move this to header.inc since an expired session could not detected in login script

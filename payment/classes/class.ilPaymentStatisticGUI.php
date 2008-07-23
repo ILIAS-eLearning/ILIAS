@@ -31,35 +31,34 @@
 */
 include_once './payment/classes/class.ilPaymentObject.php';
 
-class ilPaymentStatisticGUI extends ilPaymentBaseGUI
+class ilPaymentStatisticGUI extends ilShopBaseGUI
 {
-	var $ctrl;
+	private $pobject = null;
 
-	var $lng;
-	var $user_obj;
-	var $pobject = null;
-
-	function ilPaymentStatisticGUI(&$user_obj)
+	public function ilPaymentStatisticGUI($user_obj)
 	{
-		global $ilCtrl;
+		parent::__construct();		
+		
+		$this->ctrl->saveParameter($this, 'baseClass');
 
-		$this->ctrl =& $ilCtrl;
-		$this->ctrl->saveParameter($this, "baseClass");
-
-		$this->ilPaymentBaseGUI();
-
-		$this->user_obj =& $user_obj;
-
-		$this->pobject =& new ilPaymentObject($this->user_obj);
-
+		$this->user_obj = $user_obj;
+		$this->pobject = new ilPaymentObject($this->user_obj);
 	}
-	/**
-	* execute command
-	*/
-	function &executeCommand()
+	
+	protected function prepareOutput()
 	{
-		global $tree;
+		global $ilTabs;
+		
+		$this->setSection(6);
+		
+		parent::prepareOutput();
 
+		$ilTabs->setTabActive('paya_header');
+		$ilTabs->setSubTabActive('paya_statistic');
+	}
+	
+	public function executeCommand()
+	{
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
 		{
@@ -68,6 +67,7 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 				{
 					$cmd = 'showStatistics';
 				}
+				$this->prepareOutput();
 				$this->$cmd();
 				break;
 		}
@@ -295,7 +295,6 @@ class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 			++$counter;
 		}
 		return $this->__showStatisticTable($f_result);
-
 	}
 
 	function excelExport()

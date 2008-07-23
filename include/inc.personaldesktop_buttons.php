@@ -112,32 +112,6 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	}
 }
 
-
-include_once "./payment/classes/class.ilPaymentVendors.php";
-include_once "./payment/classes/class.ilPaymentTrustees.php";
-include_once "./payment/classes/class.ilPaymentShoppingCart.php";
-include_once "./payment/classes/class.ilPaymentBookings.php";
-
-global $ilias;
-
-if(ilPaymentShoppingCart::_hasEntries($ilias->account->getId()) or
-   ilPaymentBookings::_getCountBookingsByCustomer($ilias->account->getId()))
-									  
-{
-	$lng->loadLanguageModule('payment');
-
-	$inhalt1[] = array('tabinactive',"./payment.php",$lng->txt('paya_shopping_cart'),
-		ilFrameTargetInfo::_getFrame("MainContent"));
-}	
-if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
-   ilPaymentTrustees::_hasAccess($ilias->account->getId()))
-{
-	$lng->loadLanguageModule('payment');
-
-	$inhalt1[] = array('tabinactive',"./payment.php?view=payment_admin",$lng->txt('paya_header'),
-		ilFrameTargetInfo::_getFrame("MainContent"));
-}
-
 for ( $i=0; $i<sizeof($inhalt1); $i++)
 {
 	if ($inhalt1[$i][1] != "")

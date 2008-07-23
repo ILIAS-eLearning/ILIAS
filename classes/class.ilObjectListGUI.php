@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 define ("IL_LIST_AS_TRIGGER", "trigger");
 define ("IL_LIST_FULL", "full");
 
+include_once 'payment/classes/class.ilGeneralSettings.php';
 
 /**
 * Class ilObjectListGUI
@@ -1115,31 +1115,66 @@ class ilObjectListGUI
 	*/
 	function insertPayment()
 	{
-		include_once './payment/classes/class.ilPaymentObject.php';
+		include_once 'payment/classes/class.ilPaymentObject.php';		
 
-		if ($this->payment_enabled &&
-			ilPaymentObject::_isBuyable($this->ref_id))
-		{
-			if (ilPaymentObject::_hasAccess($this->ref_id))
+		if((bool)ilGeneralSettings::_getInstance()->get('shop_enabled') &&
+		   $this->payment_enabled &&
+		   ilPaymentObject::_isBuyable($this->ref_id))
+		{	
+			if(ilPaymentObject::_hasAccess($this->ref_id))
 			{
-				$this->tpl->setCurrentBlock("payment");
-				$this->tpl->setVariable("PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_access_b.gif'));
-				$this->tpl->setVariable("PAYMENT_ALT_IMG", $this->lng->txt('payment_system') . ": " . $this->lng->txt('payment_payed_access'));
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock('payment');
+				$this->tpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_access_b.gif'));
+				$this->tpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_payed_access'));
+				$this->tpl->parseCurrentBlock();				
 			}
-			else if (ilPaymentObject::_isInCart($this->ref_id))
+			else if(ilPaymentObject::_isInCart($this->ref_id))
 			{
-				$this->tpl->setCurrentBlock("payment");
-				$this->tpl->setVariable("PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_cart_b.gif'));
-				$this->tpl->setVariable("PAYMENT_ALT_IMG", $this->lng->txt('payment_system') . ": " . $this->lng->txt('payment_in_sc'));
+				$this->tpl->setCurrentBlock('payment');
+				$this->tpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_cart_b.gif'));
+				$this->tpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_in_sc'));
 				$this->tpl->parseCurrentBlock();
+
+				$this->insertPaymentCommand();				
 			}
 			else
 			{
-				$this->tpl->setCurrentBlock("payment");
-				$this->tpl->setVariable("PAYMENT_TYPE_IMG", ilUtil::getImagePath('icon_pays_b.gif'));
-				$this->tpl->setVariable("PAYMENT_ALT_IMG", $this->lng->txt('payment_system') . ": " . $this->lng->txt('payment_buyable'));
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock('payment');
+				$this->tpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays_b.gif'));
+				$this->tpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
+				$this->tpl->parseCurrentBlock();				
+
+				$this->insertPaymentCommand();
+			}
+		}
+	}
+	
+	protected function insertPaymentCommand()
+	{
+		$commands = $this->getCommands($this->ref_id, $this->obj_id);		
+		foreach($commands as $command)
+		{
+			if($command['default'] === true)
+			{
+				$command = $this->createDefaultCommand($command);
+				if(is_null($command['link']))
+				{
+					switch($this->type)
+					{
+						case 'sahs':
+							$command['link'] = 'ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='.$this->ref_id;
+							break;
+						
+						case 'lm':
+							$command['link'] = 'ilias.php?baseClass=ilLMPresentationGUI&ref_id='.$this->ref_id;
+							break;
+						
+						default:
+							$command['link'] = 'repository.php?ref_id='.$this->ref_id;
+							break;	
+					}					
+				}
+				$this->insertCommand($command['link'], $this->lng->txt('buy'), $command['frame']);
 			}
 		}
 	}
@@ -1420,18 +1455,6 @@ class ilObjectListGUI
 		
 		foreach($commands as $command)
 		{
-			if ($command['permission'] == 'join')
-			{
-				if ($this->payment_enabled &&
-					ilPaymentObject::_isBuyable($this->ref_id))
-				{
-					if (!ilPaymentObject::_hasAccess($this->ref_id))
-					{
-						$command['lang_var'] = 'buy';
-					}	
-				}
-			}
-
 			if ($command["granted"] == true )
 			{
 				if (!$command["default"] === true)
@@ -1666,7 +1689,8 @@ class ilObjectListGUI
 		$this->insertPayment();
 		$ilBench->stop("ilObjectListGUI", "5000_insert_pay");
 		
-		if ($this->getCommandsStatus() || $this->payment_enabled)
+		if ($this->getCommandsStatus() || 
+		    ($this->payment_enabled && (bool)ilGeneralSettings::_getInstance()->get('shop_enabled')))
 		{
 			$this->tpl->touchBlock("command_block");
 		}

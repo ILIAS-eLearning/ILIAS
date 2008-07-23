@@ -5034,3 +5034,48 @@ CREATE TABLE `data_cache` (
   `value` mediumtext NULL DEFAULT NULL,
   PRIMARY KEY  (`module`,`keyword`)
 );
+<#1287>
+CREATE TABLE `payment_topics` (
+  `pt_topic_pk` bigint(20) NOT NULL auto_increment,
+  `pt_topic_title` varchar(255) NOT NULL,
+  `pt_topic_sort` int(11) NOT NULL,
+  `pt_topic_created` int(11) NOT NULL,
+  `pt_topic_changed` int(11) NOT NULL,
+  PRIMARY KEY  (`pt_topic_pk`)
+);
+
+<#1288>
+ALTER TABLE `payment_objects` ADD `pt_topic_fk` INT(11) NOT NULL AFTER `vendor_id`;
+ALTER TABLE `payment_objects` ADD `image` VARCHAR(255) NOT NULL AFTER `pt_topic_fk`;
+
+<#1289>
+ALTER TABLE `payment_settings` ADD `topics_allow_custom_sorting` TINYINT(1) NOT NULL ,
+ADD `topics_sorting_type` TINYINT(1) NOT NULL ,
+ADD `topics_sorting_direction` VARCHAR(4) NOT NULL,
+ADD `shop_enabled` TINYINT( 1 ) NOT NULL DEFAULT '0',
+ADD `max_hits` INT NOT NULL;
+
+UPDATE payment_settings SET max_hits = 20;
+<#1290>
+<?php
+$query = "SELECT * FROM payment_objects";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ilDB->query("UPDATE payment_settings SET shop_enabled = 1");
+	break;
+}
+?>
+
+<#1291>
+CREATE TABLE `payment_topics_user_sorting` (
+  `ptus_pt_topic_fk` int(11) NOT NULL,
+  `ptus_usr_id` int(11) NOT NULL,
+  `ptus_sorting` int(11) NOT NULL,
+  PRIMARY KEY  (`ptus_pt_topic_fk`,`ptus_usr_id`)
+);
+
+<#1292>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

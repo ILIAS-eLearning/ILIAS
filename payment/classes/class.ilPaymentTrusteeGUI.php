@@ -30,29 +30,36 @@
 */
 include_once './payment/classes/class.ilPaymentTrustees.php';
 
-class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
+class ilPaymentTrusteeGUI extends ilShopBaseGUI
 {
 	var $trustee_obj = null;
 	var $user_obj;
 	var $ctrl;
 
-	function ilPaymentTrusteeGUI(&$user_obj)
+	public function ilPaymentTrusteeGUI($user_obj)
 	{
-		global $ilCtrl;
+		parent::__construct();
 
-		$this->ctrl =& $ilCtrl;
-
-		$this->ilPaymentBaseGUI();
-
-		$this->user_obj =& $user_obj;
-		$this->trustee_obj =& new ilPaymentTrustees($this->user_obj);
-
+		$this->user_obj = $user_obj;
+		$this->trustee_obj = new ilPaymentTrustees($this->user_obj);
 		$this->lng->loadLanguageModule('crs');
+		
+		$this->ctrl->saveParameter($this, 'baseClass');
 	}
-	/**
-	* execute command
-	*/
-	function &executeCommand()
+	
+	protected function prepareOutput()
+	{
+		global $ilTabs;
+		
+		$this->setSection(6);
+		
+		parent::prepareOutput();
+
+		$ilTabs->setTabActive('paya_header');
+		$ilTabs->setSubTabActive('paya_trustees');
+	}
+	
+	public function executeCommand()
 	{
 		global $tree;
 
@@ -64,6 +71,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 				{
 					$cmd = 'showTrustees';
 				}
+				$this->prepareOutput();
 				$this->$cmd();
 				break;
 		}
@@ -436,7 +444,8 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 								  "lastname"),
 							array("cmd" => 'performSearch',
 								  "cmdClass" => "ilpaymenttrusteegui",
-								  "cmdNode" => $_GET["cmdNode"]));
+								  "cmdNode" => $_GET["cmdNode"],
+								  'baseClass' => 'ilShopController'));
 
 		$tbl->setColumnWidth(array("3%","32%","32%","32%"));
 
@@ -518,7 +527,8 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 								  "options"),
 							array("cmd" => "showTrustees",
 								  "cmdClass" => "ilpaymenttrusteegui",
-								  "cmdNode" => $_GET["cmdNode"]));
+								  "cmdNode" => $_GET["cmdNode"],
+								  'baseClass' => 'ilShopController'));
 		$tbl->setColumnWidth(array("4%","15%","15%","15%","15%","15%","15%","15%"));
 
 

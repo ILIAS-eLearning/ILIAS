@@ -29,121 +29,78 @@
 * @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentTrusteeGUI, ilPaymentStatisticGUI, ilPaymentObjectGUI
 * @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentBillAdminGUI, ilPaymentCouponGUI
 *
-* @package core
+* @package ServicesPayment
 */
-include_once "./payment/classes/class.ilPaymentVendors.php";
-include_once "./payment/classes/class.ilPaymentBaseGUI.php";
-include_once "./payment/classes/class.ilPaymentTrustees.php";
-include_once "./payment/classes/class.ilPaymentBillAdminGUI.php";
 
+include_once 'payment/classes/class.ilPaymentVendors.php';
+include_once 'payment/classes/class.ilPaymentBaseGUI.php';
+include_once 'payment/classes/class.ilPaymentTrustees.php';
+include_once 'payment/classes/class.ilPaymentBillAdminGUI.php';
 
-class ilPaymentAdminGUI extends ilPaymentBaseGUI
+class ilPaymentAdminGUI
 {
-	var $ctrl;
-
-	var $user_obj;
-
-	function ilPaymentAdminGUI(&$user_obj)
+	public function ilPaymentAdminGUI($user_obj)
+	{
+		$this->user_obj = $user_obj;
+	}	
+	
+	public function executeCommand()
 	{
 		global $ilCtrl;
-
-		$this->ctrl =& $ilCtrl;
 		
-		$this->ilPaymentBaseGUI();
-		$this->setMainSection($this->ADMIN);
-		
-		// Get user object
-		$this->user_obj =& $user_obj;
-	}
-	/**
-	* execute command
-	*/
-	function &executeCommand()
-	{
-		global $tree,$ilTabs;
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd();
 
-		$cmd = $this->ctrl->getCmd();
-		switch ($this->ctrl->getNextClass($this))
+		switch($next_class)
 		{
 			case 'ilpaymenttrusteegui':
-				$this->setSection($this->SECTION_TRUSTEE);
-				$this->buildHeader();
-
-				include_once './payment/classes/class.ilPaymentTrusteeGUI.php';
-
-				$pt =& new ilPaymentTrusteeGUI($this->user_obj);
-				
-				$this->ctrl->forwardCommand($pt);
-			
+				include_once 'payment/classes/class.ilPaymentTrusteeGUI.php';
+				$ilCtrl->forwardCommand(new ilPaymentTrusteeGUI($this->user_obj));			
 				break;
 
 			case 'ilpaymentobjectgui':
-				$this->setSection($this->SECTION_OBJECT);
-				$this->buildHeader();
-
-				include_once './payment/classes/class.ilPaymentObjectGUI.php';
-
-				$po =& new ilPaymentObjectGUI($this->user_obj);
-				
-				$this->ctrl->forwardCommand($po);
+				include_once 'payment/classes/class.ilPaymentObjectGUI.php';
+				$ilCtrl->forwardCommand(new ilPaymentObjectGUI($this->user_obj));
 				break;
 
 			case 'ilpaymentstatisticgui':
-				$this->setSection($this->SECTION_STATISTIC);
-				$this->buildHeader();
-
-				include_once './payment/classes/class.ilPaymentStatisticGUI.php';
-
-				$ps =& new ilPaymentStatisticGUI($this->user_obj);
-				
-				$this->ctrl->forwardCommand($ps);
+				include_once 'payment/classes/class.ilPaymentStatisticGUI.php';
+				$ilCtrl->forwardCommand(new ilPaymentStatisticGUI($this->user_obj));
 				break;
 
 			case 'ilpaymentbilladmingui':
-				$this->setSection($this->SECTION_OBJECT);
-				$this->buildHeader();
-
-				include_once './payment/classes/class.ilPaymentBillAdminGUI.php';
-
-				$po =& new ilPaymentBillAdminGUI($this->user_obj,$_GET['pobject_id']);
-				
-				$this->ctrl->forwardCommand($po);
+				include_once 'payment/classes/class.ilPaymentBillAdminGUI.php';
+				$ilCtrl->forwardCommand(new ilPaymentBillAdminGUI($this->user_obj, (int)$_GET['pobject_id']));
 				break;
 				
 			case 'ilpaymentcoupongui':
-				$this->setSection($this->SECTION_COUPONS);
-				$this->buildHeader();
-
-				include_once './payment/classes/class.ilPaymentCouponGUI.php';
-
-				$po =& new ilPaymentCouponGUI($this->user_obj);
-				
-				$this->ctrl->forwardCommand($po);
+				include_once 'payment/classes/class.ilPaymentCouponGUI.php';
+				$ilCtrl->forwardCommand(new ilPaymentCouponGUI($this->user_obj));
 				break;
 
 			default:
-				$this->__forwardToDefault();
+				$this->forwardToDefault();
 				break;
 		}
 	}
 
-	function __forwardToDefault()
+	private function forwardToDefault()
 	{
+		global $ilCtrl;
 		
-		if(ilPaymentVendors::_isVendor($this->user_obj->getId()) or
+		if(ilPaymentVendors::_isVendor($this->user_obj->getId()) ||
 		   ilPaymentTrustees::_hasStatisticPermission($this->user_obj->getId()))
 		{
-			$this->ctrl->redirectByClass('ilpaymentstatisticgui');
+			$ilCtrl->redirectByClass('ilpaymentstatisticgui');
 		}
 		else if(ilPaymentTrustees::_hasObjectPermission($this->user_obj->getId()))
 		{
-			$this->ctrl->redirectByClass('ilpaymentobjectgui');
+			$ilCtrl->redirectByClass('ilpaymentobjectgui');
 		}
 		
-		echo 'No access to payment admin';
+		echo 'No access to payment administration!';
 
 		return false;
 	}
-
 }
 ?>

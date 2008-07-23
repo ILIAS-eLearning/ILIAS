@@ -660,7 +660,7 @@ class ilUtil
 	* 					next	=> value for 'next page' (default: '>>')
 	* @return	array	linkbar or false on error
 	*/
-	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array(),$ALayout = array())
+	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array(),$ALayout = array(), $prefix = '')
 	{
 		$LinkBar = "";
 
@@ -701,11 +701,11 @@ class ilUtil
 			// if ($params) $params = substr($params,0,-1);
 			if(strpos($AScript,'&'))
 			{
-				$link = $AScript."&".$params."offset=";
+				$link = $AScript."&".$params.$prefix."offset=";
 			}
 			else
 			{
-				$link = $AScript."?".$params."offset=";
+				$link = $AScript."?".$params.$prefix."offset=";
 			}
 
 			// ?bergehe "zurck"-link, wenn offset 0 ist.

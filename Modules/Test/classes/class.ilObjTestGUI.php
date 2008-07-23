@@ -32,7 +32,7 @@
 * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestCertificateGUI
-* @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI
+* @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI, ilShopPurchaseGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTest
@@ -73,11 +73,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
-		}
-		$this->prepareOutput();
-		$cmd = $this->ctrl->getCmd("properties");
-		$next_class = $this->ctrl->getNextClass($this);
-		$this->ctrl->setReturn($this, "properties");
+		}		
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
@@ -86,6 +82,29 @@ class ilObjTestGUI extends ilObjectGUI
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				"ilias.php?baseClass=ilObjTestGUI&cmd=infoScreen&ref_id=".$_GET["ref_id"], "tst");
 		}
+		
+		if(!$this->getCreationMode())
+		{
+			include_once 'payment/classes/class.ilPaymentObject.php';				
+			if(ilPaymentObject::_isBuyable($this->object->getRefId()) && 
+			   !ilPaymentObject::_hasAccess($this->object->getRefId()))
+			{
+				$this->setLocator();
+				$this->tpl->getStandardTemplate();
+				
+				include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+				$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);				
+				$ret = $this->ctrl->forwardCommand($pp);
+				$this->tpl->show();
+				exit();			
+			}
+		}
+		
+		$this->prepareOutput();
+		$cmd = $this->ctrl->getCmd("properties");
+		$next_class = $this->ctrl->getNextClass($this);
+		$this->ctrl->setReturn($this, "properties");
+		
 		switch($next_class)
 		{
 			case "ilinfoscreengui":

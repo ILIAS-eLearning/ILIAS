@@ -115,16 +115,12 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				include_once './payment/classes/class.ilPaymentObject.php';
+				include_once 'payment/classes/class.ilPaymentObject.php';
 
-				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
-				$showViewInFrameset = true;
-				$isBuyable = ilPaymentObject::_isBuyable($this->ref_id);
-				if (($isBuyable && ilPaymentObject::_hasAccess($this->ref_id) == false) ||
-					$showViewInFrameset)
-				{
-					//$frame = ilFrameTargetInfo::_getFrame("MainContent");
-					$frame = "ilContObj".$this->obj_id;
+				if(ilPaymentObject::_isBuyable($this->ref_id) && 
+				   !ilPaymentObject::_hasAccess($this->ref_id))
+				{					
+					$frame = '';
 				}
 				else
 				{

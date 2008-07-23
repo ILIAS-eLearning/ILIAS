@@ -33,7 +33,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilPaymentPurchaseGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -127,6 +127,30 @@ class ilLMPresentationGUI
 	{
 		global $ilNavigationHistory, $ilAccess, $ilias, $lng;
 		
+		include_once 'payment/classes/class.ilPaymentObject.php';	
+		if($ilAccess->checkAccess('visible', '', $_GET['ref_id']))
+		{		
+			if(ilPaymentObject::_isBuyable((int)$_GET['ref_id']) && 
+			   !ilPaymentObject::_hasAccess((int)$_GET['ref_id']))
+			{
+				if(!((int)$_GET['obj_id'] && 
+				   ilLMObject::_isPagePublic($_GET['obj_id']) &&
+				   $this->ctrl->getCmd() == 'layout'))
+				{
+					unset($_GET['obj_id']);
+					
+					$this->tpl->getStandardTemplate();
+					$this->ilLocator();
+			
+					include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';
+					$pp = new ilShopPurchaseGUI((int)$_GET['ref_id']);
+					$ret = $this->ctrl->forwardCommand($pp);
+					$this->tpl->show();
+					return true;
+				}
+			}
+		}
+		
 		// check read permission, payment and parent conditions
 		// todo: replace all this by ilAccess call
 		if (!$ilAccess->checkAccess("read", "", $_GET["ref_id"]) &&
@@ -160,34 +184,8 @@ class ilLMPresentationGUI
 			case "ilinfoscreengui":
 				$ret =& $this->outputInfoScreen();
 				break;
-				
-			case 'ilpaymentpurchasegui':
-				$this->tpl->getStandardTemplate();
-				$this->ilLocator();
-					
-				include_once("./payment/classes/class.ilPaymentPurchaseGUI.php");
-				$pa =& new ilPaymentPurchaseGUI((int) $_GET['ref_id']);
-				$ret =& $this->ctrl->forwardCommand($pa);
-				$this->tpl->show();
-				break;
 
-			default:
-				include_once './payment/classes/class.ilPaymentObject.php';
-				
-				if(!ilPaymentObject::_hasAccess($_GET['ref_id']))
-				{
-					$this->tpl->getStandardTemplate();
-					$this->ilLocator();
-		
-					// payment
-					include_once("./payment/classes/class.ilPaymentPurchaseGUI.php");
-					$pa =& new ilPaymentPurchaseGUI((int) $_GET['ref_id']);
-					$this->ctrl->setCmd("showDetails");
-					$ret =& $this->ctrl->forwardCommand($pa);
-					$this->tpl->show();
-					return true;
-				}
-			 
+			default:			 
 				$ret =& $this->$cmd();
 				break;
 		}

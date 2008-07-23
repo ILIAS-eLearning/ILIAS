@@ -23,9 +23,20 @@
 
 class ilGeneralSettings
 {
+	private static $_instance;
+	
 	var $db;
-
 	var $settings;
+	
+	public static function _getInstance()
+	{
+		if(!isset(self::$_instance))
+		{
+			self::$_instance = new ilGeneralSettings();
+		}
+		
+		return self::$_instance;
+	}
 
 	function ilGeneralSettings()
 	{
@@ -77,7 +88,12 @@ class ilGeneralSettings
 		$query .= "bank_data = '', ";
 		$query .= "add_info = '', ";
 		$query .= "vat_rate = '', ";
-		$query .= "pdf_path = '' ";
+		$query .= "pdf_path = '', ";
+		$query .= "topics_sorting_type = 1, ";
+		$query .= "topics_sorting_direction = 'asc', ";
+		$query .= "topics_allow_custom_sorting = 0, ";
+		$query .= "max_hits = 20, ";
+		$query .= "shop_enabled = 0 ";
 		$query .= "WHERE settings_id = '" . $this->getSettingsId() . "'";
 		
 		$this->db->query($query);
@@ -98,26 +114,36 @@ class ilGeneralSettings
 			$query .= "bank_data = " . $ilDB->quote($a_values["bank_data"]) . ", ";
 			$query .= "add_info = " . $ilDB->quote($a_values["add_info"]) . ", ";
 			$query .= "vat_rate = " . $ilDB->quote($a_values["vat_rate"]) . ", ";
-			$query .= "pdf_path = " . $ilDB->quote($a_values["pdf_path"]) . " ";
+			$query .= "pdf_path = " . $ilDB->quote($a_values["pdf_path"]) . ", ";
+			$query .= "topics_allow_custom_sorting = " . $ilDB->quote($a_values["topics_allow_custom_sorting"]) . ", ";
+			$query .= "topics_sorting_type = " . $ilDB->quote($a_values["topics_sorting_type"]) . ", ";
+			$query .= "topics_sorting_direction = " . $ilDB->quote($a_values["topics_sorting_direction"]) . ", ";
+			$query .= "max_hits = " . $ilDB->quote($a_values["max_hits"]) . ", ";
+			$query .= "shop_enabled = " . $ilDB->quote($a_values["shop_enabled"]) . " ";
 			$query .= "WHERE settings_id = '" . $this->getSettingsId() . "'";
 			
 			$this->db->query($query);
 		}
 		else
 		{
-			$query = "INSERT INTO payment_settings (currency_unit, currency_subunit, address, bank_data, add_info, vat_rate, pdf_path) VALUES (";
-			$query .= $ilDB->quote($a_values["currency_unit"]) . ", ";
-			$query .= $ilDB->quote($a_values["currency_subunit"]) . ", ";
-			$query .= $ilDB->quote($a_values["address"]) . ", ";
-			$query .= $ilDB->quote($a_values["bank_data"]) . ", ";
-			$query .= $ilDB->quote($a_values["add_info"]) . ", ";
-			$query .= $ilDB->quote($a_values["vat_rate"]) . ", ";
-			$query .= $ilDB->quote($a_values["pdf_path"]) . ")";
+			$query = "INSERT INTO payment_settings
+					  SET 
+					  currency_unit = ".$ilDB->quote($a_values["currency_unit"]).",
+					  currency_subunit = ".$ilDB->quote($a_values["currency_subunit"]).",
+					  address = ".$ilDB->quote($a_values["address"]).",
+					  bank_data = ".$ilDB->quote($a_values["bank_data"]).",
+					  add_info = ".$ilDB->quote($a_values["add_info"]).",
+					  vat_rate = ".$ilDB->quote($a_values["vat_rate"]).",
+					  pdf_path = ".$ilDB->quote($a_values["pdf_path"]).",
+					  topics_allow_custom_sorting = ".$ilDB->quote($a_values["topics_allow_custom_sorting"]).",
+					  topics_sorting_type = ".$ilDB->quote($a_values["topics_sorting_type"]).",
+					  topics_sorting_direction = ".$ilDB->quote($a_values["topics_sorting_direction"]).",
+					  shop_enabled = ".$ilDB->quote($a_values["shop_enabled"]).",				
+					  max_hits = ".$ilDB->quote($a_values["topics_sorting_direction"]);
 			$this->db->query($query);					
 			
 			$this->setSettingsId($this->db->getLastInsertId());
-		}
-		
+		}		
 
 		$this->__getSettings();
 
@@ -141,6 +167,11 @@ class ilGeneralSettings
 			$data["add_info"] = $result->add_info;
 			$data["vat_rate"] = $result->vat_rate;
 			$data["pdf_path"] = $result->pdf_path;
+			$data["topics_allow_custom_sorting"] = $result->topics_allow_custom_sorting;
+			$data["topics_sorting_type"] = $result->topics_sorting_type;
+			$data["topics_sorting_direction"] = $result->topics_sorting_direction;
+			$data["max_hits"] = $result->max_hits;
+			$data["shop_enabled"] = $result->shop_enabled;				
 		}
 
 		$this->settings = $data;

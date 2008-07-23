@@ -30,7 +30,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * $Id$
 *
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilShopPurchaseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
@@ -4402,7 +4402,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-
 	
 	function &executeCommand()
 	{
@@ -4415,37 +4414,28 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 		$this->prepareOutput();
 		
-		// check if object is purchased
-		include_once './payment/classes/class.ilPaymentObject.php';
-
-		if (!$this->creation_mode)	// don't check, if new object is created
+		// add entry to navigation history
+		if(!$this->getCreationMode() &&
+			$ilAccess->checkAccess('read', '', $_GET['ref_id']))
 		{
-			if(!ilPaymentObject::_hasAccess($this->object->getRefId()))
+			$ilNavigationHistory->addItem($_GET['ref_id'],
+				'repository.php?cmd=frameset&ref_id='.$_GET['ref_id'], 'crs');
+		}
+		
+		if(!$this->getCreationMode())
+		{
+			include_once 'payment/classes/class.ilPaymentObject.php';
+			if(ilPaymentObject::_isBuyable($this->object->getRefId()) &&
+			   !ilPaymentObject::_hasAccess($this->object->getRefId()))
 			{
-				if ($cmd != "addToShoppingCart")
-				{
-					$this->ctrl->setCmd("");
-					$cmd = "";
-				}
-	
-				include_once './payment/classes/class.ilPaymentPurchaseGUI.php';
-	
-				$this->ctrl->setReturn($this,"");
-				$pp_gui =& new ilPaymentPurchaseGUI($this->object->getRefId());
-	
-				$this->ctrl->forwardCommand($pp_gui);
-	
+				$ilTabs->setTabActive('info_short');
+				
+				include_once 'Services/Payment/classes/class.ilShopPurchaseGUI.php';	
+				$this->ctrl->setReturn($this, '');
+				$pp_gui = new ilShopPurchaseGUI($this->object->getRefId());
+				$this->ctrl->forwardCommand($pp_gui);	
 				return true;
-			}
-			
-			// add entry to navigation history
-			if (!$this->getCreationMode() &&
-				$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
-			{
-				$ilNavigationHistory->addItem($_GET["ref_id"],
-					"repository.php?cmd=frameset&ref_id=".$_GET["ref_id"], "crs");
-			}
-
+			}		
 		}
 
 		switch($next_class)

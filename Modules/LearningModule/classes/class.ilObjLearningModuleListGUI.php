@@ -151,15 +151,10 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 			case 'list':
 
 				include_once 'payment/classes/class.ilPaymentObject.php';
-
-				//$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
-				$showViewInFrameset = true;
-				
-				$isBuyable = ilPaymentObject::_isBuyable($this->ref_id);
-				if (($isBuyable && ilPaymentObject::_hasAccess($this->ref_id) == false) ||
-					$showViewInFrameset)
+				if (ilPaymentObject::_isBuyable($this->ref_id) && 
+					!ilPaymentObject::_hasAccess($this->ref_id))
 				{
-					$frame = ilFrameTargetInfo::_getFrame("MainContent");
+					$frame = '';
 				}
 				else
 				{

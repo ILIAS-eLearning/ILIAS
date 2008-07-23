@@ -32,7 +32,7 @@ include_once "Services/Mail/classes/class.ilMail.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI, ilPaymentGUI, ilPaymentAdminGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 *
 */
@@ -191,21 +191,7 @@ class ilPersonalDesktopGUI
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_PERSONAL_DESKTOP,0);
 				$ret =& $this->ctrl->forwardCommand($new_gui);
 				
-				break;
-			
-				// payment
-			case "ilpaymentgui":
-				$this->showShoppingCart();
-				break;
-
-			case "ilpaymentadmingui":				
-				$this->getStandardTemplates();
-				$this->setTabs();
-				include_once("./payment/classes/class.ilPaymentAdminGUI.php");
-				$pa =& new ilPaymentAdminGUI($ilUser);
-				$ret =& $this->ctrl->forwardCommand($pa);
-				$this->tpl->show();
-				break;
+				break;		
 
 			case "ilcolumngui":
 				$this->getStandardTemplates();
@@ -226,18 +212,6 @@ class ilPersonalDesktopGUI
 		return true;
 	}
 	
-	function showShoppingCart()
-	{
-		global $ilUser;
-		$this->getStandardTemplates();
-		$this->setTabs();
-		include_once("./payment/classes/class.ilPaymentGUI.php");
-		$pa =& new ilPaymentGUI($ilUser);
-		$ret =& $this->ctrl->forwardCommand($pa);
-		$this->tpl->show();
-		return true;
-	}
-
 	/**
 	* get standard templates
 	*/
@@ -612,35 +586,7 @@ class ilPersonalDesktopGUI
 			
 			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"),
 			$this->lng->txt("learning_progress"));
-		}
-		
-		include_once "./payment/classes/class.ilPaymentVendors.php";
-		include_once "./payment/classes/class.ilPaymentTrustees.php";
-		include_once "./payment/classes/class.ilPaymentShoppingCart.php";
-		include_once "./payment/classes/class.ilPaymentBookings.php";
-		
-		if(ilPaymentShoppingCart::_hasEntries($this->ilias->account->getId()) or
-		ilPaymentBookings::_getCountBookingsByCustomer($this->ilias->account->getId()))
-		{
-			$this->lng->loadLanguageModule('payment');
-
-			$cmd_classes = array('ilpaymentgui','ilpaymentshoppingcartgui','ilpaymentbuyedobjectsgui');
-			$inc_type = in_array(strtolower($this->cmdClass),$cmd_classes) ? 'tabactive' : 'tabinactive';
-
-			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPaymentGUI"),
-			$this->lng->txt("paya_shopping_cart"));
-		}
-		if(ilPaymentVendors::_isVendor($this->ilias->account->getId()) or
-		ilPaymentTrustees::_hasAccess($this->ilias->account->getId()))
-		{
-			$this->lng->loadLanguageModule('payment');
-
-			$cmd_classes = array('ilpaymentstatisticgui','ilpaymentobjectgui','ilpaymenttrusteegui','ilpaymentadmingui');
-			$inc_type = in_array(strtolower($this->cmdClass),$cmd_classes) ? 'tabactive' : 'tabinactive';
-
-			$inhalt1[] = array($inc_type, $this->ctrl->getLinkTargetByClass("ilPaymentAdminGUI"),
-			$this->lng->txt("paya_header"));
-		}
+		}	
 		
 		for ( $i=0; $i<sizeof($inhalt1); $i++)
 		{
@@ -719,8 +665,7 @@ class ilPersonalDesktopGUI
 								'ilpdnotesgui',
 								'ilcalendarpresentationgui',
 								'ilbookmarkadministrationgui',
-								'illearningprogressgui',
-								'ilpaymentadmingui');
+								'illearningprogressgui');
 
 		if(isset($_SESSION['il_pd_history']) and in_array($_SESSION['il_pd_history'],$stored_classes))
 		{
