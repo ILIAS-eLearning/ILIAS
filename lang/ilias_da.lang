@@ -3003,7 +3003,7 @@ search#:#search_type#:#Type
 search#:#search_page#:#Results:###29 05 2007 new variable
 search#:#search_page_next#:#Next###29 05 2007 new variable
 search#:#search_page_prev#:#Previou###29 05 2007 new variable
-assessment#:#search_results#:#Search Results###12 11 2006 new variable
+assessment#:#search_results#:#Søreresultater
 assessment#:#0_unlimited#:#(0=uendelig)
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Tilføj svar
@@ -3025,13 +3025,13 @@ assessment#:#answer_picture#:#Besvar billede
 assessment#:#answer_text#:#Besvar tekst
 assessment#:#applet_attributes#:#Applet attributer
 assessment#:#applet_new_parameter#:#Ny parameter
-assessment#:#applet_parameter#:#Parameter###21 Apr 2005 new variable
-assessment#:#applet_parameters#:#Applet parameters###21 Apr 2005 new variable
+assessment#:#applet_parameter#:#Parameter
+assessment#:#applet_parameters#:#Applet parametere
 assessment#:#apply#:#Tilføj
 assessment#:#assClozeTest#:#Cloze spørgsmål
-assessment#:#assImagemapQuestion#:#Image Map Question
-assessment#:#assJavaApplet#:#Java Applet Question
-assessment#:#assMatchingQuestion#:#Matching Question
+assessment#:#assImagemapQuestion#:#Billedklik spørgsmål
+assessment#:#assJavaApplet#:#Java Applet spørgsmål
+assessment#:#assMatchingQuestion#:#Match spørgsmål
 assessment#:#assMultipleChoice#:#Multiple choice spørgsmål (flere svar)
 assessment#:#assNumeric#:#Numerisk spørgsmål
 assessment#:#assOrderingQuestion#:#Sorteringsspørgsmål
@@ -3248,8 +3248,8 @@ assessment#:#failed_official#:#Fejl
 assessment#:#failed_short#:#Fejl
 assessment#:#false#:#Falsk
 assessment#:#feedback_answers#:#Feedback for every answer of the question###29 11 2006 new variable
-assessment#:#feedback_complete_solution#:#Correct solution###29 11 2006 new variable
-assessment#:#feedback_incomplete_solution#:#At least one answer is not correct###29 11 2006 new variable
+assessment#:#feedback_complete_solution#:#Korrekt besvaret
+assessment#:#feedback_incomplete_solution#:#Mindst et svar forkert
 assessment#:#fill_out_all_answer_fields#:#Udfyld venligst alle svarfelter før du tilføjer en ny!
 assessment#:#fill_out_all_matching_pairs#:#Udfyld venligst alle matchende par før du tilføjer en ny!
 assessment#:#fill_out_all_required_fields_add_answer#:#Udfyld venligst alle nødvendige felter før du tilføjer svar!
@@ -3369,17 +3369,17 @@ assessment#:#pass#:#Pass
 assessment#:#passed_official#:#bestået
 assessment#:#passed_only#:#Passed tests only###12 10 2006 new variable
 assessment#:#passed_short#:#bestået
-assessment#:#percentage#:#Percentage###29 11 2006 new variable
+assessment#:#percentage#:#Procent
 assessment#:#percentage_solved#:#Du har løst %.2f procent af disse spørgsmål!
 assessment#:#percentile#:#Procentvis
 assessment#:#picture#:#Picture
 assessment#:#please_select#:#-- Vælg venligst --
 assessment#:#point#:#Point
 assessment#:#points#:#Point
-assessment#:#points_checked#:#Points when checked
-assessment#:#points_short#:#Pt.###17 Aug 2005 new variable
-assessment#:#points_unchecked#:#Points when unchecked
-assessment#:#polygon#:#Polygon###21 Apr 2005 new variable
+assessment#:#points_checked#:#Point når valgt
+assessment#:#points_short#:#pt.
+assessment#:#points_unchecked#:#Point når fravalgt
+assessment#:#polygon#:#Polygon
 assessment#:#polygon_click_next_or_save#:#Klik venligst på det næste punkt på polygonen eller gem området. (Det er ikke nødvendigt at klikke igen på startpunktet!)
 assessment#:#polygon_click_next_point#:#Klik venligst på næste punkt på polygonen.
 assessment#:#polygon_click_starting_point#:#Klik venligst på startpunktet af polygonen.
@@ -3407,7 +3407,7 @@ assessment#:#qpl_edit_select_none#:#Marker venligst et spørgsmål at ændre
 assessment#:#qpl_export_excel#:#Microsoft Excel fil
 assessment#:#qpl_export_select_none#:#Marker venligst et spørgsmål for at eksportere det
 assessment#:#qpl_export_xml#:#QTI XML fil
-assessment#:#qpl_general_properties#:#General properties
+assessment#:#qpl_general_properties#:#Generelt
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS could not create the temporary preview file containing the imagemap areas. The original image is shown instead. This means that either the webserver's ImageMagick tool isn't configured correctly or there are no write permissions in the temporary dir
 assessment#:#qpl_import_create_new_qpl#:#Import the questions in a new question pool###17 Aug 2005 new variable
 assessment#:#qpl_import_no_items#:#Fejl: Den importerede fil indeholder ingen spørgsmål!
@@ -3733,22 +3733,22 @@ assessment#:#tst_title_output_full#:#Show Test Title and Available Points###29 1
 assessment#:#tst_title_output_hide_points#:#Show only Test Title###29 11 2006 new variable
 assessment#:#tst_title_output_no_title#:#Don't show the Test Title and the Available Points###29 11 2006 new variable
 assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the Test Title and the Available Points during the Test###29 11 2006 new variable
-assessment#:#tst_use_previous_answers#:#Use Previous Answers###26 10 2006 new variable
-assessment#:#tst_use_previous_answers_description#:#If checked, the previous answers of a participant will be used as default values in future test passes###26 10 2006 new variable
-assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes###26 10 2006 new variable
-assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes###12 11 2006 new variable
+assessment#:#tst_use_previous_answers#:#Tidligere svar
+assessment#:#tst_use_previous_answers_description#:#Hvis afkrydset anvendes de tidligere svar som standardværdier når testen tages igen.
+assessment#:#tst_use_previous_answers_user#:#Brug mine tidligere svar som standardværdier i fremtidige forsøg.
+assessment#:#tst_dont_use_previous_answers#:#Dine tidligere svar bruges som standardværdier i fremtidige besvarelser.
 assessment#:#tst_show_results#:#Vis testresultat
 assessment#:#tst_show_pass_details#:#Show Pass Details for running tests###30 05 2007 new variable
-assessment#:#tst_show_solution_details#:#Score details
-assessment#:#tst_show_solution_printview#:#Solution printview
+assessment#:#tst_show_solution_details#:#Score detaljer
+assessment#:#tst_show_solution_printview#:#Udskriftsvenlige løsninger
 assessment#:#tst_show_solution_feedback#:#Show AnswerSpecific Feedback in Test Results###10 05 2007 new variable
 assessment#:#tst_results_presentation_description#:#If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the End of a Test prior to the final submission###18 12 2006 new variable
 assessment#:#tst_show_summary#:#Show question summary
 assessment#:#tst_show_summary_description#:#Viser en oversigt over alle testspørgsmål der er tilgængelige under testen.
-assessment#:#tst_shuffle_questions#:#Shuffle questions
-assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every user on test start
-assessment#:#tst_signature#:#Signature###17 Aug 2005 new variable
-assessment#:#tst_start_new_test_pass#:#Start New Test Pass###12 11 2006 new variable
+assessment#:#tst_shuffle_questions#:#Bland spørgsmål
+assessment#:#tst_shuffle_questions_description#:#Bland spørgsmålssekvensen for hver bruger ved teststart
+assessment#:#tst_signature#:#Signatur
+assessment#:#tst_start_new_test_pass#:#Start ny testforsøg
 assessment#:#tst_start_test#:#Start testen
 assessment#:#tst_started#:#Test startet
 assessment#:#tst_starting_time#:#Starttid
@@ -3785,10 +3785,10 @@ assessment#:#tst_submit_answers#:#Ja, jeg vil sende mine svar
 assessment#:#tst_submit_answers_txt#:#You now may finish the test by submitting your answers.###17 Aug 2005 new variable
 assessment#:#tst_submit_results#:#Ja, jeg vil sende.
 assessment#:#tst_test_output#:#Test output###23 Dec 2005 new variable
-assessment#:#tst_text_count_system#:#Scoring system###17 Aug 2005 new variable
-assessment#:#tst_time_already_spent#:#Tid allerede brugt på arbejde###08 Apr 2006 content changed
-assessment#:#tst_time_already_spent_left#:#You have %s left.
-assessment#:#tst_total_questions#:#Total antal spørgsmål
+assessment#:#tst_text_count_system#:#Scoringssystem
+assessment#:#tst_time_already_spent#:#Tid allerede brugt på arbejde
+assessment#:#tst_time_already_spent_left#:#Du har %s tilbage.
+assessment#:#tst_total_questions#:#Totalt antal spørgsmål
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the questionpools are ignored. If you don't set this value, you need to enter an amount with every selected questionpool!###21 Apr 2005 new variable
 assessment#:#tst_tst_date#:#Testdato
 assessment#:#tst_type#:#Test type###21 Apr 2005 new variable
@@ -5069,56 +5069,56 @@ crs#:#event_add_new_event#:#Added new session
 crs#:#event_assign_materials#:#Assign Materials
 crs#:#event_assign_materials_info#:#Tildelte kursusmaterialer vil blive anført direkte under sessionen
 crs#:#event_assign_materials_table#:#Tildeling af kursusmaterialer
-crs#:#event_btn_add#:#Add Session
-crs#:#event_date#:#Date of Session:
-crs#:#event_date_time#:#Date & Time
-crs#:#event_delete_file#:#Delete File?
-crs#:#event_delete_sure#:#Do really want to delete this session?
-crs#:#event_desc#:#Description
-crs#:#event_details_workflow#:#Details/Workflow
+crs#:#event_btn_add#:#Tilføj Session
+crs#:#event_date#:#Periode:
+crs#:#event_date_time#:#Dato og tid
+crs#:#event_delete_file#:#Slet fil?
+crs#:#event_delete_sure#:#Vil du slette denne session?
+crs#:#event_desc#:#Beskrivelse
+crs#:#event_details_workflow#:#Detaljer/arbejdsgang
 crs#:#event_edit_members#:#Rediger kursusdeltagere
-crs#:#event_end_date#:#End
-crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
+crs#:#event_end_date#:#Slut
+crs#:#event_etime_smaller_stime#:#Sluttidspunkt ligger før starttidspunkt. Indtast en gyldig periode.
 crs#:#event_existing_files#:#Existing Files:
 crs#:#event_file#:#File
 crs#:#event_file_download#:#Filer til download
 crs#:#event_file_name#:#Filnavn
 crs#:#event_file_size_info#:#Fil størrelse
-crs#:#event_full_time_info#:#full-time
-crs#:#event_fullday#:#Full-Time
+crs#:#event_full_time_info#:#fuldtid
+crs#:#event_fullday#:#Fuld tid
 crs#:#event_fulltime_info#:#Ingen tid angivet
 crs#:#event_further_informations#:#Flere informationer
 crs#:#event_general_infos#:#Generalt
 crs#:#event_general_properties#:#General Informations
 crs#:#event_lecturer#:#Navn
-crs#:#event_location#:#Location
-crs#:#event_participation#:#Participation
+crs#:#event_location#:#Lokalition
+crs#:#event_participation#:#Deltagelse
 crs#:#event_register#:#Register
-crs#:#event_registered#:#You have been registered to this session.
+crs#:#event_registered#:#Du er blevet tilmeldt denne session.
 crs#:#event_registration#:#Registration
-crs#:#event_registration_info#:#Allow users to register to the session.
+crs#:#event_registration_info#:#Tillad brugere at tilmelde sig sessionen.
 crs#:#event_registration_participance#:#Registration
 crs#:#event_save_participants#:#Save Participance
 crs#:#event_start_date#:#Start
-crs#:#event_table_create#:#New Session
-crs#:#event_table_update#:#Edit Session
+crs#:#event_table_create#:#Ny session
+crs#:#event_table_update#:#Rediger session
 crs#:#event_tbl_participants#:#Liste over deltagere
 crs#:#event_tbl_participated#:#Participated
 crs#:#event_tbl_registered#:#Registered
 crs#:#event_time#:#Time
 crs#:#event_title#:#Titel
-crs#:#event_tutor_data#:#Informations About the Lecturer
-crs#:#event_unregister#:#Unregister
-crs#:#event_unregistered#:#You have been unregistered.
-crs#:#event_updated#:#Saved Settings
-crs#:#events#:#Sessions
-crs#:#events_deleted#:#Session deleted
+crs#:#event_tutor_data#:#Information om underviseren
+crs#:#event_unregister#:#Frameld
+crs#:#event_unregistered#:#Du er blevet frameldt
+crs#:#event_updated#:#Ændringer gemt
+crs#:#events#:#Sessioner
+crs#:#events_deleted#:#Session slettet
 crs#:#import_crs#:#Importer kursus
 crs#:#learners_view#:#Kursusdeltagerens billede
 crs#:#subscription_times_not_valid#:#Kursustilmeldingsperioden er ikke gyldig
 crs#:#timing_accept_table#:#Timings: Remarks
-crs#:#timing_accepted#:#Accepted
-crs#:#timing_not_accepted#:#Not Accepted
+crs#:#timing_accepted#:#Accepteret
+crs#:#timing_not_accepted#:#Ikke accepteret
 crs#:#timing_remark#:#Bemærkning
 crs#:#timing_tutor_visible#:#Remark is visible for course tutors
 crs#:#timing_user_accept#:#Accept Timings
@@ -5144,9 +5144,9 @@ crs#:#crs_map_location#:#Placering
 crs#:#crs_members_map#:#Kort over kursister
 crs#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable
-crs#:#crs_subscriber#:#Subscriber###25 02 2007 new variable
+crs#:#crs_subscriber#:#Tilmeldt
 crs#:#export_members#:#Eksporter kursister
-crs#:#crs_agreement_header#:#User Agreement###25 02 2007 new variable
+crs#:#crs_agreement_header#:#Brugeraftele
 crs#:#crs_user_agreement#:#Released Data Types###25 02 2007 new variable
 crs#:#crs_info_agreement#:#The following data tyes are visible for course administrators:###25 02 2007 new variable
 crs#:#crs_agree#:#Acceptance###25 02 2007 new variable
@@ -7106,7 +7106,7 @@ survey#:#svy_eval_detail#:#Akkumulerede resultater (detaljer)
 survey#:#svy_eval_user#:#Brugerspecifikke resultater
 survey#:#svy_export_files#:#Exporter filer
 survey#:#svy_file#:#Fil
-survey#:#svy_general_properties#:#General properties
+survey#:#svy_general_properties#:#Generelt
 survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.
 survey#:#svy_missing_author#:#Du har ikke indtastet forfatters navn i undersøgelsesegenskaber! Indtast venligst forfatters navn.
 survey#:#svy_missing_questions#:#Du har ikke lavet nogen spørgsmål til denne undersøgelse! Tilføj venligst minimum 1 spørgsmål.
