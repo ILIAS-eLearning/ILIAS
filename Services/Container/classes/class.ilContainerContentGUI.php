@@ -199,7 +199,7 @@ abstract class ilContainerContentGUI
 			}
 			else
 			{
-				$html = $this->getView();
+				$html = $this->getMainContent();
 			}
 		}
 
@@ -412,6 +412,7 @@ abstract class ilContainerContentGUI
 			$a_item_data['obj_id'], $a_item_data['title'], $a_item_data['description']);
 		$this->determineAdminCommands($a_item_data["ref_id"],
 			$item_list_gui->adminCommandsIncluded());
+			
 			
 		return $html;
 	}

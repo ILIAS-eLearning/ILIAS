@@ -516,6 +516,8 @@ class ilContainerGUI extends ilObjectGUI
 			}
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
+				include_once('./Services/Container/classes/class.ilContainer.php');
+				
 				if ($this->object->getOrderType() == IL_CNTR_SORT_MANUAL)
 				{
 					$tpl->setCurrentBlock('admin_panel_cmd');
