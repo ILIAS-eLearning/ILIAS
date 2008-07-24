@@ -27,11 +27,11 @@
 /**
 * Class ilRegistrationGUI
 *
-* @author Stefan Meyer <smeyer@databay.de> 
+* @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
 * @ilCtrl_Calls ilRegistrationGUI:
-* 
+*
 * @ingroup ServicesRegistration
 */
 
@@ -51,7 +51,7 @@ class ilRegistrationGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this,'lang');
-		
+
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('registration');
 
@@ -61,7 +61,7 @@ class ilRegistrationGUI
 	function executeCommand()
 	{
 		global $ilErr, $tpl;
-		
+
 		if($this->registration_settings->getRegistrationType() == IL_REG_DISABLED)
 		{
 			$ilErr->raiseError($this->lng->txt('reg_disabled'),$ilErr->FATAL);
@@ -99,7 +99,7 @@ class ilRegistrationGUI
 			ilUtil::getImagePath("icon_usr_b.gif"));
 		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".$this->userObj->getTitle()."!");
-		
+
 		if ($this->registration_settings->getRegistrationType() == IL_REG_DIRECT and
 			!$this->registration_settings->passwordGenerationEnabled())
 		{
@@ -120,7 +120,7 @@ class ilRegistrationGUI
 		{
 			$this->tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered_passw_gen"));
 		}
-	}		
+	}
 
 	function displayForm()
 	{
@@ -144,7 +144,7 @@ class ilRegistrationGUI
 			$data["fields"]["passwd"] = "";
 			$data["fields"]["passwd2"] = "";
 		}
-    
+
 		$data["fields"]["title"] = "";
 		$data["fields"]["gender"] = "";
 		$data["fields"]["firstname"] = "";
@@ -172,7 +172,7 @@ class ilRegistrationGUI
 			{
 				$str = $lng->txt("person_title");
 			}
-		
+
 			if (!in_array($key, array("login", "passwd", "passwd2",
 									  "firstname", "lastname", "gender")))
 			{
@@ -194,7 +194,7 @@ class ilRegistrationGUI
 
 			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 			$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($_POST['user'][$key],true));
-		
+
 			if (!in_array($key, array("login", "passwd", "passwd2",
 									  "firstname", "lastname", "gender")))
 			{
@@ -237,10 +237,10 @@ class ilRegistrationGUI
 
 		// language selection
 		$languages = $lng->getInstalledLanguages();
-	
+
 		$count = (int) round(count($languages) / 2);
 		$num = 1;
-		
+
 		foreach ($languages as $lang_key)
 		{
 			/*
@@ -261,9 +261,9 @@ class ilRegistrationGUI
 
 			$num++;
 		}
-		
+
 		// preselect previous chosen language otherwise default language
-		$selected_lang = (isset($_POST["user"]["language"])) ? 
+		$selected_lang = (isset($_POST["user"]["language"])) ?
 			$_POST["user"]["language"] : $lng->lang_key;
 
 		foreach ($languages as $lang_key)
@@ -372,7 +372,7 @@ class ilRegistrationGUI
 
 
 	function saveForm()
-	{		
+	{
 		global $ilias, $lng, $rbacadmin, $ilDB, $ilErr;
 
 		//load ILIAS settings
@@ -391,7 +391,7 @@ class ilRegistrationGUI
 		{
 			if (substr($key,0,8) == "require_")
 			{
-				if ($this->registration_settings->passwordGenerationEnabled() and 
+				if ($this->registration_settings->passwordGenerationEnabled() and
 					($key == "require_passwd" or $key == "require_passwd2"))
 				{
 					continue;
@@ -400,7 +400,7 @@ class ilRegistrationGUI
 				{
 					continue;
 				}
-            
+
 				$require_keys[] = substr($key,8);
 			}
 		}
@@ -424,7 +424,7 @@ class ilRegistrationGUI
 			$this->displayForm();
 			return false;
 		}
-		
+
 		// validate username
 		if (!ilUtil::isLogin($_POST["user"]["login"]))
 		{
@@ -452,15 +452,17 @@ class ilRegistrationGUI
 			}
 
 			// validate password
-			if (!ilUtil::isPassword($_POST["user"]["passwd"]))
+			if (!ilUtil::isPassword($_POST["user"]["passwd"],$custom_error))
 			{
-				ilUtil::sendInfo($lng->txt("passwd_invalid"),true);
+				if($custom_error != '') ilUtil::sendInfo($custom_error,true);
+				else ilUtil::sendInfo($lng->txt("passwd_invalid"),true);
+
 				$this->displayForm();
 				return false;
 			}
 		}
 		else
-		{    
+		{
 			$passwd = ilUtil::generatePasswords(1);
 			$_POST["user"]["passwd"] = $passwd[0];
 		}
@@ -493,13 +495,13 @@ class ilRegistrationGUI
 
 		// Time limit
 		$this->userObj->setTimeLimitOwner(7);
-		
+
 		if ($this->registration_settings->getAccessLimitation())
 		{
 			include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
 
 			$access_limitations_obj = new ilRegistrationRoleAccessLimitations();
-			
+
 			if ($this->registration_settings->roleSelectionEnabled())
 			{
 				$default_role = $_POST['user']['default_role'];
@@ -512,9 +514,9 @@ class ilRegistrationGUI
 				$registration_role_assignments = new ilRegistrationRoleAssignments();
 				$default_role = $registration_role_assignments->getRoleByEmail($this->userObj->getEmail());
 			}
-			
+
 			$access_limit_mode = $access_limitations_obj->getMode($default_role);
-		
+
 			if ($access_limit_mode == 'absolute')
 			{
 				$access_limit = $access_limitations_obj->getAbsolute($default_role);
@@ -526,7 +528,7 @@ class ilRegistrationGUI
 				$rel_d = (int) $access_limitations_obj->getRelative($default_role,'d');
 				$rel_m = (int) $access_limitations_obj->getRelative($default_role,'m');
 				$rel_y = (int) $access_limitations_obj->getRelative($default_role,'y');
-				
+
 				$access_limit = $rel_d * 86400 + $rel_m * 2592000 + $rel_y * 31536000 + time();
 				$this->userObj->setTimeLimitUnlimited(0);
 				$this->userObj->setTimeLimitUntil($access_limit);
@@ -535,7 +537,7 @@ class ilRegistrationGUI
 			{
 				$this->userObj->setTimeLimitUnlimited(1);
 				$this->userObj->setTimeLimitUntil(time());
-			}			
+			}
 		}
 		else
 		{
@@ -559,9 +561,15 @@ class ilRegistrationGUI
 
 		$this->userObj->updateOwner();
 
+
+		// set a timestamp for last_password_change
+		// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
+		// in ilSecuritySettings
+		$this->userObj->setLastPasswordChangeTS( time() );
+
 		//insert user data in table user_data
 		$this->userObj->saveAsNew();
-	
+
 		// store acceptance of user agreement
 		$this->userObj->writeAccepted();
 
@@ -598,7 +606,7 @@ class ilRegistrationGUI
 
 		// validate role
 		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
-		if ($this->registration_settings->roleSelectionEnabled() and 
+		if ($this->registration_settings->roleSelectionEnabled() and
 			!ilObjRole::_lookupAllowRegister($_POST["user"]["default_role"]))
 		{
 			$ilias->raiseError("Invalid role selection in registration: ".
@@ -618,7 +626,7 @@ class ilRegistrationGUI
 			return $rbacadmin->assignUser((int) $_POST['user']['default_role'],
 										  $this->userObj->getId(),true);
 		}
-		
+
 		// Assign by email
 		include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
 
@@ -627,7 +635,7 @@ class ilRegistrationGUI
 		return $rbacadmin->assignUser((int) $registration_role_assignments->getRoleByEmail($this->userObj->getEmail()),
 									  $this->userObj->getId(),
 									  true);
-			
+
 	}
 
 	function __showRoleSelection()
@@ -636,7 +644,7 @@ class ilRegistrationGUI
 		{
 			return true;
 		}
-		
+
 		// TODO put query in a function
 		include_once("./Services/AccessControl/classes/class.ilObjRole.php");
 		$reg_roles = ilObjRole::_lookupRegisterAllowed();
@@ -660,14 +668,14 @@ class ilRegistrationGUI
 	function __distributeMails()
 	{
 		global $ilias;
-		
+
 		include_once './Services/Language/classes/class.ilLanguage.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
         include_once "Services/Mail/classes/class.ilFormatMail.php";
 
 
 		$settings = $ilias->getAllSettings();
-		
+
 		// Always send mail to approvers
         #if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
@@ -692,14 +700,14 @@ class ilRegistrationGUI
 			}
 		}
 		// Send mail to new user
-		
+
 		// try individual account mail in user administration
 		include_once("Services/Mail/classes/class.ilAccountMail.php");
 		include_once './Services/User/classes/class.ilObjUserFolder.php';
 		$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
 		if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 		{
-			$acc_mail = new ilAccountMail();		
+			$acc_mail = new ilAccountMail();
 			$acc_mail->setUser($this->userObj);
 			if ($this->registration_settings->passwordGenerationEnabled())
 			{
@@ -718,14 +726,14 @@ class ilRegistrationGUI
 
 			// mail subject
 			$subject = $this->lng->txt("reg_mail_subject");
-	
+
 			// mail body
 			$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
 				$this->lng->txt("reg_mail_body_text1")."\n\n".
 				$this->lng->txt("reg_mail_body_text2")."\n".
 				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n".
 				$this->lng->txt("login").": ".$this->userObj->getLogin()."\n";
-				
+
 			if ($this->registration_settings->passwordGenerationEnabled())
 			{
 				$body.= $this->lng->txt("passwd").": ".$_POST["user"]["passwd"]."\n";

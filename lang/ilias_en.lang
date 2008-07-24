@@ -118,7 +118,7 @@ administration#:#passwd_auto_generate#:#Password Forwarding/Generation
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
 administration#:#purge_count_limit#:#Limit count
-administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged. 
+administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged.
 administration#:#purge_age_limit#:#Limit age
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.
 administration#:#purge_type_limit#:#Limit type
@@ -522,7 +522,7 @@ assessment#:#graphical_answers_hide#:#Hide Graphical Answer Support
 assessment#:#graphical_answers_show#:#Show Graphical Answer Support
 assessment#:#height#:#Height
 assessment#:#identical_scoring#:#Identical Scoring
-assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored. 
+assessment#:#identical_scoring_desc#:#If selected, gaps with identical solutions will be scored, even if the same solution was used twice or more. If not selected, only the first occurence of the same solution will be scored.
 assessment#:#imagemap#:#Image Map
 assessment#:#imagemap_file#:#Image Map File
 assessment#:#imagemap_source#:#Image Map Source
@@ -2843,7 +2843,7 @@ common#:#lm_read#:#Read access to ILIAS Learning Module
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2 (Java-RTE)
-common#:#lm_type_scorm2004#:#SCORM 1.2/2004 (JavaScript-RTE) 
+common#:#lm_type_scorm2004#:#SCORM 1.2/2004 (JavaScript-RTE)
 common#:#lm_visible#:#ILIAS Learning Module is visible
 common#:#lm_write#:#Edit ILIAS Learning Module
 common#:#lng#:#Language
@@ -4177,7 +4177,7 @@ common#:#usrf_write#:#Edit user accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
-common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database. 
+common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.
 common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database).
@@ -4298,7 +4298,7 @@ content#:#cont_center#:#Center
 content#:#cont_left_float#:#Left, Floating
 content#:#cont_right_float#:#Right, Floating
 content#:#cont_alphabetic#:#Alphabetic A, B, ...
-content#:#cont_alphabetic_s#:#Alphabetic a, b, ... 
+content#:#cont_alphabetic_s#:#Alphabetic a, b, ...
 content#:#cont_Circle#:#Circle
 content#:#cont_delete_track_data#:#Delete Tracking Data
 content#:#cont_Citation#:#Citation
@@ -4317,7 +4317,7 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Remark#:#Remark
 content#:#cont_roman#:#Roman I, II, ...
-content#:#cont_roman_s#:#Roman i, ii, ...  
+content#:#cont_roman_s#:#Roman i, ii, ...
 content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
 content#:#cont_act_number#:#Chapter Numeration
@@ -4567,7 +4567,7 @@ content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
-content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s". 
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
 content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
 content#:#cont_mob_prop#:#Object Properties
@@ -4800,8 +4800,8 @@ crs#:#activation_times_not_valid#:#The availability period is not valid.
 crs#:#add_event#:#Add Session
 crs#:#assigned#:#Assigned
 crs#:#contact_email_not_valid#:#the contact e-mail is not valid.
-crs#:#crs_accept_subscriber#:#Admission to course "%s" 
-crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s". 
+crs#:#crs_accept_subscriber#:#Admission to course "%s"
+crs#:#crs_accept_subscriber_body#:#You have been admitted to course "%s".
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Activation
 crs#:#crs_news#:#Course News
@@ -4817,8 +4817,8 @@ crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items t
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
-crs#:#crs_added_member#:#Addmission to course "%s" 
-crs#:#crs_added_member_body#:#You have been admitted to course "%s". 
+crs#:#crs_added_member#:#Addmission to course "%s"
+crs#:#crs_added_member_body#:#You have been admitted to course "%s".
 crs#:#crs_added_new_archive#:#A new archive has been added
 crs#:#crs_added_objective#:#A new learning objective has been created.
 crs#:#crs_added_starters#:#Assigned start object(s).
@@ -4844,10 +4844,10 @@ crs#:#crs_availability_limitless_info#:#Choose this mode for making the course a
 crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).
 crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.
 crs#:#crs_blocked#:#Access Refused
-crs#:#crs_blocked_member#:#Membership status in course "%s" 
-crs#:#crs_blocked_member_body#:#Your membership for course "%s" has been blocked. 
-crs#:#crs_cancel_subscription#:#Resigned from course "%s" 
-crs#:#crs_cancel_subscription_body#:#A member has resigned from course "%s". 
+crs#:#crs_blocked_member#:#Membership status in course "%s"
+crs#:#crs_blocked_member_body#:#Your membership for course "%s" has been blocked.
+crs#:#crs_cancel_subscription#:#Resigned from course "%s"
+crs#:#crs_cancel_subscription_body#:#A member has resigned from course "%s".
 crs#:#crs_change_status#:#Changes status of objective:
 crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.
 crs#:#crs_contact#:#Contact
@@ -4873,7 +4873,7 @@ crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected o
 crs#:#crs_delete_subscribers#:#Delete subscriber
 crs#:#crs_delete_subscribers_sure#:#Do you want to delete the following users
 crs#:#crs_details#:#Course Details
-crs#:#crs_dismiss_member#:#Terminated membership for course "%s" 
+crs#:#crs_dismiss_member#:#Terminated membership for course "%s"
 crs#:#crs_dismiss_member_body#:#You membership for course "%s" has been terminated!
 crs#:#crs_edit_archive#:#Edit Archives
 crs#:#crs_edit_content#:#Edit items
@@ -4965,10 +4965,10 @@ crs#:#crs_move_up#:#Move up
 crs#:#crs_moved_item#:#Moved course item
 crs#:#crs_moved_objective#:#Moved learning objective.
 crs#:#crs_new_search#:#New search
-crs#:#crs_new_subscription#:#User joined course "%s" 
+crs#:#crs_new_subscription#:#User joined course "%s"
 crs#:#crs_new_subscription_body#:#A user has joined course "%s".
-crs#:#crs_new_subscription_request#:#Request to join course "%s" 
-crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s". 
+crs#:#crs_new_subscription_request#:#Request to join course "%s"
+crs#:#crs_new_subscription_request_body#:#A user has requested to join course "%s".
 crs#:#crs_new_subscription_request_body2#:#You have to call the member administration of that course for accepting or refusing the membership request.
 crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
@@ -5072,7 +5072,7 @@ crs#:#crs_registration_deactivated#:#Choose this option for disabling course reg
 crs#:#crs_registration_limited#:#Limited Registration Period
 crs#:#crs_registration_type#:#Registration Procedure
 crs#:#crs_registration_unlimited#:#Unlimited Registration Period
-crs#:#crs_reject_subscriber#:#Declined for course "%s" 
+crs#:#crs_reject_subscriber#:#Declined for course "%s"
 crs#:#crs_reject_subscriber_body#:#Your request to join course "%s" has been declined.
 crs#:#crs_reset_results#:#Reset results
 crs#:#crs_role#:#Role
@@ -7504,7 +7504,7 @@ ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_attribute#:#Attribute for Login Name
 ldap#:#ldap_search_filter#:#LDAP Filter
 ldap#:#ldap_group_restrictions#:#Group Membership Restrictions
-ldap#:#ldap_group_dn#:#Group DN 
+ldap#:#ldap_group_dn#:#Group DN
 ldap#:#ldap_group_scope#:#Search Scope
 ldap#:#ldap_group_filter#:#LDAP Filter
 ldap#:#ldap_group_name#:#Group Name
@@ -7661,7 +7661,7 @@ crs#:#event_digit#:#Digit
 crs#:#event_csv_export#:#CSV Export
 crs#:#event_participated#:#Participated
 crs#:#event_not_participated#:#Not Participated
-common#:#obj_webr_duplicate#:#Copy Web Resource 
+common#:#obj_webr_duplicate#:#Copy Web Resource
 common#:#obj_webr_select#:#-- Please select one Web Resource --
 common#:#obj_file_duplicate#:#Copy File
 common#:#obj_file_select#:#-- Please select one File --
@@ -7980,7 +7980,7 @@ grp#:#grp_select_one_file#:#Please select one file.
 assessment#:#passes_finished#:#%s passes
 assessment#:#pass_finished#:#%s pass
 rbac#:#recf_edit_permission#:#Change permission settings
-rbac#:#recf_visible#:#Restored Objects are visible 
+rbac#:#recf_visible#:#Restored Objects are visible
 rbac#:#recf_read#:#Read access to Restored Objects
 rbac#:#recf_write#:#Edit Restored Objects
 grp#:#grp_unsubscribe#:#Unsubscribe
@@ -7989,7 +7989,7 @@ administration#:#auth_auth_mode_determination#:#Authentication Method Determinat
 administration#:#auth_kind_determination#:#Kind of Determination
 administration#:#auth_by_user#:#By the User
 administration#:#auth_automatic#:#Fixed Sequence
-administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods. 
+administration#:#auth_mode_determination_info#:#Choose either if the users have to select their authentication method on the login screen or if this is managed by a fixed sequence of authentication methods.
 rbac#:#mds_edit_permission#:#Change permission settings
 rbac#:#mds_visible#:#Metadata settings are visible
 rbac#:#mds_read#:#Read access to Metadata settings
@@ -8156,11 +8156,11 @@ content#:#cont_export_tracking#:#Export Tracking Data
 content#:#cont_export_raw#:#CMI (RAW) data
 content#:#cont_export_success#:#Success-data (aggregated)
 content#:#cont_export_type#:#Export-Type
-content#:#cont_import_tracking#:#Import Tracking Data	
+content#:#cont_import_tracking#:#Import Tracking Data
 content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsmanifest.xml is not changed
 content#:#cont_new_module_added#:#New version of module uploaded successfully
 common#:#attempts#:#Attempts
-common#:#decrease_attempts#:#Attempts - 1 
+common#:#decrease_attempts#:#Attempts - 1
 grp#:#grp_closed#:#Closed Group
 grp#:#grp_closed_info#:#Group is not visible for non-members.
 grp#:#grp_reg_disabled#:#No Registration Possible
@@ -8222,13 +8222,13 @@ grp#:#grp_information_info#:#This information will be show on the info page and 
 grp#:#reg_grp_max_members#:#Limited Number of Members
 grp#:#grp_reg_limited#:#Registration Period
 grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group
-dateplaner#:#grp_cal_reg_end#:#Registration End 
+dateplaner#:#grp_cal_reg_end#:#Registration End
 dateplaner#:#grp_cal_reg_start#:#Registration Start
 grp#:#grp_membership_request_subject#:#%1$s %2$s would like to join group "%3$s".
 grp#:#grp_membership_request_body#:#%1$s %2$s has requested membership for group "%5$s".\n\nPlease accept or refuse this request on the "Join Requests" page of the group.\n\nGroup: %5$s", %6$s\n\nRequestor: %1$s %2$s, %3$s, mailto:%4$s.\n\nSubject:\n%7$s
-grp#:#grp_accept_subscriber#:#Admission to group "%s" 
-grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2$s 
-grp#:#grp_reject_subscriber#:#Declined for group "%s" 
+grp#:#grp_accept_subscriber#:#Admission to group "%s"
+grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2$s
+grp#:#grp_reject_subscriber#:#Declined for group "%s"
 grp#:#grp_reject_subscriber_body#:#Your request to join group "%s" has been declined.
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
 assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.
@@ -8419,7 +8419,7 @@ dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)
 dateplaner#:#cal_apps#:#Number of Appointments
 dateplaner#:#cal_share_accept#:#Accept Invitation
 dateplaner#:#cal_share_decline#:#Decline Invitation
-dateplaner#:#cal_changed_events_header#:#Changed Appointments 
+dateplaner#:#cal_changed_events_header#:#Changed Appointments
 dateplaner#:#cal_accepted#:#Accepted
 dateplaner#:#cal_declined#:#Declined
 trac#:#trac_mode_event#:#Participation in Sessions
@@ -8478,3 +8478,32 @@ mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without auth
 mcst#:#mcst_default_visibility#:#Default Access
 mcst#:#mcst_visibility_users#:#Logged in Users
 mcst#:#mcst_visibility_public#:#Public
+ps#:#ps_account_security_mode#:#Account Security
+ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
+ps#:#ps_account_security_mode_customized#:#Customized Account Security
+ps#:#ps_password_min_length#:#Minimum Password Size
+ps#:#ps_password_max_length#:#Maximum Password Size
+ps#:#ps_password_chars_and_numbers_enabled#:#Characters and Numbers
+ps#:#ps_password_special_chars_enabled#:#Special Characters
+ps#:#ps_password_max_age#:#Maximum Password Age
+ps#:#ps_login_max_attempts#:#Maximum Login Attempts
+ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.
+ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.
+ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.
+ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.
+ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set this to 0 for disabling this option.
+ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Set this to 0 for disabling this option.
+ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.
+ps#:#ps_error_message_invalid_password_max_length#:#Maximum password size may not be less than 0.
+ps#:#ps_error_message_invalid_password_max_age#:#Maximum password age may not be less than 0.
+ps#:#ps_error_message_invalid_login_max_attempts#:#Maximum login attempts may not be less than 0.
+ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than 2 if password have to contain characters and numbers.
+ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.
+ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be less than minimum password size.
+common#:#password_empty#:#The password must not be empty.
+common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.
+common#:#new_pass_equals_old_pass#:#The new password equals the old one.
+common#:#password_to_short#:#The password must have at least a size of %s characters.
+common#:#password_to_long#:#The password must have at most a size of %s characters.
+common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.
+common#:#password_must_special_chars#:#The password must contain special characters.

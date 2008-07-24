@@ -92,6 +92,16 @@ class ilPersonalDesktopGUI
 			$this->ctrl->redirectByClass("ilpersonalprofilegui");
 		}
 		
+		if( $ilUser->isPasswordExpired() && $next_class != "ilpersonalprofilegui" )
+		{
+			$msg = $this->lng->txt('password_expired');
+			$password_age = $ilUser->getPasswordAge();
+
+			ilUtil::sendInfo( sprintf($msg,$password_age), true );
+
+			$this->ctrl->redirectByClass("ilpersonalprofilegui");
+		}
+
 		// read last active subsection
 		if($_GET['PDHistory'])
 		{

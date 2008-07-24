@@ -74,6 +74,16 @@ class ilMailGUI
 		}
 		
 		
+		if( $ilUser->isPasswordExpired() )
+		{
+			$msg = $this->lng->txt('password_expired');
+			$password_age = $ilUser->getPasswordAge();
+
+			ilUtil::sendInfo( sprintf($msg,$password_age), true );
+
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
+
 		if ($_GET["type"] == "search_res")
 		{
 			$this->ctrl->setParameterByClass("ilmailformgui", "cmd", "searchResults");

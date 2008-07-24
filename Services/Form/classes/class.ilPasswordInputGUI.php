@@ -222,9 +222,10 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 
 			return false;
 		}
-		if (!ilUtil::isPassword($_POST[$this->getPostVar()]) && $_POST[$this->getPostVar()] != "")
+		if (!ilUtil::isPassword($_POST[$this->getPostVar()],$custom_error) && $_POST[$this->getPostVar()] != "")
 		{
-			$this->setAlert($lng->txt("passwd_invalid"));
+			if($custom_error != '') $this->setAlert($custom_error);
+			else $this->setAlert($lng->txt("passwd_invalid"));
 
 			return false;
 		}

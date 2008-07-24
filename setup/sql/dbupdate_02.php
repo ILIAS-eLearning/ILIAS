@@ -325,7 +325,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-<#900> 
+<#900>
 CREATE TABLE `reg_access_limitation` (
   `role_id` int(11) unsigned NOT NULL,
   `limit_absolute` int(11) unsigned default NULL,
@@ -334,7 +334,7 @@ CREATE TABLE `reg_access_limitation` (
   `limit_relative_y` int(11) unsigned default NULL,
   `limit_mode` enum('absolute','relative','unlimited') NOT NULL,
   PRIMARY KEY  (`role_id`)
-) ENGINE=MyISAM; 
+) ENGINE=MyISAM;
 <#901>
 <?php
 $ilCtrlStructureReader->getStructure();
@@ -363,7 +363,7 @@ CREATE TABLE `tmp_migration` (
   `obj_id` int(11) NOT NULL default '0',
   `passed` tinyint(4) NOT NULL default '0');
 
-ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` ); 
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 
 <#908>
 <?php
@@ -394,12 +394,12 @@ foreach($file_ids as $file_id)
 	{
 		continue;
 	}
-	
+
 	if(!@file_exists(ilUpdateUtils::getDataDir().'/files/file_'.$file_id) or !@is_dir(ilUpdateUtils::getDataDir().'/files/file_'.$file_id))
 	{
 		$ilLog->write('DB Migration 905: Failed: No data found for file_'.$file_id);
 		continue;
-	}	
+	}
 
 	// Rename
 	$fss = new ilFSStorageFile($file_id);
@@ -415,11 +415,11 @@ foreach($file_ids as $file_id)
 		$ilLog->write('DB Migration 905: Failed renaming '.ilUpdateUtils::getDataDir().'/files/file_'.$file_id.' -> '.$fss->getAbsolutePath());
 		continue;
 	}
-	
+
 	// Save success
 	$query = "REPLACE INTO tmp_migration SET obj_id = '".$file_id."',passed = '1'";
 	$ilDB->query($query);
-	
+
 	// Update file size
 	$size = ilObjFileAccess::_lookupFileSize($file_id);
 	$query = "UPDATE file_data SET file_size = '".$size."' ".
@@ -607,12 +607,12 @@ foreach($event_ids as $event_id)
 	{
 		continue;
 	}
-	
+
 	if(!@file_exists(ilUpdateUtils::getDataDir().'/events/event_'.$event_id))
 	{
 		$ilLog->write('DB Migration 905: Failed: No data found for event id '.$event_id);
 		continue;
-	}	
+	}
 
 	// Rename
 	$fss = new ilFSStorageEvent($event_id);
@@ -628,7 +628,7 @@ foreach($event_ids as $event_id)
 		$ilLog->write('DB Migration 905: Failed renaming '.ilUpdateUtils::getDataDir().'/events/event_'.$event_id.' -> '.$fss->getAbsolutePath());
 		continue;
 	}
-	
+
 	// Save success
 	$query = "REPLACE INTO tmp_migration SET obj_id = '".$event_id."',passed = '1'";
 	$ilDB->query($query);
@@ -664,7 +664,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$archive_ids[$row->archive_ids]['id'] = $row->archive_ids;
 	$archive_ids[$row->archive_ids]['name'] = $row->archive_name;
 	$archive_ids[$row->archive_ids]['course_id'] = $row->course_id;
-	
+
 }
 
 foreach($archive_ids as $archive_id => $data)
@@ -676,12 +676,12 @@ foreach($archive_ids as $archive_id => $data)
 	{
 		continue;
 	}
-	
+
 	if(!@file_exists(ilUpdateUtils::getDataDir().'/course/'.$data['name']))
 	{
 		$ilLog->write('DB Migration 930: Failed: No data found for archive id '.$data['name']);
 		continue;
-	}	
+	}
 
 	// Rename
 	$fss = new ilFSStorageCourse($data['course_id']);
@@ -703,7 +703,7 @@ foreach($archive_ids as $archive_id => $data)
 			 $fss->getArchiveDirectory().'/'.$data['name']);
 		continue;
 	}
-	
+
 	// Save success
 	$query = "REPLACE INTO tmp_migration SET obj_id = '".$archive_id."',passed = '1'";
 	$ilDB->query($query);
@@ -812,7 +812,7 @@ if(!$res->numRows())
 	{
 		$ldap_old[$row->keyword] = $row->value;
 	}
-	
+
 	if($ldap_old['ldap_server'])
 	{
 		$ldap_new['name'] = 'Default Server';
@@ -833,7 +833,7 @@ if(!$res->numRows())
 		$ldap_new['user_scope'] = 0;
 		$ldap_new['user_attribute'] = $ldap_old['ldap_login_key'];
 		$ldap_new['filter'] = ('(objectclass='.$ldap_old['ldap_objectclass'].')');
-		
+
 		$query = "INSERT INTO  ldap_server_settings SET ".
 			"active = '".$ldap_new['active']."', ".
 			"name = '".$ldap_new['name']."', ".
@@ -861,7 +861,7 @@ if(!$res->numRows())
 			"role_sync_active = '0', ".
 			"role_bind_dn = '', ".
 			"role_bind_pass = '', ";
-			
+
 		$res = $ilDB->query($query);
 	}
 }
@@ -890,10 +890,10 @@ if(@is_dir($dir = ilUpdateUtils::getDataDir().'/course'))
 		if(preg_match('/^course_file([0-9]+)$/',$filedir,$matches))
 		{
 			$ilLog->write('DB Migration 944: Found file: '.$filedir.' with course_id: '.$matches[1]);
-			
+
 			$fss_course = new ilFSStorageCourse($matches[1]);
 			$fss_course->initInfoDirectory();
-			
+
 			if(@is_dir($info_dir = ilUpdateUtils::getDataDir().'/course/'.$filedir))
 			{
 				$dp2 = @opendir($info_dir);
@@ -908,10 +908,10 @@ if(@is_dir($dir = ilUpdateUtils::getDataDir().'/course'))
 
 					$ilLog->write('DB Migration 944: Renamed: '.$from.' to: '.$to);
 				}
-				
+
 			}
 		}
-		
+
 	}
 }
 chdir($wd);
@@ -941,7 +941,7 @@ foreach($all_types as $type)
 	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = '".$type."'";
 	$res = $ilDB->query($query);
 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-	
+
 	$query = "INSERT INTO rbac_ta SET typ_id = '".$row->obj_id."', ops_id = '".$ops_id."'";
 	$ilDB->query($query);
 }
@@ -954,11 +954,11 @@ CREATE TABLE `tmp_migration` (
   `type` varchar(4),
   `passed` tinyint(4) NOT NULL default '0');
 
-ALTER TABLE `tmp_migration` ADD INDEX `obj_parent_type` ( `obj_id` , `parent` , `type` ); 
-  
+ALTER TABLE `tmp_migration` ADD INDEX `obj_parent_type` ( `obj_id` , `parent` , `type` );
+
 <#948>
 <?php
-// Adjust rbac templates 
+// Adjust rbac templates
 
 // copy permission id
 $query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
@@ -991,7 +991,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		"ops_id = '".$ops_id."', ".
 		"parent = '".$row->parent."'";
 	$ilDB->query($query);
-	
+
 	// Set Passed
 	$query = "INSERT INTO tmp_migration SET ".
 		"obj_id = '".$row->rol_id."', ".
@@ -1008,7 +1008,7 @@ CREATE TABLE `tmp_migration` (
   `ref_id` int(11) NOT NULL default '0',
   `passed` tinyint(4) NOT NULL default '0');
 
-ALTER TABLE `tmp_migration` ADD INDEX `rol_ref_passed` ( `rol_id` , `ref_id` , `passed` ); 
+ALTER TABLE `tmp_migration` ADD INDEX `rol_ref_passed` ( `rol_id` , `ref_id` , `passed` );
 
 <#950>
 <?php
@@ -1054,7 +1054,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		"WHERE rol_id = '".$row->rol_id."' ".
 		"AND ref_id = '".$row->ref_id."'";
 	$ilDB->query($query);
-	
+
 	// Set Passed
 	$query = "INSERT INTO tmp_migration SET ".
 		"rol_id = '".$row->rol_id."', ".
@@ -1084,7 +1084,7 @@ $ilDB->query($query);
 ?>
 <#955>
 <?php
-// add create operation for 
+// add create operation for
 $query = "INSERT INTO rbac_operations ".
 	"SET operation = 'create_feed', description = 'create external feed'";
 $ilDB->query($query);
@@ -1127,7 +1127,7 @@ UPDATE rbac_operations SET class='create' WHERE operation='create_feed';
 
 <#957>
 <?php
-// add create operation for 
+// add create operation for
 $query = "INSERT INTO rbac_operations ".
 	"SET operation = 'create_mcst', class='create', description = 'create media cast'";
 $ilDB->query($query);
@@ -1259,7 +1259,7 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 ?>
 <#968>
-INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES ('11', 'assFlashApp'); 
+INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES ('11', 'assFlashApp');
 <#969>
 CREATE TABLE IF NOT EXISTS `qpl_question_flashapp` (
   `question_fi` int(11) NOT NULL default '0',
@@ -1292,7 +1292,7 @@ if(!$found)
 	$res = $ilDB->query($query);
 }
 ?>
-<#972> 
+<#972>
 ALTER TABLE sahs_lm MODIFY type
 ENUM('scorm','aicc','hacp','scorm2004');
 
@@ -1413,7 +1413,7 @@ CREATE TABLE `tmp_svy_migration` (`answer_id` int(11) NOT NULL default '0');
 <?php
 	// converting survey data, this could take some time and more than one try
 	global $ilLog;
-	
+
 	$res = $ilDB->query("SELECT MAX(answer_id) as max_id FROM tmp_svy_migration ");
 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	{
@@ -1673,13 +1673,13 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$obj_id = $row->obj_id;
 	$usr_id = $row->usr_id;
-	
+
 	$query = "SELECT obj_id FROM object_data WHERE description = 'Member of course obj_no.".$obj_id."'";
 	$res_role_id = $ilDB->query($query);
 	while($row_role_id = $res_role_id->fetchRow(DB_FETCHMODE_OBJECT))
 	{
 		$role_id = $row_role_id->obj_id;
-		
+
 		$query = "REPLACE INTO rbac_ua ".
 			"SET usr_id = '".$usr_id."', ".
 			"rol_id = '".$role_id."' ";
@@ -1694,7 +1694,7 @@ CREATE TABLE `tmp_migration` (
   `obj_id` int(11) NOT NULL default '0',
   `passed` tinyint(4) NOT NULL default '0');
 
-ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` ); 
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 
 <#1024>
 <?php
@@ -1725,12 +1725,12 @@ foreach($file_ids as $file_id)
 	{
 		continue;
 	}
-	
+
 	if(!@file_exists(ilUpdateUtils::getDataDir().'/files/file_'.$file_id) or !@is_dir(ilUpdateUtils::getDataDir().'/files/file_'.$file_id))
 	{
 		$ilLog->write('DB Migration 1024: Files already migrated. File: file_'.$file_id);
 		continue;
-	}	
+	}
 
 	// Rename
 	$fss = new ilFSStorageFile($file_id);
@@ -1746,11 +1746,11 @@ foreach($file_ids as $file_id)
 		$ilLog->write('DB Migration 1024: Failed renaming '.ilUpdateUtils::getDataDir().'/files/file_'.$file_id.' -> '.$fss->getAbsolutePath());
 		continue;
 	}
-	
+
 	// Save success
 	$query = "REPLACE INTO tmp_migration SET obj_id = '".$file_id."',passed = '1'";
 	$ilDB->query($query);
-	
+
 	// Update file size
 	$size = ilObjFileAccess::_lookupFileSize($file_id);
 	$query = "UPDATE file_data SET file_size = '".$size."' ".
@@ -1770,8 +1770,8 @@ CREATE TABLE `tmp_migration` (
   `obj_id` int(11) NOT NULL default '0',
   `passed` tinyint(4) NOT NULL default '0');
 
-ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` ); 
-  
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
+
 
 <#1027>
 <?php
@@ -1801,12 +1801,12 @@ foreach($event_ids as $event_id)
 	{
 		continue;
 	}
-	
+
 	if(!@file_exists(ilUpdateUtils::getDataDir().'/events/event_'.$event_id))
 	{
 		$ilLog->write('DB Migration 1028: Already migrated: Event data for event id '.$event_id);
 		continue;
-	}	
+	}
 
 	// Rename
 	$fss = new ilFSStorageEvent($event_id);
@@ -1822,7 +1822,7 @@ foreach($event_ids as $event_id)
 		$ilLog->write('DB Migration 1028: Failed renaming '.ilUpdateUtils::getDataDir().'/events/event_'.$event_id.' -> '.$fss->getAbsolutePath());
 		continue;
 	}
-	
+
 	// Save success
 	$query = "REPLACE INTO tmp_migration SET obj_id = '".$event_id."',passed = '1'";
 	$ilDB->query($query);
@@ -1839,7 +1839,7 @@ CREATE TABLE `tmp_migration` (
   `obj_id` int(11) NOT NULL default '0',
   `passed` tinyint(4) NOT NULL default '0');
 
-ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` ); 
+ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 
 <#1030>
 <?php
@@ -1860,7 +1860,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$archive_ids[$row->archive_ids]['id'] = $row->archive_ids;
 	$archive_ids[$row->archive_ids]['name'] = $row->archive_name;
 	$archive_ids[$row->archive_ids]['course_id'] = $row->course_id;
-	
+
 }
 
 foreach($archive_ids as $archive_id => $data)
@@ -1872,12 +1872,12 @@ foreach($archive_ids as $archive_id => $data)
 	{
 		continue;
 	}
-	
+
 	if(!@file_exists(ilUpdateUtils::getDataDir().'/course/'.$data['name']))
 	{
 		$ilLog->write('DB Migration 1030: Archives already migrated: No data found for archive id '.$data['name']);
 		continue;
-	}	
+	}
 
 	// Rename
 	$fss = new ilFSStorageCourse($data['course_id']);
@@ -1899,7 +1899,7 @@ foreach($archive_ids as $archive_id => $data)
 			 $fss->getArchiveDirectory().'/'.$data['name']);
 		continue;
 	}
-	
+
 	// Save success
 	$query = "REPLACE INTO tmp_migration SET obj_id = '".$archive_id."',passed = '1'";
 	$ilDB->query($query);
@@ -1935,10 +1935,10 @@ if(@is_dir($dir = ilUpdateUtils::getDataDir().'/course'))
 		if(preg_match('/^course_file([0-9]+)$/',$filedir,$matches))
 		{
 			$ilLog->write('DB Migration 1032: Found file: '.$filedir.' with course_id: '.$matches[1]);
-			
+
 			$fss_course = new ilFSStorageCourse($matches[1]);
 			$fss_course->initInfoDirectory();
-			
+
 			if(@is_dir($info_dir = ilUpdateUtils::getDataDir().'/course/'.$filedir))
 			{
 				$dp2 = @opendir($info_dir);
@@ -1953,10 +1953,10 @@ if(@is_dir($dir = ilUpdateUtils::getDataDir().'/course'))
 
 					$ilLog->write('DB Migration 1032: Renamed: '.$from.' to: '.$to);
 				}
-				
+
 			}
 		}
-		
+
 	}
 }
 chdir($wd);
@@ -2261,7 +2261,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		"WHERE lm.obj_id = ".$row->target_obj_id." ";
 	$res_ref = $ilDB->query($query);
 	$row_ref = $res_ref->fetchRow(DB_FETCHMODE_OBJECT);
-	
+
 	if($row_ref->ref_id)
 	{
 		$query = "UPDATE conditions SET ".
@@ -2520,7 +2520,7 @@ if ($result->numRows())
 		{
 			$postponed_array = explode(",", $row["postponed"]);
 			foreach ($postponed_array as $key => $value) $postponed_array[$key] = intval($value);
-			if (is_array($postponed_array)) 
+			if (is_array($postponed_array))
 			{
 				$postponed = $ilDB->quote(serialize(array_unique($postponed_array)));
 			}
@@ -2834,8 +2834,8 @@ $ilCtrlStructureReader->getStructure();
 <#1117>
 <?php
 // FORUM MODERATOR TEMPLATE
-$query = "INSERT 
-		  INTO object_data (type, title, description, owner, create_date, last_update) 
+$query = "INSERT
+		  INTO object_data (type, title, description, owner, create_date, last_update)
 		  VALUES ('rolt', 'il_frm_moderator', 'Moderator template for forum moderators', -1, NOW(), NOW())";
 $this->db->query($query);
 
@@ -2845,13 +2845,13 @@ $frm_modetator_ops = array(1, 2, 3, 4, 6, 9, 10, 58, 62);
 foreach ($frm_modetator_ops as $op_id)
 {
 	$query = "INSERT
-			  INTO rbac_templates 
+			  INTO rbac_templates
 		 	  VALUES (".$this->db->quote($frm_modetator_tpl_id).", 'frm', ".$this->db->quote($op_id).", 8)";
 	$this->db->query($query);
 }
 
 $query = "INSERT
-		  INTO rbac_fa 
+		  INTO rbac_fa
 		  VALUES (".$this->db->quote($frm_modetator_tpl_id).", 8, 'n', 'n')";
 $this->db->query($query);
 ?>
@@ -2962,7 +2962,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		"AND ops_id = 2 ".
 		"AND parent = 8";
 	$ilDB->query($query);
-	
+
 	$query = "INSERT INTO rbac_templates SET ".
 		"rol_id = ".$ilDB->quote($row->obj_id).", ".
 		"type = 'root', ".
@@ -3309,10 +3309,10 @@ $ref_id = $ilDB->getLastInsertId();
 $tree = new ilTree(ROOT_FOLDER_ID);
 $tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
 
-			
+
 // Create data table for WebDAV Locks
 // IMPORTANT: To prevent data loss on installations which use the HSLU-patches,
-//            the WebDAV tables must only be created if the do not exist yet, 
+//            the WebDAV tables must only be created if the do not exist yet,
 //            and the tables must be created exactly like this. The tables may
 //            be altered in subsequent update scripts however.
 //            For performance reasons, all these tables should be InnoDB tables,
@@ -3360,7 +3360,7 @@ if ($ilDB->isError($r) || $ilDB->isError($r->result))
 
 // BEGIN ChangeEvent
 // IMPORTANT: To prevent data loss on installations which use the HSLU-patches,
-//            the ChangeEvent tables must only be created if the do not exist yet, 
+//            the ChangeEvent tables must only be created if the do not exist yet,
 //            and the tables must be created exactly like this. The tables may
 //            be altered in subsequent update scripts however.
 //            For performance reasons, all these tables should be InnoDB tables,
@@ -3494,10 +3494,10 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 ?>
 <#1187>
-UPDATE mail AS m 
+UPDATE mail AS m
   SET folder_id=(SELECT obj_id FROM mail_obj_data AS d WHERE d.user_id=m.user_id AND type='inbox' LIMIT 1)
   WHERE folder_id=0;
-  
+
 <#1188>
 CREATE TABLE `il_tag` (
 	`obj_id` INT,
@@ -3579,7 +3579,7 @@ $query = "INSERT INTO object_data (type, title, description, owner, create_date,
 $ilDB->query($query);
 $typ_id =  $ilDB->getLastInsertId();
 
-// Register permissions for sessions 
+// Register permissions for sessions
 // 1: edit_permissions, 2: visible, 3: read, 4:write
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
 		."  (".$ilDB->quote($typ_id).",'1')"
@@ -3622,7 +3622,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$query = "SELECT type FROM object_data WHERE obj_id = ".$course_obj_id;
 	$obj_res = $ilDB->query($query);
 	$obj_row = $obj_res->fetchRow();
-	
+
 	if($obj_row[0] == 'sess')
 	{
 		$ilLog->write('DB Migration 1194: Session with event_id: '.$row->event_id.' already migrated.');
@@ -3633,20 +3633,20 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$query = "SELECT ref_id FROM object_reference WHERE obj_id = '".$course_obj_id."' ";
 	$ref_res = $ilDB->query($query);
 	$ref_row = $ref_res->fetchRow();
-	
+
 	if(!$ref_row[0])
 	{
 		$ilLog->write('DB Migration 1194: Found session without course ref_id. event_id: '.$row->event_id.', obj_id: '.$row->obj_id);
 		continue;
 	}
 	$course_ref_id = $ref_row[0];
-	
+
 	// Create object data entry
 	$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
 		"VALUES ('sess', ".$ilDB->quote($row->title).", ".$ilDB->quote($row->description).", 6, now(), now())";
 	$ilDB->query($query);
 	$session_obj_id = $ilDB->getLastInsertId();
-	
+
 	// Insert long description
 	$query = "INSERT INTO object_description SET obj_id = ".$session_obj_id.", description =  ".$ilDB->quote($row->description);
 
@@ -3654,7 +3654,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$query = "INSERT INTO object_reference (obj_id) VALUES('".$session_obj_id."')";
 	$ilDB->query($query);
 	$session_ref_id = $ilDB->getLastInsertId();
-	
+
 	// check if course is deleted
 	// yes => insert into tree with negative tree id
 	$query = "SELECT tree FROM tree WHERE child = ".$course_ref_id;
@@ -3669,32 +3669,32 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	{
 		$current_tree = new ilTree(ROOT_FOLDER_ID);
 	}
-	
+
 	// Insert into tree
 	$current_tree->insertNode($session_ref_id,$course_ref_id);
-	
+
 	// Update all event related tables
-	
+
 	// event
 	$query = "UPDATE event SET obj_id = ".$session_obj_id." ".
 		"WHERE event_id = ".$row->event_id;
 	$ilDB->query($query);
-	
+
 	// event_appointment
 	$query = "UPDATE event_appointment SET event_id = ".$session_obj_id." ".
 		"WHERE event_id = ".$row->event_id." ";
 	$ilDB->query($query);
-	
+
 	// event_id
 	$query = "UPDATE event_items SET event_id = ".$session_obj_id." ".
 		"WHERE event_id = ".$row->event_id." ";
 	$ilDB->query($query);
-		
+
 	// event participants
 	$query = "UPDATE event_participants SET event_id = ".$session_obj_id." ".
 		"WHERE event_id = ".$row->event_id." ";
 	$ilDB->query($query);
-	
+
 	// adjust permissions
 	$query = "SELECT * FROM rbac_pa WHERE ref_id = ".$course_ref_id;
 	$pa_res = $ilDB->query($query);
@@ -3702,19 +3702,19 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	{
 		$new_ops = array();
 		$operations = unserialize($pa_row->ops_id);
-		
+
 		if(in_array(1,$operations))
 		{
 			$new_ops[] = 1;
-		} 
+		}
 		if(in_array(2,$operations))
 		{
 			$new_ops[] = 2;
-		} 
+		}
 		if(in_array(3,$operations))
 		{
 			$new_ops[] = 3;
-		} 
+		}
 		if(in_array(4,$operations))
 		{
 			$new_ops[] = 4;
@@ -3729,7 +3729,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ?>
 <#1196>
 <?php
-// add create operation for 
+// add create operation for
 $query = "INSERT INTO rbac_operations ".
 	"SET operation = 'create_sess', description = 'create session',class = 'create'";
 $ilDB->query($query);
@@ -3768,7 +3768,7 @@ $typ_id = $row[0];
 
 
 
-// Register copy permissions for sessions 
+// Register copy permissions for sessions
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES"
 		."  (".$ilDB->quote($typ_id).",'".$ops_id."')";
 $ilDB->query($query);
@@ -3847,7 +3847,7 @@ $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$unlimited = ($row->expiration == '0000-00-00 00:00:00' ? 1 : 0);
-	
+
 	if($unlimited)
 	{
 		$start = '0000-00-00 00:00:00';
@@ -3856,7 +3856,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	{
 		$start = '2002-01-01 00:00:00';
 	}
-	
+
 	$query = "INSERT INTO grp_settings ".
 		"SET obj_id = ".$ilDB->quote($row->grp_id).", ".
 		"information = '', ".
@@ -3997,7 +3997,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			"start = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->starting_time)).", ".
 			"end = ".$ilDB->quote(gmdate('Y-m-d H:i:s',$row->ending_time))." ".
 			"WHERE appointment_id = ".$ilDB->quote($row->appointment_id)." ";
-	}	
+	}
 	$ilDB->query($query);
 }
 ?>
@@ -4349,16 +4349,16 @@ $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$color = ilCalendarAppointmentColors::_getRandomColorByType('crs');
-	
+
 	$query = "INSERT INTO cal_categories SET ".
 		"obj_id = ".$row->obj_id.", ".
 		"title = ".$ilDB->quote($row->title).", ".
 		"color = '".$color."', ".
 		"type = 2";
 	$ilDB->query($query);
-	
+
 	$cat_id = $ilDB->getLastInsertId();
-	
+
 	if($row->subscription_limitation_type == 2)
 	{
 		$query = "INSERT INTO cal_entries SET ".
@@ -4371,9 +4371,9 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			"context_id = 1, ".
 			"translation_type = 1";
 		$ilDB->query($query);
-		
+
 		$cal_id = $ilDB->getLastInsertId();
-		
+
 		$query = "INSERT INTO cal_category_assignments ".
 			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
 		$ilDB->query($query);
@@ -4388,9 +4388,9 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			"context_id = 2, ".
 			"translation_type = 1";
 		$ilDB->query($query);
-		
+
 		$cal_id = $ilDB->getLastInsertId();
-		
+
 		$query = "INSERT INTO cal_category_assignments ".
 			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
 		$ilDB->query($query);
@@ -4407,9 +4407,9 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			"context_id = 3, ".
 			"translation_type = 1";
 		$ilDB->query($query);
-		
+
 		$cal_id = $ilDB->getLastInsertId();
-		
+
 		$query = "INSERT INTO cal_category_assignments ".
 			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
 		$ilDB->query($query);
@@ -4424,9 +4424,9 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			"context_id = 3, ".
 			"translation_type = 1";
 		$ilDB->query($query);
-		
+
 		$cal_id = $ilDB->getLastInsertId();
-		
+
 		$query = "INSERT INTO cal_category_assignments ".
 			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
 		$ilDB->query($query);
@@ -4456,16 +4456,16 @@ $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$color = ilCalendarAppointmentColors::_getRandomColorByType('grp');
-	
+
 	$query = "INSERT INTO cal_categories SET ".
 		"obj_id = ".$row->obj_id.", ".
 		"title = ".$ilDB->quote($row->title).", ".
 		"color = '".$color."', ".
 		"type = 2";
 	$ilDB->query($query);
-	
+
 	$cat_id = $ilDB->getLastInsertId();
-	
+
 	if($row->registration_start)
 	{
 		$query = "INSERT INTO cal_entries SET ".
@@ -4478,9 +4478,9 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				"context_id = 1, ".
 				"translation_type = 1";
 		$ilDB->query($query);
-			
+
 		$cal_id = $ilDB->getLastInsertId();
-			
+
 		$query = "INSERT INTO cal_category_assignments ".
 			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
 		$ilDB->query($query);
@@ -4497,9 +4497,9 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			"context_id = 2, ".
 			"translation_type = 1";
 		$ilDB->query($query);
-		
+
 		$cal_id = $ilDB->getLastInsertId();
-		
+
 		$query = "INSERT INTO cal_category_assignments ".
 			"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
 		$ilDB->query($query);
@@ -4532,7 +4532,7 @@ $ilDB->query($query);
 $query = "SELECT * FROM rbac_templates ".
 	"WHERE type = 'crs' ".
 	"AND ops_id IN ('".implode("','",$ops)."') ";
-	
+
 $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
@@ -4570,7 +4570,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		"ops_id = ".$ilDB->quote($ops).", ".
 		"parent = ".$ilDB->quote($row->parent)." ";
 	$ilDB->query($query);
-	
+
 	$query = "INSERT INTO rbac_templates SET ".
 		"rol_id = ".$ilDB->quote($row->rol_id).", ".
 		"type = 'crs', ".
@@ -4630,7 +4630,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				"WHERE rol_id = ".$ilDB->quote($pa_row->rol_id)." ".
 				"AND ref_id = ".$ilDB->quote($pa_row->ref_id)." ";
 			$ilDB->query($query);
-			
+
 		}
 	}
 }
@@ -4654,16 +4654,16 @@ $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$color = ilCalendarAppointmentColors::_getRandomColorByType('sess');
-	
+
 	$query = "INSERT INTO cal_categories SET ".
 		"obj_id = ".$ilDB->quote($row->obj_id).", ".
 		"title = ".$ilDB->quote($row->title).", ".
 		"color = '".$color."', ".
 		"type = 2";
 	$ilDB->query($query);
-	
+
 	$cat_id = $ilDB->getLastInsertId();
-	
+
 	$query = "INSERT INTO cal_entries SET ".
 		"title = ".$ilDB->quote($row->title).", ".
 		"subtitle = '', ".
@@ -4676,11 +4676,11 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		"translation_type = 0 ";
 	$ilDB->query($query);
 	$cal_id = $ilDB->getLastInsertId();
-	
+
 	$query = "INSERT INTO cal_category_assignments ".
 		"SET cal_id = ".$ilDB->quote($cal_id).", cat_id = ".$ilDB->quote($cat_id)." ";
 	$ilDB->query($query);
-	
+
 }
 chdir($wd);
 ?>
@@ -4703,7 +4703,7 @@ $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$color = ilCalendarAppointmentColors::_getRandomColorByType('crs');
-	
+
 	$query = "INSERT INTO cal_categories SET ".
 		"obj_id = ".$ilDB->quote($row->obj_id).", ".
 		"title = ".$ilDB->quote($row->title).", ".
@@ -4720,7 +4720,7 @@ $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$color = ilCalendarAppointmentColors::_getRandomColorByType('grp');
-	
+
 	$query = "INSERT INTO cal_categories SET ".
 		"obj_id = ".$ilDB->quote($row->obj_id).", ".
 		"title = ".$ilDB->quote($row->title).", ".
@@ -4758,14 +4758,14 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		// Read possible points
 		$query = "SELECT points FROM qpl_questions WHERE question_id = ".$ilDB->quote($qst_row->question_id)." ";
 		$p_res = $ilDB->query($query);
-		
+
 		while($p_row = $p_res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$sum_points += $p_row->points;	
+			$sum_points += $p_row->points;
 		}
 	}
 	$required = $sum_points * $row->tst_limit / 100;
-	
+
 	$query = "UPDATE crs_objective_tst ".
 		"SET tst_limit = ".$ilDB->quote($required)." ".
 		"WHERE test_objective_id = ".$ilDB->quote($row->test_objective_id)." ";
@@ -4892,7 +4892,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	if($row->registration_max_members)
 	{
 		$query = "UPDATE grp_settings SET registration_membership_limited = 1 WHERE obj_id = ".$ilDB->quote($row->obj_id)." ";
-		$ilDB->query($query); 
+		$ilDB->query($query);
 	}
 }
 ?>
@@ -4911,7 +4911,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	if($row->subscription_max_members)
 	{
 		$query = "UPDATE crs_settings SET subscription_membership_limitation = 1 WHERE obj_id = ".$ilDB->quote($row->obj_id)." ";
-		$ilDB->query($query); 
+		$ilDB->query($query);
 	}
 }
 ?>
@@ -4987,7 +4987,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$event_id = $row->item_id;
 	$crs_obj_id = $row->obj_id;
-	
+
 	// Read event ref_id
 	$query = "SELECT ref_id FROM event AS e ".
 		"JOIN object_data AS od ON e.obj_id = od.obj_id ".
@@ -4998,19 +4998,19 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	{
 		$event_ref_id = $ref_row->ref_id;
 	}
-	
+
 	if($event_ref_id)
 	{
 		$query = "DELETE FROM ut_lp_collections ".
 			"WHERE item_id = ".$ilDB->quote($event_ref_id)." ";
 		$ilDB->query($query);
-		
+
 		$query = "INSERT INTO ut_lp_collections ".
 			"SET obj_id = ".$ilDB->quote($crs_obj_id).", ".
 			"item_id = ".$ilDB->quote($event_ref_id)." ";
 		$ilDB->query($query);
 	}
-} 
+}
 ?>
 
 <#1281>
@@ -5079,3 +5079,8 @@ CREATE TABLE `payment_topics_user_sorting` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#1293>
+ALTER TABLE `usr_data` ADD `login_attempts` TINYINT( 2 ) NOT NULL ,
+ADD `last_password_change` INT( 11 ) NOT NULL ;
+UPDATE usr_data SET last_password_change = UNIX_TIMESTAMP();
