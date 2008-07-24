@@ -3034,19 +3034,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$ilDB->quote($this->getTestId())
 		);
 		$result = $ilDB->query($query);
+
+		// remove saved user passwords
+		$query = sprintf("DELETE FROM usr_pref WHERE keyword = %s",
+			$ilDB->quote("tst_password_".$this->getTestId())
+		);
+		$result = $ilDB->query($query);
 	}
 
-/**
-* Removes all references to the question in executed tests in case the question has been changed
-*
-* Removes all references to the question in executed tests in case the question has been changed.
-* If a question was changed it cannot be guaranteed that the content and the meaning of the question
-* is the same as before. So we have to delete all already started or completed tests using that question.
-* Therefore we have to delete all references to that question in tst_solutions and the tst_active
-* entries which were created for the user and test in the tst_solutions entry.
-*
-* @access public
-*/
 	function removeSelectedTestResults($active_ids)
 	{
 		global $ilDB;
@@ -3089,6 +3084,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 		// remove test_active entries of selected users
 		foreach ($active_ids as $active_id)
 		{
+			$usr_id = $this->_getUserIdFromActiveId($active_id);
+
 			$query = sprintf("DELETE FROM tst_active WHERE active_id = %s",
 				$ilDB->quote($active_id . "")
 			);
@@ -3098,20 +3095,19 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$ilDB->quote($active_id)
 			);
 			$result = $ilDB->query($query);
+
+			// remove saved user password
+			if ($usr_id > 0)
+			{
+				$query = sprintf("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+					$ilDB->quote($usr_id),
+					$ilDB->quote("tst_password_".$this->getTestId())
+				);
+				$result = $ilDB->query($query);
+			}
 		}
 	}
 
-/**
-* Removes all references to the question in executed tests in case the question has been changed
-*
-* Removes all references to the question in executed tests in case the question has been changed.
-* If a question was changed it cannot be guaranteed that the content and the meaning of the question
-* is the same as before. So we have to delete all already started or completed tests using that question.
-* Therefore we have to delete all references to that question in tst_solutions and the tst_active
-* entries which were created for the user and test in the tst_solutions entry.
-*
-* @access public
-*/
 	function removeTestResultsForUser($user_id)
 	{
 		global $ilDB;
@@ -3160,6 +3156,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
+
+		// remove saved user password
+		if ($user_id > 0)
+		{
+			$query = sprintf("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+				$ilDB->quote($user_id),
+				$ilDB->quote("tst_password_".$this->getTestId())
+			);
+			$result = $ilDB->query($query);
+		}
 	}
 
 /**
