@@ -17,7 +17,7 @@
 	|                                                                             |
 	| You should have received a copy of the GNU General Public License           |
 	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.| 
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.|
 	+-----------------------------------------------------------------------------+
 */
 
@@ -26,7 +26,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
-* 
+*
 * @package ilias-search
 *
 * @ilCtrl_Calls ilSearchController: ilSearchGUI, ilAdvancedSearchGUI, ilSearchResultGUI
@@ -65,13 +65,22 @@ class ilSearchController
 	function &executeCommand()
 	{
 		global $rbacsystem,$ilUser;
-		
+
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
 		{
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 		}
-		
+
+		if( $ilUser->isPasswordExpired() )
+		{
+			$msg = $this->lng->txt('password_expired');
+			$password_age = $ilUser->getPasswordAge();
+
+			ilUtil::sendInfo( sprintf($msg,$password_age), true );
+
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
 
 		include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
@@ -81,7 +90,7 @@ class ilSearchController
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		$forward_class = $this->ctrl->getNextClass($this) ? $this->ctrl->getNextClass($this) : $this->getLastClass();
-		
+
 		switch($forward_class)
 		{
 			case 'ilsearchresultgui':
@@ -98,10 +107,10 @@ class ilSearchController
 				$this->setLastClass('iladvancedsearchgui');
 
 				include_once 'Services/Search/classes/class.ilAdvancedSearchGUI.php';
-				
+
 				$this->ctrl->forwardCommand(new ilAdvancedSearchGUI());
 				break;
-				
+
 			case 'ilsearchgui':
 				// Remember last class
 				$this->setLastClass('ilsearchgui');
@@ -114,7 +123,7 @@ class ilSearchController
 				break;
 		}
 		$this->tpl->show();
-		
+
 		return true;
 	}
 }

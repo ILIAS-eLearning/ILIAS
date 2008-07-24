@@ -75,7 +75,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this,'obj_id');
-		
+
 		// for gender selection. don't change this
 		// maybe deprecated
 		$this->gender = array(
@@ -100,7 +100,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_USER_FOLDER,USER_FOLDER_ID,$this->object->getId());
 				$this->ctrl->forwardCommand($new_gui);
 				break;
-		
+
 			case "ilobjilincusergui":
 				include_once './ilinc/classes/class.ilObjiLincUserGUI.php';
 				$new_gui =& new ilObjiLincUserGUI($this->object,$this->usrf_ref_id);
@@ -115,12 +115,12 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 				$cmd .= "Object";
 				$return = $this->$cmd();
-					
+
 				break;
 		}
 		return $return;
 	}
-	
+
 	/* Overwritten from base class
 	*/
 	function setTitleAndDescription()
@@ -136,7 +136,7 @@ class ilObjUserGUI extends ilObjectGUI
 			parent::setTitleAndDescription();
 		}
 	}
-	
+
 
 
 	function cancelObject()
@@ -156,7 +156,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ctrl->redirectByClass('ilobjcategorygui','listUsers');
 		}
 	}
-	
+
 	/**
 	* admin and normal tabs are equal for roles
 	*/
@@ -164,16 +164,16 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		$this->getTabs($tabs_gui);
 	}
-	
+
 	/**
-	* get tabs 
+	* get tabs
 	*/
 	function getTabs(&$tabs_gui)
 	{
 		global $rbacsystem;
-		
+
 		$tabs_gui->clearTargets();
-		
+
 		if ($_GET["search"])
 		{
 			$tabs_gui->setBackTarget(
@@ -187,7 +187,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit","","view"), get_class($this));
 		}
-			
+
 		$tabs_gui->addTarget("role_assignment",
 			$this->ctrl->getLinkTarget($this, "roleassignment"), array("roleassignment"), get_class($this));
 
@@ -201,7 +201,7 @@ class ilObjUserGUI extends ilObjectGUI
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
-		
+
 		if ($this->ilias->getSetting("ilinc_active"))
 		{
 			$tabs_gui->addTarget("extt_ilinc",
@@ -227,16 +227,16 @@ class ilObjUserGUI extends ilObjectGUI
 	function createOldObject()
 	{
 		global $ilias, $rbacsystem, $rbacreview, $styleDefinition, $ilSetting,$ilUser;
-		
+
 		//load ILIAS settings
 		$settings = $ilias->getAllSettings();
-		
+
 		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
 			$this->tabs_gui->clearTargets();
@@ -251,7 +251,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 			{
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		
+
 				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{
 					continue;
@@ -267,15 +267,15 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
 		// raise error if there is no global role user can be assigned to
 		if(!count($rol))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_roles_users_can_be_assigned_to"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$keys = array_keys($rol);
-		
+
 		// set pre defined user role to default
 		if (in_array(4,$keys))
 		{
@@ -295,14 +295,14 @@ class ilObjUserGUI extends ilObjectGUI
 					}
 				}
 			}
-		
+
 			$default_role = array_shift($keys);
 		}
-		
+
 		$pre_selected_role = (isset($_SESSION["error_post_vars"]["Fobject"]["default_role"])) ? $_SESSION["error_post_vars"]["Fobject"]["default_role"] : $default_role;
-		
+
 		$roles = ilUtil::formSelect($pre_selected_role,"Fobject[default_role]",$rol,false,true);
-		
+
 		$data = array();
 		$data["fields"] = array();
 		$data["fields"]["login"] = "";
@@ -338,9 +338,9 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["active"] = " checked=\"checked\"";
 		$data["fields"]["default_role"] = $roles;
 		$data["fields"]["auth_mode"] = "";
-		
+
 		$this->getTemplateFile("edit","usr");
-		
+
 		// fill presets
 		foreach ($data["fields"] as $key => $val)
 		{
@@ -362,15 +362,15 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable('VISIBLE_PASSWD2',$_SESSION['error_post_vars']['Fobject']['passwd2']);
 				$this->tpl->parseCurrentBlock();
 			}
-		
+
 			// check to see if dynamically required
 			if (isset($settings["require_" . $key]) && $settings["require_" . $key])
 			{
 				$str = $str . '<span class="asterisk">*</span>';
 			}
-		
+
 			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
-		
+
 			if ($key == "default_role")
 			{
 				$this->tpl->setVariable(strtoupper($key), $val);
@@ -379,13 +379,13 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 			}
-		
+
 			if ($this->prepare_output)
 			{
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		// new account mail
 		include_once './Services/User/classes/class.ilObjUserFolder.php';
 		$amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
@@ -406,14 +406,14 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		$this->ctrl->setParameter($this,'new_type',$this->type);
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));		
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		
+
 		$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
 		$this->tpl->setVariable("TXT_SYSTEM_INFO", $this->lng->txt("system_information"));
 		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
@@ -448,7 +448,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		
+
 		//$this->tpl->setVariable("TXT_CURRENT_IP",$this->lng->txt("current_ip").
 		//	$_SERVER["REMOTE_ADDR"]);
 		$this->tpl->setVariable("TXT_CURRENT_IP_ALERT",$this->lng->txt("current_ip_alert"));
@@ -460,20 +460,20 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$_SESSION["error_post_vars"]["Fobject"]["active"] = 0;
 			}
-		
+
 			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
 			{
-				if ($key != "default_role" and $key != "language" 
+				if ($key != "default_role" and $key != "language"
 					and $key != "skin_style" and $key != "hits_per_page"
 					and $key != "show_users_online" and $key != 'passwd' and $key != 'passwd2')
 				{
 					$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				}
 			}
-		
+
 			// gender selection
 			$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
-		
+
 			if (!empty($gender))
 			{
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
@@ -485,13 +485,13 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
 			}
 		}
-		
+
 		// auth mode selection
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
 
 		// preselect previous chosen auth mode otherwise default auth mode
-		$selected_auth_mode = (isset($_SESSION["error_post_vars"]["Fobject"]["auth_mode"])) ? 
+		$selected_auth_mode = (isset($_SESSION["error_post_vars"]["Fobject"]["auth_mode"])) ?
 			$_SESSION["error_post_vars"]["Fobject"]["auth_mode"] : 'default';
 
 		foreach ($active_auth_modes as $auth_name => $auth_key)
@@ -506,7 +506,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$name = $this->lng->txt('auth_'.$auth_name);
 			}
-			
+
 			$this->tpl->setVariable("AUTH_MODE_NAME", $name);
 
 			$this->tpl->setVariable("AUTH_MODE", $auth_name);
@@ -518,28 +518,28 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		} // END auth_mode selection
-		
+
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
-		
+
 		// preselect previous chosen language otherwise default language
-		$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? 
+		$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ?
 			$_SESSION["error_post_vars"]["Fobject"]["language"] : $this->ilias->getSetting("language");
-		
+
 		foreach ($languages as $lang_key)
 		{
 			$this->tpl->setCurrentBlock("language_selection");
 			$this->tpl->setVariable("LANG", $this->lng->txt("lang_".$lang_key));
 			$this->tpl->setVariable("LANGSHORT", $lang_key);
-		
+
 			if ($selected_lang == $lang_key)
 			{
 				$this->tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 			}
-		
+
 			$this->tpl->parseCurrentBlock();
 		} // END language selection
-		
+
 		// skin & style selection
 		$templates = $styleDefinition->getAllTemplates();
 		//$this->ilias->getSkins();
@@ -548,7 +548,7 @@ class ilObjUserGUI extends ilObjectGUI
 		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
 		{
 			$sknst = explode(":", $_SESSION["error_post_vars"]["Fobject"]["skin_style"]);
-		
+
 			$selected_style = $sknst[1];
 			$selected_skin = $sknst[0];
 		}
@@ -565,7 +565,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$styleDef =& new ilStyleDefinition($template["id"]);
 			$styleDef->startParsing();
 			$styles = $styleDef->getStyles();
-		
+
 			foreach($styles as $style)
 			{
 				if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
@@ -574,13 +574,13 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 
 				$this->tpl->setCurrentBlock("selectskin");
-		
+
 				if ($selected_skin == $template["id"] &&
 					$selected_style == $style["id"])
 				{
 					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
 				}
-		
+
 				$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
 				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
 				$this->tpl->parseCurrentBlock();
@@ -633,7 +633,7 @@ class ilObjUserGUI extends ilObjectGUI
 		foreach($users_online_options as $an_option)
 		{
 			$this->tpl->setCurrentBlock("show_users_online");
-			
+
 			if ($selected_option == $an_option)
 			{
 				$this->tpl->setVariable("USERS_ONLINE_SELECTED", "selected=\"selected\"");
@@ -645,9 +645,9 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// END show users online
-		
+
 		// BEGIN hide_own_online_status
-		
+
 		if (isset($_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"]))
 		{
 			$hide_own_online_status = $_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"];
@@ -656,18 +656,18 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$hide_own_online_status = $this->ilias->getSetting("hide_own_online_status");
 		}
-		
-		$this->tpl->setCurrentBlock("hide_own_online_status");		
+
+		$this->tpl->setCurrentBlock("hide_own_online_status");
 		$this->tpl->setVariable("TXT_HIDE_OWN_ONLINE_STATUS", $this->lng->txt("hide_own_online_status"));
 		if ($hide_own_online_status == "y") {
 			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "checked=\"checked\"");
 		}
 		else {
 			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "");
-		} 
+		}
 		$this->tpl->parseCurrentBlock();
 		// END hide_own_online_status
-		
+
 		// time limit
 		if (is_array($_SESSION["error_post_vars"]))
 		{
@@ -677,17 +677,17 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$time_limit_unlimited = 1;
 		}
-		
+
 		$time_limit_from = $_SESSION["error_post_vars"]["time_limit"]["from"] ?
 			$this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["from"]) :
 			time();
-		
+
 		$time_limit_until = $_SESSION["error_post_vars"]["time_limit"]["until"] ?
 			$this->__toUnix($_SESSION["error_post_vars"]["time_limit"]["until"]) :
 			time();
-		
+
 		$this->lng->loadLanguageModule('crs');
-		
+
 		$this->tpl->setCurrentBlock("time_limit");
 		$this->tpl->setVariable("TXT_TIME_LIMIT", $this->lng->txt("time_limit"));
 		$this->tpl->setVariable("TXT_TIME_LIMIT_UNLIMITED", $this->lng->txt("crs_unlimited"));
@@ -743,7 +743,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields =& ilUserDefinedFields::_getInstance();
-		
+
 		if($this->object->getType() == 'usr')
 		{
 			$user_defined_data = $this->object->getUserDefinedData();
@@ -790,7 +790,7 @@ class ilObjUserGUI extends ilObjectGUI
 	function initCreate()
 	{
 		global $tpl, $rbacsystem, $rbacreview, $ilUser;
-		
+
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
 			$this->tabs_gui->clearTargets();
@@ -805,7 +805,7 @@ class ilObjUserGUI extends ilObjectGUI
 			if($this->object->getRefId() != USER_FOLDER_ID and !in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())))
 			{
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		
+
 				if(!ilObjRole::_getAssignUsersStatus($obj_data['obj_id']))
 				{
 					continue;
@@ -821,15 +821,15 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
 		// raise error if there is no global role user can be assigned to
 		if(!count($rol))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_roles_users_can_be_assigned_to"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$keys = array_keys($rol);
-		
+
 		// set pre defined user role to default
 		if (in_array(4,$keys))
 		{
@@ -849,30 +849,30 @@ class ilObjUserGUI extends ilObjectGUI
 					}
 				}
 			}
-		
+
 			$this->default_role = array_shift($keys);
 		}
 		$this->selectable_roles = $rol;
 	}
-	
+
 	/**
 	* Display user create form
 	*/
 	function createObject()
 	{
 		global $tpl, $rbacsystem, $rbacreview, $ilUser;
-		
+
 		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$this->initCreate();
 		$this->initForm("create");
 		return $tpl->setContent($this->form_gui->getHtml());
 	}
-	
+
 	/**
 	* save user data
 	* @access	public
@@ -880,7 +880,7 @@ class ilObjUserGUI extends ilObjectGUI
 	function saveObject()
 	{
         global $ilAccess, $ilSetting, $tpl, $ilUser, $rbacadmin;
-        
+
         include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
 		// User folder
@@ -895,10 +895,10 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($this->form_gui->checkInput())
 		{
 // @todo: external account; time limit check and savings
-			
+
 			// set password type manually
 			$_POST["passwd_type"] = IL_PASSWD_PLAIN;
-			
+
 			// checks passed. save user
 			$userObj = new ilObjUser();
 			
@@ -911,13 +911,13 @@ class ilObjUserGUI extends ilObjectGUI
 			$userObj->assignData($_POST);
 			$userObj->setTitle($userObj->getFullname());
 			$userObj->setDescription($userObj->getEmail());
-	
+
 			$userObj->setTimeLimitOwner($this->object->getRefId());
 			$userObj->setTimeLimitUnlimited($_POST["time_limit_unlimited"]);
 // @todo
 //			$userObj->setTimeLimitFrom($this->__toUnix($_POST["time_limit"]["from"]));
 //			$userObj->setTimeLimitUntil($this->__toUnix($_POST["time_limit"]["until"]));
-			
+
 			$udf = array();
 			foreach($_POST as $k => $v)
 			{
@@ -927,53 +927,58 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 			}
 			$userObj->setUserDefinedData($udf);
-	
+
 			$userObj->create();
-			
+
 			include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 			if(ilAuthUtils::_isExternalAccountEnabled())
 			{
 				$userObj->setExternalAccount($_POST["ext_account"]);
 			}
-	
+
+			// set a timestamp for last_password_change
+			// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
+			// in ilSecuritySettings
+			$userObj->setLastPasswordChangeTS( time() );
+
 			//insert user data in table user_data
 			$userObj->saveAsNew();
-	
+
 			// setup user preferences
 			$userObj->setLanguage($_POST["language"]);
-	
+
 			//set user skin and style
 			$sknst = explode(":", $_POST["skin_style"]);
-	
+
 			if ($userObj->getPref("style") != $sknst[1] ||
 				$userObj->getPref("skin") != $sknst[0])
 			{
 				$userObj->setPref("skin", $sknst[0]);
 				$userObj->setPref("style", $sknst[1]);
 			}
-	
+
 			$userObj->setPref("hits_per_page", $_POST["hits_per_page"]);
-			$userObj->setPref("show_users_online", $_POST["show_users_online"]);							
+			$userObj->setPref("show_users_online", $_POST["show_users_online"]);
 			$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
-			
+
 			$userObj->writePrefs();
-	
+
 			//set role entries
 			$rbacadmin->assignUser($_POST["default_role"],$userObj->getId(),true);
-	
+
 			$msg = $this->lng->txt("user_added");
-			
+
 			$ilUser->setPref('send_info_mails', ($_POST["send_mail"]));
 			$ilUser->writePrefs();
-	
+
 			// send new account mail
 			if ($_POST["send_mail"] != "")
 			{
 				include_once("Services/Mail/classes/class.ilAccountMail.php");
-				$acc_mail = new ilAccountMail();		
+				$acc_mail = new ilAccountMail();
 				$acc_mail->setUserPassword($_POST["passwd"]);
 				$acc_mail->setUser($userObj);
-				
+
 				if ($acc_mail->send())
 				{
 					$msg = $msg."<br />".$this->lng->txt("mail_sent");
@@ -983,9 +988,9 @@ class ilObjUserGUI extends ilObjectGUI
 					$msg = $msg."<br />".$this->lng->txt("mail_not_sent");
 				}
 			}
-	
+
 			ilUtil::sendInfo($msg, true);
-	
+
 			if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 			{
 				$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
@@ -1011,7 +1016,7 @@ class ilObjUserGUI extends ilObjectGUI
     {
         global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
 			,$ilSetting, $ilCtrl;
-			
+
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
         //load ILIAS settings
@@ -1022,7 +1027,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
-		// if called from local administration $this->usrf_ref_id is category id 
+		// if called from local administration $this->usrf_ref_id is category id
 		// Todo: this has to be fixed. Do not mix user folder id and category id
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
@@ -1043,20 +1048,20 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->getValues();
 		$this->tpl->setContent($this->form_gui->getHTML());
 	}
-	
+
 	/**
 	* Update user
 	*/
 	public function updateObject()
 	{
 		global $tpl, $rbacsystem, $ilias, $ilUser;
-		
+
 		// User folder
 		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
-		// if called from local administration $this->usrf_ref_id is category id 
+		// if called from local administration $this->usrf_ref_id is category id
 		// Todo: this has to be fixed. Do not mix user folder id and category id
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
@@ -1077,7 +1082,23 @@ class ilObjUserGUI extends ilObjectGUI
 				$_POST['passwd'] = "********";
 			}
 			$_POST["passwd_type"] = IL_PASSWD_PLAIN;
-			
+
+			// differentiate account security mode
+			require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+			$security_settings = ilSecuritySettings::_getInstance();
+			if( $security_settings->getAccountSecurityMode() ==
+				ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+			{
+				/*
+				 * reset counter for failed logins
+				 * if $_POST['active'] is set to 1
+				 */
+				if( $_POST['active'] == 1 )
+				{
+					ilObjUser::_resetLoginAttempts( $this->object->getId() );
+				}
+			}
+
 			$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
 			$_POST['time_limit_from'] = $from->get(IL_CAL_UNIX);
 			
@@ -1086,7 +1107,10 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			
 			$this->object->assignData($_POST);
-			
+
+
+
+
 			$udf = array();
 			foreach($_POST as $k => $v)
 			{
@@ -1096,44 +1120,50 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 			}
 			$this->object->setUserDefinedData($udf);
-			
+
 			$this->object->updateLogin($_POST["login"]);
 			$this->object->setTitle($this->object->getFullname());
 			$this->object->setDescription($this->object->getEmail());
 			$this->object->setLanguage($_POST["language"]);
-	
+
 			//set user skin and style
 			$sknst = explode(":", $_POST["skin_style"]);
-	
+
 			if ($this->object->getPref("style") != $sknst[1] ||
 				$this->object->getPref("skin") != $sknst[0])
 			{
 				$this->object->setPref("skin", $sknst[0]);
 				$this->object->setPref("style", $sknst[1]);
 			}
-	
+
 			$this->object->setPref("hits_per_page", $_POST["hits_per_page"]);
 			$this->object->setPref("show_users_online", $_POST["show_users_online"]);
 			if ($_POST["hide_own_online_status"])
 			{
-				$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);	
+				$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
 			}
 			else
 			{
 				$this->object->setPref("hide_own_online_status", "n");
 			}
-			
+
+			// set a timestamp for last_password_change
+			// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
+			// in ilSecuritySettings
+			$this->object->setLastPasswordChangeTS( time() );
+
+
 			$this->update = $this->object->update();
-	
+
 			$ilUser->setPref('send_info_mails', $_POST["send_mail"]);
 			$ilUser->writePrefs();
-	
+
 			$mail_message = $this->__sendProfileMail();
 			$msg = $this->lng->txt('saved_successfully').$mail_message;
-	
+
 			// feedback
 			ilUtil::sendInfo($msg,true);
-	
+
 			if (strtolower($_GET["baseClass"]) == 'iladministrationgui')
 			{
 				$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
@@ -1149,14 +1179,14 @@ class ilObjUserGUI extends ilObjectGUI
 			$tpl->setContent($this->form_gui->getHtml());
 		}
 	}
-	
+
 	/**
 	* Get values from user object and put them into form
 	*/
 	function getValues()
 	{
 		global $ilUser;
-		
+
 		$data = array();
 
 		// login data
@@ -1165,7 +1195,7 @@ class ilObjUserGUI extends ilObjectGUI
 		//$data["passwd"] = "********";
 		//$data["passwd2"] = "********";
 		$data["ext_account"] = $this->object->getExternalAccount();
-		
+
 		// system information
 		$data["create_date"] = $this->object->getCreateDate();
 		$data["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
@@ -1195,7 +1225,7 @@ class ilObjUserGUI extends ilObjectGUI
 			ilObjSAHSLearningModuleAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
 			ilObjMailAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
 			ilObjForumAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>';
-		
+
 		// personal data
 		$data["gender"] = $this->object->getGender();
 		$data["firstname"] = $this->object->getFirstname();
@@ -1214,18 +1244,18 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["email"] = $this->object->getEmail();
 		$data["hobby"] = $this->object->getHobby();
 		$data["referral_comment"] = $this->object->getComment();
-		
+
 		// instant messengers
 		$data["im_icq"] = $this->object->getInstantMessengerId('icq');
 		$data["im_yahoo"] = $this->object->getInstantMessengerId('yahoo');
 		$data["im_msn"] = $this->object->getInstantMessengerId('msn');
 		$data["im_aim"] = $this->object->getInstantMessengerId('aim');
 		$data["im_skype"] = $this->object->getInstantMessengerId('skype');
-		
+
 		// other data
 		$data["matriculation"] = $this->object->getMatriculation();
 		$data["client_ip"] = $this->object->getClientIP();
-		
+
 		// user defined fields
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$this->user_defined_fields = ilUserDefinedFields::_getInstance();
@@ -1241,13 +1271,13 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["hits_per_page"] = $this->object->prefs["hits_per_page"];
 		$data["show_users_online"] = $this->object->prefs["show_users_online"];
 		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"];
-		
+
 		// note: this option is used from / set for the user currently administrating
 		$data["send_mail"] = $ilUser->getPref('send_info_mails');
-		
+
 		$this->form_gui->setValuesByArray($data);
 	}
-	
+
 	/**
 	* Init user form
 	*/
@@ -1256,7 +1286,7 @@ class ilObjUserGUI extends ilObjectGUI
 		global $lng, $ilCtrl, $styleDefinition, $ilSetting, $ilClientIniFile, $ilUser;
 
 		$settings = $ilSetting->getAll();
-		
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
@@ -1268,12 +1298,12 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->form_gui->setTitle($lng->txt("usr_edit"));
 		}
-		
+
 		// login data
 		$sec_l = new ilFormSectionHeaderGUI();
 		$sec_l->setTitle($lng->txt("login_data"));
 		$this->form_gui->addItem($sec_l);
-		
+
 		// authentication mode
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
@@ -1293,7 +1323,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		$am->setOptions($option);
 		$this->form_gui->addItem($am);
-		
+
 		// login
 		$lo = new ilUserLoginInputGUI($lng->txt("login"), "login");
 		$lo->setRequired(true);
@@ -1302,7 +1332,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$lo->setCheckUnused(true);
 		}
 		$this->form_gui->addItem($lo);
-		
+
 		// passwords
 // @todo: do not show passwords, if there is not a single auth, that
 // allows password setting
@@ -1318,7 +1348,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->form_gui->addItem($pw);
 		}
 		// @todo: invisible/hidden passwords
-				
+
 		// external account
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		if(ilAuthUtils::_isExternalAccountEnabled())
@@ -1329,7 +1359,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$ext->setInfo($lng->txt("user_ext_account_desc"));
 			$this->form_gui->addItem($ext);
 		}
-		
+
 		// login data
 		$sec_si = new ilFormSectionHeaderGUI();
 		$sec_si->setTitle($this->lng->txt("system_information"));
@@ -1345,18 +1375,18 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->form_gui->addItem($siai);
 			}
 		}
-		
+
 		// active
 		$ac = new ilCheckboxInputGUI($lng->txt("active"), "active");
 		$ac->setChecked(true);
 		$this->form_gui->addItem($ac);
-		
+
 		// access	@todo: get fields right (names change)
 		$lng->loadLanguageModule('crs');
 		$ac = new ilCheckboxInputGUI($lng->txt("time_limit"), "time_limit_unlimited");
 		$ac->setChecked(true);
 		$ac->setOptionTitle($lng->txt("crs_unlimited"));
-		
+
 		// access.from
 		$acfrom = new ilDateTimeInputGUI($this->lng->txt("crs_from"), "time_limit_from");
 		$acfrom->setShowTime(true);
@@ -1366,12 +1396,12 @@ class ilObjUserGUI extends ilObjectGUI
 		$acto = new ilDateTimeInputGUI($this->lng->txt("crs_to"), "time_limit_until");
 		$acto->setShowTime(true);
 		$ac->addSubItem($acto);
-		
+
 		$this->form_gui->addItem($ac);
-		
+
 		// disk space used
 		// W. Randelshofer 2008-07-07: Deactivated display of disk space usage,
-        // because determining the disk space usage may take several minutes. 
+        // because determining the disk space usage may take several minutes.
 		/*
 		if ($a_mode == "edit")
 		{
@@ -1384,7 +1414,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$sec_pd = new ilFormSectionHeaderGUI();
 		$sec_pd->setTitle($this->lng->txt("personal_data"));
 		$this->form_gui->addItem($sec_pd);
-		
+
 		// gender
 		$gndr = new ilRadioGroupInputGUI($lng->txt("gender"), "gender");
 		$gndr->setRequired(isset($settings["require_gender"]) && $settings["require_gender"]);
@@ -1393,7 +1423,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$male = new ilRadioOption($lng->txt("gender_m"), "m");
 		$gndr->addOption($male);
 		$this->form_gui->addItem($gndr);
-		
+
 		// firstname, lastname, title
 		$fields = array("firstname" => true, "lastname" => true,
 			"title" => isset($settings["require_title"]) && $settings["require_title"]);
@@ -1405,7 +1435,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$inp->setRequired($req);
 			$this->form_gui->addItem($inp);
 		}
-		
+
 		// personal image
 		$pi = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
 		if ($a_mode == "edit" || $a_mode == "upload")
@@ -1413,12 +1443,12 @@ class ilObjUserGUI extends ilObjectGUI
 			$pi->setImage(ilObjUser::_getPersonalPicturePath($this->object->getId()));
 		}
 		$this->form_gui->addItem($pi);
-		
+
 		// contact data
 		$sec_cd = new ilFormSectionHeaderGUI();
 		$sec_cd->setTitle($this->lng->txt("contact_data"));
 		$this->form_gui->addItem($sec_cd);
-		
+
 		// institution, department, street, city, zip code, country, phone office
 		// phone home, phone mobile, fax, e-mail
 		$fields = array(
@@ -1441,13 +1471,13 @@ class ilObjUserGUI extends ilObjectGUI
 				$settings["require_".$field[0]]);
 			$this->form_gui->addItem($inp);
 		}
-		
+
 		// email
 		$em = new ilEMailInputGUI($lng->txt("email"), "email");
 		$em->setRequired(isset($settings["require_email"]) &&
 			$settings["require_email"]);
 		$this->form_gui->addItem($em);
-		
+
 		// interests/hobbies
 		$hob = new ilTextAreaInputGUI($lng->txt("hobby"), "hobby");
 		$hob->setRows(3);
@@ -1455,7 +1485,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$hob->setRequired(isset($settings["require_hobby"]) &&
 			$settings["require_hobby"]);
 		$this->form_gui->addItem($hob);
-		
+
 		// referral comment
 		$rc = new ilTextAreaInputGUI($lng->txt("referral_comment"), "referral_comment");
 		$rc->setRows(3);
@@ -1463,12 +1493,12 @@ class ilObjUserGUI extends ilObjectGUI
 		$rc->setRequired(isset($settings["require_referral_comment"]) &&
 			$settings["require_referral_comment"]);
 		$this->form_gui->addItem($rc);
-		
+
 		// instant messengers
 		$sec_im = new ilFormSectionHeaderGUI();
 		$sec_im->setTitle($this->lng->txt("instant_messengers"));
 		$this->form_gui->addItem($sec_im);
-		
+
 		// icq, yahoo, msn, aim, skype
 		$fields = array("icq", "yahoo", "msn", "aim", "skype");
 		foreach ($fields as $field)
@@ -1483,7 +1513,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$sec_oi = new ilFormSectionHeaderGUI();
 		$sec_oi->setTitle($this->lng->txt("user_profile_other"));
 		$this->form_gui->addItem($sec_oi);
-		
+
 		// matriculation number
 		$mr = new ilTextInputGUI($lng->txt("matriculation"), "matriculation");
 		$mr->setSize(40);
@@ -1491,7 +1521,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$mr->setRequired(isset($settings["require_referral_matriculation"]) &&
 			$settings["require_referral_matriculation"]);
 		$this->form_gui->addItem($mr);
-		
+
 		// client IP
 		$ip = new ilTextInputGUI($lng->txt("client_ip"), "client_ip");
 		$ip->setSize(40);
@@ -1499,7 +1529,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$ip->setInfo($this->lng->txt("current_ip")." ".$_SERVER["REMOTE_ADDR"]." <br />".
 			'<small class="warning">'.$this->lng->txt("current_ip_alert")."</span>");
 		$this->form_gui->addItem($ip);
-		
+
 		// additional user defined fields
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$user_defined_fields = ilUserDefinedFields::_getInstance();
@@ -1527,7 +1557,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$sec_st = new ilFormSectionHeaderGUI();
 		$sec_st->setTitle($this->lng->txt("settings"));
 		$this->form_gui->addItem($sec_st);
-		
+
 		// role
 		if ($a_mode == "create")
 		{
@@ -1538,7 +1568,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$role->setOptions($this->selectable_roles);
 			$this->form_gui->addItem($role);
 		}
-		
+
 		// language
 		$lang = new ilSelectInputGUI($lng->txt("language"),
 			'language');
@@ -1551,7 +1581,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$lang->setOptions($options);
 		$lang->setValue($ilSetting->get("language"));
 		$this->form_gui->addItem($lang);
-		
+
 		// skin/style
 		$sk = new ilSelectInputGUI($lng->txt("skin_style"),
 			'skin_style');
@@ -1571,7 +1601,7 @@ class ilObjUserGUI extends ilObjectGUI
 					{
 						continue;
 					}
-					$options[$template["id"].":".$style["id"]] = 
+					$options[$template["id"].":".$style["id"]] =
 						$styleDef->getTemplateName()." / ".$style["name"];
 				}
 			}
@@ -1601,23 +1631,23 @@ class ilObjUserGUI extends ilObjectGUI
 		$uo->setOptions($options);
 		$uo->setValue($ilSetting->get("show_users_online"));
 		$this->form_gui->addItem($uo);
-		
+
 		// hide online status
 		$os = new ilCheckboxInputGUI($lng->txt("hide_own_online_status"), "hide_own_online_status");
 		$this->form_gui->addItem($os);
-		
+
 		// Options
 		$sec_op = new ilFormSectionHeaderGUI();
 		$sec_op->setTitle($this->lng->txt("options"));
 		$this->form_gui->addItem($sec_op);
-		
+
 		// send email
 		$se = new ilCheckboxInputGUI($lng->txt("inform_user_mail"), "send_mail");
 		$se->setChecked($ilUser->getPref("send_info_mails"));
 		$this->form_gui->addItem($se);
-		
+
 		// @todo: handle all required fields
-		
+
 		// command buttons
 		if ($a_mode == "create" || $a_mode == "save")
 		{
@@ -1639,9 +1669,9 @@ class ilObjUserGUI extends ilObjectGUI
     {
         global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
 			,$ilSetting;
-			
+
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-			
+
 
         //load ILIAS settings
         $settings = $ilias->getAllSettings();
@@ -1651,7 +1681,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
-		// if called from local administration $this->usrf_ref_id is category id 
+		// if called from local administration $this->usrf_ref_id is category id
 		// Todo: this has to be fixed. Do not mix user folder id and category id
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
@@ -1728,7 +1758,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// BEGIN DiskQuota, Show disk space used
 		// W. Randelshofer 2008-07-07: Deactivated display of disk space usage,
-        // because determining the disk space usage may take several minutes. 
+        // because determining the disk space usage may take several minutes.
 		/*
 		require_once "Modules/File/classes/class.ilObjFileAccess.php";
 		require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
@@ -1852,15 +1882,15 @@ class ilObjUserGUI extends ilObjectGUI
 						$this->tpl->setCurrentBlock('passwords_invisible');
 						$this->tpl->setVariable('INVISIBLE_TXT_PASSWD',$this->lng->txt('passwd'));
 						$this->tpl->setVariable('INVISIBLE_TXT_PASSWD2',$this->lng->txt('retype_password'));
-						$this->tpl->setVariable('INVISIBLE_PASSWD',strlen($this->object->getPasswd()) ? 
+						$this->tpl->setVariable('INVISIBLE_PASSWD',strlen($this->object->getPasswd()) ?
 							"********" :
 							"");
-						$this->tpl->setVariable('INVISIBLE_PASSWD2',strlen($this->object->getPasswd()) ? 
+						$this->tpl->setVariable('INVISIBLE_PASSWD2',strlen($this->object->getPasswd()) ?
 							"********" :
 							"");
 						$this->tpl->setVariable('INVISIBLE_PASSWD_HIDDEN',"********");
 						$this->tpl->parseCurrentBlock();
-						
+
 					}
 					continue;
 				}
@@ -1873,7 +1903,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 				$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 
-				if ($key != "default_role" and $key != "language" 
+				if ($key != "default_role" and $key != "language"
 					and $key != "skin_style" and $key != "hits_per_page"
 					and $key != "show_users_online")
 				{
@@ -1883,7 +1913,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 			// gender selection
 			$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
-			
+
 
 			if (!empty($gender))
 			{
@@ -1931,10 +1961,10 @@ class ilObjUserGUI extends ilObjectGUI
 						$this->tpl->setCurrentBlock('passwords_invisible');
 						$this->tpl->setVariable('INVISIBLE_TXT_PASSWD',$this->lng->txt('passwd'));
 						$this->tpl->setVariable('INVISIBLE_TXT_PASSWD2',$this->lng->txt('retype_password'));
-						$this->tpl->setVariable('INVISIBLE_PASSWD',strlen($this->object->getPasswd()) ? 
+						$this->tpl->setVariable('INVISIBLE_PASSWD',strlen($this->object->getPasswd()) ?
 							"********" :
 							"");
-						$this->tpl->setVariable('INVISIBLE_PASSWD2',strlen($this->object->getPasswd()) ? 
+						$this->tpl->setVariable('INVISIBLE_PASSWD2',strlen($this->object->getPasswd()) ?
 							"********" :
 							"");
 						$this->tpl->setVariable('INVISIBLE_PASSWD_HIDDEN',"********");
@@ -1954,10 +1984,10 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				#$this->tpl->parseCurrentBlock();
 			}
-			
+
 			// gender selection
 			$gender = strtoupper($data["fields"]["gender"]);
-		
+
 			if (!empty($gender))
 			{
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
@@ -1998,7 +2028,7 @@ class ilObjUserGUI extends ilObjectGUI
 			*/
 			$this->tpl->parseCurrentBlock();
 		}
-		$auth_mode = $_SESSION['error_post_vars']['Fobject']['auth_mode'] ? 
+		$auth_mode = $_SESSION['error_post_vars']['Fobject']['auth_mode'] ?
 			ilAuthUtils::_getAuthMode($_SESSION['error_post_vars']['Fobject']['auth_mode']) :
 			$this->object->getAuthMode(true);
 		if(!ilAuthUtils::_allowPasswordModificationByAuthMode($auth_mode))
@@ -2006,7 +2036,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("OPTION_DISABLED", "\"disabled=disabled\"");
 		}
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		
+
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -2033,7 +2063,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_CURRENT_IP","(".$this->lng->txt("current_ip")." ".$_SERVER["REMOTE_ADDR"].")");
 		}
 		$this->tpl->setVariable("TXT_CURRENT_IP_ALERT",$this->lng->txt("current_ip_alert"));
-		
+
 		// auth mode selection
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		$active_auth_modes = ilAuthUtils::_getActiveAuthModes();
@@ -2053,7 +2083,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$name = $this->lng->txt('auth_'.$auth_name);
 			}
-			
+
 			$this->tpl->setVariable("AUTH_MODE_NAME", $name);
 
 			$this->tpl->setVariable("AUTH_MODE", $auth_name);
@@ -2065,8 +2095,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		} // END auth_mode selection
-		
-		
+
+
 		// language selection
 		$languages = $this->lng->getInstalledLanguages();
 
@@ -2086,25 +2116,25 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		} // END language selection
-		
+
 		// BEGIN skin & style selection
 		//$this->ilias->getSkins();
 		$templates = $styleDefinition->getAllTemplates();
-		
+
 		// preselect previous chosen skin/style otherwise default skin/style
 		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
 		{
 			$sknst = explode(":", $_SESSION["error_post_vars"]["Fobject"]["skin_style"]);
-			
+
 			$selected_style = $sknst[1];
-			$selected_skin = $sknst[0];	
+			$selected_skin = $sknst[0];
 		}
 		else
 		{
 			$selected_style = $this->object->prefs["style"];
-			$selected_skin = $this->object->skin;	
+			$selected_skin = $this->object->skin;
 		}
-		
+
 		include("./Services/Style/classes/class.ilObjStyleSettings.php");
 		if (count($templates) > 0 && is_array ($templates))
 		{
@@ -2121,15 +2151,15 @@ class ilObjUserGUI extends ilObjectGUI
 					{
 						continue;
 					}
-	
+
 					$this->tpl->setCurrentBlock("selectskin");
-	
+
 					if ($selected_skin == $template["id"] &&
 						$selected_style == $style["id"])
 					{
 						$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
 					}
-	
+
 					$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
 					$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
 					$this->tpl->parseCurrentBlock();
@@ -2194,27 +2224,27 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		// END show users online
-			
+
 		// BEGIN hide_own_online_status
 		if (isset($_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"]))
 		{
 			$hide_own_online_status = $_SESSION["error_post_vars"]["Fobject"]["hide_own_online_status"];
 		}
 		else
-		{			
+		{
 			$hide_own_online_status = ($this->object->prefs["hide_own_online_status"] != '') ? $this->object->prefs["hide_own_online_status"] : "n";
 		}
-		$this->tpl->setCurrentBlock("hide_own_online_status");				
+		$this->tpl->setCurrentBlock("hide_own_online_status");
 		$this->tpl->setVariable("TXT_HIDE_OWN_ONLINE_STATUS", $this->lng->txt("hide_own_online_status"));
 		if ($hide_own_online_status == "y") {
 			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "checked=\"checked\"");
 		}
 		else {
 			$this->tpl->setVariable("CHK_HIDE_OWN_ONLINE_STATUS", "");
-		} 
-		$this->tpl->parseCurrentBlock();		
+		}
+		$this->tpl->parseCurrentBlock();
 		//END hide_own_online_status
-		
+
 		// inform user about changes option
 		$this->tpl->setCurrentBlock("inform_user");
 
@@ -2270,7 +2300,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->tpl->setVariable("SELECT_TIME_LIMIT_UNTIL_YEAR",$this->__getDateSelect("year","time_limit[until][year]",
                                                                                     date("Y",$time_limit_until)));
 		$this->tpl->parseCurrentBlock();
-		
+
 		$this->__showUserDefinedFields();
 	}
 
@@ -2286,12 +2316,12 @@ class ilObjUserGUI extends ilObjectGUI
 
 
 		// User folder
-		if($this->usrf_ref_id == USER_FOLDER_ID and 
+		if($this->usrf_ref_id == USER_FOLDER_ID and
 			!$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
-		// if called from local administration $this->usrf_ref_id is category id 
+		// if called from local administration $this->usrf_ref_id is category id
 		// Todo: this has to be fixed. Do not mix user folder id and category id
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
@@ -2309,15 +2339,15 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 			else
 			{
-				
+
 				$webspace_dir = ilUtil::getWebspaceDir();
 				$image_dir = $webspace_dir."/usr_images";
 				$store_file = "usr_".$this->object->getId()."."."jpg";
-			
+
 				// store filename
 				$this->object->setPref("profile_image", $store_file);
 				$this->object->update();
-					
+
 				// move uploaded file
 				$uploaded_file = $image_dir."/upload_".$this->object->getId()."pic";
 
@@ -2328,12 +2358,12 @@ class ilObjUserGUI extends ilObjectGUI
 					$this->ctrl->redirect($this, "showProfile");
 				}
 				chmod($uploaded_file, 0770);
-			
+
 				// take quality 100 to avoid jpeg artefacts when uploading jpeg files
 				// taking only frame [0] to avoid problems with animated gifs
-				$show_file  = "$image_dir/usr_".$this->object->getId().".jpg"; 
+				$show_file  = "$image_dir/usr_".$this->object->getId().".jpg";
 				$thumb_file = "$image_dir/usr_".$this->object->getId()."_small.jpg";
-				$xthumb_file = "$image_dir/usr_".$this->object->getId()."_xsmall.jpg"; 
+				$xthumb_file = "$image_dir/usr_".$this->object->getId()."_xsmall.jpg";
 				$xxthumb_file = "$image_dir/usr_".$this->object->getId()."_xxsmall.jpg";
 				$uploaded_file = ilUtil::escapeShellArg($uploaded_file);
 				$show_file = ilUtil::escapeShellArg($show_file);
@@ -2346,7 +2376,7 @@ class ilObjUserGUI extends ilObjectGUI
 				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
 			}
 		}
-		
+
 		$this->editObject();
 	}
 
@@ -2362,12 +2392,12 @@ class ilObjUserGUI extends ilObjectGUI
 		$xthumb_file = $image_dir."/usr_".$this->object->getID()."_xsmall.jpg";
 		$xxthumb_file = $image_dir."/usr_".$this->object->getID()."_xxsmall.jpg";
 		$upload_file = $image_dir."/upload_".$this->object->getID();
-	
+
 		// remove user pref file name
 		$this->object->setPref("profile_image", "");
 		$this->object->update();
 		ilUtil::sendInfo($this->lng->txt("user_image_removed"));
-	
+
 		if (@is_file($file))
 		{
 			unlink($file);
@@ -2388,7 +2418,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			unlink($upload_file);
 		}
-	
+
 		$this->editObject();
 	}
 // END DiskQuota: Allow administrators to edit user picture
@@ -2401,7 +2431,7 @@ class ilObjUserGUI extends ilObjectGUI
 	function saveObjectOld()
 	{
         global $ilias, $rbacsystem, $rbacadmin, $ilSetting;
-        
+
         include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 
         //load ILIAS settings
@@ -2420,7 +2450,7 @@ class ilObjUserGUI extends ilObjectGUI
             if (substr($key,0,8) == "require_")
             {
                 $field = substr($key,8);
-				
+
                 switch($field)
                 {
                 	case 'passwd':
@@ -2444,7 +2474,7 @@ class ilObjUserGUI extends ilObjectGUI
                 if (empty($_POST["Fobject"][$val]))
                 {
                     $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " .
-											 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);					
+											 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
                 }
             }
         }
@@ -2452,7 +2482,7 @@ class ilObjUserGUI extends ilObjectGUI
 		if(!$this->__checkUserDefinedRequiredFields())
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-		}			
+		}
 
 		// validate login
 		if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
@@ -2475,7 +2505,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
 			}
-	
+
 			// validate password
 			if (!ilUtil::isPassword($_POST["Fobject"]["passwd"]))
 			{
@@ -2489,8 +2519,8 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt('ext_acccount_required'),$this->ilias->error_obj->MESSAGE);
 			}
 		}
-		
-		if($_POST['Fobject']['ext_account'] && 
+
+		if($_POST['Fobject']['ext_account'] &&
 			($elogin = ilObjUser::_checkExternalAuthAccount($_POST['Fobject']['auth_mode'],$_POST['Fobject']['ext_account'])))
 		{
 			if($elogin != '')
@@ -2503,8 +2533,8 @@ class ilObjUserGUI extends ilObjectGUI
 						$this->ilias->error_obj->MESSAGE);
 			}
 		}
-		
-		
+
+
 		// The password type is not passed in the post data.  Therefore we
 		// append it here manually.
 		include_once ('./Services/User/classes/class.ilObjUser.php');
@@ -2549,7 +2579,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$userObj->setUserDefinedData($_POST['udf']);
 
 		$userObj->create();
-		
+
 		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 		if(ilAuthUtils::_isExternalAccountEnabled())
 		{
@@ -2577,17 +2607,17 @@ class ilObjUserGUI extends ilObjectGUI
 		// set hits per pages
 		$userObj->setPref("hits_per_page", $_POST["Fobject"]["hits_per_page"]);
 		// set show users online
-		$userObj->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);			
-		// set hide_own_online_status				
+		$userObj->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);
+		// set hide_own_online_status
 		$userObj->setPref("hide_own_online_status", $_POST["Fobject"]["hide_own_online_status"]);
-		
+
 		$userObj->writePrefs();
 
 		//set role entries
 		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$userObj->getId(),true);
 
 		$msg = $this->lng->txt("user_added");
-		
+
 		// BEGIN DiskQuota: Remember the state of the "send info mail" checkbox
 		global $ilUser;
 		$ilUser->setPref('send_info_mails', ($_POST["send_mail"] != "") ? 'y' : 'n');
@@ -2598,10 +2628,10 @@ class ilObjUserGUI extends ilObjectGUI
 		if ($_POST["send_mail"] != "")
 		{
 			include_once("Services/Mail/classes/class.ilAccountMail.php");
-			$acc_mail = new ilAccountMail();		
+			$acc_mail = new ilAccountMail();
 			$acc_mail->setUserPassword($_POST["Fobject"]["passwd"]);
 			$acc_mail->setUser($userObj);
-			
+
 			if ($acc_mail->send())
 			{
 				$msg = $msg."<br />".$this->lng->txt("mail_sent");
@@ -2642,7 +2672,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
-		// if called from local administration $this->usrf_ref_id is category id 
+		// if called from local administration $this->usrf_ref_id is category id
 		// Todo: this has to be fixed. Do not mix user folder id and category id
 		if($this->usrf_ref_id != USER_FOLDER_ID)
 		{
@@ -2674,10 +2704,10 @@ class ilObjUserGUI extends ilObjectGUI
             	default:
 	                $require_keys[] = $field;
 	                break;
-        	
+
         	}
         }
-		
+
         foreach ($require_keys as $key => $val)
         {
             // exclude required system and registration-only fields
@@ -2688,7 +2718,7 @@ class ilObjUserGUI extends ilObjectGUI
                 {
                     if (empty($_POST["Fobject"][$val]))
                     {
-                        $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . 
+                        $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " .
 												 $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
                     }
                 }
@@ -2717,9 +2747,9 @@ class ilObjUserGUI extends ilObjectGUI
 			if($_POST['Fobject']['passwd'] == "********" and
 				!strlen($this->object->getPasswd()))
 			{
-                $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . 
+                $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " .
 					$this->lng->txt('password'),$this->ilias->error_obj->MESSAGE);
-			}				
+			}
 			// check passwords
 			if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
 			{
@@ -2744,7 +2774,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt('ext_acccount_required'),$this->ilias->error_obj->MESSAGE);
 			}
 		}
-		if($_POST['Fobject']['ext_account'] && 
+		if($_POST['Fobject']['ext_account'] &&
 			($elogin = ilObjUser::_checkExternalAuthAccount($_POST['Fobject']['auth_mode'],$_POST['Fobject']['ext_account'])))
 		{
 			if($elogin != $this->object->getLogin())
@@ -2773,7 +2803,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$end = $this->__toUnix($_POST["time_limit"]["until"]);
 
 		// validate time limit
-		if (!$_POST["time_limit"]["unlimited"] and 
+		if (!$_POST["time_limit"]["unlimited"] and
 			( $start > $end))
         {
             $this->ilias->raiseError($this->lng->txt("time_limit_not_valid"),$this->ilias->error_obj->MESSAGE);
@@ -2816,7 +2846,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$this->object->assignData($_POST["Fobject"]);
 		$this->object->setUserDefinedData($_POST['udf']);
-		
+
 		$this->object->updateLogin($_POST["Fobject"]["login"]);
 		$this->object->setTitle($this->object->getFullname());
 		$this->object->setDescription($this->object->getEmail());
@@ -2835,15 +2865,15 @@ class ilObjUserGUI extends ilObjectGUI
 		// set hits per pages
 		$this->object->setPref("hits_per_page", $_POST["Fobject"]["hits_per_page"]);
 		// set show users online
-		$this->object->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);	
-		// set hide_own_online_status				
+		$this->object->setPref("show_users_online", $_POST["Fobject"]["show_users_online"]);
+		// set hide_own_online_status
 		if ($_POST["Fobject"]["hide_own_online_status"]) {
-			$this->object->setPref("hide_own_online_status", $_POST["Fobject"]["hide_own_online_status"]);	
+			$this->object->setPref("hide_own_online_status", $_POST["Fobject"]["hide_own_online_status"]);
 		}
 		else {
 			$this->object->setPref("hide_own_online_status", "n");
 		}
-		
+
 		$this->update = $this->object->update();
 		//$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $this->object->getId());
 
@@ -2887,7 +2917,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		$selected_roles = $_POST["role_id"] ? $_POST["role_id"] : array();
 		$posted_roles = $_POST["role_id_ctrl"] ? $_POST["role_id_ctrl"] : array();
-		
+
 		// prevent unassignment of system role from system user
 		if ($this->object->getId() == SYSTEM_USER_ID and in_array(SYSTEM_ROLE_ID, $posted_roles))
 		{
@@ -2900,7 +2930,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$assigned_global_roles_all = array_intersect($assigned_roles_all,$global_roles_all);
 		$assigned_global_roles = array_intersect($assigned_global_roles_all,$posted_roles);
 		$posted_global_roles = array_intersect($selected_roles,$global_roles_all);
-		
+
 		if ((empty($selected_roles) and count($assigned_roles_all) == count($assigned_roles))
 			 or (empty($posted_global_roles) and count($assigned_global_roles_all) == count($assigned_global_roles)))
 		{
@@ -2919,7 +2949,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$rbacadmin->assignUser($role,$this->object->getId(),false);
 		}
-		
+
         include_once "./Services/AccessControl/classes/class.ilObjRole.php";
 
 		// update object data entry (to update last modification date)
@@ -2937,7 +2967,7 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 	}
-	
+
 	/**
 	* display roleassignment panel
 	*
@@ -2951,14 +2981,14 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_role_to_user"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		$_SESSION['filtered_roles'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['filtered_roles'];
 
         if ($_SESSION['filtered_roles'] > 5)
         {
             $_SESSION['filtered_roles'] = 0;
         }
-        
+
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_role_assignment.html');
 
 		if(true)
@@ -2971,13 +3001,13 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("FILTER_VALUE",$this->lng->txt('apply_filter'));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		// now get roles depending on filter settings
 		$role_list = $rbacreview->getRolesByFilter($_SESSION["filtered_roles"],$this->object->getId());
 		$assigned_roles = $rbacreview->assignedRoles($this->object->getId());
 
         $counter = 0;
-        
+
         include_once ('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		foreach ($role_list as $role)
@@ -2990,7 +3020,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
                 continue;
             }
-            
+
             // build context path
             $path = "";
 
@@ -3014,7 +3044,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 					    $path .= $tmpPath[$i]["title"];
 				    }*/
-				
+
 				    $path = $tmpPath[count($tmpPath)-2]["title"];
 				}
 			}
@@ -3022,16 +3052,16 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role["obj_id"].")</b>";
 			}
-			
+
 			$disabled = false;
-			
+
 			// disable checkbox for system role for the system user
 			if (($this->object->getId() == SYSTEM_USER_ID and $role["obj_id"] == SYSTEM_ROLE_ID)
 				or (!in_array(SYSTEM_ROLE_ID,$rbacreview->assignedRoles($ilUser->getId())) and $role["obj_id"] == SYSTEM_ROLE_ID))
 			{
 				$disabled = true;
 			}
-			
+
             if (substr($role["title"],0,3) == "il_")
             {
             	if (!$assignable)
@@ -3043,14 +3073,14 @@ class ilObjUserGUI extends ilObjectGUI
             	{
             		$rolf2 = $rolf;
             	}
-            		
+
 				$parent_node = $this->tree->getParentNodeData($rolf2);
-				
+
 				$role["description"] = $this->lng->txt("obj_".$parent_node["type"])."&nbsp;(#".$parent_node["obj_id"].")";
             }
-			
+
 			$role_ids[$counter] = $role["obj_id"];
-			
+
             $result_set[$counter][] = ilUtil::formCheckBox(in_array($role["obj_id"],$assigned_roles),"role_id[]",$role["obj_id"],$disabled)."<input type=\"hidden\" name=\"role_id_ctrl[]\" value=\"".$role["obj_id"]."\"/>";
 			$this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $rolf[0]);
 			$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
@@ -3105,7 +3135,7 @@ class ilObjUserGUI extends ilObjectGUI
 				{
 					$start = date('Y',time());
 				}
-					
+
                 for($i = $start;$i < date("Y",time()) + 11;++$i)
                 {
                     $year[$i] = $i;
@@ -3149,12 +3179,12 @@ class ilObjUserGUI extends ilObjectGUI
 				$tpl->setVariable("BTN_VALUE",$value);
 				$tpl->parseCurrentBlock();
 			}
-			
+
 			if (!empty($a_role_ids))
 			{
 				// set checkbox toggles
 				$tpl->setCurrentBlock("tbl_action_toggle_checkboxes");
-				$tpl->setVariable("JS_VARNAME","role_id");			
+				$tpl->setVariable("JS_VARNAME","role_id");
 				$tpl->setVariable("JS_ONCLICK",ilUtil::array_php2js($a_role_ids));
 				$tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
 				$tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
@@ -3222,13 +3252,13 @@ class ilObjUserGUI extends ilObjectGUI
 
 		return ilUtil::formSelect($_SESSION['filtered_roles'],"filter",$action,false,true);
 	}
-	
+
 	function hitsperpageObject()
 	{
 		parent::hitsperpageObject();
 		$this->roleassignmentObject();
 	}
-	
+
 	/**
 	* should be overwritten to add object specific items
 	* (repository items are preloaded)
@@ -3236,17 +3266,17 @@ class ilObjUserGUI extends ilObjectGUI
 	function addAdminLocatorItems()
 	{
 		global $ilLocator;
-		
+
 		$ilLocator->clearItems();
 
 		if ($_GET["admin_mode"] == "settings")	// system settings
-		{		
+		{
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
-				
+
 			if ($_GET['ref_id'] == USER_FOLDER_ID)
-			{					
+			{
 				$ilLocator->addItem($this->lng->txt("obj_".ilObject::_lookupType(
 					ilObject::_lookupObjId($_GET["ref_id"]))),
 					$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
@@ -3257,7 +3287,7 @@ class ilObjUserGUI extends ilObjectGUI
 					ilObject::_lookupObjId($_GET["ref_id"]))),
 					$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
 			}
-			
+
 			if ($_GET["obj_id"] > 0)
 			{
 				$ilLocator->addItem($this->object->getTitle(),
@@ -3280,7 +3310,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
 		}
 		else
-		{		
+		{
 			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
 				$this->object->getRefId() != SYSTEM_FOLDER_ID)
 			{
@@ -3318,7 +3348,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// mail subject
 		$subject = $usr_lang->txt("profile_changed");
 
-			
+
 		// mail body
 		$body = ($usr_lang->txt("reg_mail_body_salutation")." ".$this->object->getFullname().",\n\n");
 
@@ -3348,7 +3378,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$mmail->Body($body);
 		$mmail->Send();
 
-			
+
 		return "<br/>".$this->lng->txt("mail_sent");
 	}
 } // END class.ilObjUserGUI

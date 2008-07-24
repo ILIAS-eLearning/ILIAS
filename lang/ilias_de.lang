@@ -5616,7 +5616,7 @@ mail#:#mail_cronjob_notification_info#:#Hier können Sie eine regelmäßige Bena
 mail#:#mail_no_valid_mailing_list#:#Kein Gültiger Verteiler
 mail#:#mail_received_x_new_mails#:#Sie haben %s neue Nachrichten erhalten.
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
-mail#:#placeholders_advise#:#Platzhalter werden nur für Empfänger im An-Feld ersetzt.%sEmpfänger im CC- und BCC-Feld erhalten Mails ohne ersetzte Platzhalter.  
+mail#:#placeholders_advise#:#Platzhalter werden nur für Empfänger im An-Feld ersetzt.%sEmpfänger im CC- und BCC-Feld erhalten Mails ohne ersetzte Platzhalter.
 mail#:#search_recipients#:#Empfänger suchen
 mcst#:#mcst_add_new_item#:#Neues Mediacast-Objekt hinzufügen
 mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
@@ -5629,7 +5629,7 @@ mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_media_cast#:#Mediacast
 mcst#:#mcst_nr_items#:#Zahl der Objekte
 mcst#:#mcst_play_time#:#Laufzeit
-mcst#:#mcst_settings#:#Einstellungen Mediacast 
+mcst#:#mcst_settings#:#Einstellungen Mediacast
 mcst#:#mcst_visibility_info#:#Öffentliche Objekte sind über RSS ohne jegliche Authentifizierung zugänglich.
 mcst#:#mcst_edit_item#:#Mediacast Item bearbeiten
 mcst#:#mcst_standard_title#:#Standard Media File
@@ -6500,7 +6500,7 @@ pdesk#:#pdesk_feedback_request#:#Feedback-Anfrage
 pdesk#:#pdesk_feedbacks#:#Feedback-Anfragen
 pdesk#:#pdesk_intro#:#Willkommen auf Ihrem Persönlichen Schreibtisch in ILIAS!
 pdesk#:#pdesk_intro2#:#Dies hier ist Ihr persönlicher Arbeitsbereich, auf dem Sie Ihre Arbeit und Ihre Lernvorhaben organisieren können. Sie können sich Angebote aus dem Magazin aussuchen und auf Ihren Schreibtisch legen. Um dies zu tun, müssen Sie zwei Schritte machen:
-pdesk#:#pdesk_intro3#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum. 
+pdesk#:#pdesk_intro3#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
 pdesk#:#pdesk_intro4#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach auf Ihren Schreibtisch legen, in dem Sie auf den Knopf "<i>Auf den Schreibtisch"</i> klicken.
 ps#:#ps_agreement_accepted#:#Nutzungsvereinbarung akzeptiert
 ps#:#ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Kursinhalte zugreifen zu können.
@@ -6751,7 +6751,7 @@ style#:#sty_border#:#Rahmen
 style#:#sty_bottom#:#Unten
 style#:#sty_clear#:#Textumfluß beenden
 style#:#sty_color#:#Farbe
-style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit individuellen Stylesheets werden dem Stil '%s' zugeordnet. Die individuellen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren? 
+style#:#sty_confirm_del_ind_styles_desc#:#Alle Lernmodule mit individuellen Stylesheets werden dem Stil '%s' zugeordnet. Die individuellen Lernmodul-Stylesheets werden damit auch gelöscht. Wollen Sie fortfahren?
 style#:#sty_confirm_del_ind_styles#:#Bestätige Löschen der individuellen Lernmodul-Stylesheets
 style#:#sty_copy_other_stylesheet#:#Kopiere Stylesheet von lokaler Quelle
 style#:#sty_create_ind_style#:#Individuelles Stylesheet anlegen
@@ -7413,7 +7413,7 @@ trac#:#trac_mode_scorm#:#SCORM/AICC
 trac#:#trac_mode_test_finished#:#Test durchgeführt
 trac#:#trac_mode_test_passed_info#:#Der Test muss bestanden sein.
 trac#:#trac_mode_test_passed#:#Test bestanden
-trac#:#trac_mode_tlt_info#:#Die Bearbeitungszeit der NutzerInnen muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen. 
+trac#:#trac_mode_tlt_info#:#Die Bearbeitungszeit der NutzerInnen muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen.
 trac#:#trac_mode_tlt#:#Typische Lerndauer
 trac#:#trac_mode_visits_info#:#Nur die NutzerInnen, die eine festgelegte Anzahl von Aufrufen erreicht haben, erhalten den Status 'Bearbeitet'.
 trac#:#trac_mode_visits#:#Anzahl der Aufrufe
@@ -7607,7 +7607,7 @@ common#:#default_auth_mode_info#:#Sie können hier festlegen, welche Authentifiz
 common#:#err_auth_radius_no_ilias_user#:#Anmeldung fehlgeschlagen! Die Radius-Authentifizierung war erfolgreich aber es existiert kein entsprechender ILIAS-Benutzer.
 auth#:#auth_rad_migration#:#Account Migration:
 auth#:#auth_rad_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf Radius Authentifizierung umzustellen.
-auth#:#auth_account_migration#:#Neues ILIAS-Benutzerkonto 
+auth#:#auth_account_migration#:#Neues ILIAS-Benutzerkonto
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
 ldap#:#ldap_role_assignments#:#Rollenzuordnung
@@ -7819,7 +7819,7 @@ common#:#group_no_registration_msg#:#Sie können dieser Gruppe direkt beitreten.
 crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
 forum#:#is_read#:#Gelesen
 common#:#disk_space_used#:#Belegter Festplattenspeicher
-pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern. 
+pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern.
 common#:#in_use_by#:#In Bearbeitung durch
 common#:#filename_interoperability#:#Interoperabilität
 common#:#filename_special_characters#:#Wegen dem Zeichen / ist dieses Objekt in Webordnern nicht sichtbar
@@ -7850,8 +7850,8 @@ common#:#webfolder_instructions_titletext#:#%1$s als Webordner öffnen
 common#:#webfolder_instructions_text#:#<p>So öffnen Sie <b>[WEBFOLDER_TITLE]</b> als Webordner:</p>[IF_WINDOWS]<h3>Anleitung für Windows Vista</h3><ol><li>Drücken Sie die Tastenkombination Windows+E zum Öffnen des Windows Explorer.</li><li>Klicken Sie auf 'Netzlaufwerk zuordnen' in der Symbolleiste. Dies öffnet den Assistenten 'Netzlaufwerk verbinden'.</li><li>Klicken Sie auf den Link 'Verbindung mit einer Website herstellen'.</li><li>Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine benutzerdefinierte Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.</li><li>Geben Sie in das Feld 'Internet- oder Netzwerkadresse' folgende Adresse ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Geben Sie einen Namen für den Webordner ein, und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Klicken Sie auf Fertigstellen.</li><li>Sie können den Webordner nun über das Startmenü 'Computer' öffnen.</li></ol><h3>Anleitung für Windows XP mit Internet Explorer 6</h3><ol><li>Starten Sie Internet Explorer 6</li><li>Wählen Sie das Menü 'Datei &gt; Öffnen...'</li><li>Geben Sie folgende Adresse in das Feld 'Öffnen' ein:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Kreuzen Sie die Option 'Als Webordner öffnen' an, und klicken Sie auf 'OK'.</li><li>Geben Sie Ihren Benutzernamen und Ihre Passwort ein, und klicken Sie auf 'OK'.</li></ol><h3>Anleitung für Windows XP ohne Internet Explorer 6</h3><ol><li>Starten Sie den Windows Explorer.</li><li>Wählen Sie das Menü 'Extras &gt; Netzlaufwerk verbinden...'.</li><li>Ein Dialogfenster erscheint. Klicken Sie auf den Link 'Onlinespeicherplatz anfordern oder mit einem Netzlaufwerk verbinden'.</li><li>Ein Assistentenfenster erscheint. Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine andere Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.<li>Geben Sie folgenden Text in das Feld 'Internet- oder Netzwerkadresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Anleitung für Mac OS X</h3><ol><li>Aktivieren Sie den Finder.</li><li>Wählen Sie das Menü 'Gehe zu &gt; Mit Server verbinden...'.</li><li>Ein Dialogfenster erscheint. Geben Sie folgende Addresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Anleitung für Linux mit Konqueror</h3><ol><li>Starten Sie den Konqueror Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol><h3>Anleitung für Linux mit Nautilus</h3><ol><li>Starten Sie den Nautilus Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_LINUX]<p>Falls Ihr Computer den Webordner nicht öffnen kann, nehmen Sie bitte mit <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a> Kontakt auf.</p>
 common#:#use_default_instructions#:#Standard-Anleitungstext verwenden.
 common#:#use_customized_instructions#:#Angepassten Anleitungstext verwenden:
-common#:#inline_file_extensions#:#Im Browser anzeigbare Dateien 
-common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 pdf png</b><br/> Alle übrigen Dateien werden zum Herunterladen angeboten. 
+common#:#inline_file_extensions#:#Im Browser anzeigbare Dateien
+common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 pdf png</b><br/> Alle übrigen Dateien werden zum Herunterladen angeboten.
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">anderem Browser</a>.
 common#:#deleted_user_account#:#Gelöschtes Benutzerkonto
@@ -8135,7 +8135,7 @@ content#:#cont_export_tracking#:#Protokolldaten exportieren
 content#:#cont_export_raw#:#CMI (RAW)-Daten
 content#:#cont_export_success#:#Erfolgsdaten (aggregiert)
 content#:#cont_export_type#:#Export-Typ
-content#:#cont_import_tracking#:#Protokolldaten importieren	
+content#:#cont_import_tracking#:#Protokolldaten importieren
 content#:#cont_invalid_new_module#:#Modul nicht kompatibel! Die imsmanifest.xml muss identisch sein.
 content#:#cont_new_module_added#:#Neue Modulversion erfolgreich hochgeladen
 common#:#attempts#:#Versuche
@@ -8478,3 +8478,31 @@ mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von au�
 mcst#:#mcst_default_visibility#:#Standardzugriff
 mcst#:#mcst_visibility_users#:#Öffentlich
 mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
+ps#:#ps_account_security_mode#:#Account Sicherheit
+ps#:#ps_account_security_mode_default#:#Standard Ilias Account Sicherheit
+ps#:#ps_account_security_mode_customized#:#Benutzerdefinierte Account Sicherheit
+ps#:#ps_password_min_length#:#Minimale Passwort Länge
+ps#:#ps_password_max_length#:#Maximale Passwort Länge
+ps#:#ps_password_chars_and_numbers_enabled#:#Buchstaben und Zahlen
+ps#:#ps_password_special_chars_enabled#:#Sonderzeichen
+ps#:#ps_password_max_age#:#Maximales Passwort Alter
+ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
+ps#:#ps_password_chars_and_numbers_enabled_info#:#Wenn aktiviert, müssen Passwörter Buchstaben und Zahlen enthalten.
+ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten.
+ps#:#ps_passwordmin__length_info#:#Setzt die minimale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist müssen Passwörter trotzdem mindestens ein Zeichen enthalten.
+ps#:#ps_password_max_length_info#:#Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist können Passwörter beliebige Längen haben.
+ps#:#ps_password_max_age_info#:#Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist laufen Passwörter nicht ab.
+ps#:#ps_login_max_attempts_info#:# Setzt die maximal Anzahl von fehlgeschlagenen Anmeldeversuchen. Wenn der Wert auf 0 gesetzt ist werden fehlgeschlagene Anmeldeversuche nicht gezählt.
+ps#:#ps_error_message_invalid_password_min_length#:#Minimale Passwortlänge darf nicht kleiner als 0 sein.
+ps#:#ps_error_message_invalid_password_max_length#:#Maximale Passwortlänge darf nicht kleiner als 0 sein.
+ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf nicht kleiner als 0 sein.
+ps#:#ps_error_message_invalid_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen darf nicht kleiner als 0 sein.
+ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als 2 sein wenn es Buchstaben und Zahlen enthalten muss.
+ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimale Passwortlänge darf nicht kleiner als 3 wenn es Buchstaben, Zahlen und Sonderzeichen enthalten muss.
+ps#:#ps_error_message_password_max_less_min#:#Maximale Passwortlänge darf nicht kleiner sein als die minimale Passwortlänge.
+common#:#password_empty#:#Das Passwort darf nicht leer sein.common#:#password_expired#:#Ihr Passwort ist abgelaufen und muß geändert werden, da zuletzt vor %s Tag(en) geändert wurde.
+common#:#new_pass_equals_old_pass#:#Das neue Passwort stimmt mit dem alten überein.
+common#:#password_to_short#:#Das Passwort muß mindestens %s Zeichen lang sein.
+common#:#password_to_long#:#Das Passwort darf höchstens %s Zeichen lang sein.
+common#:#password_must_chars_and_numbers#:#Das Passwort muß Buchstaben und Zahlen enthalten.
+common#:#password_must_special_chars#:#Das Passwort muß Sonderzeichen enthalten.

@@ -106,6 +106,9 @@ class ilObjUser extends ilObject
 	var $longitude;
 	var $loc_zoom;
 
+	var $last_password_change_ts;
+	var $login_attempts;
+
 	var $user_defined_data = array();
 
 	/**
@@ -216,6 +219,12 @@ class ilObjUser extends ilObject
 				//$data["passwd"] = $data["passwd"]; (implicit)
 			}
 			unset($data["i2passw"]);
+
+			// this assign must not be set via $this->assignData($data)
+			// because this method will be called on profile updates and
+			// would set this values to 0, because they arent posted from form
+			$this->setLastPasswordChangeTS( $data['last_password_change'] );
+			$this->setLoginAttempts( $data['login_attempts'] );
 
 
 			// fill member vars in one shot
@@ -392,7 +401,7 @@ class ilObjUser extends ilObject
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,agree_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
-                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom) "
+                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom,last_password_change) "
                 . "VALUES "
                 . "(".
 				$ilDB->quote($this->id).",".
@@ -435,7 +444,8 @@ class ilObjUser extends ilObject
 				$ilDB->quote($this->delicious).",".
 				$ilDB->quote($this->latitude).",".
 				$ilDB->quote($this->longitude).",".
-				$ilDB->quote($this->loc_zoom).
+				$ilDB->quote($this->loc_zoom).",".
+				$ilDB->quote($this->last_password_change_ts).
 				")";
 		}
 		else
@@ -528,14 +538,14 @@ class ilObjUser extends ilObject
 
         $this->syncActive();
 
-        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == "0000-00-00 00:00:00")) 
+        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == "0000-00-00 00:00:00"))
         {
             $agreedate_update = "agree_date= ".$ilDB->quote($this->agree_date).",";
         } else
         {
             $agreedate_update = "";
         }
-            
+
 		$pw_udpate = '';
 		switch ($this->passwd_type)
 		{
@@ -596,11 +606,12 @@ class ilObjUser extends ilObject
 			"latitude= ".$ilDB->quote($this->getLatitude()).",".
 			"longitude= ".$ilDB->quote($this->getLongitude()).",".
 			"loc_zoom= ".$ilDB->quote($this->getLocationZoom()).",".
-            "last_update=now()".
+            "last_update=now()".",".
+            "last_password_change= ".$ilDB->quote($this->getLastPasswordChangeTS()).
 		//	"ilinc_id= ".$ilDB->quote($this->ilinc_id).",".
 		//	"ilinc_login= ".$ilDB->quote($this->ilinc_login).",".
 		//	"ilinc_passwd= ".$ilDB->quote($this->ilinc_passwd)." ".
-            "WHERE usr_id= ".$ilDB->quote($this->id);
+            " WHERE usr_id= ".$ilDB->quote($this->id);
 
 		$this->ilias->db->query($q);
 		$this->writePrefs();
@@ -719,7 +730,7 @@ class ilObjUser extends ilObject
 		$user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC);
 		return $user_rec["login"];
 	}
-	
+
 	/**
 	* lookup external account for login and authmethod
 	*/
@@ -1069,18 +1080,18 @@ class ilObjUser extends ilObject
 			$this->ilias->db->query($q);
 		}
 	}
-	
+
 	/**
 	 * get timezone of user
 	 *
 	 * @access public
-	 * 
+	 *
 	 */
 	public function getTimeZone()
 	{
 	 	if($tz = $this->getPref('user_tz'))
 	 	{
-	 		return $tz; 
+	 		return $tz;
 	 	}
 	 	else
 	 	{
@@ -1089,7 +1100,7 @@ class ilObjUser extends ilObject
 	 		return $settings->getDefaultTimeZone();
 	 	}
 	}
-	
+
 	/**
 	 * get time format
 	 *
@@ -1100,14 +1111,14 @@ class ilObjUser extends ilObject
 	{
 	 	if($format = $this->getPref('time_format'))
 	 	{
-	 		return $format; 
+	 		return $format;
 	 	}
 	 	else
 	 	{
 	 		include_once('Services/Calendar/classes/class.ilCalendarSettings.php');
 	 		$settings = ilCalendarSettings::_getInstance();
 	 		return $settings->getDefaultTimeFormat();
-	 	}		
+	 	}
 	}
 
 	/**
@@ -1169,7 +1180,7 @@ class ilObjUser extends ilObject
 		{
 			$this->oldPrefs = $this->prefs;
 		}
-		
+
 		$this->prefs = ilObjUser::_getPreferences($this->id);
 		return count($prefs);
 	}
@@ -1193,7 +1204,7 @@ class ilObjUser extends ilObject
 		$mailbox = new ilMailbox($this->getId());
 		$mailbox->delete();
 		$mailbox->updateMailsOfDeletedUser();
-		
+
 		// delete feed blocks on personal desktop
 		include_once("./Services/Block/classes/class.ilCustomBlock.php");
 		$costum_block = new ilCustomBlock();
@@ -1210,7 +1221,7 @@ class ilObjUser extends ilObject
 			}
 		}
 
-		
+
 		// delete block settings
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		ilBlockSetting::_deleteSettingsOfUser($this->getId());
@@ -1420,12 +1431,12 @@ class ilObjUser extends ilObject
 	public static function _hasAcceptedAgreement($a_username)
 	{
 		global $ilDB;
-		
+
 		if($a_username == 'root')
 		{
 			return true;
 		}
-		
+
 		$query = "SELECT usr_id FROM usr_data ".
 			"WHERE login = ".$ilDB->quote($a_username)." ".
 			"AND agree_date != '0000-00-00 00:00:00'";
@@ -1865,6 +1876,17 @@ class ilObjUser extends ilObject
 		 return $this->prefs["language"];
 	}
 
+	public function setLastPasswordChangeTS($a_last_password_change_ts)
+	{
+		$this->last_password_change_ts = $a_last_password_change_ts;
+	}
+
+	public function getLastPasswordChangeTS()
+	{
+		return $this->last_password_change_ts;
+	}
+
+
 	function _lookupLanguage($a_usr_id)
 	{
 		global $ilDB;
@@ -2068,7 +2090,7 @@ class ilObjUser extends ilObject
     function syncActive()
     {
         global $ilAuth;
-        
+
         $storedActive   = 0;
         if ($this->getStoredActive($this->id))
         {
@@ -2158,6 +2180,16 @@ class ilObjUser extends ilObject
 		return $this->time_limit_message;
 	}
 
+	public function setLoginAttempts($a_login_attempts)
+	{
+		$this->login_attempts = $a_login_attempts;
+	}
+
+	public function getLoginAttempts()
+	{
+		return $this->login_attempts;
+	}
+
 
 	function checkTimeLimit()
 	{
@@ -2179,6 +2211,45 @@ class ilObjUser extends ilObject
     {
         return $this->profile_incomplete;
     }
+
+    public function isPasswordExpired()
+    {
+		//error_reporting(E_ALL);
+		if($this->id == ANONYMOUS_USER_ID) return false;
+
+    	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+    	$security = ilSecuritySettings::_getInstance();
+    	if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+    	{
+    		$max_pass_age_ts = ( $security->getPasswordMaxAge() * 86400 );
+			$pass_change_ts = $this->getLastPasswordChangeTS();
+	   		$current_ts = time();
+
+			if( ($current_ts - $pass_change_ts) > $max_pass_age_ts )
+				return true;
+    	}
+    	return false;
+    }
+
+    public function getPasswordAge()
+    {
+    	$current_ts = time();
+    	$pass_change_ts = $this->getLastPasswordChangeTS();
+    	$password_age = (int) ( ($current_ts - $pass_change_ts) / 86400 );
+    	return $password_age;
+    }
+
+    public function setLastPasswordChangeToNow()
+    {
+    	$this->setLastPasswordChangeTS( time() );
+
+    	$query = "UPDATE usr_data SET usr_data.last_password_change = ? WHERE usr_data.usr_id = ?";
+    	$statement = $this->db->prepareManip( $query, array('integer','integer') );
+    	$affected = $this->db->execute( $statement, array($this->getLastPasswordChangeTS(),$this->id) );
+    	if($affected) return true;
+    	else return false;
+    }
+
 
 
 	/**
@@ -2290,7 +2361,7 @@ class ilObjUser extends ilObject
 
 		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
 		require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-		if (ilDAVServer::_isActive()) 
+		if (ilDAVServer::_isActive())
 		{
 			require_once ('Services/Authentication/classes/class.ilAuthContainerMDB2.php');
 			$username = ilAuthContainerMDB2::toUsernameWithoutDomain($this->ilias->auth->getUsername());
@@ -2444,7 +2515,7 @@ class ilObjUser extends ilObject
 	{
 		// NO CLASS VARIABLES IN STATIC METHODS
 		global $ilias, $ilDB;
-		
+
 		$active_filter = "";
 		$time_limit_filter = "";
 		$join_filter = " WHERE ";
@@ -2453,7 +2524,7 @@ class ilObjUser extends ilObject
 		if (is_numeric($active) && $active > -1 && $filter_settings === FALSE) $active_filter = " AND active = ".$ilDB->quote($active);
 		global $ilLog; $ilLog->write("active = $active, filter settings = $filter_settings, active_filter = $active_filter");
 
-		
+
 		if ($filter_settings !== FALSE && strlen($filter_settings))
 		{
 			switch ($filter_settings)
@@ -2843,6 +2914,7 @@ class ilObjUser extends ilObject
 					}
 					break;
 			}
+
 			$r = $ilDB->query($q);
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2917,8 +2989,8 @@ class ilObjUser extends ilObject
 			ilObjUser::_writePref($usr_rec["usr_id"], "style", $a_to_style);
 		}
 	}
-	
-	
+
+
 	/**
 	* add an item to user's personal desktop
 	*
@@ -2926,7 +2998,7 @@ class ilObjUser extends ilObject
 	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
 	*									(learning modules, forums) obj_id for others
 	* @param	string	$a_type			object type
-	* @static 
+	* @static
 	*/
 	public static function _addDesktopItem($a_usr_id, $a_item_id, $a_type, $a_par = "")
 	{
@@ -2999,7 +3071,7 @@ class ilObjUser extends ilObject
 		$this->ilias->db->query($q);
 	}
 
-	
+
 	/**
 	* drop an item from user's personal desktop
 	*
@@ -3019,7 +3091,7 @@ class ilObjUser extends ilObject
 			" user_id = ".$ilDB->quote($a_usr_id);
 		$ilDB->query($q);
 	}
-	
+
 	/**
 	* drop an item from user's personal desktop
 	*
@@ -3038,8 +3110,8 @@ class ilObjUser extends ilObject
 			" user_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 */	}
-	
-	
+
+
 	/**
 	* check wether an item is on the users desktop or not
 	*
@@ -3047,7 +3119,7 @@ class ilObjUser extends ilObject
 	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
 	*									(learning modules, forums) obj_id for others
 	* @param	string	$a_type			object type
-	* @static 
+	* @static
 	*/
 	public static function _isDesktopItem($a_usr_id, $a_item_id, $a_type)
 	{
@@ -3132,8 +3204,8 @@ class ilObjUser extends ilObject
 					$parent_ref = $tree->getParentId($item_rec["ref_id"]);
 					$par_left = $tree->getLeftValue($parent_ref);
 					$par_left = sprintf("%010d", $par_left);
-					
-					
+
+
 					$title = ilObject::_lookupTitle($item_rec["obj_id"]);
 					$desc = ilObject::_lookupDescription($item_rec["obj_id"]);
 					$items[$par_left.$title.$item_rec["ref_id"]] =
@@ -3193,12 +3265,12 @@ class ilObjUser extends ilObject
 		$a_parent = 0, $a_time = 0, $a_order_nr = 0)
 	{
 		global $ilDB;
-		
+
 		if ($a_time == 0)
 		{
 			$a_time = date("Y-m-d H:i:s", time());
 		}
-		
+
 		$st = $ilDB->prepare("SELECT * FROM personal_clipboard WHERE ".
 			"parent = ? AND item_id = ? AND type = ? AND user_id = ?",
 			array("integer", "integer", "text", "integer"));
@@ -3230,7 +3302,7 @@ class ilObjUser extends ilObject
 	function clipboardHasObjectsOfType($a_type)
 	{
 		global $ilDB;
-		
+
 		$st = $ilDB->prepare("SELECT * FROM personal_clipboard WHERE ".
 			"parent = ? AND type = ? AND user_id = ?",
 			array("integer", "text", "integer"));
@@ -3240,24 +3312,24 @@ class ilObjUser extends ilObject
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	* Delete objects of type for user
 	*/
 	function clipboardDeleteObjectsOfType($a_type)
 	{
 		global $ilDB;
-		
+
 		$st = $ilDB->prepareManip("DELETE FROM personal_clipboard WHERE ".
 			"type = ? AND user_id = ?",
 			array("text", "integer"));
 		$ilDB->execute($st,
 			array($a_type, $this->getId()));
 	}
-	
+
 	/**
 	* get all clipboard objects of user and specified type
 	*/
@@ -3501,8 +3573,8 @@ class ilObjUser extends ilObject
 
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * lookup auth mode
 	 *
@@ -3514,7 +3586,7 @@ class ilObjUser extends ilObject
 	public static function _lookupAuthMode($a_usr_id)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT auth_mode FROM usr_data ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
 		$res = $ilDB->query($query);
@@ -3528,7 +3600,7 @@ class ilObjUser extends ilObject
 	/**
 	* check whether external account and authentication method
 	* matches with a user
-	* 
+	*
 	* @static
 	*/
 	public static function _checkExternalAuthAccount($a_auth, $a_account)
@@ -3543,7 +3615,7 @@ class ilObjUser extends ilObject
 		{
 			return $usr["login"];
 		}
-		
+
 		// For compatibility, check for login (no ext_account entry given)
 		$query = "SELECT login FROM usr_data ".
 			"WHERE login = ".$ilDB->quote($a_account)." ".
@@ -3554,7 +3626,7 @@ class ilObjUser extends ilObject
 			$usr = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			return $usr['login'];
 		}
-		
+
 		// If auth_default == $a_auth => check for login
 		if(ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode')) == $a_auth)
 		{
@@ -3562,18 +3634,18 @@ class ilObjUser extends ilObject
 			$query = "SELECT login FROM usr_data ".
 				"WHERE ext_account = ".$ilDB->quote($a_account)." ".
 				"AND auth_mode = 'default'";
-			
+
 			$res = $ilDB->query($query);
 			if ($usr = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				return $usr["login"];
 			}
-			
+
 			// Search for login (no ext_account given)
 			$query = "SELECT login FROM usr_data ".
 				"WHERE (login =".$ilDB->quote($a_account)." AND ext_account = '') ".
 				"AND auth_mode = 'default'";
-			
+
 			$res = $ilDB->query($query);
 			if ($usr = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
@@ -3746,7 +3818,7 @@ class ilObjUser extends ilObject
 		foreach($a_data as $field => $data)
 		{
 			#$new_data[$field] = ilUtil::stripSlashes($data);
-			// Assign it directly to avoid update problems of unchangable fields 
+			// Assign it directly to avoid update problems of unchangable fields
 			$this->user_defined_data[$field] = $data;
 		}
 		#$this->user_defined_data = $new_data;
@@ -4015,13 +4087,13 @@ class ilObjUser extends ilObject
 			$set = $ilDB->query($query);
 			if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				
+
 				return $rec["value"];
 			}
 		}
 		return false;
-	}		
-	
+	}
+
 	/**
 	* Set news feed password for user
 	* @param	integer	user_id
@@ -4044,8 +4116,8 @@ class ilObjUser extends ilObject
 		    $data = array($a_user_id, "priv_feed_pass", md5($a_password));
 		   }
 		  $statement->execute($data);
-		}	
-	}	
+		}
+	}
 
 	/**
 	* check if a login name already exists
@@ -4079,7 +4151,7 @@ class ilObjUser extends ilObject
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Check if an external account name already exists
 	 *
@@ -4088,17 +4160,17 @@ class ilObjUser extends ilObject
 	 *
 	 * @param string external account
 	 * @param string auth mode
-	 * 
+	 *
 	 */
 	public static function _externalAccountExists($a_external_account,$a_auth_mode)
 	{
 		global $ilDB;
-		
+
 		$query = "SELECT * FROM usr_data ".
 			"WHERE ext_account = ".$ilDB->quote($a_external_account)." ".
 			"AND auth_mode = ".$ilDB->quote($a_auth_mode);
 		$res = $ilDB->query($query);
-		return $res->numRows() ? true :false; 
+		return $res->numRows() ? true :false;
 	}
 
 	/**
@@ -4116,7 +4188,7 @@ class ilObjUser extends ilObject
 
 		if (count ($ids) == 0)
 			$ids = array (-1);
-			
+
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 							FROM usr_data
 							LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
@@ -4181,8 +4253,8 @@ class ilObjUser extends ilObject
 	{
 		return ilObjUser::_getUsersForIds($a_mem_ids, $active);
 	}
-	
-	
+
+
 	/**
 	* return user data for given user id
 	* @param int array of member ids
@@ -4206,7 +4278,7 @@ class ilObjUser extends ilObject
 
   	    if (is_numeric($active) && $active > -1)
   			$query .= " AND active = '$active'";
-  		
+
   		if ($timelimitowner != USER_FOLDER_ID && $timelimitowner != -1)
 		    $query .= " AND usr_data.time_limit_owner = ".$ilDB->quote($timelimitowner);
 
@@ -4221,7 +4293,7 @@ class ilObjUser extends ilObject
 
 		return $mem_arr ? $mem_arr : array();
 	}
-	
+
 
 
 	/**
@@ -4269,9 +4341,9 @@ class ilObjUser extends ilObject
 		}
 		return $data;
 	}
-	
+
 	/**
-	 * get preferences for user 
+	 * get preferences for user
 	 *
 	 * @param int $user_id
 	 * @return array of keys (pref_keys) and values
@@ -4291,6 +4363,56 @@ class ilObjUser extends ilObject
 		} // while
 
 		return $prefs;
+	}
+
+
+	public static function _resetLoginAttempts($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "UPDATE usr_data SET usr_data.login_attempts = 0 WHERE usr_data.usr_id = ?";
+		$statement = $ilDB->prepareManip( $query, array('integer') );
+		$affected = $ilDB->execute( $statement, array($a_usr_id) );
+
+		if($affected) return true;
+		else return false;
+	}
+
+	public static function _getLoginAttempts($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT usr_data.login_attempts FROM usr_data WHERE usr_data.usr_id = ?";
+		$statement = $ilDB->prepare( $query, array('integer') );
+		$result = $ilDB->execute( $statement, array($a_usr_id) );
+		$record = $ilDB->fetchAssoc( $result );
+		$login_attempts = $record['login_attempts'];
+
+		return $login_attempts;
+	}
+
+	public static function _incrementLoginAttempts($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "UPDATE usr_data SET usr_data.login_attempts = (usr_data.login_attempts + 1) WHERE usr_data.usr_id = ?";
+		$statement = $ilDB->prepareManip( $query, array('integer') );
+		$affected = $ilDB->execute( $statement, array($a_usr_id) );
+
+		if($affected) return true;
+		else return false;
+	}
+
+	public static function _setUserInactive($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "UPDATE usr_data SET usr_data.active = 0 WHERE usr_data.usr_id = ?";
+		$statement = $ilDB->prepareManip( $query, array('integer') );
+		$affected = $ilDB->execute( $statement, array($a_usr_id) );
+
+		if($affected) return true;
+		else return false;
 	}
 
 } // END class ilObjUser

@@ -199,6 +199,17 @@ class ilRepositoryGUI
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 		}
 
+		if( $ilUser->isPasswordExpired() )
+		{
+			$msg = $this->lng->txt('password_expired');
+			$password_age = $ilUser->getPasswordAge();
+
+			ilUtil::sendInfo( sprintf($msg,$password_age), true );
+
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
+
+
 		// check creation mode
 		// determined by "new_type" parameter
 		$new_type = $_POST["new_type"]

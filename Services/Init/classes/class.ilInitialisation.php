@@ -1067,6 +1067,16 @@ class ilInitialisation
 				$ilUser->refreshLogin();
 			}
 
+			// differentiate account security mode
+			require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+			$security_settings = ilSecuritySettings::_getInstance();
+			if( $security_settings->getAccountSecurityMode() ==
+				ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+			{
+				// reset counter for failed logins
+				ilObjUser::_resetLoginAttempts( $ilUser->getId() );
+			}
+
 			// set hits per page for all lists using table module
 			$_GET['limit'] = $_SESSION['tbl_limit'] = (int) $ilUser->getPref('hits_per_page');
 
@@ -1135,6 +1145,34 @@ class ilInitialisation
 				}
 				// we should not get here => public section needs no redirect smeyer
 				// exit;
+			}
+		}
+		else if(!$ilAuth->getAuth())
+		{
+			require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+			// differentiate account security mode
+			$security = ilSecuritySettings::_getInstance();
+			if( $security->getAccountSecurityMode() ==
+				ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+			{
+				if($_POST['username'] && $ilUser->getId() == 0)
+				{
+					$username = ilUtil::stripSlashes( $_POST['username'] );
+					$usr_id = ilObjUser::_lookupId( $username );
+
+					if( $usr_id != ANONYMOUS_USER_ID )
+					{
+						ilObjUser::_incrementLoginAttempts($usr_id);
+
+						$login_attempts = ilObjUser::_getLoginAttempts( $usr_id );
+						$max_attempts = $security->getLoginMaxAttempts();
+
+						if( $login_attempts >= $max_attempts && $usr_id != SYSTEM_USER_ID )
+						{
+							ilObjUser::_setUserInactive( $usr_id );
+						}
+					}
+				}
 			}
 		}
 

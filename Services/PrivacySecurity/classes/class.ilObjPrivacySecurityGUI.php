@@ -53,7 +53,14 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		ilObjPrivacySecurityGUI::$ERROR_MESSAGE = array (
 		   ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS => $this->lng->txt("ps_error_message_https_header_missing"),
 		   ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE => $this->lng->txt('https_not_possible'),
-	       ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE => $this->lng->txt('http_not_possible')
+	       ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE => $this->lng->txt('http_not_possible'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH => $this->lng->txt('ps_error_message_invalid_password_min_length'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_LENGTH => $this->lng->txt('ps_error_message_invalid_password_max_length'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MAX_AGE => $this->lng->txt('ps_error_message_invalid_password_max_age'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS => $this->lng->txt('ps_error_message_invalid_login_max_attempts'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2 => $this->lng->txt('ps_error_message_password_min2_because_chars_numbers'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3 => $this->lng->txt('ps_error_message_password_min3_because_chars_numbers_specialchars'),
+	       ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH => $this->lng->txt('ps_error_message_password_max_less_min')
 		);
 	}
 
@@ -170,7 +177,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 	$this->tpl->setVariable('TXT_ANONYMITY',$this->lng->txt('disable_anonymous_fora'));
 	 	$this->tpl->setVariable('TXT_ANONYMOUS_FORA',$this->lng->txt('disable_anonymous_fora_desc'));
 	 	$this->tpl->setVariable('CHECK_ANONYMOUS_FORA',ilUtil::formCheckbox($privacy->disabledAnonymousFora() ? 1 : 0,'anonymous_fora',1));
-		
+
 
 	 	$this->tpl->setVariable('TXT_SAVE',$this->lng->txt('save'));
 	}
@@ -183,9 +190,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function showSecurity()
 	{
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		
-		$privacy = ilSecuritySettings::_getInstance();
+
+		$security = ilSecuritySettings::_getInstance();
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.show_security.html','Services/PrivacySecurity');
 
 		$this->tabs_gui->setTabActive('show_security');
@@ -193,31 +201,84 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('ps_security_protection'));
-		
+
 		// Form checkbox
 		$check = new ilCheckboxInputGUI($this->lng->txt('ps_auto_https'),'auto_https_detect_enabled');
 		$check->setOptionTitle($this->lng->txt('ps_auto_https_description'));
-		$check->setChecked($privacy->isAutomaticHTTPSEnabled() ? 1 : 0);
+		$check->setChecked($security->isAutomaticHTTPSEnabled() ? 1 : 0);
 		$check->setValue(1);
-		
+
 			$text = new ilTextInputGUI($this->lng->txt('ps_auto_https_header_name'),'auto_https_detect_header_name');
-			$text->setValue($privacy->getAutomaticHTTPSHeaderName());
+			$text->setValue($security->getAutomaticHTTPSHeaderName());
 			$text->setSize(24);
 			$text->setMaxLength(64);
 		$check->addSubItem($text);
-			
+
 			$text = new ilTextInputGUI($this->lng->txt('ps_auto_https_header_value'),'auto_https_detect_header_value');
-			$text->setValue($privacy->getAutomaticHTTPSHeaderValue());
+			$text->setValue($security->getAutomaticHTTPSHeaderValue());
 			$text->setSize(24);
 			$text->setMaxLength(64);
-		
 		$check->addSubItem($text);
+
 		$form->addItem($check);
 
 		$check2 = new ilCheckboxInputGUI($this->lng->txt('activate_https'),'https_enabled');
-		$check2->setChecked($privacy->isHTTPSEnabled() ? 1 : 0);
+		$check2->setChecked($security->isHTTPSEnabled() ? 1 : 0);
 		$check2->setValue(1);
 		$form->addItem($check2);
+
+		$radio_group = new ilRadioGroupInputGUI($this->lng->txt('ps_account_security_mode'), 'account_security_mode' );
+		$radio_group->setValue($security->getAccountSecurityMode());
+
+			$radio_opt = new ilRadioOption($this->lng->txt('ps_account_security_mode_default'),ilSecuritySettings::ACCOUNT_SECURITY_MODE_DEFAULT);
+		$radio_group->addOption($radio_opt);
+
+			$radio_opt = new ilRadioOption($this->lng->txt('ps_account_security_mode_customized'),ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED);
+
+				$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_chars_and_numbers_enabled'),'password_chars_and_numbers_enabled');
+				$check->setChecked( $security->isPasswordCharsAndNumbersEnabled() ? 1 : 0 );
+				//$check->setOptionTitle($this->lng->txt('ps_password_chars_and_numbers_enabled'));
+				$check->setInfo($this->lng->txt('ps_password_chars_and_numbers_enabled_info'));
+			$radio_opt->addSubItem($check);
+
+				$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_special_chars_enabled'),'password_special_chars_enabled');
+				$check->setChecked( $security->isPasswordSpecialCharsEnabled() ? 1 : 0 );
+				//$check->setOptionTitle($this->lng->txt('ps_password_special_chars_enabled'));
+				$check->setInfo($this->lng->txt('ps_password_special_chars_enabled_info'));
+			$radio_opt->addSubItem($check);
+
+				$text = new ilTextInputGUI($this->lng->txt('ps_password_min_length'),'password_min_length');
+				$text->setInfo($this->lng->txt('ps_password_min_length_info'));
+				$text->setValue( $security->getPasswordMinLength() );
+				$text->setSize(1);
+				$text->setMaxLength(2);
+			$radio_opt->addSubItem($text);
+
+				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_length'),'password_max_length');
+				$text->setInfo($this->lng->txt('ps_password_max_length_info'));
+				$text->setValue( $security->getPasswordMaxLength() );
+				$text->setSize(1);
+				$text->setMaxLength(2);
+			$radio_opt->addSubItem($text);
+
+				$text = new ilTextInputGUI($this->lng->txt('ps_password_max_age'),'password_max_age');
+				$text->setInfo($this->lng->txt('ps_password_max_age_info'));
+				$text->setValue( $security->getPasswordMaxAge() );
+				$text->setSize(1);
+				$text->setMaxLength(2);
+			$radio_opt->addSubItem($text);
+
+				$text = new ilTextInputGUI($this->lng->txt('ps_login_max_attempts'),'login_max_attempts');
+				$text->setInfo($this->lng->txt('ps_login_max_attempts_info'));
+				$text->setValue( $security->getLoginMaxAttempts() );
+				$text->setSize(1);
+				$text->setMaxLength(2);
+			$radio_opt->addSubItem($text);
+
+		$radio_group->addOption($radio_opt);
+		$form->addItem($radio_group);
+
+
 
 		$form->addCommandButton('save_security',$this->lng->txt('save'));
 		$this->tpl->setVariable('NEW_FORM',$form->getHTML());
@@ -227,7 +288,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 * Save privacy settings
 	 *
 	 * @access public
-	 * 
+	 *
 	 */
 	public function save_privacy()
 	{
@@ -255,7 +316,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         {
             $msg = $this->getErrorMessage ($code);
             ilUtil::sendInfo($msg);
-        } 
+        }
         else
         {
             $privacy->save();
@@ -290,7 +351,20 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $security->setAutomaticHTTPSHeaderName($_POST["auto_https_detect_header_name"]);
         $security->setAutomaticHTTPSHeaderValue($_POST["auto_https_detect_header_value"]);
 
+        // ilias https handling settings
         $security->setHTTPSEnabled($_POST["https_enabled"]);
+
+		// account security settings
+		$security->setAccountSecurityMode((int) $_POST["account_security_mode"]);
+		$security->setPasswordCharsAndNumbersEnabled((bool) $_POST["password_chars_and_numbers_enabled"]);
+		$security->setPasswordSpecialCharsEnabled((bool) $_POST["password_special_chars_enabled"]);
+		$security->setPasswordMinLength((int) $_POST["password_min_length"]);
+		$security->setPasswordMaxLength((int) $_POST["password_max_length"]);
+		$security->setPasswordMaxAge((int) $_POST["password_max_age"]);
+		$security->setLoginMaxAttempts((int) $_POST["login_max_attempts"]);
+
+
+
         // validate settings
         $code = $security->validate();
 
@@ -304,7 +378,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             $security->save();
 		    ilUtil::sendInfo($this->lng->txt('settings_saved'));
         }
-
 
 		$this->showSecurity();
 	}

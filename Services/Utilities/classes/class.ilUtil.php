@@ -56,7 +56,7 @@ class ilUtil
 		return "<img src=\"".ilUtil::getImagePath($filename)."\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 		//return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.gif\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
-	
+
 	/**
 	 * Get type icon path path
 	 * Return image path for icon_xxx.gifs
@@ -66,12 +66,12 @@ class ilUtil
 	 * @param string obj_type
 	 * @param int obj_id
 	 * @param string size 'tiny','small' or 'big'
-	 * 
+	 *
 	 */
 	public function getTypeIconPath($a_type,$a_obj_id,$a_size = 'small')
 	{
 	 	global $ilSetting;
-	 	
+
 	 	if($ilSetting->get("custom_icons"))
 	 	{
 		 	switch($a_type)
@@ -86,7 +86,7 @@ class ilUtil
 	 				}
 		 	}
 	 	}
-	 	
+
 	 	switch($a_size)
 	 	{
 	 		case 'tiny':
@@ -180,7 +180,7 @@ class ilUtil
 	/**
 	* get full style sheet file name (path inclusive) of current user
 	*
-	* @param $mode string Output mode of the style sheet ("output" or "filesystem"). !"filesystem" generates the ILIAS 
+	* @param $mode string Output mode of the style sheet ("output" or "filesystem"). !"filesystem" generates the ILIAS
 	* version number as attribute to force the reload of the style sheet in a different ILIAS version
 	* @param $a_css_name string The name of the style sheet. If empty, the default style name will be chosen
 	* @param $a_css_location string The location of the style sheet e.g. a module path. This parameter only makes sense
@@ -772,7 +772,7 @@ class ilUtil
 	{
 		// New code, uses MediaWiki Sanitizer
 		$ret = $a_text;
-		
+
 		// www-URL ohne ://-Angabe
 		$ret = eregi_replace("(^|[[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
 			"\\1http://\\2\\3", $ret);
@@ -780,7 +780,7 @@ class ilUtil
 		// ftp-URL ohne ://-Angabe
 		$ret = eregi_replace("(^|[[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
 			"\\1ftp://\\2\\3", $ret);
-		
+
 		// E-Mail (this does not work as expected, users must add mailto: manually)
 		//$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
 		//	"mailto:\\1", $ret);
@@ -788,7 +788,7 @@ class ilUtil
 		include_once("./Services/Utilities/classes/class.ilMWParserAdapter.php");
 		$parser = new ilMWParserAdapter();
 		$ret = $parser->replaceFreeExternalLinks($ret);
-			
+
 		//
 		// Old Behaviour is unsafe, Thanks to L4teral
 		//
@@ -796,15 +796,15 @@ class ilUtil
 			// URL mit ://-Angabe
 			$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])",
 			"<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $a_text);
-	
+
 			// www-URL ohne ://-Angabe
 			$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
 			"\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
-	
+
 			// ftp-URL ohne ://-Angabe
 			$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
 			"\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
-	
+
 			// E-Mail
 			$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
 			"<a  href=\"mailto:\\1\">\\1</a>", $ret);
@@ -812,7 +812,7 @@ class ilUtil
 		*/
 
 		// Should be Safe
-		
+
 		if ($detectGotoLinks)
 		// replace target blank with self and text with object title.
 		{
@@ -960,7 +960,7 @@ class ilUtil
 		{
 			$startyear = $year - 5;
 		}
-		
+
 		if(($year + 5) < (date('Y',time()) + 5))
 		{
 			$end_year = date('Y',time()) + 5;
@@ -969,7 +969,7 @@ class ilUtil
 		{
 			$end_year = $year + 5;
 		}
-		
+
 		for ($i = $startyear; $i <= $end_year; $i++)
 		{
 			$sel_year .= "<option value=\"$i\">" . sprintf("%04d", $i) . "</option>\n";
@@ -1006,7 +1006,7 @@ class ilUtil
 	function makeTimeSelect($prefix, $short = true, $hour = "", $minute = "", $second = "",$a_use_default = true,$a_further_options = array())
 	{
 		global $lng;
-		
+
 		$minute_steps = 1;
 		$disabled = '';
 		if(count($a_further_options))
@@ -1020,7 +1020,7 @@ class ilUtil
 				$disabled = 'disabled="disabled" ';
 			}
 		}
-		
+
 		if ($a_use_default and !strlen("$hour$minute$second")) {
 			$now = localtime();
 			$hour = $now[2];
@@ -1090,7 +1090,7 @@ class ilUtil
 	{
 		// BEGIN Mail: If possible, use PearMail to validate e-mail address
 		global $ilErr;
-		
+
 		// Note the use of @include_once here. We need this, because
 		// inclusion fails when the function is_email is called from setup.php.
 		$successfulInclude = @include_once ('Services/Mail/classes/class.ilMail.php');
@@ -1126,23 +1126,87 @@ class ilUtil
 	* @param	string	password
 	* @return	boolean	true if valid
 	*/
-	function isPassword($a_passwd)
+	function isPassword($a_passwd,&$custom_error = null)
 	{
-		if (empty($a_passwd))
-		{
-			return false;
-		}
+		global $lng;
+		$a_custom_error = '';
 
-		if (strlen($a_passwd) < 6)
-		{
-			return false;
-		}
-		// due to bug in php does not work
-		//if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd))
 
-		if (!preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~]+$/", $a_passwd))
+		include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+		$security = ilSecuritySettings::_getInstance();
+
+		// differentiate the account security mode (ilias standard/customized)
+		if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
 		{
-			return false;
+			// check if passwd not empty
+			if( $a_passwd == '' )
+			{
+				$custom_error = $lng->txt('password_empty');
+				return false;
+			}
+			// check if passwd not to short
+			if( $security->getPasswordMinLength() > 0 &&
+				strlen($a_passwd) < $security->getPasswordMinLength() )
+			{
+				$custom_error = sprintf( $lng->txt('password_to_short'), $security->getPasswordMinLength() );
+				return false;
+			}
+			// check if passwd not to long
+			elseif( $security->getPasswordMaxLength() > 0 &&
+					strlen($a_passwd) > $security->getPasswordMaxLength() )
+			{
+				$custom_error = sprintf( $lng->txt('password_to_long'), $security->getPasswordMaxLength() );
+				return false;
+			}
+			else
+			{
+				// if passwd must contains Chars and Numbers
+				if( $security->isPasswordCharsAndNumbersEnabled() )
+				{
+					$reg = '/[A-Za-z]+/';
+					if( !preg_match($reg,$a_passwd) )
+					{
+						$custom_error = $lng->txt('password_must_chars_and_numbers');
+						return false;
+					}
+
+					$reg = '/[0-9]+/';
+					if( !preg_match($reg,$a_passwd) )
+					{
+						$custom_error = $lng->txt('password_must_chars_and_numbers');
+						return false;
+					}
+
+				}
+				// if passwd must contains Special-Chars
+				if( $security->isPasswordSpecialCharsEnabled() )
+				{
+					$reg = '/[_\.\+\?\#\-\*\@!\$\%\~]+/';
+					if( !preg_match($reg,$a_passwd) )
+					{
+						$custom_error = $lng->txt('password_must_special_chars');
+						return false;
+					}
+				}
+			}
+		}
+		else
+		{
+			if (empty($a_passwd))
+			{
+				return false;
+			}
+			if (strlen($a_passwd) < 6)
+			{
+				return false;
+			}
+			// due to bug in php does not work
+			//if (!ereg("^[A-Za-z0-9_\.\+\-\*\@!\$\%\~]+$", $a_passwd))
+
+			if (!preg_match("/^[A-Za-z0-9_\.\+\?\#\-\*\@!\$\%\~]+$/", $a_passwd))
+			{
+				return false;
+			}
 		}
 
 		return true;
@@ -1201,7 +1265,7 @@ class ilUtil
 			{
 				$len = $a_len;
 			}
-			// BEGIN WebDAV 
+			// BEGIN WebDAV
 			//             - Shorten names in the middle, before the filename extension
 			//             Workaround for Windows WebDAV Client:
 			//             Use the unicode ellipsis symbol for shortening instead of
@@ -1374,7 +1438,7 @@ class ilUtil
 		$pd_set = new ilSetting("pd");
 		$atime = $pd_set->get("user_activity_time") * 60;
 		$ctime = time();
-		
+
 		if ($a_user_id == 0)
 		{
 			$where = "WHERE user_id != 0 ";
@@ -1542,23 +1606,23 @@ class ilUtil
 		if (stripos(PHP_OS, 'WIN') !== false)
 		{
 			$unzipcmd = $unzip." ";
-		} else 
+		} else
 		{
 			$unzipcmd = $unzip." ";
 		}
-		if ($overwrite) 
+		if ($overwrite)
 		{
-			$unzipcmd .= "-o ";					
+			$unzipcmd .= "-o ";
 		}
-		
+
 		$unzipcmd .= " ".ilUtil::escapeShellArg($file);
 		#echo $unzipcmd;
 		exec($unzipcmd, $arr);
 		chdir($cdir);
-		
+
 		return true;
 	}
-/*		
+/*
 		die();
 		// use php zip functions, if available
 		if (class_exists("ZipArchive") && version_compare(PHP_VERSION, "5.2.0", ">="))
@@ -1568,9 +1632,9 @@ class ilUtil
 			{
 				$name = zip_entry_name($zip_entry);
 				$entry_pathinfo = pathinfo($name);
-				$entry_dir = $entry_pathinfo["dirname"];				
+				$entry_dir = $entry_pathinfo["dirname"];
 				$entry_base = $entry_pathinfo["basename"];
-				
+
 				// If the file is not in the root dir
 				$pos_last_slash = strrpos(zip_entry_name($zip_entry), "/");
 				if ($pos_last_slash !== false)
@@ -1599,7 +1663,7 @@ class ilUtil
 			zip_close($zip);
 			return true;
 		}
-		
+
 		// use unzip command line binary
 
 		// unzip
@@ -1888,7 +1952,7 @@ class ilUtil
 		ilUtil::readFile( $a_file );
 		if ($removeAfterDelivery)
 		{
-			unlink ($a_file);			
+			unlink ($a_file);
 		}
 		exit;
 	}
@@ -2213,10 +2277,10 @@ class ilUtil
 				$a_arr[$k] = ilUtil::stripSlashes($v, $a_strip_html, $a_allow);
 			}
 		}
-		
+
 		return $a_arr;
 	}
-	
+
 	/**
 	* strip slashes if magic qoutes is enabled
 	*
@@ -2228,10 +2292,10 @@ class ilUtil
 		{
 			$a_str = stripslashes($a_str);
 		}
-		
+
 		return ilUtil::secureString($a_str, $a_strip_html, $a_allow);
 	}
-		
+
 	/**
 	* Remove unsecure tags
 	*/
@@ -2270,7 +2334,7 @@ class ilUtil
 			$a_str = ilUtil::maskSecureTags($a_str, $allow_array);
 			$a_str = strip_tags($a_str);		// strip all other tags
 			$a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
-			
+
 			// a possible solution could be something like:
 			// $a_str = str_replace("<", "&lt;", $a_str);
 			// $a_str = str_replace(">", "&gt;", $a_str);
@@ -2306,7 +2370,7 @@ class ilUtil
 				case "a":
 					$a_str = ilUtil::maskAttributeTag($a_str, "a", "href");
 					break;
-					
+
 				case "img":
 					$a_str = ilUtil::maskAttributeTag($a_str, "img", "src");
 					break;
@@ -2375,14 +2439,14 @@ class ilUtil
 	* Encodes a plain text string into HTML for display in a browser.
 	* This function encodes HTML special characters: < > & with &lt; &gt; &amp;
 	* and converts newlines into <br>
-	* 
+	*
 	* If $a_make_links_clickable is set to true, URLs in the plain string which
 	* are considered to be safe, are made clickable.
 	*
 	*
 	* @param string the plain text string
 	* @param boolean set this to true, to make links in the plain string
-	* clickable. 
+	* clickable.
 	* @param boolean set this to true, to detect goto links
 	*/
 	function htmlencodePlainString($a_str, $a_make_links_clickable, $a_detect_goto_links = false)
@@ -2399,8 +2463,8 @@ class ilUtil
 			//
 			// The expression matches URI's, which start with some well known
 			// schemes, like "http:", or with "www.". This must be followed
-			// by at least one of the following RFC 2396 expressions: 
-			// - alphanum:           [a-zA-Z0-9] 
+			// by at least one of the following RFC 2396 expressions:
+			// - alphanum:           [a-zA-Z0-9]
 			// - reserved:           [;\/?:|&=+$,]
 			// - mark:               [\\-_.!~*\'()]
 			// - escaped:            %[0-9a-fA-F]{2}
@@ -2424,7 +2488,7 @@ class ilUtil
 				}
 				// encode URI
 				$encoded .= ilUtil::makeClickable($matched_text, $a_detect_goto_links);
-				
+
 
 				$pos1 = $pos2 + strlen($matched_text);
 			}
@@ -2444,10 +2508,10 @@ class ilUtil
 	function maskAttributeTag($a_str, $tag, $tag_att)
 	{
 		global $ilLog;
-		
+
 		$ws = "[ \t\r\f\v\n]*";
 		$att = $ws."[^>]*".$ws;
-		
+
 		while (eregi("\<($tag$att($tag_att$ws=$ws\"(([\$@!*()~;,_0-9A-z/:=%\\.&#?+\\-])*)\")$att)\>",
 			$a_str, $found))
 		{
@@ -2458,7 +2522,7 @@ class ilUtil
 				$esc[] = "\\".$v;
 			}
 			$ff = str_replace($un, $esc, $found[1]);
-			
+
 			$old_str = $a_str;
 			$a_str = eregi_replace("\<".$ff."\>",
 				"&lt;$tag $tag_att$tag_att=\"".$found[3]."\"&gt;", $a_str);
@@ -2477,7 +2541,7 @@ class ilUtil
 	function unmaskAttributeTag($a_str, $tag, $tag_att)
 	{
 		global $ilLog;
-		
+
 		while (eregi("&lt;($tag $tag_att$tag_att=\"(([\$@!*()~;,_0-9A-z/:=%\\.&#?+\\-])*)\")&gt;",
 			$a_str, $found))
 		{
@@ -2488,7 +2552,7 @@ class ilUtil
 				$esc[] = "\\".$v;
 			}
 			$ff = str_replace($un, $esc, $found[1]);
-			
+
 			$old_str = $a_str;
 			$a_str = eregi_replace("&lt;".$ff."&gt;",
 				"<$tag $tag_att=\"".ilUtil::secureLink($found[2])."\">", $a_str);
@@ -2502,7 +2566,7 @@ class ilUtil
 		$a_str = str_replace("&lt;/$tag&gt;", "</$tag>", $a_str);
 		return $a_str;
 	}
-	
+
 	function maskTag($a_str, $t, $fix_param = "")
 	{
 		$a_str = str_replace(array("<$t>", "<".strtoupper($t).">"),
@@ -2541,7 +2605,7 @@ class ilUtil
 		}
 		return $a_str;
 	}
-	
+
 	function secureLink($a_str)
 	{
 		$a_str = str_ireplace("javascript", "jvscrpt", $a_str);
@@ -2724,7 +2788,7 @@ class ilUtil
 			$cpar = substr($cpar,1,strlen($cpar)-1);
 			while(substr($cpar,strlen($cpar)-1,1)==" " || substr($cpar,strlen($cpar)-1,1)==chr(13) || substr($cpar,strlen($cpar)-1,1)==chr(10))
 			$cpar = substr($cpar,0,strlen($cpar)-1);
-			
+
 			// parameter name should only
 			$cpar_old = "";
 			while($cpar != $cpar_old)
@@ -2931,7 +2995,7 @@ class ilUtil
 	*
 	* @return	array	sorted array
 	*/
-	function stableSortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false) 
+	function stableSortArray($array,$a_array_sortby,$a_array_sortorder = 0,$a_numeric = false)
 	{
 		global $array_sortby,$array_sortorder;
 
@@ -3204,7 +3268,7 @@ class ilUtil
 		}
 		return false;
 	}
-	
+
 
 	function escapeShellArg($a_arg)
 	{
@@ -3219,7 +3283,7 @@ class ilUtil
 			return escapeshellarg($a_arg);
 		}
 	}
-	
+
 	/**
 	 * escape shell cmd
 	 *
@@ -3235,7 +3299,7 @@ class ilUtil
 		}
 		return escapeshellcmd($a_arg);
 	}
-	
+
 
 	/*
 	* Calculates a Microsoft Excel date/time value
@@ -3342,10 +3406,10 @@ class ilUtil
 					{
 						rename($a_dir.'/'.$file,substr($a_dir.'/'.$file,0,-1));
 						$file = substr($file,0,-1);
-					} 
+					}
 
 					$path_info = pathinfo($a_dir."/".$file);
-					
+
 					if (strtolower($path_info["extension"]) ==
 					strtolower($a_old_suffix))
 					{
@@ -3691,7 +3755,7 @@ class ilUtil
 			$counter = 0;
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				
+
 				if($counter++ >= $limit)
 				{
 					break;
@@ -3700,7 +3764,7 @@ class ilUtil
 			}
 			return $ref_ids ? $ref_ids : array();
 		} // End Administrators
-		
+
 		// Check ownership if it is not asked for edit_permission or a create permission
 		if($a_operation == 'edit_permissions' or strpos($a_operation,'create') !== false)
 		{
@@ -3715,7 +3779,7 @@ class ilUtil
 		$ops_id = $ops_ids[0];
 
 		$and = "AND ((rol_id IN(".implode(",",ilUtil::quoteArray($a_roles)).") ";
-		
+
 		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM object_reference AS obr ".
 			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
 			"JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id ".
@@ -3752,7 +3816,7 @@ class ilUtil
 	function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
 	{
 		global $tpl, $lng, $ilUser;
-		
+
 		// - take care of html exports (-> see buildLatexImages)
 		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$jsMathSetting = new ilSetting("jsMath");
@@ -3852,7 +3916,7 @@ class ilUtil
 			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
 			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
 		}
-		
+
 		// removed: did not work with magic_quotes_gpc = On
 		if (!$is_html)
 		{
@@ -4196,7 +4260,7 @@ class ilUtil
 	function dirsize($directory)
     {
 		$size = 0;
-		if (!is_dir($directory)) 
+		if (!is_dir($directory))
 		{
 			// BEGIN DiskQuota Suppress PHP warning when attempting to determine
 			//       dirsize of non-existing directory
@@ -4226,7 +4290,7 @@ class ilUtil
 		}
 		return $size;
 	}
-	
+
 	function randomhash()
 	{
 		return md5(rand(1,9999999) + str_replace(" ", "", (string) microtime()));
