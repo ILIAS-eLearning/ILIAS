@@ -7754,7 +7754,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @return array Result array
 * @access public
 */
-	function isExecutable($user_id)
+	function isExecutable($user_id, $allowPassIncrease = FALSE)
 	{
 		$result = array(
 			"executable" => true,
@@ -7784,8 +7784,22 @@ function loadQuestions($active_id = "", $pass = NULL)
 				{
 					if ($this->isMaxProcessingTimeReached($starting_time))
 					{
-						$result["executable"] = false;
-						$result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
+						if ($allowPassIncrease && $this->getResetProcessingTime() && (($this->getNrOfTries() == 0) || ($this->getNrOfTries() > ($this->_getPass($active_id)+1))))
+						{
+							// a test pass was quitted because the maximum processing time was reached, but the time
+							// will be resetted for future passes, so if there are more passes allowed, the participant may
+							// start the test again.
+							// This code block is only called when $allowPassIncrease is TRUE which only happens when
+							// the test info page is opened. Otherwise this will lead to unexpected results!
+							$this->getTestSession()->increasePass();
+							$this->getTestSession()->setLastSequence(0);
+							$this->getTestSession()->saveToDb();
+						}
+						else
+						{
+							$result["executable"] = false;
+							$result["errormessage"] = $this->lng->txt("detail_max_processing_time_reached");
+						}
 						return $result;
 					}
 				}
