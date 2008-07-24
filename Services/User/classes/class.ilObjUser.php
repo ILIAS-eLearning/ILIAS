@@ -456,7 +456,7 @@ class ilObjUser extends ilObject
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,agree_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
-                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom) "
+                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom,last_password_change) "
                 . "VALUES "
                 ."(".
 				$ilDB->quote($this->id).",".
@@ -499,7 +499,8 @@ class ilObjUser extends ilObject
 				$ilDB->quote($this->delicious).",".
 				$ilDB->quote($this->latitude).",".
 				$ilDB->quote($this->longitude).",".
-				$ilDB->quote($this->loc_zoom).
+				$ilDB->quote($this->loc_zoom).",".
+				$ilDB->quote($this->last_password_change_ts).
 				")";
 		}
 

@@ -325,6 +325,7 @@ class ilPersonalProfileGUI
 				{
 					ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 					$ilUser->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]);
+					$ilUser->setLastPasswordChangeToNow();
 				}
 			}
 		}
@@ -614,8 +615,6 @@ class ilPersonalProfileGUI
 			$ilUser->setTitle($ilUser->getFullname());
 			$ilUser->setDescription($ilUser->getEmail());
 
-			$ilUser->setLastPasswordChangeTS( time() );
-
 			$ilUser->update();
 
 			// reload page only if skin or style were changed
@@ -684,20 +683,6 @@ class ilPersonalProfileGUI
 		{
 			ilUtil::sendInfo();
 		}
-
-
-		/*
-		 if( $ilUser->isPasswordExpired() )
-		{
-			$msg = $this->lng->txt('password_expired');
-			$password_age = $ilUser->getPasswordAge();
-
-			ilUtil::sendInfo( sprintf($msg,$password_age), true );
-
-			//ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
-		}*/
-
-
 
 		// display infopanel if something happened
 		ilUtil::infoPanel();
