@@ -9,8 +9,8 @@
 <script language="JavaScript">
 
 function switch_icon () {
-	var ico = parent.parent.frames.tree.document.scoIcon{SCO_ID};
-	if (ico != null) {
+	if (typeof(parent.parent.frames.tree)!="undefined") {
+		var ico = parent.parent.frames.tree.document.scoIcon{SCO_ID};
 		ico.src   = '{SCO_ICO}';
 		ico.title = '{SCO_ALT}';
 	}
