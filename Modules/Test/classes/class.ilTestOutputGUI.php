@@ -452,8 +452,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if (strcmp($this->object->getPassword(), $_POST["password"]) == 0)
 		{
 			global $ilUser;
-			$ilUser->setPref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
-			$ilUser->writePref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
+			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+			{
+				$ilUser->setPref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
+				$ilUser->writePref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
+			}
 			$this->ctrl->redirect($this, "start");
 		}
 		else
