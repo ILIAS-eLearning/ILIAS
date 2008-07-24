@@ -5107,7 +5107,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
-				$executable = $this->object->isExecutable($ilUser->getId());
+				$executable = $this->object->isExecutable($ilUser->getId(), $allowPassIncrease = TRUE);
 				if ($executable["executable"])
 				{
 					if ($this->object->getTestSession()->getActiveId() > 0)
