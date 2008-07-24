@@ -5084,3 +5084,7 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE `usr_data` ADD `login_attempts` TINYINT( 2 ) NOT NULL ,
 ADD `last_password_change` INT( 11 ) NOT NULL ;
 UPDATE usr_data SET last_password_change = UNIX_TIMESTAMP();
+
+<#1294>
+INSERT INTO `settings` ( `module`, `keyword`, `value` )
+VALUES ( 'common', 'ps_account_security_mode', '1' );
