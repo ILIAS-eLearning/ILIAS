@@ -168,6 +168,13 @@ class ilPCParagraph extends ilPageContent
 					$this->par_node->append_child($cloned_child);
 				}
 				$orig_characteristic = $this->getCharacteristic();
+
+				// if headlines are entered and current characteristic is a headline
+				// use no characteristic as standard
+				if ((count($text) > 1) && (substr($orig_characteristic, 0, 8) == "Headline"))
+				{
+					$orig_characteristic = "";
+				}
 				if ($text[0]["level"] > 0)
 				{
 					$this->par_node->set_attribute("Characteristic", 'Headline'.$text[0]["level"]);
