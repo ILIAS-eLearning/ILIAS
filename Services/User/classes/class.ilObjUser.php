@@ -2221,13 +2221,17 @@ class ilObjUser extends ilObject
     	$security = ilSecuritySettings::_getInstance();
     	if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
     	{
-    		$max_pass_age_ts = ( $security->getPasswordMaxAge() * 86400 );
-			$pass_change_ts = $this->getLastPasswordChangeTS();
-	   		$current_ts = time();
+    		$max_pass_age = $security->getPasswordMaxAge();
+    		if( $max_pass_age > 0 )
+    		{
+	    		$max_pass_age_ts = ( $max_pass_age * 86400 );
+				$pass_change_ts = $this->getLastPasswordChangeTS();
+		   		$current_ts = time();
 
-			if( ($current_ts - $pass_change_ts) > $max_pass_age_ts )
-				return true;
-    	}
+				if( ($current_ts - $pass_change_ts) > $max_pass_age_ts )
+					return true;
+    		}
+     	}
     	return false;
     }
 

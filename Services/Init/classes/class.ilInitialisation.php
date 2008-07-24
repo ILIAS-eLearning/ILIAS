@@ -429,7 +429,7 @@ class ilInitialisation
 		$ilDB = new ilDBx(IL_DSN);
 		$GLOBALS['ilDB'] =& $ilDB;
 	}
-	
+
 	/**
 	* initialise event handler ilAppEventHandler
 	*/
@@ -597,7 +597,7 @@ class ilInitialisation
 			$clientip = preg_replace("/[^0-9.?*,:]+/","",$clientip);
 			$clientip = str_replace(".","\\.",$clientip);
 			$clientip = str_replace(Array("?","*",","), Array("[0-9]","[0-9]*","|"), $clientip);
-			if (!preg_match("/^".$clientip."$/", $_SERVER["REMOTE_ADDR"])) 
+			if (!preg_match("/^".$clientip."$/", $_SERVER["REMOTE_ADDR"]))
 			{
 				$ilLog ->logError(1,
 				$ilias->account->getLogin().":".$_SERVER["REMOTE_ADDR"].":".$message);
@@ -711,7 +711,7 @@ class ilInitialisation
 
 		$_GET["cmd"] = "frameset";
 		$jump_script = "repository.php";
-		
+
 		$script = $this->updir.$jump_script."?reloadpublic=1&cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
 
 		// todo do it better, if JS disabled
@@ -826,7 +826,7 @@ class ilInitialisation
 
 	/**
 	* ilias initialisation
-	* @param string $context this is used for circumvent redirects to the login page if called e.g. by soap	
+	* @param string $context this is used for circumvent redirects to the login page if called e.g. by soap
 	*/
 	function initILIAS($context = "web")
 	{
@@ -1141,7 +1141,7 @@ class ilInitialisation
 						// called by soapAuthenticationLdap
 						return;
 					}
-					
+
 				}
 				// we should not get here => public section needs no redirect smeyer
 				// exit;
@@ -1167,7 +1167,9 @@ class ilInitialisation
 						$login_attempts = ilObjUser::_getLoginAttempts( $usr_id );
 						$max_attempts = $security->getLoginMaxAttempts();
 
-						if( $login_attempts >= $max_attempts && $usr_id != SYSTEM_USER_ID )
+						if( $login_attempts >= $max_attempts &&
+							$usr_id != SYSTEM_USER_ID &&
+							$max_attempts > 0 )
 						{
 							ilObjUser::_setUserInactive( $usr_id );
 						}
@@ -1298,7 +1300,7 @@ class ilInitialisation
 
 		// $ilDB initialisation
 		$this->initDatabase();
-		
+
 		// init plugin admin class
 		include_once("./Services/Component/classes/class.ilPluginAdmin.php");
 		$ilPluginAdmin = new ilPluginAdmin();
