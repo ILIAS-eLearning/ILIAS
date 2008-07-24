@@ -528,7 +528,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			global $rbacsystem;
 			
 			$pwd = $ilUser->getPref("tst_password_".$this->object->getTestId());
-
 			if ((strcmp($pwd, $this->object->getPassword()) != 0) && (!$rbacsystem->checkAccess("write", $this->object->getRefId())))
 			{
 				return $this->showPasswordProtectionPage();

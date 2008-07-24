@@ -3522,9 +3522,9 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	/**
-	* Deletes all user data for the test object
+	* Deletes the selected user data for the test object
 	*
-	* Deletes all user data for the test object
+	* Deletes the selected user data for the test object
 	*
 	* @access	public
 	*/
