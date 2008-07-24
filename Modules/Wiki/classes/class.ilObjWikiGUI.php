@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -81,7 +81,10 @@ class ilObjWikiGUI extends ilObjectGUI
 					$_GET["page"], $_GET["old_nr"]);
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
 				$tpl->setContent($ret);
-				$this->addPageTabs();
+				if ($ilCtrl->getCmdClass() == "ilwikipagegui")
+				{
+					$this->addPageTabs();
+				}
 				break;
 
 			case 'ilpublicuserprofilegui':
@@ -380,20 +383,20 @@ class ilObjWikiGUI extends ilObjectGUI
 					"", "", $force_active);
 			}
 
-			// pages
-			if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
-			{
-				$tabs_gui->addTarget("wiki_pages",
-					$this->ctrl->getLinkTarget($this, "allPages"),
-					"allPages");
-			}
-
 			// settings
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 			{
 				$tabs_gui->addTarget("settings",
 					$this->ctrl->getLinkTarget($this, "editSettings"), array("editSettings"),
 					array(strtolower(get_class($this)), ""));
+			}
+
+			// pages
+			if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
+			{
+				$tabs_gui->addTarget("wiki_pages",
+					$this->ctrl->getLinkTarget($this, "allPages"),
+					"allPages");
 			}
 			
 			// contributors

@@ -148,25 +148,6 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		
 		$wp = $this->getPageObject();
 		
-/*
-		if (is_object($wp))
-		{
-			// what links here
-			$ilCtrl->setParameterByClass("ilobjwikigui", "wpg_id", $wp->getId());
-			$tpl->setCurrentBlock("what_links_here");
-			$tpl->setVariable("HREF_WHAT_LINKS_HERE",
-				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "whatLinksHere"));
-			$tpl->setVariable("TXT_WHAT_LINKS_HERE", $lng->txt("wiki_what_links_here"));
-			$tpl->parseCurrentBlock();
-
-			// print view
-			$tpl->setCurrentBlock("print_view");
-			$tpl->setVariable("HREF_PRINT_VIEW",
-				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "printView"));
-			$tpl->setVariable("TXT_PRINT_VIEW", $lng->txt("wiki_print_view"));
-			$tpl->parseCurrentBlock();
-		}
-*/
 		// info
 		$tpl->setCurrentBlock("info");
 		$tpl->setVariable("HREF_INFO",
@@ -174,6 +155,16 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		$tpl->setVariable("TXT_INFO", $lng->txt("info_short"));
 		$tpl->parseCurrentBlock();
 		
+		// permissions
+		if ($ilAccess->checkAccess('edit_permission', "", $_GET["ref_id"]))
+		{
+			$tpl->setCurrentBlock("permissions");
+			$tpl->setVariable("HREF_PERMISSIONS",
+				$ilCtrl->getLinkTargetByClass(array("ilobjwikigui", "ilpermissiongui"), "perm"));
+			$tpl->setVariable("TXT_PERMISSIONS", $lng->txt("perm_settings"));
+			$tpl->parseCurrentBlock();
+		}
+
 		// settings
 		if ($ilAccess->checkAccess('write', "", $_GET["ref_id"]))
 		{
@@ -201,9 +192,9 @@ class ilWikiSideBlockGUI extends ilBlockGUI
 		$tpl->setVariable("TXT_RECENT_CHANGES", $lng->txt("wiki_recent_changes"));
 
 		// random page
-		$tpl->setVariable("HREF_RANDOM_PAGE",
+/*		$tpl->setVariable("HREF_RANDOM_PAGE",
 			$ilCtrl->getLinkTargetByClass("ilobjwikigui", "randomPage"));
-		$tpl->setVariable("TXT_RANDOM_PAGE", $lng->txt("wiki_random_page"));
+		$tpl->setVariable("TXT_RANDOM_PAGE", $lng->txt("wiki_random_page"));*/
 
 		// all pages
 		$tpl->setVariable("HREF_ALL_PAGES",
