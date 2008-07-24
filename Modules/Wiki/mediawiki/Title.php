@@ -383,6 +383,9 @@ class Title {
 	public function getInterwikiLink( $key )  {
 		global $wgMemc, $wgInterwikiExpiry;
 		global $wgInterwikiCache, $wgContLang;
+
+return "";		// changed. alex
+		
 		$fname = 'Title::getInterwikiLink';
 
 		$key = $wgContLang->lc( $key );
