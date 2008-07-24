@@ -2376,13 +2376,22 @@ class assQuestion
 			{
 				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$old_points = $row["points"];
+				$query = sprintf("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+					$ilDB->quote($points . ""),
+					$ilDB->quote($active_id . ""),
+					$ilDB->quote($question_id . ""),
+					$ilDB->quote($pass . "")
+				);
 			}
-			$query = sprintf("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($points . ""),
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
-			);
+			else
+			{
+				$query = sprintf("INSERT INTO tst_test_result (active_fi, question_fi, points, pass) VALUES (%s, %s, %s, %s)",
+					$ilDB->quote($active_id . ""),
+					$ilDB->quote($question_id . ""),
+					$ilDB->quote($points . ""),
+					$ilDB->quote($pass . "")
+				);
+			}
 			$result = $ilDB->query($query);
 			if (PEAR::isError($result)) 
 			{
