@@ -240,7 +240,11 @@ class ilObjGroupGUI extends ilContainerGUI
 			parent::viewObject();
 			return true;
 		}
-		else if(!$tree->checkForParentType($this->ref_id,'crs'))
+		$this->tabs_gui->setTabActive('view_content');
+		$this->renderObject();
+		
+		/*
+		else if($tree->checkForParentType($this->ref_id,'crs'))
 		{
 			$this->renderObject();
 			//$this->ctrl->returnToParent($this);
@@ -256,7 +260,28 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->tabs_gui->setTabActive('view_content');
 		return true;
+		*/
 	}
+	
+	/**
+	* Modify Item ListGUI for presentation in container
+	*/
+	function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+	{
+		global $tree;
+
+		// if folder is in a course, modify item list gui according to course requirements
+		if ($course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs'))
+		{
+			include_once("./Modules/Course/classes/class.ilObjCourse.php");
+			include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
+			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
+			ilObjCourseGUI::_modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path,
+				ilObjCourse::_lookupAboStatus($course_obj_id), $course_ref_id, $course_obj_id,
+				$this->object->getRefId());
+		}
+	}
+	
 	
 	/**
 	 * create object

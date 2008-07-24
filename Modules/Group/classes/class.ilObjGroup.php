@@ -1786,8 +1786,61 @@ class ilObjGroup extends ilContainer
 
 		return array_unique($users);
 	}
+	
+	/**
+	 * get view mode
+	 *
+	 * @access public
+	 * @return int view mode
+	 */
+	public function getViewMode()
+	{
+		global $tree;
+		
+		// default: inherit from parent
+		$view = ilContainer::VIEW_INHERIT;
+		
+		switch ($view)
+		{
+			// inhert the view from the parent
+			case ilContainer::VIEW_INHERIT:
+				// get view mode from course
+				$view = ilContainer::VIEW_SIMPLE;
+				if ($course_ref_id = $tree->checkForParentType($this->ref_id,'crs'))
+				{
+					include_once("./Modules/Course/classes/class.ilObjCourse.php");
+					$view_mode = ilObjCourse::_lookupViewMode(
+						ilObject::_lookupObjId($course_ref_id));
+					if ($view_mode == ilContainer::VIEW_SESSIONS ||
+						ilContainer::VIEW_BY_TYPE)
+					{
+						$view = $view_mode;
+					}
+				}
+				break;
+		}
+		return $view;
+	}
+	
+	/**
+	* Add additional information to sub item, e.g. used in
+	* courses for timings information etc.
+	*/
+	function addAdditionalSubItemInformation(&$a_item_data)
+	{
+		global $tree;
 
-
+		// if folder is in a course, modify item list gui according to course requirements
+		if ($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs'))
+		{
+			include_once("./Modules/Course/classes/class.ilObjCourse.php");
+			include_once("./Modules/Course/classes/class.ilCourseItems.php");
+			$course_obj = new ilObjCourse($course_ref_id);
+			$course_items = new ilCourseItems($course_obj, $this->getRefId());
+			$course_items->addAdditionalSubItemInformation($a_item_data);
+		}
+	}
+	
 
 	// Private / Protected
 	function __initFileObject()
