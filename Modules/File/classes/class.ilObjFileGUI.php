@@ -510,6 +510,7 @@ class ilObjFileGUI extends ilObjectGUI
 			{
 				global $ilUser;
 				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
 			}
 		}
 		// END ChangeEvent: Record update event.

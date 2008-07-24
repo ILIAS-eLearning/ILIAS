@@ -464,6 +464,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			global $ilUser;
 			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
 		}
 		// END PATCH ChangeEvents: Record update Object.
 

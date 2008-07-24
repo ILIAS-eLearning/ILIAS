@@ -854,6 +854,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			if (ilChangeEvent::_isActive())
 			{
 				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'update');
+				ilChangeEvent::_catchupWriteEvents($objDAV->getObjectId(), $ilUser->getId(), 'update');
 			}
 		}
                 // store this object, we reuse it in method PUTfinished

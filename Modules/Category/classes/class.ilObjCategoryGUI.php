@@ -827,6 +827,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		if (ilChangeEvent::_isActive())
 		{
 			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
 		}
 		// END ChangeEvent: Record update
 
