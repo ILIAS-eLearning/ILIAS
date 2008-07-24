@@ -292,6 +292,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		{
 			global $ilUser;
 			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
 		}
 		// END ChangeEvent: Record write event.
 		
