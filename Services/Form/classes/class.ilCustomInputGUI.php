@@ -71,6 +71,10 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
+		foreach($this->getSubItems() as $item)
+		{
+			$item->setValueByArray($a_values);
+		}
 	}
 
 	/**

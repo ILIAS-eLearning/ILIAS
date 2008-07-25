@@ -46,9 +46,11 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	*/
 	function getMainContent()
 	{
-		global $ilBench, $tree;
+		global $ilBench, $tree,$ilTabs;
 
 		$ilBench->start("ilContainerGUI", "0000__renderObject");
+
+		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
 
 		$tpl = new ilTemplate ("tpl.container_page.html", true, true,
 			"Services/Container");

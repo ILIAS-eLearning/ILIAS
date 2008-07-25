@@ -417,7 +417,7 @@ class ilCourseItems
 		}
 		if($this->getTimingType() == IL_CRS_TIMINGS_PRESETTING)
 		{
-			if($this->getSuggestionEnd() > $this->getLatestEnd())
+			if($this->getSuggestionStart() > $this->getSuggestionEnd())
 			{
 				$ilErr->appendMessage($this->lng->txt('crs_latest_end_not_valid'));
 			}

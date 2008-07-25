@@ -5006,14 +5006,23 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		// ACTIVATION
-		$activation = '';
-		if ($a_item_data['timing_type'] != IL_CRS_TIMINGS_DEACTIVATED and
-			$a_item_data['timing_type'] != IL_CRS_TIMINGS_FIXED)
+		switch($a_item_data['timing_type'])
 		{
-			$long = $a_item_data['timing_type'] == IL_CRS_TIMINGS_ACTIVATION;
-			$activation = ilDatePresentation::formatPeriod(
-				new ilDateTime($a_item_data['start'],IL_CAL_UNIX),
-				new ilDateTime($a_item_data['end'],IL_CAL_UNIX));
+			case IL_CRS_TIMINGS_ACTIVATION:
+				$activation = ilDatePresentation::formatPeriod(
+					new ilDateTime($a_item_data['start'],IL_CAL_UNIX),
+					new ilDateTime($a_item_data['end'],IL_CAL_UNIX));
+					break;
+					
+			case IL_CRS_TIMINGS_PRESETTING:
+				$activation = ilDatePresentation::formatPeriod(
+					new ilDate($a_item_data['start'],IL_CAL_UNIX),
+					new ilDate($a_item_data['end'],IL_CAL_UNIX));
+					break;
+					
+			default:
+				$activation = '';
+				break;
 		}
 
 		$a_item_list_gui->enableSubscribe($a_abo_status);

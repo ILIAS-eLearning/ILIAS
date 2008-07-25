@@ -113,167 +113,207 @@ class ilCourseItemAdministrationGUI
 		$this->ctrl->returnToParent($this);
 	}
 
-	function edit()
+	/**
+	 * edit timings
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function edit()
 	{
-		global $ilErr,$ilAccess,$ilObjDataCache;
+		global $ilErr,$ilAccess,$ilObjDataCache,$tpl;
 
 		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit_item.html",'Modules/Course');
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		
+		$this->initFormEdit();
+		$this->getValues();
+		
+		$tpl->setContent($this->form->getHTML());		
+	}
+	
+	/**
+	 * init form edit
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function initFormEdit()
+	{
 		$item_data = $this->items_obj->getItem($this->getItemId());
-		$title = $ilObjDataCache->lookupTitle($item_data['obj_id']);
+		
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$title = ilObject::_lookupTitle($item_data['obj_id']);
+		$this->form->setTitle($title.': '.$this->lng->txt('crs_edit_timings'));
+		$this->form->setTitleIcon(ilUtil::getImagePath("icon_".$item_data['type']."_s.gif"));
+		
+		$timings = new ilRadioGroupInputGUI($this->lng->txt('timings'),'timing_type');
+		
+		// opt deactivated
+		$dea = new ilRadioOption($this->lng->txt('crs_timings_disabled'),IL_CRS_TIMINGS_DEACTIVATED);
+		$dea->setInfo($this->lng->txt('crs_timings_disabled_info'));
+		$timings->addOption($dea);
+		
+		// Visiblity
+		$vis = new ilRadioOption($this->lng->txt('crs_timings_availability_enabled'),IL_CRS_TIMINGS_ACTIVATION);
+		$vis->setInfo($this->lng->txt('crs_timings_visibility'));
+		
+			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_start'),'timing_start');
+			$start->setShowTime(true);
+			$vis->addSubItem($start);
+		
+			$end = new ilDateTimeInputGUI($this->lng->txt('crs_timings_end'),'timing_end');
+			$end->setShowTime(true);
+			$vis->addSubItem($end);
+			
+			$isv = new ilCheckboxInputGUI($this->lng->txt('crs_visibility'),'visible');
+			$isv->setInfo($this->lng->txt('crs_timings_visibility'));
+			$isv->setValue(1);
+			$vis->addSubItem($isv);
 
-		if(isset($_POST['cmd']))
+		$timings->addOption($vis);
+		
+		// Timings
+		$tim = new ilRadioOption($this->lng->txt('crs_timings_presetting'),IL_CRS_TIMINGS_PRESETTING);
+		$tim->setInfo($this->lng->txt('crs_item_presetting_info'));
+		
+			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_sug_begin'),'sug_start');
+			$tim->addSubItem($start);
+			
+			$end = new ilDateTimeInputGUI($this->lng->txt('crs_timings_sug_end'),'sug_end');
+			$tim->addSubItem($end);
+			
+			$cha = new ilCheckboxInputGUI($this->lng->txt('crs_timings_changeable'),'changeable');
+			$tim->addSubItem($cha);
+			
+				$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_early_begin'),'early_start');
+				$cha->addSubItem($start);
+				
+				$late = new ilDateTimeInputGUI($this->lng->txt('crs_timings_short_limit_start_end'),'late_end');
+				$cha->addSubItem($late);
+				
+			
+		$timings->addOption($tim);
+		
+		$this->form->addItem($timings);
+		
+		$this->form->addCommandButton('update',$this->lng->txt('save'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+	}
+	
+	/**
+	 * get values
+	 *
+	 * @access protected
+	 * @return
+	 */
+	protected function getValues()
+	{
+		global $ilUser;
+		
+		$item_data = $this->items_obj->getItem($this->getItemId());
+		
+		$data['timing_type'] = $item_data['timing_type'];
+		$data['visible'] = $item_data['visible'];
+		$data['changeable'] = $item_data['changeable'];
+		
+		$start = new ilDateTime($item_data['start'],IL_CAL_UNIX);
+		$data['timing_start']['date'] = $start->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		$data['timing_start']['time'] = $start->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+		
+		$end = new ilDateTime($item_data['end'],IL_CAL_UNIX);
+		$data['timing_end']['date'] = $end->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		$data['timing_end']['time'] = $end->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+		
+		$start = new ilDate(date('Y-m-d',$item_data['suggestion_start']),IL_CAL_DATE);
+		$data['sug_start']['date'] = $start->get(IL_CAL_FKT_DATE,'Y-m-d','UTC');
+		
+		$end = new ilDate(date('Y-m-d',$item_data['suggestion_end']),IL_CAL_DATE);
+		$data['sug_end']['date'] = $end->get(IL_CAL_FKT_DATE,'Y-m-d','UTC');
+		
+		$start = new ilDate(date('Y-m-d',$item_data['earliest_start']),IL_CAL_DATE);
+		$data['early_start']['date'] = $start->get(IL_CAL_FKT_DATE,'Y-m-d','UTC');
+		
+		$end = new ilDate(date('Y-m-d',$item_data['latest_end']),IL_CAL_DATE);
+		$data['late_end']['date'] = $end->get(IL_CAL_FKT_DATE,'Y-m-d','UTC');
+		
+		$this->form->setValuesByArray($data);
+	}
+
+	/**
+	 * update
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function update()
+	{
+		global $ilErr,$ilAccess,$ilObjDataCache,$tpl,$ilUser;
+
+		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
 		{
-			$timing_type = $_POST['timing_type'];
-			$visible = $_POST['visible'];
-			$changeable = $_POST['changeable'];
-			$timing_start = $this->__toUnix($_POST['timing_start'],$_POST['timing_start_time']);
-			$timing_end = $this->__toUnix($_POST['timing_end'],$_POST['timing_end_time']);
-			$suggestion_start = $this->__toUnix($_POST['sug_start']);
-			$suggestion_end = $this->__toUnix($_POST['sug_end']);
-			$earliest_start = $this->__toUnix($_POST['early_start']);
-			$latest_end = $this->__toUnix($_POST['late_end']);
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		}
+		$this->initFormEdit();
+		if($this->form->checkInput())
+		{
+			$this->items_obj->setTimingType($this->form->getInput('timing_type'));
+			
+			$date = $this->form->getInput('timing_start');
+			$date = new ilDateTime($date['date'].' '.$date['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
+			$this->items_obj->setTimingStart($date->get(IL_CAL_UNIX));
+			
+			$date = $this->form->getInput('timing_end');
+			$date = new ilDateTime($date['date'].' '.$date['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
+			$this->items_obj->setTimingEnd($date->get(IL_CAL_UNIX));
+	
+			$date = $this->form->getInput('sug_start');
+			$date = new ilDate($date['date'],IL_CAL_DATE);
+			$this->items_obj->setSuggestionStart($date->get(IL_CAL_UNIX));
+	
+			$date = $this->form->getInput('sug_end');
+			$date = new ilDate($date['date'],IL_CAL_DATE);
+			$this->items_obj->setSuggestionEnd($date->get(IL_CAL_UNIX));
+	
+			$date = $this->form->getInput('early_start');
+			$date = new ilDate($date['date'],IL_CAL_DATE);
+			$this->items_obj->setEarliestStart($date->get(IL_CAL_UNIX));
+	
+			$date = $this->form->getInput('late_end');
+			$date = new ilDate($date['date'],IL_CAL_DATE);
+			$this->items_obj->setLatestEnd($date->get(IL_CAL_UNIX));
+	
+			$this->items_obj->toggleVisible((bool) $this->form->getInput('visible'));
+			$this->items_obj->toggleChangeable((bool) $this->form->getInput('changeable'));
+			
+			if(!$this->items_obj->validateActivation())
+			{
+				ilUtil::sendInfo($ilErr->getMessage());
+		        $this->form->setValuesByPost();
+				$tpl->setContent($this->form->getHTML());
+				return false;
+			}
+			else
+			{
+				$this->items_obj->update($this->getItemId());
+				ilUtil::sendInfo($this->lng->txt('settings_saved'));
+				$this->edit();
+			}
 		}
 		else
 		{
-			$timing_type = $item_data['timing_type'];
-			$visible = $item_data['visible'];
-			$changeable = $item_data['changeable'];
-			$timing_start = $item_data['timing_start'];
-			$timing_end = $item_data['timing_end'];
-			$suggestion_start = $item_data['suggestion_start'];
-			$suggestion_end = $item_data['suggestion_end'];
-			$earliest_start = $item_data['earliest_start'];
-			$latest_end = $item_data['latest_end'];
+	        $this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHTML());
 		}
-
-		// SET TEXT VARIABLES
-		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_".$ilObjDataCache->lookupType($item_data['obj_id'])));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_".$ilObjDataCache->lookupType($item_data['obj_id']).".gif"));
-		$this->tpl->setVariable("TITLE",$ilObjDataCache->lookupTitle($item_data['obj_id']));
-		$this->tpl->setVariable("EDIT_TIMINGS",$this->lng->txt('crs_edit_timings'));
-		$this->tpl->setVariable("TXT_TIMINGS",$this->lng->txt('crs_timings_disabled'));
-		$this->tpl->setVariable("INFO_DEACTIVATED",$this->lng->txt('crs_timings_disabled_info'));
-		$this->tpl->setVariable("TXT_BEGIN",$this->lng->txt('crs_timings_start'));
-		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_timings_END'));
-		$this->tpl->setVariable("TXT_ACTIVATION_ENABLED",$this->lng->txt('crs_timings_availability_enabled'));
-		$this->tpl->setVariable("TXT_PRESETTING",$this->lng->txt('crs_timings_presetting_tbl'));
-		$this->tpl->setVariable("TXT_SUG_BEGIN",$this->lng->txt('crs_timings_sug_begin'));
-		$this->tpl->setVariable("TXT_SUG_END",$this->lng->txt('crs_suggestion_end'));
-		$this->tpl->setVariable("TXT_EARLY_BEGIN",$this->lng->txt('crs_timings_early_begin'));
-		$this->tpl->setVariable("TXT_LATE_END",$this->lng->txt('crs_timings_late_end'));
-		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('time'));
-
-
-
-		// Disabled
-		$this->tpl->setVariable("TXT_AVAILABILITY",$this->lng->txt('crs_timings_availability_tbl'));
-		$this->tpl->setVariable("TXT_TIMINGS_DEACTIVATED",$this->lng->txt('crs_timings_deactivated'));
-		$this->tpl->setVariable("RADIO_DEACTIVATE",ilUtil::formRadioButton($timing_type == IL_CRS_TIMINGS_DEACTIVATED,
-																		   'timing_type',IL_CRS_TIMINGS_DEACTIVATED));
-
-		// Activation
-		$this->tpl->setVariable("RADIO_ACTIVATION",ilUtil::formRadioButton($timing_type == IL_CRS_TIMINGS_ACTIVATION,
-																		   'timing_type',IL_CRS_TIMINGS_ACTIVATION));
-		$this->tpl->setVariable("TXT_TIMINGS_ACTIVATION",$this->lng->txt('crs_timings_availability'));
-		$this->tpl->setVariable("INFO_AVAILABILITY",$this->lng->txt('crs_item_availability_info'));
-
-		$this->tpl->setVariable("CHECK_VISIBILITY",ilUtil::formCheckbox($visible,
-																		'visible',1));
-		$this->tpl->setVariable("TXT_VISIBILITY",$this->lng->txt('crs_timings_visibility'));
-
-		// Timings
-		$this->tpl->setVariable("RADIO_TIMINGS",ilUtil::formRadioButton($timing_type == IL_CRS_TIMINGS_PRESETTING,
-																		'timing_type',IL_CRS_TIMINGS_PRESETTING));
-		$this->tpl->setVariable("TXT_TIMINGS_PRESETTING",$this->lng->txt('crs_timings_presetting'));
-		$this->tpl->setVariable("INFO_PRESETTING",$this->lng->txt('crs_item_presetting_info'));
-
-		$this->tpl->setVariable("CHECK_CHANGE",ilUtil::formCheckbox($changeable,'changeable',1));
-		$this->tpl->setVariable("TXT_CHANGE",$this->lng->txt('crs_timings_changeable'));
-
-		// Start
-		$this->tpl->setVariable("TXT_START",$this->lng->txt('crs_timings_start'));
-
-		$date = $this->__prepareDateSelect($timing_start);
-		$this->tpl->setVariable("START_DATE_SELECT",
-								ilUtil::makeDateSelect('timing_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareTimeSelect($timing_start);
-		$this->tpl->setVariable("START_TIME_SELECT",
-								ilUtil::makeTimeSelect('timing_start_time',true,$date['h'],$date['m'],0,false));
-
-		// End
-		$date = $this->__prepareDateSelect($timing_end);
-		$this->tpl->setVariable("END_DATE_SELECT",
-								ilUtil::makeDateSelect('timing_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareTimeSelect($timing_end);
-		$this->tpl->setVariable("END_TIME_SELECT",
-								ilUtil::makeTimeSelect('timing_end_time',true,$date['h'],$date['m'],0,false));
-
-		// End
-		$this->tpl->setVariable("TXT_END",$this->lng->txt('crs_timings_end'));
-
-		// Suggestion Start
-		$date = $this->__prepareDateSelect($suggestion_start);
-		$this->tpl->setVariable("SUG_START_SELECT",
-								ilUtil::makeDateSelect('sug_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
-		
-		$date = $this->__prepareDateSelect($suggestion_end);
-		$this->tpl->setVariable("SUG_END_SELECT",
-								ilUtil::makeDateSelect('sug_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		// Earliest Latest
-		$date = $this->__prepareDateSelect($earliest_start);
-		$this->tpl->setVariable("EARLY_SELECT",
-								ilUtil::makeDateSelect('early_start',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$date = $this->__prepareDateSelect($latest_end);
-		$this->tpl->setVariable("LATE_SELECT",
-								ilUtil::makeDateSelect('late_end',$date['y'],$date['m'],$date['d'],date('Y',time())));
-
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt("save"));
+	
 	}
 
-	function update()
-	{
-		global $ilErr,$ilAccess,$ilObjDataCache;
 
-		if(!$ilAccess->checkAccess('write','',$this->container_obj->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
-		}
-
-		$this->items_obj->setTimingType($_POST['timing_type']);
-		$this->items_obj->setTimingStart($this->__toUnix($_POST['timing_start'],$_POST['timing_start_time']));
-		$this->items_obj->setTimingEnd($this->__toUnix($_POST['timing_end'],$_POST['timing_end_time']));
-		$this->items_obj->setSuggestionStart($this->__toUnix($_POST["sug_start"]));
-		$this->items_obj->setSuggestionEnd($this->__toUnix($_POST["sug_end"],array('h' => 23,'m' => 55)));
-		$this->items_obj->setEarliestStart($this->__toUnix($_POST['early_start']));
-		$this->items_obj->setLatestEnd($this->__toUnix($_POST['late_end'],array('h' => 23,'m' => 55)));
-		$this->items_obj->toggleVisible($_POST['visible']);
-		$this->items_obj->toggleChangeable($_POST['changeable']);
-
-		if(!$this->items_obj->validateActivation())
-		{
-			ilUtil::sendInfo($ilErr->getMessage());
-			$this->edit();
-
-			return true;
-		}
-		$this->items_obj->update($this->getItemId());
-		ilUtil::sendInfo($this->lng->txt('settings_saved'));
-		$this->edit();
-		#$this->ctrl->returnToParent($this);
-
-		return true;
-	}
 
 	function moveUp()
 	{
@@ -365,25 +405,6 @@ class ilCourseItemAdministrationGUI
 		return true;
 	}
 
-	function __toUnix($date,$time = array())
-	{
-		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
-	}
-
-	function __prepareDateSelect($a_unix_time)
-	{
-		return array('y' => date('Y',$a_unix_time),
-					 'm' => date('m',$a_unix_time),
-					 'd' => date('d',$a_unix_time));
-	}
-
-	function __prepareTimeSelect($a_unix_time)
-	{
-		return array('h' => date('G',$a_unix_time),
-					 'm' => date('i',$a_unix_time),
-					 's' => date('s',$a_unix_time));
-	}
-
 	function __setTabs()
 	{
 		global $rbacsystem,$ilUser;
@@ -394,6 +415,9 @@ class ilCourseItemAdministrationGUI
 									   'repository.php?ref_id='.$this->container_obj->getRefId());
 		$this->tabs_gui->addTarget("timings",
 								   $this->ctrl->getLinkTarget($this,'edit'),
+								   "edit", get_class($this));
+		$this->tabs_gui->addTarget("timings",
+								   $this->ctrl->getLinkTarget($this,'edit2'),
 								   "edit", get_class($this));
 		$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);
 		$this->tabs_gui->addTarget("preconditions",
