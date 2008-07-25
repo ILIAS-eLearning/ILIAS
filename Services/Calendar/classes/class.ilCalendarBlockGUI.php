@@ -153,9 +153,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl;
 
-		// TODO: the switch between repository and personal desktop mode must be done somwhere else
-		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
+		#include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		#$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
 		
 		
 		$next_class = $ilCtrl->getNextClass();
