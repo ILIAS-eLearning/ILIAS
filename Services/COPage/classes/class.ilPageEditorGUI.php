@@ -145,7 +145,7 @@ class ilPageEditorGUI
 	*/
 	function &executeCommand()
 	{
-$this->ctrl->debug("ilPageEditorGUI->execute");
+//$this->ctrl->debug("ilPageEditorGUI->execute");
 		$cmd = $this->ctrl->getCmd("displayPage");
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
@@ -155,7 +155,7 @@ $this->ctrl->debug("ilPageEditorGUI->execute");
 			$hier_id = $_POST["new_hier_id"];
 		}
 //echo "GEThier_id:".$_GET["hier_id"]."<br>";
-$this->ctrl->debug("hier_id:".$hier_id);
+//$this->ctrl->debug("hier_id:".$hier_id);
 
 		$new_type = (isset($_GET["new_type"]))
 			? $_GET["new_type"]
@@ -229,9 +229,9 @@ $this->ctrl->debug("hier_id:".$hier_id);
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
 				($cmdClass != "ilinternallinkgui" || ($next_class == "ilobjmediaobjectgui")))
 			{
-				if ($_GET["pgEdMediaMode"] != "editLinkedMedia" && $cmd != "displayPage")
+				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
-$this->ctrl->debug("gettingContentObject (no linked media)");
+//$this->ctrl->debug("gettingContentObject (no linked media)");
 					$cont_obj =& $this->page->getContentObject($hier_id);
 					$ctype = $cont_obj->getType();
 				}
