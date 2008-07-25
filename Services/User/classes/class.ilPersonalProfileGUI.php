@@ -306,7 +306,7 @@ class ilPersonalProfileGUI
 			}
 			else if ($_POST["current_password"] != "" and empty($this->password_error))
 			{
-				if( $ilUser->isPasswordExpired() )
+				if( $ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded() )
 				{
 					if( $_POST["current_password"] != $_POST["desired_password"] )
 					{

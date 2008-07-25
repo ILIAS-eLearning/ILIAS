@@ -278,6 +278,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$radio_group->addOption($radio_opt);
 		$form->addItem($radio_group);
 
+		$check = new ilCheckboxInputGUI($this->lng->txt('ps_password_change_on_first_login_enabled'),'password_change_on_first_login_enabled');
+		$check->setInfo($this->lng->txt('ps_password_change_on_first_login_enabled_info'));
+		$check->setChecked( $security->isPasswordChangeOnFirstLoginEnabled() ? 1 : 0 );
+		$form->addItem($check);
 
 
 		$form->addCommandButton('save_security',$this->lng->txt('save'));
@@ -363,6 +367,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$security->setPasswordMaxAge((int) $_POST["password_max_age"]);
 		$security->setLoginMaxAttempts((int) $_POST["login_max_attempts"]);
 
+		// change password on first login settings
+		$security->setPasswordChangeOnFirstLoginEnabled((bool) $_POST['password_change_on_first_login_enabled']);
 
 
         // validate settings

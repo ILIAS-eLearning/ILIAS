@@ -8507,3 +8507,6 @@ common#:#password_to_short#:#Das Passwort muß mindestens %s Zeichen lang sein.
 common#:#password_to_long#:#Das Passwort darf höchstens %s Zeichen lang sein.
 common#:#password_must_chars_and_numbers#:#Das Passwort muß Buchstaben und Zahlen enthalten.
 common#:#password_must_special_chars#:#Das Passwort muß Sonderzeichen enthalten.
+ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erst-Anmeldung
+ps#:#ps_password_change_on_first_login_enabled_info#:#Wenn aktiviert, müßen Benutzer bei der ersten Anmeldung ihr Paswort ändern (außer selbst registrierte Benutzer):
+common#:#password_change_on_first_login_demand#:#Ihr initiales Passwort muß geändert werden bevor Sie die ILIAS Services nutzen können.

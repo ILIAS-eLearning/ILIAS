@@ -2213,6 +2213,22 @@ class ilObjUser extends ilObject
         return $this->profile_incomplete;
     }
 
+    public function isPasswordChangeDemanded()
+    {
+		//error_reporting(E_ALL);
+		if( $this->id == ANONYMOUS_USER_ID || $this->id == SYSTEM_USER_ID )
+			return false;
+
+    	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+    	$security = ilSecuritySettings::_getInstance();
+    	if( $security->isPasswordChangeOnFirstLoginEnabled() &&
+    		$this->getLastPasswordChangeTS() == 0 )
+    	{
+			return true;
+     	}
+    	return false;
+    }
+
     public function isPasswordExpired()
     {
 		//error_reporting(E_ALL);
@@ -2220,7 +2236,8 @@ class ilObjUser extends ilObject
 
     	require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
     	$security = ilSecuritySettings::_getInstance();
-    	if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+    	if( $security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED &&
+    		$this->getLastPasswordChangeTS() > 0 )
     	{
     		$max_pass_age = $security->getPasswordMaxAge();
     		if( $max_pass_age > 0 )
@@ -2248,14 +2265,23 @@ class ilObjUser extends ilObject
     {
     	$this->setLastPasswordChangeTS( time() );
 
-    	$query = "UPDATE usr_data SET usr_data.last_password_change = ? WHERE usr_data.usr_id = ?";
+    	$query = "UPDATE usr_data SET usr_data.last_password_change = ? " .
+    			"WHERE usr_data.usr_id = ?";
     	$statement = $this->db->prepareManip( $query, array('integer','integer') );
     	$affected = $this->db->execute( $statement, array($this->getLastPasswordChangeTS(),$this->id) );
     	if($affected) return true;
     	else return false;
     }
 
-
+    public function resetLastPasswordChange()
+    {
+		$query = "UPDATE usr_data SET usr_data.last_password_change = 0 " .
+				"WHERE usr_data.usr_id = ?";
+		$statement = $this->db->prepareManip( $query, array('integer') );
+    	$affected = $this->db->execute( $statement, array($this->getId()) );
+    	if($affected) return true;
+    	else return false;
+    }
 
 	/**
 	* Set Latitude.
