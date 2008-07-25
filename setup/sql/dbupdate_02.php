@@ -5088,3 +5088,38 @@ UPDATE usr_data SET last_password_change = UNIX_TIMESTAMP();
 <#1294>
 INSERT INTO `settings` ( `module`, `keyword`, `value` )
 VALUES ( 'common', 'ps_account_security_mode', '1' );
+
+<#1295>
+<?php
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'wiki'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add missing delete rbac operation for wikis
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+
+?>
+
+<#1296>
+<?php
+
+// copy permission for wikis
+$query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$ops_id = $row->ops_id;
+
+$all_types = array('wiki');
+foreach($all_types as $type)
+{
+	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = '".$type."'";
+	$res = $ilDB->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+	$query = "INSERT INTO rbac_ta SET typ_id = '".$row->obj_id."', ops_id = '".$ops_id."'";
+	$ilDB->query($query);
+}
+?>
