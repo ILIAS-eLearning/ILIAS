@@ -1073,7 +1073,7 @@
 					<!-- insert commands -->
 					<!-- <xsl:value-of select="@HierId"/> -->
 					<xsl:call-template name="EditReturnAnchors"/>
-					<xsl:if test="($mode = 'edit' or $mode = 'table_edit') and (../../@DataTable != 'y' or not(../../@DataTable))">
+					<xsl:if test="($mode = 'edit' and (../../@DataTable != 'y' or not(../../@DataTable))) or $mode = 'table_edit'">
 						<!-- checkbox -->
 						<xsl:if test="$mode = 'table_edit' or $javascript = 'disable'">
 							<input type="checkbox" name="target[]">
