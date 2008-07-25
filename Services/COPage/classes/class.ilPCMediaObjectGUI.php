@@ -63,6 +63,25 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		return $this->header;
 	}
 
+	/**
+	* Set Enable map areas.
+	*
+	* @param	boolean	$a_enabledmapareas	Enable map areas
+	*/
+	function setEnabledMapAreas($a_enabledmapareas)
+	{
+		$this->enabledmapareas = $a_enabledmapareas;
+	}
+
+	/**
+	* Get Enable map areas.
+	*
+	* @return	boolean	Enable map areas
+	*/
+	function getEnabledMapAreas()
+	{
+		return $this->enabledmapareas;
+	}
 
 	/**
 	* execute command
@@ -86,6 +105,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 //			$this->displayLocator("mob");	// ??? von pageeditorgui
 			$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
 			$mob_gui->setBackTitle($this->page_back_title);
+			$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
 			$mob_gui->getTabs($this->tabs_gui);
 		}
 		else
@@ -102,6 +122,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			//	$this->displayLocator("mob");
 				$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
 				$mob_gui->setBackTitle($this->page_back_title);
+				$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
 				//$mob_gui->getTabs($this->tabs_gui);
 				$ret =& $this->ctrl->forwardCommand($mob_gui);
 				break;
@@ -373,7 +394,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			return $this->content_obj;
 		}
 	}
-
 
 
 	/**

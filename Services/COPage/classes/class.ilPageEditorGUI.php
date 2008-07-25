@@ -401,6 +401,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 //				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 //				{
 					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
+					$pcmob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 					/*
 					if (is_object ($cont_obj))
 					{
@@ -451,6 +452,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilobjmediaobjectgui":
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
 				$mob_gui->getTabs($this->tabs_gui);
+				$mob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					ilObject::_lookupTitle($_GET["mob_id"]));
 				$ret =& $this->ctrl->forwardCommand($mob_gui);
@@ -766,6 +768,7 @@ return true;
 				$this->content_obj = new ilPCMediaObject($this->page->getDom());
 				$this->content_obj->readMediaObject($_GET["clip_obj_id"]);
 				$this->content_obj->createAlias($this->page, $_GET["hier_id"]);
+				$this->content_obj->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 				$this->updated = $this->page->update();
 			}
 		}
