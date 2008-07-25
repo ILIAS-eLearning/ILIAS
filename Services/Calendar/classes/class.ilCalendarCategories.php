@@ -272,7 +272,7 @@ class ilCalendarCategories
 	 */
 	protected function readReposCalendars()
 	{
-		global $ilAccess;
+		global $ilAccess,$tree;
 		
 		$this->readPublicCalendars();
 		$this->readPrivateCalendars();
@@ -289,6 +289,11 @@ class ilCalendarCategories
 		$obj_ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($tree->isDeleted($row->ref_id))
+			{
+				continue;
+			}
+			
 			if($ilAccess->checkAccess('read','',$row->ref_id))
 			{
 				$obj_ids[] = $row->obj_id;
@@ -385,7 +390,7 @@ class ilCalendarCategories
 	 */
 	protected function readSelectedCategories($a_obj_ids)
 	{
-		global $ilAccess;
+		global $ilAccess,$tree;
 		
 		if(!count($a_obj_ids))
 		{
@@ -399,6 +404,31 @@ class ilCalendarCategories
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			$editable = false;
+			$exists = false;
+			foreach(ilObject::_getAllReferences($row->obj_id) as $ref_id)
+			{
+				if($tree->isDeleted($ref_id))
+				{
+					continue;
+				}
+				if($ilAccess->checkAccess('write','',$ref_id))
+				{
+					$exists = true;
+					$editable = true;
+					break;
+				}
+				else
+				{
+					$exists = true;
+				}
+			}
+			if(!$exists)
+			{
+				continue;
+			}
+			$this->categories_info[$row->cat_id]['editable'] = $editable;
+			
 			$this->categories[] = $row->cat_id;
 			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
 			$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
@@ -406,17 +436,8 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['title'] = ilObject::_lookupTitle($row->obj_id);
 			$this->categories_info[$row->cat_id]['obj_type'] = ilObject::_lookupType($row->obj_id);
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
-	
-			$this->categories_info[$row->cat_id]['editable'] = false;
-			foreach(ilObject::_getAllReferences($row->obj_id) as $ref_id)
-			{
-				if($ilAccess->checkAccess('write','',$ref_id))
-				{
-					$this->categories_info[$row->cat_id]['editable'] = true;
-					break;
-				}
-			}
 		}
+			
 	}
 	
 }
