@@ -67,6 +67,8 @@ class ilSecuritySettings
 	private $password_max_age					= 0;
 	private $login_max_attempts					= 0;
 
+	private $password_change_on_first_login_enabled = false;
+
 	/**
 	 * Private constructor: use _getInstance()
 	 *
@@ -260,9 +262,6 @@ class ilSecuritySettings
 	    return $this->login_max_attempts;
 	}
 
-
-
-
 	/**
 	 * write access to enable automatic https detection
 	 *
@@ -273,7 +272,6 @@ class ilSecuritySettings
 	{
 	    $this->https_header_enable = $varname;
 	}
-
 
 	/**
 	 * set header name for automatic https detection
@@ -335,7 +333,6 @@ class ilSecuritySettings
         $this->https_enable = $value;
     }
 
-
     /**
      * read access to https enabled property
      *
@@ -345,6 +342,31 @@ class ilSecuritySettings
     {
         return $this->https_enable;
     }
+
+	/**
+	 * set if the passwords have to be changed by users
+	 * on first login
+	 *
+	 * @param boolean $a_password_change_on_first_login_enabled
+	 *
+	 */
+	 public function setPasswordChangeOnFirstLoginEnabled($a_password_change_on_first_login_enabled)
+	 {
+	 	$this->password_change_on_first_login_enabled = $a_password_change_on_first_login_enabled;
+	 }
+
+	/**
+	 * get boolean if the passwords have to be changed by users
+	 * on first login
+	 *
+	 * @return boolean	password change on first login enabled
+	 *
+	 */
+	 public function isPasswordChangeOnFirstLoginEnabled()
+	 {
+	 	return $this->password_change_on_first_login_enabled;
+	 }
+
 	/**
 	 * Save settings
 	 *
@@ -364,6 +386,8 @@ class ilSecuritySettings
 		$this->settings->set('ps_password_max_length',(int) $this->getPasswordMaxLength());
 		$this->settings->set('ps_password_max_age',(int) $this->getPasswordMaxAge());
 		$this->settings->set('ps_login_max_attempts',(int) $this->getLoginMaxAttempts());
+
+		$this->settings->set('ps_password_change_on_first_login_enabled',(bool) $this->isPasswordChangeOnFirstLoginEnabled());
 	}
 	/**
 	 * read settings
@@ -390,13 +414,15 @@ class ilSecuritySettings
 		$this->https_header_value = (string) $this->settings->get('ps_auto_https_headervalue',"1");
 		$this->https_enable = (boolean) $this->settings->get('https', false);
 
-		$this->account_security_mode = $this->settings->get('ps_account_security_mode',0);
-		$this->password_chars_and_numbers_enabled = $this->settings->get('ps_password_chars_and_numbers_enabled',false);
-		$this->password_special_chars_enabled = $this->settings->get('ps_password_special_chars_enabled',false);
-		$this->password_min_length = $this->settings->get('ps_password_min_length',0);
-		$this->password_max_length = $this->settings->get('ps_password_max_length',0);
-		$this->password_max_age = $this->settings->get('ps_password_max_age',0);
-		$this->login_max_attempts = $this->settings->get('ps_login_max_attempts',0);
+		$this->account_security_mode = (int) $this->settings->get('ps_account_security_mode',0);
+		$this->password_chars_and_numbers_enabled = (bool) $this->settings->get('ps_password_chars_and_numbers_enabled',false);
+		$this->password_special_chars_enabled = (bool) $this->settings->get('ps_password_special_chars_enabled',false);
+		$this->password_min_length = (int) $this->settings->get('ps_password_min_length',0);
+		$this->password_max_length = (int)  $this->settings->get('ps_password_max_length',0);
+		$this->password_max_age = (int) $this->settings->get('ps_password_max_age',0);
+		$this->login_max_attempts = (int) $this->settings->get('ps_login_max_attempts',0);
+
+		$this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled',false);
 	}
 
 	/**
@@ -441,7 +467,6 @@ class ilSecuritySettings
 			$password_min_length = 1;
 			if( $this->isPasswordCharsAndNumbersEnabled() )
 			{
-				//echo "hier 1<br />";
 				$password_min_length++;
 				$password_min_length_error_code = self::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2;
 
@@ -470,6 +495,11 @@ class ilSecuritySettings
 				return self::SECURITY_SETTINGS_ERR_CODE_INVALID_LOGIN_MAX_ATTEMPTS;
 			}
 		}
+
+		/*
+		 * todo: have to check for local auth if first login password change is enabled??
+		 * than: add errorcode
+		 */
 
 	    return 0;
 	}

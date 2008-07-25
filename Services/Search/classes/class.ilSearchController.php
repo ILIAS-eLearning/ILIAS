@@ -72,6 +72,15 @@ class ilSearchController
 			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 		}
 
+		// check whether password of user have to be changed due to first login
+		if( $ilUser->isPasswordChangeDemanded() )
+		{
+			ilUtil::sendInfo( $this->lng->txt('password_change_on_first_login_demand'), true );
+
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
+
+		// check whether password of user is expired
 		if( $ilUser->isPasswordExpired() )
 		{
 			$msg = $this->lng->txt('password_expired');

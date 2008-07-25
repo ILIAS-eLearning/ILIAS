@@ -1064,6 +1064,18 @@ class ilInitialisation
 			if ($this->script == "login.php" ||
 				$_GET["baseClass"] == "ilStartUpGUI")
 			{
+				// determine first login of user for setting an indicator
+				// which still is available in PersonalDesktop, Repository, ...
+				// (last login date is set to current date in next step)
+				require_once('Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+				$security_settings = ilSecuritySettings::_getInstance();
+				if( $security_settings->isPasswordChangeOnFirstLoginEnabled() &&
+					'0000-00-00 00:00:00' == (string)$ilUser->getLastLogin() &&
+					'0000-00-00 00:00:00' == (string)$ilUser->getApproveDate() )
+				{
+					$ilUser->resetLastPasswordChange();
+				}
+
 				$ilUser->refreshLogin();
 			}
 
