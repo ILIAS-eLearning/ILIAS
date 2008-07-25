@@ -416,9 +416,6 @@ class ilCourseItemAdministrationGUI
 		$this->tabs_gui->addTarget("timings",
 								   $this->ctrl->getLinkTarget($this,'edit'),
 								   "edit", get_class($this));
-		$this->tabs_gui->addTarget("timings",
-								   $this->ctrl->getLinkTarget($this,'edit2'),
-								   "edit", get_class($this));
 		$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);
 		$this->tabs_gui->addTarget("preconditions",
 								   $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
