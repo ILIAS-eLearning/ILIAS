@@ -102,7 +102,7 @@ class ilObjGroupAccess extends ilObjectAccess
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
-		$commands[] = array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info_short", "enable_anonymous" => "false");
+		$commands[] = array("permission" => "visible", "cmd" => "infoScreen", "lang_var" => "info_short", "enable_anonymous" => "false");
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
 		// BEGIN WebDAV: Mount Webfolder.
 		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
