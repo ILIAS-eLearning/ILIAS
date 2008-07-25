@@ -1621,6 +1621,11 @@ common#:#cat#:#Category
 common#:#wiki#:#Wiki
 common#:#wiki_edit_content#:#Edit Wiki Pages
 common#:#wiki_write#:#Change Wiki Settings, Grade Learners
+common#:#wiki_read#:#Read Wiki
+common#:#wiki_delete#:#Delete Wiki
+common#:#wiki_copy#:#Copy Wiki
+common#:#wiki_visible#:#Wiki is visible
+common#:#wiki_edit_permission#:#Change permission settings
 common#:#cat_create_write#:#Create Wiki
 common#:#fold_create_write#:#Create Wiki
 common#:#crs_create_write#:#Create Wiki
