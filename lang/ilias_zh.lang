@@ -8486,3 +8486,50 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
+common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
+common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
+common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
+common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
+payment#:#pay_abstract#:#Abstract###26 07 2008 new variable
+payment#:#pay_edit_abstract#:#Edit Abstract###26 07 2008 new variable
+payment#:#pay_thumbnail#:#Thumbnail###26 07 2008 new variable
+mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###26 07 2008 new variable
+mcst#:#mcst_default_visibility#:#Default Access###26 07 2008 new variable
+mcst#:#mcst_visibility_users#:#Logged in Users###26 07 2008 new variable
+mcst#:#mcst_visibility_public#:#Public###26 07 2008 new variable
+ps#:#ps_account_security_mode#:#Account Security###26 07 2008 new variable
+ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security###26 07 2008 new variable
+ps#:#ps_account_security_mode_customized#:#Customized Account Security###26 07 2008 new variable
+ps#:#ps_password_min_length#:#Minimum Password Size###26 07 2008 new variable
+ps#:#ps_password_max_length#:#Maximum Password Size###26 07 2008 new variable
+ps#:#ps_password_chars_and_numbers_enabled#:#Characters and Numbers###26 07 2008 new variable
+ps#:#ps_password_special_chars_enabled#:#Special Characters###26 07 2008 new variable
+ps#:#ps_password_max_age#:#Maximum Password Age###26 07 2008 new variable
+ps#:#ps_login_max_attempts#:#Maximum Login Attempts###26 07 2008 new variable
+ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.###26 07 2008 new variable
+ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.###26 07 2008 new variable
+ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.###26 07 2008 new variable
+ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.###26 07 2008 new variable
+ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set this to 0 for disabling this option.###26 07 2008 new variable
+ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Set this to 0 for disabling this option.###26 07 2008 new variable
+ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.###26 07 2008 new variable
+ps#:#ps_error_message_invalid_password_max_length#:#Maximum password size may not be less than 0.###26 07 2008 new variable
+ps#:#ps_error_message_invalid_password_max_age#:#Maximum password age may not be less than 0.###26 07 2008 new variable
+ps#:#ps_error_message_invalid_login_max_attempts#:#Maximum login attempts may not be less than 0.###26 07 2008 new variable
+ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than 2 if password have to contain characters and numbers.###26 07 2008 new variable
+ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###26 07 2008 new variable
+ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be less than minimum password size.###26 07 2008 new variable
+common#:#password_empty#:#The password must not be empty.###26 07 2008 new variable
+common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.###26 07 2008 new variable
+common#:#new_pass_equals_old_pass#:#The new password equals the old one.###26 07 2008 new variable
+common#:#password_to_short#:#The password must have at least a size of %s characters.###26 07 2008 new variable
+common#:#password_to_long#:#The password must have at most a size of %s characters.###26 07 2008 new variable
+common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.###26 07 2008 new variable
+common#:#password_must_special_chars#:#The password must contain special characters.###26 07 2008 new variable
+ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login###26 07 2008 new variable
+ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).###26 07 2008 new variable
+common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services###26 07 2008 new variable
