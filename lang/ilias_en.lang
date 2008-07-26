@@ -2568,6 +2568,9 @@ common#:#ignore_on_conflict#:#Ignore on conflict
 common#:#il_chat_moderator#:#Chat moderator
 common#:#il_crs_admin#:#Course administrator
 common#:#il_crs_member#:#Course member
+common#:#il_crs_non_member#:#Course non-member
+common#:#il_grp_status_closed#:#Group closed
+common#:#il_grp_status_open#:#Group open
 common#:#il_crs_tutor#:#Course tutor
 common#:#il_frm_moderator#:#Forum moderator
 common#:#il_grp_admin#:#Group administrator
