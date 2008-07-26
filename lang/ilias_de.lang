@@ -8489,7 +8489,6 @@ ps#:#ps_password_max_age#:#Maximales Passwort Alter
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
 ps#:#ps_password_chars_and_numbers_enabled_info#:#Wenn aktiviert, müssen Passwörter Buchstaben und Zahlen enthalten.
 ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten.
-ps#:#ps_passwordmin__length_info#:#Setzt die minimale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist müssen Passwörter trotzdem mindestens ein Zeichen enthalten.
 ps#:#ps_password_max_length_info#:#Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist können Passwörter beliebige Längen haben.
 ps#:#ps_password_max_age_info#:#Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist laufen Passwörter nicht ab.
 ps#:#ps_login_max_attempts_info#:# Setzt die maximal Anzahl von fehlgeschlagenen Anmeldeversuchen. Wenn der Wert auf 0 gesetzt ist werden fehlgeschlagene Anmeldeversuche nicht gezählt.
@@ -8510,3 +8509,12 @@ common#:#password_must_special_chars#:#Das Passwort muß Sonderzeichen enthalten
 ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erst-Anmeldung
 ps#:#ps_password_change_on_first_login_enabled_info#:#Wenn aktiviert, müßen Benutzer bei der ersten Anmeldung ihr Paswort ändern (außer selbst registrierte Benutzer):
 common#:#password_change_on_first_login_demand#:#Ihr initiales Passwort muß geändert werden bevor Sie die ILIAS Services nutzen können.
+common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
+common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
+common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
+common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
+ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.###26 07 2008 new variable
