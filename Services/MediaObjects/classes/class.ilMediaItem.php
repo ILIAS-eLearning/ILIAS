@@ -1075,5 +1075,18 @@ class ilMediaItem
 		return $links;
 	}
 
+	/**
+	* Extract parameters of special external references to parameter array
+	*/
+	function extractUrlParameters()
+	{
+		include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
+		$par = ilExternalMediaAnalyzer::extractUrlParameters(
+			$this->getLocation(), $this->getParameters());
+		foreach ($par as $k => $v)
+		{
+			$this->setParameter($k, $v);
+		}
+	}
 }
 ?>

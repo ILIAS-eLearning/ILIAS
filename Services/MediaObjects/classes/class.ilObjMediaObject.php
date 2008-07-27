@@ -472,8 +472,6 @@ class ilObjMediaObject extends ilObject
 	}
 
 
-
-
 	/**
 	* update media object in db
 	*/
@@ -494,6 +492,10 @@ class ilObjMediaObject extends ilObject
 			{
 				$item->setMobId($this->getId());
 				$item->setNr($j);
+				if ($item->getLocationType() == "Reference")
+				{
+					$item->extractUrlParameters();
+				}
 				$item->create();
 				$j++;
 			}
