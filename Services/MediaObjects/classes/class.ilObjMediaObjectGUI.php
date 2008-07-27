@@ -200,7 +200,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		else
 		{
-			$title = $_POST["standard_reference"];
+			$title = ilUtil::stripSlashes($_POST["standard_reference"]);
 		}
 
 		// create dummy object in db (we need an id)
@@ -235,8 +235,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$_POST["standard_resize"] == "y" &&
 				is_int(strpos($format, "image")))
 			{
-				$location = ilObjMediaObject::_resizeImage($file, $_POST["standard_width"],
-					$_POST["standard_height"]);
+				$location = ilObjMediaObject::_resizeImage($file, (int) $_POST["standard_width"],
+					(int) $_POST["standard_height"]);
 			}
 
 			// set real meta and object data
@@ -250,14 +250,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		else	// standard type: reference
 		{
-			$format = ilObjMediaObject::getMimeType($_POST["standard_reference"]);
+			$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]));
 			$media_item->setFormat($format);
-			$media_item->setLocation($_POST["standard_reference"]);
+			$media_item->setLocation(ilUtil::stripSlashes($_POST["standard_reference"]));
 			$media_item->setLocationType("Reference");
 //			$meta_technical->addFormat($format);
 //			$meta_technical->setSize(0);
 //			$meta_technical->addLocation("Reference", $_POST["standard_reference"]);
-			$this->object->setTitle($_POST["standard_reference"]);
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["standard_reference"]));
 		}
 //		$meta->addTechnicalSection($meta_technical);
 		$this->object->setDescription($format);
@@ -279,13 +279,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		else
 		{
-			$media_item->setWidth($_POST["standard_width"]);
-			$media_item->setHeight($_POST["standard_height"]);
+			$media_item->setWidth((int) $_POST["standard_width"]);
+			$media_item->setHeight((int) $_POST["standard_height"]);
 		}
 
 		if ($_POST["standard_caption"] != "")
 		{
-			$media_item->setCaption($_POST["standard_caption"]);
+			$media_item->setCaption(ilUtil::stripSlashes($_POST["standard_caption"]));
 		}
 
 		if ($_POST["standard_param"] != "")
@@ -328,8 +328,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 						$_POST["full_resize"] == "y" &&
 						is_int(strpos($format, "image")))
 					{
-						$location = ilObjMediaObject::_resizeImage($file, $_POST["full_width"],
-							$_POST["full_height"]);
+						$location = ilObjMediaObject::_resizeImage($file, (int) $_POST["full_width"],
+							(int) $_POST["full_height"]);
 					}
 				}
 
@@ -350,7 +350,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				{
 					$format = ilObjMediaObject::getMimeType($_POST["full_reference"]);
 					$media_item->setFormat($format);
-					$media_item->setLocation($_POST["full_reference"]);
+					$media_item->setLocation(ilUtil::stripSlashes($_POST["full_reference"]));
 					$media_item->setLocationType("Reference");
 /*
 					$meta_technical->addFormat($format);
@@ -376,13 +376,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 			else
 			{
-				$media_item->setWidth($_POST["full_width"]);
-				$media_item->setHeight($_POST["full_height"]);
+				$media_item->setWidth((int) $_POST["full_width"]);
+				$media_item->setHeight((int) $_POST["full_height"]);
 			}
 
 			if ($_POST["full_caption"] != "")
 			{
-				$media_item->setCaption($_POST["full_caption"]);
+				$media_item->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
 			}
 
 			if ($_POST["full_param"] != "")
@@ -662,7 +662,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	}
 
 	/**
-	* save table properties in db and return to page edit screen
+	* save properties in db and return to page edit screen
 	*/
 	function savePropertiesObject()
 	{
@@ -671,7 +671,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		{
 			$std_item->setLocationType("Reference");
 			$std_item->setFormat(ilObjMediaObject::getMimeType($_POST["standard_reference"]));
-			$std_item->setLocation($_POST["standard_reference"]);
+			$std_item->setLocation(ilUtil::stripSlashes($_POST["standard_reference"]));
 		}
 		if ($_POST["standard_type"] == "LocalFile")
 		{
@@ -689,9 +689,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 			$std_item->setLocationType("LocalFile");
 		}
-		$std_item->setWidth($_POST["mob_width"]);
-		$std_item->setHeight($_POST["mob_height"]);
-		$std_item->setCaption($_POST["mob_caption"]);
+		$std_item->setWidth((int) $_POST["mob_width"]);
+		$std_item->setHeight((int) $_POST["mob_height"]);
+		$std_item->setCaption(ilUtil::stripSlashes($_POST["mob_caption"]));
 		$std_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["mob_parameters"])));
 
 		if($this->object->hasFullscreenItem())
@@ -701,7 +701,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			{
 				$full_item->setLocationType("Reference");
 				$full_item->setFormat(ilObjMediaObject::getMimeType($_POST["full_reference"]));
-				$full_item->setLocation($_POST["full_reference"]);
+				$full_item->setLocation(ilUtil::stripSlashes($_POST["full_reference"]));
 			}
 			if ($_POST["full_type"] == "LocalFile")
 			{
@@ -719,9 +719,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 				$full_item->setLocationType("LocalFile");
 			}
-			$full_item->setWidth($_POST["full_width"]);
-			$full_item->setHeight($_POST["full_height"]);
-			$full_item->setCaption($_POST["full_caption"]);
+			$full_item->setWidth((int) $_POST["full_width"]);
+			$full_item->setHeight((int) $_POST["full_height"]);
+			$full_item->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
 			$full_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"])));
 		}
 
@@ -2014,7 +2014,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				else
 				{
 					$area->setLinkType(IL_EXT_LINK);
-					$area->setHref($_POST["area_link_ext"]);
+					$area->setHref(ilUtil::stripSlashes($_POST["area_link_ext"]));
 				}
 				$area->update();
 				break;
@@ -2044,7 +2044,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$area->setShape($area_type);
 				$area->setCoords($coords);
 				$area->setNr($max + 1);
-				$area->setTitle($_POST["area_name"]);
+				$area->setTitle(ilUtil::stripSlashes($_POST["area_name"]));
 				switch($_POST["area_link_type"])
 				{
 					case "ext":

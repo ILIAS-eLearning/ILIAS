@@ -413,7 +413,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_alias_prop"));
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_DERIVE", $this->lng->txt("cont_derive_from_obj"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".strtolower($std_item->getLocationType())));
 		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
 		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
 		$this->tpl->setVariable("VAL_FORMAT", $std_item->getFormat());

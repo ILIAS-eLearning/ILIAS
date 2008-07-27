@@ -145,6 +145,8 @@ class ilPageEditorGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilCtrl;
+		
 //$this->ctrl->debug("ilPageEditorGUI->execute");
 		$cmd = $this->ctrl->getCmd("displayPage");
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
@@ -237,7 +239,7 @@ class ilPageEditorGUI
 				}
 			}
 		}
-$this->ctrl->debug("+ctype:".$ctype."+");
+//$this->ctrl->debug("+ctype:".$ctype."+");
 //		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 //		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
@@ -397,6 +399,9 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				include_once ("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
 
 				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
+					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
+
 
 //				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 //				{
