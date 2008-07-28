@@ -1200,24 +1200,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 	}
 	
-/**
-* Output of a test certificate
-*
-* Output of a test certificate
-*
-* @access public
-*/
-	function outCertificate()
-	{
-		global $ilUser;
-		
-		$active_id = $this->object->getTestSession()->getActiveId();
-		$counted_pass = ilObjTest::_getResultPass($active_id);
-		$this->ctrl->setParameterByClass("iltestcertificategui","active_id", $active_id);
-		$this->ctrl->setParameterByClass("iltestcertificategui","pass", $counted_pass);
-		$this->ctrl->redirectByClass("iltestcertificategui", "certificateOutput");
-	}
-	
 	/**
 	 * handle endingTimeReached
 	 * @private
@@ -1728,6 +1710,13 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$templatehead->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
 			$templatehead->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
 			$templatehead->parseCurrentBlock();
+			if ($this->object->canShowCertificate($user_id, $active_id))
+			{
+				$templatehead->setCurrentBlock("certificate");
+				$templatehead->setVariable("CERTIFICATE_URL", $this->ctrl->getLinkTargetByClass("iltestcertificategui", "outCertificate"));
+				$templatehead->setVariable("CERTIFICATE_TEXT", $this->lng->txt("certificate"));
+				$templatehead->parseCurrentBlock();
+			}
 		}
 		$templatehead->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
 		$templatehead->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));

@@ -538,6 +538,24 @@ class ilTestCertificateGUI
 		
 		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	* Output of a test certificate
+	*
+	* Output of a test certificate
+	*
+	* @access public
+	*/
+	function outCertificate()
+	{
+		global $ilUser;
+
+		$active_id = $this->object->object->getTestSession()->getActiveId();
+		$counted_pass = ilObjTest::_getResultPass($active_id);
+		$this->ctrl->setParameterByClass("iltestcertificategui","active_id", $active_id);
+		$this->ctrl->setParameterByClass("iltestcertificategui","pass", $counted_pass);
+		$this->ctrl->redirectByClass("iltestcertificategui", "certificateOutput");
+	}
 }
 
 ?>

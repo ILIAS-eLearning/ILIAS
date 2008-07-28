@@ -9632,6 +9632,61 @@ function loadQuestions($active_id = "", $pass = NULL)
 			if (strlen($found)) $fields = unserialize($found);
 			if (is_array($fields)) return $fields; else return array();
 	}
+
+	/**
+	* Checks wheather the certificate button could be shown on the info page or not
+	*
+	* Checks wheather the certificate button could be shown on the info page or not
+	*
+	* @access public
+	*/
+	function canShowCertificate($user_id, $active_id)
+	{
+		if ($this->canShowTestResults($user_id))
+		{
+			$counted_pass = ilObjTest::_getResultPass($active_id);
+			$result_array =& $this->getTestResult($active_id, $counted_pass);
+
+			include_once "./Modules/Test/classes/class.ilTestCertificate.php";
+			$cert = new ilTestCertificate($this);
+			if ($cert->isComplete())
+			{
+				$vis = $this->getCertificateVisibility();
+				$showcert = FALSE;
+				switch ($vis)
+				{
+					case 0:
+						$showcert = TRUE;
+						break;
+					case 1:
+						if ($result_array["test"]["passed"] == 1)
+						{
+							$showcert = TRUE;
+						}
+						break;
+					case 2:
+						$showcert = FALSE;
+						break;
+				}
+				if ($showcert)
+				{
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 } // END class.ilObjTest
 
 ?>
