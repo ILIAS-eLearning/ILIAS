@@ -74,6 +74,7 @@ class ilObjTestGUI extends ilObjectGUI
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 		}		
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
