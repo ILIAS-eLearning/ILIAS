@@ -1,0 +1,150 @@
+@charset "UTF-8";
+/**
+ * ILIAS Open Source Test & Assessment styles
+ *
+ * @revision        $Id$
+ */
+
+@media screen {
+
+.kiosk {
+	padding: 2em;
+}
+
+.feedback {
+
+
+/*	border:  1px solid gray;*/
+	padding: 4px;
+	display: block;
+	background: #EEEEEE;
+}
+
+div.ilc_Question {
+	padding-left: 20px;
+	border-left: 3px;
+	border-left-style: solid;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-left-color: red;
+}
+
+.testSheet {
+	background: #EEEEEE;
+	border-spacing: 1px;
+	border: 1px outset #BBBBBB;
+	margin: 5px;
+	padding: 2em;
+}
+
+.questionTitle {
+	margin-top: 5px;
+	margin-bottom: 20px;
+	font-size: 140%;
+	padding-bottom: 3px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-color: #000000;
+}
+
+.questionPrintview {
+	border: 1px solid #C0C0C0;
+	padding: 0.25em;
+	margin-top: 1em;
+}
+
+.solutionbox {
+	color: black;
+	background-color: white;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-style: inset;
+	border-width: 1px;
+}
+
+td.middle {
+	color: #000000;
+	background-color: inherit;
+	border-spacing: 0px;
+	border: none;
+	padding: 3px;
+	vertical-align: middle;
+}
+
+td.top {
+	color: #000000;
+	background-color: inherit;
+	border-spacing: 0px;
+	border: none;
+	padding: 3px;
+	vertical-align: top;
+}
+
+/* --- Test tool javascript styles --- */
+
+span.nowrap {
+	white-space: nowrap;
+}
+
+div.termtext {
+	width: 200px;
+	height: 100px;
+	border: 1px solid #000000;
+	background-color: #F1F1F1;
+	color: #222222;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+}
+
+div.dropzone {
+	width: 220px;
+	height: 120px;
+	border: 1px solid #000000;
+	background-color: #FFE4E4;
+	color: #222222;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: dotted;
+	text-align: center;
+}
+
+div.textboximage {
+	width: 200px;
+	height: 80px;
+	border: 1px solid #000000;
+	background: #DDDDDD;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+}
+
+div.imagebox {
+	width: 200px;
+	height: 100px;
+	border: 1px solid #000000;
+	background-color: #F1F1F1;
+	color: #222222;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+	z-index: 200;
+}
+
+div.textbox {
+	width: 200px;
+	height: 100px;
+	border: 1px solid #000000;
+	background-color: #F1F1F1;
+	color: #222222;
+	padding: 10px;
+	vertical-align: middle;
+	border-style: outset;
+	text-align: center;
+	z-index: 200;
+}
+
+}
