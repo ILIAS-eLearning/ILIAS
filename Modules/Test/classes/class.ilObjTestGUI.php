@@ -4980,62 +4980,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->infoScreen();
 	}
 	
-/**
-* Checks wheather the certificate button could be shown on the info page or not
-*
-* Checks wheather the certificate button could be shown on the info page or not
-*
-* @access public
-*/
-	function canShowCertificate($user_id, $active_id)
-	{
-		if ($this->object->canShowTestResults($user_id))
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			$counted_pass = ilObjTest::_getResultPass($active_id);
-			$result_array =& $this->object->getTestResult($active_id, $counted_pass);
-	
-			include_once "./Modules/Test/classes/class.ilTestCertificate.php";
-			$cert = new ilTestCertificate($this->object);
-			if ($cert->isComplete())
-			{
-				$vis = $this->object->getCertificateVisibility();
-				$showcert = FALSE;
-				switch ($vis)
-				{
-					case 0:
-						$showcert = TRUE;
-						break;
-					case 1:
-						if ($result_array["test"]["passed"] == 1)
-						{
-							$showcert = TRUE;
-						}
-						break;
-					case 2:
-						$showcert = FALSE;
-						break;
-				}
-				if ($showcert)
-				{
-					return TRUE;
-				}
-				else
-				{
-					return FALSE;
-				}
-			}
-			else
-			{
-				return FALSE;
-			}
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
-	
 	function redirectToInfoScreenObject()
 	{
 		$this->ctrl->setCmd("showSummary");
@@ -5148,11 +5092,6 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 				{
 					$info->addFormButton("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"));
-				}
-
-				if ($this->canShowCertificate($ilUser->getId(), $this->object->getTestSession()->getActiveId()))
-				{
-					$info->addFormButton("outCertificate", $this->lng->txt("certificate_show"));
 				}
 			}
 		}
