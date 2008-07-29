@@ -130,6 +130,9 @@ class ilRepositoryExplorer extends ilExplorer
 			case "file":
 				return "repository.php?cmd=sendfile&ref_id=".$a_node_id;
 
+			case 'sess':
+				return "repository.php?ref_id=".$a_node_id;
+
 			case 'tst':
 				return "ilias.php?cmd=infoScreen&baseClass=ilObjTestGUI&ref_id=".$a_node_id;
 
@@ -201,6 +204,9 @@ class ilRepositoryExplorer extends ilExplorer
 				
 			case "file":
 				return "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$a_node_id;
+				
+			case "sess":
+				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 
 			case 'tst':
 				return "ilias.php?baseClass=ilObjTestGUI&ref_id=".$a_node_id;
