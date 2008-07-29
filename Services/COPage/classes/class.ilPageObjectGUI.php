@@ -29,7 +29,7 @@ define ("IL_PAGE_PRINT", "print");
 
 include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
 include_once("./Services/COPage/classes/class.ilPageObject.php");
-include_once("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
+include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 include_once("./Services/COPage/classes/class.ilParagraphPlugins.php");
 include_once("./Services/COPage/classes/class.ilParagraphPlugin.php");
 include_once("./Services/Utilities/classes/class.ilDOMUtil.php");

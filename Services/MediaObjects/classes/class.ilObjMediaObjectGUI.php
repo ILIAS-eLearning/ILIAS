@@ -666,6 +666,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
+		global $lng;
+		
 		$std_item =& $this->object->getMediaItem("Standard");
 		if ($_POST["standard_type"] == "Reference")
 		{
@@ -726,7 +728,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 
 		$this->object->update();
-
+		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+		
 		$this->ctrl->redirect($this, "edit");
 	}
 
