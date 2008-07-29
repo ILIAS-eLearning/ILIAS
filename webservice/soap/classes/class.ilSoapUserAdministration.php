@@ -859,7 +859,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			
 			if($a_folder != USER_FOLDER_ID and $a_folder != 0)
 			{
-			$ilLog->write(__METHOD__.': '.$a_folder);
+				$ilLog->write(__METHOD__.': '.$a_folder);
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';
 				if(!ilObjRole::_getAssignUsersStatus($a_role))
 				{

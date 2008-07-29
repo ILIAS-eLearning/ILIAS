@@ -485,7 +485,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		else
 		{
-			$info->addProperty($this->lng->txt('crs_visiblity'),
+			$info->addProperty($this->lng->txt('crs_visibility'),
 				ilDatePresentation::formatPeriod(
 					new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX),
 					new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX)));
@@ -2729,14 +2729,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if($this->object->getShowMembers())
-		{
-			$this->tabs_gui->setTabActive('members');
-		}
-		else
-		{
-			$this->tabs_gui->setTabActive('crs_unsubscribe');
-		}
+		$this->tabs_gui->setTabActive('crs_unsubscribe');
 		#$this->setSubTabs('members');
 
 
@@ -3341,8 +3334,7 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "");
 		}
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId())
-			and $this->object->members_obj->isAssigned($ilUser->getId())
-			and !$this->object->getShowMembers())
+			and $this->object->members_obj->isAssigned($ilUser->getId()))
 		{
 			$tabs_gui->addTarget("crs_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "unsubscribe"), 
@@ -3673,15 +3665,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 		$this->tabs_gui->setSubTabActive('crs_members_gallery');
 		
-
-		// Unsubscribe
-		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
-		   $this->object->members_obj->isAssigned($ilUser->getId()))
-		{
-			$this->__showButton($this->ctrl->getLinkTarget($this,'unsubscribe'),$this->lng->txt("crs_unsubscribe"));
-		}
-
-
 		$this->object->initCourseMemberObject();
 
 		// MEMBERS 
