@@ -394,8 +394,6 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 
 			// PC Media Object
 			case "ilpcmediaobjectgui":
-			//case "ilobjmediaobjectgui":
-				//include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 				include_once ("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
 
 				$this->tabs_gui->clearTargets();
@@ -773,7 +771,6 @@ return true;
 				$this->content_obj = new ilPCMediaObject($this->page->getDom());
 				$this->content_obj->readMediaObject($_GET["clip_obj_id"]);
 				$this->content_obj->createAlias($this->page, $_GET["hier_id"]);
-				$this->content_obj->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 				$this->updated = $this->page->update();
 			}
 		}

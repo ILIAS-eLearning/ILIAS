@@ -432,7 +432,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_properties"));
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 
-		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_LocalFile"));
+		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_localfile"));
 		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_reference"));
 		$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
 		if ($std_item->getLocationType() == "LocalFile")
@@ -501,7 +501,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			// edit media alias template
 			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
 
-			$this->tpl->setVariable("TXT_FULL_FILE", $this->lng->txt("cont_LocalFile"));
+			$this->tpl->setVariable("TXT_FULL_FILE", $this->lng->txt("cont_localfile"));
 			$this->tpl->setVariable("TXT_FULL_REFERENCE", $this->lng->txt("cont_reference"));
 			$this->tpl->setVariable("TXT_FULL_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
 			if ($full_item->getLocationType() == "LocalFile")
@@ -2280,7 +2280,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			{
 				$tpl->setVariable("TXT_PURPOSE", $lng->txt("cont_fullscreen"));
 			}
-			$tpl->setVariable("TXT_TYPE", $lng->txt("cont_".$med->getLocationType()));
+			$tpl->setVariable("TXT_TYPE", $lng->txt("cont_".strtolower($med->getLocationType())));
 			$tpl->setVariable("VAL_LOCATION", $med->getLocation());
 			if ($med->getLocationType() == "LocalFile")
 			{

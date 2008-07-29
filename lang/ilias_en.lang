@@ -3374,6 +3374,11 @@ common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail
 common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_mep#:#Media Pool
+mep#:#mep_thumbnail#:#Thumbnail
+mep#:#mep_title_and_description#:#Title and Description
+mep#:#mep_create_mob#:#Create Media Object
+mep#:#mep_create_folder#:#Create Folder
+mep#:#mep_copy_to_mep#:#Copy to Media Pool
 common#:#obj_mob#:#Media Object
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
@@ -4318,7 +4323,7 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_LocalFile#:#Local File
+content#:#cont_localfile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
