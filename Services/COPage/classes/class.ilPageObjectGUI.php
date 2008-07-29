@@ -690,7 +690,7 @@ class ilPageObjectGUI
 				break;
 			
 			case "ileditclipboardgui":
-				$this->tabs_gui->clearTargets();
+				//$this->tabs_gui->clearTargets();
 				//$this->ctrl->setReturn($this, "view");
 				$clip_gui = new ilEditClipboardGUI();
 				$clip_gui->setPageBackTitle($this->page_back_title);

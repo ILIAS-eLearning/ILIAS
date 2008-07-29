@@ -140,37 +140,137 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html",
-			"./Services/MediaObjects");
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		global $ilTabs;
+		
+		switch ($_GET["subCmd"])
+		{
+			case "insertFromPool":
+				$this->insertFromPool($a_post_cmd, $a_submit_cmd);
+				break;
 
-		$this->displayValidationError();
+			case "poolSelection":
+				$this->poolSelection();
+				break;
 
-		// select fields for number of columns
-		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
-		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_file"));
-		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_reference"));
-		$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
-		$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_width"));
-		$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_height"));
-		$this->tpl->setVariable("TXT_ORIGINAL_SIZE", $this->lng->txt("cont_orig_size"));
-		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
-		$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
-		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
-		$this->tpl->setVariable("TXT_RESIZE", $this->lng->txt("cont_resize_image"));
-		$this->tpl->setVariable("TXT_RESIZE_EXPLANATION", $this->lng->txt("cont_resize_explanation"));
-//		$this->tpl->parseCurrentBlock();
-
-		// operations
-		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", $a_submit_cmd);
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
+			case "selectPool":
+				$this->selectPool();
+				break;
+			
+			default:
+				$this->getTabs($ilTabs, true);
+				$ilTabs->setSubTabActive("cont_new");
+				
+				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html",
+					"./Services/MediaObjects");
+				$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
+				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		
+				$this->displayValidationError();
+		
+				// select fields for number of columns
+				$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
+				$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_file"));
+				$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_reference"));
+				$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
+				$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_width"));
+				$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_height"));
+				$this->tpl->setVariable("TXT_ORIGINAL_SIZE", $this->lng->txt("cont_orig_size"));
+				$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
+				$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
+				$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
+				$this->tpl->setVariable("TXT_RESIZE", $this->lng->txt("cont_resize_image"));
+				$this->tpl->setVariable("TXT_RESIZE_EXPLANATION", $this->lng->txt("cont_resize_explanation"));
+		//		$this->tpl->parseCurrentBlock();
+		
+				// operations
+				$this->tpl->setCurrentBlock("commands");
+				$this->tpl->setVariable("BTN_NAME", $a_submit_cmd);
+				$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+				$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
+				$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+				$this->tpl->parseCurrentBlock();
+				break;
+		}
 	}
 
+	/**
+	* Insert media object from pool
+	*/
+	function insertFromPool($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
+	{
+		global $ilCtrl, $ilAccess, $ilTabs, $tpl;
+		
+		if ($_SESSION["cont_media_pool"] != "" &&
+			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"]))
+		{
+			$this->getTabs($ilTabs, true);
+			$ilTabs->setSubTabActive("cont_from_media_pool");
+			
+			$tpl->setContent("ShowMediaItems");
+		}
+		else
+		{
+			$this->poolSelection();
+		}
+	}
+	
+	/**
+	* Select concrete pool
+	*/
+	function selectPool()
+	{
+		global $ilCtrl;
+		
+		$_SESSION["cont_media_pool"] = $_GET["pool_ref_id"];
+		$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
+		$ilCtrl->redirect($this, "insert");
+	}
+	
+	/**
+	* Pool Selection
+	*/
+	function poolSelection()
+	{
+		global $ilCtrl, $tree, $tpl, $ilTabs;
+
+		$this->getTabs($ilTabs, true);
+		$ilTabs->setSubTabActive("cont_from_media_pool");
+		
+		include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
+		$exp = new ilPoolSelectorGUI($this->ctrl->getLinkTarget($this, "insert"));
+		if ($_GET["expand"] == "")
+		{
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["expand"];
+		}
+		$exp->setExpand($expanded);
+
+		$exp->setTargetGet("sel_id");
+		$this->ctrl->setParameter($this, "target_type", $a_type);
+		$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+		$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
+		
+		// filter
+		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+		$exp->addFilter("grp");
+		$exp->addFilter("fold");
+		$exp->addFilter("crs");
+		$exp->addFilter("mep");
+
+		$sel_types = array('mep');
+
+		$exp->setOutput(0);
+
+		$tpl->setContent($exp->getOutput());
+	}
+
+	
 	/**
 	* create new media object in dom and update page in db
 	*/
@@ -735,12 +835,22 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	function getTabs(&$tab_gui, $a_create = false)
 	{
 		global $ilCtrl, $ilTabs;
-//var_dump($GLOBALS);
+
 		if (!$a_create)
 		{
 			$ilTabs->addTarget("cont_mob_inst_prop",
 				$ilCtrl->getLinkTarget($this, "editAlias"), "editAlias",
 				get_class($this));
+		}
+		else
+		{
+			$ilTabs->addSubTabTarget("cont_new",
+				$ilCtrl->getLinkTarget($this, "insert"), "insert");
+
+			$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
+			$ilTabs->addSubTabTarget("cont_from_media_pool",
+				$ilCtrl->getLinkTarget($this, "insert"), "insert");
+			$ilCtrl->setParameter($this, "subCmd", "");
 		}
 	}
 

@@ -53,11 +53,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function ilObjMediaPoolGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = false)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $lng;
 
 //echo "<br>ilobjmediapoolgui-constructor-id-$a_id";
 
 		$this->ctrl =& $ilCtrl;
+		$lng->loadLanguageModule("mep");
 		
 		if ($this->ctrl->getCmd() == "explorer")
 		{
@@ -81,6 +82,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilTabs, $lng;
+		
 		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
 			$this->explorer();
@@ -232,6 +235,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "listMedia");
 				$clip_gui = new ilEditClipboardGUI();
 				$clip_gui->setMultipleSelections(true);
+				$clip_gui->setInsertButtonTitle($lng->txt("mep_copy_to_mep"));
+				$ilTabs->setTabActive("clipboard");
 				//$ret =& $clip_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($clip_gui);
 				$this->tpl->show();
@@ -262,6 +267,11 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		parent::createObject();
 		$this->tpl->setVariable("TARGET", ' target="'.
 				ilFrameTargetInfo::_getFrame("MainContent").'" ');
+	}
+	
+	function createMediaObject()
+	{
+		$this->ctrl->redirectByClass("ilobjmediaobjectgui", "create");
 	}
 	
 	// for admin compatiblity
@@ -372,13 +382,19 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function listMedia()
 	{
-		global $tree, $ilAccess;
+		global $tree, $ilAccess, $tpl;
 
 		if (!$ilAccess->checkAccess("read", "", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
+		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object);
+		$tpl->setContent($mep_table_gui->getHTML());
+		$this->tpl->show();
+		return;
+		
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -866,7 +882,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	/**
 	* paste from clipboard
 	*/
-	function pasteFromClipboard()
+	function openClipboard()
 	{
 		global $ilCtrl, $ilAccess;
 		
@@ -878,7 +894,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$ilCtrl->setParameterByClass("ileditclipboardgui", "returnCommand",
 			rawurlencode($ilCtrl->getLinkTarget($this,
 			"insertFromClipboard")));
-//echo ":".$ilCtrl->getLinkTarget($this, "insertFromClipboard").":";
 		$ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
 	}
 	
@@ -1038,6 +1053,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$folder_gui->setFormAction("save",
 			$this->ctrl->getFormActionByClass("ilobjfoldergui"));
 		$folder_gui->createObject();
+		$this->tpl->show();
 	}
 
 
@@ -1075,7 +1091,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view"),
+			$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTarget($this, "openClipboard"),
 				"view", "ileditclipboardgui");
 		}
 	}

@@ -64,7 +64,10 @@ class ilEditClipboardGUI
 			$this->mode = "";
 		}
 
-		$this->ctrl->saveParameter($this, array("clip_mob_id", "returnCommand"));
+		$this->ctrl->setParameter($this, "returnCommand",
+			rawurlencode($_GET["returnCommand"]));
+
+		$this->ctrl->saveParameter($this, array("clip_mob_id"));
 	}
 
 	/**
@@ -84,7 +87,7 @@ class ilEditClipboardGUI
 	{
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
-
+//echo htmlentities($_GET["returnCommand"]);
 		// get current command
 		$cmd = $this->ctrl->getCmd();
 
@@ -135,6 +138,33 @@ class ilEditClipboardGUI
 		return $this->multiple;
 	}
 
+	/**
+	* Set Insert Button Title.
+	*
+	* @param	string	$a_insertbuttontitle	Insert Button Title
+	*/
+	function setInsertButtonTitle($a_insertbuttontitle)
+	{
+		$this->insertbuttontitle = $a_insertbuttontitle;
+	}
+
+	/**
+	* Get Insert Button Title.
+	*
+	* @return	string	Insert Button Title
+	*/
+	function getInsertButtonTitle()
+	{
+		global $lng;
+		
+		if ($this->insertbuttontitle == "")
+		{
+			return $lng->txt("insert");
+		}
+		
+		return $this->insertbuttontitle;
+	}
+
 	/*
 	* display clipboard content
 	*/
@@ -142,20 +172,21 @@ class ilEditClipboardGUI
 	{
 		global $tree;
 
-		$this->setTabs();
+		//$this->setTabs();
 		
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+
 //echo "HH";
 		// create mob form button
-		if ($this->mode != "getObject")
-		{
+		//if ($this->mode != "getObject")
+		//{
 			$this->tpl->setCurrentBlock("btn_cell");
 			$this->tpl->setVariable("BTN_LINK",
 				$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_mob"));
 			$this->tpl->parseCurrentBlock();
-		}
-
+		//}
 
 		include_once "./Services/Table/classes/class.ilTableGUI.php";		
 		
@@ -169,13 +200,8 @@ class ilEditClipboardGUI
 		$num = 0;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		if ($this->mode == "getObject")
-		{
-			$this->ctrl->setParameter($this, "returnCommand",
-				rawurlencode($_GET["returnCommand"]));
-		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
+//echo "-".$this->ctrl->getFormAction($this)."-";
 		// create table
 		$tbl = new ilTableGUI();
 
@@ -202,29 +228,19 @@ class ilEditClipboardGUI
 		$this->tpl->setVariable("COLUMN_COUNTS", 3);
 
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		if ($this->mode != "getObject")
-		{
-			// delete button
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "remove");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("remove"));
-			$this->tpl->parseCurrentBlock();
-
-			// add list
-			/*
-			$opts = ilUtil::formSelect("","new_type",array("mob" => "mob"));
-			$this->tpl->setCurrentBlock("add_object");
-			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("BTN_NAME", "createMediaInClipboard");
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$this->tpl->parseCurrentBlock();*/
-		}
-		else
+		
+		// delete button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "remove");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("remove"));
+		$this->tpl->parseCurrentBlock();
+		
+		if ($this->mode == "getObject")
 		{
 			// insert button
 			$this->tpl->setCurrentBlock("tbl_action_btn");
 			$this->tpl->setVariable("BTN_NAME", "insert");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("insert"));
+			$this->tpl->setVariable("BTN_VALUE", $this->getInsertButtonTitle());
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -365,19 +381,14 @@ class ilEditClipboardGUI
 	{
 		global $ilTabs;
 
-		//$this->tpl->setCurrentBlock("header_image");
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_clip_b.gif"));
-		//$this->tpl->parseCurrentBlock();
 		$this->tpl->setTitle($this->lng->txt("clipboard"));
-		$this->tpl->stopTitleFloating();
-
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($ilTabs);
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 	
+	/**
+	*
+	*/
 	function setPageBackTitle($a_title)
 	{
 		$this->page_back_title = $a_title;
@@ -390,18 +401,18 @@ class ilEditClipboardGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		if ($this->mode == "getObject")
+/*		if ($this->mode == "getObject")
 		{
 			// back to upper context
 			$tabs_gui->setBackTarget($this->page_back_title,
 				$_GET["returnCommand"]);
 		}
 		else
-		{
+		{*/
 			// back to upper context
 			$tabs_gui->setBackTarget($this->page_back_title,
 				$this->ctrl->getParentReturn($this));
-		}
+//		}
 	}
 
 }

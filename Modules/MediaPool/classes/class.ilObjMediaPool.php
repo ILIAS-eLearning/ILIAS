@@ -55,16 +55,32 @@ class ilObjMediaPool extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
+	/**
+	* Read pool data
+	*/
 	function read()
 	{
 		parent::read();
 
-		$this->tree =& new ilTree($this->getId());
-		$this->tree->setTreeTablePK("mep_id");
-		$this->tree->setTableNames('mep_tree','object_data');
+		$this->tree = ilObjMediaPool::getPoolTree($this->getId());
 	}
 
-
+	/**
+	* Get Pool Tree
+	*
+	* @param	int		Media pool ID
+	*
+	* @return	object	Tree object of media pool
+	*/
+	static function getPoolTree($a_obj_id)
+	{
+		$tree = new ilTree($a_obj_id);
+		$tree->setTreeTablePK("mep_id");
+		$tree->setTableNames("mep_tree", "object_data");
+		
+		return $tree;
+	}
+	
 	/**
 	* create new media pool
 	*/
