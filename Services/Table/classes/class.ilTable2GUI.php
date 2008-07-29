@@ -167,6 +167,18 @@ class ilTable2GUI extends ilTableGUI
 	{
 		return $this->row_data;
 	}
+	
+	final public function dataExists()
+	{
+		if (is_array($this->row_data))
+		{
+			if (count($this->row_data) > 1)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	final public function setPrefix($a_prefix)
 	{
@@ -487,15 +499,22 @@ class ilTable2GUI extends ilTableGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		else if (trim($this->getNoEntriesText()) != '')
+		else
 		{
+			// add standard no items text (please tell me, if it messes something up, alex, 29.8.2008)
+			$no_items_text = (trim($this->getNoEntriesText()) != '')
+				? $this->getNoEntriesText()
+				: $lng->txt("no_items");
+
 			$this->css_row = ($this->css_row != "tblrow1")
 					? "tblrow1"
 					: "tblrow2";				
 			
+			$this->tpl->setCurrentBlock("tbl_no_entries");
 			$this->tpl->setVariable('TBL_NO_ENTRY_CSS_ROW', $this->css_row);
 			$this->tpl->setVariable('TBL_NO_ENTRY_COLUMN_COUNT', $this->column_count);
-			$this->tpl->setVariable('TBL_NO_ENTRY_TEXT', trim($this->getNoEntriesText()));			
+			$this->tpl->setVariable('TBL_NO_ENTRY_TEXT', trim($no_items_text));
+			$this->tpl->parseCurrentBlock();			
 		}
 		
 		// set form action		
@@ -610,7 +629,7 @@ class ilTable2GUI extends ilTableGUI
 		$footer = false;
 		
 		// select all checkbox
-		if ((strlen($this->getFormName())) && (strlen($this->getSelectAllCheckbox())))
+		if ((strlen($this->getFormName())) && (strlen($this->getSelectAllCheckbox())) && $this->dataExists())
 		{
 			$this->tpl->setCurrentBlock("select_all_checkbox");
 			$this->tpl->setVariable("SELECT_ALL_TXT_SELECT_ALL", $lng->txt("select_all"));
@@ -625,6 +644,10 @@ class ilTable2GUI extends ilTableGUI
 		if ($this->enabled["numinfo"] && $this->enabled["footer"])
 		{
 			$start = $this->offset + 1;				// compute num info
+			if (!$this->dataExists())
+			{
+				$start = 0;
+			}
 			$end = $this->offset + $this->limit;
 			
 			if ($end > $this->max_count or $this->limit == 0)
@@ -819,7 +842,7 @@ class ilTable2GUI extends ilTableGUI
 		}
 		
 		// multi selection 
-		if (count($this->multi) > 1)
+		if (count($this->multi) > 1 && $this->dataExists())
 		{
 			$this->tpl->setCurrentBlock("tbl_cmd_select");
 			$sel = array();
@@ -835,7 +858,7 @@ class ilTable2GUI extends ilTableGUI
 			$arrow = true;
 			$action_row = true;
 		}
-		elseif(count($this->multi) == 1)
+		elseif(count($this->multi) == 1  && $this->dataExists())
 		{
 			$this->tpl->setCurrentBlock("tbl_single_cmd");
 			$sel = array();

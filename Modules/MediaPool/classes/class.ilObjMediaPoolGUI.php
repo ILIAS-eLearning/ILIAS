@@ -28,7 +28,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 include_once("./Modules/Folder/classes/class.ilObjFolderGUI.php");
 include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-include_once("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
+include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 
 
 /**
@@ -140,6 +140,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				{
 					$ret_obj = $tree->getParentId($_GET["obj_id"]);
 					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
+					$this->ctrl->setParameter($this, "obj_id", $this->getParentFolderId());
+					$ilTabs->setBackTarget($lng->txt("back"),
+						$this->ctrl->getLinkTarget($this, "listMedia"));
 				}
 				if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
 				{
@@ -393,243 +396,20 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object);
 		$tpl->setContent($mep_table_gui->getHTML());
 		$this->tpl->show();
-		return;
-		
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		$obj_id = ($_GET["obj_id"] == "")
-			? $obj_id = $this->object->tree->getRootId()
-			: $_GET["obj_id"];
-
-		// create table
-		require_once("./Services/Table/classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
-
-		// load files templates
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mep_list_row.html", "Modules/MediaPool");
-
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$tbl->setHeaderNames(array("", "", $this->lng->txt("title")));
-
-		$cols = array("", "", "title");
-		$header_params = array("ref_id" => $_GET["ref_id"],
-			"obj_id" => $_GET["obj_id"], "cmd" => "listMedia",
-			"baseClass" => "ilMediaPoolPresentationGUI");
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "1%", "98%"));
-
-		if ($obj_id != $this->object->tree->getRootId())
-		{
-			$node = $this->object->tree->getNodeData($obj_id);
-			$tbl->setTitle($node["title"]);
-		}
-		else
-		{
-			$tbl->setTitle($this->object->getTitle());
-		}
-		
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$this->tpl->setVariable("COLUMN_COUNTS", 3);
-	
-			// remove button
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "confirmRemove");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("remove"));
-			$this->tpl->parseCurrentBlock();
-	
-			// copy to clipboard
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "copyToClipboard");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_copy_to_clipboard"));
-			$this->tpl->parseCurrentBlock();
-			
-			// copy to clipboard
-			$this->tpl->setCurrentBlock("tbl_action_btn");
-			$this->tpl->setVariable("BTN_NAME", "pasteFromClipboard");
-			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_paste_from_clipboard"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-		
-		// get current folders
-		$fobjs = $this->object->getChilds($_GET["obj_id"], "fold");
-		$f2objs = array();
-		foreach ($fobjs as $obj)
-		{
-			$f2objs[$obj["title"].":".$obj["id"]] = $obj;
-		}
-		ksort($f2objs);
-
-		// get current media objects
-		$mobjs = $this->object->getChilds($_GET["obj_id"], "mob");
-		$m2objs = array();
-		foreach ($mobjs as $obj)
-		{
-			$m2objs[$obj["title"].":".$obj["id"]] = $obj;
-		}
-		ksort($m2objs);
-		
-		// merge everything together
-		$objs = array_merge($f2objs, $m2objs);
-		//$objs = $this->object->getChilds($_GET["obj_id"]);
-
-		$tbl->setMaxCount(count($objs));
-		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
-
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-		{
-			$subobj = array(
-				"mob" => $this->lng->txt("mob"),
-				"fold" => $this->lng->txt("fold"));
-			$opts = ilUtil::formSelect("", "new_type", $subobj, false, true);
-			$this->tpl->setCurrentBlock("add_object");
-			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("BTN_NAME", "create");
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$this->tpl->parseCurrentBlock();
-		}
-		$tbl->disable("sort");
-		//$tbl->disable("title");
-		$tbl->disable("header");
-		if(count($objs) == 0)
-		{
-			//$tbl->disable("footer");
-		}
-		$tbl->render();
-		if(count($objs) > 0)
-		{
-			$i=0;
-			foreach($objs as $obj)
-			{
-				$this->tpl->setCurrentBlock("link");
-				$this->tpl->setVariable("TXT_TITLE", $obj["title"]);
-				switch($obj["type"])
-				{
-					case "fold":
-						$this->ctrl->setParameter($this, "obj_id", $obj["obj_id"]);
-						$this->tpl->setVariable("LINK_VIEW",
-							$this->ctrl->getLinkTarget($this, "listMedia"));
-						$this->tpl->parseCurrentBlock();
-						
-						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-						{
-							$this->tpl->setCurrentBlock("edit");
-							$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-							$this->ctrl->setParameterByClass("ilobjfoldergui", "obj_id", $obj["obj_id"]);
-							$this->tpl->setVariable("EDIT_LINK",
-								$this->ctrl->getLinkTargetByClass("ilobjfoldergui", "edit"));
-							$this->tpl->parseCurrentBlock();
-						}
-						
-						$this->tpl->setCurrentBlock("tbl_content");
-						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$obj["type"].".gif"));
-						break;
-
-					case "mob":
-						$this->tpl->touchBlock("nf");
-						$this->ctrl->setParameterByClass("ilobjmediaobjectgui", "obj_id", $obj["obj_id"]);
-						$this->ctrl->setParameter($this, "mob_id", $obj["obj_id"]);
-						$this->tpl->setVariable("LINK_VIEW",
-							$this->ctrl->getLinkTarget($this, "showMedia"));
-							
-						// edit link
-						if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-						{
-							$this->tpl->setCurrentBlock("edit");
-							$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-							$this->tpl->setVariable("EDIT_LINK",
-								$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "edit"));
-							$this->tpl->parseCurrentBlock();
-						}
-						/*
-						$this->tpl->setCurrentBlock("show");
-						$this->tpl->setVariable("TXT_SHOW", $this->lng->txt("view"));
-						$this->ctrl->setParameter($this, "mob_id", $obj["obj_id"]);
-						$this->tpl->setVariable("SHOW_LINK", $this->ctrl->getLinktarget($this, "showMedia"));
-						$this->tpl->parseCurrentBlock();*/
-						
-						$this->tpl->setCurrentBlock("link");
-                        //$this->tpl->setVariable("OBJ_URL", ilUtil::getHtmlPath(ilObjMediaObject::_getDirectory($obj["obj_id"]) . '/'. $obj["title"]));
-						$this->tpl->setCurrentBlock("tbl_content");
-						
-						// output thumbnail (or mob icon)
-						$mob =& new ilObjMediaObject($obj["obj_id"]);
-						$med =& $mob->getMediaItem("Standard");
-						$target = $med->getThumbnailTarget();
-						if ($target != "")
-						{
-							$this->tpl->setVariable("IMG_OBJ", $target);
-						}
-						else
-						{
-							$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$obj["type"].".gif"));
-						}
-						
-						// output media info
-						include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-						$this->tpl->setVariable("MEDIA_INFO",
-							ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
-
-						break;
-				}
-
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				
-				if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
-				{
-					$this->tpl->setCurrentBlock("chbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $obj["obj_id"]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("tbl_content");
-				}
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-				
-				$this->tpl->setCurrentBlock("mob_row");
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("no_row");
-			$this->tpl->setVariable("CSS_ROW", "tblrow1");
-			$this->tpl->setVariable("TXT_EMPTY_FOLDER",
-				$this->lng->txt("cont_empty_mep_folder"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
 	}
 
+	/**
+	* Get standard template
+	*/
 	function getTemplate()
 	{
 		$this->tpl->getStandardTemplate();
-		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		//$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	}
 
 
+	/**
+	* Get folder parent ID
+	*/
 	function getParentFolderId()
 	{
 		if ($_GET["obj_id"] == "")
@@ -808,7 +588,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
-
 	}
 
 	/**
@@ -910,7 +689,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once("./Modules/LearningModule/classes/class.ilEditClipboardGUI.php");
+		include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 		$ids = ilEditClipboardGUI::_getSelectedIDs();
 		$not_inserted = array();
 		if (is_array($ids))

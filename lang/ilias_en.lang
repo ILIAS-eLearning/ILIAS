@@ -7722,6 +7722,7 @@ crs#:#crs_objective_add_mat#:#Assign Materials
 crs#:#crs_objective_add_qst#:#Assign Questions
 common#:#objs_qst#:#Questions
 common#:#container_no_items#:#No Materials Available
+common#:#no_items#:#No Items
 common#:#search_engine#:#Search Engines
 common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.

@@ -55,10 +55,9 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("mep_title_and_description"), "", "100%");
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.mep_list_row.html",
-			"Modules/MediaPool");
+		$this->setRowTemplate("tpl.mep_list_row.html", "Modules/MediaPool");
 		$this->getItems();
-		
+
 		// title
 		if ($this->current_folder != $this->tree->getRootId())
 		{
@@ -76,12 +75,13 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 		// action commands
 		if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()))
 		{
-			$this->addMultiCommand("confirmRemove", $lng->txt("remove"));
 			$this->addMultiCommand("copyToClipboard", $lng->txt("cont_copy_to_clipboard"));
+			$this->addMultiCommand("confirmRemove", $lng->txt("remove"));
 			
 			$this->addCommandButton("createFolderForm", $lng->txt("mep_create_folder"));
 			$this->addCommandButton("createMediaObject", $lng->txt("mep_create_mob"));
 		}
+		$this->setSelectAllCheckbox("id");
 	}
 
 	/**
@@ -186,8 +186,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				break;
 		}
 
-		$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-		
 		if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()))
 		{
 			$this->tpl->setCurrentBlock("chbox");
@@ -195,11 +193,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("tbl_content");
 		}
-		$this->tpl->setVariable("CSSROW", $css_row);
-		$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->setCurrentBlock("mob_row");
-		$this->tpl->parseCurrentBlock();
 	}
 
 }
