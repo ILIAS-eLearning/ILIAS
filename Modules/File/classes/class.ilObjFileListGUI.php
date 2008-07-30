@@ -163,7 +163,6 @@ class ilObjFileListGUI extends ilObjectListGUI
 		// to do: implement extra smaller file info object
 		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
-
 		// Display a warning if filename extension is missing
 		if (! preg_match('/\\.[a-zA-Z0-9]+$/', $this->title))
 			{
@@ -193,7 +192,6 @@ class ilObjFileListGUI extends ilObjectListGUI
 
 		return $props;
 	}
-
 
 	/**
 	* Get command link url.
