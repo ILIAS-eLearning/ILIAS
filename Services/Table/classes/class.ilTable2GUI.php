@@ -172,7 +172,7 @@ class ilTable2GUI extends ilTableGUI
 	{
 		if (is_array($this->row_data))
 		{
-			if (count($this->row_data) > 1)
+			if (count($this->row_data) > 0)
 			{
 				return true;
 			}
