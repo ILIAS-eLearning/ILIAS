@@ -440,7 +440,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 		
 		if ($this->ctrl->getCmd() == "delete")
 		{
@@ -483,7 +483,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if(ilObjUserTracking::_enabledLearningProgress())
+		if(ilObjUserTracking::_enabledLearningProgress() and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),

@@ -860,7 +860,7 @@ class ilInfoScreenGUI
 		}
 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if (!ilObjUserTracking::_enabledLearningProgress())
+		if (!ilObjUserTracking::_enabledLearningProgress() and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			return false;
 		}

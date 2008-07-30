@@ -3268,7 +3268,8 @@ class ilObjCourseGUI extends ilContainerGUI
 								 get_class($this));
 		}			
 		elseif ($ilAccess->checkAccess('read','',$this->ref_id) &&
-			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED)
+			$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED &&
+			$ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$tabs_gui->addTarget("members",
 								 $this->ctrl->getLinkTarget($this, "membersGallery"), 
@@ -3299,6 +3300,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
 
 		if(ilObjUserTracking::_enabledLearningProgress() and
+			$ilUser->getId() != ANONYMOUS_USER_ID and
 		   (($ilAccess->checkAccess('read','',$this->ref_id) and (ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED)) or
 		   ($ilAccess->checkAccess('write','',$this->ref_id))))
 		{

@@ -370,7 +370,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	// get tabs
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
@@ -404,7 +404,8 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
+		if($rbacsystem->checkAccess('read',$this->ref_id) and ilObjUserTracking::_enabledLearningProgress() and
+			$ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjfoldergui','illearningprogressgui'),''),

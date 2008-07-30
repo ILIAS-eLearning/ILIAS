@@ -2187,7 +2187,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$commenttextfilter = new ilTemplate("tpl.text_filter.js", TRUE, TRUE, "Modules/TestQuestionPool");
 		$commenttextfilter->setVariable("FILTERELEMENTID", "commenttextfilter");
 		$commenttextfilter->setVariable("OVERLAY_WIDTH", "500px");
-		$commenttextfilter->setVariable("OVERLAY_HEIGHT", "5em");
+		$commenttextfilter->setVariable("OVERLAY_HEIGHT", "8em");
 		$commenttextfilter->setVariable("TEXTFIELD_NAME", "filter_comment");
 		$commenttextfilter->setVariable("IMAGE_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
 		$commenttextfilter->setVariable("ALT_CLOSE", $this->lng->txt("close"));
@@ -5460,7 +5460,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess,$ilUser;
 
 		switch ($this->ctrl->getCmd())
 		{
@@ -5666,7 +5666,7 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				// learning progress
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-				if(ilObjUserTracking::_enabledLearningProgress() and $ilAccess->checkAccess("edit_learning_progress", "", $this->ref_id))
+				if(ilObjUserTracking::_enabledLearningProgress() and $ilAccess->checkAccess("edit_learning_progress", "", $this->ref_id) and $ilUser->getId() != ANONYMOUS_USER_ID)
 				{
 					$tabs_gui->addTarget('learning_progress',
 						$this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
