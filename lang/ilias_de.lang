@@ -8518,3 +8518,4 @@ common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
 ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.###26 07 2008 new variable
+crs#:#crs_archive_language_selection#:#Sprachauswahl
