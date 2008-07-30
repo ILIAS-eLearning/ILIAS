@@ -142,6 +142,20 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	{
 		global $ilTabs;
 		
+		if ($_GET["subCmd"] == "insertNew")
+		{
+			$_SESSION["cont_media_insert"] = "insertNew";
+		}
+		if ($_GET["subCmd"] == "insertFromPool")
+		{
+			$_SESSION["cont_media_insert"] = "insertFromPool";
+		}
+		
+		if (($_GET["subCmd"] == "") && $_SESSION["cont_media_insert"] != "")
+		{
+			$_GET["subCmd"] = $_SESSION["cont_media_insert"];
+		}
+		
 		switch ($_GET["subCmd"])
 		{
 			case "insertFromPool":
@@ -156,9 +170,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$this->selectPool();
 				break;
 			
+			case "insertNew":
 			default:
 				$this->getTabs($ilTabs, true);
-				$ilTabs->setSubTabActive("cont_new");
+				$ilTabs->setSubTabActive("cont_new_mob");
 				
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html",
 					"./Services/MediaObjects");
@@ -198,15 +213,30 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function insertFromPool($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
 	{
-		global $ilCtrl, $ilAccess, $ilTabs, $tpl;
+		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng;
 		
+		$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		$tpl->setCurrentBlock("btn_cell");
+		$tpl->setVariable("BTN_LINK",
+			$ilCtrl->getLinkTarget($this, "poolSelection"));
+		$tpl->setVariable("BTN_TXT", $lng->txt("cont_select_media_pool"));
+		$tpl->parseCurrentBlock();
+
 		if ($_SESSION["cont_media_pool"] != "" &&
-			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"]))
+			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
+			&& ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_media_pool"])) == "mep")
 		{
 			$this->getTabs($ilTabs, true);
-			$ilTabs->setSubTabActive("cont_from_media_pool");
+			$ilTabs->setSubTabActive("cont_mob_from_media_pool");
 			
-			$tpl->setContent("ShowMediaItems");
+			include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
+			include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
+			$pool = new ilObjMediaPool($_SESSION["cont_media_pool"]);
+			$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
+			$mpool_table = new ilMediaPoolTableGUI($this, "insert", $pool, "mep_folder",
+				ilMediaPoolTableGUI::IL_MEP_SELECT);
+			
+			$tpl->setContent($mpool_table->getHTML());
 		}
 		else
 		{
@@ -276,6 +306,26 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function &create($a_create_alias = true)
 	{
+		global $ilCtrl;
+		
+		
+		if ($_GET["subCmd"] == "insertFromPool")
+		{
+			if (is_array($_POST["id"]))
+			{
+				for($i = count($_POST["id"]) - 1; $i>=0; $i--)
+				{
+					include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
+					$this->content_obj = new ilPCMediaObject($this->dom);
+					$this->content_obj->readMediaObject($_POST["id"][$i]);
+					$this->content_obj->createAlias($this->pg_obj, $_GET["hier_id"]);
+				}
+				$this->updated = $this->pg_obj->update();
+			}
+
+			$ilCtrl->returnToParent($this);
+		}
+		
 		// determinte title and format
 		if ($_POST["standard_type"] == "File")
 		{
@@ -844,11 +894,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$ilTabs->addSubTabTarget("cont_new",
+			$ilCtrl->setParameter($this, "subCmd", "insertNew");
+			$ilTabs->addSubTabTarget("cont_new_mob",
 				$ilCtrl->getLinkTarget($this, "insert"), "insert");
 
 			$ilCtrl->setParameter($this, "subCmd", "insertFromPool");
-			$ilTabs->addSubTabTarget("cont_from_media_pool",
+			$ilTabs->addSubTabTarget("cont_mob_from_media_pool",
 				$ilCtrl->getLinkTarget($this, "insert"), "insert");
 			$ilCtrl->setParameter($this, "subCmd", "");
 		}

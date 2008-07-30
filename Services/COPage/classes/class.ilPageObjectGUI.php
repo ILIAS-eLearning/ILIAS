@@ -663,7 +663,7 @@ class ilPageObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -678,6 +678,7 @@ class ilPageObjectGUI
 		{
 			case 'ilmdeditorgui':
 				//$this->setTabs();
+				$ilTabs->setTabActive("meta_data");
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->meta_data_rep_obj_id,
 					$this->meta_data_sub_obj_id, $this->meta_data_type);
