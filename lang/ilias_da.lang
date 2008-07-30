@@ -4805,11 +4805,11 @@ crs#:#crs_item_presetting_info#:#Vælg denne indstilling for at foreslå den læ
 crs#:#crs_learning_materials#:#Lærematerialer
 crs#:#crs_list_users#:#Vis brugere
 crs#:#crs_lm_assignment#:#Tildeling af lærematerialer
-crs#:#crs_lm_assignment_deleted#:#Deleted assignment.###21 Apr 2005 new variable
-crs#:#crs_lm_deassign#:#Delete assignment.###21 Apr 2005 new variable
+crs#:#crs_lm_assignment_deleted#:#Tildeling fjernet
+crs#:#crs_lm_deassign#:#Fjern tildeling
 crs#:#crs_lm_no_assignments_selected#:#Please select one assignment.###21 Apr 2005 new variable
-crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.###21 Apr 2005 new variable
-crs#:#crs_materials#:#Course Materials
+crs#:#crs_lms_already_assigned#:#Disse materialer er allerede tildelt.
+crs#:#crs_materials#:#Kursusmaterialer
 crs#:#crs_max_members_reached#:#Det maksimale antal deltagere er nået
 crs#:#crs_mem_change_status#:#ændre status
 crs#:#crs_mem_send_mail#:#Send mail
