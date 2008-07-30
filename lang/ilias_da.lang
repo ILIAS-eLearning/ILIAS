@@ -1497,9 +1497,9 @@ common#:#lang_sep_thousand#:#.
 common#:#lang_sq#:#Albansk
 common#:#lang_sr#:#Serbisk
 common#:#lang_sv#:#Svensk
-common#:#lang_timeformat#:#H:i:s###21 Apr 2005 new variable
+common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
-common#:#lang_uk#:#Ukrainian###17 Aug 2005 new variable
+common#:#lang_uk#:#Ukrainsk
 common#:#lang_version#:#1
 common#:#lang_vi#:#vietnamesisk
 common#:#lang_xx#:#brugervalgte
@@ -8251,8 +8251,8 @@ content#:#cont_insert_subchapter#:#Insert Subchapter###23 07 2008 new variable
 content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard###23 07 2008 new variable
 content#:#cont_insert_chapter_from_clip#:#Paste Chapters from Clipboard###23 07 2008 new variable
 content#:#cont_insert_subchapter_from_clip#:#Paste Subchapters from Clipboard###23 07 2008 new variable
-content#:#cont_left#:#Left###23 07 2008 new variable
-content#:#cont_right#:#Right###23 07 2008 new variable
+content#:#cont_left#:#Venstre
+content#:#cont_right#:#Højre
 content#:#cont_center#:#Center###23 07 2008 new variable
 content#:#cont_left_float#:#Left, Floating###23 07 2008 new variable
 content#:#cont_right_float#:#Right, Floating###23 07 2008 new variable
@@ -8267,9 +8267,9 @@ crs#:#crs_objective_wiz_self#:#Initial Test Questions###23 07 2008 new variable
 crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test###23 07 2008 new variable
 crs#:#crs_objective_wiz_final#:#Final Test Questions###23 07 2008 new variable
 crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test###23 07 2008 new variable
-crs#:#crs_wiz_next#:#Save###23 07 2008 new variable
-crs#:#crs_wiz_back#:#Back###23 07 2008 new variable
-crs#:#crs_objective_step#:#Step###23 07 2008 new variable
+crs#:#crs_wiz_next#:#Gem
+crs#:#crs_wiz_back#:#Tilbage
+crs#:#crs_objective_step#:#Skridt
 crs#:#crs_objective_self_assessment#:#Initial Test###23 07 2008 new variable
 crs#:#crs_objective_final_test#:#Final Test###23 07 2008 new variable
 crs#:#crs_objective_saved_sorting#:#Saved sorting.###23 07 2008 new variable
@@ -8284,7 +8284,7 @@ ecs#:#ecs_communities#:#Participants###23 07 2008 new variable
 ecs#:#ecs_mappings#:#ECS Data Mapping###23 07 2008 new variable
 ecs#:#ecs_connection_settings#:#Connection Settings###23 07 2008 new variable
 ecs#:#ecs_active#:#Enable ECS Functionalities###23 07 2008 new variable
-ecs#:#ecs_server_url#:#Server URL###23 07 2008 new variable
+ecs#:#ecs_server_url#:#Server URL
 ecs#:#ecs_protocol#:#Protocol###23 07 2008 new variable
 ecs#:#ecs_port#:#Port###23 07 2008 new variable
 ecs#:#ecs_client_cert#:#Client Certificate###23 07 2008 new variable
@@ -8400,28 +8400,28 @@ crs#:#sess_gen_mark_title#:#Generate Column for Notes###23 07 2008 new variable
 crs#:#sess_gen_comment#:#Generate Column for Comments###23 07 2008 new variable
 crs#:#sess_gen_signature#:#Generate Column for Signatures###23 07 2008 new variable
 crs#:#sess_print_attendance_list#:#Print Attendance List###23 07 2008 new variable
-crs#:#sess_signature#:#Signature###23 07 2008 new variable
+crs#:#sess_signature#:#Signatur
 crs#:#sess_attendance_list#:#Attendance List###23 07 2008 new variable
 grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.###23 07 2008 new variable
 grp#:#grp_type_changed_info#:#Changing the group type will reset all permission settings.###23 07 2008 new variable
 grp#:#grp_change_type#:#Change Group Type###23 07 2008 new variable
-dateplaner#:#cal_share#:#Share Calendar###23 07 2008 new variable
-dateplaner#:#cal_shared_header#:#Shared Calendars###23 07 2008 new variable
-dateplaner#:#cal_unshare_cal#:#Stop Sharing###23 07 2008 new variable
+dateplaner#:#cal_share#:#Del kalender
+dateplaner#:#cal_shared_header#:#Delte kalendere
+dateplaner#:#cal_unshare_cal#:#Stop deling
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.###23 07 2008 new variable
-dateplaner#:#cal_share_search_header#:#Share Calendar###23 07 2008 new variable
-dateplaner#:#cal_search#:#Search Term###23 07 2008 new variable
+dateplaner#:#cal_share_search_header#:#Del kalender
+dateplaner#:#cal_search#:#Søgeord
 dateplaner#:#cal_search_info_share#:#Please enter the name of the desired user/role for sharing the calendar.###23 07 2008 new variable
 dateplaner#:#cal_share_search_usr_header#:#User Selection###23 07 2008 new variable
-dateplaner#:#cal_share_cal#:#Share calendar###23 07 2008 new variable
+dateplaner#:#cal_share_cal#:#Del kalender
 dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.###23 07 2008 new variable
-dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)###23 07 2008 new variable
-dateplaner#:#cal_apps#:#Number of Appointments###23 07 2008 new variable
-dateplaner#:#cal_share_accept#:#Accept Invitation###23 07 2008 new variable
+dateplaner#:#cal_shared_calendars#:#Delte kalendere (invitationer)
+dateplaner#:#cal_apps#:#Antal aftaler
+dateplaner#:#cal_share_accept#:#Accepter invitation
 dateplaner#:#cal_share_decline#:#Decline Invitation###23 07 2008 new variable
 dateplaner#:#cal_changed_events_header#:#Changed Appointments ###23 07 2008 new variable
-dateplaner#:#cal_accepted#:#Accepted###23 07 2008 new variable
-dateplaner#:#cal_declined#:#Declined###23 07 2008 new variable
+dateplaner#:#cal_accepted#:#Accepteret
+dateplaner#:#cal_declined#:#Afvist
 trac#:#trac_mode_event#:#Participation in Sessions###23 07 2008 new variable
 dateplaner#:#cal_user_time_format#:#Time Format###23 07 2008 new variable
 dateplaner#:#cal_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
@@ -8431,17 +8431,17 @@ payment#:#topics#:#Topics###23 07 2008 new variable
 payment#:#topic#:#Topic###23 07 2008 new variable
 payment#:#edit_topic#:#Edit Topic###23 07 2008 new variable
 payment#:#new_topic#:#New Topic###23 07 2008 new variable
-payment#:#topic_title#:#Title###23 07 2008 new variable
-payment#:#advanced_search#:#Advanced Search###23 07 2008 new variable
-payment#:#set_filter#:#Set Filter###23 07 2008 new variable
-payment#:#reset_filter#:#Reset Filter###23 07 2008 new variable
+payment#:#topic_title#:#Titel
+payment#:#advanced_search#:#Avanceret søgning
+payment#:#set_filter#:#Sæt filter
+payment#:#reset_filter#:#Ryd filter
 payment#:#filter_by#:#by###23 07 2008 new variable
-payment#:#sort_asc#:#sort ascending###23 07 2008 new variable
-payment#:#sort_desc#:#sort descending###23 07 2008 new variable
+payment#:#sort_asc#:#sorter stigende
+payment#:#sort_desc#:#sorter faldende
 payment#:#sort#:#Sort###23 07 2008 new variable
 payment#:#sort_by#:#Sort Objects by###23 07 2008 new variable
 common#:#shop#:#Shop###23 07 2008 new variable
-payment#:#price_from#:#from###23 07 2008 new variable
+payment#:#price_from#:#Fra
 payment#:#select_one_topic#:#Please select at least one topic###23 07 2008 new variable
 payment#:#topics_deleted#:#The chosen topics were deleted successfully###23 07 2008 new variable
 payment#:#no_topics_yet#:#No topics created yet###23 07 2008 new variable
