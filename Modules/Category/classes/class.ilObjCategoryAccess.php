@@ -51,7 +51,10 @@ class ilObjCategoryAccess extends ilObjectAccess
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true);
-		$commands[] = array("permission" => "read", "cmd" => "showSummary", "lang_var" => "info_short", "enable_anonymous" => "false");
+		
+		// why here, why read permission? it just needs info_screen_enabled = true in ilObjCategoryListGUI (alex, 30.7.2008)
+		// this is not consistent, with all other objects...
+		//$commands[] = array("permission" => "read", "cmd" => "showSummary", "lang_var" => "info_short", "enable_anonymous" => "false");
 		
 		// BEGIN WebDAV
 		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';

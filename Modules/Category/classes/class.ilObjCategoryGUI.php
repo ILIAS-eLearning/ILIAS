@@ -473,7 +473,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	* not very nice to set cmdClass/Cmd manually, if everything
 	* works through ilCtrl in the future this may be changed
 	*/
-	function showSummaryObject()
+	function infoScreenObject()
 	{
 		$this->ctrl->setCmd("showSummary");
 		$this->ctrl->setCmdClass("ilinfoscreengui");
