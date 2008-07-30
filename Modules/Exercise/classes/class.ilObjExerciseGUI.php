@@ -1520,7 +1520,7 @@ return;
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess,$ilUser;
   
 		$next_class = strtolower($this->ctrl->getNextClass());
 		if ($ilAccess->checkAccess("visible", "", $this->object->getRefId()))
@@ -1564,7 +1564,7 @@ return;
 		$save_offset = $_GET["offset"];
 		$_GET["offset"] = $_GET["sort_by"] = $_GET["sort_order"] = ""; 
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if($ilAccess->checkAccess("read", "", $this->ref_id) and ilObjUserTracking::_enabledLearningProgress())
+		if($ilAccess->checkAccess("read", "", $this->ref_id) and ilObjUserTracking::_enabledLearningProgress() and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$tabs_gui->addTarget('learning_progress',
 			$this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''),

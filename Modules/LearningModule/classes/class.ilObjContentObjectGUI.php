@@ -2675,7 +2675,7 @@ return;
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilUser;
 
 		// back to upper context
 		//$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
@@ -2730,7 +2730,7 @@ return;
 		}
 		// learning progress
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if(ilObjUserTracking::_enabledLearningProgress() and ($this->object->getType() == 'lm'))
+		if(ilObjUserTracking::_enabledLearningProgress() and ($this->object->getType() == 'lm') and $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
