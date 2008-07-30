@@ -766,8 +766,6 @@ return true;
 		{
 			if ($_GET["clip_obj_type"] == "mob")
 			{
-//$this->dom =& $this->page->getDom();
-//echo "is_object:".is_object($this->dom).":";
 				$this->content_obj = new ilPCMediaObject($this->page->getDom());
 				$this->content_obj->readMediaObject($_GET["clip_obj_id"]);
 				$this->content_obj->createAlias($this->page, $_GET["hier_id"]);

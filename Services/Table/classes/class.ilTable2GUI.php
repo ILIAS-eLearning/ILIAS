@@ -558,17 +558,27 @@ class ilTable2GUI extends ilTableGUI
 			
 			foreach($this->header_commands as $command)
 			{
-				$this->tpl->setCurrentBlock("tbl_header_img_link");
-				if ($command["target"] != "")
+				if ($command["img"] != "")
 				{
-					$this->tpl->setVariable("TARGET_IMG_LINK",
-						'target="'.$command["target"].'"');
+					$this->tpl->setCurrentBlock("tbl_header_img_link");
+					if ($command["target"] != "")
+					{
+						$this->tpl->setVariable("TARGET_IMG_LINK",
+							'target="'.$command["target"].'"');
+					}
+					$this->tpl->setVariable("ALT_IMG_LINK", $command["text"]);
+					$this->tpl->setVariable("HREF_IMG_LINK", $command["href"]);
+					$this->tpl->setVariable("SRC_IMG_LINK",
+						$command["img"]);
+					$this->tpl->parseCurrentBlock();
 				}
-				$this->tpl->setVariable("ALT_IMG_LINK", $command["txt"]);
-				$this->tpl->setVariable("HREF_IMG_LINK", $command["href"]);
-				$this->tpl->setVariable("SRC_IMG_LINK",
-					$command["img"]);
-				$this->tpl->parseCurrentBlock();
+				else
+				{
+					$this->tpl->setCurrentBlock("head_cmd");
+					$this->tpl->setVariable("TXT_HEAD_CMD", $command["text"]);
+					$this->tpl->setVariable("HREF_HEAD_CMD", $command["href"]);
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			
 			if (isset ($this->headerHTML)) {

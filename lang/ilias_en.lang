@@ -2947,6 +2947,7 @@ common#:#member_status#:#Member Status
 common#:#members#:#Members
 common#:#membership_annulled#:#Your membership has been cancelled
 common#:#mep#:#Media Pool
+mep#:#mep_parent_folder#:#Parent Folder
 common#:#mep_add#:#Add Media Pool
 common#:#mep_added#:#Added Media Pool
 common#:#mep_delete#:#Delete Media Pool
@@ -4269,6 +4270,9 @@ common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#cont_insert_map#:#Insert Map
+content#:#cont_new_mob#:#New Media Object
+content#:#cont_mob_from_media_pool#:#Choose From Media Pool
+content#:#cont_select_media_pool#:#Select Media Pool
 content#:#cont_update_map#:#Edit Map
 content#:#cont_location#:#Location
 content#:#cont_align#:#Alignment
