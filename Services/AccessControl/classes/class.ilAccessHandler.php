@@ -579,7 +579,7 @@ class ilAccessHandler
 		//echo "conditionCheck<br/>";
 		global $lng, $ilBench;
 
-		if ($a_permission == "read" &&
+		if (($a_permission == "read" or $a_permission == 'join') &&
 			!$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id))
 		{
 			$ilBench->start("AccessControl", "4000_checkAccess_condition_check");
