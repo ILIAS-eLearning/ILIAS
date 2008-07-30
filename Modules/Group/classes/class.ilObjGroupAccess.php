@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -102,7 +102,9 @@ class ilObjGroupAccess extends ilObjectAccess
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
-		$commands[] = array("permission" => "visible", "cmd" => "infoScreen", "lang_var" => "info_short", "enable_anonymous" => "false");
+		// why here? it just needs info_screen_enabled = true in ilObjGroupListGUI (alex, 30.7.2008)
+		// this is not consistent, with all other objects...
+		// $commands[] = array("permission" => "visible", "cmd" => "infoScreen", "lang_var" => "info_short", "enable_anonymous" => "false");
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
 		// BEGIN WebDAV: Mount Webfolder.
 		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
