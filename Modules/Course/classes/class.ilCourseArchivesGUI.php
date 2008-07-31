@@ -432,6 +432,13 @@ class ilCourseArchivesGUI
 		}
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+		if(!PATH_TO_ZIP)
+		{
+			ilUtil::sendInfo($this->lng->txt('zip_test_failed'));
+			return true;
+		}
+
+
 		// create xml archive button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "addXMLArchive"));

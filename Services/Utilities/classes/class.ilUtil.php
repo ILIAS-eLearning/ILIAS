@@ -1736,6 +1736,12 @@ class ilUtil
 
 		$zip = PATH_TO_ZIP;
 		//$zip = $ilias->getSetting("zip_path");
+		
+		if(!$zip)
+		{
+			chdir($cdir);
+			return false;
+		}
 
 		if (is_array($a_dir))
 		{

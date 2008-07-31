@@ -269,8 +269,11 @@ class ilFSStorageCourse extends ilFileSystemStorage
 	 */
 	public function zipArchive($a_rel_name,$a_zip_name)
 	{
-		ilUtil::zip($this->getArchiveDirectory().'/'.$a_rel_name,$this->getArchiveDirectory().'/'.$a_zip_name);
-		return filesize($this->getArchiveDirectory().'/'.$a_zip_name);
+		if(ilUtil::zip($this->getArchiveDirectory().'/'.$a_rel_name,$this->getArchiveDirectory().'/'.$a_zip_name))
+		{
+			return filesize($this->getArchiveDirectory().'/'.$a_zip_name);
+		}
+		return 0;
 	}
 	
 	/**
