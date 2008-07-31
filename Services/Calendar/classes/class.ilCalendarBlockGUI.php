@@ -31,7 +31,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @ilCtrl_IsCalledBy ilCalendarBlockGUI: ilColumnGUI
 * @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI
-* @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI
+* @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
 *
 * @ingroup ServicesCalendar
 */
@@ -184,6 +184,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 				$month_gui = new ilCalendarMonthGUI($this->seed);
 				$ilCtrl->forwardCommand($month_gui);
+				break;
+				
+			case "ilcalendarinboxgui":
+				include_once('./Services/Calendar/classes/class.ilCalendarInboxGUI.php');
+				$inbox = new ilCalendarInboxGUI($this->seed);
+				$ilCtrl->forwardCommand($inbox);
 				break;
 
 			default:
@@ -395,7 +401,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
 		$events = $schedule->getChangedEvents();
-		return '<div class="small">'.((int) count($events))." ".$lng->txt("cal_changed_events_header")."</div>";
+		
+		$link = '<a href='.$ilCtrl->getLinkTargetByClass('ilcalendarinboxgui','').'>';
+		$text = '<div class="small">'.((int) count($events))." ".$lng->txt("cal_changed_events_header")."</div>";
+		$end_link = '</a>';
+		
+		return $link.$text.$end_link;
 	}
 
 	function addCloseCommand($a_content_block)

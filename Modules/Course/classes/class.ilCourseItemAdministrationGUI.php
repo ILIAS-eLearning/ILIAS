@@ -165,10 +165,12 @@ class ilCourseItemAdministrationGUI
 		
 			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_start'),'timing_start');
 			$start->setShowTime(true);
+			#$start->setMinuteStepSize(5);
 			$vis->addSubItem($start);
 		
 			$end = new ilDateTimeInputGUI($this->lng->txt('crs_timings_end'),'timing_end');
 			$end->setShowTime(true);
+			#$end->setMinuteStepSize(5);
 			$vis->addSubItem($end);
 			
 			$isv = new ilCheckboxInputGUI($this->lng->txt('crs_visibility'),'visible');
@@ -222,11 +224,11 @@ class ilCourseItemAdministrationGUI
 		$data['visible'] = $item_data['visible'];
 		$data['changeable'] = $item_data['changeable'];
 		
-		$start = new ilDateTime($item_data['start'],IL_CAL_UNIX);
+		$start = new ilDateTime($item_data['timing_start'],IL_CAL_UNIX);
 		$data['timing_start']['date'] = $start->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
 		$data['timing_start']['time'] = $start->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
 		
-		$end = new ilDateTime($item_data['end'],IL_CAL_UNIX);
+		$end = new ilDateTime($item_data['timing_end'],IL_CAL_UNIX);
 		$data['timing_end']['date'] = $end->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
 		$data['timing_end']['time'] = $end->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
 		

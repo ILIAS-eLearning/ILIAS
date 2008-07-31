@@ -5123,3 +5123,7 @@ foreach($all_types as $type)
 	$ilDB->query($query);
 }
 ?>
+<#1297>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
