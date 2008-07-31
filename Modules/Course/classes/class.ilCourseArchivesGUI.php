@@ -438,7 +438,6 @@ class ilCourseArchivesGUI
 			return true;
 		}
 
-
 		// create xml archive button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "addXMLArchive"));
