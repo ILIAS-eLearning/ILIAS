@@ -376,8 +376,6 @@ class ilSearchResult
 	{
 		global $tree;
 		
-		$this->__initSearchSettingsObject();
-			
 		// get ref_ids and check access
 		$counter = 0;
 		$offset_counter = 0;

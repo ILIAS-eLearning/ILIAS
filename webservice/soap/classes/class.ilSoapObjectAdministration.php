@@ -320,6 +320,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		{
 			$res->setUserId($user_id);
 		}
+		$res->setMaxHits(999999);
 		$res->filter(ROOT_FOLDER_ID,$combination == 'and' ? true : false);
 
 
