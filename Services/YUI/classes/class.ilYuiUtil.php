@@ -52,6 +52,29 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
 		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js");
 	}
+	
+	/**
+	 * Init yui panel
+	 *
+	 * @access public
+	 * @param void
+	 * @return void
+	 */
+	public function initPanel()
+	{
+		global $tpl;
+		
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js');
+		// optional
+		//$tpl->addJavaScript('./Services/YUI/js/2_5_0/animation/animation-min.js');
+		// optional
+		//$tpl->addJavaScript('./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js');
+		$tpl->addJavaScript('./Services/YUI/js/2_5_0/container/container-min.js');
+		$tpl->addCss("./Services/YUI/js/2_5_0/container/assets/skins/sam/container.css");
+		#$tpl->addCss("./Services/YUI/js/2_5_0/container/assets/container-core.css");
+		$tpl->addCss('./Services/Calendar/css/panel_min.css');
+		
+	}
 
 
 	/**

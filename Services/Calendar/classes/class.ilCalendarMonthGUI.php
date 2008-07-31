@@ -110,10 +110,13 @@ class ilCalendarMonthGUI
 	 */
 	public function show()
 	{
+		global $tpl;
+
 		$this->tpl = new ilTemplate('tpl.month_view.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
 		ilYuiUtil::initDragDrop();
+		ilYuiUtil::initPanel();
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::MONTH);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
@@ -200,15 +203,20 @@ class ilCalendarMonthGUI
 	 */
 	protected function showEvents(ilDate $date)
 	{
+		global $tree;
 		static $counter = 1;
 		
 		foreach($this->scheduler->getByDay($date,$this->timezone) as $item)
 		{
+			$this->tpl->setCurrentBlock('panel_code');
+			$this->tpl->setVariable('NUM',$counter);
+			$this->tpl->parseCurrentBlock();
+
 			$this->tpl->setCurrentBlock('il_event');
-			
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$item['event']->getEntryId());
 			$this->tpl->setVariable('EVENT_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
+			$this->tpl->setVariable('EVENT_NUM',$item['event']->getEntryId());
 			
 			if($item['event']->isFullDay())
 			{
@@ -230,14 +238,65 @@ class ilCalendarMonthGUI
 				
 				$title .= (' '.$item['event']->getPresentationTitle());
 			}
-			$this->tpl->setVariable('NUM',$counter++);
 			$this->tpl->setVariable('EVENT_TITLE',$title);
+			
+			// Panel variables
+			$this->tpl->setVariable('PANEL_NUM',$counter);
+			$this->tpl->setVariable('PANEL_TITLE',$item['event']->getTitle());
+			$this->tpl->setVariable('PANEL_DETAILS',$this->lng->txt('cal_details'));
+			$this->tpl->setVariable('PANEL_TXT_DATE',$this->lng->txt('date'));
+			
+			if($item['fullday'])
+			{
+				$this->tpl->setVariable('PANEL_DATE',ilDatePresentation::formatPeriod(
+					new ilDate($item['dstart'],IL_CAL_UNIX),
+					new ilDate($item['dend'],IL_CAL_UNIX)));
+			}
+			else
+			{
+				$this->tpl->setVariable('PANEL_DATE',ilDatePresentation::formatPeriod(
+					new ilDateTime($item['dstart'],IL_CAL_UNIX),
+					new ilDateTime($item['dend'],IL_CAL_UNIX)));
+			}
+			if($item['event']->getLocation())
+			{
+				$this->tpl->setVariable('PANEL_TXT_WHERE',$this->lng->txt('cal_where'));
+				$this->tpl->setVariable('PANEL_WHERE',$item['event']->getLocation());
+			}
+			if($item['event']->getDescription())
+			{
+				$this->tpl->setVariable('PANEL_TXT_DESC',$this->lng->txt('description'));
+				$this->tpl->setVariable('PANEL_DESC',nl2br($item['event']->getDescription()));
+			}
+
+			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
+			$cat_id = ilCalendarCategoryAssignments::_lookupCategory($item['event']->getEntryId());
+			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
+			if($cat_info['type'] == ilCalendarCategory::TYPE_OBJ)
+			{
+				$refs = ilObject::_getAllReferences($cat_info['obj_id']);
+				
+				include_once('classes/class.ilLink.php');
+				$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($cat_info['obj_id']),true);
+				$parent = $tree->getParentId(current($refs));
+				$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjId($parent));
+				$this->tpl->setVariable('PANEL_TXT_LINK',$this->lng->txt('ext_link'));
+				$this->tpl->setVariable('PANEL_LINK_HREF',$href);
+				$this->tpl->setVariable('PANEL_LINK_NAME',ilObject::_lookupTitle($cat_info['obj_id']));
+				$this->tpl->setVariable('PANEL_PARENT',$parent_title);
+			}	
+
+			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$item['event']->getEntryId());
+			$this->tpl->setVariable('PANEL_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 			
 			$color = $this->app_colors->getColorByAppointment($item['event']->getEntryId());
 			$this->tpl->setVariable('EVENT_BGCOLOR',$color);
 			$this->tpl->setVariable('EVENT_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
 			
 			$this->tpl->parseCurrentBlock();
+			
+			$counter++;
 		}
 	}
 	

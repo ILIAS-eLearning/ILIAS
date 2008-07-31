@@ -1,0 +1,9 @@
+/* Provide skin for default Panel elements, ontop of container-core.css */
+.yui-panel .container-close {
+	position:absolute;
+	top:3px;
+	right:4px;
+	height:18px;
+	width:17px;
+	background:url(../../../templates/default/images/icon_close2_s.gif) no-repeat; 
+}

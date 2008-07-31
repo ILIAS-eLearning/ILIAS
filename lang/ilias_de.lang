@@ -8520,3 +8520,4 @@ common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
 ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.###26 07 2008 new variable
 crs#:#crs_archive_language_selection#:#Sprachauswahl
 common#:#zip_test_failed#:#Der Zip-Test ist fehlgeschlagen. Bitte kontaktieren Sie ihren ILIAS Administrator.
+common#:#ext_link#:#Link
