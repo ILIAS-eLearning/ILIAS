@@ -151,7 +151,15 @@ class ilCourseArchives
 		$archive = $this->getArchive($a_id);
 		$this->initCourseFilesObject();
 	
-		return $this->course_files_obj->getArchiveDirectory().'/'.$archive['archive_name'].'.zip';
+		if(PATH_TO_ZIP)
+		{
+			return $this->course_files_obj->getArchiveDirectory().'/'.$archive['archive_name'].'.zip';	
+		}
+		else
+		{
+			return $this->course_files_obj->getArchiveDirectory().'/'.$archive['archive_name'];	
+		}
+		
 	}
 
 	function addXML()

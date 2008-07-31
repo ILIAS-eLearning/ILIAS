@@ -8529,3 +8529,4 @@ ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login
 ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).
 common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services.
 crs#:#crs_archive_language_selection#:#Language Selection
+common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.
