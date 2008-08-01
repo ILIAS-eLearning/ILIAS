@@ -30,7 +30,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilCalendarBlockGUI: ilColumnGUI
-* @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI
+* @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarDayGUI
 * @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
 *
 * @ingroup ServicesCalendar
@@ -162,11 +162,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		switch ($next_class)
 		{
-			case "ilcalendarappointmentgui":
-				include_once("./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php");
-				$app = new ilCalendarAppointmentGUI($this->seed, (int) $_GET['app_id']);
-				$ilCtrl->forwardCommand($app);
-				break;
 				
 			case "ilcalendardaygui":
 				include_once('./Services/Calendar/classes/class.ilCalendarDayGUI.php');

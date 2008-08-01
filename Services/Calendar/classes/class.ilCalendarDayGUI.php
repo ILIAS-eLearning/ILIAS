@@ -25,8 +25,9 @@
 * Presentation day view
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
-*
-* @ingroup 
+* 
+* @ilCtrl_Calls ilCalendarDayGUI: ilCalendarAppointmentGUI
+* @ingroup ServicesCalendar 
 */
 
 include_once('./Services/Calendar/classes/class.ilDate.php');
@@ -87,14 +88,21 @@ class ilCalendarDayGUI
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
 		{
+			case 'ilcalendarappointmentgui':
+				$this->ctrl->setReturn($this,'');
+				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+				
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$this->ctrl->forwardCommand($app);
+				break;
 			
 			default:
 				$cmd = $this->ctrl->getCmd("show");
 				$this->$cmd();
+				$tpl->setContent($this->tpl->get());
 				break;
 		}
-		
-		$tpl->setContent($this->tpl->get());
 		return true;
 	}
 	
