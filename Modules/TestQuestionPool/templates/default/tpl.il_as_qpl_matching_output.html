@@ -17,7 +17,7 @@
 			<input id="data_{ID_DROPAREA}" type="hidden" name="sel_matching_{ID_DROPAREA}" value="-1">
 	</div><!-- END droparea -->
 		</td>
-		<td style="width: 33% vertical-align: top; float: right;">
+		<td id="sourceArea" style="width: 33% vertical-align: top; float: right;">
 <!-- BEGIN draggable --><div class="draggable" id="{ID_DRAGGABLE}">{VALUE_DRAGGABLE}</div><!-- END draggable -->
 		</td>
 	</tr>
@@ -67,16 +67,19 @@ YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy, {
         Dom.setStyle(clickEl, "opacity", 0.5);
 
         var targets = YAHOO.util.DDM.getRelated(this, true);
+
         for (var i=0; i<targets.length; i++) {
-            
-            var targetEl = this.getTargetDomRef(targets[i]);
+						if (!targets[i].draggable)
+						{
+	            var targetEl = this.getTargetDomRef(targets[i]);
 
-            if (!this.originalStyles[targetEl.id]) {
-                this.originalStyles[targetEl.id] = targetEl.className;
-            }
-
-            targetEl.className = targetEl.className + " target";
+	            if (!this.originalStyles[targetEl.id]) {
+	                this.originalStyles[targetEl.id] = targetEl.className;
+	            }
+	            targetEl.className = targetEl.className + " target";
+						}
         }
+
     },
 
     getTargetDomRef: function(oDD) {
@@ -90,7 +93,6 @@ YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy, {
     endDrag: function(e) {
         // reset the linked element styles
         YAHOO.util.Dom.setStyle(this.getEl(), "opacity", 1);
-
         this.resetTargets();
     },
 
@@ -159,26 +161,7 @@ YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy, {
 
         // check if the droparea has a draggable in it already
         if (oDD.draggable) {
-            // check if the dragged draggable was already in a droparea
-            if (this.droparea) {
-                // check to see if the draggable that is already in the
-                // droparea can go to the droparea the dragged draggable is in
-                // YAHOO.util.DDM.isLegalTarget is a new method
-                if ( YAHOO.util.DDM.isLegalTarget(oDD.draggable, this.droparea) ) {
-                    YAHOO.util.DDM.moveToEl(oDD.draggable.getEl(), el);
-                    this.droparea.draggable = oDD.draggable;
-                    oDD.draggable.droparea = this.droparea;
-                } else {
-                    YAHOO.util.Dom.setXY(oDD.draggable.getEl(), oDD.draggable.startPos);
-                    this.droparea.draggable = null;
-                    oDD.draggable.droparea = null
-                }
-            } else {
-                // the draggable in the droparea will be moved to the dragged
-                // draggables start position
-                oDD.draggable.droparea = null;
-                YAHOO.util.DDM.moveToEl(oDD.draggable.getEl(), el);
-            }
+	        this.resetTargets();
         } else {
             // Move the draggable into the emply droparea
             // I may be moving off a droparea so I need to clear the draggable ref
@@ -186,18 +169,27 @@ YAHOO.extend(matchingQuestion, YAHOO.util.DDProxy, {
                 this.droparea.draggable = null;
             }
         }
-
 //        YAHOO.util.DDM.moveToEl(el, oDD.getEl());
-				region = YAHOO.util.Dom.getRegion(oDD.getEl());
-				width = region.right - region.left;
-				if (this.config.width != null) width = this.config.width;
-				YAHOO.util.Dom.setXY(el, new YAHOO.util.Point(YAHOO.util.Dom.getX(oDD.getEl())+width + 20, YAHOO.util.Dom.getY(oDD.getEl())));
-        this.resetTargets();
-
-        this.droparea = oDD;
-        this.droparea.draggable = this;
-				dataElement = YAHOO.util.Dom.get("data_" + this.droparea.id);
-				if (dataElement != null) dataElement.value = this.id;
+				if (oDD.id == "sourceArea")
+				{
+					dataElement = YAHOO.util.Dom.get("data_" + this.droparea.id);
+					if (dataElement != null) dataElement.value = null;
+					this.droparea = null;
+					this.resetTargets();
+					this.backToStart();
+				}
+				else
+				{
+					region = YAHOO.util.Dom.getRegion(oDD.getEl());
+					width = region.right - region.left;
+					if (this.config.width != null) width = this.config.width;
+					YAHOO.util.Dom.setXY(el, new YAHOO.util.Point(YAHOO.util.Dom.getX(oDD.getEl())+width + 20, YAHOO.util.Dom.getY(oDD.getEl())));
+	        this.resetTargets();
+	        this.droparea = oDD;
+	        this.droparea.draggable = this;
+					dataElement = YAHOO.util.Dom.get("data_" + this.droparea.id);
+					if (dataElement != null) dataElement.value = this.id;
+				}
     },
 
     swap: function(el1, el2) {
@@ -222,11 +214,14 @@ var dropareas = [], draggables = [],
 Event.onDOMReady(function() { 
     // dropareas
 <!-- BEGIN init_dropareas -->dropareas[{COUNTER}] = new YAHOO.util.DDTarget("{ID_DROPAREA}", "dropareas");<!-- END init_dropareas -->
+	dropareas[dropareas.length] = new YAHOO.util.DDTarget("sourceArea", "dropareas");
     
     // draggable items
 <!-- BEGIN init_draggables -->draggables[{COUNTER}] = new matchingQuestion("{ID_DRAGGABLE}", "dropareas"<!-- BEGIN fixedwidth -->, { width: {VALUE_FIXEDWIDTH} }<!-- END fixedwidth -->);<!-- END init_draggables -->
 
     DDM.mode = 0; // point, intersect = 1
+		initdropareas = dropareas;
+		initdraggables = draggables;
 		restorepositions();
 });
 

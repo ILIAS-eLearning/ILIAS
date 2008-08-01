@@ -612,7 +612,7 @@ class ilDBx extends PEAR
 		{
 			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (strcmp($data["Field"], $a_column_name) == 0)
+				if ((strcmp($data["Field"], $a_column_name) == 0) || (strcmp($data["field"], $a_column_name) == 0))
 				{
 					$column_visibility = TRUE;
 				}

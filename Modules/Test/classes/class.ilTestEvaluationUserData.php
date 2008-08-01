@@ -147,11 +147,19 @@ class ilTestEvaluationUserData
 	* @var array
 	*/
 	var $questions;
+	
+	/**
+	* Pass Scoring (Last pass = 0, Best pass = 1)
+	*
+	* @var array
+	*/
+	private $passScoring;
 
 	public function __sleep()
 	{
 		return array('questions', 'passes', 'passed', 'lastVisit', 'firstVisit', 'timeOfWork', 'numberOfQuestions', 
-		'questionsWorkedThrough', 'markECTS', 'mark_official', 'mark', 'maxpoints', 'reached', 'user_id', 'login', 'name');
+		'questionsWorkedThrough', 'markECTS', 'mark_official', 'mark', 'maxpoints', 'reached', 'user_id', 'login', 
+		'name', 'passScoring');
 	}
 
 	/**
@@ -159,11 +167,22 @@ class ilTestEvaluationUserData
 	*
 	* @access	public
 	*/
-	function ilTestEvaluationUserData()
+	function ilTestEvaluationUserData($passScoring)
 	{
 		$this->passes = array();
 		$this->questions = array();
 		$this->passed = FALSE;
+		$this->passScoring = $passScoring;
+	}
+	
+	function getPassScoring()
+	{
+		return $this->passScoring;
+	}
+	
+	function setPassScoring($passScoring)
+	{
+		$this->passScoring = $passScoring;
 	}
 	
 	function getPassed()
@@ -198,7 +217,8 @@ class ilTestEvaluationUserData
 	
 	function getReached()
 	{
-		return $this->reached;
+		return $this->getReachedPoints($this->getScoredPass());
+		//return $this->reached;
 	}
 	
 	function setReached($a_reached)
@@ -208,7 +228,8 @@ class ilTestEvaluationUserData
 	
 	function getMaxpoints()
 	{
-		return $this->maxpoints;
+		return $this->getAvailablePoints($this->getScoredPass());
+		//return $this->maxpoints;
 	}
 	
 	function setMaxpoints($a_max_points)
@@ -243,7 +264,13 @@ class ilTestEvaluationUserData
 	
 	function getQuestionsWorkedThrough()
 	{
-		return $this->questionsWorkedThrough;
+		$questionpass = $this->getScoredPass();
+		if (!is_object($this->passes[$questionpass])) $questionpass = 0;
+		if (is_object($this->passes[$questionpass])) 
+		{
+			return $this->passes[$questionpass]->getNrOfAnsweredQuestions();
+		}
+		return 0;
 	}
 	
 	function setQuestionsWorkedThrough($a_nr)
@@ -253,7 +280,14 @@ class ilTestEvaluationUserData
 
 	function getNumberOfQuestions()
 	{
-		return $this->numberOfQuestions;
+		$questionpass = $this->getScoredPass();
+		if (!is_object($this->passes[$questionpass])) $questionpass = 0;
+		if (is_object($this->passes[$questionpass])) 
+		{
+			return $this->passes[$questionpass]->getQuestionCount();
+		}
+		return 0;
+//		return $this->numberOfQuestions;
 	}
 	
 	function setNumberOfQuestions($a_nr)
@@ -268,7 +302,12 @@ class ilTestEvaluationUserData
 	
 	function getTimeOfWork()
 	{
-		return $this->timeOfWork;
+		$time = 0;
+		foreach ($this->passes as $pass)
+		{
+			$time += $pass->getWorkingTime();
+		}
+		return $time;
 	}
 	
 	function setTimeOfWork($a_time_of_work)
@@ -321,6 +360,18 @@ class ilTestEvaluationUserData
 	function getPassCount()
 	{
 		return count($this->passes);
+	}
+
+	function getScoredPass()
+	{
+		if ($this->getPassScoring() == 1)
+		{
+			return $this->getBestPass();
+		}
+		else
+		{
+			return $this->getLastPass();
+		}
 	}
 	
 	function getBestPass()
@@ -391,7 +442,12 @@ class ilTestEvaluationUserData
 	
 	function getQuestionCount($pass = 0)
 	{
-		return count($this->questions[$pass]);
+		$count = 0;
+		if (array_key_exists($pass, $this->passes))
+		{
+			$count = $this->passes[$pass]->getQuestionCount();
+		}
+		return $count;
 	}
 
 	function getReachedPoints($pass = 0)
@@ -399,10 +455,7 @@ class ilTestEvaluationUserData
 		$reached = 0;
 		if (array_key_exists($pass, $this->passes))
 		{
-			foreach ($this->passes[$pass]->getAnsweredQuestions() as $question)
-			{
-				$reached += $question["reached"];
-			}
+			$reached = $this->passes[$pass]->getReachedPoints();
 		}
 		$reached = ($reached < 0) ? 0 : $reached;
 		return $reached;
@@ -411,11 +464,8 @@ class ilTestEvaluationUserData
 	function getAvailablePoints($pass = 0)
 	{
 		$available = 0;
-		if (!is_array($this->questions[$pass])) $pass = 0;
-		foreach ($this->questions[$pass] as $question)
-		{
-			$available += $question["points"];
-		}
+		if (!is_object($this->passes[$pass])) $pass = 0;
+		$available = $this->passes[$pass]->getMaxPoints();
 		return $available;
 	}
 
