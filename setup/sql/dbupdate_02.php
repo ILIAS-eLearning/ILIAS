@@ -5127,3 +5127,7 @@ foreach($all_types as $type)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1298>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

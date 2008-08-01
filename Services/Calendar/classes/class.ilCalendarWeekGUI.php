@@ -26,6 +26,8 @@
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
+* @ilCtrl_Calls ilCalendarWeekGUI: ilCalendarAppointmentGUI
+*
 * @ingroup ServicesCalendar 
 */
 
@@ -86,17 +88,24 @@ class ilCalendarWeekGUI
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
 		{
+			case 'ilcalendarappointmentgui':
+				$this->ctrl->setReturn($this,'');
+				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+				
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$this->ctrl->forwardCommand($app);
+				break;
 			
 			default:
 				$time = microtime(true);
 				$cmd = $this->ctrl->getCmd("show");
 				$this->$cmd();
-				
+				$tpl->setContent($this->tpl->get());
 				#echo "Zeit: ".(microtime(true) - $time);
 				break;
 		}
 		
-		$tpl->setContent($this->tpl->get());
 		return true;
 	}
 	
