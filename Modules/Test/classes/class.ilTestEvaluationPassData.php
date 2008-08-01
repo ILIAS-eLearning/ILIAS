@@ -41,6 +41,41 @@ class ilTestEvaluationPassData
 	var $answeredQuestions;
 	
 	/**
+	* Working time
+	*
+	* @var int
+	*/
+	private $workingtime;
+	
+	/**
+	* Question count
+	*
+	* @var int
+	*/
+	private $questioncount;
+	
+	/**
+	* Maximum points
+	*
+	* @var int
+	*/
+	private $maxpoints;
+	
+	/**
+	* Reached points
+	*
+	* @var int
+	*/
+	private $reachedpoints;
+	
+	/**
+	* Number of answered questions
+	*
+	* @var int
+	*/
+	private $nrOfAnsweredQuestions;
+	
+	/**
 	* Test pass
 	*
 	* @var integer
@@ -49,7 +84,8 @@ class ilTestEvaluationPassData
 	
 	public function __sleep()
 	{
-		return array('answeredQuestions', 'pass');
+		return array('answeredQuestions', 'pass', 'nrOfAnsweredQuestions', 'reachedpoints', 
+			'maxpoints', 'questioncount', 'workingtime');
 	}
 
 	/**
@@ -62,12 +98,62 @@ class ilTestEvaluationPassData
 		$this->answeredQuestions = array();
 	}
 	
-	function getPass()
+	public function getNrOfAnsweredQuestions()
+	{
+		return $this->nrOfAnsweredQuestions;
+	}
+	
+	public function setNrOfAnsweredQuestions($nrOfAnsweredQuestions)
+	{
+		$this->nrOfAnsweredQuestions = $nrOfAnsweredQuestions;
+	}
+	
+	public function getReachedPoints()
+	{
+		return $this->reachedpoints;
+	}
+	
+	public function setReachedPoints($reachedpoints)
+	{
+		$this->reachedpoints = $reachedpoints;
+	}
+	
+	public function getMaxPoints()
+	{
+		return $this->maxpoints;
+	}
+	
+	public function setMaxPoints($maxpoints)
+	{
+		$this->maxpoints = $maxpoints;
+	}
+	
+	public function getQuestionCount()
+	{
+		return $this->questioncount;
+	}
+	
+	public function setQuestionCount($questioncount)
+	{
+		$this->questioncount = $questioncount;
+	}
+	
+	public function getWorkingTime()
+	{
+		return $this->workingtime;
+	}
+	
+	public function setWorkingTime($workingtime)
+	{
+		$this->workingtime = $workingtime;
+	}
+	
+	public function getPass()
 	{
 		return $this->pass;
 	}
 	
-	function setPass($a_pass)
+	public function setPass($a_pass)
 	{
 		$this->pass = $a_pass;
 	}

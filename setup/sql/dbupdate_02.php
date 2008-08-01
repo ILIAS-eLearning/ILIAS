@@ -5135,3 +5135,136 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1300>
+ALTER TABLE `tst_times` ADD INDEX ( `pass` );
+<#1301>
+<?php
+if (!$ilDB->tableColumnExists("tst_test_pass_result", "maxpoints"))
+{
+	$query = "ALTER TABLE tst_test_pass_result ADD COLUMN maxpoints INT NOT NULL DEFAULT 0";
+	$res = $ilDB->query($query);
+}
+if (!$ilDB->tableColumnExists("tst_test_pass_result", "questioncount"))
+{
+	$query = "ALTER TABLE tst_test_pass_result ADD COLUMN questioncount INT NOT NULL DEFAULT 0";
+	$res = $ilDB->query($query);
+}
+if (!$ilDB->tableColumnExists("tst_test_pass_result", "answeredquestions"))
+{
+	$query = "ALTER TABLE tst_test_pass_result ADD COLUMN answeredquestions INT NOT NULL DEFAULT 0";
+	$res = $ilDB->query($query);
+}
+if (!$ilDB->tableColumnExists("tst_test_pass_result", "workingtime"))
+{
+	$query = "ALTER TABLE tst_test_pass_result ADD COLUMN workingtime INT NOT NULL DEFAULT 0";
+	$res = $ilDB->query($query);
+}
+?>
+<#1302>
+<?php
+// update tst_test_pass_result and add cached data
+	function lookupRandomTestFromActiveId($active_id)
+	{
+	  global $ilDB;
+
+	  $query = sprintf("SELECT tst_tests.random_test FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
+			$ilDB->quote($active_id . "")
+		);
+	  $res = $ilDB->query($query);
+	  while($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+	  {
+		  return $row['random_test'];
+	  }
+	  return 0;
+	}
+
+	function getQuestionCountAndPointsForPassOfParticipant($active_id, $pass)
+	{
+		global $ilDB;
+		$random = lookupRandomTestFromActiveId($active_id);
+		if ($random)
+		{
+			$query = sprintf("SELECT tst_test_random_question.pass, COUNT(tst_test_random_question.question_fi) AS qcount, " .
+				"SUM(qpl_questions.points) AS qsum FROM tst_test_random_question, qpl_questions " .
+				"WHERE tst_test_random_question.question_fi = qpl_questions.question_id AND " .
+				"tst_test_random_question.active_fi = %s and pass = %s GROUP BY tst_test_random_question.active_fi, " .
+				"tst_test_random_question.pass",
+				$ilDB->quote($active_id),
+				$ilDB->quote($pass)
+			);
+		}
+		else
+		{
+			$query = sprintf("SELECT COUNT(tst_test_question.question_fi) AS qcount, " .
+				"SUM(qpl_questions.points) AS qsum FROM tst_test_question, qpl_questions, tst_active " .
+				"WHERE tst_test_question.question_fi = qpl_questions.question_id AND tst_test_question.test_fi = tst_active.test_fi AND " .
+				"tst_active.active_id = %s GROUP BY tst_test_question.test_fi",
+				$ilDB->quote($active_id)
+			);
+		}
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return array("count" => $row["qcount"], "points" => $row["qsum"]);
+		}
+		else
+		{
+			return array("count" => 0, "points" => 0);
+		}
+	}
+
+	function getWorkingTimeOfParticipantForPass($active_id, $pass)
+	{
+		global $ilDB;
+
+		$query = sprintf("SELECT * FROM tst_times WHERE active_fi = %s AND pass = %s ORDER BY started",
+			$ilDB->quote($active_id . ""),
+			$ilDB->quote($pass . "")
+		);
+		$result = $ilDB->query($query);
+		$time = 0;
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["started"], $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row["finished"], $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			$time += ($epoch_2 - $epoch_1);
+		}
+		return $time;
+	}
+
+	$query = "SELECT * FROM tst_test_pass_result WHERE maxpoints = 0 AND questioncount = 0 AND answeredquestions = 0 AND workingtime = 0 ORDER BY active_fi, pass";
+	$result = $ilDB->query($query);
+	if ($result->numRows())
+	{
+		while ($foundrow = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$active_id = $foundrow["active_fi"];
+			$pass = $foundrow["pass"];
+			$data = getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+			$time = getWorkingTimeOfParticipantForPass($active_id, $pass);
+			// update test pass results
+			$pointquery = sprintf("SELECT SUM(points) AS reachedpoints, COUNT(question_fi) AS answeredquestions FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($pass . "")
+			);
+			$pointresult = $ilDB->query($pointquery);
+			if ($pointresult->numRows() > 0)
+			{
+				$pointrow = $pointresult->fetchRow(MDB2_FETCHMODE_ASSOC);
+				$newresultquery = sprintf("REPLACE INTO tst_test_pass_result SET active_fi = %s, pass = %s, points = %s, maxpoints = %s, questioncount = %s, answeredquestions = %s, workingtime = %s",
+					$ilDB->quote($active_id . ""),
+					$ilDB->quote($pass . ""),
+					$ilDB->quote((($pointrow["reachedpoints"]) ? $pointrow["reachedpoints"] : 0) . ""),
+					$ilDB->quote($data["points"]),
+					$ilDB->quote($data["count"]),
+					$ilDB->quote($pointrow["answeredquestions"]),
+					$ilDB->quote($time)
+				);
+				$ilDB->query($newresultquery);
+			}
+		}
+	}
+?>

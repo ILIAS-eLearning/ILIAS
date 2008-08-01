@@ -914,8 +914,11 @@ class assQuestion
 	function _updateTestPassResults($active_id, $pass)
 	{
 		global $ilDB;
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		$data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+		$time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
 		// update test pass results
-		$query = sprintf("SELECT SUM(points) AS reachedpoints FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+		$query = sprintf("SELECT SUM(points) AS reachedpoints, COUNT(question_fi) AS answeredquestions FROM tst_test_result WHERE active_fi = %s AND pass = %s",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($pass . "")
 		);
@@ -923,10 +926,14 @@ class assQuestion
 		if ($result->numRows() > 0)
 		{
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			$newresultquery = sprintf("REPLACE INTO tst_test_pass_result SET active_fi = %s, pass = %s, points = %s",
+			$newresultquery = sprintf("REPLACE INTO tst_test_pass_result SET active_fi = %s, pass = %s, points = %s, maxpoints = %s, questioncount = %s, answeredquestions = %s, workingtime = %s",
 				$ilDB->quote($active_id . ""),
 				$ilDB->quote($pass . ""),
-				$ilDB->quote((($row["reachedpoints"]) ? $row["reachedpoints"] : 0) . "")
+				$ilDB->quote((($row["reachedpoints"]) ? $row["reachedpoints"] : 0) . ""),
+				$ilDB->quote($data["points"]),
+				$ilDB->quote($data["count"]),
+				$ilDB->quote($row["answeredquestions"]),
+				$ilDB->quote($time)
 			);
 			$ilDB->query($newresultquery);
 		}

@@ -250,7 +250,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$evaluation_rows = array();
 		$counter = 1;
-		$data =& $this->object->getCompleteEvaluationData(FALSE, $filterby, $filtertext);
+		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
+		$data = new ilTestEvaluationData($this->object);
+//		$data =& $this->object->getCompleteEvaluationData(FALSE, $filterby, $filtertext);
+		$data->setFilter($filterby, $filtertext);
 		$foundParticipants =& $data->getParticipants();
 		if (count($foundParticipants) == 0)
 		{
@@ -306,10 +309,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					}
 				}
 				array_push($evaluationrow, $userdata->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getMaxpoints());
-				array_push($evaluationrow, $userdata->getMark());
+				$percentage = $userdata->getReachedPointsInPercent();
+				$mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
+				if (is_object($mark))
+				{
+					array_push($evaluationrow, $mark->getShortName());
+				}
 				if ($this->object->ects_output)
 				{
-					array_push($evaluationrow, $userdata->getECTSMark());
+					$ects_mark = $this->object->getECTSGrade($userdata->getReached(), $userdata->getMaxPoints());
+					array_push($evaluationrow, $ects_mark);
 				}
 				array_push($evaluationrow, $userdata->getQuestionsWorkedThrough() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getNumberOfQuestions() . " (" . sprintf("%2.2f", $userdata->getQuestionsWorkedThroughInPercent()) . " %" . ")");
 
