@@ -34,7 +34,8 @@ include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_IsCalledBy ilCalendarInboxGUI:
+* @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI
+* 
 * @ingroup ServicesCalendar
 */
 class ilCalendarInboxGUI
@@ -86,10 +87,19 @@ class ilCalendarInboxGUI
 		$next_class = $ilCtrl->getNextClass();
 		switch($next_class)
 		{
+			case 'ilcalendarappointmentgui':
+				$this->ctrl->setReturn($this,'');
+				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+				
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+				$app = new ilCalendarAppointmentGUI($this->seed,(int) $_GET['app_id']);
+				$this->ctrl->forwardCommand($app);
+				break;
 			
 			default:
 				$cmd = $this->ctrl->getCmd("inbox");
 				$this->$cmd();
+				$tpl->setContent($this->tpl->get());
 				break;
 		}
 		
@@ -104,7 +114,7 @@ class ilCalendarInboxGUI
 	 */
 	protected function inbox()
 	{
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.inbox.html','Services/Calendar');
+		$this->tpl = new ilTemplate('tpl.inbox.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarInboxSharedTableGUI.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');

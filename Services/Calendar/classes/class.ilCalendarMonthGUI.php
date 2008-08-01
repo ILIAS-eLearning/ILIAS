@@ -33,6 +33,7 @@ include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 * @version $Id$
 * 
 * @ilCtrl_Calls ilCalendarMonthGUI: ilCalendarAppointmentGUI
+* 
 * @ingroup ServicesCalendar 
 */
 
