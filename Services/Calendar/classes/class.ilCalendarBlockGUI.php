@@ -30,7 +30,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @version $Id$
 *
 * @ilCtrl_IsCalledBy ilCalendarBlockGUI: ilColumnGUI
-* @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarDayGUI
+* @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarDayGUI, ilCalendarAppointmentGUI
 * @ilCtrl_Calls ilCalendarBlockGUI: ilCalendarMonthGUI, ilCalendarWeekGUI, ilCalendarInboxGUI
 *
 * @ingroup ServicesCalendar
@@ -129,7 +129,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		if ($cmd_class == "ilcalendarappointmentgui" ||
 			$cmd_class == "ilcalendardaygui" ||
 			$cmd_class == "ilcalendarweekgui" ||
-			$cmd_class == "ilcalendarmonthgui")
+			$cmd_class == "ilcalendarmonthgui" ||
+			$cmd_class == "ilcalendarinboxgui")
 		{
 			return IL_SCREEN_CENTER;
 		}
@@ -153,15 +154,16 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl;
 
-		#include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		#$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
-		
-		
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
-
+		
 		switch ($next_class)
 		{
+			case "ilcalendarappointmentgui":
+				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+				$app_gui = new ilCalendarAppointmentGUI($this->seed);
+				$ilCtrl->forwardCommand($app_gui);
+				break;
 				
 			case "ilcalendardaygui":
 				include_once('./Services/Calendar/classes/class.ilCalendarDayGUI.php');
