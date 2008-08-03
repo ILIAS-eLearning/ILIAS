@@ -229,7 +229,7 @@ class ilPageEditorGUI
 				$cmd != "activateSelected" &&
 				$cmd != "cancelCreate" && $cmd != "popup" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
-				($cmdClass != "ilinternallinkgui" || ($next_class == "ilobjmediaobjectgui")))
+				($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui")))
 			{
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{

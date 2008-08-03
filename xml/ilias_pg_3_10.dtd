@@ -68,7 +68,7 @@
 	OriginId CDATA #REQUIRED
 >
 <!-- MediaAliasItem -->
-<!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*)>
+<!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*, MapArea*)>
 <!ATTLIST MediaAliasItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >
@@ -177,6 +177,7 @@
 	CellPadding CDATA #IMPLIED
 	CellSpacing CDATA #IMPLIED
 	Class CDATA #IMPLIED
+	DataTable (y | n) #IMPLIED
 >
 <!ELEMENT Caption (%titletext;)*>
 <!ATTLIST Caption
@@ -227,7 +228,7 @@
 
 <!-- Resources -->
 <!ELEMENT Resources (ResourceList*)>
-<!ELEMENT ResourceList>
+<!ELEMENT ResourceList EMPTY>
 <!ATTLIST ResourceList
 	Type CDATA #REQUIRED
 >

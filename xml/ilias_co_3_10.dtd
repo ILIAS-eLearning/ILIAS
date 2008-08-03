@@ -107,7 +107,7 @@
 >
 
 <!-- MediaAliasItem -->
-<!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*)>
+<!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*, MapArea*)>
 <!ATTLIST MediaAliasItem
 	Purpose (Standard | Fullscreen | Additional) #REQUIRED
 >

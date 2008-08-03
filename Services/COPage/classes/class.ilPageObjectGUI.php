@@ -1113,7 +1113,6 @@ class ilPageObjectGUI
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
 		//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		//		echo "mode:".$this->getOutputMode().":<br>";
 

@@ -4270,6 +4270,12 @@ common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#cont_insert_map#:#Insert Map
+content#:#cont_add_rectangle#:#Add Rectangle
+content#:#cont_add_circle#:#Add Circle
+content#:#cont_add_polygon#:#Add Polygon
+content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)
+content#:#cont_edit_shape_circle#:#Edit Shape (Circle)
+content#:#cont_edit_shape_polygon#:#Edit Shape (Polygon)
 content#:#cont_new_mob#:#New Media Object
 content#:#cont_mob_from_media_pool#:#Choose From Media Pool
 content#:#cont_select_media_pool#:#Select Media Pool
@@ -4580,14 +4586,15 @@ content#:#cont_lm_properties#:#Learning Module Properties
 content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
+content#:#cont_def_map_areas#:#Default Link Areas
+content#:#cont_inst_map_areas#:#Instance Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
 content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
-content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
-content#:#cont_mob_prop#:#Object Properties
+content#:#cont_mob_def_prop#:#Default Properties
 content#:#cont_mob_usages#:#Usage
 content#:#cont_month#:#Month
 content#:#cont_move_object#:#move object

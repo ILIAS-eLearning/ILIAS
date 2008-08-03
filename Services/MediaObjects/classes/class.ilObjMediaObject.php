@@ -600,7 +600,6 @@ class ilObjMediaObject extends ilObject
 				$xml = "<MediaObject>";
 				$xml .= "<MediaAlias OriginId=\"il__mob_".$this->getId()."\"/>";
 				$media_items =& $this->getMediaItems();
-//echo "MediaItems:".count($media_items).":<br>";
 				for($i=0; $i<count($media_items); $i++)
 				{
 					$item =& $media_items[$i];

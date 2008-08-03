@@ -877,9 +877,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 	function validateDom()
 	{
-//echo "<br>PageObject::validateDom[".$this->getId()."]";
-
-//echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
 		$this->stripHierIDs();
 		@$this->dom->validate($error);
 		return $error;
@@ -1278,7 +1275,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		{
 			$errors = $this->validateDom();
 		}
-//var_dump($errors);
+
 //echo "-".htmlentities($this->getXMLFromDom())."-"; exit;
 		if(empty($errors))
 		{

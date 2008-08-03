@@ -142,5 +142,53 @@ class ilDOMUtil
 		}
 	}
 
+	/**
+	* Places a new node $a_node_name directly before nodes with names of
+	* $a_successors. The content of the node is set to $a_content and the
+	* attributes to $a_attributes
+	*/
+	function addElementToList(&$doc, &$parent_node, $a_node_name, $a_successors,
+		$a_content, $a_attributes)
+	{
+		$search = $a_successors;
+
+		$childs = $parent_node->child_nodes();
+		$cnt_childs = count($childs);
+		$found = false;
+		foreach($childs as $child)
+		{
+			$child_name = $child->node_name();
+			if (in_array($child_name, $search))
+			{
+				$found = true;
+				break;
+			}
+		}
+		// didn't successors -> append at the end
+		if(!$found)
+		{
+			$new_node = $doc->create_element($a_node_name);
+			$new_node = $parent_node->append_child($new_node);
+			if ($a_content != "")
+			{
+				$new_node->set_content($a_content);
+			}
+			ilDOMUtil::set_attributes($new_node, $a_attributes);
+		}
+		else
+		{
+			$new_node = $doc->create_element($a_node_name);
+			$new_node = $child->insert_before($new_node, $child);
+			if ($a_content != "")
+			{
+				$new_node->set_content($a_content);
+			}
+			ilDOMUtil::set_attributes($new_node, $a_attributes);
+		}
+		
+		return $new_node;
+	}
+
+	
 } // END class.ilDOMUtil
 ?>

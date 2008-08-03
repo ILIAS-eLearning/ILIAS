@@ -781,19 +781,12 @@ class ilMediaItem
 
 
 	/**
-	* make map work copy of image
-	*
-	* @param	int			$a_area_nr		draw area $a_area_nr only
-	* @param	boolean		$a_exclude		true: draw all areas but area $a_area_nr
+	* Copy the orginal file
 	*/
-	function makeMapWorkCopy($a_area_nr = 0, $a_exclude = false)
+	function copyOriginal()
 	{
-		global $lng;
-		
 		$this->createWorkDirectory();
 		
-//echo "-".$this->getLocationType()."-";
-//echo "-".$this->getLocation()."-";
 		if ($this->getLocationType() != "Reference")
 		{
 			ilUtil::convertImage($this->getDirectory()."/".$this->getLocation(),
@@ -827,10 +820,27 @@ class ilMediaItem
 
 		if (!is_file($this->getMapWorkCopyName()))
 		{
+
 			ilUtil::sendInfo($lng->txt("cont_map_file_not_generated"));
 			return false;
 		}
+		return true;
+	}
+	
+	/**
+	* make map work copy of image
+	*
+	* @param	int			$a_area_nr		draw area $a_area_nr only
+	* @param	boolean		$a_exclude		true: draw all areas but area $a_area_nr
+	*/
+	function makeMapWorkCopy($a_area_nr = 0, $a_exclude = false)
+	{
+		global $lng;
 		
+		if (!$this->copyOriginal())
+		{
+			return false;
+		}
 		$this->buildMapWorkImage();
 		
 		// determine ratios
@@ -892,7 +902,6 @@ class ilMediaItem
 		// add new area to work image
 		$area = new ilMapArea();
 		$area->setShape($a_shape);
-//echo "addAreaToMap:".$a_shape.":<br>";
 		$area->setCoords($a_coords);
 		$area->draw($this->getMapWorkImage(), $this->color1, $this->color2, false,
 			$x_ratio, $y_ratio);
