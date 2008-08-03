@@ -108,7 +108,7 @@ class ilMapArea
 			$ilDB->quote($this->getTarget()).",".
 			$ilDB->quote($this->getType()).",".
 			$ilDB->quote($this->getTargetFrame()).")";
-		$this->ilias->db->query($q);
+		$ilDB->query($q);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class ilMapArea
 		
 		$q = "SELECT max(nr) AS max_nr FROM map_area WHERE item_id=".
 			$ilDB->quote($a_item_id);
-		$max_set = $this->ilias->db->query($q);
+		$max_set = $ilDB->query($q);
 		$max_rec = $max_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		return $max_rec["max_nr"];
@@ -140,7 +140,7 @@ class ilMapArea
 		$q = "SELECT * FROM map_area WHERE item_id=".
 			$ilDB->quote($this->getItemId()).
 			" AND nr=".$ilDB->quote($this->getNr());
-		$area_set = $this->ilias->db->query($q);
+		$area_set = $ilDB->query($q);
 		$area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC);
 
 		$this->setShape($area_rec["shape"]);
@@ -172,7 +172,7 @@ class ilMapArea
 			", target_frame = ".$ilDB->quote($this->getTargetFrame()).
 			" WHERE item_id = ".$ilDB->quote($this->getItemId())." AND nr = ".
 				$ilDB->quote($this->getNr());
-		$this->ilias->db->query($q);
+		$ilDB->query($q);
 //echo "<br>$q<br>";
 	}
 
@@ -185,7 +185,7 @@ class ilMapArea
 
 //echo "maparea::resolve<br>";
 		$q = "SELECT * FROM map_area WHERE item_id=".$ilDB->quote($a_item_id);
-		$area_set = $this->ilias->db->query($q);
+		$area_set = $ilDB->query($q);
 		while ($area_rec = $area_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$target = $area_rec["target"];
@@ -200,7 +200,7 @@ class ilMapArea
 				{
 					$query = "UPDATE map_area SET target= ".$ilDB->quote($new_target)." ".
 						"WHERE item_id= ".$ilDB->quote($item_id)." AND nr=".$ilDB->quote($nr);
-					$this->ilias->db->query($query);
+					$ilDB->query($query);
 				}
 			}
 		}
@@ -216,7 +216,7 @@ class ilMapArea
 		global $ilDB;
 		
 		$q = "SELECT * FROM map_area WHERE item_id=".$ilDB->quote($a_item_id);
-		$area_set = $this->ilias->db->query($q);
+		$area_set = $ilDB->query($q);
 
 		$links = array();
 

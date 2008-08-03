@@ -343,7 +343,8 @@ class ilInternalLinkGUI
 						{
 							case "link":
 								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-								ilObjMediaObjectGUI::_recoverParameters();
+								require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+								ilImageMapEditorGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", "tblrow2");
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
@@ -393,7 +394,8 @@ class ilInternalLinkGUI
 						{
 							case "link":
 								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-								ilObjMediaObjectGUI::_recoverParameters();
+								require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+								ilImageMapEditorGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", "tblrow2");
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
@@ -461,7 +463,8 @@ class ilInternalLinkGUI
 						{
 							case "link":
 								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-								ilObjMediaObjectGUI::_recoverParameters();
+								require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+								ilImageMapEditorGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", $css_row);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
@@ -575,7 +578,8 @@ class ilInternalLinkGUI
 						{
 							case "link":
 								require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-								ilObjMediaObjectGUI::_recoverParameters();
+								require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+								ilImageMapEditorGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$this->outputThumbnail($tpl, $obj["id"], "link");
 								$tpl->setCurrentBlock("link_row");
@@ -696,7 +700,8 @@ class ilInternalLinkGUI
 							{
 								case "link":
 									require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-									ilObjMediaObjectGUI::_recoverParameters();
+									require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+									ilImageMapEditorGUI::_recoverParameters();
 									$tpl->setCurrentBlock("link_row");
 									$this->outputThumbnail($tpl, $obj["obj_id"], "link");
 									$tpl->setCurrentBlock("link_row");

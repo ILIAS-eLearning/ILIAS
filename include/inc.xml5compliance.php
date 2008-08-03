@@ -166,13 +166,14 @@ class php4DOMDocument
 	}
 
 	// ##added
-	function validate($error)
+	function validate(&$error)
 	{
 		$ok = $this->myDOMDocument->validate();
-		
+
 		if (!$ok)
 		{
 			$error = array(array("0", "Unknown Error"));
+
 			if (function_exists("libxml_get_last_error"))
 			{
 				$err = libxml_get_last_error();

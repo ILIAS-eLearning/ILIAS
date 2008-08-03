@@ -33,7 +33,7 @@ require_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilPCMediaObjectGUI: ilObjMediaObjectGUI
+* @ilCtrl_Calls ilPCMediaObjectGUI: ilObjMediaObjectGUI, ilPCImageMapEditorGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -88,7 +88,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function &executeCommand()
 	{
-		global $tpl, $lng;
+		global $tpl, $lng, $ilTabs;
 		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -119,12 +119,20 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					$this->content_obj->getMediaObject()->getTitle());
-			//	$this->displayLocator("mob");
 				$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
 				$mob_gui->setBackTitle($this->page_back_title);
 				$mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
-				//$mob_gui->getTabs($this->tabs_gui);
 				$ret =& $this->ctrl->forwardCommand($mob_gui);
+				break;
+
+			// instance image map editing
+			case "ilpcimagemapeditorgui":
+				require_once("./Services/COPage/classes/class.ilPCImageMapEditorGUI.php");
+				$ilTabs->setTabActive("cont_inst_map_areas");
+				$image_map_edit = new ilPCImageMapEditorGUI($this->content_obj,
+					$this->pg_obj);
+				$ret = $this->ctrl->forwardCommand($image_map_edit);
+				$tpl->setContent($ret);
 				break;
 			
 			default:
@@ -557,7 +565,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_item =& $this->content_obj->getMediaObject()->getMediaItem("Standard");
-//echo htmlentities($this->dom->dump_node($std_alias_item->item_node));
+
 		// edit media alias template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_alias_properties.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_alias_prop"));
@@ -891,6 +899,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$ilTabs->addTarget("cont_mob_inst_prop",
 				$ilCtrl->getLinkTarget($this, "editAlias"), "editAlias",
 				get_class($this));
+
+			$ilTabs->addTarget("cont_inst_map_areas",
+				$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),
+				get_class("ilpcimagemapeditorgui"));
 		}
 		else
 		{

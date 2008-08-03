@@ -168,51 +168,75 @@
 
 <!-- output image maps -->
 <xsl:template name="outputImageMaps">
-	<xsl:for-each select="//MediaItem/MapArea[1]">
-		<map>
-			<xsl:attribute name="name">map_<xsl:value-of select="../../@Id"/>_<xsl:value-of select="../@Purpose"/></xsl:attribute>
-			<xsl:for-each select="../MapArea">
-				<area>
-					<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
-					<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
-					<xsl:for-each select="./IntLink">
+	<xsl:for-each select="//MediaItem">
+		<xsl:variable name="corig"><xsl:value-of select="../@Id"/></xsl:variable>
+		<xsl:variable name="corigp"><xsl:value-of select="@Purpose"/></xsl:variable>
+		
+		<xsl:choose>
+			<!-- If we got a alias item map, take this -->
+			<xsl:when test="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
+				<xsl:for-each select="//MediaAlias[@OriginId = $corig]/../MediaAliasItem[@Purpose = $corigp]/MapArea[1]">
+					<map>
+						<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
+						<xsl:call-template name="outputImageMapAreas" />
+					</map>
+				</xsl:for-each>
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- Otherwose, if we got an object item map, take this -->
+				<xsl:for-each select="./MapArea[1]">
+					<map>
+						<xsl:attribute name="name">map_<xsl:value-of select="$corig"/>_<xsl:value-of select="$corigp"/></xsl:attribute>
+						<xsl:call-template name="outputImageMapAreas" />
+					</map>
+				</xsl:for-each>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:for-each>
+</xsl:template>
 
-						<!-- determine link_href and link_target -->
-						<xsl:variable name="target" select="@Target"/>
-						<xsl:variable name="type" select="@Type"/>
-						<xsl:variable name="targetframe">
-							<xsl:choose>
-								<xsl:when test="@TargetFrame and @TargetFrame!=''">
-									<xsl:value-of select="@TargetFrame"/>
-								</xsl:when>
-								<xsl:otherwise>None</xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
-						<xsl:variable name="link_href">
-							<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkHref"/>
-						</xsl:variable>
-						<xsl:variable name="link_target">
-							<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
-						</xsl:variable>
+<!-- output image map areas -->
+<xsl:template name="outputImageMapAreas">
+	<xsl:for-each select="../MapArea">
+		<area>
+			<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
+			<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
+			<xsl:for-each select="./IntLink">
 
-						<!-- set attributes -->
-						<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
-						<xsl:if test="$link_target != ''">
-							<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
-						</xsl:if>
+				<!-- determine link_href and link_target -->
+				<xsl:variable name="target" select="@Target"/>
+				<xsl:variable name="type" select="@Type"/>
+				<xsl:variable name="targetframe">
+					<xsl:choose>
+						<xsl:when test="@TargetFrame and @TargetFrame!=''">
+							<xsl:value-of select="@TargetFrame"/>
+						</xsl:when>
+						<xsl:otherwise>None</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="link_href">
+					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkHref"/>
+				</xsl:variable>
+				<xsl:variable name="link_target">
+					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
+				</xsl:variable>
 
-						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
-						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
-					</xsl:for-each>
-					<xsl:for-each select="./ExtLink">
-						<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
-						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
-						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
-						<xsl:attribute name="target">_blank</xsl:attribute>
-					</xsl:for-each>
-				</area>
+				<!-- set attributes -->
+				<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
+				<xsl:if test="$link_target != ''">
+					<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
+				</xsl:if>
+
+				<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
+				<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
 			</xsl:for-each>
-		</map>
+			<xsl:for-each select="./ExtLink">
+				<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
+				<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
+				<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
+				<xsl:attribute name="target">_blank</xsl:attribute>
+			</xsl:for-each>
+		</area>
 	</xsl:for-each>
 </xsl:template>
 
@@ -1870,7 +1894,7 @@
 					<xsl:if test="$height != ''">
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 					</xsl:if>
-					<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1]">
+					<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1] or ./MapArea[1]">
 						<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
 					</xsl:if>
 					<xsl:if test = "$inline = 'y'">

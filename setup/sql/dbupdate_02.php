@@ -5268,3 +5268,8 @@ if (!$ilDB->tableColumnExists("tst_test_pass_result", "workingtime"))
 		}
 	}
 ?>
+
+<#1303>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
