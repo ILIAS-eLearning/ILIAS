@@ -107,6 +107,9 @@ class ilDBx extends PEAR
 		{
 			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
 			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
+
+			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_FIX_CASE);
+			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
 		}
 
 		//check error
@@ -605,20 +608,34 @@ class ilDBx extends PEAR
 	*/
 	function tableColumnExists($a_table, $a_column_name)
 	{
-		$column_visibility = FALSE;
-		$query = "SHOW COLUMNS FROM `$a_table`";
-		$res = $this->db->query($query);
-		if ($res->numRows())
+		
+		$column_visibility = false;
+		$manager = $this->db->loadModule('manager');
+		$r = $manager->listTableFields($a_table);
+
+		if (!MDB2::isError($r))
 		{
-			while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			foreach($r as $field)
 			{
-				if ((strcmp($data["Field"], $a_column_name) == 0) || (strcmp($data["field"], $a_column_name) == 0))
+				if ($field == $a_column_name)
 				{
-					$column_visibility = TRUE;
+					$column_visibility = true;
 				}
 			}
 		}
+
 		return $column_visibility;
+
+		/*$query = "SHOW COLUMNS FROM `$a_table`";
+		$res = $this->db->query($query);
+		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ((strcmp($data["Field"], $a_column_name) == 0) || (strcmp($data["field"], $a_column_name) == 0))
+			{
+				$column_visibility = TRUE;
+			}
+		}
+		return $column_visibility;*/
 	}
 	
 	
