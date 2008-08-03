@@ -5307,5 +5307,30 @@ class ilObjSurvey extends ilObject
 		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
 	}
 	
+	function _checkCondition($a_svy_id,$a_operator,$a_value)
+	{
+		global $ilUser;
+
+		switch($a_operator)
+		{
+			case 'finished':
+				//if (ilExerciseMembers::_lookupStatus($a_exc_id, $ilias->account->getId()) == "passed")
+				include_once("./Modules/Survey/classes/class.ilObjSurveyAccess.php");
+				if (ilObjSurveyAccess::_lookupFinished($a_svy_id, $ilUser->getId()))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
+
+			default:
+				return true;
+		}
+		return true;
+	}
+
 } // END class.ilObjSurvey
 ?>
