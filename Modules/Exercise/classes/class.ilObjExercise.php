@@ -624,6 +624,7 @@ class ilObjExercise extends ilObject
 		}
 		return true;
 	}
+
 	/**
 	* processes errorhandling etc for uploaded archive
 	* @param string $tmpFile path and filename to uploaded file

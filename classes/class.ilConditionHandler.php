@@ -391,7 +391,7 @@ class ilConditionHandler
 	*/
 	function getTriggerTypes()
 	{
-		return array('crs','exc','tst','sahs');
+		return array('crs','exc','tst','sahs', 'svy');
 	}
 
 
@@ -410,6 +410,9 @@ class ilConditionHandler
 				return array('not_member');
 
 			case 'sahs':
+				return array('finished');
+
+			case 'svy':
 				return array('finished');
 
 			default:
@@ -661,7 +664,6 @@ class ilConditionHandler
 	{
 		$condition = ilConditionHandler::_getCondition($a_id);
 
-
 		switch($condition['trigger_type'])
 		{
 			case "tst":
@@ -685,6 +687,10 @@ class ilConditionHandler
 
 				include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 				return in_array($ilUser->getId(),$completed = ilLPStatusWrapper::_getCompleted($condition['trigger_obj_id']));
+
+			case 'svy':
+				include_once './Modules/Survey/classes/class.ilObjSurvey.php';
+				return ilObjSurvey::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			default:
 				return false;
