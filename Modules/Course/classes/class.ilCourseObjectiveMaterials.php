@@ -126,6 +126,29 @@ class ilCourseObjectiveMaterials
 		}
 	}
 	
+	/**
+	 * get assigned materials
+	 *
+	 * @access public
+	 * @param int objective_id
+	 * @return
+	 * @static
+	 */
+	public static function _getAssignedMaterials($a_objective_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT DISTINCT(ref_id) AS ref_id FROM crs_objective_lm ".
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id)." ".
+			"AND type != 'st' AND type != 'pg'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ref_ids[] = $row->ref_id;
+		}
+		return $ref_ids ? $ref_ids : array();
+	}
+	
 	
 
 	/**

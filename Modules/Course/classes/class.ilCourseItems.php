@@ -370,6 +370,27 @@ class ilCourseItems
 		}
 		return $items ? $items : array();
 	}
+	
+	function getItemsByObjective($a_objective_id)
+	{
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
+		
+		
+		// TODO: sort ids
+		//$ref_ids = ilCourseObjectiveMaterials::_getAssignedMaterials($a_objective_id);
+		
+		
+		foreach(ilCourseObjectiveMaterials::_getAssignedMaterials($a_objective_id) as $ref_id)
+		{
+			if($this->tree->isDeleted($ref_id))
+			{
+				continue;
+			}
+			$node = $this->tree->getNodeData($ref_id);
+			$items[] = $this->__getItemData($node);
+		}
+		return $items ? $items : array();
+	}
 		
 
 	function getItems()

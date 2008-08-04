@@ -99,7 +99,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			$item_html = array();
 			foreach($this->items["sess"] as $item_data)
 			{
-				if ($this->rendere_items[$item_data["child"]] !== true)
+				if ($this->rendered_items[$item_data["child"]] !== true)
 				{
 					$html = $this->renderItem($item_data, true);
 					if ($html != "")
@@ -132,7 +132,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			$item_html = array();
 			foreach($this->items["_all"] as $item_data)
 			{
-				if ($this->rendere_items[$item_data["child"]] !== true)
+				if ($this->rendered_items[$item_data["child"]] !== true)
 				{
 					if ($item_data["type"] == "sess")
 					{

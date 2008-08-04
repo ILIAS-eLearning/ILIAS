@@ -313,7 +313,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($this->object->getViewMode() == ilContainer::VIEW_SIMPLE ||
 			$this->object->getViewMode() == ilContainer::VIEW_BY_TYPE ||
 			$this->object->getViewMode() == ilContainer::VIEW_SESSIONS ||
-			$this->object->getViewMode() == IL_CRS_VIEW_TIMING
+			$this->object->getViewMode() == IL_CRS_VIEW_TIMING ||
+			$this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE
 			)
 		{
 			$this->setContentSubTabs();

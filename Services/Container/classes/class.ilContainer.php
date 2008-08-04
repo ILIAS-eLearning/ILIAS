@@ -493,7 +493,6 @@ class ilContainer extends ilObject
 
 		$this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]
 			= $sort->sortTreeDataByType($this->items);
-
 		return $this->items;
 	}
 	

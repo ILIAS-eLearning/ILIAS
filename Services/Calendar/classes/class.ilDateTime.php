@@ -255,11 +255,16 @@ class ilDateTime
 				
 				$old_day_of_month = $this->get(IL_CAL_FKT_DATE,'j');
 				$this->unix = strtotime($count_str.'month',$this->unix);
+				
+				// TODO: Fix monthly calculations.
+				
+				/*
 				$new_day_of_month = $this->get(IL_CAL_FKT_DATE,'j');
 				if($new_day_of_month != $old_day_of_month)
 				{
 					$this->unix = $this->increment(IL_CAL_DAY,$new_day_of_month * -1);
 				}
+				*/
 				break;
 				
 			case self::WEEK:

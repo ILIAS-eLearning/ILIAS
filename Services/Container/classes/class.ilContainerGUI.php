@@ -339,6 +339,8 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function renderObject()
 	{
+		global $ilDB;
+		
 		switch ($this->object->getViewMode())
 		{
 			// all items in one block
@@ -346,10 +348,14 @@ class ilContainerGUI extends ilObjectGUI
 				include_once("./Services/Container/classes/class.ilContainerSimpleContentGUI.php");
 				$container_view = new ilContainerSimpleContentGUI($this);
 				break;
+				
+			case ilContainer::VIEW_OBJECTIVE:
+				include_once('./Services/Container/classes/class.ilContainerObjectiveGUI.php');
+				$container_view = new ilContainerObjectiveGUI($this);
+				break;
 
 			// all items in one block
 			case ilContainer::VIEW_SESSIONS:
-			case IL_CRS_VIEW_OBJECTIVE:			// not nice this workaround
 			case IL_CRS_VIEW_TIMING:			// not nice this workaround
 				include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
 				$container_view = new ilContainerSessionsContentGUI($this);
