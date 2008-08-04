@@ -226,7 +226,7 @@ class ilNewsItem extends ilNewsItemGen
 	* Get News For Ref Id.
 	*/
 	function getNewsForRefId($a_ref_id, $a_only_public = false, $a_stopnesting = false,
-		$a_time_period = 0, $a_prevent_aggregation = true)
+		$a_time_period = 0, $a_prevent_aggregation = true, $a_forum_group_sequences = false)
 	{
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
@@ -287,6 +287,10 @@ class ilNewsItem extends ilNewsItemGen
 		if (!$a_prevent_aggregation)
 		{
 			$news = $this->aggregateForums($news);
+		}
+		else if ($a_forum_group_sequences)
+		{
+			$news = $this->aggregateForums($news, true);
 		}
 		
 		return $news;
@@ -398,7 +402,7 @@ class ilNewsItem extends ilNewsItemGen
 		return $data;
 	}
 	
-	function aggregateForums($news)
+	function aggregateForums($news, $a_group_posting_sequence = false)
 	{
 		$to_del = array();
 		$forums = array();
@@ -406,11 +410,19 @@ class ilNewsItem extends ilNewsItemGen
 		// aggregate
 		foreach ($news as $k => $v)
 		{
+			if ($a_group_posting_sequence && $last_aggregation_forum > 0 &&
+				$last_aggregation_forum != $news[$k]["context_obj_id"])
+			{
+				$forums[$last_aggregation_forum] = "";
+			}
+
 			if ($news[$k]["context_obj_type"] == "frm")
 			{
 				if ($forums[$news[$k]["context_obj_id"]] == "")
 				{
+					// $forums[forum_id] = news_id;
 					$forums[$news[$k]["context_obj_id"]] = $k;
+					$last_aggregation_forum = $news[$k]["context_obj_id"];
 				}
 				else
 				{
@@ -418,6 +430,8 @@ class ilNewsItem extends ilNewsItemGen
 				}
 				
 				$news[$k]["no_context_title"] = true;
+				
+				// aggregate every forum into it's "k" news
 				$news[$forums[$news[$k]["context_obj_id"]]]["aggregation"][$k]
 					= $news[$k];
 				$news[$k]["agg_ref_id"]

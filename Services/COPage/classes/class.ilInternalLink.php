@@ -170,6 +170,23 @@ class ilInternalLink
 					return "il__mob_".$id;
 				}
 				break;
+				
+			case "RepositoryItem":
+				$id = ilObject::_getIdForImportId($a_target);
+//echo "-$a_target-$id-";
+				// get ref id for object id
+				// (see ilPageObject::insertInstIntoIDs for the export procedure)
+				if($id > 0)
+				{
+					$refs = ilObject::_getAllReferences($id);
+//var_dump($refs);
+					foreach ($refs as $ref)
+					{
+						return "il__obj_".$ref;
+					}
+				}
+				break;
+
 		}
 		return false;
 	}
@@ -261,5 +278,15 @@ class ilInternalLink
 		return $target[count($target) - 1];
 	}
 
+	/**
+	* extract type out of target
+	*
+	* @param	string		$a_target		import target id (e.g. "il_2_pg_22")
+	*/
+	function _extractTypeOfTarget($a_target)
+	{
+		$target = explode("_", $a_target);
+		return $target[count($target) - 2];
+	}
 }
 ?>
