@@ -158,7 +158,7 @@ class ilDBx extends PEAR
 			$a_options = array();
 		}
 		
-		$manager = $this->db->loadModule('manager');
+		$manager = $this->db->loadModule('Manager');
 		$r = $manager->createTable($a_name, $a_definition_array, $a_options);
 
 		if (MDB2::isError($r))
@@ -610,7 +610,7 @@ class ilDBx extends PEAR
 	{
 		
 		$column_visibility = false;
-		$manager = $this->db->loadModule('manager');
+		$manager = $this->db->loadModule('Manager');
 		$r = $manager->listTableFields($a_table);
 
 		if (!MDB2::isError($r))
