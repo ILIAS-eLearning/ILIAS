@@ -337,7 +337,7 @@ abstract class ilContainerContentGUI
 							{
 								$this->addStandardRow($tpl, $html);
 								$item_rendered = true;
-								$this->rendere_items[$item_data["child"]] = true;
+								$this->rendered_items[$item_data["child"]] = true;
 							}
 						}
 					
