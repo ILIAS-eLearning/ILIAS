@@ -592,7 +592,8 @@ class ilDBx extends PEAR
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->max_allowed_packet_size = $row->value;
+			$this->max_allowed_packet_size = $row->Value;
+			//$this->max_allowed_packet_size = $row->value;
 		}
 		#var_dump("<pre>",$this->max_allowed_packet_size,"<pre>");
 		return true;
