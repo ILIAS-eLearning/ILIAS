@@ -445,7 +445,7 @@ echo htmlentities($a_text);*/
 		$ws= "[ \t\r\f\v\n]*";
 
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
-			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|sahs|mcst)$ws=$ws([\"0-9])*)$ws".
+			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|sahs|mcst|obj)$ws=$ws([\"0-9])*)$ws".
 			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws))\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
@@ -536,9 +536,18 @@ echo htmlentities($a_text);*/
 				$obj_id = (isset($attribs["file"])) ? $attribs["file"] : $obj_id;
 				$obj_id = (isset($attribs["sahs"])) ? $attribs["sahs"] : $obj_id;
 				$obj_id = (isset($attribs["mcst"])) ? $attribs["mcst"] : $obj_id;
+				//$obj_id = (isset($attribs["obj"])) ? $attribs["obj"] : $obj_id;
 
-				$a_text = eregi_replace("\[".$found[1]."\]",
-					"<IntLink Target=\"il_".$inst_str."_obj_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
+				if ($inst_str == "")
+				{
+					$a_text = eregi_replace("\[".$found[1]."\]",
+						"<IntLink Target=\"il_".$inst_str."_obj_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
+				}
+				else
+				{
+					$a_text = eregi_replace("\[".$found[1]."\]",
+						"<IntLink Target=\"il_".$inst_str."_".$found[6]."_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
+				}
 			}			
 			else
 			{
@@ -886,7 +895,8 @@ echo htmlentities($a_text);*/
 					}
 					else
 					{
-						$target_type = "obj";
+						$rtype = $target[count($target) - 2];
+						$target_type = $rtype;
 					}
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."$target_type=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;

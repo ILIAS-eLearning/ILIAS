@@ -875,6 +875,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		return $this->dom->dump_node($mob_node);
 	}
 
+	/**
+	* Validate the page content agains page DTD
+	*
+	* @return	array		Error array.
+	*/
 	function validateDom()
 	{
 		$this->stripHierIDs();
@@ -1129,7 +1134,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			else		// check wether link target is same installation
 			{
 				if (ilInternalLink::_extractInstOfTarget($target) == IL_INST_ID &&
-					IL_INST_ID > 0)
+					IL_INST_ID > 0 && $type != "RepositoryItem")
 				{
 					$new_target = ilInternalLink::_removeInstFromTarget($target);
 					if (ilInternalLink::_exists($type, $new_target))
@@ -1158,7 +1163,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
-	* Move internal links from one destination to another
+	* Move internal links from one destination to another. This is used
+	* for pages and structure links. Just use IDs in "from" and "to".
 	*
 	* @param	array	keys are the old targets, values are the new targets
 	*/
@@ -1175,7 +1181,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$target = $res->nodeset[$i]->get_attribute("Target");
 			$type = $res->nodeset[$i]->get_attribute("Type");
 			$obj_id = ilInternalLink::_extractObjIdOfTarget($target);
-			if ($a_from_to[$obj_id] > 0)
+			if ($a_from_to[$obj_id] > 0 && is_int(strpos($target, "__")))
 			{
 				if ($type == "PageObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg")
 				{
@@ -1185,6 +1191,62 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				{
 					$res->nodeset[$i]->set_attribute("Target", "il__st_".$a_from_to[$obj_id]);
 				}
+			}
+		}
+		unset($xpc);
+	}
+
+	/**
+	* Change targest of repository links. Use full targets in "from" and "to"!!!
+	*
+	* @param	array	keys are the old targets, values are the new targets
+	*/
+	static function _handleImportRepositoryLinks($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
+	{
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		
+//echo "-".$a_rep_import_id."-".$a_rep_ref_id."-";
+		$sources = ilInternalLink::_getSourcesOfTarget("obj",
+			ilInternalLink::_extractObjIdOfTarget($a_rep_import_id),
+			ilInternalLink::_extractInstOfTarget($a_rep_import_id));
+//var_dump($sources);
+		foreach($sources as $source)
+		{
+//echo "A";
+			if ($source["type"] == "lm:pg")
+			{
+//echo "B";
+				$page_obj = new ilPageObject("lm", $source["id"], false);
+				if  (!$page_obj->page_not_found)
+				{
+//echo "C";
+					$page_obj->handleImportRepositoryLink($a_rep_import_id,
+						$a_rep_type, $a_rep_ref_id);
+				}
+				$page_obj->update();
+			}
+		}
+	}
+		
+	function handleImportRepositoryLink($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
+	{
+		$this->buildDom();
+		
+		// resolve normal internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//IntLink";
+		$res =& xpath_eval($xpc, $path);
+//echo "1";
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+//echo "2";
+			$target = $res->nodeset[$i]->get_attribute("Target");
+			$type = $res->nodeset[$i]->get_attribute("Type");
+			if ($target == $a_rep_import_id && $type == "RepositoryItem")
+			{
+//echo "setting:"."il__".$a_rep_type."_".$a_rep_ref_id;
+				$res->nodeset[$i]->set_attribute("Target",
+					"il__".$a_rep_type."_".$a_rep_ref_id);
 			}
 		}
 		unset($xpc);
@@ -1961,9 +2023,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* inserts installation id into ids (e.g. il__pg_4 -> il_23_pg_4)
 	* this is needed for xml export of page
 	*/
-	function insertInstIntoIDs($a_inst)
+	function insertInstIntoIDs($a_inst, $a_res_ref_to_obj_id = true)
 	{
-//echo "insertinto:$a_inst:<br>";
 		// insert inst id into internal links
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
@@ -1975,7 +2036,20 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 			if (substr($target, 0, 4) == "il__")
 			{
-				$new_target = "il_".$a_inst."_".substr($target, 4, strlen($target) - 4);
+				$id = substr($target, 4, strlen($target) - 4);
+				
+				// convert repository links obj_<ref_id> to <type>_<obj_id>
+				if ($a_res_ref_to_obj_id && $type == "RepositoryItem")
+				{
+					$id_arr = explode("_", $id);
+					$obj_id = ilObject::_lookupObjId($id_arr[1]);
+					$otype = ilObject::_lookupType($obj_id);
+					if ($obj_id > 0)
+					{
+						$id = $otype."_".$obj_id;
+					}
+				}
+				$new_target = "il_".$a_inst."_".$id;
 				$res->nodeset[$i]->set_attribute("Target", $new_target);
 			}
 		}

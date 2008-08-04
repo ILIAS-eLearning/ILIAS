@@ -1108,9 +1108,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// delete import directory
 		ilUtil::delDir($newObj->getImportDirectory());
-
 		ilUtil::sendInfo($this->lng->txt($this->type."_added"),true);
 
+		// handle internal links to this learning module
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		ilPageObject::_handleImportRepositoryLinks($newObj->getImportId(),
+			$newObj->getType(), $newObj->getRefId());
 		ilUtil::redirect("ilias.php?ref_id=".$newObj->getRefId().
 			"&baseClass=ilLMEditorGUI");
 	}

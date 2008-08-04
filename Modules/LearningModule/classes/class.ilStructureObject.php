@@ -167,7 +167,6 @@ class ilStructureObject extends ilLMObject
 		if ($a_tag == "Identifier" && $a_param == "Entry")
 		{
 			$a_value = "il_".IL_INST_ID."_st_".$this->getId();
-			//$a_value = ilUtil::insertInstIntoID($a_value);
 		}
 
 		return $a_value;

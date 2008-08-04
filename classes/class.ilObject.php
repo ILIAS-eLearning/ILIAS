@@ -1735,6 +1735,6 @@ class ilObject
 			return "./images/icon_".$a_type.$suff.".gif";
 		}
 	}
-	
+
 } // END class.ilObject
 ?>
