@@ -19,39 +19,43 @@
 		<xsl:apply-templates select="node()"></xsl:apply-templates>
 	</xsl:template>
 	
-	<xsl:template match="fo:block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
-			<xsl:choose>
-				<xsl:when test=" current()='&#160;'">
-					<br />
-				</xsl:when>
-				<xsl:otherwise>
-					<p>
-						<xsl:choose>
-							<xsl:when test="@text-align='left'">
-								<xsl:attribute name="align">
-									<xsl:text>left</xsl:text>
-								</xsl:attribute>
-							</xsl:when>
-							<xsl:when test="@text-align='right'">
-								<xsl:attribute name="align">
-									<xsl:text>right</xsl:text>
-								</xsl:attribute>
-							</xsl:when>
-							<xsl:when test="@text-align='center'">
-								<xsl:attribute name="align">
-									<xsl:text>center</xsl:text>
-								</xsl:attribute>
-							</xsl:when>
-							<xsl:when test="@text-align='justify'">
-								<xsl:attribute name="align">
-									<xsl:text>justify</xsl:text>
-								</xsl:attribute>
-							</xsl:when>
-						</xsl:choose>
-						<xsl:apply-templates select="node()"></xsl:apply-templates>
-					</p>
-				</xsl:otherwise>
-			</xsl:choose>
+	<xsl:template name="handleBlock">
+		<xsl:choose>
+			<xsl:when test="current()='&#160;'">
+				<br />
+			</xsl:when>
+			<xsl:otherwise>
+				<p>
+					<xsl:choose>
+						<xsl:when test="@text-align='left'">
+							<xsl:attribute name="align">
+								<xsl:text>left</xsl:text>
+							</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@text-align='right'">
+							<xsl:attribute name="align">
+								<xsl:text>right</xsl:text>
+							</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@text-align='center'">
+							<xsl:attribute name="align">
+								<xsl:text>center</xsl:text>
+							</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="@text-align='justify'">
+							<xsl:attribute name="align">
+								<xsl:text>justify</xsl:text>
+							</xsl:attribute>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:apply-templates select="node()"></xsl:apply-templates>
+				</p>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="fo:flow/fo:block//fo:block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		<xsl:call-template name="handleBlock"></xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="//fo:inline" xmlns:fo="http://www.w3.org/1999/XSL/Format">

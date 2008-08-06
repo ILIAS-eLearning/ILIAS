@@ -465,6 +465,7 @@ class ilTestEvaluationUserData
 	{
 		$available = 0;
 		if (!is_object($this->passes[$pass])) $pass = 0;
+		if (!is_object($this->passes[$pass])) return 0;
 		$available = $this->passes[$pass]->getMaxPoints();
 		return $available;
 	}
