@@ -5273,3 +5273,21 @@ if (!$ilDB->tableColumnExists("tst_test_pass_result", "workingtime"))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1304>
+<?php
+if (!$ilDB->tableColumnExists("tst_tests", "finalstatement"))
+{
+	$query = "ALTER TABLE `tst_tests` ADD `finalstatement` TEXT NULL";
+	$res = $ilDB->query($query);
+}
+if (!$ilDB->tableColumnExists("tst_tests", "showfinalstatement"))
+{
+	$query = "ALTER TABLE `tst_tests` ADD `showfinalstatement` INT NOT NULL DEFAULT '0'";
+	$res = $ilDB->query($query);
+}
+if (!$ilDB->tableColumnExists("tst_tests", "showinfo"))
+{
+	$query = "ALTER TABLE `tst_tests` ADD `showinfo` INT NOT NULL DEFAULT '1'";
+	$res = $ilDB->query($query);
+}
+?>
