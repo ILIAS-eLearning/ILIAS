@@ -35,7 +35,7 @@
 
 include_once 'classes/class.ilSaxParser.php';
 include_once 'Modules/Exercise/classes/class.ilExerciseException.php';
-
+include_once 'Modules/Exercise/classes/class.ilExerciseXMLWriter.php';
 
 
 class ilExerciseXMLParser extends ilSaxParser
@@ -154,6 +154,15 @@ class ilExerciseXMLParser extends ilSaxParser
 			        $this->mode = ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED;
 			    }
 			    break;
+			case 'Marking':
+			     $this->status = $a_attribs["status"];
+			     if ($this->status == ilExerciseXMLWriter::$STATUS_NOT_GRADED)
+			         $this->status = "notgraded";
+			     elseif ($this->status == ilExerciseXMLWriter::$STATUS_PASSED)
+			         $this->status = "passed";
+			     else 
+			         $this->status = "failed";
+			     break;
 
 		}
 	}
@@ -187,7 +196,9 @@ class ilExerciseXMLParser extends ilSaxParser
 				break;
 			case 'Member':
    			    $this->updateMember($this->usr_id, $this->usr_action);
-			    break;
+   			    // update marking after update member.
+   			    $this->updateMarking($this->usr_id);
+			    break;			    
 			case 'Filename':
 			    $this->file_name = trim($this->cdata);
 			    break;
@@ -197,7 +208,18 @@ class ilExerciseXMLParser extends ilSaxParser
 			case 'File':
                 $this->updateFile($this->file_name, $this->file_content, $this->file_action);
 			    break;
-
+			case 'Comment':
+			     $this->comment = trim($this->cdata);
+			     break;
+			case 'Notice':
+			     $this->notice = trim($this->cdata);
+			     break;
+			case 'Mark':
+			     $this->mark = trim($this->cdata);
+			     break;			     
+			case 'Marking':			   
+			     // see Member end tag
+			     break;			    
 		}
 
 		$this->cdata = '';
@@ -283,6 +305,44 @@ class ilExerciseXMLParser extends ilSaxParser
 	public function start () {
 	    $this->startParsing();
 	    return $this->result > 0;
+	}
+	
+	/**
+	 * update marking of member
+	 *
+	 * @param int $usr_id
+	 */
+	private function updateMarking($usr_id) {
+	    include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+	    $marks_obj = new ilLPMarks($this->exercise->getId(), $usr_id);
+	    $update = false;
+	    if (isset($this->mark)) 
+	    {
+			$update = true;
+	        $marks_obj->setMark(ilUtil::stripSlashes($this->mark));
+	    }
+		if (isset($this->mark))
+		{
+		    $update = true;		
+			$marks_obj->setComment(ilUtil::stripSlashes($this->comment));
+		}
+		if ($update) 
+		{
+		    $marks_obj->update();
+		}
+	    
+	    $memberObject = $this->exercise->members_obj;
+	    if (isset($this->status))
+	        $memberObject ->setStatusForMember($usr_id, $this->status);
+	    
+	    if (isset($this->notice))
+			$memberObject->setNoticeForMember($usr_id, ilUtil::stripSlashes($this->notice));
+	    	        
+	    // reset variables
+	    $this->mark = null;
+	    $this->status = null;
+	    $this->notice = null;
+	    $this->comment = null;
 	}
 
 }

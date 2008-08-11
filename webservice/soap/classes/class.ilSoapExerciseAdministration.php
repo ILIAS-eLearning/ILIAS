@@ -212,16 +212,23 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 
 		// Check access
 		$permission_ok = false;
+		$write_permission_ok = false;
 		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
 		{
-			if($rbacsystem->checkAccess('read',$ref_id))
+			if($rbacsystem->checkAccess('edit',$ref_id))
+			{
+				$write_permission_ok = true;
+				break;
+			}		    
+		    if($rbacsystem->checkAccess('read',$ref_id))
 			{
 				$permission_ok = true;
 				break;
 			}
+			
 		}
 
-		if(!$permission_ok)
+		if(!$permission_ok && !$write_permission_ok)
 		{
 			return $this->__raiseError('No permission to edit the object with id: '.$ref_id,
 									   'Server');
@@ -240,6 +247,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		// create writer
 		$xmlWriter = new ilExerciseXMLWriter();
 		$xmlWriter->setExercise($exercise);
+		$xmlWriter->setAttachMembers($write_permission_ok);
 		$xmlWriter->setAttachFileContents($attachFileContentsMode);
 		$xmlWriter->start();
 

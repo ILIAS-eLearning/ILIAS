@@ -1,0 +1,58 @@
+<!ELEMENT Exercise (Title, Description?, Instruction?, DueDate?, Files?, Members?)>
+<!--
+        obj_id is internal ILIAS ID
+        owner  is internal user ILIAS ID and refers to user who created the exercise object (e.g. tutor)
+-->
+<!ATTLIST  Exercise
+    obj_id CDATA #REQUIRED
+    owner CDATA #IMPLIED
+>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!ELEMENT Instruction (#PCDATA)>
+<!--
+Due Date as Unix Timestamp
+-->
+<!ELEMENT DueDate (#PCDATA)>
+<!-- members to be attached -->
+<!ELEMENT Members (Member*)>
+<!-- file to be attached -->
+<!ELEMENT Files (File*)>
+<!ELEMENT Member (Marking?)>
+<!-- user id has internal is internal ILIAS ID -->
+<!-- action is implied, e.g. export purpose -->
+<!ATTLIST Member
+	usr_id CDATA #REQUIRED
+	action (Attach|Detach) #IMPLIED
+>
+<!ELEMENT File (Filename, Content?)>
+<!-- action is implied, e.g. export purpose -->
+<!-- size is implied, since it could be used to retrieve list of files and then decide if to download a specific file -->
+<!ATTLIST File
+	action (Attach|Detach) #IMPLIED
+	size CDATA #IMPLIED
+>
+<!-- Filename of file -->
+<!ELEMENT Filename (#PCDATA)>
+<!--
+Base64 encoded file content
+-->
+<!ELEMENT Content (#PCDATA)>
+<!ATTLIST Content
+    mode (PLAIN|ZLIB|GZIP) #IMPLIED
+>
+<!-- Optional Marking -->
+<!-- HINT: when adding a new exercise the members must have action Attach, if you want to mark them -->
+<!ELEMENT Marking (Mark?,Notice?,Comment?)>
+
+<!-- required status and optional grade -->
+<!ATTLIST Marking
+	status (NOT_GRADED|PASSED|FAILED) #REQUIRED
+	>
+	
+<!-- any mark -->
+<!ELEMENT Mark (#PCDATA)>
+<!-- tutors note: will not be shown to student -->	
+<!ELEMENT Notice (#PCDATA)>
+<!-- tutors comment to learner: will be shown to student -->
+<!ELEMENT Comment (#PCDATA)>
