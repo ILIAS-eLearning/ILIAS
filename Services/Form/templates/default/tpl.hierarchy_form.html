@@ -7,7 +7,7 @@
 <input type="hidden" id="il_hform_target_id" name="il_hform_target_id" value="" />
 <table class="fullwidth">
 <tr class="tblheader">
-	<th class="std">{TITLE}</th>
+	<th class="std"><!-- BEGIN icon --><img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" /><!-- END icon --> {TITLE}</th>
 </tr>
 <tr class="std">
 	<td class="tblrow1">
@@ -30,6 +30,14 @@
 </tr>
 <!-- END commands -->
 </table>
+
+<div style="margin-top: 10px;">
+<!-- BEGIN help_section -->
+<div>
+<!-- BEGIN help_img --><img alt="{ALT_HELP}" src="{IMG_HELP}" /><!-- END help_img --> <span class="subtitle">{TXT_HELP}</span>
+</div>
+<!-- END help_section -->
+</div>
 
 <!-- BEGIN disambiguation_menu -->
 <div style="position:absolute;left:0;top:0;visibility:hidden;" id="diss_menu_{DNODE_ID}_{GRP}">

@@ -137,6 +137,26 @@ class ilHierarchyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Set Icon.
+	*
+	* @param	string	$a_icon	Icon
+	*/
+	function setIcon($a_icon)
+	{
+		$this->icon = $a_icon;
+	}
+
+	/**
+	* Get Icon.
+	*
+	* @return	string	Icon
+	*/
+	function getIcon()
+	{
+		return $this->icon;
+	}
+
+	/**
 	* Set Checkbox Name.
 	*
 	* @param	string	$a_checkboxname	Checkbox Name
@@ -154,6 +174,26 @@ class ilHierarchyFormGUI extends ilFormGUI
 	function getCheckboxName()
 	{
 		return $this->checkboxname;
+	}
+
+	/**
+	* Set Drag Icon Path.
+	*
+	* @param	string	$a_dragicon	Drag Icon Path
+	*/
+	function setDragIcon($a_dragicon)
+	{
+		$this->dragicon = $a_dragicon;
+	}
+
+	/**
+	* Get Drag Icon Path.
+	*
+	* @return	string	Drag Icon Path
+	*/
+	function getDragIcon()
+	{
+		return $this->dragicon;
 	}
 
 	/**
@@ -275,7 +315,15 @@ class ilHierarchyFormGUI extends ilFormGUI
 		
 		$childs = null;
 		$nodes_html = $this->getLevelHTML($top_node, 0, $childs);
-		
+
+		// icon
+		if ($this->getIcon() != "")
+		{
+			$ttpl->setCurrentBlock("icon");
+			$ttpl->setVariable("SRC_ICON", $this->getIcon());
+			$ttpl->parseCurrentBlock();
+		}
+
 		// commands
 		if (count($this->multi_commands) > 0 || count($this->commands) > 0)
 		{
@@ -287,18 +335,21 @@ class ilHierarchyFormGUI extends ilFormGUI
 				$ttpl->parseCurrentBlock();
 			}
 
-			foreach($this->multi_commands as $cmd)
+			if (count($childs) > 0)
 			{
-				$ttpl->setCurrentBlock("multi_cmd");
-				$ttpl->setVariable("MULTI_CMD", $cmd["cmd"]);
-				$ttpl->setVariable("MULTI_CMD_TXT", $cmd["text"]);
+				foreach($this->multi_commands as $cmd)
+				{
+					$ttpl->setCurrentBlock("multi_cmd");
+					$ttpl->setVariable("MULTI_CMD", $cmd["cmd"]);
+					$ttpl->setVariable("MULTI_CMD_TXT", $cmd["text"]);
+					$ttpl->parseCurrentBlock();
+				}
+				$ttpl->setCurrentBlock("commands");
+				$ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
+				$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.gif"));
 				$ttpl->parseCurrentBlock();
 			}
 			
-			$ttpl->setCurrentBlock("commands");
-			$ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
-			$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.gif"));
-			$ttpl->parseCurrentBlock();
 		}
 		
 		// drag and drop initialisation
@@ -354,6 +405,29 @@ class ilHierarchyFormGUI extends ilFormGUI
 		}
 		$this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
 		
+		// help
+		$ttpl->setCurrentBlock("help_img");
+		$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.gif"));
+		$ttpl->parseCurrentBlock();
+		$ttpl->setCurrentBlock("help_section");
+		$ttpl->setVariable("TXT_HELP",
+			$lng->txt("form_hierarchy_add_elements"));
+		$ttpl->parseCurrentBlock();
+
+		if ($this->getDragIcon() != "")
+		{
+			$ttpl->setCurrentBlock("help_img");
+			$ttpl->setVariable("IMG_HELP", $this->getDragIcon());
+			$ttpl->parseCurrentBlock();
+			$ttpl->setCurrentBlock("help_img");
+			$ttpl->setVariable("IMG_HELP",
+				ilUtil::getImagePath("drop_streaked_area.gif"));
+			$ttpl->parseCurrentBlock();
+			$ttpl->setCurrentBlock("help_section");
+			$ttpl->setVariable("TXT_HELP",
+				$lng->txt("form_hierarchy_drag_drop_help"));
+			$ttpl->parseCurrentBlock();
+		}
 		
 		// nodes
 		$ttpl->setVariable("NODES", $nodes_html);
@@ -387,7 +461,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 		{
 			$ttpl->setCurrentBlock("drop_area");
 			$ttpl->setVariable("DNODE_ID", $a_par_node["node_id"]."fc");		// fc means "first child"
-			$ttpl->setVariable("IMG_BLANK", ilUtil::getImagePath("blank.gif"));
+			$ttpl->setVariable("IMG_BLANK", ilUtil::getImagePath("spacer.gif"));
 			$ttpl->parseCurrentBlock();
 	
 			$this->manageDragAndDrop($a_par_node, $a_depth, true, null, $childs);
@@ -471,8 +545,8 @@ class ilHierarchyFormGUI extends ilFormGUI
 	{
 		// image
 		$a_tpl->setCurrentBlock("img");
-		$a_tpl->setVariable("IMGPATH", $this->getIcon($a_child));
-		$a_tpl->setVariable("IMGALT", $this->getIconAlt($a_child));
+		$a_tpl->setVariable("IMGPATH", $this->getChildIcon($a_child));
+		$a_tpl->setVariable("IMGALT", $this->getChildIconAlt($a_child));
 		$a_tpl->setVariable("IMG_NODE", $a_child["node_id"]);
 		$a_tpl->setVariable("TYPE", $a_child["type"]);
 		$a_tpl->parseCurrentBlock();
@@ -482,6 +556,19 @@ class ilHierarchyFormGUI extends ilFormGUI
 		$a_tpl->setVariable("CNODE_ID", $a_child["node_id"]);
 		$a_tpl->setVariable("CBOX_NAME", $this->getCheckboxName());
 		$a_tpl->parseCurrentBlock();
+		
+		// commands of child node
+		$child_commands = $this->getChildCommands($a_child);
+		if (is_array($child_commands))
+		{
+			foreach($child_commands as $command)
+			{
+				$a_tpl->setCurrentBlock("node_cmd");
+				$a_tpl->setVariable("HREF_NODE_CMD", $command["link"]);
+				$a_tpl->setVariable("TXT_NODE_CMD", $command["text"]);
+				$a_tpl->parseCurrentBlock();
+			}
+		}
 		
 		// title
 		$a_tpl->setCurrentBlock("text");
@@ -502,7 +589,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 		// drop area after child
 		$a_tpl->setCurrentBlock("drop_area");
 		$a_tpl->setVariable("DNODE_ID", $a_child["node_id"]);
-		$a_tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("blank.gif"));
+		$a_tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("spacer.gif"));
 		$a_tpl->parseCurrentBlock();
 
 		// manage drag and drop areas
@@ -582,7 +669,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 	* @param	array		item array
 	* @return	string		icon path
 	*/
-	function getIcon($a_item)
+	function getChildIcon($a_item)
 	{
 		return ilUtil::getImagePath("icon_".$a_item["type"].".gif");
 	}
@@ -593,11 +680,22 @@ class ilHierarchyFormGUI extends ilFormGUI
 	* @param	array		item array
 	* @return	string		icon alt text
 	*/
-	function getIconAlt($a_item)
+	function getChildIconAlt($a_item)
 	{
 		global $lng;
 		
 		return $lng->txt($a_item["type"]);
+	}
+
+	/**
+	* Get item commands
+	*
+	* @param	array		item array
+	* @return	array		array of arrays("text", "link")
+	*/
+	function getChildCommands($a_item)
+	{
+		return false;
 	}
 
 	/**

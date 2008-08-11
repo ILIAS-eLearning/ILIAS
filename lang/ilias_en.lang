@@ -1314,6 +1314,8 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
+form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.
+form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.
 form#:#form_min_value#:#Minimum Value
 form#:#form_max_value#:#Maximum Value
 form#:#form_format#:#Format

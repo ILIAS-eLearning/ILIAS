@@ -273,12 +273,14 @@ return;
 		$form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType());
 		$form_gui->setFormAction($ilCtrl->getFormAction($this));
 		$form_gui->setTitle($this->obj->getTitle());
+		$form_gui->setIcon(ilUtil::getImagePath("icon_st.gif"));
 		$form_gui->setTree($this->tree);
 		$form_gui->setCurrentTopNodeId($this->obj->getId());
 		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
 		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
 		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
 		$form_gui->addMultiCommand($lng->txt("cont_de_activate"), "activatePages");
+		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg_s.gif"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 
 		$this->tpl->setContent($form_gui->getHTML());
