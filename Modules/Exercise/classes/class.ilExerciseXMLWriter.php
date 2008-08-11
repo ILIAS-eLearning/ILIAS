@@ -46,12 +46,24 @@ class ilExerciseXMLWriter extends ilXmlWriter
     static $CONTENT_ATTACH_ENCODED = 1;
     static $CONTENT_ATTACH_ZLIB_ENCODED = 2;
     static $CONTENT_ATTACH_GZIP_ENCODED = 3;
+    
+    static $STATUS_NOT_GRADED = "NOT_GRADED";
+    static $STATUS_PASSED = "PASSED";
+    static $STATUS_FAILED = "FAILED";
 	/**
 	 * if true, file contents will be attached as base64
 	 *
 	 * @var boolean
 	 */
     var $attachFileContents;
+    
+    
+    /**
+     * if true, members will be attach to xml
+     *
+     * @var boolean
+     */
+    var $attachMembers;
 
 	/**
 	 * Exercise Object
@@ -153,17 +165,22 @@ class ilExerciseXMLWriter extends ilXmlWriter
             }
         }
         $this->xmlEndTag("Files");
-
-        $this->xmlStartTag("Members");
-        $members = $this->exercise->getMemberListData();
-        if (count($members))
+        if ($this->attachMembers)
         {
-            foreach ($members as $member)
+            $this->xmlStartTag("Members");
+            $members = $this->exercise->getMemberListData();
+            if (count($members))
             {
-                $this->xmlElement("Member", array ("usr_id" => "il_".IL_INST_ID."_usr_".$member["usr_id"]));
+                foreach ($members as $member)
+                {  
+                    $this->xmlStartTag("Member", 
+                        array ("usr_id" => "il_".IL_INST_ID."_usr_".$member["usr_id"]));
+                    $this->attachMarking ($member);
+                    $this->xmlEndTag("Member");
+                }
             }
+            $this->xmlEndTag("Members");
         }
-        $this->xmlEndTag("Members");
 
 
         $this->xmlEndTag("Exercise");
@@ -180,7 +197,7 @@ class ilExerciseXMLWriter extends ilXmlWriter
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Exercise PUBLIC \"-//ILIAS//DTD ExerciseAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_exercise_3_8.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Exercise PUBLIC \"-//ILIAS//DTD ExerciseAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_exercise_3_10.dtd\">");
 		$this->xmlSetGenCmt("Exercise Object");
 		$this->xmlHeader();
 
@@ -189,7 +206,45 @@ class ilExerciseXMLWriter extends ilXmlWriter
 
 	function __buildFooter()
 	{
+	    
+	}
+	
+	/**
+	 * write access to property attchMarkings
+	 *
+	 * @param boolean $value
+	 */
+	public function setAttachMembers ($value) {
+	    $this->attachMembers = $value ? true : false;
+	}
+	
+	/**
+	 * attach marking tag to member 
+	 *
+	 * @param array $a_member
+	 */
+	private function attachMarking ($a_member) 
+	{
+	    include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
+	    $marks = new ilLPMarks($this->exercise->getId(), $a_member["usr_id"]);
+	    if ($a_member["status"] ==  "notgraded")
+	    {
+	        $status = ilExerciseXMLWriter::$STATUS_NOT_GRADED;
+	    } elseif ($a_member["status"] == "failed")
+	    {
+	        $status = ilExerciseXMLWriter::$STATUS_FAILED;
+	    } else 
+	    {
+	        $status = ilExerciseXMLWriter::$STATUS_PASSED;
+	    } 
+	    $this->xmlStartTag("Marking", array (
+	    	"status" => $status 
+	    	));
+	    $this->xmlElement("Mark", null, $marks->getMark());
+	    $this->xmlElement("Notice", null, $a_member["notice"]);
+	    $this->xmlElement("Comment", null, $marks->getComment());
+	    $this->xmlEndTag("Marking");
 	}
 
 }

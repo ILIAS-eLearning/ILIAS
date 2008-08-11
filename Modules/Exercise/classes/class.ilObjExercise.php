@@ -341,13 +341,18 @@ class ilObjExercise extends ilObject
 				$name = ilObjUser::_lookupName($rec["usr_id"]);
 				$login = ilObjUser::_lookupLogin($rec["usr_id"]);
 				$mem[] =
-					array("name" => $name["lastname"].", ".$name["firstname"],
+					array(
+					"name" => $name["lastname"].", ".$name["firstname"],
 					"login" => $login,
 					"sent_time" => $rec["sent_time"],
 					"submission" => $this->getLastSubmission($rec["usr_id"]),
 					"status_time" => $rec["status_time"],
 					"feedback_time" => $rec["feedback_time"],
-					"usr_id" => $rec["usr_id"]
+					"usr_id" => $rec["usr_id"],
+					"lastname" => $name["lastname"],
+					"firstname" => $name["firstname"],
+					"notice" => $rec["notice"],
+					"status" => $rec["status"]					
 					);
 			}
 		}
