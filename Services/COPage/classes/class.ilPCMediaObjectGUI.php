@@ -223,17 +223,20 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	{
 		global $ilCtrl, $ilAccess, $ilTabs, $tpl, $lng;
 		
-		$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK",
-			$ilCtrl->getLinkTarget($this, "poolSelection"));
-		$tpl->setVariable("BTN_TXT", $lng->txt("cont_select_media_pool"));
-		$tpl->parseCurrentBlock();
 
 		if ($_SESSION["cont_media_pool"] != "" &&
 			$ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
 			&& ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_media_pool"])) == "mep")
 		{
+			$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+			$tpl->setCurrentBlock("btn_cell");
+			$ilCtrl->setParameter($this, "subCmd", "poolSelection");
+			$tpl->setVariable("BTN_LINK",
+				$ilCtrl->getLinkTarget($this, "insert"));
+			$ilCtrl->setParameter($this, "subCmd", "");
+			$tpl->setVariable("BTN_TXT", $lng->txt("cont_select_media_pool"));
+			$tpl->parseCurrentBlock();
+
 			$this->getTabs($ilTabs, true);
 			$ilTabs->setSubTabActive("cont_mob_from_media_pool");
 			
@@ -272,8 +275,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		global $ilCtrl, $tree, $tpl, $ilTabs;
 
 		$this->getTabs($ilTabs, true);
-		$ilTabs->setSubTabActive("cont_from_media_pool");
-		
+		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
+
 		include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
 		$exp = new ilPoolSelectorGUI($this->ctrl->getLinkTarget($this, "insert"));
 		if ($_GET["expand"] == "")

@@ -41,6 +41,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	function __construct($a_lm_type)
 	{
 		$this->lm_type = $a_lm_type;
+
 		parent::__construct();
 		$this->setCheckboxName("id");
 	}
@@ -201,7 +202,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	* @param	array		itema array
 	* @return	string		icon path
 	*/
-	function getIcon($a_item)
+	function getChildIcon($a_item)
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		
@@ -232,7 +233,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	* @param	array		itema array
 	* @return	string		icon alt text
 	*/
-	function getIconAlt($a_item)
+	function getChildIconAlt($a_item)
 	{
 		global $lng;
 		
@@ -257,6 +258,41 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 			}
 		}
 		return ilUtil::getImagePath("icon_".$a_item["type"].".gif");
+	}
+
+	/**
+	* Get item commands
+	*
+	* @param	array		item array
+	* @return	array		array of arrays("text", "link")
+	*/
+	function getChildCommands($a_item)
+	{
+		global $lng, $ilCtrl;
+		
+		$lm_class = ($this->lm_type == "lm")
+			? "ilobjlearningmodulegui"
+			: "ilobjdlbookgui";
+		
+		$commands = array();
+		switch ($a_item["type"])
+		{
+			case "pg":
+				$ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id",
+					$a_item["node_id"]);
+				$commands[] = array("text" => $lng->txt("edit"),
+					"link" => $ilCtrl->getLinkTargetByClass(array($lm_class, "illmpageobjectgui"), "edit"));
+				break;
+
+			case "st":
+				$ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id",
+					$a_item["node_id"]);
+				$commands[] = array("text" => $lng->txt("edit"),
+					"link" => $ilCtrl->getLinkTargetByClass(array($lm_class, "ilstructureobjectgui"), "view"));
+				break;
+		}
+		
+		return $commands;
 	}
 
 }

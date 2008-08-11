@@ -108,7 +108,7 @@ class ilMapArea
 			$ilDB->quote($this->getTarget()).",".
 			$ilDB->quote($this->getType()).",".
 			$ilDB->quote($this->getTargetFrame()).")";
-		$ilDB->query($q);
+			$ilDB->query($q);
 	}
 
 	/**

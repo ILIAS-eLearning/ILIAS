@@ -1127,19 +1127,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$this->setTabs();
 
-		
 		$ilCtrl->setParameter($this, "backcmd", "chapters");
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		$form_gui = new ilChapterHierarchyFormGUI($this->object->getType());
 		$form_gui->setFormAction($ilCtrl->getFormAction($this));
 		$form_gui->setTitle($this->object->getTitle());
+		$form_gui->setIcon(ilUtil::getImagePath("icon_lm.gif"));
 		$form_gui->setTree($this->lm_tree);
 		$form_gui->setMaxDepth(0);
 		$form_gui->setCurrentTopNodeId($this->tree->getRootId());
 		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
 		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
 		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
+		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.gif"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 
 		$this->tpl->setContent($form_gui->getHTML());

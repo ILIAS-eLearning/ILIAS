@@ -207,7 +207,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				break;
 
 			case "mob":
-				if (ilMediaPoolTableGUI::IL_MEP_SELECT)
+				if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT)
 				{
 					$this->tpl->setVariable("TXT_NO_LINK_TITLE", $a_set["title"]);
 				}
