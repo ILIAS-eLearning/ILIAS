@@ -1135,122 +1135,137 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function chapters()
 	{
-		global $tree, $lng, $ilCtrl;;
+		global $tree, $lng, $ilCtrl, $ilUser;
 
 		$this->setTabs();
-
-		$ilCtrl->setParameter($this, "backcmd", "chapters");
 		
-		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
-		$form_gui = new ilChapterHierarchyFormGUI($this->object->getType());
-		$form_gui->setFormAction($ilCtrl->getFormAction($this));
-		$form_gui->setTitle($this->object->getTitle());
-		$form_gui->setIcon(ilUtil::getImagePath("icon_lm.gif"));
-		$form_gui->setTree($this->lm_tree);
-		$form_gui->setMaxDepth(0);
-		$form_gui->setCurrentTopNodeId($this->tree->getRootId());
-		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
-		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
-		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
-		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.gif"));
-		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
-		$up_gui = ($this->object->getType() == "dbk")
-			? "ilobjdlbookgui"
-			: "ilobjlearningmodulegui";
-		$form_gui->setExplorerUpdater("tree", "tree_div",
-			$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
-
-		$this->tpl->setContent($form_gui->getHTML());
-
-return;
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", "Modules/LearningModule");
-		$num = 0;
-
-		$this->ctrl->setParameter($this, "backcmd", "chapters");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_chapters"));
-		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
-
-		$cnt = 0;
-		$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
-		foreach ($childs as $child)
+		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
 		{
-			if($child["type"] != "st")
-			{
-				continue;
-			}
+			$ilCtrl->setParameter($this, "backcmd", "chapters");
+			
+			include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
+			$form_gui = new ilChapterHierarchyFormGUI($this->object->getType());
+			$form_gui->setFormAction($ilCtrl->getFormAction($this));
+			$form_gui->setTitle($this->object->getTitle());
+			$form_gui->setIcon(ilUtil::getImagePath("icon_lm.gif"));
+			$form_gui->setTree($this->lm_tree);
+			$form_gui->setMaxDepth(0);
+			$form_gui->setCurrentTopNodeId($this->tree->getRootId());
+			$form_gui->addMultiCommand($lng->txt("delete"), "delete");
+			$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
+			$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
+			$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.gif"));
+			$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
+			$up_gui = ($this->object->getType() == "dbk")
+				? "ilobjdlbookgui"
+				: "ilobjlearningmodulegui";
+			$form_gui->setExplorerUpdater("tree", "tree_div",
+				$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
 
-			$this->tpl->setCurrentBlock("table_row");
-			// color changing
-			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
+			$ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
+			$ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
+			$ilCtrl->setParameter($this, "obj_id", "");
+			$ctpl->setVariable("HREF_NO_JS_EDIT",
+				$ilCtrl->getLinkTarget($this, "deactivateJSChapterEditing"));
+			$ctpl->setVariable("TXT_NO_JS_EDIT",
+				$lng->txt("cont_not_js_chap_editing"));
 
-			// checkbox
-			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.gif"));
-
-			// link
-			$this->ctrl->setParameter($this, "backcmd", "");
-			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
-			$this->tpl->setVariable("LINK_TARGET",
-				$this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view"));
-
-			// title
-			$this->tpl->setVariable("TEXT_CONTENT",
-				ilStructureObject::_getPresentationTitle($child["obj_id"],
-				$this->object->isActiveNumbering()));
-
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$paste_active = false;
-		if (ilEditClipboard::getContentObjectType() == "st")
-		{
-			if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId())
-				|| ilEditClipboard::getAction() == "copy")
-			{
-				$paste_active = true;
-			}
-		}
-
-		if($cnt == 0 && !$paste_active)
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", 3);
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setContent($ctpl->get());
 		}
 		else
 		{
-			// SHOW VALID ACTIONS
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", "Modules/LearningModule");
+			$num = 0;
+	
+			$this->ctrl->setParameter($this, "backcmd", "chapters");
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_chapters"));
+			$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
+	
+			$cnt = 0;
+			$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
+			foreach ($childs as $child)
+			{
+				if($child["type"] != "st")
+				{
+					continue;
+				}
+	
+				$this->tpl->setCurrentBlock("table_row");
+				// color changing
+				$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
+	
+				// checkbox
+				$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.gif"));
+	
+				// link
+				$this->ctrl->setParameter($this, "backcmd", "");
+				$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
+				$this->tpl->setVariable("LINK_TARGET",
+					$this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view"));
+	
+				// title
+				$this->tpl->setVariable("TEXT_CONTENT",
+					ilStructureObject::_getPresentationTitle($child["obj_id"],
+					$this->object->isActiveNumbering()));
+	
+				$this->tpl->parseCurrentBlock();
+			}
+	
+			$paste_active = false;
+			if (ilEditClipboard::getContentObjectType() == "st")
+			{
+				if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId())
+					|| ilEditClipboard::getAction() == "copy")
+				{
+					$paste_active = true;
+				}
+			}
+	
+			if($cnt == 0 && !$paste_active)
+			{
+				$this->tpl->setCurrentBlock("notfound");
+				$this->tpl->setVariable("NUM_COLS", 3);
+				$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				// SHOW VALID ACTIONS
+				$this->tpl->setVariable("NUM_COLS", 3);
+				if ($cnt > 0)
+				{
+					$acts = array("delete" => "delete", "moveChapter" => "moveChapter",
+						"copyChapter" => "copyChapter");
+				}
+				if ($paste_active)
+				{
+					$acts["pasteChapter"] =  "pasteChapter";
+				}
+				$this->setActions($acts);
+				$this->showActions();
+			}
+	
+			// SHOW POSSIBLE SUB OBJECTS
 			$this->tpl->setVariable("NUM_COLS", 3);
-			if ($cnt > 0)
-			{
-				$acts = array("delete" => "delete", "moveChapter" => "moveChapter",
-					"copyChapter" => "copyChapter");
-			}
-			if ($paste_active)
-			{
-				$acts["pasteChapter"] =  "pasteChapter";
-			}
-			$this->setActions($acts);
-			$this->showActions();
+			$subobj = array("st");
+			$opts = ilUtil::formSelect(12,"new_type",$subobj);
+			$this->tpl->setCurrentBlock("add_object");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("BTN_NAME", "create");
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("insert"));
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("form");
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setVariable("HREF_JS_EDIT",
+				$ilCtrl->getLinkTarget($this, "activateJSChapterEditing"));
+			$this->tpl->setVariable("TXT_JS_EDIT",
+				$lng->txt("cont_js_chap_editing"));
 		}
-
-		// SHOW POSSIBLE SUB OBJECTS
-		$this->tpl->setVariable("NUM_COLS", 3);
-		$subobj = array("st");
-		$opts = ilUtil::formSelect(12,"new_type",$subobj);
-		$this->tpl->setCurrentBlock("add_object");
-		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-		$this->tpl->setVariable("BTN_NAME", "create");
-		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("insert"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("form");
-		$this->tpl->parseCurrentBlock();
-
 	}
 
 
@@ -1415,6 +1430,28 @@ return;
 		}
 
 		$this->ctrl->redirect($this, "pages");
+	}
+
+	/**
+	* Deactivate Javascript Chapter Editing
+	*/
+	function deactivateJSChapterEditing()
+	{
+		global $ilCtrl, $ilUser;
+		
+		$ilUser->writePref("lm_js_chapter_editing", "disable");
+		$ilCtrl->redirect($this, "chapters");
+	}
+	
+	/**
+	* Deactivate Javascript Chapter Editing
+	*/
+	function activateJSChapterEditing()
+	{
+		global $ilCtrl, $ilUser;
+		
+		$ilUser->writePref("lm_js_chapter_editing", "enable");
+		$ilCtrl->redirect($this, "chapters");
 	}
 
 	/**

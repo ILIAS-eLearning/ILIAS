@@ -50,6 +50,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 		$lng->loadLanguageModule("form");
 		$this->setCheckboxName("cbox");
 		parent::ilFormGUI();
+		$this->help_items = array();
 		
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initDragDrop();
