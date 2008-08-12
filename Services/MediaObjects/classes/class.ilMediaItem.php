@@ -785,7 +785,8 @@ class ilMediaItem
 	*/
 	function copyOriginal()
 	{
-		$this->createWorkDirectory();
+		global $lng;
+	    $this->createWorkDirectory();
 		
 		if ($this->getLocationType() != "Reference")
 		{
@@ -820,7 +821,7 @@ class ilMediaItem
 
 		if (!is_file($this->getMapWorkCopyName()))
 		{
-
+		    
 			ilUtil::sendInfo($lng->txt("cont_map_file_not_generated"));
 			return false;
 		}
