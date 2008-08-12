@@ -720,6 +720,8 @@ class ilLMObject
 	*/
 	static function putInTree($a_obj, $a_parent_id = "", $a_target_node_id = "")
 	{
+		global $ilLog;
+		
 		$tree = new ilTree($a_obj->getContentObject()->getId());
 		$tree->setTableNames('lm_tree', 'lm_data');
 		$tree->setTreeTablePK("lm_id");
@@ -760,6 +762,9 @@ class ilLMObject
 
 		if ($tree->isInTree($parent_id) && !$tree->isInTree($a_obj->getId()))
 		{
+			$ilLog->write("LMObject::putInTree: insertNode, ID: ".$a_obj->getId().
+				"Parent ID: ".$parent_id.", Target: ".$target);
+
 			$tree->insertNode($a_obj->getId(), $parent_id, $target);
 		}
 	}
@@ -875,7 +880,7 @@ class ilLMObject
 	static function pasteTree($a_target_lm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
 		&$a_copied_nodes, $a_as_copy = false)
 	{
-		global $ilUser, $ilias;
+		global $ilUser, $ilias, $ilLog;
 		
 		$item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
 		$item_type = ilLMObject::_lookupType($a_item_id);
@@ -888,6 +893,9 @@ class ilLMObject
 		{
 			$item = new ilLMPageObject($lm_obj, $a_item_id);
 		}
+
+		$ilLog->write("Getting from clipboard type ".$item_type.", ".
+			"Item ID: ".$a_item_id.", of original LM: ".$item_lm_id);
 
 		if ($item_lm_id != $a_target_lm->getId() && !$a_as_copy)
 		{
@@ -925,12 +933,13 @@ class ilLMObject
 			$target_item = $item;
 		}
 		
-//echo "-".$target_item->getId()."-".$a_parent_id."-".$a_target."-";
+		$ilLog->write("Putting into tree type ".$target_item->getType().
+			"Item ID: ".$target_item->getId().", Parent: ".$a_parent_id.", ".
+			"Target: ".$a_target.", Item LM:".$target_item->getContentObject()->getId());
+		
 		ilLMObject::putInTree($target_item, $a_parent_id, $a_target);
 		
 		$childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
-//echo "<br>-".$item->getId()."-".$a_insert_time."-";
-//echo "-";
 
 		foreach($childs as $child)
 		{

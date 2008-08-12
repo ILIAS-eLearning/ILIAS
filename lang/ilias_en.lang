@@ -4272,6 +4272,7 @@ common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#cont_insert_map#:#Insert Map
+content#:#cont_chapters_after_pages#:#Please note that pages have to precede all subchapters of the same level.
 content#:#cont_add_rectangle#:#Add Rectangle
 content#:#cont_add_circle#:#Add Circle
 content#:#cont_add_polygon#:#Add Polygon

@@ -131,8 +131,12 @@ class ilFormGUI
 	function getHTML()
 	{
 		$tpl = new ilTemplate("tpl.form.html", true, true, "Services/Form");
-		$tpl->setVariable("FORM_CONTENT", $this->getContent());
-		$tpl->setVariable("FORM_ACTION", $this->getFormAction());
+		if ($this->getTarget() != "")
+		{
+			$tpl->setCurrentBlock("form_target");
+			$tpl->setVariable("FORM_TARGET", $this->getTarget());
+			$tpl->parseCurrentBlock();
+		}
 		if ($this->getMultipart())
 		{
 			$tpl->touchBlock("multipart");
@@ -158,20 +162,14 @@ class ilFormGUI
 				$tpl->parseCurrentBlock();
 			}*/
 		}
+		$tpl->setVariable("FORM_CONTENT", $this->getContent());
+		$tpl->setVariable("FORM_ACTION", $this->getFormAction());
 
 		if ($this->getId() != "")
 		{
-			$tpl->setCurrentBlock("form_id");
 			$tpl->setVariable("FORM_ID", $this->getId());
-			$tpl->parseCurrentBlock();
 		}
 		
-		if ($this->getTarget() != "")
-		{
-			$tpl->setCurrentBlock("form_target");
-			$tpl->setVariable("FORM_TARGET", $this->getTarget());
-			$tpl->parseCurrentBlock();
-		}
 		return $tpl->get();
 	}
 

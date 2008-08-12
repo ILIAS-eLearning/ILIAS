@@ -16,35 +16,9 @@
   </form>
 </div>
 </div>
-
-<!-- BEGIN includejavascript -->
-<script src="./Services/COPage/js/wz_dragdrop.js"></script>
-
-<script>
-dragDropTree = true;	// set variable in wz_dragdrop.js to control drag and drop-function 
-SET_DHTML({ICONIDS});
-</script>
-
-<script>
-var sourceId = -1;
-var targetId = -1;
-var copymove = "move";	// move | copy
-var position = "after";	// before | after
-function doDragDropAction() 
+<script language="JavaScript" type="text/javascript">
+function updater(exp_id, script)
 {
-	PARAM = "&dragdropSource="+sourceId+"&dragdropTarget="+targetId+"&dragdropCopymove="+copymove+"&dragdropPosition="+position;
-	window.location = "{TESTPFAD}"+PARAM;
-}
-
-function openPopupQuestion() 
-{
-	w = window.open('{POPUPLINK}&sourceId='+sourceId+'&targetId='+targetId,'dragdropquestion','width=400,height=350');
-	w.focus();
+	ilExplorerJSHandler(exp_id, script);
 }
 </script>
-
-<!-- END includejavascript -->
-
-
-
-

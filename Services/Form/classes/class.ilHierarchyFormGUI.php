@@ -217,6 +217,35 @@ class ilHierarchyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Set Explorer Updater
+	*
+	* @param	object	$a_tree	Tree Object
+	*/
+	function setExplorerUpdater($a_exp_frame, $a_exp_id, $a_exp_target_script)
+	{
+		$this->exp_frame = $a_exp_frame;
+		$this->exp_id = $a_exp_id;
+		$this->exp_target_script = $a_exp_target_script;
+	}
+	
+	/**
+	* Get all help items
+	*/
+	function addHelpItem($a_text, $a_image = "")
+	{
+		$this->help_items[] = array("text" => $a_text,
+			"image" => $a_image);
+	}
+
+	/**
+	* Get all help items
+	*/
+	function getHelpItems()
+	{
+		return $this->help_items;
+	}
+	
+	/**
 	* Makes a nodes (following droparea) a drag target
 	*
 	* @param	string	$a_id		node ID
@@ -351,7 +380,17 @@ class ilHierarchyFormGUI extends ilFormGUI
 			}
 			
 		}
-		
+
+		// explorer updater
+		if ($this->exp_frame != "")
+		{
+			$ttpl->setCurrentBlock("updater");
+			$ttpl->setVariable("UPDATER_FRAME", $this->exp_frame);
+			$ttpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
+			$ttpl->setVariable("HREF_UPDATER", $this->exp_target_script);
+			$ttpl->parseCurrentBlock();
+		}
+
 		// drag and drop initialisation
 		foreach($this->drag_target as $drag_target)
 		{
@@ -429,6 +468,20 @@ class ilHierarchyFormGUI extends ilFormGUI
 			$ttpl->parseCurrentBlock();
 		}
 		
+		// additional help items
+		foreach ($this->getHelpItems() as $help)
+		{
+			if ($help["image"] != "")
+			{
+				$ttpl->setCurrentBlock("help_img");
+				$ttpl->setVariable("IMG_HELP", $help["image"]);
+				$ttpl->parseCurrentBlock();
+			}
+			$ttpl->setCurrentBlock("help_section");
+			$ttpl->setVariable("TXT_HELP", $help["text"]);
+			$ttpl->parseCurrentBlock();
+		}
+
 		// nodes
 		$ttpl->setVariable("NODES", $nodes_html);
 		

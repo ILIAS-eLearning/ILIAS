@@ -65,4 +65,8 @@ as_subitem['{SI_NODE_ID}' + '_' + '{SI_GRP}'] = "{SI_SI}";
 	d = new ilDragContent("il_img_" + "{EL_ID}", "{GROUP}");
 <!-- END dragcontent -->
 </script>
-
+<!-- BEGIN updater -->
+<script language="JavaScript" type="text/javascript">
+parent.{UPDATER_FRAME}.updater('{EXP_ID_UPDATER}', '{HREF_UPDATER}');
+</script>
+<!-- END updater -->

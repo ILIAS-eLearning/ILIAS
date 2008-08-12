@@ -3364,16 +3364,22 @@ class ilObjUser extends ilObject
 	/**
 	* get all clipboard objects of user and specified type
 	*/
-	function getClipboardObjects($a_type = "")
+	function getClipboardObjects($a_type = "", $a_top_nodes_only = false)
 	{
 		global $ilDB;
 
+		$par = "";
+		if ($a_top_nodes_only)
+		{
+			$par = " AND parent = ".$ilDB->quote(0)." ";
+		}
+		
 		$type_str = ($a_type != "")
 			? " AND type = ".$ilDB->quote($a_type)." "
 			: "";
 		$q = "SELECT * FROM personal_clipboard WHERE ".
 			"user_id = ".$ilDB->quote($this->getId())." ".
-			$type_str.
+			$type_str.$par.
 			" ORDER BY order_nr";
 		$objs = $this->ilias->db->query($q);
 		$objects = array();
