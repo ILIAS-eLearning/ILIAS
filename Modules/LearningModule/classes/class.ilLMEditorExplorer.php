@@ -45,8 +45,17 @@ class ilLMEditorExplorer extends ilLMExplorer
 
 		$this->ctrl =& $ilCtrl;
 		$this->gui_class = $a_gui_class;
+		$this->force_open_path = array();
 
 		parent::ilLMExplorer($a_target, $a_lm_obj);
+	}
+
+	/**
+	* set force open path
+	*/
+	function setForceOpenPath($a_path)
+	{
+		$this->force_open_path = $a_path;
 	}
 
 	/**
@@ -203,6 +212,17 @@ class ilLMEditorExplorer extends ilLMExplorer
 		return $a_default_text;
 	}
 
+	/**
+	* force expansion of node
+	*/
+	function forceExpanded($a_obj_id)
+	{
+		if (in_array($a_obj_id, $this->force_open_path))
+		{
+			return true;
+		}
+		return false;
+	}
 
 } // END class.ilLMEditorExplorer
 ?>

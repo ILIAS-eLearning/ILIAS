@@ -282,6 +282,14 @@ return;
 		$form_gui->addMultiCommand($lng->txt("cont_de_activate"), "activatePages");
 		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg_s.gif"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
+		$form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
+		$up_gui = ($this->content_object->getType() == "dbk")
+			? "ilobjdlbookgui"
+			: "ilobjlearningmodulegui";
+		$ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
+		$form_gui->setExplorerUpdater("tree", "tree_div",
+			$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
+		$ilCtrl->setParameterByClass($up_gui, "active_node", "");
 
 		$this->tpl->setContent($form_gui->getHTML());
 	}
@@ -1003,7 +1011,9 @@ return;
 	*/
 	function insertChapterClip($a_as_sub = false)
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $ilLog;
+		
+		$ilLog->write("Insert Chapter From Clipboard");
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
@@ -1038,11 +1048,13 @@ return;
 		}
 		
 		// copy and paste
-		$chapters = $ilUser->getClipboardObjects("st");
+		$chapters = $ilUser->getClipboardObjects("st", true);
 		$copied_nodes = array();
-
+		
 		foreach ($chapters as $chap)
 		{
+			$ilLog->write("Call pasteTree, Target LM: ".$this->content_object->getId().", Chapter ID: ".$chap["id"]
+				.", Parent ID: ".$parent_id.", Target: ".$target);
 			$cid = ilLMObject::pasteTree($this->content_object, $chap["id"], $parent_id,
 				$target, $chap["insert_time"], $copied_nodes,
 				(ilEditClipboard::getAction() == "copy"));

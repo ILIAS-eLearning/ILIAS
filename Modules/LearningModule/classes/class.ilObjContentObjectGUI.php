@@ -580,7 +580,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function explorer()
 	{
-		global $ilUser, $ilias;
+		global $ilUser, $ilias, $ilCtrl;
 
 		switch ($this->object->getType())
 		{
@@ -593,8 +593,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 		}
 
-
-
+		$ilCtrl->setParameterByClass($gui_class, "active_node", $_GET["active_node"]);
+		
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		// get learning module object
 		//$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
@@ -629,15 +629,28 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$expanded = $_GET["lmexpand"];
 		}
+		if ($_GET["active_node"] != "")
+		{
+			$path = $this->lm_tree->getPathId($_GET["active_node"]);
+			$exp->setForceOpenPath($path);
 
+			$exp->highlightNode($_GET["active_node"]);
+		}
 		$exp->setExpand($expanded);
 
 		// build html-output
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
+		
+		// asynchronous output
+		if ($ilCtrl->isAsynch())
+		{
+			echo $output; exit;
+		}
 
 		include_once("./Services/COPage/classes/class.ilPageEditorGUI.php");
-		if (ilPageEditorGUI::_doJSEditing())
+		
+		/*if (ilPageEditorGUI::_doJSEditing())
 		{
 			//$this->tpl->touchBlock("includejavascript");
 
@@ -652,8 +665,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("TESTPFAD",$this->ctrl->getLinkTarget($this, "explorer")."&lmmovecopy=1");
 			//$this->tpl->setVariable("POPUPLINK",$this->ctrl->getLinkTarget($this, "popup")."&ptype=movecopytreenode");
 			$this->tpl->setVariable("POPUPLINK",$this->ctrl->getLinkTarget($this, "popup")."&ptype=movecopytreenode");
-		}
-
+		}*/
 
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
@@ -1142,6 +1154,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
 		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.gif"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
+		$up_gui = ($this->object->getType() == "dbk")
+			? "ilobjdlbookgui"
+			: "ilobjlearningmodulegui";
+		$form_gui->setExplorerUpdater("tree", "tree_div",
+			$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
 
 		$this->tpl->setContent($form_gui->getHTML());
 
@@ -1838,6 +1855,7 @@ return;
 	*/
 	function pasteChapter($a_parent_subobj_id = 0)
 	{
+		
 		if (ilEditClipboard::getContentObjectType() != "st")
 		{
 			$this->ilias->raiseError($this->lng->txt("no_chapter_in_clipboard"),$this->ilias->error_obj->MESSAGE);
@@ -3300,12 +3318,15 @@ return;
 	*/
 	function insertChapterClip()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $ilLog;
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
 		$num = ilChapterHierarchyFormGUI::getPostMulti();
 		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+
+		$ilLog->write("InsertChapterClip, num: $num, node_id: $node_id, ".
+			" getPostFirstChild ".ilChapterHierarchyFormGUI::getPostFirstChild());
 
 		if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert after node id
 		{
@@ -3319,10 +3340,12 @@ return;
 		}
 		
 		// copy and paste
-		$chapters = $ilUser->getClipboardObjects("st");
+		$chapters = $ilUser->getClipboardObjects("st", true);
 		$copied_nodes = array();
 		foreach ($chapters as $chap)
 		{
+			$ilLog->write("Call pasteTree, Target LM: ".$this->object->getId().", Chapter ID: ".$chap["id"]
+				.", Parent ID: ".$parent_id.", Target: ".$target);
 			$cid = ilLMObject::pasteTree($this->object, $chap["id"], $parent_id,
 				$target, $chap["insert_time"], $copied_nodes,
 				(ilEditClipboard::getAction() == "copy"));

@@ -71,7 +71,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -144,6 +144,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setEnabledActivation(true);
 				$page_gui->setActivationListener($this, "activatePage");
 				$page_gui->setActivated($this->obj->getActive());
+				
+				$up_gui = ($this->content_object->getType() == "dbk")
+					? "ilobjdlbookgui"
+					: "ilobjlearningmodulegui";
+				$ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
+				$page_gui->setExplorerUpdater("tree", "tree_div",
+				$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
 				
 				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
 				$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());

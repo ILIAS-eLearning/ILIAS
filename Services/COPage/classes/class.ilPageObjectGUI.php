@@ -607,6 +607,18 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* Set Explorer Updater
+	*
+	* @param	object	$a_tree	Tree Object
+	*/
+	function setExplorerUpdater($a_exp_frame, $a_exp_id, $a_exp_target_script)
+	{
+		$this->exp_frame = $a_exp_frame;
+		$this->exp_id = $a_exp_id;
+		$this->exp_target_script = $a_exp_target_script;
+	}
+
+	/**
 	* Activate meda data editor
 	*
 	* @param	int		$a_rep_obj_id		object id as used in repository
@@ -768,6 +780,15 @@ class ilPageObjectGUI
 					$tpl->setCurrentBlock("adm_content");
 				}
 
+				// explorer updater
+				if ($this->exp_frame != "")
+				{
+					$tpl->setCurrentBlock("updater");
+					$tpl->setVariable("UPDATER_FRAME", $this->exp_frame);
+					$tpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
+					$tpl->setVariable("HREF_UPDATER", $this->exp_target_script);
+					$tpl->parseCurrentBlock();
+				}
 
 /*				$tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
 				$tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));

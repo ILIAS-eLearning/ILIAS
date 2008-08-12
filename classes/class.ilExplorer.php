@@ -651,6 +651,10 @@ class ilExplorer
 			$this->createLines($i);
 		}
 
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initConnection();
+		$tpl->addJavaScript("./Services/Explorer/js/ilexplorercallback.js");
+
 		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
 //echo "hh";
 		// set global body class
