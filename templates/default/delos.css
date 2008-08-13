@@ -1093,9 +1093,11 @@ li.il_ExplorerInline
 
 a.il_HighlightedNode
 {
-	border-bottom-width: 2px;
-	border-bottom-style: solid;
-	border-color: #909090;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #FFDD77;
+	background-color: #FFFF99;
+	padding: 0px 5px;
 }
 
 div.il_ExplorerItemDescription

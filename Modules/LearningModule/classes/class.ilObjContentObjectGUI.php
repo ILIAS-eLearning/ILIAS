@@ -1215,13 +1215,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			}
 	
 			$paste_active = false;
-			if (ilEditClipboard::getContentObjectType() == "st")
+			if ($ilUser->clipboardHasObjectsOfType("st"))
 			{
-				if ($this->lm_tree->isInTree(ilEditClipboard::getContentObjectId())
-					|| ilEditClipboard::getAction() == "copy")
-				{
-					$paste_active = true;
-				}
+				$paste_active = true;
 			}
 	
 			if($cnt == 0 && !$paste_active)
@@ -1237,7 +1233,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->tpl->setVariable("NUM_COLS", 3);
 				if ($cnt > 0)
 				{
-					$acts = array("delete" => "delete", "moveChapter" => "moveChapter",
+					$acts = array("delete" => "delete", "cutChapter" => "cut",
 						"copyChapter" => "copyChapter");
 				}
 				if ($paste_active)
@@ -1861,6 +1857,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function copyChapter($a_parent_subobj_id = 0)
 	{
+		$this->copyItems();
+	return;
+
 		if(!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -1892,7 +1891,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function pasteChapter($a_parent_subobj_id = 0)
 	{
-		
+		return $this->insertChapterClip(false);
+	return;
+
 		if (ilEditClipboard::getContentObjectType() != "st")
 		{
 			$this->ilias->raiseError($this->lng->txt("no_chapter_in_clipboard"),$this->ilias->error_obj->MESSAGE);
@@ -3359,13 +3360,30 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		
 		include_once("./Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php");
 		
-		$num = ilChapterHierarchyFormGUI::getPostMulti();
-		$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+		if ($ilUser->getPref("lm_js_chapter_editing") != "disable")
+		{
+			//$num = ilChapterHierarchyFormGUI::getPostMulti();
+			$node_id = ilChapterHierarchyFormGUI::getPostNodeId();
+			$first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
+		}
+		else
+		{
+			if (!isset($_POST["id"]) || $_POST["id"][0] == -1)
+			{
+				$node_id = $this->lm_tree->getRootId();
+				$first_child = true;
+			}
+			else
+			{
+				$node_id = $_POST["id"][0];
+				$first_child = false;
+			}
+		}
 
 		$ilLog->write("InsertChapterClip, num: $num, node_id: $node_id, ".
 			" getPostFirstChild ".ilChapterHierarchyFormGUI::getPostFirstChild());
 
-		if (!ilChapterHierarchyFormGUI::getPostFirstChild())	// insert after node id
+		if (!$first_child)	// insert after node id
 		{
 			$parent_id = $this->lm_tree->getParentId($node_id);
 			$target = $node_id;
@@ -3442,15 +3460,28 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	/**
 	* Copy items to clipboard, then cut them from the current tree
 	*/
-	function cutItems()
+	function cutItems($a_return = "chapters")
 	{
 		global $ilCtrl;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		$todel = array();			// delete IDs < 0 (needed for non-js editing)
+		foreach($items as $k => $item)
+		{
+			if ($item < 0)
+			{
+				$todel[] = $k;
+			}
+		}
+		foreach($todel as $k)
+		{
+			unset($items[$k]);
+		}
 		ilLMObject::clipboardCut($this->object->getId(), $items);
 		ilEditClipboard::setAction("cut");
+		ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
 		
-		$ilCtrl->redirect($this, "chapters");
+		$ilCtrl->redirect($this, $a_return);
 	}
 
 	/**
@@ -3461,10 +3492,30 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		global $ilCtrl;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		$todel = array();				// delete IDs < 0 (needed for non-js editing)
+		foreach($items as $k => $item)
+		{
+			if ($item < 0)
+			{
+				$todel[] = $k;
+			}
+		}
+		foreach($todel as $k)
+		{
+			unset($items[$k]);
+		}
 		ilLMObject::clipboardCopy($this->object->getId(), $items);
 		ilEditClipboard::setAction("copy");
 		
 		$ilCtrl->redirect($this, "chapters");
+	}
+
+	/**
+	* Cut chapter(s)
+	*/
+	function cutChapter()
+	{
+		$this->cutItems("chapters");
 	}
 
 } // END class.ilObjContentObjectGUI
