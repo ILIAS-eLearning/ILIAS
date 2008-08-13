@@ -618,6 +618,26 @@ class ilPageObjectGUI
 		$this->exp_target_script = $a_exp_target_script;
 	}
 
+		/**
+	* Set Prepending HTML.
+	*
+	* @param	string	$a_prependinghtml	Prepending HTML
+	*/
+	function setPrependingHtml($a_prependinghtml)
+	{
+		$this->prependinghtml = $a_prependinghtml;
+	}
+
+	/**
+	* Get Prepending HTML.
+	*
+	* @return	string	Prepending HTML
+	*/
+	function getPrependingHtml()
+	{
+		return $this->prependinghtml;
+	}
+
 	/**
 	* Activate meda data editor
 	*
@@ -846,6 +866,8 @@ class ilPageObjectGUI
 						0, "ilEditSelect"));
 				}
 
+				$tpl->setVariable("PREPENDING_HTML", $this->getPrependingHtml());
+				
 				if ($this->getViewPageLink() != "")
 				{
 					$tpl->setCurrentBlock("view_link");

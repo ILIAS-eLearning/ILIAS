@@ -91,11 +91,22 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function &forwardToPageObject()
 	{
-		global $lng, $ilTabs;
+		global $lng, $ilTabs, $ilCtrl;
 		
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("back"), "./goto.php?target=".$this->object->getType()."_".
-			$this->object->getRefId(), "_top");
+		
+		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+			"xhtml_page");
+		if ($xpage_id > 0)
+		{
+			$ilTabs->setBackTarget($lng->txt("cntr_back_to_old_editor"),
+				$ilCtrl->getLinkTarget($this, "switchToOldEditor"), "_top");
+		}
+		else
+		{
+			$ilTabs->setBackTarget($lng->txt("back"), "./goto.php?target=".$this->object->getType()."_".
+				$this->object->getRefId(), "_top");
+		}
 
 		// page object
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
@@ -149,6 +160,26 @@ class ilContainerGUI extends ilObjectGUI
 		$page_gui->setEnabledFileLists(false);
 		$page_gui->setEnabledMaps(true);
 		$page_gui->setEnabledPCTabs(true);
+
+		// old editor information text
+		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+			"xhtml_page");
+		if ($xpage_id > 0)
+		{
+			$wtpl = new ilTemplate("tpl.cntr_old_editor_message.html", true,
+				true, "Services/Container");
+			$wtpl->setVariable("ALT_WARNING", $lng->txt("warning"));
+			$wtpl->setVariable("IMG_WARNING",
+				ilUtil::getImagePath("icon_alert_s.gif"));
+			$wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
+			$wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
+			$wtpl->setVariable("HREF_SWITCH_TO_NEW_EDITOR",
+				$ilCtrl->getLinkTarget($this, "useNewEditor"));
+			$wtpl->setVariable("TXT_MIGRATION_SWITCH",
+				$lng->txt("cntr_switch_to_new_editor_cmd"));
+			$page_gui->setPrependingHtml($wtpl->get());
+		}
+		
 		$ret =& $this->ctrl->forwardCommand($page_gui);
 
 		//$ret =& $page_gui->executeCommand();
@@ -160,6 +191,24 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function getContainerPageHTML()
 	{
+		global $ilSetting;
+		
+		if (!$ilSetting->get("enable_cat_page_edit"))
+		{
+			return;
+		}
+		
+		// old page editor content
+		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+			"xhtml_page");
+		if ($xpage_id > 0)
+		{
+			include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+			$xpage = new ilXHTMLPage($xpage_id);
+			return $xpage->getContent();
+		}
+
+		
 		// page object
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
@@ -599,6 +648,57 @@ class ilContainerGUI extends ilObjectGUI
 	}
 
 	/**
+	* Switch to standard page editor
+	*/
+	function switchToStdEditorObject()
+	{
+		global $ilCtrl;
+		
+		$_SESSION["il_cntr_editor"] = "std";
+		$ilCtrl->redirect($this, "editPageFrame");
+	}
+	
+	/**
+	* Switch to old page editor
+	*/
+	function switchToOldEditorObject()
+	{
+		global $ilCtrl;
+		
+		$_SESSION["il_cntr_editor"] = "old";
+		$ilCtrl->redirect($this, "editPageFrame");
+	}
+
+	/**
+	* Use new editor (-> delete xhtml content page)
+	*/
+	function useNewEditorObject()
+	{
+		global $ilCtrl, $ilAccess, $lng, $ilCtrl;
+		
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			include_once("./Services/XHTMLPage/classes/class.ilXHTMLPage.php");
+
+			/* keep old page content for now...
+			$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+				"xhtml_page");
+			if ($xpage_id)
+			{
+				$xpage = new ilXHTMLPage($xpage_id);
+			}
+			*/
+
+			ilContainer::_writeContainerSetting($this->object->getId(),
+				"xhtml_page", 0);
+
+			ilUtil::sendInfo($lng->txt("cntr_switched_editor"), true);
+		}
+		
+		$ilCtrl->redirect($this, "editPageFrame");
+	}
+
+	/**
 	* show page editor frameset
 	*/
 	function editPageFrameObject()
@@ -609,22 +709,31 @@ class ilContainerGUI extends ilObjectGUI
 		$fs_gui->setFramesetTitle($this->object->getTitle());
 		$fs_gui->setMainFrameName("content");
 		$fs_gui->setSideFrameName("link_list");
-		
-		//$fs_gui->setSideFrameSource(
-		//	$this->ctrl->getLinkTargetByClass("ilcontainerlinklistgui", "show"));
 
-		// to do: check this
-		$fs_gui->setSideFrameSource("");
+		// old tiny stuff
+		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
+			"xhtml_page");
+		if ($xpage_id > 0 && $_SESSION["il_cntr_editor"] != "std")
+		{
+			$fs_gui->setMainFrameSource(
+				$this->ctrl->getLinkTarget(
+					$this, "editPageContent"));
+			$fs_gui->setSideFrameSource(
+				$this->ctrl->getLinkTarget($this, "showLinkList"));
+		}
+		else
+		{
+			$fs_gui->setMainWidth("100%");
+			$fs_gui->setSideWidth("0");
 			
-		/* old tiny stuff
-		$fs_gui->setMainFrameSource(
-			$this->ctrl->getLinkTarget(
-				$this, "editPageContent"));		*/
-			
-		// page object stuff
-		$fs_gui->setMainFrameSource(
-			$this->ctrl->getLinkTargetByClass(
-				array("ilpageobjectgui"), "edit"));
+			// to do: check this
+			$fs_gui->setSideFrameSource("");
+
+			// page object stuff
+			$fs_gui->setMainFrameSource(
+				$this->ctrl->getLinkTargetByClass(
+					array("ilpageobjectgui"), "edit"));
+		}
 				
 		$fs_gui->show();
 		exit;
@@ -637,7 +746,7 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function editPageContentObject()
 	{
-		global $rbacsystem, $tpl;
+		global $rbacsystem, $tpl, $lng, $ilCtrl;
 
 		if (!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
@@ -654,13 +763,19 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		
 		// get template
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_edit_page_content.html");
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.container_edit_page_content.html",
+			"Services/Container");
 		$tpl->setVariable("VAL_CONTENT", ilUtil::prepareFormOutput($content));
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_EDIT_PAGE_CONTENT",
 			$this->lng->txt("edit_page_content"));
 		$tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$tpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_old_editor_warning"));
+		$tpl->setVariable("TXT_MIGRATION_OPEN_STD_EDITOR", $lng->txt("cntr_old_editor_open_standard_editor"));
+		$tpl->setVariable("IMG_WARNING", ilUtil::getImagePath("icon_alert_s.gif"));
+		$tpl->setVariable("HREF_OPEN_STD_EDITOR", $ilCtrl->getLinkTarget($this, "switchToStdEditor"));
+		$tpl->setVariable("ALT_WARNING", $lng->txt("warning"));
 		
 		include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
 		include_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
@@ -746,16 +861,6 @@ class ilContainerGUI extends ilObjectGUI
 			// render all items list
 			case "all":
 	
-// old behaviour
-/*				$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
-					"xhtml_page");
-				if ($xpage_id > 0 && $ilSetting->get("enable_cat_page_edit"))
-				{
-					include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
-					$xpage = new ilXHTMLPage($xpage_id);
-					$output_html.= $xpage->getContent();
-				}
-*/
 				// new behaviour
 				$output_html.= $this->getContainerPageHTML();
 				
@@ -937,6 +1042,54 @@ class ilContainerGUI extends ilObjectGUI
 				break;
 		}
 		return $output_html;
+	}
+
+	function showLinkListObject()
+	{
+		global $lng, $tree;
+		
+		$tpl = new ilTemplate("tpl.container_link_help.html", true, true);
+		
+		$type_ordering = array(
+			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
+			"glo", "webr", "file", "exc",
+			"tst", "svy", "mep", "qpl", "spl");
+			
+		$childs = $tree->getChilds($_GET["ref_id"]);
+		foreach($childs as $child)
+		{
+			if (in_array($child["type"], array("lm", "dbk", "sahs", "htlm")))
+			{
+				$cnt["lres"]++;
+			}
+			else
+			{
+				$cnt[$child["type"]]++;
+			}
+		}
+			
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
+		foreach($type_ordering as $type)
+		{
+			$tpl->setCurrentBlock("row");
+			$tpl->setVariable("ROWCOL", "tblrow".((($i++)%2)+1));
+			if ($type != "lres")
+			{
+				$tpl->setVariable("TYPE", $lng->txt("objs_".$type).
+					" (".((int)$cnt[$type]).")");
+			}
+			else
+			{
+				$tpl->setVariable("TYPE", $lng->txt("learning_resources").
+					" (".((int)$cnt["lres"]).")");
+			}
+			$tpl->setVariable("TXT_LINK", "[list-".$type."]");
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->show();
+		exit;
+
 	}
 
 	/**
