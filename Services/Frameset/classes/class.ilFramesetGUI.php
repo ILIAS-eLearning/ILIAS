@@ -23,11 +23,10 @@
 
 
 /**
-* Class ilRepositoryGUI
+* Class ilFramesetGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @package core
 */
 class ilFramesetGUI
 {
@@ -36,8 +35,10 @@ class ilFramesetGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilFramsetGUI()
+	function __construct()
 	{
+		$this->setMainWidth("*");
+		$this->setSideWidth("25%");
 	}
 	
 	/**
@@ -97,6 +98,46 @@ class ilFramesetGUI
 	}
 
 	/**
+	* Set Main Width.
+	*
+	* @param	string	$a_mainwidth	Main Width
+	*/
+	function setMainWidth($a_mainwidth)
+	{
+		$this->mainwidth = $a_mainwidth;
+	}
+
+	/**
+	* Get Main Width.
+	*
+	* @return	string	Main Width
+	*/
+	function getMainWidth()
+	{
+		return $this->mainwidth;
+	}
+
+	/**
+	* Set Side Width.
+	*
+	* @param	string	$a_sidewidth	Side Width
+	*/
+	function setSideWidth($a_sidewidth)
+	{
+		$this->sidewidth = $a_sidewidth;
+	}
+
+	/**
+	* Get Side Width.
+	*
+	* @return	string	Side Width
+	*/
+	function getSideWidth()
+	{
+		return $this->sidewidth;
+	}
+
+	/**
 	* show frameset
 	*/
 	function show()
@@ -113,9 +154,6 @@ class ilFramesetGUI
 			$main = "RIGHT";
 			$side = "LEFT";
 		}
-		
-		$main_width = "*";
-		$side_width = "25%";
 
 		$tpl = new ilTemplate("tpl.frameset.html", true, false);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
@@ -126,8 +164,8 @@ class ilFramesetGUI
 		$tpl->setVariable("TITLE_".$side, $this->side_frame_title);
 		$tpl->setVariable("NAME_".$main, $this->main_frame_name);
 		$tpl->setVariable("NAME_".$side, $this->side_frame_name);
-		$tpl->setVariable("WIDTH_".$main, $main_width);
-		$tpl->setVariable("WIDTH_".$side, $side_width);
+		$tpl->setVariable("WIDTH_".$main, $this->getMainWidth());
+		$tpl->setVariable("WIDTH_".$side, $this->getSideWidth());
 		if ($ilSetting->get('short_inst_name') != "")
 		{
 			$tpl->setVariable("WINDOW_TITLE",
@@ -143,4 +181,3 @@ class ilFramesetGUI
 	}
 
 }
-
