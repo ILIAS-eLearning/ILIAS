@@ -46,6 +46,7 @@ abstract class ilBlockGUI
 	protected $allow_moving = true;
 	protected $move = array("left" => false, "right" => false, "up" => false, "down" => false);
 	protected $enabledetailrow = true;
+	protected $header_links = array();
 
 	/**
 	* Constructor
@@ -61,6 +62,17 @@ abstract class ilBlockGUI
 		$tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
 
 		$this->setLimit($ilUser->getPref("hits_per_page"));
+	}
+	
+	public function addHeaderLink($a_href, $a_text, $status = true)
+	{
+		$this->header_links[] = 
+			array('href' => $a_href, 'text' => $a_text, 'status' => (bool)$status);
+	}
+
+	public function getHeaderLinks()
+	{
+		return $this->header_links;
 	}
 
 	/**
@@ -883,6 +895,42 @@ abstract class ilBlockGUI
 */
 
 			$this->tpl->setCurrentBlock("header_commands");
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		// header links
+		if(count($this->getHeaderLinks()))
+		{
+			$counter = 0;
+			foreach($this->getHeaderLinks() as $command)
+			{
+				if($counter > 0)
+				{
+					$this->tpl->setCurrentBlock('head_delim');
+					$this->tpl->touchBlock('head_delim');
+					$this->tpl->parseCurrentBlock();
+				}
+				if($command['status'] == true)
+				{
+					$this->tpl->setCurrentBlock('head_link');
+					$this->tpl->setVariable('HHREF', $command['href']);
+					$this->tpl->setVariable('HLINK', $command['text']);	
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock('head_text');
+					$this->tpl->setVariable('HTEXT', $command['text']);	
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				$this->tpl->setCurrentBlock('head_item');
+				$this->tpl->parseCurrentBlock();
+				
+				++$counter;			
+			}
+			
+			$this->tpl->setCurrentBlock('header_links');
 			$this->tpl->parseCurrentBlock();
 		}
 		

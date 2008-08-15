@@ -33,7 +33,13 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 */
 class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 {
+	const VIEW_MY_OFFERS = 0;
+	const VIEW_MY_MEMBERSHIPS = 1;
+	
 	static $block_type = "pditems";
+	
+	private $view = self::VIEW_MY_OFFERS;
+	private $allowed_views = array();
 	
 	/**
 	* Constructor
@@ -44,15 +50,87 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		
 		parent::ilBlockGUI();
 		
-		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));
-		$this->setTitle($lng->txt("selected_items"));
+		$lng->loadLanguageModule('pd');
+		
+		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));		
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
 		$this->setColSpan(2);
 		$this->setAvailableDetailLevels(3, 1);
 		$this->setBigMode(true);
 		$this->lng = $lng;
-		$this->allow_moving = false;
+		$this->allow_moving = false;		
+		
+		$this->determineViewSettings();
+	}	
+	
+	/**
+     * Method to switch between the different views of personal items block
+     *
+     * @access public
+     */
+	public function changeView()
+	{
+		global $ilUser, $ilCtrl;
+		
+		if(in_array((int)$_GET['view'], $this->allowed_views))
+		{
+			$ilUser->writePref('pd_view', (int)$_GET['view']);
+		}
+		else
+		{
+			@reset($this->allowed_views);
+			$view = (int)@current($this->allowed_views);
+			$ilUser->writePref('pd_view', $view);
+		}
+
+		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
+	}
+	
+	/**
+     * Sets the current view of the user and determines which views are allowed
+     *
+     * @access protected
+     */
+	protected function determineViewSettings()
+	{
+		global $ilSetting, $ilUser;
+		
+		$this->allowed_views = array();
+		
+		// determine view
+		if($ilSetting->get('disable_my_offers') == 1 &&
+		   $ilSetting->get('disable_my_memberships') == 1)
+		{
+			// if both views are disabled set default view (should not occur but we should prevent it)
+			$ilSetting->set('personal_items_default_view', self::VIEW_MY_OFFERS);
+			$this->allowed_views[] = self::VIEW_MY_OFFERS;
+		}
+		// both views are enabled, get default view
+		else if($ilSetting->get('disable_my_offers') == 0 &&
+		   		$ilSetting->get('disable_my_memberships') == 0)
+		{
+			$this->allowed_views[] = self::VIEW_MY_OFFERS;
+			$this->allowed_views[] = self::VIEW_MY_MEMBERSHIPS;
+		}
+		else if($ilSetting->get('disable_my_offers') == 0 &&
+		   		$ilSetting->get('disable_my_memberships') == 1)
+		{
+			$this->allowed_views[] = self::VIEW_MY_OFFERS;
+		}
+		else
+		{
+			$this->allowed_views[] = self::VIEW_MY_MEMBERSHIPS;
+		}
+		
+		$this->view = (int)$ilUser->getPref('pd_view');
+		if(!in_array($this->view, $this->allowed_views))
+		{
+			@reset($this->allowed_views);
+			$view = (int)@current($this->allowed_views);
+			$ilUser->writePref('writePref', $view);
+			$this->view = $view;
+		}
 	}
 	
 	/**
@@ -78,12 +156,41 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 
 	function getHTML()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilSetting;
+		
+		// both views are activated (show buttons)
+		if($ilSetting->get('disable_my_offers') == 0 &&
+		   $ilSetting->get('disable_my_memberships') == 0)
+		{
+			$ilCtrl->setParameter($this, 'block_type', $this->getBlockType());			
+			$ilCtrl->setParameter($this, 'view', self::VIEW_MY_OFFERS);
+			$this->addHeaderLink($ilCtrl->getLinkTarget($this, 'changeView'), $this->lng->txt('pd_my_offers'),
+				($this->view == self::VIEW_MY_OFFERS ? false : true) 
+			);
+			$ilCtrl->setParameter($this, 'view', self::VIEW_MY_MEMBERSHIPS);
+			$this->addHeaderLink($ilCtrl->getLinkTarget($this, 'changeView'), $this->lng->txt('pd_my_memberships'),
+				($this->view == self::VIEW_MY_MEMBERSHIPS ? false : true) 
+			);
+			$ilCtrl->clearParameters($this);
+		}
 		
 		// workaround to show details row
 		$this->setData(array("dummy"));
+
+		switch((int)$this->view)
+		{
+			case self::VIEW_MY_MEMBERSHIPS:
+				$this->setTitle($this->lng->txt('selected_items').': '.$this->lng->txt('pd_my_memberships'));
+				$this->setContent($this->getMembershipItemsBlockHTML());
+				break;
+							
+			case self::VIEW_MY_OFFERS:			
+			default:
+				$this->setTitle($this->lng->txt('selected_items').': '.$this->lng->txt('pd_my_offers'));
+				$this->setContent($this->getSelectedItemsBlockHTML());
+				break;
+		}
 		
-		$this->setContent($this->getSelectedItemsBlockHTML());
 		if ($this->getContent() == "")
 		{
 			$this->setEnableDetailRow(false);
@@ -195,6 +302,331 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 				"block_".$this->getBlockType()."_".$this->block_id
 				);
 		}
+	}
+	
+	/**
+     * Gets all objects the current user is member of
+     *
+     * @access protected
+     * @return Array $items array of objects
+     */
+	protected function getObjectsByMembership($types = array())
+	{
+		global $tree, $ilUser, $rbacreview;
+		
+		$roles = array();
+		$items = array();
+		
+		if(is_array($types) && count($types))
+		{
+			foreach($types as $type)
+			{
+				switch($type)
+				{
+					case 'grp':
+						$roles = array_merge($rbacreview->getLocalRolesByUserAndType($ilUser->getId(), 'il_grp_member'), $roles);
+						break;
+					case 'crs':
+						$roles = array_merge($rbacreview->getLocalRolesByUserAndType($ilUser->getId(), 'il_crs_member'), $roles);
+						break;
+					default:				
+						break;			
+				}	
+			}
+		}
+		else
+		{
+			$crs_member_roles = $rbacreview->getLocalRolesByUserAndType($ilUser->getId(), 'il_crs_member');
+			$group_member_roles = $rbacreview->getLocalRolesByUserAndType($ilUser->getId(), 'il_grp_member');
+			$roles = array_merge($crs_member_roles, $group_member_roles);
+		}
+
+		foreach($roles as $role)
+		{
+			$ass_rolefolders = $rbacreview->getFoldersAssignedToRole($role);
+
+			foreach($ass_rolefolders as $role_folder)
+			{
+				$node = $tree->getParentNodeData($role_folder);
+				$items[] = $node;
+			}
+		}		
+		
+		return is_array($items) ? $items : array();
+	}
+	
+	/**
+     * Generates the block html string by location ordering
+     *
+     * @access public
+     * @param ilTemplate $tpl the current template instance
+     */
+	public function getMembershipItemsPerLocation($tpl)
+	{
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache, $rbacreview;
+			
+		$output = false;		
+		
+		$items = $this->getObjectsByMembership();
+		$item_html = array();		
+		if(count($items) > 0)
+		{			
+			foreach($items as $item)
+			{
+				//echo "1";
+				// get list gui class for each object type
+				if ($cur_obj_type != $item["type"])
+				{
+					$item_list_gui =& $this->getItemListGUI($item["type"]);
+					
+					$item_list_gui->enableDelete(false);
+					$item_list_gui->enableCut(false);
+					$item_list_gui->enablePayment(false);
+					$item_list_gui->enableLink(false);
+					$item_list_gui->enableInfoScreen(false);
+					if ($this->getCurrentDetailLevel() < 3)
+					{
+						//echo "3";
+						$item_list_gui->enableDescription(false);
+						$item_list_gui->enableProperties(false);
+						$item_list_gui->enablePreconditions(false);
+					}
+					if ($this->getCurrentDetailLevel() < 2)
+					{
+						$item_list_gui->enableCommands(true, true);
+					}
+				}
+				// render item row
+				$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
+				
+				$html = $item_list_gui->getListItemHTML($item["ref_id"],
+				$item["obj_id"], $item["title"], $item["description"]);
+				$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
+				if ($html != "")
+				{
+					// BEGIN WebDAV: Use $item_list_gui to determine icon image type
+					$item_html[] = array(
+						"html" => $html, 
+						"item_ref_id" => $item["ref_id"],
+						"item_obj_id" => $item["obj_id"],
+						"parent_ref" => $item["parent_ref"],
+						"type" => $item["type"],
+						'item_icon_image_type' => $item_list_gui->getIconImageType()
+						);
+					// END WebDAV: Use $item_list_gui to determine icon image type
+				}
+			}
+			
+			// output block for resource type
+			if (count($item_html) > 0)
+			{
+				$cur_parent_ref = 0;
+				
+				// content row
+				foreach($item_html as $item)
+				{
+					// add a parent header row for each new parent
+					if ($cur_parent_ref != $item["parent_ref"])
+					{
+						if ($ilSetting->get("icon_position_in_lists") == "item_rows")
+						{
+							$this->addParentRow($tpl, $item["parent_ref"], false);
+						}
+						else
+						{
+							$this->addParentRow($tpl, $item["parent_ref"]);
+						}
+						$this->resetRowType();
+						$cur_parent_ref = $item["parent_ref"];
+					}
+					
+					// BEGIN WebDAV: Use $item_list_gui to determine icon image type.
+					$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], 
+						$item['item_icon_image_type'], 
+						"th_".$cur_parent_ref);
+					// END WebDAV: Use $item_list_gui to determine icon image type.
+					$output = true;
+				}
+			}
+		}
+		
+		return $output;
+	}
+	
+	/**
+     * Generates the block html string by type ordering
+     *
+     * @access public
+     * @param ilTemplate $tpl the current template instance
+     */
+	public function getMembershipItemsPerType($tpl)
+	{
+		global $ilUser, $rbacsystem, $objDefinition, $ilBench, $ilSetting, $ilObjDataCache;
+
+		$output = false;
+		
+		$objtype_groups = $objDefinition->getGroupedRepositoryObjectTypes(
+			array("cat", "crs", "grp", "fold"));
+
+		$types = array();
+		foreach($objtype_groups as $grp => $grpdata)
+		{
+			$types[] = array(
+				"grp" => $grp,
+				"title" => $this->lng->txt("objs_".$grp),
+				"types" => $grpdata["objs"]);
+		}
+
+		foreach ($types as $t)
+		{
+			
+			$type = $t["types"];
+			$title = $t["title"];
+			$grp = $t["grp"];
+
+			$items = $this->getObjectsByMembership($type);
+//var_dump($items);
+			$item_html = array();
+			
+			if ($this->getCurrentDetailLevel() == 3)
+			{
+				$rel_header = "th_".$grp;
+			}
+			
+			if (count($items) > 0)
+			{
+				$tstCount = 0;
+				$unsetCount = 0;
+				$progressCount = 0;
+				$unsetFlag = 0;
+				$progressFlag = 0;
+				$completedFlag = 0;
+				if (strcmp($a_type, "tst") == 0) {
+					$items = $this->multiarray_sort($items, "used_tries; title");
+					foreach ($items as $tst_item) {
+						if (!isset($tst_item["used_tries"])) {
+							$unsetCount++;
+						}
+						elseif ($tst_item["used_tries"] == 0) {
+							$progressCount++;
+						}
+					}
+				}
+				
+				foreach($items as $item)
+				{
+					// get list gui class for each object type
+					if ($cur_obj_type != $item["type"])
+					{
+						$class = $objDefinition->getClassName($item["type"]);
+						$location = $objDefinition->getLocation($item["type"]);
+						$full_class = "ilObj".$class."ListGUI";
+						include_once($location."/class.".$full_class.".php");
+						$item_list_gui = new $full_class();
+						$item_list_gui->enableDelete(false);
+						$item_list_gui->enableCut(false);
+						$item_list_gui->enablePayment(false);
+						$item_list_gui->enableLink(false);
+						$item_list_gui->enableInfoScreen(false);
+						if ($this->getCurrentDetailLevel() < 3)
+						{
+							$item_list_gui->enableDescription(false);
+							$item_list_gui->enableProperties(false);
+							$item_list_gui->enablePreconditions(false);
+							$item_list_gui->enableNoticeProperties(false);
+						}
+						if ($this->getCurrentDetailLevel() < 2)
+						{
+							$item_list_gui->enableCommands(true, true);
+						}
+					}
+					// render item row
+					$ilBench->start("ilPersonalDesktopGUI", "getListHTML");
+					
+					$html = $item_list_gui->getListItemHTML($item["ref_id"],
+					$item["obj_id"], $item["title"], $item["description"]);
+					$ilBench->stop("ilPersonalDesktopGUI", "getListHTML");
+					if ($html != "")
+					{
+						// BEGIN WebDAV: Use $item_list_gui to determine icon image type
+						$item_html[] = array(
+							"html" => $html, 
+							"item_ref_id" => $item["ref_id"],
+							"item_obj_id" => $item["obj_id"],
+							'item_icon_image_type' => (method_exists($item_list_gui, 'getIconImageType')) ?
+									$item_list_gui->getIconImageType() :
+									$item['type']
+							);
+						// END WebDAV: Use $item_list_gui to determine icon image type
+					}
+				}
+				
+				// output block for resource type
+				if (count($item_html) > 0)
+				{
+					// add a header for each resource type
+					if ($this->getCurrentDetailLevel() == 3)
+					{
+						if ($ilSetting->get("icon_position_in_lists") == "item_rows")
+						{
+							$this->addHeaderRow($tpl, $grp, false);
+						}
+						else
+						{
+							$this->addHeaderRow($tpl, $grp);
+						}
+						$this->resetRowType();
+					}
+					
+					// content row
+					foreach($item_html as $item)
+					{
+						if ($this->getCurrentDetailLevel() < 3 ||
+						$ilSetting->get("icon_position_in_lists") == "item_rows")
+						{
+							// BEGIN WebDAV: Use $item_list_gui to determine icon image type
+								$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], 
+									$item['item_icon_image_type'], 
+									$rel_header);
+							// END WebDAV: Use $item_list_gui to determine icon image type
+						}
+						else
+						{
+							$this->addStandardRow($tpl, $item["html"], $item["item_ref_id"], $item["item_obj_id"], "", $rel_header);
+						}
+						$output = true;
+					}
+				}
+			}
+		}
+		
+		return $output;
+	}
+	
+	/**
+     * Gateway method to distinguish between sorting type
+     *
+     * @access public
+     * @return string the generated block html string
+     */
+	public function getMembershipItemsBlockHTML()
+	{
+		global $ilUser;
+
+		$tpl = $this->newBlockTemplate();
+		
+		switch($ilUser->getPref('pd_order_items'))
+		{
+			case 'location':
+			$ok = $this->getMembershipItemsPerLocation($tpl);
+			break;
+			
+			default:
+			$ok = $this->getMembershipItemsPerType($tpl);
+			break;
+		}
+		
+		return $tpl->get();
 	}
 
 	/**
@@ -701,21 +1133,34 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	{
 		global $ilUser, $lng, $ilCtrl, $tree;
 		
-		// get repository link
-		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
-		$title = $nd["title"];
-		if ($title == "ILIAS")
+		switch((int)$this->view)
 		{
-			$title = $lng->txt("repository");
-		}
-		
-		$tpl = new ilTemplate("tpl.pd_intro.html", true, true, "Services/PersonalDesktop");
-		$tpl->setVariable("IMG_PD_LARGE", ilUtil::getImagePath("icon_pd_xxl.gif"));
-		$tpl->setVariable("TXT_WELCOME", $lng->txt("pdesk_intro"));
-		$tpl->setVariable("TXT_INTRO_1", sprintf($lng->txt("pdesk_intro2"), $lng->txt("to_desktop")));
-		$tpl->setVariable("TXT_INTRO_2", sprintf($lng->txt("pdesk_intro3"),
-			'<a href="repository.php?cmd=frameset&getlast=true">'.$title.'</a>'));
-		$tpl->setVariable("TXT_INTRO_3", $lng->txt("pdesk_intro4"));
+			case self::VIEW_MY_MEMBERSHIPS:
+				$tpl = new ilTemplate('tpl.pd_my_memberships_intro.html', true, true, 'Services/PersonalDesktop');
+				$tpl->setVariable('IMG_PD_LARGE', ilUtil::getImagePath('icon_pd_xxl.gif'));
+				$tpl->setVariable('TXT_WELCOME', $lng->txt('pd_my_memberships_intro'));
+				$tpl->setVariable('TXT_INTRO_1', $lng->txt('pd_my_memberships_intro2'));
+				break;
+							
+			case self::VIEW_MY_OFFERS:			
+			default:
+				// get repository link
+				$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+				$title = $nd["title"];
+				if ($title == "ILIAS")
+				{
+					$title = $lng->txt("repository");
+				}
+				
+				$tpl = new ilTemplate("tpl.pd_intro.html", true, true, "Services/PersonalDesktop");
+				$tpl->setVariable("IMG_PD_LARGE", ilUtil::getImagePath("icon_pd_xxl.gif"));
+				$tpl->setVariable("TXT_WELCOME", $lng->txt("pdesk_intro"));
+				$tpl->setVariable("TXT_INTRO_1", sprintf($lng->txt("pdesk_intro2"), $lng->txt("to_desktop")));
+				$tpl->setVariable("TXT_INTRO_2", sprintf($lng->txt("pdesk_intro3"),
+					'<a href="repository.php?cmd=frameset&getlast=true">'.$title.'</a>'));
+				$tpl->setVariable("TXT_INTRO_3", $lng->txt("pdesk_intro4"));
+				break;
+		}		
 		
 		return $tpl->get();
 	}

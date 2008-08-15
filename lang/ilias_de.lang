@@ -8521,3 +8521,14 @@ ps#:#ps_password_min_length_info#:#Setzt die minimale Länge von Passwörtern. W
 crs#:#crs_archive_language_selection#:#Sprachauswahl
 common#:#zip_test_failed#:#Der Zip-Test ist fehlgeschlagen. Bitte kontaktieren Sie ihren ILIAS Administrator.
 common#:#ext_link#:#Link
+pd#:#pd_enable_my_offers#:#Aktiviere 'Meine Angebote'
+pd#:#pd_enable_my_offers_info#:#Die Sicht 'Meine Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
+pd#:#pd_enable_my_memberships#:#Aktiviere 'Meine Mitgliedschaften'
+pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
+pd#:#pd_my_offers#:#Meine Angebote
+pd#:#pd_my_memberships#:#Meine Mitgliedschaften
+pd#:#pd_personal_items_default_view#:#Standard-Sicht
+pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.
+pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Meine Angebote' und/oder 'Meine Mitgliedschaften'.
+pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
+pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen in denen Sie Mitglied sind.
