@@ -8549,3 +8549,14 @@ common#:#password_change_on_first_login_demand#:#Your initial password have to b
 crs#:#crs_archive_language_selection#:#Language Selection
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.
 common#:#ext_link#:#Link
+pd#:#pd_enable_my_offers#:#Enable 'Selected Items'
+pd#:#pd_enable_my_offers_info#:#The view 'Selected Items' contains all objects which are placed on the user's Personal Desktop.
+pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'
+pd#:#pd_enable_my_memberships_info#:#'My Memberships' contains all courses and groups the user is assigned to as a member.
+pd#:#pd_my_offers#:#Selected Items
+pd#:#pd_my_memberships#:#My Memberships
+pd#:#pd_personal_items_default_view#:#Default View
+pd#:#pd_personal_items_default_view_info#:#Choose the prefered view of Personal Items.
+pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.
+pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
+pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in.

@@ -1440,6 +1440,37 @@ class ilRbacReview
 		
 		return false;
 	}
+	
+	/**
+     * Gets all local roles of the passed user id by the base part of a role title
+     *
+     * @access public
+     * @param int $a_usr_id the user id of an ilias user
+     * @param string $a_local_role (e.g. 'il_crs_member', 'il_crs_tutor', 'il_crs_admin', 'il_grp_member' ...)
+     * @return Array $roles all found roles 
+     */
+	public function getLocalRolesByUserAndType($a_usr_id, $a_local_role)
+	{
+		global $ilDB;
+		
+		$roles = array();
+		
+		$statement = $ilDB->prepare("SELECT rbac_ua.rol_id 
+				  					 FROM rbac_ua
+					  				 INNER JOIN object_data ON object_data.obj_id = rbac_ua.rol_id 
+									 WHERE rbac_ua.usr_id = ?
+									 AND object_data.title LIKE ?				   
+									 AND object_data.type = 'role' ",
+									array('integer', 'text'));				  
+		$result = $ilDB->execute($statement, array($a_usr_id, $a_local_role.'_%'));
+		
+		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$roles[] = $row->rol_id;
+		}
+
+		return is_array($roles) ? $roles : array();				  
+	}
 
 	function getRolesByFilter($a_filter = 0,$a_user_id = 0)
 	{

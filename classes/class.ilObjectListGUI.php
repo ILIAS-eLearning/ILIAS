@@ -1380,15 +1380,27 @@ class ilObjectListGUI
 
 			if (!$this->ilias->account->isDesktopItem($this->ref_id, $this->type))
 			{
-				if ($this->rbacsystem->checkAccess("read", $this->ref_id)
-					&& is_object($this->container_obj))
+				if ($this->rbacsystem->checkAccess("read", $this->ref_id))
 				{
-					$this->ctrl->setParameter($this->container_obj, "ref_id",
-						$this->container_obj->object->getRefId());
-					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
-					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
-					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
-					$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
+					// not so nice, if no container object given, it must
+					// be personal desktop
+					if(is_object($this->container_obj))
+					{
+						$this->ctrl->setParameter($this->container_obj, "ref_id",
+							$this->container_obj->object->getRefId());
+						$this->ctrl->setParameter($this->container_obj, "type", $this->type);
+						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
+						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
+					}					
+					else
+					{
+						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $this->type);
+						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->ref_id);
+						$cmd_link = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui",
+							"addItem");
+						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
+					}
 				}
 			}
 			else

@@ -187,8 +187,36 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 				' <a href="http://www.onlinestatus.org" target="_blank">http://www.onlinestatus.org</a>');
 			$cb_prop->addSubItem($ti_prop);
 			
-		$form->addItem($cb_prop);		
+		$form->addItem($cb_prop);
 		
+		// Enable 'My Offers' (default personal items)
+		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_offers'), 'enable_my_offers');
+		$cb_prop->setValue('1');
+		$cb_prop->setInfo($lng->txt('pd_enable_my_offers_info'));
+		$cb_prop->setChecked(($ilSetting->get('disable_my_offers') ? '0' : '1'));
+		$form->addItem($cb_prop);
+		
+		// Enable 'My Memberships'
+		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_my_memberships'), 'enable_my_memberships');
+		$cb_prop->setValue('1');
+		$cb_prop->setInfo($lng->txt('pd_enable_my_memberships_info'));
+		$cb_prop->setChecked(($ilSetting->get('disable_my_memberships') ? '0' : '1'));
+		$form->addItem($cb_prop);
+		
+		if($ilSetting->get('disable_my_offers') == 0 &&
+		   $ilSetting->get('disable_my_memberships') == 0)
+		{
+			// Default view of personal items
+			$sb_prop = new ilSelectInputGUI($lng->txt('pd_personal_items_default_view'), 'personal_items_default_view');
+			$sb_prop->setInfo($lng->txt('pd_personal_items_default_view_info'));
+			$option = array();
+			$option[0] = $lng->txt('pd_my_offers');
+			$option[1] = $lng->txt('pd_my_memberships');
+			$sb_prop->setOptions($option);
+			$sb_prop->setValue((int)$ilSetting->get('personal_items_default_view'));
+			$form->addItem($sb_prop);
+		}
+			
 		// command buttons
 		$form->addCommandButton("saveSettings", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
@@ -210,14 +238,37 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 			
 		#$ilSetting->set("enable_calendar", $_POST["enable_calendar"]);
 		$ilSetting->set("disable_bookmarks", (int) ($_POST["enable_bookmarks"] ? 0 : 1));
-		$ilSetting->set("disable_notes", (int) ($_POST["enable_notes"] ? 0 : 1));
+		$ilSetting->set("disable_notes", (int) ($_POST["enable_notes"] ? 0 : 1));		
 		
 		$ilSetting->set("block_activated_pdusers", $_POST["block_activated_pdusers"]);
 		$pd_set->set("enable_block_moving", $_POST["enable_block_moving"]);
 		$pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
-		$pd_set->set("osi_host", $_POST["osi_host"]);	
+		$pd_set->set("osi_host", $_POST["osi_host"]);
 		
-		ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
+		// Validate personal desktop view
+		if(!(int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
+		{
+			ilUtil::sendInfo($this->lng->txt('pd_view_select_at_least_one'), true);
+			$ilCtrl->redirect($this, 'view');
+		}
+		
+		// Enable 'My Offers' (default personal items)
+		$ilSetting->set('disable_my_offers', (int)($_POST['enable_my_offers'] ? 0 : 1));
+		
+		// Enable 'My Memberships'
+		$ilSetting->set('disable_my_memberships', (int)($_POST['enable_my_memberships'] ? 0 : 1));
+		
+		if((int)$_POST['enable_my_offers'] && !(int)$_POST['enable_my_memberships'])
+			$_POST['personal_items_default_view'] = 0;
+		else if(!(int)$_POST['enable_my_offers'] && (int)$_POST['enable_my_memberships'])
+			$_POST['personal_items_default_view'] = 1;
+		else if(!isset($_POST['personal_items_default_view']))
+			$_POST['personal_items_default_view'] = $ilSetting->get('personal_items_default_view');
+		
+		// Default view of personal items
+		$ilSetting->set('personal_items_default_view', (int)$_POST['personal_items_default_view']);
+		
+		ilUtil::sendInfo($this->lng->txt("settings_saved"), true);
 		
 		$ilCtrl->redirect($this, "view");
 	}

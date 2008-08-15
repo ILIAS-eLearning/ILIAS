@@ -419,6 +419,17 @@ class ilPersonalDesktopGUI
 	}
 	
 	/**
+	* add item to desktop
+	*/
+	function addItem()
+	{
+		global $ilUser;
+		
+		$ilUser->addDesktopItem($_GET["item_ref_id"], $_GET["type"]);
+		$this->show();
+	}
+	
+	/**
 	* copied from usr_personaldesktop.php
 	*/
 	function removeMember()
