@@ -5299,3 +5299,12 @@ if (!$ilDB->tableColumnExists("tst_tests", "showinfo"))
 	$res = $ilDB->query($query);
 }
 ?>
+<#1306>
+<?php
+// correct the wrong statement #1305
+if (!$ilDB->tableColumnExists("tst_tests", "forcejs"))
+{
+	$query = "ALTER TABLE `tst_tests` ADD `forcejs` INT NOT NULL DEFAULT '0'";
+	$res = $ilDB->query($query);
+}
+?>
