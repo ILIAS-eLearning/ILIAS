@@ -1,6 +1,7 @@
 <script type="text/javascript">
 <!--
 	var serverdate = -1;
+	var unsaved = true;
 	
 	function setWorkingTime()
 	{
@@ -48,6 +49,11 @@
 			{
 				avail = 0;
 			}
+		}
+		if ((avail <= 0) && unsaved)
+		{
+			unsaved = false;
+			saveformOnTimeReached();
 		}
 		var avail_m = Math.floor(avail / 60);
 		var avail_s = avail - (avail_m * 60);

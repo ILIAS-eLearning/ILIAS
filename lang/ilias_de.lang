@@ -7756,7 +7756,7 @@ grp#:#grp_deleted_export_files#:#Die ausgewählten Dateien wurden gelöscht.
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
 assessment#:#passes_finished#:#%s Durchläufe
 assessment#:#pass_finished#:#%s Durchlauf
-survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid precondition!###14 11 2007 new variable
+survey#:#msg_enter_value_for_valid_constraint#:#Bitte geben Sie einen Wert ein, um eine gültige Vorbedingung zu erstellen.
 rbac#:#recf_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
@@ -8058,8 +8058,8 @@ content#:#cont_roman_s#:#Römisch i, ii, ...
 content#:#cont_ed_insert_section#:#Insert Section###11 03 2008 new variable
 common#:#obj_calendar#:#Calendar###11 03 2008 new variable
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
-survey#:#no_user_of_group_invited#:#All users of the selected group(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
-survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not possess sufficient permissions to run the survey. No user was invited.###11 03 2008 new variable
+survey#:#no_user_of_group_invited#:#Allen Benutzern der ausgewählten Gruppe(n) fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
+survey#:#no_user_of_role_invited#:#Allen Benutzern der ausgewählten Rolle(n) fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
 common#:#show_profile#:#Show profile###11 03 2008 new variable
 common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###11 03 2008 new variable
 common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###11 03 2008 new variable
@@ -8233,7 +8233,7 @@ rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
 rbac#:#grp_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#cals_edit_event#:#Öffentliche Kalender verwalten
-assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
+assessment#:#reset_terms#:#Positionen der Terme zurücksetzen
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
@@ -8258,8 +8258,8 @@ wiki#:#wiki_created_by#:#Created By###02 06 2008 new variable
 wiki#:#wiki_last_changed#:#Last Change###02 06 2008 new variable
 wiki#:#wiki_page_hits#:#Page Hits###02 06 2008 new variable
 wiki#:#wiki_page#:#Page###02 06 2008 new variable
-common#:#obj_svyf#:#Survey###02 06 2008 new variable
-common#:#obj_svyf_desc#:#Platform settings for the Survey Tool###02 06 2008 new variable
+common#:#obj_svyf#:#Umfragen
+common#:#obj_svyf_desc#:#Systemweite Einstellungen für Umfragen
 tagging#:#tagging_tags#:#Tags###02 06 2008 new variable
 rating#:#rating_your_rating#:#Your Rating###02 06 2008 new variable
 rating#:#rating_average_rating#:#Average Rating###02 06 2008 new variable
@@ -8308,23 +8308,23 @@ cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by re
 cntr#:#cntr_view_sessions#:#Sessions View###02 06 2008 new variable
 cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View###02 06 2008 new variable
-common#:#survey_defaults#:#Default Settings for Surveys###02 06 2008 new variable
-common#:#survey_unlimited_invitation#:#Unlimited Invitation###02 06 2008 new variable
-common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.###02 06 2008 new variable
+common#:#survey_defaults#:#Standardeinstellungen für Umfragen
+common#:#survey_unlimited_invitation#:#Unbegrenzte Einladung
+common#:#survey_unlimited_invitation_desc#:#Erlaubt unbegrenzte Einladung zu Umfragen. Eine unbegrenzte Einladung legt die Umfrage auf den Persönlichen Schreibtisch jedes registrierten Benutzers.
 rbac#:#crs_create_sess#:#Create Session###02 06 2008 new variable
-survey#:#specialusers#:#Special Users###02 06 2008 new variable
-survey#:#search_users#:#Search Users###02 06 2008 new variable
-survey#:#adm_no_users_found#:#No users were found that match the search string.###02 06 2008 new variable
-survey#:#adm_search_string_too_small#:#Please enter at least two characters in the search field!###02 06 2008 new variable
-survey#:#adm_search_select_user#:#Please select at least one user!###02 06 2008 new variable
-survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
-survey#:#adm_special_users#:#Special users who are able to run a survey more than once###02 06 2008 new variable
-survey#:#adm_removed_users#:#Users removed###02 06 2008 new variable
-survey#:#adm_remove_select_user#:#Please select at least one user for removal!###02 06 2008 new variable
-assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.###02 06 2008 new variable
-assessment#:#terms#:#Terms###02 06 2008 new variable
-assessment#:#empty_term_message#:#There is a least one empty term field.###02 06 2008 new variable
-assessment#:#no_terms_message#:#Please add at least on term.###02 06 2008 new variable
+survey#:#specialusers#:#Spezielle Benutzer
+survey#:#search_users#:#Benutzer suchen
+survey#:#adm_no_users_found#:#Es wurden keine Benutzer gefunden, die dem Suchbegriff entsprechen.
+survey#:#adm_search_string_too_small#:#Bitte verwenden Sie mindestens 2 Zeichen für die Suche.
+survey#:#adm_search_select_user#:#Wählen Sie mindestens einen Benutzer aus.
+survey#:#adm_no_special_users#:#Es sind keine speziellen Benutzer definiert, die Umfragen mehrfach durchführen können.
+survey#:#adm_special_users#:#Spezielle Benutzer, die Umfragen mehrfach durchführen können.
+survey#:#adm_removed_users#:#Benutzer entfernt
+survey#:#adm_remove_select_user#:#Bitte wählen Sie mindestens einen Benutzer zum Entfernen aus.
+assessment#:#empty_terms_exist#:#Sie haben nocht nicht alle Terme ausgefüllt. Bitte füllen Sie erst diese Felder aus, bevor Sie neue Terme anlegen.
+assessment#:#terms#:#Terme
+assessment#:#empty_term_message#:#Mindestens ein Textfeld für Terme ist leer.
+assessment#:#no_terms_message#:#Legen Sie mindestens einen Term an.
 crs#:#crs_objective_err_limit#:#Bitte geben Sie eine Punktzahl zwischen %s und %s Punkten ein.
 crs#:#crs_objective_qst_summary#:#Fragenübersicht
 crs#:#crs_obj_required_points#:#Benötigte Punktzahl
@@ -8532,3 +8532,20 @@ pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht f
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Meine Angebote' und/oder 'Meine Mitgliedschaften'.
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen in denen Sie Mitglied sind.
+assessment#:#kiosk#:#Kiosk-Modus
+assessment#:#kiosk_description#:#Führt den Test in einem sogenannten Kiosk-Modus aus. All Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet, damit die Teilnehmerinnen und Teilnehmer keine Möglichkeit haben, den Test zu verlassen.
+assessment#:#autosave_success#:#Automatisch gespeichert...
+assessment#:#autosave_failed#:#Das automatische Speichern ist fehlgeschlagen!
+assessment#:#kiosk_show_title#:#Testtitel anzeigen
+assessment#:#kiosk_show_participant#:#Teilnehmername anzeigen
+assessment#:#kiosk_options#:#Einstellungen für den Kiosk-Modus
+assessment#:#kiosk_options_desc#:#Wählen Sie aus, ob der Testtitel und/oder der Name des aktuellen Testteilnehmers/der Testteilnehmerin während des Kiosk-Modus in der Kopfzeile der Seite angezeigt werden soll.
+assessment#:#redirectAfterSave#:#Die maximale Bearbeitungszeit wurde erreicht. Ihre zuletzt bearbeitete Frage wurde mit dem Erreichen der Bearbeitungszeit automatisch gespeichert. In wenigen Sekunden werden Sie weitergeleitet...
+assessment#:#final_statement#:#Abschließende Bemerkung
+assessment#:#final_statement_show#:#Abschließende Bemerkung anzeigen
+assessment#:#final_statement_show_desc#:#Wenn ausgewählt, wird die abschließende Bemerkung direkt nach der Beendigung des Tests, noch vor der Präsentation der Testergebnisse für die Teilnehmer angezeigt.
+assessment#:#showinfo#:#Die komplette Info-Seite anzeigen
+assessment#:#showinfo_desc#:#Wenn ausgewählt, wird die komplette Info-Seite (einschließlich der wichtigsten Testeigenschaften) angezeigt, anderenfalls wird lediglich der einleitende Text (wenn vorhanden) und die benötigten Einstellungen auf der Info-Seite angezeigt. 
+assessment#:#forcejs#:#JavaScript-Ausgabe für Testfragen erzwingen
+assessment#:#forcejs_short#:#JavaScript erzwingen
+assessment#:#forcejs_desc#:#Wenn ausgewählt, wird für Testfragen standardmäßig die JavaScript-Ausgabe anstelle der reinen HTML-Ausgabe verwendet.

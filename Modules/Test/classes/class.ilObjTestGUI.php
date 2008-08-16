@@ -61,7 +61,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->saveParameter($this,'crs_show_result',(int) $_GET['crs_show_result']);
 		}
 	}
-	
+
 	/**
 	* execute command
 	*/
@@ -74,6 +74,9 @@ class ilObjTestGUI extends ilObjectGUI
 			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 		}		
+		$cmd = $this->ctrl->getCmd("properties");
+		$next_class = $this->ctrl->getNextClass($this);
+		$this->ctrl->setReturn($this, "properties");
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
 		
 		// add entry to navigation history
@@ -101,19 +104,16 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
-		$this->prepareOutput();
-		$cmd = $this->ctrl->getCmd("properties");
-		$next_class = $this->ctrl->getNextClass($this);
-		$this->ctrl->setReturn($this, "properties");
-		
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
+				$this->prepareOutput();
 				$this->infoScreen();	// forwards command
 				break;
 			case 'ilmdeditorgui':
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
+				$this->prepareOutput();
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 
@@ -122,23 +122,28 @@ class ilObjTestGUI extends ilObjectGUI
 			case "iltestoutputgui":
 				include_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
 
+				if (!$this->object->getKioskMode()) $this->prepareOutput();
 				$output_gui =& new ilTestOutputGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
+
 			case "iltestevaluationgui":
 				include_once "./Modules/Test/classes/class.ilTestEvaluationGUI.php";
+				$this->prepareOutput();
 				$evaluation_gui =& new ilTestEvaluationGUI($this->object);
 				$this->ctrl->forwardCommand($evaluation_gui);
 				break;
 				
 			case "iltestservicegui":
 				include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
+				$this->prepareOutput();
 				$serviceGUI =& new ilTestServiceGUI($this->object);
 				$this->ctrl->forwardCommand($serviceGUI);
 				break;
 
 			case 'ilpermissiongui':
 				include_once("./classes/class.ilPermissionGUI.php");
+				$this->prepareOutput();
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -146,6 +151,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "illearningprogressgui":
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 
+				$this->prepareOutput();
 				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY,$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);
 
@@ -153,17 +159,20 @@ class ilObjTestGUI extends ilObjectGUI
 
 			case "iltestcertificategui":
 				include_once "./Modules/Test/classes/class.ilTestCertificateGUI.php";
+				$this->prepareOutput();
 				$output_gui = new ilTestCertificateGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
 			case "iltestscoringgui":
 				include_once "./Modules/Test/classes/class.ilTestScoringGUI.php";
+				$this->prepareOutput();
 				$output_gui = new ilTestScoringGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
 			default:
+				$this->prepareOutput();
 				if (preg_match("/deleteqpl_\d+/", $cmd))
 				{
 					$cmd = "randomQuestions";
@@ -894,6 +903,11 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$introduction = ilUtil::stripSlashes($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$data["introduction"] = $introduction;
+		$finalstatement = ilUtil::stripSlashes($_POST["finalstatement"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$data["finalstatement"] = $finalstatement;
+		$data["showfinalstatement"] = ($_POST["showfinalstatement"]) ? 1 : 0;
+		$data["showinfo"] = ($_POST["showinfo"]) ? 1 : 0;
+		$data["forcejs"] = ($_POST["forcejs"]) ? 1 : 0;
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["chb_postpone"]);
 		$data["shuffle_questions"] = 0;
 		if ($_POST["chb_shuffle_questions"])
@@ -921,6 +935,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["list_of_questions_with_description"] = 1;
 		}
 		$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
+		$data["kiosk"] = ilUtil::stripSlashes($_POST["kiosk"]);
+		$data["kiosk_title"] = ilUtil::stripSlashes($_POST["kiosk_title"]);
+		$data["kiosk_participant"] = ilUtil::stripSlashes($_POST["kiosk_participant"]);
 		$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
 		if (!$_POST["chb_starting_time"])
 		{
@@ -1003,6 +1020,10 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["pass_scoring"] = SCORE_LAST_PASS;
 		}
 		$this->object->setIntroduction($data["introduction"]);
+		$this->object->setFinalStatement($data["finalstatement"]);
+		$this->object->setShowFinalStatement($data["showfinalstatement"]);
+		$this->object->setShowInfo($data["showinfo"]);
+		$this->object->setForceJS($data["forcejs"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setAnonymity($data["anonymity"]);
 		$this->object->setShowCancel($data["show_cancel"]);
@@ -1010,6 +1031,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setPassword($data["password"]);
 		$this->object->setAllowedUsers($data["allowedUsers"]);
 		$this->object->setAllowedUsersTimeGap($data["allowedUsersTimeGap"]);
+		$this->object->setKioskMode($data["kiosk"]);
+		$this->object->setShowKioskModeTitle($data["kiosk_title"]);
+		$this->object->setShowKioskModeParticipant($data["kiosk_participant"]);
 		$this->object->setNrOfTries($data["nr_of_tries"]);
 		$this->object->setStartingTime($data["starting_time"]);
 		$this->object->setEndingTime($data["ending_time"]);
@@ -1522,6 +1546,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["introduction"] = $this->object->getIntroduction();
 		$data["sequence_settings"] = $this->object->getSequenceSettings();
 		$data["nr_of_tries"] = $this->object->getNrOfTries();
+		$data["kiosk"] = $this->object->getKioskMode();
+		$data["kiosk_title"] = $this->object->getShowKioskModeTitle();
+		$data["kiosk_participant"] = $this->object->getShowKioskModeParticipant();
 		$data["use_previous_answers"] = $this->object->getUsePreviousAnswers();
 		$data["title_output"] = $this->object->getTitleOutput();
 		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
@@ -1622,6 +1649,20 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
 		$this->tpl->setVariable("VALUE_INTRODUCTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($data["introduction"])));
+		$this->tpl->setVariable("SHOWINFO", $this->lng->txt("showinfo"));
+		$this->tpl->setVariable("SHOWINFO_DESC", $this->lng->txt("showinfo_desc"));
+		if ($this->object->getShowInfo())
+		{
+			$this->tpl->setVariable("CHECKED_SHOWINFO", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("FINAL_STATEMENT", $this->lng->txt("final_statement"));
+		$this->tpl->setVariable("VALUE_FINAL_STATEMENT", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFinalStatement())));
+		$this->tpl->setVariable("FINAL_STATEMENT_SHOW", $this->lng->txt("final_statement_show"));
+		$this->tpl->setVariable("FINAL_STATEMENT_SHOW_DESC", $this->lng->txt("final_statement_show_desc"));
+		if ($this->object->getShowFinalStatement())
+		{
+			$this->tpl->setVariable("CHECKED_FINAL_STATEMENT_SHOW", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
 		$this->tpl->setVariable("TEXT_POSTPONE", $this->lng->txt("tst_postpone"));
 		$this->tpl->setVariable("TEXT_POSTPONE_DESCRIPTION", $this->lng->txt("tst_postpone_description"));
@@ -1666,6 +1707,14 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS", $this->lng->txt("tst_use_previous_answers"));
 		$this->tpl->setVariable("TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION", $this->lng->txt("tst_use_previous_answers_description"));
+
+		$this->tpl->setVariable("FORCEJS", $this->lng->txt("forcejs"));
+		$this->tpl->setVariable("FORCEJS_SHORT", $this->lng->txt("forcejs_short"));
+		$this->tpl->setVariable("FORCEJS_DESC", $this->lng->txt("forcejs_desc"));
+		if ($this->object->getForceJS())
+		{
+			$this->tpl->setVariable("CHECKED_FORCEJS", " checked=\"checked\"");
+		}
 		$this->tpl->setVariable("TEXT_TITLE_OUTPUT", $this->lng->txt("tst_title_output"));
 		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_FULL", $this->lng->txt("tst_title_output_full"));
 		$this->tpl->setVariable("TEXT_TITLE_OUTPUT_HIDE_POINTS", $this->lng->txt("tst_title_output_hide_points"));
@@ -1695,6 +1744,25 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($data["random_test"])
 		{
 			$this->tpl->setVariable("DISABLE_USE_PREVIOUS_ANSWERS",  " disabled=\"disabled\"");
+		}
+		$this->tpl->setVariable("HEADING_KIOSK", $this->lng->txt("kiosk"));
+		$this->tpl->setVariable("TEXT_KIOSK", $this->lng->txt("kiosk"));
+		if ($data["kiosk"]) 
+		{
+			$this->tpl->setVariable("CHECKED_KIOSK", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("TEXT_KIOSK_DESCRIPTION", $this->lng->txt("kiosk_description"));
+		$this->tpl->setVariable("TEXT_KIOSK_OPTIONS", $this->lng->txt("kiosk_options"));
+		$this->tpl->setVariable("TEXT_KIOSK_OPTIONS_DESCRIPTION", $this->lng->txt("kiosk_options_desc"));
+		$this->tpl->setVariable("TEXT_KIOSK_TITLE", $this->lng->txt("kiosk_show_title"));
+		if ($data["kiosk_title"]) 
+		{
+			$this->tpl->setVariable("CHECKED_KIOSK_TITLE", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("TEXT_KIOSK_PARTICIPANT", $this->lng->txt("kiosk_show_participant"));
+		if ($data["kiosk_participant"]) 
+		{
+			$this->tpl->setVariable("CHECKED_KIOSK_PARTICIPANT", " checked=\"checked\"");
 		}
 		$this->tpl->setVariable("HEADING_SESSION", $this->lng->txt("tst_session_settings"));
 		$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("tst_nr_of_tries"));
@@ -4589,8 +4657,8 @@ class ilObjTestGUI extends ilObjectGUI
 					if ($data->test_started)
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
-						$this->ctrl->setParameterByClass("iltestoutputgui", "active_id", $data->active_id);
-						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestoutputgui", "outParticipantsResultsOverview"));
+						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data->active_id);
+						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outParticipantsResultsOverview"));
 					}
 					$counter++;
 					$this->tpl->parseCurrentBlock();
@@ -4667,8 +4735,8 @@ class ilObjTestGUI extends ilObjectGUI
 					if ($data->test_started)
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
-						$this->ctrl->setParameterByClass("iltestoutputgui", "active_id", $data->active_id);
-						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestoutputgui", "outParticipantsResultsOverview"));
+						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data->active_id);
+						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outParticipantsResultsOverview"));
 					}
 					$counter++;
 					$this->tpl->parseCurrentBlock();
@@ -5097,8 +5165,11 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		
-		$info->enablePrivateNotes();
-		
+		if ($this->object->getShowInfo())
+		{
+			$info->enablePrivateNotes();
+
+		}
 		if (strlen($this->object->getIntroduction()))
 		{
 			$info->addSection($this->lng->txt("tst_introduction"));
@@ -5106,20 +5177,32 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$info->addSection($this->lng->txt("tst_general_properties"));
-		$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
-		$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
+		if ($this->object->getShowInfo())
+		{
+			$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
+			$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
+		}
 		if ($this->object->isComplete())
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
-				// use javascript
-				$checked_javascript = false;
-				if ($this->object->getJavaScriptOutput())
+				if ($this->object->getShowInfo() || !$this->object->getForceJS())
 				{
-					$checked_javascript = true;
+					// use javascript
+					$checked_javascript = false;
+					if ($this->object->getJavaScriptOutput())
+					{
+						$checked_javascript = true;
+					}
+					if ($this->object->getForceJS())
+					{
+						$info->addProperty($this->lng->txt("tst_test_output"), $this->lng->txt("tst_use_javascript"));
+					}
+					else
+					{
+						$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
+					}
 				}
-				$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
-	
 				// hide previous results
 				if (!$this->object->isRandomTest())
 				{
@@ -5147,84 +5230,81 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 		                                 
-		$info->addSection($this->lng->txt("tst_sequence_properties"));
-		$info->addProperty($this->lng->txt("tst_sequence"), $this->lng->txt(($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)? "tst_sequence_fixed":"tst_sequence_postpone"));
+		if ($this->object->getShowInfo())
+		{
+			$info->addSection($this->lng->txt("tst_sequence_properties"));
+			$info->addProperty($this->lng->txt("tst_sequence"), $this->lng->txt(($this->object->getSequenceSettings() == TEST_FIXED_SEQUENCE)? "tst_sequence_fixed":"tst_sequence_postpone"));
 		
-		$info->addSection($this->lng->txt("tst_heading_scoring"));
-		$info->addProperty($this->lng->txt("tst_text_count_system"), $this->lng->txt(($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS)? "tst_count_partial_solutions":"tst_count_correct_solutions"));
-		$info->addProperty($this->lng->txt("tst_score_mcmr_questions"), $this->lng->txt(($this->object->getMCScoring() == SCORE_ZERO_POINTS_WHEN_UNANSWERED)? "tst_score_mcmr_zero_points_when_unanswered":"tst_score_mcmr_use_scoring_system"));
-		if ($this->object->isRandomTest())
-		{
-			$info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == SCORE_BEST_PASS)? "tst_pass_best_pass":"tst_pass_last_pass"));
-		}
+			$info->addSection($this->lng->txt("tst_heading_scoring"));
+			$info->addProperty($this->lng->txt("tst_text_count_system"), $this->lng->txt(($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS)? "tst_count_partial_solutions":"tst_count_correct_solutions"));
+			$info->addProperty($this->lng->txt("tst_score_mcmr_questions"), $this->lng->txt(($this->object->getMCScoring() == SCORE_ZERO_POINTS_WHEN_UNANSWERED)? "tst_score_mcmr_zero_points_when_unanswered":"tst_score_mcmr_use_scoring_system"));
+			if ($this->object->isRandomTest())
+			{
+				$info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == SCORE_BEST_PASS)? "tst_pass_best_pass":"tst_pass_last_pass"));
+			}
 
-		$info->addSection($this->lng->txt("tst_score_reporting"));
-		$score_reporting_text = "";
-		switch ($this->object->getScoreReporting())
-		{
-			case REPORT_AFTER_TEST:
-				$score_reporting_text = $this->lng->txt("tst_report_after_test");
-				break;
-			case REPORT_ALWAYS:
-				$score_reporting_text = $this->lng->txt("tst_report_after_first_question");
-				break;
-			case REPORT_AFTER_DATE:
-				$score_reporting_text = $this->lng->txt("tst_report_after_date");
-				break;
-		}
-		$info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text); 
-		$reporting_date = $this->object->getReportingDate();
-		if ($reporting_date)
-		{
-			#preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $reporting_date, $matches);
-			#$txt_reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-			#$info->addProperty($this->lng->txt("tst_score_reporting_date"), $txt_reporting_date);
-			$info->addProperty($this->lng->txt('tst_score_reporting_date'),
-				ilDatePresentation::formatDate(new ilDateTime($reporting_date,IL_CAL_TIMESTAMP)));
-		}
+			$info->addSection($this->lng->txt("tst_score_reporting"));
+			$score_reporting_text = "";
+			switch ($this->object->getScoreReporting())
+			{
+				case REPORT_AFTER_TEST:
+					$score_reporting_text = $this->lng->txt("tst_report_after_test");
+					break;
+				case REPORT_ALWAYS:
+					$score_reporting_text = $this->lng->txt("tst_report_after_first_question");
+					break;
+				case REPORT_AFTER_DATE:
+					$score_reporting_text = $this->lng->txt("tst_report_after_date");
+					break;
+			}
+			$info->addProperty($this->lng->txt("tst_score_reporting"), $score_reporting_text); 
+			$reporting_date = $this->object->getReportingDate();
+			if ($reporting_date)
+			{
+				#preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $reporting_date, $matches);
+				#$txt_reporting_date = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
+				#$info->addProperty($this->lng->txt("tst_score_reporting_date"), $txt_reporting_date);
+				$info->addProperty($this->lng->txt('tst_score_reporting_date'),
+					ilDatePresentation::formatDate(new ilDateTime($reporting_date,IL_CAL_TIMESTAMP)));
+			}
 	
-		$info->addSection($this->lng->txt("tst_session_settings"));
-		$info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0)?$this->lng->txt("unlimited"):$this->object->getNrOfTries());
-		if ($this->object->getNrOfTries() != 1)
-		{
-			$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($this->object->getTestSession()->getPass() == false)?$this->lng->txt("tst_no_tries"):$this->object->getTestSession()->getPass());
-		}
+			$info->addSection($this->lng->txt("tst_session_settings"));
+			$info->addProperty($this->lng->txt("tst_nr_of_tries"), ($this->object->getNrOfTries() == 0)?$this->lng->txt("unlimited"):$this->object->getNrOfTries());
+			if ($this->object->getNrOfTries() != 1)
+			{
+				$info->addProperty($this->lng->txt("tst_nr_of_tries_of_user"), ($this->object->getTestSession()->getPass() == false)?$this->lng->txt("tst_no_tries"):$this->object->getTestSession()->getPass());
+			}
 
-		if ($this->object->getEnableProcessingTime())
-		{
-			$info->addProperty($this->lng->txt("tst_processing_time"), $this->object->getProcessingTime());
-		}
-		if (strlen($this->object->getAllowedUsers()) && ($this->object->getAllowedUsersTimeGap()))
-		{
-			$info->addProperty($this->lng->txt("tst_allowed_users"), $this->object->getAllowedUsers());
+			if ($this->object->getEnableProcessingTime())
+			{
+				$info->addProperty($this->lng->txt("tst_processing_time"), $this->object->getProcessingTime());
+			}
+			if (strlen($this->object->getAllowedUsers()) && ($this->object->getAllowedUsersTimeGap()))
+			{
+				$info->addProperty($this->lng->txt("tst_allowed_users"), $this->object->getAllowedUsers());
+			}
+		
+			$starting_time = $this->object->getStartingTime();
+			if ($starting_time)
+			{
+				$info->addProperty($this->lng->txt("tst_starting_time"),
+					ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_TIMESTAMP)));
+			}
+			$ending_time = $this->object->getEndingTime();
+			if ($ending_time)
+			{
+				$info->addProperty($this->lng->txt("tst_ending_time"),
+					ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_TIMESTAMP)));
+			}
+			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+			// forward the command
+
+			if($_GET['crs_show_result'] and !$this->object->getTestSequence()->getFirstSequence())
+			{
+				#ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
+			}			
 		}
 		
-		$starting_time = $this->object->getStartingTime();
-		if ($starting_time)
-		{
-			#preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $starting_time, $matches);
-			#$txt_starting_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-			#$info->addProperty($this->lng->txt("tst_starting_time"), $txt_starting_time);
-			$info->addProperty($this->lng->txt("tst_starting_time"),
-				ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_TIMESTAMP)));
-		}
-		$ending_time = $this->object->getEndingTime();
-		if ($ending_time)
-		{
-			#preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $ending_time, $matches);
-			#$txt_ending_time = date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]));
-			#$info->addProperty($this->lng->txt("tst_ending_time"), $txt_ending_time);
-			$info->addProperty($this->lng->txt("tst_ending_time"),
-				ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_TIMESTAMP)));
-		}
-		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
-		// forward the command
-
-		if($_GET['crs_show_result'] and !$this->object->getTestSequence()->getFirstSequence())
-		{
-			#ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
-		}			
-
 		$this->ctrl->forwardCommand($info);
 	}
 
@@ -5724,7 +5804,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
-	}	
+	}
 
 } // END class.ilObjTestGUI
 ?>

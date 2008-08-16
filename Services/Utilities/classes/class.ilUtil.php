@@ -214,6 +214,40 @@ class ilUtil
 	}
 
 	/**
+	* get full javascript file name (path inclusive) of current user
+	*
+	* @param $a_js_name string The name of the js file
+	* @param $a_js_location string The location of the js file e.g. a module path
+	* @param $add_version boolean Add version information to the filename
+	* @access	public
+	*/
+	function getJSLocation($a_js_name, $a_js_location = "", $add_version = FALSE)
+	{
+		global $ilias;
+
+		// add version as parameter to force reload for new releases
+		$js_name = $a_js_name;
+		if (strlen($a_js_location) && (strcmp(substr($a_js_location, -1), "/") != 0)) $a_js_location = $a_js_location . "/";
+
+		$filename = "";
+		if ($ilias->account->skin != "default")
+		{
+			$filename = "./Customizing/global/skin/".$ilias->account->skin."/".$a_js_location.$js_name;
+		}
+		if (strlen($filename) == 0 || !file_exists($filename))
+		{
+			$filename = "./" . $a_js_location . "templates/default/".$js_name;
+		}
+		$vers = "";
+		if ($add_version)
+		{
+			$vers = str_replace(" ", "-", $ilias->getSetting("ilias_version"));
+			$vers = "?vers=".str_replace(".", "-", $vers);
+		}
+		return $filename . $vers;
+	}
+
+	/**
 	* Get p3p file path. (Not in use yet, see class.ilTemplate.php->show())
 	*
 	* @access	public

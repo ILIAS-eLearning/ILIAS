@@ -17,8 +17,24 @@
 	</td>
 </tr>
 <tr>
-  <td class="option">{TEXT_INTRODUCTION}</td>
-  <td class="option_value"><textarea name="introduction" id="introduction" rows="10" cols="80" wrap="virtual" style="width95%;">{VALUE_INTRODUCTION}</textarea></td>
+	<td class="option">{TEXT_INTRODUCTION}</td>
+	<td class="option_value">
+		<textarea name="introduction" id="introduction" rows="10" cols="80" wrap="virtual" style="width95%;">{VALUE_INTRODUCTION}</textarea>
+		<br />
+		<input type="checkbox" name="showinfo" id="showinfo" value="1"{CHECKED_SHOWINFO} /> <label for="showinfo">{SHOWINFO}</label>
+		<br />
+		<div class="il_Description_no_margin"><label for="showinfo">{SHOWINFO_DESC}</label></div>
+	</td>
+</tr>
+<tr>
+	<td class="option">{FINAL_STATEMENT}</td>
+	<td class="option_value">
+		<input type="checkbox" name="showfinalstatement" id="showfinalstatement" value="1"{CHECKED_FINAL_STATEMENT_SHOW} /> <label for="showfinalstatement">{FINAL_STATEMENT_SHOW}</label>
+		<br />
+		<div class="il_Description_no_margin"><label for="showfinalstatement">{FINAL_STATEMENT_SHOW_DESC}</label></div>
+		<br />
+		<textarea name="finalstatement" id="finalstatement" rows="10" cols="80" wrap="virtual" style="width95%;">{VALUE_FINAL_STATEMENT}</textarea>
+	</td>
 </tr>
 <tr class="tblheader">
   <th colspan="2">{HEADING_SEQUENCE}</th>
@@ -71,6 +87,29 @@
 	</td>
 </tr>
 <tr class="tblheader">
+  <th colspan="2">{HEADING_KIOSK}</th>
+</tr>
+<tr>
+	<td class="option"><label for="chb_kiosk">{TEXT_KIOSK}</label></td> 
+	<td class="option_value">
+		<input type="checkbox" name="kiosk" id="chb_kiosk" value="1"{CHECKED_KIOSK} {DISABLE_KIOSK} />
+		<br />
+		<div class="il_Description_no_margin"><label for="chb_kiosk">{TEXT_KIOSK_DESCRIPTION}</label></div>
+	</td>
+</tr>
+<tr>
+	<td class="option">{TEXT_KIOSK_OPTIONS}</td> 
+	<td class="option_value">
+		<input type="checkbox" name="kiosk_title" id="chb_kiosk_title" value="1"{CHECKED_KIOSK_TITLE} {DISABLE_KIOSK_TITLE} />
+		<label for="chb_kiosk_title">{TEXT_KIOSK_TITLE}</label>
+		<br />
+		<input type="checkbox" name="kiosk_participant" id="chb_kiosk_participant" value="1"{CHECKED_KIOSK_PARTICIPANT} {DISABLE_KIOSK_PARTICIPANT} />
+		<label for="chb_kiosk_participant">{TEXT_KIOSK_PARTICIPANT}</label>
+		<br />
+		<div class="il_Description_no_margin">{TEXT_KIOSK_OPTIONS_DESCRIPTION}</div>
+	</td>
+</tr>
+<tr class="tblheader">
   <th colspan="2">{HEADING_SESSION}</th>
 </tr>
 <tr>
@@ -105,6 +144,14 @@
 		<input type="checkbox" name="chb_use_previous_answers" id="chb_use_previous_answers" value="1"{CHECKED_USE_PREVIOUS_ANSWERS} {DISABLE_USE_PREVIOUS_ANSWERS} />
 		<br />
 		<label for="chb_use_previous_answers"><div class="il_Description_no_margin">{TEXT_USE_PREVIOUS_ANSWERS_DESCRIPTION}</div></label>
+	</td>
+</tr>
+<tr>
+  <td class="option"><label for="forcejs">{FORCEJS_SHORT}</label></td> 
+  <td class="option_value">
+		<input type="checkbox" name="forcejs" id="forcejs" value="1"{CHECKED_FORCEJS} /> <label for="forcejs">{FORCEJS}</label>
+		<br />
+		<div class="il_Description_no_margin"><label for="forcejs">{FORCEJS_DESC}</label></div>
 	</td>
 </tr>
 <tr>

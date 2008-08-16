@@ -9,15 +9,59 @@
 
 .kiosk {
 	padding: 2em;
+	background-color: #fafafa;
+}
+
+.fullwidth_invisible {
+	background-color: transparent!important;
 }
 
 .feedback {
-
-
 /*	border:  1px solid gray;*/
 	padding: 4px;
 	display: block;
 	background: #EEEEEE;
+}
+
+.centermessage {
+	width: 25em;
+	margin-left: auto;
+	margin-right: auto;
+	font-weight: bold;
+	font-size: 150%;
+}
+
+#kioskOptions {
+	clear: both;
+	overflow: hidden;
+	width: 100%;
+	float: left;
+}
+
+#kioskTestTitle {
+	float: left;
+	width: 50%;
+}
+
+#kioskParticipant {
+	float: right;
+	text-align: right;
+	width: 50%;
+}
+
+#workingtime {
+	text-align: center;
+	clear: both;
+}
+
+#userworkingtime {
+	visibility: hidden;
+	display: none;
+}
+
+#timeleft {
+	font-size: 200%;
+	font-weight: bold;
 }
 
 div.ilc_Question {

@@ -1,7 +1,21 @@
+<!-- BEGIN kiosk_options -->
+<div id="kioskOptions">
+<div id="kioskTestTitle">
+<!-- BEGIN kiosk_show_title -->
+{TEST_TITLE}
+<!-- END kiosk_show_title -->
+</div>
+<div id="kioskParticipant">
+<!-- BEGIN kiosk_show_participant -->
+{PARTICIPANT_NAME}
+<!-- END kiosk_show_participant -->
+</div>
+</div>
+<!-- END kiosk_options -->
 <!-- BEGIN enableprocessingtime -->
-<p>{USER_WORKING_TIME}<br /><span id="timeleft">{USER_REMAINING_TIME}</span></p>
+<div id="workingtime"><span id="userworkingtime">{USER_WORKING_TIME}</span><span id="timeleft">{USER_REMAINING_TIME}</span></div>
 <!-- END enableprocessingtime -->
-<form name="test_output" method="post" action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
+<form id="taForm" name="test_output" method="post" style="clear: both;" action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 <table class="fullwidth_invisible">
 		<tr>
@@ -104,7 +118,7 @@
 {JS_INITIALIZE}
 <!-- END js_initialize -->
 <!-- BEGIN jsswitch -->
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
 	var jsswitch = document.getElementById("javascript_switch");
 	if (jsswitch != null)
 	{
@@ -112,3 +126,10 @@
 	}
 </script>
 <!-- END jsswitch -->
+<script type="text/javascript" charset="utf-8">
+	function saveformOnTimeReached()
+	{
+		autosave('{AUTOSAVE_URL}');
+	}
+</script>
+<div id="autosavemessage" style="font-style: italic; border: 1px #666 solid; background-color: #ffffe0; position: fixed; right: 0; top: 0;"></div>
