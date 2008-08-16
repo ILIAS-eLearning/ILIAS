@@ -87,14 +87,16 @@ class ilObjWikiGUI extends ilObjectGUI
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"]);
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
-				$tpl->setContent(
-					$ret.
-					"<br />".
-					$perma_link->getHTML());
-				if ($ilCtrl->getCmdClass() == "ilwikipagegui")
+				if ($ret != "")
 				{
-					$this->addPageTabs();
+					$tpl->setContent(
+						$ret.
+						"<br />".
+						$perma_link->getHTML());
 				}
+				//if ($ilCtrl->getCmdClass() == "ilwikipagegui")
+				//{
+				//}
 				break;
 
 			case 'ilpublicuserprofilegui':

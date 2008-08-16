@@ -217,5 +217,25 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl->setContent($table_gui->getHTML());
 	}
 
+	function getTabs($a_activate = "")
+	{
+		global $ilTabs, $ilCtrl;
+		
+		parent::getTabs($a_activate);
+		
+		$ilCtrl->setParameterByClass("ilobjwikigui", "wpg_id",
+			ilWikiPage::getPageIdForTitle($this->getPageObject()->getParentId(),
+			ilWikiUtil::makeDbTitle($_GET["page"])));
+		$ilCtrl->setParameterByClass("ilobjwikigui", "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
+
+		$ilTabs->addTarget("wiki_what_links_here",
+			$this->ctrl->getLinkTargetByClass("ilwikipagegui",
+			"whatLinksHere"), "whatLinksHere");
+		$ilTabs->addTarget("wiki_print_view",
+			$this->ctrl->getLinkTargetByClass("ilobjwikigui",
+			"printView"), "printView");	
+
+	}
+
 } // END class.ilWikiPageGUI
 ?>

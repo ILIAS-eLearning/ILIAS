@@ -4404,7 +4404,7 @@ content#:#cont_click_next_or_save#:#Please click on the next point of the polygo
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
-content#:#cont_confirm_delete#:#really delete ?
+content#:#cont_confirm_delete#:#Do you really want to delete this item(s)?
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents

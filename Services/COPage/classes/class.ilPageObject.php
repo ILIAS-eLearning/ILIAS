@@ -100,6 +100,86 @@ class ilPageObject
 		$this->halt_on_error = $a_halt;
 	}
 
+		/**
+	* Set Render MD5.
+	*
+	* @param	string	$a_rendermd5	Render MD5
+	*/
+	function setRenderMd5($a_rendermd5)
+	{
+		$this->rendermd5 = $a_rendermd5;
+	}
+
+	/**
+	* Get Render MD5.
+	*
+	* @return	string	Render MD5
+	*/
+	function getRenderMd5()
+	{
+		return $this->rendermd5;
+	}
+
+	/**
+	* Set Rendered Content.
+	*
+	* @param	string	$a_renderedcontent	Rendered Content
+	*/
+	function setRenderedContent($a_renderedcontent)
+	{
+		$this->renderedcontent = $a_renderedcontent;
+	}
+
+	/**
+	* Get Rendered Content.
+	*
+	* @return	string	Rendered Content
+	*/
+	function getRenderedContent()
+	{
+		return $this->renderedcontent;
+	}
+
+	/**
+	* Set Rendered Time.
+	*
+	* @param	string	$a_renderedtime	Rendered Time
+	*/
+	function setRenderedTime($a_renderedtime)
+	{
+		$this->renderedtime = $a_renderedtime;
+	}
+
+	/**
+	* Get Rendered Time.
+	*
+	* @return	string	Rendered Time
+	*/
+	function getRenderedTime()
+	{
+		return $this->renderedtime;
+	}
+
+	/**
+	* Set Last Change.
+	*
+	* @param	string	$a_lastchange	Last Change
+	*/
+	function setLastChange($a_lastchange)
+	{
+		$this->lastchange = $a_lastchange;
+	}
+
+	/**
+	* Get Last Change.
+	*
+	* @return	string	Last Change
+	*/
+	function getLastChange()
+	{
+		return $this->lastchange;
+	}
+
 	/**
 	* read page data
 	*/
@@ -139,6 +219,10 @@ class ilPageObject
 		$this->xml = $this->page_record["content"];
 		$this->setParentId($this->page_record["parent_id"]);
 		$this->user = $this->page_record["user"];
+		$this->setRenderedContent($this->page_record["rendered_content"]);
+		$this->setRenderMd5($this->page_record["render_md5"]);
+		$this->setRenderedTime($this->page_record["rendered_time"]);
+		$this->setLastChange($this->page_record["last_change"]);
 
 		$ilBench->stop("ContentPresentation", "ilPageObject_read");
 	}
@@ -1309,6 +1393,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			"SET content = ".$ilDB->quote($this->getXMLContent())." ".
 			", parent_id = ".$ilDB->quote($this->getParentId())." ".
 			", last_change_user = ".$ilDB->quote($ilUser->getId())." ".
+			", last_change = now() ".
 			"WHERE page_id = ".$ilDB->quote($this->getId())." AND parent_type=".
 			$ilDB->quote($this->getParentType());
 
@@ -1385,6 +1470,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				"SET content = ".$ilDB->quote($content)." ".
 				", parent_id= ".$ilDB->quote($this->getParentId())." ".
 				", last_change_user= ".$ilDB->quote($ilUser->getId())." ".
+				", last_change = now() ".
 				" WHERE page_id = ".$ilDB->quote($this->getId()).
 				" AND parent_type= ".$ilDB->quote($this->getParentType());
 			if(!$this->ilias->db->checkQuerySize($query))
@@ -2740,6 +2826,21 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		
 		return $c;
+	}
+
+	/**
+	* Write rendered content
+	*/
+	function writeRenderedContent($a_content, $a_md5)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("UPDATE page_object ".
+			" SET rendered_content = ?, render_md5 = ?, rendered_time = now()".
+			" WHERE page_id = ?  AND parent_type = ?",
+			array("text", "text", "integer", "text"));
+		$r = $ilDB->execute($st,
+			array($a_content, $a_md5, $this->getId(), $this->getParentType()));
 	}
 
 }
