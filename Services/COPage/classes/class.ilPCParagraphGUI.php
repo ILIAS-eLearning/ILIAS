@@ -44,6 +44,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function ilPCParagraphGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
+		$this->setEnableWikiLinks(false);
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
@@ -70,6 +71,26 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	}
 
 	/**
+	* Set Enable Wiki Links.
+	*
+	* @param	boolean	$a_enablewikilinks	Enable Wiki Links
+	*/
+	function setEnableWikiLinks($a_enablewikilinks)
+	{
+		$this->enablewikilinks = $a_enablewikilinks;
+	}
+
+	/**
+	* Get Enable Wiki Links.
+	*
+	* @return	boolean	Enable Wiki Links
+	*/
+	function getEnableWikiLinks()
+	{
+		return $this->enablewikilinks;
+	}
+
+	/**
 	* edit paragraph form
 	*/
 	function edit($a_insert = false)
@@ -79,6 +100,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		// add paragraph edit template
 		$tpl = new ilTemplate("tpl.paragraph_edit.html", true, true, "Services/COPage");
 
+		// help text
+		$this->insertHelp($tpl);
+		
 		// operations
 		if ($a_insert)
 		{
@@ -290,7 +314,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-
 		$this->content_obj =& new ilPCParagraph($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->setLanguage($_POST["par_language"]);
@@ -319,16 +342,37 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	}
 	
 	/**
-	* popup window for wysiwyg editor
+	* Insert Help
 	*/
-/*
-	function popup()
+	function insertHelp($a_tpl)
 	{
-		include_once "./Services/COPage/classes/class.ilWysiwygUtil.php";
-		$popup = new ilWysiwygUtil();
-		$popup->show($_GET["ptype"]);
-		exit;
+		global $lng;
+		
+		$a_tpl->setCurrentBlock("help_item");
+		$a_tpl->setVariable("TXT_HELP", "<b>".$lng->txt("cont_syntax_help")."</b>");
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->setCurrentBlock("help_item");
+		$a_tpl->setVariable("TXT_HELP", "* ".$lng->txt("cont_bullet_list"));
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->setCurrentBlock("help_item");
+		$a_tpl->setVariable("TXT_HELP", "# ".$lng->txt("cont_numbered_list"));
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->setCurrentBlock("help_item");
+		$a_tpl->setVariable("TXT_HELP", "=".$lng->txt("cont_Headline1")."=<br />".
+			"==".$lng->txt("cont_Headline2")."==<br />".
+			"===".$lng->txt("cont_Headline3")."===");
+		$a_tpl->parseCurrentBlock();
+		
+		if ($this->getEnableWikiLinks())
+		{
+			$a_tpl->setCurrentBlock("help_item");
+			$a_tpl->setVariable("TXT_HELP", "[[".$lng->txt("cont_wiki_page_link")."]]");
+			$a_tpl->parseCurrentBlock();
+		}
+
+		$a_tpl->setCurrentBlock("help");
+		$a_tpl->parseCurrentBlock();
 	}
-*/
+	
 }
 ?>

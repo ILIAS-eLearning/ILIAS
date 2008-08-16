@@ -50,7 +50,7 @@ class ilWikiPage extends ilPageObject
 	*/
 	function setTitle($a_title)
 	{
-		$this->title = $a_title;
+		$this->title = ilWikiUtil::makeDbTitle($a_title);
 	}
 
 	/**
@@ -198,6 +198,8 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 		
+		$a_title = ilWikiUtil::makeDbTitle($a_title);
+		
 		$query = "SELECT * FROM il_wiki_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
 			" AND title = ".$ilDB->quote($a_title);
@@ -216,6 +218,8 @@ class ilWikiPage extends ilPageObject
 	static function getPageIdForTitle($a_wiki_id, $a_title)
 	{
 		global $ilDB;
+		
+		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
 		$query = "SELECT * FROM il_wiki_page".
 			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id).
@@ -359,6 +363,8 @@ class ilWikiPage extends ilPageObject
 	static function _wikiPageExists($a_wiki_id, $a_title)
 	{
 		global $ilDB;
+		
+		$a_title = ilWikiUtil::makeDbTitle($a_title);
 		
 		// delete record of table il_wiki_data
 		$query = "SELECT * FROM il_wiki_page".

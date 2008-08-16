@@ -24,7 +24,8 @@
 /** @defgroup ModulesWiki Modules/Wiki
  */
 
-require_once "./classes/class.ilObject.php";
+include_once "./classes/class.ilObject.php";
+include_once ("./Modules/Wiki/classes/class.ilWikiUtil.php");
 
 /**
 * Class ilObjWiki
@@ -97,7 +98,7 @@ class ilObjWiki extends ilObject
 	*/
 	function setStartPage($a_startpage)
 	{
-		$this->startpage = $a_startpage;
+		$this->startpage = ilWikiUtil::makeDbTitle($a_startpage);
 	}
 
 	/**

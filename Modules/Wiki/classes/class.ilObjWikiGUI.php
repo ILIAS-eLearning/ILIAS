@@ -49,7 +49,10 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("wiki");
 		
-		$ilCtrl->saveParameter($this, "page");
+		if ($_GET["page"] != "")
+		{
+			$ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
+		}
 	}
 	
 	function &executeCommand()
@@ -75,12 +78,19 @@ class ilObjWikiGUI extends ilObjectGUI
 				break;
 			
 			case 'ilwikipagegui':
-				//$ilCtrl->setReturn($this, "editPage");
+				include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
+				$append = ($_GET["page"] != "")
+					? "_".ilWikiUtil::makeUrlTitle($_GET["page"])
+					: "";
+				$perma_link = new ilPermanentLinkGUI("wiki", $_GET["ref_id"], $append);
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
-					$_GET["page"], $_GET["old_nr"]);
+					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"]);
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
-				$tpl->setContent($ret);
+				$tpl->setContent(
+					$ret.
+					"<br />".
+					$perma_link->getHTML());
 				if ($ilCtrl->getCmdClass() == "ilwikipagegui")
 				{
 					$this->addPageTabs();
@@ -317,8 +327,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$ilCtrl->setParameter($this, "wpg_id",
-			ilWikiPage::getPageIdForTitle($this->object->getId(), $_GET["page"]));
-		$ilCtrl->setParameter($this, "page", $_GET["page"]);
+			ilWikiPage::getPageIdForTitle($this->object->getId(), ilWikiUtil::makeDbTitle($_GET["page"])));
+		$ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
 		$ilTabs->addTarget("wiki_what_links_here",
 			$this->ctrl->getLinkTargetByClass("ilwikipagegui",
 			"whatLinksHere"), "whatLinksHere");
@@ -336,8 +346,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$ilCtrl->setParameter($this, "wpg_id",
-			ilWikiPage::getPageIdForTitle($this->object->getId(), $_GET["page"]));
-		$ilCtrl->setParameter($this, "page", $_GET["page"]);
+			ilWikiPage::getPageIdForTitle($this->object->getId(),
+				ilWikiUtil::makeDbTitle($_GET["page"])));
+		$ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
 		$ilTabs->addSubTabTarget("wiki_all_pages",
 			$this->ctrl->getLinkTarget($this, "allPages"), "allPages");
 		$ilTabs->addSubTabTarget("wiki_recent_changes",
@@ -366,7 +377,8 @@ class ilObjWikiGUI extends ilObjectGUI
 			if ($_GET["page"] != "")
 			{
 				$tabs_gui->setBackTarget($lng->txt("wiki_last_visited_page"),
-					$this->getGotoLink($_GET["ref_id"], $_GET["page"]));
+					$this->getGotoLink($_GET["ref_id"],
+						ilWikiUtil::makeDbTitle($_GET["page"])));
 			}
 			
 			// info screen
@@ -450,14 +462,18 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($tit);
 
 		// Short Title
+		// The problem with the short title is, that it is per object
+		// and can't be a substitute for a ref id in the permanent link
+/*		
 		$stit = new ilRegExpInputGUI($lng->txt("wiki_short_title"), "shorttitle");
-		$stit->setPattern("/^[^0-9][^_\&]+$/");
-		$stit->setRequired(true);
+		$stit->setPattern("/^[^0-9][^ _\&]+$/");
+		$stit->setRequired(false);
 		$stit->setNoMatchMessage($lng->txt("wiki_msg_short_name_regexp")." &amp; _");
 		$stit->setSize(20);
 		$stit->setMaxLength(20);
-		$stit->setInfo($lng->txt("wiki_short_title_desc"));
+		$stit->setInfo($lng->txt("wiki_short_title_desc2"));
 		$this->form_gui->addItem($stit);
+*/
 
 		// Description
 		$des = new ilTextAreaInputGUI($lng->txt("description"), "description");
@@ -631,9 +647,13 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilErr, $lng, $ilNavigationHistory;
 		
-		$tarr = explode("_", $a_target);
-		$a_target = (int)$tarr[0];
-		$a_page = $tarr[1];
+		$i = strpos($a_target, "_");
+		if ($i > 0)
+		{
+			$a_page = substr($a_target, $i+1);
+			$a_target = substr($a_target, 0, $i);
+		}
+			
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
@@ -672,14 +692,18 @@ class ilObjWikiGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 
+	/**
+	* Get goto link
+	*/
 	static function getGotoLink($a_ref_id, $a_page = "")
 	{
 		if ($a_page == "")
 		{
 			$a_page = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($a_ref_id));
 		}
+		
 		$goto = "./goto.php?target=wiki_".$a_ref_id."_".
-			rawurlencode($a_page);
+			ilWikiUtil::makeUrlTitle($a_page);
 			
 		return $goto;
 	}
@@ -714,11 +738,11 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 		
 		// page exists, show it !
-		$ilCtrl->setParameter($this, "page", rawurlencode($page));
+		$ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($page));
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
-			$page);
+			ilWikiUtil::makeDbTitle($page));
 		//$wpage_gui->setOutputMode(IL_PAGE_PREVIEW);
 		
 		//$wpage_gui->setSideBlock();
@@ -727,7 +751,16 @@ class ilObjWikiGUI extends ilObjectGUI
 		$html = $ilCtrl->forwardCommand($wpage_gui);
 		$this->addPageTabs();
 		
-		$tpl->setContent($html);
+		// permanent link
+		$append = ($_GET["page"] != "")
+			? "_".ilWikiUtil::makeUrlTitle($_GET["page"])
+			: "";
+		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
+		$perma_link = new ilPermanentLinkGUI("wiki", $_GET["ref_id"], $append);
+		
+		$tpl->setContent($html.
+			"<br />".
+			$perma_link->getHTML());
 	}
 		
 	/**
@@ -802,7 +835,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		if (ilWikiPage::_wikiPageExists($this->object->getId(),
-			$a_page))
+			ilWikiUtil::makeDbTitle($a_page)))
 		{
 			// to do: get rid of this redirect
 			ilUtil::redirect(ilObjWikiGUI::getGotoLink($this->object->getRefId(), $a_page));
@@ -812,11 +845,11 @@ class ilObjWikiGUI extends ilObjectGUI
 			// create the page
 			$page = new ilWikiPage();
 			$page->setWikiId($this->object->getId());
-			$page->setTitle($_GET["page"]);
+			$page->setTitle(ilWikiUtil::makeDbTitle($_GET["page"]));
 			$page->create();
 
 			// redirect to newly created page
-			$ilCtrl->setParameterByClass("ilwikipagegui", "page", rawurlencode($a_page));
+			$ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
 			$ilCtrl->redirectByClass("ilwikipagegui", "edit");
 		}
 	}

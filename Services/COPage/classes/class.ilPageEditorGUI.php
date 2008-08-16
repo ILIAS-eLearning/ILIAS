@@ -226,6 +226,7 @@ class ilPageEditorGUI
 				$cmd != "activatePage" && $cmd != "deactivatePage" &&
 				$cmd != "copyLinkedMediaToMediaPool" &&
 				$cmd != "deleteSelected" &&
+				$cmd != "displayPage" &&
 				$cmd != "activateSelected" &&
 				$cmd != "cancelCreate" && $cmd != "popup" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
@@ -365,6 +366,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
+				$par_gui->setEnableWikiLinks($this->page_gui->getEnabledWikiLinks());
 				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
 

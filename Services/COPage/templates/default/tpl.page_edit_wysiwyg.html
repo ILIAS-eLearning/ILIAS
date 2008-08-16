@@ -43,13 +43,23 @@ parent.tree.location.replace('{LINK_TREE}');
 <!-- BEGIN change_comment -->
 <tr class="std">
 <td class="submit">
-<textarea rows="4" cols="60" width="95%" name="change_comment"></textarea>
+<textarea rows="3" cols="60" width="95%" name="change_comment"></textarea>
 <br /><input class="submit" style="margin: 3px 0px;" type="submit" value="{TXT_ADD_COMMENT}" name="cmd[addChangeComment]">
 </td>
 </tr>
 <!-- END change_comment -->
 </table>
 </form>
+
+<!-- BEGIN help -->
+<div style="margin-top: 10px;">
+<!-- BEGIN help_item -->
+<div>
+<!-- BEGIN help_img --><img alt="{ALT_HELP}" src="{IMG_HELP}" /><!-- END  help_img --> <span class="subtitle">{TXT_HELP}</span>
+</div>
+<!-- END help_item -->
+<div>
+<!-- END help -->
 
 <!-- form used for ajax actions -->
 <form name="ajaxform" id="ajaxform" method="post" action="{WYSIWYG_ACTION}">
