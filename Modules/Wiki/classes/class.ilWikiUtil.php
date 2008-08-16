@@ -21,6 +21,20 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+/**
+* Wiki link / page title handling:
+*
+* Media wiki uses the following fields for page titles/links (see Title.php):
+*
+* $mDbkeyform = $dbkey;				($dbkey includes "_" for " ")
+* $mUrlform = ilWikiUtil::wfUrlencode($dbkey);
+* $mTextform = str_replace('_', ' ', $dbkey);
+*
+* ILIAS uses the ilWikiUtil::makeDbTitle($mTextform) (including " ") as key in the database table and
+* the ilWikiUtil::makeUrlTitle($mTextform) ("_" for " ")for embedding things in URLs.
+*
+*/
 define ("IL_WIKI_MODE_REPLACE", "replace");
 define ("IL_WIKI_MODE_COLLECT", "collect");
 
@@ -382,14 +396,17 @@ class ilWikiUtil
 			}
 			else
 			{
+				$url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
+				$db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
+
 				//$s .= ilWikiUtil::makeLink($nt, $a_wiki_id, $text, '', $trail, $prefix);
 				include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-				if ((ilWikiPage::_wikiPageExists($a_wiki_id, $text) ||
+				if ((ilWikiPage::_wikiPageExists($a_wiki_id, $db_title) ||
 					$a_collect_non_ex)
 				&&
-					!in_array($text, $collect))
+					!in_array($db_title, $collect))
 				{
-					$collect[] = $text;
+					$collect[] = $db_title;
 				}
 			}
 		}
@@ -406,6 +423,14 @@ class ilWikiUtil
 		}
 	}
 
+	/**
+	* See class.ilInitialisation.php
+	*/
+	function removeUnsafeCharacters($a_str)
+	{
+		return str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $a_str);
+	}
+	
 	/**
 	* Media wiki performs an intermediate step here (
 	*/
@@ -425,11 +450,12 @@ class ilWikiUtil
 			list( $inside, $trail ) = ilWikiUtil::splitTrail( $trail );
 			
 			//$retVal = '***'.$text."***".$trail;
-			
-			$wiki_link_class = (!ilWikiPage::_wikiPageExists($a_wiki_id, $text))
+			$url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
+			$db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
+			$wiki_link_class = (!ilWikiPage::_wikiPageExists($a_wiki_id, $db_title))
 				? ' class="ilWikiPageMissing" ' : "";
 			
-			$ilCtrl->setParameterByClass("ilobjwikigui", "page", rawurlencode($text));
+			$ilCtrl->setParameterByClass("ilobjwikigui", "page", $url_title);
 			$retVal = '<a '.$wiki_link_class.' href="'.
 				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage").
 				'">'.$text.'</a>'.$trail;
@@ -491,12 +517,32 @@ class ilWikiUtil
 	public static function wfUrlencode ( $s )
 	{
 		$s = urlencode( $s );
-		$s = preg_replace( '/%3[Aa]/', ':', $s );
-		$s = preg_replace( '/%2[Ff]/', '/', $s );
+//		$s = preg_replace( '/%3[Aa]/', ':', $s );
+//		$s = preg_replace( '/%2[Ff]/', '/', $s );
 
 		return $s;
 	}
 
+	
+	/**
+	* Handle page GET parameter
+	*/
+	static function makeDbTitle($a_par)
+	{
+		$a_par = ilWikiUtil::removeUnsafeCharacters($a_par);
+		return str_replace("_", " ", $a_par);
+	}
+
+	/**
+	* Set page parameter for Url Embedding
+	*/
+	static function makeUrlTitle($a_par)
+	{
+		$a_par = ilWikiUtil::removeUnsafeCharacters($a_par);
+		$a_par = str_replace(" ", "_", $a_par);
+		return ilWikiUtil::wfUrlencode($a_par);
+	}
+	
 	// from Linker.php
 	static function splitTrail( $trail )
 	{

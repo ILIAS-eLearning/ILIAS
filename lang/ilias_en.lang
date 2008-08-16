@@ -1314,6 +1314,13 @@ chat#:#chat_whisper#:#Whisper
 chat#:#chat_yellow#:#yellow
 chat#:#chats#:#Chats
 chat#:#my_chats#:#My Chats
+content#:#cont_add_elements#:#Click on placeholders to add new elements.
+content#:#cont_syntax_help#:#Syntax Help
+content#:#cont_bullet_list#:#Bullet List
+content#:#cont_numbered_list#:#Numbered List
+content#:#cont_wiki_page_link#:#Wiki Page Link
+content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
 form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.
 form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.
 form#:#form_min_value#:#Minimum Value
@@ -1658,7 +1665,7 @@ wiki#:#wiki_start_page_title#:#Start Page Title
 wiki#:#wiki_main_page#:#Main Page
 wiki#:#wiki_short_title#:#Short Title
 wiki#:#wiki_orphaned_pages#:#Orphaned Pages
-wiki#:#wiki_short_title_desc#:#This title can be used in links to the wiki.
+wiki#:#wiki_short_title_desc2#:#This title will be used in links to the wiki. Once choosen you should not change this title, since users may loose their bookmarks.
 wiki#:#wiki_article#:#Article
 wiki#:#wiki_pages#:#Pages
 wiki#:#wiki_discussion#:#Discussion

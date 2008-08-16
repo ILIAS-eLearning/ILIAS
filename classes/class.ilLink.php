@@ -34,7 +34,7 @@ define('IL_INTERNAL_LINK_SCRIPT','goto.php');
 */
 class ilLink
 {
-	public function _getLink($a_ref_id,$a_type = '',$a_params = array())
+	public function _getLink($a_ref_id,$a_type = '',$a_params = array(), $append = "")
 	{
 		global $ilObjDataCache;
 
@@ -61,7 +61,7 @@ class ilLink
 				return ILIAS_HTTP_PATH.'/'.IL_INTERNAL_LINK_SCRIPT.'?'.$param_string.'&client_id='.CLIENT_ID;
 			
 			default:
-				return ILIAS_HTTP_PATH.'/'.IL_INTERNAL_LINK_SCRIPT.'?target='.$a_type.'_'.$a_ref_id.'&client_id='.CLIENT_ID.$param_string;
+				return ILIAS_HTTP_PATH.'/'.IL_INTERNAL_LINK_SCRIPT.'?target='.$a_type.'_'.$a_ref_id.$append.'&client_id='.CLIENT_ID.$param_string;
 		}
 	}
 
@@ -76,7 +76,8 @@ class ilLink
 	 * @param bool fallback to goto.php if robots are disabled
 	 * @return string goto.html or goto.php link
 	 */
-	public static function _getStaticLink($a_ref_id,$a_type = '',$a_fallback_goto = true)
+	public static function _getStaticLink($a_ref_id,$a_type = '',$a_fallback_goto = true,
+		$append = "")
 	{
 		global $ilObjDataCache;
 
@@ -91,7 +92,7 @@ class ilLink
 		{
 			if($a_fallback_goto)
 			{
-				return ilLink::_getLink($a_ref_id,$a_type);
+				return ilLink::_getLink($a_ref_id,$a_type,array(),$append);
 			}
 			else
 			{
@@ -99,7 +100,7 @@ class ilLink
 			}
 		}
 		
-		return ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_'.$a_type.'_'.$a_ref_id.'.html';
+		return ILIAS_HTTP_PATH.'/goto_'.urlencode(CLIENT_ID).'_'.$a_type.'_'.$a_ref_id.$append.'.html';
 	}	
 }
 ?>

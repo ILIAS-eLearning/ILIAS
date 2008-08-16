@@ -122,6 +122,7 @@ class ilPageObjectGUI
 		$this->page_back_title = $this->lng->txt("page");
 		$lng->loadLanguageModule("content");
 		$this->setPreventHTMLUnmasking(false);
+		$this->setEnabledWikiLinks(false);
 		
 		$this->setTemplateOutput(false);
 	}
@@ -639,6 +640,26 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* Set Enable Wiki Links.
+	*
+	* @param	boolean	$a_enablewikilinks	Enable Wiki Links
+	*/
+	function setEnabledWikiLinks($a_enablewikilinks)
+	{
+		$this->enablewikilinks = $a_enablewikilinks;
+	}
+
+	/**
+	* Get Enable Wiki Links.
+	*
+	* @return	boolean	Enable Wiki Links
+	*/
+	function getEnabledWikiLinks()
+	{
+		return $this->enablewikilinks;
+	}
+
+	/**
 	* Activate meda data editor
 	*
 	* @param	int		$a_rep_obj_id		object id as used in repository
@@ -799,6 +820,8 @@ class ilPageObjectGUI
 					$tpl->parseCurrentBlock();
 					$tpl->setCurrentBlock("adm_content");
 				}
+				
+				$this->insertHelp($tpl);
 
 				// explorer updater
 				if ($this->exp_frame != "")
@@ -1552,6 +1575,41 @@ class ilPageObjectGUI
 	function postOutputProcessing($a_output)
 	{
 		return $a_output;
+	}
+	
+	/**
+	* Insert help texts
+	*/
+	function insertHelp($a_tpl)
+	{
+		global $lng;
+		
+		$a_tpl->setCurrentBlock("help_img");
+		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.gif"));
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->setCurrentBlock("help_item");
+		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_add_elements"));
+		$a_tpl->parseCurrentBlock();
+		
+		$a_tpl->setCurrentBlock("help_img");
+		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.gif"));
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->setCurrentBlock("help_img");
+		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("drop_streaked_area.gif"));
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->setCurrentBlock("help_item");
+		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_drag_and_drop_elements"));
+		$a_tpl->parseCurrentBlock();
+
+		$a_tpl->setCurrentBlock("help_img");
+		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.gif"));
+		$a_tpl->parseCurrentBlock();
+		$a_tpl->setCurrentBlock("help_item");
+		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_double_click_to_delete"));
+		$a_tpl->parseCurrentBlock();
+		
+		$a_tpl->setCurrentBlock("help");
+		$a_tpl->parseCurrentBlock();
 	}
 	
 	/*
