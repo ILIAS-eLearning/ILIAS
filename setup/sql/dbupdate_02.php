@@ -5291,3 +5291,11 @@ if (!$ilDB->tableColumnExists("tst_tests", "showinfo"))
 	$res = $ilDB->query($query);
 }
 ?>
+<#1305>
+<?php
+if (!$ilDB->tableColumnExists("tst_tests", "showinfo"))
+{
+	$query = "ALTER TABLE `tst_tests` ADD `forcejs` INT NOT NULL DEFAULT '0'";
+	$res = $ilDB->query($query);
+}
+?>
