@@ -8567,3 +8567,20 @@ pd#:#pd_personal_items_default_view_info#:#Choose the prefered view of Personal 
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in.
+assessment#:#kiosk#:#Kiosk Mode
+assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.
+assessment#:#autosave_success#:#Autosave successful...
+assessment#:#autosave_failed#:#Autosave failed!
+assessment#:#kiosk_show_title#:#Show Test Title
+assessment#:#kiosk_show_participant#:#Show Name of Participant
+assessment#:#kiosk_options#:#Kiosk Mode Options
+assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.
+assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...
+assessment#:#final_statement#:#Final Statement
+assessment#:#final_statement_show#:#Show Final Statement
+assessment#:#final_statement_show_desc#:#If checked, the final statement will be shown directly after the test was finished prior to the presentation of the test results.
+assessment#:#showinfo#:#Show the complete Information Page
+assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. 
+assessment#:#forcejs#:#Force JavaScript output for test questions
+assessment#:#forcejs_short#:#Force JavaScript
+assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.

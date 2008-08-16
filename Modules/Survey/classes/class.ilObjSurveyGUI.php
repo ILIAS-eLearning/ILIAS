@@ -2219,6 +2219,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", "Modules/Survey");
 
 		if ($this->object->getStatus() == STATUS_OFFLINE)
@@ -2350,6 +2351,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
+
 		if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
 		{
 			$invited_users = $this->object->getInvitedUsers();
@@ -2389,7 +2391,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("adm_content");
+		
+		if ($rbacsystem->checkAccess("write", $this->ref_id) or $rbacsystem->checkAccess('invite', $this->ref_id)) 
+		{
+			$this->tpl->setCurrentBlock("command_buttons");
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("survey_online");
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "invite"));
 		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
 		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
@@ -2402,9 +2412,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		else
 		{
 			$this->tpl->setVariable("SELECTED_OFF", " selected=\"selected\"");
-		}
-    if ($rbacsystem->checkAccess("write", $this->ref_id) or $rbacsystem->checkAccess('invite', $this->ref_id)) {
-			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		}
 		$this->tpl->parseCurrentBlock();
 	}
@@ -3543,17 +3550,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 						foreach ($constraints as $constraint)
 						{
 							$this->tpl->setCurrentBlock("constraint");
-							$this->tpl->setVariable("CONSTRAINT_TEXT", $survey_questions[$constraint["question"]]["title"] . " " . $constraint["short"] . " " . $constraint["valueoutput"]);
 							$this->tpl->setVariable("SEQUENCE_ID", $counter);
 							$this->tpl->setVariable("CONSTRAINT_ID", $constraint["id"]);
-							$this->tpl->setVariable("COLOR_CLASS", $colors[$rowcount % 2]);
+							$this->tpl->setVariable("CONSTRAINT_TEXT", $survey_questions[$constraint["question"]]["title"] . " " . $constraint["short"] . " " . $constraint["valueoutput"]);
 							$this->tpl->setVariable("TEXT_EDIT_PRECONDITION", $this->lng->txt("edit"));
 							$this->ctrl->setParameter($this, "precondition", $constraint["id"]);
 							$this->ctrl->setParameter($this, "start", $counter);
 							$this->tpl->setVariable("EDIT_PRECONDITION", $this->ctrl->getLinkTarget($this, "editPrecondition"));
 							$this->ctrl->setParameter($this, "precondition", "");
 							$this->ctrl->setParameter($this, "start", "");
-							$rowcount++;
 							$this->tpl->parseCurrentBlock();
 						}
 					}
@@ -3565,32 +3570,34 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("constraint_section");
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->setVariable("QUESTION_NR", "$counter");
 				$this->tpl->setVariable("TITLE", "$title");
 				$icontype = "question.gif";
 				if ($data["questionblock_id"] > 0)
 				{
 					$icontype = "questionblock.gif";
-					$this->tpl->setVariable("TYPE", "$type: ");
 				}
+				$this->tpl->setVariable("TYPE", "$type: ");
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				$this->tpl->setVariable("ICON_HREF", ilUtil::getImagePath($icontype, "Modules/Survey"));
 				$this->tpl->setVariable("ICON_ALT", $type);
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
 		}
 		if ($rbacsystem->checkAccess("write", $this->ref_id) and !$hasDatasets)
 		{
-			$this->tpl->setCurrentBlock("selectall");
-			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
-			$counter++;
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 			if ($hasPreconditions)
 			{
+				$this->tpl->setCurrentBlock("selectall_preconditions");
 				$this->tpl->setVariable("SELECT_ALL_PRECONDITIONS", $this->lng->txt("select_all"));
+				$this->tpl->parseCurrentBlock();
 			}
+			$this->tpl->setCurrentBlock("selectall");
+			$counter++;
+			$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 
 			if ($hasPreconditions)

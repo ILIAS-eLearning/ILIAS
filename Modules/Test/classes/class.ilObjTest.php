@@ -36,6 +36,15 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilObjTest extends ilObject
 {
+	/**
+	* Kiosk mode
+	*
+	* Tells wheather the test runs in a kiosk mode or not
+	*
+	* @var integer
+	*/
+	protected $_kiosk;
+	
 /**
 * The database id of the additional test data dataset
 *
@@ -418,6 +427,34 @@ class ilObjTest extends ilObject
 	* @var object
 	*/
 	var $testSequence;
+	
+	/**
+	* Determines whether or not a final statement should be shown on test completion
+	*
+	* @var boolean
+	*/
+	private $_showfinalstatement;
+
+	/**
+	* A final statement for test completion
+	*
+	* @var string
+	*/
+	private $_finalstatement;
+
+	/**
+	* Show the complete data on the test information page
+	*
+	* @var boolean
+	*/
+	private $_showinfo;
+
+	/**
+	* Force JavaScript for test questions
+	*
+	* @var boolean
+	*/
+	private $_forcejs;
 
 	/**
 	* Constructor
@@ -441,6 +478,7 @@ class ilObjTest extends ilObject
 		$this->answer_feedback_points = 0;
 		$this->reporting_date = "";
 		$this->nr_of_tries = 0;
+		$this->_kiosk = 0;
 		$this->use_previous_answers = 1;
 		$this->title_output = 0;
 		$this->starting_time = "";
@@ -462,6 +500,10 @@ class ilObjTest extends ilObject
 		$this->password = "";
 		$this->certificate_visibility = 0;
 		$this->allowedUsers = "";
+		$this->_showfinalstatement = FALSE;
+		$this->_finalstatement = "";
+		$this->_showinfo = TRUE;
+		$this->_forcejs = FALSE;
 		$this->allowedUsersTimeGap = "";
 		$this->anonymity = 0;
 		$this->show_cancel = 1;
@@ -1102,6 +1144,7 @@ class ilObjTest extends ilObject
 	{
 		$result = array();
 		array_push($result, $this->getIntroduction());
+		array_push($result, $this->getFinalStatement());
 		return $result;
 	}
 	
@@ -1184,18 +1227,22 @@ class ilObjTest extends ilObject
 			// Create new dataset
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, sequence_settings, " .
+			$query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, finalstatement, showinfo, forcejs, showfinalstatement, sequence_settings, " .
 				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, show_marker, " .
-				"fixed_participants, nr_of_tries, use_previous_answers, title_output, processing_time, enable_processing_time, reset_processing_time, " .
+				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, reset_processing_time, " .
 				"reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, " .
 				"ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedUsers, " .
 				"allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) " .
-				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
+				$ilDB->quote((($this->getShowInfo()) ? "1" : "0")),
+				$ilDB->quote((($this->getForceJS()) ? "1" : "0")),
+				$ilDB->quote((($this->getShowFinalStatement()) ? "1" : "0")),
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
 				$ilDB->quote($this->getInstantFeedbackSolution() . ""),
@@ -1206,6 +1253,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getShowMarker() . ""),
 				$ilDB->quote($this->getFixedParticipants() . ""),
 				$ilDB->quote(sprintf("%d", $this->getNrOfTries()) . ""),
+				$ilDB->quote($this->getKiosk() . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
 				$ilDB->quote($this->processing_time . ""),
@@ -1268,9 +1316,13 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				}
 			}
-			$query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, fixed_participants = %s, nr_of_tries = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+			$query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, finalstatement = %s, showinfo = %s, forcejs = %s, showfinalstatement = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
+				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
+				$ilDB->quote((($this->getShowInfo()) ? "1" : "0")),
+				$ilDB->quote((($this->getForceJS()) ? "1" : "0")),
+				$ilDB->quote((($this->getShowFinalStatement()) ? "1" : "0")),
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
 				$ilDB->quote($this->getInstantFeedbackSolution() . ""),
@@ -1281,6 +1333,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote($this->getShowMarker() . ""),
 				$ilDB->quote($this->getFixedParticipants() . ""),
 				$ilDB->quote(sprintf("%d", $this->getNrOfTries()) . ""),
+				$ilDB->quote($this->getKiosk() . ""),
 				$ilDB->quote(sprintf("%d", $this->getUsePreviousAnswers() . "")),
 				$ilDB->quote(sprintf("%d", $this->getTitleOutput() . "")),
 				$ilDB->quote($this->processing_time . ""),
@@ -1841,6 +1894,10 @@ class ilObjTest extends ilObject
 			$this->author = $this->getAuthor();
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->introduction = ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1);
+			$this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc($data->finalstatement, 1));
+			$this->setShowInfo($data->showinfo);
+			$this->setForceJS($data->forcejs);
+			$this->setShowFinalStatement($data->showfinalstatement);
 			$this->sequence_settings = $data->sequence_settings;
 			$this->score_reporting = $data->score_reporting;
 			$this->instant_verification = $data->instant_verification;
@@ -1851,6 +1908,7 @@ class ilObjTest extends ilObject
 			$this->show_marker = $data->show_marker;
 			$this->fixed_participants = $data->fixed_participants;
 			$this->nr_of_tries = $data->nr_of_tries;
+			$this->setKiosk($data->kiosk);
 			$this->setUsePreviousAnswers($data->use_previous_answers);
 			$this->setTitleOutput($data->title_output);
 			$this->processing_time = $data->processing_time;
@@ -1956,6 +2014,78 @@ function loadQuestions($active_id = "", $pass = NULL)
     $this->introduction = $introduction;
   }
 
+	/**
+	* Sets the final statement
+	*
+	* Sets the final statement text of the ilObjTest object
+	*
+	* @param string $a_statement A final statement
+	* @access public
+	* @see $_finalstatement
+	*/
+	public function setFinalStatement($a_statement = "")
+	{
+		$this->_finalstatement = $a_statement;
+	}
+
+	/**
+	* Set whether the complete information page is shown or the required data only
+	*
+	* @param boolean $a_boolean TRUE for the complete information, FALSE otherwise
+	* @access public
+	* @see $_showinfo
+	*/
+	public function setShowInfo($a_boolean = TRUE)
+	{
+		if ($a_boolean)
+		{
+			$this->_showinfo = TRUE;
+		}
+		else
+		{
+			$this->_showinfo = FALSE;
+		}
+	}
+
+	/**
+	* Set whether JavaScript should be forced for tests
+	*
+	* @param boolean $a_boolean TRUE to force JavaScript, FALSE otherwise
+	* @access public
+	* @see $_forcejs
+	*/
+	public function setForceJS($a_boolean = TRUE)
+	{
+		if ($a_boolean)
+		{
+			$this->_forcejs = TRUE;
+		}
+		else
+		{
+			$this->_forcejs = FALSE;
+		}
+	}
+
+	/**
+	* Sets whether the final statement should be shown or not
+	*
+	* @param boolean $show TRUE or FALSE
+	* @access public
+	* @see $_finalstatement
+	*/
+	public function setShowFinalStatement($show = "")
+	{
+		if ($show)
+		{
+			$this->_showfinalstatement = TRUE;
+		}
+		else
+		{
+			$this->_showfinalstatement = FALSE;
+		}
+	}
+
+
 /**
 * Gets the status of the $random_test attribute
 *
@@ -1997,6 +2127,54 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
     return $this->introduction;
   }
+
+	/**
+	* Gets the final statement
+	*
+	* @return string The final statement
+	* @access public
+	* @see $_finalstatement
+	*/
+	public function getFinalStatement()
+	{
+		return $this->_finalstatement;
+	}
+
+	/**
+	* Gets whether the complete information page is shown or the required data only
+	*
+	* @return boolean TRUE for the complete information, FALSE otherwise
+	* @access public
+	* @see $_showinfo
+	*/
+	public function getShowInfo()
+	{
+		return $this->_showinfo;
+	}
+
+	/**
+	* Gets whether JavaScript should be forced for tests
+	*
+	* @return boolean TRUE to force JavaScript, FALSE otherwise
+	* @access public
+	* @see $_forcejs
+	*/
+	public function getForceJS()
+	{
+		return $this->_forcejs;
+	}
+
+	/**
+	* Returns whether the final statement should be shown or not
+	*
+	* @return boolean TRUE or FALSE
+	* @access public
+	* @see $_showfinalstatement
+	*/
+	public function getShowFinalStatement()
+	{
+		return $this->_showfinalstatement;
+	}
 
 /**
 * Gets the database id of the additional test data
@@ -2507,6 +2685,168 @@ function loadQuestions($active_id = "", $pass = NULL)
     return $this->nr_of_tries;
   }
 
+	/**
+	* Returns the kiosk mode
+	*
+	* Returns the kiosk mode
+	*
+	* @return integer Kiosk mode
+	* @access public
+	* @see $_kiosk
+	*/
+	function getKiosk()
+	{
+		return $this->_kiosk;
+	}
+
+
+		/**
+		* Sets the kiosk mode for the test
+		*
+		* Sets the kiosk mode for the test
+		*
+		* @param integer $kiosk The value for the kiosk mode.
+		* @access public
+		* @see $_kiosk
+		*/
+		function setKiosk($kiosk = 0)
+		{
+			$this->_kiosk = $kiosk;
+		}
+
+	/**
+	* Returns the kiosk mode
+	*
+	* Returns the kiosk mode
+	*
+	* @return boolean Kiosk mode
+	* @access public
+	* @see $_kiosk
+	*/
+	function getKioskMode()
+	{
+		if (($this->_kiosk & 1) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/**
+	* Sets the kiosk mode for the test
+	*
+	* Sets the kiosk mode for the test
+	*
+	* @param boolean $kiosk The value for the kiosk mode
+	* @access public
+	* @see $_kiosk
+	*/
+	public function setKioskMode($a_kiosk = FALSE)
+	{
+		if ($a_kiosk)
+		{
+			$this->_kiosk = $this->_kiosk | 1;
+		}
+		else
+		{
+			if ($this->getKioskMode())
+			{
+				$this->_kiosk = $this->_kiosk ^ 1;
+			}
+		}
+	}
+
+	/**
+	* Returns the status of the kiosk mode title
+	*
+	* Returns the status of the kiosk mode title
+	*
+	* @return boolean Kiosk mode title
+	* @access public
+	* @see $_kiosk
+	*/
+	public function getShowKioskModeTitle()
+	{
+		if (($this->_kiosk & 2) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/**
+	* Set to true, if the full test title should be shown in kiosk mode
+	*
+	* Set to true, if the full test title should be shown in kiosk mode
+	*
+	* @param boolean $a_title TRUE if the test title should be shown in kiosk mode, FALSE otherwise
+	* @access public
+	*/
+	public function setShowKioskModeTitle($a_title = FALSE)
+	{
+		if ($a_title)
+		{
+			$this->_kiosk = $this->_kiosk | 2;
+		}
+		else
+		{
+			if ($this->getShowKioskModeTitle())
+			{
+				$this->_kiosk = $this->_kiosk ^ 2;
+			}
+		}
+	}
+
+	/**
+	* Returns the status of the kiosk mode participant
+	*
+	* Returns the status of the kiosk mode participant
+	*
+	* @return boolean Kiosk mode participant
+	* @access public
+	* @see $_kiosk
+	*/
+	public function getShowKioskModeParticipant()
+	{
+		if (($this->_kiosk & 4) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/**
+	* Set to true, if the participant's name should be shown in kiosk mode
+	*
+	* Set to true, if the participant's name should be shown in kiosk mode
+	*
+	* @param boolean $a_title TRUE if the participant's name should be shown in kiosk mode, FALSE otherwise
+	* @access public
+	*/
+	public function setShowKioskModeParticipant($a_participant = FALSE)
+	{
+		if ($a_participant)
+		{
+			$this->_kiosk = $this->_kiosk | 4;
+		}
+		else
+		{
+			if ($this->getShowKioskModeParticipant())
+			{
+				$this->_kiosk = $this->_kiosk ^ 4;
+			}
+		}
+	}
+
 /**
 * Returns if the previous answers should be shown for a learner
 *
@@ -2740,7 +3080,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $use_previous_answers
 */
-  function setUsePreviousAnswers($use_previous_answers = 1)
+	function setUsePreviousAnswers($use_previous_answers = 1)
 	{
 		if ($use_previous_answers)
 		{
@@ -5661,6 +6001,11 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$this->setIntroduction($this->QTIMaterialToString($material));
 			}
 		}
+		if ($assessment->getPresentationMaterial())
+		{
+			$this->setFinalStatement($this->QTIMaterialToString($assessment->getPresentationMaterial()->getMaterial(0)));
+		}
+		
 		foreach ($assessment->assessmentcontrol as $assessmentcontrol)
 		{
 			switch ($assessmentcontrol->getSolutionswitch())
@@ -5709,6 +6054,18 @@ function loadQuestions($active_id = "", $pass = NULL)
 					break;
 				case "nr_of_tries":
 					$this->setNrOfTries($metadata["entry"]);
+					break;
+				case "kiosk":
+					$this->setKiosk($metadata["entry"]);
+					break;
+				case "showfinalstatement":
+					$this->setShowFinalStatement($metadata["entry"]);
+					break;
+				case "showinfo":
+					$this->setShowInfo($metadata["entry"]);
+					break;
+				case "forcejs":
+					$this->setForceJS($metadata["entry"]);
 					break;
 				case "hide_previous_results":
 					if ($metadata["entry"] == 0)
@@ -5851,6 +6208,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 					$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 					ilObjMediaObject::_saveUsage($media_object->getId(), "tst:html", $this->getId());
 					$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()), 1));
+					$this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getFinalStatement()), 1));
 				}
 				else
 				{
@@ -5988,6 +6346,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getNrOfTries()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		// kiosk
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "kiosk");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getKiosk()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// use previous answers
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "use_previous_answers");
@@ -6060,6 +6424,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getFixedParticipants()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
+		// show final statement
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "showfinalstatement");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", (($this->getShowFinalStatement()) ? "1" : "0")));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// show introduction only
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "showinfo");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", (($this->getShowInfo()) ? "1" : "0")));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// force JavaScript
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "forcejs");
+		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", (($this->getForceJS()) ? "1" : "0")));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		// shuffle questions
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "shuffle_questions");
@@ -6112,6 +6494,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		$a_xml_writer->xmlElement("assessmentcontrol", $attrs, NULL);
 
+		if (strlen($this->getFinalStatement()))
+		{
+			// add qti presentation_material
+			$a_xml_writer->xmlStartTag("presentation_material");
+			$a_xml_writer->xmlStartTag("flow_mat");
+			$this->addQTIMaterial($a_xml_writer, $this->getFinalStatement());
+			$a_xml_writer->xmlEndTag("flow_mat");
+			$a_xml_writer->xmlEndTag("presentation_material");
+		}
+		
 		$attrs = array(
 			"ident" => "1"
 		);
@@ -6661,6 +7053,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setFixedParticipants($this->getFixedParticipants());
 		$newObj->setInstantFeedbackSolution($this->getInstantFeedbackSolution());
 		$newObj->setIntroduction($this->getIntroduction());
+		$newObj->setFinalStatement($this->getFinalStatement());
+		$newObj->setShowInfo($this->getShowInfo());
+		$newObj->setForceJS($this->getForceJS());
+		$newObj->setShowFinalStatement($this->getShowFinalStatement());
 		$newObj->setListOfQuestionsSettings($this->getListOfQuestionsSettings());
 		$newObj->setMCScoring($this->getMCScoring());
 		$newObj->setNrOfTries($this->getNrOfTries());
@@ -8797,12 +9193,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$mobs = ilObjMediaObject::_getMobsOfObject("tst:html", $this->getId());
 		foreach ($mobs as $mob)
 		{
-			$mob_obj =& new ilObjMediaObject($mob);
-			$imgattrs = array(
-				"label" => "il_" . IL_INST_ID . "_mob_" . $mob,
-				"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
-			);
-			$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+			$moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
+			if (strpos($a_material, "mm_$mob") !== FALSE)
+			{
+				$mob_obj =& new ilObjMediaObject($mob);
+				$imgattrs = array(
+					"label" => $moblabel,
+					"uri" => "objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+				);
+				$a_xml_writer->xmlElement("matimage", $imgattrs, NULL);
+			}
 		}
 		$a_xml_writer->xmlEndTag("material");
 	}
@@ -9201,6 +9601,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"TitleOutput" => $this->getTitleOutput(),
 			"PassScoring" => $this->getPassScoring(),
 			"Introduction" => $this->getIntroduction(),
+			"FinalStatement" => $this->getFinalStatement(),
+			"ShowInfo" => $this->getShowInfo(),
+			"ForceJS" => $this->getForceJS(),
+			"ShowFinalStatement" => $this->getShowFinalStatement(),
 			"SequenceSettings" => $this->getSequenceSettings(),
 			"ScoreReporting" => $this->getScoreReporting(),
 			"InstantFeedbackSolution" => $this->getInstantFeedbackSolution(),
@@ -9212,6 +9616,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"ShowMarker" => $this->getShowMarker(),
 			"ReportingDate" => $this->getReportingDate(),
 			"NrOfTries" => $this->getNrOfTries(),
+			"Kiosk" => $this->getKiosk(),
 			"UsePreviousAnswers" => $this->getUsePreviousAnswers(),
 			"ProcessingTime" => $this->getProcessingTime(),
 			"EnableProcessingTime" => $this->getEnableProcessingTime(),
@@ -9258,6 +9663,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setTitleOutput($testsettings["TitleOutput"]);
 			$this->setPassScoring($testsettings["PassScoring"]);
 			$this->setIntroduction($testsettings["Introduction"]);
+			$this->setFinalStatement($testsettings["FinalStatement"]);
+			$this->setShowInfo($testsettings["ShowInfo"]);
+			$this->setForceJS($testsettings["ForceJS"]);
+			$this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
 			$this->setSequenceSettings($testsettings["SequenceSettings"]);
 			$this->setScoreReporting($testsettings["ScoreReporting"]);
 			$this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
@@ -9274,6 +9683,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
 			$this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
 			$this->setStartingTime($testsettings["StartingTime"]);
+			$this->setKiosk($testsettings["Kiosk"]);
 			$this->setEndingTime($testsettings["EndingTime"]);
 			$this->setECTSOutput($testsettings["ECTSOutput"]);
 			$this->setECTSFX($testsettings["ECTSFX"]);
@@ -9415,6 +9825,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function getJavaScriptOutput()
 	{
 		global $ilUser;
+		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
+		if ($this->getForceJS()) return TRUE;
 		$assessmentSetting = new ilSetting("assessment");
 		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
 	}

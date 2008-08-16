@@ -78,6 +78,19 @@ class ilYuiUtil
 
 
 	/**
+	* Init YUI Connection module
+	*/
+	static function initConnectionWithAnimation()
+	{
+		global $tpl;
+		
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/animation/animation-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/connection/connection-min.js");
+	}
+
+	/**
 	* Init YUI Menu module
 	*/
 	static function initMenu()

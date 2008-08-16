@@ -54,6 +54,7 @@ class ilTemplate extends ilTemplateX
 	var $js_files = array(0 => "Services/JavaScript/js/Basic.js");		// list of JS files that should be included
 	var $js_files_vp = array("Services/JavaScript/js/Basic.js" => true);	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
+	private $addFooter; // creates an output of the ILIAS footer
 
 	/**
 	* constructor
@@ -71,6 +72,7 @@ class ilTemplate extends ilTemplateX
 
 		$this->activeBlock = "__global__";
 		$this->vars = array();
+		$this->addFooter = TRUE;
 
 		/*
 		if (strpos($file,"/") === false)
@@ -115,6 +117,26 @@ class ilTemplate extends ilTemplateX
 		$this->setOption('use_preg', false);
 
 		return true;
+	}
+	
+	/*
+	* Sets wheather the ILIAS footer should be shown or not
+	*
+	* @param boolean $value TRUE to show the ILIAS footer, FALSE to hide it
+	*/
+	function setAddFooter($value)
+	{
+		$this->addFooter = $value;
+	}
+	
+	/*
+	* Returns wheather the ILIAS footer should be shown or not
+	*
+	* @return boolean TRUE if the ILIAS footer will be shown, FALSE otherwise
+	*/
+	function getAddFooter()
+	{
+		return $this->addFooter;
 	}
 
 	
@@ -396,7 +418,6 @@ class ilTemplate extends ilTemplateX
 		{
 			$vers = "vers=".str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
 		}
-		
 		if ($this->blockExists("js_file"))
 		{
 			foreach($this->js_files as $file)
@@ -504,6 +525,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function addILIASFooter()
 	{
+		if (!$this->getAddFooter()) return;
 		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting;
 
 		$this->addBlockFile("FOOTER", "footer", "tpl.footer.html");
