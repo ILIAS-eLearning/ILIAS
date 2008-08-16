@@ -444,7 +444,7 @@ function doActionForm(cmd, command, value, target)
     
 	if (value=="delete") 
 	{
-		if(!confirm("{TXT_CONFIRM_DELETE}")) 
+		if(!confirm(confirm_delete)) 
 		{
 			menuBlocked = true;
 			setTimeout("nextMenuClick()",500);

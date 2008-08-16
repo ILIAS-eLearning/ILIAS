@@ -5308,3 +5308,10 @@ if (!$ilDB->tableColumnExists("tst_tests", "forcejs"))
 	$res = $ilDB->query($query);
 }
 ?>
+<#1307>
+ALTER TABLE page_object MODIFY last_change DATETIME DEFAULT '0000-00-00 00:00:00';
+<#1308>
+ALTER TABLE page_object ADD COLUMN render_md5 VARCHAR(32) DEFAULT '';
+ALTER TABLE page_object ADD COLUMN rendered_content MEDIUMTEXT DEFAULT '';
+<#1309>
+ALTER TABLE page_object ADD COLUMN rendered_time DATETIME DEFAULT '0000-00-00 00:00:00';

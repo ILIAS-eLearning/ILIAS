@@ -798,8 +798,10 @@ class ilPageObjectGUI
 	*/
 	function showPage()
 	{
-		global $tree, $ilUser, $ilias, $lng, $ilCtrl;
+		global $tree, $ilUser, $ilias, $lng, $ilCtrl, $ilBench;
 
+		$ilBench->start("ContentPresentation", "ilPageObjectGUI_showPage");
+		
 		// init template
 		//if($this->outputToTemplate())
 		//{
@@ -890,6 +892,7 @@ class ilPageObjectGUI
 				}
 
 				$tpl->setVariable("PREPENDING_HTML", $this->getPrependingHtml());
+				$tpl->setVariable("TXT_CONFIRM_DELETE", $lng->txt("cont_confirm_delete"));
 				
 				if ($this->getViewPageLink() != "")
 				{
@@ -1172,16 +1175,6 @@ class ilPageObjectGUI
 		// get title
 		$pg_title = $this->getPresentationTitle();
 
-		//$content = str_replace("&nbsp;", "", $content);
-
-		// run xslt
-		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-		$xh = xslt_create();
-
-		//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		//		echo "mode:".$this->getOutputMode().":<br>";
-
 		$add_path = ilUtil::getImagePath("add.gif");
 		$col_path = ilUtil::getImagePath("col.gif");
 		$row_path = ilUtil::getImagePath("row.gif");
@@ -1294,17 +1287,45 @@ class ilPageObjectGUI
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
 
-		//if (version_compare(PHP_VERSION,'5','>='))
-		//{
-		//	$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params, true);
-		//}
-		//else
-		//{
-			$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
-		//}
+		//$content = str_replace("&nbsp;", "", $content);
+		
+		
+		
+		// run xslt
+		
+		$md5 = md5(serialize($params));
+		
+//$a = microtime();
+		
+		// check cache (same parameters, non-edit mode and rendered time
+		// > last change
+		if ($this->getOutputMode() != "edit" &&
+			$md5 == $this->obj->getRenderMd5() &&
+			($this->obj->getLastChange() < $this->obj->getRenderedTime()) &&
+			$this->obj->getRenderedTime() != "0000-00-00 00:00:00")
+		{
+			// cache hit
+			$output = $this->obj->getRenderedContent();
+		}
+		else
+		{
+			$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
+			$xh = xslt_create();
+			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
+			//		echo "mode:".$this->getOutputMode().":<br>";
+			$output = xslt_process($xh, "arg:/_xml","arg:/_xsl", NULL, $args, $params);
+			
+			if ($this->getOutputMode() != "edit")
+			{
+				$this->obj->writeRenderedContent($output, $md5);
+			}
+			//echo xslt_error($xh);
+			xslt_free($xh);
+		}
 
-//echo xslt_error($xh);
-		xslt_free($xh);
+//$b = microtime();
+//echo "$a - $b";
 //echo htmlentities($output);
 		// unmask user html
 		if (($this->getOutputMode() != "edit" ||
@@ -1360,6 +1381,8 @@ class ilPageObjectGUI
 		$output = $this->insertMaps($output);
 		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());
 
+		$ilBench->stop("ContentPresentation", "ilPageObjectGUI_showPage");
+		
 		// output
 		if ($ilCtrl->isAsynch())
 		{
