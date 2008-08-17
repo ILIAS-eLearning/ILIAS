@@ -566,7 +566,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
 		$std_item =& $this->content_obj->getMediaObject()->getMediaItem("Standard");
 
 		// edit media alias template
@@ -637,11 +638,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		if($this->content_obj->getMediaObject()->hasFullScreenItem())
 		{
 			$this->tpl->setCurrentBlock("fullscreen");
-			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
+			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen",
+				$this->content_obj->getPcId());
 			$full_item =& $this->content_obj->getMediaObject()->getMediaItem("Fullscreen");
 
 			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
-			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
+			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".strtolower($full_item->getLocationType())));
 			$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
 
 			$this->tpl->setVariable("TXT_FULL_FORMAT", $this->lng->txt("cont_format"));
@@ -726,8 +728,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function saveAliasProperties()
 	{
-		$std_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
-		$full_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
+		$std_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
+		$full_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen",
+			$this->content_obj->getPcId());
 
 		// standard size
 		if($_POST["derive_st_size"] == "y")
@@ -837,7 +841,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function centerAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
 		$std_alias_item->setHorizontalAlign("Center");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -848,7 +853,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function leftAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
 		$std_alias_item->setHorizontalAlign("Left");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -859,7 +865,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function rightAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
 		$std_alias_item->setHorizontalAlign("Right");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -870,7 +877,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function leftFloatAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
 		$std_alias_item->setHorizontalAlign("LeftFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -881,7 +889,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function rightFloatAlign()
 	{
-		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
 		$std_alias_item->setHorizontalAlign("RightFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
@@ -903,9 +912,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$ilCtrl->getLinkTarget($this, "editAlias"), "editAlias",
 				get_class($this));
 
-			$ilTabs->addTarget("cont_inst_map_areas",
-				$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),
-				get_class("ilpcimagemapeditorgui"));
+			if ($this->getEnabledMapAreas())
+			{
+				$ilTabs->addTarget("cont_inst_map_areas",
+					$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),
+					get_class("ilpcimagemapeditorgui"));
+			}
 		}
 		else
 		{

@@ -486,7 +486,7 @@
 >
 
 <!-- Map -->
-<!ELEMENT Map (MapCaption?, Layout?)>
+<!ELEMENT Map (Layout?, MapCaption?)>
 <!ATTLIST Map
 	Latitude CDATA #REQUIRED
 	Longitude CDATA #REQUIRED

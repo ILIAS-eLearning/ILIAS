@@ -68,7 +68,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 			// save edited link
 			case "edit_link":
 				$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-					$this->pc_media_object->hier_id, "Standard");
+					$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 
 				if ($_POST["area_link_type"] == IL_INT_LINK)
 				{
@@ -87,7 +87,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 			// save edited shape
 			case "edit_shape":
 				$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-					$this->pc_media_object->hier_id, "Standard");
+					$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 				$std_alias_item->setShape($_SESSION["il_map_area_nr"],
 					$_SESSION["il_map_edit_area_type"], $_SESSION["il_map_edit_coords"]);
 				$this->updated = $this->page->update();
@@ -116,7 +116,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 				}
 
 				$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-					$this->pc_media_object->hier_id, "Standard");
+					$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 				$std_alias_item->addMapArea($area_type, $coords,
 					ilUtil::stripSlashes($_POST["area_name"]), $link);
 				$this->updated = $this->page->update();
@@ -143,7 +143,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		}
 
 		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard");
+			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 
 		if (count($_POST["area"]) > 0)
 		{
@@ -167,7 +167,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	function getLinkTypeOfArea($a_nr)
 	{
 		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard");
+			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 		return $std_alias_item->getLinkTypeOfArea($a_nr);
 	}
 
@@ -177,7 +177,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	function getTypeOfArea($a_nr)
 	{
 		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard");
+			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 		return $std_alias_item->getTypeOfArea($a_nr);
 	}
 
@@ -187,7 +187,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	function getTargetOfArea($a_nr)
 	{
 		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard");
+			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 		return $std_alias_item->getTargetOfArea($a_nr);
 	}
 
@@ -197,7 +197,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	function getTargetFrameOfArea($a_nr)
 	{
 		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard");
+			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 		return $std_alias_item->getTargetFrameOfArea($a_nr);
 	}
 
@@ -207,7 +207,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 	function getHrefOfArea($a_nr)
 	{
 		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard");
+			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 		return $std_alias_item->getHrefOfArea($a_nr);
 	}
 
@@ -219,7 +219,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		global $lng, $ilCtrl;
 		
 		$std_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard");
+			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 		$areas = $std_alias_item->getMapAreas();
 		foreach($areas as $area)
 		{
@@ -241,7 +241,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		// create/update imagemap work copy
 		$st_item = $this->media_object->getMediaItem("Standard");
 		$st_alias_item = new ilMediaAliasItem($this->pc_media_object->dom,
-			$this->pc_media_object->hier_id, "Standard");
+			$this->pc_media_object->hier_id, "Standard", $this->pc_media_object->getPcId());
 
 		if ($a_edit_property == "shape")
 		{

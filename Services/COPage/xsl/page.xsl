@@ -327,7 +327,12 @@
 		</xsl:if>
 		<div>
 		<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
-			<xsl:attribute name="class">il_editarea</xsl:attribute>
+			<xsl:if test="$javascript='enable'">
+				<xsl:attribute name="class">il_editarea</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$javascript!='enable'">
+				<xsl:attribute name="class">il_editarea_nojs</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="@Enabled='False'">
 				<xsl:attribute name="class">il_editarea_disabled</xsl:attribute>
 			</xsl:if>
@@ -411,6 +416,7 @@
 <!-- Edit Menu -->
 <xsl:template name="EditMenu">
 	<xsl:param name="hier_id"/>
+	<xsl:param name="pc_id"/>
 	<xsl:param name="edit"/>
 	<xsl:param name="droparea">n</xsl:param>
 	
@@ -446,7 +452,7 @@
 		</select>
 		<input class="ilEditSubmit" type="submit">
 			<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="$hier_id"/>]</xsl:attribute>
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="$hier_id"/>:<xsl:value-of select="$pc_id"/>]</xsl:attribute>
 		</input>
 	</xsl:if>
 	
@@ -707,13 +713,15 @@
 	<xsl:param name="hier_id"/>
 <!-- <xsl:value-of select="$hier_id"/> -->
 	<!-- Drop area -->
-	<div class="il_droparea">
-		<xsl:attribute name="id">TARGET<xsl:value-of select="$hier_id"/></xsl:attribute>
-		<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
-		<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
-		<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>');</xsl:attribute>
-	<img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
-	</div>
+	<xsl:if test="$javascript != 'disable'">
+		<div class="il_droparea">
+			<xsl:attribute name="id">TARGET<xsl:value-of select="$hier_id"/></xsl:attribute>
+			<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
+			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
+			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>');</xsl:attribute>
+		<img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
+		</div>
+	</xsl:if>
 	<!-- insert menu for drop area -->
 	<xsl:call-template name="EditMenu">
 		<xsl:with-param name="hier_id" select="$hier_id" />
@@ -775,6 +783,7 @@
 		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
 			<xsl:with-param name="edit">y</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
@@ -1180,7 +1189,7 @@
 			</select>
 			<input class="ilEditSubmit" type="submit">
 				<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
+				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>]</xsl:attribute>
 			</input>
 			<br/>
 		</xsl:if>
@@ -1344,6 +1353,7 @@
 		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
 			<xsl:with-param name="edit">p</xsl:with-param>
 		</xsl:call-template>
 		<xsl:if test = "$javascript='disable'">
@@ -1458,6 +1468,7 @@
 		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
 			<xsl:with-param name="edit">p</xsl:with-param>
 		</xsl:call-template>
 		<xsl:if test = "$javascript='disable'">
@@ -1780,7 +1791,7 @@
 				</select>
 				<input class="ilEditSubmit" type="submit">
 					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>]</xsl:attribute>
+					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>:<xsl:value-of select="../../@PCID"/>]</xsl:attribute>
 				</input>
 			</td></tr>
 		</xsl:if>
@@ -2265,6 +2276,7 @@
 			</xsl:if>
 			<xsl:call-template name="EditMenu">
 				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
@@ -2287,6 +2299,7 @@
 			</xsl:if>
 			<xsl:call-template name="EditMenu">
 				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
@@ -2345,6 +2358,7 @@
 			</xsl:if>
 			<xsl:call-template name="EditMenu">
 				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
@@ -2405,6 +2419,7 @@
 		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
 			<xsl:with-param name="edit">p</xsl:with-param>
 		</xsl:call-template>
 		<xsl:if test = "$javascript='disable'">
@@ -2490,6 +2505,7 @@
 			</xsl:if>
 			<xsl:call-template name="EditMenu">
 				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
@@ -2517,6 +2533,7 @@
 		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
 			<xsl:with-param name="edit">y</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>

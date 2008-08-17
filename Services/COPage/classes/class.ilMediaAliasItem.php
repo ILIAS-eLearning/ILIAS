@@ -39,19 +39,104 @@ class ilMediaAliasItem
 	var $purpose;
 	var $item_node;
 
-	function ilMediaAliasItem(&$a_dom, $a_hier_id, $a_purpose)
+	function ilMediaAliasItem(&$a_dom, $a_hier_id, $a_purpose, $a_pc_id = "")
 	{
 		$this->dom =& $a_dom;
 		$this->hier_id = $a_hier_id;
 		$this->purpose = $a_purpose;
+		$this->setPcId($a_pc_id);
+//echo "+$a_pc_id+";
+		$this->item_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId());
+//var_dump($this->item_node);
+	}
 
+	function getMAItemNode($a_hier_id, $a_purpose, $a_pc_id = "", $a_sub_element = "")
+	{
+		if ($a_pc_id != "")
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageContent[@PCID = '".$a_pc_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']".$a_sub_element;
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) == 1)
+			{
+				return $res->nodeset[0];
+			}
+		}
+		
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']";
+		$path = "//PageContent[@HierId = '".$a_hier_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']".$a_sub_element;
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
-			$this->item_node =& $res->nodeset[0];
+			return $res->nodeset[0];
 		}
+	}
+	
+	function getParameterNodes($a_hier_id, $a_purpose, $a_pc_id = "")
+	{
+		if ($a_pc_id != "")
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageContent[@PCID = '".$a_pc_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) > 0)
+			{
+				return $res->nodeset;
+			}
+			return array();
+		}
+		
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$a_hier_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			return $res->nodeset;
+		}
+	}
+
+	function getMapAreaNodes($a_hier_id, $a_purpose, $a_pc_id = "")
+	{
+		if ($a_pc_id != "")
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageContent[@PCID = '".$a_pc_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) > 0)
+			{
+				return $res->nodeset;
+			}
+			return array();
+		}
+		
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$a_hier_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			return $res->nodeset;
+		}
+	}
+
+	/**
+	* Set PC Id.
+	*
+	* @param	string	$a_pcid	PC Id
+	*/
+	function setPcId($a_pcid)
+	{
+		$this->pcid = $a_pcid;
+	}
+
+	/**
+	* Get PC Id.
+	*
+	* @return	string	PC Id
+	*/
+	function getPcId()
+	{
+		return $this->pcid;
 	}
 
 	/**
@@ -105,12 +190,10 @@ class ilMediaAliasItem
 	*/
 	function getWidth()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
+		$layout_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/Layout");
+		if (is_object($layout_node))
 		{
-			$layout_node =& $res->nodeset[0];
 			return $layout_node->get_attribute("Width");
 		}
 	}
@@ -122,12 +205,10 @@ class ilMediaAliasItem
 	*/
 	function definesSize()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
+		$layout_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/Layout");
+		if (is_object($layout_node))
 		{
-			$layout_node =& $res->nodeset[0];
 			return $layout_node->has_attribute("Width");
 		}
 		return false;
@@ -138,12 +219,10 @@ class ilMediaAliasItem
 	*/
 	function deriveSize()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
+		$layout_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/Layout");
+		if (is_object($layout_node))
 		{
-			$layout_node =& $res->nodeset[0];
 			if ($layout_node->has_attribute("Width"))
 			{
 				$layout_node->remove_attribute("Width");
@@ -171,12 +250,10 @@ class ilMediaAliasItem
 	*/
 	function getHeight()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
+		$layout_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/Layout");
+		if (is_object($layout_node))
 		{
-			$layout_node =& $res->nodeset[0];
 			return $layout_node->get_attribute("Height");
 		}
 	}
@@ -198,12 +275,10 @@ class ilMediaAliasItem
 	*/
 	function getCaption()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Caption";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
+		$caption_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/Caption");
+		if (is_object($caption_node))
 		{
-			$caption_node =& $res->nodeset[0];
 			return $caption_node->get_content();
 		}
 	}
@@ -215,10 +290,9 @@ class ilMediaAliasItem
 	*/
 	function definesCaption()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Caption";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) > 0)
+		$caption_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/Caption");
+		if (is_object($caption_node))
 		{
 			return true;
 		}
@@ -230,12 +304,10 @@ class ilMediaAliasItem
 	*/
 	function deriveCaption()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Caption";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) > 0)
+		$caption_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/Caption");
+		if (is_object($caption_node))
 		{
-			$caption_node =& $res->nodeset[0];
 			$caption_node->unlink_node($caption_node);
 		}
 	}
@@ -250,29 +322,25 @@ class ilMediaAliasItem
 
 	function getHorizontalAlign()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) == 1)
+		$layout_node = $this->getMAItemNode($this->hier_id, $this->purpose,
+			$this->getPcId(), "/Layout");
+		if (is_object($layout_node))
 		{
-			$layout_node =& $res->nodeset[0];
 			return $layout_node->get_attribute("HorizontalAlign");
 		}
 	}
-
 
 	/**
 	* set parameter
 	*/
 	function setParameters($a_par_array)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Parameter";
-		$res =& xpath_eval($xpc, $path);
+		$par_nodes = $this->getParameterNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
 		$par_arr = array();
-		for($i=0; $i < count($res->nodeset); $i++)
+		for($i=0; $i < count($par_nodes); $i++)
 		{
-			$par_node =& $res->nodeset[$i];
+			$par_node =& $par_nodes[$i];
 			$par_node->unlink_node($par_node);
 		}
 
@@ -296,13 +364,12 @@ class ilMediaAliasItem
 	*/
 	function getParameterString()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Parameter";
-		$res =& xpath_eval($xpc, $path);
+		$par_nodes = $this->getParameterNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
 		$par_arr = array();
-		for($i=0; $i < count($res->nodeset); $i++)
+		for($i=0; $i < count($par_nodes); $i++)
 		{
-			$par_node =& $res->nodeset[$i];
+			$par_node =& $par_nodes[$i];
 			$par_arr[] = $par_node->get_attribute("Name")."=\"".$par_node->get_attribute("Value")."\"";
 		}
 		return implode($par_arr, ", ");
@@ -323,10 +390,9 @@ class ilMediaAliasItem
 	*/
 	function definesParameters()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Parameter";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) > 0)
+		$par_nodes = $this->getParameterNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (count($par_nodes) > 0)
 		{
 			return true;
 		}
@@ -338,31 +404,30 @@ class ilMediaAliasItem
 	*/
 	function deriveParameters()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Parameter";
-		$res =& xpath_eval($xpc, $path);
-		if (count($res->nodeset) > 0)
+		$par_nodes = $this->getParameterNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (count($par_nodes) > 0)
 		{
-			for($i=0; $i < count($res->nodeset); $i++)
+			for($i=0; $i < count($par_nodes); $i++)
 			{
-				$par_node =& $res->nodeset[$i];
+				$par_node =& $par_nodes[$i];
 				$par_node->unlink_node($par_node);
 			}
 		}
 	}
 
+	
 	/**
 	* Get all map areas
 	*/
 	function getMapAreas()
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
 		$maparea_arr = array();
-		for($i=0; $i < count($res->nodeset); $i++)
+		for($i=0; $i < count($ma_nodes); $i++)
 		{
-			$maparea_node = $res->nodeset[$i];
+			$maparea_node = $ma_nodes[$i];
 			$childs = $maparea_node->child_nodes();
 			$link = array();
 			if ($childs[0]->node_name() == "ExtLink")
@@ -394,12 +459,11 @@ class ilMediaAliasItem
 	*/
 	function setAreaTitle($a_nr, $a_title)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$childs = $res->nodeset[$a_nr - 1]->child_nodes();
+			$childs = $ma_nodes[$a_nr - 1]->child_nodes();
 			if (is_object($childs[0]) &&
 				($childs[0]->node_name() == "IntLink" || $childs[0]->node_name() == "ExtLink"))
 			{
@@ -413,16 +477,15 @@ class ilMediaAliasItem
 	*/
 	function setAreaIntLink($a_nr, $a_type, $a_target, $a_target_frame)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
 			$title = $this->getTitleOfArea($a_nr);
-			ilDOMUtil::deleteAllChildsByName($res->nodeset[$a_nr - 1], array("IntLink", "ExtLink"));
+			ilDOMUtil::deleteAllChildsByName($ma_nodes[$a_nr - 1], array("IntLink", "ExtLink"));
 			$attributes = array("Type" => $a_type, "Target" => $a_target,
 				"TargetFrame" => $a_target_frame);
-			ilDOMUtil::setFirstOptionalElement($this->dom, $res->nodeset[$a_nr - 1], "IntLink",
+			ilDOMUtil::setFirstOptionalElement($this->dom, $ma_nodes[$a_nr - 1], "IntLink",
 				array(""), $title, $attributes);
 		}
 	}
@@ -432,15 +495,14 @@ class ilMediaAliasItem
 	*/
 	function setAreaExtLink($a_nr, $a_href)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
 			$title = $this->getTitleOfArea($a_nr);
-			ilDOMUtil::deleteAllChildsByName($res->nodeset[$a_nr - 1], array("IntLink", "ExtLink"));
+			ilDOMUtil::deleteAllChildsByName($ma_nodes[$a_nr - 1], array("IntLink", "ExtLink"));
 			$attributes = array("Href" => $a_href);
-			ilDOMUtil::setFirstOptionalElement($this->dom, $res->nodeset[$a_nr - 1], "ExtLink",
+			ilDOMUtil::setFirstOptionalElement($this->dom, $ma_nodes[$a_nr - 1], "ExtLink",
 				array(""), $title, $attributes);
 		}
 	}
@@ -450,13 +512,12 @@ class ilMediaAliasItem
 	*/
 	function setShape($a_nr, $a_shape_type, $a_coords)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$res->nodeset[$a_nr - 1]->set_attribute("Shape", $a_shape_type);
-			$res->nodeset[$a_nr - 1]->set_attribute("Coords", $a_coords);
+			$ma_nodes[$a_nr - 1]->set_attribute("Shape", $a_shape_type);
+			$ma_nodes[$a_nr - 1]->set_attribute("Coords", $a_coords);
 		}
 	}
 
@@ -492,12 +553,11 @@ class ilMediaAliasItem
 	*/
 	function deleteMapArea($a_nr)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$res->nodeset[$a_nr - 1]->unlink_node($res->nodeset[$a_nr - 1]);
+			$ma_nodes[$a_nr - 1]->unlink_node($ma_nodes[$a_nr - 1]);
 		}
 	}
 	
@@ -506,12 +566,11 @@ class ilMediaAliasItem
 	*/
 	function getLinkTypeOfArea($a_nr)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$childs = $res->nodeset[$a_nr - 1]->child_nodes();
+			$childs = $ma_nodes[$a_nr - 1]->child_nodes();
 			if ($childs[0]->node_name() == "IntLink")
 			{
 				return "int";
@@ -528,12 +587,11 @@ class ilMediaAliasItem
 	*/
 	function getTypeOfArea($a_nr)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$childs = $res->nodeset[$a_nr - 1]->child_nodes();
+			$childs = $ma_nodes[$a_nr - 1]->child_nodes();
 			return $childs[0]->get_attribute("Type");
 		}
 	}
@@ -543,12 +601,11 @@ class ilMediaAliasItem
 	*/
 	function getTargetOfArea($a_nr)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$childs = $res->nodeset[$a_nr - 1]->child_nodes();
+			$childs = $ma_nodes[$a_nr - 1]->child_nodes();
 			return $childs[0]->get_attribute("Target");
 		}
 	}
@@ -558,12 +615,11 @@ class ilMediaAliasItem
 	*/
 	function getTargetFrameOfArea($a_nr)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$childs = $res->nodeset[$a_nr - 1]->child_nodes();
+			$childs = $ma_nodes[$a_nr - 1]->child_nodes();
 			return $childs[0]->get_attribute("TargetFrame");
 		}
 	}
@@ -573,12 +629,11 @@ class ilMediaAliasItem
 	*/
 	function getHrefOfArea($a_nr)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$childs = $res->nodeset[$a_nr - 1]->child_nodes();
+			$childs = $ma_nodes[$a_nr - 1]->child_nodes();
 			return $childs[0]->get_attribute("Href");
 		}
 	}
@@ -588,12 +643,11 @@ class ilMediaAliasItem
 	*/
 	function getTitleOfArea($a_nr)
 	{
-		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
-		$res =& xpath_eval($xpc, $path);
-		if (is_object($res->nodeset[$a_nr - 1]))
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
 		{
-			$childs = $res->nodeset[$a_nr - 1]->child_nodes();
+			$childs = $ma_nodes[$a_nr - 1]->child_nodes();
 			return $childs[0]->get_content();
 		}
 	}
