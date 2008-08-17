@@ -822,8 +822,6 @@ class ilPageObjectGUI
 					$tpl->parseCurrentBlock();
 					$tpl->setCurrentBlock("adm_content");
 				}
-				
-				$this->insertHelp($tpl);
 
 				// explorer updater
 				if ($this->exp_frame != "")
@@ -917,6 +915,7 @@ class ilPageObjectGUI
 				// get js files for JS enabled editing
 				if ($sel_js_mode == "enable")
 				{
+					$this->insertHelp($tpl);
 					include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 					ilYuiUtil::initDragDrop();
 					ilYuiUtil::initConnection();

@@ -183,7 +183,7 @@ class ilPCMap extends ilPageContent
 		if (is_object($this->map_node))
 		{
 			ilDomUtil::setFirstOptionalElement($this->dom, $this->map_node,
-				"Layout", array(), "", array("Width" => $a_width,
+				"Layout", array("MapCaption"), "", array("Width" => $a_width,
 					"Height" => $a_height, "HorizontalAlign" => $a_horizontal_align));
 		}
 	}

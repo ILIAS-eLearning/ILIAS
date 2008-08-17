@@ -751,7 +751,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$ilCtrl->setCmdClass("ilwikipagegui");
 		$ilCtrl->setCmd("preview");
 		$html = $ilCtrl->forwardCommand($wpage_gui);
-		$this->addPageTabs();
+		//$this->addPageTabs();
 		
 		// permanent link
 		$append = ($_GET["page"] != "")

@@ -124,6 +124,26 @@ abstract class ilPageContent
 	}
 
 	/**
+	* Set PC Id.
+	*
+	* @param	string	$a_pcid	PC Id
+	*/
+	function setPcId($a_pcid)
+	{
+		$this->pcid = $a_pcid;
+	}
+
+	/**
+	* Get PC Id.
+	*
+	* @return	string	PC Id
+	*/
+	function getPcId()
+	{
+		return $this->pcid;
+	}
+
+	/**
 	* Increases an hierarchical editing id at lowest level (last number)
 	*
 	* @param	string	$ed_id		hierarchical ID

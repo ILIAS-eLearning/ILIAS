@@ -79,7 +79,7 @@ class ilPageEditorGUI
 		$this->page =& $a_page_object;
 		$this->page_gui =& $a_page_object_gui;
 
-		$this->ctrl->saveParameter($this, "hier_id");
+		$this->ctrl->saveParameter($this, array("hier_id", "pc_id"));
 	}
 
 
@@ -152,6 +152,7 @@ class ilPageEditorGUI
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
 
 		$hier_id = $_GET["hier_id"];
+		$pc_id = $_GET["pc_id"];
 		if(isset($_POST["new_hier_id"]))
 		{
 			$hier_id = $_POST["new_hier_id"];
@@ -165,7 +166,11 @@ class ilPageEditorGUI
 
 		if (substr($cmd, 0, 5) == "exec_")
 		{
-			$cmd = explode("_", key($_POST["cmd"]));
+			// check whether pc id is given
+			$pca = explode(":", key($_POST["cmd"]));
+			$pc_id = $pca[1];
+//echo "<br />exec_pc_id:-$pc_id-";
+			$cmd = explode("_", $pca[0]);
 			unset($cmd[0]);
 			$hier_id = implode($cmd, "_");
 			$cmd = $_POST["command".$hier_id];
@@ -226,7 +231,7 @@ class ilPageEditorGUI
 				$cmd != "activatePage" && $cmd != "deactivatePage" &&
 				$cmd != "copyLinkedMediaToMediaPool" &&
 				$cmd != "deleteSelected" &&
-				$cmd != "displayPage" &&
+				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "")&&
 				$cmd != "activateSelected" &&
 				$cmd != "cancelCreate" && $cmd != "popup" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
@@ -235,7 +240,12 @@ class ilPageEditorGUI
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
 //$this->ctrl->debug("gettingContentObject (no linked media)");
-					$cont_obj =& $this->page->getContentObject($hier_id);
+					$cont_obj =& $this->page->getContentObject($hier_id, $pc_id);
+//var_dump($cont_obj);
+					if (!is_object($cont_obj))
+					{
+						$ilCtrl->returnToParent($this);
+					}
 					$ctype = $cont_obj->getType();
 				}
 			}
@@ -258,6 +268,7 @@ class ilPageEditorGUI
 
 		// special command / command class handling
 		$this->ctrl->setParameter($this, "hier_id", $hier_id);
+		$this->ctrl->setParameter($this, "pc_id", $pc_id);
 		$this->ctrl->setCmd($cmd);
 		//$next_class = $this->ctrl->getNextClass($this);
 $this->ctrl->debug("+next_class:".$next_class."+");
@@ -402,9 +413,10 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$this->tabs_gui->setBackTarget($this->page_gui->page_back_title,
 					$ilCtrl->getLinkTarget($this->page_gui, "edit"));
 
-
+//var_dump($cont_obj);
 //				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 //				{
+//echo "%".$cont_obj->getPcId()."%";
 					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
 					$pcmob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 					/*

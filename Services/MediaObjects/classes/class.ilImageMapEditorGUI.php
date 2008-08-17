@@ -133,6 +133,11 @@ class ilImageMapEditorGUI
 		{
 			$_SESSION["il_map_edit_hier_id"] = $_GET["hier_id"];
 		}
+		
+		if($_GET["pc_id"] != "")
+		{
+			$_SESSION["il_map_edit_pc_id"] = $_GET["pc_id"];
+		}
 	}
 
 	/**
@@ -585,6 +590,7 @@ class ilImageMapEditorGUI
 		$_GET["ref_id"] = $_SESSION["il_map_edit_ref_id"];
 		$_GET["obj_id"] = $_SESSION["il_map_edit_obj_id"];
 		$_GET["hier_id"] = $_SESSION["il_map_edit_hier_id"];
+		$_GET["pc_id"] = $_SESSION["il_map_edit_pc_id"];
 	}
 
 	/**

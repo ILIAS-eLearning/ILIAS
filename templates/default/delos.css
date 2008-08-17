@@ -1685,6 +1685,13 @@ div.il_droparea_active
 	background-repeat: repeat;
 }
 
+div.il_editarea_nojs
+{
+	border-style: dotted;
+	border-width: 1px;
+	border-color: #999999;
+}
+
 div.il_editarea
 {
 	border-style: solid;

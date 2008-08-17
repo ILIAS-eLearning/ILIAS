@@ -350,13 +350,17 @@ class ilPageObject
 		}
 	}
 
-	function &getContentObject($a_hier_id)
+	function &getContentObject($a_hier_id, $a_pc_id = "")
 	{
 //echo ":".$a_hier_id.":";
 //echo "Content:".htmlentities($this->getXMLFromDOM()).":<br>";
 //echo "ilPageObject::getContentObject:hierid:".$a_hier_id.":<br>";
-		$cont_node =& $this->getContentNode($a_hier_id);
+		$cont_node =& $this->getContentNode($a_hier_id, $a_pc_id);
 //echo "ilPageObject::getContentObject:nodename:".$cont_node->node_name().":<br>";
+		if (!is_object($cont_node))
+		{
+			return false;
+		}
 		switch($cont_node->node_name())
 		{
 			case "PageContent":
@@ -369,6 +373,7 @@ class ilPageObject
 						$par =& new ilPCParagraph($this->dom);
 						$par->setNode($cont_node);
 						$par->setHierId($a_hier_id);
+						$par->setPcId($a_pc_id);
 						return $par;
 
 					case "Table":
@@ -386,6 +391,7 @@ class ilPageObject
 							$tab->setNode($cont_node);
 							$tab->setHierId($a_hier_id);
 						}
+						$tab->setPcId($a_pc_id);
 						return $tab;
 
 					case "MediaObject":
@@ -412,6 +418,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						//$mob->setDom($this->dom);
 						$mob->setNode($cont_node);
 						$mob->setHierId($a_hier_id);
+						$mob->setPcId($a_pc_id);
 						return $mob;
 
 					case "List":
@@ -419,6 +426,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$list = new ilPCList($this->dom);
 						$list->setNode($cont_node);
 						$list->setHierId($a_hier_id);
+						$list->setPcId($a_pc_id);
 						return $list;
 
 					case "FileList":
@@ -426,6 +434,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$file_list = new ilPCFileList($this->dom);
 						$file_list->setNode($cont_node);
 						$file_list->setHierId($a_hier_id);
+						$file_list->setPcId($a_pc_id);
 						return $file_list;
 
 					// note: assessment handling is forwarded to assessment gui classes
@@ -434,6 +443,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$pc_question = new ilPCQuestion($this->dom);
 						$pc_question->setNode($cont_node);
 						$pc_question->setHierId($a_hier_id);
+						$pc_question->setPcId($a_pc_id);
 						return $pc_question;
 
 					case "Section":
@@ -441,6 +451,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$sec = new ilPCSection($this->dom);
 						$sec->setNode($cont_node);
 						$sec->setHierId($a_hier_id);
+						$sec->setPcId($a_pc_id);
 						return $sec;
 						
 					case "Resources":
@@ -448,6 +459,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$res = new ilPCResources($this->dom);
 						$res->setNode($cont_node);
 						$res->setHierId($a_hier_id);
+						$res->setPcId($a_pc_id);
 						return $res;
 						
 					case "Map":
@@ -455,6 +467,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$map = new ilPCMap($this->dom);
 						$map->setNode($cont_node);
 						$map->setHierId($a_hier_id);
+						$map->setPcId($a_pc_id);
 						return $map;
 
 					case "Tabs":
@@ -462,6 +475,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$map = new ilPCTabs($this->dom);
 						$map->setNode($cont_node);
 						$map->setHierId($a_hier_id);
+						$map->setPcId($a_pc_id);
 						return $map;
 
 					case "Plugged":
@@ -469,6 +483,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 						$plugged = new ilPCPlugged($this->dom);
 						$plugged->setNode($cont_node);
 						$plugged->setHierId($a_hier_id);
+						$plugged->setPcId($a_pc_id);
 						return $plugged;
 
 				}
@@ -505,10 +520,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
-	function &getContentNode($a_hier_id)
+	function &getContentNode($a_hier_id, $a_pc_id = "")
 	{
- 		// search for attribute "//*[@HierId = '%s']".
-//echo "get node :$a_hier_id:";
 		$xpc = xpath_new_context($this->dom);
 		if($a_hier_id == "pg")
 		{
@@ -516,14 +529,26 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		else
 		{
+			// get per pc id
+			if ($a_pc_id != "")
+			{
+				$path = "//*[@PCID = '$a_pc_id']";
+				$res =& xpath_eval($xpc, $path);
+				if (count($res->nodeset) == 1)
+				{
+					$cont_node =& $res->nodeset[0];
+					return $cont_node;
+				}
+			}
+			
+			// fall back to hier id
 			$path = "//*[@HierId = '$a_hier_id']";
-		}
-		$res =& xpath_eval($xpc, $path);
-//echo "count:".count($res->nodeset).":hierid:$a_hier_id:";
-		if (count($res->nodeset) == 1)
-		{
-			$cont_node =& $res->nodeset[0];
-			return $cont_node;
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) == 1)
+			{
+				$cont_node =& $res->nodeset[0];
+				return $cont_node;
+			}
 		}
 	}
 
