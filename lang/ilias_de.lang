@@ -2038,7 +2038,7 @@ common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Bitte beachten Sie bei Ihrem Dateiupload die Uploadgrenze von
-common#:#file_read#:#Datei runterladen
+common#:#file_read#:#Datei herunterladen
 common#:#file_suffix_repl_info#:#Dateien mit diesen Endungen (komma-separiert) erhalten als Dateiendung ".sec", wenn Sie in den Webspace hochgeladen werden. Dies geschieht standardmässig für folgende Endungen:
 common#:#file_suffix_repl#:#Ersetzen der Endungen hochgeladener Dateien
 common#:#file_updated#:#Die Datei wurde aktualisiert.
