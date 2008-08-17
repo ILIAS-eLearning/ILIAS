@@ -1148,8 +1148,10 @@ class ilPageObjectGUI
 			$this->setDefaultLinkXml();
 		}
 
+		//$content = $this->obj->getXMLFromDom(false, true, true,
+		//	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
 		$content = $this->obj->getXMLFromDom(false, true, true,
-			$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
+			$this->getLinkXML().$this->getQuestionXML());
 			
 		// get page component plugins
 
@@ -1277,7 +1279,7 @@ class ilPageObjectGUI
 						 'citate' => $this->lng->txt('citate'),
 						 'enable_rep_objects' => $this->getEnabledRepositoryObjects() ? "y" : "n",
 						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
-						 'enable_tabs' => $this->getEnabledPCTabs() ? "y" : "n",
+						 'enable_tabs' => $this->getEnabledPCTabs() ? "n" : "n",
 						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
 						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
 						 'javascript' => $sel_js_mode,
@@ -1772,7 +1774,7 @@ class ilPageObjectGUI
 	function getTabs($a_activate = "")
 	{
 		global $ilTabs, $ilCtrl;
-		
+
 		if (!$this->getEnabledTabs())
 		{
 			return;

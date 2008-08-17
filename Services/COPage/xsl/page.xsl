@@ -774,18 +774,20 @@
 	<xsl:if test="$mode = 'edit'">
 		<br />
 		<!-- <xsl:value-of select="../@HierId"/> -->
-		<xsl:if test="$javascript='disable'">
-		<br />
-		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
-			</xsl:attribute>
-		</input>
+		<xsl:if test="((../../../../@DataTable != 'y' or not(../../../../@DataTable)))">
+			<xsl:if test="$javascript='disable'">
+			<br />
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+				</xsl:attribute>
+			</input>
+			</xsl:if>
+			<xsl:call-template name="EditMenu">
+				<xsl:with-param name="hier_id" select="../@HierId" />
+				<xsl:with-param name="pc_id" select="../@PCID" />
+				<xsl:with-param name="edit">y</xsl:with-param>
+			</xsl:call-template>
 		</xsl:if>
-		<xsl:call-template name="EditMenu">
-			<xsl:with-param name="hier_id" select="../@HierId" />
-			<xsl:with-param name="pc_id" select="../@PCID" />
-			<xsl:with-param name="edit">y</xsl:with-param>
-		</xsl:call-template>
 	</xsl:if>
 </xsl:template>
 
@@ -1106,7 +1108,7 @@
 					<!-- insert commands -->
 					<!-- <xsl:value-of select="@HierId"/> -->
 					<xsl:call-template name="EditReturnAnchors"/>
-					<xsl:if test="($mode = 'edit' and (../../@DataTable != 'y' or not(../../@DataTable))) or $mode = 'table_edit'">
+					<xsl:if test="($mode = 'edit' and ((../../@DataTable != 'y' or not(../../@DataTable))) or $mode = 'table_edit')">
 						<!-- checkbox -->
 						<xsl:if test="$mode = 'table_edit' or $javascript = 'disable'">
 							<input type="checkbox" name="target[]">
