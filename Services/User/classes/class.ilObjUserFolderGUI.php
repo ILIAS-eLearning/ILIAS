@@ -3703,6 +3703,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MAIL_SALUTATION", $lng->txt("mail_nacc_salutation"));
 		$this->tpl->setVariable("TXT_FIRST_NAME", $lng->txt("firstname"));
 		$this->tpl->setVariable("TXT_LAST_NAME", $lng->txt("lastname"));
+		$this->tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 		$this->tpl->setVariable("TXT_LOGIN", $lng->txt("mail_nacc_login"));
 		$this->tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
 		$this->tpl->setVariable("TXT_PASSWORD_BLOCK", $lng->txt("mail_nacc_pw_block"));
