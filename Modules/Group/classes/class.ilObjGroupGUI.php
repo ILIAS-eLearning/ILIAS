@@ -2407,7 +2407,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			
 			
 			$max = new ilTextInputGUI('','registration_max_members');
-				$max->setValue($this->object->getMaxMembers());
+				$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
+				$max->setTitle($this->lng->txt('members').':');
 				$max->setSize(3);
 				$max->setMaxLength(4);
 				$max->setInfo($this->lng->txt('grp_reg_max_members_info'));
