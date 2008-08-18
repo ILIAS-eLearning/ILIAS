@@ -30,7 +30,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id: class.ilInfoScreenGUI.php 17080 2008-07-30 08:56:48Z smeyer $
 *
-* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
 *
 * @ingroup ServicesInfoScreen
 */
