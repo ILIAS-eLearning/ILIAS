@@ -116,6 +116,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					else if (count($this->object->coords) == 1)
 					{
 						ilUtil::sendInfo($this->lng->txt("rectangle_click_br_corner"));
+						$preview->addPoint($preview->getAreaCount(), join($this->object->coords, ","), TRUE, "blue");
 					}
 					else if (count($this->object->coords) == 2)
 					{
@@ -132,6 +133,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					else if (count($this->object->coords) == 1)
 					{
 						ilUtil::sendInfo($this->lng->txt("circle_click_circle"));
+						$preview->addPoint($preview->getAreaCount(), join($this->object->coords, ","), TRUE, "blue");
 					}
 					else if (count($this->object->coords) == 2)
 					{
@@ -151,6 +153,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					else if (count($this->object->coords) == 1)
 					{
 						ilUtil::sendInfo($this->lng->txt("polygon_click_next_point"));
+						$preview->addPoint($preview->getAreaCount(), join($this->object->coords, ","), TRUE, "blue");
 					}
 					else if (count($this->object->coords) > 1)
 					{

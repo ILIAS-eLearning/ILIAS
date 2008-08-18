@@ -38,6 +38,7 @@ class ilImagemapPreview
 	var $imagemap_filename;
 	var $preview_filename;
 	var $areas;
+	var $points;
 	var $linewidth_outer;
 	var $linewidth_inner;
 	var $lng;
@@ -67,6 +68,7 @@ class ilImagemapPreview
 			$this->preview_filename = ilUtil::ilTempnam() . $extension;
 		}
 		$this->areas = array();
+		$this->points = array();
 		$this->linewidth_outer = 4;
 		$this->linewidth_inner = 2;
 	}
@@ -74,6 +76,11 @@ class ilImagemapPreview
 	function getAreaCount()
 	{
 		return count($this->areas);
+	}
+	
+	function getPointCount()
+	{
+		return count($this->points);
 	}
 
 	function addArea(
@@ -109,11 +116,29 @@ class ilImagemapPreview
 		);
 	}
 	
+	function addPoint(
+		$index,
+		$coords,
+		$visible = true,
+		$linecolor = "red",
+		$bordercolor = "white",
+		$fillcolor = "\"#FFFFFFA0\""
+	)
+	{
+		$this->points[$index] = array(
+			"coords" => "$coords",
+			"linecolor" => "$linecolor",
+			"bordercolor" => "$bordercolor",
+			"fillcolor" => "$fillcolor",
+			"visible" => (int)$visible
+		);
+	}
+	
 	function getAreaIdent()
 	{
-		if (count($this->areas) > 0)
+		if (count($this->areas)+count($this->points) > 0)
 		{
-			$arr = array_keys($this->areas);
+			$arr = array_merge(array_keys($this->areas), array_keys($this->points));
 			sort($arr, SORT_NUMERIC);
 			return "preview_" . join("_", $arr) . "_";
 		}
@@ -125,9 +150,28 @@ class ilImagemapPreview
 
 	function createPreview()
 	{
-		if (!count($this->areas)) return;
+		if (count($this->areas)+count($this->points)==0) return;
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$convert_prefix = ilUtil::getConvertCmd() . " -quality 100 ";
+		foreach ($this->points as $point)
+		{
+			if ($point["visible"])
+			{
+				preg_match("/(\d+)\s*,\s*(\d+)/", $point["coords"], $matches);
+				$x = $matches[1];
+				$y = $matches[2];
+				$r = 6;
+				// draw a circle at the point
+				$convert_cmd .= "-stroke " . $point["bordercolor"] . " -fill " . $point["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"line " .
+				($x-$r) . "," . ($y-$r) .	" " . ($x+$r) . "," . ($y+$r) . "\" " .
+				"-stroke " . $point["bordercolor"] . " -fill " . $point["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"line " .
+				($x+$r) . "," . ($y-$r) .	" " . ($x-$r) . "," . ($y+$r) . "\" " .
+				"-stroke " . $point["linecolor"] . " -fill " . $point["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"line " .
+				($x-$r) . "," . ($y-$r) .	" " . ($x+$r) . "," . ($y+$r) . "\" " .
+				"-stroke " . $point["linecolor"] . " -fill " . $point["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"line " .
+				($x+$r) . "," . ($y-$r) .	" " . ($x-$r) . "," . ($y+$r) . "\" ";
+			}
+		}
 		foreach ($this->areas as $area)
 		{
 			if ($area["visible"] and strcmp(strtolower($area["shape"]), "rect") == 0)
@@ -157,15 +201,17 @@ class ilImagemapPreview
 			}
 			else if ($area["visible"] and strcmp(strtolower($area["shape"]), "poly") == 0)
 			{
+				$obj = "polygon";
 				// draw a polygon around the selection
-				$convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"polygon ";
 				preg_match_all("/(\d+)\s*,\s*(\d+)/", $area["coords"], $matches, PREG_PATTERN_ORDER);
+				if (count($matches[0]) == 2) $obj = "line";
+				$convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"$obj ";
 				for ($i = 0; $i < count($matches[0]); $i++)
 				{
 					$convert_cmd .= $matches[1][$i] . "," . $matches[2][$i] .	" ";
 				}
 				$convert_cmd .= "\" ";
-				$convert_cmd .= "-stroke " . $area["linecolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"polygon ";
+				$convert_cmd .= "-stroke " . $area["linecolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"$obj ";
 				preg_match_all("/(\d+)\s*,\s*(\d+)/", $area["coords"], $matches, PREG_PATTERN_ORDER);
 				for ($i = 0; $i < count($matches[0]); $i++)
 				{
@@ -177,7 +223,6 @@ class ilImagemapPreview
 		
 		$source = ilUtil::escapeShellCmd(str_replace(" ", "\ ", $this->imagemap_filename));
 		$target = ilUtil::escapeShellCmd($this->preview_filename);
-		
 		$convert_cmd = $convert_prefix . $convert_cmd .  $source ." " . $target;
 		system($convert_cmd);
 	}
@@ -185,7 +230,7 @@ class ilImagemapPreview
 	function getPreviewFilename($imagePath, $baseFileName)
 	{
 		$filename = $baseFileName;
-		if (count($this->areas))
+		if (count($this->areas)+count($this->points)>0)
 		{
 			$pfile = $this->preview_filename;
 			if (is_file($pfile))
