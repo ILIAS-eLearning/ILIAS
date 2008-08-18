@@ -253,6 +253,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
 		include("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setMultipart(true);
 		
 		// Property Title
 		$text_input = new ilTextInputGUI($lng->txt("title"), "title");
@@ -329,7 +330,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		    $this->form_gui->setTitle($lng->txt("mcst_edit_item"));		    
 			$this->form_gui->addCommandButton("updateCastItem", $lng->txt("save"));
 		}
-		$this->form_gui->addCommandButton("listItems", $lng->txt("cancel"));
+		$this->form_gui->addCommandButton("listItems", $lng->txt("cancel"));	
 		$this->form_gui->setFormAction($ilCtrl->getFormAction($this, "saveCastItem"));
 		
 	}
@@ -376,7 +377,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	function saveCastItemObject()
 	{
 		global $tpl, $ilCtrl, $ilUser, $lng;
-		
+
 		$this->checkPermission("write");
 		
 		$this->initAddCastItemForm();
