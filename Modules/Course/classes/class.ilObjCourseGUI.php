@@ -898,6 +898,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		$this->form->setMultipart(true);
 		$this->form->setTitle($this->lng->txt('crs_general_info'));
 		$this->form->addCommandButton('updateInfo',$this->lng->txt('save'));
 		$this->form->addCommandButton('editInfo',$this->lng->txt('cancel'));

@@ -181,6 +181,7 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->single_form_gui = new ilPropertyFormGUI();
+		$this->single_form_gui->setMultipart(true);
 		
 		// File Title
 		$in_title = new ilTextInputGUI($lng->txt("title"), "title");
@@ -234,6 +235,7 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->zip_form_gui = new ilPropertyFormGUI();
+		$this->zip_form_gui->setMultipart(true);
 				
 		// File
 		$in_file = new ilFileInputGUI($lng->txt("file"), "zip_file");
