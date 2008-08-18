@@ -2496,5 +2496,165 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			return FALSE;
 		}
 	}
+	
+	/**
+	* Set whether placeholders should be used for the column titles or not
+	*
+	* @param boolean $a_value TRUE for placeholders, FALSE otherwise
+	*/
+	function setColumnPlaceholders($a_value = FALSE)
+	{
+		if ($a_value)
+		{
+			$this->columnPlaceholders = TRUE;
+		}
+		else
+		{
+			$this->columnPlaceholders = FALSE;
+		}
+	}
+	
+	/**
+	* Get whether placeholders should be used for the column titles or not
+	*
+	* @return boolean TRUE for placeholders, FALSE otherwise
+	*/
+	function getColumnPlaceholders()
+	{
+		return $this->columnPlaceholders;
+	}
+
+	/**
+	* Set whether the legend should be shown or not
+	*
+	* @param boolean $a_value Show legend
+	*/
+	function setLegend($a_value = FALSE)
+	{
+		if ($a_value)
+		{
+			$this->legend = TRUE;
+		}
+		else
+		{
+			$this->legend = FALSE;
+		}
+	}
+	
+	/**
+	* Get whether the legend should be shown or not
+	*
+	* @return boolean Show legend
+	*/
+	function getLegend()
+	{
+		return $this->legend;
+	}
+	
+	function setSingleLineRowCaption($a_value = FALSE)
+	{
+		if ($a_value)
+		{
+			$this->singleLineRowCaption = TRUE;
+		}
+		else
+		{
+			$this->singleLineRowCaption = FALSE;
+		}
+	}
+	
+	function getSingleLineRowCaption()
+	{
+		return $this->singleLineRowCaption;
+	}
+	
+	function setRepeatColumnHeader($a_value = FALSE)
+	{
+		if ($a_value)
+		{
+			$this->repeatColumnHeader = TRUE;
+		}
+		else
+		{
+			$this->repeatColumnHeader = FALSE;
+		}
+	}
+	
+	function getRepeatColumnHeader()
+	{
+		return $this->repeatColumnHeader;
+	}
+	
+	function setColumnHeaderPosition($a_value)
+	{
+		$this->columnHeaderPosition = $a_value;
+	}
+	
+	function getColumnHeaderPosition()
+	{
+		return $this->columnHeaderPosition;
+	}
+	
+	function setRandomRows($a_value = FALSE)
+	{
+		if ($a_value)
+		{
+			$this->randomRows = TRUE;
+		}
+		else
+		{
+			$this->randomRows = FALSE;
+		}
+	}
+	
+	function getRandomRows()
+	{
+		return $this->randomRows;
+	}
+	
+	function setColumnOrder($a_value)
+	{
+		$this->columnOrder = $a_value;
+	}
+	
+	function getColumnOrder()
+	{
+		return $this->columnOrder;
+	}
+	
+	function setColumnImages($a_value = FALSE)
+	{
+		if ($a_value)
+		{
+			$this->columnImages = TRUE;
+		}
+		else
+		{
+			$this->columnImages = FALSE;
+		}
+	}
+	
+	function getColumnImages()
+	{
+		return $this->columnImages;
+	}
+	
+	function setRowImages($a_value = FALSE)
+	{
+		if ($a_value)
+		{
+			$this->rowImages = TRUE;
+		}
+		else
+		{
+			$this->rowImages = FALSE;
+		}
+	}
+	
+	function getRowImages()
+	{
+		return $this->rowImages;
+	}
+	
 }
 ?>

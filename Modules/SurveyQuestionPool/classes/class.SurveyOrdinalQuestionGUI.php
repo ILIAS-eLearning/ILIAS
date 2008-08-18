@@ -374,7 +374,6 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
 		$question_output = $this->getWorkingForm();
 		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
-		$this->tpl->parseCurrentBlock();
 	}
 	
 /**
