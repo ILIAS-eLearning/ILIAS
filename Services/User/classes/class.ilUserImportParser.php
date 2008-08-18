@@ -756,6 +756,8 @@ class ilUserImportParser extends ilSaxParser
 		}
 		else
 		{
+			require_once("Modules/Course/classes/class.ilObjCourse.php");
+			require_once("Modules/Course/classes/class.ilCourseParticipants.php");
 			$rolf_refs = $rbacreview->getFoldersAssignedToRole($a_role_id, true);
 			$course_ref = $tree->getParentId($rolf_refs[0]);
 			$course_obj = new ilObjCourse($course_ref, true);
