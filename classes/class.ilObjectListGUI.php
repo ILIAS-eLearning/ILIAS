@@ -1051,7 +1051,7 @@ class ilObjectListGUI
 				{
 					$this->tpl->touchBlock("separator_prop");
 				}
-				// END PATCH WebDAV: Display a separator between properties.
+				// END WebDAV: Display a separator between properties.
 
 				if ($prop["alert"] == true)
 				{
@@ -1611,7 +1611,7 @@ class ilObjectListGUI
 			$this->tpl->setCurrentBlock("icon");
 			$this->tpl->setVariable("ALT_ICON", $lng->txt("obj_".$this->type));
 			$this->tpl->setVariable("SRC_ICON",
-				ilObject::_getIcon($this->obj_id, "small", $this->type));
+				ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType()));
 			$this->tpl->parseCurrentBlock();
 			$cnt += 1;
 		}

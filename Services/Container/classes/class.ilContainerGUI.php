@@ -1633,6 +1633,7 @@ class ilContainerGUI extends ilObjectGUI
 			if (!$rbacsystem->checkAccess('create',$this->object->getRefId(), $obj_data->getType()))
 			{
 				$no_paste[] = $ref_id;
+				$no_paste_titles[] = $obj_data->getTitle();
 			}
 
 			// CHECK IF REFERENCE ALREADY EXISTS
@@ -1681,7 +1682,7 @@ class ilContainerGUI extends ilObjectGUI
 		if (count($no_paste))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
-									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
+									 implode(',',$no_paste_titles),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// log pasteObject call
@@ -1930,7 +1931,7 @@ class ilContainerGUI extends ilObjectGUI
 			$all_node_data[] = $node_data;
 			$all_subtree_nodes[] = $subtree_nodes;
 
-			// CHECK VIEW AND READ PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
+			// CHECK VIEW, READ AND COPY PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
 			foreach ($subtree_nodes as $node)
 			{
 				if($node['type'] == 'rolf')
@@ -1938,7 +1939,7 @@ class ilContainerGUI extends ilObjectGUI
 					continue;
 				}
 				
-				if (!$rbacsystem->checkAccess('visible,read,edit_permission',$node["ref_id"]))
+				if (!$rbacsystem->checkAccess('visible,read,copy',$node["ref_id"]))
 				{
 					$no_copy[] = $node["ref_id"];
 				}
