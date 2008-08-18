@@ -5089,10 +5089,10 @@ crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Persons on the Waiting List
 crs#:#crs_print_list#:#Print list
 crs#:#crs_question_assignment#:#Question assignment
-crs#:#crs_reg#:#Registration
+crs#:#crs_reg#:#Registration Settings
 crs#:#crs_reg_deactivated#:#Disabled
 crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.
-crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course. '0' means unlimited.
+crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course.
 crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by mail about new registrations.
 crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
 crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
@@ -5240,7 +5240,7 @@ crs#:#crs_view_timing#:#Timings View
 crs#:#crs_visibility#:#Availability
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Temporarily Available
-crs#:#crs_visibility_unvisible#:#Not Available
+crs#:#crs_visibility_unvisible#:#Offline (Course is not available)
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_xml#:#XML
@@ -8214,7 +8214,7 @@ grp#:#grp_reg_direct#:#Direct Registration
 grp#:#grp_reg_direct_info#:#Direct registration.
 grp#:#grp_pass_request#:#Join With Group Password
 grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.
-grp#:#grp_reg_limit_time#:#Registration Period
+grp#:#grp_reg_limit_time#:#Enabled
 grp#:#grp_reg_limit_num#:#Maximum Number of Users
 grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
 grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
@@ -8263,7 +8263,7 @@ grp#:#grp_info_settings#:#Group Information
 grp#:#grp_icon_settings#:#Group Icon
 grp#:#grp_information_info#:#This information will be show on the info page and for new registrations.
 grp#:#reg_grp_max_members#:#Limited Number of Members
-grp#:#grp_reg_limited#:#Registration Period
+grp#:#grp_reg_limited#:#Self-Registration
 grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 dateplaner#:#grp_cal_reg_end#:#Registration End
 dateplaner#:#grp_cal_reg_start#:#Registration Start
@@ -8278,7 +8278,7 @@ assessment#:#empty_terms_exist#:#There are already empty term fields. Please fil
 assessment#:#terms#:#Terms
 assessment#:#empty_term_message#:#There is a least one empty term field.
 assessment#:#no_terms_message#:#Please add at least on term.
-crs#:#crs_reg_period#:#Registration Period
+crs#:#crs_reg_period#:#Self-Registration
 crs#:#crs_presentation_type#:#Presentation Type
 dateplaner#:#crs_cal_activation_start#:#Course Start
 dateplaner#:#crs_cal_activation_end#:#Course End

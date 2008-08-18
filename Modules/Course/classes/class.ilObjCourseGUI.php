@@ -1304,7 +1304,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$max = new ilTextInputGUI('','subscription_max');
 			$max->setSize(4);
 			$max->setMaxLength(4);
-			$max->setValue($this->object->getSubscriptionMaxMembers());
+			$max->setValue($this->object->getSubscriptionMaxMembers() ? $this->object->getSubscriptionMaxMembers() : '');
+			$max->setTitle($this->lng->txt('members').':');
 			$max->setInfo($this->lng->txt('crs_reg_max_info'));
 		
 		$lim->addSubItem($max);
