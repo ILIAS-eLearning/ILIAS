@@ -8584,3 +8584,4 @@ assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will
 assessment#:#forcejs#:#Force JavaScript output for test questions
 assessment#:#forcejs_short#:#Force JavaScript
 assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.
+crs#:#crs_contact_email_info#:#Enter one or more (comma seperated) E-mail addresses.
