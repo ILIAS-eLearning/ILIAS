@@ -1125,6 +1125,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setMultipart(true);
 		$this->form->setTableWidth('60%');
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		

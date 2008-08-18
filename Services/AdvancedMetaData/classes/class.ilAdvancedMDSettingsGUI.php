@@ -587,6 +587,7 @@ class ilAdvancedMDSettingsGUI
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->import_form = new ilPropertyFormGUI();
+		$this->import_form->setMultipart(true);
 		$this->import_form->setFormAction($this->ctrl->getFormAction($this));
 		
 		// add file property
