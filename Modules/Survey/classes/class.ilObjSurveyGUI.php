@@ -83,6 +83,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
 		$this->prepareOutput();
 
 		//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
