@@ -627,7 +627,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (!$_GET["sort"])
 		{
 			// default sort order
-			$_GET["sort"] = array("title" => "ASC");
+			$_GET["sort"] = "title";
 		}
 		$sort = ($_GET["sort"]) ? $_GET["sort"] : (($_SESSION["spl_sort"]) ? $_SESSION["spl_sort"] : "title");
 		$sortorder = ($_GET["sortorder"]) ? $_GET["sortorder"] : (($_SESSION["spl_sortorder"]) ? $_SESSION["spl_sortorder"] : "ASC");

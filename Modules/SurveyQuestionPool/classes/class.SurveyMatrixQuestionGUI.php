@@ -760,7 +760,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", "Modules/SurveyQuestionPool");
 		$question_output = $this->getWorkingForm();
 		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
-		$this->tpl->parseCurrentBlock();
 	}
 	
 /**
@@ -778,7 +777,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "saveLayout"));
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->parseCurrentBlock();
 	}
 	
 /**
