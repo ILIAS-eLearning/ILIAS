@@ -1049,7 +1049,7 @@ class ilObjCourse extends ilContainer
 			"contact_phone = ".$ilDB->quote($this->getContactPhone()).", ".
 			"contact_email = ".$ilDB->quote($this->getContactEmail()).", ".
 			"contact_consultation = ".$ilDB->quote($this->getContactConsultation()).", ".
-			"activation_type = ".$ilDB->quote(IL_CRS_ACTIVATION_UNLIMITED).", ".
+			"activation_type = ".$ilDB->quote(IL_CRS_ACTIVATION_OFFLINE).", ".
 			#"activation_unlimited = '1', ".
 			"activation_start = ".$ilDB->quote($this->getActivationStart()).", ".
 			"activation_end = ".$ilDB->quote($this->getActivationEnd()).", ".

@@ -8549,3 +8549,4 @@ assessment#:#showinfo_desc#:#Wenn ausgewählt, wird die komplette Info-Seite (ei
 assessment#:#forcejs#:#JavaScript-Ausgabe für Testfragen erzwingen
 assessment#:#forcejs_short#:#JavaScript erzwingen
 assessment#:#forcejs_desc#:#Wenn ausgewählt, wird für Testfragen standardmäßig die JavaScript-Ausgabe anstelle der reinen HTML-Ausgabe verwendet.
+crs#:#crs_contact_email_info#:#Sie können eine oder mehrere (durch Komma getrennt) E-Mail Adressen eingeben.
