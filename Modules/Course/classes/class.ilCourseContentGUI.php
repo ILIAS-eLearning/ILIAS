@@ -598,7 +598,10 @@ class ilCourseContentGUI
 		}
 
 		// BEGIN WebDAV: Don't display hidden Files.
-		if(!$this->container_gui->isActiveAdministrationPanel())
+		// Note: If you change this if-statement, make sure to
+		// change the corresponding if-statement in ilContainer
+		// as well.
+		if (!$this->container_gui->isActiveAdministrationPanel())
 		{
 			require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 			if (ilObjFileAccess::_isFileHidden($cont_data['title']))

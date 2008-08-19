@@ -76,7 +76,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 	{
 		global $ilAccess, $lng;
 
-		$this->items = $this->getContainerObject()->getSubItems();
+		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
 		$this->clearAdminCommandsDetermination();
 		
 		$output_html = $this->getContainerGUI()->getContainerPageHTML();

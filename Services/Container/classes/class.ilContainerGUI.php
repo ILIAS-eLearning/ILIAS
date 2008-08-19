@@ -478,7 +478,9 @@ class ilContainerGUI extends ilObjectGUI
 		
 		// get all sub items
 		$ilBench->start("ilContainerGUI", "0100_getSubItems");
-		$this->getSubItems();
+		// BEGIN WebDAV Show hidden files when administration panel is on
+		$this->getSubItems($this->isActiveAdministrationPanel(), true);
+		// END WebDAV Show hidden files when administration panel is on
 		$ilBench->stop("ilContainerGUI", "0100_getSubItems");
 
 		// Show introduction, if repository is empty
@@ -1682,7 +1684,7 @@ class ilContainerGUI extends ilObjectGUI
 		if (count($no_paste))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
-									 implode(',',$no_paste_titles),$this->ilias->error_obj->MESSAGE);
+									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// log pasteObject call
