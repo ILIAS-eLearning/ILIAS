@@ -105,6 +105,7 @@ class ilObjFile extends ilObject
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 		$this->addNewsNotification("file_created");
+		require_once("./Services/News/classes/class.ilNewsItem.php");
 		$default_visibility =
 			ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
 		if ($default_visibility == "public")
@@ -587,6 +588,13 @@ class ilObjFile extends ilObject
 		require_once 'class.ilObjFileAccess.php';
 		return ilObjFileAccess::_isFileInline($this->getTitle());
 	}
+	/**
+	 * Returns true, if this file should be hidden in the repository view.
+	 */
+	function isHidden() {
+		require_once 'class.ilObjFileAccess.php';
+		return ilObjFileAccess::_isFileHidden($this->getTitle());
+	}
 	// END WebDAV: Get file extension, determine if file is inline, guess file type.
 	
 	/**
@@ -824,6 +832,12 @@ class ilObjFile extends ilObject
 	
 	function addNewsNotification($a_lang_var)
 	{
+                // BEGIN WebDAV Suppress news notification for hidden files
+                if ($this->isHidden()) {
+                        return;
+                }
+                // END WebDAV Suppress news notification for hidden files
+                
 		global $ilUser;
 		
 		// Add Notification to news
