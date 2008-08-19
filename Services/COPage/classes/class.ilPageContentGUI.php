@@ -49,7 +49,7 @@ class ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPageContentGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
+	function ilPageContentGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
 
@@ -60,10 +60,11 @@ class ilPageContentGUI
 		$this->ctrl =& $ilCtrl;
 
 		$this->content_obj =& $a_content_obj;
-
 		if($a_hier_id !== 0)
 		{
 			$this->hier_id = $a_hier_id;
+			$this->pc_id = $a_pc_id;
+//echo "-".$this->pc_id."-";
 			$this->dom =& $a_pg_obj->getDom();
 		}
 	}
@@ -164,30 +165,34 @@ class ilPageContentGUI
 			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$a_hid = explode(":", $_POST["target"][0]);
+//echo "-".$a_hid[0]."-".$a_hid[1]."-";
+
 		// check if target is within source
-		if($this->hier_id == substr($_POST["target"][0], 0, strlen($this->hier_id)))
+		if($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id)))
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// check whether target is allowed
-		$curr_node =& $this->pg_obj->getContentNode($_POST["target"][0]);
+		$curr_node =& $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
 		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// strip "c" "r" of table ids from hierarchical id
-		$first_hier_character = substr($_POST["target"][0], 0, 1);
+		$first_hier_character = substr($a_hid[0], 0, 1);
 		if ($first_hier_character == "c" ||
 			$first_hier_character == "r" ||
 			$first_hier_character == "i")
 		{
-			$_POST["target"][0] = substr($_POST["target"][0], 1);
+			$a_hid[0] = substr($a_hid[0], 1);
 		}
 
 		// move
-		$updated = $this->pg_obj->moveContentAfter($this->hier_id, $_POST["target"][0]);
+		$updated = $this->pg_obj->moveContentAfter($this->hier_id, $a_hid[0],
+			$this->content_obj->getPcId(), $a_hid[1]);
 		if($updated !== true)
 		{
 			$_SESSION["il_pg_error"] = $updated;
@@ -217,30 +222,33 @@ class ilPageContentGUI
 			$this->ilias->raiseError($this->lng->txt("only_one_target"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$a_hid = explode(":", $_POST["target"][0]);
+		
 		// check if target is within source
-		if($this->hier_id == substr($_POST["target"][0], 0, strlen($this->hier_id)))
+		if($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id)))
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// check whether target is allowed
-		$curr_node =& $this->pg_obj->getContentNode($_POST["target"][0]);
+		$curr_node =& $this->pg_obj->getContentNode($a_hid[0], $a_hid[1]);
 		if (is_object($curr_node) && $curr_node->node_name() == "FileItem")
 		{
 			$this->ilias->raiseError($this->lng->txt("cont_operation_not_allowed"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// strip "c" "r" of table ids from hierarchical id
-		$first_hier_character = substr($_POST["target"][0], 0, 1);
+		$first_hier_character = substr($a_hid[0], 0, 1);
 		if ($first_hier_character == "c" ||
 			$first_hier_character == "r" ||
 			$first_hier_character == "i")
 		{
-			$_POST["target"][0] = substr($_POST["target"][0], 1);
+			$a_hid[0] = substr($a_hid[0], 1);
 		}
 
 		// move
-		$updated = $this->pg_obj->moveContentBefore($this->hier_id, $_POST["target"][0]);
+		$updated = $this->pg_obj->moveContentBefore($this->hier_id, $a_hid[0],
+			$this->content_obj->getPcId(), $a_hid[1]);
 		if($updated !== true)
 		{
 			$_SESSION["il_pg_error"] = $updated;

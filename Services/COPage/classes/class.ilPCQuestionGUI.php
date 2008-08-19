@@ -40,9 +40,9 @@ class ilPCQuestionGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCQuestionGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCQuestionGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 

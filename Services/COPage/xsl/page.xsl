@@ -87,10 +87,10 @@
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
 			<div class="il_droparea">
-				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/></xsl:attribute>
+				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute>
 				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
 				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
-				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>');</xsl:attribute>
+				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
 			<img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
 			</div>
 			<!-- insert menu for drop area -->
@@ -345,7 +345,7 @@
 				<xsl:attribute name="onDblClick">doMouseDblClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
 			</xsl:if>
 		</xsl:if>
-        <xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
+        <xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute>
 
 		<xsl:apply-templates>
 			<xsl:with-param name="par_counter" select ="position()" />
@@ -357,8 +357,8 @@
 			<div class="il_droparea">
 				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
 				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
-				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>');</xsl:attribute>
-				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/></xsl:attribute><img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
+				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
+				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute><img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
 			</div>
 		</xsl:if>
 
@@ -711,14 +711,15 @@
 <!-- Drop Area for Adding -->
 <xsl:template name="DropArea">
 	<xsl:param name="hier_id"/>
+	<xsl:param name="pc_id"/>
 <!-- <xsl:value-of select="$hier_id"/> -->
 	<!-- Drop area -->
 	<xsl:if test="$javascript != 'disable'">
 		<div class="il_droparea">
-			<xsl:attribute name="id">TARGET<xsl:value-of select="$hier_id"/></xsl:attribute>
+			<xsl:attribute name="id">TARGET<xsl:value-of select="$hier_id"/>:<xsl:value-of select="$pc_id"/></xsl:attribute>
 			<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
 			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
-			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>');</xsl:attribute>
+			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
 		<img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
 		</div>
 	</xsl:if>
@@ -778,7 +779,7 @@
 			<xsl:if test="$javascript='disable'">
 			<br />
 			<input type="checkbox" name="target[]">
-				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 				</xsl:attribute>
 			</input>
 			</xsl:if>
@@ -1112,7 +1113,7 @@
 						<!-- checkbox -->
 						<xsl:if test="$mode = 'table_edit' or $javascript = 'disable'">
 							<input type="checkbox" name="target[]">
-								<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+								<xsl:attribute name="value"><xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>
 								</xsl:attribute>
 							</input>
 						</xsl:if>
@@ -1126,7 +1127,7 @@
 								</select>
 								<input class="ilEditSubmit" type="submit">
 									<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-									<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+									<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
 								</input>
 								<br/>
 							</xsl:if>
@@ -1134,7 +1135,7 @@
 								<xsl:if test = "position() = 1">
 									<xsl:call-template name="Icon">
 										<xsl:with-param name="img_src"><xsl:value-of select="$img_row"/></xsl:with-param>
-										<xsl:with-param name="img_id">CONTENTr<xsl:value-of select="@HierId"/></xsl:with-param>
+										<xsl:with-param name="img_id">CONTENTr<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 									</xsl:call-template>
 									<div style="position:absolute;left:0;top:0;visibility:hidden;">
 										<xsl:attribute name="id">contextmenu_r<xsl:value-of select="@HierId"/></xsl:attribute>
@@ -1146,7 +1147,7 @@
 								<xsl:if test = "$rowpos = 1">
 									<xsl:call-template name="Icon">
 										<xsl:with-param name="img_src"><xsl:value-of select="$img_col"/></xsl:with-param>
-										<xsl:with-param name="img_id">CONTENTc<xsl:value-of select="@HierId"/></xsl:with-param>
+										<xsl:with-param name="img_id">CONTENTc<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 									</xsl:call-template>
 									<div style="position:absolute;left:0;top:0;visibility:hidden;">
 										<xsl:attribute name="id">contextmenu_c<xsl:value-of select="@HierId"/></xsl:attribute>
@@ -1157,6 +1158,7 @@
 								</xsl:if>
 								<xsl:call-template name="DropArea">
 									<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+									<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
 								</xsl:call-template>
 							</xsl:if>
 						</xsl:if>
@@ -1179,7 +1181,7 @@
 		<xsl:if test="$javascript = 'disable'">
 			<!-- <xsl:value-of select="../@HierId"/> -->
 			<input type="checkbox" name="target[]">
-				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 				</xsl:attribute>
 			</input>
 			<select size="1" class="ilEditSelect">
@@ -1349,7 +1351,7 @@
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test = "$javascript='disable'">
 		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 			</xsl:attribute>
 		</input>
 		</xsl:if>
@@ -1374,7 +1376,7 @@
 		<xsl:if test="$javascript='disable'">
 			<!-- checkbox -->
 			<input type="checkbox" name="target[]">
-				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>
 				</xsl:attribute>
 			</input>
 			<select size="1" class="ilEditSelect">
@@ -1387,18 +1389,19 @@
 			</select>
 			<input class="ilEditSubmit" type="submit">
 				<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
 			</input>
 			<br/>
 		</xsl:if>
 		<xsl:if test="$javascript = 'enable'">
 			<xsl:call-template name="Icon">
-				<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/></xsl:with-param>
+				<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 				<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
 				<xsl:with-param name="float">y</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="DropArea">
 				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+				<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
 			</xsl:call-template>
 			<div style="position:absolute;left:0;top:0;visibility:hidden;">
 				<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
@@ -1464,7 +1467,7 @@
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test = "$javascript='disable'">
 		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 			</xsl:attribute>
 		</input>
 		</xsl:if>
@@ -1489,7 +1492,7 @@
 			<xsl:if test="$javascript='disable'">
 				<!-- checkbox -->
 				<input type="checkbox" name="target[]">
-					<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+					<xsl:attribute name="value"><xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>
 					</xsl:attribute>
 				</input>
 				<select size="1" class="ilEditSelect">
@@ -1499,13 +1502,13 @@
 				</select>
 				<input class="ilEditSubmit" type="submit">
 					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
 				</input>
 				<br/>
 			</xsl:if>
 			<xsl:if test="$javascript = 'enable'">
 				<xsl:call-template name="Icon">
-					<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/></xsl:with-param>
+					<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 					<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
 				</xsl:call-template>
 				&amp;nbsp;
@@ -1781,7 +1784,7 @@
 			<tr><td>
 				<!-- <xsl:value-of select="../../@HierId"/> -->
 				<input type="checkbox" name="target[]">
-					<xsl:attribute name="value"><xsl:value-of select="../../@HierId"/>
+					<xsl:attribute name="value"><xsl:value-of select="../../@HierId"/>:<xsl:value-of select="../../@PCID"/>
 					</xsl:attribute>
 				</input>
 				<select size="1" class="ilEditSelect">
@@ -2264,6 +2267,7 @@
 		<xsl:if test="$mode = 'edit'">
 			<xsl:call-template name="DropArea">
 				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+				<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
 		<xsl:apply-templates/>
@@ -2272,7 +2276,7 @@
 			<xsl:if test="$javascript='disable'">
 				<br />
 				<input type="checkbox" name="target[]">
-					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 					</xsl:attribute>
 				</input>
 			</xsl:if>
@@ -2295,7 +2299,7 @@
 			<xsl:if test="$javascript='disable'">
 				<br />
 				<input type="checkbox" name="target[]">
-					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 					</xsl:attribute>
 				</input>
 			</xsl:if>
@@ -2354,7 +2358,7 @@
 			<xsl:if test="$javascript='disable'">
 				<br />
 				<input type="checkbox" name="target[]">
-					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 					</xsl:attribute>
 				</input>
 			</xsl:if>
@@ -2415,7 +2419,7 @@
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test = "$javascript='disable'">
 		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 			</xsl:attribute>
 		</input>
 		</xsl:if>
@@ -2437,7 +2441,7 @@
 		<xsl:if test="$javascript='disable'">
 			<!-- checkbox -->
 			<input type="checkbox" name="target[]">
-				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>
 				</xsl:attribute>
 			</input>
 			<select size="1" class="ilEditSelect">
@@ -2450,13 +2454,13 @@
 			</select>
 			<input class="ilEditSubmit" type="submit">
 				<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
 			</input>
 			<br/>
 		</xsl:if>
 		<xsl:if test="$javascript = 'enable'">
 			<xsl:call-template name="Icon">
-				<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/></xsl:with-param>
+				<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 				<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
 				<xsl:with-param name="float">y</xsl:with-param>
 			</xsl:call-template>
@@ -2484,6 +2488,7 @@
 		<xsl:if test="$javascript = 'enable'">
 			<xsl:call-template name="DropArea">
 				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+				<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:if>
@@ -2501,7 +2506,7 @@
 			<xsl:if test="$javascript='disable'">
 				<br />
 				<input type="checkbox" name="target[]">
-					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+					<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 					</xsl:attribute>
 				</input>
 			</xsl:if>
@@ -2529,7 +2534,7 @@
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test = "$javascript='disable'">
 		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
 			</xsl:attribute>
 		</input>
 		</xsl:if>

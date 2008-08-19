@@ -42,10 +42,10 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCParagraphGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCParagraphGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		$this->setEnableWikiLinks(false);
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 
@@ -315,7 +315,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	function create()
 	{
 		$this->content_obj =& new ilPCParagraph($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+//echo "+".$this->pc_id."+";
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["par_language"];
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);

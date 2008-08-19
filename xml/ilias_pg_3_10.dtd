@@ -154,6 +154,9 @@
 	NumberingType (Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
 >
 <!ELEMENT ListItem (PageContent*)>
+<!ATTLIST ListItem
+	PCID CDATA #IMPLIED
+>
 
 <!-- Simple Lists -->
 <!ELEMENT SimpleBulletList (SimpleListItem*)>
@@ -163,6 +166,10 @@
 <!-- FileList -->
 <!ELEMENT FileList (Title?, FileItem*)>
 <!ELEMENT FileItem (Identifier, Location, Format?)>
+<!ATTLIST FileItem
+	PCID CDATA #IMPLIED
+>
+
 
 <!-- Table -->
 <!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->
@@ -185,10 +192,14 @@
 >
 <!ELEMENT Summary (%simpletext;)*>
 <!ELEMENT TableRow (TableData+)>
+<!ATTLIST TableRow
+	PCID CDATA #IMPLIED
+>
 <!ELEMENT TableData (PageContent*)>
 <!ATTLIST TableData
 	Width CDATA #IMPLIED
 	Class CDATA #IMPLIED
+	PCID CDATA #IMPLIED
 >
 
 <!-- ExtLink -->
@@ -224,6 +235,7 @@
 <!ELEMENT Section (PageContent*)>
 <!ATTLIST Section
 	Characteristic CDATA #IMPLIED
+	PCID CDATA #IMPLIED
 >
 
 <!-- Resources -->
@@ -259,6 +271,9 @@
 	Type (HorizontalTabs | Accordion) #IMPLIED
 >
 <!ELEMENT Tab (TabCaption?, PageContent*)>
+<!ATTLIST Tab
+	PCID CDATA #IMPLIED
+>
 <!ELEMENT TabCaption (%titletext;)*>
 
 <!-- Glossary -->

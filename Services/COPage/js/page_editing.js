@@ -320,6 +320,18 @@ function nextMenuClick() {
 	menuBlocked = false;
 }
 
+
+function extractHierId(id)
+{
+	var i = id.indexOf(":");
+	if (i > 0)
+	{
+		id = id.substr(0, i);
+	}
+	
+	return id;
+}
+
 /**
 * Process Single Mouse Click
 */
@@ -328,29 +340,30 @@ function doMouseClick(e, id)
 	if(menuBlocked || mouseUpBlocked) return;
 	menuBlocked = true;
 	setTimeout("nextMenuClick()",100);
-	
+
 	if (!e) var e = window.event;
-	
-	
+
 	if (id.substr(0, 6) == "TARGET")
 	{
 		clickcmdid = id.substr(6);
-		var nextMenu = "dropareamenu_" + clickcmdid;
+		var nextMenu = "dropareamenu_" + extractHierId(clickcmdid);
 	}
 	else if (id.substr(0, 4) == "COL_")		// used in table data editor
 	{
 		clickcmdid = id.substr(4);
-		var nextMenu = "col_menu_" + clickcmdid;
+		var nextMenu = "col_menu_" + extractHierId(clickcmdid);
 	}
 	else if (id.substr(0, 4) == "ROW_")		// used in table data editor
 	{
 		clickcmdid = id.substr(4);
-		var nextMenu = "row_menu_" + clickcmdid;
+		var nextMenu = "row_menu_" + extractHierId(clickcmdid);
 	}
 	else
 	{
+		// these are the "CONTENT" ids now
 		clickcmdid = id.substr(7);
-		var nextMenu = "contextmenu_" + clickcmdid;
+//alert(clickcmdid + "*" + extractHierId(clickcmdid));
+		var nextMenu = "contextmenu_" + extractHierId(clickcmdid);
 	}
 	
 	Mposx = ilGetMouseX(e);
@@ -432,6 +445,7 @@ function doActionForm(cmd, command, value, target)
 	
 //alert("-" + cmd + "-" + command + "-" + value + "-" + target + "-");
     doCloseContextMenuCounter = 2;
+
     if(cmd=="cmd[exec]") 
 	{
         cmd = "cmd[exec_"+clickcmdid+"]";
@@ -439,7 +453,7 @@ function doActionForm(cmd, command, value, target)
     
     if (command=="command") 
 	{
-        command += clickcmdid;
+        command += extractHierId(clickcmdid);
     }
     
 	if (value=="delete") 
@@ -473,7 +487,7 @@ function doActionForm(cmd, command, value, target)
 	hid_cmd.value = value;
 	hid_exec = document.getElementById("cmform_exec");
 	hid_exec.name = cmd;
-	
+//alert("-" + cmd + "-" + command + "-" + value + "-" + target + "-");
     obj.submit();
 }
 
@@ -603,10 +617,11 @@ ilDragTarget.prototype.dInit = function(id, sGroup, config)
 ///
 function ilFormSend(cmd, source_id, target_id)
 {
+//alert(source_id + ":" + target_id);
 	hid_target = document.getElementById("ajaxform_target");
 	hid_target.value = target_id;
 	hid_cmd = document.getElementById("ajaxform_cmd");
-	hid_cmd.name = "command" + source_id;
+	hid_cmd.name = "command" + extractHierId(source_id);
 	hid_cmd.value = cmd;
 	hid_exec = document.getElementById("ajaxform_exec");
 	hid_exec.name = "cmd[exec_" + source_id + "]";

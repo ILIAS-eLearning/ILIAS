@@ -41,9 +41,9 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCSourcecodeGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCSourcecodeGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 
@@ -323,7 +323,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 	function create()
 	{	
 		$this->content_obj =& new ilPCParagraph($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setLanguage($_POST["par_language"]);
 
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["par_language"];

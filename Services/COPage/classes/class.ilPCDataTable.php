@@ -54,10 +54,10 @@ class ilPCDataTable extends ilPCTable
 		$this->tab_node =& $a_node->first_child();		// this is the Table node
 	}
 
-	function create(&$a_pg_obj, $a_hier_id)
+	function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
 		$this->node = $this->createPageContentNode();
-		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
+		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
 		$this->tab_node =& $this->dom->create_element("Table");
 		$this->tab_node =& $this->node->append_child($this->tab_node);
 		$this->tab_node->set_attribute("Language", "");

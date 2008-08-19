@@ -41,9 +41,9 @@ class ilPCSectionGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCSectionGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCSectionGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 	function create()
 	{
 		$this->content_obj = new ilPCSection($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setCharacteristic($_POST["characteristic"]);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)

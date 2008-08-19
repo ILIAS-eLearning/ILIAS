@@ -41,9 +41,9 @@ class ilPCTableGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCTableGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCTableGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
@@ -358,7 +358,7 @@ class ilPCTableGUI extends ilPageContentGUI
 	{
 		global	$lng;
 		$this->content_obj = new ilPCTable($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setLanguage($_POST["tab_language"]);
 		$import_table = trim($_POST["import_table"]);
 		

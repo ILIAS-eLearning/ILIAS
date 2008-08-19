@@ -147,6 +147,8 @@ class ilPageEditorGUI
 	{
 		global $ilCtrl;
 		
+//var_dump($_POST);
+		
 //$this->ctrl->debug("ilPageEditorGUI->execute");
 		$cmd = $this->ctrl->getCmd("displayPage");
 		$cmdClass = strtolower($this->ctrl->getCmdClass());
@@ -163,9 +165,11 @@ class ilPageEditorGUI
 		$new_type = (isset($_GET["new_type"]))
 			? $_GET["new_type"]
 			: $_POST["new_type"];
-
+//echo "-$cmd-";
+//var_dump($_POST);
 		if (substr($cmd, 0, 5) == "exec_")
 		{
+//echo ":".key($_POST["cmd"]).":";
 			// check whether pc id is given
 			$pca = explode(":", key($_POST["cmd"]));
 			$pc_id = $pca[1];
@@ -175,7 +179,7 @@ class ilPageEditorGUI
 			$hier_id = implode($cmd, "_");
 			$cmd = $_POST["command".$hier_id];
 		}
-		
+//echo "<br>cmd:$cmd:";
 		// strip "c" "r" of table ids from hierarchical id
 		$first_hier_character = substr($hier_id, 0, 1);
 		if ($first_hier_character == "c" ||
@@ -191,7 +195,7 @@ class ilPageEditorGUI
 		// determine command and content object
 		$com = explode("_", $cmd);
 		$cmd = $com[0];
-
+//echo ";$cmd;";
 //$this->ctrl->debug("hier_id:$hier_id:cmd:$cmd:");
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -222,6 +226,7 @@ class ilPageEditorGUI
 					$cmdClass = "ilobjmediaobjectgui";
 				}
 			}
+//echo "-$pc_id-";
 //echo "-$cmd-".$this->ctrl->getCmd()."-";
 //var_dump($_POST);
 			// note: ilinternallinkgui for page: no cont_obj is received
@@ -368,7 +373,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpcsourcecodegui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCSourcecodeGUI.php");
-				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id);
+				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($src_gui);
 				break;
 
@@ -376,7 +381,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpcparagraphgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
+				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$par_gui->setEnableWikiLinks($this->page_gui->getEnabledWikiLinks());
 				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
@@ -385,7 +390,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpctablegui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTableGUI.php");
-				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id);
+				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
@@ -393,7 +398,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpctabledatagui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTableDataGUI.php");
-				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
+				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($td_gui);
 				break;
 
@@ -401,7 +406,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpcdatatablegui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCDataTableGUI.php");
-				$tab_gui =& new ilPCDataTableGUI($this->page, $cont_obj, $hier_id);
+				$tab_gui =& new ilPCDataTableGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
@@ -417,7 +422,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 //				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 //				{
 //echo "%".$cont_obj->getPcId()."%";
-					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
+					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
 					$pcmob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 					/*
 					if (is_object ($cont_obj))
@@ -479,7 +484,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpclistgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCListGUI.php");
-				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id);
+				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				//$ret =& $list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($list_gui);
 				break;
@@ -488,7 +493,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpclistitemgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCListItemGUI.php");
-				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
+				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				//$ret =& $list_item_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($list_item_gui);
 				break;
@@ -497,7 +502,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpcfilelistgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCFileListGUI.php");
-				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id);
+				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				//$ret =& $file_list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($file_list_gui);
 				break;
@@ -506,7 +511,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpcfileitemgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCFileItemGUI.php");
-				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id);
+				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				//$ret =& $file_item_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($file_item_gui);
 				break;
@@ -518,7 +523,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				//$this->tabs_gui->clearTargets();
 				
 				include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
-				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id);
+				$pc_question_gui =& new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$cmd = $this->ctrl->getCmd();
 				$pc_question_gui->$cmd();
 				$this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
@@ -528,7 +533,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpcsectiongui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCSectionGUI.php");
-				$sec_gui =& new ilPCSectionGUI($this->page, $cont_obj, $hier_id);
+				$sec_gui =& new ilPCSectionGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($sec_gui);
 				break;
 
@@ -536,7 +541,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpcresourcesgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCResourcesGUI.php");
-				$res_gui =& new ilPCResourcesGUI($this->page, $cont_obj, $hier_id);
+				$res_gui =& new ilPCResourcesGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($res_gui);
 				break;
 
@@ -544,7 +549,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpcmapgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCMapGUI.php");
-				$map_gui =& new ilPCMapGUI($this->page, $cont_obj, $hier_id);
+				$map_gui =& new ilPCMapGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($map_gui);
 				break;
 
@@ -552,7 +557,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpctabsgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTabsGUI.php");
-				$tabs_gui =& new ilPCTabsGUI($this->page, $cont_obj, $hier_id);
+				$tabs_gui =& new ilPCTabsGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($tabs_gui);
 				break;
 
@@ -560,7 +565,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			case "ilpctabgui":
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTabGUI.php");
-				$tab_gui = new ilPCTabGUI($this->page, $cont_obj, $hier_id);
+				$tab_gui = new ilPCTabGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				//$ret =& $list_item_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
@@ -570,7 +575,7 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCPluggedGUI.php");
 				$plugged_gui =& new ilPCPluggedGUI($this->page, $cont_obj, $hier_id,
-					$add_type);
+					$add_type, $pc_id);
 				$ret =& $this->ctrl->forwardCommand($plugged_gui);
 				break;
 
@@ -761,7 +766,7 @@ return true;
 	function pasteFromClipboard($a_hier_id)
 	{
 		global $ilCtrl;
-
+//var_dump($a_hier_id);
 		$ilCtrl->setParameter($this, "hier_id", $a_hier_id);
 		$ilCtrl->setParameterByClass("ilEditClipboardGUI", "returnCommand",
 			rawurlencode($ilCtrl->getLinkTarget($this,

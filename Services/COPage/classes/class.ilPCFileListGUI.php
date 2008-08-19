@@ -41,9 +41,9 @@ class ilPCFileListGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCFileListGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCFileListGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 
 //echo "::".is_object($this->dom).":";
 		$this->content_obj = new ilPCFileList($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setListTitle(ilUtil::stripSlashes($_POST["flst_title"]), $_POST["flst_language"]);
 		$this->content_obj->appendItem($fileObj->getId(), $fileObj->getFileName(),
 			$fileObj->getFileType());
