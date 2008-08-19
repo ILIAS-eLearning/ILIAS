@@ -179,14 +179,22 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 
 		switch((int)$this->view)
 		{
-			case self::VIEW_MY_MEMBERSHIPS:
-				$this->setTitle($this->lng->txt('selected_items').': '.$this->lng->txt('pd_my_memberships'));
+			case self::VIEW_MY_MEMBERSHIPS:				
+				$this->setTitle($this->lng->txt('pd_my_memberships'));
 				$this->setContent($this->getMembershipItemsBlockHTML());
 				break;
 							
 			case self::VIEW_MY_OFFERS:			
 			default:
-				$this->setTitle($this->lng->txt('selected_items').': '.$this->lng->txt('pd_my_offers'));
+				if(!in_array(self::VIEW_MY_MEMBERSHIPS, $this->allowed_views))
+				{
+					$this->setTitle($this->lng->txt('selected_items'));
+				}
+				else
+				{
+					$this->setTitle($this->lng->txt('pd_my_offers'));
+				}
+				
 				$this->setContent($this->getSelectedItemsBlockHTML());
 				break;
 		}
