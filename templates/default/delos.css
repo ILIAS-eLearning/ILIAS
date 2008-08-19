@@ -1757,6 +1757,11 @@ table.il_editmenu
 	border-width: 1px;
 	border-color: #909090;
 	background-color: #FFFFFF;
+	color: #000000;
+	font-weight: normal;
+	text-align: left;
+	font-style: normal;
+	font-size: 14px;
 }
 
 a.il_PageDisabled

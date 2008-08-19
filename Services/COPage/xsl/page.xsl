@@ -737,9 +737,9 @@
 
 	<xsl:choose>
 		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
-		<p>
+		<div>
 			<xsl:call-template name="ShowParagraph"/>
-		</p>
+		</div>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:call-template name="ShowParagraph">

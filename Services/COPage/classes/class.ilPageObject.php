@@ -996,7 +996,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	function validateDom()
 	{
 		$this->stripHierIDs();
-		@$this->dom->validate($error);
+		$this->dom->validate($error);
 		return $error;
 	}
 

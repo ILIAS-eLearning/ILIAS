@@ -100,12 +100,13 @@ class ilPCSectionGUI extends ilPageContentGUI
 		// characteristic selection
 		$char_prop = new ilSelectInputGUI($this->lng->txt("cont_characteristic"),
 			"characteristic");
-		$chars = array("ilc_Block" => $this->lng->txt("cont_sec_block"),
-			"ilc_Example" => $this->lng->txt("cont_sec_example"),
-			"ilc_Citation" => $this->lng->txt("cont_sec_citation"),
-			"ilc_Additional" => $this->lng->txt("cont_sec_additional"),
-			"ilc_Special" => $this->lng->txt("cont_sec_special"),
-			"ilc_Excursus" => $this->lng->txt("cont_sec_excursus"));
+		$chars = array("ilc_Block" => $this->lng->txt("cont_Block"),
+			"ilc_Mnemonic" => $this->lng->txt("cont_Mnemonic"),
+			"ilc_Remark" => $this->lng->txt("cont_Remark"),
+			"ilc_Example" => $this->lng->txt("cont_Example"),
+			"ilc_Additional" => $this->lng->txt("cont_Additional"),
+			"ilc_Special" => $this->lng->txt("cont_Special"),
+			"ilc_Excursus" => $this->lng->txt("cont_Excursus"));
 		$selected = ($a_insert)
 			? ""
 			: $this->content_obj->getCharacteristic();

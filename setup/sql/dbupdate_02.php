@@ -5315,3 +5315,41 @@ ALTER TABLE page_object ADD COLUMN render_md5 VARCHAR(32) DEFAULT '';
 ALTER TABLE page_object ADD COLUMN rendered_content MEDIUMTEXT DEFAULT '';
 <#1309>
 ALTER TABLE page_object ADD COLUMN rendered_time DATETIME DEFAULT '0000-00-00 00:00:00';
+<#1310>
+UPDATE style_parameter SET tag='div' WHERE tag='p';
+<#1311>
+UPDATE style_data SET uptodate = 0;
+<#1312>
+<?php
+
+$classes = array("Example", "Additional", "Citation", "Mnemonic", "Remark");
+$pars = array("margin-top", "margin-bottom");
+
+$query = "SELECT DISTINCT `style_id` FROM style_parameter";
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	foreach ($classes as $curr_class)
+	{
+		foreach ($pars as $curr_par)
+		{
+			$query = "SELECT id FROM style_parameter WHERE style_id='".$row["style_id"]."'".
+				" AND tag = 'div' AND class='".$curr_class."' AND parameter = '".$curr_par."'";
+			$res2 = $ilDB->query($query);
+			if ($row2 = $res2->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$q = "UPDATE style_parameter SET value='10px' WHERE id = '".$row2["id"]."'";
+//echo "<br>".$q;
+				$ilDB->query($q);
+			}
+			else
+			{
+				$q = "INSERT INTO style_parameter (style_id, tag, class, parameter,value) VALUES ".
+					"('".$row["style_id"]."','div','".$curr_class."','".$curr_par."','10px')";
+//echo "<br>".$q;
+				$ilDB->query($q);
+			}
+		}
+	}
+}
+?>

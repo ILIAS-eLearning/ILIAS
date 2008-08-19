@@ -139,7 +139,7 @@ class ilPCParagraph extends ilPageContent
 
 		// DOMXML_LOAD_PARSING, DOMXML_LOAD_VALIDATING, DOMXML_LOAD_RECOVERING
 
-		$temp_dom = @domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
+		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
 			DOMXML_LOAD_PARSING, $error);
 			
 		//$this->text = $a_text;

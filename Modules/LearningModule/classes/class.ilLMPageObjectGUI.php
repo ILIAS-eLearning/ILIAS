@@ -100,7 +100,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 				$showViewInFrameset = true;
 
-				$this->ctrl->setReturn($this, "view");
+				$this->ctrl->setReturn($this, "edit");
 /*				$page_object =& $this->obj->getPageObject();
 				$page_object->buildDom();
 				$page_object->addUpdateListener($this, "updateHistory");
