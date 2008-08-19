@@ -87,6 +87,7 @@ class ilCourseObjectiveResult
 	{
 		return ilCourseObjectiveResult::_getSuggested($this->getUserId(),$a_crs_id,$a_status);
 	}
+	
 	function _getSuggested($a_user_id,$a_crs_id,$a_status = IL_OBJECTIVE_STATUS_FINAL)
 	{
 		global $ilDB;

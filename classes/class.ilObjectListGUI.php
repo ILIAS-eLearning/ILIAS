@@ -62,6 +62,7 @@ class ilObjectListGUI
 	protected $icons_enabled = false;
 	protected $checkboxes_enabled = false;
 	protected $position_enabled = false;
+	protected $progress_enabled = false;
 	
 	/**
 	* constructor
@@ -96,6 +97,18 @@ class ilObjectListGUI
 	{
 		$this->container_obj =& $container_obj;
 	}
+	
+	/**
+	 * get container object
+	 *
+	 * @access public
+	 * @param
+	 * @return object container
+	 */
+	public function getContainerObject()
+	{
+		return $this->container_obj;
+	}
 
 
 	/**
@@ -112,6 +125,7 @@ class ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
+		$this->progress_enabled = false;
 		$this->notice_properties_enabled = true;
 		$this->info_screen_enabled = false;
 		$this->type = "";					// "cat", "course", ...
@@ -442,6 +456,30 @@ class ilObjectListGUI
 	}
 	
 	/**
+	 * enable progress info
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function enableProgressInfo($a_status)
+	{
+		$this->progress_enabled = $a_status;
+	}
+	
+	/**
+	 * get progress info status
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getProgressInfoStatus()
+	{
+		return $this->progress_enabled;
+	}
+	
+	/**
 	 * Enable substitutions
 	 *
 	 * @access public
@@ -501,7 +539,7 @@ class ilObjectListGUI
 	{
 		return $this->description;
 	}
-
+	
 	/**
 	* inititialize new item (is called by getItemHTML())
 	*
@@ -1588,6 +1626,18 @@ class ilObjectListGUI
 	}
 	
 	/**
+	 * insert progress info
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function insertProgressInfo()
+	{
+		return true;
+	}
+	
+	
+	/**
 	* Insert icons and checkboxes
 	*/
 	function insertIconsAndCheckboxes()
@@ -1700,6 +1750,11 @@ class ilObjectListGUI
 		$ilBench->start("ilObjectListGUI", "5000_insert_pay");
 		$this->insertPayment();
 		$ilBench->stop("ilObjectListGUI", "5000_insert_pay");
+		
+		if($this->getProgressInfoStatus())
+		{
+			$this->insertProgressInfo();	
+		}
 		
 		if ($this->getCommandsStatus() || 
 		    ($this->payment_enabled && (bool)ilGeneralSettings::_getInstance()->get('shop_enabled')))
