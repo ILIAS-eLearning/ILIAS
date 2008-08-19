@@ -311,10 +311,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
      * @return Array $items array of objects
      */
 	protected function getObjectsByMembership($types = array())
-	{
-		global $tree, $ilUser, $rbacreview;
+	{	
+		global $tree, $ilUser, $ilObjDataCache;
 		
-		$roles = array();
+		include_once 'Services/Membership/classes/class.ilParticipants.php';
 		$items = array();
 		
 		if(is_array($types) && count($types))
@@ -324,10 +324,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 				switch($type)
 				{
 					case 'grp':
-						$roles = array_merge($rbacreview->getLocalRolesByUserAndType($ilUser->getId(), 'il_grp_member'), $roles);
+						$items = array_merge(ilParticipants::_getMembershipByType($ilUser->getId(), 'grp'), $items);
 						break;
 					case 'crs':
-						$roles = array_merge($rbacreview->getLocalRolesByUserAndType($ilUser->getId(), 'il_crs_member'), $roles);
+						$items = array_merge(ilParticipants::_getMembershipByType($ilUser->getId(), 'crs'), $items);
 						break;
 					default:				
 						break;			
@@ -336,23 +336,29 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$crs_member_roles = $rbacreview->getLocalRolesByUserAndType($ilUser->getId(), 'il_crs_member');
-			$group_member_roles = $rbacreview->getLocalRolesByUserAndType($ilUser->getId(), 'il_grp_member');
-			$roles = array_merge($crs_member_roles, $group_member_roles);
+			$crs_mbs = ilParticipants::_getMembershipByType($ilUser->getId(), 'crs');
+			$grp_mbs = ilParticipants::_getMembershipByType($ilUser->getId(), 'grp');
+			$items = array_merge($crs_mbs, $grp_mbs);
 		}
 
-		foreach($roles as $role)
+		$references = array();
+		foreach($items as $key => $obj_id)
 		{
-			$ass_rolefolders = $rbacreview->getFoldersAssignedToRole($role);
-
-			foreach($ass_rolefolders as $role_folder)
+			$item_references = ilObject::_getAllReferences($obj_id);
+			if(is_array($item_references) && count($item_references))
 			{
-				$node = $tree->getParentNodeData($role_folder);
-				$items[] = $node;
-			}
-		}		
-		
-		return is_array($items) ? $items : array();
+				foreach($item_references as $ref_id)
+				{
+					$references[$ref_id] =
+						array('ref_id' => $ref_id,
+							  'obj_id' => $obj_id, 
+							  'type' => $ilObjDataCache->lookupType($obj_id),
+							  'title' => $ilObjDataCache->lookupTitle($obj_id),
+							  'description' => $ilObjDataCache->lookupDescription($obj_id));
+				}	
+			}		
+		}
+		return is_array($references) ? $references : array();
 	}
 	
 	/**
@@ -370,7 +376,16 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		$items = $this->getObjectsByMembership();
 		$item_html = array();		
 		if(count($items) > 0)
-		{			
+		{
+			// preload object data cache
+			$ref_ids = array();
+			foreach($items as $item)
+			{
+				$ref_ids[] = $item;
+			}
+			reset($items);
+			$ilObjDataCache->preloadReferenceCache($ref_ids);
+			
 			foreach($items as $item)
 			{
 				//echo "1";
@@ -384,6 +399,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
 					$item_list_gui->enableInfoScreen(false);
+					$item_list_gui->enableSubscribe(false);
 					if ($this->getCurrentDetailLevel() < 3)
 					{
 						//echo "3";
@@ -478,14 +494,21 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		}
 
 		foreach ($types as $t)
-		{
-			
+		{			
 			$type = $t["types"];
 			$title = $t["title"];
 			$grp = $t["grp"];
 
 			$items = $this->getObjectsByMembership($type);
 //var_dump($items);
+			// preload object data cache
+			$ref_ids = array();
+			foreach($items as $item)
+			{
+				$ref_ids[] = $item;
+			}
+			reset($items);
+			$ilObjDataCache->preloadReferenceCache($ref_ids);
 			$item_html = array();
 			
 			if ($this->getCurrentDetailLevel() == 3)
@@ -528,6 +551,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
 						$item_list_gui->enableInfoScreen(false);
+						$item_list_gui->enableSubscribe(false);
 						if ($this->getCurrentDetailLevel() < 3)
 						{
 							$item_list_gui->enableDescription(false);
