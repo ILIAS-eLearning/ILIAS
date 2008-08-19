@@ -41,9 +41,9 @@ class ilPCListGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCListGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCListGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
@@ -118,7 +118,7 @@ class ilPCListGUI extends ilPageContentGUI
 	function create()
 	{
 		$this->content_obj = new ilPCList($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->addItems($_POST["nr_items"]);
 		$this->content_obj->setOrderType($_POST["list_order"]);
 		$this->updated = $this->pg_obj->update();

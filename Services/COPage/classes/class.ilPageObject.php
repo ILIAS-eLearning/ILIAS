@@ -89,6 +89,10 @@ class ilPageObject
 		$this->page_not_found = false;
 		$this->old_nr = $a_old_nr;
 		$this->encoding = "UTF-8";
+		$this->id_elements =
+			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
+				"Section", "Tab");
+		
 		if($a_id != 0)
 		{
 			$this->read();
@@ -1022,7 +1026,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
 		//$path = "//Paragraph | //Table | //TableRow | //TableData";
-		$path = "//PageContent | //TableRow | //TableData | //ListItem | //FileItem | //Section | //Tab";
+		
+		$sep = $path = "";
+		foreach ($this->id_elements as $el)
+		{
+			$path.= $sep."//".$el;
+			$sep = " | ";
+		}
+
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -1775,9 +1786,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* @param	boolean		$a_update	update page in db (note: update deletes all
 	*									hierarchical ids in DOM!)
 	*/
-	function deleteContent($a_hid, $a_update = true)
+	function deleteContent($a_hid, $a_update = true, $a_pcid = "")
 	{
-		$curr_node =& $this->getContentNode($a_hid);
+		$curr_node =& $this->getContentNode($a_hid, $a_pcid);
 		$curr_node->unlink_node($curr_node);
 		if ($a_update)
 		{
@@ -1800,7 +1811,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		foreach($a_hids as $a_hid)
 		{
-			$curr_node =& $this->getContentNode($a_hid);
+			$a_hid = explode(":", $a_hid);
+//echo "-".$a_hid[0]."-".$a_hid[1]."-";
+			$curr_node =& $this->getContentNode($a_hid[0], $a_hid[1]);
 			if (is_object($curr_node))
 			{
 				$parent_node = $curr_node->parent_node();
@@ -1830,12 +1843,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		
 		foreach($a_hids as $a_hid)
 		{
-			$curr_node =& $this->getContentNode($a_hid);
+			$a_hid = explode(":", $a_hid);
+//echo "-".$a_hid[0]."-".$a_hid[1]."-";
+			$curr_node =& $this->getContentNode($a_hid[0], $a_hid[1]);
 			if (is_object($curr_node))
 			{
 				if ($curr_node->node_name() == "PageContent")
 				{
-					$cont_obj =& $this->getContentObject($a_hid);
+					$cont_obj =& $this->getContentObject($a_hid[0], $a_hid[1]);
 					if ($cont_obj->isEnabled ()) 
 						$cont_obj->disable ();
 					else
@@ -1976,10 +1991,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* insert a content node before/after a sibling or as first child of a parent
 	*/
-	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER)
+	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "")
 	{
 		// move mode into container elements is always INSERT_CHILD
-		$curr_node =& $this->getContentNode($a_pos);
+		$curr_node = $this->getContentNode($a_pos, $a_pcid);
 		$curr_name = $curr_node->node_name();
 		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
 			($curr_name == "ListItem") || ($curr_name == "Section")
@@ -1988,6 +2003,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$a_mode = IL_INSERT_CHILD;
 		}
 
+		$hid = $curr_node->get_attribute("HierId");
+		if ($hid != "")
+		{
+//echo "-".$a_pos."-".$hid."-";
+			$a_pos = $hid;
+		}
+		
 		if($a_mode != IL_INSERT_CHILD)			// determine parent hierarchical id
 		{										// of sibling at $a_pos
 			$pos = explode("_", $a_pos);
@@ -2065,7 +2087,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* move content object from position $a_source before position $a_target
 	* (both hierarchical content ids)
 	*/
-	function moveContentBefore($a_source, $a_target)
+	function moveContentBefore($a_source, $a_target, $a_spcid = "", $a_tpcid = "")
 	{
 		if($a_source == $a_target)
 		{
@@ -2073,16 +2095,16 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 
 		// clone the node
-		$content =& $this->getContentObject($a_source);
+		$content =& $this->getContentObject($a_source, $a_spcid);
 		$source_node =& $content->getNode();
 		$clone_node =& $source_node->clone_node(true);
 
 		// delete source node
-		$this->deleteContent($a_source, false);
+		$this->deleteContent($a_source, false, $a_spcid);
 
 		// insert cloned node at target
 		$content->setNode($clone_node);
-		$this->insertContent($content, $a_target, IL_INSERT_BEFORE);
+		$this->insertContent($content, $a_target, IL_INSERT_BEFORE, $a_tpcid);
 		return $this->update();
 
 	}
@@ -2091,29 +2113,24 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* move content object from position $a_source before position $a_target
 	* (both hierarchical content ids)
 	*/
-	function moveContentAfter($a_source, $a_target)
+	function moveContentAfter($a_source, $a_target, $a_spcid = "", $a_tpcid = "")
 	{
-//echo "source:$a_source:target:$a_target:<br>";
 		if($a_source == $a_target)
 		{
 			return;
 		}
 
-//echo "move source:$a_source:to:$a_target:<br>";
-
-
 		// clone the node
-		$content =& $this->getContentObject($a_source);
-//echo ":".get_class($content).":";
+		$content =& $this->getContentObject($a_source, $a_spcid);
 		$source_node =& $content->getNode();
 		$clone_node =& $source_node->clone_node(true);
 
 		// delete source node
-		$this->deleteContent($a_source, false);
+		$this->deleteContent($a_source, false, $a_spcid);
 
 		// insert cloned node at target
 		$content->setNode($clone_node);
-		$this->insertContent($content, $a_target, IL_INSERT_AFTER);
+		$this->insertContent($content, $a_target, IL_INSERT_AFTER, $a_tpcid);
 		return $this->update();
 	}
 
@@ -2357,7 +2374,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	{
 		$this->builddom();
 		$mydom = $this->dom;
-		$path = "//PageContent[not(@PCID)]";
+		
+		$sep = $path = "";
+		foreach ($this->id_elements as $el)
+		{
+			$path.= $sep."//".$el."[not(@PCID)]";
+			$sep = " | ";
+		}
+		
 		$xpc = xpath_new_context($mydom);
 		$res = & xpath_eval($xpc, $path);
 
@@ -2377,9 +2401,15 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$mydom = $this->dom;
 		
 		$pcids = array();
+
+		$sep = $path = "";
+		foreach ($this->id_elements as $el)
+		{
+			$path.= $sep."//".$el."[@PCID]";
+			$sep = " | ";
+		}
 		
 		// get existing ids
-		$path = "//PageContent[@PCID]";
 		$xpc = xpath_new_context($mydom);
 		$res = & xpath_eval($xpc, $path);
 
@@ -2390,7 +2420,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 		
 		// add missing ones
-		$path = "//PageContent[not(@PCID)]";
+		$sep = $path = "";
+		foreach ($this->id_elements as $el)
+		{
+			$path.= $sep."//".$el."[not(@PCID)]";
+			$sep = " | ";
+		}
 		$xpc = xpath_new_context($mydom);
 		$res = & xpath_eval($xpc, $path);
 

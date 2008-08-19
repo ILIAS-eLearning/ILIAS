@@ -123,10 +123,10 @@ class ilPCMediaObject extends ilPageContent
 	* @param	object	$a_pg_obj		page object
 	* @param	string	$a_hier_id		hierarchical ID
 	*/
-	function createAlias(&$a_pg_obj, $a_hier_id)
+	function createAlias(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
 		$this->node =& $this->dom->create_element("PageContent");
-		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
+		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
 		$this->mob_node =& $this->dom->create_element("MediaObject");
 		$this->mob_node =& $this->node->append_child($this->mob_node);
 		$this->mal_node =& $this->dom->create_element("MediaAlias");

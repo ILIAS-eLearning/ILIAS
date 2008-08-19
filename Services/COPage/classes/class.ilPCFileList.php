@@ -51,11 +51,10 @@ class ilPCFileList extends ilPageContent
 		$this->list_node =& $a_node->first_child();		// this is the Table node
 	}
 
-	function create(&$a_pg_obj, $a_hier_id)
+	function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
-//echo "::".is_object($this->dom).":";
 		$this->node = $this->createPageContentNode();
-		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
+		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
 		$this->list_node =& $this->dom->create_element("FileList");
 		$this->list_node =& $this->node->append_child($this->list_node);
 	}

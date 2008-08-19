@@ -41,9 +41,9 @@ class ilPCTabsGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCTabsGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCTabsGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
@@ -157,7 +157,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 	function create()
 	{
 		$this->content_obj = new ilPCTabs($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->addItems($_POST["nr"]);
 		$this->content_obj->setTabType($_POST["type"]);
 		$this->updated = $this->pg_obj->update();

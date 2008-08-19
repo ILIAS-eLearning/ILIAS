@@ -41,9 +41,9 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCResourcesGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCResourcesGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
@@ -143,7 +143,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	function create()
 	{
 		$this->content_obj = new ilPCResources($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$this->content_obj->setResourceListType($_POST["type"]);
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)

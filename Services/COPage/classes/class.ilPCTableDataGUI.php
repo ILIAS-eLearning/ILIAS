@@ -41,9 +41,9 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCTableDataGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCTableDataGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**

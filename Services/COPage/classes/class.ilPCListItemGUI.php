@@ -41,9 +41,9 @@ class ilPCListItemGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCListItemGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCListItemGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**

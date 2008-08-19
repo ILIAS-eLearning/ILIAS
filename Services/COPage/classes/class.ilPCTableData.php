@@ -53,6 +53,12 @@ class ilPCTableData extends ilPageContent
 		$td =& $this->getNode();
 		$parent_tr =& $td->parent_node();
 		$new_tr = $parent_tr->clone_node(true);
+		
+		// remove pc ids
+		if ($new_tr->has_attribute("PCID"))
+		{
+			$new_tr->remove_attribute("PCID");
+		}
 		if ($next_tr =& $parent_tr->next_sibling())
 		{
 			$new_tr =& $next_tr->insert_before($new_tr, $next_tr);
@@ -77,6 +83,10 @@ class ilPCTableData extends ilPageContent
 		$parent_tr =& $td->parent_node();
 		$new_tr = $parent_tr->clone_node(true);
 		$new_tr =& $parent_tr->insert_before($new_tr, $parent_tr);
+		if ($new_tr->has_attribute("PCID"))
+		{
+			$new_tr->remove_attribute("PCID");
+		}
 
 		// remove td content of new row
 		$this->deleteRowContent($new_tr);
@@ -94,6 +104,10 @@ class ilPCTableData extends ilPageContent
 		$tds =& $a_row_node->child_nodes();
 		for($i=0; $i<count($tds); $i++)
 		{
+			if ($tds[$i]->has_attribute("PCID"))
+			{
+				$tds[$i]->remove_attribute("PCID");
+			}
 			$td_childs =& $tds[$i]->child_nodes();
 			for($j=0; $j<count($td_childs); $j++)
 			{
@@ -153,6 +167,11 @@ class ilPCTableData extends ilPageContent
 				// clone td at $col_nr
 				$tds =& $rows[$i]->child_nodes();
 				$new_td =& $tds[$col_nr]->clone_node(true);
+				
+				if ($new_td->has_attribute("PCID"))
+				{
+					$new_td->remove_attribute("PCID");
+				}
 
 				// insert clone after $col_nr
 				if ($next_td =& $tds[$col_nr]->next_sibling())
@@ -193,6 +212,11 @@ class ilPCTableData extends ilPageContent
 				// clone td at $col_nr
 				$tds =& $rows[$i]->child_nodes();
 				$new_td =& $tds[$col_nr]->clone_node(true);
+				
+				if ($new_td->has_attribute("PCID"))
+				{
+					$new_td->remove_attribute("PCID");
+				}
 
 				// insert clone before $col_nr
 				$new_td =& $tds[$col_nr]->insert_before($new_td, $tds[$col_nr]);

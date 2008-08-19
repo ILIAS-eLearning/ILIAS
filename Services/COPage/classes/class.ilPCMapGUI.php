@@ -41,9 +41,9 @@ class ilPCMapGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilPCMapGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCMapGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	/**
@@ -199,7 +199,7 @@ class ilPCMapGUI extends ilPageContentGUI
 		{
 			$this->content_obj = new ilPCMap($this->dom);
 			$location = $this->form->getInput("location");
-			$this->content_obj->create($this->pg_obj, $this->hier_id);
+			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 			$this->content_obj->setLatitude($location["latitude"]);
 			$this->content_obj->setLongitude($location["longitude"]);
 			$this->content_obj->setZoom($location["zoom"]);

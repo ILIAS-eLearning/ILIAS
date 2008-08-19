@@ -43,14 +43,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	var $header;
 	var $ctrl;
 
-	function ilPCMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
+	function ilPCMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
 		global $ilCtrl;
 
 		$this->ctrl =& $ilCtrl;
 
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
 	function setHeader($a_title = "")
@@ -329,7 +329,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 					include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 					$this->content_obj = new ilPCMediaObject($this->dom);
 					$this->content_obj->readMediaObject($_POST["id"][$i]);
-					$this->content_obj->createAlias($this->pg_obj, $_GET["hier_id"]);
+					$this->content_obj->createAlias($this->pg_obj, $_GET["hier_id"], $this->pc_id);
 				}
 				$this->updated = $this->pg_obj->update();
 			}
@@ -539,7 +539,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			// need a pcmediaobject here
 			//$this->node = $this->createPageContentNode();
 			
-			$this->content_obj->createAlias($this->pg_obj, $this->hier_id);
+			$this->content_obj->createAlias($this->pg_obj, $this->hier_id, $this->pc_id);
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{

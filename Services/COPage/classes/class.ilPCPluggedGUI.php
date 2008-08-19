@@ -42,12 +42,12 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	* @access	public
 	*/
 	function ilPCPluggedGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id,
-		$a_plugin_name = "")
+		$a_plugin_name = "", $a_pc_id = "")
 	{
 		global $ilCtrl;
 		
 		$this->setPluginName($a_plugin_name);
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
 		if ($a_plugin_name != "")
 		{
@@ -148,7 +148,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 	function create()
 	{
 		$this->content_obj = new ilPCPlugged($this->dom);
-		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 		$properties = array(
 			"Table" => $_POST["table"]
 			);
