@@ -39,6 +39,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilObjTestListGUI extends ilObjectListGUI
 {
+	protected $command_link_params = array();
+	
 	/**
 	* constructor
 	*
@@ -151,10 +153,27 @@ class ilObjTestListGUI extends ilObjectListGUI
 	{
 		// separate method for this line
 		$cmd_link = "ilias.php?baseClass=ilObjTestGUI&amp;ref_id=".$this->ref_id."&amp;cmd=$a_cmd";
+		
+		foreach($this->command_link_params as $param => $value)
+		{
+			$cmd_link .= '&'.$param.'='.$value;
+		}
 
 		return $cmd_link;
 	}
+	
 
+	/**
+	 * add command link parameters
+	 *
+	 * @access public
+	 * @param array (param => value)
+	 * @return
+	 */
+	public function addCommandLinkParameter($a_param)
+	{
+		$this->command_link_params = $a_param;
+	}
 
 
 } // END class.ilObjTestListGUI

@@ -34,6 +34,13 @@
 */
 abstract class ilContainerContentGUI
 {
+	const DETAILS_TITLE = 1;
+	const DETAILS_TITLE_DESC = 2;
+	const DETAILS_ALL = 3;
+	
+	
+	protected $details_level = self::DETAILS_ALL;
+	
 	var $container_gui;
 	var $container_obj;
 
@@ -486,6 +493,7 @@ abstract class ilContainerContentGUI
 		
 		$this->resetRowType();
 	}
+	
 
 	/**
 	* Reset row type (toggling background colors)
