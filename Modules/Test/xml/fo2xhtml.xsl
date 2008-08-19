@@ -75,48 +75,50 @@
 					<xsl:apply-templates select="node()"></xsl:apply-templates>
 				</u>
 			</xsl:when>
-			<xsl:when test="@font-size or @font-family">
-				<font>
+			<xsl:when test="@font-size">
+				<span>
 					<xsl:choose>
 						<xsl:when test="@font-size='8pt'">
-							<xsl:attribute name="size"><xsl:text>1</xsl:text></xsl:attribute>
+							<xsl:attribute name="style"><xsl:text>font-size: 8pt;</xsl:text></xsl:attribute>
 						</xsl:when>
 						<xsl:when test="@font-size='10pt'">
-							<xsl:attribute name="size"><xsl:text>2</xsl:text></xsl:attribute>
+							<xsl:attribute name="style"><xsl:text>font-size: 10pt;</xsl:text></xsl:attribute>
 						</xsl:when>
 						<xsl:when test="@font-size='12pt'">
-							<xsl:attribute name="size"><xsl:text>3</xsl:text></xsl:attribute>
+							<xsl:attribute name="style"><xsl:text>font-size: 12pt;</xsl:text></xsl:attribute>
 						</xsl:when>
 						<xsl:when test="@font-size='14pt'">
-							<xsl:attribute name="size"><xsl:text>4</xsl:text></xsl:attribute>
+							<xsl:attribute name="style"><xsl:text>font-size: 14pt;</xsl:text></xsl:attribute>
 						</xsl:when>
 						<xsl:when test="@font-size='18pt'">
-							<xsl:attribute name="size"><xsl:text>5</xsl:text></xsl:attribute>
+							<xsl:attribute name="style"><xsl:text>font-size: 18pt;</xsl:text></xsl:attribute>
 						</xsl:when>
 						<xsl:when test="@font-size='24pt'">
-							<xsl:attribute name="size"><xsl:text>6</xsl:text></xsl:attribute>
+							<xsl:attribute name="style"><xsl:text>font-size: 24pt;</xsl:text></xsl:attribute>
 						</xsl:when>
 						<xsl:when test="@font-size='36pt'">
-							<xsl:attribute name="size"><xsl:text>7</xsl:text></xsl:attribute>
-						</xsl:when>
-					</xsl:choose>
-					<xsl:choose>
-						<xsl:when test="@font-family">
-							<xsl:attribute name="face">
-								<xsl:choose>
-									<xsl:when test="contains(@font-family, &quot;'&quot;)">
-										<xsl:value-of select="substring(@font-family, 2, string-length(@font-family)-2)"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="@font-family"/>
-									</xsl:otherwise>
-								</xsl:choose>
-								
-							</xsl:attribute>
+							<xsl:attribute name="style"><xsl:text>font-size: 36pt;</xsl:text></xsl:attribute>
 						</xsl:when>
 					</xsl:choose>
 					<xsl:apply-templates select="node()"></xsl:apply-templates>
-				</font>
+				</span>
+			</xsl:when>
+			<xsl:when test="@font-family">
+				<span>
+					<xsl:attribute name="style">
+						<xsl:choose>
+							<xsl:when test="contains(@font-family, &quot;'&quot;)">
+								<xsl:value-of select="substring(@font-family, 2, string-length(@font-family)-2)"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>font-family: </xsl:text>
+								<xsl:value-of select="@font-family"/>
+								<xsl:text>;</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					<xsl:apply-templates select="node()"></xsl:apply-templates>
+				</span>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
