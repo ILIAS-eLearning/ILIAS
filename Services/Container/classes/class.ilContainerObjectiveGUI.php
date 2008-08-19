@@ -64,8 +64,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
 		include_once './classes/class.ilObjectListGUIFactory.php';
 
-		$tpl = new ilTemplate ("tpl.container_page.html", true, true,
-			"Services/Container");
+		$tpl = new ilTemplate ("tpl.container_page.html", true, true,"Services/Container");
 
 		// Feedback
 		// @todo
@@ -73,6 +72,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
 		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
 
+		$this->showStatus($tpl);
 		$this->showObjectives($tpl);
 		$this->showMaterials($tpl,self::MATERIALS_TESTS);
 		$this->showMaterials($tpl,self::MATERIALS_OTHER);
@@ -82,6 +82,30 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$this->getContainerGUI()->showPermanentLink($tpl);
 
 		return $tpl->get();
+	}
+	
+	/**
+	 * show status
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function showStatus($tpl)
+	{
+		global $ilUser,$lng;
+		
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveResultCache.php');
+		
+		$tpl->setCurrentBlock('cont_page_content');
+		
+		$info_tpl = new ilTemplate('tpl.crs_objectives_view_info_table.html',true,true,'Modules/Course');
+		$info_tpl->setVariable("INFO_STRING",$lng->txt('crs_objectives_info_'.
+			ilCourseObjectiveResultCache::getStatus($ilUser->getId(),$this->getContainerObject()->getId())));
+		
+		$tpl->setVariable('CONTAINER_PAGE_CONTENT',$info_tpl->get());
+		$tpl->parseCurrentBlock();
+		
 	}
 	
 	/**

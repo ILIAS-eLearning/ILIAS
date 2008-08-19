@@ -22,6 +22,9 @@
 */
 
 include_once "classes/class.ilObjectListGUI.php";
+include_once('./Modules/Course/classes/class.ilCourseObjectiveResultCache.php');
+
+
 /**
 * List gui for course objectives
 *
@@ -59,6 +62,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
 		$this->info_screen_enabled = false;
+		$this->progress_enabled = true;
 		$this->type = "lobj";
 		//$this->gui_class_name = "ilobjcoursegui";
 		
@@ -95,7 +99,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 		$this->insertIconsAndCheckboxes();
 		$this->insertTitle();
 		$this->insertDescription();
-		$this->insertObjectiveStatus();
+		$this->insertProgressInfo();
 		
 		// subitems
 		$this->insertSubItems();
@@ -116,11 +120,54 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	 * @param
 	 * @return
 	 */
-	protected function insertObjectiveStatus()
+	public function insertProgressInfo()
 	{
-		$this->tpl->setCurrentBlock('payment');
-		$this->tpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_not_ok.gif'));
-		$this->tpl->setVariable('PAYMENT_ALT_IMG',$this->lng->txt('ok'));
+		global $ilUser,$lng;
+		
+		$lng->loadLanguageModule('trac');
+
+		$this->tpl->setCurrentBlock('item_progress');
+		
+		switch(ilCourseObjectiveResultCache::getStatus($ilUser->getId(),$this->getContainerObject()->object->getId(),$this->obj_id))
+		{
+			case IL_OBJECTIVE_STATUS_NONE:
+				$this->tpl->setVariable('TXT_PROGRESS_INFO',$this->lng->txt('crs_objective_status'));
+				$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/not_attempted.gif'));
+				$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_no_attempted'));
+				break;
+				
+			case IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST:
+			case IL_OBJECTIVE_STATUS_PRETEST:
+				$this->tpl->setVariable('TXT_PROGRESS_INFO',$this->lng->txt('crs_objective_pretest'));
+				if(ilCourseObjectiveResultCache::isSuggested($ilUser->getId(),$this->getContainerObject()->object->getId(),$this->obj_id))
+				{
+					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.gif'));
+					$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_failed'));
+				}
+				else
+				{
+					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/passed.gif'));
+					$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_passed'));
+				}
+				break;
+				
+			case IL_OBJECTIVE_STATUS_FINISHED:
+			case IL_OBJECTIVE_STATUS_FINAL:
+				$this->tpl->setVariable('TXT_PROGRESS_INFO',$this->lng->txt('crs_objective_result'));
+				if(ilCourseObjectiveResultCache::isSuggested($ilUser->getId(),$this->getContainerObject()->object->getId(),$this->obj_id))
+				{
+					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.gif'));
+					$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_failed'));
+				}
+				else
+				{
+					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/passed.gif'));
+					$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_passed'));
+				}
+				break;	
+				
+						
+		}
 		$this->tpl->parseCurrentBlock();				
 	}
 }

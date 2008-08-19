@@ -4679,9 +4679,9 @@ crs#:#crs_objective_no_title_given#:#Bitte geben Sie einen Titel ein.
 crs#:#crs_objective_not_accomplished#:#Nicht erfüllt
 crs#:#crs_objective_overview_objectives#:#Übersicht Lernziele
 crs#:#crs_objective_overview_question_assignment#:#Übersicht Fragenzuordnung
-crs#:#crs_objective_pretest#:#Selbsteinschätzung
+crs#:#crs_objective_pretest#:#Nach Einstiegstest
 crs#:#crs_objective_question_assignment#:#Fragenzuordnung
-crs#:#crs_objective_result#:#Nach Test
+crs#:#crs_objective_result#:#Nach Abschlusstest
 crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
 crs#:#crs_objective_view#:#Lernziel orientierte Ansicht
 crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen
@@ -8550,3 +8550,5 @@ assessment#:#forcejs#:#JavaScript-Ausgabe für Testfragen erzwingen
 assessment#:#forcejs_short#:#JavaScript erzwingen
 assessment#:#forcejs_desc#:#Wenn ausgewählt, wird für Testfragen standardmäßig die JavaScript-Ausgabe anstelle der reinen HTML-Ausgabe verwendet.
 crs#:#crs_contact_email_info#:#Sie können eine oder mehrere (durch Komma getrennt) E-Mail Adressen eingeben.
+crs#:#crs_objective_status#:#Lernzielstatus
+trac#:#trac_passed#:#Bestanden
