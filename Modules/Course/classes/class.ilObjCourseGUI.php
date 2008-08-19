@@ -4993,6 +4993,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$a_parent_ref_id = $a_course_ref_id;
 		}
+
+		// Special handling for tests in courses with learning objectives
+		if($a_item_data['type'] == 'tst' and
+			ilObjCourse::_lookupViewMode($a_course_obj_id) == ilContainer::VIEW_OBJECTIVE)
+		{
+			$a_item_list_gui->addCommandLinkParameter(array('crs_show_result' => $a_course_ref_id));				
+		}
 		
 		// ACTIVATION
 		switch($a_item_data['timing_type'])

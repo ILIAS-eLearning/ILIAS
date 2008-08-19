@@ -114,6 +114,31 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	}
 	
 	/**
+	 * insert title
+	 *
+	 * @access public
+	 * @param 
+	 * @return
+	 */
+	public function insertTitle()
+	{
+		if(!$this->getCommandsStatus())
+		{
+			$this->tpl->setCurrentBlock("item_title");
+			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
+			$this->tpl->parseCurrentBlock();
+			return true;
+		}
+		
+		$this->tpl->setCurrentBlock("item_title_linked");
+		$this->tpl->setVariable("TXT_TITLE_LINKED", $this->getTitle());
+		$this->tpl->setVariable("HREF_TITLE_LINKED",'repository.php?ref_id='.$this->getContainerObject()->object->getRefId().'&objective_details='.$this->obj_id);
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	
+	
+	/**
 	 * insert objective status
 	 *
 	 * @access protected

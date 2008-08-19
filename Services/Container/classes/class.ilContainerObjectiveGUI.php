@@ -34,6 +34,8 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerObjectiveGUI extends ilContainerContentGUI
 {
+	protected $force_details = 0;
+	
 	const MATERIALS_TESTS = 1;
 	const MATERIALS_OTHER = 2;
 	
@@ -46,7 +48,28 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	public function __construct($a_container_gui)
 	{
+		global $lng;
+		
+		$this->lng = $lng;
 		parent::__construct($a_container_gui);
+		
+		$this->initDetails();
+	}
+	
+	/**
+	 * get details level
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getDetailsLevel($a_objective_id)
+	{
+		if($a_objective_id == $this->force_details)
+		{
+			return self::DETAILS_ALL;
+		}
+		return $this->details_level;
 	}
 	
 	/**
@@ -164,6 +187,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				$this->addStandardRow($tpl, $h);
 			}
 		}
+		
+		$this->addFooterRow($tpl);
 
 		$output_html .= $tpl->get();
 		$a_tpl->setCurrentBlock('cont_page_content');
@@ -171,6 +196,37 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$a_tpl->parseCurrentBlock();
 		
 	
+	}
+	
+	/**
+	 * add footer row
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function addFooterRow($tpl)
+	{
+		$tpl->setCurrentBlock('details_img');
+		
+		
+		$append = $this->details_level == 2 ? 'off' : '';
+		$tpl->setCurrentBlock('details_img');
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 2');
+		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=2');
+		$tpl->parseCurrentBlock();
+
+		$append = $this->details_level == 3 ? 'off' : '';
+		$tpl->setCurrentBlock('details_img');
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 3');
+		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=3');
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock('container_details_row');
+		$tpl->setVariable('TXT_DETAILS',$this->lng->txt('details'));
+		$tpl->parseCurrentBlock();
 	}
 	
 	
@@ -264,6 +320,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$pos = 1;
 		foreach($this->getContainerObject()->items_obj->getItemsByObjective($a_objective_id) as $item) 
 		{
+			if($this->getDetailsLevel($a_objective_id) < self::DETAILS_ALL)
+			{
+				continue;
+			}
+			
 			$item_list_gui2 = $this->getItemGUI($item);
 			$item_list_gui2->enableIcon(true);
 			if ($this->getContainerGUI()->isActiveAdministrationPanel())
@@ -286,6 +347,14 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$this->objective_list_gui->addSubItemHTML($sub_item_html);
 		}
 		
+		if($this->getDetailsLevel($a_objective_id) == self::DETAILS_ALL)
+		{
+			$this->objective_list_gui->enableCommands(false);
+		}
+		else
+		{
+			$this->objective_list_gui->enableCommands(true);
+		}
 		
 		$html = $this->objective_list_gui->getListItemHTML(
 			0,
@@ -294,6 +363,50 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$objective->getDescription());
 			
 		return $html;
+	}
+	
+	/**
+	 * init details
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initDetails()
+	{
+		global $ilUser;
+		
+		if(isset($_GET['details_level']))
+		{
+			$this->details_level = (int) $_GET['details_level'];
+			ilObjUser::_writePref($ilUser->getId(),'crs_objectives_details',$this->details_level);
+		}
+		else
+		{
+			$this->details_level = $ilUser->getPref('crs_objectives_details') ? $ilUser->getPref('crs_objectives_details') : self::DETAILS_TITLE_DESC;
+		}
+		if(isset($_GET['objective_details']))
+		{
+			$this->force_details = (int) $_GET['objective_details'];
+			ilObjUser::_writePref($ilUser->getId(),'crs_objectives_force_details_'.$this->getContainerObject()->getId(),$this->force_details);
+		}
+		elseif($details_id = $ilUser->getPref('crs_objectives_force_details_'.$this->getContainerObject()->getId()))
+		{
+			$this->force_details = $details_id;
+		}
+		else
+		{
+			include_once './Modules/Course/classes/class.ilCourseObjective.php';
+			include_once('./Modules/Course/classes/class.ilCourseObjectiveResultCache.php');
+			foreach(ilCourseObjective::_getObjectiveIds($this->getContainerObject()->getId()) as $objective_id)
+			{
+				if(ilCourseObjectiveResultCache::isSuggested($ilUser->getId(),$this->getContainerObject()->getId(),$objective_id))
+				{
+					$this->force_details = $objective_id;
+				}
+			}
+		}
+		return true;
 	}
 	
 }
