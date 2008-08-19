@@ -104,22 +104,43 @@
 				<xsl:when test="@size='1'">
 					<xsl:attribute name="font-size"><xsl:text>8pt</xsl:text></xsl:attribute>
 				</xsl:when>
+				<xsl:when test="contains(@style, 'xx-small')">
+					<xsl:attribute name="font-size"><xsl:text>8pt</xsl:text></xsl:attribute>
+				</xsl:when>
 				<xsl:when test="@size='2'">
+					<xsl:attribute name="font-size"><xsl:text>10pt</xsl:text></xsl:attribute>
+				</xsl:when>
+				<xsl:when test="contains(@style, 'x-small')">
 					<xsl:attribute name="font-size"><xsl:text>10pt</xsl:text></xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@size='3'">
 					<xsl:attribute name="font-size"><xsl:text>12pt</xsl:text></xsl:attribute>
 				</xsl:when>
+				<xsl:when test="contains(@style, 'small')">
+					<xsl:attribute name="font-size"><xsl:text>12pt</xsl:text></xsl:attribute>
+				</xsl:when>
 				<xsl:when test="@size='4'">
+					<xsl:attribute name="font-size"><xsl:text>14pt</xsl:text></xsl:attribute>
+				</xsl:when>
+				<xsl:when test="contains(@style, 'medium')">
 					<xsl:attribute name="font-size"><xsl:text>14pt</xsl:text></xsl:attribute>
 				</xsl:when>
 				<xsl:when test="@size='5'">
 					<xsl:attribute name="font-size"><xsl:text>18pt</xsl:text></xsl:attribute>
 				</xsl:when>
+				<xsl:when test="contains(@style, 'large')">
+					<xsl:attribute name="font-size"><xsl:text>18pt</xsl:text></xsl:attribute>
+				</xsl:when>
 				<xsl:when test="@size='6'">
 					<xsl:attribute name="font-size"><xsl:text>24pt</xsl:text></xsl:attribute>
 				</xsl:when>
+				<xsl:when test="contains(@style, 'x-large')">
+					<xsl:attribute name="font-size"><xsl:text>24pt</xsl:text></xsl:attribute>
+				</xsl:when>
 				<xsl:when test="@size='7'">
+					<xsl:attribute name="font-size"><xsl:text>36pt</xsl:text></xsl:attribute>
+				</xsl:when>
+				<xsl:when test="contains(@style, 'xx-large')">
 					<xsl:attribute name="font-size"><xsl:text>36pt</xsl:text></xsl:attribute>
 				</xsl:when>
 			</xsl:choose>
