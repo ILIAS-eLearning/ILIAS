@@ -455,12 +455,17 @@ class ilContainer extends ilObject
 				continue;
 			}
 
+			// BEGIN WebDAV: Don't display hidden Files.
 			// Do not display hidden files
-			require_once 'Modules/File/classes/class.ilObjFileAccess.php';
-			if (!$a_include_hidden_files && ilObjFileAccess::_isFileHidden($object['title']))
+			if (! $a_include_hidden_files)
 			{
-				continue;
+				require_once 'Modules/File/classes/class.ilObjFileAccess.php';
+				if (!$a_include_hidden_files && ilObjFileAccess::_isFileHidden($object['title']))
+				{
+					continue;
+				}
 			}
+			// END WebDAV: Don't display hidden Files.
 
 			// filter out items that are attached to an event
 			if (in_array($object['ref_id'],$event_items))

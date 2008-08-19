@@ -71,7 +71,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		// @todo
 //		$this->__showFeedBack();
 
-		$this->items = $this->getContainerObject()->getSubItems();
+		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
 
 		$this->showObjectives($tpl);
 		$this->showMaterials($tpl,self::MATERIALS_TESTS);
