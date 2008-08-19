@@ -40,7 +40,7 @@ function domxml_open_file($filename)
 /*
 * ##added
 */
-function domxml_open_mem($str, $mode = DOMXML_LOAD_PARSING, $error = NULL)
+function domxml_open_mem($str, $mode = DOMXML_LOAD_PARSING, &$error = NULL)
 {
 	$doc = new php4DOMDocument($str, false);
 	if (!$doc->success)
@@ -123,7 +123,7 @@ class php4DOMDocument
 			}
 			else
 			{
-				$this->success = @$this->myDOMDocument->loadXML($source);
+				$this->success = $this->myDOMDocument->loadXML($source);
 			}
 		}
 				

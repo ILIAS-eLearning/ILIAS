@@ -4326,6 +4326,8 @@ content#:#citate_from#:#Citate From ...
 content#:#citate_page#:#Citate this Page
 content#:#citate_to#:#Citate To ...
 content#:#cont_Additional#:#Additional
+content#:#cont_Special#:#Special
+content#:#cont_Excursus#:#Excursus
 common#:#no_start_file#:#No Start File.
 content#:#cont_left#:#Left
 content#:#cont_right#:#Right
@@ -4347,6 +4349,7 @@ content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
 content#:#cont_localfile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
+content#:#cont_Block#:#Block
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
@@ -4450,12 +4453,6 @@ content#:#cont_insert_as_chapter#:#Insert as Chapter
 content#:#cont_save_all_titles#:#Save Titles
 content#:#cont_downloads_desc#:#Enable download of all public export files.
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
-content#:#cont_sec_block#:#Block
-content#:#cont_sec_example#:#Example
-content#:#cont_sec_citation#:#Citation
-content#:#cont_sec_additional#:#Additional
-content#:#cont_sec_special#:#Special
-content#:#cont_sec_excursus#:#Excursus
 content#:#cont_insert_resources#:#Insert Resource List
 content#:#cont_update_resources#:#Update Resource List
 content#:#cont_type#:#Type

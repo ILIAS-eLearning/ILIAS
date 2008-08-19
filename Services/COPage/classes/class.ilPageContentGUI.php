@@ -281,7 +281,7 @@ class ilPageContentGUI
 				
 			// jump to new page
 			$this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $lm_page->getId());
-			$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+			$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
 		}
 		
 		$this->ctrl->returnToParent($this, "jump".($this->hier_id - 1));
@@ -309,7 +309,7 @@ class ilPageContentGUI
 			if ($succ_id > 0)
 			{
 				$this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $succ_id);
-				$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+				$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
 			}
 
 		}
