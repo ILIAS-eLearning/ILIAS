@@ -7823,7 +7823,7 @@ pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Ben
 common#:#in_use_by#:#In Bearbeitung durch
 common#:#filename_interoperability#:#Interoperabilität
 common#:#filename_special_characters#:#Wegen dem Zeichen / ist dieses Objekt in Webordnern nicht sichtbar
-common#:#filename_windows_special_characters#:#Wegen eines der Zeichen \/:*?"<>| ist dieses Objekt in Windows Webordnern nicht sichtbar
+common#:#filename_windows_special_characters#:#Wegen eines der Zeichen \ / : * ? " < > | ist dieses Objekt in Windows Webordnern nicht sichtbar
 common#:#filename_visibility#:#Sichtbarkeit
 common#:#filename_hidden_unix_file#:#Versteckte Unix Datei
 common#:#filename_hidden_backup_file#:#Versteckte Backup Datei
