@@ -185,7 +185,7 @@ class ilFileSystemGUI
 			}
 		}
 
-		$cur_subdir = str_replace(".", "", $cur_subdir);
+		$cur_subdir = str_replace("..", "", $cur_subdir);
 
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
@@ -306,7 +306,14 @@ class ilFileSystemGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 
-		$entries = ilUtil::getDir($cur_dir);
+		if (is_dir($cur_dir))
+		{
+			$entries = ilUtil::getDir($cur_dir);
+		}
+		else
+		{
+			$entries = array(array("type" => "dir", "entry" => ".."));
+		}
 
 		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
 		$tbl->setMaxCount(count($entries));
