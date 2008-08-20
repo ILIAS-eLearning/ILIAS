@@ -237,9 +237,11 @@ class ilCalendarSchedule
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$events[] = new ilCalendarEntry($row->cal_id);
+			if(!$this->hidden_cat->isAppointmentVisible($row->cal_id))
+			{
+				$events[] = new ilCalendarEntry($row->cal_id);
+			}
 		}
-
 		return $events ? $events : array();
 	}
 	
