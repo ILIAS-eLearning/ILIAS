@@ -3880,6 +3880,7 @@ common#:#pd_items_news#:#Include News of Personal Items
 common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.
 common#:#show_owner#:#Show Owner
 tagging#:#tagging_tags#:#Tags
+tagging#:#tagging_tag_info#:#To attach tags to a ressource open the info screen of the ressource and enter your tags.
 rating#:#rating_your_rating#:#Your Rating
 rating#:#rating_average_rating#:#Average Rating
 rating#:#rating_nr_users#:#%s User(s)
