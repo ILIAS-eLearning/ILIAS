@@ -28,8 +28,6 @@
 * @author	Sascha Hofmann <shofmann@databay.de>
 * @version	$Id$
 */
-
-
 class ilTemplate extends ilTemplateX
 {
 	/**
