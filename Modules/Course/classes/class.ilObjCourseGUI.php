@@ -1325,6 +1325,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->form->addItem($pres);
 		
+		// presentation type
 		$view_type = new ilRadioGroupInputGUI($this->lng->txt('crs_presentation_type'),'view_mode');
 		$view_type->setValue($this->object->getViewMode());
 		
@@ -1370,15 +1371,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 			$view_type->addOption($opt);
 		$this->form->addItem($view_type);
-			
+		
+		// sorting type
 		$sort = new ilRadioGroupInputGUI($this->lng->txt('crs_sortorder_abo'),'order_type');
 		$sort->setValue($this->object->getOrderType());
 		
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_manual'),IL_CRS_SORT_TITLE);
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_manual'),IL_CRS_SORT_MANUAL);
 			$opt->setInfo($this->lng->txt('crs_sort_title_info'));
 			$sort->addOption($opt);
 			
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_title'),IL_CRS_SORT_MANUAL);
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_title'),IL_CRS_SORT_TITLE);
 			$opt->setInfo($this->lng->txt('crs_sort_manual_info'));
 			$sort->addOption($opt);
 

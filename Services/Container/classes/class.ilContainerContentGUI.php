@@ -381,6 +381,7 @@ abstract class ilContainerContentGUI
 		if ($this->getContainerGUI()->isActiveAdministrationPanel())
 		{
 			$item_list_gui->enableCheckbox(true);
+//echo "<br>-".$this->getContainerObject()->getOrderType()."-".IL_CNTR_SORT_MANUAL."-";
 			if ($this->getContainerObject()->getOrderType() == IL_CNTR_SORT_MANUAL)
 			{
 				$item_list_gui->setPositionInputField("[".$a_item_data["ref_id"]."]",
