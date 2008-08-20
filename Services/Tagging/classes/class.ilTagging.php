@@ -145,19 +145,23 @@ class ilTagging
 	*
 	* @param	int			$a_user_id			User ID
 	*/
-	static function getTagsForUser($a_user_id)
+	static function getTagsForUser($a_user_id, $a_max = 0)
 	{
 		global $ilDB;
-		
-		$q = "SELECT count(*) as cnt, tag FROM il_tag WHERE ".
-			"user_id = ".$ilDB->quote($a_user_id).
-			" GROUP BY tag ORDER BY tag ASC";
-		$set = $ilDB->query($q);
+
+		$st = $ilDB->prepare("SELECT count(*) as cnt, tag FROM il_tag WHERE ".
+			"user_id = ? ".
+			" GROUP BY tag ORDER BY cnt DESC", array("integer"));
+		$set = $ilDB->execute($st, array($a_user_id));
 		$tags = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		$cnt = 1;
+		while(($rec = $ilDB->fetchAssoc($set)) &&
+			($a_max == 0 || $cnt <= $a_max))
 		{
 			$tags[] = $rec;
+			$cnt++;
 		}
+		$tags = ilUtil::sortArray($tags, "tag", "asc");
 
 		return $tags;
 	}

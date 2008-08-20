@@ -49,7 +49,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		$this->setTitle($lng->txt("tagging_my_tags"));
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
-		$this->setAvailableDetailLevels(3);
+		$this->setAvailableDetailLevels(1,0);
 	}
 	
 	/**
@@ -126,9 +126,9 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 		global $ilUser;
 		
 		include_once("./Services/Tagging/classes/class.ilTagging.php");
-		$this->tags = ilTagging::getTagsForUser($ilUser->getId());
+		$this->tags = ilTagging::getTagsForUser($ilUser->getId(), 100);
 
-		if ($this->getCurrentDetailLevel() > 1 && ($this->tags > 0))
+		if ($this->getCurrentDetailLevel() > 1 && (count($this->tags) > 0))
 		{
 			$this->setDataSection($this->getTagCloud());
 		}
@@ -317,8 +317,7 @@ return;
 	{
 		global $ilUser, $lng, $ilCtrl;
 				
-		return '<div class="small">'.$this->num_bookmarks." ".$lng->txt("bm_num_bookmarks").", ".
-			$this->num_folders." ".$lng->txt("bm_num_bookmark_folders")."</div>";
+		return '<div class="small">'.$lng->txt("tagging_tag_info")."</div>";
 	}
 
 }
