@@ -2525,7 +2525,7 @@ if ($result->numRows())
 				$postponed = $ilDB->quote(serialize(array_unique($postponed_array)));
 			}
 		}
-		for ($i = 0; $i < $row["tries"]; $i++)
+		for ($i = 0; $i <= $row["tries"]; $i++)
 		{
 			$insert = sprintf("INSERT INTO tst_sequence (active_fi, pass, sequence, postponed, hidden) VALUES (%s, %s, %s, %s, NULL)",
 				$ilDB->quote($row["active_id"] . ""),
