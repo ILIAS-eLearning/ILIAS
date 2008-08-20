@@ -306,16 +306,51 @@ class EvalMath {
                 if (is_null($op1 = $stack->pop())) return $this->trigger("internal error");
                 switch ($token) {
                     case '+':
-                        $stack->push($op1+$op2); break;
-                    case '-':
-                        $stack->push($op1-$op2); break;
-                    case '*':
-                        $stack->push($op1*$op2); break;
-                    case '/':
-                        if ($op2 == 0) return $this->trigger("division by zero");
-                        $stack->push($op1/$op2); break;
-                    case '^':
-                        $stack->push(pow($op1, $op2)); break;
+												if (function_exists("bcadd"))
+												{
+													$stack->push(bcadd($op1,$op2)); break;
+												}
+												else
+												{
+													$stack->push($op1+$op2); break;
+												}
+										case '-':
+											if (function_exists("bcsub"))
+											{
+												$stack->push(bcsub($op1,$op2)); break;
+											}
+											else
+											{
+												$stack->push($op1-$op2); break;
+											}
+										case '*':
+											if (function_exists("bcmul"))
+											{
+												$stack->push(bcmul($op1,$op2)); break;
+											}
+											else
+											{
+												$stack->push($op1*$op2); break;
+											}
+										case '/':
+											if ($op2 == 0) return $this->trigger("division by zero");
+											if (function_exists("bcdiv"))
+											{
+												$stack->push(bcmul($op1,$op2)); break;
+											}
+											else
+											{
+												$stack->push($op1/$op2); break;
+											}
+										case '^':
+											if (function_exists("bcpow"))
+											{
+												$stack->push(bcpow($op1,$op2)); break;
+											}
+											else
+											{
+												$stack->push(pow($op1, $op2)); break;
+											}
                 }
             // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
             } elseif ($token == "_") {
