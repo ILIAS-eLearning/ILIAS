@@ -110,11 +110,9 @@ class ilStyleDefinition extends ilSaxParser
 	{
 		return $this->styles[$a_id]["sound_directory"];
 	}
-
-	function getAllTemplates()
+	
+	public static function _getAllTemplates()
 	{
-		global $ilias;
-
 		$skins = array();
 
 		$skins[] = array("id" => "default");
@@ -141,7 +139,14 @@ class ilStyleDefinition extends ilSaxParser
 		}
 
 		return $skins;
+		
 	}
+
+	function getAllTemplates()
+	{
+		return self::_getAllTemplates();
+	}
+	
 
 	// PRIVATE METHODS
 
