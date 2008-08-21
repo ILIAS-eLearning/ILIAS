@@ -244,6 +244,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("FOR",$this->lng->txt('objs_frm'));
 		$this->tpl->setVariable("EXC",$this->lng->txt('objs_exc'));
 		$this->tpl->setVariable("MCST",$this->lng->txt('objs_mcst'));
+		$this->tpl->setVariable("WIKI",$this->lng->txt('objs_wiki'));
 		$this->tpl->setVariable("FIL",$this->lng->txt('objs_file'));
 
 		
@@ -256,6 +257,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("CHECK_EXC",ilUtil::formCheckbox($details['exc'] ? 1 : 0,'search[details][exc]',1));
 		$this->tpl->setVariable("CHECK_FIL",ilUtil::formCheckbox($details['fil'] ? 1 : 0,'search[details][fil]',1));
 		$this->tpl->setVariable("CHECK_MCST",ilUtil::formCheckbox($details['mcst'] ? 1 : 0,'search[details][mcst]',1));
+		$this->tpl->setVariable("CHECK_WIKI",ilUtil::formCheckbox($details['wiki'] ? 1 : 0,'search[details][wiki]',1));
 
 
 
@@ -531,6 +533,18 @@ class ilSearchGUI extends ilSearchBaseGUI
 						$result->mergeEntries($file_search->performSearch());
 					}
 					break;
+					
+				case 'wiki':
+					$wiki_search =& ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
+					$wiki_search->setFilter(array('wpg'));
+					$result->mergeEntries($wiki_search->performSearch());
+
+					/*$result_meta =& $this->__searchMeta($query_parser,'title');
+					$result->mergeEntries($result_meta);
+					$result_meta =& $this->__searchMeta($query_parser,'description');
+					$result->mergeEntries($result_meta);*/
+					break;
+
 			}
 		}
 		return $result;

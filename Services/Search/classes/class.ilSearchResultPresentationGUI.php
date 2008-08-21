@@ -52,7 +52,7 @@ class ilSearchResultPresentationGUI
 		$this->result =& $result;
 
 		$this->type_ordering = array(
-			"cat", "crs", "grp", "chat", "frm", "lres",
+			"cat", "crs", "grp", "chat", "frm", "wiki", "lres",
 			"glo", "webr", "file",'mcst', "exc",
 			"tst", "svy", "sess","mep", "qpl", "spl");
 
@@ -284,6 +284,24 @@ class ilSearchResultPresentationGUI
 					$tpl->setVariable("SEPERATOR",': ');
 					$tpl->setVariable("LINK",ilLink::_getLink($item['ref_id'],'git',array('target' => 'git_'.$child.'_'.$item['ref_id'])));
 					$tpl->setVariable("TITLE",ilGlossaryTerm::_lookGlossaryTerm($child));
+					$tpl->parseCurrentBlock();
+				}
+				break;
+
+			case 'wiki':
+				include_once './Modules/Wiki/classes/class.ilWikiPage.php';
+				include_once './Modules/Wiki/classes/class.ilWikiUtil.php';
+
+				$this->lng->loadLanguageModule('wiki');
+				foreach($item['child'] as $child)
+				{
+					$page_title = ilWikiPage::lookupTitle($child);
+					$tpl->setCurrentBlock("link_row");
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('wiki_page'));
+					$tpl->setVariable("SEPERATOR",': ');
+					$tpl->setVariable("LINK",ilLink::_getLink($item['ref_id'],'wiki',array(), "_".
+						ilWikiUtil::makeUrlTitle($page_title)));
+					$tpl->setVariable("TITLE", $page_title);
 					$tpl->parseCurrentBlock();
 				}
 				break;
