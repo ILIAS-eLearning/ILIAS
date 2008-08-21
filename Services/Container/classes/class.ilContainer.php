@@ -438,7 +438,7 @@ class ilContainer extends ilObject
 		$found = false;
 
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
-		$sort = new ilContainerSorting($this->getId());
+		$sort = ilContainerSorting::_getInstance($this->getId());
 
 
 		// TODO: check this
@@ -496,7 +496,7 @@ class ilContainer extends ilObject
 			}
 		}
 		$this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]
-			= $sort->sortSubItems($this->items);
+			= $sort->sortItems($this->items);
 
 		return $this->items[(int) $a_include_hidden_files][(int) $a_include_side_block];
 	}

@@ -393,7 +393,12 @@ abstract class ilContainerContentGUI
 		if ($a_item_data['type'] == 'sess')
 		{
 			$pos = 1;
-			foreach($this->getContainerObject()->items_obj->getItemsByEvent($a_item_data['obj_id']) as $item)
+			
+			include_once('./Services/Container/classes/class.ilContainerSorting.php');
+			$items = $this->getContainerObject()->items_obj->getItemsByEvent($a_item_data['obj_id']);
+			$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('sess',$a_item_data['obj_id'],$items);
+			
+			foreach($items as $item)
 			{
 				$item_list_gui2 = $this->getItemGUI($item);
 				$item_list_gui2->enableIcon(true);
@@ -402,7 +407,7 @@ abstract class ilContainerContentGUI
 					$item_list_gui2->enableCheckbox(true);
 					if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
 					{
-						$item_list_gui2->setPositionInputField("[".$item["ref_id"]."]",
+						$item_list_gui2->setPositionInputField("[sess][".$a_item_data['obj_id']."][".$item["ref_id"]."]",
 							sprintf('%.1f', $pos));
 						$pos++;
 					}
