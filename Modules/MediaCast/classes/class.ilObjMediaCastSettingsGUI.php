@@ -146,6 +146,16 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 		
 		$ilCtrl->redirect($this, "view");
 	}
+
+	/**
+	* Save mediacast settings
+	*/
+	public function cancel()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "view");
+	}
 	
 	/**
 	 * iniitialize settings storage for media cast
