@@ -1693,7 +1693,7 @@ class ilUserImportParser extends ilSaxParser
 				switch ($this->action)
 				{
 					case "Insert" :
-						if ($user_exists)
+						if ($user_exists and $this->conflict_rule == IL_FAIL_ON_CONFLICT)
 						{
 							$this->logWarning($this->userObj->getLogin(),$lng->txt("usrimport_cant_insert"));
 						}
@@ -1731,10 +1731,11 @@ class ilUserImportParser extends ilSaxParser
 						}
 						break;
 					case "Update" :
-						if (! $user_exists)
+						if(!$user_exists)
 						{
 							$this->logWarning($this->userObj->getLogin(),$lng->txt("usrimport_cant_update"));
-						} elseif ($this->user_id != -1 && !is_null($this->userObj->getLogin()))
+						} 
+						elseif($this->user_id != -1 && !is_null($this->userObj->getLogin()))
 							// check if someone owns the new login name!
                         {
                             $someonesId = ilObjUser::_lookupId($this->userObj->getLogin());
@@ -1745,7 +1746,7 @@ class ilUserImportParser extends ilSaxParser
                         }
 						break;
 					case "Delete" :
-						if (! $user_exists)
+						if(!$user_exists)
 						{
 							$this->logWarning($this->userObj->getLogin(),$lng->txt("usrimport_cant_delete"));
 						}

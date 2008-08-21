@@ -820,9 +820,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$importParser->startParsing();
 
-		if ($importParser->isSuccess())
-		  return $this->__getUserMappingAsXML ($importParser->getUserMapping());
-
+		if ($importParser->getErrorLevel() != IL_IMPORT_FAILURE)
+		{
+			  return $this->__getUserMappingAsXML ($importParser->getUserMapping());
+		}
 		return $this->__getImportProtocolAsXML ($importParser->getProtocol());
 
 	}
