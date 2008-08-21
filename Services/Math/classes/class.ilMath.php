@@ -31,13 +31,6 @@
 */
 class ilMath
 {
-	public static function _removeTrailingZeros($value)
-	{
-		$value = preg_replace("/(.*?)0+$/", "\\1", $value);
-		$value = preg_replace("/(.*?)\\.$/", "\\1", $value);
-		return $value;
-	}
-	
 	/*
 	* Add two numbers
 	*/
@@ -45,7 +38,7 @@ class ilMath
 	{
 		if (function_exists("bcadd"))
 		{
-			return ilMath::_removeTrailingZeros(bcadd($left_operand, $right_operand, $scale));
+			return bcadd($left_operand, $right_operand, $scale);
 		}
 		else
 		{
@@ -84,7 +77,7 @@ class ilMath
 	{
 		if (function_exists("bcdiv"))
 		{
-			return ilMath::_removeTrailingZeros(bcdiv($left_operand, $right_operand, $scale));
+			return bcdiv($left_operand, $right_operand, $scale);
 		}
 		else
 		{
@@ -117,7 +110,7 @@ class ilMath
 	{
 		if (function_exists("bcmul"))
 		{
-			return ilMath::_removeTrailingZeros(bcmul($left_operand, $right_operand, $scale));
+			return bcmul($left_operand, $right_operand, $scale);
 		}
 		else
 		{
@@ -134,7 +127,7 @@ class ilMath
 	{
 		if (function_exists("bcpow"))
 		{
-			return ilMath::_removeTrailingZeros(bcpow($left_operand, $right_operand, $scale));
+			return bcpow($left_operand, $right_operand, $scale);
 		}
 		else
 		{
@@ -151,7 +144,7 @@ class ilMath
 	{
 		if (function_exists("bcsqrt"))
 		{
-			return ilMath::_removeTrailingZeros(bcsqrt($operand, $scale));
+			return bcsqrt($operand, $scale);
 		}
 		else
 		{
@@ -168,7 +161,7 @@ class ilMath
 	{
 		if (function_exists("bcsub"))
 		{
-			return ilMath::_removeTrailingZeros(bcsub($left_operand, $right_operand, $scale));
+			return bcsub($left_operand, $right_operand, $scale);
 		}
 		else
 		{
