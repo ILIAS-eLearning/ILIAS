@@ -4098,7 +4098,7 @@ class ilUtil
 	 }
 
     /**
-     *  extract ref id from role title, e.g. 893 from 'il_crs_member_893'
+    *  extract ref id from role title, e.g. 893 from 'il_crs_member_893'
 	*	@param role_title with format like il_crs_member_893
 	*	@return	ref id or false
 	*/
