@@ -93,11 +93,12 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 		{
 			// all rows
 			$item_html = array();
+			$position = 1;
 			foreach($this->items["_all"] as $k => $item_data)
 			{
 				if ($this->rendered_items[$item_data["child"]] !== true)
 				{
-					$html = $this->renderItem($item_data, true);
+					$html = $this->renderItem($item_data,$position++,true);
 					if ($html != "")
 					{
 						$item_html[] = $html;

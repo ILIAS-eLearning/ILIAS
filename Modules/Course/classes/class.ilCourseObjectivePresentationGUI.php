@@ -156,6 +156,10 @@ class ilCourseObjectivePresentationGUI
 
 		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 		
+		// Debug
+		ilObjUser::_writePref($ilUser->getId(),'crs_objectives_force_details_'.$this->course_obj->getId(),0);
+		
+		
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 		$tmp_obj_res->reset($this->course_obj->getId());
 		

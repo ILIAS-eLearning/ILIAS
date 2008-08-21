@@ -337,9 +337,10 @@ abstract class ilContainerContentGUI
 						
 						// all rows
 						$item_rendered = false;
+						$position = 1;
 						foreach($this->items[$type] as $k => $item_data)
 						{
-							$html = $this->renderItem($item_data);
+							$html = $this->renderItem($item_data,$position++);
 							if ($html != "")
 							{
 								$this->addStandardRow($tpl, $html);
@@ -368,7 +369,7 @@ abstract class ilContainerContentGUI
 	*
 	* @return	string		item HTML
 	*/
-	function renderItem($a_item_data, $a_force_icon = false)
+	function renderItem($a_item_data,$a_position = 0,$a_force_icon = false)
 	{
 		global $ilSetting;
 		
