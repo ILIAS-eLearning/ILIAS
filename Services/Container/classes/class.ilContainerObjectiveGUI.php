@@ -267,7 +267,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				if($this->rendered_items[$item_data["child"]] !== true)
 				{
 					$this->rendered_items[$item_data['child']] = true;
-					$html = $this->renderItem($item_data,$a_mode == self::MATERIALS_TESTS ? false : true);
+					
+					// TODO: Position
+					$html = $this->renderItem($item_data,1,$a_mode == self::MATERIALS_TESTS ? false : true);
 					if ($html != "")
 					{
 						$item_html[] = $html;
@@ -403,6 +405,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				if(ilCourseObjectiveResultCache::isSuggested($ilUser->getId(),$this->getContainerObject()->getId(),$objective_id))
 				{
 					$this->force_details = $objective_id;
+					break;
 				}
 			}
 		}

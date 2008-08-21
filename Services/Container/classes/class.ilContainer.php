@@ -412,11 +412,11 @@ class ilContainer extends ilObject
 	*/
 	function getOrderType()
 	{
-		return IL_CNTR_SORT_TITLE;
+		#return IL_CNTR_SORT_TITLE;
 		
 		// @todo
-		//include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
-		//ilContainerSortingSettings::_lookupSortMode($this->getId());
+		include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
+		return ilContainerSortingSettings::_lookupSortMode($this->getId());
 	}
 	
 	/**
@@ -428,20 +428,21 @@ class ilContainer extends ilObject
 	{
 		global $objDefinition, $ilBench, $tree;
 
+		// Caching
 		if (is_array($this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]))
 		{
 			return $this->items[(int) $a_include_hidden_files][(int) $a_include_side_block];
 		}
 
 		$type_grps = $this->getGroupedObjTypes();
-
 		$objects = $tree->getChilds($this->getRefId(), "title");
-
 		$found = false;
 
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
 		$sort = new ilContainerSorting($this->getId());
 
+
+		// TODO: check this
 		// get items attached to a session
 		include_once './Modules/Session/classes/class.ilEventItems.php';
 		$event_items = ilEventItems::_getItemsOfContainer($this->getRefId());
@@ -457,7 +458,7 @@ class ilContainer extends ilObject
 
 			// BEGIN WebDAV: Don't display hidden Files.
 			// Do not display hidden files
-			if (! $a_include_hidden_files)
+			if(!$a_include_hidden_files)
 			{
 				require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 				if (!$a_include_hidden_files && ilObjFileAccess::_isFileHidden($object['title']))
@@ -474,7 +475,7 @@ class ilContainer extends ilObject
 			}
 			
 			// filter side block items
-			if (!$a_include_side_block && $objDefinition->isSideBlock($object['type']))
+			if(!$a_include_side_block && $objDefinition->isSideBlock($object['type']))
 			{
 				continue;
 			}
@@ -495,10 +496,10 @@ class ilContainer extends ilObject
 				$this->items["_non_sess"][$key] = $object;
 			}
 		}
-
 		$this->items[(int) $a_include_hidden_files][(int) $a_include_side_block]
-			= $sort->sortTreeDataByType($this->items);
-		return $this->items;
+			= $sort->sortSubItems($this->items);
+
+		return $this->items[(int) $a_include_hidden_files][(int) $a_include_side_block];
 	}
 	
 	/**

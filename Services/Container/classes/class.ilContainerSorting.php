@@ -53,85 +53,58 @@ class ilContainerSorting
 	 	$this->read();
 	}
 	
-	/**
-	 * Sort tree data
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function sortTreeData($a_tree_data)
-	{
-		$nodes_by_type = array();
-		foreach($a_tree_data as $node)
-		{
-			$type = $node['type'];
-			$nodes_by_type[$type][] = $node;
-		}
-		$sorted = $this->sortTreeDataByType($nodes_by_type);
-		foreach($sorted as $type => $nodes)
-		{
-			foreach($nodes as $node)
-			{
-				$sorted_nodes[] = $node;
-			}
-		}
-
-		return $sorted_nodes ? $sorted_nodes : $a_tree_data;
-	}
-	
 	
 	/**
-	 * Sort
+	 * sort subitems
 	 *
 	 * @access public
-	 * @param array of objects by type 
-	 * 
+	 * @param array item data
+	 * @return array sorted item data
 	 */
-	public function sortTreeDataByType($a_tree_data)
+	public function sortSubItems($a_items)
 	{
+		$sorted = array();
 		if(!$this->manual_sort_enabled)
 		{
-			return $a_tree_data;
+			return $a_items;
 		}
-		if(!count($a_tree_data))
+		if(!count($a_items))
 		{
-			return $a_tree_data;
+			return $a_items;
 		}
-		foreach($a_tree_data as $type => $data)
+		
+		foreach($a_items as $type => $data)
 		{
-			$new_key = 0;
-			if(!is_array($this->sorting[$type]))
+			// Add position
+
+			$items = array();
+			foreach($data as $key => $item)
 			{
-				$sorted[$type] = $data;
-				continue;
+				$items[$key] = $item;
+				$items[$key]['position'] = isset($this->sorting['all'][$item['child']]) ? $this->sorting['all'][$item['child']] : 9999;
 			}
-			
-			$tmp_indexes = array();
-			foreach($data as $key => $obj)
+
+			switch($type)
 			{
-				$tmp_indexes[$obj['child']] = $key;
-			}
-			// First sort all items that have entries in sorting table			
-			foreach($this->sorting[$type] as $ref_id => $pos)
-			{
-				if(is_array($data[$tmp_indexes[$ref_id]]))
-				{
-					$sorted[$type][$new_key++] = $data[$tmp_indexes[$ref_id]];
-				}
-			}
-			// No append all items that are not in sorting table
-			foreach($tmp_indexes as $ref_id => $key)
-			{
-				if(!isset($this->sorting[$type][$ref_id]))
-				{
-					$sorted[$type][$new_key++] = $data[$key];
-				}
+				case '_all':
+					$sorted[$type] = ilUtil::sortArray((array) $items,'position','asc',true);
+					break;
+				
+				case '_non_sess':
+					$sorted[$type] = ilUtil::sortArray((array) $items,'position','asc',true);
+					break;
+				
+				default:
+					$sorted[$type] = ilUtil::sortArray((array) $items,'position','asc',true);
+					break;
 			}
 		}
-		return $sorted ? $sorted : array(); 
+		return $sorted ? $sorted : array();
 	}
 	
+	
+	
+		
 	/**
 	 * is manual sorting enabled
 	 *
@@ -156,40 +129,39 @@ class ilContainerSorting
 	 	{
 	 		return false;
 	 	}
-	 	foreach($a_type_positions as $type => $positions)
+	 	foreach($a_type_positions as $key => $position)
 	 	{
-	 		if(!is_array($positions))
+	 		if(!is_array($key))
 	 		{
-	 			continue;
+	 			$items[$key] = (float) $position;
 	 		}
-	 		asort($positions,SORT_NUMERIC);
-	 		$this->saveByType($type,$positions);
 	 	}
+	 	$this->saveItems('',0,$items ? $items : array());
 	}
 	
+	
 	/**
-	 * Save positions by type
+	 * save items
 	 *
-	 * @access public
-	 * @param string type e.g lres,crs
-	 * @param array items
-	 * 
+	 * @access protected
+	 * @param string parent_type only used for sessions and objectives in the moment. Otherwise empty
+	 * @param int parent id
+	 * @param array array of items
+	 * @return
 	 */
-	public function saveByType($a_type,$a_items)
+	protected function saveItems($a_parent_type,$a_parent_id,$a_items)
 	{
-		if (is_array($a_items))
+		foreach($a_items as $child_id => $position)
 		{
-			foreach($a_items as $child_id => $position)
-			{
-				$query = "REPLACE INTO container_sorting SET ".
-					"obj_id = ".$this->db->quote($this->obj_id).", ".
-					"type = ".$this->db->quote($a_type).", ".
-					"child_id = ".$this->db->quote($child_id).", ".
-					"position = ".$this->db->quote($position);
-				$res = $this->db->query($query);
-			}
+			$query = "REPLACE INTO container_sorting SET ".
+				"obj_id = ".$this->db->quote($this->obj_id).", ".
+				"parent_type = ".$this->db->quote($a_parent_type).", ".
+				"parent_id = ".$this->db->quote($a_parent_id).", ".
+				"child_id = ".$this->db->quote($child_id).", ".
+				"position = ".$this->db->quote($position);
+			$res = $this->db->query($query);
 		}
-//echo "-<br>$query-";
+		return true;
 	}
 	
 	
@@ -214,9 +186,15 @@ class ilContainerSorting
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
-	 		$this->sorting[$row->type][$row->child_id] = $row->position;
+	 		if($row->parent_type)
+	 		{
+		 		$this->sorting[$row->parent_type][$row->parent_id][$row->child_id] = $row->position;
+	 		}
+	 		else
+	 		{
+	 			$this->sorting['all'][$row->child_id] = $row->position;
+	 		}
 	 	}
-//var_dump($this->sorting);
 		return true;
 	}
 }

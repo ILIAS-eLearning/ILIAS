@@ -5353,3 +5353,26 @@ while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 	}
 }
 ?>
+
+<#1313>
+ALTER TABLE `container_sorting` CHANGE `type` `parent_type` VARCHAR( 5 ) NOT NULL,
+CHANGE `items` `parent_id` INT( 11 ) NOT NULL;
+
+<#1314>
+<?php
+
+$query = "UPDATE container_sorting SET parent_type = '',parent_id = 0";
+$ilDB->query($query);
+
+?>
+
+<#1315>
+ALTER TABLE `container_sorting`
+  DROP PRIMARY KEY,
+   ADD PRIMARY KEY(
+     `obj_id`,
+     `parent_type`,
+     `parent_id`,
+     `child_id`);
+
+

@@ -115,7 +115,6 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 */
 		// new behaviour
 		$output_html.= $this->getContainerGUI()->getContainerPageHTML();
-
 		// get embedded blocks
 		if ($output_html != "")
 		{
@@ -126,7 +125,6 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
 		// iterate all types
 		$tpl = $this->newBlockTemplate();
-
 		foreach ($type_grps as $type => $v)
 		{
 			if ($this->rendered_block["type"][$type] == "" &&
@@ -134,9 +132,11 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 			{
 				// all rows
 				$item_html = array();
+				$position = 1;
+				
 				foreach($this->items[$type] as $item_data)
 				{
-					$html = $this->renderItem($item_data);
+					$html = $this->renderItem($item_data,$position++);
 					if ($html != "")
 					{
 						$item_html[] = $html;

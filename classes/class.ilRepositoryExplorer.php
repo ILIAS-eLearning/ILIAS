@@ -570,15 +570,16 @@ class ilRepositoryExplorer extends ilExplorer
 	 */
 	public function sortNodes($a_nodes,$a_parent_obj_id)
 	{
+		return parent::sortNodes($a_nodes,$a_parent_obj_id);
+
+		// TODO: fix manual sorting 
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
 		$sort = new ilContainerSorting($a_parent_obj_id);
-		
 		if($sort->isManualSortingEnabled())
 		{
 			$sorted = $sort->sortTreeData($a_nodes);
 			return $sorted;
 		}
-		return parent::sortNodes($a_nodes,$a_parent_obj_id);
 	}
 
 } // END class ilRepositoryExplorer
