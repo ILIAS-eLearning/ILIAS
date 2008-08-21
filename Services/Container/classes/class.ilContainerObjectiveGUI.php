@@ -319,8 +319,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		include_once('./Modules/Course/classes/class.ilCourseObjective.php');
 		$objective = new ilCourseObjective($this->getContainerObject(),$a_objective_id);
 		
+		include_once('./Services/Container/classes/class.ilContainerSorting.php');
+		$items = $this->getContainerObject()->items_obj->getItemsByObjective($a_objective_id);
+		$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('lobj',$a_objective_id,$items);
+
 		$pos = 1;
-		foreach($this->getContainerObject()->items_obj->getItemsByObjective($a_objective_id) as $item) 
+		foreach($items as $item) 
 		{
 			if($this->getDetailsLevel($a_objective_id) < self::DETAILS_ALL)
 			{
@@ -334,7 +338,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				$item_list_gui2->enableCheckbox(true);
 				if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
 				{
-					$item_list_gui2->setPositionInputField("[".$item["ref_id"]."]",
+					$item_list_gui2->setPositionInputField("[lobj][".$a_objective_id."][".$item["ref_id"]."]",
 						sprintf('%.1f', $pos));
 					$pos++;
 				}
