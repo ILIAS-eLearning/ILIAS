@@ -31,14 +31,21 @@
 */
 class ilMath
 {
+	public static function _removeTrailingZeros($value)
+	{
+		$value = preg_replace("/(.*?)0+$/", "\\1", $value);
+		$value = preg_replace("/(.*?)\\.$/", "\\1", $value);
+		return $value;
+	}
+	
 	/*
 	* Add two numbers
 	*/
-	public static function _add($left_operand, $right_operand, $scale = NULL)
+	public static function _add($left_operand, $right_operand, $scale = 22)
 	{
 		if (function_exists("bcadd"))
 		{
-			return bcadd($left_operand, $right_operand, $scale);
+			return ilMath::_removeTrailingZeros(bcdiv(bcadd($left_operand, $right_operand, $scale));
 		}
 		else
 		{
@@ -51,7 +58,7 @@ class ilMath
 	/*
 	* Compare two numbers
 	*/
-	public static function _comp($left_operand, $right_operand, $scale = NULL)
+	public static function _comp($left_operand, $right_operand, $scale = 22)
 	{
 		if (function_exists("bccomp"))
 		{
@@ -73,11 +80,11 @@ class ilMath
 	/*
 	* Divide two numbers
 	*/
-	public static function _div($left_operand, $right_operand, $scale = NULL)
+	public static function _div($left_operand, $right_operand, $scale = 22)
 	{
 		if (function_exists("bcdiv"))
 		{
-			return bcdiv($left_operand, $right_operand, $scale);
+			return ilMath::_removeTrailingZeros(bcdiv($left_operand, $right_operand, $scale));
 		}
 		else
 		{
@@ -106,11 +113,11 @@ class ilMath
 	/*
 	* Multiplicate two numbers
 	*/
-	public static function _mul($left_operand, $right_operand, $scale = NULL)
+	public static function _mul($left_operand, $right_operand, $scale = 22)
 	{
 		if (function_exists("bcmul"))
 		{
-			return bcmul($left_operand, $right_operand, $scale);
+			return ilMath::_removeTrailingZeros(bcdiv(bcmul($left_operand, $right_operand, $scale));
 		}
 		else
 		{
@@ -123,11 +130,11 @@ class ilMath
 	/*
 	* Raise a number to another
 	*/
-	public static function _pow($left_operand, $right_operand, $scale = NULL)
+	public static function _pow($left_operand, $right_operand, $scale = 22)
 	{
 		if (function_exists("bcpow"))
 		{
-			return bcpow($left_operand, $right_operand, $scale);
+			return ilMath::_removeTrailingZeros(bcdiv(bcpow($left_operand, $right_operand, $scale));
 		}
 		else
 		{
@@ -140,11 +147,11 @@ class ilMath
 	/*
 	* Get the square root of a number
 	*/
-	public static function _sqrt($operand, $scale = NULL)
+	public static function _sqrt($operand, $scale = 22)
 	{
 		if (function_exists("bcsqrt"))
 		{
-			return bcsqrt($operand, $scale);
+			return ilMath::_removeTrailingZeros(bcdiv(bcsqrt($operand, $scale));
 		}
 		else
 		{
@@ -157,11 +164,11 @@ class ilMath
 	/*
 	* Subtract two numbers
 	*/
-	public static function _sub($left_operand, $right_operand, $scale = NULL)
+	public static function _sub($left_operand, $right_operand, $scale = 22)
 	{
 		if (function_exists("bcsub"))
 		{
-			return bcsub($left_operand, $right_operand, $scale);
+			return ilMath::_removeTrailingZeros(bcdiv(bcsub($left_operand, $right_operand, $scale));
 		}
 		else
 		{
