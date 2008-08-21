@@ -184,6 +184,7 @@ class assQuestion
 	var $outputType;
 
 	var $suggested_solutions;
+	var $original_id;
 	/**
 	* assQuestion constructor
 	*
@@ -211,6 +212,7 @@ class assQuestion
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 
+		$this->original_id = null;
 		$this->title = $title;
 		$this->comment = $comment;
 		$this->author = $author;
@@ -1575,6 +1577,16 @@ class assQuestion
       return "";
     }
   }
+
+	function setOriginalId($original_id)
+	{
+		$this->original_id = $original_id;
+	}
+	
+	function getOriginalId()
+	{
+		return $this->original_id;
+	}
 
 /**
 * Loads the question from the database
