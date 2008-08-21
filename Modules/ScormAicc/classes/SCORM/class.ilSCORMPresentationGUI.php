@@ -564,7 +564,24 @@ class ilSCORMPresentationGUI
 			.$lng->txt("cont_total_time").  ": "
 			.$_GET["totime"]
 		);
-		$this->tpl->setVariable("SCO_LAUNCH_ID", $_GET["launch"]);
+		// BEGIN Partial fix for SCO sequencing:
+                //       With this partial fix, ILIAS can now proceed to the next
+                //          SCO, if it is a sibling of the current SCO.
+                //       This fix doesn't fix the case, if the next SCO has a 
+                //          different parent item. 
+		//$this->tpl->setVariable("SCO_LAUNCH_ID", $_GET["launch"]);
+		$launch_id = $_GET['launch'];
+		if ($launch_id == 'null' || $launch_id == null) {
+			require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
+			$mtree = new ilSCORMTree($this->slm->getId());
+			$node_data = $mtree->fetchSuccessorNode($_GET['sahs_id']);
+			if ($node_data)
+			{
+				$launch_id = $node_data['child'];
+			}
+		}
+		$this->tpl->setVariable("SCO_LAUNCH_ID", $launch_id);
+		// END Partial fix for SCO sequencing
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
