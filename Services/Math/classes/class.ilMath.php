@@ -45,7 +45,7 @@ class ilMath
 	{
 		if (function_exists("bcadd"))
 		{
-			return ilMath::_removeTrailingZeros(bcdiv(bcadd($left_operand, $right_operand, $scale));
+			return ilMath::_removeTrailingZeros(bcadd($left_operand, $right_operand, $scale));
 		}
 		else
 		{
@@ -117,7 +117,7 @@ class ilMath
 	{
 		if (function_exists("bcmul"))
 		{
-			return ilMath::_removeTrailingZeros(bcdiv(bcmul($left_operand, $right_operand, $scale));
+			return ilMath::_removeTrailingZeros(bcmul($left_operand, $right_operand, $scale));
 		}
 		else
 		{
@@ -134,7 +134,7 @@ class ilMath
 	{
 		if (function_exists("bcpow"))
 		{
-			return ilMath::_removeTrailingZeros(bcdiv(bcpow($left_operand, $right_operand, $scale));
+			return ilMath::_removeTrailingZeros(bcpow($left_operand, $right_operand, $scale));
 		}
 		else
 		{
@@ -151,7 +151,7 @@ class ilMath
 	{
 		if (function_exists("bcsqrt"))
 		{
-			return ilMath::_removeTrailingZeros(bcdiv(bcsqrt($operand, $scale));
+			return ilMath::_removeTrailingZeros(bcsqrt($operand, $scale));
 		}
 		else
 		{
@@ -168,7 +168,7 @@ class ilMath
 	{
 		if (function_exists("bcsub"))
 		{
-			return ilMath::_removeTrailingZeros(bcdiv(bcsub($left_operand, $right_operand, $scale));
+			return ilMath::_removeTrailingZeros(bcsub($left_operand, $right_operand, $scale));
 		}
 		else
 		{
