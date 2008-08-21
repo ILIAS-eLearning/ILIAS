@@ -460,20 +460,6 @@ class ilCourseContentGUI
 		// Event
 		
 		$this->container_gui->renderContainer();
-		
-/*		switch($this->course_obj->getOrderType())
-		{
-			case IL_CRS_SORT_TITLE:
-			case IL_CRS_SORT_MANUAL:
-				$this->__showMaterials('session');
-				$this->__showMaterials('nosession');
-				break;
-			
-			case IL_CRS_SORT_ACTIVATION:
-				$this->__showMaterials('all');
-				break;
-			
-		}*/
 		$this->container_gui->showAdministrationPanel($this->tpl);
 	}
 	
@@ -691,7 +677,7 @@ class ilCourseContentGUI
 		{
 			case 'session':
 				$this->cont_arr = $this->course_obj->items_obj->getFilteredItems($this->container_obj->getRefId());
-				$this->cont_arr = ilCourseItems::_sort(IL_CRS_SORT_ACTIVATION,$this->cont_arr);
+				$this->cont_arr = ilCourseItems::_sort(ilContainer::SORT_ACTIVATION,$this->cont_arr);
 				break;
 				// Get all sessions => sort by start
 				
@@ -1776,7 +1762,7 @@ class ilCourseContentGUI
 		if($this->is_tutor)
 		{
 			$images = array();
-			if($this->course_obj->getOrderType() == $this->course_obj->SORT_MANUAL)
+			if($this->course_obj->getOrderType() == ilContainer::SORT_MANUAL)
 			{
 				if($num != 0)
 				{

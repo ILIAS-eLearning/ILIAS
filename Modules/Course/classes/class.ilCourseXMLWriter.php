@@ -304,11 +304,11 @@ class ilCourseXMLWriter extends ilXmlWriter
 
 		// Sort
 		$attr = array();
-		if($this->course_obj->getOrderType() == IL_CRS_SORT_MANUAL)
+		if($this->course_obj->getOrderType() == ilContainer::SORT_MANUAL)
 		{
 			$attr['type'] = 'Manual';
 		}
-		elseif($this->course_obj->getOrderType() == IL_CRS_SORT_TITLE)
+		elseif($this->course_obj->getOrderType() == ilContainer::SORT_TITLE)
 		{
 			$attr['type'] = 'Title';
 		}

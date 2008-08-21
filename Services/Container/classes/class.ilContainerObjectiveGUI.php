@@ -332,7 +332,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			if ($this->getContainerGUI()->isActiveAdministrationPanel())
 			{
 				$item_list_gui2->enableCheckbox(true);
-				if ($this->getContainerObject()->getOrderType() == IL_CNTR_SORT_MANUAL)
+				if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
 				{
 					$item_list_gui2->setPositionInputField("[".$item["ref_id"]."]",
 						sprintf('%.1f', $pos));

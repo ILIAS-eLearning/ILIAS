@@ -575,7 +575,7 @@ class ilContainerGUI extends ilObjectGUI
 			{
 				include_once('./Services/Container/classes/class.ilContainer.php');
 				
-				if ($this->object->getOrderType() == IL_CNTR_SORT_MANUAL)
+				if ($this->object->getOrderType() == ilContainer::SORT_MANUAL)
 				{
 					$tpl->setCurrentBlock('admin_panel_cmd');
 					$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt('sorting_save'));
@@ -1214,7 +1214,7 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 		if($this->isActiveAdministrationPanel() && 
-			ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainerSortingSettings::MODE_MANUAL)
+			ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL)
 		{
 			$a_tpl->setCurrentBlock('block_position');
 			$a_tpl->setVariable('POS_TYPE',$a_image_type);

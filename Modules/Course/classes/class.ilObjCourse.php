@@ -54,11 +54,6 @@ define('IL_CRS_VIEW_BY_TYPE', 5);
 define('IL_CRS_ARCHIVE_DOWNLOAD',3);
 define('IL_CRS_ARCHIVE_NONE',0);
 
-										// alex: I copied this to ilContainer as
-define('IL_CRS_SORT_MANUAL',1);			// IL_CNTR_SORT_MANUAL
-define('IL_CRS_SORT_TITLE',2);			// IL_CNTR_SORT_TITLE
-define('IL_CRS_SORT_ACTIVATION',3);		// IL_CNTR_SORT_ACTIVATION
-
 class ilObjCourse extends ilContainer
 {
 	const CAL_REG_START = 1;
@@ -87,9 +82,6 @@ class ilObjCourse extends ilContainer
 		$this->SUBSCRIPTION_DIRECT = 3;
 		$this->SUBSCRIPTION_PASSWORD = 4;
 		$this->SUBSCRIPTION_AUTOSUBSCRIPTION = 5;
-		$this->SORT_MANUAL = 1;
-		$this->SORT_TITLE = 2;
-		$this->SORT_ACTIVATION = 3;
 		$this->ARCHIVE_DISABLED = 1;
 		$this->ARCHIVE_READ = 2;
 		$this->ARCHIVE_DOWNLOAD = 3;
@@ -111,7 +103,6 @@ class ilObjCourse extends ilContainer
 		{
 
 		}
-
 	}
 
 	function getImportantInformation()
@@ -377,14 +368,6 @@ class ilObjCourse extends ilContainer
 		return false;
 	}
 
-	function getOrderType()
-	{
-		return $this->order_type ? $this->order_type : IL_CRS_SORT_TITLE;
-	}
-	function setOrderType($a_value)
-	{
-		$this->order_type = $a_value;
-	}
 	function getArchiveStart()
 	{
 		return $this->archive_start ? $this->archive_start : time();
@@ -933,6 +916,11 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilAppEventHandler;
 
+		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
+		$sorting = new ilContainerSortingSettings($this->getId());
+		$sorting->setSortMode($this->getOrderType());
+		$sorting->update();
+
 		$this->updateMetaData();
 		$this->updateSettings();
 		parent::update();
@@ -981,7 +969,6 @@ class ilObjCourse extends ilContainer
 			"subscription_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers()).", ".
 			"subscription_notify = ".$ilDB->quote($this->getSubscriptionNotify()).", ".
 			"view_mode = ".$ilDB->quote($this->getViewMode()).", ".
-			"sortorder = ".$ilDB->quote($this->getOrderType()).", ".
 			"archive_start = ".$ilDB->quote($this->getArchiveStart()).", ".
 			"archive_end = ".$ilDB->quote($this->getArchiveEnd()).", ".
 			"archive_type = ".$ilDB->quote($this->getArchiveType()).", ".
@@ -1064,7 +1051,6 @@ class ilObjCourse extends ilContainer
 			"subscription_max_members = ".$ilDB->quote($this->getSubscriptionMaxMembers()).", ".
 			"subscription_notify = '1', ".
 			"view_mode = '0', ".
-			"sortorder = ".$ilDB->quote(IL_CRS_SORT_TITLE).", ".
 			"archive_start = ".$ilDB->quote($this->getArchiveStart()).", ".
 			"archive_end = ".$ilDB->quote($this->getArchiveEnd()).", ".
 			"archive_type = ".$ilDB->quote(IL_CRS_ARCHIVE_NONE).", ".
