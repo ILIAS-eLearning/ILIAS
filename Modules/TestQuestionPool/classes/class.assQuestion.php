@@ -1284,10 +1284,13 @@ class assQuestion
 	{
 		global $ilDB;
 		$additional_table_name = $this->getAdditionalTableName();
-		$query = sprintf("DELETE FROM $additional_table_name WHERE question_fi = %s",
-			$ilDB->quote($question_id . "")
-		);
-		$result = $ilDB->query($query);
+		if (strlen($additional_table_name))
+		{
+			$query = sprintf("DELETE FROM $additional_table_name WHERE question_fi = %s",
+				$ilDB->quote($question_id . "")
+			);
+			$result = $ilDB->query($query);
+		}
 	}
 
 	/**
