@@ -382,8 +382,7 @@ abstract class ilContainerContentGUI
 		if ($this->getContainerGUI()->isActiveAdministrationPanel())
 		{
 			$item_list_gui->enableCheckbox(true);
-//echo "<br>-".$this->getContainerObject()->getOrderType()."-".IL_CNTR_SORT_MANUAL."-";
-			if ($this->getContainerObject()->getOrderType() == IL_CNTR_SORT_MANUAL)
+			if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
 			{
 				$item_list_gui->setPositionInputField("[".$a_item_data["ref_id"]."]",
 					sprintf('%.1f', $a_position));
@@ -401,7 +400,7 @@ abstract class ilContainerContentGUI
 				if ($this->getContainerGUI()->isActiveAdministrationPanel())
 				{
 					$item_list_gui2->enableCheckbox(true);
-					if ($this->getContainerObject()->getOrderType() == IL_CNTR_SORT_MANUAL)
+					if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
 					{
 						$item_list_gui2->setPositionInputField("[".$item["ref_id"]."]",
 							sprintf('%.1f', $pos));

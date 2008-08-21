@@ -1043,7 +1043,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
-			$this->object->setOrderType(IL_CRS_SORT_ACTIVATION);
+			$this->object->setOrderType(ilContainer::SORT_ACTIVATION);
 		}
 		else
 		{
@@ -1370,15 +1370,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		$sort = new ilRadioGroupInputGUI($this->lng->txt('crs_sortorder_abo'),'order_type');
 		$sort->setValue($this->object->getOrderType());
 		
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_manual'),IL_CRS_SORT_MANUAL);
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_manual'),ilContainer::SORT_MANUAL);
 			$opt->setInfo($this->lng->txt('crs_sort_title_info'));
 			$sort->addOption($opt);
 			
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_title'),IL_CRS_SORT_TITLE);
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_title'),ilContainer::SORT_TITLE);
 			$opt->setInfo($this->lng->txt('crs_sort_manual_info'));
 			$sort->addOption($opt);
 
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_activation'),IL_CRS_SORT_ACTIVATION);
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_activation'),ilContainer::SORT_ACTIVATION);
 			$opt->setInfo($this->lng->txt('crs_sort_timing_info'));
 			$sort->addOption($opt);
 

@@ -5378,4 +5378,34 @@ ALTER TABLE `container_sorting`
      `parent_id`,
      `child_id`);
 
+<#1316>
+<?php
+
+$query = "SELECT * FROM crs_settings ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	switch($row->sortorder)
+	{
+		case 1:
+			$sort = 1;
+			break;
+		
+		case 3:	
+			$sort = 2;
+			break;
+			
+		case 2:
+		default:
+			$sort = 0;
+	}
+	$query = "DELETE FROM container_sorting_settings WHERE obj_id = ".$ilDB->quote($row->obj_id)." ";
+	$ilDB->query($query);
+	
+	$query = "INSERT INTO container_sorting_settings SET ".
+		"obj_id = ".$ilDB->quote($row->obj_id).", ".
+		"sort_mode = ".$ilDB->quote($sort)." ";
+	$ilDB->query($query);
+}
+?>
 

@@ -1672,13 +1672,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		
 		$this->tpl->setVariable('RADIO_SORT_TITLE',ilUtil::formRadioButton(
-			$settings->getSortMode() == ilContainerSortingSettings::MODE_TITLE,
+			$settings->getSortMode() == ilContainer::SORT_TITLE,
 			'sorting',
-			ilContainerSortingSettings::MODE_TITLE));
+			ilContainer::SORT_TITLE));
 		$this->tpl->setVariable('RADIO_SORT_MANUAL',ilUtil::formRadioButton(
-			$settings->getSortMode() == ilContainerSortingSettings::MODE_MANUAL,
+			$settings->getSortMode() == ilContainer::SORT_MANUAL,
 			'sorting',
-			ilContainerSortingSettings::MODE_MANUAL));
+			ilContainer::SORT_MANUAL));
 	}
 	
 	/**

@@ -913,15 +913,15 @@ class ilCourseItems
 	{
 		switch($a_sort_mode)
 		{
-			case IL_CRS_SORT_MANUAL:
+			case ilContainer::SORT_MANUAL:
 				return ilUtil::sortArray($a_items,"position","asc",true);
 				break;
 
-			case IL_CRS_SORT_TITLE:
+			case ilContainer::SORT_TITLE:
 				return ilUtil::sortArray($a_items,"title","asc");
 				break;
 
-			case IL_CRS_SORT_ACTIVATION:
+			case ilContainer::SORT_ACTIVATION:
 				// Sort by starting time. If mode is IL_CRS_TIMINGS_DEACTIVATED then sort these items by title and append
 				// them to the array.
 				$inactive = $active = array();
@@ -951,15 +951,15 @@ class ilCourseItems
 	{
 		switch($this->course_obj->getOrderType())
 		{
-			case IL_CRS_SORT_MANUAL:
+			case ilContainer::SORT_MANUAL:
 				$this->items = ilUtil::sortArray($this->items,"position","asc",true);
 				break;
 
-			case IL_CRS_SORT_TITLE:
+			case ilContainer::SORT_TITLE:
 				$this->items = ilUtil::sortArray($this->items,"title","asc");
 				break;
 
-			case IL_CRS_SORT_ACTIVATION:
+			case ilContainer::SORT_ACTIVATION:
 				// Sort by starting time. If mode is IL_CRS_TIMINGS_DEACTIVATED then sort these items by title and append
 				// them to the array.
 				list($active,$inactive) = $this->__splitByActivation();

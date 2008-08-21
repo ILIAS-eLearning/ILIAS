@@ -58,7 +58,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		// get all sub items
 		$ilBench->start("ilContainerGUI", "0100_getSubItems");
 		$this->items = $this->getContainerObject()->getSubItems(
-			$this->getContainerGUI()->isActiveAdministrationPanel(), ilContainer::VIEW_BY_TYPE);
+			$this->getContainerGUI()->isActiveAdministrationPanel());
 		$ilBench->stop("ilContainerGUI", "0100_getSubItems");
 
 		// Show introduction, if repository is empty

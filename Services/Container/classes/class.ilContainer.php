@@ -24,11 +24,6 @@
 // note: the values are derived from ilObjCourse constants
 // to enable easy migration from course view setting to container view setting
 
-define('IL_CNTR_SORT_MANUAL',1);
-define('IL_CNTR_SORT_TITLE',2);
-define('IL_CNTR_SORT_ACTIVATION',3);
-
-
 require_once "./classes/class.ilObject.php";
 
 /**
@@ -43,6 +38,9 @@ require_once "./classes/class.ilObject.php";
 */
 class ilContainer extends ilObject
 {
+	protected $order_type = 0;
+	
+	
 	// container view constants
 	const VIEW_SESSIONS = 0;
 	const VIEW_OBJECTIVE = 1;
@@ -53,9 +51,9 @@ class ilContainer extends ilObject
 	const VIEW_INHERIT = 6;
 
 	
+	const SORT_TITLE = 0;
 	const SORT_MANUAL = 1;
-	const SORT_TITLE = 2;
-	const SORT_ACTIVATION = 3;
+	const SORT_ACTIVATION = 2;
 	
 	/**
 	* Constructor
@@ -406,17 +404,18 @@ class ilContainer extends ilObject
 	{
 		return ilContainer::VIEW_BY_TYPE;
 	}
-
+	
 	/**
 	* Get order type default implementation
 	*/
 	function getOrderType()
 	{
-		#return IL_CNTR_SORT_TITLE;
-		
-		// @todo
-		include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
-		return ilContainerSortingSettings::_lookupSortMode($this->getId());
+		return $this->order_type ? $this->order_type : ilContainer::SORT_TITLE;
+	}
+
+	function setOrderType($a_value)
+	{
+		$this->order_type = $a_value;
 	}
 	
 	/**
@@ -433,7 +432,7 @@ class ilContainer extends ilObject
 		{
 			return $this->items[(int) $a_include_hidden_files][(int) $a_include_side_block];
 		}
-
+		
 		$type_grps = $this->getGroupedObjTypes();
 		$objects = $tree->getChilds($this->getRefId(), "title");
 		$found = false;
@@ -538,6 +537,21 @@ class ilContainer extends ilObject
 		{
 			return true;
 		}
+	}
+	
+	/**
+	 * read
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function read()
+	{
+		parent::read();
+		
+		include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
+		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 	}
 	
 } // END class ilContainer

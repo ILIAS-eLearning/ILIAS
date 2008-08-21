@@ -367,13 +367,13 @@ class ilCourseObjective
 	{
 		switch($this->course_obj->getOrderType())
 		{
-			case $this->course_obj->SORT_MANUAL:
+			case ilContainer::SORT_MANUAL:
 				return 'ORDER BY position';
 
-			case $this->course_obj->SORT_TITLE:
+			case ilContainer::SORT_TITLE:
 				return 'ORDER BY title';
 
-			case $this->course_obj->SORT_ACTIVATION:
+			case ilContainer::SORT_ACTIVATION:
 				return 'ORDER BY create';
 		}
 		return false;

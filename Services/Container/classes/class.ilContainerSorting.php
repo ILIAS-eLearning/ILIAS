@@ -72,7 +72,6 @@ class ilContainerSorting
 		{
 			return $a_items;
 		}
-		
 		foreach($a_items as $type => $data)
 		{
 			// Add position

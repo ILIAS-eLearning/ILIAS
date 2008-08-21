@@ -32,10 +32,6 @@
 */
 class ilContainerSortingSettings
 {
-	const MODE_TITLE = 0;
-	const MODE_MANUAL = 1;
-	const MODE_ACTIVATION = 2;
-	
 	protected $obj_id;
 	protected $sort_mode;
 	
@@ -78,7 +74,7 @@ class ilContainerSortingSettings
 		{
 			return $row->sort_mode;
 		}
-		return self::MODE_TITLE;
+		return ilContainer::SORT_TITLE;
 	}
 	
 	/**
@@ -90,7 +86,7 @@ class ilContainerSortingSettings
 	 */
 	public function _isManualSortingEnabled($a_obj_id)
 	{
-	 	return self::_lookupSortMode($a_obj_id) == self::MODE_MANUAL;
+	 	return self::_lookupSortMode($a_obj_id) == ilContainer::SORT_MANUAL;
 	}
 	
 	/**
