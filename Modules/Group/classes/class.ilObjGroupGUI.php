@@ -2235,13 +2235,6 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 		}
 
-		// BEGIN WebDAV Display locking information
-		// BEGIN ChangeEvent: Display owner and file reads.
-		$info->addObjectSections($this->object);
-		// END ChangeEvent: Display file reads.
-		// END WebDAV Display locking information
-
-
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}

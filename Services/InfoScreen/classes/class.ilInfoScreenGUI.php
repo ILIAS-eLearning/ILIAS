@@ -423,39 +423,96 @@ class ilInfoScreenGUI
 	/**
 	* add standard object section
 	*/
-	function addObjectSections($a_obj)
+	function addObjectSections()
 	{
-		global $lng, $ilCtrl, $ilUser;
+		global $lng, $ilCtrl, $ilUser, $ilAccess, $tree;
 		
-		$this->obj_section_obj = ($a_obj);
-	}
-
-	/**
-	* Insert object secions within output
-	*/
-	private function insertObjectSections()
-	{
-		global $lng, $ilCtrl, $ilUser;
-		
-		if (!is_object($this->obj_section_obj))
+		$this->addSection($lng->txt("additional_info"));
+		$a_obj = $this->gui_object->object;
+                
+		// links to the object
+		if (is_object($a_obj))
 		{
-			return;
+			// permanent link
+			$type = $a_obj->getType();
+			$ref_id = $a_obj->getRefId();
+			
+			include_once('classes/class.ilLink.php');
+			$href = ilLink::_getStaticLink($ref_id,$type,true);
+				
+			// delicous link
+			$d_set = new ilSetting("delicious");
+			if ($d_set->get("add_info_links") == "1")
+			{
+				$lng->loadLanguageModule("delic");
+				$del_link = '<br/><a class="small" href="http://del.icio.us/post?desc=nn&url='.
+					urlencode($href).'"><img border="0" src="'.ilUtil::getImagePath("icon_delicious_s.gif").
+					'" /> '.$lng->txt("delic_add_to_delicious").
+					'</a>';
+			}
+			
+			include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
+			$settings = ilECSSettings::_getInstance();
+			if($settings->isEnabled())
+			{
+				$this->addProperty($lng->txt("object_id"),
+					$a_obj->getId()
+					);
+			}
+				
+			$this->addProperty($lng->txt("perma_link"),
+				$href,
+				$href
+				);
+			
+			// links to resource
+			if ($ilAccess->checkAccess("write", "", $ref_id) ||
+				$ilAccess->checkAccess("edit_permissions", "", $ref_id))
+			{
+				$obj_id = $a_obj->getId();
+				$rs = ilObject::_getAllReferences($obj_id);
+				$refs = array();
+				foreach($rs as $r)
+				{
+					if ($tree->isInTree($r))
+					{
+						$refs[] = $r;
+					}
+				}
+				if (count($refs) > 1)
+				{
+					$links = $sep = "";
+					foreach($refs as $r)
+					{
+						$cont_loc = new ilLocatorGUI();
+						$cont_loc->addContextItems($r, true);
+						$links.= $sep.$cont_loc->getHTML();
+						$sep = "<br />";
+					}
+					
+					$this->addProperty($lng->txt("res_links"),
+						'<div class="small">'.$links.'</div>'
+						);
+				}
+			}
 		}
-		$this->addSection($lng->txt("description"));
-
+                
+                
+		// creation date
 		$this->addProperty(
 			$lng->txt("create_date"),
-			ilDatePresentation::formatDate(new ilDateTime($this->obj_section_obj->getCreateDate(),IL_CAL_DATETIME)));
+			ilDatePresentation::formatDate(new ilDateTime($a_obj->getCreateDate(),IL_CAL_DATETIME)));
 
+		// owner
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			if (ilObjUser::_lookupEmail($this->obj_section_obj->getOwner()) === false)
+			if (ilObjUser::_lookupEmail($a_obj->getOwner()) === false)
 			{
 				$this->addProperty($lng->txt("owner"),$lng->txt('deleted_user_account'));
 			}
 			else
 			{
-				$ownerObj = new ilObjUser($this->obj_section_obj->getOwner());
+				$ownerObj = new ilObjUser($a_obj->getOwner());
 				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
 				$this->addProperty($lng->txt("owner"),
 					$ownerObj->getFirstname().' '.
@@ -466,12 +523,13 @@ class ilInfoScreenGUI
 			}
 		}
 
+		// change event
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		if (ilChangeEvent::_isActive())
 		{
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				$readEvents = ilChangeEvent::_lookupReadEvents($this->obj_section_obj->getId());
+				$readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
 				$count_users = 0;
 				$count_members = 0;
 				$count_user_reads = 0;
@@ -496,8 +554,14 @@ class ilInfoScreenGUI
 				{
 					$this->addProperty($this->lng->txt("readcount_anonymous_users"),$count_anonymous_reads);
 				}
-				$this->addProperty($this->lng->txt("readcount_users"),$count_user_reads);
-				$this->addProperty($this->lng->txt("accesscount_registered_users"),$count_users);
+				if ($count_user_reads > 0)
+				{
+					$this->addProperty($this->lng->txt("readcount_users"),$count_user_reads);
+                                }
+				if ($count_users > 0)
+				{
+					$this->addProperty($this->lng->txt("accesscount_registered_users"),$count_users);
+                                }
 			}
 		}
 		// END ChangeEvent: Display change event info
@@ -514,7 +578,7 @@ class ilInfoScreenGUI
 				// Show lock info
 				if ($ilias->account->getId() != ANONYMOUS_USER_ID)
 				{
-					$locks =& $davLocks->getLocksOnObjectObj($this->obj_section_obj->getId());
+					$locks =& $davLocks->getLocksOnObjectObj($a_obj->getId());
 					if (count($locks) > 0)
 					{
 						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
@@ -692,8 +756,35 @@ class ilInfoScreenGUI
 			}
 		}
 
-		$this->insertObjectSections();
+		// tagging
+		if (is_object($this->gui_object->object))
+		{
+			$this->addTagging($tpl);
+		}
 		
+
+		// learning progress
+		if($this->learning_progress_enabled and $html = $this->showLearningProgress())
+		{
+			$tpl->setCurrentBlock("learning_progress");
+			$tpl->setVariable("LP_TABLE",$html);
+			$tpl->parseCurrentBlock();
+		}
+
+
+		// notes section
+		if ($this->private_notes_enabled && !$ilSetting->get('disable_notes'))
+		{
+			$html = $this->showNotesSection();
+			$tpl->setCurrentBlock("notes");
+			$tpl->setVariable("NOTES", $html);
+			$tpl->parseCurrentBlock();
+		}
+
+		// add object sections
+		$this->addObjectSections($this->object);
+
+                // render all sections
 		for($i = 1; $i <= $this->sec_nr; $i++)
 		{
 			if (is_array($this->section[$i]["properties"]))
@@ -737,110 +828,6 @@ class ilInfoScreenGUI
 					}
 				}
 			}
-		}
-
-		// tagging
-		if (is_object($this->gui_object->object))
-		{
-			$this->addTagging($tpl);
-		}
-		
-		// additional information
-		if (is_object($this->gui_object->object))
-		{
-			// section header
-			$tpl->setCurrentBlock("header_row");
-			$tpl->setVariable("TXT_SECTION",
-				$this->lng->txt("additional_info"));
-			$tpl->parseCurrentBlock();
-			$tpl->touchBlock("row");
-			
-			// permanent link
-			$type = $this->gui_object->object->getType();
-			$ref_id = $this->gui_object->object->getRefId();
-			
-			include_once('classes/class.ilLink.php');
-			$href = ilLink::_getStaticLink($ref_id,$type,true);
-				
-			// delicous link
-			$d_set = new ilSetting("delicious");
-			if ($d_set->get("add_info_links") == "1")
-			{
-				$lng->loadLanguageModule("delic");
-				$del_link = '<br/><a class="small" href="http://del.icio.us/post?desc=nn&url='.
-					urlencode($href).'"><img border="0" src="'.ilUtil::getImagePath("icon_delicious_s.gif").
-					'" /> '.$lng->txt("delic_add_to_delicious").
-					'</a>';
-			}
-			
-			include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
-			$settings = ilECSSettings::_getInstance();
-			if($settings->isEnabled())
-			{
-				$tpl->setCurrentBlock("property_row");
-				$tpl->setVariable("TXT_PROPERTY", $this->lng->txt("object_id"));
-				$tpl->setVariable("TXT_PROPERTY_VALUE",$this->gui_object->object->getId());
-				$tpl->parseCurrentBlock();
-			}
-				
-			$tpl->setCurrentBlock("property_row");
-			$tpl->setVariable("TXT_PROPERTY", $this->lng->txt("perma_link"));
-			$tpl->setVariable("TXT_PROPERTY_VALUE",
-				'<a class="small" href="'.$href.'" target="_top">'.$href.'</a>'.$del_link);
-			$tpl->parseCurrentBlock();
-			$tpl->touchBlock("row");
-			
-			// links to resource
-			if ($ilAccess->checkAccess("write", "", $ref_id) ||
-				$ilAccess->checkAccess("edit_permissions", "", $ref_id))
-			{
-				$obj_id = $this->gui_object->object->getId();
-				$rs = ilObject::_getAllReferences($obj_id);
-				$refs = array();
-				foreach($rs as $r)
-				{
-					if ($tree->isInTree($r))
-					{
-						$refs[] = $r;
-					}
-				}
-				if (count($refs) > 1)
-				{
-					$links = $sep = "";
-					foreach($refs as $r)
-					{
-						$cont_loc = new ilLocatorGUI();
-						$cont_loc->addContextItems($r, true);
-						$links.= $sep.$cont_loc->getHTML();
-						$sep = "<br />";
-					}
-					
-					$tpl->setCurrentBlock("property_row");
-					$tpl->setVariable("TXT_PROPERTY", $this->lng->txt("res_links"));
-					$tpl->setVariable("TXT_PROPERTY_VALUE",
-						'<div class="small">'.$links.'</div>');
-					$tpl->parseCurrentBlock();
-					$tpl->touchBlock("row");
-				}
-			}
-		}
-
-		// learning progress
-		if($this->learning_progress_enabled and $html = $this->showLearningProgress())
-		{
-			$tpl->setCurrentBlock("learning_progress");
-			$tpl->setVariable("LP_TABLE",$html);
-			$tpl->parseCurrentBlock();
-		}
-
-
-		// notes section
-		if ($this->private_notes_enabled && !$ilSetting->get('disable_notes'))
-		{
-			$html = $this->showNotesSection();
-			$tpl->setCurrentBlock("notes");
-			$tpl->setVariable("NOTES", $html);
-			$tpl->parseCurrentBlock();
 		}
 
 		return $tpl->get();

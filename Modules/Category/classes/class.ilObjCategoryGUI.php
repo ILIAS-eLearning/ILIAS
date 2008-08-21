@@ -519,9 +519,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		
-		// add object sections
-		$info->addObjectSections($this->object);
-
 		// forward the command
 		if ($ilCtrl->getNextClass() == "ilinfoscreengui")
 		{

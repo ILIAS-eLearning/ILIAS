@@ -651,12 +651,6 @@ class ilObjFileGUI extends ilObjectGUI
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
-		// BEGIN WebDAV Display locking information
-		// BEGIN ChangeEvent Display owner and file reads.
-		$info->addObjectSections($this->object);
-		// END ChangeEvent Display owner and file reads.
-		// END WebDAV Display locking information
-
 		if ($ilAccess->checkAccess("read", "sendfile", $this->ref_id))
 		{
 			$info->addButton($this->lng->txt("file_read"), $this->ctrl->getLinkTarget($this, "sendfile"));
