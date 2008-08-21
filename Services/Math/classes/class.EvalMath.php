@@ -336,7 +336,7 @@ class EvalMath {
 											if ($op2 == 0) return $this->trigger("division by zero");
 											if (function_exists("bcdiv"))
 											{
-												$stack->push(bcmul($op1,$op2)); break;
+												$stack->push(bcdiv($op1,$op2)); break;
 											}
 											else
 											{
