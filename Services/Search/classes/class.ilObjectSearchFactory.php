@@ -412,6 +412,21 @@ class ilObjectSearchFactory
 		return new ilLikeUserDefinedFieldSearch($query_parser);
 	}
 	
+	/*
+	 * get reference of ilFulltextWikiContentSearch
+	 * 
+	 * @param object query parser object
+	 * @return object reference of ilFulltextWikiContentSearch
+	 */
+	function &_getWikiContentSearchInstance(&$query_parser)
+	{
+		// In the moment only Fulltext search. Maybe later is lucene search possible
+		include_once 'Services/Search/classes/Fulltext/class.ilFulltextWikiContentSearch.php';
+		
+		return new ilFulltextWikiContentSearch($query_parser);
+
+	}
+
 	/**
 	 * get advanced meta data search instance
 	 *

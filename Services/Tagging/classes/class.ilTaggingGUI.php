@@ -140,12 +140,13 @@ class ilTaggingGUI
 	function saveInput()
 	{
 		$input = ilUtil::stripSlashes($_POST[$this->getInputFieldName()]);
+		$input = str_replace(",", " ", $input);
 		$itags = explode(" ", $input);
 		$tags = array();
 		foreach($itags as $itag)
 		{
 			$itag = trim($itag);
-			if (!in_array($itag, $tags))
+			if (!in_array($itag, $tags) && $itag != "")
 			{
 				$tags[] = $itag;
 			}
