@@ -31,19 +31,22 @@
 */
 class ilContainerSorting
 {
+	protected static $instances = array();
+
 	protected $obj_id;
 	protected $db;
 	
 	protected $manual_sort_enabled = false;
+	protected $sorting_mode = 0;
 
 	/**
 	 * Constructor
 	 *
-	 * @access public
+	 * @access private
 	 * @param int obj_id
 	 * 
 	 */
-	public function __construct($a_obj_id)
+	private function __construct($a_obj_id)
 	{
 	 	global $ilDB;
 	 	
@@ -51,6 +54,36 @@ class ilContainerSorting
 	 	$this->obj_id = $a_obj_id;
 	 	
 	 	$this->read();
+	}
+	
+	/**
+	 * get sort mode
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getSortMode()
+	{
+		return $this->sorting_mode;
+	}
+	
+	
+	/**
+	 * get instance by obj_id
+	 *
+	 * @access public
+	 * @param int obj_id
+	 * @return
+	 * @static
+	 */
+	public static function _getInstance($a_obj_id)
+	{
+		if(isset(self::$instances[$a_obj_id]))
+		{
+			return self::$instances[$a_obj_id];
+		}
+		return self::$instances[$a_obj_id] = new ilContainerSorting($a_obj_id);
 	}
 	
 	
@@ -61,7 +94,7 @@ class ilContainerSorting
 	 * @param array item data
 	 * @return array sorted item data
 	 */
-	public function sortSubItems($a_items)
+	public function sortItems($a_items)
 	{
 		$sorted = array();
 		if(!$this->manual_sort_enabled)
@@ -75,7 +108,6 @@ class ilContainerSorting
 		foreach($a_items as $type => $data)
 		{
 			// Add position
-
 			$items = array();
 			foreach($data as $key => $item)
 			{
@@ -99,6 +131,36 @@ class ilContainerSorting
 			}
 		}
 		return $sorted ? $sorted : array();
+	}
+	
+	/**
+	 * sort subitems (items of sessions or learning objectives)
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function sortSubItems($a_parent_type,$a_parent_id,$a_items)
+	{
+		switch($this->getSortMode())
+		{
+			case ilContainer::SORT_MANUAL:
+				// Add position
+				$items = array();
+				foreach($a_items as $key => $item)
+				{
+					$items[$key] = $item;
+					$items[$key]['position'] = isset($this->sorting[$a_parent_type][$a_parent_id][$item['child']]) ? 
+													$this->sorting[$a_parent_type][$a_parent_id][$item['child']] : 9999;
+				}
+				return ilUtil::sortArray((array) $items,'position','asc',true);
+				
+
+			case ilContainer::SORT_TITLE:
+			default:
+				return ilUtil::sortArray((array) $a_items,'title','asc',true);
+		}
+
 	}
 	
 	
@@ -130,9 +192,16 @@ class ilContainerSorting
 	 	}
 	 	foreach($a_type_positions as $key => $position)
 	 	{
-	 		if(!is_array($key))
+	 		if(!is_array($position))
 	 		{
 	 			$items[$key] = (float) $position;
+	 		}
+	 		else
+	 		{
+				foreach($position as $parent_id => $items)
+				{
+					$this->saveItems($key,$parent_id,$items ? $items : array());
+				}
 	 		}
 	 	}
 	 	$this->saveItems('',0,$items ? $items : array());
@@ -179,6 +248,7 @@ class ilContainerSorting
 	 	
 	 	include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 	 	$this->manual_sort_enabled = ilContainerSortingSettings::_isManualSortingEnabled($this->obj_id);
+	 	$this->sorting_mode = ilContainerSortingSettings::_lookupSortMode($this->obj_id);
 	 	
 	 	$query = "SELECT * FROM container_sorting ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ORDER BY position";

@@ -2365,7 +2365,7 @@ class ilContainerGUI extends ilObjectGUI
 	public function saveSortingObject()
 	{
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
-		$sorting = new ilContainerSorting($this->object->getId());
+		$sorting = ilContainerSorting::_getInstance($this->object->getId());
 		$sorting->savePost($_POST['position']);
 		ilUtil::sendInfo($this->lng->txt('sorting_saved',true));
 		$this->ctrl->returnToParent($this);

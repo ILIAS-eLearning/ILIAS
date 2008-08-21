@@ -574,7 +574,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 		// TODO: fix manual sorting 
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
-		$sort = new ilContainerSorting($a_parent_obj_id);
+		$sort = ilContainerSorting::_getInstance($a_parent_obj_id);
 		if($sort->isManualSortingEnabled())
 		{
 			$sorted = $sort->sortTreeData($a_nodes);
