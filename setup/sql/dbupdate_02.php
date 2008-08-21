@@ -5409,3 +5409,27 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 ?>
 
+<#1317>
+<?php
+
+$query = "SELECT obr.obj_id AS parent_id,ci.obj_id AS item_id,position FROM crs_items AS ci ".
+	"JOIN object_reference AS obr ON ci.parent_id = obr.ref_id ";
+$res = $ilDB->query($query);
+
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	
+	$query = "DELETE FROM container_sorting WHERE ".
+		"obj_id = ".$ilDB->quote($row->parent_id)." ".
+		"AND child_id = ".$ilDB->quote($row->item_id)." ";
+	$ilDB->query($query);
+	
+	$query = "INSERT INTO container_sorting ".
+		"SET obj_id = ".$ilDB->quote($row->parent_id).", ".
+		"parent_type = '', ".
+		"parent_id = 0, ".
+		"child_id = ".$ilDB->quote($row->item_id).", ".
+		"position = ".$ilDB->quote($row->position)." ";
+	$ilDB->query($query);
+}
+?>

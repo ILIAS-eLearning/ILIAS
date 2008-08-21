@@ -1098,7 +1098,6 @@ class ilObjCourse extends ilContainer
 			$this->setSubscriptionMaxMembers($row->subscription_max_members);
 			$this->setSubscriptionNotify($row->subscription_notify);
 			$this->setViewMode($row->view_mode);
-			$this->setOrderType($row->sortorder);
 			$this->setArchiveStart($row->archive_start);
 			$this->setArchiveEnd($row->archive_end);
 			$this->setArchiveType($row->archive_type);
