@@ -360,8 +360,6 @@ class ilObjFolderGUI extends ilContainerGUI
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		
-		$info->addObjectSections($this->object);
-
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}

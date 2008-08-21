@@ -572,12 +572,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$info->enableLearningProgress(true);
 
-		// BEGIN WebDAV: Display locking information
-		// BEGIN ChangeEvent: Display owner and file reads.
-		$info->addObjectSections($this->object);
-		// END WebDAV: Display locking information
-		// END ChangeEvent: Display owner and file reads.
-
 		// forward the command
 		$this->ctrl->forwardCommand($info);
 	}
