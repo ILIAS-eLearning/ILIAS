@@ -2527,13 +2527,16 @@ if ($result->numRows())
 		}
 		for ($i = 0; $i <= $row["tries"]; $i++)
 		{
-			$insert = sprintf("INSERT INTO tst_sequence (active_fi, pass, sequence, postponed, hidden) VALUES (%s, %s, %s, %s, NULL)",
-				$ilDB->quote($row["active_id"] . ""),
-				$ilDB->quote($i . ""),
-				$ilDB->quote(serialize($sequence_array)),
-				$postponed
-			);
-			$ilDB->query($insert);
+			if (($i < $row["tries"]) || ($i == 0))
+			{
+				$insert = sprintf("INSERT INTO tst_sequence (active_fi, pass, sequence, postponed, hidden) VALUES (%s, %s, %s, %s, NULL)",
+					$ilDB->quote($row["active_id"] . ""),
+					$ilDB->quote($i . ""),
+					$ilDB->quote(serialize($sequence_array)),
+					$postponed
+				);
+				$ilDB->query($insert);
+			}
 		}
 	}
 }
