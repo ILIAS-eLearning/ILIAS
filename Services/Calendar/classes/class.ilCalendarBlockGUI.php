@@ -399,9 +399,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
 		$events = $schedule->getChangedEvents();
 		
-		$link = '<a href='.$ilCtrl->getLinkTargetByClass('ilcalendarinboxgui','').'>';
+// These lines profuce an ERROR: Can't find target class ilcalendarinboxgui for node 23 (ilcalendarblockgui).
+// on personal desktop
+/*		$link = '<a href='.$ilCtrl->getLinkTargetByClass('ilcalendarinboxgui','').'>';
 		$text = '<div class="small">'.((int) count($events))." ".$lng->txt("cal_changed_events_header")."</div>";
-		$end_link = '</a>';
+		$end_link = '</a>';*/
 		
 		return $link.$text.$end_link;
 	}

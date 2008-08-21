@@ -285,7 +285,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 			$this->content_obj->setCharacteristic("Code");
 
-		$this->updated = $this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"])));
+		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
 
 		if ($this->updated !== true)
 		{

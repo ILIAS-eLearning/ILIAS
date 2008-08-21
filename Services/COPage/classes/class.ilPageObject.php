@@ -2314,8 +2314,8 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 			$content = str_replace("&amp;lt;", "&lt;", $content);
 			$content = str_replace("&amp;gt;", "&gt;", $content);
-			$content = str_replace("&", "&amp;", $content);					
-
+//			$content = str_replace("&", "&amp;", $content);					
+//var_dump($content);
 			$rows  	 = "<TR valign=\"top\">";
 			$rownumbers = "";
 			$linenumbers= "";
