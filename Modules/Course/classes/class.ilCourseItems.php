@@ -89,8 +89,7 @@ class ilCourseItems
 	 	$mappings = $cp_options->getMappings();
 	 	
 	 	$query = "SELECT * FROM crs_items WHERE ".
-	 		"parent_id = ".$this->ilDB->quote($this->getParentId())." ".
-	 		"ORDER BY position DESC";
+	 		"parent_id = ".$this->ilDB->quote($this->getParentId())." ";
 	 	$res = $this->ilDB->query($query);
 	 	
 	 	if(!$res->numRows())
@@ -132,7 +131,6 @@ class ilCourseItems
 	 		$new_items->setEarliestStart($row->earliest_start);
 	 		$new_items->setLatestEnd($row->latest_end);
 	 		$new_items->toggleVisible($row->visible);
-	 		$new_items->setPosition($row->position);
 	 		$new_items->update($new_item_id);
 			$ilLog->write(__METHOD__.': Added new entry for item nr. '.$row->obj_id);
 	 	}
@@ -484,8 +482,7 @@ class ilCourseItems
 			"latest_end = ".$ilDB->quote($this->getLatestEnd()).", ".
 			"visible = ".$ilDB->quote($this->enabledVisible()).", ".
 			"parent_id = ".$ilDB->quote($this->getParentId()).", ".
-			"obj_id = ".$ilDB->quote($this->getItemId()).", ".
-			"position = ".$this->ilDB->quote($this->position);
+			"obj_id = ".$ilDB->quote($this->getItemId())." ";
 		$ilLog->write(__METHOD__.': '.$query);	
 
 		$res = $this->ilDB->query($query);
@@ -518,14 +515,12 @@ class ilCourseItems
 
 	function moveUp($item_id)
 	{
-		$this->__updateTop($item_id);
 		$this->__read();
 		
 		return true;
 	}
 	function moveDown($item_id)
 	{
-		$this->__updateBottom($item_id);
 		$this->__read();
 
 		return true;
@@ -611,28 +606,6 @@ class ilCourseItems
 	{
 		global $ilDB;
 		
-		// READ POSITION
-		$query = "SELECT position FROM crs_items ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND parent_id = ".$ilDB->quote($this->getParentId())." ";
-
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$position = $row->position;
-		}
-
-		// UPDATE positions
-		$query = "UPDATE crs_items SET ".
-			"position = CASE ".
-			"WHEN position > ".$ilDB->quote($position)." ".
-			"THEN position - 1 ".
-			"ELSE position ".
-			"END ".
-			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ";
-
-		$res = $this->ilDB->query($query);
-
 		// DELETE ENTRY
 		$query = "DELETE FROM crs_items ".
 			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ".
@@ -667,7 +640,6 @@ class ilCourseItems
 			$a_item['latest_end']			= $row->latest_end ? $row->latest_end : 
 				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$a_item['visible']				= $row->visible;
-			$a_item["position"]				= $row->position;
 			
 			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 			$data = ilTimingPlaned::_getPlanedTimings($this->getUserId(),$a_item['child']);
@@ -720,7 +692,7 @@ class ilCourseItems
 			}
 		}
 
-		if(!isset($a_item["position"]))
+		if(!isset($a_item["timing_start"]))
 		{
 			$a_item = $this->createDefaultEntry($a_item);
 		}
@@ -736,14 +708,6 @@ class ilCourseItems
 		$a_item["timing_end"]		= time();
 		$a_item["suggestion_start"]		= time();
 		$a_item["suggestion_end"]		= time();
-		if ($objDefinition->isSideBlock($a_item["type"]))
-		{
-			$a_item["position"]				= 0;
-		}
-		else
-		{
-			$a_item["position"]				= $this->__getLastPosition() + 1;
-		}
 		$a_item['visible']				= 0;
 		$a_item['changeable']			= 0;
 		$a_item['earliest_start']		= time();
@@ -763,8 +727,7 @@ class ilCourseItems
 			$ilDB->quote($a_item["changeable"]).",".
 			$ilDB->quote($a_item['earliest_start']).", ".
 			$ilDB->quote($a_item['latest_end']).", ".
-			$ilDB->quote($a_item["visible"]).",".
-			$ilDB->quote($a_item["position"]).")";
+			$ilDB->quote($a_item["visible"]).")";
 
 		$res = $this->ilDB->query($query);
 
@@ -787,76 +750,7 @@ class ilCourseItems
 		return $max ? $max : 0;
 	}
 
-	function __updateTop($item_id)
-	{
-		global $ilDB;
-		
-		$query = "SELECT position,obj_id FROM crs_items ".
-			"WHERE obj_id = ".$ilDB->quote($item_id)." ".
-			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
 
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$node_a["position"] = $row->position;
-			$node_a["obj_id"]	  = $row->obj_id;
-		}
-
-		$query = "SELECT position, obj_id FROM crs_items ".
-			"WHERE position < ".$ilDB->quote($node_a["position"])." ".
-			"AND parent_id = ".$ilDB->quote($this->getParentId())." ".
-			"ORDER BY position DESC";
-
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if(!$this->__isMovable($row->obj_id))
-			{
-				continue;
-			}
-			$node_b["position"] = $row->position;
-			$node_b["obj_id"]	  = $row->obj_id;
-			break;
-		}
-		$this->__switchNodes($node_a,$node_b);
-		
-	}
-
-	function __updateBottom($item_id)
-	{
-		global $ilDB;
-		
-		$query = "SELECT position,obj_id FROM crs_items ".
-			"WHERE obj_id = ".$ilDB->quote($item_id)." ".
-			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
-
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$node_a["position"] = $row->position;
-			$node_a["obj_id"]	  = $row->obj_id;
-			break;
-		}
-		$query = "SELECT position ,obj_id FROM crs_items ".
-			"WHERE position > ".$ilDB->quote($node_a["position"])." ".
-			"AND parent_id = ".$ilDB->quote($this->getParentId())." ".
-			"ORDER BY position ASC";
-
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if(!$this->__isMovable($row->obj_id))
-			{
-				continue;
-			}
-			$node_b["position"] = $row->position;
-			$node_b["obj_id"]	  = $row->obj_id;
-			break;
-		}
-		$this->__switchNodes($node_a,$node_b);
-
-		return true;
-	}
 
 	function __isMovable($a_ref_id)
 	{
@@ -913,14 +807,6 @@ class ilCourseItems
 	{
 		switch($a_sort_mode)
 		{
-			case ilContainer::SORT_MANUAL:
-				return ilUtil::sortArray($a_items,"position","asc",true);
-				break;
-
-			case ilContainer::SORT_TITLE:
-				return ilUtil::sortArray($a_items,"title","asc");
-				break;
-
 			case ilContainer::SORT_ACTIVATION:
 				// Sort by starting time. If mode is IL_CRS_TIMINGS_DEACTIVATED then sort these items by title and append
 				// them to the array.
@@ -941,6 +827,9 @@ class ilCourseItems
 				
 				return array_merge($sorted_active,$sorted_inactive);
 				break;
+				
+			default:
+				return $a_items;
 		}
 		return true;
 		
@@ -951,14 +840,6 @@ class ilCourseItems
 	{
 		switch($this->course_obj->getOrderType())
 		{
-			case ilContainer::SORT_MANUAL:
-				$this->items = ilUtil::sortArray($this->items,"position","asc",true);
-				break;
-
-			case ilContainer::SORT_TITLE:
-				$this->items = ilUtil::sortArray($this->items,"title","asc");
-				break;
-
 			case ilContainer::SORT_ACTIVATION:
 				// Sort by starting time. If mode is IL_CRS_TIMINGS_DEACTIVATED then sort these items by title and append
 				// them to the array.
@@ -969,6 +850,9 @@ class ilCourseItems
 				
 				$this->items = array_merge($sorted_active,$sorted_inactive);
 				break;
+				
+			default:
+				return true;
 		}
 		return true;
 	}
@@ -1016,7 +900,6 @@ class ilCourseItems
 			$data['latest_end'] = $row->latest_end ? $row->latest_end : 
 				mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 			$data['visible'] = $row->visible;
-			$data['position'] = $row->position;
 
 
 			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';

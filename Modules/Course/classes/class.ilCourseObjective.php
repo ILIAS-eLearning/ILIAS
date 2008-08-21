@@ -248,8 +248,6 @@ class ilCourseObjective
 
 		$this->db->query($query);
 
-		$this->__updateTop();
-		
 		return true;
 	}
 
