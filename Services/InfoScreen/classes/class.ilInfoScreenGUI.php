@@ -781,8 +781,10 @@ class ilInfoScreenGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		// add object sections
-		$this->addObjectSections($this->object);
+		if(is_object($this->gui_object->object))
+		{
+			$this->addObjectSections();
+		}
 
                 // render all sections
 		for($i = 1; $i <= $this->sec_nr; $i++)

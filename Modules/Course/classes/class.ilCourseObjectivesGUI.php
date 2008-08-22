@@ -775,7 +775,7 @@ class ilCourseObjectivesGUI
 
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 
-		if((int) $_POST['limit'] <= 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getSelfAssessmentPoints())
+		if((int) $_POST['limit'] < 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getSelfAssessmentPoints())
 		{
 			ilUtil::sendInfo(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getSelfAssessmentPoints()));
 			$this->selfAssessmentLimits();
@@ -954,7 +954,7 @@ class ilCourseObjectivesGUI
 
 		$this->__initQuestionObject((int) $_GET['objective_id']);
 
-		if((int) $_POST['limit'] <= 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getFinalTestPoints())
+		if((int) $_POST['limit'] < 0 or (int) $_POST['limit'] > $this->objectives_qst_obj->getFinalTestPoints())
 		{
 			ilUtil::sendInfo(sprintf($this->lng->txt('crs_objective_err_limit'),0,$this->objectives_qst_obj->getFinalTestPoints()));
 			$this->finalTestLimits();

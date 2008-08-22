@@ -727,7 +727,8 @@ class ilCourseItems
 			$ilDB->quote($a_item["changeable"]).",".
 			$ilDB->quote($a_item['earliest_start']).", ".
 			$ilDB->quote($a_item['latest_end']).", ".
-			$ilDB->quote($a_item["visible"]).")";
+			$ilDB->quote($a_item["visible"]).", ".
+			$ilDB->quote(0).")";
 
 		$res = $this->ilDB->query($query);
 

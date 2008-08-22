@@ -257,6 +257,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		{
 			// all rows
 			$item_html = array();
+			
+			$position = 1;
 			foreach($this->items["_all"] as $k => $item_data)
 			{
 				if($a_mode == self::MATERIALS_TESTS and $item_data['type'] != 'tst')
@@ -269,7 +271,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 					$this->rendered_items[$item_data['child']] = true;
 					
 					// TODO: Position
-					$html = $this->renderItem($item_data,1,$a_mode == self::MATERIALS_TESTS ? false : true);
+					$html = $this->renderItem($item_data,$position++,$a_mode == self::MATERIALS_TESTS ? false : true);
 					if ($html != "")
 					{
 						$item_html[] = $html;
