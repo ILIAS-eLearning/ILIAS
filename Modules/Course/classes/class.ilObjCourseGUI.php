@@ -1370,11 +1370,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$sort = new ilRadioGroupInputGUI($this->lng->txt('crs_sortorder_abo'),'order_type');
 		$sort->setValue($this->object->getOrderType());
 		
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_manual'),ilContainer::SORT_MANUAL);
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_title'),ilContainer::SORT_TITLE);
 			$opt->setInfo($this->lng->txt('crs_sort_title_info'));
 			$sort->addOption($opt);
 			
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_title'),ilContainer::SORT_TITLE);
+			$opt = new ilRadioOption($this->lng->txt('crs_sort_manual'),ilContainer::SORT_MANUAL);
 			$opt->setInfo($this->lng->txt('crs_sort_manual_info'));
 			$sort->addOption($opt);
 
