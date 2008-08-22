@@ -29,7 +29,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_IsCalledBy ilNewsForContextBlockGUI: ilColumnGUI
+* @ilCtrl_Is+++CalledBy ilWikiSideBlockGUI: ilColumnGUI
 *
 * @ingroup ModulesWiki
 */

@@ -434,5 +434,45 @@ class ilObjWiki extends ilObject
 		return ilObjWiki::_lookup($a_wiki_id, "startpage");
 	}
 
+	/**
+	* Search in Wiki
+	*/
+	static function _performSearch($a_wiki_id, $a_searchterm)
+	{
+		// query parser
+		include_once 'Services/Search/classes/class.ilQueryParser.php';
+
+		$query_parser = new ilQueryParser($a_searchterm);
+		$query_parser->setCombination("or");
+		$query_parser->parse();
+
+		include_once 'Services/Search/classes/class.ilSearchResult.php';
+		$search_result = new ilSearchResult();
+		if($query_parser->validate())
+		{
+
+			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+			$wiki_search =& ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
+			$wiki_search->setFilter(array('wpg'));
+			$search_result->mergeEntries($wiki_search->performSearch());
+		}
+		
+		$entries = $search_result->getEntries();
+		
+		$found_pages = array();
+		foreach($entries as $entry)
+		{
+			if ($entry["obj_id"] == $a_wiki_id && is_array($entry["child"]))
+			{
+				foreach($entry["child"] as $child)
+				{
+					$found_pages[] = $child;
+				}
+			}
+		}
+
+		return $found_pages;
+	}
+	
 } // END class.ilObjWiki
 ?>

@@ -144,7 +144,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		include_once("./Modules/Wiki/classes/class.ilWikiSideBlockGUI.php");
 		$wiki_side_block = new ilWikiSideBlockGUI();
 		$wiki_side_block->setPageObject($this->getWikiPage());
-		$tpl->setRightContent($wiki_side_block->getHTML());
+		
+		// search block
+		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
+		$wiki_search_block = new ilWikiSearchBlockGUI();
+		$rcontent = $wiki_side_block->getHTML().$wiki_search_block->getHTML();
+
+		$tpl->setRightContent($rcontent);
 	}
 
 	function preview()

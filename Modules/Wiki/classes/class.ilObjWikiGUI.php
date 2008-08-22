@@ -899,7 +899,12 @@ class ilObjWikiGUI extends ilObjectGUI
 			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 			$wiki_side_block->setPageObject(new ilWikiPage($a_wpg_id));
 		}
-		$tpl->setRightContent($wiki_side_block->getHTML());
+
+		// search block
+		include_once("./Modules/Wiki/classes/class.ilWikiSearchBlockGUI.php");
+		$wiki_search_block = new ilWikiSearchBlockGUI();
+		$rcontent = $wiki_side_block->getHTML().$wiki_search_block->getHTML();
+		$tpl->setRightContent($rcontent);
 	}
 
 	/**
@@ -939,6 +944,26 @@ class ilObjWikiGUI extends ilObjectGUI
 		$tpl->setVariable("CONTENT", $page_content);
 		$tpl->show(false);
 		exit;
+	}
+
+	/**
+	* Search
+	*/
+	function performSearchObject()
+	{
+		global $tpl, $ilTabs;
+		
+		include_once("./Modules/Wiki/classes/class.ilWikiSearchResultsTableGUI.php");
+		
+		$ilTabs->setTabActive("wiki_search_results");
+		
+		$search_results = ilObjWiki::_performSearch($this->object->getId(),
+			ilUtil::stripSlashes($_POST["search_term"]));
+		$table_gui = new ilWikiSearchResultsTableGUI($this, "performSearch",
+			$this->object->getId(), $search_results);
+			
+		$this->setSideBlock();
+		$tpl->setContent($table_gui->getHTML());
 	}
 
 }
