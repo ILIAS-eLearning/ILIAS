@@ -924,6 +924,11 @@ class assQuestionGUI
 	{
 		$this->errormessage = $errormessage;
 	}
+
+	function addErrorMessage($errormessage)
+	{
+		$this->errormessage .= ((strlen($this->errormessage)) ? "<br />" : "") . $errormessage;
+	}
 	
 	function outAdditionalOutput()
 	{
