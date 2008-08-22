@@ -274,8 +274,8 @@ class ilCourseObjectiveQuestion
 		$query = "UPDATE crs_objective_tst ".
 			"SET tst_status = ".$ilDB->quote($this->getTestStatus()).", ".
 			"tst_limit = ".$ilDB->quote($this->getTestSuggestedLimit())." ".
-			"WHERE test_objective_id = ".$ilDB->quote($a_test_objective_id)."";
-	
+			"WHERE test_objective_id = ".$ilDB->quote($a_objective_id)."";
+			
 		$this->db->query($query);
 
 		return true;
