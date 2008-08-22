@@ -99,8 +99,9 @@ class ilCalendarHeaderNavigationGUI
 					}
 					break;
 			}
-			$this->ctrl->setParameter($this->cmdClass,'seed',$this->seed->get(IL_CAL_DATE));
+			$this->ctrl->setParameterByClass(get_class($this->cmdClass),'seed',$this->seed->get(IL_CAL_DATE));
 			$this->tpl->setVariable('NAV_LINK_'.$num,$this->ctrl->getLinkTarget($this->cmdClass,''));
+			$this->ctrl->clearParametersByClass(get_class($this->cmdClass));
 			$this->seed->increment($this->increment,1);
 		} while($num < 6);
 	 	

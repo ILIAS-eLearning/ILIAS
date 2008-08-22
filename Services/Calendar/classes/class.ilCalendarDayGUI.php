@@ -150,6 +150,7 @@ class ilCalendarDayGUI
 		foreach($hours as $numeric => $hour)
 		{
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',$numeric);
 			$this->tpl->setVariable('NEW_APP_HOUR_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 
@@ -185,6 +186,7 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 		
@@ -208,6 +210,7 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 		
@@ -261,17 +264,20 @@ class ilCalendarDayGUI
 			{
 				$end = 23;
 			}
+			elseif($app['start_info']['hours'] == $app['end_info']['hours'])
+			{
+				$end = $start +1;
+			}
 			else
 			{
 				$end = $app['end_info']['hours'];
 			}
-			
 			$first = true;
-			for($i = $start;$i <= $end;$i++)
+			for($i = $start;$i < $end;$i++)
 			{
 				if($first)
 				{
-					$app['rowspan'] = $end - $start + 1;
+					$app['rowspan'] = $end - $start;
 					$hours[$i]['apps_start'][] = $app;
 					$first = false;
 				}

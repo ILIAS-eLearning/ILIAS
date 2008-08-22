@@ -314,17 +314,22 @@ class ilCalendarWeekGUI
 			{
 				$end = 23;
 			}
+			elseif($app['start_info']['hours'] == $app['end_info']['hours'])
+			{
+				$end = $start +1;
+			}
+			
 			else
 			{
 				$end = $app['end_info']['hours'];
 			}
 			
 			$first = true;
-			for($i = $start;$i <= $end;$i++)
+			for($i = $start;$i < $end;$i++)
 			{
 				if($first)
 				{
-					$app['rowspan'] = $end - $start + 1;
+					$app['rowspan'] = $end - $start;
 					$hours[$i][$num_day]['apps_start'][] = $app;
 					$first = false;
 				}

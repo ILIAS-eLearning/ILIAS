@@ -162,6 +162,18 @@ class ilObjTestListGUI extends ilObjectListGUI
 		return $cmd_link;
 	}
 	
+	/**
+	 * overwritten from base class for course objectives
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function createDefaultCommand($a_command)
+	{
+		return $a_command;
+	}
+	
 
 	/**
 	 * add command link parameters
