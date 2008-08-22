@@ -1518,6 +1518,11 @@ label, input[type=checkbox], input[type=radio], select
 	cursor:pointer;
 }
 
+input[type=text].numeric
+{
+	text-align: right;
+}
+
 input[type=checkbox], input[type=radio]
 {
 	border-style: none;
