@@ -254,7 +254,7 @@ class ilTestEvaluationData
 				switch ($this->filterby)
 				{
 					case "name":
-						if (strpos(strtolower($participant->getName()), strtolower($this->filtertext)) !== FALSE) $remove = TRUE;
+						if (!(strpos(strtolower($participant->getName()), strtolower($this->filtertext)) !== FALSE)) $remove = TRUE;
 						break;
 					case "group":
 						$groups = $this->getMembershipByType($participant->getUserID(), "grp");

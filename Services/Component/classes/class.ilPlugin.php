@@ -473,6 +473,16 @@ abstract class ilPlugin
 	}
 
 	/**
+	* Get css file location
+	*/
+	public final function getStyleSheetLocation($a_template, $a_par1 = true, $a_par2 = true)
+	{
+		$tpl = new ilTemplate($this->getDirectory()."/templates/".$a_template, $a_par1, $a_par2);
+		
+		return $tpl;
+	}
+
+	/**
 	* Add template content to placeholder variable
 	*/
 	public final function addBlockFile($a_tpl, $a_var, $a_block, $a_tplname)
