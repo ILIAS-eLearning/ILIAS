@@ -280,25 +280,32 @@ class ilObjRole extends ilObject
 		
 		if ($rbacreview->isAssignable($this->getId(),$this->getParent()))
 		{
-			// do not delete role if this role is the last role a user is assigned to
-
-			// first fetch all users assigned to role
-//echo "<br>role id:".$this->getId().":";
-			$user_ids = $rbacreview->assignedUsers($this->getId());
-
+			// do not delete a global role, if the role is the last 
+			// role a user is assigned to.
+			//
+			// Performance improvement: In the code section below, we
+			// only need to consider _global_ roles. We don't need
+                        // to check for _local_ roles, because a user who has
+                        // a local role _always_ has a global role too.
 			$last_role_user_ids = array();
-
-			foreach ($user_ids as $user_id)
+			if ($this->getParent() == ROLE_FOLDER_ID)
 			{
-//echo "<br>user id:".$user_id.":";
-				// get all roles each user has
-				$role_ids = $rbacreview->assignedRoles($user_id);
-				
-				// is last role?
-				if (count($role_ids) == 1)
+				// The role is a global role: check if 
+				// we find users who aren't assigned to any
+				// other global role than this one.
+				$user_ids = $rbacreview->assignedUsers($this->getId());
+
+				foreach ($user_ids as $user_id)
 				{
-					$last_role_user_ids[] = $user_id;
-				}			
+					// get all roles each user has
+					$role_ids = $rbacreview->assignedRoles($user_id);
+				
+					// is last role?
+					if (count($role_ids) == 1)
+					{
+						$last_role_user_ids[] = $user_id;
+					}			
+				}
 			}
 			
 			// users with last role found?
@@ -349,6 +356,24 @@ class ilObjRole extends ilObject
 		}
 
 		//  purge empty rolefolders
+		//
+		// Performance improvement: We filter out all role folders
+		// which still contain roles, _before_ we attempt to purge them.
+                // This is faster than attempting to purge all role folders,
+                // and let function purge() of the role folder find out, if
+                // purging is possible.
+		$q = "SELECT DISTINCT parent FROM rbac_fa ".
+			 "WHERE parent IN (".implode(',',$role_folders).")";
+
+		$r = $ilDB->query($q);
+		$non_empty_role_folders = array();
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$non_empty_role_folders[] = $row->parent;
+		}
+		$role_folders = array_diff($role_folders,$non_empty_role_folders);                
+                
+                // Attempt to purge the role folders
 		foreach ($role_folders as $rolf)
 		{
 			if (ilObject::_exists($rolf,true))
