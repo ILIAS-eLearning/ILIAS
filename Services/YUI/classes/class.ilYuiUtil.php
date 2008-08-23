@@ -54,6 +54,16 @@ class ilYuiUtil
 	}
 	
 	/**
+	* Init YUI DomEvent
+	*/
+	static function initDomEvent()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
+	}
+	
+	/**
 	 * Init yui panel
 	 *
 	 * @access public
@@ -132,6 +142,54 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dragdrop/dragdrop.js");
 		$tpl->addCss("./Services/YUI/js/2_5_0/container/assets/container.css");
 		$tpl->addCss("./Services/YUI/templates/default/tpl.simpledialog.css");
+	}
+	
+	/**
+	* init drag & drop list
+	*/
+	static function initDragDropList()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/animation/animation-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js");
+		$tpl->addCss("./Services/YUI/templates/default/DragDropList.css");
+	}
+	
+	/**
+	* get a drag & drop list
+	*/
+	static function getDragDropList($id_source, $title_source, $source, $id_dest, $title_dest, $dest)
+	{
+		ilYuiUtil::initDragDropList();
+		
+		$template = new ilTemplate("tpl.dragdroplist.html", TRUE, TRUE, "Services/YUI");
+		foreach ($source as $id => $name)
+		{
+			$template->setCurrentBlock("source_element");
+			$template->setVariable("ELEMENT_ID", $id);
+			$template->setVariable("ELEMENT_NAME", $name);
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("element");
+			$template->setVariable("ELEMENT_ID", $id);
+			$template->parseCurrentBlock();
+		}
+		foreach ($dest as $id => $name)
+		{
+			$template->setCurrentBlock("dest_element");
+			$template->setVariable("ELEMENT_ID", $id);
+			$template->setVariable("ELEMENT_NAME", $name);
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("element");
+			$template->setVariable("ELEMENT_ID", $id);
+			$template->parseCurrentBlock();
+		}
+		$template->setVariable("TITLE_LIST_1", $title_source);
+		$template->setVariable("TITLE_LIST_2", $title_dest);
+		$template->setVariable("LIST_1", $id_source);
+		$template->setVariable("LIST_2", $id_dest);
+		return $template->get();
 	}
 	
 	static function addYesNoDialog($dialogname, $headertext, $message, $yesaction, $noaction, $defaultyes, $icon = "help")
