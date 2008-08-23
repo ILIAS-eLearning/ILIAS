@@ -672,7 +672,6 @@ class assQuestionGUI
 		$this->tpl->setVariable("EXPLORER_TREE",$exp->getOutput());
 		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
 	}
 	
 	function removeSuggestedSolution()
