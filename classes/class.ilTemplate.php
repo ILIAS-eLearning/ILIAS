@@ -112,7 +112,10 @@ class ilTemplate extends ilTemplateX
 		$this->vars["TPLPATH"] = $this->tplPath;
 		
 		// set Options
-		$this->setOption('use_preg', false);
+		if (method_exists($this, "setOption"))
+		{
+			$this->setOption('use_preg', false);
+		}
 
 		return true;
 	}

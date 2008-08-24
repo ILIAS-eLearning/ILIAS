@@ -97,9 +97,17 @@ class ilInitialisation
 		require_once "Auth/Auth.php";
 
 		// HTML_Template_IT support
+		// (location changed with 4.3.2 & higher)
 		@include_once "HTML/ITX.php";
-		include_once "HTML/Template/ITX.php";
-		include_once "classes/class.ilTemplateHTMLITX.php";
+		if (!class_exists("IntegratedTemplateExtension"))
+		{
+			include_once "HTML/Template/ITX.php";
+			include_once "classes/class.ilTemplateHTMLITX.php";
+		}
+		else
+		{
+			include_once "classes/class.ilTemplateITX.php";
+		}
 		require_once "classes/class.ilTemplate.php";
 
 		//include classes and function libraries
