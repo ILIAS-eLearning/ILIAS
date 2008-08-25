@@ -1709,9 +1709,43 @@ class ilContainerGUI extends ilObjectGUI
 				if ($oldNode_data['parent'] == $this->object->getRefId())
 				{
 					// If the object is copied into the same folder,
-					// add 'copy of ...' to the object title to make it
+					// add a suffix to the object title to make it
 					// distinguishable from the original object.
-					$newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, $lng->txt('copy_of').' '.$oldNode_data['title']);
+					require_once './Modules/File/classes/class.ilObjFileAccess.php';
+					$extension = ilObjFileAccess::_getFileExtension($oldNode_data['title']);
+					if (strlen($extension) > 0)
+					{
+						$extension = '.'.$extension;
+						$pureName = substr($oldNode_data['title'], 0, -strlen($extension));
+					}
+					else
+					{
+						$pureName = $oldNode_data['title'];
+					}
+
+					// create a regular expression from the language text copy_n_of_suffix, so that
+					// we can match it against $pureName, and retrieve the number of the copy.
+					// for example, if copy_n_of_suffix is 'Copy (%1s)', this creates the regular
+					// expression '/ Copy \\([0-9]+)\\)$/'.
+					$nthCopyRegex = preg_replace('/([\^$.\[\]|()?*+{}])/','\\\\${1}', $lng->txt('copy_n_of_suffix'));
+					$nthCopyRegex = '/'.preg_replace('/%1\\\\\$s/', '([0-9]+)', $nthCopyRegex).'$/';
+					$matches = array();
+					if (preg_match($nthCopyRegex, $pureName, $matches))
+					{
+						// this is at least the third copy of this object, append the suffix copy_n_of_suffix, with n=the number of the copy+1
+						$newTitle = substr($pureName, 0, -strlen($matches[0])).sprintf($lng->txt('copy_n_of_suffix'),$matches[1]+1);
+					}
+					else if (substr($pureName,-strlen($lng->txt('copy_of_suffix'))) == $lng->txt('copy_of_suffix'))
+					{
+						// this is the second copy of this object, append the suffix copy_n_of_suffix, with n=2
+						$newTitle = substr($pureName, 0, -strlen($lng->txt('copy_of_suffix'))).sprintf($lng->txt('copy_n_of_suffix'),'2');
+					}
+					else
+					{
+						// this is the first copy of this object, append the suffix copy_of_suffix
+						$newTitle = $pureName.' '.$lng->txt('copy_of_suffix').$extension;
+					}
+					$newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, $newTitle);
 				}
 				else
 				{

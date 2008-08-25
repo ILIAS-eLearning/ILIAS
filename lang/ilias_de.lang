@@ -1691,6 +1691,8 @@ common#:#cookies_howto#:#So aktivieren Sie Cookies
 common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
 common#:#copy_all#:#Alle kopieren
 common#:#copy_of#:#Kopie von
+common#:#copy_of_suffix#:#- Kopie
+common#:#copy_n_of_suffix#:#- Kopie (%1$s)
 common#:#copy_to#:#nach
 common#:#copy#:#Kopieren
 common#:#copyChapter#:#Kopieren
