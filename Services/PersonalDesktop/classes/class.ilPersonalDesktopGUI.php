@@ -560,14 +560,6 @@ class ilPersonalDesktopGUI
 					$this->lng->txt("news"));
 			}
 
-			// user calendar
-			if ($this->ilias->getSetting("enable_calendar"))
-			{
-				$inc_type = ($script_name == "dateplaner.php")
-				? "tabactive"
-				: "tabinactive";
-				$inhalt1[] = array($inc_type,"dateplaner.php",$this->lng->txt("calendar"));
-			}
 			// new calendar			
 			include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 			$settings = ilCalendarSettings::_getInstance();
