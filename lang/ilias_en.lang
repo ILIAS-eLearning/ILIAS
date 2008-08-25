@@ -1904,6 +1904,8 @@ common#:#copy#:#Copy
 common#:#copyChapter#:#Copy
 common#:#copyPage#:#Copy
 common#:#copy_of#:#Copy of
+common#:#copy_of_suffix#:#- Copy
+common#:#copy_n_of_suffix#:#- Copy (%1$s)
 common#:#copy_to#:#to
 common#:#could_not_verify_account#:#Sorry, we could not verify your account. Please contact the system administrator.
 common#:#count#:#Count
