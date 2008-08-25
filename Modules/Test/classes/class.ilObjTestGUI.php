@@ -2241,7 +2241,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$filtermenu->setCurrentBlock("menuitem");
 			$filtermenu->setVariable("VALUE_QUESTION_TYPE", $value["type_tag"]);
-			$filtermenu->setVariable("ITEM_TEXT", $this->lng->txt($value["type_tag"]));
+			$filtermenu->setVariable("ITEM_TEXT", $key);
 			$this->ctrl->setParameter($this, "sel_question_type", $value["type_tag"]);
 			$filtermenu->setVariable("ITEM_URL", $this->ctrl->getLinkTarget($this, "browseForQuestions"));
 			$filtermenu->parseCurrentBlock();

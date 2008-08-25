@@ -1669,9 +1669,11 @@ class ilObjQuestionPool extends ilObject
 		{
 			if ($all_tags || (!in_array($row["question_type_id"], $forbidden_types)))
 			{
+				global $ilLog;
+				
 				if ($row["plugin"] == 0)
 				{
-				$types[$lng->txt($row["type_tag"])] = $row;
+					$types[$lng->txt($row["type_tag"])] = $row;
 				}
 				else
 				{
