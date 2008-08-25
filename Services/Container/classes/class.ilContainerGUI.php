@@ -1613,7 +1613,7 @@ class ilContainerGUI extends ilObjectGUI
 	function pasteObject()
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $log,$tree;
-		global $ilUser;
+		global $ilUser, $lng;
 
 		// BEGIN ChangeEvent: Record paste event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -1704,12 +1704,24 @@ class ilContainerGUI extends ilObjectGUI
 			foreach($ref_ids as $ref_id)
 			{
 				$revIdMapping = array(); 
-				$newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, null);
+                                
+				$oldNode_data = $tree->getNodeData($ref_id);
+				if ($oldNode_data['parent'] == $this->object->getRefId())
+				{
+					// If the object is copied into the same folder,
+					// add 'copy of ...' to the object title to make it
+					// distinguishable from the original object.
+					$newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, $lng->txt('copy_of').' '.$oldNode_data['title']);
+				}
+				else
+				{
+					$newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, null);
+				}
+
 
 				// BEGIN ChangeEvent: Record copy event.
 				if (ilChangeEvent::_isActive() )
 				{
-					$oldNode_data = $tree->getNodeData($ref_id);
 					$old_parent_data = $tree->getParentNodeData($ref_id);
 					$newNode_data = $tree->getNodeData($newRef);
 					ilChangeEvent::_recordReadEvent($oldNode_data['obj_id'], $ilUser->getId());
@@ -1890,7 +1902,7 @@ class ilContainerGUI extends ilObjectGUI
 		// BEGIN WebDAV: Support a copy command in repository
 		else if ($last_cmd == "copy")
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_copied"),true);
+			ilUtil::sendInfo($this->lng->txt("msg_cloned"),true);
 		}
 		else if ($last_command == 'link')
 		// END WebDAV: Support copy command in repository
@@ -2400,7 +2412,7 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			$newObj =& $ilias->obj_factory->getInstanceByRefId($newRef);
 			$newObj->setTitle($newName);
-			$newObj->write();
+			$newObj->update();
 			unset($newObj);
 		}
 		unset($srcObj);
