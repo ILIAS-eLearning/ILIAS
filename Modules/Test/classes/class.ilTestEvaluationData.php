@@ -114,7 +114,7 @@ class ilTestEvaluationData
 			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_test_pass_result.active_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY active_id, pass, TIMESTAMP",
+			"ORDER BY usr_data.lastname, usr_data.firstname, active_id, pass, TIMESTAMP",
 			$ilDB->quote($this->getTest()->getTestId() . "")
 		);
 		$ilLog->write($query);
