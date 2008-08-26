@@ -131,5 +131,44 @@
 	{
 		autosave('{AUTOSAVE_URL}');
 	}
+	function saveTextarea(editor)
+	{
+		document.forms["taForm"].submit();
+	}
+	function charCounter(e)
+	{
+		if(e.type == 'keyup')
+		{
+			content = tinyMCE.selectedInstance.getDoc().body.innerHTML;
+			content = content.replace(/&lt;/ig, "<");
+			content = content.replace(/&gt;/ig, ">");
+			stripped = content.replace(/(<([^>]+)>)/ig,"");
+			counterblock = YAHOO.util.Dom.get("charcounter");
+			if (counterblock != null)
+			{
+				counterblock.style.visibility = 'visible';
+				counter = YAHOO.util.Dom.get("myCounter");
+				if (maxL > 0) counter.value = maxL - stripped.length;
+			}
+			
+		}
+	}
+	
+	function initCharCounter()
+	{
+		content = YAHOO.util.Dom.get("TEXT").innerHTML;
+		content = content.replace(/&lt;/ig, "<");
+		content = content.replace(/&gt;/ig, ">");
+		stripped = content.replace(/(<([^>]+)>)/ig,"");
+		counterblock = YAHOO.util.Dom.get("charcounter");
+		if (counterblock != null)
+		{
+			counterblock.style.visibility = 'visible';
+			counter = YAHOO.util.Dom.get("myCounter");
+			if (maxL > 0) counter.value = maxL - stripped.length;
+		}
+	}
+	
+	YAHOO.util.Event.onDOMReady(initCharCounter);
 </script>
 <div id="autosavemessage" style="font-style: italic; border: 1px #666 solid; background-color: #ffffe0; position: fixed; right: 0; top: 0;"></div>

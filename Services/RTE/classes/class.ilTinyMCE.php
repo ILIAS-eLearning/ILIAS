@@ -214,6 +214,45 @@ class ilTinyMCE extends ilRTE
 	}
 	
 	/**
+	* Adds custom support for an RTE in an ILIAS form
+	*
+	* Adds custom support for an RTE in an ILIAS form
+	*
+	* @param string $editor_selector CSS class of the text input field(s)
+	* @access public
+	*/
+	function addUserTextEditor($editor_selector)
+	{
+		$tags = array("strong","em");
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.usereditor.html", true, true, "Services/RTE");
+		$template->setCurrentBlock("tinymce");
+		$template->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
+		include_once "./classes/class.ilObject.php";
+		$template->setVariable("SELECTOR", $editor_selector);
+		$template->setVariable("BLOCKFORMATS", "");
+		$template->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
+		$more_buttons = "";
+		if (count($this->buttons) > 0)
+		{
+			$more_buttons = ",separator," . join(",", $this->buttons);
+		}
+		if ($this->getStyleSelect())
+		{
+			$template->setVariable("STYLE_SELECT", ",styleselect");
+		}
+		$template->setVariable("BUTTONS", $this->_buildButtonsFromHTMLTags($tags) . ",backcolor");
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		//$template->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
+		$template->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
+		$template->setVariable("LANG", $this->_getEditorLanguage());
+		$template->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("HeadContent");
+		$this->tpl->setVariable("CONTENT_BLOCK", $template->get());
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
 	* Set Enable Style Selecttion.
 	*
 	* @param	boolean	$a_styleselect	Enable Style Selecttion
@@ -392,6 +431,111 @@ class ilTinyMCE extends ilRTE
 		array_push($theme_advanced_buttons, "separator");
 		array_push($theme_advanced_buttons, "undo");
 		array_push($theme_advanced_buttons, "redo");
+		if (is_array($remove_buttons))
+		{
+			foreach ($remove_buttons as $buttontext)
+			{
+				if (($res = array_search($buttontext, $theme_advanced_buttons)) !== FALSE)
+				{
+					unset($theme_advanced_buttons[$res]);
+				}
+			}
+		}
+		return join(",", $theme_advanced_buttons);
+	}
+	
+	function _buildButtonsFromHTMLTags($a_html_tags, $remove_buttons = "")
+	{
+		$theme_advanced_buttons = array();
+		if (in_array("strong", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "bold");
+		}
+		if (in_array("em", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "italic");
+		}
+		if (in_array("u", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "underline");
+		}
+		if (in_array("strike", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "strikethrough");
+		}
+		if (in_array("p", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "justifyleft");
+			array_push($theme_advanced_buttons, "justifycenter");
+			array_push($theme_advanced_buttons, "justifyright");
+			array_push($theme_advanced_buttons, "justifyfull");
+		}
+		if (strlen(ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($a_html_tags)))
+		{
+			array_push($theme_advanced_buttons, "formatselect");
+		}
+		if (in_array("hr", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "hr");
+		}
+		if (in_array("sub", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "sub");
+		}
+		if (in_array("sup", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "sup");
+		}
+		if (in_array("font", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "fontselect");
+			array_push($theme_advanced_buttons, "fontsizeselect");
+		}
+		if ((in_array("ol", $a_html_tags)) && (in_array("li", $a_html_tags)))
+		{
+			array_push($theme_advanced_buttons, "bullist");
+		}
+		if ((in_array("ul", $a_html_tags)) && (in_array("li", $a_html_tags)))
+		{
+			array_push($theme_advanced_buttons, "numlist");
+		}
+		if (in_array("cite", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "cite");
+		}
+		if (in_array("abbr", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "abbr");
+		}
+		if (in_array("acronym", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "acronym");
+		}
+		if (in_array("del", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "del");
+		}
+		if (in_array("ins", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "ins");
+		}
+		if (in_array("blockquote", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "indent");
+			array_push($theme_advanced_buttons, "outdent");
+		}
+		if (in_array("img", $a_html_tags))
+		{
+			//array_push($theme_advanced_buttons, "advimage");
+			array_push($theme_advanced_buttons, "image");
+			array_push($theme_advanced_buttons, "ibrowser");
+		}
+		if (in_array("a", $a_html_tags))
+		{
+			array_push($theme_advanced_buttons, "link");
+			array_push($theme_advanced_buttons, "unlink");
+			array_push($theme_advanced_buttons, "anchor");
+		}
 		if (is_array($remove_buttons))
 		{
 			foreach ($remove_buttons as $buttontext)
