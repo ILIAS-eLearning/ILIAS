@@ -5573,6 +5573,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "exportCertificate":
 			case "finishListOfAnswers":
 			case "backConfirmFinish":
+			case "showFinalStatement":
 				return;
 				break;
 			case "browseForQuestions":
