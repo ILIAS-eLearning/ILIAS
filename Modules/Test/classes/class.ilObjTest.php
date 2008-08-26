@@ -4838,7 +4838,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY active_id, pass, TIMESTAMP",
+			"ORDER BY usr_data.lastname, usr_data.firstname, active_id, pass, TIMESTAMP",
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$ilLog->write($query);
