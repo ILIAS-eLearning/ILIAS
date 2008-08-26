@@ -4829,16 +4829,14 @@ function loadQuestions($active_id = "", $pass = NULL)
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-		$data = new ilTestEvaluationData();
-		$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-			"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
+		$data = new ilTestEvaluationData($this);
+		$query = sprintf("SELECT tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
 			"qpl_questions.points AS maxpoints " .
 			"FROM tst_test_result, qpl_questions, tst_active " .
-			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
 			"WHERE tst_active.active_id = tst_test_result.active_fi " .
 			"AND qpl_questions.question_id = tst_test_result.question_fi " .
 			"AND tst_active.test_fi = %s " .
-			"ORDER BY usr_data.lastname, usr_data.firstname, active_id, pass, TIMESTAMP",
+			"ORDER BY active_id, pass, TIMESTAMP",
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$ilLog->write($query);
@@ -4848,24 +4846,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$datasets = 0;
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$datasets++;
-			$remove = FALSE;
-			if (!$data->participantExists($row["active_fi"]))
-			{
-				$data->addParticipant($row["active_fi"], new ilTestEvaluationUserData($this->getPassScoring()));
-				$data->getParticipant($row["active_fi"])->setName($this->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"]));
-				$data->getParticipant($row["active_fi"])->setLogin($row["login"]);
-				$data->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
-			}
-			if (!is_object($data->getParticipant($row["active_fi"])->getPass($row["pass"])))
-			{
-				$pass = new ilTestEvaluationPassData();
-				$pass->setPass($row["pass"]);
-				$data->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
-			}
 			$data->getParticipant($row["active_fi"])->getPass($row["pass"])->addAnsweredQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["maxpoints"], $row["points"]);
 		}
-		$data->setDatasets($datasets);
 
 		foreach (array_keys($data->getParticipants()) as $active_id)
 		{
@@ -4930,19 +4912,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 
-		$workingTimes =& $this->getCompleteWorkingTimeOfParticipants();
-
 		foreach (array_keys($data->getParticipants()) as $active_id)
 		{
-			$tpass = 0;
-			if ($this->getPassScoring() == SCORE_BEST_PASS)
-			{
-				$tpass = $data->getParticipant($active_id)->getBestPass();
-			}
-			else
-			{
-				$tpass = $data->getParticipant($active_id)->getLastPass();
-			}
 			$percentage = $data->getParticipant($active_id)->getReachedPointsInPercent();
 			$mark = $this->mark_schema->getMatchingMark($percentage);
 			if (is_object($mark))
@@ -4957,7 +4928,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$ects_mark = $this->getECTSGrade($data->getParticipant($active_id)->getReached(), $data->getParticipant($active_id)->getMaxPoints());
 				$data->getParticipant($active_id)->setECTSMark($ects_mark);
 			}
-			$data->getParticipant($active_id)->setTimeOfWork($workingTimes[$active_id]);
 			$visitingTime =& $this->getVisitTimeOfParticipant($active_id);
 			$data->getParticipant($active_id)->setFirstVisit($visitingTime["firstvisit"]);
 			$data->getParticipant($active_id)->setLastVisit($visitingTime["lastvisit"]);
@@ -5012,201 +4982,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$data->calculateStatistics();
 		}
 		$data->setFilter($filterby, $filtertext);
-		return $data;
-	}
-	
-	function &_getCompleteEvaluationData($test_id, $withStatistics = TRUE, $active_id = "")
-	{
-		global $ilDB;
-
-		$testquery = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-			$ilDB->quote($test_id . "")
-		);
-		$testres = $ilDB->query($testquery);
-		$testdata = array();
-		if ($testres->numRows())
-		{
-			$testdata = $testres->fetchRow(MDB2_FETCHMODE_ASSOC);
-		}
-		
-		include_once "./Modules/Test/classes/class.assMarkSchema.php";
-		$mark_schema = new ASS_MarkSchema();
-		$mark_schema->loadFromDb($test_id);
-
-		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
-		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-		if ($active_id > 0) $withStatistics = FALSE;
-		$data = new ilTestEvaluationData();
-		
-		if ($active_id > 0)
-		{
-			$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-				"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
-				"qpl_questions.points AS maxpoints " .
-				"FROM tst_test_result, qpl_questions, tst_active " .
-				"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
-				"WHERE tst_active.active_id = tst_test_result.active_fi " .
-				"AND qpl_questions.question_id = tst_test_result.question_fi " .
-				"AND tst_active.test_fi = %s AND tst_active.active_id = %s" .
-				"ORDER BY active_id, pass, TIMESTAMP",
-				$ilDB->quote($test_id . ""),
-				$ilDB->quote($active_id . "")
-			);
-		}
-		else
-		{
-			$query = sprintf("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-				"tst_test_result.*, qpl_questions.original_id, qpl_questions.title AS questiontitle, " .
-				"qpl_questions.points AS maxpoints " .
-				"FROM tst_test_result, qpl_questions, tst_active " .
-				"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
-				"WHERE tst_active.active_id = tst_test_result.active_fi " .
-				"AND qpl_questions.question_id = tst_test_result.question_fi " .
-				"AND tst_active.test_fi = %s " .
-				"ORDER BY active_id, pass, TIMESTAMP",
-				$ilDB->quote($test_id . "")
-			);
-		}
-		$result = $ilDB->query($query);
-		$pass = NULL;
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			if (!$data->participantExists($row["active_fi"]))
-			{
-				$data->addParticipant($row["active_fi"], new ilTestEvaluationUserData($testdata["pass_scoring"]));
-				$data->getParticipant($row["active_fi"])->setName(ilObjTest::_buildName($testdata["anonymity"], $row["usr_id"], $row["firstname"], $row["lastname"], $row["title"]));
-				$data->getParticipant($row["active_fi"])->setLogin($row["login"]);
-				$data->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
-			}
-			if (!is_object($data->getParticipant($row["active_fi"])->getPass($row["pass"])))
-			{
-				$pass = new ilTestEvaluationPassData();
-				$pass->setPass($row["pass"]);
-				$data->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
-			}
-			$data->getParticipant($row["active_fi"])->getPass($row["pass"])->addAnsweredQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["maxpoints"], $row["points"]);
-		}
-
-		foreach (array_keys($data->getParticipants()) as $active_id)
-		{
-			if ($testdata["random_test"])
-			{
-				for ($testpass = 0; $testpass <= $data->getParticipant($active_id)->getLastPass(); $testpass++)
-				{
-					$query = sprintf("SELECT tst_test_random_question.sequence, tst_test_random_question.question_fi, qpl_questions.original_id, " .
-						"tst_test_random_question.pass, qpl_questions.points, qpl_questions.title " .
-						"FROM tst_test_random_question, qpl_questions " .
-						"WHERE tst_test_random_question.question_fi = qpl_questions.question_id " .
-						"AND tst_test_random_question.pass = %s " .
-						"AND tst_test_random_question.active_fi = %s ORDER BY tst_test_random_question.sequence LIMIT 0, %s",
-						$ilDB->quote($testpass . ""),
-						$ilDB->quote($active_id . ""),
-						ilObjTest::_getQuestionCount($test_id)
-					);
-					$result = $ilDB->query($query);
-					if ($result->numRows())
-					{
-						while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-						{
-							$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-							$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["points"], $row["sequence"], $tpass);
-							$data->addQuestionTitle($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["title"]);
-						}
-					}
-				}
-			}
-			else
-			{
-				$query = sprintf("SELECT tst_test_question.sequence, tst_test_question.question_fi, " .
-					"qpl_questions.points, qpl_questions.title, qpl_questions.original_id " .
-					"FROM tst_test_question, tst_active, qpl_questions " .
-					"WHERE tst_test_question.question_fi = qpl_questions.question_id " .
-					"AND tst_active.active_id = %s AND tst_active.test_fi = tst_test_question.test_fi ORDER BY tst_test_question.sequence",
-					$ilDB->quote($active_id . "")
-				);
-				$result = $ilDB->query($query);
-				if ($result->numRows())
-				{
-					$questionsbysequence = array();
-					while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-					{
-						$questionsbysequence[$row["sequence"]] = $row;
-					}
-					$sequery = sprintf("SELECT * FROM tst_sequence WHERE active_fi = %s",
-						$ilDB->quote($active_id)
-					);
-					$seqresult = $ilDB->query($sequery);
-					while ($seqrow = $seqresult->fetchRow(MDB2_FETCHMODE_ASSOC))
-					{
-						$questionsequence = unserialize($seqrow["sequence"]);
-						foreach ($questionsequence as $sidx => $seq)
-						{
-							$qsid = $questionsbysequence[$seq]["original_id"] ? $questionsbysequence[$seq]["original_id"] : $questionsbysequence[$seq]["question_fi"];
-							$data->getParticipant($active_id)->addQuestion($qsid, $questionsbysequence[$seq]["points"], $sidx + 1, $seqrow["pass"]);
-							$data->addQuestionTitle($qsid, $questionsbysequence[$seq]["title"]);
-						}
-					}
-/*
-					while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-					{
-						$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-						$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["points"], $row["sequence"], $tpass);
-						$data->addQuestionTitle($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["title"]);
-					}
-*/
-				}
-			}
-		}
-
-		$workingTimes =& ilObjTest::_getCompleteWorkingTimeOfParticipants($test_id);
-
-		foreach (array_keys($data->getParticipants()) as $active_id)
-		{
-			$tpass = 0;
-			if ($testdata["pass_scoring"] == SCORE_BEST_PASS)
-			{
-				$tpass = $data->getParticipant($active_id)->getBestPass();
-			}
-			else
-			{
-				$tpass = $data->getParticipant($active_id)->getLastPass();
-			}
-			$percentage = $data->getParticipant($active_id)->getReachedPointsInPercent();
-			$mark = $mark_schema->getMatchingMark($percentage);
-			if (is_object($mark))
-			{
-				$data->getParticipant($active_id)->setMark($mark->getShortName());
-				$data->getParticipant($active_id)->setMarkOfficial($mark->getOfficialName());
-				$data->getParticipant($active_id)->setPassed($mark->getPassed());
-			}
-			$data->getParticipant($active_id)->setTimeOfWork($workingTimes[$active_id]);
-			$visitingTime =& ilObjTest::_getVisitTimeOfParticipant($test_id, $active_id);
-			$data->getParticipant($active_id)->setFirstVisit($visitingTime["firstvisit"]);
-			$data->getParticipant($active_id)->setLastVisit($visitingTime["lastvisit"]);
-		}
-		$passed_points = array();
-		foreach (array_keys($data->getParticipants()) as $active_id)
-		{
-			$participant =& $data->getParticipant($active_id);
-			if ($participant->getPassed())
-			{
-				array_push($passed_points, $participant->getReached());
-			}
-		}
-		foreach (array_keys($data->getParticipants()) as $active_id)
-		{
-			$participant =& $data->getParticipant($active_id);
-			if ($testdata["ects_output"])
-			{
-				$ects_mark = ilObjTest::_getECTSGrade($passed_points, $participant->getReached(), $participant->getMaxPoints(), $testdata["ects_a"], $testdata["ects_b"], $testdata["ects_c"], $testdata["ects_d"], $testdata["ects_e"], $testdata["ects_fx"]);
-				$participant->setECTSMark($ects_mark);
-			}
-		}
-		if ($withStatistics)
-		{
-			$data->calculateStatistics();
-		}
 		return $data;
 	}
 	
@@ -8040,19 +7815,22 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function _getBestPass($active_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT test_fi FROM tst_active WHERE active_id = %s",
+		
+		$query = sprintf("SELECT * FROM tst_test_pass_result WHERE active_fi = %s",
 			$ilDB->quote($active_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			$test_id = $row["test_fi"];
-			$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE, $active_id);
-			$participant =& $results->getParticipant($active_id);
-			if ($participant != null)
+			$bestrow = null;
+			$bestpoints = -1;
+			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				return $participant->getBestPass();
+				if ($row["points"] > $bestpoints) $bestrow = $row;
+			}
+			if (is_array($bestrow))
+			{
+				return $bestrow["pass"];
 			}
 			else
 			{
@@ -8925,36 +8703,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				}
 			}
 		}
-
-/**
-* Returns an array containing the user ids of all users who passed the test
-*
-* Returns an array containing the user ids of all users who passed the test,
-* regardless if they fnished the test with the finish test button or not. Only
-* the reached points are counted
-*
-* @param integer $test_id Test id of the test
-* @return array An array containing the user ids of the users who passed the test
-* @access public
-*/
-	function &_getPassedUsers($a_obj_id)
-	{
-		$passed_users = array();
-		$test_id =  ilObjTest::_getTestIDFromObjectID($a_obj_id);
-		$results =& ilObjTest::_getCompleteEvaluationData($test_id, FALSE);
-		if (is_object($results))
-		{
-			$participants =& $results->getParticipants();
-			foreach ($participants as $active_id => $participant)
-			{
-				if (is_object($participant) && $participant->getPassed())
-				{
-					array_push($passed_users, $active_id);
-				}
-			}
-		}
-		return $passed_users;
-	}
 
 	/**
 	* Returns a new, unused test access code
