@@ -1794,14 +1794,14 @@ restore starts here
 		}
 		
 		// start delete process
-		$this->writeScanLogLine("action\tref_id\tobj_id\ttype\ttitle");
+		$this->writeScanLogLine("action\tref_id\tobj_id\ttype\telapsed\ttitle");
 		$count = 0;
 		foreach ($a_nodes as $node)
 		{
 			if ($type_limit && $node['type'] != $type_limit)
 			{
-				$this->writeScanLogLine("skip type\t".
-						$node['child']."\t\t".$node['type']."\t".$node['title']
+				$this->writeScanLogLine("skip\t".
+						$node['child']."\t\t".$node['type']."\t\t".$node['title']
 						);
 				continue;
 			}
@@ -1830,15 +1830,17 @@ restore starts here
 
 			$message = sprintf('%s::purgeObjects(): Removing object (id:%s ref:%s)',
 							   get_class($this),
-							   $node['ref_id'],
-							   $node_obj->getId);
+							   $ref_id,
+							   $node_obj->getId());
 			$ilLog->write($message,$ilLog->WARNING);
 		
+			$startTime = microtime(true);		
 			$node_obj->delete();
 			ilTree::_removeEntry($node["tree"],$ref_id);
+			$endTime = microtime(true);			
 			
 			$this->writeScanLogLine("purged\t".$ref_id."\t".$node_obj->getId().
-				"\t".$node['type']."\t".$node['title']);
+				"\t".$node['type']."\t".round($endTime-$startTime,1)."\t".$node['title']);
 		}
 		
 		$this->findInvalidChilds();
