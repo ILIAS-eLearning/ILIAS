@@ -1864,7 +1864,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
 			$tmp_data['blocked'] = $this->object->members_obj->isBlocked($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
-			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 
 			if($this->show_tracking)
 			{
