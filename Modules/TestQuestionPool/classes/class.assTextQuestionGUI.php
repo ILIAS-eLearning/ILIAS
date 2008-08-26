@@ -254,6 +254,14 @@ class assTextQuestionGUI extends assQuestionGUI
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
+		include_once "./Services/RTE/classes/class.ilRTE.php";
+		$rtestring = ilRTE::_getRTEClassname();
+		include_once "./Services/RTE/classes/class.$rtestring.php";
+		$rte = new $rtestring();
+		include_once "./classes/class.ilObject.php";
+		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
+		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
+		$rte->addUserTextEditor("textinput");
 		$this->outAdditionalOutput();
 	}
 
@@ -410,6 +418,8 @@ class assTextQuestionGUI extends assQuestionGUI
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
+		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+		ilYuiUtil::initDomEvent();
 		return $questionoutput;
 	}
 

@@ -238,7 +238,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$is_postponed = $this->object->getTestSequence()->isPostponedQuestion($question_gui->object->getId());
 
 		$this->ctrl->setParameter($this, "sequence", "$sequence");
-		$formaction = $this->ctrl->getFormAction($this, "redirectQuestion");
+		$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
 
 		$question_gui->setSequenceNumber($this->object->getTestSequence()->getPositionOfSequence($sequence));
 		$question_gui->setQuestionCount($this->object->getTestSequence()->getUserQuestionCount());
@@ -998,6 +998,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 */
 	function gotoQuestion()
 	{
+		if (is_array($_POST) && count($_POST) > 0) $this->saveQuestionSolution();
 		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
 		$this->ctrl->setParameter($this, "activecommand", "gotoquestion");
 		$this->ctrl->saveParameter($this, "tst_javascript");
