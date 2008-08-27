@@ -36,13 +36,13 @@
 @include_once("MDB2/Driver/mysql.php");
 
 // wrapper for php 4.3.2 & higher
-@include_once "HTML/ITX.php";
-$tpl_class_name = "IntegratedTemplate";
+@include_once "HTML/Template/ITX.php";
+$tpl_class_name = "HTML_Template_ITX";
 $html_templ_it = true;
-if (!class_exists("IntegratedTemplateExtension"))
+if (!class_exists("HTML_Template_ITX"))
 {
-	@include_once "HTML/Template/ITX.php";
-	$tpl_class_name = "HTML_Template_ITX";
+	include_once "HTML/ITX.php";
+	$tpl_class_name = "IntegratedTemplate";
 	$html_templ_it = class_exists("HTML_Template_ITX");
 }
 
