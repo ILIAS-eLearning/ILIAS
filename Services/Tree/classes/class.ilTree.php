@@ -960,8 +960,11 @@ class ilTree
 			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 		$this->ilDB->query($q);
 
-		// We only close the gap, if the resulting gap will be larger then the gap value 
-		if ($a_node['rgt'] - $a_node['lft'] >= $this->gap * 2)
+                // Performance improvement: We only close the gap, if the node 
+                // is not in a trash tree, and if the resulting gap will be 
+                // larger than twice the gap value 
+		if ($a_node[$this->tree_pk] >= 0 && 
+                    $a_node['rgt'] - $a_node['lft'] >= $this->gap * 2)
 		{
 			//$this->log->write('ilTree.deleteTree('.$a_node['child'].') closing gap at '.$a_node['lft'].'...'.$a_node['rgt']);
 			// close gaps
