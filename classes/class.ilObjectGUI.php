@@ -596,7 +596,7 @@ class ilObjectGUI
 	*/
 	function undeleteObject()
 	{
-		global $rbacsystem, $log;
+		global $rbacsystem, $log, $ilAppEventHandler;
 
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_POST["trash_id"]))
@@ -619,10 +619,15 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
 									 implode(',',$no_create),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		$affected_ids = array();
+		
 		foreach ($_POST["trash_id"] as $id)
 		{
+			$affected_ids[$id] = $id;
+			
 			// INSERT AND SET PERMISSIONS
-			$this->insertSavedNodes($id,$_GET["ref_id"],-(int) $id);
+			$this->insertSavedNodes($id,$_GET["ref_id"],-(int) $id, $affected_ids);
 			// DELETE SAVED TREE
 			$saved_tree = new ilTree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
@@ -643,7 +648,16 @@ class ilObjectGUI
 					$parent_data['obj_id']);
 				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
 			}
-			// END PATCH ChangeEvent: Record undelete. 
+			// END PATCH ChangeEvent: Record undelete.
+			
+		}
+
+		// send events
+		foreach ($affected_ids as $id)
+		{
+			// send global event
+			$ilAppEventHandler->raise("Services/Object", "undelete",
+				array("obj_id" => ilObject::_lookupObjId($id), "ref_id" => $id));
 		}
 
 		//$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
@@ -662,11 +676,12 @@ class ilObjectGUI
 	* @param	integer
 	* @param	integer
 	*/
-	function insertSavedNodes($a_source_id,$a_dest_id,$a_tree_id)
+	function insertSavedNodes($a_source_id,$a_dest_id,$a_tree_id, &$a_affected_ids)
 	{
 		global $rbacadmin, $rbacreview, $log;
 
 		$this->tree->insertNode($a_source_id,$a_dest_id, IL_LAST_NODE, true);
+		$a_affected_ids[$a_source_id] = $a_source_id;
 		
 		// write log entry
 		$log->write("ilObjectGUI::insertSavedNodes(), restored ref_id $a_source_id from trash");
@@ -686,7 +701,7 @@ class ilObjectGUI
 
 		foreach ($childs as $child)
 		{
-			$this->insertSavedNodes($child["child"],$a_source_id,$a_tree_id);
+			$this->insertSavedNodes($child["child"],$a_source_id,$a_tree_id,$a_affected_ids);
 		}
 	}
 
@@ -701,6 +716,8 @@ class ilObjectGUI
 	*/
 	function confirmedDeleteObject()
 	{
+		global $ilAppEventHandler;
+		
 		include_once './payment/classes/class.ilPaymentObject.php';
 
 		global $rbacsystem, $rbacadmin, $log;
@@ -807,6 +824,7 @@ class ilObjectGUI
 		else
 		{
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
+			$affected_ids = array();
 			foreach ($_SESSION["saved_post"] as $id)
 			{
 				if($this->tree->isDeleted($id))
@@ -825,8 +843,11 @@ class ilObjectGUI
 					// remove item from all user desktops
 					$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
 					
+					$affected_ids[$subnode["child"]] = $subnode["child"];
+					
 					// TODO: inform users by mail that object $id was deleted
 					//$mail->sendMail($id,$msg,$affected_users);
+					// should go to appevents at the end
 				}
 				
 				// TODO: needs other handling
@@ -847,9 +868,19 @@ class ilObjectGUI
 				
 				// remove item from all user desktops
 				$affected_users = ilUtil::removeItemFromDesktops($id);
+				
+				$affected_ids[$id] = $id;
 
 				// TODO: inform users by mail that object $id was deleted
 				//$mail->sendMail($id,$msg,$affected_users);
+			}
+			
+			// send global events
+			foreach ($affected_ids as $aid)
+			{
+				$ilAppEventHandler->raise("Services/Object", "toTrash",
+					array("obj_id" => ilObject::_lookupObjId($aid),
+					"ref_id" => $aid));
 			}
 			// inform other objects in hierarchy about paste operation
 			//$this->object->notify("confirmedDelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["saved_post"]);
@@ -892,7 +923,7 @@ class ilObjectGUI
 	*/
 	function removeFromSystemObject()
 	{
-		global $rbacsystem, $log;
+		global $rbacsystem, $log, $ilAppEventHandler;
 		
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_POST["trash_id"]))
@@ -901,7 +932,8 @@ class ilObjectGUI
 		}
 
 		//$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
-
+		$affected_ids = array();
+		
 		// DELETE THEM
 		foreach ($_POST["trash_id"] as $id)
 		{
@@ -926,7 +958,7 @@ class ilObjectGUI
 			$checked[] = -(int) $id;
 
 			// dive in recursive manner in each already deleted subtrees and remove these objects too
-			$this->removeDeletedNodes($id,$checked);
+			$this->removeDeletedNodes($id,$checked, true, $affected_ids);
 
 			foreach ($subtree_nodes as $node)
 			{
@@ -936,8 +968,11 @@ class ilObjectGUI
 				$log->write("ilObjectGUI::removeFromSystemObject(), delete obj_id: ".$node_obj->getId().
 					", ref_id: ".$node_obj->getRefId().", type: ".$node_obj->getType().", ".
 					"title: ".$node_obj->getTitle());
+				$affected_ids[$node["ref_id"]] = array("ref_id" => $node["ref_id"],
+					"obj_id" => $node_obj->getId(), "type" => $node_obj->getType());
 					
 				$node_obj->delete();
+				
 			}
 
 			// FIRST DELETE ALL ENTRIES IN RBAC TREE
@@ -949,6 +984,15 @@ class ilObjectGUI
 			$log->write("ilObjectGUI::removeFromSystemObject(), deleted tree, tree_id: ".$node_data["tree"].
 				", child: ".$node_data["child"]);
 
+		}
+		
+		// send global events
+		foreach ($affected_ids as $aid)
+		{
+			$ilAppEventHandler->raise("Services/Object", "delete",
+				array("obj_id" => $aid["obj_id"],
+				"ref_id" => $aid["ref_id"],
+				"type" => $aid["type"]));
 		}
 		
 		ilUtil::sendInfo($this->lng->txt("msg_removed"),true);
@@ -964,7 +1008,8 @@ class ilObjectGUI
 	* @param	integer ref_id of source object
 	* @param    boolean 
 	*/
-	function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects = true)
+	function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects,
+		&$a_affected_ids)
 	{
 		global $log, $ilDB;
 		
@@ -987,7 +1032,7 @@ class ilObjectGUI
 				$del_node_data = $deleted_tree->getNodeData($row->tree);
 				$del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
 
-				$this->removeDeletedNodes($row->tree,$a_checked);
+				$this->removeDeletedNodes($row->tree,$a_checked, $a_delete_objects, $a_affected_ids);
 			
 				if ($a_delete_objects)
 				{
@@ -999,8 +1044,11 @@ class ilObjectGUI
 						$log->write("ilObjectGUI::removeDeletedNodes(), delete obj_id: ".$node_obj->getId().
 							", ref_id: ".$node_obj->getRefId().", type: ".$node_obj->getType().", ".
 							"title: ".$node_obj->getTitle());
-							
+						$a_affected_ids[$node["ref_id"]] = array("ref_id" => $node["ref_id"],
+							"obj_id" => $node_obj->getId(), "type" => $node_obj->getType());
+														
 						$node_obj->delete();
+						
 					}
 				}
 			

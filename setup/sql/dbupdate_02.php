@@ -5433,3 +5433,5 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 ?>
+<#1318>
+ALTER TABLE il_tag ADD COLUMN offline TINYINT NOT NULL DEFAULT 0;

@@ -81,6 +81,8 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 
 		$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
 
+		$affected_ids = array();
+		
 		// DELETE THEM
 		foreach ($_POST["id"] as $id)
 		{
@@ -92,7 +94,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 			$checked[] = $id;
 
 			// dive in recursive manner in each already deleted subtrees and remove these objects too
-			$this->removeDeletedNodes($id,$checked);
+			$this->removeDeletedNodes($id, $checked, true, $affected_ids);
 
 			foreach ($subtree_nodes as $node)
 			{
