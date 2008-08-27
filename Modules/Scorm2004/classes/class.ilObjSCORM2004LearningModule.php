@@ -126,8 +126,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$check_disc_free = 2;
 		}
 
-		
-	
+			
 		// if $manifest_file needs to be converted to UTF8
 		if ($needs_convert)
 		{
@@ -246,7 +245,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		$doc = new DomDocument();
 		
 		//fix reload errors before loading
-		//$this->fixReload();
+		$this->fixReload();
 	  	$doc->load($this->imsmanifestFile);
 	  	$elements = $doc->getElementsByTagName("schemaversion");
 		$schema=$elements->item(0)->nodeValue;
