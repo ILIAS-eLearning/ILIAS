@@ -90,7 +90,7 @@ class ilInitialisation
 		$GLOBALS['t_pagestart'] = ilUtil::StopWatch();
 
 		$ilBench->start("Core", "HeaderInclude_IncludeFiles");
-
+//echo ":".class_exists("HTML_Template_ITX").":";
 		// Major PEAR Includes
 		require_once "PEAR.php";
 		//require_once "DB.php";
@@ -98,7 +98,7 @@ class ilInitialisation
 
 		// HTML_Template_IT support
 		// (location changed with 4.3.2 & higher)
-		@include_once "HTML/ITX.php";
+/*		@include_once "HTML/ITX.php";		// old implementation
 		if (!class_exists("IntegratedTemplateExtension"))
 		{
 			include_once "HTML/Template/ITX.php";
@@ -107,7 +107,19 @@ class ilInitialisation
 		else
 		{
 			include_once "classes/class.ilTemplateITX.php";
+		}*/
+		
+		@include_once "HTML/Template/ITX.php";		// new implementation
+		if (class_exists("HTML_Template_ITX"))
+		{
+			include_once "classes/class.ilTemplateHTMLITX.php";
 		}
+		else
+		{
+			include_once "HTML/ITX.php";		// old implementation
+			include_once "classes/class.ilTemplateITX.php";
+		}
+		
 		require_once "classes/class.ilTemplate.php";
 
 		//include classes and function libraries
