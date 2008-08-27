@@ -120,15 +120,21 @@ class ilTagging
 	* @param	int			$a_sub_obj_id		Subobject ID
 	* @param	string		$a_sub_obj_type		Subobject Type
 	*/
-	static function getTagsForObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type)
+	static function getTagsForObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
+		$a_only_online = true)
 	{
 		global $ilDB;
+		
+		$online_str = ($a_only_online)
+			? $online_str = " AND offline = ".$ilDB->quote(0)." "
+			: "";
 		
 		$q = "SELECT count(user_id) as cnt, tag FROM il_tag WHERE ".
 			"obj_id = ".$ilDB->quote($a_obj_id)." AND ".
 			"obj_type = ".$ilDB->quote($a_obj_type)." AND ".
 			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id)." AND ".
 			"sub_obj_type = ".$ilDB->quote($a_sub_obj_type).
+			$online_str.
 			"GROUP BY tag ORDER BY tag ASC";
 		$set = $ilDB->query($q);
 		$tags = array();
@@ -145,12 +151,17 @@ class ilTagging
 	*
 	* @param	int			$a_user_id			User ID
 	*/
-	static function getTagsForUser($a_user_id, $a_max = 0)
+	static function getTagsForUser($a_user_id, $a_max = 0, $a_only_online = true)
 	{
 		global $ilDB;
 
+		$online_str = ($a_only_online)
+			? $online_str = " AND offline = ".$ilDB->quote(0)." "
+			: "";
+
 		$st = $ilDB->prepare("SELECT count(*) as cnt, tag FROM il_tag WHERE ".
 			"user_id = ? ".
+			$online_str.
 			" GROUP BY tag ORDER BY cnt DESC", array("integer"));
 		$set = $ilDB->execute($st, array($a_user_id));
 		$tags = array();
@@ -183,7 +194,15 @@ class ilTagging
 		$objects = array();
 		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$objects[] = $rec;
+			if (ilObject::_exists($rec["obj_id"]))
+			{
+				$objects[] = $rec;
+			}
+			else
+			{
+				ilTagging::deleteTagsOfObject($rec["obj_id"], $rec["obj_type"],
+					$rec["sub_obj_id"], $rec["sub_obj_type"]);
+			}
 		}
 
 		return $objects;
@@ -218,13 +237,14 @@ class ilTagging
 	* @param	string		$a_obj_type			Object Type
 	* @param	int			$a_sub_obj_id		Subobject ID
 	* @param	string		$a_sub_obj_type		Subobject Type
+	* @param	boolean		$a_offline			Offline (true/false, true means offline!)
 	*/
 	static function setTagsOfObjectOffline($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
 		$a_offline = true)
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepareManip("UPDATE il_tag FROM SET OFFLINE = ? ".
+		$st = $ilDB->prepareManip("UPDATE il_tag SET OFFLINE = ? ".
 			"WHERE ".
 			"obj_id = ? AND ".
 			"obj_type = ? AND ".
@@ -232,6 +252,27 @@ class ilTagging
 			"sub_obj_type = ? ", array("boolean", "integer", "text", "integer", "text"));
 		$ilDB->execute($st, array($a_offline,
 			$a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type));
+	}
+
+	/**
+	* Deletes tags of an object
+	*
+	* @param	int			$a_obj_id			Object ID
+	* @param	string		$a_obj_type			Object Type
+	* @param	int			$a_sub_obj_id		Subobject ID
+	* @param	string		$a_sub_obj_type		Subobject Type
+	*/
+	static function deleteTagsOfObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("DELETE FROM il_tag ".
+			"WHERE ".
+			"obj_id = ? AND ".
+			"obj_type = ? AND ".
+			"sub_obj_id = ? AND ".
+			"sub_obj_type = ? ", array("integer", "text", "integer", "text"));
+		$ilDB->execute($st, array($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type));
 	}
 
 }
