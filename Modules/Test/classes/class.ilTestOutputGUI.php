@@ -1340,7 +1340,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("BTN_OK", $this->lng->txt("tst_submit_results"));
 		}
 		$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));		
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "finalSubmission"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -1518,7 +1518,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("USER_FEEDBACK", $this->lng->txt("tst_qst_summary_text"));
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->tpl->setVariable("TXT_SHOW_AND_SUBMIT_ANSWERS", $this->lng->txt("save_finish"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));	
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "backFromSummary"));	
 		$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("question_summary"));		
 		
 		if ($this->object->getEnableProcessingTime())
@@ -1651,6 +1651,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		if (strlen($bottom_data))
 		{
 			$this->tpl->setCurrentBlock("bottom_data");
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->setVariable("BOTTOM_DATA", $bottom_data);
 			$this->tpl->parseCurrentBlock();
 		}
@@ -1663,7 +1664,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("SIGNATURE", $signature);
 		$this->tpl->setVariable("TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$invited_user =& $this->object->getInvitedUsers($ilUser->getId());
 		$pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") . 
 			": " . $invited_user[$ilUser->getId()]->clientip . " - " . 
