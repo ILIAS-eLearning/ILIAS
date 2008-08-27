@@ -1,14 +1,9 @@
-<form name="frm_invitation" action="{FORM_ACTION}" method="post">
 <!-- BEGIN delete_all -->
-<p><input type="submit" class="submit" id="submitAllUserResults" name="cmd[deleteAllUserResults]" value="{VALUE_DELETE_ALL_USER_DATA}" onclick="deleteAllUserResults.show();" /></p>
+<form name="frm_invitation" onsubmit="deleteAllUserResults.show(); return false;" action="{FORMACTION_DELETEALL}" method="post">
+<p><input type="submit" class="submit" id="submitAllUserResults" name="cmd[deleteAllUserResults]" value="{VALUE_DELETE_ALL_USER_DATA}" /></p>
+</form>
 <!-- END delete_all -->
-<script type="text/javascript">
-	var submit = document.getElementById("submitAllUserResults");
-	if ((submit != null))
-	{
-		submit.type = "button";
-	}
-</script>
+<form name="frm_invitation" action="{FORM_ACTION}" method="post">
 <!-- BEGIN invited_user_result -->
 <table class="fullwidth">
 <thead>

@@ -4329,7 +4329,10 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			else
 			{
+				$this->tpl->setCurrentBlock("delete_all");
 				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
+				$this->tpl->setVariable("FORMACTION_DELETEALL", $this->ctrl->getFormAction($this, "deleteAllUserResults"));
+				$this->tpl->parseCurrentBlock();
 			}
 			$buttons = array(array("saveClientIP" => "save"),array("deleteSingleUserResults" => "delete_user_data"), array("removeParticipant" => "remove_as_participant"));
 			if (!$this->object->getAnonymity())
@@ -4352,7 +4355,10 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			else
 			{
+				$this->tpl->setCurrentBlock("delete_all");
 				$this->tpl->setVariable("VALUE_DELETE_ALL_USER_DATA", $this->lng->txt("delete_all_user_data"));
+				$this->tpl->setVariable("FORMACTION_DELETEALL", $this->ctrl->getFormAction($this, "deleteAllUserResults"));
+				$this->tpl->parseCurrentBlock();
 			}
 			$buttons = array(array("deleteSingleUserResults" => "delete_user_data"));
 			if (!$this->object->getAnonymity())
