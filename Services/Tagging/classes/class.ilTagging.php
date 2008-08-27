@@ -211,6 +211,29 @@ class ilTagging
 		return (int) $font_size;
 	}
 	
+	/**
+	* Set offline
+	*
+	* @param	int			$a_obj_id			Object ID
+	* @param	string		$a_obj_type			Object Type
+	* @param	int			$a_sub_obj_id		Subobject ID
+	* @param	string		$a_sub_obj_type		Subobject Type
+	*/
+	static function setTagsOfObjectOffline($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
+		$a_offline = true)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("UPDATE il_tag FROM SET OFFLINE = ? ".
+			"WHERE ".
+			"obj_id = ? AND ".
+			"obj_type = ? AND ".
+			"sub_obj_id = ? AND ".
+			"sub_obj_type = ? ", array("boolean", "integer", "text", "integer", "text"));
+		$ilDB->execute($st, array($a_offline,
+			$a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type));
+	}
+
 }
 
 ?>
