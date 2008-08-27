@@ -422,10 +422,10 @@ class ilTestEvaluationUserData
 		}
 	}
 	
-	function addQuestion($question_id, $max_points, $sequence = NULL, $pass = 0)
+	function addQuestion($original_id, $question_id, $max_points, $sequence = NULL, $pass = 0)
 	{
 		if (!array_key_exists($pass, $this->questions)) $this->questions[$pass] = array();
-		array_push($this->questions[$pass], array("id" => $question_id, "points" => $max_points, "sequence" => $sequence));
+		array_push($this->questions[$pass], array("id" => $original_id, "aid" => $question_id, "points" => $max_points, "sequence" => $sequence));
 	}
 	
 	function &getQuestion($index, $pass = 0)
