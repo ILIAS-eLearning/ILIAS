@@ -78,25 +78,14 @@ class ilObjWikiGUI extends ilObjectGUI
 				break;
 			
 			case 'ilwikipagegui':
-				include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-				$append = ($_GET["page"] != "")
-					? "_".ilWikiUtil::makeUrlTitle($_GET["page"])
-					: "";
-				$perma_link = new ilPermanentLinkGUI("wiki", $_GET["ref_id"], $append);
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"]);
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
 				if ($ret != "")
 				{
-					$tpl->setContent(
-						$ret.
-						"<br />".
-						$perma_link->getHTML());
+					$tpl->setContent($ret);
 				}
-				//if ($ilCtrl->getCmdClass() == "ilwikipagegui")
-				//{
-				//}
 				break;
 
 			case 'ilpublicuserprofilegui':
@@ -371,7 +360,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	function getTabs($tabs_gui)
 	{
 		global $ilCtrl, $ilAccess, $lng;
-		
+
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui")))
@@ -753,16 +742,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$html = $ilCtrl->forwardCommand($wpage_gui);
 		//$this->addPageTabs();
 		
-		// permanent link
-		$append = ($_GET["page"] != "")
-			? "_".ilWikiUtil::makeUrlTitle($_GET["page"])
-			: "";
-		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-		$perma_link = new ilPermanentLinkGUI("wiki", $_GET["ref_id"], $append);
-		
-		$tpl->setContent($html.
-			"<br />".
-			$perma_link->getHTML());
+		$tpl->setContent($html);
 	}
 		
 	/**
