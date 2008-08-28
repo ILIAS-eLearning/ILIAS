@@ -467,7 +467,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	private function getDuration($file)
 	{
 	    $duration = isset($this->form_gui) ? $this->form_gui->getInput("duration") : "";
-	    if ($duration["hh"] == 0 && $duration["mm"] == 0 && $duration["ss"] == 0)
+	    if ($duration["hh"] == 0 && $duration["mm"] == 0 && $duration["ss"] == 0 && is_file($file))
 	    {
 	        include_once("./Services/MediaObjects/classes/class.ilMediaAnalyzer.php");
 	        $ana = new ilMediaAnalyzer();

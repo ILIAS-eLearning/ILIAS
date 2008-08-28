@@ -150,13 +150,13 @@ class ilMediaCastTableGUI extends ilTable2GUI
 					if (is_file($file))
 					{
 						$size = filesize($file);
-						$size = sprintf("%.1f MB",$size/1024/1024);
+						$size = ", ".sprintf("%.1f MB",$size/1024/1024);
 					}
 					$format = ($a_mob->getFormat()!= "")?$a_mob->getFormat():"audio/mpeg";					
    					$this->tpl->setCurrentBlock("downloadable");
    					$this->tpl->setVariable("TXT_DOWNLOAD", $lng->txt("mcst_download_" . strtolower($a_mob->getPurpose())));
    					$this->tpl->setVariable("CMD_DOWNLOAD", $ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
-   					$this->tpl->setVariable("TITLE_DOWNLOAD", "(".$format.", ".$size.")");
+   					$this->tpl->setVariable("TITLE_DOWNLOAD", "(".$format.$size.")");
    					$this->tpl->parseCurrentBlock();
 				}
 			}
