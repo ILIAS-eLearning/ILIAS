@@ -798,7 +798,7 @@ class assOrderingQuestion extends assQuestion
 				$ilDB->quote($pass . "")
 			);
 			$result = $ilDB->query($query);
-			if ($this->getOutputType() == OUTPUT_JAVASCRIPT)
+			if (array_key_exists("orderresult", $_POST))
 			{
 				$orderresult = $_POST["orderresult"];
 				if (strlen($orderresult))
