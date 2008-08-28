@@ -528,16 +528,22 @@ class assMatchingQuestion extends assQuestion
 		$term = "",
 		$picture_or_definition = "",
 		$points = 0.0,
-		$term = 0,
+		$term_id = 0,
 		$picture_or_definition_id = 0
 	)
 	{
+		// append answer
+		if ($term_id == 0)
+		{
+			$term_id = $this->get_random_id();
+		}
+
 		if ($picture_or_definition_id == 0)
 		{
 			$picture_or_definition_id = $this->get_random_id();
 		}
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
-		$matchingpair = new ASS_AnswerMatching($term, $points, $term, $picture_or_definition, $picture_or_definition_id);
+		$matchingpair = new ASS_AnswerMatching($term, $points, $term_id, $picture_or_definition, $picture_or_definition_id);
 		array_push($this->matchingpairs, $matchingpair);
 	}
 
@@ -1162,6 +1168,47 @@ class assMatchingQuestion extends assQuestion
 	function supportsJavascriptOutput()
 	{
 		return TRUE;
+	}
+
+	/**
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* @param object $worksheet Reference to the parent excel worksheet
+	* @param object $startrow Startrow of the output in the excel worksheet
+	* @param object $active_id Active id of the participant
+	* @param object $pass Test pass
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @access public
+	*/
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	{
+		include_once ("./classes/class.ilExcelUtils.php");
+		$solutions = $this->getSolutionValues($active_id, $pass);
+		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
+		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		$i = 1;
+		$terms = $this->getTerms();
+		foreach ($solutions as $solution)
+		{
+			$matches_written = FALSE;
+			foreach ($this->getMatchingPairs() as $idx => $answer)
+			{
+				if (!$matches_written) $worksheet->writeString($startrow + $i, 1, ilExcelUtils::_convert_text($this->lng->txt("matches")));
+				$matches_written = TRUE;
+				if ($answer->getDefinitionId() == $solution["value2"])
+				{
+					if (strlen($answer->getDefinition())) $worksheet->writeString($startrow + $i, 0, ilExcelUtils::_convert_text($answer->getDefinition()));
+				}
+				if ($answer->getTermId() == $solution["value1"])
+				{
+					if (strlen($answer->getTerm())) $worksheet->writeString($startrow + $i, 2, ilExcelUtils::_convert_text($terms[$answer->getTermId()]));
+				}
+			}
+			$i++;
+		}
+		return $startrow + $i + 1;
 	}
 }
 

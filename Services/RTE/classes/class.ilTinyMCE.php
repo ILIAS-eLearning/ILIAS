@@ -241,7 +241,7 @@ class ilTinyMCE extends ilRTE
 		{
 			$template->setVariable("STYLE_SELECT", ",styleselect");
 		}
-		$template->setVariable("BUTTONS", $this->_buildButtonsFromHTMLTags($tags) . ",backcolor");
+		$template->setVariable("BUTTONS", $this->_buildButtonsFromHTMLTags($tags) . ",backcolor,removeformat");
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		//$template->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 		$template->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
