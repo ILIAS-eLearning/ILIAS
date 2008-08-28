@@ -5435,3 +5435,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ?>
 <#1318>
 ALTER TABLE il_tag ADD COLUMN offline TINYINT NOT NULL DEFAULT 0;
+<#1319>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

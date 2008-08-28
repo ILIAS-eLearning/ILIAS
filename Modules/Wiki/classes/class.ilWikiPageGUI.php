@@ -31,7 +31,7 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
 *
 * @ingroup ModulesWiki
 */
@@ -76,13 +76,19 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilTabs;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		switch($next_class)
 		{
+			case "ilnotegui":
+				$this->getTabs();
+				$ilTabs->setTabActive("pg");
+				return $this->preview();
+				break;
+
 			case "ilratinggui":
 				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 				$rating_gui = new ilRatingGUI();
@@ -153,9 +159,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl->setRightContent($rcontent);
 	}
 
+	/**
+	* View wiki page.
+	*/
 	function preview()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilAccess;
 		
 		$this->getWikiPage()->increaseViewCnt(); // todo: move to page object
 		$this->setSideBlock();
@@ -171,6 +180,40 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$this->getPageObject()->getId(), "wpg");
 			$wtpl->setVariable("RATING", $ilCtrl->getHtml($rating_gui));
 		}
+		
+		// notes
+		include_once("Services/Notes/classes/class.ilNoteGUI.php");
+		$pg_id = $this->getPageObject()->getId();
+		$notes_gui = new ilNoteGUI($this->getPageObject()->getParentId(),
+			$pg_id, "wpg");
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$notes_gui->enablePublicNotesDeletion(true);
+		}
+		$notes_gui->enablePrivateNotes();
+		//if ($this->lm->publicNotes())
+		//{
+			$notes_gui->enablePublicNotes();
+		//}
+		
+		$next_class = $this->ctrl->getNextClass($this);
+		if ($next_class == "ilnotegui")
+		{
+			$html = $this->ctrl->forwardCommand($notes_gui);
+		}
+		else
+		{	
+			$html = $notes_gui->getNotesHTML();
+		}
+		$wtpl->setVariable("NOTES", $html);
+		
+		// permanent link
+		$append = ($_GET["page"] != "")
+			? "_".ilWikiUtil::makeUrlTitle($_GET["page"])
+			: "";
+		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
+		$perma_link = new ilPermanentLinkGUI("wiki", $_GET["ref_id"], $append);
+		$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
 		
 		$wtpl->setVariable("PAGE", parent::preview());
 		return $wtpl->get();
@@ -226,7 +269,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	function getTabs($a_activate = "")
 	{
 		global $ilTabs, $ilCtrl;
-		
+
 		parent::getTabs($a_activate);
 		
 		$ilCtrl->setParameterByClass("ilobjwikigui", "wpg_id",
