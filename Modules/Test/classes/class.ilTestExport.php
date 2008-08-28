@@ -177,11 +177,11 @@ class ilTestExport
 		$format_title->setColor('black');
 		$format_title->setPattern(1);
 		$format_title->setFgColor('silver');
-		$worksheet =& $workbook->addWorksheet();
+		include_once "./classes/class.ilExcelUtils.php";
+		$worksheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($this->lng->txt("tst_results")));
 		$additionalFields = $this->test_obj->getEvaluationAdditionalFields();
 		$row = 0;
 		$col = 0;
-		include_once "./classes/class.ilExcelUtils.php";
 
 		if ($this->test_obj->getAnonymity())
 		{
@@ -373,6 +373,26 @@ class ilTestExport
 					}
 				}
 				$counter++;
+			}
+		}
+		// test participant result export
+		foreach ($data->getParticipants() as $active_id => $userdata) 
+		{
+			$resultsheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($userdata->getName()));
+			$pass = $userdata->getScoredPass();
+			$row = 0;
+			$resultsheet->writeString($row, 0, ilExcelUtils::_convert_text(sprintf($this->lng->txt("tst_result_user_name_pass"), $pass, $data->getParticipant($active_id)->getName())), $format_bold);
+			$row += 2;
+			if (is_object($userdata) && is_array($userdata->getQuestions($pass)))
+			{
+				foreach ($userdata->getQuestions($pass) as $question)
+				{ 
+					$question =& $this->test_obj->_instanciateQuestion($question["aid"]);
+					if (is_object($question))
+					{
+						$row = $question->setExportDetailsXLS($resultsheet, $row, $active_id, $pass, $format_title, $format_bold);
+					}
+				}
 			}
 		}
 		$workbook->close();

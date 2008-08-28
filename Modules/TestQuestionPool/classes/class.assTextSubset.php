@@ -889,6 +889,33 @@ class assTextSubset extends assQuestion
 	{
 		return parent::getRTETextWithMediaObjects();
 	}
+
+	/**
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* @param object $worksheet Reference to the parent excel worksheet
+	* @param object $startrow Startrow of the output in the excel worksheet
+	* @param object $active_id Active id of the participant
+	* @param object $pass Test pass
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @access public
+	*/
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	{
+		include_once ("./classes/class.ilExcelUtils.php");
+		$solutions = $this->getSolutionValues($active_id, $pass);
+		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
+		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		$i = 1;
+		foreach ($solutions as $solution)
+		{
+			$worksheet->write($startrow + $i, 0, ilExcelUtils::_convert_text($solution["value1"]));
+			$i++;
+		}
+		return $startrow + $i + 1;
+	}
 }
 
 ?>

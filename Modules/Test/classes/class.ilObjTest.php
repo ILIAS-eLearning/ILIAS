@@ -4871,7 +4871,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 						while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 						{
 							$tpass = array_key_exists("pass", $row) ? $row["pass"] : 0;
-							$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["question_fi"], $row["question_fi"], $row["points"], $row["sequence"], $tpass);
+							$data->getParticipant($active_id)->addQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["question_fi"], $row["points"], $row["sequence"], $tpass);
 							$data->addQuestionTitle($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["title"]);
 						}
 					}

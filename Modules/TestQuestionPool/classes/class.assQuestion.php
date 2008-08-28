@@ -2843,6 +2843,22 @@ class assQuestion
 		}
 	}
 	
+	/**
+	* Creates an Excel worksheet for the detailed cumulated results of this question
+	*
+	* @param object $worksheet Reference to the parent excel worksheet
+	* @param object $startrow Startrow of the output in the excel worksheet
+	* @param object $active_id Active id of the participant
+	* @param object $pass Test pass
+	* @param object $format_title Excel title format
+	* @param object $format_bold Excel bold format
+	* @param array $eval_data Cumulated evaluation data
+	* @access public
+	*/
+	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
+	{
+		return $startrow;
+	}
 }
 
 ?>
