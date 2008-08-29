@@ -270,7 +270,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				{
 					$this->rendered_items[$item_data['child']] = true;
 					
-					// TODO: Position
+					// TODO: Position (DONE ?)
 					$html = $this->renderItem($item_data,$position++,$a_mode == self::MATERIALS_TESTS ? false : true);
 					if ($html != "")
 					{
@@ -322,7 +322,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$objective = new ilCourseObjective($this->getContainerObject(),$a_objective_id);
 		
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
-		$items = $this->getContainerObject()->items_obj->getItemsByObjective($a_objective_id);
+		$items = $this->getContainerObject()->getCourseItemObject()->getItemsByObjective($a_objective_id);
 		$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('lobj',$a_objective_id,$items);
 
 		$pos = 1;

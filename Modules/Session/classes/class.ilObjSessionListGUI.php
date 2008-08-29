@@ -101,17 +101,8 @@ class ilObjSessionListGUI extends ilObjectListGUI
 		
 		return $props;
 	}
+
 	
-	/**
-	 * get subitems
-	 *
-	 * @access public
-	 * @return array array of ref_ids
-	 */
-	public function getSubitems()
-	{
-		return array(73,74,75);
-	}
 	
 }
 ?>

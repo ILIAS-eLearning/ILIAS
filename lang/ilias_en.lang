@@ -4850,7 +4850,7 @@ crs#:#crs_add_grouping#:#Add course grouping
 crs#:#crs_add_grp_assignment#:#Assign course(s)
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_member#:#Add Member(s)
-crs#:#crs_add_objective#:#Add objective
+crs#:#crs_add_objective#:#Add Objective
 crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop
 crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.
 crs#:#crs_add_starter#:#Add Start Object
@@ -5054,9 +5054,9 @@ crs#:#crs_objective_no_title_given#:#Please enter a title.
 crs#:#crs_objective_not_accomplished#:#Not accomplished
 crs#:#crs_objective_overview_objectives#:#Overview Objectives
 crs#:#crs_objective_overview_question_assignment#:#Overview Question Assignment
-crs#:#crs_objective_pretest#:#Self assessment
+crs#:#crs_objective_pretest#:#After initial test
 crs#:#crs_objective_question_assignment#:#Question assignment
-crs#:#crs_objective_result#:#After test
+crs#:#crs_objective_result#:#After final test
 crs#:#crs_objective_updated_test#:#Updated modifications.
 crs#:#crs_objective_view#:#Objective oriented view
 crs#:#crs_objectives#:#Learning Objectives
@@ -8588,3 +8588,12 @@ assessment#:#forcejs#:#Force JavaScript output for test questions
 assessment#:#forcejs_short#:#Force JavaScript
 assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.
 crs#:#crs_contact_email_info#:#Enter one or more (comma seperated) E-mail addresses.
+crs#:#crs_objective_status#:#Objective Status
+crs#:#crs_obj_final_req_info#:#If this number of points is achieved, the learning objective is passed.
+crs#:#crs_obj_initial_req_info#:#If this number of points is achieved, no course materials will be recommended for further editing.
+crs#:#crs_objective_wiz_title_info#:#Please choose a title and a short description of the learning objective.
+crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.
+crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. Initial tests are intended to examine the previous knowledge of the course participants.
+crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.
+crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
+crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.
