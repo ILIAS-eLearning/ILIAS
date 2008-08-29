@@ -568,12 +568,17 @@ class assTextQuestion extends assQuestion
 			$ilDB->quote($pass . "")
 		);
 		$result = $ilDB->query($query);
-
 		$text = ilUtil::stripSlashes($_POST["TEXT"], FALSE);
 		if ($this->getMaxNumOfChars())
 		{
 			include_once "./Services/Utilities/classes/class.ilStr.php";
-			$text = ilStr::subStr($text, 0, $this->getMaxNumOfChars()); 
+			$text_without_tags = preg_replace("/<[^>*?]>/igs", "", $text);
+			$len_with_tags = ilStr::strLen($text);
+			$len_without_tags = ilStr::strLen($text_without_tags);
+			if ($this->getMaxNumOfChars() < $len_without_tags)
+			{
+				$text = ilStr::subStr($text, 0, $this->getMaxNumOfChars() + ($len_with_tags - $len_without_tags)); 
+			}
 		}
 		$entered_values = 0;
 		if (strlen($text))

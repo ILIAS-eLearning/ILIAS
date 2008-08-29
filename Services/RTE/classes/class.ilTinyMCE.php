@@ -223,7 +223,8 @@ class ilTinyMCE extends ilRTE
 	*/
 	function addUserTextEditor($editor_selector)
 	{
-		$tags = array("strong","em");
+		$validtags = array("strong","em","p", "br", "div", "span");
+		$buttontags = array("strong","em");
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.usereditor.html", true, true, "Services/RTE");
 		$template->setCurrentBlock("tinymce");
@@ -231,7 +232,7 @@ class ilTinyMCE extends ilRTE
 		include_once "./classes/class.ilObject.php";
 		$template->setVariable("SELECTOR", $editor_selector);
 		$template->setVariable("BLOCKFORMATS", "");
-		$template->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
+		$template->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($validtags));
 		$more_buttons = "";
 		if (count($this->buttons) > 0)
 		{
@@ -241,7 +242,7 @@ class ilTinyMCE extends ilRTE
 		{
 			$template->setVariable("STYLE_SELECT", ",styleselect");
 		}
-		$template->setVariable("BUTTONS", $this->_buildButtonsFromHTMLTags($tags) . ",backcolor,removeformat");
+		$template->setVariable("BUTTONS", $this->_buildButtonsFromHTMLTags($buttontags) . ",backcolor,removeformat");
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		//$template->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
 		$template->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
