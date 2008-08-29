@@ -63,6 +63,9 @@ class ilObjectListGUI
 	protected $checkboxes_enabled = false;
 	protected $position_enabled = false;
 	protected $progress_enabled = false;
+	protected $item_detail_links_enabled = false;
+	protected $item_detail_links = array();
+	protected $item_detail_links_intro = '';
 	
 	/**
 	* constructor
@@ -501,6 +504,78 @@ class ilObjectListGUI
 	{
 	 	return $this->substitutions_enabled;
 	}
+	
+	/**
+	 * enable item detail links
+	 * E.g Direct links to chapters or pages
+	 *
+	 * @access public
+	 * @param bool
+	 * @return
+	 */
+	public function enableItemDetailLinks($a_status)
+	{
+		$this->item_detail_links_enabled = $a_status;
+	}
+	
+	/**
+	 * get item detail link status
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function getItemDetailLinkStatus()
+	{
+		return $this->item_detail_links_enabled;
+	}
+	
+	/**
+	 * set items detail links
+	 *
+	 * @access public
+	 * @param array e.g. array(0 => array('desc' => 'Page: ','link' => 'ilias.php...','name' => 'Page XYZ')
+	 * @return
+	 */
+	public function setItemDetailLinks($a_detail_links,$a_intro_txt = '')
+	{
+		$this->item_detail_links = $a_detail_links;
+		$this->item_detail_links_intro = $a_intro_txt;
+	}
+	
+	/**
+	 * insert item detail links
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function insertItemDetailLinks()
+	{
+		if(!count($this->item_detail_links))
+		{
+			return true;
+		}
+		if(strlen($this->item_detail_links_intro))
+		{
+			$this->tpl->setCurrentBlock('item_detail_intro');
+			$this->tpl->setVariable('ITEM_DETAIL_INTRO_TXT',$this->item_detail_links_intro);
+			$this->tpl->parseCurrentBlock();			
+		}
+		
+		foreach($this->item_detail_links as $info)
+		{
+			$this->tpl->setCurrentBlock('item_detail_link');
+			$this->tpl->setVariable('ITEM_DETAIL_LINK_TARGET',$info['target']);
+			$this->tpl->setVariable('ITEM_DETAIL_LINK_DESC',$info['desc']);
+			$this->tpl->setVariable('ITEM_DETAIL_LINK_HREF',$info['link']);
+			$this->tpl->setVariable('ITEM_DETAIL_LINK_NAME',$info['name']);
+			$this->tpl->parseCurrentBlock();			
+		}
+		$this->tpl->setCurrentBlock('item_detail_links');
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	
 
 	/**
 	* @param string title
@@ -1803,6 +1878,13 @@ class ilObjectListGUI
 		$this->insertPath();
 		$ilBench->stop("ilObjectListGUI", "8000_insert_path");
 		
+		$ilBench->start("ilObjectListGUI", "8500_item_detail_links");
+		if($this->getItemDetailLinkStatus())
+		{
+			$this->insertItemDetailLinks();			
+		}
+		$ilBench->stop("ilObjectListGUI", "8500_item_detail_links");
+
 		// icons and checkboxes
 		$this->insertIconsAndCheckboxes();
 		

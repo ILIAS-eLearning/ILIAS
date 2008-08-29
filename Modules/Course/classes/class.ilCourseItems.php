@@ -373,11 +373,6 @@ class ilCourseItems
 	{
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
 		
-		
-		// TODO: sort ids
-		//$ref_ids = ilCourseObjectiveMaterials::_getAssignedMaterials($a_objective_id);
-		
-		
 		foreach(ilCourseObjectiveMaterials::_getAssignedMaterials($a_objective_id) as $ref_id)
 		{
 			if($this->tree->isDeleted($ref_id))

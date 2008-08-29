@@ -139,8 +139,7 @@ class ilCourseObjectiveMaterials
 		global $ilDB;
 		
 		$query = "SELECT DISTINCT(ref_id) AS ref_id FROM crs_objective_lm ".
-			"WHERE objective_id = ".$ilDB->quote($a_objective_id)." ".
-			"AND type != 'st' AND type != 'pg'";
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id)." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

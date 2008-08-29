@@ -8597,3 +8597,4 @@ crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. In
 crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.
+crs#:#crs_suggested_sections#:#Suggested Sections
