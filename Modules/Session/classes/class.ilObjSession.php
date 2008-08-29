@@ -66,8 +66,6 @@ class ilObjSession extends ilObject
 		$this->db = $ilDB;
 	}
 	
-	
-	
 	/**
 	 * lookup registration enabled
 	 *
@@ -89,6 +87,29 @@ class ilObjSession extends ilObject
 		}
 		return false;
 	}
+	
+	/**
+	 * get title
+	 * (overwritten from base class)
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function getPresentationTitle()
+	{
+		$date = new ilDate($this->getFirstAppointment()->getStart()->getUnixTime(),IL_CAL_UNIX);
+		if($this->getTitle())
+		{
+			return ilDatePresentation::formatDate($this->getFirstAppointment()->getStart()).': '.$this->getTitle();			
+		}
+		else
+		{
+			return ilDatePresentation::formatDate($date);			
+		}
+
+	}
+	
+	
 	
 	/**
 	 * sget event id

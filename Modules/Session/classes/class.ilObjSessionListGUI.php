@@ -34,6 +34,9 @@ include_once('./classes/class.ilObjectListGUI.php');
 
 class ilObjSessionListGUI extends ilObjectListGUI
 {
+	protected $app_info = array();
+	
+	
 	/**
 	 * Constructor
 	 *
@@ -69,6 +72,33 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	}
 	
 	/**
+	 * get title
+	 * Overwritten since sessions prepend the date of the session
+	 * to the title
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getTitle()
+	{
+		$app_info = $this->getAppointmentInfo();
+
+		if($app_info['fullday'])
+		{
+			$date = new ilDate($app_info['start'],IL_CAL_UNIX);
+		}
+		else
+		{
+			$date = new ilDate($app_info['start'],IL_CAL_UNIX);
+			#$date = new ilDateTime($app_info['start'],IL_CAL_UNIX);
+		}
+		return ilDatePresentation::formatDate($date).': '.$this->title;
+	}
+	
+	
+	
+	/**
 	* Get command link url.
 	*
 	* @param	int			$a_ref_id		reference id
@@ -90,8 +120,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	 */
 	public function getProperties()
 	{
-		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
-		$app_info = ilSessionAppointment::_lookupAppointment($this->obj_id);
+		$app_info = $this->getAppointmentInfo(); 
 		
 		$props = parent::getProperties();
 		$props[] = array(
@@ -103,6 +132,22 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	}
 
 	
+	
+	/**
+	 * get appointment info
+	 *
+	 * @access protected
+	 * @return array
+	 */
+	protected function getAppointmentInfo()
+	{
+		if(isset($this->app_info[$this->obj_id]))
+		{
+			return $this->app_info[$this->obj_id];
+		}
+		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+		return $this->app_info[$this->obj_id] = ilSessionAppointment::_lookupAppointment($this->obj_id); 
+	}
 	
 }
 ?>

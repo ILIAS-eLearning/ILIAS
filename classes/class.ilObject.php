@@ -359,6 +359,21 @@ class ilObject
 	{
 		$this->type = $a_type;
 	}
+	
+	/**
+	 * get presentation title
+	 * Normally same as title
+	 * Overwritten for sessions
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getPresentationTitle()
+	{
+		return $this->getTitle();
+	}
+	
 
 	/**
 	* get object title
