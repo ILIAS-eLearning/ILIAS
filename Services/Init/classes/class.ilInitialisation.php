@@ -986,6 +986,9 @@ class ilInitialisation
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 		$ilBench->start("Core", "HeaderInclude_Authentication");
 //var_dump($_SESSION);
+		////require_once('Log.php');
+		////$ilAuth->logger = Log::singleton('error_log',PEAR_LOG_TYPE_SYSTEM,'TEST');
+                ////$ilAuth->enableLogging = true;
 		$ilAuth->start();
 //var_dump($_SESSION);
 		$ilias->setAuthError($ilErr->getLastError());
@@ -1131,13 +1134,26 @@ class ilInitialisation
 			//
 			// AUTHENTICATION FAILED
 			//
+				
+                        // If ILIAS is accessed by a WebDAV client,
+                        // request login again.
+			if ($context == "webdav") 
+			{
+				$ilAuth->logout();
+				$ilAuth->start();
+
+				// $lng initialisation, in case authentication succeeds 
+				$this->initLanguage();
+				
+				return;
+			}
 
 			// authentication failed due to inactive user?
 			if ($ilAuth->getAuth() && !$ilUser->isCurrentUserActive())
 			{
 				$inactive = true;
 			}
-
+                        
 			// jump to public section (to do: is this always the indended
 			// behaviour, login could be another possibility (including
 			// message)
@@ -1152,7 +1168,7 @@ class ilInitialisation
 						$ilAuth->getStatus() == AUTH_IDLED) &&
 					$_GET["reloadpublic"] != "1")
 				{
-					$this->goToPublicSection();
+						$this->goToPublicSection();
 				}
 				else
 				{

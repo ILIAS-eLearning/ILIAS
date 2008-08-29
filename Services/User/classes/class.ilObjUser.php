@@ -2107,7 +2107,7 @@ class ilObjUser extends ilObject
         if ((!empty($storedActive) && empty($currentActive)) ||
                 (empty($storedActive) && !empty($currentActive)))
         {
-            $this->setActive($currentActive, $this->getUserIdByLogin($ilAuth->getUsername()));
+            $this->setActive($currentActive, $this->getUserIdByLogin(ilObjUser::getLoginFromAuth()));
         }
     }
 
@@ -2390,26 +2390,10 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB,$ilAuth;
 
-		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
-		require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
-		if (ilDAVServer::_isActive())
-		{
-			require_once ('Services/Authentication/classes/class.ilAuthContainerMDB2.php');
-			$username = ilAuthContainerMDB2::toUsernameWithoutDomain($this->ilias->auth->getUsername());
-			$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
-				$ilDB->quote($username));
-		}
-		else
-		{
-			$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
-				$ilDB->quote($this->ilias->auth->getUsername()));
-		}
-		// END WebDAV: Strip Microsoft Domain Names from logins
-
-
-
+		$login = ilObjUser::getLoginFromAuth();
 		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login = ".
-			$ilDB->quote($ilAuth->getUsername()));
+				$ilDB->quote($login));
+                        
 		//query has got a result
 		if ($r->numRows() > 0)
 		{
@@ -2422,6 +2406,27 @@ class ilObjUser extends ilObject
 		return false;
 	}
 
+	/**
+	 * Gets the username from $ilAuth, and converts it into an ILIAS login name.
+	 */
+	private static function getLoginFromAuth() {
+		global $ilAuth;
+                
+		// BEGIN WebDAV: Strip Microsoft Domain Names from logins
+		require_once ('Services/WebDAV/classes/class.ilDAVServer.php');
+		if (ilDAVServer::_isActive())
+		{
+			require_once ('Services/Authentication/classes/class.ilAuthContainerMDB2.php');
+			$login = ilAuthContainerMDB2::toUsernameWithoutDomain($ilAuth->getUsername());
+		}
+		else
+		{
+			$login =$ilAuth->getUsername();
+		}
+                
+		return $login;
+        }
+
     /*
      * check to see if current user has been made active
      * @access  public
@@ -2431,8 +2436,9 @@ class ilObjUser extends ilObject
     {
 		global $ilDB,$ilAuth;
 
-        $r = $this->ilias->db->query("SELECT active FROM usr_data WHERE login= ".
-			$ilDB->quote($ilAuth->getUsername()));
+		$login = ilObjUser::getLoginFromAuth();
+		$r = $this->ilias->db->query("SELECT active FROM usr_data WHERE login= ".
+			$ilDB->quote($login));
         //query has got a result
         if ($r->numRows() > 0)
         {

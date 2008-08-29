@@ -46,11 +46,19 @@ if ($_SERVER['REQUEST_METHOD'] != 'GET' ||
 	substr($path_info_components[2],0,5) != 'file_') {
 	define ('WebDAV_Authentication', 'HTTP');
 }
+define ('WebDAV_Authentication', 'HTTP');
 
 // Launch ILIAS using the client id we have determined
 // -----------------------------------------------------
 $_COOKIE["ilClientId"] = $client_id;
-require_once "include/inc.header.php";
+
+// we can't include inc.header.php here, because we need to pass the
+// context 'webdav' to initILIAS.
+//require_once "include/inc.header.php";
+require_once("Services/Init/classes/class.ilInitialisation.php");
+$ilInit = new ilInitialisation();
+$GLOBALS['ilInit'] =& $ilInit;
+$ilInit->initILIAS('webdav');
 
 // Launch the WebDAV Server
 // -----------------------------------------------------
