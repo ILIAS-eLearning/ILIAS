@@ -284,7 +284,7 @@ class ilLanguage
 	function loadLanguageModule ($a_module)
 	{
 		global $ilDB;
-		
+
 		if (in_array($a_module, $this->loaded_modules))
 		{
 			return;

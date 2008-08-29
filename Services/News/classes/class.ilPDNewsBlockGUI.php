@@ -44,7 +44,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	function ilPDNewsBlockGUI()
 	{
 		global $ilCtrl, $lng, $ilUser, $ilBench, $ilAccess, $ilCtrl;
-		
+
 		$ilBench->start("News", "ilPDNewsBlockGUI_Constructor");
 		$news_set = new ilSetting("news");
 		

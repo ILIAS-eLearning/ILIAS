@@ -3223,6 +3223,7 @@ news#:#news_news_items#:#News Item(s)
 news#:#news_subscribe#:#Subscribe
 news#:#news_unsubscribe#:#Unsubscribe
 news#:#news_internal_news#:#News
+common#:#news#:#News
 news#:#news_get_feed_url#:#Get Feed URL
 news#:#news_feed_url_for#:#Feed URL for '%s'
 news#:#news_get_feed_title#:#Personal Feed URL

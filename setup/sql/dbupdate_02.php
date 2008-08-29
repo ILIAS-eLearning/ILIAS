@@ -5439,4 +5439,8 @@ ALTER TABLE il_tag ADD COLUMN offline TINYINT NOT NULL DEFAULT 0;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1320>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
