@@ -220,10 +220,9 @@ class ilObjFolder extends ilContainer
 				if ($course_ref_id = $tree->checkForParentType($this->ref_id,'crs'))
 				{
 					include_once("./Modules/Course/classes/class.ilObjCourse.php");
-					$view_mode = ilObjCourse::_lookupViewMode(
-						ilObject::_lookupObjId($course_ref_id));
+					$view_mode = ilObjCourse::_lookupViewMode(ilObject::_lookupObjId($course_ref_id));
 					if ($view_mode == ilContainer::VIEW_SESSIONS ||
-						ilContainer::VIEW_BY_TYPE)
+						$view_mode == ilContainer::VIEW_BY_TYPE)
 					{
 						$view = $view_mode;
 					}
