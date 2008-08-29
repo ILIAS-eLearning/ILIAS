@@ -53,6 +53,18 @@ abstract class ilContainerContentGUI
 		$this->container_gui = $container_gui_obj;
 		$this->container_obj = $this->container_gui->object;
 	}
+	
+	/**
+	 * get details level
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function getDetailsLevel($a_item_id)
+	{
+		return $this->details_level;
+	}
 
 	/**
 	* Get container object.
@@ -389,8 +401,29 @@ abstract class ilContainerContentGUI
 			}
 		}
 		
+		if($a_item_data['type'] == 'sess')
+		{
+			switch($this->getDetailsLevel($a_item_data['obj_id']))
+			{
+				case self::DETAILS_TITLE:
+					$item_list_gui->enableDescription(false);
+					$item_list_gui->enableProperties(false);
+					break;
+				
+				case self::DETAILS_TITLE_DESC:
+					$item_list_gui->enableDescription(false);
+					$item_list_gui->enableProperties(false);
+					break;
+					
+				default:
+					$item_list_gui->enableDescription(true);
+					$item_list_gui->enableProperties(true);
+					break;
+			}
+		}
+		
 		// show subitems
-		if ($a_item_data['type'] == 'sess')
+		if ($a_item_data['type'] == 'sess' and $this->getDetailsLevel($a_item_data['obj_id']) > self::DETAILS_TITLE_DESC)
 		{
 			$pos = 1;
 			

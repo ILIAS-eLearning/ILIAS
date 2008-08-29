@@ -32,13 +32,45 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerSessionsContentGUI extends ilContainerContentGUI
 {
+	protected $details_level;
+	protected $force_details = 0;
+	
 	/**
 	* Constructor
 	*
 	*/
 	function __construct($container_gui_obj)
 	{
+		global $lng;
+		
 		parent::__construct($container_gui_obj);
+		$this->lng = $lng;
+		$this->initDetails();
+	}
+	
+
+	/**
+	 * get details level
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getDetailsLevel($a_session_id)
+	{
+		if($this->getContainerGUI()->isActiveAdministrationPanel())
+		{
+			return self::DETAILS_ALL;
+		}
+		if($this->details_level == self::DETAILS_TITLE)
+		{
+			return $this->details_level;
+		}
+		if($a_session_id == $this->force_details)
+		{
+			return self::DETAILS_ALL;
+		}
+		return $this->details_level;
 	}
 
 
@@ -125,6 +157,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		// all other items
 		if ($done_sessions)
 		{
+			$this->addFooterRow($tpl);
 			$this->addSeparatorRow($tpl);
 		}
 		if (is_array($this->items["_all"]))
@@ -163,6 +196,78 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		
 		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
 	}
+	
+	
+	/**
+	 * add footer row
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function addFooterRow($tpl)
+	{
+		$tpl->setCurrentBlock('details_img');
+		
+		$append = $this->details_level == 1 ? 'off' : '';
+		$tpl->setCurrentBlock('details_img');
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details1'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 1');
+		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=1');
+		$tpl->parseCurrentBlock();
+
+		$append = $this->details_level == 2 ? 'off' : '';
+		$tpl->setCurrentBlock('details_img');
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 2');
+		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=2');
+		$tpl->parseCurrentBlock();
+
+		$append = $this->details_level == 3 ? 'off' : '';
+		$tpl->setCurrentBlock('details_img');
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 3');
+		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=3');
+		$tpl->parseCurrentBlock();
+		
+		$tpl->setCurrentBlock('container_details_row');
+		$tpl->setVariable('TXT_DETAILS',$this->lng->txt('details'));
+		$tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * init details
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function initDetails()
+	{
+		global $ilUser;
+		
+		if(isset($_GET['details_level']))
+		{
+			$this->details_level = (int) $_GET['details_level'];
+			ilObjUser::_writePref($ilUser->getId(),'crs_session_details',$this->details_level);
+		}
+		else
+		{
+			$this->details_level = $ilUser->getPref('crs_session_details') ? $ilUser->getPref('crs_session_details') : self::DETAILS_TITLE_DESC;
+		}
+		
+		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+		if($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId()))
+		{
+			$this->force_details = $session;
+		}
+		elseif($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId()))
+		{
+			$this->force_details = $session;
+		}
+	}
+	
+	
 
 } // END class.ilContainerSessionsContentGUI
 ?>

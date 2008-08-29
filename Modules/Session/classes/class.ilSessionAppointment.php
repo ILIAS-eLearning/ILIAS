@@ -84,6 +84,74 @@ class ilSessionAppointment implements ilDatePeriod
 		return array();
 	}
 	
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function lookupNextSessionByCourse($a_ref_id)
+	{
+		global $tree,$ilDB;
+		
+		$sessions = $tree->getChildsByType($a_ref_id,'sess');
+		$obj_ids = array();
+		foreach($sessions as $tree_data)
+		{
+			$obj_ids[] = $tree_data['obj_id'];
+		}
+		if(!count($obj_ids))
+		{
+			return false;
+		}
+		$query = "SELECT event_id FROM event_appointment ".
+			"WHERE start > NOW() ".
+			"AND event_id IN (".implode(',',ilUtil::quoteArray($obj_ids)).") ".
+			"ORDER BY start LIMIT 1";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$event_id = $row->event_id;
+		}
+		return isset($event_id) ? $event_id : 0;
+	}
+	
+	/**
+	 * 
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 * @static
+	 */
+	public static function lookupLastSessionByCourse($a_ref_id)
+	{
+		global $tree,$ilDB;
+		
+		$sessions = $tree->getChildsByType($a_ref_id,'sess');
+		$obj_ids = array();
+		foreach($sessions as $tree_data)
+		{
+			$obj_ids[] = $tree_data['obj_id'];
+		}
+		if(!count($obj_ids))
+		{
+			return false;
+		}
+		$query = "SELECT event_id FROM event_appointment ".
+			"WHERE start < NOW() ".
+			"AND event_id IN (".implode(',',ilUtil::quoteArray($obj_ids)).") ".
+			"ORDER BY start DESC LIMIT 1";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$event_id = $row->event_id;
+		}
+		return isset($event_id) ? $event_id : 0;
+	}
+
 	// Interface methods
 	/**
 	 * is fullday

@@ -77,7 +77,7 @@ class ilDatePresentation
 		else
 		{
 			include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-			$date_str = $date_info['mday'].'. '.
+			$date_str = $date->get(IL_CAL_FKT_DATE,'d').'. '.
 				ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
 				$date_info['year'];
 		}
