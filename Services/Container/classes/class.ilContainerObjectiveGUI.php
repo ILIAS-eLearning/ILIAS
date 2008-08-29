@@ -80,7 +80,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	public function getMainContent()
 	{
-		global $lng,$ilTabs;
+		global $lng,$ilTabs,$ilAccess;
 
 		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
 
@@ -92,6 +92,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		// Feedback
 		// @todo
 //		$this->__showFeedBack();
+
+		if($ilAccess->checkAccess('write','',$this->getContainerObject()->getRefId()) or 1)
+		{
+			$this->showButton('askReset',$lng->txt('crs_reset_results'));
+		}
 
 		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
 
@@ -418,5 +423,30 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		return true;
 	}
 	
+	/**
+	 * show action button
+	 *
+	 * @access protected
+	 * @param
+	 * @return
+	 */
+	protected function showButton($a_cmd,$a_text,$a_target = '')
+	{
+		global $tpl,$ilCtrl;
+		
+		$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		// display button
+		$tpl->setCurrentBlock("btn_cell");
+		$tpl->setVariable("BTN_LINK",$ilCtrl->getLinkTarget($this->getContainerGUI(),$a_cmd));
+		$tpl->setVariable("BTN_TXT",$a_text);
+
+		if($a_target)
+		{
+			$tpl->setVariable("BTN_TARGET",$a_target);
+		}
+
+		$tpl->parseCurrentBlock();
+	}
 }
 ?>
