@@ -1132,7 +1132,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		// title
 		$title = new ilTextInputGUI($this->lng->txt('event_title'),'title');
 		$title->setValue($this->object->getTitle());
-		$title->setSize(20);
+		$title->setSize(50);
 		$title->setMaxLength(70);
 		$title->setRequired(TRUE);
 		$this->form->addItem($title);
