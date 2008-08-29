@@ -1059,7 +1059,17 @@ class ilCourseObjectivesGUI
 		$req->setMaxLength(5);
 		$req->setSize(3);
 		$req->setRequired(true);
-		$req->setInfo($this->lng->txt('crs_obj_required_info'));
+		switch($a_mode)
+		{
+			case 'selfAssessment':
+				$req->setInfo($this->lng->txt('crs_obj_initial_req_info'));
+				break;
+				
+			case 'final':
+				$req->setInfo($this->lng->txt('crs_obj_final_req_info'));
+				break;	
+		}
+		
 		
 		$this->form->addItem($req);
 		
@@ -1147,7 +1157,7 @@ class ilCourseObjectivesGUI
 		
 		$tpl = new ilTemplate('tpl.objective_wizard.html',true,true,'Modules/Course');
 		
-		if($_SESSION['objective_mode'] == self::MODE_CREATE)
+		if($_SESSION['objective_mode'] == self::MODE_CREATE or 1)
 		{
 			$tpl->setCurrentBlock('step_info');
 			$tpl->setVariable('STEP_INFO_STEP',$this->lng->txt('crs_objective_step'));

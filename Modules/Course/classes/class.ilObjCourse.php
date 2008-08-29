@@ -1138,10 +1138,28 @@ class ilObjCourse extends ilContainer
 		
 		if(!is_object($this->items_obj))
 		{
-			$this->items_obj =& new ilCourseItems($this,$a_child_id);
+			$this->items_obj = new ilCourseItems($this,$a_child_id);
 		}
 		return true;
 	}
+	
+	/**
+	 * get course item object
+	 *
+	 * @access public
+	 * @param
+	 * @return object
+	 */
+	public function getCourseItemObject()
+	{
+		if(is_object($this->items_obj))
+		{
+			return $this->items_obj;
+		}
+		$this->initCourseItemObject();
+		return $this->items_obj;
+	}
+	
 
 	function initCourseArchiveObject()
 	{

@@ -8554,3 +8554,11 @@ assessment#:#forcejs_desc#:#Wenn diese Option ausgewählt ist, wird bei allen Te
 crs#:#crs_contact_email_info#:#Sie können eine oder mehrere (durch Komma getrennt) E-Mail Adressen eingeben.
 crs#:#crs_objective_status#:#Lernzielstatus
 trac#:#trac_passed#:#Bestanden
+crs#:#crs_obj_final_req_info#:#Bitte geben Sie die Punktzahl ein, ab der das Lernziel erfüllt ist.
+crs#:#crs_obj_initial_req_info#:#Kursteilnehmern, die diese Punktzahl erreicht haben, werden keine Kursmaterialien zur weiteren Bearbeitung empfohlen.
+crs#:#crs_objective_wiz_title_info#:#Bitte geben Sie einen Titel und eine kurze Beschreibung des Lernziels ein.
+crs#:#crs_objective_wiz_materials_info#:#Hier können Sie festlegen, welche Kursmaterialien zur Bearbeitung des Lernziels empfohlen werden.
+crs#:#crs_objective_wiz_self_info#:#Legen Sie nun die Fragen des Einstiegstests fest. Der Einstiegstest dient der Überprüfung, ob und welche Vorkenntnisse bei den Kursteilnehmern vorhanden sind.
+crs#:#crs_objective_wiz_self_limit_info#:#Bitte geben Sie die Punktzahl ein, ab der keine Materialien zur weiteren Bearbeitung empfohlen werden.
+crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Abschlusstests fest.
+crs#:#crs_objective_wiz_final_limit_info#:#Bitte legen Sie nun die Punktzahl ein, die benötigt ist, um das Lernziel zu bestehen. 
