@@ -1330,6 +1330,34 @@ class ilUtil
 	}
 
 	/**
+	* Ensure that the maximum word lenght within a text is not longer
+	* than $a_len
+	*
+	* @param	string		input string
+	* @param	integer		max. word length
+	* @param	boolean		append "..." to shortened words
+	*/
+	function shortenWords($a_str, $a_len = 30, $a_dots = true)
+	{
+		include_once("./Services/Utilities/classes/class.ilStr.php");
+		$str_arr = explode(" ", $a_str);
+		
+		for ($i = 0; $i < count($str_arr); $i++)
+		{
+			if (ilStr::strLen($str_arr[$i]) > $a_len)
+			{
+				$str_arr[$i] = ilStr::subStr($str_arr[$i], 0, $a_len);
+				if ($a_dots)
+				{
+					$str_arr[$i].= "...";
+				}
+			}
+		}
+		
+		return implode($str_arr, " ");
+	}
+
+	/**
 	* converts a string of format var1 = "val1" var2 = "val2" ... into an array
 	*
 	* @param	string		$a_str		string in format: var1 = "val1" var2 = "val2" ...

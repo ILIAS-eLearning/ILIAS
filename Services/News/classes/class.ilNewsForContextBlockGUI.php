@@ -402,7 +402,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$this->tpl->setVariable("TYPE", $lng->txt($lang_type));
 			$this->tpl->setVariable("IMG_TYPE",
 				ilObject::_getIcon($obj_id, "tiny", $type));
-			$this->tpl->setVariable("TITLE", ilObject::_lookupTitle($obj_id));
+			$this->tpl->setVariable("TITLE",
+				ilUtil::shortenWords(ilObject::_lookupTitle($obj_id)));
 			if ($news["user_read"] > 0)
 			{
 				$this->tpl->setVariable("TITLE_CLASS", 'class="light"');
@@ -417,9 +418,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		}
 
 		// title
-		$this->tpl->setVariable("VAL_TITLE", ilNewsItem::determineNewsTitle
+		$this->tpl->setVariable("VAL_TITLE",
+			ilUtil::shortenWords(ilNewsItem::determineNewsTitle
 			($news["context_obj_type"], $news["title"], $news["content_is_lang_var"],
-			$news["agg_ref_id"], $news["aggregation"]));
+			$news["agg_ref_id"], $news["aggregation"])));
 		
 		
 		if ($news["user_read"] > 0)
