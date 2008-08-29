@@ -708,6 +708,11 @@ class ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
+		// BEGIN WebDAV Get mount webfolder link.
+		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
+		if ($a_cmd == 'mount_webfolder' && ilDavServer::_isActive()) {
+			return '_blank';        
+		}
 		return "";
 	}
 
