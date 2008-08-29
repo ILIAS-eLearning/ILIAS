@@ -8535,22 +8535,22 @@ pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entw
 pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
 pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen in denen Sie Mitglied sind.
 assessment#:#kiosk#:#Kiosk-Modus
-assessment#:#kiosk_description#:#Führt den Test in einem sogenannten Kiosk-Modus aus. All Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet, damit die Teilnehmerinnen und Teilnehmer keine Möglichkeit haben, den Test zu verlassen.
-assessment#:#autosave_success#:#Automatisch gespeichert...
-assessment#:#autosave_failed#:#Das automatische Speichern ist fehlgeschlagen!
-assessment#:#kiosk_show_title#:#Testtitel anzeigen
-assessment#:#kiosk_show_participant#:#Teilnehmername anzeigen
-assessment#:#kiosk_options#:#Einstellungen für den Kiosk-Modus
-assessment#:#kiosk_options_desc#:#Wählen Sie aus, ob der Testtitel und/oder der Name des aktuellen Testteilnehmers/der Testteilnehmerin während des Kiosk-Modus in der Kopfzeile der Seite angezeigt werden soll.
-assessment#:#redirectAfterSave#:#Die maximale Bearbeitungszeit wurde erreicht. Ihre zuletzt bearbeitete Frage wurde mit dem Erreichen der Bearbeitungszeit automatisch gespeichert. In wenigen Sekunden werden Sie weitergeleitet...
+assessment#:#kiosk_description#:#Führt den Test in einem sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet, damit die Teilnehmerinnen und Teilnehmer keine Möglichkeit haben, den Test zu verlassen.
+assessment#:#autosave_success#:#Automatisches Speichern erfolgreich durchgeführt...
+assessment#:#autosave_failed#:#Automatisches Speichern fehlgeschlagen!
+assessment#:#kiosk_show_title#:#Test Titel anzeigen
+assessment#:#kiosk_show_participant#:#Name des Teilnehmers anzeigen
+assessment#:#kiosk_options#:#Kiosk-Modus Einstellungen
+assessment#:#kiosk_options_desc#:#Wählen Sie aus, ob der Titel des Tests und/oder der Name des aktuellen Teilnehmers/der aktuellen Teilnehmerin während der Aktivierung des Kiosk-Modus im Kopf der Seite angezeigt werden sollen.
+assessment#:#redirectAfterSave#:#Die maximale Bearbeitungszeit für diesen Test wurde erreicht. Ihre letzte bearbeitete Frage wurde automatisch beim Erreichen der Bearbeitungszeit gespeichert. In wenigen Sekunden werden Sie weitergeleitet...
 assessment#:#final_statement#:#Abschließende Bemerkung
 assessment#:#final_statement_show#:#Abschließende Bemerkung anzeigen
-assessment#:#final_statement_show_desc#:#Wenn ausgewählt, wird die abschließende Bemerkung direkt nach der Beendigung des Tests, noch vor der Präsentation der Testergebnisse für die Teilnehmer angezeigt.
-assessment#:#showinfo#:#Die komplette Info-Seite anzeigen
-assessment#:#showinfo_desc#:#Wenn ausgewählt, wird die komplette Info-Seite (einschließlich der wichtigsten Testeigenschaften) angezeigt, anderenfalls wird lediglich der einleitende Text (wenn vorhanden) und die benötigten Einstellungen auf der Info-Seite angezeigt. 
-assessment#:#forcejs#:#JavaScript-Ausgabe für Testfragen erzwingen
+assessment#:#final_statement_show_desc#:#Wenn diese Option ausgewählt ist, wird die Abschließende Bemerkung direkt nach dem finalen Beenden eines Tests anzeigt.
+assessment#:#showinfo#:#Komplette Info-Seite anzeigen
+assessment#:#showinfo_desc#:#Wenn diese Option ausgewählt ist, wird die komplette Info-Seite (inklusive aller Test-Eigenschaften) für die Test-Teilnehmer angezeigt. Wenn diese Option nicht ausgewählt ist, werden lediglich der einleitende Test (falls vorhanden) und die wirklich benötigten Test-Eigenschaften auf der Info-Seite angezeigt.
+assessment#:#forcejs#:#JavaScript für die Ausgabe von Testfragen erzwingen
 assessment#:#forcejs_short#:#JavaScript erzwingen
-assessment#:#forcejs_desc#:#Wenn ausgewählt, wird für Testfragen standardmäßig die JavaScript-Ausgabe anstelle der reinen HTML-Ausgabe verwendet.
+assessment#:#forcejs_desc#:#Wenn diese Option ausgewählt ist, wird bei allen Testfragen die JavaScript-basierte Ausgabe herkömmlichen Ausgabe vorgezogen.
 crs#:#crs_contact_email_info#:#Sie können eine oder mehrere (durch Komma getrennt) E-Mail Adressen eingeben.
 crs#:#crs_objective_status#:#Lernzielstatus
 trac#:#trac_passed#:#Bestanden
