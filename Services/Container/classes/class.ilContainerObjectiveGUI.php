@@ -321,7 +321,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 */
 	protected function renderObjective($a_objective_id)
 	{
-		global $ilUser;
+		global $ilUser,$lng;
 		
 		include_once('./Modules/Course/classes/class.ilCourseObjective.php');
 		$objective = new ilCourseObjective($this->getContainerObject(),$a_objective_id);
@@ -329,6 +329,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
 		$items = $this->getContainerObject()->getCourseItemObject()->getItemsByObjective($a_objective_id);
 		$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('lobj',$a_objective_id,$items);
+
+		include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
+		$objectives_lm_obj = new ilCourseObjectiveMaterials($a_objective_id);
 
 		$pos = 1;
 		foreach($items as $item) 
@@ -338,8 +341,37 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				continue;
 			}
 			
+			$chapters = $objectives_lm_obj->getChapters();
+			
 			$item_list_gui2 = $this->getItemGUI($item);
 			$item_list_gui2->enableIcon(true);
+
+			if(count($chapters))
+			{
+				$num = 0;
+				$has_sections = false;
+				foreach($chapters as $chapter)
+				{
+					if($chapter['ref_id'] != $item['child'])
+					{
+						continue;
+					}
+					$has_sections = true;
+					include_once './Modules/LearningModule/classes/class.ilLMObject.php';
+
+					$details[$num]['desc'] = $lng->txt('obj_'.$chapter['type']).' -> ';
+					$details[$num]['target'] = '_top';
+					$details[$num]['link'] = "ilias.php?baseClass=ilLMPresentationGUI&ref_id=".$chapter['ref_id'].'&obj_id='.$chapter['obj_id'];
+					$details[$num]['name'] = ilLMObject::_lookupTitle($chapter['obj_id']); 
+					$num++;
+				}
+				if($has_sections)
+				{
+					$item_list_gui2->enableItemDetailLinks(true);
+					$item_list_gui2->setItemDetailLinks($details,$lng->txt('crs_suggested_sections').': ');
+				}
+			}
+
 			if ($this->getContainerGUI()->isActiveAdministrationPanel())
 			{
 				$item_list_gui2->enableCheckbox(true);

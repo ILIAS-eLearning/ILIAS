@@ -4711,8 +4711,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function cciObjectivesObject()
 	{
-		$this->tabs_gui->setTabActive('learners_view');
-		
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_objectives();
@@ -4731,8 +4729,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	function cciObjectivesAskResetObject()
 	{
-		$this->tabs_gui->setTabActive('learners_view');
-
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_setContainer($this);
 		$this->cci_obj->cci_objectives_ask_reset();
@@ -4741,8 +4737,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	function cciResetObject()
 	{
-		$this->tabs_gui->setTabActive('learners_view');
-
 		global $ilUser;
 
 		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
@@ -5076,12 +5070,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		// ilObjCourseGUI, so please use ...ByClass methods.
 		// (see ilObjCourseGUI->executeCommand: case "ilcolumngui")
 		
-		if($this->object->enabledObjectiveView())
-		{
-			// Objective gui
-			$this->tabs_gui->addSubTabTarget('learners_view',
-				$this->ctrl->getLinkTargetByClass(array('ilcoursecontentgui', 'ilcourseobjectivepresentationgui'),'view'));
-		}
 		if(!$_SESSION['crs_timings_panel'][$this->object->getId()] or 1)
 		{
 			$this->tabs_gui->addSubTabTarget('crs_content',

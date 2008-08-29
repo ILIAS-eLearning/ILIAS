@@ -402,6 +402,7 @@ abstract class ilContainerContentGUI
 			{
 				$item_list_gui2 = $this->getItemGUI($item);
 				$item_list_gui2->enableIcon(true);
+				$item_list_gui2->enableItemDetailLinks(false);
 				if ($this->getContainerGUI()->isActiveAdministrationPanel())
 				{
 					$item_list_gui2->enableCheckbox(true);

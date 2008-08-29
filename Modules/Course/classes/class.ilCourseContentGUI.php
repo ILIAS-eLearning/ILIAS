@@ -408,7 +408,6 @@ class ilCourseContentGUI
 		
 		if ($this->use_objective_presentation)
 		{
-			$this->tabs_gui->setSubTabActive('learners_view');
 			return $this->__forwardToObjectivePresentation();
 		}
 		switch ($ilCtrl->getNextClass())
@@ -417,7 +416,6 @@ class ilCourseContentGUI
 
 				if ($_GET["col_return"] == "objectives")
 				{
-					$this->tabs_gui->setSubTabActive('learners_view');
 					$ilCtrl->setParameter($this, "col_return", "objectives");
 					$ilCtrl->setReturn($this, "view");
 				}
@@ -430,7 +428,6 @@ class ilCourseContentGUI
 				return;
 				
 			case "ilcourseobjectivepresentationgui":
-				$this->tabs_gui->setSubTabActive('learners_view');
 				return $this->__forwardToObjectivePresentation();
 		}
 		
@@ -546,7 +543,6 @@ class ilCourseContentGUI
 			{
 				if ($_GET["col_return"] == "objectives")
 				{
-					$this->tabs_gui->setSubTabActive('learners_view');
 					//return $this->__forwardToObjectivePresentation();
 					include_once 'Modules/Course/classes/class.ilCourseObjectivePresentationGUI.php';
 					$this->ctrl->setReturn($this,'');
