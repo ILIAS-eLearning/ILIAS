@@ -326,7 +326,7 @@ class ilObjectGUI
 	*/
 	function setTitleAndDescription()
 	{
-		$this->tpl->setTitle($this->object->getTitle());
+		$this->tpl->setTitle($this->object->getPresentationTitle());
 		$this->tpl->setDescription($this->object->getLongDescription());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_" . $this->object->getType()));
 	}
