@@ -5216,7 +5216,10 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						if ($this->object->getUsePreviousAnswers() == 0)
 						{
-							$info->addProperty($this->lng->txt("tst_use_previous_answers"), $this->lng->txt("tst_dont_use_previous_answers"));
+							if ($this->object->getShowInfo())
+							{
+								$info->addProperty($this->lng->txt("tst_use_previous_answers"), $this->lng->txt("tst_dont_use_previous_answers"));
+							}
 						}
 						else
 						{
