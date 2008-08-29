@@ -381,7 +381,7 @@ class ilTestExport
 			$resultsheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($userdata->getName()));
 			$pass = $userdata->getScoredPass();
 			$row = 0;
-			$resultsheet->writeString($row, 0, ilExcelUtils::_convert_text(sprintf($this->lng->txt("tst_result_user_name_pass"), $pass, $data->getParticipant($active_id)->getName())), $format_bold);
+			$resultsheet->writeString($row, 0, ilExcelUtils::_convert_text(sprintf($this->lng->txt("tst_result_user_name_pass"), $pass+1, $userdata->getName())), $format_bold);
 			$row += 2;
 			if (is_object($userdata) && is_array($userdata->getQuestions($pass)))
 			{
