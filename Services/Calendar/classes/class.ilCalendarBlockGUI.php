@@ -45,29 +45,24 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	
 	/**
 	* Constructor
+	*
+	* @param	boolean		skip initialisation (is called by derived PDCalendarBlockGUI class)
 	*/
-	function ilCalendarBlockGUI()
+	function ilCalendarBlockGUI($a_skip_init = false)
 	{
 		global $ilCtrl, $lng, $ilUser, $tpl;
 		
 		parent::ilBlockGUI();
 		
 		$this->setImage(ilUtil::getImagePath("icon_cals_s.gif"));
-		$ilCtrl->saveParameter($this, "seed");
 		
 		$lng->loadLanguageModule("dateplaner");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		
-		// TODO: needs another switch between PD and respostory mode
-		if(isset($_GET['ref_id']))
+		if (!$a_skip_init)
 		{
-			$this->initCategories(self::CAL_MODE_REPOSITORY);
+			$this->initCategories();
 			$this->setBlockId($ilCtrl->getContextObjId());
-		}
-		else
-		{
-			$this->initCategories(self::CAL_MODE_PD);
-			$this->setBlockId(0);
 		}
 
 		$this->setLimit(5);			// @todo: needed?
@@ -82,13 +77,18 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		include_once('Services/Calendar/classes/class.ilDate.php');
 		include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
-		if ($_GET["seed"] == "")
+		
+		$seed_str = ($_GET["seed"] == "")
+			? $_SESSION["il_cal_block_".$this->getBlockType()."_".$this->getBlockId()."_seed"]
+			: $_GET["seed"];
+
+		if ($seed_str == "")
 		{
 			$this->seed = new ilDate(time(),IL_CAL_UNIX);	// @todo: check this
 		}
 		else
 		{
-			$this->seed = new ilDate($_REQUEST['seed'],IL_CAL_DATE);	// @todo: check this
+			$this->seed = new ilDate($seed_str,IL_CAL_DATE);	// @todo: check this
 		}
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
 		
@@ -333,16 +333,24 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$a_tpl->setVariable('OPEN_MONTH_VIEW',$ilCtrl->getLinkTargetByClass('ilcalendarmonthgui',''));
 		
 		$myseed->increment(ilDateTime::MONTH, -1);
-		$ilCtrl->setParameterByClass("ilcolumngui",'seed',$myseed->get(IL_CAL_DATE));
+		$ilCtrl->setParameter($this,'seed',$myseed->get(IL_CAL_DATE));
+		
+		$a_tpl->setVariable('BL_TYPE', $this->getBlockType());
+		$a_tpl->setVariable('BL_ID', $this->getBlockId());
+		
 		$a_tpl->setVariable('PREV_MONTH',
-			$ilCtrl->getLinkTargetByClass("ilcolumngui", ""));
+			$ilCtrl->getLinkTarget($this, "setSeed"));
+		$a_tpl->setVariable('PREV_MONTH_ASYNC',
+			$ilCtrl->getLinkTarget($this, "setSeed", "", true));
 			
 		$myseed->increment(ilDateTime::MONTH, 2);
-		$ilCtrl->setParameterByClass("ilcolumngui",'seed',$myseed->get(IL_CAL_DATE));
+		$ilCtrl->setParameter($this,'seed',$myseed->get(IL_CAL_DATE));
 		$a_tpl->setVariable('NEXT_MONTH',
-			$ilCtrl->getLinkTargetByClass("ilcolumngui", ""));
+			$ilCtrl->getLinkTarget($this, "setSeed"));
+		$a_tpl->setVariable('NEXT_MONTH_ASYNC',
+			$ilCtrl->getLinkTarget($this, "setSeed", "", true));
 
-		$ilCtrl->setParameterByClass("ilcolumngui",'seed',$_GET["seed"]);
+		$ilCtrl->setParameter($this, 'seed', "");
 		$a_tpl->parseCurrentBlock();
 	}
 	
@@ -353,6 +361,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng, $ilUser;
 		
+		if ($this->getCurrentDetailLevel() == 0)
+		{
+			return "";
+		}
 		
 		// add edit commands
 		if ($this->getEnableEdit())
@@ -399,11 +411,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
 		$events = $schedule->getChangedEvents();
 		
-// These lines profuce an ERROR: Can't find target class ilcalendarinboxgui for node 23 (ilcalendarblockgui).
-// on personal desktop
-/*		$link = '<a href='.$ilCtrl->getLinkTargetByClass('ilcalendarinboxgui','').'>';
+		$link = '<a href='.$ilCtrl->getLinkTargetByClass('ilcalendarinboxgui','').'>';
 		$text = '<div class="small">'.((int) count($events))." ".$lng->txt("cal_changed_events_header")."</div>";
-		$end_link = '</a>';*/
+		$end_link = '</a>';
 		
 		return $link.$text.$end_link;
 	}
@@ -423,27 +433,45 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	 * @param
 	 * @return
 	 */
-	protected function initCategories($a_mode)
+	protected function initCategories()
 	{
-		$this->mode = $a_mode;
-		switch($this->mode)
+		$this->mode = self::CAL_MODE_REPOSITORY;
+		if(!is_object($this->categories))
 		{
-			case self::CAL_MODE_REPOSITORY:
-				if(!is_object($this->categories))
-				{
-					include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-					$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
-				}
-				break;
-			
-			case self::CAL_MODE_PD:
-				if(!is_object($this->categories))
-				{
-					include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-					$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP,(int)$_GET['ref_id']);
-				}
-				break;
+			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+			$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP,(int)$_GET['ref_id']);
 		}
+	}
+	
+	/**
+	* Set seed
+	*/
+	function setSeed()
+	{
+		global $ilCtrl, $ilUser;
+
+		//$ilUser->writePref("il_pd_bkm_mode", 'flat');
+		$_SESSION["il_cal_block_".$this->getBlockType()."_".$this->getBlockId()."_seed"] =
+			$_GET["seed"];
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$this->returnToUpperContext();
+		}
+	}
+	
+	/**
+	* Return to upper context
+	*/
+	function returnToUpperContext()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->returnToParent($this);
 	}
 }
 

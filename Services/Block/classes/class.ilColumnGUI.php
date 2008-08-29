@@ -58,6 +58,7 @@ class ilColumnGUI
 	static protected $locations = array(
 		"ilNewsForContextBlockGUI" => "Services/News/",
 		"ilCalendarBlockGUI" => "Services/Calendar/",
+		"ilPDCalendarBlockGUI" => "Services/Calendar/",
 		"ilPDNotesBlockGUI" => "Services/Notes/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
 		"ilUsersOnlineBlockGUI" => "Services/PersonalDesktop/",
@@ -80,6 +81,7 @@ class ilColumnGUI
 			"ilBookmarkBlockGUI" => "pdbookm",
 			"ilNewsForContextBlockGUI" => "news",
 			"ilCalendarBlockGUI" => "cal",
+			"ilPDCalendarBlockGUI" => "pdcal",
 			"ilExternalFeedBlockGUI" => "feed",
 			"ilPDExternalFeedBlockGUI" => "pdfeed",
 			"ilPDFeedbackBlockGUI" => "pdfeedb",
@@ -104,7 +106,7 @@ class ilColumnGUI
 		"info" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"pd" => array(
-			"ilCalendarBlockGUI" => IL_COL_RIGHT,
+			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
 			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
 			"ilPDFeedbackBlockGUI" => IL_COL_LEFT,
 			"ilPDNewsBlockGUI" => IL_COL_LEFT,
@@ -126,7 +128,6 @@ class ilColumnGUI
 		"frm" => array(),
 		"root" => array(),
 		"info" => array(),
-		"cal" => array(),
 		"pd" => array("ilPDExternalFeedBlockGUI")
 		);
 		
@@ -135,6 +136,7 @@ class ilColumnGUI
 	protected $check_global_activation = 
 		array("news" => true,
 			"cal"	=> true,
+			"pdcal"	=> false,
 			"pdnews" => true,
 			"pdfeed" => true,			
 			"pdusers" => true,
@@ -469,7 +471,7 @@ class ilColumnGUI
 	*/
 	function showBlocks()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 		
 		$blocks = array();
 		
@@ -478,61 +480,66 @@ class ilColumnGUI
 
 		foreach($this->blocks[$this->getSide()] as $block)
 		{
-			$gui_class = $block["class"];
-			$block_class = substr($block["class"], 0, strlen($block["class"])-3);
-			
-			// get block gui class
-			include_once("./".self::$locations[$gui_class]."classes/".
-				"class.".$gui_class.".php");
-			$block_gui = new $gui_class();
-			$block_gui->setProperties($this->block_property[$block["type"]]);
-			$block_gui->setRepositoryMode($this->getRepositoryMode());
-			$block_gui->setEnableEdit($this->getEnableEdit());
-			$block_gui->setAdminCommands($this->getAdminCommands());
-			$block_gui->setConfigMode($this->getMovementMode());
-			$this->setPossibleMoves($block_gui, $i, $sum_moveable);
-			
-			// get block for custom blocks
-			if ($block["custom"])
+			if ($ilCtrl->getContextObjType() != "user" ||
+				ilBlockSetting::_lookupDetailLevel($block["type"],
+					$ilUser->getId(), $block["id"]) > 0)
 			{
+				$gui_class = $block["class"];
+				$block_class = substr($block["class"], 0, strlen($block["class"])-3);
+				
+				// get block gui class
 				include_once("./".self::$locations[$gui_class]."classes/".
-					"class.".$block_class.".php");
-				$app_block = new $block_class($block["id"]);
-				$block_gui->setBlock($app_block);
-				$block_gui->setRefId($block["ref_id"]);
-			}
-
-			$ilCtrl->setParameter($this, "block_type", $block_gui->getBlockType());
-			$this->tpl->setCurrentBlock("col_block");
-			$html = $ilCtrl->getHTML($block_gui);
-
-			// dummy block, if non visible, but movement is ongoing
-			if ($html == "" && $this->getRepositoryMode() &&
-				$this->getMovementMode())
-			{
-				include_once("./Services/Block/classes/class.ilDummyBlockGUI.php");
-				$bl = new ilDummyBlockGUI();
-				$bl->setBlockId($block["id"]);
-				$bl->setBlockType($block["type"]);
-				$bl->setTitle($lng->txt("invisible_block"));
-				$this->setPossibleMoves($bl, $i, $sum_moveable);
-				$bl->setConfigMode($this->getMovementMode());
-				$html = $bl->getHTML();
-			}
-			
-			$this->tpl->setVariable("BLOCK", $html);
-			$this->tpl->parseCurrentBlock();
-			$ilCtrl->setParameter($this, "block_type", "");
-			
-			// count (moveable) blocks
-			if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb" &&
-				$block["type"] != "news")
-			{
-				$i++;
-			}
-			else
-			{
-				$sum_moveable--;
+					"class.".$gui_class.".php");
+				$block_gui = new $gui_class();
+				$block_gui->setProperties($this->block_property[$block["type"]]);
+				$block_gui->setRepositoryMode($this->getRepositoryMode());
+				$block_gui->setEnableEdit($this->getEnableEdit());
+				$block_gui->setAdminCommands($this->getAdminCommands());
+				$block_gui->setConfigMode($this->getMovementMode());
+				$this->setPossibleMoves($block_gui, $i, $sum_moveable);
+				
+				// get block for custom blocks
+				if ($block["custom"])
+				{
+					include_once("./".self::$locations[$gui_class]."classes/".
+						"class.".$block_class.".php");
+					$app_block = new $block_class($block["id"]);
+					$block_gui->setBlock($app_block);
+					$block_gui->setRefId($block["ref_id"]);
+				}
+	
+				$ilCtrl->setParameter($this, "block_type", $block_gui->getBlockType());
+				$this->tpl->setCurrentBlock("col_block");
+				$html = $ilCtrl->getHTML($block_gui);
+	
+				// dummy block, if non visible, but movement is ongoing
+				if ($html == "" && $this->getRepositoryMode() &&
+					$this->getMovementMode())
+				{
+					include_once("./Services/Block/classes/class.ilDummyBlockGUI.php");
+					$bl = new ilDummyBlockGUI();
+					$bl->setBlockId($block["id"]);
+					$bl->setBlockType($block["type"]);
+					$bl->setTitle($lng->txt("invisible_block"));
+					$this->setPossibleMoves($bl, $i, $sum_moveable);
+					$bl->setConfigMode($this->getMovementMode());
+					$html = $bl->getHTML();
+				}
+				
+				$this->tpl->setVariable("BLOCK", $html);
+				$this->tpl->parseCurrentBlock();
+				$ilCtrl->setParameter($this, "block_type", "");
+				
+				// count (moveable) blocks
+				if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb" &&
+					$block["type"] != "news")
+				{
+					$i++;
+				}
+				else
+				{
+					$sum_moveable--;
+				}
 			}
 		}
 	}
@@ -570,14 +577,14 @@ class ilColumnGUI
 		$blocks = array("pdmail" => $lng->txt("mail"),
 			"pdnotes" => $lng->txt("notes"),
 			"pdusers" => $lng->txt("users_online"),
-			"pdnews" => $lng->txt("news_internal_news"),
+			"pdnews" => $lng->txt("news"),
 			"pdbookm" => $lng->txt("my_bms"),
 			"news" => $lng->txt("news_internal_news"),
 			"feed" => $lng->txt("feed"),
 			"pdfeed" => $lng->txt("feed"),
 			"html" => $lng->txt("html_block"),
 			"pdtag" => $lng->txt("tagging_my_tags"),
-			"cal" => $lng->txt('calendar'),
+			"pdcal" => $lng->txt('calendar'),
 			);
 
 		foreach($this->blocks[$this->getSide()] as $block)
@@ -865,6 +872,10 @@ class ilColumnGUI
 					if ($type == "news")		// always show news first
 					{
 						$nr = -15;
+					}
+					if ($type == "cal")		// show calendar after news
+					{
+						$nr = -8;
 					}
 					if ($type == "pdsysmess")		// always show sys mess first
 					{
