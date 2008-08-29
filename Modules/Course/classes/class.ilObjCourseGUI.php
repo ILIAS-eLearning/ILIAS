@@ -5128,7 +5128,37 @@ class ilObjCourseGUI extends ilContainerGUI
 		return $date;		
 	}
 	
+	/**
+	 * ask reset test results
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function askResetObject()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_ask_reset.html",'Modules/Course');
+		
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_reset_sure'));
+		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("TXT_RESET",$this->lng->txt('reset'));
+		
+		return true;
+	}
+	
+	function resetObject()
+	{
+		global $ilUser;
 
-
+		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
+		
+		$tmp_obj_res = new ilCourseObjectiveResult($ilUser->getId());
+		$tmp_obj_res->reset($this->object->getId());
+		
+		ilUtil::sendInfo($this->lng->txt('crs_objectives_reseted'));
+		$this->viewObject();
+	}
+	
 } // END class.ilObjCourseGUI
 ?>

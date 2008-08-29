@@ -5113,7 +5113,7 @@ crs#:#crs_registration_type#:#Registration Procedure
 crs#:#crs_registration_unlimited#:#Unlimited Registration Period
 crs#:#crs_reject_subscriber#:#Declined for course "%s"
 crs#:#crs_reject_subscriber_body#:#Your request to join course "%s" has been declined.
-crs#:#crs_reset_results#:#Reset results
+crs#:#crs_reset_results#:#Reset Results
 crs#:#crs_role#:#Role
 crs#:#crs_role_status#:#Role / Status
 crs#:#crs_search_enter_search_string#:#Please enter a search string
