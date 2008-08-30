@@ -272,20 +272,37 @@ class ilCalendarWeekGUI
 	 * @access protected
 	 * @return array hours
 	 */
-	protected function parseHourInfo($daily_apps,$date,$num_day,$hours = null)
+	protected function parseHourInfo($daily_apps,$date,$num_day,$hours = null,
+		$morning_aggr = 7, $evening_aggr = 20)
 	{
-		for($i = 0;$i < 24;$i++)
+		for($i = $morning_aggr;$i <= $evening_aggr;$i++)
 		{
 			$hours[$i][$num_day]['apps_start'] = array();
 			$hours[$i][$num_day]['apps_num'] = 0;
 			switch($this->user_settings->getTimeFormat())
 			{
 				case ilCalendarSettings::TIME_FORMAT_24:
-					$hours[$i][$num_day]['txt'] = sprintf('%02d:00',$i);
+					if ($morning_aggr > 0 && $i == $morning_aggr)
+					{
+						$hours[$i][$num_day]['txt'] = sprintf('%02d:00',0)."-";
+					}
+					$hours[$i][$num_day]['txt'].= sprintf('%02d:00',$i);
+					if ($evening_aggr < 23 && $i == $evening_aggr)
+					{
+						$hours[$i][$num_day]['txt'].= "-".sprintf('%02d:00',23);
+					}
 					break;
 				
 				case ilCalendarSettings::TIME_FORMAT_12:
-					$hours[$i][$num_day]['txt'] = date('h a',mktime($i,0,0,1,1,2000));
+					if ($morning_aggr > 0 && $i == $morning_aggr)
+					{
+						$hours[$i][$num_day]['txt'] = date('h a',mktime(0,0,0,1,1,2000))."-";
+					}
+					$hours[$i][$num_day]['txt'].= date('h a',mktime($i,0,0,1,1,2000));
+					if ($evening_aggr < 23 && $i == $evening_aggr)
+					{
+						$hours[$i][$num_day]['txt'].= "-".date('h a',mktime(23,0,0,1,1,2000));
+					}
 					break; 					
 			}
 		}
@@ -324,6 +341,27 @@ class ilCalendarWeekGUI
 				$end = $app['end_info']['hours'];
 			}
 			
+			if ($start < $morning_aggr)
+			{
+				$start = $morning_aggr;
+			}
+			if ($end <= $morning_aggr)
+			{
+				$end = $morning_aggr+1;
+			}
+			if ($start > $evening_aggr)
+			{
+				$start = $evening_aggr;
+			}
+			if ($end > $evening_aggr+1)
+			{
+				$end = $evening_aggr+1;
+			}
+			if ($end <= $start)
+			{
+				$end = $start + 1;
+			}
+
 			$first = true;
 			for($i = $start;$i < $end;$i++)
 			{

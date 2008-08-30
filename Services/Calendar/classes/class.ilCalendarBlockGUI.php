@@ -81,6 +81,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$seed_str = ($_GET["seed"] == "")
 			? $_SESSION["il_cal_block_".$this->getBlockType()."_".$this->getBlockId()."_seed"]
 			: $_GET["seed"];
+			
+		if ($_GET["seed"] != "")
+		{
+			$_SESSION["il_cal_block_".$this->getBlockType()."_".$this->getBlockId()."_seed"]
+				= $_GET["seed"];
+		}
 
 		if ($seed_str == "")
 		{
