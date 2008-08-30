@@ -184,7 +184,8 @@ class ilCalendarMonthGUI
 			$this->ctrl->clearParametersByClass('ilcalendardaygui');
 			
 			$this->tpl->setVariable('MONTH_DAY',$month_day);
-			$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
+			//$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
+			$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('date_add.gif'));
 			$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
