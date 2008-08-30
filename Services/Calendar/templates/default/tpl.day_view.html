@@ -4,8 +4,7 @@
 		<tr class="calheader">
 			<th class="calstd" colspan="{COLSPAN}">
 				<a class="callink" href="{NEW_APP_LINK}">
-					<font class="small">{HEADER_DATE}</font><br />
-					{HEADER_DAY}
+					<font class="small">{HEADER_DAY}, {HEADER_DATE}</font>
 				</a>
 			</th>
 		</tr>
@@ -25,13 +24,13 @@
 	<tbody>
 		<!-- BEGIN time_row -->
 		<tr class="calstdtime">
-			<th class="calheadertime" style="vertical-align: top">
+			<td class="calheadertime" style="vertical-align: top">
 				<a class="callink" href="{NEW_APP_HOUR_LINK}">{TIME}</a>
-			</th>
+			</td>
 			<!-- BEGIN app -->
 			<td class="calevent" style="background-color: {APP_BGCOLOR};color: {APP_COLOR}" rowspan="{APP_ROWSPAN}">
 				<a class="callink" href="{APP_EDIT_LINK}">
-					<font class="small">{APP_TITLE}</font>
+					{APP_TITLE}
 				</a>
 			</td>
 			<!-- END app -->

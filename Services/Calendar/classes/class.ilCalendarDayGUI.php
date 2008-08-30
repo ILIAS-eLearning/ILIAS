@@ -1,24 +1,24 @@
 <?php
 /*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
 */
 
 /**
@@ -223,9 +223,10 @@ class ilCalendarDayGUI
 	 * @access protected
 	 * @return array hours
 	 */
-	protected function parseHourInfo($daily_apps)
+	protected function parseHourInfo($daily_apps, $morning_aggr = 7,
+		$evening_aggr = 20)
 	{
-		for($i = 0;$i < 24;$i++)
+		for($i = $morning_aggr;$i <= $evening_aggr;$i++)
 		{
 			$hours[$i]['apps_start'] = array();
 			$hours[$i]['apps_num'] = 0;
@@ -233,11 +234,27 @@ class ilCalendarDayGUI
 			switch($this->user_settings->getTimeFormat())
 			{
 				case ilCalendarSettings::TIME_FORMAT_24:
-					$hours[$i]['txt'] = sprintf('%02d:00',$i);
+					if ($morning_aggr > 0 && $i == $morning_aggr)
+					{
+						$hours[$i]['txt'] = sprintf('%02d:00',0)."-";
+					}
+					$hours[$i]['txt'].= sprintf('%02d:00',$i);
+					if ($evening_aggr < 23 && $i == $evening_aggr)
+					{
+						$hours[$i]['txt'].= "-".sprintf('%02d:00',23);
+					}
 					break;
 				
 				case ilCalendarSettings::TIME_FORMAT_12:
+					if ($morning_aggr > 0 && $i == $morning_aggr)
+					{
+						$hours[$i]['txt'] = date('h a',mktime(0,0,0,1,1,2000))."-";
+					}
 					$hours[$i]['txt'] = date('h a',mktime($i,0,0,1,1,2000));
+					if ($evening_aggr < 23 && $i == $evening_aggr)
+					{
+						$hours[$i]['txt'].= "-".date('h a',mktime(23,0,0,1,1,2000));
+					}
 					break; 					
 			}
 		}
@@ -272,6 +289,27 @@ class ilCalendarDayGUI
 			{
 				$end = $app['end_info']['hours'];
 			}
+			if ($start < $morning_aggr)
+			{
+				$start = $morning_aggr;
+			}
+			if ($end <= $morning_aggr)
+			{
+				$end = $morning_aggr+1;
+			}
+			if ($start > $evening_aggr)
+			{
+				$start = $evening_aggr;
+			}
+			if ($end > $evening_aggr+1)
+			{
+				$end = $evening_aggr+1;
+			}
+			if ($end <= $start)
+			{
+				$end = $start + 1;
+			}
+			
 			$first = true;
 			for($i = $start;$i < $end;$i++)
 			{

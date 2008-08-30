@@ -1,7 +1,7 @@
 table.calstd {
 	color:#222222;
 	width:100%;
-	background-color:#bbbbbb;
+	background-color:#FFFFFF;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:0px;
@@ -27,22 +27,24 @@ th.calstd {
 	border-color:#9EADBA;
 }
 
-th.calheadertime {
+td.calheadertime {
 	width: 6em;
 	text-align: center;
 	border-spacing:0px;
-	background-color: #EDEDED;
+	background-color: #FFFFFF;
 	border-collapse:collapse;
 	border-width:1px;
-	border-style:solid;
+	border-style: dotted solid;
 	border-color:#9EADBA;
+	font-size: 90%;
+	padding: 3px;
 }
 	
 td.calempty {
 	background-color:#ffffff;
 	border-spacing:0px;
 	border-bottom-width:1px;
-	border-bottom-style:solid;
+	border-bottom-style:dotted;
 	border-bottom-color:#9EADBA;
 }
 
@@ -64,7 +66,7 @@ tr.calstd {
 }
 
 tr.calstdtime {
-	height: 3em;
+	height: 2.5em;
 	background-color: inherit;
 	border-right-width:1px;
 	border-right-style:solid;
@@ -126,15 +128,13 @@ p.il_calevent {
 td.calevent {
 	color:white;
 	vertical-align: top;
-	padding-top: 5px;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-bottom: 5px;
+	padding: 3px;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
-	border-style:outset;
+	border-style:dotted solid;
 	border-color:grey;
+	font-size:90%;
 }
 
 p.il_cal_monthday {
