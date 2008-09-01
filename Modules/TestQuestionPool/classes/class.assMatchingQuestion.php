@@ -1188,6 +1188,7 @@ class assMatchingQuestion extends assQuestion
 		$solutions = $this->getSolutionValues($active_id, $pass);
 		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
 		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		$imagepath = $this->getImagePath();
 		$i = 1;
 		$terms = $this->getTerms();
 		foreach ($solutions as $solution)
