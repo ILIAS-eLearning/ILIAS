@@ -362,7 +362,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 							  'obj_id' => $obj_id, 
 							  'type' => $ilObjDataCache->lookupType($obj_id),
 							  'title' => $ilObjDataCache->lookupTitle($obj_id),
-							  'description' => $ilObjDataCache->lookupDescription($obj_id));
+							  'description' => $ilObjDataCache->lookupDescription($obj_id),
+							  'parent_ref' => $tree->getParentId($ref_id));
 				}	
 			}		
 		}
@@ -857,7 +858,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		
 		$items = $ilUser->getDesktopItems();
 		$item_html = array();
-		
+
 		if (count($items) > 0)
 		{
 			// preload object data cache
@@ -1195,7 +1196,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 					'<a href="repository.php?cmd=frameset&getlast=true">'.$title.'</a>'));
 				$tpl->setVariable("TXT_INTRO_3", $lng->txt("pdesk_intro4"));
 				break;
-		}		
+		}
 		
 		return $tpl->get();
 	}
