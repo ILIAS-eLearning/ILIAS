@@ -135,14 +135,14 @@ class ilObjChatServerGUI extends ilObjectGUI
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('save'));
 
 		// SET SETTING VARS
-        $this->tpl->setVariable('CHAT_SERVER_INTERNAL', $internal_ip);
-        $this->tpl->setVariable('CHAT_SERVER_EXTERNAL', $external_ip);
-		$this->tpl->setVariable('CHAT_PORT', $port);
+        $this->tpl->setVariable('CHAT_SERVER_INTERNAL', ilUtil::prepareFormOutput($internal_ip));
+        $this->tpl->setVariable('CHAT_SERVER_EXTERNAL', ilUtil::prepareFormOutput($external_ip));
+		$this->tpl->setVariable('CHAT_PORT', ilUtil::prepareFormOutput($port));
 		if ($ssl_status) $this->tpl->setVariable('CHAT_SSL_STATUS_CHECKED', 'checked="checked"');
-		$this->tpl->setVariable('CHAT_SSL_PORT', $ssl_port);
-		$this->tpl->setVariable('CHAT_MODERATOR', $moderator);
-		$this->tpl->setVariable('CHAT_LOGFILE', $logfile);
-		$this->tpl->setVariable('CHAT_ALLOWED', $allowed);
+		$this->tpl->setVariable('CHAT_SSL_PORT', ilUtil::prepareFormOutput($ssl_port));
+		$this->tpl->setVariable('CHAT_MODERATOR', ilUtil::prepareFormOutput($moderator));
+		$this->tpl->setVariable('CHAT_LOGFILE', ilUtil::prepareFormOutput($logfile));
+		$this->tpl->setVariable('CHAT_ALLOWED', ilUtil::prepareFormOutput($allowed));
 		$this->tpl->setVariable('SELECT_LEVEL', $this->__getLogLevelSelect($loglevel));
 		
 		return true;
