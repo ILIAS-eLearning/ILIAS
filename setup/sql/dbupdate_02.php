@@ -5443,4 +5443,5 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#1321>
+ALTER TABLE lng_data ADD COLUMN local_change DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
