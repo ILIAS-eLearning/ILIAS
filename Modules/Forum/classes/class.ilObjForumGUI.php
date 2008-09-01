@@ -870,7 +870,7 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($this->ilias->getSetting('enable_fora_statistics', true) &&
 			($this->objProperties->isStatisticEnabled() || $ilAccess->checkAccess('write', '', $this->ref_id))) 
 		{
-			$tabs_gui->addTarget('statistic', $this->ctrl->getLinkTarget($this, 'showStatistics'), 'showStatistics', get_class($this), '', false);				
+			$tabs_gui->addTarget('frm_statistics', $this->ctrl->getLinkTarget($this, 'showStatistics'), 'showStatistics', get_class($this), '', false);				
 		}
 
 		if ($ilAccess->checkAccess('edit_permission', '', $this->ref_id))

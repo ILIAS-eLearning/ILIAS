@@ -3125,7 +3125,6 @@ common#:#new_language#:#New Language
 common#:#new_list_password#:#New suggestions
 common#:#new_lowercase#:#new
 common#:#new_mail#:#New mail!
-common#:#news#:#News
 common#:#html_block#:#HTML Block
 common#:#feed#:#Web Feed
 common#:#obj_feed#:#Web Feed
@@ -8599,3 +8598,4 @@ crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial t
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.
 crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.
 crs#:#crs_suggested_sections#:#Suggested Sections
+forum#:#frm_statistics#:#Statistics
