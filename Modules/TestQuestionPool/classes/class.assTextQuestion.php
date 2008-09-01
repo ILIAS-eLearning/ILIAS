@@ -572,7 +572,7 @@ class assTextQuestion extends assQuestion
 		if ($this->getMaxNumOfChars())
 		{
 			include_once "./Services/Utilities/classes/class.ilStr.php";
-			$text_without_tags = preg_replace("/<[^>*?]>/igs", "", $text);
+			$text_without_tags = preg_replace("/<[^>*?]>/is", "", $text);
 			$len_with_tags = ilStr::strLen($text);
 			$len_without_tags = ilStr::strLen($text_without_tags);
 			if ($this->getMaxNumOfChars() < $len_without_tags)
