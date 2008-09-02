@@ -265,64 +265,60 @@ class ilMailSearchGroupsGUI
 	{
 		global $lng, $ilUser, $ilObjDataCache;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html", "Services/Mail");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_addressbook_search.html', 'Services/Mail');
+		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
 		
-		$_GET["view"] = "mygroups";
+		$_GET['view'] = 'mygroups';
 
-		$this->ctrl->setParameter($this, "view", "mygroups");
-		if ($_GET["ref"] != "") $this->ctrl->setParameter($this, "ref", $_GET["ref"]);
-		if (is_array($_POST["search_grp"])) $this->ctrl->setParameter($this, "search_grp", implode(",", $_POST["search_grp"]));
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
+		$this->ctrl->setParameter($this, 'view', 'mygroups');
+		if ($_GET['ref'] != '') $this->ctrl->setParameter($this, 'ref', $_GET['ref']);
+		if (is_array($_POST['search_grp'])) $this->ctrl->setParameter($this, 'search_grp', implode(',', $_POST['search_grp']));
+		$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this));
 		$this->ctrl->clearParameters($this);
 
 		$lng->loadLanguageModule('crs');
-	
-		$user = new ilObjUser($ilUser->getId());
-		$grp_ids = $user->getGroupMemberships();
-	
+
+		include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
+		$grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
+
 		$counter = 0;
 		if (is_array($grp_ids) &&
-					count($grp_ids) > 0)
-		{
-				
-			$this->tpl->setVariable("GRP_TXT_GROUPS",$lng->txt("mail_my_groups"));
-			$this->tpl->setVariable("GRP_TXT_NO_MEMBERS",$lng->txt("grp_count_members"));
+			count($grp_ids) > 0)
+		{				
+			$this->tpl->setVariable('GRP_TXT_GROUPS',$lng->txt('mail_my_groups'));
+			$this->tpl->setVariable('GRP_TXT_NO_MEMBERS',$lng->txt('grp_count_members'));
 		
 			foreach($grp_ids as $grp_id) 
 			{
-/*				$ref_ids = ilObject::_getAllReferences($grp_id);
-				$ref_id = current($ref_ids);
+				$oGroupParticipants = ilGroupParticipants::_getInstanceByObjId($grp_id);
+				$grp_members = $oGroupParticipants->getParticipants();
 
-				$group_obj = new ilObjGroup($ref_id); 
-				$grp_members = $group_obj->getCountMembers();*/
-				$grp_members = ilObjGroup::_getMembers($grp_id);
-
-				$this->tpl->setCurrentBlock("loop_grp");
-				$this->tpl->setVariable("LOOP_GRP_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable("LOOP_GRP_ID",$grp_id);
-				$this->tpl->setVariable("LOOP_GRP_NAME",$ilObjDataCache->lookupTitle($grp_id));
-				$this->tpl->setVariable("LOOP_GRP_NO_MEMBERS",count($grp_members));
+				$this->tpl->setCurrentBlock('loop_grp');
+				$this->tpl->setVariable('LOOP_GRP_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
+				$this->tpl->setVariable('LOOP_GRP_ID', $grp_id);
+				$this->tpl->setVariable('LOOP_GRP_NAME', $ilObjDataCache->lookupTitle($grp_id));
+				$this->tpl->setVariable('LOOP_GRP_NO_MEMBERS', count($grp_members));
 				$this->tpl->parseCurrentBlock();
 			}
 	
-			$this->tpl->setVariable("BUTTON_MAIL",$lng->txt("mail_members"));
-			$this->tpl->setVariable("BUTTON_LIST",$lng->txt("mail_list_members"));
+			$this->tpl->setVariable('BUTTON_MAIL', $lng->txt('mail_members'));
+			$this->tpl->setVariable('BUTTON_LIST', $lng->txt('mail_list_members'));
 		}
 	
-		if ($counter == 0)
+		if($counter == 0)
 		{
-			$this->tpl->setCurrentBlock("grp_not_found");
-			$this->tpl->setVariable("TXT_GRP_NOT_FOUND",$lng->txt("mail_search_groups_not_found"));
+			$this->tpl->setCurrentBlock('grp_not_found');
+			$this->tpl->setVariable('TXT_GRP_NOT_FOUND', $lng->txt('mail_search_groups_not_found'));
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->touchBlock("entries_not_found");
+			$this->tpl->touchBlock('entries_not_found');
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
+			$this->tpl->setVariable('TXT_MARKED_ENTRIES',$lng->txt('marked_entries'));
 		}
-		if ($_GET["ref"] == "mail") $this->tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
+		
+		if($_GET['ref'] == 'mail') $this->tpl->setVariable('BUTTON_CANCEL', $lng->txt('cancel'));
 
 		$this->tpl->show();
 	}
@@ -375,13 +371,16 @@ class ilMailSearchGroupsGUI
 				{
 					$grp_members = $group_obj->getGroupMemberData($group_obj->getGroupMemberIds());
 					
-					foreach ($grp_members as $member)
+					foreach($grp_members as $member)
 					{
 						$this->tpl->setCurrentBlock("loop_members");
 						$this->tpl->setVariable("LOOP_MEMBERS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
 						$this->tpl->setVariable("LOOP_MEMBERS_ID",$member["id"]);
 						$this->tpl->setVariable("LOOP_MEMBERS_LOGIN",$member["login"]);
-						$this->tpl->setVariable("LOOP_MEMBERS_NAME",$member["lastname"].", ".$member["firstname"]);
+						if(ilObjUser::_lookupPref($member['id'], 'public_profile') == 'y')
+						{
+							$this->tpl->setVariable('LOOP_MEMBERS_NAME', $member['lastname'].', '.$member['firstname']);
+						}
 						$this->tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$group_obj->getTitle());
 						$this->tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $this->abook->checkEntryByLogin($member["login"]) ? $lng->txt("yes") : $lng->txt("no"));
 						$this->tpl->parseCurrentBlock();

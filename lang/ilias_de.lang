@@ -8564,3 +8564,5 @@ crs#:#crs_objective_wiz_final_info#:#Legen Sie nun die Fragen des Abschlusstests
 crs#:#crs_objective_wiz_final_limit_info#:#Bitte legen Sie nun die Punktzahl ein, die benötigt ist, um das Lernziel zu bestehen. 
 crs#:#crs_suggested_sections#:#Empfohlene Abschnitte
 forum#:#frm_statistics#:#Statistiken
+mail#:#mail_crs_list_members_not_available#:#Die Mitglieder der markierten Kurse können nicht aufgelistet werden.
+mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Mitglieder von mindestens einem gewählten Kurs können nicht aufgelistet werden.
