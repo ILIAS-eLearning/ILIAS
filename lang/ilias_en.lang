@@ -8242,7 +8242,7 @@ common#:#mem_start#:#Registration Start:
 common#:#mem_end#:#Registration End:
 common#:#mem_participants#:#Participants
 common#:#mem_max_users#:#Maximum of Users:
-common#:#mem_free_places#:#Free Places:
+common#:#mem_free_places#:#Free Places
 common#:#mem_reg_type#:#Registration Type
 common#:#mem_reg_not_started#:#The registration has not started
 common#:#mem_waiting_list_position#:#Your Position on the Waiting List:
