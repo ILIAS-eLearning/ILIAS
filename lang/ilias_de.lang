@@ -8177,7 +8177,7 @@ common#:#mem_start#:#Anmeldungsbeginn:
 common#:#mem_end#:#Anmeldungsende:
 common#:#mem_participants#:#Teilnehmer
 common#:#mem_max_users#:#Maximale Teilnehmeranzahl:
-common#:#mem_free_places#:#Freie Plätze:
+common#:#mem_free_places#:#Freie Plätze
 common#:#mem_reg_type#:#Aufnahmeverfahren
 common#:#mem_reg_not_started#:#Die Anmeldung hat noch nicht begonnen.
 common#:#mem_waiting_list_position#:#Ihre Position auf der Warteliste:
