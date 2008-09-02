@@ -269,60 +269,84 @@ class ilMailSearchCoursesGUI
 
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html", "Services/Mail");
-		$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_addressbook_search.html', 'Services/Mail');
+		$this->tpl->setVariable('HEADER', $this->lng->txt('mail'));
 		
-		$_GET["view"] = "mycourses";
+		$_GET['view'] = 'mycourses';
 
-		$this->ctrl->setParameter($this, "view", "mycourses");
-		if ($_GET["ref"] != "") $this->ctrl->setParameter($this, "ref", $_GET["ref"]);
-		if (is_array($_POST["search_crs"])) $this->ctrl->setParameter($this, "search_crs", implode(",", $_POST["search_crs"]));
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
+		$this->ctrl->setParameter($this, 'view', 'mycourses');
+		if ($_GET['ref'] != '') $this->ctrl->setParameter($this, 'ref', $_GET['ref']);
+		if (is_array($_POST['search_crs'])) $this->ctrl->setParameter($this, 'search_crs', implode(',', $_POST['search_crs']));
+		$this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this));
 		$this->ctrl->clearParameters($this);
 
 		$lng->loadLanguageModule('crs');
 	
 		$user = new ilObjUser($ilUser->getId());
 		$crs_ids = $user->getCourseMemberships();
+		
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		$crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), 'crs');
 	
 		$counter = 0;
 		if (is_array($crs_ids) &&
-					count($crs_ids) > 0)
+			count($crs_ids) > 0)
 		{
 				
-			$this->tpl->setVariable("CRS_TXT_COURSES",$lng->txt("mail_my_courses"));
-			$this->tpl->setVariable("CRS_TXT_NO_MEMBERS",$lng->txt("crs_count_members"));
+			$this->tpl->setVariable('CRS_TXT_COURSES', $lng->txt('mail_my_courses'));
+			$this->tpl->setVariable('CRS_TXT_NO_MEMBERS', $lng->txt('crs_count_members'));
+		
+			$num_courses_hidden_members = 0;
 		
 			foreach($crs_ids as $crs_id) 
 			{
-				$members_obj = ilCourseParticipants::_getInstanceByObjId($crs_id);
-				$crs_members = $members_obj->getParticipants();
+				$oCrsParticipants = ilCourseParticipants::_getInstanceByObjId($crs_id);
+				$crs_members = $oCrsParticipants->getParticipants();
+
+				$oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
+				if((int)$oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED)
+				{
+					++$num_courses_hidden_members;
+					
+					$this->tpl->setCurrentBlock('caption_asterisk');
+					$this->tpl->touchBlock('caption_asterisk');
+					$this->tpl->parseCurrentBlock();
+				}
+				unset($oTmpCrs);
 	
-				$this->tpl->setCurrentBlock("loop_crs");
-				$this->tpl->setVariable("LOOP_CRS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable("LOOP_CRS_ID",$crs_id);
-				$this->tpl->setVariable("LOOP_CRS_NAME",$ilObjDataCache->lookupTitle($crs_id));
-				$this->tpl->setVariable("LOOP_CRS_NO_MEMBERS",count($crs_members));
+				$this->tpl->setCurrentBlock('loop_crs');
+				$this->tpl->setVariable('LOOP_CRS_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
+				$this->tpl->setVariable('LOOP_CRS_ID', $crs_id);
+				$this->tpl->setVariable('LOOP_CRS_NAME', $ilObjDataCache->lookupTitle($crs_id));
+				$this->tpl->setVariable('LOOP_CRS_NO_MEMBERS', count($crs_members));
 				$this->tpl->parseCurrentBlock();
 			}
 	
-			$this->tpl->setVariable("BUTTON_MAIL",$lng->txt("mail_members"));
-			$this->tpl->setVariable("BUTTON_LIST",$lng->txt("mail_list_members"));
+			$this->tpl->setVariable('BUTTON_MAIL',$lng->txt('mail_members'));
+			$this->tpl->setVariable('BUTTON_LIST',$lng->txt('mail_list_members'));
+			
+			if($num_courses_hidden_members > 0)
+			{
+				$this->tpl->setCurrentBlock('caption_block');
+				$this->tpl->setVariable('TXT_LIST_MEMBERS_NOT_AVAILABLE', $this->lng->txt('mail_crs_list_members_not_available'));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	
-		if ($counter == 0)
+		if($counter == 0)
 		{
-			$this->tpl->setCurrentBlock("crs_not_found");
-			$this->tpl->setVariable("TXT_CRS_NOT_FOUND",$lng->txt("mail_search_courses_not_found"));
+			$this->tpl->setCurrentBlock('crs_not_found');
+			$this->tpl->setVariable('TXT_CRS_NOT_FOUND', $lng->txt('mail_search_courses_not_found'));
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->touchBlock("entries_not_found");
+			$this->tpl->touchBlock('entries_not_found');
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
+			$this->tpl->setVariable('TXT_MARKED_ENTRIES', $lng->txt('marked_entries'));
 		}
-		if ($_GET["ref"] == "mail") $this->tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
+		
+		if($_GET['ref'] == 'mail') $this->tpl->setVariable('BUTTON_CANCEL', $lng->txt('cancel'));
 
 		$this->tpl->show();
 	}
@@ -345,7 +369,7 @@ class ilMailSearchCoursesGUI
 		{
 			$_POST["search_crs"] = explode(",", $_SESSION["search_crs"]);
 			$_SESSION["search_crs"] = "";
-		} 
+		}
 
 		if (!is_array($_POST["search_crs"]) ||
 			count($_POST["search_crs"]) == 0)
@@ -355,6 +379,18 @@ class ilMailSearchCoursesGUI
 		}
 		else
 		{
+			foreach($_POST['search_crs'] as $crs_id) 
+			{
+				$oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
+				if($oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED)
+				{
+					unset($_POST['search_crs']);
+					ilUtil::sendInfo($lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
+					return $this->showMyCourses();
+				}
+				unset($oTmpCrs);
+			}			
+			
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_addressbook_search.html", "Services/Mail");
 			$this->tpl->setVariable("HEADER", $this->lng->txt("mail"));
 		
@@ -389,8 +425,11 @@ class ilMailSearchCoursesGUI
 					$this->tpl->setVariable("LOOP_MEMBERS_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
 					$this->tpl->setVariable("LOOP_MEMBERS_ID",$member);
 					$this->tpl->setVariable("LOOP_MEMBERS_LOGIN",$login);
-					$this->tpl->setVariable("LOOP_MEMBERS_NAME",$name["lastname"].", ".$name["firstname"]);
-					$this->tpl->setVariable("LOOP_MEMBERS_CRS_GRP",$ilObjDataCache->lookupTitle($crs_id));
+					if(ilObjUser::_lookupPref($member, 'public_profile') == 'y')
+					{
+						$this->tpl->setVariable('LOOP_MEMBERS_NAME', $name['lastname'].', '.$name['firstname']);
+					}
+					$this->tpl->setVariable("LOOP_MEMBERS_CRS_GRP", $ilObjDataCache->lookupTitle($crs_id));
 					$this->tpl->setVariable("LOOP_MEMBERS_IN_ADDRESSBOOK", $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"));
 					$this->tpl->parseCurrentBlock();
 				}
