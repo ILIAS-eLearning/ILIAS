@@ -737,7 +737,7 @@ class ilObjectListGUI
 		// $props[] = array("alert" => false, "property" => ..., "value" => ...);
 		// ...
 
-		// BEGIN ebDAV Display locking information
+		// BEGIN WebDAV Display locking information
 		require_once('Services/WebDAV/classes/class.ilDAVServer.php');
 		if (ilDavServer::_isActive()) 
 		{
@@ -820,20 +820,28 @@ class ilObjectListGUI
 			global $ilias, $lng, $ilUser;
 			if ($ilias->account->getId() != ANONYMOUS_USER_ID)
 			{
-				$state = ilChangeEvent::_lookupChangeState($this->obj_id, $ilUser->getId());
-				if ($state > 0)
-				{
-					$props[] = array("alert" => true, "property" => $lng->txt("event"),
-						"value" => $lng->txt(($state == 1) ? 'state_unread' : 'state_changed'),
-						'propertyNameVisible' => false);
-				}
-				else
+				// Performance improvement: for container objects
+				// we only display 'changed inside' events, for
+				// leaf objects we only display 'object new/changed'
+				// events
+				$isContainer = in_array($this->type, array('cat','fold','crs','grp'));
+				if ($isContainer)
 				{
 					$state = ilChangeEvent::_lookupInsideChangeState($this->obj_id, $ilUser->getId());
 					if ($state > 0)
 					{
 						$props[] = array("alert" => true, "property" => $lng->txt("event"),
 							"value" => $lng->txt('state_changed_inside'),
+							'propertyNameVisible' => false);
+					}
+                                }
+                                else
+                                {
+					$state = ilChangeEvent::_lookupChangeState($this->obj_id, $ilUser->getId());
+					if ($state > 0)
+					{
+						$props[] = array("alert" => true, "property" => $lng->txt("event"),
+							"value" => $lng->txt(($state == 1) ? 'state_unread' : 'state_changed'),
 							'propertyNameVisible' => false);
 					}
 				}
