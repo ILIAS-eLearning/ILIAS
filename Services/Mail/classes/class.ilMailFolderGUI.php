@@ -74,8 +74,7 @@ class ilMailFolderGUI
 		if ($_GET["action"] == "deleteMails" &&
 			$_GET["mail_id"])
 		{
-			$_GET["cmd"] = "post";
-			$_POST["cmd"]["editFolder"] = true;
+			$_GET["cmd"] = "editFolder";
 			$_POST["action"] = "deleteMails";
 			$_POST["mail_id"] = array($_GET["mail_id"]);
 		}		
