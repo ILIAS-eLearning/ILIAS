@@ -536,6 +536,13 @@ class ilObjCourseGUI extends ilContainerGUI
 								   $this->lng->txt('crs_from').' '.
 								   ilDatePresentation::formatDate(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX)));
 			}
+			if ($this->object->isSubscriptionMembershipLimited()) 
+			{
+				$info->addProperty($this->lng->txt("mem_free_places"),
+								   $this->object->getSubscriptionMaxMembers()- count($this->object->getMembers()));
+				
+			}
+				
 		}
 		
 		// archive
