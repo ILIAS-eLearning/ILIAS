@@ -86,30 +86,21 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->setPrefix('admin');
 			$this->setSelectAllCheckbox('admins');
 		 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
-			if ($this->show_edit_link) 
-			{
-				$this->addCommandButton('updateAdminStatus',$this->lng->txt('save'));
-			}
+			$this->addCommandButton('updateAdminStatus',$this->lng->txt('save'));
 		}
 		elseif($this->type == 'tutor')
 		{
 			$this->setPrefix('tutor');
 			$this->setSelectAllCheckbox('tutors');
 		 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
-			if ($this->show_edit_link) 
-			{
-				$this->addCommandButton('updateTutorStatus',$this->lng->txt('save'));
-			}
+			$this->addCommandButton('updateTutorStatus',$this->lng->txt('save'));
 		}
 		else
 		{
 			$this->setPrefix('member');
 			$this->setSelectAllCheckbox('members');
 			$this->addColumn($this->lng->txt('crs_blocked'),'blocked');
-			if ($this->show_edit_link) 
-			{
-				$this->addCommandButton('updateMemberStatus',$this->lng->txt('save'));
-			}
+			$this->addCommandButton('updateMemberStatus',$this->lng->txt('save'));
 		}
 	 	$this->addColumn($this->lng->txt(''),'optional');
 	 	
@@ -186,31 +177,30 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-                $disabled = $this->show_edit_link ? '' : ' disabled="disabled"';
 		if($this->type == 'admin')
 		{
 			$this->tpl->setVariable('VAL_POSTNAME','admins');
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',($a_set['notification'] ? 'checked="checked"' : '').$disabled);
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',($a_set['notification'] ? 'checked="checked"' : ''));
 		}
 		elseif($this->type == 'tutor')
 		{
 			$this->tpl->setVariable('VAL_POSTNAME','tutors');
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',($a_set['notification'] ? 'checked="checked"' : '').$disabled);
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',($a_set['notification'] ? 'checked="checked"' : ''));
 		}
 		else
 		{
 			$this->tpl->setCurrentBlock('blocked');
 			$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : '').$disabled);
+			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : ''));
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setVariable('VAL_POSTNAME','members');
 		}
 		
 		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : '').$disabled);
+		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
 		
 		
 		$this->ctrl->setParameter($this->parent_obj,'member_id',$a_set['usr_id']);
