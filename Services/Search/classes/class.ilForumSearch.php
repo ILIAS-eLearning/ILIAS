@@ -55,7 +55,7 @@ class ilForumSearch extends ilAbstractSearch
 		$and = $this->__createTopicAndCondition();
 		$locate = $this->__createLocateString();
 
-		$query = "SELECT top_frm_fk,thr_pk as frm_id ".
+		$query = "SELECT thr_pk,top_frm_fk as frm_id ".
 			$locate.
 			"FROM  frm_threads,frm_data ".
 			"WHERE top_pk = thr_top_fk ".
@@ -64,7 +64,7 @@ class ilForumSearch extends ilAbstractSearch
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$thread_post = $row->pos_thr_fk.'_0';
+			$thread_post = $row->thr_pk.'_0';
 			$this->search_result->addEntry($row->frm_id,'frm',$this->__prepareFound($row),$thread_post);
 		}
 
