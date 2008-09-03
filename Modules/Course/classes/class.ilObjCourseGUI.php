@@ -1918,7 +1918,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function membersObject()
 	{
-		global $ilUser;
+		global $ilUser, $rbacsystem;
 		
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 		include_once('./Modules/Course/classes/class.ilCourseParticipantsTableGUI.php');
@@ -2024,9 +2024,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(count($part->getAdmins()))
 		{
+			// Security: display the list of course administrators read-only, 
+                        // if the user doesn't have the 'edit_permission' permission. 
+ 			$showEditLink = $rbacsystem->checkAccess("edit_permission", $this->object->getRefId());
 			if($ilUser->getPref('crs_admin_hide'))
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',false,$this->show_tracking,$this->timings_enabled);
+				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',false,$this->show_tracking,$this->timings_enabled, $showEditLink);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -2036,7 +2039,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',true,$this->show_tracking,$this->timings_enabled);
+				$table_gui = new ilCourseParticipantsTableGUI($this,'admin',true,$this->show_tracking,$this->timings_enabled, $showEditLink);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
@@ -2125,7 +2128,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateAdminStatusObject()
 	{
-		$this->checkPermission('write');
+		$this->checkPermission('write, edit_permission');
 		
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->members_obj->getAdmins());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
@@ -2325,6 +2328,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateMembersObject()
 	{
+		global $rbacsystem, $rbacreview;
+                
 		$this->checkPermission('write');
 		
 		if(!count($_POST['participants']))
@@ -2338,9 +2343,66 @@ class ilObjCourseGUI extends ilContainerGUI
 		$passed = $_POST['passed'] ? $_POST['passed'] : array();
 		$blocked = $_POST['blocked'] ? $_POST['blocked'] : array();
 		
+                // Determine whether the user has the 'edit_permission' permission
+		$hasEditPermissionAccess = $rbacsystem->checkAccess('edit_permission', $this->object->getRefId());
+
+                // Get all assignable local roles of the course object, and
+                // determine the role id of the course administrator role.
+		$assignableLocalCourseRoles = array();
+                $courseAdminRoleId = null;
+		foreach ($this->object->getLocalCourseRoles(false) as $title => $role_id)
+		{
+			if (substr($title, 0, 12) == 'il_crs_admin')
+			{
+				$courseAdminRoleId = $role_id;
+			}
+                        $assignableLocalCourseRoles[$role_id] = $title;
+		}
+                
+		// Validate the user ids and role ids in the post data
 		foreach($_POST['participants'] as $usr_id)
 		{
-			// TODO: check no role, owner, self status changed
+			$memberIsCourseAdmin = $rbacreview->isAssigned($usr_id, $courseAdminRoleId);
+                        
+			// If the current user doesn't have the 'edit_permission' 
+                        // permission, make sure he doesn't remove the course
+                        // administrator role of members who are course administrator.
+			if (! $hasEditPermissionAccess && $memberIsCourseAdmin &&
+				! in_array($courseAdminRoleId, $_POST['roles'][$usr_id])
+			)
+			{
+				$_POST['roles'][$usr_id][] = $courseAdminRoleId;
+			}
+                        
+			// Validate the role ids in the post data
+			foreach ((array) $_POST['roles'][$usr_id] as $role_id)
+			{
+				// Security Check: Abort, if the user tries to assign
+                                // a member to a role id, which is not an
+                                // assignable local course role.
+			        if (! array_key_exists($role_id, $assignableLocalCourseRoles))
+			        {
+					ilUtil::sendInfo($this->lng->txt('msg_no_perm_perm'));
+					$this->membersObject();
+					return false;
+			        }
+				// Security Check: If the user doesn't have the
+                                // 'edit_permission' permission, he may not assign
+                                // the course administrator role to members who
+                                // aren't already course administrator.
+			        if (!$hasEditPermissionAccess && 
+					$role_id == $courseAdminRoleId &&
+					! $memberIsCourseAdmin)
+			        {
+					ilUtil::sendInfo($this->lng->txt('msg_no_perm_perm'));
+					$this->membersObject();
+					return false;
+			        }
+			}
+		}                        
+                
+		foreach($_POST['participants'] as $usr_id)
+		{
 			$this->object->members_obj->updateRoleAssignments($usr_id,(array) $_POST['roles'][$usr_id]);
 			
 			// Disable notification for all of them
@@ -2816,6 +2878,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function removeMembersObject()
 	{
+		global $rbacreview, $rbacsystem;
+                
 		$this->checkPermission('write');
 		
 		if(!is_array($_POST["participants"]) or !count($_POST["participants"]))
@@ -2826,7 +2890,32 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 		$this->object->initCourseMemberObject();
-
+		
+		// If the user doesn't have the edit_permission, he may not remove
+		// members who have the course administrator role
+		if (! $rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
+		{
+			// Determine the role id of the course administrator role.
+			$courseAdminRoleId = null;
+			foreach ($this->object->getLocalCourseRoles(false) as $title => $role_id)
+			{
+				if (substr($title, 0, 12) == 'il_crs_admin')
+				{
+					$courseAdminRoleId = $role_id;
+				}
+			}
+                
+			foreach ($_POST['participants'] as $usr_id)
+			{
+				if ($rbacreview->isAssigned($usr_id, $courseAdminRoleId))
+				{
+					ilUtil::sendInfo($this->lng->txt("msg_no_perm_perm"));
+					$this->membersObject();
+					return false;
+				}
+			}
+		}
+        
 		if(!$this->object->members_obj->deleteParticipants($_POST["participants"]))
 		{
 			ilUtil::sendInfo($this->object->getMessage());

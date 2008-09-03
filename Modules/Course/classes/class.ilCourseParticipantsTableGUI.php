@@ -36,6 +36,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	protected $type = 'admin';
 	protected $show_learning_progress = false;
 	protected $show_timings = false;
+        protected $show_edit_link = true;
 	
 	/**
 	 * Constructor
@@ -44,12 +45,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true,$a_show_learning_progress = false,$a_show_timings = false)
+	public function __construct($a_parent_obj,$a_type = 'admin',$show_content = true,$a_show_learning_progress = false,$a_show_timings = false, $a_show_edit_link=true)
 	{
 	 	global $lng,$ilCtrl;
 	 	
 	 	$this->show_learning_progress = $a_show_learning_progress;
 	 	$this->show_timings = $a_show_timings;
+                $this->show_edit_link = $a_show_edit_link;
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -84,21 +86,30 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->setPrefix('admin');
 			$this->setSelectAllCheckbox('admins');
 		 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
-			$this->addCommandButton('updateAdminStatus',$this->lng->txt('save'));
+			if ($this->show_edit_link) 
+			{
+				$this->addCommandButton('updateAdminStatus',$this->lng->txt('save'));
+			}
 		}
 		elseif($this->type == 'tutor')
 		{
 			$this->setPrefix('tutor');
 			$this->setSelectAllCheckbox('tutors');
 		 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
-			$this->addCommandButton('updateTutorStatus',$this->lng->txt('save'));
+			if ($this->show_edit_link) 
+			{
+				$this->addCommandButton('updateTutorStatus',$this->lng->txt('save'));
+			}
 		}
 		else
 		{
 			$this->setPrefix('member');
-			$this->addColumn($this->lng->txt('crs_blocked'),'blocked');
 			$this->setSelectAllCheckbox('members');
-			$this->addCommandButton('updateMemberStatus',$this->lng->txt('save'));
+			$this->addColumn($this->lng->txt('crs_blocked'),'blocked');
+			if ($this->show_edit_link) 
+			{
+				$this->addCommandButton('updateMemberStatus',$this->lng->txt('save'));
+			}
 		}
 	 	$this->addColumn($this->lng->txt(''),'optional');
 	 	
@@ -175,37 +186,41 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+                $disabled = $this->show_edit_link ? '' : ' disabled="disabled"';
 		if($this->type == 'admin')
 		{
 			$this->tpl->setVariable('VAL_POSTNAME','admins');
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',($a_set['notification'] ? 'checked="checked"' : '').$disabled);
 		}
 		elseif($this->type == 'tutor')
 		{
 			$this->tpl->setVariable('VAL_POSTNAME','tutors');
 			$this->tpl->setVariable('VAL_NOTIFICATION_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',$a_set['notification'] ? 'checked="checked"' : '');
+			$this->tpl->setVariable('VAL_NOTIFICATION_CHECKED',($a_set['notification'] ? 'checked="checked"' : '').$disabled);
 		}
 		else
 		{
 			$this->tpl->setCurrentBlock('blocked');
 			$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',$a_set['blocked'] ? 'checked="checked"' : '');
+			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : '').$disabled);
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setVariable('VAL_POSTNAME','members');
 		}
 		
 		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_PASSED_CHECKED',$a_set['passed'] ? 'checked="checked"' : '');
+		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : '').$disabled);
 		
 		
 		$this->ctrl->setParameter($this->parent_obj,'member_id',$a_set['usr_id']);
-		$this->tpl->setCurrentBlock('link');
-		$this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this->parent_obj,'editMember'));
-		$this->tpl->setVariable('LINK_TXT',$this->lng->txt('edit'));
-		$this->tpl->parseCurrentBlock();
+		if ($this->show_edit_link)
+		{
+			$this->tpl->setCurrentBlock('link');
+			$this->tpl->setVariable('LINK_NAME',$this->ctrl->getLinkTarget($this->parent_obj,'editMember'));
+			$this->tpl->setVariable('LINK_TXT',$this->lng->txt('edit'));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->ctrl->clearParameters($this->parent_obj);
 		
 		
