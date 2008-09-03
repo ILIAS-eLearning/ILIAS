@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -105,6 +105,7 @@ class ilPageObjectGUI
 		$this->setEnabledPCTabs(false);
 		$this->setEnabledFileLists(true);
 		$this->setEnabledRepositoryObjects(false);
+		$this->setEnabledPageFocus(true);
 		
 		if ($a_id > 0)
 		{
@@ -608,6 +609,26 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* Set Enable page focus.
+	*
+	* @param	boolean	$a_enabledpagefocus	Enable page focus
+	*/
+	function setEnabledPageFocus($a_enabledpagefocus)
+	{
+		$this->enabledpagefocus = $a_enabledpagefocus;
+	}
+
+	/**
+	* Get Enable page focus.
+	*
+	* @return	boolean	Enable page focus
+	*/
+	function getEnabledPageFocus()
+	{
+		return $this->enabledpagefocus;
+	}
+
+	/**
 	* Set Explorer Updater
 	*
 	* @param	object	$a_tree	Tree Object
@@ -619,7 +640,7 @@ class ilPageObjectGUI
 		$this->exp_target_script = $a_exp_target_script;
 	}
 
-		/**
+	/**
 	* Set Prepending HTML.
 	*
 	* @param	string	$a_prependinghtml	Prepending HTML
@@ -958,6 +979,10 @@ class ilPageObjectGUI
 					if ($this->getOutputMode() != IL_PAGE_PREVIEW)
 					{
 						$tpl = new ilTemplate("tpl.page_content.html", true, true, "Services/COPage");
+						if ($this->getEnabledPageFocus())
+						{
+							$tpl->touchBlock("page_focus");
+						}
 					}
 					else	// preview
 					{
