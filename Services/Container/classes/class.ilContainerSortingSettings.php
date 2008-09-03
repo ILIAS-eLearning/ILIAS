@@ -64,7 +64,17 @@ class ilContainerSortingSettings
 	 */
 	public static function _lookupSortMode($a_obj_id)
 	{
+		global $tree;
 		global $ilDB;
+		
+		$ref_ids = ilObject::_getAllReferences($a_obj_id);
+		$ref_id = current($ref_ids);
+		
+		if($course_ref_id = $tree->checkForParentType($ref_id,'crs'))
+		{
+			$a_obj_id = ilObject::_lookupObjId($course_ref_id);
+		}
+				
 		
 		$query = "SELECT * FROM container_sorting_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";

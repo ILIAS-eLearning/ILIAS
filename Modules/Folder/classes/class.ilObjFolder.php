@@ -252,6 +252,24 @@ class ilObjFolder extends ilContainer
 		}
 
 	}
+	
+	/**
+	 * Overwritten read method
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function read()
+	{
+		global $tree;
+		
+		parent::read();
+		
+		// Inherit order type from parent course (if exists)
+		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
+		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
+	}
 
 } // END class.ilObjFolder
 ?>

@@ -640,6 +640,10 @@ class ilObjGroup extends ilContainer
 			$this->setEnableGroupMap($row->enablemap);
 		}
 		$this->initParticipants();
+		
+		// Inherit order type from parent course (if exists)
+		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
+		$this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 	}
 
 	/**
@@ -1929,7 +1933,6 @@ class ilObjGroup extends ilContainer
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		$this->members_obj = ilGroupParticipants::_getInstanceByObjId($this->getId());
 	}
-
-
+	
 } //END class.ilObjGroup
 ?>
