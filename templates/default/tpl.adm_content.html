@@ -24,20 +24,42 @@
 </div>
 </div>
 <div style="margin-left:15px; clear:both;">{SUB_TABS}</div>
+<!-- BEGIN page_form_start --><form action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
+	<!-- BEGIN adm_panel -->
+	<div align="right" style="margin: 0px 15px 10px 15px; padding:0px;">
+	<table style="width:100%; margin:0px;" border="0"><tr>
+	<!-- BEGIN adm_view_components -->
+	<td align="left">
+	<div style="float:left">
+	<img border="0" src="{ADM_IMG_ARROW}" alt="{ADM_ALT_ARROW}" />
+	<!-- BEGIN admin_panel_cmd -->
+	<input class="submit" type="submit" name="cmd[{PANEL_CMD}]" value="{TXT_PANEL_CMD}" />
+	<!-- END admin_panel_cmd -->
+	</div>
+	</td>
+	<!-- END adm_view_components -->
+
 	<!-- BEGIN add_commands -->
-	<div style="margin: 0px 15px 10px 15px; text-align:right;">
-	<form class="il_Form" style="{FORMSTYLE}" action="{H_FORMACTION}" method="post">
+	<td {ADD_COM_WIDTH} style="text-align:right; white-space:nowrap;">
+	<!-- action="{H_FORMACTION}" -->
 	{SELECT_OBJTYPE_REPOS}
 	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
-	</form>
-			  <!-- BEGIN event_button -->
-			  <form class="il_Form" style="display:inline" action="{E_FORMACTION}" method="post">
-				<input class="submit" type="submit" name="cmd[{BTN_NAME_EVENT}]" value="{TXT_ADD_EVENT}" />
-			  </form>
-			  <!-- END event_button -->
-	</div>
+	</td>
 	<!-- END add_commands -->
-<!-- BEGIN page_form_start --><form action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
+	<!-- BEGIN admin_view -->
+	<td width="1" style="white-space:nowrap; padding-left:10px;"><div class="il_ContainerItemCommands2">
+	<!-- BEGIN edit_cmd -->
+	<a class="il_ContainerItemCommand2" target="{FRAME_EDIT_PAGE}" href="{LINK_EDIT_PAGE}">{TXT_EDIT_PAGE}</a>
+	<!-- END edit_cmd -->
+	<!-- BEGIN admin_button -->
+	<a class="il_ContainerItemCommand2" href="{ADMIN_MODE_LINK}">{TXT_ADMIN_MODE}</a>
+	<!-- END admin_button -->
+	</div></td>
+	<!-- END admin_view -->
+	</tr></table>
+	</div>
+	<!-- END adm_panel -->
+
 <table class="il_ColumnLayout"><tr>
 <!-- BEGIN left_column -->
 <td class="il_LeftColumn">{LEFT_CONTENT}</td>
@@ -49,6 +71,15 @@
 {ADM_CONTENT}
 {OBJECTS}
 {SYSTEMSETTINGS}
+	<!-- BEGIN adm_view_components2 -->
+	<div style="margin-bottom:10px;">
+	<img border="0" src="{ADM_IMG_ARROW2}" alt="{ADM_ALT_ARROW2}" />
+	<!-- BEGIN admin_panel_cmd2 -->
+	<input class="submit" type="submit" name="cmd[{PANEL_CMD2}]" value="{TXT_PANEL_CMD2}" />
+	<!-- END admin_panel_cmd2 -->
+	</div>
+	<!-- END adm_view_components2 -->
+{PRMLINK}
 </td>
 <!-- BEGIN right_column -->
 <td class="il_RightColumn">{RIGHT_CONTENT}</td>

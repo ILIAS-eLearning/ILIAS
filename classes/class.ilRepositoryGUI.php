@@ -191,7 +191,7 @@ class ilRepositoryGUI
 	*/
 	function &executeCommand()
 	{
-		global $tree, $rbacsystem, $ilias, $lng, $objDefinition,$ilUser;
+		global $tree, $rbacsystem, $ilias, $lng, $objDefinition,$ilUser, $ilCtrl;
 		
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
@@ -221,7 +221,7 @@ class ilRepositoryGUI
 
 		// check creation mode
 		// determined by "new_type" parameter
-		$new_type = $_POST["new_type"]
+		$new_type = ($_POST["new_type"] != "" && $ilCtrl->getCmd() == "create")
 			? $_POST["new_type"]
 			: $_GET["new_type"];
 
@@ -258,6 +258,7 @@ class ilRepositoryGUI
 				{
 					$next_class = $this->ctrl->getNextClass();
 				}
+				$this->ctrl->setCmdClass($next_class);
 			}
 			else if ((($next_class = $this->ctrl->getNextClass($this)) == "")
 				|| ($next_class == "ilrepositorygui" && $this->ctrl->getCmd() == "return"))

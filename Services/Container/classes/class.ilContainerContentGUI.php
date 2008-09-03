@@ -240,6 +240,8 @@ abstract class ilContainerContentGUI
 	{
 		global $rbacsystem;
 		
+//echo "-".$a_admin_com_included_in_list."-";
+		
 		if (!$this->adminCommands)
 		{
 			if (!$this->getContainerGUI()->isActiveAdministrationPanel())

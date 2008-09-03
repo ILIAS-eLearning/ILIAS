@@ -39,7 +39,7 @@ require_once "./classes/class.ilObject.php";
 class ilContainer extends ilObject
 {
 	protected $order_type = 0;
-	
+	protected $hiddenfilesfound = false;
 	
 	// container view constants
 	const VIEW_SESSIONS = 0;
@@ -137,6 +137,27 @@ class ilContainer extends ilObject
 		return ilContainer::_lookupIconPath($this->getId(), "tiny");
 	}
 	
+	
+	/**
+	* Set Found hidden files (set by getSubItems).
+	*
+	* @param	boolean	$a_hiddenfilesfound	Found hidden files (set by getSubItems)
+	*/
+	function setHiddenFilesFound($a_hiddenfilesfound)
+	{
+		$this->hiddenfilesfound = $a_hiddenfilesfound;
+	}
+
+	/**
+	* Get Found hidden files (set by getSubItems).
+	*
+	* @return	boolean	Found hidden files (set by getSubItems)
+	*/
+	function getHiddenFilesFound()
+	{
+		return $this->hiddenfilesfound;
+	}
+
 	/**
 	* Lookup a container setting.
 	*
@@ -440,7 +461,6 @@ class ilContainer extends ilObject
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
 		$sort = ilContainerSorting::_getInstance($this->getId());
 
-
 		// TODO: check this
 		// get items attached to a session
 		include_once './Modules/Session/classes/class.ilEventItems.php';
@@ -457,12 +477,16 @@ class ilContainer extends ilObject
 
 			// BEGIN WebDAV: Don't display hidden Files.
 			// Do not display hidden files
-			if(!$a_include_hidden_files)
+			if ($object["type"] == "file")
 			{
-				require_once 'Modules/File/classes/class.ilObjFileAccess.php';
-				if (!$a_include_hidden_files && ilObjFileAccess::_isFileHidden($object['title']))
+				include_once 'Modules/File/classes/class.ilObjFileAccess.php';
+				if (ilObjFileAccess::_isFileHidden($object['title']))
 				{
-					continue;
+					$this->setHiddenFilesFound(true);
+					if (!$a_include_hidden_files)
+					{
+						continue;
+					}
 				}
 			}
 			// END WebDAV: Don't display hidden Files.
