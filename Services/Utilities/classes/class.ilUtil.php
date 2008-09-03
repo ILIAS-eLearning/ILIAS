@@ -2501,7 +2501,14 @@ class ilUtil
 	*/
 	function securePlainString($a_str)
 	{
-		return $a_str;
+		if (ini_get("magic_quotes_gpc"))
+		{
+			return stripslashes($a_str);
+		}
+		else
+		{
+			return $a_str;
+		}
 	}
 	/**
 	* Encodes a plain text string into HTML for display in a browser.
