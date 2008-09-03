@@ -477,13 +477,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 			{
 				case 'lms':
 					$content_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
-					$content_search->setFilter(array('lm','dbk'));
+					$content_search->setFilter($this->__getFilter());
 					$result->mergeEntries($content_search->performSearch());
 
-					$result_meta =& $this->__searchMeta($query_parser,'title');
-					$result->mergeEntries($result_meta);
-					$result_meta =& $this->__searchMeta($query_parser,'description');
-					$result->mergeEntries($result_meta);
 					if($this->settings->enabledLucene())
 					{
 						$htlm_search =& ilObjectSearchFactory::_getHTLMSearchInstance($query_parser);
@@ -493,13 +489,14 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 				case 'frm':
 					$forum_search =& ilObjectSearchFactory::_getForumSearchInstance($query_parser);
+					$forum_search->setFilter($this->__getFilter());
 					$result->mergeEntries($forum_search->performSearch());
 					break;
 
 				case 'glo':
 					// Glossary term definition pages
 					$gdf_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
-					$gdf_search->setFilter(array('gdf'));
+					$gdf_search->setFilter($this->__getFilter());
 					$result->mergeEntries($gdf_search->performSearch());
 					// Glossary terms
 					$gdf_term_search =& ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
@@ -508,6 +505,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 				case 'exc':
 					$exc_search =& ilObjectSearchFactory::_getExerciseSearchInstance($query_parser);
+					$exc_search->setFilter($this->__getFilter());
 					$result->mergeEntries($exc_search->performSearch());
 					break;
 
@@ -518,11 +516,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 				case 'tst':
 					$tst_search =& ilObjectSearchFactory::_getTestSearchInstance($query_parser);
+					$tst_search->setFilter($this->__getFilter());
 					$result->mergeEntries($tst_search->performSearch());
 					break;
 
 				case 'mep':
 					$mep_search =& ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
+					$mep_search->setFilter($this->__getFilter());
 					$result->mergeEntries($mep_search->performSearch());
 					break;
 
@@ -536,7 +536,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 					
 				case 'wiki':
 					$wiki_search =& ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
-					$wiki_search->setFilter(array('wpg'));
+					$wiki_search->setFilter($this->__getFilter());
 					$result->mergeEntries($wiki_search->performSearch());
 
 					/*$result_meta =& $this->__searchMeta($query_parser,'title');
@@ -579,7 +579,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
 		$obj_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
-
 		if($this->getType() == SEARCH_DETAILS)
 		{
 			$obj_search->setFilter($this->__getFilter());
@@ -613,12 +612,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 				break;
 
 			case 'title':
-				$meta_search->setFilter(array('pg','st'));
 				$meta_search->setMode('title');
 				break;
 
 			case 'description':
-				$meta_search->setFilter(array('pg','st'));
 				$meta_search->setMode('description');
 				break;
 		}
@@ -631,6 +628,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	function __getFilter()
 	{
+		if($this->getType() != SEARCH_DETAILS)
+		{
+			return false;
+		}
+		
 		foreach($this->getDetails() as $key => $detail_type)
 		{
 			switch($key)
@@ -675,9 +677,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 				case 'fil':
 					$filter[] = 'file';
 					break;
-				
-				case 'mcst':
-					$filter[] = 'mcst';
+					
+				case 'wiki':
+					$filter[] = 'wiki';
 					break;
 			}
 		}
