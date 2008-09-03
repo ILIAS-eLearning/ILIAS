@@ -2128,7 +2128,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateAdminStatusObject()
 	{
-		$this->checkPermission('write, edit_permission');
+		$this->checkPermission('write');
 		
 		$visible_members = array_intersect(array_unique((array) $_POST['visible_member_ids']),$this->object->members_obj->getAdmins());
 		$passed = is_array($_POST['passed']) ? $_POST['passed'] : array();
