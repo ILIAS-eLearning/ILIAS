@@ -34,6 +34,16 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 {
 	public $container = null;
+        
+	/**
+	 * Holds the local roles of the course object.
+	 * This variable is an associative array. 
+	 * - The key is the localized name of the role (for example 
+	 *   'Course Administrator')
+	 * - The value is an associative array with the keys 'role_id' and
+	 *   'title'.
+	 */
+	private $localCourseRoles = null;
 	
 	/**
 	 * Constructor
@@ -82,6 +92,13 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->enable('numinfo');
 		$this->disable('select_all');
+                
+		// Performance improvement: We read the local course roles 
+		// only once, instead of reading them for each row in method fillRow().
+		$this->localCourseRoles = array();
+		foreach($this->container->object->getLocalCourseRoles(false) as $title => $role_id) {
+			$this->localCourseRoles[ilObjRole::_getTranslation($title)] = array('role_id'=>$role_id, 'title'=>$title);
+		}
 	}
 	
 	/**
@@ -92,6 +109,8 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
+		global $rbacsystem;
+		$hasEditPermissionAccess = $rbacsystem->checkAccess('edit_permission', $this->container->object->getRefId());
 		
 		$this->tpl->setVariable('VAL_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME',$a_set['lastname'].', '.$a_set['firstname']);
@@ -109,17 +128,19 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('NUM_ROLES',count($this->participants->getRoles()));
 		
 		$assigned = $this->participants->getAssignedRoles($a_set['usr_id']);
-		foreach($this->container->object->getLocalCourseRoles(true) as $name => $role_id)
+		foreach($this->localCourseRoles as $localizedTitle => $roleData)
 		{
+			if ($hasEditPermissionAccess || substr($roleData['title'], 0, 12) != 'il_crs_admin') {
 			$this->tpl->setCurrentBlock('roles');
-			$this->tpl->setVariable('ROLE_ID',$role_id);
-			$this->tpl->setVariable('ROLE_NAME',$name);
+			$this->tpl->setVariable('ROLE_ID',$roleData['role_id']);
+			$this->tpl->setVariable('ROLE_NAME',$localizedTitle);
 			
-			if(in_array($role_id,$assigned))
+			if(in_array($roleData['role_id'],$assigned))
 			{
 				$this->tpl->setVariable('ROLE_CHECKED','selected="selected"');
 			}
 			$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 }
