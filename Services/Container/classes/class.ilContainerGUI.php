@@ -370,16 +370,12 @@ class ilContainerGUI extends ilObjectGUI
 		}
 		if (is_array($subobj))
 		{
-			$this->tpl->setCurrentBlock("add_commands");
 			$formaction = "repository.php?ref_id=".$this->object->getRefId()."&cmd=post";
 			$formaction = $ilCtrl->appendRequestTokenParameterString($formaction);
-			$this->tpl->setVariable("H_FORMACTION",$formaction);
-			// possible subobjects
+			$formaction = $this->ctrl->getFormAction($this);
 			$opts = ilUtil::formSelect("", "new_type", $subobj);
-			$this->tpl->setVariable("SELECT_OBJTYPE_REPOS", $opts);
-			$this->tpl->setVariable("BTN_NAME_REPOS", "create");
-			$this->tpl->setVariable("TXT_ADD_REPOS", $this->lng->txt("add"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCreationSelector($formaction,
+				$opts, "create", $this->lng->txt("add"));
 		}
 	}
 
@@ -516,60 +512,40 @@ class ilContainerGUI extends ilObjectGUI
 		
 		if ($this->isActiveAdministrationPanel())
 		{
-			$tpl->setCurrentBlock("admin_button_off");
-			$tpl->setVariable("ADMIN_MODE_LINK",
-				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"));
-			$tpl->setVariable("TXT_ADMIN_MODE",
-				$this->lng->txt("admin_panel_disable"));
-			$tpl->parseCurrentBlock();
+			$GLOBALS["tpl"]->setAdminViewButton(
+				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"),
+				$this->lng->txt("admin_panel_hide"));
 			
 			// administration panel
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
 				&& $this->object->enablePageEditing())
 			{
-				$tpl->setCurrentBlock("edit_cmd");
-				$tpl->setVariable("TXT_EDIT_PAGE", $this->lng->txt("edit_page"));
-				$tpl->setVariable("LINK_EDIT_PAGE", $this->ctrl->getLinkTarget($this, "editPageFrame"));
-				$tpl->setVariable("FRAME_EDIT_PAGE", ilFrameTargetInfo::_getFrame("MainContent"));
-				$tpl->parseCurrentBlock();
+				$GLOBALS["tpl"]->setEditPageButton(
+					$this->ctrl->getLinkTarget($this, "editPageFrame"),
+					$this->lng->txt("edit_page"),
+					ilFrameTargetInfo::_getFrame("MainContent")
+				);
 			}
 			
-			$tpl->setCurrentBlock("admin_panel_cmd");
-			$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("delete_selected_items"));
-			$tpl->setVariable("PANEL_CMD", "delete");
-			// BEGIN WebDAV: Show check all / uncheck all buttons
-			$tpl->setVariable("TXT_CHECK_ALL", $this->lng->txt("check_all"));
-			$tpl->setVariable("TXT_UNCHECK_ALL", $this->lng->txt("uncheck_all"));
-			// END WebDAV: Show check all / uncheck all buttons
-			$tpl->parseCurrentBlock();
+			$GLOBALS["tpl"]->addAdminPanelCommand("delete",
+				$this->lng->txt("delete_selected_items"));
+			
 			if (!$_SESSION["clipboard"])
 			{
-				$tpl->setCurrentBlock("admin_panel_cmd");
-				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("move_selected_items"));
-				$tpl->setVariable("PANEL_CMD", "cut");
-				$tpl->parseCurrentBlock();
+				$GLOBALS["tpl"]->addAdminPanelCommand("cut",
+					$this->lng->txt("move_selected_items"));
 				// BEGIN WebDAV: Support a copy command in the repository
-				$tpl->setCurrentBlock("admin_panel_cmd");
-				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("copy_selected_items"));
-				$tpl->setVariable("PANEL_CMD", "copy");
-				$tpl->parseCurrentBlock();
+			// does currently not work
 				// END WebDAV: Support a copy command in the repository
-				$tpl->setCurrentBlock("admin_panel_cmd");
-				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("link_selected_items"));
-				$tpl->setVariable("PANEL_CMD", "link");
-				$tpl->parseCurrentBlock();
+				$GLOBALS["tpl"]->addAdminPanelCommand("link",
+					$this->lng->txt("link_selected_items"));
 			}
 			else
 			{
-				$tpl->setCurrentBlock("admin_panel_cmd");
-				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("paste_clipboard_items"));
-				$tpl->setVariable("PANEL_CMD", "paste");
-				$tpl->parseCurrentBlock();
-				$tpl->setCurrentBlock("admin_panel_cmd");
-				$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt("clear_clipboard"));
-				$tpl->setVariable("PANEL_CMD", "clear");
-				$tpl->parseCurrentBlock();
-				
+				$GLOBALS["tpl"]->addAdminPanelCommand("paste",
+					$this->lng->txt("paste_clipboard_items"));
+				$GLOBALS["tpl"]->addAdminPanelCommand("clear",
+					$this->lng->txt("clear_clipboard"));
 			}
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
@@ -577,37 +553,30 @@ class ilContainerGUI extends ilObjectGUI
 				
 				if ($this->object->getOrderType() == ilContainer::SORT_MANUAL)
 				{
-					$tpl->setCurrentBlock('admin_panel_cmd');
-					$tpl->setVariable("TXT_PANEL_CMD", $this->lng->txt('sorting_save'));
-					$tpl->setVariable("PANEL_CMD", "saveSorting");
-					$tpl->parseCurrentBlock();
+					$GLOBALS["tpl"]->addAdminPanelCommand("saveSorting",
+						$this->lng->txt('sorting_save'));
 				}
 			}
 
-			$tpl->setCurrentBlock("admin_panel");
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-			$tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
-			$tpl->setVariable("TXT_ADMIN_PANEL", $this->lng->txt("admin_panel"));
-			$tpl->parseCurrentBlock();
 			$this->ctrl->setParameter($this, "type", "");
 			$this->ctrl->setParameter($this, "item_ref_id", "");
 			$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
 		}
-		// BEGIN WebDAV: Always show administration commands button except for anonymous
-		else if ($this->adminCommands || (is_object($this->object) && 
-			($ilAccess->checkAccess("write", "", $this->object->getRefId()) ||
-			$ilUser->getId() != ANONYMOUS_USER_ID)
-			))
-		// END WebDAV: Always show administration commands button except for anonymous
+		else if (
+			$ilUser->getId() != ANONYMOUS_USER_ID &&
+				($this->adminCommands ||
+				(is_object($this->object) && 
+				($ilAccess->checkAccess("write", "", $this->object->getRefId())))
+										||
+				(is_object($this->object) && 
+				($this->object->getHiddenFilesFound())) ||
+				$_SESSION["clipboard"]
+				)
+			)
 		{
-			#$this->__showTimingsButton($tpl);
-
-			$tpl->setCurrentBlock("admin_button");
-			$tpl->setVariable("ADMIN_MODE_LINK",
-				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"));
-			$tpl->setVariable("TXT_ADMIN_MODE",
-				$this->lng->txt("admin_panel_enable"));
-			$tpl->parseCurrentBlock();
+			$GLOBALS["tpl"]->setAdminViewButton(
+				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"),
+				$this->lng->txt("admin_panel_show"));
 		}
 	}
 
@@ -630,23 +599,8 @@ class ilContainerGUI extends ilObjectGUI
 	*/
 	function showPermanentLink(&$tpl)
 	{
-		include_once('classes/class.ilLink.php');
-		$tpl->setCurrentBlock('perma_link');
-		$tpl->setVariable('PERMA_LINK',ilLink::_getStaticLink($this->object->getRefId(),$this->object->getType()));
-		$tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
-		$tpl->setVariable("PERMA_TARGET", "_top");
-		$tpl->parseCurrentBlock();
-
-		/*		
-		$tpl->setCurrentBlock("perma_link");
-		$tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
-			"/goto.php?target=".
-			$this->object->getType().
-			"_".$this->object->getRefId()."&client_id=".CLIENT_ID);
-		$tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
-		$tpl->setVariable("PERMA_TARGET", "_top");
-		$tpl->parseCurrentBlock();
-		*/
+		$GLOBALS["tpl"]->setPermanentLink($this->object->getType(),
+			$this->object->getRefId(), "", "_top");
 	}
 
 	/**
@@ -1105,7 +1059,7 @@ class ilContainerGUI extends ilObjectGUI
 	/**
 	* determin admin commands
 	*/
-	function determineAdminCommands($a_ref_id, $a_admin_com_included_in_list = false)
+/*	function determineAdminCommands($a_ref_id, $a_admin_com_included_in_list = false)
 	{
 		if (!$this->adminCommands)
 		{
@@ -1121,7 +1075,7 @@ class ilContainerGUI extends ilObjectGUI
 				$this->adminCommands = $a_admin_com_included_in_list;
 			}
 		}
-	}
+	}*/
 
 	/**
 	* returns a new list block template

@@ -52,6 +52,8 @@ class ilTemplate extends ilTemplateX
 	var $js_files = array(0 => "Services/JavaScript/js/Basic.js");		// list of JS files that should be included
 	var $js_files_vp = array("Services/JavaScript/js/Basic.js" => true);	// version parameter flag
 	var $css_files = array();		// list of css files that should be included
+	var $admin_panel_commands = array();
+	
 	private $addFooter; // creates an output of the ILIAS footer
 
 	/**
@@ -195,6 +197,8 @@ class ilTemplate extends ilTemplateX
 			$this->fillPageFormAction();
 			$this->fillLeftContent();
 			$this->fillRightContent();
+			$this->fillAdminPanel();
+			$this->fillPermanentLink();
 
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			if ($this->blockExists("content"))
@@ -317,6 +321,8 @@ class ilTemplate extends ilTemplateX
 			$this->fillPageFormAction();
 			$this->fillLeftContent();
 			$this->fillRightContent();
+			$this->fillAdminPanel();
+			$this->fillPermanentLink();
 			
 			// these fill just plain placeholder variables in tpl.adm_content.html
 			// these fill just plain placeholder variables in tpl.adm_content.html
@@ -1307,6 +1313,181 @@ class ilTemplate extends ilTemplateX
 		if (!array_key_exists($a_css_file . $media, $this->css_files))
 		{
 			$this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
+		}
+	}
+	
+	/**
+	* Set selection and create button for adding new objects
+	*/
+	function setCreationSelector($a_form_action, $a_options,
+		$a_command, $a_txt)
+	{
+		$this->setPageFormAction($a_form_action);
+		$this->creation_selector =
+			array("form_action" => $a_form_action,
+				"options" => $a_options,
+				"command" => $a_command,
+				"txt" => $a_txt);
+	}
+	
+	/**
+	* Show admin view button
+	*/
+	function setAdminViewButton($a_link, $a_txt)
+	{
+		$this->admin_view_button =
+			array("link" => $a_link, "txt" => $a_txt);
+	}
+	
+	/**
+	* Show admin view button
+	*/
+	function setEditPageButton($a_link, $a_txt, $a_frame)
+	{
+		$this->edit_page_button =
+			array("link" => $a_link, "txt" => $a_txt, "frame" => $a_frame);
+	}
+	
+	/**
+	* Add a command to the admin panel
+	*/
+	function addAdminPanelCommand($a_cmd, $a_txt)
+	{
+		$this->admin_panel_commands[] =
+			array("cmd" => $a_cmd, "txt" => $a_txt);
+	}
+	
+	/**
+	* Put admin panel into template:
+	* - creation selector
+	* - admin view on/off button
+	*/
+	function fillAdminPanel()
+	{
+		global $lng;
+		
+		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
+		
+		// admin panel commands
+		if ((count($this->admin_panel_commands) > 0))
+		{
+			foreach($this->admin_panel_commands as $cmd)
+			{
+				$this->setCurrentBlock("admin_panel_cmd");
+				$this->setVariable("PANEL_CMD", $cmd["cmd"]);
+				$this->setVariable("TXT_PANEL_CMD", $cmd["txt"]);
+				$this->parseCurrentBlock();
+			}
+
+			$adm_cmds = true;
+		}
+		if ($adm_cmds)
+		{
+			$this->setCurrentBlock("adm_view_components");
+			$this->setVariable("ADM_IMG_ARROW", ilUtil::getImagePath("arrow_upright.gif"));
+			$this->setVariable("ADM_ALT_ARROW", $lng->txt("actions"));
+			$this->parseCurrentBlock();
+			$adm_view_cmp = true;
+		}
+		
+		// admin view button
+		if (is_array($this->admin_view_button))
+		{
+			if (is_array($this->edit_page_button))
+			{
+				$this->setCurrentBlock("edit_cmd");
+				$this->setVariable("TXT_EDIT_PAGE", $this->edit_page_button["txt"]);
+				$this->setVariable("LINK_EDIT_PAGE", $this->edit_page_button["link"]);
+				$this->setVariable("FRAME_EDIT_PAGE", $this->edit_page_button["frame"]);
+				$this->parseCurrentBlock();
+			}
+			if (is_array($this->admin_view_button))
+			{
+				$this->setCurrentBlock("admin_button");
+				$this->setVariable("ADMIN_MODE_LINK",
+					$this->admin_view_button["link"]);
+				$this->setVariable("TXT_ADMIN_MODE",
+					$this->admin_view_button["txt"]);
+				$this->parseCurrentBlock();
+			}
+			$this->setCurrentBlock("admin_view");
+			$this->parseCurrentBlock();
+			$adm_view = true;
+		}
+		
+		// creation selector
+		if (is_array($this->creation_selector))
+		{
+			$this->setCurrentBlock("add_commands");
+			if ($adm_cmds)
+			{
+				$this->setVariable("ADD_COM_WIDTH", 'width="1"');
+			}
+			$this->setVariable("SELECT_OBJTYPE_REPOS",
+				$this->creation_selector["options"]);
+			$this->setVariable("BTN_NAME_REPOS",
+				$this->creation_selector["command"]);
+			$this->setVariable("TXT_ADD_REPOS",
+				$this->creation_selector["txt"]);
+			$this->parseCurrentBlock();
+			$creation_selector = true;
+		}
+		if ($adm_view || $creation_selector)
+		{
+			$this->setCurrentBlock("adm_panel");
+			if ($adm_view_cmp)
+			{
+				$this->setVariable("ADM_TBL_WIDTH", 'width:"100%";');
+			}
+			$this->parseCurrentBlock();
+		}
+		
+		// lower part of admin panel
+		if ((count($this->admin_panel_commands) > 0))
+		{
+			foreach($this->admin_panel_commands as $cmd)
+			{
+				$this->setCurrentBlock("admin_panel_cmd2");
+				$this->setVariable("PANEL_CMD2", $cmd["cmd"]);
+				$this->setVariable("TXT_PANEL_CMD2", $cmd["txt"]);
+				$this->parseCurrentBlock();
+			}
+
+			$adm_cmds2 = true;
+		}
+		if ($adm_cmds2)
+		{
+			$this->setCurrentBlock("adm_view_components2");
+			$this->setVariable("ADM_IMG_ARROW2", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->setVariable("ADM_ALT_ARROW2", $lng->txt("actions"));
+			$this->parseCurrentBlock();
+		}
+
+	}
+	
+	function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "")
+	{
+		$this->permanent_link = array(
+			"type" => $a_type,
+			"id" => $a_id,
+			"append" => $a_append,
+			"target" => $a_target);
+	}
+	
+	/**
+	* Fill in permanent link
+	*/
+	function fillPermanentLink()
+	{
+		if (is_array($this->permanent_link))
+		{
+			include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
+			$plinkgui = new ilPermanentLinkGUI(
+				$this->permanent_link["type"],
+				$this->permanent_link["id"],
+				$this->permanent_link["append"],
+				$this->permanent_link["target"]);
+			$this->setVariable("PRMLINK", $plinkgui->getHTML());
 		}
 	}
 }

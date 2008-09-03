@@ -189,6 +189,33 @@ class ilDBx extends PEAR
 	{
 		$r = $this->db->query($sql);
 
+/*$pos1 = strpos(strtolower($sql), "from ");
+$table = "";
+if ($pos1 > 0)
+{
+	$tablef = substr($sql, $pos1+5);
+	$pos2 = strpos(strtolower($tablef), " ");
+	if ($pos2 > 0)
+	{
+		$table =substr($tablef, 0, $pos2);
+	}
+	else
+	{
+		$table = $tablef;
+	}
+}
+if (trim($table) != "")
+{
+	if (!is_array($this->ttt) || !in_array($table, $this->ttt))
+	{
+		echo "<br>".$table;
+		$this->ttt[] = $table;
+	}
+}
+else
+{
+	echo "<br><b>".$sql."</b>";
+}*/
 		if (MDB2::isError($r))
 		{
 			$err = "<br>Details: ".mysql_error();
@@ -639,7 +666,26 @@ class ilDBx extends PEAR
 		return $column_visibility;*/
 	}
 	
-	
+		/**
+	* Checks for the existence of a table column
+	*
+	* @param string $a_table The table name which should be examined
+	* @param string $a_column_name The name of the column
+	* @return boolean TRUE if the table column exists, FALSE otherwise
+	*/
+	function listTables()
+	{
+		$manager = $this->db->loadModule('Manager');
+		$r = $manager->listTables();
+
+		if (!MDB2::isError($r))
+		{
+			return $r;
+		}
+		
+		return false;
+	}
+
 //
 //
 // Deprecated functions.

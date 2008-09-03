@@ -78,6 +78,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		}
 
 		// @todo: Move this completely to GUI class?
+		$this->getContainerGUI()->adminCommands = $this->adminCommands;
 		$this->getContainerGUI()->showAdministrationPanel($tpl);
 		$this->getContainerGUI()->showPermanentLink($tpl);
 		

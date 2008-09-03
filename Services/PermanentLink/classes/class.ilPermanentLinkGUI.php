@@ -39,12 +39,13 @@ class ilPermanentLinkGUI
 	/**
 	* Example: type = "wiki", id (ref_id) = "234", append = "_Start_Page"
 	*/
-	function __construct($a_type, $a_id, $a_append = "")
+	function __construct($a_type, $a_id, $a_append = "", $a_target = "")
 	{
 		$this->setType($a_type);
 		$this->setId($a_id);
 		$this->setAppend($a_append);
 		$this->setIncludePermanentLinkText(true);
+		$this->setTarget($a_target);
 	}
 	
 	/**
@@ -128,6 +129,26 @@ class ilPermanentLinkGUI
 	}
 
 	/**
+	* Set Target.
+	*
+	* @param	string	$a_target	Target
+	*/
+	function setTarget($a_target)
+	{
+		$this->target = $a_target;
+	}
+
+	/**
+	* Get Target.
+	*
+	* @return	string	Target
+	*/
+	function getTarget()
+	{
+		return $this->target;
+	}
+
+	/**
 	* Get HTML for link
 	*/
 	function getHTML()
@@ -158,6 +179,10 @@ class ilPermanentLinkGUI
 			$tpl->setVariable("TXT_PERMA", $lng->txt("perma_link").": ");
 		}
 		$tpl->setVariable("LINK", $href);
+		if ($this->getTarget() != "")
+		{
+			$tpl->setVariable("TARGET", 'target="'.$this->getTarget().'"');
+		}
 		
 		return $tpl->get();
 	}

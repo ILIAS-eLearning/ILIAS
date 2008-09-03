@@ -1385,6 +1385,8 @@ common#:#adm_write#:#Edit Basic system settings
 common#:#admin_panel#:#Administration Panel
 common#:#admin_panel_disable#:#Switch Administration Commands Off
 common#:#admin_panel_enable#:#Switch Administration Commands On
+common#:#admin_panel_show#:#Admin View
+common#:#admin_panel_hide#:#Admin View Off
 common#:#administrate#:#Administrate
 common#:#administrate_users#:#Local user administration
 common#:#administration#:#Administration
@@ -3222,7 +3224,6 @@ news#:#news_news_items#:#News Item(s)
 news#:#news_subscribe#:#Subscribe
 news#:#news_unsubscribe#:#Unsubscribe
 news#:#news_internal_news#:#News
-common#:#news#:#News
 news#:#news_get_feed_url#:#Get Feed URL
 news#:#news_feed_url_for#:#Feed URL for '%s'
 news#:#news_get_feed_title#:#Personal Feed URL
