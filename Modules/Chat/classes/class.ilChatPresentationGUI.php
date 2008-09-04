@@ -55,6 +55,14 @@ class ilChatPresentationGUI
 			$ilCtrl->setCmd("showFrames");
 			$next_class = $ilCtrl->getNextClass($this);
 		}
+		
+		if(strpos(trim(ilUtil::stripSlashes($_POST['invitation'])), '_') !== false)
+		{
+			$param = trim(ilUtil::stripSlashes($_POST['invitation']));
+			
+			$_GET['ref_id'] = (int)substr($param, 0, strpos($param, '_'));
+			$_REQUEST['room_id'] = (int)substr($param, strrpos($param, '_') + 1); 
+		}		
 
 		// add entry to navigation history
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))

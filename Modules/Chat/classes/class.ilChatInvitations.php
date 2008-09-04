@@ -39,7 +39,7 @@ class ilChatInvitations
 		return;
 	}
 	
-	function _countNewInvitations($a_user_id)
+	public static function _countNewInvitations($a_user_id)
 	{
 		global $ilDB, $ilias;
 
@@ -54,6 +54,31 @@ class ilChatInvitations
 		$row = $ilias->db->getRow($q,DB_FETCHMODE_OBJECT);
 		
 		return $row->invitations;
+	}
+	
+	public static function _getNewInvitations($a_user_id)
+	{
+		global $ilDB, $ilias;
+
+		if(!(int)$a_user_id)
+		{
+			return array();
+		}
+
+		$query = "SELECT * FROM chat_invitations
+			  WHERE guest_id = ".$ilDB->quote($a_user_id)."
+			  AND guest_informed = 0
+			  AND invitation_time > ".(time() - 2 * 60 * 60)." ";
+		$res = $ilDB->query($query);
+		
+		$rows = array();
+		
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$rows[] = $row;
+		}
+		
+		return is_array($rows) ? $rows : array();
 	}
 } // END class.ilChatInvitations
 ?>

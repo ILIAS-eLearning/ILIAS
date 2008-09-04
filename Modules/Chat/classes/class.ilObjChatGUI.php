@@ -1753,8 +1753,9 @@ class ilObjChatGUI extends ilObjectGUI
 	}
 	function __loadStylesheet($expires = false)
 	{
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ChatStyle");
-		$this->tpl->setVariable("LOCATION_CHAT_STYLESHEET",ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("LOCATION_CHAT_STYLESHEET", ilUtil::getStyleSheetLocation());
 		if($expires)
 		{
 			$this->tpl->setVariable("EXPIRES","<meta http-equiv=\"expires\" content=\"now\">".

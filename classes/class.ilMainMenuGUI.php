@@ -250,44 +250,22 @@ class ilMainMenuGUI
 				{
 					$this->tpl->setVariable("MM_CLASS", "MMInactive");
 				}
-				$this->tpl->parseCurrentBlock();
-				
-				
-				// chat invitations
-				include_once "./Modules/Chat/classes/class.ilChatInvitations.php";
-
-
-				$link = "ilias.php?baseClass=ilMailGUI";
-				if ($invitation_count = ilChatInvitations::_countNewInvitations($_SESSION["AccountId"]))
-				{
-					$add = " ".sprintf($lng->txt("cnt_new"),$invitation_count);
-
-					// GET USERS LANGUAGE
-					$lng_chat =& new ilLanguage($ilUser->getLanguage());
-					$lng_chat->loadLanguageModule("chat");
-					
-					$this->tpl->setCurrentBlock("chatbutton");
-					$this->tpl->setVariable("TXT_CHAT", $lng_chat->txt("chat_invitation_subject").$add);
-					$this->tpl->setVariable("SCRIPT_CHAT", $this->getScriptTarget($link));
-					$this->tpl->setVariable("TARGET_CHAT", $this->target);
-#					$this->tpl->setVariable("CHAT_INVITATION", ilUtil::getSoundPath("chat_invitation.wav"));
-					
-					if ($this->active == "chat_invitation")
-					{
-						$this->tpl->setVariable("MM_CLASS", "MMActive");
-					}
-					else
-					{
-						$this->tpl->setVariable("MM_CLASS", "MMInactive");
-					}
-
-					$this->tpl->parseCurrentBlock();
-				}
+				$this->tpl->parseCurrentBlock();				
 			}
 		}
-
-		// repository link
 		
+		// chat invitations
+		include_once 'Modules/Chat/classes/class.ilChatInvitationGUI.php';
+		$chat_invitation_gui = new ilChatInvitationGUI();
+		$chat_invitation_html = $chat_invitation_gui->getHTML();
+		if(trim($chat_invitation_html) != '')
+		{
+			$this->tpl->setCurrentBlock('chatbutton');
+			$this->tpl->setVariable('CHAT_INVITATIONS', $chat_invitation_html);
+			$this->tpl->parseCurrentBlock();
+		}		
+
+		// repository link		
 		$this->tpl->setCurrentBlock("rep_button");
 #		$this->tpl->setVariable("SCRIPT_CATALOG",'goto__target__root_1__client__ilias38.html');
 #			#$this->getScriptTarget("repository.php?cmd=frameset&getlast=true"));
