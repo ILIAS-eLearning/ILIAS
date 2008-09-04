@@ -5,7 +5,7 @@
 	| Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
+	| modify it under the terms of the GNU General Public License                 |ur
 	| as published by the Free Software Foundation; either version 2              |
 	| of the License, or (at your option) any later version.                      |
 	|                                                                             |
@@ -956,9 +956,8 @@ Runtime.models =
 		var Uri = { isValid : function (value, definition, extra) {
 			var re_uri = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;
 			var re_char = /[\s]/;
-			var re_urn = /^urn:[a-z0-9][-a-z-0-9]{1,31}:.+$/;
 			var m = value.match(re_uri);
-			return Boolean(m && m[0] && !re_char.test(m[0]) && m[0].length<=4000 && (m[2]!=="urn" || re_urn.test(m[0])));
+			return Boolean(m && m[0] && !re_char.test(m[0]) && m[0].length<=4000);
 		}};
 		
 		var CharacterString = { isValid : function (value, definition, extra) {
