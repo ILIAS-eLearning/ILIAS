@@ -789,7 +789,7 @@ Objective.prototype =
 	foreignId: 0,
 	id : null,
 	objectiveID : null,
-	completion_status : 0,
+	completion_status : null,
 	description : null,
 	max : null,
 	min : null,
@@ -2367,6 +2367,7 @@ function save()
 				data.push(item[schem[i]]);
 			}
 			res.push(data);
+			
 			for (z in collection[k])
 			{
 				if (z == 'interactions' || z == 'comments' || z == "objectives")
@@ -2378,7 +2379,7 @@ function save()
 					walk(collection[k][z],z.substr(0,z.length-1));
 				}
 			}
-			switch (k)
+			switch (type)
 			{
 				case 'node':
 					walk(item.objectives, "objective");
@@ -2998,7 +2999,6 @@ function onItemUndeliver(noControls) // onUndeliver called from sequencing proce
 	// it may change api data in this
 	removeResource();
 	undeliverFinish();	
-	
 }
 
 function undeliverFinish(){
@@ -3038,6 +3038,8 @@ function syncDynObjectives(){
 		if (!act.id) {
 			act[id]=new Objective();
 			act[id]['objectiveID']=id;
+			act[id]['id']=id;
+			
 			//iterate over obj properties
 			for (var element in obj) {
 				if (element!="id" && element!="cmi_objective_id") {

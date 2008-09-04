@@ -1,4 +1,4 @@
-// Build: 2008528124553 3.10 Beta
+// Build: 2008904112940 Release: 3.10
 
 function ADLAuxiliaryResource()
 {}
@@ -2001,7 +2001,7 @@ this.Comment=Comment;Comment.prototype={cmi_comment_id:0,comment:null,timestamp:
 {this.cmi_interaction_id=cmi_interaction_id;}
 this.CorrectResponse=CorrectResponse;CorrectResponse.prototype={cmi_correct_response_id:0,pattern:null};function Objective(cmi_node_id,cmi_interaction_id)
 {this.cmi_interaction_id=cmi_interaction_id;this.cmi_node_id=cmi_node_id;this.mapinfos=new Object();}
-this.Objective=Objective;Objective.prototype={cmi_objective_id:0,cp_node_id:0,foreignId:0,id:null,objectiveID:null,completion_status:0,description:null,max:null,min:null,raw:null,scaled:null,progress_measure:null,success_status:null,scope:"local",minNormalizedMeasure:1.0,primary:false,satisfiedByMeasure:false};function Mapinfo(){}
+this.Objective=Objective;Objective.prototype={cmi_objective_id:0,cp_node_id:0,foreignId:0,id:null,objectiveID:null,completion_status:null,description:null,max:null,min:null,raw:null,scaled:null,progress_measure:null,success_status:null,scope:"local",minNormalizedMeasure:1.0,primary:false,satisfiedByMeasure:false};function Mapinfo(){}
 this.Mapinfo=Mapinfo;Mapinfo.prototype={cp_node_id:0,foreignId:0,readNormalizedMeasure:true,readSatisfiedStatus:true,targetObjectiveID:null,writeNormalizedMeasure:false,writeSatisfiedStatus:false};function Rule()
 {this.conditions=new Object();}
 this.Rule=Rule;Rule.prototype={action:null,childActivitySet:'all',conditionCombination:null,cp_node_id:0,foreignId:0,minimumCount:0,minimumPercent:0,type:null};function Condition(){}
@@ -2359,7 +2359,7 @@ res.push(data);for(z in collection[k])
 {for(y in collection[k][z])
 {collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];}
 walk(collection[k][z],z.substr(0,z.length-1));}}
-switch(k)
+switch(type)
 {case'node':walk(item.objectives,"objective");if(item.dirty!==2){continue;}
 walk(item.comments,"comment");walk(item.interactions,"interaction");walk(item.correct_responses,"correct_response");break;case'interaction':walk(item.correct_responses,"correct_response");walk(item.objectives,"objective");break;}}}
 if(save.timeout)
@@ -2482,7 +2482,7 @@ function undeliverFinish(){if(currentAPI)
 {syncCMIADLTree();var stat=pubAPI.cmi.exit;save_global_objectives();syncDynObjectives();save();if(state!=2){}}
 currentAPI=window[Runtime.apiname]=null;if(currentAct)
 {currentAct.accessed=currentTime()/1000;if(!currentAct.dirty)currentAct.dirty=1;}}
-function syncDynObjectives(){var objectives=pubAPI.cmi.objectives;var act=activities[mlaunch.mActivityID].objectives;for(var i=0;i<objectives.length;i++){if(objectives[i].id){var id=objectives[i].id;var obj=objectives[i];if(!act.id){act[id]=new Objective();act[id]['objectiveID']=id;for(var element in obj){if(element!="id"&&element!="cmi_objective_id"){if(element!="score"){act[id][element]=obj[element];}
+function syncDynObjectives(){var objectives=pubAPI.cmi.objectives;var act=activities[mlaunch.mActivityID].objectives;for(var i=0;i<objectives.length;i++){if(objectives[i].id){var id=objectives[i].id;var obj=objectives[i];if(!act.id){act[id]=new Objective();act[id]['objectiveID']=id;act[id]['id']=id;for(var element in obj){if(element!="id"&&element!="cmi_objective_id"){if(element!="score"){act[id][element]=obj[element];}
 if(element=="score"){for(var subelement in obj[element]){act[id][subelement]=obj[element][subelement];}}}}}}}}
 function save_global_objectives(){if(adl_seq_utilities.measure!=null||adl_seq_utilities.satisfied!=null||adl_seq_utilities.status!=null){result=this.config.gobjective_url?sendJSONRequest(this.config.gobjective_url,this.adl_seq_utilities):{};}}
 function onNavigationEnd()
@@ -2719,7 +2719,7 @@ return!extra.error;case'numeric':if(!ispattern)
 {return RealType.isValid(value,{},{});}
 else
 {val=value.split("[:]");val[0]=!val[0]?Number.NEGATIVE_INFINITY:RealType.isValid(val[0],{},{})?parseFloat(val[0]):NaN;val[1]=!val[1]?Number.POSITIVE_INFINITY:RealType.isValid(val[1],{},{})?parseFloat(val[1]):NaN;return!isNaN(val[0])&&!isNaN(val[1])&&val[0]<=val[1];}
-case'other':return value.length<=4000;}}};var ResultState={isValid:function(value){var valueRange={'correct':1,'incorrect':2,'unanticipated':3,'neutral':4};return valueRange[value]>0||RealType.isValid(value,{},{});}};var SuccessState={isValid:function(value){var valueRange={'passed':1,'failed':2,'unknown':3};return valueRange[value]>0;}};var Time={isValid:function(value){return DateTime.parse(value)!==null;}};var TimeLimitAction={isValid:function(value){var valueRange={'exit,message':1,'continue,message':2,'exit,no message':3,'continue,no message':4};return valueRange[value]>0;}};var Uri={isValid:function(value,definition,extra){var re_uri=/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;var re_char=/[\s]/;var re_urn=/^urn:[a-z0-9][-a-z-0-9]{1,31}:.+$/;var m=value.match(re_uri);return Boolean(m&&m[0]&&!re_char.test(m[0])&&m[0].length<=4000&&(m[2]!=="urn"||re_urn.test(m[0])));}};var CharacterString={isValid:function(value,definition,extra){var min=extra.min?extra.min:definition.min;var max=extra.max?extra.max:definition.max;var pattern=extra.pattern?extra.pattern:definition.pattern;if((min&&String(value).length<min)||(max&&String(value).length>max)){extra.error={code:407};return false;}else if(pattern&&!pattern.test(value)){return false;}else{return true;}}};var RealType={isValid:function(value,definition,extra){var pattern=extra.pattern?extra.pattern:definition.pattern;var min=definition&&typeof definition.min==="number"?definition.min:Number.NEGATIVE_INFINITY;var max=definition&&typeof definition.max==="number"?definition.max:Number.POSITIVE_INFINITY;if(!(/^-?\d{1,32}(\.\d{1,32})?$/).test(value))
+case'other':return value.length<=4000;}}};var ResultState={isValid:function(value){var valueRange={'correct':1,'incorrect':2,'unanticipated':3,'neutral':4};return valueRange[value]>0||RealType.isValid(value,{},{});}};var SuccessState={isValid:function(value){var valueRange={'passed':1,'failed':2,'unknown':3};return valueRange[value]>0;}};var Time={isValid:function(value){return DateTime.parse(value)!==null;}};var TimeLimitAction={isValid:function(value){var valueRange={'exit,message':1,'continue,message':2,'exit,no message':3,'continue,no message':4};return valueRange[value]>0;}};var Uri={isValid:function(value,definition,extra){var re_uri=/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/;var re_char=/[\s]/;var m=value.match(re_uri);return Boolean(m&&m[0]&&!re_char.test(m[0])&&m[0].length<=4000);}};var CharacterString={isValid:function(value,definition,extra){var min=extra.min?extra.min:definition.min;var max=extra.max?extra.max:definition.max;var pattern=extra.pattern?extra.pattern:definition.pattern;if((min&&String(value).length<min)||(max&&String(value).length>max)){extra.error={code:407};return false;}else if(pattern&&!pattern.test(value)){return false;}else{return true;}}};var RealType={isValid:function(value,definition,extra){var pattern=extra.pattern?extra.pattern:definition.pattern;var min=definition&&typeof definition.min==="number"?definition.min:Number.NEGATIVE_INFINITY;var max=definition&&typeof definition.max==="number"?definition.max:Number.POSITIVE_INFINITY;if(!(/^-?\d{1,32}(\.\d{1,32})?$/).test(value))
 {return false;}
 else if(Number(value)<min||Number(value)>max)
 {extra.error={code:407};return false;}
