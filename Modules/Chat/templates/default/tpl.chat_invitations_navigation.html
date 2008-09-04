@@ -1,0 +1,28 @@
+<noscript>
+<form class="ilNavHistoryForm" method="post" action="{ACTION}" target="chat">
+{NAVI_SELECT}
+<input class="ilEditSubmit" type="submit" value="{TXT_GO}" />
+</form>
+</noscript>
+<div id="ilChatInvitationMainMenuDiv"style="float: right; padding-right: 5px; display: none;">
+	<a id="ilChatInvitationMainMenuLink" onmouseover="ilChatInvitationMainMenuOn();" onmouseover="ilChatInvitationMainMenuOn();" class="MMInactive" href="#" target="_top" title="{TXT_CHAT_INVITATIONS}">{TXT_CHAT_INVITATIONS}<img border="0" src="{IMG_DOWN}" alt="{TXT_LAST_VISITED}" /></a>
+	<div id="ilChatInvitationMainMenuTableContainer" style="display: none;" onmouseout="ilChatInvitationMainMenuOff();">
+	<table class="std" id="ilChatInvitationMainMenuTable" onmouseout="ilChatInvitationMainMenuOff();">
+	<!-- BEGIN item -->
+	<tr class="{CSS_ROW}" onmouseover="ilChatInvitationMainMenuOn();"><td class="std"><a class="small" target="chat" onclick="openChatWindow(this); return false;" href="{HREF_ITEM}" title="{TXT_ITEM}">{TXT_ITEM}</a></td></tr>
+	<!-- END item -->
+	</table>
+	</div>
+	<!-- BEGIN beep -->
+	<script type="text/javascript">
+	ilAddOnLoad(initChatInvitationSound);	
+	function initChatInvitationSound() {
+		try {
+			ChatInvitationSound.play('{BEEP_SRC}');
+		} catch(e) {
+			alert(e);
+		}
+	}
+	</script>
+	<!-- END beep -->
+</div>
