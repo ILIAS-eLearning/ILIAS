@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+include_once('Auth/Auth.php');
+
 /** 
 * Auth Radius overwrites PEAR Auth to perform Radius authentication with specific ILIAS options
 * 
@@ -30,9 +33,6 @@
 * 
 * @ingroup ServicesRadius
 */
-
-include_once('Auth/Auth.php');
-
 class ilAuthRadius extends Auth
 {
 	private $radius_settings = null;	
@@ -59,11 +59,11 @@ class ilAuthRadius extends Auth
 		}
 		if(is_array($a_options))
 		{
-			$options = array_merge($this->ldap_server->toPearAuthArray(), $options);
+			$options = array_merge($this->radius_settings->toPearAuthArray(),$a_options);
 		}
 		else
 		{
-			$options = $this->ldap_server->toPearAuthArray();
+			$options = $this->radius_settings->toPearAuthArray();
 		}
 		
 		

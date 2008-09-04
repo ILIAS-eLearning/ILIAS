@@ -292,7 +292,8 @@ class ilAuthUtils
 					// Use a login form as the frontend for web browsers:
 					$auth_params = array();
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
-					$ilAuth = new Auth("RADIUS", $auth_params,"",false);
+					include_once('./Services/Radius/classes/class.ilAuthRadius.php');
+					$ilAuth = new ilAuthRadius($auth_params);
 				}
 				break;
 			
