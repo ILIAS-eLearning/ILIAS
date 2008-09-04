@@ -917,6 +917,13 @@ class ilInitialisation
 		// $ilLog initialisation
 		$this->initLog();
 
+		// $https initialisation
+		require_once './classes/class.ilHTTPS.php';
+		$https =& new ilHTTPS();
+		$GLOBALS['https'] =& $https;
+		$https->enableSecureCookies();
+		$https->checkPort();
+
 		// $ilAuth initialisation
 		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
 		ilAuthUtils::_initAuth();
@@ -944,14 +951,6 @@ class ilInitialisation
 				//xdebug_start_trace("/tmp/test.txt");
 			}
 		}
-
-
-		// $https initialisation
-		require_once './classes/class.ilHTTPS.php';
-		$https =& new ilHTTPS();
-		$GLOBALS['https'] =& $https;
-		$https->checkPort();
-
 
 		// $ilObjDataCache initialisation
 		$ilObjDataCache = new ilObjectDataCache();
