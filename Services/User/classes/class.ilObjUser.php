@@ -292,8 +292,7 @@ class ilObjUser extends ilObject
 								$this->id."!</b><br />class: ".get_class($this)."<br />Script: "
 								.__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
-
-		if ($a_data["passwd"] != "********")
+		if ($a_data["passwd"] != "********" and strlen($a_data['passwd']))
 		{
 			$this->setPasswd($a_data["passwd"], $a_data["passwd_type"]);
 		}
@@ -374,7 +373,14 @@ class ilObjUser extends ilObject
 		{
 			case IL_PASSWD_PLAIN:
 				$pw_field = "passwd";
-				$pw_value = md5($this->passwd);
+				if(strlen($this->passwd))
+				{
+					$pw_value = md5($this->passwd);	
+				}
+				else
+				{
+					$pw_value = $this->passwd;
+				}
 				break;
 
 			case IL_PASSWD_MD5:
@@ -551,7 +557,14 @@ class ilObjUser extends ilObject
 		switch ($this->passwd_type)
 		{
 			case IL_PASSWD_PLAIN:
-				$pw_update = "i2passwd='', passwd='".md5($this->passwd)."'";
+				if(strlen($this->passwd))
+				{
+					$pw_update = "i2passwd='', passwd='".md5($this->passwd)."'";
+				}
+				else
+				{
+					$pw_update = "i2passwd='', passwd='".$this->passwd."'";
+				}
 				break;
 
 			case IL_PASSWD_MD5:
