@@ -101,7 +101,8 @@ class ilHTTPS
 	 *
 	 * @return boolean true, if https is detected by protocol or by automatic detection, if enabled, false otherwise
 	 */
-	public function isDetected () {
+	public function isDetected () 
+	{
    		if ($_SERVER["HTTPS"] == "on")
    		   return true;
 
@@ -110,7 +111,8 @@ class ilHTTPS
 		    $headerName = "HTTP_".str_replace("-","_",$this->headerName);
 		   /* echo $headerName;
 		    echo $_SERVER[$headerName];*/
-		    if (strcasecmp($_SERVER[$headerName],$this->headerValue)==0) {
+		    if (strcasecmp($_SERVER[$headerName],$this->headerValue)==0) 
+		    {
            		$_SERVER["HTTPS"] = "on";
 		    	return true;
 		    }
@@ -157,6 +159,27 @@ class ilHTTPS
 			return false;
 		}
 		fclose($sp);
+		return true;
+	}
+	
+	/**
+	 * enable secure cookies
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function enableSecureCookies()
+	{
+		global $ilLog,$ilClientIniFile;
+		
+		$secure_disabled = $ilClientIniFile->readVariable('session','disable_secure_cookies');
+		
+		if(!$secure_disabled and !$this->enabled and $this->isDetected() and !session_id())
+		{
+			$ilLog->write(__CLASS__.': Enabled secure cookies');
+			session_set_cookie_params(0,'/','',true);
+		}
 		return true;
 	}
 }
