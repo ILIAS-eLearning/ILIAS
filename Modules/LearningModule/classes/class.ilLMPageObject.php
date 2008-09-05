@@ -372,6 +372,29 @@ class ilLMPageObject extends ilLMObject
 		return ilLMObject::getObjectList($lm_id, "pg");
 	}
 
+	/**
+	* Get all pages of lm that contain any internal links
+	*/
+	function getPagesWithLinksList($a_lm_id, $a_par_type)
+	{
+		$pages = ilLMPageObject::getPageList($a_lm_id);
+		$ids = array();
+		foreach($pages as $page)
+		{
+			$ids[] = $page["obj_id"];
+		}
+
+		$linked_pages = ilPageObject::getPagesWithLinks($a_par_type, $a_lm_id);
+		$result = array();
+		foreach($pages as $page)
+		{
+			if (is_array($linked_pages[$page["obj_id"]]))
+			{
+				$result[] = $page;
+			}
+		}
+		return $result;
+	}
 
 	/**
 	* presentation title doesn't have to be page title, it may be

@@ -715,6 +715,16 @@ class ilObjContentObject extends ilObject
 		return $this->print_view_active;
 	}
 
+	function setActivePreventGlossaryAppendix($a_print)
+	{
+		$this->prevent_glossary_appendix_active = $a_print;
+	}
+	
+	function isActivePreventGlossaryAppendix()
+	{
+		return $this->prevent_glossary_appendix_active;
+	}
+
 	function setActiveDownloads($a_down)
 	{
 		$this->downloads_active = $a_down;
@@ -808,6 +818,7 @@ class ilObjContentObject extends ilObject
 		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
 		$this->setActiveNumbering(ilUtil::yn2tf($lm_rec["numbering"]));
 		$this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
+		$this->setActivePreventGlossaryAppendix(ilUtil::yn2tf($lm_rec["prevent_glossary_appendix_active"]));
 		$this->setActiveDownloads(ilUtil::yn2tf($lm_rec["downloads_active"]));
 		$this->setActiveDownloadsPublic(ilUtil::yn2tf($lm_rec["downloads_public_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
@@ -837,6 +848,7 @@ class ilObjContentObject extends ilObject
 			" toc_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveTOC())).",".
 			" numbering = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveNumbering())).",".
 			" print_view_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePrintView())).",".
+			" prevent_glossary_appendix_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePreventGlossaryAppendix())).",".
 			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads())).",".
 			" downloads_public_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic())).",".
 			" clean_frames = ".$ilDB->quote(ilUtil::tf2yn($this->cleanFrames())).",".

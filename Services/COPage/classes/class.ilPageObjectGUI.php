@@ -1471,14 +1471,12 @@ class ilPageObjectGUI
 
 					case "GlossaryItem":
 						$ltarget="_blank";
-						$href =
-							$this->getLink($_GET["ref_id"], $a_cmd = "glossary", $target_id, $nframe, $type);
+						$href = "./goto.php?target=git_".$target_id;
 						break;
 
 					case "MediaObject":
 						$ltarget="_blank";
-						$href =
-							$this->getLink($_GET["ref_id"], $a_cmd = "media", $target_id, $nframe, $type);
+						$href = "";
 						break;
 
 					case "RepositoryItem":
