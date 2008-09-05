@@ -526,6 +526,18 @@ class ilContainer extends ilObject
 	}
 	
 	/**
+	* Check whether we got any items
+	*/
+	function gotItems()
+	{
+		if (is_array($this->items["_all"]) && count($this->items["_all"]) > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	* Add additional information to sub item, e.g. used in
 	* courses for timings information etc.
 	*/
