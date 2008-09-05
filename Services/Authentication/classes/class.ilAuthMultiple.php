@@ -205,7 +205,10 @@ class ilAuthMultiple
 											'passwordcol' => $ilClientIniFile->readVariable("auth", "passcol")
 											);
 				$auth_params['sessionName'] = "_authhttp".md5(CLIENT_ID);
-				$this->auth = new Auth("DB", $auth_params,"",false);
+				require_once 'class.ilAuthContainerMDB2.php';
+				$authContainer = new ilAuthContainerMDB2($auth_params);
+				$authContainer->setObserversEnabled(true);
+				$this->auth = new Auth($authContainer, $auth_params,"",false);
 				break;				
 	 	}
 	 	if(!$this->first_auth_method)
