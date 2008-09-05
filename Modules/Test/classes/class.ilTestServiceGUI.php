@@ -865,6 +865,96 @@ class ilTestServiceGUI
 
 		return $template->get();
 	}
+
+	/**
+	* Returns the user and pass data for a test results output
+	*
+	* @param integer $active_id The active ID of the user
+	* @return string HTML code of the user data for the test results
+	* @access public
+	*/
+	function getResultsHeadUserAndPass($active_id, $pass)
+	{
+		$template = new ilTemplate("tpl.il_as_tst_results_head_user_pass.html", TRUE, TRUE, "Modules/Test");
+		include_once './Services/User/classes/class.ilObjUser.php';
+		$user_id = $this->object->_getUserIdFromActiveId($active_id);
+		if (strlen(ilObjUser::_lookupLogin($user_id)) > 0)
+		{
+			$user = new ilObjUser($user_id);
+		}
+		else
+		{
+			$user = new ilObjUser();
+			$user->setLastname($this->lng->txt("deleted_user"));
+		}
+		$title_matric = "";
+		if (strlen($user->getMatriculation()) && (($this->object->getAnonymity() == FALSE)))
+		{
+			$template->setCurrentBlock("user_matric");
+			$template->setVariable("TXT_USR_MATRIC", $this->lng->txt("matriculation"));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("user_matric_value");
+			$template->setVariable("VALUE_USR_MATRIC", $user->getMatriculation());
+			$template->parseCurrentBlock();
+			$template->touchBlock("user_matric_separator");
+			$title_matric = " - " . $this->lng->txt("matriculation") . ": " . $user->getMatriculation();
+		}
+
+		$invited_user = array_pop($this->object->getInvitedUsers($user_id));
+		if (strlen($invited_user->clientip))
+		{
+			$template->setCurrentBlock("user_clientip");
+			$template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("user_clientip_value");
+			$template->setVariable("VALUE_CLIENT_IP", $invited_user->clientip);
+			$template->parseCurrentBlock();
+			$template->touchBlock("user_clientip_separator");
+			$title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user->clientip;
+		}
+
+		$template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
+		$uname = $this->object->userLookupFullName($user_id, FALSE);
+		$template->setVariable("VALUE_USR_NAME", $uname);
+		$template->setVariable("TXT_PASS", $this->lng->txt("pass"));
+		$template->setVariable("VALUE_PASS", $pass);
+		return $template->get();
+	}
+
+	/**
+	* Creates a HTML representation for the results of a given question in a test
+	*
+	* @param integer $question_id The original id of the question
+	* @param integer $test_id The test id
+	* @return string HTML code of the question results
+	* @access public
+	*/
+	function getQuestionResultForTestUsers($question_id, $test_id)
+	{
+		$foundusers = $this->object->getParticipantsForTestAndQuestion($test_id, $question_id);
+		$output = "";
+		foreach ($foundusers as $active_id => $passes)
+		{
+			$resultpass = $this->object->_getResultPass($active_id);
+			for ($i = 0; $i < count($passes); $i++)
+			{
+				if (($resultpass != null) && ($resultpass == $passes[$i]["pass"]))
+				{
+					$question_gui =& $this->object->createQuestionGUI("", $passes[$i]["qid"]);
+					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass+1);
+					$output .= $question_gui->getSolutionOutput($active_id, $resultpass, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE);
+					$output .= "<br /><br /><br />";
+				}
+			}
+		}
+		$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
+		$printbody->setVariable("TITLE", $this->lng->txt("tst_results"));
+		$printbody->setVariable("ADM_CONTENT", $output);
+		$printoutput = $printbody->get();
+		$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
+		$fo = $this->object->processPrintoutput2FO($printoutput);
+		$this->object->deliverPDFfromFO($fo);
+	}
 }
 
 // internal sort function to sort the result array

@@ -323,6 +323,7 @@ class assQuestionGUI
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
 			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
+		$page_gui->setEnabledPageFocus(false);
 		$page_gui->setOutputMode("presentation");
 		$page_gui->setPresentationTitle("");
 		return $page_gui->presentation();
@@ -349,6 +350,7 @@ class assQuestionGUI
 			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
 			"&amp;ref_id=".$_GET["ref_id"]);
+		$page_gui->setEnabledPageFocus(false);
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
 
