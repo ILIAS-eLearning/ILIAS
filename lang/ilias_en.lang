@@ -45,7 +45,7 @@ common#:#access_expired#:#expired
 common#:#enable_ext_lang_maint#:#Enable Extended Maintenance
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
-common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.
+common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes saved in the database before ILIAS 3.10.0 may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory. Local changes saved with ILIAS 3.10.0 or higher are kept, if they are newer than the modification date of the local language file.
 common#:#delete_existing_file#:#Delete Existing File
 common#:#res_links#:#Repository Links
 common#:#short_inst_name#:#Short Title
@@ -91,7 +91,7 @@ administration#:#language_mode_existing_keepall#:#Keep all existing entries
 administration#:#language_mode_existing_keepnew#:#Keep all local changes
 administration#:#language_mode_existing_replace#:#Replace existing entries
 administration#:#language_note_save_local#:#Please save your changes to the local language file regularly. If you don't have write permissions to the customized language files, you may export the local changes and re-import them if needed.
-administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs visible and read permission on the language folder.
+administration#:#language_note_translation#:#Page translation mode is activated for each language separately. Additionally the user needs read and write permission on the language folder.
 administration#:#language_process_maintenance#:#Process Maintenance
 administration#:#language_save_local_changes#:#Save all changes to the local language file
 administration#:#language_saved_local#:#All changes were saved to the local language file.

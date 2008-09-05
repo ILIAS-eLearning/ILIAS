@@ -80,7 +80,7 @@ administration#:#language_mode_existing_keepall#:#Vorhandene Einträge beibehalt
 administration#:#language_mode_existing_keepnew#:#Lokale Änderungen beibehalten
 administration#:#language_mode_existing_replace#:#Vorhandene Einträge ersetzen
 administration#:#language_note_save_local#:#Bitte speichern Sie Ihre Änderungen regelmäßig als lokale Sprachdatei. Wenn Sie keine Schreibberechtigung im Verzeichnis der lokalen Sprachdateien haben, können Sie Ihre lokalen Änderungen exportieren und bei Bedarf wieder importieren.
-administration#:#language_note_translation#:#Die Seitenübersetzung wird für jede Sprache separat aktiviert. Zusätzlich muss ein Nutzer die Rechte "Sichtbar" und "Lesen" im Sprachordner haben.
+administration#:#language_note_translation#:#Die Seitenübersetzung wird für jede Sprache separat aktiviert. Zusätzlich muss ein Nutzer die Rechte "Lesen" und "Schreiben" im Sprachordner haben.
 administration#:#language_process_maintenance#:#Wartung durchführen
 administration#:#language_save_local_changes#:#Alle Änderungen in der lokalen Sprachdatei speichern
 administration#:#language_saved_local#:#Alle Änderungen wurden in der lokalen Sprachdatei gespeichert.
@@ -7773,7 +7773,7 @@ administration#:#auth_by_user#:#Durch den Benutzer
 administration#:#auth_automatic#:#Festgelegte Reihenfolge
 administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgebenen Reihenfolge überprüft werden sollen.
 common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
-common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen, lädt alle Daten aus den Sprachdateien in die Datenbank. Lokale Änderungen werden dabei möglicherweise überschrieben. Dies "*.lang.local" Dateien im Customizing Verzeichnis sind davon nicht betroffen.
+common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen lädt alle Daten aus den Sprachdateien in die Datenbank. Lokale Änderungen, die vor ILIAS 3.10.0 gespeichert wurden, werden dabei möglicherweise überschrieben. Die "*.lang.local" Dateien im Customizing Verzeichnis sind davon nicht betroffen. Lokale Änderungen, die mit ILIAS 3.10.0 oder höher gespeichert wurden, werden vor dem Überschreiben bewahrt, wenn sie jünger als das Änderungsdatum der lokalen Sprachdatei sind.
 common#:#lngf_write#:#Schreibzugriff, wird für erweiterte Sprachverwaltung benötigt.
 content#:#cont_last_access#:#Letzter Zugriff
 content#:#seq_close#:#Bitte schliessen sie das Fenster des SCORM Lernmoduls.

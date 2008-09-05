@@ -40,19 +40,27 @@ class ilObjLanguageAccess
 	* Permission check for translations
 	*
 	* This check is used for displaying the translation link on each page
-	* The global language folder must have 'visible' and 'read' permissions
+	* - The extended language maintenance must be turned on
+	* - The page translation of the current language must be turned on
+	* - The user must have read and write permissions to the language folder
 	*
 	* @access   static
 	* @return   boolean     translation possible (true/false)
 	*/
 	function _checkTranslate()
 	{
-		global $ilUser, $rbacsystem;
+		global $lng, $ilSetting, $ilUser, $rbacsystem;
+
+		if (!$ilSetting->get("lang_ext_maintenance")
+		or !$ilSetting->get("lang_translate_".$lng->getLangKey()))
+		{
+			return false;
+		}
 
 		if ($ilUser->getId())
 		{
-			$ref_id = ilObjLanguageAccess::_lookupLangFolderRefId();
-			return $rbacsystem->checkAccess("write", (int) $ref_id);
+			$ref_id = self::_lookupLangFolderRefId();
+			return $rbacsystem->checkAccess("read,write", (int) $ref_id);
 		}
 		return false;
 	}
@@ -60,25 +68,27 @@ class ilObjLanguageAccess
 
 	/**
 	* Permission check for language maintenance (import/export)
-	*
-	* The global language folder must have 'visible' and 'read' permissions
+	* - The extended language maintenance must be turned on
+	* - The user must have read and write permissions to the language folder
 	*
 	* @access   static
 	* @return   boolean     maintenance possible (true/false)
 	*/
 	function _checkMaintenance()
 	{
-		global $ilUser, $rbacsystem;
+		global $ilSetting, $ilUser, $rbacsystem;
 
-		if (!$ilUser->getId())
+		if (!$ilSetting->get("lang_ext_maintenance"))
 		{
 			return false;
 		}
-		else
+
+		if ($ilUser->getId())
 		{
-			$ref_id = ilObjLanguageAccess::_lookupLangFolderRefId();
-			return $rbacsystem->checkAccess("read,visible", (int) $ref_id);
+			$ref_id = self::_lookupLangFolderRefId();
+			return $rbacsystem->checkAccess("read,write", (int) $ref_id);
 		}
+		return false;
 	}
 
 
@@ -99,7 +109,6 @@ class ilObjLanguageAccess
 		return $row['ref_id'];
 	}
 	
-
 
 	/**
 	* Lookup the object ID for a language key
