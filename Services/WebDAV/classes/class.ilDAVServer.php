@@ -97,7 +97,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
          * The WebDAVServer prints lots of log messages to the ilias log, if this	
 	 * variable is set to true.
 	 */
-	private $isDebug = false;
+	private $isDebug = true;
     
 	/** 
 	* Constructor
@@ -287,7 +287,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				}
 				
 				// only add visible objects to the file list
-				if ($this->isFileHidden($childDAV))
+				if (!$this->isFileHidden($childDAV))
 				{
 					$this->writelog('PROPFIND() child ref_id='.$childDAV->getRefId());
 					$files['files'][] =& $this->fileinfo(
@@ -315,7 +315,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	}
         
 	/**
-     * Returns true, if the resource has file name which is hidden from the user.
+     * Returns true, if the resource has a file name which is hidden from the user.
 	 * Note, that resources with a hidden file name can still be accessed by a 
      * WebDAV client, if the client knows the resource name.
 	 *
@@ -334,23 +334,23 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 	
 		$name = $objDAV->getResourceName();
-		$isFileHidden = true;
+		$isFileHidden = false;
 		switch ($this->clientOS)
 		{
 		case 'unix' :
 			// Hide files which start with '~$'.
 			$isFileHidden = 
-				$name != 'Thumbs.db'
-				&& substr($name, 0, 2) != '~$';
+				$name == 'Thumbs.db'
+				|| substr($name, 0, 2) != '~$';
 			break;
 		case 'windows' :
 			// Hide files that start with '.'.
-			$isFileHidden = substr($name, 0, 1) != '.';
+			$isFileHidden = substr($name, 0, 1) == '.';
 			// Hide files which contain \ / : * ? " < > |
-			$isFileHidden &= !preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\|/', $name);
+			$isFileHidden |= !preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\|/', $name);
 			break;
 		}
-		$this->writelog($this->clientOS.' '.$name.' '.$isFileHidden);
+		$this->writelog($this->clientOS.' '.$name.' isHidden:'.$isFileHidden);
 		return $isFileHidden;
 	}
 	
@@ -657,7 +657,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		echo "<html><head>\n";
 		echo "<title>".sprintf($lng->txt('webfolder_index_of'), $path)."</title>\n";
 		
-		// Create "anchorClick" behaviour for for Internet Explorer
+		// Create "anchorClick" behavior for for Internet Explorer
 		// This allows to create a link to a webfolder
 		echo "<style type=\"text/css\">\n";
 		echo "<!--\n";
@@ -728,33 +728,33 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	
 		$children =& $objDAV->childrenWithPermission('visible');
 		foreach ($children as $childDAV) {
-			if ($childDAV->isCollection() && $this->isFileHidden($childDAV))
+			if ($childDAV->isCollection() && !$this->isFileHidden($childDAV))
 			{
 				$name = $this->davUrlEncode($childDAV->getResourceName());
 				printf($format, 
 					'-',
 					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
-					"<a href='".$name.'/'."'>".$childDAV->getDisplayName()."</a>");
+					'<a href="'.$name.'/'.'">'.$childDAV->getDisplayName()."</a>");
 			}
 		}
 		foreach ($children as $childDAV) {
-			if ($childDAV->isFile() && $this->isFileHidden($childDAV))
+			if ($childDAV->isFile() && !$this->isFileHidden($childDAV))
 			{
 				$name = $this->davUrlEncode($childDAV->getResourceName());
 				printf($format, 
 					number_format($childDAV->getContentLength()),
 					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
-					"<a href='".$name."/'>".$childDAV->getDisplayName()."</a>");
+					'<a href="'.$name.'">'.$childDAV->getDisplayName()."</a>");
 			}
 		}
 		foreach ($children as $childDAV) {
-			if ($childDAV->isNullResource() && $this->isFileHidden($childDAV))
+			if ($childDAV->isNullResource() && !$this->isFileHidden($childDAV))
 			{
 				$name = $this->davUrlEncode($childDAV->getResourceName());
 				printf($format, 
 					'Lock',
 					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
-					"<a href='".$name."'>".$childDAV->getDisplayName()."</a>");
+					'<a href="'.$name.'">'.$childDAV->getDisplayName()."</a>");
 			}
 		}
 	
