@@ -527,18 +527,24 @@ class ilContainerGUI extends ilObjectGUI
 				);
 			}
 			
-			$GLOBALS["tpl"]->addAdminPanelCommand("delete",
-				$this->lng->txt("delete_selected_items"));
+			if ($this->object->gotItems())
+			{
+				$GLOBALS["tpl"]->addAdminPanelCommand("delete",
+					$this->lng->txt("delete_selected_items"));
+			}
 			
 			if (!$_SESSION["clipboard"])
 			{
-				$GLOBALS["tpl"]->addAdminPanelCommand("cut",
-					$this->lng->txt("move_selected_items"));
-				// BEGIN WebDAV: Support a copy command in the repository
-			// does currently not work
-				// END WebDAV: Support a copy command in the repository
-				$GLOBALS["tpl"]->addAdminPanelCommand("link",
-					$this->lng->txt("link_selected_items"));
+				if ($this->object->gotItems())
+				{
+					$GLOBALS["tpl"]->addAdminPanelCommand("cut",
+						$this->lng->txt("move_selected_items"));
+					// BEGIN WebDAV: Support a copy command in the repository
+				// does currently not work
+					// END WebDAV: Support a copy command in the repository
+					$GLOBALS["tpl"]->addAdminPanelCommand("link",
+						$this->lng->txt("link_selected_items"));
+				}
 			}
 			else
 			{
