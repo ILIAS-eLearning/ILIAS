@@ -347,7 +347,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			// Hide files that start with '.'.
 			$isFileHidden = substr($name, 0, 1) == '.';
 			// Hide files which contain \ / : * ? " < > |
-			$isFileHidden |= !preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\|/', $name);
+			$isFileHidden |= preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\|/', $name);
 			break;
 		}
 		$this->writelog($this->clientOS.' '.$name.' isHidden:'.$isFileHidden);
