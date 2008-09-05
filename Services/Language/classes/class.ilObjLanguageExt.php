@@ -29,22 +29,11 @@ require_once "./Services/Language/classes/class.ilObjLanguage.php";
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id: class.ilObjLanguageExt.php $
 *
-* @package ilias-core
+* @ingroup ServicesLanguage
 */
 class ilObjLanguageExt extends ilObjLanguage
 {
 	
-	/**
-	* parameters and content defined in the language file
-	*
-	* @var		string
-	* @access	private
-	*/
-	var $lang_file_param = array();
-	var $lang_file_content = array();
-	var $lang_file_comments = array();
-
-
 	/**
 	* Constructor
 	*/
@@ -53,13 +42,22 @@ class ilObjLanguageExt extends ilObjLanguage
 		$this->ilObjLanguage($a_id, $a_call_by_reference);
 	}
 	
-	
+	/**
+	* Read and get the global language file as an object
+	* @return   object  	global language file
+	*/
+	public function getGlobalLanguageFile()
+	{
+		require_once "./Services/Language/classes/class.ilLanguageFile.php";
+		return ilLanguageFile::_getGlobalLanguageFile($this->key);
+	}
+
 	/**
 	* Set the local status of the language
 	*
 	* @param   boolean       local status (true/false)
 	*/
-	function setLocal($a_local = true)
+	public function setLocal($a_local = true)
 	{
 		if ($this->isInstalled())
 		{
@@ -81,7 +79,7 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @return   string       description
 	*/
-	function getLongDescription()
+	public function getLongDescription()
 	{
 		return $this->lng->txt($this->desc);
 	}
@@ -91,7 +89,7 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @return   string       path of language files folder
 	*/
-	function getLangPath()
+	public function getLangPath()
 	{
 		return $this->lang_path;
 	}
@@ -101,155 +99,77 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @return   string       path of customized language files folder
 	*/
-	function getCustLangPath()
+	public function getCustLangPath()
 	{
 		return $this->cust_lang_path;
 	}
 
 	/**
-	* Get all translation entries from the database
+	* Get all values from the database
 	*
 	* @param    array       list of modules
-	* @param    string       search pattern
-	* @return   array       module#:#topic => value
+	* @param    string      search pattern
+	* @return   array       module.separator.topic => value
 	*/
-	function getAllTranslations($a_modules = array(), $a_pattern = '')
+	public function getAllValues($a_modules = array(), $a_pattern = '')
 	{
-		return $this->_getTranslations($this->key, $a_modules, NULL, $a_pattern);
+		return self::_getValues($this->key, $a_modules, NULL, $a_pattern);
 	}
 	
 	
 	/**
-	* Get only the changed translation entries from the database
+	* Get only the changed values from the database
 	* which differ from the original language file.
-	* The language file has to be read first.
 	*
 	* @param    array       list of modules
-	* @param    string       search pattern
-	* @return   array       module#:#topic => translation
+	* @param    string      search pattern
+	* @return   array       module.separator.topic => value
 	*/
-	function getChangedTranslations($a_modules = array(), $a_pattern = '')
+	public function getChangedValues($a_modules = array(), $a_pattern = '')
 	{
-		$translations = $this->_getTranslations($this->key, $a_modules, NULL, $a_pattern);
-		$changes = array();
-		
-		foreach ($translations as $key => $value)
-		{
-			if ($this->lang_file_content[$key] != $value)
-			{
-				$changes[$key] = $value;
-			}
-		}
-		
-		return $changes;
+		return self::_getValues($this->key, $a_modules, NULL, $a_pattern, 'changed');
 	}
 
 
 	/**
-	* Get only the unchanged translation entries from the database
+	* Get only the unchanged values from the database
 	* which are equal to the original language file.
-	* The language file has to be read first.
 	*
 	* @param    array       list of modules
 	* @param    array       search pattern
-	* @return   array       module#:#topic => translation
+	* @return   array       module.separator.topic => value
 	*/
-	function getUnchangedTranslations($a_modules = array(), $a_pattern = '')
+	public function getUnchangedValues($a_modules = array(), $a_pattern = '')
 	{
-		$translations = $this->_getTranslations($this->key, $a_modules, NULL, $a_pattern);
-		$unchanged = array();
-
-		foreach ($translations as $key => $value)
-		{
-			if ($this->lang_file_content[$key] == $value)
-			{
-				$unchanged[$key] = $value;
-			}
-		}
-
-		return $unchanged;
+		return self::_getValues($this->key, $a_modules, NULL, $a_pattern, 'unchanged');
 	}
 
 
 	/**
-	* Get all translation entries from the database
-	* for wich the original language file has a comment.
-	* The language file has to be read first.
+	* Get all values from the database
+	* for wich the global language file has a comment.
 	*
 	* @param    array       list of modules
 	* @param    array       search pattern
-	* @return   array       module#:#topic => translation
+	* @return   array       module.separator.topic => value
 	*/
-	function getCommentedTranslations($a_modules = array(), $a_pattern = '')
+	public function getCommentedValues($a_modules = array(), $a_pattern = '')
 	{
-		$translations = $this->_getTranslations($this->key, $a_modules, NULL, $a_pattern);
-		$commented = array();
+		$global_file_obj = $this->getGlobalLanguageFile();
+		$global_values = $global_file_obj->getAllValues();
+		$local_values = self::_getValues($this->key, $a_modules, NULL, $a_pattern);
 
-		foreach ($translations as $key => $value)
+		$commented = array();
+		foreach ($local_values as $key => $value)
 		{
-			if ($this->lang_file_comments[$key] != "")
+			if ($global_comments[$key] != "")
 			{
 				$commented[$key] = $value;
 			}
 		}
-
 		return $commented;
 	}
-
-
-	/**
-	* Get the whole language file content
-	* The language file has to be read first.
-	*
-	* @return   array      key => value
-	*/
-	function getLangFileContent()
-	{
-		return $this->lang_file_content;
-	}
 	
-	/**
-	* Get all language file comments
-	* The language file has to be read first.
-	*
-	* @return   array      key => comment
-	*/
-	function getLangFileComments()
-	{
-		return $this->lang_file_comments;
-	}
-
-	/**
-	* Get a parameter value from the original language file header
-	*
-	* Parameters are @version, @author, ...
-	* The language file has to be read first.
-	*
-	* @param    string  	parameter name
-	* @return   string  	parameter value
-	*/
-	function getLangFileParam($a_param)
-	{
-		return $this->lang_file_param[$a_param];
-	}
-	
-	
-	/**
-	* Get the value of a single language file entry
-	*
-	* This entry may differ from the current database value
-	* due to a local language file or to online translations.
-	* The language file has to be read first.
-	*
-	* @param    string      module name
-	* @param    string      topic indentifier
-	* @return   string      language file value
-	*/
-	function getLangFileValue($a_module, $a_topic)
-	{
-		return $this->lang_file_content[$a_module.$this->separator.$a_topic];
-	}
-
 
 	/**
 	* Import a language file into the ilias database
@@ -257,22 +177,28 @@ class ilObjLanguageExt extends ilObjLanguage
 	* @param    string  	handling of existing values
 	*						('keepall','keeknew','replace','delete')
 	*/
-	function importLanguageFile($a_file, $a_mode_existing = 'keepnew')
+	public function importLanguageFile($a_file, $a_mode_existing = 'keepnew')
 	{
-		global $ilDB;
-		
+		global $ilDB, $ilErr;
+
+		// read the new language file
+		require_once "./Services/Language/classes/class.ilLanguageFile.php";
+		$import_file_obj = new ilLanguageFile($a_file);
+		if (!$import_file_obj->read())
+  		{
+			$ilErr->raiseError($import_file_obj->getErrorMessage(),$ilErr->MESSAGE);
+		}
+
 		switch($a_mode_existing)
 		{
 			// keep all existing entries
 			case 'keepall':
-				$to_keep = $this->getAllTranslations();
+				$to_keep = $this->getAllValues();
 				break;
 
 			// keep existing online changes
 			case 'keepnew':
-			    // read the original language file
-			    $this->readLanguageFile();
-				$to_keep = $this->getChangedTranslations();
+				$to_keep = $this->getChangedValues();
 				break;
 
  			// replace all existing definitions
@@ -293,103 +219,26 @@ class ilObjLanguageExt extends ilObjLanguage
 			    return;
 		}
 		
-		// read the new language file and process content
-		$this->readLanguageFile($a_file);
+		// process the values of the import file
 		$to_save = array();
-		foreach ($this->lang_file_content as $key => $value)
+		foreach ($import_file_obj->getAllValues() as $key => $value)
 		{
 			if (!isset($to_keep[$key]))
 			{
 				$to_save[$key] = $value;
 			}
 		}
-		$this->_saveTranslations($this->key, $to_save);
+		self::_saveValues($this->key, $to_save);
 	}
 
-
 	/**
-	* Read the language file content and parameters into class arrays
-	*/
-	function readLanguageFile($a_lang_file = '')
-	{
-		$this->lang_file_param = array();
-		$this->lang_file_content = array();
-		$this->lang_file_comments = array();
-
-		if ($a_lang_file == '')
-		{
-			$a_lang_file = $this->lang_path . "/ilias_" . $this->key . ".lang";
-		}
-		$content = file($a_lang_file);
-		
-		$in_header = true;
-		foreach ($content as $dummy => $line)
-		{
-			if ($in_header)
-			{
-				// check header end
-				if (trim($line) == "<!-- language file start -->")
-				{
-					$in_header = false;
-					continue;
-				}
-				else
-				{
-					// get header params
-					$pos_par = strpos($line, "* @");
-					
-					if ($pos_par !== false)
-					{
-				        $pos_par += 3;
-						$pos_space = strpos($line, " ", $pos_par);
-						$pos_tab = strpos($line, "\t", $pos_par);
-						$pos_white = min($pos_space, $pos_tab);
-					
-						$param = substr($line, $pos_par, $pos_white-$pos_par);
-						$value = trim(substr($line, $pos_white));
-						
-						$this->lang_file_param[$param] = $value;
-					}
-				}
-			}
-			else
-			{
-				// separate the lang file entry
-				$separated = explode($this->separator, trim($line));
-				
-				if (count($separated) == 3)
-				{
-					$key = $separated[0].$this->separator.$separated[1];
-					$value = $separated[2];
-
-					// cut off comment
-					$pos = strpos($value, $this->comment_separator);
-					if ($pos !== false)
-					{
-						$this->lang_file_comments[$key]
-							= substr($value , $pos + strlen($this->comment_separator));
-							
-						$value = substr($value , 0 , $pos);
-					}
-					$this->lang_file_content[$key] = $value;
-				}
-			}
-		}
-	}
-
-
-	//
-	// STATIC FUNCTIONS
-	//
-
-	/**
-	* Get al modules of a language
+	* Get all modules of a language
 	*
 	* @access   static
 	* @param    string      language key
 	* @return   array       list of modules
 	*/
-	function _getModules($a_lang_key)
+	public static function _getModules($a_lang_key)
 	{
 		global $ilDB;
 		
@@ -413,9 +262,12 @@ class ilObjLanguageExt extends ilObjLanguage
 	* @param    array       list of modules
 	* @param    array       list of topics
 	* @param    array       search pattern
-	* @return   array       "module#:#topic" => translation
+	* @param    string      local change state ('changed', 'unchanged', '')
+	* @return   array       module.separator.topic => value
 	*/
-	function _getTranslations($a_lang_key, $a_modules = array(), $a_topics = array(), $a_pattern = '')
+	public static function _getValues($a_lang_key,
+			$a_modules = array(), $a_topics = array(),
+			$a_pattern = '', $a_state = '')
 	{
 		global $ilDB, $lng;
 
@@ -450,15 +302,23 @@ class ilObjLanguageExt extends ilObjLanguage
 		{
 			$q .= " AND value like ". $ilDB->quote("%".$a_pattern."%");
 		}
+		if ($a_state == "changed")
+		{
+			$q .= " AND local_change <> '0000-00-00 00:00:00'";
+		}
+		if ($a_state == "unchanged")
+		{
+			$q .= " AND local_change = '0000-00-00 00:00:00'";
+		}
 		$q .= " ORDER BY module, identifier";
 		$set = $ilDB->query($q);
 
-		$trans = array();
+		$values = array();
 		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$trans[$rec["module"].$lng->separator.$rec["identifier"]] = $rec["value"];
+			$values[$rec["module"].$lng->separator.$rec["identifier"]] = $rec["value"];
 		}
-		return $trans;
+		return $values;
 	}
 
 	/**
@@ -466,20 +326,26 @@ class ilObjLanguageExt extends ilObjLanguage
 	*
 	* @access   static
 	* @param    string      language key
-	* @param    array       "module#:#topic" => translation
+	* @param    array       module.separator.topic => value
 	*/
-	function _saveTranslations($a_lang_key, $a_translations = array())
+	public static function _saveValues($a_lang_key, $a_values = array())
 	{
 		global $ilDB, $lng;
 		
-		if (!is_array($a_translations))
+		if (!is_array($a_values))
 		{
 			return;
 		}
 		$save_array = array();
+		$save_date = date("Y-m-d H:i:s", time());
+		
+		// read and get the global values
+		require_once "./Services/Language/classes/class.ilLanguageFile.php";
+		$global_file_obj = ilLanguageFile::_getGlobalLanguageFile($a_lang_key);
+		$global_values = $global_file_obj->getAllValues();
 		
 		// save the single translations in lng_data
-		foreach ($a_translations as $key => $value)
+		foreach ($a_values as $key => $value)
 		{
 			$keys = explode($lng->separator, $key);
 			if (count($keys) == 2)
@@ -487,13 +353,16 @@ class ilObjLanguageExt extends ilObjLanguage
 				$module = $keys[0];
 				$topic = $keys[1];
 				$save_array[$module][$topic] = $value;
+				$local_change = $global_values[$key] == $value ?
+								"0000-00-00 00:00:00" : $save_date;
 			
-				$q = "REPLACE INTO lng_data(lang_key, module, identifier, value)"
+				$q = "REPLACE INTO lng_data(lang_key, module, identifier, value, local_change)"
 				. " VALUES("
 				. $ilDB->quote($a_lang_key). ","
 				. $ilDB->quote($module). ","
 				. $ilDB->quote($topic). ","
-				. $ilDB->quote($value).")";
+				. $ilDB->quote($value). ","
+				. $ilDB->quote($local_change). ")";
 				$ilDB->query($q);
 			}
 		}

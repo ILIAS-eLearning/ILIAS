@@ -228,14 +228,13 @@ class ilLanguage
 
 		$err_lang = array();
 
-		$this->flushLanguages();
-		
 		$db_langs = $this->getAvailableLanguages();
 
 		foreach ($a_lang_keys as $lang_key)
 		{
 			if ($this->checkLanguage($lang_key))
 			{
+				$this->flushLanguage($lang_key, 'keep_local');
 				$this->insertLanguage($lang_key);
 				
 				if (in_array($lang_key, $a_local_keys))
@@ -302,6 +301,8 @@ class ilLanguage
 				}
 				else
 				{
+					$this->flushLanguage($key, "all");
+					
 					if (substr($val["status"], 0, 9) == "installed")
 					{
 						$query = "UPDATE object_data SET " .
@@ -317,6 +318,8 @@ class ilLanguage
 
 		return ($err_lang) ? $err_lang : true;
 	}
+
+
 
 	/**
 	 * get already installed languages (in db)
@@ -475,15 +478,65 @@ class ilLanguage
 
 		return false;
 	}
+	
 
 	/**
-	 * remove all languagee from database
+	 * remove language data from database
+	 * @param   string     language key
+	 * @param   string     "all" or "keep_local"
 	 */
-	function flushLanguages()
+	function flushLanguage($a_lang_key, $a_mode = 'all')
 	{
-		$query = "DELETE FROM lng_data";
-		$this->db->query($query);
+		$ilDB = $this->db;
+
+		$query = "DELETE FROM lng_data WHERE lang_key=".
+			$ilDB->quote($a_lang_key);
+
+		if ($a_mode == 'keep_local')
+		{
+			$query .= " AND local_change='0000-00-00 00:00:00'";
+		}
+		$ilDB->query($query);
+
+		if ($a_mode == 'all')
+		{
+			$query = "DELETE FROM lng_modules WHERE lang_key=".
+				$ilDB->quote($a_lang_key);
+			$ilDB->query($query);
+		}
 	}
+
+	/**
+	* get locally changed language entries
+	* @param   string     language key
+	* @param    string  	minimum change date "yyyy-mm-dd hh:mm:ss"
+	* @param    string  	maximum change date "yyyy-mm-dd hh:mm:ss"
+	* @return   array       [module][identifier] => value
+	*/
+	function getLocalChanges($a_lang_key, $a_min_date = "", $a_max_date = "")
+	{
+		$ilDB = $this->db;
+
+		$query = "SELECT * FROM lng_data WHERE"
+				." lang_key =".$ilDB->quote($a_lang_key);
+		if ($a_min_date <> "")
+		{
+			$query .= " and local_change >= ".$ilDB->quote($a_min_date);
+		}
+		if ($a_max_date <> "")
+		{
+			$query .= " and local_change <= ".$ilDB->quote($a_max_date);
+		}
+		$result = $ilDB->query($query);
+
+		$changes = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$changes[$row["module"]][$row["identifier"]] = $row["value"];
+		}
+		return $changes;
+	}
+
 
 	//TODO: remove redundant checks here!
 	/**
@@ -524,9 +577,25 @@ class ilLanguage
 
 		if ($lang_file)
 		{
+			// initialize the array for updating lng_modules below
+			$lang_array = array();
+			$lang_array["common"] = array();
+
 			// remove header first
 			if ($content = $this->cut_header(file($lang_file)))
 			{
+				// get the local changes from the database
+				if (empty($scope))
+				{
+					$local_changes = $this->getLocalChanges($lang_key);
+				}
+				else if ($scope == 'local')
+				{
+					$change_date = date("Y-m-d H:i:s",time());
+					$min_date = date("Y-m-d H:i:s", filemtime($lang_file));
+					$local_changes = $this->getLocalChanges($lang_key, $min_date);
+				}
+
 				foreach ($content as $key => $val)
 				{
 					$separated = explode($this->separator,trim($val));
@@ -540,32 +609,55 @@ class ilLanguage
 						$separated[2] = substr($separated[2] , 0 , $pos);
 					}
 
+					// check if the value has a local change
+					$local_value = $local_changes[$separated[0]][$separated[1]];
+
 					if (empty($scope))
 					{
-						$query = "INSERT INTO lng_data ".
-								"(module,identifier,lang_key,value) ".
-								"VALUES ".
-								"('" . $separated[0] . "','" . $separated[1] . "','" . $lang_key . "','" . addslashes($separated[2]) . "')";
-						$lang_array[$separated[0]][$separated[1]] = $separated[2];
+						if ($local_value != "" and $local_value != $separated[2])
+						{
+							// keep the locally changed value
+							$lang_array[$separated[0]][$separated[1]] = $local_value;
+						}
+						else
+						{
+							// insert a new value if no local value exists
+							// reset local_change if the values are equal
+							$query = "REPLACE INTO lng_data " .
+									"(module, identifier, lang_key, value, local_change) " .
+									"VALUES " .
+									"(".$ilDB->quote($separated[0]).",".
+									$ilDB->quote($separated[1]).",".
+									$ilDB->quote($lang_key).",".
+									$ilDB->quote($separated[2]).",".
+									$ilDB->quote("0000-00-00 00:00:00").")";
+							$ilDB->query($query);
+
+							$lang_array[$separated[0]][$separated[1]] = $separated[2];
+						}
 					}
 					else if ($scope == 'local')
 					{
-						$query = "UPDATE lng_data SET ".
-								"module = '" . $separated[0] . "', " .
-								"identifier = '" . $separated[1] . "', " . 
-								"lang_key = '" . $lang_key . "', " .
-								"value = '" . addslashes($separated[2]) . "' " .
-								"WHERE module = '" . $separated[0] . "' " .
-								"AND identifier = '" . $separated[1] . "' " .
-								"AND lang_key = '" . $lang_key . "'";
-						$lang_array[$separated[0]][$separated[1]] = $separated[2];
+						if ($local_value != "")
+						{
+							// keep a locally changed value that is newer than the local file
+							$lang_array[$separated[0]][$separated[1]] = $local_value;
+						}
+						else
+						{
+							// UPDATE because the global values have already been INSERTed
+							$query = "UPDATE lng_data SET ".
+									 "value = ".$ilDB->quote($separated[2]).", " .
+									 "local_change = ".$ilDB->quote($change_date)." " .
+									 "WHERE module = ".$ilDB->quote($separated[0])." " .
+									 "AND identifier = ".$ilDB->quote($separated[1])." " .
+									 "AND lang_key = ".$ilDB->quote($lang_key);
+							$ilDB->query($query);
+							$lang_array[$separated[0]][$separated[1]] = $separated[2];
+						}
 					}
-					$this->db->query($query);
 				}
 			}
-
-			// insert module data
-			$lang_array[$separated[0]][$separated[1]] = $separated[2];
 
 			foreach($lang_array as $module => $lang_arr)
 			{
@@ -593,6 +685,7 @@ class ilLanguage
 
 		chdir($tmpPath);
 	}
+
 	
 	/**
 	 * Searches for the existence of *.lang.local files.

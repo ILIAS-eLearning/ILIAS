@@ -503,7 +503,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			{
 				if ($langObj->check())
 				{
-					$langObj->flush();
+					$langObj->flush('keep_local');
 					$langObj->insert();
 					$langObj->setTitle($langObj->getKey());
 					$langObj->setDescription($langObj->getStatus());
