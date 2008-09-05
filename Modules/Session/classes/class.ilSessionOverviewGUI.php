@@ -152,7 +152,7 @@ class ilSessionOverviewGUI
 		
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tbl->setHeaderNames($headerNames);
-		$tbl->setHeaderVars($headerVars, $this->ctrl->getParameterArray($this,'eventsList'));
+		$tbl->setHeaderVars($headerVars, $this->ctrl->getParameterArray($this,'listSessions'));
 		$tbl->setColumnWidth($colWidth);		
 
 		$tbl->setOrderColumn($_GET["sort_by"]);
