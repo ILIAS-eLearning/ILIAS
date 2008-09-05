@@ -609,7 +609,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$webfolderURI = $this->base_uri.$fullPath;
 		$webfolderURI_IE = $this->base_uri.$shortenedPath;
 
-		echo "<html>\n";
+		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN\"\n";
+		echo "	\"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd\">\n";
+		echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
 		echo "  <head>\n";
 		echo "  <title>".sprintf($lng->txt('webfolder_instructions_titletext'), $objectPath[count($objectPath) - 1]->getResourceName())."</title>\n";
 		echo "  </head>\n";
@@ -654,7 +657,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$format = "%15s  %-19s  %-s\n";
 		
 		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-		echo "<html><head>\n";
+		echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN\"\n";
+		echo "	\"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd\">\n";
+		echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+		echo "<head>\n";
 		echo "<title>".sprintf($lng->txt('webfolder_index_of'), $path)."</title>\n";
 		
 		// Create "anchorClick" behavior for for Internet Explorer
