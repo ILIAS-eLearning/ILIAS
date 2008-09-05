@@ -489,6 +489,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHK_PRINT", "checked");
 		}
+		
+		// prevent glossary appendix
+		$this->tpl->setVariable("TXT_PRINT_PREV_GLO", $this->lng->txt("cont_print_view_pre_glo"));
+		$this->tpl->setVariable("CBOX_PRINT_PREV_GLO", "cobj_act_print_prev_glo");
+		$this->tpl->setVariable("VAL_PRINT_PREV_GLO", "y");
+		if ($this->object->isActivePreventGlossaryAppendix())
+		{
+			$this->tpl->setVariable("CHK_PRINT_PREV_GLO", "checked");
+		}
 
 		// downloads
 		$this->tpl->setVariable("TXT_DOWNLOADS", $this->lng->txt("cont_downloads"));
@@ -722,6 +731,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setActiveNumbering(ilUtil::yn2tf($_POST["cobj_act_number"]));
 		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
 		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
+		$this->object->setActivePreventGlossaryAppendix(ilUtil::yn2tf($_POST["cobj_act_print_prev_glo"]));
 		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["cobj_act_downloads"]));
 		$this->object->setActiveDownloadsPublic(ilUtil::yn2tf($_POST["cobj_act_downloads_public"]));
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
@@ -1290,7 +1300,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("table_row");
 			
-						// check activation
+			// check activation
 			if (!ilLMPageObject::_lookupActive($page["obj_id"]))
 			{
 				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_d.gif"));
@@ -1410,6 +1420,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	}
 
+	/**
+	* List all broken links
+	*/
+	function listLinks()
+	{
+		global $tpl;
+		
+		$this->setTabs();
+		
+		include_once("./Modules/LearningModule/classes/class.ilLinksTableGUI.php");
+		$table_gui = new ilLinksTableGUI($this, "listLinks",
+			$this->object->getId(), $this->object->getType());
+		
+		$tpl->setContent($table_gui->getHTML());
+	}
+	
+	
 	/**
 	* activates or deactivates pages
 	*/
@@ -2764,6 +2791,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$tabs_gui->addTarget("meta_data",
 			$this->ctrl->getLinkTargetByClass('ilmdeditorgui',''),
 			"", "ilmdeditorgui");
+
+		// links
+		$tabs_gui->addTarget("cont_links",
+			$this->ctrl->getLinkTarget($this,'listLinks'),
+			"listLinks", get_class($this));
 
 		if ($this->object->getType() == "lm")
 		{

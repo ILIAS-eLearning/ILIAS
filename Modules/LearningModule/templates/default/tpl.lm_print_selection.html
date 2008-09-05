@@ -3,6 +3,15 @@
 <div class="ilc_TableOfContents">
 <input type="submit" class="submit" name="cmd[showPrintView]" value="{TXT_SHOW_PRINT}">
 <br /><br />
+<div style="margin-bottom: 5px;">
+<input type="radio" name="sel_type" value="page" checked="checked"/> {TXT_CURRENT_PAGE}
+</div>
+<div style="margin-bottom: 5px;">
+<input type="radio" name="sel_type" value="chapter"/> {TXT_CURRENT_CHAPTER}
+</div>
+<div style="margin-bottom: 5px;">
+<input type="radio" name="sel_type" value="selection"/> {TXT_SELECTION}:
+</div>
 <!-- BEGIN lm_item -->
 <table cellpadding="1" cellspacing="0" border="0">
 <tr>
@@ -11,7 +20,7 @@
 <!-- END indent -->
 <td nowrap="1" valign="top" align="left"><input type="checkbox" name="item[{ITEM_ID}]" value="y" {CHECKED} {DISABLED}/></td>
 <td nowrap="1" valign="top" align="left"><img src="{IMG_TYPE}" border="0" /></td>
-<td align="left" nowrap="1">
+<td align="left" nowrap="1" class="small" style="padding-left:5px;">
 {TXT_TITLE} {TXT_NO_ACCESS}
 </td>
 </tr>

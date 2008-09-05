@@ -2903,5 +2903,33 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			array($a_content, $a_md5, $this->getId(), $this->getParentType()));
 	}
 
+	/**
+	* Get all pages for parent object that contain internal links
+	*
+	* @param	string	$a_parent_type	Parent Type
+	* @param	int		$a_parent_id	Parent ID
+	* @param	int		$a_period		Time Period
+	*/
+	static function getPagesWithLinks($a_parent_type, $a_parent_id)
+	{
+		global $ilDB;
+		
+		$page_changes = array();
+		
+		$q = "SELECT * FROM page_object ".
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id).
+			" AND parent_type = ".$ilDB->quote($a_parent_type).
+			" AND content LIKE '%IntLink%'";
+		$set = $ilDB->query($q);
+		$pages = array();
+		while ($page = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$pages[$page["page_id"]] = array("date" => $page["last_change"],
+				"id" => $page["page_id"], "user" => $page["last_change_user"]);
+		}
+
+		return $pages;
+	}
+
 }
 ?>
