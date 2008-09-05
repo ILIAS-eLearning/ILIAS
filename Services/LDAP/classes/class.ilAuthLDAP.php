@@ -24,9 +24,10 @@
 /** 
 * Auth LDAP overwrites PEAR Auth to perform LDAP authentication with specific ILIAS options
 * 
-* Important note to maintainers of this class: 
-*	All changes that are done here need to be done in class.ilAuthHTTPLDAP.php
-*   as well, and vice versa.
+* FIXME - Cass ilAuthContainerLDAP contains duplicates of the code of this class in the 
+*       functions loginObserver, failedLoginObserver, and initLDAPAttributeToUser. If you do changes in
+*       these functions, you MUST do corresponding changes in ilAuthContainerLDAP. 
+*       In a future revision of ILIAS, the class ilAuthLDAP should be removed.
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -96,6 +97,11 @@ class ilAuthLDAP extends Auth
 	protected function loginObserver($a_username)
 	{
 		global $ilBench;
+                global $ilLog;
+		$ilLog->write(__METHOD__.': logged in as '.$a_username.
+			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
+			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
+		);
 		
 		$ilBench->start('Auth','LDAPLoginObserver');
 		$user_data = array_change_key_case($this->getAuthData(),CASE_LOWER);
@@ -163,6 +169,12 @@ class ilAuthLDAP extends Auth
 	 */
 	protected function failedLoginObserver()
 	{
+                global $ilLog;
+		$ilLog->write(__METHOD__.': login failed'.
+			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
+			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
+		);
+
 		if(!$this->ldap_container->enabledOptionalGroupCheck() and $this->ldap_server->isMembershipOptional())
 		{
 			$this->logout();
@@ -203,7 +215,7 @@ class ilAuthLDAP extends Auth
 	 	$this->ldap_container = new ilAuthContainerLDAP($this->ldap_server,$this->ldap_server->toPearAuthArray());
 	}
 	
-	/** 
+	/**
 	 * Set callback function for PEAR Auth 
 	 *
 	 */

@@ -263,8 +263,9 @@ class ilAuthUtils
 					require_once 'Services/LDAP/classes/class.ilAuthContainerLDAP.php';
 					require_once 'Services/LDAP/classes/class.ilLDAPServer.php';
 					$ldap_server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
-					$authContainerDB = new ilAuthContainerLDAP($ldap_server, $ldap_server->toPearAuthArray());
-					$ilAuth = new Auth_HTTP($authContainerDB, $auth_params,"",false);
+					$authContainer = new ilAuthContainerLDAP($ldap_server, $ldap_server->toPearAuthArray());
+                                        $authContainer->setObserversEnabled(true);
+					$ilAuth = new Auth_HTTP($authContainer, $auth_params,"",false);
 					$ilAuth->setRealm($realm);
 				}
 				else
@@ -279,6 +280,10 @@ class ilAuthUtils
 			case AUTH_RADIUS:
 				if (WebDAV_Authentication == 'HTTP')
 				{
+                                        // FIXME - WebDAV Authentication with RADIUS is broken!!!
+                                        // We need to implement a class ilAuthContainerRadius and move
+                                        // all the code which is currently in ilAuthRadius into this class.
+                                        //
 					// Use HTTP authentication as the frontend for WebDAV clients:
                                         require_once("Auth/HTTP.php");
 					$auth_params = array();
@@ -338,6 +343,7 @@ class ilAuthUtils
 						$auth_params['sessionSharing'] = false;
 						$ldap_server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
 						$authContainer = new ilAuthContainerLDAP($ldap_server, $ldap_server->toPearAuthArray());
+						$authContainer->setObserversEnabled(true);
 						$multiple_params[$authModeSequence[AUTH_LDAP]] = array(
 						'type' => 'LDAP',
 						'container' => $authContainer,
@@ -356,6 +362,7 @@ class ilAuthUtils
 						$auth_params['sessionName'] = "_authhttp".md5($realm);
 						$auth_params['sessionSharing'] = false;
 						$authContainer = new ilAuthContainerMDB2($auth_params);
+						$authContainer->setObserversEnabled(true);
 						$multiple_params[$authModeSequence[AUTH_LOCAL]] = array(
 							'type' => 'MDB2',
 							'container' => $authContainer,
@@ -376,6 +383,7 @@ class ilAuthUtils
 					{
 						$multipleContainer->containers[$key] = $options['container'];
 						$options['container']->_auth_obj = $ilAuth;
+						$options['container']->setObserversEnabled(true);
                                         }
 				}
                         	else
@@ -414,6 +422,7 @@ class ilAuthUtils
 					$auth_params['sessionSharing'] = false;
 					require_once 'class.ilAuthContainerMDB2.php';
 					$authContainer = new ilAuthContainerMDB2($auth_params);
+					$authContainer->setObserversEnabled(true);
 					$ilAuth = new Auth_HTTP($authContainer, $auth_params,"",false);
 					$ilAuth->setRealm($realm);
 				}
@@ -423,6 +432,7 @@ class ilAuthUtils
 					$auth_params['sessionName'] = "_authhttp".md5($realm);
 					require_once 'class.ilAuthContainerMDB2.php';
 					$authContainer = new ilAuthContainerMDB2($auth_params);
+					$authContainer->setObserversEnabled(true);
 					$ilAuth = new Auth($authContainer, $auth_params,"",false);
 				}
 				break;
