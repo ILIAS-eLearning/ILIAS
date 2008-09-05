@@ -463,14 +463,7 @@ class ilTestCertificate
 			$pageheight = $pageformats[$form_data["pageformat"]]["height"];
 			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
 		}
-		if ($for_export)
-		{
-			$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImageName() : "";
-		}
-		else
-		{
-			$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath()  . $this->getDummyParameter() : "";
-		}
+		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImageName() : "";
 		$params = array(
 			"pageheight" => $pageheight, 
 			"pagewidth" => $pagewidth,
@@ -983,19 +976,6 @@ class ilTestCertificate
 		}
 		ilUtil::delDir($importpath);
 		return TRUE;
-	}
-
-	/**
-	* Creates a dummy parameter to add to an image url to prevent caching
-	*
-	* Creates a dummy parameter to add to an image url to prevent caching
-	*
-	* @return string The dummy parameter
-	* @access private
-	*/
-	function getDummyParameter()
-	{
-		return "?dummy=" . time();
 	}
 }
 
