@@ -570,6 +570,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 	}
 	
+	/**
+	* Creates a PDF representation of the answers for a given question in a test
+	*
+	* @access public
+	*/
+	function exportQuestionForAllParticipants()
+	{
+		$this->getQuestionResultForTestUsers($_GET["qid"], $this->object->getTestId());
+	}
+	
 /**
 * Output of anonymous aggregated results for the test
 *
@@ -687,14 +697,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		include_once("./Services/Table/classes/class.ilTableGUI.php");
 		$table = new ilTableGUI(0, FALSE);
 		$table->setTitle($this->lng->txt("average_reached_points"));
-		$table->setHeaderNames(array($this->lng->txt("question_title"), $this->lng->txt("points"), $this->lng->txt("percentage"), $this->lng->txt("number_of_answers")));
+		$table->setHeaderNames(array($this->lng->txt("question_title"), $this->lng->txt("points"), $this->lng->txt("percentage"), $this->lng->txt("number_of_answers"), $this->lng->txt("output")));
 
 		$table->enable("auto_sort");
 		$table->enable("sort");
 		$table->setLimit($maxentries);
 
 		$header_params = $this->ctrl->getParameterArray($this, "eval_a");
-		$header_vars = array("question_title", "points", "percentage", "number_of_answers");
+		$header_vars = array("question_title", "points", "percentage", "number_of_answers", "export");
 		$table->setHeaderVars($header_vars, $header_params);
 		$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
 
@@ -726,12 +736,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			$percent = $max ? $reached/$max * 100.0 : 0;
 			$counter++;
+			$this->ctrl->setParameter($this, "qid", $question_id);
 			array_push($rows, 
 				array(
 						$question_title, 
 						sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
 						sprintf("%.2f", $percent) . "%",
-						$answered
+						$answered,
+						"<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants"). "\">" . $this->lng->txt("pdf_export") . "</a>"
 				)
 			);
 		}

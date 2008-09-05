@@ -4825,7 +4825,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	function getUnfilteredEvaluationData()
 	{
 		global $ilDB;
-		global $ilLog;
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
@@ -4839,7 +4838,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"ORDER BY active_id, pass, TIMESTAMP",
 			$ilDB->quote($this->getTestId() . "")
 		);
-		$ilLog->write($query);
 		$result = $ilDB->query($query);
 		$pass = NULL;
 		$checked = array();
@@ -9854,6 +9852,31 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			return FALSE;
 		}
+	}
+
+	/**
+	* Creates an associated array with all active id's for a given test and original question id
+	*
+	* @access public
+	*/
+	function getParticipantsForTestAndQuestion($test_id, $question_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT tst_test_result.active_fi, tst_test_result.question_fi, tst_test_result.pass FROM tst_test_result, tst_active, qpl_questions WHERE tst_active.active_id = tst_test_result.active_fi AND tst_active.test_fi = %s AND tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.original_id = %s",
+			$ilDB->quote($test_id),
+			$ilDB->quote($question_id)
+		);
+		$result = $ilDB->query($query);
+		$foundusers = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (!array_key_exists($row["active_fi"], $foundusers))
+			{
+				$foundusers[$row["active_fi"]] = array();
+			}
+			array_push($foundusers[$row["active_fi"]], array("pass" => $row["pass"], "qid" => $row["question_fi"]));
+		}
+		return $foundusers;
 	}
 } // END class.ilObjTest
 
