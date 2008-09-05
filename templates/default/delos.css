@@ -1011,7 +1011,7 @@ th.il_InfoScreen
 	text-align:left;
 }
 
-div.il_InfoScreenSection
+div.il_InfoScreenSection,th.il_InfoScreenSection
 {
 	margin: 10px 4px 8px 4px;
 	border-bottom-width:1px;

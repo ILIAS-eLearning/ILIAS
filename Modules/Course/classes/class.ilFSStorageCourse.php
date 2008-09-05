@@ -291,7 +291,7 @@ class ilFSStorageCourse extends ilFileSystemStorage
 	
 	public function createArchiveOnlineVersion($a_rel_name)
 	{
-		ilUtil::makeDir(CLIENT_WEB_DIR.'/courses/'.$a_rel_name);
+		ilUtil::makeDirParents(CLIENT_WEB_DIR.'/courses/'.$a_rel_name);
 		ilUtil::rCopy($this->getArchiveDirectory().'/'.$a_rel_name,CLIENT_WEB_DIR.'/courses/'.$a_rel_name);
 
 		return true;
