@@ -1824,6 +1824,7 @@ class ilUtil
 		exec($zipcmd);
 //echo htmlentities($zipcmd);
 		chdir($cdir);
+		return true;
 	}
 
 	/**
