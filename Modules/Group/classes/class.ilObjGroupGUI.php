@@ -2233,6 +2233,13 @@ class ilObjGroupGUI extends ilContainerGUI
 								   $this->lng->txt('cal_from').' '.
 								   ilDatePresentation::formatDate($this->object->getRegistrationStart()));
 			}
+			if ($this->object->isMembershipLimited()) 
+			{
+				$info->addProperty($this->lng->txt("mem_free_places"),
+								   $this->object->getMaxMembers()- count($this->object->getCountMembers()));
+				
+			}
+
 		}
 
 		// forward the command
