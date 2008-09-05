@@ -1,0 +1,47 @@
+<div class="yui-skin-sam">
+	<div id="panel_{PANEL_NUM}" style="display: none">
+		<div class="hd">{PANEL_TITLE}</div>
+		<div id="myPanel" class="bd" style="padding-bottom:2em">
+			<font class="small">
+			<table class="il_InfoScreen">
+				<tr>
+					<th colspan="2" class="il_InfoScreenSection">
+							<div style="float:left">
+								{PANEL_DETAILS}
+							</div>
+							<!-- BEGIN panel_edit_link -->
+							<div style="float:right;padding-bottom: 4px;padding-right: 4px">
+								<font class="small"><a href="{PANEL_EDIT_HREF}" class="il_ContainerItemCommand2">{TXT_PANEL_EDIT}</a></font>
+							</div>
+							<!-- END panel_edit_link -->
+					</th>
+				</tr>
+				<tr>
+					<td class="il_InfoScreenProperty" width="30%">{PANEL_TXT_DATE}</td>
+					<td class="il_InfoScreenPropertyValue" width="70%">{PANEL_DATE}</td>
+				</tr>
+				<!-- BEGIN panel_location -->
+				<tr>
+					<td class="il_InfoScreenProperty" width="30%">{PANEL_TXT_WHERE}</td>
+					<td class="il_InfoScreenPropertyValue" width="70%">{PANEL_WHERE}</td>
+				</tr>
+				<!-- END panel_location -->
+				<!-- BEGIN panel_description -->
+				<tr>
+					<td class="il_InfoScreenProperty" width="30%">{PANEL_TXT_DESC}</td>
+					<td class="il_InfoScreenPropertyValue" width="70%">{PANEL_DESC}</td>
+				</tr>
+				<!-- END panel_description -->
+				<!-- BEGIN panel_link -->
+				<tr>
+					<td class="il_InfoScreenProperty" width="30%">{PANEL_TXT_LINK}</td>
+					<td class="il_InfoScreenPropertyValue" width="70%">
+						{PANEL_PARENT} > <a target="_top" href="{PANEL_LINK_HREF}">{PANEL_LINK_NAME}</a>
+					</td>
+				</tr>
+				<!-- END panel_link -->
+			</table>
+			</font>
+		</div>
+	</div>
+</div>

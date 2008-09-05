@@ -40,6 +40,7 @@ include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 
 class ilCalendarWeekGUI
 {
+	protected $num_appointments = 1;
 	protected $seed = null;
 	protected $user_settings = null;
 
@@ -118,6 +119,11 @@ class ilCalendarWeekGUI
 	public function show()
 	{
 		$this->tpl = new ilTemplate('tpl.week_view.html',true,true,'Services/Calendar');
+		
+		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
+		ilYuiUtil::initDragDrop();
+		ilYuiUtil::initPanel();
+		
 		
 		$navigation = new ilCalendarHeaderNavigationGUI($this,$this->seed,ilDateTime::WEEK);
 		$this->tpl->setVariable('NAVIGATION',$navigation->getHTML());
@@ -222,7 +228,17 @@ class ilCalendarWeekGUI
 	 */
 	protected function showFulldayAppointment($a_app)
 	{
+		$this->tpl->setCurrentBlock('panel_code');
+		$this->tpl->setVariable('NUM',$this->num_appointments);
+		$this->tpl->parseCurrentBlock();
+		
+		
 		$this->tpl->setCurrentBlock('fullday_app');
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
+		$this->tpl->setVariable('PANEL_F_DAY_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
+		$this->tpl->setVariable('F_DAY_ID',$this->num_appointments);
+		
 		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle());
 
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
@@ -234,6 +250,8 @@ class ilCalendarWeekGUI
 		$this->tpl->setVariable('F_APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 		
 		$this->tpl->parseCurrentBlock();
+		
+		$this->num_appointments++;
 	}
 	
 	/**
@@ -244,15 +262,25 @@ class ilCalendarWeekGUI
 	 */
 	protected function showAppointment($a_app)
 	{
+		$this->tpl->setCurrentBlock('panel_code');
+		$this->tpl->setVariable('NUM',$this->num_appointments);
+		$this->tpl->parseCurrentBlock();
+		
+		
 		$this->tpl->setCurrentBLock('not_empty');
+
+		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php');
+		$this->tpl->setVariable('PANEL_DATA',ilCalendarAppointmentPanelGUI::_getInstance()->getHTML($a_app));
 		
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
 		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle());
+		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
 		
 		$this->tpl->setCurrentBlock('day_cell');
+		$this->tpl->setVariable('DAY_CELL_NUM',$this->num_appointments);
 		$this->tpl->setVariable('TD_ROWSPAN',$a_app['rowspan']);
 		
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
@@ -261,6 +289,8 @@ class ilCalendarWeekGUI
 		$this->tpl->setVariable('TD_STYLE',$style);
 		$this->tpl->setVariable('TD_CLASS','calevent');
 		$this->tpl->parseCurrentBlock();
+		
+		$this->num_appointments++;
 
 	}
 	
