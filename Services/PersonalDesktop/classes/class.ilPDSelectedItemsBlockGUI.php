@@ -965,7 +965,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 	*/
 	function &newBlockTemplate()
 	{
-		$tpl = new ilTemplate ("tpl.pd_list_block.html", true, true);
+		$tpl = new ilTemplate ("tpl.pd_list_block.html", true, true, "Services/PersonalDesktop");
 		$this->cur_row_type = "";
 		return $tpl;
 	}
@@ -1095,7 +1095,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI
 		{
 			$a_tpl->setCurrentBlock("container_header_row");
 		}
-		
+
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $html);
 		$a_tpl->setVariable("BLOCK_HEADER_ID", "th_".$a_ref_id);
 		$a_tpl->parseCurrentBlock();
