@@ -213,7 +213,7 @@ class ilCourseArchives
 		// Step three create course html
 		$this->__addCourseHTML();
 
-		// Step three � create copy in web dir
+		// Step three create copy in web dir
 		$this->course_files_obj->createArchiveOnlineVersion($this->getName());
 
 		// Step four zip

@@ -18,7 +18,8 @@
 		
 		function onEditLinkClick(event,panel) 
 		{
-			window.location = event.target ? event.target : event.srcElement;
+			document.getElementById(panel.id).style.display = '';
+			panel.show();
 			YAHOO.util.Event.stopEvent(event);
 			return true;
 		}
@@ -62,14 +63,19 @@
 				<div class="yui-skin-sam">
 					<div id="panel{PANEL_NUM}" style="display: none">
 						<div class="hd">{PANEL_TITLE}</div>
-						<div id="myPanel" class="bd">
+						<div id="myPanel" class="bd" style="padding-bottom:2em">
 							<font class="small">
 							<table class="il_InfoScreen">
 								<tr>
-									<th class="il_InfoScreen" colspan="2">
-										<div class="il_InfoScreenSection">
+									<th colspan="2" class="il_InfoScreenSection">
+											<div style="float:left">
 												{PANEL_DETAILS}
-										</div>
+											</div>
+											<!-- BEGIN panel_edit_link -->
+											<div style="float:right;padding-bottom: 4px;padding-right: 4px">
+												<font class="small"><a href="{PANEL_EDIT_HREF}" class="il_ContainerItemCommand2">{TXT_PANEL_EDIT}</a></font>
+											</div>
+											<!-- END panel_edit_link -->
 									</th>
 								</tr>
 								<tr>
