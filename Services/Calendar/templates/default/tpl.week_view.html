@@ -1,4 +1,40 @@
 {NAVIGATION}
+<script type="text/javascript"> 
+	function redirectTo(link)
+	{
+		window.location = link;
+	}
+	
+		
+    function init() 
+    { 
+
+		<!-- BEGIN panel_code -->
+		myPanel = new YAHOO.widget.Panel("panel_{NUM}", { width:"40em", visible:false, draggable:true, close:true, constraintoviewport:true} );
+		myPanel.render();
+		
+		YAHOO.util.Event.addListener("show_{NUM}","click",onPanelClick,myPanel,true);
+		YAHOO.util.Event.addListener("link_{NUM}","click",onEditLinkClick,myPanel,true);
+		<!-- END panel_code -->
+		
+		function onEditLinkClick(event,panel) 
+		{
+			document.getElementById(panel.id).style.display = '';
+			panel.show();
+			YAHOO.util.Event.stopEvent(event);
+			return true;
+		}
+		
+		function onPanelClick(event,panel)
+		{
+			document.getElementById(panel.id).style.display = '';
+			panel.show();
+		}	
+		
+	}
+	YAHOO.util.Event.onDOMReady(init);
+</script> 
+
 <table class="calstd">
 	<thead>
 		<tr class="calheader">
@@ -18,9 +54,10 @@
 			<!-- BEGIN f_day_row -->
 			<td class="calstd" colspan="{COLSPAN}">
 				<!-- BEGIN fullday_app -->
-				<p class="il_calevent" 
+				{PANEL_F_DAY_DATA}
+				<p id="show_{F_DAY_ID}" class="il_calevent" 
 					style="background-color:{F_APP_BGCOLOR}; color:{F_APP_FONTCOLOR}">
-					<a class="callink" href="{F_APP_EDIT_LINK}"><font class="small">{F_APP_TITLE}</font></a>
+					<a id="link_{F_DAY_ID}" class="callink" href="{F_APP_EDIT_LINK}"><font class="small">{F_APP_TITLE}</font></a>
 				</p>
 				<!-- END fullday_app -->
 			</td>
@@ -35,9 +72,10 @@
 				{TIME}
 			</td>
 			<!-- BEGIN day_cell -->
-			<td class="{TD_CLASS}" style="{TD_STYLE}" rowspan="{TD_ROWSPAN}">
+			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" rowspan="{TD_ROWSPAN}">
 				<!-- BEGIN not_empty -->
-				<a class="callink" href="{APP_EDIT_LINK}">
+				{PANEL_DATA}
+				<a id="link_{LINK_NUM}" class="callink" href="{APP_EDIT_LINK}">
 					<font class="small">{APP_TITLE}</font>
 				</a>
 				<!-- END not_empty -->
