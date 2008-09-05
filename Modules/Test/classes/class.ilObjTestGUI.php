@@ -5678,7 +5678,7 @@ class ilObjTestGUI extends ilObjectGUI
 			// info tab
 			if ($ilAccess->checkAccess("visible", "", $this->ref_id))
 			{
-				$tabs_gui->addTarget("info",
+				$tabs_gui->addTarget("info_short",
 					 $this->ctrl->getLinkTarget($this,'infoScreen'),
 					 array("infoScreen", "outIntroductionPage", "showSummary", 
 					 "setAnonymousId", "outUserListOfAnswerPasses", "redirectToInfoScreen"));

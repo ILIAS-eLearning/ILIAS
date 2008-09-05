@@ -4064,7 +4064,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess("visible", "", $this->ref_id))
 		{
-			$tabs_gui->addTarget("info",
+			$tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTarget($this,'infoScreen'),
 				 array("infoScreen", "showSummary"));
 		}
