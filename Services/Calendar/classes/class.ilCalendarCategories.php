@@ -418,7 +418,7 @@ class ilCalendarCategories
 					$editable = true;
 					break;
 				}
-				else
+				elseif($ilAccess->checkAccess('read','',$ref_id))
 				{
 					$exists = true;
 				}

@@ -213,9 +213,14 @@ class ilCalendarEntry implements ilDatePeriod
 		
 		if($this->getTranslationType() == IL_CAL_TRANSLATION_NONE)
 		{
-			return $this->getTitle();
+			$title = $this->getTitle();
 		}
-		return $this->getTitle().' ('.$lng->txt($this->getSubtitle()).')';
+		else
+		{
+			$title = $this->getTitle().' ('.$lng->txt($this->getSubtitle()).')';
+		}
+		
+		return ilUtil::shortenText(ilUtil::shortenWords($title,20),40,true);
 	}
 	
 	/**

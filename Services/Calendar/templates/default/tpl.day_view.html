@@ -12,11 +12,13 @@
 		<!-- BEGIN panel_code -->
 		myPanel = new YAHOO.widget.Panel("panel_{NUM}", { width:"40em", visible:false, draggable:true, close:true, constraintoviewport:true} );
 		myPanel.render();
+		myPanel.hideEvent.subscribe(hideEvent);
 	
 		YAHOO.util.Event.addListener("show_{NUM}","click",onAppointmentClick,myPanel,true);
 		YAHOO.util.Event.addListener("link_{NUM}","click",onEditLinkClick,myPanel,true);
-		//YAHOO.util.Event.addListener("panel_{NUM}","click",onPanelClick,myPanel,true);
 		<!-- END panel_code -->
+		
+		var ignoreClickEvent = false;
 		
 		function onEditLinkClick(event,panel) 
 		{
@@ -28,14 +30,18 @@
 		
 		function onAppointmentClick(event,panel)
 		{
-			document.getElementById(panel.id).style.display = '';
-			panel.show();
+			if(ignoreClickEvent == false)
+			{
+				document.getElementById(panel.id).style.display = 'block';
+				panel.show();
+			}
+			ignoreClickEvent = false;				
 		}
 		
-		function onPanelClick(event,panel)
+		function hideEvent()
 		{
-			YAHOO.util.Event.stopEvent(event);
-			return true;
+			ignoreClickEvent = true;
+			this.hide();
 		}			
 	}
 	YAHOO.util.Event.onDOMReady(init);
