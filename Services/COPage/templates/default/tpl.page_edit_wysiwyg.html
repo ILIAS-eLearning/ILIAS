@@ -93,6 +93,9 @@ var confirm_delete="{TXT_CONFIRM_DELETE}";
 </script>
 <!-- BEGIN updater -->
 <script language="JavaScript" type="text/javascript">
-parent.{UPDATER_FRAME}.updater('{EXP_ID_UPDATER}', '{HREF_UPDATER}');
+if (parent && parent.{UPDATER_FRAME} && parent.{UPDATER_FRAME}.updater)
+{
+	parent.{UPDATER_FRAME}.updater('{EXP_ID_UPDATER}', '{HREF_UPDATER}');
+}
 </script>
 <!-- END updater -->
