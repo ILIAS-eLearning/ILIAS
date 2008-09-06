@@ -385,7 +385,7 @@ class ilContainerGUI extends ilObjectGUI
 	function renderObject()
 	{
 		global $ilDB;
-		
+
 		switch ($this->object->getViewMode())
 		{
 			// all items in one block
@@ -417,7 +417,7 @@ class ilContainerGUI extends ilObjectGUI
 		$container_view->setOutput();
 		
 		// 'add object'
-		$this->showPossibleSubObjects();
+		//$this->showPossibleSubObjects();
 
 		
 /* Old implementation
@@ -509,7 +509,7 @@ class ilContainerGUI extends ilObjectGUI
 	{
 		global $ilAccess, $ilSetting;
 		global $ilUser;
-		
+
 		if ($this->isActiveAdministrationPanel())
 		{
 			$GLOBALS["tpl"]->setAdminViewButton(
@@ -2112,8 +2112,9 @@ class ilContainerGUI extends ilObjectGUI
 		$column_gui->setRepositoryItems(
 			$this->object->getSubItems($this->isActiveAdministrationPanel(), true));
 		
-		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
-			&& $this->allowBlocksConfigure())
+		//if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
+		//	&& $this->allowBlocksConfigure())
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$column_gui->setBlockProperty("news", "settings", true);
 			//$column_gui->setBlockProperty("news", "public_notifications_option", true);

@@ -4745,6 +4745,9 @@ content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Subchapters
 content#:#cont_synchronize_frames#:#Synchronise frames
 content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.
+content#:#cont_paste_table#:#Paste Table
+content#:#cont_html_table#:#HTML Table
+content#:#cont_spreadsheet_table#:#Spreadsheet Table
 content#:#cont_table#:#Table
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_cellpadding#:#Table Cell Padding

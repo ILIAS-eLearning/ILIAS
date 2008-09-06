@@ -174,11 +174,13 @@ class ilPCTableGUI extends ilPageContentGUI
 	{
 		if (is_array($_POST["target"]))
 		{
-			foreach ($_POST["target"] as $hier_id)
+			foreach ($_POST["target"] as $target)
 			{
-				$this->content_obj->setTDWidth($hier_id, $_POST["td_width"]);
+				$cid = explode(":", $target);
+				$this->content_obj->setTDWidth($cid[0], $_POST["td_width"], $cid[1]);
 			}
 		}
+
 		$this->setProperties();
 		$this->updated = $this->pg_obj->update();
 		$this->pg_obj->addHierIDs();
@@ -192,9 +194,10 @@ class ilPCTableGUI extends ilPageContentGUI
 	{
 		if (is_array($_POST["target"]))
 		{
-			foreach ($_POST["target"] as $hier_id)
+			foreach ($_POST["target"] as $target)
 			{
-				$this->content_obj->setTDClass($hier_id, $_POST["td_class"]);
+				$cid = explode(":", $target);
+				$this->content_obj->setTDClass($cid[0], $_POST["td_class"], $cid[1]);
 			}
 		}
 		$this->setProperties();
@@ -293,14 +296,89 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl, $tpl, $lng;
 
+		$this->displayValidationError();
+		
+/*
+		// edit form
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("cont_insert_table"));
+		
+		$nr = array();
+		for($i=1; $i<=20; $i++)
+		{
+			$nr[$i] = $i;
+		}
+		
+		// cols
+		$cols = new ilSelectInputGUI($this->lng->txt("cont_nr_cols"), "cols");
+		$cols->setOptions($nr);
+		$cols->setValue(2);
+		$form->addItem($cols);
+
+		// rows
+		$rows = new ilSelectInputGUI($this->lng->txt("cont_nr_rows"), "rows");
+		$rows->setOptions($nr);
+		$rows->setValue(2);
+		$form->addItem($rows);
+
+		// width
+		$width = new ilTextInputGUI($this->lng->txt("cont_table_width"), "width");
+		$width->setValue("100%");
+		$width->setSize(6);
+		$width->setMaxLength(6);
+		$form->addItem($width);
+		
+		// border
+		$border = new ilTextInputGUI($this->lng->txt("cont_table_border"), "border");
+		$border->setValue("1px");
+		$border->setSize(6);
+		$border->setMaxLength(6);
+		$form->addItem($border);
+
+		// padding
+		$padding = new ilTextInputGUI($this->lng->txt("cont_table_cellpadding"), "padding");
+		$padding->setValue("3px");
+		$padding->setSize(6);
+		$padding->setMaxLength(6);
+		$form->addItem($padding);
+
+		// spacing
+		$spacing = new ilTextInputGUI($this->lng->txt("cont_table_cellspacing"), "spacing");
+		$spacing->setValue("0px");
+		$spacing->setSize(6);
+		$spacing->setMaxLength(6);
+		$form->addItem($spacing);
+
+		// import table
+		$import = new ilRadioGroupInputGUI($this->lng->txt("cont_paste_table"), "import");
+		$op = new ilRadioOption($this->lng->txt("cont_html_table"), "html");
+		$import->addOption($op);
+		$op2 = new ilRadioOption($this->lng->txt("cont_spreadsheet_table"), "spreadsheet");
+		
+			$import_data = new ilTextAreaInputGUI("", "import_data");
+			$import_data->setRows(8);
+			$import_data->setCols(50);
+			$op2->addSubItem($import_data);
+		
+		$import->addOption($op2);
+		$import->setValue("html");
+		$form->addItem($import);
+
+		$form->addCommandButton("create_tab", $lng->txt("save"));
+		$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+
+		$html = $form->getHTML();
+		$tpl->setContent($html);
+return;
+*/
 		// new table form (input of rows and columns)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_table"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		$this->displayValidationError();
 
 		for($i=1; $i<=10; $i++)
 		{

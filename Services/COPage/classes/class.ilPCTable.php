@@ -294,11 +294,20 @@ class ilPCTable extends ilPageContent
 	/**
 	* set width of table data cell
 	*/
-	function setTDWidth($a_hier_id, $a_width)
+	function setTDWidth($a_hier_id, $a_width, $a_pc_id = "")
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//TableData[@HierId = '".$a_hier_id."']";
+
+		if ($a_pc_id == "")
+		{
+			$path = "//TableData[@HierId = '".$a_hier_id."']";
+		}
+		else
+		{
+			$path = "//TableData[@PCID = '".$a_pc_id."']";
+		}
 		$res =& xpath_eval($xpc, $path);
+
 		if (count($res->nodeset) == 1)
 		{
 			if($a_width != "")
@@ -318,10 +327,17 @@ class ilPCTable extends ilPageContent
 	/**
 	* set class of table data cell
 	*/
-	function setTDClass($a_hier_id, $a_class)
+	function setTDClass($a_hier_id, $a_class, $a_pc_id = "")
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//TableData[@HierId = '".$a_hier_id."']";
+		if ($a_pc_id == "")
+		{
+			$path = "//TableData[@HierId = '".$a_hier_id."']";
+		}
+		else
+		{
+			$path = "//TableData[@PCID = '".$a_pc_id."']";
+		}
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
