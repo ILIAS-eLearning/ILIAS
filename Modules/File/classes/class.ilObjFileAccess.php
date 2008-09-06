@@ -103,9 +103,9 @@ class ilObjFileAccess extends ilObjectAccess
 	}
 
 	/**
-	* lookup size
+	* Quickly looks up the file size from the database.
 	*/
-	function _lookupFileSize($a_id, $a_as_string = false, $long_info = false)
+	public static function _lookupFileSize($a_id, $a_as_string = false, $long_info = false)
 	{
 		global $ilDB;
 
@@ -117,6 +117,50 @@ class ilObjFileAccess extends ilObjectAccess
 		$size = $row->file_size;
 		// END PATCH WebDAV getFileSize from Database
 		
+		if ($a_as_string)
+		{
+			// BEGIN WebDAV: Use sizeToString function.
+			return self::_sizeToString($size, $long_info);
+			// END WebDAV: Use sizeToString function.
+			
+		}
+		
+		return $size;
+	}
+
+	/**
+	* Looks up the file size by retrieving it from the filesystem.
+	* This function runs much slower than _lookupFileSize()! Use this
+	* function only, to update the data in the database. For example, if
+	* the file size in the database has become inconsistent for some reason.
+	*/
+	public static function _lookupFileSizeFromFilesystem($a_id, $a_as_string = false, $long_info = false)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+        
+		require_once('Modules/File/classes/class.ilFSStorageFile.php');
+		$fss = new ilFSStorageFile($a_id);
+		$file = $fss->getAbsolutePath().'/'.$row->file_name;
+
+		if (@!is_file($file))
+		{
+			$version_subdir = "/".sprintf("%03d", ilObjFileAccess::_lookupVersion($a_id));
+			$file = $fss->getAbsolutePath().'/'.$version_subdir.'/'.$row->file_name;
+		}
+
+		if (is_file($file))
+		{
+			$size = filesize($file);
+		}
+		else
+		{
+			$size = 0;
+		}
+        
 		if ($a_as_string)
 		{
 			// BEGIN WebDAV: Use sizeToString function.
