@@ -780,7 +780,7 @@ class ilTestServiceGUI
 		$template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", TRUE, TRUE, "Modules/Test");
 		$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
-		$best_output = $question_gui->getSolutionOutput("", NULL, FALSE, FALSE, $show_question_only);
+		$best_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE);
 		$template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
 		$template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
 		$maxpoints = $question_gui->object->getMaximumPoints();

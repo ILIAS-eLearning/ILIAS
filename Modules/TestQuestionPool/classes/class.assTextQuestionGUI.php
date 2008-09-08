@@ -265,11 +265,11 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->outAdditionalOutput();
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
@@ -292,7 +292,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($user_solution));
 		$questiontext = $this->object->getQuestion();
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			if ($graphicalOutput)
 			{
