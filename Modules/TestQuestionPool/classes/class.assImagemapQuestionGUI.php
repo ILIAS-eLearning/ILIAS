@@ -666,11 +666,11 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		$imagepath = $this->object->getImagePathWeb() . $this->object->get_image_filename();
 		$solutions = array();
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			if ((!$showsolution) && !ilObjTest::_getUsePreviousAnswers($active_id, true))
@@ -717,7 +717,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		$template->setVariable("IMG_SRC", "$imagepath");
 		$template->setVariable("IMG_ALT", $this->lng->txt("imagemap"));
 		$template->setVariable("IMG_TITLE", $this->lng->txt("imagemap"));
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			if ($graphicalOutput)
 			{

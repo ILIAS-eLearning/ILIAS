@@ -739,7 +739,7 @@ class assClozeTestGUI extends assQuestionGUI
 	* @return string HTML code which contains the solution output of the question
 	* @access public
 	*/
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
@@ -819,7 +819,7 @@ class assClozeTestGUI extends assQuestionGUI
 			{
 				case CLOZE_TEXT:
 					$solutiontext = "";
-					if ($active_id > 0)
+					if (($active_id > 0) && (!$show_correct_solution))
 					{
 						if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
 						{
@@ -842,7 +842,7 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 				case CLOZE_SELECT:
 					$solutiontext = "";
-					if ($active_id > 0)
+					if (($active_id > 0) && (!$show_correct_solution))
 					{
 						if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
 						{
@@ -876,7 +876,7 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 				case CLOZE_NUMERIC:
 					$solutiontext = "";
-					if ($active_id > 0)
+					if (($active_id > 0) && (!$show_correct_solution))
 					{
 						if ((count($found) == 0) || (strlen(trim($found["value2"])) == 0))
 						{

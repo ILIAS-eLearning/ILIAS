@@ -384,7 +384,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		$userdata = $this->object->getActiveUserData($active_id);
 
@@ -456,7 +456,7 @@ class assJavaAppletGUI extends assQuestionGUI
 			$template->parseCurrentBlock();
 		}
 
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions = NULL;
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -501,7 +501,7 @@ class assJavaAppletGUI extends assQuestionGUI
 				$template->setVariable("APPLET_CODEBASE", " codebase=\"".$this->object->getJavaPathWeb()."\"");
 			}
 		}
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			if ($graphicalOutput)
 			{

@@ -579,14 +579,14 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// shuffle output
 		$keys = $this->getChoiceKeys();
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = "";
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
@@ -615,7 +615,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		foreach ($keys as $answer_id)
 		{
 			$answer = $this->object->answers[$answer_id];
-			if ($active_id)
+			if (($active_id > 0) && (!$show_correct_solution))
 			{
 				if ($graphicalOutput)
 				{

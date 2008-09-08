@@ -575,14 +575,14 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// shuffle output
 		$keys = $this->getChoiceKeys();
 
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			foreach ($solutions as $idx => $solution_value)
@@ -614,53 +614,56 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		foreach ($keys as $answer_id)
 		{
 			$answer = $this->object->answers[$answer_id];
-			if ($graphicalOutput)
+			if (($active_id > 0) && (!$show_correct_solution))
 			{
-				// output of ok/not ok icons for user entered solutions
-				$ok = FALSE;
-				$checked = FALSE;
-				foreach ($user_solution as $mc_solution)
+				if ($graphicalOutput)
 				{
-					if (strcmp($mc_solution, $answer_id) == 0)
+					// output of ok/not ok icons for user entered solutions
+					$ok = FALSE;
+					$checked = FALSE;
+					foreach ($user_solution as $mc_solution)
 					{
-						$checked = TRUE;
+						if (strcmp($mc_solution, $answer_id) == 0)
+						{
+							$checked = TRUE;
+						}
 					}
-				}
-				if ($checked)
-				{
-					if ($answer->getPointsChecked() > $answer->getPointsUnchecked())
+					if ($checked)
 					{
-						$ok = TRUE;
-					}
-					else
-					{
-						$ok = FALSE;
-					}
-				}
-				else
-				{
-					if ($answer->getPointsChecked() > $answer->getPointsUnchecked())
-					{
-						$ok = FALSE;
+						if ($answer->getPointsChecked() > $answer->getPointsUnchecked())
+						{
+							$ok = TRUE;
+						}
+						else
+						{
+							$ok = FALSE;
+						}
 					}
 					else
 					{
-						$ok = TRUE;
+						if ($answer->getPointsChecked() > $answer->getPointsUnchecked())
+						{
+							$ok = FALSE;
+						}
+						else
+						{
+							$ok = TRUE;
+						}
 					}
-				}
-				if ($ok)
-				{
-					$template->setCurrentBlock("icon_ok");
-					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
-					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock("icon_ok");
-					$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
-					$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
-					$template->parseCurrentBlock();
+					if ($ok)
+					{
+						$template->setCurrentBlock("icon_ok");
+						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+						$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("icon_ok");
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
+						$template->parseCurrentBlock();
+					}
 				}
 			}
 			if (strlen($answer->getImage()))

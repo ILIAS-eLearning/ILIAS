@@ -442,11 +442,11 @@ class assTextSubsetGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE)
+	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$solutions = array();
-		if ($active_id)
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
 		}
@@ -483,7 +483,7 @@ class assTextSubsetGUI extends assQuestionGUI
 			}
 			else
 			{
-				if ($active_id)
+				if (($active_id > 0) && (!$show_correct_solution))
 				{
 					if ($graphicalOutput)
 					{
