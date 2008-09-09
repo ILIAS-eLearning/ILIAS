@@ -1089,5 +1089,28 @@ class ilLMObject
 			}
 		}
 	}
+	
+	/**
+	* Check for unique types (all pages or all chapters)
+	*/
+	static function uniqueTypesCheck($a_items)
+	{
+		$types = array();
+		if (is_array($a_items))
+		{
+			foreach($a_items as $item)
+			{
+				$type = ilLMObject::_lookupType($item);
+				$types[$type] = $type;
+			}
+		}
+
+		if (count($types) > 1)
+		{
+			return false;
+		}
+		return true;
+	}
+
 }
 ?>

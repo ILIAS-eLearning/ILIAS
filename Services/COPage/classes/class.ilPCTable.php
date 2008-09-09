@@ -564,6 +564,29 @@ class ilPCTable extends ilPageContent
 		$_SESSION["message"] = $errmsg;
 		return false;
 	}
+	
+	/**
+	* Set first row td style
+	*/
+	function setFirstRowStyle($a_class)
+	{
+		$childs = $this->tab_node->child_nodes();
+		foreach($childs as $child)
+		{
+			if ($child->node_name() == "TableRow")
+			{
+				$gchilds = $child->child_nodes();
+				foreach($gchilds as $gchild)
+				{
+					if ($gchild->node_name() == "TableData")
+					{
+						$gchild->set_attribute("Class", $a_class);
+					}
+				}
+				return;
+			}
+		}
+	}
 }
 
 ?>

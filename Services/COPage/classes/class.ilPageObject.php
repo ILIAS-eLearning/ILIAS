@@ -222,7 +222,8 @@ class ilPageObject
 		}
 		$this->xml = $this->page_record["content"];
 		$this->setParentId($this->page_record["parent_id"]);
-		$this->user = $this->page_record["user"];
+		$this->last_change_user = $this->page_record["last_change_user"];
+		$this->create_user = $this->page_record["create_user"];
 		$this->setRenderedContent($this->page_record["rendered_content"]);
 		$this->setRenderMd5($this->page_record["render_md5"]);
 		$this->setRenderedTime($this->page_record["rendered_time"]);
@@ -1452,7 +1453,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
 //echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
-//echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":$a_no_history:"; nk();
+//echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom());
 		// test validating
 		if($a_validate)
 		{
@@ -1486,7 +1487,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 							"(page_id, parent_type, hdate, parent_id, content, user, nr) VALUES (".
 							$ilDB->quote($old_rec["page_id"]).",".
 							$ilDB->quote($old_rec["parent_type"]).",".
-							"now(),".
+							$ilDB->quote($old_rec["last_change"]).",".
 							$ilDB->quote($old_rec["parent_id"]).",".
 							$ilDB->quote($old_rec["content"]).",".
 							$ilDB->quote($old_rec["last_change_user"]).",".

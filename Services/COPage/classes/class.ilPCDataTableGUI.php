@@ -174,7 +174,9 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	function editData()
 	{
 		global $lng, $ilCtrl;
-		
+//var_dump($_GET);
+//var_dump($_POST);
+
 		$this->displayValidationError();
 		
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
@@ -479,7 +481,127 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function insert()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl, $tpl, $lng;
+
+		$this->displayValidationError();
+
+		// edit form
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("cont_insert_table"));
+		
+		$nr = array();
+		for($i=1; $i<=20; $i++)
+		{
+			$nr[$i] = $i;
+		}
+		
+		// cols
+		$cols = new ilSelectInputGUI($this->lng->txt("cont_nr_cols"), "nr_cols");
+		$cols->setOptions($nr);
+		$cols->setValue(2);
+		$form->addItem($cols);
+
+		// rows
+		$rows = new ilSelectInputGUI($this->lng->txt("cont_nr_rows"), "nr_rows");
+		$rows->setOptions($nr);
+		$rows->setValue(2);
+		$form->addItem($rows);
+
+		// width
+		$width = new ilTextInputGUI($this->lng->txt("cont_table_width"), "width");
+		$width->setValue("100%");
+		$width->setSize(6);
+		$width->setMaxLength(6);
+		$form->addItem($width);
+		
+		// border
+		$border = new ilTextInputGUI($this->lng->txt("cont_table_border"), "border");
+		$border->setValue("1px");
+		$border->setSize(6);
+		$border->setMaxLength(6);
+		$form->addItem($border);
+
+		// padding
+		$padding = new ilTextInputGUI($this->lng->txt("cont_table_cellpadding"), "padding");
+		$padding->setValue("3px");
+		$padding->setSize(6);
+		$padding->setMaxLength(6);
+		$form->addItem($padding);
+
+		// spacing
+		$spacing = new ilTextInputGUI($this->lng->txt("cont_table_cellspacing"), "spacing");
+		$spacing->setValue("0px");
+		$spacing->setSize(6);
+		$spacing->setMaxLength(6);
+		$form->addItem($spacing);
+
+		// first row style
+		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+		$fr_style = new ilRadioMatrixInputGUI($this->lng->txt("cont_first_row_style"), "first_row_style");
+		$options = array("" => $this->lng->txt("none"), "ilc_Cell1" => "Cell1", "ilc_Cell2" => "Cell2",
+			"ilc_Cell3" => "Cell3", "ilc_Cell4" => "Cell4");
+		foreach($options as $k => $option)
+		{
+			$options[$k] = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="'.$k.'">'.
+				$option.'</td></tr></table>';
+		}
+
+		// first row style
+		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+		$fr_style = new ilRadioMatrixInputGUI($this->lng->txt("cont_first_row_style"), "first_row_style");
+		$options = array("" => $this->lng->txt("none"), "ilc_Cell1" => "Cell1", "ilc_Cell2" => "Cell2",
+			"ilc_Cell3" => "Cell3", "ilc_Cell4" => "Cell4");
+		foreach($options as $k => $option)
+		{
+			$options[$k] = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="'.$k.'">'.
+				$option.'</td></tr></table>';
+		}
+			
+		$fr_style->setValue("");
+		$fr_style->setOptions($options);
+		$form->addItem($fr_style);
+
+		// import table
+		$import = new ilRadioGroupInputGUI($this->lng->txt("cont_paste_table"), "import_type");
+		$op = new ilRadioOption($this->lng->txt("cont_html_table"), "html");
+		$import->addOption($op);
+		$op2 = new ilRadioOption($this->lng->txt("cont_spreadsheet_table"), "spreadsheet");
+		
+			$import_data = new ilTextAreaInputGUI("", "import_table");
+			$import_data->setRows(8);
+			$import_data->setCols(50);
+			$op2->addSubItem($import_data);
+		
+		$import->addOption($op2);
+		$import->setValue("html");
+		$form->addItem($import);
+
+		// language
+		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
+		{
+			$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+		}
+		else
+		{
+			$s_lang = $ilUser->getLanguage();
+		}
+		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+		$lang = ilMDLanguageItem::_getLanguages();
+		//$select_language = ilUtil::formSelect ($s_lang, "tab_language", $lang, false, true);
+		$language = new ilSelectInputGUI($this->lng->txt("language"), "tab_language");
+		$language->setOptions($lang);
+		$language->setValue($s_lang);
+		$form->addItem($language);
+				
+		$form->addCommandButton("create_tab", $lng->txt("save"));
+		$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+
+		$html = $form->getHTML();
+		$tpl->setContent($html);
+return;
+
 		
 		// new table form (input of rows and columns)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", "Services/COPage");
@@ -542,10 +664,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	*/
 	function create()
 	{
-		global	$lng;
+		global	$lng, $ilCtrl;
+		
 		$this->content_obj = new ilPCDataTable($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-		$this->content_obj->setLanguage($_POST["tab_language"]);
+		$this->content_obj->setLanguage(ilUtil::stripSlashes($_POST["tab_language"]));
 		$import_table = trim($_POST["import_table"]);
 		
 		// import xhtml or spreadsheet table
@@ -570,13 +693,29 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		}
 		else
 		{		
-			$this->content_obj->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
+			$this->content_obj->addRows(ilUtil::stripSlashes($_POST["nr_rows"]),
+				ilUtil::stripSlashes($_POST["nr_cols"]));
+		}
+		$this->content_obj->setWidth(ilUtil::stripSlashes($_POST["width"]));
+		$this->content_obj->setBorder(ilUtil::stripSlashes($_POST["border"]));
+		$this->content_obj->setCellPadding(ilUtil::stripSlashes($_POST["padding"]));
+		$this->content_obj->setCellSpacing(ilUtil::stripSlashes($_POST["spacing"]));
+		
+		$frtype = ilUtil::stripSlashes($_POST["first_row_style"]);
+		if ($frtype != "")
+		{
+			$this->content_obj->setFirstRowStyle($frtype);
 		}
 		
 		$this->updated = $this->pg_obj->update();
 		
 		if ($this->updated === true)
 		{
+//			$ilCtrl->setParameter($this, "hier_id", $this->content_obj->getHierId().":".
+//				$this->content_obj->getPCId());
+//echo $this->content_obj->getHierId().":".$this->content_obj->getPCId();
+//			$ilCtrl->redirect($this, "editData");
+			
 			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else

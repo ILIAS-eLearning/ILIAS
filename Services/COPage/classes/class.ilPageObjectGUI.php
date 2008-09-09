@@ -1325,10 +1325,11 @@ class ilPageObjectGUI
 		
 		// check cache (same parameters, non-edit mode and rendered time
 		// > last change
-		if ($this->getOutputMode() != "edit" &&
+		if (($this->getOutputMode() == "preview" || $this->getOutputMode() == "presentation") &&
 			$md5 == $this->obj->getRenderMd5() &&
 			($this->obj->getLastChange() < $this->obj->getRenderedTime()) &&
-			$this->obj->getRenderedTime() != "0000-00-00 00:00:00")
+			$this->obj->getRenderedTime() != "0000-00-00 00:00:00" &&
+			$this->obj->old_nr == 0)
 		{
 			// cache hit
 			$output = $this->obj->getRenderedContent();
@@ -1342,8 +1343,10 @@ class ilPageObjectGUI
 			//		echo "mode:".$this->getOutputMode().":<br>";
 			$output = xslt_process($xh, "arg:/_xml","arg:/_xsl", NULL, $args, $params);
 			
-			if ($this->getOutputMode() != "edit")
+			if (($this->getOutputMode() == "presentation" || $this->getOutputMode() == "preview")
+				&& $this->obj->old_nr == 0)
 			{
+//echo "writerenderedcontent";
 				$this->obj->writeRenderedContent($output, $md5);
 			}
 			//echo xslt_error($xh);
@@ -1785,7 +1788,14 @@ class ilPageObjectGUI
 		
 		include_once("./Services/COPage/classes/class.ilPageHistoryTableGUI.php");
 		$table_gui = new ilPageHistoryTableGUI($this, "history");
-		$table_gui->setData($this->getPageObject()->getHistoryEntries());
+		$entries = $this->getPageObject()->getHistoryEntries();
+		$entries[] = array('page_id' => $this->getPageObject()->getId(),
+			'parent_type' => $this->getPageObject()->getParentType(),
+			'hdate' => $this->getPageObject()->getLastChange(),
+			'parent_id' => $this->getPageObject()->getParentId(),
+			'nr' => 0,
+			'user' => $this->getPageObject()->last_change_user);
+		$table_gui->setData($entries);
 		return $table_gui->getHTML();
 	}
 
