@@ -1214,17 +1214,25 @@ class ilObjUserGUI extends ilObjectGUI
 		$data['time_limit_until']['time'] = $until->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
 
 		
+		// BEGIN DiskQuota, Show disk space used
+		// W. Randelshofer 2008-09-09: Deactivated display of disk space usage,
+		// because determining the disk space usage may take several minutes.
+                /*
 		require_once "Modules/File/classes/class.ilObjFileAccess.php";
 		require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
 		require_once "Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
 		require_once "Services/Mail/classes/class.ilObjMailAccess.php";
 		require_once "Modules/Forum/classes/class.ilObjForumAccess.php";
+		require_once "Modules/MediaCast/classes/class.ilObjMediaCastAccess.php";
 		$data["disk_space_used"] =
 			ilObjFileAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
 			ilObjFileBasedLMAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
 			ilObjSAHSLearningModuleAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
 			ilObjMailAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
-			ilObjForumAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>';
+			ilObjForumAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
+			ilObjMediaCastAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>';
+		*/
+		// END DiskQuota, Show disk space used
 
 		// personal data
 		$data["gender"] = $this->object->getGender();
@@ -1409,7 +1417,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->form_gui->addItem($ds);
 		}
          */
-
+         
 		// personal data
 		$sec_pd = new ilFormSectionHeaderGUI();
 		$sec_pd->setTitle($this->lng->txt("personal_data"));
