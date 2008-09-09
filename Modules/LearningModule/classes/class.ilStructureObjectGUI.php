@@ -336,7 +336,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function cutItems($a_return = "view")
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		$todel = array();			// delete IDs < 0 (needed for non-js editing)
@@ -351,10 +351,18 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			unset($items[$k]);
 		}
+		
+		if (!ilLMObject::uniqueTypesCheck($items))
+		{
+			ilUtil::sendInfo($lng->txt("cont_choose_pages_or_chapters_only"), true);
+			$ilCtrl->redirect($this, "showHierarchy");
+		}
+
 		ilLMObject::clipboardCut($this->content_object->getId(), $items);
 		ilEditClipboard::setAction("cut");
-		ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
-		
+		//ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
+		ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_cut"), true);
+
 		$ilCtrl->redirect($this, $a_return);
 	}
 	
@@ -363,7 +371,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function copyItems($a_return = "view")
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
 		$todel = array();				// delete IDs < 0 (needed for non-js editing)
@@ -378,9 +386,17 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			unset($items[$k]);
 		}
+		
+		if (!ilLMObject::uniqueTypesCheck($items))
+		{
+			ilUtil::sendInfo($lng->txt("cont_choose_pages_or_chapters_only"), true);
+			$ilCtrl->redirect($this, "showHierarchy");
+		}
+
 		ilLMObject::clipboardCopy($this->content_object->getId(), $items);
 		ilEditClipboard::setAction("copy");
 		
+		ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_copied"), true);
 		$ilCtrl->redirect($this, $a_return);
 	}
 	
@@ -1282,5 +1298,6 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
 		$ilCtrl->redirect($this, "showHierarchy");
 	}
+	
 }
 ?>

@@ -514,7 +514,7 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			$GLOBALS["tpl"]->setAdminViewButton(
 				$this->ctrl->getLinkTarget($this, "disableAdministrationPanel"),
-				$this->lng->txt("admin_panel_hide"));
+				$this->lng->txt("basic_commands"));
 			
 			// administration panel
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId())
@@ -582,7 +582,7 @@ class ilContainerGUI extends ilObjectGUI
 		{
 			$GLOBALS["tpl"]->setAdminViewButton(
 				$this->ctrl->getLinkTarget($this, "enableAdministrationPanel"),
-				$this->lng->txt("admin_panel_show"));
+				$this->lng->txt("all_commands"));
 		}
 	}
 

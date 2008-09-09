@@ -98,7 +98,8 @@ class ilPCSectionGUI extends ilPageContentGUI
 		}
 		
 		// characteristic selection
-		$char_prop = new ilSelectInputGUI($this->lng->txt("cont_characteristic"),
+		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
 			"characteristic");
 		$chars = array("ilc_Block" => $this->lng->txt("cont_Block"),
 			"ilc_Mnemonic" => $this->lng->txt("cont_Mnemonic"),
@@ -108,8 +109,15 @@ class ilPCSectionGUI extends ilPageContentGUI
 			"ilc_Special" => $this->lng->txt("cont_Special"),
 			"ilc_Excursus" => $this->lng->txt("cont_Excursus"));
 		$selected = ($a_insert)
-			? ""
+			? "ilc_Block"
 			: $this->content_obj->getCharacteristic();
+			
+		foreach($chars as $k => $char)
+		{
+			$chars[$k] = '<div class="'.$k.'">'.
+				$char.'</div>';
+		}
+
 		$char_prop->setValue($selected);
 		$char_prop->setOptions($chars);
 		$form->addItem($char_prop);

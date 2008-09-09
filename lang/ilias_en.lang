@@ -1383,10 +1383,8 @@ common#:#adm_read#:#Read access to System settings
 common#:#adm_visible#:#System settings are visible
 common#:#adm_write#:#Edit Basic system settings
 common#:#admin_panel#:#Administration Panel
-common#:#admin_panel_disable#:#Switch Administration Commands Off
-common#:#admin_panel_enable#:#Switch Administration Commands On
-common#:#admin_panel_show#:#Admin View
-common#:#admin_panel_hide#:#Admin View Off
+common#:#all_commands#:#All Commands
+common#:#basic_commands#:#Basic Commands
 common#:#administrate#:#Administrate
 common#:#administrate_users#:#Local user administration
 common#:#administration#:#Administration
@@ -7389,6 +7387,7 @@ trac#:#stats_tracked_user#:#Selected Users
 trac#:#stats_until#:#until
 trac#:#stats_user#:#User(s)
 common#:#access_until#:#Access (until)
+common#:#news#:#News
 common#:#access_from#:#Access (from)
 common#:#access_restrict_enter#:#Please set the period for the limited access restriction
 trac#:#stats_user_selected#:#User selected
@@ -8205,6 +8204,10 @@ survey#:#adm_special_users#:#Special users who are able to run a survey more tha
 survey#:#adm_removed_users#:#Users removed
 survey#:#adm_remove_select_user#:#Please select at least one user for removal!
 content#:#cont_sc_max_attempt#:#Max. number of attempts
+content#:#cont_first_row_style#:#First Row Style
+content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.
+content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.
+content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.
 content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module has been reached.
 content#:#cont_sc_new_version#:#Upload new version
 content#:#cont_sc_version#:#Version

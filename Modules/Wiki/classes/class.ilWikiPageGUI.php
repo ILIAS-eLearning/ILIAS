@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -172,7 +172,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			true, true, "Modules/Wiki");
 		
 		// rating
-		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId()))
+		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
+			&& $this->getPageObject()->old_nr == 0)
 		{
 			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 			$rating_gui = new ilRatingGUI();
