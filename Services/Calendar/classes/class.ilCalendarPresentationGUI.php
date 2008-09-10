@@ -155,13 +155,15 @@ class ilCalendarPresentationGUI
 	 */
 	public function getNextClass()
 	{
+		global $ilUser;
+
 		if(strlen($next_class = $this->ctrl->getNextClass()))
 		{
 			return $next_class;
 		}
 		if($this->ctrl->getCmdClass() == strtolower(get_class($this)) or $this->ctrl->getCmdClass() == '')
 		{
-			return isset($_SESSION['cal_last_class']) ? $_SESSION['cal_last_class'] : 'ilcalendarinboxgui';
+			return $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : 'ilcalendarinboxgui';
 		}
 	}
 	
@@ -184,7 +186,9 @@ class ilCalendarPresentationGUI
 	 */
 	protected function forwardToClass($a_class)
 	{
-		$_SESSION['cal_last_class'] = $a_class;
+		global $ilUser;
+		
+		$ilUser->writePref('cal_last_class',$a_class);
 		switch($a_class)
 		{
 			case 'ilcalendarmonthgui':
@@ -231,8 +235,10 @@ class ilCalendarPresentationGUI
 	 */
 	protected function loadHistory()
 	{
+		global $ilUser;
+		
 		$this->ctrl->setCmd('');
-		$history = isset($_SESSION['cal_last_class']) ? $_SESSION['cal_last_class'] : 'ilcalendarmonthgui'; 
+		$history = $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : 'ilcalendarmonthgui';
 		$this->forwardToClass($history);
 	}
 	
