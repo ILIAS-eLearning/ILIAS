@@ -1062,9 +1062,15 @@ class ilObjCourse extends ilContainer
 			#"objective_view = '0', ".
 			"waiting_list = '1', ".
 			"show_members = '1'";
-
+			
+			
 		$res = $ilDB->query($query);
 		$this->__readSettings();
+
+		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
+		$sorting = new ilContainerSortingSettings($this->getId());
+		$sorting->setSortMode(ilContainer::SORT_MANUAL);
+		$sorting->update();
 	}
 	
 
