@@ -176,6 +176,9 @@ Example file:
 --------------------------------------------------------------------------------
 - Thanx to Marco Lehre <lehre@net.ethz.ch> for language suggestions and general
   feedback.
+- Thanx to Philipp Tobler <philipp.tobler@id.unibe.ch> and Werner 
+  Randelshofer <werner.randelshofer@hslu.ch> for suggesting and implementing
+  a better algorithm for generating a user name.
 --------------------------------------------------------------------------------
 In case of problems and questions with Shibboleth authentication, contact
-Lukas Haemmerle <haemmerle@switch.ch>.
+Lukas Haemmerle <lukas.haemmerle@switch.ch>.
