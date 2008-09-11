@@ -89,13 +89,28 @@ class ilObjFileAccess extends ilObjectAccess
 	}
 
 	/**
+	* looks up the file_data for the file object with the specified object id
+    * as an associative array.
+	*/
+	function _lookupFileData($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $row;
+	}
+
+	/**
 	* lookup version
 	*/
 	function _lookupVersion($a_id)
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$q = "SELECT version FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -109,7 +124,7 @@ class ilObjFileAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
+		$q = "SELECT file_size FROM file_data WHERE file_id = ".$ilDB->quote($a_id);
 		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 		

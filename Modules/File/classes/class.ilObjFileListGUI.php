@@ -173,13 +173,14 @@ class ilObjFileListGUI extends ilObjectListGUI
 
 		// BEGIN WebDAV: Only display relevant information.
 		$props[] = array("alert" => false, "property" => $lng->txt("type"),
-			"value" => ilObjFileAccess::_lookupSuffix($this->obj_id),
+			"value" => ilObjFileAccess::_getFileExtension($this->title),
 			'propertyNameVisible' => false
 			);
+		$fileData = ilObjFileAccess::_lookupFileData($this->obj_id);
 		$props[] = array("alert" => false, "property" => $lng->txt("size"),
-			"value" => ilObjFileAccess::_lookupFileSize($this->obj_id, true),
+			"value" => ilObjFileAccess::_sizeToString($fileData['file_size'], false),
 			'propertyNameVisible' => false);
-		$version = ilObjFileAccess::_lookupVersion($this->obj_id);
+		$version = $fileData['version'];
 		if ($version > 1)
 		{
 			$props[] = array("alert" => false, "property" => $lng->txt("version"),
