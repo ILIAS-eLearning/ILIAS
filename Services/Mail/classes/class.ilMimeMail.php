@@ -297,7 +297,7 @@ class ilMimeMail
 	{
 		// TODO : si filetype="", alors chercher dans un tablo de MT connus / extension du fichier
 		if( $filetype == "" )
-			$filetype = "application/x-unknown-content-type";
+			$filetype = "application/octet-stream";
 		
 		$this->aattach[] = $filename;
 		$this->actype[] = $filetype;
