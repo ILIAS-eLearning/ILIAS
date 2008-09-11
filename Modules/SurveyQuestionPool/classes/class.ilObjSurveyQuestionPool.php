@@ -385,41 +385,38 @@ class ilObjSurveyQuestionPool extends ilObject
 * @param integer $question_id The database id of the question
 * @access private
 */
-  function removeQuestion($question_id)
-  {
-    if ($question_id < 1)
-      return;
-		
+	function removeQuestion($question_id)
+	{
+		if ($question_id < 1) return;
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question =& SurveyQuestion::_instanciateQuestion($question_id);
 		$question->delete($question_id);
 	}
 
-/**
-* Returns the question type of a question with a given id
-*
-* Returns the question type of a question with a given id
-*
-* @param integer $question_id The database id of the question
-* @result string The question type string
-* @access private
+	/**
+	* Returns the question type of a question with a given id
+	*
+	* Returns the question type of a question with a given id
+	*
+	* @param integer $question_id The database id of the question
+	* @result string The question type string
+	* @access private
 */
-  function getQuestiontype($question_id) 
-  {
-    if ($question_id < 1)
-      return;
-      
-    $query = sprintf("SELECT survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id = %s",
-      $this->ilias->db->quote($question_id)
-    );
-    $result = $this->ilias->db->query($query);
-    if ($result->numRows() == 1) {
-      $data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
+	function getQuestiontype($question_id) 
+	{
+		if ($question_id < 1) return;
+		$query = sprintf("SELECT survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 1) 
+		{
+			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
 			return $data->type_tag;
-    } else {
-      return;
-    }
-  }
+		} else {
+			return;
+		}
+	}
 	
 /**
 * Checks if a question is in use by a survey
@@ -436,14 +433,14 @@ class ilObjSurveyQuestionPool extends ilObject
 		$query = sprintf("SELECT answer_id FROM survey_answer WHERE question_fi = %s",
 			$this->ilias->db->quote($question_id)
 		);
-    $result = $this->ilias->db->query($query);
+		$result = $this->ilias->db->query($query);
 		$answered = $result->numRows();
 		
 		// check out the questions inserted in surveys
 		$query = sprintf("SELECT survey_survey.* FROM survey_survey, survey_survey_question WHERE survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = %s",
 			$this->ilias->db->quote($question_id)
 		);
-    $result = $this->ilias->db->query($query);
+		$result = $this->ilias->db->query($query);
 		$inserted = $result->numRows();
 		if (($inserted + $answered) == 0)
 		{
@@ -482,26 +479,36 @@ class ilObjSurveyQuestionPool extends ilObject
 	function &getQuestionsInfo($question_array)
 	{
 		$result_array = array();
-		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN ('%s')",
+		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag, survey_questiontype.plugin FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN ('%s')",
 			join($question_array, "','")
 		);
-    $result = $this->ilias->db->query($query);
+		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
-			array_push($result_array, $row);
+			if ($row["plugin"])
+			{
+				if ($this->isPluginActive($row["type_tag"]))
+				{
+					array_push($result_array, $row);
+				}
+			}
+			else
+			{
+				array_push($result_array, $row);
+			}
 		}
 		return $result_array;
 	}
 	
-/**
-* Duplicates a question for a questionpool
-*
-* Duplicates a question for a questionpool
-*
-* @param integer $question_id The database id of the question
-* @access public
-*/
-  function duplicateQuestion($question_id, $obj_id = "") 
+	/**
+	* Duplicates a question for a questionpool
+	*
+	* Duplicates a question for a questionpool
+	*
+	* @param integer $question_id The database id of the question
+	* @access public
+	*/
+	function duplicateQuestion($question_id, $obj_id = "") 
 	{
 		global $ilUser;
 		$questiontype = $this->getQuestiontype($question_id);
@@ -522,13 +529,13 @@ class ilObjSurveyQuestionPool extends ilObject
 		$question->duplicate(false, $question->getTitle() . $suffix, $ilUser->fullname, $ilUser->id);
   }
 	
-/**
-* Calculates the data for the output of the questionpool
-*
-* Calculates the data for the output of the questionpool
-*
-* @access public
-*/
+	/**
+	* Calculates the data for the output of the questionpool
+	*
+	* Calculates the data for the output of the questionpool
+	*
+	* @access public
+	*/
 	function getQuestionsTable($sort, $sortorder, $filter_text, $sel_filter_type, $startrow = 0)
 	{
 		global $ilUser;
@@ -585,8 +592,8 @@ class ilObjSurveyQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-    $query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS timestamp14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
-    $query_result = $this->ilias->db->query($query);
+		$query = "SELECT survey_question.question_id, survey_question.TIMESTAMP + 0 AS timestamp14 FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
+		$query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -597,14 +604,24 @@ class ilObjSurveyQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-    $query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
-    $query_result = $this->ilias->db->query($query);
+		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, survey_questiontype.plugin FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
+		$query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())
 		{
 			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				array_push($rows, $row);
+				if ($row["plugin"])
+				{
+					if ($this->isPluginActive($row["type_tag"]))
+					{
+						array_push($rows, $row);
+					}
+				}
+				else
+				{
+					array_push($rows, $row);
+				}
 			}
 		}
 		$nextrow = $startrow + $maxentries;
@@ -919,15 +936,15 @@ class ilObjSurveyQuestionPool extends ilObject
 		return 0;
 	}
 
-/**
-* Returns true, if the question pool is writeable by a given user
-* 
-* Returns true, if the question pool is writeable by a given user
-*
-* @param integer $object_id The object id of the question pool
-* @param integer $user_id The database id of the user
-* @access public
-*/
+	/**
+	* Returns true, if the question pool is writeable by a given user
+	* 
+	* Returns true, if the question pool is writeable by a given user
+	*
+	* @param integer $object_id The object id of the question pool
+	* @param integer $user_id The database id of the user
+	* @access public
+	*/
 	function _isWriteable($object_id, $user_id)
 	{
 		global $rbacsystem;
@@ -1040,5 +1057,23 @@ class ilObjSurveyQuestionPool extends ilObject
 		return $result_array;
 	}
 
+	/**
+	* Checks wheather or not a question plugin with a given name is active
+	*
+	* @param string $a_pname The plugin name
+	* @access public
+	*/
+	function isPluginActive($a_pname)
+	{
+		global $ilPluginAdmin;
+		if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $a_pname))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 } // END class.ilSurveyObjQuestionPool
 ?>
