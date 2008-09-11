@@ -586,16 +586,36 @@ class ShibAuth
 		// Generate new username
 		// This can be overruled by the data conversion API but you have
 		// to do it yourself in that case
-		$prefix = $firstname.' '.$lastname;
 		
-		if (!ilObjUser::getUserIdByLogin($prefix))
-		{
-			return $prefix;
+		// Generate the username out of the first character of firstname and the
+		// first word in lastname (adding the second one if the login is too short,
+		// avoiding meaningless last names like 'von' or 'd' and eliminating
+		// non-ASCII-characters, spaces, dashes etc.
+		
+		$ln_arr=preg_split("/[ '-;]/", $lastname);
+		$login=$this->toAscii(substr($firstname,0,1)) . "." . $this->toAscii($ln_arr[0]);
+		if (strlen($login) < 6) $login .= $this->toAscii($ln_arr[1]);
+		$prefix = strtolower($login);
+		
+		// If the user name didn't contain any ASCII characters, assign the
+		// name 'shibboleth' followed by a number, starting with 1.
+		if (strlen($prefix) == 0) {
+				$prefix = 'shibboleth';
+				$number = 1;
 		}
+		else
+		{
+			// Try if the login name is not already taken
+			if (!ilObjUser::getUserIdByLogin($prefix))
+			{
+				return $prefix;
+			}
+			
+			// If the login name is in use, append a number, starting with 2.
+			$number = 2;
+		}        
 		
-		// Add a number as prefix if the username already is taken
-		$number = 2;
-		$prefix .= ' ';
+		// Append a number, if the username is already taken
 		while (ilObjUser::getUserIdByLogin($prefix.$number))
 		{
 			$number++;
@@ -613,7 +633,6 @@ class ShibAuth
 	*/
 	function getFirstString($string){
 	
-		
 		$list = split( ';', $string);
 		$clean_string = rtrim($list[0]);
 		
@@ -621,5 +640,45 @@ class ShibAuth
 		
 	}
 	
+	/**
+	* Replaces any non-ASCII character by its linguistically most logical substitution
+	*
+	* @access private
+	* @param string A Shibboleth attribute or other string
+	* @return string ascii-version of attribute
+	*/
+	function toAscii($string) {
+		require_once('include/Unicode/UtfNormal.php');
+
+		// Normalize to NFKD. 
+		// This separates letters from combining marks.
+		// See http://unicode.org/reports/tr15
+		$string = UtfNormal::toNFKD($string);
+
+		// Replace german usages of diaeresis by appending an e
+		$string = preg_replace('/([aouAOU])\\xcc\\x88/','\\1e', $string);
+
+		// Replace the combined ae character by separated a and e
+		$string = preg_replace('/\\xc3\\x86/','AE', $string);
+		$string = preg_replace('/\\xc3\\xa6/','ae', $string);
+
+		// Replace the combined thorn character by th
+		$string = preg_replace('/\\xc3\\x9e/','TH', $string);
+		$string = preg_replace('/\\xc3\\xbe/','th', $string);
+
+		// Replace the letter eth by d
+		$string = preg_replace('/\\xc3\\x90/','D', $string);
+		$string = preg_replace('/\\xc4\\x91/','d', $string);
+		$string = preg_replace('/\\xc4\\x90/','D', $string);
+
+		// Replace the combined ss character
+		$string = preg_replace('/\\xc3\\x9f/','ss', $string);
+
+		// Get rid of everything except the characters a to z and the hyphen
+		$string = preg_replace('/[^a-z\-]/i','', $string);
+
+		return $string;
+	}
+
 } // END class.ilShibAuth
 ?>
