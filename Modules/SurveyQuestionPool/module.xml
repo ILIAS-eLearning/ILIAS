@@ -15,4 +15,7 @@
 			<parent id="recf">recf</parent>
 		</object>
 	</objects>
+	<pluginslots>
+		<pluginslot id="svyq" name="SurveyQuestions" />
+	</pluginslots>
 </module>

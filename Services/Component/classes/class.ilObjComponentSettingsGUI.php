@@ -99,12 +99,11 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	public function getAdminTabs()
 	{
 		global $rbacsystem, $ilAccess;
-
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("cmps_modules",
 				$this->ctrl->getLinkTarget($this, "listModules"),
-				array("listModules", "view"));
+				array("listModules", "view", "showPluginSlot"));
 
 			$this->tabs_gui->addTarget("cmps_services",
 				$this->ctrl->getLinkTarget($this, "listServices"),
