@@ -765,14 +765,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			// "create question" form
 			$questiontypes =& $this->object->_getQuestiontypes();
 			$this->tpl->setCurrentBlock("QTypes");
-			foreach ($questiontypes as $questiontype)
+			foreach ($questiontypes as $questiontypeTranslation => $questiontype)
 			{
-				if (strcmp($lastquestiontype, $questiontype) == 0)
+				if (strcmp($lastquestiontype, $questiontype["type_tag"]) == 0)
 				{
 					$this->tpl->setVariable("QUESTION_TYPE_SELECTED", " selected=\"selected\"");
 				}
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $questiontype);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($questiontype));
+				$this->tpl->setVariable("QUESTION_TYPE_ID", $questiontype["type_tag"]);
+				$this->tpl->setVariable("QUESTION_TYPE", $questiontypeTranslation);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("CreateQuestion");

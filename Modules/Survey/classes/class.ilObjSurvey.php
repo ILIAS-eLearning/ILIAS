@@ -2576,27 +2576,6 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
-* Returns an array with all existing question types
-* 
-* Returns an array with all existing question types
-*
-* @result array An array containing the question types
-* @access public
-*/
-	function &getQuestiontypes()
-	{
-		global $ilDB;
-		$query = "SELECT type_tag FROM survey_questiontype";
-		$result = $ilDB->query($query);
-		$result_array = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
-		{
-			array_push($result_array, $row->type_tag);
-		}
-		return $result_array;
-	}
-
-/**
 * Sets the obligatory states for questions in a survey from the questions form
 * 
 * Sets the obligatory states for questions in a survey from the questions form
@@ -4008,28 +3987,6 @@ class ilObjSurvey extends ilObject
 		);
 	}
 
-	/**
-	* Creates a list of all available question types
-	*
-	* Creates a list of all available question types
-	*
-	* @return array An array containing the available questiontypes
-	* @access public
-	*/
-	function &_getQuestiontypes()
-	{
-		global $ilDB;
-		
-		$questiontypes = array();
-		$query = "SELECT * FROM survey_questiontype ORDER BY type_tag";
-		$query_result = $ilDB->query($query);
-		while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			array_push($questiontypes, $row["type_tag"]);
-		}
-		return $questiontypes;
-	}
-		
 	/**
 	* Returns a QTI xml representation of the survey
 	*

@@ -5447,4 +5447,6 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE lng_data ADD COLUMN local_change DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
 <#1322>
 ALTER TABLE content_object ADD COLUMN prevent_glossary_appendix_active ENUM ('y','n') DEFAULT 'n';
-
+<#1323>
+ALTER TABLE `survey_questiontype` DROP `TIMESTAMP`;
+ALTER TABLE `survey_questiontype` ADD `plugin` TINYINT NOT NULL DEFAULT '0';
