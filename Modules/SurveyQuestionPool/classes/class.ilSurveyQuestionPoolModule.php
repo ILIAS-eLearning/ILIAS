@@ -27,12 +27,12 @@ include_once("./Services/Component/classes/class.ilModule.php");
 /**
 * TestQuestionPool Module.
 *
-* @author Alex Killing <alex.killing@gmx.de>
+* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
 * @ingroup ModulesTestQuestionPool
 */
-class ilTestQuestionPoolModule extends ilModule
+class ilSurveyQuestionPoolModule extends ilModule
 {
 	
 	/**
