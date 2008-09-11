@@ -2504,25 +2504,36 @@ class ilObjSurvey extends ilObject
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
 		$all_questions = array();
-		$query = sprintf("SELECT survey_questiontype.type_tag, survey_question.question_id, survey_survey_question.heading FROM survey_questiontype, survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
+		$query = sprintf("SELECT survey_questiontype.type_tag, survey_questiontype.plugin, survey_question.question_id, survey_survey_question.heading FROM survey_questiontype, survey_question, survey_survey_question WHERE survey_survey_question.survey_fi = %s AND survey_survey_question.question_fi = survey_question.question_id AND survey_question.questiontype_fi = survey_questiontype.questiontype_id ORDER BY survey_survey_question.sequence",
 			$ilDB->quote($this->getSurveyId())
 		);
 		$result = $ilDB->query($query);
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$question =& $this->_instanciateQuestion($row["question_id"]);
-			$questionrow = $question->_getQuestionDataArray($row["question_id"]);
-			foreach ($row as $key => $value)
+			$add = true;
+			if ($row["plugin"])
 			{
-				$questionrow[$key] = $value;
+				if (!$this->isPluginActive($row["type_tag"]))
+				{
+					$add = false;
+				}
 			}
-			$all_questions[$row["question_id"]] = $questionrow;
-			$all_questions[$row["question_id"]]["usableForPrecondition"] = $question->usableForPrecondition();
-			$all_questions[$row["question_id"]]["availableRelations"] = $question->getAvailableRelations();
-			if (array_key_exists($row["question_id"], $obligatory_states))
+			if ($add)
 			{
-				$all_questions[$row["question_id"]]["obligatory"] = $obligatory_states[$row["question_id"]];
+				$question =& $this->_instanciateQuestion($row["question_id"]);
+				$questionrow = $question->_getQuestionDataArray($row["question_id"]);
+				foreach ($row as $key => $value)
+				{
+					$questionrow[$key] = $value;
+				}
+				$all_questions[$row["question_id"]] = $questionrow;
+				$all_questions[$row["question_id"]]["usableForPrecondition"] = $question->usableForPrecondition();
+				$all_questions[$row["question_id"]]["availableRelations"] = $question->getAvailableRelations();
+				if (array_key_exists($row["question_id"], $obligatory_states))
+				{
+					$all_questions[$row["question_id"]]["obligatory"] = $obligatory_states[$row["question_id"]];
+				}
 			}
 		}
 		// get all questionblocks
@@ -3836,10 +3847,10 @@ class ilObjSurvey extends ilObject
 			$existing = " AND survey_question.question_id NOT IN ('" . join($existing_questions, "','") . "')";
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order";
+		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, survey_questiontype.plugin, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order";
 		$query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
-		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
+		$query = "SELECT survey_question.*, survey_question.TIMESTAMP + 0 AS timestamp14, survey_questiontype.type_tag, survey_questiontype.plugin, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id$forbidden$existing AND survey_question.obj_fi = object_reference.obj_id AND ISNULL(survey_question.original_id) " . " $where$order$limit";
 		$query_result = $ilDB->query($query);
 		if ($startrow > $max -1)
 		{
@@ -3854,7 +3865,17 @@ class ilObjSurvey extends ilObject
 		{
 			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				array_push($rows, $row);
+				if ($row["plugin"])
+				{
+					if ($this->isPluginActive($row["type_tag"]))
+					{
+						array_push($rows, $row);
+					}
+				}
+				else
+				{
+					array_push($rows, $row);
+				}
 			}
 		}
 		$nextrow = $startrow + $maxentries;
@@ -5289,5 +5310,23 @@ class ilObjSurvey extends ilObject
 		return true;
 	}
 
+	/**
+	* Checks wheather or not a question plugin with a given name is active
+	*
+	* @param string $a_pname The plugin name
+	* @access public
+	*/
+	function isPluginActive($a_pname)
+	{
+		global $ilPluginAdmin;
+		if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $a_pname))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 } // END class.ilObjSurvey
 ?>
