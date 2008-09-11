@@ -960,15 +960,35 @@ class ilObjSurveyQuestionPool extends ilObject
 	function &_getQuestiontypes()
 	{
 		global $ilDB;
+		global $lng;
 		
-		$questiontypes = array();
+		$lng->loadLanguageModule("survey");
+		$types = array();
 		$query = "SELECT * FROM survey_questiontype ORDER BY type_tag";
 		$query_result = $ilDB->query($query);
 		while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			array_push($questiontypes, $row["type_tag"]);
+			//array_push($questiontypes, $row["type_tag"]);
+			if ($row["plugin"] == 0)
+			{
+				$types[$lng->txt($row["type_tag"])] = $row;
+			}
+			else
+			{
+				global $ilPluginAdmin;
+				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
+				foreach ($pl_names as $pl_name)
+				{
+					$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+					if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0)
+					{
+						$types[$pl->getQuestionTypeTranslation()] = $row;
+					}
+				}
+			}
 		}
-		return $questiontypes;
+		ksort($types);
+		return $types;
 	}
 		
 	/**

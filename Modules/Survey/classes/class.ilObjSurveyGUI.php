@@ -634,13 +634,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($browsequestions)
 		{
-			$questiontypes =& $this->object->_getQuestiontypes();
-			foreach ($questiontypes as $key => $value)
+			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+			$questiontypes =& ilObjSurveyQuestionPool::_getQuestiontypes();
+			foreach ($questiontypes as $questiontypeTranslation => $questiontype)
 			{
 				$this->tpl->setCurrentBlock("questiontype_row");
-				$this->tpl->setVariable("VALUE_QUESTION_TYPE", $value);
-				$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($value));
-				if (strcmp($filter_question_type, $value) == 0)
+				$this->tpl->setVariable("VALUE_QUESTION_TYPE", $questiontype["type_tag"]);
+				$this->tpl->setVariable("TEXT_QUESTION_TYPE", $questiontypeTranslation);
+				if (strcmp($filter_question_type, $questiontype["type_tag"]) == 0)
 				{
 					$this->tpl->setVariable("SELECTED_QUESTION_TYPE", " selected=\"selected\"");
 				}
