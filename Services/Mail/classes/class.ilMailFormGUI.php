@@ -123,8 +123,8 @@ class ilMailFormGUI
 				ilUtil::securePlainString($_POST['rcp_cc']),
 				ilUtil::securePlainString($_POST['rcp_bcc']),
 				ilUtil::securePlainString($_POST['m_subject']), $f_message,
-				ilUtil::securePlainString($_POST['attachments']), 
-				ilUtil::securePlainString($_POST['m_type']), 
+				$_POST['attachments'], 
+				$_POST['m_type'], 
 				ilUtil::securePlainString($_POST['use_placeholders'])
 				)
 			)
@@ -159,7 +159,7 @@ class ilMailFormGUI
 				ilUtil::securePlainString($_POST["rcp_to"]),
 				ilUtil::securePlainString($_POST["rcp_cc"]),
 				ilUtil::securePlainString($_POST["rcp_bcc"]),
-				ilUtil::securePlainString($_POST["m_type"]),
+				$_POST["m_type"],
 				ilUtil::securePlainString($_POST["m_email"]),
 				ilUtil::securePlainString($_POST["m_subject"]),
 				ilUtil::securePlainString($_POST["m_message"]),
@@ -182,7 +182,7 @@ class ilMailFormGUI
 					ilUtil::securePlainString($_POST["rcp_cc"]),
 					ilUtil::securePlainString($_POST["rcp_bcc"]),
 					'read',
-					ilUtil::securePlainString($_POST["m_type"]),
+					$_POST["m_type"],
 					ilUtil::securePlainString($_POST["m_email"]),
 					ilUtil::securePlainString($_POST["m_subject"]),
 					ilUtil::securePlainString($_POST["m_message"]),
@@ -220,11 +220,11 @@ class ilMailFormGUI
 		{
 			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 			$this->umail->savePostData($ilUser->getId(),
-										 ilUtil::securePlainString($_POST["attachments"]),
+										 $_POST["attachments"],
 										 ilUtil::securePlainString($_POST["rcp_to"]),
 										 ilUtil::securePlainString($_POST["rcp_cc"]),
 										 ilUtil::securePlainString($_POST["rcp_bcc"]),
-										 ilUtil::securePlainString($_POST["m_type"]),
+										 $_POST["m_type"],
 										 ilUtil::securePlainString($_POST["m_email"]),
 										 ilUtil::securePlainString($_POST["m_subject"]),
 										 ilUtil::securePlainString($_POST["m_message"]),
@@ -267,11 +267,11 @@ class ilMailFormGUI
 
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 		$this->umail->savePostData($ilUser->getId(),
-									ilUtil::securePlainString($_POST["attachments"]),
+									$_POST["attachments"],
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
 									ilUtil::securePlainString($_POST["rcp_bcc"]),
-									ilUtil::securePlainString($_POST["m_type"]),
+									$_POST["m_type"],
 									ilUtil::securePlainString($_POST["m_email"]),
 									ilUtil::securePlainString($_POST["m_subject"]),
 									ilUtil::securePlainString($_POST["m_message"]),
@@ -292,11 +292,11 @@ class ilMailFormGUI
 
 		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
 		$this->umail->savePostData($ilUser->getId(),
-									ilUtil::securePlainString($_POST["attachments"]),
+									$_POST["attachments"],
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
 									ilUtil::securePlainString($_POST["rcp_bcc"]),
-									ilUtil::securePlainString($_POST["m_type"]),
+									$_POST["m_type"],
 									ilUtil::securePlainString($_POST["m_email"]),
 									ilUtil::securePlainString($_POST["m_subject"]),
 									ilUtil::securePlainString($_POST["m_message"]),
@@ -409,11 +409,11 @@ class ilMailFormGUI
 	{
 		// Note: For security reasons, ILIAS only allows Plain text messages.
 		$this->umail->savePostData($_SESSION["AccountId"],
-									ilUtil::securePlainString($_POST["attachments"]),
+									$_POST["attachments"],
 									ilUtil::securePlainString($_POST["rcp_to"]),
 									ilUtil::securePlainString($_POST["rcp_cc"]),
 									ilUtil::securePlainString($_POST["rcp_bcc"]),
-									ilUtil::securePlainString($_POST["m_type"]),
+									$_POST["m_type"],
 									ilUtil::securePlainString($_POST["m_email"]),
 							 		ilUtil::securePlainString($_POST["m_subject"]),
 									ilUtil::securePlainString($_POST["m_message"]),
