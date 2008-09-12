@@ -764,7 +764,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				$original_id
 			);
 			$result = $ilDB->query($query);
-			if ($result == DB_OK) 
+			if (!PEAR::isError($result)) 
 			{
 				$this->id = $ilDB->getLastInsertId();
 				$query = sprintf("INSERT INTO survey_question_matrix (
