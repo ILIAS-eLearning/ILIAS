@@ -30,6 +30,8 @@
 */
 class ilValidator extends PEAR
 {
+	protected $media_pool_ids = null;
+	
 	/**
 	* all valid rbac object types
 	* @var	string
@@ -2124,6 +2126,14 @@ restore starts here
 							$isDepthOkay = false;
 						}
 						break;
+						
+						
+					case 'fold':
+						// ignore folders on media pools
+						if($this->isMediaFolder($row->obj_id))
+						{
+							continue 2;
+						}
 					default : 
 						$error_count++;
 						$isRowOkay = false;
@@ -2440,6 +2450,24 @@ restore starts here
 		$this->writeScanLogLine("END dumpTree");
 		
 		return $error_count;	
+	}
+	
+	protected function isMediaFolder($a_obj_id)
+	{
+		global $ilDB;
+		
+		if(!is_array($this->media_pool_ids))
+		{
+			$this->media_pool_ids = array();
+			$query = "SELECT child FROM mep_tree ";
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->media_pool_ids[] = $row->child;
+			}
+		}
+
+		return in_array($a_obj_id,$this->media_pool_ids) ? true : false;
 	}
 } // END class.ilValidator
 ?>
