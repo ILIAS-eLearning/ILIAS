@@ -249,7 +249,6 @@ class ilAuthUtils
 		} else {
 			$authmode = AUTH_CURRENT;
 		}
-
 		switch ($authmode)
 		{
 			case AUTH_LDAP:
@@ -410,6 +409,7 @@ class ilAuthUtils
 				$auth_params['table'] = $ilClientIniFile->readVariable("auth", "table");
 				$auth_params['usernamecol'] = $ilClientIniFile->readVariable("auth", "usercol");
 				$auth_params['passwordcol'] = $ilClientIniFile->readVariable("auth", "passcol");
+				$auth_params['sessionName'] = "_authhttp".md5($realm);
                                 
 				// We use MySQL as storage container
 				// this starts already the session, AccountId is '' _authsession is null
@@ -418,9 +418,8 @@ class ilAuthUtils
 				{
 					// Use HTTP authentication as the frontend for WebDAV clients:
                                         require_once("Auth/HTTP.php");
-					$auth_params['sessionName'] = "_authhttp".md5($realm);
-					$auth_params['sessionSharing'] = false;
 					require_once 'class.ilAuthContainerMDB2.php';
+					$auth_params['sessionSharing'] = false;
 					$authContainer = new ilAuthContainerMDB2($auth_params);
 					$authContainer->setObserversEnabled(true);
 					$ilAuth = new Auth_HTTP($authContainer, $auth_params,"",false);
@@ -429,7 +428,6 @@ class ilAuthUtils
 				else
 				{
 					// Use a login form as the frontend for web browsers:
-					$auth_params['sessionName'] = "_authhttp".md5($realm);
 					require_once 'class.ilAuthContainerMDB2.php';
 					$authContainer = new ilAuthContainerMDB2($auth_params);
 					$authContainer->setObserversEnabled(true);
@@ -446,6 +444,25 @@ class ilAuthUtils
 			$ilAuth->setIdle($ilClientIniFile->readVariable("session","expire"), false);
 		}
 		$ilAuth->setExpire(0);
+                
+		// In developer mode, enable logging on the Pear Auth object
+	 	if (DEVMODE == 1)
+	 	{
+			global $ilLog;
+			if(method_exists($ilAuth,'attachLogObserver'))
+			{
+				if(@include_once('Log.php'))
+			 	{
+					if(@include_once('Log/observer.php'))
+				 	{
+						include_once('Services/LDAP/classes/class.ilAuthLDAPLogObserver.php');
+						$ilAuth->attachLogObserver(new ilAuthLDAPLogObserver(AUTH_LOG_DEBUG));
+	                                        $ilAuth->enableLogging = true;
+					}
+			 	}
+	 		}
+	 	}
+            
 		ini_set("session.cookie_lifetime", "0");
 //echo "-".get_class($ilAuth)."-";
 		$GLOBALS['ilAuth'] =& $ilAuth;
