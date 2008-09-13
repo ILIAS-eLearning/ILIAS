@@ -258,7 +258,7 @@ class ilPersonalProfileGUI
 		// do nothing if auth mode is not local database
 		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
 			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("show_auth_allow_local")) &&
+			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local")) &&
 			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local"))
 			)
 		{
