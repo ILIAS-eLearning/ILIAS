@@ -338,10 +338,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		switch ($this->clientOS)
 		{
 		case 'unix' :
-			// Hide files which start with '~$'.
+			// Hide Windows thumbnail files, and files which start with '~$'.
 			$isFileHidden = 
 				$name == 'Thumbs.db'
 				|| substr($name, 0, 2) == '~$';
+			// Hide files which contain /
+			$isFileHidden |= preg_match('/\\//', $name);
 			break;
 		case 'windows' :
 			// Hide files that start with '.'.

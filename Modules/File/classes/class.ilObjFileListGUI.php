@@ -163,8 +163,9 @@ class ilObjFileListGUI extends ilObjectListGUI
 		// to do: implement extra smaller file info object
 		include_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
-		// Display a warning if filename extension is missing
-		if (! preg_match('/\\.[a-zA-Z0-9]+$/', $this->title))
+		// Display a warning if a file is not a hidden Unix file, and
+                // the filename extension is missing
+		if (! preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title))
 			{
 				$props[] = array("alert" => true, "property" => $lng->txt("filename_interoperability"),
 					"value" => $lng->txt("filename_extension_missing"),
