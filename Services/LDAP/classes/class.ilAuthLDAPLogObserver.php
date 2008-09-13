@@ -57,7 +57,7 @@ class ilAuthLDAPLogObserver extends Log_observer
 	 */
 	public function notify($a_event)
 	{
-        $this->log->write('PEAR LDAP: '.$a_event['message']);
+        $this->log->write($a_event['message']);
         $this->messages[] = $a_event;
     }
 

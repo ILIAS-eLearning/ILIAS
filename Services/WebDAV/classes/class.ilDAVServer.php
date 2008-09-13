@@ -341,7 +341,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			// Hide files which start with '~$'.
 			$isFileHidden = 
 				$name == 'Thumbs.db'
-				|| substr($name, 0, 2) != '~$';
+				|| substr($name, 0, 2) == '~$';
 			break;
 		case 'windows' :
 			// Hide files that start with '.'.
@@ -729,13 +729,16 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			."</font></p>\n";
 	    
 		echo "<pre>";
-		printf($format, $lng->txt("size"), $lng->txt("last_change"), $lng->txt("filename"));
+		printf($format, $lng->txt('size'), $lng->txt('last_change'), $lng->txt('filename'));
 		echo "<hr>";
 	
+		$collectionCount = 0;
+		$fileCount = 0;
 		$children =& $objDAV->childrenWithPermission('visible');
 		foreach ($children as $childDAV) {
 			if ($childDAV->isCollection() && !$this->isFileHidden($childDAV))
 			{
+				$collectionCount++;
 				$name = $this->davUrlEncode($childDAV->getResourceName());
 				printf($format, 
 					'-',
@@ -746,6 +749,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		foreach ($children as $childDAV) {
 			if ($childDAV->isFile() && !$this->isFileHidden($childDAV))
 			{
+				$fileCount++;
 				$name = $this->davUrlEncode($childDAV->getResourceName());
 				printf($format, 
 					number_format($childDAV->getContentLength()),
@@ -763,9 +767,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 					'<a href="'.$name.'">'.$childDAV->getDisplayName()."</a>");
 			}
 		}
-	
+		echo "<hr>";
+		echo $collectionCount.' '.$lng->txt(($collectionCount == 1) ? 'folder' : 'folders').', ';
+		echo $fileCount.' '.$lng->txt(($fileCount == 1) ? 'file' : 'files').'.';
 		echo "</pre>";
-	
 		echo "</body></html>\n";
 
 		exit;
