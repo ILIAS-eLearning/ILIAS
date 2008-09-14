@@ -464,7 +464,6 @@ class ilSurveyExecutionGUI
 			$this->tpl->setVariable("TEXT_FINISHED", $this->object->prepareTextareaOutput($this->object->getOutro()));
 			$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
 			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
 		}
 	}
 
