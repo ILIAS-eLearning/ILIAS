@@ -308,7 +308,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$template->parseCurrentBlock();
 
 		$rowclass = array("tblrow1", "tblrow2");
-		
 		for ($i = 0; $i < $this->object->getRowCount(); $i++)
 		{
 			$tplrow = new ilTemplate("tpl.il_svy_out_matrix_row.html", TRUE, TRUE, "Modules/SurveyQuestionPool");

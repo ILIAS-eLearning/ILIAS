@@ -859,7 +859,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			);
 			$result = $ilDB->query($query);
 		}
-		if ($result == DB_OK) 
+		if (!PEAR::isError($result)) 
 		{
 			// saving material uris in the database
 			$this->saveMaterialsToDb();
