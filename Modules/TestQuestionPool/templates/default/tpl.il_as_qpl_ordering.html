@@ -61,7 +61,16 @@
 	</td>
 </tr>
 
-<tr><td colspan="5" class="option"><input name="cmd[addItem]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
+<tr>
+	<td colspan="5" class="option">
+		<input name="cmd[addItem]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD}" />
+		<select name="itemcount">
+			<!-- BEGIN itemcountvalues -->
+			<option value="{ITEMCOUNTVALUE}">{ITEMCOUNTVALUE} {TEXT_ANSWER}</option>
+			<!-- END itemcountvalues -->
+		</select>
+	</td>
+</tr>
 </table>
 <table class="fullwidth">
 <!-- BEGIN answerheader -->

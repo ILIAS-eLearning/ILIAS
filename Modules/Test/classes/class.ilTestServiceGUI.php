@@ -324,7 +324,7 @@ class ilTestServiceGUI
 		
 		$maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", TRUE, TRUE, "Modules/Test");
 
-		include_once "./classes/class.ilObjAssessmentFolder.php";
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
 		$scoring = ilObjAssessmentFolder::_getManualScoring();
 		
 		$counter = 1;
