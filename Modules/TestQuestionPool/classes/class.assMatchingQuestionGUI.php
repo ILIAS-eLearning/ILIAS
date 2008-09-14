@@ -191,7 +191,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$this->tpl->setCurrentBlock("answers");
 				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("TERM_ID", $thispair->getTerm());
+				$this->tpl->setVariable("TERM_ID", $thispair->getTermId());
 				$this->tpl->setVariable("VALUE_TERM", ilUtil::prepareFormOutput($thispair->getTerm()));
 				$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 				$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", $thispair->getPoints());

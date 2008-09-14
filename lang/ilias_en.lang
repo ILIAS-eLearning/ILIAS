@@ -8616,3 +8616,5 @@ forum#:#frm_statistics#:#Statistics
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 chat#:#chat_chat_invitation#:#Chat Invitations
+assessment#:#reset_pictures#:#Reset Picture Positions
+assessment#:#reset_definitions#:#Reset Definition Positions

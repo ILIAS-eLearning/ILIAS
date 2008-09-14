@@ -148,49 +148,53 @@ class assOrderingQuestionGUI extends assQuestionGUI
 
 		if (($this->ctrl->getCmd() == "addItem") and ($ok))
 		{
-			if ($this->object->getOrderingType() == OQ_PICTURES)
+			$i = $this->object->getAnswerCount() - 1;
+			for ($j = 1; $j <= $_POST["itemcount"]; $j++)
 			{
-				$this->tpl->setCurrentBlock("order_pictures");
-				$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
-				$this->tpl->setVariable("VALUE_ANSWER", "");
-				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
-			}
-			elseif ($this->object->getOrderingType() == OQ_TERMS)
-			{
-				if ($multiline_answers)
+				if ($this->object->getOrderingType() == OQ_PICTURES)
 				{
-					$this->tpl->setCurrentBlock("show_textarea");
-					$this->tpl->setVariable("ANSWER_ORDER", $i);
-					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("order_pictures");
+					$this->tpl->setVariable("ANSWER_ORDER", $i+$j);
+					$this->tpl->setVariable("VALUE_ANSWER", "");
+					$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
+				}
+				elseif ($this->object->getOrderingType() == OQ_TERMS)
+				{
+					if ($multiline_answers)
+					{
+						$this->tpl->setCurrentBlock("show_textarea");
+						$this->tpl->setVariable("ANSWER_ORDER", $i+$j);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock("show_textinput");
+						$this->tpl->setVariable("ANSWER_ORDER", $i+$j);
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				$this->tpl->parseCurrentBlock();
+
+				// Create an empty answer
+				$this->tpl->setCurrentBlock("answers");
+				//$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+				$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+				$anchor = "#answer_" . ($this->object->getAnswerCount() + $j);
+				$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
+				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+				if ($this->object->getOrderingType() == OQ_PICTURES)
+				{
+					$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
 				}
 				else
 				{
-					$this->tpl->setCurrentBlock("show_textinput");
-					$this->tpl->setVariable("ANSWER_ORDER", $i);
-					$this->tpl->parseCurrentBlock();
+					$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				}
+				$this->tpl->setVariable("ANSWER_ORDER", $i+$j);
+				$this->tpl->setVariable("VALUE_ORDER", $this->object->getMaxSolutionOrder() + $j);
+				$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%s", 0));
+				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->parseCurrentBlock();
-
-			// Create an empty answer
-			$this->tpl->setCurrentBlock("answers");
-			//$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-			$anchor = "#answer_" . ($this->object->getAnswerCount() + 1);
-			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			if ($this->object->getOrderingType() == OQ_PICTURES)
-			{
-				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-			}
-			$this->tpl->setVariable("ANSWER_ORDER", $this->object->getAnswerCount());
-			$this->tpl->setVariable("VALUE_ORDER", $this->object->getMaxSolutionOrder() + 1);
-			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%s", 0));
-			$this->tpl->parseCurrentBlock();
 		}
 		// call to other question data i.e. estimated working time block
 		if ($this->object->getAnswerCount())
@@ -249,7 +253,22 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				break;
 		}
 		$this->tpl->parseCurrentBlock();
+		for ($a = 1; $a < 9; $a++)
+		{
+			$this->tpl->setCurrentBlock("itemcountvalues");
+			$this->tpl->setVariable("ITEMCOUNTVALUE", $a);
+			if ($a > 1)
+			{
+				$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answers"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("question_data");
+		$this->tpl->setVariable("VALUE_ADD", $this->lng->txt("add"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -271,7 +290,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
 		$questiontext = $this->object->getQuestion();
 		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
 		$this->tpl->setVariable("TEXT_TYPE_PICTURES", $this->lng->txt("order_pictures"));
 		$this->tpl->setVariable("TEXT_TYPE_TERMS", $this->lng->txt("order_terms"));
