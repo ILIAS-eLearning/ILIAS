@@ -959,8 +959,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$userObj->setPref("hits_per_page", $_POST["hits_per_page"]);
 			$userObj->setPref("show_users_online", $_POST["show_users_online"]);
-			$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
-
+			$userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
 			$userObj->writePrefs();
 
 			//set role entries
@@ -969,7 +968,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$msg = $this->lng->txt("user_added");
 
 			$ilUser->setPref('send_info_mails', ($_POST["send_mail"]));
-			$ilUser->writePrefs();
+			$ilUser->writePrefs();                        
 
 			// send new account mail
 			if ($_POST["send_mail"] != "")
@@ -1138,14 +1137,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$this->object->setPref("hits_per_page", $_POST["hits_per_page"]);
 			$this->object->setPref("show_users_online", $_POST["show_users_online"]);
-			if ($_POST["hide_own_online_status"])
-			{
-				$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
-			}
-			else
-			{
-				$this->object->setPref("hide_own_online_status", "n");
-			}
+			$this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
 
 			// set a timestamp for last_password_change
 			// this ts is needed by the ACCOUNT_SECURITY_MODE_CUSTOMIZED
@@ -1154,7 +1146,14 @@ class ilObjUserGUI extends ilObjectGUI
 
 
 			$this->update = $this->object->update();
-
+                        
+                
+                        // If the current user is editing its own user account,
+                        // we update his preferences.
+			if ($ilUser->getId() == $this->object->getId()) 
+			{
+				$ilUser->readPrefs();    
+			}
 			$ilUser->setPref('send_info_mails', $_POST["send_mail"]);
 			$ilUser->writePrefs();
 
@@ -1278,7 +1277,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["skin_style"] = $this->object->skin.":".$this->object->prefs["style"];
 		$data["hits_per_page"] = $this->object->prefs["hits_per_page"];
 		$data["show_users_online"] = $this->object->prefs["show_users_online"];
-		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"];
+		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
 
 		// note: this option is used from / set for the user currently administrating
 		$data["send_mail"] = $ilUser->getPref('send_info_mails');
