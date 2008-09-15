@@ -2058,8 +2058,7 @@ table.ilc_FileList
 	border-width:1px;
 	border-style:solid;
 	border-color:#9EADBA;
-	margin-bottom: 15px;
-	margin-top: 5px;
+	margin: 10px 0px;
 }
 
 th.ilc_FileList
@@ -2116,6 +2115,14 @@ h1.il_LMHead
 	margin: 6px 15px 6px 15px;
 	font-size: 120%;
 	font-weight: normal;
+}
+
+table.ilc_Table
+{
+	border-collapse: collapse;
+	background-color: #FFFFFF;
+	margin: 10px 0px;
+	border-style: solid;
 }
 
 /* -- Members Gallery Styles -- */

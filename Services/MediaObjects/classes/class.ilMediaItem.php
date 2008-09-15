@@ -299,6 +299,26 @@ class ilMediaItem
 		return "";
 	}
 
+	/**
+	* Lookup Mob ID
+	*
+	* @param	int		$a_med_id	media item id
+	*/
+	static function _lookupMobId($a_med_id)
+	{
+		global $ilDB;
+		
+		// read media_object record
+		$query = "SELECT * FROM media_item WHERE id = ".$ilDB->quote($a_med_id);
+		$set = $ilDB->query($query);
+		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $rec["mob_id"];
+		}
+
+		return "";
+	}
+
 	/* read media item with specific purpose and mobId
 	*
 	* @param	integer		$a_mobId	 	media object id
@@ -484,6 +504,14 @@ class ilMediaItem
 	function &getMapArea($nr)
 	{
 		return $this->mapareas[$nr-1];
+	}
+
+	/**
+	* get map areas
+	*/
+	function getMapAreas()
+	{
+		return $this->mapareas;
 	}
 
 	/**

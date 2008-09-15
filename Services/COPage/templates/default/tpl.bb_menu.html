@@ -9,13 +9,14 @@ var help_line = {
 		q: '{TXT_QUOT} [quot]text[/quot]  (alt+q)',
 		d: '{TXT_CODE} [code]code[/code]  (alt+d)',
 		i: '{TXT_ILN} [iln page=\"page_id\"]text[/iln]  (alt+i)',
+		w: '{TXT_WLN} [[{TXT_WLN}]]  (alt+w)',
 		x: '{TXT_XLN} [xln url=\"http://url\"]text[/xln]  (alt+x)',
 		t: '{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)'
 }
 
 // Define the bbCode tags
 var bbcode = new Array();
-var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]', '[tex]','[/tex]');
+var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]', '[tex]','[/tex]','[[',']]');
 imageTag = false;
 
 var form_name = 'post';
@@ -41,4 +42,7 @@ var upload = false;
 <!-- BEGIN bb_ilink_button -->
 <a class="ilEditSubmit" href="{BB_LINK_ILINK}" accesskey="i" target="tree" onMouseOver="helpline('i')">&nbsp;iln&nbsp;</a>
 <!-- END bb_ilink_button -->
+<!-- BEGIN bb_wikilink_button -->
+<a class="ilEditSubmit" href="#" accesskey="w" name="addbbcode14" onClick="bbstyle(20)" onMouseOver="helpline('w')" >&nbsp;[[{TXT_WLN2}]]&nbsp;</a>&nbsp;
+<!-- END bb_wikilink_button -->
 </div>

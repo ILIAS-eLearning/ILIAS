@@ -124,6 +124,19 @@ abstract class ilPageContent
 	}
 
 	/**
+	* Read PC Id.
+	*
+	* @return	string	PC Id
+	*/
+	function readHierId()
+	{
+		if (is_object($this->node))
+		{
+			return $this->node->get_attribute("HierId");
+		}
+	}
+
+	/**
 	* Set PC Id.
 	*
 	* @param	string	$a_pcid	PC Id
@@ -138,9 +151,23 @@ abstract class ilPageContent
 	*
 	* @return	string	PC Id
 	*/
-	function getPcId()
+	function getPCId()
 	{
 		return $this->pcid;
+	}
+
+	
+	/**
+	* Read PC Id.
+	*
+	* @return	string	PC Id
+	*/
+	function readPCId()
+	{
+		if (is_object($this->node))
+		{
+			return $this->node->get_attribute("PCID");
+		}
 	}
 
 	/**

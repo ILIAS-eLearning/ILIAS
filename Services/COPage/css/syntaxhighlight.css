@@ -6,6 +6,7 @@ table.ilc_Sourcecode {
 	border: 1px solid black;
 	background: white;
 	padding: 5px;
+	margin: 10px 0px;
 }
 
 td.ilc_LineNumbers {

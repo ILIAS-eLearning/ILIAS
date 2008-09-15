@@ -985,15 +985,25 @@ class ilLMObject
 	{
 		foreach($a_copied_nodes as $original_id => $copied_id)
 		{
-//echo "<br><br>-$original_id-$copied_id-";
-			if (ilLMObject::_lookupType($copied_id) == "pg")
+			$copied_type = ilLMObject::_lookupType($copied_id);
+			$copy_lm = ilLMObject::_lookupContObjID($copied_id);
+			
+			if ($copied_type == "pg")
 			{
 				//
 				// 1. Outgoing links from the copied page.
 				//
-				$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
-				$copy_lm = ilLMObject::_lookupContObjID($copied_id);
-
+				//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
+				$tpg = new ilPageObject($a_parent_type, $copied_id);
+				$tpg->buildDom();
+				$il = $tpg->getInternalLinks();
+				$targets = array();
+				foreach($il as $l)
+				{
+					$targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
+						"id" => (int) ilInternalLink::_extractObjIdOfTarget($l["Target"]),
+						"inst" => (int) ilInternalLink::_extractInstOfTarget($l["Target"]));
+				}
 				$fix = array();
 				foreach($targets as $target)
 				{
@@ -1009,7 +1019,6 @@ class ilLMObject
 						{
 							// now check, if a copy if the target is already in the same lm
 							$lm_data = ilLMObject::_getAllObjectsForImportId("il__".$target["type"]."_".$target["id"]);
-//var_dump($lm_data);
 							$found = false;
 
 							foreach($lm_data as $item)
@@ -1027,8 +1036,7 @@ class ilLMObject
 						}
 					}
 				}
-//echo "<br>Fix:";
-//var_dump($fix);
+				
 				// outgoing links to be fixed
 				if (count($fix) > 0)
 				{
@@ -1036,6 +1044,11 @@ class ilLMObject
 					$page->moveIntLinks($fix);
 					$page->update();
 				}
+			}
+			
+			if ($copied_type == "pg" ||
+				$copied_type == "st")
+			{
 				
 				//
 				// 2. Incoming links to the original pages
@@ -1047,8 +1060,29 @@ class ilLMObject
 				$original_lm = ilLMObject::_lookupContObjID($original_id);
 				$original_type = ilObject::_lookupType($original_lm);
 				
+				
 				// This gets sources that link to A+B (so we have C here)
-				$sources = ilInternalLink::_getSourcesOfTarget("pg", $original_id, 0);
+				// (this also does already the trick when instance map areas are given in C)
+				$sources = ilInternalLink::_getSourcesOfTarget($copied_type,
+					$original_id, 0);
+				
+				// mobs linking to $original_id
+				$mobs = ilMapArea::_getMobsForTarget("int", "il__".$copied_type.
+					"_".$original_id);
+				
+				// pages using these mobs
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				foreach($mobs as $mob)
+				{
+					$usages = ilObjMediaObject::lookupUsages($mob);
+					foreach($usages as $usage)
+					{
+						if ($usage["type"] == "lm:pg" | $usage["type"] == "lm:st")
+						{
+							$sources[] = $usage;
+						}
+					}
+				}
 				$fix = array();
 				foreach($sources as $source)
 				{
@@ -1075,8 +1109,7 @@ class ilLMObject
 						}
 					}
 				}
-
-				// incoming links to be fixed
+				// outgoing links to be fixed
 				if (count($fix) > 0)
 				{
 					foreach ($fix as $page_id => $fix_array)

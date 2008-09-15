@@ -1315,6 +1315,132 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			}
 		}
 		unset($xpc);
+		
+		// map areas
+		$this->addHierIDs();
+		$xpc = xpath_new_context($this->dom);
+		$path = "//MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+		
+		require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
+		require_once("Services/COPage/classes/class.ilMediaAliasItem.php");
+
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$media_object_node = $res->nodeset[$i]->parent_node();
+			$page_content_node = $media_object_node->parent_node();
+			$c_hier_id = $page_content_node->get_attribute("HierId");
+
+			// first check, wheter we got instance map areas -> take these
+			$std_alias_item = new ilMediaAliasItem($this->dom,
+				$c_hier_id, "Standard");
+			$areas = $std_alias_item->getMapAreas();
+			$correction_needed = false;
+			if (count($areas) > 0)
+			{
+				// check if correction needed
+				foreach($areas as $area)
+				{
+					if ($area["Type"] == "PageObject" ||
+						$area["Type"] == "StructureObject")
+					{
+						$t = $area["Target"];
+						$tid = _extractObjIdOfTarget($t);
+						if ($a_from_to[$tid] > 0)
+						{
+							$correction_needed = true;
+						}
+					}
+				}
+			}
+			else
+			{
+				$areas = array();
+
+				// get object map areas and check whether at least one must
+				// be corrected
+				$oid = $res->nodeset[$i]->get_attribute("OriginId");
+				if (substr($oid, 0, 4) =="il__")
+				{
+					$id_arr = explode("_", $oid);
+					$id = $id_arr[count($id_arr) - 1];
+	
+					$mob = new ilObjMediaObject($id);
+					$med_item = $mob->getMediaItem("Standard");
+					$med_areas = $med_item->getMapAreas();
+
+					foreach($med_areas as $area)
+					{
+						$link_type = ($area->getLinkType() == "int")
+							? "IntLink"
+							: "ExtLink";
+						
+						$areas[] = array(
+							"Nr" => $area->getNr(),
+							"Shape" => $area->getShape(),
+							"Coords" => $area->getCoords(),
+							"Link" => array(
+								"LinkType" => $link_type,
+								"Href" => $area->getHref(),
+								"Title" => $area->getTitle(),
+								"Target" => $area->getTarget(),
+								"Type" => $area->getType(),
+								"TargetFrame" => $area->getTargetFrame()
+								)
+							);
+
+						if ($area->getType() == "PageObject" ||
+							$area->getType() == "StructureObject")
+						{
+							$t = $area->getTarget();
+							$tid = ilInternalLink::_extractObjIdOfTarget($t);
+							if ($a_from_to[$tid] > 0)
+							{
+								$correction_needed = true;
+							}
+//var_dump($a_from_to);
+						}
+					}
+				}
+			}
+			
+			// correct map area links
+			if ($correction_needed)
+			{
+				$std_alias_item->deleteAllMapAreas();
+				foreach($areas as $area)
+				{
+					if ($area["Link"]["LinkType"] == "IntLink")
+					{
+						$target = $area["Link"]["Target"];
+						$type = $area["Link"]["Type"];
+						$obj_id = ilInternalLink::_extractObjIdOfTarget($target);
+						if ($a_from_to[$obj_id] > 0)
+						{
+							if ($type == "PageObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg")
+							{
+								$area["Link"]["Target"] = "il__pg_".$a_from_to[$obj_id];
+							}
+							if ($type == "StructureObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "st")
+							{
+								$area["Link"]["Target"] = "il__st_".$a_from_to[$obj_id];
+							}
+						}
+					}
+					
+					$std_alias_item->addMapArea($area["Shape"], $area["Coords"],
+						$area["Link"]["Title"],
+						array(	"Type" => $area["Link"]["Type"],
+								"TargetFrame" => $area["Link"]["TargetFrame"],
+								"Target" => $area["Link"]["Target"],
+								"Href" => $area["Link"]["Href"],
+								"LinkType" => $area["Link"]["LinkType"],
+						));
+				}
+			}
+		}
+		unset($xpc);
+
 	}
 
 	/**
@@ -1454,6 +1580,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
 //echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom());
+
+		// add missing pc ids
+		if (!$this->checkPCIds())
+		{
+			$this->insertPCIds();
+		}
+
 		// test validating
 		if($a_validate)
 		{
