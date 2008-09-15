@@ -2695,7 +2695,6 @@ content#:#cont_Headline1#:#Заглавен ред 1
 content#:#cont_Headline2#:#Заглавен ред 2
 content#:#cont_Headline3#:#Заглавен ред 3
 content#:#cont_List#:#Списък
-content#:#cont_LocalFile#:#Локален файл
 content#:#cont_Mnemonic#:#Мнемонично
 content#:#cont_Number#:#Число
 content#:#cont_Poly#:#Многоъгълник
@@ -2910,9 +2909,7 @@ content#:#cont_max_time_allowed#:#adlcp:максимално разрешено 
 content#:#cont_media_source#:#Медиен източник
 content#:#cont_mep_structure#:#Структура на медиа пул
 content#:#cont_missing_preconditions#:#Трябва да изпълните следните предварителни условия, за да имате достъп до главата "%s".
-content#:#cont_mob_files#:#Обектни файлове
 content#:#cont_mob_inst_prop#:#Примерни характеристики
-content#:#cont_mob_prop#:#Обектни характеристики
 content#:#cont_mob_usages#:#Използване
 content#:#cont_month#:#Месец
 content#:#cont_move_object#:#преместване на обект
@@ -5025,8 +5022,6 @@ chat#:#chat_start_recording#:#Start recording###06 09 2006 new variable
 chat#:#chat_stop_recording#:#Stop recording###06 09 2006 new variable
 chat#:#chat_whisper#:#Whisper###06 09 2006 new variable
 common#:#admin_panel#:#Administration Panel###06 09 2006 new variable
-common#:#admin_panel_disable#:#Switch Administration Commands Off###06 09 2006 new variable
-common#:#admin_panel_enable#:#Switch Administration Commands On ###06 09 2006 new variable
 common#:#agree_date#:#Agreed on###06 09 2006 new variable
 common#:#assessment_settings_reporting_language#:#Reporting language###06 09 2006 new variable
 common#:#associated_user#:#associated User###06 09 2006 new variable
@@ -7816,7 +7811,6 @@ wiki#:#wiki_start_page#:#Start Page###11 03 2008 new variable
 wiki#:#wiki_start_page_title#:#Start Page Title###11 03 2008 new variable
 wiki#:#wiki_main_page#:#Main Page###11 03 2008 new variable
 wiki#:#wiki_short_title#:#Short Title###11 03 2008 new variable
-wiki#:#wiki_short_title_desc#:#This title will be used in permanent links to the Wiki.###11 03 2008 new variable
 wiki#:#wiki_article#:#Article###11 03 2008 new variable
 wiki#:#wiki_discussion#:#Discussion###11 03 2008 new variable
 wiki#:#wiki_edit#:#Edit###11 03 2008 new variable
@@ -8012,12 +8006,6 @@ content#:#cont_pages_and_subchapters#:#Subchapters and Pages###02 06 2008 new va
 content#:#cont_insert_as_subchapter#:#Insert as Subchapter###02 06 2008 new variable
 content#:#cont_insert_as_chapter#:#Insert as Chapter###02 06 2008 new variable
 content#:#cont_save_all_titles#:#Save Titles###02 06 2008 new variable
-content#:#cont_sec_block#:#Block###02 06 2008 new variable
-content#:#cont_sec_example#:#Example###02 06 2008 new variable
-content#:#cont_sec_citation#:#Citation###02 06 2008 new variable
-content#:#cont_sec_additional#:#Additional###02 06 2008 new variable
-content#:#cont_sec_special#:#Special###02 06 2008 new variable
-content#:#cont_sec_excursus#:#Excursus###02 06 2008 new variable
 content#:#cont_insert_resources#:#Insert Resource List###02 06 2008 new variable
 content#:#cont_update_resources#:#Update Resource List###02 06 2008 new variable
 content#:#cont_type#:#Type###02 06 2008 new variable
@@ -8037,7 +8025,6 @@ content#:#cont_ed_edit_data#:#Edit Data###02 06 2008 new variable
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.###02 06 2008 new variable
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.###02 06 2008 new variable
-cntr#:#cntr_view_sessions#:#Sessions View###02 06 2008 new variable
 cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View###02 06 2008 new variable
 trac#:#trac_user_activities#:#Benutzeraktivitäten###02 06 2008 new variable
@@ -8518,3 +8505,126 @@ common#:#password_must_special_chars#:#The password must contain special charact
 ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login###26 07 2008 new variable
 ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).###26 07 2008 new variable
 common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services###26 07 2008 new variable
+content#:#cont_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
+content#:#cont_syntax_help#:#Syntax Help###15 09 2008 new variable
+content#:#cont_bullet_list#:#Bullet List###15 09 2008 new variable
+content#:#cont_numbered_list#:#Numbered List###15 09 2008 new variable
+content#:#cont_wiki_page_link#:#Wiki Page Link###15 09 2008 new variable
+content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.###15 09 2008 new variable
+content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###15 09 2008 new variable
+form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
+form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.###15 09 2008 new variable
+common#:#all_commands#:#All Commands###15 09 2008 new variable
+common#:#basic_commands#:#Basic Commands###15 09 2008 new variable
+wiki#:#wiki_wiki_page#:#Wiki Page###15 09 2008 new variable
+wiki#:#wiki_short_title_desc2#:#This title will be used in links to the wiki. Once choosen you should not change this title, since users may loose their bookmarks.###15 09 2008 new variable
+wiki#:#wiki_wiki_search#:#Wiki Search###15 09 2008 new variable
+wiki#:#wiki_search#:#Search###15 09 2008 new variable
+wiki#:#wiki_search_results#:#Search Results###15 09 2008 new variable
+common#:#copy_of_suffix#:#- Copy###15 09 2008 new variable
+common#:#copy_n_of_suffix#:#- Copy (%1$s)###15 09 2008 new variable
+mep#:#mep_parent_folder#:#Parent Folder###15 09 2008 new variable
+mep#:#mep_thumbnail#:#Thumbnail###15 09 2008 new variable
+mep#:#mep_title_and_description#:#Title and Description###15 09 2008 new variable
+mep#:#mep_create_mob#:#Create Media Object###15 09 2008 new variable
+mep#:#mep_create_folder#:#Create Folder###15 09 2008 new variable
+mep#:#mep_copy_to_mep#:#Copy to Media Pool###15 09 2008 new variable
+tagging#:#tagging_tag_info#:#To attach tags to a ressource open the info screen of the ressource and enter your tags.###15 09 2008 new variable
+content#:#cont_links#:#Links###15 09 2008 new variable
+content#:#cont_internal_links#:#Internal Links###15 09 2008 new variable
+content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode###15 09 2008 new variable
+content#:#cont_js_chap_editing#:#Use JavaScript Editing Mode###15 09 2008 new variable
+content#:#cont_chapters_after_pages#:#Please note that pages have to precede all subchapters of the same level.###15 09 2008 new variable
+content#:#cont_add_rectangle#:#Add Rectangle###15 09 2008 new variable
+content#:#cont_add_circle#:#Add Circle###15 09 2008 new variable
+content#:#cont_add_polygon#:#Add Polygon###15 09 2008 new variable
+content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)###15 09 2008 new variable
+content#:#cont_edit_shape_circle#:#Edit Shape (Circle)###15 09 2008 new variable
+content#:#cont_edit_shape_polygon#:#Edit Shape (Polygon)###15 09 2008 new variable
+content#:#cont_new_mob#:#New Media Object###15 09 2008 new variable
+content#:#cont_mob_from_media_pool#:#Choose From Media Pool###15 09 2008 new variable
+content#:#cont_select_media_pool#:#Select Media Pool###15 09 2008 new variable
+content#:#cont_table_properties#:#Table Properties###15 09 2008 new variable
+content#:#cont_table_cell_properties#:#Table Cell Properties###15 09 2008 new variable
+content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.###15 09 2008 new variable
+content#:#cont_set_styles_and_widths#:#Set Styles and Widths###15 09 2008 new variable
+content#:#cont_Special#:#Special###15 09 2008 new variable
+content#:#cont_Excursus#:#Excursus###15 09 2008 new variable
+content#:#cont_localfile#:#Local File###15 09 2008 new variable
+content#:#cont_Block#:#Block###15 09 2008 new variable
+content#:#cont_def_map_areas#:#Default Link Areas###15 09 2008 new variable
+content#:#cont_inst_map_areas#:#Instance Link Areas###15 09 2008 new variable
+content#:#cont_mob_def_prop#:#Default Properties###15 09 2008 new variable
+content#:#cont_current_page#:#Current Page###15 09 2008 new variable
+content#:#cont_current_chapter#:#Current Chapter###15 09 2008 new variable
+content#:#cont_selected_pg_chap#:#Selected Pages/Chapters###15 09 2008 new variable
+content#:#cont_target_missing#:#Target Missing###15 09 2008 new variable
+content#:#cont_print_view_pre_glo#:#Prevent Glossary Appendix in Print View###15 09 2008 new variable
+content#:#cont_paste_table#:#Paste Table###15 09 2008 new variable
+content#:#cont_html_table#:#HTML Table###15 09 2008 new variable
+content#:#cont_spreadsheet_table#:#Spreadsheet Table###15 09 2008 new variable
+cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.###15 09 2008 new variable
+cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor###15 09 2008 new variable
+cntr#:#cntr_back_to_old_editor#:#Back to Old Editor###15 09 2008 new variable
+cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.###15 09 2008 new variable
+cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation###15 09 2008 new variable
+cntr#:#cntr_switched_editor#:#Switched to new content.###15 09 2008 new variable
+cntr#:#cntr_#:#Sessions View###15 09 2008 new variable
+common#:#no_items#:#No Items###15 09 2008 new variable
+content#:#cont_first_row_style#:#First Row Style###15 09 2008 new variable
+content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
+content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
+content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.###15 09 2008 new variable
+crs#:#crs_archive_language_selection#:#Language Selection###15 09 2008 new variable
+common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.###15 09 2008 new variable
+common#:#ext_link#:#Link###15 09 2008 new variable
+pd#:#pd_enable_my_offers#:#Enable 'Selected Items'###15 09 2008 new variable
+pd#:#pd_enable_my_offers_info#:#The view 'Selected Items' contains all objects which are placed on the user's Personal Desktop.###15 09 2008 new variable
+pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'###15 09 2008 new variable
+pd#:#pd_enable_my_memberships_info#:#'My Memberships' contains all courses and groups the user is assigned to as a member.###15 09 2008 new variable
+pd#:#pd_my_offers#:#Selected Items###15 09 2008 new variable
+pd#:#pd_my_memberships#:#My Memberships###15 09 2008 new variable
+pd#:#pd_personal_items_default_view#:#Default View###15 09 2008 new variable
+pd#:#pd_personal_items_default_view_info#:#Choose the prefered view of Personal Items.###15 09 2008 new variable
+pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.###15 09 2008 new variable
+pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships###15 09 2008 new variable
+pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in.###15 09 2008 new variable
+assessment#:#kiosk#:#Kiosk Mode###15 09 2008 new variable
+assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.###15 09 2008 new variable
+assessment#:#autosave_success#:#Autosave successful...###15 09 2008 new variable
+assessment#:#autosave_failed#:#Autosave failed!###15 09 2008 new variable
+assessment#:#kiosk_show_title#:#Show Test Title###15 09 2008 new variable
+assessment#:#kiosk_show_participant#:#Show Name of Participant###15 09 2008 new variable
+assessment#:#kiosk_options#:#Kiosk Mode Options###15 09 2008 new variable
+assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.###15 09 2008 new variable
+assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...###15 09 2008 new variable
+assessment#:#final_statement#:#Final Statement###15 09 2008 new variable
+assessment#:#final_statement_show#:#Show Final Statement###15 09 2008 new variable
+assessment#:#final_statement_show_desc#:#If checked, the final statement will be shown directly after the test was finished prior to the presentation of the test results.###15 09 2008 new variable
+assessment#:#showinfo#:#Show the complete Information Page###15 09 2008 new variable
+assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
+assessment#:#forcejs#:#Force JavaScript output for test questions###15 09 2008 new variable
+assessment#:#forcejs_short#:#Force JavaScript###15 09 2008 new variable
+assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.###15 09 2008 new variable
+crs#:#crs_contact_email_info#:#Enter one or more (comma seperated) E-mail addresses.###15 09 2008 new variable
+crs#:#crs_objective_status#:#Objective Status###15 09 2008 new variable
+crs#:#crs_obj_final_req_info#:#If this number of points is achieved, the learning objective is passed.###15 09 2008 new variable
+crs#:#crs_obj_initial_req_info#:#If this number of points is achieved, no course materials will be recommended for further editing.###15 09 2008 new variable
+crs#:#crs_objective_wiz_title_info#:#Please choose a title and a short description of the learning objective.###15 09 2008 new variable
+crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.###15 09 2008 new variable
+crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. Initial tests are intended to examine the previous knowledge of the course participants.###15 09 2008 new variable
+crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.###15 09 2008 new variable
+crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.###15 09 2008 new variable
+crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.###15 09 2008 new variable
+crs#:#crs_suggested_sections#:#Suggested Sections###15 09 2008 new variable
+forum#:#frm_statistics#:#Statistics###15 09 2008 new variable
+mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.###15 09 2008 new variable
+mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.###15 09 2008 new variable
+chat#:#chat_chat_invitation#:#Chat Invitations###15 09 2008 new variable
+chat#:#chat_general_settings#:#General Settings###15 09 2008 new variable
+chat#:#chat_sounds#:#Sounds###15 09 2008 new variable
+chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation###15 09 2008 new variable
+chat#:#chat_sound_status_activate#:#Activate Sounds###15 09 2008 new variable
+chat#:#chat_sound_status_deactivate#:#Deactivate Sounds###15 09 2008 new variable
+assessment#:#reset_pictures#:#Reset Picture Positions###15 09 2008 new variable
+assessment#:#reset_definitions#:#Reset Definition Position###15 09 2008 new variable
