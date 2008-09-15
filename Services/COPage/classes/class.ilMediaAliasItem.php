@@ -532,7 +532,7 @@ class ilMediaAliasItem
 		$ma_node = ilDOMUtil::addElementToList($this->dom, $this->item_node,
 			"MapArea", array(), "", $attributes);
 
-		if ($a_link["LinkType"] == "int")
+		if ($a_link["LinkType"] == "int" || $a_link["LinkType"] == "IntLink")
 		{
 			$attributes = array("Type" => $a_link["Type"],
 				"TargetFrame" => $a_link["TargetFrame"],
@@ -540,7 +540,7 @@ class ilMediaAliasItem
 			ilDOMUtil::setFirstOptionalElement($this->dom, $ma_node, "IntLink",
 				array(""), $a_title, $attributes);
 		}
-		if ($a_link["LinkType"] == "ext")
+		if ($a_link["LinkType"] == "ext" || $a_link["LinkType"] == "ExtLink")
 		{
 			$attributes = array("Href" => $a_link["Href"]);
 			ilDOMUtil::setFirstOptionalElement($this->dom, $ma_node, "ExtLink",
@@ -561,6 +561,20 @@ class ilMediaAliasItem
 		}
 	}
 	
+	/**
+	* Delete all map areas
+	*/
+	function deleteAllMapAreas()
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/MapArea";
+		$res =& xpath_eval($xpc, $path);
+		for ($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$res->nodeset[$i]->unlink_node($res->nodeset[$i]);
+		}
+	}
+
 	/**
 	* Get link type
 	*/

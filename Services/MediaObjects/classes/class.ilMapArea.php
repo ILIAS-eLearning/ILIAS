@@ -237,6 +237,28 @@ class ilMapArea
 	}
 
 	/**
+	* Get areas for a certain target
+	*/
+	static function _getMobsForTarget($a_type, $a_target)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM map_area WHERE ".
+			" link_type = ".$ilDB->quote($a_type).
+			" AND target = ".$ilDB->quote($a_target);
+		$set = $ilDB->query($q);
+		
+		$mobs = array();
+		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$mob_id = ilMediaItem::_lookupMobId($rec["item_id"]);
+			$mobs[$mob_id] = $mob_id;
+		}
+		
+		return $mobs;
+	}
+
+	/**
 	* set media item id
 	*
 	* @param	int		$a_item_id		media item id

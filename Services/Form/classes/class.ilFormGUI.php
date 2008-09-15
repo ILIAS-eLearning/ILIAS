@@ -35,6 +35,7 @@ class ilFormGUI
 {
 	protected $formaction;
 	protected $multipart = false;
+	protected $keepopen = false;
 	
 	/**
 	* Constructor
@@ -126,6 +127,26 @@ class ilFormGUI
 	}
 
 	/**
+	* Set Keep Form Tag Open.
+	*
+	* @param	boolean	$a_keepopen	Keep Form Tag Open
+	*/
+	function setKeepOpen($a_keepopen)
+	{
+		$this->keepopen = $a_keepopen;
+	}
+
+	/**
+	* Get Keep Form Tag Open.
+	*
+	* @return	boolean	Keep Form Tag Open
+	*/
+	function getKeepOpen()
+	{
+		return $this->keepopen;
+	}
+
+	/**
 	* Get HTML.
 	*/
 	function getHTML()
@@ -164,6 +185,10 @@ class ilFormGUI
 		}
 		$tpl->setVariable("FORM_CONTENT", $this->getContent());
 		$tpl->setVariable("FORM_ACTION", $this->getFormAction());
+		if (!$this->getKeepOpen())
+		{
+			$tpl->setVariable("FORM_CLOSE_TAG", "</form>");
+		}
 
 		if ($this->getId() != "")
 		{

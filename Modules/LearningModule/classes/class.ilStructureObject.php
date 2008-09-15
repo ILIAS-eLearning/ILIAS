@@ -99,6 +99,10 @@ class ilStructureObject extends ilLMObject
 	{
 		$chap = new ilStructureObject($a_target_lm);
 		$chap->setTitle($this->getTitle());
+		if ($this->getLMId() != $a_target_lm->getId())
+		{
+			$chap->setImportId("il__st_".$this->getId());
+		}
 		$chap->setLMId($a_target_lm->getId());
 		$chap->setType($this->getType());
 		$chap->setDescription($this->getDescription());

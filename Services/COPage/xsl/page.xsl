@@ -319,11 +319,15 @@
 		<xsl:variable name="content_type" select="name(./*[1])"/>
 		<div>
 		<xsl:attribute name="value"><xsl:value-of select="./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign" /></xsl:attribute>
-		<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'RightFloat') or (./Map/Layout/@HorizontalAlign = 'RightFloat')">
-			<xsl:attribute name="style">float:right; clear:both;</xsl:attribute>
+		<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'RightFloat') or
+			(./Map/Layout/@HorizontalAlign = 'RightFloat') or
+			(./Table/@HorizontalAlign = 'RightFloat')">
+			<xsl:attribute name="style"><xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if> float:right; clear:both; background-color:#FFFFFF;</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'LeftFloat') or (./Map/Layout/@HorizontalAlign = 'LeftFloat')">
-			<xsl:attribute name="style">float:left; clear:both;</xsl:attribute>
+		<xsl:if test="(./MediaObject/MediaAliasItem[@Purpose = 'Standard']/Layout/@HorizontalAlign = 'LeftFloat') or
+			(./Map/Layout/@HorizontalAlign = 'LeftFloat') or
+			(./Table/@HorizontalAlign = 'LeftFloat')">
+			<xsl:attribute name="style"><xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if> float:left; clear:both; background-color:#FFFFFF;</xsl:attribute>
 		</xsl:if>
 		<div>
 		<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
@@ -1081,18 +1085,34 @@
 
 <!-- Table Tag -->
 <xsl:template name="TableTag">
-	<table>
-	<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
+	<table class="ilc_Table">
+	<xsl:if test="$mode != 'edit' or not(@HorizontalAlign) or (@HorizontalAlign != 'RightFloat' and @HorizontalAlign != 'LeftFloat')">
+		<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
+	</xsl:if>
+	<xsl:if test="$mode = 'edit' and (@HorizontalAlign = 'RightFloat' or @HorizontalAlign = 'LeftFloat')">
+		<xsl:attribute name="width">100%</xsl:attribute>
+	</xsl:if>
 	<xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
 	<xsl:attribute name="cellspacing"><xsl:value-of select="@CellSpacing"/></xsl:attribute>
 	<xsl:attribute name="cellpadding"><xsl:value-of select="@CellPadding"/></xsl:attribute>
-	<xsl:attribute name="align">
-		<xsl:choose>
-			<xsl:when test="@HorizontalAlign = 'RightFloat'">right</xsl:when>
-			<xsl:when test="@HorizontalAlign = 'LeftFloat'">left</xsl:when>
-			<xsl:when test="@HorizontalAlign = 'Center'">center</xsl:when>
-		</xsl:choose>
-	</xsl:attribute>
+	<xsl:if test="$mode = 'edit'">
+		<xsl:attribute name="style">
+			<xsl:choose>
+				<xsl:when test="@HorizontalAlign = 'RightFloat'">margin-right: 0px;</xsl:when>
+				<xsl:when test="@HorizontalAlign = 'LeftFloat'">margin-left: 0px;</xsl:when>
+				<xsl:when test="@HorizontalAlign = 'Center'">margin-left: auto; margin-right: auto;</xsl:when>
+			</xsl:choose>
+		</xsl:attribute>
+	</xsl:if>
+	<xsl:if test="$mode != 'edit'">
+		<xsl:attribute name="style">
+			<xsl:choose>
+				<xsl:when test="@HorizontalAlign = 'RightFloat'">float:right; margin-right: 0px;</xsl:when>
+				<xsl:when test="@HorizontalAlign = 'LeftFloat'">float:left; margin-left: 0px;</xsl:when>
+				<xsl:when test="@HorizontalAlign = 'Center'">margin-left: auto; margin-right: auto;</xsl:when>
+			</xsl:choose>
+		</xsl:attribute>
+	</xsl:if>
 	<xsl:for-each select="Caption">
 		<caption>
 		<xsl:attribute name="align"><xsl:value-of select="@Align"/></xsl:attribute>
@@ -1111,7 +1131,7 @@
 					<xsl:call-template name="EditReturnAnchors"/>
 					<xsl:if test="($mode = 'edit' and ((../../@DataTable != 'y' or not(../../@DataTable))) or $mode = 'table_edit')">
 						<!-- checkbox -->
-						<xsl:if test="$mode = 'table_edit' or $javascript = 'disable'">
+						<xsl:if test="$javascript = 'disable'">
 							<input type="checkbox" name="target[]">
 								<xsl:attribute name="value"><xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>
 								</xsl:attribute>
@@ -1165,9 +1185,22 @@
 					</xsl:if>
 					<!-- class and width output for table edit -->
 					<xsl:if test="$mode = 'table_edit'">
-					<br />
-					<b><xsl:value-of select="//LVs/LV[@name='ed_class']/@value"/>: <xsl:value-of select="@Class"/></b><br />
-					<b><xsl:value-of select="//LVs/LV[@name='ed_width']/@value"/>: <xsl:value-of select="@Width"/></b><br />
+						<div class="small" style="white-space:nowrap; padding:2px; margin:2px; background-color:#FFFFFF;">
+							<xsl:value-of select="//LVs/LV[@name='ed_class']/@value"/>:
+							<xsl:if test="@Class">
+								<xsl:value-of select="substring(@Class, 5)"/>
+							</xsl:if>
+							<xsl:if test="not(@Class)">None</xsl:if>
+							<input type="checkbox" value="1">
+								<xsl:attribute name="name">target[<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+							</input>
+							<br />
+							<xsl:value-of select="//LVs/LV[@name='ed_width']/@value"/>:
+							<input class="small" type="text" size="5" maxlength="10">
+								<xsl:attribute name="name">width[<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
+								<xsl:attribute name="value"><xsl:value-of select="@Width"/></xsl:attribute>
+							</input>
+						</div>
 					</xsl:if>
 					<!-- content -->
 					<xsl:apply-templates/>

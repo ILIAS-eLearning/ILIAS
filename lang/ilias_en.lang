@@ -1645,6 +1645,7 @@ common#:#objs_lres#:#Learning Resources
 common#:#wiki_new#:#New Wiki
 common#:#wiki_add#:#Add Wiki
 wiki#:#wiki_contributors#:#Contributors
+wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_last_visited_page#:#Last Visited Page
 wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.
 wiki#:#wiki_msg_short_name_regexp#:#Short title must not start with a number and must not contain the following characters:
@@ -4299,6 +4300,10 @@ content#:#cont_new_mob#:#New Media Object
 content#:#cont_mob_from_media_pool#:#Choose From Media Pool
 content#:#cont_select_media_pool#:#Select Media Pool
 content#:#cont_update_map#:#Edit Map
+content#:#cont_table_properties#:#Table Properties
+content#:#cont_table_cell_properties#:#Table Cell Properties
+content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
+content#:#cont_set_styles_and_widths#:#Set Styles and Widths
 content#:#cont_location#:#Location
 content#:#cont_align#:#Alignment
 content#:#cont_revision#:#Revision

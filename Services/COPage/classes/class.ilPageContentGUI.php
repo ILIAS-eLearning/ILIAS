@@ -99,12 +99,23 @@ class ilPageContentGUI
 	}
 
 	/**
+	* get hierarchical id in dom object
+	*/
+	function setHierId($a_hier_id)
+	{
+		$this->hier_id = $a_hier_id;
+	}
+
+	/**
 	* Get the bb menu incl. script
 	*/
 	function getBBMenu()
 	{
+		global $lng;
+		
 		$btpl = new ilTemplate("tpl.bb_menu.html", true, true, "Services/COPage");
 
+		// not nice, should be set by context per method
 		if ($this->pg_obj->getParentType() == "gdf" ||
 			$this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
@@ -112,6 +123,12 @@ class ilPageContentGUI
 			$btpl->setCurrentBlock("bb_ilink_button");
 			$btpl->setVariable("BB_LINK_ILINK",
 				$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
+			$btpl->parseCurrentBlock();
+		}
+		if ($this->pg_obj->getParentType() == "wpg")
+		{
+			$btpl->setCurrentBlock("bb_wikilink_button");
+			$btpl->setVariable("TXT_WLN2", $lng->txt("wiki_wiki_page"));
 			$btpl->parseCurrentBlock();
 		}
 
@@ -125,6 +142,7 @@ class ilPageContentGUI
 		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
 		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
 		$btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
+		$btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
 		
 		$btpl->setVariable("PAR_TA_NAME", "par_content");
 		
