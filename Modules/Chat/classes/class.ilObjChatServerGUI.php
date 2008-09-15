@@ -37,6 +37,8 @@ require_once "classes/class.ilObjectGUI.php";
 
 class ilObjChatServerGUI extends ilObjectGUI
 {	
+	private $form_gui = null;
+	
 	/**
 	* Constructor
 	* @access public
@@ -77,8 +79,148 @@ class ilObjChatServerGUI extends ilObjectGUI
 		}
 		return true;
 	}
+	
+	public function initForm($a_mode)
+	{		
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->form_gui = new ilPropertyFormGUI();
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'update'));
+		
+		if($this->object->server_conf->isAlive() or $this->object->server_conf->getActiveStatus())
+		{
+			// activation/deactivation of chat module
+			$sec_cd = new ilFormSectionHeaderGUI();
+			$sec_cd->setTitle($this->lng->txt('chat_ilias'));
+			$this->form_gui->addItem($sec_cd);
+			
+			$sel = new ilSelectInputGUI($this->lng->txt('chat_status'), 'chat_active');
+			$options = array(
+				1 => $this->lng->txt('chat_active'),
+				0 => $this->lng->txt('chat_inactive')
+			);
+			$sel->setOptions($options);
+			$sel->setValue(1);
+			$this->form_gui->addItem($sel);			
+		}
+		else if(!$this->object->server_conf->isAlive() && $this->ctrl->getCmd() != 'update')
+		{
+			ilUtil::sendInfo($this->lng->txt('chat_cannot_connect_to_server'));
+		}
+		
+		// chat server settings
+		$sec_l = new ilFormSectionHeaderGUI();
+		$sec_l->setTitle($this->lng->txt('chat_server_settings'));
+		$this->form_gui->addItem($sec_l);
+		
+		// sever internal ip
+		$inp = new ilTextInputGUI($this->lng->txt('chat_server_internal_ip'), 'chat_internal_ip');
+		$inp->setRequired(true);
+		$inp->setSize(40);
+		$inp->setMaxLength(128);
+		$this->form_gui->addItem($inp);
+		
+		// server address
+		$inp = new ilTextInputGUI($this->lng->txt('chat_server_external_ip'), 'chat_external_ip');
+		$inp->setRequired(true);
+		$inp->setSize(40);
+		$inp->setMaxLength(128);
+		$this->form_gui->addItem($inp);
+		
+		// server port
+		$inp = new ilTextInputGUI($this->lng->txt('chat_server_port'), 'chat_port');
+		$inp->setRequired(true);
+		$inp->setSize(5);
+		$inp->setMaxLength(5);
+		$this->form_gui->addItem($inp);
+		
+		// ssl
+		$chb = new ilCheckboxInputGUI($this->lng->txt('chat_server_ssl_settings'), 'chat_ssl_status');
+		$chb->setOptionTitle($this->lng->txt('chat_server_ssl_active'));
+		$chb->setChecked(false);
+		$inp = new ilTextInputGUI($this->lng->txt('chat_server_ssl_port'), 'chat_ssl_port');
+		$inp->setSize(5);
+		$inp->setMaxLength(5);
+		$chb->addSubItem($inp);
+		$this->form_gui->addItem($chb);	
+		
+		// moderator password
+		$inp = new ilPasswordInputGUI($this->lng->txt('chat_moderator_password'), 'chat_moderator');
+		$inp->setRequired(true);
+		$inp->setSize(9);
+		$inp->setMaxLength(16);
+		$this->form_gui->addItem($inp);
+		
+		// logfile path
+		$inp = new ilTextInputGUI($this->lng->txt('chat_server_logfile'), 'chat_logfile');
+		$inp->setSize(40);
+		$inp->setMaxLength(256);
+		$this->form_gui->addItem($inp);
 
-	function editObject()
+		// log level
+		$sel = new ilSelectInputGUI($this->lng->txt('chat_server_loglevel'), 'chat_loglevel');
+		$options = array(
+			1 => $this->lng->txt('chat_level_fatal'),
+			2 => $this->lng->txt('chat_level_error'),
+			3 => $this->lng->txt('chat_level_info'),
+			5 => $this->lng->txt('chat_level_debug'),
+			6 => $this->lng->txt('chat_level_all')
+		);
+		$sel->setOptions($options);
+		$sel->setValue(1);
+		$this->form_gui->addItem($sel);
+		
+		// allowed hosts
+		$inp = new ilTextInputGUI($this->lng->txt('chat_server_allowed'), 'chat_allowed');
+		$inp->setInfo($this->lng->txt('chat_server_allowed_b'));
+		$inp->setRequired(true);
+		$inp->setSize(40);
+		$inp->setMaxLength(256);
+		$this->form_gui->addItem($inp);			
+		
+		// chat general settings
+		$sec_cd = new ilFormSectionHeaderGUI();
+		$sec_cd->setTitle($this->lng->txt('chat_general_settings'));
+		$this->form_gui->addItem($sec_cd);
+		
+		// sound activation/deactivation for new chat invitations
+		$rg = new ilRadioGroupInputGUI($this->lng->txt('chat_sounds'), 'chat_sound_status');
+		$rg->setValue(0);
+			$ro = new ilRadioOption($this->lng->txt('chat_sound_status_activate'), 1);
+				$chb = new ilCheckboxInputGUI('', 'chat_new_invitation_sound_status');
+				$chb->setOptionTitle($this->lng->txt('chat_new_invitation_sound_status'));
+				$chb->setChecked(false);
+			$ro->addSubItem($chb);				
+		$rg->addOption($ro);
+			$ro = new ilRadioOption($this->lng->txt('chat_sound_status_deactivate'), 0);
+		$rg->addOption($ro);				
+		$this->form_gui->addItem($rg);
+		
+		$this->form_gui->addCommandButton('update', $this->lng->txt('save'));
+		$this->form_gui->addCommandButton('cancel', $this->lng->txt('cancel'));
+	}
+	
+	public function getValues()
+	{
+		global $ilSetting;
+		
+		$data = array();		
+		$data['chat_internal_ip'] = $this->object->server_conf->getInternalIp();
+		$data['chat_external_ip'] = $this->object->server_conf->getExternalIp();
+		$data['chat_port'] = $this->object->server_conf->getPort();
+		$data['chat_ssl_status'] = $this->object->server_conf->getSSLStatus();
+		$data['chat_ssl_port'] = $this->object->server_conf->getSSLPort();
+		$data['chat_moderator'] = $this->object->server_conf->getModeratorPassword();
+		$data['chat_logfile'] = $this->object->server_conf->getLogfile();
+		$data['chat_loglevel'] = $this->object->server_conf->getLogLevel();		
+		$data['chat_allowed'] = $this->object->server_conf->getAllowedHosts();
+		$data['chat_active'] = $this->object->server_conf->getActiveStatus();
+		$data['chat_new_invitation_sound_status'] = (bool)$ilSetting->get('chat_new_invitation_sound_status');
+		$data['chat_sound_status'] = (int)$ilSetting->get('chat_sound_status');
+
+		$this->form_gui->setValuesByArray($data);
+	}
+
+	public function editObject()
 	{
 		global $rbacsystem;
 	
@@ -86,94 +228,54 @@ class ilObjChatServerGUI extends ilObjectGUI
 
 		if(!$rbacsystem->checkAccess('read', $this->ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.chac_edit.html','Modules/Chat');
-
-        $internal_ip = $this->object->server_conf->getInternalIp();
-        $external_ip = $this->object->server_conf->getExternalIp();
-		$port = $this->object->server_conf->getPort();		
-		$ssl_status = $this->object->server_conf->getSSLStatus();	
-		$ssl_port = $this->object->server_conf->getSSLPort();
-		$moderator = $this->object->server_conf->getModeratorPassword();
-		$logfile = $this->object->server_conf->getLogfile();
-		$loglevel = $this->object->server_conf->getLogLevel();
-        $allowed = $this->object->server_conf->getAllowedHosts();
-		$active = $this->object->server_conf->getActiveStatus();
-
-		if($this->object->server_conf->isAlive() or $this->object->server_conf->getActiveStatus())
-		{
-			$this->tpl->setCurrentBlock('chat_active');
-			$this->tpl->setVariable('TXT_ACT_CHAT', $this->lng->txt('chat_ilias'));
-			$this->tpl->setVariable('TXT_ACT_STATUS', $this->lng->txt('chat_status'));
-			$this->tpl->setVariable('TXT_ACT_SUBMIT', $this->lng->txt('change'));
-			$this->tpl->setVariable('SELECT_ACT_STATUS', $this->__getStatusSelect($active));
-			$this->tpl->parseCurrentBlock();
-		}
-		else if(!$this->object->server_conf->isAlive() && $this->ctrl->getCmd() != 'update')
-		{
-			ilUtil::sendInfo($this->lng->txt('chat_cannot_connect_to_server'));
-		}
-
-		// SET TEXT VARIABLES
-		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'update'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_SETTINGS', $this->lng->txt('chat_server_settings'));
-        $this->tpl->setVariable('TXT_CHAT_SERVER_INTERNAL_IP', $this->lng->txt('chat_server_internal_ip'));
-        $this->tpl->setVariable('TXT_CHAT_SERVER_EXTERNAL_IP', $this->lng->txt('chat_server_external_ip'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_MODERATOR', $this->lng->txt('chat_moderator_password'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_PORT', $this->lng->txt('chat_server_port'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_SSL_SETTINGS', $this->lng->txt('chat_server_ssl_settings'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_SSL_ACTIVE', $this->lng->txt('chat_server_ssl_active'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_SSL_PORT', $this->lng->txt('chat_server_ssl_port'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_LOGFILE', $this->lng->txt('chat_server_logfile'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_LEVEL', $this->lng->txt('chat_server_loglevel'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_ALLOWED', $this->lng->txt('chat_server_allowed'));
-		$this->tpl->setVariable('TXT_CHAT_SERVER_ALLOWED_B', $this->lng->txt('chat_server_allowed_b'));
-		$this->tpl->setVariable('TXT_REQUIRED_FLD', $this->lng->txt('required_field'));
-		$this->tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
-		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('save'));
-
-		// SET SETTING VARS
-        $this->tpl->setVariable('CHAT_SERVER_INTERNAL', ilUtil::prepareFormOutput($internal_ip));
-        $this->tpl->setVariable('CHAT_SERVER_EXTERNAL', ilUtil::prepareFormOutput($external_ip));
-		$this->tpl->setVariable('CHAT_PORT', ilUtil::prepareFormOutput($port));
-		if ($ssl_status) $this->tpl->setVariable('CHAT_SSL_STATUS_CHECKED', 'checked="checked"');
-		$this->tpl->setVariable('CHAT_SSL_PORT', ilUtil::prepareFormOutput($ssl_port));
-		$this->tpl->setVariable('CHAT_MODERATOR', ilUtil::prepareFormOutput($moderator));
-		$this->tpl->setVariable('CHAT_LOGFILE', ilUtil::prepareFormOutput($logfile));
-		$this->tpl->setVariable('CHAT_ALLOWED', ilUtil::prepareFormOutput($allowed));
-		$this->tpl->setVariable('SELECT_LEVEL', $this->__getLogLevelSelect($loglevel));
-		
-		return true;
+		$this->initForm('edit');
+		$this->getValues();
+		$this->tpl->setContent($this->form_gui->getHTML());
 	}
 
-	function updateObject()
+	public function updateObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilSetting;
 
-		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		if(!$rbacsystem->checkAccess('write', $this->ref_id))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->MESSAGE);
 		}
 		
-        $this->object->server_conf->setInternalIp(ilUtil::stripSlashes($_POST['chat_internal_ip']));
-        $this->object->server_conf->setExternalIp(ilUtil::stripSlashes($_POST['chat_external_ip']));
-		$this->object->server_conf->setPort(ilUtil::stripSlashes($_POST['chat_port']));
-		$this->object->server_conf->setSSLStatus((int)$_POST['chat_ssl_status'] ? 1 : 0);
-		$this->object->server_conf->setSSLPort(ilUtil::stripSlashes($_POST['chat_ssl_port']));
-		$this->object->server_conf->setModeratorPassword(ilUtil::stripSlashes($_POST['chat_moderator']));
-		$this->object->server_conf->setLogfile(ilUtil::stripSlashes($_POST['chat_logfile']));
-		$this->object->server_conf->setLogLevel(ilUtil::stripSlashes($_POST['chat_loglevel']));
-		$this->object->server_conf->setAllowedHosts(ilUtil::stripSlashes($_POST['chat_allowed']));
-
-		if(!$this->object->server_conf->validate())
-		{
-			ilUtil::sendInfo($this->object->server_conf->getErrorMessage());
-			return $this->editObject();
+		$this->initForm('edit');
+		
+		if(!$this->form_gui->checkInput())
+		{			
+			$this->tabs_gui->setTabActive('edit_properties');					
+			
+			$this->form_gui->setValuesByPost();
+			
+			$this->tpl->setContent($this->form_gui->getHtml());
+			return;
 		}
-		else
+		else	
 		{
+			$this->object->server_conf->setInternalIp(ilUtil::stripSlashes($_POST['chat_internal_ip']));
+	        $this->object->server_conf->setExternalIp(ilUtil::stripSlashes($_POST['chat_external_ip']));
+			$this->object->server_conf->setPort(ilUtil::stripSlashes($_POST['chat_port']));
+			$this->object->server_conf->setSSLStatus((int)$_POST['chat_ssl_status'] ? 1 : 0);
+			$this->object->server_conf->setSSLPort(ilUtil::stripSlashes($_POST['chat_ssl_port']));
+			$this->object->server_conf->setModeratorPassword(ilUtil::stripSlashes($_POST['chat_moderator']));
+			$this->object->server_conf->setLogfile(ilUtil::stripSlashes($_POST['chat_logfile']));
+			$this->object->server_conf->setLogLevel(ilUtil::stripSlashes($_POST['chat_loglevel']));
+			$this->object->server_conf->setAllowedHosts(ilUtil::stripSlashes($_POST['chat_allowed']));
+			
+			$this->object->server_conf->validate();			
+			
+			$ilSetting->set('chat_sound_status', (int)$_POST['chat_sound_status']);
+			$ilSetting->set('chat_new_invitation_sound_status', (int)$_POST['chat_new_invitation_sound_status']);
+			
+			$this->object->server_conf->setActiveStatus((bool)$_POST['chat_active']);
+			$this->object->server_conf->updateStatus();
+			
 			if(!$this->object->server_conf->update())
 			{
 				ilUtil::sendInfo($this->object->server_conf->getErrorMessage());
@@ -181,36 +283,8 @@ class ilObjChatServerGUI extends ilObjectGUI
 			}
 		}
 		
-		ilUtil::sendInfo($this->lng->txt("chat_settings_saved"),true);
+		ilUtil::sendInfo($this->lng->txt('chat_settings_saved'), true);
 		return $this->editObject();
-	}
-
-	function activateObject()
-	{
-		$this->object->server_conf->setActiveStatus((bool) $_POST["chat_active"]);
-		$this->object->server_conf->updateStatus();
-
-		ilUtil::sendInfo($this->lng->txt("chat_status_saved"));
-		$this->editObject();
-	}
-
-	// PRIVATE
-	function __getLogLevelSelect($a_level)
-	{
-		$levels = array(1 => $this->lng->txt("chat_level_fatal"),
-						2 => $this->lng->txt("chat_level_error"),
-						3 => $this->lng->txt("chat_level_info"),
-						5 => $this->lng->txt("chat_level_debug"),
-						6 => $this->lng->txt("chat_level_all"));
-
-		return ilUtil::formSelect($a_level,"chat_loglevel",$levels,false,true);
-	}
-	function __getStatusSelect($a_status)
-	{
-		$stati = array(1 => $this->lng->txt("chat_active"),
-					   0 => $this->lng->txt("chat_inactive"));
-
-		return ilUtil::formSelect($a_status,"chat_active",$stati,false,true);
 	}
 
 	/**
@@ -248,11 +322,5 @@ class ilObjChatServerGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
-
-
-	
-
-
 } // END class.ilObjChatServerGUI
-
 ?>
