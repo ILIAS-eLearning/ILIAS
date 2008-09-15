@@ -47,7 +47,7 @@ administration#:#cleaning_final#:#Sidste rensning...
 administration#:#disabled#:#Ikke aktiveret
 administration#:#done#:#Færdig
 administration#:#dump_tree#:#Dump træ
-administration#:#dump_tree_desc#:#Perform an analysis of the tree and print all tree nodes along with analysis data.###23 Dec 2005 new variable
+administration#:#dump_tree_desc#:#Udfør en analyse af træstrukturen og udskrif alle kunder samt analysedata.
 administration#:#dumping_tree#:#Dumper træ
 administration#:#found#:#fundet.
 administration#:#found_none#:#ingen fundet.
@@ -8427,10 +8427,10 @@ dateplaner#:#cal_user_time_format#:#Time Format###23 07 2008 new variable
 dateplaner#:#cal_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
 dateplaner#:#cal_def_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
 dateplaner#:#cal_def_time_format#:#Default Time Format###23 07 2008 new variable
-payment#:#topics#:#Topics###23 07 2008 new variable
-payment#:#topic#:#Topic###23 07 2008 new variable
-payment#:#edit_topic#:#Edit Topic###23 07 2008 new variable
-payment#:#new_topic#:#New Topic###23 07 2008 new variable
+payment#:#topics#:#Emner
+payment#:#topic#:#Emne
+payment#:#edit_topic#:#Rediger emne
+payment#:#new_topic#:#Nyt emne
 payment#:#topic_title#:#Titel
 payment#:#advanced_search#:#Avanceret søgning
 payment#:#set_filter#:#Sæt filter
@@ -8485,15 +8485,15 @@ payment#:#pay_thumbnail#:#Thumbnail###26 07 2008 new variable
 mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###26 07 2008 new variable
 mcst#:#mcst_default_visibility#:#Default Access###26 07 2008 new variable
 mcst#:#mcst_visibility_users#:#Logged in Users###26 07 2008 new variable
-mcst#:#mcst_visibility_public#:#Public###26 07 2008 new variable
+mcst#:#mcst_visibility_public#:#Offentlig
 ps#:#ps_account_security_mode#:#Account Security###26 07 2008 new variable
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security###26 07 2008 new variable
 ps#:#ps_account_security_mode_customized#:#Customized Account Security###26 07 2008 new variable
 ps#:#ps_password_min_length#:#Minimum Password Size###26 07 2008 new variable
 ps#:#ps_password_max_length#:#Maximum Password Size###26 07 2008 new variable
-ps#:#ps_password_chars_and_numbers_enabled#:#Characters and Numbers###26 07 2008 new variable
-ps#:#ps_password_special_chars_enabled#:#Special Characters###26 07 2008 new variable
-ps#:#ps_password_max_age#:#Maximum Password Age###26 07 2008 new variable
+ps#:#ps_password_chars_and_numbers_enabled#:#Karakterer og tal
+ps#:#ps_password_special_chars_enabled#:#Specielle karakterer
+ps#:#ps_password_max_age#:#Maksimal password alder
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts###26 07 2008 new variable
 ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.###26 07 2008 new variable
 ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.###26 07 2008 new variable
@@ -8508,13 +8508,13 @@ ps#:#ps_error_message_invalid_login_max_attempts#:#Maximum login attempts may no
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than 2 if password have to contain characters and numbers.###26 07 2008 new variable
 ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###26 07 2008 new variable
 ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be less than minimum password size.###26 07 2008 new variable
-common#:#password_empty#:#The password must not be empty.###26 07 2008 new variable
+common#:#password_empty#:#Password på ikke være tomt.
 common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.###26 07 2008 new variable
-common#:#new_pass_equals_old_pass#:#The new password equals the old one.###26 07 2008 new variable
+common#:#new_pass_equals_old_pass#:#Det nye password er identisk med det tidligere.
 common#:#password_to_short#:#The password must have at least a size of %s characters.###26 07 2008 new variable
 common#:#password_to_long#:#The password must have at most a size of %s characters.###26 07 2008 new variable
-common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.###26 07 2008 new variable
-common#:#password_must_special_chars#:#The password must contain special characters.###26 07 2008 new variable
-ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login###26 07 2008 new variable
-ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).###26 07 2008 new variable
-common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services###26 07 2008 new variable
+common#:#password_must_chars_and_numbers#:#Password skal indeholde karakterer og tal.
+common#:#password_must_special_chars#:#Dit password skal indeholde specielle karakterer.
+ps#:#ps_password_change_on_first_login_enabled#:#Vælg password ved første login
+ps#:#ps_password_change_on_first_login_enabled_info#:#Brugere tvinges til at ændre deres password ved første login med mindre de har oprettet sig selv og dermed allerede valgt et personligt password.
+common#:#password_change_on_first_login_demand#:#Du skal vælge et nyt password før du kan begynde at anvende ILIAS.
