@@ -45,7 +45,7 @@ class ilChatInvitationGUI
 	
 	public function getHTML()	
 	{
-		global $ilUser, $ilObjDataCache, $ilAccess;
+		global $ilUser, $ilObjDataCache, $ilAccess, $ilSetting;
 		
 		// chat invitations
 		include_once 'Modules/Chat/classes/class.ilChatInvitations.php';	
@@ -117,7 +117,9 @@ class ilChatInvitationGUI
 			$tpl->parseCurrentBlock();
 			
 			$invitations[] = (int)$chat_ref_id.'_'.(int)$item['room_id'];
-			if(!isset($_SESSION['chat']['_already_beeped'][(int)$chat_ref_id.'_'.(int)$item['room_id']]))
+			if((int)$ilSetting->get('chat_sound_status') &&
+			   (int)$ilSetting->get('chat_new_invitation_sound_status') &&
+			   !isset($_SESSION['chat']['_already_beeped'][(int)$chat_ref_id.'_'.(int)$item['room_id']]))
 			{
 				$beep = true;
 			}
@@ -141,17 +143,22 @@ class ilChatInvitationGUI
 		$tpl->setVariable('TXT_GO', $this->lng->txt('go'));
 		$tpl->setVariable('ACTION', 'ilias.php?baseClass=ilChatPresentationGUI');		
 
-		// beep	
-		if($beep)
+
+		if((int)$ilSetting->get('chat_sound_status') && 
+		   (int)$ilSetting->get('chat_new_invitation_sound_status'))
 		{
-			$tpl->setCurrentBlock('beep');
-			$tpl->setVariable('BEEP_SRC', './Modules/Chat/sounds/receive.mp3');
-			$tpl->parseCurrentBlock();
-		}
-		
-		foreach((array)$invitations as $id)
-		{
-			$_SESSION['chat']['_already_beeped'][$id] = true;
+			// beep	
+			if($beep)
+			{
+				$tpl->setCurrentBlock('beep');
+				$tpl->setVariable('BEEP_SRC', './Modules/Chat/sounds/receive.mp3');
+				$tpl->parseCurrentBlock();
+			}
+			
+			foreach((array)$invitations as $id)
+			{
+				$_SESSION['chat']['_already_beeped'][$id] = true;
+			}
 		}
 		
 		return $tpl->get();
