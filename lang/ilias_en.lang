@@ -8632,3 +8632,5 @@ chat#:#chat_sound_status_activate#:#Activate Sounds
 chat#:#chat_sound_status_deactivate#:#Deactivate Sounds
 assessment#:#reset_pictures#:#Reset Picture Positions
 assessment#:#reset_definitions#:#Reset Definition Positions
+common#:#selected_languages_updated#:#The selected languages have been updated (if installed):
+common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages?

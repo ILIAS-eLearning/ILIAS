@@ -8632,3 +8632,5 @@ content#:#cont_selected_items_have_been_copied#:#Selected items have been copied
 content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
 content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.###15 09 2008 new variable
 chat#:#chat_chat_invitation#:#Chat Invitations###15 09 2008 new variable
+common#:#selected_languages_updated#:#Die ausgewählten Sprachen wurden aktualisiert (sofern installiert):
+common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
