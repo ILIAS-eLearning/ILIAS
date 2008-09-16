@@ -330,7 +330,10 @@ class ilStartUpGUI
 			$tpl->parseCurrentBlock();
 		}		
 		// login via ILIAS (this also includes radius and ldap)
-		if ($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH &&
+                // If local authentication is enabled for shibboleth users, we
+                // display the login form for ILIAS here.
+		if (($ilSetting->get("auth_mode") != AUTH_SHIBBOLETH ||
+                   $ilSetting->get("shib_auth_allow_local")) &&
 			$ilSetting->get("auth_mode") != AUTH_CAS)
 		{
 			$loginSettings = new ilSetting("login_settings");
