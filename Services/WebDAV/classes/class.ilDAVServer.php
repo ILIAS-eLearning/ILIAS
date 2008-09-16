@@ -97,7 +97,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
          * The WebDAVServer prints lots of log messages to the ilias log, if this	
 	 * variable is set to true.
 	 */
-	private $isDebug = false;
+	private $isDebug = true;
     
 	/** 
 	* Constructor
@@ -139,6 +139,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		|| strpos($userAgent,'solaris') !== false
 		|| strpos($userAgent,'aix') !== false
 		|| strpos($userAgent,'unix') !== false
+		|| strpos($userAgent,'gvfs') !== false // nautilus browser uses this ID
 		)
 		{
 			$this->clientOS = 'unix';
@@ -351,8 +352,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			// Hide files which contain \ / : * ? " < > |
 			$isFileHidden |= preg_match('/\\\\|\\/|:|\\*|\\?|"|<|>|\\|/', $name);
 			break;
+		default :
+			// Hide files which contain /
+			$isFileHidden |= preg_match('/\\//', $name);
+			break;
 		}
-		$this->writelog($this->clientOS.' '.$name.' isHidden:'.$isFileHidden);
+		$this->writelog($this->clientOS.' '.$name.' isHidden:'.$isFileHidden.' clientOS:'.$this->clientOS);
 		return $isFileHidden;
 	}
 	
