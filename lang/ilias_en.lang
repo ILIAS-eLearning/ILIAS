@@ -79,6 +79,9 @@ administration#:#language_error_write_local#:#The local language file can't be w
 administration#:#language_export_file#:#Export Language File
 administration#:#language_file_imported#:#The language file %s was imported.
 administration#:#language_file_scope#:#Language file scope
+administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab. 
+administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to the current language file. 
+administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.
 administration#:#language_import_file#:#Import Language File
 administration#:#language_load_local_changes#:#Load local language file into the database
 administration#:#language_loaded_local#:#The local language file was loaded into the database.
@@ -96,6 +99,7 @@ administration#:#language_process_maintenance#:#Process Maintenance
 administration#:#language_save_local_changes#:#Save all changes to the local language file
 administration#:#language_saved_local#:#All changes were saved to the local language file.
 administration#:#language_scope_commented#:#With comments from language manager
+administration#:#language_scope_conflicts#:#Local and update changes
 administration#:#language_scope_different#:#Different from compare language
 administration#:#language_scope_equal#:#Equal to compare language
 administration#:#language_scope_global#:#All entries
