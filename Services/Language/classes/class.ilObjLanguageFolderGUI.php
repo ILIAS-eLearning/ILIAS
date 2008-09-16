@@ -534,6 +534,53 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 
 	/**
+	 * update selected languages
+	 */
+	function refreshSelectedObject()
+	{
+		global $lng;
+		
+		$this->data = $this->lng->txt("selected_languages_updated");
+		$lng->loadLanguageModule("meta");
+
+		foreach ($_POST["id"] as $id)
+		{
+			$langObj = new ilObjLanguage($id, false);
+
+			if ($langObj->isInstalled() == true)
+			{
+				if ($langObj->check())
+				{
+					$langObj->flush('keep_local');
+					$langObj->insert();
+					$langObj->setTitle($langObj->getKey());
+					$langObj->setDescription($langObj->getStatus());
+					$langObj->update();
+					$langObj->optimizeData();
+
+					if ($langObj->isLocal() == true)
+					{
+						if ($langObj->check('local'))
+						{
+							$langObj->insert('local');
+							$langObj->setTitle($langObj->getKey());
+							$langObj->setDescription($langObj->getStatus());
+							$langObj->update();
+							$langObj->optimizeData();
+						}
+					}
+				}
+				$this->data .= "<br />". $lng->txt("meta_l_".$langObj->getKey());
+			}
+
+			unset($langObj);
+		}
+
+		$this->out();
+	}
+
+
+	/**
 	 * set user language
 	 */
 	function setUserLanguageObject()
@@ -724,17 +771,47 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		
 		$this->tpl->setContent($conf_screen->getHTML());
 	}
-	
+
+	function confirmRefreshSelectedObject()
+	{
+		global $ilCtrl, $lng;
+
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$lng->loadLanguageModule("meta");
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$conf_screen = new ilConfirmationGUI();
+		$conf_screen->setFormAction($ilCtrl->getFormAction($this));
+		$conf_screen->setHeaderText($lng->txt("lang_refresh_confirm_selected"));
+		foreach ($_POST["id"] as $id)
+		{
+			$lang_title = ilObject::_lookupTitle($id);
+			$conf_screen->addItem("id[]", $id, $lng->txt("meta_l_".$lang_title));
+		}
+		$conf_screen->addItem("d", "d", $lng->txt("lang_refresh_confirm_info"));
+		$conf_screen->setCancel($lng->txt("cancel"), "view");
+		$conf_screen->setConfirm($lng->txt("ok"), "refreshSelected");
+		$this->tpl->setContent($conf_screen->getHTML());
+	}
+
 	/**
 	* Get Actions
 	*/
 	function getActions()
 	{
+		global $ilSetting;
+		
 		// standard actions for container
 		return array(
 			"install" => array("name" => "install", "lng" => "install"),
 			"installLocal" => array("name" => "installLocal", "lng" => "install_local"),
 			"uninstall" => array("name" => "uninstall", "lng" => "uninstall"),
+			"refresh" => $ilSetting->get("lang_ext_maintenance") == "1" ?
+					array("name" => "confirmRefreshSelected", "lng" => "refresh") :
+					array("name" => "RefreshSelected", "lng" => "refresh"),
 			"setSystemLanguage" => array("name" => "setSystemLanguage", "lng" => "setSystemLanguage"),
 			"setUserLanguage" => array("name" => "setUserLanguage", "lng" => "setUserLanguage")
 		);
