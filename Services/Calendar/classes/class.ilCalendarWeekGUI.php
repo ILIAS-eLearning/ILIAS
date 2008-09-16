@@ -43,6 +43,7 @@ class ilCalendarWeekGUI
 	protected $num_appointments = 1;
 	protected $seed = null;
 	protected $user_settings = null;
+	protected $weekdays = array();
 
 	protected $lng;
 	protected $ctrl;
@@ -134,10 +135,12 @@ class ilCalendarWeekGUI
 		
 		$counter = 0;
 		$hours = null;
+		$all_fullday = array();
 		foreach(ilCalendarUtil::_buildWeekDayList($this->seed,$this->user_settings->getWeekStart())->get() as $date)
 		{
 			$daily_apps = $this->scheduler->getByDay($date,$this->timezone);
 			$hours = $this->parseHourInfo($daily_apps,$date,$counter,$hours);
+			$this->weekdays[] = $date;
 			
 			$all_fullday[] = $daily_apps;
 			$counter++;
@@ -153,8 +156,14 @@ class ilCalendarWeekGUI
 			$this->tpl->setCurrentBlock('day_header_row');
 			
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$date->get(IL_CAL_DATE));
-			$this->tpl->setVariable('NEW_APP_DAY_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+			$this->ctrl->setParameterByClass('ilcalendardaygui','seed',$date->get(IL_CAL_DATE));
+			$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+			$this->tpl->setVariable('DAY_VIEW_LINK',$this->ctrl->getLinkTargetByClass('ilcalendardaygui',''));
 			$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+			$this->ctrl->clearParametersByClass('ilcalendardaygui');
+
+			$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+			$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
 
 			$this->tpl->setVariable('DAY_COLSPAN',max($colspans[$counter],1));
 		
@@ -181,7 +190,7 @@ class ilCalendarWeekGUI
 			$counter++;
 		}
 		
-		
+		$new_link_counter = 0;
 		foreach($hours as $num_hour => $hours_per_day)
 		{
 			foreach($hours_per_day as $num_day => $hour)
@@ -196,6 +205,21 @@ class ilCalendarWeekGUI
 				$colspan = max($colspans[$num_day],1);
 				
 				
+				// Show new apointment link
+				if(!$hour['apps_num'])
+				{
+					$this->tpl->setCurrentBlock('new_app_link');
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->weekdays[$num_day]->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',$num_hour);
+					$this->tpl->setVariable('DAY_NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+				
+					$this->tpl->setVariable('DAY_NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+					$this->tpl->setVariable('DAY_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
+					$this->tpl->setVariable('DAY_NEW_ID',++$new_link_counter);
+					$this->tpl->parseCurrentBlock();
+				}
+
 				for($i = $colspan;$i > $hour['apps_num'];$i--)
 				{
 					$this->tpl->setCurrentBlock('day_cell');
@@ -209,9 +233,15 @@ class ilCalendarWeekGUI
 						$this->tpl->setVariable('TD_CLASS','calempty');
 						#$this->tpl->setVariable('TD_STYLE',$add_style);
 					}
+					
+					if(!$hour['apps_num'])
+					{
+						$this->tpl->setVariable('DAY_ID',$new_link_counter);
+					}
 					$this->tpl->setVariable('TD_ROWSPAN',1);
 					$this->tpl->parseCurrentBlock();
 				}
+				
 			}
 			$this->tpl->setCurrentBlock('time_row');
 			$this->tpl->setVariable('TIME',$hour['txt']);

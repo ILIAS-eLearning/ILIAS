@@ -129,6 +129,10 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('HEADER_DATE',$this->seed_info['mday'].' '.ilCalendarUtil::_numericMonthToString($this->seed_info['mon'],false));
 		$this->tpl->setVariable('HEADER_DAY',ilCalendarUtil::_numericDayToString($this->seed_info['wday'],true));
 		
+		$this->tpl->setVariable('H_NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+		$this->tpl->setVariable('H_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
+		
+		
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
@@ -160,6 +164,10 @@ class ilCalendarDayGUI
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 			$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',$numeric);
 			$this->tpl->setVariable('NEW_APP_HOUR_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+			
+			$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+			$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
+			
 
 			foreach($hour['apps_start'] as $app)
 			{

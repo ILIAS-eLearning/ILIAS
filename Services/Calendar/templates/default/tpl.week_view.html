@@ -46,6 +46,19 @@
 			this.hide();
 		}			
 	}
+	
+	var current_id = null;
+	function showNewAppLink(num_link)
+	{
+		if(current_id)
+		{
+			document.getElementById('new_link_' + current_id).style.visibility = 'hidden';
+		}
+		
+		document.getElementById('new_link_' + num_link).style.visibility = 'visible';
+		current_id = num_link;
+	}
+	
 	YAHOO.util.Event.onDOMReady(init);
 </script> 
 
@@ -55,10 +68,13 @@
 			<th class="calstd"></th>
 			<!-- BEGIN day_header_row -->
 			<th class="calstd" width="13%" colspan="{DAY_COLSPAN}">
-				<a class="callink" href="{NEW_APP_DAY_LINK}">
-					<font class="small">{HEADER_DATE}</font><br />
-						{DAYNAME}
-				</a>
+					<a class="callink" href="{DAY_VIEW_LINK}">
+						<font class="small">{HEADER_DATE}</font>
+					</a>
+					<a href="{NEW_APP_LINK}"><img style="vertical-align: bottom" src="{NEW_APP_SRC}" alt="{NEW_APP_ALT}" title="{NEW_APP_ALT}" /></a><br />
+					<a class="callink" href="{DAY_VIEW_LINK}">
+							{DAYNAME}
+					</a>
 			</th>
 			<!-- END day_header_row -->
 		</tr>
@@ -86,7 +102,17 @@
 				{TIME}
 			</td>
 			<!-- BEGIN day_cell -->
-			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" rowspan="{TD_ROWSPAN}">
+			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
+				onmouseover="timer = setTimeout('showNewAppLink({DAY_ID})',700)"
+				onmouseout="clearTimeout(timer);">
+				<!-- BEGIN new_app_link -->
+				<div id="new_link_{DAY_NEW_ID}" style="float: right;visibility: hidden">
+					<a href="{DAY_NEW_APP_LINK}">
+						<img id="img" style="vertical-align: bottom" src="{DAY_NEW_APP_SRC}" alt="{DAY_NEW_APP_ALT}" title="{DAY_NEW_APP_ALT}" /> 
+						
+					</a>
+				</div>
+				<!-- END new_app_link -->
 				<!-- BEGIN not_empty -->
 				{PANEL_DATA}
 				<a id="link_{LINK_NUM}" class="callink" href="{APP_EDIT_LINK}">
