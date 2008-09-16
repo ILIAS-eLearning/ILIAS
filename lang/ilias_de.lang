@@ -67,7 +67,10 @@ administration#:#language_error_read_local#:#Die lokale Sprachdatei existiert ni
 administration#:#language_error_write_local#:#Die lokale Sprachdatei kann nicht geschrieben werden!
 administration#:#language_export_file#:#Sprachdatei exportieren
 administration#:#language_file_imported#:#Die Sprachdatei %s wurde importiert.
-administration#:#language_file_scope#:#Umfang der Sorachdatei
+administration#:#language_file_scope#:#Umfang der Sprachdatei
+administration#:#language_former_file_description#:#Um Ihre lokalen Änderungen mit den Änderungen des letzten Updates zu vergleichen, kopieren Sie bitte die Original-Sprachdatei der vorher installierten ILILAS-Version in das Verzeichnis für die lokalen Sprachdateien. Die aktuelle Original-Sprachdatei wird automatisch kopiert, wenn Sie Ihre lokale Sprachdatei auf dem Register "Warten" speichern.
+administration#:#language_former_file_equal#:#Die Datei <b>%s</b> stimmt mit der aktuellen Original-Sprachdatei überein. 
+administration#:#language_former_file_missing#:#Die Datei <b>%s</b> existiert nicht.
 administration#:#language_import_file#:#Sprachdatei importieren
 administration#:#language_load_local_changes#:#Lokale Sprachdatei in die Datenbank laden
 administration#:#language_loaded_local#:#Die lokale Sprachdatei wurde in die Datenbank geladen.
@@ -85,6 +88,7 @@ administration#:#language_process_maintenance#:#Wartung durchführen
 administration#:#language_save_local_changes#:#Alle Änderungen in der lokalen Sprachdatei speichern
 administration#:#language_saved_local#:#Alle Änderungen wurden in der lokalen Sprachdatei gespeichert.
 administration#:#language_scope_commented#:#Mit Kommentaren des Language Managers
+administration#:#language_scope_conflicts#:#Lokale und Update-Änderungen
 administration#:#language_scope_different#:#Verschieden zur Vergleichssprache
 administration#:#language_scope_equal#:#Gleich mit der Vergleichssprache
 administration#:#language_scope_global#:#Alle Einträge

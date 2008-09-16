@@ -221,6 +221,34 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 					$translations = array_diff_assoc($translations, $compare_content);
 					break;
 
+				case "conflicts":
+				    $former_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang';
+					if (!is_readable($former_file))
+					{
+                        ilUtil::sendInfo(sprintf($this->lng->txt("language_former_file_missing"), $former_file)
+										.'<br />'. $this->lng->txt("language_former_file_description") , false);
+                        $translations = array();
+                        break;
+					}
+					$global_file_obj = $this->object->getGlobalLanguageFile();
+					$former_file_obj = new ilLanguageFile($former_file);
+					$former_file_obj->read();
+					$global_changes = array_diff_assoc(
+											$global_file_obj->getAllValues(),
+											$former_file_obj->getAllValues());
+					if (!count($global_changes))
+					{
+                        ilUtil::sendInfo(sprintf($this->lng->txt("language_former_file_equal"), $former_file)
+										.'<br />'. $this->lng->txt("language_former_file_description") , false);
+                        $translations = array();
+                        break;
+					}
+					$translations = $this->object->getChangedValues(
+					        		$filter_modules, $filter_pattern);
+
+					$translations = array_intersect_key($translations, $global_changes);
+				    break;
+
 				case "all":
 				default:
 					$translations = $this->object->getAllValues(
@@ -249,6 +277,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			$options["equal"] = $this->lng->txt("language_scope_equal");
 			$options["different"] = $this->lng->txt("language_scope_different");
 			$options["commented"] = $this->lng->txt("language_scope_commented");
+			$options["conflicts"] = $this->lng->txt("language_scope_conflicts");
 			$this->tpl->setVariable("SELECT_MODE",
    				ilUtil::formSelect($filter_mode, "filter_mode", $options, false, true));
 			
@@ -548,7 +577,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 				{
 					// save a copy of the distributed language file
 					$orig_file = $this->object->getLangPath() . '/ilias_' . $this->object->key . '.lang';
-					$copy_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang.dist';
+					$copy_file = $this->object->getCustLangPath() . '/ilias_' . $this->object->key . '.lang';
 					@copy($orig_file, $copy_file);
 
 					// save a backup of the old local language file
