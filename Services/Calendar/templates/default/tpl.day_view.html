@@ -50,8 +50,9 @@
 	<thead>
 		<tr class="calheader">
 			<th class="calstd" colspan="{COLSPAN}">
+				<font class="small">{HEADER_DAY}, {HEADER_DATE}</font> 
 				<a class="callink" href="{NEW_APP_LINK}">
-					<font class="small">{HEADER_DAY}, {HEADER_DATE}</font>
+					<img style="vertical-align: top" src="{H_NEW_APP_SRC}" alt="{H_NEW_APP_ALT}" title="{H_NEW_APP_ALT}" />
 				</a>
 			</th>
 		</tr>
@@ -72,8 +73,11 @@
 	<tbody>
 		<!-- BEGIN time_row -->
 		<tr class="calstdtime">
-			<td class="calheadertime" style="vertical-align: top">
-				<a class="callink" href="{NEW_APP_HOUR_LINK}">{TIME}</a>
+			<td class="calheadertime" style="vertical-align: top" nowrap="nowrap">
+				{TIME}
+				<a class="callink" href="{NEW_APP_HOUR_LINK}">
+					<img style="vertical-align: top" src="{NEW_APP_SRC}" alt="{NEW_APP_ALT}" title="{NEW_APP_ALT}" />
+				</a>
 			</td>
 			<!-- BEGIN app -->
 			<td id="show_{PANEL_NUM}" class="calevent" style="background-color: {APP_BGCOLOR};color: {APP_COLOR}" rowspan="{APP_ROWSPAN}">
