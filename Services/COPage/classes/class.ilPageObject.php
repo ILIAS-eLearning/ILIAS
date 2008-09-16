@@ -1617,13 +1617,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 					if ($old_rec["content"] != "<PageObject></PageObject>")
 					{
 						$h_query = "REPLACE INTO page_history ".
-							"(page_id, parent_type, hdate, parent_id, content, user, nr) VALUES (".
+							"(page_id, parent_type, hdate, parent_id, content, user, ilias_version, nr) VALUES (".
 							$ilDB->quote($old_rec["page_id"]).",".
 							$ilDB->quote($old_rec["parent_type"]).",".
 							$ilDB->quote($old_rec["last_change"]).",".
 							$ilDB->quote($old_rec["parent_id"]).",".
 							$ilDB->quote($old_rec["content"]).",".
 							$ilDB->quote($old_rec["last_change_user"]).",".
+							$ilDB->quote(ILIAS_VERSION_NUMERIC).",".
 							$ilDB->quote($last_nr["mnr"] + 1).")";
 //echo "<br><br>+$a_no_history+$h_query";
 						$ilDB->query($h_query);

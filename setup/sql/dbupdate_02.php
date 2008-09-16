@@ -5450,3 +5450,6 @@ ALTER TABLE content_object ADD COLUMN prevent_glossary_appendix_active ENUM ('y'
 <#1323>
 ALTER TABLE `survey_questiontype` DROP `TIMESTAMP`;
 ALTER TABLE `survey_questiontype` ADD `plugin` TINYINT NOT NULL DEFAULT '0';
+<#1324>
+ALTER TABLE `page_history` ADD COLUMN ilias_version VARCHAR(20);
+UPDATE page_history SET ilias_version = '3.10.0';
