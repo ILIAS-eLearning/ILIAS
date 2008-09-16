@@ -1800,6 +1800,33 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* Rollback confirmation
+	*/
+	function rollbackConfirmation()
+	{
+		global $tpl, $lng, $ilAccess;
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($ilCtrl->getFormAction($this, "rollback"));
+		$c_gui->setHeaderText($lng->txt("wiki_confirm_rollback"));
+		$c_gui->setCancel($lng->txt("cancel"), "history");
+		$c_gui->setConfirm($lng->txt("confirm"), "rollback");
+
+		// add items to delete
+		include_once("./Services/News/classes/class.ilNewsItem.php");
+		foreach($_POST["item_id"] as $item_id)
+		{
+			$item = new ilNewsItem($item_id);
+			$c_gui->addItem("item_id[]", $item_id, $item->getTitle(),
+				ilUtil::getImagePath("icon_mcst.gif"));
+		}
+		
+		$tpl->setContent($c_gui->getHTML());
+	}
+	/**
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object

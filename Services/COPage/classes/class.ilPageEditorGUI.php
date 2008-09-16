@@ -220,7 +220,8 @@ class ilPageEditorGUI
 			{
 				$this->ctrl->setParameter($this, "pgEdMediaMode", "editLinkedMedia");
 				$this->ctrl->setParameter($this, "mob_id", $_GET["mob_id"]);
-				if ($cmdClass != "ilinternallinkgui" && $cmdClass != "ilmdeditorgui")
+				if ($cmdClass != "ilinternallinkgui" && $cmdClass != "ilmdeditorgui"
+					&& $cmdClass != "ilimagemapeditorgui")
 				{
 					$this->ctrl->setCmdClass("ilobjmediaobjectgui");
 					$cmdClass = "ilobjmediaobjectgui";
@@ -472,6 +473,9 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			
 			// only for "linked" media
 			case "ilobjmediaobjectgui":
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"),
+					$ilCtrl->getParentReturn($this));
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
 				$mob_gui->getTabs($this->tabs_gui);
 				$mob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
