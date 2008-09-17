@@ -8055,14 +8055,14 @@ content#:#cont_alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_alphabetic_s#:#Alphabetisch a, b, ...
 content#:#cont_roman#:#Römisch I, II, ...
 content#:#cont_roman_s#:#Römisch i, ii, ...
-content#:#cont_ed_insert_section#:#Insert Section###11 03 2008 new variable
-common#:#obj_calendar#:#Calendar###11 03 2008 new variable
-common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
+content#:#cont_ed_insert_section#:#Abschnitt einfügen
+common#:#obj_calendar#:#Kalender
+common#:#cat_wizard_page#:#Kategorie kopieren (Schritt 2/2)
 survey#:#no_user_of_group_invited#:#Allen Benutzern der ausgewählten Gruppe(n) fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
 survey#:#no_user_of_role_invited#:#Allen Benutzern der ausgewählten Rolle(n) fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
-common#:#show_profile#:#Show profile###11 03 2008 new variable
-common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.###11 03 2008 new variable
-common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s###11 03 2008 new variable
+common#:#show_profile#:#Zeige Profil
+common#:#mail_no_recipient_found#:#Geben Sie bitte eine andere E-Mail-Adresse an. ILIAS konnte keinen zugehörigen Empfänger finden.
+common#:#mail_multiple_recipients_found#:#Geben Sie eine genauere E-Mail-Adresse ein, da ILIAS mehrere Empfänger gefunden hat.
 common#:#webdav_pear_auth_http_needed#:#Sie benötigen PEAR-Auth_HTTP um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Auth_HTTP</code> ein.
 dateplaner#:#cal_table_categories#:#Kalenderauswahl
 dateplaner#:#cal_type_usr#:#Persönlicher Kalendar
@@ -8276,26 +8276,26 @@ notes#:#notes_my_comments#:#Meine Kommentare
 notes#:#notes_comment#:#Kommentar
 notes#:#notes_activate_comments#:#Öffentliches Kommentieren aktivieren
 notes#:#notes_deactivate_comments#:#Öffentliches Kommentieren ausschalten
-content#:#cont_pages_and_subchapters#:#Subchapters and Pages###02 06 2008 new variable
-content#:#cont_insert_as_subchapter#:#Insert as Subchapter###02 06 2008 new variable
-content#:#cont_insert_as_chapter#:#Insert as Chapter###02 06 2008 new variable
-content#:#cont_save_all_titles#:#Save Titles###02 06 2008 new variable
-content#:#cont_insert_resources#:#Insert Resource List###02 06 2008 new variable
-content#:#cont_update_resources#:#Update Resource List###02 06 2008 new variable
-content#:#cont_type#:#Type###02 06 2008 new variable
-content#:#cont_insert_section#:#Insert Section###02 06 2008 new variable
-content#:#cont_update_section#:#Update Section###02 06 2008 new variable
-content#:#cont_ed_insert_repobj#:#Insert Resource List###02 06 2008 new variable
-content#:#cont_ed_insert_tabs#:#Insert Tabs###02 06 2008 new variable
-content#:#cont_insert_tabs#:#Insert Tabs###02 06 2008 new variable
-content#:#cont_update_tabs#:#Update Tabs###02 06 2008 new variable
-content#:#cont_number_of_tabs#:#Number of Tabs###02 06 2008 new variable
-content#:#cont_tabs_hor_tabs#:#Horizontal Tabs###02 06 2008 new variable
-content#:#cont_tabs_accordion#:#Accordion###02 06 2008 new variable
-content#:#cont_ed_insert_map#:#Insert Map###02 06 2008 new variable
-content#:#cont_ed_insert_dtable#:#Insert Data Table###02 06 2008 new variable
-content#:#cont_ed_insert_atable#:#Insert Advanced Table###02 06 2008 new variable
-content#:#cont_ed_edit_data#:#Edit Data###02 06 2008 new variable
+content#:#cont_pages_and_subchapters#:#Unterkapitel und Seiten
+content#:#cont_insert_as_subchapter#:#Als Unterkapitel einfügen
+content#:#cont_insert_as_chapter#:#Als Kapitel einfügen
+content#:#cont_save_all_titles#:#Titel abspeichern
+content#:#cont_insert_resources#:#Materialliste einfügen
+content#:#cont_update_resources#:#Materialliste aktualisieren
+content#:#cont_type#:#Typ
+content#:#cont_insert_section#:#Abschnitt einfügen
+content#:#cont_update_section#:#Abschnitt aktualisieren
+content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
+content#:#cont_ed_insert_tabs#:#Tabulatoren einfügen	
+content#:#cont_insert_tabs#:#Tabulatoren einfügen
+content#:#cont_update_tabs#:#Tabulatoren aktualisieren
+content#:#cont_number_of_tabs#:#Anzahl der Tabulatoren
+content#:#cont_tabs_hor_tabs#:#Horizontale Tabulatoren
+content#:#cont_tabs_accordion#:#Accordion
+content#:#cont_ed_insert_map#:#Karte einfügen
+content#:#cont_ed_insert_dtable#:#Datentabelle einfügen
+content#:#cont_ed_insert_atable#:#Erweiterte Tabelle einfügen
+content#:#cont_ed_edit_data#:#Daten bearbeiten
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.###02 06 2008 new variable
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.###02 06 2008 new variable
