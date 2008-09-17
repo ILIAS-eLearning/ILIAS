@@ -10,11 +10,15 @@ include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
  
 class ilCalendarUserSettings
 {
+	const CAL_SELECTION_MEMBERSHIP = 1;
+	const CAL_SELECTION_ITEMS = 2;
+	
 	public static $instances = array();
 	
 	protected $user;
 	protected $settings;
 	
+	private $calendar_selection_type = 1;
 	private $timezone;
 	private $weekstart;
 	private $time_format;
@@ -58,6 +62,19 @@ class ilCalendarUserSettings
 		}
 		return self::$instances[$a_user_id] = new ilCalendarUserSettings($a_user_id);
 	}
+	
+	/**
+	 * get instance for logged in user 
+	 *
+	 * @return
+	 * @static
+	 */
+	 public static function _getInstance()
+	 {
+	 	global $ilUser;
+	 	
+	 	return self::_getInstanceByUserId($ilUser->getId());
+	 }
 	
 	/**
 	 * get Time zone
@@ -128,6 +145,27 @@ class ilCalendarUserSettings
 	{
 		return $this->time_format;
 	}
+	
+	/**
+	 * get calendar selection type
+	 * ("MyMembership" or "Selected Items") 
+	 * 
+	 * @return
+	 */
+	public function getCalendarSelectionType()
+	{
+		return $this->calendar_selection_type;		 
+	}
+	
+	/**
+	 * set calendar selection type 
+	 * @param int $type self::CAL_SELECTION_MEMBERSHIP | self::CAL_SELECTION_ITEM
+	 * @return void
+	 */
+	public function setCalendarSelectionType($a_type)
+	{
+		$this->calendar_selection_type = $a_type;
+	}
 
 	/**
 	 * save
@@ -139,6 +177,7 @@ class ilCalendarUserSettings
 		$this->user->writePref('user_tz',$this->getTimeZone());
 		$this->user->writePref('weekstart',$this->getWeekStart()); 
 		$this->user->writePref('time_format',$this->getTimeFormat());
+		$this->user->writePref('calendar_selection_type',$this->getCalendarSelectionType());
 	}
 	
 	
@@ -155,6 +194,10 @@ class ilCalendarUserSettings
 		{
 			$weekstart = $this->settings->getDefaultWeekStart();
 		}
+		$this->calendar_selection_type = $this->user->getPref('calendar_selection_type') ?
+			$this->user->getPref('calendar_selection_type') :
+			self::CAL_SELECTION_MEMBERSHIP;
+
 		$this->weekstart = $weekstart;
 	}
 	

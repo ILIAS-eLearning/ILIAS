@@ -895,15 +895,76 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php');
 		
 		$table_gui = new ilCalendarCategoryTableGUI($this);
-		$table_gui->setTitle($this->lng->txt('cal_table_categories'));
+		
+		$title = $this->lng->txt('cal_table_categories');
+		$title .= $this->appendCalendarSelection();
+		
+		$table_gui->setTitle($title);
 		$table_gui->addMultiCommand('saveSelection',$this->lng->txt('show'));
 		$table_gui->addCommandButton('add',$this->lng->txt('add'));
-		$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'add'),
-			$this->lng->txt('new'));
 		$table_gui->parse();
 		
 		return $table_gui->getHTML();
 	}
+	
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	 protected function appendCalendarSelection()
+	 {
+	 	global $ilUser;
+	 	
+	 	$this->lng->loadLanguageModule('pd');
+	 	
+	 	$tpl = new ilTemplate('tpl.calendar_selection.html',true,true,'Services/Calendar');
+		include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
+		switch(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType())
+		{
+			case ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP:
+				$tpl->setVariable('HTEXT',$this->lng->txt('pd_my_memberships'));
+				$tpl->touchBlock('head_item');
+				$tpl->touchBlock('head_delim');
+				$tpl->touchBlock('head_item');
+				
+				$this->ctrl->setParameter($this,'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_ITEMS);
+				$tpl->setVariable('HHREF',$this->ctrl->getLinkTarget($this,'switchCalendarMode'));
+				$tpl->setVariable('HLINK',$this->lng->txt('pd_my_offers'));
+				$tpl->touchBlock('head_item');
+				break;
+				
+			case ilCalendarUserSettings::CAL_SELECTION_ITEMS:
+				$this->ctrl->setParameter($this,'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
+				$tpl->setVariable('HHREF',$this->ctrl->getLinkTarget($this,'switchCalendarMode'));
+				$tpl->setVariable('HLINK',$this->lng->txt('pd_my_memberships'));
+				$tpl->touchBlock('head_item');
+				$tpl->touchBlock('head_delim');
+				$tpl->touchBlock('head_item');
+				
+				$tpl->setVariable('HTEXT',$this->lng->txt('pd_my_offers'));
+				$tpl->touchBlock('head_item');
+				break;
+			
+								
+		}
+		return $tpl->get();
+	 }
+	 
+	 /**
+	 * Switch calendar selection nmode 
+	 * @return
+	 */
+	 protected function switchCalendarMode()
+	 {
+	 	include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
+	 	ilCalendarUserSettings::_getInstance()->setCalendarSelectionType((int) $_GET['calendar_mode']);
+	 	ilCalendarUserSettings::_getInstance()->save();
+	 	
+	 	$this->ctrl->returnToParent($this);
+	 	
+	 }
 	
 	
 	/**
