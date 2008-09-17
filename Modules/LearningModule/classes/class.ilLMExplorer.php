@@ -110,7 +110,10 @@ class ilLMExplorer extends ilExplorer
 		}
 
 		// check public access
-		if ($ilUser->getId() == ANONYMOUS_USER_ID and !ilLMObject::_isPagePublic($a_obj_id,true))
+		include_once 'payment/classes/class.ilPaymentObject.php';
+		if (($ilUser->getId() == ANONYMOUS_USER_ID || 
+			ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm_obj->getRefId())) &&
+		    !ilLMObject::_isPagePublic($a_obj_id, true))
 		{
 			return false;
 		}
