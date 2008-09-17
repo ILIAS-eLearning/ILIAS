@@ -470,7 +470,6 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 */
 				break;
 
-			
 			// only for "linked" media
 			case "ilobjmediaobjectgui":
 				$this->tabs_gui->clearTargets();

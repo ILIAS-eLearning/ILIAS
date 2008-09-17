@@ -257,11 +257,11 @@ class ilPageObject
 	}
 
 
-	function buildDom()
+	function buildDom($a_force = false)
 	{
 		global $ilBench;
 
-		if ($this->dom_builded)
+		if ($this->dom_builded && !$a_force)
 		{
 			return;
 		}
@@ -2737,6 +2737,28 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		
 		return $hentries;
 	}
+	
+	/**
+	* Get History Entry
+	*/
+	function getHistoryEntry($a_old_nr)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepare("SELECT * FROM page_history ".
+			" WHERE page_id = ? ".
+			" AND parent_type = ? ".
+			" AND nr = ?", array("integer", "text", "integer"));
+		$res = $ilDB->execute($st,
+			array($this->getId(), $this->getParentType(), $a_old_nr));
+		if ($hrec = $ilDB->fetchAssoc($res))
+		{
+			return $hrec;
+		}
+		
+		return false;
+	}
+
 	
 	/**
 	* Get information about a history entry, its predecessor and
