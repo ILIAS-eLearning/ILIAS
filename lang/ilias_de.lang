@@ -8260,22 +8260,22 @@ wiki#:#wiki_page_hits#:#Seitenaufrufe
 wiki#:#wiki_page#:#Seite
 common#:#obj_svyf#:#Umfragen
 common#:#obj_svyf_desc#:#Systemweite Einstellungen für Umfragen
-tagging#:#tagging_tags#:#Tags###02 06 2008 new variable
-rating#:#rating_your_rating#:#Your Rating###02 06 2008 new variable
-rating#:#rating_average_rating#:#Average Rating###02 06 2008 new variable
-rating#:#rating_nr_users#:#%s User(s)###02 06 2008 new variable
-tagging#:#tagging_resources_for_tag#:#Resources tagged with %s###02 06 2008 new variable
-tagging#:#tagging_all_users#:#All Users###02 06 2008 new variable
-common#:#tagging_my_tags#:#My Tags###02 06 2008 new variable
-notes#:#notes_public_comments#:#Public Comments###02 06 2008 new variable
-notes#:#notes_add_comment#:#Add Comment###02 06 2008 new variable
-notes#:#notes_show_comments#:#Show Comments###02 06 2008 new variable
-notes#:#notes_hide_comments#:#Hide Comments###02 06 2008 new variable
-notes#:#notes_all_comments#:#All Comments###02 06 2008 new variable
-notes#:#notes_my_comments#:#My Comments###02 06 2008 new variable
-notes#:#notes_comment#:#Comment###02 06 2008 new variable
-notes#:#notes_activate_comments#:#Activate Public Comments###02 06 2008 new variable
-notes#:#notes_deactivate_comments#:#Deactivate Public Comments###02 06 2008 new variable
+tagging#:#tagging_tags#:#Schlagwörter
+rating#:#rating_your_rating#:#Ihre Bewertung
+rating#:#rating_average_rating#:#Durchschnittliche Bewertung
+rating#:#rating_nr_users#:#%s Benutzer
+tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
+tagging#:#tagging_all_users#:#Alle Benutzer
+common#:#tagging_my_tags#:#Meine Schlagwörter
+notes#:#notes_public_comments#:#Öffentliche Kommentare
+notes#:#notes_add_comment#:#Kommentar hinzufügen
+notes#:#notes_show_comments#:#Kommentare anzeigen
+notes#:#notes_hide_comments#:#Kommentare ausblenden
+notes#:#notes_all_comments#:#Alle Kommentare
+notes#:#notes_my_comments#:#Meine Kommentare
+notes#:#notes_comment#:#Kommentar
+notes#:#notes_activate_comments#:#Öffentliches Kommentieren aktivieren
+notes#:#notes_deactivate_comments#:#Öffentliches Kommentieren ausschalten
 content#:#cont_pages_and_subchapters#:#Subchapters and Pages###02 06 2008 new variable
 content#:#cont_insert_as_subchapter#:#Insert as Subchapter###02 06 2008 new variable
 content#:#cont_insert_as_chapter#:#Insert as Chapter###02 06 2008 new variable
