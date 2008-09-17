@@ -76,7 +76,7 @@ class ilEditClipboardGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $ilTabs, $lng;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -85,6 +85,9 @@ class ilEditClipboardGUI
 		{
 			case "ilobjmediaobjectgui":
 				$ilCtrl->setReturn($this, "view");
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, "view"));
 				require_once("classes/class.ilTabsGUI.php");
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["clip_mob_id"],false, false);
 				$mob_gui->setAdminTabs();

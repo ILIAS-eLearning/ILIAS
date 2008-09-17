@@ -256,8 +256,8 @@ class ilCalendarPresentationGUI
 		$tpl =  new ilTemplate('tpl.cal_side_block.html',true,true,'Services/Calendar');
 
 		include_once('./Services/Calendar/classes/class.ilMiniCalendarGUI.php');
-		$mini = new ilMiniCalendarGUI($this->seed);
-		$mini->setPresentationMode(ilMiniCalendarGUI::PRESENTATION_CALENDAR);
+		$mini = new ilMiniCalendarGUI($this->seed, $this);
+//		$mini->setPresentationMode(ilMiniCalendarGUI::PRESENTATION_CALENDAR);
 		$tpl->setVariable('MINICAL',$mini->getHTML());
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryGUI.php');
