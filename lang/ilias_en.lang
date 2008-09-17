@@ -4289,6 +4289,8 @@ common#:#your_message#:#Your Message
 common#:#zip#:#Zip Code
 common#:#zipcode#:#Zip Code
 content#:#cont_insert_map#:#Insert Map
+content#:#cont_rollback#:#Rollback
+content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?
 content#:#cont_links#:#Links
 content#:#cont_internal_links#:#Internal Links
 content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode

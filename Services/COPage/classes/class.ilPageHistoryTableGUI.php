@@ -44,7 +44,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 		$this->addColumn("", "d", "1");
 		$this->addColumn($lng->txt("date"), "", "33%");
 		$this->addColumn($lng->txt("user"), "", "33%");
-		$this->addColumn($lng->txt("commands"), "", "33%");
+		$this->addColumn($lng->txt("action"), "", "33%");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.page_history_row.html", "Services/COPage");
 		$this->setDefaultOrderField("hdate");
@@ -64,11 +64,13 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 		// rollback command
 		if ($a_set["nr"] > 0)
 		{
+			$ilCtrl->setParameter($this->getParentObject(), "old_nr", $a_set["nr"]);
 			$this->tpl->setCurrentBlock("command");
-			$this->tpl->setVariable("TXT_COMMAND", $lng->txt("wiki_rollback"));
+			$this->tpl->setVariable("TXT_COMMAND", $lng->txt("cont_rollback"));
 			$this->tpl->setVariable("HREF_COMMAND",
 				$ilCtrl->getLinkTarget($this->getParentObject(), "rollbackConfirmation"));
 			$this->tpl->parseCurrentBlock();
+			$ilCtrl->setParameter($this->getParentObject(), "old_nr", "");
 		}
 		
 		$this->tpl->setVariable("NR", $a_set["nr"]);
