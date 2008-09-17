@@ -7865,60 +7865,60 @@ dateplaner#:#cal_server_tz#:#Server-Zeitzone
 dateplaner#:#cal_def_timezone#:#Default-Zeitzone
 dateplaner#:#cal_def_timezone_info#:#Bitte wählen Sie eine Zeitzone für die Anzeige von Terminen aus.
 dateplaner#:#cal_def_week_start#:#Wochenbeginn
-common#:#obj_cmps#:#Modules, Services and Plugins###11 03 2008 new variable
-cmps#:#cmps_group#:#Group###11 03 2008 new variable
-cmps#:#cmps_current_version#:#Current Version###11 03 2008 new variable
-cmps#:#cmps_file_version#:#Update File Version###11 03 2008 new variable
-cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information###11 03 2008 new variable
-cmps#:#cmps_module#:#Module###11 03 2008 new variable
-cmps#:#cmps_no_language_file_available#:#No language file available.###11 03 2008 new variable
-cmps#:#cmps_no_db_update_file_available#:#No DB update script available.###11 03 2008 new variable
-cmps#:#cmps_version#:#Version###11 03 2008 new variable
-cmps#:#cmps_update#:#Update###11 03 2008 new variable
-cmps#:#cmps_update_db#:#Update DB###11 03 2008 new variable
-cmps#:#cmps_refresh#:#Refresh###11 03 2008 new variable
-cmps#:#cmps_activate#:#Activate###11 03 2008 new variable
-cmps#:#cmps_deactivate#:#Deactivate###11 03 2008 new variable
-cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version###11 03 2008 new variable
-cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version###11 03 2008 new variable
-cmps#:#cmps_dir#:#Directory###11 03 2008 new variable
-cmps#:#cmps_active#:#Active###11 03 2008 new variable
-cmps#:#cmps_inactive#:#Inactive###11 03 2008 new variable
-cmps#:#cmps_status#:#Status###11 03 2008 new variable
-cmps#:#cmps_needs_upgrade#:#The plugin version currently installed is older than a previously installed version. Please upgrade the plugin.###11 03 2008 new variable
-cmps#:#cmps_needs_update#:#Needs update.###11 03 2008 new variable
-cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.###11 03 2008 new variable
-cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.###11 03 2008 new variable
-cmps#:#cmps_show_details#:#Show Details###11 03 2008 new variable
-cmps#:#cmps_plugin_slot#:#Plugin Slot###11 03 2008 new variable
-cmps#:#cmps_component#:#Component###11 03 2008 new variable
-cmps#:#cmps_lang_prefix#:#Language Variables Prefix###11 03 2008 new variable
-cmps#:#cmps_plugin_db_prefixes#:#DB Table Prefixes###11 03 2008 new variable
+common#:#obj_cmps#:#Module, Services und Plugins
+cmps#:#cmps_group#:#Gruppe
+cmps#:#cmps_current_version#:#Aktuelle Version
+cmps#:#cmps_file_version#:#Dateiversion aktualisieren
+cmps#:#cmps_refresh_plugins_inf#:#Informationen über Plugins aktualisieren
+cmps#:#cmps_module#:#Modul
+cmps#:#cmps_no_language_file_available#:#Keine Sprachdatei verfügbar
+cmps#:#cmps_no_db_update_file_available#:#Kein Datenbankupdate-Skript verfügbar
+cmps#:#cmps_version#:#Version
+cmps#:#cmps_update#:#Aktualisieren
+cmps#:#cmps_update_db#:#Datenbank aktualisieren
+cmps#:#cmps_refresh#:#Neu laden
+cmps#:#cmps_activate#:#Aktivieren
+cmps#:#cmps_deactivate#:#Deaktivieren
+cmps#:#cmps_ilias_min_version#:#Min. ILIAS-Version
+cmps#:#cmps_ilias_max_version#:#Max. ILIAS-Version
+cmps#:#cmps_dir#:#Verzeichnis
+cmps#:#cmps_active#:#Aktiv
+cmps#:#cmps_inactive#:#Inaktiv
+cmps#:#cmps_status#:#Status
+cmps#:#cmps_needs_upgrade#:#Die aktuell installierte Plugin-Version ist älter als die zuvor installierte. Bitte installieren Sie das aktuelle Plugin.
+cmps#:#cmps_needs_update#:#Aktualisierung notwendig
+cmps#:#cmps_needs_newer_plugin_version#:#Diese ILIAS-Version benötigt eine neuere Plugin-Version. Bitte aktualisieren Sie das Plugin.
+cmps#:#cmps_needs_newer_ilias_version#:#Dieses Plugin kann nur mit einer neueren ILIAS-Version verwendet werden. Bitte aktualisieren Sie Ihre ILIAS-Version.
+cmps#:#cmps_show_details#:#Details anzeigen
+cmps#:#cmps_plugin_slot#:#Plugin-Slot
+cmps#:#cmps_component#:#Komponente
+cmps#:#cmps_lang_prefix#:#Präfix Sprachvariable
+cmps#:#cmps_plugin_db_prefixes#:#Präfixe Datenbanktabelle
 cmps#:#cmps_disable_creation#:#Disable Creation###11 03 2008 new variable
-cmps#:#cmps_rep_object#:#Repository Object Type###11 03 2008 new variable
-cmps#:#cmps_add_new_rank#:#Position in Add-New-Object List###11 03 2008 new variable
-cmps#:#cmps_plugin_dirs#:#Plugin Directories###11 03 2008 new variable
-cmps#:#cmps_plugin_lang_prefixes#:#Plugin Language Prefixes###11 03 2008 new variable
-common#:#obj_cmps_desc#:#General settings for Repository Modules, Services and Plugins.###11 03 2008 new variable
-cmps#:#cmps_edit_settings#:#Settings###11 03 2008 new variable
-cmps#:#cmps_modules#:#Modules###11 03 2008 new variable
-cmps#:#cmps_plugins#:#Plugins###11 03 2008 new variable
-cmps#:#cmps_plugin#:#Plugin###11 03 2008 new variable
-cmps#:#cmps_services#:#Services###11 03 2008 new variable
-cmps#:#cmps_service#:#Service###11 03 2008 new variable
-cmps#:#cmps_save_options#:#Save Options###11 03 2008 new variable
-cmps#:#cmps_main_dir#:#Main Directory###11 03 2008 new variable
-cmps#:#cmps_plugin_file#:#Plugin File###11 03 2008 new variable
-cmps#:#cmps_db_update#:#DB Update Script###11 03 2008 new variable
-cmps#:#cmps_available#:#Available###11 03 2008 new variable
-cmps#:#cmps_missing#:#Missing###11 03 2008 new variable
-cmps#:#cmps_class_file#:#Class File###11 03 2008 new variable
-cmps#:#cmps_lang_files#:#Language Files###11 03 2008 new variable
-cmps#:#cmps_database#:#Database###11 03 2008 new variable
-cmps#:#cmps_languages#:#Languages###11 03 2008 new variable
-cmps#:#cmps_basic_files#:#Basic Files###11 03 2008 new variable
-cmps#:#cmps_name#:#Name###11 03 2008 new variable
-cmps#:#cmps_id#:#ID###11 03 2008 new variable
+cmps#:#cmps_rep_object#:#Objekttyp im Magazin
+cmps#:#cmps_add_new_rank#:#Position in der Auswahlliste für hinzuzufügende Objekte
+cmps#:#cmps_plugin_dirs#:#Plugin-Verzeichnisse
+cmps#:#cmps_plugin_lang_prefixes#:#Plugin-Sprachpräfixe
+common#:#obj_cmps_desc#:#ALlgemeine Einstellungen für Module, Dienste und Plugins.
+cmps#:#cmps_edit_settings#:#Einstellungen
+cmps#:#cmps_modules#:#Module
+cmps#:#cmps_plugins#:#Plugins
+cmps#:#cmps_plugin#:#Plugin
+cmps#:#cmps_services#:#Dienste
+cmps#:#cmps_service#:#Dienst
+cmps#:#cmps_save_options#:#Auswahlmöglichkeiten sichern
+cmps#:#cmps_main_dir#:#Hauptverzeichnis
+cmps#:#cmps_plugin_file#:#Plugin-Datei
+cmps#:#cmps_db_update#:#Skript für Datenbankaktualisierung
+cmps#:#cmps_available#:#Verfügbar
+cmps#:#cmps_missing#:#Fehlt
+cmps#:#cmps_class_file#:#Klassen-Datei
+cmps#:#cmps_lang_files#:#Sprachdatei
+cmps#:#cmps_database#:#Datenbank
+cmps#:#cmps_languages#:#Sprachen
+cmps#:#cmps_basic_files#:#Basis-Dateien
+cmps#:#cmps_name#:#Name
+cmps#:#cmps_id#:#ID###
 common#:#wiki#:#Wiki###11 03 2008 new variable
 common#:#obj_wiki#:#Wiki###11 03 2008 new variable
 common#:#objs_wiki#:#Wikis###11 03 2008 new variable
