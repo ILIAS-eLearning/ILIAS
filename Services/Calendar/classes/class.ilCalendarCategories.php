@@ -145,7 +145,16 @@ class ilCalendarCategories
 		switch($a_mode)
 		{
 			case self::MODE_PERSONAL_DESKTOP:
-				$this->readPDCalendars();
+
+				include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
+				if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
+				{
+					$this->readPDCalendars();
+				}
+				else
+				{
+					$this->readSelectedItemCalendars();					
+				}
 				break;
 				
 			case self::MODE_REPOSITORY:
@@ -262,6 +271,30 @@ class ilCalendarCategories
 		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
 		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'grp'));
 	}
+	
+	/**
+	 * Read categories of selected items
+	 * 
+	 * @param
+	 * @return
+	 */
+	 protected function readSelectedItemCalendars()
+	 {
+	 	global $ilUser,$ilAccess;
+	 	
+	 	$this->readPublicCalendars();
+	 	$this->readPrivateCalendars();
+
+		$obj_ids = array();
+		foreach(ilObjUser::_lookupDesktopItems($ilUser->getId(),array('crs','grp','sess')) as $item)
+		{
+			if($ilAccess->checkAccess('read','',$item['ref_id']))
+			{
+				$obj_ids[] = $item['obj_id'];
+			}
+		}
+		$this->readSelectedCategories($obj_ids);	 	
+	 }
 
 	/**
 	 * Read available repository calendars 
@@ -276,7 +309,6 @@ class ilCalendarCategories
 		
 		$this->readPublicCalendars();
 		$this->readPrivateCalendars();
-		
 		$query = "SELECT ref_id,obd.obj_id AS obj_id FROM tree AS t1 ".
 			"JOIN object_reference AS obr ON t1.child = obr.ref_id ".
 			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
@@ -284,7 +316,6 @@ class ilCalendarCategories
 			"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id)." ) ".
 			"AND type IN('crs','grp','sess') ".
 			"AND tree = 1";
-			
 		$res = $this->db->query($query);
 		$obj_ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -300,8 +331,6 @@ class ilCalendarCategories
 			}
 		}
 		$this->readSelectedCategories($obj_ids);
-		
-		
 	}
 	
 	/**

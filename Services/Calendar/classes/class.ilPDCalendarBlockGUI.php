@@ -76,7 +76,7 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 		if(!is_object($this->categories))
 		{
 			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-			$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY,(int)$_GET['ref_id']);
+			$this->categories = ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PERSONAL_DESKTOP,(int)$_GET['ref_id']);
 		}
 	}
 
