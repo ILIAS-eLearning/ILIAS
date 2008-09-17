@@ -7919,41 +7919,41 @@ cmps#:#cmps_languages#:#Sprachen
 cmps#:#cmps_basic_files#:#Basis-Dateien
 cmps#:#cmps_name#:#Name
 cmps#:#cmps_id#:#ID###
-common#:#wiki#:#Wiki###11 03 2008 new variable
-common#:#obj_wiki#:#Wiki###11 03 2008 new variable
-common#:#objs_wiki#:#Wikis###11 03 2008 new variable
-common#:#objs_lres#:#Learning Resources###11 03 2008 new variable
-common#:#wiki_new#:#New Wiki###11 03 2008 new variable
-common#:#wiki_add#:#Add Wiki###11 03 2008 new variable
-wiki#:#wiki_settings#:#Wiki Settings###11 03 2008 new variable
-wiki#:#wiki_what_links_to_page#:#What links to page "%s"?###11 03 2008 new variable
-wiki#:#wiki_start_page#:#Start Page###11 03 2008 new variable
-wiki#:#wiki_start_page_title#:#Start Page Title###11 03 2008 new variable
-wiki#:#wiki_main_page#:#Main Page###11 03 2008 new variable
-wiki#:#wiki_short_title#:#Short Title###11 03 2008 new variable
-wiki#:#wiki_article#:#Article###11 03 2008 new variable
-wiki#:#wiki_discussion#:#Discussion###11 03 2008 new variable
-wiki#:#wiki_edit#:#Edit###11 03 2008 new variable
-wiki#:#wiki_history#:#History###11 03 2008 new variable
-wiki#:#wiki_recent_changes#:#Recent Changes###11 03 2008 new variable
-wiki#:#wiki_what_links_here#:#What Links Here?###11 03 2008 new variable
-wiki#:#wiki_print_view#:#Print View###11 03 2008 new variable
-wiki#:#wiki_random_page#:#Random Page###11 03 2008 new variable
-wiki#:#wiki_all_pages#:#All Pages###11 03 2008 new variable
-wiki#:#wiki_new_pages#:#New Pages###11 03 2008 new variable
-wiki#:#wiki_popular_pages#:#Popular Pages###11 03 2008 new variable
-wiki#:#wiki_media_list#:#Media List###11 03 2008 new variable
-content#:#cont_revision#:#Revision###11 03 2008 new variable
-content#:#cont_pc_new#:#New Content###11 03 2008 new variable
-content#:#cont_pc_modified#:#Modified Content###11 03 2008 new variable
-content#:#cont_pc_deleted#:#Deleted Content###11 03 2008 new variable
-content#:#cont_page_compare#:#Compare Selected Revisions###11 03 2008 new variable
-content#:#cont_previous_rev#:#Previous Revision###11 03 2008 new variable
-content#:#cont_next_rev#:#Next Revision###11 03 2008 new variable
-content#:#cont_latest_rev#:#Latest Revision###11 03 2008 new variable
-content#:#content_page_history#:#Page History###11 03 2008 new variable
-content#:#content_current#:#Current###11 03 2008 new variable
-content#:#content_last#:#Last###11 03 2008 new variable
+common#:#wiki#:#Wiki
+common#:#obj_wiki#:#Wiki
+common#:#objs_wiki#:#Wikis
+common#:#objs_lres#:#Lernmaterialien
+common#:#wiki_new#:#Neues Wiki
+common#:#wiki_add#:#Wiki hinzufügen
+wiki#:#wiki_settings#:#Wiki-Einstellungen
+wiki#:#wiki_what_links_to_page#:#Was verlinkt auf die Seite "%s"?
+wiki#:#wiki_start_page#:#Startseite
+wiki#:#wiki_start_page_title#:#Titel der Startseite
+wiki#:#wiki_main_page#:#Hauptseite
+wiki#:#wiki_short_title#:#Kurztitel
+wiki#:#wiki_article#:#Artikel
+wiki#:#wiki_discussion#:#Diskussion
+wiki#:#wiki_edit#:#Bearbeiten
+wiki#:#wiki_history#:#Verlauf
+wiki#:#wiki_recent_changes#:#Letzte Änderungen
+wiki#:#wiki_what_links_here#:#Was verlinkt hierher?
+wiki#:#wiki_print_view#:#Druckansicht
+wiki#:#wiki_random_page#:#Zufallsseite
+wiki#:#wiki_all_pages#:#Alle Seiten
+wiki#:#wiki_new_pages#:#Neue Seiten
+wiki#:#wiki_popular_pages#:#Beliebte Seiten
+wiki#:#wiki_media_list#:#Liste der Medien
+content#:#cont_revision#:#Änderung
+content#:#cont_pc_new#:#Neue Inhalte
+content#:#cont_pc_modified#:#Geänderte Inhalte
+content#:#cont_pc_deleted#:#Gelöschte Inhalte
+content#:#cont_page_compare#:#Vergleiche ausgewählte Änderungen
+content#:#cont_previous_rev#:#Letzte Änderung
+content#:#cont_next_rev#:#Nachfolgende Änderung
+content#:#cont_latest_rev#:#Letzte Änderung
+content#:#content_page_history#:#Seitenverlauf
+content#:#content_current#:#Aktuell
+content#:#content_last#:#Letzte
 ecs#:#ecs_server_settings#:#ECS Funktionalitäten
 ecs#:#ecs_settings#:#Einstellungen
 ecs#:#ecs_communities#:#Teilnehmer
@@ -8201,15 +8201,15 @@ grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der I
 grp#:#reg_grp_max_members#:#Begrenzte Teilnehmeranzahl
 grp#:#grp_reg_limited#:#Anmeldungszeitraum
 grp#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
-dateplaner#:#grp_cal_reg_end#:#Anmeldungsende
-dateplaner#:#grp_cal_reg_start#:#Anmeldungsbeginn
-grp#:#grp_membership_request_subject#:#%1$s %2$s möchte zur Gruppe "%3$s" beitreten.
+dateplaner#:#grp_cal_reg_end#:#Ende der Anmeldung
+dateplaner#:#grp_cal_reg_start#:#Beginn der Anmeldung
+grp#:#grp_membership_request_subject#:#%1$s %2$s möchte der Gruppe "%3$s" beitreten.
 grp#:#grp_membership_request_body#:#%1$s %2$s hat einen Aufnahmeantrag für die Gruppe "%5$s" gestellt.\n\nBitte bearbeiten Sie den Antrag auf der "Aufnahmeanträge" Seite der Gruppe.\n\nGruppe: "%5$s", %6$s\n\nAntragsteller: %1$s %2$s, %3$s, mailto:%4$s.\n\nBetreff:\n%7$s
 grp#:#grp_accept_subscriber_body#:#Sie sind in die Gruppe "%1$s" aufgenommen worden.\n\n%2$s
 grp#:#grp_accept_subscriber#:#Aufnahme in Gruppe "%s"
 grp#:#grp_reject_subscriber_body#:#Ihr Antrag für die Gruppe "%s" ist abgelehnt worden.
 grp#:#grp_reject_subscriber#:#Ablehnung für Gruppe "%s"
-forum#:#frm_post_not_activated_yet#:#Der Post wurde noch nicht aktiviert.
+forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht aktiviert.
 crs#:#crs_reg_period#:#Anmeldungszeitraum
 crs#:#crs_presentation_type#:#Kursansicht
 dateplaner#:#crs_cal_activation_start#:#Kursbeginn
@@ -8219,7 +8219,7 @@ dateplaner#:#crs_cal_reg_end#:#Anmeldungsende
 dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_details#:#Termindetails
 common#:#obj_mcts#:#Mediacast
-common#:#obj_mcts_desc#:#Allgemeine Einstellungen des Mediacast
+common#:#obj_mcts_desc#:#Allgemeine Einstellungen des Mediacasts
 grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppen-Administrator Ihren Antrag angenommen oder abgelehnt hat.
 grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppen-Passwort von einem Gruppen-Administrator erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
@@ -8234,30 +8234,30 @@ rbac#:#grp_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#cals_edit_event#:#Öffentliche Kalender verwalten
 assessment#:#reset_terms#:#Positionen der Terme zurücksetzen
-form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
-form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
-form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
-common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#grp_create_write#:#Create Wiki###02 06 2008 new variable
-wiki#:#wiki_contributors#:#Contributors###02 06 2008 new variable
-wiki#:#wiki_contributor#:#Contributor###02 06 2008 new variable
-wiki#:#wiki_page_changes#:#Page Changes###02 06 2008 new variable
-wiki#:#wiki_grading#:#Grading###02 06 2008 new variable
-wiki#:#wiki_notgraded#:#Not Graded###02 06 2008 new variable
-wiki#:#wiki_passed#:#Passed###02 06 2008 new variable
-wiki#:#wiki_failed#:#Failed###02 06 2008 new variable
-wiki#:#wiki_mark#:#Mark###02 06 2008 new variable
-wiki#:#wiki_activate_rating#:#Activate Rating###02 06 2008 new variable
-wiki#:#wiki_orphaned_pages#:#Orphaned Pages###02 06 2008 new variable
-wiki#:#wiki_last_changed_by#:#Last Changed By###02 06 2008 new variable
-wiki#:#wiki_created_by#:#Created By###02 06 2008 new variable
-wiki#:#wiki_last_changed#:#Last Change###02 06 2008 new variable
-wiki#:#wiki_page_hits#:#Page Hits###02 06 2008 new variable
-wiki#:#wiki_page#:#Page###02 06 2008 new variable
+form#:#form_retype_password#:#Passwort nochmals eingeben
+form#:#form_password_required_for_auth#:#Für die gewählte Authentifizierungmethode ist ein Passwort notwendig.
+form#:#form_password_not_allowed_for_auth#:#Für die gewählte Authentifizierungmethode können Sie das Passwort nicht ändern
+common#:#wiki_edit_content#:#Wiki-Seiten bearbeiten
+common#:#wiki_write#:#Wiki-Einstellungen ändern, Lerner bewerten
+common#:#cat_create_write#:#Wiki anlegen
+common#:#fold_create_write#:#Wiki anlegen
+common#:#crs_create_write#:#Wiki anlegen
+common#:#grp_create_write#:#Wiki anlegen
+wiki#:#wiki_contributors#:#Mitwirkende
+wiki#:#wiki_contributor#:#Mitwirkende/r
+wiki#:#wiki_page_changes#:#Geänderte Seiten
+wiki#:#wiki_grading#:#Bewertung
+wiki#:#wiki_notgraded#:#Nicht bewertet
+wiki#:#wiki_passed#:#Bestanden
+wiki#:#wiki_failed#:#Durchgefallen
+wiki#:#wiki_mark#:#Note
+wiki#:#wiki_activate_rating#:#Beurteilung aktivieren
+wiki#:#wiki_orphaned_pages#:#Verwaiste Seiten
+wiki#:#wiki_last_changed_by#:#Letzte Änderung von
+wiki#:#wiki_created_by#:#Angelegt von
+wiki#:#wiki_last_changed#:#Letzte Änderung
+wiki#:#wiki_page_hits#:#Seitenaufrufe
+wiki#:#wiki_page#:#Seite
 common#:#obj_svyf#:#Umfragen
 common#:#obj_svyf_desc#:#Systemweite Einstellungen für Umfragen
 tagging#:#tagging_tags#:#Tags###02 06 2008 new variable
