@@ -473,6 +473,11 @@ class ilPaymentObject
 		return false;
 	}
 	
+	public static function _requiresPurchaseToAccess($a_ref_id)
+	{
+		return (bool)(self::_isBuyable($a_ref_id) && !self::_hasAccess($a_ref_id));
+	}
+	
 	public static function _isInCart($a_ref_id)
 	{
 		global $ilDB, $ilUser;

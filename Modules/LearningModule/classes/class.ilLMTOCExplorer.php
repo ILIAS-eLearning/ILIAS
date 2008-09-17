@@ -128,8 +128,10 @@ class ilLMTOCExplorer extends ilLMExplorer
 		{
 			// check public area mode
 			include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-			if ($ilUser->getId() == ANONYMOUS_USER_ID && $this->lm_obj->getPublicAccessMode() == "selected"
-				&& !ilLMObject::_isPagePublic($a_node_id))
+			include_once 'payment/classes/class.ilPaymentObject.php';
+			if (($ilUser->getId() == ANONYMOUS_USER_ID || 
+				ilPaymentObject::_requiresPurchaseToAccess((int)$this->lm_obj->getRefId())) &&
+			    !ilLMObject::_isPagePublic($a_node_id, true))
 			{
 				return false;
 			}

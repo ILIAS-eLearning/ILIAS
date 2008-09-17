@@ -2515,6 +2515,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$buttonTarget = "";
 		}
+		
+		$requires_purchase_to_access = ilPaymentObject::_requiresPurchaseToAccess((int)$_GET['ref_id']);
 
 		// info button
 		if ($a_export_format != "scorm" && !$a_offline)
@@ -2530,7 +2532,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$link = "./info.html";
 			}
 			
-			$tabs_gui->addTarget("info_short", $link,
+			$tabs_gui->addTarget(($requires_purchase_to_access ? 'buy' : 'info_short'), $link,
 					"", "", $buttonTarget, $active["info"]);
 		}
 
@@ -2544,7 +2546,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		// table of contents
-		if ($this->object->isActiveTOC() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if (!$requires_purchase_to_access && $this->object->isActiveTOC() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			if (!$a_offline)
 			{
@@ -2561,7 +2563,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		// print view
-		if ($this->object->isActivePrintView() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		if (!$requires_purchase_to_access && $this->object->isActivePrintView() && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			if (!$a_offline)		// has to be implemented for offline mode
 			{
@@ -2573,16 +2575,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		// download
-		if ($ilUser->getId() == ANONYMOUS_USER_ID)
+		if (!$requires_purchase_to_access && $ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			$is_public = $this->object->isActiveDownloadsPublic();
 		}
-		else
+		else if(!$requires_purchase_to_access)
 		{
 			$is_public = true;
 		}
 
-		if ($this->object->isActiveDownloads() && !$a_offline && $is_public &&
+		if (!$requires_purchase_to_access && $this->object->isActiveDownloads() && !$a_offline && $is_public &&
 			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
@@ -2590,34 +2592,37 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$tabs_gui->addTarget("download", $link,
 				"", "", $buttonTarget, $active["download"]);
 		}
-
-		// get user defined menu entries
-		$this->__initLMMenuEditor();
-		$entries = $this->lmme_obj->getMenuEntries(true);
-
-		if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		
+		if(!$requires_purchase_to_access)
 		{
-			foreach ($entries as $entry)
+			// get user defined menu entries
+			$this->__initLMMenuEditor();
+			$entries = $this->lmme_obj->getMenuEntries(true);
+	
+			if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 			{
-				// build goto-link for internal resources
-				if ($entry["type"] == "intern")
+				foreach ($entries as $entry)
 				{
-					$entry["link"] = ILIAS_HTTP_PATH."/goto.php?target=".$entry["link"];
+					// build goto-link for internal resources
+					if ($entry["type"] == "intern")
+					{
+						$entry["link"] = ILIAS_HTTP_PATH."/goto.php?target=".$entry["link"];
+					}
+	
+					// add http:// prefix if not exist
+					if (!strstr($entry["link"],'://') && !strstr($entry["link"],'mailto:'))
+					{
+						$entry["link"] = "http://".$entry["link"];
+					}
+					
+					if (!strstr($entry["link"],'mailto:'))
+					{
+						$entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id);
+					}
+					$tabs_gui->addTarget($entry["title"],
+						$entry["link"],
+						"", "", "_blank", "", true);
 				}
-
-				// add http:// prefix if not exist
-				if (!strstr($entry["link"],'://') && !strstr($entry["link"],'mailto:'))
-				{
-					$entry["link"] = "http://".$entry["link"];
-				}
-				
-				if (!strstr($entry["link"],'mailto:'))
-				{
-					$entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=".$this->ref_id."&structure_id=".$this->obj_id);
-				}
-				$tabs_gui->addTarget($entry["title"],
-					$entry["link"],
-					"", "", "_blank", "", true);
 			}
 		}
 
