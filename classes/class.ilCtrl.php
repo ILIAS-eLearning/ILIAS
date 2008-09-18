@@ -372,6 +372,19 @@ class ilCtrl
 			"(".$this->call_node[$a_par_node]["class"].").<br>";
 		error_log( "ERROR: Can't find target class $a_class for node $a_par_node ".
 			"(".$this->call_node[$a_par_node]["class"].")");
+			
+		if (DEVMODE == 1)
+		{
+			try
+			{
+				throw new Exception("");
+			}
+			catch(Exception $e)
+			{
+				echo "<pre>".$e->getTraceAsString()."</pre>";
+			}
+		}
+
 		exit;
 	}
 
