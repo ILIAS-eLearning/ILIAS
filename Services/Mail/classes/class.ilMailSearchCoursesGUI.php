@@ -112,7 +112,7 @@ class ilMailSearchCoursesGUI
 
 		$members = array();
 
-		if (!is_array($this->umail->getSavedData()))
+		if (!is_array($old_mail_data = $this->umail->getSavedData()))
 		{
 			$this->umail->savePostData(
 				$ilUser->getId(),
@@ -127,7 +127,7 @@ class ilMailSearchCoursesGUI
 				""
 			);
 		}
-		
+
 		require_once 'classes/class.ilObject.php';
 		foreach ($_POST["search_crs"] as $crs_id)
 		{
@@ -137,14 +137,33 @@ class ilMailSearchCoursesGUI
 				$roles = $rbacreview->getAssignableChildRoles($ref_id);
 				foreach ($roles as $role)
 				{
-					if (substr($role['title'],0,14) == 'il_crs_member_')
+					if (substr($role['title'], 0, 14) == 'il_crs_member_' ||
+					    substr($role['title'], 0, 13) == 'il_crs_tutor_' ||
+					    substr($role['title'], 0, 13) == 'il_crs_admin_')
 					{
-						array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+						if(isset($old_mail_data['rcp_to']) && 
+						   trim($old_mail_data['rcp_to']) != '')
+						{
+							$rcpt = $rbacreview->getRoleMailboxAddress($role['obj_id']);
+						
+							if(!$this->umail->doesRecipientStillExists($rcpt, $old_mail_data['rcp_to']))							
+								array_push($members, $rcpt);	
+							
+							unset($rcpt);
+						}
+						else
+						{
+							array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+						}					
 					}
 				}
 			}
 		}
-		$mail_data = $this->umail->appendSearchResult($members,"to");
+		
+		if(count($members))
+			$mail_data = $this->umail->appendSearchResult($members, 'to');
+		else
+			$mail_data = $this->umail->getSavedData();
 
 		$this->umail->savePostData(
 			$mail_data["user_id"],
