@@ -1462,7 +1462,7 @@ class ilObjContentObject extends ilObject
 		// mobs directly embedded into pages
 		foreach ($this->mob_ids as $mob_id)
 		{
-			if ($mob_id > 0)
+			if ($mob_id > 0 && ilObject::_lookupType($mob_id) == "mob")
 			{
 				$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
 				$media_obj = new ilObjMediaObject($mob_id);
@@ -1807,7 +1807,7 @@ class ilObjContentObject extends ilObject
 		$linked_mobs = array();
 		foreach ($this->offline_mobs as $mob)
 		{
-			if (ilObject::_exists($mob))
+			if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
 			{
 				$this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank", $linked_mobs);
 			}
