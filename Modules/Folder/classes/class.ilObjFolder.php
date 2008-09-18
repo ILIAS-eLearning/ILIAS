@@ -174,12 +174,11 @@ class ilObjFolder extends ilContainer
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once 'Modules/File/classes/class.ilObjFile.php';
 		include_once 'Modules/File/classes/class.ilFileException.php';
-		
-		if (!$rbacsystem->checkAccess("read", $child["ref_id"]))
+		if (!$rbacsystem->checkAccess("read", $this->getRefId()))
 		{
 			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): missing read permission!",$this->ilErr->WARNING);
 		}
-		if (ilObject::_isInTrash($child["ref_id"]))
+		if (ilObject::_isInTrash($this->getRefId()))
 		{
 			$this->ilErr->raiseError(get_class($this)."::downloadFolder(): object is trashed!",$this->ilErr->WARNING);
 		}
