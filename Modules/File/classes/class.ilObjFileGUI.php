@@ -283,7 +283,7 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		$this->initZipUploadForm("create");
 		
-		if ($rbacsystem->checkAccess("create", $ref_id, "file")) {
+		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], "file")) {
 			if ($this->zip_form_gui->checkInput())
 			{
 				$zip_file = $this->zip_form_gui->getInput("zip_file");
@@ -313,7 +313,6 @@ class ilObjFileGUI extends ilObjectGUI
 				//		ref_id of parent
 				//		object that contains files (folder or category)  
 				//		should sendInfo be persistent?)
-
 				try 
 				{
 					$processDone = ilFileUtils::processZipFile( $newDir, 
@@ -338,7 +337,8 @@ class ilObjFileGUI extends ilObjectGUI
 				$this->createObject("zip_upload");
 			}
 		}
-		else {
+		else
+		{
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
 	}
