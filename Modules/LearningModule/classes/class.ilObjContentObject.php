@@ -1412,38 +1412,41 @@ class ilObjContentObject extends ilObject
 		$pages = ilLMPageObject::getPageList($this->getId());
 		foreach ($pages as $page)
 		{
-			$ilBench->start("ContentObjectExport", "exportPageObject");
-			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
-
-			// export xml to writer object
-			$ilBench->start("ContentObjectExport", "exportPageObject_getLMPageObject");
-			$page_obj = new ilLMPageObject($this, $page["obj_id"]);
-			$ilBench->stop("ContentObjectExport", "exportPageObject_getLMPageObject");
-			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
-			$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
-			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
-
-			// collect media objects
-			$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
-			$mob_ids = $page_obj->getMediaObjectIDs();
-			foreach($mob_ids as $mob_id)
+			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
 			{
-				$this->mob_ids[$mob_id] = $mob_id;
+				$ilBench->start("ContentObjectExport", "exportPageObject");
+				$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
+	
+				// export xml to writer object
+				$ilBench->start("ContentObjectExport", "exportPageObject_getLMPageObject");
+				$page_obj = new ilLMPageObject($this, $page["obj_id"]);
+				$ilBench->stop("ContentObjectExport", "exportPageObject_getLMPageObject");
+				$ilBench->start("ContentObjectExport", "exportPageObject_XML");
+				$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
+				$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
+	
+				// collect media objects
+				$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
+				$mob_ids = $page_obj->getMediaObjectIDs();
+				foreach($mob_ids as $mob_id)
+				{
+					$this->mob_ids[$mob_id] = $mob_id;
+				}
+				$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
+	
+				// collect all file items
+				$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
+				$file_ids = $page_obj->getFileItemIds();
+				foreach($file_ids as $file_id)
+				{
+					$this->file_ids[$file_id] = $file_id;
+				}
+				$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
+	
+				unset($page_obj);
+	
+				$ilBench->stop("ContentObjectExport", "exportPageObject");
 			}
-			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
-
-			// collect all file items
-			$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
-			$file_ids = $page_obj->getFileItemIds();
-			foreach($file_ids as $file_id)
-			{
-				$this->file_ids[$file_id] = $file_id;
-			}
-			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
-
-			unset($page_obj);
-
-			$ilBench->stop("ContentObjectExport", "exportPageObject");
 		}
 	}
 
@@ -2063,30 +2066,33 @@ class ilObjContentObject extends ilObject
 		
 		foreach ($pages as $page)
 		{
-			$ilLocator->clearItems();
-			$ilBench->start("ExportHTML", "exportHTMLPage");
-			$ilBench->start("ExportHTML", "exportPageHTML");
-			$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"]);
-			$ilBench->stop("ExportHTML", "exportPageHTML");
-			
-			// get all media objects of page
-			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-			$pg_mobs = ilObjMediaObject::_getMobsOfObject($this->getType().":pg", $page["obj_id"]);
-			foreach($pg_mobs as $pg_mob)
+			if (ilPageObject::_exists($this->getType(), $page["obj_id"]))
 			{
-				$mobs[$pg_mob] = $pg_mob;
+				$ilLocator->clearItems();
+				$ilBench->start("ExportHTML", "exportHTMLPage");
+				$ilBench->start("ExportHTML", "exportPageHTML");
+				$this->exportPageHTML($a_lm_gui, $a_target_dir, $page["obj_id"]);
+				$ilBench->stop("ExportHTML", "exportPageHTML");
+				
+				// get all media objects of page
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+				$pg_mobs = ilObjMediaObject::_getMobsOfObject($this->getType().":pg", $page["obj_id"]);
+				foreach($pg_mobs as $pg_mob)
+				{
+					$mobs[$pg_mob] = $pg_mob;
+				}
+				
+				// get all internal links of page
+				$pg_links = ilInternalLink::_getTargetsOfSource($this->getType().":pg", $page["obj_id"]);
+				$int_links = array_merge($int_links, $pg_links);
+				
+				// get all files of page
+				include_once("./Modules/File/classes/class.ilObjFile.php");
+				$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"]);
+				$this->offline_files = array_merge($this->offline_files, $pg_files);
+				
+				$ilBench->stop("ExportHTML", "exportHTMLPage");
 			}
-			
-			// get all internal links of page
-			$pg_links = ilInternalLink::_getTargetsOfSource($this->getType().":pg", $page["obj_id"]);
-			$int_links = array_merge($int_links, $pg_links);
-			
-			// get all files of page
-			include_once("./Modules/File/classes/class.ilObjFile.php");
-			$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"]);
-			$this->offline_files = array_merge($this->offline_files, $pg_files);
-			
-			$ilBench->stop("ExportHTML", "exportHTMLPage");
 		}
 		$this->offline_mobs = $mobs;
 		$this->offline_int_links = $int_links;

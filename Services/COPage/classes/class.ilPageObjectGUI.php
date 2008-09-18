@@ -1265,13 +1265,19 @@ class ilPageObjectGUI
 
 		// default values for various parameters (should be used by
 		// all instances in the future)
-		$file_download_link = ($this->getFileDownloadLink() == "")
-			? $ilCtrl->getLinkTarget($this, "downloadFile")
-			: $this->getFileDownloadLink();
-		$fullscreen_link = ($this->getFullscreenLink() == "")
-			? $ilCtrl->getLinkTarget($this, "displayMediaFullscreen")
-			: $this->getFullscreenLink();
-		if ($this->sourcecode_download_script == "")
+		$file_download_link = $this->getFileDownloadLink();
+		if ($this->getFileDownloadLink() == "" && $this->getOutputMode() != "offline")
+		{
+			$file_download_link = $ilCtrl->getLinkTarget($this, "downloadFile");
+		}
+		
+		$fullscreen_link = $this->getFullscreenLink();
+		if ($this->getFullscreenLink() == "" && $this->getOutputMode() != "offline")
+		{
+			$fullscreen_link = $ilCtrl->getLinkTarget($this, "displayMediaFullscreen");
+		}
+		
+		if ($this->sourcecode_download_script == "" && $this->getOutputMode() != "offline")
 		{
 			$this->sourcecode_download_script = $ilCtrl->getLinkTarget($this, "");
 		}
@@ -1685,10 +1691,10 @@ class ilPageObjectGUI
 	/*
 	* presentation
 	*/
-	function presentation()
+	function presentation($a_mode = IL_PAGE_PRESENTATION)
 	{
 		global $tree;
-		$this->setOutputMode(IL_PAGE_PRESENTATION);
+		$this->setOutputMode($a_mode);
 
 		return $this->showPage();
 	}
