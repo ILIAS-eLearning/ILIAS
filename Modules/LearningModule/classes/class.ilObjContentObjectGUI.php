@@ -3132,14 +3132,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function saveMenuEntry()
 	{
+		global $ilCtrl;
+		
 		// check title and target
 		if (empty($_POST["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			//$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+			ilUtil::sendInfo($this->lng->txt("please_enter_title") , true);
+			$ilCtrl->redirect($this, "addMenuEntry");
 		}
 		if (empty($_POST["target"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+			//$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+			ilUtil::sendInfo($this->lng->txt("please_enter_target"), true);
+			$ilCtrl->redirect($this, "addMenuEntry");
 		}
 
 		$this->__initLMMenuEditor();
