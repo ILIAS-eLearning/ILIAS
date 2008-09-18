@@ -484,7 +484,7 @@ class ilObjUserFolder extends ilObject
 				array_push($csvrow, $row[$header]);
 			}
 			$formattedrow =& ilUtil::processCSVRow($csvrow, TRUE, $separator);
-			fwrite($file, join ($separator, $formattedrow) ."");
+			fwrite($file, join ($separator, $formattedrow) ."\n");
 		}
 		fclose($file);
 	}
