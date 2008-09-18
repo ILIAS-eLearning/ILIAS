@@ -1833,9 +1833,7 @@ class ilForum
 			$this->setWhereCondition("thr_pk = ".$ilDB->quote($parent_data["pos_thr_fk"])."");
 			$thread_data = $this->getOneThread();
 
-			#var_dump("<pre>",$thread_data,"<pre>");
-			#var_dump("<pre>",$parent_data,"<pre>");
-			$tmp_mail_obj = new ilMail($_SESSION["AccountId"]);
+			$tmp_mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$message = $tmp_mail_obj->sendMail($tmp_user->getLogin(),"","",
 											   $this->__formatSubject($thread_data),
 											   $this->__formatMessage($thread_data, $post_data),
