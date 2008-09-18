@@ -969,8 +969,11 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		foreach($mob_ids as $mob_id => $dummy)
 		{
-			$mob_obj =& new ilObjMediaObject($mob_id);
-			$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT);
+			if (ilObject::_lookupType($mob_id) == "mob")
+			{
+				$mob_obj =& new ilObjMediaObject($mob_id);
+				$mobs_xml .= $mob_obj->getXML(IL_MODE_OUTPUT);
+			}
 		}
 		return $mobs_xml;
 	}
@@ -1659,7 +1662,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$this->saveMobUsage($this->getXMLFromDom());
 			foreach($mob_ids as $mob)	// check, whether media object can be deleted
 			{
-				if (ilObject::_exists($mob))
+				if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
 				{
 					$mob_obj = new ilObjMediaObject($mob);
 					$usages = $mob_obj->getUsages();

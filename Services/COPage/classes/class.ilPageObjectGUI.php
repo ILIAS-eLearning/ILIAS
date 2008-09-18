@@ -1058,7 +1058,7 @@ class ilPageObjectGUI
 				{
 					if ($link["type"] == "mob")
 					{
-						if (ilObject::_exists($link["id"]))
+						if (ilObject::_exists($link["id"]) && ilObject::_lookupType($link["id"]) == "mob")
 						{
 							$mob_links[$link["id"]] = ilObject::_lookupTitle($link["id"])." [".$link["id"]."]";
 						}
