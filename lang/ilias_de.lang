@@ -8296,15 +8296,15 @@ content#:#cont_ed_insert_map#:#Karte einfügen
 content#:#cont_ed_insert_dtable#:#Datentabelle einfügen
 content#:#cont_ed_insert_atable#:#Erweiterte Tabelle einfügen
 content#:#cont_ed_edit_data#:#Daten bearbeiten
-cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.###02 06 2008 new variable
-cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
-cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.###02 06 2008 new variable
-cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
-cntr#:#cntr_view_by_type#:#Grouped-by-Type View###02 06 2008 new variable
+cntr#:#cntr_view_info_sessions#:#In dieser Kursansicht werden zunächst alle Sitzungen angezeigt. Kursinhalte, die nicht Sitzungen zugeordnet sind, werden darunter aufgeführt.
+cntr#:#cntr_view_info_simple#:#Diese Kursansicht stellt alle Kursinhalte in einer Liste dar.
+cntr#:#cntr_view_info_by_type#:#Diese Kursansicht ordnet alle Kursinhalte nach ihrem Objekttyp.
+cntr#:#cntr_view_simple#:#Einfache Ansicht
+cntr#:#cntr_view_by_type#:#Ansicht nach Typen
 common#:#survey_defaults#:#Standardeinstellungen für Umfragen
 common#:#survey_unlimited_invitation#:#Unbegrenzte Einladung
 common#:#survey_unlimited_invitation_desc#:#Erlaubt unbegrenzte Einladung zu Umfragen. Eine unbegrenzte Einladung legt die Umfrage auf den Persönlichen Schreibtisch jedes registrierten Benutzers.
-rbac#:#crs_create_sess#:#Create Session###02 06 2008 new variable
+rbac#:#crs_create_sess#:#Sitzung anlegen
 survey#:#specialusers#:#Spezielle Benutzer
 survey#:#search_users#:#Benutzer suchen
 survey#:#adm_no_users_found#:#Es wurden keine Benutzer gefunden, die dem Suchbegriff entsprechen.
@@ -8432,19 +8432,19 @@ payment#:#payment_shop_not_objects_found#:#Es konnten keine kaufbaren Objekte ge
 payment#:#payment_login_to_buy_object#:#Bitte melden Sie Sich bei ILIAS an, um Objekte in den Warenkorb legen zu können.
 dateplaner#:#cal_share_search_role_header#:#Rollenauswahl
 common#:#assigned_members#:#Zugeordnete TeilnehmerInnen
-form#:#form_min_value#:#Minimum Value###23 07 2008 new variable
-form#:#form_max_value#:#Maximum Value###23 07 2008 new variable
-form#:#form_format#:#Format###23 07 2008 new variable
-form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.###23 07 2008 new variable
-form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.###23 07 2008 new variable
-form#:#form_msg_numeric_value_required#:#Please enter a numeric value.###23 07 2008 new variable
-wiki#:#wiki_last_visited_page#:#Last Visited Page###23 07 2008 new variable
-wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.###23 07 2008 new variable
-wiki#:#wiki_msg_short_name_regexp#:#Short title must not start with a number and must not contain the following characters:###23 07 2008 new variable
-wiki#:#wiki_feedback_from_tutor#:#Feedback from Tutor###23 07 2008 new variable
-wiki#:#wiki_introduction#:#Introduction###23 07 2008 new variable
-wiki#:#wiki_pages#:#Pages###23 07 2008 new variable
-wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation###23 07 2008 new variable
+form#:#form_min_value#:#Minimalwert
+form#:#form_max_value#:#Maximalwert
+form#:#form_format#:#Format
+form#:#form_msg_value_too_high#:#Wert ist zu hoch. Bitte geben Sie einen niedrigeren Wert ein.
+form#:#form_msg_value_too_low#:#Wert ist zu niedrig. Bitte geben Sie einen höheren Wert ein.
+form#:#form_msg_numeric_value_required#:#Bitte geben Sie einen numerischen Wert ein.
+wiki#:#wiki_last_visited_page#:#Zuletzt besuchte Seite
+wiki#:#wiki_short_title_already_in_use#:#Dieser Titel wird bereits von einem Wiki verwendet. Wählen Sie bitte einen anderen Titel.
+wiki#:#wiki_msg_short_name_regexp#:#Kurztitel dürfen nicht mit einer Zahl beginnen und nicht folgende Zeichen verwenden:
+wiki#:#wiki_feedback_from_tutor#:#Feedback des Tutors
+wiki#:#wiki_introduction#:#Einführung
+wiki#:#wiki_pages#:#Seiten
+wiki#:#wiki_quick_navigation#:#Wiki-Schnellnavigation###23 07 2008 new variable
 content#:#cont_insert_map#:#Insert Map###23 07 2008 new variable
 content#:#cont_update_map#:#Edit Map###23 07 2008 new variable
 content#:#cont_location#:#Location###23 07 2008 new variable
