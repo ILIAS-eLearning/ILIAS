@@ -3282,12 +3282,43 @@ class ilLMPresentationGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// output copyright information
+		// output author information
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 		$md = new ilMD($this->lm->getId(),0, $this->lm->getType());
+		if(is_object($lifecycle = $md->getLifecycle()))
+		{
+			$sep = $author = "";
+			foreach(($ids = $lifecycle->getContributeIds()) as $con_id)
+			{
+				$md_con = $lifecycle->getContribute($con_id);
+				if ($md_con->getRole() == "Author")
+				{
+					foreach($ent_ids = $md_con->getEntityIds() as $ent_id)
+					{
+						$md_ent = $md_con->getEntity($ent_id);
+						$author = $author.$sep.$md_ent->getEntity();
+						$sep = ", ";
+					}
+				}
+			}
+			if ($author != "")
+			{
+				$this->lng->loadLanguageModule("meta");
+				$this->tpl->setCurrentBlock("author");
+				$this->tpl->setVariable("TXT_AUTHOR", $this->lng->txt("meta_author"));
+				$this->tpl->setVariable("LM_AUTHOR", $author);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		
+		// output copyright information
 		if (is_object($md_rights = $md->getRights()))
 		{
 			$copyright = $md_rights->getDescription();
+			include_once('Services/MetaData/classes/class.ilMDUtils.php');
+			$copyright = ilMDUtils::_parseCopyright($copyright);
+
 			if ($copyright != "")
 			{
 				$this->lng->loadLanguageModule("meta");

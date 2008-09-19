@@ -147,7 +147,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 		$table_gui = new ilMDCopyrightTableGUI($this,'settings');
 		$table_gui->setTitle($this->lng->txt("md_copyright_selection"));
 		$table_gui->parseSelections();
-		$table_gui->addCommandButton("updateCopyrightSelection", $this->lng->txt("save"));
+//		$table_gui->addCommandButton("updateCopyrightSelection", $this->lng->txt("save"));
 		$table_gui->addCommandButton('addEntry',$this->lng->txt('add'));
 		$table_gui->addMultiCommand("confirmDeleteEntries", $this->lng->txt("delete"));
 		$table_gui->setSelectAllCheckbox("entry_id");
