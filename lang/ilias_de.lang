@@ -8260,13 +8260,13 @@ wiki#:#wiki_page_hits#:#Seitenaufrufe
 wiki#:#wiki_page#:#Seite
 common#:#obj_svyf#:#Umfragen
 common#:#obj_svyf_desc#:#Systemweite Einstellungen für Umfragen
-tagging#:#tagging_tags#:#Schlagwörter
+tagging#:#tagging_tags#:#Tags
 rating#:#rating_your_rating#:#Ihre Bewertung
 rating#:#rating_average_rating#:#Durchschnittliche Bewertung
 rating#:#rating_nr_users#:#%s Benutzer
 tagging#:#tagging_resources_for_tag#:#Inhalte verschlagwortet mit %s
 tagging#:#tagging_all_users#:#Alle Benutzer
-common#:#tagging_my_tags#:#Meine Schlagwörter
+common#:#tagging_my_tags#:#Meine Tags
 notes#:#notes_public_comments#:#Öffentliche Kommentare
 notes#:#notes_add_comment#:#Kommentar hinzufügen
 notes#:#notes_show_comments#:#Kommentare anzeigen
@@ -8585,7 +8585,7 @@ mep#:#mep_title_and_description#:#Titel und Beschreibung
 mep#:#mep_create_mob#:#Mediaobjekt anlegen
 mep#:#mep_create_folder#:#Ordner anlegen
 mep#:#mep_copy_to_mep#:#In Mediapool kopieren
-tagging#:#tagging_tag_info#:#Um Inhalte mit Schlagwörtern (Tags) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Schlagwörter ein.
+tagging#:#tagging_tag_info#:#Um Inhalte mit Tags (Schlagwörtern) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Tags ein.
 content#:#cont_links#:#Links
 content#:#cont_internal_links#:#Interne Links
 content#:#cont_not_js_chap_editing#:#Bearbeitungsmodus «Ohne JavaScript» benutzen
