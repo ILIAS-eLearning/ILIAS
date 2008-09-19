@@ -4114,7 +4114,7 @@ content#:#cont_ed_enable#:#De-/Aktivieren
 content#:#cont_ed_go#:#Ok
 content#:#cont_ed_insert_code#:#Code einfügen
 content#:#cont_ed_insert_filelist#:#Dateiliste einf.
-content#:#cont_ed_insert_list#:#Liste einfügen
+content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
 content#:#cont_ed_insert_media#:#Medien einfügen
 content#:#cont_ed_insert_par#:#Text einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
@@ -4183,7 +4183,7 @@ content#:#cont_imagemap#:#Image Map
 content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
-content#:#cont_insert_list#:#Liste einfügen
+content#:#cont_insert_list#:#Erweiterte Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
 content#:#cont_insert_par#:#Text einfügen

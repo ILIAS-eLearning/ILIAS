@@ -4503,7 +4503,7 @@ content#:#cont_ed_enable#:#(De-)Activate Elements
 content#:#cont_ed_go#:#Go
 content#:#cont_ed_insert_code#:#Insert Code
 content#:#cont_ed_insert_filelist#:#Insert File List
-content#:#cont_ed_insert_list#:#Insert List
+content#:#cont_ed_insert_list#:#Insert Advanced List
 content#:#cont_ed_insert_media#:#Insert Media
 content#:#cont_ed_insert_par#:#Insert Text
 content#:#cont_ed_insert_dtable#:#Insert Data Table
@@ -4571,7 +4571,7 @@ content#:#cont_imagemap#:#Image Map
 content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Insert File Item
 content#:#cont_insert_file_list#:#Insert File List
-content#:#cont_insert_list#:#Insert List
+content#:#cont_insert_list#:#Insert Advanced List
 content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_new_footnote#:#insert new footnote
 content#:#cont_insert_par#:#Insert Text
