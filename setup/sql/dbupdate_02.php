@@ -5453,3 +5453,12 @@ ALTER TABLE `survey_questiontype` ADD `plugin` TINYINT NOT NULL DEFAULT '0';
 <#1324>
 ALTER TABLE `page_history` ADD COLUMN ilias_version VARCHAR(20);
 UPDATE page_history SET ilias_version = '3.10.0';
+<#1325>
+# Add missing file name extensions to object titles of file objects
+# Don't add the extension, if the file name starts with a '.'.
+UPDATE object_data AS o, file_data AS f 
+SET o.title = CONCAT(o.title, REVERSE(LEFT(REVERSE(f.file_name), INSTR(REVERSE(f.file_name), '.'))))
+WHERE f.file_id=o.obj_id 
+AND o.type='file'
+AND INSTR(f.file_name,'.') > 1
+AND LEFT(REVERSE(file_name),INSTR(REVERSE(file_name),'.')) <> LEFT(REVERSE(title),INSTR(REVERSE(title),'.'));
