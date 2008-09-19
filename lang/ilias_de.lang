@@ -550,7 +550,7 @@ assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#point#:#Punkt
 assessment#:#points_checked#:#Punkte (ausgewählt)
 assessment#:#points_short#:#Pt.
-assessment#:#points_unchecked#:#Punkte (nicht ausgwählt)
+assessment#:#points_unchecked#:#Punkte (nicht ausgewählt)
 assessment#:#points#:#Punkte
 assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug oder speichern Sie die Region. (Es ist nicht nötig, noch einmal auf den Startpunkt zu klicken, um den Polygonzug zu schließen!)
 assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug.
@@ -1257,7 +1257,7 @@ common#:#action#:#Aktion
 common#:#actions#:#Aktionen
 common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
 common#:#activate_block#:#Aktivieren
-common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
+common#:#activate_https#:#HTTPS aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Verfügbarkeit
 common#:#active_roles#:#Aktive Rollen
@@ -1289,7 +1289,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#adopt#:#Übernehmen
-common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML Auszeichnungen in Textfeldern
+common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich Text Editor aktivieren
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test&Assessment-Werkzeug
 common#:#advanced_editing_cat_page_editing_desc#:#Diese Einstellung erlaubt das Hinzufügen von Text und anderen Inhalten auf Kategorienseiten. Ist der Seiteneditor deaktiviert, werden in Kategorien nur die enthaltenen Inhaltsobjekte angezeigt.
@@ -3642,7 +3642,7 @@ common#:#street#:#Straße
 common#:#structure#:#Gliederung
 common#:#sty#:#Style
 common#:#style_activation#:#Style-Aktivierung
-common#:#stys_edit_permission#:#Rechte ändern
+common#:#stys_edit_permission#:#Rechteeinstellungen ändern
 common#:#stys_read#:#Lesezugriff auf Style-Einstellungen
 common#:#stys_visible#:#Style-Einstellungen sind sichtbar
 common#:#stys_write#:#Style-Einstellungen ändern
@@ -3825,7 +3825,7 @@ common#:#url_added#:#URL hinzugefügt
 common#:#url_create_url#:#URL erstellen
 common#:#url_delete#:#URL löschen
 common#:#url_description#:#URL Beschreibung
-common#:#url_edit_permission#:#Ändere Rechteeinstellungen
+common#:#url_edit_permission#:#Rechteeinstellungen ändern
 common#:#url_edit#:#URL bearbeiten
 common#:#url_new#:#Neue URL
 common#:#url_not_found#:#Datei wurde nicht gefunden
@@ -4421,7 +4421,7 @@ content#:#copied_to_clipboard#:#Objekt(e) in die Zwischenablage kopiert.
 content#:#dgl_pagebreak#:#Seitenumbruch
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
-content#:#HTML export#:#HTML Export
+content#:#HTML export#:#HTML-Export
 content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel
 content#:#lm_menu_entry_title#:#Titel
@@ -4684,7 +4684,7 @@ crs#:#crs_objective_pretest#:#Nach Einstiegstest
 crs#:#crs_objective_question_assignment#:#Fragenzuordnung
 crs#:#crs_objective_result#:#Nach Abschlusstest
 crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
-crs#:#crs_objective_view#:#Lernziel orientierte Ansicht
+crs#:#crs_objective_view#:#Lernziel-orientierte Ansicht
 crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen
 crs#:#crs_objectives_assigned_lm#:#Die ausgewählten Materialien wurden zugeordnet.
 crs#:#crs_objectives_assigned_lms#:#Zugeordnete Lernmaterialien
@@ -5310,8 +5310,8 @@ gmaps#:#gmaps_enable_gmaps#:#Google Maps aktivieren
 gmaps#:#gmaps_extt_gmaps#:#Google Maps
 gmaps#:#gmaps_public_profile_info#:#Zeige Standort im Persönlichen Profil
 gmaps#:#gmaps_settings#:#Google Maps-Einstellungen
-gmaps#:#gmaps_std_location_desc#:#Breitengrad / Längengrad. Klicken Sie auf die Mappe, um den Standort festzulegen.
-gmaps#:#gmaps_std_location#:#Standort Installation
+gmaps#:#gmaps_std_location_desc#:#Breitengrad / Längengrad. Klicken Sie auf die Karte, um den Standort festzulegen.
+gmaps#:#gmaps_std_location#:#Standort der Installation
 gmaps#:#gmaps_zoom_level#:#Vergrößerungsgrad
 grp#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbeschränkung entfernt werden soll ?
@@ -5325,7 +5325,7 @@ grp#:#crs_grp_no_courses_assigned#:#Es sind keine Gruppen zugeordnet.
 grp#:#crs_grp_table_assigned_courses#:#Zugeordnete Gruppen
 grp#:#grouping_change_assignment#:#Zuordnung ändern
 grp#:#grp_enable_map#:#Aktiviere Gruppenkarte
-grp#:#grp_map_location#:#Standort Gruppenkarte
+grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
 grp#:#grp_members_map#:#Karte Gruppenmitglieder
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
@@ -7652,8 +7652,8 @@ common#:#deactivate#:#Deaktivieren
 common#:#before#:#vor
 common#:#export_format_selection#:#Bitte wählen Sie das Format der Exportdatei.
 common#:#export_format#:#Exportformat
-common#:#info_activate_sure#:#Sind sie sicher, dass Sie die folgenden Benutzer als aktive Benutzer bestätigen wollen?
-common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?###23 09 2007 new variable
+common#:#info_activate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer als aktive Benutzer bestätigen wollen?
+common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer nicht als aktive Benutzer bestätigen wollen?
 news#:#news_pd_period#:#Zeitraum News auf Persönlichem Schreibtisch
 news#:#news_pd_period_info#:#Zeitraum, der für News auf dem persönlichen Schreibtisch berücksichtigt wird. Bei Performanzproblemen sollten niedrigere Werte gewählt werden.
 news#:#news_indefinite#:#Unendlich
@@ -7662,7 +7662,7 @@ feed#:#feed_proxy_info#:#Proxy Host für Netzverbindungen.
 feed#:#feed_proxy_port#:#Proxy Port
 feed#:#feed_proxy_port_info#:#Proxy Port für Netzverbindung
 common#:#user_activated#:#Benutzer wurde bestätigt.
-common#:#user_deactivated#:#User has been disapproved###23 09 2007 new variable
+common#:#user_deactivated#:#Benutzer wurde abgelehnt.
 common#:#usr_filter_lastlogin#:#Letztes Login eines Benutzers
 common#:#usr_filter_coursemember#:#Mitglied eines Kurses
 common#:#usr_filter_groupmember#:#Mitglied einer Gruppe
@@ -7705,8 +7705,8 @@ common#:#accessRestrict#:#Beschränkten Zugriff Aktivieren
 common#:#accessFree#:#Beschränkten Zugriff Deaktivieren
 common#:#access_free_granted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer aktivieren.
 common#:#access_restricted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer deaktivieren.
-common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?###25 09 2007 new variable
-common#:#access_from#:#Access (from)###25 09 2007 new variable
+common#:#info_accessFree_sure#:#Sind Sie sicher, dass für die folgenden Benutzer die Begrenzung des zeitlichen Zugriffs aufheben wollen?
+common#:#access_from#:#Zugriff (von)
 common#:#access_restrict_enter#:#Bitte setzen Sie den Zugriffszeitraum.
 common#:#bold#:#Fett
 common#:#newline#:#Zeilenumbruch
@@ -7834,7 +7834,7 @@ common#:#filename_special_filename#:#Objekte mit den Namen . und .. sind in Webo
 common#:#filename_extension_missing#:#Dateiendung fehlt
 common#:#readcount_anonymous_users#:#Anzahl anonyme Lesezugriffe
 common#:#readcount_users#:#Anzahl nicht-anonyme Lesezugriffe
-common#:#accesscount_registered_users#:#Gelesen durch Anzahl unterschiedliche ILIAS Benutzer
+common#:#accesscount_registered_users#:#Gelesen von ILIAS-Benutzern (Anzahl)
 common#:#state_changed#:#geändert
 common#:#state_changed_inside#:#Inhalt geändert
 common#:#state_new#:#neu
@@ -7846,7 +7846,7 @@ common#:#enable_webdav#:#WebDAV Zugriff aktivieren
 common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin über einen Webordner. Benutzer können Webordner öffnen, indem Sie im Magazin die Aktion "Als Webordner öffnen" ausführen, oder in einem WebDAV Client folgende Adresse eingeben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#webfolder_instructions#:#Anleitung für Webordner
 common#:#webfolder_index_of#:#Inhalt von %1$s
-common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
+common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML-Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
 common#:#webfolder_instructions_titletext#:#%1$s als Webordner öffnen
 common#:#webfolder_instructions_text#:#<p>So öffnen Sie <b>[WEBFOLDER_TITLE]</b> als Webordner:</p>[IF_WINDOWS]<h3>Anleitung für Windows Vista</h3><ol><li>Drücken Sie die Tastenkombination Windows+E zum Öffnen des Windows Explorer.</li><li>Klicken Sie auf 'Netzlaufwerk zuordnen' in der Symbolleiste. Dies öffnet den Assistenten 'Netzlaufwerk verbinden'.</li><li>Klicken Sie auf den Link 'Verbindung mit einer Website herstellen'.</li><li>Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine benutzerdefinierte Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.</li><li>Geben Sie in das Feld 'Internet- oder Netzwerkadresse' folgende Adresse ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Geben Sie einen Namen für den Webordner ein, und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.<br/>Wiederholen Sie diesen Schritt, bis Sie auf das nächste Dialogfenster gelangen.</li><li>Klicken Sie auf Fertigstellen.</li><li>Sie können den Webordner nun über das Startmenü 'Computer' öffnen.</li></ol><h3>Anleitung für Windows XP mit Internet Explorer 6</h3><ol><li>Starten Sie Internet Explorer 6</li><li>Wählen Sie das Menü 'Datei &gt; Öffnen...'</li><li>Geben Sie folgende Adresse in das Feld 'Öffnen' ein:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Kreuzen Sie die Option 'Als Webordner öffnen' an, und klicken Sie auf 'OK'.</li><li>Geben Sie Ihren Benutzernamen und Ihre Passwort ein, und klicken Sie auf 'OK'.</li></ol><h3>Anleitung für Windows XP ohne Internet Explorer 6</h3><ol><li>Starten Sie den Windows Explorer.</li><li>Wählen Sie das Menü 'Extras &gt; Netzlaufwerk verbinden...'.</li><li>Ein Dialogfenster erscheint. Klicken Sie auf den Link 'Onlinespeicherplatz anfordern oder mit einem Netzlaufwerk verbinden'.</li><li>Ein Assistentenfenster erscheint. Klicken Sie auf 'Weiter'.</li><li>Wählen Sie die Option 'Eine andere Netzwerkressource auswählen' aus, und klicken Sie auf 'Weiter'.<li>Geben Sie folgenden Text in das Feld 'Internet- oder Netzwerkadresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/>und klicken Sie auf 'Weiter'.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Anleitung für Mac OS X</h3><ol><li>Aktivieren Sie den Finder.</li><li>Wählen Sie das Menü 'Gehe zu &gt; Mit Server verbinden...'.</li><li>Ein Dialogfenster erscheint. Geben Sie folgende Addresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li><li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Anleitung für Linux mit Konqueror</h3><ol><li>Starten Sie den Konqueror Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol><h3>Anleitung für Linux mit Nautilus</h3><ol><li>Starten Sie den Nautilus Browser.</li><li>Geben Sie folgende Adresse in das Adressfeld ein:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und drücken Sie die Eingabetaste.</li><li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li></ol>[/IF_LINUX]<p>Falls Ihr Computer den Webordner nicht öffnen kann, nehmen Sie bitte mit <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a> Kontakt auf.</p>
 common#:#use_default_instructions#:#Standard-Anleitungstext verwenden.
@@ -7894,7 +7894,7 @@ cmps#:#cmps_plugin_slot#:#Plugin-Slot
 cmps#:#cmps_component#:#Komponente
 cmps#:#cmps_lang_prefix#:#Präfix Sprachvariable
 cmps#:#cmps_plugin_db_prefixes#:#Präfixe Datenbanktabelle
-cmps#:#cmps_disable_creation#:#Disable Creation###11 03 2008 new variable
+cmps#:#cmps_disable_creation#:#Erstellung ausschalten
 cmps#:#cmps_rep_object#:#Objekttyp im Magazin
 cmps#:#cmps_add_new_rank#:#Position in der Auswahlliste für hinzuzufügende Objekte
 cmps#:#cmps_plugin_dirs#:#Plugin-Verzeichnisse
@@ -7918,7 +7918,7 @@ cmps#:#cmps_database#:#Datenbank
 cmps#:#cmps_languages#:#Sprachen
 cmps#:#cmps_basic_files#:#Basis-Dateien
 cmps#:#cmps_name#:#Name
-cmps#:#cmps_id#:#ID###
+cmps#:#cmps_id#:#ID
 common#:#wiki#:#Wiki
 common#:#obj_wiki#:#Wiki
 common#:#objs_wiki#:#Wikis
@@ -8049,7 +8049,7 @@ rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_visible#:#Kurs-Links sind sichtbar
 rbac#:#rcrs_read#:#Lesezugriff auf Kurs-Links
 rbac#:#rcrs_delete#:#Kurs-Links löschen
-rbac#:#cat_create_rcrs#:#Neuen Kurs-Links anlegen
+rbac#:#cat_create_rcrs#:#Neuen Kurs-Link anlegen
 rbac#:#rcrs_write#:#Kurs-Link bearbeiten
 content#:#cont_alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_alphabetic_s#:#Alphabetisch a, b, ...
@@ -8417,7 +8417,7 @@ payment#:#pay_topics_sort_by_title#:#Nach Title
 payment#:#pay_topics_sort_by_date#:#Nach Datum
 payment#:#pay_topics_sort_manually#:#Händisch
 payment#:#pay_sorting_value#:#Sortierwert
-payment#:#pay_save_sorting#:#Sortierung Speichern
+payment#:#pay_save_sorting#:#Sortierung speichern
 payment#:#pay_max_hits#:#Maximalanzahl von Treffern
 payment#:#pay_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
 payment#:#pay_personal_settings#:#Persönliche Einstellungen
@@ -8444,26 +8444,26 @@ wiki#:#wiki_msg_short_name_regexp#:#Kurztitel dürfen nicht mit einer Zahl begin
 wiki#:#wiki_feedback_from_tutor#:#Feedback des Tutors
 wiki#:#wiki_introduction#:#Einführung
 wiki#:#wiki_pages#:#Seiten
-wiki#:#wiki_quick_navigation#:#Wiki-Schnellnavigation###23 07 2008 new variable
-content#:#cont_insert_map#:#Insert Map###23 07 2008 new variable
-content#:#cont_update_map#:#Edit Map###23 07 2008 new variable
-content#:#cont_location#:#Location###23 07 2008 new variable
-content#:#cont_align#:#Alignment###23 07 2008 new variable
-content#:#cont_insert_page#:#Insert Page###23 07 2008 new variable
-content#:#cont_insert_chapter#:#Insert Chapter###23 07 2008 new variable
-content#:#cont_insert_subchapter#:#Insert Subchapter###23 07 2008 new variable
-content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard###23 07 2008 new variable
-content#:#cont_insert_chapter_from_clip#:#Paste Chapters from Clipboard###23 07 2008 new variable
-content#:#cont_insert_subchapter_from_clip#:#Paste Subchapters from Clipboard###23 07 2008 new variable
-content#:#cont_left#:#Left###23 07 2008 new variable
-content#:#cont_right#:#Right###23 07 2008 new variable
-content#:#cont_center#:#Center###23 07 2008 new variable
-content#:#cont_left_float#:#Left, Floating###23 07 2008 new variable
-content#:#cont_right_float#:#Right, Floating###23 07 2008 new variable
-rbac#:#cat_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#crs_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#grp_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
+wiki#:#wiki_quick_navigation#:#Wiki-Schnellnavigation
+content#:#cont_insert_map#:#Karte einfügen
+content#:#cont_update_map#:#Karte bearbeiten
+content#:#cont_location#:#Position
+content#:#cont_align#:#Ausrichtung
+content#:#cont_insert_page#:#Seite einfügen
+content#:#cont_insert_chapter#:#Kapitel einfügen
+content#:#cont_insert_subchapter#:#Unterkapitel einfügen
+content#:#cont_insert_page_from_clip#:#Seite aus Zwischenablage einfügen
+content#:#cont_insert_chapter_from_clip#:#Kapitel aus Zwischenablage einfügen
+content#:#cont_insert_subchapter_from_clip#:#Unterkapitel aus Zwischenablage einfügen
+content#:#cont_left#:#Links
+content#:#cont_right#:#Rechts
+content#:#cont_center#:#Mittig
+content#:#cont_left_float#:#Links, Text umfließt
+content#:#cont_right_float#:#Rechts, Text umfließt
+rbac#:#cat_create_wiki#:#Neues Wiki anlegen
+rbac#:#crs_create_wiki#:#Neues Wiki anlegen
+rbac#:#grp_create_wiki#:#Neues Wiki anlegen
+rbac#:#fold_create_wiki#:#Neues Wiki anlegen
 payment#:#pay_abstract#:#Abstract
 payment#:#pay_edit_abstract#:#Abstract Bearbeiten
 payment#:#pay_thumbnail#:#Thumbnail
@@ -8502,14 +8502,14 @@ common#:#password_must_special_chars#:#Das Passwort muß Sonderzeichen enthalten
 ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erst-Anmeldung
 ps#:#ps_password_change_on_first_login_enabled_info#:#Wenn aktiviert, müßen Benutzer bei der ersten Anmeldung ihr Paswort ändern (außer selbst registrierte Benutzer):
 common#:#password_change_on_first_login_demand#:#Ihr initiales Passwort muß geändert werden bevor Sie die ILIAS Services nutzen können.
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
-common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
-common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
-common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
-common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
+common#:#wiki_read#:#Wiki-Inhalte lesen
+common#:#wiki_delete#:#Wiki löschen
+common#:#wiki_copy#:#Wiki kopieren
+common#:#wiki_visible#:#Wiki ist sichtbar
+common#:#wiki_edit_permission#:#Rechteeinstellungen ändern
+common#:#il_crs_non_member#:#Kein Kursmitglied
+common#:#il_grp_status_closed#:#Geschlossene Gruppe
+common#:#il_grp_status_open#:#Offene Gruppe
 ps#:#ps_password_min_length_info#:#Setzt die minimale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist müssen Passwörter trotzdem mindestens 1 Zeichen enthalten.
 crs#:#crs_archive_language_selection#:#Sprachauswahl
 common#:#zip_test_failed#:#Der Zip-Test ist fehlgeschlagen. Bitte kontaktieren Sie ihren ILIAS Administrator.
@@ -8563,74 +8563,74 @@ chat#:#chat_sound_status_activate#:#Sounds aktvieren
 chat#:#chat_sound_status_deactivate#:#Sounds deaktvieren
 assessment#:#reset_pictures#:#Positionen der Bilder zurücksetzen
 assessment#:#reset_definitions#:#Positionen der Definitionen zurücksetzen
-content#:#cont_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
-content#:#cont_syntax_help#:#Syntax Help###15 09 2008 new variable
-content#:#cont_bullet_list#:#Bullet List###15 09 2008 new variable
-content#:#cont_numbered_list#:#Numbered List###15 09 2008 new variable
-content#:#cont_wiki_page_link#:#Wiki Page Link###15 09 2008 new variable
-content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.###15 09 2008 new variable
-content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###15 09 2008 new variable
-form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
-form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.###15 09 2008 new variable
-common#:#all_commands#:#All Commands###15 09 2008 new variable
-common#:#basic_commands#:#Basic Commands###15 09 2008 new variable
-wiki#:#wiki_wiki_page#:#Wiki Page###15 09 2008 new variable
-wiki#:#wiki_short_title_desc2#:#This title will be used in links to the wiki. Once choosen you should not change this title, since users may loose their bookmarks.###15 09 2008 new variable
-wiki#:#wiki_wiki_search#:#Wiki Search###15 09 2008 new variable
-wiki#:#wiki_search#:#Search###15 09 2008 new variable
-wiki#:#wiki_search_results#:#Search Results###15 09 2008 new variable
-mep#:#mep_parent_folder#:#Parent Folder###15 09 2008 new variable
-mep#:#mep_thumbnail#:#Thumbnail###15 09 2008 new variable
-mep#:#mep_title_and_description#:#Title and Description###15 09 2008 new variable
-mep#:#mep_create_mob#:#Create Media Object###15 09 2008 new variable
-mep#:#mep_create_folder#:#Create Folder###15 09 2008 new variable
-mep#:#mep_copy_to_mep#:#Copy to Media Pool###15 09 2008 new variable
-tagging#:#tagging_tag_info#:#To attach tags to a ressource open the info screen of the ressource and enter your tags.###15 09 2008 new variable
-content#:#cont_links#:#Links###15 09 2008 new variable
-content#:#cont_internal_links#:#Internal Links###15 09 2008 new variable
-content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode###15 09 2008 new variable
-content#:#cont_js_chap_editing#:#Use JavaScript Editing Mode###15 09 2008 new variable
-content#:#cont_chapters_after_pages#:#Please note that pages have to precede all subchapters of the same level.###15 09 2008 new variable
-content#:#cont_add_rectangle#:#Add Rectangle###15 09 2008 new variable
-content#:#cont_add_circle#:#Add Circle###15 09 2008 new variable
-content#:#cont_add_polygon#:#Add Polygon###15 09 2008 new variable
-content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)###15 09 2008 new variable
-content#:#cont_edit_shape_circle#:#Edit Shape (Circle)###15 09 2008 new variable
-content#:#cont_edit_shape_polygon#:#Edit Shape (Polygon)###15 09 2008 new variable
-content#:#cont_new_mob#:#New Media Object###15 09 2008 new variable
-content#:#cont_mob_from_media_pool#:#Choose From Media Pool###15 09 2008 new variable
-content#:#cont_select_media_pool#:#Select Media Pool###15 09 2008 new variable
-content#:#cont_table_properties#:#Table Properties###15 09 2008 new variable
-content#:#cont_table_cell_properties#:#Table Cell Properties###15 09 2008 new variable
-content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.###15 09 2008 new variable
-content#:#cont_set_styles_and_widths#:#Set Styles and Widths###15 09 2008 new variable
-content#:#cont_Special#:#Special###15 09 2008 new variable
-content#:#cont_Excursus#:#Excursus###15 09 2008 new variable
-content#:#cont_localfile#:#Local File###15 09 2008 new variable
-content#:#cont_Block#:#Block###15 09 2008 new variable
-content#:#cont_def_map_areas#:#Default Link Areas###15 09 2008 new variable
-content#:#cont_inst_map_areas#:#Instance Link Areas###15 09 2008 new variable
-content#:#cont_mob_def_prop#:#Default Properties###15 09 2008 new variable
-content#:#cont_current_page#:#Current Page###15 09 2008 new variable
-content#:#cont_current_chapter#:#Current Chapter###15 09 2008 new variable
-content#:#cont_selected_pg_chap#:#Selected Pages/Chapters###15 09 2008 new variable
-content#:#cont_target_missing#:#Target Missing###15 09 2008 new variable
-content#:#cont_print_view_pre_glo#:#Prevent Glossary Appendix in Print View###15 09 2008 new variable
-content#:#cont_paste_table#:#Paste Table###15 09 2008 new variable
-content#:#cont_html_table#:#HTML Table###15 09 2008 new variable
-content#:#cont_spreadsheet_table#:#Spreadsheet Table###15 09 2008 new variable
-cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.###15 09 2008 new variable
-cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor###15 09 2008 new variable
-cntr#:#cntr_back_to_old_editor#:#Back to Old Editor###15 09 2008 new variable
-cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.###15 09 2008 new variable
-cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation###15 09 2008 new variable
-cntr#:#cntr_switched_editor#:#Switched to new content.###15 09 2008 new variable
-cntr#:#cntr_#:#Sessions View###15 09 2008 new variable
-common#:#no_items#:#No Items###15 09 2008 new variable
-content#:#cont_first_row_style#:#First Row Style###15 09 2008 new variable
-content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
-content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
-content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.###15 09 2008 new variable
-chat#:#chat_chat_invitation#:#Chat Invitations###15 09 2008 new variable
+content#:#cont_add_elements#:#Klicken Sie auf einen Platzhalter, um ein neues Element hinzuzufügen.
+content#:#cont_syntax_help#:#Syntax-Hilfe
+content#:#cont_bullet_list#:#Unnummerierte Liste
+content#:#cont_numbered_list#:#Nummerierte Liste
+content#:#cont_wiki_page_link#:#Wikiseiten-Link
+content#:#cont_drag_and_drop_elements#:#Um Content-Elemente zu bewegen, ziehen Sie diese mit der Maus auf die Platzhalter.
+content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für die De-/Aktivierung und für das Löschen aus.
+form#:#form_hierarchy_add_elements#:#Um neue Elemente hinzuzufügen, klicken Sie auf die Platzhalter.
+form#:#form_hierarchy_drag_drop_help#:#Ziehen Sie die Icons mit der Maus auf die Platzhalter, um Elemente zu bewegen.
+common#:#all_commands#:#Alle Funktionen
+common#:#basic_commands#:#Basisfunktionen
+wiki#:#wiki_wiki_page#:#Wiki-Seite
+wiki#:#wiki_short_title_desc2#:#Dieser Titel wird in Links zu diesem Wiki genutzt. Ändern Sie diesen Titel später nicht mehr ab, da hierdurch die Lesezeichen/Bookmarks der Benutzer zu diesem Wiki nicht mehr funktionieren würden.
+wiki#:#wiki_wiki_search#:#Suche in Wiki
+wiki#:#wiki_search#:#Suche
+wiki#:#wiki_search_results#:#Suchergebnisse
+mep#:#mep_parent_folder#:#Übergeordneter Ordner
+mep#:#mep_thumbnail#:#Miniaturbild
+mep#:#mep_title_and_description#:#Titel und Beschreibung
+mep#:#mep_create_mob#:#Neues Mediaobjekt anlegen
+mep#:#mep_create_folder#:Neuen Ordner anlegen
+mep#:#mep_copy_to_mep#:#In Mediapool kopieren
+tagging#:#tagging_tag_info#:#Um Inhalte mit Schlagwörtern (Tags) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Schlagwörter ein.
+content#:#cont_links#:#Links
+content#:#cont_internal_links#:#Interne Links
+content#:#cont_not_js_chap_editing#:#Bearbeitungsmodus «Ohne JavaScript» benutzen
+content#:#cont_js_chap_editing#:#JavaScript-Bearbeitungsmodus benutzen
+content#:#cont_chapters_after_pages#:#Beachten Sie, dass innerhalb einer Ebene zunächst alle Seiten und dann erst die Unterkapitel aufgeführt werden.
+content#:#cont_add_rectangle#:#Viereck hinzufügen
+content#:#cont_add_circle#:#Kreis hinzufügen
+content#:#cont_add_polygon#:#Polygon# hinzufügen
+content#:#cont_edit_shape_rectangle#:#Umriss (Viereck) bearbeiten
+content#:#cont_edit_shape_circle#:#Umriss (Kreis) bearbeiten
+content#:#cont_edit_shape_polygon#:#Umriss (Polygon) bearbeiten
+content#:#cont_new_mob#:#Neues Media-Objekt
+content#:#cont_mob_from_media_pool#:#Aus Media-Pool auswählen
+content#:#cont_select_media_pool#:#Media-Pool auswählen
+content#:#cont_table_properties#:#Eigenschaften der Tabelle
+content#:#cont_table_cell_properties#:#Eigenschaften der Tabellenzelle
+content#:#cont_set_tab_style_info#:#Checkboxen aktivieren, um die Tabellenzellen zu formatieren
+content#:#cont_set_styles_and_widths#:#Stil und Breite festlegen
+content#:#cont_Special#:#Spezial
+content#:#cont_Excursus#:#Exkurs
+content#:#cont_localfile#:#Lokale Datei
+content#:#cont_Block#:#Block
+content#:#cont_def_map_areas#:#Verlinkte Bereiche (Standard)
+content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
+content#:#cont_mob_def_prop#:#Standardeinstellungen
+content#:#cont_current_page#:#Aktuelle Seite
+content#:#cont_current_chapter#:#Aktuelles Kapitel
+content#:#cont_selected_pg_chap#:#Ausgewählte Seiten/Kapitel
+content#:#cont_target_missing#:#Zielpunkt fehlt
+content#:#cont_print_view_pre_glo#:#Keine Anzeige des Glossaranhanges in der Druckansicht
+content#:#cont_paste_table#:#Tabelle einfügen
+content#:#cont_html_table#:#HTML-Tabelle
+content#:#cont_spreadsheet_table#:#Kalkulationstabelle
+cntr#:#cntr_old_editor_warning#:#Dieser Editor wird aus technischen Gründen in einer der nächsten Versionen nicht mehr weiter unterstützt. Er kann noch für die Bearbeitung dieser Seite genutzt werden. Wir empfehlen aber, auf die Nutzung des Standard-Seiteneditors von ILIAS umzusteigen, wenn dies möglich ist.
+cntr#:#cntr_old_editor_open_standard_editor#:#Standard-Seiteneditor öffnen
+cntr#:#cntr_back_to_old_editor#:#Zurück zum alten Editor
+cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Benutzen Sie ihn zur Aktualisierung der Seiteninhalte. Wenn Sie auf den nachfolgenden Link klicken, wird die Seitendarstellung auf die Form des neuen Editors umgestellt.
+cntr#:#cntr_switch_to_new_editor_cmd#:#Wechseln Sie zu dieser Seite für die Darstellung.
+cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
+cntr#:#cntr_#:#Sitzungsansicht
+common#:#no_items#:#Keine Elemente
+content#:#cont_first_row_style#:#Stil der ersten Zeile
+content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen
+content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden in die Zwischenablage verschoben. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen.
+content#:#cont_choose_pages_or_chapters_only#:#Bitte wählen Sie entweder Seiten oder Kapitel aus.
+chat#:#chat_chat_invitation#:#Einladungen zu Chats
 common#:#selected_languages_updated#:#Die ausgewählten Sprachen wurden aktualisiert (sofern installiert):
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
