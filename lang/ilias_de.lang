@@ -4116,7 +4116,7 @@ content#:#cont_ed_insert_code#:#Code einfügen
 content#:#cont_ed_insert_filelist#:#Dateiliste einf.
 content#:#cont_ed_insert_list#:#Liste einfügen
 content#:#cont_ed_insert_media#:#Medien einfügen
-content#:#cont_ed_insert_par#:#Absatz einfügen
+content#:#cont_ed_insert_par#:#Text einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
 content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_moveafter#:#Verschieben nach
@@ -4139,7 +4139,7 @@ content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Medienobjekt-Instanz bear
 content#:#cont_edit_mob_files#:#Objektdateien
 content#:#cont_edit_mob_properties#:#Eigenschaften des Medienobjekts bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
-content#:#cont_edit_par#:#Absatz bearbeiten
+content#:#cont_edit_par#:#Text bearbeiten
 content#:#cont_edit_src#:# Quellcode bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_term#:#Begriff editieren
@@ -4186,7 +4186,7 @@ content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
-content#:#cont_insert_par#:#Absatz einfügen
+content#:#cont_insert_par#:#Text einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_src#:#Sourcecode einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
@@ -4435,7 +4435,7 @@ content#:#msg_page_no_public_access#:#Die aufgerufene Seite ist für den öffent
 content#:#msg_page_not_public#:#Page is not public
 content#:#pages from#:#Seiten von
 content#:#Pages#:#Seiten
-content#:#par#:#Absatz
+content#:#par#:#Text
 content#:#PDF export#:#PDF Export
 content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
@@ -8251,7 +8251,7 @@ wiki#:#wiki_notgraded#:#Nicht bewertet
 wiki#:#wiki_passed#:#Bestanden
 wiki#:#wiki_failed#:#Durchgefallen
 wiki#:#wiki_mark#:#Note
-wiki#:#wiki_activate_rating#:#Beurteilung aktivieren
+wiki#:#wiki_activate_rating#:#Bewertung aktivieren
 wiki#:#wiki_orphaned_pages#:#Verwaiste Seiten
 wiki#:#wiki_last_changed_by#:#Letzte Änderung von
 wiki#:#wiki_created_by#:#Angelegt von
@@ -8582,8 +8582,8 @@ wiki#:#wiki_search_results#:#Suchergebnisse
 mep#:#mep_parent_folder#:#Übergeordneter Ordner
 mep#:#mep_thumbnail#:#Miniaturbild
 mep#:#mep_title_and_description#:#Titel und Beschreibung
-mep#:#mep_create_mob#:#Neues Mediaobjekt anlegen
-mep#:#mep_create_folder#:Neuen Ordner anlegen
+mep#:#mep_create_mob#:#Mediaobjekt anlegen
+mep#:#mep_create_folder#:#Ordner anlegen
 mep#:#mep_copy_to_mep#:#In Mediapool kopieren
 tagging#:#tagging_tag_info#:#Um Inhalte mit Schlagwörtern (Tags) auszuzeichnen, öffnen Sie die Info-Seite des Objekts und geben dort die Schlagwörter ein.
 content#:#cont_links#:#Links
@@ -8625,7 +8625,7 @@ cntr#:#cntr_back_to_old_editor#:#Zurück zum alten Editor
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Benutzen Sie ihn zur Aktualisierung der Seiteninhalte. Wenn Sie auf den nachfolgenden Link klicken, wird die Seitendarstellung auf die Form des neuen Editors umgestellt.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Wechseln Sie zu dieser Seite für die Darstellung.
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
-cntr#:#cntr_#:#Sitzungsansicht
+cntr#:#cntr_view_sessions#:#Sitzungsansicht
 common#:#no_items#:#Keine Elemente
 content#:#cont_first_row_style#:#Stil der ersten Zeile
 content#:#cont_selected_items_have_been_copied#:#Die ausgewählten Elemente wurden in die Zwischenablage kopiert. Klicken Sie jetzt auf den entsprechenden Platzhalter, um diese in das Lernmodul einzufügen
@@ -8634,3 +8634,5 @@ content#:#cont_choose_pages_or_chapters_only#:#Bitte wählen Sie entweder Seiten
 chat#:#chat_chat_invitation#:#Einladungen zu Chats
 common#:#selected_languages_updated#:#Die ausgewählten Sprachen wurden aktualisiert (sofern installiert):
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
+content#:#cont_rollback#:#Rollback###19 09 2008 new variable
+content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?###19 09 2008 new variable

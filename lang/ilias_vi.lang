@@ -8576,7 +8576,6 @@ cntr#:#cntr_back_to_old_editor#:#Back to Old Editor###15 09 2008 new variable
 cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.###15 09 2008 new variable
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation###15 09 2008 new variable
 cntr#:#cntr_switched_editor#:#Switched to new content.###15 09 2008 new variable
-cntr#:#cntr_#:#Sessions View###15 09 2008 new variable
 common#:#no_items#:#No Items###15 09 2008 new variable
 content#:#cont_first_row_style#:#First Row Style###15 09 2008 new variable
 content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
@@ -8635,3 +8634,12 @@ chat#:#chat_sound_status_activate#:#Activate Sounds###15 09 2008 new variable
 chat#:#chat_sound_status_deactivate#:#Deactivate Sounds###15 09 2008 new variable
 assessment#:#reset_pictures#:#Reset Picture Positions###15 09 2008 new variable
 assessment#:#reset_definitions#:#Reset Definition Position###15 09 2008 new variable
+administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab. ###19 09 2008 new variable
+administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to the current language file. ###19 09 2008 new variable
+administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.###19 09 2008 new variable
+administration#:#language_scope_conflicts#:#Local and update changes###19 09 2008 new variable
+content#:#cont_rollback#:#Rollback###19 09 2008 new variable
+content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?###19 09 2008 new variable
+cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
+common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
+common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
