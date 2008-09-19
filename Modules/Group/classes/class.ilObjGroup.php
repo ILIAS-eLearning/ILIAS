@@ -1801,27 +1801,20 @@ class ilObjGroup extends ilContainer
 	{
 		global $tree;
 		
-		// default: inherit from parent
-		$view = ilContainer::VIEW_INHERIT;
+		// default: by type
+		$view = ilContainer::VIEW_BY_TYPE;
 		
-		switch ($view)
+		if ($course_ref_id = $tree->checkForParentType($this->ref_id,'crs'))
 		{
-			// inhert the view from the parent
-			case ilContainer::VIEW_INHERIT:
-				// get view mode from course
-				$view = ilContainer::VIEW_SIMPLE;
-				if ($course_ref_id = $tree->checkForParentType($this->ref_id,'crs'))
-				{
-					include_once("./Modules/Course/classes/class.ilObjCourse.php");
-					$view_mode = ilObjCourse::_lookupViewMode(
-						ilObject::_lookupObjId($course_ref_id));
-					if ($view_mode == ilContainer::VIEW_SESSIONS ||
-						ilContainer::VIEW_BY_TYPE)
-					{
-						$view = $view_mode;
-					}
-				}
-				break;
+			include_once("./Modules/Course/classes/class.ilObjCourse.php");
+			$view_mode = ilObjCourse::_lookupViewMode(
+				ilObject::_lookupObjId($course_ref_id));
+			if ($view_mode == ilContainer::VIEW_SESSIONS ||
+				$view_mode == ilContainer::VIEW_BY_TYPE ||
+				$view_mode == ilContainer::VIEW_SIMPLE)
+			{
+				$view = $view_mode;
+			}
 		}
 		return $view;
 	}
