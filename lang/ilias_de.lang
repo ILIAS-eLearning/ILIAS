@@ -8634,5 +8634,5 @@ content#:#cont_choose_pages_or_chapters_only#:#Bitte wählen Sie entweder Seiten
 chat#:#chat_chat_invitation#:#Einladungen zu Chats
 common#:#selected_languages_updated#:#Die ausgewählten Sprachen wurden aktualisiert (sofern installiert):
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
-content#:#cont_rollback#:#Rollback###19 09 2008 new variable
-content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?###19 09 2008 new variable
+content#:#cont_rollback#:#Rollback
+content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version der Seite wiederherstellen?
