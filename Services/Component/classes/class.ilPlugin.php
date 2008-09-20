@@ -475,11 +475,9 @@ abstract class ilPlugin
 	/**
 	* Get css file location
 	*/
-	public final function getStyleSheetLocation($a_template, $a_par1 = true, $a_par2 = true)
+	public final function getStyleSheetLocation($a_css_file)
 	{
-		$tpl = new ilTemplate($this->getDirectory()."/templates/".$a_template, $a_par1, $a_par2);
-		
-		return $tpl;
+		return $this->getDirectory()."/templates/".$a_css_file;
 	}
 
 	/**
