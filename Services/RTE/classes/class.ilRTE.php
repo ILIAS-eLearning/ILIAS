@@ -127,6 +127,16 @@ class ilRTE
 	{
 		// must be overwritten in parent classes
 	}
+	
+	/**
+	* Adds support for an user text editor
+	*
+	* @access public
+	*/
+	function addUserTextEditor($editor_selector)
+	{
+		// must be overwritten in parent classes
+	}
 
 	/**
 	* Adds custom support for an RTE in an ILIAS form
