@@ -397,7 +397,7 @@ common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
 common#:#auth_new_account_mail_desc#:#Send mail til bruger omkring den nye konto, hvis brugeren er automatisk oprettet. Der generes kun et password hvis "Tillad lokal autentificering" også er aktiveret.
 common#:#auth_per_default#:#Som standard
 common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
+common#:#auth_radius_configure#:#Konfigurer RADIUS-Authentificering
 common#:#auth_radius_desc#:#Verificer brugere via RADIUS-serveren
 common#:#auth_radius_enable#:#Tillad RADIUS support
 common#:#auth_radius_not_configured#:#RADIUS er ikke konfigureret endnu
@@ -557,7 +557,7 @@ common#:#change_assignment#:#Skift tildelinger
 common#:#perm_special_options#:#Særligt
 common#:#change_existing_objects#:#Ændrer eksisterende objekter
 common#:#change_existing_objects_desc#:#Rettighedsindstillingerne for denne rolle vil blive anvendt på ALLE eksisterende objekter. Hvis du kun ønsker at ændre rettighederne for specifikke objekttyper så vælg i afkrydsboksene til højre for objekttypen.
-common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.###25 02 2007 new variable
+common#:#role_protect_permissions_desc#:#Rettighederne til objektet kan ikke længere ændres. Kun administratorer på et højere niveau må ændre disse indstillinger.
 common#:#change_existing_prefix#:#Ret eksisterende
 common#:#change_existing_suffix#:#&nbsp;
 common#:#change_existing_prefix_single#:#Ret
@@ -574,7 +574,7 @@ common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitel nummer
 common#:#chapter_title#:#Titel på Overskrift
 common#:#characters#:#karakterer
-common#:#chat#:#Chat###21 Apr 2005 new variable
+common#:#chat#:#Chat
 common#:#chat_active_in#:#Online i chat:
 common#:#chat_add#:#Tilføj chat
 common#:#chat_delete#:#Slet chat
@@ -931,15 +931,15 @@ common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
 common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms
 common#:#extt_ilinc_akclassvalues_required#:#Cost center required
 common#:#extt_ilinc_akclassvalues_required_info#:#Specifying at least one Cost center for a LearnLinc Seminar is required
-common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###28 Feb 2006 new variable
+common#:#extt_ilinc_configure#:#Konfigurer netucate LearnLinc
 common#:#extt_ilinc_connection_data#:#Connection data
 common#:#extt_ilinc_customer_id#:#Kunde ID
 common#:#extt_ilinc_desc#:#Udbyder virtuelle klasseværelser.For at få mere at vide - kontakt venligst Netucate på www.netucate.com
 common#:#extt_ilinc_enable#:#Tillad LearnLinc support
-common#:#extt_ilinc_protocol_port#:#Protocol & Port###07 Sep 2005 new variable
-common#:#extt_ilinc_registrar_login#:#Login ID
-common#:#extt_ilinc_registrar_passwd#:#Password###14 Jul 2005 new variable
-common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
+common#:#extt_ilinc_protocol_port#:#Protokol & Port
+common#:#extt_ilinc_registrar_login#:#Brugernavn
+common#:#extt_ilinc_registrar_passwd#:#Password
+common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLincindstillinger er gemt
 common#:#extt_ilinc_timeout#:#Maksimaltid for svar fra serveren
 common#:#extt_name#:#Software/service
@@ -972,7 +972,7 @@ common#:#file_notice#:#Bemærk at den maksimale størrelse er
 common#:#file_allowed_suffixes#:#Tilladte filtyper:
 common#:#file_read#:#Download fil
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
-common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
+common#:#file_suffix_repl_info#:#Filer med disse endelser (separeret af komma) vil blive omdøbt til ".sec" når de uploades i webspace. Dette gøres som standard for endelser:
 common#:#file_valid#:#Filen er gyldig!
 common#:#file_version#:#Version er vist i Filen
 common#:#file_visible#:#Filen er synlig
@@ -1032,7 +1032,7 @@ common#:#forum_notify_me_directly#:#Informer mig om direkte besvarelser på mit 
 common#:#forum_notify_me_generally#:#Informer mig om ethvert bidrag til mit emne.
 common#:#forum_post_replied#:#Dit indlæg i forum er blevet besvaret.
 common#:#forums#:#Fora
-common#:#forums_articles#:#Indlæg###
+common#:#forums_articles#:#Indlæg
 common#:#forums_last_post#:#Seneste indlæg
 common#:#forums_moderators#:#Moderatorer
 common#:#forums_new_articles#:#Nye indlæg#
@@ -1054,7 +1054,7 @@ common#:#frm_new#:#Nyt forum
 common#:#frm_read#:#Læseadgang til forum
 common#:#frm_statistics_ranking#:#Ranking
 common#:#frm_status_new#:#Status \'Ny\'
-common#:#frm_status_new_desc#:#Venligst vælg en periode for hvor længe indhold har status som \'Ny\'.###
+common#:#frm_status_new_desc#:#Venligst vælg en periode for hvor længe indhold har status som \'Ny\'.
 common#:#frm_visible#:#Forum er synligt
 common#:#frm_write#:#Rediger forum
 common#:#fullname#:#Fulde navn
@@ -1075,7 +1075,7 @@ common#:#glo_delete#:#Slet ordbog
 common#:#glo_edit_permission#:#ændre rettighedsindstillinger
 common#:#glo_join#:#Skriv til ordbog
 common#:#glo_leave#:#Slet fra ordbog
-common#:#glo_mode#:#Mode###20 Jun 2005 new variable
+common#:#glo_mode#:#Mode
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in t
 common#:#glo_mode_level#:#Virtuel (kun dette niveau)
 common#:#glo_mode_normal#:#Normal
@@ -1118,7 +1118,7 @@ common#:#group_registration_expiration_date#:#Udløbsdag
 common#:#group_registration_expiration_time#:#Udløbstid
 common#:#group_registration_expired#:#Registreringsperioden er udløbet eller du er (endnu) ikke aktiveret
 common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
-common#:#group_registration_mode#:#Registrerings metode###23 Dec 2005 content changed
+common#:#group_registration_mode#:#Tilmeldingsmetode
 common#:#group_registration_time#:#Indmeldelsesperiode
 common#:#group_req_direct#:#Direkte registrering
 common#:#group_req_password#:#Tilmeld med gruppepassword
@@ -1130,8 +1130,8 @@ common#:#group_status_closed#:#Lukket
 common#:#group_status_desc#:#Bestemmer status for gruppen udfra rettighedsskabeloner.  <br />Åben: Gruppen er synlig og brugere kan selv (forsøge) tilmelding.<br />Lukket: Gruppen er usynlig for ikke-medlemmer, så du skal selv indmelde dem.
 common#:#group_status_public#:#Åben
 common#:#groupings#:#Begrænsninger på medlemsskab
-common#:#groupings_assigned_obj_crs#:#Tildelte kurser
-common#:#groupings_assigned_obj_grp#:#Tildelte grupper
+common#:#groupings_assigned_obj_crs#:#Tilmeldte kurser
+common#:#groupings_assigned_obj_grp#:#Tilmeldte grupper
 common#:#groups#:#Grupper
 common#:#groups_overview#:#Oversigt over Grupper
 common#:#grp#:#Gruppe
@@ -1167,7 +1167,7 @@ common#:#grp_create_webr#:#Opret webresurse
 common#:#grp_delete#:#Slet gruppe
 common#:#grp_deleted_export_files#:#Slet valgte filer.
 common#:#grp_dismiss_member#:#Er du sikker på at du vil afmelde den følgende bruger(e) fra gruppen
-common#:#grp_dismiss_myself#:#er du sikker du gerne vil afmelde dig selv fra gruppen###23 Dec 2005 content changed
+common#:#grp_dismiss_myself#:#Er du sikker på du vil udmelde dig af gruppen?
 common#:#grp_edit#:#Rediger gruppe
 common#:#grp_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#grp_edit_permission#:#ændre rettighedsindstillinger
@@ -1301,22 +1301,22 @@ common#:#icrs_new#:#New iLinc kursus
 common#:#icrs_read#:#Læseadgang til iLinc kursus
 common#:#icrs_visible#:#iLinckursus er synligt
 common#:#icrs_write#:#Rediger iLinckursus
-common#:#id#:#ID###21 Apr 2005 new variable
+common#:#id#:#ID
 common#:#identifier#:#identifier###21 Apr 2005 new variable
 common#:#if_no_title_then_filename#:#Lad den forblive blank for at få vist filnavnet
-common#:#if_no_title_then_url#:#Leave blank to display the URL###21 Apr 2005 new variable
+common#:#if_no_title_then_url#:#Hvis blank vises URL'en
 common#:#ignore_on_conflict#:#Ignorer ved konflikt
-common#:#il_chat_moderator#:#Chat moderator###01 Jul 2005 new variable
+common#:#il_chat_moderator#:#Chat moderator
 common#:#il_crs_admin#:#Kursusadministrator
 common#:#il_crs_member#:#Medlem
-common#:#il_crs_tutor#:#Tutor###20 Jun 2005 new variable
-common#:#il_frm_moderator#:#Moderator###20 Jun 2005 new variable
-common#:#il_grp_admin#:#Administrator###20 Jun 2005 new variable
+common#:#il_crs_tutor#:#Tutor
+common#:#il_frm_moderator#:#Moderator
+common#:#il_grp_admin#:#Administrator
 common#:#il_grp_member#:#Medlem
-common#:#il_icrs_admin#:#LearnLinc Seminar administrator###14 Jul 2005 new variable
+common#:#il_icrs_admin#:#LearnLinc Seminar administrator
 common#:#il_icrs_member#:#LearnLinc seminarmedlem
 common#:#ilias_version#:#ILIAS version
-common#:#ilinc_add_user#:#Tilføj bruger(e)###06 Sep 2005 new variable
+common#:#ilinc_add_user#:#Tilføj bruger(e)
 common#:#ilinc_akclassvalue#:#Cost center
 common#:#ilinc_akclassvalues#:#Cost centers
 common#:#ilinc_classroom_always_open#:#Klasseværelset er altid åbent
@@ -1362,7 +1362,7 @@ common#:#image#:#billede
 common#:#image_gen_unsucc#:#Billeddannelse ikke successfuldt udført. Kontakt din systemadministrator og få bekræftet stien.
 common#:#import#:#Import
 common#:#import_alm#:#Importer AICCpakke
-common#:#import_cat_localrol#:#Create local role for every new category
+common#:#import_cat_localrol#:#Opret lokal rolle for hver ny kategori.
 common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set
 common#:#import_categories#:#Importer kategorier
 common#:#import_dbk#:#Importer digilibbog
@@ -1377,42 +1377,42 @@ common#:#import_grp_finished#:#Importerede grupper uden nogle fejl
 common#:#import_hlm#:#Importer HACP Pakker
 common#:#import_lm#:#Importer ILIAS Læremodul
 common#:#import_qpl#:#Importer spørgsmålssamling til test
-common#:#import_questions_into_qpl#:#Import question(s) into questionpool###25 Jul 2005 new variable
+common#:#import_questions_into_qpl#:#Importer spørgsmål til spørgsmålsbibliotek
 common#:#import_root_user#:#Importer root bruger
-common#:#import_sahs#:#Importer SCORM/AICC Pakker
+common#:#import_sahs#:#Importer SCORM/AICC pakker
 common#:#import_spl#:#Importer afstemning til undersøgelser
 common#:#import_svy#:#Importer Undersøgelser
 common#:#import_tst#:#Importer test
 common#:#import_users#:#Importer brugere
-common#:#import_warning_log#:#Import warning log###09 Mar 2005 new variable
+common#:#import_warning_log#:#Importer advarsels log
 common#:#important#:#Vigtigt
 common#:#imported#:#importerede
 common#:#in#:#i
 common#:#in_use#:#Bruger Sprog
 common#:#inactive#:#Inaktiv
 common#:#inbox#:#Indbakke
-common#:#include_local#:#include local###include local language file when updating language###17 Aug 2005 new variable
-common#:#info#:#Information###21 Apr 2005 new variable
+common#:#include_local#:#Inkluder lokal
+common#:#info#:#Information
 common#:#info_access_and_status_info#:#Adgang- og statusinformation
 common#:#info_access_permissions#:#Adgangsindstillinger
 common#:#info_assign_sure#:#Er du sikker på at du vil tildele følgende brugere
 common#:#info_assigned#:#tildelt
 common#:#info_available_roles#:#Mulige roller
 common#:#info_change_user_view#:#Rediger brugeradgang
-common#:#info_delete_sure#:#Er du sikker på at du vil slette følgende Objekter?###23 Dec 2005 content changed
-common#:#info_delete_warning_no_trash#:#(WARNING: Selected Objects will be removed irreversibly from System and may not be recovered anymore!)
+common#:#info_delete_sure#:#Er du sikker på at du vil slette følgende Objekter?
+common#:#info_delete_warning_no_trash#:#(ADVARSEL: Valgte objekter bliver uigenkaldeligt fjernet fra systemet og kan ikke genskabes!)
 common#:#info_deleted#:#Objekt(er) slettet
 common#:#info_enter_login_or_id#:#Indsæt dit loginnavn eller bruger-ID
 common#:#info_err_user_not_exist#:#Bruger med følgende loginnavn eller bruger_id eksisterer ikke
 common#:#info_from_role#:#Tildelt af rolle
 common#:#info_is_member#:#Bruger er medlem
 common#:#info_is_not_member#:#Brugeren er ikke medlem
-common#:#info_not_assigned#:#not assigned###20 Jun 2005 new variable
+common#:#info_not_assigned#:#ikke tildelt
 common#:#info_owner_of_object#:#Objektets ejer
 common#:#info_permission_origin#:#Oprindelig position
 common#:#info_permission_source#:#gældende fra
 common#:#info_remark_interrupted#:#Rollen er blevet afbrudt i denne position. Rollens aktive standardadgangsrettigheder kan lokaliseres i den position
-common#:#info_short#:#Info###20 Jun 2005 new variable
+common#:#info_short#:#Info
 common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
 common#:#info_trash#:#Slettede Objekter
 common#:#info_view_of_user#:#Bruger
@@ -4503,17 +4503,17 @@ content#:#cont_preview#:#Se eksempel
 content#:#cont_print_view#:#Udskriv
 content#:#cont_public_access#:#Åben adgang
 content#:#cont_public_notes#:#Offentlige noter
-content#:#cont_public_notes_desc#:#Allow users to share notes on every page of the learning module.
+content#:#cont_public_notes_desc#:#Tillad brugere at dele noter på hver side af læremodulet.
 content#:#cont_publisher#:#Udgiver
 content#:#cont_purpose#:#Formåler
 content#:#cont_ref_helptext#:#(f.eks. http://www.server.org/mitbillede.jpg)
 content#:#cont_ref_images#:#Referenced Images###21 Apr 2005 new variable
 content#:#cont_remove_fullscreen#:#fjern fuldskærm
-content#:#cont_removeiln#:#really remove internal link ?###21 Apr 2005 new variable
+content#:#cont_removeiln#:#Er du sikker på du vil fjerne det internet link?
 content#:#cont_repository_item#:#Oversigts element
 content#:#cont_repository_item_links#:#Links til oversigts elementer
-content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
-content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation#:#Ved at aktivere denne funktion bliver uploadede biller automatisk skaleret til den angivne bredde og højde.
+content#:#cont_resize_explanation2#:#Denne funktion skalerer lokale billedfiler til en specifik bredde og højde.
 content#:#cont_resize_image#:#Skaler billeder
 content#:#cont_resource#:#Resourcer
 content#:#cont_resource_type#:#type
@@ -4523,7 +4523,7 @@ content#:#cont_saved_map_area#:#Gemt kort område
 content#:#cont_saved_map_data#:#Gemt område data
 content#:#cont_sc_auto_review#:#Sæt til lære mode 'se review' hvis bruger har gennemført SCO
 content#:#cont_sc_less_mode_browse#:#Gennemse
-content#:#cont_sc_less_mode_normal#:#Normal###21 Apr 2005 new variable
+content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Set igennem
 content#:#cont_sc_stat_completed#:#Gennemført
 content#:#cont_sc_stat_failed#:#Fejlede
@@ -4563,32 +4563,32 @@ content#:#cont_show_citation#:#Vis med Citat
 content#:#cont_show_line_numbers#:#Vis linje numre
 content#:#cont_show_print_view#:#Vis sideudskrift
 content#:#cont_size#:#Størrelse (Bytes)
-content#:#cont_skip_chapter#:#Skip this chapter###21 Apr 2005 new variable
+content#:#cont_skip_chapter#:#Ignorer dette kapitel
 content#:#cont_source#:#kilde
 content#:#cont_src#:#Kildekode
 content#:#cont_src_other#:#andre
 content#:#cont_st_on_pg#:#Denne funktion er ikke tilladt
 content#:#cont_st_title#:#Titel på  Kapitel
 content#:#cont_startfile#:#Start Fil
-content#:#cont_status#:#Status###21 Apr 2005 new variable
+content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Sletning er ikke mulig. Standard oversigt.
 content#:#cont_std_view#:#Standard Oversigt
 content#:#cont_structure#:#struktur
-content#:#cont_style#:#Style###21 Apr 2005 new variable
+content#:#cont_style#:#Stilark
 content#:#cont_subchapters#:#Underkapitler
-content#:#cont_synchronize_frames#:#Synchronise frames
+content#:#cont_synchronize_frames#:#Synkroniser rammer (frames)
 content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.
 content#:#cont_table#:#Table###21 Apr 2005 new variable
 content#:#cont_table_border#:#Table Border###21 Apr 2005 new variable
-content#:#cont_table_cellpadding#:#Table Cell Padding###21 Apr 2005 new variable
-content#:#cont_table_cellspacing#:#Table Cell Spacing###21 Apr 2005 new variable
-content#:#cont_table_html_import#:#Import HTML Table###21 Apr 2005 new variable
+content#:#cont_table_cellpadding#:#Tabel celle-foring
+content#:#cont_table_cellspacing#:#Tabel celle-mellemrum
+content#:#cont_table_html_import#:#Importer HTML tabel
 content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###21 Apr 2005 new variable
-content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
-content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
-content#:#cont_table_width#:#Table Width###21 Apr 2005 new variable
+content#:#cont_table_spreadsheet_import#:#Regnearks import
+content#:#cont_table_spreadsheet_import_info#:#Indsæt tabel fra regnearksprogram via udklipsholder i tekstområdet.
+content#:#cont_table_width#:#Tabel bredde
 content#:#cont_target_within_source#:#Destinationen må ikke være den samme som kilden.
-content#:#cont_operation_not_allowed#:#This operation is not allowed.###29 05 2007 new variable
+content#:#cont_operation_not_allowed#:#Denne operation er ikke tilladt.
 content#:#cont_term#:#Term###21 Apr 2005 new variable
 content#:#cont_terms#:#Terms###21 Apr 2005 new variable
 content#:#cont_text_code#:#Code:###29 Jun 2005 new variable
@@ -4606,7 +4606,7 @@ content#:#cont_title#:#titel
 content#:#cont_title_footnotes#:#Fodnoter
 content#:#cont_toc#:#Indholdsfortegnelse
 content#:#cont_toc_mode#:#TOC tilstand
-content#:#cont_top#:#Top###21 Apr 2005 new variable
+content#:#cont_top#:#Top
 content#:#cont_total_time#:#Total tid
 content#:#cont_tracking_data#:#Sporer Data
 content#:#cont_tracking_items#:#Sporer ting
@@ -4637,11 +4637,11 @@ content#:#lm_menu_edit_entry#:#Rediger menupunkt
 content#:#lm_menu_entry_target#:#Mål
 content#:#lm_menu_entry_title#:#Titel
 content#:#lm_menu_new_entry#:#Opret nyt menupunkt
-content#:#lm_menu_select_internal_object#:#Select internal object >>###21 Apr 2005 new variable
-content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu###21 Apr 2005 new variable
-content#:#msg_entry_added#:#Menu entry added###21 Apr 2005 new variable
-content#:#msg_entry_removed#:#Menu entry removed###21 Apr 2005 new variable
-content#:#msg_entry_updated#:#Menu entry updated###21 Apr 2005 new variable
+content#:#lm_menu_select_internal_object#:#Vælg internt objekt >>
+content#:#lm_menu_select_object_to_add#:#Vælg hvilket objekt du vil tilføje menuen.
+content#:#msg_entry_added#:#Menupunkt tilføjet
+content#:#msg_entry_removed#:#Menupunkt fjernet
+content#:#msg_entry_updated#:#Menupunkt rettet
 content#:#msg_page_no_public_access#:#Den side du søger er ikke tilgængelig på offentligt område. Kun registrerede brugere må se denne side. Venligst login før du får adgang til denne side.
 content#:#msg_page_not_public#:#Side er ikke offentlig
 content#:#pages from#:#Sider fra
@@ -4652,18 +4652,18 @@ content#:#read offline#:#Læs Offline
 content#:#selectFooter#:#Select As Footer
 content#:#selectHeader#:#Select As Header
 content#:#select_a_file#:#Vælg en fil.
-content#:#selected_pages_only#:#only that pages selected below ###21 Apr 2005 new variable
-content#:#set_public_mode#:#Set public access mode###21 Apr 2005 new variable
+content#:#selected_pages_only#:#kun de valgte sider herunder
+content#:#set_public_mode#:#Sæt offentlighedsindstillinger
 content#:#st#:#Kapitel
 content#:#start export#:#Start Exportering
 crs#:#edit_content#:#Rediger indhold
 crs#:#crs_added#:#Tilføjet ny kursus
-crs#:#activation_times_not_valid#:#The availability period is not valid.###21 Apr 2005 new variable
-crs#:#add_event#:#Add Session
-crs#:#assigned#:#Assigned###21 Apr 2005 new variable
-crs#:#contact_email_not_valid#:#Kontakt e-mailen er ikke gyldig.
+crs#:#activation_times_not_valid#:#Tilgængelighedsperioden er ikke brugbar.
+crs#:#add_event#:#Lav session
+crs#:#assigned#:#Tildelt
+crs#:#contact_email_not_valid#:#Kontakt adressen (email) er ikke gyldig.
 crs#:#crs_accept_subscriber#:#Kursustilmelding
-crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.###23 Dec 2005 content changed
+crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Aktivering
 crs#:#crs_news#:#Kursusnyheder
@@ -4677,14 +4677,14 @@ crs#:#crs_add_objective#:#Tilføj emne
 crs#:#crs_add_remove_from_desktop#:#Tilføj/Fjern fra skriveborg
 crs#:#crs_add_remove_from_desktop_info#:#Tillad kursister at tilføje kursusobjekter på deres 'Mit Skrivebord'
 crs#:#crs_add_starter#:#Tilføj startobjekt
-crs#:#crs_add_subscribers#:#Tilføj abonnent###23 Dec 2005 content changed
+crs#:#crs_add_subscribers#:#Tilføj abonent
 crs#:#crs_added_member#:#Kursusdeltagere
-crs#:#crs_added_member_body#:#Du er blevet accepteret til dette kursus.###23 Dec 2005 content changed
+crs#:#crs_added_member_body#:#Du er blevet indmeldt på dette kursus.
 crs#:#crs_added_new_archive#:#Et nyt arkiv er blevet tilføjet.
 crs#:#crs_added_objective#:#A new learning objective has been created.###21 Apr 2005 new variable
 crs#:#crs_added_starters#:#Assigned start object(s).###21 Apr 2005 new variable
 crs#:#crs_added_to_list#:#Du er blevet optaget på venteliste som nr. % på dette kursus.
-crs#:#crs_admin#:#Administrator###21 Apr 2005 new variable
+crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (ingen underettelse)
 crs#:#crs_admin_notify#:#Administrator (underettelse)
 crs#:#crs_administrators#:#Administrators
@@ -4700,7 +4700,7 @@ crs#:#crs_archive_select_type#:#Arkiv adgangstype
 crs#:#crs_archive_type#:#Arkiv type
 crs#:#crs_archive_type_disabled#:#Ingen adgang
 crs#:#crs_archives_deleted#:#Arkivet/Arkiverne er blevet slettet
-crs#:#crs_auto_fill#:#Auto fill###21 Apr 2005 new variable
+crs#:#crs_auto_fill#:#Automatisk udfyldning
 crs#:#crs_availability_limitless_info#:#Vælg denne indstilling for at gøre kurset tilgængeligt for brugere. Adgangen afhænger af indstillingerne nedenfor.
 crs#:#crs_availability_until_info#:#Vælg denne indstilling før at gøre kurset tilgængeligt for brugere/kursuster i en begrænset periode.
 crs#:#crs_availability_unvisible_info#:#Vælg denne indstilling mens du forbereder kurset. Kun kursusadministratorer og tutorer kan se og redigere kurset.
@@ -4713,7 +4713,7 @@ crs#:#crs_change_status#:#Changes status of objective:###21 Apr 2005 new variabl
 crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.###21 Apr 2005 new variable
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Konsultation
-crs#:#crs_contact_email#:#Email###21 Apr 2005 new variable
+crs#:#crs_contact_email#:#Email
 crs#:#crs_contact_name#:#Navn
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Ansvarlig
@@ -4724,9 +4724,9 @@ crs#:#crs_count_questions#:#Antal spørgsmål
 crs#:#crs_create_date#:#Opret dato
 crs#:#crs_crs_structure#:#Struktur
 crs#:#crs_dates#:#Datoer
-crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?###21 Apr 2005 new variable
-crs#:#crs_delete_file#:#Delete File?
-crs#:#crs_delete_from_list_sure#:#Are you sure, you want to deassign the following users from the list?###09 Jul 2005 new variable
+crs#:#crs_deassign_lm_sure#:#Er du sikker på du vil slette denne opgave?
+crs#:#crs_delete_file#:#Slet fil?
+crs#:#crs_delete_from_list_sure#:#Er du sikker på du fil afmelde følgende brugere fra listen?
 crs#:#crs_delete_from_waiting_list#:#Fjern fra venteliste
 crs#:#crs_delete_member#:#Afmeld deltager(e)
 crs#:#crs_delete_members_sure#:#Vil du slette de følgende deltagere fra dette kursus
@@ -8451,29 +8451,29 @@ payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics###23 07 2008 n
 payment#:#sort_topics_by#:#Sort Topics by###23 07 2008 new variable
 payment#:#sort_topics_by_title#:#Title###23 07 2008 new variable
 payment#:#sort_topics_by_date#:#Date###23 07 2008 new variable
-payment#:#sort_topics_manually#:#Manually###23 07 2008 new variable
-payment#:#pay_enable_shop#:#Enable Webshop###23 07 2008 new variable
+payment#:#sort_topics_manually#:#Manuelt
+payment#:#pay_enable_shop#:#Aktiver webshop
 payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.###23 07 2008 new variable
 payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###23 07 2008 new variable
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
-dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
-common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
+dateplaner#:#cal_share_search_role_header#:#Rollevalg
+common#:#assigned_members#:#Medlemmer
 common#:#wiki_read#:#Læs wiki
 common#:#wiki_delete#:#Slet wiki
 common#:#wiki_copy#:#Kopier wiki
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
-common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
-common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
-common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
-payment#:#pay_abstract#:#Abstract###26 07 2008 new variable
-payment#:#pay_edit_abstract#:#Edit Abstract###26 07 2008 new variable
+common#:#wiki_visible#:#Wiki er synlig
+common#:#wiki_edit_permission#:#Ret sikkerhedsindstillinger
+common#:#il_crs_non_member#:#Kursus ikke-medlem
+common#:#il_grp_status_closed#:#Gruppen er lukket
+common#:#il_grp_status_open#:#Gruppen er åben
+payment#:#pay_abstract#:#Resume
+payment#:#pay_edit_abstract#:#Ret resume
 payment#:#pay_thumbnail#:#Thumbnail###26 07 2008 new variable
 mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###26 07 2008 new variable
 mcst#:#mcst_default_visibility#:#Default Access###26 07 2008 new variable
 mcst#:#mcst_visibility_users#:#Logged in Users###26 07 2008 new variable
 mcst#:#mcst_visibility_public#:#Offentlig
-ps#:#ps_account_security_mode#:#Account Security###26 07 2008 new variable
+ps#:#ps_account_security_mode#:#Konto sikkerhed
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security###26 07 2008 new variable
 ps#:#ps_account_security_mode_customized#:#Customized Account Security###26 07 2008 new variable
 ps#:#ps_password_min_length#:#Mindste password længde
@@ -8498,21 +8498,21 @@ ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be l
 common#:#password_empty#:#Password på ikke være tomt.
 common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.###26 07 2008 new variable
 common#:#new_pass_equals_old_pass#:#Det nye password er identisk med det tidligere.
-common#:#password_to_short#:#The password must have at least a size of %s characters.###26 07 2008 new variable
-common#:#password_to_long#:#The password must have at most a size of %s characters.###26 07 2008 new variable
+common#:#password_to_short#:#Dit password skal være mindst %s karakterer.
+common#:#password_to_long#:#Dit password må højst være %s karakterer langt.
 common#:#password_must_chars_and_numbers#:#Password skal indeholde karakterer og tal.
 common#:#password_must_special_chars#:#Dit password skal indeholde specielle karakterer.
 ps#:#ps_password_change_on_first_login_enabled#:#Vælg password ved første login
 ps#:#ps_password_change_on_first_login_enabled_info#:#Brugere tvinges til at ændre deres password ved første login med mindre de har oprettet sig selv og dermed allerede valgt et personligt password.
 common#:#password_change_on_first_login_demand#:#Du skal vælge et nyt password før du kan begynde at anvende ILIAS.
-content#:#cont_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
+content#:#cont_add_elements#:#Klik på pladsholdere for at tilføje nye elementer
 content#:#cont_syntax_help#:#Syntax hjælp
 content#:#cont_bullet_list#:#Punktliste
 content#:#cont_numbered_list#:#Nummereret liste
 content#:#cont_wiki_page_link#:#Wiki sidelink
-content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.###15 09 2008 new variable
+content#:#cont_drag_and_drop_elements#:#Drag'n'drop indholdselementer til pladsholdere for at flytte elementer.
 content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###15 09 2008 new variable
-form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
+form#:#form_hierarchy_add_elements#:#Klik på pladsholdere for at tilføje nye elementer.
 form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.###15 09 2008 new variable
 common#:#all_commands#:#Alle kommandoer
 common#:#basic_commands#:#Std kommandoer
@@ -8529,63 +8529,63 @@ mep#:#mep_title_and_description#:#Titel og beskrivelse
 mep#:#mep_create_mob#:#Opret medieobjekt
 mep#:#mep_create_folder#:#Opret mappe
 mep#:#mep_copy_to_mep#:#Kopier til mediebibliotek
-tagging#:#tagging_tag_info#:#To attach tags to a ressource open the info screen of the ressource and enter your tags.###15 09 2008 new variable
-content#:#cont_links#:#Links###15 09 2008 new variable
-content#:#cont_internal_links#:#Internal Links###15 09 2008 new variable
-content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode###15 09 2008 new variable
-content#:#cont_js_chap_editing#:#Use JavaScript Editing Mode###15 09 2008 new variable
-content#:#cont_chapters_after_pages#:#Please note that pages have to precede all subchapters of the same level.###15 09 2008 new variable
-content#:#cont_add_rectangle#:#Add Rectangle###15 09 2008 new variable
+tagging#:#tagging_tag_info#:#For at lave tage på en resurse skal du åbne info-skærmen og indtaste dem.
+content#:#cont_links#:#Links
+content#:#cont_internal_links#:#Interne links
+content#:#cont_not_js_chap_editing#:#Brug Uden-JavaScript redigering
+content#:#cont_js_chap_editing#:#Brug JavaScript redigering
+content#:#cont_chapters_after_pages#:#Bemærk at sider skal efterfølge underkapitler på samme niveau.
+content#:#cont_add_rectangle#:#Ny rektangel
 content#:#cont_add_circle#:#Lav cirkel
 content#:#cont_add_polygon#:#Lav polygon
 content#:#cont_edit_shape_rectangle#:#Rediger form (rektangel)
 content#:#cont_edit_shape_circle#:#Rediger form (cirkel)
 content#:#cont_edit_shape_polygon#:#Rediger form (polygon)
-content#:#cont_new_mob#:#New Media Object###15 09 2008 new variable
-content#:#cont_mob_from_media_pool#:#Choose From Media Pool###15 09 2008 new variable
-content#:#cont_select_media_pool#:#Select Media Pool###15 09 2008 new variable
+content#:#cont_new_mob#:#Nyt medieobjekt
+content#:#cont_mob_from_media_pool#:#Vælg fra mediebibliotek
+content#:#cont_select_media_pool#:#Vælg mediebibliotek
 content#:#cont_table_properties#:#Table Properties###15 09 2008 new variable
-content#:#cont_table_cell_properties#:#Table Cell Properties###15 09 2008 new variable
-content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.###15 09 2008 new variable
-content#:#cont_set_styles_and_widths#:#Set Styles and Widths###15 09 2008 new variable
+content#:#cont_table_cell_properties#:#Tabellens celle egenskaber
+content#:#cont_set_tab_style_info#:#Aktiver afkrydsningsbokse i tabellens celler for at sætte stilark.
+content#:#cont_set_styles_and_widths#:#Sæt stilark og bredde
 content#:#cont_Special#:#Speciel
 content#:#cont_Excursus#:#Excursus###15 09 2008 new variable
 content#:#cont_localfile#:#Lokal fil
 content#:#cont_Block#:#Blok
-content#:#cont_def_map_areas#:#Default Link Areas###15 09 2008 new variable
+content#:#cont_def_map_areas#:#Standard linkområder
 content#:#cont_inst_map_areas#:#Instance Link Areas###15 09 2008 new variable
-content#:#cont_mob_def_prop#:#Default Properties###15 09 2008 new variable
-content#:#cont_current_page#:#Current Page###15 09 2008 new variable
-content#:#cont_current_chapter#:#Current Chapter###15 09 2008 new variable
-content#:#cont_selected_pg_chap#:#Selected Pages/Chapters###15 09 2008 new variable
-content#:#cont_target_missing#:#Target Missing###15 09 2008 new variable
+content#:#cont_mob_def_prop#:#Standardegenskaber
+content#:#cont_current_page#:#Nuværende side
+content#:#cont_current_chapter#:#Nuværende kapitel
+content#:#cont_selected_pg_chap#:#Valgte sider/kapitler
+content#:#cont_target_missing#:#Mål mangler
 content#:#cont_print_view_pre_glo#:#Prevent Glossary Appendix in Print View###15 09 2008 new variable
-content#:#cont_paste_table#:#Paste Table###15 09 2008 new variable
-content#:#cont_html_table#:#HTML Table###15 09 2008 new variable
-content#:#cont_spreadsheet_table#:#Spreadsheet Table###15 09 2008 new variable
+content#:#cont_paste_table#:#Indsæt tabel
+content#:#cont_html_table#:#HTML tabel
+content#:#cont_spreadsheet_table#:#Regnearkstabel
 cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.###15 09 2008 new variable
-cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor###15 09 2008 new variable
-cntr#:#cntr_back_to_old_editor#:#Back to Old Editor###15 09 2008 new variable
+cntr#:#cntr_old_editor_open_standard_editor#:#Åben standardeditor
+cntr#:#cntr_back_to_old_editor#:#Tilbage til ældre editor
 cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.###15 09 2008 new variable
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation###15 09 2008 new variable
-cntr#:#cntr_switched_editor#:#Switched to new content.###15 09 2008 new variable
+cntr#:#cntr_switched_editor#:#Skiftet til nye indhold
 common#:#no_items#:#Antal emner
 content#:#cont_first_row_style#:#Første række stilark
-content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
-content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
-content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.###15 09 2008 new variable
-crs#:#crs_archive_language_selection#:#Language Selection###15 09 2008 new variable
-common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.###15 09 2008 new variable
+content#:#cont_selected_items_have_been_copied#:#Valgte elementer er kopieret til udklipsholder. Vælg de tilsvarende pladsholdere for at indsætte dem i læremodulet.
+content#:#cont_selected_items_have_been_cut#:#Valgte elementer er klippet til udklipsholder. Klik relevante pladsholdere for at indsætte dem i læremodulet.
+content#:#cont_choose_pages_or_chapters_only#:#Vælg enten sider eller kapitler.
+crs#:#crs_archive_language_selection#:#Valg af sprog
+common#:#zip_test_failed#:#Zip-testen fejlede. Du kan evt. kontakte din ILIAS administrator.
 common#:#ext_link#:#Link
-pd#:#pd_enable_my_offers#:#Enable 'Selected Items'###15 09 2008 new variable
-pd#:#pd_enable_my_offers_info#:#The view 'Selected Items' contains all objects which are placed on the user's Personal Desktop.###15 09 2008 new variable
-pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'###15 09 2008 new variable
-pd#:#pd_enable_my_memberships_info#:#'My Memberships' contains all courses and groups the user is assigned to as a member.###15 09 2008 new variable
+pd#:#pd_enable_my_offers#:#Aktiver 'Valgte elementer'
+pd#:#pd_enable_my_offers_info#:#Visningen 'Valgte elementer' indeholder alle objekter som er placeret på brugerens skrivebord.
+pd#:#pd_enable_my_memberships#:#Aktiver 'Mine medlemsskaber'
+pd#:#pd_enable_my_memberships_info#:#'Mine medlemsskaber' indeholder alle kurser og grupper som brugeren er tilmeldt.
 pd#:#pd_my_offers#:#Valgte elementer
 pd#:#pd_my_memberships#:#Mine medlemsskaber
 pd#:#pd_personal_items_default_view#:#Standardvisning
 pd#:#pd_personal_items_default_view_info#:#Vælg den foretrukne visning på dit skrivebord.
-pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.###15 09 2008 new variable
+pd#:#pd_view_select_at_least_one#:#Du skal vælge mindst en visning, enten 'Valgte elementer' og/eller/ 'Mine medlemsskaber'.
 pd#:#pd_my_memberships_intro#:#Dine medlemsskaber
 pd#:#pd_my_memberships_intro2#:#Dette er din personlige side for alle grupper og kurser du deltager i.
 assessment#:#kiosk#:#Kioskmode
@@ -8593,11 +8593,11 @@ assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content eleme
 assessment#:#autosave_success#:#Kladde gemt...
 assessment#:#autosave_failed#:#Automatisk gem af kladde fejlede!
 assessment#:#kiosk_show_title#:#Vis test titel
-assessment#:#kiosk_show_participant#:#Show Name of Participant###15 09 2008 new variable
+assessment#:#kiosk_show_participant#:#Vis deltagerens navn
 assessment#:#kiosk_options#:#Kioskmode indstillinger
 assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.###15 09 2008 new variable
 assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...###15 09 2008 new variable
-assessment#:#final_statement#:#Final Statement###15 09 2008 new variable
+assessment#:#final_statement#:#Afsluttende bemærkninger
 assessment#:#final_statement_show#:#Show Final Statement###15 09 2008 new variable
 assessment#:#final_statement_show_desc#:#If checked, the final statement will be shown directly after the test was finished prior to the presentation of the test results.###15 09 2008 new variable
 assessment#:#showinfo#:#Show the complete Information Page###15 09 2008 new variable
