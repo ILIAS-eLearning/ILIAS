@@ -5523,3 +5523,11 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1328>
+CREATE TABLE IF NOT EXISTS `container_reference` (
+  `obj_id` int(11) NOT NULL,
+  `target_obj_id` int(11) NOT NULL,
+  PRIMARY KEY  (`obj_id`,`target_obj_id`),
+  KEY `obj_id` (`obj_id`)
+) Type=MyISAM;
+
