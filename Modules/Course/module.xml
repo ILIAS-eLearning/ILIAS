@@ -3,6 +3,9 @@
 	id="crs">
 	<baseclasses>
 	</baseclasses>
+	<objectgroups>
+		<objectgroup id="crs" name="Courses" default_pres_pos="100"/>
+	</objectgroups>
 	<objects>
 		<object id="crs" class_name="Course" dir="classes" default_pos="20" default_pres_pos="30"
 			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
