@@ -335,16 +335,16 @@ common#:#assessment_log_user_answers#:#Vis brugeraktiviteter
 common#:#assessment_settings#:#Test & assessment indstillinger
 common#:#assessment_settings_reporting_language#:#Aktuelle sprog
 common#:#assessment_defaults#:#Standard indstillinger for tests og vurderinger
-common#:#assessment_use_javascript#:#JavaScript for Drag & Drop###29 05 2007 new variable
-common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time###29 05 2007 new variable
+common#:#assessment_use_javascript#:#JavaScript til drag'n'drop
+common#:#assessment_use_javascript_desc#:#Aktiverer Javascript output til drag'n'drop handlinger som standardindstilling.
 common#:#ass_log_output#:#Log dataoutput
 common#:#ass_log_admin#:#Log dataadministration
 common#:#ass_log_count_datasets#:#Log emner
 common#:#ass_log_path#:#Test placering
 common#:#ass_log_available_tests#:#Tilgængelige tests
 common#:#ass_log_delete_entries#:#Slet log indgange
-common#:#ass_log_deleted#:#The Log Data for the selected tests has been deleted###18 12 2006 new variable
-common#:#ass_log_delete_no_selection#:#Please select at least one test to delete the Log Data###18 12 2006 new variable
+common#:#ass_log_deleted#:#Logningsdata for de valgte tests er blevet sluttet.
+common#:#ass_log_delete_no_selection#:#Vælg mindst en test som logningsdata skal slettes for.
 common#:#assf_edit_permission#:#Ændre rettighedsindstillinger
 common#:#assf_read#:#Gå til test- og assessmentadministration
 common#:#assf_visible#:#Test- og assessmentadministration er synlig
@@ -7895,7 +7895,7 @@ common#:#filename_extension_short#:#Endelse
 common#:#obj_facs#:#Filadgang
 common#:#obj_facs_desc#:#Konfigurer adgang til filobjekter
 common#:#enable_webdav#:#Aktiver WebDAV adgang
-common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>###11 03 2008 new variable
+common#:#enable_webdav_info#:#Tillader WebDAV klienter at tilgå oversigten som en webfolder. Brugere kan åbne webfoldere ved at vælge "åben som webfolder" i oversigten eller ved at indtaste adressen direkte i en WebDAV klient: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#webfolder_index_of#:#Index af %1$s###11 03 2008 new variable
 common#:#webfolder_instructions#:#Webfolder instruktioner
 common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Clear the field to get the default instructions.###11 03 2008 new variable
@@ -7922,27 +7922,27 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
-common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
-common#:#grp_create_write#:#Create Wiki###02 06 2008 new variable
-wiki#:#wiki_contributors#:#Contributors###02 06 2008 new variable
-wiki#:#wiki_contributor#:#Contributor###02 06 2008 new variable
-wiki#:#wiki_page_changes#:#Page Changes###02 06 2008 new variable
-wiki#:#wiki_grading#:#Grading###02 06 2008 new variable
-wiki#:#wiki_notgraded#:#Not Graded###02 06 2008 new variable
-wiki#:#wiki_passed#:#Passed###02 06 2008 new variable
-wiki#:#wiki_failed#:#Failed###02 06 2008 new variable
-wiki#:#wiki_mark#:#Mark###02 06 2008 new variable
-wiki#:#wiki_activate_rating#:#Activate Rating###02 06 2008 new variable
-wiki#:#wiki_orphaned_pages#:#Orphaned Pages###02 06 2008 new variable
-wiki#:#wiki_last_changed_by#:#Last Changed By###02 06 2008 new variable
-wiki#:#wiki_created_by#:#Created By###02 06 2008 new variable
-wiki#:#wiki_last_changed#:#Last Change###02 06 2008 new variable
-wiki#:#wiki_page_hits#:#Page Hits###02 06 2008 new variable
-wiki#:#wiki_page#:#Page###02 06 2008 new variable
+common#:#wiki_edit_content#:#Red Wiki sider
+common#:#wiki_write#:#Ændre indstillinger, bedøm studerende
+common#:#cat_create_write#:#Opret Wiki
+common#:#fold_create_write#:#Opret Wiki
+common#:#crs_create_write#:#Opret Wiki
+common#:#grp_create_write#:#Opret Wiki
+wiki#:#wiki_contributors#:#Bidragsydere
+wiki#:#wiki_contributor#:#Bidragsyder
+wiki#:#wiki_page_changes#:#Sideændringer
+wiki#:#wiki_grading#:#Karaktergivning
+wiki#:#wiki_notgraded#:#Ikke bedømt
+wiki#:#wiki_passed#:#Bestået
+wiki#:#wiki_failed#:#Ikke-bestået
+wiki#:#wiki_mark#:#Karakter
+wiki#:#wiki_activate_rating#:#Aktiver bedømmelser
+wiki#:#wiki_orphaned_pages#:#Forældreløse sider
+wiki#:#wiki_last_changed_by#:#Sidst ændret af
+wiki#:#wiki_created_by#:#Oprettet af
+wiki#:#wiki_last_changed#:#Sidste ændring
+wiki#:#wiki_page_hits#:#Side hits
+wiki#:#wiki_page#:#Side
 mcst#:#mcst_edit_item#:#Edit Mediacast Item###02 06 2008 new variable
 mcst#:#mcst_standard_title#:#Normal Media File###02 06 2008 new variable
 mcst#:#mcst_audioportable_title#:#Additional Audio File for Portable Devices###02 06 2008 new variable
@@ -8145,26 +8145,26 @@ grp#:#grp_typ#:#Gruppetype
 grp#:#grp_admins#:#Administratorer
 grp#:#grp_members#:#Medlemmer
 grp#:#grp_selected_users#:#Valgte deltagere
-grp#:#grp_delete_member#:#Delete###02 06 2008 new variable
-grp#:#grp_notification#:#Notification###02 06 2008 new variable
-grp#:#grp_edit_members#:#Edit Participants###02 06 2008 new variable
-grp#:#grp_grp_info_reg#:#You can only register to one of these groups:###02 06 2008 new variable
-common#:#mem_reg_period#:#Registration Period###02 06 2008 new variable
-common#:#mem_start#:#Registration Start:###02 06 2008 new variable
-common#:#mem_end#:#Registration End:###02 06 2008 new variable
-common#:#mem_participants#:#Participants###02 06 2008 new variable
-common#:#mem_max_users#:#Maximum of Users:###02 06 2008 new variable
-common#:#mem_free_places#:#Free Places:###02 06 2008 new variable
-common#:#mem_reg_type#:#Registration Type###02 06 2008 new variable
-common#:#mem_reg_not_started#:#The registration has not started###02 06 2008 new variable
-common#:#mem_waiting_list_position#:#Your Position on the Waiting List:###02 06 2008 new variable
-common#:#mem_waiting_list#:#Users on Waiting List:###02 06 2008 new variable
-common#:#mem_alert_no_places#:#There are no free places available.###02 06 2008 new variable
-common#:#mem_already_on_list#:#You are already subscribed to the waiting list.###02 06 2008 new variable
-common#:#mem_reg_expired#:#The registration time is expired.###02 06 2008 new variable
-common#:#mem_unlimited#:#Unlimited###02 06 2008 new variable
-common#:#mail_attachments#:#Mail attachments###02 06 2008 new variable
-common#:#forum_attachments#:#Forum attachments###02 06 2008 new variable
+grp#:#grp_delete_member#:#Slet
+grp#:#grp_notification#:#Advisering
+grp#:#grp_edit_members#:#Rediger medlemmer
+grp#:#grp_grp_info_reg#:#Du kan kun indmeldels i en af grupperne:
+common#:#mem_reg_period#:#Indmeldelses perioder
+common#:#mem_start#:#Indmeldelses start:
+common#:#mem_end#:#Indmeldelses slut:
+common#:#mem_participants#:#Deltagere
+common#:#mem_max_users#:#Maks brugere:
+common#:#mem_free_places#:#Gratis pladser:
+common#:#mem_reg_type#:#Indmeldelsestype
+common#:#mem_reg_not_started#:#Indmeldelsesperioden er ikke begyndt
+common#:#mem_waiting_list_position#:#Din position på ventelisten:
+common#:#mem_waiting_list#:#Brugere på venteliste:
+common#:#mem_alert_no_places#:#Der er ingen gratis pladser frie.
+common#:#mem_already_on_list#:#Du står allerede på ventelisten.
+common#:#mem_reg_expired#:#Indmeldelsesperioden er udløbet.
+common#:#mem_unlimited#:#Ubegrænset
+common#:#mail_attachments#:#Mail vedhæftninger
+common#:#forum_attachments#:#Forum vedhæftninger
 grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###02 06 2008 new variable
 grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###02 06 2008 new variable
 grp#:#grp_users_added#:#Added user to the group.###02 06 2008 new variable
@@ -8221,26 +8221,26 @@ form#:#form_format#:#Format###23 07 2008 new variable
 form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.###23 07 2008 new variable
 form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.###23 07 2008 new variable
 form#:#form_msg_numeric_value_required#:#Please enter a numeric value.###23 07 2008 new variable
-wiki#:#wiki_last_visited_page#:#Last Visited Page###23 07 2008 new variable
-wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.###23 07 2008 new variable
-wiki#:#wiki_msg_short_name_regexp#:#Short title must not start with a number and must not contain the following characters:###23 07 2008 new variable
-wiki#:#wiki_feedback_from_tutor#:#Feedback from Tutor###23 07 2008 new variable
-wiki#:#wiki_introduction#:#Introduction###23 07 2008 new variable
-wiki#:#wiki_pages#:#Pages###23 07 2008 new variable
-wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation###23 07 2008 new variable
-content#:#cont_insert_map#:#Insert Map###23 07 2008 new variable
-content#:#cont_update_map#:#Edit Map###23 07 2008 new variable
-content#:#cont_location#:#Location###23 07 2008 new variable
-content#:#cont_align#:#Alignment###23 07 2008 new variable
-content#:#cont_insert_page#:#Insert Page###23 07 2008 new variable
-content#:#cont_insert_chapter#:#Insert Chapter###23 07 2008 new variable
-content#:#cont_insert_subchapter#:#Insert Subchapter###23 07 2008 new variable
-content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard###23 07 2008 new variable
-content#:#cont_insert_chapter_from_clip#:#Paste Chapters from Clipboard###23 07 2008 new variable
-content#:#cont_insert_subchapter_from_clip#:#Paste Subchapters from Clipboard###23 07 2008 new variable
+wiki#:#wiki_last_visited_page#:#Sidst besøgte side
+wiki#:#wiki_short_title_already_in_use#:#Denne titel bruges allerede af en anden wiki. Vælg venligst en anden.
+wiki#:#wiki_msg_short_name_regexp#:#Den korte titel må ikke begynde med et tal og må ikke indeholde disse karakterer:
+wiki#:#wiki_feedback_from_tutor#:#Feedback fra tutor
+wiki#:#wiki_introduction#:#Introduktion
+wiki#:#wiki_pages#:#Sider
+wiki#:#wiki_quick_navigation#:#Wiki hurtignavigering
+content#:#cont_insert_map#:#Insæt kort
+content#:#cont_update_map#:#Rediger kort
+content#:#cont_location#:#Ploacering
+content#:#cont_align#:#Justering
+content#:#cont_insert_page#:#Indsæt side
+content#:#cont_insert_chapter#:#Indsæt kapitel
+content#:#cont_insert_subchapter#:#Indsæt underkapitel
+content#:#cont_insert_page_from_clip#:#Indsæt sider far udklipsholder
+content#:#cont_insert_chapter_from_clip#:#Indsæt kapitler fra udklipsholder
+content#:#cont_insert_subchapter_from_clip#:#Indsæt underkapitler fra udklipsholder
 content#:#cont_left#:#Venstre
 content#:#cont_right#:#Højre
-content#:#cont_center#:#Center###23 07 2008 new variable
+content#:#cont_center#:#Centrer
 content#:#cont_left_float#:#Left, Floating###23 07 2008 new variable
 content#:#cont_right_float#:#Right, Floating###23 07 2008 new variable
 crs#:#crs_objective_err_limit#:#Please enter points between %s and %s.###23 07 2008 new variable
@@ -8354,17 +8354,17 @@ ecs#:#ecs_approval_rcp_info#:#Enter one or more login names of users (comma sepe
 ecs#:#ecs_approval_rcp#:#Notification About Approved Courses###23 07 2008 new variable
 ecs#:#ecs_new_approval_subject#:#A new course has been released###23 07 2008 new variable
 ecs#:#ecs_export_created_body_a#:#A new course has been released###23 07 2008 new variable
-ecs#:#ecs_released#:#Export###23 07 2008 new variable
-ecs#:#ecs_released_content#:#Released E-Content###23 07 2008 new variable
-rbac#:#rcrs_edit_permission#:#Change permission settings###23 07 2008 new variable
-rbac#:#rcrs_visible#:#Course-Link is visible###23 07 2008 new variable
-rbac#:#rcrs_read#:#Read access to Course-Link###23 07 2008 new variable
-rbac#:#rcrs_delete#:#Delete Course-Link###23 07 2008 new variable
+ecs#:#ecs_released#:#Eksporter
+ecs#:#ecs_released_content#:#Udgivet e-indhold
+rbac#:#rcrs_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#rcrs_visible#:#Kursus-link er synligt
+rbac#:#rcrs_read#:#Læseadgang til kursus-link
+rbac#:#rcrs_delete#:#Slet kursus-link
 rbac#:#cat_create_rcrs#:#Create Course-Links###23 07 2008 new variable
-rbac#:#rcrs_write#:#Edit Course-Link###23 07 2008 new variable
-rbac#:#cat_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#crs_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#grp_create_wiki#:#Create Wiki###23 07 2008 new variable
+rbac#:#rcrs_write#:#Ret kursus-link
+rbac#:#cat_create_wiki#:#Opret Wiki
+rbac#:#crs_create_wiki#:#Opret Wiki
+rbac#:#grp_create_wiki#:#Opret Wiki
 rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
 common#:#csv_export#:#CSV-Export###23 07 2008 new variable
 ecs#:#ecs_duration#:#Duration###23 07 2008 new variable
@@ -8410,10 +8410,10 @@ dateplaner#:#cal_changed_events_header#:#Changed Appointments ###23 07 2008 new 
 dateplaner#:#cal_accepted#:#Accepteret
 dateplaner#:#cal_declined#:#Afvist
 trac#:#trac_mode_event#:#Participation in Sessions###23 07 2008 new variable
-dateplaner#:#cal_user_time_format#:#Time Format###23 07 2008 new variable
-dateplaner#:#cal_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
-dateplaner#:#cal_def_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
-dateplaner#:#cal_def_time_format#:#Default Time Format###23 07 2008 new variable
+dateplaner#:#cal_user_time_format#:#Tidsformat
+dateplaner#:#cal_time_format_info#:#Vælg et format tidspunkter skal præsenteres i.
+dateplaner#:#cal_def_time_format_info#:#Vælg tidsformat
+dateplaner#:#cal_def_time_format#:#Standard tidsformat
 payment#:#topics#:#Emner
 payment#:#topic#:#Emne
 payment#:#edit_topic#:#Rediger emne
@@ -8426,8 +8426,8 @@ payment#:#filter_by#:#by###23 07 2008 new variable
 payment#:#sort_asc#:#sorter stigende
 payment#:#sort_desc#:#sorter faldende
 payment#:#sort#:#Sort###23 07 2008 new variable
-payment#:#sort_by#:#Sort Objects by###23 07 2008 new variable
-common#:#shop#:#Shop###23 07 2008 new variable
+payment#:#sort_by#:#Sorter objekter efter
+common#:#shop#:#Shop
 payment#:#price_from#:#Fra
 payment#:#select_one_topic#:#Please select at least one topic###23 07 2008 new variable
 payment#:#topics_deleted#:#The chosen topics were deleted successfully###23 07 2008 new variable
@@ -8458,9 +8458,9 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
-common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
+common#:#wiki_read#:#Læs wiki
+common#:#wiki_delete#:#Slet wiki
+common#:#wiki_copy#:#Kopier wiki
 common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
 common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
@@ -8476,8 +8476,8 @@ mcst#:#mcst_visibility_public#:#Offentlig
 ps#:#ps_account_security_mode#:#Account Security###26 07 2008 new variable
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security###26 07 2008 new variable
 ps#:#ps_account_security_mode_customized#:#Customized Account Security###26 07 2008 new variable
-ps#:#ps_password_min_length#:#Minimum Password Size###26 07 2008 new variable
-ps#:#ps_password_max_length#:#Maximum Password Size###26 07 2008 new variable
+ps#:#ps_password_min_length#:#Mindste password længde
+ps#:#ps_password_max_length#:#Maksimal password længde
 ps#:#ps_password_chars_and_numbers_enabled#:#Karakterer og tal
 ps#:#ps_password_special_chars_enabled#:#Specielle karakterer
 ps#:#ps_password_max_age#:#Maksimal password alder
@@ -8514,21 +8514,21 @@ content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeh
 content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###15 09 2008 new variable
 form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
 form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.###15 09 2008 new variable
-common#:#all_commands#:#All Commands###15 09 2008 new variable
-common#:#basic_commands#:#Basic Commands###15 09 2008 new variable
-wiki#:#wiki_wiki_page#:#Wiki Page###15 09 2008 new variable
-wiki#:#wiki_short_title_desc2#:#This title will be used in links to the wiki. Once choosen you should not change this title, since users may loose their bookmarks.###15 09 2008 new variable
-wiki#:#wiki_wiki_search#:#Wiki Search###15 09 2008 new variable
-wiki#:#wiki_search#:#Search###15 09 2008 new variable
-wiki#:#wiki_search_results#:#Search Results###15 09 2008 new variable
-common#:#copy_of_suffix#:#- Copy###15 09 2008 new variable
-common#:#copy_n_of_suffix#:#- Copy (%1$s)###15 09 2008 new variable
-mep#:#mep_parent_folder#:#Parent Folder###15 09 2008 new variable
-mep#:#mep_thumbnail#:#Thumbnail###15 09 2008 new variable
-mep#:#mep_title_and_description#:#Title and Description###15 09 2008 new variable
-mep#:#mep_create_mob#:#Create Media Object###15 09 2008 new variable
-mep#:#mep_create_folder#:#Create Folder###15 09 2008 new variable
-mep#:#mep_copy_to_mep#:#Copy to Media Pool###15 09 2008 new variable
+common#:#all_commands#:#Alle kommandoer
+common#:#basic_commands#:#Std kommandoer
+wiki#:#wiki_wiki_page#:#Wiki siee
+wiki#:#wiki_short_title_desc2#:#Denne titel bliver brugt til links i wiki'en. Når du først har valgt en kort titel bør du ikke ændre denne, da gæster kan miste deres favoritter/links til din wiki.
+wiki#:#wiki_wiki_search#:#Wiki søgning
+wiki#:#wiki_search#:#Søg
+wiki#:#wiki_search_results#:#Søgeresultater
+common#:#copy_of_suffix#:#- kopi
+common#:#copy_n_of_suffix#:#- kopi nr %1$s
+mep#:#mep_parent_folder#:#Forældre mappe
+mep#:#mep_thumbnail#:#Miniature
+mep#:#mep_title_and_description#:#Titel og beskrivelse
+mep#:#mep_create_mob#:#Opret medieobjekt
+mep#:#mep_create_folder#:#Opret mappe
+mep#:#mep_copy_to_mep#:#Kopier til mediebibliotek
 tagging#:#tagging_tag_info#:#To attach tags to a ressource open the info screen of the ressource and enter your tags.###15 09 2008 new variable
 content#:#cont_links#:#Links###15 09 2008 new variable
 content#:#cont_internal_links#:#Internal Links###15 09 2008 new variable
@@ -8581,18 +8581,18 @@ pd#:#pd_enable_my_offers#:#Enable 'Selected Items'###15 09 2008 new variable
 pd#:#pd_enable_my_offers_info#:#The view 'Selected Items' contains all objects which are placed on the user's Personal Desktop.###15 09 2008 new variable
 pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'###15 09 2008 new variable
 pd#:#pd_enable_my_memberships_info#:#'My Memberships' contains all courses and groups the user is assigned to as a member.###15 09 2008 new variable
-pd#:#pd_my_offers#:#Selected Items###15 09 2008 new variable
-pd#:#pd_my_memberships#:#My Memberships###15 09 2008 new variable
-pd#:#pd_personal_items_default_view#:#Default View###15 09 2008 new variable
-pd#:#pd_personal_items_default_view_info#:#Choose the prefered view of Personal Items.###15 09 2008 new variable
+pd#:#pd_my_offers#:#Valgte elementer
+pd#:#pd_my_memberships#:#Mine medlemsskaber
+pd#:#pd_personal_items_default_view#:#Standardvisning
+pd#:#pd_personal_items_default_view_info#:#Vælg den foretrukne visning på dit skrivebord.
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.###15 09 2008 new variable
-pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships###15 09 2008 new variable
-pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in.###15 09 2008 new variable
-assessment#:#kiosk#:#Kiosk Mode###15 09 2008 new variable
+pd#:#pd_my_memberships_intro#:#Dine medlemsskaber
+pd#:#pd_my_memberships_intro2#:#Dette er din personlige side for alle grupper og kurser du deltager i.
+assessment#:#kiosk#:#Kioskmode
 assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.###15 09 2008 new variable
-assessment#:#autosave_success#:#Autosave successful...###15 09 2008 new variable
-assessment#:#autosave_failed#:#Autosave failed!###15 09 2008 new variable
-assessment#:#kiosk_show_title#:#Show Test Title###15 09 2008 new variable
+assessment#:#autosave_success#:#Kladde gemt...
+assessment#:#autosave_failed#:#Automatisk gem af kladde fejlede!
+assessment#:#kiosk_show_title#:#Vis test titel
 assessment#:#kiosk_show_participant#:#Show Name of Participant###15 09 2008 new variable
 assessment#:#kiosk_options#:#Kiosk Mode Options###15 09 2008 new variable
 assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.###15 09 2008 new variable
@@ -8619,20 +8619,20 @@ crs#:#crs_suggested_sections#:#Suggested Sections###15 09 2008 new variable
 forum#:#frm_statistics#:#Statistics###15 09 2008 new variable
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.###15 09 2008 new variable
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.###15 09 2008 new variable
-chat#:#chat_chat_invitation#:#Chat Invitations###15 09 2008 new variable
-chat#:#chat_general_settings#:#General Settings###15 09 2008 new variable
-chat#:#chat_sounds#:#Sounds###15 09 2008 new variable
-chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation###15 09 2008 new variable
-chat#:#chat_sound_status_activate#:#Activate Sounds###15 09 2008 new variable
-chat#:#chat_sound_status_deactivate#:#Deactivate Sounds###15 09 2008 new variable
-assessment#:#reset_pictures#:#Reset Picture Positions###15 09 2008 new variable
-assessment#:#reset_definitions#:#Reset Definition Position###15 09 2008 new variable
+chat#:#chat_chat_invitation#:#Chat invitationer
+chat#:#chat_general_settings#:#Generelle indstillinger
+chat#:#chat_sounds#:#Lyde
+chat#:#chat_new_invitation_sound_status#:#Afspil en lyd hvis brugeren modtager en chatinvitation
+chat#:#chat_sound_status_activate#:#Aktiver lyde
+chat#:#chat_sound_status_deactivate#:#Deaktiver lyde
+assessment#:#reset_pictures#:#Ryd billedpositioner
+assessment#:#reset_definitions#:#Ryd definitionspositioner
 administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab. ###19 09 2008 new variable
-administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to the current language file. ###19 09 2008 new variable
-administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.###19 09 2008 new variable
+administration#:#language_former_file_equal#:#Filen <b>%s</b> er identisk med den nuværende sprogfil.
+administration#:#language_former_file_missing#:#Filen <b>%s</b> mangler.
 administration#:#language_scope_conflicts#:#Local and update changes###19 09 2008 new variable
-content#:#cont_rollback#:#Rollback###19 09 2008 new variable
-content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?###19 09 2008 new variable
-cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
-common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
-common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
+content#:#cont_rollback#:#Tilbagerul
+content#:#cont_rollback_confirmation#:#Ønsker du at genskabe den tidligere version af siden?
+cntr#:#cntr_view_sessions#:#Sessions visning
+common#:#selected_languages_updated#:#De valgte installerede sprog er blevet opdateret
+common#:#lang_refresh_confirm_selected#:#Er du sikker up du vil opdatere de valgte sprog?
