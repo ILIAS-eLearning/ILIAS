@@ -187,6 +187,27 @@ class ilContainerReference extends ilObject
 		
 		return true;
 	}
+	
+	/**
+	 * Clone course reference
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * @param int copy id
+	 * 
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB,$ilUser;
+		
+	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	
+		$query = "INSERT INTO container_reference ".
+			"SET obj_id = ".$ilDB->quote($new_obj->getId()).", ".
+			"target_obj_id = ".$ilDB->quote($this->getTargetId())." ";
+		$ilDB->query($query);
+	}
+	
 }
 
 ?>
