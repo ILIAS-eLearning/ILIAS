@@ -6217,7 +6217,7 @@ meta#:#meta_typical_learning_time#:#Typisk læringstid
 meta#:#meta_unavailable#:#Ikke tilgængelig
 meta#:#meta_unix#:#Unix###21 Apr 2005 new variable
 meta#:#meta_unknown#:#Ukendt
-meta#:#meta_validator#:#Validator###20 Jun 2005 new variable
+meta#:#meta_validator#:#Validator
 meta#:#meta_value#:#Værdi
 meta#:#meta_version#:#Version###21 Apr 2005 new variable
 meta#:#meta_very_difficult#:#Meget svært
@@ -6225,31 +6225,31 @@ meta#:#meta_very_easy#:#Meget let
 meta#:#meta_very_high#:#Meget høj
 meta#:#meta_very_low#:#Meget lav
 meta#:#meta_yes#:#Ja
-meta#:#md_advanced#:#Advanced Metadata###16 08 2007 new variable
-meta#:#md_adv_record_list#:#Datasets###16 08 2007 new variable
-meta#:#md_adv_file_list#:#Export Files###16 08 2007 new variable
-meta#:#md_record_list_table#:#Advanced Metadata Sets###16 08 2007 new variable
+meta#:#md_advanced#:#Avanceret metadata
+meta#:#md_adv_record_list#:#Datasæt
+meta#:#md_adv_file_list#:#Eksportfiler
+meta#:#md_record_list_table#:#Avancerede metadatasæt
 meta#:#md_fields#:#Felter
 meta#:#md_obj_types#:#Assigned Objekts###16 08 2007 new variable
 meta#:#md_adv_substitution_table#:#Substitutions (Presentation in the Repository/Personal Desktop)###16 08 2007 new variable
 meta#:#md_adv_substitution#:#Tekst
 meta#:#md_adv_placeholders#:#Pladsholdere
 meta#:#md_adv_placeholder_for#:#Pladsholder for:
-meta#:#md_record_export_table#:#Eksport Files###16 08 2007 new variable
+meta#:#md_record_export_table#:#Eksportfiler
 meta#:#md_adv_records#:#Included Datasets###16 08 2007 new variable
 meta#:#md_adv_select_one_file#:#Vælg venligst kun en fil
 meta#:#md_adv_delete_files_sure#:#Vil du virkelig SLETTE de følgende eksportfiler?
 meta#:#md_adv_deleted_files#:#Slettede eksportfiler
 meta#:#md_adv_records_exported#:#En ny eksportfil er blevet lavet
-meta#:#md_adv_edit_record#:#Edit Dataset###16 08 2007 new variable
+meta#:#md_adv_edit_record#:#Rediger datasæt
 meta#:#md_adv_field_table#:#Ret felter
 meta#:#md_adv_field_fields#:#Felter
 meta#:#md_adv_searchable#:#Søgbart
 meta#:#md_adv_edit_field#:#Ret felt
 meta#:#md_adv_create_field#:#Tilføj felt
 meta#:#md_adv_add_value#:#Tilføj værdi
-meta#:#md_adv_no_fields#:#No Fields Defined###16 08 2007 new variable
-meta#:#md_adv_deleted_records#:#Deleted Dataset###16 08 2007 new variable
+meta#:#md_adv_no_fields#:#Ingen felter defineret
+meta#:#md_adv_deleted_records#:#Slettede datasæt
 meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?###16 08 2007 new variable
 meta#:#md_adv_added_new_record#:#Added new Dataset###16 08 2007 new variable
 meta#:#md_adv_create_record#:#Add new Dataset###16 08 2007 new variable
@@ -6258,14 +6258,14 @@ meta#:#md_adv_active#:#Active###16 08 2007 new variable
 payment#:#duration#:#Varighed
 payment#:#info#:#Informationer angående betalingsmetode
 payment#:#update#:#Opdater
-payment#:#currency_cent#:#Cent###21 Apr 2005 new variable
-payment#:#currency_euro#:#Euro###21 Apr 2005 new variable
+payment#:#currency_cent#:#Cent
+payment#:#currency_euro#:#Euro
 payment#:#excel_export#:#Excel eksport
 payment#:#pay_add_to_shopping_cart#:#Tilføj til indkøbskurv
 payment#:#pay_added_to_shopping_cart#:#Tilføjet til indkøbskurv
 payment#:#pay_all#:#Alle
 payment#:#pay_article#:#Vare
-payment#:#pay_bank_data#:#Bank data###21 Apr 2005 new variable
+payment#:#pay_bank_data#:#Bankdata
 payment#:#pay_bill_no#:#Ifakturanummer.
 payment#:#pay_bmf_account_holder#:#Kontoejer
 payment#:#pay_bmf_account_number#:#Kontonummer
@@ -6706,12 +6706,12 @@ survey#:#confirm_sync_questions#:#Det spørgsmål du ændrede er en kopi, der bl
 survey#:#create_date#:#Oprettet
 survey#:#create_new#:#Opret nyt
 survey#:#delete_user_data#:#Delete the survey data of the selected users
-survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###21 Apr 2005 new variable
+survey#:#description_maxchars#:#Hvis intet vælges kan der indtastes en tekst af ubegrænset længde.
 survey#:#duplicate#:#Kopier
 survey#:#error_importing_question#:#Der opstod en fejl ved importering af spørgsmål fra den fil du har valgt!
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###21 Apr 2005 new variable
-survey#:#exp_type_excel#:#Microsoft Excel###20 May 2005 new variable
-survey#:#filter#:#Filter###21 Apr 2005 new variable
+survey#:#exp_type_excel#:#Microsoft Excel
+survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle spørgsmåls typer
 survey#:#filter_all_questionpools#:#Alle spørgsmålsgrupper
 survey#:#filter_show_question_types#:#Vis spørgsmåls typer
@@ -6721,7 +6721,7 @@ survey#:#import_question#:#Importer spørgsmål
 survey#:#insert_after#:#Indsæt efter
 survey#:#insert_before#:#Indsæt før
 survey#:#last_update#:#Seneste opdatering
-survey#:#legend#:#Legend###21 Apr 2005 new variable
+survey#:#legend#:#Legend
 survey#:#maintenance#:#Vedligeholdelse
 survey#:#material#:#Material###21 Apr 2005 new variable
 survey#:#material_file#:#Materialle fil
@@ -6802,7 +6802,7 @@ survey#:#category_delete_confirm#:#Er du sikker på at du vil slette følgende k
 survey#:#category_delete_select_none#:#Marker mindst et svar for at slette det!
 survey#:#category_nr_selected#:#Antal brugere der har valgt dette svar
 survey#:#chart#:#Graf
-survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###21 Apr 2005 new variable
+survey#:#check_category_to_save_phrase#:#Du skal mindst vælge en kategori for at gemme en frase.
 survey#:#codes#:#Adgangskoder
 survey#:#combobox#:#Kombobox
 survey#:#confirm_remove_heading#:#Er du sikker på du vil fjerne overskriften?
@@ -6832,7 +6832,7 @@ survey#:#dc_mostcertainly#:#helt sikkert
 survey#:#dc_mostcertainlynot#:#helt sikkert ikke
 survey#:#dc_must#:#må
 survey#:#dc_mustnot#:#må ikke
-survey#:#dc_neutral#:#neutral###21 Apr 2005 new variable
+survey#:#dc_neutral#:#neutral
 survey#:#dc_never#:#aldrig
 survey#:#dc_no#:#nej
 survey#:#dc_notacceptable#:#ikke acceptabelt
@@ -6891,15 +6891,15 @@ survey#:#error_retrieving_anonymous_survey#:#Systemet kunne ikke finde spørgesk
 survey#:#evaluation#:#Evaluering
 survey#:#evaluation_access#:#Evalueringsadgang
 survey#:#evaluation_access_all#:#Adgang for alle brugere
-survey#:#evaluation_access_description#:#Usually the access to the survey statistics is only granted to users with write permission for the survey (Evaluation Access = Off)###15 11 2006 new variable
-survey#:#evaluation_access_info#:#Du har adgang til evalueringen af undersøgelsen
-survey#:#evaluation_access_off#:#Off###12 11 2006 new variable
+survey#:#evaluation_access_description#:#Normalt gives der kun adgang til undersøgelsesstatistikken til brugere med skriveadgang til undersøgelsen (Evaluerings adgang = Fra)
+survey#:#evaluation_access_info#:#Du har adgang til resultatet af undersøgelsen
+survey#:#evaluation_access_off#:#Fra
 survey#:#evaluation_access_participants#:#Adgang for deltagere
-survey#:#existing_constraints#:#Existing preconditions###23 Dec 2005 new variable
+survey#:#existing_constraints#:#Eksisterende betingelser
 survey#:#exit#:#Afslut
-survey#:#exp_type_csv#:#Comma separated value (CSV)###20 May 2005 new variable
+survey#:#exp_type_csv#:#Kommaseparerede værdier
 survey#:#export_data_as#:#Eksporter data som
-survey#:#export_all_survey_codes#:#Export all Access Codes###29 05 2007 new variable
+survey#:#export_all_survey_codes#:#Eksporter alle adgangskoder
 survey#:#fill_out_all_category_fields#:#Udfyld venligst alle svarfelter inden du tilføjer en ny!
 survey#:#fill_out_all_required_fields_add_category#:#Udfyld venligst alle nødvendige felter før du tilføjer flere svar!
 survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!###21 Apr 2005 new variable
@@ -6907,9 +6907,9 @@ survey#:#fill_out_all_required_fields_move_category#:#Please fill out all requir
 survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###21 Apr 2005 new variable
 survey#:#form_data_modified_press_save#:#Indholdet er blevet ændret. Tryk 'Gem' for at beholde ændringerne.
 survey#:#found_questions#:#Spørgsmål fundet
-survey#:#geometric_mean#:#Geometric mean###21 Apr 2005 new variable
+survey#:#geometric_mean#:#Geometrisk gennemsnit
 survey#:#given_answers#:#Givet svar
-survey#:#harmonic_mean#:#Harmonic mean###21 Apr 2005 new variable
+survey#:#harmonic_mean#:#Harmonisk gennemsnit
 survey#:#heading#:#Overskrift
 survey#:#horizontal#:#Horisontal
 survey#:#import_error_closing_file#:#Fejl ved forsøg på at lukke importeret fil!
@@ -6938,7 +6938,7 @@ survey#:#matrix_row_delete_select_none#:#Please check at least one row to delete
 survey#:#matrix_column_delete_select_none#:#Please check at least one column to delete it!###29 11 2006 new variable
 survey#:#matrix_question_radio_button_not_checked#:#Please select an option button for every row!###29 11 2006 new variable
 survey#:#matrix_question_checkbox_not_checked#:#Please check at least one check box in every row!###29 11 2006 new variable
-survey#:#matrix_row_separators#:#Row Separators###29 11 2006 new variable
+survey#:#matrix_row_separators#:#Række seperatorer
 survey#:#matrix_column_separators#:#Kolonneadskildelse
 survey#:#matrix_neutral_column_separator#:#Neutral kolonneseperator
 survey#:#matrix_neutral_column_separator_description#:#Lav afkrydsning hvis du ønsker en tyk linje mellem den neutrale kolonne og de andre kolonner i resultatet af matrix spørgsmålet
@@ -6992,7 +6992,7 @@ survey#:#no_user_phrases_defined#:#Der er ingen brugere tilgængelige!
 survey#:#nominal_question_mr_not_checked#:#Afkryds venligst et af de mulige svar!
 survey#:#nominal_question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#non_ratio#:#Non-Ratio###21 Apr 2005 new variable
-survey#:#not_used#:#ikke brugt###
+survey#:#not_used#:#ikke brugt
 survey#:#obligatory#:#obligatorisk
 survey#:#off#:#Deaktiveret
 survey#:#on#:#Aktiveret
@@ -7240,15 +7240,15 @@ trac#:#stats_user#:#User(s)
 trac#:#stats_user_selected#:#User selected
 trac#:#stats_with#:#with
 trac#:#total_dwell_time#:#Total Dwell Time
-trac#:#trac_activated#:#Tracking activated###23 Dec 2005 new variable
-trac#:#trac_active_both#:#User Tracking and Learning progress activated###06 Apr 2006 new variable
+trac#:#trac_activated#:#Sporing aktiveret
+trac#:#trac_active_both#:#Brugersporing og lærefremgang aktiveret
 trac#:#trac_active_lp_only#:#Læringsfremskridt aktiveret
-trac#:#trac_active_ut_only#:#User Tracking activated###06 Apr 2006 new variable
+trac#:#trac_active_ut_only#:#Brugersporint aktiveret
 trac#:#trac_added_no_shown_list#:#The selected objects will be hidden.###28 Feb 2006 new variable
 trac#:#trac_anonymized#:#Anonymiseret
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
-trac#:#trac_assigned#:#Assigned###23 Dec 2005 new variable
-trac#:#trac_assignments#:#Assignments###23 Dec 2005 new variable
+trac#:#trac_assigned#:#Tildelt
+trac#:#trac_assignments#:#Tildelinger
 trac#:#trac_below#:#Below:###28 Feb 2006 new variable
 trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
 trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
@@ -7268,12 +7268,12 @@ trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary 
 trac#:#trac_edited_scos#:#Processed content###28 Feb 2006 new variable
 trac#:#trac_editing_time_passed#:#Editing time Passed
 trac#:#trac_failed#:#Failed
-trac#:#trac_filter_area#:#Area:###23 Dec 2005 new variable
+trac#:#trac_filter_area#:#Område:
 trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###28 Feb 2006 new variable
 trac#:#trac_filter_no_access#:#Ingen objekter fundet
 trac#:#trac_filter_none#:#Ingen
-trac#:#trac_filter_repository#:#In the repository###23 Dec 2005 new variable
+trac#:#trac_filter_repository#:#I oversigten
 trac#:#trac_fold_relevant_items#:#Folder Content
 trac#:#trac_grp_relevant_items#:#Materialer
 trac#:#trac_head_timing#:#Rediger indtil
@@ -7361,21 +7361,21 @@ trac#:#trac_mode_collection_info#:#Define the materials that will determine the 
 trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.###10 05 2007 new variable
 trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.###10 05 2007 new variable
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.###10 05 2007 new variable
-trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor###10 05 2007 new variable
+trac#:#trac_mode_manual_by_tutor#:#Manuelt af tutor
 trac#:#trac_mode_manual_by_tutor_info#:#The overall status can only be set by tutors.###10 05 2007 new variable
-ldap#:#ldap_server_name#:#Name of LDAP Configuration###08 12 2006 new variable
+ldap#:#ldap_server_name#:#LDAP konfigurationens navn
 ldap#:#ldap_referrals#:#Referrals###08 12 2006 new variable
 ldap#:#ldap_server_security_settings#:#Security Settings###08 12 2006 new variable
-ldap#:#ldap_server_binding#:#Binding###08 12 2006 new variable
-ldap#:#ldap_bind_anonymous#:#Bind Anonymously###08 12 2006 new variable
-ldap#:#ldap_bind_user#:#Bind as User:###08 12 2006 new variable
-ldap#:#ldap_server_bind_dn#:#User DN###08 12 2006 new variable
-ldap#:#ldap_server_bind_pass#:#Password###08 12 2006 new variable
+ldap#:#ldap_server_binding#:#Binding
+ldap#:#ldap_bind_anonymous#:#Bind Anonymt
+ldap#:#ldap_bind_user#:#Bind som bruger:
+ldap#:#ldap_server_bind_dn#:#Bruger DN
+ldap#:#ldap_server_bind_pass#:#Password
 ldap#:#ldap_authentication_settings#:#Authentication Settings###08 12 2006 new variable
-ldap#:#ldap_user_dn#:#User DN###08 12 2006 new variable
-ldap#:#ldap_user_scope#:#Search Scope###08 12 2006 new variable
+ldap#:#ldap_user_dn#:#Bruger DN
+ldap#:#ldap_user_scope#:#Søge scope
 ldap#:#ldap_user_attribute#:#Attribute for Login Name###08 12 2006 new variable
-ldap#:#ldap_search_filter#:#LDAP Filter###08 12 2006 new variable
+ldap#:#ldap_search_filter#:#LDAP filter
 ldap#:#ldap_group_restrictions#:#Group Restrictions###08 12 2006 new variable
 ldap#:#ldap_group_dn#:#Group DN###08 12 2006 new variable
 ldap#:#ldap_group_scope#:#Search Scope###08 12 2006 new variable
@@ -7385,11 +7385,11 @@ ldap#:#ldap_group_attribute#:#Attribute for Group###08 12 2006 new variable
 ldap#:#ldap_memberisdn#:#Attribute Value is DN###08 12 2006 new variable
 ldap#:#ldap_user_sync#:#User Synchronization Settings###08 12 2006 new variable
 ldap#:#ldap_moment_sync#:#Type of Sychronization###08 12 2006 new variable
-ldap#:#ldap_sync_login#:#On Login###08 12 2006 new variable
-ldap#:#ldap_sync_cron#:#Per CronJob###08 12 2006 new variable
-ldap#:#ldap_global_role_assignment#:#ILIASRole Assignment###08 12 2006 new variable
+ldap#:#ldap_sync_login#:#Ved login
+ldap#:#ldap_sync_cron#:#Per cronjob
+ldap#:#ldap_global_role_assignment#:#ILIAS rolle tildeling
 ldap#:#ldap_group_member#:#Group Member Attribute###08 12 2006 new variable
-ldap#:#ldap_scope_one#:#One###08 12 2006 new variable
+ldap#:#ldap_scope_one#:#En
 ldap#:#ldap_scope_sub#:#Sub###08 12 2006 new variable
 ldap#:#ldap_scope_base#:#Base###08 12 2006 new variable
 ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.###08 12 2006 new variable
@@ -7452,9 +7452,9 @@ ldap#:#ldap_role_grp_at#:#Attribute###23 08 2007 new variable
 ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.###23 08 2007 new variable
 ldap#:#ldap_role_grp_isdn#:#Attribute value is DN###23 08 2007 new variable
 ldap#:#ldap_role_by_attribute#:#LDAP attribut
-ldap#:#ldap_role_at_info#:#The assignment is based on a specific attribute in the LDAP user profile.###23 08 2007 new variable
-ldap#:#ldap_role_at_name#:#Attribute Name###23 08 2007 new variable
-ldap#:#ldap_role_at_value#:#Attribute Value###23 08 2007 new variable
+ldap#:#ldap_role_at_info#:#Tildelingen er bestemt af specifikke attributter i LDAP bruger profilen.
+ldap#:#ldap_role_at_name#:#Attribut navn
+ldap#:#ldap_role_at_value#:#Attribut værdi
 ldap#:#ldap_tbl_role_ass#:#Aktive regler
 ldap#:#ldap_rule_condition#:#condition###23 08 2007 new variable
 ldap#:#ldap_btn_add_role_ass#:#Tilføj ny regel
@@ -7550,13 +7550,13 @@ common#:#usr_filter_role#:#Tilknyttet rolle.
 content#:#Pages#:#Sider
 content#:#cont_delete_track_data#:#Slet sporingsdata
 content#:#cont_reference#:#Reference
-content#:#seq_coursecomplete#:#The current course is completed.###23 09 2007 new variable
-content#:#seq_endsession#:#The current course session has ended.###23 09 2007 new variable
-content#:#seq_blocked#:#The sequencing session was blocked.###23 09 2007 new variable
-content#:#seq_nothing#:#There is no activity to deliver.###23 09 2007 new variable
+content#:#seq_coursecomplete#:#Det nuværende kursus er gennemført.
+content#:#seq_endsession#:#Denne kursus-session er afsluttet.
+content#:#seq_blocked#:#Sekvenssessionen er blokeret.
+content#:#seq_nothing#:#Der er ingen aktivetet at levere.
 content#:#seq_error#:#An internal error in the sequencer occurred.###23 09 2007 new variable
-content#:#seq_deadlock#:#The sequencer is in a deadlock.###23 09 2007 new variable
-content#:#seq_invalidnavreq#:#The sequencer received an invalid request.###23 09 2007 new variable
+content#:#seq_deadlock#:#Sekvensen er i en deadlock.
+content#:#seq_invalidnavreq#:#Sekvensen modtog en ugyldig anmodning.
 content#:#seq_abandon#:#An Abandon Navigation Request was received an processed.###23 09 2007 new variable
 content#:#seq_abandonall#:#The current course session has been abandoned..###23 09 2007 new variable
 content#:#seq_toc#:#From the Table Of Contents on the left, choose an activity to begin the course.###23 09 2007 new variable
@@ -7578,7 +7578,7 @@ forum#:#deactivate_post_txt#:#Would you really like to deactivate the current po
 forum#:#activate_only_current#:#Aktiver den nuværende
 forum#:#activate_current_and_childs#:#Aktiver alle indlæg
 forum#:#deactivate_current_and_childs#:#Deaktiver alle indlæg
-forum#:#post_activation_desc#:#If enabled, the moderator has to activate new posts.###23 09 2007 new variable
+forum#:#post_activation_desc#:#Hvis aktiveret skal moderator aktivere alle nye indlæg.
 payment#:#import_use_only_textfile#:#Hint: Please use a plain-text file with one code per line.###23 09 2007 new variable
 common#:#header_zip#:#Upload zip-arkiv
 common#:#take_over_structure#:#Brug struktur
@@ -7943,19 +7943,19 @@ wiki#:#wiki_created_by#:#Oprettet af
 wiki#:#wiki_last_changed#:#Sidste ændring
 wiki#:#wiki_page_hits#:#Side hits
 wiki#:#wiki_page#:#Side
-mcst#:#mcst_edit_item#:#Edit Mediacast Item###02 06 2008 new variable
-mcst#:#mcst_standard_title#:#Normal Media File###02 06 2008 new variable
-mcst#:#mcst_audioportable_title#:#Additional Audio File for Portable Devices###02 06 2008 new variable
-mcst#:#mcst_videoportable_title#:#Additional Video File for Portable Devices###02 06 2008 new variable
-mcst#:#mcst_download_standard#:#Download###02 06 2008 new variable
-mcst#:#mcst_download_videoportable#:#Download Video Portable###02 06 2008 new variable
-mcst#:#mcst_download_audioportable#:#Download Audio Portable###02 06 2008 new variable
+mcst#:#mcst_edit_item#:#Ret mediacast element
+mcst#:#mcst_standard_title#:#Normal mediefil
+mcst#:#mcst_audioportable_title#:#Yderligere lydfil til transportable enheder
+mcst#:#mcst_videoportable_title#:#Yderligere videofil til transportable enheder
+mcst#:#mcst_download_standard#:#Download
+mcst#:#mcst_download_videoportable#:#Download transportabel video
+mcst#:#mcst_download_audioportable#:#Download transportabel lyd
 mcst#:#mcst_clear_purpose_title#:#Delete###02 06 2008 new variable
 mcst#:#mcst_downloadable#:#Download Links###02 06 2008 new variable
 mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading are provided.###02 06 2008 new variable
-mcst#:#mcst_media_cast_not_online#:#Mediacast is not online###02 06 2008 new variable
-mcst#:#mcst_media_cast_not_online_text#:#Mediacast is not online or has been disabled###02 06 2008 new variable
-mcst#:#mcst_global_settings#:#Global Settings###02 06 2008 new variable
+mcst#:#mcst_media_cast_not_online#:#Mediacast er ikke online
+mcst#:#mcst_media_cast_not_online_text#:#Mediac ast er ikke online eller er blevet deaktiveret
+mcst#:#mcst_global_settings#:#Globale indstilligner
 mcst#:#mcst_current_value_info#:#Shows the current value of this format.###02 06 2008 new variable
 mcst#:#mcst_standard_settings_title#:#File Extensions for Standard Format###02 06 2008 new variable
 mcst#:#mcst_standard_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
@@ -7964,152 +7964,152 @@ mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes#
 mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format###02 06 2008 new variable
 mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
 mcst#:#mcst_edit_settings#:#MediaCast Settings###02 06 2008 new variable
-mcst#:#mcst_file_extension_settings#:#File Extensions###02 06 2008 new variable
-common#:#chg_ilias_password#:#Change ILIAS Password###02 06 2008 new variable
-common#:#chg_ilias_and_webfolder_password#:#Change ILIAS and Webfolder Password###02 06 2008 new variable
-common#:#disable_anonymous_fora#:#Disable anonymous fora###02 06 2008 new variable
+mcst#:#mcst_file_extension_settings#:#Filendelser
+common#:#chg_ilias_password#:#Ret ILIAS password
+common#:#chg_ilias_and_webfolder_password#:#Ret ILIAS og webfolder password
+common#:#disable_anonymous_fora#:#Deaktiver anonyme fora
 common#:#disable_anonymous_fora_desc#:#If option is enabled, nobody is able to make a forum anonymous. Making an anonymous forum non-anonymous is still possible.###02 06 2008 new variable
 news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under "Settings". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.###02 06 2008 new variable
 news#:#news_get_priv_feed_title#:#Personal private Feed-URL###02 06 2008 new variable
 news#:#news_enable_private_feed#:#Enable private Newsfeed###02 06 2008 new variable
 news#:#news_enable_private_feed_info#:#If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentification is provided by password.###02 06 2008 new variable
-news#:#passwd_equals_ilpasswd#:#Please enter a password different from your ILIAS-password.###02 06 2008 new variable
-news#:#priv_feed_disabled#:#Private Newsfeed disabled.###02 06 2008 new variable
-news#:#priv_feed_settings#:#Private Newsfeed settings###02 06 2008 new variable
-news#:#priv_feed_no_access_title#:#Private Newsfeed is disabled###02 06 2008 new variable
-news#:#priv_feed_no_access_body#:#Please contact the system administrator for further information.###02 06 2008 new variable
-news#:#priv_feed_no_auth_title#:#Authentification failed###02 06 2008 new variable
-news#:#priv_feed_no_auth_body#:#Please make sure you enabled your private Newsfeed and entered the password correctly.###02 06 2008 new variable
-common#:#obj_mcts#:#Mediacast###02 06 2008 new variable
-common#:#obj_mcts_desc#:#General settings for mediacast.###02 06 2008 new variable
-common#:#obj_svyf#:#Survey###02 06 2008 new variable
-common#:#obj_svyf_desc#:#Platform settings for the Survey Tool###02 06 2008 new variable
-tagging#:#tagging_tags#:#Tags###02 06 2008 new variable
-rating#:#rating_your_rating#:#Your Rating###02 06 2008 new variable
-rating#:#rating_average_rating#:#Average Rating###02 06 2008 new variable
-rating#:#rating_nr_users#:#%s User(s)###02 06 2008 new variable
-tagging#:#tagging_resources_for_tag#:#Resources tagged with %s###02 06 2008 new variable
-tagging#:#tagging_all_users#:#All Users###02 06 2008 new variable
-common#:#tagging_my_tags#:#My Tags###02 06 2008 new variable
-notes#:#notes_public_comments#:#Public Comments###02 06 2008 new variable
-notes#:#notes_add_comment#:#Add Comment###02 06 2008 new variable
-notes#:#notes_show_comments#:#Show Comments###02 06 2008 new variable
-notes#:#notes_hide_comments#:#Hide Comments###02 06 2008 new variable
-notes#:#notes_all_comments#:#All Comments###02 06 2008 new variable
-notes#:#notes_my_comments#:#My Comments###02 06 2008 new variable
-notes#:#notes_comment#:#Comment###02 06 2008 new variable
-notes#:#notes_activate_comments#:#Activate Public Comments###02 06 2008 new variable
-notes#:#notes_deactivate_comments#:#Deactivate Public Comments###02 06 2008 new variable
-common#:#ilias_username#:#ILIAS User Name###02 06 2008 new variable
-common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name###02 06 2008 new variable
-content#:#cont_pages_and_subchapters#:#Subchapters and Pages###02 06 2008 new variable
-content#:#cont_insert_as_subchapter#:#Insert as Subchapter###02 06 2008 new variable
-content#:#cont_insert_as_chapter#:#Insert as Chapter###02 06 2008 new variable
-content#:#cont_save_all_titles#:#Save Titles###02 06 2008 new variable
-content#:#cont_insert_resources#:#Insert Resource List###02 06 2008 new variable
-content#:#cont_update_resources#:#Update Resource List###02 06 2008 new variable
-content#:#cont_type#:#Type###02 06 2008 new variable
-content#:#cont_insert_section#:#Insert Section###02 06 2008 new variable
-content#:#cont_update_section#:#Update Section###02 06 2008 new variable
-content#:#cont_ed_insert_repobj#:#Insert Resource List###02 06 2008 new variable
-content#:#cont_ed_insert_tabs#:#Insert Tabs###02 06 2008 new variable
-content#:#cont_insert_tabs#:#Insert Tabs###02 06 2008 new variable
-content#:#cont_update_tabs#:#Update Tabs###02 06 2008 new variable
-content#:#cont_number_of_tabs#:#Number of Tabs###02 06 2008 new variable
-content#:#cont_tabs_hor_tabs#:#Horizontal Tabs###02 06 2008 new variable
+news#:#passwd_equals_ilpasswd#:#Vælg et andet password end dit ILIAS password
+news#:#priv_feed_disabled#:#Privat newsfeed deaktiveret.
+news#:#priv_feed_settings#:#Privat newsfeed indstillinger
+news#:#priv_feed_no_access_title#:#Privat newsfeed er deaktiveret
+news#:#priv_feed_no_access_body#:#Kontakt venligst systemadministrator for yderligere information.
+news#:#priv_feed_no_auth_title#:#Authentificering fejlede
+news#:#priv_feed_no_auth_body#:#Kontroller du har aktiveret privat newsfeed og du har indtastet dit newsfeed password korrekt.
+common#:#obj_mcts#:#Mediacast
+common#:#obj_mcts_desc#:#Almindelige indstillinger for mediacast.
+common#:#obj_svyf#:#Afstemning
+common#:#obj_svyf_desc#:#Platformsindstilling for afstemningsværktøjet
+tagging#:#tagging_tags#:#Tags
+rating#:#rating_your_rating#:#Din rating
+rating#:#rating_average_rating#:#Gennemsnitlig rating
+rating#:#rating_nr_users#:#%s bruger(e)
+tagging#:#tagging_resources_for_tag#:#Resurser tagged med %s
+tagging#:#tagging_all_users#:#Alle brugere
+common#:#tagging_my_tags#:#Mine tags
+notes#:#notes_public_comments#:#Offentlige kommentarer
+notes#:#notes_add_comment#:#Ny kommentar
+notes#:#notes_show_comments#:#Vis kommentarer
+notes#:#notes_hide_comments#:#Skjul kommentarer
+notes#:#notes_all_comments#:#Alle kommentarer
+notes#:#notes_my_comments#:#Mine kommentarer
+notes#:#notes_comment#:#Kommentar
+notes#:#notes_activate_comments#:#Aktiver offentlige kommentarer
+notes#:#notes_deactivate_comments#:#Deaktiver offentlige kommentarer
+common#:#ilias_username#:#ILIAS brugernavn
+common#:#ilias_and_webfolder_username#:#ILIAS og Webfolder brugernavn
+content#:#cont_pages_and_subchapters#:#Underkapitler og sider
+content#:#cont_insert_as_subchapter#:#Indsæt som underkapitel
+content#:#cont_insert_as_chapter#:#Indsæt som kapitel
+content#:#cont_save_all_titles#:#Gem titler
+content#:#cont_insert_resources#:#Indsæt resurseliste
+content#:#cont_update_resources#:#Opdater resurseliste
+content#:#cont_type#:#Type
+content#:#cont_insert_section#:#Indsæt sektion
+content#:#cont_update_section#:#Opdater sektion
+content#:#cont_ed_insert_repobj#:#Indsæt resurseliste
+content#:#cont_ed_insert_tabs#:#Indsæt faneblade
+content#:#cont_insert_tabs#:#Indsæt faneblade
+content#:#cont_update_tabs#:#Opdater faneblade
+content#:#cont_number_of_tabs#:#Antal faneblade
+content#:#cont_tabs_hor_tabs#:#Horizontale faneblade
 content#:#cont_tabs_accordion#:#Accordion###02 06 2008 new variable
-content#:#cont_ed_insert_map#:#Insert Map###02 06 2008 new variable
-content#:#cont_ed_insert_dtable#:#Insert Data Table###02 06 2008 new variable
-content#:#cont_ed_insert_atable#:#Insert Advanced Table###02 06 2008 new variable
-content#:#cont_ed_edit_data#:#Edit Data###02 06 2008 new variable
+content#:#cont_ed_insert_map#:#Indsæt kort
+content#:#cont_ed_insert_dtable#:#Indsæt datatabel
+content#:#cont_ed_insert_atable#:#Indsæt avanceret tabel
+content#:#cont_ed_edit_data#:#Ret data
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.###02 06 2008 new variable
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.###02 06 2008 new variable
 cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
-cntr#:#cntr_view_by_type#:#Grouped-by-Type View###02 06 2008 new variable
+cntr#:#cntr_view_by_type#:#Gruper-efter-type visning
 trac#:#trac_user_activities#:#Benutzeraktivitäten###02 06 2008 new variable
 trac#:#trac_repository_changes#:#Changes in the repository###02 06 2008 new variable
 common#:#webdav_pear_auth_http_needed#:#You need to install Pear Auth_HTTP to use this function. To do this, enter <code>pear install Auth_HTTP</code> on the terminal.###02 06 2008 new variable
 dateplaner#:#cal_table_categories#:#Calendar Selection###02 06 2008 new variable
-dateplaner#:#cal_type_usr#:#Personal Calendar###02 06 2008 new variable
-dateplaner#:#yui_cal_choose_month#:#Month:###02 06 2008 new variable
-dateplaner#:#yui_cal_choose_year#:#Year:###02 06 2008 new variable
-dateplaner#:#cal_edit_appointment#:#Edit Appointment###02 06 2008 new variable
-dateplaner#:#cal_what#:#Title###02 06 2008 new variable
-dateplaner#:#cal_category_selection#:#Calendar Selection###02 06 2008 new variable
-dateplaner#:#cal_start#:#Start###02 06 2008 new variable
-dateplaner#:#cal_end#:#End###02 06 2008 new variable
-dateplaner#:#cal_fullday#:#Fullday###02 06 2008 new variable
-dateplaner#:#cal_fullday_title#:#No time specified###02 06 2008 new variable
-dateplaner#:#cal_where#:#Location###02 06 2008 new variable
-dateplaner#:#cal_new_app#:#New Appointment###02 06 2008 new variable
-dateplaner#:#cal_add_appointment#:#Create Appointment###02 06 2008 new variable
-dateplaner#:#cal_recurrences#:#Recurrences###02 06 2008 new variable
-dateplaner#:#cal_every#:#Every:###02 06 2008 new variable
-dateplaner#:#cal_day_s#:#Day(s)###02 06 2008 new variable
-dateplaner#:#cal_week_s#:#Week(s)###02 06 2008 new variable
-dateplaner#:#cal_month_s#:#Month(s)###02 06 2008 new variable
-dateplaner#:#cal_year_s#:#Year(s)###02 06 2008 new variable
-dateplaner#:#cal_no_recurrences#:#No Recurrences###02 06 2008 new variable
-dateplaner#:#cal_daily#:#Daily###02 06 2008 new variable
-dateplaner#:#cal_weekly#:#Weekly###02 06 2008 new variable
-dateplaner#:#cal_monthly#:#Monthly###02 06 2008 new variable
-dateplaner#:#cal_yearly#:#Yearly###02 06 2008 new variable
-dateplaner#:#cal_on#:#On:###02 06 2008 new variable
-dateplaner#:#cal_on_the#:#On the:###02 06 2008 new variable
-dateplaner#:#cal_first#:#First###02 06 2008 new variable
-dateplaner#:#cal_second#:#Second###02 06 2008 new variable
-dateplaner#:#cal_third#:#Third###02 06 2008 new variable
-dateplaner#:#cal_fourth#:#Fourth###02 06 2008 new variable
-dateplaner#:#cal_fifth#:#Fifth###02 06 2008 new variable
-dateplaner#:#cal_last#:#Last###02 06 2008 new variable
-dateplaner#:#cal_in#:#in###02 06 2008 new variable
-dateplaner#:#cal_edit_category#:#Edit Calendar###02 06 2008 new variable
-dateplaner#:#cal_calendar_name#:#Title###02 06 2008 new variable
-dateplaner#:#cal_calendar_color#:#Color###02 06 2008 new variable
-dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?###02 06 2008 new variable
-dateplaner#:#cal_no_ending#:#No End Date###02 06 2008 new variable
-dateplaner#:#cal_create#:#Create###02 06 2008 new variable
-dateplaner#:#cal_appointments#:#Appointment(s)###02 06 2008 new variable
-forum#:#frm_moderator_f#:#Moderator###02 06 2008 new variable
-forum#:#frm_moderator_m#:#Moderator###02 06 2008 new variable
-dateplaner#:#cal_assigned_appointments#:#Assigned Appointments###02 06 2008 new variable
-dateplaner#:#cal_no_recurrence#:#No Recurrence###02 06 2008 new variable
-dateplaner#:#cal_add_category#:#Create New Calendar###02 06 2008 new variable
-dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?###02 06 2008 new variable
-dateplaner#:#cal_duration#:#Duration###02 06 2008 new variable
-common#:#survey_defaults#:#Default Settings for Surveys###02 06 2008 new variable
-common#:#survey_unlimited_invitation#:#Unlimited Invitation###02 06 2008 new variable
+dateplaner#:#cal_type_usr#:#Personlig kalender
+dateplaner#:#yui_cal_choose_month#:#Måned:
+dateplaner#:#yui_cal_choose_year#:#År: 
+dateplaner#:#cal_edit_appointment#:#Ret aftale
+dateplaner#:#cal_what#:#Titel
+dateplaner#:#cal_category_selection#:#Kalender valg
+dateplaner#:#cal_start#:#Start
+dateplaner#:#cal_end#:#Slut
+dateplaner#:#cal_fullday#:#Heledagen
+dateplaner#:#cal_fullday_title#:#Ingen tid angivet
+dateplaner#:#cal_where#:#Placering
+dateplaner#:#cal_new_app#:#Ny aftale
+dateplaner#:#cal_add_appointment#:#Ny aftale
+dateplaner#:#cal_recurrences#:#Rotation
+dateplaner#:#cal_every#:#Hver:
+dateplaner#:#cal_day_s#:#dag(e)
+dateplaner#:#cal_week_s#:#uge(r)
+dateplaner#:#cal_month_s#:#måned(er)
+dateplaner#:#cal_year_s#:#år
+dateplaner#:#cal_no_recurrences#:#Ingen rotation
+dateplaner#:#cal_daily#:#dagligt
+dateplaner#:#cal_weekly#:#ugentligt
+dateplaner#:#cal_monthly#:#månedligtMonthly###02 06 2008 new variable
+dateplaner#:#cal_yearly#:#årligt
+dateplaner#:#cal_on#:#Til:
+dateplaner#:#cal_on_the#:#På den
+dateplaner#:#cal_first#:#første
+dateplaner#:#cal_second#:#anden
+dateplaner#:#cal_third#:#treidie
+dateplaner#:#cal_fourth#:#fjerde
+dateplaner#:#cal_fifth#:#femte
+dateplaner#:#cal_last#:#sidste
+dateplaner#:#cal_in#:#i
+dateplaner#:#cal_edit_category#:#Ret kalender
+dateplaner#:#cal_calendar_name#:#Titel
+dateplaner#:#cal_calendar_color#:#Farve
+dateplaner#:#cal_del_cal_sure#:#Ønsker du at slette de valgte kalendere?
+dateplaner#:#cal_no_ending#:#Ingen slutdato
+dateplaner#:#cal_create#:#Opret
+dateplaner#:#cal_appointments#:#Aftale(r)
+forum#:#frm_moderator_f#:#Moderator
+forum#:#frm_moderator_m#:#Moderator
+dateplaner#:#cal_assigned_appointments#:#Tildelt aftale
+dateplaner#:#cal_no_recurrence#:#Ingen rotation
+dateplaner#:#cal_add_category#:#Lav ny kalender
+dateplaner#:#cal_del_app_sure#:#Vil du slette de valgte aftaler?
+dateplaner#:#cal_duration#:#Varighed
+common#:#survey_defaults#:#Standardindstillinger for afstemninger
+common#:#survey_unlimited_invitation#:#Ubegrænset invitationer
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.###02 06 2008 new variable
-dateplaner#:#cal_weekday#:#Weekday###02 06 2008 new variable
-dateplaner#:#cal_day_of_month#:#Day of the month###02 06 2008 new variable
-common#:#display_webdav_actions#:#Display WebDAV actions###02 06 2008 new variable
+dateplaner#:#cal_weekday#:#Ugedag
+dateplaner#:#cal_day_of_month#:#Dag i måneden
+common#:#display_webdav_actions#:#Vis WebDAV muligheder
 common#:#display_webdav_actions_info#:#Displays the action 'open as webfolder' next to each category, folder, course and group item in the repository.###02 06 2008 new variable
-rbac#:#sess_visible#:#Sessions are visible###02 06 2008 new variable
-rbac#:#sess_read#:#Read access to Sessions###02 06 2008 new variable
-rbac#:#sess_write#:#Edit Sessions###02 06 2008 new variable
-rbac#:#sess_edit_permission#:#Change Permission Settings###02 06 2008 new variable
-common#:#obj_sess#:#Session###02 06 2008 new variable
-common#:#objs_sess#:#Sessions###02 06 2008 new variable
-rbac#:#crs_create_sess#:#Create Session###02 06 2008 new variable
-rbac#:#sess_copy#:#Copy Session###02 06 2008 new variable
-common#:#obj_sess_duplicate#:#Copy Session###02 06 2008 new variable
-common#:#obj_sess_select#:#-- Please select one Session --###02 06 2008 new variable
-common#:#sess#:#Session###02 06 2008 new variable
-survey#:#specialusers#:#Special Users###02 06 2008 new variable
-survey#:#search_users#:#Search Users###02 06 2008 new variable
+rbac#:#sess_visible#:#Sessioner er synlige
+rbac#:#sess_read#:#Læseadgang til sessioner
+rbac#:#sess_write#:#Ret sessioner
+rbac#:#sess_edit_permission#:#Ændre rettighedsindstillinger
+common#:#obj_sess#:#Session
+common#:#objs_sess#:#Sessioner
+rbac#:#crs_create_sess#:#Lav session
+rbac#:#sess_copy#:#Kopier session
+common#:#obj_sess_duplicate#:#Kopier session
+common#:#obj_sess_select#:#-- Vælg en session --
+common#:#sess#:#Session
+survey#:#specialusers#:#Særlige brugere
+survey#:#search_users#:#Søg brugere
 survey#:#adm_no_users_found#:#No users were found that match the search string.###02 06 2008 new variable
 survey#:#adm_search_string_too_small#:#Please enter at least two characters in the search field!###02 06 2008 new variable
 survey#:#adm_search_select_user#:#Please select at least one user!###02 06 2008 new variable
 survey#:#adm_no_special_users#:#There are no special users defined who are able to run a survey more than once.###02 06 2008 new variable
-survey#:#adm_special_users#:#Special users who are able to run a survey more than once###02 06 2008 new variable
-survey#:#adm_removed_users#:#Users removed###02 06 2008 new variable
+survey#:#adm_special_users#:#Særlige brugere der kan udfylde afstemningen mere end en gang.
+survey#:#adm_removed_users#:#Brugere fjernet
 survey#:#adm_remove_select_user#:#Please select at least one user for removal!###02 06 2008 new variable
 content#:#cont_sc_max_attempt#:#Max. number of attempts###02 06 2008 new variable
 content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module has been reached.###02 06 2008 new variable
-content#:#cont_sc_new_version#:#Upload new version###02 06 2008 new variable
-content#:#cont_sc_version#:#Version###02 06 2008 new variable
-content#:#cont_export_all#:#Export all###02 06 2008 new variable
+content#:#cont_sc_new_version#:#Upload ny version
+content#:#cont_sc_version#:#Version
+content#:#cont_export_all#:#Eksporter alt
 content#:#cont_export_tracking#:#Export Tracking Data###02 06 2008 new variable
 content#:#cont_export_raw#:#CMI (RAW) data###02 06 2008 new variable
 content#:#cont_export_success#:#Success-data (aggregated)###02 06 2008 new variable
@@ -8119,28 +8119,28 @@ content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsman
 content#:#cont_new_module_added#:#New version of module uploaded successfully###02 06 2008 new variable
 common#:#attempts#:#Attempts###02 06 2008 new variable
 common#:#decrease_attempts#:#Attempts - 1 ###02 06 2008 new variable
-grp#:#grp_closed#:#Closed Group###02 06 2008 new variable
-grp#:#grp_closed_info#:#Group is not visible for non-members.###02 06 2008 new variable
-grp#:#grp_reg_disabled#:#No Registration Possible###02 06 2008 new variable
-grp#:#grp_reg_disabled_info#:#Only group administrators can add users to the group.###02 06 2008 new variable
-grp#:#grp_reg_request#:#Request Membership###02 06 2008 new variable
-grp#:#grp_reg_request_info#:#Interested users can send a request/message to group administrator.###02 06 2008 new variable
-grp#:#grp_reg_direct#:#Direct Registration###02 06 2008 new variable
-grp#:#grp_reg_direct_info#:#Direct registration.###02 06 2008 new variable
-grp#:#grp_pass_request#:#Join With Group Password###02 06 2008 new variable
-grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.###02 06 2008 new variable
-grp#:#grp_reg_limit_time#:#Registration Period###02 06 2008 new variable
-grp#:#grp_reg_limit_num#:#Maximum Of Users###02 06 2008 new variable
+grp#:#grp_closed#:#Lukket gruppe
+grp#:#grp_closed_info#:#Gruppen er ikke synlig for ikke-medlemmer
+grp#:#grp_reg_disabled#:#Tilmelding ikke mulig
+grp#:#grp_reg_disabled_info#:#Kun gruppens administratorer kan tilføje brugere til gruppen.
+grp#:#grp_reg_request#:#Anmod om medlemsskab
+grp#:#grp_reg_request_info#:#Interesserede brugere kan sende en anmodning/besked til gruppens administrator(ere)
+grp#:#grp_reg_direct#:#Direkte tilmelding
+grp#:#grp_reg_direct_info#:#Direkte tilmelding
+grp#:#grp_pass_request#:#Tilmelding med fælles gruppe-password
+grp#:#grp_reg_password_info#:#Brugere skal kende det fælles gruppe-password for at blive indmeldt i gruppen.
+grp#:#grp_reg_limit_time#:#Tilmeldingsperiode
+grp#:#grp_reg_limit_num#:#Maks antal brugere
 grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.###02 06 2008 new variable
 grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###02 06 2008 new variable
-grp#:#grp_waiting_list#:#Enable Waiting List###02 06 2008 new variable
-grp#:#grp_reg_limit_num_info#:#Limited Registration Period###02 06 2008 new variable
-grp#:#grp_reg_start#:#Registration Start:###02 06 2008 new variable
-grp#:#grp_reg_end#:#Registration End:###02 06 2008 new variable
-grp#:#grp_open#:#Open Group###02 06 2008 new variable
-grp#:#grp_open_info#:#Non-members can see this group and join it directly..###02 06 2008 new variable
+grp#:#grp_waiting_list#:#Aktiver venteliste
+grp#:#grp_reg_limit_num_info#:#Begrænset tilmeldingsperiode
+grp#:#grp_reg_start#:#Tilmelding fra:
+grp#:#grp_reg_end#:#Tilmelding til:
+grp#:#grp_open#:#Åben gruppe
+grp#:#grp_open_info#:#Ikke-medlemmer kan se denne gruppe ogh forsøge at tilmelde sig.
 grp#:#grp_public#:#Offentlig gruppe
-grp#:#grp_public_info#:#Group is visible for non-members but has special requirements to join it.###02 06 2008 new variable
+grp#:#grp_public_info#:#Gruppen er synlig for ikke-medlemmer men de skal opfylde betingelserne for at tilmelde sig gruppen.
 grp#:#grp_typ#:#Gruppetype
 grp#:#grp_admins#:#Administratorer
 grp#:#grp_members#:#Medlemmer
@@ -8165,52 +8165,52 @@ common#:#mem_reg_expired#:#Indmeldelsesperioden er udløbet.
 common#:#mem_unlimited#:#Ubegrænset
 common#:#mail_attachments#:#Mail vedhæftninger
 common#:#forum_attachments#:#Forum vedhæftninger
-grp#:#grp_set_on_waiting_list#:#You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.###02 06 2008 new variable
-grp#:#grp_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.###02 06 2008 new variable
-grp#:#grp_users_added#:#Added user to the group.###02 06 2008 new variable
-grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.###02 06 2008 new variable
-grp#:#grp_header_waiting_list#:#Waiting List###02 06 2008 new variable
-grp#:#grp_users_removed_from_list#:#The selected users have been removed from the waiting list.###02 06 2008 new variable
-grp#:#grp_general_informations#:#General Information###02 06 2008 new variable
-grp#:#grp_information#:#Important Information###02 06 2008 new variable
-grp#:#grp_settings#:#Group Settings###02 06 2008 new variable
-grp#:#grp_info_settings#:#Group Information###02 06 2008 new variable
-grp#:#grp_icon_settings#:#Group Icon###02 06 2008 new variable
-grp#:#grp_information_info#:#This information will be show on the info page and for new registrations.###02 06 2008 new variable
-grp#:#reg_grp_max_members#:#Maximum Of Users###02 06 2008 new variable
-grp#:#grp_reg_limited#:#Registration Period###02 06 2008 new variable
-grp#:#grp_btn_unsubscribe#:#Unsubscribe From Group###02 06 2008 new variable
-dateplaner#:#grp_cal_reg_end#:#Registration End ###02 06 2008 new variable
-dateplaner#:#grp_cal_reg_start#:#Registration Start###02 06 2008 new variable
-grp#:#grp_membership_request_subject#:#%1$s %2$s would like to join group "%3$s".###02 06 2008 new variable
-grp#:#grp_membership_request_body#:#%1$s %2$s has requested membership for group "%5$s".\n\nPlease accept or refuse this request on the "Join Requests" page of the group.\n\nGroup: %5$s", %6$s\n\nRequestor: %1$s %2$s, %3$s, mailto:%4$s.\n\nSubject:\n%7$s###02 06 2008 new variable
-grp#:#grp_accept_subscriber#:#Admission to group "%s" ###02 06 2008 new variable
-grp#:#grp_accept_subscriber_body#:#You have been admitted to group "%1$s".\n\n%2$s ###02 06 2008 new variable
-grp#:#grp_reject_subscriber#:#Declined for group "%s" ###02 06 2008 new variable
-grp#:#grp_reject_subscriber_body#:#Your request to join group "%s" has been declined.###02 06 2008 new variable
-forum#:#frm_post_not_activated_yet#:#Not activated yet.###02 06 2008 new variable
+grp#:#grp_set_on_waiting_list#:#Du kan få din anmodning på ventelisten. Du vil i så fald modtage en besked fra gruppeadministrator når du godkendes eller afvises.
+grp#:#grp_added_to_list#:#Du er blevet sat på ventelisten som nummer %s.
+grp#:#grp_users_added#:#Bruger indmeldt i gruppen.
+grp#:#grp_users_already_assigned#:#Brugeren er allerede indmeldt i gruppen.
+grp#:#grp_header_waiting_list#:#Venteliste
+grp#:#grp_users_removed_from_list#:#De valgte brugere er fjernet fra ventelisten.
+grp#:#grp_general_informations#:#Generel information
+grp#:#grp_information#:#Vigtig information
+grp#:#grp_settings#:#Gruppe indstillinger
+grp#:#grp_info_settings#:#Gruppe information
+grp#:#grp_icon_settings#:#Gruppe ikon
+grp#:#grp_information_info#:#Denne information bliver vist på informationssiden og til nye tilmeldinger.
+grp#:#reg_grp_max_members#:#Maks antal brugere
+grp#:#grp_reg_limited#:#Tilmeldingsperiode
+grp#:#grp_btn_unsubscribe#:#Udmeld af gruppen
+dateplaner#:#grp_cal_reg_end#:#Tilmelding til
+dateplaner#:#grp_cal_reg_start#:#Tilmelding fra
+grp#:#grp_membership_request_subject#:#%1$s %2$s anmoder om indmeldelse i gruppen "%3$s".
+grp#:#grp_membership_request_body#:#%1$s %2$s har anmodet om medlemsskab i gruppen "%5$s".\n\nI gruppens faneblad "Anmodninger/Nye tilmeldinger kan du afvise eller imødekomme ønsket."\n\nGroup: %5$s", %6$s\n\nAnmoder: %1$s %2$s, %3$s, mailto:%4$s.\n\nSubject:\n%7$s
+grp#:#grp_accept_subscriber#:#Indmelding i "%s" 
+grp#:#grp_accept_subscriber_body#:#Du er blevet indmeldt i gruppen "%1$s".\n\n%2$s
+grp#:#grp_reject_subscriber#:#Afvisning i "%s" 
+grp#:#grp_reject_subscriber_body#:#Din ønske om at indmeldelse i gruppen "%s" er blevet afvist af gruppens administrator.
+forum#:#frm_post_not_activated_yet#:#Endnu ikke aktiveret
 assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.###02 06 2008 new variable
 assessment#:#terms#:#Terms###02 06 2008 new variable
 assessment#:#empty_term_message#:#There is a least one empty term field.###02 06 2008 new variable
 assessment#:#no_terms_message#:#Please add at least on term.###02 06 2008 new variable
-crs#:#crs_reg_period#:#Registration Period###02 06 2008 new variable
-crs#:#crs_presentation_type#:#Presentation Type###02 06 2008 new variable
-dateplaner#:#crs_cal_activation_start#:#Course Start###02 06 2008 new variable
-dateplaner#:#crs_cal_activation_end#:#Course End###02 06 2008 new variable
-dateplaner#:#crs_cal_reg_start#:#Registration Start###02 06 2008 new variable
-dateplaner#:#crs_cal_reg_end#:#Registration End###02 06 2008 new variable
-dateplaner#:#cal_default_calendar#:#Personal Appointments###02 06 2008 new variable
-dateplaner#:#cal_details#:#Appointment Details###02 06 2008 new variable
-grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You will get a message from a group administrator when your request has been admitted or declined.###02 06 2008 new variable
-grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.###02 06 2008 new variable
-grp#:#grp_reg_deac_info_screen#:#Group admittance is closed.###02 06 2008 new variable
-grp#:#grp_reg_direct_info_screen#:#You can join this group directly.###02 06 2008 new variable
-common#:#cal_from#:#From:###02 06 2008 new variable
-common#:#cal_until#:#Until:###02 06 2008 new variable
-dateplaner#:#cal_cal_type#:#Calendar Type###02 06 2008 new variable
-dateplaner#:#cal_type_personal#:#Private Calendar###02 06 2008 new variable
-dateplaner#:#cal_type_system#:#Public Calendar###02 06 2008 new variable
-rbac#:#crs_edit_event#:#Edit Calendar Events###02 06 2008 new variable
+crs#:#crs_reg_period#:#Tilmeldingsperiode
+crs#:#crs_presentation_type#:#Præsentationstype
+dateplaner#:#crs_cal_activation_start#:#Kursusstart
+dateplaner#:#crs_cal_activation_end#:#Kursusafslutning
+dateplaner#:#crs_cal_reg_start#:#Tilmelding fra
+dateplaner#:#crs_cal_reg_end#:#Tiolmelding til
+dateplaner#:#cal_default_calendar#:#Personlige aftaler
+dateplaner#:#cal_details#:#Aftale detaljer
+grp#:#grp_reg_req_info_screen#:#Du kan anmode om medlemsskab af denne gruppe. Når gruppeadministrator herefter har taget stilling til din anmodning modtager du en mail med en bekræftelse eller en afvisning.
+grp#:#grp_reg_passwd_info_screen#:#Hvis gruppeadministrator har givet dig det fælles password kan du tilmelde dig denne gruppe.
+grp#:#grp_reg_deac_info_screen#:#Der er lukket for tilmelding.
+grp#:#grp_reg_direct_info_screen#:#Du kan tilmelde dig denne gruppe direkte.
+common#:#cal_from#:#Fra:
+common#:#cal_until#:#Indtil:
+dateplaner#:#cal_cal_type#:#Kalendertype
+dateplaner#:#cal_type_personal#:#Privat kalender
+dateplaner#:#cal_type_system#:#Offentlig kalender
+rbac#:#crs_edit_event#:#Ret kalender aftaler
 rbac#:#grp_edit_event#:#Edit Calendar Events###02 06 2008 new variable
 rbac#:#sess_edit_event#:#Edit Calendar Events###02 06 2008 new variable
 rbac#:#cals_edit_event#:#Administrate Public Calendars###02 06 2008 new variable
@@ -8275,8 +8275,8 @@ ecs#:#ecs_server_url#:#Server URL
 ecs#:#ecs_protocol#:#Protocol###23 07 2008 new variable
 ecs#:#ecs_port#:#Port###23 07 2008 new variable
 ecs#:#ecs_client_cert#:#Client Certificate###23 07 2008 new variable
-ecs#:#ecs_ca_cert#:#CA Certificate###23 07 2008 new variable
-ecs#:#ecs_cert_key#:#Certificate Key###23 07 2008 new variable
+ecs#:#ecs_ca_cert#:#CA certifikat
+ecs#:#ecs_cert_key#:#Certifikat nøgle
 ecs#:#ecs_key_password#:#Key Password###23 07 2008 new variable
 ecs#:#cert_serial#:#Certificate Serial Number###23 07 2008 new variable
 ecs#:#ecs_local_settings#:#Local Settings###23 07 2008 new variable
@@ -8325,7 +8325,7 @@ ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created E
 rcrs#:#rcrs_call#:#Call Remote Course###23 07 2008 new variable
 ecs#:#ecs_field_begin#:#Begin###23 07 2008 new variable
 ecs#:#ecs_field_end#:#End###23 07 2008 new variable
-ecs#:#ecs_import#:#Import###23 07 2008 new variable
+ecs#:#ecs_import#:#Import
 ecs#:#ecs_imported_content#:#Imported E-Content###23 07 2008 new variable
 ecs#:#ecs_imported_from#:#Imported From###23 07 2008 new variable
 ecs#:#ecs_meta_data#:#Meta Data###23 07 2008 new variable
@@ -8339,11 +8339,11 @@ ecs#:#ecs_user_rcp_info#:#Enter one or more login names of users (comma seperate
 ecs#:#ecs_econ_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new ECS content per e-mail.###23 07 2008 new variable
 ecs#:#ecs_new_user_subject#:#New ECS User Account###23 07 2008 new variable
 ecs#:#ecs_new_user_body#:#A new ECS user account has been created.###23 07 2008 new variable
-ecs#:#ecs_new_user_profile#:#User profile data:###23 07 2008 new variable
+ecs#:#ecs_new_user_profile#:#Brugerprofil data:
 form#:#form_months#:#Months###23 07 2008 new variable
 ecs#:#ecs_account_duration#:#Activation Period Extension###23 07 2008 new variable
 ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.###23 07 2008 new variable
-common#:#udf_type_datetime#:#Date and Time###23 07 2008 new variable
+common#:#udf_type_datetime#:#Dato og tid
 ecs#:#ecs_no_value#:#Not available###23 07 2008 new variable
 ecs#:#ecs_field_semester_hours#:#Semester Periods per Week###23 07 2008 new variable
 common#:#object_id#:#Object-Id###23 07 2008 new variable
@@ -8506,10 +8506,10 @@ ps#:#ps_password_change_on_first_login_enabled#:#Vælg password ved første logi
 ps#:#ps_password_change_on_first_login_enabled_info#:#Brugere tvinges til at ændre deres password ved første login med mindre de har oprettet sig selv og dermed allerede valgt et personligt password.
 common#:#password_change_on_first_login_demand#:#Du skal vælge et nyt password før du kan begynde at anvende ILIAS.
 content#:#cont_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
-content#:#cont_syntax_help#:#Syntax Help###15 09 2008 new variable
-content#:#cont_bullet_list#:#Bullet List###15 09 2008 new variable
-content#:#cont_numbered_list#:#Numbered List###15 09 2008 new variable
-content#:#cont_wiki_page_link#:#Wiki Page Link###15 09 2008 new variable
+content#:#cont_syntax_help#:#Syntax hjælp
+content#:#cont_bullet_list#:#Punktliste
+content#:#cont_numbered_list#:#Nummereret liste
+content#:#cont_wiki_page_link#:#Wiki sidelink
 content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.###15 09 2008 new variable
 content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###15 09 2008 new variable
 form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
@@ -8536,11 +8536,11 @@ content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode###15 09 2008
 content#:#cont_js_chap_editing#:#Use JavaScript Editing Mode###15 09 2008 new variable
 content#:#cont_chapters_after_pages#:#Please note that pages have to precede all subchapters of the same level.###15 09 2008 new variable
 content#:#cont_add_rectangle#:#Add Rectangle###15 09 2008 new variable
-content#:#cont_add_circle#:#Add Circle###15 09 2008 new variable
-content#:#cont_add_polygon#:#Add Polygon###15 09 2008 new variable
-content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)###15 09 2008 new variable
-content#:#cont_edit_shape_circle#:#Edit Shape (Circle)###15 09 2008 new variable
-content#:#cont_edit_shape_polygon#:#Edit Shape (Polygon)###15 09 2008 new variable
+content#:#cont_add_circle#:#Lav cirkel
+content#:#cont_add_polygon#:#Lav polygon
+content#:#cont_edit_shape_rectangle#:#Rediger form (rektangel)
+content#:#cont_edit_shape_circle#:#Rediger form (cirkel)
+content#:#cont_edit_shape_polygon#:#Rediger form (polygon)
 content#:#cont_new_mob#:#New Media Object###15 09 2008 new variable
 content#:#cont_mob_from_media_pool#:#Choose From Media Pool###15 09 2008 new variable
 content#:#cont_select_media_pool#:#Select Media Pool###15 09 2008 new variable
@@ -8548,10 +8548,10 @@ content#:#cont_table_properties#:#Table Properties###15 09 2008 new variable
 content#:#cont_table_cell_properties#:#Table Cell Properties###15 09 2008 new variable
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.###15 09 2008 new variable
 content#:#cont_set_styles_and_widths#:#Set Styles and Widths###15 09 2008 new variable
-content#:#cont_Special#:#Special###15 09 2008 new variable
+content#:#cont_Special#:#Speciel
 content#:#cont_Excursus#:#Excursus###15 09 2008 new variable
-content#:#cont_localfile#:#Local File###15 09 2008 new variable
-content#:#cont_Block#:#Block###15 09 2008 new variable
+content#:#cont_localfile#:#Lokal fil
+content#:#cont_Block#:#Blok
 content#:#cont_def_map_areas#:#Default Link Areas###15 09 2008 new variable
 content#:#cont_inst_map_areas#:#Instance Link Areas###15 09 2008 new variable
 content#:#cont_mob_def_prop#:#Default Properties###15 09 2008 new variable
@@ -8569,14 +8569,14 @@ cntr#:#cntr_back_to_old_editor#:#Back to Old Editor###15 09 2008 new variable
 cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.###15 09 2008 new variable
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation###15 09 2008 new variable
 cntr#:#cntr_switched_editor#:#Switched to new content.###15 09 2008 new variable
-common#:#no_items#:#No Items###15 09 2008 new variable
-content#:#cont_first_row_style#:#First Row Style###15 09 2008 new variable
+common#:#no_items#:#Antal emner
+content#:#cont_first_row_style#:#Første række stilark
 content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
 content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
 content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.###15 09 2008 new variable
 crs#:#crs_archive_language_selection#:#Language Selection###15 09 2008 new variable
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.###15 09 2008 new variable
-common#:#ext_link#:#Link###15 09 2008 new variable
+common#:#ext_link#:#Link
 pd#:#pd_enable_my_offers#:#Enable 'Selected Items'###15 09 2008 new variable
 pd#:#pd_enable_my_offers_info#:#The view 'Selected Items' contains all objects which are placed on the user's Personal Desktop.###15 09 2008 new variable
 pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'###15 09 2008 new variable
@@ -8594,7 +8594,7 @@ assessment#:#autosave_success#:#Kladde gemt...
 assessment#:#autosave_failed#:#Automatisk gem af kladde fejlede!
 assessment#:#kiosk_show_title#:#Vis test titel
 assessment#:#kiosk_show_participant#:#Show Name of Participant###15 09 2008 new variable
-assessment#:#kiosk_options#:#Kiosk Mode Options###15 09 2008 new variable
+assessment#:#kiosk_options#:#Kioskmode indstillinger
 assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.###15 09 2008 new variable
 assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...###15 09 2008 new variable
 assessment#:#final_statement#:#Final Statement###15 09 2008 new variable
@@ -8603,9 +8603,9 @@ assessment#:#final_statement_show_desc#:#If checked, the final statement will be
 assessment#:#showinfo#:#Show the complete Information Page###15 09 2008 new variable
 assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
 assessment#:#forcejs#:#Force JavaScript output for test questions###15 09 2008 new variable
-assessment#:#forcejs_short#:#Force JavaScript###15 09 2008 new variable
+assessment#:#forcejs_short#:#Tving JavaScript
 assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.###15 09 2008 new variable
-crs#:#crs_contact_email_info#:#Enter one or more (comma seperated) E-mail addresses.###15 09 2008 new variable
+crs#:#crs_contact_email_info#:#Indtast en eller flere kommaseparerede emailadresser.
 crs#:#crs_objective_status#:#Objective Status###15 09 2008 new variable
 crs#:#crs_obj_final_req_info#:#If this number of points is achieved, the learning objective is passed.###15 09 2008 new variable
 crs#:#crs_obj_initial_req_info#:#If this number of points is achieved, no course materials will be recommended for further editing.###15 09 2008 new variable
@@ -8616,7 +8616,7 @@ crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial t
 crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.###15 09 2008 new variable
 crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.###15 09 2008 new variable
 crs#:#crs_suggested_sections#:#Suggested Sections###15 09 2008 new variable
-forum#:#frm_statistics#:#Statistics###15 09 2008 new variable
+forum#:#frm_statistics#:#Statistik
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.###15 09 2008 new variable
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.###15 09 2008 new variable
 chat#:#chat_chat_invitation#:#Chat invitationer
