@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,42 +21,61 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once "./Modules/Course/classes/class.ilObjCourseListGUI.php";
 
-/**
-* Class ilObjCourseListGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @extends ilObjectListGUI
+/** 
+* 
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
+* @version $Id$
+* 
+* 
+* @ingroup ModulesCourseReference
 */
-
-
-include_once "classes/class.ilObjectListGUI.php";
-
-class ilObjCourseListGUI extends ilObjectListGUI
+class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 {
+	protected $reference_obj_id = null;
+	protected $reference_ref_id = null;
+	
 	/**
-	* constructor
-	*
-	*/
-	function ilObjCourseListGUI()
+	 * Constructor
+	 *
+	 * @access public
+	 * 
+	 */
+	public function __construct()
 	{
-		$this->ilObjectListGUI();
+	 	parent::__construct();
 	}
-
+	
+	public function getIconImageType() 
+	{
+		return 'crsr';
+	}
+	
+	/**
+	 * get command id
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getCommandId()
+	{
+		return $this->reference_ref_id;
+	}
+	
 	/**
 	* initialisation
 	*/
 	function init()
 	{
-		$this->static_link_enabled = true;
+		$this->static_link_enabled = false;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = true;
-		$this->info_screen_enabled = true;
+		$this->info_screen_enabled = false;
 		$this->type = "crs";
 		$this->gui_class_name = "ilobjcoursegui";
 		
@@ -68,12 +87,15 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 
 		// general commands array
-		include_once('class.ilObjCourseAccess.php');
-		$this->commands = ilObjCourseAccess::_getCommands();
+		include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
+		$this->commands = ilObjCourseReferenceAccess::_getCommands();
 	}
-
+	
+	
+	
 	/**
 	* inititialize new item
+	* Course reference inits the course item
 	*
 	* @param	int			$a_ref_id		reference id
 	* @param	int			$a_obj_id		object id
@@ -83,60 +105,49 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
 		global $ilBench;
-
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		
+		$this->reference_ref_id = $a_ref_id;
+		$this->reference_obj_id = $a_obj_id;
+		
+		include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+		$target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
+		
+		$target_ref_ids = ilObject::_getAllReferences($target_obj_id);
+		$target_ref_id = current($target_ref_ids);
+		$target_title = ilObject::_lookupTitle($target_obj_id);
+		$target_description = ilObject::_lookupDescription($target_obj_id);
+		
+		$ilBench->start("ilObjCourseListGUI", "1000_checkAllConditions");
+		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($target_ref_id,$target_obj_id);
+		$ilBench->stop("ilObjCourseListGUI", "1000_checkAllConditions");
+		
+		
+		parent::initItem($target_ref_id, $target_obj_id,$target_title,$target_description);
 
 //echo "A-".memory_get_usage();echo "-".$full_class;
-		$ilBench->start("ilObjCourseListGUI", "1000_checkAllConditions");
-		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$this->obj_id);
-		$ilBench->stop("ilObjCourseListGUI", "1000_checkAllConditions");
 //echo "B-".memory_get_usage();echo "-".$full_class;
 	}
-
-
+	
 	/**
-	* Get item properties
-	*
-	* @return	array		array of property arrays:
-	*						"alert" (boolean) => display as an alert property (usually in red)
-	*						"property" (string) => property name
-	*						"value" (string) => property value
-	*/
-	function getProperties()
+	 * get command link
+	 *
+	 * @access public
+	 * @param string $a_cmd
+	 * @return
+	 */
+	public function getCommandLink($a_cmd)
 	{
-		global $lng, $ilUser;
-
-		// BEGIN WebDAV: Get parent properties
-		// BEGIN ChangeEvent: Get parent properties
-		$props = parent::getProperties();
-		// END ChangeEvent: Get parent properties
-		// END WebDAV: Get parent properties
-
-		// offline
-		include_once 'Modules/Course/classes/class.ilObjCourse.php';
-		if(!ilObjCourse::_isActivated($this->obj_id))
+		switch($a_cmd)
 		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
+			case '':
+			case 'view':
+				return 'repository.php?ref_id='.$this->ref_id.'&cmd='.$a_cmd;
+				
+			default:
+				return 'repository.php?ref_id='.$this->getCommandId().'&cmd='.$a_cmd;
 		}
-
-		// blocked
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		$members = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
-		if($members->isBlocked($ilUser->getId()) and $members->isAssigned($ilUser->getId()))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
-				"value" => $lng->txt("crs_status_blocked"));
-		}
-
-		// pending subscription
-		if (ilCourseParticipants::_isSubscriber($this->obj_id,$ilUser->getId()))
-		{
-			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
-				"value" => $lng->txt("crs_status_pending"));
-		}
-
-		return $props;
 	}
-} // END class.ilObjCategoryGUI
+	
+
+}
 ?>

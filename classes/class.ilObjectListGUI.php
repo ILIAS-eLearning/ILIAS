@@ -616,6 +616,20 @@ class ilObjectListGUI
 	}
 	
 	/**
+	 * get command id
+	 * Normally the ref id.
+	 * Overwritten for course and category references
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function getCommandId()
+	{
+		return $this->ref_id;
+	}
+	
+	/**
 	* inititialize new item (is called by getItemHTML())
 	*
 	* @param	int			$a_ref_id		reference id
@@ -688,7 +702,7 @@ class ilObjectListGUI
 		// END WebDAV Get mount webfolder link.
 
 		// don't use ctrl here in the moment
-		return 'repository.php?ref_id='.$this->ref_id.'&cmd='.$a_cmd;
+		return 'repository.php?ref_id='.$this->getCommandId().'&cmd='.$a_cmd;
 
 		// separate method for this line
 		$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
@@ -1403,7 +1417,7 @@ class ilObjectListGUI
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
-			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
 			$this->insertCommand($cmd_link, $this->lng->txt("delete"));
 			$this->adm_commands_included = true;
@@ -1429,7 +1443,7 @@ class ilObjectListGUI
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
-			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
 			$this->insertCommand($cmd_link, $this->lng->txt("link"));
 			$this->adm_commands_included = true;
@@ -1455,7 +1469,7 @@ class ilObjectListGUI
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
-			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut");
 			$this->insertCommand($cmd_link, $this->lng->txt("move"));
 			$this->adm_commands_included = true;
@@ -1475,6 +1489,8 @@ class ilObjectListGUI
 		{
 			return;
 		}
+		$type = ilObject::_lookupType(ilObject::_lookupObjId($this->getCommandId()));
+
 		if ($this->ilias->account->getId() != ANONYMOUS_USER_ID)
 		{
 			// BEGIN WebDAV: Lock/Unlock objects
@@ -1504,9 +1520,9 @@ class ilObjectListGUI
 			*/
 			// END WebDAV: Lock/Unlock objects
 
-			if (!$this->ilias->account->isDesktopItem($this->ref_id, $this->type))
+			if (!$this->ilias->account->isDesktopItem($this->getCommandId(), $type))
 			{
-				if ($this->rbacsystem->checkAccess("read", $this->ref_id))
+				if ($this->rbacsystem->checkAccess("read", $this->getCommandId()))
 				{
 					// not so nice, if no container object given, it must
 					// be personal desktop
@@ -1514,15 +1530,15 @@ class ilObjectListGUI
 					{
 						$this->ctrl->setParameter($this->container_obj, "ref_id",
 							$this->container_obj->object->getRefId());
-						$this->ctrl->setParameter($this->container_obj, "type", $this->type);
-						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+						$this->ctrl->setParameter($this->container_obj, "type", $type);
+						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
 						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
 					}					
 					else
 					{
-						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $this->type);
-						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->ref_id);
+						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $type);
+						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui",
 							"addItem");
 						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
@@ -1537,15 +1553,15 @@ class ilObjectListGUI
 				{
 					$this->ctrl->setParameter($this->container_obj, "ref_id",
 						$this->container_obj->object->getRefId());
-					$this->ctrl->setParameter($this->container_obj, "type", $this->type);
-					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->ref_id);
+					$this->ctrl->setParameter($this->container_obj, "type", $type);
+					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
 					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"));
 				}
 				else
 				{
-					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $this->type);
-					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->ref_id);
+					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $type);
+					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui",
 						"dropItem");
 					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"));
@@ -1736,7 +1752,7 @@ class ilObjectListGUI
 		if ($this->getCheckboxStatus())
 		{
 			$this->tpl->setCurrentBlock("check");
-			$this->tpl->setVariable("VAL_ID", $this->ref_id);
+			$this->tpl->setVariable("VAL_ID", $this->getCommandId());
 			$this->tpl->parseCurrentBlock();
 			$cnt += 1;
 		}
@@ -1747,7 +1763,7 @@ class ilObjectListGUI
 				$this->tpl->touchBlock("i_1");	// indent
 			}
 			$this->tpl->setCurrentBlock("icon");
-			$this->tpl->setVariable("ALT_ICON", $lng->txt("obj_".$this->type));
+			$this->tpl->setVariable("ALT_ICON", $lng->txt("obj_".$this->getIconImageType()));
 			$this->tpl->setVariable("SRC_ICON",
 				ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType()));
 			$this->tpl->parseCurrentBlock();
