@@ -5722,14 +5722,14 @@ meta#:#meta_c_BV#:#Bouvet Island###21 Apr 2005 new variable
 meta#:#meta_c_BW#:#Botswana###21 Apr 2005 new variable
 meta#:#meta_c_BY#:#Hviderusland
 meta#:#meta_c_BZ#:#Belize###21 Apr 2005 new variable
-meta#:#meta_c_CA#:#Canada###21 Apr 2005 new variable
+meta#:#meta_c_CA#:#Canada
 meta#:#meta_c_CC#:#Cocos (Keeling) Islands###21 Apr 2005 new variable
 meta#:#meta_c_CF#:#Central African Republic###21 Apr 2005 new variable
-meta#:#meta_c_CG#:#Congo###21 Apr 2005 new variable
+meta#:#meta_c_CG#:#Den Demokratiske Republik Congo :-)
 meta#:#meta_c_CH#:#Schweiz
 meta#:#meta_c_CI#:#Cote D' Ivoire###21 Apr 2005 new variable
 meta#:#meta_c_CK#:#Cook Islands###21 Apr 2005 new variable
-meta#:#meta_c_CL#:#Chile###21 Apr 2005 new variable
+meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Cameroon###21 Apr 2005 new variable
 meta#:#meta_c_CN#:#Kina
 meta#:#meta_c_CO#:#Colombia###21 Apr 2005 new variable
@@ -5748,7 +5748,7 @@ meta#:#meta_c_DZ#:#Algeriet
 meta#:#meta_c_EC#:#Ecuador###21 Apr 2005 new variable
 meta#:#meta_c_EE#:#Estland
 meta#:#meta_c_EG#:#Egypten
-meta#:#meta_c_EH#:#Western Sahara###21 Apr 2005 new variable
+meta#:#meta_c_EH#:#Vestsahara
 meta#:#meta_c_ER#:#Eritrea###21 Apr 2005 new variable
 meta#:#meta_c_ES#:#Spanien
 meta#:#meta_c_ET#:#Ethiopia###21 Apr 2005 new variable
@@ -5809,7 +5809,7 @@ meta#:#meta_c_LA#:#Lao People's Republic###21 Apr 2005 new variable
 meta#:#meta_c_LB#:#Lebanon###21 Apr 2005 new variable
 meta#:#meta_c_LC#:#Saint Lucia###21 Apr 2005 new variable
 meta#:#meta_c_LI#:#Luxemborg
-meta#:#meta_c_LK#:#Sri Lanka###21 Apr 2005 new variable
+meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia###21 Apr 2005 new variable
 meta#:#meta_c_LS#:#Lesotho###21 Apr 2005 new variable
 meta#:#meta_c_LT#:#Lithunia###21 Apr 2005 new variable
@@ -5867,7 +5867,7 @@ meta#:#meta_c_QA#:#Qatar###21 Apr 2005 new variable
 meta#:#meta_c_RE#:#Reunion###21 Apr 2005 new variable
 meta#:#meta_c_RO#:#Romanien
 meta#:#meta_c_RU#:#Ran Federation###21 Apr 2005 new variable
-meta#:#meta_c_RW#:#Rwanda###21 Apr 2005 new variable
+meta#:#meta_c_RW#:#Rwanda
 meta#:#meta_c_SA#:#Saudi Arabien
 meta#:#meta_c_SB#:#Solomon Islands###21 Apr 2005 new variable
 meta#:#meta_c_SC#:#Seychelles###21 Apr 2005 new variable
@@ -5944,13 +5944,13 @@ meta#:#meta_current_value#:#Current value###23 Dec 2005 new variable
 meta#:#meta_date#:#Dato
 meta#:#meta_delete#:#Slet
 meta#:#meta_description#:#Beskrivelse
-meta#:#meta_diagramm#:#Diagram###21 Apr 2005 new variable
+meta#:#meta_diagramm#:#Diagram
 meta#:#meta_difficult#:#Difficult
 meta#:#meta_difficulty#:#Sværhedsgrad
 meta#:#meta_draft#:#Udkast
 meta#:#meta_duration#:#Varighed
 meta#:#meta_easy#:#let
-meta#:#meta_editor#:#Editor###20 Jun 2005 new variable
+meta#:#meta_editor#:#Redaktør
 meta#:#meta_education#:#Uddannelse
 meta#:#meta_educational#:#Pædagogiske mål
 meta#:#meta_educational_level#:#Uddannelses level
@@ -5964,7 +5964,7 @@ meta#:#meta_experiment#:#Forsøgsmæssigt
 meta#:#meta_expositive#:#positiv
 meta#:#meta_figure#:#Figur
 meta#:#meta_final#:#Slut
-meta#:#meta_format#:#Format###21 Apr 2005 new variable
+meta#:#meta_format#:#Format
 meta#:#meta_general#:#Generelt
 meta#:#meta_graph#:#Graf
 meta#:#meta_graphicaldesigner#:#Graphical designer###20 Jun 2005 new variable
@@ -5974,7 +5974,7 @@ meta#:#meta_has_version#:#Har version
 meta#:#meta_hierarchical#:#Herakisk
 meta#:#meta_high#:#høj
 meta#:#meta_higher_education#:#Højere læring
-meta#:#meta_id#:#Id###21 Apr 2005 new variable
+meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Id
 meta#:#meta_identifier#:#Identificering
 meta#:#meta_index#:#Indeks
@@ -6144,7 +6144,7 @@ meta#:#meta_local_file#:#Lokal fil
 meta#:#meta_location#:#Placering
 meta#:#meta_low#:#Lav
 meta#:#meta_mac_os#:#MacOS
-meta#:#meta_manager#:#Manager###21 Apr 2005 new variable
+meta#:#meta_manager#:#Manager
 meta#:#meta_maximum_version#:#Maksimum version
 meta#:#meta_medium#:#Medie
 meta#:#meta_meta_metadata#:#Meta-Metadata
@@ -6566,14 +6566,14 @@ pwassist#:#pwassist_password_assigned#:#Passwordet blev tilføjet til bruger \"%
 pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\\nDin passwordassistancesession er udløbet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig på email mere end 1 gang, eller fordi der er gået for lang tid siden linket blev sendt ti
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\\nPasswordet kunne ikke blive tildelt brugerkontoen på grund af en fejl under opdatering af databasen.
 pwassist#:#pwassist_username_mail_body#:#Her er de aktive brugernavne for emailadressen: %s.\n\nDenne besked blev autogenereret af ILIAS serveren %s fordi du (eller en person med IP %s) har anmodet om støtte til glemte brugernavne for emailadressen %s.\n\n\t- Hvis du har anmodet om denne mail ved en fejltagelse kan du blot slette den.\n\t- Har du aldrig bedt om denne mail, så kontakt %s.\n\t-Har du bedt om denne mail, så fortsæt med følgende:\n1. Start din browser\n2. Indtast følgende url:\n\t%s\n\nBemærk at adressen er en enkelt linje men muligvis er blevet ombrudt af dit emailprogram.\n3. Din browser viser nu password service. Brug denne side sammen med et af brugernavnene til at anskaffe et nyt password.
-pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no eMail address for the user account you have entered.###10 05 2007 new variable
+pwassist#:#pwassist_no_email_found#:#Du kan ikke anvende passwordassistancen da der ikke er registreret en email på den konto du har indtastet.
 rbac#:#edit_learning_progress#:#Rediger læringsfremskridt
 rbac#:#filter_all_roles#:#Vis alle roller i nuværende kontekst
 rbac#:#filter_global_roles#:#Vis kun globale roller
 rbac#:#filter_local_roles#:#Vis kun lokale roller i nuværende kontekst
 rbac#:#filter_local_roles_object#:#Vis kun lokale roller defineret på denne position
 rbac#:#filter_roles_local_policy#:#Vis kun roller der besidder en lokal rettighed på dette sted
-rbac#:#info_user_view_changed#:#User view changed###23 Mar 2006 new variable
+rbac#:#info_user_view_changed#:#Brugervisning ændret
 rbac#:#leave#:#Forlad
 rbac#:#msg_no_roles_of_type#:#Ingen roller med det valgte filter
 rbac#:#perm_administrate#:#Administrer
@@ -6581,8 +6581,8 @@ rbac#:#perm_class_create#:#Opret nyt objekt
 rbac#:#perm_class_create_desc#:#Angiver hvilke objekttyper der må oprettes under det nuværende objekt.
 rbac#:#perm_class_general#:#Generelt
 rbac#:#perm_class_general_desc#:#Almindelige funktioner for alle objekter. Hold musen over teksten for mere information.
-rbac#:#perm_class_object#:#Special operations###23 Dec 2005 new variable
-rbac#:#perm_class_object_desc#:#Objekt-specifikke operationer, der kun er tilgængelige for visse typer objekter.
+rbac#:#perm_class_object#:#Særlige funktioner
+rbac#:#perm_class_object_desc#:#Objekt-specifikke funktioner, der kun er tilgængelige for visse typer objekter.
 rbac#:#perm_class_rbac#:#Rettighedsinstillinger
 rbac#:#perm_class_rbac_desc#:#Adgangskontrol til rettighedsindstillinger (denne menu) og lokale rettighedsindstillinger til automatiske/arvede rettigheder for nye objekter.
 rbac#:#perm_local_role#:#Lokal rolle
@@ -6592,12 +6592,12 @@ rbac#:#perm_use_local_policy_desc#:#If local policy is activated, you may define
 registration#:#reg_add_assignment#:#New Assignment
 registration#:#reg_added_assignment#:#Added new assignment.
 registration#:#reg_approve#:#Registrering med godkendelse
-registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.
+registration#:#reg_approve_info#:#Hvis akviretet skal nye kontoregistreringer godkendes af en administrator.
 registration#:#reg_available_roles#:#Mulige roller:
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).
 registration#:#reg_direct#:#Direkte registrering
-registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.
+registration#:#reg_direct_info#:#Hvis aktiveret godkendes nye kontoregistreringer automatisk.
 registration#:#reg_disabled#:#Registrering ikke mulig
 registration#:#reg_domain#:#Domæne
 registration#:#reg_email#:#Automatisk rolletildeling
@@ -6612,7 +6612,7 @@ registration#:#reg_mail_new_user_body#:#En ny bruger er blevet registreret.
 registration#:#reg_missing_domain#:#Udflyld venligst alle felter.
 registration#:#reg_missing_role#:#Udfyld venligst alle felter.
 registration#:#reg_notification#:#Advisering
-registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma seperated) that will be informed about new user registrations per email.
+registration#:#reg_notification_info#:#Indtast en eller flere kommaseparerede brugernavne som skal informeres om nye kontooprettelser .
 registration#:#reg_role_assignment#:#Rolletildeling
 registration#:#reg_role_info#:#Tildelte roller
 registration#:#reg_select_one#:#Please select one entry.
@@ -6631,7 +6631,7 @@ registration#:#reg_access_limitation_out_of_date#:#One or more Roles have an out
 registration#:#reg_role_access_limitations#:#Define access limitations of Roles for new registered Users###25 02 2007 new variable
 registration#:#reg_access_limitation_mode#:#Adgangsbegrænsnings indstilling
 registration#:#reg_access_limitation_mode_unlimited#:#Ingen adgangsbegrænsning
-registration#:#reg_access_limitation_mode_absolute#:#Access is limited by a fixed date###25 02 2007 new variable
+registration#:#reg_access_limitation_mode_absolute#:#Adgang er begrænset af en dato
 registration#:#reg_access_limitation_mode_relative#:#Limited access for a fixed time period after registration###25 02 2007 new variable
 registration#:#auth_radius_name#:#Name of RADIUS Configuration###02 04 2007 new variable
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration###02 04 2007 new variable
@@ -6724,7 +6724,7 @@ survey#:#last_update#:#Seneste opdatering
 survey#:#legend#:#Legend
 survey#:#maintenance#:#Vedligeholdelse
 survey#:#material#:#Material###21 Apr 2005 new variable
-survey#:#material_file#:#Materialle fil
+survey#:#material_file#:#Materiale fil
 survey#:#maxchars#:#Maksimalt antal karakterer
 survey#:#next_question_rows#:#spørgsmål %d - %d af %d >>
 survey#:#no_question_selected_for_move#:#Marker venligst et spørgsmål hvis du vil flytte det!
@@ -6776,7 +6776,7 @@ survey#:#anonymization#:#Anonymisering
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###21 Apr 2005 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br 
 survey#:#anonymize_personalized#:#Ingen anonymisering
-survey#:#anonymize_registered_user#:#Anonymized survey access
+survey#:#anonymize_registered_user#:#Anonymiseret afstemningsadgang
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###21 Apr 2005 new variable
 survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. For registered ILIAS users, a survey code will be generated automatically.###15 11 2006 new variable
 survey#:#anonymize_with_code#:#Anonymization with personal access using a survey code
@@ -6786,11 +6786,11 @@ survey#:#arithmetic_mean#:#Arithmetic mean###21 Apr 2005 new variable
 survey#:#ask_insert_questionblocks#:#Er du sikker på du vil tilføje den følgende spørgsmåls blok til undersøgelsen?
 survey#:#ask_insert_questions#:#Er du sikker på du vil tilføje de følgende spørgsmål til spørgeskemaet?
 survey#:#before#:#før
-survey#:#browse_for_questions#:#Kig efter spørgsmål
-survey#:#cancel_survey#:#Suspend the survey
+survey#:#browse_for_questions#:#Led efter spørgsmål
+survey#:#cancel_survey#:#Pause i afstemningen
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###21 Apr 2005 new variable
 survey#:#cannot_edit_survey#:#Du har ikke de rigtige rettighedder til at ændre i spørgeskemaet!
-survey#:#cannot_export_questionpool#:#Du har ikke de rigtige rettigheder til at eksportere dette spørgeskemas spørgsmålsgruppe!
+survey#:#cannot_export_questionpool#:#Du har ikke rettigheder til at eksportere denne afstemnings spørgsmål.
 survey#:#cannot_export_survey#:#Du har ikke de rigtige rettighedder til at eksportere spørgeskemaet!
 survey#:#cannot_maintain_survey#:#Du har ikke de rigtige rettighedder til at vedligeholde dette spørgeskema!
 survey#:#cannot_manage_phrases#:#Du har ikke de rigtige rettighedder til at bruge disse sætninger!
@@ -7125,9 +7125,9 @@ survey#:#unfold#:#Unfold###21 Apr 2005 new variable
 survey#:#unlimited_users#:#Uendelig
 survey#:#upper_limit#:#Øvre grænse
 survey#:#upper_limit_must_be_greater#:#Den øvre grænse skal være højere end den nedre grænse!
-survey#:#used#:#brugte###
+survey#:#used#:#brugte
 survey#:#users_answered#:#Brugere svaret
-survey#:#users_skipped#:#Brugere undladt
+survey#:#users_skipped#:#Udeladte brugere
 survey#:#value_nr_entered#:#Antal brugere der skrev denne værdi
 survey#:#values#:#Værdier
 survey#:#vertical#:#vertikalt
@@ -7531,16 +7531,16 @@ common#:#activate#:#Set aktiv
 common#:#deactivate#:#Set inaktiv
 common#:#before#:#før
 common#:#export_format_selection#:#Vælg eksportfilens format
-common#:#export_format#:#Export format###23 09 2007 new variable
-common#:#info_activate_sure#:#Are you sure that you want to approve the following user(s) as active user(s)?###23 09 2007 new variable
+common#:#export_format#:#Eksportformat
+common#:#info_activate_sure#:#Er du sikker på du vil godkende følgende bruger(e) som aktive?
 common#:#info_deactivate_sure#:#Are you sure that you want to disapprove the following user(s) as active user(s)?###23 09 2007 new variable
 news#:#news_pd_period#:#Mit Skrivebord nyhedsperiode
 news#:#news_pd_period_info#:#Bestemmer den tidsperiode nyheder findes på Mit Skrivebord. Vælg lave værdier hvis du oplever problemer med ydelsen af systemet.
 news#:#news_indefinite#:#Uendelig
 feed#:#feed_proxy#:#Proxy Vært
-feed#:#feed_proxy_info#:#Proxy host for socket connection###23 09 2007 new variable
+feed#:#feed_proxy_info#:#Proxy host til socket forbindelse
 feed#:#feed_proxy_port#:#Proxy port
-feed#:#feed_proxy_port_info#:#Proxy port for socket connection###23 09 2007 new variable
+feed#:#feed_proxy_port_info#:#Proxy port til socket forbindelse
 common#:#user_activated#:#Brugeren er blevet godkendt.
 common#:#user_deactivated#:#Brugeren er ikke godkendt.
 common#:#usr_filter_lastlogin#:#Brugerens sidste login
@@ -7597,19 +7597,19 @@ mcst#:#mcst_reference_info#:#Provide URL pointing to resource###23 09 2007 new v
 common#:#msg_input_either_file_or_url#:#You have to provide either a URL or a file###23 09 2007 new variable
 assessment#:#tst_reset_processing_time#:#Reset the maximum processing time for every test pass###25 09 2007 new variable
 assessment#:#tst_reset_processing_time_desc#:#If checked, the maximum processing time will be reset back to the defined maximum processing time after a test pass has been finished. This setting only works with an enabled maximum processing time and multiple test passes.###25 09 2007 new variable
-common#:#accessRestrict#:#Set limited Access###25 09 2007 new variable
-common#:#accessFree#:#Remove limited Access###25 09 2007 new variable
-common#:#access_free_granted#:#Set the selected user(s) to unlimited access###25 09 2007 new variable
-common#:#access_restricted#:#Set the selected user(s) to limited access###25 09 2007 new variable
-common#:#info_accessFree_sure#:#Are you sure you want to remove the limited access for the following user(s)?###25 09 2007 new variable
-common#:#access_from#:#Access (from)###25 09 2007 new variable
+common#:#accessRestrict#:#Sæt begrænset adgang
+common#:#accessFree#:#Fjern begrænset adgang
+common#:#access_free_granted#:#Sæt valgte bruger(e) til ubegrænset adgang
+common#:#access_restricted#:#Sæt valgte brugere(e) til begrænset adgang
+common#:#info_accessFree_sure#:#Er du sikker på du vil fjerne den begrænsede adgang for brugeren eller brugerne?
+common#:#access_from#:#Adgang (fra)
 common#:#access_restrict_enter#:#Please set the period for the limited access restriction###25 09 2007 new variable
-meta#:#md_copyright_settings#:#Copyright Settings###25 09 2007 new variable
-meta#:#md_copyright_enabled#:#Aktiver copyright muligheder
+meta#:#md_copyright_settings#:#Copyright indstillinger
+meta#:#md_copyright_enabled#:#Aktiver copyright
 meta#:#md_copyright_selection#:#Foruddefinerede copyright muligheder
 meta#:#md_used#:#Brug
 meta#:#md_copyright_preview#:#Copyright (Preview)###25 09 2007 new variable
-meta#:#md_copyright_edit#:#Edit Copyright Presetting###25 09 2007 new variable
+meta#:#md_copyright_edit#:#Ret Copyright Presetting###25 09 2007 new variable
 meta#:#md_copyright_value#:#Copyright
 meta#:#md_copyright_add#:#Add Copyright Presetting###25 09 2007 new variable
 meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?###25 09 2007 new variable
@@ -7649,7 +7649,7 @@ auth#:#auth_radius_charset_info#:#Please choose the character encoding for the c
 common#:#frm_add_post#:#Skriv indlæg
 common#:#frm_moderate_frm#:#Slet indlæg, censur
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
-chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
+chat#:#chat_user_invited_public#:#Brugeren er inviteret til den offentlige chat.
 chat#:#chat_user_invited_private#:#Brugeren blev inviteret til det private chatrum
 chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom###23 10 2007 new variable
 chat#:#chat_no_online_users#:#Ingen andre brugere online.
@@ -7861,7 +7861,7 @@ survey#:#no_user_of_role_invited#:#All users of the selected role(s) did not pos
 payment#:#object_deleted#:#Objekt slettet
 payment#:#user_deleted#:#Bruger slettet
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.###11 03 2008 new variable
-mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.###11 03 2008 new variable
+mail#:#advice_mail_body_secured#:#ILIAS har fjernet nogle elementer fra din besked af sikkerhedshensyn. Gennemgå den sikrede besked og send igen.
 payment#:#pay_crs_max_members_exceeded#:#You cannot buy this course because the maximum number of users is already exceeded.###11 03 2008 new variable
 common#:#webfolder#:#Webfolder
 common#:#mount_webfolder#:#Åben som webfolder
@@ -7900,7 +7900,7 @@ common#:#webfolder_index_of#:#Index af %1$s###11 03 2008 new variable
 common#:#webfolder_instructions#:#Webfolder instruktioner
 common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Clear the field to get the default instructions.###11 03 2008 new variable
 common#:#webfolder_instructions_titletext#:#Åben %1$s som webfolder
-common#:#webfolder_instructions_text#:#<p>Follow the instructions below, to open <b>[WEBFOLDER_TITLE]</b> as a webfolder:</p>[IF_WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>###11 03 2008 new variable
+common#:#webfolder_instructions_text#:#<p>Følg instruktionerne nedenfor for at åbne <b>[WEBFOLDER_TITLE]</b> som en  webfolder:</p>[IF_WINDOWS]<h3>Instructions for Windows XP with Internet Explorer</h3><ol><li>Start Internet Explorer</li><li>Choose the menu 'File &gt; Open...'</li><li>In the 'Open' field enter the following address:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Select the 'Open as web-folder' option, then select 'OK'.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Windows XP without Internet Explorer</h3><ol><li>Double-click the 'My Network Places' icon on the Desktop.</li><li>Click on 'Add Network Place' from the 'Network Tasks' menu on the left side of the window.</li><li>The 'Add a Network Place' wizard will open, select 'Next'.</li><li>Select the 'Choose Another Network Location' option, and select 'Next'.<li>In the 'Internet or Network Address' field enter<br/><b>[WEBFOLDER_URI]</b><br/>then select 'Next'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Instructions for Mac OS X</h3><ol><li>Open the Finder</li><li>Choose the menu 'Go &gt; Connect to server...'</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI]</b>, and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol><h3>Instructions for Linux with Nautilus</h3><ol><li>Start the Nautilus browser</li><li>In the address field enter the following address:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_LINUX]<p>If opening the webfolder does not work, please contact <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>###11 03 2008 new variable
 common#:#use_default_instructions#:#Brug standard instruktioner
 common#:#use_customized_instructions#:#Brug tilpassede instruktioner
 common#:#inline_file_extensions#:#Web-aktiverede filer
@@ -7950,8 +7950,8 @@ mcst#:#mcst_videoportable_title#:#Yderligere videofil til transportable enheder
 mcst#:#mcst_download_standard#:#Download
 mcst#:#mcst_download_videoportable#:#Download transportabel video
 mcst#:#mcst_download_audioportable#:#Download transportabel lyd
-mcst#:#mcst_clear_purpose_title#:#Delete###02 06 2008 new variable
-mcst#:#mcst_downloadable#:#Download Links###02 06 2008 new variable
+mcst#:#mcst_clear_purpose_title#:#Slet
+mcst#:#mcst_downloadable#:#Download links
 mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading are provided.###02 06 2008 new variable
 mcst#:#mcst_media_cast_not_online#:#Mediacast er ikke online
 mcst#:#mcst_media_cast_not_online_text#:#Mediac ast er ikke online eller er blevet deaktiveret
@@ -7963,15 +7963,15 @@ mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format###02
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
 mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format###02 06 2008 new variable
 mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
-mcst#:#mcst_edit_settings#:#MediaCast Settings###02 06 2008 new variable
+mcst#:#mcst_edit_settings#:#MediaCast indstillinger
 mcst#:#mcst_file_extension_settings#:#Filendelser
 common#:#chg_ilias_password#:#Ret ILIAS password
 common#:#chg_ilias_and_webfolder_password#:#Ret ILIAS og webfolder password
 common#:#disable_anonymous_fora#:#Deaktiver anonyme fora
 common#:#disable_anonymous_fora_desc#:#If option is enabled, nobody is able to make a forum anonymous. Making an anonymous forum non-anonymous is still possible.###02 06 2008 new variable
 news#:#news_get_priv_feed_info#:#This is a personal private news feed URL. The feed includes news that are declared as public and private by the author. This feed is protected by a password, which can be changed under "Settings". Please do not share this URL with other people. Please replace -password- in this URL with your Feed-Password.###02 06 2008 new variable
-news#:#news_get_priv_feed_title#:#Personal private Feed-URL###02 06 2008 new variable
-news#:#news_enable_private_feed#:#Enable private Newsfeed###02 06 2008 new variable
+news#:#news_get_priv_feed_title#:#Privat Feed-URL
+news#:#news_enable_private_feed#:#Aktiver privat nyhedsfeed
 news#:#news_enable_private_feed_info#:#If this option is enabled, public and private news can be obtained by personal RSS feeds outside of ILIAS. Authentification is provided by password.###02 06 2008 new variable
 news#:#passwd_equals_ilpasswd#:#Vælg et andet password end dit ILIAS password
 news#:#priv_feed_disabled#:#Privat newsfeed deaktiveret.
@@ -8053,7 +8053,7 @@ dateplaner#:#cal_year_s#:#år
 dateplaner#:#cal_no_recurrences#:#Ingen rotation
 dateplaner#:#cal_daily#:#dagligt
 dateplaner#:#cal_weekly#:#ugentligt
-dateplaner#:#cal_monthly#:#månedligtMonthly###02 06 2008 new variable
+dateplaner#:#cal_monthly#:#månedligt
 dateplaner#:#cal_yearly#:#årligt
 dateplaner#:#cal_on#:#Til:
 dateplaner#:#cal_on_the#:#På den
@@ -8113,7 +8113,7 @@ content#:#cont_export_all#:#Eksporter alt
 content#:#cont_export_tracking#:#Export Tracking Data###02 06 2008 new variable
 content#:#cont_export_raw#:#CMI (RAW) data###02 06 2008 new variable
 content#:#cont_export_success#:#Success-data (aggregated)###02 06 2008 new variable
-content#:#cont_export_type#:#Export-Type###02 06 2008 new variable
+content#:#cont_export_type#:#Eksporttype
 content#:#cont_import_tracking#:#Import Tracking Data	###02 06 2008 new variable
 content#:#cont_invalid_new_module#:#Incompatible module! Please make sure imsmanifest.xml is not changed###02 06 2008 new variable
 content#:#cont_new_module_added#:#New version of module uploaded successfully###02 06 2008 new variable
