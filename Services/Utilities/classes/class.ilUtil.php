@@ -2093,9 +2093,9 @@ class ilUtil
 			$ascii_filename = preg_replace('/[\x7f-\xff]/','_', $ascii_filename);
 		}
 
-		// Windows does not allow the following characters in filenames:
+		// OS do not allow the following characters in filenames:
 		// \/:*?"<>|
-		if (is_integer(strpos($user_agent, "win")))
+		//if (is_integer(strpos($user_agent, "win")))
 		{
 			$ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/','_', $ascii_filename);
 		}
