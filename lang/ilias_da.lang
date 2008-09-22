@@ -106,7 +106,7 @@ administration#:#purge_missing#:#Find manglende objekter
 administration#:#purge_missing_desc#:#Fjern alle manglende og ikke bundne objekter fundet i system.
 administration#:#purge_count_limit#:#Begræns antal
 administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged. ###10 05 2007 new variable
-administration#:#purge_age_limit#:#Limit age###10 05 2007 new variable
+administration#:#purge_age_limit#:#Begrænsningsalder
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.###10 05 2007 new variable
 administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
 administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
@@ -152,7 +152,7 @@ administration#:#confirm_message_course_export#:#You added the course export fun
 common#:#access_expired#:#udløbet
 common#:#res_links#:#Oversigts links
 common#:#short_inst_name#:#Kort titel
-common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, 'ILIAS' is used.###02 04 2007 new variable
+common#:#short_inst_name_info#:#Denne titel er synlig i browserens header. Hvis blank anvendes 'ILIAS'
 common#:#usr_filter_empty_result#:#Ingen brugere matcher det valgte filter
 common#:#access_unlimited#:#ubegrænset
 common#:#usr_limited_access_only#:#Kun brugere med begrænset adgang
@@ -164,7 +164,7 @@ common#:#action#:#Handling
 common#:#apply#:#Godkend
 common#:#by#:#Af
 common#:#user_profile_instant_messengers#:#Kontakt til Instant Messengers
-common#:#instant_messengers#:#Instant Messengers###Har beholdt orinalt ord
+common#:#instant_messengers#:#Instant Messengers
 common#:#im_icq#:#ICQ
 common#:#im_yahoo#:#Yahoo
 common#:#im_msn#:#MSN
@@ -317,9 +317,9 @@ common#:#articels_unread#:#ulæste artikler
 common#:#as_of#:#as of###21 Apr 2005 new variable
 common#:#ascending_order#:#Stigende orden
 common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###18 12 2006 new variable
-common#:#assessment_log_logging#:#Logging###29 11 2006 new variable
+common#:#assessment_log_logging#:#Logging
 common#:#assessment_log_manual_scoring_activate#:#Activate Manual Scoring for###29 11 2006 new variable
-common#:#assessment_log_manual_scoring#:#Manual Scoring###29 11 2006 new variable
+common#:#assessment_log_manual_scoring#:#Manuel karaktergivning
 common#:#assessment_log_manual_scoring_desc#:#If the Manual Scoring is activated for a question type, all questions of this question type could be manually scored by a test author. Please be careful with these settings, because late manual scoring of automatically scored question types could cause even judical problems!###29 11 2006 new variable
 common#:#assessment_log#:#Create an Test&Assessment log for a specific time period###21 Apr 2005 new variable
 common#:#assessment_log_datetime#:#Dato/Klokken
@@ -3537,7 +3537,7 @@ assessment#:#tst_count_partial_solutions#:#Medtæl delvise løsninger
 assessment#:#tst_defaults_applied#:#The selected test defaults have been applied.###25 02 2007 new variable
 assessment#:#tst_defaults_apply_not_possible#:#ILIAS could not apply the selected test defaults to this test! Maybe this test already contains questions and/or participant datasets.###25 02 2007 new variable
 assessment#:#tst_defaults_apply_select_one#:#Please select exact one test defaults entry to apply the defaults to this test!###25 02 2007 new variable
-assessment#:#tst_defaults_available#:#Available test defaults###25 02 2007 new variable
+assessment#:#tst_defaults_available#:#Mulige test standardvalg
 assessment#:#tst_defaults_defaults_of_test#:#the defaults of this test as###25 02 2007 new variable
 assessment#:#tst_defaults_dont_use#:# Use the ILIAS test defaults ###25 02 2007 new variable
 assessment#:#tst_defaults_enter_name#:#Please enter a name for your test defaults!###25 02 2007 new variable
@@ -4415,18 +4415,18 @@ content#:#cont_insert_table#:#Indsæt Table
 content#:#cont_internal#:#internt
 content#:#cont_internal_link#:#internt link
 content#:#cont_is_visible#:#Er synlig
-content#:#cont_isbn#:#ISBN###21 Apr 2005 new variable
-content#:#cont_issn#:#ISSN###21 Apr 2005 new variable
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item###21 Apr 2005 new variable
 content#:#cont_journal#:#Journal###21 Apr 2005 new variable
 content#:#cont_keyword#:#Nøgleord
-content#:#cont_link#:#Link###21 Apr 2005 new variable
-content#:#cont_link_area#:#Link Area###21 Apr 2005 new variable
+content#:#cont_link#:#Link
+content#:#cont_link_area#:#Link område
 content#:#cont_link_ext#:#Link (externt)
 content#:#cont_link_int#:#Link (internt )
 content#:#cont_link_select#:#Internt Link
-content#:#cont_link_type#:#Link Type###21 Apr 2005 new variable
-content#:#cont_linked_mobs#:#Linked media objects###21 Apr 2005 new variable
+content#:#cont_link_type#:#Link type
+content#:#cont_linked_mobs#:#Linkede medieobjekter
 content#:#cont_list_files#:#Filliste
 content#:#cont_list_properties#:#Egenskaber for liste
 content#:#cont_lk_chapter#:#Kapitel
@@ -4681,8 +4681,8 @@ crs#:#crs_add_subscribers#:#Tilføj abonent
 crs#:#crs_added_member#:#Kursusdeltagere
 crs#:#crs_added_member_body#:#Du er blevet indmeldt på dette kursus.
 crs#:#crs_added_new_archive#:#Et nyt arkiv er blevet tilføjet.
-crs#:#crs_added_objective#:#A new learning objective has been created.###21 Apr 2005 new variable
-crs#:#crs_added_starters#:#Assigned start object(s).###21 Apr 2005 new variable
+crs#:#crs_added_objective#:#Der er blevet lavet et nyt læremål.
+crs#:#crs_added_starters#:#Tildelt(e) startobjekt(er)
 crs#:#crs_added_to_list#:#Du er blevet optaget på venteliste som nr. % på dette kursus.
 crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (ingen underettelse)
