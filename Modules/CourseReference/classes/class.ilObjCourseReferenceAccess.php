@@ -35,7 +35,42 @@ include_once("./Services/ContainerReference/classes/class.ilContainerReferenceAc
 
 class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
 {
+	/**
+	 * get commands
+	 * 
+	 * Depends on permissions
+	 * 
+	 * @param int $a_ref_id Reference id of course link
+	 * 
+	 * this method returns an array of all possible commands/permission combinations
+	 * 
+	 * example:	
+	 * $commands = array
+	 *	(
+	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+	 *	);
+	 */
+	function _getCommands($a_ref_id)
+	{
+		global $ilAccess;
+		
+		if($ilAccess->checkAccess('write','',$a_ref_id))
+		{
+			// Only local (reference specific commands)
+			$commands = array
+			(
+				array("permission" => "visible", "cmd" => "", "lang_var" => "show","default" => true),
+				array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
+			);
+		}
+		else
+		{
+			include_once('./Modules/Course/classes/class.ilObjCourseAccess.php');
+			$commands = ilObjCourseAccess::_getCommands();
+		}
+		return $commands;
+	}
+	
 } 
-
-
 ?>

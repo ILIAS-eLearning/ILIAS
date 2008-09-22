@@ -630,6 +630,18 @@ class ilObjectListGUI
 	}
 	
 	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type)
+	{
+		global $ilAccess;
+		
+		return $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type);
+	}
+	
+	/**
 	* inititialize new item (is called by getItemHTML())
 	*
 	* @param	int			$a_ref_id		reference id
@@ -964,7 +976,8 @@ class ilObjectListGUI
 			// all access checking should be made within $ilAccess and
 			// the checkAccess of the ilObj...Access classes
 			$ilBench->start("ilObjectListGUI", "4110_get_commands_check_access");
-			$access = $ilAccess->checkAccess($permission, $cmd, $this->ref_id, $this->type);
+			//$access = $ilAccess->checkAccess($permission, $cmd, $this->ref_id, $this->type);
+			$access = $this->checkCommandAccess($permission,$cmd,$this->ref_id,$this->type);
 			$ilBench->stop("ilObjectListGUI", "4110_get_commands_check_access");
 
 			if ($access)
@@ -1413,7 +1426,7 @@ class ilObjectListGUI
 		{
 			return;
 		}
-		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
+		if($this->checkCommandAccess('delete','delete',$this->ref_id,$this->type))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
@@ -1433,13 +1446,15 @@ class ilObjectListGUI
 	*/
 	function insertLinkCommand()
 	{
+		global $ilAccess;
+
 		if ($this->std_cmd_only)
 		{
 			return;
 		}
 		// if the permission is changed here, it  has
 		// also to be changed in ilContainerGUI, admin command check
-		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
+		if($this->checkCommandAccess('delete','link',$this->ref_id,$this->type))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());
@@ -1459,13 +1474,15 @@ class ilObjectListGUI
 	*/
 	function insertCutCommand()
 	{
+		global $ilAccess;
+		
 		if ($this->std_cmd_only)
 		{
 			return;
 		}
 		// if the permission is changed here, it  has
 		// also to be changed in ilContainerGUI, admin command check
-		if ($this->rbacsystem->checkAccess("delete", $this->ref_id))
+		if($this->checkCommandAccess('delete','cut',$this->ref_id,$this->type))
 		{
 			$this->ctrl->setParameter($this->container_obj, "ref_id",
 				$this->container_obj->object->getRefId());

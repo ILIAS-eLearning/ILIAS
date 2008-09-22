@@ -75,7 +75,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = true;
-		$this->info_screen_enabled = false;
+		$this->info_screen_enabled = true;
 		$this->type = "crs";
 		$this->gui_class_name = "ilobjcoursegui";
 		
@@ -85,10 +85,6 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 		{
 			$this->substitutions_enabled = true;
 		}
-
-		// general commands array
-		include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
-		$this->commands = ilObjCourseReferenceAccess::_getCommands();
 	}
 	
 	
@@ -104,7 +100,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
-		global $ilBench;
+		global $ilBench,$ilAccess;
 		
 		$this->reference_ref_id = $a_ref_id;
 		$this->reference_obj_id = $a_obj_id;
@@ -124,8 +120,41 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 		
 		parent::initItem($target_ref_id, $target_obj_id,$target_title,$target_description);
 
-//echo "A-".memory_get_usage();echo "-".$full_class;
-//echo "B-".memory_get_usage();echo "-".$full_class;
+		// general commands array
+		include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
+		$this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
+		
+		if($ilAccess->checkAccess('write','',$this->reference_ref_id))
+		{
+			$this->info_screen_enabled = false;
+		}
+		else
+		{
+			$this->info_screen_enabled = true;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type)
+	{
+		global $ilAccess;
+		
+		switch($a_cmd)
+		{
+			case 'edit':
+			case 'cut':
+			case 'delete':
+			case 'link':
+				return $ilAccess->checkAccess($a_permission,$a_cmd,$this->getCommandId());
+			
+			default:
+				return $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type);
+				
+		}
 	}
 	
 	/**
@@ -141,8 +170,10 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 		{
 			case '':
 			case 'view':
+			case 'join':
+			case 'infoScreen':				
 				return 'repository.php?ref_id='.$this->ref_id.'&cmd='.$a_cmd;
-				
+
 			default:
 				return 'repository.php?ref_id='.$this->getCommandId().'&cmd='.$a_cmd;
 		}
