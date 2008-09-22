@@ -41,6 +41,9 @@ class ilCalendarCategoryGUI
 	protected $tpl;
 	protected $ctrl;
 	protected $lng;
+	
+	protected $editable = false;
+	protected $visible = false;
 
 	/**
 	 * Constructor
@@ -167,6 +170,7 @@ class ilCalendarCategoryGUI
 		global $tpl;
 		
 		$this->readPermissions();
+		$this->checkVisible();
 
 		if(!$_GET['category_id'])
 		{
@@ -979,28 +983,53 @@ class ilCalendarCategoryGUI
 		global $ilUser,$rbacsystem;
 		
 		$this->editable = false;
+		$this->visible = false;
 		
-
+		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+		
+		$shared = ilCalendarShared::getSharedCalendarsForUser($ilUser->getId());
 		$cat = new ilCalendarCategory((int) $_GET['category_id']);
 		switch($cat->getType())
 		{
 			case ilCalendarCategory::TYPE_USR:
 				if($cat->getObjId() == $ilUser->getId())
 				{
+					$this->visible = true;
 					$this->editable = true;
+				}
+				elseif(isset($shared[$cat->getCategoryID()]))
+				{
+					$this->visible = true;
 				}
 				break;
 			
 			case ilCalendarCategory::TYPE_GLOBAL:
 				$this->editable = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+				$this->visible = true;
 				break;
 				
 			case ilCalendarCategory::TYPE_OBJ:
 				$this->editable = false;
+				$this->visible = true;
 				break;
 		}
 		
 	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	 protected function checkVisible()
+	 {
+		global $ilErr;
+		
+		if(!$this->visible)
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->FATAL);
+		}
+	 }
 	
 	/**
 	 * check if calendar is editable
