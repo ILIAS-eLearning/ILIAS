@@ -8641,3 +8641,30 @@ assessment#:#tst_answered_questions_test#:#Questions answered in this test
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages?
 common#:#enable_download_folder#:#Enable Downloading Folders
 common#:#enable_download_folder_info#:#Allows to download a folder including sub structures as a zip file.
+rbac#:#crsr_edit_permission#:#Change Permission Settings
+rbac#:#crsr_visible#:#Course Reference is visible
+rbac#:#crsr_read#:#Read access to Course Reference
+rbac#:#crsr_delete#:#Delete Course Reference
+rbac#:#cat_create_crsr#:#Create new Course Reference
+rbac#:#crsr_write#:#Edit Course Reference
+rbac#:#crsr_copy#:#Copy Course Reference
+common#:#obj_crsr#:#Course Reference
+common#:#objs_crsr#:#Course References
+rbac#:#catr_edit_permission#:#Change Permission Settings
+rbac#:#catr_visible#:#Category Reference is visible
+rbac#:#catr_read#:#Read access to Category Reference
+rbac#:#catr_delete#:#Delete Category Reference
+rbac#:#cat_create_catr#:#Create Category Reference
+rbac#:#catr_write#:#Edit Category Reference
+rbac#:#catr_copy#:#Copy Category Reference
+common#:#obj_catr#:#Category Reference
+common#:#objs_catr#:#Category References
+common#:#crsr#:#Course Reference
+common#:#catr#:#Category Reference
+common#:#reference_of#:#Reference of:
+common#:#catr_new#:#Create new Category Reference
+common#:#crsr_new#:#Create new Course Reference
+common#:#catr_edit#:#Edit Category Reference
+common#:#crsr_edit#:#Edit Course Reference
+common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
+common#:#catr_edit_info#:#Please choose one category, for creating a new reference.

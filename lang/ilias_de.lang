@@ -7992,8 +7992,8 @@ ecs#:#ecs_field_time#:#Uhrzeit
 ecs#:#ecs_field_room#:#Raum
 ecs#:#ecs_field_cycle#:#Zyklus
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
-common#:#obj_rcrs#:#Kurs-Link
-common#:#objs_rcrs#:#Kurs-Links
+common#:#obj_rcrs#:#Externer Kurs
+common#:#objs_rcrs#:#Externe Kurse
 ecs#:#ecs_export#:#Kursfreigaben
 ecs#:#ecs_export_obj_settings#:#Einstellungen für Kursfreigaben
 ecs#:#ecs_export_disabled#:#Nicht freigeben
@@ -8006,7 +8006,7 @@ meta#:#md_adv_field_names#:#Feldnamen
 meta#:#md_adv_fields_show#:#Feldnamen anzeigen
 rcrs#:#rcrs_local_informations#:#Weitere Informationen
 ecs#:#ecs_abr#:#Kürzel
-ecs#:#ecs_read_remote_links#:#Kurs-Links aktualisieren
+ecs#:#ecs_read_remote_links#:#Externe Kurse aktualisieren
 ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
 ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Benutzerzugänge
 ecs#:#ecs_role#:#Rollenzuordnung
@@ -8019,13 +8019,13 @@ ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
 ecs#:#ecs_meta_data#:#Metadaten
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
-ecs#:#ecs_rcrs_created_body_a#:#Ein neuer Kurs-Link wurde angelegt:
-ecs#:#ecs_new_econtent_subject#:#Neuer Kurs-Link
+ecs#:#ecs_rcrs_created_body_a#:#Ein neuer externer Kurs wurde angelegt:
+ecs#:#ecs_new_econtent_subject#:#Neuer externer Kurs 
 ecs#:#ecs_notifications#:#Benachrichtigungen
 ecs#:#ecs_user_rcp#:#Benachrichtigungen über ECS-Nutzer
-ecs#:#ecs_econ_rcp#:#Benachrichtigungen über Kurs-Links
+ecs#:#ecs_econ_rcp#:#Benachrichtigungen über externe Kurse 
 ecs#:#ecs_user_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue ECS-Nutzer per E-Mail benachrichtigt werden sollen.
-ecs#:#ecs_econ_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue Kurs-Links per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_econ_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue externe Kurse per E-Mail benachrichtigt werden sollen.
 ecs#:#ecs_new_user_subject#:#Neue ECS-Nutzer
 ecs#:#ecs_new_user_body#:#Ein neuer ECS-Benutzer wurde angelegt.
 ecs#:#ecs_new_user_profile#:#Profildaten:
@@ -8046,11 +8046,11 @@ ecs#:#ecs_export_created_body_a#:#Ein neuer Kurs wurde freigegeben:
 ecs#:#ecs_released#:#Export
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rcrs_visible#:#Kurs-Links sind sichtbar
-rbac#:#rcrs_read#:#Lesezugriff auf Kurs-Links
-rbac#:#rcrs_delete#:#Kurs-Links löschen
-rbac#:#cat_create_rcrs#:#Neuen Kurs-Link anlegen
-rbac#:#rcrs_write#:#Kurs-Link bearbeiten
+rbac#:#rcrs_visible#:#Externe Kurse sind sichtbar
+rbac#:#rcrs_read#:#Lesezugriff auf externe Kurse 
+rbac#:#rcrs_delete#:#Externe Kurse löschen
+rbac#:#cat_create_rcrs#:#Neuen externen Kurs anlegen
+rbac#:#rcrs_write#:#Externen Kurs bearbeiten
 content#:#cont_alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_alphabetic_s#:#Alphabetisch a, b, ...
 content#:#cont_roman#:#Römisch I, II, ...
@@ -8640,3 +8640,30 @@ assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 common#:#enable_download_folder#:#Ordner herunterladen aktivieren
 common#:#enable_download_folder_info#:#Erlaubt Ordner inklusive Unterstrukturen als Zip-Datei herunterzuladen.
+rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar
+rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
+rbac#:#crsr_delete#:#Kurs-Referenzen löschen
+rbac#:#cat_create_crsr#:#Neue Kurs-Referenz anlegen
+rbac#:#crsr_write#:#Kurs-Referenzen bearbeiten
+rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
+common#:#obj_crsr#:#Kurs-Referenz
+common#:#objs_crsr#:#Kurs-Referenzen
+rbac#:#catr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#catr_visible#:#Kategorie-Referenzen sind sichtbar
+rbac#:#catr_read#:#Lesezugriff auf Kategorie-Referenzen
+rbac#:#catr_delete#:#Kategorie-Referenzen löschen
+rbac#:#cat_create_catr#:#Neue Kategorie-Referenz anlegen
+rbac#:#catr_write#:#Kategorie-Referenzen bearbeiten
+rbac#:#catr_copy#:#Kategorie-Referenzen kopieren
+common#:#obj_catr#:#Kategorie-Referenz
+common#:#objs_catr#:#Kategorie-Referenzen
+common#:#crsr#:#Kurs-Referenz
+common#:#catr#:#Kategorie-Referenz
+common#:#reference_of#:#Referenz von:
+common#:#catr_new#:#Neue Kategorie-Referenz anlegen
+common#:#crsr_new#:#Neue Kurs-Referenz anlegen
+common#:#catr_edit#:#Kategorie-Referenz bearbeiten
+common#:#crsr_edit#:#Kurs-Referenz bearbeiten
+common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
+common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine Referenz erstellen möchten.
