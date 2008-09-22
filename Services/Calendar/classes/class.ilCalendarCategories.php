@@ -250,6 +250,19 @@ class ilCalendarCategories
 		return isset($this->categories_info[$a_cat_id]['editable']) and $this->categories_info[$a_cat_id]['editable'];
 	}
 	
+	/**
+	 * check if category is visible
+	 *
+	 * @access public
+	 * @param int $a_cat_id category id
+	 * @return
+	 */
+	public function isVisible($a_cat_id)
+	{
+		return in_array($a_cat_id,$this->categories);
+	}
+	
+	
 	
 	
 	/**
