@@ -682,5 +682,45 @@ class ilObjExercise extends ilObject
 
 	}
 	
+	/**
+	* This function fixes filenames. Prior to ILIAS 3.10.0 filenames have been
+	* stored with full path in exc_returned.filename, e.g.
+	* /opt/ilias/my_client/exercise/547/157/20070813113926_README.doc
+	*
+	* Problems occur, if the server is moved from one location to another.
+	* We do the following: The filename will be parsed and if it contains the string
+	* "/exercise/" we truncate everything
+	* before "/exercise/" and replace it with the current CLIENT_DATA_DIR.
+	*/
+	static function _fixFilename($a_filename)
+	{
+		$ex_pos = strrpos($a_filename, "/exercise/");
+		if ($ex_pos > 0)
+		{
+			$a_filename = CLIENT_DATA_DIR.substr($a_filename, $ex_pos);
+		}
+		return $a_filename;
+	}
+	
+	/**
+	* Iterates an associative array and fixes all fields with the key "filename"
+	* using the _fixFilename() method
+	*/
+	static function _fixFilenameArray($a_array)
+	{
+		if (is_array($a_array))
+		{
+			foreach ($a_array as $k => $v)
+			{
+				if ($v["filename"] != "")
+				{
+					$a_array[$k]["filename"] = ilObjExercise::_fixFilename($a_array[$k]["filename"]);
+				}
+			}
+		}
+		
+		return $a_array;
+	}
+	
 } //END class.ilObjExercise
 ?>
