@@ -64,7 +64,8 @@ class ilAppEventHandler
 		$this->listener["Services/News"] = array("Modules/Forum");
 		$this->listener['Modules/Group'] = array('Services/Calendar');
 		$this->listener['Modules/Session'] = array('Services/Calendar');
-		$this->listener['Modules/Course'] = array('Services/Calendar','Services/WebServices/ECS');
+		$this->listener['Modules/Course'] = array('Services/Calendar','Services/WebServices/ECS','Services/ContainerReference');
+		$this->listener['Modules/Category'] = array('Services/ContainerReference');
 		$this->listener['Modules/RemoteCourse'] = array('Services/WebServices/ECS');
 		$this->listener["Services/Object"] = array("Services/Tagging");
 	}

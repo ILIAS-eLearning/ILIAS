@@ -72,6 +72,27 @@ class ilContainerReference extends ilObject
 	}
 	
 	/**
+	 * lookup source id
+	 *  
+	 * @param int $a_target_id obj_id of course or category
+	 * @return int obj_id of references
+	 * @static
+	 */
+	 public static function _lookupSourceId($a_target_id)
+	 {
+	 	global $ilDB;
+	 	
+	 	$query = "SELECT * FROM container_reference ".
+	 		"WHERE target_obj_id = ".$ilDB->quote($a_target_id)." ";
+	 	$res = $ilDB->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		return $row->obj_id;
+	 	}
+	 	return false;
+	 }
+	
+	/**
 	 * get target id
 	 *
 	 * @access public
