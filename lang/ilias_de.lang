@@ -2385,7 +2385,7 @@ common#:#icla_deleted#:#LearnLinc-Seminarräume gelöscht
 common#:#icla_edit#:#LearnLinc-Seminarraum bearbeiten
 common#:#icla_new#:#Neuer LearnLinc-Seminarraum
 common#:#icla#:#LearnLinc-Seminarraum
-common#:#icon_settings#:#Kurs-Icon
+common#:#icon_settings#:#Icon
 common#:#icons_in_header#:#Kopfleiste
 common#:#icons_in_item_rows#:#Objektliste
 common#:#icons_in_typed_lists_info#:#Bestimmt, wo die Objektsymbole in der Objektliste dargestellt werden. Diese Einstellung ist wirksam bei Sortierung nach Objekttyp im Magazin und auf dem Persönlichen Schreibtisch.
@@ -8601,7 +8601,7 @@ content#:#cont_new_mob#:#Neues Media-Objekt
 content#:#cont_mob_from_media_pool#:#Aus Media-Pool auswählen
 content#:#cont_select_media_pool#:#Media-Pool auswählen
 content#:#cont_table_properties#:#Eigenschaften der Tabelle
-content#:#cont_table_cell_properties#:#Eigenschaften der Tabellenzelle
+content#:#cont_table_cell_properties#:#Eigenschaften der Tabellenzellen
 content#:#cont_set_tab_style_info#:#Checkboxen aktivieren, um die Tabellenzellen zu formatieren
 content#:#cont_set_styles_and_widths#:#Stil und Breite festlegen
 content#:#cont_Special#:#Spezial
