@@ -159,17 +159,14 @@ class ilCalendarShared
 			"AND obj_id = ".$ilDB->quote($a_usr_id)." ".
 			"ORDER BY create_date";
 		$res = $ilDB->query($query);
-		$counter = 0;
 		$calendars = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$calendars[] = $row->cal_id; 
 			
-			$shared[$counter]['cal_id'] = $row->cal_id;
-			$shared[$counter]['create_date'] = $row->create_date;
-			$shared[$counter]['obj_type'] = $row->obj_type;
-			
-			$counter++;
+			$shared[$row->cal_id]['cal_id'] = $row->cal_id;
+			$shared[$row->cal_id]['create_date'] = $row->create_date;
+			$shared[$row->cal_id]['obj_type'] = $row->obj_type;
 		}
 		
 		$assigned_roles = $rbacreview->assignedRoles($ilUser->getId());
@@ -190,10 +187,9 @@ class ilCalendarShared
 				continue;
 			}
 			
-			$shared[$counter]['cal_id'] = $row->cal_id;
-			$shared[$counter]['create_date'] = $row->create_date;
-			$shared[$counter]['obj_type'] = $row->obj_type;
-			$counter++;
+			$shared[$row->cal_id]['cal_id'] = $row->cal_id;
+			$shared[$row->cal_id]['create_date'] = $row->create_date;
+			$shared[$row->cal_id]['obj_type'] = $row->obj_type;
 		}
 		
 			
