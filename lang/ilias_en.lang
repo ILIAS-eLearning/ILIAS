@@ -8112,8 +8112,8 @@ common#:#state_changed_inside#:#changed inside
 common#:#state_new#:#new
 common#:#state_unread#:#unread
 common#:#filename_extension_short#:#Extension
-common#:#obj_facs#:#File Access
-common#:#obj_facs_desc#:#Configure access to file objects.
+common#:#obj_facs#:#Files & Folders
+common#:#obj_facs_desc#:#Configure access to file and folder objects.
 common#:#enable_webdav#:#Enable WebDAV access
 common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#webfolder_index_of#:#Index of %1$s
@@ -8638,3 +8638,6 @@ common#:#selected_languages_updated#:#The selected languages have been updated (
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages?
 assessment#:#tst_single_results#:#Results by Question
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
+common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages?
+common#:#enable_download_folder#:#Enable Downloading Folders
+common#:#enable_download_folder_info#:#Allows to download a folder including sub structures as a zip file.

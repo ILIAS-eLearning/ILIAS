@@ -33,7 +33,21 @@ include_once("classes/class.ilObjectAccess.php");
 */
 class ilObjFolderAccess extends ilObjectAccess
 {
-
+    private static $folderSettings; 
+    
+    function _construct () {
+        parent::__construct();
+    }
+    
+    private static function getFolderSettings() {
+        if (is_null (ilObjFolderAccess::$folderSettings))
+        {
+           ilObjFolderAccess::$folderSettings = new ilSetting('fold');
+        }
+        return ilObjFolderAccess::$folderSettings;
+    }
+     
+    
 	/**
 	 * get commands
 	 * 
@@ -51,7 +65,10 @@ class ilObjFolderAccess extends ilObjectAccess
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
 		$commands[] = array("permission" => "read", "cmd" => "showSummary", "lang_var" => "info_short", "enable_anonymous" => "false");
-		$commands[] = array("permission" => "read", "cmd" => "downloadFolder", "lang_var" => "download", "enable_anonymous" => "false");
+		if (ilObjFolderAccess::hasDownloadAction($_GET["ref_id"]))
+		{
+		    $commands[] = array("permission" => "read", "cmd" => "downloadFolder", "lang_var" => "download", "enable_anonymous" => "false");
+		}
 		// BEGIN WebDAV: Mount Webfolder.
 		require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
 		if (ilDAVServer::_isActive() && ilDAVServer::_isActionsVisible())
@@ -64,6 +81,32 @@ class ilObjFolderAccess extends ilObjectAccess
 		return $commands;
 	}
 
+	
+	private function hasDownloadAction ($ref_id)
+	{
+	    global $tree, $ilUser;
+	    $settings = ilObjFolderAccess::getFolderSettings();
+	    if ($settings->get("enable_download_folder", 1) != 1)
+	        return false;
+	        
+	    /*
+	     * deactivated check for now, because wrong ref_id here!
+	     
+	    $children = $tree->getChildsByTypeFilter($ref_id, array("file","fold"));
+
+	    // no children at all, so no download button
+	    if (count ($children) == 0)
+	        return false;
+	    // check if at least one of the children has a read permission
+	    foreach ($children as $child)
+		{
+			if ($rbacsystem->checkAccessOfUser($ilUser->getId(), "read", $child["ref_id"]))
+				return true;
+		}
+		return false;
+	    */
+	    return true;
+	}
 
 }
 
