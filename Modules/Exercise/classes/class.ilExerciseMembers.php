@@ -399,6 +399,9 @@ class ilExerciseMembers
 		return $result->numRows();
 	}
 
+	/**
+	* Get all delivered files
+	*/
 	function getAllDeliveredFiles()
 	{
 		global $ilDB;
@@ -411,6 +414,9 @@ class ilExerciseMembers
 		{
 			$delivered[] = $row;
 		}
+		
+		$delivered = ilObjExercise::_fixFilenameArray($delivered);
+
 		return $delivered ? $delivered : array();
 	}
 
@@ -436,6 +442,9 @@ class ilExerciseMembers
 				array_push($delivered_files, $row);
 			}
 		}
+		
+		$delivered_files = ilObjExercise::_fixFilenameArray($delivered_files);
+
 		return $delivered_files;
 	}
 
@@ -472,7 +481,7 @@ class ilExerciseMembers
 				// delete the files
 				foreach ($result_array as $key => $value)
 				{
-					unlink($value["filename"]);
+					unlink(ilObjExercise::_fixFilename($value["filename"]));
 				}
 			}
 		}
@@ -517,7 +526,7 @@ class ilExerciseMembers
 		if ($count == 1)
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			$this->downloadSingleFile($row["filename"], $row["filetitle"]);
+			$this->downloadSingleFile(ilObjExercise::_fixFilename($row["filename"]), $row["filetitle"]);
 		}
 		else if ($count > 0)
 		{
@@ -525,7 +534,7 @@ class ilExerciseMembers
 			$filename = "";
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				$filename = $row["filename"];
+				$filename = ilObjExercise::_fixFilename($row["filename"]);
 				$pathinfo = pathinfo($filename);
 				$dir = $pathinfo["dirname"];
 				$file = $pathinfo["basename"];
@@ -576,7 +585,7 @@ class ilExerciseMembers
 				}
 				if (count($array_found) == 1)
 				{
-					$this->downloadSingleFile($array_found[0]["filename"], $array_found[0]["filetitle"]);
+					$this->downloadSingleFile(ilObjExercise::_fixFilename($array_found[0]["filename"]), $array_found[0]["filetitle"]);
 				}
 				else
 				{
@@ -585,7 +594,7 @@ class ilExerciseMembers
 					$file = "";
 					foreach ($array_found as $key => $value)
 					{
-						$pathinfo = pathinfo($value["filename"]);
+						$pathinfo = pathinfo(ilObjExercise::_fixFilename($value["filename"]));
 						$dir = $pathinfo["dirname"];
 						$file = $pathinfo["basename"];
 						array_push($filenames, $file);
