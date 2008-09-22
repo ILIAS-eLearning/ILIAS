@@ -5,9 +5,10 @@
 		<baseclass name="ilObjCourseReferenceGUI" dir="classes" />
 	</baseclasses>
 	<objects>
-		<object id="crsr" class_name="CourseReference" dir="classes" default_pos="30" default_pres_pos="40"
+		<object id="crsr" class_name="CourseReference" dir="classes" default_pos="25" default_pres_pos="20"
 			checkbox="1" inherit="0" allow_link="0" allow_copy="1" translate="0" rbac="1" devmode="0" group="crs">
 			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="recf">recf</parent>
 			<parent id="cat">cat</parent>
 		</object>
 	</objects>
