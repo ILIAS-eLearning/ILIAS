@@ -8636,3 +8636,5 @@ common#:#selected_languages_updated#:#Die ausgewählten Sprachen wurden aktualis
 common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
 content#:#cont_rollback#:#Rollback
 content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version der Seite wiederherstellen?
+assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
+assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
