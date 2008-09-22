@@ -8468,20 +8468,20 @@ common#:#il_grp_status_closed#:#Gruppen er lukket
 common#:#il_grp_status_open#:#Gruppen er åben
 payment#:#pay_abstract#:#Resume
 payment#:#pay_edit_abstract#:#Ret resume
-payment#:#pay_thumbnail#:#Thumbnail###26 07 2008 new variable
-mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###26 07 2008 new variable
-mcst#:#mcst_default_visibility#:#Default Access###26 07 2008 new variable
+payment#:#pay_thumbnail#:#Miniature
+mcst#:#mcst_news_item_visibility_info#:#Offentlige nyheder kan tilgås uden login uden for ILIAS gennem RSS. Undlad derfor at skrive fortrolige informationer.
+mcst#:#mcst_default_visibility#:#Standardadgang
 mcst#:#mcst_visibility_users#:#Logged in Users###26 07 2008 new variable
 mcst#:#mcst_visibility_public#:#Offentlig
 ps#:#ps_account_security_mode#:#Konto sikkerhed
-ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security###26 07 2008 new variable
-ps#:#ps_account_security_mode_customized#:#Customized Account Security###26 07 2008 new variable
+ps#:#ps_account_security_mode_default#:#Standard ILIAS kontosikkerhed
+ps#:#ps_account_security_mode_customized#:#Tilpasset kontosikkerhed
 ps#:#ps_password_min_length#:#Mindste password længde
 ps#:#ps_password_max_length#:#Maksimal password længde
 ps#:#ps_password_chars_and_numbers_enabled#:#Karakterer og tal
 ps#:#ps_password_special_chars_enabled#:#Specielle karakterer
 ps#:#ps_password_max_age#:#Maksimal password alder
-ps#:#ps_login_max_attempts#:#Maximum Login Attempts###26 07 2008 new variable
+ps#:#ps_login_max_attempts#:#Maksimale login forsøg
 ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.###26 07 2008 new variable
 ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.###26 07 2008 new variable
 ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.###26 07 2008 new variable
@@ -8494,9 +8494,9 @@ ps#:#ps_error_message_invalid_password_max_age#:#Maximum password age may not be
 ps#:#ps_error_message_invalid_login_max_attempts#:#Maximum login attempts may not be less than 0.###26 07 2008 new variable
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than 2 if password have to contain characters and numbers.###26 07 2008 new variable
 ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###26 07 2008 new variable
-ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be less than minimum password size.###26 07 2008 new variable
+ps#:#ps_error_message_password_max_less_min#:#Maksimal password længde må ikke være mindre end mindste længde. doh!.
 common#:#password_empty#:#Password på ikke være tomt.
-common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.###26 07 2008 new variable
+common#:#password_expired#:#Dit password er udløbet og skal ændres fordi du sidst ændrede det for %s dage siden.
 common#:#new_pass_equals_old_pass#:#Det nye password er identisk med det tidligere.
 common#:#password_to_short#:#Dit password skal være mindst %s karakterer.
 common#:#password_to_long#:#Dit password må højst være %s karakterer langt.
@@ -8511,7 +8511,7 @@ content#:#cont_bullet_list#:#Punktliste
 content#:#cont_numbered_list#:#Nummereret liste
 content#:#cont_wiki_page_link#:#Wiki sidelink
 content#:#cont_drag_and_drop_elements#:#Drag'n'drop indholdselementer til pladsholdere for at flytte elementer.
-content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###15 09 2008 new variable
+content#:#cont_double_click_to_delete#:#Dobbeltklik på indholdselementer for at vælge dem til (de)aktivering eller sletning.
 form#:#form_hierarchy_add_elements#:#Klik på pladsholdere for at tilføje nye elementer.
 form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.###15 09 2008 new variable
 common#:#all_commands#:#Alle kommandoer
@@ -8600,7 +8600,7 @@ assessment#:#redirectAfterSave#:#The maximum working time has been reached and y
 assessment#:#final_statement#:#Afsluttende bemærkninger
 assessment#:#final_statement_show#:#Show Final Statement###15 09 2008 new variable
 assessment#:#final_statement_show_desc#:#If checked, the final statement will be shown directly after the test was finished prior to the presentation of the test results.###15 09 2008 new variable
-assessment#:#showinfo#:#Show the complete Information Page###15 09 2008 new variable
+assessment#:#showinfo#:#Vis den komplette informationsside
 assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
 assessment#:#forcejs#:#Force JavaScript output for test questions###15 09 2008 new variable
 assessment#:#forcejs_short#:#Tving JavaScript
@@ -8609,7 +8609,7 @@ crs#:#crs_contact_email_info#:#Indtast en eller flere kommaseparerede emailadres
 crs#:#crs_objective_status#:#Objective Status###15 09 2008 new variable
 crs#:#crs_obj_final_req_info#:#If this number of points is achieved, the learning objective is passed.###15 09 2008 new variable
 crs#:#crs_obj_initial_req_info#:#If this number of points is achieved, no course materials will be recommended for further editing.###15 09 2008 new variable
-crs#:#crs_objective_wiz_title_info#:#Please choose a title and a short description of the learning objective.###15 09 2008 new variable
+crs#:#crs_objective_wiz_title_info#:#Vælg venligst en titel og en kort beskrivelse af læremålet.
 crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.###15 09 2008 new variable
 crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. Initial tests are intended to examine the previous knowledge of the course participants.###15 09 2008 new variable
 crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.###15 09 2008 new variable
@@ -8617,8 +8617,8 @@ crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.###15 09
 crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.###15 09 2008 new variable
 crs#:#crs_suggested_sections#:#Suggested Sections###15 09 2008 new variable
 forum#:#frm_statistics#:#Statistik
-mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.###15 09 2008 new variable
-mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.###15 09 2008 new variable
+mail#:#mail_crs_list_members_not_available#:#Det er ikke muligt at liste medlemmer af de valgte kurser.
+mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Medlemmerne af mindst et af de valgte kurser kan ikke listes.
 chat#:#chat_chat_invitation#:#Chat invitationer
 chat#:#chat_general_settings#:#Generelle indstillinger
 chat#:#chat_sounds#:#Lyde
