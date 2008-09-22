@@ -161,6 +161,9 @@ class ilContainerReference extends ilObject
 		}
 		$ref_ids = ilObject::_getAllReferences($this->getTargetId());
 		$this->setTargetRefId(current($ref_ids));
+		
+		$this->title = $this->lng->txt('reference_of').' '.ilObject::_lookupTitle($this->getTargetId());
+		
 	}
 	
 	/**

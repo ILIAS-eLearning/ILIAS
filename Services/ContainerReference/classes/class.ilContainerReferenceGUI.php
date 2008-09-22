@@ -70,7 +70,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			return false;
 		}
 		
-		if(count($existing_objs) >= $max_entries)
+		if(count($this->existing_objs) >= $max_entries)
 		{
 			return $this->showSearchSelection(); 
 		}
@@ -209,6 +209,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		// Show selection
 		$select = new ilSelectInputGUI($this->lng->txt('objs_'.$this->getTargetType()),'target_id');
 		$select->setOptions(self::_prepareSelection($this->existing_objects,$this->getTargetType()));
+		$select->setInfo($this->lng->txt($_POST['new_type'].'_edit_info'));
 		$this->form->addItem($select);		
 		
 		$this->form->addCommandButton('save',$this->lng->txt('save'));
@@ -237,6 +238,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$select = new ilSelectInputGUI($this->lng->txt('objs_'.$this->getTargetType()),'target_id');
 		$select->setValue($this->object->getTargetRefId());
 		$select->setOptions(self::_prepareSelection($this->existing_objects,$this->getTargetType()));
+		$select->setInfo($this->lng->txt($this->object->getType().'_edit_info'));
 		$this->form->addItem($select);		
 		
 		$this->form->addCommandButton('update',$this->lng->txt('save'));
