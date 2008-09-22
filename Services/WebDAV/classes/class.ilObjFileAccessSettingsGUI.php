@@ -47,6 +47,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	{
 		$this->type = "facs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->folderSettings = new ilSetting('fold');
+		
 	}
 	/**
 	 * Execute command
@@ -126,7 +128,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt("no_permission"),$ilErr->WARNING);
 		}
 
-		global $tpl, $ilCtrl, $lng, $tree;
+		global $tpl, $ilCtrl, $lng, $tree, $settings;
 
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -138,8 +140,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("settings"));
+		
+
+		// show download action for folder
 
 		$ilDAVServer = new ilDAVServer();
+		$dl_prop = new ilCheckboxInputGUI($lng->txt("enable_download_folder"), "enable_download_folder");
+		$dl_prop->setValue('1');
+		$dl_prop->setChecked($this->folderSettings->get("enable_download_folder", 1) == 1);
+		$dl_prop->setInfo($lng->txt('enable_download_folder_info'));
+		$form->addItem($dl_prop);
+
 		
 		// Enable webdav
 		$isPearAuthHTTPInstalled = include_once("Auth/HTTP.php");
@@ -213,6 +224,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->object->setCustomWebfolderInstructions($_POST['custom_webfolder_instructions']);
 		$this->object->setInlineFileExtensions($_POST['inline_file_extensions']);
 		$this->object->update();
+		
+		$this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
 
 		$this->editSettings();
 	}

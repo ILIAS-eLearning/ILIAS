@@ -7823,7 +7823,7 @@ common#:#disk_space_used#:#Belegter Festplattenspeicher
 pwassist#:#pwassist_mail_body#:#Registrieren Sie ein neues Passwort für Ihr Benutzerkonto:\n\t%1$s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS Server erneut anfordern.
 common#:#in_use_by#:#In Bearbeitung durch
 common#:#filename_interoperability#:#Interoperabilität
-common#:#filename_special_characters#:#Wegen dem Zeichen / ist dieses Objekt in Webordnern nicht sichtbar
+common#:#filename_special_characters#:#Wegen des Zeichens / ist dieses Objekt in Webordnern nicht sichtbar
 common#:#filename_windows_special_characters#:#Wegen eines der Zeichen \ / : * ? " < > | ist dieses Objekt in Windows Webordnern nicht sichtbar
 common#:#filename_visibility#:#Sichtbarkeit
 common#:#filename_hidden_unix_file#:#Versteckte Unix Datei
@@ -7840,8 +7840,8 @@ common#:#state_changed_inside#:#Inhalt geändert
 common#:#state_new#:#neu
 common#:#state_unread#:#ungelesen
 common#:#filename_extension_short#:#Endung
-common#:#obj_facs#:#Dateizugriff
-common#:#obj_facs_desc#:#Konfigurieren Sie hier den Zugriff auf Dateien.
+common#:#obj_facs#:#Dateien & Ordner
+common#:#obj_facs_desc#:#Konfigurieren Sie hier den Zugriff auf Dateien und Ordner.
 common#:#enable_webdav#:#WebDAV Zugriff aktivieren
 common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin über einen Webordner. Benutzer können Webordner öffnen, indem Sie im Magazin die Aktion "Als Webordner öffnen" ausführen, oder in einem WebDAV Client folgende Adresse eingeben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#webfolder_instructions#:#Anleitung für Webordner
@@ -8638,3 +8638,5 @@ content#:#cont_rollback#:#Rollback
 content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version der Seite wiederherstellen?
 assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
+common#:#enable_download_folder#:#Ordner herunterladen aktivieren
+common#:#enable_download_folder_info#:#Erlaubt Ordner inklusive Unterstrukturen als Zip-Datei herunterzuladen.
