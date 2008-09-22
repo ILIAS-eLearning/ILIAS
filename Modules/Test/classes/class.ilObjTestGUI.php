@@ -5457,6 +5457,15 @@ class ilObjTestGUI extends ilObjectGUI
 			array("eval_a"),
 			"", "");
 	
+		if ($this->object->hasPDFProcessing())
+		{
+			// question export
+			$ilTabs->addSubTabTarget("tst_single_results",
+				$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "singleResults"),
+				array("singleResults"),
+				"", "");
+		}
+
 		// settings
 		$ilTabs->addSubTabTarget("settings",
 			$this->ctrl->getLinkTargetByClass("iltestevaluationgui", "evalSettings"),
@@ -5638,6 +5647,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "saveEvalSettings":
 			case "detailedEvaluation":
 			case "outEvaluation":
+			case "singleResults":
 			case "exportEvaluation":
 			case "evalUserDetail":
 			case "passDetails":

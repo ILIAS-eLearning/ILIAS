@@ -916,7 +916,7 @@ class ilTestServiceGUI
 		$template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
 		$uname = $this->object->userLookupFullName($user_id, FALSE);
 		$template->setVariable("VALUE_USR_NAME", $uname);
-		$template->setVariable("TXT_PASS", $this->lng->txt("pass"));
+		$template->setVariable("TXT_PASS", $this->lng->txt("scored_pass"));
 		$template->setVariable("VALUE_PASS", $pass);
 		return $template->get();
 	}
@@ -953,7 +953,7 @@ class ilTestServiceGUI
 		$printoutput = $printbody->get();
 		$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
 		$fo = $this->object->processPrintoutput2FO($printoutput);
-		$this->object->deliverPDFfromFO($fo);
+		$this->object->deliverPDFfromFO($fo, $question_gui->object->getTitle());
 	}
 }
 

@@ -9475,7 +9475,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	* @param string $fo The XSL-FO string
 	* @access public
 	*/
-	function deliverPDFfromFO($fo)
+	public function deliverPDFfromFO($fo, $title = null)
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$fo_file = ilUtil::ilTempnam() . ".fo";
@@ -9484,7 +9484,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$fo2pdf = new ilFO2PDF();
 		$fo2pdf->setFOString($fo);
 		$result = $fo2pdf->send();
-		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
+		$filename = (strlen($title)) ? $title : $this->getTitle();
+		ilUtil::deliverData($result, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf");
 	}
 	
 	/**
@@ -9877,6 +9878,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 			array_push($foundusers[$row["active_fi"]], array("pass" => $row["pass"], "qid" => $row["question_fi"]));
 		}
 		return $foundusers;
+	}
+
+	/**
+	* Returns true if PDF processing is enabled, false otherwise
+	*
+	* @access public
+	*/
+	public function hasPDFProcessing()
+	{
+		global $ilias;
+		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 } // END class.ilObjTest
 
