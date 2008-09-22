@@ -962,7 +962,10 @@ class ilObjectGUI
 
 			foreach ($subtree_nodes as $node)
 			{
-				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+				if(!$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"],false))
+				{
+					continue;
+				}
 
 				// write log entry
 				$log->write("ilObjectGUI::removeFromSystemObject(), delete obj_id: ".$node_obj->getId().
