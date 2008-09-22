@@ -58,30 +58,5 @@ class ilContainerReferenceAccess extends ilObjectAccess
 
 		return true;
 	}
-
-
-	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	function _getCommands()
-	{
-		$commands = array
-		(
-			array("permission" => "visible", "cmd" => "", "lang_var" => "show","default" => true),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
-		);
-		
-		return $commands;
-	}
-	
 } 
 ?>
