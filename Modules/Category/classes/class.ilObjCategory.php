@@ -65,7 +65,7 @@ class ilObjCategory extends ilContainer
 	*/
 	function delete()
 	{
-		global $ilDB;
+		global $ilDB,$ilAppEventHandler;
 		
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -79,6 +79,12 @@ class ilObjCategory extends ilContainer
 
 		$query = "DELETE FROM object_translation WHERE obj_id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($query);
+		
+		$ilAppEventHandler->raise('Modules/Category',
+			'delete',
+			array('object' => $this,
+				'obj_id' => $this->getId()));
+		
 		return true;
 	}
 	
