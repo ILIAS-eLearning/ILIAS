@@ -36,6 +36,8 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	protected $reference_obj_id = null;
 	protected $reference_ref_id = null;
 	
+	protected $deleted = false;
+	
 	/**
 	 * Constructor
 	 *
@@ -100,7 +102,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
-		global $ilBench,$ilAccess;
+		global $ilBench,$ilAccess,$tree;
 		
 		$this->reference_ref_id = $a_ref_id;
 		$this->reference_obj_id = $a_obj_id;
@@ -113,6 +115,9 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 		$target_title = ilObject::_lookupTitle($target_obj_id);
 		$target_description = ilObject::_lookupDescription($target_obj_id);
 		
+		$this->deleted = $tree->isDeleted($target_ref_id);
+		
+		
 	
 		parent::initItem($target_ref_id, $target_obj_id,$target_title,$target_description);
 
@@ -120,7 +125,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 		include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
 		$this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
 		
-		if($ilAccess->checkAccess('write','',$this->reference_ref_id))
+		if($ilAccess->checkAccess('write','',$this->reference_ref_id) or $this->deleted)
 		{
 			$this->info_screen_enabled = false;
 		}
