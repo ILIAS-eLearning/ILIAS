@@ -35,6 +35,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 {
 	protected $reference_obj_id = null;
 	protected $reference_ref_id = null;
+	protected $deleted = false;
 	
 	/**
 	 * Constructor
@@ -100,10 +101,11 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 	*/
 	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
 	{
-		global $ilBench,$ilAccess;
+		global $ilBench,$ilAccess,$tree;
 		
 		$this->reference_ref_id = $a_ref_id;
 		$this->reference_obj_id = $a_obj_id;
+		
 		
 		include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 		$target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
@@ -112,6 +114,8 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 		$target_ref_id = current($target_ref_ids);
 		$target_title = ilObject::_lookupTitle($target_obj_id);
 		$target_description = ilObject::_lookupDescription($target_obj_id);
+
+		$this->deleted = $tree->isDeleted($target_ref_id);
 		
 		$ilBench->start("ilObjCourseListGUI", "1000_checkAllConditions");
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($target_ref_id,$target_obj_id);
@@ -124,7 +128,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 		include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
 		$this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
 		
-		if($ilAccess->checkAccess('write','',$this->reference_ref_id))
+		if($ilAccess->checkAccess('write','',$this->reference_ref_id) or $this->deleted)
 		{
 			$this->info_screen_enabled = false;
 		}
@@ -133,6 +137,22 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 			$this->info_screen_enabled = true;
 		}
 	}
+	
+	function getProperties()
+	{
+		global $lng,$ilUser,$tree;
+
+		$props = parent::getProperties();
+
+		// offline
+		if($this->deleted)
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("reference_deleted"));
+		}
+
+		return $props ? $props : array();
+	}	
 	
 	/**
 	 * 

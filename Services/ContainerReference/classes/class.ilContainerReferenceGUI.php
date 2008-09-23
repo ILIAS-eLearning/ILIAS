@@ -47,6 +47,16 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * redirect to target 
+	 * @param
+	 * @return
+	 */
+	public function redirectObject()
+	{
+		ilUtil::redirect('repository.php?ref_id='.$this->object->getTargetRefId());
+	}
+	
+	/**
 	 * Create object 
 	 * 
 	 * @return void
@@ -79,6 +89,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			return $this->showSelection();
 		}
 	}
+	
 	
 	/**
 	 * save object

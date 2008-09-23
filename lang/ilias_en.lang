@@ -8668,3 +8668,4 @@ common#:#catr_edit#:#Edit Category Reference
 common#:#crsr_edit#:#Edit Course Reference
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
 common#:#catr_edit_info#:#Please choose one category, for creating a new reference.
+common#:#reference_deleted#:#Destination not available

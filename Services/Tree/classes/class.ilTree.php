@@ -1628,6 +1628,13 @@ class ilTree
 			}
 			//$ilBench->stop("Tree", "fetchNodeData_getTranslation");
 		}
+		
+		// TODO: Handle this switch by module.xml definitions
+		if($data['type'] == 'crsr' or $data['type'] == 'catr')
+		{
+			include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+			$data['title'] = ilContainerReference::_lookupTargetTitle($data['obj_id']);
+		}
 
 		return $data ? $data : array();
 	}
