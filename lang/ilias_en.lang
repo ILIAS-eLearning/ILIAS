@@ -3146,6 +3146,10 @@ common#:#nwss_edit_permission#:#Change permission settings
 common#:#nwss_visible#:#News and Web Feeds Settings are visible
 common#:#nwss_read#:#Read access to News and Web Feeds Settings
 common#:#nwss_write#:#Edit News and Web Feeds Settings
+common#:#tags_edit_permission#:#Change permission settings
+common#:#tags_visible#:#Tagging Settings are visible
+common#:#tags_read#:#Read access to Tagging Settings
+common#:#tags_write#:#Edit Tagging Settings
 common#:#cat_create_feed#:#Create Web Feed
 common#:#grp_create_feed#:#Create Web Feed
 common#:#crs_create_feed#:#Create Web Feed
@@ -3413,9 +3417,11 @@ common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_role#:#Role
 common#:#obj_nwss#:#News and Web Feeds
+common#:#obj_tags#:#Tagging
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#General settings for mediacast.
 common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.
+common#:#obj_tags_desc#:#Settings for tagging feature.
 common#:#obj_rolf#:#Roles
 common#:#obj_rolf_desc#:#Manage your roles here.
 common#:#obj_rolf_local#:#Local Roles
@@ -3889,6 +3895,9 @@ common#:#pd_items_news#:#Include News of Personal Items
 common#:#pd_items_news_info#:#If activated, all news related to items that have been added to the personal desktop will be included in the news block.
 common#:#show_owner#:#Show Owner
 tagging#:#tagging_tags#:#Tags
+tagging#:#tagging_settings#:#Settings
+tagging#:#tagging_edit_settings#:#Edit Settings
+tagging#:#tagging_enable_tagging#:#Enable Tagging
 tagging#:#tagging_tag_info#:#To attach tags to a ressource open the info screen of the ressource and enter your tags.
 rating#:#rating_your_rating#:#Your Rating
 rating#:#rating_average_rating#:#Average Rating

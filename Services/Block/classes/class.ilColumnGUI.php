@@ -141,6 +141,7 @@ class ilColumnGUI
 			"pdfeed" => true,			
 			"pdusers" => true,
 			"pdbookm" => true,
+			"pdtag" => true,
 			"pdnotes" => true);
 			
 	protected $check_nr_limit =

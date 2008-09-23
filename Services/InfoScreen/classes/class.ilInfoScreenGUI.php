@@ -759,7 +759,11 @@ class ilInfoScreenGUI
 		// tagging
 		if (is_object($this->gui_object->object))
 		{
-			$this->addTagging($tpl);
+			$tags_set = new ilSetting("tags");
+			if ($tags_set->get("enable"))
+			{
+				$this->addTagging($tpl);
+			}
 		}
 		
 
