@@ -86,7 +86,8 @@ class ilObjFolderAccess extends ilObjectAccess
 	{
 	    global $tree, $ilUser;
 	    $settings = ilObjFolderAccess::getFolderSettings();
-	    if ($settings->get("enable_download_folder", 1) != 1)
+		// default value should reflect previous behaviour (-> 0)
+	    if ($settings->get("enable_download_folder", 0) != 1)
 	        return false;
 	        
 	    /*

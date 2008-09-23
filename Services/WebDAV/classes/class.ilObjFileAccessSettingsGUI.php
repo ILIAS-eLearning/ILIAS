@@ -147,7 +147,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$ilDAVServer = new ilDAVServer();
 		$dl_prop = new ilCheckboxInputGUI($lng->txt("enable_download_folder"), "enable_download_folder");
 		$dl_prop->setValue('1');
-		$dl_prop->setChecked($this->folderSettings->get("enable_download_folder", 1) == 1);
+		// default value should reflect previous behaviour (-> 0)
+		$dl_prop->setChecked($this->folderSettings->get("enable_download_folder", 0) == 1);
 		$dl_prop->setInfo($lng->txt('enable_download_folder_info'));
 		$form->addItem($dl_prop);
 
