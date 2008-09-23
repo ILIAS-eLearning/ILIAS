@@ -62,10 +62,11 @@ class ilCourseItems
 		$this->tree  =& $tree;
 
 		$this->course_obj =& $course_obj;
-		$this->setParentId($a_parent);
 		$this->user_id = $user_id;
-
-		$this->__read();
+		
+		
+		$this->setParentId($a_parent);	// this implicitly calls __read
+		//$this->__read();
 	}
 
 	/**
@@ -545,8 +546,13 @@ class ilCourseItems
 	// PRIVATE
 	function __read()
 	{
+		global $ilBench, $test;
+		
 		$this->items = array();
+
+		$ilBench->start("Course", "ilCouseItems_read - getChilds");
 		$all_items = $this->tree->getChilds($this->parent);
+		$ilBench->stop("Course", "ilCouseItems_read - getChilds");
 
 		foreach($all_items as $item)
 		{
@@ -556,6 +562,7 @@ class ilCourseItems
 			}
 		}
 
+		$ilBench->start("Course", "ilCouseItems_read - getItemData");
 		for($i = 0;$i < count($this->items); ++$i)
 		{
 			if($this->items[$i]["type"] == 'rolf')
@@ -565,8 +572,12 @@ class ilCourseItems
 			}
 			$this->items[$i] = $this->__getItemData($this->items[$i]);
 		}
+		$ilBench->stop("Course", "ilCouseItems_read - getItemData");
+		
+		$ilBench->start("Course", "ilCouseItems_read - purge and sort");
 		$this->__purgeDeleted();
 		$this->__sort();
+		$ilBench->stop("Course", "ilCouseItems_read - purge and sort");
 		
 		// one array for items per child id
 		$this->items_per_child = array();
@@ -613,15 +624,18 @@ class ilCourseItems
 			
 	function __getItemData($a_item)
 	{
-		global $ilDB,$ilUser,$ilObjDataCache;
+		global $ilDB,$ilUser,$ilObjDataCache, $ilBench;
 
+		$ilBench->start("Course", "ilCourseItems_getItemData - 1");
 		$query = "SELECT * FROM crs_items  ".
 			"WHERE obj_id = ".$ilDB->quote($a_item['child'])." ".
 			"AND parent_id = ".$ilDB->quote($a_item['parent'])." ";
-
 		$res = $this->ilDB->query($query);
+		$ilBench->stop("Course", "ilCourseItems_getItemData - 1");
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			$ilBench->start("Course", "ilCourseItems_getItemData - 2");
 			$a_item["timing_type"] = $row->timing_type;
 			$a_item["timing_start"]		= $row->timing_start;
 			$a_item["timing_end"]		= $row->timing_end;
@@ -638,11 +652,27 @@ class ilCourseItems
 			
 			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 			$data = ilTimingPlaned::_getPlanedTimings($this->getUserId(),$a_item['child']);
+			$ilBench->stop("Course", "ilCourseItems_getItemData - 2");
 
-			if($ilObjDataCache->lookupType($obj_id = $ilObjDataCache->lookupObjId($row->obj_id)) == 'sess')
+			$ilBench->start("Course", "ilCourseItems_getItemData - 3");
+
+			// changed for performance reasons
+			$obj_id = ($a_item['obj_id'] > 0)
+				? $a_item['obj_id']
+				: $ilObjDataCache->lookupObjId($row->obj_id);
+			$obj_type = ($a_item['type'] != "")
+				? $a_item['type']
+				: $ilObjDataCache->lookupType($obj_id);
+
+			//if($ilObjDataCache->lookupType($obj_id = $ilObjDataCache->lookupObjId($row->obj_id)) == 'sess')
+			if ($obj_type == 'sess')
 			{
 				include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+				
+				$ilBench->start("Course", "ilCourseItems_getItemData - lookupAppointment");
 				$info = ilSessionAppointment::_lookupAppointment($obj_id);
+				$ilBench->stop("Course", "ilCourseItems_getItemData - lookupAppointment");
+				
 				$a_item['timing_type'] = IL_CRS_TIMINGS_FIXED;
 				$a_item['start'] = $info['start'];
 				$a_item['end'] = $info['end'];
@@ -650,9 +680,10 @@ class ilCourseItems
 				$a_item['activation_info'] = 'crs_timings_suggested_info';
 				continue;
 			}
-
+			$ilBench->stop("Course", "ilCourseItems_getItemData - 3");
 
 			// Check for user entry
+			$ilBench->start("Course", "ilCourseItems_getItemData - 4");
 			if($a_item['changeable'] and 
 			   $a_item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
 			{
@@ -685,12 +716,16 @@ class ilCourseItems
 			{
 				$a_item['start'] = 999999999;
 			}
+			$ilBench->stop("Course", "ilCourseItems_getItemData - 4");
 		}
 
+		$ilBench->start("Course", "ilCourseItems_getItemData - 5");
 		if(!isset($a_item["timing_start"]))
 		{
 			$a_item = $this->createDefaultEntry($a_item);
 		}
+		$ilBench->stop("Course", "ilCourseItems_getItemData - 5");
+		
 		return $a_item;
 	}
 
