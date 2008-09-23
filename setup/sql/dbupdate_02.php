@@ -5775,3 +5775,137 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#1336>
+<?php
+// Migration of calendar data
+$query = "SELECT * FROM dp_dates ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$start = gmdate('Y-m-d H:i:s',$row->begin);
+	$end = gmdate('Y-m-d H:i:s',$row->end);
+	
+	
+	$query = "INSERT INTO cal_entries ".
+		"SET last_update = FROM_UNIXTIME(".$row->changed."), ".
+		"title = ".$ilDB->quote($row->shorttext).", ".
+		"description = ".$ilDB->quote($row->text).", ".
+		"start = ".$ilDB->quote($start).', '.
+		"end = ".$ilDB->quote($end)." ";
+	$ilDB->query($query);
+	
+	$cal_id = $ilDB->getLastInsertId();
+	
+	$until = $row->end_rotation;
+	switch($row->rotation)
+	{
+		case 1:
+			$freq = 'DAILY';
+			$int = 1;
+			break;
+		case 2:
+			$freq = 'WEEKLY';
+			$int = 1;
+			break;
+		case 3:
+			$freq = 'WEEKLY';
+			$int = 2;
+			break;
+		case 4:
+			$freq = 'WEEKLY';
+			$int = 4;
+			break;
+		case 5:
+			$freq = 'MONTHLY';
+			$int = 1;
+			break;
+		case 6:
+			$freq = 'MONTHLY';
+			$int = 6;
+			break;
+		case 7:
+			$freq = 'YEARLY';
+			$int = 1;
+			break;
+
+		default:
+		case 0:
+			$freq = '';
+			break;
+
+	}
+	
+	if($freq)
+	{
+		
+		$query = "INSERT INTO cal_recurrence_rules ".
+			"SET cal_id = ".$ilDB->quote($cal_id).", ".
+			"cal_recurrence = 1, ".
+			"freq_type = ".$ilDB->quote($freq).", ".
+			"intervall = ".$ilDB->quote($int).", ".
+			"freq_until_date = FROM_UNIXTIME(".$until."), ".
+			"freq_until_count = 30";
+		$ilDB->query($query);			
+	}
+	
+	if($row->group_ID)
+	{
+		$query = "SELECT obj_id FROM object_reference ".
+			"WHERE ref_id = ".$ilDB->quote($row->group_ID);
+		$ref_res = $ilDB->query($query);
+		$ref_row = $ref_res->fetchRow();
+		$obj_id = $ref_row[0];
+		
+		// SELECT category id of course/group
+		$query = "SELECT * FROM cal_categories WHERE obj_id = ".$ilDB->quote($obj_id);
+		$cat_res = $ilDB->query($query);
+		$cat_row = $cat_res->fetchRow();
+		$cat_id = $cat_row[0];
+		
+		// INSERT INTO course/group calendar
+		$query = "INSERT INTO cal_category_assignments ".
+			"SET cal_id = ".$ilDB->quote($cal_id).", ".
+			"cat_id = ".$ilDB->quote($cat_id);
+		$ilDB->query($query);
+	}
+	else
+	{
+		$user_id = $row->user_ID;
+		
+		if(isset($user_ids[$user_id]))
+		{
+			$cat_id = $user_ids[$user_id];
+		}
+		else
+		{
+			// This is a personal calendar
+			$query = "INSERT INTO cal_categories ".
+				"SET obj_id = ".$ilDB->quote($user_id).", ".
+				"title = 'Personal Calendar', ".
+				"color = '#DAE2FF', ".
+				"type = 1";
+			$ilDB->query($query);
+			
+			// SELECT category id
+			$query = "SELECT cat_id FROM cal_categories ".
+				"WHERE obj_id = ".$ilDB->quote($user_id).
+				"AND title = 'Personal Calendar'";
+			$cat_res = $ilDB->query($query);
+			$cat_row = $cat_res->fetchRow();
+			$cat_id = $cat_row[0];
+			
+			$user_ids[$user_id] = $cat_id;
+		}
+		
+		// INSERT INTO personal calendar
+		$query = "INSERT INTO cal_category_assignments ".
+			"SET cal_id = ".$ilDB->quote($cal_id).", ".
+			"cat_id = ".$ilDB->quote($cat_id);
+		$ilDB->query($query);
+		
+	}
+	
+}
+?>
+
