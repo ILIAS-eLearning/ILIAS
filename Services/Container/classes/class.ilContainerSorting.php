@@ -107,6 +107,13 @@ class ilContainerSorting
 						$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',true);
 					}
 					return $sorted ? $sorted : array();
+					
+				case ilContainer::SORT_ACTIVATION:
+					foreach((array) $a_items as $type => $data)
+					{
+						$sorted[$type] = ilUtil::sortArray((array) $data,'start','asc',true);
+					}
+					return $sorted ? $sorted : array();
 			}
 			return $a_items;
 		}
