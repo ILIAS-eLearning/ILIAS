@@ -57,7 +57,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	
 	function &executeCommand()
 	{
-  		global $ilUser, $ilCtrl, $tpl, $ilTabs;
+  		global $ilUser, $ilCtrl, $tpl, $ilTabs, $ilAccess;
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -81,6 +81,12 @@ class ilObjWikiGUI extends ilObjectGUI
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"]);
+
+				if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+					!$ilAccess->checkAccess("edit_content", "", $this->object->getRefId()))
+				{
+					$wpage_gui->setEnableEditing(false);
+				}
 				$ret = $this->ctrl->forwardCommand($wpage_gui);
 				if ($ret != "")
 				{
@@ -157,7 +163,12 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin, $tpl, $lng;
+		global $rbacadmin, $tpl, $lng, $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "wiki"))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		$this->initSettingsForm("create");
 		if ($this->form_gui->checkInput())
@@ -280,7 +291,10 @@ class ilObjWikiGUI extends ilObjectGUI
 			$info->setBlockProperty("news", "settings", true);
 		}*/
 		
-		$info->addButton($lng->txt("wiki_start_page"), ilObjWikiGUI::getGotoLink($this->object->getRefId()));
+		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
+		{
+			$info->addButton($lng->txt("wiki_start_page"), ilObjWikiGUI::getGotoLink($this->object->getRefId()));
+		}
 		
 		// general information
 		$this->lng->loadLanguageModule("meta");
@@ -582,6 +596,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $tpl;
 		
+		$this->checkPermission("write");
+		
 		include_once("./Modules/Wiki/classes/class.ilWikiContributorsTableGUI.php");
 		
 		$table_gui = new ilWikiContributorsTableGUI($this, "listContributors",
@@ -752,6 +768,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $tpl;
 		
+		$this->checkPermission("read");
+		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
 		$this->addPagesSubTabs();
@@ -769,6 +787,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	function popularPagesObject()
 	{
 		global $tpl, $ilTabs;
+		
+		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
@@ -788,6 +808,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	function orphanedPagesObject()
 	{
 		global $tpl, $ilTabs;
+		
+		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
@@ -843,6 +865,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function randomPageObject()
 	{
+		$this->checkPermission("read");
+		
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		$page = ilWikiPage::getRandomPage($this->object->getId());
 		$this->gotoPageObject($page);
@@ -854,6 +878,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	function recentChangesObject()
 	{
 		global $tpl, $ilTabs;
+		
+		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiRecentChangesTableGUI.php");
 		
@@ -894,6 +920,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	{
 		global $tpl, $ilTabs;
 		
+		$this->checkPermission("read");
+		
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
 		$this->addPagesSubTabs();
@@ -911,6 +939,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function printViewObject()
 	{
+		$this->checkPermission("read");
+		
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 		$page_gui = new ilWikiPageGUI($_GET["wpg_id"]);
 		$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -932,6 +962,8 @@ class ilObjWikiGUI extends ilObjectGUI
 	function performSearchObject()
 	{
 		global $tpl, $ilTabs;
+		
+		$this->checkPermission("read");
 		
 		include_once("./Modules/Wiki/classes/class.ilWikiSearchResultsTableGUI.php");
 		
