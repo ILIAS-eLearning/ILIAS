@@ -1643,9 +1643,15 @@ class ilObjCourse extends ilContainer
 	*/
 	function addAdditionalSubItemInformation(&$a_item_data)
 	{
+		global $ilBench;
+		
+		$ilBench->start("Course", "initCourseItemObject");
 		$this->initCourseItemObject();
+		$ilBench->stop("Course", "initCourseItemObject");
 
+		$ilBench->start("Course", "addAdditionalSubItemInformation");
 		$this->items_obj->addAdditionalSubItemInformation($a_item_data);
+		$ilBench->stop("Course", "addAdditionalSubItemInformation");
 	}
 	
 	/**
