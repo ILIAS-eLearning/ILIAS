@@ -845,7 +845,7 @@ class ilPageObjectGUI
 	*/
 	function showPage()
 	{
-		global $tree, $ilUser, $ilias, $lng, $ilCtrl, $ilBench;
+		global $tree, $ilUser, $ilias, $lng, $ilCtrl, $ilBench, $ilSetting;
 
 		$ilBench->start("ContentPresentation", "ilPageObjectGUI_showPage");
 		
@@ -952,7 +952,7 @@ class ilPageObjectGUI
 
 				// javascript activation
 				$sel_js_mode = "disable";
-				if($ilias->getSetting("enable_js_edit"))
+				if($ilSetting->get("enable_js_edit", 1))
 				{
 					$sel_js_mode = (ilPageEditorGUI::_doJSEditing())
 						? "enable"
