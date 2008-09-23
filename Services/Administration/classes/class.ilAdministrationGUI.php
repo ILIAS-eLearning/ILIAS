@@ -323,6 +323,7 @@ class ilAdministrationGUI
 		if ($_GET["admin_mode"] == "settings")
 		{
 			$explorer->addFilter("cat");
+			$explorer->addFilter("catr");
 		}
 		else
 		{
