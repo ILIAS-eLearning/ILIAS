@@ -604,10 +604,10 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 	*/
 	function _doJSEditing()
 	{
-		global $ilUser, $ilias;
+		global $ilUser, $ilias, $ilSetting;
 
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable"
-			&& $ilias->getSetting("enable_js_edit")
+		if ($ilUser->getPref("ilPageEditor_JavaScript") != "disable"
+			&& $ilSetting->get("enable_js_edit", 1)
 			&& ilPageEditorGUI::_isBrowserJSEditCapable())
 		{
 			return true;

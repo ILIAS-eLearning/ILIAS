@@ -217,7 +217,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LM_JS_EDITING_DESC", $this->lng->txt("advanced_editing_lm_js_editing_desc"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
-		if ($ilSetting->get("enable_js_edit"))
+		if ($ilSetting->get("enable_js_edit", 1))
 		{
 			$this->tpl->setVariable("JS_EDIT", "checked=\"checked\"");
 		}
