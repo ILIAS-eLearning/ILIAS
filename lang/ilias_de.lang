@@ -1397,7 +1397,7 @@ common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
-common#:#assign#:#Annehmen
+common#:#assign#:#Als Mitglied aufnehmen
 common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
 common#:#associated_user#:#Mitglied
@@ -3354,7 +3354,7 @@ common#:#referral_comment#:#Woher kennen Sie ILIAS?
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
 common#:#refresh#:#Aktualisieren
-common#:#refuse#:#Ablehnen
+common#:#refuse#:#Antrag ablehnen
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen bei der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
