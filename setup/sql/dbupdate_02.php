@@ -5608,4 +5608,118 @@ $query = "UPDATE rbac_operations SET class='create' ".
 	"operation = 'create_catr' ";
 $ilDB->query($query);
 ?>
+
+<#1332>
+<?php
+
+// Delete deprecated read permission for container references
+$query = "SELECT obj_id FROM object_data ".
+	"WHERE type = 'typ' AND title = 'catr'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$cat_id = $row[0];
+
+$query = "SELECT obj_id FROM object_data ".
+	"WHERE type = 'typ' AND title = 'crsr'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$crs_id = $row[0];
+
+$query = "DELETE FROM rbac_ta WHERE typ_id = ".$ilDB->quote($cat_id)." ".
+	"AND ops_id = 3";
+$ilDB->query($query);
+
+$query = "DELETE FROM rbac_ta WHERE typ_id = ".$ilDB->quote($crs_id)." ".
+	"AND ops_id = 3";
+$ilDB->query($query);
+?>
+
+<#1333>
+<?php
+
+// Add template permissions to root node for Author and Co-Author template
+$query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$copy_id = $row->ops_id;
+
+$query = "SELECT * FROM rbac_operations WHERE operation = 'create_catr'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$create_cat_id = $row->ops_id;
+
+$query = "SELECT * FROM rbac_operations WHERE operation = 'create_crsr'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$create_crs_id = $row->ops_id;
+
+// get author and co-author obj_ids
+$query = "SELECT obj_id FROM object_data ".
+	"WHERE type = 'rolt' ".
+	"AND title = 'Author' ".
+	"OR title = 'Co-Author' ";
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	foreach(array(1,2,4,6,$copy_id) as $ops_id)
+	{
+		$query = "DELETE FROM rbac_templates WHERE ".
+			"rol_id = ".$ilDB->quote($row->obj_id)." ".
+			"AND type = 'catr' ".
+			"AND ops_id = ".$ops_id." ".
+			"AND parent = 8";
+		$ilDB->query($query);
 	
+		$query = "INSERT INTO rbac_templates SET ".
+			"rol_id = ".$ilDB->quote($row->obj_id).", ".
+			"type = 'catr', ".
+			"ops_id = ".$ops_id.", ".
+			"parent = 8";
+		$ilDB->query($query);
+		
+		$query = "DELETE FROM rbac_templates WHERE ".
+			"rol_id = ".$ilDB->quote($row->obj_id)." ".
+			"AND type = 'crsr' ".
+			"AND ops_id = ".$ops_id." ".
+			"AND parent = 8";
+		$ilDB->query($query);
+	
+		$query = "INSERT INTO rbac_templates SET ".
+			"rol_id = ".$ilDB->quote($row->obj_id).", ".
+			"type = 'crsr', ".
+			"ops_id = ".$ops_id.", ".
+			"parent = 8";
+		$ilDB->query($query);
+	}
+	foreach(array($create_cat_id,$create_crs_id) as $ops_id)
+	{
+		$query = "DELETE FROM rbac_templates WHERE ".
+			"rol_id = ".$ilDB->quote($row->obj_id)." ".
+			"AND type = 'cat' ".
+			"AND ops_id = ".$ops_id." ".
+			"AND parent = 8";
+		$ilDB->query($query);
+	
+		$query = "INSERT INTO rbac_templates SET ".
+			"rol_id = ".$ilDB->quote($row->obj_id).", ".
+			"type = 'cat', ".
+			"ops_id = ".$ops_id.", ".
+			"parent = 8";
+		$ilDB->query($query);
+	}
+
+	$query = "DELETE FROM rbac_templates WHERE ".
+		"rol_id = ".$ilDB->quote($row->obj_id)." ".
+		"AND type = 'root' ".
+		"AND ops_id = ".$create_cat_id." ".
+		"AND parent = 8";
+	$ilDB->query($query);
+	
+	$query = "INSERT INTO rbac_templates SET ".
+		"rol_id = ".$ilDB->quote($row->obj_id).", ".
+		"type = 'root', ".
+		"ops_id = ".$create_cat_id.", ".
+		"parent = 8";
+	$ilDB->query($query);
+}
+?>
