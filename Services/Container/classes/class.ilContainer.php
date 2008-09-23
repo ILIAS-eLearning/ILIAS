@@ -456,6 +456,7 @@ class ilContainer extends ilObject
 		
 		$type_grps = $this->getGroupedObjTypes();
 		$objects = $tree->getChilds($this->getRefId(), "title");
+		
 		$found = false;
 
 		include_once('Services/Container/classes/class.ilContainerSorting.php');

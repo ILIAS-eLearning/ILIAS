@@ -99,6 +99,15 @@ class ilContainerSorting
 		$sorted = array();
 		if(!$this->manual_sort_enabled)
 		{
+			switch($this->getSortMode())
+			{
+				case ilContainer::SORT_TITLE:
+					foreach((array) $a_items as $type => $data)
+					{
+						$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',true);
+					}
+					return $sorted ? $sorted : array();
+			}
 			return $a_items;
 		}
 		if(!count($a_items))

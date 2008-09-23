@@ -72,6 +72,27 @@ class ilContainerReference extends ilObject
 	}
 	
 	/**
+	 * Lookup target title 
+	 *
+	 * @return string title
+	 * @static
+	 */
+	 public static function _lookupTargetTitle($a_obj_id)
+	 {
+	 	global $ilDB;
+	 	
+	 	$query = "SELECT title FROM object_data od ".
+	 		"JOIN container_reference cr ON target_obj_id = od.obj_id ".
+	 		"WHERE cr.obj_id = ".$ilDB->quote($a_obj_id);
+	 	$res = $ilDB->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		return $row->title;
+	 	}
+	 	return '';
+	 }
+	
+	/**
 	 * lookup source id
 	 *  
 	 * @param int $a_target_id obj_id of course or category

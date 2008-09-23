@@ -63,6 +63,7 @@ class ilRepositoryExplorer extends ilExplorer
 		// please do not uncomment this
 		$this->addFilter("root");
 		$this->addFilter("cat");
+		$this->addFilter('catr');
 		//$this->addFilter("exc");
 		//$this->addFilter("sahs");
 		$this->addFilter("grp");
@@ -76,6 +77,8 @@ class ilRepositoryExplorer extends ilExplorer
 		//$this->addFilter("file");
 		$this->addFilter("icrs");
 		$this->addFilter("crs");
+		$this->addFilter('crsr');
+		$this->addFilter('rcrs');
 		//$this->addFilter('tst');
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
@@ -92,6 +95,13 @@ class ilRepositoryExplorer extends ilExplorer
 		{
 			case "cat":
 				return "repository.php?ref_id=".$a_node_id;
+
+			case "catr":
+				#include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+				#$t_obj_id = ilContainerReference::_lookupTargetId(ilObject::_lookupObjId($a_node_id));
+				#$ref_ids = ilObject::_getAllReferences($t_obj_id);
+				#$a_node_id = current($ref_ids);
+				return "repository.php?cmd=redirect&ref_id=".$a_node_id;
 
 			case "lm":
 			case "dbk":
@@ -112,6 +122,13 @@ class ilRepositoryExplorer extends ilExplorer
 			case "crs":
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui&cmd=view";
 				
+			case "crsr":
+				#include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+				#$t_obj_id = ilContainerReference::_lookupTargetId(ilObject::_lookupObjId($a_node_id));
+				#$ref_ids = ilObject::_getAllReferences($t_obj_id);
+				#$a_node_id = current($ref_ids);
+				return "repository.php?cmd=redirect&ref_id=".$a_node_id;
+
 			case "frm":
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjforumgui";
 
@@ -153,6 +170,10 @@ class ilRepositoryExplorer extends ilExplorer
 				
 			case "icrs":
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjilinccoursegui";
+
+			case 'rcrs':
+				return "repository.php?cmd=infoScreen&ref_id=".$a_node_id;
+				
 		}
 	}
 	
@@ -167,6 +188,9 @@ class ilRepositoryExplorer extends ilExplorer
 		switch($a_type)
 		{
 			case "cat":
+				return "repository.php?cmd=edit&ref_id=".$a_node_id;
+
+			case "catr":
 				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 
 			case "lm":
@@ -188,8 +212,10 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "crs":
 				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui&cmd=edit";
-				return "ilias.php?ref_id=".$a_node_id."cmdClass=ilobjcoursegui&cmd=edit";
 				
+			case "crsr":
+				return "repository.php?ref_id=".$a_node_id;
+
 			case "frm":
 				return "repository.php?cmd=edit&ref_id=".$a_node_id;
 
@@ -231,6 +257,10 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case 'webr':
 				return "ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=editItems&ref_id=".$a_node_id;
+				
+			case 'rcrs':
+				return "repository.php?cmd=infoScreen&ref_id=".$a_node_id;
+				
 		}
 	}		
 
@@ -248,6 +278,10 @@ class ilRepositoryExplorer extends ilExplorer
 		{
 			case "cat":
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "cat");
+				return $t_frame;
+
+			case "catr":
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "catr");
 				return $t_frame;
 
 			case "lm":
@@ -275,6 +309,14 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "crs":
 				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "crs");
+				return $t_frame;
+				
+			case "crsr":
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent", "crsr");
+				return $t_frame;
+
+			case 'rcrs':
+				$t_frame = ilFrameTargetInfo::_getFrame("RepositoryContent",'rcrs');
 				return $t_frame;
 
 			case "frm":

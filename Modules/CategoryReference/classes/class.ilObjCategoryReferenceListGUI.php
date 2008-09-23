@@ -130,6 +130,23 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 		}
 	}
 	
+	
+	function getProperties()
+	{
+		global $lng,$ilUser,$tree;
+
+		$props = parent::getProperties();
+
+		// offline
+		if($tree->isDeleted($this->ref_id))
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("reference_deleted"));
+		}
+
+		return $props ? $props : array();
+	}	
+	
 	/**
 	 * 
 	 * @param
