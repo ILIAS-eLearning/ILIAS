@@ -66,7 +66,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		global $ilUser,$ilAccess,$ilErr,$ilSetting;
 		
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		if(!$ilAccess->checkAccess("create",'',$_GET["ref_id"], $new_type))
+		if(!$ilAccess->checkAccess("create_".$this->getReferenceType(),'',$_GET["ref_id"], $new_type))
 		{
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
 		}

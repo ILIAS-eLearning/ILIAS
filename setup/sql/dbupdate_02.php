@@ -5600,3 +5600,12 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1331>
+<?php
+$query = "UPDATE rbac_operations SET class='create' ".
+	"WHERE operation = 'create_rcrs'  OR ".
+	"operation = 'create_crsr'  OR ".
+	"operation = 'create_catr' ";
+$ilDB->query($query);
+?>
+	
