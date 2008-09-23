@@ -736,6 +736,7 @@ class ilCalendarCategoryGUI
 		
 		
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setTableWidth('40%');
 		switch($a_mode)
 		{
 			case 'edit':
