@@ -602,7 +602,7 @@ return;
 			$this->pg_obj->stripHierIDs();
 			$this->pg_obj->addHierIDs();
 			$ilCtrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
-			$ilCtrl->setParameter($this, "pcid", $this->content_obj->readPCId());
+			$ilCtrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
 			$this->content_obj->setHierId($this->content_obj->readHierId());
 			$this->setHierId($this->content_obj->readHierId());
 			$this->content_obj->setPCId($this->content_obj->readPCId());

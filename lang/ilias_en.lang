@@ -5256,6 +5256,7 @@ crs#:#crs_view_info_objective#:#This presentation mode is used for the presentat
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
+cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
 crs#:#crs_view_info_timing#:#Presentation mode for timing presettings.
 crs#:#crs_view_mode#:#Course Presentation
 crs#:#crs_view_objective#:#Objective Oriented View
