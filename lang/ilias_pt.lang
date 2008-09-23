@@ -8636,3 +8636,44 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
+common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+common#:#obj_tags#:#Tagging###23 09 2008 new variable
+common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
+tagging#:#tagging_settings#:#Settings###23 09 2008 new variable
+tagging#:#tagging_edit_settings#:#Edit Settings###23 09 2008 new variable
+tagging#:#tagging_enable_tagging#:#Enable Tagging###23 09 2008 new variable
+assessment#:#tst_single_results#:#Results by Question###23 09 2008 new variable
+assessment#:#tst_answered_questions_test#:#Questions answered in this test###23 09 2008 new variable
+common#:#enable_download_folder#:#Enable Downloading Folders###23 09 2008 new variable
+common#:#enable_download_folder_info#:#Allows to download a folder including sub structures as a zip file.###23 09 2008 new variable
+rbac#:#crsr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
+rbac#:#crsr_visible#:#Course Reference is visible###23 09 2008 new variable
+rbac#:#crsr_read#:#Read access to Course Reference###23 09 2008 new variable
+rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
+rbac#:#cat_create_crsr#:#Create new Course Reference###23 09 2008 new variable
+rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
+rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
+common#:#obj_crsr#:#Course Reference###23 09 2008 new variable
+common#:#objs_crsr#:#Course References###23 09 2008 new variable
+rbac#:#catr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
+rbac#:#catr_visible#:#Category Reference is visible###23 09 2008 new variable
+rbac#:#catr_read#:#Read access to Category Reference###23 09 2008 new variable
+rbac#:#catr_delete#:#Delete Category Reference###23 09 2008 new variable
+rbac#:#cat_create_catr#:#Create Category Reference###23 09 2008 new variable
+rbac#:#catr_write#:#Edit Category Reference###23 09 2008 new variable
+rbac#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
+common#:#obj_catr#:#Category Reference###23 09 2008 new variable
+common#:#objs_catr#:#Category References###23 09 2008 new variable
+common#:#crsr#:#Course Reference###23 09 2008 new variable
+common#:#catr#:#Category Reference###23 09 2008 new variable
+common#:#reference_of#:#Reference of:###23 09 2008 new variable
+common#:#catr_new#:#Create new Category Reference###23 09 2008 new variable
+common#:#crsr_new#:#Create new Course Reference###23 09 2008 new variable
+common#:#catr_edit#:#Edit Category Reference###23 09 2008 new variable
+common#:#crsr_edit#:#Edit Course Reference###23 09 2008 new variable
+common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.###23 09 2008 new variable
+common#:#catr_edit_info#:#Please choose one category, for creating a new reference.###23 09 2008 new variable
+common#:#reference_deleted#:#Destination not available###23 09 2008 new variable

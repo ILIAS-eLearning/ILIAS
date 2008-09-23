@@ -8668,3 +8668,12 @@ common#:#crsr_edit#:#Kurs-Referenz bearbeiten
 common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
 common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine Referenz erstellen möchten.
 common#:#reference_deleted#:#Ziel nicht vorhanden
+common#:#tags_edit_permission#:#Rechteeinstellungen ändern
+common#:#tags_visible#:#Tagging-Einstellungen sind sichtbar
+common#:#tags_read#:#Tagging-Einstellungen bearbeiten
+common#:#tags_write#:#Tagging-Einstellungen bearbeiten
+common#:#obj_tags#:#Tagging
+common#:#obj_tags_desc#:#Einstellungen für Tagging
+tagging#:#tagging_settings#:#Einstellungen
+tagging#:#tagging_edit_settings#:#Einstellungen
+tagging#:#tagging_enable_tagging#:#Tagging aktivieren
