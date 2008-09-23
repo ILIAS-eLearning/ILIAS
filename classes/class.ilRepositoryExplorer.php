@@ -439,6 +439,12 @@ class ilRepositoryExplorer extends ilExplorer
 					return false;
 				}
 				break;
+				
+			case 'crsr':
+			case 'catr':
+				include_once('./Services/ContainerReference/classes/class.ilContainerReferenceAccess.php');
+				return ilContainerReferenceAccess::_isAccessible($a_ref_id);
+				
 
 			// all other types are only clickable, if read permission is given
 			default:

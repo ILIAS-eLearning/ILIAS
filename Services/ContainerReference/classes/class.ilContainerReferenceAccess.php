@@ -58,5 +58,28 @@ class ilContainerReferenceAccess extends ilObjectAccess
 
 		return true;
 	}
+	
+	/**
+	 * Check if target is accessible and not deleted 
+	 * @param int $a_ref_id ref_id
+	 * @return bool
+	 * @static
+	 */
+	 public static function _isAccessible($a_ref_id)
+	 {
+	 	global $ilDB,$tree;
+	 	
+	 	$obj_id = ilObject::_lookupObjId($a_ref_id);
+	 	$query = "SELECT target_obj_id FROM container_reference ".
+	 		"WHERE obj_id = ".$ilDB->quote($obj_id)." ";
+	 	$res = $ilDB->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		$target_id = $row->target_obj_id;
+	 	}
+	 	$target_ref_ids = ilObject::_getAllReferences($target_id);
+	 	$target_ref_id = current($target_ref_ids);
+	 	return !$tree->isDeleted($target_ref_id);
+	 }
 } 
 ?>
