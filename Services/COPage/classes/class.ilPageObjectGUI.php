@@ -78,6 +78,7 @@ class ilPageObjectGUI
 	var $enabledtabs = true;
 	var $enabledpctabs = false;
 	var $link_xml_set = false;
+	var $enableediting = true;
 
 	/**
 	* Constructor
@@ -681,6 +682,26 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* Set Enable Editing.
+	*
+	* @param	boolean	$a_enableediting	Enable Editing
+	*/
+	function setEnableEditing($a_enableediting)
+	{
+		$this->enableediting = $a_enableediting;
+	}
+
+	/**
+	* Get Enable Editing.
+	*
+	* @return	boolean	Enable Editing
+	*/
+	function getEnableEditing()
+	{
+		return $this->enableediting;
+	}
+
+	/**
 	* Activate meda data editor
 	*
 	* @param	int		$a_rep_obj_id		object id as used in repository
@@ -737,7 +758,7 @@ class ilPageObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl, $ilTabs;
+		global $ilCtrl, $ilTabs, $lng;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -780,6 +801,11 @@ class ilPageObjectGUI
 				break;
 
 			case "ilpageeditorgui":
+				if (!$this->getEnableEditing())
+				{
+					ilUtil::sendInfo($lng->txt("permission_denied"), true);
+					$ilCtrl->redirect($this, "preview");
+				}
 				$page_editor =& new ilPageEditorGUI($this->getPageObject(), $this);
 				$page_editor->setLocator($this->locator);
 				$page_editor->setHeader($this->getHeader());
@@ -1683,7 +1709,14 @@ class ilPageObjectGUI
 	*/
 	function edit()
 	{
-		global $tree;
+		global $tree, $lng, $ilCtrl;
+		
+		if (!$this->getEnableEditing())
+		{
+			ilUtil::sendInfo($lng->txt("permission_denied"), true);
+			$ilCtrl->redirect($this, "preview");
+		}
+		
 		$this->setOutputMode(IL_PAGE_EDIT);
 		return $this->showPage();
 	}
@@ -1873,13 +1906,19 @@ class ilPageObjectGUI
 			$ilTabs->addTarget("pg", $ilCtrl->getLinkTarget($this, "preview")
 				, array("", "preview"));
 	
-			$ilTabs->addTarget("edit", $ilCtrl->getLinkTarget($this, "edit")
-				, array("", "edit"));
+			if ($this->getEnableEditing())
+			{
+				$ilTabs->addTarget("edit", $ilCtrl->getLinkTarget($this, "edit")
+					, array("", "edit"));
+			}
 		}
 		else
 		{
-			$ilTabs->addTarget("edit", $ilCtrl->getLinkTarget($this, "edit")
-				, array("", "edit"));
+			if ($this->getEnableEditing())
+			{
+				$ilTabs->addTarget("edit", $ilCtrl->getLinkTarget($this, "edit")
+					, array("", "edit"));
+			}
 	
 			$ilTabs->addTarget("cont_preview", $ilCtrl->getLinkTarget($this, "preview")
 				, array("", "preview"));
@@ -1895,8 +1934,11 @@ class ilPageObjectGUI
 				 "", "ilmdeditorgui");
 		}
 
-		$ilTabs->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
-			, "history", get_class($this));
+		if ($this->getEnableEditing())
+		{
+			$ilTabs->addTarget("history", $this->ctrl->getLinkTarget($this, "history")
+				, "history", get_class($this));
+		}
 
 /*		$tabs = $this->ctrl->getTabs();
 		foreach ($tabs as $tab)
@@ -1905,8 +1947,11 @@ class ilPageObjectGUI
 				, $tab["cmd"], $tab["class"]);
 		}
 */
-		$ilTabs->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
-			, "view", "ilEditClipboardGUI");
+		if ($this->getEnableEditing())
+		{
+			$ilTabs->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
+				, "view", "ilEditClipboardGUI");
+		}
 
 		//$ilTabs->setTabActive("pg");
 	}
