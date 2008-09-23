@@ -8360,56 +8360,56 @@ rbac#:#rcrs_edit_permission#:#Ændre rettighedsindstillinger
 rbac#:#rcrs_visible#:#Kursus-link er synligt
 rbac#:#rcrs_read#:#Læseadgang til kursus-link
 rbac#:#rcrs_delete#:#Slet kursus-link
-rbac#:#cat_create_rcrs#:#Create Course-Links###23 07 2008 new variable
+rbac#:#cat_create_rcrs#:#Lav kursus-links
 rbac#:#rcrs_write#:#Ret kursus-link
 rbac#:#cat_create_wiki#:#Opret Wiki
 rbac#:#crs_create_wiki#:#Opret Wiki
 rbac#:#grp_create_wiki#:#Opret Wiki
-rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
-common#:#csv_export#:#CSV-Export###23 07 2008 new variable
-ecs#:#ecs_duration#:#Duration###23 07 2008 new variable
-ecs#:#ecs_event_appointment#:#Event Date###23 07 2008 new variable
+rbac#:#fold_create_wiki#:#Lav Wiki
+common#:#csv_export#:#CSV-eksport
+ecs#:#ecs_duration#:#Varighed
+ecs#:#ecs_event_appointment#:#Begivenhed dato
 common#:#res_links_short#:#Links###23 07 2008 new variable
 grp#:#reg_grp_max_members_short#:#Number of Members###23 07 2008 new variable
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.###23 07 2008 new variable
-crs#:#crs_subscription_max_members_short#:#Number of Members###23 07 2008 new variable
+crs#:#crs_subscription_max_members_short#:#Antal medlemmer
 crs#:#max_members_not_numeric#:#Please check the maximum number of users.###23 07 2008 new variable
 ps#:#ps_show_crs_access#:#Show last access time of course participants###23 07 2008 new variable
 assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users###23 07 2008 new variable
-mail#:#mail_external_sender_noreply#:#noreply-Adresse###23 07 2008 new variable
+mail#:#mail_external_sender_noreply#:#noreply-Adresse
 mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.###23 07 2008 new variable
 chat#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.###23 07 2008 new variable
 crs#:#sess_gen_attendance_list#:#Generate Attendance List###23 07 2008 new variable
 crs#:#sess_date_time#:#Session Appointment###23 07 2008 new variable
-common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.###23 07 2008 new variable
+common#:#err_auth_mode_inactive#:#Din authentificeringsmetode er deaktiveret
 common#:#missing_precondition#:#Missing Precondition###23 07 2008 new variable
-crs#:#sess_gen_mark_title#:#Generate Column for Notes###23 07 2008 new variable
-crs#:#sess_gen_comment#:#Generate Column for Comments###23 07 2008 new variable
+crs#:#sess_gen_mark_title#:#Lav kolonne for noter
+crs#:#sess_gen_comment#:#Lav kolonne for kommentarer
 crs#:#sess_gen_signature#:#Generate Column for Signatures###23 07 2008 new variable
-crs#:#sess_print_attendance_list#:#Print Attendance List###23 07 2008 new variable
+crs#:#sess_print_attendance_list#:#Udskriv deltagerliste
 crs#:#sess_signature#:#Signatur
-crs#:#sess_attendance_list#:#Attendance List###23 07 2008 new variable
-grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.###23 07 2008 new variable
+crs#:#sess_attendance_list#:#Deltagerliste
+grp#:#grp_warn_grp_type_changed#:#Er du sikker på du vil ændre gruppetype? Alle rettighedsindstillinger bliver resettet til det valgte.
 grp#:#grp_type_changed_info#:#Changing the group type will reset all permission settings.###23 07 2008 new variable
-grp#:#grp_change_type#:#Change Group Type###23 07 2008 new variable
+grp#:#grp_change_type#:#Skift gruppetype
 dateplaner#:#cal_share#:#Del kalender
 dateplaner#:#cal_shared_header#:#Delte kalendere
 dateplaner#:#cal_unshare_cal#:#Stop deling
-dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.###23 07 2008 new variable
+dateplaner#:#cal_unshared_selected_usr#:#Stop deling af kalender med de valgte brugere.
 dateplaner#:#cal_share_search_header#:#Del kalender
 dateplaner#:#cal_search#:#Søgeord
-dateplaner#:#cal_search_info_share#:#Please enter the name of the desired user/role for sharing the calendar.###23 07 2008 new variable
-dateplaner#:#cal_share_search_usr_header#:#User Selection###23 07 2008 new variable
+dateplaner#:#cal_search_info_share#:#Indtast den ønskede bruger/rolle for at dele kalenderen.
+dateplaner#:#cal_share_search_usr_header#:#Brugervalg
 dateplaner#:#cal_share_cal#:#Del kalender
-dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.###23 07 2008 new variable
+dateplaner#:#cal_shared_selected_usr#:#Kalenderen er delt med de valgte brugere/roller.
 dateplaner#:#cal_shared_calendars#:#Delte kalendere (invitationer)
 dateplaner#:#cal_apps#:#Antal aftaler
 dateplaner#:#cal_share_accept#:#Accepter invitation
-dateplaner#:#cal_share_decline#:#Decline Invitation###23 07 2008 new variable
-dateplaner#:#cal_changed_events_header#:#Changed Appointments ###23 07 2008 new variable
+dateplaner#:#cal_share_decline#:#Afslå invitation
+dateplaner#:#cal_changed_events_header#:#Ændrede aftaler
 dateplaner#:#cal_accepted#:#Accepteret
 dateplaner#:#cal_declined#:#Afvist
-trac#:#trac_mode_event#:#Participation in Sessions###23 07 2008 new variable
+trac#:#trac_mode_event#:#Deltagere i session
 dateplaner#:#cal_user_time_format#:#Tidsformat
 dateplaner#:#cal_time_format_info#:#Vælg et format tidspunkter skal præsenteres i.
 dateplaner#:#cal_def_time_format_info#:#Vælg tidsformat
@@ -8422,40 +8422,40 @@ payment#:#topic_title#:#Titel
 payment#:#advanced_search#:#Avanceret søgning
 payment#:#set_filter#:#Sæt filter
 payment#:#reset_filter#:#Ryd filter
-payment#:#filter_by#:#by###23 07 2008 new variable
+payment#:#filter_by#:#efter
 payment#:#sort_asc#:#sorter stigende
 payment#:#sort_desc#:#sorter faldende
-payment#:#sort#:#Sort###23 07 2008 new variable
+payment#:#sort#:#Sorter
 payment#:#sort_by#:#Sorter objekter efter
 common#:#shop#:#Shop
 payment#:#price_from#:#Fra
 payment#:#select_one_topic#:#Please select at least one topic###23 07 2008 new variable
 payment#:#topics_deleted#:#The chosen topics were deleted successfully###23 07 2008 new variable
-payment#:#no_topics_yet#:#No topics created yet###23 07 2008 new variable
+payment#:#no_topics_yet#:#Der er endnu ingen emner
 payment#:#topic_saved#:#The topic was saved successfully###23 07 2008 new variable
 payment#:#topic_edited#:#The topic was edited successfully###23 07 2008 new variable
-payment#:#sure_delete_topics#:#Are you sure you want to delete the chosen topics?###23 07 2008 new variable
+payment#:#sure_delete_topics#:#Er du sikker på du vil slette de valgte emner?
 payment#:#pay_topics_default_sorting_type#:#Default Sorting Type of Topics###23 07 2008 new variable
 payment#:#pay_topics_default_sorting_direction#:#Default Sorting Direction of Topics###23 07 2008 new variable
 payment#:#pay_topics_allow_custom_sorting#:#Custom Sorting of Topics###23 07 2008 new variable
 payment#:#pay_topics_allow_custom_sorting_info#:#If enabled, every user can determine the sorting of topics in the webshop independently.###23 07 2008 new variable
-payment#:#pay_topics_sort_by_title#:#By Title###23 07 2008 new variable
-payment#:#pay_topics_sort_by_date#:#By Date###23 07 2008 new variable
-payment#:#pay_topics_sort_manually#:#Manually###23 07 2008 new variable
-payment#:#pay_sorting_value#:#Sorting Value###23 07 2008 new variable
-payment#:#pay_save_sorting#:#Save Sorting###23 07 2008 new variable
-payment#:#pay_max_hits#:#Max hits###23 07 2008 new variable
+payment#:#pay_topics_sort_by_title#:#Efter titel
+payment#:#pay_topics_sort_by_date#:#Efter dato
+payment#:#pay_topics_sort_manually#:#Manuelt
+payment#:#pay_sorting_value#:#Sorteringsværdi
+payment#:#pay_save_sorting#:#Gem sortering
+payment#:#pay_max_hits#:#Maks hits
 payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of search results.###23 07 2008 new variable
-payment#:#pay_personal_settings#:#Personal Settings###23 07 2008 new variable
+payment#:#pay_personal_settings#:#Personlige indstillinger
 payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics###23 07 2008 new variable
 payment#:#sort_topics_by#:#Sort Topics by###23 07 2008 new variable
-payment#:#sort_topics_by_title#:#Title###23 07 2008 new variable
-payment#:#sort_topics_by_date#:#Date###23 07 2008 new variable
+payment#:#sort_topics_by_title#:#Titel
+payment#:#sort_topics_by_date#:#Dato
 payment#:#sort_topics_manually#:#Manuelt
 payment#:#pay_enable_shop#:#Aktiver webshop
-payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.###23 07 2008 new variable
-payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###23 07 2008 new variable
-payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
+payment#:#pay_enable_shop_info#:#Aktiverer ILIAS webshop som gør det muligt at købe objekter.
+payment#:#payment_shop_not_objects_found#:#Der blev ikke fundet nogen objekter til salg.
+payment#:#payment_login_to_buy_object#:#Du skal logge ind før du kan anvende indkøbskurven.
 dateplaner#:#cal_share_search_role_header#:#Rollevalg
 common#:#assigned_members#:#Medlemmer
 common#:#wiki_read#:#Læs wiki
