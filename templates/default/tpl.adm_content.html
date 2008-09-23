@@ -26,41 +26,33 @@
 <div style="margin-left:15px; clear:both;">{SUB_TABS}</div>
 <!-- BEGIN page_form_start --><form action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
 	<!-- BEGIN adm_panel -->
-	<div align="right" style="margin: 0px 15px 10px 15px; padding:0px;">
-	<table style="width:100%; margin:0px;" border="0"><tr>
 	<!-- BEGIN adm_view_components -->
-	<td align="left">
-	<div style="float:left">
+	<div style="float:left; margin: 0px 10px 5px 15px;">
 	<img border="0" src="{ADM_IMG_ARROW}" alt="{ADM_ALT_ARROW}" />
 	<!-- BEGIN admin_panel_cmd -->
 	<input class="submit" type="submit" name="cmd[{PANEL_CMD}]" value="{TXT_PANEL_CMD}" />
 	<!-- END admin_panel_cmd -->
 	</div>
-	</td>
 	<!-- END adm_view_components -->
 
+<div class="il_ContainerItemCommands2" style="text-align: right; margin: 5px 15px 10px 10px;">
 	<!-- BEGIN add_commands -->
-	<td {ADD_COM_WIDTH} style="text-align:right; white-space:nowrap;">
 	<!-- action="{H_FORMACTION}" -->
 	{SELECT_OBJTYPE_REPOS}
 	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
-	</td>
 	<!-- END add_commands -->
 	<!-- BEGIN admin_view -->
-	<td width="1" style="white-space:nowrap; padding-left:10px;"><div class="il_ContainerItemCommands2">
 	<!-- BEGIN edit_cmd -->
 	<a class="il_ContainerItemCommand2" target="{FRAME_EDIT_PAGE}" href="{LINK_EDIT_PAGE}">{TXT_EDIT_PAGE}</a>
 	<!-- END edit_cmd -->
 	<!-- BEGIN admin_button -->
 	<a class="il_ContainerItemCommand2" href="{ADMIN_MODE_LINK}">{TXT_ADMIN_MODE}</a>
 	<!-- END admin_button -->
-	</div></td>
 	<!-- END admin_view -->
-	</tr></table>
-	</div>
 	<!-- END adm_panel -->
+</div>
 
-<table class="il_ColumnLayout"><tr>
+<table class="il_ColumnLayout" style="clear:both;"><tr>
 <!-- BEGIN left_column -->
 <td class="il_LeftColumn">{LEFT_CONTENT}</td>
 <!-- END left_column -->
