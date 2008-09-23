@@ -72,6 +72,27 @@ class ilContainerReference extends ilObject
 	}
 	
 	/**
+	 * Lookup target ref_id 
+	 * @param int $a_obj_id obj_id
+	 * @return
+	 * @static
+	 */
+	 public static function _lookupTargetRefId($a_obj_id)
+	 {
+	 	global $ilDB;
+	 	
+	 	$query = "SELECT ref_id FROM object_reference obr ".
+	 		"JOIN container_reference cr ON obr.obj_id = cr.target_obj_id ".
+	 		"WHERE cr.obj_id = ".$ilDB->quote($a_obj_id);
+	 	$res = $ilDB->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		return $row->ref_id;
+	 	}
+	 	return false;
+	 }
+	
+	/**
 	 * Lookup target title 
 	 *
 	 * @return string title

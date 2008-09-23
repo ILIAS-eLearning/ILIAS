@@ -108,5 +108,22 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 		}
 	}
 	
-}
+	/**
+	 * Support for goto php 
+	 *
+	 * @return void
+	 * @static
+	 */
+	 public static function _goto($a_target)
+	 {
+		global $ilAccess, $ilErr, $lng;
+		
+		include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
+		$target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
+		
+		include_once('./Modules/Course/classes/class.ilObjCourseGUI.php');
+		ilObjCourseGUI::_goto($target_ref_id);
+	 }
+		
+	}
 ?>
