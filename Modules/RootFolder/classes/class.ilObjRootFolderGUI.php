@@ -44,8 +44,12 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	*/
 	function ilObjRootFolderGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $lng;
+		
 		$this->type = "root";
 		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		
+		$lng->loadLanguageModule("cntr");
 	}
 
 	/**
@@ -198,7 +202,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		$this->showSortingSettings();
 		
 		// hide header icon and title
-		$this->tpl->setVariable("TXT_HIDE_HEADER_ICON_AND_TITLE", $lng->txt("cntr_hide_icon_and_title"));
+		$this->tpl->setVariable("TXT_HIDE_HEADER_ICON_AND_TITLE", $lng->txt("cntr_hide_title_and_icon"));
 		if (ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
 		{
 			$this->tpl->setVariable("CHK_HIDE_ICON", ' checked="checked" ');

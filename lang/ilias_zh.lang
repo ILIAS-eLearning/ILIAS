@@ -8692,3 +8692,4 @@ common#:#crsr_edit#:#Edit Course Reference###23 09 2008 new variable
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.###23 09 2008 new variable
 common#:#catr_edit_info#:#Please choose one category, for creating a new reference.###23 09 2008 new variable
 common#:#reference_deleted#:#Destination not available###23 09 2008 new variable
+cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon###23 09 2008 new variable
