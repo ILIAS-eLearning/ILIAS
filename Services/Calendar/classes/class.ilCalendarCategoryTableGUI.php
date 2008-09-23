@@ -95,7 +95,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		switch($a_set['type'])
 		{
 			case ilCalendarCategory::TYPE_GLOBAL:
-				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usrf_s.gif'));
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calg_s.gif'));
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_system'));
 				break;
 				
