@@ -37,12 +37,6 @@ Appendix A: Note on using Apache 2
 
 1. I N T R O D U C T I O N
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
-DATA WILL BE CORRUPTED.
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
 ILIAS is a web-based Learning Content Managament System (LCMS) developed with
 the server-side scripting language PHP and distributed as Open Source software
 under the GNU General Public License (GPL). It uses the MySQL database and the
@@ -66,7 +60,7 @@ numbers refer to the version tested. Like ILIAS itself, all these programs are
 available as Open Source software.
 
     - Apache 1.3.29            http://www.apache.org
-    - MySQL 4.1.x             http://www.mysql.com
+    - MySQL 4.1.x              http://www.mysql.com
     - PHP 5.1.4                http://www.php.net
     - GD (libgd) 2.0.15        http://www.boutell.com/gd/
     - Zlib (libz) 1.1.4        http://www.gzip.org/zlib/
@@ -124,6 +118,10 @@ General advices on compiling the software packages:
 
 2  F I R S T   T I M E   I N S T A L L A T I O N
 
+Again, please try one of the distribution related instructions
+provided at http://www.ilias.de/docu/goto.php?target=st_6487_367&client_id=docu
+
+Usually, it is much faster to use one of these.
 
 2.1 Where to install ILIAS
 
@@ -223,7 +221,7 @@ source files into separate directories in /opt/ilias/src:
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
 
-    ilias-3.10.0.beta2.tar.gz
+    ilias-3.10.0.tar.gz
 
 The ILIAS tarball may also reside in /opt/ilias/src/tarballs/. After all third-
 party software has been installed it can directly be extracted into the web
@@ -469,7 +467,7 @@ components:
         cd /opt/ilias/mysqldata
         ln -s /opt/ilias/config/my.cnf
 
-    MySQL version 4.0.x comes with sample configuration files for different
+    MySQL version 4.1.x comes with sample configuration files for different
     memory sizes (small, medium, large, huge). Please select the appropriate
     file and apply further changes to /opt/ilias/config/my.cnf according to your
     specific needs. Since ILIAS currently does not rely on InnoDB support in
@@ -501,16 +499,16 @@ components:
     also consider using a dedicated MySQL account for running ILIAS instead of
     the MySQL root account.
 
-    For MySQL 4.0 and higher you need to grant the permission LOCK TABLES to
+    For MySQL 4.1 and higher you need to grant the permission LOCK TABLES to
     the ILIAS db-user. E.g. if the ILIAS db-user 'dbuser' accesses from host
     'localhost':
 
         /opt/ilias/bin/mysql -u root password <password>
         mysql> grant LOCK TABLES on *.* to dbuser@localhost;
 
-    If you are using MySQL 4.1.x and create the ILIAS database manually (ILIAS
-    setup can do this for you) you have to set utf8 as character set and
-    an appropriate collation for the whole database, e.g.:
+    If you create the ILIAS database manually (ILIAS setup can do this for you)
+    you have to set utf8 as character set and an appropriate collation for the
+    whole database, e.g.:
     
         mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci
 
@@ -589,6 +587,8 @@ components:
     present, these packages are:
 
         - Auth
+        - MDB2
+        - MDB2#mysql
         - HTML_Template_IT
 		- HTTP_Request
 		- XML_RPC (if lucene search is enabled)
@@ -596,7 +596,8 @@ components:
     They can be obtained directly from the Web using the PEAR command line
     installer that comes with PHP:
 
-        /opt/ilias/bin/pear install DB
+        /opt/ilias/bin/pear install MDB2
+        /opt/ilias/bin/pear install MDB2#mysql
         /opt/ilias/bin/pear install Auth
         /opt/ilias/bin/pear install HTML_Template_IT
         /opt/ilias/bin/pear install HTTP_Request
@@ -659,7 +660,7 @@ components:
     First extract the content of the ILIAS tarball into the web space directory:
 
         cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-3.10.0.beta2.tar.gz
+        tar -xzf /opt/ilias/src/tarballs/ilias-3.10.0.tar.gz
 
     Please make sure your webserver has write permission to the ILIAS3 web space
     and data directories and all their subdirectories. If your webserver daemon
@@ -764,11 +765,6 @@ components:
 
 3. Updating ILIAS 3
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-THIS IS A TESTING RELEASE. PLEASE DO NOT USE IT ON PRODUCTIVE SYSTEMS.
-DATA WILL BE CORRUPTED.
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 stable version to
 ILIAS 3.10.0.
 
@@ -832,7 +828,7 @@ your choice). Do not simply overwrite the 'ilias' directory in your webspace!
 Example:
 
     cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-3.10.0.beta2.tar.gz
+    tar -xzf /opt/ilias/src/tarballs/ilias-3.10.0.tar.gz
 
 After extracting the files you will find a newly created subdirectory 'ilias3' in
 your tmp/ directory. Depending on the ILIAS version you are replacing you must
@@ -840,9 +836,9 @@ copy various files and directories to your ILIAS web directory:
 
     cd /tmp/ilias3
     cp -p * /opt/ilias/www/htdocs/ilias/
-    cp -rp classes docs include lang cron calendar /opt/ilias/www/htdocs/ilias/
-    cp -rp payment templates tracking xml /opt/ilias/www/htdocs/ilias/
-    cp -rp webservice ilinc setup Modules Services /opt/ilias/www/htdocs/ilias/
+    cp -rp calendar classes cron docs include lang /opt/ilias/www/htdocs/ilias/
+    cp -rp Modules payment Services setup templates /opt/ilias/www/htdocs/ilias/
+    cp -rp webservice xml /opt/ilias/www/htdocs/ilias/
 
 Please ignore any 'File exists' error messages. After all files have been copied
 you may remove /tmp/ilias/.
@@ -855,7 +851,7 @@ your clients. Select "Details" for every client in the client list and click on
 the "Database" button. Depending on the size of your database the update process
 may take a while.
 
-This is especially the case for an update from 3.4.x or lower to 3.6.x because
+This is especially the case for an update from 3.4.x or lower to 3.10.x because
 all meta data will be converted into a new format. On big installations we
 recommend to set the following values to avoid multiple restarts of the database
 migration:
