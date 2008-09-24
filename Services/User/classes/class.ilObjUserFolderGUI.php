@@ -439,7 +439,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->data["cols"] = array("", "login", "firstname", "lastname","email","access_until", "last_login");
 		
-		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email","time_limit_until","time_limit_unlimited","last_login"), $_SESSION["user_filter"]);
+		$usr_data = ilObjUser::_getAllUserData(array("login","firstname","lastname","email","time_limit_until","time_limit_unlimited","last_login", "active"), $_SESSION["user_filter"]);
 
 		// fetch current time outside loop
 		$current_time = time();
@@ -452,19 +452,25 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			}
             
 			// determine txt_access
-			if ($val["time_limit_unlimited"])
+			if ($val['active'])
 			{
-				$txt_access = $this->lng->txt("access_unlimited");
-			}
-			elseif ($val["time_limit_until"] < $current_time)
-			{
-				$txt_access = $this->lng->txt("access_expired");
+				if ($val["time_limit_unlimited"])
+				{
+					$txt_access = $this->lng->txt("access_unlimited");
+				}
+				elseif ($val["time_limit_until"] < $current_time)
+				{
+					$txt_access = $this->lng->txt("access_expired");
+				}
+				else
+				{
+					$txt_access = ilDatePresentation::formatDate(new ilDateTime($val["time_limit_until"],IL_CAL_UNIX));
+				}
 			}
 			else
 			{
-				$txt_access = ilDatePresentation::formatDate(new ilDateTime($val["time_limit_until"],IL_CAL_UNIX));
+				$txt_access = $this->lng->txt("inactive");
 			}
-            
 			//visible data part
 			$this->data["data"][] = array(
 							"login"			=> $val["login"],
@@ -694,7 +700,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						{
 							$val = "<span class=\"smallgreen\">".$val."</span>";
 						}
-						elseif ($val == $this->lng->txt("access_expired"))
+						elseif ($val == $this->lng->txt("access_expired") ||
+							$val == $this->lng->txt("inactive"))
 						{
 							$val = "<span class=\"smallred\">".$val."</span>";
 						}
