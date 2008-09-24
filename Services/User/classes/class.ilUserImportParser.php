@@ -1982,7 +1982,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 			case "ApproveDate":
 				// Accept datetime or Unix timestamp
-				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata))
+				if (strtotime($this->cdata) === false && ! is_numeric($this->cdata) && !$this->cdata == "0000-00-00 00:00:00")
 				{
 					$this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_element_content_illegal"),"ApproveDate",$this->cdata));
 				}
