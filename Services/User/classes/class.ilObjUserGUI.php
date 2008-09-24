@@ -1196,11 +1196,12 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["ext_account"] = $this->object->getExternalAccount();
 
 		// system information
-		$data["create_date"] = $this->object->getCreateDate();
+                require_once 'classes/class.ilFormat.php';
+		$data["create_date"] = ilFormat::formatDate($this->object->getCreateDate(),'datetime',true);
 		$data["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
-		$data["approve_date"] = $this->object->getApproveDate();
-		$data["agree_date"] = $this->object->getAgreeDate();
-		$data["last_login"] = $this->object->getLastLogin();
+		$data["approve_date"] = ilFormat::formatDate($this->object->getApproveDate(),'datetime',true);
+		$data["agree_date"] = ilFormat::formatDate($this->object->getAgreeDate(),'datetime',true);
+		$data["last_login"] = ilFormat::formatDate($this->object->getLastLogin(),'datetime',true);
 		$data["active"] = $this->object->getActive();
 		$data["time_limit_unlimited"] = $this->object->getTimeLimitUnlimited();
 		

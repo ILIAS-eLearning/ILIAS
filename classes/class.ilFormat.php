@@ -314,6 +314,13 @@ class ilFormat
 			$a_timeformat = "H:i:s";
 		}
 
+		// The sql-date 0000-00-00 00:00:00 means "no-date given"
+		if ($a_str == '0000-00-00 00:00:00') 
+		{
+			global $lng;
+			return $lng->txt('no_date');
+		}
+                //
 		//get values from given sql-date
 		$d = substr($a_str,8,2);
 		$m = substr($a_str,5,2);
