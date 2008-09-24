@@ -312,6 +312,7 @@ class ilSessionAppointment implements ilDatePeriod
 		$new_app->setEndingTime($this->getEndingTime());
 		$new_app->toggleFullTime($this->isFullday());
 		$new_app->create();
+		return $new_app;
 	}
 
 	function create()

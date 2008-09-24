@@ -357,7 +357,7 @@ class ilObjSession extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
-		global $ilDB,$ilUser;
+		global $ilDB,$ilUser,$ilAppEventHandler;
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	
@@ -367,13 +367,19 @@ class ilObjSession extends ilObject
 		$this->cloneSettings($new_obj);
 		
 		// Clone appointment
-		$this->getFirstAppointment()->cloneObject($new_obj->getId());
+		$new_app = $this->getFirstAppointment()->cloneObject($new_obj->getId());
+		$new_obj->setAppointments(array($new_app));
+		$new_obj->update();
 
 		// Clone session files
 		foreach($this->files as $file)
 		{
 			$file->cloneFiles($new_obj->getEventId());
 		}
+		
+		// Raise update forn new appointments
+		
+		
 	
 		// Copy learning progress settings
 		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -598,11 +604,11 @@ class ilObjSession extends ilObject
 	/**
 	 * Prepare calendar appointments
 	 *
-	 * @access protected
+	 * @access public
 	 * @param string mode UPDATE|CREATE|DELETE
 	 * @return
 	 */
-	protected function prepareCalendarAppointments($a_mode = 'create')
+	public function prepareCalendarAppointments($a_mode = 'create')
 	{
 		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php');
 		
