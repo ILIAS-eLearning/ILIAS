@@ -245,7 +245,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		global $ilObjDataCache,$tree;
 
 		include_once 'Services/Tracking/classes/class.ilLPCollections.php';
-		include_once 'Modules/Session/classes/class.ilEvent.php';
 		include_once 'classes/class.ilLink.php';
 		include_once 'classes/class.ilFrameTargetInfo.php';
 
