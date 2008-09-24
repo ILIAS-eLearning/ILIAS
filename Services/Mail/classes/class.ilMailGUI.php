@@ -137,6 +137,12 @@ class ilMailGUI
 			$this->ctrl->setParameterByClass("ilmailfoldergui", "cmd", "deliverFile");
 			$this->ctrl->redirectByClass("ilmailfoldergui");
 		}
+		
+		if ($_GET["type"] == "message_sent")
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_message_send'), true);
+			$this->ctrl->redirectByClass("ilmailfoldergui");
+		}
 
 		if ($_GET["type"] == "role")
 		{
@@ -267,7 +273,7 @@ class ilMailGUI
 	
 	private function showHeader()
 	{
-		global $ilMainMenu;
+		global $ilMainMenu, $ilTabs;
 
 		$ilMainMenu->setActive("mail");
 
@@ -277,49 +283,37 @@ class ilMailGUI
 		
 		// display infopanel if something happened
 		ilUtil::infoPanel();
-
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-
-		// FOLDER
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVariable("TAB_TYPE", $this->forwardClass == "ilmailfoldergui"
-			? "tabactive"
-			: "tabinactive");
-		#$this->ctrl->setParameterByClass("ilmailfoldergui", "type", "new");
-		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailfoldergui"));
-		$this->ctrl->clearParametersByClass("ilmailfoldergui");
-		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("fold"));
-		$this->tpl->parseCurrentBlock();
 		
+		$ilTabs->addTarget('fold', $this->ctrl->getLinkTargetByClass('ilmailfoldergui'));
+		$this->ctrl->clearParametersByClass('ilmailfoldergui');
+		$ilTabs->addTarget('compose', $this->ctrl->getLinkTargetByClass('ilmailformgui'));
+		$this->ctrl->clearParametersByClass('ilmailformgui');
+		$ilTabs->addTarget('mail_addressbook', $this->ctrl->getLinkTargetByClass('ilmailaddressbookgui'));
+		$this->ctrl->clearParametersByClass('ilmailaddressbookgui');
+		$ilTabs->addTarget('options', $this->ctrl->getLinkTargetByClass('ilmailoptionsgui'));
+		$this->ctrl->clearParametersByClass('ilmailoptionsgui');
 		
-		// COMPOSE
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVAriable("TAB_TYPE", $this->forwardClass == "ilmailformgui"
-			? "tabactive"
-			: "tabinactive");
-		$this->ctrl->setParameterByClass("ilmailformgui", "type", "new");
-		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailformgui"));
-		$this->ctrl->clearParametersByClass("ilmailformgui");
-		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("compose"));
-		$this->tpl->parseCurrentBlock();
-		
-		// ADDRESSBOOK
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVAriable("TAB_TYPE", $this->forwardClass == "ilmailaddressbookgui"
-			? "tabactive"
-			: "tabinactive");
-		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailaddressbookgui"));
-		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("mail_addressbook"));
-		$this->tpl->parseCurrentBlock();
-		
-		// OPTIONS
-		$this->tpl->setCurrentBlock("tab");
-		$this->tpl->setVAriable("TAB_TYPE", $this->forwardClass == "ilmailoptionsgui"
-			? "tabactive"
-			: "tabinactive");
-		$this->tpl->setVariable("TAB_LINK", $this->ctrl->getLinkTargetByClass("ilmailoptionsgui"));
-		$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("options"));
-		$this->tpl->parseCurrentBlock();
+		switch($this->forwardClass)
+		{				
+			case 'ilmailformgui':
+				$ilTabs->setTabActive('compose');
+				break;
+				
+			case 'ilmailaddressbookgui':
+				$ilTabs->setTabActive('mail_addressbook');
+				break;
+				
+			case 'ilmailoptionsgui':
+				$ilTabs->setTabActive('options');
+				break;
+				
+			case 'ilmailfoldergui':
+			default:
+				$ilTabs->setTabActive('fold');
+				break;
+			
+		}
+		if(isset($_GET['message_sent'])) $ilTabs->setTabActive('fold');
 		
 		// FLATVIEW <-> TREEVIEW
 		if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")

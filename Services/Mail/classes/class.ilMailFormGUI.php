@@ -55,7 +55,7 @@ class ilMailFormGUI
 
 		$this->umail = new ilFormatMail($ilUser->getId());
 		$this->mfile = new ilFileDataMail($ilUser->getId());
-		$this->mbox = new ilMailBox($ilUser->getId());
+		$this->mbox = new ilMailBox($ilUser->getId());		
 	}
 
 	public function executeCommand()
@@ -133,11 +133,11 @@ class ilMailFormGUI
 		}
 		else
 		{
-			$this->umail->savePostData($ilUser->getId(), array(), "", "", "", "", "", "", "", "");
+			$this->umail->savePostData($ilUser->getId(), array(), "", "", "", "", "", "", "", "");			
 			
-			ilUtil::sendInfo($this->lng->txt('mail_message_send', true));
 			#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getSentFolder());
-			$this->ctrl->redirectByClass('ilmailfoldergui');
+			$this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
+			$this->ctrl->redirectByClass('ilmailgui');
 		}
 
 		$this->showForm();
