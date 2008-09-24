@@ -169,34 +169,33 @@ class ilEventItems
 	 * @param int source event id
 	 * @param int copy id
 	 */
-	public function cloneItems($a_source_event,$a_copy_id)
+	public function cloneItems($a_source_id,$a_copy_id)
 	{
 		global $ilObjDataCache,$ilLog;
 		
-		$ilLog->write(__METHOD__.': Begin course event items ...');
+		$ilLog->write(__METHOD__.': Begin cloning session materials ...');
 		
 	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 	 	$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
 	 	$mappings = $cwo->getMappings();
 		
 		$new_items = array(); 
-		foreach(ilEventItems::_getItemsOfEvent($a_source_event) as $item_id)
+		foreach(ilEventItems::_getItemsOfEvent($a_source_id) as $item_id)
 		{
 	 		if(isset($mappings[$item_id]) and $mappings[$item_id])
 	 		{
-				$ilLog->write(__METHOD__.': Clone event item nr. '.$item_id);
+				$ilLog->write(__METHOD__.': Clone session material nr. '.$item_id);
 				$new_items[] = $mappings[$item_id];
 	 		}
 	 		else
 	 		{
-				$ilLog->write(__METHOD__.': No mapping found for event item nr. '.$item_id);
+				$ilLog->write(__METHOD__.': No mapping found for session material nr. '.$item_id);
 	 		}
 		}
 		$this->setItems($new_items);
 		$this->update();
-		$ilLog->write(__METHOD__.': Finished cloning course event items ...');
+		$ilLog->write(__METHOD__.': Finished cloning session materials ...');
 		return true;
-
 	}
 
 

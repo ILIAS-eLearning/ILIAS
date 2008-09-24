@@ -299,7 +299,7 @@ class ilObjSession extends ilObject
 	 * @param array ilSessionAppointments
 	 * @return
 	 */
-	public function setAppointments()
+	public function setAppointments($appointments)
 	{
 		$this->appointments = $appointments;
 	}
@@ -400,6 +400,28 @@ class ilObjSession extends ilObject
 		$new_obj->enableRegistration($this->enabledRegistration());
 		$new_obj->update();
 		
+		return true;
+	}
+	
+	/**
+	 * Clone dependencies
+	 *  
+	 * @param int target id ref_id of new session
+	 * @param int copy_id
+	 * @return
+	 */
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{
+		global $ilObjDataCache;
+		
+		parent::cloneDependencies($a_target_id,$a_copy_id);
+
+		$target_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
+		
+		include_once('./Modules/Session/classes/class.ilEventItems.php');
+		$session_materials = new ilEventItems($target_obj_id);
+		$session_materials->cloneItems($this->getId(),$a_copy_id);
+
 		return true;
 	}
 	
