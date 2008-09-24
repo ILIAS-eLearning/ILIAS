@@ -52,11 +52,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		global $ilAccess;
 		
 		parent::ilTestServiceGUI($a_object);
-		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
-		{
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), TRUE);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
 	}
 
 	/**
@@ -432,6 +427,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function detailedEvaluation()
 	{
+		global $ilAccess;
+		
+		if ((!$ilAccess->checkAccess("tst_statistics", "", $this->ref_id)) && (!$ilAccess->checkAccess("write", "", $this->ref_id)))
+		{
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), TRUE);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation_details.html", "Modules/Test");
 
 		$active_id = $_GET["active_id"];
