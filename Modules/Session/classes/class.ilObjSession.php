@@ -88,6 +88,7 @@ class ilObjSession extends ilObject
 		return false;
 	}
 	
+	
 	/**
 	 * get title
 	 * (overwritten from base class)

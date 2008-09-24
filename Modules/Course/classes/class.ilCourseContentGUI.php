@@ -841,6 +841,11 @@ class ilCourseContentGUI
 		$counter = 0;
 		foreach($this->cont_arr as $item)
 		{
+			if($item['type'] == 'sess')
+			{
+				continue;
+			}
+			
 			$item = $this->__loadFromPost($item);
 			$item_prefix = "item[$item[ref_id]]";
 			$item_change_prefix = "item_change[$item[ref_id]]";
@@ -1188,8 +1193,6 @@ class ilCourseContentGUI
 
 	function __editAdvancedUserTimings()
 	{
-		include_once 'Modules/Session/classes/class.ilEvent.php';
-
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.crs_usr_edit_timings_adv.html','Modules/Course');
 		$this->__showTimingsPanel();
 		$this->__showUserAcceptanceTable();
@@ -1230,9 +1233,8 @@ class ilCourseContentGUI
 
 		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
 		$items =& $this->items_obj->getItems();
-
-		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getRefId()),
-								 ilEvent::_getEventsAsArray($this->course_obj->getId()));
+		
+		$all_items = $this->items_obj->getFilteredItems($this->course_obj->getRefId());
 		$sorted_items = $this->__sortByStart($all_items);
 
 		$this->counter = 0;
@@ -1240,7 +1242,7 @@ class ilCourseContentGUI
 		{
 			switch($item['type'])
 			{
-				case 'event':
+				case 'sess':
 					$this->__renderEvent($item);
 					break;
 
@@ -1284,9 +1286,7 @@ class ilCourseContentGUI
 
 		$this->items_obj = new ilCourseItems($this->course_obj,$this->course_obj->getRefId());
 
-		include_once("./Modules/Session/classes/class.ilEvent.php");
-		$all_items = array_merge($this->items_obj->getFilteredItems($this->course_obj->getRefId()),
-								 ilEvent::_getEventsAsArray($this->course_obj->getId()));
+		$all_items = $this->items_obj->getFilteredItems($this->course_obj->getRefId());
 		$sorted_items = $this->__sortByStart($all_items);
 
 		$this->counter = 0;
@@ -1294,7 +1294,7 @@ class ilCourseContentGUI
 		{
 			switch($item['type'])
 			{
-				case 'event':
+				case 'sess':
 					$this->__renderEvent($item);
 					break;
 
@@ -1328,25 +1328,39 @@ class ilCourseContentGUI
 
 	function __renderEvent($item)
 	{
+		global $ilAccess;
+		
 		if(strlen($item['description']))
 		{
 			$this->tpl->setCurrentBlock("item_description");
 			$this->tpl->setVariable("DESC",$item['description']);
 			$this->tpl->parseCurrentBlock();
 		}
-
-		$this->tpl->setCurrentBlock("title_as_link");
-		$this->ctrl->setParameterByClass('ileventadministrationgui','event_id',$item['event_id']);
-		$this->tpl->setVariable("TITLE_LINK",$this->ctrl->getLinkTargetByClass('ileventadministrationgui','info'));
-		$this->tpl->setVariable("TITLE_NAME",$item['title']);
-		$this->tpl->parseCurrentBlock();
+		
+		if($ilAccess->checkAccess('read','',$item['ref_id']))
+		{
+			$this->tpl->setCurrentBlock("title_as_link");
+			
+			include_once './classes/class.ilLink.php';
+			$this->tpl->setVariable("TITLE_LINK",ilLink::_getLink($item['ref_id'],$item['type']));
+			$this->tpl->setVariable("TITLE_NAME",$item['title']);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("title_plain");
+			$this->tpl->setVariable("TITLE",$item['title']);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 
 		$this->tpl->setVariable('SUG_START',ilDatePresentation::formatDate(new ilDateTime($item['start'],IL_CAL_UNIX)));
 		$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDateTime($item['end'],IL_CAL_UNIX)));
 
 		$this->tpl->setCurrentBlock("tlt");
 		$this->tpl->setVariable("TXT_TLT",$this->lng->txt('event_date'));
-		$this->tpl->setVariable("TLT_VAL",ilEventAppointment::_appointmentToString($item['start'],$item['end'],$item['fulltime']));
+		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+		$this->tpl->setVariable("TLT_VAL",ilSessionAppointment::_appointmentToString($item['start'],$item['end'],$item['fulltime']));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("container_standard_row");
