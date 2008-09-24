@@ -476,9 +476,8 @@ class ilContainer extends ilObject
 				continue;
 			}
 
-			// BEGIN WebDAV: Don't display hidden Files.
-			// Do not display hidden files
-			if ($object["type"] == "file")
+			// BEGIN WebDAV: Don't display hidden Files, Folders and Categories
+			if (in_array($object['type'], array('file','fold','cat')))
 			{
 				include_once 'Modules/File/classes/class.ilObjFileAccess.php';
 				if (ilObjFileAccess::_isFileHidden($object['title']))
@@ -490,7 +489,7 @@ class ilContainer extends ilObject
 					}
 				}
 			}
-			// END WebDAV: Don't display hidden Files.
+			// END WebDAV: Don't display hidden Files, Folders and Categories
 
 			// filter out items that are attached to an event
 			if (in_array($object['ref_id'],$event_items))
