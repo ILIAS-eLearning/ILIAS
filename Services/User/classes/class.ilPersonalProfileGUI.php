@@ -1183,6 +1183,7 @@ class ilPersonalProfileGUI
 			$this->tpl->setVariable("TXT_INSTANT_MESSENGERS", $this->lng->txt("user_profile_instant_messengers"));
 
 			$im_arr = array("icq","yahoo","msn","aim","skype");
+			$im_disabled = !$this->userSettingEnabled("instant_messengers") ? "disabled=\"disabled\"": "";
 
 			foreach ($im_arr as $im_name)
 			{
@@ -1191,6 +1192,7 @@ class ilPersonalProfileGUI
 				$this->tpl->setVariable("TXT_IM_NAME",$this->lng->txt("im_".$im_name));
 				$this->tpl->setVariable("USR_IM_NAME","usr_im_".$im_name);
 				$this->tpl->setVariable("IM_ID",$im_id);
+				$this->tpl->setVariable("DISABLED_IM_NAME",$im_disabled);
 				$this->tpl->setVariable("IMG_IM_ICON", ilUtil::getImagePath($im_name.'online.gif'));
 				$this->tpl->setVariable("TXT_IM_ICON", $this->lng->txt("im_".$im_name."_icon"));
 				$this->tpl->setVariable("CHK_IM", "checked=\"checked\" disabled=\"disabled\"");
