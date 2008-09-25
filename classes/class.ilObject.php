@@ -1585,7 +1585,7 @@ class ilObject
 		$location = $objDefinition->getLocation($this->getType());
 		$class_name = ('ilObj'.$objDefinition->getClassName($this->getType()));
 		
-		$title = $this->prependCopyInfo($a_copy_id);
+		$title = $this->appendCopyInfo($a_target_id,$a_copy_id);
 
 		// create instance
 		include_once($location."/class.".$class_name.".php");
@@ -1625,7 +1625,7 @@ class ilObject
 	 * @param int copy_id
 	 * 
 	 */
-	public function prependCopyInfo($a_copy_id)
+	public function appendCopyInfo($a_target_id,$a_copy_id)
 	{
 		global $tree;
 		
@@ -1635,7 +1635,8 @@ class ilObject
 		{
 			return $this->getTitle();
 		}
-		$nodes = $tree->getChilds($tree->getParentId($this->getRefId()));
+		$nodes = $tree->getChilds($a_target_id);
+		
 		$title_unique = false;
 		$title = $this->getTitle();
 		$increment = 0;
