@@ -136,7 +136,7 @@ class ilColumnGUI
 	protected $check_global_activation = 
 		array("news" => true,
 			"cal"	=> true,
-			"pdcal"	=> false,
+			"pdcal"	=> true,
 			"pdnews" => true,
 			"pdfeed" => true,			
 			"pdusers" => true,
@@ -1075,7 +1075,7 @@ class ilColumnGUI
 			{
 				return true;
 			}
-			elseif($a_type == 'cal')
+			elseif($a_type == 'cal' || $a_type == 'pdcal')
 			{
 				include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 				return ilCalendarSettings::_getInstance()->isEnabled();
