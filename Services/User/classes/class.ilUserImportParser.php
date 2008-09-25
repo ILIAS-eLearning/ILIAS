@@ -780,6 +780,15 @@ class ilUserImportParser extends ilSaxParser
 
 		global $rbacreview, $rbacadmin, $tree;
 
+		// Do nothing, if the user is already assigned to the role.
+                // Specifically, we do not want to put a course object or
+                // group object on the personal desktop again, if a user
+                // has removed it from the personal desktop.
+		if ($rbacreview->isAssigned($a_user_obj->getId(), $a_role_id))
+		{
+			return;
+		}
+                
 		// If it is a course role, use the ilCourseMember object to assign
 		// the user to the role
 		
@@ -795,11 +804,10 @@ class ilUserImportParser extends ilSaxParser
 				{
 					ilObjUser::_addDesktopItem($a_user_obj->getId(),$ref_id,$type);
 				}
-				
+				break;
 			default:
-				;			
+				break;
 		}
-		$rbacadmin->assignUser($a_role_id, $a_user_obj->getId(), true);
 	}
 	/**
 	 * Get array of parent role ids from cache.
