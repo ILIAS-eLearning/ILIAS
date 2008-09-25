@@ -221,8 +221,8 @@ common#:#account_expires_subject#:#[ILIAS 3] Din konto udløber
 common#:#action_aborted#:#Handling afbrudt
 common#:#actions#:#Handlinger
 common#:#activate_assessment_logging#:#Aktiver logging for Test&Assessment
-common#:#activate_https#:#HTTPS handling by ILIAS<br>(Betaling, Login)
 common#:#activate_tracking#:#Aktiver sporing
+common#:#activate_https#:#HTTPS håndtering af ILIAShandling <br/>(Betaling, brugernavn)
 common#:#activation#:#Aktivering
 common#:#active#:#Aktiv
 common#:#active_roles#:#Aktive Roller
@@ -262,12 +262,12 @@ common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript s
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
 common#:#advanced_editing_no_rte#:#Brug ikke rig tekst redigering
 common#:#advanced_editing_settings#:#Indstillinger for avanceret redigering
-common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
+common#:#advanced_editing_survey_settings#:#Tilladte HTML tags i ILIAS undersøgelsesværktøj.
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test & Assessment Settings
 common#:#adve_cat_settings#:#Kategoriindstillinger
 common#:#adve_edit_permission#:#Ændre rettighedsindstillinger
-common#:#adve_general_settings#:#General Settings
+common#:#adve_general_settings#:#Generelle indstillinger
 common#:#adve_lm_settings#:#LM / Glossary Settings
 common#:#adve_read#:#Access Advanced Editing Administration
 common#:#adve_survey_settings#:#Undersøgelsesindstillinger
@@ -385,12 +385,12 @@ common#:#auth_default_mode_changed_to#:#Default authentication mode changed to##
 common#:#auth_edit_permission#:#Rediger rettighedsindstillinger
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Verificer brugere via LDAP serveren
-common#:#auth_ldap_enable#:#Aktiver LDAP-support
+common#:#auth_ldap_enable#:#Aktiver LDAP
 common#:#auth_ldap_not_configured#:#LDAP er ikke konfigureret
 common#:#auth_ldap_settings_saved#:#LDAP-indstillinger gemt
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Autentificer brugere via den lokale ILIAS database (standard)
-common#:#auth_login_instructions#:#Instructions shown on login page
+common#:#auth_login_instructions#:#Instruktioner der vises på login-skærmen.
 common#:#auth_mode#:#Verifikationstilstand
 common#:#auth_mode_not_changed#:#(intet er ændret)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
@@ -1336,7 +1336,7 @@ common#:#ilinc_err_no_permission#:#You do not possess the permissions for this o
 common#:#ilinc_err_registration_data#:#Skriv venligst et password, udløbsdatoen og tidsforløb for en gyldig tilmeldingsperiode 
 common#:#ilinc_header_edit_users#:#Rediger liste af tilknyttede brugere
 common#:#ilinc_id#:#iLinc ID
-common#:#ilinc_login#:#iLinc Login
+common#:#ilinc_login#:#iLinc brugernavn
 common#:#ilinc_passwd#:#iLinc Password
 common#:#ilinc_involved_users#:#Involverede brugere
 common#:#ilinc_mail_body_new_subscription#:#ou have been subscribed as to that LearnLinc Seminar.###06 Sep 2005 new variable
@@ -1612,12 +1612,12 @@ common#:#log_in#:#Login
 common#:#logic_and#:#og
 common#:#logic_or#:#eller
 common#:#login_as#:#Logget ind som
-common#:#login_data#:#Login data###21 Apr 2005 new variable
-common#:#login_exists#:#Der er allerede med dette navn! Vælg venligst et andet login navn.
-common#:#login_invalid#:#Det valgte login er ugyldigt! Kun følgende karaktere er gyldige (minimum 4 karaktere): A-Z a-z 0-9 _.-+*@!$%~
+common#:#login_data#:#Login data
+common#:#login_exists#:#Der er allerede en med dette navn! Vælg venligst et andet brugernavn.
+common#:#login_invalid#:#Det valgte brugernavn er ugyldigt! Kun følgende karaktere er gyldige (minimum 4 karaktere): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Tid online
-common#:#login_to_ilias#:#Login på ILIAS
-common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
+common#:#login_to_ilias#:#Log ind på ILIAS
+common#:#login_to_ilias_via_cas#:#Logind på ILIAS med Central Authentificerings Service (CAS)
 common#:#login_to_ilias_via_shibboleth#:#Login til ILIAS via Shibboleth
 common#:#logout#:#Log af
 common#:#logout_text#:#Du er logget af ILIAS. Tak for besøget.
@@ -4115,7 +4115,7 @@ news#:#news_all_items#:#Alt
 news#:#news_edit_news_settings#:#Ret indstillinger
 news#:#news_enable_internal_news#:#Aktiver interne nyheder
 news#:#news_enable_internal_news_info#:#Aktiverer nyheds blokke i kategotier, kurser, grupper og andre objekter. Brugere kan abonnere på nyheder og nyheder præsenteres på det personlige skrivebord.
-news#:#news_enable_internal_rss#:#Enable RSS for Internal News###25 02 2007 new variable
+news#:#news_enable_internal_rss#:#Aktiver RSS til interne nyheder
 news#:#news_enable_internal_rss_info#:#Tillader publicering af nyheder via RSS. Disse nyheder vil være tilgængelige uden for systemet uden autentifikation (logon).
 news#:#news_first_letter_of_word_notification#:#N###25 02 2007 new variable
 news#:#news_notifications#:#Adviseringer
@@ -7392,9 +7392,9 @@ ldap#:#ldap_group_member#:#Group Member Attribute###08 12 2006 new variable
 ldap#:#ldap_scope_one#:#En
 ldap#:#ldap_scope_sub#:#Sub###08 12 2006 new variable
 ldap#:#ldap_scope_base#:#Base###08 12 2006 new variable
-ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configuration.###08 12 2006 new variable
+ldap#:#ldap_server_name_info#:#Vælg et navn til denne LDAP serverkonfiguration.
 ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389"###08 12 2006 new variable
-ldap#:#ldap_server_version_info#:#LDAP version to use, ususally 3.###08 12 2006 new variable
+ldap#:#ldap_server_version_info#:#LDAP version der skal anvendes, normalt 3.
 ldap#:#ldap_referrals_info#:#If set, determines whether the LDAP library automatically follows referrals returned by LDAP servers or not.###08 12 2006 new variable
 ldap#:#ldap_search_base_info#:#Gets prepended to basedn when searching for users.###08 12 2006 new variable
 ldap#:#ldap_user_scope_info#:#Scope for user searching. If unsure choose "Sub".###08 12 2006 new variable
@@ -7919,10 +7919,10 @@ dateplaner#:#cal_def_timezone_info#:#Vælg venligst en tidszone du vil anvende t
 dateplaner#:#cal_def_week_start#:#Ugestart
 common#:#obj_cals#:#Kalender
 assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
-form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
+form#:#form_retype_password#:#Tast password igen
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Red Wiki sider
+common#:#wiki_edit_content#:#Ret Wiki sider
 common#:#wiki_write#:#Ændre indstillinger, bedøm studerende
 common#:#cat_create_write#:#Opret Wiki
 common#:#fold_create_write#:#Opret Wiki
@@ -7958,11 +7958,11 @@ mcst#:#mcst_media_cast_not_online_text#:#Mediac ast er ikke online eller er blev
 mcst#:#mcst_global_settings#:#Globale indstilligner
 mcst#:#mcst_current_value_info#:#Shows the current value of this format.###02 06 2008 new variable
 mcst#:#mcst_standard_settings_title#:#File Extensions for Standard Format###02 06 2008 new variable
-mcst#:#mcst_standard_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
-mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format###02 06 2008 new variable
-mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
-mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format###02 06 2008 new variable
-mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes###02 06 2008 new variable
+mcst#:#mcst_standard_settings_info#:#Kommasepareret liste af filendelser
+mcst#:#mcst_audioportable_settings_title#:#Filendelser til lydformater
+mcst#:#mcst_audioportable_settings_info#:#Kommasepareret liste af filendelser
+mcst#:#mcst_videoportable_settings_title#:#Filendelser til videoformater
+mcst#:#mcst_videoportable_settings_info#:#Kommasepareret liste af filendelser
 mcst#:#mcst_edit_settings#:#MediaCast indstillinger
 mcst#:#mcst_file_extension_settings#:#Filendelser
 common#:#chg_ilias_password#:#Ret ILIAS password
@@ -8030,7 +8030,7 @@ cntr#:#cntr_view_by_type#:#Gruper-efter-type visning
 trac#:#trac_user_activities#:#Benutzeraktivitäten###02 06 2008 new variable
 trac#:#trac_repository_changes#:#Changes in the repository###02 06 2008 new variable
 common#:#webdav_pear_auth_http_needed#:#You need to install Pear Auth_HTTP to use this function. To do this, enter <code>pear install Auth_HTTP</code> on the terminal.###02 06 2008 new variable
-dateplaner#:#cal_table_categories#:#Calendar Selection###02 06 2008 new variable
+dateplaner#:#cal_table_categories#:#Kalenderudvalg
 dateplaner#:#cal_type_usr#:#Personlig kalender
 dateplaner#:#yui_cal_choose_month#:#Måned:
 dateplaner#:#yui_cal_choose_year#:#År: 
@@ -8636,45 +8636,45 @@ content#:#cont_rollback_confirmation#:#Ønsker du at genskabe den tidligere vers
 cntr#:#cntr_view_sessions#:#Sessions visning
 common#:#selected_languages_updated#:#De valgte installerede sprog er blevet opdateret
 common#:#lang_refresh_confirm_selected#:#Er du sikker up du vil opdatere de valgte sprog?
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
-common#:#obj_tags#:#Tagging###23 09 2008 new variable
-common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
-tagging#:#tagging_settings#:#Settings###23 09 2008 new variable
-tagging#:#tagging_edit_settings#:#Edit Settings###23 09 2008 new variable
-tagging#:#tagging_enable_tagging#:#Enable Tagging###23 09 2008 new variable
-assessment#:#tst_single_results#:#Results by Question###23 09 2008 new variable
-assessment#:#tst_answered_questions_test#:#Questions answered in this test###23 09 2008 new variable
-common#:#enable_download_folder#:#Enable Downloading Folders###23 09 2008 new variable
-common#:#enable_download_folder_info#:#Allows to download a folder including sub structures as a zip file.###23 09 2008 new variable
-rbac#:#crsr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
-rbac#:#crsr_visible#:#Course Reference is visible###23 09 2008 new variable
-rbac#:#crsr_read#:#Read access to Course Reference###23 09 2008 new variable
-rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
-rbac#:#cat_create_crsr#:#Create new Course Reference###23 09 2008 new variable
-rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
-rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
-common#:#obj_crsr#:#Course Reference###23 09 2008 new variable
-common#:#objs_crsr#:#Course References###23 09 2008 new variable
-rbac#:#catr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
-rbac#:#catr_visible#:#Category Reference is visible###23 09 2008 new variable
-rbac#:#catr_read#:#Read access to Category Reference###23 09 2008 new variable
-rbac#:#catr_delete#:#Delete Category Reference###23 09 2008 new variable
-rbac#:#cat_create_catr#:#Create Category Reference###23 09 2008 new variable
-rbac#:#catr_write#:#Edit Category Reference###23 09 2008 new variable
-rbac#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
-common#:#obj_catr#:#Category Reference###23 09 2008 new variable
-common#:#objs_catr#:#Category References###23 09 2008 new variable
-common#:#crsr#:#Course Reference###23 09 2008 new variable
-common#:#catr#:#Category Reference###23 09 2008 new variable
-common#:#reference_of#:#Reference of:###23 09 2008 new variable
-common#:#catr_new#:#Create new Category Reference###23 09 2008 new variable
-common#:#crsr_new#:#Create new Course Reference###23 09 2008 new variable
-common#:#catr_edit#:#Edit Category Reference###23 09 2008 new variable
-common#:#crsr_edit#:#Edit Course Reference###23 09 2008 new variable
-common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.###23 09 2008 new variable
-common#:#catr_edit_info#:#Please choose one category, for creating a new reference.###23 09 2008 new variable
-common#:#reference_deleted#:#Destination not available###23 09 2008 new variable
-cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon###23 09 2008 new variable
+common#:#tags_edit_permission#:#Ændre rettighedsindstillinger
+common#:#tags_visible#:#Tagging indstilligner er synlige
+common#:#tags_read#:#Læseadgang til tagging indstillinger
+common#:#tags_write#:#Ret tagging indstillinger
+common#:#obj_tags#:#Tagging
+common#:#obj_tags_desc#:#Indstillinger for tagging funktionalitet
+tagging#:#tagging_settings#:#Indstillinger
+tagging#:#tagging_edit_settings#:#Ret indstillinger
+tagging#:#tagging_enable_tagging#:#Aktiver tagging
+assessment#:#tst_single_results#:#Resultater efter spørgsmål
+assessment#:#tst_answered_questions_test#:#Spørgsmål besvaret i denne test
+common#:#enable_download_folder#:#Aktiver download af foldere
+common#:#enable_download_folder_info#:#Tillader download af foldere inklusiv understrukturer leveret i en pakket zip-fil.
+rbac#:#crsr_edit_permission#:#Ændre rettinghedsindstillinger
+rbac#:#crsr_visible#:#Kursusreference er synlig
+rbac#:#crsr_read#:#Læseadgang til kursusreference
+rbac#:#crsr_delete#:#Slet kursusreference
+rbac#:#cat_create_crsr#:#Lav ny kursusreference
+rbac#:#crsr_write#:#Ret kursusreference
+rbac#:#crsr_copy#:#Kopier kursusreference
+common#:#obj_crsr#:#Kursusreference
+common#:#objs_crsr#:#Kursusreference
+rbac#:#catr_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#catr_visible#:#Kategorireference er synlig
+rbac#:#catr_read#:#Læseadgang til kategorireference
+rbac#:#catr_delete#:#Slet kategorireference
+rbac#:#cat_create_catr#:#Lav kategorireference
+rbac#:#catr_write#:#Ret kategorireference
+rbac#:#catr_copy#:#Kopier kategorireference
+common#:#obj_catr#:#Kategorireference
+common#:#objs_catr#:#Kategorireferencer
+common#:#crsr#:#Kursusreferencer
+common#:#catr#:#Kategorireference
+common#:#reference_of#:#Reference af:
+common#:#catr_new#:#Lav ny katgegorireference
+common#:#crsr_new#:#Lav ny kursusreference
+common#:#catr_edit#:#Ret kategorireference
+common#:#crsr_edit#:#Ret kursusreference
+common#:#crsr_edit_info#:#Vælg et kursus for at lave en ny reference
+common#:#catr_edit_info#:#Vælg en kategori for at lave en ny reference
+common#:#reference_deleted#:#Målet er ikke tilgængeligt
+cntr#:#cntr_hide_title_and_icon#:#Skjul titel og ikon
