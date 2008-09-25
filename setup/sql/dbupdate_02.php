@@ -5785,10 +5785,11 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$start = gmdate('Y-m-d H:i:s',$row->begin);
 	$end = gmdate('Y-m-d H:i:s',$row->end);
+	$changed = gmdate('Y-m-d H:i:s',$row->changed);
 	
 	
 	$query = "INSERT INTO cal_entries ".
-		"SET last_update = FROM_UNIXTIME(".$row->changed."), ".
+		"SET last_update = ".$ilDB->quote($changed).", ".
 		"title = ".$ilDB->quote($row->shorttext).", ".
 		"description = ".$ilDB->quote($row->text).", ".
 		"start = ".$ilDB->quote($start).', '.
@@ -5838,15 +5839,15 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	
 	if($freq)
 	{
-		
+		$until = gmdate('Y-m-d H:i:s',$until);
 		$query = "INSERT INTO cal_recurrence_rules ".
 			"SET cal_id = ".$ilDB->quote($cal_id).", ".
 			"cal_recurrence = 1, ".
 			"freq_type = ".$ilDB->quote($freq).", ".
 			"intervall = ".$ilDB->quote($int).", ".
-			"freq_until_date = FROM_UNIXTIME(".$until."), ".
+			"freq_until_date = ".$ilDB->quote($until).", ".
 			"freq_until_count = 30";
-		$ilDB->query($query);			
+		$ilDB->query($query);
 	}
 	
 	if($row->group_ID)
