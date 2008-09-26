@@ -230,25 +230,24 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 */
 	function copyObject()
 	{
-    // create an array of all checked checkboxes
-    $checked_questions = array();
-    foreach ($_POST as $key => $value) 
+		// create an array of all checked checkboxes
+		$checked_questions = array();
+		foreach ($_POST as $key => $value) 
 		{
-      if (preg_match("/cb_(\d+)/", $key, $matches)) 
+			if (preg_match("/cb_(\d+)/", $key, $matches)) 
 			{
-        array_push($checked_questions, $matches[1]);
-      }
-    }
-		
+				array_push($checked_questions, $matches[1]);
+			}
+		}
 		// copy button was pressed
 		if (count($checked_questions) > 0) 
 		{
-			$_SESSION["spl_copied_questions"] = join($checked_questions, ",");
+			$_SESSION["spl_copied_questions"] = $checked_questions;
 		} 
 		else if (count($checked_questions) == 0) 
 		{
 			ilUtil::sendInfo($this->lng->txt("qpl_copy_select_none"));
-			$_SESSION["spl_copied_questions"] = "";
+			$_SESSION["spl_copied_questions"] = array();
 		}
 		$this->questionsObject();
 	}	
@@ -400,39 +399,30 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		ilUtil::sendInfo();
 
-    // create an array of all checked checkboxes
-    $checked_questions = array();
-    foreach ($_POST as $key => $value) {
-      if (preg_match("/cb_(\d+)/", $key, $matches)) {
-        array_push($checked_questions, $matches[1]);
-      }
-    }
-		
 		// paste button was pressed
-		if (strcmp($_SESSION["spl_copied_questions"], "") != 0)
+		if (count($_SESSION["spl_copied_questions"]) == 0)
 		{
-			$copied_questions = split("/,/", $_SESSION["spl_copied_questions"]);
 			ilUtil::sendInfo($this->lng->txt("qpl_past_questions_confirmation"));
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_paste_questions.html", "Modules/SurveyQuestionPool");
-		$questions_info =& $this->object->getQuestionsInfo($copied_questions);
+		$questions_info =& $this->object->getQuestionsInfo($_SESSION["spl_copied_questions"]);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		foreach ($questions_info as $data)
 		{
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			$this->tpl->setVariable("TXT_TITLE", $data->title);
-			$this->tpl->setVariable("TXT_DESCRIPTION", $data->description);
-			$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+			$this->tpl->setVariable("TXT_TITLE", $data["title"]);
+			$this->tpl->setVariable("TXT_DESCRIPTION", $data["description"]);
+			$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data["type_tag"]));
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
 		foreach ($questions_info as $data)
 		{
 			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_$data->question_id");
-			$this->tpl->setVariable("HIDDEN_VALUE", $data->question_id);
+			$this->tpl->setVariable("HIDDEN_NAME", "id_" . $data["question_id"]);
+			$this->tpl->setVariable("HIDDEN_VALUE", $data["question_id"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -754,7 +744,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
-			if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
+			if ((!array_key_exists("spl_copied_questions", $_SESSION)) || (count($_SESSION["spl_copied_questions"]) == 0))
 			{
 				$this->tpl->setVariable("PASTE_DISABLED", " disabled=\"disabled\"");
 			}

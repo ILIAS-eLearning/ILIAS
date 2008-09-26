@@ -483,7 +483,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			join($question_array, "','")
 		);
 		$result = $this->ilias->db->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			if ($row["plugin"])
 			{
