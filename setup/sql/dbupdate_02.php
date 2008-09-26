@@ -5909,4 +5909,5 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	
 }
 ?>
-
+<#1337>
+DELETE FROM `qpl_question_type` WHERE `type_tag` = 'assFlashApp';
