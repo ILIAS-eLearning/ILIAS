@@ -347,6 +347,102 @@ class ilObjFileAccess extends ilObjectAccess
 			 $a_file_name == 'Thumbs.db'; 
 	}
 	// END WebDAV: Get file extension, determine if file is inline, guess file type.
+        
+	/**
+	 * Appends the text " - Copy" to a filename in the language of
+         * the current user.
+         * 
+         * If the provided $nth_copy parameter is greater than 1, then
+         * is appended in round brackets. If $nth_copy parameter is null, then
+         * the function determines the copy number on its own.
+         * 
+         * If this function detects, that the filename already ends with " - Copy",
+         * or with "- Copy ($nth_copy), it only appends the number of the copy to
+         * the filename.
+         * 
+         * This function retains the extension of the filename.
+         * 
+         * Examples:
+         * - Calling ilObjFileAccess::_appendCopyToTitle('Hello.txt', 1)
+         *   returns: "Hello - Copy.txt".
+         * 
+         * - Calling ilObjFileAccess::_appendCopyToTitle('Hello.txt', 2)
+         *   returns: "Hello - Copy (2).txt".
+         * 
+         * - Calling ilObjFileAccess::_appendCopyToTitle('Hello - Copy (3).txt', 2)
+         *   returns: "Hello - Copy (2).txt".
+         * 
+         * - Calling ilObjFileAccess::_appendCopyToTitle('Hello - Copy (3).txt', null)
+         *   returns: "Hello - Copy (4).txt".
+	 */
+        public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null)
+        {
+		global $lng;
+                
+		// Get the extension and the filename without the extension
+		$extension = ilObjFileAccess::_getFileExtension($a_file_name);
+		if (strlen($extension) > 0)
+		{
+			$extension = '.'.$extension;
+			$filenameWithoutExtension= substr($a_file_name, 0, -strlen($extension));
+		}
+		else
+		{
+			$filenameWithoutExtension= $a_file_name;
+		}
+                
+		// create a regular expression from the language text copy_n_of_suffix, so that
+		// we can match it against $filenameWithoutExtension, and retrieve the number of the copy.
+		// for example, if copy_n_of_suffix is 'Copy (%1s)', this creates the regular
+		// expression '/ Copy \\([0-9]+)\\)$/'.
+		$nthCopyRegex = preg_replace('/([\^$.\[\]|()?*+{}])/','\\\\${1}', ' '.$lng->txt('copy_n_of_suffix'));
+		$nthCopyRegex = '/'.preg_replace('/%1\\\\\$s/', '([0-9]+)', $nthCopyRegex).'$/';
+                                        
+                // Get the filename without any previously added number of copy.
+                // Determine the number of copy, if it has not been specified.
+		if (preg_match($nthCopyRegex, $filenameWithoutExtension, $matches))
+		{
+			// this is going to be at least the third copy of the filename
+			$filenameWithoutCopy = substr($filenameWithoutExtension, 0, -strlen($matches[0]));
+			if ($nth_copy == null) 
+			{
+				$nth_copy = $matches[1]+1;
+			}
+		}
+		else if (substr($filenameWithoutExtension,-strlen(' '.$lng->txt('copy_of_suffix'))) == ' '.$lng->txt('copy_of_suffix'))
+		{
+			// this is going to be the second copy of the filename
+			$filenameWithoutCopy = substr($filenameWithoutExtension, 0, -strlen(' '.$lng->txt('copy_of_suffix')));
+			if ($nth_copy == null) 
+			{
+				$nth_copy = 2;
+			}
+		}
+		else
+		{
+			// this is going to be the first copy of the filename
+			$filenameWithoutCopy = $filenameWithoutExtension;
+			if ($nth_copy == null) 
+			{
+				$nth_copy = 1;
+			}
+		}
+
+
+		// Construct the new filename
+		if ($nth_copy > 1)
+		{
+			// this is at least the second copy of the filename, append " - Copy ($nth_copy)"
+			$newFilename = $filenameWithoutCopy.sprintf(' '.$lng->txt('copy_n_of_suffix'), $nth_copy).$extension;
+		}
+		else
+		{
+			// this is the first copy of the filename, append " - Copy"
+			$newFilename = $filenameWithoutCopy.' '.$lng->txt('copy_of_suffix').$extension;
+		}
+                
+                return $newFilename;
+        }
 }
 
 ?>
