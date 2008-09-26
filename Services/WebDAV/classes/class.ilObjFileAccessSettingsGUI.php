@@ -154,7 +154,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 		
 		// Enable webdav
-		$isPearAuthHTTPInstalled = include_once("Auth/HTTP.php");
+		$isPearAuthHTTPInstalled = @include_once("Auth/HTTP.php");
 		$cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
 		$cb_prop->setValue('1');
 		$cb_prop->setChecked($this->object->isWebdavEnabled() && $isPearAuthHTTPInstalled);
