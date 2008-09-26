@@ -1638,8 +1638,9 @@ class ilObject
 		$nodes = $tree->getChilds($a_target_id);
 		
 		$title_unique = false;
-		$title = $this->getTitle();
-		$increment = 0;
+		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
+		$numberOfCopy = 1;
+		$title = ilObjFileAccess::_appendNumberOfCopyToFilename($this->getTitle(), $numberOfCopy);
 		while(!$title_unique)
 		{
 			$found = 0;
@@ -1652,16 +1653,7 @@ class ilObject
 			}
 			if($found > 0)
 			{
-				if(!$increment)
-				{
-					$title = $this->getTitle().' (Copy)';
-					$increment++;
-				}
-				else
-				{
-					$title = ($this->getTitle().' (Copy '.($increment+1).')');
-					$increment++;
-				}
+				$title = ilObjFileAccess::_appendNumberOfCopyToFilename($this->getTitle(), ++$numberOfCopy);
 			}
 			else
 			{
