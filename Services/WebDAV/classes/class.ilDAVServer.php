@@ -1851,7 +1851,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	{
 		global $ilClientIniFile;
 		return $ilClientIniFile->readVariable('file_access','webdav_enabled') == '1' &&
-			 include_once("Auth/HTTP.php");
+			 @include_once("Auth/HTTP.php");
 	}
 	/**
 	* Static getter. Returns true, if WebDAV actions are visible for repository items.
