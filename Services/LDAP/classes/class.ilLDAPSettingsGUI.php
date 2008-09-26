@@ -103,7 +103,6 @@ class ilLDAPSettingsGUI
 			$table_gui = new ilLDAPRoleAssignmentTableGUI($this,'roleAssignments');
 			$table_gui->setTitle($this->lng->txt("ldap_tbl_role_ass"));
 			$table_gui->parse($rules);
-			$table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
 			$table_gui->addMultiCommand("confirmDeleteRules", $this->lng->txt("delete"));
 			$table_gui->setSelectAllCheckbox("rule_id");
 			$this->tpl->setVariable('RULES_TBL',$table_gui->getHTML());
