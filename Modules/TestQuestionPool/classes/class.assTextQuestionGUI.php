@@ -160,7 +160,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->ctrl->setParameter($this, "sel_question_types", "assTextQuestion");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
 		$this->tpl->setVariable("ACTION_TEXT_QUESTION", $this->ctrl->getFormAction($this));
 
 		$this->tpl->parseCurrentBlock();

@@ -127,15 +127,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui->object->setObjId($this->object->getId());
 				$question =& $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
-				$count = $question->isInUse();
-				if (($count) && strcmp($this->ctrl->getCmd(), "view") == 0)
-				{
-					global $rbacsystem;
-					if ($rbacsystem->checkAccess("write", $this->ref_id))
-					{
-						ilUtil::sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
-					}
-				}
 				include_once("./Services/COPage/classes/class.ilPageObject.php");
 				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 				$this->lng->loadLanguageModule("content");
@@ -180,15 +171,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$q_gui->setQuestionTabs();
-				$count = $q_gui->object->isInUse();
-				if (($count) && strcmp($this->ctrl->getCmd(), "assessment") != 0)
-				{
-					global $rbacsystem;
-					if ($rbacsystem->checkAccess("write", $this->ref_id))
-					{
-						ilUtil::sendInfo(sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
-					}
-				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 		}

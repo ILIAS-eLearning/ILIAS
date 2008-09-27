@@ -996,5 +996,26 @@ class assQuestionGUI
 	{
 		// overwrite in parent classes
 	}
+	
+	public function outQuestionType()
+	{
+		include_once "./classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_as_qpl_questiontype.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$count = $this->object->isInUse();
+		if ($count)
+		{
+			global $rbacsystem;
+			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+			{
+				$template->setCurrentBlock("infosign");
+				$template->setVariable("INFO_IMG_SRC", ilUtil::getImagePath("messagebox_tip.png"));
+				$template->setVariable("INFO_IMG_ALT", sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+				$template->setVariable("INFO_IMG_TITLE", sprintf($this->lng->txt("qpl_question_is_in_use"), $count));
+				$template->parseCurrentBlock();
+			}
+		}
+		$template->setVariable("TEXT_QUESTION_TYPE", assQuestion::_getQuestionTypeName($this->object->getQuestionType()));
+		return $template->get();
+	}
 }
 ?>

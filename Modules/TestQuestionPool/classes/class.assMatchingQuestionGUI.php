@@ -355,7 +355,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->ctrl->setParameter($this, "sel_question_types", "assMatchingQuestion");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
 		$this->tpl->setVariable("ACTION_MATCHING_QUESTION",	$this->ctrl->getFormAction($this));
 
 		$this->tpl->parseCurrentBlock();
