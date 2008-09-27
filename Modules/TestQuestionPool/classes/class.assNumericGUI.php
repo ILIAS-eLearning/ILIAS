@@ -155,7 +155,7 @@ class assNumericGUI extends assQuestionGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->ctrl->setParameter($this, "sel_question_types", "assNumeric");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assNumeric"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";

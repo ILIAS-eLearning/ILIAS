@@ -323,7 +323,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
 		$this->ctrl->setParameter($this, "sel_question_types", "assOrderingQuestion");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
 		$this->tpl->setVariable("ACTION_ORDERING_QUESTION",	$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();

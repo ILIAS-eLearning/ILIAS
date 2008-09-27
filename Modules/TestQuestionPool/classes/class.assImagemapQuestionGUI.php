@@ -399,7 +399,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 			$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
+			$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->ctrl->setParameter($this, "sel_question_types", "assImagemapQuestion");

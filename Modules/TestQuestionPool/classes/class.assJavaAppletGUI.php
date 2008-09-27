@@ -224,7 +224,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "assJavaApplet");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
 		$formaction = $this->ctrl->getFormaction($this);
 		if ($this->object->getId() > 0)
 		{

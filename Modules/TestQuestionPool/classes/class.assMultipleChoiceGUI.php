@@ -291,7 +291,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		$this->ctrl->setParameter($this, "sel_question_types", "assMultipleChoice");
 		$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
+		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
 		$this->tpl->parseCurrentBlock();
 
 		include_once "./Services/RTE/classes/class.ilRTE.php";
