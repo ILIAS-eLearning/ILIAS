@@ -140,19 +140,42 @@ class ilAdvancedMDRecordGUI
 		{
 			return false;
 		}
-		
-
 		foreach($_POST['md'] as $field_id => $value)
 		{
 			$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
 			switch($def->getFieldType())
 			{
 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
+
+					if(is_array($value) and $_POST['md_activated'][$field_id])
+					{
+						$dt['year'] = (int) $value['date']['y'];
+						$dt['mon'] = (int) $value['date']['m'];
+						$dt['mday'] = (int) $value['date']['d'];
+						$dt['hours'] = (int) 0;
+						$dt['minutes'] = (int) 0;
+						$dt['seconds'] = (int) 0;
+						$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
+						$value = $date->get(IL_CAL_UNIX);
+					}
+					else
+					{
+						$value = 0;
+					}
+					break;
+
 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
 					
 					if(is_array($value) and $_POST['md_activated'][$field_id])
 					{
-						$value = $this->toUnixTime($value['date'],$value['time']);
+						$dt['year'] = (int) $value['date']['y'];
+						$dt['mon'] = (int) $value['date']['m'];
+						$dt['mday'] = (int) $value['date']['d'];
+						$dt['hours'] = (int) $value['time']['h'];
+						$dt['minutes'] = (int) $value['time']['m'];
+						$dt['seconds'] = (int) 0;
+						$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE);
+						$value = $date->get(IL_CAL_UNIX);
 					}
 					else
 					{
