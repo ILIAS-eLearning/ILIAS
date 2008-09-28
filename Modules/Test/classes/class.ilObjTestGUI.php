@@ -4537,7 +4537,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function printobject() 
 	{
-		global $ilAccess;
+		global $ilAccess, $ilias;
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
 			// allow only write access
@@ -4545,7 +4545,20 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "infoScreen");
 		}
 		$this->getQuestionsSubTabs();
-		$this->tpl->addBlockFile("PRINT_CONTENT", "adm_content", "tpl.il_as_tst_print_test_confirm.html", "Modules/Test");
+		$template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", TRUE, TRUE, "Modules/Test");
+
+		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		{
+			$this->ctrl->setParameter($this, "pdf", "1");
+			$template->setCurrentBlock("pdf_export");
+			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "print"));
+			$this->ctrl->setParameter($this, "pdf", "");
+			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+			$template->parseCurrentBlock();
+		}
+
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		
 		global $ilUser;		
@@ -4555,37 +4568,50 @@ class ilObjTestGUI extends ilObjectGUI
 					
 		foreach ($this->object->questions as $question) 
 		{		
-			$this->tpl->setCurrentBlock("question");			
+			$template->setCurrentBlock("question");
 			$question_gui = $this->object->createQuestionGUI("", $question);
-			$this->tpl->setVariable("COUNTER_QUESTION", $counter.".");
-			$this->tpl->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
+			$template->setVariable("COUNTER_QUESTION", $counter.".");
+			$template->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($question_gui->object->getTitle()));
 			if ($question_gui->object->getMaximumPoints() == 1)
 			{
-				$this->tpl->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("point"));
+				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("point"));
 			}
 			else
 			{
-				$this->tpl->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
+				$template->setVariable("QUESTION_POINTS", $question_gui->object->getMaximumPoints() . " " . $this->lng->txt("points"));
 			}
 			$result_output = $question_gui->getSolutionOutput("", NULL, FALSE, TRUE, FALSE, $this->object->getShowSolutionFeedback());
-			$this->tpl->setVariable("SOLUTION_OUTPUT", $result_output);
-			$this->tpl->parseCurrentBlock("question");
-			$counter ++;					
-			$max_points += $question_gui->object->getMaximumPoints();			
+			$template->setVariable("SOLUTION_OUTPUT", $result_output);
+			$template->parseCurrentBlock("question");
+			$counter ++;
+			$max_points += $question_gui->object->getMaximumPoints();
 		}
 
-		$this->tpl->setCurrentBlock("navigation_buttons");
-		$this->tpl->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
-		$this->tpl->parseCurrentBlock();
+		$template->setCurrentBlock("navigation_buttons");
+		$template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
+		$template->parseCurrentBlock();
 		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TITLE", $this->object->getTitle());		
-		$this->tpl->setVariable("PRINT_TEST", $this->lng->txt("tst_print"));
-		$this->tpl->setVariable("TXT_PRINT_DATE", $this->lng->txt("date"));
-		$this->tpl->setVariable("VALUE_PRINT_DATE", strftime("%c",$print_date));
-		$this->tpl->setVariable("TXT_MAXIMUM_POINTS", $this->lng->txt("tst_maximum_points"));
-		$this->tpl->setVariable("VALUE_MAXIMUM_POINTS", $max_points);
-		$this->tpl->parseCurrentBlock();
+		$template->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+		$template->setVariable("PRINT_TEST", ilUtil::prepareFormOutput($this->lng->txt("tst_print")));
+		$template->setVariable("TXT_PRINT_DATE", ilUtil::prepareFormOutput($this->lng->txt("date")));
+		$template->setVariable("VALUE_PRINT_DATE", ilUtil::prepareFormOutput(strftime("%c",$print_date)));
+		$template->setVariable("TXT_MAXIMUM_POINTS", ilUtil::prepareFormOutput($this->lng->txt("tst_maximum_points")));
+		$template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
+		
+		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		{
+			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
+			$printbody->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+			$printbody->setVariable("ADM_CONTENT", $template->get());
+			$printoutput = $printbody->get();
+			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
+			$fo = $this->object->processPrintoutput2FO($printoutput);
+			$this->object->deliverPDFfromFO($fo);
+		}
+		else
+		{
+			$this->tpl->setVariable("PRINT_CONTENT", $template->get());
+		}
 	}
 	
 	/**

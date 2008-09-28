@@ -68,6 +68,7 @@
 					<xsl:apply-templates select="node()"></xsl:apply-templates>
 				</fo:block>
 			</xsl:when>
+			<xsl:when test="@id='dontprint'"></xsl:when>
 			<xsl:otherwise>
 				<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">
 					<xsl:apply-templates/>
