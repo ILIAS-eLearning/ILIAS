@@ -900,6 +900,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsPassDetails()
 	{
+		global $ilias;
+
 		$this->ctrl->saveParameter($this, "pass");
 		$this->ctrl->saveParameter($this, "active_id");
 		$active_id = $_GET["active_id"];
@@ -912,6 +914,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", TRUE, TRUE, "Modules/Test");
+
+		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		{
+			$this->ctrl->setParameter($this, "pdf", "1");
+			$template->setCurrentBlock("pdf_export");
+			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outParticipantsPassDetails"));
+			$this->ctrl->setParameter($this, "pdf", "");
+			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+			$template->parseCurrentBlock();
+		}
 
 		if (array_key_exists("statistics", $_GET) && ($_GET["statistics"] == 1))
 		{
@@ -955,11 +969,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$uname = $this->object->userLookupFullName($user_id);
 		$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
 			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+		}
+
+		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		{
+			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
+			$printbody->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+			$printbody->setVariable("ADM_CONTENT", $template->get());
+			$printoutput = $printbody->get();
+			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
+			$fo = $this->object->processPrintoutput2FO($printoutput);
+			$this->object->deliverPDFfromFO($fo);
+		}
+		else
+		{
+			$this->tpl->setVariable("ADM_CONTENT", $template->get());
 		}
 	}
 
@@ -972,6 +1000,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsResultsOverview()
 	{
+		global $ilias;
+		
 		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$active_id = $_GET["active_id"];
@@ -980,6 +1010,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->setParameter($this, "active_id", $active_id);
 			$this->ctrl->setParameter($this, "pass", ilObjTest::_getResultPass($active_id));
 			$this->ctrl->redirect($this, "outParticipantsPassDetails");
+		}
+
+		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
+		{
+			$this->ctrl->setParameter($this, "pdf", "1");
+			$template->setCurrentBlock("pdf_export");
+			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outParticipantsResultsOverview"));
+			$this->ctrl->setParameter($this, "pdf", "");
+			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+			$template->parseCurrentBlock();
 		}
 
 		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outParticipantsPassDetails");
@@ -1005,11 +1047,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$template->parseCurrentBlock();
 
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
 		{
 			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
+		}
+
+		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		{
+			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
+			$printbody->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
+			$printbody->setVariable("ADM_CONTENT", $template->get());
+			$printoutput = $printbody->get();
+			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
+			$fo = $this->object->processPrintoutput2FO($printoutput);
+			$this->object->deliverPDFfromFO($fo);
+		}
+		else
+		{
+			$this->tpl->setVariable("ADM_CONTENT", $template->get());
 		}
 	}
 
