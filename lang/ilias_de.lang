@@ -2621,10 +2621,10 @@ common#:#lang_zh#:#Chinesisch
 common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
 common#:#language#:#Sprache
-common#:uages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
-common#:uages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
-common#:uages_updated#:#Alle installierten Sprachen wurden aktualisiert
-common#:uages#:#Sprachen
+common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
+common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
+common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
+common#:#languages#:#Sprachen
 common#:#last_access#:#Letzter Zugriff
 common#:#last_change#:#Letzte Änderung
 common#:#last_edited_on#:#Zuletzt bearbeitet am
@@ -7771,8 +7771,8 @@ administration#:#auth_kind_determination#:#Art der Bestimmung
 administration#:#auth_by_user#:#Durch den Benutzer
 administration#:#auth_automatic#:#Festgelegte Reihenfolge
 administration#:#auth_mode_determination_info#:#Hier können Sie festlegen, ob die Authentifizierungsmethode durch die Benutzer beim Login ausgewählt werden muss oder ob die Authentifizierungsdaten anhand einer vorgebenen Reihenfolge überprüft werden sollen.
-common#:_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
-common#:_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen lädt alle Daten aus den Sprachdateien in die Datenbank. Lokale Änderungen, die vor ILIAS 3.10.0 gespeichert wurden, werden dabei möglicherweise überschrieben. Die "*.lang.local" Dateien im Customizing Verzeichnis sind davon nicht betroffen. Lokale Änderungen, die mit ILIAS 3.10.0 oder höher gespeichert wurden, werden vor dem Überschreiben bewahrt, wenn sie jünger als das Änderungsdatum der lokalen Sprachdatei sind.
+common#:#lang_refresh_confirm#:#Sollen wirklich alle Sprachen aktualisiert werden?
+common#:#lang_refresh_confirm_info#:#Die erweiterte Sprachverwaltung ist zur Zeit aktiviert. Die Aktualisierung der Sprachen lädt alle Daten aus den Sprachdateien in die Datenbank. Lokale Änderungen, die vor ILIAS 3.10.0 gespeichert wurden, werden dabei möglicherweise überschrieben. Die "*.lang.local" Dateien im Customizing Verzeichnis sind davon nicht betroffen. Lokale Änderungen, die mit ILIAS 3.10.0 oder höher gespeichert wurden, werden vor dem Überschreiben bewahrt, wenn sie jünger als das Änderungsdatum der lokalen Sprachdatei sind.
 common#:#lngf_write#:#Schreibzugriff, wird für erweiterte Sprachverwaltung benötigt.
 content#:#cont_last_access#:#Letzter Zugriff
 content#:#seq_close#:#Bitte schliessen sie das Fenster des SCORM Lernmoduls.
@@ -8633,7 +8633,7 @@ content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden 
 content#:#cont_choose_pages_or_chapters_only#:#Bitte wählen Sie entweder Seiten oder Kapitel aus.
 chat#:#chat_chat_invitation#:#Einladungen zu Chats
 common#:#selected_languages_updated#:#Die ausgewählten Sprachen wurden aktualisiert (sofern installiert):
-common#:_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
+common#:#lang_refresh_confirm_selected#:#Möchten Sie wirklich die ausgewählten Sprachen aktualisieren?
 content#:#cont_rollback#:#Rollback
 content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version der Seite wiederherstellen?
 assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
@@ -8678,3 +8678,7 @@ tagging#:#tagging_settings#:#Einstellungen
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
+common#:#clone_target_title#:#Auswahl des Zielordners
+common#:#clone_target#:#Zielordner
+common#:#clone_option_in_cat#:#In existierende Kategorie kopieren
+common#:#clone_option_in_crs#:#In existierenden Kurs kopieren
