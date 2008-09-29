@@ -8679,3 +8679,7 @@ common#:#crsr_edit#:#Edit Course Reference
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
 common#:#catr_edit_info#:#Please choose one category, for creating a new reference.
 common#:#reference_deleted#:#Destination not available
+common#:#clone_target_title#:#Selection of Target Folder
+common#:#clone_target#:#Target Folder
+common#:#clone_option_in_cat#:#Copy in Existing Category
+common#:#clone_option_in_crs#:#Copy in Existing Course
