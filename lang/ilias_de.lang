@@ -8678,7 +8678,9 @@ tagging#:#tagging_settings#:#Einstellungen
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren
 cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
-common#:#clone_target_title#:#Auswahl des Zielordners
+common#:#clone_target_title#:#Auswahl des Zielordners (Schritt 1/2)
 common#:#clone_target#:#Zielordner
 common#:#clone_option_in_cat#:#In existierende Kategorie kopieren
 common#:#clone_option_in_crs#:#In existierenden Kurs kopieren
+common#:#crs_title#:#Kurstitel
+common#:#cat_title#:#Kategorietitel
