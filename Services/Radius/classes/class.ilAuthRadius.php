@@ -109,7 +109,7 @@ class ilAuthRadius extends Auth
 					$_SESSION['tmp_pass'] = $_POST['password'];
 					$_SESSION['tmp_roles'] = array(0 => $this->radius_settings->getDefaultRole());
 				
-					ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration');
+					ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration&cmdClass=ilstartupgui');
 				}
 				$this->initAttributeToUser();
 				$new_name = $this->radius_user->create($a_username);
