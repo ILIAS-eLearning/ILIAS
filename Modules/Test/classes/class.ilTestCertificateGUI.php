@@ -257,6 +257,7 @@ class ilTestCertificateGUI
 		$this->tpl->setVariable("BTN_NAME", "certificateEditor");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("no"));
 		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "certificateEditor"));
 	}
 	
 /**
