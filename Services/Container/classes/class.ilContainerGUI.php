@@ -555,7 +555,7 @@ class ilContainerGUI extends ilObjectGUI
 				$GLOBALS["tpl"]->addAdminPanelCommand("clear",
 					$this->lng->txt("clear_clipboard"));
 			}
-			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+			if($this->gotItems() and $ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
 				include_once('./Services/Container/classes/class.ilContainer.php');
 				
