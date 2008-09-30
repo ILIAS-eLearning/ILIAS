@@ -316,6 +316,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if ($query_result->numRows() > 0)
 		{
 			while ($data = $query_result->fetchRow(MDB2_FETCHMODE_OBJECT))
@@ -326,7 +327,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->setVariable("TXT_TITLE", $data->title);
 					$this->tpl->setVariable("TXT_DESCRIPTION", $data->description);
-					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->setVariable("TXT_TYPE", SurveyQuestion::_getQuestionTypeName($data->type_tag));
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
@@ -399,13 +400,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$questions_info =& $this->object->getQuestionsInfo($_SESSION["spl_copied_questions"]);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		foreach ($questions_info as $data)
 		{
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 			$this->tpl->setVariable("TXT_TITLE", $data["title"]);
 			$this->tpl->setVariable("TXT_DESCRIPTION", $data["description"]);
-			$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data["type_tag"]));
+			$this->tpl->setVariable("TXT_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
@@ -654,7 +656,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("URL_PREVIEW", $this->ctrl->getLinkTargetByClass(strtolower($classnamegui), "preview"));
 			$this->tpl->setVariable("TEXT_PREVIEW", $this->lng->txt("preview"));
 			$this->tpl->setVariable("QUESTION_DESCRIPTION", $data["description"]);
-			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+			$this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 			include_once "./classes/class.ilFormat.php";
 			$this->tpl->setVariable('QUESTION_CREATED',ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_TIMESTAMP)));
