@@ -1754,10 +1754,68 @@ class SurveyQuestion
 	{
 		return "";
 	}
+
+	/**
+	* Include the php class file for a given question type
+	*
+	* @param string $question_type The type tag of the question type
+	* @return integer 0 if the class should be included, 1 if the GUI class should be included
+	* @access public
+	*/
+	static function _includeClass($question_type, $gui = 0)
+	{
+		$type = $question_type;
+		if ($gui) $type .= "GUI";
+		if (file_exists("./Modules/SurveyQuestionPool/classes/class.".$type.".php"))
+		{
+			include_once "./Modules/SurveyQuestionPool/classes/class.".$type.".php";
+		}
+		else
+		{
+			global $ilPluginAdmin;
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
+			foreach ($pl_names as $pl_name)
+			{
+				$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+				if (strcmp($pl->getQuestionType(), $question_type) == 0)
+				{
+					$pl->includeClass("class.".$type.".php");
+				}
+			}
+		}
+	}
+
+	/**
+	* Return the translation for a given question type tag
+	*
+	* @param string $type_tag The type tag of the question type
+	* @access public
+	*/
+	static function _getQuestionTypeName($type_tag)
+	{
+		if (file_exists("./Modules/SurveyQuestionPool/classes/class.".$type_tag.".php"))
+		{
+			global $lng;
+			return $lng->txt($type_tag);
+		}
+		else
+		{
+			global $ilPluginAdmin;
+			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
+			foreach ($pl_names as $pl_name)
+			{
+				$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+				if (strcmp($pl->getQuestionType(), $type_tag) == 0)
+				{
+					return $pl->getQuestionTypeTranslation();
+				}
+			}
+		}
+		return "";
+	}
+
 	
 /**
-* Creates an instance of a question with a given question id
-*
 * Creates an instance of a question with a given question id
 *
 * @param integer $question_id The question id
@@ -1767,17 +1825,33 @@ class SurveyQuestion
   function &_instanciateQuestion($question_id) 
 	{
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
-		include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+		SurveyQuestion::_includeClass($question_type);
 		$question = new $question_type();
 		$question->loadFromDb($question_id);
 		return $question;
   }
 	
 	/**
+	* Creates an instance of a question GUI with a given question id
+	*
+	* @param integer $question_id The question id
+	* @return object The question GUI instance
+	* @access public
+	*/
+	  function &_instanciateQuestionGUI($question_id) 
+		{
+			$question_type = SurveyQuestion::_getQuestionType($question_id);
+			SurveyQuestion::_includeClass($question_type, 1);
+			$guitype = $question_type . "GUI";
+			$question = new $guitype($question_id);
+			return $question;
+	  }
+
+	/**
 	* Checks if a given string contains HTML or not
 	*
 	* @param string $a_text Text which should be checked
-	
+	*
 	* @return boolean 
 	* @access public
 	*/
@@ -2145,6 +2219,16 @@ class SurveyQuestion
 	function outChart($survey_id, $type = "")
 	{
 		// overwrite in inherited classes
+	}
+
+	function setOriginalId($original_id)
+	{
+		$this->original_id = $original_id;
+	}
+	
+	function getOriginalId()
+	{
+		return $this->original_id;
 	}
 	
 }

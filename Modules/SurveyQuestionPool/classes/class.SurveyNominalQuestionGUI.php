@@ -166,7 +166,9 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$obj_id = $_GET["q_id"];
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 		$rte->addRTESupport($obj_id, $obj_type, "survey");
-  }
+		
+		parent::editQuestion();
+	}
 
 /**
 * Creates the question output form for the learner
@@ -492,19 +494,17 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 * @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
-  function writePostData() 
+	function writePostData() 
 	{
-    $result = 0;
-    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
-      $result = 1;
-
-    // Set the question id from a hidden form parameter
-    if ($_POST["id"] > 0)
-      $this->object->setId($_POST["id"]);
+		$result = 0;
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
+		if ($result == 1) $this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
+		// Set the question id from a hidden form parameter
+		if ($_POST["id"] > 0) $this->object->setId($_POST["id"]);
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-    $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-    $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-    $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
 		if (strlen($_POST["material"]))
 		{
 			$this->object->setMaterial($_POST["material"], 0, ilUtil::stripSlashes($_POST["material_title"]));

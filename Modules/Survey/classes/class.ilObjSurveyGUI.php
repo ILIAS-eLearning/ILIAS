@@ -1709,6 +1709,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$title_counter = 0;
 		$last_color_class = "";
 		$obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.gif", "Modules/Survey") . "\" alt=\"" . $this->lng->txt("question_obligatory") . "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+		$questiontypes =& ilObjSurveyQuestionPool::_getQuestiontypes();
 		if (count($survey_questions) > 0)
 		{
 			foreach ($survey_questions as $question_id => $data)
@@ -1852,7 +1854,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 					}
 				}
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+				foreach ($questiontypes as $trans => $typedata)
+				{
+					if (strcmp($typedata["type_tag"], $data["type_tag"]) == 0)
+					{
+						$this->tpl->setVariable("QUESTION_TYPE", $trans);
+					}
+				}
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$last_color_class = $colors[$counter % 2];
@@ -3258,7 +3266,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$variables =& $this->object->getVariables($postvalues["q"]);
 			$question_type = $survey_questions[$postvalues["q"]]["type_tag"];
-			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			SurveyQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($postvalues["q"]);
 			$select_value = $question->getPreconditionSelectValue($postvalues["v"]);

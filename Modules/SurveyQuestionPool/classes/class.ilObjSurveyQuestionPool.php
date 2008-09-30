@@ -511,23 +511,21 @@ class ilObjSurveyQuestionPool extends ilObject
 	function duplicateQuestion($question_id, $obj_id = "") 
 	{
 		global $ilUser;
-		$questiontype = $this->getQuestiontype($question_id);
-		include_once "./Modules/SurveyQuestionPool/classes/class.$questiontype.php";
-		$question = new $questiontype();
-		$question->loadFromDb($question_id);
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		$question = SurveyQuestion::_instanciateQuestion($question_id);
 		$suffix = "";
-    $counter = 1;
-    while ($question->questionTitleExists($question->getTitle().$suffix, $obj_id)) 
+		$counter = 1;
+		while ($question->questionTitleExists($question->getTitle().$suffix, $obj_id)) 
 		{
-      $counter++;
+			$counter++;
 			if ($counter > 1) $suffix = " ($counter)";
-    }
+		}
 		if ($obj_id)
 		{
 			$question->setObjId($obj_id);
 		}
 		$question->duplicate(false, $question->getTitle() . $suffix, $ilUser->fullname, $ilUser->id);
-  }
+	}
 	
 	/**
 	* Calculates the data for the output of the questionpool
@@ -830,7 +828,8 @@ class ilObjSurveyQuestionPool extends ilObject
 		foreach ($questions as $key => $value)
 		{
 			$questiontype = $this->getQuestiontype($value);
-			include_once "./Modules/SurveyQuestionPool/classes/class.$questiontype.php";
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+			SurveyQuestion::_includeClass($questiontype);
 			$question = new $questiontype();
 			$question->loadFromDb($value);
 			$questionxml .= $question->toXML(false);
