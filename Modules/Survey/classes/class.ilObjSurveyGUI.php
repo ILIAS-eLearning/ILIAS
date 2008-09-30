@@ -750,13 +750,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("COUNTER", $data["question_id"]);
 						$this->tpl->parseCurrentBlock();
 					}
+					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 					$this->tpl->setCurrentBlock("QTab");
 					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
 					$this->tpl->setVariable("TEXT_PREVIEW", $this->lng->txt("preview"));
 					$this->tpl->setVariable("URL_PREVIEW", "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $data["ref_id"] . "&cmd=preview&preview=" . $data["question_id"]);
 					$this->tpl->setVariable("COUNTER", $data["question_id"]);
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+					$this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 					$this->tpl->setVariable('QUESTION_CREATED',ilDatePresentation::formatDate(new ilDate($data["created"],IL_CAL_TIMESTAMP)));
 					$this->tpl->setVariable('QUESTION_UPDATED',ilDatePresentation::formatDate(new ilDate($data["timestamp14"],IL_CAL_TIMESTAMP)));
@@ -976,6 +977,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$surveyquestions =& $this->object->getSurveyQuestions();
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		foreach ($surveyquestions as $question_id => $data)
 		{
 			if (in_array($data["question_id"], $checked_questions) or (in_array($data["questionblock_id"], $checked_questionblocks)))
@@ -984,7 +986,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->setVariable("TEXT_TITLE", $data["title"]);
 				$this->tpl->setVariable("TEXT_DESCRIPTION", $data["description"]);
-				$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt($data["type_tag"]));
+				$this->tpl->setVariable("TEXT_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
 				$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $data["questionblock_title"]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -1917,10 +1919,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM survey_questiontype";
 			$query_result = $this->ilias->db->query($query);
+			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			while ($data = $query_result->fetchRow(MDB2_FETCHMODE_OBJECT))
 			{
 				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+				$this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($data->type_tag));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->parseCurrentBlock();
@@ -3226,13 +3229,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$this->ctrl->saveParameter($this, "preid");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", "Modules/Survey");
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if (is_array($questions))
 		{
 			foreach ($questions as $question)
 			{
 				$this->tpl->setCurrentBlock("option_q");
 				$this->tpl->setVariable("OPTION_VALUE", $question["question_id"]);
-				$this->tpl->setVariable("OPTION_TEXT", $question["title"] . " (" . $this->lng->txt($question["type_tag"]) . ")");
+				$this->tpl->setVariable("OPTION_TEXT", $question["title"] . " (" . SurveyQuestion::_getQuestionTypeName($question["type_tag"]) . ")");
 				if ($question["question_id"] == $postvalues["q"])
 				{
 					$this->tpl->setVariable("OPTION_CHECKED", " selected=\"selected\"");

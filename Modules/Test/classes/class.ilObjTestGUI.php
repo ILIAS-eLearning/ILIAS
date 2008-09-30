@@ -2505,6 +2505,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$questionpools =& $this->object->getAvailableQuestionpools(true);
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		foreach ($question_array as $question_id)
 		{
 			$dataset = $this->object->getQuestionDataset($question_id);
@@ -2512,7 +2513,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->setVariable("QUESTION_TITLE", $dataset->title);
 			$this->tpl->setVariable("QUESTION_COMMENT", $dataset->comment);
-			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($dataset->type_tag));
+			$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($dataset->type_tag));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $dataset->author);
 			$this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->obj_fi]["title"]);
 			$this->tpl->parseCurrentBlock();
@@ -2956,6 +2957,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$removablequestions =& $this->object->getTestQuestions();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		if (count($removablequestions))
 		{
 			foreach ($removablequestions as $data)
@@ -2966,7 +2968,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->setVariable("TXT_TITLE", $data["title"]);
 					$this->tpl->setVariable("TXT_DESCRIPTION", $data["comment"]);
-					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data["type_tag"]));
+					$this->tpl->setVariable("TXT_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
