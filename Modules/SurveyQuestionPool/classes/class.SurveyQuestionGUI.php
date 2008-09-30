@@ -45,7 +45,7 @@ class SurveyQuestionGUI
   var $object;
 	var $tpl;
 	var $lng;
-	var $errormessage;
+	private $errormessages;
 
 	/**
 	* An array containing the cumulated results of the question for a given survey
@@ -67,17 +67,31 @@ class SurveyQuestionGUI
 * @param integer $owner A numerical ID to identify the owner/creator
 * @access public
 */
-  function SurveyQuestionGUI()
-
-  {
+	function SurveyQuestionGUI()
+	{
 		global $lng, $tpl, $ilCtrl;
 
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, "q_id");
 		$this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
 		$this->cumulated = array();
+		$this->errormessages = array();
+	}
+
+	function addErrorMessage($errormessage)
+	{
+		if (strlen($errormessage)) array_push($this->errormessages, $errormessage);
+	}
+	
+	function outErrorMessages()
+	{
+		if (count($this->errormessages))
+		{
+			$out = implode("<br />", $this->errormessages);
+			ilUtil::sendInfo($out);
+		}
 	}
 
 	/**
@@ -114,21 +128,16 @@ class SurveyQuestionGUI
 	* @return object The alias to the question object
 	* @access public
 	*/
-	function &_getQuestionGUI($questiontype, $question_id = -1)
+	static function &_getQuestionGUI($questiontype, $question_id = -1)
 	{
-		if (!$questiontype)
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		if ((!$questiontype) and ($question_id > 0))
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$questiontype = SurveyQuestion::_getQuestiontype($question_id);
 		}
-		$questiontypegui = $questiontype . "GUI";
-		include_once "./Modules/SurveyQuestionPool/classes/class.$questiontypegui.php";
-		$question = new $questiontypegui();
-		if ($question_id > 0)
-		{
-			$question->object->loadFromDb($question_id);
-		}
-
+		SurveyQuestion::_includeClass($questiontype, 1);
+		$question_type_gui = $questiontype . "GUI";
+		$question = new $question_type_gui($question_id);
 		return $question;
 	}
 	
@@ -187,7 +196,6 @@ class SurveyQuestionGUI
 		global $ilUser;
 		
 		$old_id = $_GET["q_id"];
-		$this->errormessage = $this->lng->txt("fill_out_all_required_fields");
 		$result = $this->writePostData();
 		if ($result == 0)
 		{
@@ -225,10 +233,6 @@ class SurveyQuestionGUI
 				$this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
 				$this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
 			}
-		}
-		else
-		{
-      ilUtil::sendInfo($this->errormessage);
 		}
 		$this->editQuestion();
 	}
@@ -575,6 +579,11 @@ class SurveyQuestionGUI
 	{
 		// overwrite in parent classes
 		return "";
+	}
+	
+	function editQuestion()
+	{
+		$this->outErrorMessages();
 	}
 }
 ?>

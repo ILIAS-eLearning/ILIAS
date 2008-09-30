@@ -923,11 +923,8 @@ class ilObjSurvey extends ilObject
 */
 	function getQuestionGUI($questiontype, $question_id)
 	{
-		$questiontypegui = $questiontype . "GUI";
-		include_once "./Modules/SurveyQuestionPool/classes/class.$questiontypegui.php";
-		$question = new $questiontypegui();
-		$question->object->loadFromDb($question_id);
-		return $question;
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
+		return SurveyQuestionGUI::_getQuestionGUI($questiontype, $question_id);
 	}
 	
 /**
@@ -2852,7 +2849,7 @@ class ilObjSurvey extends ilObject
 		{	
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question_type = SurveyQuestion::_getQuestionType($row->question_fi);
-			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+			SurveyQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($row->question_fi);
 			$valueoutput = $question->getPreconditionValueOutput($row->value);
@@ -3567,7 +3564,7 @@ class ilObjSurvey extends ilObject
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question_type = SurveyQuestion::_getQuestionType($question_id);
-			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+			SurveyQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($question_id);
 			$data =& $question->getUserAnswers($this->getSurveyId());
@@ -4200,7 +4197,7 @@ class ilObjSurvey extends ilObject
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
 		if (strlen($question_type) == 0) return FALSE;
-		include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
+		SurveyQuestion::_includeClass($question_type);
 		$question = new $question_type();
 		$question->loadFromDb($question_id);
 		return $question;

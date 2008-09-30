@@ -202,6 +202,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$obj_id = $_GET["q_id"];
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 		$rte->addRTESupport($obj_id, $obj_type, "survey");
+		
+		parent::editQuestion();
   }
 
 /**
@@ -845,19 +847,17 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 * @return integer A positive value, if one of the required fields wasn't set, else 0
 * @access private
 */
-  function writePostData() 
+	function writePostData() 
 	{
-    $result = 0;
-    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
-      $result = 1;
-
-    // Set the question id from a hidden form parameter
-    if ($_POST["id"] > 0)
-      $this->object->setId($_POST["id"]);
+		$result = 0;
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
+		if ($result == 1) $this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
+		// Set the question id from a hidden form parameter
+		if ($_POST["id"] > 0) $this->object->setId($_POST["id"]);
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-    $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-    $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-    $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
 		$this->object->setOrientation($_POST["orientation"]);
 		if (strlen($_POST["material"]))
 		{
@@ -1469,10 +1469,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	function addColumn()
 	{
 		$result = $this->writeRowColData();
-		if ($result == FALSE)
-		{
-			ilUtil::sendInfo($this->errormessage);
-		}
 		$_SESSION["spl_modified"] = true;
 		$this->categories();
 	}
@@ -1504,7 +1500,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     $this->object->flushColumns();
     $this->object->flushRows();
 		$complete = TRUE;
-		$messages = array();
 		
     // Add standard columns and rows
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -1527,12 +1522,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		if (strlen($cats) == 0) 
 		{
 			$complete = FALSE;
-			array_push($messages, $this->lng->txt("matrix_error_no_columns"));
+			$this->addErrorMessage($this->lng->txt("matrix_error_no_columns"));
 		}
 		if (strlen($rows) == 0) 
 		{
 			$complete = FALSE;
-			array_push($messages, $this->lng->txt("matrix_error_no_rows"));
+			$this->addErrorMessage($this->lng->txt("matrix_error_no_rows"));
 		}
 
     // Set neutral column
@@ -1552,10 +1547,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			}
 		}
 
-		if (count($messages))
-		{
-			$this->errormessage = implode("<br />", $messages);
-		}
 		return $complete;
 	}
 
@@ -1574,7 +1565,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		if (!$complete)
 		{
 			$_SESSION["spl_modified"] = TRUE;
-			ilUtil::sendInfo($this->errormessage);
 			$this->categories();
 		}
 		else

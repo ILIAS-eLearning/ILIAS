@@ -113,17 +113,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				break;
 				
 			default:
-				if (strlen($q_type))
-				{
-					$question_type_gui = $q_type . "GUI";
-				}
-				else
-				{
-					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-					$question_type_gui = SurveyQuestion::_getQuestionType($_GET["q_id"]) . "GUI";
-				}
-				include_once "./Modules/SurveyQuestionPool/classes/class.$question_type_gui" . ".php";
-				$q_gui = new $question_type_gui($_GET["q_id"]);
+				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
+				$q_gui = SurveyQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
