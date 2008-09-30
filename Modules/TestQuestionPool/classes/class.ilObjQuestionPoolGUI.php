@@ -727,6 +727,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		if (count($deleteable_questions) > 0)
 		{
 			foreach ($deleteable_questions as $question)
@@ -735,7 +736,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->setVariable("TXT_TITLE", $question["title"]);
 				$this->tpl->setVariable("TXT_DESCRIPTION", $question["comment"]);
-				$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($question["type_tag"]));
+				$this->tpl->setVariable("TXT_TYPE", assQuestion::_getQuestionTypeName($question["type_tag"]));
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 				
@@ -1179,12 +1180,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setVariable("ROW_CLASS", $colors[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 			}
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$this->tpl->setCurrentBlock("overview_row");
 			$this->tpl->setVariable("ROW_CLASS", $colors[$counter % 2]);
 			$this->tpl->setVariable("TEXT_COUNTER", $counter);
 			$this->tpl->setVariable("TEXT_TITLE", ilUtil::prepareFormOutput($row["title"]));
 			$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($row["comment"]));
-			$this->tpl->setVariable("TEXT_QUESTIONTYPE", $this->lng->txt($row["type_tag"]));
+			$this->tpl->setVariable("TEXT_QUESTIONTYPE", assQuestion::_getQuestionTypeName($row["type_tag"]));
 			$this->tpl->setVariable("TEXT_AUTHOR", $row["author"]);
 			$this->tpl->setVariable("TEXT_CREATED", ilDatePresentation::formatDate(new ilDate($row["created"],IL_CAL_TIMESTAMP)));
 			$this->tpl->setVariable("TEXT_UPDATED", ilDatePresentation::formatDate(new ilDate($row["timestamp14"],IL_CAL_TIMESTAMP)));
