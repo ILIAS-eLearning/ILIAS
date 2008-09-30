@@ -7112,7 +7112,7 @@ survey#:#questions#:#Fragen
 survey#:#questiontype#:#Fragentyp
 survey#:#ratio_absolute#:#Absolutskaliert
 survey#:#ratio_non_absolute#:#Verhältnisskaliert
-survey#:#ratio_scale_ge_zero#:#Der Minimalwert für eine ratioskalierte Frage muss größer oder gleich Null sein
+survey#:#ratio_scale_ge_zero#:#Der Minimalwert muss größer oder gleich Null sein
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus der Umfrage enfernen wollen?#
 survey#:#reset_filter#:#Filter zurücksetzen
