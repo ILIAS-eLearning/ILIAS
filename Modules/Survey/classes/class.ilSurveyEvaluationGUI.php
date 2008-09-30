@@ -240,10 +240,7 @@ class ilSurveyEvaluationGUI
 		foreach ($questions as $data)
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$question_type = SurveyQuestion::_getQuestionType($data["question_id"]);
-			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
-			$question = new $question_type();
-			$question->loadFromDb($data["question_id"]);
+			$question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
 
 			$eval = $this->object->getCumulatedResults($question);
 			switch ($_POST["export_format"])
@@ -345,14 +342,9 @@ class ilSurveyEvaluationGUI
 		foreach ($questions as $data)
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$question_type = SurveyQuestion::_getQuestionType($data["question_id"]);
-			$question_type_gui = $question_type . "GUI";
-			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type". "GUI.php";
-			$question_gui = new $question_type_gui($data["question_id"]);
+			$question_gui = SurveyQuestion::_instanciateQuestionGUI($data["question_id"]);
 			$question = $question_gui->object;
-			//$question->loadFromDb($data["question_id"]);
 			$row = $question_gui->getCumulatedResultRow($counter, $classes[$counter % 2], $this->object->getSurveyId());
-			//$eval = $this->object->getCumulatedResults($question);
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("ROW", $row);
 			$this->tpl->parseCurrentBlock();
@@ -431,10 +423,7 @@ class ilSurveyEvaluationGUI
 		foreach ($questions as $question_id => $question_data)
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$question_type = SurveyQuestion::_getQuestionType($question_data["question_id"]);
-			include_once "./Modules/SurveyQuestionPool/classes/class.$question_type.php";
-			$question = new $question_type();
-			$question->loadFromDb($question_data["question_id"]);
+			$question = SurveyQuestion::_instanciateQuestion($question_data["question_id"]);
 			$question->addUserSpecificResultsExportTitles($csvrow);
 			$questions[$question_data["question_id"]] = $question;
 		}
@@ -656,107 +645,6 @@ class ilSurveyEvaluationGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	/**
-	* Print the survey evaluation for a selected user
-	*
-	* Print the survey evaluation for a selected user
-	*
-	* @access private
-	*/
-	function evaluationuser_old()
-	{
-		if (!is_array($_POST))
-		{
-			$_POST = array();
-		}
-		if (array_key_exists("export_format", $_POST))
-		{
-			return $this->exportUserSpecificResults($_POST["export_format"]);
-		}
-
-		$userResults =& $this->object->getUserSpecificResults();
-		ilUtil::sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_user.html", "Modules/Survey");
-		$counter = 0;
-		$classes = array("tblrow1top", "tblrow2top");
-		$questions =& $this->object->getSurveyQuestions(true);
-		$this->tpl->setCurrentBlock("headercell");
-		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
-		$this->tpl->parseCurrentBlock();
-		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-		{
-			$this->tpl->setCurrentBlock("headercell");
-			$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("gender"));
-			$this->tpl->parseCurrentBlock();
-		}
-		$char = "A";
-		$cellcounter = 1;
-		$participants =& $this->object->getSurveyParticipants();
-		
-		foreach ($questions as $question_id => $question_data)
-		{
-			$this->tpl->setCurrentBlock("headercell");
-			$this->tpl->setVariable("TEXT_HEADER_CELL", $char);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("legendrow");
-			$this->tpl->setVariable("TEXT_KEY", $char++);
-			$this->tpl->setVariable("TEXT_VALUE", $question_data["title"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		foreach ($participants as $data)
-		{
-			$this->tpl->setCurrentBlock("bodycell");
-			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-			$this->tpl->setVariable("TEXT_BODY_CELL", $data["sortname"]);
-			$this->tpl->parseCurrentBlock();
-			if ($this->object->getAnonymize() == ANONYMIZE_OFF)
-			{
-				$this->tpl->setCurrentBlock("bodycell");
-				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $data["gender"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			foreach ($questions as $question_id => $question_data)
-			{
-				$found = $userResults[$question_id][$data["active_id"]];
-				$text = "";
-				if (is_array($found))
-				{
-					$text = implode("<br />", $found);
-				}
-				else
-				{
-					$text = $found;
-				}
-				if (strlen($text) == 0) $text = $this->lng->txt("skipped");
-				$this->tpl->setCurrentBlock("bodycell");
-				$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-				$this->tpl->setVariable("TEXT_BODY_CELL", $text);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->parse("row");
-			$counter++;
-		}
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
-		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
-		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
-		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
-		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TEXT_LEGEND", $this->lng->txt("legend"));
-		$this->tpl->setVariable("TEXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
-		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
-		$this->tpl->parseCurrentBlock();
-	}
-
 /**
 * Creates an image visualising the results of a question
 *
