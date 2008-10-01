@@ -6537,7 +6537,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Negalima įvykdyti komandos "�
 common#:#usrimport_no_update_ext_account_exists#:#Negalima įvykdyti komandos "Atnaujinti". Išorinė paskyra jau egzistuoja.
 pwassist#:#pwassist_invalid_auth_mode#:#Vartotojas nebus autorizuojamas tiesiogiai ILIAS sistemoje, todėl slaptažodžio siuntimas negalimas.
 assessment#:#certificate_not_well_formed#:#Sertifikato tekstas suformuotas netinkamai. Sertifikato tekstui prašome naudoti tinkamą XHTML!
-assessment#:#log_answer_changed_points#:#Testo sudarytojo balų pakeitimas iš %d į %d balus rankiniu būdu
+assessment#:#log_answer_changed_points#:#Testo sudarytojo balų pakeitimas iš %d į %d balus %s
 assessment#:#manscoring#:#Individualus Vertinimas
 assessment#:#manscoring_select_user#:#Pasirinkite dalyvį, kurį norite įvertinti individualiai
 assessment#:#not_yet_accessed#:#Kol kas neskaityta

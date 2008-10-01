@@ -3290,7 +3290,7 @@ assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or ne
 assessment#:#last_update#:#Senest opdateret
 assessment#:#legend#:#Legend###21 Apr 2005 new variable
 assessment#:#locked#:#låst
-assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by the test author###12 11 2006 new variable
+assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by %s###12 11 2006 new variable
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Ny test oprettet
 assessment#:#log_mark_added#:#Karakter tildelt
