@@ -64,6 +64,7 @@ class SurveyChart
 		$this->graph->SetXDataLabelPos("plotdown");
 		$this->makeDataForOneQuestion($DataArray, $GraphTyp);
 		$this->graph->SetDataValues($this->graphData);
+		$this->graph->SetPlotAreaWorld(NULL, 0, NULL, NULL);
 		$this->draw();
 	}
 
