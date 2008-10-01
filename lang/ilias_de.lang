@@ -460,7 +460,7 @@ assessment#:#keywords_hint#:#Um eine automatische Punktevergabe für die Freitex
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
-assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte von %d auf %d Punkte durch den Testautor
+assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte von %d auf %d Punkte durch %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer oder die Teilnehmerin konnte den Test nicht starten, da die maximale Anzahl der gleichzeitigen Teilnahmen für diesen Kurs erreicht wurde
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_mark_added#:#Note hinzugefügt

@@ -6537,7 +6537,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Impossible d'effectuer l'actio
 common#:#usrimport_no_update_ext_account_exists#:#Impossible d'effectuer l'action "Update". Le compte externe existe déjà.
 pwassist#:#pwassist_invalid_auth_mode#:#L'utilisateur ne sera pas authentifié directement par ILIAS. Par conséquent, saisir un mot de passe est impossible.
 assessment#:#certificate_not_well_formed#:#Le texte du certificat n'est pas bien formé. Veuillez saisir XHTML valide pour le texte du certificat !
-assessment#:#log_answer_changed_points#:#Modification manuelle des points de %d à %d points par l'auteur du test
+assessment#:#log_answer_changed_points#:#Modification manuelle des points de %d à %d points par %s
 assessment#:#manscoring#:#Notation manuelle
 assessment#:#manscoring_select_user#:#Veuillez choisir un participant pour la notation manuelle
 assessment#:#not_yet_accessed#:#Pas encore accédé
