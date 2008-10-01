@@ -1696,7 +1696,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
 				$privacy = ilPrivacySettings::_getInstance();
 				// only show export tab when write AND export permission pis granted
-				if($rbacsystem->checkAccess('write','',$this->object->getRefId()) 
+				if($ilAccess->checkAccess('write','',$this->object->getRefId()) 
 					&& $privacy->enabledExport() and $rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget('export_members',
