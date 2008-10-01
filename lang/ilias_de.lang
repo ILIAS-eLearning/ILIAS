@@ -8685,3 +8685,5 @@ common#:#clone_option_in_crs#:#In existierenden Kurs kopieren
 common#:#crs_title#:#Kurstitel
 common#:#cat_title#:#Kategorietitel
 common#:#clone_existing_course#:#Vorhandenen Kurs kopieren
+survey#:#use_google_chart_api#:#Google Chart API verwenden
+survey#:#use_google_chart_api_desc#:#Wählen Sie das Kontrollkästchen aus, wenn Sie die <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a> für die Darstellung der Diagramme in den detaillierten kumulierten Ergebnissen der Umfragestatistik aktivieren wollen. Bitte beachten Sie, dass für die Verwendung der Google Chart API eine permanente Internetverbindung notwendig ist.

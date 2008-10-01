@@ -481,14 +481,44 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$values = "<ol>$values</ol>";
 		$template->setVariable("TEXT_OPTION_VALUE", $values);
 		$template->parseCurrentBlock();
-		
 		// display chart for metric question for array $eval["values"]
 		$template->setCurrentBlock("chart");
+		$charturl = "";
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$surveySetting = new ilSetting("survey");
+		if ($surveySetting->get("googlechart") == 1)
+		{
+			$selections = array();
+			$values = array();
+			$maxselection = 0;
+			foreach ($this->cumulated["values"] as $val)
+			{
+				if ($val["selected"] > $maxselection) $maxselection = $val["selected"];
+				array_push($selections, $val["selected"]);
+				array_push($values, $val["value"]);
+			}
+			$selectionlabels = "";
+			if ($maxselection % 2 == 0)
+			{
+				$selectionlabels = "0|" . ($maxselection / 2) . "|$maxselection";
+			}
+			else
+			{
+				$selectionlabels = "0|$maxselection";
+			}
+			$chartwidth = 800;
+			$charturl = "http://chart.apis.google.com/chart?chco=76A4FB&cht=bvs&chs=$chartwidth" . "x250&chd=t:" . implode(",", $selections) . "&chds=0,$maxselection&chxt=x,y,x,y&chxl=0:|" . implode("|", $values) . "|1:|$selectionlabels|2:||" . $this->lng->txt("values")."||3:||".$this->lng->txt("mode_nr_of_selections")."|" . "&chxr=1,0,$maxselection&chtt=" . str_replace(" ", "+", $this->object->getTitle());
+		}
+		else
+		{
+			$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "survey", $survey_id);
+			$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "question", $this->object->getId());
+			$charturl = $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "outChart");
+		}
+		$template->setVariable("CHART", $charturl);
+
 		$template->setVariable("TEXT_CHART", $this->lng->txt("chart"));
 		$template->setVariable("ALT_CHART", $data["title"] . "( " . $this->lng->txt("chart") . ")");
-		$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "survey", $survey_id);
-		$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "question", $this->object->getId());
-		$template->setVariable("CHART", $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "outChart"));
 		$template->parseCurrentBlock();
 		
 		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());

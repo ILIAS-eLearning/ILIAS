@@ -8686,3 +8686,5 @@ common#:#clone_option_in_crs#:#Copy in Existing Course
 common#:#cat_title#:#Category Title
 common#:#crs_title#:#Course Title
 common#:#clone_existing_course#:#Copy Existing Course
+survey#:#use_google_chart_api#:#Use Google Chart API
+survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.
