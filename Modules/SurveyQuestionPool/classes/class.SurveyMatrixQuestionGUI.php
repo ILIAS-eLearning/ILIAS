@@ -1821,11 +1821,42 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			if (is_numeric($key))
 			{
 				$template->setCurrentBlock("chartimage");
+
+				$charturl = "";
+				include_once "./Services/Administration/classes/class.ilSetting.php";
+				$surveySetting = new ilSetting("survey");
+				if ($surveySetting->get("googlechart") == 1)
+				{
+					$selections = array();
+					$values = array();
+					$maxselection = 0;
+					foreach ($value["variables"] as $val)
+					{
+						if ($val["selected"] > $maxselection) $maxselection = $val["selected"];
+						array_push($selections, $val["selected"]);
+						array_push($values, str_replace(" ", "+", $val["title"]));
+					}
+					$chartwidth = 800;
+					$selectionlabels = "";
+					if ($maxselection % 2 == 0)
+					{
+						$selectionlabels = "0|" . ($maxselection / 2) . "|$maxselection";
+					}
+					else
+					{
+						$selectionlabels = "0|$maxselection";
+					}
+					$charturl = "http://chart.apis.google.com/chart?chco=76A4FB&cht=bvs&chs=" . $chartwidth . "x250&chd=t:" . implode(",", $selections) . "&chds=0,$maxselection&chxt=x,y,x,y&chxl=0:|" . implode("|", $values) . "|1:|$selectionlabels|2:||" . $this->lng->txt("answers")."||3:||".str_replace(" ", "+", $this->lng->txt("mode_nr_of_selections"))."|" . "&chxr=1,0,$maxselection&chtt=" . str_replace(" ", "+", $value["ROW"]) . "&chbh=20," . round($chartwidth/(count($values)+1.5));
+				}
+				else
+				{
+					$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "type", $key);
+					$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "survey", $survey_id);
+					$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "question", $this->object->getId());
+					$charturl = $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "outChart");
+				}
+				$template->setVariable("CHART", $charturl);
 				$template->setVariable("ALT_CHART", $this->lng->txt("chart"));
-				$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "type", $key);
-				$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "survey", $survey_id);
-				$this->ctrl->setParameterByClass("ilsurveyevaluationgui", "question", $this->object->getId());
-				$template->setVariable("CHART", $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "outChart"));
 				$template->parseCurrentBlock();
 			}
 		}
