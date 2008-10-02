@@ -865,69 +865,6 @@ class assOrderingQuestion extends assQuestion
 		return $saveWorkingDataResult;
 	}
 
-	function syncWithOriginal()
-	{
-		global $ilDB;
-		
-		if ($this->original_id)
-		{
-			$complete = 0;
-			if ($this->isComplete())
-			{
-				$complete = 1;
-			}
-			$estw_time = $this->getEstimatedWorkingTime();
-			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->comment . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->question . ""),
-				$ilDB->quote($estw_time . ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_ordering SET ordering_type = %s WHERE question_fi = %s",
-				$ilDB->quote($this->ordering_type . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				// write ansers
-				// delete old answers
-				$query = sprintf("DELETE FROM qpl_answer_ordering WHERE question_fi = %s",
-					$ilDB->quote($this->original_id)
-				);
-				$result = $ilDB->query($query);
-	
-				foreach ($this->answers as $key => $value)
-				{
-					$answer_obj = $this->answers[$key];
-					$query = sprintf("INSERT INTO qpl_answer_ordering (answer_id, question_fi, answertext, points, aorder, solution_order) VALUES (NULL, %s, %s, %s, %s, %s)",
-						$ilDB->quote($this->original_id . ""),
-						$ilDB->quote($answer_obj->getAnswertext() . ""),
-						$ilDB->quote($answer_obj->getPoints() . ""),
-						$ilDB->quote($answer_obj->getOrder() . ""),
-						$ilDB->quote($answer_obj->getSolutionOrder() . "")
-					);
-					$answer_result = $ilDB->query($query);
-				}
-			}
-			parent::syncWithOriginal();
-		}
-	}
-
 	function pc_array_shuffle($array) {
 		mt_srand((double)microtime()*1000000);
 		$i = count($array);

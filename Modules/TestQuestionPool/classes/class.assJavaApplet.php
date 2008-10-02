@@ -949,45 +949,6 @@ class assJavaApplet extends assQuestion
 		$this->javaapplet_filename = "";
 	}
 
-	function syncWithOriginal()
-	{
-		global $ilDB;
-		
-		if ($this->original_id)
-		{
-			$complete = 0;
-			if ($this->isComplete())
-			{
-				$complete = 1;
-			}
-	
-			$estw_time = $this->getEstimatedWorkingTime();
-			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->comment . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->question . ""),
-				$ilDB->quote($this->points . ""),
-				$ilDB->quote($estw_time . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-			$params = $this->buildParams();
-			$query = sprintf("UPDATE qpl_question_javaapplet SET image_file = %s, params = %s WHERE question_fi = %s",
-				$ilDB->quote($this->javaapplet_filename . ""),
-				$ilDB->quote($params . ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-
-			parent::syncWithOriginal();
-		}
-	}
-
 	/**
 	* Returns the question type of the question
 	*

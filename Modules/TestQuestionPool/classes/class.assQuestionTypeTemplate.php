@@ -456,43 +456,7 @@ class assQuestionTypeTemplate extends assQuestion
 		// this method is inherited from assQuestion
 		
 		// overwrite it here and define your own code to synchronize the original of the question
-		// with the question data
-		
-		global $ilDB;
-		
-		if ($this->original_id)
-		{
-			$complete = 0;
-			if ($this->isComplete())
-			{
-				$complete = 1;
-			}
-			$estw_time = $this->getEstimatedWorkingTime();
-			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title. ""),
-				$ilDB->quote($this->comment. ""),
-				$ilDB->quote($this->author. ""),
-				$ilDB->quote($this->question. ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($estw_time. ""),
-				$ilDB->quote($complete. ""),
-				$ilDB->quote($this->original_id. "")
-			);
-			$result = $ilDB->query($query);
-			
-			// do your own synchronization on your additional question database table if there is one
-			$query = sprintf("UPDATE qpl_question_mytype SET myattribute = %s WHERE question_fi = %s",
-				$ilDB->quote($this->getMyAttribute()),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-
-			// call the synchronization method of the parent class
-			parent::syncWithOriginal();
-		}
+		// with the question data if you need to
 	}
 
 	/**
