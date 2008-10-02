@@ -7874,6 +7874,7 @@ cmps#:#cmps_module#:#Modul
 cmps#:#cmps_no_language_file_available#:#Keine Sprachdatei verfügbar
 cmps#:#cmps_no_db_update_file_available#:#Kein Datenbankupdate-Skript verfügbar
 cmps#:#cmps_version#:#Version
+cmps#:#cmps_responsible#:#Verantwortlich
 cmps#:#cmps_update#:#Aktualisieren
 cmps#:#cmps_update_db#:#Datenbank aktualisieren
 cmps#:#cmps_refresh#:#Neu laden

@@ -199,6 +199,17 @@ class ilPluginsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		if (strlen($a_set["responsible"]))
+		{
+			$this->tpl->setCurrentBlock("responsible_mail");
+			$this->tpl->setVariable("VAL_PLUGIN_RESPONSIBLE_MAIL", $a_set["responsible_mail"]);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("responsible");
+			$this->tpl->setVariable("TXT_RESPONSIBLE", $lng->txt("cmps_responsible"));
+			$this->tpl->setVariable("VAL_PLUGIN_RESPONSIBLE", $a_set["responsible"]);
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("VAL_PLUGIN_NAME", $a_set["name"]);
 		$this->tpl->setVariable("VAL_PLUGIN_ID", $a_set["id"]);
 		$this->tpl->setVariable("TXT_PLUGIN_NAME", $lng->txt("cmps_name"));

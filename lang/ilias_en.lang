@@ -328,6 +328,7 @@ cmps#:#cmps_module#:#Module
 cmps#:#cmps_no_language_file_available#:#No language file available.
 cmps#:#cmps_no_db_update_file_available#:#No DB update script available.
 cmps#:#cmps_version#:#Version
+cmps#:#cmps_responsible#:#Responsible
 cmps#:#cmps_update#:#Update
 cmps#:#cmps_update_db#:#Update DB
 cmps#:#cmps_refresh#:#Refresh

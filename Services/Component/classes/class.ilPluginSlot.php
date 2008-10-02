@@ -260,7 +260,9 @@ class ilPluginSlot
 					$plugin["ilias_min_version"] = $pdata["ilias_min_version"];
 					$plugin["ilias_max_version"] = $pdata["ilias_max_version"];
 					$plugin["activation_possible"] = $pdata["activation_possible"];
-						
+					$plugin["responsible"] = $pdata["responsible"];
+					$plugin["responsible_mail"] = $pdata["responsible_mail"];
+					
 					$plugin["name"] = $file;
 					$plugin["plugin_php_file_status"] = $this->checkPluginPhpFileAvailability($file);
 					$plugin["class_file_status"] = $this->checkClassFileAvailability($file);
