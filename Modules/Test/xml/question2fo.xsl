@@ -483,7 +483,7 @@
 				<xsl:attribute name="vertical-align">middle</xsl:attribute>
 				<xsl:choose>
 					<xsl:when test="@class='imagemap'">
-						<xsl:attribute name="width">100%</xsl:attribute>
+						<xsl:attribute name="width">15cm</xsl:attribute>
 						<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
 						<xsl:attribute name="height">auto</xsl:attribute>
 						<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
@@ -493,13 +493,13 @@
 							<xsl:when test="@width &gt;= @height">
 								<xsl:choose>
 									<xsl:when test="@width &gt; 600">
-										<xsl:attribute name="width">60%</xsl:attribute>
+										<xsl:attribute name="width">6cm</xsl:attribute>
 										<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
 										<xsl:attribute name="height">auto</xsl:attribute>
 										<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:attribute name="width"><xsl:value-of select="round((@width div 600)*60)" /><xsl:text>%</xsl:text></xsl:attribute>
+										<xsl:attribute name="width"><xsl:value-of select="(@width div 600)*6" /><xsl:text>cm</xsl:text></xsl:attribute>
 										<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
 										<xsl:attribute name="height">auto</xsl:attribute>
 										<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
@@ -509,13 +509,13 @@
 							<xsl:when test="@height &gt; @width">
 								<xsl:choose>
 									<xsl:when test="@height &gt; 600">
-										<xsl:attribute name="width"><xsl:value-of select="round(100 div (@height div @width))" /><xsl:text>%</xsl:text></xsl:attribute>
+										<xsl:attribute name="width"><xsl:value-of select="6 div (@height div @width)" /><xsl:text>cm</xsl:text></xsl:attribute>
 										<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
 										<xsl:attribute name="height">auto</xsl:attribute>
 										<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:attribute name="width"><xsl:value-of select="round((100 div (600 div @height)) div (@height div @width))" /><xsl:text>%</xsl:text></xsl:attribute>
+										<xsl:attribute name="width"><xsl:value-of select="(6 div (600 div @height)) div (@height div @width)" /><xsl:text>cm</xsl:text></xsl:attribute>
 										<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
 										<xsl:attribute name="height">auto</xsl:attribute>
 										<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
