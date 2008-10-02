@@ -592,6 +592,8 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			{
 				$template->setCurrentBlock("ordering_row_standard_pictures");
 				$template->setVariable("THUMB_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext() . ".thumb.jpg");
+				list($width, $height, $type, $attr) = getimagesize($this->object->getImagePath() . $answer->getAnswertext(). ".thumb.jpg");
+				$template->setVariable("ATTR", $attr);
 				$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
 				$template->parseCurrentBlock();

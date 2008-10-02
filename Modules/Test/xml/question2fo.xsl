@@ -489,14 +489,40 @@
 						<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:if test="@width">
-							<xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
-							<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="@height">
-							<xsl:attribute name="height"><xsl:value-of select="@height"/></xsl:attribute>
-							<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="@width &gt;= @height">
+								<xsl:choose>
+									<xsl:when test="@width &gt; 600">
+										<xsl:attribute name="width">60%</xsl:attribute>
+										<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
+										<xsl:attribute name="height">auto</xsl:attribute>
+										<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:attribute name="width"><xsl:value-of select="round((@width div 600)*60)" /><xsl:text>%</xsl:text></xsl:attribute>
+										<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
+										<xsl:attribute name="height">auto</xsl:attribute>
+										<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:when>
+							<xsl:when test="@height &gt; @width">
+								<xsl:choose>
+									<xsl:when test="@height &gt; 600">
+										<xsl:attribute name="width"><xsl:value-of select="round(100 div (@height div @width))" /><xsl:text>%</xsl:text></xsl:attribute>
+										<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
+										<xsl:attribute name="height">auto</xsl:attribute>
+										<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:attribute name="width"><xsl:value-of select="round((100 div (600 div @height)) div (@height div @width))" /><xsl:text>%</xsl:text></xsl:attribute>
+										<xsl:attribute name="content-width">scale-to-fit</xsl:attribute>
+										<xsl:attribute name="height">auto</xsl:attribute>
+										<xsl:attribute name="content-height">scale-to-fit</xsl:attribute>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:when>
+						</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>
 			</fo:external-graphic>
