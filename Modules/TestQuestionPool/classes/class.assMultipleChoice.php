@@ -748,65 +748,8 @@ class assMultipleChoice extends assQuestion
 
 	function syncWithOriginal()
 	{
-		global $ilDB;
-		
-		if ($this->original_id)
+		if ($this->getOriginalId())
 		{
-			$complete = 0;
-			if ($this->isComplete())
-			{
-				$complete = 1;
-			}
-			$estw_time = $this->getEstimatedWorkingTime();
-			$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-	
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, points = %s, working_time=%s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title. ""),
-				$ilDB->quote($this->comment. ""),
-				$ilDB->quote($this->author. ""),
-				$ilDB->quote($this->question. ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($estw_time. ""),
-				$ilDB->quote($complete. ""),
-				$ilDB->quote($this->original_id. "")
-			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_multiplechoice SET shuffle = %s WHERE question_fi = %s",
-				$ilDB->quote($this->shuffle. ""),
-				$ilDB->quote($this->original_id . "")
-			);
-			$result = $ilDB->query($query);
-
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				// write answers
-				// delete old answers
-				$query = sprintf("DELETE FROM qpl_answer_multiplechoice WHERE question_fi = %s",
-					$ilDB->quote($this->original_id)
-				);
-				$result = $ilDB->query($query);
-				$points_unchecked = 0;
-				foreach ($this->answers as $key => $value)
-				{
-					$answer_obj = $this->answers[$key];
-					$points_unchecked = $answer_obj->getPointsUnchecked();
-					$query = sprintf("INSERT INTO qpl_answer_multiplechoice (answer_id, question_fi, answertext, points, aorder, points_unchecked, imagefile) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
-						$ilDB->quote($this->original_id. ""),
-						$ilDB->quote($answer_obj->getAnswertext(). ""),
-						$ilDB->quote($answer_obj->getPoints() . ""),
-						$ilDB->quote($answer_obj->getOrder() . ""),
-						$ilDB->quote($points_unchecked . ""),
-						$ilDB->quote($answer_obj->getImage() . "")
-					);
-					$answer_result = $ilDB->query($query);
-				}
-			}
 			$this->syncFeedbackSingleAnswers();
 			parent::syncWithOriginal();
 		}

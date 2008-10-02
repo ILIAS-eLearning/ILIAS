@@ -1920,29 +1920,42 @@ class assQuestion
 	function syncWithOriginal()
 	{
 		global $ilDB;
-		
-		include_once "./Services/COPage/classes/class.ilInternalLink.php";
-		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$ilDB->quote($this->original_id . "")
-		);
-		$result = $ilDB->query($query);
-		ilInternalLink::_deleteAllLinksOfSource("qst", $this->original_id);
-		foreach ($this->suggested_solutions as $index => $solution)
+
+		if ($this->getOriginalId())
 		{
-			$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->original_id . ""),
-				$ilDB->quote($solution["internal_link"] . ""),
-				$ilDB->quote($solution["import_id"] . ""),
-				$ilDB->quote($index . "")
+			$id = $this->getId();
+			$original = $this->getOriginalId();
+
+			$this->setId($this->getOriginalId());
+			$this->setOriginalId(NULL);
+			$this->saveToDb();
+
+			$this->setId($id);
+			$this->setOriginalId($original);
+
+			include_once "./Services/COPage/classes/class.ilInternalLink.php";
+			$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+				$ilDB->quote($this->getOriginalId() . "")
 			);
-			$ilDB->query($query);
-			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			$result = $ilDB->query($query);
+			ilInternalLink::_deleteAllLinksOfSource("qst", $this->original_id);
+			foreach ($this->suggested_solutions as $index => $solution)
 			{
-				ilInternalLink::_saveLink("qst", $this->original_id, $matches[2], $matches[3], $matches[1]);
+				$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+					$ilDB->quote($this->getOriginalId() . ""),
+					$ilDB->quote($solution["internal_link"] . ""),
+					$ilDB->quote($solution["import_id"] . ""),
+					$ilDB->quote($index . "")
+				);
+				$ilDB->query($query);
+				if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+				{
+					ilInternalLink::_saveLink("qst", $this->getOriginalId(), $matches[2], $matches[3], $matches[1]);
+				}
 			}
+			$this->syncFeedbackGeneric();
+			$this->syncXHTMLMediaObjectsOfQuestion();
 		}
-		$this->syncFeedbackGeneric();
-		$this->syncXHTMLMediaObjectsOfQuestion();
 	}
 
 	function createRandomSolution($test_id, $user_id)
