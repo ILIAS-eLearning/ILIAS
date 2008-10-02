@@ -69,7 +69,9 @@ class ilPluginAdmin
 				$this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname] =
 					array("version" => $version, "id" => $id,
 					"ilias_min_version" => $ilias_min_version,
-					"ilias_max_version" => $ilias_max_version);
+					"ilias_max_version" => $ilias_max_version,
+					"responsible" => $responsible,
+					"responsible_mail" => $responsible_mail);
 			}
 			
 			$active = $rec["active"];
