@@ -244,9 +244,13 @@ class ilPermissionGUI
 	function permSave()
 	{
 		global $rbacreview, $rbacadmin, $rbacsystem;
-
-		// first save the new permission settings for all roles
-		$rbacadmin->revokePermission($this->gui_obj->object->getRefId());
+		
+		// only revoke permission of roles that are not filtered
+		$this->getRolesData();
+		foreach($this->roles as $role_id => $data)
+		{
+			$rbacadmin->revokePermission($this->gui_obj->object->getRefId(),$role_id);
+		}
 
 		if (is_array($_POST["perm"]))
 		{
