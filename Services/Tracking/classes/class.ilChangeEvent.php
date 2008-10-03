@@ -122,17 +122,17 @@ class ilChangeEvent
 		//            is updated after spent_seconds is updated, because
 		//            spent_seconds computes its value from the old value of ts.
 		$q = "INSERT INTO read_event ".
-				"(obj_id, usr_id, ts, read_count) ".
+				"(obj_id, usr_id, first_access, last_access, read_count) ".
 				"VALUES (".
 				$ilDB->quote($obj_id).",".
 				$ilDB->quote($usr_id).",".
-				"NOW(), 1".
+				"NOW(), NOW(), 1".
 				") ".
 			"ON DUPLICATE KEY ".
 			"UPDATE ".
 				"read_count=read_count+1, ".
-				"spent_seconds = IF (TIME_TO_SEC(TIMEDIFF(NOW(),ts))<=".$ilDB->quote($validTimeSpan).",spent_seconds+TIME_TO_SEC(TIMEDIFF(NOW(),ts)),spent_seconds),".
-				"ts=NOW()".
+				"spent_seconds = IF (TIME_TO_SEC(TIMEDIFF(NOW(),last_access))<=".$ilDB->quote($validTimeSpan).",spent_seconds+TIME_TO_SEC(TIMEDIFF(NOW(),last_access)),spent_seconds),".
+				"last_access=NOW()".
 			"";
 		$r = $ilDB->query($q);
 		//error_log ('ilChangeEvent::_recordReadEvent '.$q);
@@ -368,9 +368,9 @@ class ilChangeEvent
 		$q = "SELECT * ".
 			"FROM read_event ".
 			"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-			($catchup == null ? "" : "AND ts > ".$ilDB->quote($catchup))." ".
-			($catchup == null ? "" : "AND ts > ".$ilDB->quote($catchup))." ".
-			"ORDER BY ts DESC";
+			($catchup == null ? "" : "AND last_access > ".$ilDB->quote($catchup))." ".
+			($catchup == null ? "" : "AND last_access > ".$ilDB->quote($catchup))." ".
+			"ORDER BY last_access DESC";
 		$r = $ilDB->query($q);
 		$events = array();
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -394,7 +394,7 @@ class ilChangeEvent
 			$q = "SELECT * ".
 				"FROM read_event ".
 				"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-				"ORDER BY ts DESC";
+				"ORDER BY last_access DESC";
 		}
 		else 
 		{
@@ -402,7 +402,7 @@ class ilChangeEvent
 				"FROM read_event ".
 				"WHERE obj_id=".$ilDB->quote($obj_id)." ".
 				"AND usr_id=".$ilDB->quote($usr_id)." ".
-				"ORDER BY ts DESC";
+				"ORDER BY last_access DESC";
 		}
 		$r = $ilDB->query($q);
 		$events = array();
