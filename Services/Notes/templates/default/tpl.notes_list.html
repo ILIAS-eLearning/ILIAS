@@ -65,19 +65,19 @@ a.il_PrintBack
 <!-- BEGIN note_row -->
 <!-- BEGIN edit_note_form -->
 <tr class="std">
-	<td class="option" width="1"><a name="note_edit" />{TXT_SUBJECT}</td>
-	<td class="option_value" >
+	<td width="1" valign="top"><a name="note_edit" />{TXT_SUBJECT}</td>
+	<td width="95%">
 		<input type="text" style="width:95%" maxlength="200" name="{SUB_NOTE}" value="{NOTE_SUBJECT}" />
 	</td>
 </tr>
 <tr class="std">
-	<td class="option" width="1">{TXT_NOTE}</td>
-	<td class="option_value">
+	<td width="1" valign="top">{TXT_NOTE}</td>
+	<td>
 		<textarea name="{TA_NOTE}" style="width:95%" rows="7" wrap="virtual">{NOTE_CONTENT}</textarea>
 	</td>
 </tr>
 <tr>
-	<td class="submit" style="text-align:right;" colspan="2">
+	<td class="submit" style="text-align:right; white-space:nowrap;" colspan="2">
 		<select name="note_label">
 			<option value="{VAL_LABEL_NONE}" {SEL_NONE}>{TXT_LABEL_NONE}</option>
 			<option value="{VAL_LABEL_QUESTION}" {SEL_QUESTION}>{TXT_LABEL_QUESTION}</option>

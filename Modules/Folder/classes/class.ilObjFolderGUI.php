@@ -388,7 +388,7 @@ class ilObjFolderGUI extends ilContainerGUI
 				: false;
 			$tabs_gui->addTarget("info_short",
 				 $this->ctrl->getLinkTargetByClass(
-				 array("ilobjcategorygui", "ilinfoscreengui"), "showSummary"),
+				 array("ilobjfoldergui", "ilinfoscreengui"), "showSummary"),
 				 array("showSummary","", "infoScreen"),
 				 "", "", $force_active);
 			//END ChangeEvent add info tab to category object
