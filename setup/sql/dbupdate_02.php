@@ -5967,5 +5967,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
- 
 
+<#1340>
+ALTER TABLE `read_event`
+CHANGE `ts` `last_access` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD `first_access` TIMESTAMP NOT NULL;
