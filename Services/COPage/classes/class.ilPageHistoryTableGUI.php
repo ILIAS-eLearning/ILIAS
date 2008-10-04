@@ -47,12 +47,26 @@ class ilPageHistoryTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("action"), "", "33%");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.page_history_row.html", "Services/COPage");
-		$this->setDefaultOrderField("hdate");
+		$this->setDefaultOrderField("sortkey");
 		$this->setDefaultOrderDirection("desc");
 		$this->addMultiCommand("compareVersion", $lng->txt("cont_page_compare"));
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 	}
 	
+	/**
+	* Should this field be sorted numeric?
+	*
+	* @return	boolean		numeric ordering; default is false
+	*/
+	function numericOrdering($a_field)
+	{
+		if ($a_field == "sortkey")
+		{
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	* Standard Version of Fill Row. Most likely to
 	* be overwritten by derived class.
