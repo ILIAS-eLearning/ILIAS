@@ -5,7 +5,7 @@
 		<baseclass name="ilObjCategoryReferenceGUI" dir="classes" />
 	</baseclasses>
 	<objectgroups>
-		<objectgroup id="cat" name="Categories" default_pres_pos="100"/>
+		<objectgroup id="cat" name="Categories" default_pres_pos="10"/>
 	</objectgroups>
 	<objects>
 		<object id="catr" class_name="CategoryReference" dir="classes" default_pos="15" default_pres_pos="10"
