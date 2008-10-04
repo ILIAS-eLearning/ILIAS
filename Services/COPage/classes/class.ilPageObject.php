@@ -2735,6 +2735,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		while ($hrec = $hset->fetchRow(DB_FETCHMODE_ASSOC))
 		{
+			$hrec["sortkey"] = $hrec["nr"];
 			$hentries[] = $hrec;
 		}
 		
@@ -2773,10 +2774,56 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	{
 		global $ilDB;
 		
+		// determine previous entry
+		$st = $ilDB->prepare("SELECT MAX(nr) mnr FROM page_history ".
+			" WHERE page_id = ".$ilDB->quote($this->getId()).
+			" AND parent_type = ".$ilDB->quote($this->getParentType()).
+			" AND nr < ?", array("integer"));
+		$res = $ilDB->execute($st, array($a_nr));
+		$row = $ilDB->fetchAssoc($res);
+		if ($row["mnr"] > 0)
+		{
+			$st = $ilDB->prepare("SELECT * FROM page_history ".
+				" WHERE page_id = ".$ilDB->quote($this->getId()).
+				" AND parent_type = ".$ilDB->quote($this->getParentType()).
+				" AND nr = ?", array("integer"));
+			$res = $ilDB->execute($st, array($row["mnr"]));
+			$row = $ilDB->fetchAssoc($res);
+			$ret["previous"] = $row;
+		}
+		
+		// determine next entry
+		$st = $ilDB->prepare("SELECT MIN(nr) mnr FROM page_history ".
+			" WHERE page_id = ".$ilDB->quote($this->getId()).
+			" AND parent_type = ".$ilDB->quote($this->getParentType()).
+			" AND nr > ?", array("integer"));
+		$res = $ilDB->execute($st, array($a_nr));
+		$row = $ilDB->fetchAssoc($res);
+		if ($row["mnr"] > 0)
+		{
+			$st = $ilDB->prepare("SELECT * FROM page_history ".
+				" WHERE page_id = ".$ilDB->quote($this->getId()).
+				" AND parent_type = ".$ilDB->quote($this->getParentType()).
+				" AND nr = ?", array("integer"));
+			$res = $ilDB->execute($st, array($row["mnr"]));
+			$row = $ilDB->fetchAssoc($res);
+			$ret["next"] = $row;
+		}
+
+		// current
+		$st = $ilDB->prepare("SELECT * FROM page_history ".
+			" WHERE page_id = ".$ilDB->quote($this->getId()).
+			" AND parent_type = ".$ilDB->quote($this->getParentType()).
+			" AND nr = ?", array("integer"));
+		$res = $ilDB->execute($st, array($a_nr));
+		$row = $ilDB->fetchAssoc($res);
+		$ret["current"] = $row;
+
+/*
 		$h_query = "SELECT * FROM page_history ".
 			" WHERE page_id = ".$ilDB->quote($this->getId()).
 			" AND parent_type = ".$ilDB->quote($this->getParentType()).
-			" AND nr in (".
+			" AND nr = (".
 				$ilDB->quote($a_nr - 1).",".$ilDB->quote($a_nr).",".$ilDB->quote($a_nr + 1).")".
 			" ORDER BY hdate DESC";
 		
@@ -2800,7 +2847,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 					break;
 			}
 		}
-
+*/
 		return $ret;
 	}
 	

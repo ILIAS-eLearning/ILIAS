@@ -475,7 +475,7 @@ class ilTable2GUI extends ilTableGUI
 		// sort
 		$data = $this->getData();
 		$data = ilUtil::sortArray($data, $this->getOrderField(),
-			$this->getOrderDirection());
+			$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
 				
 		// slice
 		$data = array_slice($data, $this->getOffset(), $this->getLimit());
@@ -534,7 +534,16 @@ class ilTable2GUI extends ilTableGUI
 		return $this->render();
 	}
 
-
+	/**
+	* Should this field be sorted numeric?
+	*
+	* @return	boolean		numeric ordering; default is false
+	*/
+	function numericOrdering($a_field)
+	{
+		return false;
+	}
+	
 	/**
 	* render table
 	* @access	public

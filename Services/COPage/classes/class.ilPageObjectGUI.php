@@ -1833,6 +1833,7 @@ class ilPageObjectGUI
 			'hdate' => $this->getPageObject()->getLastChange(),
 			'parent_id' => $this->getPageObject()->getParentId(),
 			'nr' => 0,
+			'sortkey' => 999999,
 			'user' => $this->getPageObject()->last_change_user);
 		$table_gui->setData($entries);
 		return $table_gui->getHTML();
