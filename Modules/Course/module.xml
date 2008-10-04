@@ -8,7 +8,7 @@
 	</objectgroups>
 	<objects>
 		<object id="crs" class_name="Course" dir="classes" default_pos="20" default_pres_pos="30"
-			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
+			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1" grp="crs">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="recf">recf</parent>
