@@ -6534,7 +6534,7 @@ assessment#:#feedback_complete_solution#:#Correct solution###29 11 2006 new vari
 assessment#:#feedback_incomplete_solution#:#At least one answer is not correct###29 11 2006 new variable
 assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the %s subtab.###29 11 2006 new variable
 assessment#:#general#:#Üldine###29 11 2006 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by %s###29 11 2006 new variable
+assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
 assessment#:#manscoring#:#Manual Scoring###29 11 2006 new variable
 assessment#:#manscoring_not_allowed#:#The Manual Scoring wasn't activated for a question type. You are not allowed to use this tab.###29 11 2006 new variable
 assessment#:#manscoring_select_user#:#Please select a participant to set the score manually###29 11 2006 new variable

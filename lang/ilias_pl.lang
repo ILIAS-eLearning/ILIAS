@@ -6537,7 +6537,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Nie można wykonać operacji "
 common#:#usrimport_no_update_ext_account_exists#:#Nie można wykonać operacji "Aktualizuj". Zewnętrzne konto już istnieje.
 pwassist#:#pwassist_invalid_auth_mode#:#Użytkownik nie może być autoryzowany bezpośrednio przez ILIAS. Stąd, wysłanie hasła jest niemożliwe.
 assessment#:#certificate_not_well_formed#:#Tekst certyfikatu nie jest dobrze sformatowny. Wprowadź poprawny kod XHTML dla tekstu certyfikatu!
-assessment#:#log_answer_changed_points#:#Ręczna zmiana punktów od %d do %d przez %s.
+assessment#:#log_answer_changed_points#:#Ręczna zmiana punktów %s od %d do %d przez %s.
 assessment#:#manscoring#:#Ręczna punktacja
 assessment#:#manscoring_select_user#:#Wybierz uczestnika dla ustawienia punktacji ręcznie
 assessment#:#not_yet_accessed#:#Jeszcze niedostępne

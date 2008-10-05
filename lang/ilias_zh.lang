@@ -5731,7 +5731,7 @@ assessment#:#graphical_answers#:#Graphical Answer Support###25 02 2007 new varia
 assessment#:#graphical_answers_hide#:#Hide Graphical Answer Support###25 02 2007 new variable
 assessment#:#graphical_answers_show#:#Show Graphical Answer Support###25 02 2007 new variable
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.###25 02 2007 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by %s###25 02 2007 new variable
+assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached###25 02 2007 new variable
 assessment#:#log_random_question_pool_added#:#Added the question pool '%s' with %s questions for the random test###25 02 2007 new variable
 assessment#:#log_random_question_pool_deleted#:#Removed all random question pools for the test###25 02 2007 new variable

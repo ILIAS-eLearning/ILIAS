@@ -388,7 +388,7 @@ assessment#:#keywords_hint#:#Introduzca una lista de palabras clave, separadas p
 assessment#:#last_update#:#Ultima actualización
 assessment#:#legend#:#Leyenda
 assessment#:#locked#:#bloqueado
-assessment#:#log_answer_changed_points#:#Modificación manual de puntuación desde %d a %d puntos por %s
+assessment#:#log_answer_changed_points#:#Modificación manual de puntuación %s desde %d a %d puntos por %s
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#El usuario no pudo entrar al test porque se ha alcanzado el máximo número simultáneo de conexiones
 assessment#:#log_create_new_test#:#Nuevo Test creado
 assessment#:#log_mark_added#:#Nota añadida

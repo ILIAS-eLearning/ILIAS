@@ -27,8 +27,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 /**
 * Class for cloze tests
 *
-* ASS_ClozeText is a class for cloze tests using text or select gaps.
-*
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool
@@ -122,28 +120,24 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Returns true, if a cloze test is complete for use
+	* Returns TRUE, if a cloze test is complete for use
 	*
-	* Returns true, if a cloze test is complete for use
-	*
-	* @return boolean True, if the cloze test is complete for use, otherwise false
+	* @return boolean TRUE, if the cloze test is complete for use, otherwise FALSE
 	* @access public
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->getClozeText()) and (count($this->gaps)) and ($this->getMaximumPoints() > 0))
+		if (($this->getTitle()) and ($this->getAuthor()) and ($this->getClozeText()) and (count($this->getGaps())) and ($this->getMaximumPoints() > 0))
 		{
-			return true;
+			return TRUE;
 		}
 		else
 		{
-			return false;
+			return FALSE;
 		}
 	}
 
 	/**
-	* Cleans cloze question text to remove attributes or tags from older ILIAS versions
-	*
 	* Cleans cloze question text to remove attributes or tags from older ILIAS versions
 	*
 	* @param string $text The cloze question text
@@ -161,8 +155,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Loads a assClozeTest object from a database
 	*
-	* Loads a assClozeTest object from a database
-	*
 	* @param object $db A pear DB object
 	* @param integer $question_id A unique key which defines the cloze test in the database
 	* @access public
@@ -170,45 +162,53 @@ class assClozeTest extends assQuestion
 	function loadFromDb($question_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT qpl_questions.*, %s.* FROM qpl_questions, %s WHERE question_id = %s AND qpl_questions.question_id = %s.question_fi",
-			$this->getAdditionalTableName(),
-			$this->getAdditionalTableName(),
-			$ilDB->quote($question_id),
-			$this->getAdditionalTableName()
+		$statement = $ilDB->prepare("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions, " . $this->getAdditionalTableName() . " WHERE question_id = ? AND qpl_questions.question_id = " . $this->getAdditionalTableName() . ".question_fi",
+			array(
+				"integer"
+			)
 		);
-		$result = $ilDB->query($query);
+		$result = $ilDB->execute($statement, 
+			array(
+				$question_id
+			)
+		);
 		if ($result->numRows() == 1)
 		{
-			$data = $result->fetchRow(MDB2_FETCHMODE_OBJECT);
-			$this->id = $question_id;
-			$this->obj_id = $data->obj_fi;
-			$this->title = $data->title;
-			$this->comment = $data->comment;
-			$this->solution_hint = $data->solution_hint;
-			$this->original_id = $data->original_id;
-			$this->author = $data->author;
-			$this->points = $data->points;
-			$this->owner = $data->owner;
-			$this->question = $this->cleanQuestiontext($data->question_text);
-			$this->setFixedTextLength($data->fixed_textlen);
-			$this->setIdenticalScoring($data->identical_scoring);
+			$data = $ilDB->fetchAssoc($result);
+			$this->setId($question_id);
+			$this->setObjId($data["obj_fi"]);
+			$this->setTitle($data["title"]);
+			$this->setComment($data["comment"]);
+			$this->setOriginalId($data["original_id"]);
+			$this->setAuthor($data["author"]);
+			$this->setPoints($data["points"]);
+			$this->setOwner($data["owner"]);
+			$this->setQuestion($this->cleanQuestiontext($data["question_text"]));
+			$this->setFixedTextLength($data["fixed_textlen"]);
+			$this->setIdenticalScoring($data["identical_scoring"]);
 			// replacement of old syntax with new syntax
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->question = ilRTE::_replaceMediaObjectImageSrc($this->question, 1);
-			$this->setTextgapRating($data->textgap_rating);
-			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+			$this->setTextgapRating($data["textgap_rating"]);
+			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
 			// open the cloze gaps with all answers
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
 			include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
-			$query = sprintf("SELECT * FROM qpl_answer_cloze WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
-				$ilDB->quote($question_id)
+			$statement = $ilDB->prepare("SELECT * FROM qpl_answer_cloze WHERE question_fi = ? ORDER BY gap_id, aorder ASC",
+				array(
+					"integer" 
+				)
 			);
-			$result = $ilDB->query($query);
+			$result = $ilDB->execute($statement, 
+				array(
+					$question_id
+				)
+			);
 			if ($result->numRows() > 0)
 			{
 				$this->gaps = array();
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) 
+				while ($data = $ilDB->fetchAssoc($result)) 
 				{
 					switch ($data["cloze_type"])
 					{
@@ -273,15 +273,9 @@ class assClozeTest extends assQuestion
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
-		$complete = 0;
-		if ($this->isComplete())
-		{
-			$complete = 1;
-		}
 
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-		$original_id = $original_id ? $ilDB->quote($original_id) : "NULL";
 
 		// cleanup RTE images which are not inserted into the question text
 		include_once("./Services/RTE/classes/class.ilRTE.php");
@@ -289,137 +283,201 @@ class assClozeTest extends assQuestion
 		{
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, points, author, " .
+			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, points, author, " .
 				"owner, question_text, working_time, complete, created, original_id, TIMESTAMP) " .
-				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getQuestionTypeID() . ""),
-				$ilDB->quote($this->obj_id . ""),
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->comment . ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote($this->owner . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0)),
-				$ilDB->quote($estw_time . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($created . ""),
-				$original_id
+				"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)",
+				array(
+					"integer", 
+					"integer",
+					"text",
+					"text",
+					"float",
+					"text",
+					"integer",
+					"text",
+					"time",
+					"text",
+					"text",
+					"integer"
+				)
 			);
-			$result = $ilDB->query($query);
-			if (PEAR::isError($result)) 
-			{
-				global $ilias;
-				$ilias->raiseError($result->getMessage());
-			}
-			else
-			{
-				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO %s (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
-					$this->getAdditionalTableName(),
-					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->textgap_rating . ""),
-					$ilDB->quote($this->getIdenticalScoring() . ""),
-					$this->getFixedTextLength() ? $ilDB->quote($this->getFixedTextLength()) : "NULL"
-				);
-				$ilDB->query($query);
+			$data = array(
+				$this->getQuestionTypeID(),
+				$this->getObjId(),
+				$this->getTitle(),
+				$this->getComment(),
+				$this->getMaximumPoints(),
+				$this->getAuthor(),
+				$this->getOwner(),
+				ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
+				$estw_time,
+				($this->isComplete()) ? "1" : "0",
+				$created,
+				($original_id > 0) ? $original_id : NULL
+			);
+			$affectedRows = $ilDB->execute($statement, $data);
 
-				// create page object of question
-				$this->createPageObject();
+			$this->setId($ilDB->getLastInsertId());
+			$statement = $ilDB->prepareManip("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (?, ?, ?, ?)",
+				array(
+					"integer", 
+					"text",
+					"text",
+					"integer"
+				)
+			);
+			$data = array(
+				$this->getId(),
+				$this->getTextgapRating(),
+				$this->getIdenticalScoring(),
+				$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL
+			);
+			$affectedRows = $ilDB->execute($statement, $data);
 
-				if ($this->getTestId() > 0)
-				{
-					$this->insertIntoTest($this->getTestId());
-				}
+			$this->createPageObject();
+
+			if ($this->getTestId() > 0)
+			{
+				$this->insertIntoTest($this->getTestId());
 			}
 		}
 		else
 		{
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, points = %s, author = %s, " .
-				"question_text = %s, working_time = %s, complete = %s WHERE question_id = %s",
-				$ilDB->quote($this->obj_id. ""),
-				$ilDB->quote($this->title . ""),
-				$ilDB->quote($this->comment . ""),
-				$ilDB->quote($this->getMaximumPoints() . ""),
-				$ilDB->quote($this->author . ""),
-				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0)),
-				$ilDB->quote($estw_time . ""),
-				$ilDB->quote($complete . ""),
-				$ilDB->quote($this->id . "")
+			$statement = $ilDB->prepareManip("UPDATE qpl_questions SET obj_fi = ?, title = ?, comment = ?, points = ?, author = ?,  " .
+				"question_text = ?, working_time = ?, complete = ? WHERE question_id = ?",
+				array(
+					"integer",
+					"text",
+					"text",
+					"float",
+					"text",
+					"text",
+					"time",
+					"text",
+					"integer"
+				)
 			);
-			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE %s SET textgap_rating = %s, fixed_textlen = %s, identical_scoring = %s WHERE question_fi = %s",
-				$this->getAdditionalTableName(),
-				$ilDB->quote($this->textgap_rating . ""),
-				$this->getFixedTextLength() ? $ilDB->quote($this->getFixedTextLength()) : "NULL",
-				$ilDB->quote($this->getIdenticalScoring() . ""),
-				$ilDB->quote($this->id . "")
+			$data = array(
+				$this->getObjId(),
+				$this->getTitle(),
+				$this->getComment(),
+				$this->getMaximumPoints(),
+				$this->getAuthor(),
+				ilRTE::_replaceMediaObjectImageSrc($this->getClozeText(), 0),
+				$estw_time,
+				($this->isComplete()) ? "1" : "0",
+				$this->getId()
 			);
-			$result = $ilDB->query($query);
+			$affectedRows = $ilDB->execute($statement, $data);
+
+			$statement = $ilDB->prepareManip("UPDATE " . $this->getAdditionalTableName() . " SET textgap_rating = ?, fixed_textlen = ?, identical_scoring = ? WHERE question_fi = ?",
+				array(
+					"text", 
+					"integer",
+					"text",
+					"integer"
+				)
+			);
+			$data = array(
+				$this->getTextgapRating(),
+				$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL,
+				$this->getIdenticalScoring(),
+				$this->getId()
+			);
+			$affectedRows = $ilDB->execute($statement, $data);
 		}
 
-		if (PEAR::isError($result)) 
+		$statement = $ilDB->prepareManip("DELETE FROM qpl_answer_cloze WHERE question_fi = ?",
+			array(
+				"integer"
+			)
+		);
+		$data = array(
+			$this->getId()
+		);
+		$affectedRows = $ilDB->execute($statement, $data);
+		
+		foreach ($this->gaps as $key => $gap)
 		{
-			global $ilias;
-			$ilias->raiseError($result->getMessage());
-		}
-		else
-		{
-			// delete old answers
-			$query = sprintf("DELETE FROM qpl_answer_cloze WHERE question_fi = %s",
-				$ilDB->quote($this->id . "")
-			);
-			$result = $ilDB->query($query);
-				foreach ($this->gaps as $key => $gap)
+			foreach ($gap->getItems() as $item)
+			{
+				$query = "";
+				switch ($gap->getType())
 				{
-					foreach ($gap->getItems() as $item)
-					{
-						$query = "";
-						switch ($gap->getType())
-						{
-							case CLOZE_TEXT:
-								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
-									$ilDB->quote($this->getId()),
-									$ilDB->quote($key . ""),
-									$ilDB->quote($item->getAnswertext() . ""),
-									$ilDB->quote($item->getPoints() . ""),
-									$ilDB->quote($item->getOrder() . ""),
-									$ilDB->quote($gap->getType() . "")
-								);
-								break;
-							case CLOZE_SELECT:
-								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
-									$ilDB->quote($this->getId()),
-									$ilDB->quote($key . ""),
-									$ilDB->quote($item->getAnswertext() . ""),
-									$ilDB->quote($item->getPoints() . ""),
-									$ilDB->quote($item->getOrder() . ""),
-									$ilDB->quote($gap->getType() . ""),
-									$ilDB->quote($gap->getShuffle() ? "1" : "0")
-								);
-								break;
-							case CLOZE_NUMERIC:
-								$query = sprintf("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)",
-									$ilDB->quote($this->getId()),
-									$ilDB->quote($key . ""),
-									$ilDB->quote($item->getAnswertext() . ""),
-									$ilDB->quote($item->getPoints() . ""),
-									$ilDB->quote($item->getOrder() . ""),
-									$ilDB->quote($gap->getType() . ""),
-									$eval->e($item->getLowerBound() !== FALSE) ? $ilDB->quote($item->getLowerBound()) : "NULL",
-									$eval->e($item->getUpperBound() !== FALSE) ? $ilDB->quote($item->getUpperBound()) : "NULL"
-								);
-								break;
-						}
-						if (strlen($query)) $answer_result = $ilDB->query($query);
-					}
+					case CLOZE_TEXT:
+						$statement = $ilDB->prepareManip("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (NULL, ?, ?, ?, ?, ?, ?)",
+							array(
+								"integer", 
+								"integer",
+								"text",
+								"float",
+								"integer",
+								"text"
+							)
+						);
+						$data = array(
+							$this->getId(),
+							$key,
+							$item->getAnswertext(),
+							$item->getPoints(),
+							$item->getOrder(),
+							$gap->getType()
+						);
+						break;
+					case CLOZE_SELECT:
+						$statement = $ilDB->prepareManip("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, shuffle) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)",
+							array(
+								"integer", 
+								"integer",
+								"text",
+								"float",
+								"integer",
+								"text",
+								"text"
+							)
+						);
+						$data = array(
+							$this->getId(),
+							$key,
+							$item->getAnswertext(),
+							$item->getPoints(),
+							$item->getOrder(),
+							$gap->getType(),
+							($gap->getShuffle()) ? "1" : "0"
+						);
+						break;
+					case CLOZE_NUMERIC:
+						$statement = $ilDB->prepareManip("INSERT INTO qpl_answer_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)",
+							array(
+								"integer", 
+								"integer",
+								"text",
+								"float",
+								"integer",
+								"text",
+								"text",
+								"text"
+							)
+						);
+						$data = array(
+							$this->getId(),
+							$key,
+							$item->getAnswertext(),
+							$item->getPoints(),
+							$item->getOrder(),
+							$gap->getType(),
+							$eval->e($item->getLowerBound() !== FALSE) ? $item->getLowerBound() : NULL,
+							$eval->e($item->getUpperBound() !== FALSE) ? $item->getUpperBound() : NULL
+						);
+						break;
 				}
+				$affectedRows = $ilDB->execute($statement, $data);
 			}
+		}
 		parent::saveToDb($original_id);
 	}
 
 	/**
-	* Returns the array of gaps
-	*
 	* Returns the array of gaps
 	*
 	* @return array Array containing the gap objects of the cloze question gaps
@@ -434,8 +492,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Deletes all gaps without changing the cloze text
 	*
-	* Deletes all gaps without changing the cloze text
-	*
 	* @access public
 	* @see $gaps
 	*/
@@ -445,8 +501,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Sets the cloze text field, evaluates the gaps and creates the gap array from the data
-	*
 	* Evaluates the text gap solutions from the cloze text. A single or multiple text gap solutions
 	* could be entered using the following syntax in the cloze text:
 	* solution1 [, solution2, ..., solutionN] enclosed in the text gap selector gap[]
@@ -466,8 +520,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Returns the cloze text
 	*
-	* Returns the cloze text
-	*
 	* @return string The cloze text string
 	* @access public
 	* @see $cloze_text
@@ -478,8 +530,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Returns the start tag of a cloze gap
-	*
 	* Returns the start tag of a cloze gap
 	*
 	* @return string The start tag of a cloze gap
@@ -494,8 +544,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Sets the start tag of a cloze gap
 	*
-	* Sets the start tag of a cloze gap
-	*
 	* @param string $start_tag The start tag for a cloze gap
 	* @access public
 	* @see $start_tag
@@ -506,8 +554,6 @@ class assClozeTest extends assQuestion
 	}
 	
 	/**
-	* Returns the end tag of a cloze gap
-	*
 	* Returns the end tag of a cloze gap
 	*
 	* @return string The end tag of a cloze gap
@@ -522,8 +568,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Sets the end tag of a cloze gap
 	*
-	* Sets the end tag of a cloze gap
-	*
 	* @param string $end_tag The end tag for a cloze gap
 	* @access public
 	* @see $end_tag
@@ -533,6 +577,12 @@ class assClozeTest extends assQuestion
 		$this->end_tag = $end_tag;
 	}
 
+	/**
+	* Create gap entries by parsing the question text
+	*
+	* @access public
+	* @see $gaps
+	*/
 	function createGapsFromQuestiontext()
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
@@ -560,8 +610,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Set the type of a gap with a given index
 	*
-	* Set the type of a gap with a given index
-	*
 	* @access private
 	*/
 	function setGapType($gap_index, $gap_type)
@@ -573,8 +621,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Sets the shuffle state of a gap
-	*
 	* Sets the shuffle state of a gap with a given index. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.
 	*
@@ -594,8 +640,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Removes all answers from the gaps
 	*
-	* Removes all answers from the gaps
-	*
 	* @access public
 	* @see $gaps
 	*/
@@ -608,8 +652,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Returns the number of gaps
-	*
 	* Returns the number of gaps
 	*
 	* @return integer The number of gaps
@@ -629,8 +671,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Sets the answer text of a gap
-	*
 	* Sets the answer text of a gap with a given index. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.
 	*
@@ -656,8 +696,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Returns the gap at a given index
 	*
-	* Returns the gap at a given index
-	*
 	* @param integer $gap_index A nonnegative index of the n-th gap
 	* @return object The gap of the given index
 	* @access public
@@ -676,8 +714,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Sets the points of a gap answer
-	*
 	* Sets the points of a gap with a given index and an answer with a given order. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.
 	*
@@ -696,8 +732,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Adds a new answer text value to a text gap
-	*
 	* Adds a new answer text value to a text gap with a given index. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.
 	*
@@ -722,8 +756,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Adds a ClozeGap object at a given index
 	*
-	* Adds a ClozeGap object at a given index
-	*
 	* @param object $gap The gap object
 	* @param integer $index A nonnegative index of the n-th gap
 	* @access public
@@ -735,8 +767,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Sets the lower bound of a gap answer
-	*
 	* Sets the lower bound of a gap with a given index and an answer with a given order. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.
 	*
@@ -755,8 +785,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Sets the upper bound of a gap answer
-	*
 	* Sets the upper bound of a gap with a given index and an answer with a given order. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.
 	*
@@ -775,8 +803,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Returns the maximum points, a learner can reach answering the question
-	*
 	* Returns the maximum points, a learner can reach answering the question
 	*
 	* @access public
@@ -830,8 +856,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Duplicates an assClozeTest
 	*
-	* Duplicates an assClozeTest
-	*
 	* @access public
 	*/
 	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
@@ -875,12 +899,10 @@ class assClozeTest extends assQuestion
 		// duplicate the generic feedback
 		$clone->duplicateFeedbackGeneric($this_id);
 
-		return $clone->id;
+		return $clone->getId();
 	}
 
 	/**
-	* Copies an assClozeTest object
-	*
 	* Copies an assClozeTest object
 	*
 	* @access public
@@ -917,8 +939,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Updates the gap parameters in the cloze text from the form input
 	*
-	* Updates the gap parameters in the cloze text from the form input
-	*
 	* @access private
 	*/
 	function updateClozeTextFromGaps()
@@ -938,8 +958,6 @@ class assClozeTest extends assQuestion
 	}
 	
 	/**
-	* Deletes the answer text of a given gap
-	*
 	* Deletes the answer text of a gap with a given index and an answer with a given order. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.
 	*
@@ -967,8 +985,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Deletes a gap
-	*
 	* Deletes a gap with a given index. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.
 	*
@@ -1005,8 +1021,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Returns the points for a text gap
-	*
 	* Returns the points for a text gap and compares the given solution with
 	* the entered solution using the text gap rating options.
 	*
@@ -1047,8 +1061,6 @@ class assClozeTest extends assQuestion
 	}
 	
 	/**
-	* Returns the points for a text gap
-	*
 	* Returns the points for a text gap and compares the given solution with
 	* the entered solution using the text gap rating options.
 	*
@@ -1084,8 +1096,6 @@ class assClozeTest extends assQuestion
 	
 	/**
 	* Returns the points, a learner has reached answering the question
-	*
-	* Returns the points, a learner has reached answering the question
 	* The points are calculated from the given answers including checks
 	* for all special scoring options in the test container.
 	*
@@ -1103,20 +1113,28 @@ class assClozeTest extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . "")
+		$statement = $ilDB->prepare("SELECT * FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
+			array(
+				"integer", 
+				"integer",
+				"integer"
+			)
 		);
-		$result = $ilDB->query($query);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id,
+				$this->getId(),
+				$pass
+			)
+		);
 		$user_result = array();
-		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT)) 
+		while ($data = $ilDB->fetchAssoc($result)) 
 		{
-			if (strcmp($data->value2, "") != 0)
+			if (strcmp($data["value2"], "") != 0)
 			{
-				$user_result[$data->value1] = array(
-					"gap_id" => $data->value1,
-					"value" => $data->value2
+				$user_result[$data["value1"]] = array(
+					"gap_id" => $data["value1"],
+					"value" => $data["value2"]
 				);
 			}
 		}
@@ -1213,8 +1231,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Saves the learners input of the question to the database
 	*
-	* Saves the learners input of the question to the database
-	*
 	* @param integer $test_id The database id of the test containing this question
 	* @return boolean Indicates the save status (true if saved successful, false otherwise)
 	* @access public
@@ -1230,12 +1246,19 @@ class assClozeTest extends assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			$ilDB->quote($active_id),
-			$ilDB->quote($this->getId()),
-			$ilDB->quote($pass . "")
+		$statement = $ilDB->prepareManip("DELETE FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
+			array(
+				"integer", 
+				"integer",
+				"integer"
+			)
 		);
-		$result = $ilDB->query($query);
+		$data = array(
+			$active_id,
+			$this->getId(),
+			$pass
+		);
+		$affectedRows = $ilDB->execute($statement, $data);
 
 		$entered_values = 0;
 		foreach ($_POST as $key => $value) 
@@ -1254,14 +1277,23 @@ class assClozeTest extends assQuestion
 							{
 								$value = str_replace(",", ".", $value);
 							}
-							$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-								$ilDB->quote($active_id),
-								$ilDB->quote($this->getId()),
-								$ilDB->quote(trim($matches[1])),
-								$ilDB->quote(trim($value)),
-								$ilDB->quote($pass . "")
+							$statement = $ilDB->prepareManip("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, NULL)",
+								array(
+									"integer", 
+									"integer",
+									"text",
+									"text",
+									"integer"
+								)
 							);
-							$result = $ilDB->query($query);
+							$data = array(
+								$active_id,
+								$this->getId(),
+								trim($matches[1]),
+								trim($value),
+								$pass
+							);
+							$affectedRows = $ilDB->execute($statement, $data);
 							$entered_values++;
 						}
 					}
@@ -1285,12 +1317,10 @@ class assClozeTest extends assQuestion
 			}
 		}
 		parent::saveWorkingData($active_id, $pass);
-		return true;
+		return TRUE;
 	}
 
 	/**
-	* Returns the question type of the question
-	*
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
@@ -1304,8 +1334,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Returns the rating option for text gaps
 	*
-	* Returns the rating option for text gaps
-	*
 	* @return string The rating option for text gaps
 	* @see $textgap_rating
 	* @access public
@@ -1316,8 +1344,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Sets the rating option for text gaps
-	*
 	* Sets the rating option for text gaps
 	*
 	* @param string $a_textgap_rating The rating option for text gaps
@@ -1346,8 +1372,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Returns the identical scoring status of the question
 	*
-	* Returns the identical scoring status of the question
-	*
 	* @return boolean The identical scoring status
 	* @see $identical_scoring
 	* @access public
@@ -1358,8 +1382,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Sets the identical scoring option for cloze questions
-	*
 	* Sets the identical scoring option for cloze questions
 	*
 	* @param boolean $a_identical_scoring The identical scoring option for cloze questions
@@ -1374,8 +1396,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Returns the name of the additional question data table in the database
 	*
-	* Returns the name of the additional question data table in the database
-	*
 	* @return string The additional table name
 	* @access public
 	*/
@@ -1385,8 +1405,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Returns the name of the answer table in the database
-	*
 	* Returns the name of the answer table in the database
 	*
 	* @return string The answer table name
@@ -1400,8 +1418,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Sets a fixed text length for all text fields in the cloze question
 	*
-	* Sets a fixed text length for all text fields in the cloze question
-	*
 	* @param integer $a_text_len The text field length
 	* @access public
 	*/
@@ -1413,8 +1429,6 @@ class assClozeTest extends assQuestion
 	/**
 	* Gets the fixed text length for all text fields in the cloze question
 	*
-	* Gets the fixed text length for all text fields in the cloze question
-	*
 	* @return integer The text field length
 	* @access public
 	*/
@@ -1424,8 +1438,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Returns TRUE if a given value is the best solution for a gap, FALSE otherwise
-	*
 	* Returns TRUE if a given value is the best solution for a gap, FALSE otherwise
 	*
 	* @param string $value The value which should be checked
@@ -1509,8 +1521,6 @@ class assClozeTest extends assQuestion
 	}
 
 	/**
-	* Returns the maximum points for a gap
-	*
 	* Returns the maximum points for a gap
 	*
 	* @param integer $gap_index The index of the gap

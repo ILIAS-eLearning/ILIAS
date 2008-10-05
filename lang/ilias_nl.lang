@@ -6564,7 +6564,7 @@ assessment#:#feedback_complete_solution#:#Juiste oplossing
 assessment#:#feedback_incomplete_solution#:#Minstens één antwoord is niet juist
 assessment#:#fixed_participants_hint#:#Deze test is slechts toegankelijk voor een reeks deelnemers die hieronder getoond worden. U kunt deze instelling wijzigen door de checkbox in de subtab te desactiveren.
 assessment#:#general#:#Algemeen
-assessment#:#log_answer_changed_points#:#De handmatige verandering van punten van %d to %d door %s
+assessment#:#log_answer_changed_points#:#De handmatige verandering van punten %s van %d to %d door %s
 assessment#:#manscoring#:#Handmatige score
 assessment#:#manscoring_not_allowed#:#Het handmatig indienen van de punten werd niet geactiveerd voor dit vraagtype. U mag deze tab niet gebruiken.
 assessment#:#manscoring_select_user#:#Gelieve een deelnemer  te selecteren om de score manueel in te geven.
