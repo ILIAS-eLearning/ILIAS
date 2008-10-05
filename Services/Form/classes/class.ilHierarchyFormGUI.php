@@ -357,29 +357,41 @@ class ilHierarchyFormGUI extends ilFormGUI
 		// commands
 		if (count($this->multi_commands) > 0 || count($this->commands) > 0)
 		{
+			$single = false;
 			foreach($this->commands as $cmd)
 			{
 				$ttpl->setCurrentBlock("cmd");
 				$ttpl->setVariable("CMD", $cmd["cmd"]);
 				$ttpl->setVariable("CMD_TXT", $cmd["text"]);
 				$ttpl->parseCurrentBlock();
+				$single = true;
 			}
 
 			if (count($childs) > 0)
 			{
+				$multi = false;
 				foreach($this->multi_commands as $cmd)
 				{
 					$ttpl->setCurrentBlock("multi_cmd");
 					$ttpl->setVariable("MULTI_CMD", $cmd["cmd"]);
 					$ttpl->setVariable("MULTI_CMD_TXT", $cmd["text"]);
 					$ttpl->parseCurrentBlock();
+					$multi = true;
 				}
-				$ttpl->setCurrentBlock("commands");
-				$ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
-				$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.gif"));
-				$ttpl->parseCurrentBlock();
+				if ($multi)
+				{
+					$ttpl->setCurrentBlock("multi_cmds");
+					$ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
+					$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.gif"));
+					$ttpl->parseCurrentBlock();
+				}
 			}
 			
+			if ($single || $multi)
+			{
+				$ttpl->setCurrentBlock("commands");
+				$ttpl->parseCurrentBlock();
+			}
 		}
 
 		// explorer updater
