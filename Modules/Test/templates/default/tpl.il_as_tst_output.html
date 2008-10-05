@@ -127,6 +127,10 @@
 <script type="text/javascript" charset="utf-8">
 	function saveformOnTimeReached()
 	{
+		if(typeof saveOrder == 'function') 
+		{
+			saveOrder('orderlist');
+		}
 		autosave('{AUTOSAVE_URL}');
 	}
 	function saveTextarea(editor)

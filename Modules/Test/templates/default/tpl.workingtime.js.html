@@ -66,18 +66,35 @@
 		{
 			output += minutes;
 		}
-		output += " " + and + " " + avail_s + " ";
-		if (avail_m == 0)
+		if (avail < 300)
 		{
-			output = avail_s + " ";
-		}
-		if (avail_s == 1)
-		{
-			output += second;
-		}
-		else
-		{
-			output += seconds;
+			if (avail_s < 10)
+			{
+				output += " " + and + " 0" + avail_s + " ";
+			}
+			else
+			{
+				output += " " + and + " " + avail_s + " ";
+			}
+			if (avail_m == 0)
+			{
+				if (avail_s < 10)
+				{
+					output = "0" + avail_s + " ";
+				}
+				else
+				{
+					output = avail_s + " ";
+				}
+			}
+			if (avail_s == 1)
+			{
+				output += second;
+			}
+			else
+			{
+				output += seconds;
+			}
 		}
 		var span = document.getElementById("timeleft");
 		span.innerHTML = timeleft.replace(/%s/, output);
