@@ -1370,10 +1370,13 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$str_time_left = $time_left_minutes . " " . $this->lng->txt("minutes");
 		}
-		if ($time_left_seconds > 0)
+		if ($time_left < 300)
 		{
-			if (strlen($str_time_left) > 0) $str_time_left .= " " . $this->lng->txt("and") . " ";
-			$str_time_left .= $time_left_seconds . " " . $this->lng->txt("seconds");
+			if ($time_left_seconds > 0)
+			{
+				if (strlen($str_time_left) > 0) $str_time_left .= " " . $this->lng->txt("and") . " ";
+				$str_time_left .= $time_left_seconds . " " . $this->lng->txt("seconds");
+			}
 		}
 		$date = getdate($starting_time);
 		$formattedStartingTime = ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_FKT_GETDATE));
