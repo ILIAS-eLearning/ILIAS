@@ -6537,7 +6537,7 @@ common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action.
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###26 10 2006 new variable
 assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
-assessment#:#log_answer_changed_points#:#Manual change of points from %d to %d points by %s###12 11 2006 new variable
+assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
 assessment#:#manscoring#:#Manual Scoring###12 11 2006 new variable
 assessment#:#manscoring_select_user#:#Please select a participant to set the score manually###12 11 2006 new variable
 assessment#:#not_yet_accessed#:#Not yet accessed###12 11 2006 new variable

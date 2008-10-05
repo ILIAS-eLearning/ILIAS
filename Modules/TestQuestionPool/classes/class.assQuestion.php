@@ -2443,7 +2443,9 @@ class assQuestion
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				global $lng, $ilUser;
-				assQuestion::_logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points", ilObjAssessmentFolder::_getLogLanguage()), $old_points, $points, $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
+				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+				$username = ilObjTestAccess::_getParticipantData($active_id);
+				assQuestion::_logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points", ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points, $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
 			}
 			
 			return TRUE;

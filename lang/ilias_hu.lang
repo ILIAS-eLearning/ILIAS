@@ -533,7 +533,7 @@ assessment#:#keywords_hint#:#Adja meg a kulcsszavak listáját szóközökkel va
 assessment#:#last_update#:#Utolsó frissítés
 assessment#:#legend#:#Jelmagyarázat
 assessment#:#locked#:#Zárolva
-assessment#:#log_answer_changed_points#:#Pontok manuális módosítása a %s által %d-ról/ről %d-ra/re.
+assessment#:#log_answer_changed_points#:#Pontok manuális módosítása a %s által %d-ról/ről %d-ra/re %s.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert a maximális számú egyidejű felhasználó éri el.
 assessment#:#log_create_new_test#:#Új teszt létrehozva.
 assessment#:#log_mark_added#:#Érdemjegy felvéve.

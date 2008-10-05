@@ -549,6 +549,73 @@ function _getQuestionCount($test_id)
 		}
 	}
 
+	/**
+	* Retrieves a participant name from active id
+	*
+	* @param integer $active_id Active ID of the participant
+	* @return string The output name of the user
+	* @access public
+	*/
+	function _getParticipantData($active_id)
+	{
+		global $lng, $ilDB;
+
+		$statement = $ilDB->prepare("SELECT user_fi, test_fi FROM tst_active WHERE active_id = ?",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id
+			)
+		);
+		$row = $ilDB->fetchAssoc($result);
+		$user_id = $row["user_fi"];
+		$test_id = $row["test_fi"];
+
+		$statement = $ilDB->prepare("SELECT obj_fi FROM tst_tests WHERE test_id = ?",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$test_id
+			)
+		);
+		$row = $ilDB->fetchAssoc($result);
+		$obj_id = $row["obj_fi"];
+		
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		$is_anonymous = ilObjTest::_lookupAnonymity($obj_id);
+		
+		include_once './Services/User/classes/class.ilObjUser.php';
+		$uname = ilObjUser::_lookupName($user_id);
+
+		$name = "";
+		if (strlen($uname["firstname"].$uname["lastname"]) == 0)
+		{
+			$name = $lng->txt("deleted_user");
+		}
+		else
+		{
+			if ($user_id == ANONYMOUS_USER_ID)
+			{
+				$name = $lastname;
+			}
+			else
+			{
+				$name = trim($uname["lastname"] . ", " . $uname["firstname"] . " " .  $uname["title"]);
+			}
+			if ($is_anonymous)
+			{
+				$name = $lng->txt("anonymous");
+			}
+		}
+		return $name;
+	}
+
 /**
 * Returns an array containing the users who passed the test
 * 
