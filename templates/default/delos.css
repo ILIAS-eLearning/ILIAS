@@ -1701,7 +1701,8 @@ div.il_editarea
 {
 	border-style: solid;
 	border-width: 1px;
-	border-color: transparent;
+	border-color: transparent !important;
+	border-color: #FFFFFF;	/* IE6 does not understand the transparent border */ 
 }
 
 div.il_editarea_disabled

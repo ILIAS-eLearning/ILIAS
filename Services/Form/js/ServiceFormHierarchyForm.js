@@ -104,7 +104,7 @@ function ilGetMouseY(e)
 	}
 	else if (document.documentElement)
 	{
-		return e.clientY + document.documentElement.scrollTop;
+		return e.clientY + ilGetWinPageYOffset();
 	}
 	if (document.body)
 	{
@@ -198,13 +198,13 @@ function showMenu(id, x, y)
 	var obj = document.getElementById(id);
 	
 	if (!obj) return;
-	
+/* alert("x:" + x + " y:" + y); */
 	obj.style.visibility = '';
 	obj.style.left = x + 10 + "px";
 	obj.style.top = y + "px";
 	
 	var w = Math.floor(getBodyWidth() / 2);
-	
+
 	var wih = ilGetWinInnerHeight();
 	var yoff = ilGetWinPageYOffset();
 	var top = ilGetOffsetTop(obj);
