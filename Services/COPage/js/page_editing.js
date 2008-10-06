@@ -103,7 +103,7 @@ function ilGetMouseY(e)
 	}
 	else if (document.documentElement)
 	{
-		return e.clientY + document.documentElement.scrollTop;
+		return e.clientY + ilGetWinPageYOffset();
 	}
 	if (document.body)
 	{
