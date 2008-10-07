@@ -5981,3 +5981,113 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1343>
+<?php
+
+// Adjust copy permission for sessions
+global $ilDB;
+
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'sess'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "SELECT * FROM rbac_operations WHERE operation = 'copy'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$copy_id = $row->ops_id;
+
+
+$ops_id = 4;
+$query = "SELECT rol_id,obr.ref_id FROM object_data obd ".
+	"JOIN object_reference obr ON obd.obj_id = obr.obj_id ".
+	"JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id ".
+	"WHERE type = 'sess' ".
+	"AND (ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%"). " ".
+	"OR ops_id LIKE".$ilDB->quote("%:\"".$ops_id."\";%").") ";
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ref_id = $row->ref_id;
+	$rol_id = $row->rol_id;
+	
+	$query = "SELECT * FROM rbac_pa WHERE rol_id = ".$ilDB->quote($rol_id).' '.
+		"AND ref_id = ".$ilDB->quote($ref_id);
+	$pa_res = $ilDB->query($query);
+	while($pa_row = $pa_res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$ops = unserialize($pa_row->ops_id);
+		
+		if(!in_array($copy_id,$ops))
+		{
+			$ops[] = $copy_id;
+			
+			$query = "UPDATE rbac_pa SET ".
+				"ops_id = ".$ilDB->quote($ops).' '.
+				"WHERE rol_id = ".$ilDB->quote($rol_id).' '.
+				"AND ref_id = ".$ilDB->quote($ref_id);
+			$ilDB->query($query);
+		}
+	}
+}
+?>
+
+<#1344>
+<?php
+// Adjust role template permission for sessions
+
+$query = "SELECT * FROM rbac_templates ".
+	"WHERE type = 'sess' ".
+	"AND ops_id = ".$ilDB->quote(4);
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "DELETE FROM rbac_templates ".
+		"WHERE rol_id = ".$ilDB->quote($row->rol_id)." AND ".
+		"type = 'sess' AND ".
+		"ops_id = ".$ilDB->quote(6)." AND ".
+		"parent = ".$ilDB->quote($row->parent)." ";
+	$ilDB->query($query);
+	
+	$query = "INSERT INTO rbac_templates ".
+		"SET rol_id = ".$ilDB->quote($row->rol_id).", ".
+		"type = 'sess', ".
+		"ops_id = ".$ilDB->quote(6).", ".
+		"parent = ".$ilDB->quote($row->parent)." ";
+	$ilDB->query($query);
+}
+?>
+
+<#1345>
+<?php
+
+$query = "SELECT * FROM rbac_operations WHERE operation = 'create_sess'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$create_id = $row->ops_id;
+
+
+$query = "SELECT * FROM rbac_templates ".
+	"WHERE type = 'crs' ".
+	"AND ops_id = ".$ilDB->quote(4);
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "DELETE FROM rbac_templates ".
+		"WHERE rol_id = ".$ilDB->quote($row->rol_id)." AND ".
+		"type = 'crs' AND ".
+		"ops_id = ".$ilDB->quote($create_id)." AND ".
+		"parent = ".$ilDB->quote($row->parent)." ";
+	$ilDB->query($query);
+	
+	$query = "INSERT INTO rbac_templates ".
+		"SET rol_id = ".$ilDB->quote($row->rol_id).", ".
+		"type = 'crs', ".
+		"ops_id = ".$ilDB->quote($create_id).", ".
+		"parent = ".$ilDB->quote($row->parent)." ";
+	$ilDB->query($query);
+}
+?>
