@@ -870,7 +870,7 @@ class ilExplorer
 				$tpl->setVariable("ONCLICK", "onClick=\"$onclick\"");
 			}
 
-			$tpl->setVariable("LINK_NAME", $a_node_id);
+			//$tpl->setVariable("LINK_NAME", $a_node_id);
 			$tpl->setVariable("TITLE", ilUtil::shortenText(
 				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
 				$this->textwidth, true));

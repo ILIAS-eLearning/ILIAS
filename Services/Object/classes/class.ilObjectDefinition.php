@@ -904,7 +904,7 @@ class ilObjectDefinition extends ilSaxParser
 		{
 			$groups[$gr_rec["id"]] = $gr_rec;
 		}
-			
+
 		if (!is_array($a_parent_obj_type))
 		{
 			$set = $ilDB->query("SELECT il_object_def.* FROM il_object_def, il_object_subobj ".
@@ -925,18 +925,18 @@ class ilObjectDefinition extends ilSaxParser
 		{
 			if ($rec["grp"] != "")
 			{
-				$grouped_obj[$rec["grp"]]["pos"] = $groups[$rec["grp"]]["default_pres_pos"];
+				$grouped_obj[$rec["grp"]]["pos"] = (int) $groups[$rec["grp"]]["default_pres_pos"];
 				$grouped_obj[$rec["grp"]]["objs"][] = $rec["id"];
 			}
 			else
 			{
-				$grouped_obj[$rec["id"]]["pos"] = $rec["default_pres_pos"];
+				$grouped_obj[$rec["id"]]["pos"] = (int) $rec["default_pres_pos"];
 				$grouped_obj[$rec["id"]]["objs"][] = $rec["id"];
 			}
 		}
-
-		$ret = ilUtil::sortArray($grouped_obj, "pos", ASC, true, true);
-
+//var_dump($grouped_obj);
+		$ret = ilUtil::sortArray($grouped_obj, "pos", "asc", true, true);
+//var_dump($ret);
 		return $ret;
 	}
 

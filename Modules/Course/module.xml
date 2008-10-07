@@ -4,7 +4,7 @@
 	<baseclasses>
 	</baseclasses>
 	<objectgroups>
-		<objectgroup id="crs" name="Courses" default_pres_pos="100"/>
+		<objectgroup id="crs" name="Courses" default_pres_pos="30"/>
 	</objectgroups>
 	<objects>
 		<object id="crs" class_name="Course" dir="classes" default_pos="20" default_pres_pos="30"
