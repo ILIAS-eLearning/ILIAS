@@ -627,7 +627,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
-		if(!$objDefinition->allowLink($source_obj->getType()))
+		if(!$objDefinition->allowLink($source_obj->getType()) and 
+			$source_obj->getType() != 'cat' and
+			$source_obj->getType() != 'crs')
 		{
 			return $this->__raiseError('Linking of object type: '.$source_obj->getType().' is not allowed',
 									   'Client');
@@ -659,22 +661,53 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError('No permission to link object with id: '.$source_obj->getRefId().'!',
 									   'Client');
 		}
-		// check if object already linked to target
-		$possibleChilds = $tree->getChildsByType($target_obj->getRefId(), $source_obj->getType());
-		foreach ($possibleChilds as $child) 
-		{
-			if ($child["obj_id"] == $source_obj->getId())
-				return $this->__raiseError("Object already linked to target.","Client");
-		}
 		
-		// Finally link it to target position
-
-		$new_ref_id = $source_obj->createReference();
-		$source_obj->putInTree($target_obj->getRefId());
-		$source_obj->setPermissions($target_obj->getRefId());
-		$source_obj->initDefaultRoles();
-
-		return $new_ref_id ? $new_ref_id : "0";
+		
+		if($source_obj->getType() != 'cat' and $source_obj->getType() != 'crs')
+		{
+			// check if object already linked to target
+			$possibleChilds = $tree->getChildsByType($target_obj->getRefId(), $source_obj->getType());
+			foreach ($possibleChilds as $child) 
+			{
+				if ($child["obj_id"] == $source_obj->getId())
+					return $this->__raiseError("Object already linked to target.","Client");
+			}
+			
+			// Finally link it to target position
+	
+			$new_ref_id = $source_obj->createReference();
+			$source_obj->putInTree($target_obj->getRefId());
+			$source_obj->setPermissions($target_obj->getRefId());
+			$source_obj->initDefaultRoles();
+	
+			return $new_ref_id ? $new_ref_id : "0";
+		}
+		else
+		{
+			switch($source_obj->getType())
+			{
+				case 'cat':
+					include_once('./Modules/CategoryReference/classes/class.ilObjCategoryReference.php');
+					$new_ref = new ilObjCategoryReference();
+					break;
+					
+				case 'crs':
+					include_once('./Modules/CourseReference/classes/class.ilObjCourseReference.php');
+					$new_ref = new ilObjCourseReference();
+					break;
+			}
+			$new_ref->create();
+			$new_ref_id = $new_ref->createReference();
+			
+			$new_ref->putInTree($target_obj->getRefId());
+			$new_ref->setPermissions($target_obj->getRefId());
+			$new_ref->initDefaultRoles();
+			
+			$new_ref->setTargetId($source_obj->getId());
+			$new_ref->update();
+			
+			return $new_ref_id ? $new_ref_id : 0;
+		}
 	}
 
 	function deleteObject($sid,$reference_id)
