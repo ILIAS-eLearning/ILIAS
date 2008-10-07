@@ -366,6 +366,15 @@ class ilObjLanguage extends ilObject
 						}
 						else
 						{
+							if ($double_checker[$separated[0]][$separated[1]][$this->key])
+							{
+								$this->ilias->raiseError("Duplicate Language Entry: ".
+									$separated[0]."-".$separated[1]."-".$this->key,
+									$this->ilias->error_obj->MESSAGE);
+							}
+							
+							$double_checker[$separated[0]][$separated[1]][$this->key] = true;
+							
 							// insert a new value if no local value exists
 							// reset local_change if the values are equal
 							$query = "REPLACE INTO lng_data " .
