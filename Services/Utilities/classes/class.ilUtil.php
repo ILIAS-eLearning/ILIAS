@@ -3721,7 +3721,7 @@ class ilUtil
 	* @param	string	permission to check e.g. 'visible' or 'read'
 	* @param	int id of user in question
 	* @param    int limit of results. if not given it defaults to search max hits.If limit is -1 limit is unlimited
-	* @return	array of obj_ids
+	* @return	array of ref_ids
 	*/
 	function _getObjectsByOperations($a_obj_type,$a_operation,$a_usr_id = 0,$limit = 0)
 	{

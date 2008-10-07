@@ -1516,14 +1516,14 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$this->setXMLContent("<PageObject></PageObject>");
 		}
 		// create object
-		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type, create_user, last_change_user, created) VALUES ".
+		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type, create_user, last_change_user, created, last_change) VALUES ".
 			"(".$ilDB->quote($this->getId()).",".
 			$ilDB->quote($this->getParentId()).",".
 			$ilDB->quote($this->getXMLContent()).
 			", ".$ilDB->quote($this->getParentType()).
 			", ".$ilDB->quote($ilUser->getId()).
 			", ".$ilDB->quote($ilUser->getId()).
-			", now())";
+			", now(), now())";
 
 		if(!$this->ilias->db->checkQuerySize($query))
 		{
