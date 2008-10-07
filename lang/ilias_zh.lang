@@ -8693,3 +8693,13 @@ common#:#crsr_edit_info#:#Please choose one course, for creating a new reference
 common#:#catr_edit_info#:#Please choose one category, for creating a new reference.###23 09 2008 new variable
 common#:#reference_deleted#:#Destination not available###23 09 2008 new variable
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon###23 09 2008 new variable
+cmps#:#cmps_responsible#:#Responsible###07 10 2008 new variable
+common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)###07 10 2008 new variable
+common#:#clone_target#:#Target Folder###07 10 2008 new variable
+common#:#clone_option_in_cat#:#Copy in Existing Category###07 10 2008 new variable
+common#:#clone_option_in_crs#:#Copy in Existing Course###07 10 2008 new variable
+common#:#cat_title#:#Category Title###07 10 2008 new variable
+common#:#crs_title#:#Course Title###07 10 2008 new variable
+common#:#clone_existing_course#:#Copy Existing Course###07 10 2008 new variable
+survey#:#use_google_chart_api#:#Use Google Chart API###07 10 2008 new variable
+survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work###07 10 2008 new variable

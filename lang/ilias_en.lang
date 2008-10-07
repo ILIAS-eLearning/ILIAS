@@ -8649,7 +8649,6 @@ common#:#selected_languages_updated#:#The selected languages have been updated (
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages?
 assessment#:#tst_single_results#:#Results by Question
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
-common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages?
 common#:#enable_download_folder#:#Enable Downloading Folders
 common#:#enable_download_folder_info#:#Allows to download a folder including sub structures as a zip file.
 rbac#:#crsr_edit_permission#:#Change Permission Settings
