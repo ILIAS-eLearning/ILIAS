@@ -132,9 +132,10 @@ class ilTermDefinitionEditorGUI
 				$this->setTabs();
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "edit");
 				$this->ctrl->setReturn($this, "listDefinitions");
-				$page =& $this->definition->getPageObject();
-				$page->addUpdateListener($this, "saveShortText");
 				$page_gui =& new ilPageObjectGUI("gdf", $this->definition->getId());
+				$page = $page_gui->getPageObject();
+				$this->definition->assignPageObject($page);
+				$page->addUpdateListener($this, "saveShortText");
 				$page_gui->setEditPreview(true);
 				$page_gui->activateMetaDataEditor($this->glossary->getId(),
 					$this->definition->getId(), "gdf");

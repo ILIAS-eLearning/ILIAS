@@ -79,6 +79,7 @@ class ilPageObjectGUI
 	var $enabledpctabs = false;
 	var $link_xml_set = false;
 	var $enableediting = true;
+	var $rawpagecontent = false;
 
 	/**
 	* Constructor
@@ -699,6 +700,26 @@ class ilPageObjectGUI
 	function getEnableEditing()
 	{
 		return $this->enableediting;
+	}
+
+	/**
+	* Set Get raw page content only.
+	*
+	* @param	boolean	$a_rawpagecontent	Get raw page content only
+	*/
+	function setRawPageContent($a_rawpagecontent)
+	{
+		$this->rawpagecontent = $a_rawpagecontent;
+	}
+
+	/**
+	* Get Get raw page content only.
+	*
+	* @return	boolean	Get raw page content only
+	*/
+	function getRawPageContent()
+	{
+		return $this->rawpagecontent;
 	}
 
 	/**
@@ -1465,8 +1486,15 @@ class ilPageObjectGUI
 		}
 		else
 		{
-			$tpl->setVariable($this->getTemplateOutputVar(), $output);
-			return $tpl->get();
+			if ($this->getRawPageContent())		// e.g. needed in glossaries
+			{
+				return $output;
+			}
+			else
+			{
+				$tpl->setVariable($this->getTemplateOutputVar(), $output);
+				return $tpl->get();
+			}
 		}
 	}
 	

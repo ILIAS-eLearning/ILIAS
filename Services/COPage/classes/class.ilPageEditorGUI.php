@@ -357,6 +357,11 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			$next_class = $this->ctrl->getNextClass($this);
 		}
 
+		if ($cmd == "displayPage")
+		{
+			$next_class = "";
+		}
+		
 //echo "hier_id:$hier_id:type:$type:cmd:$cmd:ctype:$ctype:next_class:$next_class:<br>";
 		switch($next_class)
 		{

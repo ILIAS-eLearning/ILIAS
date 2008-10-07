@@ -204,7 +204,7 @@ class ilGlossaryLocatorGUI
 			if ($this->mode == "edit")
 			{
 				$this->tpl->setVariable("LINK_ITEM",
-					$ilCtrl->getLinkTargetByClass("ilpageobjectgui", "view"));
+					$ilCtrl->getLinkTargetByClass("ilpageobjectgui", "edit"));
 			}
 			else
 			{
