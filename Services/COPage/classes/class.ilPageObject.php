@@ -1583,7 +1583,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "\n<br>dump_all2:".$this->dom->dump_mem(0, "UTF-8").":";
 //echo "\n<br>PageObject::update:".$this->getXMLFromDom().":";
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom());
-
 		// add missing pc ids
 		if (!$this->checkPCIds())
 		{

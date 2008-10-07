@@ -514,6 +514,7 @@ class ilGlossaryPresentationGUI
 			$page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen", $_GET["term_id"], $def["id"]));
 
 			$page_gui->setTemplateOutput(false);
+			$page_gui->setRawPageContent(true);
 			$page_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
 			if (!$this->offlineMode())
 			{
