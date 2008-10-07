@@ -5977,3 +5977,7 @@ ADD `first_access` TIMESTAMP NOT NULL;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1342>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
