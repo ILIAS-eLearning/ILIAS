@@ -604,7 +604,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['time_limit_from'] = $usr_obj->getTimeLimitFrom();
 		$usr_data['time_limit_until'] = $usr_obj->getTimeLimitUntil();
 		$usr_data['time_limit_message'] = $usr_obj->getTimeLimitMessage();
-		$usr_data['referral_commment'] = $usr_obj->getComment();
+		$usr_data['referral_comment'] = $usr_obj->getComment();
 		$usr_data['matriculation'] = $usr_obj->getMatriculation();
 		$usr_data['active'] = $usr_obj->getActive();
 		$usr_data['approve_date'] = $usr_obj->getApproveDate();
