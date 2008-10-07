@@ -96,7 +96,8 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 		// Performance improvement: We read the local course roles 
 		// only once, instead of reading them for each row in method fillRow().
 		$this->localCourseRoles = array();
-		foreach($this->container->object->getLocalCourseRoles(false) as $title => $role_id) {
+		foreach($this->container->object->getLocalCourseRoles(false) as $title => $role_id)
+		{
 			$this->localCourseRoles[ilObjRole::_getTranslation($title)] = array('role_id'=>$role_id, 'title'=>$title);
 		}
 	}
@@ -130,16 +131,17 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 		$assigned = $this->participants->getAssignedRoles($a_set['usr_id']);
 		foreach($this->localCourseRoles as $localizedTitle => $roleData)
 		{
-			if ($hasEditPermissionAccess || substr($roleData['title'], 0, 12) != 'il_crs_admin') {
-			$this->tpl->setCurrentBlock('roles');
-			$this->tpl->setVariable('ROLE_ID',$roleData['role_id']);
-			$this->tpl->setVariable('ROLE_NAME',$localizedTitle);
-			
-			if(in_array($roleData['role_id'],$assigned))
+			if ($hasEditPermissionAccess || substr($roleData['title'], 0, 12) != 'il_crs_admin') 
 			{
-				$this->tpl->setVariable('ROLE_CHECKED','selected="selected"');
-			}
-			$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock('roles');
+				$this->tpl->setVariable('ROLE_ID',$roleData['role_id']);
+				$this->tpl->setVariable('ROLE_NAME',$localizedTitle);
+				
+				if(in_array($roleData['role_id'],$assigned))
+				{
+					$this->tpl->setVariable('ROLE_CHECKED','selected="selected"');
+				}
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 	}
