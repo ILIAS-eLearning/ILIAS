@@ -968,6 +968,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 		$surveySetting = new ilSetting("survey");
 		if ($surveySetting->get("googlechart") == 1)
 		{
+			$chartcolors = array("2A4BD7", "9DAFFF", "1D6914", "81C57A", "814A19", "E9DEBB", "8126C0", "AD2323", "29D0D0", "FFEE33", "FF9233", "FFCDF3", "A0A0A0", "575757", "000000");
 			$selections = array();
 			$values = array();
 			$maxselection = 0;
@@ -986,7 +987,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			{
 				$selectionlabels = "0|$maxselection";
 			}
-			$charturl = "http://chart.apis.google.com/chart?chco=76A4FB&cht=bvs&chs=" . $chartwidth . "x250&chd=t:" . implode(",", $selections) . "&chds=0,$maxselection&chxt=x,y,x,y&chxl=0:|" . implode("|", $values) . "|1:|".$selectionlabels."|2:||" . $this->lng->txt("answers")."||3:||".str_replace(" ", "+", $this->lng->txt("mode_nr_of_selections"))."|" . "&chxr=1,0,$maxselection&chtt=" . str_replace(" ", "+", $this->object->getTitle()) . "&chbh=20," . round($chartwidth/(count($values)+1.5));
+			$charturl = "http://chart.apis.google.com/chart?chco=" . implode("|", array_slice($chartcolors, 0, count($values))). "&cht=bvs&chs=" . $chartwidth . "x250&chd=t:" . implode(",", $selections) . "&chds=0,$maxselection&chxt=y,y&chxl=0:|".$selectionlabels."|1:||".str_replace(" ", "+", $this->lng->txt("mode_nr_of_selections"))."|" . "&chxr=1,0,$maxselection&chtt=" . str_replace(" ", "+", $this->object->getTitle()) . "&chbh=20," . round($chartwidth/(count($values)+1.5)) . "&chdl=" . implode("|", $values) . "&chdlp=b";
 		}
 		else
 		{
