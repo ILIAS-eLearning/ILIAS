@@ -746,11 +746,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$_SESSION["active_time_id"] = $active_time_id;
 				if ($this->object->getListOfQuestionsStart())
 				{
-					$this->outQuestionSummary();
+					$this->ctrl->setParameter($this, "activecommand", "summary");
+					$this->ctrl->redirect($this, "redirectQuestion");
 				}
 				else
 				{
-					$this->outTestPage();
+					$this->ctrl->setParameter($this, "sequence", $this->sequence);
+					$this->ctrl->setParameter($this, "activecommand", "gotoquestion");
+					$this->ctrl->saveParameter($this, "tst_javascript");
+					$this->ctrl->redirect($this, "redirectQuestion");
 				}
 				break;
 			case "resume":
@@ -778,11 +782,15 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$_SESSION["active_time_id"] = $active_time_id;
 				if ($this->object->getListOfQuestionsStart())
 				{
-					$this->outQuestionSummary();
+					$this->ctrl->setParameter($this, "activecommand", "summary");
+					$this->ctrl->redirect($this, "redirectQuestion");
 				}
 				else
 				{
-					$this->outTestPage();
+					$this->ctrl->setParameter($this, "sequence", $this->sequence);
+					$this->ctrl->setParameter($this, "activecommand", "gotoquestion");
+					$this->ctrl->saveParameter($this, "tst_javascript");
+					$this->ctrl->redirect($this, "redirectQuestion");
 				}
 				break;
 			case "back":

@@ -72,6 +72,11 @@ class ilSurveyExecutionGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->getCommand($cmd);
+		if (strlen($cmd) == 0)
+		{
+			$this->ctrl->setParameter($this, "qid", $_GET["qid"]);
+			$this->ctrl->redirect($this, "gotoPage");
+		}
 		switch($next_class)
 		{
 			default:
@@ -179,8 +184,37 @@ class ilSurveyExecutionGUI
 		{
 			$_SESSION["finished_id"] = $this->object->startSurvey($ilUser->getId(), $_SESSION["anonymous_id"]);
 		}
-		$this->outSurveyPage($activepage, $direction);
+		if (strlen($activepage)) $this->ctrl->setParameter($this, "qid", $activepage);
+		$this->ctrl->setParameter($this, "activecommand", "default");
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
+
+	/**
+	* Called when a user answered a page to perform a redirect after POST.
+	* This is called for security reasons to prevent users sending a form twice.
+	*
+	* @access public
+	*/
+	function redirectQuestion()
+	{
+		switch ($_GET["activecommand"])
+		{
+			case "next":
+				$this->outSurveyPage($_GET["qid"], $_GET["direction"]);
+				break;
+			case "previous":
+				$this->outSurveyPage($_GET["qid"], $_GET["direction"]);
+				break;
+			case "gotoPage":
+				$this->outSurveyPage($_GET["qid"], $_GET["direction"]);
+				break;
+			default:
+				// don't save input, go to the first page
+				$this->outSurveyPage();
+				break;
+		}
+	}
+	
 
 /**
 * Navigates to the previous pages
@@ -191,21 +225,54 @@ class ilSurveyExecutionGUI
 */
 	function previous()
 	{
-		$this->navigate("previous");
+		$result = $this->saveUserInput("previous");
+		$this->ctrl->setParameter($this, "activecommand", "previous");
+		$this->ctrl->setParameter($this, "qid", $_GET["qid"]);
+		if (strlen($result))
+		{
+			$this->ctrl->setParameter($this, "direction", "0");
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "direction", "-1");
+		}
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 	
 /**
-* Navigates to the next pages
-*
 * Navigates to the next pages
 *
 * @access private
 */
 	function next()
 	{
-		$this->navigate("next");
+		$result = $this->saveUserInput("next");
+		$this->ctrl->setParameter($this, "activecommand", "next");
+		$this->ctrl->setParameter($this, "qid", $_GET["qid"]);
+		if (strlen($result))
+		{
+			$this->ctrl->setParameter($this, "direction", "0");
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, "direction", "1");
+		}
+		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 	
+	/**
+	* Go to a specific page without saving
+	*
+	* @access private
+	*/
+	function gotoPage()
+	{
+		$this->ctrl->setParameter($this, "activecommand", "gotoPage");
+		$this->ctrl->setParameter($this, "qid", $_GET["qid"]);
+		$this->ctrl->setParameter($this, "direction", "0");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+
 /**
 * Output of the active survey question to the screen
 *
@@ -213,7 +280,7 @@ class ilSurveyExecutionGUI
 *
 * @access private
 */
-	function outSurveyPage($activepage, $direction)
+	function outSurveyPage($activepage = NULL, $direction = NULL)
 	{
 		global $ilUser;
 		
@@ -252,7 +319,6 @@ class ilSurveyExecutionGUI
 			}
 		}
 
-		$qid = "";
 		if ($page === 0)
 		{
 			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
@@ -306,7 +372,7 @@ class ilSurveyExecutionGUI
 				$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
 				if (is_array($_SESSION["svy_errors"]))
 				{
-					$working_data =& $question_gui->object->getWorkingDataFromUserInput($_POST);
+					$working_data =& $question_gui->object->getWorkingDataFromUserInput($_SESSION["postdata"]);
 				}
 				else
 				{
@@ -321,14 +387,58 @@ class ilSurveyExecutionGUI
 				$show_questiontext = ($data["questionblock_show_questiontext"]) ? 1 : 0;
 				$question_output = $question_gui->getWorkingForm($working_data, $this->object->getShowQuestionTitles(), $show_questiontext, $error_messages[$data["question_id"]]);
 				$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
-				$qid = "&qid=" . $data["question_id"];
+				$this->ctrl->setParameter($this, "qid", $data["question_id"]);
 				$this->tpl->parse("survey_content");
 			}
 			$this->outNavigationButtons("bottom", $page);
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . $qid);
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
 		}
 	}
 	
+	/**
+	* Save the user's input
+	*
+	* @access private
+	*/
+	function saveUserInput($navigationDirection = "next") 
+	{
+		global $ilUser;
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
+		{
+			// only with read access it is possible to run the test
+			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// check users input when it is a metric question
+		unset($_SESSION["svy_errors"]);
+		$_SESSION["postdata"] = $_POST;
+		$page_error = 0;
+		$page = $this->object->getNextPage($_GET["qid"], 0);
+		foreach ($page as $data)
+		{
+			$page_error += $this->saveActiveQuestionData($data);
+		}
+		if ($page_error && (strcmp($navigationDirection, "previous") != 0))
+		{
+			if ($page_error == 1)
+			{
+				ilUtil::sendInfo($this->lng->txt("svy_page_error"), TRUE);
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt("svy_page_errors"), TRUE);
+			}
+		}
+		else
+		{
+			$page_error = "";
+			unset($_SESSION["svy_errors"]);
+		}
+		return $page_error;
+	}
+
 /**
 * Survey navigation
 *
@@ -463,7 +573,7 @@ class ilSurveyExecutionGUI
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", "Modules/Survey");
 			$this->tpl->setVariable("TEXT_FINISHED", $this->object->prepareTextareaOutput($this->object->getOutro()));
 			$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "runShowFinishedPage"));
 		}
 	}
 
