@@ -359,8 +359,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(!$ilAccess->checkAccess('visible','',$this->object->getRefId()))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+			return false;
 		}
-		
 		
 		
 		// Fill meta header tags
@@ -4486,8 +4486,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 	function &executeCommand()
 	{
-		
-		
 		global $rbacsystem,$ilUser,$ilAccess,$ilErr,$ilTabs,$ilNavigationHistory;
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -4710,9 +4708,16 @@ class ilObjCourseGUI extends ilContainerGUI
 					|| $cmd == 'join'
 					|| $cmd == 'subscribe')
 				{
-					include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
-					$this->ctrl->redirectByClass("ilCourseRegistrationGUI", "show");
-					break;
+					if($ilAccess->checkAccess('join','',$this->object->getRefId()))
+					{
+						include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
+						$this->ctrl->redirectByClass("ilCourseRegistrationGUI", "show");
+					}
+					else
+					{
+						$this->infoScreenObject();
+						break;
+					}
 				}
 				
 				if($cmd == 'listObjectives')
