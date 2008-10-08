@@ -42,6 +42,7 @@ class ilCalendarCategory
 	protected $color;
 	protected $type = self::TYPE_USR;
 	protected $obj_id;
+	protected $obj_type = null;
 	protected $title;
 	
 	protected $db;
@@ -165,6 +166,17 @@ class ilCalendarCategory
 	}
 	
 	/**
+	 * get type
+	 *
+	 * @access public
+	 */
+	public function getObjType()
+	{
+		return $this->obj_type;
+	}
+	
+	
+	/**
 	 * add new category
 	 *
 	 * @access public
@@ -262,6 +274,7 @@ class ilCalendarCategory
 		if($this->getType() == self::TYPE_OBJ)
 		{
 			$this->title = ilObject::_lookupTitle($this->getObjId());
+			$this->obj_type = ilObject::_lookupType($this->getObjId());
 		}
 	}
 }
