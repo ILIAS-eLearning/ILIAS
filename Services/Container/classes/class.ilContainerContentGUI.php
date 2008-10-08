@@ -385,7 +385,7 @@ abstract class ilContainerContentGUI
 	*/
 	function renderItem($a_item_data,$a_position = 0,$a_force_icon = false)
 	{
-		global $ilSetting;
+		global $ilSetting,$ilAccess;
 		
 		$item_list_gui = $this->getItemGUI($a_item_data);
 		if ($ilSetting->get("icon_position_in_lists") == "item_rows" ||
@@ -435,6 +435,13 @@ abstract class ilContainerContentGUI
 			
 			foreach($items as $item)
 			{
+				// TODO: this should be removed and be handled by if(strlen($sub_item_html))
+				// 	see mantis: 0003944
+				if(!$ilAccess->checkAccess('visible','',$item['ref_id']))
+				{
+					continue;
+				}
+				
 				$item_list_gui2 = $this->getItemGUI($item);
 				$item_list_gui2->enableIcon(true);
 				$item_list_gui2->enableItemDetailLinks(false);
@@ -451,9 +458,13 @@ abstract class ilContainerContentGUI
 				}
 				$sub_item_html = $item_list_gui2->getListItemHTML($item['ref_id'],
 					$item['obj_id'], $item['title'], $item['description']);
-				$this->determineAdminCommands($item["ref_id"],
-					$item_list_gui2->adminCommandsIncluded());
-				$item_list_gui->addSubItemHTML($sub_item_html);
+					
+					
+				$this->determineAdminCommands($item["ref_id"],$item_list_gui2->adminCommandsIncluded());
+				if(strlen($sub_item_html))
+				{
+					$item_list_gui->addSubItemHTML($sub_item_html);
+				}
 			}
 		}
 
