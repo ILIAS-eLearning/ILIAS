@@ -1526,8 +1526,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$mr = new ilTextInputGUI($lng->txt("matriculation"), "matriculation");
 		$mr->setSize(40);
 		$mr->setMaxLength(40);
-		$mr->setRequired(isset($settings["require_referral_matriculation"]) &&
-			$settings["require_referral_matriculation"]);
+		$mr->setRequired(isset($settings["require_matriculation"]) &&
+			$settings["require_matriculation"]);
 		$this->form_gui->addItem($mr);
 
 		// client IP
@@ -1651,7 +1651,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// send email
 		$se = new ilCheckboxInputGUI($lng->txt("inform_user_mail"), "send_mail");
-		$se->setChecked($ilUser->getPref("send_info_mails"));
+		$se->setValue($ilUser->getPref("send_info_mails")== "y" || $ilUser->getPref("send_info_mails") == 1 ? "y" : "n");
+		$se->setChecked($ilUser->getPref("send_info_mails") == 1 || $ilUser->getPref("send_info_mails")== "y" );
 		$this->form_gui->addItem($se);
 
 		// @todo: handle all required fields
