@@ -2927,7 +2927,7 @@ class ilObjUser extends ilObject
 					}
 					else
 					{
-						$q = "";
+						return $result_arr;
 					}
 					break;
 				case 4:
