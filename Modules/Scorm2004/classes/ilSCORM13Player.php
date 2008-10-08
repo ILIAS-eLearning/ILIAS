@@ -34,6 +34,8 @@ class ilSCORM13Player
 
 	const ENABLE_GZIP = 0;
 	
+	const ENABLE_JS_DEBUG = 0;
+	
 	const NONE = 0;
 	const READONLY = 1;
 	const WRITEONLY = 2;
@@ -128,8 +130,8 @@ class ilSCORM13Player
 			'min' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'raw' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'scaled' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
-			'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'progress_measure' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
+			'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),
 			'scope' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null),			
 		),
 	);
@@ -239,11 +241,12 @@ class ilSCORM13Player
 	
 	function getRTEjs()
 	{
-		$filename="rte-min.js";
+		$filename = "rte-min.js";
+		if (self::ENABLE_JS_DEBUG==1) {
+			$filename = "rte.js";
+		}
 		$js_data = file_get_contents("./Modules/Scorm2004/scripts/buildrte/".$filename);
 		if (self::ENABLE_GZIP==1) {
-			//header('Content-Encoding: gzip');
-			//header('Content-Type: application/x-gzip');
 			ob_start("ob_gzhandler");
 			header('Content-Type: text/javascript; charset=UTF-8');
 		} else {
@@ -838,11 +841,15 @@ class ilSCORM13Player
 			{
 				// first fill some fields that could not be set from client side
 				// namely the database id's depending on which table is processed  
+				
 				switch ($table)
+				
 				{
 					case 'correct_response':
 						$no = $schem['cmi_interaction_id']['no'];
 						$row[$no] = $map['interaction'][$row[$no]];
+						
+						//check this value $map['interaction'][$row[$no]];
 					case 'comment':
 					case 'interaction':
 						$no = $schem['cmi_node_id']['no'];

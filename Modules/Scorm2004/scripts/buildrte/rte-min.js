@@ -1,4 +1,4 @@
-// Build: 2008904112940 Release: 3.10
+// Build: 20081004195655 
 
 function ADLAuxiliaryResource()
 {}
@@ -2321,14 +2321,14 @@ for(i=cmi.data.node.length;i--;)
 {if(row[j]===null){continue;}
 setItemValue(j,act,row,remoteMapping.node[j]);}
 activitiesByCMI[act.cmi_node_id]=act;}
-for(i=cmi.data.comment.length;i--;)
+for(i=0;i<cmi.data.comment.length;i++)
 {row=cmi.data.comment[i];dat=new Comment();for(j=remoteMapping.comment.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.comment[j]);}
 act=activitiesByCMI[row[remoteMapping.comment.cmi_node_id]];act.comments[dat.cmi_comment_id]=dat;}
 var interactions={};for(i=cmi.data.interaction.length;i--;)
 {row=cmi.data.interaction[i];dat=new Interaction();for(j=remoteMapping.interaction.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.interaction[j]);}
-act=activitiesByCMI[row[remoteMapping.comment.cmi_node_id]];act.interactions[dat.id]=dat;interactions[dat.cmi_interaction_id]=dat;}
+act=activitiesByCMI[row[remoteMapping.interaction.cmi_node_id]];act.interactions[dat.id]=dat;interactions[dat.cmi_interaction_id]=dat;}
 for(i=cmi.data.correct_response.length;i--;)
 {row=cmi.data.correct_response[i];dat=new CorrectResponse();for(j=remoteMapping.correct_response.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.correct_response[j]);}
@@ -2355,13 +2355,11 @@ function save()
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
 res.push(data);for(z in collection[k])
-{if(z=='interactions'||z=='comments'||z=="objectives")
+{if(z=='interactions'||z=='comments'||z=="objectives"||z=="correct_responses")
 {for(y in collection[k][z])
 {collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];}
 walk(collection[k][z],z.substr(0,z.length-1));}}
-switch(type)
-{case'node':walk(item.objectives,"objective");if(item.dirty!==2){continue;}
-walk(item.comments,"comment");walk(item.interactions,"interaction");walk(item.correct_responses,"correct_response");break;case'interaction':walk(item.correct_responses,"correct_response");walk(item.objectives,"objective");break;}}}
+if(item.dirty!==2&&type=="node"){continue;}}}
 if(save.timeout)
 {window.clearTimeout(save.timeout);}
 var result={};for(var k in remoteMapping)
@@ -2379,7 +2377,7 @@ function getAPI(cp_node_id)
 {api[k]=dat.toString();}}
 function getAPIWalk(model,data,api)
 {var k,i;if(!model.children)return;for(k in model.children)
-{var mod=model.children[k];var dat;if(data!=null){dat=data[k];}else{dat=null;}
+{var mod=model.children[k];var dat;if(data!=null){if(k=="comments_from_learner"||k=="comments_from_lms"){dat=data['comments'];}else{dat=data[k];}}else{dat=null;}
 if(mod.type===Object)
 {api[k]={};for(var i=mod.mapping.length;i--;)
 {if(k=="score"){var d=new Object();d['scaled']=data['scaled'];d['raw']=data['raw'];d['min']=data['min'];d['max']=data['max'];api[k]=d;}else{getAPISet(mod.mapping[i],dat,api[k]);}}}
@@ -2387,7 +2385,8 @@ else if(mod.type===Array)
 {api[k]=[];if(mod.mapping)
 {}
 for(i in dat)
-{if(mod.mapping&&!mod.mapping.func(dat[i]))continue;var d=getAPIWalk(mod,dat[i],{});var idname='cmi_'+k.substr(0,k.length-1)+'_id';if(dat[i]['scaled']){d['score']['scaled']=dat[i]['scaled'];}
+{if(mod.mapping&&!mod.mapping.func(dat[i]))continue;var d=getAPIWalk(mod,dat[i],{});var idname;if(k=="comments_from_learner"||k=="comments_from_lms"){idname="cmi_comment_id";}else{idname='cmi_'+k.substr(0,k.length-1)+'_id';}
+if(dat[i]['scaled']){d['score']['scaled']=dat[i]['scaled'];}
 if(dat[i]['max']){d['score']['max']=dat[i]['max'];}
 if(dat[i]['min']){d['score']['min']=dat[i]['min'];}
 if(dat[i]['raw']){d['score']['raw']=dat[i]['raw'];}
