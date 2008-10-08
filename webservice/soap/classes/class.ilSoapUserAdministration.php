@@ -612,9 +612,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$usr_data['user_style'] = $usr_obj->getPref('style');
 		$usr_data['user_language'] = $usr_obj->getLanguage();
 		$usr_data['auth_mode'] = $usr_obj->getAuthMode();
-
 		$usr_data['accepted_agreement'] = $usr_obj->hasAcceptedUserAgreement();
-
+		$usr_data['import_id'] = $usr_obj->getImportId();
+		
 		return $usr_data;
 	}
 
