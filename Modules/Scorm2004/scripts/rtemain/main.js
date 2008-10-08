@@ -2268,7 +2268,7 @@ function load()
 		}
 		activitiesByCMI[act.cmi_node_id] = act;
 	}
-	for (i=cmi.data.comment.length; i--; )
+	for (i=0;i<cmi.data.comment.length; i++)
 	{
 		row = cmi.data.comment[i];
 		dat = new Comment();
@@ -2290,7 +2290,7 @@ function load()
 			//dat[remoteMapping.interaction[j]] = row[j];
 			setItemValue(j, dat, row, remoteMapping.interaction[j]);
 		}
-		act = activitiesByCMI[row[remoteMapping.comment.cmi_node_id]];
+		act = activitiesByCMI[row[remoteMapping.interaction.cmi_node_id]];
 		act.interactions[dat.id] = dat;
 		interactions[dat.cmi_interaction_id] = dat;
 	}
@@ -2368,31 +2368,20 @@ function save()
 			}
 			res.push(data);
 			
-			for (z in collection[k])
+			for (z in collection[k])			
 			{
-				if (z == 'interactions' || z == 'comments' || z == "objectives")
+				if (z == 'interactions' || z == 'comments' || z == "objectives" || z == "correct_responses")
 				{
+					
 					for (y in collection[k][z])
 					{
+					
 						collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];
 					}
 					walk(collection[k][z],z.substr(0,z.length-1));
 				}
 			}
-			switch (type)
-			{
-				case 'node':
-					walk(item.objectives, "objective");
-					if (item.dirty!==2) {continue;}
-					walk(item.comments, "comment");
-					walk(item.interactions, "interaction");
-					walk(item.correct_responses, "correct_response");
-					break;
-				case 'interaction':
-					walk(item.correct_responses, "correct_response");
-					walk(item.objectives, "objective");
-					break;
-			}
+			if (item.dirty!==2 && type=="node") {continue;}
 		}
 	}
 	
@@ -2414,7 +2403,6 @@ function save()
 	
 	//alert("Before save "+result.node.length);
 	if (!result.node.length) {return;} 
-	
 	result = this.config.cmi_url 
 		? sendJSONRequest(this.config.cmi_url, result)
 		: {};
@@ -2462,7 +2450,12 @@ function getAPI(cp_node_id)
 			var mod = model.children[k];
 			var dat;
 			if (data!=null) {
-			 	dat = data[k];
+				//special mapping for comments
+				if (k == "comments_from_learner" || k == "comments_from_lms") {
+					dat = data['comments'];
+				} else {
+					dat = data[k];
+				}
 			} else {
 				dat=null;
 			}
@@ -2502,7 +2495,12 @@ function getAPI(cp_node_id)
 				{
 					if (mod.mapping && !mod.mapping.func(dat[i])) continue;
 					var d = getAPIWalk(mod, dat[i], {});
-					var idname = 'cmi_'+ k.substr(0, k.length-1) + '_id';
+					var idname;
+					if (k == "comments_from_learner" || k == "comments_from_lms") {
+						idname = "cmi_comment_id";
+					} else {
+						idname = 'cmi_'+ k.substr(0, k.length-1) + '_id';						
+					}
 					//TODO include in recursion
 					if (dat[i]['scaled']) {
 						d['score']['scaled']=dat[i]['scaled'];
