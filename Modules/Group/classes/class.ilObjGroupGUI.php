@@ -34,7 +34,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI
 *
 * @extends ilObjectGUI
 */
@@ -115,6 +115,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$ret =& $this->ctrl->forwardCommand($rep_search);
 				$this->setSubTabs('members');
 				$this->tabs_gui->setSubTabActive('members');
+				break;
+
+			case 'ilcourseitemadministrationgui':
+				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
+				$this->tabs_gui->clearSubTabs();
+				$this->ctrl->setReturn($this,'view');
+				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_REQUEST['item_id']);
+				$this->ctrl->forwardCommand($item_adm_gui);
 				break;
 
 			case "ilinfoscreengui":

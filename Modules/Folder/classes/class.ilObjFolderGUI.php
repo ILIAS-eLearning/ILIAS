@@ -32,6 +32,7 @@
 * @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface, ilPermissionGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilPageObjectGUI, ilColumnGUI
+* @ilCtrl_Calls ilObjFolderGUi: ilCourseItemAdministrationGUI
 *
 * @extends ilObjectGUI
 */
@@ -130,6 +131,15 @@ class ilObjFolderGUI extends ilContainerGUI
 				include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
+				break;
+				
+			case 'ilcourseitemadministrationgui':
+				$this->prepareOutput();
+				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
+				$this->tabs_gui->clearSubTabs();
+				$this->ctrl->setReturn($this,'view');
+				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_REQUEST['item_id']);
+				$this->ctrl->forwardCommand($item_adm_gui);
 				break;
 
 			case "illearningprogressgui":

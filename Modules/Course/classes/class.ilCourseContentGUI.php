@@ -29,7 +29,7 @@
 *
 * @extends ilObjectGUI
 *
-* @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI, ilCourseObjectivePresentationGUI, ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilCourseContentGUI: ilCourseArchivesGUI, ilCourseObjectivePresentationGUI
 * @ilCtrl_Calls ilCourseContentGUI: ilColumnGUI
 *
 */
@@ -80,9 +80,10 @@ class ilCourseContentGUI
 		switch($this->ctrl->getNextClass($this))
 		{
 			case 'ilcourseitemadministrationgui':
+
 				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
 				$this->tabs_gui->clearSubTabs();
-				$this->ctrl->setReturn($this,'');
+				$this->ctrl->setReturn($this,'view');
 				
 				$item_adm_gui = new ilCourseItemAdministrationGUI($this->container_obj,(int) $_REQUEST['item_id']);
 				$this->ctrl->forwardCommand($item_adm_gui);
@@ -456,7 +457,7 @@ class ilCourseContentGUI
 
 		// Event
 		
-		$this->container_gui->renderContainer();
+		#$this->container_gui->renderContainer();
 		$this->container_gui->showAdministrationPanel($this->tpl);
 	}
 	

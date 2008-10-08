@@ -6091,3 +6091,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 ?>
+
+<#1346>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
