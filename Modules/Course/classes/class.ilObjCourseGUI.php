@@ -35,7 +35,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseUserFieldsGUI, ilCourseAgreementGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
 *
 * 
 * @extends ilContainerGUI
@@ -4683,6 +4683,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('events');
 				$overview = new ilSessionOverviewGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($overview);				
+				break;
+				
+			case 'ilcourseitemadministrationgui':
+				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
+				$this->tabs_gui->clearSubTabs();
+				$this->ctrl->setReturn($this,'view');
+				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_REQUEST['item_id']);
+				$this->ctrl->forwardCommand($item_adm_gui);
 				break;
 				
 			// container page editing
