@@ -169,33 +169,71 @@ class ilCalendarCategoryGUI
 	{
 		global $tpl;
 		
-		$this->readPermissions();
-		$this->checkVisible();
-
 		if(!$_GET['category_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
 		}
-		
+
+		$this->readPermissions();
+		$this->checkVisible();
+
 		$this->tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
-		
-		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
-		$shared = new ilCalendarShared((int) $_GET['category_id']);
-		
-		if($shared->getShared() and $this->isEditable())
+		if($this->isEditable())
 		{
-			include_once('./Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php');
-			$table = new ilCalendarSharedListTableGUI($this,'edit');
-			$table->setTitle($this->lng->txt('cal_shared_header'));
-			$table->setCalendarId((int) $_GET['category_id']);
-			$table->parse();
-			$this->tpl->setVariable('SHARED_TABLE',$table->getHTML());
+			include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
+			$shared = new ilCalendarShared((int) $_GET['category_id']);
+			
+			if($shared->getShared() and $this->isEditable())
+			{
+				include_once('./Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php');
+				$table = new ilCalendarSharedListTableGUI($this,'edit');
+				$table->setTitle($this->lng->txt('cal_shared_header'));
+				$table->setCalendarId((int) $_GET['category_id']);
+				$table->parse();
+				$this->tpl->setVariable('SHARED_TABLE',$table->getHTML());
+			}
+			
+			$this->initFormCategory('edit');
+			$this->tpl->setVariable('EDIT_CAT',$this->form->getHTML());
 		}
 		
+		{
+			$category = new ilCalendarCategory((int) $_GET['category_id']);	
+			
+			
+			// Non editable category 
+			include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+			$info = new ilInfoScreenGUI($this);
+			$info->setFormAction($this->ctrl->getFormAction($this));
+	
+			$info->addSection($this->lng->txt('cal_cal_details'));
+	
+			// Calendar Name
+			$info->addProperty($this->lng->txt('cal_calendar_name'),$category->getTitle());
+			switch($category->getType())
+			{
+				case ilCalendarCategory::TYPE_USR:
+					$info->addProperty($this->lng->txt('cal_cal_type'),$this->lng->txt('cal_type_personal'));
+					break;
+					
+				case ilCalendarCategory::TYPE_GLOBAL:
+					$info->addProperty($this->lng->txt('cal_cal_type'),$this->lng->txt('cal_type_system'));
+					break;
+					
+				case ilCalendarCategory::TYPE_OBJ:
+					$info->addProperty($this->lng->txt('cal_cal_type'),$this->lng->txt('cal_type_'.$category->getObjType()));
+					
+					$info->addSection($this->lng->txt('additional_info'));
+					$info->addProperty($this->lng->txt('perma_link'),$this->addReferenceLinks($category->getObjId()));
+					break;
+				
+			}
+			
+	
+			$this->tpl->setVariable('INFO_CAT',$info->getHTML());	
+		}		
 		
-		$this->initFormCategory('edit');
-		$this->tpl->setVariable('EDIT_CAT',$this->form->getHTML());
 		
 		$this->tpl->setVariable('CAT_APPOINTMENTS',$this->showAssignedAppointments());
 		
@@ -1040,6 +1078,44 @@ class ilCalendarCategoryGUI
 	private function isEditable()
 	{
 		return $this->editable;
+	}
+	
+	/**
+	 * Show links to references
+	 * @param int $a_obj_id $obj_id
+	 * @return
+	 */
+	protected function addReferenceLinks($a_obj_id)
+	{
+		global $tree;
+		
+		$tpl = new ilTemplate('tpl.cal_reference_links.html',true,true,'Services/Calendar');
+		
+		foreach(ilObject::_getAllReferences($a_obj_id) as $ref_id => $ref_id)
+		{
+			include_once('./classes/class.ilLink.php');
+			
+			$parent_ref_id = $tree->getParentId($ref_id);
+			$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
+			$parent_type = ilObject::_lookupType($parent_obj_id);
+			$parent_title = ilObject::_lookupTitle($parent_obj_id);
+			
+			$type = ilObject::_lookupType($a_obj_id);
+			$title = ilObject::_lookupTitle($a_obj_id);
+			
+			$tpl->setCurrentBlock('reference');
+			$tpl->setVariable('PIMG_SRC',ilUtil::getTypeIconPath($parent_type,$parent_obj_id,'tiny'));
+			$tpl->setVariable('PIMG_ALT',$this->lng->txt('obj_'.$parent_type));
+			$tpl->setVariable('PARENT_TITLE',$parent_title);
+			$tpl->setVariable('PARENT_HREF',ilLink::_getLink($parent_ref_id));
+			 
+			$tpl->setVariable('SRC',ilUtil::getTypeIconPath($type,$a_obj_id,'tiny'));
+			$tpl->setVariable('ALT',$this->lng->txt('obj_'.$type));
+			$tpl->setVariable('TITLE',$title);
+			$tpl->setVariable('HREF',ilLink::_getLink($ref_id));
+			$tpl->parseCurrentBlock();
+		}
+		return $tpl->get();
 	}
 }
 ?>

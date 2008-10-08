@@ -8066,7 +8066,7 @@ common#:#mail_no_recipient_found#:#Geben Sie bitte eine andere E-Mail-Adresse an
 common#:#mail_multiple_recipients_found#:#Geben Sie eine genauere E-Mail-Adresse ein, da ILIAS mehrere Empfänger gefunden hat.
 common#:#webdav_pear_auth_http_needed#:#Sie benötigen PEAR-Auth_HTTP um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Auth_HTTP</code> ein.
 dateplaner#:#cal_table_categories#:#Kalenderauswahl
-dateplaner#:#cal_type_usr#:#Persönlicher Kalendar
+dateplaner#:#cal_type_usr#:#Persönlicher Kalender
 dateplaner#:#yui_cal_choose_month#:#Monat:
 dateplaner#:#yui_cal_choose_year#:#Jahr:
 dateplaner#:#cal_edit_appointment#:#Termin bearbeiten
@@ -8688,3 +8688,6 @@ common#:#cat_title#:#Kategorietitel
 common#:#clone_existing_course#:#Vorhandenen Kurs kopieren
 survey#:#use_google_chart_api#:#Google Chart API verwenden
 survey#:#use_google_chart_api_desc#:#Wählen Sie das Kontrollkästchen aus, wenn Sie die <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a> für die Darstellung der Diagramme in den detaillierten kumulierten Ergebnissen der Umfragestatistik aktivieren wollen. Bitte beachten Sie, dass für die Verwendung der Google Chart API eine permanente Internetverbindung notwendig ist.
+dateplaner#:#cal_cal_details#:#Kalenderdetails
+dateplaner#:#cal_type_crs#:#Kurskalender
+dateplaner#:#cal_type_grp#:#Gruppenkalender
