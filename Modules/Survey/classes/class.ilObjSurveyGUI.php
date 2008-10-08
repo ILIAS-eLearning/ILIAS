@@ -3311,7 +3311,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("CONSTRAINT_QUESTION_TEXT", $title);
 		$this->tpl->setVariable("SELECT_PRIOR_QUESTION", $this->lng->txt("step") . " 1: " . $this->lng->txt("select_prior_question"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this) . "&start=" . $_GET["start"]);
+		if (strlen($_GET["start"])) $this->ctrl->setParameter($this, "start", $_GET["start"]);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "constraintsAdd"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -3931,6 +3932,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "previous":
 			case "start":
 			case "resume":
+			case "redirectQuestion":
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 				break;
 			case "evaluation":
@@ -4046,6 +4048,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case "resume":
 			case "next":
 			case "previous":
+			case "redirectQuestion":
 				return;
 				break;
 			case "evaluation":

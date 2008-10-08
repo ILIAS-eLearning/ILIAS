@@ -116,7 +116,7 @@ class ilSurveyEvaluationGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation_checkaccess.html", "Modules/Survey");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("AUTHENTICATION_NEEDED", $this->lng->txt("svy_check_evaluation_authentication_needed"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "checkAnonymizedEvaluationAccess"));
 		$this->tpl->setVariable("EVALUATION_CHECKACCESS_INTRODUCTION", $this->lng->txt("svy_check_evaluation_access_introduction"));
 		$this->tpl->setVariable("VALUE_CHECK", $this->lng->txt("ok"));
 		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
@@ -375,7 +375,7 @@ class ilSurveyEvaluationGUI
 		global $ilAccess;
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) 
 		{
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "evaluation"));
 			$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
 			$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
 			$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
@@ -391,7 +391,7 @@ class ilSurveyEvaluationGUI
 		}
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		$this->tpl->setVariable("VALUE_DETAIL", $details);
-		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this, "evaluation"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
@@ -639,8 +639,8 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("exp_type_csv"));
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "evaluationuser"));
+		$this->tpl->setVariable("PRINT_ACTION", $this->ctrl->getFormAction($this, "evaluationuser"));
 		$this->tpl->setVariable("CMD_EXPORT", "evaluationuser");
 		$this->tpl->parseCurrentBlock();
 	}
