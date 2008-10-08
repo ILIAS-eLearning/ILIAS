@@ -443,6 +443,14 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function validate()
 	{
+		global $ilUser;
+		
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			$this->join_error = $this->lng->txt('permission_denied');
+			return false;
+		}
+		
 		// Set aggrement to not accepted
 		$this->setAccepted(false);
 		

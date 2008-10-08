@@ -303,6 +303,14 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function validate()
 	{
+		global $ilUser;
+	
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			$this->join_error = $this->lng->txt('permission_denied');
+			return false;
+		}
+		
 		if(!$this->isRegistrationPossible())
 		{
 			$this->join_error = $this->lng->txt('mem_error_preconditions');
