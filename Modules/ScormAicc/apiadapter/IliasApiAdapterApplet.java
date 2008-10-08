@@ -30,6 +30,9 @@ public	class IliasApiAdapterApplet
 
 	private String  IliasStudentId;
 	private String  IliasStudentName;
+	private String  IliasStudentLogin;
+	private String  IliasStudentOu;
+	
 	private String  IliasRefId;
 
 	private String  IliasSahsId;
@@ -50,6 +53,8 @@ public	class IliasApiAdapterApplet
 		IliasRefId       = getParameter ("ref_id");
 		IliasStudentId   = getParameter ("student_id");
 		IliasStudentName = getParameter ("student_name");
+		IliasStudentLogin = getParameter ("student_login");
+		IliasStudentOu    = getParameter ("student_ou");
 		say ("cmi.core.student_id=" +IliasStudentId);
 		say ("cmi.core.student_name=" +IliasStudentName);
 	}
@@ -313,6 +318,8 @@ public	class IliasApiAdapterApplet
 	}
 
 	public	final String LMSGetValue (String l) {
+		if (l.equals("cmi.core.student_login")) {say ("Special: cmi.core.student_login = " + IliasStudentLogin); return IliasStudentLogin;}
+		if (l.equals("cmi.core.student_ou")) {say ("Special: cmi.core.student_ou = " + IliasStudentOu); return IliasStudentOu;}		
 		String rv = core.LMSGetValue (l);
 		say ("LMSGetValue("+l+")="+rv);
 		return rv;

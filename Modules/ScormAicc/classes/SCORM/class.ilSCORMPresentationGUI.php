@@ -344,6 +344,8 @@ class ilSCORMPresentationGUI
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 		$this->tpl->setVariable("USER_FIRSTNAME",$ilias->account->getFirstname());
 		$this->tpl->setVariable("USER_LASTNAME",$ilias->account->getLastname());
+		$this->tpl->setVariable("USER_LOGIN",$ilias->account->getLogin());
+		$this->tpl->setVariable("USER_OU",$ilias->account->getDepartment());
 		$this->tpl->setVariable("REF_ID",$_GET["ref_id"]);
 		$this->tpl->setVariable("SESSION_ID",session_id());
 		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/ilias.php")));
