@@ -2281,7 +2281,7 @@ function load()
 		act.comments[dat.cmi_comment_id] = dat;
 	}
 	var interactions = {};
-	for (i=cmi.data.interaction.length; i--; )
+	for (i=0;i<cmi.data.interaction.length; i++ )
 	{
 		row = cmi.data.interaction[i];
 		dat = new Interaction();
@@ -2306,7 +2306,7 @@ function load()
 		act = interactions[row[remoteMapping.correct_response.cmi_interaction_id]];
 		act.correct_response[dat.cmi_correct_response_id] = dat;
 	}
-	for (i=cmi.data.objective.length; i--; )
+	for (i=0;i<cmi.data.objective.length; i++)
 	{
 		row = cmi.data.objective[i];
 		id = row[remoteMapping.objective.id];
@@ -2677,6 +2677,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	// create api if associated resouce is of adl:scormType=sco
 	if (item.sco)
 	{
+		
 		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
 		
@@ -3008,7 +3009,7 @@ function undeliverFinish(){
 		
 		save_global_objectives();
 		//sync dynamic objectives to ActivityTree
-		syncDynObjectives();
+		//syncDynObjectives();
 		save();
 		if (state!=2) {
 			//currentAPI.Terminate("");
@@ -3016,7 +3017,6 @@ function undeliverFinish(){
 			
 	}
 	currentAPI = window[Runtime.apiname] = null;
-	
 	// set some data values 
 	if (currentAct) 
 	{

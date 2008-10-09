@@ -1,4 +1,4 @@
-// Build: 20081004195655 
+// Build: 20081009041002 
 
 function ADLAuxiliaryResource()
 {}
@@ -2325,7 +2325,7 @@ for(i=0;i<cmi.data.comment.length;i++)
 {row=cmi.data.comment[i];dat=new Comment();for(j=remoteMapping.comment.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.comment[j]);}
 act=activitiesByCMI[row[remoteMapping.comment.cmi_node_id]];act.comments[dat.cmi_comment_id]=dat;}
-var interactions={};for(i=cmi.data.interaction.length;i--;)
+var interactions={};for(i=0;i<cmi.data.interaction.length;i++)
 {row=cmi.data.interaction[i];dat=new Interaction();for(j=remoteMapping.interaction.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.interaction[j]);}
 act=activitiesByCMI[row[remoteMapping.interaction.cmi_node_id]];act.interactions[dat.id]=dat;interactions[dat.cmi_interaction_id]=dat;}
@@ -2333,7 +2333,7 @@ for(i=cmi.data.correct_response.length;i--;)
 {row=cmi.data.correct_response[i];dat=new CorrectResponse();for(j=remoteMapping.correct_response.length;j--;)
 {setItemValue(j,dat,row,remoteMapping.correct_response[j]);}
 act=interactions[row[remoteMapping.correct_response.cmi_interaction_id]];act.correct_response[dat.cmi_correct_response_id]=dat;}
-for(i=cmi.data.objective.length;i--;)
+for(i=0;i<cmi.data.objective.length;i++)
 {row=cmi.data.objective[i];id=row[remoteMapping.objective.id];cmi_interaction_id=row[remoteMapping.objective.cmi_interaction_id];cmi_node_id=row[remoteMapping.objective.cmi_node_id];if(cmi_interaction_id===null||cmi_interaction_id==0)
 {act=activitiesByCMI[cmi_node_id];if(act&&act.objectives[id])
 {dat=act.objectives[id];}
@@ -2478,7 +2478,7 @@ function onItemUndeliver(noControls)
 {if(noControls!=true){updateNav();updateControls();}
 removeResource();undeliverFinish();}
 function undeliverFinish(){if(currentAPI)
-{syncCMIADLTree();var stat=pubAPI.cmi.exit;save_global_objectives();syncDynObjectives();save();if(state!=2){}}
+{syncCMIADLTree();var stat=pubAPI.cmi.exit;save_global_objectives();save();if(state!=2){}}
 currentAPI=window[Runtime.apiname]=null;if(currentAct)
 {currentAct.accessed=currentTime()/1000;if(!currentAct.dirty)currentAct.dirty=1;}}
 function syncDynObjectives(){var objectives=pubAPI.cmi.objectives;var act=activities[mlaunch.mActivityID].objectives;for(var i=0;i<objectives.length;i++){if(objectives[i].id){var id=objectives[i].id;var obj=objectives[i];if(!act.id){act[id]=new Objective();act[id]['objectiveID']=id;act[id]['id']=id;for(var element in obj){if(element!="id"&&element!="cmi_objective_id"){if(element!="score"){act[id][element]=obj[element];}
