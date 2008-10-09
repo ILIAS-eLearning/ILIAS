@@ -67,6 +67,9 @@ class ilObjectListGUI
 	protected $item_detail_links = array();
 	protected $item_detail_links_intro = '';
 	
+	protected $expand_enabled = false;
+	protected $is_expanded = true;
+	
 	/**
 	* constructor
 	*
@@ -264,7 +267,36 @@ class ilObjectListGUI
 	{
 		return $this->checkboxes_enabled;
 	}
-
+	
+	/**
+	* En/Dis-able expand/collapse link
+	*
+	* @param boolean	checkbox on/off
+	*/
+	function enableExpand($a_status)
+	{
+		$this->expand_enabled = $a_status;
+	}
+	
+	/**
+	* Is expand/collapse enabled
+	*
+	* @return boolean	icons enabled?
+	*/
+	function getExpandStatus()
+	{
+		return $this->expand_enabled;
+	}
+	
+	function setExpanded($a_status)
+	{
+		$this->is_expanded = $a_status;
+	}
+	
+	function isExpanded()
+	{
+		return $this->is_expanded;
+	}
 	/**
 	* Set position input field
 	*
@@ -1773,6 +1805,31 @@ class ilObjectListGUI
 			$this->tpl->parseCurrentBlock();
 			$cnt += 1;
 		}
+		elseif($this->getExpandStatus())
+		{
+			$this->tpl->setCurrentBlock('expand');
+			
+			if($this->isExpanded())
+			{
+				$this->ctrl->setParameter($this->container_obj,'expand',-1 * $this->obj_id);
+				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj));
+				$this->ctrl->clearParameters($this->container_obj);			
+				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/minus.gif'));				
+			$this->tpl->setVariable('EXP_ALT',$this->lng->txt('collapse'));
+			}
+			else
+			{
+				$this->ctrl->setParameter($this->container_obj,'expand',$this->obj_id);
+				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj));
+				$this->ctrl->clearParameters($this->container_obj);
+				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/plus.gif'));
+				$this->tpl->setVariable('EXP_ALT',$this->lng->txt('expand'));
+			}
+			
+			$this->tpl->parseCurrentBlock();
+			$cnt += 1;
+		}
+		
 		if ($this->getIconStatus())
 		{
 			if ($cnt == 1)

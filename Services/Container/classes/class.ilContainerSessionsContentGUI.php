@@ -32,7 +32,6 @@ include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
 */
 class ilContainerSessionsContentGUI extends ilContainerContentGUI
 {
-	protected $details_level;
 	protected $force_details = 0;
 	
 	/**
@@ -60,17 +59,20 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	{
 		if($this->getContainerGUI()->isActiveAdministrationPanel())
 		{
-			return self::DETAILS_ALL;
+			return self::DETAILS_DEACTIVATED;
 		}
-		if($this->details_level == self::DETAILS_TITLE)
+		if(isset($_SESSION['sess']['expanded'][$a_session_id]))
 		{
-			return $this->details_level;
+			return $_SESSION['sess']['expanded'][$a_session_id];
 		}
 		if($a_session_id == $this->force_details)
 		{
 			return self::DETAILS_ALL;
 		}
-		return $this->details_level;
+		else
+		{
+			return self::DETAILS_TITLE;
+		}
 	}
 
 
@@ -159,7 +161,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		// all other items
 		if ($done_sessions)
 		{
-			$this->addFooterRow($tpl);
+			#$this->addFooterRow($tpl);
 			$this->addSeparatorRow($tpl);
 		}
 		if (is_array($this->items["_all"]))
@@ -248,14 +250,16 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	{
 		global $ilUser;
 		
-		if(isset($_GET['details_level']))
+		if($_GET['expand'])
 		{
-			$this->details_level = (int) $_GET['details_level'];
-			ilObjUser::_writePref($ilUser->getId(),'crs_session_details',$this->details_level);
-		}
-		else
-		{
-			$this->details_level = $ilUser->getPref('crs_session_details') ? $ilUser->getPref('crs_session_details') : self::DETAILS_TITLE_DESC;
+			if($_GET['expand'] > 0)
+			{
+				$_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
+			}
+			else
+			{
+				$_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_TITLE;
+			}
 		}
 		
 		include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
