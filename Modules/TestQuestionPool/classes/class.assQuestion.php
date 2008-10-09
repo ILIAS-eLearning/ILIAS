@@ -1294,8 +1294,19 @@ class assQuestion
 	}
 
 	/**
-	* Deletes a question from the database
+	* Deletes the page object of a question with a given ID
 	*
+	* @param integer $question_id The database id of the question
+	* @access protected
+	*/
+	protected function deletePageOfQuestion($question_id)
+	{
+		include_once "./Services/COPage/classes/class.ilPageObject.php";
+		$page = new ilPageObject("qpl", $question_id);
+		$page->delete();
+	}
+
+	/**
 	* Deletes a question and all materials from the database
 	*
 	* @param integer $question_id The database id of the question
@@ -1322,10 +1333,7 @@ class assQuestion
 			return;
 		}
 
-		include_once "./Services/COPage/classes/class.ilPageObject.php";
-		$page = new ilPageObject("qpl", $question_id);
-		$page->delete();
-		
+		$this->deletePageOfQuestion($question_id);
 		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
 			$ilDB->quote($question_id)
 		);
@@ -1929,6 +1937,9 @@ class assQuestion
 			$this->setId($this->getOriginalId());
 			$this->setOriginalId(NULL);
 			$this->saveToDb();
+			$this->deletePageOfQuestion($original);
+			$this->createPageObject();
+			$this->copyPageOfQuestion($id);
 
 			$this->setId($id);
 			$this->setOriginalId($original);
