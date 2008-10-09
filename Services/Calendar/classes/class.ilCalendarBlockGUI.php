@@ -39,6 +39,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 {
 	const CAL_MODE_REPOSITORY = 1;
 	const CAL_MODE_PD = 2;
+	
+	public $ctrl = null;
 
 	static $block_type = "cal";
 	static $st_data;
@@ -54,6 +56,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 		parent::ilBlockGUI();
 		
+		$this->ctrl = $ilCtrl;
 		$this->setImage(ilUtil::getImagePath("icon_cals_s.gif"));
 		
 		$lng->loadLanguageModule("dateplaner");
@@ -158,10 +161,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl,$ilTabs;
 
 		$next_class = $ilCtrl->getNextClass();
 		$cmd = $ilCtrl->getCmd("getHTML");
+		
+		$this->setSubTabs();
 		
 		switch ($next_class)
 		{
@@ -172,18 +177,21 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				break;
 				
 			case "ilcalendardaygui":
+				$ilTabs->setSubTabActive('app_day');
 				include_once('./Services/Calendar/classes/class.ilCalendarDayGUI.php');
 				$day_gui = new ilCalendarDayGUI($this->seed);
 				$ilCtrl->forwardCommand($day_gui);
 				break;
 
 			case "ilcalendarweekgui":
+				$ilTabs->setSubTabActive('app_week');
 				include_once('./Services/Calendar/classes/class.ilCalendarWeekGUI.php');
 				$week_gui = new ilCalendarWeekGUI($this->seed);
 				$ilCtrl->forwardCommand($week_gui);
 				break;
 
 			case "ilcalendarmonthgui":
+				$ilTabs->setSubTabActive('app_month');
 				include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 				$month_gui = new ilCalendarMonthGUI($this->seed);
 				$ilCtrl->forwardCommand($month_gui);
@@ -449,6 +457,27 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				ilCalendarCategories::MODE_REPOSITORY,
 				(int)$_GET['ref_id']);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	protected function setSubTabs()
+	{
+		global $ilTabs;
+		
+		// TODO: needs another switch
+		if($_GET['ref_id'])
+		{
+			$ilTabs->clearSubTabs();
+			
+			$ilTabs->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
+			$ilTabs->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
+			$ilTabs->addSubTabTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
+		}
+		return true;
 	}
 	
 	/**

@@ -4524,7 +4524,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilmdeditorgui':
-
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -4571,6 +4570,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilcolumngui":
+				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
 				//$this->prepareOutput();
 				//$this->getSubItems();

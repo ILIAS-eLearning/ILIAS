@@ -147,16 +147,23 @@ class ilCalendarAppointmentGUI
 		$title->setSize(32);
 		$this->form->addItem($title);
 		
+		// calendar selection
 		$calendar = new ilSelectInputGUI($this->lng->txt('cal_category_selection'),'calendar');
 		if($_POST['category'])
 		{
 			$calendar->setValue((int) $_POST['calendar']);
 		}
-		elseif($this->app->getEntryId())
+		elseif($a_mode == 'edit')
 		{
 			$ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
 			$cat = $ass->getFirstAssignment();
 			$calendar->setValue($cat);
+		}
+		elseif(isset($_GET['ref_id']))
+		{
+			include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+			$obj_cal = ilObject::_lookupObjId($_GET['ref_id']);
+			$calendar->setValue(ilCalendarCategories::_lookupCategoryIdByObjId($obj_cal));
 		}
 		$calendar->setRequired(true);
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
