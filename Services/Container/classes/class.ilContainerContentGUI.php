@@ -34,12 +34,12 @@
 */
 abstract class ilContainerContentGUI
 {
+	const DETAILS_DEACTIVATED = 0;
 	const DETAILS_TITLE = 1;
-	const DETAILS_TITLE_DESC = 2;
-	const DETAILS_ALL = 3;
+	const DETAILS_ALL = 2;
 	
 	
-	protected $details_level = self::DETAILS_ALL;
+	protected $details_level = self::DETAILS_DEACTIVATED;
 	
 	var $container_gui;
 	var $container_obj;
@@ -402,22 +402,26 @@ abstract class ilContainerContentGUI
 					sprintf('%.1f', $a_position));
 			}
 		}
-		
 		if($a_item_data['type'] == 'sess')
 		{
 			switch($this->getDetailsLevel($a_item_data['obj_id']))
 			{
 				case self::DETAILS_TITLE:
-					$item_list_gui->enableDescription(false);
-					$item_list_gui->enableProperties(false);
-					break;
-				
-				case self::DETAILS_TITLE_DESC:
+					$item_list_gui->enableExpand(true);
+					$item_list_gui->setExpanded(false);
 					$item_list_gui->enableDescription(false);
 					$item_list_gui->enableProperties(false);
 					break;
 					
+				case self::DETAILS_ALL:
+					$item_list_gui->enableExpand(true);
+					$item_list_gui->setExpanded(true);
+					$item_list_gui->enableDescription(true);
+					$item_list_gui->enableProperties(true);
+					break;
+										
 				default:
+					$item_list_gui->enableExpand(false);
 					$item_list_gui->enableDescription(true);
 					$item_list_gui->enableProperties(true);
 					break;
@@ -425,7 +429,7 @@ abstract class ilContainerContentGUI
 		}
 		
 		// show subitems
-		if ($a_item_data['type'] == 'sess' and $this->getDetailsLevel($a_item_data['obj_id']) > self::DETAILS_TITLE_DESC)
+		if ($a_item_data['type'] == 'sess' and $this->getDetailsLevel($a_item_data['obj_id']) != self::DETAILS_TITLE)
 		{
 			$pos = 1;
 			
