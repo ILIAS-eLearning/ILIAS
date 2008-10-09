@@ -182,8 +182,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case "ilcolumngui":
+				$this->tabs_gui->setTabActive('none');
 				$this->checkPermission("read");
-				//$this->prepareOutput();
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				//$this->getSubItems();
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
