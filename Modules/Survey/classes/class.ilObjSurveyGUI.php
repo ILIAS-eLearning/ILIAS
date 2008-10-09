@@ -224,11 +224,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->saveToDb();
 		if (strcmp($_SESSION["info"], "") != 0)
 		{
-			ilUtil::sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+			ilUtil::sendInfo($this->lng->txt("settings_saved"), true);
 		}
 		$this->ctrl->redirect($this, "properties");
 	}
