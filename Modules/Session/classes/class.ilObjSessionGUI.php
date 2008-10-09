@@ -213,11 +213,13 @@ class ilObjSessionGUI extends ilObjectGUI
 		$info->addSection($this->lng->txt("event_general_properties"));
 		$info->addProperty($this->lng->txt('event_title'),
 						   $this->object->getTitle());
+		/*
 		if(strlen($desc = $this->object->getDescription()))
 		{
 			$info->addProperty($this->lng->txt('event_desc'),
 							   nl2br($this->object->getDescription()));
 		}
+		*/
 		if(strlen($location = $this->object->getLocation()))
 		{
 			$info->addProperty($this->lng->txt('event_location'),
@@ -1139,7 +1141,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		
 		// desc
 		$desc = new ilTextAreaInputGUI($this->lng->txt('event_desc'),'desc');
-		$desc->setValue($this->object->getDescription());
+		$desc->setValue($this->object->getLongDescription());
 		$desc->setRows(4);
 		$desc->setCols(50);
 		$this->form->addItem($desc);
