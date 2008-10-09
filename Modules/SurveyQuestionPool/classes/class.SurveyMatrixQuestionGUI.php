@@ -1220,7 +1220,13 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 */
   function addPhrase() 
 	{
-		$this->writeRowColData(true);
+		$complete = $this->writeRowColData(true);
+		if (!$complete)
+		{
+			$_SESSION["spl_modified"] = TRUE;
+			ilUtil::sendInfo($this->errormessage);
+			return $this->categories();
+		}
 		$this->ctrl->setParameterByClass(get_class($this), "q_id", $this->object->getId());
 		$this->ctrl->setParameterByClass("ilobjsurveyquestionpoolgui", "q_id", $this->object->getId());
 
@@ -1287,7 +1293,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		{
 			if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
 			{
-				$this->object->flushColumns();
 				$this->object->addPhrase($_POST["phrases"]);
 				$this->object->saveColumnsToDb();
 			}
@@ -1363,7 +1368,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 		else
 		{
-			$this->object->flushColumns();
 			$this->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
 			$this->object->saveColumnsToDb();
 			$this->ctrl->redirect($this, "categories");
@@ -1379,7 +1383,13 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 */
   function savePhrase() 
 	{
-		$this->writeRowColData(true);
+		$complete = $this->writeRowColData(true);
+		if (!$complete)
+		{
+			$_SESSION["spl_modified"] = TRUE;
+			ilUtil::sendInfo($this->errormessage);
+			return $this->categories();
+		}
 		$nothing_selected = true;
 		if (array_key_exists("chb_category", $_POST))
 		{
