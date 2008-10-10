@@ -237,7 +237,7 @@ class ilPageEditorGUI
 				$cmd != "activatePage" && $cmd != "deactivatePage" &&
 				$cmd != "copyLinkedMediaToMediaPool" &&
 				$cmd != "deleteSelected" &&
-				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "")&&
+				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "") &&
 				$cmd != "activateSelected" &&
 				$cmd != "cancelCreate" && $cmd != "popup" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
@@ -277,7 +277,7 @@ class ilPageEditorGUI
 		$this->ctrl->setParameter($this, "pc_id", $pc_id);
 		$this->ctrl->setCmd($cmd);
 		//$next_class = $this->ctrl->getNextClass($this);
-$this->ctrl->debug("+next_class:".$next_class."+");
+//$this->ctrl->debug("+next_class:".$next_class."+");
 //echo("+next_class:".$next_class."+".$ctype."+");
 		if ($next_class == "")
 		{
@@ -357,7 +357,8 @@ $this->ctrl->debug("+next_class:".$next_class."+");
 			$next_class = $this->ctrl->getNextClass($this);
 		}
 
-		if ($cmd == "displayPage")
+		// do not do this while imagemap editing is ongoing
+		if ($cmd == "displayPage" && $_POST["editImagemapForward_x"] == "")
 		{
 			$next_class = "";
 		}
