@@ -61,6 +61,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
 						break;
 					case 'update':
 						$ilLog->write(__METHOD__.': Handling update event');
+						self::updateCategory($a_parameter['object']);
 						self::deleteAppointments($a_parameter['obj_id']);
 						self::createAppointments($a_parameter['object'],$a_parameter['appointments']);
 						break;
@@ -94,6 +95,26 @@ class ilCalendarAppEventListener implements ilAppEventListener
 		return $cat->add();
 	}
 	
+	/**
+	 * Create a category for a new object (crs,grp, ...)
+	 * 
+	 * @access public
+	 * @param object ilias object ('crs','grp',...)
+	 * @static
+	 */
+	public static function updateCategory($a_obj)
+	{
+		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
+		
+		if($cat = ilCalendarCategory::_getInstanceByObjId($a_obj->getId()))
+		{
+			$cat->setTitle($a_obj->getTitle());
+			$cat->update();
+		}
+		return true;
+	}
+
 	/**
 	 * Create appointments
 	 *
