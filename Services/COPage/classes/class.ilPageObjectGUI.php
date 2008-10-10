@@ -1224,7 +1224,7 @@ class ilPageObjectGUI
 		//	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
 		$content = $this->obj->getXMLFromDom(false, true, true,
 			$this->getLinkXML().$this->getQuestionXML());
-			
+
 		// get page component plugins
 
 		// check validation errors

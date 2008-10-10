@@ -130,7 +130,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 				$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
+				$page_gui->getPageObject()->buildDom();
+				$int_links = $page_gui->getPageObject()->getInternalLinks();
+				$link_xml = $this->getLinkXML($int_links);
 				$page_gui->setLinkXML($link_xml);
+
 				$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
 				$page_gui->setFileDownloadLink("ilias.php?cmd=downloadFile&ref_id=".$_GET["ref_id"]."&baseClass=ilLMPresentationGUI");
 				$page_gui->setFullscreenLink("ilias.php?cmd=fullscreen&ref_id=".$_GET["ref_id"]."&baseClass=ilLMPresentationGUI");
@@ -265,12 +269,12 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 							if ($type == "PageObject")
 							{
 								$this->ctrl->setParameter($this, "obj_id", $target_id);
-								$href = $this->ctrl->getLinkTargetByClass(get_class($this), "view", "", true);
+								$href = $this->ctrl->getLinkTargetByClass(get_class($this), "edit");
 							}
 							else
 							{
 								$this->ctrl->setParameterByClass("ilstructureobjectgui", "obj_id", $target_id);
-								$href = $this->ctrl->getLinkTargetByClass("ilstructureobjectgui", "view", "", true);
+								$href = $this->ctrl->getLinkTargetByClass("ilstructureobjectgui", "view");
 							}
 							$href = str_replace("&", "&amp;", $href);
 							$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
