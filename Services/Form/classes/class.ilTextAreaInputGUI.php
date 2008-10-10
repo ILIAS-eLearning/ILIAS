@@ -277,9 +277,17 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		else
 		{
 			$a_tpl->touchBlock("no_rteditor");
-			$a_tpl->setCurrentBlock("prop_ta_c");
-			$a_tpl->setVariable("COLS", $this->getCols());
-			$a_tpl->parseCurrentBlock();
+
+			if ($this->getCols() > 5)
+			{
+				$a_tpl->setCurrentBlock("prop_ta_c");
+				$a_tpl->setVariable("COLS", $this->getCols());
+				$a_tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$a_tpl->touchBlock("prop_ta_w");
+			}
 			
 			$a_tpl->setCurrentBlock("prop_textarea");
 			$a_tpl->setVariable("ROWS", $this->getRows());
