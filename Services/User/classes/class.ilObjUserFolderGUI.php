@@ -605,6 +605,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
  	*/
 	function displayList()
 	{
+		global $lng;
+		
 		if (!is_array($this->data["data"][0]))
 		{
 			ilUtil::sendInfo($this->lng->txt("usr_filter_empty_result")); return;
@@ -713,7 +715,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					
 					if ($key == "last_login")
 					{
-						$val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
+						if ($val != "0000-00-00 00:00:00")
+						{
+							$val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
+						}
+						else
+						{
+							$val = $lng->txt("no_date");
+						}
 					}
 
 					if ($key != "access_until")

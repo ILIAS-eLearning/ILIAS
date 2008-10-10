@@ -902,12 +902,12 @@ class ilObjUserGUI extends ilObjectGUI
 			// checks passed. save user
 			$userObj = new ilObjUser();
 			
-			$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from'],IL_CAL_DATETIME,$ilUser->getTimeZone());
+			$from = new ilDateTime($_POST['time_limit_from']['date'].' '.$_POST['time_limit_from']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
 			$_POST['time_limit_from'] = $from->get(IL_CAL_UNIX);
 			
-			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until'],IL_CAL_DATETIME,$ilUser->getTimeZone());
+			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
 			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
-			
+
 			$userObj->assignData($_POST);
 			$userObj->setTitle($userObj->getFullname());
 			$userObj->setDescription($userObj->getEmail());
@@ -1103,8 +1103,7 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
 			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
-			
-			
+
 			$this->object->assignData($_POST);
 
 
