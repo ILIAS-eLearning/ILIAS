@@ -264,15 +264,15 @@ class ilSetupGUI extends ilSetup
 				
 			case "ini":
 				// only allow access to ini if db does not exist yet
-				if ($this->client->db_installed)
-				{
-					$this->cmd = "db";
-					$this->displayDatabase();
-				}
-				else
-				{
+				//if ($this->client->db_installed)
+				//{
+				//	$this->cmd = "db";
+				//	$this->displayDatabase();
+				//}
+				//else
+				//{
 					$this->displayIni();
-				}
+				//}
 				break;
 				
 			case "db":
