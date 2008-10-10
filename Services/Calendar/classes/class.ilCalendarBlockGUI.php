@@ -468,10 +468,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	{
 		global $ilTabs;
 		
+		$ilTabs->clearSubTabs();
+		return true;
+		
 		// TODO: needs another switch
 		if($_GET['ref_id'])
 		{
-			$ilTabs->clearSubTabs();
 			
 			$ilTabs->addSubTabTarget('app_day',$this->ctrl->getLinkTargetByClass('ilCalendarDayGUI',''));
 			$ilTabs->addSubTabTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
