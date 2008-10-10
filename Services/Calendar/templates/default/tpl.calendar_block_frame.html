@@ -1,0 +1,16 @@
+<table class="il_Block" style="margin-bottom:0px;">
+<tr><th class="il_BlockHeader">
+<img border="0" src="{IMG_BLOCK}" />
+{BLOCK_TITLE}
+</th>
+</tr>
+<tr class="std"><td class="std">{CONTENT}</td></tr>
+<!-- BEGIN block_commands -->
+<tr><td class="submit" colspan="{CCOLSPAN}">
+<!-- BEGIN block_check --><input type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->
+<!-- BEGIN block_command -->
+<a {BC_CLASS} href="{CMD_HREF}" <!-- BEGIN bc_target -->target="{CMD_TARGET}"<!-- END bc_target --> ><!-- BEGIN bc_image --><img src="{SRC_BC}" border="0" alt="{ALT_BC}" /><!-- END bc_image -->{CMD_TEXT}</a>
+<!-- END block_command -->
+</td></tr>
+<!-- END block_commands -->
+</table>
