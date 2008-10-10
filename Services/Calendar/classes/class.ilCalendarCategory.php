@@ -63,6 +63,28 @@ class ilCalendarCategory
 		$this->read();
 	}
 	
+	/**
+	 * get instance by obj_id 
+	 *
+	 * @param int obj_id 
+	 * @return object
+	 * @static
+	 */
+	 public static function _getInstanceByObjId($a_obj_id)
+	 {
+	 	global $ilDB;
+	 	
+	 	$query = "SELECT cat_id FROM cal_categories ".
+	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+	 		"AND type = ".$ilDB->quote(self::TYPE_OBJ);
+	 	$res = $ilDB->query($query);
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		return new ilCalendarCategory($row->cat_id);
+	 	}
+	 	return null;
+	 }
+	
 	
 	/**
 	 * get category id

@@ -163,7 +163,6 @@ class ilCalendarCategories
 				$this->readReposCalendars();
 				break;
 		}
-		
 	}
 	
 	/**
@@ -299,14 +298,34 @@ class ilCalendarCategories
 	 	$this->readPrivateCalendars();
 
 		$obj_ids = array();
+		
+		$courses = array();
+		$groups = array();
+		$sessions = array();
 		foreach(ilObjUser::_lookupDesktopItems($ilUser->getId(),array('crs','grp','sess')) as $item)
 		{
 			if($ilAccess->checkAccess('read','',$item['ref_id']))
 			{
-				$obj_ids[] = $item['obj_id'];
+				switch($item['type'])
+				{
+					case 'crs':
+						$courses[] = $item['obj_id'];
+						break;
+						
+					case 'sess':
+						$sessions[] = $item['obj_id'];
+						break;
+
+					case 'grp':
+						$groups[] = $item['obj_id'];
+						break;
+						
+				}
 			}
 		}
-		$this->readSelectedCategories($obj_ids);	 	
+		$this->readSelectedCategories($courses);	 	
+		$this->readSelectedCategories($sessions);	 	
+		$this->readSelectedCategories($groups);	 	
 	 }
 
 	/**
@@ -372,6 +391,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
 		}
+		
 		return true;
 	}
 	
@@ -441,7 +461,8 @@ class ilCalendarCategories
 
 		$query = "SELECT * FROM cal_categories ".
 			"WHERE type = ".$this->db->quote(ilCalendarCategory::TYPE_OBJ)." ".
-			"AND obj_id IN (".implode(',',ilUtil::quoteArray($a_obj_ids)).') ';
+			"AND obj_id IN (".implode(',',ilUtil::quoteArray($a_obj_ids)).') '.
+			"ORDER BY title ";
 		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -475,7 +496,8 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['obj_id'] = $row->obj_id;
 			$this->categories_info[$row->cat_id]['cat_id'] = $row->cat_id;
 			$this->categories_info[$row->cat_id]['color'] = $row->color;
-			$this->categories_info[$row->cat_id]['title'] = ilObject::_lookupTitle($row->obj_id);
+			#$this->categories_info[$row->cat_id]['title'] = ilObject::_lookupTitle($row->obj_id);
+			$this->categories_info[$row->cat_id]['title'] = $row->title;
 			$this->categories_info[$row->cat_id]['obj_type'] = ilObject::_lookupType($row->obj_id);
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 		}
