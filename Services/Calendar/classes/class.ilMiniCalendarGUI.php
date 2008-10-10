@@ -84,11 +84,19 @@ class ilMiniCalendarGUI
 	*/
 	function getHTML()
 	{
+		global $lng;
+		
+		$ftpl = new ilTemplate("tpl.calendar_block_frame.html", true, true,
+			"Services/Calendar");
+		
 		$tpl = new ilTemplate("tpl.calendar_block.html", true, true,
 			"Services/Calendar");
 		$this->addMiniMonth($tpl);
 
-		return $tpl->get();
+		$ftpl->setVariable("IMG_BLOCK", ilUtil::getImagePath("icon_cals_s.gif"));
+		$ftpl->setVariable("BLOCK_TITLE", $lng->txt("calendar"));
+		$ftpl->setVariable("CONTENT", $tpl->get());
+		return $ftpl->get();
 	}
 	
 	/**
