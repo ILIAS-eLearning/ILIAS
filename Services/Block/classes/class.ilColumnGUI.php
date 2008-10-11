@@ -527,9 +527,12 @@ class ilColumnGUI
 					$html = $bl->getHTML();
 				}
 				
-				$this->tpl->setVariable("BLOCK", $html);
-				$this->tpl->parseCurrentBlock();
-				$ilCtrl->setParameter($this, "block_type", "");
+				// don't render a block if it's empty
+				if ($html != "") {
+          $this->tpl->setVariable("BLOCK", $html);
+          $this->tpl->parseCurrentBlock();
+          $ilCtrl->setParameter($this, "block_type", "");
+        }
 				
 				// count (moveable) blocks
 				if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb" &&
