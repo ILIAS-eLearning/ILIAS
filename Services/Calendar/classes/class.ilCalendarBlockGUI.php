@@ -287,7 +287,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$a_tpl->setVariable('DAY_CLASS','calminiapp');
 				#$a_tpl->setVariable('TD_CLASS','calminiapp');
 			}
-			if(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
+			include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
+			if(ilCalendarUtil::_isToday($date))
+			{
+				$a_tpl->setVariable('TD_CLASS','calminitoday');
+			}
+			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
 			{
 				$a_tpl->setVariable('TD_CLASS','calmininow');
 			}
