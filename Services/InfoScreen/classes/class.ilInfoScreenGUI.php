@@ -513,13 +513,14 @@ class ilInfoScreenGUI
 			else
 			{
 				$ownerObj = new ilObjUser($a_obj->getOwner());
-				$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());
-				$this->addProperty($lng->txt("owner"),
-					$ownerObj->getFirstname().' '.
-					$ownerObj->getLastname().' '.
-					$ownerObj->getLogin(),
-						$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML")
-					);
+				if ($ownerObj->hasPublicProfile()) 
+				{
+					$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $ownerObj->getId());				
+					$this->addProperty($lng->txt("owner"),$ownerObj->getPublicName(),$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
+				} else 
+				{
+					$this->addProperty($lng->txt("owner"),$ownerObj->getPublicName());	
+				}
 			}
 		}
 
@@ -582,9 +583,9 @@ class ilInfoScreenGUI
 					if (count($locks) > 0)
 					{
 						$lockUser = new ilObjUser($locks[0]['ilias_owner']);
-
 						$this->addProperty($this->lng->txt("in_use_by"),
-							$lockUser->getFirstname().' '.$lockUser->getLastname().' '.$lockUser->getLogin(),
+							$lockUser->getPublicName()
+							,
 							"./ilias.php?user=".$locks[0]['ilias_owner'].'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
 						);
 					}
