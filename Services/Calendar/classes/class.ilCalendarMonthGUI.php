@@ -150,8 +150,13 @@ class ilCalendarMonthGUI
 			$this->showEvents($date);
 			
 			$this->tpl->setCurrentBlock('month_col');
-			
-			if(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
+
+			include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
+			if(ilCalendarUtil::_isToday($date))
+			{
+				$this->tpl->setVariable('TD_CLASS','caltoday');
+			}
+			elseif(ilDateTime::_equals($date,$this->seed,IL_CAL_DAY))
 			{
 				$this->tpl->setVariable('TD_CLASS','calnow');
 			}

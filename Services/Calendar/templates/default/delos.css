@@ -86,9 +86,20 @@ td.calstd {
 	padding: 2px 0px;
 }
 
-td.calnow {
+td.caltoday {
 	vertical-align: top;
 	background-color:#FFE79C;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+}
+
+
+td.calnow {
+	vertical-align: top;
+	background-color:#FFF0C4;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
@@ -204,9 +215,20 @@ td.calministd {
 	vertical-align:middle;
 }
 
-td.calmininow {
+td.calminitoday {
 	vertical-align: top;
 	background-color:#FFE79C;
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calmininow {
+	vertical-align: top;
+	background-color:#FFF0C4;
 	border-width:1px;
 	border-style:solid;
 	border-color:#9EADBA;

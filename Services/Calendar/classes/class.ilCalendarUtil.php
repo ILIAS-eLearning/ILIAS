@@ -31,7 +31,26 @@
 */
 class ilCalendarUtil
 {
+	private static $today = null;
 	static $init_done;
+	
+	/**
+	 * check if a date is today 
+	 * @param ilDateTime $date date to check
+	 * @return bool
+	 * @static
+	 */
+	 public static function _isToday($date)
+	 {
+		global $ilUser;
+		
+		
+		if(!is_object(self::$today))
+		{
+			self::$today = new ilDateTime(time(),IL_CAL_UNIX,$ilUser->getTimeZone());
+		}
+		return ilDateTime::_equals(self::$today,$date,IL_CAL_DAY,$ilUser->getTimeZone());
+	 }
 	
 	/**
 	 * numeric month to string
