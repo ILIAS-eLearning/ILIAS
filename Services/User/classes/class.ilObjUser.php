@@ -4470,6 +4470,29 @@ class ilObjUser extends ilObject
 		if($affected) return true;
 		else return false;
 	}
+	
+	/**
+	 * returns true if public is profile, false otherwise
+	 *
+	 * @return boolean
+	 */
+	public function hasPublicProfile() {
+		return $this->getPref("public_profile") == "y";
+	}
+	
+	/**
+	 * returns firstname lastname and login if profile is public, login otherwise
+	 *
+	 * @return string
+	 */	
+	public function getPublicName() 
+	{
+		if ($this->hasPublicProfile())
+			return $this->getFirstname()." ".$this->getLastname()." (".$this->getLogin().")";
+		else 	
+			return $this->getLogin();
+		
+	}
 
 } // END class ilObjUser
 ?>
