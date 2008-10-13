@@ -696,7 +696,7 @@ class ilInfoScreenGUI
 	*/
 	function getHTML()
 	{
-		global $lng, $ilSetting, $tree, $ilAccess, $ilCtrl;
+		global $lng, $ilSetting, $tree, $ilAccess, $ilCtrl, $ilUser;
 		
 		$tpl = new ilTemplate("tpl.infoscreen.html" ,true, true, "Services/InfoScreen");
 
@@ -761,7 +761,7 @@ class ilInfoScreenGUI
 		if (is_object($this->gui_object->object))
 		{
 			$tags_set = new ilSetting("tags");
-			if ($tags_set->get("enable"))
+			if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID)
 			{
 				$this->addTagging($tpl);
 			}
