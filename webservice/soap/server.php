@@ -36,8 +36,20 @@ define ("ILIAS_MODULE", "webservice/soap");
 define ("IL_SOAPMODE_NUSOAP", 0);
 define ("IL_SOAPMODE_INTERNAL", 1);
 
-define ("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);
-if (IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"], "post") == 0 && class_exists("SoapServer"))
+require_once("classes/class.ilIniFile.php");
+$ilIliasIniFile = new ilIniFile("./ilias.ini.php");
+if (!$ilIliasIniFile) {
+	define ("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);
+} else {
+	$ilIliasIniFile->read();
+	$serverSettings = $ilIliasIniFile->readGroup("server");	
+	if (!array_key_exists("soap",$serverSettings) || $serverSettings["soap"] == "nusoap" || !class_exists("SoapServer"))
+		define ("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);
+	else
+		define ("IL_SOAPMODE", IL_SOAPMODE_INTERNAL);
+} 
+	
+if (IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"], "post") == 0 )
 {
 	// called by webservice
 	//ini_set("soap.wsdl_cache_enabled", "1"); 
