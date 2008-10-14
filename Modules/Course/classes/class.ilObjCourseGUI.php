@@ -5259,6 +5259,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$tmp_obj_res = new ilCourseObjectiveResult($ilUser->getId());
 		$tmp_obj_res->reset($this->object->getId());
 		
+		$ilUser->deletePref('crs_objectives_force_details_'.$this->object->getId());
+		
 		ilUtil::sendInfo($this->lng->txt('crs_objectives_reseted'));
 		$this->viewObject();
 	}
