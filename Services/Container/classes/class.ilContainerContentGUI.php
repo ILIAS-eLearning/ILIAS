@@ -402,7 +402,7 @@ abstract class ilContainerContentGUI
 					sprintf('%.1f', $a_position));
 			}
 		}
-		if($a_item_data['type'] == 'sess')
+		if($a_item_data['type'] == 'sess' and get_class($this) != 'ilContainerObjectiveGUI')
 		{
 			switch($this->getDetailsLevel($a_item_data['obj_id']))
 			{
