@@ -3437,7 +3437,7 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "");
 		}
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId())
-			and $this->object->members_obj->isAssigned($ilUser->getId()))
+			and $this->object->members_obj->isMember($ilUser->getId()))
 		{
 			$tabs_gui->addTarget("crs_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "unsubscribe"), 
