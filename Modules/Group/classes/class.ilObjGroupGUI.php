@@ -1918,7 +1918,7 @@ class ilObjGroupGUI extends ilContainerGUI
 								 "");
 		}
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and
-			$this->object->members_obj->isAssigned($ilUser->getId()))
+			$this->object->members_obj->isMember($ilUser->getId()))
 		{
 			$tabs_gui->addTarget("grp_btn_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "leave"), 
