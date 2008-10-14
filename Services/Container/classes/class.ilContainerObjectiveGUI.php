@@ -216,19 +216,18 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	{
 		$tpl->setCurrentBlock('details_img');
 		
-		
-		$append = $this->details_level == 2 ? 'off' : '';
+		$append = $this->details_level == self::DETAILS_TITLE ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
 		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.gif'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 2');
-		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=2');
+		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=1');
 		$tpl->parseCurrentBlock();
 
-		$append = $this->details_level == 3 ? 'off' : '';
+		$append = $this->details_level == self::DETAILS_ALL ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
 		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.gif'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 3');
-		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=3');
+		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=2');
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setCurrentBlock('container_details_row');
@@ -430,7 +429,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		}
 		else
 		{
-			$this->details_level = $ilUser->getPref('crs_objectives_details') ? $ilUser->getPref('crs_objectives_details') : self::DETAILS_TITLE_DESC;
+			$this->details_level = $ilUser->getPref('crs_objectives_details') ? $ilUser->getPref('crs_objectives_details') : self::DETAILS_TITLE;
 		}
 		if(isset($_GET['objective_details']))
 		{
