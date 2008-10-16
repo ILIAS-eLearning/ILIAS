@@ -164,6 +164,11 @@ class ilObjFolderGUI extends ilContainerGUI
 				}
 				break;
 
+			case 'ilinfoscreengui':
+				$this->prepareOutput();
+				$this->infoScreen();
+				break;
+
 			default:
 				$this->prepareOutput();
 				if (empty($cmd))
@@ -330,6 +335,19 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->infoScreen();
 	}
+	
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
 	/**
 	* show information screen
 	*/
