@@ -77,7 +77,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		// get current command
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd("", array("downloadExportFile"));
 //echo "-$cmd-";
 		switch($next_class)
 		{

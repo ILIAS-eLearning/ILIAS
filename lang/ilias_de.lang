@@ -8691,3 +8691,5 @@ survey#:#use_google_chart_api_desc#:#Wählen Sie das Kontrollkästchen aus, wenn
 dateplaner#:#cal_cal_details#:#Kalenderdetails
 dateplaner#:#cal_type_crs#:#Kurskalender
 dateplaner#:#cal_type_grp#:#Gruppenkalender
+content#:#cont_no_page_in_chapter#:#In diesem Kapitel befinden sich zur Zeit leider keine aktiven Inhalte.
+content#:#cont_page_currently_deactivated#:#Diese Seite ist momentan deaktiviert.

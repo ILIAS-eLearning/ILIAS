@@ -4622,6 +4622,8 @@ content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Learning Module Properties
 content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
+content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.
+content#:#cont_page_currently_deactivated#:#Sorry, but this page is currently deactivated.
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_def_map_areas#:#Default Link Areas
 content#:#cont_inst_map_areas#:#Instance Link Areas

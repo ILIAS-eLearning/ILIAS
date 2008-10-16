@@ -164,7 +164,7 @@ class ilLMPresentationGUI
 		}
 		
 		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd("layout");
+		$cmd = $this->ctrl->getCmd("layout", array("showPrintView"));
 
 		$cmd = (isset($_POST['cmd']['citation']))
 			? "ilCitation"
@@ -188,7 +188,7 @@ class ilLMPresentationGUI
 				$ret =& $this->outputInfoScreen();
 				break;
 
-			default:			 
+			default:
 				$ret =& $this->$cmd();
 				break;
 		}
@@ -938,7 +938,16 @@ class ilLMPresentationGUI
 			}
 			if (!$this->offlineMode())
 			{
-				$exp->highlightNode($page_id);
+				// empty chapter
+				if ($this->chapter_has_no_active_page &&
+					ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+				{
+					$exp->highlightNode($_GET["obj_id"]);
+				}
+				else
+				{
+					$exp->highlightNode($page_id);
+				}
 			}
 		}
 		
@@ -1250,6 +1259,9 @@ class ilLMPresentationGUI
 	{
 		global $ilUser;
 
+		$this->chapter_has_no_active_page = false;
+		$this->deactivated_page = false;
+		
 		// determine object id
 		if(empty($_GET["obj_id"]))
 		{
@@ -1258,6 +1270,11 @@ class ilLMPresentationGUI
 		else
 		{
 			$obj_id = $_GET["obj_id"];
+			if (!ilLMPageObject::_lookupActive($obj_id) &&
+				ilLMPageObject::_lookupType($obj_id) == "pg")
+			{
+				$this->deactivated_page = true;
+			}
 		}
 
 		// obj_id not in tree -> it is a unassigned page -> return page id
@@ -1287,6 +1304,7 @@ class ilLMPresentationGUI
 
 			if ($succ_node["type"] != "pg")
 			{
+				$this->chapter_has_no_active_page = true;
 				return 0;
 				$this->tpl = new ilTemplate("tpl.main.html", true, true);
 				$this->ilias->raiseError($this->lng->txt("cont_no_page"),$this->ilias->error_obj->FATAL);
@@ -1305,6 +1323,16 @@ class ilLMPresentationGUI
 					$succ_node = $this->lm_tree->fetchSuccessorNode($page_id, 'pg');
 					$page_id = $succ_node['obj_id'];
 					$public = ilLMObject::_isPagePublic($page_id);
+				}
+			}
+			
+			// check whether page found is within "clicked" chapter
+			if ($this->lm_tree->isInTree($page_id))
+			{
+				$path = $this->lm_tree->getPathId($page_id);
+				if (!in_array($_GET["obj_id"], $path))
+				{
+					$this->chapter_has_no_active_page = true;
 				}
 			}
 		}
@@ -1423,6 +1451,9 @@ class ilLMPresentationGUI
 
 	/**
 	* process <ilPage> content tag
+	*
+	* @param	object		page node
+	* @param	integer		footer/header page id
 	*/
 	function ilPage(&$a_page_node, $a_page_id = 0)
 	{
@@ -1459,6 +1490,35 @@ class ilLMPresentationGUI
 			$page_id = $a_page_id;
 		}
 
+		// no active page found in chapter
+		if ($this->chapter_has_no_active_page &&
+			ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+		{
+			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
+				"Modules/LearningModule");
+			$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_no_page_in_chapter"));
+			$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_st.gif",
+				false, "output", $this->offlineMode()));
+			$mtpl->setVariable("ITEM_TITLE",
+				ilLMObject::_lookupTitle($_GET["obj_id"]));
+			$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
+			return $mtpl->get();
+		}
+		
+		// current page is deactivated
+		if ($this->deactivated_page)
+		{
+			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
+				"Modules/LearningModule");
+			$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_page_currently_deactivated"));
+			$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_pg.gif",
+				false, "output", $this->offlineMode()));
+			$mtpl->setVariable("ITEM_TITLE",
+				ilLMObject::_lookupTitle($_GET["obj_id"]));
+			$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
+			return $mtpl->get();
+		}
+		
 		// no page found
 		if ($page_id == 0)
 		{
@@ -2077,7 +2137,17 @@ class ilLMPresentationGUI
 		// determine successor page_id
 		$ilBench->start("ContentPresentation", "ilLMNavigation_fetchSuccessor");
 		$found = false;
-		$c_id = $page_id;
+		
+		// empty chapter
+		if ($this->chapter_has_no_active_page &&
+			ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+		{
+			$c_id = $_GET["obj_id"];
+		}
+		else
+		{
+			$c_id = $page_id;
+		}
 		while (!$found)
 		{
 			$succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
@@ -2423,7 +2493,17 @@ class ilLMPresentationGUI
 		if (!$this->offlineMode())
 		{
 			$page_id = $this->getCurrentPageId();
-			$exp->highlightNode($page_id);
+			
+			// empty chapter
+			if ($this->chapter_has_no_active_page &&
+				ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+			{
+				$exp->highlightNode($_GET["obj_id"]);
+			}
+			else
+			{
+				$exp->highlightNode($page_id);
+			}
 		}
 
 		$tree =& $this->lm->getTree();
