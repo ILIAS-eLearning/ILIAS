@@ -876,12 +876,22 @@ class ilCtrl
 	
 	/**
 	* determines current get/post command
+	*
+	* @param	string		default command
+	* @param	array		safe commands: for these commands no token
+	*						is checked for post requests
 	*/
-	function getCmd($a_default_cmd = "")
+	function getCmd($a_default_cmd = "", $a_safe_commands = "")
 	{
 		$cmd = $_GET["cmd"];
 		if($cmd == "post")
 		{
+			if (is_array($_POST["cmd"]))
+			{
+				reset($_POST["cmd"]);
+			}
+			$cmd = @key($_POST["cmd"]);
+
 			// verify command
 			if ($this->verified_cmd != "")
 			{
@@ -889,17 +899,13 @@ class ilCtrl
 			}
 			else
 			{
-				if (!$this->verifyToken())
+				if (!$this->verifyToken() &&
+					(!is_array($a_safe_commands) || !in_array($cmd, $a_safe_commands)))
 				{
 					return $a_default_cmd;
 				}
 			}
 			
-			if (is_array($_POST["cmd"]))
-			{
-				reset($_POST["cmd"]);
-			}
-			$cmd = @key($_POST["cmd"]);
 			$this->verified_cmd = $cmd;
 			
 			if($cmd == "" && isset($_POST["select_cmd"]))		// selected command in multi-list (table2)

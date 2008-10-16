@@ -114,13 +114,49 @@ class ilLMTOCExplorer extends ilLMExplorer
 	{
 		global $ilUser;
 		
+		$orig_node_id = $a_node_id;
+		
 		if ($a_type == "st")
 		{
-			$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
-			$a_node_id = $a_node["child"];
-			if ($a_node_id == 0)
+			if (!$this->offlineMode())
 			{
-				return false;
+				$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
+				$a_node_id = $a_node["child"];
+				if ($a_node_id == 0)
+				{
+					return false;
+				}
+			}
+			else
+			{
+				// get next activated page
+				$found = false;
+				while (!$found)
+				{
+					$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
+					$a_node_id = $a_node["child"];
+					if ($a_node_id > 0 &&
+						!ilLMObject::_lookupActive($a_node_id))
+					{
+						$found = false;
+					}
+					else
+					{
+						$found = true;
+					}
+				}
+				if ($a_node_id <= 0)
+				{
+					return false;
+				}
+				else
+				{
+					$path = $this->tree->getPathId($a_node_id);
+					if (!in_array($orig_node_id, $path))
+					{
+						return false;
+					}
+				}
 			}
 		}
 		
@@ -157,8 +193,22 @@ class ilLMTOCExplorer extends ilLMExplorer
 			}
 			if ($a_type != "pg")
 			{
-				$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
-				$a_node_id = $a_node["child"];
+				// get next activated page
+				$found = false;
+				while (!$found)
+				{
+					$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
+					$a_node_id = $a_node["child"];
+					if ($a_node_id > 0 &&
+						!ilLMObject::_lookupActive($a_node_id))
+					{
+						$found = false;
+					}
+					else
+					{
+						$found = true;
+					}
+				}
 			}
 			if (!$this->lm_obj->cleanFrames())
 			{
