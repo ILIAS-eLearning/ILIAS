@@ -64,14 +64,14 @@ class ilLearningProgress
 			if ($progress)
 			{
 				$progress['spent_seconds'] += $row['spent_seconds'];
-				$progress['access_time'] = max($progress['access_time'], $row['ts']);
+				$progress['access_time'] = max($progress['access_time'], $row['last_access']);
 			}
 			else
 			{
 				$progress['obj_id'] = $row['obj_id'];
 				$progress['user_id'] = $row['usr_id'];
 				$progress['spent_seconds'] = $row['spent_seconds'];
-				$progress['access_time'] = $row['ts'];
+				$progress['access_time'] = $row['last_access'];
 				$progress['visits'] = $row['read_count'];
 			}
 		}
@@ -88,20 +88,19 @@ class ilLearningProgress
 	public static function _lookupProgressByObjId($a_obj_id)
 	{
 		include_once('./Services/Tracking/classes/class.ilChangeEvent.php');
-		
 		foreach(ilChangeEvent::_lookupReadEvents($a_obj_id) as $row)
 		{
 			if(isset($progress[$row['usr_id']]))
 			{
 				$progress[$row['usr_id']]['spent_seconds'] += $row['spent_seconds'];
 				$progress[$row['usr_id']]['read_count'] += $row['read_count'];
-				$progress[$row['usr_id']]['ts'] = max($row['ts'],$progress[$ow['usr_id']]['ts']);
+				$progress[$row['usr_id']]['ts'] = max($row['last_access'],$progress[$row['usr_id']]['ts']);
 			}
 			else
 			{
 				$progress[$row['usr_id']]['spent_seconds'] = $row['spent_seconds'];
 				$progress[$row['usr_id']]['read_count'] = $row['read_count'];
-				$progress[$row['usr_id']]['ts'] = $row['ts'];
+				$progress[$row['usr_id']]['ts'] = $row['last_access'];
 				
 			}
 			$progress[$row['usr_id']]['usr_id'] = $row['usr_id'];
