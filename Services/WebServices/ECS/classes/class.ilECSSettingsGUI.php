@@ -96,7 +96,7 @@ class ilECSSettingsGUI
 
 		try
 		{
-			ilECSEventQueueReader::handleReset();			
+			ilECSEventQueueReader::handleImportReset();	
 			
 			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
 			$scheduler = ilECSTaskScheduler::_getInstance();

@@ -132,6 +132,8 @@ class ilECSTaskScheduler
 	 */
 	private function handleEvents()
 	{
+	 	#return true;
+	 	
 	 	for($i = 0;$i < self::MAX_TASKS;$i++)
 	 	{
 	 		if(!$event = $this->event_reader->shift())
@@ -145,6 +147,12 @@ class ilECSTaskScheduler
 	 		{
 				$this->handleDelete($event['id']);
 				continue;	 			
+	 		}
+	 		elseif($event['op'] == ilECSEventQueueReader::OPERATION_NEWLY_CREATED)
+	 		{
+	 			// That was command queue 'reset_all'
+	 			// Stop export and then start export.
+	 			$this->handleNewlyCreate($event['id']);
 	 		}
 	 		
 	 		// Operation is create or update
@@ -172,6 +180,64 @@ class ilECSTaskScheduler
 	 			$this->handleUpdate($reader->getEContent());
 	 		}
 	 	}
+	}
+	
+	private function handleNewlyCreate($a_obj_id)
+	{
+		global $ilLog;
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSReaderException.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriterException.php');
+		
+		
+		$export = new ilECSExport($a_obj_id);
+		$econtent_id = $export->getEContentId();
+		try
+		{
+			$reader = new ilECSEContentReader($econtent_id);
+			$reader->read();
+
+			foreach($reader->getEContent() as $econtent)
+			{
+				if(!$obj = ilObjectFactory::getInstanceByObjId($a_obj_id,false))
+				{
+					$ilLog->write(__METHOD__.': Cannot create object instance. Aborting...');
+				}
+				// Delete resource			
+				$writer = new ilECSContentWriter($obj);
+				$writer->setExportable(false);
+				$writer->setOwnerId($econtent->getOwner());
+				$writer->setParticipantIds($econtent->getEligibleMembers());
+				$writer->refresh();
+				
+				// Create resource
+				$writer->setExportable(true);
+				$writer->refresh();
+				return true;
+			}
+			return false;
+			
+		}
+		catch(ilECSConnectorException $e1)
+		{
+			$ilLog->write(__METHOD__.': Cannot handle create event. Message: '.$e1->getMessage());
+			return false;
+		}
+		catch(ilECSReaderException $e2)
+		{
+			$ilLog->write(__METHOD__.': Cannot handle create event. Message: '.$e2->getMessage());
+			return false;
+		}
+		catch(ilECSContentWriterException $e3)
+		{
+			$ilLog->write(__METHOD__.': Cannot handle create event. Message: '.$e2->getMessage());
+			return false;
+		}
+		
 	}
 	
 	/**

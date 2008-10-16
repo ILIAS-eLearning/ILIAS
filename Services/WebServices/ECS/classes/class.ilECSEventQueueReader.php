@@ -34,10 +34,12 @@
 class ilECSEventQueueReader
 {
 	const TYPE_ECONTENT = 'econtents';
+	const TYPE_EXPORTED = 'exported';
 	
 	const OPERATION_DELETE = 'delete';
 	const OPERATION_UPDATE = 'update';
 	const OPERATION_CREATE = 'create';
+	const OPERATION_NEWLY_CREATED = 'newly-created';
 	
 	const ADMIN_RESET = 'reset';
 	const ADMIN_RESET_ALL = 'reset_all';
@@ -73,7 +75,7 @@ class ilECSEventQueueReader
 	 * @return bool
 	 * @static
 	 */
-	 public static function handleReset()
+	 public static function handleImportReset()
 	 {
 		global $ilLog;
 		
@@ -88,7 +90,7 @@ class ilECSEventQueueReader
 			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 			
 			$event_queue = new ilECSEventQueueReader();
-			$event_queue->deleteAll();
+			$event_queue->deleteAllEContentEvents();
 			
 			$reader = new ilECSEContentReader();
 			$reader->read();
@@ -143,6 +145,27 @@ class ilECSEventQueueReader
 		}
 		return true;
 	 }
+	 
+	/**
+	 * Handle export reset.
+	 * Delete exported econtent and create it again 
+	 *
+	 * @return bool
+	 * @static
+	 */
+	 public static function handleExportReset()
+	 {
+	 	include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+	 	
+	 	$queue = new ilECSEventQueueReader();
+	 	$queue->deleteAllExportedEvents();
+	 	
+	 	foreach(ilECSExport::_getExportedIDs() as $obj_id)
+	 	{
+	 		$queue->add(self::TYPE_EXPORTED,$obj_id,self::OPERATION_NEWLY_CREATED);
+	 	}
+	 	return true;
+	 }
 	
 	
 	
@@ -165,6 +188,32 @@ class ilECSEventQueueReader
 	public function deleteAll()
 	{
 	 	$query = "DELETE FROM ecs_events";
+	 	$this->db->query($query);
+	 	return true;
+	}
+	
+	/**
+	 * Delete all econtents
+	 *
+	 * @access public
+	 */
+	public function deleteAllEContentEvents()
+	{
+	 	$query = "DELETE FROM ecs_events ".
+	 		"WHERE type = ".$this->db->quote(self::TYPE_ECONTENT);
+	 	$this->db->query($query);
+	 	return true;
+	}
+	
+	/**
+	 * Delete all exported events
+	 *
+	 * @access public
+	 */
+	public function deleteAllExportedEvents()
+	{
+	 	$query = "DELETE FROM ecs_events ".
+	 		"WHERE type = ".$this->db->quote(self::TYPE_EXPORTED);
 	 	$this->db->query($query);
 	 	return true;
 	}
@@ -209,10 +258,12 @@ class ilECSEventQueueReader
 					switch($admin_cmd)
 					{
 						case self::ADMIN_RESET:
-							self::handleReset();
+							self::handleImportReset();
 							break;
 						case self::ADMIN_RESET_ALL:
-							break;						
+							self::handleExportReset();
+							self::handleImportReset();
+							break;		
 					}
 				}
 				// Handle econtents events
