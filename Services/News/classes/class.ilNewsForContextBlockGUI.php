@@ -1018,7 +1018,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function saveSettings()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
 		$this->initSettingsForm();
 		
@@ -1043,14 +1043,13 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 					0, $this->block_id);
 				ilBlockSetting::_write($this->getBlockType(), "hide_news_per_date", $_POST["hide_news_per_date"],
 					0, $this->block_id);
-//echo "-".$this->getBlockType()."-".$this->block_id."-"; // news obj_id
 
-				// Convert datetime to utc
-				$tmp_date = new ilDateTime($_POST["hide_news_date"]["date"]." ".$_POST["hide_news_date"]["time"],IL_CAL_DATETIME,$ilUser->getTimeZone());
-				$utc_datetime = $tmp_date->get(IL_CAL_DATETIME,'','UTC');
-
+				// hide date
+				$hd = $this->settings_form->getInput("hide_news_date");
+				$hide_date = new ilDateTime($hd["date"]." ".
+					$hd["time"],IL_CAL_DATETIME,$ilUser->getTimeZone());
 				ilBlockSetting::_write($this->getBlockType(), "hide_news_date",
-					$utc_datetime,
+					$hide_date->get(IL_CAL_DATETIME),
 					0, $this->block_id);
 			}
 				
