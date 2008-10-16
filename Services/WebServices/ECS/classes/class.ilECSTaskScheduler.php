@@ -31,7 +31,7 @@
 */
 class ilECSTaskScheduler
 {
-	const MAX_TASKS = 5;
+	const MAX_TASKS = 10;
 	
 	private static $instance = null;
 	

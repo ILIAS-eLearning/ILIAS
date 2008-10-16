@@ -82,6 +82,7 @@ class ilECSSettingsGUI
 		return true;
 	}
 	
+	
 	/**
 	 * Read all importable econtent
 	 *
@@ -91,58 +92,11 @@ class ilECSSettingsGUI
 	{
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
 		include_once('Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
 
 		try
 		{
-			include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
-			include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
-			include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-			
-			$event_queue = new ilECSEventQueueReader();
-			$event_queue->deleteAll();
-			
-			$reader = new ilECSEContentReader();
-			$reader->read();
-			$all_content = $reader->getEContent();
-			
-			$imported = ilECSImport::_getAllImportedLinks();
-			$exported = ilECSExport::_getAllEContentIds();
-			
-			// read update events
-			foreach($all_content as $content)
-			{
-				$event_queue->add(ilECSEventQueueReader::TYPE_ECONTENT,
-					$content->getEContentId(),
-					ilECSEventQueueReader::OPERATION_UPDATE);
-				
-				if(isset($imported[$content->getEContentId()]))
-				{
-					unset($imported[$content->getEContentId()]);
-				}
-				if(isset($exported[$content->getEContentId()]))
-				{
-					unset($exported[$content->getEContentId()]);
-				}
-				
-			}
-			// read delete events
-			if(is_array($imported))
-			{
-				foreach($imported as $econtent_id => $null)
-				{
-					$event_queue->add(ilECSEventQueueReader::TYPE_ECONTENT,
-						$econtent_id,
-						ilECSEventQueueReader::OPERATION_DELETE);
-					
-				}
-			}
-			// delete all deprecated export information
-			if(is_array($exported))
-			{
-				ilECSExport::_deleteEContentIds($exported);
-			}
-			
+			ilECSEventQueueReader::handleReset();			
 			
 			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
 			$scheduler = ilECSTaskScheduler::_getInstance();
