@@ -3095,6 +3095,50 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
+	* Get all contributors for parent object
+	*
+	* @param	string	$a_parent_type	Parent Type
+	* @param	int		$a_parent_id	Parent ID
+	*/
+	static function getPageContributors($a_parent_type, $a_page_id)
+	{
+		global $ilDB;
+		
+		$contributors = array();
+		$st = $ilDB->prepare("SELECT last_change_user FROM page_object ".
+			" WHERE page_id = ? AND parent_type = ? ".
+			" AND last_change_user != ?",
+			array("integer", "text", "integer"));
+		$set = $ilDB->execute($st, array($a_page_id, $a_parent_type, 0));
+
+		while ($page = $ilDB->fetchAssoc($set))
+		{
+			$contributors[$page["last_change_user"]] = 1;
+		}
+
+		$st = $ilDB->prepare("SELECT count(*) as cnt, page_id, user FROM page_history ".
+			" WHERE page_id = ? AND parent_type = ? AND user != ? ".
+			" GROUP BY user ",
+			array("integer", "text", "integer"));
+		$set = $ilDB->execute($st, array($a_page_id, $a_parent_type, 0));
+		while ($hpage = $ilDB->fetchAssoc($set))
+		{
+			$contributors[$hpage["user"]] =
+				$contributors[$hpage["user"]] + $hpage["cnt"];
+		}
+		
+		$c = array();
+		foreach ($contributors as $k => $co)
+		{
+			$name = ilObjUser::_lookupName($k);
+			$c[] = array("user_id" => $k, "pages" => $co,
+				"lastname" => $name["lastname"], "firstname" => $name["firstname"]);
+		}
+		
+		return $c;
+	}
+
+	/**
 	* Write rendered content
 	*/
 	function writeRenderedContent($a_content, $a_md5)

@@ -164,13 +164,30 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function preview()
 	{
-		global $ilCtrl, $ilAccess;
+		global $ilCtrl, $ilAccess, $lng;
 		
 		$this->getWikiPage()->increaseViewCnt(); // todo: move to page object
 		$this->setSideBlock();
 		$wtpl = new ilTemplate("tpl.wiki_page_view_main_column.html",
 			true, true, "Modules/Wiki");
 		
+		// wiki page commands
+		// delete
+		$page_commands = false;
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$wtpl->setCurrentBlock("page_command");
+			$wtpl->setVariable("HREF_PAGE_CMD",
+				$ilCtrl->getLinkTarget($this, "deleteWikiPageConfirmationScreen"));
+			$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("delete"));
+			$wtpl->parseCurrentBlock();
+		}		
+		if ($page_commands)
+		{
+			$wtpl->setCurrentBlock("page_commands");
+			$wtpl->parseCurrentBlock();
+		}
+			
 		// rating
 		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
 			&& $this->getPageObject()->old_nr == 0)
@@ -287,5 +304,100 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 	}
 
+	/**
+	* Delete wiki page confirmation screen.
+	*/
+	function deleteWikiPageConfirmationScreen()
+	{
+		global $ilAccess, $tpl, $ilCtrl, $lng;
+		
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$confirmation_gui = new ilConfirmationGUI();
+			$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
+			$confirmation_gui->setHeaderText($lng->txt("wiki_page_deletion_confirmation"));
+			$confirmation_gui->setCancel($lng->txt("cancel"), "cancelWikiPageDeletion");
+			$confirmation_gui->setConfirm($lng->txt("delete"), "confirmWikiPageDeletion");
+			
+			$dtpl = new ilTemplate("tpl.wiki_page_deletion_confirmation.html", true,
+				true, "Modules/Wiki");
+				
+			$dtpl->setVariable("PAGE_TITLE", $this->getWikiPage()->getTitle());
+			
+			// other pages that link to this page
+			$dtpl->setVariable("TXT_OTHER_PAGES", $lng->txt("wiki_other_pages_linking"));
+			$pages = ilWikiPage::getLinksToPage($this->getWikiPage()->getWikiId(),
+					$this->getWikiPage()->getId());
+			if (count($pages) > 0)
+			{
+				foreach($pages as $page)
+				{
+					$dtpl->setCurrentBlock("lpage");
+					$dtpl->setVariable("TXT_LINKING_PAGE", $page["title"]);
+					$dtpl->parseCurrentBlock();
+				}
+			}
+			else
+			{
+				$dtpl->setCurrentBlock("lpage");
+				$dtpl->setVariable("TXT_LINKING_PAGE", "-");
+				$dtpl->parseCurrentBlock();
+			}
+			
+			// contributors
+			$dtpl->setVariable("TXT_CONTRIBUTORS", $lng->txt("wiki_contributors"));
+			$contributors = ilWikiPage::getPageContributors($this->getWikiPage()->getId());
+			foreach($contributors as $contributor)
+			{
+				$dtpl->setCurrentBlock("contributor");
+				$dtpl->setVariable("TXT_CONTRIBUTOR",
+					$contributor["lastname"].", ".$contributor["firstname"]);
+				$dtpl->parseCurrentBlock();
+			}
+			
+			// notes/comments
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			$cnt_note_users = ilNote::getUserCount($this->getPageObject()->getParentId(),
+				$this->getPageObject()->getId(), "wpg");
+			$dtpl->setVariable("TXT_NUMBER_USERS_NOTES_OR_COMMENTS",
+				$lng->txt("wiki_number_users_notes_or_comments"));
+			$dtpl->setVariable("TXT_NR_NOTES_COMMENTS", $cnt_note_users);
+			
+			$confirmation_gui->addItem("", "", $dtpl->get());
+			
+			$tpl->setContent($confirmation_gui->getHTML());
+		}
+	}
+
+	/**
+	* Cancel wiki page deletion
+	*/
+	function cancelWikiPageDeletion()
+	{
+		global $lng, $ilCtrl;
+		
+		ilUtil::sendInfo($lng->txt("action_aborted"), true);
+		$ilCtrl->redirect($this, "preview");
+		
+	}
+	
+	/**
+	* Delete the wiki page
+	*/
+	function confirmWikiPageDeletion()
+	{
+		global $ilAccess, $tpl, $ilCtrl, $lng;
+		
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$this->getPageObject()->delete();
+			
+			ilUtil::sendInfo($lng->txt("wiki_page_deleted"), true);
+		}
+		
+		$ilCtrl->redirectByClass("ilobjwikigui", "allPages");
+	}
+	
 } // END class.ilWikiPageGUI
 ?>

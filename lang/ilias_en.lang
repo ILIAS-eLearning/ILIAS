@@ -1650,6 +1650,7 @@ common#:#objs_lres#:#Learning Resources
 common#:#wiki_new#:#New Wiki
 common#:#wiki_add#:#Add Wiki
 wiki#:#wiki_contributors#:#Contributors
+wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?
 wiki#:#wiki_wiki_page#:#Wiki Page
 wiki#:#wiki_last_visited_page#:#Last Visited Page
 wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.
@@ -1677,7 +1678,10 @@ wiki#:#wiki_pages#:#Pages
 wiki#:#wiki_discussion#:#Discussion
 wiki#:#wiki_edit#:#Edit
 wiki#:#wiki_last_changed_by#:#Last Changed By
+wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page
+wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page
 wiki#:#wiki_created_by#:#Created By
+wiki#:#wiki_page_deleted#:#Wiki page deleted.
 wiki#:#wiki_last_changed#:#Last Change
 wiki#:#wiki_page_hits#:#Page Hits
 wiki#:#wiki_history#:#History

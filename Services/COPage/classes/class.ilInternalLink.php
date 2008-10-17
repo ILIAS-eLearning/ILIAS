@@ -49,6 +49,23 @@ class ilInternalLink
 	}
 
 	/**
+	* delete all links to a given target
+	*
+	* @param	string		$a_target_type		target type
+	* @param	int			$a_target_id		target id
+	* @param	int			$a_target_inst		target installation id
+	*/
+	function _deleteAllLinksToTarget($a_target_type, $a_target_id, $a_target_inst = 0)
+	{
+		global $ilias, $ilDB;
+
+		$st = $ilDB->prepareManip("DELETE FROM int_link WHERE target_type = ? ".
+			" AND target_id = ? AND target_inst = ? ",
+			array("text", "integer", "integer"));
+		$ilDB->execute($st, array($a_target_type, $a_target_id, $a_target_inst));
+	}
+
+	/**
 	* save internal link information
 	*
 	* @param	string		$a_source_type		source type

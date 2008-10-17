@@ -75,12 +75,24 @@ class ilConfirmationGUI
 		return $this->headertext;
 	}
 
+	/**
+	* Set cancel button command and text
+	*
+	* @param	string		cancel text
+	* @param	string		cancel command
+	*/
 	final public function setCancel($a_txt, $a_cmd)
 	{
 		$this->cancel_txt = $a_txt;
 		$this->cancel_cmd = $a_cmd;
 	}
 
+	/**
+	* Set confirmation button command and text
+	*
+	* @param	string		confirmation button text
+	* @param	string		confirmation button command
+	*/
 	final public function setConfirm($a_txt, $a_cmd)
 	{
 		$this->confirm_txt = $a_txt;
@@ -174,11 +186,11 @@ class ilConfirmationGUI
 		
 		if ($this->use_images)
 		{
-			$tpl->setVariable("ROW_SPAN", 2);
+			$tpl->setVariable("COL_SPAN", 2);
 		}
 		else
 		{
-			$tpl->setVariable("ROW_SPAN", 1);
+			$tpl->setVariable("COL_SPAN", 1);
 		}
 	
 		return $tpl->get();

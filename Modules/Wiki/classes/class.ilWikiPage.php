@@ -158,6 +158,17 @@ class ilWikiPage extends ilPageObject
 	{
 		global $ilDB;
 		
+		// get other pages that link to this page
+		$linking_pages = ilWikiPage::getLinksToPage($this->getWikiId(),
+			$this->getId());
+
+		// delete internal links information to this page
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		ilInternalLink::_deleteAllLinksToTarget("wpg", $this->getId());
+		
+		// delete comments and notes of this page
+		// (we keep them first)
+		
 		// delete record of table il_wiki_data
 		$query = "DELETE FROM il_wiki_page".
 			" WHERE id = ".$ilDB->quote($this->getId());
@@ -167,6 +178,16 @@ class ilWikiPage extends ilPageObject
 		// delete co page
 		parent::delete();
 		
+		// make links of other pages to this page a missing link
+		foreach($linking_pages as $lp)
+		{
+			$st = $ilDB->prepareManip("REPLACE INTO il_wiki_missing_page ".
+				"(wiki_id, source_id, target_name) VALUES ".
+				"(?,?,?)", array("integer", "integer", "text"));
+			$ilDB->execute($st, array($this->getWikiId(), $lp["id"],
+				$this->getTitle()));
+		}
+
 		return true;
 	}
 
@@ -291,24 +312,26 @@ class ilWikiPage extends ilPageObject
 		$ids = array();
 		foreach ($sources as $source)
 		{ 
-			if ($source["type"] == "wpg")
+			if ($source["type"] == "wpg:pg")
 			{
 				$ids[] = $source["id"];
 			}
 		}
 		// get wiki page record
-		$query = "SELECT * FROM il_wiki_page".
-			" WHERE id IN (".implode(",",ilUtil::quoteArray($ids)).")".
-			" AND wiki_id = ".$ilDB->quote($a_wiki_id).
+		$query = "SELECT * FROM il_wiki_page wp, page_object p".
+			" WHERE wp.id IN (".implode(",",ilUtil::quoteArray($ids)).")".
+			" AND wp.id = p.page_id AND p.parent_type = 'wpg'".
+			" AND wp.wiki_id = ".$ilDB->quote($a_wiki_id).
 			" ORDER BY title";
 		$set = $ilDB->query($query);
 		
 		$pages = array();
 		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$pages[] = $rec;
+			$pages[] = array_merge($rec, array("user" => $rec["last_change_user"],
+				"date" => $rec["last_change"]));
 		}
-		
+
 		return $pages;
 	}
 
@@ -333,7 +356,7 @@ class ilWikiPage extends ilPageObject
 			$ids = array();
 			foreach ($sources as $source)
 			{ 
-				if ($source["type"] == "wpg")
+				if ($source["type"] == "wpg:pg")
 				{
 					$ids[] = $source["id"];
 				}
@@ -394,6 +417,21 @@ class ilWikiPage extends ilPageObject
 		
 		return $contributors;
 	}
+	
+	/**
+	* Get all contributors of wiki
+	*
+	* @access	public
+	*/
+	static function getPageContributors($a_page_id)
+	{
+		global $ilDB;
+		
+		$contributors = parent::getPageContributors("wpg", $a_page_id);
+		
+		return $contributors;
+	}
+
 
 	/**
 	* save internal links of page
@@ -419,7 +457,7 @@ class ilWikiPage extends ilPageObject
 		$set = $ilDB->execute($stmt, array($this->getWikiId(), $this->getTitle()));
 		while ($anmiss = $ilDB->fetchAssoc($set))	// insert internal links instead 
 		{
-			ilInternalLink::_saveLink("wpg", $anmiss["source_id"], "wpg",
+			ilInternalLink::_saveLink("wpg:pg", $anmiss["source_id"], "wpg",
 				$this->getId(), 0);
 		}
 		
@@ -446,7 +484,7 @@ class ilWikiPage extends ilPageObject
 			
 			if ($page_id > 0)		// save internal link for existing page
 			{
-				ilInternalLink::_saveLink("wpg", $this->getId(), "wpg",
+				ilInternalLink::_saveLink("wpg:pg", $this->getId(), "wpg",
 					$page_id, 0);
 			}
 			else		// save missing link for non-existing page
@@ -567,5 +605,6 @@ class ilWikiPage extends ilPageObject
 		return $pages;
 	}
 
+	
 } // END class.ilWikiPage
 ?>

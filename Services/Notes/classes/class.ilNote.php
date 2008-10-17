@@ -450,5 +450,26 @@ class ilNote
 		return $reps;
 	}
 
+	/**
+	* How many users have attached a note/comment to a given object?
+	*
+	* @param	int		$a_rep_obj_id		object id (as in object data)
+	* @param	int		$a_obj_id			(sub) object id
+	* @param	string	$a_type				(sub) object type
+	*/
+	static function getUserCount($a_rep_obj_id, $a_obj_id, $a_type)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepare("SELECT count(DISTINCT author) cnt FROM note WHERE ".
+			"rep_obj_id = ? AND obj_id = ? AND obj_type = ?",
+			array("integer", "integer", "text"));
+		
+		$set = $ilDB->execute($st, array($a_rep_obj_id, $a_obj_id, $a_type));
+		$rec = $ilDB->fetchAssoc($set);
+		
+		return (int) $rec["cnt"];
+	}
+
 }
 ?>

@@ -6144,4 +6144,5 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
-
+<#1348>
+UPDATE int_link SET source_type = 'wpg:pg' WHERE source_type = 'wpg';
