@@ -32,6 +32,7 @@
 class ilAdvancedMDSubstitution
 {
 	private static $instances = null; 
+	private static $mappings = null;
 
 	protected $db;
 	
@@ -61,7 +62,8 @@ class ilAdvancedMDSubstitution
 		$this->db = $ilDB;
 		$this->type = $a_type;
 		
-		$this->read();	
+		$this->initECSMappings();
+		$this->read();
 	}
 	
 	/**
@@ -192,18 +194,7 @@ class ilAdvancedMDSubstitution
 				continue;
 			}
 			
-			if(in_array($field_id,$this->date_fields))
-			{
-				$value = ilDatePresentation::formatDate(new ilDate((int) $values[$field_id],IL_CAL_UNIX));
-			}
-			elseif(in_array($field_id,$this->datetime_fields))
-			{
-				$value = ilDatePresentation::formatDate(new ilDateTime((int) $values[$field_id],IL_CAL_UNIX));
-			}
-			else
-			{
-				$value = $values[$field_id];
-			}
+			$value = $this->parseValue($field_id,$values);
 	
 			$substituted[$counter]['name'] = $this->active_fields[$field_id];
 			$substituted[$counter]['value'] = $value;
@@ -222,6 +213,58 @@ class ilAdvancedMDSubstitution
   		
   		return $substituted ? $substituted : array();
 	}
+	
+	/**
+	 * special handling for date(time) values 
+	 * and ECS dates
+	 * 
+	 * @param int $a_field_id field ID
+	 * @param array $a_values values
+	 * @access public
+	 * @return string parsed value
+	 * 
+	 */
+	private function parseValue($a_field_id,$a_values)
+	{
+		global $ilUser;
+		
+		if($this->type == 'crs' or $this->type == 'rcrs')
+		{
+			// Special handling for ECS fields
+			if($a_field_id == self::$mappings->getMappingByECSName('begin') and
+				$end = self::$mappings->getMappingByECSName('end'))
+			{
+				// Parse a duration
+				$start = in_array($a_field_id,$this->date_fields) ?
+					new ilDate($a_values[$a_field_id],IL_CAL_UNIX) :
+					new ilDateTime($a_values[$a_field_id],IL_CAL_UNIX);
+				$end = in_array($end,$this->date_fields) ?
+					new ilDate($a_values[$end],IL_CAL_UNIX) :
+					new ilDateTime($a_values[$end],IL_CAL_UNIX);
+				
+				include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
+				$weekday = ilCalendarUtil::_numericDayToString($start->get(IL_CAL_FKT_DATE,'w',$ilUser->getTimeZone()),false);
+				
+				ilDatePresentation::setUseRelativeDates(false);
+				$value = ilDatePresentation::formatPeriod($start,$end);
+				ilDatePresentation::setUseRelativeDates(true);
+				return $weekday.', '.$value;
+			}			
+		}
+		if(in_array($a_field_id,$this->date_fields))
+		{
+			return $value = ilDatePresentation::formatDate(new ilDate((int) $a_values[$a_field_id],IL_CAL_UNIX));
+		}
+		elseif(in_array($a_field_id,$this->datetime_fields))
+		{
+			return $value = ilDatePresentation::formatDate(new ilDateTime((int) $a_values[$a_field_id],IL_CAL_UNIX));
+		}
+		else
+		{
+			return $value = $a_values[$a_field_id];
+		}
+	}
+	
 	
 	/**
 	 * set substitutions
@@ -392,6 +435,35 @@ class ilAdvancedMDSubstitution
 	 		$this->enabled_desc = !$row->hide_description;
 	 		$this->enabled_field_names = !$row->hide_field_names;
 	 	}
+	 	
+	 	if($this->type == 'crs' or $this->type == 'rcrs')
+	 	{
+	 		// Handle ECS substitutions
+	 		if($begin = self::$mappings->getMappingByECSName('begin') and
+	 			$end = self::$mappings->getMappingByECSName('end'))
+	 		{
+	 			// Show something like 'Monday, 30.12.2008 9:00 - 12:00'
+	 			unset($this->active_fields[$end]);
+	 		}
+	 	}
+	}
+	
+	/**
+	 * init ECS mappings
+	 *
+	 * @access private
+	 * 
+	 */
+	private function initECSMappings()
+	{
+		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
+		
+		if(isset(self::$mappings) and is_object(self::$mappings))
+		{
+			return true;
+		}
+		self::$mappings = ilECSDataMappingSettings::_getInstance();
+		return true;
 	}
 }
 ?>

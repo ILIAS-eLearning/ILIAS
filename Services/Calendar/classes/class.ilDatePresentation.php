@@ -34,9 +34,34 @@ include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 */
 class ilDatePresentation
 {
+	public static $use_relative_dates = true;
+	
 	public static $today = null;
 	public static $tomorrow = null;
 	public static $yesterday = null;
+	
+	/**
+	 * set use relative dates 
+	 * @param bool
+	 * @return
+	 * @static
+	 */
+	public static function setUseRelativeDates($a_status)
+	{
+		self::$use_relative_dates = $a_status;
+	}
+	 
+	/**
+	 * check if relative dates are used
+	 *
+	 * @return
+	 * @static
+	 */
+	public static function useRelativeDates()
+	{
+		return self::$use_relative_dates;
+	}
+	
 	
 	/**
 	 * Format a date
@@ -62,15 +87,15 @@ class ilDatePresentation
 		}
 		
 
-		if(self::isToday($date))
+		if(self::isToday($date) and self::useRelativeDates())
 		{
 			$date_str = $lng->txt('today');
 		}
-		elseif(self::isTomorrow($date))
+		elseif(self::isTomorrow($date) and self::useRelativeDates())
 		{
 			$date_str = $lng->txt('tomorrow');
 		}
-		elseif(self::isYesterday($date))
+		elseif(self::isYesterday($date) and self::useRelativeDates())
 		{
 			$date_str = $lng->txt('yesterday');
 		}
