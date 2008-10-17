@@ -5479,7 +5479,7 @@ ldap#:#ldap_server_name_info#:#Bitte wählen Sie einen Namen für diese Server-K
 ldap#:#ldap_server_name#:#Name der LDAP-Konfiguration
 ldap#:#ldap_server_security_settings#:#Sicherheitseinstellungen
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldap.ilias.de:389".  Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
+ldap#:#ldap_server_url_info#:#Die komplette URL für die Verbindung zum LDAP-Server. Z.B. "ldap://ldap.ilias.de:389".  Mehrere Server können mit Komma getrennt angegeben werden. Ist der erste Server nicht erreichbar, wird automatisch der nächste angefragt.
 ldap#:#ldap_server_version_info#:#Protokollversion des LDAP-Server (in den meisten Fällen "LDAPv3").
 ldap#:#ldap_settings#:#Server-Einstellungen
 ldap#:#ldap_sync_cron#:#Per Cron-Job
