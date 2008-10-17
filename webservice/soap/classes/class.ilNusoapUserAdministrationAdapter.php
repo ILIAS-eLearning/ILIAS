@@ -767,6 +767,16 @@ class ilNusoapUserAdministrationAdapter
 								'ILIAS ilClone(): Only for internal usage.'.
 								'Syntax, parameters may change in future releases. ');
 
+		$this->server->register('handleECSTasks',
+								array('sid' => 'xsd:string'),
+								array('success' => 'xsd:boolean'),
+								SERVICE_NAMESPACE,
+								SERVICE_NAMESPACE.'#handleECSTasks',
+								SERVICE_STYLE,
+								SERVICE_USE,
+								'ILIAS handleECSTasks(): Only for internal usage.'.
+								'Syntax, parameters may change in future releases. ');
+
 		$this->server->register('ilCloneDependencies',
 								array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
 								array('success' => 'xsd:boolean'),

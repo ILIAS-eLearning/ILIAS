@@ -283,7 +283,7 @@ class ilObjUser extends ilObject
 	function assignData($a_data)
 	{
 		global $ilErr;
-
+		
 		// basic personal data
 		$this->setLogin($a_data["login"]);
 		if (! $a_data["passwd_type"])
