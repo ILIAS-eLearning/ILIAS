@@ -6096,3 +6096,52 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#1347>
+<?php
+
+// Adjust create session permission for courses
+global $ilDB;
+
+
+$query = "SELECT * FROM rbac_operations WHERE operation = 'create_sess'";
+$res = $ilDB->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+$sess_id = $row->ops_id;
+
+
+$ops_id = 4;
+$query = "SELECT rol_id,obr.ref_id FROM object_data obd ".
+	"JOIN object_reference obr ON obd.obj_id = obr.obj_id ".
+	"JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id ".
+	"WHERE type = 'crs' ".
+	"AND (ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%"). " ".
+	"OR ops_id LIKE".$ilDB->quote("%:\"".$ops_id."\";%").") ";
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ref_id = $row->ref_id;
+	$rol_id = $row->rol_id;
+	
+	$query = "SELECT * FROM rbac_pa WHERE rol_id = ".$ilDB->quote($rol_id).' '.
+		"AND ref_id = ".$ilDB->quote($ref_id);
+	$pa_res = $ilDB->query($query);
+	while($pa_row = $pa_res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$ops = unserialize($pa_row->ops_id);
+		
+		if(!in_array($copy_id,$ops))
+		{
+			$ops[] = $sess_id;
+			
+			$query = "UPDATE rbac_pa SET ".
+				"ops_id = ".$ilDB->quote($ops).' '.
+				"WHERE rol_id = ".$ilDB->quote($rol_id).' '.
+				"AND ref_id = ".$ilDB->quote($ref_id);
+			$ilDB->query($query);
+		}
+	}
+}
+?>
+
