@@ -488,8 +488,19 @@ class ilSoapFunctions {
 
 		return $sou->ilCloneDependencies($sid,$copy_identifier);
 	}
+	
+	public static function handleECSTasks($sid)
+	{
+		include_once './webservice/soap/classes/class.ilSoapUtils.php';
 
-	public static function  saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
+		$sou = new ilSoapUtils();
+		$sou->disableSoapCheck();
+		$sou->ignoreUserAbort();
+		
+		return $sou->handleECSTasks($sid);
+	}
+
+	public static function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
 	{
 		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
 

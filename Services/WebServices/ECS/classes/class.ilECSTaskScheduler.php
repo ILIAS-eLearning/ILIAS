@@ -31,7 +31,7 @@
 */
 class ilECSTaskScheduler
 {
-	const MAX_TASKS = 10;
+	const MAX_TASKS = 30;
 	
 	private static $instance = null;
 	
@@ -86,8 +86,10 @@ class ilECSTaskScheduler
 	 * @access private
 	 * 
 	 */
-	private function startTaskExecution()
+	public function startTaskExecution()
 	{
+		global $ilLog;
+		
 		try
 		{
 			$this->readMIDs();
@@ -396,6 +398,8 @@ class ilECSTaskScheduler
 	 */
 	public function start()
 	{
+	 	global $ilLog;
+	 	
 	 	if(!$this->settings->isEnabled())
 	 	{
 			return false;
@@ -431,7 +435,30 @@ class ilECSTaskScheduler
 	 	$this->db->query($query);
 	 		
 	 	$this->log->write(__METHOD__.': Starting ECS tasks.');
-	 	$this->startTaskExecution();
+	 	
+	 	
+		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+
+		$soap_client = new ilSoapClient();
+		$soap_client->setTimeout(1);
+		$soap_client->setResponseTimeout(1);
+		$soap_client->enableWSDL(true);
+
+		$ilLog->write(__METHOD__.': Trying to call Soap client...');
+		$new_session_id = duplicate_session($_COOKIE['PHPSESSID']);
+		$client_id = $_COOKIE['ilClientId']; 
+		
+		if($soap_client->init())
+		{
+			$ilLog->write(__METHOD__.': Calling soap handleECSTasks method...');
+			$res = $soap_client->call('handleECSTasks',array($new_session_id.'::'.$client_id));
+		}
+		else
+		{
+			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
+			include_once('./webservice/soap/include/inc.soap_functions.php');
+			$res = ilSoapFunctions::handleECSTasks($new_session_id.'::'.$client_id);
+		}
 	 	return true;
 	}
 }

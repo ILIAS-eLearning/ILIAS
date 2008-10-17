@@ -471,5 +471,25 @@ class ilSoapUtils extends ilSoapAdministration
    		}
    		return true;
 	}
+	
+	public function handleECSTasks($sid)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}			
+
+		// Include main header
+		include_once './include/inc.header.php';
+		include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
+
+		global $ilLog;
+		
+		$scheduler = ilECSTaskScheduler::_getInstance();
+		$ilLog->write(__METHOD__.': Starting task execution...');
+		$scheduler->startTaskExecution();
+		
+		return true;
+	}
 }
 ?>

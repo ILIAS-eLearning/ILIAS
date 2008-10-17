@@ -1282,6 +1282,11 @@ class ilInitialisation
 
 		// Store online time of user
 		ilOnlineTracking::_updateAccess($ilUser->getId());
+		
+		// ECS Tasks
+	 	include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
+	 	$scheduler = ilECSTaskScheduler::_getInstance();
+	 	$scheduler->start();
 
 		$ilBench->stop("Core", "HeaderInclude");
 		$ilBench->save();

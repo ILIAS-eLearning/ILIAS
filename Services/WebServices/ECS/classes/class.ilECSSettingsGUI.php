@@ -100,7 +100,7 @@ class ilECSSettingsGUI
 			
 			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
 			$scheduler = ilECSTaskScheduler::_getInstance();
-			$scheduler->start();
+			$scheduler->startTaskExecution();
 
 			ilUtil::sendInfo($this->lng->txt('ecs_remote_imported'));
 			$this->imported();
