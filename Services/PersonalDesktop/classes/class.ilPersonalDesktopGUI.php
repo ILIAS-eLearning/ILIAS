@@ -259,11 +259,6 @@ class ilPersonalDesktopGUI
 	*/
 	function show()
 	{
-		// Has to be moved to another location. smeyer		
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
-	 	$scheduler = ilECSTaskScheduler::_getInstance();
-	 	$scheduler->start();
-		
 		
 		// add template for content
 		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true);
