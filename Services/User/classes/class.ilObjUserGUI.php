@@ -1054,7 +1054,7 @@ class ilObjUserGUI extends ilObjectGUI
 	public function updateObject()
 	{
 		global $tpl, $rbacsystem, $ilias, $ilUser;
-
+		
 		// User folder
 		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
 		{
@@ -1103,7 +1103,7 @@ class ilObjUserGUI extends ilObjectGUI
 			
 			$until = new ilDateTime($_POST['time_limit_until']['date'].' '.$_POST['time_limit_until']['time'],IL_CAL_DATETIME,$ilUser->getTimeZone());
 			$_POST['time_limit_until'] = $until->get(IL_CAL_UNIX);
-
+			$_POST['time_limit_owner'] = $this->usrf_ref_id;
 			$this->object->assignData($_POST);
 
 
