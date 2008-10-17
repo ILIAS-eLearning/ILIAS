@@ -351,6 +351,8 @@ class ilObjRemoteCourse extends ilObject
 	 */
 	public function createAuthResource()
 	{
+	 	global $ilLog;
+	 	
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSAuth.php');
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSImport.php');
@@ -370,6 +372,7 @@ class ilObjRemoteCourse extends ilObject
 		}
 		catch(ilECSConnectorException $exc)
 		{
+			$ilLog->write(__METHOD__.': Caught error from ECS Auth resource: '.$exc->getMessage());	
 			return false;
 		}
 	}
