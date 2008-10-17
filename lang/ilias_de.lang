@@ -8693,7 +8693,7 @@ dateplaner#:#cal_type_crs#:#Kurskalender
 dateplaner#:#cal_type_grp#:#Gruppenkalender
 content#:#cont_no_page_in_chapter#:#In diesem Kapitel befinden sich zur Zeit leider keine aktiven Inhalte.
 content#:#cont_page_currently_deactivated#:#Diese Seite ist momentan deaktiviert.
-wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?###17 10 2008 new variable
-wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page###17 10 2008 new variable
-wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page###17 10 2008 new variable
-wiki#:#wiki_page_deleted#:#Wiki page deleted.###17 10 2008 new variable
+wiki#:#wiki_page_deletion_confirmation#:#Wollen Sie diese Wiki-Seite wirklich löschen?
+wiki#:#wiki_other_pages_linking#:#Andere Seiten, die zu dieser Seite verlinken
+wiki#:#wiki_number_users_notes_or_comments#:#Anzahl Benutzer, die Notizen oder Kommentare zu dieser Seite verfasst haben.
+wiki#:#wiki_page_deleted#:#Die Wiki-Seite wurde gelöscht.
