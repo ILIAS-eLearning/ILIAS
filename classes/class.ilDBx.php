@@ -264,7 +264,7 @@ else
 	* @return	Resource handle for the prepared query on success, a MDB2 error on failure.
 	*/
 	function prepare($a_query, $a_types = null, $a_result_types = null)
-	{
+	{		
 		$res = $this->db->prepare($a_query, $a_types, $a_result_types);
 		if (MDB2::isError($res))
 		{
