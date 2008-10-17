@@ -161,7 +161,7 @@ class ilCourseItemAdministrationGUI
 		
 		// Visiblity
 		$vis = new ilRadioOption($this->lng->txt('crs_timings_availability_enabled'),IL_CRS_TIMINGS_ACTIVATION);
-		$vis->setInfo($this->lng->txt('crs_timings_visibility'));
+		#$vis->setInfo($this->lng->txt('crs_timings_visibility'));
 		
 			$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_start'),'timing_start');
 			$start->setShowTime(true);
