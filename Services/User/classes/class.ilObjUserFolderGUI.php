@@ -231,7 +231,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				"firstname"		=> $val["firstname"],
 				"lastname"		=> $val["lastname"],
 				"online_time"  => ilFormat::_secondsToShortString($val['online_time']),
-				"last_login"	=> $val['last_login']
+				"last_login"	=> ilDatePresentation::formatDate(new ilDateTime($val['last_login'],IL_CAL_DATETIME))
 				);
 		}
 		
@@ -715,14 +715,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					
 					if ($key == "last_login")
 					{
-						if ($val != "0000-00-00 00:00:00")
-						{
-							$val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
-						}
-						else
-						{
-							$val = $lng->txt("no_date");
-						}
+						$val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
 					}
 
 					if ($key != "access_until")
@@ -743,6 +736,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			} //for
 		}
 		$this->showActions(true);
+		
+		
+		
 	}
 	
 	/**
@@ -3661,7 +3657,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["filename"]);
 
 				$file_arr = explode("__", $exp_file["filename"]);
-				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+				$this->tpl->setVariable('TXT_DATE',ilDatePresentation::formatDate(new ilDateTime($file_arr[0],IL_CAL_UNIX)));
 
 				$this->tpl->parseCurrentBlock();
 			}

@@ -74,6 +74,11 @@ class ilDatePresentation
 	{
 		global $lng,$ilUser;
 		
+		if($date->isNull())
+		{
+			return $lng->txt('no_date');
+		}
+		
 		$has_time = !is_a($date,'ilDate');
 		
 		// Converting pure dates to user timezone might return wrong dates

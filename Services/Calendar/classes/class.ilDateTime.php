@@ -101,6 +101,16 @@ class ilDateTime
 	}
 	
 	/**
+	 * Check if a date is null (Datetime == '0000-00-00 00:00:00', unixtime == 0,...)
+
+	 * @return bool
+	 */
+	public function isNull()
+	{
+		return $this->unix ? false : true;	 
+	}
+	
+	/**
 	 * Switch timezone
 	 *
 	 * @access public
@@ -343,6 +353,12 @@ class ilDateTime
 					$d_parts[2],
 					$d_parts[3],
 					$d_parts[1]);
+
+				if($d_parts[0] == '0000-00-00 00:00:00')
+				{
+					$this->unix = 0;
+				}
+
 				$this->timezone->restoreTZ();
 				break;
 
@@ -355,6 +371,7 @@ class ilDateTime
 				if(!$unix or $unix == false)
 				{
 					$this->log->write(__METHOD__.': Cannot parse date: '.$a_date);
+					$this->unix = 0;
 					return false;					
 				}
 				$this->unix = $unix;
@@ -371,6 +388,12 @@ class ilDateTime
 					$a_date['mday'],
 					$a_date['year']);
 				$this->timezone->restoreTZ();
+				
+				// TODO: choose better error handling
+				if(!$a_date['year'])
+				{
+					$this->unix = 0;
+				}
 				break;
 				
 			case IL_CAL_TIMESTAMP:
@@ -387,6 +410,12 @@ class ilDateTime
 					$d_parts[2],
 					$d_parts[3],
 					$d_parts[1]);
+					
+				if($d_parts[0] == '00000000000000' or
+					$d_parts[0] == '00000000')
+				{
+					$this->unix = 0;
+				}
 				$this->timezone->restoreTZ();
 				break;
 	 	}
