@@ -168,7 +168,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$preview->addArea($preview->getAreaCount(), $_POST["newarea"], $coords, $_POST["shapetitle"], "", "", true, "blue");
 			}
 			$preview->createPreview();
-			$imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->get_image_filename());
+			$imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->get_image_filename()) . "?img=" . time();
 			if (!$hidearea)
 			{
 				$this->tpl->setCurrentBlock("maparea");
