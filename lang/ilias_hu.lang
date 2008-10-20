@@ -1,7 +1,7 @@
 ﻿/**
 * ILIAS language file
 *
-* @module		language file English
+* @module		language file Hungarian
 * @modulegroup	language
 * @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
@@ -79,6 +79,9 @@ administration#:#language_error_write_local#:#A helyi nyelvi fájl nem írható!
 administration#:#language_export_file#:#Nyelvi fájl exportja
 administration#:#language_file_imported#:#A %s nyelvi fájl importálásra került.
 administration#:#language_file_scope#:#Nyelvi fájl hatókör
+administration#:#language_former_file_description#:#Az Ön helyi módosításainak a legutóbbi frissítés módosításaival való összehasonlításhoz másolja a korábban installált ILIAS verzió nyelvi fájlját a helyi nyelvi fájlok mappájába. A jelenlegi nyelvi fájl automatikusan másolásra kerül, amikor  a 'Karbantartás' fülön elmenti a helyi nyelvi fájlját.
+administration#:#language_former_file_equal#:#A <b>%s</b> fájl azonos a jelenlegi nyelvi fájllal.
+administration#:#language_former_file_missing#:#A <b>%s</b> fájl hiányzik.
 administration#:#language_import_file#:#Nyelvi fájl importálása
 administration#:#language_load_local_changes#:#Helyi nyelvi fájl betöltése az adatbázisba
 administration#:#language_loaded_local#:#A helyi nyelvi fájl betöltésre került az adatbázisba.
@@ -91,11 +94,12 @@ administration#:#language_mode_existing_keepall#:#Minden létező bejegyzés meg
 administration#:#language_mode_existing_keepnew#:#Minden helyi változtatás megtartása
 administration#:#language_mode_existing_replace#:#Létező bejegyzések lecserélése
 administration#:#language_note_save_local#:#Rendszeresen mentse változtatásait a helyi nyelvi fájlba! Ha nincs írási joga a testre szabott nyelvi fájlokhoz, exportálhatja a helyi változtatásokat, majd újraimportálhatja ha szükséges.
-administration#:#language_note_translation#:#A lapfordítási mód aktivált az egyes nyelvekhez külön-külön. A felhasználónak ezen kívül még láthatósági és olvasási jogosultságokkal kell rendelkeznie az egyes nyelvi fájlokhoz.
+administration#:#language_note_translation#:#A lapfordítási mód aktivált az egyes nyelvekhez külön-külön. A felhasználónak ezen kívül még olvasási és írási jogosultsággal kell rendelkeznie az egyes nyelvi fájlokhoz.
 administration#:#language_process_maintenance#:#Karbantartási eljárás
 administration#:#language_save_local_changes#:#Az összes változtatás helyi nyelvi fájlba mentése
 administration#:#language_saved_local#:#Az összes változtatás a helyi nyelvi fájlba került mentésre.
 administration#:#language_scope_commented#:#A nyelvmenedzser megjegyzéseivel
+administration#:#language_scope_conflicts#:#Helyi és változások frissítése
 administration#:#language_scope_different#:#Különbség az összehasonlított nyelvtől
 administration#:#language_scope_equal#:#Egyenlő az összehasonlított nyelvvel
 administration#:#language_scope_global#:#Minden bejegyzés
@@ -179,7 +183,7 @@ assessment#:#add_matching_pair#:#Összeillő párok hozzáadása
 assessment#:#add_questionpool#:#Kérdésgyűjtemény hozzáadása
 assessment#:#add_solution#:#Javasolt megoldás hozzáadása
 assessment#:#all_available_question_pools#:#Minden elérhető kérdésgyűjtemény
-assessment#:#answer#:#Válasz
+assessment#:#answer#:#válasz
 assessment#:#answer_is_not_correct_but_positive#:#Szerzett pontot a megoldására, de megoldása nem helyes teljes mértékben.
 assessment#:#answer_is_right#:#A megoldása helyes
 assessment#:#answer_is_wrong#:#A megoldása rossz
@@ -282,8 +286,8 @@ assessment#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változa
 assessment#:#certificate_ph_testtitle#:#Teszt címe
 assessment#:#certificate_ph_date#:#Aktuális dátum
 assessment#:#certificate_ph_datetime#:#Aktuális dátum és idő
-assessment#:#certificate_ph_title#:#Név előtag
 assessment#:#certificate_ph_institution#:#Felhasználó intézménye
+assessment#:#certificate_ph_title#:#Név előtag
 assessment#:#certificate_ph_department#:#Felhasználó szervezeti egysége
 assessment#:#certificate_ph_street#:#Felhasználói cím - utca
 assessment#:#certificate_ph_city#:#Felhasználói cím - város
@@ -311,6 +315,12 @@ assessment#:#cloze_textgap_case_sensitive#:#Kis-/nagybetűre érzékeny
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-távolság %s
 assessment#:#cloze_textgap_rating#:#Szöveghely minősítés
 assessment#:#code#:#Kód
+assessment#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in!
+assessment#:#certificate_visibility#:#Láthatóság
+assessment#:#certificate_visibility_introduction#:#A teszteredményekben levő gomb a felhasználóknak a bizonyítványt felajánlja
+assessment#:#certificate_visibility_always#:#Mindig látható
+assessment#:#certificate_visibility_never#:#Nem látható
+assessment#:#certificate_visibility_passed#:#Csak akkor látható, ha a felhasználó elvégezte a tesztet
 common#:#obj_cmps#:#Modulok, szolgáltatások és plug-inek
 cmps#:#cmps_group#:#Csoportok
 cmps#:#cmps_current_version#:#Jelenlegi verzió
@@ -533,7 +543,7 @@ assessment#:#keywords_hint#:#Adja meg a kulcsszavak listáját szóközökkel va
 assessment#:#last_update#:#Utolsó frissítés
 assessment#:#legend#:#Jelmagyarázat
 assessment#:#locked#:#Zárolva
-assessment#:#log_answer_changed_points#:#Pontok manuális módosítása a %s által %d-ról/ről %d-ra/re %s.
+assessment#:#log_answer_changed_points#:#Pontok manuális módosítása a teszt szerzője által %d-ról/ről %d-ra/re.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert a maximális számú egyidejű felhasználó éri el.
 assessment#:#log_create_new_test#:#Új teszt létrehozva.
 assessment#:#log_mark_added#:#Érdemjegy felvéve.
@@ -617,9 +627,9 @@ assessment#:#picture#:#Kép
 assessment#:#please_select#:#Válasszon
 assessment#:#point#:#pont
 assessment#:#points#:#pont
-assessment#:#points_checked#:#Pontok (ellenőrizve)
+assessment#:#points_checked#:#Pont (bejelölve)
 assessment#:#points_short#:#pont
-assessment#:#points_unchecked#:#Pontok (ellenőrzés nélkül)
+assessment#:#points_unchecked#:#Pont (bejelölés nélkül)
 assessment#:#polygon#:#Sokszög
 assessment#:#polygon_click_next_or_save#:#Kattintson a sokszög következő pontjára vagy mentse a területet! (Nem szükséges ismét kattintani a sokszög kezdőpontján.)
 assessment#:#polygon_click_next_point#:#Kattintson a sokszög következő pontjára!
@@ -735,6 +745,7 @@ assessment#:#set_manual_feedback#:#Manuális visszacsatolás beállítása
 assessment#:#shape#:#Alakzat
 assessment#:#show_pass_overview#:#Leosztályozott teljesítés áttekintésének megjelenítése
 assessment#:#show_user_answers#:#Felhasználók leosztályozott válaszainak megjelenítése
+assessment#:#show_detailed_results#:#Felhasználó részletezett eredményeinek megjelenítése (osztályozott megoldás)
 assessment#:#shuffle_answers#:#Kevert válaszok
 assessment#:#solution_hint#:#Javasolt megoldás
 assessment#:#solution_may_contain_keywords#:#A megoldás az alábbi kulcsszavak közül egyet tartalmazhat.
@@ -1209,9 +1220,9 @@ chat#:#chat_color#:#Betűszín
 chat#:#chat_delete_sure#:#Biztosan törölni akarja ezt a csevegőszobát?
 chat#:#chat_drop_user#:#Felhasználó kizárva.
 chat#:#chat_edit#:#Csevegés szerkesztése
-chat#:#chat_empty#:#Üres
+chat#:#chat_empty#:#Kiürítés
 chat#:#chat_enter_valid_username#:#Adjon meg egy érvényes felhasználói nevet!
-chat#:#chat_face#:#Betűtípus
+chat#:#chat_face#:#Betűstílus
 chat#:#chat_fuchsia#:#sötét vöröses lila
 chat#:#chat_gray#:#szürke
 chat#:#chat_green#:#zöld
@@ -1311,6 +1322,21 @@ chat#:#chat_whisper#:#Súgó
 chat#:#chat_yellow#:#sárga
 chat#:#chats#:#Csevegések
 chat#:#my_chats#:#Csevegéseim
+content#:#cont_add_elements#:#Kattintson a dzsókerelemekre új elemek felvételéhez!
+content#:#cont_syntax_help#:#Szintaktikai segítség
+content#:#cont_bullet_list#:#Listajeles lista
+content#:#cont_numbered_list#:#Számozott lista
+content#:#cont_wiki_page_link#:#Wikilap link
+content#:#cont_drag_and_drop_elements#:#Fogd és vidd tartalomelemek a dzsókerelemen az elemek mozgatásához.
+content#:#cont_double_click_to_delete#:#Duplakattintás a tartalomelemeken azok kiválasztásához az aktiváláshoz, deaktiváláshoz vagy törléshez.
+form#:#form_hierarchy_add_elements#:#Kattintson a dzsókerelemekre új elemek felvételéhez!
+form#:#form_hierarchy_drag_drop_help#:#Fogd és vidd ikonok a dzsókerelemen az elemek mozgatásához.
+form#:#form_min_value#:#Minimális érték
+form#:#form_max_value#:#Maximális érték
+form#:#form_format#:#Formátum
+form#:#form_msg_value_too_high#:#Az érték túl magas. Adjon meg alacsonyabb értéket!
+form#:#form_msg_value_too_low#:#Az érték túl alacsony. Adjon meg magasabb értéket!
+form#:#form_msg_numeric_value_required#:#Számértéket adjon meg!
 form#:#form_msg_file_size_exceeds#:#A feltöltött fájl elérte a maximálisan engedélyezett fájlméretet.
 form#:#form_msg_file_partially_uploaded#:#A fájl nem került teljes mértékben feltöltésre.
 form#:#form_msg_file_no_upload#:#Ez a beviteli adat kötelező. Válasszon ki egy feltöltendő fájlt.
@@ -1365,6 +1391,8 @@ common#:#adm_read#:#Olvasási elérés a rendszerbeállításokhoz
 common#:#adm_visible#:#A rendszerbeállítások láthatóak
 common#:#adm_write#:#Alap rendszerbeállítások szerkesztése
 common#:#admin_panel#:#Adminisztrációs panel
+common#:#all_commands#:#Minden parancs
+common#:#basic_commands#:#Alapparancsok
 common#:#administrate#:#Adminisztrálás
 common#:#administrate_users#:#Helyi felhasználó adminisztrációja
 common#:#administration#:#Adminisztráció
@@ -1418,7 +1446,7 @@ common#:#and#:#és
 common#:#announce#:#Hirdetmény
 common#:#announce_changes#:#Hirdetmény változásai
 common#:#anonymous#:#Anonymous
-common#:#answers#:#válaszok
+common#:#answers#:#válasz
 common#:#any_language#:#Bármelyik nyelv
 common#:#append_search#:#Keresési eredmények hozzáadása
 common#:#application_completed#:#Kérelem elküldve.
@@ -1615,6 +1643,11 @@ common#:#mcst_add#:#MediaCast felvétele
 common#:#wiki#:#Wiki
 common#:#wiki_edit_content#:#Wikilap szerkesztése
 common#:#wiki_write#:#Wikibeállítások, tanulók osztályozása
+common#:#wiki_read#:#Wiki olvasása
+common#:#wiki_delete#:#Wiki törlése
+common#:#wiki_copy#:#Wiki másolása
+common#:#wiki_visible#:#Wiki látható
+common#:#wiki_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#cat_create_write#:#Wiki létrehozása
 common#:#fold_create_write#:#Wiki létrehozása
 common#:#crs_create_write#:#Wiki létrehozása
@@ -1625,6 +1658,12 @@ common#:#objs_lres#:#Tananyagok
 common#:#wiki_new#:#Új wiki
 common#:#wiki_add#:#Wiki hozzáadása
 wiki#:#wiki_contributors#:#Együttműködők
+wiki#:#wiki_wiki_page#:#Wikilap
+wiki#:#wiki_last_visited_page#:#Utoljára látogatott lap
+wiki#:#wiki_short_title_already_in_use#:#Ezt a címet már használja egy másik wiki. Válasszon másik címet!
+wiki#:#wiki_msg_short_name_regexp#:#A rövid cím nem kezdődhet számmal, és nem tartalmazhatja a következő karaktereket:
+wiki#:#wiki_feedback_from_tutor#:#Visszajelzés a tutortól
+wiki#:#wiki_introduction#:#Bevezetés
 wiki#:#wiki_contributor#:#Együttműködő
 wiki#:#wiki_page_changes#:#Lapmódosítások
 wiki#:#wiki_grading#:#Osztályozás
@@ -1640,7 +1679,9 @@ wiki#:#wiki_start_page_title#:#Kezdőlap címe
 wiki#:#wiki_main_page#:#Főlap
 wiki#:#wiki_short_title#:#Cím kiválasztása
 wiki#:#wiki_orphaned_pages#:#Árva lapok
+wiki#:#wiki_short_title_desc2#:#Ez a cím lesz használva a wikihez a linkekben. Kiválasztás után nem módosíthatja a címet, mivel a felhasználók elveszítenék könyvjelzőiket.
 wiki#:#wiki_article#:#Cikk
+wiki#:#wiki_pages#:#Lapok
 wiki#:#wiki_discussion#:#Megbeszélés
 wiki#:#wiki_edit#:#Szerkesztés
 wiki#:#wiki_last_changed_by#:#Legutóbb változtatta
@@ -1648,6 +1689,7 @@ wiki#:#wiki_created_by#:#Létrehozta
 wiki#:#wiki_last_changed#:#Legutolsó módosítás
 wiki#:#wiki_page_hits#:#Laplátogatások
 wiki#:#wiki_history#:#Történet
+wiki#:#wiki_navigation#:#Navigáció
 wiki#:#wiki_recent_changes#:#Új lapok
 wiki#:#wiki_what_links_here#:#Mi linkel ide?
 wiki#:#wiki_print_view#:#Nyomtatási nézet
@@ -1657,6 +1699,9 @@ wiki#:#wiki_new_pages#:#Új lapok
 wiki#:#wiki_popular_pages#:#Kedvelt lapok
 wiki#:#wiki_media_list#:#Médialista
 wiki#:#wiki_page#:#Lap
+wiki#:#wiki_wiki_search#:#Wikikeresés
+wiki#:#wiki_search#:#Keresés
+wiki#:#wiki_search_results#:#Keresési eredmények
 common#:#obj_pdts#:#Munkaasztal
 common#:#obj_pdts_desc#:#Munkaasztal konfigurálása
 common#:#move_blocks#:#Blokkok mozgatása
@@ -1869,6 +1914,8 @@ common#:#copy#:#Másolás
 common#:#copyChapter#:#Másolás
 common#:#copyPage#:#Másolás
 common#:#copy_of#:#Másolandó:
+common#:#copy_of_suffix#:#- Másolás
+common#:#copy_n_of_suffix#:#- (%1$s) másolása
 common#:#copy_to#:#ide:
 common#:#could_not_verify_account#:#Sajnáljuk, nem tudjuk igazolni bejelentkezését. Vegye fel a kapcsolatot a rendszeradminisztrátorral!
 common#:#count#:#Számlálás
@@ -1888,7 +1935,7 @@ common#:#cron_forum_notification_directly#:#közvetlenül új bejegyzésenként
 common#:#cron_forum_notification_never#:#soha
 common#:#cron_mail_notification#:#Levélértesítés küldése
 common#:#cron_mail_notification_never#:#soha
-common#:#cron_mail_notification_cron#:#szabályosan kron jobonként
+common#:#cron_mail_notification_cron#:#szabályosan cron jobonként
 common#:#cron_mail_notification_desc#:#Ha engedélyezett, minden felhasználó, aki e-mail-en keresztül akar informálódni, belső e-mail értesítést fog kapni.
 common#:#cron_jobs#:#Cron-job-ok
 common#:#cron_jobs_desc#:#A cron-job automatizált folyamat, amely előre definiált időintervallumokban működik. A telepítési dokumentációban talál információt a setup-ról.
@@ -2546,6 +2593,9 @@ common#:#ignore_on_conflict#:#Ellentmondás figyelmen kívül hagyása
 common#:#il_chat_moderator#:#Csevegésmoderátor
 common#:#il_crs_admin#:#Kurzusadminisztrátor
 common#:#il_crs_member#:#Kurzustag
+common#:#il_crs_non_member#:#Nem kurzustag
+common#:#il_grp_status_closed#:#A csoport lezárva
+common#:#il_grp_status_open#:#A csoport nyitva
 common#:#il_crs_tutor#:#Kurzustutor
 common#:#il_frm_moderator#:#Fórummoderátor
 common#:#il_grp_admin#:#Csoportadminisztrátor
@@ -2923,6 +2973,7 @@ common#:#member_status#:#Tag állapota:
 common#:#members#:#Tagok
 common#:#membership_annulled#:#Tagságát felbontották
 common#:#mep#:#Médiagyűjtemény
+mep#:#mep_parent_folder#:#Szülőmappa
 common#:#mep_add#:#Médiagyűjtemény hozzáadása
 common#:#mep_added#:#Hozzáadott médiagyűjtemény
 common#:#mep_delete#:#Médiagyűjtemény törlése
@@ -3104,6 +3155,10 @@ common#:#nwss_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#nwss_visible#:#Hírek és webhírforrások beállításai láthatóak
 common#:#nwss_read#:#Olvasási elérés a hírek és a webhírforrások beállításaihoz
 common#:#nwss_write#:#Hírek és webhírforrások beállításainak szerkesztése
+common#:#tags_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#tags_visible#:#Címkézési beállítások láthatók
+common#:#tags_read#:#Olvasási jog címkézési beállításokhoz
+common#:#tags_write#:#Címkézési beállítások szerkesztése
 common#:#cat_create_feed#:#Webhírforrás létrehozása
 common#:#grp_create_feed#:#Webhírforrás létrehozása
 common#:#crs_create_feed#:#Webhírforrás létrehozása
@@ -3171,7 +3226,7 @@ news#:#news_visibility_public#:#Nyilvános
 news#:#news_get_priv_feed_info#:#Ez egy személyes hírforrás URL-je. A hírforrás  olyan híreket tartalmaz, amelyeket a szerző személyesnek és nyilvánosnak minősített. Ezt a hírforrást jelszó védi, amely a "Beállítások" alatt módosítható. Ne ossza meg senkivel ezt az URL-t! Cserélje le -a jelszót- ezen az URL-en az ön hírforrásjelszavával!
 news#:#news_get_priv_feed_title#:#Személyes URL-forrás
 news#:#news_enable_private_feed#:#Személyes hírforrás engedélyezése
-news#:#news_enable_private_feed_info#:#Ha engedélyezett, a nyilvános és a személyes hírek az ILIAS-on kívüli személyes RSS-sel is fenntarthatók. A hitelesítés fejlszóhoz között.
+news#:#news_enable_private_feed_info#:#Ha engedélyezett, a nyilvános és a személyes hírek az ILIAS-on kívüli személyes RSS-sel is fenntarthatók. A hitelesítés jelszóhoz között.
 news#:#passwd_equals_ilpasswd#:#Adjon meg egy, az ILIAS-jelszavától különböző jelszót!
 news#:#priv_feed_disabled#:#Személyes hírforrás letiltva.
 news#:#priv_feed_settings#:#Személyes hírforrás beállításai
@@ -3353,6 +3408,11 @@ common#:#obj_lo#:#Tananyag
 common#:#obj_mail#:#Levelezés
 common#:#obj_mail_desc#:#Globális e-mail beállítások konfigurálása
 common#:#obj_mep#:#Médiagyűjtemény
+mep#:#mep_thumbnail#:#Bélyegkép
+mep#:#mep_title_and_description#:#Cím és leírás
+mep#:#mep_create_mob#:#Médiaobjektum létrehozása
+mep#:#mep_create_folder#:#Mappa létrehozása
+mep#:#mep_copy_to_mep#:#Másolás a médiagyűjteménybe
 common#:#obj_mob#:#Multimédia objektum
 common#:#obj_not_found#:#Nem található objektum.
 common#:#obj_note#:#Jegyzet
@@ -3368,9 +3428,11 @@ common#:#obj_recf#:#Visszaállított objektumok
 common#:#obj_recf_desc#:#Rendszerellenőrzés során helyreállított objektumok
 common#:#obj_role#:#Szerep
 common#:#obj_nwss#:#Hírek és webhírforrások
+common#:#obj_tags#:#Címkézés
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Általános beállítások a Mediacasthoz.
 common#:#obj_nwss_desc#:#Beállítások belső hírekhez és külső hírforrásokhoz
+common#:#obj_tags_desc#:#Beállítások a címkézési tulajdonsághoz.
 common#:#obj_rolf#:#Szerepek
 common#:#obj_rolf_desc#:#Szerepek menedzselése
 common#:#obj_rolf_local#:#Helyi szerepek
@@ -3845,6 +3907,10 @@ common#:#pd_items_news#:#Személyes tételek híreit beleértve
 common#:#pd_items_news_info#:#Ha aktivált, a munkaasztalra kitett tételekhez kapcsolódó minden hír benne lesz a hírek blokkban.
 common#:#show_owner#:#Tulajdonos
 tagging#:#tagging_tags#:#Címkék
+tagging#:#tagging_settings#:#Beállítások
+tagging#:#tagging_edit_settings#:#Beállítások szerkesztése
+tagging#:#tagging_enable_tagging#:#Címkézés engedélyezése
+tagging#:#tagging_tag_info#:#Címkék forráshoz kapcsolásához nyissa meg a forrás információs képernyőjét, és adja meg a címkéket.
 rating#:#rating_your_rating#:#Az Ön értékelése
 rating#:#rating_average_rating#:#Átlagértékelés
 rating#:#rating_nr_users#:#%s Felhasználó(k)
@@ -3960,7 +4026,7 @@ common#:#test_intern#:#Belső teszt
 common#:#test_module#:#Tesztmodul
 common#:#tests#:#Tesztek
 common#:#thread#:#Téma
-common#:#thumbnail#:#Miniatűr
+common#:#thumbnail#:#Bélyegkép
 common#:#time#:#Idő
 common#:#time_d#:#Nap
 common#:#time_h#:#Óra
@@ -4229,7 +4295,7 @@ common#:#webr_write#:#Webforrás szerkesztése
 common#:#webservices#:#Webszolgáltatások
 common#:#week#:#Hét
 common#:#weekly#:#heti
-common#:#weeks#:#Hetek
+common#:#weeks#:#Hét
 common#:#welcome#:#Üdvözöljük
 common#:#who_is_online#:#Ki on-line?
 common#:#width_x_height#:#Szélesség x magasság
@@ -4243,7 +4309,37 @@ common#:#you_may_add_local_roles#:#Helyi szerepek felvétele
 common#:#your_message#:#Az Ön üzenete
 common#:#zip#:#Irányítószám
 common#:#zipcode#:#Irányítószám
+content#:#cont_insert_map#:#Térkép beszúrása
+content#:#cont_rollback#:#Visszagörgetés
+content#:#cont_rollback_confirmation#:#Valóban visszaakarja állítani ennek a lapnak a régi változatát?
+content#:#cont_links#:#Linkek
+content#:#cont_internal_links#:#Belső linkek
+content#:#cont_not_js_chap_editing#:#Nem-JavaScript szerkesztési mód használata
+content#:#cont_js_chap_editing#:#JavaScript szerkesztési mód használata
+content#:#cont_chapters_after_pages#:#Ne feletse el, hogy a lapoknak ugyanazon szint minden alfejezetét meg kell előzniük.
+content#:#cont_add_rectangle#:#Téglalap hozzáadása
+content#:#cont_add_circle#:#Kör hozzáadása
+content#:#cont_add_polygon#:#Poligon hozzáadása
+content#:#cont_edit_shape_rectangle#:#Alakzat (téglalap) szerkesztése
+content#:#cont_edit_shape_circle#:#Alakzat (kör) szerkesztése
+content#:#cont_edit_shape_polygon#:#Alakzat (poligon) szerkesztése
+content#:#cont_new_mob#:#Új médiaobjektum
+content#:#cont_mob_from_media_pool#:#Választás a médiagyűjteményből
+content#:#cont_select_media_pool#:#Médiagyűjtemény kiválasztása
+content#:#cont_update_map#:#Térkép szerkesztése
+content#:#cont_table_properties#:#Táblázat tulajdonságai
+content#:#cont_table_cell_properties#:#Táblázatcella tulajdonságai
+content#:#cont_set_tab_style_info#:#Táblázatcellákban levő jelölőnégyzetek aktiválása stílusbeállításhoz.
+content#:#cont_set_styles_and_widths#:#Stílus és szelesség beállítása
+content#:#cont_location#:#Elhelyezkedés
+content#:#cont_align#:#Igazítás
 content#:#cont_revision#:#Átdolgozás
+content#:#cont_insert_page#:#Lap beszúrása
+content#:#cont_insert_chapter#:#Fejezet beszúrása
+content#:#cont_insert_subchapter#:#Alfejezet beszúrása
+content#:#cont_insert_page_from_clip#:#Lap bemásolása a vágólapról
+content#:#cont_insert_chapter_from_clip#:#Fejezet bemásolása a vágólapról
+content#:#cont_insert_subchapter_from_clip#:#Alfejezet bemásolása a vágólapról
 content#:#cont_pages_and_subchapters#:#Alfejezetek és lapok
 content#:#cont_pc_new#:#Új tartalom
 content#:#cont_pc_modified#:#Módosított tartalom
@@ -4269,9 +4365,17 @@ content#:#citate_from#:#Idéz honnan…
 content#:#citate_page#:#Idézi ezt a lapot
 content#:#citate_to#:#Idéz hol…
 content#:#cont_Additional#:#További
+content#:#cont_Special#:#Különleges
+content#:#cont_Excursus#:#Eltérések
 common#:#edit_grouping#:#Tagságkorlátozás szerkesztése
 common#:#grouping_select_exactly_one#:#Csak egy tagságkorlátozást válasszon!
 common#:#no_start_file#:#Nincs kezdőfájl.
+content#:#cont_left#:#Balra
+content#:#cont_right#:#Jobbra
+content#:#cont_center#:#Középre
+content#:#cont_left_float#:#Balra, körbefuttatás
+content#:#cont_right_float#:#Jobbra, körbefuttatás
+content#:#cont_Alphabetic#:#Ábécérend a, b,…
 content#:#cont_alphabetic_s#:#Alfabetikus a, b, ...
 content#:#cont_Circle#:#Kör
 content#:#cont_delete_track_data#:#Nyomkövetési adatok törlése
@@ -4284,11 +4388,14 @@ content#:#cont_Headline1#:#Címsor 1
 content#:#cont_Headline2#:#Címsor 2
 content#:#cont_Headline3#:#Címsor 3
 content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#Helyi fájl
 content#:#cont_Mnemonic#:#Emlékeztető
+content#:#cont_Block#:#Blokk
 content#:#cont_Number#:#Szám
 content#:#cont_Poly#:#Sokszög
 content#:#cont_Rect#:#Téglalap
 content#:#cont_Remark#:#Észrevétel
+content#:#cont_Roman#:#Római I, II,...
 content#:#cont_roman_s#:#Római i, ii,...
 content#:#cont_TableContent#:#Tartalomtáblázat
 content#:#cont_Unordered#:#Listajeles
@@ -4341,7 +4448,7 @@ content#:#cont_click_next_or_save#:#Kattintson a sokszög következő pontjára,
 content#:#cont_click_next_point#:#Kattintson a sokszög következő pontjára!
 content#:#cont_click_starting_point#:#Kattintson a sokszög kezdőpontjára!
 content#:#cont_click_tl_corner#:#Kattintson a kívánt terület bal felső sarkába!
-content#:#cont_confirm_delete#:#valóban törli?
+content#:#cont_confirm_delete#:#Valóban törölni akarja ezt (ezeket) a tételt (tételeket)?
 content#:#cont_content#:#Tartalom
 content#:#cont_content_obj#:#Tartalom-objektum
 content#:#cont_contents#:#Tartalomjegyzék
@@ -4417,15 +4524,15 @@ content#:#cont_ed_edit#:#szerkesztés
 content#:#cont_ed_edit_prop#:#tulajdonságok szerkesztése
 content#:#cont_ed_enable#:#Elemek (in)aktiválása
 content#:#cont_ed_go#:#OK
-content#:#cont_ed_insert_code#:#kód beszúrása
-content#:#cont_ed_insert_filelist#:#fájllista beszúrása
-content#:#cont_ed_insert_list#:#lista beszúrása
-content#:#cont_ed_insert_media#:#média beszúrása
-content#:#cont_ed_insert_par#:#bekezdés beszúrása
-content#:#cont_ed_insert_dtable#:#Adattábla beszúrása
-content#:#cont_ed_insert_atable#:#Továbbfejlesztett táblázat beszúrása
+content#:#cont_ed_insert_code#:#Kód beszúrása
+content#:#cont_ed_insert_filelist#:#Fájllista beszúrása
+content#:#cont_ed_insert_list#:#Továbbfejlesztett lista beszúrása.
+content#:#cont_ed_insert_media#:#Média beszúrása
+content#:#cont_ed_insert_par#:#Szöveg beszúrása
+content#:#cont_ed_insert_dtable#:#adattábla beszúrása
+content#:#cont_ed_insert_atable#:#továbbfejlesztett táblázat beszúrása
 content#:#cont_ed_edit_data#:#Adatok szerkesztése
-content#:#cont_ed_insert_section#:#Bekezdés beszúrása
+content#:#cont_ed_insert_section#:#bekezdés beszúrása
 content#:#cont_ed_item_down#:#elem lefelé mozgatása
 content#:#cont_ed_item_up#:#elem felfelé mozgatása
 content#:#cont_ed_moveafter#:#mozgatás utána
@@ -4448,7 +4555,7 @@ content#:#cont_edit_mob#:#Médiaobjektum szerkesztése
 content#:#cont_edit_mob_alias_prop#:#Médiaobjektum-példány tulajdonságainak szerkesztése
 content#:#cont_edit_mob_files#:#Objektumfájlok
 content#:#cont_edit_mob_properties#:#Médiaobjektum-tulajdonságok szerkesztése
-content#:#cont_edit_par#:#Bekezdés szerkesztése
+content#:#cont_edit_par#:#Szöveg szerkesztése
 content#:#cont_edit_src#:#Forráskód szerkesztése
 content#:#cont_edit_tab_properties#:#Táblázat-tulajdonságok
 content#:#cont_edit_term#:#Fogalom szerkesztése
@@ -4490,7 +4597,7 @@ content#:#cont_insert_file_list#:#Fájllista beszúrása
 content#:#cont_insert_list#:#Lista beszúrása
 content#:#cont_insert_mob#:#Médiaobjektum beszúrása
 content#:#cont_insert_new_footnote#:#új lábjegyzet beszúrása
-content#:#cont_insert_par#:#Bekezdés beszúrása
+content#:#cont_insert_par#:#Szöveg beszúrása
 content#:#cont_insert_search#:#Szúrjon be egy keresési kifejezést!
 content#:#cont_insert_src#:#Forráskód beszúrása
 content#:#cont_insert_table#:#Táblázat beszúrása
@@ -4529,12 +4636,15 @@ content#:#cont_lm_properties#:#Tananyag-tulajdonságok
 content#:#cont_lvalue#:#Adatelem
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Linkterületek
+content#:#cont_def_map_areas#:#Alapértelmezett linkterületek
+content#:#cont_inst_map_areas#:#Példa linkterületek
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Médiaforrás
 content#:#cont_mep_structure#:#Médiagyűjtemény-struktúra
 content#:#cont_missing_preconditions#:#Az alábbi előfeltételeket kell teljesítenie, hogy elérje a "%s" fejezetet.
 content#:#cont_mob_inst_prop#:#Példánytulajdonságok
+content#:#cont_mob_def_prop#:#Alapértelmezett tulajdonságok
 content#:#cont_mob_usages#:#Használat
 content#:#cont_month#:#Hónap
 content#:#cont_move_object#:#objektum mozgatása
@@ -4589,12 +4699,17 @@ content#:#cont_public_notes#:#Nyilvános jegyzetek
 content#:#cont_public_notes_desc#:#A felhasználók számára engedélyezett a jegyzetek megosztása a tananyag minden lapján.
 content#:#cont_publisher#:#Kiadó
 content#:#cont_purpose#:#Cél
+content#:#cont_current_page#:#Jelenlegi lap
+content#:#cont_current_chapter#:#Jelenlegi fejezet
+content#:#cont_selected_pg_chap#:#Kiválasztott lapok/fejezetek
 content#:#cont_ref_helptext#:#(például http://www.server.org/myimage.jpg)
 content#:#cont_ref_images#:#Hivatkozott képek
 content#:#cont_reference#:#Hivatkozás
 content#:#cont_remove_fullscreen#:#Teljes képernyő eltávolítva.
 content#:#cont_removeiln#:#valóban eltávolítja a belső linket?
 content#:#cont_repository_item#:#Taneszköz tárolóbeli elem
+content#:#cont_target_missing#:#A  cél hiányzik
+content#:#cont_print_view_pre_glo#:#Előző szótármelléklet a nyomtatási nézetben
 content#:#cont_repository_item_links#:#Taneszköz tárolóbeli elem linkek
 content#:#cont_resize_explanation#:#Ha ez az opció aktiválva van, a feltöltött fájlok automatikusan átméreteződnek a meghatározott szélességre és magasságra.
 content#:#cont_resize_explanation2#:#Ez a funkció átméretezi a helyi képfájlokat a meghatározott szélességre és magasságra.
@@ -4662,6 +4777,9 @@ content#:#cont_style#:#Stílus
 content#:#cont_subchapters#:#Alfejezetek
 content#:#cont_synchronize_frames#:#Keretek szinkronizálása
 content#:#cont_synchronize_frames_desc#:#Ez a beállítás szinkronizálja a tartalomjegyzék keretét a tartalom keretével és törli a többi keretet a három ablakos nézetben.
+content#:#cont_paste_table#:#Táblázat beszúrása
+content#:#cont_html_table#:#HTML-táblázat
+content#:#cont_spreadsheet_table#:#Adatbáziskezelő táblázat
 content#:#cont_table#:#Táblázat
 content#:#cont_table_border#:#Táblázatszegély
 content#:#cont_table_cellpadding#:#Táblázatcellák margója
@@ -4979,9 +5097,9 @@ crs#:#crs_objective_no_title_given#:#Adjon meg címet!
 crs#:#crs_objective_not_accomplished#:#Nem befejezett
 crs#:#crs_objective_overview_objectives#:#Célkitűzések áttekintése
 crs#:#crs_objective_overview_question_assignment#:#Kérdés-hozzárendelés áttekintése
-crs#:#crs_objective_pretest#:#Önértékelés
+crs#:#crs_objective_pretest#:#Kezdőteszt után
 crs#:#crs_objective_question_assignment#:#Kérdés-hozzárendelés
-crs#:#crs_objective_result#:#Teszt után
+crs#:#crs_objective_result#:#Befejezőteszt után
 crs#:#crs_objective_updated_test#:#Frissített
 crs#:#crs_objective_view#:#Célkitűzés-orientált nézet
 crs#:#crs_objectives#:#Tanulási célkitűzések
@@ -5017,10 +5135,10 @@ crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#A várólistán levő személyek
 crs#:#crs_print_list#:#Nyomtatási lista
 crs#:#crs_question_assignment#:#Kérdés-hozzárendelés
-crs#:#crs_reg#:#Regisztráció
+crs#:#crs_reg#:#Regisztrációs beállítások
 crs#:#crs_reg_deactivated#:#Letiltva
 crs#:#crs_reg_lim_info#:#A regisztráció csak egy meghatározott időperiódusban lehetséges.
-crs#:#crs_reg_max_info#:#Adja meg a kurzushoz rendelhető felhasználók maximális számát. '0' esetén nincs meghatározva a szám.
+crs#:#crs_reg_max_info#:#Adja meg a kurzushoz rendelhető felhasználók maximális számát.
 crs#:#crs_reg_notify_info#:#Ha engedélyezett, az 'Értesítés' állapottal rendelkező kurzusadminisztrátorok/tutorok e-mail-ben értesít kapnak az új regisztrációkról.
 crs#:#crs_reg_subscription_deactivated#:#A regisztráció le van tiltva.
 crs#:#crs_reg_subscription_end_earlier#:#Lejárt a regisztrációidő
@@ -5083,7 +5201,7 @@ crs#:#crs_structure#:#Kurzusstruktúra
 crs#:#crs_subscribers#:#Feliratkozások
 crs#:#crs_subscribers_deleted#:#Törölt feliratkozó(k)
 crs#:#crs_subscription#:#Feliratkozás
-crs#:#crs_subscription_max_members#:#Felhasználók maximuma
+crs#:#crs_subscription_max_members#:#Felhasználók korlátozott száma
 crs#:#crs_subscription_notify#:#Értesítés feliratkozásokhoz
 crs#:#crs_subscription_options_confirmation#:#Tagság kérése
 crs#:#crs_subscription_options_deactivated#:#Kikapcsolva.
@@ -5152,16 +5270,24 @@ crs#:#crs_view_info_objective#:#Ez a prezentációs mód a tanulási célkitűz�
 cntr#:#cntr_view_info_sessions#:#Ez a tartalommegjelenítés először csoportosítja az összes munkamenetet. Azután a további kurzustartalom kerül listázásra.
 cntr#:#cntr_view_info_simple#:#Ez a tartalommegjelenítés egy blokkban minden tételt listáz.
 cntr#:#cntr_view_info_by_type#:#Ez a tartalommegjelenítés forrástípus alapján csoportosítja az összes tételt.
+cntr#:#cntr_hide_title_and_icon#:#Cím és ikon elrejtése
 crs#:#crs_view_info_timing#:#Prezentációs mód időzített előbeállításokhoz
 crs#:#crs_view_mode#:#Kurzusprezentáció
 crs#:#crs_view_objective#:#Objektum-orientált nézet
+cntr#:#cntr_old_editor_warning#:#Ennek a szerkesztőnek a karbantartása az ILIAS jövőbeni verzióiban nem fog folytatódni. Most még használhatja ennek a lapnak a szerkesztéséhez, de azt ajánljuk, hogy amint lehet, kapcsoljon át az ILIAS szabványos lapszerkesztőjére.
+cntr#:#cntr_old_editor_open_standard_editor#:#Szabványos szerkesztő megnyitása
+cntr#:#cntr_back_to_old_editor#:#Vissza a régi szerkesztőhöz
+cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. Használja ezt a tartalomlap beállításához. Ha a következő linkre kattint, a tartalombemutató a taneszköz tárolóban átkapcsol a régi szerkesztő tartalmáról erre a lapra.
+cntr#:#cntr_switch_to_new_editor_cmd#:#Kapcsolás ehhez a laphoz bemutatóhoz
+cntr#:#cntr_switched_editor#:#Új tartalomhoz kapcsolva.
+cntr#:#cntr_view_sessions#:#Munkamenetek nézete
 cntr#:#cntr_view_simple#:#Egyszerű  nézet
 cntr#:#cntr_view_by_type#:#Típus szerint csoportosított nézet
 crs#:#crs_view_timing#:#Időzítésnézet
 crs#:#crs_visibility#:#Hozzáférhetőség
 crs#:#crs_visibility_limitless#:#Nem korlátozott
 crs#:#crs_visibility_until#:#Időszakosan elérhető
-crs#:#crs_visibility_unvisible#:#Nem elérhető
+crs#:#crs_visibility_unvisible#:#Off-line (a kurzus nem érhető el)
 crs#:#crs_wait_info#:#Ha engedélyezett, és a kurzushoz rendelhető maximális felhasználói létszám betelt, új regisztrációk kerülnek be a várakozási listába.
 crs#:#crs_waiting_list#:#Várólista
 crs#:#crs_xml#:#XML
@@ -5174,7 +5300,7 @@ crs#:#event_assign_materials#:#Anyagok hozzárendelése
 crs#:#event_assign_materials_info#:#A hozzárendelt kurzusok közvetlenül az esemény alatt fognak megjelenni.
 crs#:#event_assign_materials_table#:#Kurzusanyagok hozzárendelése
 crs#:#event_btn_add#:#Munkamenet hozzáadása
-crs#:#event_date#:#Munkamenet dátuma:
+crs#:#event_date#:#Munkamenet dátuma
 crs#:#event_date_time#:#Dátum és idő
 crs#:#event_delete_file#:#Törli a fájl?
 crs#:#event_delete_sure#:#Valóban törölni akarja ezt az munkamenetet?
@@ -5278,11 +5404,11 @@ dateplaner#:#We_long#:#Szerda
 dateplaner#:#We_short#:#Sze.
 dateplaner#:#Week_long#:#Heti nézet
 dateplaner#:#add_data#:#További adatok
-dateplaner#:#app_#:#Beérkezett csoportesemények
+dateplaner#:#app_#:#Beérkezett
 dateplaner#:#app_date#:#Esemény létrehozása
 dateplaner#:#app_day#:#Napi nézet
 dateplaner#:#app_freetime#:#Más csoporttagok szabadideje (időpont keresése)
-dateplaner#:#app_inbox#:#Beérkezett csoportesemények
+dateplaner#:#app_inbox#:#Beérkezett
 dateplaner#:#app_list#:#Eseménylista
 dateplaner#:#app_month#:#Havi nézet
 dateplaner#:#app_properties#:#tulajdonságok
@@ -6788,7 +6914,7 @@ survey#:#info_anonymize_registered_user#:#Anonimizált kérdőív
 survey#:#info_anonymize_without_code#:#Anonimizált kérdőív a hozzáférés megszorítása nélkül
 survey#:#anonymize_without_code#:#Szabad elérés
 survey#:#anonymous_with_personalized_survey#:#Regisztrált felhasználónak kell lennie személyre szabott kérdőív futtatásához.
-survey#:#answer#:#Válasz
+survey#:#answer#:#válasz
 survey#:#apply#:#Alkalmaz
 survey#:#arithmetic_mean#:#Számtani értelmezés
 survey#:#ask_insert_questionblocks#:#Biztosan be akarja szúrni az alábbi kérdésblokk(oka)t a kérdőívbe?
@@ -7677,6 +7803,7 @@ crs#:#crs_objective_add_mat#:#Hozzárendelt segédanyagok
 crs#:#crs_objective_add_qst#:#Hozzárendelt kérdések
 common#:#objs_qst#:#Kérdések
 common#:#container_no_items#:#Nem érhetők el segédanyagok
+common#:#no_items#:#Nincsenek tételek
 common#:#search_engine#:#Keresőmotrok
 common#:#enable_search_engine#:#Nyilvános terület internetes keresőmotroknak (pl. Google)
 common#:#mod_rewrite_disabled#:#Az Apache-modul 'mod_rewrite' nem érhető el.
@@ -7979,11 +8106,11 @@ common#:#mail_multiple_recipients_found#:#Jellemzőbb e-mail címet adjon meg! A
 common#:#disk_space_used#:#Lemezterület használatban
 common#:#in_use_by#:#Használja
 common#:#filename_extension_missing#:#Hiányzik a fájlnévkiterjesztés
-common#:#filename_special_characters#:#/ nem engedélyezett fájlnevek
-common#:#filename_windows_special_characters#:#\/:*?"<>| nem engedélyezettek Windows fájlnevekben
-common#:#filename_windows_empty_extension#:#. a fájlnév végén nem engedélyezett Windowsban
-common#:#filename_windows_webdav_issue#:## nem támogatott Windows webmappákban
-common#:#filename_special_filename#:#. és .. fenntartott fájlnevek
+common#:#filename_special_characters#:#A / karakter miatt ez az objektum nem látható a webmappákban
+common#:#filename_windows_special_characters#:#A \/:*?"<>| karakterek valamelyike miatt ez az objektum nem látható a Windows webmappákban
+common#:#filename_windows_empty_extension#:#A . karakter miatt a fájlnév végén nem ez az objektum nem látható a Windows webmappákban
+common#:#filename_windows_webdav_issue#:#A # karakter miatt ez az objektum nem látható a Windows webmappákban
+common#:#filename_special_filename#:#A . és .. nevű objektumok nem láthatók a webmappákban
 common#:#filename_visibility#:#Láthatóság
 common#:#filename_hidden_unix_file#:#Rejtett Unix fájl
 common#:#filename_hidden_backup_file#:#Rejtett backup fájl
@@ -7996,21 +8123,21 @@ common#:#state_changed_inside#:#változott benn
 common#:#state_new#:#új
 common#:#state_unread#:#nem olvasott
 common#:#filename_extension_short#:#Kiterjesztés
-common#:#obj_facs#:#Fáljelérés
-common#:#obj_facs_desc#:#Elérés konfigurálása fájlobjektumokhoz.
+common#:#obj_facs#:#Fájlok és mappák
+common#:#obj_facs_desc#:#Elérés konfigurálása fájl- és mappaobjektumokhoz.
 common#:#enable_webdav#:#WebDAV elérés engedélyezése
 common#:#enable_webdav_info#:#WebDAV klienseknek engedély a taneszköz tároló webmappaként való eléréséhez. A felhasználók a webmappákat a "megnyitás webmappaként" paranccsal nyithatják meg a taneszköz tárolóban, vagy az alábbi címen belépve egy WebDAV kliensben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#webfolder_index_of#:#%1$s indexe
 common#:#webfolder_instructions#:#Webmappa utasítások
 common#:#webfolder_instructions_info#:#Azokban a böngészőkben, amelyek webmappákat nem tudnak megnyitni közvetlenül, a webmappautasítások láthatók. HTML-kódot és az alábbi dzsókerlemeket használhatja: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Törölje ki a mezőt, hogy megkapja az alapértelmezett utasításokat!
 common#:#webfolder_instructions_titletext#:#%1$s webmappaként megnyitása
-common#:#webfolder_instructions_text#:#<p>Kövesse az alábbi utasításokat <b>[WEBFOLDER_TITLE]</b> wemappaként megnyitásához:</p>[IF_WINDOWS]<h3>Utasítások Windows XP - Internet Explorer esethez</h3><ol><li>Internet Explorer indítása</li><li>'Fájl &gt; Megnyitás...' menü választása</li><li>A 'Megnyitás'-mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>'Megnyitás webmappaként' parancs választása, majd az 'OK' választása.</li><li>Adja meg bejelentkezési jelszavát, majd válassza az 'OK'-t.</li></ol><h3>Utasítások Windows XP - nincs Internet Explorer esethez</h3><ol><li>Duplakattintás a 'Hálózati helyeim' munkaasztal ikonon.</li><li>Kattintás a 'Hálózati hely hozzáadása'-ra a 'Hálózati feladatok' nemüben az ablak bal oldalán.</li><li>A 'Hálózati hely hozzáadása' varázsló fog megnyílni, 'Következő' választása.</li><li>'Másik hálózati hely választása' lehetőség kiválasztása, és a 'Következő' választása.<li>Az 'Internet vagy hálózati cím' mezőben adja meg:<br/><b>[WEBFOLDER_URI]</b><br/>aztán a 'Következő' választása.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd 'OK' választása.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Utasítások Mac OS X-hez</h3><ol><li>Nyissa meg a Keresőt</li><li>Válassza a 'Menj &gt; Csatlakozás a szerverhez...' menüt</li><li>A címmezőben adja meg az alábbi címet:<br/><b>[WEBFOLDER_URI]</b>, és válassza a 'Csatlakozás'-t.</li><li>Adja meg felhasználói nevét és jelszavát, majd válassza az 'OK'-t.</li></ol>[/IF_MAC][IF_LINUX]<h3>Utasítások Linux - Konqueror esethez</h3><ol><li>A Konqueror böngésző indítása</li><li>A címmezőben adja meg az alábbi címet:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Nyomja meg az Enter billentyűt.</li><li>Adja meg bejelentkezési nevét és jelszavát, és válassza az 'OK'-t.</li></ol><h3>Utasítások Linux - Nautilus esethez</h3><ol><li>Indítsa el a Nautilus böngészőt</li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Nyomja meg az Enter billentyűt.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az 'OK'-t.</li></ol>[/IF_LINUX]<p>Ha nem sikerül megnyitni a webmappát, vegye fel a kapcsolatot az adminisztrátorral <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>
+common#:#webfolder_instructions_text#:#<p> Kövesse az alábbi utasításokat a <b>[WEBFOLDER_TITLE]</b> webmappaként való megnyitásához:</p>[IF_WINDOWS]<h3>Utasítások Windows Vista esethez</h3><ol><li>Nyomja meg a Windows+E billentyűkombinációt a Windows Explorer megnyitásához.</li><li>Kattintson a ’Hálózati hely hozzáadása’-n az eszköztáron. A ’Hálózati hely hozzáadása’ varázsló fog megnyílni.</li><li>Kattintson a ’Kapcsolódás webhelyhez’ linkre.</li><li>Válassza a ’Másik hálózati hely választása’ opciót, majd a ’Következő’-t.<li>Az ’Internet vagy hálózati cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t.</li>Ismételje ezt a lépést, amíg eljut a következő dialógusablakig.</li><li>Adjon meg egy nevet a webmappának, aztán válassza a ’Következő’-t.<li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t.</li>Ismételje ezt a lépést, amíg eljut a következő dialógusablakig.</li><li>Válassza a ’Befejezés’-t.</li><li>Elérheti a webmappát a ’Számítógép’ start menüjéből.</li></ol><h3> Utasítások Windows XP - Internet Explorer 6 esethez</h3><ol><li>Internet Explorer 6 indítása</li><li>'Fájl &gt; Megnyitás...' menü választása</li><li>A 'Megnyitás'-mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>'Megnyitás webmappaként' parancs választása, majd az 'OK' választása.</li><li>Adja meg bejelentkezési jelszavát, majd válassza az 'OK'-t.</li></ol><h3> Utasítások Windows XP - nincs Internet Explorer 6 esethez</h3><ol><li>Duplakattintás a 'Hálózati helyeim' munkaasztal ikonon.</li><li>Kattintás a 'Hálózati hely hozzáadása'-ra a 'Hálózati feladatok' nemüben az ablak bal oldalán.</li><li>A 'Hálózati hely hozzáadása' varázsló fog megnyílni, 'Következő' választása.</li><li>'Másik hálózati hely választása' lehetőség kiválasztása, és a 'Következő' választása.<li>Az 'Internet vagy hálózati cím' mezőben adja meg:<br/><b>[WEBFOLDER_URI]</b><br/>aztán a 'Következő' választása.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd 'OK' választása.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Utasítások Mac OS X-hez</h3><ol><li>Nyissa meg a Keresőt</li><li>Válassza a 'Menj &gt; Csatlakozás a szerverhez...' menüt</li><li>A címmezőben adja meg az alábbi címet:<br/><b>[WEBFOLDER_URI]</b>, és válassza a 'Csatlakozás'-t.</li><li>Adja meg felhasználói nevét és jelszavát, majd válassza az 'OK'-t.</li></ol>[/IF_MAC][IF_LINUX]<h3>Utasítások Linux - Konqueror esethez</h3><ol><li>A Konqueror böngésző indítása</li><li>A címmezőben adja meg az alábbi címet:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Nyomja meg az Enter billentyűt.</li><li>Adja meg bejelentkezési nevét és jelszavát, és válassza az 'OK'-t.</li></ol><h3>Utasítások Linux - Nautilus esethez</h3><ol><li>Indítsa el a Nautilus böngészőt</li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Nyomja meg az Enter billentyűt.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az 'OK'-t.</li></ol>[/IF_LINUX]<p>Ha nem sikerül megnyitni a webmappát, vegye fel a kapcsolatot az adminisztrátorral <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>
 common#:#use_default_instructions#:#Alapértelmezett utasítások használata.
 common#:#use_customized_instructions#:#Szokásos utasítások használata:
 common#:#inline_file_extensions#:#Webképes fájlok
 common#:#inline_file_extensions_info#:#Az ezekkel a kiterjesztésekkel rendelkező fájlok megjelennek a böngészőablakban.<br/>Például: <b>gif jpg mp3 pdf png</b><br/> Minden további fájl leltöltésre lesz felajánlva.
 common#:#webfolder_dir_info#:#Böngészője nem tud megnyitni webmappákat. Olvassa el a <a href="%1$s">utasításokat a webmappák megnyitásához</a>.
-common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href="%1$s">Internet Explorerrel</a>, <a href="%2$s">Konquerorral</a>, <a href="%3$s">más böngészővel</a>.
+common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href="%1$s">Internet Explorerrel</a>, <a href="%2$s">Konquerorral</a>, <a href="%3$s">Nautilusszal</a>,  <a href="%4$s">más böngészővel</a>.
 common#:#deleted_user_account#:#Törölt felhasználói fiók
 dateplaner#:#cal_user_settings#:#Határidő-beállítások
 dateplaner#:#cal_user_timezone#:#Időzőna
@@ -8098,6 +8225,10 @@ survey#:#adm_special_users#:#Speciális felhasználók, akik több mint egyszer 
 survey#:#adm_removed_users#:#Felhasználók eltávolítva.
 survey#:#adm_remove_select_user#:#Legalább egy felhasználót válasszon az eltávolításhoz!
 content#:#cont_sc_max_attempt#:#Csatlakozók max. száma
+content#:#cont_first_row_style#:#Első sor stílusa
+content#:#cont_selected_items_have_been_copied#:#A kiválasztott tételek át lettek másolva a vágólapra. Kattintson a megfelelő dzsókerkarakterre a tananyagba való bemásolásukhoz.
+content#:#cont_selected_items_have_been_cut#:#A kiválasztott tételek ki lettek vágva a vágólapra. Kattintson a megfelelő dzsókerkarakterre a tananyagba való bemásolásukhoz.
+content#:#cont_choose_pages_or_chapters_only#:#Vagy csak lapokat vagy csak fejezeteket válasszon!
 content#:#cont_sc_max_attempt_exceed#:#Az ehhez a modulhoz csatlakozók száma elérte a maximumot.
 content#:#cont_sc_new_version#:#Új verzió feltöltése
 content#:#cont_sc_version#:#Verzió
@@ -8121,8 +8252,8 @@ grp#:#grp_reg_direct#:#Közvetlen regisztráció
 grp#:#grp_reg_direct_info#:#Közvetlen regisztráció
 grp#:#grp_pass_request#:#Csatlakozás csoportjelszóval
 grp#:#grp_reg_password_info#:#A felhasználóknak be kell gépelniük a pontos jelszót a csoporthoz való csatlakozáshoz.
-grp#:#grp_reg_limit_time#:#Regisztrációs időszak
-grp#:#grp_reg_limit_num#:#Felhasználók maximuma
+grp#:#grp_reg_limit_time#:#Engedélyezett
+grp#:#grp_reg_limit_num#:#Felhasználók maximális száma
 grp#:#grp_reg_max_members_info#:#Adja meg a csoporthoz csatlakozók maximális számát!
 grp#:#grp_waiting_list_info#:#Ha engedélyezett, és a maximális felhasználói szám elérésre került, az új regisztrációk várólistára kerülnek.
 grp#:#grp_waiting_list#:#Várakozólista engedélyezése
@@ -8146,7 +8277,7 @@ common#:#mem_start#:#Regisztráció kezdete:
 common#:#mem_end#:#Regisztráció vége:
 common#:#mem_participants#:#Résztvevők
 common#:#mem_max_users#:#Felhasználók maximuma:
-common#:#mem_free_places#:#Szabad helyek:
+common#:#mem_free_places#:#Szabad helyek
 common#:#mem_reg_type#:#Regisztráció típusa
 common#:#mem_reg_not_started#:#A regisztráció még nem kezdődött el.
 common#:#mem_waiting_list_position#:#Az Ön helye a várólistán:
@@ -8169,8 +8300,8 @@ grp#:#grp_settings#:#Csoportbeállítások
 grp#:#grp_info_settings#:#Csoportiformációk
 grp#:#grp_icon_settings#:#Csoportikon
 grp#:#grp_information_info#:#Ez az információ az információs lapon és az új regisztráltaknak fog megjelenni.
-grp#:#reg_grp_max_members#:#Felhasználók maximuma
-grp#:#grp_reg_limited#:#Regisztrációs időszak
+grp#:#reg_grp_max_members#:#Felhasználók korlátszáma
+grp#:#grp_reg_limited#:#Önálló regisztráció
 grp#:#grp_btn_unsubscribe#:#Kiíratkozás a csoportból
 dateplaner#:#grp_cal_reg_end#:#Regisztráció vége
 dateplaner#:#grp_cal_reg_start#:#Regisztráció kezdete
@@ -8185,7 +8316,7 @@ assessment#:#empty_terms_exist#:#Üres kifejezésmezők vannak. Töltse ki ezeke
 assessment#:#terms#:#Kifejezések
 assessment#:#empty_term_message#:#Legalább egy üres kifejezésmező van.
 assessment#:#no_terms_message#:#Legalább egy kifejezést adjon meg!
-crs#:#crs_reg_period#:#Regisztrációs időszak
+crs#:#crs_reg_period#:#Önálló regisztráció
 crs#:#crs_presentation_type#:#Megjelenés típusa
 dateplaner#:#crs_cal_activation_start#:#Kurzusidítás
 dateplaner#:#crs_cal_activation_end#:#Kurzus vége
@@ -8206,494 +8337,345 @@ rbac#:#crs_edit_event#:#Határidőnapló-események szerkesztése
 rbac#:#grp_edit_event#:#Határidőnapló-események szerkesztése
 rbac#:#sess_edit_event#:#Határidőnapló-események szerkesztése
 rbac#:#cals_edit_event#:#Nyilvános határidőnapló adminisztrálása
-assessment#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###23 07 2008 new variable
-assessment#:#certificate_visibility#:#Visibility###23 07 2008 new variable
-assessment#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is###23 07 2008 new variable
-assessment#:#certificate_visibility_always#:#Always Visible###23 07 2008 new variable
-assessment#:#certificate_visibility_never#:#Not Visible###23 07 2008 new variable
-assessment#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test###23 07 2008 new variable
-assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)###23 07 2008 new variable
-form#:#form_min_value#:#Minimum Value###23 07 2008 new variable
-form#:#form_max_value#:#Maximum Value###23 07 2008 new variable
-form#:#form_format#:#Format###23 07 2008 new variable
-form#:#form_msg_value_too_high#:#Value too high. Please enter a lower value.###23 07 2008 new variable
-form#:#form_msg_value_too_low#:#Value too low. Please enter a higher value.###23 07 2008 new variable
-form#:#form_msg_numeric_value_required#:#Please enter a numeric value.###23 07 2008 new variable
-wiki#:#wiki_last_visited_page#:#Last Visited Page###23 07 2008 new variable
-wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.###23 07 2008 new variable
-wiki#:#wiki_msg_short_name_regexp#:#Short title must not start with a number and must not contain the following characters:###23 07 2008 new variable
-wiki#:#wiki_feedback_from_tutor#:#Feedback from Tutor###23 07 2008 new variable
-wiki#:#wiki_introduction#:#Introduction###23 07 2008 new variable
-wiki#:#wiki_pages#:#Pages###23 07 2008 new variable
-wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation###23 07 2008 new variable
-content#:#cont_insert_map#:#Insert Map###23 07 2008 new variable
-content#:#cont_update_map#:#Edit Map###23 07 2008 new variable
-content#:#cont_location#:#Location###23 07 2008 new variable
-content#:#cont_align#:#Alignment###23 07 2008 new variable
-content#:#cont_insert_page#:#Insert Page###23 07 2008 new variable
-content#:#cont_insert_chapter#:#Insert Chapter###23 07 2008 new variable
-content#:#cont_insert_subchapter#:#Insert Subchapter###23 07 2008 new variable
-content#:#cont_insert_page_from_clip#:#Paste Pages from Clipboard###23 07 2008 new variable
-content#:#cont_insert_chapter_from_clip#:#Paste Chapters from Clipboard###23 07 2008 new variable
-content#:#cont_insert_subchapter_from_clip#:#Paste Subchapters from Clipboard###23 07 2008 new variable
-content#:#cont_left#:#Left###23 07 2008 new variable
-content#:#cont_right#:#Right###23 07 2008 new variable
-content#:#cont_center#:#Center###23 07 2008 new variable
-content#:#cont_left_float#:#Left, Floating###23 07 2008 new variable
-content#:#cont_right_float#:#Right, Floating###23 07 2008 new variable
-content#:#cont_alphabetic#:#Alphabetic A, B, ...###23 07 2008 new variable
-content#:#cont_roman#:#Roman I, II, ...###23 07 2008 new variable
-crs#:#crs_objective_err_limit#:#Please enter points between %s and %s.###23 07 2008 new variable
-crs#:#crs_objective_qst_summary#:#Overview Question Assignment###23 07 2008 new variable
-crs#:#crs_obj_required_points#:#Required Points###23 07 2008 new variable
-crs#:#crs_objective_all_points#:#Total Points###23 07 2008 new variable
-crs#:#crs_objective_points#:#Point(s)###23 07 2008 new variable
-crs#:#crs_objective_wiz_title#:#Learning Objective Description###23 07 2008 new variable
-crs#:#crs_objective_wiz_materials#:#Assignment of Course Materials###23 07 2008 new variable
-crs#:#crs_objective_wiz_self#:#Initial Test Questions###23 07 2008 new variable
-crs#:#crs_objective_wiz_self_limit#:#Limits for Initial Test###23 07 2008 new variable
-crs#:#crs_objective_wiz_final#:#Final Test Questions###23 07 2008 new variable
-crs#:#crs_objective_wiz_final_limit#:#Limits for Final Test###23 07 2008 new variable
-crs#:#crs_wiz_next#:#Save###23 07 2008 new variable
-crs#:#crs_wiz_back#:#Back###23 07 2008 new variable
-crs#:#crs_objective_step#:#Step###23 07 2008 new variable
-crs#:#crs_objective_self_assessment#:#Initial Test###23 07 2008 new variable
-crs#:#crs_objective_final_test#:#Final Test###23 07 2008 new variable
-crs#:#crs_objective_saved_sorting#:#Saved sorting.###23 07 2008 new variable
-crs#:#crs_no_title_given#:#Please insert a title for the objective.###23 07 2008 new variable
-common#:#chat_invite_public_room#:#Public Chat###23 07 2008 new variable
-common#:#chat_link_to_this_chat#:#Link to this chat###23 07 2008 new variable
-crs#:#crs_objective_limit_err#:#The required points shouldn't be higher than the total points.###23 07 2008 new variable
-crs#:#crs_no_objective_lms_found#:#This course does not contain any materials.###23 07 2008 new variable
-ecs#:#ecs_server_settings#:#ECS Functionalities###23 07 2008 new variable
-ecs#:#ecs_settings#:#Settings###23 07 2008 new variable
-ecs#:#ecs_communities#:#Participants###23 07 2008 new variable
-ecs#:#ecs_mappings#:#ECS Data Mapping###23 07 2008 new variable
-ecs#:#ecs_connection_settings#:#Connection Settings###23 07 2008 new variable
-ecs#:#ecs_active#:#Enable ECS Functionalities###23 07 2008 new variable
-ecs#:#ecs_server_url#:#Server URL###23 07 2008 new variable
-ecs#:#ecs_protocol#:#Protocol###23 07 2008 new variable
-ecs#:#ecs_port#:#Port###23 07 2008 new variable
-ecs#:#ecs_client_cert#:#Client Certificate###23 07 2008 new variable
-ecs#:#ecs_ca_cert#:#CA Certificate###23 07 2008 new variable
-ecs#:#ecs_cert_key#:#Certificate Key###23 07 2008 new variable
-ecs#:#ecs_key_password#:#Key Password###23 07 2008 new variable
-ecs#:#cert_serial#:#Certificate Serial Number###23 07 2008 new variable
-ecs#:#ecs_local_settings#:#Local Settings###23 07 2008 new variable
-ecs#:#ecs_polling#:#Polling Time###23 07 2008 new variable
-ecs#:#ecs_polling_info#:#Please define the polling time for creation and update of Course-Links###23 07 2008 new variable
-ecs#:#ecs_import_id#:#Import ID###23 07 2008 new variable
-ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course-Links will be created###23 07 2008 new variable
-ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.###23 07 2008 new variable
-ecs#:#ecs_participants#:#Participants###23 07 2008 new variable
-ecs#:#ecs_participants_infos#:#Further Informations###23 07 2008 new variable
-ecs#:#ecs_active_header#:#Export Allowed###23 07 2008 new variable
-ecs#:#ecs_enable_participant#:#Allow Export###23 07 2008 new variable
-ecs#:#ecs_dns#:#Domainname###23 07 2008 new variable
-ecs#:#ecs_email#:#E-Mail###23 07 2008 new variable
-ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data###23 07 2008 new variable
-ecs#:#ecs_field_study_courses#:#Study Course(s)###23 07 2008 new variable
-ecs#:#ecs_field_lecturer#:#Lecturer(s)###23 07 2008 new variable
-ecs#:#ecs_field_courseType#:#Course Type###23 07 2008 new variable
-ecs#:#ecs_field_credits#:#Credits###23 07 2008 new variable
-ecs#:#ecs_field_start#:#Start###23 07 2008 new variable
-ecs#:#ecs_field_term#:#Term###23 07 2008 new variable
-ecs#:#ecs_field_day#:#Day###23 07 2008 new variable
-ecs#:#ecs_field_time#:#Time###23 07 2008 new variable
-ecs#:#ecs_field_room#:#Room###23 07 2008 new variable
-ecs#:#ecs_field_cycle#:#Cycle###23 07 2008 new variable
-ecs#:#ecs_ignore_field#:#Disable export/update of this field###23 07 2008 new variable
-common#:#obj_rcrs#:#Course-Link###23 07 2008 new variable
-common#:#objs_rcrs#:#Course-Links###23 07 2008 new variable
-ecs#:#ecs_export#:#Course Releases###23 07 2008 new variable
-ecs#:#ecs_export_obj_settings#:#Course Release Settings###23 07 2008 new variable
-ecs#:#ecs_export_disabled#:#Do not release this Course###23 07 2008 new variable
-ecs#:#ecs_export_enabled#:#Release this Course###23 07 2008 new variable
-ecs#:#ecs_publish_as#:#Publish as:###23 07 2008 new variable
-ecs#:#ecs_publish_for#:#Release for:###23 07 2008 new variable
-ecs#:#ecs_check_import_id#:#The import id is not valid. Please check this setting.###23 07 2008 new variable
-rcrs#:#rcrs_general_info#:#General Informations###23 07 2008 new variable
-meta#:#md_adv_field_names#:#Field Names###23 07 2008 new variable
-meta#:#md_adv_fields_show#:#Show Field Names###23 07 2008 new variable
-rcrs#:#rcrs_local_informations#:#Further Informations###23 07 2008 new variable
-ecs#:#ecs_abr#:#Abbreviation###23 07 2008 new variable
-ecs#:#ecs_read_remote_links#:#Update Remote-Courses###23 07 2008 new variable
-ecs#:#ecs_remote_imported#:#Informations about remote courses have been refreshed.###23 07 2008 new variable
-ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts###23 07 2008 new variable
-ecs#:#ecs_role#:#Role Assignment###23 07 2008 new variable
-ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.###23 07 2008 new variable
-rcrs#:#rcrs_call#:#Call Remote Course###23 07 2008 new variable
-ecs#:#ecs_field_begin#:#Begin###23 07 2008 new variable
-ecs#:#ecs_field_end#:#End###23 07 2008 new variable
-ecs#:#ecs_import#:#Import###23 07 2008 new variable
-ecs#:#ecs_imported_content#:#Imported E-Content###23 07 2008 new variable
-ecs#:#ecs_imported_from#:#Imported From###23 07 2008 new variable
-ecs#:#ecs_meta_data#:#Meta Data###23 07 2008 new variable
-mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s###23 07 2008 new variable
-ecs#:#ecs_rcrs_created_body_a#:#A new Remote Course has been created:###23 07 2008 new variable
-ecs#:#ecs_new_econtent_subject#:#New E-Content created###23 07 2008 new variable
-ecs#:#ecs_notifications#:#Notifications###23 07 2008 new variable
-ecs#:#ecs_user_rcp#:#Notification About ECS Users###23 07 2008 new variable
-ecs#:#ecs_econ_rcp#:#Notification About New E-Content###23 07 2008 new variable
-ecs#:#ecs_user_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new ECS users per e-mail.###23 07 2008 new variable
-ecs#:#ecs_econ_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new ECS content per e-mail.###23 07 2008 new variable
-ecs#:#ecs_new_user_subject#:#New ECS User Account###23 07 2008 new variable
-ecs#:#ecs_new_user_body#:#A new ECS user account has been created.###23 07 2008 new variable
-ecs#:#ecs_new_user_profile#:#User profile data:###23 07 2008 new variable
-form#:#form_months#:#Months###23 07 2008 new variable
-ecs#:#ecs_account_duration#:#Activation Period Extension###23 07 2008 new variable
-ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.###23 07 2008 new variable
-common#:#udf_type_datetime#:#Date and Time###23 07 2008 new variable
-ecs#:#ecs_no_value#:#Not available###23 07 2008 new variable
-ecs#:#ecs_field_semester_hours#:#Semester Periods per Week###23 07 2008 new variable
-common#:#object_id#:#Object-Id###23 07 2008 new variable
-ecs#:#ecs_field_courseID#:#Course ID###23 07 2008 new variable
-common#:#organization#:#Provider###23 07 2008 new variable
-common#:#auth_ecs#:#ECS###23 07 2008 new variable
-ecs#:#ecs_approval_rcp_info#:#Enter one or more login names of users (comma seperated) that will be informed about new approved courses per e-mail.###23 07 2008 new variable
-ecs#:#ecs_approval_rcp#:#Notification About Approved Courses###23 07 2008 new variable
-ecs#:#ecs_new_approval_subject#:#A new course has been released###23 07 2008 new variable
-ecs#:#ecs_export_created_body_a#:#A new course has been released###23 07 2008 new variable
-ecs#:#ecs_released#:#Export###23 07 2008 new variable
-ecs#:#ecs_released_content#:#Released E-Content###23 07 2008 new variable
-rbac#:#rcrs_edit_permission#:#Change permission settings###23 07 2008 new variable
-rbac#:#rcrs_visible#:#Course-Link is visible###23 07 2008 new variable
-rbac#:#rcrs_read#:#Read access to Course-Link###23 07 2008 new variable
-rbac#:#rcrs_delete#:#Delete Course-Link###23 07 2008 new variable
-rbac#:#cat_create_rcrs#:#Create Course-Links###23 07 2008 new variable
-rbac#:#rcrs_write#:#Edit Course-Link###23 07 2008 new variable
-rbac#:#cat_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#crs_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#grp_create_wiki#:#Create Wiki###23 07 2008 new variable
-rbac#:#fold_create_wiki#:#Create Wiki###23 07 2008 new variable
-common#:#csv_export#:#CSV-Export###23 07 2008 new variable
-ecs#:#ecs_duration#:#Duration###23 07 2008 new variable
-ecs#:#ecs_event_appointment#:#Event Date###23 07 2008 new variable
-common#:#res_links_short#:#Links###23 07 2008 new variable
-grp#:#reg_grp_max_members_short#:#Number of Members###23 07 2008 new variable
-grp#:#grp_wrong_max_members#:#Please check the maximum number of users.###23 07 2008 new variable
-crs#:#crs_subscription_max_members_short#:#Number of Members###23 07 2008 new variable
-crs#:#max_members_not_numeric#:#Please check the maximum number of users.###23 07 2008 new variable
-ps#:#ps_show_crs_access#:#Show last access time of course participants###23 07 2008 new variable
-assessment#:#assessment_eval_settings#:#Show the following fields in Evaluation for All Users###23 07 2008 new variable
-mail#:#mail_external_sender_noreply#:#noreply-Adresse###23 07 2008 new variable
-mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.###23 07 2008 new variable
-chat#:#chat_cannot_connect_to_server#:#ILIAS cannot build a socket connection to the chat server.###23 07 2008 new variable
-crs#:#sess_gen_attendance_list#:#Generate Attendance List###23 07 2008 new variable
-crs#:#sess_date_time#:#Session Appointment###23 07 2008 new variable
-common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.###23 07 2008 new variable
-common#:#missing_precondition#:#Missing Precondition###23 07 2008 new variable
-crs#:#sess_gen_mark_title#:#Generate Column for Notes###23 07 2008 new variable
-crs#:#sess_gen_comment#:#Generate Column for Comments###23 07 2008 new variable
-crs#:#sess_gen_signature#:#Generate Column for Signatures###23 07 2008 new variable
-crs#:#sess_print_attendance_list#:#Print Attendance List###23 07 2008 new variable
-crs#:#sess_signature#:#Signature###23 07 2008 new variable
-crs#:#sess_attendance_list#:#Attendance List###23 07 2008 new variable
-grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.###23 07 2008 new variable
-grp#:#grp_type_changed_info#:#Changing the group type will reset all permission settings.###23 07 2008 new variable
-grp#:#grp_change_type#:#Change Group Type###23 07 2008 new variable
-dateplaner#:#cal_share#:#Share Calendar###23 07 2008 new variable
-dateplaner#:#cal_shared_header#:#Shared Calendars###23 07 2008 new variable
-dateplaner#:#cal_unshare_cal#:#Stop Sharing###23 07 2008 new variable
-dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.###23 07 2008 new variable
-dateplaner#:#cal_share_search_header#:#Share Calendar###23 07 2008 new variable
-dateplaner#:#cal_search#:#Search Term###23 07 2008 new variable
-dateplaner#:#cal_search_info_share#:#Please enter the name of the desired user/role for sharing the calendar.###23 07 2008 new variable
-dateplaner#:#cal_share_search_usr_header#:#User Selection###23 07 2008 new variable
-dateplaner#:#cal_share_cal#:#Share calendar###23 07 2008 new variable
-dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.###23 07 2008 new variable
-dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)###23 07 2008 new variable
-dateplaner#:#cal_apps#:#Number of Appointments###23 07 2008 new variable
-dateplaner#:#cal_share_accept#:#Accept Invitation###23 07 2008 new variable
-dateplaner#:#cal_share_decline#:#Decline Invitation###23 07 2008 new variable
-dateplaner#:#cal_changed_events_header#:#Changed Appointments ###23 07 2008 new variable
-dateplaner#:#cal_accepted#:#Accepted###23 07 2008 new variable
-dateplaner#:#cal_declined#:#Declined###23 07 2008 new variable
-trac#:#trac_mode_event#:#Participation in Sessions###23 07 2008 new variable
-dateplaner#:#cal_user_time_format#:#Time Format###23 07 2008 new variable
-dateplaner#:#cal_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
-dateplaner#:#cal_def_time_format_info#:#Please choose a format for the presentation of time.###23 07 2008 new variable
-dateplaner#:#cal_def_time_format#:#Default Time Format###23 07 2008 new variable
-payment#:#topics#:#Topics###23 07 2008 new variable
-payment#:#topic#:#Topic###23 07 2008 new variable
-payment#:#edit_topic#:#Edit Topic###23 07 2008 new variable
-payment#:#new_topic#:#New Topic###23 07 2008 new variable
-payment#:#topic_title#:#Title###23 07 2008 new variable
-payment#:#advanced_search#:#Advanced Search###23 07 2008 new variable
-payment#:#set_filter#:#Set Filter###23 07 2008 new variable
-payment#:#reset_filter#:#Reset Filter###23 07 2008 new variable
-payment#:#filter_by#:#by###23 07 2008 new variable
-payment#:#sort_asc#:#sort ascending###23 07 2008 new variable
-payment#:#sort_desc#:#sort descending###23 07 2008 new variable
-payment#:#sort#:#Sort###23 07 2008 new variable
-payment#:#sort_by#:#Sort Objects by###23 07 2008 new variable
-common#:#shop#:#Shop###23 07 2008 new variable
-payment#:#price_from#:#from###23 07 2008 new variable
-payment#:#select_one_topic#:#Please select at least one topic###23 07 2008 new variable
-payment#:#topics_deleted#:#The chosen topics were deleted successfully###23 07 2008 new variable
-payment#:#no_topics_yet#:#No topics created yet###23 07 2008 new variable
-payment#:#topic_saved#:#The topic was saved successfully###23 07 2008 new variable
-payment#:#topic_edited#:#The topic was edited successfully###23 07 2008 new variable
-payment#:#sure_delete_topics#:#Are you sure you want to delete the chosen topics?###23 07 2008 new variable
-payment#:#pay_topics_default_sorting_type#:#Default Sorting Type of Topics###23 07 2008 new variable
-payment#:#pay_topics_default_sorting_direction#:#Default Sorting Direction of Topics###23 07 2008 new variable
-payment#:#pay_topics_allow_custom_sorting#:#Custom Sorting of Topics###23 07 2008 new variable
-payment#:#pay_topics_allow_custom_sorting_info#:#If enabled, every user can determine the sorting of topics in the webshop independently.###23 07 2008 new variable
-payment#:#pay_topics_sort_by_title#:#By Title###23 07 2008 new variable
-payment#:#pay_topics_sort_by_date#:#By Date###23 07 2008 new variable
-payment#:#pay_topics_sort_manually#:#Manually###23 07 2008 new variable
-payment#:#pay_sorting_value#:#Sorting Value###23 07 2008 new variable
-payment#:#pay_save_sorting#:#Save Sorting###23 07 2008 new variable
-payment#:#pay_max_hits#:#Max hits###23 07 2008 new variable
-payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of search results.###23 07 2008 new variable
-payment#:#pay_personal_settings#:#Personal Settings###23 07 2008 new variable
-payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics###23 07 2008 new variable
-payment#:#sort_topics_by#:#Sort Topics by###23 07 2008 new variable
-payment#:#sort_topics_by_title#:#Title###23 07 2008 new variable
-payment#:#sort_topics_by_date#:#Date###23 07 2008 new variable
-payment#:#sort_topics_manually#:#Manually###23 07 2008 new variable
-payment#:#pay_enable_shop#:#Enable Webshop###23 07 2008 new variable
-payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.###23 07 2008 new variable
-payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###23 07 2008 new variable
-payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
-dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
-common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
-common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
-common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
-common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
-common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
-payment#:#pay_abstract#:#Abstract###26 07 2008 new variable
-payment#:#pay_edit_abstract#:#Edit Abstract###26 07 2008 new variable
-payment#:#pay_thumbnail#:#Thumbnail###26 07 2008 new variable
-mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.###26 07 2008 new variable
-mcst#:#mcst_default_visibility#:#Default Access###26 07 2008 new variable
-mcst#:#mcst_visibility_users#:#Logged in Users###26 07 2008 new variable
-mcst#:#mcst_visibility_public#:#Public###26 07 2008 new variable
-ps#:#ps_account_security_mode#:#Account Security###26 07 2008 new variable
-ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security###26 07 2008 new variable
-ps#:#ps_account_security_mode_customized#:#Customized Account Security###26 07 2008 new variable
-ps#:#ps_password_min_length#:#Minimum Password Size###26 07 2008 new variable
-ps#:#ps_password_max_length#:#Maximum Password Size###26 07 2008 new variable
-ps#:#ps_password_chars_and_numbers_enabled#:#Characters and Numbers###26 07 2008 new variable
-ps#:#ps_password_special_chars_enabled#:#Special Characters###26 07 2008 new variable
-ps#:#ps_password_max_age#:#Maximum Password Age###26 07 2008 new variable
-ps#:#ps_login_max_attempts#:#Maximum Login Attempts###26 07 2008 new variable
-ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.###26 07 2008 new variable
-ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.###26 07 2008 new variable
-ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.###26 07 2008 new variable
-ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.###26 07 2008 new variable
-ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set this to 0 for disabling this option.###26 07 2008 new variable
-ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Set this to 0 for disabling this option.###26 07 2008 new variable
-ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.###26 07 2008 new variable
-ps#:#ps_error_message_invalid_password_max_length#:#Maximum password size may not be less than 0.###26 07 2008 new variable
-ps#:#ps_error_message_invalid_password_max_age#:#Maximum password age may not be less than 0.###26 07 2008 new variable
-ps#:#ps_error_message_invalid_login_max_attempts#:#Maximum login attempts may not be less than 0.###26 07 2008 new variable
-ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than 2 if password have to contain characters and numbers.###26 07 2008 new variable
-ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimum password size may not be less than 3 if password have to contain characters, numbers and special characters.###26 07 2008 new variable
-ps#:#ps_error_message_password_max_less_min#:#Maximum password size may not be less than minimum password size.###26 07 2008 new variable
-common#:#password_empty#:#The password must not be empty.###26 07 2008 new variable
-common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.###26 07 2008 new variable
-common#:#new_pass_equals_old_pass#:#The new password equals the old one.###26 07 2008 new variable
-common#:#password_to_short#:#The password must have at least a size of %s characters.###26 07 2008 new variable
-common#:#password_to_long#:#The password must have at most a size of %s characters.###26 07 2008 new variable
-common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.###26 07 2008 new variable
-common#:#password_must_special_chars#:#The password must contain special characters.###26 07 2008 new variable
-ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login###26 07 2008 new variable
-ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).###26 07 2008 new variable
-common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services###26 07 2008 new variable
-content#:#cont_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
-content#:#cont_syntax_help#:#Syntax Help###15 09 2008 new variable
-content#:#cont_bullet_list#:#Bullet List###15 09 2008 new variable
-content#:#cont_numbered_list#:#Numbered List###15 09 2008 new variable
-content#:#cont_wiki_page_link#:#Wiki Page Link###15 09 2008 new variable
-content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.###15 09 2008 new variable
-content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###15 09 2008 new variable
-form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
-form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.###15 09 2008 new variable
-common#:#all_commands#:#All Commands###15 09 2008 new variable
-common#:#basic_commands#:#Basic Commands###15 09 2008 new variable
-wiki#:#wiki_wiki_page#:#Wiki Page###15 09 2008 new variable
-wiki#:#wiki_short_title_desc2#:#This title will be used in links to the wiki. Once choosen you should not change this title, since users may loose their bookmarks.###15 09 2008 new variable
-wiki#:#wiki_wiki_search#:#Wiki Search###15 09 2008 new variable
-wiki#:#wiki_search#:#Search###15 09 2008 new variable
-wiki#:#wiki_search_results#:#Search Results###15 09 2008 new variable
-common#:#copy_of_suffix#:#- Copy###15 09 2008 new variable
-common#:#copy_n_of_suffix#:#- Copy (%1$s)###15 09 2008 new variable
-mep#:#mep_parent_folder#:#Parent Folder###15 09 2008 new variable
-mep#:#mep_thumbnail#:#Thumbnail###15 09 2008 new variable
-mep#:#mep_title_and_description#:#Title and Description###15 09 2008 new variable
-mep#:#mep_create_mob#:#Create Media Object###15 09 2008 new variable
-mep#:#mep_create_folder#:#Create Folder###15 09 2008 new variable
-mep#:#mep_copy_to_mep#:#Copy to Media Pool###15 09 2008 new variable
-tagging#:#tagging_tag_info#:#To attach tags to a ressource open the info screen of the ressource and enter your tags.###15 09 2008 new variable
-content#:#cont_links#:#Links###15 09 2008 new variable
-content#:#cont_internal_links#:#Internal Links###15 09 2008 new variable
-content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode###15 09 2008 new variable
-content#:#cont_js_chap_editing#:#Use JavaScript Editing Mode###15 09 2008 new variable
-content#:#cont_chapters_after_pages#:#Please note that pages have to precede all subchapters of the same level.###15 09 2008 new variable
-content#:#cont_add_rectangle#:#Add Rectangle###15 09 2008 new variable
-content#:#cont_add_circle#:#Add Circle###15 09 2008 new variable
-content#:#cont_add_polygon#:#Add Polygon###15 09 2008 new variable
-content#:#cont_edit_shape_rectangle#:#Edit Shape (Rectangle)###15 09 2008 new variable
-content#:#cont_edit_shape_circle#:#Edit Shape (Circle)###15 09 2008 new variable
-content#:#cont_edit_shape_polygon#:#Edit Shape (Polygon)###15 09 2008 new variable
-content#:#cont_new_mob#:#New Media Object###15 09 2008 new variable
-content#:#cont_mob_from_media_pool#:#Choose From Media Pool###15 09 2008 new variable
-content#:#cont_select_media_pool#:#Select Media Pool###15 09 2008 new variable
-content#:#cont_table_properties#:#Table Properties###15 09 2008 new variable
-content#:#cont_table_cell_properties#:#Table Cell Properties###15 09 2008 new variable
-content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.###15 09 2008 new variable
-content#:#cont_set_styles_and_widths#:#Set Styles and Widths###15 09 2008 new variable
-content#:#cont_Special#:#Special###15 09 2008 new variable
-content#:#cont_Excursus#:#Excursus###15 09 2008 new variable
-content#:#cont_localfile#:#Local File###15 09 2008 new variable
-content#:#cont_Block#:#Block###15 09 2008 new variable
-content#:#cont_def_map_areas#:#Default Link Areas###15 09 2008 new variable
-content#:#cont_inst_map_areas#:#Instance Link Areas###15 09 2008 new variable
-content#:#cont_mob_def_prop#:#Default Properties###15 09 2008 new variable
-content#:#cont_current_page#:#Current Page###15 09 2008 new variable
-content#:#cont_current_chapter#:#Current Chapter###15 09 2008 new variable
-content#:#cont_selected_pg_chap#:#Selected Pages/Chapters###15 09 2008 new variable
-content#:#cont_target_missing#:#Target Missing###15 09 2008 new variable
-content#:#cont_print_view_pre_glo#:#Prevent Glossary Appendix in Print View###15 09 2008 new variable
-content#:#cont_paste_table#:#Paste Table###15 09 2008 new variable
-content#:#cont_html_table#:#HTML Table###15 09 2008 new variable
-content#:#cont_spreadsheet_table#:#Spreadsheet Table###15 09 2008 new variable
-cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.###15 09 2008 new variable
-cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor###15 09 2008 new variable
-cntr#:#cntr_back_to_old_editor#:#Back to Old Editor###15 09 2008 new variable
-cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. Please use it to setup the content page. If you click the following link, the content presentation in the repository will switch from the old editor's content to this page.###15 09 2008 new variable
-cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to this page for presentation###15 09 2008 new variable
-cntr#:#cntr_switched_editor#:#Switched to new content.###15 09 2008 new variable
-common#:#no_items#:#No Items###15 09 2008 new variable
-content#:#cont_first_row_style#:#First Row Style###15 09 2008 new variable
-content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
-content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.###15 09 2008 new variable
-content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.###15 09 2008 new variable
-crs#:#crs_archive_language_selection#:#Language Selection###15 09 2008 new variable
-common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.###15 09 2008 new variable
-common#:#ext_link#:#Link###15 09 2008 new variable
-pd#:#pd_enable_my_offers#:#Enable 'Selected Items'###15 09 2008 new variable
-pd#:#pd_enable_my_offers_info#:#The view 'Selected Items' contains all objects which are placed on the user's Personal Desktop.###15 09 2008 new variable
-pd#:#pd_enable_my_memberships#:#Enable 'My Memberships'###15 09 2008 new variable
-pd#:#pd_enable_my_memberships_info#:#'My Memberships' contains all courses and groups the user is assigned to as a member.###15 09 2008 new variable
-pd#:#pd_my_offers#:#Selected Items###15 09 2008 new variable
-pd#:#pd_my_memberships#:#My Memberships###15 09 2008 new variable
-pd#:#pd_personal_items_default_view#:#Default View###15 09 2008 new variable
-pd#:#pd_personal_items_default_view_info#:#Choose the prefered view of Personal Items.###15 09 2008 new variable
-pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either 'Selected Items' and/or 'My Memberships'.###15 09 2008 new variable
-pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships###15 09 2008 new variable
-pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in.###15 09 2008 new variable
-assessment#:#kiosk#:#Kiosk Mode###15 09 2008 new variable
-assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.###15 09 2008 new variable
-assessment#:#autosave_success#:#Autosave successful...###15 09 2008 new variable
-assessment#:#autosave_failed#:#Autosave failed!###15 09 2008 new variable
-assessment#:#kiosk_show_title#:#Show Test Title###15 09 2008 new variable
-assessment#:#kiosk_show_participant#:#Show Name of Participant###15 09 2008 new variable
-assessment#:#kiosk_options#:#Kiosk Mode Options###15 09 2008 new variable
-assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.###15 09 2008 new variable
-assessment#:#redirectAfterSave#:#The maximum working time has been reached and your last question has been saved automatically. In a few seconds you will be redirected...###15 09 2008 new variable
-assessment#:#final_statement#:#Final Statement###15 09 2008 new variable
-assessment#:#final_statement_show#:#Show Final Statement###15 09 2008 new variable
-assessment#:#final_statement_show_desc#:#If checked, the final statement will be shown directly after the test was finished prior to the presentation of the test results.###15 09 2008 new variable
-assessment#:#showinfo#:#Show the complete Information Page###15 09 2008 new variable
-assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. ###15 09 2008 new variable
-assessment#:#forcejs#:#Force JavaScript output for test questions###15 09 2008 new variable
-assessment#:#forcejs_short#:#Force JavaScript###15 09 2008 new variable
-assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.###15 09 2008 new variable
-crs#:#crs_contact_email_info#:#Enter one or more (comma seperated) E-mail addresses.###15 09 2008 new variable
-crs#:#crs_objective_status#:#Objective Status###15 09 2008 new variable
-crs#:#crs_obj_final_req_info#:#If this number of points is achieved, the learning objective is passed.###15 09 2008 new variable
-crs#:#crs_obj_initial_req_info#:#If this number of points is achieved, no course materials will be recommended for further editing.###15 09 2008 new variable
-crs#:#crs_objective_wiz_title_info#:#Please choose a title and a short description of the learning objective.###15 09 2008 new variable
-crs#:#crs_objective_wiz_materials_info#:#You can assign course materials that are recommended for processing the learning objective.###15 09 2008 new variable
-crs#:#crs_objective_wiz_self_info#:#Please define the initial test questions. Initial tests are intended to examine the previous knowledge of the course participants.###15 09 2008 new variable
-crs#:#crs_objective_wiz_self_limit_info#:#Please define the limits for initial test questions.###15 09 2008 new variable
-crs#:#crs_objective_wiz_final_info#:#Assignment of final test questions.###15 09 2008 new variable
-crs#:#crs_objective_wiz_final_limit_info#:#Here you can define the limits for the final test questions.###15 09 2008 new variable
-crs#:#crs_suggested_sections#:#Suggested Sections###15 09 2008 new variable
-forum#:#frm_statistics#:#Statistics###15 09 2008 new variable
-mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.###15 09 2008 new variable
-mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.###15 09 2008 new variable
-chat#:#chat_chat_invitation#:#Chat Invitations###15 09 2008 new variable
-chat#:#chat_general_settings#:#General Settings###15 09 2008 new variable
-chat#:#chat_sounds#:#Sounds###15 09 2008 new variable
-chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation###15 09 2008 new variable
-chat#:#chat_sound_status_activate#:#Activate Sounds###15 09 2008 new variable
-chat#:#chat_sound_status_deactivate#:#Deactivate Sounds###15 09 2008 new variable
-assessment#:#reset_pictures#:#Reset Picture Positions###15 09 2008 new variable
-assessment#:#reset_definitions#:#Reset Definition Position###15 09 2008 new variable
-administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab. ###19 09 2008 new variable
-administration#:#language_former_file_equal#:#The file <b>%s</b> is identical to the current language file. ###19 09 2008 new variable
-administration#:#language_former_file_missing#:#The file <b>%s</b> is missing.###19 09 2008 new variable
-administration#:#language_scope_conflicts#:#Local and update changes###19 09 2008 new variable
-content#:#cont_rollback#:#Rollback###19 09 2008 new variable
-content#:#cont_rollback_confirmation#:#Do you really want to restore this old version of the page?###19 09 2008 new variable
-cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
-common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
-common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
-common#:#obj_tags#:#Tagging###23 09 2008 new variable
-common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
-tagging#:#tagging_settings#:#Settings###23 09 2008 new variable
-tagging#:#tagging_edit_settings#:#Edit Settings###23 09 2008 new variable
-tagging#:#tagging_enable_tagging#:#Enable Tagging###23 09 2008 new variable
-assessment#:#tst_single_results#:#Results by Question###23 09 2008 new variable
-assessment#:#tst_answered_questions_test#:#Questions answered in this test###23 09 2008 new variable
-common#:#enable_download_folder#:#Enable Downloading Folders###23 09 2008 new variable
-common#:#enable_download_folder_info#:#Allows to download a folder including sub structures as a zip file.###23 09 2008 new variable
-rbac#:#crsr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
-rbac#:#crsr_visible#:#Course Reference is visible###23 09 2008 new variable
-rbac#:#crsr_read#:#Read access to Course Reference###23 09 2008 new variable
-rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
-rbac#:#cat_create_crsr#:#Create new Course Reference###23 09 2008 new variable
-rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
-rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
-common#:#obj_crsr#:#Course Reference###23 09 2008 new variable
-common#:#objs_crsr#:#Course References###23 09 2008 new variable
-rbac#:#catr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
-rbac#:#catr_visible#:#Category Reference is visible###23 09 2008 new variable
-rbac#:#catr_read#:#Read access to Category Reference###23 09 2008 new variable
-rbac#:#catr_delete#:#Delete Category Reference###23 09 2008 new variable
-rbac#:#cat_create_catr#:#Create Category Reference###23 09 2008 new variable
-rbac#:#catr_write#:#Edit Category Reference###23 09 2008 new variable
-rbac#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
-common#:#obj_catr#:#Category Reference###23 09 2008 new variable
-common#:#objs_catr#:#Category References###23 09 2008 new variable
-common#:#crsr#:#Course Reference###23 09 2008 new variable
-common#:#catr#:#Category Reference###23 09 2008 new variable
-common#:#reference_of#:#Reference of:###23 09 2008 new variable
-common#:#catr_new#:#Create new Category Reference###23 09 2008 new variable
-common#:#crsr_new#:#Create new Course Reference###23 09 2008 new variable
-common#:#catr_edit#:#Edit Category Reference###23 09 2008 new variable
-common#:#crsr_edit#:#Edit Course Reference###23 09 2008 new variable
-common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.###23 09 2008 new variable
-common#:#catr_edit_info#:#Please choose one category, for creating a new reference.###23 09 2008 new variable
-common#:#reference_deleted#:#Destination not available###23 09 2008 new variable
-cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon###23 09 2008 new variable
-cmps#:#cmps_responsible#:#Responsible###07 10 2008 new variable
-common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)###07 10 2008 new variable
-common#:#clone_target#:#Target Folder###07 10 2008 new variable
-common#:#clone_option_in_cat#:#Copy in Existing Category###07 10 2008 new variable
-common#:#clone_option_in_crs#:#Copy in Existing Course###07 10 2008 new variable
-common#:#cat_title#:#Category Title###07 10 2008 new variable
-common#:#crs_title#:#Course Title###07 10 2008 new variable
-common#:#clone_existing_course#:#Copy Existing Course###07 10 2008 new variable
-survey#:#use_google_chart_api#:#Use Google Chart API###07 10 2008 new variable
-survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work###07 10 2008 new variable
-dateplaner#:#cal_cal_details#:#Calendar Details###10 10 2008 new variable
-dateplaner#:#cal_type_crs#:#Course Calendar###10 10 2008 new variable
-dateplaner#:#cal_type_grp#:#Group Calendar###10 10 2008 new variable
-wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?###17 10 2008 new variable
-wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page###17 10 2008 new variable
-wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page###17 10 2008 new variable
-wiki#:#wiki_page_deleted#:#Wiki page deleted.###17 10 2008 new variable
-content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.###17 10 2008 new variable
-content#:#cont_page_currently_deactivated#:#Sorry, but this page is currently deactivated.###17 10 2008 new variable
+crs#:#crs_objective_err_limit#:#%s és %s közötti pontot adjon meg!
+crs#:#crs_objective_qst_summary#:#Kérdés-hozzárendelés áttekintése
+crs#:#crs_obj_required_points#:#Szükséges pontszám
+crs#:#crs_objective_all_points#:#Összes pontszám
+crs#:#crs_objective_points#:#Pont
+crs#:#crs_objective_wiz_title#:#Tanulási célkitűzés leírása
+crs#:#crs_objective_wiz_materials#:#Kurzusanyagok hozzárendelése
+crs#:#crs_objective_wiz_self#:#Kezdeti teszt kérdései
+crs#:#crs_objective_wiz_self_limit#:#Határértékek a kezdeti teszthez
+crs#:#crs_objective_wiz_final#:#Befejező teszt kérdései
+crs#:#crs_objective_wiz_final_limit#:#Határértékek a befejező teszthez
+crs#:#crs_wiz_next#:#Mentés
+crs#:#crs_wiz_back#:#Vissza
+crs#:#crs_objective_step#:#Lépés
+crs#:#crs_objective_self_assessment#:#Kezdeti teszt
+crs#:#crs_objective_final_test#:#Befejező teszt
+crs#:#crs_objective_saved_sorting#:#Mentett csoportosítás.
+crs#:#crs_no_title_given#:#Szúrjon be címet a célhoz.
+common#:#chat_invite_public_room#:#Publikus cset
+common#:#chat_link_to_this_chat#:#Linkelés ehhez a csethez
+crs#:#crs_objective_limit_err#:#A megkívánt pontszám nem lehet magasabb, mint az összpontszám.
+crs#:#crs_no_objective_lms_found#:#Ez a kurzus nem tartalmaz segédanyagokat.
+ecs#:#ecs_server_settings#:#ECS funkcionalitások
+ecs#:#ecs_settings#:#Beállítások
+ecs#:#ecs_communities#:#Résztvevők
+ecs#:#ecs_mappings#:#ECS adatleképezés
+ecs#:#ecs_connection_settings#:#Kapcsolódási beállítások
+ecs#:#ecs_active#:#ECS funkcionalitások engedélyezése
+ecs#:#ecs_server_url#:#Szerver URL
+ecs#:#ecs_protocol#:#Protokol
+ecs#:#ecs_port#:#Port
+ecs#:#ecs_client_cert#:#Klienstanúsítvány
+ecs#:#ecs_ca_cert#:#CA tanúsítvány
+ecs#:#ecs_cert_key#:#Tanúsítványkulcs
+ecs#:#ecs_key_password#:#Kulcsjelszó
+ecs#:#cert_serial#:#Tanúsítvány sorozatszáma
+ecs#:#ecs_local_settings#:#Helyi beállítások
+ecs#:#ecs_polling#:#Szavazóidő
+ecs#:#ecs_polling_info#:#Definiálja a szavazóidőt a kurzuslinkek létrehozásához és frissítéséhez!
+ecs#:#ecs_import_id#:#ID importálása
+ecs#:#ecs_import_id_info#:#Adja meg annak a kategóriának az ID-jét, ahol új kurzuslinkek lesznek létrehozva!
+ecs#:#ecs_error_extract_serial#:#Nem olvasható a tanúsítvány sorozatszáma. Ellenőrizze a klienstanúsítvány elérési útját!
+ecs#:#ecs_participants#:#Résztvevők
+ecs#:#ecs_participants_infos#:#További információk
+ecs#:#ecs_active_header#:#Az exportálás engedélyezett
+ecs#:#ecs_enable_participant#:#Exportálás engedélyezése
+ecs#:#ecs_dns#:#Domain-név
+ecs#:#ecs_email#:#E-mail
+ecs#:#ecs_mapping_tbl#:#ECS-adatok ILIAS továbbfejlesztett metaadatokra való  leképezése
+ecs#:#ecs_field_study_courses#:#Tanulási kurzus(ok)
+ecs#:#ecs_field_lecturer#:#Előadó(k)
+ecs#:#ecs_field_courseType#:#Kurzustípus
+ecs#:#ecs_field_credits#:#Kredit
+ecs#:#ecs_field_start#:#Kezdés
+ecs#:#ecs_field_term#:#Szemeszter
+ecs#:#ecs_field_day#:#Nap
+ecs#:#ecs_field_time#:#Idő
+ecs#:#ecs_field_room#:#Szoba
+ecs#:#ecs_field_cycle#:#Ciklus
+ecs#:#ecs_ignore_field#:#A mező exportjának/frissítésének letiltása
+common#:#obj_rcrs#:#Kurzuslink
+common#:#objs_rcrs#:#Kurzuslinkek
+ecs#:#ecs_export#:#Kurzuskibocsátások
+ecs#:#ecs_export_obj_settings#:#Kurzuskibocsátási beállítások
+ecs#:#ecs_export_disabled#:#Ne bocsássa ki ezt a kurzust
+ecs#:#ecs_export_enabled#:#Bocsássa ki ezt a kurzust
+ecs#:#ecs_publish_as#:#Publikálás mint:
+ecs#:#ecs_publish_for#:#Kibocsátás ennek:
+ecs#:#ecs_check_import_id#:#Az importálási ID nem érvényes. Ellenőrizze ezt a beállítást.
+rcrs#:#rcrs_general_info#:#Általános információk
+meta#:#md_adv_field_names#:#Mezőnevek
+meta#:#md_adv_fields_show#:#Mezőnevek megjelenítése
+rcrs#:#rcrs_local_informations#:#További információk
+ecs#:#ecs_abr#:#Rövidítés
+ecs#:#ecs_read_remote_links#:#Távoli kurzusok frissítése
+ecs#:#ecs_remote_imported#:#A távoli kurzusokról az információk frissítésre kerültek.
+ecs#:#ecs_remote_user_settings#:#Beállítások ECS felhasználói fiókokhoz
+ecs#:#ecs_role#:#Szerepösszerendelés
+ecs#:#ecs_global_role_info#:#A kiválasztott szerep hozzá lesz rendelve az újonnan létrehozott ECS felhasználói fiókhoz.
+rcrs#:#rcrs_call#:#Távoli kurzus hívása
+ecs#:#ecs_field_begin#:#Kezdés
+ecs#:#ecs_field_end#:#Vége
+ecs#:#ecs_import#:#Importálás
+ecs#:#ecs_imported_content#:#Importált e-tartalom
+ecs#:#ecs_imported_from#:#Importálva innen
+ecs#:#ecs_meta_data#:#Metaadat
+mail#:#mail_auto_generated_info#:#Ezt a levelet automatikusan küldte Önnek a %s, %s ILIAS installáció.
+ecs#:#ecs_rcrs_created_body_a#:#Új távoli  kurzus lett létrehozva:
+ecs#:#ecs_new_econtent_subject#:#Új e-tartalom lett létrehozva
+ecs#:#ecs_notifications#:#Értesítések
+ecs#:#ecs_user_rcp#:#Értesítések az ECS felhasználókról
+ecs#:#ecs_econ_rcp#:#Értesítések új e-tartalomról
+ecs#:#ecs_user_rcp_info#:#Adja meg annak vagy azoknak a felhasználóknak a bejelentkezési nevét (vesszővel elválasztva), akik e-mail-en keresztül informálva lesznek az új ECS-felhasználókról.
+ecs#:#ecs_econ_rcp_info#:#Adja meg annak vagy azoknak a felhasználóknak a bejelentkezési nevét (vesszővel elválasztva), akik e-mail-en keresztül informálva lesznek az új ECS-tartalmakról.
+ecs#:#ecs_new_user_subject#:#Új ECS felhasználói fiók
+ecs#:#ecs_new_user_body#:#Új ECS felhasználói fiók került létrehozásra.
+ecs#:#ecs_new_user_profile#:#Felhasználó adatai:
+form#:#form_months#:#Hónap
+ecs#:#ecs_account_duration#:#Aktiválási periódus meghosszabbítás
+ecs#:#ecs_account_duration_info#:#Az új ECS-felhasználói fiókok a munkamenet tartamára vannak korlátozva. Miután hozzárendelt egy felhasználót egy kurzushoz, az aktiválási periódos meghosszabbításra kerül az adott számú hónappal.
+common#:#udf_type_datetime#:#Dátum és idő
+ecs#:#ecs_no_value#:#Nem élérhető
+ecs#:#ecs_field_semester_hours#:#Szemeszterek periódusa hetekben
+common#:#object_id#:#Objektum-ID
+ecs#:#ecs_field_courseID#:#Kurzus-ID
+common#:#organization#:#Szolgáltató
+common#:#auth_ecs#:#ECS
+ecs#:#ecs_approval_rcp_info#:#Adja meg annak vagy azoknak a felhasználóknak a bejelentkezési nevét (vesszővel elválasztva), akik e-mail-en keresztül informálva lesznek az új jóváhagyott kurzusokról.
+ecs#:#ecs_approval_rcp#:#Értesítés jóváhagyott kurzusokról
+ecs#:#ecs_new_approval_subject#:#Új kurzus került kibocsátásra
+ecs#:#ecs_export_created_body_a#:#Új kurzus került kibocsátásra
+ecs#:#ecs_released#:#Exportálás
+ecs#:#ecs_released_content#:#Kibocsátott e-tartalom
+rbac#:#rcrs_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#rcrs_visible#:#Kurzuslink látható
+rbac#:#rcrs_read#:#Olvasási elérés kurzuslinkhez
+rbac#:#rcrs_delete#:#Kurzuslink törlése
+rbac#:#cat_create_rcrs#:#Kurzuslink létrehozása
+rbac#:#rcrs_write#:#Kurzuslink szerkesztése
+rbac#:#cat_create_wiki#:#Wiki létrehozása
+rbac#:#crs_create_wiki#:#Wiki létrehozása
+rbac#:#grp_create_wiki#:#Wiki létrehozása
+rbac#:#fold_create_wiki#:#Wiki létrehozása
+common#:#csv_export#:#CSV-export
+ecs#:#ecs_duration#:#Időtartam
+ecs#:#ecs_event_appointment#:#Eseménydátum
+common#:#res_links_short#:#Linkek
+grp#:#reg_grp_max_members_short#:#Tagok száma
+grp#:#grp_wrong_max_members#:#Jelölje be a felhasználók maximális számát!
+crs#:#crs_subscription_max_members_short#:#Tagok száma
+crs#:#max_members_not_numeric#:#Jelölje be a felhasználók maximális számát!
+ps#:#ps_show_crs_access#:#Kurzusrésztvevők legutóbbi elérési idejének megjelenítése
+assessment#:#assessment_eval_settings#:#Az alábbi mezők megjelenítése a kiértékelésben minden felhasználóhoz
+mail#:#mail_external_sender_noreply#:#Nincs válasz cím
+mail#:#info_mail_external_sender_noreply#:#Adja meg azt az e-mail címet, amelyet a rendszeren kívüli leveleknél és értesítőknél üzenetküldőként alkalmazni akar.
+chat#:#chat_cannot_connect_to_server#:#Az ILIAS nem tud socket kapcsolatot kiépíteni a csetszerverhez.
+crs#:#sess_gen_attendance_list#:#Csatlakozottak listájának generálása
+crs#:#sess_date_time#:#Munkamenet-találkozó
+common#:#err_auth_mode_inactive#:#Az Ön hitelesítési módszere deaktivált.
+common#:#missing_precondition#:#Hiányzó előfeltétel
+crs#:#sess_gen_mark_title#:#Sor generálása jegyzetekhez
+crs#:#sess_gen_comment#:#Sor generálása megjegyzésekhez
+crs#:#sess_gen_signature#:#Sor generálása aláírásokhoz
+crs#:#sess_print_attendance_list#:#Csatlakozottak listájának nyomtatása
+crs#:#sess_signature#:#Aláírás
+crs#:#sess_attendance_list#:#Csatlakozottak listája
+grp#:#grp_warn_grp_type_changed#:#Tényleg meg akarja változtatni a csoport típusát? Minden jogosultsági beállítás alapértelmezettre fog állni.
+grp#:#grp_type_changed_info#:#A csoport típusának megváltoztatása alapértelmezettre fogja állítani az összes jogosultsági beállítást.
+grp#:#grp_change_type#:#Csoporttípus változtatása
+dateplaner#:#cal_share#:#Határidőnapló megosztása
+dateplaner#:#cal_shared_header#:#Megosztott határidőnaplók
+dateplaner#:#cal_unshare_cal#:#Megosztás megállítása
+dateplaner#:#cal_unshared_selected_usr#:#Megállított határidőnapló-megosztás a kiválasztott felhasználókkal.
+dateplaner#:#cal_share_search_header#:#Határidőnapló megosztása
+dateplaner#:#cal_search#:#Keresési időtartam
+dateplaner#:#cal_search_info_share#:#Adja meg a kívánt felhasználó/szerep nevét a határidőnapló megosztásához!
+dateplaner#:#cal_share_search_usr_header#:#Felhasználó-kiválasztás
+dateplaner#:#cal_share_cal#:#Határidőnapló megosztása
+dateplaner#:#cal_shared_selected_usr#:#A határidőnapló megosztásra került a kiválasztott felhasználókkal/szerepekkel.
+dateplaner#:#cal_shared_calendars#:#Megosztott határidőnaplók (meghívások)
+dateplaner#:#cal_apps#:#Időpontok száma
+dateplaner#:#cal_share_accept#:#Elfogadott meghívások
+dateplaner#:#cal_share_decline#:#Meghívás elutasítása
+dateplaner#:#cal_changed_events_header#:#Megváltozott időpontok
+dateplaner#:#cal_accepted#:#Elfogadott
+dateplaner#:#cal_declined#:#Elutasított
+trac#:#trac_mode_event#:#Részvétel munkamenetekben
+dateplaner#:#cal_user_time_format#:#Időformátum
+dateplaner#:#cal_time_format_info#:#Válasszon formátumot az  idő megjelenítésére!
+dateplaner#:#cal_def_time_format_info#:#Válasszon formátumot az  idő megjelenítésére!
+dateplaner#:#cal_def_time_format#:#Alapértelmezett időformátum
+payment#:#topics#:#Témák
+payment#:#topic#:#Téma
+payment#:#edit_topic#:#Téma szerkesztése
+payment#:#new_topic#:#Új téma
+payment#:#topic_title#:#Cím
+payment#:#advanced_search#:#Továbbfejlesztett keresés
+payment#:#set_filter#:#Szűrő beállítása
+payment#:#reset_filter#:#Szűrő alapállapotba állítása
+payment#:#filter_by#:#by
+payment#:#sort_asc#:#rendezés növekvően
+payment#:#sort_desc#:#rendezés csökkenően
+payment#:#sort#:#Rendezés
+payment#:#sort_by#:#Objektumok rendezése e szerint
+common#:#shop#:#Üzelt
+payment#:#price_from#:#from
+payment#:#select_one_topic#:#Legalább egy témát válasszon!
+payment#:#topics_deleted#:#A kiválasztott téma sikeresen törlésre került.
+payment#:#no_topics_yet#:#Még nincsenek témák létrehozva.
+payment#:#topic_saved#:#A téma sikeresen mentésre került.
+payment#:#topic_edited#:#A téma sikeresen szerkesztve lett.
+payment#:#sure_delete_topics#:#Biztos hogy törölni akarja a kiválasztott témákat?
+payment#:#pay_topics_default_sorting_type#:#Témák alapértelmezett rendezési típusa
+payment#:#pay_topics_default_sorting_direction#:#Témák alapértelmezett rendezési iránya
+payment#:#pay_topics_allow_custom_sorting#:#Témák testre szabott rendezése
+payment#:#pay_topics_allow_custom_sorting_info#:#Ha engedélyezett, a felhasználók egymástől függetlenül határozhatják meg a témák sorrendjét a webüzletben.
+payment#:#pay_topics_sort_by_title#:#Cím szerint
+payment#:#pay_topics_sort_by_date#:#Dátum szerint
+payment#:#pay_topics_sort_manually#:#Kézileg
+payment#:#pay_sorting_value#:#Érték szerinti rendezés
+payment#:#pay_save_sorting#:#Rendezés mentése
+payment#:#pay_max_hits#:#Maximális találatszám
+payment#:#pay_max_hits_info#:#Adjon meg egy számot a keresési eredmények maximális számához!
+payment#:#pay_personal_settings#:#Személyes beállítások
+payment#:#pay_manual_sorting_of_topics#:#Témák kézi rendezése
+payment#:#sort_topics_by#:#Témák rendezése e szerint
+payment#:#sort_topics_by_title#:#Cím
+payment#:#sort_topics_by_date#:#Dátum
+payment#:#sort_topics_manually#:#Kézileg
+payment#:#pay_enable_shop#:#Webüzlet engedélyezése
+payment#:#pay_enable_shop_info#:#Ha aktivált, az ILIAS webüzlet elérhető és az objektumok megvásárolhatók.
+payment#:#payment_shop_not_objects_found#:#Nem található megvásárolható objektum.
+payment#:#payment_login_to_buy_object#:#Jelentkezzen be az ILIAS-ba hogy objektumokat tegyen a bevásárlókocsijába.
+dateplaner#:#cal_share_search_role_header#:#Szerepkiválasztás
+common#:#assigned_members#:#Hozzárendelt tagok
+payment#:#pay_abstract#:#Összefoglalás
+payment#:#pay_edit_abstract#:#Összefoglalás szerkesztése
+payment#:#pay_thumbnail#:#Bélyegkép
+mcst#:#mcst_news_item_visibility_info#:#A nyilvános hírek bejelentkezés nélkül is elérhetők az ILIAS-on kívülről RSS-en keresztül. Ne tegyen bele bizalmas információkat!
+mcst#:#mcst_default_visibility#:#Alapértelmezett elérés
+mcst#:#mcst_visibility_users#:#Bejelentkezett felhasználók
+mcst#:#mcst_visibility_public#:#Nyilvános
+ps#:#ps_account_security_mode#:#Felhasználói fiók biztonság
+ps#:#ps_account_security_mode_default#:#Standard ILIAS felhasználói fiók biztonság
+ps#:#ps_account_security_mode_customized#:#Testre szabott felhasználói fiók biztonság
+ps#:#ps_password_min_length#:#Minimális jelszóméret
+ps#:#ps_password_max_length#:#Maximális jelszóméret
+ps#:#ps_password_chars_and_numbers_enabled#:#Karakterek és számok
+ps#:#ps_password_special_chars_enabled#:#Speciális karakterek
+ps#:#ps_password_max_age#:#Maximális jelszó életkor
+ps#:#ps_login_max_attempts#:#Maximális bejelentkezési csatlakozás
+ps#:#ps_password_chars_and_numbers_enabled_info#:#Ha engedélyezett, a jelszavaknak karaktereket  és számokat kell tartalmaznia.
+ps#:#ps_password_special_chars_enabled_info#:#Ha engedélyezett, a jelszavaknak speciális karaktereket kell tartalmaznia.
+ps#:#ps_password_min_length_info#:#Felhasználói fiók jelszavak minimális méretének beállítása. Ha 0-ra állítja, a jelszavaknak minimálisan 1 méretűnek kell lenniük.
+ps#:#ps_password_max_length_info#:#Felhasználói fiók jelszavak maximális méretének beállítása. Állítsa 0-ra az opció letiltásához.
+ps#:#ps_password_max_age_info#:#Jelszavak napokban kifejezett életkorának beállítása. Állítsa 0-ra az opció letiltásához.
+ps#:#ps_login_max_attempts_info#:#Hibás belépési alkalmak maximális számának beállítása. Állítsa 0-ra az opció letiltásához.
+ps#:#ps_error_message_invalid_password_min_length#:#A minimális jelszóméret nem lehet kisebb 0-nál.
+ps#:#ps_error_message_invalid_password_max_length#:#A maximális jelszóméret nem lehet kisebb 0-nál.
+ps#:#ps_error_message_invalid_password_max_age#:#A maximális jelszóéletkor nem lehet kisebb 0-nál.
+ps#:#ps_error_message_invalid_login_max_attempts#:#A maximális csatlakozási kísérletek száma nem lehet kisebb 0-nál.
+ps#:#ps_error_message_password_min2_because_chars_numbers#:#A maximális jelszóméret nem lehet kisebb 2-nél, ha a jelszónak karaktereket és számokta is kell tartalmazniuk.
+ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#A maximális jelszóméret nem lehet kisebb 3-nál, ha a jelszónak karaktereket, számokat és speciális karaktereket kell tartalmaznia.
+ps#:#ps_error_message_password_max_less_min#:#A maximális jelszóméret nem lehet kisebb a minimális jelszóméretnél.
+common#:#password_empty#:#A jelszónak nem szabad üresnek lennie!
+common#:#password_expired#:#Az Ön jelszava lejárt, meg kell hogy változtassa, mivel az utolsó módosítás %s nappal ezelőtt volt.
+common#:#new_pass_equals_old_pass#:#Az új jelszó megegyezik egy régivel.
+common#:#password_to_short#:#A jelszónak legalább %s karakter méretűnek kell lennie.
+common#:#password_to_long#:#A jelszónak legfeljebb %s karakter mérete lehet.
+common#:#password_must_chars_and_numbers#:#A jelszónak karaktereket és számokat is kell tartalmaznia.
+common#:#password_must_special_chars#:#A jelszónak speciális karaktereket kell tartalmaznia.
+ps#:#ps_password_change_on_first_login_enabled#:#Jelszó megváltoztatása első bejelentkezéskor
+ps#:#ps_password_change_on_first_login_enabled_info#:#Ha engedélyezett, a felhasználóknak meg kell változtatniuk jelszavukat első bejelentkezéskor (kivéve azoknak a felhasználóknak, akik magukat regisztrálták).
+common#:#password_change_on_first_login_demand#:#Kezdeti jelszavát meg kell változtatni mielőtt elkezdi használni az ILIAS-szolgáltatásokat.
+crs#:#crs_archive_language_selection#:#Nyelvkiválasztás
+common#:#zip_test_failed#:#A zip-teszt nem sikerült. Lépjen kapcsolatba az ILIAS-rendszeradminisztrátorral.
+common#:#ext_link#:#Link
+pd#:#pd_enable_my_offers#:#Kiválasztott tételek' engedélyezve
+pd#:#pd_enable_my_offers_info#:#A 'Kiválasztott tételek' nézet minden olyan objektumot tartalmaz, amely a felhasználó munkaasztalán van.
+pd#:#pd_enable_my_memberships#:#Tagságaim' engedélyezése
+pd#:#pd_enable_my_memberships_info#:#A 'Tagságaim' tartalmazza mindazokat a kurzusokat és csoportokat, amelyhez a felhasználó tagként van rendelve.
+pd#:#pd_my_offers#:#Kiválasztott tételek
+pd#:#pd_my_memberships#:#Tagságaim
+pd#:#pd_personal_items_default_view#:#Alapértelmezett nézet
+pd#:#pd_personal_items_default_view_info#:#Válassza ki a személyes tételek kedvelt nézetét.
+pd#:#pd_view_select_at_least_one#:#Legalább egy nézetet ki kell választania vagy a 'Kiválasztott tételek' és/vagy a 'Tagságaim' közül.
+pd#:#pd_my_memberships_intro#:#Üdvözöljük tagságaiban!
+pd#:#pd_my_memberships_intro2#:#Ez az Ön személyes területe minden olyan kurzushoz és csoporthoz, amelynek tagja.
+assessment#:#kiosk#:#Kiosk-mód
+assessment#:#kiosk_description#:#Teszt kiosk-módban futtatása. Minden tartalmi elem, amely nem része a tesztnek elrejtésre kerül, hogy megakadályozza a felhasználót a teszt elhagyására.
+assessment#:#autosave_success#:#Az automatikus mentés sikeres…
+assessment#:#autosave_failed#:#Az automatikus mentés sikertelen volt!
+assessment#:#kiosk_show_title#:#Tesztcím megjelenítése
+assessment#:#kiosk_show_participant#:#Résztvevő nevének megjelenítése
+assessment#:#kiosk_options#:#Kiosk-mód opciók
+assessment#:#kiosk_options_desc#:#Annak kiválasztása hogy a teszt címe és/vagy az aktív résztvevők neve jelenjen meg a teszt tetején a kiosk-mód közben.
+assessment#:#redirectAfterSave#:#Elérkezett a maximális munkaidő vége, és az Ön utolsó kérdése automatikusan mentésre került. Néhány percen belül Ön átirányításra kerül…
+assessment#:#final_statement#:#Végső kimutatás
+assessment#:#final_statement_show#:#Végső kimutatás megjelenítése
+assessment#:#final_statement_show_desc#:#Ha bejelölt, a végső kimutatás közvetlenül a teszt befejezése után fog megjelenni, a teszteredmény bemutatását megelőzően.
+assessment#:#showinfo#:#Teljes információs lap megjelenítése
+assessment#:#showinfo_desc#:#Ha bejelölt, a teljes teszt információs lap megjelenik (a teszttulajdonságokat is beleértve). Ha nem bejelölt, csak a bevezető szöveg (ha elérhető) és a kötelező tulajdonságok fognak megjelenni a teszt információs lapján.
+assessment#:#forcejs#:#JavaScript output kikényszerítése tesztkérdésekhez
+assessment#:#forcejs_short#:#JavaScript kikényszerítése
+assessment#:#forcejs_desc#:#Ha bejelölt, JavaScript output lesz választva tesztkérdésekhez, ha JavaScript output és visszavonuló megoldás létezik.
+crs#:#crs_contact_email_info#:#Adjon meg egy vagy több (vesszővel elválasztott) e-mail címet.
+crs#:#crs_objective_status#:#Cél állapota
+crs#:#crs_obj_final_req_info#:#Ha ez a pontszáma elért, a tanulási cél teljesítve van.
+crs#:#crs_obj_initial_req_info#:#Ha ez a pontszám elért, nem lesz kurzusanyag ajánlva további szerkesztésre.
+crs#:#crs_objective_wiz_title_info#:#Válassza ki a tanulási célkitűzés címét és rövid leírását!
+crs#:#crs_objective_wiz_materials_info#:#Kijelölhet a tanulási célkitűzés folytatásához ajánlott  kurzusanyagokat.
+crs#:#crs_objective_wiz_self_info#:#Definiálja a kezdeti tesztkérdéseket. A kezdeti teszt célja hogy megvizsgálja a kurzusrésztvevők meglévő tudását.
+crs#:#crs_objective_wiz_self_limit_info#:#Definiálja a korlátokat a kezdeti tesztkérdésekhez!
+crs#:#crs_objective_wiz_final_info#:#Befejező tesztkérdések felsorolása.
+crs#:#crs_objective_wiz_final_limit_info#:#Itt definiálhatja a korlátokat a befejező tesztkérdésekhez.
+crs#:#crs_suggested_sections#:#Javasolt szakaszok
+forum#:#frm_statistics#:#Statisztika
+mail#:#mail_crs_list_members_not_available#:#Nem lehet listázni a bejelölt kurzusok tagjait.
+mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Legalább egy kiválasztott kurzust nem lehet listázni.
+chat#:#chat_chat_invitation#:#Csetmeghívás
+chat#:#chat_general_settings#:#Általános beállítások
+chat#:#chat_sounds#:#Hangok
+chat#:#chat_new_invitation_sound_status#:#Hang lejátszása, ha a felhasználó új csetmeghívást kapott
+chat#:#chat_sound_status_activate#:#Hangok aktiválása
+chat#:#chat_sound_status_deactivate#:#Hangok deaktiválása
+assessment#:#reset_pictures#:#Képhelyzetek visszaállítása
+assessment#:#reset_definitions#:#Definícióhelyzetek visszaállítása
+common#:#selected_languages_updated#:#A kiválasztott nyelvek frissítésre kerültek (ha installáltak):
+common#:#lang_refresh_confirm_selected#:#Tényleg frissíteni akarja a kiválasztott nyelveket?
+assessment#:#tst_single_results#:#Eredmények kérdésekkel
+assessment#:#tst_answered_questions_test#:#Ebben a tesztben megválaszolt kérdések
+common#:#lang_refresh_confirm_selected#:#Tényleg frissíteni akarja a kiválasztott nyelveket?
+common#:#enable_download_folder#:#Letöltő mappák engedélyezése
+common#:#enable_download_folder_info#:#Mappa engedélyezése letöltéshez, beleértve az alstruktúrákat zip-fájlként.
+rbac#:#crsr_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#crsr_visible#:#A kurzusajánlás látható
+rbac#:#crsr_read#:#Olvasási elérés kurzusajánláshoz
+rbac#:#crsr_delete#:#Kurzusajánlás törlése
+rbac#:#cat_create_crsr#:#Új kurzusajánlás létrehozása
+rbac#:#crsr_write#:#Kurzusajánlás szerkesztése
+rbac#:#crsr_copy#:#Kurzusajánlás másolása
+common#:#obj_crsr#:#Kurzusajánlás
+common#:#objs_crsr#:#Kurzusajánlás
+rbac#:#catr_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#catr_visible#:#A kategóriaajánlás látható
+rbac#:#catr_read#:#Olvasási elérés kategóriaajánláshoz
+rbac#:#catr_delete#:#Kategóriaajánlás törlése
+rbac#:#cat_create_catr#:#Kategóriaajánlás létrehozása
+rbac#:#catr_write#:#Kategóriaajánlás szerkesztése
+rbac#:#catr_copy#:#Kategóriaajánlás másolása
+common#:#obj_catr#:#Kategóriaajánlás
+common#:#objs_catr#:#Kategóriaajánlások
+common#:#crsr#:#Kurzusajánlás
+common#:#catr#:#Kategóriaajánlás
+common#:#reference_of#:#Ennek az ajánlása:
+common#:#catr_new#:#Új kategóriaajánlás létrehozása
+common#:#crsr_new#:#Új kurzusajánlás létrehozása
+common#:#catr_edit#:#Kategóriaajánlás szerkesztése
+common#:#crsr_edit#:#Kurzusajánlás szerkesztése
+common#:#crsr_edit_info#:#Válasszon egy kurzust új ajánlás létrehozásához!
+common#:#catr_edit_info#:#Válasszon egy kategóriát új ajánlás létrehozásához!
+common#:#reference_deleted#:#A végcél nem érhető el
