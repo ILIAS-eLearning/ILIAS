@@ -33,26 +33,12 @@
 
 		<div class="panel_glossary">
 			<div id="general_panel" class="panel current">
-				<fieldset>
-					<legend>{#latex.code_input}</legend>
-
-					<table border="0" cellpadding="4" cellspacing="0">
-						<tr>
-							<td valign="top"><label id="latex_code_label" for="latex_code">{#latex.latex_code}</label>:</td>
-							<td valign="top">
-								<textarea wrap="virtual" style="width:95%;" rows="10" cols="70" id="latex_code" name="latex_code" onkeyup="latexCodeChanged();">{LATEX_CODE}</textarea>
-							</td>
-						</tr>
-						<tr>
-							<td valign="top">{#latex.preview}:</td>
-							<td valign="top">
-								<p>
-									<img id="preview" src="{URL_PREVIEW}" alt="{#latex.preview}" />
-								</p>
-							</td>
-						</tr>
-					</table>
-				</fieldset>
+					<div style="float: left" class="title"><label id="latex_code_label" for="latex_code">{#latex.code_input}</label></div>
+					<div><textarea wrap="virtual" class="mceFocus" style="width: 100%;" rows="10" cols="100" id="latex_code" name="latex_code" onkeyup="latexCodeChanged();">{LATEX_CODE}</textarea></div>
+					<div>{#latex.preview}:</div>
+					<p>
+						<img id="preview" src="{URL_PREVIEW}" alt="{#latex.preview}" />
+					</p>
 			</div>
 
 		<div class="mceActionPanel">
