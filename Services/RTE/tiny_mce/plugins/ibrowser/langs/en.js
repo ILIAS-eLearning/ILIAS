@@ -20,7 +20,6 @@ tinyMCE.addI18n('en.ibrowser',{
 	hspace : 'HSpace',
 	vspace : 'VSpace',
 	select : 'Save',
-	delete : 'Delete',
 	cancel : 'Cancel',
 	uploadtxt : 'File',
 	uploadbt : 'Upload',
