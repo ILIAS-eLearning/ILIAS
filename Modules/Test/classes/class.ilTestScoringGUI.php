@@ -52,6 +52,28 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	}
 	
 	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
+
+		if (strlen($cmd) == 0)
+		{
+			$this->ctrl->redirect($this, "manscoring");
+		}
+		$cmd = $this->getCommand($cmd);
+		switch($next_class)
+		{
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+		return $ret;
+	}
+
+	/**
 	* Selects a participant for manual scoring
 	*/
 	function selectParticipant()

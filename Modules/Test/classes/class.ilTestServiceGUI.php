@@ -367,7 +367,7 @@ class ilTestServiceGUI
 					$scoretemplate->setVariable("NAME_INPUT", $question);
 					$this->ctrl->setParameter($this, "active_id", $active_id);
 					$this->ctrl->setParameter($this, "pass", $pass);
-					$scoretemplate->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+					$scoretemplate->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "manscoring"));
 					$scoretemplate->setVariable("LABEL_INPUT", $this->lng->txt("tst_change_points_for_question"));
 					$scoretemplate->setVariable("BUTTON_POINTS", $this->lng->txt("change"));
 					$scoretemplate->setVariable("VALUE_INPUT", " value=\"" . assQuestion::_getReachedPoints($active_id, $question_data["qid"], $pass) . "\"");
