@@ -139,7 +139,7 @@ class assJavaAppletGUI extends assQuestionGUI
 		$this->tpl->parseCurrentBlock();
 
 		
-		if ((strlen($this->object->getTitle()) > 0) && (strlen($this->object->getAuthor()) > 0) && (strlen($this->object->getQuestion()) > 0) && ($this->object->getPoints() > 0))
+		if ((strlen($this->object->getTitle()) > 0) && (strlen($this->object->getAuthor()) > 0) && (strlen($this->object->getQuestion()) > 0) && strlen($this->object->getPoints()))
 		{
 			$emptyname = 0;
 			for ($i = 0; $i < $this->object->getParameterCount(); $i++)
