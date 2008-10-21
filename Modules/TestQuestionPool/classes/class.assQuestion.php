@@ -1263,12 +1263,28 @@ class assQuestion
 	{
 		global $ilDB;
 		$answer_table_name = $this->getAnswerTableName();
-		if (strlen($answer_table_name))
+		if (is_array($answer_table_name))
 		{
-			$query = sprintf("DELETE FROM $answer_table_name WHERE question_fi = %s",
-				$ilDB->quote($question_id . "")
-			);
-			$result = $ilDB->query($query);
+			foreach ($answer_table_name as $table)
+			{
+				if (strlen($table))
+				{
+					$query = sprintf("DELETE FROM $table WHERE question_fi = %s",
+						$ilDB->quote($question_id . "")
+					);
+					$result = $ilDB->query($query);
+				}
+			}
+		}
+		else
+		{
+			if (strlen($answer_table_name))
+			{
+				$query = sprintf("DELETE FROM $answer_table_name WHERE question_fi = %s",
+					$ilDB->quote($question_id . "")
+				);
+				$result = $ilDB->query($query);
+			}
 		}
 	}
 
@@ -1284,12 +1300,28 @@ class assQuestion
 	{
 		global $ilDB;
 		$additional_table_name = $this->getAdditionalTableName();
-		if (strlen($additional_table_name))
+		if (is_array($additional_table_name))
 		{
-			$query = sprintf("DELETE FROM $additional_table_name WHERE question_fi = %s",
-				$ilDB->quote($question_id . "")
-			);
-			$result = $ilDB->query($query);
+			foreach ($additional_table_name as $table)
+			{
+				if (strlen($table))
+				{
+					$query = sprintf("DELETE FROM $table WHERE question_fi = %s",
+						$ilDB->quote($question_id . "")
+					);
+					$result = $ilDB->query($query);
+				}
+			}
+		}
+		else
+		{
+			if (strlen($additional_table_name))
+			{
+				$query = sprintf("DELETE FROM $additional_table_name WHERE question_fi = %s",
+					$ilDB->quote($question_id . "")
+				);
+				$result = $ilDB->query($query);
+			}
 		}
 	}
 

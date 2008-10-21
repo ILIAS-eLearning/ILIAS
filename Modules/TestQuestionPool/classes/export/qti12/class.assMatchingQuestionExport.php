@@ -210,28 +210,22 @@ class assMatchingQuestionExport extends assQuestionExport
 			}
 			$a_xml_writer->xmlEndTag("response_label");
 		}
-		// shuffle again to get another order for the terms or pictures
-		if ($this->object->getShuffle() && $a_shuffle)
-		{
-			$pkeys = $this->object->pcArrayShuffle($pkeys);
-		}
 		// add matchingtext
-		foreach ($pkeys as $index)
+		foreach ($this->object->getTerms() as $index => $term)
 		{
-			$matchingpair = $this->object->getMatchingPair($index);
 			$attrs = array(
-				"ident" => $matchingpair->getTermId()
+				"ident" => $index
 			);
 			$a_xml_writer->xmlStartTag("response_label", $attrs);
 			$a_xml_writer->xmlStartTag("material");
 			$attrs = array(
 				"texttype" => "text/plain"
 			);
-			if ($this->object->isHTML($matchingpair->getTerm()))
+			if ($this->object->isHTML($term))
 			{
 				$attrs["texttype"] = "text/xhtml";
 			}
-			$a_xml_writer->xmlElement("mattext", $attrs, $matchingpair->getTerm());
+			$a_xml_writer->xmlElement("mattext", $attrs, $term);
 			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}

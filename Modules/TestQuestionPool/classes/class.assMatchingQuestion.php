@@ -1071,7 +1071,7 @@ class assMatchingQuestion extends assQuestion
 	*/
 	function getAnswerTableName()
 	{
-		return "qpl_answer_matching";
+		return array("qpl_answer_matching", "qpl_answer_matching_term");
 	}
 
 	/**

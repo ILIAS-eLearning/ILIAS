@@ -58,8 +58,8 @@ class assMatchingQuestionImport extends assQuestionImport
 		$shuffle = 0;
 		$now = getdate();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+		$pictures_or_definitions = array();
 		$terms = array();
-		$matches = array();
 		$foundimage = FALSE;
 		foreach ($presentation->order as $entry)
 		{
@@ -100,7 +100,7 @@ class assMatchingQuestionImport extends assQuestionImport
 								}
 								if (($response_label->getMatchMax() == 1) && (strlen($response_label->getMatchGroup())))
 								{
-									$terms[$ident] = array(
+									$pictures_or_definitions[$ident] = array(
 										"answertext" => $answertext,
 										"answerimage" => $answerimage,
 										"points" => 0,
@@ -110,13 +110,10 @@ class assMatchingQuestionImport extends assQuestionImport
 								}
 								else
 								{
-									$matches[$ident] = array(
-										"answertext" => $answertext,
-										"answerimage" => $answerimage,
-										"points" => 0,
-										"matchingorder" => $ident,
-										"action" => ""
-									);
+									$terms[$ident] = array(
+											"term" => $answertext,
+											"ident" => $ident
+										);
 								}
 							}
 							break;
@@ -224,6 +221,10 @@ class assMatchingQuestionImport extends assQuestionImport
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$extended_shuffle = $item->getMetadataEntry("shuffle");
+		foreach ($terms as $termindex => $term)
+		{
+			$this->object->setTerm($term["term"], $term["ident"]);
+		}
 		if (strlen($extended_shuffle) > 0)
 		{
 			$shuffle = $extended_shuffle;
@@ -232,26 +233,24 @@ class assMatchingQuestionImport extends assQuestionImport
 		foreach ($responses as $response)
 		{
 			$subset = $response["subset"];
-			$term = array();
-			$match = array();
 			foreach ($subset as $ident)
 			{
+				if (array_key_exists($ident, $pictures_or_definitions))
+				{
+					$picture_or_definition = $pictures_or_definitions[$ident];
+				}
 				if (array_key_exists($ident, $terms))
 				{
 					$term = $terms[$ident];
 				}
-				if (array_key_exists($ident, $matches))
-				{
-					$match = $matches[$ident];
-				}
 			}
 			if ($type == 0)
 			{
-				$this->object->addMatchingPair($match["answertext"], $response["points"], $match["matchingorder"], $term["answerimage"]["label"], $term["answerorder"]);
+				$this->object->addMatchingPair($term["ident"], $picture_or_definition["answerimage"]["label"], $response["points"], $term["ident"], $picture_or_definition["answerorder"]);
 			}
 			else
 			{
-				$this->object->addMatchingPair($match["answertext"], $response["points"], $match["matchingorder"], $term["answertext"], $term["answerorder"]);
+				$this->object->addMatchingPair($term["ident"], $picture_or_definition["answertext"], $response["points"], $term["ident"], $picture_or_definition["answerorder"]);
 			}
 		}
 		$this->object->saveToDb();
@@ -266,29 +265,27 @@ class assMatchingQuestionImport extends assQuestionImport
 		foreach ($responses as $response)
 		{
 			$subset = $response["subset"];
-			$term = array();
-			$match = array();
 			foreach ($subset as $ident)
 			{
+				if (array_key_exists($ident, $pictures_or_definitions))
+				{
+					$picture_or_definition = $pictures_or_definitions[$ident];
+				}
 				if (array_key_exists($ident, $terms))
 				{
 					$term = $terms[$ident];
 				}
-				if (array_key_exists($ident, $matches))
-				{
-					$match = $matches[$ident];
-				}
 			}
 			if ($type == 0)
 			{
-				$image =& base64_decode($term["answerimage"]["content"]);
+				$image =& base64_decode($picture_or_definition["answerimage"]["content"]);
 				$imagepath = $this->object->getImagePath();
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
 				if (!file_exists($imagepath))
 				{
 					ilUtil::makeDirParents($imagepath);
 				}
-				$imagepath .=  $term["answerimage"]["label"];
+				$imagepath .=  $picture_or_definition["answerimage"]["label"];
 				$fh = fopen($imagepath, "wb");
 				if ($fh == false)
 				{
