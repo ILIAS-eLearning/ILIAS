@@ -109,7 +109,6 @@ class ASS_AnswerMatching
 	* Gets the term
 	*
 	* Returns the term
-
 	* @return string term
 	* @access public
 	* @see $term
@@ -123,7 +122,6 @@ class ASS_AnswerMatching
 	* Gets the points
 	*
 	* Returns the points
-
 	* @return double points
 	* @access public
 	* @see $points
@@ -137,7 +135,6 @@ class ASS_AnswerMatching
 	* Gets the term id
 	*
 	* Returns a nonnegative identifier for the term
-
 	* @return integer order
 	* @access public
 	* @see $term_id
@@ -151,7 +148,6 @@ class ASS_AnswerMatching
 	* Gets the picture
 	* 
 	* Returns the picture
-	
 	* @return string picture
 	* @access public
 	* @see $picture_or_definition
@@ -163,8 +159,7 @@ class ASS_AnswerMatching
 	/**
 	* Gets the definition
 	* 
-	* Returns the definition
-	
+	* Returns the definition	
 	* @return string definition
 	* @access public
 	* @see $picture_or_definition
@@ -177,7 +172,6 @@ class ASS_AnswerMatching
 	* Gets the picture identifier
 	* 
 	* Returns the picture identifier
-	
 	* @return integer picture identifier
 	* @access public
 	* @see $picture_or_definition_id
@@ -190,7 +184,6 @@ class ASS_AnswerMatching
 	* Gets the definition identifier
 	* 
 	* Returns the definition identifier
-	
 	* @return integer definition identifier
 	* @access public
 	* @see $picture_or_definition_id
