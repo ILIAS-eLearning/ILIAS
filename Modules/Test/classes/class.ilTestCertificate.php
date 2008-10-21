@@ -463,7 +463,7 @@ class ilTestCertificate
 			$pageheight = $pageformats[$form_data["pageformat"]]["height"];
 			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
 		}
-		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImageName() : "";
+		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath() : "";
 		$params = array(
 			"pageheight" => $pageheight, 
 			"pagewidth" => $pagewidth,
