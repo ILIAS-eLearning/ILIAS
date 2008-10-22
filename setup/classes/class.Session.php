@@ -58,7 +58,7 @@ class Session {
         //  Prüen ob die Session-ID die Standardlänge
         //  von 32 Zeichen hat,
         //  ansonsten Session-ID neu setzen 
-        if (strlen(session_id()) != 32)
+        if (strlen(session_id()) < 32)
             {
                 mt_srand ((double)microtime()*1000000);
                 session_id(md5(uniqid(mt_rand())));
@@ -68,15 +68,15 @@ class Session {
         //  (über Cookie, POST oder GET)
         $IDpassed = false;
         if  (   isset($_COOKIE[session_name()]) &&
-                @strlen($_COOKIE[session_name()]) == 32
+                @strlen($_COOKIE[session_name()]) >= 32
             )   $IDpassed = true;
 
         if  (   isset($_POST[session_name()]) &&
-                @strlen($_POST[session_name()]) == 32
+                @strlen($_POST[session_name()]) >= 32
             )   $IDpassed = true;
 
         if  (   isset($_GET[session_name()]) &&
-                @strlen($_GET[session_name()]) == 32
+                @strlen($_GET[session_name()]) >= 32
             )   $IDpassed = true;
         
         if  (!$IDpassed)  
