@@ -454,9 +454,10 @@ class SurveyTextQuestion extends SurveyQuestion
 	function &getWorkingDataFromUserInput($post_data)
 	{
 		$entered_value = $post_data[$this->getId() . "_text_question"];
+		$data = array();
 		if (strlen($entered_value))
 		{
-			$data = array("textanswer" => $entered_value);
+			array_push($data, array("textanswer" => $entered_value));
 		}
 		return $data;
 	}
