@@ -243,6 +243,20 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
 		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle());
 
+		switch($this->user_settings->getTimeFormat())
+		{
+			case ilCalendarSettings::TIME_FORMAT_24:
+				$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+				break;
+				
+			case ilCalendarSettings::TIME_FORMAT_12:
+				$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+				break;
+		}
+		$title .= (' '.$a_app['event']->getPresentationTitle());
+		
+		$this->tpl->setVariable('APP_TITLE',$title);
+
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_BGCOLOR',$color);
 		$this->tpl->setVariable('APP_COLOR',ilCalendarUtil::calculateFontColor($color));
