@@ -305,7 +305,30 @@ class ilCalendarWeekGUI
 		$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 		$this->ctrl->setParameterByClass('ilcalendarappointmentgui','app_id',$a_app['event']->getEntryId());
 		$this->tpl->setVariable('APP_EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','edit'));
-		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle());
+		
+		if($a_app['event']->isFullDay())
+		{
+			$title = $a_app['event']->getPresentationTitle();
+		}
+		else
+		{
+			switch($this->user_settings->getTimeFormat())
+			{
+				case ilCalendarSettings::TIME_FORMAT_24:
+					$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'H:i',$this->timezone);
+					break;
+					
+				case ilCalendarSettings::TIME_FORMAT_12:
+					$title = $a_app['event']->getStart()->get(IL_CAL_FKT_DATE,'h:ia',$this->timezone);
+					break;
+			}
+			
+			
+			$title .= (' '.$a_app['event']->getPresentationTitle());
+		}
+		
+		$this->tpl->setVariable('APP_TITLE',$title);
+		
 		$this->tpl->setVariable('LINK_NUM',$this->num_appointments);
 		$this->tpl->parseCurrentBlock();
 		

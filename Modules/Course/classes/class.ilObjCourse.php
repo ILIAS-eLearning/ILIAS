@@ -1670,7 +1670,7 @@ class ilObjCourse extends ilContainer
 		{
 			case 'create':
 			case 'update':
-				if(!$this->getActivationUnlimitedStatus())
+				if(!$this->getActivationUnlimitedStatus() and !$this->getOfflineStatus())
 				{
 					$app = new ilCalendarAppointmentTemplate(self::CAL_ACTIVATION_START);
 					$app->setTitle($this->getTitle());
