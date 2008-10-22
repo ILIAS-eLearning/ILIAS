@@ -95,11 +95,11 @@ class Session {
         // Wenn die Session-ID übergeben wurde, muss sie
 				// nicht unbedingt gültig sein!
         
-        // Für weiteren Gebrauch merken    
+        // Für weiteren Gebrauch merken
         $this->usesCookies =
                        (isset($_COOKIE[session_name()]) &&
                         @strlen($_COOKIE[session_name()])
-                        == 32);
+                        >= 32);
     }    
  
 ### -------------------------------------------------------
