@@ -491,11 +491,14 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$selections = array();
 			$values = array();
 			$maxselection = 0;
-			foreach ($this->cumulated["values"] as $val)
+			if (is_array($this->cumulated["values"]))
 			{
-				if ($val["selected"] > $maxselection) $maxselection = $val["selected"];
-				array_push($selections, $val["selected"]);
-				array_push($values, $val["value"]);
+				foreach ($this->cumulated["values"] as $val)
+				{
+					if ($val["selected"] > $maxselection) $maxselection = $val["selected"];
+					array_push($selections, $val["selected"]);
+					array_push($values, $val["value"]);
+				}
 			}
 			$selectionlabels = "";
 			if ($maxselection % 2 == 0)
