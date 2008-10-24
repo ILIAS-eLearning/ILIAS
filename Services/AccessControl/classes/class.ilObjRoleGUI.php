@@ -109,6 +109,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			strtolower($_GET["baseClass"]) == 'illinkresourcehandlergui' ||
 			strtolower($_GET["baseClass"]) == 'ilsahseditgui' ||
 			strtolower($_GET["baseClass"]) == 'ilobjsurveygui' ||
+			strtolower($_GET["baseClass"]) == 'ilwikihandlergui' ||
 			strtolower($_GET["baseClass"]) == 'ilmediapoolpresentation' ||
 			strtolower($_GET["baseClass"]) == 'ilobjsurveyquestionpoolgui' ||
 			strtolower($_GET["baseClass"]) == 'ilobjtestgui' ||
@@ -2255,7 +2256,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	function showUpperIcon()
 	{
 		global $tree, $tpl, $objDefinition;
-		
+
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			if ($_GET["admin_mode"] == "settings"
