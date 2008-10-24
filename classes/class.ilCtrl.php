@@ -991,7 +991,8 @@ class ilCtrl
 	{
 		$a_class = strtolower($a_class);
 		
-		$this->getRequestToken();
+		$tok = $this->getRequestToken();
+//echo "-$tok-";
 
 		$script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch);
 		if ($a_fallback_cmd != "")
@@ -1031,9 +1032,21 @@ class ilCtrl
 		}
 		else
 		{
-			$this->rtoken = md5(uniqid(rand(), true));
-			if (is_object($ilDB) && is_object($ilUser))
+			if (is_object($ilDB) && is_object($ilUser) && $ilUser->getId() > 0 &&
+				$ilUser->getId() != ANONYMOUS_USER_ID)
 			{
+				$st = $ilDB->prepare("SELECT token FROM il_request_token WHERE user_id = ? AND session = ?",
+					array("integer", "text"));
+				$res =$ilDB->execute($st, array($ilUser->getId(), session_id()));
+				$rec = $ilDB->fetchAssoc($res);
+				
+				if ($rec["token"] != "")
+				{
+					return $rec["token"];
+				}
+				
+				$this->rtoken = md5(uniqid(rand(), true));
+				
 				// IMPORTANT: Please do NOT try to move this implementation to a
 				// session basis. This will fail due to framesets that are used
 				// occasionally in ILIAS, e.g. in the chat, where multiple
@@ -1043,6 +1056,7 @@ class ilCtrl
 					",".$ilDB->quote(session_id()).")");
 				return $this->rtoken;
 			}
+			//$this->rtoken = md5(uniqid(rand(), true));
 		}
 		return "";
 	}
@@ -1060,7 +1074,8 @@ class ilCtrl
 			return false;
 		}
 		
-		if (is_object($ilUser) && is_object($ilDB) && $ilUser->getId() > 0)
+		if (is_object($ilUser) && is_object($ilDB) && $ilUser->getId() > 0 &&
+			$ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$set = $ilDB->query("SELECT * FROM il_request_token WHERE ".
 				" user_id = ".$ilDB->quote($ilUser->getId())." AND ".  	 	 
@@ -1068,10 +1083,12 @@ class ilCtrl
 			if ($set->numRows() > 0) 		 
 			{
 				// remove used token
+				/*
 				$ilDB->query("DELETE FROM il_request_token WHERE ". 		 
 					" user_id = ".$ilDB->quote($ilUser->getId())." AND ". 		 
 					" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME]));
-					
+				*/
+
 				// remove tokens from older sessions
 				$ilDB->query("DELETE FROM il_request_token WHERE ". 		 
 					" user_id = ".$ilDB->quote($ilUser->getId())." AND ". 		 
