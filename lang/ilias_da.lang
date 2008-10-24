@@ -56,7 +56,7 @@ administration#:#language_administration#:#Sprogadministration
 administration#:#language_all_modules#:#Alle moduler
 administration#:#language_change_settings#:#Lav sprogindstillinger om
 administration#:#language_clear_local_changes#:#Fjern lokaleændringer i databasen
-administration#:#language_cleared_local#:#The local changes were cleared in the database.###23 08 2007 new variable
+administration#:#language_cleared_local#:#De lokale ændringer blev fjernet fra databasen.
 administration#:#language_compare#:#Sammenlign:
 administration#:#language_default_entries#:# (standard emner)
 administration#:#language_delete_local_changes#:#Slet alle lokale ændringer i databasen
@@ -65,7 +65,7 @@ administration#:#language_error_read_local#:#Den lokale sprogfil eksisterer ikke
 administration#:#language_error_write_local#:#Kunne ikke skrive den lokale sprogfil
 administration#:#language_export_file#:#Eksporter sprogfil
 administration#:#language_file_imported#:#Sprogfilen %s blev importeret
-administration#:#language_file_scope#:#Language file scope###23 08 2007 new variable
+administration#:#language_file_scope#:#Sprogfils omfang
 administration#:#language_import_file#:#Importer sprogfil
 administration#:#language_load_local_changes#:#Indlæs lokal sprogfil til databasen
 administration#:#language_loaded_local#:#Den lokale sprogfil blev indlæst i databasen.
@@ -370,18 +370,18 @@ common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 20
 common#:#auth_allow_local#:#Tillad lokal autentificering
 common#:#auth_cas#:#CAS
 common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
-common#:#auth_cas_auth#:#Configure CAS Authentication
+common#:#auth_cas_auth#:#Konfigurer CAS autentificering
 common#:#auth_cas_auth_desc#:#CAS kræver PHP 4.3.1 eller senere med CURL support (7.5 eller senere)
 common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.
 common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
-common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
+common#:#auth_cas_server_desc#:#F.eks. auth.yourserver.com hvis den fulde CAS server URI er https://auth.yourserver.com:443/cas/
 common#:#auth_cas_settings_saved#:#CAS settings saved
 common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_user_default_role_desc#:#Denne rolle tildeles automatisk CAS oprettede brugere.
 common#:#auth_configure#:#Konfigurer...
 common#:#auth_create_users#:#Opret automatisk ikke-eksisterende brugere
 common#:#auth_default#:#Standardinstillinger
-common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
+common#:#auth_default_mode_changed_to#:#Standard autentificerings metode ændret til 
 common#:#auth_edit_permission#:#Rediger rettighedsindstillinger
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Verificer brugere via LDAP serveren
@@ -536,7 +536,7 @@ common#:#cat_write#:#Rediger kategori
 common#:#categories#:#Kategorier
 common#:#categories_imported#:#Import af kategorier er gennemført
 common#:#cc#:#CC
-common#:#cen#:#Centrabegivenhed###
+common#:#cen#:#Centrabegivenhed
 common#:#cen_add#:#Tilføj Centrabegivenhed
 common#:#cen_added#:#Centrabegivenhed tilføjet
 common#:#cen_delete#:#Slet Centrabegivenhed
@@ -597,7 +597,7 @@ common#:#check_link#:#Linkcheck
 common#:#check_link_desc#:#Hvis aktiveret, vil alle eksterne links i ILIAS læremoduler blive checket om de er aktiveret
 common#:#check_max_allowed_packet_size#:#Sidefilens indhold er for stort.
 common#:#check_user_accounts#:#Check brugerkonti
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by email.###21 Apr 2005 new variable
+common#:#check_user_accounts_desc#:#Hvis cron jobs er aktiverede og denne funktion er aktiveret vil brugers hvis konto udløber blive informeret pr. mail.
 common#:#check_web_resources#:#Check webresurser
 common#:#check_web_resources_desc#:#Hvis sat til, vil alle webresurser blive checket om de er aktiveret
 common#:#checked_files#:#Importerbare filer
@@ -773,7 +773,7 @@ common#:#default_skin#:#Standarddesign
 common#:#default_skin_style#:#Standardesign/-layout
 common#:#default_style#:#Standardlayout
 common#:#default_value#:#Standardværdi
-common#:#defaults#:#Defaults###25 02 2007 new variable
+common#:#defaults#:#Standarder
 common#:#delete_all#:#Slet Alle
 common#:#delete_all_rec#:#Slet alt indhold
 common#:#delete_object#:#Slet Objekter
@@ -782,7 +782,7 @@ common#:#delete_selected_items#:#Slet valgte
 common#:#delete_tr_data#:#Slet Sporingsdata
 common#:#deleted#:#Slettet
 common#:#deleted_user#:#Brugeren er blever slettet
-common#:#deleted_users#:#Slettede brugere###23 Mar 2006 new variable
+common#:#deleted_users#:#Slettede brugere
 common#:#deliver#:#Deliver exercise###21 Apr 2005 new variable
 common#:#department#:#Afdeling
 common#:#desc#:#Beskrivelse
@@ -795,7 +795,7 @@ common#:#disable#:#deaktiver
 common#:#disable_check#:#deaktiver kontrol
 common#:#domain#:#Domæne
 common#:#down#:#Nede
-common#:#download#:#Download###21 Apr 2005 new variable
+common#:#download#:#Download
 common#:#download_all_returned_files#:#Download alle returnerede filer
 common#:#drafts#:#Kladder
 common#:#drop#:#Slip
@@ -1102,7 +1102,7 @@ common#:#group_filesharing#:#Gruppefildeling
 common#:#group_import#:#Importer gruppe
 common#:#group_import_file#:#Importer fil
 common#:#group_info_reg#:#Adgangsbetingelser
-common#:#group_members#:#Gruppemedlemmer###Could be \\'Gruppemedlemmer\\'
+common#:#group_members#:#Gruppemedlemmer
 common#:#group_memstat#:#Medlemsstatus
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#medlemer
@@ -1117,7 +1117,7 @@ common#:#group_registration#:#Indmeldelse
 common#:#group_registration_expiration_date#:#Udløbsdag
 common#:#group_registration_expiration_time#:#Udløbstid
 common#:#group_registration_expired#:#Registreringsperioden er udløbet eller du er (endnu) ikke aktiveret
-common#:#group_registration_expired_msg#:#The time period for joining this group has expired. Please contact a group administrator, if you want to join this group.###23 Dec 2005 new variable
+common#:#group_registration_expired_msg#:#Perioden hvor du kunne tilmelde dig gruppen er udløbet. Kontakt gruppeadministratoren hvis du vil indmeldes i gruppen.
 common#:#group_registration_mode#:#Tilmeldingsmetode
 common#:#group_registration_time#:#Indmeldelsesperiode
 common#:#group_req_direct#:#Direkte registrering
@@ -1202,7 +1202,7 @@ common#:#grp_no_results_found#:#Der blev ikke fundet nogen resultater.
 common#:#grp_no_roles_selected#:#Vælg venligst en rolle
 common#:#grp_options#:#Muligheder
 common#:#grp_read#:#Læserettighed til en gruppe
-common#:#grp_register#:#Registrer###23 Dec 2005 content changed
+common#:#grp_register#:#Tilmeld
 common#:#grp_registration#:#Tilmeld
 common#:#grp_registration_completed#:#Registreringen er gennemført
 common#:#grp_search_enter_search_string#:#Skriv et søgeord
@@ -1272,7 +1272,7 @@ common#:#htlm_new#:#Nyt HTML Læremodul
 common#:#htlm_read#:#Læs HTML Læremodul
 common#:#htlm_visible#:#HTML læremodule er synligt
 common#:#htlm_write#:#Rediger HTML Læremodul
-common#:#http#:#HTTP###07 Sep 2005 new variable
+common#:#http#:#HTTP
 common#:#http_not_possible#:#Denne server understøtter ikke http Forespørgelser.
 common#:#http_path#:#Http Sti
 common#:#https_not_possible#:#Denne server understøtter ikke HTTPS forbindelser.
@@ -1302,7 +1302,7 @@ common#:#icrs_read#:#Læseadgang til iLinc kursus
 common#:#icrs_visible#:#iLinckursus er synligt
 common#:#icrs_write#:#Rediger iLinckursus
 common#:#id#:#ID
-common#:#identifier#:#identifier###21 Apr 2005 new variable
+common#:#identifier#:#Identifikation
 common#:#if_no_title_then_filename#:#Lad den forblive blank for at få vist filnavnet
 common#:#if_no_title_then_url#:#Hvis blank vises URL'en
 common#:#ignore_on_conflict#:#Ignorer ved konflikt
@@ -1321,7 +1321,7 @@ common#:#ilinc_akclassvalue#:#Cost center
 common#:#ilinc_akclassvalues#:#Cost centers
 common#:#ilinc_classroom_always_open#:#Klasseværelset er altid åbent
 common#:#ilinc_classroom_closed#:#Klasseværrelse er lukket
-common#:#ilinc_classroom_open#:#Classroom is open###17 Aug 2005 new variable
+common#:#ilinc_classroom_open#:#Klasserummet er tilgængeligt
 common#:#ilinc_classrooms#:#iLinc Classrooms###21 Apr 2005 new variable
 common#:#ilinc_coursemember_status#:#Attending as###17 Aug 2005 new variable
 common#:#ilinc_courses#:#iLinc kurser
@@ -1413,11 +1413,11 @@ common#:#info_permission_origin#:#Oprindelig position
 common#:#info_permission_source#:#gældende fra
 common#:#info_remark_interrupted#:#Rollen er blevet afbrudt i denne position. Rollens aktive standardadgangsrettigheder kan lokaliseres i den position
 common#:#info_short#:#Info
-common#:#info_status_info#:#Statusinformation###20 Jun 2005 new variable
+common#:#info_status_info#:#Statusinformation
 common#:#info_trash#:#Slettede Objekter
 common#:#info_view_of_user#:#Bruger
 common#:#inform_user_mail#:#Send email for at informere brugere om ændringer
-common#:#information_abbr#:#Info###21 Apr 2005 new variable
+common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#Alle LE
 common#:#ingmedia_back_to_le#:#tilbage til LE
 common#:#ingmedia_good_afternoon#:#God eftermiddag
@@ -1450,7 +1450,7 @@ common#:#install#:#Installer
 common#:#install_local#:#Installer med lokal
 common#:#installed#:#Installeret
 common#:#installed_local#:#Installeret med lokalt sprog
-common#:#institution#:#Institution###21 Apr 2005 new variable
+common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Lokale roller (kun autogenereret)
 common#:#internal_system#:#Internt system
 common#:#ip_address#:#IP-adresse
@@ -1467,7 +1467,7 @@ common#:#buy#:#Køb
 common#:#kb#:#KByte
 common#:#keywords#:#Nøgleord
 common#:#lang_bg#:#Bulgarsk
-common#:#lang_cs#:#Czech###21 Apr 2005 new variable
+common#:#lang_cs#:#Tjekkisk
 common#:#lang_da#:#dansk
 common#:#lang_dateformat#:#d-m-Y
 common#:#lang_de#:#Tysk
@@ -1477,18 +1477,18 @@ common#:#lang_en#:#Engelsk
 common#:#lang_es#:#Spansk
 common#:#lang_fi#:#Finsk
 common#:#lang_fr#:#Fransk
-common#:#lang_ge#:#Georgian###21 Apr 2005 new variable
+common#:#lang_ge#:#Georgiansk
 common#:#lang_hu#:#ungarsk
 common#:#lang_id#:#Indonesisk
 common#:#lang_it#:#Italiensk
 common#:#lang_ja#:#Japansk
-common#:#lang_lt#:#Lithuanian###21 Apr 2005 new variable
+common#:#lang_lt#:#Lithauisk
 common#:#lang_nl#:#tysk
 common#:#lang_no#:#Norsk
 common#:#lang_path#:#sprog ski
 common#:#lang_pl#:#Polsk
 common#:#lang_pt#:#Portugisk
-common#:#lang_ro#:#Romanian###22 Apr 2005 new variable
+common#:#lang_ro#:#Romænsk
 common#:#lang_ru#:#Russisk
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
@@ -1542,12 +1542,12 @@ common#:#learning_resources#:#Læreresourcer
 common#:#level#:#Niveau
 common#:#link#:#Link
 common#:#link_check#:#Linkcheck
-common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###21 Apr 2005 new variable
+common#:#link_check_body_top#:#Du modtager denne besked fordi du har bedt om at blive informeret om ubrugelige links i de følgende læremoduler:
 common#:#link_check_message_b#:#Hvis aktiveret, vil du blive informeret om ugyldige links via din email
 common#:#link_check_message_disabled#:#Besked ikke aktiv
 common#:#link_check_message_enabled#:#Besked aktiv
-common#:#link_check_subject#:#[ILIAS 3] Link check
-common#:#link_checker_refreshed#:#Refreshed view###21 Apr 2005 new variable
+common#:#link_check_subject#:#[ILIAS] Link check
+common#:#link_checker_refreshed#:#Opdateret visning
 common#:#link_dynamic_info#:#Du kan tilføje dynamiske parametre så som ILIAS brugerid.
 common#:#link_selected_items#:#Link til valgte
 common#:#linked_object#:#Denne objekt er blevet linked
@@ -1583,10 +1583,10 @@ common#:#lm_join#:#tilmeld til ILIAS Læremodul
 common#:#lm_leave#:#Afmeld ILIAS Læremodul
 common#:#lm_new#:#Nyt ILIAS Læremodul
 common#:#lm_read#:#Læseadgang til ILIAS læremodul
-common#:#lm_type_aicc#:#AICC###21 Apr 2005 new variable
-common#:#lm_type_hacp#:#HACP###21 Apr 2005 new variable
-common#:#lm_type_scorm#:#SCORM###21 Apr 2005 new variable
-common#:#lm_type_scorm2004#:#SCORM 2004###10 05 2007 new variable
+common#:#lm_type_aicc#:#AICC
+common#:#lm_type_hacp#:#HACP
+common#:#lm_type_scorm#:#SCORM
+common#:#lm_type_scorm2004#:#SCORM 2004
 common#:#lm_visible#:#ILIAS Læremodul er synligt
 common#:#lm_write#:#Rediger ILIAS Læremodul
 common#:#lng#:#Sprog
@@ -1643,7 +1643,7 @@ common#:#mail_import#:#Importer
 common#:#mail_import_file#:#Exporter fil
 common#:#mail_intern_enable#:#Aktiver
 common#:#mail_mail_visible#:#Brugeren kan nu bruge mail systemet
-common#:#mail_mails_of#:#Mail###21 Apr 2005 new variable
+common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max vedhæftet størrelse
 common#:#mail_maxsize_box#:#Max. mailboks størrelse
 common#:#mail_maxsize_mail#:#Max. mail størrelse
@@ -1668,7 +1668,7 @@ common#:#mail_write#:#Rediger mailindstillinger
 common#:#mail_z_local#:#Brugermappe
 common#:#mails#:#Mail
 common#:#mails_pl#:#Mail(s)
-common#:#main_menu_frame#:#Top level menu###28 Feb 2006 new variable
+common#:#main_menu_frame#:#Topmenu
 common#:#manage_tracking_data#:#Kontroller sporingsdata
 common#:#mark_all_read#:#Marker alle som læst
 common#:#mark_all_unread#:#Marker alle som ulæst
@@ -1909,7 +1909,7 @@ common#:#no_users_applied#:#Vælg venligst en bruger.
 common#:#no_users_selected#:#Vælg venligst en bruger.
 common#:#no_xml_file_found_in_zip#:#XML fil i zip filen er ikke fundet:
 common#:#no_zip_file#:#Ingen zip file er fundet.
-common#:#non_internal_local_roles_only#:#Lokal roller (kun bruger definerede)
+common#:#non_internal_local_roles_only#:#Lokale brugerdefinerede roller
 common#:#none#:#Ingen
 common#:#normal#:#Normal
 common#:#not_accessed#:#Ikke tilgået
@@ -7249,9 +7249,9 @@ trac#:#trac_anonymized#:#Anonymiseret
 trac#:#trac_anonymized_info#:#If enabled, all statistics will be anonymized.###23 Dec 2005 new variable
 trac#:#trac_assigned#:#Tildelt
 trac#:#trac_assignments#:#Tildelinger
-trac#:#trac_below#:#Below:###28 Feb 2006 new variable
-trac#:#trac_collection_assign#:#Assign###23 Dec 2005 new variable
-trac#:#trac_collection_deassign#:#Deassign###23 Dec 2005 new variable
+trac#:#trac_below#:#Nedenfor:
+trac#:#trac_collection_assign#:#Tildel
+trac#:#trac_collection_deassign#:#Fjern
 trac#:#trac_comment#:#Kommentar
 trac#:#trac_comments#:#Kommentarer
 trac#:#trac_completed#:#Afsluttet
@@ -7262,7 +7262,7 @@ trac#:#trac_crs_objects#:#Lærefremskridt for deltagere
 trac#:#trac_crs_releavant_items#:#Course items###23 Dec 2005 new variable
 trac#:#trac_crs_relevant_items#:#Kursusmateriale
 trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
-trac#:#trac_edit_progress#:#Edit learning progress###28 Feb 2006 new variable
+trac#:#trac_edit_progress#:#Ret lærefremskridt
 trac#:#trac_edit_time#:#Processing time###28 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
 trac#:#trac_edited_scos#:#Processed content###28 Feb 2006 new variable
@@ -8678,15 +8678,19 @@ common#:#crsr_edit_info#:#Vælg et kursus for at lave en ny reference
 common#:#catr_edit_info#:#Vælg en kategori for at lave en ny reference
 common#:#reference_deleted#:#Målet er ikke tilgængeligt
 cntr#:#cntr_hide_title_and_icon#:#Skjul titel og ikon
-cmps#:#cmps_responsible#:#Responsible###07 10 2008 new variable
+cmps#:#cmps_responsible#:#Ansvarlig
 common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)###07 10 2008 new variable
-common#:#clone_target#:#Target Folder###07 10 2008 new variable
-common#:#clone_option_in_cat#:#Copy in Existing Category###07 10 2008 new variable
-common#:#clone_option_in_crs#:#Copy in Existing Course###07 10 2008 new variable
-common#:#cat_title#:#Category Title###07 10 2008 new variable
-common#:#crs_title#:#Course Title###07 10 2008 new variable
-common#:#clone_existing_course#:#Copy Existing Course###07 10 2008 new variable
+common#:#clone_target#:#Til folder
+common#:#clone_option_in_cat#:#Kopier i eksisterende kategori
+common#:#clone_option_in_crs#:#Kopier eksisterende kursus
+common#:#cat_title#:#Kategorititel
+common#:#crs_title#:#Kursustitel
+common#:#clone_existing_course#:#Kopier eksisterende kursus
 survey#:#use_google_chart_api#:#Use Google Chart API###07 10 2008 new variable
+survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Bemærk at permanent internetforbindelse kræves for at Google Chart virker.
+dateplaner#:#cal_cal_details#:#Kalenderdetaljer
+dateplaner#:#cal_type_crs#:#Kursuskalender
+dateplaner#:#cal_type_grp#:#Gruppekalender
 survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work###07 10 2008 new variable
 dateplaner#:#cal_cal_details#:#Calendar Details###10 10 2008 new variable
 dateplaner#:#cal_type_crs#:#Course Calendar###10 10 2008 new variable
@@ -8697,3 +8701,4 @@ wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes
 wiki#:#wiki_page_deleted#:#Wiki page deleted.###17 10 2008 new variable
 content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.###17 10 2008 new variable
 content#:#cont_page_currently_deactivated#:#Sorry, but this page is currently deactivated.###17 10 2008 new variable
+
