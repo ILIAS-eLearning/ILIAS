@@ -9,7 +9,7 @@ function handleTDInput(el)
 
 function handleDataTableCommand(type, command)
 {
-	obj = document.getElementById("dtform");
+	obj = document.getElementById("post");
 	hid_type = document.getElementById("dtform_type");
 	hid_type.value = type;
 	hid_cmd = document.getElementById("dtform_command");
@@ -25,6 +25,9 @@ var current_row_col;
 //-->
 </script>
 <form action="{FORMACTION}" id="post" name="post" method="post">
+<input type="hidden" id="dtform_type" name="type" value="" />
+<input type="hidden" id="dtform_command" name="action" value="" />
+<input type="hidden" id="dtform_nr" name="id" value="" />
 <table class="fullwidth">
 <tr class="tblheader">
 	<td class="std">
@@ -88,9 +91,9 @@ var current_row_col;
 <!-- END menu -->
 
 <!-- data table command form -->
-<form style="visibility:hidden;" name="dtform" id="dtform" method="post" action="{FORMACTION2}">
+<!-- <form style="visibility:hidden;" name="dtform" id="dtform" method="post" action="{FORMACTION2}">
 <input type="hidden" id="dtform_type" name="type" value="" />
 <input type="hidden" id="dtform_command" name="action" value="" />
 <input type="hidden" id="dtform_nr" name="id" value="" />
-</form>
+</form> -->
 
