@@ -270,9 +270,11 @@ class SurveyImportParser extends ilSaxParser
 				if (strlen($type))
 				{
 					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-					SurveyQuestion::_includeClass($type);
-					$this->activequestion = new $type();
-					$this->activequestion->setObjId($this->spl->getId());
+					if (SurveyQuestion::_includeClass($type))
+					{
+						$this->activequestion = new $type();
+						$this->activequestion->setObjId($this->spl->getId());
+					}
 				}
 				else
 				{
@@ -662,7 +664,10 @@ class SurveyImportParser extends ilSaxParser
 				array_push($this->variables, $this->characterbuffer);
 				break;
 			case "variables":
-				$this->activequestion->importVariables($this->variables);
+				if (is_object($this->activequestion))
+				{
+					$this->activequestion->importVariables($this->variables);
+				}
 				break;
 			case "response_single":
 			case "response_multiple":
