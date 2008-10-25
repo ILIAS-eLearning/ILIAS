@@ -2295,6 +2295,9 @@
 		<xsl:if test="@Characteristic">
 			<xsl:attribute name="class"><xsl:value-of select="@Characteristic"/></xsl:attribute>
 		</xsl:if>
+		<xsl:if test="$mode = 'edit'">
+			<xsl:attribute name="style">min-height: 60px; height: auto !important; height: 60px;</xsl:attribute>
+		</xsl:if>
 		<xsl:call-template name="EditReturnAnchors"/>
 		<!-- command selectbox -->
 		<xsl:if test="$mode = 'edit'">
@@ -2318,6 +2321,9 @@
 				<xsl:with-param name="pc_id" select="../@PCID" />
 				<xsl:with-param name="edit">y</xsl:with-param>
 			</xsl:call-template>
+		</xsl:if>
+		<xsl:if test="$mode = 'edit'">
+			<br />
 		</xsl:if>
 	</div>
 </xsl:template>
