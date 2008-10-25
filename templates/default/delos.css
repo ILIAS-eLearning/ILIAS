@@ -1676,18 +1676,32 @@ div.il_droparea
 	font-size: 1px;
 	background-image: url(images/drop_back.gif);
 	background-repeat: repeat;
-	padding: 2px 0px;
+	padding: 0px 0px;
+	text-align: center;
 }
 
 div.il_droparea_active
 {
-	padding: 2px 0px;
+	padding: 0px 0px;
 	border-style: solid;
 	border-width: 1px;
 	border-color: #000000;
 	font-size: 1px;
 	background-image: url(images/drop_back_active.gif);
 	background-repeat: repeat;
+	text-align: center;
+}
+
+div.il_droparea_valid_target
+{
+	padding: 0px 0px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000000;
+	font-size: 1px;
+	background-image: url(images/drop_back.gif);
+	background-repeat: repeat;
+	text-align: center;
 }
 
 div.il_editarea_nojs

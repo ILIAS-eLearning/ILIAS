@@ -95,7 +95,7 @@ return parent::edit();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tabledata.html", "Services/COPage");
 		$dtpl = $this->tpl;
 		//$dtpl = new ilTemplate("tpl.tabledata.html", true, true, "Services/COPage");
-		$dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
 		$dtpl->setVariable("BB_MENU", $this->getBBMenu());
 		
 		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
@@ -267,15 +267,17 @@ return parent::edit();
 	/**
 	* update table data in dom and update page in db
 	*/
-	function update()
+	function update($a_redirect = true)
 	{
-		global $ilBench;
+		global $ilBench, $lng;
 
 		$ilBench->start("Editor","Data_Table_update");
 
 		// handle input data
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		$data = array();
+//var_dump($_POST);
+//var_dump($_GET);
 		if (is_array($_POST["cell"]))
 		{
 			foreach ($_POST["cell"] as $i => $row)
@@ -297,23 +299,18 @@ return parent::edit();
 		if ($this->updated !== true)
 		{
 			$ilBench->stop("Editor","Data_Table_update");
-			$this->edit();
+			$this->editData();
 			return;
 		}
 
 		$this->updated = $this->pg_obj->update();
 		$ilBench->stop("Editor","Data_Table_update");
 
-		$this->ctrl->redirect($this, "editData");
-/*		if ($this->updated === true)
+		if ($a_redirect)
 		{
-			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			ilUtil::sendInfo($lng->txt("msg_obj_modified", true));
+			$this->ctrl->redirect($this, "editData");
 		}
-		else
-		{
-			$this->edit();
-		}
-*/
 	}
 	
 	/**
@@ -624,6 +621,9 @@ return;
 	function tableAction()
 	{
 		global $ilCtrl;
+
+		$this->update(false);
+		$this->pg_obj->addHierIDs();
 
 		$cell_hier_id = ($_POST["type"] == "col")
 			? $this->hier_id."_1_".($_POST["id"] + 1)

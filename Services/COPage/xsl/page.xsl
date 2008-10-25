@@ -91,7 +91,7 @@
 				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
 				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
 				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
-			<img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
+			<img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
 			</div>
 			<!-- insert menu for drop area -->
 			<xsl:call-template name="EditMenu">
@@ -362,7 +362,7 @@
 				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
 				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
 				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
-				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute><img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
+				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute><img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
 			</div>
 		</xsl:if>
 
@@ -550,12 +550,20 @@
 		</xsl:call-template>
 	</xsl:if>
 
-	<!-- insert code -->
+	<!-- insert media object -->
 	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_src</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_code</xsl:with-param>
+		<xsl:with-param name="command">insert_mob</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_media</xsl:with-param>
 	</xsl:call-template>
-	
+
+	<!-- insert file list -->
+	<xsl:if test = "$enable_file_list = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_flst</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 	<!-- insert data table -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_dtab</xsl:with-param>
@@ -568,26 +576,12 @@
 		<xsl:with-param name="langvar">ed_insert_atable</xsl:with-param>
 	</xsl:call-template>
 	
-	<!-- insert media object -->
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">insert_mob</xsl:with-param>
-		<xsl:with-param name="langvar">ed_insert_media</xsl:with-param>
-	</xsl:call-template>
-	
 	<!-- insert list -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_list</xsl:with-param>
 		<xsl:with-param name="langvar">ed_insert_list</xsl:with-param>
 	</xsl:call-template>
 	
-	<!-- insert file list -->
-	<xsl:if test = "$enable_file_list = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">insert_flst</xsl:with-param>
-			<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-
 	<!-- insert section -->
 	<xsl:call-template name="EditMenuItem">
 		<xsl:with-param name="command">insert_sec</xsl:with-param>
@@ -601,6 +595,12 @@
 			<xsl:with-param name="langvar">ed_insert_map</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
+
+	<!-- insert code -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">insert_src</xsl:with-param>
+		<xsl:with-param name="langvar">ed_insert_code</xsl:with-param>
+	</xsl:call-template>
 
 	<!-- insert tabbed content -->
 	<xsl:if test = "$enable_tabs = 'y'">
@@ -724,7 +724,7 @@
 			<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active');</xsl:attribute>
 			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
 			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>');</xsl:attribute>
-		<img src="./templates/default/images/empty.gif" border="0" width="8" height="8" />
+		<img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
 		</div>
 	</xsl:if>
 	<!-- insert menu for drop area -->
@@ -1306,13 +1306,13 @@
 <xsl:template name="TableMenu">
 	<xsl:param name="hier_id"/>
 
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
-	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
-	
 	<xsl:if test="@DataTable = 'y'">
 		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editData</xsl:with-param>
 		<xsl:with-param name="langvar">ed_edit_data</xsl:with-param></xsl:call-template>
 	</xsl:if>
+
+	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
+	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
 	
 	<!--
 	<xsl:if test="$hier_id != 'pg'">
