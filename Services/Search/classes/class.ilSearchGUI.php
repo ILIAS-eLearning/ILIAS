@@ -619,7 +619,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 				$meta_search->setMode('description');
 				break;
 		}
-	   return $meta_search->performSearch();
+	    return $meta_search->performSearch();
 	}
 	/**
 	* Get object type for filter (If detail search is enabled)

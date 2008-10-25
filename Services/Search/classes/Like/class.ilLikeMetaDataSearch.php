@@ -50,7 +50,7 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 	function __createKeywordWhereCondition()
 	{
 		$concat = ' keyword ';
-		$where = " WHERE ";
+		$where = " WHERE (";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -61,13 +61,13 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 			$where .= $concat;
 			$where .= (" LIKE ('%".$word."%')");
 		}
-		return $where;
+		return $where.') ';
 	}		
 
 	function __createContributeWhereCondition()
 	{
 		$concat = ' entity ';
-		$where = " WHERE ";
+		$where = " WHERE (";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -78,7 +78,7 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 			$where .= $concat;
 			$where .= (" LIKE ('%".$word."%')");
 		}
-		return $where;
+		return $where.') ';
 	}		
 	function __createTitleWhereCondition()
 	{
@@ -86,7 +86,7 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 		// TODO: fix coverage search
 		$concat = ' title ';
 		
-		$where = " WHERE ";
+		$where = " WHERE (";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -97,13 +97,13 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 			$where .= $concat;
 			$where .= (" LIKE ('%".$word."%')");
 		}
-		return $where;
+		return $where.' )';
 	}
 
 	function __createDescriptionWhereCondition()
 	{
 		$concat = ' description ';
-		$where = " WHERE ";
+		$where = " WHERE (";
 		$counter = 0;
 		foreach($this->query_parser->getQuotedWords() as $word)
 		{
@@ -114,7 +114,7 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
 			$where .= $concat;
 			$where .= (" LIKE ('%".$word."%')");
 		}
-		return $where;
+		return $where.') ';
 	}
 }
 ?>
