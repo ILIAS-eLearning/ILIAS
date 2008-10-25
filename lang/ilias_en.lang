@@ -1683,6 +1683,7 @@ wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes
 wiki#:#wiki_created_by#:#Created By
 wiki#:#wiki_page_deleted#:#Wiki page deleted.
 wiki#:#wiki_last_changed#:#Last Change
+wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.
 wiki#:#wiki_page_hits#:#Page Hits
 wiki#:#wiki_history#:#History
 wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation

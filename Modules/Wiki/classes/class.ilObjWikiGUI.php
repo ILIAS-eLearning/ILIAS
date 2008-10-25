@@ -661,7 +661,6 @@ class ilObjWikiGUI extends ilObjectGUI
 			$a_target = substr($a_target, 0, $i);
 		}
 			
-
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
 			$_GET["cmd"] = "viewPage";
@@ -739,8 +738,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		if (!ilWikiPage::exists($this->object->getId(), $page))
 		{
-			ilUtil::sendInfo($lng->txt("wiki_no_start_page"));
-			$this->infoScreen();
+			ilUtil::sendInfo($lng->txt("wiki_no_start_page"), true);
+			$ilCtrl->redirect($this, "infoScreen");
 			return;
 		}
 		
