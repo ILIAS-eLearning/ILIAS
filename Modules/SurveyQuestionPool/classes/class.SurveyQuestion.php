@@ -1769,6 +1769,7 @@ class SurveyQuestion
 		if (file_exists("./Modules/SurveyQuestionPool/classes/class.".$type.".php"))
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.".$type.".php";
+			return true;
 		}
 		else
 		{
@@ -1780,9 +1781,11 @@ class SurveyQuestion
 				if (strcmp($pl->getQuestionType(), $question_type) == 0)
 				{
 					$pl->includeClass("class.".$type.".php");
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	/**
