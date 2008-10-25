@@ -743,6 +743,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			return $this->__raiseError('Node already deleted','Server');
 		}
 
+		if($del_obj->getType() == 'rolf')
+		{
+			return $this->__raiseError('Delete is not available for role folders.','Client');
+		}
+
 		$subnodes = $tree->getSubtree($tree->getNodeData($reference_id));
 		foreach($subnodes as $subnode)
 		{
