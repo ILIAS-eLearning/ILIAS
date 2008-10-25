@@ -176,11 +176,15 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$page_commands = false;
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
-			$wtpl->setCurrentBlock("page_command");
-			$wtpl->setVariable("HREF_PAGE_CMD",
-				$ilCtrl->getLinkTarget($this, "deleteWikiPageConfirmationScreen"));
-			$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("delete"));
-			$wtpl->parseCurrentBlock();
+			$st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
+			if ($st_page != $this->getPageObject()->getTitle())
+			{
+				$wtpl->setCurrentBlock("page_command");
+				$wtpl->setVariable("HREF_PAGE_CMD",
+					$ilCtrl->getLinkTarget($this, "deleteWikiPageConfirmationScreen"));
+				$wtpl->setVariable("TXT_PAGE_CMD", $lng->txt("delete"));
+				$wtpl->parseCurrentBlock();
+			}
 		}		
 		if ($page_commands)
 		{
