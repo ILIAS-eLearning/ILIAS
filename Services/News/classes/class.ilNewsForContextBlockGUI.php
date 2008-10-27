@@ -592,7 +592,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			if (trim($item["content"]) != "")		// content
 			{
 				$tpl->setCurrentBlock("content");
-				$tpl->setVariable("VAL_CONTENT", ilUtil::makeClickable($item["content"]));
+				$tpl->setVariable("VAL_CONTENT",
+					nl2br(ilUtil::makeClickable($item["content"])));
 				$tpl->parseCurrentBlock();
 			}
 			if (trim($item["content_long"]) != "")	// long content

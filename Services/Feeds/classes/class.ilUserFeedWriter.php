@@ -114,7 +114,7 @@ class ilUserFeedWriter extends ilFeedWriter
 				$feed_item->setTitle($loc." ".$obj_title.": ".$this->prepareStr(str_replace("<br />", " ", $title)));
 								
 				// description
-				$content = $this->prepareStr($item["content"]);
+				$content = $this->prepareStr(nl2br($item["content"]));
 				$feed_item->setDescription($content);
 				$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);

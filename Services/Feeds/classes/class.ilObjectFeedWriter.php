@@ -146,7 +146,7 @@ class ilObjectFeedWriter extends ilFeedWriter
 			}
 
 			$feed_item->setTitle($loc." ".$obj_title.": ".$this->prepareStr($title));
-			$feed_item->setDescription($this->prepareStr($item["content"]));
+			$feed_item->setDescription($this->prepareStr(nl2br($item["content"])));
 			$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 				"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
 			$feed_item->setAbout($feed_item->getLink()."&amp;il_about_feed=".$item["id"]);
