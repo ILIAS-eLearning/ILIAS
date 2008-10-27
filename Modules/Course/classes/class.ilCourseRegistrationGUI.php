@@ -571,6 +571,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			$waiting_list->addToList($ilUser->getId());
 			$info = sprintf($this->lng->txt('crs_added_to_list'),$waiting_list->getPosition($ilUser->getId()));
+			$this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,$ilUser->getId());
 			ilUtil::sendInfo($info,true);
 			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 		}
@@ -582,6 +583,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				$this->participants->addSubscriber($ilUser->getId());
 				$this->participants->updateSubscriptionTime($ilUser->getId(),time());
 				$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['grp_subject']));
+				$this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,$ilUser->getId());
 				
 				ilUtil::sendInfo($this->lng->txt("application_completed"),true);
 				ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
@@ -589,6 +591,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			
 			default:
 				$this->participants->add($ilUser->getId(),IL_CRS_MEMBER);
+				$this->participants->sendNotification($this->participants->NOTIFY_ADMINS,$ilUser->getId());
 				ilUtil::sendInfo($this->lng->txt("crs_subscription_successful"),true);
 				$this->ctrl->returnToParent($this);
 				break;
