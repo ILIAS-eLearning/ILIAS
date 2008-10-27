@@ -8691,9 +8691,7 @@ survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated res
 dateplaner#:#cal_cal_details#:#Kalenderdetaljer
 dateplaner#:#cal_type_crs#:#Kursuskalender
 dateplaner#:#cal_type_grp#:#Gruppekalender
-dateplaner#:#cal_cal_details#:#Calendar Details###10 10 2008 new variable
 dateplaner#:#cal_type_crs#:#Kursuskalender
-dateplaner#:#cal_type_grp#:#Gruppekalender
 wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?###17 10 2008 new variable
 wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page###17 10 2008 new variable
 wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page###17 10 2008 new variable
