@@ -1929,7 +1929,10 @@ class ilObjContentObject extends ilObject
 		{
 			$source_file = $file_obj->getDirectory()."/".$file_obj->getFileName();
 		}
-		copy($source_file, $file_dir."/".$file_obj->getFileName());
+		if (is_file($source_file))
+		{
+			copy($source_file, $file_dir."/".$file_obj->getFileName());
+		}
 	}
 
 	/**
