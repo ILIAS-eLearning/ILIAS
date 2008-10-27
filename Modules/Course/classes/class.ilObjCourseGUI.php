@@ -2349,13 +2349,13 @@ class ilObjCourseGUI extends ilContainerGUI
 		$passed = $_POST['passed'] ? $_POST['passed'] : array();
 		$blocked = $_POST['blocked'] ? $_POST['blocked'] : array();
 		
-                // Determine whether the user has the 'edit_permission' permission
+		// Determine whether the user has the 'edit_permission' permission
 		$hasEditPermissionAccess = $rbacsystem->checkAccess('edit_permission', $this->object->getRefId());
 
-                // Get all assignable local roles of the course object, and
-                // determine the role id of the course administrator role.
+		// Get all assignable local roles of the course object, and
+		// determine the role id of the course administrator role.
 		$assignableLocalCourseRoles = array();
-                $courseAdminRoleId = null;
+        $courseAdminRoleId = null;
 		foreach ($this->object->getLocalCourseRoles(false) as $title => $role_id)
 		{
 			if (substr($title, 0, 12) == 'il_crs_admin')
@@ -2383,27 +2383,20 @@ class ilObjCourseGUI extends ilContainerGUI
 			// Validate the role ids in the post data
 			foreach ((array) $_POST['roles'][$usr_id] as $role_id)
 			{
-				// Security Check: Abort, if the user tries to assign
-                                // a member to a role id, which is not an
-                                // assignable local course role.
-			        if (! array_key_exists($role_id, $assignableLocalCourseRoles))
-			        {
+				if (! array_key_exists($role_id, $assignableLocalCourseRoles))
+				{
 					ilUtil::sendInfo($this->lng->txt('msg_no_perm_perm'));
 					$this->membersObject();
 					return false;
-			        }
-				// Security Check: If the user doesn't have the
-                                // 'edit_permission' permission, he may not assign
-                                // the course administrator role to members who
-                                // aren't already course administrator.
-			        if (!$hasEditPermissionAccess && 
+		        }
+		        if (!$hasEditPermissionAccess && 
 					$role_id == $courseAdminRoleId &&
 					! $memberIsCourseAdmin)
-			        {
+				{
 					ilUtil::sendInfo($this->lng->txt('msg_no_perm_perm'));
 					$this->membersObject();
 					return false;
-			        }
+				}
 			}
 		}                        
                 
@@ -2424,6 +2417,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->object->members_obj->updateBlocked($usr_id,1);
 			}
 			$this->object->members_obj->updatePassed($usr_id,in_array($usr_id,$passed));
+			$this->object->members_obj->sendNotification(
+				$this->object->members_obj->NOTIFY_STATUS_CHANGED,
+				$usr_id);
 		}
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"));
 		$this->membersObject();
@@ -2501,7 +2497,6 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 			$this->object->members_obj->add($user_id,IL_CRS_MEMBER);
 			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
-
 			++$added_users;
 		}
 		if($added_users)
@@ -2547,7 +2542,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				continue;
 			}
 			$this->object->members_obj->add($user_id,IL_CRS_MEMBER);
-			#$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
 			$waiting_list->removeFromList($user_id);
 
 			++$added_users;
@@ -2575,6 +2570,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function refuseFromListObject()
 	{
+		global $ilUser;
+		
 		$this->checkPermission('write');
 		
 		if(!count($_POST['waiting']))
@@ -2590,6 +2587,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		foreach($_POST["waiting"] as $user_id)
 		{
 			$waiting_list->removeFromList($user_id);
+			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$user_id);
 		}
 		
 		ilUtil::sendInfo($this->lng->txt('crs_users_removed_from_list'));
@@ -2653,10 +2651,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		else
 		{
-			// SEND NOTIFICATION
 			foreach($_POST["subscribers"] as $usr_id)
 			{
-				#$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
+				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
 			}
 		}
 		ilUtil::sendInfo($this->lng->txt("crs_subscribers_assigned"));
@@ -2966,10 +2963,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		else
 		{
-			// SEND NOTIFICATION
 			foreach($_POST['subscribers'] as $usr_id)
 			{
-				#$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$usr_id);
+				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$usr_id);
 			}
 		}
 

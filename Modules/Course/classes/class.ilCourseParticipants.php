@@ -128,7 +128,7 @@ class ilCourseParticipants extends ilParticipants
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($a_usr_id,false);
 
 		$link = ("\n\n".$this->lng->txt('crs_mail_permanent_link'));
-		$link .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_ref_id."&client_id=".CLIENT_ID);
+		$link .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->ref_id."&client_id=".CLIENT_ID);
 
 		switch($a_type)
 		{
@@ -192,10 +192,6 @@ class ilCourseParticipants extends ilParticipants
 	{
 		global $ilDB,$ilObjDataCache;
 
-		if(!ilObjCourse::_isSubscriptionNotificationEnabled($this->obj_id))
-		{
-			return true;
-		}
 
 		include_once("Services/Mail/classes/class.ilFormatMail.php");
 
@@ -203,7 +199,7 @@ class ilCourseParticipants extends ilParticipants
 		$subject = sprintf($this->lng->txt("crs_cancel_subscription"),$ilObjDataCache->lookupTitle($this->obj_id));
 		$body = sprintf($this->lng->txt("crs_cancel_subscription_body"),$ilObjDataCache->lookupTitle($this->obj_id));
 		$body .= ("\n\n".$this->lng->txt('crs_mail_permanent_link'));
-		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_ref_id."&client_id=".CLIENT_ID);
+		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->ref_id."&client_id=".CLIENT_ID);
 		
 
 		foreach($this->getNotificationRecipients() as $usr_id)
@@ -220,18 +216,13 @@ class ilCourseParticipants extends ilParticipants
 	{
 		global $ilDB,$ilObjDataCache,$ilUser;
 
-		if(!ilObjCourse::_isSubscriptionNotificationEnabled($this->obj_id))
-		{
-			return true;
-		}
-
 		include_once("Services/Mail/classes/class.ilMail.php");
 
 		$mail = new ilMail($ilUser->getId());
 		$subject = sprintf($this->lng->txt("crs_new_subscription_request"),$ilObjDataCache->lookupTitle($this->obj_id));
 		$body = sprintf($this->lng->txt("crs_new_subscription_request_body"),$ilObjDataCache->lookupTitle($this->obj_id));
 		$body .= ("\n\n".$this->lng->txt('crs_new_subscription_request_body2'));
-		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_ref_id."&client_id=".CLIENT_ID);
+		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->ref_id."&client_id=".CLIENT_ID);
 
 		foreach($this->getNotificationRecipients() as $usr_id)
 		{
@@ -246,28 +237,18 @@ class ilCourseParticipants extends ilParticipants
 	{
 		global $ilDB,$ilObjDataCache;
 
-		if(!ilObjCourse::_isSubscriptionNotificationEnabled($this->obj_id))
-		{
-			return true;
-		}
-
 		include_once("Services/Mail/classes/class.ilFormatMail.php");
 
 		$mail =& new ilFormatMail($a_usr_id);
 		$subject = sprintf($this->lng->txt("crs_new_subscription"),$ilObjDataCache->lookupTitle($this->obj_id));
 		$body = sprintf($this->lng->txt("crs_new_subscription_body"),$ilObjDataCache->lookupTitle($this->obj_id));
-		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->course_ref_id."&client_id=".CLIENT_ID);
+		$body .= ("\n\n".ILIAS_HTTP_PATH."/goto.php?target=crs_".$this->ref_id."&client_id=".CLIENT_ID);
 
-		$query = "SELECT usr_id FROM crs_members ".
-			"WHERE notification = '1' ".
-			"AND obj_id = ".$ilDB->quote($this->obj_id)."";
-
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		foreach($this->getNotificationRecipients() as $usr_id)
 		{
-			if($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id))
+			if($this->isAdmin($usr_id) or $this->isTutor($usr_id))
 			{
-				$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
+				$tmp_user =& ilObjectFactory::getInstanceByObjId($usr_id,false);
 				$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('system'));
 				unset($tmp_user);
 			}
@@ -277,46 +258,47 @@ class ilCourseParticipants extends ilParticipants
 		return true;
 	}
 	
+	
 	function __buildStatusBody(&$user_obj)
 	{
 		global $ilDB;
 
-		$body = $this->lng->txt('crs_status_changed_body').':<br />';
-		$body .= $this->lng->txt('login').': '.$user_obj->getLogin().'<br />';
+		$body = $this->lng->txt('crs_status_changed_body')."\n";
+		$body .= $this->lng->txt('login').': '.$user_obj->getLogin()."\n";
 		$body .= $this->lng->txt('role').': ';
 
 		if($this->isAdmin($user_obj->getId()))
 		{
-			$body .= $this->lng->txt('crs_member').'<br />';
+			$body .= $this->lng->txt('crs_admin')."\n";
 		}
 		if($this->isTutor($user_obj->getId()))
 		{
-			$body .= $this->lng->txt('crs_tutor').'<br />';
+			$body .= $this->lng->txt('crs_tutor')."\n";
 		}
 		if($this->isMember($user_obj->getId()))
 		{
-			$body .= $this->lng->txt('crs_member').'<br />';
+			$body .= $this->lng->txt('crs_member')."\n";
 		}
 		$body .= $this->lng->txt('status').': ';
 		
 		if($this->isNotificationEnabled($user_obj->getId()))
 		{
-			$body .= $this->lng->txt("crs_notify").'<br />';
+			$body .= $this->lng->txt("crs_notify")."\n";
 		}
 		else
 		{
-			$body .= $this->lng->txt("crs_no_notify").'<br />';
+			$body .= $this->lng->txt("crs_no_notify")."\n";
 		}
 		if($this->isBlocked($user_obj->getId()))
 		{
-			$body .= $this->lng->txt("crs_blocked").'<br />';
+			$body .= $this->lng->txt("crs_blocked")."\n";
 		}
 		else
 		{
-			$body .= $this->lng->txt("crs_unblocked").'<br />';
+			$body .= $this->lng->txt("crs_unblocked")."\n";
 		}
 		$passed = $this->hasPassed($user_obj->getId()) ? $this->lng->txt('yes') : $this->lng->txt('no');
-		$body .= $this->lng->txt('crs_passed').': '.$passed.'<br />';
+		$body .= $this->lng->txt('crs_passed').': '.$passed."\n";
 
 		return $body;
 	}
