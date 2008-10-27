@@ -420,7 +420,10 @@ class ilTestCertificate
 		}
 
 		$output = preg_replace("/<\?xml[^>]+?>/", "", $output);
-		
+		// dirty hack: the php xslt processing seems not to recognize the following
+		// replacements, so we do it in the code as well
+		$output = str_replace("&#xA0;", "<br />", $output);
+		$output = str_replace("&#160;", "<br />", $output);
 		return array(
 			"pageformat" => $pagesize,
 			"pagewidth" => $pagewidth,
