@@ -24,6 +24,9 @@
 			<xsl:when test="current()='&#160;'">
 				<br />
 			</xsl:when>
+			<xsl:when test="current()='&#xA0;'">
+				<br />
+			</xsl:when>
 			<xsl:otherwise>
 				<p>
 					<xsl:choose>
