@@ -664,6 +664,9 @@ class ilCourseItems
 				? $a_item['type']
 				: $ilObjDataCache->lookupType($obj_id);
 
+
+			$ilBench->stop("Course", "ilCourseItems_getItemData - 3");
+
 			//if($ilObjDataCache->lookupType($obj_id = $ilObjDataCache->lookupObjId($row->obj_id)) == 'sess')
 			if ($obj_type == 'sess')
 			{
@@ -680,7 +683,6 @@ class ilCourseItems
 				$a_item['activation_info'] = 'crs_timings_suggested_info';
 				continue;
 			}
-			$ilBench->stop("Course", "ilCourseItems_getItemData - 3");
 
 			// Check for user entry
 			$ilBench->start("Course", "ilCourseItems_getItemData - 4");
