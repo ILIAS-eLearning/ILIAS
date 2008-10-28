@@ -65,11 +65,13 @@ class ilObjectFeedWriter extends ilFeedWriter
 
 		if ($ilSetting->get('short_inst_name') != "")
 		{
-			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".$loc.$obj_title);
+			$this->setChannelTitle($ilSetting->get('short_inst_name')." - ".
+				$this->prepareStr($loc.$obj_title));
 		}
 		else
 		{
-			$this->setChannelTitle("ILIAS"." - ".$loc.$obj_title.($a_purpose ? " - ".$a_purpose : ""));
+			$this->setChannelTitle("ILIAS"." - ".
+				$this->prepareStr($loc.$obj_title.($a_purpose ? " - ".$a_purpose : "")));
 		}
 		$this->setChannelAbout(ILIAS_HTTP_PATH);
 		$this->setChannelLink(ILIAS_HTTP_PATH);
@@ -145,7 +147,8 @@ class ilObjectFeedWriter extends ilFeedWriter
 				$loc = "[".$loc."]";
 			}
 
-			$feed_item->setTitle($loc." ".$obj_title.": ".$this->prepareStr($title));
+			$feed_item->setTitle($this->prepareStr($loc)." ".$this->prepareStr($obj_title).
+				": ".$this->prepareStr($title));
 			$feed_item->setDescription($this->prepareStr(nl2br($item["content"])));
 			$feed_item->setLink(ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
 				"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
