@@ -593,7 +593,7 @@ class ShibAuth
 		// non-ASCII-characters, spaces, dashes etc.
 		
 		$ln_arr=preg_split("/[ '-;]/", $lastname);
-		$login=$this->toAscii(substr($firstname,0,1)) . "." . $this->toAscii($ln_arr[0]);
+		$login=substr($this->toAscii($firstname),0,1) . "." . $this->toAscii($ln_arr[0]); 
 		if (strlen($login) < 6) $login .= $this->toAscii($ln_arr[1]);
 		$prefix = strtolower($login);
 		
@@ -675,7 +675,7 @@ class ShibAuth
 		$string = preg_replace('/\\xc3\\x9f/','ss', $string);
 
 		// Get rid of everything except the characters a to z and the hyphen
-		$string = preg_replace('/[^a-z\-]/i','', $string);
+		$string = preg_replace('/[^a-zA-Z\-]/i','', $string);
 
 		return $string;
 	}
