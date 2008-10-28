@@ -124,6 +124,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			$this->form->addItem($reg);
 			return true;
 		}
+		elseif($this->container->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED)
+		{
+			return true;			
+		}
 		
 		$start = new ilDateTime($this->container->getSubscriptionStart(),IL_CAL_UNIX,'UTC');
 		$end = new ilDateTime($this->container->getSubscriptionEnd(),IL_CAL_UNIX,'UTC');
@@ -251,9 +255,13 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		
 		if($this->container->getSubscriptionLimitationType() == IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{
-			$reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
-			$reg->setValue($this->lng->txt('crs_info_reg_deactivated'));
-			$reg->setAlert($this->lng->txt('grp_reg_deactivated_alert'));
+			$reg = new ilCustomInputGUI($this->lng->txt('mem_reg_type'));
+			#$reg->setHtml($this->lng->txt('crs_info_reg_deactivated'));
+			$reg->setAlert($this->lng->txt('crs_info_reg_deactivated'));
+			
+			#$reg = new ilNonEditableValueGUI($this->lng->txt('mem_reg_type'));
+			#$reg->setValue($this->lng->txt('crs_info_reg_deactivated'));
+			#$reg->setAlert($this->lng->txt('grp_reg_deactivated_alert'));
 			$this->form->addItem($reg);
 		
 			// Disable registration
