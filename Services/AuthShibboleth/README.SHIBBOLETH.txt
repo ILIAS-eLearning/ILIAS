@@ -2,7 +2,7 @@ Shibboleth Authentication for ILIAS
 -------------------------------------------------------------------------------
 
 Requirements:
-- Webserver must run Shibboleth target 1.1 or newer.
+- Webserver must run Shibboleth Service Provider 1.3 or newer.
   See documentation for your Shibboleth federation on how to set up Shibboleth.
 
 Configure ILIAS for Shibboleth authentication
@@ -24,6 +24,18 @@ Configure ILIAS for Shibboleth authentication
 
    shib_login.php authenticates the user if the required Shibboleth attributes
    are available and if the require rule is satisfied.
+
+   For IIS web servers, you must define in the shibboleth.xml or shibboleth2.xml
+   RequestMap element a rule like:
+
+--
+<Host name="your.ilias.host.org">
+    <Path name="path/to/ilias/shib_login.php" authType="shibboleth" requireSession="true">
+</Host>
+--
+
+   See http://www.switch.ch/aai/support/serviceproviders/sp-access-rules.html on
+   how you can protect Ilias in order to grant access only to specific users.
 
 2. As ILIAS admin, go to the 'Administration >> Authentication and Registration'
    options and click on the link for the 'Shibboleth' settings.
