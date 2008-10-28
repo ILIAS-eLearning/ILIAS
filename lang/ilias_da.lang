@@ -8686,14 +8686,14 @@ common#:#clone_option_in_crs#:#Kopier eksisterende kursus
 common#:#cat_title#:#Kategorititel
 common#:#crs_title#:#Kursustitel
 common#:#clone_existing_course#:#Kopier eksisterende kursus
-survey#:#use_google_chart_api#:#Use Google Chart API###07 10 2008 new variable
+survey#:#use_google_chart_api#:#Brug Google Chart API
 survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Bemærk at permanent internetforbindelse kræves for at Google Chart virker.
 dateplaner#:#cal_cal_details#:#Kalenderdetaljer
 dateplaner#:#cal_type_crs#:#Kursuskalender
 dateplaner#:#cal_type_grp#:#Gruppekalender
-dateplaner#:#cal_type_crs#:#Kursuskalender
-wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?###17 10 2008 new variable
-wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page###17 10 2008 new variable
+
+wiki#:#wiki_page_deletion_confirmation#:#Sikker på du vil slette denne wiki side?
+wiki#:#wiki_other_pages_linking#:#Ander sider der linker til denne
 wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page###17 10 2008 new variable
 wiki#:#wiki_page_deleted#:#Wikiside slettet.
 content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.###17 10 2008 new variable
