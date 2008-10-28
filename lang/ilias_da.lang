@@ -1182,8 +1182,8 @@ common#:#grp_header_edit_members#:#ændre medlem
 common#:#grp_join#:#Brugeren kan tilmelde sig gruppen
 common#:#grp_leave#:#Brugeren kan forlade gruppen
 common#:#grp_list_users#:#List brugere
-common#:#grp_mail_body_new_subscription#:#Du er nu blevet medlem af gruppen. Velkommen.
-common#:#grp_mail_body_subscription_cancelled#:#Du er blevet udmeldt af gruppen.
+common#:#grp_mail_body_new_subscription#:#Du er indmeldt i gruppen som står i emnefeltet. Velkommen.
+common#:#grp_mail_body_subscription_cancelled#:#Du er blevet udmeldt af gruppen som står i emnefeltet.
 common#:#grp_mail_subj_new_subscription#:#Indmeldelse i gruppe
 common#:#grp_mail_subj_subscription_cancelled#:#Udmeldelse
 common#:#grp_mem_change_status#:#Rediger status for medlemmer
