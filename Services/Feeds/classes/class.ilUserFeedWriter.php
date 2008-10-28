@@ -111,7 +111,7 @@ class ilUserFeedWriter extends ilFeedWriter
 				$loc = "[".$cont_loc->getHTML()."]";
 				
 				// title
-				$feed_item->setTitle($loc." ".$obj_title.": ".$this->prepareStr(str_replace("<br />", " ", $title)));
+				$feed_item->setTitle($this->prepareStr($loc)." ".$this->prepareStr($obj_title).": ".$this->prepareStr(str_replace("<br />", " ", $title)));
 								
 				// description
 				$content = $this->prepareStr(nl2br($item["content"]));
