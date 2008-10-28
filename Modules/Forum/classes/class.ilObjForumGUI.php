@@ -1784,6 +1784,20 @@ class ilObjForumGUI extends ilObjectGUI
 						{
 							$this->objCurrentPost->reload();
 							
+							// Change news item accordingly
+							include_once("./Services/News/classes/class.ilNewsItem.php");
+							// note: $this->objCurrentPost->getForumId() does not give us the forum ID here (why?)
+							$news_id = ilNewsItem::getFirstNewsIdForContext($forumObj->getId(),
+								"frm", $this->objCurrentPost->getId(), "pos");
+							if ($news_id > 0)
+							{
+								$news_item = new ilNewsItem($news_id);
+								$news_item->setTitle($this->objCurrentPost->getSubject());
+								$news_item->setContent($frm->prepareText(
+									$this->objCurrentPost->getMessage(), 0));
+								$news_item->update();
+							}
+							
 							ilUtil::sendInfo($lng->txt('forums_post_modified'));
 						}
 						if (isset($_FILES['userfile']))

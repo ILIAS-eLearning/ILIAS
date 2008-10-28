@@ -518,7 +518,7 @@ class ilForum
 			$news_item->setContext($forum_obj->getId(), 'frm', $objNewPost->getId(), 'pos');
 			$news_item->setPriority(NEWS_NOTICE);
 			$news_item->setTitle($objNewPost->getSubject());
-			$news_item->setContent(nl2br($this->prepareText($objNewPost->getMessage(), 0)));
+			$news_item->setContent($this->prepareText($objNewPost->getMessage(), 0));
 			$news_item->setUserId($user);
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
@@ -595,7 +595,7 @@ class ilForum
 	function updatePost($message, $pos_pk,$notify,$subject,$thr_pk=0)
 	{	
 		global $ilDB;
-			
+
 		$q = "UPDATE frm_posts ".
 				 "SET ".
 				 "pos_message = ".$ilDB->quote($message).",".
