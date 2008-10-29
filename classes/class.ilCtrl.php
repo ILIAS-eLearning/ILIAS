@@ -1067,16 +1067,16 @@ class ilCtrl
 	function verifyToken()
 	{
 		global $ilDB, $ilUser;
-
-		if ($_GET["rtoken"] == "")
-		{
-			echo "ilCtrl::No Request Token Given!";		// for debugging, maybe changed later
-			return false;
-		}
 		
 		if (is_object($ilUser) && is_object($ilDB) && $ilUser->getId() > 0 &&
 			$ilUser->getId() != ANONYMOUS_USER_ID)
 		{
+			if ($_GET["rtoken"] == "")
+			{
+				echo "ilCtrl::No Request Token Given!";		// for debugging, maybe changed later
+				return false;
+			}
+
 			$set = $ilDB->query("SELECT * FROM il_request_token WHERE ".
 				" user_id = ".$ilDB->quote($ilUser->getId())." AND ".  	 	 
 				" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME])); 		 
