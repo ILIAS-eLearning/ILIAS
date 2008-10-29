@@ -1829,17 +1829,20 @@ class ilObjGroup extends ilContainer
 		
 		static $items = null;
 		
-		if(!is_object($items))
+		if(!is_object($items[$this->getRefId()]))
 		{
 			if ($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs'))
 			{
 				include_once("./Modules/Course/classes/class.ilObjCourse.php");
 				include_once("./Modules/Course/classes/class.ilCourseItems.php");
 				$course_obj = new ilObjCourse($course_ref_id);
-				$items = new ilCourseItems($course_obj, $this->getRefId());
+				$items[$this->getRefId()] = new ilCourseItems($course_obj, $this->getRefId());
 			}
 		}
-		$items->addAdditionalSubItemInformation($a_item_data);
+		if(is_object($items[$this->getRefId()]))
+		{
+			$items[$this->getRefId()]->addAdditionalSubItemInformation($a_item_data);
+		}
 	}
 	
 
