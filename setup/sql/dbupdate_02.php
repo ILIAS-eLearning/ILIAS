@@ -3850,7 +3850,7 @@ $res = $ilDB->query($query);
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
 	$unlimited = ($row->expiration == '0000-00-00 00:00:00' ? 1 : 0);
-
+	
 	if($unlimited)
 	{
 		$start = '0000-00-00 00:00:00';
@@ -3858,6 +3858,11 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	else
 	{
 		$start = '2002-01-01 00:00:00';
+	}
+
+	if($row->register == 0)
+	{
+		$unlimited = 1;
 	}
 
 	$query = "INSERT INTO grp_settings ".
