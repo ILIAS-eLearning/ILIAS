@@ -85,7 +85,7 @@ class ilCronForumNotification
 					}
 					$frm->setLanguage($lng[$user_language]);
 					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
-													   $frm->formatNotificationSubject(),
+													   $frm->formatNotificationSubject($row),
 													   $frm->formatNotification($row, 1),
 													   array(),array("normal"));
 					$numRows++;
