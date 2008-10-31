@@ -2932,7 +2932,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$this->tpl->setVariable('TXT_SEARCH_COMMAND', $this->lng->txt('search'));
 			$this->tpl->setVariable('VAL_TITLE', ilUtil::prepareFormOutput($_POST['title'], true));
 		}
-		
+
 		if (($_SESSION['forums_search_submitted'] && is_object($query_parser) && $query_parser->validate()) || 
 			(!$_SESSION['forums_search_submitted'] && count($forums_ref_ids) < $this->ilias->getSetting('search_max_hits', 100)))
 		{
@@ -2999,11 +2999,11 @@ class ilObjForumGUI extends ilObjectGUI
 						if(!is_null($frmData = $this->object->Forum->getOneTopic()))				
 						{
 							$check = 0;			
-							if (isset($_POST['frm_ref_id']) && $_POST['frm_ref_id'] == $ref_id) $check = 1;  
+							if (isset($_POST['frm_ref_id']) && $_POST['frm_ref_id'] == $val['ref_id']) $check = 1;  
 										
-							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'frm_ref_id', $ref_id);
+							$result[$counter]['radio'] = ilUtil::formRadioButton($check, 'frm_ref_id', $val['ref_id']);
 							$result[$counter]['top_name'] = $frmData['top_name'];
-							$path_arr = $tree->getPathFull($ref_id, ROOT_FOLDER_ID);
+							$path_arr = $tree->getPathFull($val['ref_id'], ROOT_FOLDER_ID);
 							$path_counter = 0;
 							$path = '';
 							foreach($path_arr as $data)
