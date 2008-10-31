@@ -284,14 +284,12 @@ class ilMailGUI
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
-		$ilTabs->addTarget('fold', $this->ctrl->getLinkTargetByClass('ilmailfoldergui'));
-		$this->ctrl->clearParametersByClass('ilmailfoldergui');
+		$ilTabs->addTarget('fold', $this->ctrl->getLinkTargetByClass('ilmailfoldergui'));		
+		$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'new');
 		$ilTabs->addTarget('compose', $this->ctrl->getLinkTargetByClass('ilmailformgui'));
 		$this->ctrl->clearParametersByClass('ilmailformgui');
 		$ilTabs->addTarget('mail_addressbook', $this->ctrl->getLinkTargetByClass('ilmailaddressbookgui'));
-		$this->ctrl->clearParametersByClass('ilmailaddressbookgui');
 		$ilTabs->addTarget('options', $this->ctrl->getLinkTargetByClass('ilmailoptionsgui'));
-		$this->ctrl->clearParametersByClass('ilmailoptionsgui');
 		
 		switch($this->forwardClass)
 		{				
