@@ -5648,7 +5648,7 @@ forum#:#forums_notification_intro#:#This mail was automatically sent to you by t
 forum#:#forums_notification_is_disabled#:#Your notification about new posts in this topic is not (yet) enabled.
 forum#:#forums_notification_is_enabled#:#At the moment your notification about new posts in this topic is already enabled.
 forum#:#forums_notification_show_post#:#Show post: %s
-forum#:#forums_notification_subject#:#New post in a forum topic
+forum#:#forums_notification_subject#:#New posting in forum
 forum#:#forums_overview#:#Forums Overview
 forum#:#forums_post_deleted#:#Article has been deleted
 forum#:#forums_post_modified#:#Article has been modified

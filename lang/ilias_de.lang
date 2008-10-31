@@ -5264,7 +5264,7 @@ forum#:#forums_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installatio
 forum#:#forums_notification_is_disabled#:#Sie werden (noch) nicht über neue Nachrichten zu diesem Thema benachrichtigt.
 forum#:#forums_notification_is_enabled#:#Zur Zeit werden Sie bereits über neue Nachrichten zu diesem Thema benachrichtigt.
 forum#:#forums_notification_show_post#:#Zur Nachricht gehen: %s
-forum#:#forums_notification_subject#:#Neue Nachricht in einem Foren-Thema
+forum#:#forums_notification_subject#:#Neue Nachricht im Forum
 forum#:#forums_notification#:#Benachrichtigung
 forum#:#forums_overview#:#Übersicht Foren
 forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
