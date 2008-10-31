@@ -2459,7 +2459,7 @@ common#:#soap_user_administration_desc#:#Hvis sat til, kan alle brugerkonti bliv
 common#:#sort_by_this_column#:#Sorter efter denne kolonne
 common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Beholder til afstemninger/undersøgelser
-common#:#spl_add#:#Tilføj spørgsmålsbibliotek til undersøgelse
+common#:#spl_add#:#Opret spørgsmålssamling
 common#:#spl_delete#:#Slet afstemningen til undersøgelsen
 common#:#spl_edit_permission#:#Ændre rettighedsindstillinger
 common#:#spl_new#:#Ny spørgsmålssamling til undersøgelse
@@ -2852,23 +2852,23 @@ common#:#obj_tst_select#:# Please select one Test ###25 02 2007 new variable
 common#:#obj_svy_duplicate#:#Kopier undersøgelse
 common#:#obj_svy_select#:# Please select one Survey ###25 02 2007 new variable
 common#:#obj_crs_duplicate#:#Kopier kursus
-common#:#obj_crs_select#:# Please select one Course ###25 02 2007 new variable
-common#:#crs_wizard_page#:#Copy Course (Step 2/2)###25 02 2007 new variable
+common#:#obj_crs_select#:#Du skal vælge et kursus
+common#:#crs_wizard_page#:#Kopier kursus (skridt 2/2)
 common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
-common#:#omit_all#:#Omit all###25 02 2007 new variable
-common#:#copy_all#:#Copy all###25 02 2007 new variable
-common#:#link_all#:#Link all###25 02 2007 new variable
-common#:#omit#:#Omit###25 02 2007 new variable
+common#:#omit_all#:#Udelad alle
+common#:#copy_all#:#Kopier alle
+common#:#link_all#:#Link alle
+common#:#omit#:#Udelad
 common#:#obj_fold_duplicate#:#Kopier mappe
 common#:#obj_fold_select#:# Please select one Folder ###02 04 2007 new variable
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)###02 04 2007 new variable
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###02 04 2007 new variable
 common#:#obj_grp_duplicate#:#Kopier gruppe
-common#:#obj_grp_select#:# Please select one Group ###02 04 2007 new variable
-common#:#grp_wizard_page#:#Copy Group (Step 2/2)###02 04 2007 new variable
+common#:#obj_grp_select#:#Vælg venligst en gruppe
+common#:#grp_wizard_page#:#Kopier gruppe (Skridt 2/2)
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.###02 04 2007 new variable
 common#:#objs_qst#:#Questions###02 04 2007 new variable
-common#:#container_no_items#:#No Materials Available###02 04 2007 new variable
+common#:#container_no_items#:#Ingen tilgængelige materialer
 common#:#search_engine#:#Search Engines###02 04 2007 new variable
 common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).###02 04 2007 new variable
 common#:#mod_rewrite_disabled#:#The ApacheModule 'mod_rewrite' is not available.###02 04 2007 new variable
@@ -6951,9 +6951,9 @@ survey#:#matrix_subtype_sr#:#Radioknapper (et svar)
 survey#:#matrix_subtype_mr#:#Afkrydsningsbokse (flere svar)
 survey#:#matrix_subtype_text#:#Tekst
 survey#:#matrix_subtype_integer#:#Heltal
-survey#:#matrix_subtype_double#:#Decimal tal (float)
+survey#:#matrix_subtype_double#:#Decimaltal (float)
 survey#:#matrix_subtype_date#:#Dato
-survey#:#matrix_neutral_answer#:#Text for a Neutral Column ("Not Specified", "I don't know" etc.)###29 11 2006 new variable
+survey#:#matrix_neutral_answer#:#Tekst i neutral-kolonne (ved ikke, kender ikke, osv)
 survey#:#matrix_standard_answers#:#Kolonnetekst
 survey#:#matrix_rows#:#Matrix rækker
 survey#:#matrix_columns#:#Matrix kolonner
@@ -8487,7 +8487,7 @@ ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to cont
 ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.###26 07 2008 new variable
 ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.###26 07 2008 new variable
 ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set this to 0 for disabling this option.###26 07 2008 new variable
-ps#:#ps_login_max_attempts_info#:# Sets the maximum count of wrong login attempts. Set this to 0 for disabling this option.###26 07 2008 new variable
+ps#:#ps_login_max_attempts_info#:#Sætter det maksimale antal forkerte loginforsøg. Hvis 0 er der intet øvre loft.
 ps#:#ps_error_message_invalid_password_min_length#:#Minimum password size may not be less than 0.###26 07 2008 new variable
 ps#:#ps_error_message_invalid_password_max_length#:#Maximum password size may not be less than 0.###26 07 2008 new variable
 ps#:#ps_error_message_invalid_password_max_age#:#Maximum password age may not be less than 0.###26 07 2008 new variable
@@ -8544,7 +8544,7 @@ content#:#cont_edit_shape_polygon#:#Rediger form (polygon)
 content#:#cont_new_mob#:#Nyt medieobjekt
 content#:#cont_mob_from_media_pool#:#Vælg fra mediebibliotek
 content#:#cont_select_media_pool#:#Vælg mediebibliotek
-content#:#cont_table_properties#:#Table Properties###15 09 2008 new variable
+content#:#cont_table_properties#:#Tabelegenskaber
 content#:#cont_table_cell_properties#:#Tabellens celle egenskaber
 content#:#cont_set_tab_style_info#:#Aktiver afkrydsningsbokse i tabellens celler for at sætte stilark.
 content#:#cont_set_styles_and_widths#:#Sæt stilark og bredde
@@ -8679,7 +8679,7 @@ common#:#catr_edit_info#:#Vælg en kategori for at lave en ny reference
 common#:#reference_deleted#:#Målet er ikke tilgængeligt
 cntr#:#cntr_hide_title_and_icon#:#Skjul titel og ikon
 cmps#:#cmps_responsible#:#Ansvarlig
-common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)###07 10 2008 new variable
+common#:#clone_target_title#:#Vælg målfolder (skridt 1/2)
 common#:#clone_target#:#Til folder
 common#:#clone_option_in_cat#:#Kopier i eksisterende kategori
 common#:#clone_option_in_crs#:#Kopier eksisterende kursus
