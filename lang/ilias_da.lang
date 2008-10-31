@@ -256,7 +256,7 @@ common#:#advanced_editing_allow_html_tags#:#Tillad valgte HTML tags i tekstredig
 common#:#advanced_editing_allow_javascript_editor#:#Brug rig tekst redigering
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool
 common#:#advanced_editing_cat_page_editing#:#Aktiver indholdsredigering på kategorisider
-common#:#advanced_editing_cat_page_editing_desc#:#This enables the content editing of category pages. When deactivated, the categories are just displayed as a set of item lists.
+common#:#advanced_editing_cat_page_editing_desc#:#Dette aktiverer CMS på kategorisider. Når denne funktion ikke er aktiveret vises alt indhold blot på en liste.
 common#:#advanced_editing_lm_js_editing#:#Enable HTMLArea for Content Editing
 common#:#advanced_editing_lm_js_editing_desc#:#Enables HTMLArea and JavaScript support for page editing in learning modules and glossaries.
 common#:#advanced_editing_lm_settings#:#Learning Module and Glossary Settings
@@ -4551,7 +4551,7 @@ content#:#cont_set_after#:#insæt efter
 content#:#cont_set_before#:#indsæt før
 content#:#cont_set_cancel#:#fortryd
 content#:#cont_set_class#:#Sæt klasse
-content#:#cont_set_edit_mode#:#Sæt til rediger Mode
+content#:#cont_set_edit_mode#:#Sæt redigeringsmetode
 content#:#cont_set_into#:#indsæt i
 content#:#cont_set_link#:#Rediger Link
 content#:#cont_set_shape#:#Rediger form
@@ -6701,11 +6701,11 @@ survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to
 survey#:#cannot_save_metaobject#:#Du har ikke de rigtige rettighedder til at gemme meta data!
 survey#:#concatenation#:#sammenkædning
 survey#:#confirm_delete_all_user_data#:#Er du sikker på du vil slette al brugerdata fra dette spørgeskema?
-survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?
+survey#:#confirm_delete_single_user_data#:#Er du sikker på du vil slette besvarelserne fra de valgte brugere?
 survey#:#confirm_sync_questions#:#Det spørgsmål du ændrede er en kopi, der blevet oprettet til brug i det aktive spørgeskema. Vil du ændre det oprindelige spørgsmål også?
 survey#:#create_date#:#Oprettet
 survey#:#create_new#:#Opret nyt
-survey#:#delete_user_data#:#Delete the survey data of the selected users
+survey#:#delete_user_data#:#Slet valgte brugeres besvarelser
 survey#:#description_maxchars#:#Hvis intet vælges kan der indtastes en tekst af ubegrænset længde.
 survey#:#duplicate#:#Kopier
 survey#:#error_importing_question#:#Der opstod en fejl ved importering af spørgsmål fra den fil du har valgt!
@@ -7083,7 +7083,7 @@ survey#:#survey_question_editor#:#Edit survey questions###29 05 2007 new variabl
 survey#:#survey_question_obligatory#:#(Dette spørgsmål er obligatorisk. Du skal svare på dette spørgsmål)
 survey#:#survey_question_optional#:#(Valgfri)
 survey#:#survey_questions#:#Spørgsmål
-survey#:#survey_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
+survey#:#survey_selected_user_data_deleted#:#Besvarelserne af den/de valgte bruger(e) er slettet.
 survey#:#survey_skip_finish#:#Undlad og afslut spørgeskema
 survey#:#survey_skip_next#:#Undlad >>>
 survey#:#survey_skip_previous#:#<<< Undlad
@@ -7102,7 +7102,7 @@ survey#:#svy_eval_user#:#Brugerspecifikke resultater
 survey#:#svy_export_files#:#Exporter filer
 survey#:#svy_file#:#Fil
 survey#:#svy_general_properties#:#Generelt
-survey#:#svy_maintenance_information_no_results#:#There are no existing user datasets for the survey. You need at least one user dataset to maintain the data.
+survey#:#svy_maintenance_information_no_results#:#Der er ingen besvarelser i denne undersøgelse.
 survey#:#svy_missing_author#:#Du har ikke indtastet forfatters navn i undersøgelsesegenskaber! Indtast venligst forfatters navn.
 survey#:#svy_missing_questions#:#Du har ikke lavet nogen spørgsmål til denne undersøgelse! Tilføj venligst minimum 1 spørgsmål.
 survey#:#svy_missing_title#:#Du har ikke angivet en undersøgelsesoverskrift! Gå venligst til metadata sektionen og indtast en overskrift.
