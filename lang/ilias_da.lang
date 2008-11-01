@@ -7060,13 +7060,13 @@ survey#:#start_date_not_reached#:#Du kan ikke starte et spørgeskema før start 
 survey#:#start_survey#:#Start spørgeskema
 survey#:#subject_mail_survey_id#:#Din spørgeskema kode er '%s'
 survey#:#subtype#:#Undertype
-survey#:#survey_code#:#Survey access code###21 Apr 2005 new variable
+survey#:#survey_code#:#Undersøgelsens adgangskode
 survey#:#survey_code_message_sent#:#En kode der giver lov til at genoptage spørgeskemaet bliver sendt til din INDBOX!
 survey#:#survey_code_no_codes#:#Du har ikke oprettet en kode til spørgeskaemet endnu
 survey#:#survey_code_url#:#URL til direkte adgang
 survey#:#survey_code_url_name#:#URL (brug højre museknap for at kopiere URL)
-survey#:#survey_code_used#:#Code was used###21 Apr 2005 new variable
-survey#:#survey_codes_lang#:#Language of the survey
+survey#:#survey_code_used#:#Kode blev brugt
+survey#:#survey_codes_lang#:#Undersøgelsens sprog
 survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey with access codes to create new access codes!###22 12 2006 new variable
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_finish#:#afslut spørgeskema
