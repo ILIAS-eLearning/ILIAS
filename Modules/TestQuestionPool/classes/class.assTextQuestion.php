@@ -561,7 +561,6 @@ class assTextQuestion extends assQuestion
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
-		
 		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
