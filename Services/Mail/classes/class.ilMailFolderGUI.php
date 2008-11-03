@@ -1195,6 +1195,9 @@ class ilMailFolderGUI
 		{
 			require_once "classes/class.ilFileDataMail.php";
 			
+			// secure filename
+			$filename = str_replace("..", "", $filename);
+			
 			$mfile = new ilFileDataMail($_SESSION["AccountId"]);
 			if(!$path = $mfile->getAttachmentPath($filename, $_GET["mail_id"]))
 			{
