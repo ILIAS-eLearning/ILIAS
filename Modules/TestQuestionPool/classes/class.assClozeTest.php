@@ -1582,7 +1582,16 @@ class assClozeTest extends assQuestion
 			{
 				if ($gap_index == $solutionvalue["value1"])
 				{
-					$worksheet->writeString($startrow + $i, 1, $gap->getItem($solutionvalue["value2"])->getAnswertext());
+					switch ($gap->getType())
+					{
+						case CLOZE_SELECT:
+							$worksheet->writeString($startrow + $i, 1, $gap->getItem($solutionvalue["value2"])->getAnswertext());
+							break;
+						case CLOZE_NUMERIC:
+						case CLOZE_TEXT:
+							$worksheet->writeString($startrow + $i, 1, $solutionvalue["value2"]);
+							break;
+					}
 				}
 			}
 			$i++;
