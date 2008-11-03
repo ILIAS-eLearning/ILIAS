@@ -1168,13 +1168,6 @@ div.il_TreeIcons
 	margin: 0px;
 }
 
-div.ilMainHeaderOld
-{
-	background-image: url(images/HeaderBackground3.gif);
-	background-repeat: repeat-x;
-	background-color: #8CC6FF;
-	right: 0px;
-}
 div.ilMainHeader
 {
 	background-image: url(images/HeaderBackground3.gif);
@@ -1198,18 +1191,6 @@ a.ilMainHeader, a.ilMainHeader:hover
 	font-size:90%;
 }
 
-div.ilLoginOld
-{
-	background-image: url(images/login_back.gif);
-	background-position: bottom left;
-	padding:2px 20px 3px 10px;
-	margin-top:0px;
-	margin-bottom:0px;
-	white-space: nowrap;
-	float:right;
-	text-align:right;
-	font-size:90%;
-}
 div.ilLogin
 {
 	padding:2px 20px 3px 10px;
