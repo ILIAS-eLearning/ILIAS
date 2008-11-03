@@ -962,84 +962,102 @@ echo htmlentities($a_text);*/
 		
 		$chunks = array();
 		$c_text = $a_text;
+//echo "0";
 		while ($c_text != "")
 		{
 //var_dump($c_text); flush();
+//echo "1";
 			$s1 = strpos($c_text, "<br />=");
 			if (is_int($s1))
 			{
+//echo "2";
 				$s2 = strpos($c_text, "<br />==");
 				if (is_int($s2) && $s2 <= $s1)
 				{
+//echo "3";
 					$s3 = strpos($c_text, "<br />===");
 					if (is_int($s3) && $s3 <= $s2)		// possible level three header
 					{
+//echo "4";
 						$n = strpos($c_text, "<br />", $s3 + 1);
 						if ($n > ($s3+9) && substr($c_text, $n-3, 9) == "===<br />")
 						{
+//echo "5";
 							// found level three header
-							if ($s3 > 0)
+							if ($s3 > 0 || $head != "")
 							{
+//echo "6";
 								$chunks[] = array("level" => 0,
 									"text" => $this->removeTrailingBr($head.substr($c_text, 0, $s3)));
 								$head = "";
 							}
 							$chunks[] = array("level" => 3,
 								"text" => trim(substr($c_text, $s3+9, $n-$s3-12)));
-							$c_text = $this->removePrecedingBr(substr($c_text, $n+6));
+							$c_text = $this->handleNextBr(substr($c_text, $n+6));
 						}
 						else
 						{
-							$head = substr($c_text, 0, $n);
+//echo "7";
+							$head.= substr($c_text, 0, $n);
 							$c_text = substr($c_text, $n);
 						}
 					}
 					else	// possible level two header
 					{
+//echo "8";
 						$n = strpos($c_text, "<br />", $s2 + 1);
 						if ($n > ($s2+8) && substr($c_text, $n-2, 8) == "==<br />")
 						{
+//echo "9";
 							// found level two header
-							if ($s2 > 0)
+							if ($s2 > 0 || $head != "")
 							{
+//echo "A";
 								$chunks[] = array("level" => 0,
 									"text" => $this->removeTrailingBr($head.substr($c_text, 0, $s2)));
 								$head = "";
 							}
 							$chunks[] = array("level" => 2, "text" => trim(substr($c_text, $s2+8, $n-$s2-10)));
-							$c_text = $this->removePrecedingBr(substr($c_text, $n+6));
+							$c_text = $this->handleNextBr(substr($c_text, $n+6));
 						}
 						else
 						{
-							$head = substr($c_text, 0, $n);
+//echo "B";
+							$head.= substr($c_text, 0, $n);
 							$c_text = substr($c_text, $n);
 						}
 					}
 				}
 				else	// possible level one header
 				{
+//echo "C";
 					$n = strpos($c_text, "<br />", $s1 + 1);
 					if ($n > ($s1+7) && substr($c_text, $n-1, 7) == "=<br />")
 					{
+//echo "D";
 						// found level one header
-						if ($s1 > 0)
+						if ($s1 > 0 || $head != "")
 						{
+//echo "E";
 							$chunks[] = array("level" => 0,
 								"text" => $this->removeTrailingBr($head.substr($c_text, 0, $s1)));
 							$head = "";
 						}
 						$chunks[] = array("level" => 1, "text" => trim(substr($c_text, $s1+7, $n-$s1-8)));
-						$c_text = $this->removePrecedingBr(substr($c_text, $n+6));
+						$c_text = $this->handleNextBr(substr($c_text, $n+6));
+//echo "<br>ctext:".htmlentities($c_text)."<br>";
 					}
 					else
 					{
-						$head = substr($c_text, 0, $n);
+						$head.= substr($c_text, 0, $n);
 						$c_text = substr($c_text, $n);
+//echo "<br>head:".$head."c_text:".$c_text."<br>";
 					}
 				}
 			}
 			else
 			{
+//echo "G";
 				$chunks[] = array("level" => 0, "text" => $head.$c_text);
 				$head = "";
 				$c_text = "";
@@ -1074,11 +1092,22 @@ echo htmlentities($a_text);*/
 	/**
 	* Remove preceding <br />
 	*/
-	function removePrecedingBr($a_str)
+	function handleNextBr($a_str)
 	{
-		if (substr($a_str, 0, 6) == "<br />")
+		// do not remove, if next line starts with a "=", otherwise two
+		// headlines in a row will not be recognized
+		if (substr($a_str, 0, 6) == "<br />" && substr($a_str, 6, 1) != "=")
 		{
 			$a_str = substr($a_str, 6);
+		}
+		else
+		{
+			// if next line starts with a "=" we need to reinsert the <br />
+			// otherwise it will not be recognized
+			if (substr($a_str, 0, 1) == "=")
+			{
+				$a_str = "<br />".$a_str;
+			}
 		}
 		return $a_str;
 	}
