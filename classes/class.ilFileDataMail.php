@@ -103,6 +103,38 @@ class ilFileDataMail extends ilFileData
 	{
 		return $this->mail_path;
 	}
+	
+	/**
+	* get the path of a specific attachment
+	* @param string md5 encrypted filename
+	* @param integer mail_id
+	* @access	public
+	* @return string path
+	*/
+	public function getAttachmentPathByMD5Filename($a_filename,$a_mail_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT path FROM mail_attachment ".
+			"WHERE mail_id = ".$ilDB->quote($a_mail_id)."";
+		
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$path = $this->getMailPath().'/'.$row->path;
+
+		$files = ilUtil::getDir($path);
+		foreach((array)$files as $file)
+		{
+			if($file['type'] == 'file' && md5($file['entry']) == $a_filename)
+			{
+				return array(
+					'path' => $this->getMailPath().'/'.$row->path.'/'.$file['entry'],
+					'filename' => $file['entry']
+				);
+			}
+		}
+		return '';
+	}
+	
 
 	/**
 	* get the path of a specific attachment
