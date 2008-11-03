@@ -1031,7 +1031,7 @@ class ilMailFolderGUI
 			foreach($mailData["attachments"] as $file)
 			{
 				$this->tpl->setVariable("A_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable("FILE",$file);
+				$this->tpl->setVariable("FILE",md5($file));
 				$this->tpl->setVariable("FILE_NAME",$file);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1199,19 +1199,19 @@ class ilMailFolderGUI
 			$filename = str_replace("..", "", $filename);
 			
 			$mfile = new ilFileDataMail($_SESSION["AccountId"]);
-			if(!$path = $mfile->getAttachmentPath($filename, $_GET["mail_id"]))
+			if(!is_array($file = $mfile->getAttachmentPathByMD5Filename($filename, $_GET['mail_id'])))
 			{
-				ilUtil::sendInfo($this->lng->txt("mail_error_reading_attachment"));
+				ilUtil::sendInfo($this->lng->txt('mail_error_reading_attachment'));
 				$this->showMail();
 			}
 			else
 			{
-				ilUtil::deliverFile($path, $filename);
+				ilUtil::deliverFile($file['path'], $file['filename']);
 			}
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("mail_select_attachment"));
+			ilUtil::sendInfo($this->lng->txt('mail_select_attachment'));
 			$this->showMail();
 		}
 	}
