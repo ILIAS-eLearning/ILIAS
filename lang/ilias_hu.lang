@@ -1689,7 +1689,6 @@ wiki#:#wiki_created_by#:#Létrehozta
 wiki#:#wiki_last_changed#:#Legutolsó módosítás
 wiki#:#wiki_page_hits#:#Laplátogatások
 wiki#:#wiki_history#:#Történet
-wiki#:#wiki_navigation#:#Navigáció
 wiki#:#wiki_recent_changes#:#Új lapok
 wiki#:#wiki_what_links_here#:#Mi linkel ide?
 wiki#:#wiki_print_view#:#Nyomtatási nézet
@@ -4375,7 +4374,6 @@ content#:#cont_right#:#Jobbra
 content#:#cont_center#:#Középre
 content#:#cont_left_float#:#Balra, körbefuttatás
 content#:#cont_right_float#:#Jobbra, körbefuttatás
-content#:#cont_Alphabetic#:#Ábécérend a, b,…
 content#:#cont_alphabetic_s#:#Alfabetikus a, b, ...
 content#:#cont_Circle#:#Kör
 content#:#cont_delete_track_data#:#Nyomkövetési adatok törlése
@@ -4388,14 +4386,12 @@ content#:#cont_Headline1#:#Címsor 1
 content#:#cont_Headline2#:#Címsor 2
 content#:#cont_Headline3#:#Címsor 3
 content#:#cont_List#:#Lista
-content#:#cont_LocalFile#:#Helyi fájl
 content#:#cont_Mnemonic#:#Emlékeztető
 content#:#cont_Block#:#Blokk
 content#:#cont_Number#:#Szám
 content#:#cont_Poly#:#Sokszög
 content#:#cont_Rect#:#Téglalap
 content#:#cont_Remark#:#Észrevétel
-content#:#cont_Roman#:#Római I, II,...
 content#:#cont_roman_s#:#Római i, ii,...
 content#:#cont_TableContent#:#Tartalomtáblázat
 content#:#cont_Unordered#:#Listajeles
@@ -8679,3 +8675,27 @@ common#:#crsr_edit#:#Kurzusajánlás szerkesztése
 common#:#crsr_edit_info#:#Válasszon egy kurzust új ajánlás létrehozásához!
 common#:#catr_edit_info#:#Válasszon egy kategóriát új ajánlás létrehozásához!
 common#:#reference_deleted#:#A végcél nem érhető el
+cmps#:#cmps_responsible#:#Responsible###03 11 2008 new variable
+wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?###03 11 2008 new variable
+wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page###03 11 2008 new variable
+wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page###03 11 2008 new variable
+wiki#:#wiki_page_deleted#:#Wiki page deleted.###03 11 2008 new variable
+wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.###03 11 2008 new variable
+wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation###03 11 2008 new variable
+content#:#cont_alphabetic#:#Alphabetic A, B, ...###03 11 2008 new variable
+content#:#cont_localfile#:#Local File###03 11 2008 new variable
+content#:#cont_roman#:#Roman I, II, ...###03 11 2008 new variable
+content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.###03 11 2008 new variable
+content#:#cont_page_currently_deactivated#:#Sorry, but this page is currently deactivated.###03 11 2008 new variable
+common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)###03 11 2008 new variable
+common#:#clone_target#:#Target Folder###03 11 2008 new variable
+common#:#clone_option_in_cat#:#Copy in Existing Category###03 11 2008 new variable
+common#:#clone_option_in_crs#:#Copy in Existing Course###03 11 2008 new variable
+common#:#cat_title#:#Category Title###03 11 2008 new variable
+common#:#crs_title#:#Course Title###03 11 2008 new variable
+common#:#clone_existing_course#:#Copy Existing Course###03 11 2008 new variable
+survey#:#use_google_chart_api#:#Use Google Chart API###03 11 2008 new variable
+survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.###03 11 2008 new variable
+dateplaner#:#cal_cal_details#:#Calendar Details###03 11 2008 new variable
+dateplaner#:#cal_type_crs#:#Course Calendar###03 11 2008 new variable
+dateplaner#:#cal_type_grp#:#Group Calendar###03 11 2008 new variable

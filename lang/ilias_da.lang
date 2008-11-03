@@ -8697,3 +8697,4 @@ wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes
 wiki#:#wiki_page_deleted#:#Wikiside slettet.
 content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.###17 10 2008 new variable
 content#:#cont_page_currently_deactivated#:#Denne side er i øjeblikket deaktiveret.
+wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.###03 11 2008 new variable
