@@ -384,15 +384,15 @@ class ilPCParagraph extends ilPageContent
 		return $this->par_node->get_attribute("Language");
 	}
 
-	function input2xml($a_text, $a_wysiwyg = 0)
+	function input2xml($a_text, $a_wysiwyg = 0, $a_handle_lists = true)
 	{
-		return $this->_input2xml($a_text, $this->getLanguage(), $a_wysiwyg);
+		return $this->_input2xml($a_text, $this->getLanguage(), $a_wysiwyg, $a_handle_lists);
 	}
 	
 	/**
 	* converts user input to xml
 	*/
-	static function _input2xml($a_text, $a_lang, $a_wysiwyg = 0)
+	static function _input2xml($a_text, $a_lang, $a_wysiwyg = 0, $a_handle_lists = true)
 	{
 		$a_text = ilUtil::stripSlashes($a_text, false);
 
@@ -424,7 +424,10 @@ echo htmlentities($a_text);*/
 		$a_text = str_replace(chr(13),"<br />", $a_text);
 		$a_text = str_replace(chr(10),"<br />", $a_text);
 
-		$a_text = ilPCParagraph::input2xmlReplaceLists($a_text);
+		if ($a_handle_lists)
+		{
+			$a_text = ilPCParagraph::input2xmlReplaceLists($a_text);
+		}
 		
 		// bb code to xml
 		$a_text = eregi_replace("\[com\]","<Comment Language=\"".$a_lang."\">",$a_text);
@@ -602,7 +605,6 @@ echo htmlentities($a_text);*/
 	function input2xmlReplaceLists($a_text)
 	{
 		$rows = explode("<br />", $a_text."<br />");
-		
 //var_dump($a_text);
 
 		$old_level = 0;

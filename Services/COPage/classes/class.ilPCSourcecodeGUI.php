@@ -285,7 +285,8 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 			$this->content_obj->setCharacteristic("Code");
 
-		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
+		$this->updated = $this->content_obj->setText(
+			$this->content_obj->input2xml($_POST["par_content"], 0, false));
 
 		if ($this->updated !== true)
 		{
@@ -342,7 +343,8 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 			return;
 		}
 		
-		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
+		$this->updated = $this->content_obj->setText(
+			$this->content_obj->input2xml($_POST["par_content"], 0, false));
 		
 		if ($this->updated !== true)
 		{
@@ -384,7 +386,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 			{
 				$error_str = "<b>Error(s):</b><br>Upload error: file name must not be empty!";
 				$this->tpl->setVariable("MESSAGE", $error_str);
-				$this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"])));
+				$this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"]), 0, false));
 				return false;
 			}
 
