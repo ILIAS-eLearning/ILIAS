@@ -63,7 +63,7 @@ class ilFileUtils
 		copy ($a_file, $a_directory . "/" . $file);
 		ilUtil::unzip($a_directory . "/" . $file);
 		unlink ($a_directory . "/" . $file);
-
+//echo "-".$a_directory . "/" . $file."-";
 		// Stores filename and paths into $filearray to check for viruses 
 		// Checks if filenames can be read, else -> throw exception and leave
 		ilFileUtils::recursive_dirscan($a_directory, $filearray);

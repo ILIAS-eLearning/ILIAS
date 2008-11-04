@@ -1630,6 +1630,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 							$ilDB->quote($last_nr["mnr"] + 1).")";
 //echo "<br><br>+$a_no_history+$h_query";
 						$ilDB->query($h_query);
+						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->history_saved = true;		// only save one time
 					}
 					else
@@ -1764,7 +1765,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*
 	* @param	string		$a_xml		xml data of page
 	*/
-	function saveMobUsage($a_xml)
+	function saveMobUsage($a_xml, $a_old_nr = 0)
 	{
 //echo "<br>PageObject::saveMobUsage[".$this->getId()."]";
 
@@ -1816,10 +1817,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId());
+		ilObjMediaObject::_deleteAllUsages($this->getParentType().":pg", $this->getId(), $a_old_nr);
 		foreach($usages as $mob_id => $val)
 		{
-			ilObjMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId());
+			ilObjMediaObject::_saveUsage($mob_id, $this->getParentType().":pg", $this->getId(), $a_old_nr);
 		}
 	}
 
