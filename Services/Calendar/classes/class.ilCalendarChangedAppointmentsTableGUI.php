@@ -163,24 +163,24 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 			$tmp_arr['fullday'] = $entry->isFullday();
  			$tmp_arr['begin'] = $entry->getStart()->get(IL_CAL_UNIX);
  			$tmp_arr['end'] = $entry->getEnd()->get(IL_CAL_UNIX);
- 			$tmp_arr['duration'] = ($dur = $tmp_arr['end'] - $tmp_arr['begin']) ? $dur : 60 * 60 * 24;
  			
+ 			#$tmp_arr['duration'] = ($dur = $tmp_arr['end'] - $tmp_arr['begin']) ? $dur : 60 * 60 * 24;
+ 			$tmp_arr['duration'] = $tmp_arr['end'] - $tmp_arr['begin'];
  			if($tmp_arr['fullday'])
  			{
  				$tmp_arr['duration'] += (60 * 60 * 24);
  			}
- 			
- 			
- 			$tmp_arr['last_update'] = $entry->getLastUpdate()->get(IL_CAL_UNIX);
- 			
- 			if(!$tmp_arr['fullday'] and $tmp_arr['end'] == $tmp_arr['begin'])
+			if(!$tmp_arr['fullday'] and $tmp_arr['end'] == $tmp_arr['begin'])
  			{
  				$tmp_arr['duration'] = '';
  			}
+ 			
+ 			$tmp_arr['last_update'] = $entry->getLastUpdate()->get(IL_CAL_UNIX);
  			$tmp_arr['frequence'] = $rec->getFrequenceType();
 			
 			$appointments[] = $tmp_arr;		
 		}
+
 		$this->setData($appointments ? $appointments : array());
 	}
 	
