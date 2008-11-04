@@ -967,24 +967,25 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$msg = $this->lng->txt("user_added");
 
-			$ilUser->setPref('send_info_mails', ($_POST["send_mail"]));
+			$ilUser->setPref('send_info_mails', ($_POST['send_mail'] == 'y') ? 'y' : 'n');
 			$ilUser->writePrefs();                        
 
 			// send new account mail
-			if ($_POST["send_mail"] != "")
+			if($_POST['send_mail'] == 'y')
 			{
-				include_once("Services/Mail/classes/class.ilAccountMail.php");
+				include_once('Services/Mail/classes/class.ilAccountMail.php');
 				$acc_mail = new ilAccountMail();
-				$acc_mail->setUserPassword($_POST["passwd"]);
+				$acc_mail->useLangVariablesAsFallback(true);
+				$acc_mail->setUserPassword($_POST['passwd']);
 				$acc_mail->setUser($userObj);
 
 				if ($acc_mail->send())
 				{
-					$msg = $msg."<br />".$this->lng->txt("mail_sent");
+					$msg = $msg.'<br />'.$this->lng->txt('mail_sent');
 				}
 				else
 				{
-					$msg = $msg."<br />".$this->lng->txt("mail_not_sent");
+					$msg = $msg.'<br />'.$this->lng->txt('mail_not_sent');
 				}
 			}
 
@@ -1153,7 +1154,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$ilUser->readPrefs();    
 			}
-			$ilUser->setPref('send_info_mails', $_POST["send_mail"]);
+			$ilUser->setPref('send_info_mails', ($_POST['send_mail'] == 'y') ? 'y' : 'n');
 			$ilUser->writePrefs();
 
 			$mail_message = $this->__sendProfileMail();
@@ -1278,9 +1279,6 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["hits_per_page"] = $this->object->prefs["hits_per_page"];
 		$data["show_users_online"] = $this->object->prefs["show_users_online"];
 		$data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
-
-		// note: this option is used from / set for the user currently administrating
-		$data["send_mail"] = $ilUser->getPref('send_info_mails');
 
 		$this->form_gui->setValuesByArray($data);
 	}
@@ -1649,9 +1647,9 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->form_gui->addItem($sec_op);
 
 		// send email
-		$se = new ilCheckboxInputGUI($lng->txt("inform_user_mail"), "send_mail");
-		$se->setValue($ilUser->getPref("send_info_mails")== "y" || $ilUser->getPref("send_info_mails") == 1 ? "y" : "n");
-		$se->setChecked($ilUser->getPref("send_info_mails") == 1 || $ilUser->getPref("send_info_mails")== "y" );
+		$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
+		$se->setValue('y');
+		$se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
 		$this->form_gui->addItem($se);
 
 		// @todo: handle all required fields
@@ -2887,7 +2885,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// BEGIN DiskQuota: Remember the state of the "send info mail" checkbox
 		global $ilUser;
-		$ilUser->setPref('send_info_mails', ($_POST["send_mail"] != "") ? 'y' : 'n');
+		$ilUser->setPref('send_info_mails', ($_POST['send_mail'] == 'y') ? 'y' : 'n');
 		$ilUser->writePrefs();
 		// END DiskQuota: Remember the state of the "send info mail" checkbox
 
@@ -3372,12 +3370,12 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// Append login info only if password has been chacnged
-		if($_POST['Fobject']['passwd'] != '********')
+		if($_POST['passwd'] != '********')
 		{
 			$body .= $usr_lang->txt("reg_mail_body_text2")."\n".
 				ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n".
 				$usr_lang->txt("login").": ".$this->object->getLogin()."\n".
-				$usr_lang->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\n";
+				$usr_lang->txt("passwd").": ".$_POST['passwd']."\n\n";
 		}
 		$body .= ($usr_lang->txt("reg_mail_body_text3")."\n");
 		$body .= $this->object->getProfileAsString($usr_lang);

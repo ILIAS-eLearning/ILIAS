@@ -52,6 +52,8 @@ class ilAccountMail
 	* @access	private
 	*/
 	var $target = "";
+	
+	private $lang_variables_as_fallback = false;
 
 	
 	/**
@@ -60,6 +62,16 @@ class ilAccountMail
 	*/
 	function ilAccountMail()
 	{		
+	}
+	
+	public function useLangVariablesAsFallback($a_status)
+	{
+		$this->lang_variables_as_fallback = $a_status;
+	}
+	
+	public function areLangVariablesUsedAsFallback()
+	{
+		return $this->lang_variables_as_fallback;
 	}
 	
 	/**
@@ -177,25 +189,49 @@ class ilAccountMail
 		// determine language and get account mail data
 		// fall back to default language if acccount mail data is not given for user language.
 		$amail = $this->readAccountMail($user->getLanguage());
-		if ($amail["body"] == "" || $amail["subject"] == "")
+		if ($amail['body'] == '' || $amail['subject'] == '')
 		{
-			$amail = $this->readAccountMail($ilSetting->get("language"));
-			$lang = $ilSetting->get("language");
+			$amail = $this->readAccountMail($ilSetting->get('language'));
+			$lang = $ilSetting->get('language');			
 		}
 		else
 		{
 			$lang = $user->getLanguage();
 		}
+		
+		// fallback if mail data is still not given
+		if($this->areLangVariablesUsedAsFallback() && 
+		   ($amail['body'] == '' || $amail['subject'] == ''))
+		{
+			$lang = $user->getLanguage();
+			$tmp_lang = new ilLanguage($lang);
+						
+			// mail subject
+			$mail_subject = $tmp_lang->txt('reg_mail_subject');
 
-		// replace placeholders
-		$mail_subject = $this->replacePlaceholders($amail["subject"], $user, $amail, $lang);
-		$mail_body = $this->replacePlaceholders($amail["body"], $user, $amail, $lang);
+			// mail body
+			$mail_body = $tmp_lang->txt('reg_mail_body_salutation').' '.$user->getFullname().",\n\n".
+				$tmp_lang->txt('reg_mail_body_text1')."\n\n".
+				$tmp_lang->txt('reg_mail_body_text2')."\n".
+				ILIAS_HTTP_PATH.'/login.php?client_id='.CLIENT_ID."\n".
+				$tmp_lang->txt('login').': '.$user->getLogin()."\n";			
+			$mail_body.= $tmp_lang->txt('passwd').': '.$this->u_password."\n";
+			$mail_body.= "\n";
+			$mail_body .= $tmp_lang->txt('reg_mail_body_text3')."\n\r";
+			$mail_body .= $user->getProfileAsString($tmp_lang);		
+		}
+		else
+		{
+			// replace placeholders
+			$mail_subject = $this->replacePlaceholders($amail['subject'], $user, $amail, $lang);
+			$mail_body = $this->replacePlaceholders($amail['body'], $user, $amail, $lang);
+		}	
 		
 		// send the mail
-		include_once "Services/Mail/classes/class.ilMimeMail.php";
+		include_once 'Services/Mail/classes/class.ilMimeMail.php';
 		$mmail = new ilMimeMail();
 		$mmail->autoCheck(false);
-		$mmail->From($ilSetting->get("admin_email"));																		
+		$mmail->From($ilSetting->get('admin_email'));																		
 		$mmail->Subject($mail_subject);
 		$mmail->To($user->getEmail());
 		$mmail->Body($mail_body);
