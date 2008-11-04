@@ -153,7 +153,7 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	*/
 	function buildOnClick($a_node_id, $a_type, $a_title)
 	{
-		return "opener.addInternalLink('[iln ".$a_type."=&quot;".$a_node_id."&quot;] [/iln]','".$a_title."');setTimeout('window.close()',300);return(false);";
+		return "parent.content.addInternalLink('[iln ".$a_type."=&quot;".$a_node_id."&quot;] [/iln]','".$a_title."');setTimeout('window.close()',300);return(false);";
 	}
 
 
