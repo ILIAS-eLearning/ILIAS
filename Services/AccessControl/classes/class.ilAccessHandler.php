@@ -583,10 +583,9 @@ class ilAccessHandler
 			!$this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id, $a_type, $a_obj_id))
 		{
 			$ilBench->start("AccessControl", "4000_checkAccess_condition_check");
-			if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id))
+			if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id,$a_type,$a_user_id))
 			{
 				$conditions = ilConditionHandler::_getConditionsOfTarget($a_ref_id,$a_obj_id, $a_type);
-				
 				foreach ($conditions as $condition)
 				{
 					$this->current_info->addInfoItem(IL_MISSING_PRECONDITION,

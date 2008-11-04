@@ -1521,16 +1521,18 @@ class ilObjCourse extends ilContainer
 	}
 
 	// static method for condition handler
-	function _checkCondition($a_obj_id,$a_operator,$a_value)
+	function _checkCondition($a_obj_id,$a_operator,$a_value,$a_usr_id = 0)
 	{
 		global $ilUser;
+		
+		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
 		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
 		
 		switch($a_operator)
 		{
 			case 'passed':
-				return ilCourseParticipants::_hasPassed($a_obj_id,$ilUser->getId());
+				return ilCourseParticipants::_hasPassed($a_obj_id,$a_usr_id);
 				
 			default:
 				return true;

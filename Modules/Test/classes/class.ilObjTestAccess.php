@@ -183,20 +183,23 @@ class ilObjTestAccess extends ilObjectAccess
 	*
 	* this method is called by ilConditionHandler
 	*/
-	function _checkCondition($a_obj_id, $a_operator, $a_value)
+	function _checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id = 0)
 	{
-		global $ilias;
+		global $ilUser;
+		
+		$a_usr_id = $a_usr_id ? $a_usr_id : $iUser->getId();
+		
 		switch($a_operator)
 		{
 			case 'passed':
-				return ilObjTestAccess::_isPassed($ilias->account->getId(), $a_obj_id);
+				return ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
 				break;
 
 			case 'finished':
-				return ilObjTestAccess::_hasFinished($ilias->account->getId(),$a_obj_id);
+				return ilObjTestAccess::_hasFinished($a_usr_id,$a_obj_id);
 
 			case 'not_finished':
-				return !ilObjTestAccess::_hasFinished($ilias->account->getId(),$a_obj_id);
+				return !ilObjTestAccess::_hasFinished($a_usr_id,$a_obj_id);
 
 			default:
 				return true;
