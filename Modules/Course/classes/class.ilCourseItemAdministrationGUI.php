@@ -173,7 +173,7 @@ class ilCourseItemAdministrationGUI
 			#$end->setMinuteStepSize(5);
 			$vis->addSubItem($end);
 			
-			$isv = new ilCheckboxInputGUI($this->lng->txt('crs_visibility'),'visible');
+			$isv = new ilCheckboxInputGUI($this->lng->txt('crs_timings_visibility_short'),'visible');
 			$isv->setInfo($this->lng->txt('crs_timings_visibility'));
 			$isv->setValue(1);
 			$vis->addSubItem($isv);
