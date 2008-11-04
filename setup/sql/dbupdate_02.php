@@ -6153,3 +6153,9 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 UPDATE int_link SET source_type = 'wpg:pg' WHERE source_type = 'wpg';
 <#1349>
 DELETE FROM il_request_token WHERE user_id = 0;
+<#1350>
+ALTER TABLE mob_usage ADD COLUMN usage_hist_nr INT NOT NULL DEFAULT 0;
+<#1351>
+ALTER TABLE mob_usage DROP PRIMARY KEY;
+<#1352>
+ALTER TABLE mob_usage ADD PRIMARY KEY (id, usage_type, usage_id, usage_hist_nr);
