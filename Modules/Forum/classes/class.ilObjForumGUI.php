@@ -273,7 +273,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 	function getContent()
 	{
-		global $ilUser, $ilDB, $ilAccess;		
+		global $ilUser, $ilDB, $ilAccess, $lng;		
 
 		if (!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
 		{

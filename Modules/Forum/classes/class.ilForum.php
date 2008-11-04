@@ -2038,7 +2038,7 @@ class ilForum
 
 	function sendThreadNotifications($post_data)
 	{
-		global $ilDB;
+		global $ilDB, $ilAccess;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -2053,9 +2053,12 @@ class ilForum
 			$post_data['thr_subject'] = $record['thr_subject'];
 			break;
 		}
+		
+		// determine obj_id of the forum
+		$obj_id = self::_lookupObjIdForForumId($post_data['pos_top_fk']);
 
 		// GET AUTHOR OF NEW POST
-		if(ilForumProperties::getInstance(self::_lookupObjIdForForumId($post_data['pos_top_fk']))->isAnonymized())
+		if(ilForumProperties::getInstance($obj_id)->isAnonymized())
 		{
 			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'];
 		}
@@ -2074,20 +2077,37 @@ class ilForum
 		$q .= "user_id <> ".$ilDB->quote($_SESSION["AccountId"])."";
 		$res = $this->ilias->db->query($q);
 		
+		// get all references of obj_id
+		$frm_references = ilObject::_getAllReferences($obj_id);
+
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-		{								
-			// SEND NOTIFICATIONS BY E-MAIL
-			$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
-											   $this->formatNotificationSubject($post_data),
-											   $this->formatNotification($post_data),
-											   array(),array("system"));
+		{
+			// do rbac check before sending notification
+			$send_mail = false;			
+			foreach((array)$frm_references as $ref_id)
+			{
+				if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
+				{
+					$send_mail = true;
+					break;
+				}
+			}
+			
+			if($send_mail)
+			{									
+				// SEND NOTIFICATIONS BY E-MAIL
+				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
+												   $this->formatNotificationSubject($post_data),
+												   $this->formatNotification($post_data),
+												   array(),array("system"));
+			}
 		}
 	}
 	
 	function sendForumNotifications($post_data)
 	{
-		global $ilDB;
+		global $ilDB, $ilAccess;
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -2102,9 +2122,12 @@ class ilForum
 			$post_data['thr_subject'] = $record['thr_subject'];
 			break;
 		}
+				
+		// determine obj_id of the forum
+		$obj_id = self::_lookupObjIdForForumId($post_data['pos_top_fk']);
 
 		// GET AUTHOR OF NEW POST
-		if(ilForumProperties::getInstance(self::_lookupObjIdForForumId($post_data['pos_top_fk']))->isAnonymized())
+		if(ilForumProperties::getInstance()->isAnonymized())
 		{
 			$post_data['pos_usr_name'] = $post_data['pos_usr_alias'];
 		}
@@ -2125,14 +2148,31 @@ class ilForum
 		$q .= "GROUP BY frm_notification.user_id";
 		$res = $this->ilias->db->query($q);
 		
+		// get all references of obj_id
+		$frm_references = ilObject::_getAllReferences($obj_id);
+		
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-		{								
-			// SEND NOTIFICATIONS BY E-MAIL			
-			$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
-											   $this->formatNotificationSubject($post_data),
-											   $this->formatNotification($post_data),
-											   array(),array("system"));
+		{			
+			// do rbac check before sending notification
+			$send_mail = false;			
+			foreach((array)$frm_references as $ref_id)
+			{
+				if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
+				{
+					$send_mail = true;
+					break;
+				}
+			}
+			
+			if($send_mail)
+			{								
+				// SEND NOTIFICATIONS BY E-MAIL			
+				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
+												   $this->formatNotificationSubject($post_data),
+												   $this->formatNotification($post_data),
+												   array(),array("system"));
+			}
 		}
 	}
 	
@@ -2311,7 +2351,7 @@ class ilForum
 	{
 		global $ilDB;
 		
-		$forum = $ilDB->query("SELECT * FROM frm_data ".
+		$forum = $ilDB->query("SELECT top_frm_fk FROM frm_data ".
 				" WHERE top_pk = ".$ilDB->quote($a_for_id));
 		if ($fdata = $forum->fetchRow(DB_FETCHMODE_ASSOC))
 		{

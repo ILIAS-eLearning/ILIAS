@@ -43,7 +43,9 @@ class ilCronForumNotification
 
 	function sendMails($res)
 	{
-		global $ilias, $rbacsystem;
+		global $ilias, $rbacsystem, $ilAccess;
+		
+		static $cache = array();
 
 		include_once "./Modules/Forum/classes/class.ilObjForum.php";
 		include_once "Services/Mail/classes/class.ilMail.php";
@@ -51,45 +53,50 @@ class ilCronForumNotification
 		include_once "./Services/Language/classes/class.ilLanguage.php";
 		
 		$forumObj = new ilObjForum($_GET["ref_id"]);
-		$frm =& $forumObj->Forum;
+		$frm = $forumObj->Forum;
 
 		$numRows = 0;
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if ($row["pos_usr_id"] != $row["user_id"])
-			{
+			// don not send a notification to the post author
+			if($row['pos_usr_id'] != $row['user_id'])
+			{					
 				// GET AUTHOR OF NEW POST
-				$row["pos_usr_name"] = ilObjUser::_lookupLogin($row["pos_usr_id"]);
-
-				if (is_array($obj_data = ilObject::_getAllReferences($row["obj_id"])))
+				$row['pos_usr_name'] = ilObjUser::_lookupLogin($row['pos_usr_id']);
+				
+				// get all references of obj_id
+				if(!isset($cache[$row['obj_id']]))		
+					$cache[$row['obj_id']] = ilObject::_getAllReferences($row['obj_id']);				
+				
+				// do rbac check before sending notification
+				$send_mail = false;
+				foreach((array)$cache[$row['obj_id']] as $ref_id)
 				{
-					foreach($obj_data as $ref_id)
+					if($ilAccess->checkAccessOfUser($row['user_id'], 'read', '', $ref_id))
 					{
-						if ($rbacsystem->checkAccessOfUser($row["user_id"], "read", $ref_id))
-						{
-							$row["ref_id"] = $ref_id;
-							break;
-						}
+						$row['ref_id'] = $ref_id;
+						$send_mail = true;
+						break;
 					}
 				}
-
-				if ($row["ref_id"] != "")
-				{
+				
+				if($send_mail)
+				{					
 					// SEND NOTIFICATIONS BY E-MAIL
-					$user_language = ilObjUser::_lookupLanguage($row["user_id"]);
-					if (!is_object($lng[$user_language]))
+					$user_language = ilObjUser::_lookupLanguage($row['user_id']);
+					if(!is_object($lng[$user_language]))
 					{
-						$lng[$user_language] =& new ilLanguage($user_language);
-						$lng[$user_language]->loadLanguageModule("forum");
-					}
-					$frm->setLanguage($lng[$user_language]);
-					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
+						$lng[$user_language] = new ilLanguage($user_language);
+						$lng[$user_language]->loadLanguageModule('forum');
+					}					
+					
+					$frm->setLanguage($lng[$user_language]);					
+					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row['user_id']),'','',
 													   $frm->formatNotificationSubject($row),
 													   $frm->formatNotification($row, 1),
-													   array(),array("normal"));
-					$numRows++;
-					
+													   array(),array('normal'));
+					$numRows++;					
 				}
 			}
 		}
