@@ -5282,16 +5282,18 @@ class ilObjSurvey extends ilObject
 		ilUtil::deliverData($result, ilUtil::getASCIIFilename($this->getTitle()) . ".pdf", "application/pdf");
 	}
 	
-	function _checkCondition($a_svy_id,$a_operator,$a_value)
+	function _checkCondition($a_svy_id,$a_operator,$a_value,$a_usr_id = 0)
 	{
 		global $ilUser;
+		
+		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
 		switch($a_operator)
 		{
 			case 'finished':
 				//if (ilExerciseMembers::_lookupStatus($a_exc_id, $ilias->account->getId()) == "passed")
 				include_once("./Modules/Survey/classes/class.ilObjSurveyAccess.php");
-				if (ilObjSurveyAccess::_lookupFinished($a_svy_id, $ilUser->getId()))
+				if (ilObjSurveyAccess::_lookupFinished($a_svy_id, $a_usr_id))
 				{
 					return true;
 				}

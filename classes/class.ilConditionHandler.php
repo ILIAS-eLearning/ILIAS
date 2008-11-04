@@ -660,37 +660,39 @@ class ilConditionHandler
 	* every trigger object type must implement a static method
 	* _checkCondition($a_operator, $a_value)
 	*/
-	function _checkCondition($a_id)
+	function _checkCondition($a_id,$a_usr_id = 0)
 	{
+		global $ilUser;
+		
+		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
+		
 		$condition = ilConditionHandler::_getCondition($a_id);
-
+		
 		switch($condition['trigger_type'])
 		{
 			case "tst":
 				include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-				return ilObjTestAccess::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+				return ilObjTestAccess::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
 
 			case "crs":
 				include_once './Modules/Course/classes/class.ilObjCourse.php';
-				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
 
 			case 'exc':
 				include_once './Modules/Exercise/classes/class.ilObjExercise.php';
-				return ilObjExercise::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+				return ilObjExercise::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
 
 			case 'crsg':
 				include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
-				return ilObjCourseGrouping::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+				return ilObjCourseGrouping::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
 
 			case 'sahs':
-				global $ilUser;
-
 				include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-				return in_array($ilUser->getId(),$completed = ilLPStatusWrapper::_getCompleted($condition['trigger_obj_id']));
+				return in_array($a_usr_id,$completed = ilLPStatusWrapper::_getCompleted($condition['trigger_obj_id']));
 
 			case 'svy':
 				include_once './Modules/Survey/classes/class.ilObjSurvey.php';
-				return ilObjSurvey::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+				return ilObjSurvey::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
 
 			default:
 				return false;
@@ -702,14 +704,16 @@ class ilConditionHandler
 	/**
 	* checks wether all conditions of a target object are fulfilled
 	*/
-	function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "")
+	function _checkAllConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type = "",$a_usr_id = 0)
 	{
-		global $ilBench;
+		global $ilBench,$ilUser;
+		
+		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
 		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_ref_id,$a_target_id, $a_target_type) as $condition)
 		{
 			$ilBench->start("ilConditionHandler", "checkCondition");
-			$check = ilConditionHandler::_checkCondition($condition['id']);
+			$check = ilConditionHandler::_checkCondition($condition['id'],$a_usr_id);
 			$ilBench->stop("ilConditionHandler", "checkCondition");
 
 			if(!$check)
