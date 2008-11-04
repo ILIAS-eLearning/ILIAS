@@ -4665,6 +4665,8 @@ content#:#cont_obj_removed#:#Objects removed.
 content#:#cont_offline#:#Offline Versions
 content#:#cont_offline_files#:#Offline versions
 content#:#cont_offline_versions#:#Offline Versions
+content#:#cont_versions#:#Versions
+content#:#cont_current_version#:#Current Version
 content#:#cont_online#:#Online
 content#:#cont_or#:#or
 content#:#cont_order#:#Order Type
