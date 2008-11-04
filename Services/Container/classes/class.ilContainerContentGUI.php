@@ -387,6 +387,11 @@ abstract class ilContainerContentGUI
 	{
 		global $ilSetting,$ilAccess;
 		
+		if(!$ilAccess->checkAccess('visible','',$a_item_data['ref_id']))
+		{
+			return '';
+		}
+		
 		$item_list_gui = $this->getItemGUI($a_item_data);
 		if ($ilSetting->get("icon_position_in_lists") == "item_rows" ||
 			$a_item_data["type"] == "sess" || $a_force_icon)
