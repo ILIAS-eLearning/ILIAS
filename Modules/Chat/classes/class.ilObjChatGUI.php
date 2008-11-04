@@ -1335,7 +1335,7 @@ class ilObjChatGUI extends ilObjectGUI
 		$this->tpl->touchBlock("content");
 	}
 
-	function export()
+	function exportObject()
 	{
 		$tmp_tpl =& new ilTemplate("tpl.chat_export.html",true,true,"Modules/Chat");
 
@@ -1930,7 +1930,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if(count($_POST["del_id"]) == 1)
 		{
 			$this->object->chat_room->setRoomId($_POST["del_id"][0]);
-			$this->export();
+			$this->exportObject();
 		}
 
 		$file_obj =& new ilFileDataChat($this->object);
