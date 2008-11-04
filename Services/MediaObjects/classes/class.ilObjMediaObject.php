@@ -961,7 +961,7 @@ class ilObjMediaObject extends ilObject
 		
 		$id = $a_usage["id"];
 		$obj_id = false;
-		
+
 		switch($type)
 		{
 			case "html":					// "old" category pages

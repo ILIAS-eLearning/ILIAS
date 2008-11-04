@@ -1191,6 +1191,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function showUsagesObject()
 	{
+		global $tpl;
+		
+		include_once("./Services/MediaObjects/classes/class.ilMediaObjectUsagesTableGUI.php");
+		$usages_table = new ilMediaObjectUsagesTableGUI($this, "showUsages",
+			$this->object);
+		$tpl->setContent($usages_table->getHTML());
+return;
+
 		// create table
 		require_once("./Services/Table/classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();
