@@ -5312,7 +5312,7 @@ crs#:#event_file_name#:#Filename
 crs#:#event_file_size_info#:#Filesize
 crs#:#event_full_time_info#:#full-time
 crs#:#event_fullday#:#Full-Time
-crs#:#event_fulltime_info#:#No Time Specified
+crs#:#event_fulltime_info#:#All Day Event
 crs#:#event_further_informations#:#Further Information
 crs#:#event_general_infos#:#General Information
 crs#:#event_general_properties#:#General Information
