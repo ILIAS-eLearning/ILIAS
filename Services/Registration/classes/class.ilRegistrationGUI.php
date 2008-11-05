@@ -108,8 +108,8 @@ class ilRegistrationGUI
 			$this->tpl->setVariable("FORMACTION", "login.php?cmd=force_login&target=".$_GET["target"]);
 			$this->tpl->setVariable("TARGET","target=\"_parent\"");
 			$this->tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
-			$this->tpl->setVariable("USERNAME",$this->userObj->getLogin());
-			$this->tpl->setVariable("PASSWORD",$_POST["user"]['passwd']);
+			//$this->tpl->setVariable("USERNAME",$this->userObj->getLogin());
+			//$this->tpl->setVariable("PASSWORD",$_POST["user"]['passwd']);
 			$this->tpl->parseCurrentBlock();
 		}
 		else if ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
