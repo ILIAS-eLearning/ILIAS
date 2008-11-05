@@ -4891,7 +4891,7 @@ crs#:#event_file_size_info#:#Dateigröße
 crs#:#event_file#:#Datei
 crs#:#event_full_time_info#:#ganztags
 crs#:#event_fullday#:#Ganztags
-crs#:#event_fulltime_info#:#Keine Zeit festgelegt
+crs#:#event_fulltime_info#:#Ganztagestermin
 crs#:#event_further_informations#:#Weitere Informationen
 crs#:#event_general_infos#:#Allgemeine Informationen
 crs#:#event_general_properties#:#Allgemeine Informationen

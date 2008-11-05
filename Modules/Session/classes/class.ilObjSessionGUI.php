@@ -1125,6 +1125,9 @@ class ilObjSessionGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule('dateplaner');
 	
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		
+		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
+		ilYuiUtil::initDomEvent();
 
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setMultipart(true);
@@ -1164,9 +1167,11 @@ class ilObjSessionGUI extends ilObjectGUI
 		$section->setTitle($this->lng->txt('event_date_time'));
 		$this->form->addItem($section);
 		
+		$this->tpl->addJavaScript('./Modules/Session/js/toggle_session_time.js');
 		$full = new ilCheckboxInputGUI($this->lng->txt('sess_date_time'),'fulltime');
 		$full->setChecked($this->object->getFirstAppointment()->enabledFulltime() ? true : false);
 		$full->setOptionTitle($this->lng->txt('event_fulltime_info'));
+		$full->setAdditionalAttributes('onchange="ilToggleSessionTime(this);"');
 		$this->form->addItem($full);
 		
 		// start
