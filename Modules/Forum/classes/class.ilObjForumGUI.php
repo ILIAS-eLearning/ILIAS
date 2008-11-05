@@ -2102,7 +2102,55 @@ class ilObjForumGUI extends ilObjectGUI
 					{
 						if($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
 						   (!$ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) && $node->isActivated()))
-						{						
+						{		
+							// button: reply
+							if (!$this->objCurrentTopic->isClosed() &&
+								$ilAccess->checkAccess('add_post', '', (int) $_GET['ref_id']) && 
+								!$node->isCensored())
+							{						
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameter($this, 'action', 'showreply');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$tpl->setVariable('COMMANDS_COMMAND',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('reply'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();				
+							}
+							
+							// button: edit article
+							if (!$this->objCurrentTopic->isClosed() &&
+								($node->isOwner($ilUser->getId()) ||
+								 $ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id'])) &&									
+								 !$node->isCensored())
+							{
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameter($this, 'action', 'showedit');
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
+								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
+								$this->ctrl->setParameter($this, 'offset', $Start);
+								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('edit'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();
+							}		
+							
+							// button: print
+							if (!$node->isCensored())
+							{							
+								$tpl->setCurrentBlock('commands');
+								$this->ctrl->setParameterByClass('ilforumexportgui', 'print_post', $node->getId());
+								$this->ctrl->setParameterByClass('ilforumexportgui', 'top_pk', $node->getForumId());
+								$this->ctrl->setParameterByClass('ilforumexportgui', 'thr_pk', $node->getThreadId());
+								$tpl->setVariable('COMMANDS_COMMAND',	$this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printPost'));
+								$tpl->setVariable('COMMANDS_TXT', $lng->txt('print'));
+								$this->ctrl->clearParameters($this);
+								$tpl->parseCurrentBlock();									
+							}					
+											
 							# buttons for every post except the "active"						
 							if (!$this->objCurrentTopic->isClosed() &&
 							   ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
@@ -2156,42 +2204,7 @@ class ilObjForumGUI extends ilObjectGUI
 								}
 								$this->ctrl->clearParameters($this);			
 								$tpl->parseCurrentBlock();
-							}
-							
-							// button: edit article
-							if (!$this->objCurrentTopic->isClosed() &&
-								($node->isOwner($ilUser->getId()) ||
-								 $ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id'])) &&									
-								 !$node->isCensored())
-							{
-								$tpl->setCurrentBlock('commands');
-								$this->ctrl->setParameter($this, 'action', 'showedit');
-								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-								$this->ctrl->setParameter($this, 'offset', $Start);
-								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-								$tpl->setVariable('COMMANDS_COMMAND', $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-								$tpl->setVariable('COMMANDS_TXT', $lng->txt('edit'));
-								$this->ctrl->clearParameters($this);
-								$tpl->parseCurrentBlock();
-							}			
-							
-							// button: reply
-							if (!$this->objCurrentTopic->isClosed() &&
-								$ilAccess->checkAccess('add_post', '', (int) $_GET['ref_id']) && 
-								!$node->isCensored())
-							{						
-								$tpl->setCurrentBlock('commands');
-								$this->ctrl->setParameter($this, 'action', 'showreply');
-								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-								$this->ctrl->setParameter($this, 'offset', $Start);
-								$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-								$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-								$tpl->setVariable('COMMANDS_COMMAND',	$this->ctrl->getLinkTarget($this, 'viewThread', $node->getId()));
-								$tpl->setVariable('COMMANDS_TXT', $lng->txt('reply'));
-								$this->ctrl->clearParameters($this);
-								$tpl->parseCurrentBlock();				
-							}
+							}												
 							
 							// button: mark read
 							if (!$node->isRead($ilUser->getId()))
@@ -2205,20 +2218,7 @@ class ilObjForumGUI extends ilObjectGUI
 								$tpl->setVariable('COMMANDS_TXT', $lng->txt('is_read'));
 								$this->ctrl->clearParameters($this);
 								$tpl->parseCurrentBlock();
-							}										
-							
-							// button: print
-							if (!$node->isCensored())
-							{							
-								$tpl->setCurrentBlock('commands');
-								$this->ctrl->setParameterByClass('ilforumexportgui', 'print_post', $node->getId());
-								$this->ctrl->setParameterByClass('ilforumexportgui', 'top_pk', $node->getForumId());
-								$this->ctrl->setParameterByClass('ilforumexportgui', 'thr_pk', $node->getThreadId());
-								$tpl->setVariable('COMMANDS_COMMAND',	$this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printPost'));
-								$tpl->setVariable('COMMANDS_TXT', $lng->txt('print'));
-								$this->ctrl->clearParameters($this);
-								$tpl->parseCurrentBlock();									
-							}
+							}							
 						}
 					} // if ($this->objCurrentPost->getId() != $node->getId())										
 										
