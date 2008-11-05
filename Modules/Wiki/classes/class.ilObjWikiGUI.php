@@ -189,7 +189,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				
 				$newObj->setTitle($this->form_gui->getInput("title"));
 				$newObj->setDescription($this->form_gui->getInput("description"));
-				$newObj->setIntroduction($this->form_gui->getInput("introduction"));
+				$newObj->setIntroduction($this->form_gui->getInput("intro"));
 				$newObj->setStartPage($this->form_gui->getInput("startpage"));
 				$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
 				$newObj->setRating($this->form_gui->getInput("rating"));

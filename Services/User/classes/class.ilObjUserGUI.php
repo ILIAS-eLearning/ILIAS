@@ -929,7 +929,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$userObj->setUserDefinedData($udf);
 
 			$userObj->create();
-
+			
 			include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 			if(ilAuthUtils::_isExternalAccountEnabled())
 			{
@@ -969,6 +969,9 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$ilUser->setPref('send_info_mails', ($_POST['send_mail'] == 'y') ? 'y' : 'n');
 			$ilUser->writePrefs();                        
+
+			$this->object = $userObj;
+			$this->uploadUserPictureObject();
 
 			// send new account mail
 			if($_POST['send_mail'] == 'y')
