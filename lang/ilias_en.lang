@@ -8705,3 +8705,26 @@ assessment#:#no_selection#:#--- No Selection ---
 assessment#:#customstyle#:#Custom Style
 assessment#:#customstyle_description#:#It is possible to use a custom style sheet for this test. Please select one of the available style sheets to assign it to this test.
 dateplaner#:#cal_type_info#:#Please choose one calendar type. "Public Calendars" are visible for all ILIAS users.
+rbac#:#root_create_catr#:#Create Category Reference
+rbac#:#mcts_edit_permission#:#Change permission settings
+rbac#:#mcts_read#:#Read access to mediacast settings
+rbac#:#mcts_visible#:#Mediacast settings are visible
+rbac#:#mcts_write#:#Edit mediacast settings
+rbac#:#cmps_edit_permission#:#Change permission settings
+rbac#:#cmps_read#:#Read access to component settings
+rbac#:#cmps_visible#:#Component settings are visible
+rbac#:#cmps_write#:#Edit component settings
+rbac#:#pdts_edit_permission#:#Change permission settings
+rbac#:#pdts_read#:#Read access to personal desktop settings
+rbac#:#pdts_visible#:#Personal desktop settings are visible
+rbac#:#pdts_write#:#Edit personal desktop settings
+rbac#:#sess_delete#:#Delete Session
+rbac#:#svyf_edit_permission#:#Change permission settings
+rbac#:#svyf_read#:#Read access to survey settings
+rbac#:#svyf_visible#:#Survey settings are visible
+rbac#:#svyf_write#:#Edit survey settings
+rbac#:#facs_edit_permission#:#Change permission settings
+rbac#:#facs_read#:#Read access to files & foldes settings
+rbac#:#facs_visible#:#Files & foldes settings are visible
+rbac#:#facs_write#:#Edit files & foldes settings
+common#:#objs_mail#:#Mail
