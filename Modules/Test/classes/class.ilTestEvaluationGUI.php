@@ -1277,7 +1277,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	{
 		global $ilUser;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_info_list_of_answers.html", "Modules/Test");
+		$template = new ilTemplate("tpl.il_as_tst_info_list_of_answers.html", TRUE, TRUE, "Modules/Test");
 
 		$pass = null;
 		if (array_key_exists("pass", $_GET))
@@ -1294,8 +1294,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		else
 		{
 			$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outUserListOfAnswerPasses", TRUE);
-			$this->tpl->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
-			$this->tpl->setVariable("PASS_OVERVIEW", $overview);
+			$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
+			$template->setVariable("PASS_OVERVIEW", $overview);
 		}
 
 		$signature = "";
@@ -1310,22 +1310,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$showAllAnswers = FALSE;
 			}
 			$answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, FALSE, $showAllAnswers);
-			$this->tpl->setVariable("PASS_DETAILS", $answers);
+			$template->setVariable("PASS_DETAILS", $answers);
 		}
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
-		$this->tpl->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
-		$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$this->tpl->setVariable("PRINT_URL", "javascript:window.print();");
+		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
+		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
+		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+		$template->setVariable("PRINT_URL", "javascript:window.print();");
 
 		$user_data = $this->getResultsUserdata($active_id, TRUE);
-		$this->tpl->setVariable("USER_DATA", $user_data);
-		$this->tpl->setVariable("TEXT_LIST_OF_ANSWERS", $this->lng->txt("tst_list_of_answers"));
+		$template->setVariable("USER_DATA", $user_data);
+		$template->setVariable("TEXT_LIST_OF_ANSWERS", $this->lng->txt("tst_list_of_answers"));
 		if (strlen($signature))
 		{
-			$this->tpl->setVariable("SIGNATURE", $signature);
+			$template->setVariable("SIGNATURE", $signature);
 		}
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
