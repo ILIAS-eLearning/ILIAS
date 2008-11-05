@@ -8702,3 +8702,4 @@ crs#:#crs_timings_visibility_short#:#Sichtbarkeit
 assessment#:#no_selection#:#--- Keine Auswahl ---
 assessment#:#customstyle#:#Eigener Stil
 assessment#:#customstyle_description#:#Es ist möglich, eine eigenen Stil für diesen Test zu verwenden. Bitte wählen Sie eine der verfügbaren Stilvorlagen aus, um sie mit diesem Test zu verwenden.
+dateplaner#:#cal_type_info#:#Bitte wählen Sie die Kalenderart aus. "Öffentliche Kalender" sind für alle NutzerInnen sichtbar.
