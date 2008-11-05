@@ -63,9 +63,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 		$this->lng->loadLanguageModule('dateplaner');
 
 		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-
 		$tpl->addJavascript("./Services/Calendar/js/recurrence_input.js");
-		$tpl->setVariable('BODY_ATTRIBUTES','onLoad="ilHideFrequencies();"');
 		
 		parent::__construct($a_title,$a_postvar);
 	}

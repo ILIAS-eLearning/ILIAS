@@ -8074,8 +8074,8 @@ dateplaner#:#cal_what#:#Titel
 dateplaner#:#cal_category_selection#:#Kalenderauswahl
 dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_end#:#Ende
-dateplaner#:#cal_fullday#:#Ganztags
-dateplaner#:#cal_fullday_title#:#Keine Uhrzeit festgelegt
+dateplaner#:#cal_fullday#:#Datum/Uhrzeit
+dateplaner#:#cal_fullday_title#:#Ganztagestermin
 dateplaner#:#cal_where#:#Ort
 dateplaner#:#cal_new_app#:#Neuer Termin
 dateplaner#:#cal_add_appointment#:#Termin anlegen

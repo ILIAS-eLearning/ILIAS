@@ -33,6 +33,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $value = "1";
 	protected $checked;
 	protected $optiontitle = "";
+	protected $additional_attributes = '';
 	
 	/**
 	* Constructor
@@ -119,6 +120,25 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 			$item->setValueByArray($a_values);
 		}
 	}
+	
+	/**
+	* Set addiotional attributes
+	*
+	* @param	string	$a_attrs	addition attribute string
+	*/
+	function setAdditionalAttributes($a_attrs)
+	{
+		$this->additional_attributes = $a_attrs;
+	}
+	
+	/**
+	* get addtional attributes
+	*
+	*/
+	function getAdditionalAttributes()
+	{
+		return $this->additional_attributes;
+	}
 
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
@@ -147,6 +167,10 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("PROPERTY_VALUE", $this->getValue());
 		$a_tpl->setVariable("OPTION_TITLE", $this->getOptionTitle());
+		if(strlen($this->getAdditionalAttributes()))
+		{
+			$a_tpl->setVariable('PROP_CHECK_ATTRS',$this->getAdditionalAttributes());
+		}
 		if ($this->getChecked())
 		{
 			$a_tpl->setVariable("PROPERTY_CHECKED",

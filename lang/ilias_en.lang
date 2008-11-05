@@ -8168,8 +8168,8 @@ dateplaner#:#cal_what#:#Title
 dateplaner#:#cal_category_selection#:#Calendar Selection
 dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_end#:#End
-dateplaner#:#cal_fullday#:#Fullday
-dateplaner#:#cal_fullday_title#:#No time specified
+dateplaner#:#cal_fullday#:#Date/Time
+dateplaner#:#cal_fullday_title#:#All Day Event
 dateplaner#:#cal_where#:#Location
 dateplaner#:#cal_new_app#:#New Appointment
 dateplaner#:#cal_add_appointment#:#Create Appointment
