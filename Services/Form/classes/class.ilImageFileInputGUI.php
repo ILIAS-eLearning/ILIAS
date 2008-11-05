@@ -112,4 +112,16 @@ class ilImageFileInputGUI extends ilFileInputGUI
 		$a_tpl->parseCurrentBlock();
 	}
 
+	/**
+	* Get deletion flag
+	*/
+	function getDeletionFlag()
+	{
+		if ($_POST[$this->getPostVar()."_delete"])
+		{
+			return true;
+		}
+		return false;
+	}
+
 }
