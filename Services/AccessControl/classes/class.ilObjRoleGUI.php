@@ -63,7 +63,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $tree,$lng;
 		
 		$lng->loadLanguageModule('rbac');
-		
+
 		//TODO: move this to class.ilias.php
 		define("USER_FOLDER_ID",7);
 
@@ -712,6 +712,14 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			// BEGIN object_type
 			$this->tpl->setCurrentBlock("object_type");
+
+			// add administration for adminstrative items
+			if ($objDefinition->isSystemObject($obj_data["type"]) &&
+				$obj_data["type"] != "root")
+			{
+				$this->tpl->setVariable("TXT_ADMINIS", "(".$this->lng->txt("administration").") ");
+			}
+
 			$this->tpl->setVariable("TXT_OBJ_TYPE",$obj_data["name"]);
 
 // TODO: move this if in a function and query all objects that may be disabled or inactive

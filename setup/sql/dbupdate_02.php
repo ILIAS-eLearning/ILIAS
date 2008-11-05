@@ -6171,4 +6171,20 @@ if (!$ilDB->tableColumnExists("tst_tests", "customstyle"))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1355>
+<?php
 
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'tax'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$typ_id = $row["obj_id"];
+if ($typ_id > 0)
+{
+	$q = "DELETE FROM rbac_ta WHERE typ_id = ".$ilDB->quote($typ_id);
+	$ilDB->query($q);
+	$q = "DELETE FROM object_data WHERE obj_id = ".$ilDB->quote($typ_id);
+	$ilDB->query($q);
+}
+
+?>
