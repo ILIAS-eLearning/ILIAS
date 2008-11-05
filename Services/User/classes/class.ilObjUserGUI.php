@@ -1451,7 +1451,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$pi = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
 		if ($a_mode == "edit" || $a_mode == "upload")
 		{
-			$pi->setImage(ilObjUser::_getPersonalPicturePath($this->object->getId()));
+			$pi->setImage(ilObjUser::_getPersonalPicturePath($this->object->getId(), "small", true,
+				true));
 		}
 		$this->form_gui->addItem($pi);
 
@@ -2343,11 +2344,16 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
+		$userfile_input = $this->form_gui->getItemByPostVar("userfile");
+
 		if ($_FILES["userfile"]["tmp_name"] == "")
 		{
+			if ($userfile_input->getDeletionFlag())
+			{
+				$this->object->removeUserPicture();
+			}
 			return;
 		}
-
 		if ($_FILES["userfile"]["size"] == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("msg_no_file"));
@@ -2364,7 +2370,6 @@ class ilObjUserGUI extends ilObjectGUI
 
 			// move uploaded file
 			$uploaded_file = $image_dir."/upload_".$this->object->getId()."pic";
-
 			if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
 				$uploaded_file, false))
 			{

@@ -194,38 +194,7 @@ class ilPersonalProfileGUI
 	{
 		global $ilUser;
 
-		$webspace_dir = ilUtil::getWebspaceDir();
-		$image_dir = $webspace_dir."/usr_images";
-		$file = $image_dir."/usr_".$ilUser->getID()."."."jpg";
-		$thumb_file = $image_dir."/usr_".$ilUser->getID()."_small.jpg";
-		$xthumb_file = $image_dir."/usr_".$ilUser->getID()."_xsmall.jpg";
-		$xxthumb_file = $image_dir."/usr_".$ilUser->getID()."_xxsmall.jpg";
-		$upload_file = $image_dir."/upload_".$ilUser->getID();
-
-		// remove user pref file name
-		$ilUser->setPref("profile_image", "");
-		$ilUser->update();
-
-		if (@is_file($file))
-		{
-			unlink($file);
-		}
-		if (@is_file($thumb_file))
-		{
-			unlink($thumb_file);
-		}
-		if (@is_file($xthumb_file))
-		{
-			unlink($xthumb_file);
-		}
-		if (@is_file($xxthumb_file))
-		{
-			unlink($xxthumb_file);
-		}
-		if (@is_file($upload_file))
-		{
-			unlink($upload_file);
-		}
+		$ilUser->removeUserPicture();
 
 		$this->saveProfile();
 	}

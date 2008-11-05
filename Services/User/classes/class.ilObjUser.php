@@ -3810,7 +3810,8 @@ class ilObjUser extends ilObject
 	* @param	string		size		"small", "xsmall" or "xxsmall"
 	* STATIC
 	*/
-	function _getPersonalPicturePath($a_usr_id,$a_size = "small", $a_force_pic = false)
+	function _getPersonalPicturePath($a_usr_id,$a_size = "small", $a_force_pic = false,
+		$a_prevent_no_photo_image = false)
 	{
 		global $ilDB;
 
@@ -3859,12 +3860,55 @@ class ilObjUser extends ilObject
 		}
 		else
 		{
-			$file = ilUtil::getImagePath("no_photo_".$a_size.".jpg");
+			if (!$a_prevent_no_photo_image)
+			{
+				$file = ilUtil::getImagePath("no_photo_".$a_size.".jpg");
+			}
 		}
 
 		return $file;
 	}
 
+	/**
+	* Remove user picture.
+	*/
+	function removeUserPicture()
+	{
+		$webspace_dir = ilUtil::getWebspaceDir();
+		$image_dir = $webspace_dir."/usr_images";
+		$file = $image_dir."/usr_".$this->getID()."."."jpg";
+		$thumb_file = $image_dir."/usr_".$this->getID()."_small.jpg";
+		$xthumb_file = $image_dir."/usr_".$this->getID()."_xsmall.jpg";
+		$xxthumb_file = $image_dir."/usr_".$this->getID()."_xxsmall.jpg";
+		$upload_file = $image_dir."/upload_".$this->getID();
+
+		// remove user pref file name
+		$this->setPref("profile_image", "");
+		$this->update();
+
+		if (@is_file($file))
+		{
+			unlink($file);
+		}
+		if (@is_file($thumb_file))
+		{
+			unlink($thumb_file);
+		}
+		if (@is_file($xthumb_file))
+		{
+			unlink($xthumb_file);
+		}
+		if (@is_file($xxthumb_file))
+		{
+			unlink($xxthumb_file);
+		}
+		if (@is_file($upload_file))
+		{
+			unlink($upload_file);
+		}
+	}
+	
+	
 	function setUserDefinedData($a_data)
 	{
 		if(!is_array($a_data))

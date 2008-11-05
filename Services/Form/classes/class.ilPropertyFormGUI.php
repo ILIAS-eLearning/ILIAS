@@ -214,9 +214,12 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		foreach ($this->items as $key => $item)
 		{
-			if ($item->getPostVar() == $a_post_var)
+			if ($item->getType() != "section_header")
 			{
-				return $this->items[$key];
+				if ($item->getPostVar() == $a_post_var)
+				{
+					return $this->items[$key];
+				}
 			}
 		}
 		
