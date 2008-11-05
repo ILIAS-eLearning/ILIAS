@@ -830,7 +830,7 @@ class ilCalendarCategoryGUI
 				
 				$opt = new ilRadioOption($this->lng->txt('cal_type_system'),ilCalendarCategory::TYPE_GLOBAL);
 				$type->addOption($opt);
-				
+			$type->setInfo($this->lng->txt('cal_type_info'));
 			$this->form->addItem($type);
 		}
 		

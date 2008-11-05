@@ -8194,7 +8194,7 @@ dateplaner#:#cal_fifth#:#Fifth
 dateplaner#:#cal_last#:#Last
 dateplaner#:#cal_in#:#in
 dateplaner#:#cal_edit_category#:#Edit Calendar
-dateplaner#:#cal_calendar_name#:#Title
+dateplaner#:#cal_calendar_name#:#Calendar Name
 dateplaner#:#cal_calendar_color#:#Color
 dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?
 dateplaner#:#cal_no_ending#:#No End Date
@@ -8704,3 +8704,4 @@ crs#:#crs_timings_visibility_short#:#Visibility
 assessment#:#no_selection#:#--- No Selection ---
 assessment#:#customstyle#:#Custom Style
 assessment#:#customstyle_description#:#It is possible to use a custom style sheet for this test. Please select one of the available style sheets to assign it to this test.
+dateplaner#:#cal_type_info#:#Please choose one calendar type. "Public Calendars" are visible for all ILIAS users.
