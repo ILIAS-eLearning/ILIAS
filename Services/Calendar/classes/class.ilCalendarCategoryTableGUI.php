@@ -110,6 +110,12 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
 				break;				
 		}
+		if(strlen($a_set['path']))
+		{
+			$this->tpl->setCurrentBlock('calendar_path');
+			$this->tpl->setVariable('ADD_PATH_INFO',$a_set['path']);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 	
 	/**
@@ -120,7 +126,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $ilUser;
+		global $ilUser,$tree;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
@@ -130,6 +136,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$all = $cats->getCategoriesInfo();
+		$tmp_title_counter = array();
 		foreach($all as $category)
 		{
 			$tmp_arr['obj_id'] = $category['obj_id'];
@@ -141,8 +148,53 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 			$tmp_arr['editable'] = $category['editable'];
 			
 			$categories[] = $tmp_arr;
+			
+			// count title for appending the parent container if there is more than one entry.
+			$tmp_title_counter[$category['type'].'_'.$category['title']]++;
+			
 		}
-		$this->setData($categories ? $categories : array());
+		
+		$path_categories = array();
+		foreach($categories as $cat)
+		{
+			if($cat['type'] == ilCalendarCategory::TYPE_OBJ)
+			{
+				if($tmp_title_counter[$cat['type'].'_'.$cat['title']] > 1)
+				{
+					foreach(ilObject::_getAllReferences($cat['obj_id']) as $ref_id)
+					{
+						$cat['path'] = $this->buildPath($ref_id);
+						break;					
+					}
+				}
+			}			
+			$path_categories[] = $cat;
+		}
+		$this->setData($path_categories ? $path_categories : array());
 	}
+	
+	protected function buildPath($a_ref_id)
+	{
+		global $tree;
+
+		$path_arr = $tree->getPathFull($a_ref_id,ROOT_FOLDER_ID);
+		$counter = 0;
+		unset($path_arr[count($path_arr) - 1]);
+
+		foreach($path_arr as $data)
+		{
+			if($counter++)
+			{
+				$path .= " -> ";
+			}
+			$path .= $data['title'];
+		}
+		if(strlen($path) > 30)
+		{
+			return '...'.substr($path,-30);
+		}
+		return $path;
+	}
+	
 }
 ?>
