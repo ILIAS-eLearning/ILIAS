@@ -6159,3 +6159,11 @@ ALTER TABLE mob_usage ADD COLUMN usage_hist_nr INT NOT NULL DEFAULT 0;
 ALTER TABLE mob_usage DROP PRIMARY KEY;
 <#1352>
 ALTER TABLE mob_usage ADD PRIMARY KEY (id, usage_type, usage_id, usage_hist_nr);
+<#1353>
+<?php
+if (!$ilDB->tableColumnExists("tst_tests", "customstyle"))
+{
+	$query = "ALTER TABLE tst_tests ADD COLUMN customstyle VARCHAR(128) NULL";
+	$res = $ilDB->query($query);
+}
+?>

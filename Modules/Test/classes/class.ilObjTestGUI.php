@@ -77,7 +77,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
-		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
+		$this->tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
@@ -908,6 +908,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["showfinalstatement"] = ($_POST["showfinalstatement"]) ? 1 : 0;
 		$data["showinfo"] = ($_POST["showinfo"]) ? 1 : 0;
 		$data["forcejs"] = ($_POST["forcejs"]) ? 1 : 0;
+		$data["customstyle"] = (strcmp($_POST["customstyle"], "0") == 0) ? "" : $_POST["customstyle"];
 		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["chb_postpone"]);
 		$data["shuffle_questions"] = 0;
 		if ($_POST["chb_shuffle_questions"])
@@ -1024,6 +1025,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setShowFinalStatement($data["showfinalstatement"]);
 		$this->object->setShowInfo($data["showinfo"]);
 		$this->object->setForceJS($data["forcejs"]);
+		$this->object->setCustomStyle($data["customstyle"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setAnonymity($data["anonymity"]);
 		$this->object->setShowCancel($data["show_cancel"]);
@@ -1539,6 +1541,28 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("INPUT_FIELDS_STARTING_DATE", "starting_date");
 		$this->tpl->setVariable("INPUT_FIELDS_ENDING_DATE", "ending_date");
 		$this->tpl->parseCurrentBlock();
+
+		$customstyles = $this->object->getCustomStyles();
+		if (is_array($customstyles) && count($customstyles) > 0)
+		{
+			foreach ($customstyles as $customstyle)
+			{
+				$this->tpl->setCurrentBlock("customstyle_option");
+				$this->tpl->setVariable("VALUE_OPTION_CUSTOMSTYLE", $customstyle);
+				$this->tpl->setVariable("TEXT_OPTION_CUSTOMSTYLE", $customstyle);
+				if (strcmp($this->object->getCustomStyle(), $customstyle) == 0)
+				{
+					$this->tpl->setVariable("SELECTION_OPTION_CUSTOMSTYLE", " selected=\"selected\"");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("customtyle");
+			$this->tpl->setVariable("TEXT_CUSTOMSTYLE", $this->lng->txt("customstyle"));
+			$this->tpl->setVariable("TEXT_NO_CUSTOMSTYLE", $this->lng->txt("no_selection"));
+			$this->tpl->setVariable("TEXT_DESCRIPTION_CUSTOMSTYLE", $this->lng->txt("customstyle_description"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$total = $this->object->evalTotalPersons();
 		$data["anonymity"] = $this->object->getAnonymity();
 		$data["show_cancel"] = $this->object->getShowCancel();
