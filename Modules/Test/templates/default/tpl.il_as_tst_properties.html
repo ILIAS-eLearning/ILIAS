@@ -168,13 +168,27 @@
   <td class="option_value"><input type="text" name="password" size="20"{VALUE_PASSWORD} /><br /><div class="il_Description_no_margin">{TEXT_PASSWORD_DETAILS}</div></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_MAX_ALLOWED_USERS}</td>
-  <td class="option_value">
+	<td class="option">{TEXT_MAX_ALLOWED_USERS}</td>
+	<td class="option_value">
 		{TEXT_ALLOWED_USERS} <input type="text" name="allowedUsers" size="3"{VALUE_ALLOWED_USERS} />
 		<br />
 		{TEXT_ALLOWED_USERS_TIME_GAP} <input type="text" name="allowedUsersTimeGap" size="4"{VALUE_ALLOWED_USERS_TIME_GAP} /> {SECONDS}
 	</td>
 </tr>
+<!-- BEGIN customstyle -->
+<tr>
+	<td class="option">{TEXT_CUSTOMSTYLE}</td>
+	<td class="option_value">
+		<select name="customstyle">
+			<option value="0">{TEXT_NO_CUSTOMSTYLE}</option>
+<!-- BEGIN customstyle_option -->			
+			<option value="{VALUE_OPTION_CUSTOMSTYLE}"{SELECTION_OPTION_CUSTOMSTYLE}>{TEXT_OPTION_CUSTOMSTYLE}</option>
+<!-- END customstyle_option -->			
+		</select>
+		<div class="il_Description_no_margin">{TEXT_DESCRIPTION_CUSTOMSTYLE}</div>
+	</td>
+</tr>
+<!-- END customstyle -->
 <tr><td colspan="2" class="submit">
 <!-- BEGIN command_buttons -->
 <div align="right">

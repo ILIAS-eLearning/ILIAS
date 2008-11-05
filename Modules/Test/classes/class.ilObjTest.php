@@ -455,6 +455,13 @@ class ilObjTest extends ilObject
 	* @var boolean
 	*/
 	private $_forcejs;
+	
+	/**
+	* Name of a custom style sheet for the test
+	*
+	* @var string;
+	*/
+	private $_customStyle;
 
 	/**
 	* Constructor
@@ -504,6 +511,7 @@ class ilObjTest extends ilObject
 		$this->_finalstatement = "";
 		$this->_showinfo = TRUE;
 		$this->_forcejs = FALSE;
+		$this->_customStyle = "";
 		$this->allowedUsersTimeGap = "";
 		$this->anonymity = 0;
 		$this->show_cancel = 1;
@@ -1227,14 +1235,14 @@ class ilObjTest extends ilObject
 			// Create new dataset
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, finalstatement, showinfo, forcejs, showfinalstatement, sequence_settings, " .
+			$query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, finalstatement, showinfo, forcejs, customstyle, showfinalstatement, sequence_settings, " .
 				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, show_marker, " .
 				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, reset_processing_time, " .
 				"reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, " .
 				"ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedUsers, " .
 				"allowedUsersTimeGap, certificate_visibility, created, TIMESTAMP) " .
-				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
+				"VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
 				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($this->getId() . ""),
 				$ilDB->quote($this->getAuthor() . ""),
@@ -1242,6 +1250,7 @@ class ilObjTest extends ilObject
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
 				$ilDB->quote((($this->getShowInfo()) ? "1" : "0")),
 				$ilDB->quote((($this->getForceJS()) ? "1" : "0")),
+				(strlen($this->getCustomStyle())) ? $ilDB->quote($this->getCustomStyle()) : "NULL",
 				$ilDB->quote((($this->getShowFinalStatement()) ? "1" : "0")),
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
@@ -1316,12 +1325,13 @@ class ilObjTest extends ilObject
 					$oldrow = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				}
 			}
-			$query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, finalstatement = %s, showinfo = %s, forcejs = %s, showfinalstatement = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
+			$query = sprintf("UPDATE tst_tests SET author = %s, introduction = %s, finalstatement = %s, showinfo = %s, forcejs = %s, customstyle = %s, showfinalstatement = %s, sequence_settings = %s, score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedUsers = %s, allowedUsersTimeGap = %s WHERE test_id = %s",
 				$ilDB->quote($this->getAuthor() . ""),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->introduction, 0)),
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
 				$ilDB->quote((($this->getShowInfo()) ? "1" : "0")),
 				$ilDB->quote((($this->getForceJS()) ? "1" : "0")),
+				(strlen($this->getCustomStyle())) ? $ilDB->quote($this->getCustomStyle()) : "NULL",
 				$ilDB->quote((($this->getShowFinalStatement()) ? "1" : "0")),
 				$ilDB->quote($this->sequence_settings . ""),
 				$ilDB->quote($this->score_reporting . ""),
@@ -1897,6 +1907,7 @@ class ilObjTest extends ilObject
 			$this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc($data->finalstatement, 1));
 			$this->setShowInfo($data->showinfo);
 			$this->setForceJS($data->forcejs);
+			$this->setCustomStyle($data->customstyle);
 			$this->setShowFinalStatement($data->showfinalstatement);
 			$this->sequence_settings = $data->sequence_settings;
 			$this->score_reporting = $data->score_reporting;
@@ -2063,6 +2074,91 @@ function loadQuestions($active_id = "", $pass = NULL)
 		else
 		{
 			$this->_forcejs = FALSE;
+		}
+	}
+	
+	/**
+	* Set the custom style
+	*
+	* @param string $a_customStyle The custom style
+	* @access public
+	* @see $_customStyle
+	*/
+	public function setCustomStyle($a_customStyle = "")
+	{
+		$this->_customStyle = $a_customStyle;
+	}
+	
+	/**
+	* Get the custom style
+	*
+	* @return string The custom style
+	* @access public
+	* @see $_customStyle
+	*/
+	public function getCustomStyle()
+	{
+		return $this->_customStyle;
+	}
+	
+	/**
+	* Return the available custom styles
+	*
+	* @return array An array of strings containing the available custom styles
+	* @access public
+	* @see $_customStyle
+	*/
+	public function getCustomStyles()
+	{
+		$css_path = ilUtil::getStyleSheetLocation("filesystem", "ta.css", "Modules/Test");
+		$css_path = str_replace("ta.css", "customstyles", $css_path) . "/";
+		$customstyles = array();
+		if (is_dir($css_path))
+		{
+			$results = array();
+			include_once "./Services/Utilities/classes/class.ilFileUtils.php";
+			ilFileUtils::recursive_dirscan($css_path, $results);
+			if (is_array($results["file"]))
+			{
+				foreach ($results["file"] as $filename)
+				{
+					if (strpos($filename, ".css"))
+					{
+						array_push($customstyles, $filename);
+					}
+				}
+			}
+		}
+		return $customstyles;
+	}
+	
+	/**
+	* get full style sheet file name (path inclusive) of current user
+	*
+	* @param $mode string Output mode of the style sheet ("output" or "filesystem"). !"filesystem" generates the ILIAS
+	* version number as attribute to force the reload of the style sheet in a different ILIAS version
+	* @access	public
+	*/
+	public function getTestStyleLocation($mode = "output")
+	{
+		if (strlen($this->getCustomStyle()))
+		{
+			$default = ilUtil::getStyleSheetLocation("filesystem", "ta.css", "Modules/Test");
+			$custom = str_replace("ta.css", "customstyles/" . $this->getCustomStyle(), $default);
+			if (file_exists($custom))
+			{
+				$custom = ilUtil::getStyleSheetLocation($mode, "ta.css", "Modules/Test");
+				$custom = str_replace("ta.css", "customstyles/" . $this->getCustomStyle(), $custom);
+				return $custom;
+			}
+			else
+			{
+				return ilUtil::getStyleSheetLocation($mode, "ta.css", "Modules/Test");
+			}
+		}
+		else
+		{
+			return ilUtil::getStyleSheetLocation($mode, "ta.css", "Modules/Test");
 		}
 	}
 
@@ -5840,6 +5936,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				case "forcejs":
 					$this->setForceJS($metadata["entry"]);
 					break;
+				case "customstyle":
+					$this->setCustomStyle($metadata["entry"]);
+					break;
 				case "hide_previous_results":
 					if ($metadata["entry"] == 0)
 					{
@@ -6213,6 +6312,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "forcejs");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", (($this->getForceJS()) ? "1" : "0")));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// custom style
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "customstyle");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getCustomStyle());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 		// shuffle questions
@@ -6829,6 +6934,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$newObj->setFinalStatement($this->getFinalStatement());
 		$newObj->setShowInfo($this->getShowInfo());
 		$newObj->setForceJS($this->getForceJS());
+		$newObj->setCustomStyle($this->getCustomStyle());
 		$newObj->setShowFinalStatement($this->getShowFinalStatement());
 		$newObj->setListOfQuestionsSettings($this->getListOfQuestionsSettings());
 		$newObj->setMCScoring($this->getMCScoring());
@@ -9350,6 +9456,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"FinalStatement" => $this->getFinalStatement(),
 			"ShowInfo" => $this->getShowInfo(),
 			"ForceJS" => $this->getForceJS(),
+			"CustomStyle" => $this->getCustomStyle(),
 			"ShowFinalStatement" => $this->getShowFinalStatement(),
 			"SequenceSettings" => $this->getSequenceSettings(),
 			"ScoreReporting" => $this->getScoreReporting(),
@@ -9412,6 +9519,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setFinalStatement($testsettings["FinalStatement"]);
 			$this->setShowInfo($testsettings["ShowInfo"]);
 			$this->setForceJS($testsettings["ForceJS"]);
+			$this->setCustomStyle($testsettings["CustomStyle"]);
 			$this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
 			$this->setSequenceSettings($testsettings["SequenceSettings"]);
 			$this->setScoreReporting($testsettings["ScoreReporting"]);

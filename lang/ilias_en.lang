@@ -8701,3 +8701,6 @@ dateplaner#:#cal_cal_details#:#Calendar Details
 dateplaner#:#cal_type_crs#:#Course Calendar
 dateplaner#:#cal_type_grp#:#Group Calendar
 crs#:#crs_timings_visibility_short#:#Visibility
+assessment#:#no_selection#:#--- No Selection ---
+assessment#:#customstyle#:#Custom Style
+assessment#:#customstyle_description#:#It is possible to use a custom style sheet for this test. Please select one of the available style sheets to assign it to this test.
