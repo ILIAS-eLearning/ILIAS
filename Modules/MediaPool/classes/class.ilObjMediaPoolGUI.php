@@ -39,6 +39,7 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 * $Id$
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI
 *
 * @ingroup ModulesMediaPool
 */
@@ -245,6 +246,11 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				$this->tpl->show();
 				break;
 				
+			case 'ilinfoscreengui':
+				$this->prepareOutput();
+				$this->infoScreen();
+				break;
+
 			case 'ilpermissiongui':
 				$this->prepareOutput();
 				include_once("./classes/class.ilPermissionGUI.php");
@@ -474,11 +480,40 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	}
 
 	/**
+	* output main frameset of media pool
+	* left frame: explorer tree of folders
+	* right frame: media pool content
+	*/
+	function infoScreenFrameset()
+	{
+		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
+		$fs_gui = new ilFramesetGUI();
+		$fs_gui->setMainFrameName("content");
+		$fs_gui->setSideFrameName("tree");
+		$fs_gui->setMainFrameSource(
+			$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+		$this->ctrl->setParameter($this, "expand", "1");
+		$fs_gui->setSideFrameSource(
+			$this->ctrl->getLinkTarget($this, "explorer"));
+		$fs_gui->setFramesetTitle($this->object->getTitle());
+		$fs_gui->show();
+		exit;
+	}
+
+	/**
 	* output explorer tree
 	*/
 	function explorer()
 	{
+		global $ilAccess;
+		
 		$_GET["obj_id"] = "";
+		
+		if (!$ilAccess->checkAccess("read", "", $this->object->getRefId()) ||
+			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			return;
+		}
 		
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 
@@ -853,8 +888,27 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		
-		$tabs_gui->addTarget("view_content", $this->ctrl->getLinkTarget($this, "listMedia"),
-			"listMedia", "");
+		if ($ilAccess->checkAccess('read', '', $this->ref_id) ||
+			$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$tabs_gui->addTarget("view_content", $this->ctrl->getLinkTarget($this, "listMedia"),
+				"listMedia", "");
+		}
+
+		// info tab
+		if ($ilAccess->checkAccess('visible', '', $this->ref_id))
+		{
+			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
+				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
+	//echo "-$force_active-";
+			$tabs_gui->addTarget("info_short",
+				 $this->ctrl->getLinkTargetByClass(
+				 array("ilobjmediapoolgui", "ilinfoscreengui"), "showSummary"),
+				 array("showSummary", "infoScreen"),
+				 "", "", $force_active);
+		}
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -902,6 +956,64 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+	}
+
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$info->enablePrivateNotes();
+		
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			//$info->enableNews();
+		}
+
+		// no news editing for files, just notifications
+//		$info->enableNewsEditing(false);
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+//			$news_set = new ilSetting("news");
+//			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
+//			if ($enable_internal_rss)
+//			{
+//				$info->setBlockProperty("news", "settings", true);
+//				$info->setBlockProperty("news", "public_notifications_option", true);
+//			}
+		}
+
+		
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		// forward the command
+		$this->ctrl->forwardCommand($info);
+		
+		$this->tpl->show();
 	}
 
 }

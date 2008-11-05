@@ -53,6 +53,7 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
 		$this->payment_enabled = false;
+		$this->info_screen_enabled = true;
 		$this->type = "mep";
 		$this->gui_class_name = "ilobjmediapoolgui";
 		
@@ -127,9 +128,15 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
+		
+		if ($a_cmd == "infoScreen")
+		{
+			$cmd = "&cmd=infoScreenFrameset";
+		}
+
 		// separate method for this line
 		$cmd_link = "ilias.php?baseClass=ilMediaPoolPresentationGUI".
-			"&ref_id=".$this->ref_id;
+			"&ref_id=".$this->ref_id.$cmd;
 
 		return $cmd_link;
 	}

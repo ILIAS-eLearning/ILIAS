@@ -29,6 +29,7 @@
 * $Id$
 * 
 * @ilCtrl_Calls ilObjChatGUI: ilPermissionGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilObjChatGUI: ilInfoScreenGUI
 *
 * @extends ilObjectGUI
 */
@@ -92,6 +93,11 @@ class ilObjChatGUI extends ilObjectGUI
 				include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 				$profile_gui = new ilPublicUserProfileGUI((int)$_GET['user']);
 				$ret = $this->ctrl->forwardCommand($profile_gui);
+				break;
+
+			case 'ilinfoscreengui':
+				//$this->prepareOutput();
+				$this->infoScreen();
 				break;
 
 			default:
@@ -1965,7 +1971,7 @@ class ilObjChatGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$rbacreview;
+		global $rbacsystem,$rbacreview, $ilAccess;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 
@@ -1980,6 +1986,22 @@ class ilObjChatGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "view"), array("view", ""), get_class($this),
 				"", $force_active);
 		}
+		
+		// info tab
+		if ($ilAccess->checkAccess('visible', '', $this->ref_id))
+		{
+			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
+				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
+	//echo "-$force_active-";
+			$tabs_gui->addTarget("info_short",
+				 $this->ctrl->getLinkTargetByClass(
+				 array("ilobjchatgui", "ilinfoscreengui"), "showSummary"),
+				 array("showSummary", "infoScreen"),
+				 "", "", $force_active);
+		}
+
 		if($rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$force_active = ($_GET["cmd"] == "edit")
@@ -2138,6 +2160,61 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$info->enablePrivateNotes();
+		
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			//$info->enableNews();
+		}
+
+		// no news editing for files, just notifications
+//		$info->enableNewsEditing(false);
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+//			$news_set = new ilSetting("news");
+//			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
+//			if ($enable_internal_rss)
+//			{
+//				$info->setBlockProperty("news", "settings", true);
+//				$info->setBlockProperty("news", "public_notifications_option", true);
+//			}
+		}
+		
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		// forward the command
+		$this->ctrl->forwardCommand($info);
+
+	}
 
 }
 // END class.ilObjChatGUI
