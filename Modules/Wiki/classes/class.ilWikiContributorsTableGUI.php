@@ -108,7 +108,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 			//	rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
 			//$this->tpl->setVariable("USER_LINK",
 			//	$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-			$img = ilObjUser::_getPersonalPicturePath($a_set["user_id"], "xsmall", true);
+			$img = ilObjUser::_getPersonalPicturePath($a_set["user_id"], "xsmall");
 			$this->tpl->setVariable("IMG_USER", $img);
 			$this->tpl->setVariable("TXT_NAME",
 				$a_set["lastname"].", ".$a_set["firstname"]);
