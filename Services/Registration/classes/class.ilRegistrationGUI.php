@@ -187,7 +187,8 @@ class ilRegistrationGUI
 			}
 
 			// check to see if dynamically required
-			if (isset($settings["require_" . $key]) && $settings["require_" . $key])
+			if (isset($settings["require_" . $key]) && $settings["require_" . $key] ||
+				($key == "email" && $this->registration_settings->passwordGenerationEnabled()))
 			{
 				$str = $str . '<span class="asterisk">*</span>';
 			}
@@ -472,7 +473,8 @@ class ilRegistrationGUI
 		$_POST["user"]["passwd_type"] = IL_PASSWD_PLAIN;
 
 		// validate email
-		if (!ilUtil::is_email($_POST["user"]["email"]))
+		if (!ilUtil::is_email($_POST["user"]["email"]) &&
+			($settings["require_email"] || $this->registration_settings->passwordGenerationEnabled()))
 		{
 			ilUtil::sendInfo($lng->txt("email_not_valid"),true);
 			$this->displayForm();
