@@ -912,7 +912,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			0, $this->block_id);
 		$hide_news_date = ilBlockSetting::_lookup($this->getBlockType(), "hide_news_date",
 			0, $this->block_id);
-		$hide_news_date = explode(" ", $hide_news_date);
+
+		if ($hide_news_date != "")
+		{
+			$hide_news_date = explode(" ", $hide_news_date);
+		}
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->settings_form = new ilPropertyFormGUI();
@@ -935,7 +939,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			
 				$dt_prop = new ilDateTimeInputGUI($lng->txt("news_hide_news_date"),
 					"hide_news_date");
-				$dt_prop->setDate(new ilDateTime($hide_news_date[0].' '.$hide_news_date[1],IL_CAL_DATETIME));
+				if ($hide_news_date != "")
+				{
+					$dt_prop->setDate(new ilDateTime($hide_news_date[0].' '.$hide_news_date[1],IL_CAL_DATETIME));
+				}
 				#$dt_prop->setDate($hide_news_date[0]);
 				#$dt_prop->setTime($hide_news_date[1]);
 				$dt_prop->setShowTime(true);
