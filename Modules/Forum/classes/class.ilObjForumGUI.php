@@ -34,7 +34,7 @@ require_once './Modules/Forum/classes/class.ilForumTopic.php';
 * @author Stefan Meyer <smeyer@databay.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI
+* @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI
 *
 * @ingroup ModulesForum
@@ -125,6 +125,11 @@ class ilObjForumGUI extends ilObjectGUI
 				$fex_gui =& new ilForumExportGUI($this);
 				$ret =& $this->ctrl->forwardCommand($fex_gui);
 				exit();
+				break;
+				
+			case 'ilinfoscreengui':
+				//$this->prepareOutput();
+				$this->infoScreen();
 				break;
 
 			case 'ilcolumngui':
@@ -860,6 +865,21 @@ class ilObjForumGUI extends ilObjectGUI
 						);
 		$tabs_gui->addTarget('forums_threads', ilRepositoryExplorer::buildLinkTarget($this->ref_id, 'frm'),	$active, '');
 		#}
+		
+		// info tab
+		if ($ilAccess->checkAccess('visible', '', $this->ref_id))
+		{
+			$force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui"
+				|| strtolower($_GET["cmdClass"]) == "ilnotegui")
+				? true
+				: false;
+	//echo "-$force_active-";
+			$tabs_gui->addTarget("info_short",
+				 $this->ctrl->getLinkTargetByClass(
+				 array("ilobjforumgui", "ilinfoscreengui"), "showSummary"),
+				 array("showSummary", "infoScreen"),
+				 "", "", $force_active);
+		}
 		
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -3459,6 +3479,62 @@ class ilObjForumGUI extends ilObjectGUI
 		$a_text = $this->handleFormInput($a_text);
 		$a_text = $this->prepareFormOutput($a_text);
 		return $a_text;
+	}
+
+	/**
+	* this one is called from the info button in the repository
+	* not very nice to set cmdClass/Cmd manually, if everything
+	* works through ilCtrl in the future this may be changed
+	*/
+	function infoScreenObject()
+	{
+		$this->ctrl->setCmd("showSummary");
+		$this->ctrl->setCmdClass("ilinfoscreengui");
+		$this->infoScreen();
+	}
+
+	/**
+	* show information screen
+	*/
+	function infoScreen()
+	{
+		global $ilAccess;
+
+		if (!$ilAccess->checkAccess("visible", "", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		$info = new ilInfoScreenGUI($this);
+
+		$info->enablePrivateNotes();
+		
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
+			//$info->enableNews();
+		}
+
+		// no news editing for files, just notifications
+//		$info->enableNewsEditing(false);
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+//			$news_set = new ilSetting("news");
+//			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
+			
+//			if ($enable_internal_rss)
+//			{
+//				$info->setBlockProperty("news", "settings", true);
+//				$info->setBlockProperty("news", "public_notifications_option", true);
+//			}
+		}
+
+		
+		// standard meta data
+		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
+		
+		// forward the command
+		$this->ctrl->forwardCommand($info);
 	}
 
 } // END class.ilObjForumGUI

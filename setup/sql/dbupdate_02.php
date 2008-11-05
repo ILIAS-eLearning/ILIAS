@@ -6167,3 +6167,8 @@ if (!$ilDB->tableColumnExists("tst_tests", "customstyle"))
 	$res = $ilDB->query($query);
 }
 ?>
+<#1354>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
