@@ -432,11 +432,12 @@ class ilPropertyFormGUI extends ilFormGUI
 		global $tpl, $lng;
 		
 		$item->insert($this->tpl);
+
 		if ($item->getType() == "file" || $item->getType() == "image_file")
 		{
 			$this->setMultipart(true);
 		}
-		
+
 		if ($item->getType() != "section_header")
 		{
 			// info text

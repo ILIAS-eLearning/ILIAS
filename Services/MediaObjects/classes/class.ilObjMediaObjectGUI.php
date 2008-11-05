@@ -1185,7 +1185,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "editFiles");
 	}
 
-
 	/**
 	* show all usages of mob
 	*/

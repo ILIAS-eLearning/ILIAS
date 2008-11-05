@@ -1148,8 +1148,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->update = $this->object->update();
                         
                 
-                        // If the current user is editing its own user account,
-                        // we update his preferences.
+			// If the current user is editing its own user account,
+			// we update his preferences.
 			if ($ilUser->getId() == $this->object->getId()) 
 			{
 				$ilUser->readPrefs();    
@@ -1159,6 +1159,11 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$mail_message = $this->__sendProfileMail();
 			$msg = $this->lng->txt('saved_successfully').$mail_message;
+			
+			// same personal image
+//var_dump($_POST);
+//var_dump($_FILES);
+			$this->uploadUserPictureObject();
 
 			// feedback
 			ilUtil::sendInfo($msg,true);
@@ -1293,6 +1298,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$settings = $ilSetting->getAll();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
 		if ($a_mode == "create")
@@ -2320,7 +2326,6 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $ilUser, $rbacsystem;
 
-
 		// User folder
 		if($this->usrf_ref_id == USER_FOLDER_ID and
 			!$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
@@ -2338,52 +2343,52 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
+		if ($_FILES["userfile"]["tmp_name"] == "")
 		{
-			if ($_FILES["userfile"]["size"] == 0)
-			{
-				ilUtil::sendInfo($this->lng->txt("msg_no_file"));
-			}
-			else
-			{
-
-				$webspace_dir = ilUtil::getWebspaceDir();
-				$image_dir = $webspace_dir."/usr_images";
-				$store_file = "usr_".$this->object->getId()."."."jpg";
-
-				// store filename
-				$this->object->setPref("profile_image", $store_file);
-				$this->object->update();
-
-				// move uploaded file
-				$uploaded_file = $image_dir."/upload_".$this->object->getId()."pic";
-
-				if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
-					$uploaded_file, false))
-				{
-					ilUtil::sendInfo($this->lng->txt("upload_error", true));
-					$this->ctrl->redirect($this, "showProfile");
-				}
-				chmod($uploaded_file, 0770);
-
-				// take quality 100 to avoid jpeg artefacts when uploading jpeg files
-				// taking only frame [0] to avoid problems with animated gifs
-				$show_file  = "$image_dir/usr_".$this->object->getId().".jpg";
-				$thumb_file = "$image_dir/usr_".$this->object->getId()."_small.jpg";
-				$xthumb_file = "$image_dir/usr_".$this->object->getId()."_xsmall.jpg";
-				$xxthumb_file = "$image_dir/usr_".$this->object->getId()."_xxsmall.jpg";
-				$uploaded_file = ilUtil::escapeShellArg($uploaded_file);
-				$show_file = ilUtil::escapeShellArg($show_file);
-				$thumb_file = ilUtil::escapeShellArg($thumb_file);
-				$xthumb_file = ilUtil::escapeShellArg($xthumb_file);
-				$xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
-				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
-				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
-				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
-				system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
-			}
+			return;
 		}
 
-		$this->editObject();
+		if ($_FILES["userfile"]["size"] == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("msg_no_file"));
+		}
+		else
+		{
+			$webspace_dir = ilUtil::getWebspaceDir();
+			$image_dir = $webspace_dir."/usr_images";
+			$store_file = "usr_".$this->object->getId()."."."jpg";
+
+			// store filename
+			$this->object->setPref("profile_image", $store_file);
+			$this->object->update();
+
+			// move uploaded file
+			$uploaded_file = $image_dir."/upload_".$this->object->getId()."pic";
+
+			if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
+				$uploaded_file, false))
+			{
+				ilUtil::sendInfo($this->lng->txt("upload_error", true));
+				$this->ctrl->redirect($this, "showProfile");
+			}
+			chmod($uploaded_file, 0770);
+
+			// take quality 100 to avoid jpeg artefacts when uploading jpeg files
+			// taking only frame [0] to avoid problems with animated gifs
+			$show_file  = "$image_dir/usr_".$this->object->getId().".jpg";
+			$thumb_file = "$image_dir/usr_".$this->object->getId()."_small.jpg";
+			$xthumb_file = "$image_dir/usr_".$this->object->getId()."_xsmall.jpg";
+			$xxthumb_file = "$image_dir/usr_".$this->object->getId()."_xxsmall.jpg";
+			$uploaded_file = ilUtil::escapeShellArg($uploaded_file);
+			$show_file = ilUtil::escapeShellArg($show_file);
+			$thumb_file = ilUtil::escapeShellArg($thumb_file);
+			$xthumb_file = ilUtil::escapeShellArg($xthumb_file);
+			$xxthumb_file = ilUtil::escapeShellArg($xxthumb_file);
+			system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
+			system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
+			system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
+			system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
+		}
 	}
 
 	/**

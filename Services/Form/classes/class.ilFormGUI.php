@@ -44,6 +44,8 @@ class ilFormGUI
 	*/
 	function ilFormGUI()
 	{
+$GLOBALS["cnt"] += 1;
+//if ($GLOBALS["cnt"] == 3) nj();
 	}
 
 	/**
@@ -158,6 +160,10 @@ class ilFormGUI
 			$tpl->setVariable("FORM_TARGET", $this->getTarget());
 			$tpl->parseCurrentBlock();
 		}
+		
+		// this line also sets multipart, so it must be before the multipart check
+		$content = $this->getContent();
+		
 		if ($this->getMultipart())
 		{
 			$tpl->touchBlock("multipart");
@@ -183,7 +189,7 @@ class ilFormGUI
 				$tpl->parseCurrentBlock();
 			}*/
 		}
-		$tpl->setVariable("FORM_CONTENT", $this->getContent());
+		$tpl->setVariable("FORM_CONTENT", $content);
 		$tpl->setVariable("FORM_ACTION", $this->getFormAction());
 		if (!$this->getKeepOpen())
 		{

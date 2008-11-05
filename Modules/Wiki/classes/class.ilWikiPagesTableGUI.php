@@ -180,7 +180,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 				rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
 			$this->tpl->setVariable("USER_LINK",
 				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-			$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall", true);
+			$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall");
 			$this->tpl->setVariable("IMG_USER", $img);
 		}
 
