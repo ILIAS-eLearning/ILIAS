@@ -110,7 +110,7 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function initForm($a_mode)
 	{
-		global $ilUser;
+		global $ilUser,$tpl;
 		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceGUI.php');
@@ -119,6 +119,9 @@ class ilCalendarAppointmentGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 
 		$this->form = new ilPropertyFormGUI();
+		
+		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
+		ilYuiUtil::initDomEvent();
 		
 		switch($a_mode)
 		{
@@ -170,9 +173,11 @@ class ilCalendarAppointmentGUI
 		$calendar->setOptions($cats->prepareCategoriesOfUserForSelection());
 		$this->form->addItem($calendar);
 		
+		$tpl->addJavaScript('./Services/Calendar/js/toggle_appointment_time.js');		
 		$fullday = new ilCheckboxInputGUI($this->lng->txt('cal_fullday'),'fullday');
 		$fullday->setChecked($this->app->isFullday() ? true : false);
 		$fullday->setOptionTitle($this->lng->txt('cal_fullday_title'));
+		$fullday->setAdditionalAttributes('onchange="ilToggleAppointmentTime(this);"');
 		$this->form->addItem($fullday);
 
 		$start = new ilDateTimeInputGUI($this->lng->txt('cal_start'),'start');

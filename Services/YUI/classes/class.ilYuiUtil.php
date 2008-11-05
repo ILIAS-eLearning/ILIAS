@@ -60,6 +60,7 @@ class ilYuiUtil
 	{
 		global $tpl;
 
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo/yahoo-min.js");
 		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
 	}
 	
