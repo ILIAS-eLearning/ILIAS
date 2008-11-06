@@ -1503,7 +1503,7 @@ class ilUtil
 
 		if ($a_user_id == 0)
 		{
-			$where = "WHERE user_id != 0 ";
+			$where = "WHERE user_id != 0 AND agree_date != '0000-00-00 00:00:00'";
 		}
 		else
 		{
@@ -1577,6 +1577,7 @@ class ilUtil
 			"FROM usr_session ".
 			"JOIN usr_data ON user_id=usr_id ".
 			"WHERE user_id = ".$ilDB->quote($a_user_id)." ".
+			" AND agree_date != '0000-00-00 00:00:00' ".
 			"AND expires > UNIX_TIMESTAMP() - ".$time_diff." ".
 			"GROUP BY user_id";
 		}
@@ -1593,6 +1594,7 @@ class ilUtil
 			"WHERE s.user_id != 0 ".
 			"AND s.expires > UNIX_TIMESTAMP() - ".$time_diff." ".
 			"AND fa.assign = 'y' ".
+			" AND ud.agree_date != '0000-00-00 00:00:00' ".
 			"AND od.obj_id IN (".implode(",",ilUtil::quoteArray($groups_and_courses_of_user)).") ".
 			"GROUP BY s.user_id ".
 			"ORDER BY ud.lastname, ud.firstname";
