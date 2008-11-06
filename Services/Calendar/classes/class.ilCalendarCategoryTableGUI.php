@@ -137,6 +137,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$all = $cats->getCategoriesInfo();
 		$tmp_title_counter = array();
+		$categories = array();
 		foreach($all as $category)
 		{
 			$tmp_arr['obj_id'] = $category['obj_id'];
