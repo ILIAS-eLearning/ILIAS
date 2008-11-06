@@ -105,7 +105,7 @@ abstract class ilContainerContentGUI
 			ilChangeEvent::_recordReadEvent($obj_id, $ilUser->getId());
 		}
 		// END ChangeEvent: record read event.
-
+		
 		$tpl->setContent($this->getCenterColumnHTML());
 		$tpl->setRightContent($this->getRightColumnHTML());
 	}
@@ -638,6 +638,28 @@ abstract class ilContainerContentGUI
 				$objDefinition->getGroupedRepositoryObjectTypes($this->getContainerObject()->getType());
 		}
 		return $this->type_grps;
+	}
+
+	/**
+	* Get introduction.
+	*/
+	function getIntroduction()
+	{
+		global $ilUser, $lng, $ilCtrl;
+		
+		$lng->loadLanguageModule("rep");
+		
+		$tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
+		$tpl->setVariable("IMG_REP_LARGE", ilUtil::getImagePath("icon_root_xxl.gif"));
+		$tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
+		$tpl->setVariable("TXT_INTRO_1", $lng->txt("rep_intro1"));
+		$tpl->setVariable("TXT_INTRO_2", $lng->txt("rep_intro2"));
+		$tpl->setVariable("TXT_INTRO_3", sprintf($lng->txt("rep_intro3"), $lng->txt("add")));
+		$tpl->setVariable("TXT_INTRO_4", sprintf($lng->txt("rep_intro4"), $lng->txt("cat_add")));
+		$tpl->setVariable("TXT_INTRO_5", $lng->txt("rep_intro5"));
+		$tpl->setVariable("TXT_INTRO_6", $lng->txt("rep_intro6"));
+		
+		return $tpl->get();
 	}
 
 } // END class.ilContainerContentGUI
