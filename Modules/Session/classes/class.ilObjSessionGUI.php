@@ -506,6 +506,7 @@ class ilObjSessionGUI extends ilObjectGUI
 		}
 		
 		ilUtil::sendInfo($this->lng->txt('event_updated'));
+		$this->object->initFiles();
 		$this->editObject();
 		return true;
 	}
@@ -574,6 +575,7 @@ class ilObjSessionGUI extends ilObjectGUI
 			$file = new ilSessionFile($id);
 			$file->delete();
 		}
+		$this->object->initFiles();
 		$this->editObject();
 		return true;	
 	}
