@@ -8703,3 +8703,28 @@ assessment#:#no_selection#:#--- Keine Auswahl ---
 assessment#:#customstyle#:#Eigener Stil
 assessment#:#customstyle_description#:#Es ist möglich, eine eigenen Stil für diesen Test zu verwenden. Bitte wählen Sie eine der verfügbaren Stilvorlagen aus, um sie mit diesem Test zu verwenden.
 dateplaner#:#cal_type_info#:#Bitte wählen Sie die Kalenderart aus. "Öffentliche Kalender" sind für alle NutzerInnen sichtbar.
+content#:#cont_versions#:#Versions###06 11 2008 new variable
+content#:#cont_current_version#:#Current Version###06 11 2008 new variable
+rbac#:#root_create_catr#:#Create Category Reference###06 11 2008 new variable
+rbac#:#mcts_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#mcts_read#:#Read access to mediacast settings###06 11 2008 new variable
+rbac#:#mcts_visible#:#Mediacast settings are visible###06 11 2008 new variable
+rbac#:#mcts_write#:#Edit mediacast settings###06 11 2008 new variable
+rbac#:#cmps_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#cmps_read#:#Read access to component settings###06 11 2008 new variable
+rbac#:#cmps_visible#:#Component settings are visible###06 11 2008 new variable
+rbac#:#cmps_write#:#Edit component settings###06 11 2008 new variable
+rbac#:#pdts_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#pdts_read#:#Read access to personal desktop settings###06 11 2008 new variable
+rbac#:#pdts_visible#:#Personal desktop settings are visible###06 11 2008 new variable
+rbac#:#pdts_write#:#Edit personal desktop settings###06 11 2008 new variable
+rbac#:#sess_delete#:#Delete Session###06 11 2008 new variable
+rbac#:#svyf_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#svyf_read#:#Read access to survey settings###06 11 2008 new variable
+rbac#:#svyf_visible#:#Survey settings are visible###06 11 2008 new variable
+rbac#:#svyf_write#:#Edit survey settings###06 11 2008 new variable
+rbac#:#facs_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#facs_read#:#Read access to files & foldes settings###06 11 2008 new variable
+rbac#:#facs_visible#:#Files & foldes settings are visible###06 11 2008 new variable
+rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
+common#:#objs_mail#:#Mail###06 11 2008 new variable

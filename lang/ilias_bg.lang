@@ -8698,3 +8698,33 @@ wiki#:#wiki_page_deleted#:#Wiki page deleted.###17 10 2008 new variable
 content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.###17 10 2008 new variable
 content#:#cont_page_currently_deactivated#:#Sorry, but this page is currently deactivated.###17 10 2008 new variable
 wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.###03 11 2008 new variable
+content#:#cont_versions#:#Versions###06 11 2008 new variable
+content#:#cont_current_version#:#Current Version###06 11 2008 new variable
+crs#:#crs_timings_visibility_short#:#Visibility###06 11 2008 new variable
+assessment#:#no_selection#:#--- No Selection ---###06 11 2008 new variable
+assessment#:#customstyle#:#Custom Style###06 11 2008 new variable
+assessment#:#customstyle_description#:#It is possible to use a custom style sheet for this test. Please select one of the available style sheets to assign it to this test.###06 11 2008 new variable
+dateplaner#:#cal_type_info#:#Please choose one calendar type. "Public Calendars" are visible for all ILIAS users.###06 11 2008 new variable
+rbac#:#root_create_catr#:#Create Category Reference###06 11 2008 new variable
+rbac#:#mcts_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#mcts_read#:#Read access to mediacast settings###06 11 2008 new variable
+rbac#:#mcts_visible#:#Mediacast settings are visible###06 11 2008 new variable
+rbac#:#mcts_write#:#Edit mediacast settings###06 11 2008 new variable
+rbac#:#cmps_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#cmps_read#:#Read access to component settings###06 11 2008 new variable
+rbac#:#cmps_visible#:#Component settings are visible###06 11 2008 new variable
+rbac#:#cmps_write#:#Edit component settings###06 11 2008 new variable
+rbac#:#pdts_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#pdts_read#:#Read access to personal desktop settings###06 11 2008 new variable
+rbac#:#pdts_visible#:#Personal desktop settings are visible###06 11 2008 new variable
+rbac#:#pdts_write#:#Edit personal desktop settings###06 11 2008 new variable
+rbac#:#sess_delete#:#Delete Session###06 11 2008 new variable
+rbac#:#svyf_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#svyf_read#:#Read access to survey settings###06 11 2008 new variable
+rbac#:#svyf_visible#:#Survey settings are visible###06 11 2008 new variable
+rbac#:#svyf_write#:#Edit survey settings###06 11 2008 new variable
+rbac#:#facs_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#facs_read#:#Read access to files & foldes settings###06 11 2008 new variable
+rbac#:#facs_visible#:#Files & foldes settings are visible###06 11 2008 new variable
+rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
+common#:#objs_mail#:#Mail###06 11 2008 new variable
