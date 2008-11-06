@@ -46,7 +46,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	*/
 	function getMainContent()
 	{
-		global $ilBench, $tree,$ilTabs;
+		global $ilBench, $tree, $ilTabs, $ilAccess;
 
 		$ilBench->start("ilContainerGUI", "0000__renderObject");
 
@@ -63,8 +63,9 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
 		// Show introduction, if repository is empty
 		// @todo: maybe we move this
-		if (count($this->items) == 1 && is_array($this->items["adm"]) &&
-			$this->getContainerObject()->getRefId() == ROOT_FOLDER_ID)
+		if (count($this->items) == 0 &&
+			$this->getContainerObject()->getRefId() == ROOT_FOLDER_ID &&
+			$ilAccess->checkAccess("write", "", $this->getContainerObject()->getRefId()))
 		{
 			$html = $this->getIntroduction();
 			$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
