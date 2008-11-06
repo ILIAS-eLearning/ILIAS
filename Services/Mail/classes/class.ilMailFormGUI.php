@@ -587,7 +587,7 @@ class ilMailFormGUI
 				}
 				elseif(is_array($_SESSION['mail_roles']))
 				{
-					$mailData['rcp_to'] = implode(',',$_SESSION['mail_roles']);
+					$mailData['rcp_to'] = ilUtil::securePlainString(implode(',', $_SESSION['mail_roles']));
 				}
 		
 				$mailData['m_message'] = $_POST["additional_message_text"].chr(13).chr(10).$this->umail->appendSignature();
