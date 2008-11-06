@@ -594,7 +594,7 @@ class ilObjSession extends ilObject
 	 * @param
 	 * @return
 	 */
-	protected function initFiles()
+	public function initFiles()
 	{
 		include_once('./Modules/Session/classes/class.ilSessionFile.php');
 		$this->files = ilSessionFile::_readFilesByEvent($this->getEventId());
