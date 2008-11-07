@@ -60,7 +60,8 @@ class ilFileUtils
 
 		// Copy zip-file to new directory, unzip and remove it
 		// TODO: check archive for broken file
-		copy ($a_file, $a_directory . "/" . $file);
+		//copy ($a_file, $a_directory . "/" . $file);
+		move_uploaded_file($a_file, $a_directory . "/" . $file);
 		ilUtil::unzip($a_directory . "/" . $file);
 		unlink ($a_directory . "/" . $file);
 //echo "-".$a_directory . "/" . $file."-";
@@ -81,7 +82,7 @@ class ilFileUtils
 			if (!$vir[0])
 			{
 				// Unlink file and throw exception
-				unlink($a_file);
+				unlink($filearray[path][$key]);
 				throw new ilFileUtilsException($lng->txt("file_is_infected")."<br />".$vir[1], ilFileUtilsException::$INFECTED_FILE);
 				break;
 			}
