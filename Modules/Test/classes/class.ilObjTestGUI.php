@@ -77,7 +77,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd("properties");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "properties");
-		$this->tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
+		if (method_exists($this->object, "getTestStyleLocation")) $this->tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
 		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
