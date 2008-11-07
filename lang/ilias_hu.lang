@@ -8644,7 +8644,6 @@ common#:#selected_languages_updated#:#A kiválasztott nyelvek frissítésre ker�
 common#:#lang_refresh_confirm_selected#:#Tényleg frissíteni akarja a kiválasztott nyelveket?
 assessment#:#tst_single_results#:#Eredmények kérdésekkel
 assessment#:#tst_answered_questions_test#:#Ebben a tesztben megválaszolt kérdések
-common#:#lang_refresh_confirm_selected#:#Tényleg frissíteni akarja a kiválasztott nyelveket?
 common#:#enable_download_folder#:#Letöltő mappák engedélyezése
 common#:#enable_download_folder_info#:#Mappa engedélyezése letöltéshez, beleértve az alstruktúrákat zip-fájlként.
 rbac#:#crsr_edit_permission#:#Jogosultsági beállítások változtatása
