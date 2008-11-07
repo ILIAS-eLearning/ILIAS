@@ -354,8 +354,8 @@ class ilTestServiceGUI
 					
 					$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
-					if ($this->object->getShowSolutionFeedback())
-					{
+//					if ($this->object->getShowSolutionFeedback())
+//					{
 						$scoretemplate->setCurrentBlock("feedback");
 						$scoretemplate->setVariable("FEEDBACK_NAME_INPUT", $question);
 						$feedback = $this->object->getManualFeedback($active_id, $question, $pass);
@@ -363,7 +363,7 @@ class ilTestServiceGUI
 						$scoretemplate->setVariable("VALUE_SAVE", $this->lng->txt("save"));
 						$scoretemplate->setVariable("TEXT_MANUAL_FEEDBACK", $this->lng->txt("set_manual_feedback"));
 						$scoretemplate->parseCurrentBlock();
-					}
+//					}
 					$scoretemplate->setVariable("NAME_INPUT", $question);
 					$this->ctrl->setParameter($this, "active_id", $active_id);
 					$this->ctrl->setParameter($this, "pass", $pass);
