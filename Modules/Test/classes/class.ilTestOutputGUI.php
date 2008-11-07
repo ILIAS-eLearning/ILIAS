@@ -261,7 +261,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			if ($this->object->getInstantFeedbackSolution())
 			{
-				$solutionoutput = $question_gui->getSolutionOutput($this->object->getTestSession()->getActiveId(), NULL, FALSE, FALSE, FALSE, TRUE);
+				$solutionoutput = $question_gui->getSolutionOutput($this->object->getTestSession()->getActiveId(), NULL, FALSE, FALSE, FALSE, FALSE, TRUE);
 				$this->tpl->setCurrentBlock("solution_output");
 				$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("tst_best_solution_is"));
 				$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
