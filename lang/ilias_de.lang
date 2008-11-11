@@ -1369,6 +1369,7 @@ common#:#assessment_defaults#:#Standardeinstellungen für Test & Assessment
 common#:#assessment_log_datetime#:#Datum/Uhrzeit
 common#:#assessment_log_deleted#:#Alle protokollierten Daten für den Test wurden über die Administrationsoberfläche gelöscht.
 common#:#assessment_log_for_test#:#Für den Test
+common#:#assessment_imap_line_color#:#Imagemap Linienfarbe
 common#:#assessment_log_log_entries#:#Protokolleinträge
 common#:#assessment_log_logging#:#Protokollierung
 common#:#assessment_log_manual_scoring_activate#:#Aktivieren der manuellen Bewertung für

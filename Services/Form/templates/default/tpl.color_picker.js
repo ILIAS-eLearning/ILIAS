@@ -1,5 +1,4 @@
 <script type="text/javascript">
-
 YAHOO.util.Event.onContentReady("button-container", function () {
 
         function onButtonOption() {
@@ -101,6 +100,14 @@ YAHOO.util.Event.onContentReady("button-container", function () {
         
         oButton.on("option", onButtonOption);
     
-
     });
+
+		function colorchanged(e) {
+			if ((this.value) && (this.value.length == 6))
+			{
+				this.value = this.value.toUpperCase();
+			  YAHOO.util.Dom.setStyle("current-color", "backgroundColor", '#' + this.value);
+			}
+		}
+		YAHOO.util.Event.addListener("{COLOR_ID}", "change", colorchanged);
 </script>

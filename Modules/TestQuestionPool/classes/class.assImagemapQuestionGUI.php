@@ -36,6 +36,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class assImagemapQuestionGUI extends assQuestionGUI
 {
+	private $linecolor;
+	
 	/**
 	* assImagemapQuestionGUI constructor
 	*
@@ -55,6 +57,9 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		{
 			$this->object->loadFromDb($id);
 		}
+		$assessmentSetting = new ilSetting("assessment");
+		$this->linecolor = (strlen($assessmentSetting->get("imap_line_color"))) ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
+		
 	}
 
 	function getCommand($cmd)
@@ -101,7 +106,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->get_image_filename());
 			foreach ($this->object->answers as $index => $answer)
 			{
-				$preview->addArea($index, $answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), "", "", true);
+				$preview->addArea($index, $answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), "", "", true, $this->linecolor);
 			}
 			$hidearea = false;
 			$disabled_save = " disabled=\"disabled\"";
@@ -339,7 +344,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 					$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
 					foreach ($this->object->answers as $index => $answer)
 					{
-						$preview->addArea($index, $answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true);
+						$preview->addArea($index, $answer->getArea(), $answer->getCoords(), $answer->getAnswertext(), $this->ctrl->getLinkTarget($this, "editQuestion") . "&markarea=$index", "", true, $this->linecolor);
 					}
 					$preview->createPreview();
 					$imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->get_image_filename());
@@ -701,7 +706,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			{
 				if (strcmp($solution_value["value1"], "") != 0)
 				{
-					$preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
+					$preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true, $this->linecolor);
 				}
 			}
 			$preview->createPreview();
@@ -838,7 +843,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			{
 				if (strcmp($solution_value["value1"], "") != 0)
 				{
-					$preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true);
+					$preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true, $this->linecolor);
 				}
 			}
 			$preview->createPreview();
