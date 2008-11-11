@@ -1367,100 +1367,109 @@ class ilObjChatGUI extends ilObjectGUI
 		include_once 'Modules/Chat/classes/class.ilChatBlockedUsers.php';
 
 		$all_users = $this->object->chat_room->getOnlineUsers();
+
 		// filter blocked users 
-		$users = array();
+		$filtered_users = array();
 		foreach($all_users as $user)
 		{
 			if(!ilChatBlockedUsers::_isBlocked($this->object->getId(),$user['user_id']))
 			{
-				$users[] = $user;
+				if($user['user_id'] == $_SESSION['AccountId'])
+				{
+					continue;
+				}
+	
+				$oUser = new ilObjUser();				
+				$oUser->setId($user['user_id']);
+				$oUser->read();
+	
+				if($oUser->getPref('hide_own_online_status') != 'n')
+				{
+					continue;
+				}
+								
+				$filtered_users[] = $oUser;
 			}
 		}
 
-		if(count($users) <= 1)
+		if(count($filtered_users) < 1)
 		{
-			$this->tpl->setCurrentBlock("no_actice");
-			$this->tpl->setVariable("NO_ONLINE_USERS",$this->lng->txt("chat_no_online_users"));
+			$this->tpl->setCurrentBlock('no_online');
+			$this->tpl->setVariable('NO_ONLINE_USERS', $this->lng->txt('chat_no_online_users'));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			$counter = 0;
-			$user_obj =& new ilObjUser();
-			foreach($users as $user)
+			foreach($filtered_users as $user)
 			{
-				if($user["user_id"] == $_SESSION["AccountId"])
+				if(!($counter % 2))
 				{
-					continue;
+					$this->tpl->setCurrentBlock('online_row_start');
+					$this->tpl->touchBlock('online_row_start');
+					$this->tpl->parseCurrentBlock();
+					
+					if($counter == count($filtered_users) - 1)
+					{						
+						$this->tpl->setCurrentBlock('online_empty_col');				
+						$this->tpl->touchBlock('online_empty_col');
+						$this->tpl->parseCurrentBlock();
+					}
+				}
+				if(($counter % 2) || $counter == count($filtered_users) - 1)
+				{
+					$this->tpl->setCurrentBlock('online_row_end');				
+					$this->tpl->touchBlock('online_row_end');
+					$this->tpl->parseCurrentBlock();
 				}
 
-				if ($counter > 0 &&
-					$counter == count($users)-2 &&
-					($counter%2) == 0)
+				$this->tpl->setCurrentBlock('online');
+				if ($_GET['p_id'] == $user->getId() ||
+					$_GET['a_id'] == $user->getId())
 				{
-					$this->tpl->touchBlock("online_empty_col");
-				}
-	
-				if(!($counter%2))
-				{
-					$this->tpl->touchBlock("online_row_start");
+					$this->tpl->setVariable('ONLINE_FONT_A','smallred');
 				}
 				else
 				{
-					$this->tpl->touchBlock("online_row_end");
-				}
-
-				$this->tpl->setCurrentBlock("online");
-				if ($_GET["p_id"] == $user["user_id"] ||
-					$_GET["a_id"] == $user["user_id"])
+					$this->tpl->setVariable('ONLINE_FONT_A','small');
+				}				
+				if($this->object->chat_room->isInvited($user->getId()))
 				{
-					$this->tpl->setVariable("ONLINE_FONT_A","smallred");
+					$img = 'minus.gif';
+					$cmd = 'drop';
 				}
 				else
 				{
-					$this->tpl->setVariable("ONLINE_FONT_A","small");
+					$img = 'plus.gif';
+					$cmd = 'invite';
 				}
-				
-				if($this->object->chat_room->isInvited($user["user_id"]))
-				{
-					$img = "minus.gif";
-					$cmd = "drop";
-				}
-				else
-				{
-					$img = "plus.gif";
-					$cmd = "invite";
-				}
-				$ilCtrl->setParameter($this, "room_id", $_REQUEST["room_id"]);
-				$ilCtrl->setParameter($this, "i_id", $user["user_id"]);
-				$this->tpl->setVariable("ONLINE_LINK_A",
+				$ilCtrl->setParameter($this, 'room_id', $_REQUEST['room_id']);
+				$ilCtrl->setParameter($this, 'i_id', $user->getId());
+				$this->tpl->setVariable('ONLINE_LINK_A',
 					$ilCtrl->getLinkTarget($this, $cmd));
 				$ilCtrl->clearParameters($this);
-				$this->tpl->setVariable("TXT_INVITE_USER",$cmd == "invite" ? $this->lng->txt("chat_invite_user") :
-										$this->lng->txt("chat_disinvite_user"));
-				
-				$user_obj->setId($user["user_id"]);
-				$user_obj->read();
-				
-				if($user_obj->getPref('public_profile') == 'y')
+				$this->tpl->setVariable('TXT_INVITE_USER',$cmd == 'invite' ? $this->lng->txt('chat_invite_user') :
+										$this->lng->txt('chat_disinvite_user'));				
+				if($user->getPref('public_profile') == 'y')
 				{
-					$this->tpl->setVariable("ONLINE_USER_NAME_A", $user["firstname"]." ".$user["lastname"]." (".$user["login"].")");										
+        			$this->tpl->setVariable('ONLINE_USER_NAME_A',
+        				$user->getFirstname().' '.$user->getLastname().' ('.$user->getLogin().')');										
 				}
 				else
 				{
-					$this->tpl->setVariable("ONLINE_USER_NAME_A", $user["login"]);										
+					$this->tpl->setVariable('ONLINE_USER_NAME_A', $user->getLogin());										
 				}
-
-				$this->tpl->setVariable("INVITE_IMG_SRC",ilUtil::getImagePath($img,'Modules/Chat'));
-				
+				$this->tpl->setVariable('INVITE_IMG_SRC', 
+					ilUtil::getImagePath($img, 'Modules/Chat'));				
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
 		}
-		$this->tpl->setCurrentBlock("show_online");
-		$this->tpl->setVariable("ONLINE_USERS",$this->lng->txt("chat_online_users"));
+		$this->tpl->setCurrentBlock('show_online');
+		$this->tpl->setVariable('ONLINE_USERS', $this->lng->txt('chat_online_users'));
 		$this->tpl->parseCurrentBlock();
 	}
+	
 	function __showActiveUsers()
 	{
 		global $rbacsystem, $ilCtrl;
