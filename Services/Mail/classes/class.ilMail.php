@@ -1647,29 +1647,25 @@ class ilMail
 			{
 				return $lng->txt("mail_no_attach_allowed");
 			}
-		}
+		}	
 		
-		// ACTIONS FOR ALL TYPES
-		// save mail in sent box
-		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
-										$a_m_subject,$a_m_message);
-		
+		// ACTIONS FOR ALL TYPES		
 		// GET RCPT OF MAILING LISTS
-		$a_rcp_to = $this->parseRcptOfMailingLists($a_rcp_to);
-		$a_rcp_cc = $this->parseRcptOfMailingLists($a_rcp_cc);
-		$a_rcp_bc = $this->parseRcptOfMailingLists($a_rcp_bc);
+		$rcp_to = $this->parseRcptOfMailingLists($a_rcp_to);
+		$rcp_cc = $this->parseRcptOfMailingLists($a_rcp_cc);
+		$rcp_bc = $this->parseRcptOfMailingLists($a_rcp_bc);
 
 		if (! ilMail::_usePearMail())
 		{
 			// REPLACE ALL LOGIN NAMES WITH '@' BY ANOTHER CHARACTER
-			$a_rcp_to = $this->__substituteRecipients($a_rcp_to,"substitute");
-			$a_rcp_cc = $this->__substituteRecipients($a_rcp_cc,"substitute");
-			$a_rcp_bc = $this->__substituteRecipients($a_rcp_bc,"substitute");
+			$rcp_to = $this->__substituteRecipients($rcp_to,"substitute");
+			$rcp_cc = $this->__substituteRecipients($rcp_cc,"substitute");
+			$rcp_bc = $this->__substituteRecipients($rcp_bc,"substitute");
 		}
 
 		// COUNT EMAILS
-		$c_emails = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,true);
-		$c_rcp = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,false);
+		$c_emails = $this->__getCountRecipients($rcp_to,$rcp_cc,$rcp_bc,true);
+		$c_rcp = $this->__getCountRecipients($rcp_to,$rcp_cc,$rcp_bc,false);
 
 		// currently disabled..
 		/*
@@ -1681,8 +1677,19 @@ class ilMail
 			}
 		}
 		*/
-				
-		if ($a_attachment)
+		
+		// check smtp permission
+		if($c_emails && $this->user_id != ANONYMOUS_USER_ID && 
+		   !$rbacsystem->checkAccess('smtp_mail', $this->mail_obj_ref_id))
+		{
+			return $this->lng->txt('mail_no_permissions_write_smtp');
+		}			
+			
+		// save mail in sent box
+		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
+										$a_m_subject,$a_m_message);
+										
+		if($a_attachment)
 		{
 			$this->mfile->assignAttachmentsToDirectory($sent_id,$sent_id);
 
@@ -1694,11 +1701,11 @@ class ilMail
 
 		// FILTER EMAILS
 		// IF EMAIL RECIPIENT
-		if ($c_emails)
-		{
-			$this->sendMimeMail($this->__getEmailRecipients($a_rcp_to),
-								$this->__getEmailRecipients($a_rcp_cc),
-								$this->__getEmailRecipients($a_rcp_bc),
+		if($c_emails)
+		{		
+			$this->sendMimeMail($this->__getEmailRecipients($rcp_to),
+								$this->__getEmailRecipients($rcp_cc),
+								$this->__getEmailRecipients($rcp_bc),
 								$a_m_subject,
 								$a_m_message,
 								$a_attachment,
@@ -1707,7 +1714,7 @@ class ilMail
 
 		if (in_array('system',$a_type))
 		{
-			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'system', $a_use_placeholders))
+			if (!$this->distributeMail($rcp_to,$rcp_cc,$rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'system', $a_use_placeholders))
 			{
 				return $lng->txt("mail_send_error");
 			}
@@ -1716,7 +1723,7 @@ class ilMail
 		if (in_array('normal',$a_type))
 		{
 			// TRY BOTH internal and email (depends on user settings)
-			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'normal', $a_use_placeholders))
+			if (!$this->distributeMail($rcp_to,$rcp_cc,$rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'normal', $a_use_placeholders))
 			{
 				return $lng->txt("mail_send_error");
 			}
