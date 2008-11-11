@@ -138,7 +138,7 @@ class ilChatInvitationGUI
 		
 		$select = ilUtil::formSelect('', 'invitation', $sel_arr, false, true, '0', 'ilEditSelect');
 		$tpl->setVariable('NAVI_SELECT', $select);
-		$tpl->setVariable('TXT_CHAT_INVITATIONS', $this->lng->txt('chat_chat_invitations').$add);
+		$tpl->setVariable('TXT_CHAT_INVITATIONS', $this->lng->txt('chat_chat_invitation').$add);
 		$tpl->setVariable('IMG_DOWN', ilUtil::getImagePath('mm_down_arrow.gif'));		
 		$tpl->setVariable('TXT_GO', $this->lng->txt('go'));
 		$tpl->setVariable('ACTION', 'ilias.php?baseClass=ilChatPresentationGUI');		
