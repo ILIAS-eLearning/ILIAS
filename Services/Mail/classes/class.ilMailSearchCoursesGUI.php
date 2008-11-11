@@ -319,30 +319,36 @@ class ilMailSearchCoursesGUI
 		
 			foreach($crs_ids as $crs_id) 
 			{
-				$oCrsParticipants = ilCourseParticipants::_getInstanceByObjId($crs_id);
-				$crs_members = $oCrsParticipants->getParticipants();
-
-				$oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
-				if((int)$oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED)
-				{
-					++$num_courses_hidden_members;
-					
-					$this->tpl->setCurrentBlock('caption_asterisk');
-					$this->tpl->touchBlock('caption_asterisk');
+				if(ilObject::_hasUntrashedReference($crs_id))
+				{				
+					$oCrsParticipants = ilCourseParticipants::_getInstanceByObjId($crs_id);
+					$crs_members = $oCrsParticipants->getParticipants();
+	
+					$oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
+					if((int)$oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED)
+					{
+						++$num_courses_hidden_members;
+						
+						$this->tpl->setCurrentBlock('caption_asterisk');
+						$this->tpl->touchBlock('caption_asterisk');
+						$this->tpl->parseCurrentBlock();
+					}
+					unset($oTmpCrs);
+		
+					$this->tpl->setCurrentBlock('loop_crs');
+					$this->tpl->setVariable('LOOP_CRS_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
+					$this->tpl->setVariable('LOOP_CRS_ID', $crs_id);
+					$this->tpl->setVariable('LOOP_CRS_NAME', $ilObjDataCache->lookupTitle($crs_id));
+					$this->tpl->setVariable('LOOP_CRS_NO_MEMBERS', count($crs_members));
 					$this->tpl->parseCurrentBlock();
 				}
-				unset($oTmpCrs);
-	
-				$this->tpl->setCurrentBlock('loop_crs');
-				$this->tpl->setVariable('LOOP_CRS_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable('LOOP_CRS_ID', $crs_id);
-				$this->tpl->setVariable('LOOP_CRS_NAME', $ilObjDataCache->lookupTitle($crs_id));
-				$this->tpl->setVariable('LOOP_CRS_NO_MEMBERS', count($crs_members));
-				$this->tpl->parseCurrentBlock();
 			}
-	
-			$this->tpl->setVariable('BUTTON_MAIL',$lng->txt('mail_members'));
-			$this->tpl->setVariable('BUTTON_LIST',$lng->txt('mail_list_members'));
+			
+			if((int)$counter)
+			{	
+				$this->tpl->setVariable('BUTTON_MAIL',$lng->txt('mail_members'));
+				$this->tpl->setVariable('BUTTON_LIST',$lng->txt('mail_list_members'));
+			}
 			
 			if($num_courses_hidden_members > 0)
 			{
