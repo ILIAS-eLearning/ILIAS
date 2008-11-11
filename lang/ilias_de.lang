@@ -896,8 +896,8 @@ assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
 assessment#:#tst_set_feedback_done#:#Die Manuelle Rückmeldung wurde gespeichert
 assessment#:#tst_set_feedback_not_done#:#Es ist ein Fehler aufgetreten! Die Manuelle Rückmeldung konnte nicht gespeichert werden
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
-assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche zum Abbrechen des Tests an.
-assessment#:#tst_show_cancel#:#"Test abbrechen" Option anzeigen
+assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche zum Unterbrechen des Tests an.
+assessment#:#tst_show_cancel#:#"Test unterbrechen" Option anzeigen
 assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbieten
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_solution_details#:#Bewertungsdetails
