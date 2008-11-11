@@ -168,7 +168,7 @@ class ilMailSearchGUI
 			if ($_SESSION['mail_search_type_system'])$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
 		}		
 
-		if ($_SESSION['mail_search_type_addressbook'] && strlen(trim($_SESSION["mail_search_search"])) > 3)
+		if ($_SESSION['mail_search_type_addressbook'] && strlen(trim($_SESSION["mail_search_search"])) >= 3)
 		{
 			$abook = new ilAddressbook($ilUser->getId());
 			$entries = $abook->searchUsers(addslashes(urldecode($_SESSION['mail_search_search'])));
@@ -223,7 +223,7 @@ class ilMailSearchGUI
 				$this->tpl->setVariable('TABLE_ADDR', $tbl_addr->getHTML());				
 			}
 		}		
-		if ($_SESSION['mail_search_type_system'] && strlen(trim($_SESSION["mail_search_search"])) > 3)
+		if ($_SESSION['mail_search_type_system'] && strlen(trim($_SESSION["mail_search_search"])) >= 3)
 		{
 			include_once 'Services/Search/classes/class.ilQueryParser.php';
 			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -354,7 +354,7 @@ class ilMailSearchGUI
 			$this->tpl->setVariable("ALT_ARROW", '');
 			$this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('adopt'));	
 		}
-		else if (strlen(trim($_SESSION["mail_search_search"])) > 3)
+		else if (strlen(trim($_SESSION["mail_search_search"])) >= 3)
 		{
 			$this->lng->loadLanguageModule('search');			
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
