@@ -308,19 +308,25 @@ class ilMailSearchGroupsGUI
 		
 			foreach($grp_ids as $grp_id) 
 			{
-				$oGroupParticipants = ilGroupParticipants::_getInstanceByObjId($grp_id);
-				$grp_members = $oGroupParticipants->getParticipants();
-
-				$this->tpl->setCurrentBlock('loop_grp');
-				$this->tpl->setVariable('LOOP_GRP_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable('LOOP_GRP_ID', $grp_id);
-				$this->tpl->setVariable('LOOP_GRP_NAME', $ilObjDataCache->lookupTitle($grp_id));
-				$this->tpl->setVariable('LOOP_GRP_NO_MEMBERS', count($grp_members));
-				$this->tpl->parseCurrentBlock();
+				if(ilObject::_hasUntrashedReference($grp_id))
+				{
+					$oGroupParticipants = ilGroupParticipants::_getInstanceByObjId($grp_id);
+					$grp_members = $oGroupParticipants->getParticipants();
+	
+					$this->tpl->setCurrentBlock('loop_grp');
+					$this->tpl->setVariable('LOOP_GRP_CSSROW', ++$counter % 2 ? 'tblrow1' : 'tblrow2');
+					$this->tpl->setVariable('LOOP_GRP_ID', $grp_id);
+					$this->tpl->setVariable('LOOP_GRP_NAME', $ilObjDataCache->lookupTitle($grp_id));
+					$this->tpl->setVariable('LOOP_GRP_NO_MEMBERS', count($grp_members));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 	
-			$this->tpl->setVariable('BUTTON_MAIL', $lng->txt('mail_members'));
-			$this->tpl->setVariable('BUTTON_LIST', $lng->txt('mail_list_members'));
+			if((int)$counter)
+			{
+				$this->tpl->setVariable('BUTTON_MAIL', $lng->txt('mail_members'));
+				$this->tpl->setVariable('BUTTON_LIST', $lng->txt('mail_list_members'));
+			}
 		}
 	
 		if($counter == 0)
