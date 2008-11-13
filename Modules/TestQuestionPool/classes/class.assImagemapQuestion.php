@@ -43,7 +43,7 @@ class assImagemapQuestion extends assQuestion
 *
 * @var array
 */
-  var $answers;
+	var $answers;
 
 /**
 * The imagemap file containing the name of imagemap file
@@ -52,7 +52,7 @@ class assImagemapQuestion extends assQuestion
 *
 * @var string
 */
-  var $imagemap_filename;
+	var $imagemap_filename;
 
 /**
 * The image file containing the name of image file
@@ -61,7 +61,7 @@ class assImagemapQuestion extends assQuestion
 *
 * @var string
 */
-  var $image_filename;
+	var $image_filename;
 
 /**
 * The variable containing contents of an imagemap file
@@ -70,7 +70,7 @@ class assImagemapQuestion extends assQuestion
 *
 * @var string
 */
-  var $imagemap_contents;
+	var $imagemap_contents;
 	var $coords;
 
 /**
@@ -87,23 +87,22 @@ class assImagemapQuestion extends assQuestion
 * @param string $question The question string of the imagemap question
 * @access public
 */
-  function assImagemapQuestion(
-    $title = "",
-    $comment = "",
-    $author = "",
-    $owner = -1,
-    $question = "",
-    $imagemap_filename = "",
-    $image_filename = ""
-
-  )
-  {
-    $this->assQuestion($title, $comment, $author, $owner, $question);
-    $this->imagemap_filename = $imagemap_filename;
-    $this->image_filename = $image_filename;
-    $this->answers = array();
+	function assImagemapQuestion(
+		$title = "",
+		$comment = "",
+		$author = "",
+		$owner = -1,
+		$question = "",
+		$imagemap_filename = "",
+		$image_filename = ""
+	)
+	{
+		$this->assQuestion($title, $comment, $author, $owner, $question);
+		$this->imagemap_filename = $imagemap_filename;
+		$this->image_filename = $image_filename;
+		$this->answers = array();
 		$this->coords = array();
-  }
+	}
 
 /**
 * Returns true, if a imagemap question is complete for use
@@ -238,12 +237,11 @@ class assImagemapQuestion extends assQuestion
 			{
 				$answer_obj = $this->answers[$key];
 				//print "id:".$this->id." answer tex:".$answer_obj->getAnswertext()." answer_obj->getOrder():".$answer_obj->getOrder()." answer_obj->getCoords():".$answer_obj->getCoords()." answer_obj->getArea():".$answer_obj->getArea();
-				$query = sprintf("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, correctness, coords, area) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)",
+				$query = sprintf("INSERT INTO qpl_answer_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id),
 					$ilDB->quote($answer_obj->getAnswertext() . ""),
 					$ilDB->quote($answer_obj->getPoints() . ""),
 					$ilDB->quote($answer_obj->getOrder() . ""),
-					$ilDB->quote($answer_obj->getState() . ""),
 					$ilDB->quote($answer_obj->getCoords() . ""),
 					$ilDB->quote($answer_obj->getArea() . "")
 					);
@@ -437,9 +435,9 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $imagemap_filename
 */
-  function get_imagemap_filename() {
-    return $this->imagemap_filename;
-  }
+	function get_imagemap_filename() {
+		return $this->imagemap_filename;
+	}
 
 /**
 * Sets the imagemap file name
@@ -450,23 +448,23 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $imagemap_filename
 */
-  function setImagemapFilename($imagemap_filename, $imagemap_tempfilename = "") {
-    if (!empty($imagemap_filename)) {
-      $this->imagemap_filename = $imagemap_filename;
-    }
-    if (!empty($imagemap_tempfilename)) {
- 	    $fp = fopen($imagemap_tempfilename, "r");
- 	    $contents = fread($fp, filesize($imagemap_tempfilename));
-      fclose($fp);
+	function setImagemapFilename($imagemap_filename, $imagemap_tempfilename = "") {
+		if (!empty($imagemap_filename)) {
+			$this->imagemap_filename = $imagemap_filename;
+		}
+		if (!empty($imagemap_tempfilename)) {
+			$fp = fopen($imagemap_tempfilename, "r");
+			$contents = fread($fp, filesize($imagemap_tempfilename));
+			fclose($fp);
 			if (preg_match_all("/<area(.+)>/siU", $contents, $matches)) {
-		  	for ($i=0; $i< count($matches[1]); $i++) {
-		    	preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
-		    	preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
-		    	preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
+				for ($i=0; $i< count($matches[1]); $i++) {
+					preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
+					preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
+					preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);
 					$this->addAnswer($alt[1], 0.0, count($this->answers), $coords[1], $shape[1]);
-		  	}
+				}
 			}
-    }
+		}
 	}
 
 /**
@@ -478,9 +476,9 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $image_filename
 */
-  function get_image_filename() {
-    return $this->image_filename;
-  }
+	function get_image_filename() {
+		return $this->image_filename;
+	}
 
 	function getImageFilename()
 	{
@@ -527,17 +525,17 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $imagemap_contents
 */
-  function get_imagemap_contents($href = "#") {
+	function get_imagemap_contents($href = "#") {
 		$imagemap_contents = "<map name=\"".$this->title."\"> ";
 		for ($i = 0; $i < count($this->answers); $i++) {
-	 		$imagemap_contents .= "<area alt=\"".$this->answers[$i]->getAnswertext()."\" ";
-	 		$imagemap_contents .= "shape=\"".$this->answers[$i]->getArea()."\" ";
-	 		$imagemap_contents .= "coords=\"".$this->answers[$i]->getCoords()."\" ";
-	 		$imagemap_contents .= "href=\"$href&selimage=" . $this->answers[$i]->getOrder() . "\" /> ";
+			$imagemap_contents .= "<area alt=\"".$this->answers[$i]->getAnswertext()."\" ";
+			$imagemap_contents .= "shape=\"".$this->answers[$i]->getArea()."\" ";
+			$imagemap_contents .= "coords=\"".$this->answers[$i]->getCoords()."\" ";
+			$imagemap_contents .= "href=\"$href&selimage=" . $this->answers[$i]->getOrder() . "\" /> ";
 		}
 		$imagemap_contents .= "</map>";
-    return $imagemap_contents;
-  }
+		return $imagemap_contents;
+	}
 
 /**
 * Adds a possible answer for a imagemap question
@@ -553,33 +551,33 @@ class assImagemapQuestion extends assQuestion
 * @see $answers
 * @see ASS_AnswerImagemap
 */
-  function addAnswer(
-    $answertext = "",
-    $points = 0.0,
-    $order = 0,
-    $coords="",
-    $area=""
-  )
-  {
+	function addAnswer(
+		$answertext = "",
+		$points = 0.0,
+		$order = 0,
+		$coords="",
+		$area=""
+	)
+	{
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
-    if (array_key_exists($order, $this->answers)) 
+		if (array_key_exists($order, $this->answers)) 
 		{
-      // Insert answer
-      $answer = new ASS_AnswerImagemap($answertext, $points, $order, $coords, $area);
+			// Insert answer
+			$answer = new ASS_AnswerImagemap($answertext, $points, $order, $coords, $area);
 			for ($i = count($this->answers) - 1; $i >= $order; $i--) 
 			{
 				$this->answers[$i+1] = $this->answers[$i];
 				$this->answers[$i+1]->setOrder($i+1);
 			}
 			$this->answers[$order] = $answer;
-    }
+		}
 		else 
 		{
-      // Append answer
-      $answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $coords, $area);
-      array_push($this->answers, $answer);
-    }
-  }
+			// Append answer
+			$answer = new ASS_AnswerImagemap($answertext, $points, count($this->answers), $coords, $area);
+			array_push($this->answers, $answer);
+		}
+	}
 
 /**
 * Returns the number of answers
@@ -590,9 +588,9 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $answers
 */
-  function getAnswerCount() {
-    return count($this->answers);
-  }
+	function getAnswerCount() {
+		return count($this->answers);
+	}
 
 /**
 * Returns an answer
@@ -605,12 +603,12 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $answers
 */
-  function getAnswer($index = 0) {
-    if ($index < 0) return NULL;
-    if (count($this->answers) < 1) return NULL;
-    if ($index >= count($this->answers)) return NULL;
-    return $this->answers[$index];
-  }
+	function getAnswer($index = 0) {
+		if ($index < 0) return NULL;
+		if (count($this->answers) < 1) return NULL;
+		if ($index >= count($this->answers)) return NULL;
+		return $this->answers[$index];
+	}
 
 	/**
 	* Returns the answer array
@@ -636,18 +634,18 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $answers
 */
-  function deleteArea($index = 0) {
-    if ($index < 0) return;
-    if (count($this->answers) < 1) return;
-    if ($index >= count($this->answers)) return;
-    unset($this->answers[$index]);
-    $this->answers = array_values($this->answers);
-    for ($i = 0; $i < count($this->answers); $i++) {
-      if ($this->answers[$i]->getOrder() > $index) {
-        $this->answers[$i]->setOrder($i);
-      }
-    }
-  }
+	function deleteArea($index = 0) {
+		if ($index < 0) return;
+		if (count($this->answers) < 1) return;
+		if ($index >= count($this->answers)) return;
+		unset($this->answers[$index]);
+		$this->answers = array_values($this->answers);
+		for ($i = 0; $i < count($this->answers); $i++) {
+			if ($this->answers[$i]->getOrder() > $index) {
+				$this->answers[$i]->setOrder($i);
+			}
+		}
+	}
 
 /**
 * Deletes all answers
@@ -657,9 +655,9 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $answers
 */
-  function flushAnswers() {
-    $this->answers = array();
-  }
+	function flushAnswers() {
+		$this->answers = array();
+	}
 
 /**
 * Returns the maximum points, a learner can reach answering the question
@@ -695,7 +693,7 @@ class assImagemapQuestion extends assQuestion
 	{
 		global $ilDB;
 		
-    $found_values = array();
+		$found_values = array();
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
@@ -705,7 +703,7 @@ class assImagemapQuestion extends assQuestion
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
 		);
-    $result = $ilDB->query($query);
+		$result = $ilDB->query($query);
 		while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 		{
 			if (strcmp($data->value1, "") != 0)
@@ -739,9 +737,9 @@ class assImagemapQuestion extends assQuestion
 * @access public
 * @see $answers
 */
-  function saveWorkingData($active_id, $pass = NULL) 
+	function saveWorkingData($active_id, $pass = NULL) 
 	{
-    global $ilDB;
+		global $ilDB;
 		global $ilUser;
 
 		if (is_null($pass))
@@ -750,12 +748,12 @@ class assImagemapQuestion extends assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		
-    $query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$query = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
 			$ilDB->quote($pass . "")
-    );
-    $result = $ilDB->query($query);
+		);
+		$result = $ilDB->query($query);
 
 		if (strlen($_GET["selImage"]))
 		{
@@ -782,9 +780,9 @@ class assImagemapQuestion extends assQuestion
 			}
 		}
 
-    parent::saveWorkingData($active_id, $pass);
+		parent::saveWorkingData($active_id, $pass);
 		return true;
-  }
+	}
 
 	function syncWithOriginal()
 	{

@@ -1544,6 +1544,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			$cat = $this->getColumn($key);
 			$result_array["variables"][$key] = array("title" => $cat, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
 		}
+		if ($this->hasNeutralColumn())
+		{
+			$percentage = 0;
+			if ($numrows > 0)
+			{
+				$percentage = (float)((int)$cumulated[$this->getNeutralColumnIndex()]/$numrows);
+			}
+			$result_array["variables"][$this->getNeutralColumnIndex()] = array("title" => $this->getNeutralColumn(), "selected" => (int)$cumulated[$this->getNeutralColumnIndex()], "percentage" => $percentage);
+		}
 		ksort($cumulated, SORT_NUMERIC);
 		$median = array();
 		$total = 0;
@@ -1641,6 +1650,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 			}
 			$cat = $this->getColumn($key);
 			$result_array["variables"][$key] = array("title" => $cat, "selected" => (int)$cumulated[$key], "percentage" => $percentage);
+		}
+		if ($this->hasNeutralColumn())
+		{
+			$percentage = 0;
+			if ($numrows > 0)
+			{
+				$percentage = (float)((int)$cumulated[$this->getNeutralColumnIndex()]/$numrows);
+			}
+			$result_array["variables"][$this->getNeutralColumnIndex()] = array("title" => $this->getNeutralColumn(), "selected" => (int)$cumulated[$this->getNeutralColumnIndex()], "percentage" => $percentage);
 		}
 		ksort($cumulated, SORT_NUMERIC);
 		$median = array();
