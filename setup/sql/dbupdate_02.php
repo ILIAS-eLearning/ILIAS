@@ -6188,3 +6188,5 @@ if ($typ_id > 0)
 }
 
 ?>
+<#1355>
+ALTER TABLE `qpl_answer_imagemap` DROP `correctness`;

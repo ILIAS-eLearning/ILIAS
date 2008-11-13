@@ -363,12 +363,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						{
 							foreach ($working_data as $data)
 							{
-								foreach ($data["value"] as $valuekey => $valuevalue)
+								if (($data["value"] == $j) && ($data["row"] == $i))
 								{
-									if (($valuevalue == $j) && ($data["row"] == $i))
-									{
-										$tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
-									}
+									$tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
 								}
 							}
 						}
@@ -403,7 +400,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			
 			if (strlen($this->object->getNeutralColumn()))
 			{
-				$j = $this->object->getRowCount();
+				$j = $this->object->getNeutralColumnIndex();
 				switch ($this->object->getSubtype())
 				{
 					case 0:

@@ -65,75 +65,67 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 * @param integer $order A nonnegative value representing a possible display or sort order
 * @access public
 */
-  function ASS_AnswerImagemap (
-    $answertext = "",
-    $points = 0.0,
-    $order = 0,
-    $coords = "",
-    $area = ""
-  )
-  {
-    $this->ASS_AnswerBinaryState($answertext, $points, $order, 1);
-    $this->coords = $coords;
+	function ASS_AnswerImagemap (
+		$answertext = "",
+		$points = 0.0,
+		$order = 0,
+		$coords = "",
+		$area = ""
+	)
+	{
+		$this->ASS_AnswerBinaryState($answertext, $points, $order, 1);
+		$this->coords = $coords;
 		$this->area = $area;
-  }
+	}
   
   
 /**
 * Gets the coordinates of an image map
 *
-* Gets the coordinates of an image map
-
 * @return string coords
 * @access public
 * @see $coords
 */
-  function getCoords() {
+	function getCoords() {
 		$this->coords = preg_replace("/\s/", "", $this->coords);
-    return $this->coords;
-  }
+		return $this->coords;
+	}
 
 
 /**
 * Sets the coordinates of an image map
 *
-* Sets the coordinates of an image map
-
 * @param string $coords
 * @access public
 * @see $coords
 */
-  function setCoords($coords="") {
+	function setCoords($coords="") {
 		$coords = preg_replace("/\s/", "", $coords);
-    $this->coords=$coords;
-  }
+		$this->coords=$coords;
+	}
 
 /**
 * Gets the area of an image map
 *
-* Gets the area of an image map
-
 * @return string area
 * @access public
 * @see $area
 */
-  function getArea() {
-    return $this->area;
-  }
+	function getArea() {
+		return $this->area;
+	}
 
 
 /**
 * Sets the area of an image map
 *
-* Sets the area of an image map
-
 * @param string $area
 * @access public
 * @see $area
 */
-  function setArea($area="") {
-    $this->area=$area;
-  }
+	function setArea($area="") {
+		$this->area=$area;
+	}
 }
 
 ?>
