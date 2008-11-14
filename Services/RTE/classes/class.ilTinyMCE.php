@@ -113,7 +113,7 @@ class ilTinyMCE extends ilRTE
 	* @param string $a_module Module or object which should use the HTML tags
 	* @access public
 	*/
-	function addRTESupport($obj_id, $obj_type, $a_module = "")
+	function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = FALSE)
 	{
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		if (array_key_exists("show_rte", $_POST))
@@ -126,6 +126,10 @@ class ilTinyMCE extends ilRTE
 		{
 			$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
 			$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
+			if ($allowFormElements)
+			{
+				$tpl->touchBlock("formelements");
+			}
 			$tpl->setCurrentBlock("tinymce");
 			$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce/tiny_mce.js");
 			include_once "./classes/class.ilObject.php";
