@@ -105,16 +105,20 @@ a.il_PrintBack
 	{VAL_SUBJECT}
 	<!-- BEGIN author --><!-- END author -->  
 		<br /><div class="small" style="margin: 6px 0px;">{NOTE_TEXT}</div>
-	<div class="il_BlockInfo" style="text-align:right; margin-top:4px;">{TXT_CREATED} {VAL_DATE}<!-- BEGIN last_edit --><br />
+	<div class="il_BlockInfo" style="text-align:right; margin-top:4px; clear:both;">{TXT_CREATED} {VAL_DATE}<!-- BEGIN last_edit --><br />
 	{TXT_LAST_EDIT} {DATE_LAST_EDIT}
 	<!-- END last_edit --></div>
 	<!-- BEGIN target_objects -->
 		<div style="margin-top:4px;" class="subtitle">
 		<!-- BEGIN target_object -->
-			<div>{TXT_CONTAINER} > <a href="{LINK_TARGET}">{TXT_TARGET}</a></div>
+			<div><img src="{IMG_CONTAINER}" border="0" /> {TXT_CONTAINER} > <img src="{IMG_TARGET}" border="0" /> <a href="{LINK_TARGET}">{TXT_TARGET}</a>
+			<!-- BEGIN target_sub_object -->> <img src="{IMG_SUB_TARGET}" border="0" /> <a href="{LINK_SUB_TARGET}">{TXT_SUB_TARGET}</a><!-- END target_sub_object -->
+			</div>
 		<!-- END target_object -->
 		<!-- BEGIN exp_target_object -->
-			<div>{TXT_CONTAINER} > {TXT_TARGET}</div>
+			<div><img src="{IMG_CONTAINER}" border="0" /> {TXT_CONTAINER} > <img src="{IMG_TARGET}" border="0" /> {TXT_TARGET}
+			<!-- BEGIN exp_target_sub_object -->> <img src="{IMG_SUB_TARGET}" border="0" /> {TXT_SUB_TARGET}<!-- END exp_target_sub_object -->
+			</div>
 		<!-- END exp_target_object -->
 		</div>
 	<!-- END target_objects -->

@@ -200,9 +200,13 @@ class ilNoteGUI
 		$ntpl = new ilTemplate("tpl.notes_and_comments.html", true, true,
 			"Services/Notes");
 
+		$nodes_col = false;
 		if ($this->private_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID))
 		{
+			$ntpl->setCurrentBlock("notes_col");
 			$ntpl->setVariable("NOTES", $this->getNoteListHTML(IL_NOTE_PRIVATE));
+			$ntpl->parseCurrentBlock();
+			$nodes_col = true;
 		}
 		
 		$comments_col = false;
@@ -239,6 +243,12 @@ class ilNoteGUI
 		if ($comments_col)
 		{
 			$ntpl->setCurrentBlock("comments_col");
+			// scorm2004-start
+			if ($nodes_col)
+			{
+				$ntpl->touchBlock("comments_style");
+			}
+			// scorm2004-end
 			$ntpl->parseCurrentBlock();
 		}
 		
@@ -730,7 +740,7 @@ class ilNoteGUI
 	function getPDNoteHTML($note_id)
 	{
 		global $lng, $ilCtrl;
-		
+
 		$tpl = new ilTemplate("tpl.pd_note.html", true, true, "Services/Notes");
 		$note = new ilNote($note_id);
 		$target = $note->getObject();
@@ -802,8 +812,20 @@ class ilNoteGUI
 					foreach($vis_ref_ids as $vis_ref_id)
 					{
 						$type = ilObject::_lookupType($vis_ref_id, true);
-						
-						if ($a_obj_type != "pg")
+						$sub_link = $sub_title = "";
+						if ($type == "sahs")		// bad hack, needs general procedure
+						{
+							$link = "goto.php?target=sahs_".$vis_ref_id;
+							$title = ilObject::_lookupTitle($a_rep_obj_id);
+							if ($a_obj_type == "sco" || $a_obj_type == "seqc" || $a_obj_type == "chap" || $a_obj_type == "pg")
+							{
+								$sub_link = "goto.php?target=sahs_".$vis_ref_id."_".$a_obj_id;
+								include_once("./Modules/Scorm2004/classes/class.ilScorm2004Node.php");
+								$sub_title = ilScorm2004Node::_lookupTitle($a_obj_id);
+								$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type."_s.gif");
+							}
+						}
+						else if ($a_obj_type != "pg")
 						{
 							if (!is_object($this->item_list_gui[$type]))
 							{
@@ -829,6 +851,25 @@ class ilNoteGUI
 						}
 						
 						$par_id = $tree->getParentId($vis_ref_id);
+						
+						// sub object link
+						if ($sub_link != "")
+						{
+							if ($this->export_html || $this->print)
+							{
+								$tpl->setCurrentBlock("exp_target_sub_object");
+							}
+							else
+							{
+								$tpl->setCurrentBlock("target_sub_object");
+								$tpl->setVariable("LINK_SUB_TARGET", $sub_link);
+							}
+							$tpl->setVariable("TXT_SUB_TARGET", $sub_title);
+							$tpl->setVariable("IMG_SUB_TARGET", $sub_icon);
+							$tpl->parseCurrentBlock();
+						}
+						
+						// container and object link
 						if ($this->export_html || $this->print)
 						{
 							$tpl->setCurrentBlock("exp_target_object");
@@ -841,8 +882,13 @@ class ilNoteGUI
 						$tpl->setVariable("TXT_CONTAINER",
 							ilObject::_lookupTitle(
 							ilObject::_lookupObjId($par_id)));
-						$tpl->setVariable("TXT_TARGET",
-							$title);
+						$tpl->setVariable("IMG_CONTAINER",
+							ilObject::_getIcon(
+							ilObject::_lookupObjId($par_id), "tiny"));
+						$tpl->setVariable("TXT_TARGET", $title);
+						$tpl->setVariable("IMG_TARGET",
+							ilObject::_getIcon($a_rep_obj_id, "tiny"));
+
 						$tpl->parseCurrentBlock();
 					}
 					$tpl->touchBlock("target_objects");
