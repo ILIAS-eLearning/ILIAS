@@ -48,7 +48,7 @@
 <!ELEMENT Identifier EMPTY>
 <!ATTLIST Identifier
 	Catalog CDATA #IMPLIED
-	Entry ID #REQUIRED
+	Entry CDATA #REQUIRED
 >
 
 <!-- Title -->
