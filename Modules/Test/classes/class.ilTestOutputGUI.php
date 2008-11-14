@@ -79,7 +79,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$this->object->setTestSession();
 		}
-
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initConnectionWithAnimation();
 		$cmd = $this->getCommand($cmd);

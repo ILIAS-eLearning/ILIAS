@@ -947,6 +947,23 @@ class assQuestionGUI
 	{
 		return $this->object->getQuestionType();
 	}
+	
+	/**
+	* Returns a HTML value attribute
+	*
+	* @param mixed $a_value A given text or value
+	* @result string The value as HTML value attribute
+	* @access public
+	*/
+	public function getAsValueAttribute($a_value)
+	{
+		$result = "";
+		if (strlen($a_value))
+		{
+			$result = " value=\"$a_value\" ";
+		}
+		return $result;
+	}
 
 	/**
 	* Returns the answer specific feedback depending on the results of the question
