@@ -261,7 +261,7 @@ class ilEventParticipants
 		{
 			$query = "INSERT INTO event_participants ".
 				"SET registered = '0', ".
-				"participated = '0' ".
+				"participated = '0', ".
 				"event_id = ".$ilDB->quote($a_event_id).", ".
 				"usr_id = ".$ilDB->quote($a_usr_id)." ";
 			$ilDB->query($query);

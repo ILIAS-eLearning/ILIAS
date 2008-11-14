@@ -45,6 +45,9 @@ class ilObjSessionListGUI extends ilObjectListGUI
 	 */
 	public function __construct()
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule('crs');
 		parent::__construct();
 	}
 	
