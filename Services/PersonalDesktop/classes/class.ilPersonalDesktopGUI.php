@@ -578,7 +578,7 @@ class ilPersonalDesktopGUI
 				: "tabinactive";
 				$inhalt1[] = array($inc_type,
 				$this->ctrl->getLinkTargetByClass("ilpdnotesgui"),
-				$this->lng->txt("private_notes"));
+				$this->lng->txt("notes_and_comments"));
 			}
 			
 			// user bookmarks

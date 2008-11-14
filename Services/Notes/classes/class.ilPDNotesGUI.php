@@ -44,6 +44,9 @@ class ilPDNotesGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+	
+	const PUBLIC_COMMENTS = "publiccomments";
+	const PRIVATE_NOTES = "privatenotes";
 
 	/**
 	* Constructor
@@ -59,8 +62,6 @@ class ilPDNotesGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->ctrl =& $ilCtrl;
-		
-		$this->ctrl->saveParameter($this, "rel_obj");
 	}
 
 	/**
@@ -73,11 +74,17 @@ class ilPDNotesGUI
 		switch($next_class)
 		{
 			case "ilnotegui":
+				// scorm2004-start
+				$this->setTabs();
+				// scorm2004-end
 				$this->displayHeader();
 				$this->view();		// forwardCommand is invoked in view() method
 				break;
 				
 			default:
+				// scorm2004-start
+				$this->setTabs();
+				// scorm2004-end
 				$cmd = $this->ctrl->getCmd("view");
 				$this->displayHeader();
 				$this->$cmd();
@@ -135,18 +142,26 @@ class ilPDNotesGUI
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$rel_objs = ilNote::_getRelatedObjectsOfUser();
 		
-		if ($_GET["rel_obj"] > 0)
+		if ($ilUser->getPref("pd_notes_rel_obj") > 0)
 		{
-			$notes_gui = new ilNoteGUI($_GET["rel_obj"], 0,
-				ilObject::_lookupType($_GET["rel_obj"]),true);
+			$notes_gui = new ilNoteGUI($ilUser->getPref("pd_notes_rel_obj"), 0,
+				ilObject::_lookupType($ilUser->getPref("pd_notes_rel_obj")),true);
 		}
 		else
 		{
 			$notes_gui = new ilNoteGUI(0, $ilUser->getId(), "pd");
 		}
-				
-		$notes_gui->enablePrivateNotes();
-		$notes_gui->enablePublicNotes(false);
+		
+		if ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
+		{
+			$notes_gui->enablePrivateNotes(true);
+			$notes_gui->enablePublicNotes(false);
+		}
+		else
+		{
+			$notes_gui->enablePrivateNotes(false);
+			$notes_gui->enablePublicNotes(true);
+		}
 		$notes_gui->enableHiding(false);
 		$notes_gui->enableTargets(true);
 		$notes_gui->enableMultiSelection(true);
@@ -193,7 +208,7 @@ class ilPDNotesGUI
 					$this->tpl->setVariable("TXT_RELATED",
 						$lng->txt("personal_desktop"));
 				}
-				if ($obj["rep_obj_id"] == $_GET["rel_obj"])
+				if ($obj["rep_obj_id"] == $ilUser->getPref("pd_notes_rel_obj"))
 				{
 					$this->tpl->setVariable("SEL", 'selected="selected"');
 				}
@@ -219,9 +234,65 @@ class ilPDNotesGUI
 	*/
 	function changeRelatedObject()
 	{
-		$this->ctrl->setParameter($this, "rel_obj", $_POST["rel_obj"]);
+		global $ilUser;
+		
+		$ilUser->writePref("pd_notes_rel_obj", $_POST["rel_obj"]);
 		$this->ctrl->redirect($this);
 	}
 
+	// scorm2004-start
+	/**
+	* Show subtabs
+	*/
+	function setTabs()
+	{
+		global $ilTabs, $ilUser, $ilCtrl;
+		
+		$ilTabs->addSubTabTarget("private_notes",
+			$ilCtrl->getLinkTarget($this, "showPrivateNotes"), "", "", "",
+			($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES));
+		$ilTabs->addSubTabTarget("notes_public_comments",
+			$ilCtrl->getLinkTarget($this, "showPublicComments"), "", "", "",
+			($this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS));
+	}
+	
+	/**
+	* Show private notes
+	*/
+	function showPrivateNotes()
+	{
+		global $ilUser, $ilCtrl;
+		
+		$ilUser->writePref("pd_notes_mode", ilPDNotesGUI::PRIVATE_NOTES);
+		$ilCtrl->redirect($this, "");
+	}
+	
+	/**
+	* Show public comments
+	*/
+	function showPublicComments()
+	{
+		global $ilUser, $ilCtrl;
+		
+		$ilUser->writePref("pd_notes_mode", ilPDNotesGUI::PUBLIC_COMMENTS);
+		$ilCtrl->redirect($this, "");
+	}
+
+	/**
+	* Get current mode
+	*/
+	function getMode()
+	{
+		global $ilUser;
+		
+		if ($ilUser->getPref("pd_notes_mode") == ilPDNotesGUI::PUBLIC_COMMENTS)
+		{
+			return ilPDNotesGUI::PUBLIC_COMMENTS;
+		}
+		else
+		{
+			return ilPDNotesGUI::PRIVATE_NOTES;
+		}
+	}
 }
 ?>
