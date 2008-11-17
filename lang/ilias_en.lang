@@ -8730,3 +8730,14 @@ rbac#:#facs_read#:#Read access to files & foldes settings
 rbac#:#facs_visible#:#Files & foldes settings are visible
 rbac#:#facs_write#:#Edit files & foldes settings
 common#:#objs_mail#:#Mail
+forum#:#frm_moderators#:#Moderators
+forum#:#frm_detach_moderator_role#:#Detach Moderator Role
+forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.
+forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
+forum#:#frm_moderators_search#:#User Search
+forum#:#frm_moderators_search_query#:#Searchterm(s)
+forum#:#frm_moderators_do_search#:#Search
+forum#:#frm_moderator_role_added_successfully#:#The moderator role was added successfully.
+forum#:#frm_moderators_select_one#:#Please choose one user.
+forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator. 
+forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.

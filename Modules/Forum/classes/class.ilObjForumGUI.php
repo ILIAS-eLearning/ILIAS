@@ -35,7 +35,7 @@ require_once './Modules/Forum/classes/class.ilForumTopic.php';
 * $Id$
 *
 * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI
 *
 * @ingroup ModulesForum
 */
@@ -124,6 +124,13 @@ class ilObjForumGUI extends ilObjectGUI
 				require_once('./Modules/Forum/classes/class.ilForumExportGUI.php');
 				$fex_gui =& new ilForumExportGUI($this);
 				$ret =& $this->ctrl->forwardCommand($fex_gui);
+				exit();
+				break;
+			
+			case 'ilforummoderatorsgui':
+				require_once 'Modules/Forum/classes/class.ilForumModeratorsGUI.php';
+				$fm_gui = new ilForumModeratorsGUI($this);
+				$ret = $this->ctrl->forwardCommand($fm_gui);
 				exit();
 				break;
 				
@@ -840,7 +847,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser;
 
 		$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
 		
@@ -865,6 +872,11 @@ class ilObjForumGUI extends ilObjectGUI
 						);
 		$tabs_gui->addTarget('forums_threads', ilRepositoryExplorer::buildLinkTarget($this->ref_id, 'frm'),	$active, '');
 		#}
+		
+		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
+		{
+			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this), '', $force_active);			
+		}
 		
 		// info tab
 		if ($ilAccess->checkAccess('visible', '', $this->ref_id))
