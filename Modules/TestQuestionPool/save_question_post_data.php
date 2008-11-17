@@ -12,7 +12,7 @@ foreach ($_POST as $key => $value)
 		array_push($results, $_POST["points_" . $matches[1]]);
 	}
 }
-$res = saveQuestionResult($_POST["session_id"]."::".$_POST["client"],$_POST["user_id"], $_POST["test_id"], $_POST["question_id"], $_POST["pass"], $results);
+$res = ilSoapFunctions::saveQuestion($_POST["session_id"]."::".$_POST["client"],$_POST["active_id"], $_POST["question_id"], $_POST["pass"], $results);
 if ($res === true)
 {
 	global $lng;
