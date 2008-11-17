@@ -6188,5 +6188,9 @@ if ($typ_id > 0)
 }
 
 ?>
-<#1355>
+<#1356>
 ALTER TABLE `qpl_answer_imagemap` DROP `correctness`;
+<#1357>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
