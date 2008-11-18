@@ -6194,3 +6194,7 @@ ALTER TABLE `qpl_answer_imagemap` DROP `correctness`;
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1358>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
