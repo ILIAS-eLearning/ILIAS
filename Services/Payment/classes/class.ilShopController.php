@@ -32,6 +32,7 @@ include_once 'payment/classes/class.ilPaymentVendors.php';
 include_once 'payment/classes/class.ilPaymentTrustees.php';
 include_once 'payment/classes/class.ilPaymentShoppingCart.php';
 include_once 'payment/classes/class.ilPaymentBookings.php';
+include_once 'Services/Payment/classes/class.ilShopInfoGUI.php';
 
 /**
 * Class ilShopController
@@ -44,7 +45,7 @@ include_once 'payment/classes/class.ilPaymentBookings.php';
 *
 * @ilCtrl_Calls ilShopController: ilShopGUI, ilShopAdvancedSearchGUI, ilShopShoppingCartGUI
 * @ilCtrl_Calls ilShopController: ilShopBoughtObjectsGUI, ilPurchaseBMFGUI, ilShopPersonalSettingsGUI
-* @ilCtrl_Calls ilShopController: ilPaymentGUI, ilPaymentAdminGUI
+* @ilCtrl_Calls ilShopController: ilPaymentGUI, ilPaymentAdminGUI, ilShopInfoGUI
 */
 class ilShopController
 {	
@@ -108,6 +109,11 @@ class ilShopController
 				include_once 'payment/classes/class.ilPaymentAdminGUI.php';
 				$this->ctrl->forwardCommand(new ilPaymentAdminGUI($ilUser));
 				break;
+
+			case 'ilshopinfogui':
+				include_once 'Services/Payment/classes/class.ilShopInfoGUI.php';
+				$this->ctrl->forwardCommand(new ilShopInfoGUI());
+				break;
 				
 			case 'ilshopgui':				
 			default:
@@ -133,6 +139,7 @@ class ilShopController
 				
 		$ilTabs->addTarget('content', $this->ctrl->getLinkTargetByClass('ilshopgui'), '', '', '');
 		$ilTabs->addTarget('advanced_search', $this->ctrl->getLinkTargetByClass('ilshopadvancedsearchgui'), '', '', '');
+		$ilTabs->addTarget('shop_info',$this->ctrl->getLinkTargetByClass('ilshopinfogui') ,'' , '', '');  
 		
 		if(ANONYMOUS_USER_ID != $ilUser->getId())
 		{
