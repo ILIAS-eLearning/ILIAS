@@ -37,7 +37,10 @@ var callback =
 
 function autosave(sUrl)
 {
-	if (tinyMCE != null) tinyMCE.triggerSave();
+	if (typeof tinyMCE != 'undefined')
+	{
+		if (tinyMCE) tinyMCE.triggerSave();
+	}
 	formObject = document.getElementById('taForm'); 
 	YAHOO.util.Connect.setForm(formObject); 
 	YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
