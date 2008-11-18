@@ -576,8 +576,25 @@ class assTextQuestion extends assQuestion
 			$len_without_tags = ilStr::strLen($text_without_tags);
 			if ($this->getMaxNumOfChars() < $len_without_tags)
 			{
-				$text = ilStr::subStr($text, 0, $this->getMaxNumOfChars() + ($len_with_tags - $len_without_tags)); 
+				if (!$this->isHTML($text))
+				{
+					$text = ilStr::subStr($text, 0, $this->getMaxNumOfChars()); 
+				}
+				else
+				{
+					// this often produces bad XHTML which leads to problems with PDF export
+					// a cleanup must be made 
+					// $text = ilStr::subStr($text, 0, $this->getMaxNumOfChars() + ($len_with_tags - $len_without_tags)); 
+				}
 			}
+		}
+		if ($this->isHTML($text))
+		{
+			$text = preg_replace("/<[^>]*$/ims", "", $text);
+		}
+		else
+		{
+			$text = htmlentities($text, ENT_QUOTES, "UTF-8");
 		}
 		$entered_values = 0;
 		if (strlen($text))
