@@ -51,7 +51,7 @@ public class ilServerSettings {
         private File index_path = null;
         
         
-         private ilServerSettings(String property_path)
+        private ilServerSettings(String property_path)
          throws ilConfigurationException
         {
              loadProperties(property_path);
