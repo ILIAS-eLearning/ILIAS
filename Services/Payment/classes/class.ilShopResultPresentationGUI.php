@@ -177,7 +177,8 @@ class ilShopResultPresentationGUI extends ilSearchResultPresentationGUI
 						$item_list_gui->enableSubstitutions(false);
 						$item_list_gui->enableNoticeProperties(false);
 						$item_list_gui->enablePreconditions(false);
-						$item_list_gui->enableProperties(false);						
+						$item_list_gui->enableProperties(false);
+						$item_list_gui->setBoldTitle(true);
 						
 						if(ilPaymentObject::_hasAccess($item['ref_id']))
 						{
