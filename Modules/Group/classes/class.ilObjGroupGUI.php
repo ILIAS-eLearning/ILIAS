@@ -2244,7 +2244,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			if ($this->object->isMembershipLimited()) 
 			{
 				$info->addProperty($this->lng->txt("mem_free_places"),
-								   $this->object->getMaxMembers()- count($this->object->getCountMembers()));
+								   max(0,$this->object->getMaxMembers()- $this->object->getCountMembers()));
 				
 			}
 
