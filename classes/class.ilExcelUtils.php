@@ -36,6 +36,7 @@ class ilExcelUtils
 {
 	function _convert_text($a_text, $a_target = CHARSET_LATIN1)
 	{
+		$a_text = preg_replace("/<[^>]*?>/", "", $a_text);
 		return utf8_decode($a_text);
 		switch ($a_target)
 		{
