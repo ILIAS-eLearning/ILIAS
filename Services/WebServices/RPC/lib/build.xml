@@ -6,7 +6,8 @@
 	<property name="src" location="src" />
 	<property name="tmp" location="tmp" />
 	<property name="build" location="bin"/>
-	<property name="lib" location="jarfiles" />
+	<property name="lib" location="jars" />
+	<property name="excl" location="ilias/**" />
 	
 	<fileset id="fileset-all-libs"
 	         dir="${lib}"
@@ -24,11 +25,13 @@
 	<target name="compile" depends="init" >
         <javac srcdir="${src}"
         	destdir="${build}"
-        	source="1.4"
-        	target="1.4"
+        	source="1.5"
+        	target="1.5"
 			classpathref="path-compile"
 			debug="yes">
+			<exclude name="ilias/**" /> 
         </javac>
+		
     </target>
 
     <!-- - - - - - - - - - - - - - - - - - 
@@ -54,8 +57,8 @@
     		<fileset dir="${build}" />
 			<fileset dir="${tmp}" />
     		<manifest>
-    			<attribute name="Main-Class" value="ilias.ilServer"/>
-    			<attribute name="MODULE-VERSION" value="1.0" />
+    			<attribute name="Main-Class" value="de.ilias.ilServer"/>
+    			<attribute name="MODULE-VERSION" value="3.10.2" />
    			</manifest>
     	</jar>
     </target>

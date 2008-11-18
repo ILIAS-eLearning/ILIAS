@@ -56,8 +56,6 @@ public class LuceneIndexHandler {
         return true;
     }
     
-    
-    
     public synchronized boolean ilHTLMIndexer(String client,Hashtable baseDirectories) {
         
         logger.info("Called Indexer.ilHTLMIndexer");
@@ -72,6 +70,7 @@ public class LuceneIndexHandler {
         }
         return true;
     }
+    
     public synchronized boolean ilClearIndex(String client) {
         
         logger.info("Deleting index for client: " + client);
