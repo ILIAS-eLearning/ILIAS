@@ -545,7 +545,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			if ($this->object->isSubscriptionMembershipLimited()) 
 			{
 				$info->addProperty($this->lng->txt("mem_free_places"),
-								   $this->object->getSubscriptionMaxMembers()- count($this->object->getMembers()));
+								   max(0,$this->object->getSubscriptionMaxMembers()- count($this->object->getMembers())));
 				
 			}
 				
