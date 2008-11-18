@@ -913,11 +913,13 @@ class ilObjGroupGUI extends ilContainerGUI
 				if(isset($progress[$usr_id]['ts']) and $progress[$usr_id]['ts'])
 				{
 					$tmp_data['access_time'] = ilDatePresentation::formatDate(
-						new ilDateTime($progress[$usr_id]['ts'],IL_CAL_DATETIME));
+						$tmp_date = new ilDateTime($progress[$usr_id]['ts'],IL_CAL_DATETIME));
+					$tmp_data['access_time_unix'] = $tmp_date->get('IL_CAL_UNIX');
 				}
 				else
 				{
 					$tmp_data['access_time'] = $this->lng->txt('no_date');
+					$tmp_data['access_time_unix'] = 0;
 				}
 			}
 
@@ -1079,7 +1081,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 				
 			$table_gui->setTitle($this->lng->txt('grp_members'),'icon_usr.gif',$this->lng->txt('grp_members'));
-			$table_gui->setData($this->readMemberData($part->getmembers()));
+			$table_gui->setData($this->readMemberData($part->getMembers()));
 			$this->tpl->setVariable('MEMBERS',$table_gui->getHTML());	
 			
 		}

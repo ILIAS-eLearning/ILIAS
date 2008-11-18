@@ -74,7 +74,7 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 
 	 	if($this->privacy->enabledGroupAccessTimes())
 	 	{
-		 	$this->addColumn($this->lng->txt('last_access'),'access_time');
+		 	$this->addColumn($this->lng->txt('last_access'),'access_time_unix');
 	 	}
 		if($this->type == 'admin')
 		{
