@@ -89,6 +89,15 @@ class ilShopGUI extends ilShopBaseGUI
 		return true;
 	}
 	
+	public function clearFilter()
+	{
+		$this->setString('');
+		$this->setType('');
+		$this->setTopicId(0);
+		
+		return $this->performSearch();
+	}
+	
 	public function getPageHTML()
 	{
 		// page object
