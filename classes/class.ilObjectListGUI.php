@@ -69,6 +69,7 @@ class ilObjectListGUI
 	
 	protected $expand_enabled = false;
 	protected $is_expanded = true;
+	protected $bold_title = false;
 	
 	/**
 	* constructor
@@ -1091,6 +1092,12 @@ class ilObjectListGUI
 			$this->tpl->setVariable("HREF_TITLE_LINKED", $this->default_command["link"]);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if ($this->bold_title == true)
+		{
+			$this->tpl->touchBlock('bold_title_start');
+			$this->tpl->touchBlock('bold_title_end');
+		}
 	}
 	
 	/**
@@ -2014,5 +2021,27 @@ class ilObjectListGUI
 		return false;
 	}
 
+	/**
+	* 
+	* @access	public
+	* @params	boolean	$a_bold_title	set the item title bold
+	*/
+	public function setBoldTitle($a_bold_title)
+	{
+		$this->bold_title = $a_bold_title;
+		
+	}
+	
+	/**
+	* 
+	* @access	public
+	* @return	boolean	returns if the item title is bold or not
+	*/
+	public function isTitleBold()
+	{
+		return $this->bold_title;
+	}
+	
+	
 } // END class.ilObjectListGUI
 ?>
