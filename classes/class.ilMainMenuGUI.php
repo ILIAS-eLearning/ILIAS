@@ -166,7 +166,7 @@ class ilMainMenuGUI
 		if((bool)ilGeneralSettings::_getInstance()->get('shop_enabled'))
 		{
 			$this->tpl->setCurrentBlock('shopbutton');
-			$this->tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController'));
+			$this->tpl->setVariable('SCRIPT_SHOP', $this->getScriptTarget('ilias.php?baseClass=ilShopController&cmd=clearFilter'));
 			$this->tpl->setVariable('TARGET_SHOP', $this->target);			
 			
 			include_once 'payment/classes/class.ilPaymentShoppingCart.php';
