@@ -1462,6 +1462,27 @@ class ilPersonalProfileGUI
 		$loc_prop->setLatitude($latitude);
 		$loc_prop->setLongitude($longitude);
 		$loc_prop->setZoom($zoom);
+
+		$street = $ilUser->getStreet();
+		if (!$street)
+		{
+			$street = $this->lng->txt("street");
+		}
+		
+		$city = $ilUser->getCity();
+		if (!$city)
+		{
+			$city = $this->lng->txt("city");
+		}
+		
+		$country = $ilUser->getCountry();
+		if (!$country)
+		{
+			$country = $this->lng->txt("country");
+		}
+		
+		$loc_prop->setAddress($street.",".$city.",".$country);
+		
 		$form->addItem($loc_prop);
 
 		$form->addCommandButton("saveLocation", $this->lng->txt("save"));
