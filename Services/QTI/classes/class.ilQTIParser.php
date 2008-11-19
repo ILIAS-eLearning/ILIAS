@@ -1230,12 +1230,11 @@ class ilQTIParser extends ilSaxParser
 				//           the complete flag must be calculated?
 				$qt = $this->item->determineQuestionType();
 				$presentation = $this->item->getPresentation(); 
-				if (file_exists("./Modules/TestQuestionPool/classes/class.$qt.php"))
-				{
-					include_once "./Modules/TestQuestionPool/classes/class.$qt.php";
-					$question = new $qt();
-					$question->fromXML($this->item, $this->qpl_id, $this->tst_id, $this->tst_object, $this->question_counter, $this->import_mapping);
-				}
+				
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+				assQuestion::_includeClass($qt);
+				$question = new $qt();
+				$question->fromXML($this->item, $this->qpl_id, $this->tst_id, $this->tst_object, $this->question_counter, $this->import_mapping);
 				break;
 			case "material":
 				if ($this->material)
