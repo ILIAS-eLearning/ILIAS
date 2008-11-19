@@ -257,3 +257,23 @@ function ilMapClicked(map, point, id)
 	map.panTo(point);
 	ilUpdateLocationInput(id, map, point);
 }
+
+function ilLookupAddress(id, address)
+{
+	var map = ilMap[id];
+	
+	var geocoder = new GClientGeocoder();
+	geocoder.getLatLng(address, function(point)
+	{
+		if (point)
+		{
+			map.panTo(point);
+			ilUpdateLocationInput(id, map, point);
+		}
+		else
+		{
+			alert("Address: '" + address + "' not found");
+		}
+	});
+}
+

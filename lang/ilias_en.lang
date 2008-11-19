@@ -3289,6 +3289,7 @@ delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_add_info_links#:#Add del.icio.us Links on Info Screens
 delic#:#delic_user_profile#:#Enable del.icio.us Account Setting in User Profile
 gmaps#:#gmaps_api_key#:#API Key
+gmaps#:#gmaps_lookup_address#:#Lookup Address
 gmaps#:#gmaps_public_profile_info#:#Show location in your public profile.
 gmaps#:#gmaps_enable_gmaps#:#Enable Google Maps
 gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.

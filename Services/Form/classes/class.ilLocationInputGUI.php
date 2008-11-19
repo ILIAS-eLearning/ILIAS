@@ -33,6 +33,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	protected $latitude;
 	protected $longitude;
 	protected $zoom;
+	protected $address;
 	
 	/**
 	* Constructor
@@ -107,6 +108,26 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 	}
 
 	/**
+	* Set Address.
+	*
+	* @param        string  $a_Address      Address
+	*/
+	function setAddress($a_address)
+	{
+		$this->address = $a_address;
+	}
+	
+	/**
+	* Get Address.
+	*
+	* @return       string  Address
+	*/
+	function getAddress()
+	{
+		return $this->address;
+	}
+
+	/**
 	* Set value by array
 	*
 	* @param	array	$a_values	value array
@@ -172,6 +193,8 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 			$levels, false, true, 0, "", array("id" => "map_".$this->getPostVar()."_zoom",
 				"onchange" => "ilUpdateMap('"."map_".$this->getPostVar()."');")));
 		$a_tpl->setVariable("MAP_ID", "map_".$this->getPostVar());
+		$a_tpl->setVariable("TXT_LOOKUP", $lng->txt("gmaps_lookup_address"));
+		$a_tpl->setVariable("TXT_ADDRESS", $this->getAddress());
 		
 		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
 		$map_gui = new ilGoogleMapGUI();
