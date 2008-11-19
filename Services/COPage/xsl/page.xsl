@@ -5,7 +5,7 @@
 <!-- removed xmlns:str="http://exslt.org/strings" -->
 
 <xsl:output method="xml" omit-xml-declaration="yes" />
-<!-- <xsl:output method="html"/>  -->
+<!-- <xsl:output method="html"/> -->
 
 <!-- changing the default template to output all unknown tags -->
 <xsl:template match="*">
@@ -2579,7 +2579,7 @@
 <!-- Question -->
 <xsl:template match="Question">
 	<div class="ilc_Question">
-
+	[[[[[Question;]]]]]
 	<xsl:call-template name="EditReturnAnchors"/>
 
 	<xsl:call-template name="ShowQuestion"/>
