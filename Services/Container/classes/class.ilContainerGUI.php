@@ -321,12 +321,6 @@ class ilContainerGUI extends ilObjectGUI
 		$cmd = ($this->cmd != "")
 			? $this->cmd
 			: $this->ctrl->getCmd();
-
-		#if ($cmd != "" && $cmd != "showList" && $cmd != "render"
-		#	&& $cmd != "view")
-		#{
-		#	return;
-		#}
 		
 		$type = $this->object->getType();
 
@@ -354,15 +348,12 @@ class ilContainerGUI extends ilObjectGUI
 
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					//if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs", "mcst", "wiki",
-					//								 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
-					//								 "htlm","fold","linkr","file","icrs","icla","crsg",'webr',"feed",'rcrs')))
-					//{
 					if (!in_array($row["name"], array("rolf")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->object->getRefId(), $row["name"]))
 						{
-							$subobj[] = $row["name"];
+							$subobj[] = array("text" => $row["name"],
+								"style" => "background-repeat:no-repeat; padding-left:20px; min-height:17px; background-image:url(".ilUtil::getImagePath("icon_".$row["name"]."_s.gif").");");
 						}
 					}
 				}
@@ -416,91 +407,7 @@ class ilContainerGUI extends ilObjectGUI
 		
 		$container_view->setOutput();
 		
-		// 'add object'
-		//$this->showPossibleSubObjects();
-
-		
-/* Old implementation
-		// BEGIN ChangeEvent: record read event.
-		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-		if (ilChangeEvent::_isActive())
-		{
-			if ($this->object != null)
-			{
-				global $ilUser;
-				ilChangeEvent::_recordReadEvent($this->object->getId(), $ilUser->getId());
-			}
-		}
-		// END ChangeEvent: record read event.
-
-		$this->getCenterColumnHTML(true);
-		if ($this->type == 'cat' || $this->type == 'grp')
-		{
-			$this->tpl->setRightContent($this->getRightColumnHTML());
-		}
-*/
 	}
-
-	/**
-	* get container content (list of subitems)
-	* (this should include multiple lists in the future that together
-	* build the blocks of a container page)
-	*/
-/*
-	function getContent()
-	{
-		global $ilBench, $tree;
-
-		// course content interface methods could probably
-		// move to this class
-		if($this->type != 'icrs' and $tree->checkForParentType($this->ref_id,'crs'))
-		{
-			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
-			$course_content_obj = new ilCourseContentGUI($this);
-			
-			$this->ctrl->setCmd('view');
-			$this->ctrl->setCmdClass(get_class($course_content_obj));
-			$this->ctrl->forwardCommand($course_content_obj);
-
-			return;
-		}
-
-		// 'add object'
-		$this->showPossibleSubObjects();
-
-		$ilBench->start("ilContainerGUI", "0000__renderObject");
-
-		$tpl = new ilTemplate ("tpl.container_page.html", true, true);
-		
-		// get all sub items
-		$ilBench->start("ilContainerGUI", "0100_getSubItems");
-		// BEGIN WebDAV Show hidden files when administration panel is on
-		$this->getSubItems($this->isActiveAdministrationPanel(), true);
-		// END WebDAV Show hidden files when administration panel is on
-		$ilBench->stop("ilContainerGUI", "0100_getSubItems");
-
-		// Show introduction, if repository is empty
-		if (count($this->items) == 1 && is_array($this->items["adm"]) && $this->object->getRefId() == ROOT_FOLDER_ID)
-		{
-			$html = $this->getIntroduction();
-			$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
-		}
-		else	// show item list otherwise
-		{
-			$ilBench->start("ilContainerGUI", "0200_renderItemList");
-			$html = $this->renderItemList();
-			$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
-			$ilBench->stop("ilContainerGUI", "0200_renderItemList");
-		}
-		
-		$this->showAdministrationPanel($tpl);
-		$this->showPermanentLink($tpl);
-		
-		$this->html = $tpl->get();
-		
-		$ilBench->stop("ilContainerGUI", "0000__renderObject");
-	}
-*/
 
 	/**
 	* show administration panel

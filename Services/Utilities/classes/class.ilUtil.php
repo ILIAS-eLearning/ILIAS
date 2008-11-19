@@ -370,13 +370,23 @@ class ilUtil
 
 		foreach ($options as $key => $val)
 		{
+			if (is_array($val))
+			{
+				$style = $val["style"];
+				$val = $val["text"];		// mus be last line, since we overwrite
+			}
+
+			$sty = ($style != "")
+				? ' style="'.$style.'" '
+				: "";
+				
 			if ($direct_text)
 			{
-				$str .= " <option value=\"".$key."\"";
+				$str .= " <option $sty value=\"".$key."\"";
 			}
 			else
 			{
-				$str .= " <option value=\"".$val."\"";
+				$str .= " <option $sty value=\"".$val."\"";
 			}
 			if (is_array($selected) )
 			{
