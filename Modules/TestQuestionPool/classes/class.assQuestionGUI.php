@@ -329,6 +329,7 @@ class assQuestionGUI
 		$presentation = $page_gui->presentation();
 		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
 		$presentation = preg_replace("/((<img[^>]*?[^\\/])>)/ims", "\\2 />", $presentation);
+		$presentation = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
 	}
 
@@ -385,6 +386,7 @@ class assQuestionGUI
 		if (strlen($maxpoints)) $presentation = str_replace($maxpoints, "<em>$maxpoints</em>", $presentation);
 		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
 		$presentation = preg_replace("/((<img[^>]*?[^\\/])>)/ims", "\\2 />", $presentation);
+		$presentation = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
 	}
 	
