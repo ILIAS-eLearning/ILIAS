@@ -4,7 +4,7 @@
 								xmlns:xhtml="http://www.w3.org/1999/xhtml">
 <!-- removed xmlns:str="http://exslt.org/strings" -->
 
-<xsl:output method="html"/>
+<xsl:output method="xml" omit-xml-declaration="yes"/>
 
 <!-- changing the default template to output all unknown tags -->
 <xsl:template match="*">
@@ -1053,6 +1053,8 @@
 	</xsl:choose>
 </xsl:template>
 
+<xsl:template match="IntLinkInfos">
+</xsl:template>
 
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
