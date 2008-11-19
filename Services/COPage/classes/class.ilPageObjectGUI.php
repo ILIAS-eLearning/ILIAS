@@ -1368,7 +1368,8 @@ class ilPageObjectGUI
 
 		//$content = str_replace("&nbsp;", "", $content);
 		
-		
+		// this ensures that cache is emptied with every update
+		$params["version"] = ILIAS_VERSION_NUMERIC;
 		
 		// run xslt
 		
@@ -1408,7 +1409,7 @@ class ilPageObjectGUI
 
 //$b = microtime();
 //echo "$a - $b";
-//echo htmlentities($output);
+//echo "<pre>".htmlentities($output)."</pre>";
 		// unmask user html
 		if (($this->getOutputMode() != "edit" ||
 			$ilUser->getPref("ilPageEditor_HTMLMode") != "disable")
