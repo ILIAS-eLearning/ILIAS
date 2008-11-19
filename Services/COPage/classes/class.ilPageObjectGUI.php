@@ -1369,7 +1369,7 @@ class ilPageObjectGUI
 		//$content = str_replace("&nbsp;", "", $content);
 		
 		// this ensures that cache is emptied with every update
-		$params["version"] = ILIAS_VERSION_NUMERIC;
+		$params["version"] = ILIAS_VERSION;
 		
 		// run xslt
 		
@@ -1448,7 +1448,8 @@ class ilPageObjectGUI
 			// removed simple str_replace with preg_replace because if the question content
 			// is part of a table, the xmlns isn't added and the question content wasn't visible then
 			// Helmut Schottmüller, 2006-11-15
-			$output = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">)/ims", "\\1" . $qhtml, $output);
+			//$output = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">)/ims", "\\1" . $qhtml, $output);
+			$output = str_replace("[[[[[Question;]]]]]", $qhtml, $output);
 			// old source code prior to the preg_replace change
 			// $question_prefix = "<div xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" class=\"ilc_Question\">";
 			// $output = str_replace($question_prefix, $question_prefix . $qhtml, $output);
