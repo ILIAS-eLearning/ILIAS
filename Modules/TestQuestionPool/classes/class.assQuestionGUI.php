@@ -326,7 +326,10 @@ class assQuestionGUI
 		$page_gui->setEnabledPageFocus(false);
 		$page_gui->setOutputMode("presentation");
 		$page_gui->setPresentationTitle("");
-		return $page_gui->presentation();
+		$presentation = $page_gui->presentation();
+		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
+		$presentation = preg_replace("/((<img[^>]*?[^\\/])>)/ims", "\\2 />", $presentation);
+		return $presentation;
 	}
 
 	/**
@@ -380,6 +383,8 @@ class assQuestionGUI
 		}
 		$presentation = $page_gui->presentation();
 		if (strlen($maxpoints)) $presentation = str_replace($maxpoints, "<em>$maxpoints</em>", $presentation);
+		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
+		$presentation = preg_replace("/((<img[^>]*?[^\\/])>)/ims", "\\2 />", $presentation);
 		return $presentation;
 	}
 	
