@@ -389,8 +389,7 @@ class assNumericGUI extends assQuestionGUI
 		if (!$show_question_only)
 		{
 			// get page object output
-			$pageoutput = $this->getILIASPage();
-			$solutionoutput = "<div class=\"ilias_content\">" . preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", "</div><div class=\"ilc_Question\">" . $solutionoutput . "</div><div class=\"ilias_content\">", $pageoutput) . "</div>";
+			$solutionoutput = $this->getILIASPage($solutionoutput);
 		}
 		return $solutionoutput;
 	}
@@ -407,22 +406,13 @@ class assNumericGUI extends assQuestionGUI
 		if (!$show_question_only)
 		{
 			// get page object output
-			$pageoutput = $this->getILIASPage();
-			$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
+			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		else
-		{
-			$questionoutput = preg_replace("/\<div[^>]*?>(.*)\<\/div>/is", "\\1", $questionoutput);
-		}
-
 		return $questionoutput;
 	}
 	
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
 	{
-		// get page object output
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id);
-
 		// get the solution of the user for the active pass or from the last pass if allowed
 		if ($active_id)
 		{
@@ -449,8 +439,8 @@ class assNumericGUI extends assQuestionGUI
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
-		$questionoutput = preg_replace("/(\<div( xmlns:xhtml\=\"http:\/\/www.w3.org\/1999\/xhtml\"){0,1} class\=\"ilc_Question\">\<\/div>)/ims", $questionoutput, $pageoutput);
-		return $questionoutput;
+		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+		return $pageoutput;
 	}
 	
 	function addSuggestedSolution()

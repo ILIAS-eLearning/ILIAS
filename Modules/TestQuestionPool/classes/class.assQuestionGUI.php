@@ -310,7 +310,7 @@ class assQuestionGUI
 	* @return string The ILIAS page content
 	* @access public
 	*/
-	function getILIASPage()
+	function getILIASPage($html = "")
 	{
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
@@ -318,6 +318,7 @@ class assQuestionGUI
 		$page_gui =& new ilPageObjectGUI("qpl", $this->object->getId());
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setEnabledInternalLinks(false);
+		$page_gui->setQuestionHTML($html);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilObjTestGUI&cmd=downloadFile".
 			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
@@ -328,7 +329,6 @@ class assQuestionGUI
 		$page_gui->setPresentationTitle("");
 		$presentation = $page_gui->presentation();
 		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
-		$presentation = preg_replace("/((<img[^>]*?[^\\/])>)/ims", "\\2 />", $presentation);
 		$presentation = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
 	}
@@ -336,7 +336,7 @@ class assQuestionGUI
 	/**
 	* output question page
 	*/
-	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "")
+	function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "")
 	{
 		$postponed = "";
 		if ($a_postponed)
@@ -355,6 +355,10 @@ class assQuestionGUI
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilObjTestGUI&cmd=fullscreen".
 			"&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setEnabledPageFocus(false);
+		if (strlen($html))
+		{
+			$page_gui->setQuestionHTML($html);
+		}
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilObjTestGUI&ref_id=".$_GET["ref_id"]);
 		$page_gui->setOutputMode("presentation");
 
@@ -385,7 +389,6 @@ class assQuestionGUI
 		$presentation = $page_gui->presentation();
 		if (strlen($maxpoints)) $presentation = str_replace($maxpoints, "<em>$maxpoints</em>", $presentation);
 		// bugfix for non XHTML conform img tags in ILIAS Learning Module Editor
-		$presentation = preg_replace("/((<img[^>]*?[^\\/])>)/ims", "\\2 />", $presentation);
 		$presentation = preg_replace("/src=\".\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $presentation);
 		return $presentation;
 	}
