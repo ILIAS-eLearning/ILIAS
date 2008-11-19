@@ -781,8 +781,14 @@ class ilTestServiceGUI
 		$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 		$result_output = $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
 		$best_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE);
+		if (strlen($best_output)) 
+		{
+			$template->setCurrentBlock("best_solution");
+			$template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
+			$template->setVariable("BEST_OUTPUT", $best_output);
+			$template->parseCurrentBlock();
+		}
 		$template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
-		if (strlen($best_output)) $template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
 		$maxpoints = $question_gui->object->getMaximumPoints();
 		if ($maxpoints == 1)
 		{
@@ -793,7 +799,6 @@ class ilTestServiceGUI
 			$template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
 		}
 		$template->setVariable("SOLUTION_OUTPUT", $result_output);
-		$template->setVariable("BEST_OUTPUT", $best_output);
 		$template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->getReachedPoints($active_id, $pass), $maxpoints));
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$template->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
