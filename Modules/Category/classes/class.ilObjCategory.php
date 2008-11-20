@@ -185,10 +185,11 @@ class ilObjCategory extends ilContainer
 		global $ilDB,$ilUser;
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
-	 	
+
+		/*	 done in class.ilContainer	
 	 	include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 	 	ilContainerSortingSettings::_cloneSettings($this->getId(),$new_obj->getId());
-	 	
+	 	*/
 	 	$first = true;
 	 	$translations = $this->getTranslations();
 	 	if(is_array($translations['Fobject']))

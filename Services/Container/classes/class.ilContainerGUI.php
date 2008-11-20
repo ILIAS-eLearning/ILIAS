@@ -1577,8 +1577,8 @@ class ilContainerGUI extends ilObjectGUI
 				$oldNode_data = $tree->getNodeData($ref_id);
 				if ($oldNode_data['parent'] == $this->object->getRefId())
 				{
-                                        require_once 'Modules/File/classes/class.ilObjFileAccess.php';
-                                        $newTitle = ilObjFileAccess::_appendNumberOfCopyToFilename($oldNode_data['title'],null);
+					require_once 'Modules/File/classes/class.ilObjFileAccess.php';
+					$newTitle = ilObjFileAccess::_appendNumberOfCopyToFilename($oldNode_data['title'],null);
 					$newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, $newTitle);
 				}
 				else

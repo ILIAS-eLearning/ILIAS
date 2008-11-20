@@ -710,6 +710,8 @@ class ilObjCourse extends ilContainer
 	{
 		global $ilObjDataCache;
 		
+		parent::cloneDependencies($a_target_id,$a_copy_id);
+		
 	 	// Clone course start objects
 	 	include_once('Modules/Course/classes/class.ilCourseStart.php');
 	 	$start = new ilCourseStart($this->getRefId(),$this->getId());
