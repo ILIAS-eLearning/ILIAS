@@ -86,6 +86,50 @@ class ilContainerSorting
 		return self::$instances[$a_obj_id] = new ilContainerSorting($a_obj_id);
 	}
 	
+	/**
+	 * clone sorting 
+	 *
+	 * @return
+	 * @static
+	 */
+	public function cloneSorting($a_target_id,$a_copy_id)
+	{
+		global $ilDB;
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Cloning container sorting.');
+		
+		$target_obj_id = ilObject::_lookupObjId($a_target_id);
+		
+		include_once('./Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+		$mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings(); 
+		
+		$query = "SELECT * FROM container_sorting ".
+			"WHERE obj_id = ".$ilDB->quote($this->obj_id);
+		$res = $ilDB->query($query);
+ 		#$ilLog->write(__METHOD__.': Query is: '.$query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+	 		if(!isset($mappings[$row->child_id]) or !$mappings[$row->child_id])
+	 		{
+				#$ilLog->write(__METHOD__.': No mapping found for:'.$row->child_id);
+	 			continue;
+	 		}
+	 		
+	 		// Add new value
+	 		$query = "REPLACE INTO container_sorting ".
+	 			"SET obj_id = ".$ilDB->quote($target_obj_id).", ".
+	 			"parent_type = '', ".
+	 			"parent_id = 0, ".
+	 			"child_id = ".$ilDB->quote($mappings[$row->child_id]).", ".
+	 			"position = ".$ilDB->quote($row->position);
+	 		$ilDB->query($query);
+	 		#$ilLog->write(__METHOD__.': Query is: '.$query);
+		}
+		return true;		
+	}
+	
+	
 	
 	/**
 	 * sort subitems

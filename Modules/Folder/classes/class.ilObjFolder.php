@@ -110,6 +110,8 @@ class ilObjFolder extends ilContainer
 	{
 		global $tree;
 		
+		parent::cloneDependencies($a_target_id,$a_copy_id);
+
 		if($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs') and
 			$new_course_ref_id = $tree->checkForParentType($a_target_id,'crs'))
 		{

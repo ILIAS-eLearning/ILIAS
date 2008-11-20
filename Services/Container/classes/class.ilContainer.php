@@ -346,6 +346,40 @@ class ilContainer extends ilObject
 		return false;
 	}
 	
+	/**
+	 * Clone container settings
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * @param int copy id
+	 * @return object new object 
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	
+		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
+		$sorting = new ilContainerSortingSettings($new_obj->getId());
+		$sorting->setSortMode($this->getOrderType());
+		$sorting->update();
+		
+		return $new_obj;
+	}
+	
+	/**
+	 * Clone object dependencies (container sorting)
+	 *
+	 * @access public
+	 * @param int target ref id of new course
+	 * @param int copy id
+	 * return bool 
+	 */
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{
+		include_once('./Services/Container/classes/class.ilContainerSorting.php');
+		ilContainerSorting::_getInstance($this->getId())->cloneSorting($a_target_id,$a_copy_id);
+		return true;
+	}
 
 	/**
 	 * clone all objects according to this container
@@ -394,12 +428,14 @@ class ilContainer extends ilObject
 		$soap_client->enableWSDL(true);
 
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
+		/*
 		if($soap_client->init())
 		{
 			$ilLog->write(__METHOD__.': Calling soap clone method...');
 			$res = $soap_client->call('ilClone',array($new_session_id.'::'.$client_id, $copy_id));
 		}
 		else
+		*/
 		{
 			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
 			$wizard_options->disableSOAP();
