@@ -204,6 +204,13 @@ class ilObjCategory extends ilContainer
 		 		}
 		 	}
 	 	}
+	 	
+		// clone icons
+		$new_obj->saveIcons($this->getBigIconPath(),
+			$this->getSmallIconPath(),
+			$this->getTinyIconPath());
+	 	
+	 	
 	 	return $new_obj;
 	}
 } // END class.ilObjCategory

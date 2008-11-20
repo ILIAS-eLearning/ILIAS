@@ -235,11 +235,11 @@ class ilContainer extends ilObject
 			$this->ilias->getSetting("custom_icon_big_height");
 		$big_file_name = $cont_dir."/icon_big.gif";
 
-		if (is_file($a_big_icon["tmp_name"]))
+		if (is_file($a_big_icon))
 		{
-			$a_big_icon["tmp_name"] = ilUtil::escapeShellArg($a_big_icon["tmp_name"]);
+			$a_big_icon = ilUtil::escapeShellArg($a_big_icon);
 			$big_file_name = ilUtil::escapeShellArg($big_file_name);
-			$cmd = ilUtil::getConvertCmd()." ".$a_big_icon["tmp_name"]."[0] -geometry $big_geom GIF:$big_file_name";
+			$cmd = ilUtil::getConvertCmd()." ".$a_big_icon."[0] -geometry $big_geom GIF:$big_file_name";
 			system($cmd);
 		}
 
@@ -257,11 +257,11 @@ class ilContainer extends ilObject
 			$this->ilias->getSetting("custom_icon_small_height");
 		$small_file_name = $cont_dir."/icon_small.gif";
 
-		if (is_file($a_small_icon["tmp_name"]))
+		if (is_file($a_small_icon))
 		{
-			$a_small_icon["tmp_name"] = ilUtil::escapeShellArg($a_small_icon["tmp_name"]);
+			$a_small_icon = ilUtil::escapeShellArg($a_small_icon);
 			$small_file_name = ilUtil::escapeShellArg($small_file_name);
-			$cmd = ilUtil::getConvertCmd()." ".$a_small_icon["tmp_name"]."[0] -geometry $small_geom GIF:$small_file_name";
+			$cmd = ilUtil::getConvertCmd()." ".$a_small_icon."[0] -geometry $small_geom GIF:$small_file_name";
 			system($cmd);
 		}
 		if (is_file($cont_dir."/icon_small.gif"))
@@ -278,11 +278,11 @@ class ilContainer extends ilObject
 			$this->ilias->getSetting("custom_icon_tiny_height");
 		$tiny_file_name = $cont_dir."/icon_tiny.gif";
 
-		if (is_file($a_tiny_icon["tmp_name"]))
+		if (is_file($a_tiny_icon))
 		{
-			$a_tiny_icon["tmp_name"] = ilUtil::escapeShellArg($a_tiny_icon["tmp_name"]);
+			$a_tiny_icon = ilUtil::escapeShellArg($a_tiny_icon);
 			$tiny_file_name = ilUtil::escapeShellArg($tiny_file_name);
-			$cmd = ilUtil::getConvertCmd()." ".$a_tiny_icon["tmp_name"]."[0] -geometry $tiny_geom GIF:$tiny_file_name";
+			$cmd = ilUtil::getConvertCmd()." ".$a_tiny_icon."[0] -geometry $tiny_geom GIF:$tiny_file_name";
 			system($cmd);
 		}
 		if (is_file($cont_dir."/icon_tiny.gif"))

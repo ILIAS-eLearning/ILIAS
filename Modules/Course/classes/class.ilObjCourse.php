@@ -695,6 +695,13 @@ class ilObjCourse extends ilContainer
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
 		
+		// clone icons
+		global $ilLog;
+		$ilLog->write(__METHOD__.': '.$this->getBigIconPath().' '.$this->getSmallIconPath());
+		$new_obj->saveIcons($this->getBigIconPath(),
+			$this->getSmallIconPath(),
+			$this->getTinyIconPath());
+		
 		return $new_obj;
 	}
 	

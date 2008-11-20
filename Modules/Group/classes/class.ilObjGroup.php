@@ -694,6 +694,11 @@ class ilObjGroup extends ilContainer
 		$obj_settings = new ilLPObjSettings($this->getId());
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
+		
+		// clone icons
+		$new_obj->saveIcons($this->getBigIconPath(),
+			$this->getSmallIconPath(),
+			$this->getTinyIconPath());
 
 		return $new_obj;
 	}
