@@ -425,6 +425,54 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 		return $data;
 	}
+
+	function getTrackingDataAggSco($a_sco_id)
+	    {
+	        global $ilDB;
+
+	        // get all users with any tracking data
+	        $query = "SELECT DISTINCT user_id FROM scorm_tracking WHERE".
+	            " obj_id = ".$ilDB->quote($this->getId()).
+	            " AND sco_id = ".$ilDB->quote($a_sco_id);
+	            //" ORDER BY user_id, lvalue";
+	        $user_set = $ilDB->query($query);
+
+	        $data = array();
+	        while($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+	        {
+	            $query = "SELECT * FROM scorm_tracking WHERE".
+	                " obj_id = ".$ilDB->quote($this->getId()).
+	                " AND sco_id = ".$ilDB->quote($a_sco_id).
+	                " AND user_id =".$ilDB->quote($user_rec["user_id"]).
+	                " AND (lvalue =".$ilDB->quote("cmi.core.lesson_status").
+	                " OR lvalue =".$ilDB->quote("cmi.core.total_time").
+	                " OR lvalue =".$ilDB->quote("cmi.core.score.raw").")";
+	            $data_set = $ilDB->query($query);
+	            $score = $time = $status = "";
+	            while($data_rec = $data_set->fetchRow(DB_FETCHMODE_ASSOC))
+	            {
+	                switch($data_rec["lvalue"])
+	                {
+	                    case "cmi.core.lesson_status":
+	                        $status = $data_rec["rvalue"];
+	                        break;
+
+	                    case "cmi.core.total_time":
+	                        $time = $data_rec["rvalue"];
+	                        break;
+
+	                    case "cmi.core.score.raw":
+	                        $score = $data_rec["rvalue"];
+	                        break;
+	                }
+	            }
+
+	            $data[] = array("user_id" => $user_rec["user_id"],
+	                "score" => $score, "time" => $time, "status" => $status);
+	        }
+
+	        return $data;
+	    }	
 	
 	function exportSelectedRaw($a_exportall=0, $a_user)  {
 		

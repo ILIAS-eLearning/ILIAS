@@ -588,6 +588,7 @@ class ilSCORM13Player
 				
 		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
 		$return = $this->setCMIData($this->userId, $this->packageId, $data);
+		
 		if ($this->jsMode) 
 		{
 			header('Content-Type: text/javascript; charset=UTF-8');
@@ -819,6 +820,7 @@ class ilSCORM13Player
 		
 		$result = array();
 		$map = array();
+		
 		if (!$data) return;
 	
 		$tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
@@ -897,6 +899,8 @@ class ilSCORM13Player
 					') VALUES ('.implode(",", ilUtil::quoteArray($row)).')';
 				$ilDB->query($sql);
 				$ret = true;
+				
+				
 
 				if (!$ret)
 				{
