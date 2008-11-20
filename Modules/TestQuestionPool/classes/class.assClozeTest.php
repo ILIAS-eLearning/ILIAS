@@ -1031,30 +1031,31 @@ class assClozeTest extends assQuestion
 	*/
 	function getTextgapPoints($a_original, $a_entered, $max_points)
 	{
+		include_once "./Services/Utilities/classes/class.ilStr.php";
 		$result = 0;
 		$gaprating = $this->getTextgapRating();
 		switch ($gaprating)
 		{
 			case TEXTGAP_RATING_CASEINSENSITIVE:
-				if (strcmp(strtolower(utf8_decode($a_original)), strtolower(utf8_decode($a_entered))) == 0) $result = $max_points;
+				if (strcmp(ilStr::strToLower($a_original), ilStr::strToLower($a_entered)) == 0) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_CASESENSITIVE:
-				if (strcmp(utf8_decode($a_original), utf8_decode($a_entered)) == 0) $result = $max_points;
+				if (strcmp($a_original, $a_entered) == 0) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN1:
-				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 1) $result = $max_points;
+				if (levenshtein($a_original, $a_entered) <= 1) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN2:
-				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 2) $result = $max_points;
+				if (levenshtein($a_original, $a_entered) <= 2) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN3:
-				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 3) $result = $max_points;
+				if (levenshtein($a_original, $a_entered) <= 3) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN4:
-				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 4) $result = $max_points;
+				if (levenshtein($a_original, $a_entered) <= 4) $result = $max_points;
 				break;
 			case TEXTGAP_RATING_LEVENSHTEIN5:
-				if (levenshtein(utf8_decode($a_original), utf8_decode($a_entered)) <= 5) $result = $max_points;
+				if (levenshtein($a_original, $a_entered) <= 5) $result = $max_points;
 				break;
 		}
 		return $result;
