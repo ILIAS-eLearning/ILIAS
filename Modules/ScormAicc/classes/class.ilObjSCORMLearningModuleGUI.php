@@ -322,16 +322,24 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	/**
 	* show tracking data
 	*/
-	/*
-	function showTrackingItems()
+	
+	function showTrackingItemsBySco()
 	{
 
+		global $ilTabs;
+		
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
+
+		$this->setSubTabs();
+		
+		$ilTabs->setSubTabActive("cont_tracking_bysco");
+		$ilTabs->setTabActive("cont_tracking_data");
+		
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_items.html", "Modules/ScormAicc");
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_items_sco.html", "Modules/ScormAicc");
 
 		$num = 1;
 
@@ -381,7 +389,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				$this->tpl->setVariable("TXT_ITEM_TITLE", $item->getTitle());
 				$this->ctrl->setParameter($this, "obj_id", $item->getId());
 				$this->tpl->setVariable("LINK_ITEM",
-					$this->ctrl->getLinkTarget($this, "showTrackingItem"));
+					$this->ctrl->getLinkTarget($this, "showTrackingItemSco"));
 
 				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -396,14 +404,20 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-	*/
+
 	/**
 	* show tracking data
 	*/
 	function showTrackingItems()
 	{
+		global $ilTabs;
 
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
+		
+		$this->setSubTabs();
+		
+		$ilTabs->setSubTabActive("cont_tracking_byuser");
+		$ilTabs->setTabActive("cont_tracking_data");
 		
 		//set search
 		
@@ -413,6 +427,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		} else 	if (isset($_POST["search_string"]) && $_POST["search_string"] == "") {
 			unset($_SESSION["scorm_search_string"]);
 		}
+
 
 		// load template for search additions
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl_scorm_track_items_search.html","Modules/ScormAicc");
@@ -580,7 +595,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 					$this->data["data"]["$id"] = array(
 						"type"		  => "sahs",
 						"title"       => $user->getLastname().", ".$user->getFirstname(),
-						"desc"        => $this->lng->txt("cont_tracking_data")
+						"desc"        => $this->lng->txt("cont_trackinging_data")
 					);
 				}
 			}
@@ -860,13 +875,19 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function showTrackingItem()
 	{
-
+		global $ilTabs;
+		
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
+
+		$this->setSubTabs();
+		$ilTabs->setTabActive("cont_tracking_data");
+	    $ilTabs->setSubTabActive("cont_tracking_byuser");
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_item.html", "Modules/ScormAicc");
+
 
 		$num = 2;
 
@@ -942,13 +963,113 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	
+	/**
+   * show tracking data of item
+   */
+   function showTrackingItemSco()
+   {
+ 
+ 	   global $ilTabs;
+
+       include_once "./Services/Table/classes/class.ilTableGUI.php";
+  
+	   $this->setSubTabs();
+	   $ilTabs->setTabActive("cont_tracking_data");
+	   $ilTabs->setSubTabActive("cont_tracking_bysco");
+
+       // load template for table
+       $this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+       // load template for table content data
+       $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scorm_track_item_sco.html", "Modules/ScormAicc");
+  
+       $num = 2;
+  
+       $this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+  
+       // create table
+       $tbl = new ilTableGUI();
+  
+       include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
+       $sc_item =& new ilSCORMItem($_GET["obj_id"]);
+  
+       // title & header columns
+       $tbl->setTitle($sc_item->getTitle());
+  
+       $tbl->setHeaderNames(array($this->lng->txt("name"),
+           $this->lng->txt("cont_status"), $this->lng->txt("cont_time"),
+           $this->lng->txt("cont_score")));
+  
+       $header_params = $this->ctrl->getParameterArray($this, "showTrackingItem");
+  
+       $cols = array("name", "status", "time", "score");
+       $tbl->setHeaderVars($cols, $header_params);
+       //$tbl->setColumnWidth(array("25%",));
+  
+       // control
+       $tbl->setOrderColumn($_GET["sort_by"]);
+       $tbl->setOrderDirection($_GET["sort_order"]);
+       $tbl->setLimit($_GET["limit"]);
+       $tbl->setOffset($_GET["offset"]);
+       $tbl->setMaxCount($this->maxcount);
+  
+       //$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+       //$this->showActions(true);
+  
+       // footer
+       $tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+       #$tbl->disable("footer");
+  
+       $tr_data = $this->object->getTrackingDataAggSco($_GET["obj_id"]);
+  
+       //$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+       $tbl->setMaxCount(count($tr_data));
+       $tr_data = array_slice($tr_data, $_GET["offset"], $_GET["limit"]);
+  
+       $tbl->render();
+       if (count($tr_data) > 0)
+       {
+           foreach ($tr_data as $data)
+           {
+               if (ilObject::_exists($data["user_id"]))
+               {
+                   $this->tpl->setCurrentBlock("tbl_content");
+                   $user = new ilObjUser($data["user_id"]);
+                   $this->tpl->setVariable("VAL_USERNAME", $user->getLastname().", ".
+                       $user->getFirstname());
+                   $this->ctrl->setParameter($this, "user_id", $data["user_id"]);
+                   $this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+                   $this->tpl->setVariable("LINK_USER",
+                       $this->ctrl->getLinkTarget($this, "showTrackingItemPerUser"));
+                   $this->tpl->setVariable("VAL_TIME", $data["time"]);
+                   $this->tpl->setVariable("VAL_STATUS", $data["status"]);
+                   $this->tpl->setVariable("VAL_SCORE", $data["score"]);
+  
+                   $css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+                   $this->tpl->setVariable("CSS_ROW", $css_row);
+                   $this->tpl->parseCurrentBlock();
+               }
+           }
+       } //if is_array
+       else
+       {
+           $this->tpl->setCurrentBlock("notfound");
+           $this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+           $this->tpl->setVariable("NUM_COLS", $num);
+           $this->tpl->parseCurrentBlock();
+       }
+   }
 
 	/**
 	* show tracking data of item per user
 	*/
 	function showTrackingItemPerUser()
 	{
-
+		global $ilTabs;
+		
+		$ilTabs->setTabActive("cont_tracking_data");
+		
 		include_once "./Services/Table/classes/class.ilTableGUI.php";
 
 		// load template for table
@@ -1021,6 +1142,20 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	//setTabs
+	function setSubTabs()
+	{
+		global $lng, $ilTabs, $ilCtrl;
+		
+		$ilTabs->addSubTabTarget("cont_tracking_byuser",
+			$this->ctrl->getLinkTarget($this, "showTrackingItems"), array("edit", ""),
+			get_class($this));
+
+		$ilTabs->addSubTabTarget("cont_tracking_bysco",
+			$this->ctrl->getLinkTarget($this, "showTrackingItemsBySco"), array("edit", ""),
+			get_class($this));
+	}		
 
 } // END class.ilObjSCORMLearningModule
 ?>
