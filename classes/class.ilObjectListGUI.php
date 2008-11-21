@@ -1366,7 +1366,8 @@ class ilObjectListGUI
 							break;	
 					}					
 				}
-				$this->insertCommand($command['link'], $this->lng->txt('buy'), $command['frame']);
+				$this->insertCommand($command['link'].'&purchasetype=buy', $this->lng->txt('buy'), $command['frame']);
+				$this->insertCommand($command['link'].'&purchasetype=demo', $this->lng->txt('payment_demo'), $command['frame']);
 			}
 		}
 	}
@@ -1902,6 +1903,7 @@ class ilObjectListGUI
 	*/
 	function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description)
 	{
+
 		global $ilAccess, $ilBench;
 		
 		// this variable stores wheter any admin commands

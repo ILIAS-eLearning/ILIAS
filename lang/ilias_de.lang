@@ -8741,3 +8741,5 @@ forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer, dem Sie di
 forum#:#frm_moderators_not_exist_yet#:#Bitte wählen Sie einen Moderator aus.
 forum#:#frm_moderators_matches_in_no_results#:#Ihre Suche ergab keine Treffer.
 payment#:#shop_info#:#Shop Information
+common#:#payment_demo#:#Demo
+payment#:#payment_back_to_shop#:#Zurück zum Shop
