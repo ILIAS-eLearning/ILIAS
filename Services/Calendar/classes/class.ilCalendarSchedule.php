@@ -51,6 +51,8 @@ class ilCalendarSchedule
 	protected $hidden_cat = null;
 	protected $type = 0;
 	
+	protected $subitems_enabled = false;
+	
 	protected $start = null;
 	protected $end = null;
 	protected $user = null;
@@ -84,6 +86,25 @@ class ilCalendarSchedule
 	 	$this->timezone = $ilUser->getTimeZone();
 	 	
 	 	$this->hidden_cat = ilCalendarHidden::_getInstanceByUserId($this->user->getId());
+	}
+	
+	/**
+	 * Enable subitem calendars (session calendars for courses)
+	 * @param
+	 * @return
+	 */
+	public function addSubitemCalendars($a_status)
+	{
+		$this->subitems_enabled = $a_status;
+	}
+	
+	/**
+	 * Are subitem calendars enabled 
+	 * @return
+	 */
+	public function enabledSubitemCalendars()
+	{
+		return (bool) $this->subitems_enabled;
 	}
 	
 	/**
@@ -209,15 +230,17 @@ class ilCalendarSchedule
 	/**
 	 * get new/changed events
 	 *
+	 * @param bool $a_include_subitem_calendars E.g include session calendars of courses.
+	 * @return object $events[] Array of changed events
 	 * @access protected
 	 * @return
 	 */
-	public function getChangedEvents()
+	public function getChangedEvents($a_include_subitem_calendars = false)
 	{
 		global $ilUser;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories();
+		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories($a_include_subitem_calendars);
 		
 		if(!count($cats))
 		{
@@ -256,7 +279,7 @@ class ilCalendarSchedule
 		global $ilUser;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories();
+		$cats = ilCalendarCategories::_getInstance($ilUser->getId())->getCategories($this->enabledSubitemCalendars());
 		
 		if(!count($cats))
 		{

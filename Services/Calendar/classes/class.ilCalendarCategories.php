@@ -46,6 +46,7 @@ class ilCalendarCategories
 	
 	protected $categories = array();
 	protected $categories_info = array();
+	protected $subitem_categories = array();
 	
 	protected $root_ref_id = 0;
 	protected $root_obj_id = 0;
@@ -145,7 +146,6 @@ class ilCalendarCategories
 		switch($a_mode)
 		{
 			case self::MODE_PERSONAL_DESKTOP:
-
 				include_once('./Services/Calendar/classes/class.ilCalendarUserSettings.php');
 				if(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType() == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
 				{
@@ -153,7 +153,7 @@ class ilCalendarCategories
 				}
 				else
 				{
-					$this->readSelectedItemCalendars();					
+					$this->readSelectedItemCalendars();			
 				}
 				break;
 				
@@ -174,7 +174,21 @@ class ilCalendarCategories
 	 */
 	public function getCategoryInfo($a_cat_id)
 	{
-		return $this->categories_info[$a_cat_id];
+		if(isset($this->categories_info[$a_cat_id]))
+		{
+			return $this->categories_info[$a_cat_id];
+		}
+		
+		if(in_array($a_cat_id,(array) $this->subitem_categories))
+		{
+			foreach($this->categories as $cat_id)
+			{
+				if(in_array($a_cat_id,$this->categories_info[$cat_id]['subitem_ids']))
+				{
+					return $this->categories_info[$cat_id];
+				}
+			}
+		}
 	}
 	
 	
@@ -192,14 +206,35 @@ class ilCalendarCategories
 	
 	/**
 	 * get categories
-	 *
+	 * @param $a_include_subitems include subitem calendars
 	 * @access public
 	 * @return
 	 */
-	public function getCategories()
+	public function getCategories($a_include_subitem_calendars = false)
 	{
+		if($a_include_subitem_calendars)
+		{
+			return array_merge((array) $this->categories, (array) $this->subitem_categories);
+		}
+		
 		return $this->categories ? $this->categories : array();
 	}
+	
+	/**
+	 * get subitem categories for a specific category
+	 *  
+	 * @param int $a_category_id Id of category in question
+	 * @return array Array of category ids
+	 */
+	public function getSubitemCategories($a_cat_id)
+	{
+		if(!isset($this->categories_info[$a_cat_id]['subitem_ids']))
+		{
+			return array($a_cat_id);
+		}
+		return array_merge((array) $this->categories_info[$a_cat_id]['subitem_ids'],array($a_cat_id));
+	}
+	
 	
 	/**
 	 * prepare categories of users for selection
@@ -258,7 +293,8 @@ class ilCalendarCategories
 	 */
 	public function isVisible($a_cat_id)
 	{
-		return in_array($a_cat_id,$this->categories);
+		return in_array($a_cat_id,$this->categories) or 
+			in_array($a_cat_id,(array) $this->subitem_categories);
 	}
 	
 	
@@ -282,6 +318,8 @@ class ilCalendarCategories
 		include_once('./Services/Membership/classes/class.ilParticipants.php');
 		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'crs'));
 		$this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id,'grp'));
+		
+		$this->addSubitemCalendars();
 	}
 	
 	/**
@@ -323,9 +361,12 @@ class ilCalendarCategories
 				}
 			}
 		}
-		$this->readSelectedCategories($courses);	 	
+		$this->readSelectedCategories($courses); 	
 		$this->readSelectedCategories($sessions);	 	
-		$this->readSelectedCategories($groups);	 	
+		$this->readSelectedCategories($groups);
+
+		$this->addSubitemCalendars();
+		
 	 }
 
 	/**
@@ -501,7 +542,63 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['obj_type'] = ilObject::_lookupType($row->obj_id);
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 		}
-			
+	}
+	
+	/**
+	 * Add subitem calendars
+	 * E.g. session calendars in courses
+	 * @param
+	 * @return
+	 */
+	protected function addSubitemCalendars()
+	{
+		global $ilDB;
+		
+		$course_ids = array();
+		foreach($this->categories as $cat_id)
+		{
+			if($this->categories_info[$cat_id]['obj_type'] == 'crs')
+			{
+				$course_ids[] = $this->categories_info[$cat_id]['obj_id'];
+			}
+		}
+		
+		$query = "SELECT od2.obj_id sess_id, od1.obj_id crs_id,cat_id FROM object_data od1 ".
+			"JOIN object_reference or1 ON od1.obj_id = or1.obj_id ".
+			"JOIN tree t ON or1.ref_id = t.parent ".
+			"JOIN object_reference or2 ON t.child = or2.ref_id ".
+			"JOIN object_data od2 ON or2.obj_id = od2.obj_id ".
+			"JOIN cal_categories cc ON od2.obj_id = cc.obj_id ".
+			"WHERE od2.type = 'sess' ".
+			"AND od1.type = 'crs' ".
+			"AND od1.obj_id IN (".implode(',',ilUtil::quoteArray($course_ids)).') '.
+			"AND or2.deleted = '0000-00-00 00:00:00'";
+
+		$res = $ilDB->query($query);
+		$cat_ids = array();
+		$course_sessions = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$cat_ids[] = $row->cat_id;
+			$course_sessions[$row->crs_id][] = $row->cat_id;
+			$this->subitem_categories[] = $row->cat_id;
+		}
+		
+		foreach($this->categories as $cat_id)
+		{
+			if($this->categories_info[$cat_id]['obj_type'] == 'crs' and
+				is_array($course_sessions[$this->categories_info[$cat_id]['obj_id']]))
+			{
+				foreach($course_sessions[$this->categories_info[$cat_id]['obj_id']] as $sess_cat_id)
+				{
+					$this->categories_info[$cat_id]['subitem_ids'][] = $sess_cat_id;
+				}
+			}
+			else
+			{
+				$this->categories_info[$cat_id]['subitem_ids'] = array();
+			}
+		}
 	}
 	
 }
