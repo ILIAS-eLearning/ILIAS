@@ -1,4 +1,4 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine on
-	RewriteRule ^goto_(.*)_([a-z0-9]+_[0-9]+).html$ goto.php?client_id=$1&target=$2 [L]
+	RewriteRule ^goto_(.*)_([a-z]+_[0-9]+(.*)).html$ goto.php?client_id=$1&target=$2 [L]
 </IfModule>
