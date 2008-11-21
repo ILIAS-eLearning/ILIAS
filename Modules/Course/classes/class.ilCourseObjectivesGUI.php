@@ -1160,6 +1160,13 @@ class ilCourseObjectivesGUI
 		if($_SESSION['objective_mode'] == self::MODE_CREATE or 1)
 		{
 			$tpl->setCurrentBlock('step_info');
+			
+			if(is_object($this->objective) and strlen($this->objective->getTitle()))
+			{
+				$tpl->setVariable('STEP_SEPARATOR','-');
+				$tpl->setVariable('STEP_TITLE',$this->objective->getTitle());
+			}
+			
 			$tpl->setVariable('STEP_INFO_STEP',$this->lng->txt('crs_objective_step'));
 			$tpl->setVariable('STEP_INFO_NUM',$a_step_number);
 			$tpl->setVariable('STEP_INFO_INFO',$info[$a_step_number]);

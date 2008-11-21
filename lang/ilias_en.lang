@@ -5094,7 +5094,7 @@ crs#:#crs_objective_insert_percent#:#Please enter only numbers between 0 and 100
 crs#:#crs_objective_modified#:#Updated learning objective.
 crs#:#crs_objective_no_title_given#:#Please enter a title.
 crs#:#crs_objective_not_accomplished#:#Not accomplished
-crs#:#crs_objective_overview_objectives#:#Overview Objectives
+crs#:#crs_objective_overview_objectives#:#Overview
 crs#:#crs_objective_overview_question_assignment#:#Overview Question Assignment
 crs#:#crs_objective_pretest#:#After initial test
 crs#:#crs_objective_question_assignment#:#Question assignment
