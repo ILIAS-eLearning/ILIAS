@@ -21,6 +21,8 @@
         +-----------------------------------------------------------------------------+
 */
 
+include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+
 /**
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -88,6 +90,8 @@ class ilCalendarAppointmentColors
 		$this->db = $ilDB;
 		
 		$this->user_id = $a_user_id;
+		
+		$this->categories = ilCalendarCategories::_getInstance();
 		$this->read();
 	}
 	
@@ -100,7 +104,10 @@ class ilCalendarAppointmentColors
 	 */
 	public function getColorByAppointment($a_cal_id)
 	{
-		return isset($this->appointment_colors[$a_cal_id]) ? $this->appointment_colors[$a_cal_id] : 'red';
+		$cat_id = $this->cat_app_ass[$a_cal_id];
+		$cat_id = $this->cat_substitutions[$cat_id];
+		
+		return isset($this->appointment_colors[$cat_id]) ? $this->appointment_colors[$cat_id] : 'red';
 	}
 	
 	/**
@@ -112,17 +119,29 @@ class ilCalendarAppointmentColors
 	 */
 	private function read()
 	{
-		$query = "SELECT cat.color, ass.cal_id  FROM cal_categories AS cat ".
-			"JOIN cal_category_assignments AS ass USING (cat_id) ";
-			#"AND obj_id = ".$this->db->quote($this->user_id)." ";
+		// Store assignment of subitem categories
+		foreach($this->categories->getCategoriesInfo() as $c_data)
+		{
+			if(isset($c_data['subitem_ids']) and count($c_data['subitem_ids']))
+			{
+				foreach($c_data['subitem_ids'] as $sub_item_id)
+				{
+					$this->cat_substitutions[$sub_item_id] = $c_data['cat_id'];
+				}
+				
+			}
+			$this->cat_substitutions[$c_data['cat_id']] = $c_data['cat_id'];
+		}
+		
+		$query = "SELECT cat.cat_id,cat.color, ass.cal_id  FROM cal_categories AS cat ".
+			"JOIN cal_category_assignments AS ass USING (cat_id) ".
+			"WHERE cat_id IN (".implode(',',$this->categories->getCategories(true)).")";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$this->appointment_colors[$row->cal_id] = $row->color;
+			$this->appointment_colors[$row->cat_id] = $row->color;
+			$this->cat_app_ass[$row->cal_id] = $row->cat_id;
 		}
-
-		
-		
 	}
 	
 	/**

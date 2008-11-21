@@ -95,7 +95,7 @@ class ilCalendarCategoryAssignments
 	 * lookup appointment ids by calendar
 	 *
 	 * @access public
-	 * @param int calendar category id
+	 * @param array calendar category id(s)
 	 * @return array int cal entry ids
 	 * @static
 	 */
@@ -104,7 +104,8 @@ class ilCalendarCategoryAssignments
 		global $ilDB;
 		
 		$query = "SELECT * FROM cal_category_assignments ".
-			"WHERE cat_id = ".$ilDB->quote($a_cat_id)." ";
+			"WHERE cat_id IN ( ".implode(',',ilUtil::quoteArray($a_cat_id))." )";
+			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

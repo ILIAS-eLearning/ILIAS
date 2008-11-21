@@ -128,7 +128,7 @@ class ilCalendarInboxGUI
 		}
 		
 		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
-		$events = $schedule->getChangedEvents();
+		$events = $schedule->getChangedEvents(true);
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php');
 		

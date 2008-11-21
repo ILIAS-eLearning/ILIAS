@@ -139,6 +139,7 @@ class ilCalendarDayGUI
 		
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_DAY);
+		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
 		
 		$daily_apps = $this->scheduler->getByDay($this->seed,$this->timezone);

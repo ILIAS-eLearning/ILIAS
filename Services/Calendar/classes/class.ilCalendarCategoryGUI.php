@@ -862,8 +862,9 @@ class ilCalendarCategoryGUI
 		
 		$table_gui = new ilCalendarAppointmentsTableGUI($this,(int) $_GET['category_id']);
 		$table_gui->setTitle($this->lng->txt('cal_assigned_appointments'));
-		$table_gui->setAppointments(ilCalendarCategoryAssignments::_getAssignedAppointments((int) $_GET['category_id']));
-		
+		$table_gui->setAppointments(
+			ilCalendarCategoryAssignments::_getAssignedAppointments(
+				ilCalendarCategories::_getInstance()->getSubitemCategories((int) $_GET['category_id'])));
 		return $table_gui->getHTML();
 	}
 	

@@ -139,6 +139,7 @@ class ilCalendarMonthGUI
 		
 		include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
 		$this->scheduler = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_MONTH);
+		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
 		
 		$counter = 0;
