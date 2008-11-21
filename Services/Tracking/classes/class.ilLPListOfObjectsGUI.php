@@ -403,9 +403,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		// Show linkbar
 		if(count($all_users) > $this->max_count)
 		{
-			$this->obj_tpl->setCurrentBlock("linkbar");
+			$this->obj_tpl->setCurrentBlock("lp_linkbar_block");
 			$this->ctrl->setParameter($this,'details_id',$this->details_id);
-			$this->obj_tpl->setVariable("LINKBAR",ilUtil::Linkbar($this->ctrl->getLinkTarget($this,'details'),
+			$this->obj_tpl->setVariable("LP_LINKBAR",ilUtil::Linkbar($this->ctrl->getLinkTarget($this,'details'),
 																  count($all_users),
 																  $this->max_count,
 																  (int) $this->offset,
@@ -413,9 +413,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 																  array('link' => '',
 																		'prev' => '<<<',
 																		'next' => '>>>')));
-			$this->tpl->parseCurrentBlock();
+			$this->obj_tpl->parseCurrentBlock();
 		}
-
 		// Render item list
 		$this->container_row_counter = 0;
 		foreach($sliced_users as $user)
