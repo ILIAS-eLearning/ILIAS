@@ -6204,3 +6204,6 @@ ALTER TABLE file_usage ADD COLUMN usage_hist_nr INT NOT NULL DEFAULT 0;
 ALTER TABLE file_usage DROP PRIMARY KEY;
 <#1361>
 ALTER TABLE file_usage ADD PRIMARY KEY (id, usage_type, usage_id, usage_hist_nr);
+<#1362>
+ALTER TABLE `object_translation` CHANGE `title` `title` VARCHAR( 128 ) NOT NULL;
+
