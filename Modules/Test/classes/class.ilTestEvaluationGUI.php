@@ -977,13 +977,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
-			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
-			$printbody->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-			$printbody->setVariable("ADM_CONTENT", $template->get());
-			$printoutput = $printbody->get();
-			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
-			$fo = $this->object->processPrintoutput2FO($printoutput);
-			$this->object->deliverPDFfromFO($fo);
+			$this->object->deliverPDFfromHTML($template->get());
 		}
 		else
 		{
@@ -1055,13 +1049,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
-			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
-			$printbody->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-			$printbody->setVariable("ADM_CONTENT", $template->get());
-			$printoutput = $printbody->get();
-			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
-			$fo = $this->object->processPrintoutput2FO($printoutput);
-			$this->object->deliverPDFfromFO($fo);
+			$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 		}
 		else
 		{
@@ -1252,13 +1240,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
-			$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
-			$printbody->setVariable("TITLE", sprintf($this->lng->txt("tst_result_user_name"), $uname));
-			$printbody->setVariable("ADM_CONTENT", $template->get());
-			$printoutput = $printbody->get();
-			$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
-			$fo = $this->object->processPrintoutput2FO($printoutput);
-			$this->object->deliverPDFfromFO($fo);
+			$this->object->deliverPDFfromHTML($template->get(), sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		}
 		else
 		{

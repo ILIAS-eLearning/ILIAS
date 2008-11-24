@@ -9593,6 +9593,59 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 	
 	/**
+	* Delivers a PDF file from XHTML
+	*
+	* @param string $html The XHTML string
+	* @access public
+	*/
+	public function deliverPDFfromHTML($content, $title = NULL)
+	{
+		$content = preg_replace("/href=\".*?\"/", "", $content);
+		$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
+		$printbody->setVariable("TITLE", ilUtil::prepareFormOutput($this->getTitle()));
+		$printbody->setVariable("ADM_CONTENT", $content);
+		$printbody->setCurrentBlock("css_file");
+		$printbody->setVariable("CSS_FILE", $this->getTestStyleLocation("filesystem"));
+		$printbody->parseCurrentBlock();
+		$printbody->setCurrentBlock("css_file");
+		$printbody->setVariable("CSS_FILE", ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
+		$printbody->parseCurrentBlock();
+		$printoutput = $printbody->get();
+		$html = str_replace("href=\"./", "href=\"" . ILIAS_HTTP_PATH . "/", $printoutput);
+		$html = preg_replace("/<div id=\"dontprint\">.*?<\\/div>/ims", "", $html);
+		if (extension_loaded("tidy"))
+		{
+			$config = array(
+				"indent"         => false,
+				"output-xml"     => true,
+				"numeric-entities" => true
+			);
+			$tidy = new tidy();
+			$tidy->parseString($html, $config, 'utf8');
+			$tidy->cleanRepair();
+			$html = tidy_get_output($tidy);
+			$html = preg_replace("/^.*?(<html)/", "\\1", $html);
+		}
+		else
+		{
+			$html = str_replace("&nbsp;", "&#160;", $html);
+			$html = str_replace("&otimes;", "X", $html);
+		}
+		
+		// remove the following two lines if the new HTML2PDF RPC function works
+		$this->deliverPDFfromFO($this->processPrintoutput2FO($html), $title);
+		return;
+		
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		include_once "./Services/Transformation/classes/class.ilHTML2PDF.php";
+		$html2pdf = new ilHTML2PDF();
+		$html2pdf->setHTMLString($html);
+		$result = $html2pdf->send();
+		$filename = (strlen($title)) ? $title : $this->getTitle();
+		ilUtil::deliverData($result, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf");
+	}
+	
+	/**
 	* Delivers a PDF file from a XSL-FO string
 	*
 	* Delivers a PDF file from a XSL-FO string
