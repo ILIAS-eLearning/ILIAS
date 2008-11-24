@@ -240,11 +240,16 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		global $lng;
 		
+		if (strlen($this->getValue()))
+		{
+			$a_tpl->setCurrentBlock("prop_password_propval");
+			$a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+			$a_tpl->parseCurrentBlock();
+		}
 		$a_tpl->setCurrentBlock("prop_password");
 		$a_tpl->setVariable("TXT_RETYPE", $lng->txt("form_retype_password"));
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
 		$retype_value = ($this->getRetypeValue() != "")
 			? $this->getRetypeValue()
 			: $this->getValue();
