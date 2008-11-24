@@ -952,13 +952,7 @@ class ilTestServiceGUI
 				}
 			}
 		}
-		$printbody = new ilTemplate("tpl.il_as_tst_print_body.html", TRUE, TRUE, "Modules/Test");
-		$printbody->setVariable("TITLE", $this->lng->txt("tst_results"));
-		$printbody->setVariable("ADM_CONTENT", $output);
-		$printoutput = $printbody->get();
-		$printoutput = preg_replace("/href=\".*?\"/", "", $printoutput);
-		$fo = $this->object->processPrintoutput2FO($printoutput);
-		$this->object->deliverPDFfromFO($fo, $question_gui->object->getTitle());
+		$this->object->deliverPDFfromHTML($output, $question_gui->object->getTitle());
 	}
 }
 
