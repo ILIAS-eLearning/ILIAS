@@ -123,6 +123,7 @@
 							</xsl:attribute>
 						</xsl:when>
 						<xsl:when test="@class='questionTitle'">
+							<xsl:attribute name="keep-with-next">always</xsl:attribute>
 							<xsl:attribute name="border-bottom-style">solid</xsl:attribute>
 							<xsl:attribute name="border-bottom-color">#333333</xsl:attribute>
 							<xsl:attribute name="border-bottom-width">thin</xsl:attribute>
