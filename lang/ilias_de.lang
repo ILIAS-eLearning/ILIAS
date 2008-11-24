@@ -536,7 +536,7 @@ assessment#:#participants_data#:#Teilnehmerdaten
 assessment#:#participants_evaluation#:#Statistik für alle Teilnehmer
 assessment#:#participants_invitation_description#:#Sie können diesen Test nur für eine ausgewählte Gruppe von festen Teilnehmern zugreifbar machen. Aktivieren Sie bitte das obige Kontrollkästchen und speichern Sie Ihre Eingabe, um diese Funktionalität für den Test hinzuzufügen.
 assessment#:#participants_invitation_search_introduction#:#Um feste Teilnehmer zu diesem Test einzuladen, geben Sie bitte die gewünschten Namen in das untere Suchfeld ein und wählen Sie dann aus den Ergebnissen die festen Teilnehmer aus, die Sie einladen wollen. Alle festen Teilnehmer werden in die benachbarte Rubrik &quot;Daten der Teilnehmer&quot; hinzugefügt
-assessment#:#participants_invitation#:#Feste Teilnehmer
+assessment#:#participants_invitation#:#Teilnahmebeschränkung
 assessment#:#participants#:#Teilnehmer
 assessment#:#pass#:#Durchlauf
 assessment#:#passed_official#:#bestanden

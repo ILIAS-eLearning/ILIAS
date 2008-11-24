@@ -5546,12 +5546,6 @@ class ilObjTestGUI extends ilObjectGUI
 			),
 			"", "");
 	
-		// aggregated results subtab
-		$ilTabs->addSubTabTarget("participants_invitation",
-			$this->ctrl->getLinkTarget($this, "inviteParticipants"),
-			array("inviteParticipants", "searchParticipants"),
-			"", "");
-	
 	}
 	
 	function getSettingsSubTabs()
@@ -5597,6 +5591,12 @@ class ilObjTestGUI extends ilObjectGUI
 			);
 		}
 
+		// aggregated results subtab
+		$ilTabs->addSubTabTarget("participants_invitation",
+			$this->ctrl->getLinkTarget($this, "inviteParticipants"),
+			array("inviteParticipants", "searchParticipants"),
+			"", "");
+	
 		// defaults subtab
 		$ilTabs->addSubTabTarget(
 			"defaults",
@@ -5657,7 +5657,6 @@ class ilObjTestGUI extends ilObjectGUI
 				return $this->getBrowseForQuestionsTab($tabs_gui);
 				break;
 			case "showParticipantAnswersForAuthor":
-			case "inviteParticipants":
 			case "participants":
 			case "outParticipantsPassDetails":
 			case "outParticipantsResultsOverview":
@@ -5665,7 +5664,6 @@ class ilObjTestGUI extends ilObjectGUI
 			case "confirmDeleteAllUserData":
 			case "cancelDeleteAllUserData":
 			case "deleteSingleUserResults":
-			case "searchParticipants":
 			case "showPassOverview":
 			case "showUserAnswers":
 					 $this->getParticipantsSubTabs();
@@ -5687,6 +5685,8 @@ class ilObjTestGUI extends ilObjectGUI
 			case "deleteDefaults":
 			case "addDefaults":
 			case "applyDefaults":
+			case "inviteParticipants":
+			case "searchParticipants":
 			case "":
 				if (($ilAccess->checkAccess("write", "", $this->ref_id)) && ((strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0) || (strcmp($this->ctrl->getCmdClass(), "iltestcertificategui") == 0) || (strlen($this->ctrl->getCmdClass()) == 0)))
 				{
@@ -5760,6 +5760,7 @@ class ilObjTestGUI extends ilObjectGUI
 							"certificate", "certificateEditor", "certificateRemoveBackground",
 							"certificateSave", "certificatePreview", "certificateDelete", "certificateUpload",
 							"certificateImport", "scoring", "defaults", "addDefaults", "deleteDefaults", "applyDefaults",
+							"inviteParticipants", "saveFixedParticipantsStatus", "searchParticipants", "addParticipants", 
 							""
 					),
 					 array("", "ilobjtestgui", "iltestcertificategui")
@@ -5779,9 +5780,9 @@ class ilObjTestGUI extends ilObjectGUI
 				// participants
 				$tabs_gui->addTarget("participants",
 					 $this->ctrl->getLinkTarget($this,'participants'),
-					 array("participants", "searchParticipants", "addParticipants", "saveClientIP",
-					 "removeParticipant", "inviteParticipants",
-					 "saveFixedParticipantsStatus", "showParticipantAnswersForAuthor",
+					 array("participants", "saveClientIP",
+					 "removeParticipant", 
+					 "showParticipantAnswersForAuthor",
 					 "deleteAllUserResults",
 					 "cancelDeleteAllUserData", "deleteSingleUserResults",
 					 "outParticipantsResultsOverview", "outParticipantsPassDetails",

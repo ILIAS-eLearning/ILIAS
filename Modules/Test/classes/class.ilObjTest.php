@@ -9563,8 +9563,25 @@ function loadQuestions($active_id = "", $pass = NULL)
 	*/
 	function processPrintoutput2FO($print_output)
 	{
-		$print_output = str_replace("&nbsp;", "&#160;", $print_output);
-		$print_output = str_replace("&otimes;", "X", $print_output);
+		if (extension_loaded("tidy"))
+		{
+			$config = array(
+				"indent"         => false,
+				"output-xml"     => true,
+				"numeric-entities" => true
+			);
+			$tidy = new tidy();
+			$tidy->parseString($print_output, $config, 'utf8');
+			$tidy->cleanRepair();
+			$print_output = tidy_get_output($tidy);
+			$print_output = preg_replace("/^.*?(<html)/", "\\1", $print_output);
+		}
+		else
+		{
+			$print_output = str_replace("&nbsp;", "&#160;", $print_output);
+			$print_output = str_replace("&otimes;", "X", $print_output);
+		}
+
 		$xsl = file_get_contents("./Modules/Test/xml/question2fo.xsl");
 		$args = array( '/_xml' => $print_output, '/_xsl' => $xsl );
 		$xh = xslt_create();
