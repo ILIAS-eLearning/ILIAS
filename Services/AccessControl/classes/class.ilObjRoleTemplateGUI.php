@@ -219,8 +219,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		// build array with all rbac object types
 		$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
-			 "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
-			 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
+			 "JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
+			 "JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
+
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
