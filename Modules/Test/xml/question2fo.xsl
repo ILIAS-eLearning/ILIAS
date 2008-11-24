@@ -58,7 +58,6 @@
 		<xsl:choose>
 			<xsl:when test="@class='questionPrintview'">
 				<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">
-					<xsl:attribute name="page-break-inside">avoid</xsl:attribute>
 					<xsl:attribute name="background-color">#F0F0F0</xsl:attribute>
 					<xsl:attribute name="margin-top">1em</xsl:attribute>
 					<xsl:attribute name="padding">0.25em</xsl:attribute>
@@ -78,7 +77,7 @@
 	</xsl:template>
 	
 	<xsl:template match="h1">
-		<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" keep-with-next="always">
 			<fo:inline>
 				<xsl:attribute name="font-weight">bold</xsl:attribute>
 				<xsl:attribute name="font-size">18pt</xsl:attribute>
@@ -88,7 +87,7 @@
 	</xsl:template>
 
 	<xsl:template match="h2">
-		<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">
+		<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format" keep-with-next="always">
 			<fo:inline>
 				<xsl:attribute name="font-weight">bold</xsl:attribute>
 				<xsl:attribute name="font-size">14pt</xsl:attribute>
