@@ -6198,3 +6198,9 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1359>
+ALTER TABLE file_usage ADD COLUMN usage_hist_nr INT NOT NULL DEFAULT 0;
+<#1360>
+ALTER TABLE file_usage DROP PRIMARY KEY;
+<#1361>
+ALTER TABLE file_usage ADD PRIMARY KEY (id, usage_type, usage_id, usage_hist_nr);
