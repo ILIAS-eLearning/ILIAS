@@ -1,11 +1,8 @@
-@charset "UTF-8";
 /**
  * ILIAS Open Source Test & Assessment styles
  *
  * @revision        $Id$
  */
-
-@media screen {
 
 .kiosk {
 	padding: 2em;
@@ -186,6 +183,4 @@ div.textbox {
 	border-style: outset;
 	text-align: center;
 	z-index: 200;
-}
-
 }
