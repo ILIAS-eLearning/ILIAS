@@ -37,6 +37,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $rows;
 	protected $usert;
 	protected $rtetags;
+	protected $plugins;
+	protected $buttons;
+	protected $rtesupport;
 	
 	protected $rte_tag_set = array(
 		"standard" => array ("strong", "em", "u", "ol", "li", "ul", "p", "div",
@@ -79,6 +82,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("textarea");
 		$this->setRteTagSet("standard");
+		$this->plugins = array();
+		$this->buttons = array();
+		$this->rteSupport = array();
 	}
 
 	/**
@@ -159,6 +165,66 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	function getUseRte()
 	{
 		return $this->usert;
+	}
+	
+	/**
+	* Add RTE plugin.
+	*
+	* @param string $a_plugin Plugin name
+	*/
+	function addPlugin($a_plugin)
+	{
+		$this->plugins[$a_plugin] = $a_plugin;
+	}
+	
+	/**
+	* Remove RTE plugin.
+	*
+	* @param string $a_plugin Plugin name
+	*/
+	function removePlugin($a_plugin)
+	{
+		unset($this->plugins[$a_plugin]);
+	}
+
+	/**
+	* Add RTE button.
+	*
+	* @param string $a_button Button name
+	*/
+	function addButton($a_button)
+	{
+		$this->buttons[$a_button] = $a_button;
+	}
+	
+	/**
+	* Remove RTE button.
+	*
+	* @param string $a_button Button name
+	*/
+	function removeButton($a_button)
+	{
+		unset($this->buttons[$a_button]);
+	}
+
+	/**
+	* Set RTE support for a special module
+	*
+	* @param int $obj_id Object ID
+	* @param string $obj_type Object Type
+	* @param string $module ILIAS module
+	*/
+	function setRTESupport($obj_id, $obj_type, $module)
+	{
+		$this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module);
+	}
+	
+	/**
+	* Remove RTE support for a special module
+	*/
+	function removeRTESupport()
+	{
+		$this->rteSupport = array();
 	}
 
 	/**
@@ -268,7 +334,30 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 			
 			// @todo: Check this.
 			$rte->addPlugin("emotions");
-			$rte->addCustomRTESupport(0, "", $this->getRteTags());
+			foreach ($this->plugins as $plugin)
+			{
+				if (strlen($plugin))
+				{
+					$rte->addPlugin($plugin);
+				}
+			}
+
+			foreach ($this->buttons as $button)
+			{
+				if (strlen($button))
+				{
+					$rte->addButton($button);
+				}
+			}
+			
+			if (count($this->rteSupport) == 3)
+			{
+				$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"]);
+			}
+			else
+			{
+				$rte->addCustomRTESupport(0, "", $this->getRteTags());
+			}
 			
 			$a_tpl->touchBlock("prop_ta_w");
 			$a_tpl->setCurrentBlock("prop_textarea");

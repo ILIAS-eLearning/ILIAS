@@ -232,11 +232,16 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		global $lng;
 		
+		if (strlen($this->getValue()))
+		{
+			$a_tpl->setCurrentBlock("prop_number_propval");
+			$a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+			$a_tpl->parseCurrentBlock();
+		}
 		$a_tpl->setCurrentBlock("prop_number");
 		
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("ID", $this->getFieldId());
-		$a_tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
 		$a_tpl->setVariable("SIZE", $this->getSize());
 		$a_tpl->setVariable("MAXLENGTH", $this->getMaxLength());
 		if ($this->getDisabled())

@@ -4,80 +4,80 @@
 <!-- BEGIN sub_table -->
 <table class="nobackground">
 <!-- END sub_table -->
-	<!-- BEGIN item -->
-	<!-- BEGIN header -->
+<!-- BEGIN item -->
+<!-- BEGIN header -->
 	<tr class="tblheader">
 		<td class="std" colspan="{HEAD_COLSPAN}">
-		<!-- BEGIN title_icon --><img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/><!-- END title_icon -->
+<!-- BEGIN title_icon --><img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/><!-- END title_icon -->
 		<a name="{LABEL}"/>{TXT_TITLE}</td>
 	</tr>
-	<!-- END header -->
-	<!-- BEGIN prop -->
-	<!-- BEGIN std_prop_start -->
+<!-- END header -->
+<!-- BEGIN prop -->
+<!-- BEGIN std_prop_start -->
 	<tr>
 		<td class="option">
 		<label for="{LAB_ID}">{PROPERTY_TITLE}</label><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required -->
 		</td>
 		<td class="option_value">
-	<!-- END std_prop_start -->
-	<!-- BEGIN sub_prop_start -->
+<!-- END std_prop_start -->
+<!-- BEGIN sub_prop_start -->
 	<tr>
 		<td class="std" style="{PS_STYLE}">
 		<label for="{LAB_ID}">{PROPERTY_TITLE}</label><!-- BEGIN sub_required --> <span class="asterisk">*</span><!-- END sub_required -->
 		</td>
 		<td class="std">
-	<!-- END sub_prop_start -->
-		<!-- BEGIN non_editable_value -->
+<!-- END sub_prop_start -->
+<!-- BEGIN non_editable_value -->
 		{VALUE}
-		<!-- END non_editable_value -->
-		<!-- BEGIN prop_text -->
-		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
-		<!-- END prop_text -->
-		<!-- BEGIN prop_number -->
-		<input type="TEXT" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
+<!-- END non_editable_value -->
+<!-- BEGIN prop_text -->
+		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/>
+<!-- END prop_text -->
+<!-- BEGIN prop_number -->
+		<input style="text-align:right;" type="TEXT" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_number_propval -->value="{PROPERTY_VALUE}" <!-- END prop_number_propval -->{DISABLED}/>
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_NUMBER_CONSTRAINTS}</span></div>
-		<!-- END prop_number -->
-		<!-- BEGIN prop_login -->
+<!-- END prop_number -->
+<!-- BEGIN prop_login -->
 		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
-		<!-- END prop_login -->
-		<!-- BEGIN prop_email -->
+<!-- END prop_login -->
+<!-- BEGIN prop_email -->
 		<input type="{PROP_INPUT_TYPE}" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/>
-		<!-- END prop_email -->
-		<!-- BEGIN prop_password -->
-		<input type="password" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {DISABLED}/><br />
+<!-- END prop_email -->
+<!-- BEGIN prop_password -->
+		<input type="password" size="{SIZE}" id="{ID}" maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_password_propval -->value="{PROPERTY_VALUE}" <!-- END prop_password_propval -->{DISABLED}/><br />
 		<span style="white-space:nowrap;"><input type="password" size="{SIZE}" id="{ID}_retype" maxlength="{MAXLENGTH}" name="{POST_VAR}_retype" value="{PROPERTY_RETYPE_VALUE}" {DISABLED}/> {TXT_RETYPE}</span>
-		<!-- END prop_password -->
-		<!-- BEGIN prop_textarea -->
+<!-- END prop_password -->
+<!-- BEGIN prop_textarea -->
 		<textarea name="{POST_VAR}" id="{ID}" <!-- BEGIN no_rteditor -->class="noRTEditor" <!-- END no_rteditor --> wrap="virtual" <!-- BEGIN prop_ta_c -->cols="{COLS}"<!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w -->style="width:90%;"<!-- END prop_ta_w --> {DISABLED}>{PROPERTY_VALUE}</textarea>
-		<!-- END prop_textarea -->
-		<!-- BEGIN prop_custom -->
+<!-- END prop_textarea -->
+<!-- BEGIN prop_custom -->
 		{CUSTOM_CONTENT}
-		<!-- END prop_custom -->
-		<!-- BEGIN prop_checkbox -->
+<!-- END prop_custom -->
+<!-- BEGIN prop_checkbox -->
 		<input type="checkbox" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}" {PROPERTY_CHECKED} {DISABLED} {PROP_CHECK_ATTRS} /> <label for="{ID}">{OPTION_TITLE}</label>
-		<!-- END prop_checkbox -->
-		<!-- BEGIN prop_radio -->
-			<!-- BEGIN prop_radio_option -->
+<!-- END prop_checkbox -->
+<!-- BEGIN prop_radio -->
+<!-- BEGIN prop_radio_option -->
 			<div style="margin-bottom: 4px;">
 			<div><input type="radio" name="{POST_VAR}" id="{OP_ID}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION} {DISABLED}/> <label for="{OP_ID}">{TXT_RADIO_OPTION}</label></div>
-			<!-- BEGIN radio_option_desc -->
+<!-- BEGIN radio_option_desc -->
 			<div style="margin:0px 0px 8px 3px;"><span class="subtitle">{RADIO_OPTION_DESC}</span></div>
-			<!-- END radio_option_desc -->
+<!-- END radio_option_desc -->
 			{SUB_FORM}
 			</div>
-			<!-- END prop_radio_option -->
-		<!-- END prop_radio -->
-		<!-- BEGIN prop_select -->
+<!-- END prop_radio_option -->
+<!-- END prop_radio -->
+<!-- BEGIN prop_select -->
 		<select name="{POST_VAR}" {DISABLED}>
-			<!-- BEGIN prop_select_option -->
+<!-- BEGIN prop_select_option -->
 			<option value="{VAL_SELECT_OPTION}" {CHK_SEL_OPTION}>{TXT_SELECT_OPTION}</option>
-			<!-- END prop_select_option -->
+<!-- END prop_select_option -->
 		</select>
-		<!-- END prop_select -->
-		<!-- BEGIN prop_generic -->
+<!-- END prop_select -->
+<!-- BEGIN prop_generic -->
 		{PROP_GENERIC}
-		<!-- END prop_generic -->
-		<!-- BEGIN prop_location -->
+<!-- END prop_generic -->
+<!-- BEGIN prop_location -->
 		<input type="text" id="{MAP_ID}_lat" size="14" maxlength="18" name="{POST_VAR}[latitude]" value="{PROPERTY_VALUE_LAT}"
 			onchange="ilUpdateMap('{MAP_ID}');" /> /
 		<input type="text" id="{MAP_ID}_lng" size="14" maxlength="18" name="{POST_VAR}[longitude]" value="{PROPERTY_VALUE_LONG}"
@@ -85,40 +85,40 @@
 		&nbsp;&nbsp;{TXT_ZOOM}: {ZOOM_SELECT}<br /><input type="text" name="address" value="{TXT_ADDRESS}" size="50" /><input type="button" value="{TXT_LOOKUP}" onclick="ilLookupAddress('{MAP_ID}', this.form.address.value)" /><br />
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{LOC_DESCRIPTION}</span></div>
 		{MAP}
-		<!-- END prop_location -->
-		<!-- BEGIN prop_color -->
+<!-- END prop_location -->
+<!-- BEGIN prop_color -->
 		{PROP_COLOR_JS}
 		<div class="yui-skin-sam">
 		# <input type="text" id="{PROP_COLOR_ID}" size="6" maxlength="6" name="{POST_VAR}" value="{PROPERTY_VALUE_COLOR}" {COLOR_DISABLED}/> <span id="button-container"></span>
 		</div>
-		<!-- END prop_color -->
-		<!-- BEGIN prop_file -->
-		<!-- BEGIN filename -->
+<!-- END prop_color -->
+<!-- BEGIN prop_file -->
+<!-- BEGIN filename -->
 		<div style="margin-bottom:3px"><input type="text" id="{FILENAME_ID}" size="30" maxlength="70" name="{POST_FILENAME}" /></div>
 		<div style="margin-top:3px; margin-left:3px; margin-bottom:3px;"><span class="subtitle">{TXT_FILENAME_HINT}</span></div>
-		<!--  END filename -->
+<!--  END filename -->
 		<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
-		<!-- BEGIN allowed_suffixes -->
+<!-- BEGIN allowed_suffixes -->
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>
-		<!-- END allowed_suffixes -->
-		<!-- END prop_file -->
-		<!-- BEGIN prop_image_file -->
-		<!-- BEGIN image -->
+<!-- END allowed_suffixes -->
+<!-- END prop_file -->
+<!-- BEGIN prop_image_file -->
+<!-- BEGIN image -->
 		<input type="checkbox" name="{POST_VAR_D}_delete" value="1" />{TXT_DELETE_EXISTING}<br />
 		<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
-		<!-- END image -->
+<!-- END image -->
 		<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
-		<!-- BEGIN allowed_image_suffixes -->
+<!-- BEGIN allowed_image_suffixes -->
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>
-		<!-- END allowed_image_suffixes -->
-		<!-- END prop_image_file -->
-		<!-- BEGIN prop_datetime -->
-			<!-- BEGIN prop_date_activation -->
+<!-- END allowed_image_suffixes -->
+<!-- END prop_image_file -->
+<!-- BEGIN prop_datetime -->
+<!-- BEGIN prop_date_activation -->
 			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
-			<!-- END prop_date_activation -->
-			<!-- BEGIN prop_date -->
+<!-- END prop_date_activation -->
+<!-- BEGIN prop_date -->
 			<span style="white-space:nowrap;">
 			{DATE_SELECT}
 			<input type="image" alt="{TXT_DATE_CALENDAR}" title="{TXT_DATE_CALENDAR}" src="{IMG_DATE_CALENDAR}" id="btn_cal_{DATE_ID}" />
@@ -133,50 +133,50 @@
 			);
 			//]]>
 			</script>
-			<!-- END prop_date -->{DELIM}
-			<!-- BEGIN prop_time -->
+<!-- END prop_date -->{DELIM}
+<!-- BEGIN prop_time -->
 			{TIME_SELECT} {TXT_TIME}
-			<!-- END prop_time -->
-		<!-- END prop_datetime -->
-		<!-- BEGIN prop_duration -->
-			<!-- BEGIN dur_months -->{TXT_MONTHS}: {SELECT_MONTHS}&nbsp;<!-- END dur_months -->
-			<!-- BEGIN dur_days -->{TXT_DAYS}: {SELECT_DAYS}&nbsp;<!-- END dur_days -->
-			<!-- BEGIN dur_hours -->{TXT_HOURS}: {SELECT_HOURS}&nbsp;<!-- END dur_hours -->
-			<!-- BEGIN dur_minutes -->{TXT_MINUTES}: {SELECT_MINUTES}&nbsp;<!-- END dur_minutes -->
-			<!-- BEGIN dur_seconds -->{TXT_SECONDS}: {SELECT_SECONDS}&nbsp;<!-- END dur_seconds -->
-		<!-- END prop_duration -->
-		<!-- BEGIN exp_description -->
+<!-- END prop_time -->
+<!-- END prop_datetime -->
+<!-- BEGIN prop_duration -->
+<!-- BEGIN dur_months -->{TXT_MONTHS}: {SELECT_MONTHS}&nbsp;<!-- END dur_months -->
+<!-- BEGIN dur_days -->{TXT_DAYS}: {SELECT_DAYS}&nbsp;<!-- END dur_days -->
+<!-- BEGIN dur_hours -->{TXT_HOURS}: {SELECT_HOURS}&nbsp;<!-- END dur_hours -->
+<!-- BEGIN dur_minutes -->{TXT_MINUTES}: {SELECT_MINUTES}&nbsp;<!-- END dur_minutes -->
+<!-- BEGIN dur_seconds -->{TXT_SECONDS}: {SELECT_SECONDS}&nbsp;<!-- END dur_seconds -->
+<!-- END prop_duration -->
+<!-- BEGIN exp_description -->
 		<div style="margin-top:3px; margin-left:3px;"><span class="ilFormHelpLink"><img border="0" src="{IMG_INFO}" alt="{ALT_INFO}" /></span><span class="subtitle"> {PROPERTY_DESCRIPTION}</span></div>
-		<!-- END exp_description -->
-		<!-- BEGIN description -->
+<!-- END exp_description -->
+<!-- BEGIN description -->
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{PROPERTY_DESCRIPTION}</span></div>
-		<!-- END description -->
-		<!-- BEGIN alert -->
+<!-- END description -->
+<!-- BEGIN alert -->
 		<div style="margin-top:3px; margin-left:3px;"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" />
 		<span class="subtitle">{TXT_ALERT}</span></div>
-		<!-- END alert -->
+<!-- END alert -->
 		{PROP_SUB_FORM}
 		</td>
 	</tr>
-	<!-- END prop -->
-	<!-- END item -->
-	<!-- BEGIN commands -->
+<!-- END prop -->
+<!-- END item -->
+<!-- BEGIN commands -->
 	<tr>
 	<td class="submit" colspan="2">
-		<!-- BEGIN hidden -->
+<!-- BEGIN hidden -->
 		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
-		<!-- END hidden -->
-		<!-- BEGIN required_text -->
+<!-- END hidden -->
+<!-- BEGIN required_text -->
 		<div style="float:left;">
 			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}</span>
 		</div>
-		<!-- END required_text -->
+<!-- END required_text -->
 		<div align="right">
-		<!-- BEGIN cmd -->
+<!-- BEGIN cmd -->
 		<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}">
-		<!-- END cmd -->
+<!-- END cmd -->
 		</div>
 	</td>
 	</tr>
-	<!-- END commands -->
+<!-- END commands -->
 </table>

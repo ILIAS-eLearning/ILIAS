@@ -6206,4 +6206,25 @@ ALTER TABLE file_usage DROP PRIMARY KEY;
 ALTER TABLE file_usage ADD PRIMARY KEY (id, usage_type, usage_id, usage_hist_nr);
 <#1362>
 ALTER TABLE `object_translation` CHANGE `title` `title` VARCHAR( 128 ) NOT NULL;
-
+<#1363>
+<?php
+	$query = "SELECT * FROM qpl_question_type WHERE type_tag = 'assFlashQuestion'";
+	$res = $ilDB->query($query);
+	if ($res->numRows() == 0)
+	{
+		$query = "INSERT INTO qpl_question_type (type_tag, plugin) VALUES ('assFlashQuestion', '0')";
+		$ilDB->query($query);
+	}
+?>
+<#1364>
+<?php
+$q = "CREATE TABLE IF NOT EXISTS qpl_question_flash ( ".
+" `question_fi` INT NOT NULL PRIMARY KEY, ".
+" `params` TEXT NULL ".
+")";
+$r = $ilDB->db->query($q);
+?>
+<#1365>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
