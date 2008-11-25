@@ -20,26 +20,32 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.lucene.services.lucene.index;
+package de.ilias.services.lucene.search;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Index;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.index.IndexWriter.MaxFieldLength;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.Explanation;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocCollector;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.LockObtainFailedException;
 
-import de.ilias.services.db.DBFactory;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
@@ -50,97 +56,84 @@ import de.ilias.services.settings.LocalSettings;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class RPCIndexHandler {
+public class RPCSearchHandler {
 
-	protected static Logger logger = Logger.getLogger(RPCIndexHandler.class);
+	Logger logger = Logger.getLogger(RPCSearchHandler.class);
 	
+	/**
+	 * 
+	 */
+	public RPCSearchHandler() {
 
-	@SuppressWarnings("deprecation")
-	public boolean refreshIndex(String clientKey) {
-		
-		// Set client key
+	}
+	
+	/**
+	 * 
+	 * @param clientKey
+	 * @param query
+	 */
+	public boolean search(String clientKey, String queryString) {
+
 		LocalSettings.setClientKey(clientKey);
 		ClientSettings client;
+		Directory directory;
+		IndexSearcher searcher;
+		QueryParser parser;
+		
 		try {
+			
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			
-			IndexWriter writer = new IndexWriter(FSDirectory.getDirectory(client.getIndexPath(),true),
-					new StandardAnalyzer(),
-					MaxFieldLength.UNLIMITED);
+			logger.info("Searching for: " + queryString);
+			directory = FSDirectory.getDirectory(client.getIndexPath());
+			searcher = new IndexSearcher(directory);
 			
-			logger.debug(client.getIndexPath());
-			indexTitleAndDescription(writer);
-			writer.optimize();
-			writer.close();
+			//parser = new QueryParser("title",new StandardAnalyzer());
 			
-		} 
-		catch (ConfigurationException e) {
-			logger.error(e);
-		} 
-		catch (CorruptIndexException e) {
-			logger.error(e);
-		} 
-		catch (LockObtainFailedException e) {
-			logger.error(e);
-		} 
-		catch (IOException e) {
-			logger.error(e);
-		}
-		logger.debug("Start connection");
-
-		
-		
-		return true;
-		
-		
-		
-	}
-
-
-	/**
-	 * @param writer
-	 * @return 
-	 */
-	private boolean indexTitleAndDescription(IndexWriter writer) {
-	
-		Connection con;
-		try {
-			con = DBFactory.factory();
-			Statement stmt = con.createStatement();
-			ResultSet res = stmt.executeQuery("select * from object_data");
-			while(res.next()) {
+			String[] fields = {"description","title"};
+			BooleanClause.Occur[] flags = {BooleanClause.Occur.SHOULD,BooleanClause.Occur.SHOULD};
+			
+			Query query = MultiFieldQueryParser.parse(queryString,
+					fields, 
+					flags,
+					new StandardAnalyzer());
+			
+			//parser.parse(queryString);
+			//Query query = parser.parse(queryString);
+			
+			
+			TopDocCollector collector = new TopDocCollector(1000);
+			searcher.search(query,collector);
+			ScoreDoc[] hits = collector.topDocs().scoreDocs;
+			
+			
+			logger.info("Found " + hits.length + " matches");
+			
+			for(int i = 0; i < hits.length;i++) {
 				
-				Document doc = new Document();
-				doc.add(new Field("obj_id",
-							res.getString("obj_id"),
-							Field.Store.YES,
-							Index.NOT_ANALYZED));
-				doc.add(new Field("title",
-							res.getString("title"),
-							Field.Store.YES,
-							Index.ANALYZED));
-				
-				doc.add(new Field("description",
-						res.getString("description"),
-						Field.Store.YES,
-						Index.ANALYZED));
-				
-				writer.addDocument(doc);
-
-				logger.debug("Added title: " + res.getString("title"));
-				logger.debug("Added description " + res.getString("description"));
+				Document hitDoc = searcher.doc(hits[i].doc);
+				Explanation expl = searcher.explain(query,hits[i].doc);
+				//logger.info("Explaination: " + expl.toString());
+				logger.info("Found title: " + hitDoc.get("title") + 
+						" description: " + hitDoc.get("description"));
+				logger.info("Score: "+ hits[i].score);
 			}
-		} 
-		catch (SQLException e) {
-			logger.error("Cannot handle refreshIndex()" + e);
-			return false;
+			return true;
 		}
-		catch (CorruptIndexException e) {
-			logger.fatal("Error writing to index: " + e);
+		catch(ConfigurationException e) {
+			logger.error(e);
 		} 
 		catch (IOException e) {
-			logger.fatal("Error writing to index: " + e);
+			logger.error(e);	
+		} 
+		catch (ParseException e) {
+			logger.error(e);
+		}
+		catch(Exception e) {
+			logger.error(e);
+			e.printStackTrace();
 		}
 		return false;
 	}
+	
 }
