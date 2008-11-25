@@ -41,6 +41,9 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 
 import de.ilias.services.db.DBFactory;
+import de.ilias.services.object.ObjectDefinitionException;
+import de.ilias.services.object.ObjectDefinitionParser;
+import de.ilias.services.object.ObjectDefinitionReader;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
@@ -62,15 +65,21 @@ public class RPCIndexHandler {
 		// Set client key
 		LocalSettings.setClientKey(clientKey);
 		ClientSettings client;
+		ObjectDefinitionReader properties;
+		ObjectDefinitionParser parser;
+		
 		try {
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			properties = ObjectDefinitionReader.getInstance(client.getAbsolutePath());
+			parser = new ObjectDefinitionParser(properties.getObjectPropertyFiles());
+			parser.parse();
 			
 			IndexWriter writer = new IndexWriter(FSDirectory.getDirectory(client.getIndexPath(),true),
 					new StandardAnalyzer(),
 					MaxFieldLength.UNLIMITED);
 			
 			logger.debug(client.getIndexPath());
-			indexTitleAndDescription(writer);
+			//indexTitleAndDescription(writer);
 			writer.optimize();
 			writer.close();
 			
@@ -85,6 +94,9 @@ public class RPCIndexHandler {
 			logger.error(e);
 		} 
 		catch (IOException e) {
+			logger.error(e);
+		} 
+		catch (ObjectDefinitionException e) {
 			logger.error(e);
 		}
 		logger.debug("Start connection");

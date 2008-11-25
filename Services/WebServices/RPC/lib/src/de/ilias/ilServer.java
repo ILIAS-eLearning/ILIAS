@@ -212,7 +212,7 @@ public class ilServer {
 			// otherwise stop execution
 			while(true) {
 				Thread.sleep(3000);
-				logger.debug("Still alive...");
+				//logger.debug("Still alive...");
 				if(!rpc.isAlive()) {
 					rpc.shutdown();
 					break;
