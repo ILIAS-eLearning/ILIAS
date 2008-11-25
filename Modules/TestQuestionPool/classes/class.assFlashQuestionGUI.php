@@ -394,44 +394,85 @@ class assFlashQuestionGUI extends assQuestionGUI
 	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
-		$template = new ilTemplate("tpl.il_as_qpl_flashquestion_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
-		$questionoutput = $template->get();
+		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		if (is_array($this->object->getParameters()))
+		{
+			foreach ($this->object->getParameters() as $name => $value)
+			{
+				$template->setCurrentBlock("applet_parameter");
+				$template->setVariable("PARAM_NAME", ilUtil::prepareFormOutput($name));
+				$template->setVariable("PARAM_VALUE", ilUtil::prepareFormOutput($value));
+				$template->parseCurrentBlock();
+			}
+		}
+
+		$template->setCurrentBlock("applet_parameter");
+		$template->setVariable("PARAM_NAME", "session_id");
+		$template->setVariable("PARAM_VALUE", $_COOKIE["PHPSESSID"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("applet_parameter");
+		$template->setVariable("PARAM_NAME", "client");
+		$template->setVariable("PARAM_VALUE", CLIENT_ID);
+		$template->parseCurrentBlock();
+		if (strlen($pass))
+		{
+			$template->setCurrentBlock("applet_parameter");
+			$template->setVariable("PARAM_NAME", "pass");
+			$template->setVariable("PARAM_VALUE", $pass);
+			$template->parseCurrentBlock();
+		}
+		if ($active_id)
+		{
+			$template->setCurrentBlock("applet_parameter");
+			$template->setVariable("PARAM_NAME", "active_id");
+			$template->setVariable("PARAM_VALUE", $active_id);
+			$template->parseCurrentBlock();
+		}
+		$template->setCurrentBlock("applet_parameter");
+		$template->setVariable("PARAM_NAME", "question_id");
+		$template->setVariable("PARAM_VALUE", $this->object->getId());
+		$template->parseCurrentBlock();
+
+
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
-			if (preg_match_all("/<input .*?interaufg.*?\\/>/ims", $questionoutput, $matches))
+			if ($graphicalOutput)
 			{
-				foreach ($matches[0] as $input)
+				// output of ok/not ok icons for user entered solutions
+				$reached_points = $this->object->getReachedPoints($active_id, $pass);
+				if ($reached_points == $this->object->getMaximumPoints())
 				{
-					if (strpos(strtolower($input), "\"radio\"") || strpos(strtolower($input), "\"checkbox\""))
+					$template->setCurrentBlock("icon_ok");
+					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
+					$template->parseCurrentBlock();
+				}
+				else
+				{
+					$template->setCurrentBlock("icon_ok");
+					if ($reached_points > 0)
 					{
-						foreach ($solutions as $idx => $solution_value)
-						{
-							if ((strpos($input, $solution_value["value1"])) && (strpos(strtolower($input), "value=\"" . $solution_value["value2"] . "\"")))
-							{
-								$newinput = str_replace("name=\"" . $solution_value["value1"] . "\"", "name=\"" . $solution_value["value1"] . "\" checked=\"checked\"", $input);
-								$questionoutput = str_replace($input, $newinput, $questionoutput);
-							}
-						}
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.gif"));
+						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
 					}
-					else if (strpos(strtolower($input), "\"text\""))
+					else
 					{
-						foreach ($solutions as $idx => $solution_value)
-						{
-							$questionoutput = str_replace("name=\"" . $solution_value["value1"] . "\"", "name=\"" . $solution_value["value1"] . "\" value=\"" . $solution_value["value2"] . "\"", $questionoutput);
-						}
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 					}
+					$template->parseCurrentBlock();
 				}
 			}
 		}
-		else
-		{
-			return "";
-		}
+
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
+		$template->setVariable("APPLET_WIDTH", $this->object->getWidth());
+		$template->setVariable("APPLET_HEIGHT", $this->object->getHeight());
+		$template->setVariable("ID", $this->object->getId());
+		$template->setVariable("APPLET_PATH", $this->object->getFlashPathWeb() . $this->object->getApplet());
+		$template->setVariable("APPLET_FILE", $this->object->getApplet());
+
+		$questionoutput = $template->get();
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 		$solutionoutput = $solutiontemplate->get(); 
@@ -522,9 +563,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$template->setVariable("APPLET_FILE", $this->object->getApplet());
 		$questionoutput = $template->get();
 		
-		if ($active_id)
-		{
-		}
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
 	}
@@ -573,7 +611,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 	*/
 	function feedback()
 	{
-		$template = new ilTemplate("tpl.il_as_qpl_flashquestion_feedback.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$template = new ilTemplate("tpl.il_as_qpl_flash_question_feedback.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
 		$template->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
 		$template->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
