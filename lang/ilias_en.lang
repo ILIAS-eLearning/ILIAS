@@ -512,11 +512,7 @@ assessment#:#filter_show_question_types#:#Show Question Types
 assessment#:#filter_show_questionpools#:#Show Question Pools
 assessment#:#filter_users#:#Filter Users
 assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the %s subtab.
-assessment#:#assFlashApp#:#Flash application
-assessment#:#flashfile#:#Flash file
-assessment#:#flash_attributes#:#Flash attributes
-assessment#:#flash_parameters#:#Flash parameters
-assessment#:#add_flash_parameter#:#Add Flash Parameter
+assessment#:#flashfile#:#Flash File
 assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap Definition
 assessment#:#gap_selection#:#Gap Selection
@@ -8747,3 +8743,7 @@ content#:#cont_tracking_byuser#:#By User
 content#:#cont_tracking_bysco#:#By Chapter
 common#:#payment_demo#:#Demo
 payment#:#payment_back_to_shop#:#Zurück zum Shop
+common#:#add_parameter#:#New Parameter
+common#:#delete_parameter#:#Delete Parameter
+common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?
+assessment#:#assFlashQuestion#:#Flash Question

@@ -164,7 +164,6 @@ assessment#:#add_answer_yn#:#Ja-/Nein-Antworten
 assessment#:#add_answer#:#Antwort hinzufügen
 assessment#:#add_applet_parameter#:#Applet-Parameter hinzufügen
 assessment#:#add_area#:#Region hinzufügen
-assessment#:#add_flash_parameter#:#Flash Parameter hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
 assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_matching_pair#:#Zuordnungspaar hinzufügen
@@ -432,8 +431,6 @@ assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#filter_users#:#Teilnehmer filtern
 assessment#:#filter#:#Filter
 assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer des %s Karteireiters entfernen.
-assessment#:#flash_attributes#:#Flash-Attribute
-assessment#:#flash_parameters#:#Flash-Parameter
 assessment#:#flashfile#:#Flash-Datei
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
@@ -8743,3 +8740,7 @@ forum#:#frm_moderators_matches_in_no_results#:#Ihre Suche ergab keine Treffer.
 payment#:#shop_info#:#Shop Information
 common#:#payment_demo#:#Demo
 payment#:#payment_back_to_shop#:#Zurück zum Shop
+common#:#add_parameter#:#Neuer Parameter
+common#:#delete_parameter#:#Parameter löschen
+common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
+assessment#:#assFlashQuestion#:#Flash-Frage

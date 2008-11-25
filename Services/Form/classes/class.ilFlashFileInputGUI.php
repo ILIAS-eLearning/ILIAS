@@ -33,6 +33,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	protected $applet;
 	protected $width;
 	protected $height;
+	protected $parameters;
 	
 	/**
 	* Constructor
@@ -47,6 +48,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 		$this->setSuffixes(array("swf"));
 		$this->width = 550;
 		$this->height = 400;
+		$this->parameters = array();
 	}
 
 	/**
@@ -108,7 +110,56 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	{
 		$this->height = $a_height;
 	}
+	
+	/**
+	* Get parameters.
+	*
+	* @return	array Parameters
+	*/
+	function getParameters()
+	{
+		return $this->parameters;
+	}
+	
+	/**
+	* Set parameters.
+	*
+	* @param array $a_parameters Parameters
+	*/
+	function setParameters($a_parameters)
+	{
+		$this->parameters = $a_parameters;
+	}
 
+	/**
+	* Add parameter.
+	*
+	* @param string $name Parameter name
+	* @param string $value Parameter value
+	*/
+	function addParameter($name, $value)
+	{
+		$this->parameters[$name] = $value;
+	}
+	
+	/**
+	* Remove parameter.
+	*
+	* @param string $name Parameter name
+	*/
+	function removeParameter($name)
+	{
+		unset($this->parameters[$name]);
+	}
+
+	/**
+	* Remove all parameters
+	*/
+	function clearParameters()
+	{
+		$this->parameters = array();
+	}
+	
 	/**
 	* Insert property html
 	*/
@@ -118,7 +169,29 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 		
 		if ($this->getApplet() != "")
 		{
+			if (count($this->getParameters()))
+			{
+				$index = 0;
+				foreach ($this->getParameters() as $name => $value)
+				{
+					$a_tpl->setCurrentBlock("applet_parameter");
+					$a_tpl->setVariable("PARAM_NAME", ilUtil::prepareFormOutput($name));
+					$a_tpl->setVariable("PARAM_VALUE", ilUtil::prepareFormOutput($value));
+					$a_tpl->parseCurrentBlock();
+					$a_tpl->setCurrentBlock("applet_param_input");
+					$a_tpl->setVariable("TEXT_NAME", $lng->txt("name"));
+					$a_tpl->setVariable("TEXT_VALUE", $lng->txt("value"));
+					$a_tpl->setVariable("PARAM_INDEX", $index);
+					$a_tpl->setVariable("POST_VAR_P", $this->getPostVar());
+					$a_tpl->setVariable("VALUE_NAME", "value=\"" . ilUtil::prepareFormOutput($name) . "\"");
+					$a_tpl->setVariable("VALUE_VALUE", "value=\"" . ilUtil::prepareFormOutput($value) . "\"");
+					$a_tpl->setVariable("TEXT_DELETE_PARAM", $lng->txt("delete_parameter"));
+					$a_tpl->parseCurrentBlock();
+					$index++;
+				}
+			}
 			$a_tpl->setCurrentBlock("applet");
+			$a_tpl->setVariable("TEXT_ADD_PARAM", $lng->txt("add_parameter"));
 			$a_tpl->setVariable("APPLET_WIDTH", $this->getWidth());
 			$a_tpl->setVariable("APPLET_HEIGHT", $this->getHeight());
 			$a_tpl->setVariable("POST_VAR_D", $this->getPostVar());
@@ -134,12 +207,23 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 			$a_tpl->parseCurrentBlock();
 		}
 		
+		$js_tpl = new ilTemplate('tpl.flashAddParam.js', true, true, 'Services/Form');
+		$js_tpl->setVariable("TEXT_NAME", $lng->txt("name"));
+		$js_tpl->setVariable("TEXT_VALUE", $lng->txt("value"));
+		$js_tpl->setVariable("POST_VAR", $this->getPostVar());
+		$js_tpl->setVariable("TEXT_DELETE_PARAM", $lng->txt("delete_parameter"));
+		$js_tpl->setVariable("TEXT_CONFIRM_DELETE_PARAMETER", $lng->txt("confirm_delete_parameter"));
+		
 		$a_tpl->setCurrentBlock("prop_flash_file");
 		$a_tpl->setVariable("POST_VAR", $this->getPostVar());
 		$a_tpl->setVariable("ID", $this->getFieldId());
 		$a_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice")." ".
 			$this->getMaxFileSizeString());
+		$a_tpl->setVariable("JAVASCRIPT_FLASH", $js_tpl->get());
 		$a_tpl->parseCurrentBlock();
+
+		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+		ilYuiUtil::initConnectionWithAnimation();
 	}
 
 	/**

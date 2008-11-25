@@ -349,7 +349,6 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 					$rte->addButton($button);
 				}
 			}
-			
 			if (count($this->rteSupport) == 3)
 			{
 				$rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"]);
