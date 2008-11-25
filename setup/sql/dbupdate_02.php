@@ -6236,3 +6236,28 @@ $q = "ALTER TABLE `qpl_question_flash` " .
 " ADD `height` INT NOT NULL DEFAULT '400'";
 $r = $ilDB->db->query($q);
 ?>
+<#1367>
+<?php
+
+$query = "SELECT ta.ops_id from rbac_ta ta ".
+	"LEFT JOIN rbac_operations op ON ta.ops_id = op.ops_id ".
+	"WHERE op.ops_id IS NULL";
+
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "DELETE FROM rbac_ta WHERE ops_id = ".$ilDB->quote($row->ops_id);
+	$ilDB->query($query);
+}
+?>
+
+#//////////////////////////////////////////////////////////////////
+#//
+#//      PLEASE DO  NOT ADD ANY ADDITIONAL STEPS IN THIS BRANCH
+#//
+#//      CONTACT THE CORE TEAM, IF A BUGFIX NEEDS ANY DB CHANGES
+#//
+#//////////////////////////////////////////////////////////////////
+
+
+>>>>>>> .merge-right.r18067
