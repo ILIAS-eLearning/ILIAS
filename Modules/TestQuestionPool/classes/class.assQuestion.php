@@ -989,6 +989,30 @@ class assQuestion
 	}
 	
 	/**
+	* Move an uploaded media file to an public accessible temp dir to present it
+	* 
+	* @param string $file File path
+	* @param string $name Name of the file
+	* @access public
+	*/
+	function moveUploadedMediaFile($file, $name)
+	{
+		$mediatempdir = CLIENT_WEB_DIR . "/assessment/temp";
+		if (!@is_dir($mediatempdir)) ilUtil::createDirectory($mediatempdir);
+		$temp_name = tempnam($mediatempdir, $name . "_____");
+		$temp_name = str_replace("\\", "/", $temp_name);
+		@unlink($temp_name);
+		if (!ilUtil::moveUploadedFile($file, $name, $temp_name))
+		{
+			return FALSE;
+		}
+		else
+		{
+			return $temp_name;
+		}
+	}
+	
+	/**
 	* Returns the image path for web accessable images of a question
 	*
 	* Returns the image path for web accessable images of a question.

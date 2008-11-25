@@ -114,6 +114,27 @@
 		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>
 <!-- END allowed_image_suffixes -->
 <!-- END prop_image_file -->
+<!-- BEGIN prop_flash_file -->
+<!-- BEGIN applet -->
+		<input type="checkbox" name="{POST_VAR_D}_delete" id="{POST_VAR_D}_delete" value="1" /><label for="{POST_VAR_D}_delete">{TXT_DELETE_EXISTING}</label><br />
+		<div style="padding: 0.5em 0;">
+		<label for="{POST_VAR_D}_width">{TEXT_WIDTH}</label> <input type="text" size="4" id="{POST_VAR_D}_width" name="{POST_VAR_D}_width" {VALUE_WIDTH} />
+		<label for="{POST_VAR_D}_height">{TEXT_HEIGHT}</label> <input type="text" size="4" id="{POST_VAR_D}_height" name="{POST_VAR_D}_height" {VALUE_HEIGHT} />
+		</div>
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+	codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
+	width="{APPLET_WIDTH}" height="{APPLET_HEIGHT}" id="movie_{ID}">
+	<param name="movie" value="{APPLET_FILE}">
+	<param name="quality" value="high">
+	<param name="bgcolor" value="#FFFFFF">
+	<embed src="{APPLET_PATH}" quality="high" bgcolor="#FFFFFF" width="{APPLET_WIDTH}" height="{APPLET_HEIGHT}"
+		name="movie_name_{ID}" align="" type="application/x-shockwave-flash"
+		pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>
+</object><br />
+<!-- END applet -->
+		<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
+		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
+<!-- END prop_flash_file -->
 <!-- BEGIN prop_datetime -->
 <!-- BEGIN prop_date_activation -->
 			<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />

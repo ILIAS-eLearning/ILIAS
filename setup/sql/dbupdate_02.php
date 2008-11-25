@@ -6228,3 +6228,11 @@ $r = $ilDB->db->query($q);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1366>
+<?php
+$q = "ALTER TABLE `qpl_question_flash` " .
+" ADD `applet` VARCHAR( 150 ) NOT NULL ," .
+" ADD `width` INT NOT NULL DEFAULT '550'," .
+" ADD `height` INT NOT NULL DEFAULT '400'";
+$r = $ilDB->db->query($q);
+?>
