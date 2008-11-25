@@ -27,8 +27,8 @@ import java.net.InetAddress;
 import org.apache.log4j.Logger;
 import org.apache.xmlrpc.WebServer;
 
-import de.ilias.lucene.services.lucene.index.RPCIndexHandler;
-import de.ilias.lucene.services.lucene.search.RPCSearchHandler;
+import de.ilias.services.lucene.index.RPCIndexHandler;
+import de.ilias.services.lucene.search.RPCSearchHandler;
 import de.ilias.services.settings.ConfigurationException;
 
 /**
