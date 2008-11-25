@@ -73,7 +73,7 @@ class assFlashQuestion extends assQuestion
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0) and (strlen($this->getApplet())))
 		{
 			return true;
 		}
@@ -164,8 +164,8 @@ class assFlashQuestion extends assQuestion
 		);
 		$data = array(
 			$this->getId(),
-			$this->getWidth(),
-			$this->getHeight(),
+			(strlen($this->getWidth())) ? $this->getWidth() : 550,
+			(strlen($this->getHeight())) ? $this->getHeight() : 400,
 			$this->getApplet(),
 			serialize($this->getParameters())
 		);
@@ -388,6 +388,12 @@ class assFlashQuestion extends assQuestion
 		return $response;
 	}
 	
+	function deleteApplet()
+	{
+		@unlink($this->getFlashPath() . $this->getApplet());
+		$this->applet = "";
+	}
+	
 	/**
 	* Saves the learners input of the question to the database
 	*
@@ -549,25 +555,6 @@ class assFlashQuestion extends assQuestion
 	*/
 	function deleteAnswers($question_id)
 	{
-		global $ilDB;
-
-		$statement = $ilDB->prepareManip("DELETE FROM il_qpl_qst_formulaquestion_variable WHERE question_fi = ?", 
-			array("integer")
-		);
-		$data = array($question_id);
-		$affectedRows = $ilDB->execute($statement, $data);
-
-		$statement = $ilDB->prepareManip("DELETE FROM il_qpl_qst_formulaquestion_result WHERE question_fi = ?", 
-			array("integer")
-		);
-		$data = array($question_id);
-		$affectedRows = $ilDB->execute($statement, $data);
-
-		$statement = $ilDB->prepareManip("DELETE FROM il_qpl_qst_formulaquestion_result_unit WHERE question_fi = ?", 
-			array("integer")
-		);
-		$data = array($question_id);
-		$affectedRows = $ilDB->execute($statement, $data);
 	}
 
 	/**
@@ -645,6 +632,7 @@ class assFlashQuestion extends assQuestion
 	
 	public function setHeight($a_height)
 	{
+		if (!$a_height) $a_height = 400;
 		$this->height = $a_height;
 	}
 	
@@ -655,6 +643,7 @@ class assFlashQuestion extends assQuestion
 
 	public function setWidth($a_width)
 	{
+		if (!$a_width) $a_width = 550;
 		$this->width = $a_width;
 	}
 	

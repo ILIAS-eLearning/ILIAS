@@ -148,7 +148,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 		}
 		else
 		{
-			$flash->setApplet($this->object->getFlashPathWeb() . $this->object->getApplet());
+			if (strlen($this->object->getApplet()))
+			{
+				$flash->setApplet($this->object->getFlashPathWeb() . $this->object->getApplet());
+			}
 		}
 		$flash->setWidth($this->object->getWidth());
 		$flash->setHeight($this->object->getHeight());
@@ -277,7 +280,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 	{
 		$cmd = $this->ctrl->getCmd();
 
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!strlen($_POST["points"])) or (!$this->object->getApplet()))
+		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!strlen($_POST["points"])))
 		{
 			$this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
 			return FALSE;
@@ -285,6 +288,13 @@ class assFlashQuestionGUI extends assQuestionGUI
 		
 		
 		return TRUE;
+	}
+
+	function flashAddParam()
+	{
+		$this->writePostData();
+		$this->object->addParameter("", "");
+		$this->editQuestion();
 	}
 
 	/**
@@ -297,6 +307,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 	{
 		global $ilLog;
 		$this->setErrorMessage("");
+		if ($_POST["flash_delete"] == 1)
+		{
+			$this->object->deleteApplet();
+		}
 		if ($_FILES["flash"]["tmp_name"])
 		{
 			if ($_SESSION["flash_upload_filename"]) @unlink($_SESSION["flash_upload_filename"]);
@@ -323,11 +337,15 @@ class assFlashQuestionGUI extends assQuestionGUI
 				unset($_SESSION["flash_upload_filename"]);
 			}
 		}
+		$this->object->clearParameters();
 		if (is_array($_POST["flash_flash_param_name"]))
 		{
 			foreach ($_POST["flash_flash_param_name"] as $key => $value)
 			{
-				$this->object->addParameter($value, $_POST["flash_flash_param_value"][$key]);
+				if ($_POST["flash_flash_param_delete"][$key] != 1)
+				{
+					$this->object->addParameter($value, $_POST["flash_flash_param_value"][$key]);
+				}
 			}
 		}
 		$checked = $this->checkInput();
@@ -639,7 +657,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 				$url,
 				array("editQuestion", "save", "cancel", "addSuggestedSolution",
 					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
-					"parseQuestion", "saveEdit", "suggestRange"),
+					"flashAddParam", "saveEdit"),
 				$classname, "", $force_active);
 		}
 
