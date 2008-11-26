@@ -99,17 +99,16 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 	final function getSubForm()
 	{
 		// subitems
-		$form = "";
+		$pf = null;
 		if (count($this->getSubItems()) > 0)
 		{
 			$pf = new ilPropertyFormGUI();
 			$pf->setSubformMode($this->getSubformMode());
 			$pf->setMode("subform");
 			$pf->setItems($this->getSubItems());
-			$form = $pf->getContent();
 		}
 
-		return $form;
+		return $pf;
 	}
 
 }

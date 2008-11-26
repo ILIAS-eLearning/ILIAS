@@ -187,6 +187,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function addItem($a_item)
 	{
+		$a_item->setParentForm($this);
 		return $this->items[] = $a_item;
 	}
 
@@ -522,18 +523,27 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->setCurrentBlock("prop");
 			
 			// subitems
-			$sf = "";
+			$sf = null;
 			if ($item->getType() != "non_editable_value")
 			{
 				$sf = $item->getSubForm();
 			}
 
+			$sf_content = "";
+			if (is_object($sf))
+			{
+				$sf_content = $sf->getContent();
+				if ($sf->getMultipart())
+				{
+					$this->setMultipart(true);
+				}
+			}
 			if ($this->getSubformMode() == "right")
 			{
-				if ($sf != "")
+				if ($sf_content != "")
 				{
 					$this->tpl->setVariable("PROP_SUB_FORM",
-						'</td><td class="option_value">'.$sf);
+						'</td><td class="option_value">'.$sf_content);
 				}
 				else
 				{
@@ -546,7 +556,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			}
 			else
 			{
-				$this->tpl->setVariable("PROP_SUB_FORM", $item->getSubForm());
+				$this->tpl->setVariable("PROP_SUB_FORM", $sf_content);
 			}
 
 			$this->tpl->parseCurrentBlock();

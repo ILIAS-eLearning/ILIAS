@@ -179,10 +179,13 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function renderTable($a_mode = "table_edit")
 	{
+		global $ilUser;
+		
 		$tab_node = $this->content_obj->getNode();
 		$content = $this->dom->dump_node($tab_node);
 		$trans = $this->pg_obj->getLanguageVariablesXML();
-		$content = "<dummy>".$content.$trans."</dummy>";
+		$mobs = $this->pg_obj->getMultimediaXML();
+		$content = "<dummy>".$content.$mobs.$trans."</dummy>";
 
 		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
@@ -190,7 +193,12 @@ class ilPCTableGUI extends ilPageContentGUI
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
-		$params = array ('mode' => $a_mode, 'med_disabled_path' => $med_disabled_path);
+		$wb_path = ilUtil::getWebspaceDir("output");
+		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+		$params = array ('mode' => $a_mode,
+			'med_disabled_path' => $med_disabled_path,
+			'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
+			'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
@@ -200,7 +208,7 @@ class ilPCTableGUI extends ilPageContentGUI
 		$output = str_replace("&gt;",">",$output);
 		$output = str_replace("&amp;","&",$output);
 		
-		return $output;
+		return '<div style="float:left;">'.$output.'</div>';
 	}
 	
 	/**

@@ -4323,7 +4323,7 @@ content#:#cont_update_map#:#Edit Map
 content#:#cont_table_properties#:#Table Properties
 content#:#cont_table_cell_properties#:#Table Cell Properties
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
-content#:#cont_set_styles_and_widths#:#Set Styles and Widths
+content#:#cont_set_styles_and_widths#:#Save Styles and Widths
 content#:#cont_location#:#Location
 content#:#cont_align#:#Alignment
 content#:#cont_revision#:#Revision
@@ -8742,7 +8742,10 @@ payment#:#shop_info#:#Shop Information
 content#:#cont_tracking_byuser#:#By User
 content#:#cont_tracking_bysco#:#By Chapter
 common#:#payment_demo#:#Demo
-payment#:#payment_back_to_shop#:#Zurück zum Shop
+payment#:#payment_back_to_shop#:#Back to Shop
+content#:#cont_adjust_size#:#Adjust Size
+content#:#cont_use_same_resource_as_above#:#Use the same resource as above
+content#:#cont_constrain_proportions#:#Constrain Proportions
 common#:#add_parameter#:#New Parameter
 common#:#delete_parameter#:#Delete Parameter
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?

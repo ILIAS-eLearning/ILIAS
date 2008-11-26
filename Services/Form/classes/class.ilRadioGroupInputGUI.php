@@ -176,6 +176,10 @@ class ilRadioGroupInputGUI extends ilFormPropertyGUI
 				$pf->setMode("subform");
 				$pf->setItems($option->getSubItems());
 				$a_tpl->setVariable("SUB_FORM", $pf->getContent());
+				if ($pf->getMultipart())
+				{
+					$this->getParentForm()->setMultipart(true);
+				}
 			}
 			
 			$a_tpl->parseCurrentBlock();

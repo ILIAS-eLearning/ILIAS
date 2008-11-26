@@ -752,23 +752,25 @@ class ilObjFile extends ilObject
 	/**
 	* static delete all usages of
 	*/
-	function _deleteAllUsages($a_type, $a_id)
+	function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0)
 	{
 		global $ilDB;
 		
-		$q = "DELETE FROM file_usage WHERE usage_type=".$ilDB->quote($a_type)." AND usage_id=".$ilDB->quote($a_id);
+		$q = "DELETE FROM file_usage WHERE usage_type=".$ilDB->quote($a_type)." AND usage_id=".$ilDB->quote($a_id).
+			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr);
 		$this->ilias->db->query($q);
 	}
 
 	/**
 	* save usage
 	*/
-	function _saveUsage($a_mob_id, $a_type, $a_id)
+	function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0)
 	{
 		global $ilDB;
 		
-		$q = "REPLACE INTO file_usage (id, usage_type, usage_id) VALUES".
-			" (".$ilDB->quote($a_mob_id).",".$ilDB->quote($a_type).",".$ilDB->quote($a_id).")";
+		$q = "REPLACE INTO file_usage (id, usage_type, usage_id, usage_hist_nr) VALUES".
+			" (".$ilDB->quote($a_mob_id).",".$ilDB->quote($a_type).",".$ilDB->quote($a_id).",".
+			$ilDB->quote($a_usage_hist_nr).")";
 		$this->ilias->db->query($q);
 	}
 
@@ -786,7 +788,8 @@ class ilObjFile extends ilObject
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ret[] = array("type" => $us_rec["usage_type"],
-				"id" => $us_rec["usage_id"]);
+				"id" => $us_rec["usage_id"],
+				"hist_nr" => $us_rec["usage_hist_nr"]);
 		}
 
 		return $ret;
@@ -800,13 +803,14 @@ class ilObjFile extends ilObject
 	*
 	* @return	array		array of file ids
 	*/
-	function _getFilesOfObject($a_type, $a_id)
+	function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0)
 	{
 		global $ilDB;
 
 		// get usages in learning modules
 		$q = "SELECT * FROM file_usage WHERE usage_id = ".$ilDB->quote($a_id).
-			" AND usage_type = ".$ilDB->quote($a_type);
+			" AND usage_type = ".$ilDB->quote($a_type)." AND ".
+			"usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr);
 		$file_set = $ilDB->query($q);
 		$ret = array();
 		while($file_rec = $file_set->fetchRow(DB_FETCHMODE_ASSOC))

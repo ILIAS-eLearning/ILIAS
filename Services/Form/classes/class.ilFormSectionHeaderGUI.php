@@ -135,6 +135,26 @@ class ilFormSectionHeaderGUI
 	{
 		return $this->info;
 	}
+
+	/**
+	* Set Parent Form.
+	*
+	* @param	object	$a_parentform	Parent Form
+	*/
+	function setParentForm($a_parentform)
+	{
+		$this->parentform = $a_parentform;
+	}
+
+	/**
+	* Get Parent Form.
+	*
+	* @return	object	Parent Form
+	*/
+	function getParentForm()
+	{
+		return $this->parentform;
+	}
 	
 	/**
 	 * set section label;

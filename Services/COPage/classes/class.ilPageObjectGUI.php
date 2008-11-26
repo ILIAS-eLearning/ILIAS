@@ -1328,7 +1328,10 @@ class ilPageObjectGUI
 		{
 			$this->sourcecode_download_script = $ilCtrl->getLinkTarget($this, "");
 		}
-		
+		$media_mode = ($this->getOutputMode() == "edit")
+			? $ilUser->getPref("ilPageEditor_MediaMode")
+			: "enable";
+
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
@@ -1359,7 +1362,7 @@ class ilPageObjectGUI
 						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
 						 'enable_tabs' => $this->getEnabledPCTabs() ? "n" : "n",
 						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
-						 'media_mode' => $ilUser->getPref("ilPageEditor_MediaMode"),
+						 'media_mode' => $media_mode,
 						 'javascript' => $sel_js_mode,
 						 'paragraph_plugins' => $paragraph_plugin_string);
 						 

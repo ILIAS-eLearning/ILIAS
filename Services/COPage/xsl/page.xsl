@@ -1919,7 +1919,7 @@
 	<xsl:param name="curType"/>
 	<xsl:param name="inline">n</xsl:param>
 	<xsl:choose>
-		<xsl:when test="($media_mode = 'disable' and $mode='edit') or $mode='table_edit'">
+		<xsl:when test="$media_mode = 'disable'">
 			<img border="0">
 				<xsl:if test="$width != ''">
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -2312,9 +2312,6 @@
 	<div>
 		<xsl:if test="@Characteristic">
 			<xsl:attribute name="class"><xsl:value-of select="@Characteristic"/></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$mode = 'edit'">
-			<xsl:attribute name="style">min-height: 60px; height: auto !important; height: 60px;</xsl:attribute>
 		</xsl:if>
 		<xsl:call-template name="EditReturnAnchors"/>
 		<!-- command selectbox -->

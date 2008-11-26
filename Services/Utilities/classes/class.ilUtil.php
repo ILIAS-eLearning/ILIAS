@@ -1816,12 +1816,43 @@ class ilUtil
 	* @param	string		$a_width			target width
 	* @param	string		$a_height			target height
 	*/
-	function resizeImage($a_from, $a_to, $a_width, $a_height)
+	function resizeImage($a_from, $a_to, $a_width, $a_height, $a_constrain_prop = false)
 	{
-		$size = " -resize ".$a_width."x".$a_height."! ";
+		if ($a_constrain_prop)
+		{
+			$size = " -geometry ".$a_width."x".$a_height." ";
+		}
+		else
+		{
+			$size = " -resize ".$a_width."x".$a_height."! ";
+		}
 		$convert_cmd = ilUtil::getConvertCmd()." ".
 			ilUtil::escapeShellArg($a_from)." ".$size.ilUtil::escapeShellArg($a_to);
+
 		system($convert_cmd);
+	}
+	
+	/**
+	* Build img tag
+	*/
+	function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0)
+	{
+		$img = '<img src="'.$a_src.'"';
+		if ($a_alt != "")
+		{
+			$img.= ' alt="'.$a_alt.'" title="'.$a_alt.'"';
+		}
+		if ($a_width != "")
+		{
+			$img.= ' width="'.$a_width.'"';
+		}
+		if ($a_height != "")
+		{
+			$img.= ' height="'.$a_height.'"';
+		}
+		$img.= ' border="'.(int) $a_border.'"/>';
+
+		return $img;
 	}
 
 	/**
