@@ -520,7 +520,7 @@ class ilObjTest extends ilObject
 		$this->setShowPassDetails(TRUE);
 		$this->setShowSolutionDetails(TRUE);
 		$this->setShowSolutionAnswersOnly(FALSE);
-		$this->setShowSolutionSignature(TRUE);
+		$this->setShowSolutionSignature(FALSE);
 		$this->testSession = FALSE;
 		$this->testSequence = FALSE;
 		global $lng;
@@ -8793,7 +8793,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		* @param boolean $a_signature TRUE if the signature field should be shown, FALSE otherwise
 		* @access public
 		*/
-		function setShowSolutionSignature($a_signature = TRUE)
+		function setShowSolutionSignature($a_signature = FALSE)
 		{
 			if ($a_signature)
 			{

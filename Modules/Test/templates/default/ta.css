@@ -56,6 +56,10 @@
 	display: none;
 }
 
+.print {
+	visibility: hidden;
+}
+
 #timeleft {
 	font-size: 200%;
 	font-weight: bold;
@@ -184,3 +188,4 @@ div.textbox {
 	text-align: center;
 	z-index: 200;
 }
+

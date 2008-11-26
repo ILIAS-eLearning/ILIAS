@@ -170,3 +170,7 @@ td.freefield_line {
 table.freefield_bottom {
 	padding-top: 5em;
 }
+
+.print {
+	visibility: visible;
+}
