@@ -1660,6 +1660,7 @@ class ilContainerGUI extends ilObjectGUI
 				$mapping[$new_ref_id] = $key;
 
 				// save old ref_id & create rolefolder if applicable
+// old ref is wrongly set here... see next comments (Alex, 26.11.2008)
 				$old_ref_id = $obj_data->getRefId();
 				$obj_data->setRefId($new_ref_id);
 				$obj_data->initDefaultRoles();
@@ -1668,6 +1669,7 @@ class ilContainerGUI extends ilObjectGUI
 				if (isset($rolf_data["child"]))
 				{
 					// a role folder was created, so map it to old role folder
+// rolf_data_old is wrongly set here... see next comments (Alex, 26.11.2008)
 					$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
 
 					// ... use mapping array to find out the correct new parent node where to put in the node...
@@ -1691,7 +1693,12 @@ class ilContainerGUI extends ilObjectGUI
 				}
 				// END PATCH ChangeEvent: Record link event.
 
+// The following part is never executed (ILIAS 3.10) since ILIAS does not allow
+// to link container. This means the only $subnode could be a role folder.
+// But role folders are not tackled (if ($node[type] != 'rolf')).
+// Alex, 26.11.2008
 				// ... insert subtree of top_node if any subnodes exist ...
+/*
 				if (count($subnode) > 0)
 				{
 					foreach ($subnode as $node)
@@ -1748,6 +1755,7 @@ class ilContainerGUI extends ilObjectGUI
 
 					}
 				}
+*/
 			}
 
 			$log->write("ilObjectGUI::pasteObject(), link finished");

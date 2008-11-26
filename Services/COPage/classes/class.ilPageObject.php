@@ -938,13 +938,23 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* get all file items that are used within the page
 	*/
-	function collectFileItems()
+	function collectFileItems($a_xml = "")
 	{
 //echo "<br>PageObject::collectFileItems[".$this->getId()."]";
 		// determine all media aliases of the page
-		$xpc = xpath_new_context($this->dom);
-		$path = "//FileItem/Identifier";
-		$res =& xpath_eval($xpc, $path);
+		if ($a_xml == "")
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//FileItem/Identifier";
+			$res =& xpath_eval($xpc, $path);
+		}
+		else
+		{
+			$doc = domxml_open_mem($a_xml);
+			$xpc = xpath_new_context($doc);
+			$path = "//FileItem/Identifier";
+			$res =& xpath_eval($xpc, $path);
+		}
 		$file_ids = array();
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
@@ -1631,6 +1641,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 //echo "<br><br>+$a_no_history+$h_query";
 						$ilDB->query($h_query);
 						$this->saveMobUsage($old_rec["content"], $last_nr["mnr"] + 1);
+						$this->saveFileUsage($old_rec["content"], $last_nr["mnr"] + 1);
 						$this->history_saved = true;		// only save one time
 					}
 					else
@@ -1827,15 +1838,15 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	/**
 	* save file usages
 	*/
-	function saveFileUsage()
+	function saveFileUsage($a_xml = "", $a_old_nr = 0)
 	{
 //echo "<br>PageObject::saveFileUsage[".$this->getId()."]";
-		$file_ids = $this->collectFileItems();
+		$file_ids = $this->collectFileItems($a_xml, $a_old_nr);
 		include_once("./Modules/File/classes/class.ilObjFile.php");
-		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId());
+		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId(), $a_old_nr);
 		foreach($file_ids as $file_id)
 		{
-			ilObjFile::_saveUsage($file_id, $this->getParentType().":pg", $this->getId());
+			ilObjFile::_saveUsage($file_id, $this->getParentType().":pg", $this->getId(), $a_old_nr);
 		}
 	}
 

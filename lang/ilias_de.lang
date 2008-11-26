@@ -8669,7 +8669,7 @@ common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine
 common#:#reference_deleted#:#Ziel nicht vorhanden
 common#:#tags_edit_permission#:#Rechteeinstellungen ändern
 common#:#tags_visible#:#Tagging-Einstellungen sind sichtbar
-common#:#tags_read#:#Tagging-Einstellungen bearbeiten
+common#:#tags_read#:#Lesezugriff zu den Tagging-Einstellungen
 common#:#tags_write#:#Tagging-Einstellungen bearbeiten
 common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging

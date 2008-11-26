@@ -1050,7 +1050,7 @@ class ilObjMediaObject extends ilObject
 	* @param	int			$a_width	width
 	* @param	int			$a_height	height
 	*/
-	function _resizeImage($a_file, $a_width, $a_height)
+	function _resizeImage($a_file, $a_width, $a_height, $a_constrain_prop = false)
 	{
 		$file_path = pathinfo($a_file);
 		$location = substr($file_path["basename"],0,strlen($file_path["basename"]) -
@@ -1060,7 +1060,7 @@ class ilObjMediaObject extends ilObject
 		$target_file = $file_path["dirname"]."/".
 			$location;
 		ilUtil::resizeImage($a_file, $target_file,
-			(int) $a_width, (int) $a_height);
+			(int) $a_width, (int) $a_height, $a_constrain_prop);
 
 		return $location;
 	}
@@ -1105,7 +1105,61 @@ class ilObjMediaObject extends ilObject
 		return $mime;
 	}
 
-
+	/**
+	* Determine width and height
+	*/
+	static function _determineWidthHeight($a_def_width, $a_def_height, $a_format, $a_type,
+		$a_file, $a_reference, $a_constrain_proportions, $a_use_original,
+		$a_user_width, $a_user_height)
+	{
+		// determine width and height of known image types
+		$width = $a_def_width;
+		$height = $a_def_height;
+		if (ilUtil::deducibleSize($a_format))
+		{
+			if ($a_type == "File")
+			{
+				$size = @getimagesize($a_file);
+			}
+			else
+			{
+				$size = @getimagesize($a_reference);
+			}
+		}
+		if ($a_use_original)
+		{
+			if ($size[0] > 0 && $size[1] > 0)
+			{
+				$width = $size[0];
+				$height = $size[1];
+			}
+		}
+		else
+		{
+			$w = (int) $a_user_width;
+			$h = (int) $a_user_height;
+			$width = $w;
+			$height = $h;
+//echo "<br>C-$width-$height-";
+			if (ilUtil::deducibleSize($a_format) && $a_constrain_proportions)
+			{
+				if ($size[0] > 0 && $size[1] > 0)
+				{
+						$wr = $size[0] / $w;
+						$hr = $size[1] / $h;
+//echo "<br>+".$wr."+".$size[0]."+".$w."+";
+//echo "<br>+".$hr."+".$size[1]."+".$h."+";
+						$r = max($wr, $hr);
+						$width = (int) ($size[0]/$r);
+						$height = (int) ($size[1]/$r);
+				}
+			}
+//echo "<br>D-$width-$height-";
+		}
+//echo "<br>E-$width-$height-";
+		return array("width" => $width, "height" => $height);
+	}
+	
 	/**
 	* get file extension to mime type map
 	*/

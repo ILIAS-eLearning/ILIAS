@@ -202,7 +202,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				}
 				
 				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$a_set["type"].".gif"));
+				$this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".gif")));
 				$ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
 				break;
 
@@ -241,11 +241,27 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				$target = $med->getThumbnailTarget();
 				if ($target != "")
 				{
-					$this->tpl->setVariable("IMG_OBJ", $target);
+					$this->tpl->setVariable("IMG", ilUtil::img($target));
 				}
 				else
 				{
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$a_set["type"].".gif"));
+					$this->tpl->setVariable("IMG",
+						ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".gif")));
+				}
+				if (ilUtil::deducibleSize($med->getFormat()) && 
+					$med->getLocationType() == "Reference")
+				{
+					$size = @getimagesize($med->getLocation());
+					if ($size[0] > 0 && $size[1] > 0)
+					{
+						$wr = $size[0] / 80;
+						$hr = $size[1] / 80;
+						$r = max($wr, hr);
+						$w = (int) ($size[0]/$r);
+						$h = (int) ($size[1]/$r);
+						$this->tpl->setVariable("IMG",
+							ilUtil::img($med->getLocation(), "", $w, $h));
+					}
 				}
 				
 				// output media info
