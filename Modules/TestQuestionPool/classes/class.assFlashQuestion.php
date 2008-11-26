@@ -581,7 +581,10 @@ class assFlashQuestion extends assQuestion
 	*/
 	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
 	{
-		return $startrow;
+		include_once ("./classes/class.ilExcelUtils.php");
+		$worksheet->writeString($startrow, 0, ilExcelUtils::_convert_text($this->lng->txt($this->getQuestionType())), $format_title);
+		$worksheet->writeString($startrow, 1, ilExcelUtils::_convert_text($this->getTitle()), $format_title);
+		return $startrow + 1;
 	}
 	
 	/**
