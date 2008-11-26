@@ -6250,14 +6250,3 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 ?>
-
-#//////////////////////////////////////////////////////////////////
-#//
-#//      PLEASE DO  NOT ADD ANY ADDITIONAL STEPS IN THIS BRANCH
-#//
-#//      CONTACT THE CORE TEAM, IF A BUGFIX NEEDS ANY DB CHANGES
-#//
-#//////////////////////////////////////////////////////////////////
-
-
->>>>>>> .merge-right.r18067
