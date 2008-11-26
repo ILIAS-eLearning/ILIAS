@@ -452,6 +452,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			}
             
 			// determine txt_access
+			// Note: If you do changes here, you have to change the corresponding
+			//       code in ilAdminUserSearchGUI::__fillUserTable as well.
 			if ($val['active'])
 			{
 				if ($val["time_limit_unlimited"])

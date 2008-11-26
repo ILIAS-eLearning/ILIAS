@@ -642,18 +642,27 @@ class ilAdminUserSearchGUI
 			$user_ids[$counter] = $usr_id;
 			
             // determine txt_access
-			if ($tmp_obj->getTimeLimitUnlimited())
+			// Note: If you do changes here, you have to change the corresponding
+			//       code in ilObjUserFolderGUI::viewObject as well.
+			if ($tmp_obj->getActive())
 			{
-            	$txt_access = $this->lng->txt("access_unlimited");
+				if ($tmp_obj->getTimeLimitUnlimited())
+				{
+					$txt_access = $this->lng->txt("access_unlimited");
+				}
+				elseif ($tmp_obj->getTimeLimitUntil() < time())
+				{
+					$txt_access = $this->lng->txt("access_expired");
+				}
+				else
+				{
+					$txt_access = ilDatePresentation::formatDate(new ilDateTime($tmp_obj->getTimeLimitUntil(),IL_CAL_UNIX));
+				}
 			}
-            elseif ($tmp_obj->getTimeLimitUntil() < time())
-            {
-            	$txt_access = $this->lng->txt("access_expired");
-            }
-            else
-            {
-            	$txt_access = ilDatePresentation::formatDate(new ilDateTime($tmp_obj->getTimeLimitUntil(),IL_CAL_UNIX));
-            }
+			else
+			{
+				$txt_access = $this->lng->txt("inactive");
+			}
 					
 			$f_result[$counter][] = ilUtil::formCheckbox(0,"id[]",$usr_id);
 			$f_result[$counter][] = $tmp_obj->getLogin();
@@ -1129,7 +1138,7 @@ class ilAdminUserSearchGUI
 					{
 						$result_set[$i][$key] = "<span class=\"smallgreen\">".$cell."</span>";
 					}
-					elseif ($cell == $this->lng->txt("access_expired"))
+					elseif (in_array($cell, array($this->lng->txt("access_expired"),  $this->lng->txt("inactive"))))
 					{
 						$result_set[$i][$key] = "<span class=\"smallred\">".$cell."</span>";
 					}
