@@ -667,6 +667,18 @@ class assFlashQuestion extends assQuestion
 		$this->parameters[$name] = $value;
 	}
 	
+	public function setParameters($params)
+	{
+		if (is_array($params))
+		{
+			$this->parameters = $params;
+		}
+		else
+		{
+			$this->parameters = array();
+		}
+	}
+	
 	public function removeParameter($name)
 	{
 		unset($this->parameters[$name]);

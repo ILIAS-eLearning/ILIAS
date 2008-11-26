@@ -52,6 +52,81 @@ class assQuestionImport
 	{
 		$this->object =& $a_object;
 	}
+	
+	function getFeedbackGeneric($item)
+	{
+		$feedbacksgeneric = array();
+		foreach ($item->resprocessing as $resprocessing)
+		{
+			foreach ($resprocessing->respcondition as $respcondition)
+			{
+				foreach ($respcondition->displayfeedback as $feedbackpointer)
+				{
+					if (strlen($feedbackpointer->getLinkrefid()))
+					{
+						foreach ($item->itemfeedback as $ifb)
+						{
+							if (strcmp($ifb->getIdent(), "response_allcorrect") == 0)
+							{
+								// found a feedback for the identifier
+								if (count($ifb->material))
+								{
+									foreach ($ifb->material as $material)
+									{
+										$feedbacksgeneric[1] = $material;
+									}
+								}
+								if ((count($ifb->flow_mat) > 0))
+								{
+									foreach ($ifb->flow_mat as $fmat)
+									{
+										if (count($fmat->material))
+										{
+											foreach ($fmat->material as $material)
+											{
+												$feedbacksgeneric[1] = $material;
+											}
+										}
+									}
+								}
+							} 
+							else if (strcmp($ifb->getIdent(), "response_onenotcorrect") == 0)
+							{
+								// found a feedback for the identifier
+								if (count($ifb->material))
+								{
+									foreach ($ifb->material as $material)
+									{
+										$feedbacksgeneric[0] = $material;
+									}
+								}
+								if ((count($ifb->flow_mat) > 0))
+								{
+									foreach ($ifb->flow_mat as $fmat)
+									{
+										if (count($fmat->material))
+										{
+											foreach ($fmat->material as $material)
+											{
+												$feedbacksgeneric[0] = $material;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		// handle the import of media objects in XHTML code
+		foreach ($feedbacksgeneric as $correctness => $material)
+		{
+			$m = $this->object->QTIMaterialToString($material);
+			$feedbacksgeneric[$correctness] = $m;
+		}
+		return $feedbacksgeneric;
+	}
 
 	/**
 	* Creates a question from a QTI file
