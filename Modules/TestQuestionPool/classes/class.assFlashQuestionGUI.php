@@ -433,6 +433,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$template->setVariable("PARAM_VALUE", $this->object->getId());
 		$template->parseCurrentBlock();
 
+		if ($show_correct_solution)
+		{
+
+		}
 
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
