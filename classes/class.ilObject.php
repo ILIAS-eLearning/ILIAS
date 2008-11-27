@@ -914,6 +914,32 @@ class ilObject
 //echo "<br>LOOKING-$a_id-:$tit";		
 		return $tit;
 	}
+	
+	public static function _getIdsForTitle($title, $type = '')
+	{
+		global $ilDB;
+		
+		$query = "SELECT obj_id FROM object_data WHERE title = ?";
+		$datatypes = array('text');
+		$values = array($title);
+		if($type != '')
+		{
+			$query .= " AND type = ?";
+			$datatypes[] = 'text';
+			$values[] = $type;
+		}
+		
+		$statement = $ilDB->prepare($query, $datatypes);
+		$result = $ilDB->execute($statement, $values);
+		
+		$object_ids = array();
+		while($row = $ilDB->fetchAssoc($result))
+		{
+			$object_ids[] = $row['obj_id'];
+		}
+		
+		return is_array($object_ids) ? $object_ids : array();
+	}
 
 	/**
 	* lookup object description
