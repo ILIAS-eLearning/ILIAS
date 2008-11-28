@@ -1133,12 +1133,15 @@ class ilUtil
 	function is_email($a_email)
 	{
 		// BEGIN Mail: If possible, use PearMail to validate e-mail address
-		global $ilErr;
+		global $ilErr, $ilias;
 
 		// Note the use of @include_once here. We need this, because
 		// inclusion fails when the function is_email is called from setup.php.
 		$successfulInclude = @include_once ('Services/Mail/classes/class.ilMail.php');
-		if ($successfulInclude && ilMail::_usePearMail())
+
+		// additional checks for include and ilias object are needed,
+		// otherwise setup will fail with this if branch
+		if ($successfulInclude && is_object($ilias) && ilMail::_usePearMail())
 		{
 			require_once 'Mail/RFC822.php';
 			$parser = &new Mail_RFC822();
