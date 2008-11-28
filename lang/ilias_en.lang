@@ -8750,3 +8750,5 @@ common#:#add_parameter#:#New Parameter
 common#:#delete_parameter#:#Delete Parameter
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?
 assessment#:#assFlashQuestion#:#Flash Question
+content#:#cont_resource_size#:#Resource Size
+content#:#cont_custom_size#:#Custom Size
