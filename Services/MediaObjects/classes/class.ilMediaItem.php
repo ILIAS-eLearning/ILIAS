@@ -553,21 +553,22 @@ class ilMediaItem
 	{
 		$mob_dir = ilObjMediaObject::_getDirectory($this->getMobId());
 
-		if ($this->getLocationType() == "LocalFile" &&
-			ilUtil::deducibleSize($this->getFormat()))
+		if (ilUtil::deducibleSize($this->getFormat()))
 		{
-			$file = $mob_dir."/".$this->getLocation();
-			if (is_file($file))
+			if ($this->getLocationType() == "LocalFile")
 			{
-				$size = getimagesize($file);
+				$loc = $mob_dir."/".$this->getLocation();
 			}
 			else
 			{
-				$size[0] = $size[1] = 0;
+				$loc = $this->getLocation();
 			}
-			$size = array("width" => $size[0], "height" => $size[1]);
+			$size = @getimagesize($loc);
 			
-			return $size;
+			if ($size[0] > 0 && $size[1] > 0)
+			{
+				return array("width" => $size[0], "height" => $size[1]);
+			}
 		}
 
 		return false;

@@ -50,6 +50,27 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
+		$this->setValue($a_values[$this->getPostVar()]);
+	}
+
+	/**
+	* Set Value. (used for displaying file title of existing file below input field)
+	*
+	* @param	string	$a_value	Value
+	*/
+	function setValue($a_value)
+	{
+		$this->value = $a_value;
+	}
+
+	/**
+	* Get Value.
+	*
+	* @return	string	Value
+	*/
+	function getValue()
+	{
+		return $this->value;
 	}
 
 	/**
@@ -218,6 +239,15 @@ class ilFileInputGUI extends ilFormPropertyGUI
 			$a_tpl->setVariable('FILENAME_ID',$this->getFieldId());
 			$a_tpl->setVAriable('TXT_FILENAME_HINT',$lng->txt('if_no_title_then_filename'));
 			$a_tpl->parseCurrentBlock();
+		}
+		else
+		{
+			if (trim($this->getValue() != ""))
+			{
+				$a_tpl->setCurrentBlock('prop_file_propval');
+				$a_tpl->setVariable('FILE_VAL', $this->getValue());
+				$a_tpl->parseCurrentBlock();
+			}
 		}
 
 		$this->outputSuffixes($a_tpl);

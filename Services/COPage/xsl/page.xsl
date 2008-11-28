@@ -2007,9 +2007,9 @@
 			<applet width="{$width}" height="{$height}" >
 
 				<xsl:choose>
-					<!-- if is single class file: filename ends-with (class) -->
-      					<xsl:when test="'class' = substring($_filename, string-length($_filename) - string-length('class') + 1)">
-				<xsl:choose>
+				<!-- if is single class file: filename ends-with (class) -->
+				<xsl:when test="'class' = substring($_filename, string-length($_filename) - string-length('class') + 1)">
+					<xsl:choose>
 					<xsl:when test="$location_mode = 'curpurpose'">
 						<xsl:if test="$curType = 'LocalFile'">
 							<xsl:attribute name="code"><xsl:value-of select="substring-before(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location,'.')"/></xsl:attribute>
@@ -2028,75 +2028,73 @@
 							<xsl:attribute name="code"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
 						</xsl:if>
 					</xsl:when>
-				</xsl:choose>
-				<xsl:call-template name="MOBParams">
-					<xsl:with-param name="curPurpose" select="$curPurpose" />
-					<xsl:with-param name="mode">elements</xsl:with-param>
-					<xsl:with-param name="cmobid" select="$cmobid" />
-				</xsl:call-template>
+					</xsl:choose>
+					<xsl:call-template name="MOBParams">
+						<xsl:with-param name="curPurpose" select="$curPurpose" />
+						<xsl:with-param name="mode">elements</xsl:with-param>
+						<xsl:with-param name="cmobid" select="$cmobid" />
+					</xsl:call-template>
+				</xsl:when>
+
+				<!-- assuming is applet archive: filename ends-with something else -->
+				<xsl:otherwise>
+					<xsl:choose>
+					<xsl:when test="$location_mode = 'curpurpose'">
+						<xsl:if test="$curType = 'LocalFile'">
+							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
+							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$curType = 'Reference'">
+							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
+						</xsl:if>
 					</xsl:when>
-
-					<!-- assuming is applet archive: filename ends-with something else -->
+					<xsl:when test="$location_mode = 'standard'">
+						<xsl:if test="$curType = 'LocalFile'">
+							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
+							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$curType = 'Reference'">
+							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
+						</xsl:if>
+					</xsl:when>
+					</xsl:choose>
+					<!-- object or instance parameters -->
+					<!-- nescessary because attribute code is part of applet-tag and others are sub elements -->
+					<!-- code attribute -->
+					<xsl:choose>
+					<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']">
+						<xsl:attribute name="code"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']/@Value" /></xsl:attribute>
+					</xsl:when>
 					<xsl:otherwise>
-						<xsl:choose>
-							<xsl:when test="$location_mode = 'curpurpose'">
-              							<xsl:if test="$curType = 'LocalFile'">
-                							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
-                							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
-              							</xsl:if>
-              							<xsl:if test="$curType = 'Reference'">
-                							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
-              							</xsl:if>
-            						</xsl:when>
-            						<xsl:when test="$location_mode = 'standard'">
-              							<xsl:if test="$curType = 'LocalFile'">
-                							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
-                							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
-                						</xsl:if>
-              							<xsl:if test="$curType = 'Reference'">
-                							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
-              							</xsl:if>
-            						</xsl:when>
-          					</xsl:choose>
-						<!-- object or instance parameters -->
-						<!-- nescessary because attribute code is part of applet-tag and others are sub elements -->
-						<!-- code attribute -->
-						<xsl:choose>
-							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']">
-								<xsl:attribute name="code"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']/@Value" /></xsl:attribute>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:attribute name="code"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']/@Value" /></xsl:attribute>
-							</xsl:otherwise>
-						</xsl:choose>
-
-						<xsl:choose>
-
-							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter">
-							<!-- alias parameters -->
-		          					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
-            								<xsl:if test="@Name != 'code'">
-          									<param>
-  	      							  			<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
-											<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
-       										</param>
-	            							</xsl:if>
-        		  					</xsl:for-each>
-							</xsl:when>
-							<!-- object parameters -->
-							<xsl:otherwise>
-		          					<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter">
-            								<xsl:if test="@Name != 'code'">
-             									<param>
-       	      							  			<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
-      								  			<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
-       										</param>
-	            							</xsl:if>
-        		  					</xsl:for-each>
-							</xsl:otherwise>
-
-						</xsl:choose>
+						<xsl:attribute name="code"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']/@Value" /></xsl:attribute>
 					</xsl:otherwise>
+					</xsl:choose>
+
+					<xsl:choose>
+					<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter">
+					<!-- alias parameters -->
+							<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+									<xsl:if test="@Name != 'code'">
+									<param>
+										<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+									<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
+									</param>
+									</xsl:if>
+							</xsl:for-each>
+					</xsl:when>
+					<!-- object parameters -->
+					<xsl:otherwise>
+							<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter">
+									<xsl:if test="@Name != 'code'">
+										<param>
+											<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+										<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
+									</param>
+									</xsl:if>
+							</xsl:for-each>
+					</xsl:otherwise>
+					</xsl:choose>
+				</xsl:otherwise>
 				</xsl:choose>
 			</applet>
 		</xsl:when>

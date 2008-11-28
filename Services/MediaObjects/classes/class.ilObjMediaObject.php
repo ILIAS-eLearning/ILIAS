@@ -1334,6 +1334,16 @@ class ilObjMediaObject extends ilObject
 		return $types_map;
 	}
 
+	/**
+	* Get simple mime types that deactivate parameter property
+	* files tab in ILIAS
+	*/
+	static function _getSimpleMimeTypes()
+	{
+		return array("image/x-ms-bmp", "image/gif", "image/jpeg", "image/x-portable-bitmap",
+			"image/png", "image/psd", "image/tiff", "application/pdf");
+	}
+	
 	function getDataDirectory()
 	{
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
