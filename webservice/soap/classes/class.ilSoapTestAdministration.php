@@ -157,6 +157,82 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		return $solution;
 	}
 	
+	function getTestUserData($sid, $active_id)
+	{
+//		include_once './include/inc.header.php';
+//		$ilDB = $GLOBALS['ilDB'];
+		global $lng, $ilDB;
+
+		$statement = $ilDB->prepare("SELECT user_fi, test_fi FROM tst_active WHERE active_id = ?",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id
+			)
+		);
+		$row = $ilDB->fetchAssoc($result);
+		$user_id = $row["user_fi"];
+		$test_id = $row["test_fi"];
+
+		$statement = $ilDB->prepare("SELECT anonymity FROM tst_tests WHERE test_id = ?",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$test_id
+			)
+		);
+		$row = $ilDB->fetchAssoc($result);
+		$anonymity = $row["anonymity"];
+		
+		$statement = $ilDB->prepare("SELECT firstname, lastname, title FROM usr_data WHERE usr_id = ?",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$user_id
+			)
+		);
+
+		$userdata = array();
+		if ($result->numRows() == 0)
+		{
+			$userdata["fullname"] = $lng->txt("deleted_user");
+			$userdata["title"] = "";
+			$userdata["firstname"] = "";
+			$userdata["lastname"] = "";
+			$userdata["login"] = "";
+		}
+		else
+		{
+			$data = $ilDB->fetchAssoc($result);
+			if (($user_id == ANONYMOUS_USER_ID) || ($anonymity))
+			{
+				$userdata["fullname"] = $lng->txt("anonymous");
+				$userdata["title"] = "";
+				$userdata["firstname"] = "";
+				$userdata["lastname"] = "";
+				$userdata["login"] = "";
+			}
+			else
+			{
+				$userdata["fullname"] = trim($data["title"] . " " . $data["firstname"] . " " . $data["lastname"]);
+				$userdata["title"] = $data["title"];
+				$userdata["firstname"] = $data["firstname"];
+				$userdata["lastname"] = $data["lastname"];
+				$userdata["login"] = $data["login"];
+			}
+		}
+		return $userdata;
+	}
+	
 	/**
 	 * get results of test
 	 *
