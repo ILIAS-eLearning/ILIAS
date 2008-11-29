@@ -2018,6 +2018,24 @@ class SurveyMatrixQuestion extends SurveyQuestion
 								}
 							}
 						}
+						if (strlen($this->getNeutralColumn()))
+						{
+							if (!$checked)
+							{
+								array_push($a_array, "");
+							}
+							else
+							{
+								if (in_array($this->getColumnCount()+1, $checked_values))
+								{
+									array_push($a_array, 1);
+								}
+								else
+								{
+									array_push($a_array, 0);
+								}
+							}
+						}
 					}
 					break;
 			}
