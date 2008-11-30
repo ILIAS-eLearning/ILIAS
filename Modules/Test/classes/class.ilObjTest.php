@@ -3015,13 +3015,19 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		$use_previous_answers = 1;
 
-		$query = sprintf("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
-			$ilDB->quote($active_id . "")
+		$statement = $ilDB->prepare("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = ?",
+			array(
+				"integer"
+			)
 		);
-		$result = $ilDB->query($query);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id
+			)
+		);
 		if ($result->numRows())
 		{
-			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$use_previous_answers = $row["use_previous_answers"];
 		}
 

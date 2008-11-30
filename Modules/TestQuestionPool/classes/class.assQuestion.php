@@ -1113,22 +1113,6 @@ class assQuestion
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
-			/*
-			$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE active_fi = %s AND question_fi = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($this->getId() . "")
-			);
-			$result = $ilDB->query($query);
-			if ($result->numRows())
-			{
-				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-				$pass = $row["maxpass"];
-			}
-			else
-			{
-				return $values;
-			}
-			*/
 		}		
 
 		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
