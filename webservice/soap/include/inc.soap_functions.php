@@ -527,6 +527,42 @@ class ilSoapFunctions {
 		return $sass->getQuestionSolution($sid,$active_id,$question_id,$pass);
 	}
 
+	public static function  getTestUserData($sid,$active_id)
+	{
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
+
+		$sass =& new ilSoapTestAdministration();
+
+		return $sass->getTestUserData($sid,$active_id);
+	}
+	
+	public static function getNrOfQuestionsInPass($sid, $active_id, $pass)
+	{
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
+
+		$sass =& new ilSoapTestAdministration();
+
+		return $sass->getNrOfQuestionsInPass($sid, $active_id, $pass);
+	}
+
+	public static function getPositionOfQuestion($sid, $active_id, $question_id, $pass)
+	{
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
+
+		$sass =& new ilSoapTestAdministration();
+
+		return $sass->getPositionOfQuestion($sid, $active_id, $question_id, $pass);
+	}
+
+	public static function getPreviousReachedPoints($sid, $active_id, $question_id, $pass)
+	{
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
+
+		$sass =& new ilSoapTestAdministration();
+
+		return $sass->getPreviousReachedPoints($sid, $active_id, $question_id, $pass);
+	}
+	
 	public static function  saveTempFileAsMediaObject($sid,$name,$tmp_name)
 	{
 		include_once './webservice/soap/classes/class.ilSoapUtils.php';

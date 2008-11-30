@@ -102,6 +102,15 @@ class ilNusoapUserAdministrationAdapter
 											array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:string[]')),
 											'xsd:string');
 
+		$this->server->wsdl->addComplexType('doubleArray',
+											'complexType',
+											'array',
+											'',
+											'SOAP-ENC:Array',
+											array(),
+											array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:double[]')),
+											'xsd:double');
+
 		// It's not possible to register classes in nusoap
 
 		// login()
@@ -825,6 +834,51 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS getQuestionSolution: Typically called from external assessment questions to retrieve the previous input of a user.');
+
+							$this->server->register('getTestUserData',
+													array('sid' => 'xsd:string',
+														  'active_id' => 'xsd:long'),
+													array('userdata' => 'tns:stringArray'),
+													SERVICE_NAMESPACE,
+													SERVICE_NAMESPACE.'#getTestUserData',
+													SERVICE_STYLE,
+													SERVICE_USE,
+													'ILIAS getTestUserData: Typically called from external assessment questions to retrieve data of the active user. The returned string array values are fullname, title, firstname, lastname, login.');
+
+							$this->server->register('getPositionOfQuestion',
+													array('sid' => 'xsd:string',
+														  'active_id' => 'xsd:long',
+														  'question_id' => 'xsd:int',
+														  'pass' => 'xsd:int'),
+													array('position' => 'xsd:int'),
+													SERVICE_NAMESPACE,
+													SERVICE_NAMESPACE.'#getPositionOfQuestion',
+													SERVICE_STYLE,
+													SERVICE_USE,
+													'ILIAS getPositionOfQuestion: Returns the position of a given question for a given user in a given test pass.');
+
+							$this->server->register('getPreviousReachedPoints',
+													array('sid' => 'xsd:string',
+														  'active_id' => 'xsd:long',
+														  'question_id' => 'xsd:int',
+														  'pass' => 'xsd:int'),
+													array('position' => 'tns:doubleArray'),
+													SERVICE_NAMESPACE,
+													SERVICE_NAMESPACE.'#getPreviousReachedPoints',
+													SERVICE_STYLE,
+													SERVICE_USE,
+													'ILIAS getPreviousReachedPoints: Returns an array of reached points for the previous questions in a given test pass.');
+
+							$this->server->register('getNrOfQuestionsInPass',
+													array('sid' => 'xsd:string',
+														  'active_id' => 'xsd:long',
+														  'pass' => 'xsd:int'),
+													array('count' => 'xsd:int'),
+													SERVICE_NAMESPACE,
+													SERVICE_NAMESPACE.'#getNrOfQuestionsInPass',
+													SERVICE_STYLE,
+													SERVICE_USE,
+													'ILIAS getNrOfQuestionsInPass: Returns the question count for a given test user in a given pass.');
 
 		$this->server->register('getStructureObjects',
 								array('sid' => 'xsd:string',

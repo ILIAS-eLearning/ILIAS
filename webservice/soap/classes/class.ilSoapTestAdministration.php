@@ -38,49 +38,51 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	{
 		parent::ilSoapAdministration();
 	}
-
-	function saveQuestionResult($sid,$user_id,$test_id,$question_id,$pass,$solution)
+	
+	function isAllowedCall($sid, $active_id)
 	{
-		include_once './include/inc.header.php';
-		if(!$this->__checkSession($sid))
+		global $ilDB;
+		
+		$statement = $ilDB->prepare("SELECT * FROM tst_times WHERE active_fi = ? ORDER BY started DESC",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id
+			)
+		);
+		if ($result->numRows())
 		{
-			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
-
-		// Include main header
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$active_id = ilObjTest::_getActiveIdOfUser($user_id, $test_id);
-		$ilDB = $GLOBALS['ilDB'];
-		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
-		{
-			$deletequery = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
-			);
-			$ilDB->query($deletequery);
+			$row = $ilDB->fetchAssoc($result);
+			if (preg_match("/(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})/", $row["started"], $matches))
+			{
+				$time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = time();
+				$diff = $now - $time;
+				$client = explode("::", $sid);
+				include_once './include/inc.header.php';
+				global $ilClientIniFile;
+				$expires = $ilClientIniFile->readVariable('session','expire');
+				if ($diff <= $expires)
+				{
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
+			}
+			else
+			{
+				return FALSE;
+			}
 		}
-		$saved_solutions = FALSE;
-		for($i = 0; $i < count($solution); $i += 3)
+		else
 		{
-			$query = sprintf("INSERT INTO tst_solutions ".
-				"SET active_fi = %s, ".
-				"question_fi = %s, ".
-				"value1 = %s, ".
-				"value2 = %s, ".
-				"points = %s, ".
-				"pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($solution[$i]),
-				$ilDB->quote($solution[$i+1]),
-				$ilDB->quote($solution[$i+2]),
-				$ilDB->quote($pass . "")
-			);
-			$saved_solutions = TRUE;
-			$ilDB->query($query);
+			return FALSE;
 		}
-		return $saved_solutions;
 	}
 
 	function saveQuestion($sid,$active_id,$question_id,$pass,$solution)
@@ -88,7 +90,11 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
+		if (!$this->isAllowedCall($sid, $active_id))
+		{
+			return $this->__raiseError("The required user information is only available for active users.", "");
+		}
 
 		// Include main header
 		include_once './include/inc.header.php';
@@ -123,30 +129,92 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		return true;
 	}
 
+	/**
+	 * Get the the answers of a given question and pass for a given user
+	 *
+	 * @param string $sid Session ID
+	 * @param long $active_id Active user ID
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Test pass
+	 *
+	 * @return array String array containing the question solution (in triplets of value1, value2, points)
+	 */
 	function getQuestionSolution($sid,$active_id,$question_id,$pass)
 	{
 		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
-		}			
+		}
+		if (!$this->isAllowedCall($sid, $active_id))
+		{
+			return $this->__raiseError("The required user information is only available for active users.", "");
+		}
 		$solution = array();
 		// Include main header
-		include_once './include/inc.header.php';
-		$ilDB = $GLOBALS['ilDB'];
-		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
+		global $ilDB;
+
+		$use_previous_answers = 1;
+
+		$statement = $ilDB->prepare("SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = ?",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id
+			)
+		);
+		if ($result->numRows())
 		{
-			$query = sprintf("SELECT * FROM tst_solutions ".
-				"WHERE active_fi = %s AND ".
-				"question_fi = %s AND ".
-				"pass = %s",
-				$ilDB->quote($active_id . ""),
-				$ilDB->quote($question_id . ""),
-				$ilDB->quote($pass . "")
+			$row = $ilDB->fetchAssoc($result);
+			$use_previous_answers = $row["use_previous_answers"];
+		}
+		$lastpass = 0;
+		if ($use_previous_answers)
+		{
+			$statement = $ilDB->prepare("SELECT MAX(pass) as maxpass FROM tst_test_result WHERE active_fi = ? AND question_fi = ?",
+				array(
+					"integer",
+					"integer"
+				)
 			);
-			$result = $ilDB->query($query);
+			$result = $ilDB->execute($statement, 
+				array(
+					$active_id,
+					$question_id
+				)
+			);
+			if ($result->numRows() == 1)
+			{
+				$row = $ilDB->fetchAssoc($result);
+				$lastpass = $row["maxpass"];
+			}
+		}
+		else
+		{
+			$lastpass = $pass;
+		}
+
+		if (($active_id > 0) && ($question_id > 0) && (strlen($lastpass) > 0))
+		{
+			$statement = $ilDB->prepare("SELECT * FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
+				array(
+					"integer",
+					"integer",
+					"integer"
+				)
+			);
+			$result = $ilDB->execute($statement, 
+				array(
+					$active_id,
+					$question_id,
+					$lastpass
+				)
+			);
 			if ($result->numRows())
 			{
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
 					array_push($solution, $row["value1"]);
 					array_push($solution, $row["value2"]);
@@ -157,10 +225,25 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		return $solution;
 	}
 	
+	/**
+	 * get active user data
+	 *
+	 * @param string $sid
+	 * @param long $active_id
+	 *
+	 * @return array String array containing fullname, title, firstname, lastname, login
+	 */
 	function getTestUserData($sid, $active_id)
 	{
-//		include_once './include/inc.header.php';
-//		$ilDB = $GLOBALS['ilDB'];
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		if (!$this->isAllowedCall($sid, $active_id))
+		{
+			return $this->__raiseError("The required user information is only available for active users.", "");
+		}
+
 		global $lng, $ilDB;
 
 		$statement = $ilDB->prepare("SELECT user_fi, test_fi FROM tst_active WHERE active_id = ?",
@@ -190,7 +273,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$row = $ilDB->fetchAssoc($result);
 		$anonymity = $row["anonymity"];
 		
-		$statement = $ilDB->prepare("SELECT firstname, lastname, title FROM usr_data WHERE usr_id = ?",
+		$statement = $ilDB->prepare("SELECT firstname, lastname, title, login FROM usr_data WHERE usr_id = ?",
 			array(
 				"integer"
 			)
@@ -207,7 +290,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			$userdata["fullname"] = $lng->txt("deleted_user");
 			$userdata["title"] = "";
 			$userdata["firstname"] = "";
-			$userdata["lastname"] = "";
+			$userdata["lastname"] = $lng->txt("anonymous");
 			$userdata["login"] = "";
 		}
 		else
@@ -218,7 +301,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$userdata["fullname"] = $lng->txt("anonymous");
 				$userdata["title"] = "";
 				$userdata["firstname"] = "";
-				$userdata["lastname"] = "";
+				$userdata["lastname"] = $lng->txt("anonymous");
 				$userdata["login"] = "";
 			}
 			else
@@ -230,7 +313,166 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$userdata["login"] = $data["login"];
 			}
 		}
-		return $userdata;
+		return array_values($userdata);
+	}
+	
+	/**
+	 * get active user data
+	 *
+	 * @param string $sid Session ID
+	 * @param long $active_id Active user ID
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Test pass
+	 *
+	 * @return integer Question position in the given test pass
+	 */
+	function getPositionOfQuestion($sid, $active_id, $question_id, $pass)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		if (!$this->isAllowedCall($sid, $active_id))
+		{
+			return $this->__raiseError("The required user information is only available for active users.", "");
+		}
+
+		global $lng, $ilDB;
+
+		$statement = $ilDB->prepare("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = ? AND tst_tests.test_id = tst_active.test_fi",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id
+			)
+		);
+		if ($result->numRows() != 1) return -1;
+		$row = $ilDB->fetchAssoc($result);
+		$is_random = $row["random_test"];
+
+		include_once "./Modules/Test/classes/class.ilTestSequence.php";
+		$sequence = new ilTestSequence($active_id, $pass, $is_random);
+		return $sequence->getSequenceForQuestion($question_id);
+	}
+	
+	/**
+	 * Returns the previous reached points in a given pass
+	 *
+	 * @param string $sid Session ID
+	 * @param long $active_id Active user ID
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Test pass
+	 *
+	 * @return array Reached points of the previous questions in this pass
+	 */
+	function getPreviousReachedPoints($sid, $active_id, $question_id, $pass)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		if (!$this->isAllowedCall($sid, $active_id))
+		{
+			return $this->__raiseError("The required user information is only available for active users.", "");
+		}
+
+		global $lng, $ilDB;
+
+		$statement = $ilDB->prepare("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = ? AND tst_tests.test_id = tst_active.test_fi",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id
+			)
+		);
+		if ($result->numRows() != 1) return -1;
+		$row = $ilDB->fetchAssoc($result);
+		$is_random = $row["random_test"];
+
+		include_once "./Modules/Test/classes/class.ilTestSequence.php";
+		$sequence = new ilTestSequence($active_id, $pass, $is_random);
+		$statement = $ilDB->prepare("SELECT question_fi, points FROM tst_test_result WHERE active_fi = ? AND pass = ?",
+			array(
+				"integer",
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id,
+				$pass
+			)
+		);
+		$reachedpoints = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$reachedpoints[$row["question_fi"]] = $row["points"];
+		}
+		$atposition = FALSE;
+		$pointsforposition = array();
+		foreach ($sequence->getUserSequence() as $seq)
+		{
+			if (!$atposition)
+			{
+				$qid = $sequence->getQuestionForSequence($seq);
+				if ($qid == $question_id)
+				{
+					$atposition = TRUE;
+				}
+				else
+				{
+					array_push($pointsforposition, $reachedpoints[$qid]);
+				}
+			}
+		}
+		return $pointsforposition;
+	}
+	
+	/**
+	 * Get the number of questions in a given pass for a given user
+	 *
+	 * @param string $sid Session ID
+	 * @param long $active_id Active user ID
+	 * @param integer $pass Test pass
+	 *
+	 * @return integer Question position in the given test pass
+	 */
+	function getNrOfQuestionsInPass($sid, $active_id, $pass)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		if (!$this->isAllowedCall($sid, $active_id))
+		{
+			return $this->__raiseError("The required user information is only available for active users.", "");
+		}
+
+		global $lng, $ilDB;
+
+		$statement = $ilDB->prepare("SELECT tst_tests.random_test FROM tst_active, tst_tests WHERE tst_active.active_id = ? AND tst_tests.test_id = tst_active.test_fi",
+			array(
+				"integer"
+			)
+		);
+		$result = $ilDB->execute($statement, 
+			array(
+				$active_id
+			)
+		);
+		if ($result->numRows() != 1) return 0;
+		$row = $ilDB->fetchAssoc($result);
+		$is_random = $row["random_test"];
+
+		include_once "./Modules/Test/classes/class.ilTestSequence.php";
+		$sequence = new ilTestSequence($active_id, $pass, $is_random);
+		return $sequence->getUserQuestionCount();
 	}
 	
 	/**
@@ -245,8 +487,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 	 *  sum only = false: user_id, login, firstname, lastname, matriculation, question id, question title, question points, received points
 	 */
 
-	function getTestResults ($sid, $test_ref_id, $sum_only) {
-	    if(!$this->__checkSession($sid))
+	function getTestResults ($sid, $test_ref_id, $sum_only) 
+	{
+		if(!$this->__checkSession($sid))
 		{
 			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
 		}
