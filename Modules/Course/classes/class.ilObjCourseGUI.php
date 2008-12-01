@@ -4446,11 +4446,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
 
+		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
-
+		$this->tabs_gui->setSubTabActive('mail_members');
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Modules/Course');
 
-		$this->setSubTabs('members');
 
 		$this->tpl->setVariable("MAILACTION",'ilias.php?baseClass=ilmailgui&type=role');
 		$this->tpl->setVariable("SELECT_ACTION",'ilias.php?baseClass=ilmailgui&view=my_courses&search_crs='.$this->object->getId());
