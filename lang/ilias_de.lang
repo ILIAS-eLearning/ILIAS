@@ -8744,3 +8744,8 @@ common#:#add_parameter#:#Neuer Parameter
 common#:#delete_parameter#:#Parameter löschen
 common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
 assessment#:#assFlashQuestion#:#Flash-Frage
+common#:#pos_top#:#Oben
+common#:#pos_right#:#Rechts
+common#:#pos_bottom#:#Unten
+common#:#pos_left#:#Links
+common#:#msg_unit_is_required#:#Hier ist die Angabe einer Einheit erforderlich. Bitte geben Sie einen korrekten Wert ein.
