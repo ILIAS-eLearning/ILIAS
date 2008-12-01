@@ -48,6 +48,8 @@ include_once('./Services/Form/classes/class.ilUserLoginInputGUI.php');
 include_once('./Services/Form/classes/class.ilEMailInputGUI.php');
 include_once('./Services/Form/classes/class.ilHiddenInputGUI.php');
 include_once('./Services/Form/classes/class.ilNumberInputGUI.php');
+include_once('./Services/Form/classes/class.ilCSSRectInputGUI.php');
+include_once('./Services/Form/classes/class.ilRadioMatrixInputGUI.php');
 
 /**
 * This class represents a property form user interface
