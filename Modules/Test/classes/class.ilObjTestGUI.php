@@ -32,6 +32,7 @@
 * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestCertificateGUI
+* @ilCtrl_Calls ilObjTestGUI: ilCertificateGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI, ilShopPurchaseGUI
 *
 * @extends ilObjectGUI
@@ -161,6 +162,14 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once "./Modules/Test/classes/class.ilTestCertificateGUI.php";
 				$this->prepareOutput();
 				$output_gui = new ilTestCertificateGUI($this->object);
+				$this->ctrl->forwardCommand($output_gui);
+				break;
+
+			case "ilcertificategui":
+				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+				$this->prepareOutput();
+				include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
+				$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
@@ -5463,6 +5472,17 @@ class ilObjTestGUI extends ilObjectGUI
 		$output_gui->certificateEditor();
 	}
 
+	/**
+	* Shows the certificate editor
+	*/
+	function certificateserviceObject()
+	{
+		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
+		$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
+		$this->tpl->setVariable("ADM_CONTENT", $output_gui->certificateEditor());
+	}
+
 	function getQuestionsSubTabs()
 	{
 		global $ilTabs;
@@ -5553,7 +5573,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$ilTabs->addSubTabTarget("general",
 			 $this->ctrl->getLinkTarget($this,'properties'),
 			 array("properties", "saveProperties", "cancelProperties"),
-			 array("", "ilobjtestgui", "iltestcertificategui"),
+			 array("", "ilobjtestgui", "iltestcertificategui", "ilcertificategui"),
 			 "", $force_active);
 	
 		// scoring subtab
@@ -5570,7 +5590,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this,'marks'),
 			array("marks", "addMarkStep", "deleteMarkSteps", "addSimpleMarkSchema",
 				"saveMarks", "cancelMarks"),
-			array("", "ilobjtestgui", "iltestcertificategui")
+			array("", "ilobjtestgui", "iltestcertificategui", "ilcertificategui")
 		);
 	
 		if ((strlen($ilias->getSetting("rpc_server_host"))) && (strlen($ilias->getSetting("rpc_server_port"))))
@@ -5581,7 +5601,16 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this,'certificate'),
 				array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
 					"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport"),
-				array("", "ilobjtestgui", "iltestcertificategui")
+				array("", "ilobjtestgui", "iltestcertificategui", "ilcertificategui")
+			);
+
+			// certificate subtab
+			$ilTabs->addSubTabTarget(
+				"certificate",
+				$this->ctrl->getLinkTarget($this,'certificateservice'),
+				array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+					"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport"),
+				array("", "ilobjtestgui", "ilcertificategui", "ilcertificategui")
 			);
 		}
 
@@ -5596,7 +5625,7 @@ class ilObjTestGUI extends ilObjectGUI
 			"defaults",
 			$this->ctrl->getLinkTarget($this, "defaults"),
 			array("defaults", "deleteDefaults", "addDefaults", "applyDefaults"),
-			array("", "ilobjtestgui", "iltestcertificategui")
+			array("", "ilobjtestgui", "iltestcertificategui", "ilcertificategui")
 		);
 	}
 
@@ -5671,6 +5700,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "deleteMarkSteps":
 			case "addSimpleMarkSchema":
 			case "certificate":
+			case "certificateservice":
 			case "certificateImport":
 			case "certificateUpload":
 			case "certificateEditor":
@@ -5682,7 +5712,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case "inviteParticipants":
 			case "searchParticipants":
 			case "":
-				if (($ilAccess->checkAccess("write", "", $this->ref_id)) && ((strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0) || (strcmp($this->ctrl->getCmdClass(), "iltestcertificategui") == 0) || (strlen($this->ctrl->getCmdClass()) == 0)))
+				if (($ilAccess->checkAccess("write", "", $this->ref_id)) && ((strcmp($this->ctrl->getCmdClass(), "ilobjtestgui") == 0) || (strcmp($this->ctrl->getCmdClass(), "iltestcertificategui") == 0) || (strcmp($this->ctrl->getCmdClass(), "ilcertificategui") == 0) || (strlen($this->ctrl->getCmdClass()) == 0)))
 				{
 					$this->getSettingsSubTabs();
 				}
@@ -5757,7 +5787,7 @@ class ilObjTestGUI extends ilObjectGUI
 							"inviteParticipants", "saveFixedParticipantsStatus", "searchParticipants", "addParticipants", 
 							""
 					),
-					 array("", "ilobjtestgui", "iltestcertificategui")
+					 array("", "ilobjtestgui", "iltestcertificategui", "ilcertificategui")
 				);
 			}
 

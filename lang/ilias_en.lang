@@ -8752,3 +8752,8 @@ common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?
 assessment#:#assFlashQuestion#:#Flash Question
 content#:#cont_resource_size#:#Resource Size
 content#:#cont_custom_size#:#Custom Size
+common#:#pos_top#:#Top
+common#:#pos_right#:#Right
+common#:#pos_bottom#:#Bottom
+common#:#pos_left#:#Left
+common#:#msg_unit_is_required#:#This input requires a unit. Please enter a correct value.
