@@ -133,6 +133,7 @@ class ilRadioMatrixInputGUI extends ilFormPropertyGUI
 			$tpl->setCurrentBlock("option_start");
 			$tpl->setVariable("VAL_RADIO_OPTION", $option_value);
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
+			$tpl->setVariable("OP_ID", $this->getPostVar() . "[" . $option_value . "]");
 			if ($option_value == $this->getValue())
 			{
 				$tpl->setVariable("CHK_RADIO_OPTION",
