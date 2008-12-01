@@ -414,6 +414,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$template->setVariable("PARAM_NAME", "client");
 		$template->setVariable("PARAM_VALUE", CLIENT_ID);
 		$template->parseCurrentBlock();
+		$template->setCurrentBlock("applet_parameter");
+		$template->setVariable("PARAM_NAME", "max_points");
+		$template->setVariable("PARAM_VALUE", $this->object->getPoints());
+		$template->parseCurrentBlock();
 		if (strlen($pass))
 		{
 			$template->setCurrentBlock("applet_parameter");
