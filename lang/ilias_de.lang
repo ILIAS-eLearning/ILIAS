@@ -8749,3 +8749,7 @@ common#:#pos_right#:#Rechts
 common#:#pos_bottom#:#Unten
 common#:#pos_left#:#Links
 common#:#msg_unit_is_required#:#Hier ist die Angabe einer Einheit erforderlich. Bitte geben Sie einen korrekten Wert ein.
+payment#:#payment_no_topic#:#Kein Thema
+assessment#:#error_cloze_not_numeric#:#Bitte geben Sie einen numerischen Wert ein.
+assessment#:#error_no_upper_limit#:#Bitte geben Sie eine obere Schranke an.
+assessment#:#error_no_lower_limit#:#Bitte geben Sie eine untere Schranke an.

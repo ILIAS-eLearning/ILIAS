@@ -161,6 +161,7 @@ class assClozeTestGUI extends assQuestionGUI
 	*/
 	function setGapAnswers()
 	{
+		$error = FALSE;
 		$this->object->clearGapAnswers();
 		foreach ($_POST as $key => $value)
 		{
@@ -170,8 +171,24 @@ class assClozeTestGUI extends assQuestionGUI
 				$gap = $matches[2];
 				$order = $matches[3];
 				$this->object->addGapAnswer($gap, $order, ilUtil::stripSlashes($value, FALSE));
+				$gapObj = $this->object->getGap($gap);
+				if (is_object($gapObj))
+				{
+					if ($gapObj->getType() == CLOZE_NUMERIC)
+					{
+						include_once "./Services/Math/classes/class.EvalMath.php";
+						$eval = new EvalMath();
+						$eval->suppress_errors = TRUE;
+						if ($eval->e(str_replace(",", ".", ilUtil::stripSlashes($value, FALSE))) === FALSE)
+						{
+							$error = TRUE;
+							$this->addErrorMessage($this->lng->txt("error_cloze_not_numeric"));
+						}
+					}
+				}
 			}
 		}
+		return $error;
 	}
 
 	/**
@@ -203,21 +220,81 @@ class assClozeTestGUI extends assQuestionGUI
 	*/
 	function setGapBounds()
 	{
+		$error = FALSE;
 		foreach ($_POST as $key => $value)
 		{
 			if (preg_match("/numericgap_(\d+)_(\d+)_lower/", $key, $matches))
 			{
 				$gap = $matches[1];
 				$order = $matches[2];
+				$gapObj = $this->object->getGap($gap);
+				if (is_object($gapObj))
+				{
+					if ($gapObj->getType() == CLOZE_NUMERIC)
+					{
+						include_once "./Services/Math/classes/class.EvalMath.php";
+						$eval = new EvalMath();
+						$eval->suppress_errors = TRUE;
+						if ($eval->e(str_replace(",", ".", ilUtil::stripSlashes($value, FALSE))) === FALSE)
+						{
+							if (is_object($gapObj->getItem($order)))
+							{
+								if ($eval->e($gapObj->getItem($order)->getAnswertext()) !== FALSE)
+								{
+									$value = $gapObj->getItem($order)->getAnswertext();
+								}
+								else
+								{
+									$error = TRUE;
+								}
+							}
+							else
+							{
+								$error = TRUE;
+							}
+							if ($error) $this->addErrorMessage($this->lng->txt("error_no_lower_limit"));
+						}
+					}
+				}
 				$this->object->setGapAnswerLowerBound($gap, $order, $value);
 			}
 			if (preg_match("/numericgap_(\d+)_(\d+)_upper/", $key, $matches))
 			{
 				$gap = $matches[1];
 				$order = $matches[2];
+				$gapObj = $this->object->getGap($gap);
+				if (is_object($gapObj))
+				{
+					if ($gapObj->getType() == CLOZE_NUMERIC)
+					{
+						include_once "./Services/Math/classes/class.EvalMath.php";
+						$eval = new EvalMath();
+						$eval->suppress_errors = TRUE;
+						if ($eval->e(str_replace(",", ".", ilUtil::stripSlashes($value, FALSE))) === FALSE)
+						{
+							if (is_object($gapObj->getItem($order)))
+							{
+								if ($eval->e($gapObj->getItem($order)->getAnswertext()) !== FALSE)
+								{
+									$value = $gapObj->getItem($order)->getAnswertext();
+								}
+								else
+								{
+									$error = TRUE;
+								}
+							}
+							else
+							{
+								$error = TRUE;
+							}
+							if ($error) $this->addErrorMessage($this->lng->txt("error_no_upper_limit"));
+						}
+					}
+				}
 				$this->object->setGapAnswerUpperBound($gap, $order, $value);
 			}
 		}
+		return $error;
 	}
 
 	/**
@@ -274,12 +351,13 @@ class assClozeTestGUI extends assQuestionGUI
 	{
 		$result = 0;
 		$saved = false;
-
 		// Delete all existing gaps and create new gaps from the form data
 		$this->object->flushGaps();
+		$this->setErrorMessage("");
 
 		if (!$this->checkInput())
 		{
+			$this->setErrorMessage($this->lng->txt("fill_out_all_required_fields"));
 			$result = 1;
 		}
 
@@ -327,9 +405,11 @@ class assClozeTestGUI extends assQuestionGUI
 		{
 			$this->setGapTypes();
 			$this->setShuffleState();
-			$this->setGapAnswers();
+			$error = $this->setGapAnswers();
+			if ($error) $result = 1;
 			$this->setGapPoints();
-			$this->setGapBounds();
+			$error = $this->setGapBounds();
+			if ($error) $result = 1;
 			$this->object->updateClozeTextFromGaps();
 		}
 		if ($saved)

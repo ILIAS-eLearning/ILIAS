@@ -39,4 +39,14 @@ abstract class ilCertificateAdapter
 	{
 		
 	}
+
+	public function addFormFieldsFromPOST($form_fields)
+	{
+		
+	}
+	
+	public function addFormFieldsFromObject($form_fields)
+	{
+		
+	}
 }
