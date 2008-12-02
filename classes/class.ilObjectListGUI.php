@@ -1366,8 +1366,8 @@ class ilObjectListGUI
 							break;	
 					}					
 				}
-				$this->insertCommand($command['link'].'&purchasetype=buy', $this->lng->txt('buy'), $command['frame']);
 				$this->insertCommand($command['link'].'&purchasetype=demo', $this->lng->txt('payment_demo'), $command['frame']);
+				$this->insertCommand($command['link'].'&purchasetype=buy', $this->lng->txt('buy'), $command['frame']);				
 			}
 		}
 	}
