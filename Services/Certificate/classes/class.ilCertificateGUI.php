@@ -211,23 +211,6 @@ class ilCertificateGUI
 		$this->certificateEditor();
 	}
 	
-	function getFormFieldsFromPOST()
-	{
-		$form_fields = array(
-			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
-			"padding_top" => ilUtil::stripSlashes($_POST["padding_top"]),
-			"margin_body_top" => ilUtil::stripSlashes($_POST["margin_body_top"]),
-			"margin_body_right" => ilUtil::stripSlashes($_POST["margin_body_right"]),
-			"margin_body_bottom" => ilUtil::stripSlashes($_POST["margin_body_bottom"]),
-			"margin_body_left" => ilUtil::stripSlashes($_POST["margin_body_left"]),
-			"certificate_text" => ilUtil::stripSlashes($_POST["certificate_text"], FALSE),
-			"pageheight" => ilUtil::stripSlashes($_POST["pageheight"]),
-			"pagewidth" => ilUtil::stripSlashes($_POST["pagewidth"]),
-			"certificate_visibility" => ilUtil::stripSlashes($_POST["certificate_visibility"])
-		);
-		return $form_fields;
-	}
-
 /**
 * Deletes the certificate and all it's data
 *
@@ -293,89 +276,26 @@ class ilCertificateGUI
 	{
 		$this->certificateEditor();
 	}
-
-/**
-* Shows the certificate editor for ILIAS tests
-*
-* Shows the certificate editor for ILIAS tests
-*
-* @access public
-*/
-	function certificateEditor()
+	
+	function getFormFieldsFromPOST()
 	{
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("certificate_edit"));
-		$form->setMultipart(TRUE);
-		$form->setTableWidth("100%");
-		$form->setId("certificate");
-
-		$import = new ilFileInputGUI($this->lng->txt("import"), "certificate_import");
-		$import->setRequired(FALSE);
-		$form->addItem($import);
-		
-		$pageformat = new ilSelectInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
-		$pageformats = $this->object->getPageFormats();
-		$options = array();
-		foreach ($pageformats as $format)
-		{
-			$options[$format["value"]] = $format["name"];
-		}
-		$pageformat->setRequired(TRUE);
-		$pageformat->setOptions($options);
-		$form->addItem($pageformat);
-
-		$bgimage = new ilFileInputGUI($this->lng->txt("certificate_background_image"), "background");
-		$bgimage->setRequired(FALSE);
-		$form->addItem($bgimage);
-		
-		$padding_top = new ilTextInputGUI($this->lng->txt("certificate_padding_top"), "padding_top");
-		$padding_top->setRequired(TRUE);
-		$padding_top->setSize(6);
-		$padding_top->setInfo($this->lng->txt("certificate_unit_description"));
-		$form->addItem($padding_top);
-		
-		$rect = new ilCSSRectInputGUI($this->lng->txt("certificate_margin_body"), "margin_body");
-		$rect->setRequired(TRUE);
-		$rect->setUseUnits(TRUE);
-		$rect->setInfo($this->lng->txt("certificate_unit_description"));
-		$form->addItem($rect);
-		
-		$certificate = new ilTextAreaInputGUI($this->lng->txt("certificate_text"), "certificate_text");
-		$certificate->setValue("");
-		$certificate->setRequired(TRUE);
-		$certificate->setRows(20);
-		$certificate->setCols(80);
-		$certificate->setUseRte(TRUE);
-		$tags = array(
-		"br",
-		"em",
-		"font",
-		"li",
-		"ol",
-		"p",
-		"span",
-		"strong",
-		"u",
-		"ul"			
+		$form_fields = array(
+			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
+			"padding_top" => ilUtil::stripSlashes($_POST["padding_top"]),
+			"margin_body_top" => ilUtil::stripSlashes($_POST["margin_body"]["top"]),
+			"margin_body_right" => ilUtil::stripSlashes($_POST["margin_body"]["right"]),
+			"margin_body_bottom" => ilUtil::stripSlashes($_POST["margin_body"]["bottom"]),
+			"margin_body_left" => ilUtil::stripSlashes($_POST["margin_body"]["left"]),
+			"certificate_text" => ilUtil::stripSlashes($_POST["certificate_text"], FALSE),
+			"pageheight" => ilUtil::stripSlashes($_POST["pageheight"]),
+			"pagewidth" => ilUtil::stripSlashes($_POST["pagewidth"])
 		);
-		$certificate->setRteTags($tags);
-		$form->addItem($certificate);
+		$this->object->getAdapter()->addFormFieldsFromPOST($form_fields);
+		return $form_fields;
+	}
 
-		$this->object->getAdapter()->addAdditionalFormElements($form);
-
-		$form->addCommandButton("save", $this->lng->txt("save"));
-
-		return $form->getHTML();
-		
-		global $ilAccess;
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
+	private function getFormFields()
+	{
 		$form_fields = array();
 		if (is_array($_POST))
 		{
@@ -412,6 +332,107 @@ class ilCertificateGUI
 			{
 				$form_fields = $this->object->processFO2XHTML();
 			}
+		}
+		return $form_fields;
+	}
+
+/**
+* Shows the certificate editor for ILIAS tests
+*
+* Shows the certificate editor for ILIAS tests
+*
+* @access public
+*/
+	function certificateEditor()
+	{
+		$form_fields = array();
+		if (is_array($_POST) && (count($_POST)))
+		{
+			$form_fields = $this->getFormFieldsFromPOST();
+		}
+		else
+		{
+			$form_fields = $this->object->processFO2XHTML();
+		}
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("certificate_edit"));
+		$form->setMultipart(TRUE);
+		$form->setTableWidth("100%");
+		$form->setId("certificate");
+
+		$import = new ilFileInputGUI($this->lng->txt("import"), "certificate_import");
+		$import->setRequired(FALSE);
+		$form->addItem($import);
+		
+		$pageformat = new ilSelectInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
+		$pageformats = $this->object->getPageFormats();
+		$pageformat->setValue($form_fields["pageformat"]);
+		$options = array();
+		foreach ($pageformats as $format)
+		{
+			$options[$format["value"]] = $format["name"];
+		}
+		$pageformat->setRequired(TRUE);
+		$pageformat->setOptions($options);
+		$form->addItem($pageformat);
+
+		$bgimage = new ilFileInputGUI($this->lng->txt("certificate_background_image"), "background");
+		$bgimage->setRequired(FALSE);
+		$form->addItem($bgimage);
+		
+		$padding_top = new ilTextInputGUI($this->lng->txt("certificate_padding_top"), "padding_top");
+		$padding_top->setRequired(TRUE);
+		$padding_top->setValue($form_fields["padding_top"]);
+		$padding_top->setSize(6);
+		$padding_top->setInfo($this->lng->txt("certificate_unit_description"));
+		$form->addItem($padding_top);
+		
+		$rect = new ilCSSRectInputGUI($this->lng->txt("certificate_margin_body"), "margin_body");
+		$rect->setRequired(TRUE);
+		$rect->setUseUnits(TRUE);
+		$rect->setTop($form_fields["margin_body_top"]);
+		$rect->setBottom($form_fields["margin_body_bottom"]);
+		$rect->setLeft($form_fields["margin_body_left"]);
+		$rect->setRight($form_fields["margin_body_right"]);
+		$rect->setInfo($this->lng->txt("certificate_unit_description"));
+		$form->addItem($rect);
+		
+		$certificate = new ilTextAreaInputGUI($this->lng->txt("certificate_text"), "certificate_text");
+		$certificate->setValue($form_fields["certificate_text"]);
+		$certificate->setRequired(TRUE);
+		$certificate->setRows(20);
+		$certificate->setCols(80);
+		$certificate->setUseRte(TRUE);
+		$tags = array(
+		"br",
+		"em",
+		"font",
+		"li",
+		"ol",
+		"p",
+		"span",
+		"strong",
+		"u",
+		"ul"			
+		);
+		$certificate->setRteTags($tags);
+		$form->addItem($certificate);
+
+		$this->object->getAdapter()->addAdditionalFormElements($form);
+
+		$form->addCommandButton("save", $this->lng->txt("save"));
+
+		return $form->getHTML();
+		
+		global $ilAccess;
+		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
 		if ((strcmp($this->ctrl->getCmd(), "certificateSave") == 0) || (strcmp($this->ctrl->getCmd(), "certificateRemoveBackground") == 0))

@@ -400,7 +400,7 @@ class ilCertificate
 		// replacements, so we do it in the code as well
 		$output = str_replace("&#xA0;", "<br />", $output);
 		$output = str_replace("&#160;", "<br />", $output);
-		return array(
+		$form_fields = array(
 			"pageformat" => $pagesize,
 			"pagewidth" => $pagewidth,
 			"pageheight" => $pageheight,
@@ -411,6 +411,8 @@ class ilCertificate
 			"margin_body_left" => $marginbody_left,
 			"certificate_text" => $output
 		);
+		$this->getAdapter()->addFormFieldsFromObject($form_fields);
+		return $form_fields;
 	}
 	
 	/**

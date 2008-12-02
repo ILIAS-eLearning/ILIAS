@@ -8757,3 +8757,7 @@ common#:#pos_right#:#Right
 common#:#pos_bottom#:#Bottom
 common#:#pos_left#:#Left
 common#:#msg_unit_is_required#:#This input requires a unit. Please enter a correct value.
+payment#:#payment_no_topic#:#No Topic
+assessment#:#error_cloze_not_numeric#:#Please enter a numeric value.
+assessment#:#error_no_upper_limit#:#Please enter an upper bound.
+assessment#:#error_no_lower_limit#:#Please enter a lower bound.
