@@ -1891,7 +1891,22 @@ class ilObjContentObject extends ilObject
 		copy(ilUtil::getImagePath("download.gif", false, "filesystem"),
 			$image_dir."/download.gif");
 		$ilBench->stop("ExportHTML", "exportHTMLImages");
-			
+
+		// export flv/mp3 player
+		$services_dir = $a_target_dir."/Services";
+		ilUtil::makeDir($services_dir);
+		$media_service_dir = $services_dir."/MediaObjects";
+		ilUtil::makeDir($media_service_dir);
+		$flv_dir = $media_service_dir."/flash_flv_player";
+		ilUtil::makeDir($flv_dir);
+		$mp3_dir = $media_service_dir."/flash_mp3_player";
+		ilUtil::makeDir($mp3_dir);
+		copy("./Services/MediaObjects/flash_flv_player/flvplayer.swf",
+			$flv_dir."/flvplayer.swf");
+		copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
+			$mp3_dir."/mp3player.swf");
+
+
 		// template workaround: reset of template 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);

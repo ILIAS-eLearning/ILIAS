@@ -144,11 +144,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	}
 
 	/**
-	* insert new media object form
+	* Insert new media object form.
 	*/
 	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
 	{
-		global $ilTabs;
+		global $ilTabs, $tpl, $ilCtrl, $lng;
 		
 		if ($_GET["subCmd"] == "insertNew")
 		{
@@ -183,35 +183,19 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 				$this->getTabs($ilTabs, true);
 				$ilTabs->setSubTabActive("cont_new_mob");
 				
-				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html",
-					"./Services/MediaObjects");
-				$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
-				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		
+				include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+				$mob_gui = new ilObjMediaObjectGUI("");
+				$mob_gui->initForm("create");
+				$form = $mob_gui->getForm();
+				$form->setFormAction($ilCtrl->getFormAction($this));
+				$form->clearCommandButtons();
+				$form->addCommandButton("create_mob", $lng->txt("save"));
+				$form->addCommandButton("cancelCreate", $lng->txt("cancel"));
+
 				$this->displayValidationError();
-		
-				// select fields for number of columns
-				$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
-				$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_file"));
-				$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_reference"));
-				$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
-				$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_width"));
-				$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_height"));
-				$this->tpl->setVariable("TXT_ORIGINAL_SIZE", $this->lng->txt("cont_orig_size"));
-				$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
-				$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
-				$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
-				$this->tpl->setVariable("TXT_RESIZE", $this->lng->txt("cont_resize_image"));
-				$this->tpl->setVariable("TXT_RESIZE_EXPLANATION", $this->lng->txt("cont_resize_explanation"));
-		//		$this->tpl->parseCurrentBlock();
-		
-				// operations
-				$this->tpl->setCurrentBlock("commands");
-				$this->tpl->setVariable("BTN_NAME", $a_submit_cmd);
-				$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-				$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
-				$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-				$this->tpl->parseCurrentBlock();
+				
+				$tpl->setContent($form->getHTML());
+
 				break;
 		}
 	}
@@ -319,7 +303,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	{
 		global $ilCtrl;
 		
-		
 		if ($_GET["subCmd"] == "insertFromPool")
 		{
 			if (is_array($_POST["id"]))
@@ -337,202 +320,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$ilCtrl->returnToParent($this);
 		}
 		
-		// determinte title and format
-		if ($_POST["standard_type"] == "File")
-		{
-			$title = $_FILES['standard_file']['name'];
-		}
-		else
-		{
-			$title = $_POST["standard_reference"];
-		}
-
 		// create dummy object in db (we need an id)
 		include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 		$this->content_obj = new ilPCMediaObject($this->dom);
 		$this->content_obj->createMediaObject();
 		$media_obj = $this->content_obj->getMediaObject();
-		$media_obj->setTitle($title);
 		
-		$media_obj->setDescription("");
-		$media_obj->create();
-
-		// determine and create mob directory, move uploaded file to directory
-		$media_obj->createDirectory();
-		$mob_dir = ilObjMediaObject::_getDirectory($media_obj->getId());
-
-		$media_item =& new ilMediaItem();
-		$media_obj->addMediaItem($media_item);
-		$media_item->setPurpose("Standard");
-
-		if ($_POST["standard_type"] == "File")
-		{
-			$file = $mob_dir."/".$_FILES['standard_file']['name'];
-			//move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
-			if (!ilUtil::moveUploadedFile($_FILES['standard_file']['tmp_name'],
-				$_FILES['standard_file']['name'], $file, false))
-			{
-				$media_obj->delete();
-				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-				return;
-			}
-
-			// get mime type
-			$format = ilObjMediaObject::getMimeType($file);
-			$location = $_FILES['standard_file']['name'];
-
-			// resize standard images
-			if ($_POST["standard_size"] != "original" &&
-				$_POST["standard_resize"] == "y" &&
-				is_int(strpos($format, "image")))
-			{
-				$location = ilObjMediaObject::_resizeImage($file, $_POST["standard_width"],
-					$_POST["standard_height"]);
-			}
-
-			// set real meta and object data
-			$media_item->setFormat($format);
-			$media_item->setLocation($location);
-			$media_item->setLocationType("LocalFile");
-			$media_obj->setTitle($_FILES['standard_file']['name']);
-		}
-		else	// standard type: reference
-		{
-			$format = ilObjMediaObject::getMimeType($_POST["standard_reference"]);
-			$media_item->setFormat($format);
-			$media_item->setLocation($_POST["standard_reference"]);
-			$media_item->setLocationType("Reference");
-			$media_obj->setTitle($_POST["standard_reference"]);
-		}
-
-		$media_obj->setDescription($format);
-
-		// determine width and height of known image types
-		if ($_POST["standard_size"] == "original")
-		{
-			if (ilUtil::deducibleSize($format))
-			{
-				$size = getimagesize($file);
-				$media_item->setWidth($size[0]);
-				$media_item->setHeight($size[1]);
-			}
-			else
-			{
-				$media_item->setWidth(500);
-				$media_item->setHeight(400);
-			}
-		}
-		else
-		{
-			$media_item->setWidth($_POST["standard_width"]);
-			$media_item->setHeight($_POST["standard_height"]);
-		}
-
-		if ($_POST["standard_caption"] != "")
-		{
-			$media_item->setCaption($_POST["standard_caption"]);
-		}
-
-		if ($_POST["standard_param"] != "")
-		{
-			$media_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["standard_param"])));
-		}
-
-		$media_item->setHAlign("Left");
-
-		// fullscreen view
-		if ($_POST["fullscreen"] == "y")
-		{
-			$media_item =& new ilMediaItem();
-			$media_obj->addMediaItem($media_item);
-			$media_item->setPurpose("Fullscreen");
-
-			// file
-			if ($_POST["full_type"] == "File")
-			{
-				if ($_FILES['full_file']['name'] != "")
-				{
-					$file = $mob_dir."/".$_FILES['full_file']['name'];
-					//move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
-					if (!ilUtil::moveUploadedFile($_FILES['full_file']['tmp_name'],
-						$_FILES['full_file']['name'], $file, false))
-					{
-						$media_obj->delete();
-						$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-						return;
-					}
-				}
-
-				if ($_FILES['full_file']['name'] != "" ||
-						($_POST["full_size"] != "original" &&
-						$_POST["full_resize"] == "y" &&
-						is_int(strpos($format, "image")))
-					)
-				{
-					// set real meta and object data
-					$format = ilObjMediaObject::getMimeType($file);
-					$location = $_FILES['full_file']['name'];
-
-					// resize fullscreen images
-					if ($_POST["full_size"] != "original" &&
-						$_POST["full_resize"] == "y" &&
-						is_int(strpos($format, "image")))
-					{
-						$location = ilObjMediaObject::_resizeImage($file, $_POST["full_width"],
-							$_POST["full_height"]);
-					}
-				}
-
-				$media_item->setFormat($format);
-				$media_item->setLocation($location);
-				$media_item->setLocationType("LocalFile");
-
-			}
-			else	// reference
-			{
-				if ($_POST["full_reference"] != "")
-				{
-					$format = ilObjMediaObject::getMimeType($_POST["full_reference"]);
-					$media_item->setFormat($format);
-					$media_item->setLocation($_POST["full_reference"]);
-					$media_item->setLocationType("Reference");
-				}
-			}
-
-			// determine width and height of known image types
-			if ($_POST["full_size"] == "original")
-			{
-				if (ilUtil::deducibleSize($format))
-				{
-					$size = getimagesize($file);
-					$media_item->setWidth($size[0]);
-					$media_item->setHeight($size[1]);
-				}
-				else
-				{
-					$media_item->setWidth(500);
-					$media_item->setHeight(400);
-				}
-			}
-			else
-			{
-				$media_item->setWidth($_POST["full_width"]);
-				$media_item->setHeight($_POST["full_height"]);
-			}
-
-			if ($_POST["full_caption"] != "")
-			{
-				$media_item->setCaption($_POST["full_caption"]);
-			}
-
-			if ($_POST["full_param"] != "")
-			{
-				$media_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["full_param"])));
-			}
-
-		}
-		ilUtil::renameExecutables($mob_dir);
-		$media_obj->update();
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		ilObjMediaObjectGUI::setObjectPerCreationForm($media_obj);
 
 		if ($a_create_alias)
 		{
@@ -543,7 +338,16 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
-				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+				$this->pg_obj->stripHierIDs();
+				$this->pg_obj->addHierIDs();
+				$ilCtrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
+				$ilCtrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
+				$this->content_obj->setHierId($this->content_obj->readHierId());
+				$this->setHierId($this->content_obj->readHierId());
+				$this->content_obj->setPCId($this->content_obj->readPCId());
+				$this->ctrl->redirectByClass("ilobjmediaobjectgui", "edit");
+
+				//$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 			}
 			else
 			{
@@ -562,13 +366,20 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	*/
 	function editAlias()
 	{
+		global $tpl;
+		
+		$this->initAliasForm();
+		$this->getAliasValues();
+		$tpl->setContent($this->form_gui->getHTML());
+		return;
+		
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
 			$this->content_obj->getPcId());
-		$std_item =& $this->content_obj->getMediaObject()->getMediaItem("Standard");
+		$std_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
 
 		// edit media alias template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_alias_properties.html", "Services/COPage");
@@ -635,7 +446,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		}
 
 		// fullscreen view
-		if($this->content_obj->getMediaObject()->hasFullScreenItem())
+		if ($this->content_obj->getMediaObject()->hasFullScreenItem())
 		{
 			$this->tpl->setCurrentBlock("fullscreen");
 			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen",
@@ -722,93 +533,462 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 	}
 
+	/**
+	* Init alias form
+	*/
+	function initAliasForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		// standard view resource
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
+		$std_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
+
+		// title, location and format
+		$title = new ilNonEditableValueGUI($lng->txt("title"), "title");
+		$this->form_gui->addItem($title);
+		$loc = new ilNonEditableValueGUI(
+			$this->lng->txt("cont_".strtolower($std_item->getLocationType())), "st_location");
+		$this->form_gui->addItem($loc);
+		$format = new ilNonEditableValueGUI(
+			$this->lng->txt("cont_format"), "st_format");
+		$this->form_gui->addItem($format);
+		
+		// standard size
+		$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "st_derive_size");
+		$op1 = new ilRadioOption($lng->txt("cont_default").
+			" (".$std_item->getWidth()." x ".$std_item->getHeight().")", "y");
+		$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+		$radio_size->addOption($op1);
+		
+			// width height
+			include_once("./Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php");
+			$width_height = new ilWidthHeightInputGUI($lng->txt("cont_width").
+				" / ".$lng->txt("cont_height"), "st_width_height");
+			$width_height->setConstrainProportions(true);
+			$op2->addSubItem($width_height);
+
+		$radio_size->addOption($op2);
+		$this->form_gui->addItem($radio_size);
+		
+		// standard caption
+		$rad_caption = new ilRadioGroupInputGUI($lng->txt("cont_caption"), "st_derive_caption");
+		$op1 = new ilRadioOption($lng->txt("cont_default"), "y");
+			$def_cap = new ilNonEditableValueGUI("", "def_caption");
+			$op1->addSubItem($def_cap);
+		$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+			$caption = new ilTextInputGUI("", "st_caption");
+		$rad_caption->addOption($op1);
+			$caption->setSize(40);
+			$caption->setMaxLength(200);
+			$op2->addSubItem($caption);
+		$rad_caption->addOption($op2);
+		$this->form_gui->addItem($rad_caption);
+
+		// standard parameters
+		if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()))
+		{
+			if (ilObjMediaObject::_useAutoStartParameterOnly($std_item->getLocation(),
+				$std_item->getFormat()))	// autostart
+			{
+				$par = $std_item->getParameters();
+				$def_str = ($par["autostart"] == "true")
+					? " (".$lng->txt("yes").")"
+					: " (".$lng->txt("no").")";
+				$rad_auto = new ilRadioGroupInputGUI($lng->txt("cont_autostart"),
+					"st_derive_parameters");
+				$op1 = new ilRadioOption($lng->txt("cont_default").$def_str, "y");
+				$rad_auto->addOption($op1);
+				$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+					$auto = new ilCheckboxInputGUI($lng->txt("enabled"), "st_autostart");
+					$op2->addSubItem($auto);
+				$rad_auto->addOption($op2);
+				$this->form_gui->addItem($rad_auto);
+			}
+			else							// parameters
+			{
+				$rad_parameters = new ilRadioGroupInputGUI($lng->txt("cont_parameter"), "st_derive_parameters");
+				$op1 = new ilRadioOption($lng->txt("cont_default"), "y");
+					$def_par = new ilNonEditableValueGUI("", "def_parameters");
+					$op1->addSubItem($def_par);
+				$rad_parameters->addOption($op1);
+				$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+					$par = new ilTextAreaInputGUI("", "st_parameters");
+					$par->setRows(5);
+					$par->setCols(50);
+					$op2->addSubItem($par);
+				$rad_parameters->addOption($op2);
+				$this->form_gui->addItem($rad_parameters);
+			}
+		}
+		
+		// fullscreen view
+		if($this->content_obj->getMediaObject()->hasFullScreenItem())
+		{
+			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen",
+				$this->content_obj->getPcId());
+			$full_item = $this->content_obj->getMediaObject()->getMediaItem("Fullscreen");
+			
+			$fs_sec = new ilFormSectionHeaderGUI();
+			$fs_sec->setTitle($lng->txt("cont_fullscreen"));
+			$this->form_gui->addItem($fs_sec);
+
+			
+			// resource
+			$radio_prop = new ilRadioGroupInputGUI($lng->txt("cont_resource"), "fullscreen");
+			$op1 = new ilRadioOption($lng->txt("cont_none"), "n");
+			$radio_prop->addOption($op1);
+			$op2 = new ilRadioOption($this->lng->txt("cont_".strtolower($full_item->getLocationType())).": ".
+				$full_item->getLocation(), "y");
+			$radio_prop->addOption($op2);
+			$this->form_gui->addItem($radio_prop);
+
+			// format
+			$format = new ilNonEditableValueGUI(
+				$this->lng->txt("cont_format"), "full_format");
+			$this->form_gui->addItem($format);
+			
+			// full size
+			$radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_derive_size");
+			$op1 = new ilRadioOption($lng->txt("cont_default").
+				" (".$full_item->getWidth()." x ".$full_item->getHeight().")", "y");
+			$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+			$radio_size->addOption($op1);
+			
+				// width height
+				include_once("./Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php");
+				$width_height = new ilWidthHeightInputGUI($lng->txt("cont_width").
+					" / ".$lng->txt("cont_height"), "full_width_height");
+				$width_height->setConstrainProportions(true);
+				$op2->addSubItem($width_height);
+	
+			$radio_size->addOption($op2);
+			$this->form_gui->addItem($radio_size);
+			
+			// fullscreen caption
+			$rad_caption = new ilRadioGroupInputGUI($lng->txt("cont_caption"), "full_derive_caption");
+			$op1 = new ilRadioOption($lng->txt("cont_default"), "y");
+				$def_cap = new ilNonEditableValueGUI("", "full_def_caption");
+				$op1->addSubItem($def_cap);
+			$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+				$caption = new ilTextInputGUI("", "full_caption");
+			$rad_caption->addOption($op1);
+				$caption->setSize(40);
+				$caption->setMaxLength(200);
+				$op2->addSubItem($caption);
+			$rad_caption->addOption($op2);
+			$this->form_gui->addItem($rad_caption);
+	
+			// fullscreen parameters
+			if (!in_array($full_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()))
+			{
+				if (ilObjMediaObject::_useAutoStartParameterOnly($full_item->getLocation(),
+					$full_item->getFormat()))	// autostart
+				{
+					$par = $full_item->getParameters();
+					$def_str = ($par["autostart"] == "true")
+						? " (".$lng->txt("yes").")"
+						: " (".$lng->txt("no").")";
+					$rad_auto = new ilRadioGroupInputGUI($lng->txt("cont_autostart"),
+						"full_derive_parameters");
+					$op1 = new ilRadioOption($lng->txt("cont_default").$def_str, "y");
+					$rad_auto->addOption($op1);
+					$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+						$auto = new ilCheckboxInputGUI($lng->txt("enabled"), "full_autostart");
+						$op2->addSubItem($auto);
+					$rad_auto->addOption($op2);
+					$this->form_gui->addItem($rad_auto);
+				}
+				else							// parameters
+				{
+					$rad_parameters = new ilRadioGroupInputGUI($lng->txt("cont_parameter"), "full_derive_parameters");
+					$op1 = new ilRadioOption($lng->txt("cont_default"), "y");
+						$def_par = new ilNonEditableValueGUI("", "full_def_parameters");
+						$op1->addSubItem($def_par);
+					$rad_parameters->addOption($op1);
+					$op2 = new ilRadioOption($lng->txt("cont_custom"), "n");
+						$par = new ilTextAreaInputGUI("", "full_parameters");
+						$par->setRows(5);
+						$par->setCols(50);
+						$op2->addSubItem($par);
+					$rad_parameters->addOption($op2);
+					$this->form_gui->addItem($rad_parameters);
+				}
+			}
+		}
+
+		$this->form_gui->setTitle($lng->txt("cont_edit_mob_alias_prop"));
+		$this->form_gui->addCommandButton("saveAliasProperties", $lng->txt("save"));
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+		
+	}
+
+	/**
+	* Put alias values into form
+	*/
+	function getAliasValues()
+	{
+		global $lng;
+		
+		// standard view resource
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+			$this->content_obj->getPcId());
+		$std_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
+
+		$values["title"] = $this->content_obj->getMediaObject()->getTitle();
+		$values["st_location"] = $std_item->getLocation();
+		$values["st_format"] = $std_item->getFormat();
+		
+		// size
+		$values["st_width_height"]["width"] = $std_alias_item->getWidth();
+		$values["st_width_height"]["height"] = $std_alias_item->getHeight();
+		$values["st_width_height"]["constr_prop"] = true;
+		
+		// caption
+		$values["st_caption"] = $std_alias_item->getCaption();
+		if (trim($std_item->getCaption()) == "")
+		{
+			$values["def_caption"] = "<i>".$lng->txt("cont_no_caption")."</i>";
+		}
+		else
+		{
+			$values["def_caption"] = $std_item->getCaption();
+		}
+		
+		// parameters / autostart
+		if (ilObjMediaObject::_useAutoStartParameterOnly($std_item->getLocation(),
+			$std_item->getFormat()))	// autostart
+		{
+			$par = $std_alias_item->getParameters();
+			if ($par["autostart"] == "true")
+			{
+				$values["st_autostart"] = true;
+			}
+		}
+		else				// parameters
+		{
+			$values["st_parameters"] = $std_alias_item->getParameterString();
+		}
+		
+		// size
+		$values["st_derive_size"] = $std_alias_item->definesSize()
+			? "n"
+			: "y";
+		if ($values["st_derive_size"] == "y")
+		{
+			$values["st_width_height"]["width"] = $std_item->getWidth();
+			$values["st_width_height"]["height"] = $std_item->getHeight();
+		}
+		$values["st_derive_caption"] = $std_alias_item->definesCaption()
+			? "n"
+			: "y";
+		$values["st_derive_parameters"] = $std_alias_item->definesParameters()
+			? "n"
+			: "y";
+		if (trim($std_item->getParameterString()) == "")
+		{
+			$values["def_parameters"] = "<i>".$lng->txt("cont_no_parameters")."</i>";
+		}
+		else
+		{
+			$values["def_parameters"] = $std_item->getParameterString();
+		}
+			
+		// fullscreen properties
+		if($this->content_obj->getMediaObject()->hasFullScreenItem())
+		{
+			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen",
+				$this->content_obj->getPcId());
+			$full_item = $this->content_obj->getMediaObject()->getMediaItem("Fullscreen");
+
+			$values["fullscreen"] = "n";
+			if ($full_alias_item->exists())
+			{
+				$values["fullscreen"] = "y";
+			}
+
+			$values["full_location"] = $full_item->getLocation();
+			$values["full_format"] = $full_item->getFormat();
+			$values["full_width_height"]["width"] = $full_alias_item->getWidth();
+			$values["full_width_height"]["height"] = $full_alias_item->getHeight();
+			$values["full_width_height"]["constr_prop"] = true;
+			$values["full_caption"] = $full_alias_item->getCaption();
+			if (trim($full_item->getCaption()) == "")
+			{
+				$values["full_def_caption"] = "<i>".$lng->txt("cont_no_caption")."</i>";
+			}
+			else
+			{
+				$values["full_def_caption"] = $full_item->getCaption();
+			}
+			$values["full_parameters"] = $full_alias_item->getParameterString();
+			$values["full_derive_size"] = $full_alias_item->definesSize()
+				? "n"
+				: "y";
+			if ($values["full_derive_size"] == "y")
+			{
+				$values["full_width_height"]["width"] = $full_item->getWidth();
+				$values["full_width_height"]["height"] = $full_item->getHeight();
+			}
+			$values["full_derive_caption"] = $full_alias_item->definesCaption()
+				? "n"
+				: "y";
+				
+			// parameters
+			if (ilObjMediaObject::_useAutoStartParameterOnly($full_item->getLocation(),
+				$full_item->getFormat()))	// autostart
+			{
+				$par = $full_alias_item->getParameters();
+				if ($par["autostart"] == "true")
+				{
+					$values["full_autostart"] = true;
+				}
+			}
+			else				// parameters
+			{
+				$values["full_parameters"] = $full_alias_item->getParameterString();
+			}
+
+			$values["full_derive_parameters"] = $full_alias_item->definesParameters()
+				? "n"
+				: "y";
+			if (trim($full_item->getParameterString()) == "")
+			{
+				$values["full_def_parameters"] = "<i>".$lng->txt("cont_no_parameters")."</i>";
+			}
+			else
+			{
+				$values["full_def_parameters"] = $full_item->getParameterString();
+			}
+
+		}
+
+		$this->form_gui->setValuesByArray($values);
+	}
 
 	/**
 	* save table properties in db and return to page edit screen
 	*/
 	function saveAliasProperties()
 	{
-		$std_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard",
 			$this->content_obj->getPcId());
-		$full_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen",
+		$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen",
 			$this->content_obj->getPcId());
+		$std_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
+		$full_item = $this->content_obj->getMediaObject()->getMediaItem("Fullscreen");
 
 		// standard size
-		if($_POST["derive_st_size"] == "y")
+		if($_POST["st_derive_size"] == "y")
 		{
-			$std_item->deriveSize();
+			$std_alias_item->deriveSize();
 		}
 		else
 		{
-			$std_item->setWidth($_POST["mob_width"]);
-			$std_item->setHeight($_POST["mob_height"]);
+			$std_alias_item->setWidth($_POST["st_width_height"]["width"]);
+			$std_alias_item->setHeight($_POST["st_width_height"]["height"]);
 		}
 
 		// standard caption
-		if($_POST["derive_st_caption"] == "y")
+		if($_POST["st_derive_caption"] == "y")
 		{
-			$std_item->deriveCaption();
+			$std_alias_item->deriveCaption();
 		}
 		else
 		{
-			$std_item->setCaption($_POST["mob_caption"]);
+			$std_alias_item->setCaption($_POST["st_caption"]);
 		}
 
 		// standard parameters
-		if($_POST["derive_st_parameter"] == "y")
+		if($_POST["st_derive_parameters"] == "y")
 		{
-			$std_item->deriveParameters();
+			$std_alias_item->deriveParameters();
 		}
 		else
 		{
-			$std_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["mob_parameters"]))));
+			if (ilObjMediaObject::_useAutoStartParameterOnly($std_item->getLocation(),
+				$std_item->getFormat()))	// autostart
+			{
+				if ($_POST["st_autostart"])
+				{
+					$std_alias_item->setParameters(ilUtil::extractParameterString('autostart="true"'));
+				}
+				else
+				{
+					$std_alias_item->setParameters(ilUtil::extractParameterString('autostart="false"'));
+				}
+			}
+			else				// parameters
+			{
+				$std_alias_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["st_parameters"]))));
+			}
 		}
 
 		if($this->content_obj->getMediaObject()->hasFullscreenItem())
 		{
 			if ($_POST["fullscreen"] ==  "y")
 			{
-				if (!$full_item->exists())
+				if (!$full_alias_item->exists())
 				{
-					$full_item->insert();
+					$full_alias_item->insert();
 				}
 
 				// fullscreen size
-				if($_POST["derive_full_size"] == "y")
+				if($_POST["full_derive_size"] == "y")
 				{
-					$full_item->deriveSize();
+					$full_alias_item->deriveSize();
 				}
 				else
 				{
-					$full_item->setWidth($_POST["full_width"]);
-					$full_item->setHeight($_POST["full_height"]);
+					$full_alias_item->setWidth($_POST["full_width_height"]["width"]);
+					$full_alias_item->setHeight($_POST["full_width_height"]["height"]);
 				}
 
 				// fullscreen caption
-				if($_POST["derive_full_caption"] == "y")
+				if($_POST["full_derive_caption"] == "y")
 				{
-					$full_item->deriveCaption();
+					$full_alias_item->deriveCaption();
 				}
 				else
 				{
-					$full_item->setCaption($_POST["full_caption"]);
+					$full_alias_item->setCaption($_POST["full_caption"]);
 				}
 
 				// fullscreen parameters
-				if($_POST["derive_full_parameter"] == "y")
+				if($_POST["full_derive_parameters"] == "y")
 				{
-					$full_item->deriveParameters();
+					$full_alias_item->deriveParameters();
 				}
 				else
 				{
-					$full_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"]))));
+					if (ilObjMediaObject::_useAutoStartParameterOnly($full_item->getLocation(),
+						$full_item->getFormat()))	// autostart
+					{
+						if ($_POST["full_autostart"])
+						{
+							$full_alias_item->setParameters(ilUtil::extractParameterString('autostart="true"'));
+						}
+						else
+						{
+							$full_alias_item->setParameters(ilUtil::extractParameterString('autostart="false"'));
+						}
+					}
+					else
+					{
+						$full_alias_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"]))));
+					}
 				}
 			}
 			else
 			{
-				if ($full_item->exists())
+				if ($full_alias_item->exists())
 				{
-					$full_item->delete();
+					$full_alias_item->delete();
 				}
 			}
 		}
@@ -914,9 +1094,17 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 			if ($this->getEnabledMapAreas())
 			{
-				$ilTabs->addTarget("cont_inst_map_areas",
-					$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),
-					get_class("ilpcimagemapeditorgui"));
+				$st_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
+				if (is_object($st_item))
+				{
+					$format = $st_item->getFormat();
+					if (substr($format, 0, 5) == "image")
+					{
+						$ilTabs->addTarget("cont_inst_map_areas",
+							$ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"), array(),
+							get_class("ilpcimagemapeditorgui"));
+					}
+				}
 			}
 		}
 		else

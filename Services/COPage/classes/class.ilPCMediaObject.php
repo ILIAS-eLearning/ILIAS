@@ -107,14 +107,12 @@ class ilPCMediaObject extends ilPageContent
 		$this->setMediaObject(new ilObjMediaObject());
 	}
 
+	/**
+	* Create pc media object
+	*/
 	function create(&$a_pg_obj, $a_hier_id)
 	{
-//echo "::".is_object($this->dom).":";
 		$this->node = $this->createPageContentNode();
-		
-		//$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
-		//$this->list_node =& $this->dom->create_element("List");
-		//$this->list_node =& $this->node->append_child($this->list_node);
 	}
 	
 	/**
@@ -143,11 +141,11 @@ class ilPCMediaObject extends ilPageContent
 		$layout_node =& $item_node->append_child($layout_node);
 		if ($media_item->getWidth() > 0)
 		{
-			$layout_node->set_attribute("Width", $media_item->getWidth());
+			//$layout_node->set_attribute("Width", $media_item->getWidth());
 		}
 		if ($media_item->getHeight() > 0)
 		{
-			$layout_node->set_attribute("Height", $media_item->getHeight());
+			//$layout_node->set_attribute("Height", $media_item->getHeight());
 		}
 		$layout_node->set_attribute("HorizontalAlign", "Left");
 

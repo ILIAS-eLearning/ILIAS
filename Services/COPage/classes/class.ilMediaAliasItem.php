@@ -360,7 +360,7 @@ class ilMediaAliasItem
 	}
 
 	/**
-	* get all parameters
+	* Get all parameters as string
 	*/
 	function getParameterString()
 	{
@@ -375,6 +375,22 @@ class ilMediaAliasItem
 		return implode($par_arr, ", ");
 	}
 
+	/**
+	* Get all parameters as array
+	*/
+	function getParameters()
+	{
+		$par_nodes = $this->getParameterNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		$par_arr = array();
+		for($i=0; $i < count($par_nodes); $i++)
+		{
+			$par_node =& $par_nodes[$i];
+			$par_arr[$par_node->get_attribute("Name")] =
+				$par_node->get_attribute("Value");
+		}
+		return $par_arr;
+	}
 
 	/**
 	* get a single parameter
