@@ -160,7 +160,8 @@ class ilShopSearchResult extends ilSearchResult
 	public function __initSearchSettingsObject()
 	{
 		include_once 'payment/classes/class.ilGeneralSettings.php';
-		$this->setMaxHits(ilGeneralSettings::_getInstance()->get('max_hits'));
+		$maxhits = ilGeneralSettings::_getInstance()->get('max_hits'); 
+		$this->setMaxHits(($maxhits > 0 ? $maxhits : 20));
 	}
 	
 	public function getResultsForPresentation()
@@ -169,7 +170,7 @@ class ilShopSearchResult extends ilSearchResult
 		
 		$offset_counter = 0;
 		$counter = 0;
-		
+
 		foreach($this->getResults() as $result)
 		{
 			if($this->getMaxHits() * ($this->getResultPageNumber() - 1) > $offset_counter)
@@ -187,13 +188,23 @@ class ilShopSearchResult extends ilSearchResult
 			}
 		}
 		
+		$objects_with_no_topcis = array();
 		foreach($this->getTopics() as $oTopic)
 		{		
 			foreach($results as $result)
 			{
 				$topic_id = ilPaymentObject::_lookupTopicId($result['ref_id']);
 				
-				if($topic_id != $oTopic->getId()) continue;
+				if(!(int)$topic_id && !array_key_exists($result['ref_id'], $objects_with_no_topcis))
+				{					
+					$objects_with_no_topcis[$result['ref_id']] = $result;
+					continue;
+				}
+				
+				if((int)$topic_id != $oTopic->getId())
+				{
+					continue;					
+				}
 				
 				switch($result['type'])
 				{
@@ -221,6 +232,34 @@ class ilShopSearchResult extends ilSearchResult
 													  'child' => $result['child']);
 				$this->addPresentationResult($presentation_results[$oTopic->getId()][$type][count($presentation_results[$oTopic->getId()][$type]) - 1]);
 			}
+		}
+		foreach($objects_with_no_topcis as $result)
+		{
+			switch($result['type'])
+			{
+				// learning material
+				case "sahs":
+				case "lm":
+				case "dbk":
+				case "htlm":
+					$type = "lres";
+					break;
+
+				default:
+					$type = $result['type'];
+					break;
+			}
+			$title = ilObject::_lookupTitle($result['obj_id']);
+			$description = ilObject::_lookupDescription($result['obj_id']);
+
+			$presentation_results[0][$type][] = array('ref_id' => $result['ref_id'],
+												  'title' => $title,
+												  'description' => $description,
+												  'type' => $result['type'],
+												  'obj_id' => $result['obj_id'],
+												  'child' => $result['child']);
+			$this->addPresentationResult($presentation_results[0][$type][count($presentation_results[0][$type]) - 1]);
+			
 		}
 		return $presentation_results ? $presentation_results : array();
 	}
