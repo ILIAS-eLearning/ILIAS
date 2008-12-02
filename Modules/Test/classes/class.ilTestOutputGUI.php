@@ -59,6 +59,21 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
 	}
+
+	/*
+	* Save tags for tagging gui
+	*
+	* Needed this function here because the test info page 
+	* uses another class to send its form results
+	*/
+	function saveTags()
+	{
+		include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
+		$tagging_gui = new ilTaggingGUI();
+		$tagging_gui->setObject($this->object->getId(), $this->object->getType());
+		$tagging_gui->saveInput();
+		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+	}
 	
 	/**
 	* execute command
@@ -90,7 +105,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		return $ret;
 	}
-
+	
 	/**
 	 * updates working time and stores state saveresult to see if question has to be stored or not
 	 */
