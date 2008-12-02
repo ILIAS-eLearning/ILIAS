@@ -437,6 +437,11 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$this->showButton('editDetails',$this->lng->txt('paya_edit_details'));
 		$this->showButton('editPrices',$this->lng->txt('paya_edit_prices'));
+		// edit abstract
+		$this->tpl->setCurrentBlock('btn_cell');
+		$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
+		$this->tpl->setVariable('BTN_TXT', $this->lng->txt('pay_edit_abstract'));		
+		$this->tpl->parseCurrentBlock();		
 
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
 #		$this->__showPayMethodLink();
