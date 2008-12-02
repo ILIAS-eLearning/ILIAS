@@ -1115,6 +1115,13 @@ class ilObjMediaObject extends ilObject
 		// determine width and height of known image types
 		$width = $a_def_width;
 		$height = $a_def_height;
+		
+		if ($a_format == "audio/mpeg")
+		{
+			$width = 300;
+			$height = 20;
+		}
+		
 		if (ilUtil::deducibleSize($a_format))
 		{
 			if ($a_type == "File")
@@ -1347,6 +1354,26 @@ class ilObjMediaObject extends ilObject
 	function getDataDirectory()
 	{
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId();
+	}
+
+	/**
+	* Check whether only autostart parameter should be supported (instead
+	* of parameters input field.
+	*
+	* This should be the same behaviour as mp3/flv in page.xsl
+	*/
+	static function _useAutoStartParameterOnly($a_loc, $a_format)
+	{
+		$lpath = pathinfo($a_loc);
+		if ($lpath["extension"] == "mp3" && $a_format == "audio/mpeg")
+		{
+			return true;
+		}
+		if ($lpath["extension"] == "flv")
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**

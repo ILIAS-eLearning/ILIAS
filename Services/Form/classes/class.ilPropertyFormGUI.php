@@ -344,6 +344,14 @@ class ilPropertyFormGUI extends ilFormGUI
 	}
 
 	/**
+	* Remove all command buttons
+	*/
+	function clearCommandButtons()
+	{
+		$this->buttons = array();
+	}
+
+	/**
 	* Get Content.
 	*/
 	function getContent()

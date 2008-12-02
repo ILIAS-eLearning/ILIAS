@@ -1225,6 +1225,8 @@ class ilPageObjectGUI
 		$content = $this->obj->getXMLFromDom(false, true, true,
 			$this->getLinkXML().$this->getQuestionXML());
 
+//echo "<br>-".htmlentities($content)."-";
+
 		// get page component plugins
 
 		// check validation errors

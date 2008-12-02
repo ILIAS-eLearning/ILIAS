@@ -1496,7 +1496,7 @@
 		<tr><th class="ilc_FileList">
 		<xsl:value-of select="./Title"/>
 		</th></tr>
-		<xsl:apply-templates/>
+		<xsl:apply-templates select="FileItem"/>
 		<!-- <xsl:apply-templates select="FileItem"/> -->
 	</table>
 	<!-- command selectbox -->
@@ -2189,6 +2189,43 @@
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 			</iframe>
+		</xsl:when>
+
+		<!-- mp3 -->
+		<xsl:when test = "$type='audio/mpeg' and substring-before($data,'.mp3') != ''">
+			<embed src="./Services/MediaObjects/flash_mp3_player/mp3player.swf" height="20" bgcolor="#FFFFFF"
+				type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+				<xsl:choose>
+					<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+						( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
+						<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;autostart=true</xsl:attribute>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;autostart=false</xsl:attribute>
+					</xsl:otherwise>
+				</xsl:choose>
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+			</embed>
+		</xsl:when>
+
+		<!-- flv -->
+		<xsl:when test = "substring-before($data,'.flv') != ''"> 
+			<embed src="./Services/MediaObjects/flash_flv_player/flvplayer.swf" bgcolor="#FFFFFF"
+				type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
+				<xsl:choose>
+					<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+						( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
+						<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;autostart=true</xsl:attribute>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;autostart=false</xsl:attribute>
+					</xsl:otherwise>
+				</xsl:choose>
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+			</embed>
 		</xsl:when>
 
 		<!-- all other mime types: output standard object/embed tag -->

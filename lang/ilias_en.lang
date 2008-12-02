@@ -8751,6 +8751,12 @@ common#:#delete_parameter#:#Delete Parameter
 common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?
 assessment#:#assFlashQuestion#:#Flash Question
 content#:#cont_resource_size#:#Resource Size
+content#:#cont_resize_img#:#Resize Image File
+content#:#cont_autostart#:#Autostart
+content#:#cont_default#:#Default
+content#:#cont_custom#:#Custom
+content#:#cont_no_parameters#:#No Parameters
+content#:#cont_no_caption#:#No Caption
 content#:#cont_custom_size#:#Custom Size
 common#:#pos_top#:#Top
 common#:#pos_right#:#Right
