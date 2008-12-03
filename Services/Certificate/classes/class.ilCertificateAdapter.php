@@ -32,7 +32,7 @@ abstract class ilCertificateAdapter
 {
 	abstract public function getCertificatePath();
 	abstract public function getCertificateVariablesForPreview();
-	abstract public function getCertificateVariablesForPresentation();
+	abstract public function getCertificateVariablesForPresentation($params = array());
 	abstract public function getCertificateVariablesForDescription();
 	abstract public function getAdapterType();
 	abstract public function getCertificateID();

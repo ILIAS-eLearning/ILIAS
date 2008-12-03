@@ -393,8 +393,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
 			if (!$this->object->getAnonymity())
 			{
-				include_once "./Modules/Test/classes/class.ilTestCertificate.php";
-				if (ilTestCertificate::_isComplete($this->object->getId()))
+				include_once "./Services/Certificate/classes/class.ilCertificate.php";
+				include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
+				if (ilCertificate::_isComplete(new ilTestCertificateAdapter($this->object)))
 				{
 					$template->setVariable("TEXT_CERTIFICATE", $this->lng->txt("exp_type_certificate"));
 				}
