@@ -6250,3 +6250,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 ?>
+<#1368>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

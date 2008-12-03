@@ -1,131 +1,20 @@
-<form name="formCertificate" action="{FORMACTION}" method="post" enctype="multipart/form-data">
-<table class="fullwidth">
-<thead>
-	<tr class="tblheader">
-		<th colspan="2">{TEXT_CERTIFICATE}</th>
-	</tr>
-</thead>
-<tr>
-  <td class="option">{TEXT_STATUS}</td>
-  <td class="option_value">
-		{VALUE_STATUS}
-<!-- BEGIN image_status -->
-		<img src="{HREF_STATUS_IMAGE}" alt="{ALT_STATUS_IMAGE}" />
-<!-- END image_status -->
-<!-- BEGIN button_status -->
-		<input type="submit" class="submit" name="cmd[certificateDelete]" value="{DELETE_BUTTON_CERTIFICATE}" />
-<!-- END button_status -->
-<!-- BEGIN preview_certificate -->
-		<br /><a href="{PREVIEW_URL}"><img alt="{PREVIEW_BUTTON_CERTIFICATE}" title="{PREVIEW_BUTTON_CERTIFICATE}" src="{IMG_PREVIEW}" /></a> <a href="{PREVIEW_URL}">{PREVIEW_BUTTON_CERTIFICATE}</a>
-<!-- END preview_certificate -->
-<!-- BEGIN certificate_export -->
-		<a href="{EXPORT_URL}"><img alt="{CERTIFICATE_EXPORT}" title="{CERTIFICATE_EXPORT}" src="{IMG_EXPORT}" /></a> <a href="{EXPORT_URL}">{CERTIFICATE_EXPORT}</a>
-<!-- END certificate_export -->
-	</td>
-</tr>
-<tr>
-	<td class="option"><label for="certificate_import">{TEXT_CERTIFICATE_IMPORT}</label></td>
-	<td class="option_value">
-		<input type="file" name="certificate_import" size="50" />
-		<input type="submit" class="submit" name="cmd[certificateImport]" value="{TEXT_UPLOAD}" />
-	</td>
-</tr>
-<tr>
-  <td class="option"><label for="pageformat">{TEXT_PAGE_FORMAT}</label><span class="asterisk">*</span></td>
-  <td class="option_value">
-		<select id="pageformat" name="pageformat" onchange="javascript:document.formCertificate.submit()">
-<!-- BEGIN page_format_row -->
-			<option value="{VALUE_PAGE_FORMAT}"{SELECTED_PAGE_FORMAT}>{NAME_PAGE_FORMAT}</option>
-<!-- END page_format_row -->
-		</select>
-		<input type="submit" class="submit" name="cmd[certificateSave]" value="{BUTTON_SET_PAGEFORMAT}" />
-<!-- BEGIN custom_format -->
-		<br />
-		<label for="pageheight">{TEXT_PAGEHEIGHT}</label> <input type="text" name="pageheight" id="pageheight" size="8"{VALUE_PAGEHEIGHT} />
-		<label for="pagewidth">{TEXT_PAGEWIDTH}</label> <input type="text" name="pagewidth" id="pagewidth" size="8"{VALUE_PAGEWIDTH} />
-		<br />
-		<div class="il_Description_no_margin">{TEXT_PAGE_UNIT_DESCRIPTION}</div>
-<!-- END custom_format -->
-	</td>
-</tr>
-<tr>
-  <td class="option"><label for="background">{TEXT_BACKGROUND_IMAGE}</label></td>
-  <td class="option_value">
-		<input type="file" name="background" size="50" id="background" /> <input type="submit" class="submit" name="cmd[certificateUpload]" value="{TEXT_UPLOAD}" />
-<!-- BEGIN background_exists -->
-		<br />
-		<img src="{BACKGROUND_THUMBNAIL}" alt="{THUMBNAIL_ALT}" />
-		<input type="submit" class="submit" name="cmd[certificateRemoveBackground]" value="{DELETE_BUTTON}" />
-<!-- END background_exists -->
-	</td>
-</tr>
-<tr>
-  <td class="option"><label for="padding_top">{TEXT_PADDING_TOP}</label><span class="asterisk">*</span></td>
-  <td class="option_value">
-		<input name="padding_top" id="padding_top" type="text" size="6"{VALUE_PADDING_TOP} />
-		<br />
-		<div class="il_Description_no_margin">{TEXT_UNIT_DESCRIPTION}</div>
-	</td>
-</tr>
-<tr>
-  <td class="option"><label for="margin_body_top">{TEXT_MARGIN_BODY}</label><span class="asterisk">*</span></td>
-  <td class="option_value">
-		<label for="margin_body_top">{TEXT_MARGIN_BODY_TOP}</label> <input name="margin_body_top" id="margin_body_top" type="text" size="6"{VALUE_MARGIN_BODY_TOP} />
-		<label for="margin_body_right">{TEXT_MARGIN_BODY_RIGHT}</label> <input name="margin_body_right" id="margin_body_right" type="text" size="6"{VALUE_MARGIN_BODY_RIGHT} />
-		<label for="margin_body_bottom">{TEXT_MARGIN_BODY_BOTTOM}</label> <input name="margin_body_bottom" id="margin_body_bottom" type="text" size="6"{VALUE_MARGIN_BODY_BOTTOM} />
-		<label for="margin_body_left">{TEXT_MARGIN_BODY_LEFT}</label> <input name="margin_body_left" id="margin_body_left" type="text" size="6"{VALUE_MARGIN_BODY_LEFT} />
-		<br />
-		<div class="il_Description_no_margin">{TEXT_UNIT_DESCRIPTION}</div>
-	</td>
-</tr>
-<tr>
-  <td class="option"><label for="certificate_text">{TEXT_CERTIFICATE_TEXT}</label><span class="asterisk">*</span></td>
-  <td class="option_value">
-		<textarea name="certificate_text" id="certificate_text" rows="20" cols="80" wrap="virtual" style="width:95%;">{VALUE_CERTIFICATE_TEXT}</textarea>
-	</td>
-</tr>
-<tr>
-	<td class="option"><label for="certificate_visibility_0">{TEXT_CERTIFICATE_VISIBILITY}</label></td>
-	<td class="option_value">
-	{TEXT_CERTIFICATE_VISIBILITY_INTRODUCTION}<br />
-		<input type="radio" name="certificate_visibility" value="0" id="certificate_visibility_0"{CHECKED_CV_0} /> <label for="certificate_visibility_0">{TEXT_VISIBILITY_ALWAYS}</label><br />
-		<input type="radio" name="certificate_visibility" value="1" id="certificate_visibility_1"{CHECKED_CV_1} /> <label for="certificate_visibility_1">{TEXT_VISIBILITY_PASSED}</label><br />
-		<input type="radio" name="certificate_visibility" value="2" id="certificate_visibility_2"{CHECKED_CV_2} /> <label for="certificate_visibility_2">{TEXT_VISIBILITY_NEVER}</label>
-	</td>
-</tr>
-<tr>
-	<td class="submit" colspan="2">
-		<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
-		<div align="right">
-			<input type="submit" class="submit" name="cmd[certificateSave]" value="{TEXT_SAVE}" />
-		</div>
-	</td>
-</tr>
-<tr>
-	<td class="option_value" colspan="2">
-<div class="il_Description">
-		<b>{PH_INTRODUCTION}</b>:<br /><br />
-		<b>[USER_FULLNAME]</b>: {PH_USER_FULLNAME}<br />
-		<b>[USER_FIRSTNAME]</b>: {PH_USER_FIRSTNAME}<br />
-		<b>[USER_LASTNAME]</b>: {PH_USER_LASTNAME}<br />
-		<b>[USER_TITLE]</b>: {PH_USER_TITLE}<br />
-		<b>[USER_INSTITUTION]</b>: {PH_USER_INSTITUTION}<br />
-		<b>[USER_DEPARTMENT]</b>: {PH_USER_DEPARTMENT}<br />
-		<b>[USER_STREET]</b>: {PH_USER_STREET}<br />
-		<b>[USER_CITY]</b>: {PH_USER_CITY}<br />
-		<b>[USER_ZIPCODE]</b>: {PH_USER_ZIPCODE}<br />
-		<b>[USER_COUNTRY]</b>: {PH_USER_COUNTRY}<br />
-		<b>[RESULT_PASSED]</b>: {PH_RESULT_PASSED}<br />
-		<b>[RESULT_POINTS]</b>: {PH_RESULT_POINTS}<br />
-		<b>[RESULT_PERCENT]</b>: {PH_RESULT_PERCENT}<br />
-		<b>[MAX_POINTS]</b>: {PH_MAX_POINTS}<br />
-		<b>[RESULT_MARK_SHORT]</b>: {PH_RESULT_MARK_SHORT}<br />
-		<b>[RESULT_MARK_LONG]</b>: {PH_RESULT_MARK_LONG}<br />
-		<b>[TEST_TITLE]</b>: {PH_TEST_TITLE}<br />
-		<b>[DATE]</b>: {PH_DATE}<br />
-		<b>[DATETIME]</b>: {PH_DATETIME}<br />
-		</div>
-	</td>
-</tr>
-</table>
-</form>
+<strong>{PH_INTRODUCTION}</strong>:<br /><br />
+<strong>[USER_FULLNAME]</strong>: {PH_USER_FULLNAME}<br />
+<strong>[USER_FIRSTNAME]</strong>: {PH_USER_FIRSTNAME}<br />
+<strong>[USER_LASTNAME]</strong>: {PH_USER_LASTNAME}<br />
+<strong>[USER_TITLE]</strong>: {PH_USER_TITLE}<br />
+<strong>[USER_INSTITUTION]</strong>: {PH_USER_INSTITUTION}<br />
+<strong>[USER_DEPARTMENT]</strong>: {PH_USER_DEPARTMENT}<br />
+<strong>[USER_STREET]</strong>: {PH_USER_STREET}<br />
+<strong>[USER_CITY]</strong>: {PH_USER_CITY}<br />
+<strong>[USER_ZIPCODE]</strong>: {PH_USER_ZIPCODE}<br />
+<strong>[USER_COUNTRY]</strong>: {PH_USER_COUNTRY}<br />
+<strong>[RESULT_PASSED]</strong>: {PH_RESULT_PASSED}<br />
+<strong>[RESULT_POINTS]</strong>: {PH_RESULT_POINTS}<br />
+<strong>[RESULT_PERCENT]</strong>: {PH_RESULT_PERCENT}<br />
+<strong>[MAX_POINTS]</strong>: {PH_MAX_POINTS}<br />
+<strong>[RESULT_MARK_SHORT]</strong>: {PH_RESULT_MARK_SHORT}<br />
+<strong>[RESULT_MARK_LONG]</strong>: {PH_RESULT_MARK_LONG}<br />
+<strong>[TEST_TITLE]</strong>: {PH_TEST_TITLE}<br />
+<strong>[DATE]</strong>: {PH_DATE}<br />
+<strong>[DATETIME]</strong>: {PH_DATETIME}<br />

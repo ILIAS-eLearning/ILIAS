@@ -34,16 +34,32 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 {
 	private $object;
 	
-	function __construct($object)
+	/**
+	* ilTestCertificateAdapter contructor
+	*
+	* @param object $object A reference to a test object
+	*/
+	function __construct(&$object)
 	{
 		$this->object =& $object;
 	}
 
+	/**
+	* Returns the certificate path (with a trailing path separator)
+	*
+	* @return string The certificate path
+	*/
 	public function getCertificatePath()
 	{
 		return CLIENT_WEB_DIR . "/assessment/certificates/" . $this->object->getId() . "/";
 	}
 	
+	/**
+	* Returns an array containing all variables and values which can be exchanged in the certificate.
+	* The values will be taken for the certificate preview.
+	*
+	* @return array The certificate variables
+	*/
 	public function getCertificateVariablesForPreview()
 	{
 		global $lng;
@@ -72,6 +88,14 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		return $insert_tags;
 	}
 
+	/**
+	* Returns an array containing all variables and values which can be exchanged in the certificate
+	* The values should be calculated from real data. The $params parameter array should contain all
+	* necessary information to calculate the values.
+	*
+	* @param array $params An array of parameters to calculate the certificate parameter values
+	* @return array The certificate variables
+	*/
 	public function getCertificateVariablesForPresentation($params = array())
 	{
 		global $lng;
@@ -134,11 +158,49 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		return $insert_tags;
 	}
 	
-	public function getCertificateVariablesForDescription()
+	/**
+	* Returns a description of the available certificate parameters. The description will be shown at
+	* the bottom of the certificate editor text area.
+	*
+	* @return string The certificate parameters description
+	*/
+	public function getCertificateVariablesDescription()
 	{
+		global $lng;
 		
+		$template = new ilTemplate("tpl.il_as_tst_certificate_edit.html", TRUE, TRUE, "Modules/Test");
+		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
+		$template->setVariable("PH_USER_FULLNAME", $lng->txt("certificate_ph_fullname"));
+		$template->setVariable("PH_USER_FIRSTNAME", $lng->txt("certificate_ph_firstname"));
+		$template->setVariable("PH_USER_LASTNAME", $lng->txt("certificate_ph_lastname"));
+		$template->setVariable("PH_RESULT_PASSED", $lng->txt("certificate_ph_passed"));
+		$template->setVariable("PH_RESULT_POINTS", $lng->txt("certificate_ph_resultpoints"));
+		$template->setVariable("PH_RESULT_PERCENT", $lng->txt("certificate_ph_resultpercent"));
+		$template->setVariable("PH_USER_TITLE", $lng->txt("certificate_ph_title"));
+		$template->setVariable("PH_USER_STREET", $lng->txt("certificate_ph_street"));
+		$template->setVariable("PH_USER_INSTITUTION", $lng->txt("certificate_ph_institution"));
+		$template->setVariable("PH_USER_DEPARTMENT", $lng->txt("certificate_ph_department"));
+		$template->setVariable("PH_USER_CITY", $lng->txt("certificate_ph_city"));
+		$template->setVariable("PH_USER_ZIPCODE", $lng->txt("certificate_ph_zipcode"));
+		$template->setVariable("PH_USER_COUNTRY", $lng->txt("certificate_ph_country"));
+		$template->setVariable("PH_MAX_POINTS", $lng->txt("certificate_ph_maxpoints"));
+		$template->setVariable("PH_RESULT_MARK_SHORT", $lng->txt("certificate_ph_markshort"));
+		$template->setVariable("PH_RESULT_MARK_LONG", $lng->txt("certificate_ph_marklong"));
+		$template->setVariable("PH_TEST_TITLE", $lng->txt("certificate_ph_testtitle"));
+		$template->setVariable("PH_DATE", $lng->txt("certificate_ph_date"));
+		$template->setVariable("PH_DATETIME", $lng->txt("certificate_ph_datetime"));
+		return $template->get();
 	}
 
+	/**
+	* Allows to add additional form fields to the certificate editor form
+	* This method will be called when the certificate editor form will built
+	* using the ilPropertyFormGUI class. Additional fields will be added at the
+	* bottom of the form.
+	*
+	* @param object $form An ilPropertyFormGUI instance
+	* @param array $form_fields An array containing the form values. The array keys are the names of the form fields
+	*/
 	public function addAdditionalFormElements(&$form, $form_fields)
 	{
 		global $lng;
@@ -155,26 +217,61 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		$form->addItem($visibility);
 	}
 	
+	/**
+	* Allows to add additional form values to the array of form values evaluating a
+	* HTTP POST action.
+	* This method will be called when the certificate editor form will be saved using
+	* the form save button.
+	*
+	* @param array $form_fields A reference to the array of form values
+	*/
 	public function addFormFieldsFromPOST(&$form_fields)
 	{
 		$form_fields["certificate_visibility"] = $_POST["certificate_visibility"];
 	}
 
+	/**
+	* Allows to add additional form values to the array of form values evaluating the
+	* associated adapter class if one exists 
+	* This method will be called when the certificate editor form will be shown and the
+	* content of the form has to be retrieved from wherever the form values are saved.
+	*
+	* @param array $form_fields A reference to the array of form values
+	*/
 	public function addFormFieldsFromObject(&$form_fields)
 	{
 		$form_fields["certificate_visibility"] = $this->object->getCertificateVisibility();
 	}
 	
+	/**
+	* Allows to save additional adapter form fields
+	* This method will be called when the certificate editor form is complete and the
+	* form values will be saved.
+	*
+	* @param array $form_fields A reference to the array of form values
+	*/
 	public function saveFormFields(&$form_fields)
 	{
 		$this->object->saveCertificateVisibility($form_fields["certificate_visibility"]);
 	}
 
+	/**
+	* Returns the adapter type
+	* This value will be used to generate file names for the certificates
+	*
+	* @return string A string value to represent the adapter type
+	*/
 	public function getAdapterType()
 	{
 		return "test";
 	}
 
+	/**
+	* Returns a certificate ID
+	* This value will be used to generate unique file names for the certificates
+	*
+	* @return mixed A unique ID which represents a certificate
+	*/
 	public function getCertificateID()
 	{
 		return $this->object->getId();
