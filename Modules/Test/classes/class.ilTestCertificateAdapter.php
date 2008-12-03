@@ -78,7 +78,6 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		
 		$active_id = $params["active_id"];
 		$pass = $params["pass"];
-		$deliver = array_key_exists("deliver", $params) ? $params["deliver"] : TRUE;
 		$userfilter = array_key_exists("userfilter", $params) ? $params["userfilter"] : "";
 		$passedonly = array_key_exists("passedonly", $params) ? $params["passedonly"] : FALSE;
 		if (strlen($pass))

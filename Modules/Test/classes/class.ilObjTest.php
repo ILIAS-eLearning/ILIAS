@@ -4201,7 +4201,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if (is_null($pass))
 		{
-			$pass = $this->_getPass($active_id);
+			$pass = $this->_getResultPass($active_id);
 		}
 		include_once "./Modules/Test/classes/class.ilTestSequence.php";
 		$testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());

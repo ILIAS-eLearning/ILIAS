@@ -814,9 +814,49 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				{
 					$this->ctrl->setParameterByClass("iltestcertificategui", "g_userfilter", $filtertext);
 				}
-				$this->ctrl->redirectByClass("iltestcertificategui", "exportCertificate");
+				$this->ctrl->redirect($this, "exportCertificate");
 				break;
 		}
+	}
+
+	/**
+	* Exports the user results as PDF certificates using
+	* XSL-FO via XML:RPC calls
+	*
+	* @access public
+	*/
+	public function exportCertificate()
+	{
+		global $ilUser;
+		
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		include_once "./Services/Certificate/classes/class.ilCertificate.php";
+		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
+		$certificate = new ilCertificate(new ilTestCertificateAdapter($this->object));
+		$archive_dir = $certificate->createArchiveDirectory();
+		$total_users = array();
+		$total_users =& $this->object->evalTotalPersonsArray();
+		if (count($total_users))
+		{
+			foreach ($total_users as $active_id => $name)
+			{
+				$user_id = $this->object->_getUserIdFromActiveId($active_id);
+				$pdf = $certificate->outCertificate(
+					array(
+						"active_id" => $active_id,
+						"userfilter" => $userfilter,
+						"passedonly" => $passedonly
+					),
+					FALSE
+				);
+				if (strlen($pdf))
+				{
+					$certificate->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
+				}
+			}
+			$zipArchive = $certificate->zipCertificatesInArchiveDirectory($archive_dir, TRUE);
+		}
+
 	}
 	
 	/**
@@ -1182,7 +1222,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$templatehead->parseCurrentBlock();
 			if ($this->object->canShowCertificate($user_id, $active_id))
 			{
-				$templatehead->setVariable("CERTIFICATE_URL", $this->ctrl->getLinkTargetByClass("iltestcertificategui", "outCertificate"));
+				$templatehead->setVariable("CERTIFICATE_URL", $this->ctrl->getLinkTarget($this, "outCertificate"));
 				$templatehead->setVariable("CERTIFICATE_TEXT", $this->lng->txt("certificate"));
 			}
 		}
@@ -1467,5 +1507,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$tableoutput = $table->render();
 		$this->tpl->setVariable("TBL_SINGLE_ANSWERS", $tableoutput);
 	}
+
+	/**
+	* Output of a test certificate
+	*/
+	public function outCertificate()
+	{
+		global $ilUser;
+
+		$active_id = $_GET["active_id"];
+		$counted_pass = ilObjTest::_getResultPass($active_id);
+		include_once "./Services/Certificate/classes/class.ilCertificate.php";
+		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
+		$certificate = new ilCertificate(new ilTestCertificateAdapter($this->object));
+		$certificate->outCertificate(array("active_id" => $active_id, "pass" => $counted_pass));
+	}
+	
 }
 ?>

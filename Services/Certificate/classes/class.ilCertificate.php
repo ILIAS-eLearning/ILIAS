@@ -391,61 +391,11 @@ class ilCertificate
 	}
 	
 	/**
-	* Creates a directory for a zip archive containing multiple certificates
-	*/
-	private function createArchiveDirectory()
-	{
-		$dir = $this->getAdapter()->getCertificatePath() . time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate/";
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::makeDirParents($dir);
-		return $dir;
-	}
-	
-	/**
-	* Adds PDF data as a file to a given directory
-	*/
-	private function addPDFtoArchiveDirectory($pdfdata, $dir, $filename)
-	{
-		$fh = fopen($dir . $filename, "wb");
-		fwrite($fh, $pdfdata);
-		fclose($fh);
-	}
-	
-	/**
-	* Creates a ZIP file with user certificates
-	*/
-	function outCertificates($userfilter = "", $passedonly = FALSE)
-	{
-		global $ilUser;
-		
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		$archive_dir = $this->createArchiveDirectory();
-		$total_users = array();
-		$total_users =& $this->object->evalTotalPersonsArray();
-		if (count($total_users))
-		{
-			foreach ($total_users as $active_id => $name)
-			{
-				$user_id = $this->object->_getUserIdFromActiveId($active_id);
-				$pdf = $this->outCertificate($active_id, "", FALSE, $userfilter, $passedonly);
-				if (strlen($pdf))
-				{
-					$this->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
-				}
-			}
-			$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificates.zip";
-			ilUtil::zip($archive_dir, $this->getAdapter()->getCertificatePath() . $zipfile);
-			ilUtil::delDir($archive_dir);
-			ilUtil::deliverFile($this->getAdapter()->getCertificatePath() . $zipfile, $zipfile, "application/zip");
-		}
-	}
-
-	/**
 	* Creates a PDF certificate
 	*
 	* @param array $params An array of parameters which is needed to create the certificate
 	*/
-	public function outCertificate($params)
+	public function outCertificate($params, $deliver = TRUE)
 	{
 		$insert_tags = $this->getAdapter()->getCertificateVariablesForPresentation($params);
 		$xslfo = file_get_contents($this->getXSLPath());
@@ -778,6 +728,57 @@ class ilCertificate
 	{
 		$this->adapter =& $adapter;
 	}
+	
+	/***************************************
+	/* BULK CERTIFICATE PROCESSING METHODS *
+	/***************************************
+
+	/**
+	* Creates a directory for a zip archive containing multiple certificates
+	*
+	* @return string The created archive directory
+	*/
+	public function createArchiveDirectory()
+	{
+		$dir = $this->getAdapter()->getCertificatePath() . time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate/";
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		ilUtil::makeDirParents($dir);
+		return $dir;
+	}
+	
+	/**
+	* Adds PDF data as a file to a given directory
+	*
+	* @param binary $pdfdata Binary PDF data
+	* @param string $dir Directory to contain the PDF data
+	* @param string $filename The filename to save the PDF data
+	*/
+	public function addPDFtoArchiveDirectory($pdfdata, $dir, $filename)
+	{
+		$fh = fopen($dir . $filename, "wb");
+		fwrite($fh, $pdfdata);
+		fclose($fh);
+	}
+	
+	/**
+	* Create a ZIP file from a directory with certificates
+	*
+	* @param string $dir Directory containing the certificates
+	* @param boolean $deliver TRUE to deliver the ZIP file, FALSE to return the filename only
+	* @return string The created ZIP archive path
+	*/
+	public function zipCertificatesInArchiveDirectory($dir, $deliver = TRUE)
+	{
+		$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificates.zip";
+		ilUtil::zip($dir, $this->getAdapter()->getCertificatePath() . $zipfile);
+		ilUtil::delDir($dir);
+		if ($deliver)
+		{
+			ilUtil::deliverFile($this->getAdapter()->getCertificatePath() . $zipfile, $zipfile, "application/zip");
+		}
+		return $this->getAdapter()->getCertificatePath() . $zipfile;
+	}
+	
 }
 
 ?>

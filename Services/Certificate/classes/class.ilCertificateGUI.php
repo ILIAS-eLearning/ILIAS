@@ -142,33 +142,13 @@ class ilCertificateGUI
 	}
 
 	/**
-	* Exports the user results as PDF certificates using
-	* XSL-FO via XML:RPC calls
-	*
-	* @access public
-	*/
-	public function exportCertificate()
-	{
-		$this->object->outCertificates($_GET["g_userfilter"], $_GET["g_passedonly"]);
-	}
-	
-	/**
 	* Exports the certificate
 	*/
 	public function certificateExportFO()
 	{
 		$this->object->deliverExportFileXML();
 	}
-	
 
-	/**
-	* Creates a certificate output for a given active id
-	*/
-	public function certificateOutput()
-	{
-		$this->object->outCertificate($_GET["active_id"], $_GET["pass"]);
-	}
-	
 	/**
 	* Removes the background image of a certificate
 	*/
@@ -411,21 +391,6 @@ class ilCertificateGUI
 			}
 		}
 	}
-
-	/**
-	* Output of a test certificate
-	*/
-	public function outCertificate()
-	{
-		global $ilUser;
-
-		$active_id = $this->object->object->getTestSession()->getActiveId();
-		$counted_pass = ilObjTest::_getResultPass($active_id);
-		$this->ctrl->setParameterByClass("ilCertificateGUI","active_id", $active_id);
-		$this->ctrl->setParameterByClass("ilCertificateGUI","pass", $counted_pass);
-		$this->ctrl->redirectByClass("ilCertificateGUI", "certificateOutput");
-	}
-	
 }
 
 ?>
