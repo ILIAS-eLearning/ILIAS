@@ -31,32 +31,27 @@
 class ilCertificateGUI
 {
 	/**
-	* Question id
-	*
-	* A unique question id
+	* ilCertificate object reference
 	*
 	* @var integer
 	*/
 	var $object;
+
 	/**
 	* The reference to the ILIAS control class
 	*
-	* The reference to the ILIAS control class
-	*
-	* @var ctrl
+	* @var object
 	*/
 	var $ctrl;
+
 	/**
 	* The reference to the ILIAS tree class
 	*
-	* The reference to the ILIAS tree class
-	*
-	* @var ctrl
+	* @var object
 	*/
 	var $tree;
+
 	/**
-	* The reference to the ILIAS class
-	*
 	* The reference to the ILIAS class
 	*
 	* @var object
@@ -66,8 +61,6 @@ class ilCertificateGUI
 	/**
 	* The reference to the Template class
 	*
-	* The reference to the Template class
-	*
 	* @var object
 	*/
 	var $tpl;
@@ -75,18 +68,19 @@ class ilCertificateGUI
 	/**
 	* The reference to the Language class
 	*
-	* The reference to the Language class
-	*
 	* @var object
 	*/
 	var $lng;
+	
+	/**
+	* The reference ID of the object
+	*
+	* @var object
+	*/
 	var $ref_id;
 
 	/**
 	* ilCertificateGUI constructor
-	*
-	* The constructor takes possible arguments an creates an instance of 
-	* the ilCertificateGUI object.
 	*
 	* @param object $a_object A reference to the test container object
 	* @access public
@@ -97,8 +91,8 @@ class ilCertificateGUI
 
 		include_once "./Services/Certificate/classes/class.ilCertificate.php";
 		$this->object = new ilCertificate($adapter);
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
 		$this->ilias =& $ilias;
 		$this->tree =& $tree;
@@ -123,102 +117,71 @@ class ilCertificateGUI
 		return $ret;
 	}
 
-/**
-* Retrieves the ilCtrl command
-*
-* Retrieves the ilCtrl command
-*
-* @access public
-*/
-	function getCommand($cmd)
+	/**
+	* Retrieves the ilCtrl command
+	*/
+	public function getCommand($cmd)
 	{
 		return $cmd;
 	}
 	
-/**
-* Import a certificate from a ZIP archive
-*
-* Import a certificate from a ZIP archive
-*
-* @access public
-*/
-	function certificateImport()
+	/**
+	* Import a certificate from a ZIP archive
+	*/
+	public function certificateImport()
 	{
 		$this->certificateEditor();
 	}
 	
-/**
-* Creates a certificate preview
-*
-* Creates a certificate preview
-*
-* @access public
-*/
-	function certificatePreview()
+	/**
+	* Creates a certificate preview
+	*/
+	public function certificatePreview()
 	{
 		$this->object->createPreview();
-		$this->certificateEditor();
 	}
 
-/**
-* Exports the user results as PDF certificates
-*
-* Exports the user results as PDF certificates using
-* XSL-FO via XML:RPC calls
-*
-* @access public
-*/
-	function exportCertificate()
+	/**
+	* Exports the user results as PDF certificates using
+	* XSL-FO via XML:RPC calls
+	*
+	* @access public
+	*/
+	public function exportCertificate()
 	{
 		$this->object->outCertificates($_GET["g_userfilter"], $_GET["g_passedonly"]);
 	}
 	
-/**
-* Exports the certificate
-*
-* Exports the certificate
-*
-* @access public
-*/
-	function certificateExportFO()
+	/**
+	* Exports the certificate
+	*/
+	public function certificateExportFO()
 	{
 		$this->object->deliverExportFileXML();
 	}
 	
 
 	/**
-* Creates a certificate output for a given active id
-*
-* Creates a certificate output for a given active id
-*
-* @access public
-*/
-	function certificateOutput()
+	* Creates a certificate output for a given active id
+	*/
+	public function certificateOutput()
 	{
 		$this->object->outCertificate($_GET["active_id"], $_GET["pass"]);
 	}
 	
-/**
-* Removes the background image of a certificate
-*
-* Removes the background image of a certificate
-*
-* @access public
-*/
-	function certificateRemoveBackground()
+	/**
+	* Removes the background image of a certificate
+	*/
+	public function certificateRemoveBackground()
 	{
 		$this->object->deleteBackgroundImage();
 		$this->certificateEditor();
 	}
 	
-/**
-* Deletes the certificate and all it's data
-*
-* Deletes the certificate and all it's data
-*
-* @access public
-*/
-	function certificateDelete()
+	/**
+	* Deletes the certificate and all its data
+	*/
+	public function certificateDelete()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
 
@@ -240,44 +203,35 @@ class ilCertificateGUI
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "certificateEditor"));
 	}
 	
-/**
-* Deletes the certificate and all it's data
-*
-* Deletes the certificate and all it's data
-*
-* @access public
-*/
-	function certificateDeleteConfirm()
+	/**
+	* Deletes the certificate and all its data
+	*/
+	public function certificateDeleteConfirm()
 	{
 		$this->object->deleteCertificate();
 		$this->ctrl->redirect($this, "certificateEditor");
 	}
 	
-/**
-* Saves the certificate
-*
-* Saves the certificate
-*
-* @access public
-*/
+	/**
+	* Saves the certificate
+	*/
 	function certificateSave()
 	{
 		$this->certificateEditor();
 	}
 
-/**
-* Uploads the certificate
-*
-* Uploads the certificate
-*
-* @access public
-*/
-	function certificateUpload()
+	/**
+	* Uploads the certificate
+	*/
+	public function certificateUpload()
 	{
 		$this->certificateEditor();
 	}
 	
-	function getFormFieldsFromPOST()
+	/**
+	* Get the form values from an HTTP POST
+	*/
+	private function getFormFieldsFromPOST()
 	{
 		$form_fields = array(
 			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
@@ -294,24 +248,23 @@ class ilCertificateGUI
 		return $form_fields;
 	}
 	
-	function getFormFieldsFromFO()
+	/**
+	* Get the form values from the certificate xsl-fo
+	*/
+	private function getFormFieldsFromFO()
 	{
 		$form_fields = $this->object->getFormFieldsFromFO();
 		$this->object->getAdapter()->addFormFieldsFromObject($form_fields);
 		return $form_fields;
 	}
 
-/**
-* Shows the certificate editor for ILIAS tests
-*
-* Shows the certificate editor for ILIAS tests
-*
-* @access public
-*/
-	function certificateEditor()
+	/**
+	* Shows the certificate editor for ILIAS tests
+	*/
+	public function certificateEditor()
 	{
 		$form_fields = array();
-		if (is_array($_POST) && (count($_POST)))
+		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
 		{
 			$form_fields = $this->getFormFieldsFromPOST();
 		}
@@ -358,7 +311,7 @@ class ilCertificateGUI
 		}
 		$pageformat->setRequired(TRUE);
 		$pageformat->setOptions($options);
-		if (count($_POST)) $pageformat->checkInput();
+		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $pageformat->checkInput();
 		$form->addItem($pageformat);
 
 		$bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
@@ -387,7 +340,7 @@ class ilCertificateGUI
 		$padding_top->setSize(6);
 		$padding_top->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
 		$padding_top->setInfo($this->lng->txt("certificate_unit_description"));
-		if (count($_POST)) $padding_top->checkInput();
+		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $padding_top->checkInput();
 		$form->addItem($padding_top);
 		
 		$rect = new ilCSSRectInputGUI($this->lng->txt("certificate_margin_body"), "margin_body");
@@ -398,7 +351,7 @@ class ilCertificateGUI
 		$rect->setLeft($form_fields["margin_body_left"]);
 		$rect->setRight($form_fields["margin_body_right"]);
 		$rect->setInfo($this->lng->txt("certificate_unit_description"));
-		if (count($_POST)) $rect->checkInput();
+		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $rect->checkInput();
 		$form->addItem($rect);
 		
 		$certificate = new ilTextAreaInputGUI($this->lng->txt("certificate_text"), "certificate_text");
@@ -420,11 +373,17 @@ class ilCertificateGUI
 		"ul"			
 		);
 		$certificate->setRteTags($tags);
-		if (count($_POST)) $certificate->checkInput();
+		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0) $certificate->checkInput();
 		$form->addItem($certificate);
 
 		$this->object->getAdapter()->addAdditionalFormElements($form, $form_fields);
 
+		if ($this->object->isComplete() || $this->object->hasBackgroundImage())
+		{
+			$form->addCommandButton("certificatePreview", $this->lng->txt("certificate_preview"));
+			$form->addCommandButton("certificateExportFO", $this->lng->txt("certificate_export"));
+			$form->addCommandButton("certificateDelete", $this->lng->txt("delete"));
+		}
 		$form->addCommandButton("certificateSave", $this->lng->txt("save"));
 
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
@@ -437,222 +396,26 @@ class ilCertificateGUI
 			}
 			if ($form->checkInput())
 			{
-				$xslfo = $this->object->processXHTML2FO($form_fields);
-				$this->object->getAdapter()->saveFormFields($form_fields);
-				$this->object->saveCertificate($xslfo);
-				ilUtil::sendInfo($this->lng->txt("saved_successfully"), TRUE);
-				$this->ctrl->redirect($this, "certificateEditor");
+				try
+				{
+					$xslfo = $this->object->processXHTML2FO($form_fields);
+					$this->object->getAdapter()->saveFormFields($form_fields);
+					$this->object->saveCertificate($xslfo);
+					ilUtil::sendInfo($this->lng->txt("saved_successfully"), TRUE);
+					$this->ctrl->redirect($this, "certificateEditor");
+				}
+				catch (Exception $e)
+				{
+					ilUtil::sendInfo($e->getMessage());
+				}
 			}
 		}
-
-		return;
-		return $form->getHTML();
-		
-		global $ilAccess;
-		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
-		{
-			// allow only write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		}
-
-		if ((strcmp($this->ctrl->getCmd(), "certificateSave") == 0) || (strcmp($this->ctrl->getCmd(), "certificateRemoveBackground") == 0))
-		{
-			// try to save the certificate to an XSL-FO document
-			// 1. run checks on all input fields
-			$result = $this->object->checkCertificateInput($form_fields);
-			if ($result !== TRUE)
-			{
-				ilUtil::sendInfo($result);
-			}
-			else
-			{
-				$xslfo = $this->object->processXHTML2FO($form_fields);
-				$this->object->saveCertificateVisibility($form_fields["certificate_visibility"]);
-				$this->object->saveCertificate($xslfo);
-			}
-		}
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_certificate_edit.html", "Modules/Test");
-
-		if ($this->object->hasBackgroundImage())
-		{
-			$this->tpl->setCurrentBlock("background_exists");
-			$this->tpl->setVariable("BACKGROUND_THUMBNAIL", $this->object->getBackgroundImagePathWeb() . ".thumb.jpg");
-			$this->tpl->setVariable("THUMBNAIL_ALT", $this->lng->txt("preview"));
-			$this->tpl->setVariable("DELETE_BUTTON", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$pageformats = $this->object->getPageFormats();
-		foreach ($pageformats as $pageformat)
-		{
-			$this->tpl->setCurrentBlock("page_format_row");
-			$this->tpl->setVariable("VALUE_PAGE_FORMAT", $pageformat["value"]);
-			$this->tpl->setVariable("NAME_PAGE_FORMAT", $pageformat["name"]);
-			if (strcmp($form_fields["pageformat"], $pageformat["value"]) == 0)
-			{
-				$this->tpl->setVariable("SELECTED_PAGE_FORMAT", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		if (strcmp($form_fields["pageformat"], "custom") == 0)
-		{
-			$this->tpl->setCurrentBlock("custom_format");
-			$this->tpl->setVariable("TEXT_PAGE_UNIT_DESCRIPTION", $this->lng->txt("certificate_unit_description"));
-			$this->tpl->setVariable("TEXT_PAGEHEIGHT", $this->lng->txt("certificate_pageheight"));
-			$this->tpl->setVariable("TEXT_PAGEWIDTH", $this->lng->txt("certificate_pagewidth"));
-			if (strlen($form_fields["pageheight"]))
-			{
-				$this->tpl->setVariable("VALUE_PAGEHEIGHT", " value=\"".$form_fields["pageheight"]."\"");
-			}
-			if (strlen($form_fields["pagewidth"]))
-			{
-				$this->tpl->setVariable("VALUE_PAGEWIDTH", " value=\"".$form_fields["pagewidth"]."\"");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setVariable("TEXT_CERTIFICATE", $this->lng->txt("certificate_edit"));
-		$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("certificate_status"));
-		if ($this->object->isComplete() || $this->object->hasBackgroundImage())
-		{
-			$this->tpl->setVariable("DELETE_BUTTON_CERTIFICATE", $this->lng->txt("certificate_delete"));
-		}
-		if ($this->object->isComplete())
-		{
-			$this->tpl->setVariable("VALUE_STATUS", $this->lng->txt("certificate_status_complete"));
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			$this->tpl->setVariable("HREF_STATUS_IMAGE", ilUtil::getImagePath("icon_ok.gif"));
-			$this->tpl->setVariable("ALT_STATUS_IMAGE", $this->lng->txt("certificate_status_complete"));
-			$this->tpl->setVariable("PREVIEW_BUTTON_CERTIFICATE", $this->lng->txt("certificate_preview"));
-			$this->tpl->setVariable("PREVIEW_URL", $this->ctrl->getLinkTarget($this, "certificatePreview"));
-			$this->tpl->setVariable("IMG_PREVIEW", ilUtil::getImagePath("icon_preview.gif"));
-			$this->tpl->setVariable("IMG_EXPORT", ilUtil::getImagePath("icon_file.gif"));
-			$this->tpl->setVariable("CERTIFICATE_EXPORT", $this->lng->txt("certificate_export"));
-			$this->tpl->setVariable("EXPORT_URL", $this->ctrl->getLinkTarget($this, "certificateExportFO"));
-		}
-		else
-		{
-			$this->tpl->setVariable("VALUE_STATUS", $this->lng->txt("certificate_status_incomplete"));
-		}
-		
-		$this->tpl->setVariable("TEXT_CERTIFICATE_IMPORT", $this->lng->txt("import"));
-		
-		$this->tpl->setVariable("BUTTON_SET_PAGEFORMAT", $this->lng->txt("change"));
-		$this->tpl->setVariable("TEXT_PAGE_FORMAT", $this->lng->txt("certificate_page_format"));
-		$this->tpl->setVariable("TEXT_BACKGROUND_IMAGE", $this->lng->txt("certificate_background_image"));
-		$this->tpl->setVariable("TEXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("TEXT_PADDING_TOP", $this->lng->txt("certificate_padding_top"));
-		if (strlen($form_fields["padding_top"]) > 0)
-		{
-			$this->tpl->setVariable("VALUE_PADDING_TOP", " value=\"".$form_fields["padding_top"]."\"");
-		}
-		$this->tpl->setVariable("TEXT_MARGIN_BODY", $this->lng->txt("certificate_margin_body"));
-		$this->tpl->setVariable("TEXT_MARGIN_BODY_TOP", $this->lng->txt("certificate_top"));
-		$this->tpl->setVariable("TEXT_MARGIN_BODY_RIGHT", $this->lng->txt("certificate_right"));
-		$this->tpl->setVariable("TEXT_MARGIN_BODY_BOTTOM", $this->lng->txt("certificate_bottom"));
-		$this->tpl->setVariable("TEXT_MARGIN_BODY_LEFT", $this->lng->txt("certificate_left"));
-		if (strlen($form_fields["margin_body_top"]) > 0)
-		{
-			$this->tpl->setVariable("VALUE_MARGIN_BODY_TOP", " value=\"".$form_fields["margin_body_top"]."\"");
-		}
-		if (strlen($form_fields["margin_body_right"]) > 0)
-		{
-			$this->tpl->setVariable("VALUE_MARGIN_BODY_RIGHT", " value=\"".$form_fields["margin_body_right"]."\"");
-		}
-		if (strlen($form_fields["margin_body_bottom"]) > 0)
-		{
-			$this->tpl->setVariable("VALUE_MARGIN_BODY_BOTTOM", " value=\"".$form_fields["margin_body_bottom"]."\"");
-		}
-		if (strlen($form_fields["margin_body_left"]) > 0)
-		{
-			$this->tpl->setVariable("VALUE_MARGIN_BODY_LEFT", " value=\"".$form_fields["margin_body_left"]."\"");
-		}
-		$this->tpl->setVariable("TEXT_CERTIFICATE_TEXT", $this->lng->txt("certificate_text"));
-		if (strlen($form_fields["certificate_text"]) > 0)
-		{
-			$this->tpl->setVariable("VALUE_CERTIFICATE_TEXT", $form_fields["certificate_text"]);
-		}
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TEXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "certificateSave"));
-		
-		$this->tpl->setVariable("PH_INTRODUCTION", $this->lng->txt("certificate_ph_introduction"));
-		$this->tpl->setVariable("PH_USER_FULLNAME", $this->lng->txt("certificate_ph_fullname"));
-		$this->tpl->setVariable("PH_USER_FIRSTNAME", $this->lng->txt("certificate_ph_firstname"));
-		$this->tpl->setVariable("PH_USER_LASTNAME", $this->lng->txt("certificate_ph_lastname"));
-		$this->tpl->setVariable("PH_RESULT_PASSED", $this->lng->txt("certificate_ph_passed"));
-		$this->tpl->setVariable("PH_RESULT_POINTS", $this->lng->txt("certificate_ph_resultpoints"));
-		$this->tpl->setVariable("PH_RESULT_PERCENT", $this->lng->txt("certificate_ph_resultpercent"));
-		$this->tpl->setVariable("PH_USER_TITLE", $this->lng->txt("certificate_ph_title"));
-		$this->tpl->setVariable("PH_USER_STREET", $this->lng->txt("certificate_ph_street"));
-		$this->tpl->setVariable("PH_USER_INSTITUTION", $this->lng->txt("certificate_ph_institution"));
-		$this->tpl->setVariable("PH_USER_DEPARTMENT", $this->lng->txt("certificate_ph_department"));
-		$this->tpl->setVariable("PH_USER_CITY", $this->lng->txt("certificate_ph_city"));
-		$this->tpl->setVariable("PH_USER_ZIPCODE", $this->lng->txt("certificate_ph_zipcode"));
-		$this->tpl->setVariable("PH_USER_COUNTRY", $this->lng->txt("certificate_ph_country"));
-		$this->tpl->setVariable("PH_MAX_POINTS", $this->lng->txt("certificate_ph_maxpoints"));
-		$this->tpl->setVariable("PH_RESULT_MARK_SHORT", $this->lng->txt("certificate_ph_markshort"));
-		$this->tpl->setVariable("PH_RESULT_MARK_LONG", $this->lng->txt("certificate_ph_marklong"));
-		$this->tpl->setVariable("PH_TEST_TITLE", $this->lng->txt("certificate_ph_testtitle"));
-		$this->tpl->setVariable("PH_DATE", $this->lng->txt("certificate_ph_date"));
-		$this->tpl->setVariable("PH_DATETIME", $this->lng->txt("certificate_ph_datetime"));
-		
-		$this->tpl->setVariable("TEXT_UNIT_DESCRIPTION", $this->lng->txt("certificate_unit_description"));
-		$this->tpl->setVariable("TEXT_CERTIFICATE_VISIBILITY", $this->lng->txt("certificate_visibility"));
-		$this->tpl->setVariable("TEXT_CERTIFICATE_VISIBILITY_INTRODUCTION", $this->lng->txt("certificate_visibility_introduction"));
-		$this->tpl->setVariable("TEXT_VISIBILITY_ALWAYS", $this->lng->txt("certificate_visibility_always"));
-		$this->tpl->setVariable("TEXT_VISIBILITY_NEVER", $this->lng->txt("certificate_visibility_never"));
-		$this->tpl->setVariable("TEXT_VISIBILITY_PASSED", $this->lng->txt("certificate_visibility_passed"));
-		switch ($form_fields["certificate_visibility"])
-		{
-			case 1:
-				$this->tpl->setVariable("CHECKED_CV_1", " checked=\"checked\"");
-				break;
-			case 2:
-				$this->tpl->setVariable("CHECKED_CV_2", " checked=\"checked\"");
-				break;
-			case 0:
-			default:
-				$this->tpl->setVariable("CHECKED_CV_0", " checked=\"checked\"");
-				break;
-		}
-
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-
-		$tags = array(
-		"br",
-		"em",
-		"font",
-		"li",
-		"ol",
-		"p",
-		"span",
-		"strong",
-		"u",
-		"ul"			
-		);
-		$rte->addCustomRTESupport($obj_id, $obj_type, $tags);
-		
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
 	* Output of a test certificate
-	*
-	* Output of a test certificate
-	*
-	* @access public
 	*/
-	function outCertificate()
+	public function outCertificate()
 	{
 		global $ilUser;
 

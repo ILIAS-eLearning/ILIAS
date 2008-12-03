@@ -77,11 +77,7 @@ class ilCertificate
 	/**
 	* ilCertificate constructor
 	*
-	* The constructor takes possible arguments an creates an instance of 
-	* the ilCertificate object.
-	*
 	* @param object $adapter The certificate adapter needed to construct the certificate
-	* @access public
 	*/
 	function __construct($adapter)
 	{
@@ -98,12 +94,9 @@ class ilCertificate
 	/**
 	* Returns the filesystem path of the background image
 	*
-	* Returns the filesystem path of the background image
-	*
 	* @return string The filesystem path of the background image
-	* @access public
 	*/
-	function getBackgroundImagePath()
+	public function getBackgroundImagePath()
 	{
 		return $this->getAdapter()->getCertificatePath() . $this->getBackgroundImageName();
 	}
@@ -111,12 +104,9 @@ class ilCertificate
 	/**
 	* Returns the filename of the background image
 	*
-	* Returns the filename of the background image
-	*
 	* @return string The filename of the background image
-	* @access public
 	*/
-	function getBackgroundImageName()
+	public function getBackgroundImageName()
 	{
 		return "background.jpg";
 	}
@@ -124,12 +114,9 @@ class ilCertificate
 	/**
 	* Returns the filesystem path of the background image thumbnail
 	*
-	* Returns the filesystem path of the background image thumbnail
-	*
 	* @return string The filesystem path of the background image thumbnail
-	* @access public
 	*/
-	function getBackgroundImageThumbPath()
+	public function getBackgroundImageThumbPath()
 	{
 		return $this->getAdapter()->getCertificatePath() . $this->getBackgroundImageName() . ".thumb.jpg";
 	}
@@ -137,12 +124,9 @@ class ilCertificate
 	/**
 	* Returns the filesystem path of the background image temp file during upload
 	*
-	* Returns the filesystem path of the background image temp file during upload
-	*
 	* @return string The filesystem path of the background image temp file
-	* @access public
 	*/
-	function getBackgroundImageTempfilePath()
+	public function getBackgroundImageTempfilePath()
 	{
 		return $this->getAdapter()->getCertificatePath() . "background_upload";
 	}
@@ -150,12 +134,9 @@ class ilCertificate
 	/**
 	* Returns the filesystem path of the XSL-FO file
 	*
-	* Returns the filesystem path of the XSL-FO file
-	*
 	* @return string The filesystem path of the XSL-FO file
-	* @access public
 	*/
-	function getXSLPath()
+	public function getXSLPath()
 	{
 		return $this->getAdapter()->getCertificatePath() . $this->getXSLName();
 	}
@@ -163,10 +144,7 @@ class ilCertificate
 	/**
 	* Returns the filename of the XSL-FO file
 	*
-	* Returns the filename of the XSL-FO file
-	*
 	* @return string The filename of the XSL-FO file
-	* @access public
 	*/
 	function getXSLName()
 	{
@@ -174,14 +152,21 @@ class ilCertificate
 	}
 	
 	/**
-	* Returns the web path of the background image
+	* Returns the filename of the XSL-FO file
 	*
+	* @return string The filename of the XSL-FO file
+	*/
+	public static function _getXSLName()
+	{
+		return "certificate.xml";
+	}
+	
+	/**
 	* Returns the web path of the background image
 	*
 	* @return string The web path of the background image
-	* @access public
 	*/
-	function getBackgroundImagePathWeb()
+	public function getBackgroundImagePathWeb()
 	{
 		// TODO: this is generic now -> provide better solution
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -189,7 +174,12 @@ class ilCertificate
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 	
-	function getBackgroundImageThumbPathWeb()
+	/**
+	* Returns the web path of the background image thumbnail
+	*
+	* @return string The web path of the background image thumbnail
+	*/
+	public function getBackgroundImageThumbPathWeb()
 	{
 		// TODO: this is generic now -> provide better solution
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -200,25 +190,20 @@ class ilCertificate
 	* Deletes the background image of a certificate
 	*
 	* @return boolean TRUE if the process succeeds
-	* @access public
 	*/
-	function deleteBackgroundImage()
+	public function deleteBackgroundImage()
 	{
-		global $ilLog;
 		$result = TRUE;
 		if (file_exists($this->getBackgroundImageThumbPath()))
 		{
-			$ilLog->write("delete " . $this->getBackgroundImageThumbPath());
 			$result = $result & unlink($this->getBackgroundImageThumbPath());
 		}
 		if (file_exists($this->getBackgroundImagePath()))
 		{
-			$ilLog->write("delete " . $this->getBackgroundImagePath());
 			$result = $result & unlink($this->getBackgroundImagePath());
 		}
 		if (file_exists($this->getBackgroundImageTempfilePath()))
 		{
-			$ilLog->write("delete " . $this->getBackgroundImageTempfilePath());
 			$result = $result & unlink($this->getBackgroundImageTempfilePath());
 		}
 		return $result;
@@ -227,96 +212,21 @@ class ilCertificate
 	/**
 	* Deletes the certificate and all it's data
 	*
-	* Deletes the certificate and all it's data
-	*
 	* @access public
 	*/
-	function deleteCertificate()
+	public function deleteCertificate()
 	{
-		global $ilLog;
 		if (file_exists($this->getAdapter()->getCertificatePath()))
 		{
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			ilUtil::delDir($this->getAdapter()->getCertificatePath());
 		}
 	}
-
-/**
-* Checks the certificate fields for errors prior to saving the certificate
-*
-* Checks the certificate fields for errors prior to saving the certificate
-*
-* @param array $form_fields An associative array containing the form fields of the certificate editor
-* @return TRUE if the check succeeded, an error message otherwise
-* @access public
-*/
-	function checkCertificateInput($form_fields)
-	{
-		// 1. check the required fields
-		if ((strlen($form_fields["padding_top"]) == 0) ||
-			(strlen($form_fields["margin_body_top"]) == 0) ||
-			(strlen($form_fields["margin_body_right"]) == 0) ||
-			(strlen($form_fields["margin_body_bottom"]) == 0) ||
-			(strlen($form_fields["margin_body_left"]) == 0) ||
-			(strlen($form_fields["certificate_text"]) == 0))
-		{
-			return $this->lng->txt("fill_out_all_required_fields");
-		}
-		
-		$unitexpression = "^([\d\.]+)(pt|pc|px|em|mm|cm|in){0,1}\$";
-		if (!preg_match("/$unitexpression/", $form_fields["padding_top"], $matches))
-		{
-			return $this->lng->txt("certificate_wrong_unit");
-		}
-		if (strcmp($form_fields["pageformat"], "custom") == 0)
-		{
-			if (!preg_match("/$unitexpression/", $form_fields["pageheight"], $matches))
-			{
-				return $this->lng->txt("certificate_wrong_unit");
-			}
-			if (!preg_match("/$unitexpression/", $form_fields["pagewidth"], $matches))
-			{
-				return $this->lng->txt("certificate_wrong_unit");
-			}
-		}
-		if (!preg_match("/$unitexpression/", $form_fields["margin_body_top"], $matches))
-		{
-			return $this->lng->txt("certificate_wrong_unit");
-		}
-		if (!preg_match("/$unitexpression/", $form_fields["margin_body_right"], $matches))
-		{
-			return $this->lng->txt("certificate_wrong_unit");
-		}
-		if (!preg_match("/$unitexpression/", $form_fields["margin_body_bottom"], $matches))
-		{
-			return $this->lng->txt("certificate_wrong_unit");
-		}
-		if (!preg_match("/$unitexpression/", $form_fields["margin_body_left"], $matches))
-		{
-			return $this->lng->txt("certificate_wrong_unit");
-		}
-		if (strlen($form_fields["certificate_text"]) == 0)
-		{
-			return $this->lng->txt("certificate_missing_text");
-		}
-		if (strlen($form_fields["certificate_text"]) > 0)
-		{
-			include_once "class.ilXMLChecker.php";
-			$check = new ilXMLChecker();
-			$check->setXMLContent(str_replace("&nbsp;", " ", "<html>" . $form_fields["certificate_text"] . "</html>"));
-			$check->startParsing();
-			if ($check->hasError())
-			{
-				return $this->lng->txt("certificate_not_well_formed");
-			}
-		}
-		return TRUE;
-	}
 	
 	/**
 	* Convert the XSL-FO to the certificate text and the form settings using XSL transformation
 	*/
-	function getFormFieldsFromFO()
+	public function getFormFieldsFromFO()
 	{
 		if (file_exists($this->getXSLPath()))
 		{
@@ -359,14 +269,6 @@ class ilCertificate
 			$pagesize = "letterlandscape";
 		}
 		
-		/* only needed for upload of xsl-fo to convert existing background image 
-		$backgroundimage = "";
-		if (preg_match("/background-image\=\"url\([']{0,1}([^\)]+)[']{0,1}\)/", $xslfo, $matches))
-		{
-			$backgroundimage = $matches[1];
-			echo $backgroundimage;
-		}
-		*/
 		$paddingtop = "0cm";
 		if (preg_match("/padding-top\=\"([^\"]+)\"/", $xslfo, $matches))
 		{
@@ -421,18 +323,25 @@ class ilCertificate
 	/**
 	* Convert the certificate text to XSL-FO using XSL transformation
 	*
-	* Convert the certificate text to XSL-FO using XSL transformation
-	*
 	* @param array $form_data The form data
 	* @return string XSL-FO code
-	* @access private
 	*/
-	function processXHTML2FO($form_data, $for_export = FALSE)
+	public function processXHTML2FO($form_data, $for_export = FALSE)
 	{
 		$content = "<html><body>".$form_data["certificate_text"]."</body></html>";
 		$content = str_replace("<p>&nbsp;</p>", "<p><br /></p>", $content);
 		$content = str_replace("&nbsp;", " ", $content);
 		$content = preg_replace("//", "", $content);
+
+		include_once "./Services/Certificate/classes/class.ilXMLChecker.php";
+		$check = new ilXMLChecker();
+		$check->setXMLContent($content);
+		$check->startParsing();
+		if ($check->hasError())
+		{
+			throw new Exception($this->lng->txt("certificate_not_well_formed"));
+		}
+
 		$xsl = file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
@@ -464,48 +373,27 @@ class ilCertificate
 	/**
 	* Exchanges the variables in the certificate text with given values
 	*
-	* Exchanges the variables in the certificate text with given values
-	*
 	* @param string $certificate_text The XSL-FO certificate text
-	* @param array $user_data An associative array containing the variables and the values to replace
+	* @param array $insert_tags An associative array containing the variables and the values to replace
 	* @return string XSL-FO code
-	* @access private
 	*/
-	function exchangeCertificateVariables($certificate_text, $user_data = array())
+	private function exchangeCertificateVariables($certificate_text, $insert_tags = array())
 	{
-		if (count($user_data) == 0)
+		if (count($insert_tags) == 0)
 		{
-			include_once "./classes/class.ilFormat.php";
-			$user_data = array(
-				"[USER_FULLNAME]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_fullname")),
-				"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_firstname")),
-				"[USER_LASTNAME]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_lastname")),
-				"[USER_TITLE]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_title")),
-				"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_institution")),
-				"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_department")),
-				"[USER_STREET]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_street")),
-				"[USER_CITY]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_city")),
-				"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_zipcode")),
-				"[USER_COUNTRY]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_user_country")),
-				"[RESULT_PASSED]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_passed")),
-				"[RESULT_POINTS]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_points")),
-				"[RESULT_PERCENT]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_percent")),
-				"[MAX_POINTS]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_max_points")),
-				"[RESULT_MARK_SHORT]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_mark_short")),
-				"[RESULT_MARK_LONG]" => ilUtil::prepareFormOutput($this->lng->txt("certificate_var_result_mark_long")),
-				"[TEST_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-				"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date"),
-				"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE)
-			);
+			$insert_tags = $this->getAdapter()->getCertificateVariablesForPreview();
 		}
-		foreach ($user_data as $var => $value)
+		foreach ($insert_tags as $var => $value)
 		{
 			$certificate_text = str_replace($var, $value, $certificate_text);
 		}
 		return $certificate_text;
 	}
 	
-	function createArchiveDirectory()
+	/**
+	* Creates a directory for a zip archive containing multiple certificates
+	*/
+	private function createArchiveDirectory()
 	{
 		$dir = $this->getAdapter()->getCertificatePath() . time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate/";
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -513,7 +401,10 @@ class ilCertificate
 		return $dir;
 	}
 	
-	function addPDFtoArchiveDirectory($pdfdata, $dir, $filename)
+	/**
+	* Adds PDF data as a file to a given directory
+	*/
+	private function addPDFtoArchiveDirectory($pdfdata, $dir, $filename)
 	{
 		$fh = fopen($dir . $filename, "wb");
 		fwrite($fh, $pdfdata);
@@ -522,10 +413,6 @@ class ilCertificate
 	
 	/**
 	* Creates a ZIP file with user certificates
-	*
-	* Creates a ZIP file with user certificates
-	*
-	* @access private
 	*/
 	function outCertificates($userfilter = "", $passedonly = FALSE)
 	{
@@ -554,69 +441,17 @@ class ilCertificate
 	}
 
 	/**
-	* Creates a PDF preview of the XSL-FO certificate
+	* Creates a PDF certificate
 	*
-	* Creates a PDF preview of the XSL-FO certificate and delivers it
-	*
-	* @access private
+	* @param array $params An array of parameters which is needed to create the certificate
 	*/
-	function outCertificate($active_id, $pass, $deliver = TRUE, $userfilter = "", $passedonly = FALSE)
+	public function outCertificate($params)
 	{
-		if (strlen($pass))
-		{
-			$result_array =& $this->object->getTestResult($active_id, $pass);
-		}
-		else
-		{
-			$result_array =& $this->object->getTestResult($active_id);
-		}
-		if (($passedonly) && ($result_array["test"]["passed"] == FALSE)) return "";
-		$passed = $result_array["test"]["passed"] ? $this->lng->txt("certificate_passed") : $this->lng->txt("certificate_failed");
-		if (!$result_array["test"]["total_max_points"])
-		{
-			$percentage = 0;
-		}
-		else
-		{
-			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
-		}
-		$mark_obj = $this->object->mark_schema->getMatchingMark($percentage);
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		include_once './Services/User/classes/class.ilObjUser.php';
-		$user_data = ilObjUser::_lookupFields($user_id);
-		if (strlen($userfilter))
-		{
-			if (!@preg_match("/$userfilter/i", $user_data["lastname"] . ", " . $user_data["firstname"] . " " . $user_data["title"]))
-			{
-				return "";
-			}
-		}
-		include_once "./classes/class.ilFormat.php";
-		$user_data = array(
-			"[USER_FULLNAME]" => ilUtil::prepareFormOutput(trim($user_data["title"] . " " . $user_data["firstname"] . " " . $user_data["lastname"])),
-			"[USER_FIRSTNAME]" => ilUtil::prepareFormOutput($user_data["firstname"]),
-			"[USER_LASTNAME]" => ilUtil::prepareFormOutput($user_data["lastname"]),
-			"[USER_TITLE]" => ilUtil::prepareFormOutput($user_data["title"]),
-			"[USER_INSTITUTION]" => ilUtil::prepareFormOutput($user_data["institution"]),
-			"[USER_DEPARTMENT]" => ilUtil::prepareFormOutput($user_data["department"]),
-			"[USER_STREET]" => ilUtil::prepareFormOutput($user_data["street"]),
-			"[USER_CITY]" => ilUtil::prepareFormOutput($user_data["city"]),
-			"[USER_ZIPCODE]" => ilUtil::prepareFormOutput($user_data["zipcode"]),
-			"[USER_COUNTRY]" => ilUtil::prepareFormOutput($user_data["country"]),
-			"[RESULT_PASSED]" => ilUtil::prepareFormOutput($passed),
-			"[RESULT_POINTS]" => ilUtil::prepareFormOutput($result_array["test"]["total_reached_points"]),
-			"[RESULT_PERCENT]" => sprintf("%2.2f", $percentage) . "%",
-			"[MAX_POINTS]" => ilUtil::prepareFormOutput($result_array["test"]["total_max_points"]),
-			"[RESULT_MARK_SHORT]" => ilUtil::prepareFormOutput($mark_obj->getShortName()),
-			"[RESULT_MARK_LONG]" => ilUtil::prepareFormOutput($mark_obj->getOfficialName()),
-			"[TEST_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date"),
-			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE)
-		);
+		$insert_tags = $this->getAdapter()->getCertificateVariablesForPresentation($params);
 		$xslfo = file_get_contents($this->getXSLPath());
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
 		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo, $user_data));
+		$fo2pdf->setFOString($this->exchangeCertificateVariables($xslfo, $insert_tags));
 		$result = $fo2pdf->send();
 		if ($deliver)
 		{
@@ -631,12 +466,8 @@ class ilCertificate
 
 	/**
 	* Creates a PDF preview of the XSL-FO certificate
-	*
-	* Creates a PDF preview of the XSL-FO certificate and delivers it
-	*
-	* @access private
 	*/
-	function createPreview()
+	public function createPreview()
 	{
 		$xslfo = file_get_contents($this->getXSLPath());
 		include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
@@ -651,9 +482,8 @@ class ilCertificate
 	* Saves the XSL-FO code to a file
 	*
 	* @param string $xslfo XSL-FO code
-	* @access private
 	*/
-	function saveCertificate($xslfo, $filename = "")
+	public function saveCertificate($xslfo, $filename = "")
 	{
 		if (!file_exists($this->getAdapter()->getCertificatePath()))
 		{
@@ -674,9 +504,8 @@ class ilCertificate
 	*
 	* @param string $image_tempfilename Name of the temporary uploaded image file
 	* @return integer An errorcode if the image upload fails, 0 otherwise
-	* @access public
 	*/
-	function uploadBackgroundImage($image_tempfilename)
+	public function uploadBackgroundImage($image_tempfilename)
 	{
 		if (!empty($image_tempfilename))
 		{
@@ -715,12 +544,9 @@ class ilCertificate
 	/**
 	* Checks for the background image of the certificate
 	*
-	* Checks for the background image of the certificate
-	*
 	* @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
-	* @access private
 	*/
-	function hasBackgroundImage()
+	public function hasBackgroundImage()
 	{
 		if (file_exists($this->getBackgroundImagePath()) && (filesize($this->getBackgroundImagePath()) > 0))
 		{
@@ -735,12 +561,9 @@ class ilCertificate
 	/**
 	* Checks the status of the certificate
 	*
-	* Checks the status of the certificate
-	*
 	* @return boolean Returns TRUE if the certificate is complete, FALSE otherwise
-	* @access private
 	*/
-	function isComplete()
+	public function isComplete()
 	{
 		if (file_exists($this->getAdapter()->getCertificatePath()))
 		{
@@ -755,20 +578,21 @@ class ilCertificate
 	/**
 	* Checks the status of the certificate
 	*
-	* Checks the status of the certificate
-	*
+	* @param object $adapter The certificate adapter
 	* @return boolean Returns TRUE if the certificate is complete, FALSE otherwise
-	* @access private
 	*/
-	function _isComplete($obj_id)
+	function _isComplete($adapter)
 	{
-		$certificatepath = $this->getAdapter()->getCertificatePath();
-		if (file_exists($certificatepath))
+		if (is_object($adapter) && method_exists($adapter, "getCertificatePath"))
 		{
-			$xslpath = $this->getAdapter()->getCertificatePath() . ilCertificate::getXSLName();
-			if (file_exists($xslpath) && (filesize($xslpath) > 0))
+			$certificatepath = $adapter->getCertificatePath();
+			if (file_exists($certificatepath))
 			{
-				return TRUE;
+				$xslpath = $adapter->getCertificatePath() . ilCertificate::_getXSLName();
+				if (file_exists($xslpath) && (filesize($xslpath) > 0))
+				{
+					return TRUE;
+				}
 			}
 		}
 		return FALSE;
@@ -777,12 +601,9 @@ class ilCertificate
 	/**
 	* Retrieves predefined page formats
 	*
-	* Retrieves predefined page formats
-	*
-	* @return array Associative array containing page formats
-	* @access private
+	* @return array Associative array containing available page formats
 	*/
-	function getPageFormats()
+	public function getPageFormats()
 	{
 		return array(
 			"a4" => array(
@@ -832,12 +653,8 @@ class ilCertificate
 
 	/**
 	* Builds an export file in ZIP format and delivers it
-	*
-	* Builds an export file in ZIP format and delivers it
-	*
-	* @access private
 	*/
-	function deliverExportFileXML()
+	public function deliverExportFileXML()
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$exportpath = $this->createArchiveDirectory();
@@ -861,9 +678,8 @@ class ilCertificate
 	* Reads an import ZIP file and creates a certificate of it
 	*
 	* @return boolean TRUE if the import succeeds, FALSE otherwise
-	* @access private
 	*/
-	function importCertificate($zipfile, $filename)
+	public function importCertificate($zipfile, $filename)
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$importpath = $this->createArchiveDirectory();
@@ -943,11 +759,21 @@ class ilCertificate
 		return TRUE;
 	}
 	
+	/**
+	* Gets the adapter
+	*
+	* @return object Adapter
+	*/
 	public function getAdapter()
 	{
 		return $this->adapter;
 	}
 	
+	/**
+	* Sets the adapter
+	*
+	* @param object $adapter Adapter
+	*/
 	public function setAdapter($adapter)
 	{
 		$this->adapter =& $adapter;
