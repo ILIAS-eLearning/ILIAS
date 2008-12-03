@@ -3089,6 +3089,7 @@ common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Only a System Administrator may assign users to the System Administrator Role
 common#:#msg_no_title#:#Please enter a title.
 common#:#msg_input_is_required#:#This input is required. Please enter a value.
+common#:#msg_wrong_format#:#The value you entered is not a valid format.
 common#:#msg_no_type_accessible#:#Sorry. You do not have the permissions to access any [type] of this list.
 common#:#msg_no_type_available#:#Sorry. There is no [type] available at the moment.
 common#:#msg_no_url#:#You didn't enter a URL
