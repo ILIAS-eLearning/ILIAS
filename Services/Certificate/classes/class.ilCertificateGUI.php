@@ -293,46 +293,11 @@ class ilCertificateGUI
 		$this->object->getAdapter()->addFormFieldsFromPOST($form_fields);
 		return $form_fields;
 	}
-
-	private function getFormFields()
+	
+	function getFormFieldsFromFO()
 	{
-		$form_fields = array();
-		if (is_array($_POST))
-		{
-			if (count($_POST) > 0)
-			{
-				// handle the form post
-				
-				// handle the certificate import
-				if (strlen($_FILES["certificate_import"]["tmp_name"]))
-				{
-					$result = $this->object->importCertificate($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
-					if ($result == FALSE)
-					{
-						ilUtil::sendInfo($this->lng->txt("certificate_error_import"));
-					}
-					else
-					{
-						$this->ctrl->redirect($this, "certificateEditor");
-					}
-				}
-				
-				// handle the file upload
-				if (strlen($_FILES["background"]["tmp_name"]))
-				{
-					$result = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
-					if ($result == FALSE)
-					{
-						ilUtil::sendInfo($this->lng->txt("certificate_error_upload_bgimage"));
-					}
-				}
-				$form_fields = $this->getFormFieldsFromPOST();
-			}
-			else
-			{
-				$form_fields = $this->object->processFO2XHTML();
-			}
-		}
+		$form_fields = $this->object->getFormFieldsFromFO();
+		$this->object->getAdapter()->addFormFieldsFromObject($form_fields);
 		return $form_fields;
 	}
 
@@ -352,9 +317,8 @@ class ilCertificateGUI
 		}
 		else
 		{
-			$form_fields = $this->object->processFO2XHTML();
+			$form_fields = $this->getFormFieldsFromFO();
 		}
-		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -365,6 +329,23 @@ class ilCertificateGUI
 
 		$import = new ilFileInputGUI($this->lng->txt("import"), "certificate_import");
 		$import->setRequired(FALSE);
+		$import->setSuffixes(array("zip"));
+		// handle the certificate import
+		if (strlen($_FILES["certificate_import"]["tmp_name"]))
+		{
+			if ($import->checkInput())
+			{
+				$result = $this->object->importCertificate($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
+				if ($result == FALSE)
+				{
+					$import->setAlert($this->lng->txt("certificate_error_import"));
+				}
+				else
+				{
+					$this->ctrl->redirect($this, "certificateEditor");
+				}
+			}
+		}
 		$form->addItem($import);
 		
 		$pageformat = new ilSelectInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
@@ -377,11 +358,27 @@ class ilCertificateGUI
 		}
 		$pageformat->setRequired(TRUE);
 		$pageformat->setOptions($options);
-		$pageformat->checkInput();
+		if (count($_POST)) $pageformat->checkInput();
 		$form->addItem($pageformat);
 
-		$bgimage = new ilFileInputGUI($this->lng->txt("certificate_background_image"), "background");
+		$bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
 		$bgimage->setRequired(FALSE);
+		if (count($_POST)) 
+		{
+			// handle the background upload
+			if (strlen($_FILES["background"]["tmp_name"]))
+			{
+				if ($bgimage->checkInput())
+				{
+					$result = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
+					if ($result == FALSE)
+					{
+						$bgimage->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
+					}
+				}
+			}
+		}
+		if (strlen($this->object->getBackgroundImageThumbPathWeb())) $bgimage->setImage($this->object->getBackgroundImageThumbPathWeb());
 		$form->addItem($bgimage);
 		
 		$padding_top = new ilTextInputGUI($this->lng->txt("certificate_padding_top"), "padding_top");
@@ -390,7 +387,7 @@ class ilCertificateGUI
 		$padding_top->setSize(6);
 		$padding_top->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
 		$padding_top->setInfo($this->lng->txt("certificate_unit_description"));
-		$padding_top->checkInput();
+		if (count($_POST)) $padding_top->checkInput();
 		$form->addItem($padding_top);
 		
 		$rect = new ilCSSRectInputGUI($this->lng->txt("certificate_margin_body"), "margin_body");
@@ -401,7 +398,7 @@ class ilCertificateGUI
 		$rect->setLeft($form_fields["margin_body_left"]);
 		$rect->setRight($form_fields["margin_body_right"]);
 		$rect->setInfo($this->lng->txt("certificate_unit_description"));
-		$rect->checkInput();
+		if (count($_POST)) $rect->checkInput();
 		$form->addItem($rect);
 		
 		$certificate = new ilTextAreaInputGUI($this->lng->txt("certificate_text"), "certificate_text");
@@ -423,7 +420,7 @@ class ilCertificateGUI
 		"ul"			
 		);
 		$certificate->setRteTags($tags);
-		$certificate->checkInput();
+		if (count($_POST)) $certificate->checkInput();
 		$form->addItem($certificate);
 
 		$this->object->getAdapter()->addAdditionalFormElements($form, $form_fields);
@@ -431,6 +428,23 @@ class ilCertificateGUI
 		$form->addCommandButton("certificateSave", $this->lng->txt("save"));
 
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+
+		if (strcmp($this->ctrl->getCmd(), "certificateSave") == 0)
+		{
+			if ($_POST["background_delete"])
+			{
+				$this->object->deleteBackgroundImage();
+			}
+			if ($form->checkInput())
+			{
+				$xslfo = $this->object->processXHTML2FO($form_fields);
+				$this->object->getAdapter()->saveFormFields($form_fields);
+				$this->object->saveCertificate($xslfo);
+				ilUtil::sendInfo($this->lng->txt("saved_successfully"), TRUE);
+				$this->ctrl->redirect($this, "certificateEditor");
+			}
+		}
+
 		return;
 		return $form->getHTML();
 		

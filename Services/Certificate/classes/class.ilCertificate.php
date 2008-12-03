@@ -189,6 +189,13 @@ class ilCertificate
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 	
+	function getBackgroundImageThumbPathWeb()
+	{
+		// TODO: this is generic now -> provide better solution
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $this->getBackgroundImageThumbPath());
+	}
+	
 	/**
 	* Deletes the background image of a certificate
 	*
@@ -308,12 +315,8 @@ class ilCertificate
 	
 	/**
 	* Convert the XSL-FO to the certificate text and the form settings using XSL transformation
-	*
-	* Convert the XSL-FO to the certificate text and the form settings using XSL transformation
-	*
-	* @access private
 	*/
-	function processFO2XHTML()
+	function getFormFieldsFromFO()
 	{
 		if (file_exists($this->getXSLPath()))
 		{
@@ -429,6 +432,7 @@ class ilCertificate
 		$content = "<html><body>".$form_data["certificate_text"]."</body></html>";
 		$content = str_replace("<p>&nbsp;</p>", "<p><br /></p>", $content);
 		$content = str_replace("&nbsp;", " ", $content);
+		$content = preg_replace("//", "", $content);
 		$xsl = file_get_contents("./Services/Certificate/xml/xhtml2fo.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
@@ -503,7 +507,7 @@ class ilCertificate
 	
 	function createArchiveDirectory()
 	{
-		$dir = $this->getAdapter()->getCertificatePath() . time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificate/";
+		$dir = $this->getAdapter()->getCertificatePath() . time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate/";
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		ilUtil::makeDirParents($dir);
 		return $dir;
@@ -542,7 +546,7 @@ class ilCertificate
 					$this->addPDFtoArchiveDirectory($pdf, $archive_dir, $user_id . "_" . str_replace(" ", "_", ilUtil::getASCIIFilename($name)) . ".pdf");
 				}
 			}
-			$zipfile = time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificates.zip";
+			$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificates.zip";
 			ilUtil::zip($archive_dir, $this->getAdapter()->getCertificatePath() . $zipfile);
 			ilUtil::delDir($archive_dir);
 			ilUtil::deliverFile($this->getAdapter()->getCertificatePath() . $zipfile, $zipfile, "application/zip");
@@ -644,9 +648,7 @@ class ilCertificate
 	}
 	
 	/**
-	* Saves the XSL-FO code to the ILIAS web directory
-	*
-	* Saves the XSL-FO code to the ILIAS web directory
+	* Saves the XSL-FO code to a file
 	*
 	* @param string $xslfo XSL-FO code
 	* @access private
@@ -667,8 +669,6 @@ class ilCertificate
 	}
 	
 	/**
-	* Uploads a background image for the certificate
-	*
 	* Uploads a background image for the certificate. Creates a new directory for the
 	* certificate if needed. Removes an existing certificate image if necessary
 	*
@@ -851,15 +851,13 @@ class ilCertificate
 		{
 			copy($this->getBackgroundImagePath(), $exportpath . $this->getBackgroundImageName());
 		}
-		$zipfile = time() . "__" . IL_INST_ID . "__" . "test" . "__" . $this->object->getId() . "__certificate.zip";
+		$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate.zip";
 		ilUtil::zip($exportpath, $this->getAdapter()->getCertificatePath() . $zipfile);
 		ilUtil::delDir($exportpath);
 		ilUtil::deliverFile($this->getAdapter()->getCertificatePath() . $zipfile, $zipfile, "application/zip");
 	}
 	
 	/**
-	* Reads an import ZIP file and creates a certificate of it
-	*
 	* Reads an import ZIP file and creates a certificate of it
 	*
 	* @return boolean TRUE if the import succeeds, FALSE otherwise
