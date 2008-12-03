@@ -33,6 +33,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $value;
 	protected $maxlength = 200;
 	protected $size = 40;
+	protected $validationRegexp;
 	
 	/**
 	* Constructor
@@ -44,6 +45,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		parent::__construct($a_title, $a_postvar);
 		$this->setInputType("text");
+		$this->validationRegexp = "";
 	}
 
 	/**
@@ -64,6 +66,26 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 	function getValue()
 	{
 		return $this->value;
+	}
+
+	/**
+	* Set validation regexp.
+	*
+	* @param	string	$a_value	regexp
+	*/
+	function setValidationRegexp($a_value)
+	{
+		$this->validationRegexp = $a_value;
+	}
+
+	/**
+	* Get validation regexp.
+	*
+	* @return	string	regexp
+	*/
+	function getValidationRegexp()
+	{
+		return $this->validationRegexp;
 	}
 
 	/**
@@ -154,6 +176,14 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI
 			$this->setAlert($lng->txt("msg_input_is_required"));
 
 			return false;
+		}
+		else if (strlen($this->getValidationRegexp()))
+		{
+			if (!preg_match($this->getValidationRegexp(), $_POST[$this->getPostVar()]))
+			{
+				$this->setAlert($lng->txt("msg_wrong_format"));
+				return FALSE;
+			}
 		}
 		
 		return $this->checkSubItemsInput();

@@ -35,17 +35,17 @@ abstract class ilCertificateAdapter
 	abstract public function getCertificateVariablesForPresentation();
 	abstract public function getCertificateVariablesForDescription();
 	
-	public function addAdditionalFormElements($form)
+	public function addAdditionalFormElements(&$form, $form_fields)
 	{
 		
 	}
 
-	public function addFormFieldsFromPOST($form_fields)
+	public function addFormFieldsFromPOST(&$form_fields)
 	{
 		
 	}
 	
-	public function addFormFieldsFromObject($form_fields)
+	public function addFormFieldsFromObject(&$form_fields)
 	{
 		
 	}

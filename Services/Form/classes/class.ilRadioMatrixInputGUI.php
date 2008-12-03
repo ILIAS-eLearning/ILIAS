@@ -112,7 +112,7 @@ class ilRadioMatrixInputGUI extends ilFormPropertyGUI
 
 			return false;
 		}
-		return $this->checkSubItemsInput();
+		return true;
 	}
 
 	/**

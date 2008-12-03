@@ -193,6 +193,11 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 		$_POST[$this->getPostVar()]["right"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["right"]);
 		$_POST[$this->getPostVar()]["bottom"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["bottom"]);
 		$_POST[$this->getPostVar()]["left"] = ilUtil::stripSlashes($_POST[$this->getPostVar()]["left"]);
+		if ($this->getRequired() && ((trim($_POST[$this->getPostVar()]["top"]) == "") || (trim($_POST[$this->getPostVar()]["bottom"]) == "") || (trim($_POST[$this->getPostVar()]["left"]) == "") || (trim($_POST[$this->getPostVar()]["right"]) == "")))
+		{
+			$this->setAlert($lng->txt("msg_input_is_required"));
+			return false;
+		}
 		if ($this->useUnits())
 		{
 			if ((!preg_match("/\\d+(cm|mm|in|pt|pc|px|em)/", $_POST[$this->getPostVar()]["left"])) ||
@@ -203,11 +208,6 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 				$this->setAlert($lng->txt("msg_unit_is_required"));
 				return false;
 			}
-		}
-		if ($this->getRequired() && ((trim($_POST[$this->getPostVar()]["top"]) == "") || (trim($_POST[$this->getPostVar()]["bottom"]) == "") || (trim($_POST[$this->getPostVar()]["left"]) == "") || (trim($_POST[$this->getPostVar()]["right"]) == "")))
-		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
-			return false;
 		}
 		return $this->checkSubItemsInput();
 	}

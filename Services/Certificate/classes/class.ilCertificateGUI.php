@@ -377,6 +377,7 @@ class ilCertificateGUI
 		}
 		$pageformat->setRequired(TRUE);
 		$pageformat->setOptions($options);
+		$pageformat->checkInput();
 		$form->addItem($pageformat);
 
 		$bgimage = new ilFileInputGUI($this->lng->txt("certificate_background_image"), "background");
@@ -387,7 +388,9 @@ class ilCertificateGUI
 		$padding_top->setRequired(TRUE);
 		$padding_top->setValue($form_fields["padding_top"]);
 		$padding_top->setSize(6);
+		$padding_top->setValidationRegexp("/[0123456789\\.](cm|mm|in|pt|pc|px|em)/is");
 		$padding_top->setInfo($this->lng->txt("certificate_unit_description"));
+		$padding_top->checkInput();
 		$form->addItem($padding_top);
 		
 		$rect = new ilCSSRectInputGUI($this->lng->txt("certificate_margin_body"), "margin_body");
@@ -398,6 +401,7 @@ class ilCertificateGUI
 		$rect->setLeft($form_fields["margin_body_left"]);
 		$rect->setRight($form_fields["margin_body_right"]);
 		$rect->setInfo($this->lng->txt("certificate_unit_description"));
+		$rect->checkInput();
 		$form->addItem($rect);
 		
 		$certificate = new ilTextAreaInputGUI($this->lng->txt("certificate_text"), "certificate_text");
@@ -419,12 +423,15 @@ class ilCertificateGUI
 		"ul"			
 		);
 		$certificate->setRteTags($tags);
+		$certificate->checkInput();
 		$form->addItem($certificate);
 
-		$this->object->getAdapter()->addAdditionalFormElements($form);
+		$this->object->getAdapter()->addAdditionalFormElements($form, $form_fields);
 
-		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("certificateSave", $this->lng->txt("save"));
 
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return;
 		return $form->getHTML();
 		
 		global $ilAccess;
@@ -641,6 +648,7 @@ class ilCertificateGUI
 		$this->ctrl->setParameterByClass("ilCertificateGUI","pass", $counted_pass);
 		$this->ctrl->redirectByClass("ilCertificateGUI", "certificateOutput");
 	}
+	
 }
 
 ?>

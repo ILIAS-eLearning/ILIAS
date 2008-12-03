@@ -5480,7 +5480,8 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
 		include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
 		$output_gui = new ilCertificateGUI(new ilTestCertificateAdapter($this->object));
-		$this->tpl->setVariable("ADM_CONTENT", $output_gui->certificateEditor());
+		$output_gui->certificateEditor();
+//		$this->tpl->setVariable("ADM_CONTENT", $output_gui->certificateEditor());
 	}
 
 	function getQuestionsSubTabs()

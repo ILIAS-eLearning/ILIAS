@@ -2887,6 +2887,7 @@ common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_input_is_required#:#Hier ist eine Angabe erforderlich. Bitte geben Sie einen Wert ein.
+common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht das vorgegebene Format. 
 common#:#msg_invalid_filetype#:#Ungültiger Dateityp
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
 common#:#msg_last_role_for_registration#:#Es muss mindestens eine Rolle im Registrierformular für neue Benutzer verfügbar sein. Diese Rolle ist momentan als einzige Rolle verfügbar.
