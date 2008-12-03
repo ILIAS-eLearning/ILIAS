@@ -43,26 +43,43 @@ class ilFulltextShopObjectSearch extends ilShopObjectSearch
 	{		
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$where = " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH (title,description) AGAINST(' ";
+			$where = " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
 			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$where .= $word;
-				$where .= '* ';
+				if(strlen($word))
+				{
+					$agaings_str .= $word;
+					$agaings_str .= '* ';
+				}
 			}
-			$where .= "' IN BOOLEAN MODE) ";
-			
+			if(strlen($agaings_str))
+			{
+				$where .= " AND MATCH (title,description) AGAINST(' ";
+				$where .= $agaings_str;
+				$where .= "' IN BOOLEAN MODE) ";
+			}
 			return $where;
 		}
 		else
 		{
-			$where = " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH (title,description) AGAINST(' ";
+			$where = " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
 			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$where .= ($word.' ');
-			}
-			$where .= "')";
+				if(strlen($word))
+				{
+					$agaings_str .= ($word.' ');
+				}
+			}			
+			if(strlen($agaings_str))
+			{
+				$where .= " AND MATCH (title,description) AGAINST(' ";
+				$where .= $agaings_str;
+				$where .= "') ";
+			}			
 			
 			return $where;
 		}

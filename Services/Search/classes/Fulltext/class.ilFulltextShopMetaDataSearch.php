@@ -45,24 +45,43 @@ class ilFulltextShopMetaDataSearch extends ilShopMetaDataSearch
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH(keyword) AGAINST('";
+			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
+			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$query .= $word;
-				$query .= '* ';
+				if(strlen($word))
+				{
+					$agaings_str .= $word;
+					$agaings_str .= '* ';
+				}
 			}
-			$query .= "' IN BOOLEAN MODE) ";
+			if(strlen($agaings_str))
+			{
+				$query .= " AND MATCH (keyword) AGAINST(' ";
+				$query .= $agaings_str;
+				$query .= "' IN BOOLEAN MODE) ";
+			}
 		}
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH (keyword) AGAINST(' ";
+			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
+			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$query .= $word;
-				$query .= ' ';
+				if(strlen($word))
+				{
+					$agaings_str .= ($word.' ');
+				}
 			}
-			$query .= "') ";
+			if(strlen($agaings_str))
+			{
+				$query .= " AND MATCH (keyword) AGAINST(' ";
+				$query .= $agaings_str;
+				$query .= "') ";
+			}
 		}
 		return $query;
 	}
@@ -72,24 +91,43 @@ class ilFulltextShopMetaDataSearch extends ilShopMetaDataSearch
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH(entity) AGAINST('";
+			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
+			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$query .= $word;
-				$query .= '* ';
+				if(strlen($word))
+				{
+					$agaings_str .= $word;
+					$agaings_str .= '* ';
+				}
 			}
-			$query .= "' IN BOOLEAN MODE) ";
+			if(strlen($agaings_str))
+			{
+				$query .= " AND MATCH (entity) AGAINST(' ";
+				$query .= $agaings_str;
+				$query .= "' IN BOOLEAN MODE) ";
+			}
 		}
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH (entity) AGAINST(' ";
+			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
+			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$query .= $word;
-				$query .= ' ';
+				if(strlen($word))
+				{
+					$agaings_str .= ($word.' ');
+				}
 			}
-			$query .= "') ";
+			if(strlen($agaings_str))
+			{
+				$query .= " AND MATCH (entity) AGAINST(' ";
+				$query .= $agaings_str;
+				$query .= "') ";
+			}
 		}
 		return $query;
 	}
@@ -99,24 +137,43 @@ class ilFulltextShopMetaDataSearch extends ilShopMetaDataSearch
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH(title,coverage) AGAINST('";
+			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
+			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$query .= $word;
-				$query .= '* ';
+				if(strlen($word))
+				{
+					$agaings_str .= $word;
+					$agaings_str .= '* ';
+				}
 			}
-			$query .= "' IN BOOLEAN MODE) ";
+			if(strlen($agaings_str))
+			{
+				$query .= " AND MATCH (title,coverage) AGAINST(' ";
+				$query .= $agaings_str;
+				$query .= "' IN BOOLEAN MODE) ";
+			}
 		}
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH (title,coverage) AGAINST(' ";
+			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
+			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$query .= $word;
-				$query .= ' ';
+				if(strlen($word))
+				{
+					$agaings_str .= ($word.' ');
+				}
 			}
-			$query .= "') ";
+			if(strlen($agaings_str))
+			{
+				$query .= " AND MATCH (title,coverage) AGAINST(' ";
+				$query .= $agaings_str;
+				$query .= "') ";
+			}
 		}
 		return $query;
 	}
@@ -126,24 +183,43 @@ class ilFulltextShopMetaDataSearch extends ilShopMetaDataSearch
 		// IN BOOLEAN MODE
 		if($this->db->isMysql4_0OrHigher())
 		{
-			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH(description) AGAINST('";
+			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
+			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$query .= $word;
-				$query .= '* ';
+				if(strlen($word))
+				{
+					$agaings_str .= $word;
+					$agaings_str .= '* ';
+				}
 			}
-			$query .= "' IN BOOLEAN MODE) ";
+			if(strlen($agaings_str))
+			{
+				$query .= " AND MATCH (description) AGAINST(' ";
+				$query .= $agaings_str;
+				$query .= "' IN BOOLEAN MODE) ";
+			}
 		}
 		else
 		{
 			// i do not see any reason, but MATCH AGAINST(...) OR MATCH AGAINST(...) does not use an index
-			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) AND MATCH (description) AGAINST(' ";
+			$query .= " WHERE (payment_objects.status = 1 OR payment_objects.status = 2) ";
+			
+			$agaings_str = '';
 			foreach($this->query_parser->getQuotedWords(true) as $word)
 			{
-				$query .= $word;
-				$query .= ' ';
+				if(strlen($word))
+				{
+					$agaings_str .= ($word.' ');
+				}
 			}
-			$query .= "') ";
+			if(strlen($agaings_str))
+			{
+				$query .= " AND MATCH (description) AGAINST(' ";
+				$query .= $agaings_str;
+				$query .= "') ";
+			}
 		}
 		return $query;
 	}		
