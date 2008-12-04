@@ -127,6 +127,10 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('certificate_settings'));
 
+		$info = new ilNonEditableValueGUI($this->lng->txt("info"), "info");
+		$info->setValue($this->lng->txt("certificate_usage"));
+		$form->addItem($info);
+
 		$bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
 		$bgimage->setRequired(FALSE);
 		if (count($_POST)) 
