@@ -6452,71 +6452,71 @@ grp#:#crs_grp_assign_crs#:#Assignation des groupes
 grp#:#crs_grp_no_courses_assigned#:#Auncun groupe assigné
 grp#:#crs_grouping_select_one#:#Veuillez sélectionner une restriction d'appartenance au groupe.
 grp#:#crs_grp_info_reg#:#Vous pouvez seulement vous inscrire à l'un de ces groupes :
-assessment#:#certificate#:#Certificat
-assessment#:#certificate_a4#:#A4 portrait (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 paysage (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 portrait (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 paysage (148 mm x 210 mm)
-assessment#:#certificate_letter#:#Lettre (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Lettre paysage (8.5 inch x 11 inch)
-assessment#:#certificate_custom#:#Personnaliser...
-assessment#:#certificate_edit#:#Créer/éditer un modèle de certificat
-assessment#:#certificate_page_format#:#Format page
-assessment#:#certificate_background_image#:#Image d'arrière-plan
-assessment#:#certificate_padding_top#:#Top Padding
-assessment#:#certificate_margin_body#:#Body Margin
-assessment#:#certificate_show#:#Afficher le Certificat
-assessment#:#certificate_status#:#État
-assessment#:#certificate_status_complete#:#Le certificat est complet et peut être utilisé
-assessment#:#certificate_status_incomplete#:#Le certificat est incomplet
-assessment#:#certificate_delete#:#Supprimer les données du certificat
-assessment#:#certificate_preview#:#Afficher la prévisualisation du certificat
-assessment#:#certificate_text#:#Texte du certificat
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_lastname#:#Doe
-assessment#:#certificate_var_result_passed#:#réussi
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_mark_long#:#Good
-assessment#:#certificate_passed#:#réussi
-assessment#:#certificate_failed#:#échec
-assessment#:#certificate_pageheight#:#Hauteur de page
-assessment#:#certificate_pagewidth#:#Largeur de page
-assessment#:#certificate_wrong_unit#:#Vous avez saisi une unité de mesure incorrecte.
-assessment#:#certificate_wrong_units#:#Vous avez saisi un jeu d'unités de mesure incorrectes.
-assessment#:#certificate_confirm_deletion_text#:#Voulez-vous vraiment supprimer le certificat et toutes ses données relatives ?
+common#:#certificate#:#Certificat
+certificate#:#certificate_a4#:#A4 portrait (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 paysage (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 portrait (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 paysage (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Lettre (11 inch x 8.5 inch)
+certificate#:#certificate_letter_landscape#:#Lettre paysage (8.5 inch x 11 inch)
+certificate#:#certificate_custom#:#Personnaliser...
+certificate#:#certificate_edit#:#Créer/éditer un modèle de certificat
+certificate#:#certificate_page_format#:#Format page
+certificate#:#certificate_background_image#:#Image d'arrière-plan
+certificate#:#certificate_padding_top#:#Top Padding
+certificate#:#certificate_margin_body#:#Body Margin
+certificate#:#certificate_show#:#Afficher le Certificat
+certificate#:#certificate_status#:#État
+certificate#:#certificate_status_complete#:#Le certificat est complet et peut être utilisé
+certificate#:#certificate_status_incomplete#:#Le certificat est incomplet
+certificate#:#certificate_delete#:#Supprimer les données du certificat
+certificate#:#certificate_preview#:#Afficher la prévisualisation du certificat
+certificate#:#certificate_text#:#Texte du certificat
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
+certificate#:#certificate_var_user_firstname#:#Jane
+certificate#:#certificate_var_user_lastname#:#Doe
+certificate#:#certificate_var_result_passed#:#réussi
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_mark_long#:#Good
+certificate#:#certificate_passed#:#réussi
+certificate#:#certificate_failed#:#échec
+certificate#:#certificate_pageheight#:#Hauteur de page
+certificate#:#certificate_pagewidth#:#Largeur de page
+certificate#:#certificate_wrong_unit#:#Vous avez saisi une unité de mesure incorrecte.
+certificate#:#certificate_wrong_units#:#Vous avez saisi un jeu d'unités de mesure incorrectes.
+certificate#:#certificate_confirm_deletion_text#:#Voulez-vous vraiment supprimer le certificat et toutes ses données relatives ?
 assessment#:#exp_type_certificate#:#Certificat (PDF)
-assessment#:#certificate_ph_introduction#:#Les paramètres suivants peuvent être utilisés
-assessment#:#certificate_ph_fullname#:#Nom complet de l'utilisateur (titre, prénom, nom)
-assessment#:#certificate_ph_firstname#:#Prénom de l'utilisateur
-assessment#:#certificate_ph_lastname#:#Nom de l'utilisateur
-assessment#:#certificate_ph_passed#:#"réussite" ou "échec", en fonction des résultats du test
-assessment#:#certificate_ph_resultpoints#:#Points obtenus par l'utilisateur
-assessment#:#certificate_ph_resultpercent#:#Pourcentage obtenu par l'utilisateur
-assessment#:#certificate_ph_maxpoints#:#Maximum de points disponibles
-assessment#:#certificate_ph_markshort#:#Note des utilisateurs (version courte)
-assessment#:#certificate_ph_marklong#:#Note des utilisateurs (version officielle)
-assessment#:#certificate_ph_testtitle#:#Titre du test
-assessment#:#certificate_ph_date#:#Date réelle
-assessment#:#certificate_ph_datetime#:#Date et heure réelles
-assessment#:#certificate_visibility#:#Visibilité
-assessment#:#certificate_visibility_introduction#:#le bouton pour offrir le certificat aux utilisateurs est
-assessment#:#certificate_visibility_always#:#Toujours visible
-assessment#:#certificate_visibility_never#:#Non visible
-assessment#:#certificate_visibility_passed#:#Only visible is a user passed the test
+certificate#:#certificate_ph_introduction#:#Les paramètres suivants peuvent être utilisés
+certificate#:#certificate_ph_fullname#:#Nom complet de l'utilisateur (titre, prénom, nom)
+certificate#:#certificate_ph_firstname#:#Prénom de l'utilisateur
+certificate#:#certificate_ph_lastname#:#Nom de l'utilisateur
+certificate#:#certificate_ph_passed#:#"réussite" ou "échec", en fonction des résultats du test
+certificate#:#certificate_ph_resultpoints#:#Points obtenus par l'utilisateur
+certificate#:#certificate_ph_resultpercent#:#Pourcentage obtenu par l'utilisateur
+certificate#:#certificate_ph_maxpoints#:#Maximum de points disponibles
+certificate#:#certificate_ph_markshort#:#Note des utilisateurs (version courte)
+certificate#:#certificate_ph_marklong#:#Note des utilisateurs (version officielle)
+certificate#:#certificate_ph_testtitle#:#Titre du test
+certificate#:#certificate_ph_date#:#Date réelle
+certificate#:#certificate_ph_datetime#:#Date et heure réelles
+certificate#:#certificate_visibility#:#Visibilité
+certificate#:#certificate_visibility_introduction#:#le bouton pour offrir le certificat aux utilisateurs est
+certificate#:#certificate_visibility_always#:#Toujours visible
+certificate#:#certificate_visibility_never#:#Non visible
+certificate#:#certificate_visibility_passed#:#Only visible is a user passed the test
 assessment#:#passed_only#:#tests réussis uniquement
 trac#:#trac_anonymized_info_short#:#(Anonyme)
-assessment#:#certificate_top#:#Haut
-assessment#:#certificate_right#:#Droite
-assessment#:#certificate_bottom#:#Bas
-assessment#:#certificate_left#:#Gauche
-assessment#:#certificate_unit_description#:#Indique des unités de mesure comme valeur [cm|mm|in|pt|pc|px|em], par ex. 10mm or 3in
-assessment#:#certificate_export#:#Exporter le certificat
-assessment#:#certificate_error_import#:#Une erreur s'est produite pendant l'importation d'un certificat !
-assessment#:#certificate_error_upload_bgimage#:#Une erreur s'est produite pendant le téléchargement de l'image d'arrière-plan !
+certificate#:#certificate_top#:#Haut
+certificate#:#certificate_right#:#Droite
+certificate#:#certificate_bottom#:#Bas
+certificate#:#certificate_left#:#Gauche
+certificate#:#certificate_unit_description#:#Indique des unités de mesure comme valeur [cm|mm|in|pt|pc|px|em], par ex. 10mm or 3in
+certificate#:#certificate_export#:#Exporter le certificat
+certificate#:#certificate_error_import#:#Une erreur s'est produite pendant l'importation d'un certificat !
+certificate#:#certificate_error_upload_bgimage#:#Une erreur s'est produite pendant le téléchargement de l'image d'arrière-plan !
 assessment#:#general#:#Général
 assessment#:#output#:#Restitution
 assessment#:#scoring#:#Notation

@@ -82,8 +82,8 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 			"[RESULT_MARK_SHORT]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_short")),
 			"[RESULT_MARK_LONG]" => ilUtil::prepareFormOutput($lng->txt("certificate_var_result_mark_long")),
 			"[TEST_TITLE]" => ilUtil::prepareFormOutput($this->object->getTitle()),
-			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date"),
-			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE)
+			"[DATE]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "date", FALSE, FALSE),
+			"[DATETIME]" => ilFormat::formatDate(ilFormat::unixtimestamp2datetime(time()), "datetime", TRUE, FALSE)
 		);
 		return $insert_tags;
 	}

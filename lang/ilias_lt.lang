@@ -6452,71 +6452,71 @@ grp#:#crs_grp_assign_crs#:#Grupių Priskyrimas
 grp#:#crs_grp_no_courses_assigned#:#Nėra Priskirtų Grupių
 grp#:#crs_grouping_select_one#:#Pasirinkite tik vieną narystės ribojimą.
 grp#:#crs_grp_info_reg#:#Galite užsiregistruoti vienoje iš sių grupių:
-assessment#:#certificate#:#Sertifikatas
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Gulsčias (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Gulsčias (148 mm x 210 mm)
-assessment#:#certificate_letter#:#Laiškas (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Laiškas Gulsčias (8.5 inch x 11 inch)
-assessment#:#certificate_custom#:#Adaptuotas...
-assessment#:#certificate_edit#:#Sukurti/redaguoti sertifikato šabloną
-assessment#:#certificate_page_format#:#Puslapio Formatas
-assessment#:#certificate_background_image#:#Fono Paveikslėlis
-assessment#:#certificate_padding_top#:#Atitraukimas iš Viršaus
-assessment#:#certificate_margin_body#:#Teksto Paraštė
-assessment#:#certificate_show#:#Rodyti Sertifikatą
-assessment#:#certificate_status#:#Statusas
-assessment#:#certificate_status_complete#:#Sertifikatas baigtas ir gali būti naudojamas
-assessment#:#certificate_status_incomplete#:#Sertifikatas nebaigtas
-assessment#:#certificate_delete#:#Trinti Sertifikato Duomenis
-assessment#:#certificate_preview#:#Sertifikato Peržiūra
-assessment#:#certificate_text#:#Sertifikato Tekstas
-assessment#:#certificate_var_user_fullname#:#Dr. Vardenis Pavardenis
-assessment#:#certificate_var_user_firstname#:#Vardenis
-assessment#:#certificate_var_user_lastname#:#Pavardenis
-assessment#:#certificate_var_result_passed#:#išlaikė
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_short#:#Labai gerai
-assessment#:#certificate_var_result_mark_long#:#Gerai
-assessment#:#certificate_passed#:#išlaikė
-assessment#:#certificate_failed#:#neišlaikė
-assessment#:#certificate_pageheight#:#Puslapio Aukštis
-assessment#:#certificate_pagewidth#:#Puslapio Plotis
-assessment#:#certificate_wrong_unit#:#Įrašėte neteisingą vienetą
-assessment#:#certificate_wrong_units#:#Jūs įvedėte neteisingą vienetų rinkinį
-assessment#:#certificate_confirm_deletion_text#:#Ar tikrai norite ištrinti sertifikatą ir visus su juo susijusius duomenis?
+common#:#certificate#:#Sertifikatas
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 Gulsčias (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 Gulsčias (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Laiškas (11 inch x 8.5 inch)
+certificate#:#certificate_letter_landscape#:#Laiškas Gulsčias (8.5 inch x 11 inch)
+certificate#:#certificate_custom#:#Adaptuotas...
+certificate#:#certificate_edit#:#Sukurti/redaguoti sertifikato šabloną
+certificate#:#certificate_page_format#:#Puslapio Formatas
+certificate#:#certificate_background_image#:#Fono Paveikslėlis
+certificate#:#certificate_padding_top#:#Atitraukimas iš Viršaus
+certificate#:#certificate_margin_body#:#Teksto Paraštė
+certificate#:#certificate_show#:#Rodyti Sertifikatą
+certificate#:#certificate_status#:#Statusas
+certificate#:#certificate_status_complete#:#Sertifikatas baigtas ir gali būti naudojamas
+certificate#:#certificate_status_incomplete#:#Sertifikatas nebaigtas
+certificate#:#certificate_delete#:#Trinti Sertifikato Duomenis
+certificate#:#certificate_preview#:#Sertifikato Peržiūra
+certificate#:#certificate_text#:#Sertifikato Tekstas
+certificate#:#certificate_var_user_fullname#:#Dr. Vardenis Pavardenis
+certificate#:#certificate_var_user_firstname#:#Vardenis
+certificate#:#certificate_var_user_lastname#:#Pavardenis
+certificate#:#certificate_var_result_passed#:#išlaikė
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#Labai gerai
+certificate#:#certificate_var_result_mark_long#:#Gerai
+certificate#:#certificate_passed#:#išlaikė
+certificate#:#certificate_failed#:#neišlaikė
+certificate#:#certificate_pageheight#:#Puslapio Aukštis
+certificate#:#certificate_pagewidth#:#Puslapio Plotis
+certificate#:#certificate_wrong_unit#:#Įrašėte neteisingą vienetą
+certificate#:#certificate_wrong_units#:#Jūs įvedėte neteisingą vienetų rinkinį
+certificate#:#certificate_confirm_deletion_text#:#Ar tikrai norite ištrinti sertifikatą ir visus su juo susijusius duomenis?
 assessment#:#exp_type_certificate#:#Sertifikatas (PDF)
-assessment#:#certificate_ph_introduction#:#Gali būti naudojamos šios vietos žymenos
-assessment#:#certificate_ph_fullname#:#Vartotojos pilnas vardas (kreipinys, vardas ir pavardė)
-assessment#:#certificate_ph_firstname#:#Vartotojo vardas
-assessment#:#certificate_ph_lastname#:#Vartotojo pavardė
-assessment#:#certificate_ph_passed#:#"išlaikė" ar "neišlaikė", pagal testo rezultatus
-assessment#:#certificate_ph_resultpoints#:#Vartotojo surinkti balai
-assessment#:#certificate_ph_resultpercent#:#Surinkta procentų
-assessment#:#certificate_ph_maxpoints#:#Maksimali galima balų suma
-assessment#:#certificate_ph_markshort#:#Vartotojo įvertinimas (trumpa versija)
-assessment#:#certificate_ph_marklong#:#Vartotojo įvertinimas (oficiali versija)
-assessment#:#certificate_ph_testtitle#:#Testo pavadinimas
-assessment#:#certificate_ph_date#:#Faktinė data
-assessment#:#certificate_ph_datetime#:#Faktinė data ir laikas
-assessment#:#certificate_visibility#:#Matomumas
-assessment#:#certificate_visibility_introduction#:#Šio sertifikato išdavimo vartotojams mygtukas yra
-assessment#:#certificate_visibility_always#:#Visada matoma
-assessment#:#certificate_visibility_never#:#Nematoma
-assessment#:#certificate_visibility_passed#:#MAtoma, jei vartotojas išlaikė testą
+certificate#:#certificate_ph_introduction#:#Gali būti naudojamos šios vietos žymenos
+certificate#:#certificate_ph_fullname#:#Vartotojos pilnas vardas (kreipinys, vardas ir pavardė)
+certificate#:#certificate_ph_firstname#:#Vartotojo vardas
+certificate#:#certificate_ph_lastname#:#Vartotojo pavardė
+certificate#:#certificate_ph_passed#:#"išlaikė" ar "neišlaikė", pagal testo rezultatus
+certificate#:#certificate_ph_resultpoints#:#Vartotojo surinkti balai
+certificate#:#certificate_ph_resultpercent#:#Surinkta procentų
+certificate#:#certificate_ph_maxpoints#:#Maksimali galima balų suma
+certificate#:#certificate_ph_markshort#:#Vartotojo įvertinimas (trumpa versija)
+certificate#:#certificate_ph_marklong#:#Vartotojo įvertinimas (oficiali versija)
+certificate#:#certificate_ph_testtitle#:#Testo pavadinimas
+certificate#:#certificate_ph_date#:#Faktinė data
+certificate#:#certificate_ph_datetime#:#Faktinė data ir laikas
+certificate#:#certificate_visibility#:#Matomumas
+certificate#:#certificate_visibility_introduction#:#Šio sertifikato išdavimo vartotojams mygtukas yra
+certificate#:#certificate_visibility_always#:#Visada matoma
+certificate#:#certificate_visibility_never#:#Nematoma
+certificate#:#certificate_visibility_passed#:#MAtoma, jei vartotojas išlaikė testą
 assessment#:#passed_only#:#Tik išlaikyti testai
 trac#:#trac_anonymized_info_short#:#(Anonimizuota)
-assessment#:#certificate_top#:#Viršus
-assessment#:#certificate_right#:#Dešinė
-assessment#:#certificate_bottom#:#Apačia
-assessment#:#certificate_left#:#Kairė
-assessment#:#certificate_unit_description#:#Įrašykite matavimo vienetus [cm|mm|in|pt|pc|px|em], pvz. 10mm ar 3in
-assessment#:#certificate_export#:#Eksportuoti sertifikatą
-assessment#:#certificate_error_import#:#Importuojant sertifikatą įvyko klaida!
-assessment#:#certificate_error_upload_bgimage#:#Įkeliant fono paveikslėlį įvyko klaida!
+certificate#:#certificate_top#:#Viršus
+certificate#:#certificate_right#:#Dešinė
+certificate#:#certificate_bottom#:#Apačia
+certificate#:#certificate_left#:#Kairė
+certificate#:#certificate_unit_description#:#Įrašykite matavimo vienetus [cm|mm|in|pt|pc|px|em], pvz. 10mm ar 3in
+certificate#:#certificate_export#:#Eksportuoti sertifikatą
+certificate#:#certificate_error_import#:#Importuojant sertifikatą įvyko klaida!
+certificate#:#certificate_error_upload_bgimage#:#Įkeliant fono paveikslėlį įvyko klaida!
 assessment#:#general#:#Bendrai
 assessment#:#output#:#Išvestis
 assessment#:#scoring#:#Vertinimas

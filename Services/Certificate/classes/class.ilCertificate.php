@@ -356,7 +356,8 @@ class ilCertificate
 			$pageheight = $pageformats[$form_data["pageformat"]]["height"];
 			$pagewidth = $pageformats[$form_data["pageformat"]]["width"];
 		}
-		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath() : "";
+		include_once "./Services/Certificate/classes/class.ilObjCertificateSettingsAccess.php";
+		$backgroundimage = $this->hasBackgroundImage() ? $this->getBackgroundImagePath() : ((ilObjCertificateSettingsAccess::hasBackgroundImage()) ? ilObjCertificateSettingsAccess::getBackgroundImagePath() : "");
 		$params = array(
 			"pageheight" => $pageheight, 
 			"pagewidth" => $pagewidth,
@@ -617,6 +618,14 @@ class ilCertificate
 		if ($this->hasBackgroundImage())
 		{
 			copy($this->getBackgroundImagePath(), $exportpath . $this->getBackgroundImageName());
+		}
+		else
+		{
+			include_once "./Services/Certificate/classes/class.ilObjCertificateSettingsAccess.php";
+			if (ilObjCertificateSettingsAccess::hasBackgroundImage())
+			{
+				copy(ilObjCertificateSettingsAccess::getBackgroundImagePath(), $exportpath . ilObjCertificateSettingsAccess::getBackgroundImageName());
+			}
 		}
 		$zipfile = time() . "__" . IL_INST_ID . "__" . $this->getAdapter()->getAdapterType() . "__" . $this->getAdapter()->getCertificateId() . "__certificate.zip";
 		ilUtil::zip($exportpath, $this->getAdapter()->getCertificatePath() . $zipfile);

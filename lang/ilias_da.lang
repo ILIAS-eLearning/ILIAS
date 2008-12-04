@@ -3056,69 +3056,69 @@ assessment#:#cannot_export_test#:#Du er ikke i besiddelse af de rigtige rettighe
 assessment#:#cannot_maintain_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at vedligeholde denne test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
 assessment#:#cannot_save_metaobject#:#Du er ikke i besiddelse af de rigtige rettigheder til at gemme meta data!
-assessment#:#certificate#:#Certificate###10 10 2006 new variable
-assessment#:#certificate_top#:#Top###13 10 2006 new variable
-assessment#:#certificate_right#:#Right###13 10 2006 new variable
-assessment#:#certificate_bottom#:#Bottom###13 10 2006 new variable
-assessment#:#certificate_left#:#Left###13 10 2006 new variable
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)###10 10 2006 new variable
-assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###10 10 2006 new variable
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)###10 10 2006 new variable
-assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###10 10 2006 new variable
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###10 10 2006 new variable
-assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###10 10 2006 new variable
-assessment#:#certificate_custom#:#Custom...###10 10 2006 new variable
-assessment#:#certificate_edit#:#Create/edit a certificate template###10 10 2006 new variable
-assessment#:#certificate_export#:#Export Certificate###19 10 2006 new variable
-assessment#:#certificate_page_format#:#Page Format###10 10 2006 new variable
-assessment#:#certificate_background_image#:#Background Image###10 10 2006 new variable
-assessment#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
-assessment#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
-assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
-assessment#:#certificate_show#:#Show Certificate###10 10 2006 new variable
-assessment#:#certificate_status#:#Status###10 10 2006 new variable
-assessment#:#certificate_status_complete#:#The certificate is complete and could be used###10 10 2006 new variable
-assessment#:#certificate_status_incomplete#:#The certificate is incomplete###10 10 2006 new variable
-assessment#:#certificate_delete#:#Slet certifikatdata
-assessment#:#certificate_preview#:#Vis certifikat eksempel
-assessment#:#certificate_text#:#Certifikattekst
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe###10 10 2006 new variable
-assessment#:#certificate_var_user_firstname#:#Jane###10 10 2006 new variable
-assessment#:#certificate_var_user_lastname#:#Doe###10 10 2006 new variable
-assessment#:#certificate_var_result_passed#:#passed###10 10 2006 new variable
-assessment#:#certificate_var_result_points#:#38###10 10 2006 new variable
-assessment#:#certificate_var_result_percent#:#83%###10 10 2006 new variable
-assessment#:#certificate_var_max_points#:#46###10 10 2006 new variable
-assessment#:#certificate_var_result_mark_short#:#B###10 10 2006 new variable
-assessment#:#certificate_var_result_mark_long#:#Good###10 10 2006 new variable
-assessment#:#certificate_passed#:#passed###10 10 2006 new variable
-assessment#:#certificate_failed#:#failed###10 10 2006 new variable
-assessment#:#certificate_pageheight#:#Page Height###10 10 2006 new variable
-assessment#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
-assessment#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
-assessment#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
-assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
-assessment#:#certificate_ph_introduction#:#Nedenstående pladsholdere kan bruges
-assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###11 10 2006 new variable
-assessment#:#certificate_ph_firstname#:#First name of the user###11 10 2006 new variable
-assessment#:#certificate_ph_lastname#:#Last name of the user###11 10 2006 new variable
-assessment#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###11 10 2006 new variable
-assessment#:#certificate_ph_resultpoints#:#Reached points of the user###11 10 2006 new variable
-assessment#:#certificate_ph_resultpercent#:#Reached percentage of the user###11 10 2006 new variable
-assessment#:#certificate_ph_maxpoints#:#Maximum available points###11 10 2006 new variable
-assessment#:#certificate_ph_markshort#:#Users mark (short version)###11 10 2006 new variable
-assessment#:#certificate_ph_marklong#:#Users mark (official version)###11 10 2006 new variable
-assessment#:#certificate_ph_testtitle#:#Title of the test###11 10 2006 new variable
-assessment#:#certificate_ph_date#:#Actual date###11 10 2006 new variable
-assessment#:#certificate_ph_datetime#:#Actual date and time###11 10 2006 new variable
-assessment#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable
-assessment#:#certificate_visibility#:#Visibility###11 10 2006 new variable
-assessment#:#certificate_visibility_introduction#:#The button to offer users this certificate is###11 10 2006 new variable
-assessment#:#certificate_visibility_always#:#Always visible###11 10 2006 new variable
-assessment#:#certificate_visibility_never#:#Not visible###11 10 2006 new variable
-assessment#:#certificate_visibility_passed#:#Only visible is a user passed the test###11 10 2006 new variable
-assessment#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
-assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###19 10 2006 new variable
+common#:#certificate#:#Certificate###10 10 2006 new variable
+certificate#:#certificate_top#:#Top###13 10 2006 new variable
+certificate#:#certificate_right#:#Right###13 10 2006 new variable
+certificate#:#certificate_bottom#:#Bottom###13 10 2006 new variable
+certificate#:#certificate_left#:#Left###13 10 2006 new variable
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)###10 10 2006 new variable
+certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###10 10 2006 new variable
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)###10 10 2006 new variable
+certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###10 10 2006 new variable
+certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###10 10 2006 new variable
+certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###10 10 2006 new variable
+certificate#:#certificate_custom#:#Custom...###10 10 2006 new variable
+certificate#:#certificate_edit#:#Create/edit a certificate template###10 10 2006 new variable
+certificate#:#certificate_export#:#Export Certificate###19 10 2006 new variable
+certificate#:#certificate_page_format#:#Page Format###10 10 2006 new variable
+certificate#:#certificate_background_image#:#Background Image###10 10 2006 new variable
+certificate#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
+certificate#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
+certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
+certificate#:#certificate_show#:#Show Certificate###10 10 2006 new variable
+certificate#:#certificate_status#:#Status###10 10 2006 new variable
+certificate#:#certificate_status_complete#:#The certificate is complete and could be used###10 10 2006 new variable
+certificate#:#certificate_status_incomplete#:#The certificate is incomplete###10 10 2006 new variable
+certificate#:#certificate_delete#:#Slet certifikatdata
+certificate#:#certificate_preview#:#Vis certifikat eksempel
+certificate#:#certificate_text#:#Certifikattekst
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe###10 10 2006 new variable
+certificate#:#certificate_var_user_firstname#:#Jane###10 10 2006 new variable
+certificate#:#certificate_var_user_lastname#:#Doe###10 10 2006 new variable
+certificate#:#certificate_var_result_passed#:#passed###10 10 2006 new variable
+certificate#:#certificate_var_result_points#:#38###10 10 2006 new variable
+certificate#:#certificate_var_result_percent#:#83%###10 10 2006 new variable
+certificate#:#certificate_var_max_points#:#46###10 10 2006 new variable
+certificate#:#certificate_var_result_mark_short#:#B###10 10 2006 new variable
+certificate#:#certificate_var_result_mark_long#:#Good###10 10 2006 new variable
+certificate#:#certificate_passed#:#passed###10 10 2006 new variable
+certificate#:#certificate_failed#:#failed###10 10 2006 new variable
+certificate#:#certificate_pageheight#:#Page Height###10 10 2006 new variable
+certificate#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
+certificate#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
+certificate#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
+certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
+certificate#:#certificate_ph_introduction#:#Nedenstående pladsholdere kan bruges
+certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###11 10 2006 new variable
+certificate#:#certificate_ph_firstname#:#First name of the user###11 10 2006 new variable
+certificate#:#certificate_ph_lastname#:#Last name of the user###11 10 2006 new variable
+certificate#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###11 10 2006 new variable
+certificate#:#certificate_ph_resultpoints#:#Reached points of the user###11 10 2006 new variable
+certificate#:#certificate_ph_resultpercent#:#Reached percentage of the user###11 10 2006 new variable
+certificate#:#certificate_ph_maxpoints#:#Maximum available points###11 10 2006 new variable
+certificate#:#certificate_ph_markshort#:#Users mark (short version)###11 10 2006 new variable
+certificate#:#certificate_ph_marklong#:#Users mark (official version)###11 10 2006 new variable
+certificate#:#certificate_ph_testtitle#:#Title of the test###11 10 2006 new variable
+certificate#:#certificate_ph_date#:#Actual date###11 10 2006 new variable
+certificate#:#certificate_ph_datetime#:#Actual date and time###11 10 2006 new variable
+certificate#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable
+certificate#:#certificate_visibility#:#Visibility###11 10 2006 new variable
+certificate#:#certificate_visibility_introduction#:#The button to offer users this certificate is###11 10 2006 new variable
+certificate#:#certificate_visibility_always#:#Always visible###11 10 2006 new variable
+certificate#:#certificate_visibility_never#:#Not visible###11 10 2006 new variable
+certificate#:#certificate_visibility_passed#:#Only visible is a user passed the test###11 10 2006 new variable
+certificate#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
+certificate#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###19 10 2006 new variable
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###10 05 2007 new variable
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###10 05 2007 new variable
 assessment#:#change_solution#:#Ændre foreslået løsning

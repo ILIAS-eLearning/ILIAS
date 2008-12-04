@@ -222,83 +222,6 @@ assessment#:#cannot_export_test#:#You do not possess sufficient permissions to e
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
-assessment#:#certificate#:#Certificate
-assessment#:#certificate_top#:#Top
-assessment#:#certificate_right#:#Right
-assessment#:#certificate_bottom#:#Bottom
-assessment#:#certificate_left#:#Left
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
-assessment#:#certificate_custom#:#Custom...
-assessment#:#certificate_edit#:#Create/Edit a Certificate Template
-assessment#:#certificate_export#:#Export Certificate
-assessment#:#certificate_page_format#:#Page Format
-assessment#:#certificate_background_image#:#Background Image
-assessment#:#certificate_padding_top#:#Top Padding
-assessment#:#certificate_margin_body#:#Body Margin
-assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
-assessment#:#certificate_show#:#Show Certificate
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#The certificate is complete and could be used
-assessment#:#certificate_status_incomplete#:#The certificate is incomplete
-assessment#:#certificate_delete#:#Delete Certificate Data
-assessment#:#certificate_preview#:#Show Certificate Preview
-assessment#:#certificate_text#:#Certificate Text
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_lastname#:#Doe
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source
-assessment#:#certificate_var_user_department#:#Customer Support
-assessment#:#certificate_var_user_street#:#100 Main Street
-assessment#:#certificate_var_user_city#:#Anytown, NY
-assessment#:#certificate_var_user_zipcode#:#12345
-assessment#:#certificate_var_user_country#:#USA
-assessment#:#certificate_var_result_passed#:#passed
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_mark_long#:#Good
-assessment#:#certificate_passed#:#passed
-assessment#:#certificate_failed#:#failed
-assessment#:#certificate_pageheight#:#Page Height
-assessment#:#certificate_pagewidth#:#Page Width
-assessment#:#certificate_wrong_unit#:#You have entered a wrong unit
-assessment#:#certificate_wrong_units#:#You have entered a wrong set of units
-assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
-assessment#:#certificate_ph_introduction#:#The following placeholders may be used
-assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)
-assessment#:#certificate_ph_firstname#:#First name of the user
-assessment#:#certificate_ph_lastname#:#Last name of the user
-assessment#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results
-assessment#:#certificate_ph_resultpoints#:#Reached points of the user
-assessment#:#certificate_ph_resultpercent#:#Reached percentage of the user
-assessment#:#certificate_ph_maxpoints#:#Maximum available points
-assessment#:#certificate_ph_markshort#:#Users mark (short version)
-assessment#:#certificate_ph_marklong#:#Users mark (official version)
-assessment#:#certificate_ph_testtitle#:#Title of the test
-assessment#:#certificate_ph_date#:#Actual date
-assessment#:#certificate_ph_datetime#:#Actual date and time
-assessment#:#certificate_ph_title#:#Title of the user
-assessment#:#certificate_ph_institution#:#Institution of the user
-assessment#:#certificate_ph_department#:#Department of the user
-assessment#:#certificate_ph_street#:#Street of the user's address
-assessment#:#certificate_ph_city#:#City of the user's address
-assessment#:#certificate_ph_zipcode#:#ZIP code of the user's address
-assessment#:#certificate_ph_country#:#Country of the user's address
-assessment#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-assessment#:#certificate_visibility#:#Visibility
-assessment#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is
-assessment#:#certificate_visibility_always#:#Always Visible
-assessment#:#certificate_visibility_never#:#Not Visible
-assessment#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
-assessment#:#certificate_error_import#:#An error occured during the import of a certificate!
-assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?
 assessment#:#change_solution#:#Change Suggested Solution
@@ -8774,3 +8697,82 @@ payment#:#payment_no_topic#:#No Topic
 assessment#:#error_cloze_not_numeric#:#Please enter a numeric value.
 assessment#:#error_no_upper_limit#:#Please enter an upper bound.
 assessment#:#error_no_lower_limit#:#Please enter a lower bound.
+common#:#certificate#:#Certificate
+certificate#:#certificate_top#:#Top
+certificate#:#certificate_right#:#Right
+certificate#:#certificate_bottom#:#Bottom
+certificate#:#certificate_left#:#Left
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
+certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)
+certificate#:#certificate_custom#:#Custom...
+certificate#:#certificate_edit#:#Create/Edit a Certificate Template
+certificate#:#certificate_export#:#Export Certificate
+certificate#:#certificate_page_format#:#Page Format
+certificate#:#certificate_background_image#:#Background Image
+certificate#:#certificate_padding_top#:#Top Padding
+certificate#:#certificate_margin_body#:#Body Margin
+certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!
+certificate#:#certificate_show#:#Show Certificate
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_status_complete#:#The certificate is complete and could be used
+certificate#:#certificate_status_incomplete#:#The certificate is incomplete
+certificate#:#certificate_delete#:#Delete Certificate Data
+certificate#:#certificate_preview#:#Show Certificate Preview
+certificate#:#certificate_text#:#Certificate Text
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
+certificate#:#certificate_var_user_firstname#:#Jane
+certificate#:#certificate_var_user_lastname#:#Doe
+certificate#:#certificate_var_user_title#:#Dr.
+certificate#:#certificate_var_user_institution#:#ILIAS Open Source
+certificate#:#certificate_var_user_department#:#Customer Support
+certificate#:#certificate_var_user_street#:#100 Main Street
+certificate#:#certificate_var_user_city#:#Anytown, NY
+certificate#:#certificate_var_user_zipcode#:#12345
+certificate#:#certificate_var_user_country#:#USA
+certificate#:#certificate_var_result_passed#:#passed
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_mark_long#:#Good
+certificate#:#certificate_passed#:#passed
+certificate#:#certificate_failed#:#failed
+certificate#:#certificate_pageheight#:#Page Height
+certificate#:#certificate_pagewidth#:#Page Width
+certificate#:#certificate_wrong_unit#:#You have entered a wrong unit
+certificate#:#certificate_wrong_units#:#You have entered a wrong set of units
+certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
+certificate#:#certificate_ph_introduction#:#The following placeholders may be used
+certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)
+certificate#:#certificate_ph_firstname#:#First name of the user
+certificate#:#certificate_ph_lastname#:#Last name of the user
+certificate#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results
+certificate#:#certificate_ph_resultpoints#:#Reached points of the user
+certificate#:#certificate_ph_resultpercent#:#Reached percentage of the user
+certificate#:#certificate_ph_maxpoints#:#Maximum available points
+certificate#:#certificate_ph_markshort#:#Users mark (short version)
+certificate#:#certificate_ph_marklong#:#Users mark (official version)
+certificate#:#certificate_ph_testtitle#:#Title of the test
+certificate#:#certificate_ph_date#:#Actual date
+certificate#:#certificate_ph_datetime#:#Actual date and time
+certificate#:#certificate_ph_title#:#Title of the user
+certificate#:#certificate_ph_institution#:#Institution of the user
+certificate#:#certificate_ph_department#:#Department of the user
+certificate#:#certificate_ph_street#:#Street of the user's address
+certificate#:#certificate_ph_city#:#City of the user's address
+certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address
+certificate#:#certificate_ph_country#:#Country of the user's address
+certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
+certificate#:#certificate_visibility#:#Visibility
+certificate#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is
+certificate#:#certificate_visibility_always#:#Always Visible
+certificate#:#certificate_visibility_never#:#Not Visible
+certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
+certificate#:#certificate_error_import#:#An error occured during the import of a certificate!
+certificate#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!
+certificate#:#certificate_settings#:#Certificate Settings
+certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.

@@ -224,77 +224,77 @@ assessment#:#cannot_export_test#:#Nincs megfelelő jogosultsága a teszt export�
 assessment#:#cannot_maintain_test#:#Nincs megfelelő jogosultsága a teszt karbantartásához.
 assessment#:#cannot_read_questionpool#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához.
 assessment#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok elmentéséhez.
-assessment#:#certificate#:#Bizonyítvány
-assessment#:#certificate_top#:#Fenn
-assessment#:#certificate_right#:#Jobbra
-assessment#:#certificate_bottom#:#Alul
-assessment#:#certificate_left#:#Balra
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 fekvő (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
-assessment#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
-assessment#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
-assessment#:#certificate_custom#:#Egyedi…
-assessment#:#certificate_edit#:#Bizonyítványsablon létrehozása/szerkesztése
-assessment#:#certificate_export#:#Bizonyítvány exportálása
-assessment#:#certificate_page_format#:#Lapformátum
-assessment#:#certificate_background_image#:#Háttérkép
-assessment#:#certificate_padding_top#:#Felső cellaköz
-assessment#:#certificate_margin_body#:#Szövegmargó
-assessment#:#certificate_not_well_formed#:#A bizonyítványszöveg nem jólformázott. Érvényes XHTML-t adjon meg a bizonyítványszövegnek!
-assessment#:#certificate_show#:#Bizonyítvány mutatása
-assessment#:#certificate_status#:#Státusz
-assessment#:#certificate_status_complete#:#A bizonyítvány teljes és használható
-assessment#:#certificate_status_incomplete#:#A bizonyítvány nem teljes
-assessment#:#certificate_delete#:#Bizonyítványadatok törlése
-assessment#:#certificate_preview#:#Bizonyítvány előnézete
-assessment#:#certificate_text#:#Bizonyítványszöveg
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_lastname#:#Doe
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source
-assessment#:#certificate_var_user_department#:#Felhasználói támogatás
-assessment#:#certificate_var_user_street#:#Etele út 68.
-assessment#:#certificate_var_user_city#:#Budapest
-assessment#:#certificate_var_user_zipcode#:#1115
-assessment#:#certificate_var_user_country#:#Magyarország
-assessment#:#certificate_var_result_passed#:#teljesítve
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_mark_long#:#Jó
-assessment#:#certificate_passed#:#teljesítve
-assessment#:#certificate_failed#:#nem teljesítve
-assessment#:#certificate_pageheight#:#Lapmagasság
-assessment#:#certificate_pagewidth#:#Lapszélesség
-assessment#:#certificate_wrong_unit#:#Rossz egységet adott meg.
-assessment#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
-assessment#:#certificate_confirm_deletion_text#:#Valóban törli a bizonyítványt és annak minden kapcsolódó adatát?
-assessment#:#certificate_ph_introduction#:#Az alábbi dzsókerelemek használhatók
-assessment#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, vezetéknév, keresztnév)
-assessment#:#certificate_ph_firstname#:#A felhasználó vezetékneve
-assessment#:#certificate_ph_lastname#:#A felhasználó keresztneve
-assessment#:#certificate_ph_passed#:#"teljesítve" vagy "nem teljesítve", a teszteredményektől függően
-assessment#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
-assessment#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
-assessment#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
-assessment#:#certificate_ph_markshort#:#A felhasználó jegye (rövid változat)
-assessment#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változat)
-assessment#:#certificate_ph_testtitle#:#Teszt címe
-assessment#:#certificate_ph_date#:#Aktuális dátum
-assessment#:#certificate_ph_datetime#:#Aktuális dátum és idő
-assessment#:#certificate_ph_institution#:#Felhasználó intézménye
-assessment#:#certificate_ph_title#:#Név előtag
-assessment#:#certificate_ph_department#:#Felhasználó szervezeti egysége
-assessment#:#certificate_ph_street#:#Felhasználói cím - utca
-assessment#:#certificate_ph_city#:#Felhasználói cím - város
-assessment#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
-assessment#:#certificate_ph_country#:#Felhasználói cím - ország
-assessment#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
-assessment#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
+common#:#certificate#:#Bizonyítvány
+certificate#:#certificate_top#:#Fenn
+certificate#:#certificate_right#:#Jobbra
+certificate#:#certificate_bottom#:#Alul
+certificate#:#certificate_left#:#Balra
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 fekvő (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
+certificate#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
+certificate#:#certificate_custom#:#Egyedi…
+certificate#:#certificate_edit#:#Bizonyítványsablon létrehozása/szerkesztése
+certificate#:#certificate_export#:#Bizonyítvány exportálása
+certificate#:#certificate_page_format#:#Lapformátum
+certificate#:#certificate_background_image#:#Háttérkép
+certificate#:#certificate_padding_top#:#Felső cellaköz
+certificate#:#certificate_margin_body#:#Szövegmargó
+certificate#:#certificate_not_well_formed#:#A bizonyítványszöveg nem jólformázott. Érvényes XHTML-t adjon meg a bizonyítványszövegnek!
+certificate#:#certificate_show#:#Bizonyítvány mutatása
+certificate#:#certificate_status#:#Státusz
+certificate#:#certificate_status_complete#:#A bizonyítvány teljes és használható
+certificate#:#certificate_status_incomplete#:#A bizonyítvány nem teljes
+certificate#:#certificate_delete#:#Bizonyítványadatok törlése
+certificate#:#certificate_preview#:#Bizonyítvány előnézete
+certificate#:#certificate_text#:#Bizonyítványszöveg
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
+certificate#:#certificate_var_user_firstname#:#Jane
+certificate#:#certificate_var_user_lastname#:#Doe
+certificate#:#certificate_var_user_title#:#Dr.
+certificate#:#certificate_var_user_institution#:#ILIAS Open Source
+certificate#:#certificate_var_user_department#:#Felhasználói támogatás
+certificate#:#certificate_var_user_street#:#Etele út 68.
+certificate#:#certificate_var_user_city#:#Budapest
+certificate#:#certificate_var_user_zipcode#:#1115
+certificate#:#certificate_var_user_country#:#Magyarország
+certificate#:#certificate_var_result_passed#:#teljesítve
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_mark_long#:#Jó
+certificate#:#certificate_passed#:#teljesítve
+certificate#:#certificate_failed#:#nem teljesítve
+certificate#:#certificate_pageheight#:#Lapmagasság
+certificate#:#certificate_pagewidth#:#Lapszélesség
+certificate#:#certificate_wrong_unit#:#Rossz egységet adott meg.
+certificate#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
+certificate#:#certificate_confirm_deletion_text#:#Valóban törli a bizonyítványt és annak minden kapcsolódó adatát?
+certificate#:#certificate_ph_introduction#:#Az alábbi dzsókerelemek használhatók
+certificate#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, vezetéknév, keresztnév)
+certificate#:#certificate_ph_firstname#:#A felhasználó vezetékneve
+certificate#:#certificate_ph_lastname#:#A felhasználó keresztneve
+certificate#:#certificate_ph_passed#:#"teljesítve" vagy "nem teljesítve", a teszteredményektől függően
+certificate#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
+certificate#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
+certificate#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
+certificate#:#certificate_ph_markshort#:#A felhasználó jegye (rövid változat)
+certificate#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változat)
+certificate#:#certificate_ph_testtitle#:#Teszt címe
+certificate#:#certificate_ph_date#:#Aktuális dátum
+certificate#:#certificate_ph_datetime#:#Aktuális dátum és idő
+certificate#:#certificate_ph_institution#:#Felhasználó intézménye
+certificate#:#certificate_ph_title#:#Név előtag
+certificate#:#certificate_ph_department#:#Felhasználó szervezeti egysége
+certificate#:#certificate_ph_street#:#Felhasználói cím - utca
+certificate#:#certificate_ph_city#:#Felhasználói cím - város
+certificate#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
+certificate#:#certificate_ph_country#:#Felhasználói cím - ország
+certificate#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
+certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
 assessment#:#change_properties_from_random_to_standard#:#Ön a tesztet véletlenkiválasztásosról nem véletlenkiválasztásos tesztre akarja módosítani. A kérdéssorhoz adott információk kikerülnek a véletlenkiválasztásos tesztből. Tényleg meg akarja változtatni a teszt tulajdonságait?
 assessment#:#change_properties_from_standard_to_random#:#Ön a tesztet nem véletlenkiválasztásosról véletlenkiválasztásos tesztre akarja módosítani. A teszthez adott kérdések törlésre kerülnek, mert Önnek kérdéssorokat kell kiválasztania a véletlenkiválasztásos teszthez. Tényleg meg akarja változtatni a teszt tulajdonságait?
 assessment#:#change_solution#:#Javasolt megoldás változtatása.

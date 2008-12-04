@@ -157,69 +157,69 @@ assessment#:#cannot_export_test#:#¡No posee permisos suficientes para exportar 
 assessment#:#cannot_maintain_test#:#¡No posee permisos suficientes para mantener el test!
 assessment#:#cannot_read_questionpool#:#¡No posee permisos suficientes para leer el contenido del banco de preguntas!
 assessment#:#cannot_save_metaobject#:#¡No tiene los permisos suficientes para grabar los metadatos!
-assessment#:#certificate#:#Certificado
-assessment#:#certificate_top#:#Top
-assessment#:#certificate_right#:#Right
-assessment#:#certificate_bottom#:#Bottom
-assessment#:#certificate_left#:#Left
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Horizontal (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Horizontal (148 mm x 210 mm)
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter Horizontal (8.5 inch x 11 inch)
-assessment#:#certificate_custom#:#Personalizado...
-assessment#:#certificate_edit#:#Crear/editar una plantilla de certificado
-assessment#:#certificate_export#:#Exportar Certificado
-assessment#:#certificate_page_format#:#Formato de página
-assessment#:#certificate_background_image#:#Imagen de Fondo
-assessment#:#certificate_padding_top#:#Padding superior
-assessment#:#certificate_margin_body#:#Margen
-assessment#:#certificate_not_well_formed#:#El texto del certificado no está bien definido. Por favor introduzca XHTML válido para el texto del certificado
-assessment#:#certificate_show#:#Mostrar Certificado
-assessment#:#certificate_status#:#Estado
-assessment#:#certificate_status_complete#:#El certificado está completo y puede ser usado
-assessment#:#certificate_status_incomplete#:#El certificado está incompleto
-assessment#:#certificate_delete#:#Eliminar datos del Certificado
-assessment#:#certificate_preview#:#Mostrar Preview del Certificado
-assessment#:#certificate_text#:#Texto del Certificado
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_lastname#:#Doe
-assessment#:#certificate_var_result_passed#:#superado
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_mark_long#:#Bien
-assessment#:#certificate_passed#:#superado
-assessment#:#certificate_failed#:#suspenso
-assessment#:#certificate_pageheight#:#Altura de Página
-assessment#:#certificate_pagewidth#:#Anchura de Página
-assessment#:#certificate_wrong_unit#:#Ha introducido una unidad errónea
-assessment#:#certificate_wrong_units#:#Ha introducido un conjunto erróneo de unidades
-assessment#:#certificate_confirm_deletion_text#:#¿Realmente quiere eliminar el certificado y todos los datos relacionados?
-assessment#:#certificate_ph_introduction#:#Las siguientes variables pueden ser usadas
-assessment#:#certificate_ph_fullname#:#Nombre completo del usuario
-assessment#:#certificate_ph_firstname#:#Nombre del usuario
-assessment#:#certificate_ph_lastname#:#Apellido del usuario
-assessment#:#certificate_ph_passed#:#"superado" o "suspenso", dependiendo de los resultados del test
-assessment#:#certificate_ph_resultpoints#:#Puntos conseguidos por el usuario
-assessment#:#certificate_ph_resultpercent#:#Porcentaje conseguido por el usuario
-assessment#:#certificate_ph_maxpoints#:#Máxima puntuación disponible
-assessment#:#certificate_ph_markshort#:#Calificación de Usuarios (version abreviada)
-assessment#:#certificate_ph_marklong#:#Calificación de Usuarios (versión oficial)
-assessment#:#certificate_ph_testtitle#:#Título del Test
-assessment#:#certificate_ph_date#:#Fecha actual
-assessment#:#certificate_ph_datetime#:#Hora y fecha actual
-assessment#:#certificate_unit_description#:#Introduzca unidades de medida como valor [cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
-assessment#:#certificate_visibility#:#Visibilidad
-assessment#:#certificate_visibility_introduction#:#El botón para ofrecer a los usuarios este certificado está
-assessment#:#certificate_visibility_always#:#Siempre visible
-assessment#:#certificate_visibility_never#:#No visible
-assessment#:#certificate_visibility_passed#:#Sólo visible si un usuario superó el test
-assessment#:#certificate_error_import#:#Ocurrió un error durante la importación de un certificado
-assessment#:#certificate_error_upload_bgimage#:#Ocurrió un error durante la carga de una imagen de fondo
+common#:#certificate#:#Certificado
+certificate#:#certificate_top#:#Top
+certificate#:#certificate_right#:#Right
+certificate#:#certificate_bottom#:#Bottom
+certificate#:#certificate_left#:#Left
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 Horizontal (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 Horizontal (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
+certificate#:#certificate_letter_landscape#:#Letter Horizontal (8.5 inch x 11 inch)
+certificate#:#certificate_custom#:#Personalizado...
+certificate#:#certificate_edit#:#Crear/editar una plantilla de certificado
+certificate#:#certificate_export#:#Exportar Certificado
+certificate#:#certificate_page_format#:#Formato de página
+certificate#:#certificate_background_image#:#Imagen de Fondo
+certificate#:#certificate_padding_top#:#Padding superior
+certificate#:#certificate_margin_body#:#Margen
+certificate#:#certificate_not_well_formed#:#El texto del certificado no está bien definido. Por favor introduzca XHTML válido para el texto del certificado
+certificate#:#certificate_show#:#Mostrar Certificado
+certificate#:#certificate_status#:#Estado
+certificate#:#certificate_status_complete#:#El certificado está completo y puede ser usado
+certificate#:#certificate_status_incomplete#:#El certificado está incompleto
+certificate#:#certificate_delete#:#Eliminar datos del Certificado
+certificate#:#certificate_preview#:#Mostrar Preview del Certificado
+certificate#:#certificate_text#:#Texto del Certificado
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
+certificate#:#certificate_var_user_firstname#:#Jane
+certificate#:#certificate_var_user_lastname#:#Doe
+certificate#:#certificate_var_result_passed#:#superado
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_mark_long#:#Bien
+certificate#:#certificate_passed#:#superado
+certificate#:#certificate_failed#:#suspenso
+certificate#:#certificate_pageheight#:#Altura de Página
+certificate#:#certificate_pagewidth#:#Anchura de Página
+certificate#:#certificate_wrong_unit#:#Ha introducido una unidad errónea
+certificate#:#certificate_wrong_units#:#Ha introducido un conjunto erróneo de unidades
+certificate#:#certificate_confirm_deletion_text#:#¿Realmente quiere eliminar el certificado y todos los datos relacionados?
+certificate#:#certificate_ph_introduction#:#Las siguientes variables pueden ser usadas
+certificate#:#certificate_ph_fullname#:#Nombre completo del usuario
+certificate#:#certificate_ph_firstname#:#Nombre del usuario
+certificate#:#certificate_ph_lastname#:#Apellido del usuario
+certificate#:#certificate_ph_passed#:#"superado" o "suspenso", dependiendo de los resultados del test
+certificate#:#certificate_ph_resultpoints#:#Puntos conseguidos por el usuario
+certificate#:#certificate_ph_resultpercent#:#Porcentaje conseguido por el usuario
+certificate#:#certificate_ph_maxpoints#:#Máxima puntuación disponible
+certificate#:#certificate_ph_markshort#:#Calificación de Usuarios (version abreviada)
+certificate#:#certificate_ph_marklong#:#Calificación de Usuarios (versión oficial)
+certificate#:#certificate_ph_testtitle#:#Título del Test
+certificate#:#certificate_ph_date#:#Fecha actual
+certificate#:#certificate_ph_datetime#:#Hora y fecha actual
+certificate#:#certificate_unit_description#:#Introduzca unidades de medida como valor [cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in
+certificate#:#certificate_visibility#:#Visibilidad
+certificate#:#certificate_visibility_introduction#:#El botón para ofrecer a los usuarios este certificado está
+certificate#:#certificate_visibility_always#:#Siempre visible
+certificate#:#certificate_visibility_never#:#No visible
+certificate#:#certificate_visibility_passed#:#Sólo visible si un usuario superó el test
+certificate#:#certificate_error_import#:#Ocurrió un error durante la importación de un certificado
+certificate#:#certificate_error_upload_bgimage#:#Ocurrió un error durante la carga de una imagen de fondo
 assessment#:#change_properties_from_random_to_standard#:#Va a cambiar las propiedades de su test, de aleatorio a no aleatorio. La información sobre los bancos de preguntas que ya añadió al test aleatorio será eliminada del test. ¿Está seguro de que quiere modificar las propiedades del test?
 assessment#:#change_properties_from_standard_to_random#:#Va a cambiar las propiedades de su test, de no aleatorio a test aleatorio. Las preguntas que ya añadió al test serán elimnadas, porque tiene que seleccionar bancos de preguntas para poder crear un test aleatorio. ¿Está seguro de que quiere modificar las propiedades del test?
 assessment#:#change_solution#:#Modificar solución recomendada
