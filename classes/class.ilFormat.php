@@ -356,7 +356,7 @@ class ilFormat
 		$isTomorrow = $today + 24 * 60 * 60 <= $timestamp && $timestamp < $today + 48 * 60 * 60;
 
 		global $lng;
-		if ($relative)
+		if ($a_relative)
 		{
 			$date = ($isToday) ? $lng->txt('today') : 
 					(($isYesterday) ? $lng->txt('yesterday') : 
