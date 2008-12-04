@@ -8776,3 +8776,4 @@ certificate#:#certificate_error_import#:#An error occured during the import of a
 certificate#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!
 certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
+certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.
