@@ -223,83 +223,83 @@ assessment#:#cannot_export_test#:#Nemáte oprávnění k exportování testu!
 assessment#:#cannot_maintain_test#:#Nemáte oprávnění k vytváření testu!
 assessment#:#cannot_read_questionpool#:#Nemáte oprávnění ke čtení dat zásobníku otázek!
 assessment#:#cannot_save_metaobject#:#Nemáte oprávnění k ukládání metadat!
-assessment#:#certificate#:#Certifikát
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 horizontálně (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 horizontálně (148 mm x 210 mm)
-assessment#:#certificate_background_image#:#Obrázek pozadí
-assessment#:#certificate_bottom#:#Nahoře
-assessment#:#certificate_confirm_deletion_text#:#Skutečně chcete smazat tento certifikát a všechna k němu vztažená data?
-assessment#:#certificate_custom#:#Vlastní formát...
-assessment#:#certificate_delete#:#Smazat certifikát
-assessment#:#certificate_edit#:#Vytvořit/upravit formulář certifikátu
-assessment#:#certificate_error_import#:#Během importu certifikátu se vyskytla chyba!
-assessment#:#certificate_error_upload_bgimage#:#Během ukládání obrázku pozadí se vyskytla chyba!
-assessment#:#certificate_export#:#Export certifikátu
-assessment#:#certificate_failed#:#selhalo
-assessment#:#certificate_left#:#Levý
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter horizontálně (8.5 inch x 11 inch)
-assessment#:#certificate_margin_body#:#Okraje hlavní části
-assessment#:#certificate_not_well_formed#:#Text certifikátu není vhodně zformátován. Vložte prosím platný XHTML pro text certifikátu!
-assessment#:#certificate_padding_top#:#Souběh horního okraje
-assessment#:#certificate_page_format#:#Formát stránky
-assessment#:#certificate_pageheight#:#Výška stránky
-assessment#:#certificate_pagewidth#:#Šířka stránky
-assessment#:#certificate_passed#:#předán
-assessment#:#certificate_ph_city#:#Město adresy uživatele
-assessment#:#certificate_ph_country#:#Země adresy uživatele
-assessment#:#certificate_ph_date#:#Aktuální datum
-assessment#:#certificate_ph_datetime#:#Aktuální datum a čas
-assessment#:#certificate_ph_department#:#Katedra uživatele
-assessment#:#certificate_ph_firstname#:#Křestní jméno uživatele
-assessment#:#certificate_ph_fullname#:#Celé jméno uživatelé (titul, jméno a příjmení)
-assessment#:#certificate_ph_institution#:#Instituce uživatele
-assessment#:#certificate_ph_introduction#:#Následující rezervovaná místa lze využít
-assessment#:#certificate_ph_lastname#:#Příjmení uživatele
-assessment#:#certificate_ph_marklong#:#Známka uživatele (oficiální verze)
-assessment#:#certificate_ph_markshort#:#Známka uživatele (zkrácená verze)
-assessment#:#certificate_ph_maxpoints#:#Maximum dosažitelných bodů
-assessment#:#certificate_ph_passed#:#"prospěl" nebo "neprospěl", v závislosti na výsledcích testu
-assessment#:#certificate_ph_resultpercent#:#Dosažená procenta uživatele
-assessment#:#certificate_ph_resultpoints#:#Dosažené body uživatele
-assessment#:#certificate_ph_street#:#Ulice adresy uživatele
-assessment#:#certificate_ph_testtitle#:#Název testu
-assessment#:#certificate_ph_title#:#Titul uživatele
-assessment#:#certificate_ph_zipcode#:#PSČ adresy uživatele
-assessment#:#certificate_preview#:#Zobrazit náhled certifikátu
-assessment#:#certificate_right#:#Pravý
-assessment#:#certificate_show#:#Zobrazit certifikát
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#Certifikát je kompletní a může být použit
-assessment#:#certificate_status_incomplete#:#Certifikát není hotový
-assessment#:#certificate_text#:#Text certifikátu
-assessment#:#certificate_top#:#Vrchol
-assessment#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Výborně-mínus
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_passed#:#Prospěl
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_city#:#Praha
-assessment#:#certificate_var_user_country#:#Česká republika
-assessment#:#certificate_var_user_department#:#Katedra uživatelské podpory
-assessment#:#certificate_var_user_firstname#:#Jan
-assessment#:#certificate_var_user_fullname#:#Ing. Jan Novák
-assessment#:#certificate_var_user_institution#:#Univerzita ILIAS
-assessment#:#certificate_var_user_lastname#:#Novák
-assessment#:#certificate_var_user_street#:#Hlavní třída 100
-assessment#:#certificate_var_user_title#:#Ing.
-assessment#:#certificate_var_user_zipcode#:#12345
-assessment#:#certificate_visibility#:#Viditelnost
-assessment#:#certificate_visibility_always#:#Vždy viditelné
-assessment#:#certificate_visibility_introduction#:#Tlačítko ve výsledcích testu nabízející tento certifikát je
-assessment#:#certificate_visibility_never#:#Neviditelné
-assessment#:#certificate_visibility_passed#:#Viditelné pouze účastníkům, kteří prošli testem
-assessment#:#certificate_wrong_unit#:#Vložil(a) jste chybné jednotky
-assessment#:#certificate_wrong_units#:#Vložil(a) jste chybnou sadu jednotek
+common#:#certificate#:#Certifikát
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 horizontálně (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 horizontálně (148 mm x 210 mm)
+certificate#:#certificate_background_image#:#Obrázek pozadí
+certificate#:#certificate_bottom#:#Nahoře
+certificate#:#certificate_confirm_deletion_text#:#Skutečně chcete smazat tento certifikát a všechna k němu vztažená data?
+certificate#:#certificate_custom#:#Vlastní formát...
+certificate#:#certificate_delete#:#Smazat certifikát
+certificate#:#certificate_edit#:#Vytvořit/upravit formulář certifikátu
+certificate#:#certificate_error_import#:#Během importu certifikátu se vyskytla chyba!
+certificate#:#certificate_error_upload_bgimage#:#Během ukládání obrázku pozadí se vyskytla chyba!
+certificate#:#certificate_export#:#Export certifikátu
+certificate#:#certificate_failed#:#selhalo
+certificate#:#certificate_left#:#Levý
+certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
+certificate#:#certificate_letter_landscape#:#Letter horizontálně (8.5 inch x 11 inch)
+certificate#:#certificate_margin_body#:#Okraje hlavní části
+certificate#:#certificate_not_well_formed#:#Text certifikátu není vhodně zformátován. Vložte prosím platný XHTML pro text certifikátu!
+certificate#:#certificate_padding_top#:#Souběh horního okraje
+certificate#:#certificate_page_format#:#Formát stránky
+certificate#:#certificate_pageheight#:#Výška stránky
+certificate#:#certificate_pagewidth#:#Šířka stránky
+certificate#:#certificate_passed#:#předán
+certificate#:#certificate_ph_city#:#Město adresy uživatele
+certificate#:#certificate_ph_country#:#Země adresy uživatele
+certificate#:#certificate_ph_date#:#Aktuální datum
+certificate#:#certificate_ph_datetime#:#Aktuální datum a čas
+certificate#:#certificate_ph_department#:#Katedra uživatele
+certificate#:#certificate_ph_firstname#:#Křestní jméno uživatele
+certificate#:#certificate_ph_fullname#:#Celé jméno uživatelé (titul, jméno a příjmení)
+certificate#:#certificate_ph_institution#:#Instituce uživatele
+certificate#:#certificate_ph_introduction#:#Následující rezervovaná místa lze využít
+certificate#:#certificate_ph_lastname#:#Příjmení uživatele
+certificate#:#certificate_ph_marklong#:#Známka uživatele (oficiální verze)
+certificate#:#certificate_ph_markshort#:#Známka uživatele (zkrácená verze)
+certificate#:#certificate_ph_maxpoints#:#Maximum dosažitelných bodů
+certificate#:#certificate_ph_passed#:#"prospěl" nebo "neprospěl", v závislosti na výsledcích testu
+certificate#:#certificate_ph_resultpercent#:#Dosažená procenta uživatele
+certificate#:#certificate_ph_resultpoints#:#Dosažené body uživatele
+certificate#:#certificate_ph_street#:#Ulice adresy uživatele
+certificate#:#certificate_ph_testtitle#:#Název testu
+certificate#:#certificate_ph_title#:#Titul uživatele
+certificate#:#certificate_ph_zipcode#:#PSČ adresy uživatele
+certificate#:#certificate_preview#:#Zobrazit náhled certifikátu
+certificate#:#certificate_right#:#Pravý
+certificate#:#certificate_show#:#Zobrazit certifikát
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_status_complete#:#Certifikát je kompletní a může být použit
+certificate#:#certificate_status_incomplete#:#Certifikát není hotový
+certificate#:#certificate_text#:#Text certifikátu
+certificate#:#certificate_top#:#Vrchol
+certificate#:#certificate_unit_description#:#Vložte jednotky měřítka jako hodnotu [cm|mm|in|pt|pc|px|em], např. 10mm nebo 3in
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_long#:#Výborně-mínus
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_passed#:#Prospěl
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_user_city#:#Praha
+certificate#:#certificate_var_user_country#:#Česká republika
+certificate#:#certificate_var_user_department#:#Katedra uživatelské podpory
+certificate#:#certificate_var_user_firstname#:#Jan
+certificate#:#certificate_var_user_fullname#:#Ing. Jan Novák
+certificate#:#certificate_var_user_institution#:#Univerzita ILIAS
+certificate#:#certificate_var_user_lastname#:#Novák
+certificate#:#certificate_var_user_street#:#Hlavní třída 100
+certificate#:#certificate_var_user_title#:#Ing.
+certificate#:#certificate_var_user_zipcode#:#12345
+certificate#:#certificate_visibility#:#Viditelnost
+certificate#:#certificate_visibility_always#:#Vždy viditelné
+certificate#:#certificate_visibility_introduction#:#Tlačítko ve výsledcích testu nabízející tento certifikát je
+certificate#:#certificate_visibility_never#:#Neviditelné
+certificate#:#certificate_visibility_passed#:#Viditelné pouze účastníkům, kteří prošli testem
+certificate#:#certificate_wrong_unit#:#Vložil(a) jste chybné jednotky
+certificate#:#certificate_wrong_units#:#Vložil(a) jste chybnou sadu jednotek
 assessment#:#change_properties_from_random_to_standard#:#Hodláte změnit vlastnosti tohoto testu z namátkového testu na nenamátkový test. Informace o již přidaných zásobnících otázek do namátkového testu budou z testu odstraněny. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_properties_from_standard_to_random#:#Hodláte změnit vlastnosti tohoto testu z nenamátkového testu na namátkový test. Otázky již přidané do tohoto testu budou odstraněny, protože musíte vybrat otázky ze zásobníku otázek pro namátkový test. Chcete skutečně změnít vlastnosti testu?
 assessment#:#change_solution#:#Změna doporučeného řešení

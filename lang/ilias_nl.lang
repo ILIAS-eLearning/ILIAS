@@ -6477,69 +6477,69 @@ common#:#usr_filter_empty_result#:#Geen gebruikers gevonden met de ov ereenkomst
 common#:#access_unlimited#:#Onbeperkt
 common#:#usr_limited_access_only#:#Gebruikers met beperkte toegang
 common#:#usr_without_courses#:#Toegewezen gebruikers zonder cursussen
-assessment#:#certificate#:#Certificaat
-assessment#:#certificate_top#:#Top
-assessment#:#certificate_right#:#Rechts
-assessment#:#certificate_bottom#:#Bottom
-assessment#:#certificate_left#:#Links
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
-assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)le
-assessment#:#certificate_custom#:#Normaal...
-assessment#:#certificate_edit#:#Maak/wijzig een certificaat sjabloon
-assessment#:#certificate_export#:#Exporteer Certificaat
-assessment#:#certificate_page_format#:#Paginaformaat
-assessment#:#certificate_background_image#:#Achtergrondafbeelding
-assessment#:#certificate_padding_top#:#Top Padding
-assessment#:#certificate_margin_body#:#Body Margin
-assessment#:#certificate_not_well_formed#:#De certificaattekst werd niet goed opgemaakt. Gelieve een geldige XHTML-formaat in te geven voor de certificaattekst!
-assessment#:#certificate_show#:#Toon certificaat
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#Het certificaat is volledig en kan worden gebruikt
-assessment#:#certificate_status_incomplete#:#Het certificaat is niet volledig
-assessment#:#certificate_delete#:#Verwijder certificaat gegevens
-assessment#:#certificate_preview#:#Toon voorbeeld van het certificaat
-assessment#:#certificate_text#:#Certificaat tekst
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_lastname#:#Doe
-assessment#:#certificate_var_result_passed#:#geslaagd
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_mark_long#:#Goed
-assessment#:#certificate_passed#:#geslaagd
-assessment#:#certificate_failed#:#niet geslaagd
-assessment#:#certificate_pageheight#:#Paginahoogte
-assessment#:#certificate_pagewidth#:#Paginabreedte
-assessment#:#certificate_wrong_unit#:#U hebt een verkeerde eenheid ingegeven
-assessment#:#certificate_wrong_units#:#U hebt een verkeerde reeks eenheden ingeveven
-assessment#:#certificate_confirm_deletion_text#:#Wilt u werkelijk het certificaat en al zijn verwante gegevens verwijderen?
-assessment#:#certificate_ph_introduction#:#De volgende plaatsvervanger kunnen worden gebruikt
-assessment#:#certificate_ph_fullname#:#Volledige naam van de gebruiker (titel, voornaam en familienaam)
-assessment#:#certificate_ph_firstname#:#Voornaam van de gebruiker
-assessment#:#certificate_ph_lastname#:#Familienaam van de gebruiker
-assessment#:#certificate_ph_passed#:#"geslaagd" of "geslaagd", hangt af van de toetsresultaten
-assessment#:#certificate_ph_resultpoints#:#Behaalde punten van de gebruiker
-assessment#:#certificate_ph_resultpercent#:#Behaalde percentage van de gebruiker
-assessment#:#certificate_ph_maxpoints#:#Maximum haalbare punten
-assessment#:#certificate_ph_markshort#:#Gebruikersaanduiding (korte versie)
-assessment#:#certificate_ph_marklong#:#Gebruikersaanduiding (officiële versie)
-assessment#:#certificate_ph_testtitle#:#Titel van de test
-assessment#:#certificate_ph_date#:#Actuele datum
-assessment#:#certificate_ph_datetime#:#Actuele datum en tijd.
-assessment#:#certificate_unit_description#:#Geef meeteenheden in als WAARDE [cm|mm|in|pt|pc|px|em], vb. 10mm of 3in
-assessment#:#certificate_visibility#:#Zichtbaarheid
-assessment#:#certificate_visibility_introduction#:#De knop in de toestresultaten om gebruikers dit certificaat aan te bieden is
-assessment#:#certificate_visibility_always#:#Altijd zichtbaar
-assessment#:#certificate_visibility_never#:#Niet zichtbaar
-assessment#:#certificate_visibility_passed#:#Alleen zichtbaar als de gebruiker slaagt voor zijn test
-assessment#:#certificate_error_import#:#Een fout opgetreden tijdens het importeren van een certificaat!
-assessment#:#certificate_error_upload_bgimage#:#Een fout opgetreden tijdens het uploaden van de achtergrondafbeelding!
+common#:#certificate#:#Certificaat
+certificate#:#certificate_top#:#Top
+certificate#:#certificate_right#:#Rechts
+certificate#:#certificate_bottom#:#Bottom
+certificate#:#certificate_left#:#Links
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)
+certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)le
+certificate#:#certificate_custom#:#Normaal...
+certificate#:#certificate_edit#:#Maak/wijzig een certificaat sjabloon
+certificate#:#certificate_export#:#Exporteer Certificaat
+certificate#:#certificate_page_format#:#Paginaformaat
+certificate#:#certificate_background_image#:#Achtergrondafbeelding
+certificate#:#certificate_padding_top#:#Top Padding
+certificate#:#certificate_margin_body#:#Body Margin
+certificate#:#certificate_not_well_formed#:#De certificaattekst werd niet goed opgemaakt. Gelieve een geldige XHTML-formaat in te geven voor de certificaattekst!
+certificate#:#certificate_show#:#Toon certificaat
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_status_complete#:#Het certificaat is volledig en kan worden gebruikt
+certificate#:#certificate_status_incomplete#:#Het certificaat is niet volledig
+certificate#:#certificate_delete#:#Verwijder certificaat gegevens
+certificate#:#certificate_preview#:#Toon voorbeeld van het certificaat
+certificate#:#certificate_text#:#Certificaat tekst
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
+certificate#:#certificate_var_user_firstname#:#Jane
+certificate#:#certificate_var_user_lastname#:#Doe
+certificate#:#certificate_var_result_passed#:#geslaagd
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_mark_long#:#Goed
+certificate#:#certificate_passed#:#geslaagd
+certificate#:#certificate_failed#:#niet geslaagd
+certificate#:#certificate_pageheight#:#Paginahoogte
+certificate#:#certificate_pagewidth#:#Paginabreedte
+certificate#:#certificate_wrong_unit#:#U hebt een verkeerde eenheid ingegeven
+certificate#:#certificate_wrong_units#:#U hebt een verkeerde reeks eenheden ingeveven
+certificate#:#certificate_confirm_deletion_text#:#Wilt u werkelijk het certificaat en al zijn verwante gegevens verwijderen?
+certificate#:#certificate_ph_introduction#:#De volgende plaatsvervanger kunnen worden gebruikt
+certificate#:#certificate_ph_fullname#:#Volledige naam van de gebruiker (titel, voornaam en familienaam)
+certificate#:#certificate_ph_firstname#:#Voornaam van de gebruiker
+certificate#:#certificate_ph_lastname#:#Familienaam van de gebruiker
+certificate#:#certificate_ph_passed#:#"geslaagd" of "geslaagd", hangt af van de toetsresultaten
+certificate#:#certificate_ph_resultpoints#:#Behaalde punten van de gebruiker
+certificate#:#certificate_ph_resultpercent#:#Behaalde percentage van de gebruiker
+certificate#:#certificate_ph_maxpoints#:#Maximum haalbare punten
+certificate#:#certificate_ph_markshort#:#Gebruikersaanduiding (korte versie)
+certificate#:#certificate_ph_marklong#:#Gebruikersaanduiding (officiële versie)
+certificate#:#certificate_ph_testtitle#:#Titel van de test
+certificate#:#certificate_ph_date#:#Actuele datum
+certificate#:#certificate_ph_datetime#:#Actuele datum en tijd.
+certificate#:#certificate_unit_description#:#Geef meeteenheden in als WAARDE [cm|mm|in|pt|pc|px|em], vb. 10mm of 3in
+certificate#:#certificate_visibility#:#Zichtbaarheid
+certificate#:#certificate_visibility_introduction#:#De knop in de toestresultaten om gebruikers dit certificaat aan te bieden is
+certificate#:#certificate_visibility_always#:#Altijd zichtbaar
+certificate#:#certificate_visibility_never#:#Niet zichtbaar
+certificate#:#certificate_visibility_passed#:#Alleen zichtbaar als de gebruiker slaagt voor zijn test
+certificate#:#certificate_error_import#:#Een fout opgetreden tijdens het importeren van een certificaat!
+certificate#:#certificate_error_upload_bgimage#:#Een fout opgetreden tijdens het uploaden van de achtergrondafbeelding!
 common#:#user_profile_instant_messengers#:#Contacten van chatprogramma's
 common#:#instant_messengers#:#Chatprogramma's
 common#:#im_icq#:#ICQ

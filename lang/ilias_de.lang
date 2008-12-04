@@ -212,83 +212,6 @@ assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um de
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
-assessment#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_background_image#:#Hintergrundbild
-assessment#:#certificate_bottom#:#Unten
-assessment#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
-assessment#:#certificate_custom#:#Eigenes Format...
-assessment#:#certificate_delete#:#Zertifikat löschen
-assessment#:#certificate_edit#:#Zertifikat-Vorlage erstellen/bearbeiten
-assessment#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
-assessment#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
-assessment#:#certificate_export#:#Zertifikat exportieren
-assessment#:#certificate_failed#:#nicht bestanden
-assessment#:#certificate_left#:#Links
-assessment#:#certificate_letter_landscape#:#US Brief Quer (8,5 inch x 11 inch)
-assessment#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
-assessment#:#certificate_margin_body#:#Ränder des Textbereiches
-assessment#:#certificate_not_well_formed#:#Der Zertifikat-Text ist nicht wohlgeformt. Bitte verwenden Sie gültiges XHTML für den Zertifikat-Text!
-assessment#:#certificate_padding_top#:#Abstand vom oberen Seitenrand
-assessment#:#certificate_page_format#:#Seitenformat
-assessment#:#certificate_pageheight#:#Seitenhöhe
-assessment#:#certificate_pagewidth#:#Seitenbreite
-assessment#:#certificate_passed#:#bestanden
-assessment#:#certificate_ph_date#:#Aktuelles Datum
-assessment#:#certificate_ph_datetime#:#Aktuelles Datum und Uhrzeit
-assessment#:#certificate_ph_firstname#:#Vorname des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_fullname#:#Name des Teilnehmers oder der Teilnehmerin (Titel, Vorname und Nachname)
-assessment#:#certificate_ph_introduction#:#Die folgenden Platzhalter dürfen verwendet werden
-assessment#:#certificate_ph_lastname#:#Nachname des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
-assessment#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
-assessment#:#certificate_ph_maxpoints#:#Maximal erreichbare Punktezahl
-assessment#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhängig vom Testergebnis
-assessment#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_testtitle#:#Titel des Tests
-assessment#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
-assessment#:#certificate_right#:#Rechts
-assessment#:#certificate_show#:#Zertifikat anzeigen
-assessment#:#certificate_status_complete#:#Das Zertifikat ist vollständig und kann verwendet werden
-assessment#:#certificate_status_incomplete#:#Das Zertifikat ist unvollständig
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_text#:#Zertifikat-Text
-assessment#:#certificate_top#:#Oben
-assessment#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_long#:#Gut
-assessment#:#certificate_var_result_mark_short#:#2
-assessment#:#certificate_var_result_passed#:#bestanden
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_user_firstname#:#Erika
-assessment#:#certificate_var_user_fullname#:#Erika Mustermann
-assessment#:#certificate_var_user_lastname#:#Mustermann
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source
-assessment#:#certificate_var_user_department#:#Benutzerbetreuung
-assessment#:#certificate_var_user_street#:#Heidestraße 17
-assessment#:#certificate_var_user_city#:#Köln
-assessment#:#certificate_var_user_zipcode#:#51147
-assessment#:#certificate_var_user_country#:#Deutschland
-assessment#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_institution#:#Institution des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_department#:#Abteilung des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
-assessment#:#certificate_visibility_always#:#Immer sichtbar
-assessment#:#certificate_visibility_introduction#:#Die Schaltfläche, die den Teilnehmern und Teilnehmerinnen in der Ergebnisansicht das Zertifikat anbietet ist
-assessment#:#certificate_visibility_never#:#Nicht sichtbar
-assessment#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
-assessment#:#certificate_visibility#:#Sichtbarkeit
-assessment#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine falsche Einheit eingetragen
-assessment#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
-assessment#:#certificate#:#Zertifikat
 assessment#:#change_properties_from_random_to_standard#:#Sie wollen Ihre Testeinstellungen von einem Zufallstest zu einem Test mit festen Fragen ändern. Die Fragenpools, die Sie bereits zu diesem Zufallstest hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_properties_from_standard_to_random#:#Sie wollen Ihre Testeinstellungen von einem Test mit festen Fragen zu einem Zufallstest ändern. Die Fragen, die Sie bereits zu diesem Test hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_solution#:#Musterlösung wechseln
@@ -8760,3 +8683,82 @@ payment#:#payment_no_topic#:#Kein Thema
 assessment#:#error_cloze_not_numeric#:#Bitte geben Sie einen numerischen Wert ein.
 assessment#:#error_no_upper_limit#:#Bitte geben Sie eine obere Schranke an.
 assessment#:#error_no_lower_limit#:#Bitte geben Sie eine untere Schranke an.
+certificate#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_background_image#:#Hintergrundbild
+certificate#:#certificate_bottom#:#Unten
+certificate#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
+certificate#:#certificate_custom#:#Eigenes Format...
+certificate#:#certificate_delete#:#Zertifikat löschen
+certificate#:#certificate_edit#:#Zertifikat-Vorlage erstellen/bearbeiten
+certificate#:#certificate_error_import#:#Während des Zertifikat-Imports ist ein Fehler aufgetreten!
+certificate#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
+certificate#:#certificate_export#:#Zertifikat exportieren
+certificate#:#certificate_failed#:#nicht bestanden
+certificate#:#certificate_left#:#Links
+certificate#:#certificate_letter_landscape#:#US Brief Quer (8,5 inch x 11 inch)
+certificate#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
+certificate#:#certificate_margin_body#:#Ränder des Textbereiches
+certificate#:#certificate_not_well_formed#:#Der Zertifikat-Text ist nicht wohlgeformt. Bitte verwenden Sie gültiges XHTML für den Zertifikat-Text!
+certificate#:#certificate_padding_top#:#Abstand vom oberen Seitenrand
+certificate#:#certificate_page_format#:#Seitenformat
+certificate#:#certificate_pageheight#:#Seitenhöhe
+certificate#:#certificate_pagewidth#:#Seitenbreite
+certificate#:#certificate_passed#:#bestanden
+certificate#:#certificate_ph_date#:#Aktuelles Datum
+certificate#:#certificate_ph_datetime#:#Aktuelles Datum und Uhrzeit
+certificate#:#certificate_ph_firstname#:#Vorname des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_fullname#:#Name des Teilnehmers oder der Teilnehmerin (Titel, Vorname und Nachname)
+certificate#:#certificate_ph_introduction#:#Die folgenden Platzhalter dürfen verwendet werden
+certificate#:#certificate_ph_lastname#:#Nachname des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
+certificate#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
+certificate#:#certificate_ph_maxpoints#:#Maximal erreichbare Punktezahl
+certificate#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhängig vom Testergebnis
+certificate#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_testtitle#:#Titel des Tests
+certificate#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
+certificate#:#certificate_right#:#Rechts
+certificate#:#certificate_show#:#Zertifikat anzeigen
+certificate#:#certificate_status_complete#:#Das Zertifikat ist vollständig und kann verwendet werden
+certificate#:#certificate_status_incomplete#:#Das Zertifikat ist unvollständig
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_text#:#Zertifikat-Text
+certificate#:#certificate_top#:#Oben
+certificate#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_long#:#Gut
+certificate#:#certificate_var_result_mark_short#:#2
+certificate#:#certificate_var_result_passed#:#bestanden
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_user_firstname#:#Erika
+certificate#:#certificate_var_user_fullname#:#Erika Mustermann
+certificate#:#certificate_var_user_lastname#:#Mustermann
+certificate#:#certificate_var_user_title#:#Dr.
+certificate#:#certificate_var_user_institution#:#ILIAS Open Source
+certificate#:#certificate_var_user_department#:#Benutzerbetreuung
+certificate#:#certificate_var_user_street#:#Heidestraße 17
+certificate#:#certificate_var_user_city#:#Köln
+certificate#:#certificate_var_user_zipcode#:#51147
+certificate#:#certificate_var_user_country#:#Deutschland
+certificate#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_institution#:#Institution des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_department#:#Abteilung des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_visibility_always#:#Immer sichtbar
+certificate#:#certificate_visibility_introduction#:#Die Schaltfläche, die den Teilnehmern und Teilnehmerinnen in der Ergebnisansicht das Zertifikat anbietet ist
+certificate#:#certificate_visibility_never#:#Nicht sichtbar
+certificate#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
+certificate#:#certificate_visibility#:#Sichtbarkeit
+certificate#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine falsche Einheit eingetragen
+certificate#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
+common#:#certificate#:#Zertifikat
+certificate#:#certificate_settings#:#Einstellungen für Zertifikate
+certificate#:#default_background_info#:#Das hier angegebene Hintergrundbild wird bei allen Zertifikaten als Standard-Hintergrund verwendet, es sei denn, Sie geben im Zertifikat-Editor explizit ein anderes Hintergrundbild an.

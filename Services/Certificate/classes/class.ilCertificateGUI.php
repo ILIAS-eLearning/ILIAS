@@ -97,6 +97,7 @@ class ilCertificateGUI
 		$this->ilias =& $ilias;
 		$this->tree =& $tree;
 		$this->ref_id = $_GET["ref_id"];
+		$this->lng->loadLanguageModule("certificate");
 	}
 
 	/**
@@ -330,7 +331,18 @@ class ilCertificateGUI
 				}
 			}
 		}
-		if (strlen($this->object->getBackgroundImageThumbPathWeb())) $bgimage->setImage($this->object->getBackgroundImageThumbPathWeb());
+		if (!$this->object->hasBackgroundImage())
+		{
+			include_once "./Services/Certificate/classes/class.ilObjCertificateSettingsAccess.php";
+			if (ilObjCertificateSettingsAccess::hasBackgroundImage())
+			{
+				$bgimage->setImage(ilObjCertificateSettingsAccess::getBackgroundImageThumbPathWeb());
+			}
+		}
+		else
+		{
+			$bgimage->setImage($this->object->getBackgroundImageThumbPathWeb());
+		}
 		$form->addItem($bgimage);
 		
 		$padding_top = new ilTextInputGUI($this->lng->txt("certificate_padding_top"), "padding_top");

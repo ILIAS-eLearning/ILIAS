@@ -44,8 +44,9 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		$this->type = 'cert';
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+		$this->type = 'cert';
+		$this->lng->loadLanguageModule("certificate");
 	}
 
 	/**
@@ -125,15 +126,46 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('certificate_settings'));
+
+		$bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
+		$bgimage->setRequired(FALSE);
+		if (count($_POST)) 
+		{
+			// handle the background upload
+			if (strlen($_FILES["background"]["tmp_name"]))
+			{
+				if ($bgimage->checkInput())
+				{
+					$result = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
+					if ($result == FALSE)
+					{
+						$bgimage->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
+					}
+				}
+			}
+		}
+		if (strlen($this->object->hasBackgroundImage())) $bgimage->setImage($this->object->getBackgroundImageThumbPathWeb());
+		$bgimage->setInfo($this->lng->txt("default_background_info"));
+		$form->addItem($bgimage);
+
+
 		$form->addCommandButton('save',$this->lng->txt('save'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 
 		$this->tpl->setContent($form->getHTML());
+
+		if (strcmp($this->ctrl->getCmd(), "save") == 0)
+		{
+			if ($_POST["background_delete"])
+			{
+				$this->object->deleteBackgroundImage();
+			}
+		}
 	}
 	
 	public function save()
 	{
-		$this->ctrl->redirect($this, "settings");
+		$this->settings();
 	}
 	
 	public function cancel()

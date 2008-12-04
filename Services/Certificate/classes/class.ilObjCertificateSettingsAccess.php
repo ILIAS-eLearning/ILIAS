@@ -33,7 +33,84 @@ include_once("./classes/class.ilObjectAccess.php");
 */
 class ilObjCertificateSettingsAccess extends ilObjectAccess
 {
+	/**
+	* Returns wheather or not a default background image exists
+	*
+	* @return boolean TRUE if a background image exists, FALSE otherwise
+	*/
+	public static function hasBackgroundImage()
+	{
+		if (@file_exists(ilObjCertificateSettingsAccess::getBackgroundImagePath()) && (@filesize(ilObjCertificateSettingsAccess::getBackgroundImagePath()) > 0))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 
+	/**
+	* Returns the filesystem path for the default background image
+	*
+	* @return string The filesystem path of the background image
+	*/
+	public static function getBackgroundImageDefaultFolder()
+	{
+		return CLIENT_WEB_DIR . "/certificates/default/";
+	}
+
+	/**
+	* Returns the filesystem path of the background image
+	*
+	* @return string The filesystem path of the background image
+	*/
+	public static function getBackgroundImagePath()
+	{
+		return ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName();
+	}
+
+	/**
+	* Returns the filename of the background image
+	*
+	* @return string The filename of the background image
+	*/
+	public static function getBackgroundImageName()
+	{
+		return "background.jpg";
+	}
+
+	/**
+	* Returns the filesystem path of the background image thumbnail
+	*
+	* @return string The filesystem path of the background image thumbnail
+	*/
+	public static function getBackgroundImageThumbPath()
+	{
+		return ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName() . ".thumb.jpg";
+	}
+
+	/**
+	* Returns the web path of the background image
+	*
+	* @return string The web path of the background image
+	*/
+	public static function getBackgroundImagePathWeb()
+	{
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), ilObjCertificateSettingsAccess::getBackgroundImagePath());
+	}
+	
+	/**
+	* Returns the web path of the background image thumbnail
+	*
+	* @return string The web path of the background image thumbnail
+	*/
+	public static function getBackgroundImageThumbPathWeb()
+	{
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), ilObjCertificateSettingsAccess::getBackgroundImageThumbPath());
+	}
 
 }
 

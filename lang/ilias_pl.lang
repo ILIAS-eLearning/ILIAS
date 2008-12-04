@@ -6452,71 +6452,71 @@ grp#:#crs_grp_assign_crs#:#Przydział grup
 grp#:#crs_grp_no_courses_assigned#:#Nie przydzielono żadnej grupy
 grp#:#crs_grouping_select_one#:#Wybierz dokładnie jeden limit uczestnictwa.
 grp#:#crs_grp_info_reg#:#Możesz się zarejestrować tylko do jednej z tych grup:
-assessment#:#certificate#:#Certyfikat
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 Pejzaż (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 Pejzaż (148 mm x 210 mm)
-assessment#:#certificate_letter#:#Letter (11 cali x 8.5 cala)
-assessment#:#certificate_letter_landscape#:#Letter Pejzaż (8.5 cala x 11 cali)
-assessment#:#certificate_custom#:#Użytkownika...
-assessment#:#certificate_edit#:#Twórz/edytuj szablon certyfikatu
-assessment#:#certificate_page_format#:#Format strony
-assessment#:#certificate_background_image#:#Obraz tła
-assessment#:#certificate_padding_top#:#Górny odstęp
-assessment#:#certificate_margin_body#:#Margines głównej części
-assessment#:#certificate_show#:#Pokaż Certyfikat
-assessment#:#certificate_status#:#Status
-assessment#:#certificate_status_complete#:#Certyfikat jest kompletny i może być użyty
-assessment#:#certificate_status_incomplete#:#Certyfikat nie jest kompletny
-assessment#:#certificate_delete#:#Usuń dane certyfikatu
-assessment#:#certificate_preview#:#Pokaż podgląd certyfikatu
-assessment#:#certificate_text#:#Tekst Certyfikatu
-assessment#:#certificate_var_user_fullname#:#Dr. Jan Kowalski
-assessment#:#certificate_var_user_firstname#:#Jan
-assessment#:#certificate_var_user_lastname#:#Kowalski
-assessment#:#certificate_var_result_passed#:#gotowy
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_mark_long#:#Dobrze
-assessment#:#certificate_passed#:#gotowy
-assessment#:#certificate_failed#:#błędny
-assessment#:#certificate_pageheight#:#Wysokość strony
-assessment#:#certificate_pagewidth#:#Szerokość strony
-assessment#:#certificate_wrong_unit#:#Wprowadziłeś błędną jednostkę
-assessment#:#certificate_wrong_units#:#Wprowadziłeś błędny zestaw jednostek
-assessment#:#certificate_confirm_deletion_text#:#Czy chcesz usunąć certyfikat i wszystkie jego dane?
+common#:#certificate#:#Certyfikat
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 Pejzaż (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 Pejzaż (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Letter (11 cali x 8.5 cala)
+certificate#:#certificate_letter_landscape#:#Letter Pejzaż (8.5 cala x 11 cali)
+certificate#:#certificate_custom#:#Użytkownika...
+certificate#:#certificate_edit#:#Twórz/edytuj szablon certyfikatu
+certificate#:#certificate_page_format#:#Format strony
+certificate#:#certificate_background_image#:#Obraz tła
+certificate#:#certificate_padding_top#:#Górny odstęp
+certificate#:#certificate_margin_body#:#Margines głównej części
+certificate#:#certificate_show#:#Pokaż Certyfikat
+certificate#:#certificate_status#:#Status
+certificate#:#certificate_status_complete#:#Certyfikat jest kompletny i może być użyty
+certificate#:#certificate_status_incomplete#:#Certyfikat nie jest kompletny
+certificate#:#certificate_delete#:#Usuń dane certyfikatu
+certificate#:#certificate_preview#:#Pokaż podgląd certyfikatu
+certificate#:#certificate_text#:#Tekst Certyfikatu
+certificate#:#certificate_var_user_fullname#:#Dr. Jan Kowalski
+certificate#:#certificate_var_user_firstname#:#Jan
+certificate#:#certificate_var_user_lastname#:#Kowalski
+certificate#:#certificate_var_result_passed#:#gotowy
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_mark_long#:#Dobrze
+certificate#:#certificate_passed#:#gotowy
+certificate#:#certificate_failed#:#błędny
+certificate#:#certificate_pageheight#:#Wysokość strony
+certificate#:#certificate_pagewidth#:#Szerokość strony
+certificate#:#certificate_wrong_unit#:#Wprowadziłeś błędną jednostkę
+certificate#:#certificate_wrong_units#:#Wprowadziłeś błędny zestaw jednostek
+certificate#:#certificate_confirm_deletion_text#:#Czy chcesz usunąć certyfikat i wszystkie jego dane?
 assessment#:#exp_type_certificate#:#Certyfikat (PDF)
-assessment#:#certificate_ph_introduction#:#Następujące miejsca na zmienne mogą być użyte
-assessment#:#certificate_ph_fullname#:#Pełna nazwa użytkownika (tytuł, imię i nazwisko)
-assessment#:#certificate_ph_firstname#:#Imię użytkownika
-assessment#:#certificate_ph_lastname#:#Nazwisko użytkownika
-assessment#:#certificate_ph_passed#:#"zdany" lub "błędny", zależnie od wyników testu
-assessment#:#certificate_ph_resultpoints#:#Punkty osiągnięte przez użytkownika
-assessment#:#certificate_ph_resultpercent#:#Osiągnięty wynik procentowy przez użytkownika
-assessment#:#certificate_ph_maxpoints#:#Maksimum dostępnych punktów
-assessment#:#certificate_ph_markshort#:#Znak użytkownika (wersja krótka)
-assessment#:#certificate_ph_marklong#:#Znak użytkownika (wersja oficjalna)
-assessment#:#certificate_ph_testtitle#:#Tytuł testu
-assessment#:#certificate_ph_date#:#Data aktualna
-assessment#:#certificate_ph_datetime#:#Aktualna data i czas
-assessment#:#certificate_visibility#:#Widzialność
-assessment#:#certificate_visibility_introduction#:#Przycisk do zaoferowania użytkownikom tego certyfikatu
-assessment#:#certificate_visibility_always#:#Zawsze widoczny
-assessment#:#certificate_visibility_never#:#Niewidoczny
-assessment#:#certificate_visibility_passed#:#Widoczny jest tylko użytkownik, który zdał test
+certificate#:#certificate_ph_introduction#:#Następujące miejsca na zmienne mogą być użyte
+certificate#:#certificate_ph_fullname#:#Pełna nazwa użytkownika (tytuł, imię i nazwisko)
+certificate#:#certificate_ph_firstname#:#Imię użytkownika
+certificate#:#certificate_ph_lastname#:#Nazwisko użytkownika
+certificate#:#certificate_ph_passed#:#"zdany" lub "błędny", zależnie od wyników testu
+certificate#:#certificate_ph_resultpoints#:#Punkty osiągnięte przez użytkownika
+certificate#:#certificate_ph_resultpercent#:#Osiągnięty wynik procentowy przez użytkownika
+certificate#:#certificate_ph_maxpoints#:#Maksimum dostępnych punktów
+certificate#:#certificate_ph_markshort#:#Znak użytkownika (wersja krótka)
+certificate#:#certificate_ph_marklong#:#Znak użytkownika (wersja oficjalna)
+certificate#:#certificate_ph_testtitle#:#Tytuł testu
+certificate#:#certificate_ph_date#:#Data aktualna
+certificate#:#certificate_ph_datetime#:#Aktualna data i czas
+certificate#:#certificate_visibility#:#Widzialność
+certificate#:#certificate_visibility_introduction#:#Przycisk do zaoferowania użytkownikom tego certyfikatu
+certificate#:#certificate_visibility_always#:#Zawsze widoczny
+certificate#:#certificate_visibility_never#:#Niewidoczny
+certificate#:#certificate_visibility_passed#:#Widoczny jest tylko użytkownik, który zdał test
 assessment#:#passed_only#:#Tylko zdane testy
 trac#:#trac_anonymized_info_short#:#(Anonimowy)
-assessment#:#certificate_top#:#Góra
-assessment#:#certificate_right#:#Prawa
-assessment#:#certificate_bottom#:#Dół
-assessment#:#certificate_left#:#Lewa
-assessment#:#certificate_unit_description#:#Wprowadź jednostki miar jako wartość[cm|mm|in|pt|pc|px|em], np. 10mm or 3in
-assessment#:#certificate_export#:#Eksport certyfikatu
-assessment#:#certificate_error_import#:#Wystąpił błąd podczas importu certyfikatu!
-assessment#:#certificate_error_upload_bgimage#:#Wystąpił błąd podczas ładowania obrazka tła!
+certificate#:#certificate_top#:#Góra
+certificate#:#certificate_right#:#Prawa
+certificate#:#certificate_bottom#:#Dół
+certificate#:#certificate_left#:#Lewa
+certificate#:#certificate_unit_description#:#Wprowadź jednostki miar jako wartość[cm|mm|in|pt|pc|px|em], np. 10mm or 3in
+certificate#:#certificate_export#:#Eksport certyfikatu
+certificate#:#certificate_error_import#:#Wystąpił błąd podczas importu certyfikatu!
+certificate#:#certificate_error_upload_bgimage#:#Wystąpił błąd podczas ładowania obrazka tła!
 assessment#:#general#:#Ogólnie
 assessment#:#output#:#Wyjście
 assessment#:#scoring#:#Punktacja

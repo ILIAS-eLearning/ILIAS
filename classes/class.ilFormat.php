@@ -298,9 +298,10 @@ class ilFormat
 	* @param	string	date format (default is Y-m-d)
 	* @param	string	time format (default is H:i:s)
 	* @param	string	format mode (datetime, time or date)
+	* @param	boolean	relative date output
 	* @return	string	formatted date
 	*/
-	function fmtDateTime($a_str,$a_dateformat,$a_timeformat,$a_mode = "datetime")
+	function fmtDateTime($a_str,$a_dateformat,$a_timeformat,$a_mode = "datetime", $a_relative = TRUE)
 	{
 		//no format defined. set to default format
 		if ($a_dateformat == "")
@@ -355,11 +356,18 @@ class ilFormat
 		$isTomorrow = $today + 24 * 60 * 60 <= $timestamp && $timestamp < $today + 48 * 60 * 60;
 
 		global $lng;
-		$date = ($isToday) ? $lng->txt('today') : 
-				(($isYesterday) ? $lng->txt('yesterday') : 
-				(($isTomorrow) ? $lng->txt('tomorrow') : 
-				date($a_dateformat,mktime($h,$i,$s,$m,$d,$y))))
-				;
+		if ($relative)
+		{
+			$date = ($isToday) ? $lng->txt('today') : 
+					(($isYesterday) ? $lng->txt('yesterday') : 
+					(($isTomorrow) ? $lng->txt('tomorrow') : 
+					date($a_dateformat,mktime($h,$i,$s,$m,$d,$y))))
+					;
+		}
+		else
+		{
+			$date = date($a_dateformat,mktime($h,$i,$s,$m,$d,$y));
+		}
 				
 		return ($a_mode == "date") ? $date : $date.' '.date($a_timeformat,mktime($h,$i,$s,$m,$d,$y));
 		// END WebDAV: Display relative date.
@@ -417,10 +425,11 @@ class ilFormat
 	* @access	public
 	* @param	string	sql date
 	* @param	string	format mode
+	* @param boolean Relative date output
 	* @return	string	formatted date
 	* @see		Format::fmtDateTime
 	*/
-	function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false)
+	function formatDate($a_date,$a_mode = "datetime", $a_omit_seconds = false, $a_relative = TRUE)
 	{
 		global $lng;
 		
@@ -450,7 +459,7 @@ class ilFormat
 			$timeformat = "";
 		}
 
-		return ilFormat::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode);
+		return ilFormat::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode, $a_relative);
 	}
 
 	function formatUnixTime($ut,$with_time = false)
