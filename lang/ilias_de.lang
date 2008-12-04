@@ -8672,8 +8672,14 @@ common#:#tags_edit_permission#:#Rechteeinstellungen ändern
 common#:#tags_visible#:#Tagging-Einstellungen sind sichtbar
 common#:#tags_read#:#Lesezugriff zu den Tagging-Einstellungen
 common#:#tags_write#:#Tagging-Einstellungen bearbeiten
+common#:#cert_edit_permission#:#Rechteeinstellungen ändern
+common#:#cert_visible#:#Zertifikat-Einstellungen sind sichtbar
+common#:#cert_read#:#Lesezugriff zu den Zertifikat-Einstellungen
+common#:#cert_write#:#Zertifikat-Einstellungen bearbeiten
 common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Einstellungen für Tagging
+common#:#obj_cert#:#Zertifikate
+common#:#obj_cert_desc#:#Einstellungen für Zertifikate
 tagging#:#tagging_settings#:#Einstellungen
 tagging#:#tagging_edit_settings#:#Einstellungen
 tagging#:#tagging_enable_tagging#:#Tagging aktivieren

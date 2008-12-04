@@ -3154,6 +3154,10 @@ common#:#tags_edit_permission#:#Change permission settings
 common#:#tags_visible#:#Tagging Settings are visible
 common#:#tags_read#:#Read access to Tagging Settings
 common#:#tags_write#:#Edit Tagging Settings
+common#:#cert_edit_permission#:#Change permission settings
+common#:#cert_visible#:#Certificate Settings are visible
+common#:#cert_read#:#Read access to Certificate Settings
+common#:#cert_write#:#Edit Certificate Settings
 common#:#cat_create_feed#:#Create Web Feed
 common#:#grp_create_feed#:#Create Web Feed
 common#:#crs_create_feed#:#Create Web Feed
@@ -3422,11 +3426,13 @@ common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_role#:#Role
 common#:#obj_nwss#:#News and Web Feeds
+common#:#obj_cert#:#Certificates
 common#:#obj_tags#:#Tagging
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#General settings for mediacast.
 common#:#obj_nwss_desc#:#Settings for internal news and external web feeds.
 common#:#obj_tags_desc#:#Settings for tagging feature.
+common#:#obj_cert_desc#:#Settings for certificates
 common#:#obj_rolf#:#Roles
 common#:#obj_rolf_desc#:#Manage your roles here.
 common#:#obj_rolf_local#:#Local Roles
