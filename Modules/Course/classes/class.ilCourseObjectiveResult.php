@@ -31,6 +31,7 @@
 * @extends Object
 */
 
+define('IL_OBJECTIVE_STATUS_EMPTY','empty');
 define('IL_OBJECTIVE_STATUS_PRETEST','pretest');
 define('IL_OBJECTIVE_STATUS_FINAL','final');
 define('IL_OBJECTIVE_STATUS_NONE','none');
@@ -178,6 +179,11 @@ class ilCourseObjectiveResult
 		$objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);
 		$accomplished = $this->getAccomplished($a_course_id);
 		$suggested = $this->getSuggested($a_course_id);
+
+		if(!count($objective_ids))
+		{
+			return IL_OBJECTIVE_STATUS_EMPTY;
+		}
 
 		if(count($accomplished) == count($objective_ids))
 		{
