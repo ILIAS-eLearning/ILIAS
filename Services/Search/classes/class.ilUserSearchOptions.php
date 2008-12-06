@@ -113,6 +113,7 @@ class ilUserSearchOptions
 			 'firstname',
 			 'title',
 			 'institution',
+			 'department',
 			 'street',
 			 'zipcode',
 			 'city',
