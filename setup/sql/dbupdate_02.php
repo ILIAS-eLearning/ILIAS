@@ -4835,7 +4835,7 @@ $res = $ilDB->query($query);
 $mid_missing = true;
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
-	if($row->field == 'mid')
+	if($row->field == 'mid' or $row->Field == 'mid')
 	{
 		$mid_missing = false;
 		continue;
@@ -4861,11 +4861,11 @@ $mid_missing = true;
 $org_missing = true;
 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 {
-	if($row->field == 'mid')
+	if($row->field == 'mid' or $row->Field == 'mid')
 	{
 		$mid_missing = false;
 	}
-	if($row->field == 'organization')
+	if($row->field == 'organization' or $row->Field == 'organization')
 	{
 		$org_missing = false;
 	}
