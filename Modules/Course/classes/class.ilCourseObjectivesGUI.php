@@ -303,6 +303,10 @@ class ilCourseObjectivesGUI
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 		}
 		$error = false;
+		
+		$_POST['self'] = $_POST['self'] ? $_POST['self'] : array();
+		$_POST['final'] = $_POST['final'] ? $_POST['final'] : array();
+		
 		foreach($_POST['self'] as $objective_id => $limit)
 		{
 			$qst = new ilCourseObjectiveQuestion($objective_id);
