@@ -90,7 +90,7 @@ class ilObjFile extends ilObject
 	 */
 	function createProperties($a_upload = false)
 	{
-		global $ilDB;
+		global $ilDB,$tree;
 		
 		// Create file directory
 		$this->initFileStorage();
@@ -98,16 +98,17 @@ class ilObjFile extends ilObject
 		
 		if($a_upload)
 		{
-			return $new_id;
+			return true;
 		}
 		
 		// not upload mode
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 		$this->addNewsNotification("file_created");
+
+
 		require_once("./Services/News/classes/class.ilNewsItem.php");
-		$default_visibility =
-			ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
+		$default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($_GET['ref_id']);
 		if ($default_visibility == "public")
 		{
 			ilBlockSetting::_write("news", "public_notifications",
@@ -305,6 +306,10 @@ class ilObjFile extends ilObject
 			$this->updateMetaData();
 		}
 		parent::update();
+		
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.' File type: '.$this->getFileType());
 		
 		$q = "UPDATE file_data SET file_name = ".$ilDB->quote($this->getFileName()).
 			", file_type = ".$ilDB->quote($this->getFiletype())." ".
