@@ -69,6 +69,10 @@ class ilTestExport
 				$this->subdir = $date."__".$this->inst_id."__".
 					"test__results__".$this->test_obj->getId();
 				break;
+			case "aggregated":
+				$this->subdir = $date."__".$this->inst_id."__".
+					"test__aggregated__results__".$this->test_obj->getId();
+				break;
 			default:
 				$this->subdir = $date."__".$this->inst_id."__".
 					"test"."__".$this->test_obj->getId();
@@ -149,8 +153,127 @@ class ilTestExport
 	}
 
 	/**
-	* Exports the evaluation data to the Microsoft Excel file format
+	* Exports the aggregated results to the Microsoft Excel file format
 	*
+	* @param boolean $deliver TRUE to directly deliver the file, FALSE to return the binary data
+	*/
+	protected function aggregatedResultsToExcel($deliver = TRUE)
+	{
+		$data = $this->test_obj->getAggregatedResultsData();
+		include_once "./classes/class.ilExcelWriterAdapter.php";
+		$excelfile = ilUtil::ilTempnam();
+		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
+		$testname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->test_obj->getTitle())) . ".xls";
+		$workbook = $adapter->getWorkbook();
+		$workbook->setVersion(8); // Use Excel97/2000 Format
+		// Creating a worksheet
+		$format_percent =& $workbook->addFormat();
+		$format_percent->setNumFormat("0.00%");
+		$format_title =& $workbook->addFormat();
+		$format_title->setBold();
+		$format_title->setColor('black');
+		$format_title->setPattern(1);
+		$format_title->setFgColor('silver');
+		include_once "./classes/class.ilExcelUtils.php";
+		$worksheet =& $workbook->addWorksheet(ilExcelUtils::_convert_text($this->lng->txt("tst_results_aggregated")));
+		$row = 0;
+		$col = 0;
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("result")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("value")), $format_title);
+		$row++;
+		foreach ($data["overview"] as $key => $value)
+		{
+			$col = 0;
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($key));
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value));
+			$row++;
+		}
+		$row++;
+		$col = 0;
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("question_title")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("average_reached_points")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("points")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("percentage")), $format_title);
+		$worksheet->write($row, $col++, ilExcelUtils::_convert_text($this->lng->txt("number_of_answers")), $format_title);
+		$row++;
+		foreach ($data["questions"] as $key => $value)
+		{
+			$col = 0;
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value[0]));
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value[4]));
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value[5]));
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value[6]), $format_percent);
+			$worksheet->write($row, $col++, ilExcelUtils::_convert_text($value[3]));
+			$row++;
+		}
+		$workbook->close();
+		if ($deliver)
+		{
+			ilUtil::deliverFile($excelfile, $testname, "application/vnd.ms-excel");
+			exit;
+		}
+		else
+		{
+			return $excelfile;
+		}
+	}
+
+	/**
+	* Exports the aggregated results to CSV
+	*
+	* @param boolean $deliver TRUE to directly deliver the file, FALSE to return the data
+	*/
+	protected function aggregatedResultsToCSV($deliver = TRUE)
+	{
+		$data = $this->test_obj->getAggregatedResultsData();
+		$rows = array();
+		array_push($rows, array(
+			$this->lng->txt("result"),
+			$this->lng->txt("value")
+		));
+		foreach ($data["overview"] as $key => $value)
+		{
+			array_push($rows, array(
+				$key,
+				$value
+			));
+		}
+		array_push($rows, array(
+			$this->lng->txt("question_title"),
+			$this->lng->txt("average_reached_points"),
+			$this->lng->txt("points"),
+			$this->lng->txt("percentage"),
+			$this->lng->txt("number_of_answers")
+		));
+		foreach ($data["questions"] as $key => $value)
+		{
+			array_push($rows, array(
+				$value[0],
+				$value[4],
+				$value[5],
+				$value[6],
+				$value[3]
+			));
+		}
+		$csv = "";
+		$separator = ";";
+		foreach ($rows as $evalrow)
+		{
+			$csvrow =& $this->test_obj->processCSVRow($evalrow, TRUE, $separator);
+			$csv .= join($csvrow, $separator) . "\n";
+		}
+		if ($deliver)
+		{
+			ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . ".csv"));
+			exit;
+		}
+		else
+		{
+			return $csv;
+		}
+	}
+
+	/**
 	* Exports the evaluation data to the Microsoft Excel file format
 	*
 	* @param string $filtertext Filter text for the user data
@@ -159,6 +282,8 @@ class ilTestExport
 	*/
 	function exportToExcel($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
+		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToExcel($deliver);
+		
 		include_once "./classes/class.ilExcelWriterAdapter.php";
 		$excelfile = ilUtil::ilTempnam();
 		$adapter = new ilExcelWriterAdapter($excelfile, FALSE);
@@ -418,6 +543,8 @@ class ilTestExport
 	*/
 	function exportToCSV($deliver = TRUE, $filterby = "", $filtertext = "", $passedonly = FALSE)
 	{
+		if (strcmp($this->mode, "aggregated") == 0) return $this->aggregatedResultsToCSV($deliver);
+
 		$rows = array();
 		$datarow = array();
 		$col = 1;
