@@ -9998,8 +9998,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$counted_pass = ilObjTest::_getResultPass($active_id);
 			$result_array =& $this->getTestResult($active_id, $counted_pass);
 
-			include_once "./Modules/Test/classes/class.ilTestCertificate.php";
-			$cert = new ilTestCertificate($this);
+			include_once "./Services/Certificate/classes/class.ilCertificate.php";
+			include_once "./Modules/Test/classes/class.ilTestCertificateAdapter.php";
+			$cert = new ilCertificate(new ilTestCertificateAdapter($this));
 			if ($cert->isComplete())
 			{
 				$vis = $this->getCertificateVisibility();
@@ -10080,6 +10081,92 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			return FALSE;
 		}
+	}
+	
+	/**
+	* Returns the aggregated test results
+	*
+	* @access public
+	*/
+	public function getAggregatedResultsData()
+	{
+		$data =& $this->getCompleteEvaluationData();
+		$foundParticipants =& $data->getParticipants();
+		$results = array("overview" => array(), "questions" => array());
+		if (count($foundParticipants)) 
+		{
+			$results["overview"][$this->lng->txt("tst_eval_total_persons")] = count($foundParticipants);
+			$total_finished = $this->evalTotalFinished();
+			$results["overview"][$this->lng->txt("tst_eval_total_finished")] = $total_finished;
+			$average_time = $this->evalTotalStartedAverageTime();
+			$diff_seconds = $average_time;
+			$diff_hours    = floor($diff_seconds/3600);
+			$diff_seconds -= $diff_hours   * 3600;
+			$diff_minutes  = floor($diff_seconds/60);
+			$diff_seconds -= $diff_minutes * 60;
+			$results["overview"][$this->lng->txt("tst_eval_total_finished_average_time")] = sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds);
+			$total_passed = 0;
+			$total_passed_reached = 0;
+			$total_passed_max = 0;
+			$total_passed_time = 0;
+			foreach ($foundParticipants as $userdata)
+			{
+				if ($userdata->getPassed()) 
+				{
+					$total_passed++;
+					$total_passed_reached += $userdata->getReached();
+					$total_passed_max += $userdata->getMaxpoints();
+					$total_passed_time += $userdata->getTimeOfWork();
+				}
+			}
+			$average_passed_reached = $total_passed ? $total_passed_reached / $total_passed : 0;
+			$average_passed_max = $total_passed ? $total_passed_max / $total_passed : 0;
+			$average_passed_time = $total_passed ? $total_passed_time / $total_passed : 0;
+			$results["overview"][$this->lng->txt("tst_eval_total_passed")] = $total_passed;
+			$results["overview"][$this->lng->txt("tst_eval_total_passed_average_points")] = sprintf("%2.2f", $average_passed_reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $average_passed_max);
+			$average_time = $average_passed_time;
+			$diff_seconds = $average_time;
+			$diff_hours    = floor($diff_seconds/3600);
+			$diff_seconds -= $diff_hours   * 3600;
+			$diff_minutes  = floor($diff_seconds/60);
+			$diff_seconds -= $diff_minutes * 60;
+			$results["overview"][$this->lng->txt("tst_eval_total_passed_average_time")] = sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds);
+		} 
+
+		foreach ($data->getQuestionTitles() as $question_id => $question_title)
+		{
+			$answered = 0;
+			$reached = 0;
+			$max = 0;
+			foreach ($foundParticipants as $userdata)
+			{
+				for ($i = 0; $i <= $userdata->getLastPass(); $i++)
+				{
+					if (is_object($userdata->getPass($i)))
+					{
+						$question =& $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+						if (is_array($question))
+						{
+							$answered++;
+							$reached += $question["reached"];
+							$max += $question["points"];
+						}
+					}
+				}
+			}
+			$percent = $max ? $reached/$max * 100.0 : 0;
+			$counter++;
+			$results["questions"][$question_id] = array(
+				$question_title, 
+				sprintf("%.2f", $answered ? $reached / $answered : 0) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $answered ? $max / $answered : 0),
+				sprintf("%.2f", $percent) . "%",
+				$answered,
+				sprintf("%.2f", $answered ? $reached / $answered : 0),
+				sprintf("%.2f", $answered ? $max / $answered : 0),
+				$percent / 100.0
+			);
+		}
+		return $results;
 	}
 } // END class.ilObjTest
 

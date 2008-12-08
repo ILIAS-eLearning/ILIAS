@@ -402,6 +402,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			$template->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
 			$template->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
+			$template->setVariable("CMD_EXPORT", "exportEvaluation");
 			$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 			$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
 			$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
@@ -609,6 +610,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$foundParticipants =& $data->getParticipants();
 		if (count($foundParticipants)) 
 		{
+			$template = new ilTemplate("tpl.il_as_tst_evaluation_export.html", TRUE, TRUE, "Modules/Test");
+			$template->setVariable("EXPORT_DATA", $this->lng->txt("exp_eval_data"));
+			$template->setVariable("TEXT_EXCEL", $this->lng->txt("exp_type_excel"));
+			$template->setVariable("TEXT_CSV", $this->lng->txt("exp_type_spss"));
+			$template->setVariable("CMD_EXPORT", "exportAggregatedResults");
+			$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
+			$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
+			$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
+			$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "exportEvaluation"));
+			$exportoutput = $template->get();
+			$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
+
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->setVariable("TXT_RESULT", $this->lng->txt("tst_eval_total_persons"));
 			$this->tpl->setVariable("TXT_VALUE", count($foundParticipants));
@@ -815,6 +828,28 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					$this->ctrl->setParameterByClass("iltestcertificategui", "g_userfilter", $filtertext);
 				}
 				$this->ctrl->redirect($this, "exportCertificate");
+				break;
+		}
+	}
+
+	/**
+	* Exports the aggregated results
+	*
+	* @access public
+	*/
+	function exportAggregatedResults()
+	{
+		switch ($_POST["export_type"])
+		{
+			case "excel":
+				include_once "./Modules/Test/classes/class.ilTestExport.php";
+				$exportObj = new ilTestExport($this->object, "aggregated");
+				$exportObj->exportToExcel($deliver = TRUE);
+				break;
+			case "csv":
+				include_once "./Modules/Test/classes/class.ilTestExport.php";
+				$exportObj = new ilTestExport($this->object, "aggregated");
+				$exportObj->exportToCSV($deliver = TRUE);
 				break;
 		}
 	}
