@@ -237,6 +237,17 @@ class ilFileXMLParser extends ilSaxParser
 				}	             
 				//$this->content = $content;
 				$this->file->setFileSize(filesize($this->tmpFilename)); // strlen($this->content));
+				
+				// if no file type is given => lookup mime type
+				if(!$this->file->getFileType())
+				{
+					global $ilLog;
+					
+					#$ilLog->write(__METHOD__.': Trying to detect mime type...');
+					include_once('./Services/Utilities/classes/class.ilFileUtils.php');
+					$this->file->setFileType(ilFileUtils::_lookupMimeType($this->tmpFilename));
+				}
+				
 				break;
 		}
 
