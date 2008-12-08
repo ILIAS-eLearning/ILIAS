@@ -68,7 +68,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->setFormName('participants');
 
 	 	$this->addColumn('','f',"1");
-	 	$this->addColumn($this->lng->txt('lastname'),'lastname','20%');
+	 	$this->addColumn($this->lng->txt('name'),'lastname','20%');
 	 	$this->addColumn($this->lng->txt('login'),'login','10%');
 
 		if($this->show_learning_progress)
