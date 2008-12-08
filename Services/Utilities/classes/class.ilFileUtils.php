@@ -425,7 +425,29 @@ class ilFileUtils
     fclose ($out_file);
     
     return true;
-  }
+	}
+  
+	/**
+	 * @param string file absolute path to file
+	 */
+	public static function _lookupMimeType($a_file)
+	{
+		if(!file_exists($a_file) or !is_readable($a_file))
+		{
+			return false;
+		}
+		
+		if(class_exists('finfo'))
+		{
+			$finfo = new finfo(FILEINFO_MIME);
+			return $finfo->buffer(file_get_contents($a_file));
+		}
+		if(function_exists('mime_content_type'))
+		{
+			return mime_content_type($a_file);
+		}
+		return 'application/octet-stream';
+	}
 	
 } // END class.ilFileUtils
 
