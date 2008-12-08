@@ -1731,6 +1731,7 @@ class assQuestion
 		// delete the links in the int_link table
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
+		$this->suggested_solutions = array();
 	}
 	
 /**
@@ -1806,6 +1807,40 @@ class assQuestion
 		}
 	}
 	
+	/**
+	* Saves a suggested solution for the question.
+	* If there is more than one subquestion (i.e. close questions) may enter a subquestion index.
+	*
+	* @param string $solution_id An internal link pointing to the suggested solution
+	* @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
+	* @param boolean $is_import A boolean indication that the internal link was imported from another ILIAS installation
+	* @access public
+	*/
+	function saveSuggestedSolution($solution_id = "", $subquestion_index = 0)
+	{
+		global $ilDB;
+
+		$statement = $ilDB->prepareManip("DELETE FROM qpl_suggested_solutions WHERE question_fi = ? AND subquestion_index = ?", 
+			array("integer", "integer")
+		);
+		$data = array(
+			$this->getId(), 
+			$subquestion_index
+		);
+		$affectedRows = $ilDB->execute($statement, $data);
+
+		$statement = $ilDB->prepareManip("INSERT INTO qpl_suggested_solutions (question_fi, internal_link, import_id, subquestion_index) VALUES (?, ?, ?, ?)", 
+			array("integer", "text", "text", "integer")
+		);
+		$data = array(
+			$this->getId(),
+			$solution_id,
+			"",
+			$subquestion_index
+		);
+		$affectedRows = $ilDB->execute($statement, $data);
+	}
+
 	function _resolveInternalLink($internal_link)
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
