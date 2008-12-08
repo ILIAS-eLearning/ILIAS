@@ -139,6 +139,25 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$duration->setSeconds($ewt["s"]);
 		$duration->setRequired(FALSE);
 		$form->addItem($duration);
+		// suggested solution
+		include_once "./Modules/TestQuestionPool/classes/class.ilSuggestedSolutionSelectorGUI.php";
+		$solution = new ilSuggestedSolutionSelectorGUI($this->lng->txt("solution_hint"), "internalLinkType");
+		$internallinks = array(
+			"lm" => $this->lng->txt("obj_lm"),
+			"st" => $this->lng->txt("obj_st"),
+			"pg" => $this->lng->txt("obj_pg"),
+			"glo" => $this->lng->txt("glossary_term")
+		);
+		$solution->setOptions($internallinks);
+		$solution->setAddCommand("addSuggestedSolution");
+		$solution_array = $this->object->getSuggestedSolution(0);
+		if ($solution_array["internal_link"])
+		{
+			$solution->setInternalLink(assQuestion::_getInternalLinkHref($solution_array["internal_link"]));
+			$solution->setInternalLinkText($this->lng->txt("solution_hint"));
+		}
+		$form->addItem($solution);
+		
 		// flash file
 		$flash = new ilFlashFileInputGUI($this->lng->txt("flashfile"), "flash");
 		$flash->setRequired(TRUE);
@@ -310,6 +329,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 		if ($_POST["flash_delete"] == 1)
 		{
 			$this->object->deleteApplet();
+		}
+		if ($_POST["internalLinkType_delete"] == 1)
+		{
+			$this->object->deleteSuggestedSolutions();
 		}
 		if ($_FILES["flash"]["tmp_name"])
 		{

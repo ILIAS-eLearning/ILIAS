@@ -623,9 +623,10 @@ class assQuestionGUI
 	
 	function cancelExplorer()
 	{
-		unset($_SESSION["subquestion_index"]);
-		unset($_SESSION["link_new_type"]);
-		$this->editQuestion();
+//		unset($_SESSION["subquestion_index"]);
+//		unset($_SESSION["link_new_type"]);
+		$this->ctrl->redirect($this, "editQuestion");
+//		$this->editQuestion();
 	}
 	
 	/**
@@ -640,31 +641,50 @@ class assQuestionGUI
 		global $tree;
 
 		include_once("./Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php");
-		switch ($_POST["internalLinkType"])
+		if (strlen($_POST["internalLinkType"]))
 		{
-			case "lm":
-				$_SESSION["link_new_type"] = "lm";
-				$_SESSION["search_link_type"] = "lm";
-				break;
-			case "glo":
-				$_SESSION["link_new_type"] = "glo";
-				$_SESSION["search_link_type"] = "glo";
-				break;
-			case "st":
-				$_SESSION["link_new_type"] = "lm";
-				$_SESSION["search_link_type"] = "st";
-				break;
-			case "pg":
-				$_SESSION["link_new_type"] = "lm";
-				$_SESSION["search_link_type"] = "pg";
-				break;
-			default:
-				if (!$_SESSION["link_new_type"])
-				{
-					$_SESSION["link_new_type"] = "lm";
-				}
-				break;
+					switch ($_POST["internalLinkType"])
+					{
+						case "lm":
+							$type = "lm";
+							$search = "lm";
+			//				$_SESSION["link_new_type"] = "lm";
+			//				$_SESSION["search_link_type"] = "lm";
+							break;
+						case "glo":
+							$type = "glo";
+							$search = "glo";
+			//				$_SESSION["link_new_type"] = "glo";
+			//				$_SESSION["search_link_type"] = "glo";
+							break;
+						case "st":
+							$type = "lm";
+							$search = "st";
+			//				$_SESSION["link_new_type"] = "lm";
+			//				$_SESSION["search_link_type"] = "st";
+							break;
+						case "pg":
+							$type = "lm";
+							$search = "pg";
+			//				$_SESSION["link_new_type"] = "lm";
+			//				$_SESSION["search_link_type"] = "pg";
+							break;
+			//			default:
+			//				if (!$_SESSION["link_new_type"])
+			//				{
+			//					$_SESSION["link_new_type"] = "lm";
+			//				}
+			//				break;
+					}
 		}
+		else
+		{
+			$type = $_GET["link_new_type"];
+			$search = $_GET["search_link_type"];
+		}
+		$this->ctrl->setParameter($this, "link_new_type", $type);
+		$this->ctrl->setParameter($this, "search_link_type", $search);
+		$this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
 
 		ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
 		
@@ -674,8 +694,10 @@ class assQuestionGUI
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addSuggestedSolution'));
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->cur_ref_id);
-		$exp->addFilter($_SESSION["link_new_type"]);
-		$exp->setSelectableType($_SESSION["link_new_type"]);
+//		$exp->addFilter($_SESSION["link_new_type"]);
+//		$exp->setSelectableType($_SESSION["link_new_type"]);
+		$exp->addFilter($type);
+		$exp->setSelectableType($type);
 
 		// build html-output
 		$exp->setOutput(0);
@@ -696,46 +718,49 @@ class assQuestionGUI
 	function addPG()
 	{
 		$subquestion_index = 0;
-		if ($_SESSION["subquestion_index"] >= 0)
+		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
 		{
-			$subquestion_index = $_SESSION["subquestion_index"];
+			$subquestion_index = $_GET["subquestion_index"];
 		}
-		$this->object->setSuggestedSolution("il__pg_" . $_GET["pg"], $subquestion_index);
-		unset($_SESSION["subquestion_index"]);
-		unset($_SESSION["link_new_type"]);
-		unset($_SESSION["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"));
-		$this->editQuestion();
+		$this->object->saveSuggestedSolution("il__pg_" . $_GET["pg"], $subquestion_index);
+//		unset($_GET["subquestion_index"]);
+//		unset($_GET["link_new_type"]);
+//		unset($_GET["search_link_type"]);
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		$this->ctrl->redirect($this, "editQuestion");
+//		$this->editQuestion();
 	}
 	
 	function addST()
 	{
 		$subquestion_index = 0;
-		if ($_SESSION["subquestion_index"] >= 0)
+		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
 		{
-			$subquestion_index = $_SESSION["subquestion_index"];
+			$subquestion_index = $_GET["subquestion_index"];
 		}
-		$this->object->setSuggestedSolution("il__st_" . $_GET["st"], $subquestion_index);
-		unset($_SESSION["subquestion_index"]);
-		unset($_SESSION["link_new_type"]);
-		unset($_SESSION["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"));
-		$this->editQuestion();
+		$this->object->saveSuggestedSolution("il__st_" . $_GET["st"], $subquestion_index);
+//		unset($_GET["subquestion_index"]);
+//		unset($_GET["link_new_type"]);
+//		unset($_GET["search_link_type"]);
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		$this->ctrl->redirect($this, "editQuestion");
+//		$this->editQuestion();
 	}
 
 	function addGIT()
 	{
 		$subquestion_index = 0;
-		if ($_SESSION["subquestion_index"] >= 0)
+		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
 		{
-			$subquestion_index = $_SESSION["subquestion_index"];
+			$subquestion_index = $_GET["subquestion_index"];
 		}
-		$this->object->setSuggestedSolution("il__git_" . $_GET["git"], $subquestion_index);
-		unset($_SESSION["subquestion_index"]);
-		unset($_SESSION["link_new_type"]);
-		unset($_SESSION["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"));
-		$this->editQuestion();
+		$this->object->saveSuggestedSolution("il__git_" . $_GET["git"], $subquestion_index);
+//		unset($_GET["subquestion_index"]);
+//		unset($_GET["link_new_type"]);
+//		unset($_GET["search_link_type"]);
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		$this->ctrl->redirect($this, "editQuestion");
+//		$this->editQuestion();
 	}
 	
 	/**
@@ -766,7 +791,8 @@ class assQuestionGUI
 
 	function linkChilds()
 	{
-		switch ($_SESSION["search_link_type"])
+		$this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
+		switch ($_GET["search_link_type"])
 		{
 			case "pg":
 				include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
@@ -788,7 +814,7 @@ class assQuestionGUI
 					$chapterpages = $tree->getChildsByType($chapter["obj_id"], "pg");
 					foreach ($chapterpages as $page)
 					{
-						if($page["type"] == $_SESSION["search_link_type"])
+						if($page["type"] == $_GET["search_link_type"])
 						{
 							array_push($shownpages, $page["obj_id"]);
 							$this->tpl->setCurrentBlock("linktable_row");
@@ -827,7 +853,7 @@ class assQuestionGUI
 				}
 				$this->tpl->setCurrentBlock("link_selection");
 				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_SESSION["search_link_type"]));
+				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_GET["search_link_type"]));
 				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -846,7 +872,7 @@ class assQuestionGUI
 				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", "Modules/TestQuestionPool");
 				foreach($nodes as $node)
 				{
-					if($node["type"] == $_SESSION["search_link_type"])
+					if($node["type"] == $_GET["search_link_type"])
 					{
 						$this->tpl->setCurrentBlock("linktable_row");
 						$this->tpl->setVariable("TEXT_LINK", $node["title"]);
@@ -859,7 +885,7 @@ class assQuestionGUI
 				}
 				$this->tpl->setCurrentBlock("link_selection");
 				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_SESSION["search_link_type"]));
+				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_GET["search_link_type"]));
 				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 				$this->tpl->parseCurrentBlock();
 				break;
@@ -892,16 +918,17 @@ class assQuestionGUI
 				break;
 			case "lm":
 				$subquestion_index = 0;
-				if ($_SESSION["subquestion_index"] >= 0)
+				if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
 				{
-					$subquestion_index = $_SESSION["subquestion_index"];
+					$subquestion_index = $_GET["subquestion_index"];
 				}
-				$this->object->setSuggestedSolution("il__lm_" . $_GET["source_id"], $subquestion_index);
-				unset($_SESSION["subquestion_index"]);
-				unset($_SESSION["link_new_type"]);
-				unset($_SESSION["search_link_type"]);
-				ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"));
-				$this->editQuestion();
+				$this->object->saveSuggestedSolution("il__lm_" . $_GET["source_id"], $subquestion_index);
+//				unset($_GET["subquestion_index"]);
+//				unset($_GET["link_new_type"]);
+//				unset($_GET["search_link_type"]);
+				ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+				$this->ctrl->redirect($this, "editQuestion");
+//				$this->editQuestion();
 				break;
 		}
 	}

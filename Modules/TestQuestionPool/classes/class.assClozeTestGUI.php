@@ -1102,7 +1102,8 @@ class assClozeTestGUI extends assQuestionGUI
 				return;
 			}
 			$_POST["internalLinkType"] = $_POST["internalLinkType_$addForGap"];
-			$_SESSION["subquestion_index"] = $addForGap;
+			$this->ctrl->setParameter($this, "subquestion_index", $addForGap);
+//			$_SESSION["subquestion_index"] = $addForGap;
 		}
 		$this->object->saveToDb();
 		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
