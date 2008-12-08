@@ -618,7 +618,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$template->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 			$template->setVariable("BTN_PRINT", $this->lng->txt("print"));
 			$template->setVariable("BTN_COMMAND", $this->ctrl->getCmd());
-			$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "exportEvaluation"));
+			$template->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "exportAggregatedResults"));
 			$exportoutput = $template->get();
 			$this->tpl->setVariable("EVALUATION_EXPORT", $exportoutput);
 
