@@ -135,6 +135,8 @@ class ilFileXMLParser extends ilSaxParser
 	{
 		global $ilErr;
 
+		global $ilLog;
+		
 		switch($a_name)
 		{
 			case 'File':
@@ -145,15 +147,15 @@ class ilFileXMLParser extends ilSaxParser
 			       {
             	       throw new ilFileException ("Object IDs (xml $read_obj_id and argument ".$this->obj_id.") do not match!", ilFileException::$ID_MISMATCH);
                    }
-                   if (isset($a_attribs["type"]))
-                   {
-                        $this->file->setFileType($a_attribs["type"]);
-                   }
-                   $this->file->setVersion($this->file->getVersion() + 1);
 			    }
+                if (isset($a_attribs["type"]))
+                {
+					$this->file->setFileType($a_attribs["type"]);
+                }
+                   $this->file->setVersion($this->file->getVersion() + 1);
 				break;
 			case 'Content':
-					$this->tmpFilename = ilUtil::ilTempnam();
+				$this->tmpFilename = ilUtil::ilTempnam();
 			    $this->mode = ilFileXMLParser::$CONTENT_NOT_COMPRESSED;
 			    $this->isReadingFile = true;
 #echo $a_attribs["mode"];
@@ -189,7 +191,7 @@ class ilFileXMLParser extends ilSaxParser
 	    $this->cdata = trim($this->cdata);
 		switch($a_name)
 		{
-			  case 'File':
+			case 'File':
 			      $this->result = true;    
 				break;
 			case 'Filename':			    
@@ -207,30 +209,34 @@ class ilFileXMLParser extends ilSaxParser
 			    $this->file->setDescription(trim($this->cdata));
 				break;
 			case 'Content':
-					$this->isReadingFile = false;
-					$baseDecodedFilename = ilUtil::ilTempnam();
+				$this->isReadingFile = false;
+				$baseDecodedFilename = ilUtil::ilTempnam();
 			    if (!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename)) 
 			    {
 			    		throw new ilFileException ("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);           							
 			    }
-	        if ($this->mode == ilFileXMLParser::$CONTENT_GZ_COMPRESSED) 
-	        {
-           	if (!ilFileUtils::fastGunzip ($baseDecodedFilename, $this->tmpFilename)) 
-						{
-							throw new ilFileException ("Deflating with fastzunzip failed", ilFileException::$DECOMPRESSION_FAILED);           		
-						}
-						unlink ($baseDecodedFilename);
-	        }elseif ($this->mode == ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED) {
-           	if (!ilFileUtils::fastGunzip ($baseDecodedFilename, $this->tmpFilename)) 
-						{
-							throw new ilFileException ("Deflating with fastDecompress failed", ilFileException::$DECOMPRESSION_FAILED);           		
-						}
-						unlink ($baseDecodedFilename);
-					}else{
-						$this->tmpFilename = $baseDecodedFilename;
-					}	             
-				 //$this->content = $content;
-				 $this->file->setFileSize(filesize($this->tmpFilename)); // strlen($this->content));
+		        if ($this->mode == ilFileXMLParser::$CONTENT_GZ_COMPRESSED) 
+		        {
+		           	if (!ilFileUtils::fastGunzip ($baseDecodedFilename, $this->tmpFilename)) 
+					{
+						throw new ilFileException ("Deflating with fastzunzip failed", ilFileException::$DECOMPRESSION_FAILED);           		
+					}
+					unlink ($baseDecodedFilename);
+		        }
+		        elseif ($this->mode == ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED) 
+		        {
+	           		if (!ilFileUtils::fastGunzip ($baseDecodedFilename, $this->tmpFilename)) 
+					{
+						throw new ilFileException ("Deflating with fastDecompress failed", ilFileException::$DECOMPRESSION_FAILED);           		
+					}
+					unlink ($baseDecodedFilename);
+		        }
+		        else
+		        {
+					$this->tmpFilename = $baseDecodedFilename;
+				}	             
+				//$this->content = $content;
+				$this->file->setFileSize(filesize($this->tmpFilename)); // strlen($this->content));
 				break;
 		}
 
@@ -266,22 +272,27 @@ class ilFileXMLParser extends ilSaxParser
 	 */
 	public function setFileContents ()
 	{
-       if (filesize ($this->tmpFilename) == 0) {
-           return;
-       }
+		global $ilLog;
+		
+		#$ilLog->write(__METHOD__.' '.filesize($this->tmpFilename));
 
-       $filedir = $this->file->getDirectory($this->file->getVersion());
-		  if (!is_dir($filedir))
-		  {
-			$this->file->createDirectory();
-			ilUtil::makeDir($filedir);
-		  }
+		if (filesize ($this->tmpFilename) == 0) {
+			return;
+		}
+
+		$filedir = $this->file->getDirectory($this->file->getVersion());
+		#$ilLog->write(__METHOD__.' '.$filedir);
+		
+		if (!is_dir($filedir))
+		{
+		$this->file->createDirectory();
+		ilUtil::makeDir($filedir);
+		}
 		   
-
-		  $filename = $filedir."/".$this->file->getFileName();
-		   if (file_exists($filename))
-		       unlink($filename);
-		  return rename($this->tmpFilename, $filename);
+		$filename = $filedir."/".$this->file->getFileName();
+		if (file_exists($filename))
+			unlink($filename);
+		return rename($this->tmpFilename, $filename);
 	   // @file_put_contents($filename, $this->content);
 	}
 

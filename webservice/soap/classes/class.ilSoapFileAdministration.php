@@ -86,30 +86,37 @@ class ilSoapFileAdministration extends ilSoapAdministration
 		include_once './Modules/File/classes/class.ilObjFile.php';
 
 		$file = new ilObjFile();
-    try
+    	try
         {
 
     		$fileXMLParser = new ilFileXMLParser($file, $file_xml);
 
     		if ($fileXMLParser->start()) 
     		{
-          $file->create();
-        	$file->createReference();
-        	$file->putInTree($target_id);
-        	$file->setPermissions($target_id);
+				global $ilLog;
+				
+				$ilLog->write(__METHOD__.': File type: '.$file->getFileType());
+				
+				$file->create();
+        		$file->createReference();
+        		$file->putInTree($target_id);
+        		$file->setPermissions($target_id);
 
-        	// we now can save the file contents since we know the obj id now.
-        	$fileXMLParser->setFileContents();
+	        	// we now can save the file contents since we know the obj id now.
+    	    	$fileXMLParser->setFileContents();
+				#$file->update();
 
-          return $file->getRefId();
-        } else 
-        {
-        	return $this->__raiseError("Could not add file", "Server");
-        } 
-        } catch(ilFileException $exception) {
-          return $this->__raiseError($exception->getMessage(), $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
+        		return $file->getRefId();
+        	}
+        	else 
+        	{
+        		return $this->__raiseError("Could not add file", "Server");
+        	} 
         }
-	   }
+        catch(ilFileException $exception) {
+        	return $this->__raiseError($exception->getMessage(), $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
+     	}
+	 }
 
 
     /**
@@ -179,7 +186,9 @@ class ilSoapFileAdministration extends ilSoapAdministration
 
                 return  $file->update();
             }
-        } catch(ilFileException $exception) {
+        } 
+        catch(ilFileException $exception) 
+        {
            return $this->__raiseError($exception->getMessage(),
 									   $exception->getCode() == ilFileException::$ID_MISMATCH ? "Client" : "Server");
         }

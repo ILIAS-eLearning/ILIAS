@@ -171,13 +171,13 @@ class ilFileXMLWriter extends ilXmlWriter
 
 	function getXML()
 	{
-		return $this->xmlDumpMem(FALSE);
+		return $this->xmlDumpMem(false);
 	}
 
 
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Exercise PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_file_3_8.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE File PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_file_3_8.dtd\">");
 		$this->xmlSetGenCmt("Exercise Object");
 		$this->xmlHeader();
 
