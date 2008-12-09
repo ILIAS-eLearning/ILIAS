@@ -343,16 +343,18 @@ class ilSoapGroupAdministration extends ilSoapAdministration
 			return $this->__raiseError('Check access failed. No permission to read group data','Server');
 		}
 
-
-		if($tmp_group->isAdmin($user_id))
+		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
+		$participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjId($group_id));
+		
+		if($participants->isAdmin($user_id))
 		{
 			return 1;
 		}
-		if($tmp_group->isMember($user_id))
+		if($participants->isMember($user_id))
 		{
-			return 2;
+			return 2; 
 		}
-		return "0";
+		return 0;
 	}
 
 	// PRIVATE
