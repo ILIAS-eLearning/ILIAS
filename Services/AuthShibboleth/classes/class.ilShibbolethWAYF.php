@@ -158,6 +158,8 @@ class ShibWAYF
 		}
 		else
 		{
+			// TODO: This has to be changed to /Shibboleth.sso/DS?entityId= for 
+			// Shibbolet 2.x sometime...
 			ilUtil::redirect('/Shibboleth.sso?providerId='.urlencode($this->selectedIDP).'&target='.urlencode($target));
 		}
 		

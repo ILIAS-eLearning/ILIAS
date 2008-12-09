@@ -1122,6 +1122,7 @@ class ilInitialisation
 		elseif (
 					$this->script != "login.php"
 					and $this->script != "shib_login.php"
+					and $this->script != "shib_logout.php"
 					and $this->script != "error.php"
 					and $this->script != "index.php"
 					and $this->script != "view_usr_agreement.php"

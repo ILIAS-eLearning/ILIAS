@@ -234,6 +234,11 @@ class ShibAuth
 		
 		if (!empty($_SERVER[$ilias->getSetting('shib_login')]))
 		{
+			
+			// Store user's Shibboleth sessionID for logout
+			$session = &$this->_importGlobalVariable('session');
+			$session[$this->_sessionName]['shibboleth_session_id'] = $_SERVER['Shib-Session-ID'];
+			
 			// Get loginname of user, new login name is generated if user is new
 			$username = $this->generateLogin();
 			
