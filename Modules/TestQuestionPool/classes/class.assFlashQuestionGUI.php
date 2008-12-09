@@ -91,6 +91,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 	*/
 	function editQuestion()
 	{
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0) || (strcmp($this->ctrl->getCmd(), "addSuggestedSolution") == 0)) ? TRUE : FALSE;
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$this->getQuestionTemplate();
 
@@ -194,96 +195,12 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		
+		if ($save)
+		{
+			$form->checkInput();
+		}
+		
 		$this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
-		return;
-
-		
-		$template = new ilTemplate("tpl.il_as_qpl_flashquestion.html", TRUE, TRUE, "Modules/TestQuestionPool");
-
-		$internallinks = array(
-			"lm" => $this->lng->txt("obj_lm"),
-			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg"),
-			"glo" => $this->lng->txt("glossary_term")
-		);
-		foreach ($internallinks as $key => $value)
-		{
-			$template->setCurrentBlock("internallink");
-			$template->setVariable("TYPE_INTERNAL_LINK", $key);
-			$template->setVariable("TEXT_INTERNAL_LINK", $value);
-			$template->parseCurrentBlock();
-		}
-		
-		if (count($this->object->suggested_solutions))
-		{
-			$template->setCurrentBlock("remove_solution");
-			$template->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-			$template->parseCurrentBlock();
-
-			$solution_array = $this->object->getSuggestedSolution(0);
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
-			$template->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-			$template->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-			$template->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-		}
-		else
-		{
-			$template->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
-		}
-
-		$template->setVariable("QUESTION_ID", $this->object->getId());
-		$template->setVariable("TEXT_MO_QUESTION", $pl->txt("mo_question"));
-		$template->setVariable("TEXT_EXERCISE", $pl->txt("exercise"));
-		$template->setVariable("VALUE_MOVARIANT", $this->getAsValueAttribute($this->object->getMOVariant()));
-		$template->setVariable("VALUE_POINTS", $this->getAsValueAttribute($this->object->getPoints()));
-		$template->setVariable("TEXT_VARIANT", $pl->txt("variant"));
-		$template->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-		$template->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$template->setVariable("VALUE_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$template->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-		$template->setVariable("VALUE_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-		$template->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$template->setVariable("VALUE_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$template->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$questiontext = $this->object->getQuestion();
-		$template->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-
-		$est_working_time = $this->object->getEstimatedWorkingTime();
-		$template->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
-		$template->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
-		$template->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-
-		$template->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-
-		$template->setVariable("SAVE",$this->lng->txt("save"));
-		$template->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-		$template->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$template->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "assFlashQuestion");
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "parseQuestion"));
-		$template->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
-		$template->setVariable("PARSE_QUESTION", $this->lng->txt("parseQuestion"));
-		
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frmFormula.title.focus();"));
-		$this->tpl->parseCurrentBlock();
-
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment", TRUE);
-
-		$this->tpl->setVariable("QUESTION_DATA", $template->get());
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initConnection();
-		ilYUIUtil::initDomEvent();
 	}
 	
 	public function parseQuestion()
