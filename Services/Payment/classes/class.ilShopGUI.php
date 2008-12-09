@@ -351,7 +351,7 @@ class ilShopGUI extends ilShopBaseGUI
 		$this->tpl->setVariable('CMD_RESET_FILTER', 'resetFilter');			
 		$this->tpl->setVariable('VALUE_SUBMIT_FILTER', $this->lng->txt('set_filter'));
 		$this->tpl->setVariable('VALUE_RESET_FILTER', $this->lng->txt('reset_filter'));
-		$this->tpl->setVariable('TXT_FILTER_TOPICS', $this->lng->txt('topic'));
+	
 		ilShopTopics::_getInstance()->setIdFilter(false);
 		ilShopTopics::_getInstance()->read();
 		$options = array();
@@ -362,12 +362,16 @@ class ilShopGUI extends ilShopBaseGUI
 			{
 				$options[$oTopic->getId()] = $oTopic->getTitle();
 			}
+			$this->tpl->setCurrentBlock('filter_topics');
+			$this->tpl->setVariable('TXT_FILTER_TOPICS', $this->lng->txt('topic'));
+			$this->tpl->setVariable('SELECTBOX_FILTER_TOPICS', ilUtil::formSelect($this->getTopicId(), 'filter_topic_id', $options, false, true));
+			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			$options[''] = $this->lng->txt('no_topics_yet');
 		}
-		$this->tpl->setVariable('SELECTBOX_FILTER_TOPICS', ilUtil::formSelect($this->getTopicId(), 'filter_topic_id', $options, false, true));
+
 		
 		if(count($oResult->getResults()))
 		{
