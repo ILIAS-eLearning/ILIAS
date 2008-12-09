@@ -33,7 +33,7 @@
 // Load all the IILIAS stuff
 require_once "include/inc.header.php";
 
-if (!$_SERVER['HTTP_SHIB_APPLICATION_ID'])
+if (!$_SERVER['HTTP_SHIB_APPLICATION_ID'] && !$_SERVER['Shib-Application-ID'])
 {
 	$message = "This file must be protected by Shibboleth, otherwise you cannot use Shibboleth authentication! Consult the <a href=\"Services/AuthShibboleth/README.SHIBBOLETH.txt\">documentation</a> on how to configure Shibboleth authentication properly.";
 	$ilias->raiseError($message,$ilias->error_obj->WARNING);

@@ -58,9 +58,12 @@ Configure ILIAS for Shibboleth authentication
    a location of a session initiator for a Identity Provider as a third
    argument. The session inititors can be found in the shibboleth.xml
    configuration file as well.
+   Also see:
+   https://spaces.internet2.edu/display/SHIB/SessionInitiator (SP 1.3.x)
+   https://spaces.internet2.edu/display/SHIB2/NativeSPSessionInitiator (SP 2.x)
 
    If you chose to use an external WAYF, fill in an URL to an image that is to
-   be used for the login button. Default ist 'images/shib_login_button.gif'
+   be used for the login button. Default ist 'images/shib_login_button.png'
 
    The login instructions can be used to place a message for Shibboleth users
    on the login page. These instructions are independent from the current
@@ -71,7 +74,7 @@ Configure ILIAS for Shibboleth authentication
 4. Fill in the fields of the form for the attribute mapping. You need to provide
    the names of the environment variables that contain the Shibboleth attributes
    for the unique ID, firstname, surname, etc. This e.g. could be
-   'HTTP_SHIB_PERSON_SURNAME' for the person's last name. Refer to
+   'Shib-Person-surname' for the person's last name. Refer to
    the Shibboleth documentation or the documentation of your Shibboleth
    federation for information on which attributes are available.
    Especially the field for the 'unique Shibboleth attribute' is of great
@@ -184,6 +187,92 @@ Example file:
         // the <?php ?> delimiters
 ?>
 --
+
+
+How to upgrade your Service Provider to 2.x
+-------------------------------------------------------------------------------
+
+In case your upgrade your Service Provider 1.3.x to 2.x, be aware of the fact 
+that in version 2.0 the default behaviour regarding attribute propagation 
+changed.
+While the Service Provider 1.3.x published the Shibboleth attributes to the
+web server environment as HTTP Request headers, the Service Provider 2.x 
+publishes attributes as environment variables, which increases the security for
+some platforms.
+However, this change has the effect that the attribute names change.
+E.g. while the surname attribute was published as 'HTTP_SHIB_PERSON_SURNAME' 
+with 1.3.x, this attribute will be available in $_SERVER['Shib-Person-surname']
+or depending on your /etc/shibboleth/attribute-map.xml file just as 
+$_SERVER['sn'].
+Because ILIAS needs to know what Shibboleth attributes it shall map onto which
+ILIAS user profile field, one has to make sure the mapping is updated as well
+after the Service Provider upgrade.
+
+********************************************************************************
+Because you risk locking yourself out of ILIAS it is strongly 
+recommended to use the following approach when upgrading the Service Provider:
+1. Enable Database authentication before the upgrade. 
+2. Make sure that you have at least one manual account with administration 
+   privileges working before upgrading your Service Provider to 2.x.
+3. After the SP upgrade, use this account to log into ILIAS and adapt the 
+   attribute mapping in 'Administration -> Authentication and Registration -> 
+   Shibboleth' to reflect the changed attribute names.
+   You find the attribute names in the file /etc/shibboleth/attribute-map.xml 
+   listed as the 'id' value of an attribute definition.
+4. Test the login with a Shibboleth account
+5. If all is working, disable database authentication again if you had it 
+   disabled before the upgrade
+********************************************************************************
+
+
+How to add logout support
+--------------------------------------------------------------------------------
+
+In order make ILIAS support Shibboleth logout, one has to make the Shibboleth 
+Service Provider (SP) aware of the ILIAS logout capability. Only then the SP 
+can trigger ILIAS's front or back channel logout handler.
+
+To make the SP aware of the ILIAS logout, you have to add the following to the
+Shibboleth main configuration file shibboleth2.xml (usually in /etc/shibboleth/)
+just before the <MetadataProvider> element.
+
+--
+<Notify 
+	Channel="back"
+	Location="https://#YOUR_ILIAS_HOSTNAME#/#PATH_TO_ILIAS_DIR#/shib_logout.php" />
+
+<!-- 
+If possible, you should use only the back channel logout once it is working.
+-->
+<!--
+<Notify 
+	Channel="front"
+	Location="https://#YOUR_ILIAS_HOSTNAME#/#PATH_TO_ILIAS_DIR#/shib_logout/logout.php" />
+-->
+--
+
+Then restart the Shibboleth daemon and check the log file for errors. If there 
+were no errors, you can test the logout feature by accessing ILIAS, 
+authenticating via Shibboleth and the access the URL:
+#YOUR_ILIAS_HOSTNAME#/Shibboleth.sso/Logout (assuming you have a standard 
+Shibboleth installation). If everything worked well, you should see a Shibboleth
+page saying that you were successfully logged out and if you go back to ILIAS 
+you also should be logged out from ILIAS.
+
+
+Limitations:
+Single Logout is only supported with SAML2 and so far only with the Shibboleth 
+Service Provider 2.x. 
+As of December 2008, the Shibboleth Identity Provider 2.1.1 does not yet support
+Single Logout (SLO). Therefore, the single logout feature cannot be used yet. 
+One of the reasons why SLO isn't supported yet is because there aren't many 
+applications yet that were adapted to support front and back channel 
+logout. Hopefully, the ILIAS logout helps to motivate the developers to 
+implement SLO :)
+
+Also see https://spaces.internet2.edu/display/SHIB2/SLOIssues for some 
+background information on this topic.
+
 
 --------------------------------------------------------------------------------
 - Thanx to Marco Lehre <lehre@net.ethz.ch> for language suggestions and general
