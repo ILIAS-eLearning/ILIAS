@@ -60,124 +60,127 @@ class assTextQuestionGUI extends assQuestionGUI
 	/**
 	* Creates an output of the edit form for the question
 	*
-	* Creates an output of the edit form for the question
-	*
 	* @access public
 	*/
 	function editQuestion()
 	{
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0) || (strcmp($this->ctrl->getCmd(), "addSuggestedSolution") == 0)) ? TRUE : FALSE;
+		
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
-			"function initialSelect() {\n%s\n}</script>";
-		// single response
 		$this->getQuestionTemplate();
-		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_text_question.html", "Modules/TestQuestionPool");
-		// call to other question data i.e. estimated working time block
-		$this->outOtherQuestionData();
 
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("assTextQuestion"));
+		$form->setMultipart(TRUE);
+		$form->setTableWidth("100%");
+		$form->setId("flash");
+
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+		$description->setValue($this->object->getComment());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->setRTESupport($obj_id, $obj_type, "assessment");
+		$form->addItem($question);
+		// maxchars
+		$maxchars = new ilTextInputGUI($this->lng->txt("maxchars"), "maxchars");
+		$maxchars->setSize(5);
+		if ($this->object->getMaxNumOfChars() > 0) $maxchars->setValue($this->object->getMaxNumOfChars());
+		$maxchars->setInfo($this->lng->txt("description_maxchars"));
+		$form->addItem($maxchars);
+		// duration
+		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		$duration->setShowSeconds(TRUE);
+		$ewt = $this->object->getEstimatedWorkingTime();
+		$duration->setHours($ewt["h"]);
+		$duration->setMinutes($ewt["m"]);
+		$duration->setSeconds($ewt["s"]);
+		$duration->setRequired(FALSE);
+		$form->addItem($duration);
+		// suggested solution
+		include_once "./Modules/TestQuestionPool/classes/class.ilSuggestedSolutionSelectorGUI.php";
+		$solution = new ilSuggestedSolutionSelectorGUI($this->lng->txt("solution_hint"), "internalLinkType");
 		$internallinks = array(
 			"lm" => $this->lng->txt("obj_lm"),
 			"st" => $this->lng->txt("obj_st"),
 			"pg" => $this->lng->txt("obj_pg"),
 			"glo" => $this->lng->txt("glossary_term")
 		);
-		foreach ($internallinks as $key => $value)
+		$solution->setOptions($internallinks);
+		$solution->setAddCommand("addSuggestedSolution");
+		$solution_array = $this->object->getSuggestedSolution(0);
+		if ($solution_array["internal_link"])
 		{
-			$this->tpl->setCurrentBlock("internallink");
-			$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-			$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-			$this->tpl->parseCurrentBlock();
+			$solution->setInternalLink(assQuestion::_getInternalLinkHref($solution_array["internal_link"]));
+			$solution->setInternalLinkText($this->lng->txt("solution_hint"));
 		}
+		$form->addItem($solution);
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
+		$points->setValue($this->object->getPoints());
+		$points->setRequired(TRUE);
+		$points->setSize(3);
+		$points->setMinValue(0.0);
+		$form->addItem($points);
 
-		// Add text rating options
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("optional_keywords"));
+		$form->addItem($header);
+		
+		// keywords
+		$keywords = new ilTextAreaInputGUI($this->lng->txt("keywords"), "keywords");
+		$keywords->setValue(ilUtil::prepareFormOutput($this->object->getKeywords()));
+		$keywords->setRequired(FALSE);
+		$keywords->setInfo($this->lng->txt("keywords_hint"));
+		$keywords->setRows(10);
+		$keywords->setCols(40);
+		$keywords->setUseRte(FALSE);
+		$form->addItem($keywords);
+		// text rating
+		$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
 		$text_options = array(
-			array("ci", $this->lng->txt("cloze_textgap_case_insensitive")),
-			array("cs", $this->lng->txt("cloze_textgap_case_sensitive")),
-			array("l1", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1")),
-			array("l2", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2")),
-			array("l3", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3")),
-			array("l4", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4")),
-			array("l5", sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5"))
+			"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
+			"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
+			"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
+			"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
+			"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
+			"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
+			"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
 		);
-		$text_rating = $this->object->getTextRating();
-		foreach ($text_options as $text_option)
+		$textrating->setOptions($text_options);
+		$textrating->setValue($this->object->getTextRating());
+		$form->addItem($textrating);
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		if ($save)
 		{
-			$this->tpl->setCurrentBlock("text_rating");
-			$this->tpl->setVariable("RATING_VALUE", $text_option[0]);
-			$this->tpl->setVariable("RATING_TEXT", $text_option[1]);
-			if (strcmp($text_rating, $text_option[0]) == 0)
-			{
-				$this->tpl->setVariable("SELECTED_RATING_VALUE", " selected=\"selected\"");
-			}
-			$this->tpl->parseCurrentBlock();
+			$form->checkInput();
 		}
-
-		$this->tpl->setCurrentBlock("HeadContent");
-		$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_text_question.title.focus();"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("TEXT_QUESTION_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_TEXT_QUESTION_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_TEXT_QUESTION_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_TEXT_QUESTION_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$keywords = $this->object->getKeywords();
-		$this->tpl->setVariable("VALUE_KEYWORDS", ilUtil::prepareFormOutput($keywords));
-		$this->tpl->setVariable("VALUE_POINTS", ilUtil::prepareFormOutput($this->object->getPoints()));
-		if ($this->object->getMaxNumOfChars())
-		{
-			$this->tpl->setVariable("VALUE_MAXCHARS", ilUtil::prepareFormOutput($this->object->getMaxNumOfChars()));
-		}
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_RATING", $this->lng->txt("text_rating"));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_MAXCHARS", $this->lng->txt("maxchars"));
-		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-		$this->tpl->setVariable("OPTIONAL_KEYWORDS", $this->lng->txt("optional_keywords"));
-		$this->tpl->setVariable("TEXT_KEYWORDS", $this->lng->txt("keywords"));
-		$this->tpl->setVariable("DESCRIPTION_MAXCHARS", $this->lng->txt("description_maxchars"));
-		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-		$this->tpl->setVariable("TEXT_KEYWORDS_HINT", $this->lng->txt("keywords_hint"));
-		if (count($this->object->suggested_solutions))
-		{
-			$solution_array = $this->object->getSuggestedSolution(0);
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
-			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-		}
-		else
-		{
-			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
-		}
-		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->ctrl->setParameter($this, "sel_question_types", "assTextQuestion");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
-		$this->tpl->setVariable("ACTION_TEXT_QUESTION", $this->ctrl->getFormAction($this));
-
-		$this->tpl->parseCurrentBlock();
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-
-		$this->tpl->setCurrentBlock("adm_content");
-		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 	}
 
 	/**
