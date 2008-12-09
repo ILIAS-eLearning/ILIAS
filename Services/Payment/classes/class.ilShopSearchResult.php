@@ -188,6 +188,7 @@ class ilShopSearchResult extends ilSearchResult
 			}
 		}
 		
+		$objects_with_topics = array();
 		$objects_with_no_topcis = array();
 		foreach($this->getTopics() as $oTopic)
 		{		
@@ -204,6 +205,11 @@ class ilShopSearchResult extends ilSearchResult
 				if((int)$topic_id != $oTopic->getId())
 				{
 					continue;					
+				}
+				
+				if(!array_key_exists($result['ref_id'], $objects_with_topics))
+				{
+					$objects_with_topics[$result['ref_id']] = $result;
 				}
 				
 				switch($result['type'])
@@ -231,6 +237,14 @@ class ilShopSearchResult extends ilSearchResult
 													  'topic_id' => $topic_id,
 													  'child' => $result['child']);
 				$this->addPresentationResult($presentation_results[$oTopic->getId()][$type][count($presentation_results[$oTopic->getId()][$type]) - 1]);
+			}
+		}
+		foreach($results as $result)
+		{
+			if(!array_key_exists($result['ref_id'], $objects_with_topics) &&
+			   !array_key_exists($result['ref_id'], $objects_with_no_topcis))
+			{
+				$objects_with_no_topcis[$result['ref_id']] = $result;
 			}
 		}
 		foreach($objects_with_no_topcis as $result)
