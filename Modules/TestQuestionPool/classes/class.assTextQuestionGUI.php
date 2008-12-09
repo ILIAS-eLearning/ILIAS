@@ -229,8 +229,11 @@ class assTextQuestionGUI extends assQuestionGUI
 		$this->object->setMaxNumOfChars($_POST["maxchars"]);
 		$this->object->setKeywords(ilUtil::stripSlashes($_POST["keywords"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")));
 		$this->object->setTextRating($_POST["text_rating"]);
-
-		$saved = $this->writeOtherPostData($result);
+		$this->object->setEstimatedWorkingTime(
+			ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+			ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+			ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+		);
 
 		// Set the question id from a hidden form parameter
 		if ($_POST["text_question_id"] > 0)
