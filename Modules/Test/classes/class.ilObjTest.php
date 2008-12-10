@@ -7453,6 +7453,55 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		return $data;
 	}
+	
+	public function getTestParticipantsForManualScoring($filter = NULL)
+	{
+		global $ilDB;
+		
+		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
+		$scoring = ilObjAssessmentFolder::_getManualScoring();
+		if (count($scoring) == 0) return array();
+
+		$participants =& $this->getTestParticipants();
+		$filtered_participants = array();
+		foreach ($participants as $active_id => $participant)
+		{
+			$statement = $ilDB->prepare("SELECT tst_test_result.manual FROM tst_test_result,qpl_questions WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi IN (" . join($scoring, ",") . ") AND tst_test_result.active_fi = ?", 
+				array("integer")
+			);
+			$data = array($active_id);
+			$result = $ilDB->execute($statement, $data);
+			$count = $result->numRows();
+			if ($count > 0)
+			{
+				switch ($filter)
+				{
+					case 1:
+						// already scored participants
+						$found = 0;
+						while ($row = $ilDB->fetchAssoc($result))
+						{
+							if ($row["manual"]) $found++;
+						}
+						if ($found == $count) $filtered_participants[$active_id] = $participant;
+						break;
+					case 2:
+						// unscored participants
+						$found = 0;
+						while ($row = $ilDB->fetchAssoc($result))
+						{
+							if ($row["manual"]) $found++;
+						}
+						if ($found < $count) $filtered_participants[$active_id] = $participant;
+						break;
+					default:
+						$filtered_participants[$active_id] = $participant;
+						break;
+				}
+			}
+		}
+		return $filtered_participants;
+	}
 
 /**
 * Returns a data of all users specified by id list

@@ -2466,15 +2466,13 @@ class assQuestion
 	* Sets the points, a learner has reached answering the question
 	* Additionally objective results are updated
 	*
-	* Sets the points, a learner has reached answering the question
-	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
 	* @param integer $points The points the user has reached answering the question
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass = NULL)
+	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass = NULL, $manualscoring = FALSE)
 	{
 		global $ilDB;
 		
@@ -2493,12 +2491,14 @@ class assQuestion
 				$ilDB->quote($pass . "")
 			);
 			$result = $ilDB->query($query);
+			$manual = ($manualscoring) ? 1 : 0;
 			if ($result->numRows())
 			{
 				$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 				$old_points = $row["points"];
-				$query = sprintf("UPDATE tst_test_result SET points = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				$query = sprintf("UPDATE tst_test_result SET points = %s, manual = %s WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 					$ilDB->quote($points . ""),
+					$ilDB->quote($manual . ""),
 					$ilDB->quote($active_id . ""),
 					$ilDB->quote($question_id . ""),
 					$ilDB->quote($pass . "")
@@ -2506,11 +2506,12 @@ class assQuestion
 			}
 			else
 			{
-				$query = sprintf("INSERT INTO tst_test_result (active_fi, question_fi, points, pass) VALUES (%s, %s, %s, %s)",
+				$query = sprintf("INSERT INTO tst_test_result (active_fi, question_fi, points, pass, manual) VALUES (%s, %s, %s, %s, %s)",
 					$ilDB->quote($active_id . ""),
 					$ilDB->quote($question_id . ""),
 					$ilDB->quote($points . ""),
-					$ilDB->quote($pass . "")
+					$ilDB->quote($pass . ""),
+					$ilDB->quote($manual . "")
 				);
 			}
 			$result = $ilDB->query($query);
