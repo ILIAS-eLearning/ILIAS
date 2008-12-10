@@ -119,7 +119,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			}
 		}
 		
-		$participants =& $this->object->getTestParticipants();
+		$participants =& $this->object->getTestParticipantsForManualScoring();
 		if (count($participants) == 0)	
 		{
 			ilUtil::sendInfo($this->lng->txt("tst_participants_no"));
@@ -202,7 +202,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$points = $_POST["question"][$question_id];
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 			$maxpoints = assQuestion::_getMaximumPoints($question_id);
-			$result = assQuestion::_setReachedPoints($_GET["active_id"], $question_id, $points, $maxpoints, $_GET["pass"]);
+			$result = assQuestion::_setReachedPoints($_GET["active_id"], $question_id, $points, $maxpoints, $_GET["pass"], 1);
 			if ($result) 
 			{
 				ilUtil::sendInfo($this->lng->txt("tst_change_points_done"));

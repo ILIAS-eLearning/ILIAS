@@ -208,6 +208,9 @@ class ilSurveyExecutionGUI
 			case "gotoPage":
 				$this->outSurveyPage($_GET["qid"], $_GET["direction"]);
 				break;
+			case "default":
+				$this->outSurveyPage($_GET["qid"]);
+				break;
 			default:
 				// don't save input, go to the first page
 				$this->outSurveyPage();
