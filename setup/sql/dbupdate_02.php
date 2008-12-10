@@ -3779,7 +3779,7 @@ $ilDB->query($query);
 <#1198>
 ALTER TABLE read_event ADD COLUMN spent_seconds INT NOT NULL DEFAULT 0;
 
-INSERT INTO read_event (obj_id,usr_id,ts,read_count,spent_seconds)
+INSERT INTO read_event
 SELECT obj_id,user_id,FROM_UNIXTIME(access_time),visits,spent_time from ut_learning_progress
 ON DUPLICATE KEY
 UPDATE ts=if(FROM_UNIXTIME(access_time) > ts,FROM_UNIXTIME(access_time),ts),spent_seconds=spent_seconds+spent_time, read_count=read_count+visits;
