@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('Services/Exceptions/classes/class.ilException.php');
+
 /** 
 * 
 * @author Stefan Meyer <smeyer@databay.de>
@@ -29,9 +31,6 @@
 * 
 * @ingroup ServicesWebServicesCurl 
 */
-
-include_once('Services/Exceptions/classes/class.ilException.php');
-
 class ilCurlConnectionException extends ilException
 {
 	/**

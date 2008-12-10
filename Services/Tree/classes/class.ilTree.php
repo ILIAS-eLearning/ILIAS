@@ -2311,7 +2311,8 @@ class ilTree
  	* @access	public
 	* @param	integer	ref_id
 	* @param	string type
-	* @param	int ref_id of last parent type
+	* @return	mixed false if item is not in tree, 
+	* 				  int (object ref_id) > 0 if path container course, int 0 if pathc does not contain the object type 
 	*/
 	function checkForParentType($a_ref_id,$a_type)
 	{
