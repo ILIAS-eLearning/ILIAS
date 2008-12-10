@@ -42,12 +42,6 @@ require_once "Modules/File/classes/class.ilObjFile.php";
 */
 class ilObjFileDAV extends ilObjectDAV
 {
-	/**
-	 * We need this variable to prevent us from creating a new version, when the
-	 * file is created.
-	 */
-	var $isNewFile;
-
 	/** 
 	* Constructor
 	*
@@ -59,7 +53,7 @@ class ilObjFileDAV extends ilObjectDAV
               
                // Set debug to true, if you want to get debug output for this
                // object
-               //$this->isDebug = false;
+               //$this->isDebug = true;
 	}
 	
 	/**
@@ -75,6 +69,16 @@ class ilObjFileDAV extends ilObjectDAV
 		$this->write();
 		$this->obj->setPermissions($this->getRefId());
 	}
+	/**
+	 * Creates a new version of the object.
+	 * Only objects which support versioning need to implement this method.
+	 */
+	function createNewVersion() {
+		$this->obj->setVersion($this->obj->getVersion() + 1);
+		ilHistory::_createEntry($this->obj->getId(), "replace",
+			$this->obj->getFileName().",".$this->obj->getVersion());
+	}
+
 	
 	/**
 	 * Returns the display name of this object.
@@ -122,7 +126,7 @@ class ilObjFileDAV extends ilObjectDAV
 	 */
 	function setContentLength($length)
 	{
-              $this->writeLog('setContentLength('.$length.')');
+		$this->writeLog('setContentLength('.$length.')');
 		$this->obj->setFileSize($length);
 	}
 	/**
@@ -148,17 +152,7 @@ class ilObjFileDAV extends ilObjectDAV
 	 */
 	function getContentOutputStream()
 	{
-		// Create a new version
-		if (! $this->isNewFile)
-		{
-			$this->obj->setVersion($this->obj->getVersion() + 1);
-			ilHistory::_createEntry($this->obj->getId(), "replace",
-				$this->obj->getFileName().",".$this->obj->getVersion());
-			$this->obj->update();
-		}
-		
 		$file = $this->obj->getFile();
-		//$this->writelog('getContentOutputStream $file='.$file);
 		$parent = dirname($file);
 		if (! file_exists($parent))
 		{

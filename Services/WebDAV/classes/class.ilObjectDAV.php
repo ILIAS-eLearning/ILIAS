@@ -46,10 +46,10 @@ class ilObjectDAV
 	var $obj;
 
 	/**
-         * The ObjectDAV prints lots of log messages to the ilias log, if this	
+	 * The ObjectDAV prints lots of log messages to the ilias log, if this
 	 * variable is set to true.
 	 */
-	private $isDebug = false;
+	var $isDebug = false;
 	
 	/** 
 	* Constructor
@@ -343,6 +343,14 @@ class ilObjectDAV
 	{
 		return 'file';
 	}
+
+	/**
+	 * Creates a new version of the object.
+	 * Only objects which support versioning need to implement this method.
+	 */
+	function createNewVersion() {
+	}
+
 	
 	/**	
 	* Creates a dav collection as a child of this object.
