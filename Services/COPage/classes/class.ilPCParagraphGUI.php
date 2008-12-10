@@ -37,7 +37,6 @@ require_once("./Services/COPage/classes/class.ilWysiwygUtil.php");
 */
 class ilPCParagraphGUI extends ilPageContentGUI
 {
-
 	/**
 	* Constructor
 	* @access	public
@@ -48,7 +47,27 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
-
+	/**
+	* Get characteristics
+	*/
+	static function getCharacteristics()
+	{
+		global $lng;
+		
+		return  array("" => $lng->txt("none"),
+			"Headline1" => $lng->txt("cont_Headline1"),
+			"Headline2" => $lng->txt("cont_Headline2"),
+			"Headline3" => $lng->txt("cont_Headline3"),
+			"Citation" => $lng->txt("cont_Citation"),
+			"Mnemonic" => $lng->txt("cont_Mnemonic"),
+			"Example" => $lng->txt("cont_Example"),
+			"Additional" => $lng->txt("cont_Additional"),
+			"Remark" => $lng->txt("cont_Remark"),
+			"List" => $lng->txt("cont_List"),
+			"TableContent" => $lng->txt("cont_TableContent")
+			);
+	}
+	
 	/**
 	* execute command
 	*/
@@ -112,6 +131,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$tpl->setVariable("BTN_CANCEL", "cancelCreate");
 			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("commands2");
+			$tpl->setVariable("BTN_NAME", "create_par");
+			$tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+			$tpl->setVariable("BTN_CANCEL", "cancelCreate");
+			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$tpl->parseCurrentBlock();
 			$tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
 		}
 		else
@@ -122,18 +147,15 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			$tpl->setVariable("BTN_CANCEL", "cancelUpdate");
 			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$tpl->parseCurrentBlock();
+			$tpl->setCurrentBlock("commands2");
+			$tpl->setVariable("BTN_NAME", "update");
+			$tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+			$tpl->setVariable("BTN_CANCEL", "cancelUpdate");
+			$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$tpl->parseCurrentBlock();
 			$tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		}
-		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		
-		$tpl->setVariable("PAR_TA_NAME", "par_content");
-		$tpl->setVariable("BB_MENU", $this->getBBMenu());
-		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
-		$this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
-		$this->setStyle();
-
-		$this->displayValidationError();
-
 		// language and characteristic selection
 		if (!$a_insert)
 		{
@@ -185,30 +207,36 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				}
 			}
 		}
+
+		$this->insertCharacteristicTable($tpl, $s_char);
 		
+		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		
+		$tpl->setVariable("PAR_TA_NAME", "par_content");
+		$tpl->setVariable("BB_MENU", $this->getBBMenu());
+		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_0/editor.js");
+		$this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
+		$this->setStyle();
+
+		$this->displayValidationError();
+
 		$tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		$tpl->setVariable("TXT_ANCHOR", $this->lng->txt("cont_anchor"));
+		if (!$a_insert)
+		{
+			$tpl->setVariable("VAL_ANCHOR",
+				ilUtil::prepareFormOutput($this->content_obj->getAnchor()));
+		}
+		
 		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
 		$lang = ilMDLanguageItem::_getLanguages();
 		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
 		$tpl->setVariable("SELECT_LANGUAGE", $select_lang);
 		
-		// characteristic
-		$char = array("" => $this->lng->txt("none"),
-			"Headline1" => $this->lng->txt("cont_Headline1"),
-			"Headline2" => $this->lng->txt("cont_Headline2"),
-			"Headline3" => $this->lng->txt("cont_Headline3"),
-			"Example" => $this->lng->txt("cont_Example"),
-			"Citation" => $this->lng->txt("cont_Citation"),
-			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
-			"Additional" => $this->lng->txt("cont_Additional"),
-			"List" => $this->lng->txt("cont_List"),
-			"Remark" => $this->lng->txt("cont_Remark"),
-			"TableContent" => $this->lng->txt("cont_TableContent")
-			);
 		$tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
-		$select_char = ilUtil::formSelect ($s_char,
-			"par_characteristic",$char,false,true);
-		$tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
+//		$select_char = ilUtil::formSelect ($s_char,
+//			"par_characteristic",$this->chars,false,true);
+//		$tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
 
 		if (key($_POST["cmd"]) == "update" || key($_POST["cmd"]) == "create_par")
 		{
@@ -225,6 +253,42 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		
 		$this->tpl->setContent($tpl->get());
 		return $tpl->get();
+	}
+
+	/**
+	* Insert characteristic table
+	*/
+	function insertCharacteristicTable($a_tpl, $a_seleted_value)
+	{
+		$i = 0;
+
+		$chars = $this->getCharacteristics();
+
+		if ($chars[$a_seleted_value] == "" && ($a_seleted_value != ""))
+		{
+			$chars = array_merge(array($a_seleted_value => $a_seleted_value),
+				$chars);
+		}
+
+		foreach ($chars as $char => $char_lang)
+		{
+			$a_tpl->setCurrentBlock("characteristic_cell");
+			$a_tpl->setVariable("CHAR_HTML",
+				'<div class="ilc_text_block_'.$char.'" style="margin-top:2px; margin-bottom:2px;">'.$char_lang."</div>");
+			$a_tpl->setVariable("CHAR_VALUE", $char);
+			if ($char == $a_seleted_value)
+			{
+				$a_tpl->setVariable("SELECTED",
+					' checked="checked" ');
+			}
+			$a_tpl->parseCurrentBlock();
+			if ((($i+1) % 3) == 0)	// 
+			{
+				$a_tpl->touchBlock("characteristic_row");
+			}
+			$i++;
+		}
+		$a_tpl->touchBlock("characteristic_table");
 	}
 
 	/**
@@ -273,6 +337,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		// set language and characteristic
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
+		$this->content_obj->setAnchor(ilUtil::stripSlashes($_POST["anchor"]));
 
 //echo "<br>PARupdate1:".$_POST["par_content"].":";
 //echo "<br>PARupdate2:".htmlentities($_POST["par_content"]).":";

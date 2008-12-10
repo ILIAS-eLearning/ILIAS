@@ -316,8 +316,16 @@
 <!-- Bibliography-Tag nie ausgeben -->
 <xsl:template match="Bibliography"/>
 
+<!-- Anchor -->
+<xsl:template match="Anchor">
+<a>
+<xsl:attribute name="name"><xsl:apply-templates/></xsl:attribute>
+</a>
+</xsl:template>
+
 <!-- PageContent -->
 <xsl:template match="PageContent">
+	<xsl:apply-templates select="Anchor"/>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:variable name="content_type" select="name(./*[1])"/>
 		<div>

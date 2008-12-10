@@ -55,7 +55,16 @@ class ilPCParagraph extends ilPageContent
 	function setNode(&$a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->par_node =& $a_node->first_child();		//... and this the Paragraph node
+		
+		$childs = $a_node->child_nodes();
+
+		for ($i=0; $i<count($childs); $i++)
+		{
+			if ($childs[$i]->node_name() == "Paragraph")
+			{
+				$this->par_node = $childs[$i];		//... and this the Paragraph node
+			}
+		}
 	}
 
 
@@ -113,8 +122,6 @@ class ilPCParagraph extends ilPageContent
 		$this->par_node->set_attribute("Language", "");
 	}
 
-
-	
 	/**
 	* Set (xml) content of text paragraph.
 	*

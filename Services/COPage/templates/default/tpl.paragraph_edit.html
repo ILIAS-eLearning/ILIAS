@@ -4,37 +4,64 @@
 
 <table class="fullwidth">
 <tr class="tblheader">
-	<td class="std" colspan="4">
+	<td class="std" colspan="2">
 		{TXT_ACTION}
+	</td>
+</tr>
+<!-- BEGIN commands2 -->
+<tr>
+	<td class="submit"  colspan="2" style="text-align:right;">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+<!-- END commands2 -->
+<tr class="std">
+	<td class="option_value" colspan="2">
+	{BB_MENU}
+	</td>
+</tr>
+<tr class="std">
+<td class="std" colspan="2">
+<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:95%" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+</td>
+</tr>
+<tr>
+	<td class="option" width="1">
+		{TXT_CHARACTERISTIC}
+	</td>
+	<td class="option_value">
+		<!-- BEGIN characteristic_table -->
+		<table border="0" cellpadding="2" cellspacing="0" width="100%">
+		<!-- BEGIN characteristic_row -->
+		<tr>
+		<!-- BEGIN characteristic_cell --><td width="1"><input name="par_characteristic" type="radio" value="{CHAR_VALUE}" {SELECTED} /></td><td width="33%" style="white-space:nowrap;">{CHAR_HTML}</td><!-- END characteristic_cell -->
+		</tr>
+		<!-- END characteristic_row -->
+		</table>
+		<!-- END characteristic_table -->
+		{SELECT_CHARACTERISTIC}
+	</td>
+</tr>
+<tr>
+	<td class="option" width="1">
+		{TXT_ANCHOR}
+	</td>
+	<td class="option_value">
+		<input type="text" name="anchor" size="40" maxlength="80" value="{VAL_ANCHOR}" />
 	</td>
 </tr>
 <tr>
 	<td class="option" width="1">
 		{TXT_LANGUAGE}
 	</td>
-	<td class="option_value" width="1">
+	<td class="option_value">
 		{SELECT_LANGUAGE}
 	</td>
-	<td class="option" width="1">
-		{TXT_CHARACTERISTIC}
-	</td>
-	<td class="option_value">
-		{SELECT_CHARACTERISTIC}
-	</td>
-</tr>
-<tr class="std">
-	<td class="option_value" colspan="4">
-	{BB_MENU}
-	</td>
-</tr>
-<tr class="std">
-<td class="std" colspan="4">
-<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:95%" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
-</td>
 </tr>
 <!-- BEGIN commands -->
 <tr>
-	<td class="submit"  colspan="4">
+	<td class="submit"  colspan="2" style="text-align:right;">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
 		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
 	</td>
@@ -42,7 +69,7 @@
 <!-- END commands -->
 <!-- BEGIN content_selection -->
 <tr>
-	<td class="submit"  colspan="4">
+	<td class="submit"  colspan="2">
 		{SELECT_CONTENT}
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
 	</td>

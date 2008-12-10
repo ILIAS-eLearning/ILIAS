@@ -8697,6 +8697,11 @@ payment#:#payment_no_topic#:#No Topic
 assessment#:#error_cloze_not_numeric#:#Please enter a numeric value.
 assessment#:#error_no_upper_limit#:#Please enter an upper bound.
 assessment#:#error_no_lower_limit#:#Please enter a lower bound.
+content#:#cont_assign_characteristic#:#Assign Characteristic
+content#:#cont_anchor#:#Anchor
+content#:#cont_choose_characteristic#:#Choose Characteristic
+content#:#cont_choose_characteristic_text#:#Text Elements
+content#:#cont_choose_characteristic_section#:#Sections
 common#:#certificate#:#Certificate
 certificate#:#certificate_top#:#Top
 certificate#:#certificate_right#:#Right
