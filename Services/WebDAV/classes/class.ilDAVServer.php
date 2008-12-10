@@ -81,20 +81,20 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 */
 	private $clientBrowser = 'unknown';
 
-        /**
-         * This variable holds the DAV object of which the output stream was
-         * returned by method PUT.
-         * 
-         * This variable is written inside of method PUT, and then reused
-         * in method PUTfinished, which updates the file size of the DAV object,
-         * after the data has been fully written into the output stream.
-         * 
-         * @var ilObjectDav
-         */
-        private $putObjDAV = null;
+	/**
+	 * This variable holds the DAV object of which the output stream was
+	 * returned by method PUT.
+	 *
+	 * This variable is written inside of method PUT, and then reused
+	 * in method PUTfinished, which updates the file size of the DAV object,
+	 * after the data has been fully written into the output stream.
+	 *
+	 * @var ilObjectDav
+	 */
+	private $putObjDAV = null;
 	
 	/**
-         * The WebDAVServer prints lots of log messages to the ilias log, if this	
+	 * The WebDAVServer prints lots of log messages to the ilias log, if this
 	 * variable is set to true.
 	 */
 	private $isDebug = false;
@@ -819,10 +819,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$objDAV =& $parentDAV->createFile($name);
 			$this->writelog('PUT obj='.$objDAV.' name='.$name.' content_type='.$options['content_type']);
 			$objDAV->setContentType($options['content_type']);
-                        if ($options['content_length'] != null) 
-                        {
-        			$objDAV->setContentLength($options['content_length']);
-                        }
+			if ($options['content_length'] != null)
+			{
+				$objDAV->setContentLength($options['content_length']);
+			}
 			$objDAV->write();
 			
 			// Record write event
@@ -841,10 +841,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$objDAV =& $parentDAV->createFileFromNull($name, $objDAV);
 			$this->writelog('PUT obj='.$objDAV.' name='.$name.' content_type='.$options['content_type']);
 			$objDAV->setContentType($options['content_type']);
-                        if ($options['content_length'] != null) 
-                        {
-                            $objDAV->setContentLength($options['content_length']);
-                        }
+			if ($options['content_length'] != null)
+			{
+				$objDAV->setContentLength($options['content_length']);
+			}
 			$objDAV->write();
 			
 			// Record write event
@@ -861,11 +861,17 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			}
 			$options["new"] = false;
 			$this->writelog('PUT obj='.$objDAV.' name='.$name.' content_type='.$options['content_type'].' content_length='.$options['content_length']);
+
+			// Create a new version if the previous version is not empty
+			if ($objDAV->getContentLength() != 0) {
+				$objDAV->createNewVersion();
+			}
+
 			$objDAV->setContentType($options['content_type']);
-                        if ($options['content_length'] != null) 
-                        {
-        			$objDAV->setContentLength($options['content_length']);
-                        }
+			if ($options['content_length'] != null)
+			{
+       			$objDAV->setContentLength($options['content_length']);
+			}
 			$objDAV->write();
 			
 			// Record write event
@@ -875,8 +881,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				ilChangeEvent::_catchupWriteEvents($objDAV->getObjectId(), $ilUser->getId(), 'update');
 			}
 		}
-                // store this object, we reuse it in method PUTfinished
-                $this->putObjDAV = $objDAV;
+		// store this object, we reuse it in method PUTfinished
+		$this->putObjDAV = $objDAV;
                 
 		$out =& $objDAV->getContentOutputStream();
 		$this->writelog('PUT outputstream='.$out);
@@ -893,16 +899,16 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	{
 		$this->writelog('PUTfinished('.var_export($options, true).')');
                 
-             // Update the content length in the file object, if the
-             // the client did not specify a content_length
-             if ($options['content_length'] == null)
-             {
-                $objDAV = $this->putObjDAV;
+		// Update the content length in the file object, if the
+		// the client did not specify a content_length
+		if ($options['content_length'] == null)
+		{
+			$objDAV = $this->putObjDAV;
      		$objDAV->setContentLength($objDAV->getContentOutputStreamLength());
-		$objDAV->write();
-                $this->putObjDAV = null;
-             }
-             return true;
+			$objDAV->write();
+			$this->putObjDAV = null;
+		}
+		return true;
 	}
 
 
@@ -1609,7 +1615,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		$nodePath = $tree->getNodePathForTitlePath($titlePath, $ref_id);
 
-		$this->writelog('toNodePath():'.var_export($nodePath,true));		
+		$this->writelog('toNodePath():'.var_export($nodePath,true));
 		return $nodePath;
 	}
 
