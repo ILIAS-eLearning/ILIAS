@@ -238,7 +238,8 @@ class ilPageEditorGUI
 				$cmd != "copyLinkedMediaToMediaPool" &&
 				$cmd != "deleteSelected" &&
 				($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "") &&
-				$cmd != "activateSelected" &&
+				$cmd != "activateSelected" && $cmd != "assignCharacteristicForm" &&
+				$cmd != "assignCharacteristic" &&
 				$cmd != "cancelCreate" && $cmd != "popup" &&
 				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
 				($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui")))
@@ -749,7 +750,6 @@ return true;
 	*/
 	function activateSelected()
 	{
-//var_dump($_POST);
 		if (is_int(strpos($_POST["target"][0], ";")))
 		{
 			$_POST["target"] = explode(";", $_POST["target"][0]);
@@ -757,6 +757,125 @@ return true;
 		if (is_array($_POST["target"]))
 		{
 			$updated = $this->page->switchEnableMultiple($_POST["target"]);
+			if($updated !== true)
+			{
+				$_SESSION["il_pg_error"] = $updated;
+			}
+			else
+			{
+				unset($_SESSION["il_pg_error"]);
+			}
+		}
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* Assign characeristic to text blocks/sections
+	*/
+	function assignCharacteristicForm()
+	{
+		global $tpl;
+		
+		if (is_int(strpos($_POST["target"][0], ";")))
+		{
+			$_POST["target"] = explode(";", $_POST["target"][0]);
+		}
+		if (is_array($_POST["target"]))
+		{
+			$types = array();
+			
+			// check what content element types have been selected
+			foreach ($_POST["target"] as $t)
+			{
+				$tarr = explode(":", $t);
+				$cont_obj =& $this->page->getContentObject($tarr[0], $tarr[1]);
+				if (is_object($cont_obj) && $cont_obj->getType() == "par")
+				{
+					$types["par"] = "par";
+				}
+				if (is_object($cont_obj) && $cont_obj->getType() == "sec")
+				{
+					$types["sec"] = "sec";
+				}
+			}
+		
+			$this->initCharacteristicForm($_POST["target"], $types);
+			$tpl->setContent($this->form->getHTML());
+		}
+		else
+		{
+			$this->ctrl->returnToParent($this);
+		}
+	}
+
+	/**
+	* Init map creation/update form
+	*/
+	function initCharacteristicForm($a_target, $a_types)
+	{
+		global $ilCtrl, $lng;
+		
+		
+		// edit form
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTitle($this->lng->txt("cont_choose_characteristic"));
+		
+		if ($a_types["par"] == "par")
+		{
+			$select_prop = new ilSelectInputGUI($this->lng->txt("cont_choose_characteristic_text"),
+				"char_par");
+			include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
+			$options = ilPCParagraphGUI::getCharacteristics();
+			$select_prop->setOptions($options);
+			$this->form->addItem($select_prop);
+		}
+		if ($a_types["sec"] == "sec")
+		{
+			$select_prop = new ilSelectInputGUI($this->lng->txt("cont_choose_characteristic_section"),
+				"char_sec");
+			include_once("./Services/COPage/classes/class.ilPCSectionGUI.php");
+			$options = ilPCSectionGUI::getCharacteristics();
+			$select_prop->setOptions($options);
+			$this->form->addItem($select_prop);
+		}
+		
+		foreach ($a_target as $t)
+		{
+			$hidden = new ilHiddenInputGUI("target[]");
+			$hidden->setValue($t);
+			$this->form->addItem($hidden);
+		}
+
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->addCommandButton("assignCharacteristic", $lng->txt("save"));
+		$this->form->addCommandButton("showPage", $lng->txt("cancel"));
+
+	}
+
+	/**
+	* Assign characteristic
+	*/
+	function assignCharacteristic()
+	{
+		$char_par = ilUtil::stripSlashes($_POST["char_par"]);
+		$char_sec = ilUtil::stripSlashes($_POST["char_sec"]);
+		if (is_array($_POST["target"]))
+		{
+			foreach ($_POST["target"] as $t)
+			{
+				$tarr = explode(":", $t);
+				$cont_obj =& $this->page->getContentObject($tarr[0], $tarr[1]);
+				if (is_object($cont_obj) && $cont_obj->getType() == "par")
+				{
+					$cont_obj->setCharacteristic($char_par);
+				}
+				if (is_object($cont_obj) && $cont_obj->getType() == "sec")
+				{
+					$cont_obj->setCharacteristic($char_sec);
+				}
+			}
+			$updated = $this->page->update();
 			if($updated !== true)
 			{
 				$_SESSION["il_pg_error"] = $updated;

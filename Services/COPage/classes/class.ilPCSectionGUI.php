@@ -47,6 +47,22 @@ class ilPCSectionGUI extends ilPageContentGUI
 	}
 
 	/**
+	* Get characteristics
+	*/
+	static function getCharacteristics()
+	{
+		global $lng;
+		
+		return  array("ilc_Block" => $lng->txt("cont_Block"),
+			"ilc_Mnemonic" => $lng->txt("cont_Mnemonic"),
+			"ilc_Remark" => $lng->txt("cont_Remark"),
+			"ilc_Example" => $lng->txt("cont_Example"),
+			"ilc_Additional" => $lng->txt("cont_Additional"),
+			"ilc_Special" => $lng->txt("cont_Special"),
+			"ilc_Excursus" => $lng->txt("cont_Excursus"));
+	}
+
+	/**
 	* execute command
 	*/
 	function &executeCommand()
@@ -101,13 +117,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
 		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
 			"characteristic");
-		$chars = array("ilc_Block" => $this->lng->txt("cont_Block"),
-			"ilc_Mnemonic" => $this->lng->txt("cont_Mnemonic"),
-			"ilc_Remark" => $this->lng->txt("cont_Remark"),
-			"ilc_Example" => $this->lng->txt("cont_Example"),
-			"ilc_Additional" => $this->lng->txt("cont_Additional"),
-			"ilc_Special" => $this->lng->txt("cont_Special"),
-			"ilc_Excursus" => $this->lng->txt("cont_Excursus"));
+		$chars = $this->getCharacteristics();
 		$selected = ($a_insert)
 			? "ilc_Block"
 			: $this->content_obj->getCharacteristic();

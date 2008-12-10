@@ -6199,7 +6199,13 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 ?>
 <#1359>
-ALTER TABLE file_usage ADD COLUMN usage_hist_nr INT NOT NULL DEFAULT 0;
+<?php
+if (!$ilDB->tableColumnExists("file_usage", "usage_hist_nr"))
+{
+	$query = "ALTER TABLE file_usage ADD COLUMN usage_hist_nr INT NOT NULL DEFAULT 0";
+	$res = $ilDB->query($query);
+}
+?>
 <#1360>
 ALTER TABLE file_usage DROP PRIMARY KEY;
 <#1361>
