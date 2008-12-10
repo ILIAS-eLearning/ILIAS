@@ -150,6 +150,7 @@ class ilSaxParser
 	* create parser
 	* 
 	* @access	private
+	* @throws ilSaxParserException or ILIAS Error
 	*/
 	function createParser()
 	{
@@ -183,6 +184,7 @@ class ilSaxParser
 	* open xml file
 	* 
 	* @access	private
+	* @throws ilSaxParserException or ILIAS Error
 	*/
 	function openXMLFile()
 	{
@@ -196,6 +198,7 @@ class ilSaxParser
 	* parse xml file
 	* 
 	* @access	private
+	* @throws ilSaxParserException or ILIAS Error
 	*/
 	function parse($a_xml_parser,$a_fp = null)
 	{
@@ -230,6 +233,7 @@ class ilSaxParser
 	 *
 	 * @param string $message
 	 * @param string $code
+	 * @throws ilSaxParserException or ILIAS Error
 	 */
 	protected function handleError($message, $code) {
 		if ($this->throwException) {

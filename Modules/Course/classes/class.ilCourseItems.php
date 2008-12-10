@@ -907,6 +907,10 @@ class ilCourseItems
 		return array($active,$inactive);
 	}
 	// STATIC
+	/**
+	 * @param int $a_item_id reference id of object in question
+	 * @return array array of item data
+	 */
 	function _getItem($a_item_id)
 	{
 		include_once 'Modules/Course/classes/class.ilObjCourse.php';
