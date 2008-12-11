@@ -22,10 +22,10 @@
         +-----------------------------------------------------------------------------+
 */
 
-require_once "Server.php";
-require_once "class.ilDAVLocks.php";
-require_once "class.ilDAVProperties.php";
-require_once 'class.ilObjectDAV.php';
+require_once "Services/WebDAV/classes/Server.php";
+require_once "Services/WebDAV/classes/class.ilDAVLocks.php";
+require_once "Services/WebDAV/classes/class.ilDAVProperties.php";
+require_once 'Services/WebDAV/classes/class.ilObjectDAV.php';
 
 require_once "Services/User/classes/class.ilObjUser.php";
 require_once('include/Unicode/UtfNormal.php');
