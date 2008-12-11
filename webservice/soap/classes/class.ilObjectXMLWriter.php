@@ -39,6 +39,14 @@ include_once "./classes/class.ilXmlWriter.php";
 
 class ilObjectXMLWriter extends ilXmlWriter
 {
+	const TIMING_DEACTIVATED = 0;
+	const TIMING_TEMPORARILY_AVAILABLE = 1;
+	const TIMING_PRESETTING = 2;
+	
+	const TIMING_VISIBILITY_OFF = 0;
+	const TIMING_VISIBILITY_ON = 1;
+	
+	
 	var $ilias;
 
 	var $xml;
@@ -114,7 +122,7 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	function getXML()
 	{
-		return $this->xmlDumpMem(FALSE);
+		return $this->xmlDumpMem(true);
 	}
 
 
@@ -149,12 +157,80 @@ class ilObjectXMLWriter extends ilXmlWriter
 			$attr = array('ref_id' => $ref_id, 'parent_id'=> $tree->getParentId(intval($ref_id)));
 			$attr['accessInfo'] = $this->__getAccessInfo($object,$ref_id);			
 			$this->xmlStartTag('References',$attr);
+			$this->__appendTimeTargets($ref_id);
 			$this->__appendOperations($ref_id,$object->getType());
 			$this->__appendPath ($ref_id);
 			$this->xmlEndTag('References');
 		}
 		$this->xmlEndTag('Object');
 	}
+	
+	/**
+	 * Append time target settings for items inside of courses 
+	 * @param int $ref_id Reference id of object
+	 * @return void
+	 */
+	public function __appendTimeTargets($a_ref_id)
+	{
+		global $tree;
+		
+		if(!$tree->checkForParentType($a_ref_id,'crs')) {
+			return;	
+		}
+		include_once('./Modules/Course/classes/class.ilCourseItems.php');
+		$time_targets = ilCourseItems::_getItem($a_ref_id);
+		
+		switch($time_targets['timing_type'])
+		{
+			case IL_CRS_TIMINGS_DEACTIVATED:
+				$type = self::TIMING_DEACTIVATED;
+				break;
+			case IL_CRS_TIMINGS_ACTIVATION:
+				$type = self::TIMING_TEMPORARILY_AVAILABLE;
+				break;
+			case IL_CRS_TIMINGS_PRESETTING:
+				$type = self::TIMING_PRESETTING;
+				break;
+			default:
+				$type = self::TIMING_DEACTIVATED;
+				break;
+		}
+		
+		$this->xmlStartTag('TimeTarget',array('type' => $type));
+		
+#		if($type == self::TIMING_TEMPORARILY_AVAILABLE)
+		{
+			$vis = $time_targets['visible'] == 0 ? self::TIMING_VISIBILITY_OFF : self::TIMING_VISIBILITY_ON;
+			$this->xmlElement('Timing',
+				array('starting_time' => $time_targets['timing_start'],
+					'ending_time' => $time_targets['timing_end'],
+					'visibility' => $vis));
+				
+		}
+#		if($type == self::TIMING_PRESETTING)
+		{
+			if($time_targets['changeable'] or 1)
+			{
+				$this->xmlElement('Suggestion',
+					array('starting_time' => $time_targets['suggestion_start'],
+						'ending_time' => $time_targets['suggestion_end'],
+						'changeable' => $time_targets['changeable'],
+						'earliest_start' => $time_targets['earliest_start'],
+						'latest_end' => $time_targets['latest_end']));
+			}
+			else
+			{
+				$this->xmlElement('Suggestion',
+					array('starting_time' => $time_targets['suggestion_start'],
+						'ending_time' => $time_targets['suggestion_end'],
+						'changeable' => $time_targets['changeable']));
+			}
+		}
+		$this->xmlEndTag('TimeTarget');
+		return;		
+	}
+	
+	
 
 	function __appendOperations($a_ref_id,$a_type)
 	{

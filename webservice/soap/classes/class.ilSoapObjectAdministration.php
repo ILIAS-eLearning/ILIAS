@@ -521,12 +521,22 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$xml_parser =& new ilObjectXMLParser($a_xml, true);
 		try {
 			$xml_parser->startParsing();
-		} catch (ilSaxParserException $se){
-			return $this->__raiseError($se->getMessage(), $se->getCode());
+		} 
+		catch (ilSaxParserException $se){
+			return $this->__raiseError($se->getMessage(),'Client');
+		}
+		catch(ilObjectXMLException $e) {
+			return $this->__raiseError($e->getMessage(),'Client');
 		}
 
 		foreach($xml_parser->getObjectData() as $object_data)
 		{
+			$res = $this->validateReferences('create',$object_data,$a_target_id);
+			if($this->isFault($res))
+			{
+				return $res;
+			}
+			
 			// Check possible subtype
 			if(!in_array($object_data['type'],$allowed))
 			{
@@ -590,6 +600,8 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 					$newObj->addTranslation($object_data["title"],$object_data["description"], $lng->getLangKey(), $lng->getLangKey());
 					break;
 			}
+			
+			$this->addReferences($newObj,$object_data);
 
 		}
 		$ref_id = $newObj->getRefId();
@@ -841,14 +853,19 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
 		// Include main header
 		include_once './include/inc.header.php';
-		global $rbacreview, $rbacsystem, $lng;
+		global $rbacreview, $rbacsystem, $lng,$ilAccess;
 
 		include_once './webservice/soap/classes/class.ilObjectXMLParser.php';
 		$xml_parser =& new ilObjectXMLParser($a_xml, true);
-		try {
+		try 
+		{
 			$xml_parser->startParsing();
-		} catch (ilSaxParserException $se){
-			return $this->__raiseError($se->getMessage(), $se->getCode());
+		} 
+		catch (ilSaxParserException $se){
+			return $this->__raiseError($se->getMessage(),'Client');
+		}
+		catch(ilObjectXMLException $e) {
+			return $this->__raiseError($e->getMessage(),'Client');
 		}
 
 
@@ -856,6 +873,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$object_datas = $xml_parser->getObjectData();
 		foreach($object_datas as & $object_data)
 		{
+			$res = $this->validateReferences('update',$object_data);
+			if($this->isFault($res))
+			{
+				return $res;
+			}
+
+
 			if(!$object_data["obj_id"])
 			{
 				return $this->__raiseError('No obj_id in xml found.', 'Client');
@@ -926,10 +950,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		{
 			foreach($object_datas as $object_data)
 			{
+				$this->updateReferences($object_data);
+				
 				$tmp_obj = $object_data["instance"];
 				$tmp_obj->setTitle($object_data['title']);
 				$tmp_obj->setDescription($object_data['description']);
-				switch ($object_data['type']) {
+				switch ($object_data['type']) 
+				{
 					case 'cat':
 						$tmp_obj->updateTranslation($object_data["title"],$object_data["description"], $lng->getLangKey(), $lng->getLangKey());
 						break;
@@ -1211,6 +1238,197 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		
 		return true;		
 	}
+	
+	private function validateReferences($a_action,$a_object_data,$a_target_id = 0)
+	{
+		global $ilAccess;
+		
+		if(!isset($a_object_data['references']) or !count($a_object_data['references']))
+		{
+			return true;
+		}
+		if($a_action == 'create') 
+		{
+			if(count($a_object_data['references']) > 1)
+			{
+				if(in_array($a_object_data['type'],array('cat','crs','grp','fold')))
+				{
+					return $this->__raiseError("Cannot create references for type ".$a_object_data['type'],
+						'Client');
+				}
+			}
+			if(count($a_object_data['references']) == 1)
+			{
+				if($a_target_id != $a_object_data['references'][0]['parent_id'])
+				{
+					return $this->__raiseError("Cannot create references for type ".$a_object_data['type'],
+						'Client');
+				}
+			}
+			
+			foreach($a_object_data['references'] as $ref_data)
+			{
+				if(!$ref_data['parent_id']) 
+				{
+					return $this->__raiseError('Element References: No parent Id given!','Client');
+				}
+
+				$target_type = ilObject::_lookupType(ilObject::_lookupObjId($ref_data['parent_id']));
+				$can_add_type = $this->canAddType($a_object_data['type'],$target_type,$ref_data['parent_id']);
+				if($this->isFault($can_add_type))
+				{
+					return $can_add_type;
+				}
+			}
+			return true;
+		}
+		
+		if($a_action == 'update')
+		{
+			foreach($a_object_data['references'] as $ref_data)
+			{
+				if(!$ref_data['ref_id'])
+				{
+					return $this->__raiseError('Element References: No reference id given!','Client');
+				}
+				// check permissions
+				if(!$ilAccess->checkAccess('write','',$ref_data['ref_id']))
+				{
+					return $this->__raiseError('No write permission for object with reference id '.$ref_data['ref_id'].'!', 'Client');
+				}
+				// TODO: check if all references belong to the same object
+			}
+			return true;
+		}
+	}
+	
+	private function updateReferences($a_object_data)
+	{
+		global $tree,$ilLog;
+		
+		if(!isset($a_object_data['references']) or !count($a_object_data['references']))
+		{
+			return true;
+		}
+		
+		foreach($a_object_data['references'] as $ref_data)
+		{
+			if(isset($ref_data['time_target']) and ($crs_ref_id = $tree->checkForParentType($ref_data['ref_id'],'crs')))
+			{
+				$crs_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id,false);
+				include_once('./Modules/Course/classes/class.ilCourseItems.php');
+				include_once('./webservice/soap/classes/class.ilObjectXMLWriter.php');
+				
+				
+				$items = new ilCourseItems($crs_obj,$ref_data['parent_id']);
+				$old = $items->getItem($ref_data['ref_id']);
+				
+				$items->toggleChangeable(isset($ref_data['time_target']['changeable']) ? $ref_data['time_target']['changeable'] : $old['changeable']);
+				$items->setTimingStart(isset($ref_data['time_target']['starting_time']) ? $ref_data['time_target']['starting_time'] : $old['timing_start']);
+				$items->setTimingEnd(isset($ref_data['time_target']['ending_time']) ? $ref_data['time_target']['ending_time'] : $old['timing_end']);
+				$items->toggleVisible(isset($ref_data['time_target']['timing_visibility']) ? $ref_data['time_target']['timing_visibility'] : $old['visible']);
+				$items->setSuggestionStart(isset($ref_data['time_target']['suggestion_start']) ? $ref_data['time_target']['suggestion_start'] : $old['suggestion_start']);
+				$items->setSuggestionEnd(isset($ref_data['time_target']['suggestion_end']) ? $ref_data['time_target']['suggestion_end'] : $old['suggestion_end']);
+				$items->setEarliestStart(isset($ref_data['time_target']['earliest_start']) ? $ref_data['time_target']['earliest_start'] : $old['earliest_start']);
+				$items->setLatestEnd(isset($ref_data['time_target']['latest_end']) ? $ref_data['time_target']['latest_end'] : $old['latest_end']);
+				
+				switch($ref_data['time_target']['timing_type']) 
+				{
+					case ilObjectXMLWriter::TIMING_DEACTIVATED:
+						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_DEACTIVATED.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(IL_CRS_TIMINGS_DEACTIVATED);
+						break;
+						
+					case ilObjectXMLWriter::TIMING_TEMPORARILY_AVAILABLE:
+						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_ACTIVATION.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(IL_CRS_TIMINGS_ACTIVATION);
+						break;
+					
+					case ilObjectXMLWriter::TIMING_PRESETTING:
+						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_PRESETTING.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(IL_CRS_TIMINGS_PRESETTING);
+						break;
+				}
+				$items->update($ref_data['ref_id']);
+			}
+		}
+		return true;
+	}
+	
+	
+	private function addReferences($source,$a_object_data)
+	{
+		global $tree,$ilLog;
+		
+		if(!isset($a_object_data['references']) or !count($a_object_data['references']))
+		{
+			return true;
+		}
+		
+		$original_id = $source->getRefId();
+		
+		foreach($a_object_data['references'] as $ref_data)
+		{
+			$new_ref_id = $ref_id = $original_id;
+			if($tree->getParentId($original_id) != $ref_data['parent_id'])
+			{
+				// New reference requested => create it
+				$new_ref_id = $source->createReference();
+				$source->putInTree($ref_data['parent_id']);
+				$source->setPermissions($ref_data['parent_id']);
+				$source->initDefaultRoles();
+			}
+			if(isset($ref_data['time_target']) and ($crs_ref_id = $tree->checkForParentType($new_ref_id,'crs')))
+			{
+				
+				$crs_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id,false);
+				include_once('./Modules/Course/classes/class.ilCourseItems.php');
+				include_once('./webservice/soap/classes/class.ilObjectXMLWriter.php');
+				
+				$items = new ilCourseItems($crs_obj,$ref_data['parent_id']);
+				
+				if(!isset($ref_data['time_target']['starting_time']))
+				{
+					$ref_data['time_target']['starting_time'] = time();
+				}
+				if(!isset($ref_data['time_target']['ending_time']))
+				{
+					$ref_data['time_target']['ending_time'] = time();
+				}
+				
+				$items->toggleChangeable($ref_data['time_target']['changeable']);
+				$items->setTimingStart($ref_data['time_target']['starting_time']);
+				$items->setTimingEnd($ref_data['time_target']['ending_time']);
+				$items->toggleVisible($ref_data['time_target']['timing_visibility']);
+				$items->setSuggestionStart($ref_data['time_target']['suggestion_start']);
+				$items->setSuggestionEnd($ref_data['time_target']['suggestion_end']);
+				$items->setEarliestStart($ref_data['time_target']['earliest_start']);
+				$items->setLatestEnd($ref_data['time_target']['latest_end']);
+				
+				switch($ref_data['time_target']['timing_type']) 
+				{
+					case ilObjectXMLWriter::TIMING_DEACTIVATED:
+						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_DEACTIVATED.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(IL_CRS_TIMINGS_DEACTIVATED);
+						break;
+						
+					case ilObjectXMLWriter::TIMING_TEMPORARILY_AVAILABLE:
+						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_ACTIVATION.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(IL_CRS_TIMINGS_ACTIVATION);
+						break;
+					
+					case ilObjectXMLWriter::TIMING_PRESETTING:
+						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_PRESETTING.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(IL_CRS_TIMINGS_PRESETTING);
+						break;
+				}
+				$items->update($new_ref_id);
+			}
+		}
+		
+	}
+	
+	
 
 }
 ?>
