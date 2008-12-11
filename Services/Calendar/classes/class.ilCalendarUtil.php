@@ -141,11 +141,18 @@ class ilCalendarUtil
 		$next_year = $a_month == 12 ? $a_year + 1 : $a_year;
 		
 		$days_in_month = self::_getMaxDayOfMonth($a_year,$a_month);
-
 		$days_in_prev_month = self::_getMaxDayOfMonth($a_year,$prev_month);
 		
-		$weekday = date('w',gmmktime(0,0,0,$a_month,1,$a_year));
+		$week_day['year'] = $a_year;
+		$week_day['mon'] = $a_month;
+		$week_day['mday'] = 1;
+		$week_day['hours'] = 0;
+		$week_day['minutes'] = 0;
+		$week_day = new ilDate($week_day,IL_CAL_FKT_GETDATE);
+		
+		$weekday = $week_day->get(IL_CAL_FKT_DATE,'w');
 		$first_day_offset = (($weekday - $weekstart) < 0) ? 6 : $weekday - $weekstart; 
+
 
 		for($i = 0;$i < 42;$i++)
 		{
