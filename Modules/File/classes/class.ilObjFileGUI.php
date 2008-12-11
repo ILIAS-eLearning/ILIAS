@@ -374,11 +374,11 @@ class ilObjFileGUI extends ilObjectGUI
 				{
 					if (strlen($titleExtension) == 0)
 					{
-						$title .= (substr($_POST['Fobject']['title'], -1) == '.') ? $fileExtension : '.'.$fileExtension;
+						$title .= (substr($title, -1) == '.') ? $fileExtension : '.'.$fileExtension;
 					}
 					else
 					{
-						$title = substr($_POST['Fobject']['title'], -strlen($titleExtension)).'.'.$fileExtension;
+						$title = substr($title, 0, -strlen($titleExtension)).$fileExtension;
 					}
 				}
 				// END WebDAV: Enforce filename extension in object title.
