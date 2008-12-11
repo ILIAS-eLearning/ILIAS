@@ -54,7 +54,7 @@ class ilObjFileAccessSettings extends ilObject
 	 * Boolean property. Set this to true, to use customized mount instructions.
 	 * If the value is false, the default mount instructions are used.
 	 */
-	private $customWefolderInstructionsEnabled;
+	private $customWebfolderInstructionsEnabled;
 
 	/**
 	 * String property. Customized mount instructions for WebDAV access to files.
@@ -240,7 +240,7 @@ class ilObjFileAccessSettings extends ilObject
 		require_once 'Services/Administration/classes/class.ilSetting.php';
 		$settings = new ilSetting('file_access');
 		$settings->set('inline_file_extensions', $this->inlineFileExtensions);
-		$settings->set('custom_webfolder_instructions_enabled', $this->isCustomWebfolderInstructionsEnabled ? '1' : '0');
+		$settings->set('custom_webfolder_instructions_enabled', $this->customWebfolderInstructionsEnabled ? '1' : '0');
 		$settings->set('custom_webfolder_instructions', $this->customWebfolderInstructions);
 	}
 	/**
