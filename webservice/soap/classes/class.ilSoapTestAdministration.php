@@ -95,6 +95,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError("The required user information is only available for active users.", "");
 		}
+		
+		if (is_array($solution) && (array_key_exists("item", $solution))) $solution = $solution["item"];
 
 		// Include main header
 		include_once './include/inc.header.php';
