@@ -6260,3 +6260,68 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1369>
+<?php
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+	" AND title = 'cert'";
+$res = $this->db->query($query);
+if ($res->numRows() == 0)
+{
+	// register new object type 'cert' for certificate settings
+	$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+			"VALUES ('typ', 'cert', 'Certificate settings', -1, now(), now())";
+	$this->db->query($query);
+
+	// ADD NODE IN SYSTEM SETTINGS FOLDER
+	// create object data entry
+	$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+			"VALUES ('cert', '__CertificateSettings', 'Certificate Settings', -1, now(), now())";
+	$this->db->query($query);
+
+	$query = "SELECT LAST_INSERT_ID() as id";
+	$res = $this->db->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+	// create object reference entry
+	$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+	$res = $this->db->query($query);
+
+	$query = "SELECT LAST_INSERT_ID() as id";
+	$res = $this->db->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
+	// put in tree
+	$tree = new ilTree(ROOT_FOLDER_ID);
+	$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+
+	$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
+		" AND title = 'cert'";
+	$res = $this->db->query($query);
+	$row = $res->fetchRow();
+	$typ_id = $row[0];
+
+	// add rbac operations for certificate settings
+	// 1: edit_permissions, 2: visible, 3: read, 4:write
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+	$this->db->query($query);
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+	$this->db->query($query);
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+	$this->db->query($query);
+	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+	$this->db->query($query);
+}
+?>
+<#1370>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1371>
+<?php
+// add 'manual' field in tst_test_result table to indicate manual scoring
+if (!$ilDB->tableColumnExists("tst_test_result", "manual"))
+{
+	$query = "ALTER TABLE `tst_test_result` ADD `manual` TINYINT NOT NULL DEFAULT '0'";
+	$res = $ilDB->query($query);
+}
+?>
