@@ -1,0 +1,68 @@
+<!-- ilias_obj.dtd -->
+<!ELEMENT Objects (Object*)>
+<!ELEMENT Object (Title, Description?, Owner, CreateDate?, LastUpdate?, ImportId?, References*)>
+<!ATTLIST Object
+    type CDATA #REQUIRED
+    obj_id CDATA #IMPLIED
+>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!ELEMENT Owner (#PCDATA)>
+<!ELEMENT CreateDate (#PCDATA)>
+<!ELEMENT LastUpdate (#PCDATA)>
+<!ELEMENT ImportId (#PCDATA)>
+<!ELEMENT References (TimeTarget?,Operation*, Path?)>
+<!-- accesInfo is 'granted','no_permission',missing_precondition','no_object_access','no_parent_access' or 'object_deleted' -->
+<!ATTLIST References
+    ref_id CDATA #REQUIRED
+    parent_id CDATA #IMPLIED 
+    accessInfo (granted|no_permission|missing_precondition|no_object_access|no_parent_access|object_deleted) #IMPLIED
+>
+<!ELEMENT TimeTarget (Timing?,Suggestion?) >
+
+<!--
+	Time target type is:
+		0 => Deactivated (no time targets)
+		1 => Temporarily available
+		2 => Presettings enabled
+		
+	Visibility normally used in combination with type=1
+		0 => not visible outside availability
+		1 => visible outside availability
+-->
+<!ATTLIST TimeTarget
+	type CDATA #REQUIRED
+>
+
+<!-- Timing used in combination with timing type=1
+	starting_time => Unix time of start
+	ending_time => Unix time of end
+--> 
+<!ELEMENT Timing EMPTY>
+<!ATTLIST Timing
+	starting_time CDATA #REQUIRED
+	ending_time CDATA #REQUIRED
+	visibility CDATA #REQUIRED
+>
+
+<!-- Presetting used in combination with timing type=2
+	starting_time => Unix time of start
+	ending_time => Unix time of end
+	earliest_start => Unix time of earliest start
+	latest_end => Unix time of latest end
+--> 
+<!ELEMENT Suggestion EMPTY>
+<!ATTLIST Suggestion
+	starting_time CDATA #REQUIRED
+	ending_time CDATA #REQUIRED
+	changeable CDATA #REQUIRED
+	earliest_start CDATA #IMPLIED
+	latest_end CDATA #IMPLIED
+>
+	
+<!ELEMENT Operation (#PCDATA)>
+<!ELEMENT Path (Element*)>
+<!ELEMENT Element (#PCDATA)>
+<!ATTLIST Element
+	ref_id CDATA #REQUIRED
+	type CDATA #REQUIRED>
