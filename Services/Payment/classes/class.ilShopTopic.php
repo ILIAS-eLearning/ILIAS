@@ -133,6 +133,13 @@ class ilShopTopic
 					  AND ptus_pt_topic_fk = ".$this->db->quote($this->id)." ";			
 			$this->db->query($query);
 			
+			$query = "UPDATE payment_objects
+					  SET pt_topic_fk = ?
+					  WHERE 1
+					  AND pt_topic_fk = ? ";
+			$statement = $this->db->prepareManip($query, array('integer', 'integer'));
+			$result = $this->db->execute($statement, array(0, $this->id));
+			
 			return true;
 		}
 		
