@@ -270,6 +270,19 @@ class ilObjFile extends ilObject
 		ilUtil::delDir($this->getDirectory());
 		$this->createDirectory();
 	}
+	
+	public function deleteVersions()
+	{
+		global $ilDB;
+		
+		$ilDB->query("UPDATE file_data SET version = 1 WHERE file_id = ".$ilDB->quote($this->getId()));
+		$this->setVersion(0);
+		$this->clearDataDirectory();
+		
+		require_once("classes/class.ilHistory.php");
+		ilHistory::_removeEntriesForObject($this->getId());
+		
+	}
 
 	/**
 	* read file properties
