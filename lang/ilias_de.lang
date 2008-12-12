@@ -8461,7 +8461,7 @@ assessment#:#final_statement#:#Abschließende Bemerkung
 assessment#:#final_statement_show#:#Abschließende Bemerkung anzeigen
 assessment#:#final_statement_show_desc#:#Wenn diese Option ausgewählt ist, wird die Abschließende Bemerkung direkt nach dem finalen Beenden eines Tests anzeigt.
 assessment#:#showinfo#:#Komplette Info-Seite anzeigen
-assessment#:#showinfo_desc#:#Wenn diese Option ausgewählt ist, wird die komplette Info-Seite (inklusive aller Test-Eigenschaften) für die Test-Teilnehmer angezeigt. Wenn diese Option nicht ausgewählt ist, werden lediglich der einleitende Test (falls vorhanden) und die wirklich benötigten Test-Eigenschaften auf der Info-Seite angezeigt.
+assessment#:#showinfo_desc#:#Wenn diese Option ausgewählt ist, wird die komplette Info-Seite (inklusive aller Test-Eigenschaften) für die Test-Teilnehmer angezeigt. Wenn diese Option nicht ausgewählt ist, werden lediglich der einleitende Text (falls vorhanden) und die wirklich benötigten Test-Eigenschaften auf der Info-Seite angezeigt.
 assessment#:#forcejs#:#JavaScript für die Ausgabe von Testfragen erzwingen
 assessment#:#forcejs_short#:#JavaScript erzwingen
 assessment#:#forcejs_desc#:#Wenn diese Option ausgewählt ist, wird bei allen Testfragen die JavaScript-basierte Ausgabe herkömmlichen Ausgabe vorgezogen.
