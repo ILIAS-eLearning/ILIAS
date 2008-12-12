@@ -8770,3 +8770,6 @@ common#:#user_status#:#Benutzerstatus
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
 assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
 assessment#:#manscoring_pending#:#Teilweise bewertete Teilnehmer
+file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
+file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
+file#:#file_new_version#:#Neue Version anlegen

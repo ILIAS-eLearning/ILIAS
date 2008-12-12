@@ -47,6 +47,7 @@ class ilObjFileGUI extends ilObjectGUI
 	{
 		$this->type = "file";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
+		$this->lng->loadLanguageModule('file');
 	}
 	
 	function _forwards()
@@ -454,13 +455,92 @@ class ilObjFileGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		$data = $_FILES["Fobject"];
+		$this->tabs_gui->setTabActive('edit');
+		
+		$this->initPropertiesForm('edit');
+		if(!$this->form->checkInput())
+		{
+			$this->form->setValuesByPost();
+			$this->tpl->setContent($this->form->getHTML());
+			return false;	
+		}
+		
+		$data = $this->form->getInput('file');		
 
 		// delete trailing '/' in filename
-		while (substr($data["name"]["file"],-1) == '/')
+		while (substr($data["name"],-1) == '/')
 		{
-			$data["name"]["file"] = substr($data["name"]["file"],0,-1);
+			$data["name"] = substr($data["name"],0,-1);
 		}
+		
+		if(strlen($this->form->getInput('title')))
+		{
+			$this->object->setTitle($this->form->getInput('title'));
+		}
+		elseif(isset($data['name']))
+		{
+			$this->object->setTitle($data['name']);
+		}
+		$fileExtension = ilObjFileAccess::_getFileExtension(
+			isset($data['name']) ?
+				$data['name'] :
+				$this->object->getFilename());
+				
+		$titleExtension = ilObjFileAccess::_getFileExtension($this->object->getTitle());
+		if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
+		{
+				if (strlen($titleExtension) == 0)
+				{
+					$title = $this->object->getTitle();
+					$title .= (substr($this->object->getTitle(), -1) == '.') ? $fileExtension : '.'.$fileExtension;
+					$this->object->setTitle($title);
+				}
+				else
+				{
+					$this->object->setTitle(substr($this->object->getTitle(),0,-strlen($titleExtension)).$fileExtension);
+				}
+		}
+
+		if (!empty($data["name"]["file"]))
+		{
+			switch($this->form->getInput('replace'))
+			{
+				case 1:
+					$this->object->deleteVersions();
+					$this->object->clearDataDirectory();
+				case 0:
+					$this->object->replaceFile($data['tmp_name'],$data['name']);
+					$this->object->setFileName($data['name']);
+					$this->object->setFileType($data['type']);
+					$this->object->setFileSize($data['size']);
+			}
+		}
+		$this->object->setDescription($this->form->getInput('description'));
+		
+		$this->update = $this->object->update();
+
+		// BEGIN ChangeEvent: Record update event.
+		if (!empty($data["name"]))
+		{
+			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
+			if (ilChangeEvent::_isActive())
+			{
+				global $ilUser;
+				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
+			}
+		}
+		// END ChangeEvent: Record update event.
+		
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit'));
+		return true;
+
+		
+		
+		
+		$data = $_FILES["Fobject"];
+
 
 		if (empty($data["name"]["file"]) && empty($_POST["Fobject"]["title"]))
 		{
@@ -537,6 +617,15 @@ class ilObjFileGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		$this->tabs_gui->setTabActive('edit');
+
+		$this->initPropertiesForm('edit');
+		$this->getPropertiesValues('edit');
+		
+		$this->tpl->setContent($this->form->getHTML());
+		return true;
+
+
 		$fields = array();
 
 		if ($_SESSION["error_post_vars"])
@@ -569,6 +658,62 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "update");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		//$this->tpl->parseCurrentBlock();
+	}
+	
+	protected function getPropertiesValues($a_mode = 'edit')
+	{
+		if($a_mode == 'edit')
+		{
+			$val['title'] = $this->object->getTitle();
+			$val['description'] = $this->object->getLongDescription();
+			$this->form->setValuesByArray($val);
+		}
+		return true;
+	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	protected function initPropertiesForm($a_mode)
+	{
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this),'update');
+		$this->form->setTitle($this->lng->txt('file_edit'));
+		$this->form->addCommandButton('update',$this->lng->txt('save'));
+		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+			
+		#$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		#$title->setValue($this->object->getTitle());
+		#$this->form->addItem($title);
+		
+		
+		$file = new ilFileInputGUI($this->lng->txt('obj_file'),'file');
+		$file->setRequired(false);
+		$file->enableFileNameSelection('title');
+		$this->form->addItem($file);
+		
+			$group = new ilRadioGroupInputGUI('','replace');
+			$group->setValue(0);
+			
+			$replace = new ilRadioOption($this->lng->txt('replace_file'),1);
+			$replace->setInfo($this->lng->txt('replace_file_info'));
+			$group->addOption($replace);
+			
+			
+			$keep = new ilRadioOption($this->lng->txt('file_new_version'),0);
+			$keep->setInfo($this->lng->txt('file_new_version_info'));
+			$group->addOption($keep);
+		
+		$file->addSubItem($group);
+			
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'description');
+		$desc->setRows(3);
+		#$desc->setCols(40);
+		$this->form->addItem($desc);
 	}
 	
 	function sendFileObject()
