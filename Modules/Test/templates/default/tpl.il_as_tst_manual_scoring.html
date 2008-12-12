@@ -1,16 +1,28 @@
 <form name="formManualScoring" action="{FORMACTION}" method="post">
-<p>
-{TEXT_SELECT_USER}: 
-	<select name="participants" id="participants" onchange="javascript:document.formManualScoring.submit();">
-		<option value="0">{PLEASE_SELECT}</option>
+<table class="fullwidth">
+	<tr class="std">
+		<td class="submit">
+			<div id="filterpanel">
+				<select name="userfilter" id="userfilter" class="{FILTER_CLASS_USERFILTER}" onchange="javascript:document.formManualScoring.submit();">
+					<option value="0">{SELECT_USERFILTER}</option>
+<!-- BEGIN userfilter -->
+					<option value="{VALUE_USERFILTER}"{SELECTED_USERFILTER}>{TEXT_USERFILTER}</option>
+<!-- END userfilter -->
+				</select>
+				<select name="participants" id="participants" class="{FILTER_CLASS}" onchange="javascript:document.formManualScoring.submit();">
+					<option value="0">{PLEASE_SELECT}</option>
 <!-- BEGIN participants -->
-		<option value="{ID_PARTICIPANT}"{SELECTED_PARTICIPANT}>{TEXT_PARTICIPANT}</option>
+					<option value="{ID_PARTICIPANT}"{SELECTED_PARTICIPANT}>{TEXT_PARTICIPANT}</option>
 <!-- END participants -->
-	</select>
-	<input type="submit" class="submit" name="cmd[selectParticipant]" value="{BUTTON_SELECT}" />
-</p>
-{PASS_OVERVIEW}
+				</select>
+				<input type="submit" class="submit" name="cmd[scoringfilter]" value="{BUTTON_SELECT}" />
+				<input type="submit" class="submit" name="cmd[scoringfilterreset]" value="{BUTTON_RESET}" />
+			</div>
+		</td>
+	</tr>
+</table>
 </form>
+{PASS_OVERVIEW}
 {SCORING_DATA}
 <!-- BEGIN lastchanged -->
 <script type="text/javascript">

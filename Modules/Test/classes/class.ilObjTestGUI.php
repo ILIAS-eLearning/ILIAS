@@ -5801,7 +5801,7 @@ class ilObjTestGUI extends ilObjectGUI
 					// scoring tab
 					$tabs_gui->addTarget("manscoring",
 						 $this->ctrl->getLinkTargetByClass("iltestscoringgui", "manscoring"),
-						 array("manscoring", "selectParticipant", "setPointsManual", "setFeedbackManual"),
+						 array("manscoring", "scoringfilter", "scoringfilterreset", "setPointsManual", "setFeedbackManual"),
 						 "");
 				}
 			}
