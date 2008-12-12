@@ -136,11 +136,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$participantsfilter = ($userfiltervalue) ? $userfiltervalue : 0;
 		$participants =& $this->object->getTestParticipantsForManualScoring($participantsfilter);
 		if (!array_key_exists($active_id, $participants)) $active_id = 0;
-		if (count($participants) == 0)	
-		{
-			ilUtil::sendInfo($this->lng->txt("tst_participants_no"));
-			return;
-		}
+
+		$this->ctrl->setParameter($this, "active_id", $active_id);
+		$this->ctrl->setParameter($this, "userfilter", $userfiltervalue);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_manual_scoring.html", "Modules/Test");
 
