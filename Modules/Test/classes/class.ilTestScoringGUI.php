@@ -49,7 +49,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		parent::ilTestServiceGUI($a_object);
 		$this->ctrl->saveParameter($this, "active_id");
 		$this->ctrl->saveParameter($this, "userfilter");
-		$this->ctrl->saveParameter($this, "scoredfilter");
 		$this->ctrl->saveParameter($this, "pass");
 	}
 	
@@ -108,7 +107,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
 		$active_id = (strlen($_POST["participants"])) ? $_POST["participants"] : ((strlen($_GET["active_id"])) ? $_GET["active_id"] : 0);
 		$userfiltervalue = (strlen($_POST["userfilter"])) ? $_POST["userfilter"] : ((strlen($_GET["userfilter"])) ? $_GET["userfilter"] : 0);
-		$scoredfiltervalue = (strlen($_POST["scoredfilter"])) ? $_POST["scoredfilter"] : ((strlen($_GET["scoredfilter"])) ? $_GET["scoredfilter"] : 0);
 
 		if (strcmp($this->ctrl->getCmd(), "scoringfilterreset") == 0)
 		{
@@ -135,7 +133,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			}
 		}
 		
-		$participantsfilter = ($userfiltervalue) ? $userfiltervalue : (($scoredfiltervalue) ? $scoredfiltervalue : 0);
+		$participantsfilter = ($userfiltervalue) ? $userfiltervalue : 0;
 		$participants =& $this->object->getTestParticipantsForManualScoring($participantsfilter);
 		if (!array_key_exists($active_id, $participants)) $active_id = 0;
 		if (count($participants) == 0)	
@@ -174,7 +172,14 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("TEXT_PARTICIPANT", $this->object->userLookupFullName($data->usr_id, FALSE, TRUE, $suffix)); 
 			$this->tpl->parseCurrentBlock();
 		}
-		$userfilter = array("1" => $this->lng->txt("usr_active_only"), "2" => $this->lng->txt("usr_inactive_only"), "3" => $this->lng->txt("all_users"));
+		$userfilter = array(
+			"1" => $this->lng->txt("usr_active_only"), 
+			"2" => $this->lng->txt("usr_inactive_only"), 
+			//"3" => $this->lng->txt("all_users"),
+			"4" => $this->lng->txt("manscoring_done"), 
+			"5" => $this->lng->txt("manscoring_none"), 
+			//"6" => $this->lng->txt("manscoring_pending")
+		);
 		foreach ($userfilter as $selection => $filtertext)
 		{
 			$this->tpl->setCurrentBlock("userfilter");
@@ -186,18 +191,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		$scoredfilter = array("4" => $this->lng->txt("manscoring_done"), "5" => $this->lng->txt("manscoring_none"), "6" => $this->lng->txt("manscoring_pending"));
-		foreach ($scoredfilter as $selection => $filtertext)
-		{
-			$this->tpl->setCurrentBlock("scoredfilter");
-			$this->tpl->setVariable("VALUE_SCOREDFILTER", $selection); 
-			$this->tpl->setVariable("TEXT_SCOREDFILTER", $filtertext); 
-			if ($scoredfiltervalue == $selection)
-			{
-				$this->tpl->setVariable("SELECTED_SCOREDFILTER", " selected=\"selected\""); 
-			}
-			$this->tpl->parseCurrentBlock();
-		}
 		
 		$this->tpl->setVariable("PLEASE_SELECT", $this->lng->txt("participants"));
 		$this->tpl->setVariable("SELECT_USERFILTER", $this->lng->txt("user_status"));
@@ -206,7 +199,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("BUTTON_RESET", $this->lng->txt("reset"));
 		$this->tpl->setVariable("FILTER_CLASS", ($active_id) ? "filteractive" : "filterinactive");
 		$this->tpl->setVariable("FILTER_CLASS_USERFILTER", ($userfiltervalue) ? "filteractive" : "filterinactive");
-		$this->tpl->setVariable("FILTER_CLASS_SCOREDFILTER", ($scoredfiltervalue) ? "filteractive" : "filterinactive");
 		$this->tpl->setVariable("TEXT_SELECT_USER", $this->lng->txt("manscoring_select_user"));
 		
 		if ($active_id > 0)
