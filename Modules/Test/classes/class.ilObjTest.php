@@ -7501,7 +7501,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 						{
 							if ($row["manual"]) $found++;
 						}
-						if ($found < $count) $filtered_participants[$active_id] = $participant;
+						if ($found == 0) $filtered_participants[$active_id] = $participant;
+						break;
+					case 6:
+						// partially scored participants
+						$found = 0;
+						while ($row = $ilDB->fetchAssoc($result))
+						{
+							if ($row["manual"]) $found++;
+						}
+						if (($found > 0) && ($found < $count)) $filtered_participants[$active_id] = $participant;
 						break;
 					default:
 						$filtered_participants[$active_id] = $participant;

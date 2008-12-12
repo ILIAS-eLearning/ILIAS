@@ -8786,3 +8786,6 @@ dateplaner#:#cal_delete_app_sure#:#Do you really want to delete the following ap
 dateplaner#:#cal_deleted_app#:#The selected appointments have been deleted.
 common#:#to_filter#:#Filter
 common#:#user_status#:#User Status
+assessment#:#manscoring_done#:#Scored Participants
+assessment#:#manscoring_none#:#Unscored Participants
+assessment#:#manscoring_pending#:#Partially Scored Participants

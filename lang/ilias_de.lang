@@ -8767,3 +8767,6 @@ dateplaner#:#cal_delete_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termi
 dateplaner#:#cal_deleted_app#:#Die ausgewählten Termine wurden gelöscht.
 common#:#to_filter#:#Filtern
 common#:#user_status#:#Benutzerstatus
+assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
+assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
+assessment#:#manscoring_pending#:#Teilweise bewertete Teilnehmer
