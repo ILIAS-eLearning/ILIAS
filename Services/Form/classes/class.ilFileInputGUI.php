@@ -28,8 +28,11 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilFileInputGUI extends ilFormPropertyGUI
+class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 {
+	private $filename;
+	private $filename_post;
+	
 	
 	/**
 	* Constructor
@@ -51,6 +54,7 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	function setValueByArray($a_values)
 	{
 		$this->setValue($a_values[$this->getPostVar()]);
+		$this->setFilename($a_values[$this->getFileNamePostVar()]);
 	}
 
 	/**
@@ -72,6 +76,28 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	{
 		return $this->value;
 	}
+	
+	/**
+	 * Set filename value (if filename selection is enabled)
+	 *  
+	 * @param string $a_val
+	 */
+	public function setFilename($a_val)
+	{
+		$this->filename = $a_val;
+	}
+	
+	/**
+	* Get Value.
+	*
+	* @return	string	Value
+	*/
+	function getFilename()
+	{
+		return $this->filename;
+	}
+	
+	
 
 	/**
 	* Set Accepted Suffixes.
@@ -103,7 +129,7 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	public function enableFileNameSelection($a_post_var)
 	{
 	 	$this->filename_selection = true;
-	 	$this->filename = $a_post_var;
+	 	$this->filename_post = $a_post_var;
 	}
 	
 	/**
@@ -126,7 +152,7 @@ class ilFileInputGUI extends ilFormPropertyGUI
 	 */
 	public function getFileNamePostVar()
 	{
-	 	return $this->filename;
+	 	return $this->filename_post;
 	}
 
 	/**
@@ -236,6 +262,7 @@ class ilFileInputGUI extends ilFormPropertyGUI
 		{
 			$a_tpl->setCurrentBlock('filename');
 			$a_tpl->setVariable('POST_FILENAME',$this->getFileNamePostVar());
+			$a_tpl->setVariable('VAL_FILENAME',$this->getFilename());
 			$a_tpl->setVariable('FILENAME_ID',$this->getFieldId());
 			$a_tpl->setVAriable('TXT_FILENAME_HINT',$lng->txt('if_no_title_then_filename'));
 			$a_tpl->parseCurrentBlock();
