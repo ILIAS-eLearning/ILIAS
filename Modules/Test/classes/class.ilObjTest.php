@@ -7430,7 +7430,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		if ($this->getAnonymity())
 		{
-			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi AS usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi AS usr_id, '' AS login, %s AS lastname, '' AS firstname, tst_active.submitted as test_finished, usr_data.matriculation, usr_data.active, IF(tst_active.active_id IS NULL,0,1) as test_started ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 				$ilDB->quote($this->lng->txt("unknown")),
 				$ilDB->quote($this->getTestId())
@@ -7438,7 +7438,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		else
 		{
-			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi AS usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, IF(tst_active.active_id IS NULL,0,1) as test_started ".
+			$q = sprintf("SELECT tst_active.active_id, tst_active.tries, tst_active.user_fi AS usr_id, usr_data.login, usr_data.lastname, usr_data.firstname, tst_active.submitted as test_finished, usr_data.matriculation, usr_data.active, IF(tst_active.active_id IS NULL,0,1) as test_started ".
 				"FROM tst_active LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id WHERE tst_active.test_fi = %s ORDER BY usr_data.lastname " . strtoupper($name_sort_order),
 				$ilDB->quote($this->getTestId())
 			);
@@ -7476,7 +7476,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				switch ($filter)
 				{
-					case 1:
+					case 1: // only active users
+						if ($participant->active) $filtered_participants[$active_id] = $participant;
+						break;
+					case 2: // only inactive users
+						if (!$participant->active) $filtered_participants[$active_id] = $participant;
+						break;
+					case 3: // all users
+						$filtered_participants[$active_id] = $participant;
+						break;
+					case 4:
 						// already scored participants
 						$found = 0;
 						while ($row = $ilDB->fetchAssoc($result))
@@ -7485,7 +7494,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 						}
 						if ($found == $count) $filtered_participants[$active_id] = $participant;
 						break;
-					case 2:
+					case 5:
 						// unscored participants
 						$found = 0;
 						while ($row = $ilDB->fetchAssoc($result))

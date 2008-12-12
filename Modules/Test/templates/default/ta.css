@@ -189,3 +189,15 @@ div.textbox {
 	z-index: 200;
 }
 
+#filterpanel {
+	text-align: right;
+}
+
+.filteractive {
+	background-color: #f7face;
+	border: 1px #d48110 solid;
+}
+
+.filterinactive {
+	background-color: #fff;
+}

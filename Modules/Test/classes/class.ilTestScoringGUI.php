@@ -48,6 +48,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
   {
 		parent::ilTestServiceGUI($a_object);
 		$this->ctrl->saveParameter($this, "active_id");
+		$this->ctrl->saveParameter($this, "userfilter");
 		$this->ctrl->saveParameter($this, "pass");
 	}
 	
@@ -76,9 +77,17 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	/**
 	* Selects a participant for manual scoring
 	*/
-	function selectParticipant()
+	function scoringfilter()
 	{
-		$this->manscoring($_POST["participants"]);
+		$this->manscoring();
+	}
+	
+	/**
+	* Resets the manual scoring filter
+	*/
+	function scoringfilterreset()
+	{
+		$this->manscoring();
 	}
 
 	/**
@@ -86,7 +95,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	*
 	* @param integer $active_id The acitve ID of the participant to score
 	*/
-	function manscoring($active_id = 0)
+	function manscoring()
 	{
 		global $ilAccess;
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
@@ -94,6 +103,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			// allow only write access
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
+		$active_id = (strlen($_POST["participants"])) ? $_POST["participants"] : ((strlen($_GET["active_id"])) ? $_GET["active_id"] : 0);
+		$userfiltervalue = (strlen($_POST["userfilter"])) ? $_POST["userfilter"] : ((strlen($_GET["userfilter"])) ? $_GET["userfilter"] : 0);
+
+		if (strcmp($this->ctrl->getCmd(), "scoringfilterreset") == 0)
+		{
+			$active_id = 0;
+			$userfiltervalue = 0;
 		}
 
 		include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
@@ -104,11 +122,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			ilUtil::sendInfo($this->lng->txt("manscoring_not_allowed"));
 			return;
 		}
-		
-		if ((!($active_id > 0)) && (array_key_exists("active_id", $_GET)))
-		{
-			if (strlen($_GET["active_id"]))	$active_id = $_GET["active_id"];
-		}
+
 		$pass = $this->object->_getResultPass($active_id);
 		if (array_key_exists("pass", $_GET))
 		{
@@ -119,7 +133,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			}
 		}
 		
-		$participants =& $this->object->getTestParticipantsForManualScoring();
+		$participantsfilter = ($userfiltervalue) ? $userfiltervalue : 0;
+		$participants =& $this->object->getTestParticipantsForManualScoring($participantsfilter);
+		if (!array_key_exists($active_id, $participants)) $active_id = 0;
 		if (count($participants) == 0)	
 		{
 			ilUtil::sendInfo($this->lng->txt("tst_participants_no"));
@@ -156,9 +172,25 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("TEXT_PARTICIPANT", $this->object->userLookupFullName($data->usr_id, FALSE, TRUE, $suffix)); 
 			$this->tpl->parseCurrentBlock();
 		}
+		$userfilter = array("1" => $this->lng->txt("usr_active_only"), "2" => $this->lng->txt("usr_inactive_only"), "3" => $this->lng->txt("all_users"));
+		foreach ($userfilter as $selection => $filtertext)
+		{
+			$this->tpl->setCurrentBlock("userfilter");
+			$this->tpl->setVariable("VALUE_USERFILTER", $selection); 
+			$this->tpl->setVariable("TEXT_USERFILTER", $filtertext); 
+			if ($userfiltervalue == $selection)
+			{
+				$this->tpl->setVariable("SELECTED_USERFILTER", " selected=\"selected\""); 
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 		
-		$this->tpl->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
-		$this->tpl->setVariable("BUTTON_SELECT", $this->lng->txt("select"));
+		$this->tpl->setVariable("PLEASE_SELECT", $this->lng->txt("participants"));
+		$this->tpl->setVariable("SELECT_USERFILTER", $this->lng->txt("user_status"));
+		$this->tpl->setVariable("BUTTON_SELECT", $this->lng->txt("to_filter"));
+		$this->tpl->setVariable("BUTTON_RESET", $this->lng->txt("reset"));
+		$this->tpl->setVariable("FILTER_CLASS", ($active_id) ? "filteractive" : "filterinactive");
+		$this->tpl->setVariable("FILTER_CLASS_USERFILTER", ($userfiltervalue) ? "filteractive" : "filterinactive");
 		$this->tpl->setVariable("TEXT_SELECT_USER", $this->lng->txt("manscoring_select_user"));
 		
 		if ($active_id > 0)
@@ -177,7 +209,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 				$this->tpl->setVariable("SCORING_DATA", $scoring);
 			}
 		}
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "selectParticipant"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "scoringfilter"));
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";

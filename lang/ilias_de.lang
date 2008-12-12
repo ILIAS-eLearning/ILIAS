@@ -8765,3 +8765,5 @@ certificate#:#default_background_info#:#Das hier angegebene Hintergrundbild wird
 certificate#:#certificate_usage#:#Bitte beachten Sie, dass die Verwendung und Erstellung von Zertifikaten nur möglich ist, wenn Sie den Java-Server von ILIAS verwenden. Der Java-Server wird in der Hauptseite der Administration in der Kategorie Web-Services konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
 dateplaner#:#cal_delete_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_deleted_app#:#Die ausgewählten Termine wurden gelöscht.
+common#:#to_filter#:#Filtern
+common#:#user_status#:#Benutzerstatus
