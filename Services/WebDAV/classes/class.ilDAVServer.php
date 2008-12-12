@@ -30,7 +30,7 @@ require_once 'Services/WebDAV/classes/class.ilObjectDAV.php';
 require_once "Services/User/classes/class.ilObjUser.php";
 require_once('include/Unicode/UtfNormal.php');
 require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-    
+
 /**
 * Class ilDAVServer
 *
@@ -47,14 +47,14 @@ require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 *
 * @package webdav
 */
-class ilDAVServer extends HTTP_WebDAV_Server 
+class ilDAVServer extends HTTP_WebDAV_Server
 {
 	/**
 	* Cached object handler.
 	* This is a private variable of function getObject.
 	*/
 	private $cachedObjectDAV;
-	
+
 	/**
 	* Handler for locks.
 	*/
@@ -63,7 +63,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* Handler for properties.
 	*/
 	private $properties;
-	
+
 	/**
 	 * The operating system of the WebDAV client.
 	 * This is 'windows', 'unix' or 'unknown'.
@@ -92,31 +92,39 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 * @var ilObjectDav
 	 */
 	private $putObjDAV = null;
-	
+
+	/**
+	 * Holds a boolean after it has been lazily created by method
+	 * isWebDAVoverHTTPS().
+	 *
+	 * @var ilHTTPS object.
+	 */
+	private $isHTTPS = null;
+
 	/**
 	 * The WebDAVServer prints lots of log messages to the ilias log, if this
 	 * variable is set to true.
 	 */
 	private $isDebug = false;
-    
-	/** 
+
+	/**
 	* Constructor
 	*
 	* @param void
 	*/
-	public function ilDAVServer() 
+	public function ilDAVServer()
 	{
 		$this->writelog("<constructor>");
-	
-		// Initialize the WebDAV server and create 
+
+		// Initialize the WebDAV server and create
 		// locking and property support objects
 		$this->HTTP_WebDAV_Server();
 		$this->locks =& new ilDAVLocks();
 		$this->properties =& new ilDAVProperties();
 		//$this->locks->createTable();
 		//$this->properties->createTable();
-		
-		
+
+
 		// Guess operating system, operating system flavor and browser of the webdav client
 		//
 		// - We need to know the operating system in order to properly
@@ -132,7 +140,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			$this->clientOS = 'windows';
 			$this->clientOSFlavor = 'xp';
-			
+
 		} else if (strpos($userAgent,'darwin') !== false
                 || strpos($userAgent,'macintosh') !== false
 		|| strpos($userAgent,'linux') !== false
@@ -146,11 +154,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			if (strpos($userAgent,'linux') !== false)
 			{
 				$this->clientOSFlavor = 'linux';
-			} 
+			}
 			else if (strpos($userAgent,'macintosh') !== false)
 			{
 				$this->clientOSFlavor = 'osx';
-			} 
+			}
 		}
 		if (strpos($userAgent,'konqueror') !== false)
 		{
@@ -158,11 +166,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		$this->writelog('userAgent='.$userAgent);
 	}
-		
+
 	/**
 	 * Serves a WebDAV request.
-	 */        
-	public function serveRequest() 
+	 */
+	public function serveRequest()
 	{
 		// die quickly if plugin is deactivated
 		if (!self::_isActive())
@@ -174,7 +182,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				'</body></html>';
 			return;
 		}
-	
+
 		try {
 			$start = time();
 				$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' ...');
@@ -186,7 +194,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
                 	$this->writelog('serveRequest():'.$_SERVER['REQUEST_METHOD'].' caught exception: '.$e->getMessage().'\n'.$e->getTraceAsString());
 		}
 	}
-	
+
 	/**
 	* We do not implement this method, because authentication is done by
 	* ilias3/webdav.php.
@@ -197,10 +205,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* @param  string  Password
 	* @return bool    true on successful authentication
 	* /
-	public function check_auth($type, $user, $pass) 
+	public function check_auth($type, $user, $pass)
 	{
 			$this->writelog('check_auth type='.$type.' user='.$user.' pass='.$pass);
-	
+
 			if (! $user)
 			{
 			return false;
@@ -227,7 +235,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// This ensures that diaeresis and other special characters
 		// are treated uniformly on Windows and on Mac OS X
 		$path = UtfNormal::toNFC($path);
-		
+
 		$c = explode('/',$path);
 		for ($i = 0; $i < count($c); $i++)
 		{
@@ -243,7 +251,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* @param  array  return array for file properties
 	* @return bool   true on success
 	*/
-	public function PROPFIND(&$options, &$files) 
+	public function PROPFIND(&$options, &$files)
 	{
 		//global $tree;
 
@@ -286,7 +294,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 						continue 2;
 					}
 				}
-				
+
 				// only add visible objects to the file list
 				if (!$this->isFileHidden($childDAV))
 				{
@@ -314,17 +322,17 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$this->writelog('PROPFIND():true options='.var_export($options, true).' files='.var_export($files,true));
 		return true;
 	}
-        
+
 	/**
      * Returns true, if the resource has a file name which is hidden from the user.
-	 * Note, that resources with a hidden file name can still be accessed by a 
+	 * Note, that resources with a hidden file name can still be accessed by a
      * WebDAV client, if the client knows the resource name.
 	 *
 	 * - We hide all Null Resources who haven't got an active lock
 	 * - We hide all files with the prefix "." from Windows DAV Clients.
 	 * - We hide all files which contain characters that are not allowed on Windows from Windows DAV Clients.
 	 * - We hide the files with the prefix " ~$" or the name "Thumbs.db" from Unix DAV Clients.
-	 */	
+	 */
 	private function isFileHidden(&$objDAV)
 	{
 		// Hide null resources which haven't got an active lock
@@ -333,14 +341,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				return;
 			}
 		}
-	
+
 		$name = $objDAV->getResourceName();
 		$isFileHidden = false;
 		switch ($this->clientOS)
 		{
 		case 'unix' :
 			// Hide Windows thumbnail files, and files which start with '~$'.
-			$isFileHidden = 
+			$isFileHidden =
 				$name == 'Thumbs.db'
 				|| substr($name, 0, 2) == '~$';
 			// Hide files which contain /
@@ -360,7 +368,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$this->writelog($this->clientOS.' '.$name.' isHidden:'.$isFileHidden.' clientOS:'.$this->clientOS);
 		return $isFileHidden;
 	}
-	
+
 	/**
 	* Creates file info properties for a single file/resource
 	*
@@ -368,7 +376,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* @param  ilObjectDAV  resource DAV object
 	* @return array   resource properties
 	*/
-	private function fileinfo($resourcePath, $displayPath, &$objDAV) 
+	private function fileinfo($resourcePath, $displayPath, &$objDAV)
 	{
 		global $ilias;
 
@@ -395,7 +403,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		// directory (WebDAV collection)
 		$info["props"][] =& $this->mkprop("resourcetype", $objDAV->getResourceType());
-		$info["props"][] =& $this->mkprop("getcontenttype", $objDAV->getContentType());             
+		$info["props"][] =& $this->mkprop("getcontenttype", $objDAV->getContentType());
 		$info["props"][] =& $this->mkprop("getcontentlength", $objDAV->getContentLength());
 
 		// Only show supported locks for users who have write permission
@@ -432,7 +440,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			}
 			$this->writelog('lockowner='.$owner.' ibi:'.$lock['ilias_owner'].' davi:'.$lock['dav_owner']);
 
-			$lockdiscovery .= 
+			$lockdiscovery .=
 			'<D:activelock>'
 				.'<D:lockscope><D:'.$lock['scope'].'/></D:lockscope>'
 				//.'<D:locktype><D:'.$lock['type'].'/></D:locktype>'
@@ -451,14 +459,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			$info["props"][] =& $this->mkprop("lockdiscovery", $lockdiscovery);
 		}
-	
+
 		// get additional properties from database
 		$properties = $this->properties->getAll($objDAV);
 		foreach ($properties as $prop)
 		{
 			$info["props"][] = $this->mkprop($prop['namespace'], $prop['name'], $prop['value']);
 		}
-	
+
 		$this->writelog('fileinfo():'.var_export($info, true));
 
 		return $info;
@@ -471,28 +479,28 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* a WebDAV mount-request is sent to the client.
 	* If the path denotes a directory, and if URL contains the query string "mount-instructions",
 	* instructions for mounting the directory are sent to the client.
-	* 
+	*
 	* @param  array  parameter passing array
 	* @return bool   true on success
 	*/
-	public function GET(&$options) 
+	public function GET(&$options)
 	{
 		global $ilUser;
-	
+
 		$this->writelog('GET('.var_export($options, true).')');
 		$this->writelog('GET('.$options['path'].')');
 
 		// get dav object for path
 		$path = $this->davDeslashify($options['path']);
 		$objDAV =& $this->getObject($path);
-                
+
 		// sanity check
-		if (is_null($objDAV) || $objDAV->isNullResource()) 
+		if (is_null($objDAV) || $objDAV->isNullResource())
 		{
 			return false;
 		}
 
-		if (! $objDAV->isPermitted('visible,read')) 
+		if (! $objDAV->isPermitted('visible,read'))
 		{
 			return '403 Forbidden';
 		}
@@ -527,33 +535,33 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			$options['data'] =& $objDAV->getContentData();
 		}
-		
+
 		// Record read event and catch up write events
 		if (ilChangeEvent::_isActive())
 		{
 			ilChangeEvent::_recordReadEvent($objDAV->getObjectId(), $ilUser->getId());
 		}
 		$this->writelog('GET:'.var_export($options, true));
-	
+
 		return true;
 	}
 	/**
 	* Mount method handler for directories
 	*
 	* Mounting is done according to the internet draft RFC 4709 "Mounting WebDAV servers"
-	* "draft-reschke-webdav-mount-latest". 
+	* "draft-reschke-webdav-mount-latest".
 	* See
 	* http://greenbytes.de/tech/webdav/draft-reschke-webdav-mount-latest.html
 	*
 	* @param  ilObjectDAV  dav object handler
 	* @return This function does not return. It exits PHP.
 	*/
-	private function mountDir(&$objDAV, &$options) 
+	private function mountDir(&$objDAV, &$options)
 	{
 		$path = $this->davDeslashify($options['path']);
-		
+
 		header('Content-Type: application/davmount+xml');
-		
+
 		echo "<dm:mount xmlns:dm=\"http://purl.org/NET/webdav/mount\">\n";
 		echo "  </dm:url>".$this->base_uri."</dm:url>\n";
 
@@ -565,7 +573,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		echo "</dm:mount>\n";
 
 		exit;
-		
+
 	}
 	/**
 	* Mount instructions method handler for directories
@@ -573,15 +581,15 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* @param  ilObjectDAV  dav object handler
 	* @return This function does not return. It exits PHP.
 	*/
-	private function showMountInstructions(&$objDAV, &$options) 
+	private function showMountInstructions(&$objDAV, &$options)
 	{
 		global $lng;
 
 		$path = $this->davDeslashify($options['path']);
-		
+
 		// The $path variable may contain a path
 		// string that has been shortened, in order to make it mountable
-		// by Internet Explorer (IE). - We don't know this for sure though.		
+		// by Internet Explorer (IE). - We don't know this for sure though.
 		// The following steps converts the path into a verbose davPath
 		// which is human readable, and we create a short version for IE.
 		$objectPath = $this->toObjectPath($path);
@@ -602,16 +610,16 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$shortenedPath = '/'.CLIENT_ID.$shortenedPath;
 		$fullPath = '/'.CLIENT_ID.$fullPath;
 
-		$webfolderURI_Konqueror = (@$_SERVER["HTTPS"] === "on" ? "webdavs" : "webdav").
+		$webfolderURI_Konqueror = ($this->isWebDAVoverHTTPS() ? "webdavs" : "webdav").
 				substr($this->base_uri, strrpos($this->base_uri,':')).
 				$fullPath;
 				;
-		$webfolderURI_Nautilus = (@$_SERVER["HTTPS"] === "on" ? "davs" : "dav").
+		$webfolderURI_Nautilus = ($this->isWebDAVoverHTTPS() ? "davs" : "dav").
 				substr($this->base_uri, strrpos($this->base_uri,':')).
 				$fullPath
 				;
 		header('Content-Type: text/html; charset=UTF-8');
-		
+
 		$webfolderTitle = $objectPath[count($objectPath) - 1]->getResourceName();
 		$webfolderURI = $this->base_uri.$fullPath;
 		$webfolderURI_IE = $this->base_uri.$shortenedPath;
@@ -625,7 +633,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		echo "  </head>\n";
 		echo "  <body>\n";
 
-		echo ilDAVServer::_getWebfolderInstructionsFor($webfolderTitle, 
+		echo ilDAVServer::_getWebfolderInstructionsFor($webfolderTitle,
 			$webfolderURI, $webfolderURI_IE, $webfolderURI_Konqueror, $webfolderURI_Nautilus,
 			$this->clientOS,$this->clientOSFlavor);
 
@@ -642,12 +650,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* @param  ilObjectDAV  dav object handler
 	* @return void    function has to handle HTTP response itself
 	*/
-	private function getDir(&$objDAV, &$options) 
+	private function getDir(&$objDAV, &$options)
 	{
 		global $ilias, $lng;
 
 		$path = $this->davDeslashify($options['path']);
-		
+
 		// The URL of a directory must end with a slash.
 		// If it does not we are redirecting the browser.
 		// The slash is required, because we are using relative links in the
@@ -657,19 +665,19 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			header('Location: '.$this->base_uri.$path.'/');
 			exit;
 		}
-		
+
 		header('Content-Type: text/html; charset=UTF-8');
-		
+
 		// fixed width directory column format
 		$format = "%15s  %-19s  %-s\n";
-		
+
 		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN\"\n";
 		echo "	\"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd\">\n";
 		echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
 		echo "<head>\n";
 		echo "<title>".sprintf($lng->txt('webfolder_index_of'), $path)."</title>\n";
-		
+
 		// Create "anchorClick" behavior for for Internet Explorer
 		// This allows to create a link to a webfolder
 		echo "<style type=\"text/css\">\n";
@@ -679,7 +687,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		echo "}\n";
 		echo "-->\n";
 		echo "</style>\n";
-		
+
 		echo "</head><body>\n";
 
 		$hrefPath = '';
@@ -699,7 +707,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$hrefPath .= '<a href="'.$this->base_uri.$uriPath.'/">'.$displayName.'</a>';
 		}
 		echo "<h3>".sprintf($lng->txt('webfolder_index_of'), $hrefPath)."</h3>\n";
-	    
+
 		// Display user id
 		if ($ilias->account->getLogin() == 'anonymous')
 		{
@@ -712,10 +720,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				.', '.$lng->txt('client').' <i>'.$ilias->getClientId().'</i>.'
 				."</font><p>\n";
 		}
-		
-		// Create "open as webfolder" link 
+
+		// Create "open as webfolder" link
 		$href = $this->base_uri.$uriPath;
-		// IE can not mount long paths. If the path has more than one element, we 
+		// IE can not mount long paths. If the path has more than one element, we
 		// create a relative path with a ref-id.
 		if (count($pathComponents) > 2)
 		{
@@ -727,18 +735,18 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				sprintf($lng->txt('webfolder_dir_info'), "$href?mount-instructions").
 				"</font></p>\n";
 		echo "<p><font size=\"-1\">".
-				sprintf($lng->txt('webfolder_mount_dir_with'), 
+				sprintf($lng->txt('webfolder_mount_dir_with'),
 					"$hrefIE\" folder=\"$hrefIE", // Internet Explorer
 					'webdav'.substr($href,4), // Konqueror
 					'dav'.substr($href,4), // Nautilus
 					$href.'?mount' // RFC 4709
 				)
 			."</font></p>\n";
-	    
+
 		echo "<pre>";
 		printf($format, $lng->txt('size'), $lng->txt('last_change'), $lng->txt('filename'));
 		echo "<hr>";
-	
+
 		$collectionCount = 0;
 		$fileCount = 0;
 		$children =& $objDAV->childrenWithPermission('visible');
@@ -747,9 +755,9 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			{
 				$collectionCount++;
 				$name = $this->davUrlEncode($childDAV->getResourceName());
-				printf($format, 
+				printf($format,
 					'-',
-					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
+					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()),
 					'<a href="'.$name.'/'.'">'.$childDAV->getDisplayName()."</a>");
 			}
 		}
@@ -758,9 +766,9 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			{
 				$fileCount++;
 				$name = $this->davUrlEncode($childDAV->getResourceName());
-				printf($format, 
+				printf($format,
 					number_format($childDAV->getContentLength()),
-					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
+					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()),
 					'<a href="'.$name.'">'.$childDAV->getDisplayName()."</a>");
 			}
 		}
@@ -768,9 +776,9 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			if ($childDAV->isNullResource() && !$this->isFileHidden($childDAV))
 			{
 				$name = $this->davUrlEncode($childDAV->getResourceName());
-				printf($format, 
+				printf($format,
 					'Lock',
-					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()), 
+					strftime("%Y-%m-%d %H:%M:%S", $childDAV->getModificationTimestamp()),
 					'<a href="'.$name.'">'.$childDAV->getDisplayName()."</a>");
 			}
 		}
@@ -783,17 +791,17 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		exit;
 	}
 
-        
+
 	/**
 	* PUT method handler
-	* 
+	*
 	* @param  array  parameter passing array
 	* @return bool   true on success
 	*/
-	public function PUT(&$options) 
+	public function PUT(&$options)
 	{
 		global $ilUser;
-		
+
 		$this->writelog('PUT('.var_export($options, true).')');
 
 		$path = $this->davDeslashify($options['path']);
@@ -824,14 +832,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				$objDAV->setContentLength($options['content_length']);
 			}
 			$objDAV->write();
-			
+
 			// Record write event
 			if (ilChangeEvent::_isActive())
 			{
 				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
 			}
-		} 
-		else if ($objDAV->isNullResource()) 
+		}
+		else if ($objDAV->isNullResource())
 		{
 			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()))
 			{
@@ -846,14 +854,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				$objDAV->setContentLength($options['content_length']);
 			}
 			$objDAV->write();
-			
+
 			// Record write event
 			if (ilChangeEvent::_isActive())
 			{
 				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
 			}
 		}
-		else 
+		else
 		{
 			if (! $objDAV->isPermitted('write'))
 			{
@@ -873,7 +881,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
        			$objDAV->setContentLength($options['content_length']);
 			}
 			$objDAV->write();
-			
+
 			// Record write event
 			if (ilChangeEvent::_isActive())
 			{
@@ -883,7 +891,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		// store this object, we reuse it in method PUTfinished
 		$this->putObjDAV = $objDAV;
-                
+
 		$out =& $objDAV->getContentOutputStream();
 		$this->writelog('PUT outputstream='.$out);
 		return $out;
@@ -891,14 +899,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 	/**
 	* PUTfinished handler
-	* 
+	*
 	* @param  array  parameter passing array
 	* @return bool   true on success
 	*/
-	public function PUTfinished(&$options) 
+	public function PUTfinished(&$options)
 	{
 		$this->writelog('PUTfinished('.var_export($options, true).')');
-                
+
 		// Update the content length in the file object, if the
 		// the client did not specify a content_length
 		if ($options['content_length'] == null)
@@ -918,10 +926,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		* @param  array  general parameter passing array
 		* @return bool   true on success
 		*/
-	public function MKCOL($options) 
+	public function MKCOL($options)
 	{
 		global $ilUser;
-		
+
 		$this->writelog('MKCOL('.var_export($options, true).')');
 		$this->writelog('MKCOL '.$options['path']);
 
@@ -936,7 +944,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		// Check if an object with the path already exists.
 		$objDAV =& $this->getObject($path);
-		if (! is_null($objDAV)) 
+		if (! is_null($objDAV))
 		{
 			return '405 Method not allowed';
 		}
@@ -945,12 +953,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$parentDAV =& $this->getObject($parent);
 
 		// sanity check
-		if (is_null($parentDAV) || ! $parentDAV->isCollection()) 
+		if (is_null($parentDAV) || ! $parentDAV->isCollection())
 		{
 			return '409 Conflict';
 		}
 
-		if (! $parentDAV->isPermitted('create',$parentDAV->getILIASCollectionType())) 
+		if (! $parentDAV->isPermitted('create',$parentDAV->getILIASCollectionType()))
 		{
 			return '403 Forbidden';
 		}
@@ -958,7 +966,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// XXX Implement code that Handles null resource here
 
 		$objDAV = $parentDAV->createCollection($name);
-		
+
 		if ($objDAV != null)
 		{
 			// Record write event
@@ -967,22 +975,22 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'create', $parentDAV->getObjectId());
 			}
 		}
-		
+
 		$result = ($objDAV != null) ? "201 Created" : "409 Conflict";
 		return $result;
 	}
-        
-        
+
+
 	/**
 	* DELETE method handler
 	*
 	* @param  array  general parameter passing array
 	* @return bool   true on success
 	*/
-	public function DELETE($options) 
+	public function DELETE($options)
 	{
 		global $ilUser;
-		
+
 		$this->writelog('DELETE('.var_export($options, true).')');
 		$this->writelog('DELETE '.$options['path']);
 
@@ -992,23 +1000,23 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$objDAV =& $this->getObject($path);
 
 		// sanity check
-		if (is_null($objDAV) || $objDAV->isNullResource()) 
+		if (is_null($objDAV) || $objDAV->isNullResource())
 		{
 			return '404 Not Found';
 		}
-		if (! $objDAV->isPermitted('delete')) 
+		if (! $objDAV->isPermitted('delete'))
 		{
 			return '403 Forbidden';
 		}
 
 		$parentDAV->remove($objDAV);
-		
+
 		// Record write event
 		if (ilChangeEvent::_isActive())
 		{
 			ilChangeEvent::_recordWriteEvent($objDAV->getObjectId(), $ilUser->getId(), 'delete', $parentDAV->getObjectId());
 		}
-		
+
 		return '204 No Content';
 	}
 
@@ -1018,10 +1026,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* @param  array  general parameter passing array
 	* @return bool   true on success
 	*/
-	public function MOVE($options) 
+	public function MOVE($options)
 	{
 		global $ilUser;
-		
+
 		$this->writelog('MOVE('.var_export($options, true).')');
 		$this->writelog('MOVE '.$options['path'].' '.$options['dest']);
 
@@ -1030,7 +1038,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$srcParent = dirname($src);
 		$srcName = $this->davBasename($src);
 		$dst = $this->davDeslashify($options['dest']);
-		
+
 		$dstParent = dirname($dst);
 		$dstName = $this->davBasename($dst);
 		$this->writelog('move '.$dst.'   dstname='.$dstName);
@@ -1043,7 +1051,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Destination must not be in a subtree of source
 		if (substr($dst,strlen($src)+1) == $src.'/')
 		{
-				return '409 Conflict (destination is in subtree of source)'; 
+				return '409 Conflict (destination is in subtree of source)';
 		}
 
 		// Get dav objects for path
@@ -1089,7 +1097,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				// Rename source, if source and dest are in same parent
 
 				// Check permission
-				if (! $srcDAV->isPermitted('write')) 
+				if (! $srcDAV->isPermitted('write'))
 				{
 						return '403 Forbidden';
 				}
@@ -1100,7 +1108,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				// Move source, if source and dest are in same parent
 
 
-				if (! $srcDAV->isPermitted('delete')) 
+				if (! $srcDAV->isPermitted('delete'))
 				{
 						return '403 Forbidden';
 				}
@@ -1111,7 +1119,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				}
 				$dstParentDAV->addMove($srcDAV, $dstName);
 		}
-		
+
 		// Record write event
 		if (ilChangeEvent::_isActive())
 		{
@@ -1125,7 +1133,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				ilChangeEvent::_recordWriteEvent($srcDAV->getObjectId(), $ilUser->getId(), 'add', $dstParentDAV->getObjectId());
 			}
 		}
-		
+
 		return ($isOverwritten) ? '204 No Content' : '201 Created';
 	}
 
@@ -1135,7 +1143,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 * @param  array  general parameter passing array
 	 * @return bool   true on success
 	 */
-	public function COPY($options, $del=false) 
+	public function COPY($options, $del=false)
 	{
 		global $ilUser;
 		$this->writelog('COPY('.var_export($options, true).' ,del='.$del.')');
@@ -1192,7 +1200,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 					{
 						ilChangeEvent::_recordWriteEvent($dstDAV->getObjectId(), $ilUser->getId(), 'delete', $dstParentDAV->getObjectId());
 					}
-					
+
 					$dstDAV = null;
 					$isOverwritten = true;
 				} else {
@@ -1218,14 +1226,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		return ($isOverwritten) ? '204 No Content' : '201 Created';
 	}
-	
+
 	/**
 		* PROPPATCH method handler
 		*
 		* @param  array  general parameter passing array
 		* @return bool   true on success
 		*/
-	public function PROPPATCH(&$options) 
+	public function PROPPATCH(&$options)
 	{
 		$this->writelog('PROPPATCH(options='.var_export($options, true).')');
 		$this->writelog('PROPPATCH '.$options['path']);
@@ -1233,20 +1241,20 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// get dav object for path
 		$path =& $this->davDeslashify($options['path']);
 		$objDAV =& $this->getObject($path);
-	
+
 		// sanity check
 		if (is_null($objDAV) || $objDAV->isNullResource()) return false;
-	
+
 		$isPermitted = $objDAV->isPermitted('write');
 		foreach($options['props'] as $key => $prop) {
-			if (!$isPermitted || $prop['ns'] == 'DAV:') 
+			if (!$isPermitted || $prop['ns'] == 'DAV:')
 			{
 				$options['props'][$key]['status'] = '403 Forbidden';
 			} else {
 				$this->properties->put($objDAV, $prop['ns'],$prop['name'],$prop['val']);
 			}
 		}
-	
+
 		return "";
 	}
 
@@ -1257,7 +1265,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		* @param  array  general parameter passing array
 		* @return bool   true on success
 		*/
-	public function LOCK(&$options) 
+	public function LOCK(&$options)
 	{
 		global $ilias;
 		$this->writelog('LOCK('.var_export($options, true).')');
@@ -1268,7 +1276,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$objDAV =& $this->getObject($path);
 		// Handle null-object locking
 		// --------------------------
-		if (is_null($objDAV)) 
+		if (is_null($objDAV))
 		{
 			$this->writelog('LOCK handling null-object locking...');
 
@@ -1286,8 +1294,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				$this->writelog('LOCK lock failed on non-existing path to null-object.');
 				return '404 Not Found';
 			}
-			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()) && 
-				! $parentDAV->isPermitted('create', $parentDAV->getILIASCollectionType())) 
+			if (! $parentDAV->isPermitted('create', $parentDAV->getILIASFileType()) &&
+				! $parentDAV->isPermitted('create', $parentDAV->getILIASCollectionType()))
 			{
 				$this->writelog('LOCK lock failed - creation of null object not permitted.');
 				return '403 Forbidden';
@@ -1297,8 +1305,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$this->writelog('created null resource for '.$path);
 		}
 
-		// --------------------- 
-		if (! $objDAV->isNullResource() && ! $objDAV->isPermitted('write')) 
+		// ---------------------
+		if (! $objDAV->isNullResource() && ! $objDAV->isPermitted('write'))
 		{
 			$this->writelog('LOCK lock failed - user has no write permission.');
 			return '403 Forbidden';
@@ -1307,7 +1315,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// XXX - Check if there are other locks on the resource
 		if (!isset($options['timeout']) || is_array($options['timeout']))
 		{
-			$options["timeout"] = time()+360; // 6min. 
+			$options["timeout"] = time()+360; // 6min.
 		}
 
 		if(isset($options["update"])) { // Lock Update
@@ -1369,7 +1377,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		* @param  array  general parameter passing array
 		* @return bool   true on success
 		*/
-	public function UNLOCK(&$options) 
+	public function UNLOCK(&$options)
 	{
 		global $log, $ilias;
 		$this->writelog('UNLOCK(options='.var_export($options, true).')');
@@ -1390,16 +1398,16 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$options['token']
 		);
 
-		// Delete null resource object if there are no locks associated to 
+		// Delete null resource object if there are no locks associated to
 		// it anymore
-		if ($objDAV->isNullResource() 
+		if ($objDAV->isNullResource()
 		&& count($this->locks->getLocksOnObjectDAV($objDAV)) == 0)
 		{
 			$parent = dirname($this->davDeslashify($options['path']));
 			$parentDAV =& $this->getObject($parent);
 			$parentDAV->remove($objDAV);
 		}
-	
+
 		// Workaround for Mac OS X: We must return 200 here instead of
 		// 204.
 		//return ($success) ? '204 No Content' : '412 Precondition Failed';
@@ -1418,7 +1426,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		*    token => string
 		*    expires => timestamp
 		*/
-	protected function checkLock($path) 
+	protected function checkLock($path)
 	{
 		global $ilias;
 
@@ -1428,7 +1436,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// get dav object for path
 		//$objDAV = $this->getObject($path);
 
-		// convert DAV path into ilObjectDAV path 
+		// convert DAV path into ilObjectDAV path
 		$objPath = $this->toObjectPath($path);
 		if (! is_null($objPath))
 		{
@@ -1442,7 +1450,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 				// Check all locks on last object in path,
 				// but only locks with depth infinity on parent objects.
 				if ($isLastPathComponent || $lock['depth'] == 'infinity')
-				{ 
+				{
 					// DAV Clients expects to see their own owner name in
 					// the locks. Since these names are not unique (they may
 					// just be the name of the local user running the DAV client)
@@ -1468,7 +1476,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 					);
 					if ($lock['scope'] == 'exclusive')
 					{
-						// If there is an exclusive lock in the path, it 
+						// If there is an exclusive lock in the path, it
 						// takes precedence over all non-exclusive locks in
 						// parent nodes. Therefore we can can finish collecting
 						// locks.
@@ -1492,7 +1500,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$this->writelog('getLogin('.$userId.'):'.var_export($login,true));
 		return $login;
 	}
-	
+
 
 	/**
 	* Gets a DAV object for the specified path.
@@ -1504,12 +1512,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	{
 		global $tree;
 
-		
-		// If the second path elements starts with 'file_', the following 
+
+		// If the second path elements starts with 'file_', the following
 		// characters of the path element directly identify the ref_id of
 		// a file object.
 		$davPathComponents = split('/',substr($davPath,1));
-		if (count($davPathComponents) > 1 && 
+		if (count($davPathComponents) > 1 &&
 			substr($davPathComponents[1],0,5) == 'file_')
 		{
 			$ref_id = substr($davPathComponents[1],5);
@@ -1545,7 +1553,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	{
 		$this->writelog('toObjectPath('.$davPath);
 		global $tree;
-	
+
 		$nodePath = $this->toNodePath($davPath);
 		if (is_null($nodePath))
 		{
@@ -1555,7 +1563,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			foreach ($nodePath as $node)
 			{
 				$pathElement = ilObjectDAV::createObject($node['child'],$node['type']);
-				if (is_null($pathElement)) 
+				if (is_null($pathElement))
 				{
 					break;
 				}
@@ -1564,14 +1572,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			return $objectPath;
 		}
 	}
-	
+
 	/**
 	 * Converts a DAV path into a node path.
 	 * The returned array is granted to represent an absolute path.
 	 *
 	 * The first component of a DAV Path is the ILIAS client id. The following
-	 * component either denote an absolute path, or a relative path starting at 
-	 * a ref_id. 
+	 * component either denote an absolute path, or a relative path starting at
+	 * a ref_id.
 	 *
      * @param  String davPath A DAV path expression.
 	 * @return Array<String> An Array of path titles.
@@ -1579,17 +1587,17 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	public function toNodePath($davPath)
 	{
 		global $tree;
-		$this->writelog('toNodePath('.$davPath.')...');		
-	
+		$this->writelog('toNodePath('.$davPath.')...');
+
 		// Split the davPath into path titles
 		$titlePath = split('/',substr($davPath,1));
-		
+
 		// Remove the client id from the beginning of the title path
-		if (count($titlePath) > 0) 
+		if (count($titlePath) > 0)
 		{
 			array_shift($titlePath);
 		}
-		
+
 		// If the last path title is empty, remove it
 		if (count($titlePath) > 0 && $titlePath[count($titlePath) - 1] == '')
 		{
@@ -1599,7 +1607,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// If the path is empty, return null
 		if (count($titlePath) == 0)
 		{
-			$this->writelog('toNodePath('.$davPath.'):null, because path is empty.');		
+			$this->writelog('toNodePath('.$davPath.'):null, because path is empty.');
 			return null;
 		}
 
@@ -1625,17 +1633,17 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* @param   string directory path
 	* @returns string directory path without trailing slash
 	*/
-	private function davDeslashify($path) 
+	private function davDeslashify($path)
 	{
 		$path = UtfNormal::toNFC($path);
-	
+
 		if ($path[strlen($path)-1] == '/') {
 			$path = substr($path,0, strlen($path) - 1);
 		}
 		$this->writelog('davDeslashify:'.$path);
 		return $path;
 	}
-	
+
 	/**
 	 * Private implementation of PHP basename() function.
 	 * The PHP basename() function does not work properly with filenames that contain
@@ -1647,14 +1655,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$components = split('/',$path);
 		return count($components) == 0 ? '' : $components[count($components) - 1];
 	}
-	
+
 	/**
 	* Writes a message to the logfile.,
 	*
 	* @param  message String.
 	* @return void.
 	*/
-	protected function writelog($message) 
+	protected function writelog($message)
 	{
 		// Only write log message, if we are in debug mode
 		if ($this->isDebug)
@@ -1683,30 +1691,30 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns an URI for mounting the repository object as a webfolder.
 	 * The URI can be used as the value of a "href" attribute attribute
 	 * inside of an HTML anchor tag "<a>".
 	 *
 	 * @param refId of the repository object.
-	 * @param nodeId of a childnode of the repository object. 
+	 * @param nodeId of a childnode of the repository object.
 	 * @param ressourceName ressource name (if known), to reduce SQL queries
 	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
 	 */
 	function getMountURI($refId, $nodeId = 0, $ressourceName = null, $parentRefId = null)
 	{
 		if ($this->clientOS == 'windows') {
-			$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:");
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
 			$query = null;
 		} else if ($this->clientBrowser == 'konqueror') {
-			$baseUri = ($_SERVER["HTTPS"] === "on" ? "webdavs:" : "webdav:");
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "webdavs:" : "webdav:");
 			$query = null;
 		} else if ($this->clientBrowser == 'nautilus') {
-			$baseUri = ($_SERVER["HTTPS"] === "on" ? "davs:" : "dav:");
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "davs:" : "dav:");
 			$query = null;
 		} else {
-			$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:");
+			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
 
 			// FIXME - For browsers which supports the webdav mounting protocol
 			// the query string must by 'mount'.
@@ -1714,13 +1722,13 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		$baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
 		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
-		
+
                 // Create a nice URI for the root-node of the tree
 		if ($refId == 1) {
                         global $tree;
                         $nodePath = $tree->getNodePath($refId);
-		
-                        if (count($nodePath) > 1) 
+
+                        if (count($nodePath) > 1)
                         {
 				$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 2]['child'].'/'.
 						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
@@ -1754,7 +1762,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	 * inside of an HTML anchor tag "<a>".
 	 *
 	 * @param refId of the repository object.
-	 * @param nodeId of a childnode of the repository object. 
+	 * @param nodeId of a childnode of the repository object.
 	 * @param ressourceName ressource name (if known), to reduce SQL queries
 	 * @param parentRefId refId of parent object (if known), to reduce SQL queries
 	 */
@@ -1776,10 +1784,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	public function getObjectURI($refId, $ressourceName = null, $parentRefId = null)
 	{
 		$nodeId = 0;
-		$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:").
+		$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:").
 				"//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
 		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
-		
+
 		if (! is_null($ressourceName) && ! is_null($parentRefId))
 		{
 			// Quickly create URI from the known data without needing SQL queries
@@ -1788,8 +1796,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			// Create URI and use some SQL queries to get the missing data
 			global $tree;
 			$nodePath = $tree->getNodePath($refId);
-			
-			if (is_null($nodePath) || count($nodePath) < 2)   
+
+			if (is_null($nodePath) || count($nodePath) < 2)
 			{
 				// No object path? Return null - file is not in repository.
 				$uri = null;
@@ -1821,10 +1829,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	public function getFileURI($refId, $ressourceName = null, $parentRefId = null)
 	{
 		$nodeId = 0;
-		$baseUri = ($_SERVER["HTTPS"] === "on" ? "https:" : "http:").
+		$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:").
 				"//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
 		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
-		
+
 		if (! is_null($ressourceName) && ! is_null($parentRefId))
 		{
 			// Quickly create URI from the known data without needing SQL queries
@@ -1833,8 +1841,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			// Create URI and use some SQL queries to get the missing data
 			global $tree;
 			$nodePath = $tree->getNodePath($refId);
-			
-			if (is_null($nodePath) || count($nodePath) < 2)   
+
+			if (is_null($nodePath) || count($nodePath) < 2)
 			{
 				// No object path? Return null - file is not in repository.
 				$uri = null;
@@ -1845,12 +1853,28 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		}
 		return $uri;
 	}
+
+	/**
+	 * Returns true, if the WebDAV server transfers data over HTTPS.
+	 *
+	 * @return boolean Returns true if HTTPS is active.
+	 */
+	public function isWebDAVoverHTTPS() {
+		if ($this->isHTTPS == null) {
+			global $ilSetting;
+			require_once 'classes/class.ilHTTPS.php';
+			$https = new ilHTTPS();
+			$this->isHTTPS = $https->isDetected() || $ilSetting->get('https');
+		}
+		return $this->isHTTPS;
+	}
+
 	/**
 	* Static getter. Returns true, if the WebDAV server is active.
 	*
 	* THe WebDAV Server is active, if the variable file_access::webdav_enabled
 	* is set in the client ini file, and if PEAR Auth_HTTP is installed.
-	* 
+	*
 	* @return	boolean	value
 	*/
 	public static function _isActive()
@@ -1879,7 +1903,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	*
 	* @return String HTML text with placeholders.
 	*/
-	public static function _getDefaultWebfolderInstructions() 
+	public static function _getDefaultWebfolderInstructions()
 	{
 		global $lng;
 		return $lng->txt('webfolder_instructions_text');
@@ -1892,7 +1916,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* The following placeholders are currently supported:
 	*
 	* [WEBFOLDER_TITLE] - the title of the webfolder
-	* [WEBFOLDER_URI] - the URL for mounting the webfolder with standard 
+	* [WEBFOLDER_URI] - the URL for mounting the webfolder with standard
 	*                   compliant WebDAV clients
 	* [WEBFOLDER_URI_IE] - the URL for mounting the webfolder with Internet Explorer
 	* [WEBFOLDER_URI_KONQUEROR] - the URL for mounting the webfolder with Konqueror
@@ -1911,15 +1935,15 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	* @param String Operating system flavor: 'xp', 'vista', 'osx', 'linux' or 'unknown'.
 	* @return String HTML text.
 	*/
-	public static function _getWebfolderInstructionsFor($webfolderTitle, 
+	public static function _getWebfolderInstructionsFor($webfolderTitle,
 			$webfolderURI, $webfolderURI_IE, $webfolderURI_Konqueror, $webfolderURI_Nautilus,
-			$os = 'unknown', $osFlavor = 'unknown') 
+			$os = 'unknown', $osFlavor = 'unknown')
 	{
 		global $ilSetting;
 
 		$settings = new ilSetting('file_access');
 		$str = $settings->get('custom_webfolder_instructions', '');
-		if (strlen($str) == 0 || ! $settings->get('custom_webfolder_instructions_enabled'))	
+		if (strlen($str) == 0 || ! $settings->get('custom_webfolder_instructions_enabled'))
 		{
 			$str = ilDAVServer::_getDefaultWebfolderInstructions();
 		}
