@@ -337,55 +337,54 @@ class ilAuthUtils
 					{
 						require_once 'Services/LDAP/classes/class.ilAuthContainerLDAP.php';
 						require_once 'Services/LDAP/classes/class.ilLDAPServer.php';
-						$auth_params = array();
-						$auth_params['sessionName'] = "_authhttp".md5($realm);
-						$auth_params['sessionSharing'] = false;
+						$container_params = array();
 						$ldap_server = new ilLDAPServer(ilLDAPServer::_getFirstActiveServer());
 						$authContainer = new ilAuthContainerLDAP($ldap_server, $ldap_server->toPearAuthArray());
 						$authContainer->setObserversEnabled(true);
 						$multiple_params[$authModeSequence[AUTH_LDAP]] = array(
 						'type' => 'LDAP',
 						'container' => $authContainer,
-						'options' => $auth_params
+						'options' => $container_params
 					);
 					}
                                         
 					if (array_key_exists(AUTH_LOCAL, $authModeSequence))
 					{
 						require_once 'class.ilAuthContainerMDB2.php';
-						$auth_params = array();
-						$auth_params['dsn'] = IL_DSN;
-						$auth_params['table'] = $ilClientIniFile->readVariable("auth", "table");
-						$auth_params['usernamecol'] = $ilClientIniFile->readVariable("auth", "usercol");
-						$auth_params['passwordcol'] = $ilClientIniFile->readVariable("auth", "passcol");
-						$auth_params['sessionName'] = "_authhttp".md5($realm);
-						$auth_params['sessionSharing'] = false;
-						$authContainer = new ilAuthContainerMDB2($auth_params);
+						$container_params = array();
+						$container_params['dsn'] = IL_DSN;
+						$container_params['table'] = $ilClientIniFile->readVariable("auth", "table");
+						$container_params['usernamecol'] = $ilClientIniFile->readVariable("auth", "usercol");
+						$container_params['passwordcol'] = $ilClientIniFile->readVariable("auth", "passcol");
+						$authContainer = new ilAuthContainerMDB2($container_params);
 						$authContainer->setObserversEnabled(true);
 						$multiple_params[$authModeSequence[AUTH_LOCAL]] = array(
 							'type' => 'MDB2',
 							'container' => $authContainer,
-							'options' => $auth_params
+							'options' => $container_params
 						);
 					}
                                         
 					$multipleContainer = new Auth_Container_Multiple($multiple_params);
                                         
 					// Use HTTP authentication as the frontend:
-                                        require_once("Auth/HTTP.php");
-					$ilAuth = new Auth_HTTP($multipleContainer, $multiple_params,"",false);
+					require_once("Auth/HTTP.php");
+					$auth_params = array();
+					$auth_params['sessionName'] = "_authhttp".md5($realm);
+					$auth_params['sessionSharing'] = false;
+					$ilAuth = new Auth_HTTP($multipleContainer, $auth_params,"",false);
 					$ilAuth->setRealm($realm);
 					
 					// This foreach loop is a very dirty trick to work around
 					// the container factory in Auth_Container_Multiple.
 					foreach ($multiple_params as $key => $options)
 					{
-						$multipleContainer->containers[$key] = $options['container'];
-						$options['container']->_auth_obj = $ilAuth;
-						$options['container']->setObserversEnabled(true);
-                                        }
+							$multipleContainer->containers[$key] = $options['container'];
+							$options['container']->_auth_obj = $ilAuth;
+							$options['container']->setObserversEnabled(true);
+					}
 				}
-                        	else
+				else
 				{
 					require_once('./Services/Authentication/classes/class.ilAuthMultiple.php');
 					$ilAuth = new ilAuthMultiple();
