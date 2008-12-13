@@ -647,14 +647,13 @@ class ilECSSettings
 	 	$found = false;
 	 	foreach($lines as $line)
 	 	{
-			if($found)
-			{
-				$serial = trim(str_replace(':','',$line));
-				break;
-			}
 	 		if(strpos($line,'Serial Number:') !== false)
 	 		{
 	 			$found = true;
+	 			$serial_line = explode(':',$line);
+	 			$serial = (int) trim($serial_line[1]);
+	 			break;
+	 			
 	 		}
 	 	}
 		if($found)

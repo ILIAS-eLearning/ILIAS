@@ -424,11 +424,11 @@ class ilECSConnector
 	 		if($this->settings->getProtocol() == ilECSSettings::PROTOCOL_HTTPS)
 	 		{
 	 			$this->curl->setOpt(CURLOPT_HTTPHEADER,array(0 => 'Accept: application/json'));
-	 			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER,0);
+	 			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER,1);
 	 			$this->curl->setOpt(CURLOPT_SSL_VERIFYHOST,1);
 	 			$this->curl->setOpt(CURLOPT_RETURNTRANSFER,1);
 	 			$this->curl->setOpt(CURLOPT_VERBOSE,1);
-	 			$this->curl->setOpt(CURLE_SSL_PEER_CERTIFICATE,$this->settings->getCACertPath());
+	 			$this->curl->setOpt(CURLOPT_CAINFO,$this->settings->getCACertPath());
 	 			$this->curl->setOpt(CURLOPT_SSLCERT,$this->settings->getClientCertPath());
 	 			$this->curl->setOpt(CURLOPT_SSLKEY,$this->settings->getKeyPath());
 	 			$this->curl->setOpt(CURLOPT_SSLKEYPASSWD,$this->settings->getKeyPassword());
