@@ -180,22 +180,26 @@ class ilECSSettingsGUI
 		$this->form->addItem($por);
 		
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_client_cert'),'client_cert');
+		$cer->setSize(60);
 		$cer->setValue($this->settings->getClientCertPath());
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 		
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_cert_key'),'key_path');
+		$cer->setSize(60);
 		$cer->setValue($this->settings->getKeyPath());
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 		
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_key_password'),'key_password');
+		$cer->setSize(12);
 		$cer->setValue($this->settings->getKeyPassword());
 		$cer->setInputType('password');
 		$cer->setRequired(true);
 		$this->form->addItem($cer);
 
 		$cer = new ilTextInputGUI($this->lng->txt('ecs_ca_cert'),'ca_cert');
+		$cer->setSize(60);
 		$cer->setValue($this->settings->getCACertPath());
 		$cer->setRequired(true);
 		$this->form->addItem($cer);

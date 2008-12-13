@@ -178,7 +178,7 @@ class ilECSParticipant
 	 */
 	public function isSelf()
 	{
-	 	return $this->getCertId() == $this->settings->getCertSerialNumber();
+	 	return (int) $this->getCertId() == (int) $this->settings->getCertSerialNumber();
 	}
 	
 	
