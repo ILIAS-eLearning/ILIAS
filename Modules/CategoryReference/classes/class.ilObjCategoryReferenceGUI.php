@@ -25,7 +25,7 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
 /** 
 * 
 * 
-* @author Stefan Meyer <smeyer@leifos.com>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjCategoryReferenceGUI: ilPermissionGUI, ilInfoScreenGUI

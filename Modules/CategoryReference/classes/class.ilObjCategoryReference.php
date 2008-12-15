@@ -26,7 +26,7 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReference.p
 /** 
 * 
 * 
-* @author Stefan Meyer <smeyer@leifos.com>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *

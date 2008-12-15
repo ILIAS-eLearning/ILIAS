@@ -26,7 +26,7 @@ include_once('./Services/EventHandling/interfaces/interface.ilAppEventListener.p
 /** 
 * Handles delete events from courses and categories.
 * 
-* @author Stefan Meyer <smeyer@leifos.com>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
