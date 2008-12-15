@@ -20,112 +20,124 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
-
-import java.util.Vector;
+package de.ilias.services.lucene.index;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
 
 /**
- * 
+ * Represents a single entry from table search_command_queue
+ * Read only: Updates should be handled in class CommandQueue
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
+public class CommandQueueElement {
 
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
+	public static final int RESET = 1;
+	public static final int RESET_ALL = 2;
+	public static final int UPDATE = 3;
+	public static final int CREATE = 4;
+	public static final int DELETE = 5;
+
 	
-	private String type;
-	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
+	protected static Logger logger = Logger.getLogger(CommandQueueElement.class);
+	
+	private int objId;
+	private String objType;
+	private int subId;
+	private String subType;
+
+	private String command;
+	private boolean finished;
 	
 	/**
 	 * 
 	 */
-	public ObjectDefinition(String type) {
-		
-		this();
-		this.setType(type);
+	public CommandQueueElement() {
+
 	}
 
 	/**
-	 * 
+	 * @return the objId
 	 */
-	public ObjectDefinition() {
-
-	}
-	
-	public Vector<Document> getDocuments() {
-		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
+	public int getObjId() {
+		return objId;
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param objId the objId to set
 	 */
-	public void setType(String type) {
-		
-		logger.debug("Found new definition for type: " + type);
-		this.type = type;
+	public void setObjId(int objId) {
+		this.objId = objId;
 	}
 
 	/**
-	 * @return the type
+	 * @return the objType
 	 */
-	public String getType() {
-		return type;
+	public String getObjType() {
+		return objType;
 	}
 
 	/**
-	 * @return the documents
+	 * @param objType the objType to set
 	 */
-	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
-		return documents;
+	public void setObjType(String objType) {
+		this.objType = objType;
 	}
 
-	public void addDocumentDefinition(DocumentDefinition doc) {
-		
-		documents.add(doc);
-	}
-	
-	public void removeDocumentDefinition(DocumentDefinition doc) {
-		
-		int index;
-		
-		while((index = documents.indexOf(doc)) != -1) {
-			documents.remove(index);
-		}
-		return;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @return the subId
 	 */
-	@Override
-	public String toString() {
-
-		StringBuffer out = new StringBuffer();
-		
-		out.append("Object Definition for type = " + getType());
-		out.append("\n");
-		
-		for(Object doc : getDocumentDefinitions()) {
-			
-			out.append(doc);
-			out.append("\n");
-		}
-		return out.toString();
+	public int getSubId() {
+		return subId;
 	}
-	
-	
-	
-	
+
+	/**
+	 * @param subId the subId to set
+	 */
+	public void setSubId(int subId) {
+		this.subId = subId;
+	}
+
+	/**
+	 * @return the subType
+	 */
+	public String getSubType() {
+		return subType;
+	}
+
+	/**
+	 * @param subType the subType to set
+	 */
+	public void setSubType(String subType) {
+		this.subType = subType;
+	}
+
+	/**
+	 * @return the command
+	 */
+	public String getCommand() {
+		return command;
+	}
+
+	/**
+	 * @param command the command to set
+	 */
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
+	/**
+	 * @return the finished
+	 */
+	public boolean isFinished() {
+		return finished;
+	}
+
+	/**
+	 * @param finished the finished to set
+	 */
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
 }

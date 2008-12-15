@@ -20,112 +20,102 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
+package de.ilias.services.lucene.index;
 
+import java.sql.SQLException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
+import de.ilias.services.object.ObjectDefinition;
+import de.ilias.services.object.ObjectDefinitionException;
+import de.ilias.services.object.ObjectDefinitions;
+import de.ilias.services.settings.ClientSettings;
+import de.ilias.services.settings.LocalSettings;
+
 /**
- * 
+ * Handles command queue events
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
+public class CommandScheduler {
 
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
+	protected static Logger logger = Logger.getLogger(CommandScheduler.class);
 	
-	private String type;
-	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
+	private CommandQueue queue;
+	private ObjectDefinitions objDefinitions;
+	
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
+	public CommandScheduler(ObjectDefinitions objDefinitions) throws SQLException {
+
+		setQueue(new CommandQueue());
+		this.objDefinitions = objDefinitions;
+	}
 	
 	/**
 	 * 
 	 */
-	public ObjectDefinition(String type) {
+	public void schedule() {
 		
-		this();
-		this.setType(type);
-	}
-
-	/**
-	 * 
-	 */
-	public ObjectDefinition() {
-
-	}
-	
-	public Vector<Document> getDocuments() {
+		ObjectDefinition definition;
 		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		
-		logger.debug("Found new definition for type: " + type);
-		this.type = type;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @return the documents
-	 */
-	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
-		return documents;
-	}
-
-	public void addDocumentDefinition(DocumentDefinition doc) {
-		
-		documents.add(doc);
-	}
-	
-	public void removeDocumentDefinition(DocumentDefinition doc) {
-		
-		int index;
-		
-		while((index = documents.indexOf(doc)) != -1) {
-			documents.remove(index);
-		}
-		return;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-
-		StringBuffer out = new StringBuffer();
-		
-		out.append("Object Definition for type = " + getType());
-		out.append("\n");
-		
-		for(Object doc : getDocumentDefinitions()) {
+		for(Object el : queue.getElements()) {
 			
-			out.append(doc);
-			out.append("\n");
+			try {
+				if(((CommandQueueElement) el).getCommand().equals("delete"))
+					deleteDocument((CommandQueueElement) el);
+				else if(((CommandQueueElement) el).getCommand().equals("reset"))
+					deleteDocument((CommandQueueElement) el);
+				
+				definition = objDefinitions.getDefinitionByType(((CommandQueueElement) el).getObjType());
+				addDocuments(definition.getDocuments());
+			} 
+			catch (ObjectDefinitionException e) {
+				logger.warn("No definition found for objType: " + ((CommandQueueElement) el).getObjType());
+			}
 		}
-		return out.toString();
+	}	
+
+	/**
+	 * @param el
+	 */
+	private void deleteDocument(CommandQueueElement el) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	/**
+	 * @param documents
+	 */
+	private void addDocuments(Vector<Document> documents) {
+
+		for(Object el : documents) {
+			
+			// TODO: add document to index
+		}
 	
-	
-	
-	
+	}
+
+
+
+
+	/**
+	 * @param queue the queue to set
+	 */
+	public void setQueue(CommandQueue queue) {
+		this.queue = queue;
+	}
+
+	/**
+	 * @return the queue
+	 */
+	public CommandQueue getQueue() {
+		return queue;
+	}
+
 }

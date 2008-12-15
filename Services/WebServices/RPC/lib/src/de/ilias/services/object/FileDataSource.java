@@ -22,10 +22,7 @@
 
 package de.ilias.services.object;
 
-import java.util.Vector;
 
-import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
 
 /**
  * 
@@ -33,99 +30,13 @@ import org.apache.lucene.document.Document;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
-
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
-	
-	private String type;
-	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
-	
-	/**
-	 * 
-	 */
-	public ObjectDefinition(String type) {
-		
-		this();
-		this.setType(type);
-	}
+public class FileDataSource extends DataSource {
 
 	/**
-	 * 
+	 * @param type
 	 */
-	public ObjectDefinition() {
+	public FileDataSource(int type) {
 
+		super(type);
 	}
-	
-	public Vector<Document> getDocuments() {
-		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		
-		logger.debug("Found new definition for type: " + type);
-		this.type = type;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @return the documents
-	 */
-	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
-		return documents;
-	}
-
-	public void addDocumentDefinition(DocumentDefinition doc) {
-		
-		documents.add(doc);
-	}
-	
-	public void removeDocumentDefinition(DocumentDefinition doc) {
-		
-		int index;
-		
-		while((index = documents.indexOf(doc)) != -1) {
-			documents.remove(index);
-		}
-		return;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-
-		StringBuffer out = new StringBuffer();
-		
-		out.append("Object Definition for type = " + getType());
-		out.append("\n");
-		
-		for(Object doc : getDocumentDefinitions()) {
-			
-			out.append(doc);
-			out.append("\n");
-		}
-		return out.toString();
-	}
-	
-	
-	
-	
 }

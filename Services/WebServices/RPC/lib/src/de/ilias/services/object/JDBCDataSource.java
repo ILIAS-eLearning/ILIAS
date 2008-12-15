@@ -24,8 +24,9 @@ package de.ilias.services.object;
 
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+
+import de.ilias.services.lucene.index.DocumentHandlerException;
 
 /**
  * 
@@ -33,77 +34,54 @@ import org.apache.lucene.document.Document;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
+public class JDBCDataSource extends DataSource {
 
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
+	String query;
+	Vector<ParameterDefinition> parameters = new Vector<ParameterDefinition>();
 	
-	private String type;
-	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
+
+	/**
+	 * @param type
+	 */
+	public JDBCDataSource(int type) {
+
+		super(type);
+	}
+
+	/**
+	 * @return the query
+	 */
+	public String getQuery() {
+		return query;
+	}
+
+	/**
+	 * @param query the query to set
+	 */
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	/**
+	 * @return the parameters
+	 */
+	public Vector<ParameterDefinition> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * @param parameters the parameters to set
+	 */
+	public void setParameters(Vector<ParameterDefinition> parameters) {
+		this.parameters = parameters;
+	}
 	
 	/**
 	 * 
+	 * @param parameter
 	 */
-	public ObjectDefinition(String type) {
-		
-		this();
-		this.setType(type);
-	}
-
-	/**
-	 * 
-	 */
-	public ObjectDefinition() {
-
-	}
-	
-	public Vector<Document> getDocuments() {
-		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		
-		logger.debug("Found new definition for type: " + type);
-		this.type = type;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @return the documents
-	 */
-	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
-		return documents;
-	}
-
-	public void addDocumentDefinition(DocumentDefinition doc) {
-		
-		documents.add(doc);
-	}
-	
-	public void removeDocumentDefinition(DocumentDefinition doc) {
-		
-		int index;
-		
-		while((index = documents.indexOf(doc)) != -1) {
-			documents.remove(index);
-		}
-		return;
+	public void addParameter(ParameterDefinition parameter) {
+		this.parameters.add(parameter);
 	}
 
 	/* (non-Javadoc)
@@ -111,21 +89,20 @@ public class ObjectDefinition {
 	 */
 	@Override
 	public String toString() {
-
+		
 		StringBuffer out = new StringBuffer();
 		
-		out.append("Object Definition for type = " + getType());
+		out.append("New JDBC Data Source" );
+		out.append("\n");
+		out.append("Query: " + getQuery());
 		out.append("\n");
 		
-		for(Object doc : getDocumentDefinitions()) {
+		for(Object param : getParameters()) {
 			
-			out.append(doc);
-			out.append("\n");
+			out.append(param.toString());
 		}
+		out.append(super.toString());
+		
 		return out.toString();
-	}
-	
-	
-	
-	
+	}		
 }

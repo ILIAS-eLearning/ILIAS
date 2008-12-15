@@ -22,10 +22,7 @@
 
 package de.ilias.services.object;
 
-import java.util.Vector;
-
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
 
 /**
  * 
@@ -33,77 +30,91 @@ import org.apache.lucene.document.Document;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
+public class ParameterDefinition {
 
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
+	public static final int FORMAT_LIST = 1;
 	
-	private String type;
-	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
+	public static final int TYPE_INT = 1;
+
+	protected Logger logger = Logger.getLogger(ParameterDefinition.class);
+	
+	private int format;
+	private int type;
+	private String value;
+	
 	
 	/**
 	 * 
 	 */
-	public ObjectDefinition(String type) {
+	public ParameterDefinition(int format,int type,String value) {
 		
-		this();
-		this.setType(type);
-	}
-
-	/**
-	 * 
-	 */
-	public ObjectDefinition() {
-
-	}
-	
-	public Vector<Document> getDocuments() {
-		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		
-		logger.debug("Found new definition for type: " + type);
+		this.format = format;
 		this.type = type;
+		this.value = value;
 	}
+	
+	/**
+	 * 
+	 * @param format
+	 * @param type
+	 * @param value
+	 */
+	public ParameterDefinition(String format,String type, String value) {
+		
+		if(format.equals("format")) {
+			this.format = FORMAT_LIST;
+		}
+		if(type.equals("int")) {
+			this.type = TYPE_INT;
+		}
+		this.value = value;
+	}
+	
+	/**
+	 * @return the format
+	 */
+	public int getFormat() {
+		return format;
+	}
+
+
+	/**
+	 * @param format the format to set
+	 */
+	public void setFormat(int format) {
+		this.format = format;
+	}
+
 
 	/**
 	 * @return the type
 	 */
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
+
 	/**
-	 * @return the documents
+	 * @param type the type to set
 	 */
-	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
-		return documents;
+	public void setType(int type) {
+		this.type = type;
 	}
 
-	public void addDocumentDefinition(DocumentDefinition doc) {
-		
-		documents.add(doc);
+
+	/**
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
 	}
-	
-	public void removeDocumentDefinition(DocumentDefinition doc) {
-		
-		int index;
-		
-		while((index = documents.indexOf(doc)) != -1) {
-			documents.remove(index);
-		}
-		return;
+
+
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	/* (non-Javadoc)
@@ -114,18 +125,11 @@ public class ObjectDefinition {
 
 		StringBuffer out = new StringBuffer();
 		
-		out.append("Object Definition for type = " + getType());
+		out.append("Parameter " + format + " " + type + " " + value);
 		out.append("\n");
-		
-		for(Object doc : getDocumentDefinitions()) {
-			
-			out.append(doc);
-			out.append("\n");
-		}
 		return out.toString();
 	}
 	
 	
-	
-	
+
 }

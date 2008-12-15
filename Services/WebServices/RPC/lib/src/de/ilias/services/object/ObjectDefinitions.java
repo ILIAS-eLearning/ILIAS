@@ -109,6 +109,25 @@ public class ObjectDefinitions {
 		}
 		throw new ObjectDefinitionException("Invalid type given. Cannot find obj type " + objType);
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+
+		StringBuffer out = new StringBuffer();
+		
+		for(Object defs : this.getDefinitions()) {
+			
+			out.append("Object definitions for: " + getAbsolutePath().getAbsolutePath());
+			out.append("\n");
+			out.append(defs);
+		}
+		return out.toString();
+	}
+	
+	
 	
 	
 }

@@ -43,7 +43,7 @@ public class ObjectDefinitionReader {
 	private static Logger logger = Logger.getLogger(ObjectDefinitionReader.class);
 	private static HashMap<File, ObjectDefinitionReader> instances = new HashMap<File, ObjectDefinitionReader>();
 	
-	public static final String objectPropertyName = "object_search.xml";
+	public static final String objectPropertyName = "LuceneObjectDefinition.xml";
 	private Vector<File> objectPropertyFiles = new Vector<File>();
 	
 

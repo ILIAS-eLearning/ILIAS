@@ -27,105 +27,90 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
+import de.ilias.services.lucene.index.DocumentHandler;
+import de.ilias.services.lucene.index.DocumentHandlerException;
+
 /**
  * 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
+public abstract class DataSource {
+	
+	public static final int TYPE_JDBC = 1;
+	public static final int TYPE_FILE = 2;
+	
+	protected static Logger logger = Logger.getLogger(DataSource.class);
 
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
+	private int type;
+	Vector<FieldDefinition> fields = new Vector<FieldDefinition>();
 	
-	private String type;
-	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
-	
-	/**
-	 * 
-	 */
-	public ObjectDefinition(String type) {
-		
-		this();
-		this.setType(type);
-	}
 
 	/**
 	 * 
 	 */
-	public ObjectDefinition() {
+	public DataSource(int type) {
 
+		this.type = type;
 	}
 	
-	public Vector<Document> getDocuments() {
-		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
+	
+	/**
+	 * @return the type
+	 */
+	public int getType() {
+		return type;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(String type) {
-		
-		logger.debug("Found new definition for type: " + type);
+	public void setType(int type) {
 		this.type = type;
 	}
-
+	
 	/**
-	 * @return the type
+	 * @return the fields
 	 */
-	public String getType() {
-		return type;
+	public Vector<FieldDefinition> getFields() {
+		return fields;
 	}
 
 	/**
-	 * @return the documents
+	 * @param fields the fields to set
 	 */
-	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
-		return documents;
-	}
-
-	public void addDocumentDefinition(DocumentDefinition doc) {
-		
-		documents.add(doc);
+	public void setFields(Vector<FieldDefinition> fields) {
+		this.fields = fields;
 	}
 	
-	public void removeDocumentDefinition(DocumentDefinition doc) {
-		
-		int index;
-		
-		while((index = documents.indexOf(doc)) != -1) {
-			documents.remove(index);
-		}
-		return;
-	}
-
+	/**
+	 * 
+	 * @param field
+	 */
+	public void addField(FieldDefinition field) {
+		this.fields.add(field);
+	}	
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-
+		
 		StringBuffer out = new StringBuffer();
-		
-		out.append("Object Definition for type = " + getType());
-		out.append("\n");
-		
-		for(Object doc : getDocumentDefinitions()) {
+
+		for(Object field : getFields()) {
 			
-			out.append(doc);
-			out.append("\n");
+			out.append(field.toString());
 		}
+	
 		return out.toString();
 	}
 	
 	
 	
 	
+
+
 }

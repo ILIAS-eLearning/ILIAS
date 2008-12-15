@@ -44,6 +44,7 @@ import de.ilias.services.db.DBFactory;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitionParser;
 import de.ilias.services.object.ObjectDefinitionReader;
+import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
@@ -68,11 +69,17 @@ public class RPCIndexHandler {
 		ObjectDefinitionReader properties;
 		ObjectDefinitionParser parser;
 		
+		CommandScheduler scheduler;
+		
 		try {
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			properties = ObjectDefinitionReader.getInstance(client.getAbsolutePath());
 			parser = new ObjectDefinitionParser(properties.getObjectPropertyFiles());
 			parser.parse();
+			
+			scheduler = new CommandScheduler(ObjectDefinitions.getInstance(client.getAbsolutePath()));
+			
+			
 			
 			IndexWriter writer = new IndexWriter(FSDirectory.getDirectory(client.getIndexPath(),true),
 					new StandardAnalyzer(),
@@ -98,15 +105,15 @@ public class RPCIndexHandler {
 		} 
 		catch (ObjectDefinitionException e) {
 			logger.error(e);
+		} 
+		catch (SQLException e) {
+			logger.error(e);
 		}
 		logger.debug("Start connection");
 
 		
 		
 		return true;
-		
-		
-		
 	}
 
 
