@@ -26,7 +26,7 @@ include_once('./classes/class.ilObjectGUI.php');
 /** 
 * 
 * 
-* @author Stefan Meyer <smeyer@leifos.com>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *

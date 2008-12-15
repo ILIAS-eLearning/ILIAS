@@ -26,7 +26,7 @@ include_once('Services/Exceptions/classes/class.ilException.php');
 /** 
 * Exception class for ObjectXMLWriter and ObjectXMLParser
 * 
-* @author Stefan Meyer <smeyer@leifos.com>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
