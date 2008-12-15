@@ -56,4 +56,11 @@ function vd()
 		$num++;
 	}
 }
+
+function pr($var,$name = '')
+{
+	if($name != '') $name .= ' = ';
+	echo '<pre>'.$name.print_r($var,true).'</pre>';
+}
+
 ?>
