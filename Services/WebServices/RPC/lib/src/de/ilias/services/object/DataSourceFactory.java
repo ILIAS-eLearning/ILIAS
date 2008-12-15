@@ -22,10 +22,7 @@
 
 package de.ilias.services.object;
 
-import java.util.Vector;
-
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
 
 /**
  * 
@@ -33,99 +30,34 @@ import org.apache.lucene.document.Document;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
-
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
+public class DataSourceFactory {
 	
-	private String type;
-	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
+	protected static Logger logger = Logger.getLogger(DataSourceFactory.class);
 	
-	/**
-	 * 
-	 */
-	public ObjectDefinition(String type) {
+	public static DataSource factory(int type) throws ObjectDefinitionException {
 		
-		this();
-		this.setType(type);
-	}
-
-	/**
-	 * 
-	 */
-	public ObjectDefinition() {
-
-	}
-	
-	public Vector<Document> getDocuments() {
+		switch(type) {
 		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		
-		logger.debug("Found new definition for type: " + type);
-		this.type = type;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @return the documents
-	 */
-	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
-		return documents;
-	}
-
-	public void addDocumentDefinition(DocumentDefinition doc) {
-		
-		documents.add(doc);
-	}
-	
-	public void removeDocumentDefinition(DocumentDefinition doc) {
-		
-		int index;
-		
-		while((index = documents.indexOf(doc)) != -1) {
-			documents.remove(index);
-		}
-		return;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-
-		StringBuffer out = new StringBuffer();
-		
-		out.append("Object Definition for type = " + getType());
-		out.append("\n");
-		
-		for(Object doc : getDocumentDefinitions()) {
+		case DataSource.TYPE_JDBC:
+			return new JDBCDataSource(type);
 			
-			out.append(doc);
-			out.append("\n");
+		case DataSource.TYPE_FILE:
+			return new FileDataSource(type);
 		}
-		return out.toString();
+		
+		throw new ObjectDefinitionException("Invalid type: " + type);
+		
 	}
-	
-	
-	
-	
+
+	public static DataSource factory(String type) throws ObjectDefinitionException {
+		
+		if(type.equalsIgnoreCase("JDBC")) {
+			return factory(DataSource.TYPE_JDBC);
+		}
+		else if(type.equalsIgnoreCase("File")) {
+			return factory(DataSource.TYPE_FILE);
+		}
+		throw new ObjectDefinitionException("Invalid type: " + type);
+		
+	}
 }

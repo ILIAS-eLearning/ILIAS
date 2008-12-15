@@ -25,13 +25,12 @@
 	<target name="compile" depends="init" >
         <javac srcdir="${src}"
         	destdir="${build}"
-        	source="1.5"
-        	target="1.5"
+        	source="1.6"
+        	target="1.6"
 			classpathref="path-compile"
 			debug="yes">
 			<exclude name="ilias/**" /> 
         </javac>
-		
     </target>
 
     <!-- - - - - - - - - - - - - - - - - - 
@@ -58,9 +57,8 @@
 			<fileset dir="${tmp}" />
     		<manifest>
     			<attribute name="Main-Class" value="de.ilias.ilServer"/>
-    			<attribute name="MODULE-VERSION" value="3.10.2" />
+    			<attribute name="MODULE-VERSION" value="3.10.3" />
    			</manifest>
     	</jar>
     </target>
 </project>
-

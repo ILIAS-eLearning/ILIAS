@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="crs">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<DataSource type="JDBC">
+			<Query>
+				SELECT * FROM crs_settings
+				WHERE obj_id IN (?);
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="syllabus" name="propertyHigh">
+				<Transformer name="de.ilias.lucene.transformer.ContentObjectTransformer" />
+			</Field>
+			<Field store="YES" index="ANALYZED" column="important" name="propertyHigh" />
+			<Field store="YES" index="ANALYZED" column="contact_name" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_responsibility" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_phone" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_email" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_consultation" name="propertyLow" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>

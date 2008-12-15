@@ -20,12 +20,7 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
-
-import java.util.Vector;
-
-import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
+package de.ilias.services.lucene.index;
 
 /**
  * 
@@ -33,99 +28,43 @@ import org.apache.lucene.document.Document;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
-
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
-	
-	private String type;
-	private Vector<DocumentDefinition> documents = new Vector<DocumentDefinition>();
-	
-	/**
-	 * 
-	 */
-	public ObjectDefinition(String type) {
-		
-		this();
-		this.setType(type);
-	}
+public class DocumentHandlerException extends Exception {
 
 	/**
 	 * 
 	 */
-	public ObjectDefinition() {
+	private static final long serialVersionUID = 1L;
 
-	}
-	
-	public Vector<Document> getDocuments() {
-		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
+	/**
+	 * 
+	 */
+	public DocumentHandlerException() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param message
 	 */
-	public void setType(String type) {
-		
-		logger.debug("Found new definition for type: " + type);
-		this.type = type;
+	public DocumentHandlerException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @return the type
+	 * @param cause
 	 */
-	public String getType() {
-		return type;
+	public DocumentHandlerException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @return the documents
+	 * @param message
+	 * @param cause
 	 */
-	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
-		return documents;
+	public DocumentHandlerException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
 	}
 
-	public void addDocumentDefinition(DocumentDefinition doc) {
-		
-		documents.add(doc);
-	}
-	
-	public void removeDocumentDefinition(DocumentDefinition doc) {
-		
-		int index;
-		
-		while((index = documents.indexOf(doc)) != -1) {
-			documents.remove(index);
-		}
-		return;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-
-		StringBuffer out = new StringBuffer();
-		
-		out.append("Object Definition for type = " + getType());
-		out.append("\n");
-		
-		for(Object doc : getDocumentDefinitions()) {
-			
-			out.append(doc);
-			out.append("\n");
-		}
-		return out.toString();
-	}
-	
-	
-	
-	
 }
