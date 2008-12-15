@@ -333,7 +333,7 @@ class ilCertificate
 		$content = str_replace("&nbsp;", " ", $content);
 		$content = preg_replace("//", "", $content);
 
-		include_once "./Services/Certificate/classes/class.ilXMLChecker.php";
+		include_once "./Services/Certificate/classes/class.ilXmlChecker.php";
 		$check = new ilXMLChecker();
 		$check->setXMLContent($content);
 		$check->startParsing();
