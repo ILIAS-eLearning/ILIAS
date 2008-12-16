@@ -3105,7 +3105,24 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
 			$result_set[$counter][] = "<a href=\"".$this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm")."\">".ilObjRole::_getTranslation($role["title"])."</a>";
             $result_set[$counter][] = $role["description"];
-		    $result_set[$counter][] = $path;
+
+		// Add link to objector local Rores
+	        if ($role["role_type"] == "local") {
+        	        // Get Object to the role
+                	$obj_id = ilRbacReview::getObjectOfRole($role["rol_id"]);
+
+	                $obj_type = ilObject::_lookupType($obj_id);
+
+        	        $ref_ids = ilObject::_getAllReferences($obj_id);
+
+                	foreach ($ref_ids as $ref_id) {}
+
+	                require_once("./classes/class.ilLink.php");
+	
+        	        $result_set[$counter][] = "<a href='".ilLink::_getLink($ref_id, ilObject::_lookupType($obj_id))."' target='_top'>".$path."</a>";
+	        }
+        	else
+                	$result_set[$counter][] = $path;
 
    			++$counter;
         }
