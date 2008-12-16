@@ -8773,3 +8773,6 @@ assessment#:#manscoring_pending#:#Teilweise bewertete Teilnehmer
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
 file#:#file_new_version#:#Neue Version anlegen
+common#:#save_params_for_cron#:#Speichere Parameter für Cronjob
+common#:#systemcheck_cronform#:#Aktivierung des System Checks im Cronjob
+common#:#systemcheck_cron#:#System Check via Cronjob
