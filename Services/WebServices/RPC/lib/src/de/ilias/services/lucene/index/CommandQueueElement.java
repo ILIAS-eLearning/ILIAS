@@ -33,11 +33,11 @@ import org.apache.log4j.Logger;
  */
 public class CommandQueueElement {
 
-	public static final int RESET = 1;
-	public static final int RESET_ALL = 2;
-	public static final int UPDATE = 3;
-	public static final int CREATE = 4;
-	public static final int DELETE = 5;
+	public static final String RESET = "reset";
+	public static final String RESET_ALL = "reset_all";
+	public static final String UPDATE = "update";
+	public static final String CREATE = "create";
+	public static final String DELETE = "delete";
 
 	
 	protected static Logger logger = Logger.getLogger(CommandQueueElement.class);

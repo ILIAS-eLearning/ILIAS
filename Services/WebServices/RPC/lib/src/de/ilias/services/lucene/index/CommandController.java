@@ -31,8 +31,6 @@ import org.apache.lucene.document.Document;
 import de.ilias.services.object.ObjectDefinition;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitions;
-import de.ilias.services.settings.ClientSettings;
-import de.ilias.services.settings.LocalSettings;
 
 /**
  * Handles command queue events
@@ -40,9 +38,9 @@ import de.ilias.services.settings.LocalSettings;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class CommandScheduler {
+public class CommandController {
 
-	protected static Logger logger = Logger.getLogger(CommandScheduler.class);
+	protected static Logger logger = Logger.getLogger(CommandController.class);
 	
 	private CommandQueue queue;
 	private ObjectDefinitions objDefinitions;
@@ -51,7 +49,7 @@ public class CommandScheduler {
 	 * @throws SQLException 
 	 * 
 	 */
-	public CommandScheduler(ObjectDefinitions objDefinitions) throws SQLException {
+	public CommandController(ObjectDefinitions objDefinitions) throws SQLException {
 
 		setQueue(new CommandQueue());
 		this.objDefinitions = objDefinitions;
@@ -60,7 +58,7 @@ public class CommandScheduler {
 	/**
 	 * 
 	 */
-	public void schedule() {
+	public void start() {
 		
 		ObjectDefinition definition;
 		
