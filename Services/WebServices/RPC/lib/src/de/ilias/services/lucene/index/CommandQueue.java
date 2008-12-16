@@ -31,6 +31,7 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import de.ilias.services.db.DBFactory;
+import de.ilias.services.object.DataSource;
 
 
 /**
@@ -97,8 +98,11 @@ public class CommandQueue {
 
 		logger.debug("Start reading command queue");
 		
-		Statement sta = db.createStatement();
+		// Substitute all reset_all commands withc reset command for each undeleted object id 
+		substituteResetCommands();
 		
+		
+		Statement sta = db.createStatement();
 		// TODO: Only retrieve data sets newer than date XYZ
 		ResultSet res = sta.executeQuery("SELECT * FROM search_command_queue " +
 				"WHERE finished = 0 " +
@@ -121,6 +125,107 @@ public class CommandQueue {
 			counter++;
 		}
 		logger.info("Found " + counter + " new update events!");
+	}
+
+
+	/**
+	 * @throws SQLException 
+	 * 
+	 */
+	private void substituteResetCommands() throws SQLException {
+
+		try {
+			PreparedStatement sta = db.prepareStatement("SELECT * FROM search_command_queue " +
+					"WHERE command = ? " +
+					"AND obj_id = 0");
+			sta.setString(1, "reset_all");
+			
+			ResultSet res = sta.executeQuery();
+			while(res.next()) {
+				
+				logger.debug("Start substituting obj_type " + res.getString("obj_type"));
+				deleteCommandsByType(res.getString("obj_type"));
+				addCommandsByType(res.getString("obj_type"));
+				deleteResetCommandByType(res.getString("obj_type"));
+			}
+		} catch(SQLException e) {
+			logger.fatal("Invalid SQL statement!");
+			throw e;
+		}
+	}
+
+	/**
+	 * @param string
+	 * @throws SQLException 
+	 */
+	private void deleteResetCommandByType(String objType) throws SQLException {
+
+		try {
+			PreparedStatement sta = db.prepareStatement("DELETE FROM search_command_queue " +
+				"WHERE obj_type = ? " + 
+				"AND obj_id = 0 ");
+			sta.setString(1, objType);
+			sta.executeUpdate();
+			return;
+		}
+		catch(SQLException e) {
+			logger.fatal("Cannot delete reset commands!");
+			throw e;
+		}
+	}
+
+	/**
+	 * @param string
+	 * @throws SQLException 
+	 */
+	private void deleteCommandsByType(String objType) throws SQLException {
+
+		try {
+			PreparedStatement sta = db.prepareStatement("DELETE FROM search_command_queue " + 
+				"WHERE obj_type = ? " +
+				"AND obj_id > 0");
+			sta.setString(1, objType);
+			sta.executeUpdate();
+			return;
+		} catch (SQLException e) {
+			logger.fatal("Cannot delete reset commands!");
+			throw e;
+		}
+	}
+
+	/**
+	 * @param string
+	 * @throws SQLException 
+	 */
+	private void addCommandsByType(String objType) throws SQLException {
+
+		// TODO: Error handling
+		
+		PreparedStatement sta = db.prepareStatement(
+			"SELECT oda.obj_id FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id WHERE deleted = '0000-00-00 00:00:00' ");
+		ResultSet res = sta.executeQuery();
+		
+		logger.debug("Adding commands for object type: " + objType);
+		
+		while(res.next()) {
+			
+			logger.debug("Added new reset command");
+			
+			// Add each single object
+			PreparedStatement objReset = db.prepareStatement(
+					"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+			objReset.setInt(1,res.getInt("obj_id"));
+			objReset.setString(2, objType);
+			objReset.setInt(3,0);
+			objReset.setString(4,"");
+			objReset.setString(5,"reset");
+			objReset.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+			objReset.setInt(7,0);
+			
+			objReset.executeUpdate();
+		}
+		return;
+		
 	}
 
 

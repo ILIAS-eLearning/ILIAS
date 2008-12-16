@@ -69,7 +69,7 @@ public class RPCIndexHandler {
 		ObjectDefinitionReader properties;
 		ObjectDefinitionParser parser;
 		
-		CommandScheduler scheduler;
+		CommandController controller;
 		
 		try {
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
@@ -77,7 +77,8 @@ public class RPCIndexHandler {
 			parser = new ObjectDefinitionParser(properties.getObjectPropertyFiles());
 			parser.parse();
 			
-			scheduler = new CommandScheduler(ObjectDefinitions.getInstance(client.getAbsolutePath()));
+			controller = new CommandController(ObjectDefinitions.getInstance(client.getAbsolutePath()));
+			controller.start();
 			
 			
 			
