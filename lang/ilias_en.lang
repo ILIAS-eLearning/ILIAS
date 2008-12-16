@@ -8792,3 +8792,6 @@ assessment#:#manscoring_pending#:#Partially Scored Participants
 file#:#replace_file_info#:#All files versions will be deleted.
 file#:#file_new_version_info#:#Create new file version. Old versions will not be modfied.
 file#:#file_new_version#:#Create New Version
+common#:#save_params_for_cron#:#Save Parameter for Cronjob
+common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
+common#:#systemcheck_cron#:#Process System Check in Cronjob

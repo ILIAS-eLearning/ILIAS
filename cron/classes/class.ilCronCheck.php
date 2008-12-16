@@ -103,6 +103,15 @@ class ilCronCheck
 			$mail_not =& new ilCronMailNotification();
 			$mail_not->sendNotifications();
 		}
+		
+		// Start System Check
+		if($ilias->getSetting('systemcheck_cron') == 1)
+		{
+			include_once './cron/classes/class.ilCronValidator.php';
+			
+			$validator =& new ilCronValidator();
+			$validator->check();
+		}
 
 	}
 }

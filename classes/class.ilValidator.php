@@ -161,7 +161,17 @@ class ilValidator extends PEAR
 			$this->writeScanLogLine("\n[Systemscan from ".date("y-m-d H:i]"));
 		}
 	}
-
+	
+	/**
+	* get possible ilValidator modes
+	* @access	public
+	* @return	array modes
+	*/
+	public function getPossibleModes()
+	{
+		return array_keys($this->mode);
+	}
+	
 	/**
 	* set mode of ilValidator
 	* Usage: setMode("restore",true)	=> enable object restorey

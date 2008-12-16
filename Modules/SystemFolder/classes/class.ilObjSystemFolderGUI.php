@@ -1128,7 +1128,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function checkObject()
 	{
-		global $rbacsystem, $ilias, $objDefinition;
+		global $rbacsystem, $ilias, $objDefinition, $ilSetting;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -1149,6 +1149,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if ($_POST["mode"])
 		{
 //echo "3";
+			$this->writeCheckParams();
 			$this->startValidator($_POST["mode"],$_POST["log_scan"]);
 		}
 		else
@@ -1195,6 +1196,35 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_TYPE_LIMIT", $this->lng->txt("purge_type_limit"));
 			$this->tpl->setVariable("TXT_TYPE_LIMIT_DESC", $this->lng->txt("purge_type_limit_desc"));
 
+			if($ilias->account->getPref('systemcheck_mode_scan'))
+				$this->tpl->touchBlock('mode_scan_checked');
+			if($ilias->account->getPref('systemcheck_mode_dump_tree'))
+				$this->tpl->touchBlock('mode_dump_tree_checked');
+			if($ilias->account->getPref('systemcheck_mode_clean'))
+				$this->tpl->touchBlock('mode_clean_checked');
+			if($ilias->account->getPref('systemcheck_mode_restore'))
+			{
+				$this->tpl->touchBlock('mode_restore_checked');
+				$this->tpl->touchBlock('mode_purge_disabled');
+			}
+			elseif($ilias->account->getPref('systemcheck_mode_purge'))
+			{
+				$this->tpl->touchBlock('mode_purge_checked');
+				$this->tpl->touchBlock('mode_restore_disabled');
+			}
+			if($ilias->account->getPref('systemcheck_mode_restore_trash'))
+			{
+				$this->tpl->touchBlock('mode_restore_trash_checked');
+				$this->tpl->touchBlock('mode_purge_trash_disabled');
+			}
+			elseif($ilias->account->getPref('systemcheck_mode_purge_trash'))
+			{
+				$this->tpl->touchBlock('mode_purge_trash_checked');
+				$this->tpl->touchBlock('mode_restore_trash_disabled');
+			}
+			if($ilias->account->getPref('systemcheck_log_scan'))
+				$this->tpl->touchBlock('log_scan_checked');
+
 			$types = array_merge(array(""), $objDefinition->getAllObjects());
 			$this->tpl->setVariable("TYPE_LIMIT_CHOICE",
 				ilUtil::formSelect(
@@ -1206,7 +1236,73 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_LOG_SCAN", $this->lng->txt("log_scan"));
 			$this->tpl->setVariable("TXT_LOG_SCAN_DESC", $this->lng->txt("log_scan_desc"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("start_scan"));
+
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_params_for_cron"));
+			
+			include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+			
+			$cron_form = new ilPropertyFormGUI();
+			$cron_form->setFormAction($this->ctrl->getFormAction($this));
+			$cron_form->setTitle($this->lng->txt('systemcheck_cronform'));
+			
+				$radio_group = new ilRadioGroupInputGUI($this->lng->txt('systemcheck_cron'), 'cronjob' );
+				$radio_group->setValue( $ilSetting->get('systemcheck_cron') );
+	
+					$radio_opt = new ilRadioOption($this->lng->txt('disabled'),0);
+				$radio_group->addOption($radio_opt);
+	
+					$radio_opt = new ilRadioOption($this->lng->txt('enabled'),1);
+				$radio_group->addOption($radio_opt);
+				
+			$cron_form->addItem($radio_group);
+			
+			$cron_form->addCommandButton('saveCheckCron',$this->lng->txt('save'));
+			
+			$this->tpl->setVariable('CRON_FORM',$cron_form->getHTML());
 		}
+	}
+	
+	private function saveCheckParamsObject()
+	{
+		$this->writeCheckParams();
+		unset($_POST['mode']);
+		return $this->checkObject();
+	}
+	
+	private function writeCheckParams()
+	{
+		include_once "classes/class.ilValidator.php";
+		$validator = new ilValidator();
+		$modes = $validator->getPossibleModes();
+		
+		$prefs = array();
+		foreach($modes as $mode)
+		{
+			if( isset($_POST['mode'][$mode]) ) $value = (int)$_POST['mode'][$mode];
+			else $value = 0;
+			$prefs[ 'systemcheck_mode_'.$mode ] = $value;
+		}
+		
+		if( isset($_POST['log_scan']) ) $value = (int)$_POST['log_scan'];
+		else $value = 0;
+		$prefs['systemcheck_log_scan'] = $value;
+		
+		global $ilUser;
+		foreach($prefs as $key => $val)
+		{
+			$ilUser->writePref($key,$val);
+		}
+	}
+	
+	private function saveCheckCronObject()
+	{
+		global $ilSetting;
+		
+		$systemcheck_cron = ($_POST['cronjob'] ? 1 : 0);
+		$ilSetting->set('systemcheck_cron',$systemcheck_cron);
+		
+		unset($_POST['mode']);
+		return $this->checkObject();
 	}
 
 	/**
@@ -1643,7 +1739,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			//	$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
 
 			$tabs_gui->addTarget("system_check",
-				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog"), get_class($this));
+				$this->ctrl->getLinkTarget($this, "check"), array("check","viewScanLog","saveCheckParams","saveCheckCron"), get_class($this));
 
 			$tabs_gui->addTarget("benchmarks",
 				$this->ctrl->getLinkTarget($this, "benchmark"), "benchmark", get_class($this));
