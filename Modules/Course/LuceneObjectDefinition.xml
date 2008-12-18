@@ -5,9 +5,9 @@
 		<DataSource type="JDBC">
 			<Query>
 				SELECT * FROM crs_settings
-				WHERE obj_id IN (?);
+				WHERE obj_id = ?;
 			</Query>
-			<Param format="list" type="int" value="objId" />
+			<Param format="single" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="syllabus" name="propertyHigh">
 				<Transformer name="de.ilias.lucene.transformer.ContentObjectTransformer" />
 			</Field>
