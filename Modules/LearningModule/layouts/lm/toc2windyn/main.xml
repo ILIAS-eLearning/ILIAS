@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilLayout>
+	<ilFrame name="content" cols="30%,70%">
+		<ilFrame name="toc" template="tpl.toc.html" template_location="module">
+			<ilTOC target_frame="maincontent" />
+		</ilFrame>
+		<ilFrame id="rightframeset" rows="*,0">
+			<ilFrame name="maincontent">
+				<StructureObject template="tpl.page.html" template_location="module">
+					<ilPage/>
+					<ilLMNavigation/>
+					<ilLocator/>
+					<ilMainMenu/>
+					<ilLMMenu />
+					<ilLMHead />
+					<ilLMSubMenu />
+					<ilLMNotes />
+				</StructureObject>
+				<PageObject template="tpl.page.html" template_location="module">
+					<ilPage/>
+					<ilLMNavigation/>
+					<ilLocator/>
+					<ilMainMenu/>
+					<ilLMMenu />
+					<ilLMHead />
+					<ilLMSubMenu />
+					<ilLMNotes />
+				</PageObject>
+			</ilFrame>
+			<ilFrame name="bottomright" template="tpl.blank.html" template_location="module">
+				<PageObject template="tpl.page.html" template_location="module">
+					<ilPage/>
+					<ilJavaScript inline="tpl.toc2windynjs.html" location="Modules/LearningModule"/>
+				</PageObject>
+				<MediaObject template="tpl.fullscreen.html" template_location="module">
+					<ilMedia/>
+					<ilJavaScript inline="tpl.toc2windynjs.html" location="Modules/LearningModule"/>
+				</MediaObject>
+				<GlossaryItem template="tpl.glossary_term_output.html" template_location="module">
+					<ilGlossary/>
+					<ilJavaScript inline="tpl.toc2windynjs.html" location="Modules/LearningModule"/>
+				</GlossaryItem>
+			</ilFrame>
+		</ilFrame>
+	</ilFrame>
+	<ilLinkTargets>
+		<LinkTarget Type="New" Frame="_blank"/>
+		<LinkTarget Type="FAQ" Frame="bottomright"/>
+		<LinkTarget Type="Glossary" Frame="bottomright"/>
+		<LinkTarget Type="Media" Frame="bottomright"/>
+	</ilLinkTargets>
+</ilLayout>

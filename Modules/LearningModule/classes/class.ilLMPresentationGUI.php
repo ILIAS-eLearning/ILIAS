@@ -747,6 +747,11 @@ class ilLMPresentationGUI
 						$this->ilLocator();
 						$ilBench->stop("ContentPresentation", "layout_locator");
 						break;
+						
+					case "ilJavaScript":
+						$this->ilJavaScript($child_attr["inline"], $child_attr["file"],
+							$child_attr["location"]);
+						break;
 
 					case "ilLMMenu":
 						$ilBench->start("ContentPresentation", "layout_lmmenu");	
@@ -2067,6 +2072,18 @@ class ilLMPresentationGUI
 		$ilBench->stop("ContentPresentation", "ilMedia");
 	}
 
+	/**
+	* Puts JS into template
+	*/
+	function ilJavaScript($a_inline = "", $a_file = "", $a_location = "")
+	{
+		if ($a_inline != "")
+		{
+			$js_tpl = new ilTemplate($a_inline, true, false, $a_location);
+			$js = $js_tpl->get();
+			$this->tpl->setVariable("INLINE_JS", $js);
+		}
+	}
 
 	/**
 	* inserts sequential learning module navigation

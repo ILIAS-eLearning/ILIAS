@@ -105,7 +105,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			case "ilobjstylesheetgui":
 				$this->addLocations();
 				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
-				$this->ctrl->setReturn($this, "properties");
+				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
 				if ($cmd == "create" || $_GET["new_type"]=="sty")
@@ -273,6 +273,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$lng->loadLanguageModule("style");
 		$this->setTabs();
+		$this->setSubTabs("cont_general_properties");
 
 		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 		$showViewInFrameset = true;
@@ -304,165 +305,293 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		//$this->tpl->touchBlock("btn_row");
 
-		// edit public section
-		if ($this->ilias->getSetting("pub_section"))
+		// lm properties
+		$this->initPropertiesForm();
+		$this->getPropertiesFormValues();
+		$this->tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	* Init properties form
+	*/
+	function initPropertiesForm()
+	{
+		global $ilCtrl, $lng;
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// online
+		$online = new ilCheckboxInputGUI($lng->txt("cont_online"), "cobj_online");
+		$this->form->addItem($online);
+		
+		// default layout
+		$layout = new ilRadioMatrixInputGUI($lng->txt("cont_def_layout"), "lm_layout");
+		$option = array();
+		foreach(ilObjContentObject::getAvailableLayouts() as $l)
 		{
-			if ($this->object->getType() != "dbk")
+			$im_tag = "";
+			if (is_file($im = ilUtil::getImagePath("layout_".$l.".gif")))
 			{
-				$this->tpl->setCurrentBlock("btn_cell");
-				$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "editPublicSection"));
-				//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
-				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("public_section"));
-				$this->tpl->parseCurrentBlock();
+				$im_tag = ilUtil::img($im, $l);
 			}
+			$option[$l] = "<table><tr><td>".$im_tag."</td><td><b>".$lng->txt("cont_layout_".$l)."</b>: ".$lng->txt("cont_layout_".$l."_desc")."</td></tr></table>";
+		}
+		$layout->setOptions($option);
+		$this->form->addItem($layout);
+		
+		// page header
+		$page_header = new ilSelectInputGUI($lng->txt("cont_page_header"), "lm_pg_header");
+		$option = array ("st_title" => $this->lng->txt("cont_st_title"),
+			"pg_title" => $this->lng->txt("cont_pg_title"),
+			"none" => $this->lng->txt("cont_none"));
+		$page_header->setOptions($option);
+		$this->form->addItem($page_header);
+		
+		// chapter numeration
+		$chap_num = new ilCheckboxInputGUI($lng->txt("cont_act_number"), "cobj_act_number");
+		$this->form->addItem($chap_num);
+
+		// toc mode
+		$toc_mode = new ilSelectInputGUI($lng->txt("cont_toc_mode"), "toc_mode");
+		$option = array ("chapters" => $this->lng->txt("cont_chapters_only"),
+			"pages" => $this->lng->txt("cont_chapters_and_pages"));
+		$toc_mode->setOptions($option);
+		$this->form->addItem($toc_mode);
+		
+		// public notes
+		if (!$this->ilias->getSetting('disable_notes'))
+		{
+			$pub_nodes = new ilCheckboxInputGUI($lng->txt("cont_public_notes"), "cobj_pub_notes");
+			$pub_nodes->setInfo($this->lng->txt("cont_public_notes_desc"));
+			$this->form->addItem($pub_nodes);
 		}
 
-		// lm properties
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", "Modules/LearningModule");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+		// synchronize frames
+		$synch = new ilCheckboxInputGUI($lng->txt("cont_synchronize_frames"), "cobj_clean_frames");
+		$synch->setInfo($this->lng->txt("cont_synchronize_frames_desc"));
+		$this->form->addItem($synch);
+		
+		// history user comments
+		$com = new ilCheckboxInputGUI($lng->txt("enable_hist_user_comments"), "cobj_user_comments");
+		$com->setInfo($this->lng->txt("enable_hist_user_comments"));
+		$this->form->addItem($com);
 
-		// online
-		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
-		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
-		$this->tpl->setVariable("VAL_ONLINE", "y");
+		$this->form->setTitle($lng->txt("cont_general_properties"));
+		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	* Get values for properties form
+	*/
+	function getPropertiesFormValues()
+	{
+		$values = array();
 		if ($this->object->getOnline())
 		{
-			$this->tpl->setVariable("CHK_ONLINE", "checked");
+			$values["cobj_online"] = true;
+		}
+		$values["lm_layout"] = $this->object->getLayout();
+		$values["lm_pg_header"] = $this->object->getPageHeader();
+		if ($this->object->isActiveNumbering())
+		{
+			$values["cobj_act_number"] = true;
+		}
+		$values["toc_mode"] = $this->object->getTOCMode();
+		if ($this->object->publicNotes())
+		{
+			$values["cobj_pub_notes"] = true;
+		}
+		if ($this->object->cleanFrames())
+		{
+			$values["cobj_clean_frames"] = true;
+		}
+		if ($this->object->isActiveHistoryUserComments())
+		{
+			$values["cobj_user_comments"] = true;
 		}
 
-		// layout
-		$this->tpl->setVariable("TXT_LAYOUT", $this->lng->txt("cont_def_layout"));
-		$layouts = ilObjContentObject::getAvailableLayouts();
-		$select_layout = ilUtil::formSelect ($this->object->getLayout(), "lm_layout",
-			$layouts, false, true);
-		$this->tpl->setVariable("SELECT_LAYOUT", $select_layout);
+		
+		$this->form->setValuesByArray($values);
+	}
+	
+	/**
+	* save properties
+	*/
+	function saveProperties()
+	{
+		global $ilias;
 
-		// style
-		$this->tpl->setVariable("TXT_STYLE", $this->lng->txt("cont_style"));
-		$fixed_style = $this->ilias->getSetting("fixed_content_style_id");
-
-		if ($fixed_style > 0)
+		$this->initPropertiesForm();
+		if ($this->form->checkInput())
 		{
-			$this->tpl->setVariable("VAL_STYLE",
-				ilObject::_lookupTitle($fixed_style)." (".
-				$this->lng->txt("global_fixed").")");
+			$this->object->setLayout($_POST["lm_layout"]);
+			$this->object->setPageHeader($_POST["lm_pg_header"]);
+			$this->object->setTOCMode($_POST["toc_mode"]);
+			$this->object->setOnline($_POST["cobj_online"]);
+			$this->object->setActiveNumbering($_POST["cobj_act_number"]);
+			$this->object->setCleanFrames($_POST["cobj_clean_frames"]);
+			$this->object->setPublicNotes($_POST["cobj_pub_notes"]);
+			$this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
+			$this->object->updateProperties();
+			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "properties");
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("style_edit");
-			$style_id = $this->object->getStyleSheetId();
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHTML());
+		}
+	}
 
+	/**
+	* Edit style properties
+	*/
+	function editStyleProperties()
+	{
+		global $tpl;
+		
+		$this->initStylePropertiesForm();
+		$tpl->setContent($this->form->getHTML());
+	}
+	
+	/**
+	* Init style properties form
+	*/
+	function initStylePropertiesForm()
+	{
+		global $ilCtrl, $lng, $ilTabs, $ilSetting;
+		
+		$lng->loadLanguageModule("style");
+		$this->setTabs();
+		$ilTabs->setTabActive("properties");
+		$this->setSubTabs("cont_style");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$style_id = $this->object->getStyleSheetId();
+
+		if ($fixed_style > 0)
+		{
+			$st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+			$st->setValue(ilObject::_lookupTitle($fixed_style)." (".
+				$this->lng->txt("global_fixed").")");
+			$this->form->addItem($st);
+		}
+		else
+		{
 			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
 				$_GET["ref_id"]);
 
 			$st_styles[0] = $this->lng->txt("default");
 			ksort($st_styles);
-			$style_sel = ilUtil::formSelect ($style_id, "style_id",
-				$st_styles, false, true);
 
 			if ($style_id > 0)
 			{
-				// standard style
-				if (ilObjStyleSheet::_lookupStandard($style_id))
-				{
-					$this->tpl->setVariable("VAL_STYLE",
-						$style_sel);
-				}
 				// individual style
-				else
+				if (!ilObjStyleSheet::_lookupStandard($style_id))
 				{
-					$this->tpl->setVariable("VAL_STYLE",
-						ilObject::_lookupTitle($style_id));
-					$this->tpl->setVariable("LINK_STYLE_EDIT",
-						$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-					$this->tpl->setVariable("TXT_STYLE_EDIT",
-						$this->lng->txt("edit"));
-					//$this->tpl->setVariable("IMG_STYLE_EDIT",
-					//	ilUtil::getImagePath("icon_pencil.gif"));
+					$st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
+					$st->setValue(ilObject::_lookupTitle($style_id));
+					$this->form->addItem($st);
 
-					// delete icon
-					$this->tpl->setVariable("LINK_STYLE_DROP",
-						$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-					$this->tpl->setVariable("TXT_STYLE_DROP",
-						$this->lng->txt("delete"));
-					//$this->tpl->setVariable("IMG_STYLE_DROP",
-					//	ilUtil::getImagePath("delete.gif"));
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
+
+					// delete command
+					$this->form->addCommandButton("editStyle",
+						$lng->txt("cont_edit_style"));
+					$this->form->addCommandButton("deleteStyle",
+						$lng->txt("cont_delete_style"));
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
 				}
 			}
 
 			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
 			{
-				$this->tpl->setVariable("VAL_STYLE",
-					$style_sel);
-				$this->tpl->setVariable("LINK_STYLE_CREATE",
-					$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-				$this->tpl->setVariable("TXT_STYLE_CREATE",
-					$this->lng->txt("sty_create_ind_style"));
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// page header
-		$this->tpl->setVariable("TXT_PAGE_HEADER", $this->lng->txt("cont_page_header"));
-		$pg_header = array ("st_title" => $this->lng->txt("cont_st_title"),
-			"pg_title" => $this->lng->txt("cont_pg_title"),
-			"none" => $this->lng->txt("cont_none"));
-		$select_pg_head = ilUtil::formSelect ($this->object->getPageHeader(), "lm_pg_header",
-			$pg_header, false, true);
-		$this->tpl->setVariable("SELECT_PAGE_HEADER", $select_pg_head);
-
-		// chapter numbers
-		$this->tpl->setVariable("TXT_NUMBER", $this->lng->txt("cont_act_number"));
-		$this->tpl->setVariable("CBOX_NUMBER", "cobj_act_number");
-		$this->tpl->setVariable("VAL_NUMBER", "y");
-		if ($this->object->isActiveNumbering())
-		{
-			$this->tpl->setVariable("CHK_NUMBER", "checked");
-		}
-
-		// toc mode
-		$this->tpl->setVariable("TXT_TOC_MODE", $this->lng->txt("cont_toc_mode"));
-		$arr_toc_mode = array ("chapters" => $this->lng->txt("cont_chapters_only"),
-			"pages" => $this->lng->txt("cont_chapters_and_pages"));
-		$select_toc_mode = ilUtil::formSelect ($this->object->getTOCMode(), "toc_mode",
-			$arr_toc_mode, false, true);
-		$this->tpl->setVariable("SELECT_TOC_MODE", $select_toc_mode);
-
-		// public notes
-		if (!$this->ilias->getSetting('disable_notes'))
-		{
-			$this->tpl->setVariable("TXT_PUB_NOTES", $this->lng->txt("cont_public_notes"));
-			$this->tpl->setVariable("TXT_PUB_NOTES_DESC", $this->lng->txt("cont_public_notes_desc"));
-			$this->tpl->setVariable("CBOX_PUB_NOTES", "cobj_pub_notes");
-			$this->tpl->setVariable("VAL_PUB_NOTES", "y");
-			if ($this->object->publicNotes())
-			{
-				$this->tpl->setVariable("CHK_PUB_NOTES", "checked");
+				$style_sel = ilUtil::formSelect ($style_id, "style_id",
+					$st_styles, false, true);
+				$style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
+				$style_sel->setOptions($st_styles);
+				$style_sel->setValue($style_id);
+				$this->form->addItem($style_sel);
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
+				$this->form->addCommandButton("saveStyleSettings",
+						$lng->txt("save"));
+				$this->form->addCommandButton("createStyle",
+					$lng->txt("sty_create_ind_style"));
 			}
 		}
+		$this->form->setTitle($lng->txt("cont_style"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
+	/**
+	* Create Style
+	*/
+	function createStyle()
+	{
+		global $ilCtrl;
 
-		// clean frames
-		$this->tpl->setVariable("TXT_CLEAN_FRAMES", $this->lng->txt("cont_synchronize_frames"));
-		$this->tpl->setVariable("TXT_CLEAN_FRAMES_DESC", $this->lng->txt("cont_synchronize_frames_desc"));
-		$this->tpl->setVariable("CBOX_CLEAN_FRAMES", "cobj_clean_frames");
-		$this->tpl->setVariable("VAL_CLEAN_FRAMES", "y");
-		if ($this->object->cleanFrames())
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
+	}
+	
+	/**
+	* Edit Style
+	*/
+	function editStyle()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
+	}
+
+	/**
+	* Delete Style
+	*/
+	function deleteStyle()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
+	}
+
+	/**
+	* Save style settings
+	*/
+	function saveStyleSettings()
+	{
+		global $ilSetting;
+	
+		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
+			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+			|| $this->object->getStyleSheetId() == 0))
 		{
-			$this->tpl->setVariable("CHK_CLEAN_FRAMES", "checked");
+			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+			$this->object->update();
+			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		}
+		$this->ctrl->redirect($this, "editStyleProperties");
+	}
 
-		// history user comments
-		$this->tpl->setVariable("TXT_HIST_USER_COMMENTS", $this->lng->txt("enable_hist_user_comments"));
-		$this->tpl->setVariable("TXT_HIST_USER_COMMENTS_DESC", $this->lng->txt("enable_hist_user_comments_desc"));
-		$this->tpl->setVariable("CBOX_HIST_USER_COMMENTS", "cobj_user_comments");
-		$this->tpl->setVariable("VAL_HIST_USER_COMMENTS", "y");
-		if ($this->object->isActiveHistoryUserComments())
-		{
-			$this->tpl->setVariable("CHK_HIST_USER_COMMENTS", "checked");
-		}
+	/**
+	* Edit menu properies
+	*/
+	function editMenuProperties()
+	{
+		global $lng, $ilTabs;
 
-		// lm menu
+		$lng->loadLanguageModule("style");
+		$this->setTabs();
+		$ilTabs->setTabActive("properties");
+		$this->setSubTabs("cont_lm_menu");
+
+		// lm menu properties
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", "Modules/LearningModule");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
 		$this->tpl->setVariable("TXT_LM_MENU", $this->lng->txt("cont_lm_menu"));
 		$this->tpl->setVariable("TXT_ACT_MENU", $this->lng->txt("cont_active"));
 		$this->tpl->setVariable("CBOX_LM_MENU", "cobj_act_lm_menu");
@@ -577,11 +706,33 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 
 		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_NAME", "saveMenuProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->setVariable("BTN_NAME2", "addMenuEntry");
 		$this->tpl->setVariable("BTN_TEXT2", $this->lng->txt("add_menu_entry"));
 		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* save properties
+	*/
+	function saveMenuProperties()
+	{
+		global $ilias;
+
+		$this->object->setActiveLMMenu(ilUtil::yn2tf($_POST["cobj_act_lm_menu"]));
+		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
+		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
+		$this->object->setActivePreventGlossaryAppendix(ilUtil::yn2tf($_POST["cobj_act_print_prev_glo"]));
+		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["cobj_act_downloads"]));
+		$this->object->setActiveDownloadsPublic(ilUtil::yn2tf($_POST["cobj_act_downloads_public"]));
+		$this->object->updateProperties();
+
+		$this->__initLMMenuEditor();
+		$this->lmme_obj->updateActiveStatus($_POST["menu_entries"]);
+
+		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "editMenuProperties");
 	}
 
 	/**
@@ -708,42 +859,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
 			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
 		$ilCtrl->redirect($this, "chapters");
-	}
-
-	/**
-	* save properties
-	*/
-	function saveProperties()
-	{
-		global $ilias;
-
-		if ($ilias->getSetting("fixed_content_style_id") <= 0 &&
-			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-			|| $this->object->getStyleSheetId() == 0))
-		{
-			$this->object->setStyleSheetId($_POST["style_id"]);
-		}
-		$this->object->setLayout($_POST["lm_layout"]);
-		$this->object->setPageHeader($_POST["lm_pg_header"]);
-		$this->object->setTOCMode($_POST["toc_mode"]);
-		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
-		$this->object->setActiveLMMenu(ilUtil::yn2tf($_POST["cobj_act_lm_menu"]));
-		$this->object->setActiveNumbering(ilUtil::yn2tf($_POST["cobj_act_number"]));
-		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
-		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
-		$this->object->setActivePreventGlossaryAppendix(ilUtil::yn2tf($_POST["cobj_act_print_prev_glo"]));
-		$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["cobj_act_downloads"]));
-		$this->object->setActiveDownloadsPublic(ilUtil::yn2tf($_POST["cobj_act_downloads_public"]));
-		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
-		$this->object->setPublicNotes(ilUtil::yn2tf($_POST["cobj_pub_notes"]));
-		$this->object->setHistoryUserComments(ilUtil::yn2tf($_POST["cobj_user_comments"]));
-		$this->object->updateProperties();
-
-		$this->__initLMMenuEditor();
-		$this->lmme_obj->updateActiveStatus($_POST["menu_entries"]);
-
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "properties");
 	}
 
 	/**
@@ -2847,9 +2962,53 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* Set sub tabs
+	*/
+	function setSubTabs($a_active)
+	{
+		global $ilTabs, $ilSetting;
+
+		if (in_array($a_active,
+			array("cont_general_properties", "cont_style", "cont_lm_menu", "public_section")))
+		{
+			// general properties
+			$ilTabs->addSubTabTarget("cont_general_properties",
+				$this->ctrl->getLinkTarget($this, 'properties'),
+				"", "");
+				
+			// style properties
+			$ilTabs->addSubTabTarget("cont_style",
+				$this->ctrl->getLinkTarget($this, 'editStyleProperties'),
+				"", "");
+
+			// menu properties
+			$ilTabs->addSubTabTarget("cont_lm_menu",
+				$this->ctrl->getLinkTarget($this, 'editMenuProperties'),
+				"", "");
+				
+			if ($ilSetting->get("pub_section"))
+			{
+				if ($this->object->getType() != "dbk")
+				{
+					// public section
+					$ilTabs->addSubTabTarget("public_section",
+						$this->ctrl->getLinkTarget($this, 'editPublicSection'),
+						"", "");
+				}
+			}
+				
+			$ilTabs->setSubTabActive($a_active);
+		}
+	}
+
 	function editPublicSection()
 	{
+		global $ilTabs;
+		
 		$this->setTabs();
+		$this->setSubTabs("public_section");
+		$ilTabs->setTabActive("properties");
 
 		switch ($this->object->getType())
 		{
@@ -3161,7 +3320,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->lmme_obj->create();
 
 		ilUtil::sendInfo($this->lng->txt("msg_entry_added"), true);
-		$this->ctrl->redirect($this, "properties");
+		$this->ctrl->redirect($this, "editMenuProperties");
 	}
 
 	/**
@@ -3178,7 +3337,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->lmme_obj->delete($_GET["menu_entry"]);
 
 		ilUtil::sendInfo($this->lng->txt("msg_entry_removed"), true);
-		$this->ctrl->redirect($this, "properties");
+		$this->ctrl->redirect($this, "editMenuProperties");
 	}
 
 	/**
@@ -3239,7 +3398,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->lmme_obj->update();
 
 		ilUtil::sendInfo($this->lng->txt("msg_entry_updated"), true);
-		$this->ctrl->redirect($this, "properties");
+		$this->ctrl->redirect($this, "editMenuProperties");
 	}
 
 	function showEntrySelector()
