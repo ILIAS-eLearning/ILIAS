@@ -22,7 +22,13 @@
 
 package de.ilias.services.object;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import org.apache.log4j.Logger;
+
+import de.ilias.services.lucene.index.CommandQueueElement;
+import de.ilias.services.lucene.index.DocumentHandlerException;
 
 /**
  * 
@@ -128,6 +134,38 @@ public class ParameterDefinition {
 		out.append("Parameter " + format + " " + type + " " + value);
 		out.append("\n");
 		return out.toString();
+	}
+
+	/**
+	 * @param pst
+	 * @param el
+	 * @throws SQLException 
+	 * @throws DocumentHandlerException 
+	 */
+	public void writeParameter(PreparedStatement pst, int index, CommandQueueElement el) throws SQLException, DocumentHandlerException {
+
+		switch(getType()) {
+		case TYPE_INT:
+			logger.debug("ID: " + getParameterValue(el));
+			pst.setInt(index,getParameterValue(el));
+			break;
+		
+		default:
+			throw new DocumentHandlerException("Invalid parameter type given. Type " + getType());
+		}
+	}
+
+	/**
+	 * @param el
+	 * @return
+	 */
+	private int getParameterValue(CommandQueueElement el) {
+		
+		if(getValue().equals("objId")) {
+			return el.getObjId();
+		}
+
+		return 0;
 	}
 	
 	

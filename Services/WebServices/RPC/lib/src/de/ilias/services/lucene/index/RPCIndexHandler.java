@@ -23,24 +23,12 @@
 package de.ilias.services.lucene.index;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Index;
 import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriter.MaxFieldLength;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 
-import de.ilias.services.db.DBFactory;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitionParser;
 import de.ilias.services.object.ObjectDefinitionReader;
@@ -60,7 +48,6 @@ public class RPCIndexHandler {
 	protected static Logger logger = Logger.getLogger(RPCIndexHandler.class);
 	
 
-	@SuppressWarnings("deprecation")
 	public boolean refreshIndex(String clientKey) {
 		
 		// Set client key
@@ -80,23 +67,15 @@ public class RPCIndexHandler {
 			controller = new CommandController(ObjectDefinitions.getInstance(client.getAbsolutePath()));
 			controller.start();
 			
-			
-			
-			IndexWriter writer = new IndexWriter(FSDirectory.getDirectory(client.getIndexPath(),true),
-					new StandardAnalyzer(),
-					MaxFieldLength.UNLIMITED);
-			
 			logger.debug(client.getIndexPath());
 			//indexTitleAndDescription(writer);
-			writer.optimize();
-			writer.close();
 			
 		} 
 		catch (ConfigurationException e) {
 			logger.error(e);
 		} 
 		catch (CorruptIndexException e) {
-			logger.error(e);
+			logger.fatal(e);
 		} 
 		catch (LockObtainFailedException e) {
 			logger.error(e);
@@ -111,68 +90,9 @@ public class RPCIndexHandler {
 			logger.error(e);
 		}
 		logger.debug("Start connection");
-
-		
 		
 		return true;
 	}
 
 
-	/**
-	 * @param writer
-	 * @return 
-	 */
-	private boolean indexTitleAndDescription(IndexWriter writer) {
-	
-		Connection con;
-		try {
-			con = DBFactory.factory();
-			Statement stmt = con.createStatement();
-			ResultSet res = stmt.executeQuery("select * from object_data where type in " + 
-					"('crs','grp','file','cat','fold','webr','lm','htlm','slm','tst'," + 
-					"'surv','sql','qpl','sess')");
-			
-			PreparedStatement pstmt = con.prepareStatement("SELECT * FROM object_data WHERE obj_id IN(?)");
-			
-			
-			while(res.next()) {
-				
-				Document doc = new Document();
-				doc.add(new Field("obj_id",
-							res.getString("obj_id"),
-							Field.Store.YES,
-							Index.NOT_ANALYZED));
-				doc.add(new Field("title",
-							res.getString("title"),
-							Field.Store.YES,
-							Index.ANALYZED));
-
-				doc.add(new Field("type",
-						res.getString("type"),
-						Field.Store.YES,
-						Index.ANALYZED));
-				
-				doc.add(new Field("description",
-						res.getString("description"),
-						Field.Store.YES,
-						Index.ANALYZED));
-				
-				writer.addDocument(doc);
-
-				logger.debug("Added title: " + res.getString("title"));
-				logger.debug("Added description " + res.getString("description"));
-			}
-		} 
-		catch (SQLException e) {
-			logger.error("Cannot handle refreshIndex()" + e);
-			return false;
-		}
-		catch (CorruptIndexException e) {
-			logger.fatal("Error writing to index: " + e);
-		} 
-		catch (IOException e) {
-			logger.fatal("Error writing to index: " + e);
-		} 
-		return false;
-	}
 }

@@ -22,10 +22,17 @@
 
 package de.ilias.services.object;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+
+import de.ilias.services.lucene.index.CommandQueueElement;
+import de.ilias.services.lucene.index.DocumentHandler;
+import de.ilias.services.lucene.index.DocumentHandlerException;
+import de.ilias.services.lucene.index.DocumentHolder;
+import de.ilias.services.lucene.index.IndexHolder;
 
 /**
  * 
@@ -33,7 +40,7 @@ import org.apache.lucene.document.Document;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class ObjectDefinition {
+public class ObjectDefinition implements DocumentHandler {
 
 	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
 	
@@ -54,14 +61,6 @@ public class ObjectDefinition {
 	 */
 	public ObjectDefinition() {
 
-	}
-	
-	public Vector<Document> getDocuments() {
-		
-		Vector<Document> docs = new Vector<Document>();
-		
-		return docs;
-		
 	}
 
 	/**
@@ -84,10 +83,6 @@ public class ObjectDefinition {
 	 * @return the documents
 	 */
 	public Vector<DocumentDefinition> getDocumentDefinitions() {
-		
-		
-		
-		
 		return documents;
 	}
 
@@ -123,6 +118,25 @@ public class ObjectDefinition {
 			out.append("\n");
 		}
 		return out.toString();
+	}
+
+	/**
+	 * create/write documents for this element.
+	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement)
+	 */
+	public void writeDocument(CommandQueueElement el)
+			throws DocumentHandlerException, IOException {
+
+		DocumentHolder docs = DocumentHolder.factory();
+		docs.newGlobalDocument();
+		
+		for(Object def : getDocumentDefinitions()) {
+			logger.debug("1. New document definition");
+			((DocumentDefinition) def).writeDocument(el);
+		}
+		
+		IndexHolder writer = IndexHolder.getInstance();
+		writer.getWriter().addDocument(docs.getGlobalDocument());
 	}
 	
 	

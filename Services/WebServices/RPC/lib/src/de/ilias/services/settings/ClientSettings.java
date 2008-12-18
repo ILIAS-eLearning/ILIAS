@@ -106,7 +106,7 @@ public class ClientSettings {
 	}
 	
 	public String getClientKey() {
-		return client + ' ' + getNic();
+		return client + '_' + getNic();
 	}
 
 	/**

@@ -22,13 +22,17 @@
 
 package de.ilias.services.object;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
+import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
 import de.ilias.services.lucene.index.DocumentHandlerException;
+import de.ilias.services.lucene.index.DocumentHolder;
+import de.ilias.services.lucene.index.IndexHolder;
 
 /**
  * 
@@ -104,14 +108,25 @@ public class DocumentDefinition implements DocumentHandler {
 		}
 		return out.toString();
 	}
-
-	/* (non-Javadoc)
-	 * @see de.ilias.services.lucene.index.DocumentHandler#getDocument()
+	
+	/**
+	 * 
+	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement)
 	 */
-	public Document getDocument() throws DocumentHandlerException {
+	public void writeDocument(CommandQueueElement el)
+			throws DocumentHandlerException, IOException {
 
+		DocumentHolder doc = DocumentHolder.factory();
+		// TODO: In case of an error, we have an empty document.
+		doc.newDocument();
 		
+		for(int i = 0; i < getDataSource().size();i++) {
+			
+			getDataSource().get(i).writeDocument(el);
+		}
 		
-		return null;
+		IndexHolder writer = IndexHolder.getInstance();
+		writer.getWriter().addDocument(doc.getDocument());
+		
 	}
 }

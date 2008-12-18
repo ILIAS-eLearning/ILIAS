@@ -22,9 +22,15 @@
 
 package de.ilias.services.object;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Store;
+
+import de.ilias.services.lucene.index.DocumentHolder;
 
 /**
  * 
@@ -34,17 +40,10 @@ import org.apache.log4j.Logger;
  */
 public class FieldDefinition {
 
-	public static int STORE_YES = 1;
-	public static int STORE_NO = 2;
-	
-	public static int INDEX_NO = 1;
-	public static int INDEX_ANALYZED = 2;
-	public static int INDEX_NOT_ANALYZED = 3;
-	
 	protected static Logger logger = Logger.getLogger(FieldDefinition.class);
 	
-	private int index;
-	private int store;
+	private Field.Index index;
+	private Store store;
 	private String column;
 	private String name;
 	
@@ -59,7 +58,7 @@ public class FieldDefinition {
 	 * @param name
 	 * @param column
 	 */
-	public FieldDefinition(int store,int index,String name,String column) {
+	public FieldDefinition(Store store,Field.Index index,String name,String column) {
 
 		this.store = store;
 		this.index = index;
@@ -74,7 +73,7 @@ public class FieldDefinition {
 	 * @param index
 	 * @param name
 	 */
-	public FieldDefinition(int store,int index,String name) {
+	public FieldDefinition(Store store,Field.Index index,String name) {
 		
 		this(store,index,name,"");
 	}
@@ -89,19 +88,19 @@ public class FieldDefinition {
 	public FieldDefinition(String store, String index, String name, String column) {
 		
 		if(store.equalsIgnoreCase("YES")) {
-			this.store = STORE_YES;
+			this.store = Store.YES;
 		}
 		else if(store.equalsIgnoreCase("NO")) {
-			this.store = STORE_NO;
+			this.store = Store.NO;
 		}
 		if(index.equalsIgnoreCase("NO")) {
-			this.index = INDEX_NO;
+			this.index = Field.Index.NO;
 		}
 		else if(index.equalsIgnoreCase("ANALYZED")) {
-			this.index = INDEX_ANALYZED;
+			this.index = Field.Index.ANALYZED;
 		}
 		else if(index.equalsIgnoreCase("NOT_ANALYZED")) {
-			this.index = INDEX_NOT_ANALYZED;
+			this.index = Field.Index.NOT_ANALYZED;
 		}
 		this.name = name;
 		this.column = column;
@@ -122,7 +121,7 @@ public class FieldDefinition {
 	/**
 	 * @return the index
 	 */
-	public int getIndex() {
+	public Field.Index getIndex() {
 		return index;
 	}
 
@@ -130,7 +129,7 @@ public class FieldDefinition {
 	/**
 	 * @param index the index to set
 	 */
-	public void setIndex(int index) {
+	public void setIndex(Field.Index index) {
 		this.index = index;
 	}
 
@@ -138,7 +137,7 @@ public class FieldDefinition {
 	/**
 	 * @return the store
 	 */
-	public int getStore() {
+	public Store getStore() {
 		return store;
 	}
 
@@ -146,7 +145,7 @@ public class FieldDefinition {
 	/**
 	 * @param store the store to set
 	 */
-	public void setStore(int store) {
+	public void setStore(Field.Store store) {
 		this.store = store;
 	}
 
@@ -224,5 +223,18 @@ public class FieldDefinition {
 		}
 		
 		return out.toString();
+	}
+
+	/**
+	 * @param res
+	 * @throws SQLException 
+	 */
+	public void writeDocument(ResultSet res) throws SQLException {
+
+		// TODO: call transformer
+		Object value = res.getObject(getColumn());
+		logger.debug("Found value: " + value.toString());
+		DocumentHolder.factory().add(getName(), value.toString(), store, index);
+		return;
 	}
 }

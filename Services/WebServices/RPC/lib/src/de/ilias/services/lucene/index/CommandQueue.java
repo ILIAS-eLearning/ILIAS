@@ -29,18 +29,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import javax.print.attribute.standard.Finishings;
+
 import org.apache.log4j.Logger;
+
 import de.ilias.services.db.DBFactory;
-import de.ilias.services.object.DataSource;
 
 
 /**
- * int obj_id
- * string obj_type
- * int sub_id
- * string sub_type
- * string command
- * 
+ * @todo make this class thread safe 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
@@ -87,6 +84,26 @@ public class CommandQueue {
 		sta.setString(4, el.getSubType());
 		
 		sta.executeUpdate();
+	}
+	
+	/**
+	 * 
+	 * @param objIds
+	 * @throws SQLException
+	 */
+	public void setFinished(Vector<Integer> objIds) throws SQLException {
+		
+		if(objIds.size() == 0) {
+			return;
+		}
+		PreparedStatement psta = db.prepareStatement("UPDATE search_command_queue SET finished = 1 WHERE obj_id = ?");
+		for(int i = 0; i < objIds.size(); i++) {
+			psta.setInt(1,objIds.get(i));
+			psta.addBatch();
+		}
+		psta.executeBatch();
+		
+		return;
 	}
 
 
@@ -202,7 +219,8 @@ public class CommandQueue {
 		// TODO: Error handling
 		
 		PreparedStatement sta = db.prepareStatement(
-			"SELECT oda.obj_id FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id WHERE deleted = '0000-00-00 00:00:00' ");
+			"SELECT oda.obj_id FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id WHERE deleted = '0000-00-00 00:00:00' AND type = ?");
+		sta.setString(1, objType);
 		ResultSet res = sta.executeQuery();
 		
 		logger.debug("Adding commands for object type: " + objType);
