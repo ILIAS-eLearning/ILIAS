@@ -82,7 +82,6 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	function editQuestion()
 	{
 		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
 			"function initialSelect() {\n%s\n}</script>";
