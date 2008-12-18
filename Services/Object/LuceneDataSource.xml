@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <DataSource type="JDBC">
 	<Query>
-		SELECT od.obj_id,od.type,od.title,od.owner,ob.description FROM object_data od
-		JOIN object_description od ON ob.obj_id = od.obj_id
-		WHERE obj_id IN(?);
+		SELECT oda.obj_id,oda.type,oda.title,oda.owner,ode.description FROM object_data oda
+		JOIN object_description ode ON oda.obj_id = ode.obj_id
+		WHERE oda.obj_id = ?;
 	</Query>
-	<Param format="list" type="int" value="objId" />
-	<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="obj_id" />
+	<Param format="single" type="int" value="objId" />
+	<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="objId" />
 	<Field store="YES" index="NOT_ANALYZED" column="type" name="type" />
 	<Field store="YES" index="NOT_ANALYZED" column="owner" name="owner" />
 	<Field store="YES" index="ANALYZED" column="title" name="title" />
