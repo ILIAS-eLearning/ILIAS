@@ -22,10 +22,16 @@
 
 package de.ilias.services.object;
 
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import org.apache.lucene.document.Document;
 
+import de.ilias.services.db.DBFactory;
+import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandlerException;
 
 /**
@@ -84,7 +90,7 @@ public class JDBCDataSource extends DataSource {
 		this.parameters.add(parameter);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -104,5 +110,40 @@ public class JDBCDataSource extends DataSource {
 		out.append(super.toString());
 		
 		return out.toString();
-	}		
+	}
+	
+	/**
+	 * 
+	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement)
+	 */
+	public void writeDocument(CommandQueueElement el)
+			throws DocumentHandlerException, IOException {
+
+		logger.debug("Handling data source: " + getType());
+		
+		try {
+			// Create Statement for JDBC datasource
+			PreparedStatement pst = DBFactory.factory().prepareStatement(getQuery());
+
+			int paramNumber = 1;
+			for(Object param : getParameters()) {
+				
+				((ParameterDefinition) param).writeParameter(pst,paramNumber++,el);
+			}
+			ResultSet res = pst.executeQuery();
+			while(res.next()) {
+				
+				logger.debug("Found new result");
+				for(Object field : getFields()) {
+					((FieldDefinition) field).writeDocument(res);
+				}
+				// TODO: docHolder.newDocument() ?!
+			}
+			
+		} 
+		catch (SQLException e) {
+			logger.error("Cannot parse data source.");
+			throw new DocumentHandlerException(e);
+		}
+	}
 }

@@ -22,18 +22,49 @@
 
 package de.ilias.services.lucene.index;
 
-
-import java.io.IOException;
-
-import org.apache.lucene.document.Document;
-
 /**
  * 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public interface DocumentHandler {
-	
-	void writeDocument(CommandQueueElement el) throws DocumentHandlerException, IOException;
+public class IndexerException extends Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	public IndexerException() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param message
+	 */
+	public IndexerException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param cause
+	 */
+	public IndexerException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public IndexerException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+
 }

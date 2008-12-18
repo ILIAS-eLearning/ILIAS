@@ -20,107 +20,108 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.object;
-
-import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.util.Vector;
+package de.ilias.services.lucene.index;
 
 import org.apache.log4j.Logger;
-
-import de.ilias.services.db.DBFactory;
-import de.ilias.services.lucene.index.CommandQueueElement;
-import de.ilias.services.lucene.index.DocumentHandler;
-import de.ilias.services.lucene.index.DocumentHandlerException;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.Field.Index;
+import org.apache.lucene.document.Field.Store;
 
 /**
- * 
+ * Thread local singleton
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public abstract class DataSource implements DocumentHandler {
-	
-	public static final int TYPE_JDBC = 1;
-	public static final int TYPE_FILE = 2;
-	
-	protected static Logger logger = Logger.getLogger(DataSource.class);
+public class DocumentHolder {
 
-	private int type;
-	Vector<FieldDefinition> fields = new Vector<FieldDefinition>();
 	
-
-	/**
-	 * 
-	 */
-	public DataSource(int type) {
-
-		this.type = type;
-	}
+	protected static Logger logger = Logger.getLogger(DocumentHolder.class);
 	
 	
-	/**
-	 * @return the type
-	 */
-	public int getType() {
-		return type;
-	}
+	private static class ThreadLocalDocumentHolder extends ThreadLocal<DocumentHolder> {
 
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(int type) {
-		this.type = type;
-	}
-	
-	/**
-	 * @return the fields
-	 */
-	public Vector<FieldDefinition> getFields() {
-		return fields;
-	}
+		/* (non-Javadoc)
+		 * @see java.lang.ThreadLocal#initialValue()
+		 */
+		@Override
+		protected DocumentHolder initialValue() {
 
-	/**
-	 * @param fields the fields to set
-	 */
-	public void setFields(Vector<FieldDefinition> fields) {
-		this.fields = fields;
-	}
-	
-	/**
-	 * 
-	 * @param field
-	 */
-	public void addField(FieldDefinition field) {
-		this.fields.add(field);
-	}
-	
-	/**
-	 * 
-	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement)
-	 */
-	public void writeDocument(CommandQueueElement el)
-			throws DocumentHandlerException, IOException {
-
-		logger.warn("Called abstract DataSource!");
-		return;
-
-	}
-
-	/**
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		
-		StringBuffer out = new StringBuffer();
-
-		for(Object field : getFields()) {
-			
-			out.append(field.toString());
+			return new DocumentHolder();
 		}
+	}
+	private static ThreadLocalDocumentHolder thDocumentHolder = new ThreadLocalDocumentHolder();
 	
-		return out.toString();
+	private Document globalDoc = null;
+	private Document doc = null;
+	
+	
+	/**
+	 * 
+	 */
+	private DocumentHolder() {
+		
+		newGlobalDocument();
+		newDocument();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static DocumentHolder factory() {
+		
+		return thDocumentHolder.get();
+	}
+	
+	/**
+	 * 
+	 * @return create new global document
+	 */
+	public Document newGlobalDocument() {
+		globalDoc = new Document();
+		globalDoc.add(new Field("docType","combined",Store.YES,Field.Index.NOT_ANALYZED));
+		return globalDoc;
+	}
+	
+	/**
+	 * 
+	 * @return create a new document
+	 */
+	public Document newDocument() {
+		doc = new Document();
+		doc.add(new Field("docType","separated",Store.YES,Field.Index.NOT_ANALYZED));
+		return doc;
+	}
+	
+	/**
+	 * @return get current global document 
+	 * 
+	 */
+	public Document getGlobalDocument() {
+		return globalDoc;
+	}
+	
+	/**
+	 * 
+	 * @return return current document
+	 */
+	public Document getDocument() {
+		return doc;
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param value
+	 * @param store
+	 * @param index
+	 */
+	public void add(String name, String value,Store store,Index index) {
+		
+		getDocument().add(new Field(name,value,store,index));
+		getGlobalDocument().add(new Field(name,value,store,index));
+		return;
 	}
 }

@@ -23,16 +23,10 @@
 package de.ilias.services.lucene.search;
 
 import java.io.IOException;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.Field.Index;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.IndexWriter.MaxFieldLength;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
@@ -42,7 +36,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocCollector;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
@@ -90,8 +83,15 @@ public class RPCSearchHandler {
 			
 			//parser = new QueryParser("title",new StandardAnalyzer());
 			
-			String[] fields = {"description","title"};
-			BooleanClause.Occur[] flags = {BooleanClause.Occur.SHOULD,BooleanClause.Occur.SHOULD};
+			String[] fields = {"objId","type","title",
+					"description","propertyHigh","propertyMedium","propertyLow"};
+			BooleanClause.Occur[] flags = {BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD};
 			
 			Query query = MultiFieldQueryParser.parse(queryString,
 					fields, 
@@ -114,8 +114,8 @@ public class RPCSearchHandler {
 				Document hitDoc = searcher.doc(hits[i].doc);
 				Explanation expl = searcher.explain(query,hits[i].doc);
 				//logger.info("Explaination: " + expl.toString());
-				logger.info("Found title: " + hitDoc.get("title") + 
-						" description: " + hitDoc.get("description"));
+				logger.info("Found objId: " + hitDoc.get("objId") + 
+						" type: " + hitDoc.get("type") + " title: " + hitDoc.get("title"));
 				logger.info("Score: "+ hits[i].score);
 			}
 			return true;

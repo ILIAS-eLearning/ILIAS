@@ -22,15 +22,19 @@
 
 package de.ilias.services.lucene.index;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.store.LockObtainFailedException;
 
 import de.ilias.services.object.ObjectDefinition;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitions;
+import de.ilias.services.settings.ConfigurationException;
 
 /**
  * Handles command queue events
@@ -44,62 +48,142 @@ public class CommandController {
 	
 	private CommandQueue queue;
 	private ObjectDefinitions objDefinitions;
+	private IndexHolder holder;
+	private DocumentHolder documentHolder;
 	
 	/**
 	 * @throws SQLException 
+	 * @throws ConfigurationException 
+	 * @throws IOException 
+	 * @throws LockObtainFailedException 
+	 * @throws CorruptIndexException 
 	 * 
 	 */
-	public CommandController(ObjectDefinitions objDefinitions) throws SQLException {
+	public CommandController(ObjectDefinitions objDefinitions) throws 
+		SQLException, 
+		CorruptIndexException, 
+		LockObtainFailedException, 
+		IOException, 
+		ConfigurationException {
 
 		setQueue(new CommandQueue());
 		this.objDefinitions = objDefinitions;
+		
+		holder = IndexHolder.getInstance();
+		documentHolder = DocumentHolder.factory();
+		
 	}
 	
 	/**
+	 * @throws IOException, CorruptIndexException 
+	 * @throws DocumentHandlerException 
 	 * 
 	 */
-	public void start() {
+	public void start() throws CorruptIndexException, IOException {
 		
-		ObjectDefinition definition;
+		Vector<Integer> finished = new Vector<Integer>();
 		
 		for(Object el : queue.getElements()) {
 			
 			try {
-				if(((CommandQueueElement) el).getCommand().equals("delete"))
-					deleteDocument((CommandQueueElement) el);
-				else if(((CommandQueueElement) el).getCommand().equals("reset"))
-					deleteDocument((CommandQueueElement) el);
+				String command = ((CommandQueueElement) el).getCommand();
 				
-				definition = objDefinitions.getDefinitionByType(((CommandQueueElement) el).getObjType());
-				addDocuments(definition.getDocuments());
+				if(command.equals("reset")) {
+					
+					// Delete document
+					deleteDocument((CommandQueueElement) el);
+					addDocument((CommandQueueElement) el);
+				}
+				else if(command.equals("create")) {
+					
+					// Create a new document
+					// Called for new objects or objects restored from trash
+					addDocument((CommandQueueElement) el);
+				}
+				else if(command.equals("update")) {
+					
+					// content changed
+					deleteDocument((CommandQueueElement) el);
+					addDocument((CommandQueueElement) el);
+				}
+				else if(command.equals("delete")) {
+					
+					// only delete it
+					deleteDocument((CommandQueueElement) el);
+				}
+				
+				finished.add(((CommandQueueElement) el).getObjId());
 			} 
 			catch (ObjectDefinitionException e) {
+				holder.close();
 				logger.warn("No definition found for objType: " + ((CommandQueueElement) el).getObjType());
+			} 
+			catch (IOException e) {
+				holder.close();
+				logger.error("Cought IOException" + e);
+				throw e;
+			} 
+			catch (DocumentHandlerException e) {
+				holder.close();
+				logger.error("Cought IOException" + e);
 			}
 		}
+		// TODO: write index earlier
+		writeToIndex(finished);
 	}	
 
 	/**
-	 * @param el
+	 * @param finished
 	 */
-	private void deleteDocument(CommandQueueElement el) {
-		// TODO Auto-generated method stub
-		
+	private void writeToIndex(Vector<Integer> finished) {
+
+		try {
+			logger.debug("Closing writer.");
+			holder.getWriter().commit();
+			logger.debug("Optimizing writer.");
+			holder.getWriter().optimize();
+			
+			// Set object ids finished
+			//queue.setFinished(finished);
+
+		} 
+		catch (CorruptIndexException e) {
+			logger.fatal("Index Corrupted. Aborting!" + e);
+		} 
+		catch (IOException e) {
+			logger.fatal("Index Corrupted. Aborting!" + e);
+		} 
+		/*
+		catch (SQLException e) {
+			logger.error("Command queue update failed." + e);
+		}
+		*/
 	}
 
 	/**
-	 * @param documents
+	 * @param el
+	 * @throws CorruptIndexException 
+	 * @throws ObjectDefinitionException 
+	 * @throws DocumentHandlerException 
 	 */
-	private void addDocuments(Vector<Document> documents) {
+	private void addDocument(CommandQueueElement el) throws CorruptIndexException, IOException, ObjectDefinitionException, DocumentHandlerException {
 
-		for(Object el : documents) {
-			
-			// TODO: add document to index
-		}
-	
+		ObjectDefinition definition;
+		
+		logger.debug("Adding new document!");
+		definition = objDefinitions.getDefinitionByType(el.getObjType());
+		definition.writeDocument(el);
 	}
 
+	/**
+	 * @param el
+	 * @throws IOException 
+	 * @throws CorruptIndexException 
+	 */
+	private void deleteDocument(CommandQueueElement el) throws CorruptIndexException, IOException {
 
+		holder.getWriter().deleteDocuments(new Term("objId",String.valueOf(el.getObjId())));
+	}
 
 
 	/**
