@@ -247,7 +247,6 @@ class assMultipleChoice extends assQuestion
 	function loadFromDb($question_id)
 	{
 		global $ilDB;
-
 		$hasimages = 0;
     $query = sprintf("SELECT qpl_questions.*, qpl_question_multiplechoice.* FROM qpl_questions, qpl_question_multiplechoice WHERE question_id = %s AND qpl_questions.question_id = qpl_question_multiplechoice.question_fi",
 		$ilDB->quote($question_id));

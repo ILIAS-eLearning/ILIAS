@@ -68,7 +68,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function &executeCommand()
 	{
 		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl;
-		
 		// add entry to navigation history
 		if (!$this->getCreationMode() &&
 			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
@@ -76,7 +75,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				"ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=".$_GET["ref_id"], "qpl");
 		}
-
 		$this->prepareOutput();
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
