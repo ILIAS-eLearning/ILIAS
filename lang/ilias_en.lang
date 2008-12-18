@@ -4278,7 +4278,7 @@ content#:#HTML export#:#HTML Export
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
-content#:#add_menu_entry#:#Add menu entry >>
+content#:#add_menu_entry#:#Add Menu Entry
 content#:#all#:#All
 content#:#all_pages#:#the entire Learning module
 content#:#choose_public_mode#:#Unregistered users may access
@@ -8795,3 +8795,21 @@ file#:#file_new_version#:#Create New Version
 common#:#save_params_for_cron#:#Save Parameter for Cronjob
 common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#systemcheck_cron#:#Process System Check in Cronjob
+content#:#cont_general_properties#:#General Properties
+content#:#cont_current_style#:#Current Style
+content#:#cont_edit_style#:#Edit Style
+content#:#cont_delete_style#:#Delete Style
+content#:#cont_layout_toc2win_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open in separate window.
+content#:#cont_layout_1window_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window.
+content#:#cont_layout_2window_desc#:#Content in the left frame. FAQ, glossary and media links open in right frame.
+content#:#cont_layout_3window_desc#:#Content in the left frame. FAQ and media links open in top-right frame, glossary links in bottom-right frame.
+content#:#cont_layout_toc2windyn_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open dynamically a frame at bottom-right.
+content#:#cont_layout_presentation_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu.
+content#:#cont_layout_fullscreen_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu and no navigation bar.
+content#:#cont_layout_toc2win#:#Table of Contents
+content#:#cont_layout_1window#:#One Window
+content#:#cont_layout_2window#:#Two Windows
+content#:#cont_layout_3window#:#Three Windows
+content#:#cont_layout_toc2windyn#:#Table of Contents Dynamic
+content#:#cont_layout_presentation#:#Presentation
+content#:#cont_layout_fullscreen#:#Full Screen

@@ -18,95 +18,6 @@ function toggleDownloadsPublic(form)
 <table class="std">
 <tr class="tblheader">
 	<td class="std" colspan="2">
-		{TXT_PROPERTIES}
-	</td>
-</tr>
-<tr class="std">
-	<td class="option">
-	{TXT_ONLINE}
-	</td>
-	<td class="option_value">
-	<input type="checkbox" name="{CBOX_ONLINE}" value="{VAL_ONLINE}" {CHK_ONLINE}>
-	</td>
-</tr>
-<tr class="std">
-	<td class="option">
-	{TXT_LAYOUT}
-	</td>
-	<td class="option_value">
-	{SELECT_LAYOUT}
-	</td>
-</tr>
-<tr class="std">
-	<td class="option">
-	{TXT_STYLE}
-	</td>
-	<td class="option_value">
-	{VAL_STYLE}
-	<!-- BEGIN style_edit -->
-		<a href="{LINK_STYLE_EDIT}" class="il_ContainerItemCommand">{TXT_STYLE_EDIT}</a>
-		<a href="{LINK_STYLE_DROP}" class="il_ContainerItemCommand">{TXT_STYLE_DROP}</a>
-	<!-- END style_edit -->
-	<!-- BEGIN style_create -->
-		<a class="il_ContainerItemCommand" href="{LINK_STYLE_CREATE}">{TXT_STYLE_CREATE}</a>
-	<!-- END style_create -->
-	</td>
-</tr>
-<tr class="std">
-	<td class="option">
-	{TXT_PAGE_HEADER}
-	</td>
-	<td class="option_value">
-	{SELECT_PAGE_HEADER}
-	</td>
-</tr>
-<tr class="std">
-	<td class="option">
-	{TXT_NUMBER}
-	</td>
-	<td class="option_value">
-	<input type="checkbox" name="{CBOX_NUMBER}" value="{VAL_NUMBER}" {CHK_NUMBER}>
-	</td>
-</tr>
-<tr class="std">
-	<td class="option">
-	{TXT_TOC_MODE}
-	</td>
-	<td class="option_value">
-	{SELECT_TOC_MODE}
-	</td>
-</tr>
-<!-- BEGIN pub_notes -->
-<tr class="std">
-	<td class="option">
-	{TXT_PUB_NOTES}
-	</td>
-	<td class="option_value">
-	<input type="checkbox" name="{CBOX_PUB_NOTES}" value="{VAL_PUB_NOTES}" {CHK_PUB_NOTES}>
-	<span class="small"><br />{TXT_PUB_NOTES_DESC}</span>
-	</td>
-</tr>
-<!-- END pub_notes -->
-<tr class="std">
-	<td class="option">
-	{TXT_CLEAN_FRAMES}
-	</td>
-	<td class="option_value">
-	<input type="checkbox" name="{CBOX_CLEAN_FRAMES}" value="{VAL_CLEAN_FRAMES}" {CHK_CLEAN_FRAMES}>
-	<span class="small"><br />{TXT_CLEAN_FRAMES_DESC}</span>
-	</td>
-</tr>
-<tr class="std">
-	<td class="option">
-	{TXT_HIST_USER_COMMENTS}
-	</td>
-	<td class="option_value">
-	<input type="checkbox" name="{CBOX_HIST_USER_COMMENTS}" value="{VAL_HIST_USER_COMMENTS}" {CHK_HIST_USER_COMMENTS}>
-	<span class="small"><br />{TXT_HIST_USER_COMMENTS_DESC}</span>
-	</td>
-</tr>
-<tr class="tblheader">
-	<td class="std" colspan="2">
 		{TXT_LM_MENU}
 	</td>
 </tr>
@@ -177,7 +88,7 @@ function toggleDownloadsPublic(form)
 <!-- END menu_entries -->
 <!-- BEGIN commands -->
 <tr>
-	<td class="submit" colspan="2">
+	<td class="submit" style="text-align:right;" colspan="2">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
 		<input class="submit" type="submit" name="cmd[{BTN_NAME2}]" value="{BTN_TEXT2}" />
 	</td>
