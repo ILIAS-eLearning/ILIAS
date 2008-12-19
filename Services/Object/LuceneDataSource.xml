@@ -2,10 +2,10 @@
 <DataSource type="JDBC">
 	<Query>
 		SELECT oda.obj_id,oda.type,oda.title,oda.owner,ode.description FROM object_data oda
-		JOIN object_description ode ON oda.obj_id = ode.obj_id
-		WHERE oda.obj_id = ?;
+		LEFT JOIN object_description ode ON oda.obj_id = ode.obj_id
+		WHERE oda.obj_id IN (?);
 	</Query>
-	<Param format="single" type="int" value="objId" />
+	<Param format="list" type="int" value="objId" />
 	<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="objId" />
 	<Field store="YES" index="NOT_ANALYZED" column="type" name="type" />
 	<Field store="YES" index="NOT_ANALYZED" column="owner" name="owner" />
