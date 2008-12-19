@@ -31,6 +31,7 @@ import de.ilias.services.lucene.index.RPCIndexHandler;
 import de.ilias.services.lucene.search.RPCSearchHandler;
 import de.ilias.services.settings.ConfigurationException;
 
+
 /**
  * 
  *

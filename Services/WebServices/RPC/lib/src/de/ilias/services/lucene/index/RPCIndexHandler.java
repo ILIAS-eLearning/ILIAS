@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.store.LockObtainFailedException;
 
+import de.ilias.services.db.DBFactory;
 import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitionParser;
 import de.ilias.services.object.ObjectDefinitionReader;
@@ -52,6 +53,7 @@ public class RPCIndexHandler {
 		
 		// Set client key
 		LocalSettings.setClientKey(clientKey);
+		DBFactory.init();
 		ClientSettings client;
 		ObjectDefinitionReader properties;
 		ObjectDefinitionParser parser;
@@ -68,7 +70,6 @@ public class RPCIndexHandler {
 			controller.start();
 			
 			logger.debug(client.getIndexPath());
-			//indexTitleAndDescription(writer);
 			
 		} 
 		catch (ConfigurationException e) {
@@ -90,7 +91,7 @@ public class RPCIndexHandler {
 			logger.error(e);
 		}
 		logger.debug("Start connection");
-		
+
 		return true;
 	}
 

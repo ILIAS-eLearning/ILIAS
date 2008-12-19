@@ -24,6 +24,7 @@ package de.ilias.services.rpc;
 
 import org.apache.log4j.Logger;
 
+import de.ilias.services.lucene.index.IndexHolder;
 import de.ilias.services.settings.ConfigurationException;
 
 
@@ -58,6 +59,10 @@ public class RPCAdministration {
 		// It shouldn't be possible for every client to stop the rpc server.
 		server = RPCServer.getInstance();
 		server.setAlive(false);
+		
+		// Closing all index writers
+		IndexHolder.closeAllWriters();
+		
 		return true;
 	}
 

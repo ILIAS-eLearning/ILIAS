@@ -70,7 +70,9 @@ public class CommandController {
 		this.objDefinitions = objDefinitions;
 		
 		holder = IndexHolder.getInstance();
+		holder.init();
 		documentHolder = DocumentHolder.factory();
+		
 		
 	}
 	
@@ -115,16 +117,14 @@ public class CommandController {
 				finished.add(((CommandQueueElement) el).getObjId());
 			} 
 			catch (ObjectDefinitionException e) {
-				holder.close();
 				logger.warn("No definition found for objType: " + ((CommandQueueElement) el).getObjType());
 			} 
 			catch (IOException e) {
-				holder.close();
 				logger.error("Cought IOException" + e);
+				e.printStackTrace();
 				throw e;
 			} 
 			catch (DocumentHandlerException e) {
-				holder.close();
 				logger.error("Cought IOException" + e);
 			}
 		}
@@ -142,6 +142,7 @@ public class CommandController {
 			holder.getWriter().commit();
 			logger.debug("Optimizing writer.");
 			holder.getWriter().optimize();
+			holder.close();
 			
 			// Set object ids finished
 			//queue.setFinished(finished);
@@ -155,7 +156,7 @@ public class CommandController {
 		} 
 		/*
 		catch (SQLException e) {
-			logger.error("Command queue update failed." + e);
+			logger.error("Cannot modify command queue",e);
 		}
 		*/
 	}
