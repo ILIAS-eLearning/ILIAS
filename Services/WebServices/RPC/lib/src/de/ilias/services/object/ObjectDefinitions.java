@@ -56,7 +56,7 @@ public class ObjectDefinitions {
 	 * @param absolutePath
 	 * @return
 	 */
-	public static ObjectDefinitions getInstance(File absolutePath) {
+	public static synchronized ObjectDefinitions getInstance(File absolutePath) {
 		
 		if(instances.containsKey(absolutePath)) {
 			return instances.get(absolutePath);

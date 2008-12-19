@@ -111,7 +111,7 @@ public class ObjectDefinitionParser {
 			definitions.addDefinition(parseObjectDefinition(jdocument));
 			
 			logger.debug("Start logging");
-			logger.debug(definitions.toString());
+			//logger.debug(definitions.toString());
 			
 			
 		} 
