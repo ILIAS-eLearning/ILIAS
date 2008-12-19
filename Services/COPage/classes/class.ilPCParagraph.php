@@ -577,16 +577,18 @@ echo htmlentities($a_text);*/
 		$ws= "[ \t\r\f\v\n]*";
 
 		//while (eregi("\[(xln$ws(url$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
-		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws)\]", $a_text, $found))
+		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]", $a_text, $found))
 		{
-//echo "found2:".addslashes($found[2])."<br>"; flush();;
 			$attribs = ilUtil::attribsToArray($found[2]);
-//echo "url:".$attribs["url"]."<br>";
-			//$found[1] = str_replace("?", "\?", $found[1]);
 			if (isset($attribs["url"]))
 			{
-//echo "3";
-				$a_text = str_replace("[".$found[1]."]", "<ExtLink Href=\"".$attribs["url"]."\">", $a_text);
+				$a2 = ilUtil::attribsToArray($found[4]);
+				$tstr = "";
+				if (in_array($a2["target"], array("FAQ", "Glossary", "Media")))
+				{
+					$tstr = ' TargetFrame="'.$a2["target"].'"';
+				}
+				$a_text = str_replace("[".$found[1]."]", "<ExtLink Href=\"".$attribs["url"]."\"$tstr>", $a_text);
 			}
 			else
 			{
@@ -923,7 +925,12 @@ echo htmlentities($a_text);*/
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
 			//$found[1] = str_replace("?", "\?", $found[1]);
-			$a_text = str_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"]",$a_text);
+			$tstr = "";
+			if (in_array($attribs["TargetFrame"], array("FAQ", "Glossary", "Media")))
+			{
+				$tstr = ' target="'.$attribs["TargetFrame"].'"';
+			}
+			$a_text = str_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"$tstr]",$a_text);
 		}
 		$a_text = eregi_replace("</ExtLink>","[/xln]",$a_text);
 
