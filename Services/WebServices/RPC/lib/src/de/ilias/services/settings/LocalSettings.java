@@ -35,12 +35,12 @@ public class LocalSettings {
 
 	protected static Logger logger = Logger.getLogger(LocalSettings.class);
 
-	private static class ThreadLocalClientKey extends ThreadLocal<String> {
+	private static ThreadLocal<String> clientKey = new ThreadLocal<String>() {
 		public String initialValue() {
 			return "";
 		}
-	}
-	private static ThreadLocalClientKey clientKey = new ThreadLocalClientKey();
+	};
+	
 
 	/**
 	 * 
@@ -61,6 +61,6 @@ public class LocalSettings {
 	 * @return
 	 */
 	public static String getClientKey() {
-		return clientKey.get();
+		return (String) clientKey.get();
 	}
 }

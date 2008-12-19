@@ -41,11 +41,12 @@ import de.ilias.services.settings.LocalSettings;
 public class DBFactory {
 
 	private static Logger logger = Logger.getLogger(DBFactory.class);
-
-	private static class ThreadLocalConnection extends ThreadLocal<Connection> {
-		public Connection initialValue() {
+	
+	private static ThreadLocal<Connection> connection = new ThreadLocal<Connection>() {
+		protected Connection initialValue() {
 			try {
 				ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
+				logger.debug("+++++++++++++++++++++++++++++++++++++++++++ New Thread local " + LocalSettings.getClientKey());
 				// TODO: receive from local settings
 				Class.forName( "com.mysql.jdbc.Driver");
 				return DriverManager.getConnection(
@@ -64,8 +65,18 @@ public class DBFactory {
 			}
 			return null;
 		}
-	}
-	private static ThreadLocalConnection connection = new ThreadLocalConnection();
+
+		/* (non-Javadoc)
+		 * @see java.lang.ThreadLocal#remove()
+		 */
+		@Override
+		public void remove() {
+			super.remove();
+		}
+		
+	
+	};
+
 	
 	/**
 	 * get singleton db connection for each url
@@ -77,6 +88,13 @@ public class DBFactory {
 	 */
 	public static Connection factory() throws SQLException {
 		
+		logger.debug("====================================== Used cached DB connector.");
 		return (Connection) connection.get();
-	}	
+	}
+	
+	public static void init() {
+		
+		logger.debug("------------------------------------- Destroying cached DB connector.");
+		connection.remove();
+	}
 }

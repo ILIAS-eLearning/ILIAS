@@ -39,10 +39,10 @@ public class DocumentHolder {
 	
 	protected static Logger logger = Logger.getLogger(DocumentHolder.class);
 	
-	
-	private static class ThreadLocalDocumentHolder extends ThreadLocal<DocumentHolder> {
+	private static ThreadLocal<DocumentHolder> thDocumentHolder = new ThreadLocal<DocumentHolder>() {
 
-		/* (non-Javadoc)
+		/**
+		 * init document holder
 		 * @see java.lang.ThreadLocal#initialValue()
 		 */
 		@Override
@@ -50,8 +50,8 @@ public class DocumentHolder {
 
 			return new DocumentHolder();
 		}
-	}
-	private static ThreadLocalDocumentHolder thDocumentHolder = new ThreadLocalDocumentHolder();
+	};
+	
 	
 	private Document globalDoc = null;
 	private Document doc = null;

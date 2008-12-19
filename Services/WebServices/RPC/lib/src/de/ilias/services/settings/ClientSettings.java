@@ -65,13 +65,15 @@ public class ClientSettings {
 		this.nic = nic;
 	}
 
-	public static ClientSettings getInstance(String client, String nic) throws ConfigurationException {
+	public static synchronized ClientSettings getInstance(String client, String nic) throws ConfigurationException {
 		
 		return getInstance(client + '_' + nic);
 	}
 
-	public static ClientSettings getInstance(String clientKey) throws ConfigurationException {
+	public static synchronized ClientSettings getInstance(String clientKey) throws ConfigurationException {
 		
+		
+		logger.debug("Using client key " + clientKey);
 		if(instances.containsKey(clientKey)) {
 			return instances.get(clientKey);
 		}

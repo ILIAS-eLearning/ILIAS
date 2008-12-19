@@ -66,7 +66,7 @@ public class ServerSettings {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	public static ServerSettings getInstance() throws ConfigurationException {
+	public static synchronized ServerSettings getInstance() throws ConfigurationException {
 
 		if (instance == null) {
 			instance = new ServerSettings();

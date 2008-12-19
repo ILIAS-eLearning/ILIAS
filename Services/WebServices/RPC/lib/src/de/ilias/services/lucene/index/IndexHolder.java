@@ -58,26 +58,14 @@ public class IndexHolder {
 	 * @throws IOException 
 	 */
 	private IndexHolder(String clientKey) throws IOException {
-			try {
-				settings = ClientSettings.getInstance(clientKey);
-				logger.debug("Adding new separated index for " + LocalSettings.getClientKey());
-				
-				if(IndexWriter.isLocked(FSDirectory.getDirectory(settings.getIndexPath()))) {
-					logger.warn("Index writer is locked. Forcing unlock...");
-					IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
-				}
-				
-				writer = new IndexWriter(
-						FSDirectory.getDirectory(settings.getIndexPath()),
-						new StandardAnalyzer(),
-						IndexWriter.MaxFieldLength.UNLIMITED);
-			}
-			catch (ConfigurationException e) {
-				throw new IOException("Caught configuration exception: " + e.getMessage());
-			}
-			catch(IOException e) {
-				throw e;
-			}
+
+		try {
+			settings = ClientSettings.getInstance(clientKey);
+		}
+		catch (ConfigurationException e) {
+			throw new IOException("Caught configuration exception: " + e.getMessage());
+		}
+
 	}
 
 	/**
@@ -86,7 +74,7 @@ public class IndexHolder {
 	 * @return
 	 * @throws IOException
 	 */
-	public static IndexHolder getInstance(String clientKey) throws 
+	public static synchronized IndexHolder getInstance(String clientKey) throws 
 		IOException { 
 		
 		String hash = clientKey;
@@ -104,9 +92,45 @@ public class IndexHolder {
 	 * @return
 	 * @throws IOException
 	 */
-	public static IndexHolder getInstance() throws IOException  {
+	public static synchronized IndexHolder getInstance() throws IOException  {
 		
 		return getInstance(LocalSettings.getClientKey());
+	}
+	
+	public static synchronized void closeAllWriters() {
+		
+		logger.info("Closing document writers");
+		for(Object key : instances.keySet()) {
+			
+			logger.debug("Closing writer: " + ((IndexHolder) key).toString());
+			IndexHolder holder = instances.get((String) key);
+			holder.close();
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	public void init() throws IOException {
+		
+		try {
+			logger.debug("Adding new separated index for " + LocalSettings.getClientKey());
+			
+			if(IndexWriter.isLocked(FSDirectory.getDirectory(settings.getIndexPath()))) {
+				logger.warn("Index writer is locked. Forcing unlock...");
+				IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
+			}
+			
+			writer = new IndexWriter(
+					FSDirectory.getDirectory(settings.getIndexPath()),
+					new StandardAnalyzer(),
+					IndexWriter.MaxFieldLength.UNLIMITED);
+		}
+		catch(IOException e) {
+			throw e;
+		}
+		
 	}
 	
 	/**
@@ -130,6 +154,7 @@ public class IndexHolder {
 		
 		try {
 			getWriter().close();
+			IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
 		} catch (CorruptIndexException e) {
 			logger.fatal("Index corrupted." + e);
 		} catch (IOException e) {

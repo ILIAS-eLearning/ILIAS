@@ -71,7 +71,6 @@ public class RPCSearchHandler {
 		ClientSettings client;
 		Directory directory;
 		IndexSearcher searcher;
-		QueryParser parser;
 		
 		try {
 			
@@ -84,8 +83,10 @@ public class RPCSearchHandler {
 			//parser = new QueryParser("title",new StandardAnalyzer());
 			
 			String[] fields = {"objId","type","title",
-					"description","propertyHigh","propertyMedium","propertyLow"};
+					"description","propertyHigh","propertyMedium","propertyLow",
+					"owner"};
 			BooleanClause.Occur[] flags = {BooleanClause.Occur.SHOULD,
+					BooleanClause.Occur.SHOULD,
 					BooleanClause.Occur.SHOULD,
 					BooleanClause.Occur.SHOULD,
 					BooleanClause.Occur.SHOULD,
