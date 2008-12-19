@@ -232,9 +232,16 @@ public class FieldDefinition {
 	public void writeDocument(ResultSet res) throws SQLException {
 
 		// TODO: call transformer
-		Object value = res.getObject(getColumn());
-		logger.debug("Found value: " + value.toString());
-		DocumentHolder.factory().add(getName(), value.toString(), store, index);
-		return;
+		try {
+			Object value = res.getObject(getColumn());
+			if(value != null) {
+				logger.debug("Found value: " + value.toString() + " for name: " + getName());
+				DocumentHolder.factory().add(getName(), value.toString(), store, index);
+			}
+			return;
+		}
+		catch(NullPointerException e) {
+			logger.error(e.getMessage());
+		}
 	}
 }
