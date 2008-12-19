@@ -1449,7 +1449,8 @@ class ilLMPresentationGUI
 		{
 			$type = $res->nodeset[$i]->get_attribute("Type");
 			$frame = $res->nodeset[$i]->get_attribute("Frame");
-			$targets[$type] = array("Type" => $type, "Frame" => $frame);
+			$onclick = $res->nodeset[$i]->get_attribute("OnClick");
+			$targets[$type] = array("Type" => $type, "Frame" => $frame, "OnClick" => $onclick);
 		}
 		return $targets;
 	}
@@ -1540,6 +1541,7 @@ class ilLMPresentationGUI
 		
 		$ilBench->start("ContentPresentation", "ilPage_getInternalLinks");
 		$int_links = $page_object->getInternalLinks();
+
 		$ilBench->stop("ContentPresentation", "ilPage_getInternalLinks");
 		
 		$ilBench->start("ContentPresentation", "ilPage_getPageObjectGUI");
@@ -1559,6 +1561,8 @@ class ilLMPresentationGUI
 		// read link targets
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 //echo "<br>+".htmlentities($link_xml)."+";
+		$link_xml.= $this->getLinkTargetsXML();
+//echo "<br>+".htmlentities($link_targets_xml)."+";
 		
 		// get lm page object
 		$ilBench->start("ContentPresentation", "ilPage_getLMPageObject");
@@ -1912,6 +1916,20 @@ class ilLMPresentationGUI
 		return $link_info;
 	}
 
+	/**
+	* Get XMl for Link Targets
+	*/
+	function getLinkTargetsXML()
+	{
+		$link_info = "<LinkTargets>";
+		foreach ($this->getLayoutLinkTargets() as $k => $t)
+		{
+			$link_info.="<LinkTarget TargetFrame=\"".$t["Type"]."\" LinkTarget=\"".$t["Frame"]."\" OnClick=\"".$t["OnClick"]."\" />";
+		}
+		$link_info.= "</LinkTargets>";
+
+		return $link_info;
+	}
 
 	/**
 	* show glossary term

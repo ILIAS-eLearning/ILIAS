@@ -993,12 +993,14 @@
 			<xsl:variable name="link_target">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
 			</xsl:variable>
-
 			<xsl:if test="$mode != 'print'">
 				<a class="ilc_IntLink">
 					<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
 					<xsl:if test="$link_target != ''">
 						<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick">
+						<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
 					</xsl:if>
 					<xsl:apply-templates/>
 				</a>
@@ -1066,9 +1068,21 @@
 <xsl:template match="IntLinkInfos">
 </xsl:template>
 
+<xsl:template match="LinkTargets">
+</xsl:template>
+
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
-	<a class="ilc_ExtLink" target="_blank">
+	<a class="ilc_ExtLink">
+		<xsl:variable name="targetframe"><xsl:value-of select="@TargetFrame"/></xsl:variable>
+		<xsl:variable name="link_target">
+			<xsl:if test="$targetframe != ''"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@LinkTarget"/></xsl:if>
+			<xsl:if test="$targetframe = ''">_blank</xsl:if>
+		</xsl:variable>
+		<xsl:if test="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick">
+			<xsl:attribute name="onclick"><xsl:value-of select="//LinkTargets/LinkTarget[@TargetFrame=$targetframe]/@OnClick"/></xsl:attribute>
+		</xsl:if>
+		<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
 		<xsl:attribute name="href"><xsl:value-of select="@Href"/></xsl:attribute>
 		<xsl:apply-templates/>
 	</a>
