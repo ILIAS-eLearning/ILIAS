@@ -8813,3 +8813,13 @@ content#:#cont_layout_3window#:#Three Windows
 content#:#cont_layout_toc2windyn#:#Table of Contents Dynamic
 content#:#cont_layout_presentation#:#Presentation
 content#:#cont_layout_fullscreen#:#Full Screen
+common#:#obj_lrss#:#Learning Resources
+common#:#obj_lrss_desc#:#Configure all types of learning modules.
+content#:#cont_lrs_settings#:#Settings
+content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation
+content#:#cont_enable_time_scheduled_page_activation_info#:#If enabled, an activation period (date/time) can be selected in the learning module editor for each page.
+common#:#lrss_edit_permission#:#Change permission settings
+common#:#lrss_visible#:#Learning Resources Settings are visible
+common#:#lrss_read#:#Read access to Learning Resources Settings
+common#:#lrss_write#:#Edit Learning Resources Settings
+content#:#cont_edit_lrs_settings#:#Edit Settings
