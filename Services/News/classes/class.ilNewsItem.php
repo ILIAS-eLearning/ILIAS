@@ -342,7 +342,7 @@ class ilNewsItem extends ilNewsItemGen
 		$ilBench->stop("News", "getAggregatedNewsData_preloadActivationTimes");
 		
 		// no check, for which of the objects any news are available
-		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period);
+		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date);
 		//$news_obj_ids = $obj_ids;
 		
 		// get news for all subtree nodes
@@ -510,7 +510,7 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			$obj_ids[] = $node["obj_id"];
 		}
-		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period);
+		$news_obj_ids = ilNewsItem::filterObjIdsPerNews($obj_ids, $a_time_period, $a_starting_date);
 		//$news_obj_ids = $obj_ids;
 
 		// get news for all subtree nodes
@@ -897,14 +897,19 @@ class ilNewsItem extends ilNewsItemGen
 	/**
 	* Checks whether news are available for
 	*/
-	static function filterObjIdsPerNews($a_obj_ids, $a_time_period = 0)
+	static function filterObjIdsPerNews($a_obj_ids, $a_time_period = 0, $a_starting_date = "")
 	{
 		global $ilDB;
 		
 		$and = ($a_time_period > 0)
 			? " AND (TO_DAYS(now()) - TO_DAYS(creation_date)) <= ".((int)$a_time_period)
 			: "";
-		
+
+		if ($a_starting_date != "")
+		{
+			$and.= " AND creation_date >= ".$ilDB->quote($a_starting_date);
+		}
+
 		$query = "SELECT DISTINCT(context_obj_id) AS obj_id FROM il_news_item".
 			" WHERE context_obj_id IN (".implode(ilUtil::quoteArray($a_obj_ids),",").")".$and;
 
@@ -914,6 +919,7 @@ class ilNewsItem extends ilNewsItemGen
 		{
 			$objs[] = $rec["obj_id"];
 		}
+
 		return $objs;
 	}
 	
