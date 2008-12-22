@@ -6376,3 +6376,16 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1374>
+<?php
+	// add activation start/end fields
+	$ilDB->alterTable("lm_data",
+		array("add" => array(
+			"activation_start" => array(
+				"type" => "timestamp", "default" => "0000-00-00 00:00:00", "notnull" => true),
+			"activation_end" => array(
+				"type" => "timestamp", "default" => "0000-00-00 00:00:00", "notnull" => true)
+			)
+		));
+?>
+

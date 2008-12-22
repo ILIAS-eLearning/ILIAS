@@ -173,6 +173,31 @@ class ilDBx extends PEAR
 	}
 	
 	/**
+	* Alter a table in the database
+	*/
+	function alterTable($a_name, $a_changes)
+	{
+		if ($a_options == "")
+		{
+			$a_options = array();
+		}
+		
+		$manager = $this->db->loadModule('Manager');
+		$r = $manager->alterTable($a_name, $a_changes, false);
+
+		if (MDB2::isError($r))
+		{
+			//$err = "<br>Details: ".mysql_error();
+			var_dump($a_changes);
+			$this->raiseError($r->getMessage()."<br><font size=-1>ALTER TABLE $a_name</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+
+	/**
 	* Simple query. This function should only be used for simple select queries
 	* without parameters. Data manipulation should not be done with it.
 	*
@@ -350,6 +375,14 @@ else
 	function fetchAssoc($a_set)
 	{
 		return $a_set->fetchRow(DB_FETCHMODE_ASSOC);
+	}
+
+	/**
+	* Free a result set
+	*/
+	function free($a_set)
+	{
+		return $a_set->free();
 	}
 
 	/**
