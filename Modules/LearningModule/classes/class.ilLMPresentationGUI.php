@@ -63,6 +63,7 @@ class ilLMPresentationGUI
 		$this->frames = array();
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
+		$this->lm_set = new ilSetting("lm");
 
 #		include_once './classes/class.ilSearch.php';
 
@@ -1264,6 +1265,8 @@ class ilLMPresentationGUI
 	{
 		global $ilUser;
 
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		
 		$this->chapter_has_no_active_page = false;
 		$this->deactivated_page = false;
 		
@@ -1275,7 +1278,10 @@ class ilLMPresentationGUI
 		else
 		{
 			$obj_id = $_GET["obj_id"];
-			if (!ilLMPageObject::_lookupActive($obj_id) &&
+			$active = ilPageObject::_lookupActive($obj_id,
+				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
+
+			if (!$active &&
 				ilLMPageObject::_lookupType($obj_id) == "pg")
 			{
 				$this->deactivated_page = true;
@@ -1290,8 +1296,11 @@ class ilLMPresentationGUI
 
 		$curr_node = $this->lm_tree->getNodeData($obj_id);
 		
+		$active = ilPageObject::_lookupActive($obj_id,
+			$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
+
 		if ($curr_node["type"] == "pg" &&
-			ilLMPageObject::_lookupActive($obj_id))		// page in tree -> return page id
+			$active)		// page in tree -> return page id
 		{
 			$page_id = $curr_node["obj_id"];
 		}
@@ -1304,7 +1313,8 @@ class ilLMPresentationGUI
 			{
 				$succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
 				$page_id = $succ_node["obj_id"];
-				$active = ilLMPageObject::_lookupActive($page_id);
+				$active = ilPageObject::_lookupActive($page_id,
+					$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 			}
 
 			if ($succ_node["type"] != "pg")
@@ -2112,7 +2122,8 @@ class ilLMPresentationGUI
 		global $ilBench,$ilUser;
 
 		$ilBench->start("ContentPresentation", "ilLMNavigation");
-
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		
 		$page_id = $this->getCurrentPageId();
 
 		if(empty($page_id))
@@ -2187,6 +2198,10 @@ class ilLMPresentationGUI
 		{
 			$succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
 			$c_id = $succ_node["obj_id"];
+	
+			$active = ilPageObject::_lookupActive($c_id,
+				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
+
 			if ($succ_node["obj_id"] > 0 &&
 				($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
 				( $this->lm->getPublicAccessMode() == "selected" &&
@@ -2194,8 +2209,7 @@ class ilLMPresentationGUI
 			{
 				$found = false;
 			}
-			else if ($succ_node["obj_id"] > 0 &&
-				!ilLMObject::_lookupActive($succ_node["obj_id"]))
+			else if ($succ_node["obj_id"] > 0 && !$active)
 			{
 				$found = false;
 			}
@@ -2218,6 +2232,8 @@ class ilLMPresentationGUI
 		{
 			$pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
 			$c_id = $pre_node["obj_id"];
+			$active = ilPageObject::_lookupActive($c_id,
+				$this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
 			if ($pre_node["obj_id"] > 0 &&
 				($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
 				($this->lm->getPublicAccessMode() == "selected" &&
@@ -2225,8 +2241,7 @@ class ilLMPresentationGUI
 			{
 				$found = false;
 			}
-			else if ($pre_node["obj_id"] > 0 &&
-				!ilLMObject::_lookupActive($pre_node["obj_id"]))
+			else if ($pre_node["obj_id"] > 0 && !$active)
 			{
 				$found = false;
 			}
@@ -2693,7 +2708,7 @@ class ilLMPresentationGUI
 	function showPrintViewSelection()
 	{
 		global $ilBench,$ilUser;
-		
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		if (!$this->lm->isActivePrintView())
 		{
 			return;
@@ -2762,8 +2777,11 @@ class ilLMPresentationGUI
 		{
 
 			// check page activation
+			$active = ilPageObject::_lookupActive($node["obj_id"], $this->lm->getType(),
+				$this->lm_set->get("time_scheduled_page_activation"));
+
 			if ($node["type"] == "pg" &&
-				!ilLMPageObject::_lookupActive($node["obj_id"]))
+				!$active)
 			{
 				continue;
 			}
@@ -2889,6 +2907,8 @@ class ilLMPresentationGUI
 	{
 		global $ilBench,$ilUser;
 
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		
 		if (!$this->lm->isActivePrintView())
 		{
 			return;
@@ -3017,8 +3037,9 @@ class ilLMPresentationGUI
 		foreach ($nodes as $node_key => $node)
 		{
 			// check page activation
-			if ($node["type"] == "pg" &&
-				!ilLMPageObject::_lookupActive($node["obj_id"]))
+			$active = ilPageObject::_lookupActive($node["obj_id"], $this->lm->getType(),
+				$this->lm_set->get("time_scheduled_page_activation"));
+			if ($node["type"] == "pg" && !$active)
 			{
 				continue;
 			}

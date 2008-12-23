@@ -211,7 +211,7 @@ class ilLMObject
 		$this->type = $this->data_record["type"];
 		$this->setImportId($this->data_record["import_id"]);
 		$this->setTitle($this->data_record["title"]);
-		$this->setActive(ilUtil::yn2tf($this->data_record["active"]));
+		//$this->setActive(ilUtil::yn2tf($this->data_record["active"]));
 
 		$ilBench->stop("ContentPresentation", "ilLMObject_read");
 	}
@@ -333,26 +333,6 @@ class ilLMObject
 	}
 
 	/**
-	* set activation
-	*
-	* @param	boolean		$a_active	true/false for active or not
-	*/
-	function setActive($a_active)
-	{
-		$this->active = $a_active;
-	}
-
-	/**
-	* get activation
-	*
-	* @return	boolean		true/false for active or not
-	*/
-	function getActive()
-	{
-		return $this->active;
-	}
-
-	/**
 	* write import id to db (static)
 	*
 	* @param	int		$a_id				lm object id
@@ -377,10 +357,10 @@ class ilLMObject
 		global $ilDB;
 
 		// insert object data
-		$query = "INSERT INTO lm_data (title, type, lm_id, import_id, create_date, active) ".
+		$query = "INSERT INTO lm_data (title, type, lm_id, import_id, create_date) ".
 			"VALUES (".$ilDB->quote($this->getTitle()).",".$ilDB->quote($this->getType()).", ".
 			$ilDB->quote($this->getLMId()).",".$ilDB->quote($this->getImportId()).
-			", now(),".$ilDB->quote(ilUtil::tf2yn($this->getActive())).")";
+			", now())";
 		$this->ilias->db->query($query);
 		$this->setId($this->ilias->db->getLastInsertId());
 
@@ -408,7 +388,6 @@ class ilLMObject
 		$query = "UPDATE lm_data SET ".
 			" lm_id = ".$ilDB->quote($this->getLMId()).
 			" ,title = ".$ilDB->quote($this->getTitle()).
-			" ,active = ".$ilDB->quote(ilUtil::tf2yn($this->getActive())).
 			" WHERE obj_id = ".$ilDB->quote($this->getId());
 
 		$ilDB->query($query);
@@ -691,6 +670,7 @@ class ilLMObject
 	/**
 	* lookup activation status
 	*/
+/*
 	function _lookupActive($a_id)
 	{
 		global $ilDB;
@@ -701,10 +681,11 @@ class ilLMObject
 
 		return ilUtil::yn2tf($obj_rec["active"]);
 	}
-
+*/
 	/**
 	* write activation status
 	*/
+/*
 	function _writeActive($a_id, $a_active)
 	{
 		global $ilDB;
@@ -714,6 +695,7 @@ class ilLMObject
 			" WHERE obj_id = ".$ilDB->quote($a_id);
 		$ilDB->query($query);
 	}
+*/
 
 	/**
 	* put this object into content object tree

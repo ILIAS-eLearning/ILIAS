@@ -220,9 +220,11 @@ class ilPropertyFormGUI extends ilFormGUI
 		{
 			if ($item->getType() != "section_header")
 			{
-				if ($item->getPostVar() == $a_post_var)
+				//if ($item->getPostVar() == $a_post_var)
+				$ret = $item->getItemByPostVar($a_post_var);
+				if (is_object($ret))
 				{
-					return $this->items[$key];
+					return $ret;
 				}
 			}
 		}

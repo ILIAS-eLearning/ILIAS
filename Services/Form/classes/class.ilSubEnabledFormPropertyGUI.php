@@ -111,4 +111,31 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 		return $pf;
 	}
 
+	/**
+	* Get item by post var
+	*
+	* @return	mixed	false or item object
+	*/
+	function getItemByPostVar($a_post_var)
+	{
+		if ($this->getPostVar() == $a_post_var)
+		{
+			return $this;
+		}
+
+		foreach($this->getSubItems() as $item)
+		{
+			if ($item->getType() != "section_header")
+			{
+				$ret = $item->getItemByPostVar($a_post_var);
+				if (is_object($ret))
+				{
+					return $ret;
+				}
+			}
+		}
+		
+		return false;
+	}
+
 }

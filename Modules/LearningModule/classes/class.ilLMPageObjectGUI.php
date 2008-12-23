@@ -71,7 +71,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl, $ilTabs;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -99,6 +99,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				// be shown in the frameset of ilias, or in a separate window.
 				//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 				$showViewInFrameset = true;
+				$lm_set = new ilSetting("lm");
 
 				$this->ctrl->setReturn($this, "edit");
 /*				$page_object =& $this->obj->getPageObject();
@@ -146,8 +147,12 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setLocator($contObjLocator);
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
 				$page_gui->setEnabledActivation(true);
+				if ($lm_set->get("time_scheduled_page_activation"))
+				{
+					$page_gui->setEnabledScheduledActivation(true);
+				}
 				$page_gui->setActivationListener($this, "activatePage");
-				$page_gui->setActivated($this->obj->getActive());
+				//$page_gui->setActivated($this->obj->getActive());
 				
 				$up_gui = ($this->content_object->getType() == "dbk")
 					? "ilobjdlbookgui"

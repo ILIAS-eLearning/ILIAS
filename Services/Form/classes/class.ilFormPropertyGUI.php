@@ -248,5 +248,19 @@ class ilFormPropertyGUI
 		return "none";
 	}
 
+	/**
+	* Get item by post var
+	*
+	* @return	mixed	false or item object
+	*/
+	function getItemByPostVar($a_post_var)
+	{
+		if ($this->getPostVar() == $a_post_var)
+		{
+			return $this;
+		}
+		
+		return false;
+	}
 
 }

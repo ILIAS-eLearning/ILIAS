@@ -163,10 +163,22 @@ class ilLMEditorExplorer extends ilLMExplorer
 		
 		if ($a_type == "pg")
 		{
-			$active = ilLMObject::_lookupActive($a_id);
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			$lm_set = new ilSetting("lm");
+			$active = ilPageObject::_lookupActive($a_id, $this->lm_obj->getType(),
+				$lm_set->get("time_scheduled_page_activation"));
+			
+			// is page scheduled?
+			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
+				ilPageObject::_isScheduledActivation($a_id, $this->lm_obj->getType()))
+				? "_sc"
+				: "";
+				
+			$a_name = "icon_pg".$img_sc."_s.gif";
+
 			if (!$active)
 			{
-				$a_name = "icon_pg_d_s.gif";
+				$a_name = "icon_pg_d".$img_sc."_s.gif";
 			}
 			else
 			{
@@ -175,7 +187,7 @@ class ilLMEditorExplorer extends ilLMExplorer
 					$this->lm_obj->getType());
 				if ($contains_dis)
 				{
-					$a_name = "icon_pg_del_s.gif";
+					$a_name = "icon_pg_del".$img_sc."_s.gif";
 				}
 			}
 		}
@@ -193,7 +205,11 @@ class ilLMEditorExplorer extends ilLMExplorer
 		
 		if ($a_type == "pg")
 		{
-			$active = ilLMObject::_lookupActive($a_id);
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			$lm_set = new ilSetting("lm");
+			$active = ilPageObject::_lookupActive($a_id, $this->lm_obj->getType(),
+				$lm_set->get("time_scheduled_page_activation"));
+
 			if (!$active)
 			{
 				return $lng->txt("cont_page_deactivated");

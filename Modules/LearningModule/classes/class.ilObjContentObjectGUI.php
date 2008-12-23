@@ -1416,9 +1416,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("table_row");
 			
 			// check activation
-			if (!ilLMPageObject::_lookupActive($page["obj_id"]))
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			$lm_set = new ilSetting("lm");
+			$active = ilPageObject::_lookupActive($page["obj_id"], $this->object->getType(),
+				$lm_set->get("time_scheduled_page_activation"));
+				
+			// is page scheduled?
+			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
+				ilPageObject::_isScheduledActivation($page["obj_id"], $this->object->getType()))
+				? "_sc"
+				: "";
+
+			if (!$active)
 			{
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_d.gif"));
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_d".$img_sc.".gif"));
 				$this->tpl->setVariable("IMG_ALT",
 					$this->lng->txt("cont_page_deactivated"));
 			}
@@ -1427,13 +1438,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				if (ilPageObject::_lookupContainsDeactivatedElements($page["obj_id"],
 					$this->object->getType()))
 				{
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_del.gif"));
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_del".$img_sc.".gif"));
 					$this->tpl->setVariable("IMG_ALT",
 						$this->lng->txt("cont_page_deactivated_elements"));
 				}
 				else
 				{
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg.gif"));
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg".$img_sc.".gif"));
 					$this->tpl->setVariable("IMG_ALT",
 						$this->lng->txt("pg"));
 				}
@@ -1561,9 +1572,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			foreach($_POST["id"] as $id)
 			{
-				$act = ilLMObject::_lookupActive($id);
-				ilLMObject::_writeActive($id, !$act);
-//echo "-".$a_id."-".!$act."-";
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				$act = ilPageObject::_lookupActive($id, $this->object->getType());
+				ilPageObject::_writeActive($id, $this->object->getType(), !$act);
 			}
 		}
 
