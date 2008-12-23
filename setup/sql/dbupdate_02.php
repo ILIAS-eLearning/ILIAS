@@ -6393,3 +6393,13 @@ $ilCtrlStructureReader->getStructure();
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1376>
+ CREATE TABLE shib_role_assignment (
+rule_id INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+role_id INT( 11 ) NOT NULL ,
+name CHAR( 255 ) NOT NULL ,
+value CHAR( 255 ) NOT NULL ,
+plugin TINYINT( 1 ) NOT NULL ,
+add_on_update TINYINT( 1 ) NOT NULL ,
+remove_on_update TINYINT( 1 ) NOT NULL
+) Type = MYISAM;
