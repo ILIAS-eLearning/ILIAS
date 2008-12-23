@@ -8823,3 +8823,23 @@ common#:#lrss_visible#:#Learning Resources Settings are visible
 common#:#lrss_read#:#Read access to Learning Resources Settings
 common#:#lrss_write#:#Edit Learning Resources Settings
 content#:#cont_edit_lrs_settings#:#Edit Settings
+shib#:#shib_settings#:#Shibboleth Settings
+shib#:#shib_role_assignment#:#Role Assignments
+shib#:#shib_role_ass_table#:#New Rule for Role Assignments
+shib#:#shib_new_rule#:#Add new Rule
+shib#:#shib_role_name#:#ILIAS Role Name
+shib#:#shib_global_role#:#Global Role
+shib#:#shib_local_role#:#Local Role
+shib#:#shib_role_name_info#:#Please choose either a global role or enter the name of a local role.
+shib#:#shib_update_roles#:#Role Assignments
+shib#:#shib_add_missing#:#Assign Missing Roles
+shib#:#shib_remove_deprecated#:#Deassign Deprecated Roles
+shib#:#shib_check_role_assignment#:#Assignment of Roles After Later Logins
+shib#:#shib_assignment_type#:#Kind of Assignment
+shib#:#shib_attribute#:#User Attribute
+shib#:#shib_attribute_name#:#Attribute Name
+shib#:#shib_attribute_value#:#Attribute Value
+shib#:#shib_attr_info#:#Assign by a specific attribute in the Shibboleth User Profile.
+shib#:#shib_missing_role#:#Please select one role.
+shib#:#shib_missing_attr_name#:#Please enter the attribute name.
+shib#:#shib_missing_attr_value#:#Please enter the attribute value.

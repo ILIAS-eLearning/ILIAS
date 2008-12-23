@@ -52,6 +52,7 @@ class ilAuthShibbolethSettingsGUI
 		$this->ctrl = $ilCtrl;
 		$this->tabs_gui = $ilTabs;
 		$this->lng = $lng;
+		$this->lng->loadLanguageModule('shib');
 		$this->ilias = $ilias;
 		
 		$this->tpl = $tpl;
@@ -75,6 +76,8 @@ class ilAuthShibbolethSettingsGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+		
+		$this->setSubTabs();
 
 		switch($next_class)
 		{
@@ -94,7 +97,7 @@ class ilAuthShibbolethSettingsGUI
 	{
 		global $rbacsystem, $rbacreview;
 		
-		$this->tabs_gui->setTabActive('auth_shib');
+		$this->tabs_gui->setSubTabActive('shib_settings');
 		
 		// set already saved data or default value for port
 		$settings = $this->ilias->getAllSettings();
@@ -301,6 +304,179 @@ class ilAuthShibbolethSettingsGUI
 		ilUtil::sendInfo($this->lng->txt("shib_settings_saved"),true);
 
 		$this->ctrl->redirect($this,'settings');
+	}
+	
+	protected function roleAssignment()
+	{
+		$this->tabs_gui->setSubTabActive('shib_role_assignment');
+		
+		$this->initFormRoleAssignment('default');
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.shib_role_assignment.html','Services/AuthShibboleth');
+		$this->tpl->setVariable('NEW_RULE_TABLE',$this->form->getHTML());
+		// TODO: show rule table
+
+		return true;		
+	}
+	
+	protected function initFormRoleAssignment($a_mode = 'default')
+	{
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'cancel'));
+		$this->form->setTitle($this->lng->txt('shib_role_ass_table'));
+		#$this->form->addCommandButton('addRoleAssignmentRule',$this->lng->txt('shib_new_rule'));
+		$this->form->addCommandButton('settings',$this->lng->txt('cancel'));
+		
+		// Role selection
+		$role = new ilRadioGroupInputGUI($this->lng->txt('shib_role_name'),'role_name');
+		$role->setRequired(true);
+		
+			$global = new ilRadioOption($this->lng->txt('shib_global_role'),0);
+			$role->addOption($global);
+			
+				$role_select = new ilSelectInputGUI('','role_id');
+				$role_select->setOptions($this->prepareRoleSelect());
+				$global->addSubItem($role_select);
+			
+			$local  = new ilRadioOption($this->lng->txt('shib_local_role'),1);
+			$role->addOption($local);
+			
+				$role_search = new ilTextInputGUI('','role_search');
+				$role_search->setSize(40);
+				$local->addSubItem($role_search);
+			
+		$role->setInfo($this->lng->txt('shib_role_name_info'));
+		$this->form->addItem($role);
+		
+		// Update options
+		$update = new ilNonEditableValueGUI($this->lng->txt('shib_update_roles'));
+		$update->setValue($this->lng->txt('shib_check_role_assignment'));
+		
+			$add = new ilCheckboxInputGUI('','add_missing');
+			$add->setOptionTitle($this->lng->txt('shib_add_missing'));
+			$add->setValue(1);
+			$update->addSubItem($add);
+			
+			$remove = new ilCheckboxInputGUI('','remove_deprecated');
+			$remove->setOptionTitle($this->lng->txt('shib_remove_deprecated'));
+			$remove->setValue(1);
+			$update->addSubItem($remove);
+		
+		$this->form->addItem($update);
+		
+		// Assignment type
+		$kind = new ilRadioGroupInputGUI($this->lng->txt('shib_assignment_type'),'kind');
+		$kind->setValue(1);
+		$kind->setRequired(true);
+		
+			$attr = new ilRadioOption($this->lng->txt('shib_attribute'),1);
+			$attr->setInfo($this->lng->txt('shib_attr_info'));
+				
+				$name = new ilTextInputGUI($this->lng->txt('shib_attribute_name'),'attr_name');
+				$name->setSize(32);
+				$attr->addSubItem($name);
+			
+				$value = new ilTextInputGUI($this->lng->txt('shib_attribute_value'),'attr_value');
+				$value->setSize(32);
+				$attr->addSubItem($value);
+		$kind->addOption($attr);
+		$this->form->addItem($kind);
+	}
+	
+	protected function addRoleAssignmentRule()
+	{
+		global $ilAccess,$ilErr;
+		
+		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'), true);
+			$this->roleAssignment();
+			return false;
+		}
+		
+		$this->initFormRoleAssignment();
+		if(!$this->form->checkInput() or ($err = $this->checkInput()))
+		{
+			if($err)
+			{
+				ilUtil::sendInfo($this->lng->txt($err));
+			}
+			$this->form->setValuesByPost();
+			$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.shib_role_assignment.html','Services/AuthShibboleth');
+			$this->tpl->setVariable('NEW_RULE_TABLE',$this->form->getHTML());
+			return true;
+		}
+		
+		$this->rule->add();
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->roleAssignment();
+		return true;
+	}
+	
+	private function loadRule()
+	{
+		include_once('./Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRule.php');
+		
+		$this->rule = new ilShibbolethRoleAssignmentRule();
+		if($this->form->getInput('role_name') == 0)
+		{
+			$this->rule->setRoleId($this->form->getInput('role_id'));
+		}
+		$this->rule->setName($this->form->getInput('attr_name'));
+		$this->rule->setValue($this->form->getInput('attr_value'));
+		$this->rule->enableAddOnUpdate($this->form->getInput('add_missing'));
+		$this->rule->enableRemoveOnUpdate($this->form->getInput('remove_deprecated'));
+		$this->rule->enablePlugin($this->form->getInput('kind') == 2);
+		
+		return $this->rule;
+	}
+	
+	private function checkInput()
+	{
+		$this->loadRule();
+		return $this->rule->validate();
+	}
+
+	
+	
+	private function prepareRoleSelect($a_as_select = true)
+	{
+		global $rbacreview,$ilObjDataCache;
+		
+		$global_roles = ilUtil::_sortIds($rbacreview->getGlobalRoles(),
+			'object_data',
+			'title',
+			'obj_id');
+		
+		$select[0] = $this->lng->txt('links_select_one');
+		foreach($global_roles as $role_id)
+		{
+			$select[$role_id] = ilObject::_lookupTitle($role_id);
+		}
+		return $select;
+	}
+	
+	
+	
+	protected function setSubTabs()
+	{
+		global $ilSetting;
+		
+		include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php';
+		if($ilSetting->get('shib_active') == 0 and ilShibbolethRoleAssignmentRules::getCountRules() == 0)
+		{
+			return false;
+		}
+		// DONE: show sub tabs if there is any role assignment rule
+		
+		$this->tabs_gui->addSubTabTarget('shib_settings',
+			$this->ctrl->getLinkTarget($this,'settings'));
+		
+		$this->tabs_gui->addSubTabTarget('shib_role_assignment',
+			$this->ctrl->getLinkTarget($this,'roleAssignment'));
+		return true;
+		
 	}
 
 }

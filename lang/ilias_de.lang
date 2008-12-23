@@ -8776,3 +8776,23 @@ file#:#file_new_version#:#Neue Version anlegen
 common#:#save_params_for_cron#:#Speichere Parameter für Cronjob
 common#:#systemcheck_cronform#:#Aktivierung des System Checks im Cronjob
 common#:#systemcheck_cron#:#System Check via Cronjob
+shib#:#shib_settings#:#Shibboleth-Einstellungen
+shib#:#shib_role_assignment#:#Rollenzuordnungen
+shib#:#shib_role_ass_table#:#Neue Regel für die ILIAS Rollenzuordnung
+shib#:#shib_new_rule#:#Neue Regel anlegen
+shib#:#shib_role_name#:#ILIAS Rollenname
+shib#:#shib_global_role#:#Globale Rolle
+shib#:#shib_local_role#:#Lokale Rolle
+shib#:#shib_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle aus oder geben Sie den Namen einer lokalen Rolle ein.
+shib#:#shib_update_roles#:#Rollenzuordnungen
+shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
+shib#:#shib_remove_deprecated#:#Veraltete Rollenzuordnungen entfernen
+shib#:#shib_check_role_assignment#:#Aktualisierung der Rollenzuodnungen bei späteren Logins:
+shib#:#shib_assignment_type#:#Art der Zuordnung
+shib#:#shib_attribute#:#Benutzerattribut
+shib#:#shib_attribute_name#:#Attributname
+shib#:#shib_attribute_value#:#Attributwert
+shib#:#shib_attr_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im Shibboleth Benutzerprofil.
+shib#:#shib_missing_role#:#Bitte wählen Sie eine ILIAS Rolle aus.
+shib#:#shib_missing_attr_name#:#Bitte geben Sie den Namen des Attributes ein.
+shib#:#shib_missing_attr_value#:#Bitte geben Sie den Wert des Attributes ein.
