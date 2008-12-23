@@ -126,6 +126,11 @@ class ilShibbolethRoleAssignmentRule
 		return (bool) $this->remove_on_update;
 	}
 	
+	public function conditionToString()
+	{
+		return $this->getName().'='.$this->getValue();
+	}
+	
 	public function validate()
 	{
 		if(!$this->getRoleId())
@@ -200,8 +205,8 @@ class ilShibbolethRoleAssignmentRule
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setRoleId($row->role_id);
-			$this->setAttributeName($row->attr_name);
-			$this->setAttributeValue($row->attr_value);
+			$this->setName($row->name);
+			$this->setValue($row->value);
 			$this->enablePlugin($row->is_plugin);
 			$this->enableAddOnUpdate($row->add_on_update);
 			$this->enableRemoveOnUpdate($row->remove_on_update);

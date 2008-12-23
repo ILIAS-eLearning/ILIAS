@@ -314,10 +314,94 @@ class ilAuthShibbolethSettingsGUI
 		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.shib_role_assignment.html','Services/AuthShibboleth');
 		$this->tpl->setVariable('NEW_RULE_TABLE',$this->form->getHTML());
-		// TODO: show rule table
+
+		if(strlen($html = $this->parseRulesTable()))
+		{
+			$this->tpl->setVariable('RULE_TABLE',$html);
+		}
 
 		return true;		
 	}
+	
+	protected function parseRulesTable()
+	{
+		include_once('./Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php');
+		if(ilShibbolethRoleAssignmentRules::getCountRules() == 0)
+		{
+			return '';
+		}
+		include_once('./Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentTableGUI.php');
+		$rules_table = new ilShibbolethRoleAssignmentTableGUI($this,'roleAssignment');
+		$rules_table->setTitle($this->lng->txt('shib_rules_tables'));
+		$rules_table->parse(ilShibbolethRoleAssignmentRules::getAllRules());
+		$rules_table->addMultiCommand("confirmDeleteRules", $this->lng->txt("delete"));
+		$rules_table->setSelectAllCheckbox("rule_id");
+		
+		return $rules_table->getHTML();
+	}
+	
+	/**
+	 * Confirm delete rules
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	protected function confirmDeleteRules()
+	{
+	 	if(!is_array($_POST['rule_ids']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('select_one'));
+	 		$this->roleAssignments();
+	 		return false;
+	 	}
+		$this->tabs_gui->setSubTabActive('shib_role_assignment');
+		
+		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$c_gui = new ilConfirmationGUI();
+		
+		// set confirm/cancel commands
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteRules"));
+		$c_gui->setHeaderText($this->lng->txt("shib_confirm_del_role_ass"));
+		$c_gui->setCancel($this->lng->txt("cancel"), "roleAssignment");
+		$c_gui->setConfirm($this->lng->txt("confirm"), "deleteRules");
+
+		// add items to delete
+		include_once('Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRule.php');
+		foreach($_POST["rule_ids"] as $rule_id)
+		{
+			$rule = new ilShibbolethRoleAssignmentRule($rule_id);
+			$c_gui->addItem('rule_ids[]',$rule_id,$rule->conditionToString());
+		}
+		$this->tpl->setContent($c_gui->getHTML());
+	}
+	
+	/**
+	 * delete role assignment rule
+	 *
+	 * @access public
+	 * 
+	 */
+	protected function deleteRules()
+	{
+	 	if(!is_array($_POST['rule_ids']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('select_once'));
+	 		$this->roleAssignment();
+	 		return false;
+	 	}
+		include_once('Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRule.php');
+		foreach($_POST["rule_ids"] as $rule_id)
+		{
+			$rule = new ilShibbolethRoleAssignmentRule($rule_id);
+			$rule->delete();
+		}
+		ilUtil::sendInfo($this->lng->txt('shib_deleted_rule'));
+		$this->roleAssignment();
+		return true;
+	}
+	
+	
 	
 	protected function initFormRoleAssignment($a_mode = 'default')
 	{
@@ -325,7 +409,7 @@ class ilAuthShibbolethSettingsGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'cancel'));
 		$this->form->setTitle($this->lng->txt('shib_role_ass_table'));
-		#$this->form->addCommandButton('addRoleAssignmentRule',$this->lng->txt('shib_new_rule'));
+		$this->form->addCommandButton('addRoleAssignmentRule',$this->lng->txt('shib_new_rule'));
 		$this->form->addCommandButton('settings',$this->lng->txt('cancel'));
 		
 		// Role selection

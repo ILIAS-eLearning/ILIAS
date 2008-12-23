@@ -42,7 +42,7 @@ class ilShibbolethRoleAssignmentRules
 		$res  =$ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$rules[$row->rule_id] = new ilAuthShibbolethRoleAssignmentRule($row->rule_id);
+			$rules[$row->rule_id] = new ilShibbolethRoleAssignmentRule($row->rule_id);
 		}
 		return $rules ? $rules : array();
 	}
