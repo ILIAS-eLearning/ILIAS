@@ -534,7 +534,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			
 			// subitems
 			$sf = null;
-			if ($item->getType() != "non_editable_value")
+			if ($item->getType() != "non_editable_value" or 1)
 			{
 				$sf = $item->getSubForm();
 			}
