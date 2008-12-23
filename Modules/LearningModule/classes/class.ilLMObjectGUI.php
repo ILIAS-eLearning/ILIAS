@@ -302,16 +302,5 @@ class ilLMObjectGUI
 	{
 		$this->content_object->checkTree();
 	}
-	
-	/**
-	* activates page or chapter (currently only for pages implemented)
-	*
-	* @param	boolean	$a_active	true/false for active or not
-	*/
-	function activatePage($a_active)
-	{
-		$this->obj->setActive($a_active);
-		$this->obj->update();
-	}
 }
 ?>

@@ -429,16 +429,6 @@ class ilPageObjectGUI
 		$this->act_meth = $a_meth;
 	}
 
-	function setActivated($a_act)
-	{
-		$this->activated = $a_act;
-	}
-
-	function getActivated()
-	{
-		return $this->activated;
-	}
-
 	function setEnabledActivation($a_act)
 	{
 		$this->activation = $a_act;
@@ -449,6 +439,15 @@ class ilPageObjectGUI
 		return $this->activation;
 	}
 
+	function setEnabledScheduledActivation($a_act)
+	{
+		$this->scheduled_activation = $a_act;
+	}
+
+	function getEnabledScheduledActivation()
+	{
+		return $this->scheduled_activation;
+	}
 	
 	/**
 	* Set Enable internal links.
@@ -849,16 +848,20 @@ class ilPageObjectGUI
 
 	function deactivatePage()
 	{
-		$act_meth = $this->act_meth;
-		$this->act_obj->$act_meth(false);
-		$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
+		$this->getPageObject()->setActivationStart("0000-00-00 00:00:00");
+		$this->getPageObject()->setActivationEnd("0000-00-00 00:00:00");
+		$this->getPageObject()->setActive(false);
+		$this->getPageObject()->update();
+		$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
 	}
 
 	function activatePage()
 	{
-		$act_meth = $this->act_meth;
-		$this->act_obj->$act_meth(true);
-		$this->ctrl->redirectByClass("illmpageobjectgui", "edit");
+		$this->getPageObject()->setActivationStart("0000-00-00 00:00:00");
+		$this->getPageObject()->setActivationEnd("0000-00-00 00:00:00");
+		$this->getPageObject()->setActive(true);
+		$this->getPageObject()->update();
+		$this->ctrl->redirectByClass("ilpageobjectgui", "edit");
 	}
 
 	/*
@@ -918,7 +921,7 @@ class ilPageObjectGUI
 				if ($this->getEnabledActivation())
 				{
 					$tpl->setCurrentBlock("de_activate_page");
-					if ($this->getActivated())
+					if ($this->getPageObject()->getActive())
 					{
 						$tpl->setVariable("TXT_DE_ACTIVATE_PAGE", $this->lng->txt("cont_deactivate_page"));
 						$tpl->setVariable("CMD_DE_ACTIVATE_PAGE", "deactivatePage");
@@ -1123,6 +1126,24 @@ class ilPageObjectGUI
 					$tpl->setVariable("TXT_EDIT_MEDIA", $this->lng->txt("cont_edit_mob"));
 					$tpl->setVariable("TXT_COPY_TO_CLIPBOARD", $this->lng->txt("cont_copy_to_clipboard"));
 					//$this->tpl->setVariable("TXT_COPY_TO_POOL", $this->lng->txt("cont_copy_to_mediapool"));
+					$tpl->parseCurrentBlock();
+				}
+				
+				// scheduled activation?
+				if (!$this->getPageObject()->getActive() &&
+					$this->getPageObject()->getActivationStart() != "0000-00-00 00:00:00" &&
+					$this->getEnabledScheduledActivation())
+				{
+					$tpl->setCurrentBlock("activation_txt");
+					$tpl->setVariable("TXT_SCHEDULED_ACTIVATION", $lng->txt("cont_scheduled_activation"));
+					$tpl->setVariable("SA_FROM",
+						ilDatePresentation::formatDate(
+						new ilDateTime($this->getPageObject()->getActivationStart(),
+						IL_CAL_DATETIME)));
+					$tpl->setVariable("SA_TO",
+						ilDatePresentation::formatDate(
+						new ilDateTime($this->getPageObject()->getActivationEnd(),
+						IL_CAL_DATETIME)));
 					$tpl->parseCurrentBlock();
 				}
 			}
@@ -1464,7 +1485,7 @@ class ilPageObjectGUI
 //echo htmlentities($output);
 		$output = $this->postOutputProcessing($output);
 //echo htmlentities($output);
-		if($this->getOutputMode() == "edit" && !$this->getActivated())
+		if($this->getOutputMode() == "edit" && !$this->getPageObject()->getActive($this->getEnabledScheduledActivation()))
 		{
 			$output = '<div class="il_editarea_disabled">'.$output.'</div>';
 		}
@@ -1991,6 +2012,12 @@ class ilPageObjectGUI
 				, "view", "ilEditClipboardGUI");
 		}
 
+		if ($this->getEnabledScheduledActivation())
+		{
+			$ilTabs->addTarget("cont_activation", $this->ctrl->getLinkTarget($this, "editActivation"),
+				"editActivation", get_class($this));
+		}
+
 		//$ilTabs->setTabActive("pg");
 	}
 
@@ -2044,6 +2071,124 @@ class ilPageObjectGUI
 		$a_html = str_replace("[ilDiffDelEnd]", '</span>', $a_html);
 
 		return $a_html;
+	}
+	
+	/**
+	* Edit activation (only, if scheduled page activation is activated in administration)
+	*/
+	function editActivation()
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		$atpl = new ilTemplate("tpl.page_activation.php", true, true, "Services/COPage");
+		$this->initActivationForm();
+		$this->getActivationFormValues();
+		$atpl->setVariable("FORM", $this->form->getHTML());
+		$atpl->setCurrentBlock("updater");
+		$atpl->setVariable("UPDATER_FRAME", $this->exp_frame);
+		$atpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
+		$atpl->setVariable("HREF_UPDATER", $this->exp_target_script);
+		$atpl->parseCurrentBlock();
+		$tpl->setContent($atpl->get());
+	}
+	
+	/**
+	* Init activation form
+	*/
+	function initActivationForm()
+	{
+		global $ilCtrl, $lng;
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setTitle($lng->txt("cont_page_activation"));
+		
+		// activation type radio
+		$rad = new ilRadioGroupInputGUI($lng->txt("cont_activation"), "activation");
+		$rad_op1 = new ilRadioOption($lng->txt("cont_activated"), "activated");
+
+		$rad->addOption($rad_op1);
+		$rad_op2 = new ilRadioOption($lng->txt("cont_deactivated"), "deactivated");
+		$rad->addOption($rad_op2);
+		$rad_op3 = new ilRadioOption($lng->txt("cont_scheduled_activation"), "scheduled");
+		
+			$dt_prop = new ilDateTimeInputGUI($lng->txt("cont_start"), "start");
+			$dt_prop->setShowTime(true);
+			$rad_op3->addSubItem($dt_prop);
+			$dt_prop2 = new ilDateTimeInputGUI($lng->txt("cont_end"), "end");
+			$dt_prop2->setShowTime(true);
+			$rad_op3->addSubItem($dt_prop2);
+		
+		$rad->addOption($rad_op3);
+
+		$this->form->addCommandButton("saveActivation", $lng->txt("save"));
+		
+		$this->form->addItem($rad);
+	}
+	
+	/**
+	* Get values for activation form
+	*/
+	function getActivationFormValues()
+	{
+		$values = array();
+		$values["activation"] = "deactivated";
+		if ($this->getPageObject()->getActive())
+		{
+			$values["activation"] = "activated";
+		}
+		
+		$dt_prop = $this->form->getItemByPostVar("start");
+		if ($this->getPageObject()->getActivationStart() != "0000-00-00 00:00:00")
+		{
+			$values["activation"] = "scheduled";
+			$dt_prop->setDate(new ilDateTime($this->getPageObject()->getActivationStart(),
+				IL_CAL_DATETIME));
+		}
+		$dt_prop = $this->form->getItemByPostVar("end");
+		if ($this->getPageObject()->getActivationEnd() != "0000-00-00 00:00:00")
+		{
+			$values["activation"] = "scheduled";
+			$dt_prop->setDate(new ilDateTime($this->getPageObject()->getActivationEnd(),
+				IL_CAL_DATETIME));
+		}
+		
+		$this->form->setValuesByArray($values);
+	}
+	
+	/**
+	* Save Activation
+	*/
+	function saveActivation()
+	{
+		global $tpl, $lng, $ilCtrl;
+		
+		$this->initActivationForm();
+		
+		if ($this->form->checkInput())
+		{
+			$this->getPageObject()->setActive(true);
+			$this->getPageObject()->setActivationStart("0000-00-00 00:00:00");
+			$this->getPageObject()->setActivationEnd("0000-00-00 00:00:00");
+			if ($_POST["activation"] == "deactivated")
+			{
+				$this->getPageObject()->setActive(false);
+			}
+			if ($_POST["activation"] == "scheduled")
+			{
+				$this->getPageObject()->setActive(false);
+				$this->getPageObject()->setActivationStart(
+					$this->form->getItemByPostVar("start")->getDate()->get(IL_CAL_DATETIME));
+				$this->getPageObject()->setActivationEnd(
+					$this->form->getItemByPostVar("end")->getDate()->get(IL_CAL_DATETIME));
+			}
+			$this->getPageObject()->update();
+			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "editActivation");
+		}
+		$this->form->getValuesByPost();
+		$tpl->setContent($this->form->getHTML());
 	}
 }
 ?>

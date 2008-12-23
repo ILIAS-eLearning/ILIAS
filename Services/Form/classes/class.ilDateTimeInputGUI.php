@@ -209,8 +209,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI
 		}
 		else
 		{
-			$this->setDate(new ilDate($a_values[$this->getPostVar()]["date"],
-				IL_CAL_DATE));
+			if (isset($a_values[$this->getPostVar()]["date"]))
+			{
+				$this->setDate(new ilDate($a_values[$this->getPostVar()]["date"],
+					IL_CAL_DATE));
+			}
 		}
 		foreach($this->getSubItems() as $item)
 		{

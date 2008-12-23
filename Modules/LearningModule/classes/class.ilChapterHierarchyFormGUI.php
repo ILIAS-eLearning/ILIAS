@@ -206,12 +206,26 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		
+		$img = "icon_".$a_item["type"].".gif";
+		
 		if ($a_item["type"] == "pg")
 		{
-			$active = ilLMObject::_lookupActive($a_item["node_id"]);
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			$lm_set = new ilSetting("lm");
+			$active = ilPageObject::_lookupActive($a_item["node_id"], $this->lm_type,
+				$lm_set->get("time_scheduled_page_activation"));
+				
+			// is page scheduled?
+			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
+				ilPageObject::_isScheduledActivation($a_item["node_id"], $this->lm_type))
+				? "_sc"
+				: "";
+				
+			$img = "icon_pg".$img_sc.".gif";
+
 			if (!$active)
 			{
-				return ilUtil::getImagePath("icon_pg_d.gif");
+				$img = "icon_pg_d".$img_sc.".gif";
 			}
 			else
 			{
@@ -220,11 +234,11 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 					$this->lm_type);
 				if ($contains_dis)
 				{
-					return ilUtil::getImagePath("icon_pg_del.gif");
+					$img = "icon_pg_del".$img_sc.".gif";
 				}
 			}
 		}
-		return ilUtil::getImagePath("icon_".$a_item["type"].".gif");
+		return ilUtil::getImagePath($img);
 	}
 
 	/**
@@ -241,7 +255,9 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 		
 		if ($a_item["type"] == "pg")
 		{
-			$active = ilLMObject::_lookupActive($a_item["node_id"]);
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			$active = ilPageObject::_lookupActive($a_item["node_id"], $this->lm_type);
+
 			if (!$active)
 			{
 				return $lng->txt("cont_page_deactivated");

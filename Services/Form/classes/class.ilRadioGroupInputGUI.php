@@ -189,4 +189,34 @@ class ilRadioGroupInputGUI extends ilFormPropertyGUI
 
 	}
 
+	/**
+	* Get item by post var
+	*
+	* @return	mixed	false or item object
+	*/
+	function getItemByPostVar($a_post_var)
+	{
+		if ($this->getPostVar() == $a_post_var)
+		{
+			return $this;
+		}
+
+		foreach($this->getOptions() as $option)
+		{
+			foreach($option->getSubItems() as $item)
+			{
+				if ($item->getType() != "section_header")
+				{
+					$ret = $item->getItemByPostVar($a_post_var);
+					if (is_object($ret))
+					{
+						return $ret;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+
 }

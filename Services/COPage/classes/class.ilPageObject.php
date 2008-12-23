@@ -192,12 +192,17 @@ class ilPageObject
 		global $ilBench, $ilDB;
 
 		$ilBench->start("ContentPresentation", "ilPageObject_read");
+		
+		$this->setActive(true);
 		if ($this->old_nr == 0)
 		{
 			$query = "SELECT * FROM page_object WHERE page_id = ".$ilDB->quote($this->id)." ".
 				"AND parent_type=".$ilDB->quote($this->getParentType());
 			$pg_set = $this->ilias->db->query($query);
 			$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$this->setActive($this->page_record["active"]);
+			$this->setActivationStart($this->page_record["activation_start"]);
+			$this->setActivationEnd($this->page_record["activation_end"]);
 		}
 		else
 		{
@@ -353,6 +358,143 @@ class ilPageObject
 			$parameters = $this->update_listeners[$i]["parameters"];
 			$object->$method($parameters);
 		}
+	}
+
+	/**
+	* set activation
+	*
+	* @param	boolean		$a_active	true/false for active or not
+	*/
+	function setActive($a_active)
+	{
+		$this->active = $a_active;
+	}
+
+	/**
+	* get activation
+	*
+	* @return	boolean		true/false for active or not
+	*/
+	function getActive($a_check_scheduled_activation = false)
+	{
+		if ($a_check_scheduled_activation && !$this->active)
+		{
+			include_once("./Services/Calendar/classes/class.ilDateTime.php");
+			$start = new ilDateTime($this->getActivationStart(), IL_CAL_DATETIME);
+			$end = new ilDateTime($this->getActivationEnd(), IL_CAL_DATETIME);
+			$now = new ilDateTime(time(), IL_CAL_UNIX);
+			if (!ilDateTime::_before($now, $start) && !ilDateTime::_after($now, $end))
+			{
+				return true;
+			}
+		}
+		return $this->active;
+	}
+
+	/**
+	* lookup activation status
+	*/
+	function _lookupActive($a_id, $a_parent_type, $a_check_scheduled_activation = false)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepare("SELECT active, activation_start, activation_end, now() n FROM page_object WHERE page_id = ?".
+			" AND parent_type = ?", array("integer", "text"));
+		$set = $ilDB->execute($st, array($a_id, $a_parent_type));
+		$rec = $ilDB->fetchAssoc($set);
+
+		if (!$rec["active"] && $a_check_scheduled_activation)
+		{
+			if ($rec["n"] >= $rec["activation_start"] &&
+				$rec["n"] <= $rec["activation_end"])
+			{
+				return true;
+			}
+		}
+		
+		return $rec["active"];
+	}
+
+	/**
+	* Check whether page is activated by time schedule
+	*/
+	static function _isScheduledActivation($a_id, $a_parent_type)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepare("SELECT active, activation_start, activation_end, now() n FROM page_object WHERE page_id = ?".
+			" AND parent_type = ?", array("integer", "text"));
+		$set = $ilDB->execute($st, array($a_id, $a_parent_type));
+		$rec = $ilDB->fetchAssoc($set);
+
+		if (!$rec["active"] && $rec["activation_start"] != "0000-00-00 00:00:00")
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	* write activation status
+	*/
+	function _writeActive($a_id, $a_parent_type, $a_active, $a_reset_scheduled_activation = true)
+	{
+		global $ilDB;
+
+		if ($a_reset_scheduled_activation)
+		{
+			$st = $ilDB->prepareManip("UPDATE page_object SET active = ?, activation_start = ?, ".
+				" activation_end = ? WHERE page_id = ?".
+				" AND parent_type = ?", array("boolean", "timestamp", "timestamp", "integer", "text"));
+			$ilDB->execute($st, array($a_active, "0000-00-00 00:00:00", "0000-00-00 00:00:00", $a_id, $a_parent_type));
+		}
+		else
+		{
+			$st = $ilDB->prepareManip("UPDATE page_object SET active = ? WHERE page_id = ?".
+				" AND parent_type = ?", array("boolean", "integer", "text"));
+			$ilDB->execute($st, array($a_active, $a_id, $a_parent_type));
+		}
+	}
+
+	/**
+	* Set Activation Start.
+	*
+	* @param	date	$a_activationstart	Activation Start
+	*/
+	function setActivationStart($a_activationstart)
+	{
+		$this->activationstart = $a_activationstart;
+	}
+
+	/**
+	* Get Activation Start.
+	*
+	* @return	date	Activation Start
+	*/
+	function getActivationStart()
+	{
+		return $this->activationstart;
+	}
+
+	/**
+	* Set Activation End.
+	*
+	* @param	date	$a_activationend	Activation End
+	*/
+	function setActivationEnd($a_activationend)
+	{
+		$this->activationend = $a_activationend;
+	}
+
+	/**
+	* Get Activation End.
+	*
+	* @return	date	Activation End
+	*/
+	function getActivationEnd()
+	{
+		return $this->activationend;
 	}
 
 	function &getContentObject($a_hier_id, $a_pc_id = "")
@@ -1570,6 +1712,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			", parent_id = ".$ilDB->quote($this->getParentId())." ".
 			", last_change_user = ".$ilDB->quote($ilUser->getId())." ".
 			", last_change = now() ".
+			", active = ".$ilDB->quote($this->getActive())." ".
+			", activation_start = ".$ilDB->quote($this->getActivationStart())." ".
+			", activation_end = ".$ilDB->quote($this->getActivationEnd())." ".
 			"WHERE page_id = ".$ilDB->quote($this->getId())." AND parent_type=".
 			$ilDB->quote($this->getParentType());
 
@@ -1656,6 +1801,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				", parent_id= ".$ilDB->quote($this->getParentId())." ".
 				", last_change_user= ".$ilDB->quote($ilUser->getId())." ".
 				", last_change = now() ".
+				", active = ".$ilDB->quote($this->getActive())." ".
+				", activation_start = ".$ilDB->quote($this->getActivationStart())." ".
+				", activation_end = ".$ilDB->quote($this->getActivationEnd())." ".
 				" WHERE page_id = ".$ilDB->quote($this->getId()).
 				" AND parent_type= ".$ilDB->quote($this->getParentType());
 			if(!$this->ilias->db->checkQuerySize($query))

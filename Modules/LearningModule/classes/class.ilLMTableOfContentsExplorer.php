@@ -65,6 +65,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		}
 		$this->setFiltered(true);
 		$this->setFilterMode(IL_FM_POSITIVE);
+		$this->lm_set = new ilSetting("lm");
 
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
@@ -192,8 +193,10 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 				{
 					$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
 					$a_node_id = $a_node["child"];
-					if ($a_node_id > 0 &&
-						!ilLMObject::_lookupActive($a_node_id))
+					include_once("./Services/COPage/classes/class.ilPageObject.php");
+					$active = ilPageObject::_lookupActive($a_node_id, $this->lm_obj->getType(),
+						$this->lm_set->get("time_scheduled_page_activation"));
+					if ($a_node_id > 0 && !$active)
 					{
 						$found = false;
 					}
@@ -240,8 +243,10 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 				{
 					$a_node = $this->tree->fetchSuccessorNode($a_node_id, "pg");
 					$a_node_id = $a_node["child"];
-					if ($a_node_id > 0 &&
-						!ilLMObject::_lookupActive($a_node_id))
+					include_once("./Services/COPage/classes/class.ilPageObject.php");
+					$active = ilPageObject::_lookupActive($a_node_id, $this->lm_obj->getType(),
+						$this->lm_set->get("time_scheduled_page_activation"));
+					if ($a_node_id > 0 && !$active)
 					{
 						$found = false;
 					}
@@ -306,7 +311,11 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 
 	function isVisible($a_id, $a_type)
 	{
-		if(!ilLMObject::_lookupActive($a_id))
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		$active = ilPageObject::_lookupActive($a_id, $this->lm_obj->getType(),
+			$this->lm_set->get("time_scheduled_page_activation"));
+
+		if(!$active && $a_type == "pg")
 		{
 			return false;
 		}

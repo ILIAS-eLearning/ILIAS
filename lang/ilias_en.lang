@@ -8823,6 +8823,13 @@ common#:#lrss_visible#:#Learning Resources Settings are visible
 common#:#lrss_read#:#Read access to Learning Resources Settings
 common#:#lrss_write#:#Edit Learning Resources Settings
 content#:#cont_edit_lrs_settings#:#Edit Settings
+content#:#cont_activation#:#Activation
+content#:#cont_page_activation#:#Page Activation
+content#:#cont_activated#:#Activated
+content#:#cont_deactivated#:#Deactivated
+content#:#cont_scheduled_activation#:#Scheduled Activation
+content#:#cont_start#:#Start
+content#:#cont_end#:#End
 shib#:#shib_settings#:#Shibboleth Settings
 shib#:#shib_role_assignment#:#Role Assignments
 shib#:#shib_role_ass_table#:#New Rule for Role Assignments

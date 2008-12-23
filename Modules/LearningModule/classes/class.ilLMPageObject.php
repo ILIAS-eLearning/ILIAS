@@ -437,7 +437,11 @@ class ilLMPageObject extends ilLMObject
 				$cnt = 0;
 				foreach($childs as $child)
 				{
-					if ($child["type"] != "pg" || ilLMPageObject::_lookupActive($child["obj_id"]))
+					include_once("./Services/COPage/classes/class.ilPageObject.php");
+					$active = ilPageObject::_lookupActive($child["obj_id"],
+						ilObject::_lookupType($pg_rec["lm_id"]));
+
+					if ($child["type"] != "pg" || $active)
 					{
 						$cnt++;
 					}
