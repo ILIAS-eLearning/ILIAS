@@ -8796,3 +8796,10 @@ shib#:#shib_attr_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs 
 shib#:#shib_missing_role#:#Bitte wählen Sie eine ILIAS Rolle aus.
 shib#:#shib_missing_attr_name#:#Bitte geben Sie den Namen des Attributes ein.
 shib#:#shib_missing_attr_value#:#Bitte geben Sie den Wert des Attributes ein.
+shib#:#shib_rules_tables#:#Aktive Regeln für die Rollenzuordnung
+shib#:#shib_role_by_attribute#:#Benutzerattribut
+shib#:#shib_rule_type#:#Art der Zuordnung
+shib#:#shib_ilias_role#:#ILIAS Rollenname
+shib#:#shib_rule_condition#:#Bedingung
+shib#:#shib_confirm_del_role_ass#:#Sind Sie sicher, dass Sie die folgenden Zuordnungen löschen möchten?
+shib#:#shib_deleted_rule#:#Die Zuordnungsregeln wurden gelöscht.

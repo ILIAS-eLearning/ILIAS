@@ -8843,3 +8843,10 @@ shib#:#shib_attr_info#:#Assign by a specific attribute in the Shibboleth User Pr
 shib#:#shib_missing_role#:#Please select one role.
 shib#:#shib_missing_attr_name#:#Please enter the attribute name.
 shib#:#shib_missing_attr_value#:#Please enter the attribute value.
+shib#:#shib_rules_tables#:#Active Role Assignment Rules
+shib#:#shib_role_by_attribute#:#Shibboleth Attribute
+shib#:#shib_rule_type#:#Type of Assignment
+shib#:#shib_ilias_role#:#ILIAS Role Name
+shib#:#shib_rule_condition#:#Condition
+shib#:#shib_confirm_del_role_ass#:#Do you really want to delete the following rules?
+shib#:#shib_deleted_rule#:#Deleted role assignments.
