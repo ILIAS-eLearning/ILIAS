@@ -459,10 +459,16 @@ class ilTable2GUI extends ilTableGUI
 				$this->nav_value = $_POST[$this->getNavParameter()."2"];
 			}
 		}
-		else
+		elseif($_GET[$this->getNavParameter()])
 		{
 			$this->nav_value = $_GET[$this->getNavParameter()];
 		}
+		elseif($_SESSION[$this->getNavParameter()] != "")
+		{
+			$this->nav_value = $_SESSION[$this->getNavParameter()];
+		}
+		else $this->nav_value = ':asc:0';
+		
 		$nav = explode(":", $this->nav_value);
 		
 		// $nav[0] is order by
@@ -822,7 +828,7 @@ class ilTable2GUI extends ilTableGUI
 				$LinkBar .= "&nbsp;&nbsp;&nbsp;&nbsp;".ilUtil::formSelect($this->nav_value,
 					$this->getNavParameter().$a_num, $offset_arr, false, true, 0, "ilEditSelect").
 					' <input class="ilEditSubmit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
-					$lng->txt("select_page").'"> ';
+					$lng->txt("select_page").'" /> ';
 			}
 
 			return $LinkBar;

@@ -390,6 +390,28 @@ class ilCalendarCategoryGUI
 	 */
 	public function showCategories()
 	{
+		include_once('./Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php');
+		$table_gui = new ilCalendarCategoryTableGUI($this);
+		$nav_parameter = $table_gui->getNavParameter();
+
+		if($_POST[$nav_parameter] != "")
+		{
+			if($_POST[$nav_parameter."1"] != $_POST[$nav_parameter])
+			{
+				$nav_value = $_POST[$nav_parameter."1"];
+			}
+			elseif($_POST[$nav_parameter."2"] != $_POST[$nav_parameter])
+			{
+				$nav_value = $_POST[$nav_parameter."2"];
+			}
+		}
+		else
+		{
+			$nav_value = $_GET[$nav_parameter];
+		}
+
+		$_SESSION[$nav_parameter] = $nav_value;
+
 		$this->ctrl->returnToParent($this);
 	}
 	
