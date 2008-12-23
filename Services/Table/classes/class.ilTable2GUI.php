@@ -52,6 +52,8 @@ class ilTable2GUI extends ilTableGUI
 		$this->buttons = array();
 		$this->header_commands = array();
 		$this->multi = array();
+		$this->hidden_inputs = array();
+		$this->data_id_index = '';
 		$this->formname = "table_" . $this->unique_id;
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
 		
@@ -183,6 +185,15 @@ class ilTable2GUI extends ilTableGUI
 	final public function setPrefix($a_prefix)
 	{
 		$this->prefix = $a_prefix;
+	}
+	
+	public function setDataIdIndex($a_data_id_index)
+	{
+		$this->data_id_index = $a_data_id_index;
+	}
+	public function getDataIdIndex()
+	{
+		return $this->data_id_index;
 	}
 
 	/**
@@ -330,6 +341,17 @@ class ilTable2GUI extends ilTableGUI
 		$this->multi[] = array("cmd" => $a_cmd, "text" => $a_text);
 	}
 
+	/**
+	* Add Hidden Input field
+	*
+	* @param	string	Name
+	* @param	string	Value
+	*/
+	public function addHiddenInput($a_name, $a_value)
+	{
+		$this->hidden_inputs[] = array("name" => $a_name, "value" => $a_value);
+	}
+	
 	/**
 	* Add Header Command (Link)  (Image needed for now)
 	*
@@ -485,6 +507,13 @@ class ilTable2GUI extends ilTableGUI
 				
 		// slice
 		$data = array_slice($data, $this->getOffset(), $this->getLimit());
+		
+		if($this->getDataIdIndex() != '')
+		{
+			$data_ids = array();
+			foreach($data as $dat) $data_ids[] = $dat[$this->getDataIdIndex()];
+			if( count($data_ids) > 0 ) $this->addHiddenInput( 'data_ids', implode(',',$data_ids) );
+		}
 
 		// fill rows
 		if(count($data) > 0)
@@ -534,6 +563,8 @@ class ilTable2GUI extends ilTableGUI
 		}
 		
 		$this->fillFooter();
+				
+		$this->fillHiddenRow();
 				
 		$this->fillActionRow();
 
@@ -836,6 +867,24 @@ class ilTable2GUI extends ilTableGUI
 		else
 		{
 			return false;
+		}
+	}
+	
+	function fillHiddenRow()
+	{
+		$hidden_row = false;
+		if(count($this->hidden_inputs))
+		{
+			foreach ($this->hidden_inputs as $hidden_input)
+			{
+				$this->tpl->setCurrentBlock("tbl_hidden_field");
+				$this->tpl->setVariable("FIELD_NAME", $hidden_input["name"]);
+				$this->tpl->setVariable("FIELD_VALUE", $hidden_input["value"]);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("tbl_hidden_row");
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 
