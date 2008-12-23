@@ -358,21 +358,28 @@ class ilCalendarCategoryGUI
 	{
 		global $ilUser;
 		
-		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
 			
-		$selection = $_POST['cat_ids'] ? $_POST['cat_ids'] : array();
-		$hidden = array();
+		$selected_cats = $_POST['cat_ids'] ? $_POST['cat_ids'] : array();
+		$visible_cats = explode(',',$_POST['data_ids'] ? $_POST['data_ids'] : array());
 		
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
-		foreach($cats->getCategories() as $category_id)
+		$cat_ids = $cats->getCategories();
+		
+		$hidden_cats = ilCalendarHidden::_getInstanceByUserId($ilUser->getId());
+		$hidden_cat_ids = $hidden_cats->getHidden();
+		
+		$hidden = array();
+		foreach($cat_ids as $category_id)
 		{
-			if(!in_array($category_id,$selection))
+			if( !in_array($category_id,$selected_cats) && in_array($category_id,$visible_cats)
+				|| !in_array($category_id,$selected_cats) && in_array($category_id,$hidden_cat_ids) )
 			{
 				$hidden[] = $category_id;
 			}
 		}
-		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
+		
 		$hidden_categories = ilCalendarHidden::_getInstanceByUserId($this->user_id);
 		$hidden_categories->hideSelected($hidden);
 		$hidden_categories->save();
@@ -958,13 +965,22 @@ class ilCalendarCategoryGUI
 
 	public function getHTML()
 	{
+		global $ilUser;
+		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
+		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
+		
+		$hidden_cats = ilCalendarHidden::_getInstanceByUserId($ilUser->getId());
+		$visible_cats = ilCalendarCategories::_getInstance($ilUser->getId());
+		$visible_cat_ids = implode(',',array_diff($visible_cats->getCategories(),$hidden_cats->getHidden()));
 		
 		$table_gui = new ilCalendarCategoryTableGUI($this);
 		
 		$title = $this->lng->txt('cal_table_categories');
 		$title .= $this->appendCalendarSelection();
 		
+		$table_gui->setDataIdIndex('id');
 		$table_gui->setTitle($title);
 		$table_gui->addMultiCommand('saveSelection',$this->lng->txt('show'));
 		$table_gui->addCommandButton('add',$this->lng->txt('add'));
