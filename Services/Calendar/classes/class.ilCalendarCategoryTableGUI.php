@@ -62,9 +62,6 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$this->disable('numinfo');
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('cat_ids');
-		
-		$this->setLimit(100);
-		
 	}
 	
 	/**
