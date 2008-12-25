@@ -967,6 +967,8 @@ class ilLMPresentationGUI
 
 		if ($_GET["lmexpand"] == "")
 		{
+			$expand_keys = array_keys($_SESSION["lmexpand"]);
+			$_SESSION["lmexpand"] = array($this->lm_tree->readRootId());
 			$expanded = $this->lm_tree->readRootId();
 		}
 		else
@@ -1005,6 +1007,15 @@ class ilLMPresentationGUI
 			"&lmexpand=".$_GET["lmexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$ilBench->stop("ContentPresentation", "ilTOC");
+		if ($_GET["lmexpand"] == "")
+		{
+			// collapse all other branches on navigation
+			foreach ($expand_keys as $k)
+			{
+				unset($_SESSION["lmexpand"][$k]);
+			}
+		}
+//var_dump($_SESSION["lmexpand"]);
 	}
 
 	/**
