@@ -163,8 +163,26 @@ class ilDBx extends PEAR
 
 		if (MDB2::isError($r))
 		{
-			//$err = "<br>Details: ".mysql_error();
-			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql.$err."</font>", $this->error_class->FATAL);
+			var_dump($a_definition_array);
+			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$a_name."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+	
+	/**
+	* Drop a table
+	*/
+	function dropTable($a_name)
+	{
+		$manager = $this->db->loadModule('Manager');
+		$r = $manager->dropTable($a_name);
+
+		if (MDB2::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>Drop Table: ".$a_name."</font>", $this->error_class->FATAL);
 		}
 		else
 		{
@@ -190,6 +208,172 @@ class ilDBx extends PEAR
 			//$err = "<br>Details: ".mysql_error();
 			var_dump($a_changes);
 			$this->raiseError($r->getMessage()."<br><font size=-1>ALTER TABLE $a_name</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+
+	/**
+	* Add a primary key to a table
+	*
+	* @param	string		table name
+	* @param	array		fields for primary key
+	* @param	string		key name
+	*/
+	function addPrimaryKey($a_table, $a_fields, $a_name = "pk")
+	{
+		$manager = $this->db->loadModule('Manager');
+		
+		$fields = array();
+		foreach ($a_fields as $f)
+		{
+			$fields[$f] = array();
+		}
+		$definition = array (
+			'primary' => true,
+			'fields' => $fields
+		);
+		$r = $manager->createConstraint($a_table, $a_name, $definition);
+
+		if (MDB2::isError($r))
+		{
+			//$err = "<br>Details: ".mysql_error();
+			var_dump($a_definition);
+			$this->raiseError($r->getMessage()."<br><font size=-1>ADD PRIMARY KEY $a_table</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+	
+	/**
+	* Drop a primary key from a table
+	*
+	* @param	string		table name
+	* @param	string		key name
+	*/
+	function dropPrimaryKey($a_table, $a_name = "pk")
+	{
+		$manager = $this->db->loadModule('Manager');
+		
+		$r = $manager->dropConstraint($a_table, $a_name, true);
+
+		if (MDB2::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>DROP PRIMARY KEY $a_table, $a_name</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+
+	/**
+	* Add an index to a table
+	*
+	* @param	string		table name
+	* @param	array		fields for index
+	* @param	string		index name
+	*/
+	function addIndex($a_table, $a_fields, $a_name = "indx")
+	{
+		$manager = $this->db->loadModule('Manager');
+		
+		$fields = array();
+		foreach ($a_fields as $f)
+		{
+			$fields[$f] = array();
+		}
+		$definition = array (
+			'fields' => $fields
+		);
+		$r = $manager->createIndex($a_table, $a_name, $definition);
+
+		if (MDB2::isError($r))
+		{
+			//$err = "<br>Details: ".mysql_error();
+			var_dump($fields);
+			$this->raiseError($r->getMessage()."<br><font size=-1>ADD INDEX $a_table</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+
+	/**
+	* Drop a primary key from a table
+	*
+	* @param	string		table name
+	* @param	string		index name
+	*/
+	function dropIndex($a_table, $a_name = "indx")
+	{
+		$manager = $this->db->loadModule('Manager');
+		
+		$r = $manager->dropIndex($a_table, $a_name);
+
+		if (MDB2::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>DROP INDEX $a_table, $a_name</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+
+	/**
+	* Create a sequence for a table
+	*/
+	function createSequence($a_table_name, $a_start = 1)
+	{
+		$manager = $this->db->loadModule('Manager');
+		
+		$r = $manager->createSequence($a_table_name, $a_start);
+
+		if (MDB2::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>Create Sequence $a_table_name</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+	
+	/**
+	* Get next ID for an index
+	*/
+	function nextId($a_table_name)
+	{
+		$r = $this->db->nextId($a_table_name);
+
+		if (MDB2::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>nextId $a_table_name</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+	
+	/**
+	* Drop a sequence for a table
+	*/
+	function dropSequence($a_table_name)
+	{
+		$manager = $this->db->loadModule('Manager');
+		
+		$r = $manager->dropSequence($a_table_name);
+
+		if (MDB2::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>Drop Sequence $a_table_name</font>", $this->error_class->FATAL);
 		}
 		else
 		{
