@@ -517,6 +517,8 @@ class ilExplorer
 			
 			foreach ($objects as $key => $object)
 			{
+//echo "<br>-KEY:$key";
+//var_dump($object);
 				// skip childs, if parent is not expanded
 				if (!$this->forceExpanded($object["child"]) && $skip_rest)
 				{
@@ -583,14 +585,23 @@ class ilExplorer
 
 							if ($this->expand_all or in_array($object["parent"],$this->expanded))
 							{
-								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+	//echo "<br>-".$object["child"]."-".$this->forceExpanded($object["child"])."-";
+								if ($this->forceExpanded($object["parent"]))
+								{
+									$this->format_options["$parent_index"]["tab"][($tab-2)] = 'forceexp';
+								}
+								else
+								{
+									$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+								}
 							}
 							else
 							{
 								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
 							}
 						}
-
+	//echo "-"."$parent_index"."-";
+	//var_dump($this->format_options["$parent_index"]);
 						++$this->counter;
 						$ilBench->stop("Explorer", "setOutput_setFormatOptions");
 						
@@ -794,6 +805,20 @@ class ilExplorer
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
+				$tpl->parseCurrentBlock();
+				$pic = true;
+			}
+
+			if ($picture == 'forceexp')
+			{
+				$tpl->setCurrentBlock("exp_desc");
+				$tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
+				$tpl->parseCurrentBlock();
+				$target = $this->createTarget('+',$a_node_id);
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_NAME", $a_node_id);
+				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				$tpl->setVariable("IMGPATH", $this->getImage("browser/forceexp.gif"));
 				$tpl->parseCurrentBlock();
 				$pic = true;
 			}

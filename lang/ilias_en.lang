@@ -8857,3 +8857,4 @@ shib#:#shib_ilias_role#:#ILIAS Role Name
 shib#:#shib_rule_condition#:#Condition
 shib#:#shib_confirm_del_role_ass#:#Do you really want to delete the following rules?
 shib#:#shib_deleted_rule#:#Deleted role assignments.
+common#:#expanded#:#Expanded
