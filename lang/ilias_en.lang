@@ -8858,3 +8858,4 @@ shib#:#shib_rule_condition#:#Condition
 shib#:#shib_confirm_del_role_ass#:#Do you really want to delete the following rules?
 shib#:#shib_deleted_rule#:#Deleted role assignments.
 common#:#expanded#:#Expanded
+shib#:#shib_update_role_ass_table#:#Edit Role Assignment Rule

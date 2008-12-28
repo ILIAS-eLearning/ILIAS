@@ -352,7 +352,7 @@ class ilAuthShibbolethSettingsGUI
 	 	if(!is_array($_POST['rule_ids']))
 	 	{
 	 		ilUtil::sendInfo($this->lng->txt('select_one'));
-	 		$this->roleAssignments();
+	 		$this->roleAssignment();
 	 		return false;
 	 	}
 		$this->tabs_gui->setSubTabActive('shib_role_assignment');
@@ -409,9 +409,20 @@ class ilAuthShibbolethSettingsGUI
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'cancel'));
 		$this->form->setTitle($this->lng->txt('shib_role_ass_table'));
-		$this->form->addCommandButton('addRoleAssignmentRule',$this->lng->txt('shib_new_rule'));
-		$this->form->addCommandButton('settings',$this->lng->txt('cancel'));
 		
+		if($a_mode == 'default')
+		{
+			$this->form->setTitle($this->lng->txt('shib_role_ass_table'));
+			$this->form->addCommandButton('addRoleAssignmentRule',$this->lng->txt('shib_new_rule'));
+			$this->form->addCommandButton('settings',$this->lng->txt('cancel'));
+		}
+		else
+		{
+			$this->form->setTitle($this->lng->txt('shib_update_role_ass_table'));
+			$this->form->addCommandButton('updateRoleAssignmentRule',$this->lng->txt('save'));
+			$this->form->addCommandButton('roleAssignment',$this->lng->txt('cancel'));
+			
+		}		
 		// Role selection
 		$role = new ilRadioGroupInputGUI($this->lng->txt('shib_role_name'),'role_name');
 		$role->setRequired(true);
@@ -434,7 +445,7 @@ class ilAuthShibbolethSettingsGUI
 		$this->form->addItem($role);
 		
 		// Update options
-		$update = new ilNonEditableValueGUI($this->lng->txt('shib_update_roles'));
+		$update = new ilNonEditableValueGUI($this->lng->txt('shib_update_roles'),'update_roles');
 		$update->setValue($this->lng->txt('shib_check_role_assignment'));
 		
 			$add = new ilCheckboxInputGUI('','add_missing');
@@ -486,9 +497,18 @@ class ilAuthShibbolethSettingsGUI
 			{
 				ilUtil::sendInfo($this->lng->txt($err));
 			}
+			
+			$this->tabs_gui->setSubTabActive('shib_role_assignment');
+			
 			$this->form->setValuesByPost();
 			$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.shib_role_assignment.html','Services/AuthShibboleth');
 			$this->tpl->setVariable('NEW_RULE_TABLE',$this->form->getHTML());
+			
+			if(strlen($html = $this->parseRulesTable()))
+			{
+				$this->tpl->setVariable('RULE_TABLE',$html);
+			}
+			
 			return true;
 		}
 		
@@ -498,11 +518,59 @@ class ilAuthShibbolethSettingsGUI
 		return true;
 	}
 	
-	private function loadRule()
+	
+	protected function editRoleAssignment()
+	{
+		$this->ctrl->setParameter($this,'rule_id',(int) $_GET['rule_id']);
+
+
+		$this->tabs_gui->setSubTabActive('shib_role_assignment');
+		$this->initFormRoleAssignment('update');
+		$this->getRuleValues();
+		
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.shib_role_assignment.html','Services/AuthShibboleth');
+		$this->tpl->setVariable('NEW_RULE_TABLE',$this->form->getHTML());
+		return true;		
+	}
+	
+	protected function updateRoleAssignmentRule()
+	{
+		global $ilAccess,$ilErr;
+		
+		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			ilUtil::sendInfo($this->lng->txt('permission_denied'), true);
+			$this->roleAssignment();
+			return false;
+		}
+		
+		$this->initFormRoleAssignment();
+		if(!$this->form->checkInput() or ($err = $this->checkInput((int) $_REQUEST['rule_id'])))
+		{
+			if($err)
+			{
+				ilUtil::sendInfo($this->lng->txt($err));
+			}
+			
+			$this->tabs_gui->setSubTabActive('shib_role_assignment');
+			
+			$this->form->setValuesByPost();
+			$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.shib_role_assignment.html','Services/AuthShibboleth');
+			$this->tpl->setVariable('NEW_RULE_TABLE',$this->form->getHTML());
+			return true;
+		}
+		
+		$this->rule->update();
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->roleAssignment();
+		return true;
+	}
+	
+	private function loadRule($a_rule_id = 0)
 	{
 		include_once('./Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRule.php');
 		
-		$this->rule = new ilShibbolethRoleAssignmentRule();
+		$this->rule = new ilShibbolethRoleAssignmentRule($a_rule_id);
 		if($this->form->getInput('role_name') == 0)
 		{
 			$this->rule->setRoleId($this->form->getInput('role_id'));
@@ -516,9 +584,46 @@ class ilAuthShibbolethSettingsGUI
 		return $this->rule;
 	}
 	
-	private function checkInput()
+	private function getRuleValues()
 	{
-		$this->loadRule();
+		global $rbacreview;
+
+		include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRule.php';
+		$rule = new ilShibbolethRoleAssignmentRule((int) $_GET['rule_id']);
+		$role = $rule->getRoleId();
+		
+		if($rbacreview->isGlobalRole($role))
+		{
+			$values['role_name'] = 0;
+			$values['role_id'] = $role;
+		}
+		else
+		{
+			$values['role_name'] = 1;
+			$values['role_search'] = ilObject::_lookupTitle($role);
+		}
+		
+		$values['add_missing'] = (int) $rule->isAddOnUpdateEnabled();
+		$values['remove_deprecated'] = (int) $rule->isRemoveOnUpdateEnabled();
+		
+		$values['attr_name'] = $rule->getName();
+		$values['attr_value'] = $rule->getValue();
+		
+		if(!$rule->isPluginActive())
+		{
+			$values['kind'] = 1;
+		}
+		else
+		{
+			$values['kind'] = 2;
+		}
+		
+		$this->form->setValuesByArray($values);
+	}
+	
+	private function checkInput($a_rule_id = 0)
+	{
+		$this->loadRule($a_rule_id);
 		return $this->rule->validate();
 	}
 

@@ -78,7 +78,7 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
 		
 		$this->ctrl->setParameter($this->getParentObject(),'rule_id',$a_set['id']);
-		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'roleAssignment'));
+		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'editRoleAssignment'));
 	}
 	
 	/**

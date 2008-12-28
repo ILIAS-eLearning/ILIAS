@@ -187,7 +187,33 @@ class ilShibbolethRoleAssignmentRule
 			"remove_on_update = ".$this->db->quote((int) $this->isRemoveOnUpdateEnabled()).' '.
 			"WHERE rule_id = ".$this->db->quote($this->getRuleId());
 		$this->db->query($query);
+		
 		return true;
+	}
+	
+	public function matches($a_data)
+	{
+		if($this->isPluginActive())
+		{
+			// TODO: Call plugin
+			return false;
+		}
+		// No value
+		if(!isset($a_data[$this->getName()]))
+		{
+			return false;
+		}
+		
+		$values = $a_data[$this->getName()];
+		
+		if(is_array($values))
+		{
+			return in_array($this->getValue(),$values);
+		}
+		else
+		{
+			return $this->getValue() == $values;
+		}
 	}
 	
 	

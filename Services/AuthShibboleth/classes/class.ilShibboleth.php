@@ -328,7 +328,10 @@ class ShibAuth
 				$userObj->writePrefs();
 				
 				//set role entries
-				$rbacadmin->assignUser($ilias->getSetting('shib_user_default_role'), $userObj->getId(),true);
+				#$rbacadmin->assignUser($ilias->getSetting('shib_user_default_role'), $userObj->getId(),true);
+				// New role assignment
+				include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php';
+				ilShibbolethRoleAssignmentRules::doAssignments($userObj->getId(),$_SERVER);
 				
 				unset($userObj);
 				
@@ -394,7 +397,10 @@ class ShibAuth
 
 				
 				$userObj->update();
-			
+
+				// Update role assignments				
+				include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php';
+				ilShibbolethRoleAssignmentRules::updateAssignments($userObj->getId(),$_SERVER);
 			}
 			
 			// we are authenticated: redirect, if possible
