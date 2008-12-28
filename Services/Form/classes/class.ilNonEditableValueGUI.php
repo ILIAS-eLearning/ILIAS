@@ -141,6 +141,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 	{
 		$a_tpl->setCurrentBlock("non_editable_value");
 		$a_tpl->setVariable("VALUE", $this->getValue());
+		$a_tpl->setVariable('NON_EDITABLE_ID',$this->getPostVar());
 		$a_tpl->parseCurrentBlock();
 	}
 	
@@ -151,7 +152,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		$this->setValue($a_values[$this->getPostVar()]);
+		$this->setValue($a_values[$this->getPostVar()]);	
 	}
 	
 
