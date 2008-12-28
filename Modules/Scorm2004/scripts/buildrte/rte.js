@@ -1,4 +1,4 @@
-// Build: 20081228212913 
+// Build: 20081228214605 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11620,11 +11620,7 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 	// customize GUI
 	
 	syncSharedCMI(item);
-	
-	
-	updateNav();
-	updateControls();
-	
+		
 	scoStartTime = currentTime();
 	
 	//clear existing completion status in case of 2nd attempt
@@ -11659,6 +11655,10 @@ function onItemDeliver(item) // onDeliver called from sequencing process (delive
 			pubAPI.cmi.total_time="PT0H0M0S";
 		}
 	}
+	
+	updateNav();
+	updateControls();
+	
 	setResource(item.id, item.href+"?"+item.parameters, this.config.package_url);
 	
 }
