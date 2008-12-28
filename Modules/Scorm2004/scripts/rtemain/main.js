@@ -2124,21 +2124,23 @@ function init(config)
 		} 
 	}
 	
+	var tolaunch=null;
+	var count=0;
+	
+	for (var myitem in mlaunch.mNavState.mChoice) {
+		if (mlaunch.mNavState.mChoice[myitem].mInChoice==true && mlaunch.mNavState.mChoice[myitem].mIsSelectable==true && mlaunch.mNavState.mChoice[myitem].mIsEnabled==true) {
+			tolaunch=mlaunch.mNavState.mChoice[myitem].mID;
+			count=count+1;
+		}
+	}
+	if (count==1) {
+		toggleView();  //hide tree
+	}
+		
 	if (mlaunch.mSeqNonContent == null) {
 		onItemDeliver(activities[mlaunch.mActivityID]);
 	} else {
-  		//call specialpage
-		//check for single sco - SCORM 1.2 support
-		var count=0;
-		var tolaunch=null;
-		for (var myitem in mlaunch.mNavState.mChoice) {
-			if (mlaunch.mNavState.mChoice[myitem].mInChoice==true && mlaunch.mNavState.mChoice[myitem].mIsSelectable==true && mlaunch.mNavState.mChoice[myitem].mIsEnabled==true) {
-				tolaunch=mlaunch.mNavState.mChoice[myitem].mID;
-				count=count+1;
-			}
-		} 
 		if (count==1 && tolaunch!=null) {
-			toggleView();
 			launchTarget(tolaunch);
 		} else {
 			loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);	
