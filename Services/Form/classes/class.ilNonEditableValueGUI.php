@@ -152,7 +152,11 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		$this->setValue($a_values[$this->getPostVar()]);	
+		$this->setValue($a_values[$this->getPostVar()]);
+		foreach($this->getSubItems() as $item)
+		{
+			$item->setValueByArray($a_values);
+		}
 	}
 	
 

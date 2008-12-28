@@ -8803,3 +8803,4 @@ shib#:#shib_ilias_role#:#ILIAS Rollenname
 shib#:#shib_rule_condition#:#Bedingung
 shib#:#shib_confirm_del_role_ass#:#Sind Sie sicher, dass Sie die folgenden Zuordnungen löschen möchten?
 shib#:#shib_deleted_rule#:#Die Zuordnungsregeln wurden gelöscht.
+shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten

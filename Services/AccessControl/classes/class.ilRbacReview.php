@@ -1441,6 +1441,11 @@ class ilRbacReview
 		return false;
 	}
 	
+	public function isGlobalRole($a_role_id)
+	{
+		return in_array($a_role_id,$this->getGlobalRoles());
+	}
+	
 	function getRolesByFilter($a_filter = 0,$a_user_id = 0)
 	{
 		global $ilDB;
