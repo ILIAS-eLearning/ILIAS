@@ -1,4 +1,4 @@
-// Build: 20081009041002 
+// Build: 20081228212913 
 
 function ADLAuxiliaryResource()
 {}
@@ -2293,8 +2293,9 @@ for(var element in suspendData.States){var source=suspendData.States[element];fo
 var tempCur=new Object();for(var element in suspendData.mCurTracking){tempCur[element]=new ADLTracking;for(var subelement in suspendData.mCurTracking[element]){if(subelement!="mObjectives"){tempCur[element][subelement]=suspendData.mCurTracking[element][subelement];}else{for(var obj in suspendData.mCurTracking[element]["mObjectives"]){tempCur[element]["mObjectives"][obj]=new SeqObjectiveTracking();for(var prop in suspendData.mCurTracking[element]["mObjectives"][obj]){tempCur[element]["mObjectives"][obj][prop]=suspendData.mCurTracking[element]["mObjectives"][obj][prop];}}}}}
 for(var element in tempCur){msequencer.mSeqTree.mActivityMap[element]["mCurTracking"]=tempCur[element];}}
 if(wasSuspended==true){mlaunch=msequencer.navigate(NAV_RESUMEALL);}else{mlaunch=msequencer.navigate(NAV_NONE);if(mlaunch.mNavState.mStart){mlaunch=msequencer.navigate(NAV_START);}}
-if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID]);}else{var count=0;var tolaunch=null;for(var myitem in mlaunch.mNavState.mChoice){if(mlaunch.mNavState.mChoice[myitem].mInChoice==true&&mlaunch.mNavState.mChoice[myitem].mIsSelectable==true&&mlaunch.mNavState.mChoice[myitem].mIsEnabled==true){tolaunch=mlaunch.mNavState.mChoice[myitem].mID;count=count+1;}}
-if(count==1&&tolaunch!=null){toggleView();launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
+var tolaunch=null;var count=0;for(var myitem in mlaunch.mNavState.mChoice){if(mlaunch.mNavState.mChoice[myitem].mInChoice==true&&mlaunch.mNavState.mChoice[myitem].mIsSelectable==true&&mlaunch.mNavState.mChoice[myitem].mIsEnabled==true){tolaunch=mlaunch.mNavState.mChoice[myitem].mID;count=count+1;}}
+if(count==1){toggleView();}
+if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID]);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
 updateControls();updateNav();}
 function loadGlobalObj(){var globalObj=this.config.globalobj_data||sendJSONRequest(this.config.get_gobjective_url);if(globalObj){if(globalObj.satisfied){adl_seq_utilities.satisfied=globalObj.satisfied;}
 if(globalObj.measure){adl_seq_utilities.measure=globalObj.measure;}
