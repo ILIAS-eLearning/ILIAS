@@ -1,0 +1,9 @@
+<service xmlns="http://www.w3.org" version="$Id$"
+        id="shiba">
+        <baseclasses>
+        </baseclasses>
+        <pluginslots>
+        	<pluginslot id="authshib" name="ShibbolethAuthenticationHook" />
+        </pluginslots>
+</service>
+

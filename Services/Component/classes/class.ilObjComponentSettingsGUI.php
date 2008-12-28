@@ -124,6 +124,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	public function listModules()
 	{
 		global $ilCtrl, $lng, $ilSetting;
+		
+		$this->tabs_gui->setTabActive('cmps_modules');
 
 		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
 		
@@ -147,6 +149,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 	public function listServices()
 	{
 		global $ilCtrl, $lng, $ilSetting;
+		
+		$this->tabs_gui->setTabActive('cmps_services');
 
 		$tpl = new ilTemplate("tpl.component_list.html", true, true, "Services/Component");
 		

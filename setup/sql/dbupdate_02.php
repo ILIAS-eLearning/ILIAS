@@ -6445,3 +6445,8 @@ remove_on_update TINYINT( 1 ) NOT NULL
 		$ilDB->execute($st2, array(($rec["active"]!="n"), $rec["obj_id"], "lm", "dbk", $rec["lm_id"]));
 	}
 ?>
+<#1381>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
