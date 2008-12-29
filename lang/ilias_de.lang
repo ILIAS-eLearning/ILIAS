@@ -8804,3 +8804,10 @@ shib#:#shib_rule_condition#:#Bedingung
 shib#:#shib_confirm_del_role_ass#:#Sind Sie sicher, dass Sie die folgenden Zuordnungen löschen möchten?
 shib#:#shib_deleted_rule#:#Die Zuordnungsregeln wurden gelöscht.
 shib#:#shib_update_role_ass_table#:#Regel zur Rollenzuordnung bearbeiten
+shib#:#shib_missing_plugin_id#:#Bitte geben Sie eine eindeutige Plugin-Id ein.
+shib#:#shib_plugin#:#Zuordnung durch Plugin
+shib#:#shib_plugin_info#:#Falls die Zuordnung nicht mit einer einfachen Überprüfung (Attributname/-wert) erfolgen kann, können Sie die Zuordnung alternativ über ein Plugin regeln.
+shib#:#shib_role_by_plugin#:#Durch Plugin
+shib#:#shib_plugin_id#:#Plugin-Id
+shib#:#shib_role_selection#:#Rollenauswahl
+shib#:#shib_choose_role#:#Rolle übernehmen

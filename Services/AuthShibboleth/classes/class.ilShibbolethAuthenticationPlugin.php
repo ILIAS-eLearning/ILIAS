@@ -81,6 +81,31 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin
 	protected final function slotInit()
 	{
 		
-	} 
+	}
+	
+	protected function checkValue($a_user_data,$a_keyword,$a_value)
+	{
+		if(!$a_user_data[$a_keyword])
+		{
+			return false;
+		}
+		if(is_array($a_user_data[$a_keyword]))
+		{
+			foreach($a_user_data[$a_keyword] as $values)
+			{
+				if(strcasecmp(trim($values),$a_value) == 0)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		if(strcasecmp(trim($a_user_data[$a_keyword]),trim($a_value)) == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 }
 ?>
