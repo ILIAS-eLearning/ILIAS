@@ -3,7 +3,7 @@
         <baseclasses>
         </baseclasses>
         <pluginslots>
-        	<pluginslot id="authshib" name="ShibbolethAuthenticationHook" />
+        	<pluginslot id="shibhk" name="ShibbolethAuthenticationHook" />
         </pluginslots>
 </service>
 

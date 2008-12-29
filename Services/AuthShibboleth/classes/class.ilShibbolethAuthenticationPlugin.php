@@ -51,7 +51,7 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin
 	 */
 	public final function getComponentName()
 	{
-		return 'ShibbolethAuthentication';
+		return 'AuthShibboleth';
 	}
 	
 	/**
@@ -71,7 +71,7 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin
 	 */
 	public final function getSlotId()
 	{
-		return 'authshib';
+		return 'shibhk';
 	}
 	
 	/**
