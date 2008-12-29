@@ -34,6 +34,7 @@ class ilRadioOption
 	protected $value;
 	protected $info;
 	protected $sub_items = array();
+	protected $disabled;
 	
 	function __construct($a_title = "", $a_value = "", $a_info = "")
 	{
@@ -100,6 +101,16 @@ class ilRadioOption
 	function getValue()
 	{
 		return $this->value;
+	}
+	
+	public function setDisabled($a_disabled)
+	{
+		$this->disabled = $a_disabled;
+	}
+	
+	public function getDisabled()
+	{
+		return $this->disabled;
 	}
 
 	/**

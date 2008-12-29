@@ -102,7 +102,7 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
 			}
 			else
 			{
-				"None";
+				$tmp_arr['condition'] = $this->lng->txt('shib_plugin_id').': '.$rule->getPluginId();
 			}
 			
 			

@@ -35,6 +35,7 @@ class ilShibbolethRoleAssignmentRule
 	const ERR_MISSING_NAME = 'shib_missing_attr_name';
 	const ERR_MISSING_VALUE = 'shib_missing_attr_value';
 	const ERR_MISSING_ROLE = 'shib_missing_role';
+	const ERR_MISSING_PLUGIN_ID = 'shib_missing_plugin_id';
 	
 	protected $db = null;
 	
@@ -45,6 +46,7 @@ class ilShibbolethRoleAssignmentRule
 	private $plugin_active = false;
 	private $add_on_update = false;
 	private $remove_on_update = false;
+	private $plugin_id = 0;
 
 	public function __construct($a_rule_id = 0)
 	{
@@ -126,6 +128,16 @@ class ilShibbolethRoleAssignmentRule
 		return (bool) $this->remove_on_update;
 	}
 	
+	public function setPluginId($a_id)
+	{
+		$this->plugin_id = $a_id;
+	}
+	
+	public function getPluginId()
+	{
+		return $this->plugin_id;
+	}
+	
 	public function conditionToString()
 	{
 		return $this->getName().'='.$this->getValue();
@@ -149,6 +161,14 @@ class ilShibbolethRoleAssignmentRule
 				return self::ERR_MISSING_VALUE;
 			}
 		}
+		else
+		{
+			// check plugin id is given
+			if(!$this->getPluginId())
+			{
+				return self::ERR_MISSING_PLUGIN_ID;
+			}
+		}
 		
 		return '';
 	}
@@ -168,6 +188,7 @@ class ilShibbolethRoleAssignmentRule
 			"name = ".$this->db->quote($this->getName()).', '.
 			"value = ".$this->db->quote($this->getValue()).', '.
 			"plugin = ".$this->db->quote((int) $this->isPluginActive()).', '.
+			"plugin_id = ".$this->db->quote((int) $this->getPluginId()).', '.
 			"add_on_update = ".$this->db->quote((int) $this->isAddOnUpdateEnabled()).', '.
 			"remove_on_update = ".$this->db->quote((int) $this->isRemoveOnUpdateEnabled()).' ';
 		$this->db->query($query);
@@ -183,6 +204,7 @@ class ilShibbolethRoleAssignmentRule
 			"name = ".$this->db->quote($this->getName()).', '.
 			"value = ".$this->db->quote($this->getValue()).', '.
 			"plugin = ".$this->db->quote((int) $this->isPluginActive()).', '.
+			"plugin_id = ".$this->db->quote((int) $this->getPluginId()).', '.
 			"add_on_update = ".$this->db->quote((int) $this->isAddOnUpdateEnabled()).', '.
 			"remove_on_update = ".$this->db->quote((int) $this->isRemoveOnUpdateEnabled()).' '.
 			"WHERE rule_id = ".$this->db->quote($this->getRuleId());
@@ -195,8 +217,8 @@ class ilShibbolethRoleAssignmentRule
 	{
 		if($this->isPluginActive())
 		{
-			// TODO: Call plugin
-			return false;
+			include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php';
+			return ilShibbolethRoleAssignmentRules::callPlugin($this->getPluginId(),$a_data);
 		}
 		// No value
 		if(!isset($a_data[$this->getName()]))
@@ -233,7 +255,8 @@ class ilShibbolethRoleAssignmentRule
 			$this->setRoleId($row->role_id);
 			$this->setName($row->name);
 			$this->setValue($row->value);
-			$this->enablePlugin($row->is_plugin);
+			$this->enablePlugin($row->plugin);
+			$this->setPluginId($row->plugin_id);
 			$this->enableAddOnUpdate($row->add_on_update);
 			$this->enableRemoveOnUpdate($row->remove_on_update);
 		}

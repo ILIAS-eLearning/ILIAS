@@ -6450,3 +6450,6 @@ remove_on_update TINYINT( 1 ) NOT NULL
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1382>
+ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plugin` ;
+

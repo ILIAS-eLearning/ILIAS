@@ -34,6 +34,8 @@ include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignment
 */
 class ilShibbolethRoleAssignmentRules
 {
+	protected static $active_plugins = null;
+	
 	public static function getAllRules()
 	{
 		global $ilDB;
@@ -120,6 +122,39 @@ class ilShibbolethRoleAssignmentRules
 			$rbacadmin->assignUser($ilSetting->get('shib_user_default_role'),$a_usr_id);
 		}
 		return true;
+	}
+	
+	public static function callPlugin($a_plugin_id,$a_user_data)
+	{
+		global $ilPluginAdmin;
+		
+		if(self::$active_plugins == null)
+		{
+			self::$active_plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE,
+				'AuthShibboleth',
+				'shibhk');
+		}
+		
+		$assigned = false;
+		foreach(self::$active_plugins as $plugin_name)
+		{
+			$ok = false;
+			$plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE,
+				'AuthShibboleth',
+				'shibhk',
+				$plugin_name);
+			
+			if($plugin_obj instanceof ilShibbolethRoleAssignmentPlugin)
+			{
+				$ok = $plugin_obj->checkRoleAssignment($a_plugin_id,$a_user_data);
+			}
+			
+			if($ok)
+			{
+				$assigned = true;
+			}
+		}
+		return $assigned;
 	}
 }
 ?>
