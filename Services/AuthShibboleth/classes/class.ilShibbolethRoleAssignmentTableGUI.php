@@ -96,16 +96,8 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
 			$tmp_arr['type'] = $rule->isPluginActive() ?
 				$this->lng->txt('shib_role_by_plugin') :
 				$this->lng->txt('shib_role_by_attribute');
-			if(!$rule->isPluginActive())
-			{
-				$tmp_arr['condition'] = $rule->conditionToString();	
-			}
-			else
-			{
-				$tmp_arr['condition'] = $this->lng->txt('shib_plugin_id').': '.$rule->getPluginId();
-			}
-			
-			
+
+			$tmp_arr['condition'] = $rule->conditionToString();	
 			$tmp_arr['role'] = ilObject::_lookupTitle($rule->getRoleId());
 			
 			$records_arr[] = $tmp_arr;

@@ -371,7 +371,12 @@ class ilAuthShibbolethSettingsGUI
 		foreach($_POST["rule_ids"] as $rule_id)
 		{
 			$rule = new ilShibbolethRoleAssignmentRule($rule_id);
-			$c_gui->addItem('rule_ids[]',$rule_id,$rule->conditionToString());
+			
+			$info = ilObject::_lookupTitle($rule->getRoleId());
+			$info .= " (";		
+			$info .= $rule->conditionToString();
+			$info .= ')';
+			$c_gui->addItem('rule_ids[]',$rule_id,$info);
 		}
 		$this->tpl->setContent($c_gui->getHTML());
 	}
