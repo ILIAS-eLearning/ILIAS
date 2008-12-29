@@ -8859,3 +8859,10 @@ shib#:#shib_confirm_del_role_ass#:#Do you really want to delete the following ru
 shib#:#shib_deleted_rule#:#Deleted role assignments.
 common#:#expanded#:#Expanded
 shib#:#shib_update_role_ass_table#:#Edit Role Assignment Rule
+shib#:#shib_missing_plugin_id#:#Please enter a valid plugin id.
+shib#:#shib_plugin#:#Assignment by Plugin
+shib#:#shib_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.
+shib#:#shib_role_by_plugin#:#By Plugin
+shib#:#shib_plugin_id#:#Plugin Id
+shib#:#shib_role_selection#:#Role Selection
+shib#:#shib_choose_role#:#Choose Role

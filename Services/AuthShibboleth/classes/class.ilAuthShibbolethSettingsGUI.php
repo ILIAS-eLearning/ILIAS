@@ -32,6 +32,7 @@
 */
 class ilAuthShibbolethSettingsGUI
 {
+
 	private $ctrl;
 	private $ilias;
 	private $tabs_gui;
@@ -519,7 +520,7 @@ class ilAuthShibbolethSettingsGUI
 			{
 				ilUtil::sendInfo($this->lng->txt($err));
 			}
-			
+
 			$this->tabs_gui->setSubTabActive('shib_role_assignment');
 			
 			$this->form->setValuesByPost();
@@ -533,6 +534,9 @@ class ilAuthShibbolethSettingsGUI
 			
 			return true;
 		}
+	
+		// Redirects if required
+		$this->showLocalRoleSelection();
 		
 		$this->rule->add();
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
@@ -582,6 +586,8 @@ class ilAuthShibbolethSettingsGUI
 			return true;
 		}
 		
+		$this->showLocalRoleSelection('update');
+		
 		$this->rule->update();
 		ilUtil::sendInfo($this->lng->txt('settings_saved'));
 		$this->roleAssignment();
@@ -596,6 +602,34 @@ class ilAuthShibbolethSettingsGUI
 		if($this->form->getInput('role_name') == 0)
 		{
 			$this->rule->setRoleId($this->form->getInput('role_id'));
+		}
+		elseif($this->form->getInput('role_search'))
+		{
+			// Search role
+			include_once './Services/Search/classes/class.ilQueryParser.php';
+			
+			$parser = new ilQueryParser($this->form->getInput('role_search'));
+			
+			// TODO: Handle minWordLength
+			$parser->setMinWordLength(1);
+			$parser->setCombination(QP_COMBINATION_AND);
+			$parser->parse();
+			
+			include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+			$object_search = new ilLikeObjectSearch($parser);
+			$object_search->setFilter(array('role'));
+			$res = $object_search->performSearch();
+			
+			$entries = $res->getEntries();
+			if(count($entries) == 1)
+			{
+				$role = current($entries);
+				$this->rule->setRoleId($role['obj_id']);
+			}
+			elseif(count($entries) > 1)
+			{
+				$this->rule->setRoleId(-1);
+			}
 		}
 		$this->rule->setName($this->form->getInput('attr_name'));
 		$this->rule->setValue($this->form->getInput('attr_value'));
@@ -649,6 +683,80 @@ class ilAuthShibbolethSettingsGUI
 	{
 		$this->loadRule($a_rule_id);
 		return $this->rule->validate();
+	}
+	
+	private function showLocalRoleSelection()
+	{
+		if($this->rule->getRoleId() > 0)
+		{
+			return false;
+		}
+
+
+		$_SESSION['shib_role_ass']['rule_id'] = $_REQUEST['rule_id'] ? $_REQUEST['rule_id'] : 0; 
+		$_SESSION['shib_role_ass']['search'] = $this->form->getInput('role_search');
+		$_SESSION['shib_role_ass']['add_on_update'] = $this->rule->isAddOnUpdateEnabled();
+		$_SESSION['shib_role_ass']['remove_on_update'] = $this->rule->isRemoveOnUpdateEnabled();
+		$_SESSION['shib_role_ass']['name'] = $this->rule->getName();
+		$_SESSION['shib_role_ass']['value'] = $this->rule->getValue();
+		$_SESSION['shib_role_ass']['plugin'] = $this->rule->isPluginActive();
+		$_SESSION['shib_role_ass']['plugin_id'] = $this->rule->getPluginId();
+		
+		$this->ctrl->redirect($this,'chooseRole');
+	}
+	
+	protected function chooseRole()
+	{
+		$this->tabs_gui->setSubTabActive('shib_role_assignment');
+		
+		include_once './Services/Search/classes/class.ilQueryParser.php';
+		$parser = new ilQueryParser($_SESSION['shib_role_ass']['search']);
+		$parser->setMinWordLength(1);
+		$parser->setCombination(QP_COMBINATION_AND);
+		$parser->parse();
+		
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($parser);
+		$object_search->setFilter(array('role'));
+		$res = $object_search->performSearch();
+		
+		$entries = $res->getEntries();
+		
+		include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleSelectionTableGUI.php';
+		$table = new ilShibbolethRoleSelectionTableGUI($this,'chooseRole');
+		$table->setTitle($this->lng->txt('shib_role_selection'));
+		$table->addMultiCommand('saveRoleSelection',$this->lng->txt('shib_choose_role'));
+		$table->addCommandButton('roleAssignment',$this->lng->txt('cancel'));
+		$table->parse($entries);
+		
+		$this->tpl->setContent($table->getHTML());
+		return true;
+	}
+	
+	protected function saveRoleSelection()
+	{
+		$rule = new ilShibbolethRoleAssignmentRule($_SESSION['shib_role_ass']['rule_id']);
+		$rule->setRoleId((int) $_POST['role_id']);
+		$rule->setName($_SESSION['shib_role_ass']['name']);
+		$rule->setValue($_SESSION['shib_role_ass']['value']);
+		$rule->enablePlugin($_SESSION['shib_role_ass']['plugin']);
+		$rule->setPluginId($_SESSION['shib_role_ass']['plugin_id']);
+		$rule->enableAddOnUpdate($_SESSION['shib_role_ass']['add_on_update']);
+		$rule->enableRemoveOnUpdate($_SESSION['shib_role_ass']['remove_on_update']);
+		
+		if($rule->getRuleId())
+		{
+			$rule->update();
+		}
+		else
+		{
+			$rule->add();
+		}
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		
+		unset($_SESSION['shib_role_ass']);
+		$this->roleAssignment();
+		
 	}
 	
 	private function hasActiveRoleAssignmentPlugins()
