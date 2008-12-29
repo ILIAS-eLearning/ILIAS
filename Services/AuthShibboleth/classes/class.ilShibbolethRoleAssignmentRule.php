@@ -140,7 +140,16 @@ class ilShibbolethRoleAssignmentRule
 	
 	public function conditionToString()
 	{
-		return $this->getName().'='.$this->getValue();
+		global $lng;
+		
+		if($this->isPluginActive())
+		{
+			return $lng->txt('shib_plugin_id').': '.$this->getPluginId();
+		}
+		else
+		{
+			return $this->getName().'='.$this->getValue();	
+		}
 	}
 	
 	public function validate()
