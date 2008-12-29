@@ -21,11 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Component/classes/class.ilPlugin.php';
-include_once './Services/AuthShibboleth/interfaces/interface.ilShibbolethRoleAssignmentPlugin.php';
-
 /** 
-* Plugin definition
+* Interface for shibboleth role assignment plugins
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
@@ -33,54 +30,17 @@ include_once './Services/AuthShibboleth/interfaces/interface.ilShibbolethRoleAss
 *
 * @ingroup ServicesAuthShibboleth
 */
-abstract class ilShibbolethAuthenticationPlugin extends ilPlugin
+interface ilShibbolethRoleAssignmentPlugin
 {
-	/**
-	 * Get Component Type
-	 *
-	 * @return        string        Component Type
-	 */
-	public final function getComponentType()
-	{
-		return IL_COMP_SERVICE;
-	}
 	
 	/**
-	 * Get Component Name
+	 * check role assignment for a specific plugin id 
+	 * (defined in the shibboleth role assignment administration).
 	 * 
-	 * @return	string Component Name
+	 * @param int	$a_plugin_id	Unique plugin id
+	 * @param array $a_user_data	Array with user data ($_SERVER)
+	 * @return bool whether the condition is fullfilled or not	
 	 */
-	public final function getComponentName()
-	{
-		return 'AuthShibboleth';
-	}
-	
-	/**
-	 * Get Slot Name
-	 * 
-	 * @return string Slot Name
-	 */
-	 public final function getSlot()
-	 {
-	 	return 'ShibbolethAuthenticationHook';
-	 }
-	 
-	/**
-	 * Get Slot Id
-	 * 
-	 * @return string Slot Id
-	 */
-	public final function getSlotId()
-	{
-		return 'shibhk';
-	}
-	
-	/**
-	 *  Object initialization done by slot.
-	 */
-	protected final function slotInit()
-	{
-		
-	} 
+	public function checkRoleAssignment($a_plugin_id,$a_user_data);
 }
 ?>

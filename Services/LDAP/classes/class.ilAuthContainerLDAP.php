@@ -215,7 +215,8 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 	public function loginObserver($a_username)
 	{
 		global $ilBench;
-                global $ilLog;
+		global $ilLog;
+		
 		$ilLog->write(__METHOD__.': logged in as '.$a_username.
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
@@ -273,6 +274,8 @@ class ilAuthContainerLDAP extends Auth_Container_LDAP
 			$ilBench->stop('Auth','LDAPLoginObserver');
 			return;
 		}
+		
+		
 		// Finally setAuth
 		$this->_auth_obj->setAuth($user_data['ilInternalAccount']);
 		$ilBench->stop('Auth','LDAPLoginObserver');

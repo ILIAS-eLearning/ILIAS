@@ -475,7 +475,24 @@ class ilAuthShibbolethSettingsGUI
 				$value = new ilTextInputGUI($this->lng->txt('shib_attribute_value'),'attr_value');
 				$value->setSize(32);
 				$attr->addSubItem($value);
-		$kind->addOption($attr);
+				$kind->addOption($attr);
+
+				$pl_active = (bool) $this->hasActiveRoleAssignmentPlugins();
+
+				$pl = new ilRadioOption($this->lng->txt('shib_plugin'),2);
+				$pl->setInfo($this->lng->txt('shib_plugin_info'));
+				$pl->setDisabled(!$pl_active);
+				
+				$id = new ilNumberInputGUI($this->lng->txt('shib_plugin_id'),'plugin_id');
+				$id->setDisabled(!$pl_active);
+				$id->setSize(3);
+				$id->setMaxLength(3);
+				$id->setMaxValue(999);
+				$id->setMinValue(1);
+				$pl->addSubItem($id);
+
+				$kind->addOption($pl);
+
 		$this->form->addItem($kind);
 	}
 	
@@ -580,6 +597,7 @@ class ilAuthShibbolethSettingsGUI
 		$this->rule->enableAddOnUpdate($this->form->getInput('add_missing'));
 		$this->rule->enableRemoveOnUpdate($this->form->getInput('remove_deprecated'));
 		$this->rule->enablePlugin($this->form->getInput('kind') == 2);
+		$this->rule->setPluginId($this->form->getInput('plugin_id'));
 		
 		return $this->rule;
 	}
@@ -616,6 +634,7 @@ class ilAuthShibbolethSettingsGUI
 		else
 		{
 			$values['kind'] = 2;
+			$values['plugin_id'] = $rule->getPluginId();
 		}
 		
 		$this->form->setValuesByArray($values);
@@ -625,6 +644,13 @@ class ilAuthShibbolethSettingsGUI
 	{
 		$this->loadRule($a_rule_id);
 		return $this->rule->validate();
+	}
+	
+	private function hasActiveRoleAssignmentPlugins()
+	{
+		global $ilPluginAdmin;
+		
+		return count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE,'AuthShibboleth','shibhk'));
 	}
 
 	
