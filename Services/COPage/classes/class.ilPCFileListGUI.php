@@ -72,10 +72,107 @@ class ilPCFileListGUI extends ilPageContentGUI
 	*/
 	function insert()
 	{
-		global $ilUser;
+		global $ilUser, $ilTabs;
 
+		if ($_GET["subCmd"] == "insertNew")
+		{
+			$_SESSION["cont_file_insert"] = "insertNew";
+		}
+		if ($_GET["subCmd"] == "insertFromRepository")
+		{
+			$_SESSION["cont_file_insert"] = "insertFromRepository";
+		}
+		if (($_GET["subCmd"] == "") && $_SESSION["cont_file_insert"] != "")
+		{
+			$_GET["subCmd"] = $_SESSION["cont_file_insert"];
+		}
+
+		switch ($_GET["subCmd"])
+		{
+			case "insertFromRepository":
+				$this->insertFromRepository();
+				break;
+				
+			case "selectFile":
+				$this->selectFile();
+				break;
+
+			default:
+				$this->setTabs();
+				$ilTabs->setSubTabActive("cont_new_file");
+		
+				// new file list form
+				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_new.html", "Services/COPage");
+				
+				$this->tpl->setCurrentBlock("new_file");
+				$this->tpl->setVariable("TXT_FILE", $this->lng->txt("file"));
+				$this->tpl->parseCurrentBlock();
+				
+				$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_list"));
+				$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		
+				$this->displayValidationError();
+		
+				if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
+				{
+					$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+				}
+				else
+				{
+					$s_lang = $ilUser->getLanguage();
+				}
+		
+		
+				// title
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+				$this->tpl->setVariable("INPUT_TITLE", "flst_title");
+		
+				// language
+				$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+				require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
+				$lang = ilMDLanguageItem::_getLanguages();
+				$select_lang = ilUtil::formSelect ($s_lang, "flst_language",$lang,false,true);
+				$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
+		
+		
+				$this->tpl->parseCurrentBlock();
+		
+				// operations
+				$this->tpl->setCurrentBlock("commands");
+				$this->tpl->setVariable("BTN_NAME", "create_flst");
+				$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+				$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
+				$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+				$this->tpl->parseCurrentBlock();
+				break;
+		}
+
+	}
+
+	/**
+	* Select file
+	*/
+	function selectFile()
+	{
+		global $ilTabs, $ilUser;
+		
+		$this->setTabs();
+		$ilTabs->setSubTabActive("cont_file_from_repository");
+		
 		// new file list form
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_new.html", "Services/COPage");
+		
+		$this->tpl->setCurrentBlock("rep_file");
+		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("file"));
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		$file_obj = new ilObjFile($_GET["file_ref_id"]);
+		if (is_object($file_obj))
+		{
+			$this->tpl->setVariable("TXT_FILE_TITLE", $file_obj->getTitle());
+			$this->tpl->setVariable("FILE_REF_ID", $file_obj->getRefId());
+		}
+		$this->tpl->parseCurrentBlock();
+		
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_list"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -90,11 +187,9 @@ class ilPCFileListGUI extends ilPageContentGUI
 			$s_lang = $ilUser->getLanguage();
 		}
 
-
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("INPUT_TITLE", "flst_title");
-		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("file"));
 
 		// language
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
@@ -102,7 +197,6 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$lang = ilMDLanguageItem::_getLanguages();
 		$select_lang = ilUtil::formSelect ($s_lang, "flst_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
-
 
 //		$this->tpl->parseCurrentBlock();
 
@@ -113,31 +207,83 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_CANCEL", "cancelCreate");
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Insert file from repository
+	*/
+	function insertFromRepository()
+	{
+		global $ilTabs, $tree, $ilCtrl, $tpl;
+		
+		$this->setTabs();
+		$ilTabs->setSubTabActive("cont_file_from_repository");
+		
+		include_once "./Services/COPage/classes/class.ilFileSelectorGUI.php";
 
+		$exp = new ilFileSelectorGUI($this->ctrl->getLinkTarget($this, "insert"));
+
+		if ($_GET["expand"] == "")
+		{
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["expand"];
+		}
+		$exp->setExpand($expanded);
+
+		$exp->setTargetGet("sel_id");
+		//$this->ctrl->setParameter($this, "target_type", $a_type);
+		$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
+		$exp->setParamsGet($this->ctrl->getParameterArray($this, "insert"));
+		
+		// filter
+		$exp->setFiltered(true);
+		$exp->setFilterMode(IL_FM_POSITIVE);
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+		$exp->addFilter("grp");
+		$exp->addFilter("fold");
+		$exp->addFilter("crs");
+		$exp->addFilter("file");
+
+		$sel_types = array('file');
+
+		$exp->setOutput(0);
+
+		$tpl->setContent($exp->getOutput());
 	}
 
-
+	
 	/**
 	* create new file list in dom and update page in db
 	*/
 	function create()
 	{
 		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj = new ilObjFile();
-		$fileObj->setType("file");
-		$fileObj->setTitle($_FILES["Fobject"]["name"]["file"]);
-		$fileObj->setDescription("");
-		$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
-		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
-		$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
-		$fileObj->setMode("filelist");
-		$fileObj->create();
-		// upload file to filesystem
-		$fileObj->createDirectory();
-		$fileObj->raiseUploadError(false);
-		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
-			$_FILES["Fobject"]["name"]["file"]);
 
+		if ($_POST["file_ref_id"] == 0)
+		{
+			$fileObj = new ilObjFile();
+			$fileObj->setType("file");
+			$fileObj->setTitle($_FILES["Fobject"]["name"]["file"]);
+			$fileObj->setDescription("");
+			$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
+			$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
+			$fileObj->setFileSize($_FILES["Fobject"]["size"]["file"]);
+			$fileObj->setMode("filelist");
+			$fileObj->create();
+			// upload file to filesystem
+			$fileObj->createDirectory();
+			$fileObj->raiseUploadError(false);
+			$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
+				$_FILES["Fobject"]["name"]["file"]);
+		}
+		else
+		{
+			$fileObj = new ilObjFile($_POST["file_ref_id"]);
+		}
 		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["flst_language"];
 
 //echo "::".is_object($this->dom).":";
@@ -146,6 +292,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$this->content_obj->setListTitle(ilUtil::stripSlashes($_POST["flst_title"]), $_POST["flst_language"]);
 		$this->content_obj->appendItem($fileObj->getId(), $fileObj->getFileName(),
 			$fileObj->getFileType());
+			
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
@@ -216,5 +363,25 @@ class ilPCFileListGUI extends ilPageContentGUI
 			$this->edit();
 		}
 	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		global $ilTabs, $ilCtrl;
+
+		$cmd = "insert";
+		
+		$ilCtrl->setParameter($this, "subCmd", "insertNew");
+		$ilTabs->addSubTabTarget("cont_new_file",
+			$ilCtrl->getLinkTarget($this, $cmd), $cmd);
+
+		$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
+		$ilTabs->addSubTabTarget("cont_file_from_repository",
+			$ilCtrl->getLinkTarget($this, $cmd), $cmd);
+		$ilCtrl->setParameter($this, "subCmd", "");
+	}
+
 }
 ?>

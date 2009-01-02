@@ -1845,7 +1845,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 					$usages = $file_obj->getUsages();
 					if (count($usages) == 0)	// delete, if no usage exists
 					{
-						$file_obj->delete();
+						if ($file_obj->getMode() == "filelist")		// non-repository object
+						{
+							$file_obj->delete();
+						}
 					}
 				}
 			}
