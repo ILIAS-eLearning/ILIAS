@@ -108,7 +108,6 @@ class ilPCFileItem extends ilPageContent
 		$form_node->set_content($a_format);
 	}
 
-
 	/**
 	* delete row of cell
 	*/
