@@ -8866,4 +8866,5 @@ shib#:#shib_role_by_plugin#:#By Plugin
 shib#:#shib_plugin_id#:#Plugin Id
 shib#:#shib_role_selection#:#Role Selection
 shib#:#shib_choose_role#:#Choose Role
+shib#:#shib_add_remove#:#Add/Remove Roles
 content#:#cont_file_from_repository#:#File From Repository
