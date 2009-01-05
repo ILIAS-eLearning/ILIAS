@@ -8786,8 +8786,8 @@ shib#:#shib_local_role#:#Lokale Rolle
 shib#:#shib_role_name_info#:#Bitte wählen Sie entweder eine globale Rolle aus oder geben Sie den Namen einer lokalen Rolle ein.
 shib#:#shib_update_roles#:#Rollenzuordnungen
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
-shib#:#shib_remove_deprecated#:#Veraltete Rollenzuordnungen entfernen
-shib#:#shib_check_role_assignment#:#Aktualisierung der Rollenzuodnungen bei späteren Logins:
+shib#:#shib_remove_deprecated#:#Unberechtigte Rollen entfernen
+shib#:#shib_check_role_assignment#:#Aktualisierung der Rollenzuodnungen bei jeder Anmeldung:
 shib#:#shib_assignment_type#:#Art der Zuordnung
 shib#:#shib_attribute#:#Benutzerattribut
 shib#:#shib_attribute_name#:#Attributname
@@ -8811,3 +8811,4 @@ shib#:#shib_role_by_plugin#:#Durch Plugin
 shib#:#shib_plugin_id#:#Plugin-Id
 shib#:#shib_role_selection#:#Rollenauswahl
 shib#:#shib_choose_role#:#Rolle übernehmen
+shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
