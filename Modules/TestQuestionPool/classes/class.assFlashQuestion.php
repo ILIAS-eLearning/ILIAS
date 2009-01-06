@@ -280,6 +280,8 @@ class assFlashQuestion extends assQuestion
 		// duplicate the generic feedback
 		$clone->duplicateFeedbackGeneric($this_id);
 
+		// duplicate the applet
+		$clone->duplicateApplet($this_id);
 		return $clone->id;
 	}
 
@@ -317,7 +319,52 @@ class assFlashQuestion extends assQuestion
 		// duplicate the generic feedback
 		$clone->duplicateFeedbackGeneric($original_id);
 
+		// duplicate the applet
+		$clone->copyApplet($original_id, $source_questionpool);
+
 		return $clone->id;
+	}
+
+	/**
+	* Duplicate the flash applet
+	*
+	* @access public
+	* @see $points
+	*/
+	protected function duplicateApplet($question_id)
+	{
+		$flashpath = $this->getFlashPath();
+		$flashpath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $flashpath);
+		if (!file_exists($flashpath))
+		{
+			ilUtil::makeDirParents($flashpath);
+		}
+		$filename = $this->getApplet();
+		if (!copy($flashpath_original . $filename, $flashpath . $filename)) {
+			print "flash applet could not be duplicated!!!! ";
+		}
+	}
+
+	/**
+	* Copy the flash applet
+	*
+	* @access public
+	* @see $points
+	*/
+	protected function copyApplet($question_id, $source_questionpool)
+	{
+		$flashpath = $this->getFlashPath();
+		$flashpath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $flashpath);
+		$flashpath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $flashpath_original);
+		if (!file_exists($flashpath))
+		{
+			ilUtil::makeDirParents($flashpath);
+		}
+		$filename = $this->getApplet();
+		if (!copy($flashpath_original . $filename, $flashpath . $filename)) 
+		{
+			print "flash applet could not be copied!!!! ";
+		}
 	}
 
 	/**
