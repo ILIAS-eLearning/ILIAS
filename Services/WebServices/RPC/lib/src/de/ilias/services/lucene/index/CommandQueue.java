@@ -219,7 +219,7 @@ public class CommandQueue {
 		// TODO: Error handling
 		
 		PreparedStatement sta = db.prepareStatement(
-			"SELECT oda.obj_id FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id WHERE deleted = '0000-00-00 00:00:00' AND type = ?");
+			"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id WHERE deleted = '0000-00-00 00:00:00' AND type = ?");
 		sta.setString(1, objType);
 		ResultSet res = sta.executeQuery();
 		

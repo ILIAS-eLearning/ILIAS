@@ -23,6 +23,7 @@
 package de.ilias.services.object;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -137,6 +138,15 @@ public class ObjectDefinition implements DocumentHandler {
 		
 		IndexHolder writer = IndexHolder.getInstance();
 		writer.getWriter().addDocument(docs.getGlobalDocument());
+	}
+
+	/**
+	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 */
+	public void writeDocument(CommandQueueElement el, ResultSet res)
+			throws DocumentHandlerException, IOException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

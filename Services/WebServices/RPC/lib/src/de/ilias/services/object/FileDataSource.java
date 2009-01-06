@@ -22,6 +22,12 @@
 
 package de.ilias.services.object;
 
+import java.io.IOException;
+import java.sql.ResultSet;
+
+import de.ilias.services.lucene.index.CommandQueueElement;
+import de.ilias.services.lucene.index.DocumentHandlerException;
+
 
 
 /**
@@ -38,5 +44,14 @@ public class FileDataSource extends DataSource {
 	public FileDataSource(int type) {
 
 		super(type);
+	}
+
+	/**
+	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 */
+	public void writeDocument(CommandQueueElement el, ResultSet res)
+			throws DocumentHandlerException, IOException {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -23,6 +23,7 @@
 package de.ilias.services.object;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -116,10 +117,19 @@ public class DocumentDefinition implements DocumentHandler {
 	public void writeDocument(CommandQueueElement el)
 			throws DocumentHandlerException, IOException {
 
-		DocumentHolder doc = DocumentHolder.factory();
-		// TODO: In case of an error, we have an empty document.
-		doc.newDocument();
+		writeDocument(el,null);
+	}
+
+	/**
+	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 */
+	public void writeDocument(CommandQueueElement el, ResultSet res)
+			throws DocumentHandlerException, IOException {
+
 		
+		DocumentHolder doc = DocumentHolder.factory();
+		doc.newDocument();
+
 		for(int i = 0; i < getDataSource().size();i++) {
 			
 			getDataSource().get(i).writeDocument(el);
@@ -127,6 +137,5 @@ public class DocumentDefinition implements DocumentHandler {
 		
 		IndexHolder writer = IndexHolder.getInstance();
 		writer.getWriter().addDocument(doc.getDocument());
-		
 	}
 }
