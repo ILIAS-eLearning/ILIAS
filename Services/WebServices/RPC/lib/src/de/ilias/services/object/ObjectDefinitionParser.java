@@ -205,6 +205,7 @@ public class ObjectDefinitionParser {
 		if(source.getAttributeValue("type").equalsIgnoreCase("JDBC")) {
 	
 			ds = new JDBCDataSource(DataSource.TYPE_JDBC);
+			ds.setAction(source.getAttributeValue("action"));
 			((JDBCDataSource)ds).setQuery(source.getChildText("Query").trim());
 			
 			// Set parameters
@@ -222,12 +223,19 @@ public class ObjectDefinitionParser {
 		else if(source.getAttributeValue("File").equalsIgnoreCase("File")) {
 			
 			ds = new FileDataSource(DataSource.TYPE_FILE);
+			ds.setAction(source.getAttributeValue("action"));
 			
 		}
 		else
 			throw new ObjectDefinitionException("Invalid type for element 'DataSource' type=" + 
 					source.getAttributeValue("type"));
 
+		// Now add nested data source element
+		for(Object nestedDS : source.getChildren("DataSource")) {
+		
+			// Recursion
+			ds.addDataSource(parseDataSource((Element) nestedDS));
+		}
 	
 		// Add fields
 		for(Object field : source.getChildren("Field")) {

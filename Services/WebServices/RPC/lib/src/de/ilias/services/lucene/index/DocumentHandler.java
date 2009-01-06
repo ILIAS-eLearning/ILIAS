@@ -24,6 +24,7 @@ package de.ilias.services.lucene.index;
 
 
 import java.io.IOException;
+import java.sql.ResultSet;
 
 import org.apache.lucene.document.Document;
 
@@ -36,4 +37,6 @@ import org.apache.lucene.document.Document;
 public interface DocumentHandler {
 	
 	void writeDocument(CommandQueueElement el) throws DocumentHandlerException, IOException;
+	
+	void writeDocument(CommandQueueElement el,ResultSet res) throws DocumentHandlerException, IOException;
 }

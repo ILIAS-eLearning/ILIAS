@@ -234,7 +234,7 @@ public class FieldDefinition {
 		// TODO: call transformer
 		try {
 			Object value = res.getObject(getColumn());
-			if(value != null) {
+			if(value != null && value.toString() != "") {
 				logger.debug("Found value: " + value.toString() + " for name: " + getName());
 				DocumentHolder.factory().add(getName(), value.toString(), store, index);
 			}

@@ -23,6 +23,7 @@
 package de.ilias.services.object;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -139,15 +140,17 @@ public class ParameterDefinition {
 	/**
 	 * @param pst
 	 * @param el
+	 * @param parentResult 
 	 * @throws SQLException 
 	 * @throws DocumentHandlerException 
 	 */
-	public void writeParameter(PreparedStatement pst, int index, CommandQueueElement el) throws SQLException, DocumentHandlerException {
+	public void writeParameter(PreparedStatement pst, int index, CommandQueueElement el, ResultSet parentResult) 
+		throws SQLException, DocumentHandlerException {
 
 		switch(getType()) {
 		case TYPE_INT:
-			logger.debug("ID: " + getParameterValue(el));
-			pst.setInt(index,getParameterValue(el));
+			logger.debug("ID: " + getParameterValue(el,parentResult));
+			pst.setInt(index,getParameterValue(el,parentResult));
 			break;
 		
 		default:
@@ -157,14 +160,24 @@ public class ParameterDefinition {
 
 	/**
 	 * @param el
+	 * @param parentResult 
 	 * @return
+	 * @throws SQLException 
 	 */
-	private int getParameterValue(CommandQueueElement el) {
+	private int getParameterValue(CommandQueueElement el, ResultSet parentResult) throws SQLException {
 		
 		if(getValue().equals("objId")) {
 			return el.getObjId();
 		}
-
+		
+		if(parentResult != null) {
+			switch(getType()) {
+			case TYPE_INT:
+				logger.debug("Reading parameter from parent result set...");
+				return parentResult.getInt(getValue());
+			}
+		}
+		
 		return 0;
 	}
 	

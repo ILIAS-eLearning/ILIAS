@@ -138,10 +138,11 @@ public class CommandController {
 	private void writeToIndex(Vector<Integer> finished) {
 
 		try {
-			logger.debug("Closing writer.");
+			logger.info("Closing writer.");
 			holder.getWriter().commit();
-			logger.debug("Optimizing writer.");
+			logger.info("Optimizing writer...");
 			holder.getWriter().optimize();
+			logger.info("Writer optimized!");
 			holder.close();
 			
 			// Set object ids finished

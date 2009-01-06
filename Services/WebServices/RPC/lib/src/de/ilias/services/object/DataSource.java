@@ -44,10 +44,15 @@ public abstract class DataSource implements DocumentHandler {
 	public static final int TYPE_JDBC = 1;
 	public static final int TYPE_FILE = 2;
 	
+	public static final String ACTION_APPEND = "append";
+	public static final String ACTION_CREATE = "create";
+	
 	protected static Logger logger = Logger.getLogger(DataSource.class);
 
 	private int type;
+	private String action;
 	Vector<FieldDefinition> fields = new Vector<FieldDefinition>();
+	Vector<DataSource> ds = new Vector<DataSource>();
 	
 
 	/**
@@ -74,6 +79,21 @@ public abstract class DataSource implements DocumentHandler {
 	}
 	
 	/**
+	 * @param action the action to set
+	 */
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+
+	/**
+	 * @return the action
+	 */
+	public String getAction() {
+		return action;
+	}
+
+	/**
 	 * @return the fields
 	 */
 	public Vector<FieldDefinition> getFields() {
@@ -94,6 +114,32 @@ public abstract class DataSource implements DocumentHandler {
 	public void addField(FieldDefinition field) {
 		this.fields.add(field);
 	}
+	
+	/**
+	 * return nested data sources 
+	 * @return the data sources
+	 */
+	public Vector<DataSource> getDataSources() {
+		return ds;
+	}
+	
+	/**
+	 * Set DataSource elements
+	 * @param ds
+	 */
+	public void setDataSources(Vector<DataSource> ds) {
+		this.ds = ds;
+	}
+	
+	/**
+	 * Add DataSource element to vector
+	 * @param ds
+	 */
+	public void addDataSource(DataSource ds) {
+		this.getDataSources().add(ds);
+	}
+	
+	
 	
 	/**
 	 * 
@@ -123,4 +169,6 @@ public abstract class DataSource implements DocumentHandler {
 	
 		return out.toString();
 	}
+
+
 }

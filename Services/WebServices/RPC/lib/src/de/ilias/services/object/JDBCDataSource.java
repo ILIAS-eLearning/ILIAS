@@ -32,7 +32,10 @@ import org.apache.lucene.document.Document;
 
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
+import de.ilias.services.lucene.index.DocumentHandler;
 import de.ilias.services.lucene.index.DocumentHandlerException;
+import de.ilias.services.lucene.index.DocumentHolder;
+import de.ilias.services.lucene.index.IndexHolder;
 
 /**
  * 
@@ -119,16 +122,26 @@ public class JDBCDataSource extends DataSource {
 	public void writeDocument(CommandQueueElement el)
 			throws DocumentHandlerException, IOException {
 
+		writeDocument(el,null);
+	}
+
+	/**
+	 * @see de.ilias.services.lucene.index.DocumentHandler#writeDocument(de.ilias.services.lucene.index.CommandQueueElement, java.sql.ResultSet)
+	 */
+	public void writeDocument(CommandQueueElement el, ResultSet parentResult)
+			throws DocumentHandlerException, IOException {
+		
 		logger.debug("Handling data source: " + getType());
 		
 		try {
 			// Create Statement for JDBC datasource
+			DocumentHolder doc = DocumentHolder.factory();
 			PreparedStatement pst = DBFactory.factory().prepareStatement(getQuery());
 
 			int paramNumber = 1;
 			for(Object param : getParameters()) {
 				
-				((ParameterDefinition) param).writeParameter(pst,paramNumber++,el);
+				((ParameterDefinition) param).writeParameter(pst,paramNumber++,el,parentResult);
 			}
 			ResultSet res = pst.executeQuery();
 			while(res.next()) {
@@ -137,10 +150,22 @@ public class JDBCDataSource extends DataSource {
 				for(Object field : getFields()) {
 					((FieldDefinition) field).writeDocument(res);
 				}
-				// TODO: docHolder.newDocument() ?!
+				
+				// Add subitems from additional data sources
+				for(Object ds : getDataSources()) {
+					
+					((DocumentHandler)ds).writeDocument(el,res);
+				}
+				
+				// Finally addDocument to index
+				if(getAction().equalsIgnoreCase(ACTION_CREATE) && !res.isLast()) {
+					logger.info("Adding new document...");
+					IndexHolder writer = IndexHolder.getInstance();
+					writer.getWriter().addDocument(doc.getDocument());
+					doc.newDocument();
+				}
 			}
-			
-		} 
+		}
 		catch (SQLException e) {
 			logger.error("Cannot parse data source.");
 			throw new DocumentHandlerException(e);
