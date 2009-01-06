@@ -512,7 +512,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$template->setVariable("APPLET_HEIGHT", $this->object->getHeight());
 		$template->setVariable("ID", $this->object->getId());
 		$template->setVariable("APPLET_PATH", $this->object->getFlashPathWeb() . $this->object->getApplet());
-		$template->setVariable("APPLET_FILE", $this->object->getApplet());
+		$template->setVariable("APPLET_FILE", $this->object->getFlashPathWeb() . $this->object->getApplet());
 		$questionoutput = $template->get();
 		
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
