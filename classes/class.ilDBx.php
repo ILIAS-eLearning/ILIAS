@@ -520,7 +520,7 @@ else
 
 		if (MDB2::isError($res))
 		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$a_stmt->query . " with data " . print_r($a_data, true) ."</font>", $this->error_class->FATAL);
 		}
 		else
 		{

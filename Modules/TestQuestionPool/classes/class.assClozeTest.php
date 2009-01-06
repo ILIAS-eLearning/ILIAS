@@ -418,7 +418,7 @@ class assClozeTest extends assQuestion
 						$data = array(
 							$this->getId(),
 							$key,
-							$item->getAnswertext(),
+							strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
 							$item->getPoints(),
 							$item->getOrder(),
 							$gap->getType()
@@ -439,7 +439,7 @@ class assClozeTest extends assQuestion
 						$data = array(
 							$this->getId(),
 							$key,
-							$item->getAnswertext(),
+							strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
 							$item->getPoints(),
 							$item->getOrder(),
 							$gap->getType(),
@@ -462,7 +462,7 @@ class assClozeTest extends assQuestion
 						$data = array(
 							$this->getId(),
 							$key,
-							$item->getAnswertext(),
+							strlen($item->getAnswertext()) ? $item->getAnswertext() : "",
 							$item->getPoints(),
 							$item->getOrder(),
 							$gap->getType(),

@@ -377,7 +377,43 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->tpl->setVariable("QUESTION_TITLE", $item["title"]);
 			$this->tpl->setVariable("QUESTION_IDENT", $item["ident"]);
 			include_once "./Services/QTI/classes/class.ilQTIItem.php";
-			$type = $this->lng->txt($item["type"]);
+			switch ($item["type"])
+			{
+				case CLOZE_TEST_IDENTIFIER:
+					$type = $this->lng->txt("assClozeTest");
+					break;
+				case IMAGEMAP_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assImagemapQuestion");
+					break;
+				case JAVAAPPLET_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assJavaApplet");
+					break;
+				case MATCHING_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assMatchingQuestion");
+					break;
+				case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assMultipleChoice");
+					break;
+				case SINGLE_CHOICE_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assSingleChoice");
+					break;
+				case ORDERING_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assOrderingQuestion");
+					break;
+				case TEXT_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assTextQuestion");
+					break;
+				case NUMERIC_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assNumeric");
+					break;
+				case TEXTSUBSET_QUESTION_IDENTIFIER:
+					$type = $this->lng->txt("assTextSubset");
+					break;
+				default:
+					$type = $this->lng->txt($item["type"]);
+					break;
+			}
+			
 			if (strcmp($type, "-" . $item["type"] . "-") == 0)
 			{
 				global $ilPluginAdmin;
