@@ -2,7 +2,7 @@
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="crs">
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
-		<DataSource type="JDBC">
+		<DataSource type="JDBC" action="append">
 			<Query>
 				SELECT * FROM crs_settings
 				WHERE obj_id IN(?);

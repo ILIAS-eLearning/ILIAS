@@ -3,4 +3,30 @@
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 	</Document>
+	<Document type="subItem">
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT thr_subject,thr_usr_id, thr_pk, top_frm_fk 
+				FROM frm_data JOIN frm_threads ON top_pk = thr_top_fk
+				WHERE top_frm_fk IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="thr_subject" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="thr_usr_id" name="owner" />
+			<Field store="YES" index="ANALYZED" column="thr_pk" name="subItem" />
+			<Field store="YES" index="ANALYZED" column="top_frm_fk" name="objId" />
+			<DataSource type="JDBC" action="append">
+				<Query>
+					SELECT pos_usr_id, pos_message, pos_subject 
+					FROM frm_posts 
+					JOIN frm_data ON pos_top_fk = top_pk 
+					WHERE top_frm_fk IN (?)
+				</Query>
+				<Param format="single" type="int" value="top_frm_fk" />
+				<Field store="YES" index="ANALYZED" column="pos_message" name="content" />
+				<Field store="YES" index="ANALYZED" column="pos_subject" name="propertyLow" />
+				<Field store="YES" index="ANALYZED" column="pos_usr_id" name="owner" />
+			</DataSource>
+		</DataSource>
+	</Document>
 </ObjectDefinition>

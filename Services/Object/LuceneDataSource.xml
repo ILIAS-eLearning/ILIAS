@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<DataSource type="JDBC">
+<DataSource type="JDBC" action="append">
 	<Query>
 		SELECT oda.obj_id,oda.type,oda.title,oda.owner,ode.description FROM object_data oda
 		LEFT JOIN object_description ode ON oda.obj_id = ode.obj_id

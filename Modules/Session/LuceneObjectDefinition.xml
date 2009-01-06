@@ -2,7 +2,7 @@
 <ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="sess">
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
-		<DataSource type="JDBC">
+		<DataSource type="JDBC" action="append">
 			<Query>
 				SELECT location, tutor_name, tutor_email, tutor_phone, details 
 				FROM event WHERE obj_id IN(?); 
