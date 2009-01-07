@@ -135,7 +135,7 @@ class ilCalendarAppointmentColors
 		
 		$query = "SELECT cat.cat_id,cat.color, ass.cal_id  FROM cal_categories AS cat ".
 			"JOIN cal_category_assignments AS ass USING (cat_id) ".
-			"WHERE cat_id IN (".implode(',',ilUtil::quoteArray($this->categories->getCategories(true))).")";
+			"WHERE cat.cat_id IN (".implode(',',ilUtil::quoteArray($this->categories->getCategories(true))).")";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
