@@ -332,7 +332,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		}
 		include_once "./classes/class.ilXmlWriter.php";
 		$writer = new ilXmlWriter();
-		$writer->xmlStartTag("getTestUserData")
+		$writer->xmlStartTag("getTestUserData");
 		$writer->xmlStartTag("params");
 		$writer->xmlElement("param", array("name" => "sid"), $sid);
 		$writer->xmlElement("param", array("name" => "active_id"), $active_id);
