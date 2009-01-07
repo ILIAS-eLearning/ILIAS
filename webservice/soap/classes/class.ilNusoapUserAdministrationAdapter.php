@@ -816,13 +816,25 @@ class ilNusoapUserAdministrationAdapter
 									  'question_id' => 'xsd:long',
 									  'pass' => 'xsd:int',
 									  'solution' => 'tns:stringArray'),
-								array('xml' => 'xsd:string'),
-//								array('status' => 'xsd:boolean'),
+								array('status' => 'xsd:boolean'),
 								SERVICE_NAMESPACE,
 								SERVICE_NAMESPACE.'#saveQuestion',
 								SERVICE_STYLE,
 								SERVICE_USE,
 								'ILIAS saveQuestion: Saves the result of a question in a given test pass for the active test user. The active user is identified by the active ID, which assigns a user to a test.');
+
+	$this->server->register('saveQuestionSolution',
+							array('sid' => 'xsd:string',
+								  'active_id' => 'xsd:long',
+								  'question_id' => 'xsd:long',
+								  'pass' => 'xsd:int',
+								  'solution' => 'xsd:string'),
+							array('status' => 'xsd:string'),
+							SERVICE_NAMESPACE,
+							SERVICE_NAMESPACE.'#saveQuestionSolution',
+							SERVICE_STYLE,
+							SERVICE_USE,
+							'ILIAS saveQuestionSolution: Saves the result of a question in a given test pass for the active test user. The active user is identified by the active ID, which assigns a user to a test. The solution has to be an XML string which contains &lt;values&gt;&lt;value&gt;VALUE&lt;/value&gt;&lt;value&gt;VALUE&lt;/value&gt;&lt;points&gt;POINTS&lt;/points&gt;...&lt;/values&gt; where the triplet (value,value,points) can repeat n times. The result string is either TRUE or it contains an error message.');
 
 		$this->server->register('getQuestionSolution',
 								array('sid' => 'xsd:string',

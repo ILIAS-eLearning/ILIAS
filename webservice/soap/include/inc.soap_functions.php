@@ -518,6 +518,15 @@ class ilSoapFunctions {
 		return $sass->saveQuestion($sid,$active_id,$question_id,$pass,$solution);
 	}
 
+	public static function  saveQuestionSolution($sid,$active_id,$question_id,$pass,$solution)
+	{
+		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
+
+		$sass =& new ilSoapTestAdministration();
+
+		return $sass->saveQuestionSolution($sid,$active_id,$question_id,$pass,$solution);
+	}
+
 	public static function  getQuestionSolution($sid,$active_id,$question_id,$pass)
 	{
 		include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
