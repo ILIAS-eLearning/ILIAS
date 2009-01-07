@@ -177,9 +177,8 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 		$size_bytes = $_FILES[$this->getPostVar()]["size"];
 		$temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
 		$error = $_FILES[$this->getPostVar()]["error"];
-
 		$_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];
-		
+
 		// error handling
 		if ($error > 0)
 		{
@@ -203,8 +202,11 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 				case UPLOAD_ERR_NO_FILE:
 					if ($this->getRequired())
 					{
-						$this->setAlert($lng->txt("form_msg_file_no_upload"));
-						return false;
+						if (!strlen($this->getFilename()))
+						{
+							$this->setAlert($lng->txt("form_msg_file_no_upload"));
+							return false;
+						}
 					}
 					break;
 	 
