@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="exc">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT instruction
+				FROM exc_data
+				WHERE obj_id IN (?)
+			</Query>
+			<Param format="list" type="int" name="objId" />
+			<Field store="YES" index="ANALYZED" column="instruction" name="propertyLow" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>
