@@ -13,8 +13,8 @@
 				AND mep_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="title" name="propertyHigh" /> 
-			<Field store="YES" index="ANALYZED" column="description" name="propertyMedium" /> 
+			<Field store="YES" index="ANALYZED" column="title" name="priorityHigh" /> 
+			<Field store="YES" index="ANALYZED" column="description" name="priorityMedium" /> 
 			<Field store="YES" index="NOT_ANALYZED" column="owner" name="owner" /> 
 			<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="subItem" /> 
 			<Field store="YES" index="NOT_ANALYZED" column="mep_id" name="objId" global="NO" /> 
