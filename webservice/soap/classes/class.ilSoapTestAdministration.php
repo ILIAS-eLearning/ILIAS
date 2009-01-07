@@ -128,19 +128,85 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			);
 			$ilDB->query($query);
 		}
-		include_once "./classes/class.ilXmlWriter.php";
-		$writer = new ilXmlWriter();
-		$writer->xmlStartTag("saveQuestion");
-		$writer->xmlStartTag("params");
-		$writer->xmlElement("param", array("name" => "sid"), $sid);
-		$writer->xmlElement("param", array("name" => "active_id"), $active_id);
-		$writer->xmlElement("param", array("name" => "question_id"), $question_id);
-		$writer->xmlElement("param", array("name" => "pass"), $pass);
-		$writer->xmlElement("param", array("name" => "solution"), print_r($solution, TRUE));
-		$writer->xmlEndTag("params");
-		$writer->xmlElement("result", array(), "true");
-		$writer->xmlEndTag("saveQuestion");
-		return $writer->xmlDumpMem();
+		return true;
+	}
+
+	/**
+	 * Save the solution of a question
+	 *
+	 * @param string $sid Session ID
+	 * @param long $active_id Active user ID
+	 * @param integer $question_id Question ID
+	 * @param integer $pass Test pass
+	 * @param string $solution XML string containing the solution
+	 *
+	 * @return array String array containing the question solution (in triplets of value1, value2, points)
+	 */
+	function saveQuestionSolution($sid,$active_id,$question_id,$pass,$solution)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		if (!$this->isAllowedCall($sid, $active_id))
+		{
+			return $this->__raiseError("The required user information is only available for active users.", "");
+		}
+		
+		$solutions = array();
+		if (preg_match("/<values>(.*?)<\\/values>/is", $solution, $matches))
+		{
+			if (preg_match_all("/<value>(.*?)<\\/value><value>(.*?)<\\/value><points>(.*?)<\\/points>/is", $solution, $matches, PREG_SET_ORDER))
+			{
+				foreach ($matches as $match)
+				{
+					if (count($match) == 4)
+					{
+						for ($i = 1; $i < count($match); $i++)
+						{
+							array_push($solutions, trim($match[$i]));
+						}
+					}
+				}
+			}
+		}
+
+		if (count($solutions) == 0)
+		{
+			return $this->__raiseError("Wrong solution data. ILIAS did not find one or more solution triplets: $solution", "");
+		}
+		
+		// Include main header
+		include_once './include/inc.header.php';
+		$ilDB = $GLOBALS['ilDB'];
+		if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0))
+		{
+			$deletequery = sprintf("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote($pass . "")
+			);
+			$ilDB->query($deletequery);
+		}
+		for($i = 0; $i < count($solutions); $i += 3)
+		{
+			$query = sprintf("INSERT INTO tst_solutions ".
+				"SET active_fi = %s, ".
+				"question_fi = %s, ".
+				"value1 = %s, ".
+				"value2 = %s, ".
+				"points = %s, ".
+				"pass = %s",
+				$ilDB->quote($active_id . ""),
+				$ilDB->quote($question_id . ""),
+				$ilDB->quote($solutions[$i]),
+				$ilDB->quote($solutions[$i+1]),
+				$ilDB->quote($solutions[$i+2]),
+				$ilDB->quote($pass . "")
+			);
+			$ilDB->query($query);
+		}
+		return "TRUE";
 	}
 
 	/**
