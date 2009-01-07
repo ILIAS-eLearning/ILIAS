@@ -193,13 +193,13 @@ class ilObjFolder extends ilContainer
 		$zipbasedir = $tmpdir.DIRECTORY_SEPARATOR.$basename;
 		$tmpzipfile = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename;
 		try {
-			$tmpdir = ilObjFolder::recurseFolder ($this->getRefId(), $this->getTitle(), $tmpdir);
+			ilObjFolder::recurseFolder ($this->getRefId(), $this->getTitle(), $tmpdir);
 			ilUtil::zip($zipbasedir, $tmpzipfile);
-			ilUtil::delDir($tmpdir);			
 			ilUtil::deliverFile($tmpzipfile, $deliverFilename, false, true);			
 		} catch (ilFileException $e) {
 			ilUtil::sendInfo($e->getMessage(), true);
 		}
+		ilUtil::delDir($tmpdir);			
 	}
 	
 	/**
