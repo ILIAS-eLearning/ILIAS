@@ -353,6 +353,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 		{
 			array_push($params, "pass=" . $pass);
 		}
+		else
+		{
+			array_push($params, "pass=0");
+		}
 		if ($active_id)
 		{
 			array_push($params, "active_id=" . $active_id);
@@ -478,6 +482,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 		if (strlen($pass))
 		{
 			array_push($params, "pass=" . $pass);
+		}
+		else
+		{
+			array_push($params, "pass=0");
 		}
 		if ($active_id)
 		{
