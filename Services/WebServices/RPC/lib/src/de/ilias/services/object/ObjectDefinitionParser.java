@@ -244,7 +244,8 @@ public class ObjectDefinitionParser {
 					((Element) field).getAttributeValue("store"),
 					((Element) field).getAttributeValue("index"),
 					((Element) field).getAttributeValue("name"),
-					((Element) field).getAttributeValue("column"));
+					((Element) field).getAttributeValue("column"),
+					((Element) field).getAttributeValue("global"));
 			
 			// Add transformers to field definitions
 			for(Object transformer : ((Element) field).getChildren("Transformer")) {

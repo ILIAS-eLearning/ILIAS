@@ -48,9 +48,9 @@ public class FieldDefinition {
 	private Store store;
 	private String column;
 	private String name;
+	private boolean global = true;
 	
 	Vector<TransformerDefinition> transformers = new Vector<TransformerDefinition>();
-	
 	
 	
 	/**
@@ -89,6 +89,18 @@ public class FieldDefinition {
 	 */
 	public FieldDefinition(String store, String index, String name, String column) {
 		
+		this(store,index,name,column,"YES");
+	}
+	
+	/**
+	 * 
+	 * @param store
+	 * @param index
+	 * @param name
+	 * @param column
+	 */
+	public FieldDefinition(String store, String index, String name, String column, String isGlobal) {
+		
 		if(store.equalsIgnoreCase("YES")) {
 			this.store = Store.YES;
 		}
@@ -104,10 +116,16 @@ public class FieldDefinition {
 		else if(index.equalsIgnoreCase("NOT_ANALYZED")) {
 			this.index = Field.Index.NOT_ANALYZED;
 		}
+		if(isGlobal == null || isGlobal.equalsIgnoreCase("YES")) {
+			this.global = true;
+		}
+		else {
+			this.global = false;
+		}
 		this.name = name;
 		this.column = column;
 	}
-	
+
 	/**
 	 * 
 	 * @param store
@@ -206,6 +224,21 @@ public class FieldDefinition {
 		
 		this.transformers.add(trans);
 	}
+	
+	/**
+	 * @param global the global to set
+	 */
+	public void setGlobal(boolean global) {
+		this.global = global;
+	}
+
+	/**
+	 * @return the global
+	 */
+	public boolean isGlobal() {
+		return global;
+	}
+	
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -241,7 +274,7 @@ public class FieldDefinition {
 			
 			if(value != null && value.toString() != "") {
 				logger.debug("Found value: " + purged + " for name: " + getName());
-				DocumentHolder.factory().add(getName(),purged, store, index);
+				DocumentHolder.factory().add(getName(),purged, isGlobal(), store, index);
 			}
 			return;
 		}
@@ -265,4 +298,5 @@ public class FieldDefinition {
 		}
 		return value;
 	}
+
 }

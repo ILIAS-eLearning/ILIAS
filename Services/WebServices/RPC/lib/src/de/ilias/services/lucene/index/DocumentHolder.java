@@ -118,10 +118,13 @@ public class DocumentHolder {
 	 * @param store
 	 * @param index
 	 */
-	public void add(String name, String value,Store store,Index index) {
+	public void add(String name, String value,boolean isGlobal,Store store,Index index) {
 		
 		getDocument().add(new Field(name,value,store,index));
-		getGlobalDocument().add(new Field(name,value,store,index));
+		
+		if(isGlobal) {
+			getGlobalDocument().add(new Field(name,value,store,index));
+		}
 		return;
 	}
 }
