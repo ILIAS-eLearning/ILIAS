@@ -8973,7 +8973,8 @@ style#:#sty_type_qtitle#:#Question Title
 style#:#sty_type_qanswer#:#Answer
 style#:#sty_type_qfeedr#:#Feedback, Right
 style#:#sty_type_qfeedw#:#Feedback, Wrong
-style#:#sty_type_qinput#:#Question Input
+style#:#sty_type_qinput#:#Text Input
+style#:#sty_type_qlinput#:#Long Text Input
 style#:#sty_type_qsubmit#:#Question Submit Buttons
 style#:#sty_type_sco_desc#:#SCO Description
 style#:#sty_type_sco_title#:#SCO Title

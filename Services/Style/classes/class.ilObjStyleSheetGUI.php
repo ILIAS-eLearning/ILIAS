@@ -580,7 +580,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 					break;
 					
 				default:
-//var_dump($cur_parameters[$p]);
 					$input->setValue($cur_parameters[$p]);
 					break;
 			}

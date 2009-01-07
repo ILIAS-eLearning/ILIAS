@@ -179,7 +179,9 @@
 </Style>
 <Style Tag="div" Type="qanswer" Class="Answer">
 </Style>
-<Style Tag="input" Type="qinput" Class="Input">
+<Style Tag="input" Type="qinput" Class="TextInput">
+</Style>
+<Style Tag="textarea" Type="qlinput" Class="LongTextInput">
 </Style>
 <Style Tag="input" Type="qsubmit" Class="Submit">
 </Style>

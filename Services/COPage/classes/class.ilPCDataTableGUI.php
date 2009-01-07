@@ -445,12 +445,13 @@ return parent::edit();
 		// first row style
 		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
 		$fr_style = new ilRadioMatrixInputGUI($this->lng->txt("cont_first_row_style"), "first_row_style");
+		$this->setBasicTableCellStyles();
 		$this->getCharacteristicsOfCurrentStyle("table_cell");	// scorm-2004
 		$chars = $this->getCharacteristics();	// scorm-2004
 		$options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
 		foreach($options as $k => $option)
 		{
-			$options[$k] = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="'.$k.'">'.
+			$options[$k] = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="ilc_table_cell_'.$k.'">'.
 				$option.'</td></tr></table>';
 		}
 			

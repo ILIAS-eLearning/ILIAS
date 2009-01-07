@@ -103,7 +103,7 @@
 <!ELEMENT Paragraph (%text;)*>
 <!ATTLIST Paragraph
 	Language (%langcode;) #REQUIRED
-	Characteristic (Headline1 | Headline2 | Headline3 | Example | Citation | Mnemonic | Additional | List | Remark | Code | TableContent) #IMPLIED
+	Characteristic CDATA #IMPLIED
 	SubCharacteristic CDATA #IMPLIED
 	AutoIndent (y | n) #IMPLIED
 	ShowLineNumbers (y | n) #IMPLIED
