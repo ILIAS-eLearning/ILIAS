@@ -128,11 +128,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			);
 			$ilDB->query($query);
 		}
-		return true;
-/*
 		include_once "./classes/class.ilXmlWriter.php";
 		$writer = new ilXmlWriter();
-		$writer->xmlStartTag("saveQuestion")
+		$writer->xmlStartTag("saveQuestion");
 		$writer->xmlStartTag("params");
 		$writer->xmlElement("param", array("name" => "sid"), $sid);
 		$writer->xmlElement("param", array("name" => "active_id"), $active_id);
@@ -141,9 +139,8 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$writer->xmlElement("param", array("name" => "solution"), print_r($solution, TRUE));
 		$writer->xmlEndTag("params");
 		$writer->xmlElement("result", array(), "true");
-		$writer->xmlEndTag("saveQuestion")
+		$writer->xmlEndTag("saveQuestion");
 		return $writer->xmlDumpMem();
-*/
 	}
 
 	/**
@@ -330,17 +327,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$userdata["login"] = $data["login"];
 			}
 		}
-		include_once "./classes/class.ilXmlWriter.php";
-		$writer = new ilXmlWriter();
-		$writer->xmlStartTag("getTestUserData");
-		$writer->xmlStartTag("params");
-		$writer->xmlElement("param", array("name" => "sid"), $sid);
-		$writer->xmlElement("param", array("name" => "active_id"), $active_id);
-		$writer->xmlEndTag("params");
-		$writer->xmlElement("result", array(), "true");
-		$writer->xmlEndTag("saveQuestion");
-		return $writer->xmlDumpMem();
-//		return array_values($userdata);
+		return array_values($userdata);
 	}
 	
 	/**
