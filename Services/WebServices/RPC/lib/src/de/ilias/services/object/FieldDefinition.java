@@ -31,6 +31,8 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 
 import de.ilias.services.lucene.index.DocumentHolder;
+import de.ilias.services.lucene.transform.ContentTransformer;
+import de.ilias.services.lucene.transform.TransformerFactory;
 
 /**
  * 
@@ -234,14 +236,33 @@ public class FieldDefinition {
 		// TODO: call transformer
 		try {
 			Object value = res.getObject(getColumn());
+			String purged = callTransformers(value.toString());
+			
+			
 			if(value != null && value.toString() != "") {
-				logger.debug("Found value: " + value.toString() + " for name: " + getName());
-				DocumentHolder.factory().add(getName(), value.toString(), store, index);
+				logger.debug("Found value: " + purged + " for name: " + getName());
+				DocumentHolder.factory().add(getName(),purged, store, index);
 			}
 			return;
 		}
 		catch(NullPointerException e) {
 			logger.error(e.getMessage());
 		}
+	}
+
+	/**
+	 * @param string
+	 * @return
+	 */
+	private String callTransformers(String value) {
+
+		for(int i = 0; i < getTransformers().size(); i++) {
+			
+			logger.info(getTransformers().get(i).getName());
+			ContentTransformer trans = TransformerFactory.factory(getTransformers().get(i).getName());
+			if(trans != null) 
+				value = trans.transform(value);
+		}
+		return value;
 	}
 }
