@@ -587,6 +587,41 @@ class ilPCTable extends ilPageContent
 			}
 		}
 	}
+	
+	/**
+	* Set Style Class of table
+	*
+	* @param	string	$a_class		class
+	*/
+	function setClass($a_class)
+	{
+		if (!empty($a_class))
+		{
+			$this->tab_node->set_attribute("Class", $a_class);
+		}
+		else
+		{
+			if ($this->tab_node->has_attribute("Class"))
+			{
+				$this->tab_node->remove_attribute("Class");
+			}
+		}
+	}
+
+	/**
+	* Get characteristic of section.
+	*
+	* @return	string		characteristic
+	*/
+	function getClass()
+	{
+		if (is_object($this->tab_node))
+		{
+			$class =  $this->tab_node->get_attribute("Class");
+			return $class;
+		}
+	}
+
 }
 
 ?>

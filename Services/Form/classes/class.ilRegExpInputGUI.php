@@ -102,7 +102,14 @@ class ilRegExpInputGUI extends ilTextInputGUI
 		{
 			return true;
 		}
-			
+		
+		if ($this->getRequired() && trim($value) == "")
+		{
+			$this->setAlert($lng->txt("msg_input_is_required"));
+
+			return false;
+		}
+
 		$result = preg_match ($this->pattern, $value);
 		if (!$result)
 		{

@@ -109,7 +109,7 @@ class ilPCFileItem extends ilPageContent
 	}
 
 	/**
-	* delete row of cell
+	* Delete file item
 	*/
 	function deleteItem()
 	{

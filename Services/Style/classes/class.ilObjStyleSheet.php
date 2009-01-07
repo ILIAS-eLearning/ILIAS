@@ -36,7 +36,352 @@ class ilObjStyleSheet extends ilObject
 {
 	var $style;
 
+	public static $num_unit = array("px", "em", "ex", "%", "pt", "pc", "in", "mm", "cm");
+	public static $num_unit_no_perc = array("px", "em", "ex", "pt", "pc", "in", "mm", "cm");
+	
+	// css parameters and their attribute values, input type and group
+	public static $parameter = array(
+		"font-size" => array(
+						"values" => array("xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large", "smaller", "larger"),
+						"input" => "fontsize",
+						"group" => "text"),
+		"font-family" => array(
+						"values" => array(),
+						"input" => "text",
+						"group" => "text"),
+		"font-style" => array(
+						"values" => array("italic", "oblique", "normal"),
+						"input" => "select",
+						"group" => "text"),
+		"font-weight" => array(
+						"values" => array("bold", "normal", "bolder", "lighter"),
+						"input" => "select",
+						"group" => "text"),
+		"font-variant" => array(
+						"values" => array("small-caps", "normal"),
+						"input" => "select",
+						"group" => "text"),
+		"font-stretch" => array(
+						"values" => array("wider", "narrower", "condensed", "semi-condensed",
+							"extra-condensed", "ultra-condensed", "expanded", "semi-expanded",
+							"extra-expanded", "ultra-expanded", "normal"),
+						"input" => "select",
+						"group" => "text"),
+		"word-spacing" => array(
+						"values" => array(),
+						"input" => "numeric_no_perc",
+						"group" => "text"),
+		"letter-spacing" => array(
+						"values" => array(),
+						"input" => "numeric_no_perc",
+						"group" => "text"),
+		"text-decoration" => array(
+						"values" => array("underline", "overline", "line-through", "blink", "none"),
+						"input" => "select",
+						"group" => "text"),
+		"text-transform" => array(
+						"values" => array("capitalize", "uppercase", "lowercase", "none"),
+						"input" => "select",
+						"group" => "text"),
+		"color" => array(
+						"values" => array(),
+						"input" => "color",
+						"group" => "text"),
+		"text-indent" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "text"),
+		"line-height" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "text"),
+		"vertical-align" => array(
+						"values" => array("top", "middle", "bottom", "baseline", "sub", "super",
+							"text-top", "text-bottom"),
+						"input" => "select",
+						"group" => "text"),
+		"text-align" => array(
+						"values" => array("left", "center", "right", "justify"),
+						"input" => "select",
+						"group" => "text"),
+		"white-space" => array(
+						"values" => array("normal", "pre", "nowrap"),
+						"input" => "select",
+						"group" => "text"),
+		"margin" => array(
+						"values" => array(),
+						"input" => "trbl_numeric",
+						"subpar" => array("margin", "margin-top", "margin-right",
+							"margin-bottom", "margin-left"),
+						"group" => "margin_and_padding"),
+		"padding" => array(
+						"values" => array(),
+						"input" => "trbl_numeric",
+						"subpar" => array("padding", "padding-top", "padding-right",
+							"padding-bottom", "padding-left"),
+						"group" => "margin_and_padding"),
+		"border-width" => array(
+						"values" => array("thin", "medium", "thick"),
+						"input" => "border_width",
+						"subpar" => array("border-width", "border-top-width", "border-right-width",
+							"border-bottom-width", "border-left-width"),
+						"group" => "border"),
+		"border-color" => array(
+						"values" => array(),
+						"input" => "trbl_color",
+						"subpar" => array("border-color", "border-top-color", "border-right-color",
+							"border-bottom-color", "border-left-color"),
+						"group" => "border"),
+		"border-style" => array(
+						"values" => array("none", "hidden", "dotted", "dashed", "solid", "double",
+							"groove", "ridge", "inset", "outset"),
+						"input" => "border_style",
+						"subpar" => array("border-style", "border-top-style", "border-right-style",
+							"border-bottom-style", "border-left-style"),
+						"group" => "border"),
+						
+		"background-color" => array(
+						"values" => array(),
+						"input" => "color",
+						"group" => "background"),
+		"background-image" => array(
+						"values" => array(),
+						"input" => "background_image",
+						"group" => "background"),
+		"background-repeat" => array(
+						"values" => array("repeat", "repeat-x", "repeat-y", "no-repeat"),
+						"input" => "select",
+						"group" => "background"),
+		"background-attachment" => array(
+						"values" => array("fixed", "scroll"),
+						"input" => "select",
+						"group" => "background"),
+		"background-position" => array(
+						"values" => array("horizontal" => array("left", "center", "right"),
+							"vertical" => array("top", "center", "bottom")),
+						"input" => "background_position",
+						"group" => "background"),
+						
+		"position" => array(
+						"values" => array("absolute", "fixed", "relative", "static"),
+						"input" => "select",
+						"group" => "positioning"),
+		"top" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "positioning"),
+		"bottom" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "positioning"),
+		"left" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "positioning"),
+		"right" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "positioning"),
+		"width" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "positioning"),
+		"height" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "positioning"),
+		"min-height" => array(
+						"values" => array(),
+						"input" => "numeric",
+						"group" => "positioning"),
+		"float" => array(
+						"values" => array("left", "right", "none"),
+						"input" => "select",
+						"group" => "positioning"),
+		"overflow" => array(
+						"values" => array("visible", "hidden", "scroll", "auto"),
+						"input" => "select",
+						"group" => "positioning"),
 
+		"opacity" => array(
+						"values" => array(),
+						"input" => "percentage",
+						"group" => "special"),
+		"cursor" => array(
+						"values" => array("auto", "default", "crosshair", "pointer", "move",
+							"n-resize", "ne-resize", "e-resize", "se-resize", "s-resize", "sw-resize",
+							"w-resize", "nw-resize", "text", "wait", "help"),
+						"input" => "select",
+						"group" => "special"),
+		"clear" => array(
+						"values" => array ("both","left","right","none"),
+						"input" => "select",
+						"group" => "special"),
+						
+		"list-style-type.ol" => array(
+						"values" => array ("decimal","lower-roman","upper-roman",
+							"lower-alpha", "upper-alpha", "lower-greek", "hebrew",
+							"decimal-leading-zero", "cjk-ideographic", "hiragana",
+							"katakana", "hiragana-iroha", "katakana-iroha", "none"),
+						"input" => "select",
+						"group" => "ol"),
+		"list-style-type.ul" => array(
+						"values" => array ("disc","circle","square",
+							"none"),
+						"input" => "select",
+						"group" => "ul"),
+		"list-style-image.ul" => array(
+						"values" => array(),
+						"input" => "background_image",
+						"group" => "ul"),
+		"list-style-position.ol" => array(
+						"values" => array ("inside","outside"),
+						"input" => "select",
+						"group" => "ol"),
+		"list-style-position.ul" => array(
+						"values" => array ("inside","outside"),
+						"input" => "select",
+						"group" => "ul"
+						),
+		"border-collapse" => array(
+						"values" => array ("collapse","separate"),
+						"input" => "select",
+						"group" => "table"
+						),
+		);
+
+	// filter groups of properties that should only be
+	// displayed with matching tag (group -> tags)
+	public static $filtered_groups =
+			array("ol" => array("ol"), "ul" => array("ul"),
+				"table" => array("table"), "positioning" => array("div", "img"));
+
+	// style types and their super type
+	public static $style_super_types = array(
+		"text_block" => array("text_block"),
+		"text_inline" => array("text_inline"),
+		"section" => array("section"),
+		"link" => array("link"),
+		"table" => array("table", "table_cell"),
+		"list" => array("list_o", "list_u", "list_item"),
+		"flist" => array("flist_cont", "flist_head", "flist", "flist_li"),
+		"media" => array("media_cont", "media_caption"),
+		"question" => array("question", "qtitle", "qanswer", "qinput", "qsubmit", "qfeedr", "qfeedw"),
+		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
+			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
+			"page_lnavimage", "page_rnavimage"),
+		"sco" => array("sco_title", "sco_keyw", "sco_desc", "sco_obj")
+		);
+
+	// these types are expandable, i.e. the user can define new style classes
+	public static $expandable_types = array (
+			"text_block", "section", "media_cont", "table", "table_cell", "flist_li"
+		);
+		
+	// tag that are used by style types
+	public static $assigned_tags = array (
+		"text_block" => "div",
+		"text_inline" => "span",
+		"section" => "div",
+		"link" => "a",
+		"table" => "table",
+		"table_cell" => "td",
+		"media_cont" => "table",
+		"media_caption" => "div",
+		"sco_title" => "div",
+		"sco_keyw" => "div",
+		"sco_desc" => "div",
+		"sco_obj" => "div",
+		"list_o" => "ol",
+		"list_u" => "ul",
+		"list_item" => "li",
+		"flist_cont" => "div",
+		"flist_head" => "div",
+		"flist" => "ul",
+		"flist_li" => "li",
+		"question" => "div",
+		"qtitle" => "div",
+		"qanswer" => "div",
+		"qinput" => "input",
+		"qsubmit" => "input",
+		"qfeedr" => "div",
+		"qfeedw" => "div",
+		"page_frame" => "table",
+		"page_cont" => "table",
+		"page_fn" => "div",
+		"page_tnav" => "div",
+		"page_bnav" => "div",
+		"page_lnav" => "div",
+		"page_rnav" => "div",
+		"page_lnavlink" => "a",
+		"page_rnavlink" => "a",
+		"page_lnavimage" => "img",
+		"page_rnavimage" => "img",
+		"page_title" => "div"
+		);
+		
+	// core styles these styles MUST exists
+	public static $core_styles = array(
+			array("type" => "text_block", "class" => "Standard"),
+			array("type" => "text_block", "class" => "List"),
+			array("type" => "text_block", "class" => "TableContent"),
+			array("type" => "text_block", "class" => "Headline1"),
+			array("type" => "text_block", "class" => "Headline2"),
+			array("type" => "text_block", "class" => "Headline3"),
+			array("type" => "text_inline", "class" => "Comment"),
+			array("type" => "text_inline", "class" => "Emph"),
+			array("type" => "text_inline", "class" => "Quotation"),
+			array("type" => "text_inline", "class" => "Strong"),
+			array("type" => "link", "class" => "IntLink"),
+			array("type" => "link", "class" => "ExtLink"),
+			array("type" => "link", "class" => "FootnoteLink"),
+			array("type" => "media_cont", "class" => "MediaContainer"),
+			array("type" => "table", "class" => "StandardTable"),
+			array("type" => "media_caption", "class" => "MediaCaption"),
+			array("type" => "page_frame", "class" => "PageFrame"),
+			array("type" => "page_cont", "class" => "PageContainer"),
+			array("type" => "page_tnav", "class" => "TopNavigation"),
+			array("type" => "page_bnav", "class" => "BottomNavigation"),
+			array("type" => "page_lnav", "class" => "LeftNavigation"),
+			array("type" => "page_rnav", "class" => "RightNavigation"),
+			array("type" => "page_lnavlink", "class" => "LeftNavigationLink"),
+			array("type" => "page_rnavlink", "class" => "RightNavigationLink"),
+			array("type" => "page_lnavimage", "class" => "LeftNavigationImage"),
+			array("type" => "page_rnavimage", "class" => "RightNavigationImage"),
+			array("type" => "page_fn", "class" => "Footnote"),
+			array("type" => "page_title", "class" => "PageTitle"),
+			array("type" => "sco_title", "class" => "Title"),
+			array("type" => "sco_desc", "class" => "Description"),
+			array("type" => "sco_keyw", "class" => "Keywords"),
+			array("type" => "sco_obj", "class" => "Objective"),
+			array("type" => "list_o", "class" => "NumberedList"),
+			array("type" => "list_u", "class" => "BulletedList"),
+			array("type" => "list_item", "class" => "StandardListItem"),
+			array("type" => "question", "class" => "Standard"),
+			array("type" => "question", "class" => "SingleChoice"),
+			array("type" => "question", "class" => "MultipleChoice"),
+			array("type" => "question", "class" => "TextQuestion"),
+			array("type" => "question", "class" => "OrderingQuestion"),
+			array("type" => "question", "class" => "MatchingQuestion"),
+			array("type" => "question", "class" => "ImagemapQuestion"),
+			array("type" => "question", "class" => "ClozeTest"),
+			array("type" => "qtitle", "class" => "Title"),
+			array("type" => "qanswer", "class" => "Answer"),
+			array("type" => "qinput", "class" => "Input"),
+			array("type" => "qsubmit", "class" => "Submit"),
+			array("type" => "qfeedr", "class" => "FeedbackRight"),
+			array("type" => "qfeedw", "class" => "FeedbackWrong"),
+			array("type" => "flist_cont", "class" => "FileListContainer"),
+			array("type" => "flist_head", "class" => "FileListHeading"),
+			array("type" => "flist", "class" => "FileList"),
+			array("type" => "flist_li", "class" => "FileListItem")
+		);
+	
+	// basic style xml file, image directory and dom
+	protected static $basic_style_file = "./Services/Style/basic_style/style.xml";
+	protected static $basic_style_image_dir = "./Services/Style/basic_style/images";
+	protected static $basic_style_dom;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -55,47 +400,74 @@ class ilObjStyleSheet extends ilObject
 		parent::ilObject($a_id, false);
 	}
 
+	/**
+	* Set ref id (show error message, since styles do not use ref ids)
+	*/
 	function setRefId()
 	{
 		$this->ilias->raiseError("Operation ilObjStyleSheet::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
+	/**
+	* Get ref id (show error message, since styles do not use ref ids)
+	*/
 	function getRefId()
 	{
 		return "";
 		//$this->ilias->raiseError("Operation ilObjStyleSheet::getRefId() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
+	/**
+	* Put in tree (show error message, since styles do not use ref ids)
+	*/
 	function putInTree()
 	{
 		$this->ilias->raiseError("Operation ilObjStyleSheet::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
+	/**
+	* Create a reference (show error message, since styles do not use ref ids)
+	*/
 	function createReference()
 	{
 		$this->ilias->raiseError("Operation ilObjStyleSheet::createReference() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
+	/**
+	* Set style up to date (false + update will trigger css generation next time)
+	*/
 	function setUpToDate($a_up_to_date = true)
 	{
 		$this->up_to_date = $a_up_to_date;
 	}
 	
+	/**
+	* Get up to date
+	*/
 	function getUpToDate()
 	{
 		return $this->up_to_date;
 	}
 
+	/**
+	* Set scope
+	*/
 	function setScope($a_scope)
 	{
 		$this->scope = $a_scope;
 	}
 	
+	/**
+	* Get scope
+	*/
 	function getScope()
 	{
 		return $this->scope;
 	}
 
+	/**
+	* Write up to date
+	*/
 	function _writeUpToDate($a_id, $a_up_to_date)
 	{
 		global $ilDB;
@@ -106,7 +478,7 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* 
+	* Looup up to date
 	*/
 	function _lookupUpToDate($a_id)
 	{
@@ -121,7 +493,7 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* write standard flag
+	* Write standard flag
 	*/
 	function _writeStandard($a_id, $a_std)
 	{
@@ -133,7 +505,7 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* write standard flag
+	* Write scope
 	*/
 	function _writeScope($a_id, $a_scope)
 	{
@@ -145,7 +517,7 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* lookup standard flag
+	* Lookup standard flag
 	*/
 	function _lookupStandard($a_id)
 	{
@@ -160,7 +532,7 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* write active flag
+	* Write active flag
 	*/
 	function _writeActive($a_id, $a_active)
 	{
@@ -172,7 +544,7 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* lookup active flag
+	* Lookup active flag
 	*/
 	function _lookupActive($a_id)
 	{
@@ -187,7 +559,7 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
-	* get standard styles
+	* Get standard styles
 	*/
 	function _getStandardStyles($a_exclude_default_style = false,
 		$a_include_deactivated = false, $a_scope = 0)
@@ -232,9 +604,8 @@ class ilObjStyleSheet extends ilObject
 	
 	
 	/**
-	* get all clonable styles (active standard styles and individual learning
-	* module styles with write permission)
-	*
+	* Get all clonable styles (active standard styles and individual learning
+	* module styles with write permission).
 	*/
 	function _getClonableContentStyles()
 	{
@@ -289,6 +660,22 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
+	* Get basic style dom
+	*/
+	static function _getBasicStyleDom()
+	{
+		global $ilBench;
+
+		if (!is_object(self::$basic_style_dom))
+		{
+			self::$basic_style_dom = new DOMDocument();
+			self::$basic_style_dom->load(self::$basic_style_file);
+		}
+
+		return self::$basic_style_dom;
+	}
+
+	/**
 	* get meta data object
 	*/
 	function &getMetaData()
@@ -296,6 +683,9 @@ class ilObjStyleSheet extends ilObject
 		return $this->meta_data;
 	}
 
+	/**
+	* Create a new style
+	*/
 	function create($a_from_style = 0)
 	{
 		global $ilDB;
@@ -304,189 +694,157 @@ class ilObjStyleSheet extends ilObject
 
 		if ($a_from_style == 0)
 		{
-			$def = array(
-				array("tag" => "div", "class" => "PageTitle", "parameter" => "margin-top" ,"value" => "5px"),
-				array("tag" => "div", "class" => "PageTitle", "parameter" => "margin-bottom" ,"value" => "20px"),
-				array("tag" => "div", "class" => "PageTitle", "parameter" => "font-size" ,"value" => "140%"),
-				array("tag" => "div", "class" => "PageTitle", "parameter" => "padding-bottom" ,"value" => "3px"),
-				array("tag" => "div", "class" => "PageTitle", "parameter" => "border-bottom-width" ,"value" => "1px"),
-				array("tag" => "div", "class" => "PageTitle", "parameter" => "border-bottom-style" ,"value" => "solid"),
-				array("tag" => "div", "class" => "PageTitle", "parameter" => "border-color" ,"value" => "#000000"),
-	
-				array("tag" => "span", "class" => "Strong", "parameter" => "font-weight" ,"value" => "bold"),
-				array("tag" => "span", "class" => "Emph", "parameter" => "font-style" ,"value" => "italic"),
-				array("tag" => "span", "class" => "Comment", "parameter" => "color" ,"value" => "green"),
-				array("tag" => "span", "class" => "Quotation", "parameter" => "color" ,"value" => "brown"),
-				array("tag" => "span", "class" => "Quotation", "parameter" => "font-style" ,"value" => "italic"),
-	
-				array("tag" => "a", "class" => "FootnoteLink", "parameter" => "color" ,"value" => "blue"),
-				array("tag" => "a", "class" => "FootnoteLink", "parameter" => "font-weight" ,"value" => "normal"),
-				array("tag" => "a", "class" => "FootnoteLink:hover", "parameter" => "color" ,"value" => "#000000"),
-				array("tag" => "div", "class" => "Footnote", "parameter" => "margin-top" ,"value" => "5px"),
-				array("tag" => "div", "class" => "Footnote", "parameter" => "margin-bottom" ,"value" => "5px"),
-				array("tag" => "div", "class" => "Footnote", "parameter" => "font-style" ,"value" => "italic"),
-	
-				array("tag" => "a", "class" => "IntLink", "parameter" => "color" ,"value" => "blue"),
-				array("tag" => "a", "class" => "IntLink:visited", "parameter" => "color" ,"value" => "blue"),
-				array("tag" => "a", "class" => "IntLink", "parameter" => "font-weight" ,"value" => "normal"),
-				array("tag" => "a", "class" => "IntLink", "parameter" => "text-decoration" ,"value" => "underline"),
-				array("tag" => "a", "class" => "IntLink:hover", "parameter" => "color" ,"value" => "#000000"),
-	
-				array("tag" => "a", "class" => "ExtLink", "parameter" => "color" ,"value" => "blue"),
-				array("tag" => "a", "class" => "ExtLink:visited", "parameter" => "color" ,"value" => "blue"),
-				array("tag" => "a", "class" => "ExtLink", "parameter" => "font-weight" ,"value" => "normal"),
-				array("tag" => "a", "class" => "ExtLink", "parameter" => "text-decoration" ,"value" => "underline"),
-				array("tag" => "a", "class" => "ExtLink:hover", "parameter" => "color" ,"value" => "#000000"),
-	
-				array("tag" => "div", "class" => "LMNavigation", "parameter" => "background-color" ,"value" => "#EEEEEE"),
-				array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-style" ,"value" => "outset"),
-				array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-color" ,"value" => "#EEEEEE"),
-				array("tag" => "div", "class" => "LMNavigation", "parameter" => "border-width" ,"value" => "1px"),
-				array("tag" => "div", "class" => "Page", "parameter" => "background-color" ,"value" => "#FFFFFF"),
-				array("tag" => "div", "class" => "Page", "parameter" => "padding" ,"value" => "0px"),
-				array("tag" => "div", "class" => "Page", "parameter" => "margin" ,"value" => "0px"),
-				array("tag" => "td", "class" => "Cell1", "parameter" => "background-color" ,"value" => "#FFCCCC"),
-				array("tag" => "td", "class" => "Cell2", "parameter" => "background-color" ,"value" => "#CCCCFF"),
-				array("tag" => "td", "class" => "Cell3", "parameter" => "background-color" ,"value" => "#CCFFCC"),
-				array("tag" => "td", "class" => "Cell4", "parameter" => "background-color" ,"value" => "#FFFFCC"),
-	
-				array("tag" => "div", "class" => "Standard", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Standard", "parameter" => "margin-bottom" ,"value" => "10px"),
-	
-				array("tag" => "div", "class" => "List", "parameter" => "margin-top" ,"value" => "3px"),
-				array("tag" => "div", "class" => "List", "parameter" => "margin-bottom" ,"value" => "3px"),
-	
-				array("tag" => "div", "class" => "Headline1", "parameter" => "margin-top" ,"value" => "20px"),
-				array("tag" => "div", "class" => "Headline1", "parameter" => "margin-bottom" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Headline1", "parameter" => "font-size" ,"value" => "140%"),
-	
-				array("tag" => "div", "class" => "Headline2", "parameter" => "margin-top" ,"value" => "20px"),
-				array("tag" => "div", "class" => "Headline2", "parameter" => "margin-bottom" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Headline2", "parameter" => "font-size" ,"value" => "130%"),
-	
-				array("tag" => "div", "class" => "Headline3", "parameter" => "margin-top" ,"value" => "20px"),
-				array("tag" => "div", "class" => "Headline3", "parameter" => "margin-bottom" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Headline3", "parameter" => "font-size" ,"value" => "120%"),
-	
-				array("tag" => "div", "class" => "Example", "parameter" => "padding-left" ,"value" => "20px"),
-				array("tag" => "div", "class" => "Example", "parameter" => "border-left-width" ,"value" => "3px"),
-				array("tag" => "div", "class" => "Example", "parameter" => "border-left-style" ,"value" => "solid"),
-				array("tag" => "div", "class" => "Example", "parameter" => "border-left-color" ,"value" => "blue"),
-				array("tag" => "div", "class" => "Example", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Example", "parameter" => "margin-bottom" ,"value" => "10px"),
-	
-				array("tag" => "div", "class" => "Citation", "parameter" => "color" ,"value" => "brown"),
-				array("tag" => "div", "class" => "Citation", "parameter" => "font-style" ,"value" => "italic"),
-				array("tag" => "div", "class" => "Citation", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Citation", "parameter" => "margin-bottom" ,"value" => "10px"),
-	
-				array("tag" => "div", "class" => "Mnemonic", "parameter" => "margin-left" ,"value" => "20px"),
-				array("tag" => "div", "class" => "Mnemonic", "parameter" => "margin-right" ,"value" => "20px"),
-				array("tag" => "div", "class" => "Mnemonic", "parameter" => "padding" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Mnemonic", "parameter" => "border-width" ,"value" => "2px"),
-				array("tag" => "div", "class" => "Mnemonic", "parameter" => "border-style" ,"value" => "solid"),
-				array("tag" => "div", "class" => "Mnemonic", "parameter" => "border-color" ,"value" => "red"),
-				array("tag" => "div", "class" => "Mnemonic", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Mnemonic", "parameter" => "margin-bottom" ,"value" => "10px"),
-	
-				array("tag" => "div", "class" => "Additional", "parameter" => "padding" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Additional", "parameter" => "border-width" ,"value" => "1px"),
-				array("tag" => "div", "class" => "Additional", "parameter" => "border-style" ,"value" => "solid"),
-				array("tag" => "div", "class" => "Additional", "parameter" => "border-color" ,"value" => "blue"),
-				array("tag" => "div", "class" => "Additional", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Additional", "parameter" => "margin-bottom" ,"value" => "10px"),
-	
-				array("tag" => "div", "class" => "Remark", "parameter" => "padding" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Remark", "parameter" => "border-width" ,"value" => "1px"),
-				array("tag" => "div", "class" => "Remark", "parameter" => "border-style" ,"value" => "solid"),
-				array("tag" => "div", "class" => "Remark", "parameter" => "border-color" ,"value" => "#909090"),
-				array("tag" => "div", "class" => "Remark", "parameter" => "background-color" ,"value" => "#D0D0D0"),
-				array("tag" => "div", "class" => "Remark", "parameter" => "text-align" ,"value" => "center"),
-				array("tag" => "div", "class" => "Remark", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Remark", "parameter" => "margin-bottom" ,"value" => "10px"),
-
-				array("tag" => "div", "class" => "Block", "parameter" => "padding-left" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Block", "parameter" => "padding-right" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Block", "parameter" => "padding-top" ,"value" => "5px"),
-				array("tag" => "div", "class" => "Block", "parameter" => "padding-bottom" ,"value" => "5px"),
-				array("tag" => "div", "class" => "Block", "parameter" => "border-width" ,"value" => "1px"),
-				array("tag" => "div", "class" => "Block", "parameter" => "border-style" ,"value" => "solid"),
-				array("tag" => "div", "class" => "Block", "parameter" => "border-color" ,"value" => "#A0A0A0"),
-				array("tag" => "div", "class" => "Block", "parameter" => "background-color" ,"value" => "#FFFFFF"),
-				array("tag" => "div", "class" => "Block", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Block", "parameter" => "margin-bottom" ,"value" => "10px"),
-
-				array("tag" => "div", "class" => "Special", "parameter" => "padding-left" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Special", "parameter" => "padding-right" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Special", "parameter" => "padding-top" ,"value" => "5px"),
-				array("tag" => "div", "class" => "Special", "parameter" => "padding-bottom" ,"value" => "5px"),
-				array("tag" => "div", "class" => "Special", "parameter" => "border-width" ,"value" => "1px"),
-				array("tag" => "div", "class" => "Special", "parameter" => "border-style" ,"value" => "solid"),
-				array("tag" => "div", "class" => "Special", "parameter" => "border-color" ,"value" => "#A0A0A0"),
-				array("tag" => "div", "class" => "Special", "parameter" => "background-color" ,"value" => "#FFF7F7"),
-				array("tag" => "div", "class" => "Special", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Special", "parameter" => "margin-bottom" ,"value" => "10px"),
-
-				array("tag" => "div", "class" => "Excursus", "parameter" => "padding-left" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "padding-right" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "padding-top" ,"value" => "5px"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "padding-bottom" ,"value" => "5px"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "border-width" ,"value" => "1px"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "border-style" ,"value" => "solid"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "border-color" ,"value" => "#A0A0A0"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "background-color" ,"value" => "#F7FFF7"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "margin-top" ,"value" => "10px"),
-				array("tag" => "div", "class" => "Excursus", "parameter" => "margin-bottom" ,"value" => "10px"),
-
-				array("tag" => "div", "class" => "TableContent", "parameter" => "margin-left" ,"value" => "0px"),
-				array("tag" => "div", "class" => "TableContent", "parameter" => "margin-right" ,"value" => "0px"),
-				array("tag" => "div", "class" => "TableContent", "parameter" => "margin-top" ,"value" => "0px"),
-				array("tag" => "div", "class" => "TableContent", "parameter" => "margin-bottom" ,"value" => "0px"),
-				array("tag" => "div", "class" => "TableContent", "parameter" => "padding-left" ,"value" => "0px"),
-				array("tag" => "div", "class" => "TableContent", "parameter" => "padding-right" ,"value" => "0px"),
-				array("tag" => "div", "class" => "TableContent", "parameter" => "padding-top" ,"value" => "0px"),
-				array("tag" => "div", "class" => "TableContent", "parameter" => "padding-bottom" ,"value" => "0px"),
-	
-				array("tag" => "table", "class" => "Media", "parameter" => "background-color" ,"value" => "#F5F5F5"),
-				array("tag" => "table", "class" => "Media", "parameter" => "padding" ,"value" => "0px"),
-				array("tag" => "table", "class" => "Media", "parameter" => "margin" ,"value" => "10px"),
-	
-				array("tag" => "td", "class" => "MediaCaption", "parameter" => "padding" ,"value" => "5px")
-			);
+			// copy styles from basic style
+			$this->createFromXMLFile(self::$basic_style_file, true);
+			
+			// copy images from basic style
+			$this->createImagesDirectory();
+			ilUtil::rCopy(self::$basic_style_image_dir,
+				$this->getImagesDirectory());
 		}
 		else
 		{
+			// get style parameter records
 			$def = array();
 			$q = "SELECT * FROM style_parameter WHERE style_id = ".$ilDB->quote($a_from_style);
 			$par_set = $ilDB->query($q);
 			while($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$def[] = array("tag" => $par_rec["tag"], "class" => $par_rec["class"],
-					"parameter" => $par_rec["parameter"] ,"value" => $par_rec["value"]);
+					"parameter" => $par_rec["parameter"], "value" => $par_rec["value"],
+					"type" => $par_rec["type"]);
 			}
-		}
+			
+			// get style characteristics records
+			$chars = array();
+			$q = "SELECT * FROM style_char WHERE style_id = ".$ilDB->quote($a_from_style);
+			$par_set = $ilDB->query($q);
+			while($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$chars[] = array("type" => $par_rec["type"], "characteristic" => $par_rec["characteristic"]);
+			}
 
-		// default style settings
-		foreach ($def as $sty)
-		{
-			$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
-				"(".$ilDB->quote($this->getId()).",".
-				$ilDB->quote($sty["tag"]).",".
-				$ilDB->quote($sty["class"]).",".
-				$ilDB->quote($sty["parameter"]).",".
-				$ilDB->quote($sty["value"]).")";
+			// default style settings
+			foreach ($def as $sty)
+			{
+				$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value, type) VALUES ".
+					"(".$ilDB->quote($this->getId()).",".
+					$ilDB->quote($sty["tag"]).",".
+					$ilDB->quote($sty["class"]).",".
+					$ilDB->quote($sty["parameter"]).",".
+					$ilDB->quote($sty["value"]).",".
+					$ilDB->quote($sty["type"]).")";
+				$ilDB->query($q);
+			}
+			
+			// insert style characteristics
+			foreach ($chars as $char)
+			{
+				$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
+					"(".$ilDB->quote($this->getId()).",".
+					$ilDB->quote($char["type"]).",".
+					$ilDB->quote($char["characteristic"]).")";
+				$ilDB->query($q);
+			}
+			
+			// add style_data record
+			$q = "INSERT INTO style_data (id, uptodate, category) VALUES ".
+				"(".$ilDB->quote($this->getId()).", 0,".
+				$ilDB->quote($this->getScope()).")";
 			$ilDB->query($q);
+			
+			// copy images
+			$from_style = new ilObjStyleSheet($a_from_style);
+			$this->createImagesDirectory();
+			ilUtil::rCopy($from_style->getImagesDirectory(),
+				$this->getImagesDirectory());
 		}
-		
-		// add style_data record
-		$q = "INSERT INTO style_data (id, uptodate, category) VALUES ".
-			"(".$ilDB->quote($this->getId()).", 0,".
-			$ilDB->quote($this->getScope()).")";
-		$ilDB->query($q);
 
 		$this->read();
 		$this->writeCSSFile();
 	}
+	
+	/**
+	* Delete Characteristic
+	*/
+	function deleteCharacteristic($a_type, $a_tag, $a_class)
+	{
+		global $ilDB;
+		
+		// check, if characteristic is not a core style
+		$core_styles = ilObjStyleSheet::_getCoreStyles();
+		if (empty($core_styles[$a_type.".".$a_tag.".".$a_class]))
+		{
+			// delete characteristic record
+			$st = $ilDB->prepareManip("DELETE FROM style_char WHERE style_id = ? AND type = ? AND characteristic = ?",
+				array("integer", "text", "text"));
+			$ilDB->execute($st, array($this->getId(), $a_type, $a_class));
+			
+			// delete parameter records
+			$st = $ilDB->prepareManip("DELETE FROM style_parameter WHERE style_id = ? AND tag = ? AND type = ? AND class = ?",
+				array("integer", "text", "text", "text"));
+			$ilDB->execute($st, array($this->getId(), $a_tag, $a_type, $a_class));
+		}
+		
+		$this->setUpToDate(false);
+		$this->_writeUpToDate($this->getId(), false);
+	}
+	
+	/**
+	* Check whether characteristic exists
+	*/
+	function characteristicExists($a_char, $a_style_type)
+	{
+		global $ilDB;
+		
+		// delete characteristic record
+		$st = $ilDB->prepare("SELECT * FROM style_char WHERE style_id = ? AND characteristic = ? AND type = ?",
+			array("integer", "text", "text"));
+		$set = $ilDB->execute($st, array($this->getId(), $a_char, $a_style_type));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	* Check whether characteristic exists
+	*/
+	function addCharacteristic($a_type, $a_char)
+	{
+		global $ilDB;
+		
+		// delete characteristic record
+		$st = $ilDB->prepareManip("INSERT INTO style_char (style_id, type, characteristic)".
+			" VALUES (?,?,?) ", array("integer", "text", "text"));
+		$ilDB->execute($st, array($this->getId(), $a_type, $a_char));
+		
+		$this->setUpToDate(false);
+		$this->_writeUpToDate($this->getId(), false);
+	}
+
+	/**
+	* Get characteristics
+	*/
+	function getCharacteristics($a_type = "")
+	{
+		if ($a_type == "")
+		{
+			return $this->chars;
+		}
+		return $this->chars_by_type[$a_type];
+	}
+	
+	/**
+	* Set characteristics
+	*/
+	function setCharacteristics($a_chars)
+	{
+		$this->chars = $a_chars;
+		// $this->chars_by_type[$a_type];
+	}
+
 	
 	/**
 	* clone style sheet (note: styles have no ref ids and return an object id)
@@ -512,17 +870,18 @@ class ilObjStyleSheet extends ilObject
 	* write style parameter to db
 	*
 	* @param	string		$a_tag		tag name		(tag.class, e.g. "div.Mnemonic")
-	* @param	string		$a_par		tag parameter	(e.g. "margin-left")	
+	* @param	string		$a_par		tag parameter	(e.g. "margin-left")
+	* @param	string		$a_type		style type		(e.g. "section")	
 	*/
-	function addParameter($a_tag, $a_par)
+	function addParameter($a_tag, $a_par, $a_type)
 	{
 		global $ilDB;
 		
 		$avail_params = $this->getAvailableParameters();
 		$tag = explode(".", $a_tag);
 		$value = $avail_params[$a_par][0];
-		$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
-			"(".$ilDB->quote($this->getId()).",".$ilDB->quote($tag[0]).",".
+		$q = "INSERT INTO style_parameter (style_id, type, tag, class, parameter, value) VALUES ".
+			"(".$ilDB->quote($this->getId()).",".$ilDB->quote($a_type).",".$ilDB->quote($tag[0]).",".
 			$ilDB->quote($tag[1]).
 			",".$ilDB->quote($a_par).",".$ilDB->quote($value).")";
 		$this->ilias->db->query($q);
@@ -530,6 +889,137 @@ class ilObjStyleSheet extends ilObject
 		$this->writeCSSFile();
 	}
 
+	/**
+	* Create images directory
+	* <data_dir>/sty/sty_<id>/images
+	*/
+	function createImagesDirectory()
+	{
+		return ilObjStyleSheet::_createImagesDirectory($this->getId());
+	}
+	
+	/**
+	* Create images directory
+	* <data_dir>/sty/sty_<id>/images
+	*/
+	static function _createImagesDirectory($a_style_id)
+	{
+		global $ilErr;
+		
+		$sty_data_dir = ilUtil::getWebspaceDir()."/sty";
+		ilUtil::makeDir($sty_data_dir);
+		if(!is_writable($sty_data_dir))
+		{
+			$ilErr->raiseError("Style data directory (".$sty_data_dir
+				.") not writeable.", $ilErr->FATAL);
+		}
+ 
+		$style_dir = $sty_data_dir."/sty_".$a_style_id;
+		ilUtil::makeDir($style_dir);
+		if(!@is_dir($style_dir))
+		{
+			$ilErr->raiseError("Creation of style directory failed (".
+				$style_dir.").",$ilErr->FATAL);
+		}
+
+		// create images subdirectory
+		$im_dir = $style_dir."/images";
+		ilUtil::makeDir($im_dir);
+		if(!@is_dir($im_dir))
+		{
+			$ilErr->raiseError("Creation of Import Directory failed (".
+				$im_dir.").", $ilErr->FATAL);
+		}
+
+		// create thumbnails directory
+		$thumb_dir = $style_dir."/images/thumbnails";
+		ilUtil::makeDir($thumb_dir);
+		if(!@is_dir($thumb_dir))
+		{
+			$ilErr->raiseError("Creation of Import Directory failed (".
+				$thumb_dir.").", $ilErr->FATAL);
+		}
+	}
+	
+	/**
+	* Get images directory
+	*/
+	function getImagesDirectory()
+	{
+		return ilObjStyleSheet::_getImagesDirectory($this->getId());
+	}
+
+	/**
+	* Get images directory
+	*/
+	static function _getImagesDirectory($a_style_id)
+	{
+		return ilUtil::getWebspaceDir()."/sty/sty_".$a_style_id.
+			"/images";
+	}
+
+	/**
+	* Get thumbnails directory
+	*/
+	function getThumbnailsDirectory()
+	{
+		return $this->getImagesDirectory().
+			"/thumbnails";
+	}
+
+	/**
+	* Get images of style
+	*/
+	function getImages()
+	{
+		$dir = $this->getImagesDirectory();
+		$images = array();
+		if (is_dir($dir))
+		{
+			$entries = ilUtil::getDir($dir);
+			foreach($entries as $entry)
+			{
+				if (($entry["entry"] == ".") || ($entry["entry"] == ".."))
+				{
+					continue;
+				}
+				if ($entry["type"] != "dir")
+				{
+					$images[] = $entry;
+				}
+			}
+		}
+		
+		return $images;
+	}
+	
+	/**
+	* Upload image
+	*/
+	function uploadImage($a_file)
+	{
+		$this->createImagesDirectory();
+		@ilUtil::moveUploadedFile($a_file["tmp_name"], $a_file["name"],
+			$this->getImagesDirectory()."/".$a_file["name"]);
+		@ilUtil::resizeImage($this->getImagesDirectory()."/".$a_file["name"],
+			$this->getThumbnailsDirectory()."/".$a_file["name"], 75, 75);
+	}
+	
+	/**
+	* Delete an image
+	*/
+	function deleteImage($a_file)
+	{
+		if (is_file($this->getImagesDirectory()."/".$a_file))
+		{
+			unlink($this->getImagesDirectory()."/".$a_file);
+		}
+		if (is_file($this->getThumbnailsDirectory()."/".$a_file))
+		{
+			unlink($this->getThumbnailsDirectory()."/".$a_file);
+		}
+	}
+	
 	/**
 	* delete style parameter
 	*
@@ -547,7 +1037,7 @@ class ilObjStyleSheet extends ilObject
 	* delete style parameter by tag/class/parameter
 	*
 	*/
-	function deleteStylePar($a_tag, $a_class, $a_par)
+	function deleteStylePar($a_tag, $a_class, $a_par, $a_type)
 	{
 		global $ilDB;
 		
@@ -555,6 +1045,7 @@ class ilObjStyleSheet extends ilObject
 			" style_id = ".$ilDB->quote($this->getId())." AND ".
 			" tag = ".$ilDB->quote($a_tag)." AND ".
 			" class = ".$ilDB->quote($a_class)." AND ".
+			" type = ".$ilDB->quote($a_type)." AND ".
 			" parameter = ".$ilDB->quote($a_par);
 
 		$this->ilias->db->query($q);
@@ -616,14 +1107,16 @@ class ilObjStyleSheet extends ilObject
 		parent::read();
 
 		$q = "SELECT * FROM style_parameter WHERE style_id = ".
-			$ilDB->quote($this->getId())." ORDER BY tag, class ";
+			$ilDB->quote($this->getId())." ORDER BY tag, class, type ";
 		$style_set = $this->ilias->db->query($q);
 		$ctag = "";
 		$cclass = "";
+		$ctype = "";
 		$this->style = array();
 		while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			if ($style_rec["tag"] != $ctag || $style_rec["class"] != $cclass)
+			if ($style_rec["tag"] != $ctag || $style_rec["class"] != $cclass
+				|| $style_rec["type"] != $ctype)
 			{
 				// add current tag array to style array
 				if(is_array($tag))
@@ -634,6 +1127,7 @@ class ilObjStyleSheet extends ilObject
 			}
 			$ctag = $style_rec["tag"];
 			$cclass = $style_rec["class"];
+			$ctype = $style_rec["type"];
 			$tag[] = $style_rec;
 		}
 		if(is_array($tag))
@@ -647,6 +1141,17 @@ class ilObjStyleSheet extends ilObject
 		$this->setUpToDate((boolean) $sty["uptodate"]);
 		$this->setScope($sty["category"]);
 		
+		// get style characteristics records
+		$this->chars = array();
+		$this->chars_by_type = array();
+		$q = "SELECT * FROM style_char WHERE style_id = ".$ilDB->quote($this->getId()).
+			" ORDER BY type ASC, characteristic ASC";
+		$par_set = $ilDB->query($q);
+		while($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->chars[] = array("type" => $par_rec["type"], "class" => $par_rec["characteristic"]);
+			$this->chars_by_type[$par_rec["type"]][] = $par_rec["characteristic"];
+		}
 	}
 
 	/**
@@ -670,22 +1175,82 @@ class ilObjStyleSheet extends ilObject
 
 		foreach ($style as $tag)
 		{
-			fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["class"]."\n");
+			fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
 			fwrite ($css_file, "{\n");
+
+			// collect table border attributes
+			$t_border = array();
 
 			foreach($tag as $par)
 			{
-				fwrite ($css_file, "\t".$par["parameter"].": ".$par["value"].";\n");
+				$cur_par = $par["parameter"];
+				$cur_val = $par["value"];
+				
+				if ($tag[0]["type"] == "table" && is_int(strpos($par["parameter"], "border")))
+				{
+					$t_border[$cur_par] = $cur_val;
+				}
+				
+				if (in_array($cur_par, array("background-image", "list-style-image")))
+				{
+					if (is_int(strpos($cur_val, "/")))	// external
+					{
+						$cur_val = "url(".$cur_val.")";
+					}
+					else		// internal
+					{
+						$cur_val = "url(../sty/sty_".$this->getId()."/images/".$cur_val.")";
+					}
+				}
+				
+				if ($cur_par == "opacity")
+				{
+					$cur_val = ((int) $cur_val) / 100;
+				}
+				
+				fwrite ($css_file, "\t".$cur_par.": ".$cur_val.";\n");
+				
+				// IE6 fix for minimum height
+				if ($cur_par == "min-height")
+				{
+					fwrite ($css_file, "\t"."height".": "."auto !important".";\n");
+					fwrite ($css_file, "\t"."height".": ".$cur_val.";\n");
+				}
+				
+				// opacity fix
+				if ($cur_par == "opacity")
+				{
+					fwrite ($css_file, "\t".'-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity='.($cur_val * 100).')"'.";\n");
+					fwrite ($css_file, "\t".'filter: alpha(opacity='.($cur_val * 100).')'.";\n");
+					fwrite ($css_file, "\t".'-moz-opacity: '.$cur_val.";\n");
+				}
 				
 				// save page background
 				if ($tag[0]["tag"] == "div" && $tag[0]["class"] == "Page"
-					&& $par["parameter"] == "background-color")
+					&& $cur_par == "background-color")
 				{
-					$page_background = $par["value"];
+					$page_background = $cur_val;
 				}
 			}
 			fwrite ($css_file, "}\n");
 			fwrite ($css_file, "\n");
+			
+			// use table border attributes for th td as well
+			if ($tag[0]["type"] == "table")
+			{
+				if (count($t_border) > 0)
+				{
+					fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." th,".
+						$tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." td\n");
+					fwrite ($css_file, "{\n");
+					foreach ($t_border as $p => $v)
+					{
+//						fwrite ($css_file, "\t".$p.": ".$v.";\n");
+					}
+					fwrite ($css_file, "}\n");
+					fwrite ($css_file, "\n");
+				}
+			}
 		}
 		
 		if ($page_background != "")
@@ -787,7 +1352,7 @@ class ilObjStyleSheet extends ilObject
 	function updateStyleParameter($a_id, $a_value)
 	{
 		global $ilDB;
-		
+				
 		$q = "UPDATE style_parameter SET VALUE=".
 			$ilDB->quote($a_value)." WHERE id = ".
 			$ilDB->quote($a_id);
@@ -798,14 +1363,17 @@ class ilObjStyleSheet extends ilObject
 	* update style parameter per tag/class/parameter
 	*
 	*/
-	function replaceStylePar($a_tag, $a_class, $a_par, $a_val)
+	function replaceStylePar($a_tag, $a_class, $a_par, $a_val, $a_type)
 	{
 		global $ilDB;
+		
+//echo "<br>A*$a_type*";
 		
 		$q = "SELECT * FROM style_parameter WHERE ".
 			" style_id = ".$ilDB->quote($this->getId())." AND ".
 			" tag = ".$ilDB->quote($a_tag)." AND ".
 			" class = ".$ilDB->quote($a_class)." AND ".
+			" type = ".$ilDB->quote($a_type)." AND ".
 			" parameter = ".$ilDB->quote($a_par);
 		
 		$set = $ilDB->query($q);
@@ -817,17 +1385,19 @@ class ilObjStyleSheet extends ilObject
 				" style_id = ".$ilDB->quote($this->getId())." AND ".
 				" tag = ".$ilDB->quote($a_tag)." AND ".
 				" class = ".$ilDB->quote($a_class)." AND ".
+				" type = ".$ilDB->quote($a_type)." AND ".
 				" parameter = ".$ilDB->quote($a_par);
 
 			$ilDB->query($q);
 		}
 		else
 		{
-			$q = "INSERT INTO style_parameter (value, style_id, tag,  class, parameter) VALUES ".
+			$q = "INSERT INTO style_parameter (value, style_id, tag,  class, type, parameter) VALUES ".
 				" (".$ilDB->quote($a_val).",".
 				" ".$ilDB->quote($this->getId()).",".
 				" ".$ilDB->quote($a_tag).",".
 				" ".$ilDB->quote($a_class).",".
+				" ".$ilDB->quote($a_type).",".
 				" ".$ilDB->quote($a_par).")";
 
 			$ilDB->query($q);
@@ -857,23 +1427,116 @@ class ilObjStyleSheet extends ilObject
 	*/
 	function getXML()
 	{
-		$xml.= "<StyleSheet>";
+		$xml.= "<StyleSheet>\n";
 		$xml.= "<Title>".$this->getTitle()."</Title>";
-		$xml.= "<Description>".$this->getDescription()."</Description>";
-		foreach($this->style as $style)
+		$xml.= "<Description>".$this->getDescription()."</Description>\n";
+		foreach($this->chars as $char)
 		{
-			$xml.= "<Style Tag=\"".$style[0]["tag"]."\" Class=\"".$style[0]["class"]."\">";
-			foreach($style as $tag)
+			$xml.= "<Style Tag=\"".ilObjStyleSheet::_determineTag($char["type"]).
+				"\" Type=\"".$char["type"]."\" Class=\"".$char["class"]."\">\n";
+			foreach($this->style as $style)
 			{
-				$xml.="<StyleParameter Name=\"".$tag["parameter"]."\" Value=\"".$tag["value"]."\"/>";
+				if ($style[0]["type"] == $char["type"] && $style[0]["class"] == $char["class"])
+				{
+					foreach($style as $tag)
+					{
+						$xml.="<StyleParameter Name=\"".$tag["parameter"]."\" Value=\"".$tag["value"]."\"/>\n";
+					}
+				}
 			}
-			$xml.= "</Style>";
+			$xml.= "</Style>\n";
 		}
 		$xml.= "</StyleSheet>";
-		
+//echo "<pre>".htmlentities($xml)."</pre>";
 		return $xml;
 	}
 	
+	
+	/**
+	* Create export directory
+	*/
+	function createExportDirectory()
+	{
+		$sty_data_dir = ilUtil::getDataDir()."/sty";
+		ilUtil::makeDir($sty_data_dir);
+		if(!is_writable($sty_data_dir))
+		{
+			$this->ilias->raiseError("Style data directory (".$sty_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+ 
+		$style_dir = $sty_data_dir."/sty_".$this->getId();
+		ilUtil::makeDir($style_dir);
+		if(!@is_dir($style_dir))
+		{
+			$this->ilias->raiseError("Creation of style directory failed (".
+				$style_dir.").",$this->ilias->error_obj->FATAL);
+		}
+
+		// create export subdirectory
+		$ex_dir = $style_dir."/export";
+		ilUtil::makeDir($ex_dir);
+		if(!@is_dir($ex_dir))
+		{
+			$this->ilias->raiseError("Creation of Import Directory failed (".
+				$ex_dir.").",$this->ilias->error_obj->FATAL);
+		}
+		
+		return $ex_dir;
+	}
+	
+	/**
+	* Create export directory
+	*/
+	function createExportSubDirectory()
+	{
+		$ex_dir = $this->createExportDirectory();
+		$ex_sub_dir = $ex_dir."/".$this->getExportSubDir();
+		ilUtil::makeDir($ex_sub_dir);
+		if(!is_writable($ex_sub_dir))
+		{
+			$this->ilias->raiseError("Style data directory (".$ex_sub_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		$ex_sub_images_dir = $ex_sub_dir."/images";
+		ilUtil::makeDir($ex_sub_images_dir);
+		if(!is_writable($ex_sub_images_dir))
+		{
+			$this->ilias->raiseError("Style data directory (".$ex_sub_images_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+	}
+	
+	/**
+	* The local directory, that will be included within the zip file
+	*/
+	function getExportSubDir()
+	{
+		return "sty_".$this->getId();
+	}
+	
+	/**
+	* Create export file
+	*
+	* @return	string		local file name of export file
+	*/
+	function export()
+	{
+		$ex_dir = $this->createExportDirectory();
+		$this->createExportSubDirectory();
+		$this->exportXML($ex_dir."/".$this->getExportSubDir());
+//echo "-".$this->getImagesDirectory()."-".$ex_dir."/".$this->getExportSubDir()."/images"."-";
+		ilUtil::rCopy($this->getImagesDirectory(),
+			$ex_dir."/".$this->getExportSubDir()."/images");
+		if (is_file($ex_dir."/".$this->getExportSubDir().".zip"))
+		{
+			unlink($ex_dir."/".$this->getExportSubDir().".zip");
+		}
+		ilUtil::zip($ex_dir."/".$this->getExportSubDir(),
+			$ex_dir."/".$this->getExportSubDir().".zip");
+
+		return $ex_dir."/".$this->getExportSubDir().".zip";
+	}
 	
 	/**
 	* export style xml file to directory
@@ -891,7 +1554,7 @@ class ilObjStyleSheet extends ilObject
 		
 		// set file permissions
 		chmod($file, 0770);
-		
+
 		// write xml data into the file
 		fwrite($fp, $this->getXML());
 		
@@ -901,13 +1564,76 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
+	* Create import directory
+	*/
+	function createImportDirectory()
+	{
+		$sty_data_dir = ilUtil::getDataDir()."/sty";
+		ilUtil::makeDir($sty_data_dir);
+		if(!is_writable($sty_data_dir))
+		{
+			$this->ilias->raiseError("Style data directory (".$sty_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+ 
+		$style_dir = $sty_data_dir."/sty_".$this->getId();
+		ilUtil::makeDir($style_dir);
+		if(!@is_dir($style_dir))
+		{
+			$this->ilias->raiseError("Creation of style directory failed (".
+				$style_dir.").",$this->ilias->error_obj->FATAL);
+		}
+
+		// create import subdirectory
+		$im_dir = $style_dir."/import";
+		ilUtil::makeDir($im_dir);
+		if(!@is_dir($im_dir))
+		{
+			$this->ilias->raiseError("Creation of Import Directory failed (".
+				$im_dir.").",$this->ilias->error_obj->FATAL);
+		}
+
+		return $im_dir;
+	}
+
+	/**
+	* Import 
+	*/
+	function import($a_file)
+	{
+		parent::create();
+		
+		$im_dir = $this->createImportDirectory();
+		$file = pathinfo($a_file["name"]);
+		ilUtil::moveUploadedFile($a_file["tmp_name"],
+			$a_file["name"], $im_dir."/".$a_file["name"]);
+
+		// unzip file
+		ilUtil::unzip($im_dir."/".$a_file["name"]);
+
+		// load information from xml file
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = $im_dir."/".$subdir."/style.xml";
+		$this->createFromXMLFile($xml_file, true);
+		
+		// copy images
+		$this->createImagesDirectory();
+		ilUtil::rCopy($im_dir."/".$subdir."/images",
+			$this->getImagesDirectory());
+
+	}
+	
+	/**
 	* create style from xml file
 	*/
-	function createFromXMLFile($a_file)
+	function createFromXMLFile($a_file, $a_skip_parent_create = false)
 	{
 		global $ilDB;
 		
-		parent::create();		
+		if (!$a_skip_parent_create)
+		{
+			parent::create();
+		}
 		include_once("./Services/Style/classes/class.ilStyleImportParser.php");
 		$importParser = new ilStyleImportParser($a_file, $this);
 		$importParser->startParsing();
@@ -917,14 +1643,25 @@ class ilObjStyleSheet extends ilObject
 		{
 			foreach($style as $tag)
 			{
-				$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
+				$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, type, value) VALUES ".
 					"(".$ilDB->quote($this->getId()).",".
 					$ilDB->quote($tag["tag"]).",".
 					$ilDB->quote($tag["class"]).
 					",".$ilDB->quote($tag["parameter"]).",".
+					$ilDB->quote($tag["type"]).",".
 					$ilDB->quote($tag["value"]).")";
 				$this->ilias->db->query($q);
 			}
+		}
+		
+		// store characteristics
+		foreach ($this->chars as $char)
+		{
+			$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
+				"(".$ilDB->quote($this->getId()).",".
+				$ilDB->quote($char["type"]).",".
+				$ilDB->quote($char["class"]).")";
+			$this->ilias->db->query($q);
 		}
 		
 		// add style_data record
@@ -938,98 +1675,216 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
-	* get all available tags in an array
+	* Get grouped parameter
 	*/
-	function getAvailableTags()
+	function getStyleParameterGroups()
 	{
-		$tags = array("a.FootnoteLink", "a.FootnoteLink:hover", "a.IntLink", "a.IntLink:hover",
- 			"a.IntLink:visited", "a.IntLink:active",
-			"a.ExtLink", "a.ExtLink:hover", "a.ExtLink:visited", "a.ExtLink:active",
-			"div.Footnote", "div.LMNavigation", "div.Page", "div.PageTitle", "span.Comment",
-			"span.Emph", "span.Quotation", "span.Strong",
-			"td.Cell1", "td.Cell2", "td.Cell3", "td.Cell4",
-			"div.Standard", "div.List", "div.Headline1", "div.Headline2", "div.Headline3",
-			"div.Example", "div.Citation", "div.Mnemonic", "div.Additional", "div.Remark",
-			"div.Block", "div.Special", "div.Excursus",
-			"div.TableContent",
-			"table.Media", "td.MediaCaption");
-
-		return $tags;
+		$groups = array();
+		
+		foreach (self::$parameter as $parameter => $props)
+		{
+			$groups[$props["group"]][] = $parameter;
+		}
+		return $groups;
+	}
+	
+	static function _getStyleParameterInputType($par)
+	{
+		$input = self::$parameter[$par]["input"];
+		return $input;
+	}
+	
+	static function _getStyleParameterSubPar($par)
+	{
+		$subpar = self::$parameter[$par]["subpar"];
+		return $subpar;
 	}
 
-	function getAvailableParameters()
+	static function _getStyleParameters($a_tag = "")
 	{
-		$pars = array(
-			"font-family" => array(),
-			"font-style" => array("italic", "oblique", "normal"),
-			"font-variant" => array("small-caps", "normal"),
-			"font-weight" => array("bold", "normal", "bolder", "lighter"),
-			"font-stretch" => array("wider", "narrower", "condensed", "semi-condensed",
-					"extra-condensed", "ultra-condensed", "expanded", "semi-expanded",
-					"extra-expanded", "ultra-expanded", "normal"),
-			"font-size" => array(),
-			"word-spacing" => array(),
-			"letter-spacing" => array(),
-			"text-decoration" => array("underline", "overline", "line-through", "blink", "none"),
-			"text-transform" => array("capitalize", "uppercase", "lowercase", "none"),
-			"color" => array(),
+		if ($a_tag == "")
+		{
+			return self::$parameter;
+		}
+		$par = array();
+		foreach (self::$parameter as $k => $v)
+		{
+			if (is_array(self::$filtered_groups[$v["group"]]) &&
+				!in_array($a_tag, self::$filtered_groups[$v["group"]]))
+			{
+				continue;
+			}
+			$par[$k] = $v;
+		}
+		return $par;
+	}
+	
+	static function _getFilteredGroups()
+	{
+		return self::$filtered_groups;
+	}
 
-			"text-indent" => array(),
-			"line-height" => array(),
-			"vertical-align" => array("top", "middle", "bottom", "baseline", "sub", "super",
-				"text-top", "text-bottom"),
-			"text-align" => array("left", "center", "right", "justify"),
-			"white-space" => array("normal", "pre", "nowrap"),
+	static function _getStyleParameterNumericUnits($a_no_percentage = false)
+	{
+		if ($a_no_percentage)
+		{
+			return self::$num_unit_no_perc;
+		}
+		return self::$num_unit;
+	}
+	
+	static function _getStyleParameterValues($par)
+	{
+		return self::$parameter[$par]["values"];
+	}
+	
+	/*static function _getStyleTypes()
+	{
+		return self::$style_types;
+	}*/
 
-			"margin" => array(),
-			"margin-top" => array(),
-			"margin-bottom" => array(),
-			"margin-left" => array(),
-			"margin-right" => array(),
+	static function _getStyleSuperTypes()
+	{
+		return self::$style_super_types;
+	}
+	
+	static function _isExpandable($a_type)
+	{
+		return in_array($a_type, self::$expandable_types);
+	}
 
-			"padding" => array(),
-			"padding-top" => array(),
-			"padding-bottom" => array(),
-			"padding-left" => array(),
-			"padding-right" => array(),
+	static function _getStyleSuperTypeForType($a_type)
+	{
+		foreach (self::$style_super_types as $s => $t)
+		{
+			if (in_array($a_type, $t))
+			{
+				return $s;
+			}
+			if ($a_type == $s)
+			{
+				return $s;
+			}
+		}
+	}
 
-			"border-width" => array(),
-			"border-top-width" => array(),
-			"border-bottom-width" => array(),
-			"border-left-width" => array(),
-			"border-right-width" => array(),
-
-			"border-color" => array(),
-			"border-top-color" => array(),
-			"border-bottom-color" => array(),
-			"border-left-color" => array(),
-			"border-right-color" => array(),
-
-			"border-style" => array("none", "hidden", "dotted", "dashed", "solid", "double",
-				"groove", "ridge", "inset", "outset"),
-			"border-top-style" => array("none", "hidden", "dotted", "dashed", "solid", "double",
-				"groove", "ridge", "inset", "outset"),
-			"border-bottom-style" => array("none", "hidden", "dotted", "dashed", "solid", "double",
-				"groove", "ridge", "inset", "outset"),
-			"border-left-style" => array("none", "hidden", "dotted", "dashed", "solid", "double",
-				"groove", "ridge", "inset", "outset"),
-			"border-right-style" => array("none", "hidden", "dotted", "dashed", "solid", "double",
-				"groove", "ridge", "inset", "outset"),
-
-			"background-color" => array(),
-			"background-image" => array(),
-			"background-repeat" => array("repeat", "repeat-x", "repeat-y", "no-repeat"),
-			"background-attachment" => array("fixed", "scroll"),
-			"background-position" => array("top", "center", "middle", "bottom", "left", "right"),
-
-			"cursor" => array("auto", "default", "crosshair", "pointer", "move",
-				"n-resize", "ne-resize", "e-resize", "se-resize", "s-resize", "sw-resize",
-				"w-resize", "nw-resize", "text", "wait", "help"),
-			"clear" => array ("non","left","right","both")
-		);
-
+	/**
+	* Get core styles
+	*/
+	static function _getCoreStyles()
+	{
+		$c_styles = array();
+		foreach (self::$core_styles as $cstyle)
+		{
+			$c_styles[$cstyle["type"].".".ilObjStyleSheet::_determineTag($cstyle["type"]).".".$cstyle["class"]]
+				= array("type" => $cstyle["type"],
+					"tag" => ilObjStyleSheet::_determineTag($cstyle["type"]),
+					"class" => $cstyle["class"]);
+		}
+		return $c_styles;
+	}
+	
+	static function _determineTag($a_type)
+	{
+		return self::$assigned_tags[$a_type];
+	}
+	
+	/**
+	* Get available parameters
+	*/
+	static function getAvailableParameters()
+	{
+		$pars = array();
+		foreach(self::$parameter as $p => $v)
+		{
+			$pars[$p] = $v["values"];
+		}
+		
 		return $pars;
 	}
-
+	
+	/**
+	* Add missing style classes to all styles
+	*/
+	static function _addMissingStyleClassesToAllStyles()
+	{
+		global $ilDB;
+		
+		$styles = ilObject::_getObjectsDataForType("sty");
+		$core_styles = ilObjStyleSheet::_getCoreStyles();
+		$bdom = ilObjStyleSheet::_getBasicStyleDom();
+		
+		// get all core image files
+		$core_images = array();
+		$core_dir = self::$basic_style_image_dir;
+		if (is_dir($core_dir))
+		{
+			$dir = opendir($core_dir);
+			while($file = readdir($dir))
+			{
+				if (substr($file, 0, 1) != "." && is_file($core_dir."/".$file))
+				{
+					$core_images[] = $file;
+				}
+			}
+		}
+		
+		foreach ($styles as $style)
+		{
+			$id = $style["id"];
+			
+			foreach($core_styles as $cs)
+			{
+				// check, whether core style class exists
+				$st = $ilDB->prepare("SELECT * FROM style_char WHERE style_id = ? ".
+					"AND type = ? AND characteristic = ?",
+					array("integer", "text", "text"));
+				$set = $ilDB->execute($st, array($id, $cs["type"], $cs["class"]));
+				
+				// if not, add core style class
+				if (!($rec = $ilDB->fetchAssoc($set)))
+				{
+					$st = $ilDB->prepareManip("INSERT INTO style_char (style_id, type, characteristic) ".
+						" VALUES (?,?,?) ", array("integer", "text", "text"));
+					$ilDB->execute($st, array($id, $cs["type"], $cs["class"]));
+					
+					$xpath = new DOMXPath($bdom);
+					$par_nodes = $xpath->query("/StyleSheet/Style[@Tag = '".$cs["tag"]."' and @Type='".
+						$cs["type"]."' and @Class='".$cs["class"]."']/StyleParameter");
+					foreach ($par_nodes as $par_node)
+					{
+						// check whether style parameter exists
+						$st = $ilDB->prepare("SELECT * FROM style_parameter WHERE style_id = ? ".
+							"AND type = ? AND class = ? AND tag = ? AND parameter = ?",
+							array("integer", "text", "text", "text", "text"));
+						$set = $ilDB->execute($st, array($id, $cs["type"], $cs["class"],
+							$cs["tag"], $par_node->getAttribute("Name")));
+							
+						// if not, create style parameter
+						if (!($rec = $ilDB->fetchAssoc($set)))
+						{
+							$st = $ilDB->prepareManip("INSERT INTO style_parameter (style_id, type, class, tag, parameter, value) ".
+								" VALUES (?,?,?,?,?,?)", array("integer", "text", "text", "text", "text", "text"));
+							$ilDB->execute($st, array($id, $cs["type"], $cs["class"], $cs["tag"],
+								$par_node->getAttribute("Name"), $par_node->getAttribute("Value")));
+						}
+					}
+				}
+			}
+			
+			// now check, whether some core image files are missing
+			ilObjStyleSheet::_createImagesDirectory($id);
+			$imdir = ilObjStyleSheet::_getImagesDirectory($id);
+			reset($core_images);
+			foreach($core_images as $cim)
+			{
+				if (!is_file($imdir."/".$cim))
+				{
+					copy($core_dir."/".$cim, $imdir."/".$cim);
+				}
+			}
+		}
+	}
+	
 } // END class.ilObjStyleSheet
 ?>

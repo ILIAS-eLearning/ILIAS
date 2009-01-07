@@ -4287,7 +4287,7 @@ content#:#citate#:#Citate
 content#:#citate_from#:#Citate From ...
 content#:#citate_page#:#Citate this Page
 content#:#citate_to#:#Citate To ...
-content#:#cont_Additional#:#Additional
+content#:#cont_Additional#:#Additional Information
 content#:#cont_Special#:#Special
 content#:#cont_Excursus#:#Excursus
 common#:#no_start_file#:#No Start File.
@@ -4355,7 +4355,7 @@ content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target
 content#:#cont_chapters#:#Chapters
 content#:#cont_chapters_and_pages#:#Chapters and Pages
 content#:#cont_chapters_only#:#Chapters only
-content#:#cont_characteristic#:#Characteristic
+content#:#cont_characteristic#:#Style Class
 content#:#cont_choose_cont_obj#:#Choose Content Object
 content#:#cont_choose_glossary#:#Choose Glossary
 content#:#cont_choose_media_source#:#Choose Media Source
@@ -8164,7 +8164,7 @@ survey#:#adm_special_users#:#Special users who are able to run a survey more tha
 survey#:#adm_removed_users#:#Users removed
 survey#:#adm_remove_select_user#:#Please select at least one user for removal!
 content#:#cont_sc_max_attempt#:#Max. number of attempts
-content#:#cont_first_row_style#:#First Row Style
+content#:#cont_first_row_style#:#First Row Style Class
 content#:#cont_selected_items_have_been_copied#:#Selected items have been copied to the clipboard. Click appropriate placeholders to paste them into the learning module.
 content#:#cont_selected_items_have_been_cut#:#Selected items have been cut to the clipboard. Click appropriate placeholders to paste them into the learning module.
 content#:#cont_choose_pages_or_chapters_only#:#Please select either pages or chapters only.
@@ -8629,6 +8629,45 @@ survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated res
 dateplaner#:#cal_cal_details#:#Calendar Details
 dateplaner#:#cal_type_crs#:#Course Calendar
 dateplaner#:#cal_type_grp#:#Group Calendar
+content#:#cont_ed_insert_plach#:#Insert Placeholder
+content#:#cont_ed_plachtext#:#Placeholder Text
+content#:#cont_ed_plachmedia#:#Placeholder Media
+content#:#cont_ed_plachquestion#:#Placeholder Question
+content#:#cont_ed_plachprop#:#Placeholder Properties
+content#:#cont_media_placehl#:#Media Placeholder
+content#:#cont_question_placehl#:#Question Placeholder
+content#:#cont_text_placehl#:#Text Placeholder
+content#:#cont_ed_pglprop#:#Page Layout Properties
+style#:#sty_based_on#:#Based on
+style#:#sty_add_pgl#:#Add Page Layout
+style#:#sty_create_pgl#:#Create Page Layout
+style#:#sty_name#:#Name
+style#:#sty_example#:#Example
+style#:#sty_commands#:#Commands
+style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
+style#:#sty_style_chars#:#Style Classes
+style#:#sty_images#:#Images
+style#:#sty_add_image#:#Add Image
+style#:#sty_width_height#:#Width x Height
+style#:#sty_image_file#:#Image File
+style#:#sty_horizontal#:#Horizontal
+style#:#sty_vertical#:#Vertical
+style#:#sty_text_block_char#:#Text (Block)
+style#:#sty_text_inline_char#:#Text (Character)
+style#:#sty_section_char#:#Section
+style#:#sty_link_char#:#Link
+style#:#sty_table_char#:#Table
+style#:#sty_table_cell_char#:#Table Cell
+style#:#sty_add_characteristic#:#Add Style Class
+style#:#sty_page_char#:#Page
+style#:#sty_min_height#:#Minimum Height
+style#:#sty_confirm_char_deletion#:#Are you sure that you want to delete the following style classe(s)?
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:
+style#:#sty_msg_characteristic_already_exists#:#A style class with this title already exisits in this style.
+style#:#sty_added_characteristic#:#Added style class.
+sahs#:#sahs_new_chapter#:#New Chapter
+sahs#:#sahs_new_page#:#New Page
+sahs#:#sahs_new_sco#:#New SCO
 crs#:#crs_timings_visibility_short#:#Visibility
 assessment#:#no_selection#:#--- No Selection ---
 assessment#:#customstyle#:#Custom Style
@@ -8867,4 +8906,76 @@ shib#:#shib_plugin_id#:#Plugin Id
 shib#:#shib_role_selection#:#Role Selection
 shib#:#shib_choose_role#:#Choose Role
 shib#:#shib_add_remove#:#Add/Remove Roles
+common#:#page_layouts#:#Page Layouts
+common#:#page_layout#:#Page Layout
+style#:#sty_list_char#:#List
+style#:#sty_media_char#:#Media
+style#:#sty_question_char#:#Question
+style#:#sty_sco_char#:#SCO & Objective
+style#:#sty_ol#:#Numbered List
+style#:#sty_ul#:#Bullet List
+style#:#sty_list_style_type#:#List Style Type
+style#:#sty_list_style_position#:#List Style Position
+style#:#sty_list_style_image#:#List Style Image
+style#:#sty_table#:#Table
+style#:#sty_border_collapse#:#Border Collapse
+style#:#sty_type_media#:#Media
+style#:#sty_type_media_caption#:#Media Caption
+style#:#sty_type_text_block#:#Text Block
+style#:#sty_type_text_inline#:#Character
+style#:#sty_type_section#:#Section
+style#:#sty_type_link#:#Link
+style#:#sty_type_table#:#Table
+style#:#sty_type_table_cell#:#Table Cell
+style#:#sty_type_list_item#:#List Item
+style#:#sty_type_list_o#:#Numbered List
+style#:#sty_type_list_u#:#Bulleted List
+style#:#sty_type_question#:#Question
+style#:#sty_type_page#:#Page
+style#:#sty_type#:#Type
+style#:#sty_type_sco#:#SCO
+content#:#cont_StandardTable#:#Standard Table
+style#:#sty_opacity#:#Opacity
+style#:#sty_positioning#:#Positioning
+style#:#sty_width#:#Width
+style#:#sty_height#:#Height
+style#:#sty_overflow#:#Overflow
+style#:#sty_position#:#Position
+content#:#cont_Media#:#Media (Standard)
+style#:#sty_flist_char#:#File List
+style#:#sty_type_flist#:#File List
+style#:#sty_type_flist_cont#:#File List Container
+style#:#sty_type_flist_li#:#File List Item
+style#:#sty_type_flist_head#:#File List Heading
 content#:#cont_file_from_repository#:#File From Repository
+content#:#cont_position#:#Position
+content#:#cont_ed_edit_files#:#Edit Files
+content#:#cont_save_positions#:#Save Positions
+content#:#cont_add_file#:#Add File
+content#:#cont_save_positions_and_classes#:#Save Positions and Style Classes
+content#:#cont_FileListItem#:#File List Item (Standard)
+style#:#sty_type_media_cont#:#Media Container
+style#:#sty_type_page_fn#:#Footnote
+style#:#sty_type_page_nav#:#Footnote
+style#:#sty_type_page_title#:#Page Title
+style#:#sty_float#:#Float
+style#:#sty_type_page_bnav#:#Bottom Navigation
+style#:#sty_type_page_tnav#:#Top Navigation
+style#:#sty_type_page_lnav#:#Left Navigation
+style#:#sty_type_page_rnav#:#Right Navigation
+style#:#sty_type_page_cont#:#Page Container
+style#:#sty_type_page_frame#:#Page Frame
+style#:#sty_type_page_lnavlink#:#Left Navigation Link
+style#:#sty_type_page_rnavlink#:#Right Navigation Link
+style#:#sty_type_page_lnavimage#:#Left Navigation Image
+style#:#sty_type_page_rnavimage#:#Right Navigation Image
+style#:#sty_type_qtitle#:#Question Title
+style#:#sty_type_qanswer#:#Answer
+style#:#sty_type_qfeedr#:#Feedback, Right
+style#:#sty_type_qfeedw#:#Feedback, Wrong
+style#:#sty_type_qinput#:#Question Input
+style#:#sty_type_qsubmit#:#Question Submit Buttons
+style#:#sty_type_sco_desc#:#SCO Description
+style#:#sty_type_sco_title#:#SCO Title
+style#:#sty_type_sco_obj#:#SCO Objective
+style#:#sty_type_sco_keyw#:#SCO Keywords

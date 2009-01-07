@@ -1,6 +1,23 @@
-/* ------------------ styles for lm content, should be placed at a better place -------------- */
+/* Page */
+table.ilc_page_frame_PageFrame
+{
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 100%;
+}
 
-div.ilc_PageTitle
+table.ilc_page_cont_PageContainer
+{
+	border-width: 1px;
+	border-style: solid;
+	border-color: #9EADBA;
+	background-color:#FFFFFF;
+	margin: 0px;
+	width: 100%;
+	padding: 20px;
+}
+
+div.ilc_page_title_PageTitle
 {
 	margin-top: 5px;
 	margin-bottom: 20px;
@@ -9,6 +26,79 @@ div.ilc_PageTitle
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-color: #000000;
+}
+
+div.ilc_page_tnav_TopNavigation
+{
+	padding: 3px;
+	border-style: solid;
+	border-color: #9EADBA;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 1px;
+	border-bottom-width: 0px;
+	background-color: #F6F6F6;
+	margin: 0px;
+}
+
+div.ilc_page_bnav_BottomNavigation
+{
+	padding: 3px;
+	border-style: solid;
+	border-color: #9EADBA;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-top-width: 0px;
+	border-bottom-width: 1px;
+	background-color: #F6F6F6;
+	margin: 0px;
+}
+
+div.ilc_page_lnav_LeftNavigation
+{
+	float: left;
+	width: 50%;
+	text-align:left;
+	font-size: 80%;
+}
+
+a.ilc_page_lnavlink_LeftNavigationLink
+{
+}
+
+img.ilc_page_lnavimage_LeftNavigationImage
+{
+	background-image: url(../../../templates/default/images/nav_arr_L_s.gif);
+	background-repeat: no-repeat;
+	background-position: left 1px;
+	width: 16px;
+	height: 16px;
+}
+
+div.ilc_page_rnav_RightNavigation
+{
+	text-align:right;
+	font-size: 80%;
+}
+
+a.ilc_page_rnavlink_RightNavigationLink
+{
+}
+
+img.ilc_page_rnavimage_RightNavigationImage
+{
+	background-image: url(../../../templates/default/images/nav_arr_R_s.gif);
+	background-repeat: no-repeat;
+	background-position: right 1px;
+	width: 16px;
+	height: 16px;
+}
+
+div.ilc_page_fn_Footnote
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-style: italic;
 }
 
 div.ilc_BacklinkTitle
@@ -23,127 +113,111 @@ div.ilc_BacklinkTitle
 	border-color: #000000;
 }
 
-span.ilc_Strong
+/* Text (Character) */
+span.ilc_text_inline_Strong
 {
 	font-weight: bold;
 }
 
-span.ilc_Emph
+span.ilc_text_inline_Emph
 {
 	font-style: italic;
 }
 
-span.ilc_Comment
+span.ilc_text_inline_Comment
 {
 	color: green;
 }
 
-span.ilc_Quotation
+span.ilc_text_inline_Quotation
 {
 	color: brown;
 	font-style: italic;
 }
 
-a.ilc_FootnoteLink
+/* Links */
+a.ilc_link_FootnoteLink
 {
 	color: blue;
 	font-weight: normal;
 }
 
-a.ilc_FootnoteLink:hover
+a.ilc_link_FootnoteLink:hover
 {
 	color:#000000;
 }
 
-div.ilc_Footnote
-{
-	margin-top: 5px;
-	margin-bottom: 5px;
-	font-style: italic;
-}
-
-a.ilc_IntLink
+a.ilc_link_IntLink
 {
 	color: blue;
 	font-weight: normal;
 	text-decoration: underline;
 }
 
-a.ilc_IntLink:hover
+a.ilc_link_IntLink:hover
 {
 	color:#000000;
 }
 
-a.ilc_IntLink:visited
+a.ilc_link_IntLink:visited
 {
 	color: blue;
 }
 
-a.ilc_ExtLink
+a.ilc_link_ExtLink
 {
 	color: blue;
 	font-weight: normal;
 	text-decoration: underline;
 }
 
-a.ilc_ExtLink:hover
+a.ilc_link_ExtLink:hover
 {
 	color:#000000;
 }
 
-a.ilc_ExtLink:visited
+a.ilc_link_ExtLink:visited
 {
 	color: blue;
 }
 
-div.ilc_LMNavigation
+/* Tables */
+table.ilc_table_StandardTable
 {
-	background-color:#EEEEEE;
-	border-style: outset;
-	border-color: #EEEEEE;
-	border-width: 1px;
-	margin-top: 0px;
+	border-collapse: collapse;
+	background-color: #FFFFFF;
+	margin: 10px 0px;
+	border-color: #9EADBA;
 }
 
-div.ilc_Page
-{
-	background-color:#FFFFFF;
-	margin: 0px;
-	padding: 0px;
-}
-
-table.ilc_Page
-{
-	background-color:#FFFFFF;
-}
-
-td.ilc_Cell1
+td.ilc_table_cell_Cell1
 {
 	background-color:#FFCCCC;
 }
 
-td.ilc_Cell2
+td.ilc_table_cell_Cell2
 {
 	background-color:#CCCCFF;
 }
 
-td.ilc_Cell3
+td.ilc_table_cell_Cell3
 {
 	background-color:#CCFFCC;
 }
 
-td.ilc_Cell4
+td.ilc_table_cell_Cell4
 {
 	background-color:#FFFFCC;
 }
 
-div.ilc_Standard
+/* Text (Block) and Sections */
+div.ilc_text_block_Standard
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-div.ilc_TableContent
+div.ilc_text_block_TableContent
 {
 	margin-left: 0px;
 	margin-right: 0px;
@@ -156,34 +230,34 @@ div.ilc_TableContent
 }
 
 
-div.ilc_List
+div.ilc_text_block_List
 {
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
 
-div.ilc_Headline1
+div.ilc_text_block_Headline1
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
 	font-size: 140%;
 }
 
-div.ilc_Headline2
+div.ilc_text_block_Headline2
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
 	font-size: 130%;
 }
 
-div.ilc_Headline3
+div.ilc_text_block_Headline3
 {
 	margin-top: 20px;
 	margin-bottom: 10px;
 	font-size: 120%;
 }
 
-div.ilc_Example
+div.ilc_text_block_Example
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -193,7 +267,7 @@ div.ilc_Example
 	border-left-color: blue;
 }
 
-div.ilc_Citation
+div.ilc_section_Example
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -201,7 +275,7 @@ div.ilc_Citation
 	font-style: italic;
 }
 
-div.ilc_Mnemonic
+div.ilc_text_block_Mnemonic
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -213,7 +287,7 @@ div.ilc_Mnemonic
 	border-color: red;
 }
 
-div.ilc_Additional
+div.ilc_section_Mnemonic
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -223,7 +297,7 @@ div.ilc_Additional
 	border-color: blue;
 }
 
-div.ilc_Remark
+div.ilc_text_block_Remark
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -235,29 +309,19 @@ div.ilc_Remark
 	text-align: center;
 }
 
-/*
-p.ilc_Code
+div.ilc_section_Remark
 {
-	white-space: pre;
-}*/
-
-table.ilc_Media
-{
-	background-color: #F5F5F5;
-	padding: 0px;
-	margin: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #B0B0B0;
+	border-color: #909090;
+	background-color:#F5F5F5;
+	text-align: center;
 }
 
-td.ilc_MediaCaption
-{
-	padding:5px;
-	font-size: 90%;
-}
-
-div.ilc_Block {
+div.ilc_section_Block {
 	border-width: 1px;
 	border-style: solid;
 	padding: 5px 10px;
@@ -268,7 +332,7 @@ div.ilc_Block {
 	background-repeat:repeat-x;
 }
 
-div.ilc_Special {
+div.ilc_section_Special {
 	border-width: 1px;
 	border-style: solid;
 	padding: 5px 10px;
@@ -279,7 +343,7 @@ div.ilc_Special {
 	background-repeat:repeat-x;
 }
 
-div.ilc_Excursus {
+div.ilc_section_Excursus {
 	border-width: 1px;
 	border-style: solid;
 	padding: 5px 10px;
@@ -288,4 +352,146 @@ div.ilc_Excursus {
 	background-color: #F7FFF7;
 	background-image: url(../../../templates/default/images/ExcursusBack.gif);
 	background-repeat: repeat-x;
+}
+
+div.ilc_section_Hint
+{
+	margin: 20px 0px;
+	padding: 10px 10px 10px 50px;
+	background-color: #FFFFF4;
+	border-width: 1px;
+	border-color: #FFFFD0;
+	border-style: solid;
+	background-image: url(../../../templates/default/images/hint.gif);
+	background-repeat: no-repeat;
+	background-position: top left;
+	min-height: 25px;
+	height: auto !important;
+	height: 25px;
+}
+
+div.ilc_text_block_Hint
+{
+	margin: 20px 0px;
+	padding: 10px 10px 10px 50px;
+	background-color: #FFFFF4;
+	border-width: 1px;
+	border-color: #FFFFD0;
+	border-style: solid;
+	background-image: url(../../../templates/default/images/hint.gif);
+	background-repeat: no-repeat;
+	background-position: top left;
+	min-height: 25px;
+	height: auto !important;
+	height: 25px;
+}
+
+/* Media */
+table.ilc_media_cont_MediaContainer
+{
+	background-color: #F5F5F5;
+	padding: 0px;
+	margin: 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #B0B0B0;
+}
+
+div.ilc_media_caption_MediaCaption
+{
+	padding: 5px;
+	font-size: 90%;
+}
+
+/* Question */
+div.ilc_question_Standard
+{
+	margin: 20px 0px;
+	padding: 10px 60px 10px 30px;
+	background-color: #F4F4FF;
+	border-width: 1px;
+	border-color: #D0D0FF;
+	border-style: solid;
+	background-image: url(../../../templates/default/images/qmark.gif);
+	background-repeat: no-repeat;
+	background-position: top right;
+}
+
+/* Placeholders (they should be put to another css file!) */
+div.ilc_QuestionPlaceHolder
+{
+	padding: 10px 10px 10px 10px;
+	background-color: #F4F4FF;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: #D0D0FF;
+	border-style: solid;
+	background-image: url(../../../templates/default/images/question_placeholder.png);
+	font-weight: bold;
+}
+
+div.ilc_MediaPlaceHolder
+{
+	padding: 10px 10px 10px 10px;
+	background-color: #F4F4FF;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: #D0D0FF;
+	border-style: solid;
+	min-height:100px;
+	font-weight: bold;
+	background-image: url(../../../templates/default/images/media_placeholder.png);	
+}
+
+div.ilc_TextPlaceHolder
+{
+	padding: 10px 10px 10px 10px;
+	background-color: #F4F4FF;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: #D0D0FF;
+	border-style: solid;
+	font-weight: bold;
+	background-image: url(../../../templates/default/images/text_placeholder.png);
+}
+
+/* File Lists */
+div.ilc_flist_cont_FileListContainer
+{
+	border-width:1px;
+	border-style:solid;
+	border-color:#9EADBA;
+	margin: 10px 0px;
+}
+
+div.ilc_flist_head_FileListHeading
+{
+	text-align: left;
+	padding: 3px;
+	background-color: #E0E0E0;
+	font-weight: bold;
+}
+
+li.ilc_flist_li_FileListItem
+{
+	padding: 3px;
+}
+
+ul.ilc_flist_FileList
+{
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+/* SCOs */
+div.ilc_sco_title_Title
+{
+	border-color: #000000;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	padding-bottom: 3px;
+	font-size: 140%;
+	margin-bottom: 20px;
+	margin-top: 5px;
 }

@@ -54,7 +54,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule("style");
-
+		$ilCtrl->saveParameter($this, array("tag", "style_type"));
+		if ($_GET["style_type"] != "")
+		{
+			$this->super_type = ilObjStyleSheet::_getStyleSuperTypeForType($_GET["style_type"]);
+		}
+		
 		$this->type = "sty";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 	}
@@ -119,17 +124,51 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$clonable_styles = ilObjStyleSheet::_getClonableContentStyles();
 		$select = ilUtil::formSelect("", "source_style", $clonable_styles, false, true);
 		$this->tpl->setVariable("SOURCE_SELECT", $select);
-
 	}
-
+	
 	/**
 	* edit style sheet
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $lng;
+		global $rbacsystem, $lng, $ilTabs, $ilCtrl;
+//ilObjStyleSheet::_addMissingStyleClassesToAllStyles();
+		$this->setSubTabs();
+		
+		// set style sheet
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			$this->object->getContentStylePath($this->object->getId()));
+		$this->tpl->parseCurrentBlock();
 
-		//$this->setTabs();
+		$ctpl = new ilTemplate("tpl.sty_classes.html", true, true, "Services/Style");
+
+		// output characteristics
+		$chars = $this->object->getCharacteristics();
+		
+		$style_type = ($this->super_type != "")
+			? $this->super_type
+			: "text_block";
+		$ilCtrl->setParameter($this, "style_type", $style_type);
+
+		$ilTabs->setSubTabActive("sty_".$style_type."_char");
+
+		include_once("./Services/Style/classes/class.ilStyleTableGUI.php");
+		$table_gui = new ilStyleTableGUI($this, "edit", $chars, $style_type);
+		
+		$ctpl->setCurrentBlock("style_table");
+		$ctpl->setVariable("STYLE_TABLE", $table_gui->getHTML());
+		$ctpl->parseCurrentBlock();
+
+		$this->tpl->setContent($ctpl->get());
+	}
+
+	/**
+	* Properties
+	*/
+	function propertiesObject()
+	{
+		global $rbacsystem, $lng;
 
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -149,252 +188,17 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
 
-		// output style parameters
-		$avail_pars = $this->object->getAvailableParameters();
-		$style = $this->object->getStyle();
-		foreach($style as $tag)
-		{
-			foreach($tag as $par)
-			{
-				$this->tpl->setCurrentBlock("StyleParameter");
-				$this->tpl->setVariable("PAR_ID", $par["id"]);
-				$var = str_replace("-", "_", $par["parameter"]);
-				
-				// replace _bottom, _top, _left, _right
-				$add = "";
-				$location = array("bottom", "top", "left", "right");
-				foreach ($location as $loc)
-				{
-					if (is_int(strpos($var, "_".$loc)))
-					{
-						$var = str_replace("_".$loc, "", $var);
-						$add = ", ".$this->lng->txt("sty_".$loc); 
-					}
-				}
-				$this->tpl->setVariable("TXT_PAR",
-					$this->lng->txt("sty_".$var).$add);
-
-				if (count($avail_pars[$par["parameter"]]) == 0)
-				{
-					$input = "<input type=\"text\" size=\"30\" maxlength=\"100\" ".
-						"name=\"styval[".$par["id"]."]\" value=\"".$par["value"]."\"";
-				}
-				else
-				{
-					$sel_avail_vals = array();
-					foreach($avail_pars[$par["parameter"]] as $key => $val)
-					{
-						$sel_avail_vals[$val] = $val;
-					}
-					$input = ilUtil::formSelect($par["value"], "styval[".$par["id"]."]", $sel_avail_vals, false, true);
-				}
-				$this->tpl->setVariable("INPUT_VAL", $input);
-				$this->tpl->parseCurrentBlock();
-			}
-			if ((!is_int(strpos($tag[0]["class"], ":hover"))) &&
-				(!is_int(strpos($tag[0]["class"], ":visited"))) &&
-				(!is_int(strpos($tag[0]["class"], ":active")))
-				)
-			{
-				$this->tpl->setCurrentBlock("Example_".$tag[0]["tag"]);
-				$this->tpl->setVariable("EX_CLASS", "ilc_".$tag[0]["class"]);
-				$this->tpl->setVariable("EX_TEXT", "ABC abc 123");
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("StyleTag");
-			$tag_str = $tag[0]["tag"].".".$tag[0]["class"];
-			$this->tpl->setVariable("TXT_TAG", $tag_str);
-			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-			$this->ctrl->setParameter($this, "tag", $tag_str);
-			$this->tpl->setVariable("LINK_EDIT_TAG_STYLE",
-				$this->ctrl->getLinkTarget($this, "editTagStyle"));
-			$this->tpl->setVariable("STY_ROWSPAN", (count($tag) + 1));
-			$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("parameter"));
-			$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
-			$this->tpl->parseCurrentBlock();
-		}
-
 		// title and description
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable(strtoupper("TITLE"), $this->object->getTitle());
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
 		$this->tpl->setVariable(strtoupper("DESCRIPTION"), $this->object->getDescription());
 		$this->tpl->parseCurrentBlock();
-
-		// new parameter
-		$temptags = $this->object->getAvailableTags();
-		$tags = array();
-		foreach($temptags as $key => $val)
-		{
-			$tags[$val] = $val;
-		}
-		$tag_select = ilUtil::formSelect("", "tag", $tags, false, true);
-		foreach($avail_pars as $key => $val)
-		{
-			$sel_avail_pars[$key] = $key;
-		}
-		$this->tpl->setVariable("SELECT_TAG", $tag_select);
-		$par_select = ilUtil::formSelect("", "parameter", $sel_avail_pars, false, true);
-		$this->tpl->setVariable("SELECT_PAR", $par_select);
-		$this->tpl->setVariable("TXT_NEW_PAR", $this->lng->txt("add"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_return"));
 		$this->tpl->setVariable("BTN_SAVE", "update");
-		$this->tpl->setVariable("TXT_REFRESH", $this->lng->txt("save_refresh"));
-		$this->tpl->setVariable("BTN_REFRESH", "refresh");
-		$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete_selected"));
-		$this->tpl->setVariable("BTN_DELETE", "deleteStyleParameter");
-		$this->tpl->setVariable("BTN_NEW_PAR", "newStyleParameter");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-	}
-
-	/**
-	* edit style of single tag
-	*/
-	function editTagStyleObject()
-	{
-		global $rbacsystem, $lng;
-
-		//$this->setTabs();
-
-		// set style sheet
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			$this->object->getContentStylePath($this->object->getId()));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content",
-			"tpl.sty_tag_edit.html", false, false);
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("edit_stylesheet"));
-
-		// output style parameters
-		$avail_pars = $this->object->getAvailableParameters();
-		$style = $this->object->getStyle();
-		$this->tpl->setVariable("TXT_TEXT", $this->lng->txt("sty_text"));
-		$this->tpl->setVariable("TXT_MARGIN_AND_PADDING", $this->lng->txt("sty_margin_and_padding"));
-		$this->tpl->setVariable("TXT_ALL", $this->lng->txt("sty_all"));
-		$this->tpl->setVariable("TXT_TOP", $this->lng->txt("sty_top"));
-		$this->tpl->setVariable("TXT_BOTTOM", $this->lng->txt("sty_bottom"));
-		$this->tpl->setVariable("TXT_LEFT", $this->lng->txt("sty_left"));
-		$this->tpl->setVariable("TXT_RIGHT", $this->lng->txt("sty_right"));
-		$this->tpl->setVariable("TXT_BORDER", $this->lng->txt("sty_border"));
-		$this->tpl->setVariable("TXT_BACKGROUND", $this->lng->txt("sty_background"));
-		$this->tpl->setVariable("TXT_SPECIAL", $this->lng->txt("sty_special"));
-		
-		$cur = explode(".",$_GET["tag"]);
-		$cur_tag = $cur[0];
-		$cur_class = $cur[1];
-		$parameters = $this->extractParametersOfTag($cur_tag, $cur_class, $style);
-		
-		$this->tpl->setCurrentBlock("Example_".$cur_tag);
-		$this->tpl->setVariable("EX_CLASS", "ilc_".$cur_class);
-		$this->tpl->setVariable("EX_TEXT", "ABC abc 123");
-		$this->tpl->parseCurrentBlock();
-
-		// for all tag parameters
-		foreach ($avail_pars as $par => $vals)
-		{
-			$var = str_replace("-", "_", $par);
-			$up_par = strtoupper($var);
-			$this->tpl->setVariable("TXT_".$up_par, $this->lng->txt("sty_".$var));
-			
-			// output select lists
-			if (count($avail_pars[$par]) > 0)
-			{
-				$sel_avail_vals = array("" => "");
-				foreach($avail_pars[$par] as $key => $val)
-				{
-					$sel_avail_vals[$val] = $val;
-				}
-				$sel_str = ilUtil::formSelect($parameters[$par], $var, $sel_avail_vals, false, true);
-				$this->tpl->setVariable("SEL_".$up_par, $sel_str);
-			}
-			else
-			{
-				$this->tpl->setVariable("VAL_".$up_par, $parameters[$par]);
-			}
-		}
-		
-		/*
-		foreach($style as $tag)
-		{
-			foreach($tag as $par)
-			{
-				$this->tpl->setCurrentBlock("StyleParameter");
-				$this->tpl->setVariable("PAR_ID", $par["id"]);
-				$this->tpl->setVariable("TXT_PAR", $par["parameter"]);
-				if (count($avail_pars[$par["parameter"]]) == 0)
-				{
-					$input = "<input type=\"text\" size=\"30\" maxlength=\"100\" ".
-						"name=\"styval[".$par["id"]."]\" value=\"".$par["value"]."\"";
-				}
-				else
-				{
-					$sel_avail_vals = array();
-					foreach($avail_pars[$par["parameter"]] as $key => $val)
-					{
-						$sel_avail_vals[$val] = $val;
-					}
-					$input = ilUtil::formSelect($par["value"], "styval[".$par["id"]."]", $sel_avail_vals, false, true);
-				}
-				$this->tpl->setVariable("INPUT_VAL", $input);
-				$this->tpl->parseCurrentBlock();
-			}
-			if ((!is_int(strpos($tag[0]["class"], ":hover"))) &&
-				(!is_int(strpos($tag[0]["class"], ":visited"))) &&
-				(!is_int(strpos($tag[0]["class"], ":active")))
-				)
-			{
-				$this->tpl->setCurrentBlock("Example_".$tag[0]["tag"]);
-				$this->tpl->setVariable("EX_CLASS", "ilc_".$tag[0]["class"]);
-				$this->tpl->setVariable("EX_TEXT", "ABC abc 123");
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("StyleTag");
-			$tag_str = $tag[0]["tag"].".".$tag[0]["class"];
-			$this->tpl->setVariable("TXT_TAG", $tag_str);
-			$this->ctrl->setParameter($this, "tag", $tag_str);
-			$this->tpl->setVariable("LINK_EDIT_TAG_STYLE",
-				$this->ctrl->getLinkTarget($this, "editTagStyle"));
-			$this->tpl->setVariable("STY_ROWSPAN", (count($tag) + 1));
-			$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("parameter"));
-			$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// title and description
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable(strtoupper("TITLE"), $this->object->getTitle());
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
-		$this->tpl->setVariable(strtoupper("DESCRIPTION"), $this->object->getDescription());
-		$this->tpl->parseCurrentBlock();
-
-		// new parameter
-		$temptags = $this->object->getAvailableTags();
-		$tags = array();
-		foreach($temptags as $key => $val)
-		{
-			$tags[$val] = $val;
-		}
-		$tag_select = ilUtil::formSelect("", "tag", $tags, false, true);
-		foreach($avail_pars as $key => $val)
-		{
-			$sel_avail_pars[$key] = $key;
-		}
-		$this->tpl->setVariable("SELECT_TAG", $tag_select);
-		$par_select = ilUtil::formSelect("", "parameter", $sel_avail_pars, false, true);
-		$this->tpl->setVariable("SELECT_PAR", $par_select);
-		$this->tpl->setVariable("TXT_NEW_PAR", $this->lng->txt("add"));
-		*/
-
-		$this->ctrl->setParameter($this, "tag", $_GET["tag"]);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_return"));
-		$this->tpl->setVariable("BTN_SAVE", "updateTagStyle");
-		$this->tpl->setVariable("TXT_REFRESH", $this->lng->txt("save_refresh"));
-		$this->tpl->setVariable("BTN_REFRESH", "refreshTagStyle");
 	}
 	
 	/**
@@ -402,26 +206,24 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function refreshTagStyleObject()
 	{
-		$avail_pars = $this->object->getAvailableParameters();
+		global $ilCtrl;
+		
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
 		$cur_class = $cur[1];
-		foreach ($avail_pars as $par => $vals)
-		{
-			$var = str_replace("-", "_", $par);
-			if ($_POST[$var] != "")
-			{
-				$this->object->replaceStylePar($cur_tag, $cur_class, $par, $_POST[$var]);
-			}
-			else
-			{
-				$this->object->deleteStylePar($cur_tag, $cur_class, $par);
-			}
 
-			//$this->object->updateStyleParameter($id, $value);
+		$this->initTagStyleForm("edit", $cur_tag);
+
+		if ($this->form_gui->checkInput())
+		{
+			$this->saveTagStyle();
+			$ilCtrl->redirect($this, "editTagStyle");
 		}
-		$this->object->update();
-		$this->editTagStyleObject();
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$this->outputTagStyleEditScreen();
+		}
 	}
 
 	/**
@@ -429,44 +231,381 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function updateTagStyleObject()
 	{
-		$avail_pars = $this->object->getAvailableParameters();
+		global $ilCtrl;
+		
+		$cur = explode(".",$_GET["tag"]);
+		$cur_tag = $cur[0];
+		$cur_class = $cur[1];
+
+		$this->initTagStyleForm("edit", $cur_tag);
+		if ($this->form_gui->checkInput())
+		{
+			$this->saveTagStyle();
+			$ilCtrl->redirect($this, "edit");
+		}
+		else
+		{
+			$this->form_gui->setValuesByPost();
+			$this->outputTagStyleEditScreen();
+		}
+	}
+
+	/**
+	* Save tag style.
+	*/
+	function saveTagStyle()
+	{
 		$cur = explode(".", $_GET["tag"]);
 		$cur_tag = $cur[0];
 		$cur_class = $cur[1];
-		foreach ($avail_pars as $par => $vals)
+		$avail_pars = ilObjStyleSheet::_getStyleParameters($cur_tag);
+		foreach ($avail_pars as $par => $v)
 		{
 			$var = str_replace("-", "_", $par);
-			if ($_POST[$var] != "")
+			$basepar_arr = explode(".", $par);
+			$basepar = $basepar_arr[0];
+//var_dump($basepar_arr);
+			if ($basepar_arr[1] != "" && $basepar_arr[1] != $cur_tag)
 			{
-				$this->object->replaceStylePar($cur_tag, $cur_class, $par, $_POST[$var]);
-			}
-			else
-			{
-				$this->object->deleteStylePar($cur_tag, $cur_class, $par);
+				continue;
 			}
 
-			//$this->object->updateStyleParameter($id, $value);
+			switch ($v["input"])
+			{
+				case "fontsize":
+				case "numeric_no_perc":
+				case "numeric":
+				case "background_image":
+					$in = $this->form_gui->getItemByPostVar($basepar);
+//echo "<br>-".$cur_tag."-".$cur_class."-".$basepar."-".$_GET["style_type"]."-";
+					$this->writeStylePar($cur_tag, $cur_class, $basepar, $in->getValue(), $_GET["style_type"]);
+					break;
+
+				case "color":
+					$color = trim($_POST[$basepar]);
+					if ($color != "")
+					{
+						$color = "#".$color;
+					}
+					$this->writeStylePar($cur_tag, $cur_class, $basepar, $color, $_GET["style_type"]);
+					break;
+					
+				case "trbl_numeric":
+				case "border_width":
+				case "border_style":
+					$in = $this->form_gui->getItemByPostVar($basepar);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][0], $in->getAllValue(), $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][1], $in->getTopValue(), $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][2], $in->getRightValue(), $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][3], $in->getBottomValue(), $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][4], $in->getLeftValue(), $_GET["style_type"]);
+					break;
+
+				case "trbl_color":
+					$in = $this->form_gui->getItemByPostVar($basepar);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][0],
+						trim($in->getAllValue() != "") ? "#".$in->getAllValue() : "", $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][1],
+						trim($in->getTopValue() != "") ? "#".$in->getTopValue() : "", $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][2],
+						trim($in->getRightValue() != "") ? "#".$in->getRightValue() : "", $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][3],
+						trim($in->getBottomValue() != "") ? "#".$in->getBottomValue() : "", $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][4],
+						trim($in->getLeftValue() != "") ? "#".$in->getLeftValue() : "", $_GET["style_type"]);
+					break;
+
+				case "background_position":
+					$in = $this->form_gui->getItemByPostVar($basepar);
+					$this->writeStylePar($cur_tag, $cur_class, $basepar, $in->getValue(), $_GET["style_type"]);
+					break;
+					
+				default:
+					$this->writeStylePar($cur_tag, $cur_class, $basepar, $_POST[$basepar], $_GET["style_type"]);
+					break;
+			}
 		}
+
 		$this->object->update();
-		$this->editObject();
+	}
+	
+	function writeStylePar($cur_tag, $cur_class, $par, $value, $a_type)
+	{
+		if ($a_type == "")
+		{
+			return;
+		}
+		
+		if ($value != "")
+		{
+			$this->object->replaceStylePar($cur_tag, $cur_class, $par, $value, $a_type);
+		}
+		else
+		{
+			$this->object->deleteStylePar($cur_tag, $cur_class, $par, $a_type);
+		}
+	}
+	
+	/**
+	* Edit tag style.
+	*
+	*/
+	function editTagStyleObject()
+	{
+		global $tpl;
+
+		$cur = explode(".",$_GET["tag"]);
+		$cur_tag = $cur[0];
+		$cur_class = $cur[1];
+		
+		$this->initTagStyleForm("edit", $cur_tag);
+		$this->getValues();
+		$this->outputTagStyleEditScreen();
+	}
+	
+	/**
+	* Output tag style edit screen.
+	*/
+	function outputTagStyleEditScreen()
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		// set style sheet
+		$tpl->setCurrentBlock("ContentStyle");
+		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			$this->object->getContentStylePath($this->object->getId()));
+
+		$ts_tpl = new ilTemplate("tpl.style_tag_edit.html", true, true, "Services/Style");
+		
+		$cur = explode(".",$_GET["tag"]);
+		$cur_tag = $cur[0];
+		$cur_class = $cur[1];
+
+		$ts_tpl->setVariable("EXAMPLE",
+			ilObjStyleSheetGUI::getStyleExampleHTML($_GET["style_type"], $cur_class));
+
+		$ts_tpl->setVariable("FORM",
+			$this->form_gui->getHtml());
+		
+		$tpl->setTitle($cur_class." (".$lng->txt("sty_type_".$_GET["style_type"]).")");
+		
+		$tpl->setContent($ts_tpl->get());
 	}
 
+	
+	/**
+	* Init tag style editing form
+	*
+	* @param        int        $a_mode        Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	*/
+	public function initTagStyleForm($a_mode, $a_cur_tag)
+	{
+		global $lng;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		$avail_pars = $this->object->getAvailableParameters();
+		$groups = $this->object->getStyleParameterGroups();
+		
+		// output select lists
+		foreach ($groups as $k => $group)
+		{
+			// filter groups of properties that should only be
+			// displayed with matching tag
+			$filtered_groups = ilObjStyleSheet::_getFilteredGroups();
+			if (is_array($filtered_groups[$k]) && !in_array($a_cur_tag, $filtered_groups[$k]))
+			{
+				continue;
+			}
+
+			$sh = new ilFormSectionHeaderGUI();
+			$sh->setTitle($lng->txt("sty_".$k));
+			$this->form_gui->addItem($sh);
+			
+			foreach ($group as $par)
+			{
+				$basepar = explode(".", $par);
+				$basepar = $basepar[0];
+				
+				$var = str_replace("-", "_", $basepar);
+				$up_par = strtoupper($var);
+
+				switch (ilObjStyleSheet::_getStyleParameterInputType($par))
+				{
+					case "select":
+						$sel_input = new ilSelectInputGUI($lng->txt("sty_".$var), $basepar);
+						$options = array("" => "");
+						foreach ($avail_pars[$par] as $p)
+						{
+							$options[$p] = $p;
+						}
+						$sel_input->setOptions($options);
+						$this->form_gui->addItem($sel_input);
+						break;
+					
+					case "text":
+						$text_input = new ilTextInputGUI($lng->txt("sty_".$var), $basepar);
+						$text_input->setMaxLength(200);
+						$text_input->setSize(20);
+						$this->form_gui->addItem($text_input);
+						break;
+
+					case "fontsize":
+						include_once("./Services/Style/classes/class.ilFontSizeInputGUI.php");
+						$fs_input = new ilFontSizeInputGUI($lng->txt("sty_".$var), $basepar);
+						$this->form_gui->addItem($fs_input);
+						break;
+						
+					case "numeric_no_perc":
+					case "numeric":
+						include_once("./Services/Style/classes/class.ilNumericStyleValueInputGUI.php");
+						$num_input = new ilNumericStyleValueInputGUI($lng->txt("sty_".$var), $basepar);
+						if (ilObjStyleSheet::_getStyleParameterInputType($par) == "numeric_no_perc")
+						{
+							$num_input->setAllowPercentage(false);
+						}
+						$this->form_gui->addItem($num_input);
+						break;
+						
+					case "percentage":
+						$per_input = new ilNumberInputGUI($lng->txt("sty_".$var), $basepar);
+						$per_input->setMinValue(0);
+						$per_input->setMaxValue(100);
+						$per_input->setMaxLength(3);
+						$per_input->setSize(3);
+						$this->form_gui->addItem($per_input);
+						break;
+
+					case "color":
+						//include_once("./Services/Style/classes/class.ilNumericStyleValueInputGUI.php");
+						$col_input = new ilColorPickerInputGUI($lng->txt("sty_".$var), $basepar);
+						$col_input->setDefaultColor("");
+						$this->form_gui->addItem($col_input);
+						break;
+
+					case "trbl_numeric":
+						include_once("./Services/Style/classes/class.ilTRBLNumericStyleValueInputGUI.php");
+						$num_input = new ilTRBLNumericStyleValueInputGUI($lng->txt("sty_".$var), $basepar);
+						if (ilObjStyleSheet::_getStyleParameterInputType($par) == "trbl_numeric_no_perc")
+						{
+							$num_input->setAllowPercentage(false);
+						}
+						$this->form_gui->addItem($num_input);
+						break;
+
+					case "border_width":
+						include_once("./Services/Style/classes/class.ilTRBLBorderWidthInputGUI.php");
+						$bw_input = new ilTRBLBorderWidthInputGUI($lng->txt("sty_".$var), $basepar);
+						$this->form_gui->addItem($bw_input);
+						break;
+
+					case "border_style":
+						include_once("./Services/Style/classes/class.ilTRBLBorderStyleInputGUI.php");
+						$bw_input = new ilTRBLBorderStyleInputGUI($lng->txt("sty_".$var), $basepar);
+						$this->form_gui->addItem($bw_input);
+						break;
+
+					case "trbl_color":
+						include_once("./Services/Style/classes/class.ilTRBLColorPickerInputGUI.php");
+						$col_input = new ilTRBLColorPickerInputGUI($lng->txt("sty_".$var), $basepar);
+						$this->form_gui->addItem($col_input);
+						break;
+
+					case "background_image":
+						include_once("./Services/Style/classes/class.ilBackgroundImageInputGUI.php");
+						$im_input = new ilBackgroundImageInputGUI($lng->txt("sty_".$var), $basepar);
+						$imgs = array();
+						foreach ($this->object->getImages() as $entry)
+						{
+							$imgs[] = $entry["entry"];
+						}
+						$im_input->setImages($imgs);
+						$this->form_gui->addItem($im_input);
+						break;
+
+					case "background_position":
+						include_once("./Services/Style/classes/class.ilBackgroundPositionInputGUI.php");
+						$im_input = new ilBackgroundPositionInputGUI($lng->txt("sty_".$var), $basepar);
+						$this->form_gui->addItem($im_input);
+						break;
+				}
+			}
+		}
+		
+		// save and cancel commands
+		$this->form_gui->addCommandButton("updateTagStyle", $lng->txt("save_return"));
+		$this->form_gui->addCommandButton("refreshTagStyle", $lng->txt("save_refresh"));
+		
+		$this->form_gui->setTitle($lng->txt("edit"));
+		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
+	}
+	
+	/**
+	* FORM: Get current values from persistent object.
+	*
+	*/
+	public function getValues()
+	{
+		$style = $this->object->getStyle();
+		$cur = explode(".",$_GET["tag"]);
+		$cur_tag = $cur[0];
+		$cur_class = $cur[1];
+		$cur_parameters = $this->extractParametersOfTag($cur_tag, $cur_class, $style, $_GET["style_type"]);
+		$parameters = ilObjStyleSheet::_getStyleParameters();
+		foreach($parameters as $p => $v)
+		{
+			$filtered_groups = ilObjStyleSheet::_getFilteredGroups();
+			if (is_array($filtered_groups[$v["group"]]) && !in_array($cur_tag, $filtered_groups[$v["group"]]))
+			{
+				continue;
+			}
+			$p = explode(".", $p);
+			$p = $p[0];
+			$input = $this->form_gui->getItemByPostVar($p);
+			switch ($v["input"])
+			{
+				case "":
+					break;
+					
+				case "trbl_numeric":
+				case "border_width":
+				case "border_style":
+				case "trbl_color":
+					$input->setAllValue($cur_parameters[$v["subpar"][0]]);
+					$input->setTopValue($cur_parameters[$v["subpar"][1]]);
+					$input->setRightValue($cur_parameters[$v["subpar"][2]]);
+					$input->setBottomValue($cur_parameters[$v["subpar"][3]]);
+					$input->setLeftValue($cur_parameters[$v["subpar"][4]]);
+					break;
+					
+				default:
+//var_dump($cur_parameters[$p]);
+					$input->setValue($cur_parameters[$p]);
+					break;
+			}
+		}
+	}
+	
 	/**
 	* export style
 	*/
 	function exportStyleObject()
 	{
-		ilUtil::deliverData($this->object->getXML(), "style_".$this->object->getId().".xml");
+		$file = $this->object->export();
+		
+		ilUtil::deliverFile($file, "sty_".$this->object->getId().".zip");
 	}
 
-	function extractParametersOfTag($a_tag, $a_class, $a_style)
+	function extractParametersOfTag($a_tag, $a_class, $a_style, $a_type)
 	{
 		$parameters = array();
 		foreach($a_style as $tag)
 		{
 			foreach($tag as $par)
 			{
-				if ($par["tag"] == $a_tag && $par["class"] == $a_class)
+				if ($par["tag"] == $a_tag && $par["class"] == $a_class
+					&& $par["type"] == $a_type)
 				{
 					$parameters[$par["parameter"]] = $par["value"]; 
 				}
@@ -598,9 +737,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$class_name = "ilObjStyleSheet";
 		require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$newObj = new ilObjStyleSheet();
-		$newObj->setTitle($_POST["style_title"]);
-		$newObj->setDescription($_POST["style_description"]);
+		$newObj->setTitle("-");
 		$newObj->create();
+		$newObj->setTitle(ilUtil::stripSlashes($_POST["style_title"]));
+		$newObj->setDescription(ilUtil::stripSlashes($_POST["style_description"]));
+		$newObj->update();
 
 		// assign style to style sheet folder,
 		// if parent is style sheet folder
@@ -625,29 +766,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		//$class_name = "ilObjStyleSheet";
-		//require_once("classes/class.ilObjStyleSheet.php");
-		$this->object->setTitle($_POST["style_title"]);
-		$this->object->setDescription($_POST["style_description"]);
-
-		foreach($_POST["styval"] as $id => $value)
-		{
-			$this->object->updateStyleParameter($id, $value);
-		}
-		$this->object->update();
+		global $lng;
 		
-		if ($_GET["ref_id"] > 0)
-		{
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["style_title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["style_description"]));
 
-			$fold =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
-			if ($fold->getType() == "stys")
-			{
-				$this->ctrl->redirectByClass("ilobjstylesettingsgui",
-					"editContentStyles");
-			}
-		}
-
-		$this->ctrl->returnToParent($this);
+		$this->object->update();
+		ilUtil::sendInfo($lng->txt("msg_saved_modifications"));
+		$this->ctrl->redirect($this, "properties");
 	}
 
 	/**
@@ -693,9 +819,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		// check correct file type
 		$info = pathinfo($_FILES["stylefile"]["name"]);
-		if (strtolower($info["extension"]) != "xml")
+		if (strtolower($info["extension"]) != "zip")
 		{
-			$this->ilias->raiseError("File must be a xml file!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("File must be a zip file!",$this->ilias->error_obj->MESSAGE);
 		}
 
 		$class_name = "ilObjStyleSheet";
@@ -703,7 +829,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$newObj = new ilObjStyleSheet();
 		//$newObj->setTitle();
 		//$newObj->setDescription($_POST["style_description"]);
-		$newObj->createFromXMLFile($_FILES["stylefile"]["tmp_name"]);
+		$newObj->import($_FILES["stylefile"]);
+		//$newObj->createFromXMLFile($_FILES["stylefile"]["tmp_name"]);
 
 		// assign style to style sheet folder,
 		// if parent is style sheet folder
@@ -749,11 +876,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		global $lng;
 
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($this->tabs_gui);
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
 		if (strtolower(get_class($this->object)) == "ilobjstylesheet")
 		{
@@ -771,11 +894,60 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
 	function getTabs(&$tabs_gui)
-	{		
-		// back to upper context
-		$tabs_gui->addTarget("cont_back",
-			$this->ctrl->getParentReturn($this), "",
-			"");
+	{
+		global $lng, $ilCtrl;
+		
+		if ($ilCtrl->getCmd() == "editTagStyle")
+		{
+			// back to upper context
+			$tabs_gui->setBackTarget($lng->txt("back"),
+				$ilCtrl->getLinkTarget($this, "edit"));
+		}
+		else
+		{
+			// back to upper context
+			$tabs_gui->setBackTarget($lng->txt("back"),
+				$this->ctrl->getParentReturn($this));
+	
+			// style classes
+			$tabs_gui->addTarget("sty_style_chars",
+				$this->ctrl->getLinkTarget($this, "edit"), array("edit", ""),
+				get_class($this));
+	
+			// images
+			$tabs_gui->addTarget("sty_images",
+				$this->ctrl->getLinkTarget($this, "listImages"), "listImages",
+				get_class($this));
+				
+			// settings
+			$tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "properties"), "properties",
+				get_class($this));
+		}
+
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function setSubTabs()
+	{
+		global $lng, $ilTabs, $ilCtrl;
+		
+		$types = ilObjStyleSheet::_getStyleSuperTypes();
+		
+		foreach ($types as $super_type => $types)
+		{
+			// text block characteristics
+			$ilCtrl->setParameter($this, "style_type", $super_type);
+			$ilTabs->addSubTabTarget("sty_".$super_type."_char",
+				$this->ctrl->getLinkTarget($this, "edit"), array("edit", ""),
+				get_class($this));
+		}
+
+		$ilCtrl->setParameter($this, "style_type", $_GET["style_type"]);
 	}
 
 	/**
@@ -823,6 +995,277 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		{
 			// ?
 		}
+	}
+
+	/**
+	* List images of style
+	*/
+	function listImagesObject()
+	{
+		global $tpl;
+		
+		include_once("./Services/Style/classes/class.ilStyleImageTableGUI.php");
+		$table_gui = new ilStyleImageTableGUI($this, "listImages",
+			$this->object);
+		$tpl->setContent($table_gui->getHTML());
+		
+	}
+	
+	/**
+	*
+	*/
+	function addImageObject()
+	{
+		global $tpl;
+		
+		$this->initImageForm();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+	
+	/**
+	* Cancel Upload
+	*/
+	function cancelUploadObject()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirect($this, "listImages");
+	}
+	
+	/**
+	* Upload image
+	*/
+	function uploadImageObject()
+	{
+		global $tpl, $ilCtrl;
+		
+		$this->initImageForm();
+		
+		if ($this->form_gui->checkInput())
+		{
+			$this->object->uploadImage($_FILES["image_file"]);
+			$ilCtrl->redirect($this, "listImages");
+		}
+		else
+		{
+			//$this->form_gui->setImageFormValuesByPost();
+			$tpl->setContent($this->form_gui->getHTML());
+		}
+
+	}
+	
+	/**
+	* Init image form
+	*/
+	function initImageForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		$this->form_gui->setTitle($lng->txt("sty_add_image"));
+		
+		$file_input = new ilImageFileInputGUI($lng->txt("sty_image_file"), "image_file");
+		$file_input->setRequired(true);
+		$this->form_gui->addItem($file_input);
+		
+		$this->form_gui->addCommandButton("uploadImage", $lng->txt("upload"));
+		$this->form_gui->addCommandButton("cancelUpload", $lng->txt("cancel"));
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
+	/**
+	* Delete images
+	*/
+	function deleteImageObject()
+	{
+		global $ilCtrl;
+		
+		$images = $this->object->getImages();
+		
+		foreach ($images as $image)
+		{
+			if (is_array($_POST["file"]) && in_array($image["entry"], $_POST["file"]))
+			{
+				$this->object->deleteImage($image["entry"]);
+			}
+		}
+		$ilCtrl->redirect($this, "listImages");
+	}
+	
+	/**
+	* Characteristic deletion confirmation screen
+	*/
+	function deleteCharacteristicConfirmationObject()
+	{
+		global $ilCtrl, $tpl, $lng;
+		
+//var_dump($_POST);
+
+		if (!is_array($_POST["char"]) || count($_POST["char"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "edit");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("sty_confirm_char_deletion"));
+			$cgui->setCancel($lng->txt("cancel"), "cancelCharacteristicDeletion");
+			$cgui->setConfirm($lng->txt("delete"), "deleteCharacteristic");
+			
+			foreach ($_POST["char"] as $char)
+			{
+				$char_comp = explode(".", $char);
+				$cgui->addItem("char[]", $char, $char_comp[2]);
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+	
+	/**
+	* Cancel characteristic deletion
+	*/
+	function cancelCharacteristicDeletionObject()
+	{
+		global $ilCtrl, $lng;
+		
+		ilUtil::sendInfo($lng->txt("action_aborted"), true);
+		$ilCtrl->redirect($this, "edit");
+	}
+	
+	/**
+	* Delete one or multiple style characteristic
+	*/
+	function deleteCharacteristicObject()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["char"]))
+		{
+			foreach($_POST["char"] as $char)
+			{
+				$char_comp = explode(".", $char);
+				$type = $char_comp[0];
+				$tag = $char_comp[1];
+				$class = $char_comp[2];
+				
+				$this->object->deleteCharacteristic($type, $tag, $class);
+			}
+		}
+
+		$ilCtrl->redirect($this, "edit");
+	}
+	
+	/**
+	* Add characteristic
+	*/
+	function addCharacteristicFormObject()
+	{
+		global $tpl;
+		
+		$this->initCharacteristicForm("create");
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+	
+	/**
+	* Save Characteristic
+	*/
+	function saveCharacteristicObject()
+	{
+		global $ilCtrl, $tpl, $lng;
+		
+		$this->initCharacteristicForm("create");
+
+		if ($this->form_gui->checkInput())
+		{
+			if ($this->object->characteristicExists($_POST["new_characteristic"], $_GET["style_type"]))
+			{
+				$char_input = $this->form_gui->getItemByPostVar("new_characteristic");
+				$char_input->setAlert($lng->txt("sty_characteristic_already_exists"));
+			}
+			else
+			{
+				$this->object->addCharacteristic($_POST["type"], $_POST["new_characteristic"]);
+				ilUtil::sendInfo($lng->txt("sty_added_characteristic"), true);
+				$ilCtrl->redirect($this, "edit");
+			}
+		}
+		$this->form_gui->setValuesByPost();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+	
+	/**
+	* Init tag style editing form
+	*
+	* @param        int        $a_mode        Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	*/
+	public function initCharacteristicForm($a_mode)
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+		
+		// title
+		$txt_input = new ilRegExpInputGUI($lng->txt("title"), "new_characteristic");
+		$txt_input->setPattern("/^[a-zA-Z]+[a-zA-Z0-9]*$/");
+		$txt_input->setNoMatchMessage($lng->txt("sty_msg_characteristic_must_only_include")." A-Z, a-z, 1-9");
+		$txt_input->setRequired(true);
+		$this->form_gui->addItem($txt_input);
+		
+		// type
+		$all_super_types = ilObjStyleSheet::_getStyleSuperTypes();
+		$types = $all_super_types[$this->super_type];
+		$exp_types = array();
+		foreach($types as $t)
+		{
+			if (ilObjStyleSheet::_isExpandable($t))
+			{
+				$exp_types[$t] = $lng->txt("sty_type_".$t);
+			}
+		}
+		if (count($exp_types) > 1)
+		{
+			$type_input = new ilSelectInputGUI($lng->txt("sty_type"), "type");
+			$type_input->setOptions($exp_types);
+			$type_input->setValue(key($exp_types));
+			$this->form_gui->addItem($type_input);
+		}
+		else if (count($exp_types) == 1)
+		{
+			$hid_input = new ilHiddenInputGUI("type");
+			$hid_input->setValue(key($exp_types));
+			$this->form_gui->addItem($hid_input);
+		}
+		
+		$this->form_gui->setTitle($lng->txt("sty_add_characteristic"));
+		$this->form_gui->addCommandButton("saveCharacteristic", $lng->txt("save"));
+		$this->form_gui->addCommandButton("edit", $lng->txt("cancel"));
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+	}
+	
+	/**
+	* Get style example HTML
+	*/
+	static function getStyleExampleHTML($a_type, $a_class)
+	{
+		$ex_tpl = new ilTemplate("tpl.style_example.html", true, true, "Services/Style");
+		
+		$ex_tpl->setCurrentBlock("Example_".$a_type);
+		$ex_tpl->setVariable("EX_CLASS", "ilc_".$a_type."_".$a_class);
+		$ex_tpl->setVariable("EX_TEXT", "ABC abc 123");
+		if ($a_type == "media_cont")
+		{
+			$ex_tpl->setVariable("IMG_MEDIA_DISABLED", ilUtil::getImagePath("media_disabled.gif"));
+		}
+		$ex_tpl->parseCurrentBlock();
+
+		return $ex_tpl->get();
 	}
 
 } // END class.ObjStyleSheetGUI

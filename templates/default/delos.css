@@ -1952,30 +1952,6 @@ td.il_CalDay
 }
 
 /* --- content styles (will move to content.css) --- */
-table.ilc_Page {
-	border-width: 1px;
-	border-spacing: 0px;
-	border-style: solid;
-	border-color: #9EADBA;
-	border-collapse:collapse;
-	margin: 0px;
-	padding: 0px;
-	width:100%;
-}
-
-td.ilc_Page
-{
-	padding:20px;
-	border-left-style: solid;
-	border-right-style: solid;
-	border-color: #9EADBA;
-	border-left-width: 1px;
-	border-right-width: 1px;
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	margin-bottom: 0px;
-}
-
 td.ilc_PageDisabled
 {
 	padding:20px;
@@ -1987,31 +1963,6 @@ td.ilc_PageDisabled
 	margin-bottom: 0px;
 	border-left: 3px dotted red;
 
-}
-
-table.ilc_LMNavigation {
-	border-width: 0px;
-	border-spacing: 0px;
-	margin: 0px;
-	padding: 0px;
-	background-image: url(images/TableHeader.gif);
-	background-repeat:repeat-x;
-	background-color: #EDEDED;
-	width:100%;
-}
-
-td.ilc_LMNavigation
-{
-	padding: 3px;
-	border-style: solid;
-	border-color: #9EADBA;
-	border-left-width: 0px;
-	border-right-width: 0px;
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	background-image: url(images/TableHeader.gif);
-	background-color: #EDEDED;
-	margin-bottom: 0px;
 }
 
 div.ilc_DefinitionHeader
@@ -2042,32 +1993,6 @@ html.ilc_Fullscreen, body.ilc_Fullscreen
 	margin: 0;
 	padding: 0;
 	height: 100%;
-}
-
-table.ilc_FileList
-{
-	width: 100%;
-	color:#222222;
-	background-color:#bbbbbb;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
-	margin: 10px 0px;
-}
-
-th.ilc_FileList
-{
-	text-align: left;
-	padding: 3px;
-	background-image: url(images/TableHeader.gif);
-}
-
-td.ilc_FileItem
-{
-	background-color: #FFFFFF;
-	padding: 3px;
 }
 
 div.ilc_LMMenu

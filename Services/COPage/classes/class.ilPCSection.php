@@ -99,7 +99,12 @@ class ilPCSection extends ilPageContent
 	{
 		if (is_object($this->sec_node))
 		{
-			return $this->sec_node->get_attribute("Characteristic");
+			$char =  $this->sec_node->get_attribute("Characteristic");
+			if (substr($char, 0, 4) == "ilc_")
+			{
+				$char = substr($char, 4);
+			}
+			return $char;
 		}
 	}
 }

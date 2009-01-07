@@ -44,6 +44,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	function ilPCTableGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		$this->setCharacteristics(array("StandardTable" => $this->lng->txt("cont_StandardTable")));
+
 	}
 
 	/**
@@ -51,6 +53,8 @@ class ilPCTableGUI extends ilPageContentGUI
 	*/
 	function &executeCommand()
 	{
+		$this->getCharacteristicsOfCurrentStyle("table");	// scorm-2004
+		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -131,6 +135,34 @@ class ilPCTableGUI extends ilPageContentGUI
 		$spacing->setSize(6);
 		$spacing->setMaxLength(6);
 		$form->addItem($spacing);
+
+		// table characteristic
+		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+			"characteristic");
+			
+		$chars = $this->getCharacteristics();
+		if (is_object($this->content_obj))
+		{
+			if ($chars[$a_seleted_value] == "" && ($this->content_obj->getClass() != ""))
+			{
+				$chars = array_merge(
+					array($this->content_obj->getClass() => $this->content_obj->getClass()),
+					$chars);
+			}
+		}
+
+		$selected = $this->content_obj->getClass();
+			
+		foreach($chars as $k => $char)
+		{
+			$chars[$k] = '<table class="ilc_table_'.$k.'"><tr><td>'.
+				$char.'</td></tr></table>';
+		}
+
+		$char_prop->setValue($selected);
+		$char_prop->setOptions($chars);
+		$form->addItem($char_prop);
 
 		// alignment
 		$align_opts = array("Left" => $lng->txt("cont_left"),
@@ -230,8 +262,9 @@ class ilPCTableGUI extends ilPageContentGUI
 		// first row style
 		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
 		$style = new ilRadioMatrixInputGUI($this->lng->txt("cont_style"), "style");
-		$options = array("" => $this->lng->txt("none"), "ilc_Cell1" => "Cell1", "ilc_Cell2" => "Cell2",
-			"ilc_Cell3" => "Cell3", "ilc_Cell4" => "Cell4");
+		$this->getCharacteristicsOfCurrentStyle("table_cell");	// scorm-2004
+		$chars = $this->getCharacteristics();	// scorm-2004
+		$options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
 		foreach($options as $k => $option)
 		{
 			$options[$k] = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="'.$k.'">'.
@@ -467,12 +500,41 @@ class ilPCTableGUI extends ilPageContentGUI
 		$spacing->setSize(6);
 		$spacing->setMaxLength(6);
 		$form->addItem($spacing);
+		
+				// table characteristic
+		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+			"characteristic");
+			
+		$chars = $this->getCharacteristics();
+		if (is_object($this->content_obj))
+		{
+			if ($chars[$a_seleted_value] == "" && ($this->content_obj->getCharacteristic() != ""))
+			{
+				$chars = array_merge(
+					array($this->content_obj->getCharacteristic() => $this->content_obj->getCharacteristic()),
+					$chars);
+			}
+		}
+
+		$selected = "StandardTable";
+			
+		foreach($chars as $k => $char)
+		{
+			$chars[$k] = '<table class="ilc_table_'.$k.'"><tr><td>'.
+				$char.'</td></tr></table>';
+		}
+
+		$char_prop->setValue($selected);
+		$char_prop->setOptions($chars);
+		$form->addItem($char_prop);
 
 		// first row style
 		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
 		$fr_style = new ilRadioMatrixInputGUI($this->lng->txt("cont_first_row_style"), "first_row_style");
-		$options = array("" => $this->lng->txt("none"), "ilc_Cell1" => "Cell1", "ilc_Cell2" => "Cell2",
-			"ilc_Cell3" => "Cell3", "ilc_Cell4" => "Cell4");
+		$this->getCharacteristicsOfCurrentStyle("table_cell");	// scorm-2004
+		$chars = $this->getCharacteristics();	// scorm-2004
+		$options = array_merge(array("" => $this->lng->txt("none")), $chars);	// scorm-2004
 		foreach($options as $k => $option)
 		{
 			$options[$k] = '<table border="0" cellspacing="0" cellpadding="0"><tr><td class="'.$k.'">'.
@@ -627,6 +689,7 @@ return;
 		$this->content_obj->setCellPadding(ilUtil::stripSlashes($_POST["padding"]));
 		$this->content_obj->setCellSpacing(ilUtil::stripSlashes($_POST["spacing"]));
 		$this->content_obj->setHorizontalAlign(ilUtil::stripSlashes($_POST["align"]));
+		$this->content_obj->setClass(ilUtil::stripSlashes($_POST["characteristic"]));
 		
 		$frtype = ilUtil::stripSlashes($_POST["first_row_style"]);
 		if ($frtype != "")

@@ -1731,19 +1731,27 @@ class ilUtil
 	/**
 	*	zips given directory/file into given zip.file
 	*/
-	function zip($a_dir, $a_file)
+	function zip($a_dir, $a_file, $compress_content = false)
 	{
 		//global $ilias;
 
 		$cdir = getcwd();
 
+		if($compress_content)
+		{
+			$a_dir .="/*";
+			$pathinfo = pathinfo($a_dir);
+			chdir($pathinfo["dirname"]);
+		}
+		
 		$pathinfo = pathinfo($a_file);
 		$dir = $pathinfo["dirname"];
 		$file = $pathinfo["basename"];
 
-		// unzip
-		$cdir = getcwd();
-		chdir($dir);
+		if(!$compress_content)
+		{
+			chdir($dir);
+		}
 
 		$zip = PATH_TO_ZIP;
 		//$zip = $ilias->getSetting("zip_path");
@@ -1770,6 +1778,7 @@ class ilUtil
 		}
 
 		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($a_file)." ".$source;
+
 		exec($zipcmd);
 //echo htmlentities($zipcmd);
 		chdir($cdir);
@@ -3215,6 +3224,7 @@ class ilUtil
 		global $log, $PHP_SELF;
 //$log->write("redirect FROM:".$PHP_SELF." to ".$a_script);
 			//vd($a_script);
+//echo "-".$a_script."-";
 		header("Location: ".$a_script);
 		exit();
 	}

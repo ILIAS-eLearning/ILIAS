@@ -842,7 +842,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$lang_vars = array("ed_insert_par", "ed_insert_code",
 			"ed_insert_dtable", "ed_insert_atable", "ed_insert_media", "ed_insert_list",
 			"ed_insert_filelist", "ed_paste_clip", "ed_edit", "ed_insert_section",
-			"ed_edit_prop","ed_edit_data", "ed_delete", "ed_moveafter", "ed_movebefore",
+			"ed_edit_prop","ed_edit_files", "ed_edit_data", "ed_delete", "ed_moveafter", "ed_movebefore",
 			"ed_go", "ed_new_row_after", "ed_new_row_before",
 			"ed_new_col_after", "ed_new_col_before", "ed_delete_col",
 			"ed_delete_row", "ed_class", "ed_width", "ed_align_left",

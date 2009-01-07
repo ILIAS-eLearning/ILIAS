@@ -69,17 +69,73 @@ class ilPageContentGUI
 		}
 	}
 
+	// scorm2004-start
+	/**
+	* Set Style Id.
+	*
+	* @param	int	$a_styleid	Style Id
+	*/
+	function setStyleId($a_styleid)
+	{
+		$this->styleid = $a_styleid;
+	}
+
+	/**
+	* Get Style Id.
+	*
+	* @return	int	Style Id
+	*/
+	function getStyleId()
+	{
+		return $this->styleid;
+	}
+
+	/**
+	* Get characteristics of current style
+	*/
+	protected function getCharacteristicsOfCurrentStyle($a_type)
+	{
+		if ($this->getStyleId() > 0 &&
+			ilObject::_lookupType($this->getStyleId()) == "sty")
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$style = new ilObjStyleSheet($this->getStyleId());
+			$chars = $style->getCharacteristics($a_type);
+			$new_chars = array();
+			foreach ($chars as $char)
+			{
+				if ($this->chars[$char] != "")	// keep lang vars for standard chars
+				{
+					$new_chars[$char] = $this->chars[$char];
+				}
+				else
+				{
+					$new_chars[$char] = $char;
+				}
+				asort($new_chars);
+			}
+			$this->setCharacteristics($new_chars);
+		}
+	}
+
+	/**
+	* Set Characteristics
+	*/
+	function setCharacteristics($a_chars)
+	{
+		$this->chars = $a_chars;
+	}
+
+	/**
+	* Get characteristics
+	*/
+	function getCharacteristics()
+	{
+		return $this->chars;
+	}
+	// scorm2004-end
+
 	/*
-	function setTargetScript($a_target_script)
-	{
-		$this->target_script = $a_target_script;
-	}
-
-	function getTargetScript()
-	{
-		return $this->target_script;
-	}
-
 	function setReturnLocation($a_location)
 	{
 		$this->return_location = $a_location;

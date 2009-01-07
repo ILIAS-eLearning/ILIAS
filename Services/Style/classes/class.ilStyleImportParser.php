@@ -73,6 +73,7 @@ class ilStyleImportParser extends ilSaxParser
 		$this->styles = array();
 		parent::startParsing();
 		$this->style_obj->setStyle($this->styles);
+		$this->style_obj->setCharacteristics($this->chars);
 	}
 
 
@@ -87,7 +88,10 @@ class ilStyleImportParser extends ilSaxParser
 			case "Style":
 				$this->current_tag = $a_attribs["Tag"];
 				$this->current_class = $a_attribs["Class"];
+				$this->current_type = $a_attribs["Type"];
 				$this->current_tags = array();
+				$this->chars[] = array("type" => $this->current_type,
+					"class" => $this->current_class);
 				break;
 				
 			case "StyleParameter":
@@ -95,6 +99,7 @@ class ilStyleImportParser extends ilSaxParser
 					"tag" => $this->current_tag,
 					"class" => $this->current_class,
 					"parameter" => $a_attribs["Name"],
+					"type" => $this->current_type,
 					"value" => $a_attribs["Value"]);
 				break;
 		}

@@ -125,5 +125,140 @@ class ilPCFileList extends ilPageContent
 		}
 		return "";
 	}
+	
+	/**
+	* Get list of files
+	*/
+	function getFileList()
+	{
+		$files = array();
+		
+		// File Item
+		$childs = $this->list_node->child_nodes();
+		for ($i=0; $i<count($childs); $i++)
+		{
+			if ($childs[$i]->node_name() == "FileItem")
+			{
+				$id = $entry = "";
+				$pc_id = $childs[$i]->get_attribute("PCID");
+				$hier_id = $childs[$i]->get_attribute("HierId");
+				$class = $childs[$i]->get_attribute("Class");
+				
+				// Identifier
+				$id_node = $childs[$i]->first_child();
+				if ($id_node->node_name() == "Identifier")
+				{
+					$entry = $id_node->get_attribute("Entry");
+					if (substr($entry, 0, 9) == "il__file_")
+					{
+						$id = substr($entry, 9);
+					}
+				}
+				$files[] = array("entry" => $entry, "id" => $id,
+					"pc_id" => $pc_id, "hier_id" => $hier_id,
+					"class" => $class);
+			}
+		}
+		
+		return $files;
+	}
+
+	/**
+	* Delete file items
+	*/
+	function deleteFileItems($a_ids)
+	{
+		$files = array();
+		
+		// File Item
+		$childs = $this->list_node->child_nodes();
+
+		for ($i=0; $i<count($childs); $i++)
+		{
+			if ($childs[$i]->node_name() == "FileItem")
+			{
+				$id = $entry = "";
+				$pc_id = $childs[$i]->get_attribute("PCID");
+				$hier_id = $childs[$i]->get_attribute("HierId");
+				
+				if (in_array($hier_id.":".$pc_id, $a_ids))
+				{
+					$childs[$i]->unlink($childs[$i]);
+				}
+			}
+		}
+	}
+
+	/**
+	* Save positions of file items
+	*/
+	function savePositions($a_pos)
+	{
+		asort($a_pos);
+		
+		// File Item
+		$childs = $this->list_node->child_nodes();
+		$nodes = array();
+		for ($i=0; $i<count($childs); $i++)
+		{
+			if ($childs[$i]->node_name() == "FileItem")
+			{
+				$id = $entry = "";
+				$pc_id = $childs[$i]->get_attribute("PCID");
+				$hier_id = $childs[$i]->get_attribute("HierId");
+				$nodes[$hier_id.":".$pc_id] = $childs[$i];
+				$childs[$i]->unlink($childs[$i]);
+			}
+		}
+		
+		foreach($a_pos as $k => $v)
+		{
+			if (is_object($nodes[$k]))
+			{
+				$nodes[$k] = $this->list_node->append_child($nodes[$k]);
+			}
+		}
+	}
+
+	/**
+	* Get all style classes
+	*/
+	function getAllClasses()
+	{
+		$classes = array();
+		
+		// File Item
+		$childs = $this->list_node->child_nodes();
+
+		for ($i=0; $i<count($childs); $i++)
+		{
+			if ($childs[$i]->node_name() == "FileItem")
+			{
+				$classes[$childs[$i]->get_attribute("HierId").":".
+					$childs[$i]->get_attribute("PCID")] = $childs[$i]->get_attribute("Class");
+			}
+		}
+		
+		return $classes;
+	}
+
+	/**
+	* Save style classes of file items
+	*/
+	function saveStyleClasses($a_class)
+	{
+		// File Item
+		$childs = $this->list_node->child_nodes();
+		for ($i=0; $i<count($childs); $i++)
+		{
+			if ($childs[$i]->node_name() == "FileItem")
+			{
+				$childs[$i]->set_attribute("Class",
+					$a_class[$childs[$i]->get_attribute("HierId").":".
+					$childs[$i]->get_attribute("PCID")]);
+			}
+		}
+	}
+
 }
 ?>

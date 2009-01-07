@@ -44,22 +44,14 @@ class ilPCSectionGUI extends ilPageContentGUI
 	function ilPCSectionGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
-	}
-
-	/**
-	* Get characteristics
-	*/
-	static function getCharacteristics()
-	{
-		global $lng;
 		
-		return  array("ilc_Block" => $lng->txt("cont_Block"),
-			"ilc_Mnemonic" => $lng->txt("cont_Mnemonic"),
-			"ilc_Remark" => $lng->txt("cont_Remark"),
-			"ilc_Example" => $lng->txt("cont_Example"),
-			"ilc_Additional" => $lng->txt("cont_Additional"),
-			"ilc_Special" => $lng->txt("cont_Special"),
-			"ilc_Excursus" => $lng->txt("cont_Excursus"));
+		$this->setCharacteristics(array("Block" => $this->lng->txt("cont_Block"),
+			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
+			"Remark" => $this->lng->txt("cont_Remark"),
+			"Example" => $this->lng->txt("cont_Example"),
+			"Additional" => $this->lng->txt("cont_Additional"),
+			"Special" => $this->lng->txt("cont_Special"),
+			"Excursus" => $this->lng->txt("cont_Excursus")));
 	}
 
 	/**
@@ -67,6 +59,8 @@ class ilPCSectionGUI extends ilPageContentGUI
 	*/
 	function &executeCommand()
 	{
+		$this->getCharacteristicsOfCurrentStyle("section");	// scorm-2004
+		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -117,14 +111,25 @@ class ilPCSectionGUI extends ilPageContentGUI
 		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
 		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
 			"characteristic");
+			
 		$chars = $this->getCharacteristics();
+		if (is_object($this->content_obj))
+		{
+			if ($chars[$a_seleted_value] == "" && ($this->content_obj->getCharacteristic() != ""))
+			{
+				$chars = array_merge(
+					array($this->content_obj->getCharacteristic() => $this->content_obj->getCharacteristic()),
+					$chars);
+			}
+		}
+
 		$selected = ($a_insert)
-			? "ilc_Block"
+			? "Block"
 			: $this->content_obj->getCharacteristic();
 			
 		foreach($chars as $k => $char)
 		{
-			$chars[$k] = '<div class="'.$k.'">'.
+			$chars[$k] = '<div class="ilc_section_'.$k.'">'.
 				$char.'</div>';
 		}
 
@@ -140,7 +145,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$form->addCommandButton("update_section", $lng->txt("save"));
+			$form->addCommandButton("update", $lng->txt("save"));
 			$form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
 		$html = $form->getHTML();

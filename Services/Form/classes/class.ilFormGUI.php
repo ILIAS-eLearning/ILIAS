@@ -189,7 +189,9 @@ $GLOBALS["cnt"] += 1;
 				$tpl->parseCurrentBlock();
 			}*/
 		}
+
 		$tpl->setVariable("FORM_CONTENT", $content);
+
 		$tpl->setVariable("FORM_ACTION", $this->getFormAction());
 		if (!$this->getKeepOpen())
 		{
