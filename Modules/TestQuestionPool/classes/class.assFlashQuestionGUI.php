@@ -335,51 +335,29 @@ class assFlashQuestionGUI extends assQuestionGUI
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+
+		$params = array();
 		if (is_array($this->object->getParameters()))
 		{
 			foreach ($this->object->getParameters() as $name => $value)
 			{
-				$template->setCurrentBlock("applet_parameter");
-				$template->setVariable("PARAM_NAME", ilUtil::prepareFormOutput($name));
-				$template->setVariable("PARAM_VALUE", ilUtil::prepareFormOutput($value));
-				$template->parseCurrentBlock();
+				array_push($params, urlencode($name) . "=" . urlencode($value));
 			}
 		}
 
-		$template->setCurrentBlock("applet_parameter");
-		$template->setVariable("PARAM_NAME", "session_id");
-		$template->setVariable("PARAM_VALUE", $_COOKIE["PHPSESSID"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("applet_parameter");
-		$template->setVariable("PARAM_NAME", "client");
-		$template->setVariable("PARAM_VALUE", CLIENT_ID);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("applet_parameter");
-		$template->setVariable("PARAM_NAME", "points_max");
-		$template->setVariable("PARAM_VALUE", $this->object->getPoints());
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("applet_parameter");
-		$template->setVariable("PARAM_NAME", "server");
-		$template->setVariable("PARAM_VALUE", ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl");
-		$template->parseCurrentBlock();
+		array_push($params, "session_id=" . urlencode($_COOKIE["PHPSESSID"]));
+		array_push($params, "client=" . urlencode(CLIENT_ID));
+		array_push($params, "points_max=" . urlencode($this->object->getPoints()));
+		array_push($params, "server=" . urlencode(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl"));
 		if (strlen($pass))
 		{
-			$template->setCurrentBlock("applet_parameter");
-			$template->setVariable("PARAM_NAME", "pass");
-			$template->setVariable("PARAM_VALUE", $pass);
-			$template->parseCurrentBlock();
+			array_push($params, "pass=" . $pass);
 		}
 		if ($active_id)
 		{
-			$template->setCurrentBlock("applet_parameter");
-			$template->setVariable("PARAM_NAME", "active_id");
-			$template->setVariable("PARAM_VALUE", $active_id);
-			$template->parseCurrentBlock();
+			array_push($params, "active_id=" . $active_id);
 		}
-		$template->setCurrentBlock("applet_parameter");
-		$template->setVariable("PARAM_NAME", "question_id");
-		$template->setVariable("PARAM_VALUE", $this->object->getId());
-		$template->parseCurrentBlock();
+		array_push($params, "question_id=" . $this->object->getId());
 
 		if ($show_correct_solution)
 		{
@@ -417,6 +395,15 @@ class assFlashQuestionGUI extends assQuestionGUI
 			}
 		}
 
+		if (count($params))
+		{
+			$template->setCurrentBlock("flash_vars");
+			$template->setVariable("FLASH_VARS", join($params, "&"));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("applet_parameters");
+			$template->setVariable("PARAM_VALUE", join($params, "&"));
+			$template->parseCurrentBlock();
+		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$template->setVariable("APPLET_WIDTH", $this->object->getWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getHeight());
@@ -439,15 +426,22 @@ class assFlashQuestionGUI extends assQuestionGUI
 	function getPreview($show_question_only = FALSE)
 	{
 		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$params = array();
 		if (is_array($this->object->getParameters()))
 		{
 			foreach ($this->object->getParameters() as $name => $value)
 			{
-				$template->setCurrentBlock("applet_parameter");
-				$template->setVariable("PARAM_NAME", ilUtil::prepareFormOutput($name));
-				$template->setVariable("PARAM_VALUE", ilUtil::prepareFormOutput($value));
-				$template->parseCurrentBlock();
+				array_push($params, urlencode($name) . "=" . urlencode($value));
 			}
+		}
+		if (count($params))
+		{
+			$template->setCurrentBlock("flash_vars");
+			$template->setVariable("FLASH_VARS", join($params, "&"));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("applet_parameters");
+			$template->setVariable("PARAM_VALUE", join($params, "&"));
+			$template->parseCurrentBlock();
 		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$template->setVariable("APPLET_WIDTH", $this->object->getWidth());
@@ -468,45 +462,38 @@ class assFlashQuestionGUI extends assQuestionGUI
 	{
 		// generate the question output
 		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-
+		$params = array();
 		if (is_array($this->object->getParameters()))
 		{
 			foreach ($this->object->getParameters() as $name => $value)
 			{
-				$template->setCurrentBlock("applet_parameter");
-				$template->setVariable("PARAM_NAME", ilUtil::prepareFormOutput($name));
-				$template->setVariable("PARAM_VALUE", ilUtil::prepareFormOutput($value));
-				$template->parseCurrentBlock();
+				array_push($params, urlencode($name) . "=" . urlencode($value));
 			}
 		}
 
-		$template->setCurrentBlock("applet_parameter");
-		$template->setVariable("PARAM_NAME", "session_id");
-		$template->setVariable("PARAM_VALUE", $_COOKIE["PHPSESSID"]);
-		$template->parseCurrentBlock();
-		$template->setCurrentBlock("applet_parameter");
-		$template->setVariable("PARAM_NAME", "client");
-		$template->setVariable("PARAM_VALUE", CLIENT_ID);
-		$template->parseCurrentBlock();
+		array_push($params, "session_id=" . urlencode($_COOKIE["PHPSESSID"]));
+		array_push($params, "client=" . urlencode(CLIENT_ID));
+		array_push($params, "points_max=" . urlencode($this->object->getPoints()));
+		array_push($params, "server=" . urlencode(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl"));
 		if (strlen($pass))
 		{
-			$template->setCurrentBlock("applet_parameter");
-			$template->setVariable("PARAM_NAME", "pass");
-			$template->setVariable("PARAM_VALUE", $pass);
-			$template->parseCurrentBlock();
+			array_push($params, "pass=" . $pass);
 		}
 		if ($active_id)
 		{
-			$template->setCurrentBlock("applet_parameter");
-			$template->setVariable("PARAM_NAME", "active_id");
-			$template->setVariable("PARAM_VALUE", $active_id);
+			array_push($params, "active_id=" . $active_id);
+		}
+		array_push($params, "question_id=" . $this->object->getId());
+
+		if (count($params))
+		{
+			$template->setCurrentBlock("flash_vars");
+			$template->setVariable("FLASH_VARS", join($params, "&"));
+			$template->parseCurrentBlock();
+			$template->setCurrentBlock("applet_parameters");
+			$template->setVariable("PARAM_VALUE", join($params, "&"));
 			$template->parseCurrentBlock();
 		}
-		$template->setCurrentBlock("applet_parameter");
-		$template->setVariable("PARAM_NAME", "question_id");
-		$template->setVariable("PARAM_VALUE", $this->object->getId());
-		$template->parseCurrentBlock();
-
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$template->setVariable("APPLET_WIDTH", $this->object->getWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getHeight());

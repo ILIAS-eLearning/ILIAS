@@ -58,7 +58,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	*/
 	function setApplet($a_applet)
 	{
-		$this->applet = $a_applet;
+		$this->setFilename($a_applet);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	*/
 	function getApplet()
 	{
-		return $this->applet;
+		return $this->getFilename();
 	}
 
 	/**
@@ -172,12 +172,10 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 			if (count($this->getParameters()))
 			{
 				$index = 0;
+				$params = array();
 				foreach ($this->getParameters() as $name => $value)
 				{
-					$a_tpl->setCurrentBlock("applet_parameter");
-					$a_tpl->setVariable("PARAM_NAME", ilUtil::prepareFormOutput($name));
-					$a_tpl->setVariable("PARAM_VALUE", ilUtil::prepareFormOutput($value));
-					$a_tpl->parseCurrentBlock();
+					array_push($params, urlencode($name) . "=" . urlencode($value));
 					$a_tpl->setCurrentBlock("applet_param_input");
 					$a_tpl->setVariable("TEXT_NAME", $lng->txt("name"));
 					$a_tpl->setVariable("TEXT_VALUE", $lng->txt("value"));
@@ -189,6 +187,12 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 					$a_tpl->parseCurrentBlock();
 					$index++;
 				}
+				$a_tpl->setCurrentBlock("applet_parameter");
+				$a_tpl->setVariable("PARAM_VALUE", join($params, "&"));
+				$a_tpl->parseCurrentBlock();
+				$a_tpl->setCurrentBlock("flash_vars");
+				$a_tpl->setVariable("PARAM_VALUE", join($params, "&"));
+				$a_tpl->parseCurrentBlock();
 			}
 			$a_tpl->setCurrentBlock("applet");
 			$a_tpl->setVariable("TEXT_ADD_PARAM", $lng->txt("add_parameter"));
@@ -197,7 +201,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 			$a_tpl->setVariable("POST_VAR_D", $this->getPostVar());
 			$a_tpl->setVariable("TEXT_WIDTH", $lng->txt("width"));
 			$a_tpl->setVariable("TEXT_HEIGHT", $lng->txt("height"));
-			$a_tpl->setVariable("APPLET_FILE", basename($this->getApplet()));
+			$a_tpl->setVariable("APPLET_FILE", str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $this->getApplet()));
 			$a_tpl->setVariable("APPLET_PATH", str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $this->getApplet()));
 			if ($this->getWidth()) $a_tpl->setVariable("VALUE_WIDTH", "value=\"" . $this->getWidth() . "\"");
 			if ($this->getHeight()) $a_tpl->setVariable("VALUE_HEIGHT", "value=\"" . $this->getHeight() . "\"");
