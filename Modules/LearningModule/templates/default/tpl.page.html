@@ -30,48 +30,50 @@ body { margin:0px; }
 	{HEADER}</h1>
 <!-- END lm_head -->
 {MENU}
-<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder" style="padding-top:2px;">
+<table class="ilc_page_frame_PageFrame" cellpadding="0" cellspacing="0"><tr><td>
 {MESSAGE}
 {INLINE_JS}
-<table class="ilc_Page" width="100%" cellspacing="0" cellpadding="0">
 <!-- BEGIN ilLMNavigation -->
-<tr>
-	<td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="left">
+<div class="ilc_page_tnav_TopNavigation">
 	<!-- BEGIN ilLMNavigation_Prev -->
-	<a href="{HREF_PREV}" {FRAME_PREV}>
-	<img style="vertical-align:middle; margin-right:5px;" border="0" src="{IMG_PREV}" alt="{ALT_PREV}" title="{ALT_PREV}"/>{TXT_PREV}</a>
+	<div class="ilc_page_lnav_LeftNavigation">
+	<a class="ilc_page_lnavlink_LeftNavigationLink" href="{HREF_PREV}" {FRAME_PREV}>
+	<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="./templates/default/images/spacer.gif" alt="{ALT_PREV}" title="{ALT_PREV}" class="ilc_page_rnavimage_RightNavigationImage" />{TXT_PREV}&nbsp;</a>
+	</div>
 	<!-- END ilLMNavigation_Prev -->
-	</td>
-	<td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="right">
 	<!-- BEGIN ilLMNavigation_Next -->
-	<a href="{HREF_SUCC}" {FRAME_SUCC}>
-	{TXT_SUCC}<img style="vertical-align:middle; margin-left:5px;" border="0" src="{IMG_SUCC}" alt="{ALT_SUCC}" title="{ALT_SUCC}"/></a>
+	<div class="ilc_page_rnav_RightNavigation">
+	<a class="ilc_page_rnavlink_RightNavigationLink" href="{HREF_SUCC}" {FRAME_SUCC}>&nbsp;
+	{TXT_SUCC}<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="./templates/default/images/spacer.gif" alt="{ALT_SUCC}" title="{ALT_SUCC}" class="ilc_page_rnavimage_RightNavigationImage" /></a>
+	</div>
 	<!-- END ilLMNavigation_Next -->
-	</td>
-</tr>
+	<div style="clear:both;"></div>
+</div>
 <!-- END ilLMNavigation -->
 <!-- BEGIN ilPage -->
-<tr><td class="ilc_Page" colspan="2">
+<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0">
+<tr><td><td>
 {PAGE_CONTENT}
 </td></tr>
+</table>
 <!-- END ilPage -->
 <!-- BEGIN ilLMNavigation2 -->
-<tr>
-	<td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="left">
+<div class="ilc_page_bnav_BottomNavigation">
 	<!-- BEGIN ilLMNavigation_Prev2 -->
-	<a href="{HREF_PREV2}" {FRAME_PREV2}>
-	<img style="vertical-align:middle; margin-right:5px;" border="0" src="{IMG_PREV2}" alt="{ALT_PREV2}" title="{ALT_PREV2}"/>{TXT_PREV2}</a>
+	<div class="ilc_page_lnav_LeftNavigation">
+	<a class="ilc_page_lnavlink_LeftNavigationLink" href="{HREF_PREV2}" {FRAME_PREV2}>
+	<img class="ilc_page_lnavimage_LeftNavigationImage" border="0" src="./templates/default/images/spacer.gif" alt="{ALT_PREV2}" title="{ALT_PREV2}" class="ilc_page_rnavimage_RightNavigationImage" />{TXT_PREV2}&nbsp;</a>
+	</div>
 	<!-- END ilLMNavigation_Prev2 -->
-	</td>
-	<td class="ilc_LMNavigation" cellpadding="3" valign="middle" align="right">
 	<!-- BEGIN ilLMNavigation_Next2 -->
-	<a href="{HREF_SUCC2}" {FRAME_SUCC2}>
-	{TXT_SUCC2}<img style="vertical-align:middle; margin-left:5px;" border="0" src="{IMG_SUCC2}" alt="{ALT_SUCC2}" title="{ALT_SUCC2}"/></a>
+	<div class="ilc_page_rnav_RightNavigation">
+	<a class="ilc_page_rnavlink_RightNavigationLink" href="{HREF_SUCC2}" {FRAME_SUCC2}>&nbsp;
+	{TXT_SUCC2}<img class="ilc_page_rnavimage_RightNavigationImage" border="0" src="./templates/default/images/spacer.gif" alt="{ALT_SUCC2}" title="{ALT_SUCC2}" class="ilc_page_rnavimage_RightNavigationImage" /></a>
+	</div>
 	<!-- END ilLMNavigation_Next2 -->
-	</td>
-</tr>
+	<div style="clear:both;"></div>
+</div>
 <!-- END ilLMNavigation2 -->
-</table>
 <!--</div>-->
 <br />
 {SUBMENU}

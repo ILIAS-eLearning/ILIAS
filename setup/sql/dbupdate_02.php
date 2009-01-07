@@ -6453,3 +6453,101 @@ $ilCtrlStructureReader->getStructure();
 <#1382>
 ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plugin` ;
 
+<#1383>
+<?php
+	if (!$ilDB->tableExists("style_char"))
+	{
+		$q = "CREATE TABLE `style_char` (
+			 `style_id` int(11) NOT NULL,
+			 `type` varchar(30) NOT NULL default '',
+			 `characteristic` varchar(30) NOT NULL default '',
+			  INDEX style_id (style_id),
+			  PRIMARY KEY  (`style_id`, `type`, `characteristic`)
+			 ) ENGINE=MyISAM;";
+		$ilDB->query($q);
+	}
+?>
+<#1384>
+<?php
+	if (!$ilDB->tableColumnExists("style_parameter", "type"))
+	{
+		$q = "ALTER TABLE `style_parameter` ADD COLUMN `type` varchar(30) NOT NULL default ''";
+			$ilDB->query($q);
+	}
+?>
+<#1385>
+<?php
+	include_once("../Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
+	ilStyleMigration::addMissingStyleCharacteristics();
+?>
+<#1386>
+<?php
+	$q = "UPDATE `style_char` SET type = 'media' WHERE `characteristic` = 'Media' OR `characteristic` = 'MediaCaption'";
+	$ilDB->query($q);
+
+	$q = "UPDATE `style_parameter` SET type = 'media' WHERE `class` = 'Media' OR `class` = 'MediaCaption'";
+	$ilDB->query($q);
+
+	$q = "UPDATE `style_parameter` SET type = 'media_caption' WHERE `class` = 'MediaCaption'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_char` SET type = 'media_caption' WHERE `characteristic` = 'MediaCaption'";
+	$ilDB->query($q);
+			
+	$q = "UPDATE `style_parameter` SET tag = 'div' WHERE `class` = 'MediaCaption'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_char` SET type = 'media_caption' WHERE `characteristic` = 'MediaCaption'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_char` SET type = 'media_cont', characteristic = 'MediaContainer' WHERE `characteristic` = 'Media'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET type = 'media_cont', class = 'MediaContainer' WHERE `class` = 'Media'";
+	$ilDB->query($q);
+			
+	$q = "UPDATE `style_char` SET type = 'page_fn' WHERE `characteristic` = 'Footnote'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_char` SET type = 'page_nav' WHERE `characteristic` = 'LMNavigation'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_char` SET type = 'page_title' WHERE `characteristic` = 'PageTitle'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET type = 'page_fn' WHERE `class` = 'Footnote'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET type = 'page_nav' WHERE `class` = 'LMNavigation'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET type = 'page_title' WHERE `class` = 'PageTitle'";
+	$ilDB->query($q);
+
+	$q = "UPDATE `style_char` SET type = 'page_cont', characteristic = 'PageContainer' WHERE `characteristic` = 'Page'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET tag = 'table', type = 'page_cont', class = 'PageContainer' WHERE `class` = 'Page'";
+	$ilDB->query($q);
+
+	$q = "UPDATE `style_char` SET type = 'sco_title' WHERE `characteristic` = 'Title' AND type = 'sco'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET type = 'sco_title' WHERE `class` = 'Title' AND type = 'sco'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_char` SET type = 'sco_desc' WHERE `characteristic` = 'Description' AND type = 'sco'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET type = 'sco_desc' WHERE `class` = 'Description' AND type = 'sco'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_char` SET type = 'sco_keyw' WHERE `characteristic` = 'Keywords' AND type = 'sco'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET type = 'sco_keyw' WHERE `class` = 'Keywords' AND type = 'sco'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_char` SET type = 'sco_obj' WHERE `characteristic` = 'Objective' AND type = 'sco'";
+	$ilDB->query($q);
+	$q = "UPDATE `style_parameter` SET type = 'sco_obj' WHERE `class` = 'Objective' AND type = 'sco'";
+	$ilDB->query($q);
+?>
+<#1387>
+<?php
+
+	// force rewriting of page container style
+	$q = "DELETE FROM `style_char` WHERE type = 'page_cont'";
+	$ilDB->query($q);
+	$q = "DELETE FROM `style_parameter` WHERE type = 'page_cont'";
+	$ilDB->query($q);
+
+	include_once("../Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
+	ilStyleMigration::_addMissingStyleClassesToAllStyles();
+?>
+<#1388>
+UPDATE `style_data` SET `uptodate` = 0;

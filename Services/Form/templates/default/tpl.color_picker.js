@@ -1,5 +1,5 @@
 <script type="text/javascript">
-YAHOO.util.Event.onContentReady("button-container", function () {
+YAHOO.util.Event.onContentReady("{POST_VAR}-bc", function () {
 
         function onButtonOption() {
 
@@ -9,17 +9,11 @@ YAHOO.util.Event.onContentReady("button-container", function () {
             */
 
             oColorPickerMenu.setBody("&#32;");
-
-            oColorPickerMenu.body.id = "color-picker-container";
-
-
+            oColorPickerMenu.body.id = "{POST_VAR}-color-picker-container";
 
             // Render the Menu into the Button instance's parent element
 
             oColorPickerMenu.render(this.get("container"));
-
-
-
 
             /*
                  Create a new ColorPicker instance, placing it inside the body 
@@ -28,6 +22,9 @@ YAHOO.util.Event.onContentReady("button-container", function () {
 
             var oColorPicker = new YAHOO.widget.ColorPicker(oColorPickerMenu.body.id, {
                                     showcontrols: false,
+									showhsvcontrols: false,
+									showrgbcontrols: false,
+									showhexcontrols: false,
                                     images: {
                                     	PICKER_THUMB: "{THUMB_PATH}",
                                     	HUE_THUMB: "{HUE_THUMB_PATH}"
@@ -54,8 +51,8 @@ YAHOO.util.Event.onContentReady("button-container", function () {
                 oButton.set("value", sColor);
 
 
-                YAHOO.util.Dom.setStyle("current-color", "backgroundColor", sColor);
-                YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + sColor;
+                YAHOO.util.Dom.setStyle("{POST_VAR}-current-color", "backgroundColor", sColor);
+                //YAHOO.util.Dom.get("{POST_VAR}-current-color").innerHTML = "Current color is " + sColor;
                 
                 // Set value of assigned text field
                 YAHOO.util.Dom.get("{COLOR_ID}").value = sColorShort;
@@ -71,15 +68,15 @@ YAHOO.util.Event.onContentReady("button-container", function () {
 
         // Create a Menu instance to house the ColorPicker instance
 
-        var oColorPickerMenu = new YAHOO.widget.Menu("color-picker-menu");
+        var oColorPickerMenu = new YAHOO.widget.Menu("{POST_VAR}-color-picker-menu");
 
 
         // Create a Button instance of type "split"
 
         var oButton = new YAHOO.widget.Button({ 
                                             type: "split", 
-                                            id: "color-picker-button", 
-                                            label: "<em id=\"current-color\">Current color is #FFFFFF.</em>", 
+                                            id: "{POST_VAR}-color-picker-button", 
+                                            label: "<em id=\"{POST_VAR}-current-color\">&nbsp;&nbsp;&nbsp;&nbsp;</em>", 
                                             menu: oColorPickerMenu, 
                                             container: this });
       
@@ -87,8 +84,8 @@ YAHOO.util.Event.onContentReady("button-container", function () {
       * Init label background color
       */
       
-      YAHOO.util.Dom.setStyle("current-color", "backgroundColor", "{INIT_COLOR}");
-      YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + "{INIT_COLOR}";
+      YAHOO.util.Dom.setStyle("{POST_VAR}-current-color", "backgroundColor", "{INIT_COLOR}");
+      //YAHOO.util.Dom.get("{POST_VAR}-current-color").innerHTML = "Current color is " + "{INIT_COLOR}";
       
         
         /*
@@ -111,3 +108,24 @@ YAHOO.util.Event.onContentReady("button-container", function () {
 		}
 		YAHOO.util.Event.addListener("{COLOR_ID}", "change", colorchanged);
 </script>
+<style type="text/css">
+<!--
+
+#{POST_VAR}-color-picker-container .yui-picker-controls,
+#{POST_VAR}-color-picker-container .yui-picker-swatch,
+#{POST_VAR}-color-picker-container .yui-picker-websafe-swatch {
+
+	display: none;
+
+}
+
+#{POST_VAR}-color-picker-menu .bd {
+
+	width: 220px;    
+	height: 190px;
+
+}
+
+-->
+</style>
+

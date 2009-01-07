@@ -722,6 +722,48 @@ class ilPageObjectGUI
 	}
 
 	/**
+	* Set Layout Mode
+	*
+	* @param	boolean	$a_layout_mode	SetLayoutMode for editor
+	*/
+	function setLayoutMode($a_layout_mode)
+	{
+		$this->layout_mode = $a_layout_mode;
+	}
+
+	/**
+	* Get Layout Mode enabled/disabled
+	*
+	* @return	boolean	Get Layout Mode Setting
+	*/
+	function getLayoutMode()
+	{
+		return $this->layout_mode;
+	}
+
+	// scorm2004-start
+	/**
+	* Set Style Id.
+	*
+	* @param	int	$a_styleid	Style Id
+	*/
+	function setStyleId($a_styleid)
+	{
+		$this->styleid = $a_styleid;
+	}
+
+	/**
+	* Get Style Id.
+	*
+	* @return	int	Style Id
+	*/
+	function getStyleId()
+	{
+		return $this->styleid;
+	}
+	// scorm2004-end
+
+	/**
 	* Activate meda data editor
 	*
 	* @param	int		$a_rep_obj_id		object id as used in repository

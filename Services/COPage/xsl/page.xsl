@@ -75,9 +75,9 @@
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$pg_title != ''">
-		<div class="ilc_PageTitle">
+		<div class="ilc_page_title_PageTitle">
 		<xsl:if test="$pg_title_class = ''">
-			<xsl:attribute name="class">ilc_PageTitle</xsl:attribute>
+			<xsl:attribute name="class">ilc_page_title_PageTitle</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="$pg_title_class != ''">
 			<xsl:attribute name="class"><xsl:value-of select="$pg_title_class" /></xsl:attribute>
@@ -120,7 +120,7 @@
 			<xsl:with-param name="pos" select="0" />
 		</xsl:call-template>
 		<xsl:text> </xsl:text>
-        <span class="ilc_Strong">[<xsl:value-of select="$page"/><xsl:text> </xsl:text><xsl:call-template name="getFirstPageNumber"/>]</span>
+        <span class="ilc_text_inline_Strong">[<xsl:value-of select="$page"/><xsl:text> </xsl:text><xsl:call-template name="getFirstPageNumber"/>]</span>
 		</xsl:if>
 	</xsl:if>
 	<xsl:apply-templates/>
@@ -129,10 +129,10 @@
 	<xsl:if test="count(//Footnote) > 0">
 		<hr />
 		<xsl:for-each select="//Footnote">
-			<div class="ilc_Footnote">
+			<div class="ilc_page_fn_Footnote">
 			<a>
 			<xsl:attribute name="name">fn<xsl:number count="Footnote" level="any"/></xsl:attribute>
-			<span class="ilc_Strong">[<xsl:number count="Footnote" level="any"/>] </span>
+			<span class="ilc_text_inline_Strong">[<xsl:number count="Footnote" level="any"/>] </span>
 			</a>
 			<xsl:value-of select="."/>
 			</div>
@@ -146,10 +146,10 @@
 		<xsl:for-each select="//PageTurn">
 			<xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
 			<xsl:if test="contains($entry_two,$entry_one)">
-			<div class="ilc_PageTurn">
+			<div class="ilc_page_PageTurn">
 				<a>
 				<xsl:attribute name="name">pt<xsl:number count="PageTurn" level="multiple"/></xsl:attribute>
-                <span class="ilc_Strong">[<xsl:value-of select="$pagebreak" /><xsl:text> </xsl:text><xsl:number count="PageTurn" level="multiple"/>] </span>
+                <span class="ilc_text_inline_Strong">[<xsl:value-of select="$pagebreak" /><xsl:text> </xsl:text><xsl:number count="PageTurn" level="multiple"/>] </span>
 				</a>
 				<xsl:call-template name="searchEdition">
 				<xsl:with-param name="Entry">
@@ -433,6 +433,7 @@
 	<xsl:param name="pc_id"/>
 	<xsl:param name="edit"/>
 	<xsl:param name="droparea">n</xsl:param>
+	<xsl:param name="type">default</xsl:param>
 	
 	<xsl:if test = "$javascript = 'enable'">
 	<div style="position:absolute;left:0;top:0;visibility:hidden;">
@@ -444,10 +445,20 @@
 		</xsl:if>
 		<table class="il_editmenu" cellspacing="0" cellpadding="3">
 			<xsl:if test = "$droparea = 'n'">
-				<xsl:call-template name="EditMenuItems">
-					<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
-					<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
-				</xsl:call-template>
+				<xsl:choose>
+					<xsl:when test="$type = 'filelist'">
+						<xsl:call-template name="FileListMenu">
+							<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
+							<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:call-template name="EditMenuItems">
+							<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
+							<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:if>
 			<xsl:if test = "$droparea = 'y'">
 				<xsl:call-template name="EditMenuInsertItems"/>
@@ -459,10 +470,20 @@
 	<xsl:if test="$javascript = 'disable'">
 		<select size="1" class="ilEditSelect">
 			<xsl:attribute name="name">command<xsl:value-of select="$hier_id"/></xsl:attribute>
-			<xsl:call-template name="EditMenuItems">
-				<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
-				<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
-			</xsl:call-template>
+				<xsl:choose>
+					<xsl:when test="$type = 'filelist'">
+						<xsl:call-template name="FileListMenu">
+							<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
+							<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:call-template name="EditMenuItems">
+							<xsl:with-param name="edit"><xsl:value-of select="$edit"/></xsl:with-param>
+							<xsl:with-param name="hier_id"><xsl:value-of select="$hier_id"/></xsl:with-param>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
 		</select>
 		<input class="ilEditSubmit" type="submit">
 			<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
@@ -508,39 +529,55 @@
 				<xsl:with-param name="langvar">de_activate</xsl:with-param>
 			</xsl:call-template>
 		</xsl:if>
+
+		<!-- move menu items -->
+		<xsl:call-template name="MoveMenuItems"/>
 		
-		<xsl:if test="$javascript = 'disable'">
-			<!-- move after -->
-			<xsl:call-template name="EditMenuItem">
-				<xsl:with-param name="command">moveAfter</xsl:with-param>
-				<xsl:with-param name="langvar">ed_moveafter</xsl:with-param>
-			</xsl:call-template>
-			
-			<!-- move before -->
-			<xsl:call-template name="EditMenuItem">
-				<xsl:with-param name="command">moveBefore</xsl:with-param>
-				<xsl:with-param name="langvar">ed_movebefore</xsl:with-param>
-			</xsl:call-template>
-		</xsl:if>
-
-		<!-- split page to new page -->
-		<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
-			<xsl:call-template name="EditMenuItem">
-				<xsl:with-param name="command">splitPage</xsl:with-param>
-				<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
-			</xsl:call-template>
-		</xsl:if>
-
-		<!-- split page to next page -->
-		<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_next = 'y'">
-			<xsl:call-template name="EditMenuItem">
-				<xsl:with-param name="command">splitPageNext</xsl:with-param>
-				<xsl:with-param name="langvar">ed_split_page_next</xsl:with-param>
-			</xsl:call-template>
-		</xsl:if>
+		<!-- split page menu items -->
+		<xsl:call-template name="SplitMenuItems">
+			<xsl:with-param name="hier_id" select="$hier_id"/>
+		</xsl:call-template>
 		
 	</xsl:if>
 		
+</xsl:template>
+
+<!-- Split Menu Items -->
+<xsl:template name="SplitMenuItems">
+	<xsl:param name="hier_id"/>
+
+	<!-- split page to new page -->
+	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">splitPage</xsl:with-param>
+			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
+	<!-- split page to next page -->
+	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_next = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">splitPageNext</xsl:with-param>
+			<xsl:with-param name="langvar">ed_split_page_next</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+</xsl:template>
+
+<!-- Move Menu Items -->
+<xsl:template name="MoveMenuItems">
+	<xsl:if test="$javascript = 'disable'">
+		<!-- move after -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">moveAfter</xsl:with-param>
+			<xsl:with-param name="langvar">ed_moveafter</xsl:with-param>
+		</xsl:call-template>
+		
+		<!-- move before -->
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">moveBefore</xsl:with-param>
+			<xsl:with-param name="langvar">ed_movebefore</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
 </xsl:template>
 
 <!-- Insert Menu Items -->
@@ -766,10 +803,10 @@
 <xsl:template name="ShowParagraph">
 	<xsl:param name="p_id" select = "-1"/>
 	<xsl:if test="not(@Characteristic)">
-	<xsl:attribute name="class">ilc_Standard</xsl:attribute>
+	<xsl:attribute name="class">ilc_text_block_Standard</xsl:attribute>
 	</xsl:if>
 	<xsl:if test="@Characteristic and not (@Characteristic = 'Code')">
-	<xsl:attribute name="class">ilc_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+	<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
 	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- content -->
@@ -929,7 +966,7 @@
 <!-- Emph, Strong, Comment, Quotation -->
 <xsl:template match="Emph|Strong|Comment|Quotation">
 	<xsl:variable name="Tagname" select="name()"/>
-	<span class="ilc_{$Tagname}"><xsl:apply-templates/></span>
+	<span class="ilc_text_inline_{$Tagname}"><xsl:apply-templates/></span>
 </xsl:template>
 
 <!-- Code -->
@@ -938,7 +975,7 @@
 </xsl:template>
 
 <!-- Footnote (Links) -->
-<xsl:template match="Footnote"><a class="ilc_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]
+<xsl:template match="Footnote"><a class="ilc_link_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]
 	</a>
 </xsl:template>
 
@@ -994,7 +1031,7 @@
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
 			</xsl:variable>
 			<xsl:if test="$mode != 'print'">
-				<a class="ilc_IntLink">
+				<a class="ilc_link_IntLink">
 					<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
 					<xsl:if test="$link_target != ''">
 						<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
@@ -1111,7 +1148,13 @@
 
 <!-- Table Tag -->
 <xsl:template name="TableTag">
-	<table class="ilc_Table">
+	<table>
+	<xsl:if test="not(@Class)">
+		<xsl:attribute name="class">ilc_table_StandardTable</xsl:attribute>
+	</xsl:if>
+	<xsl:if test="@Class">
+		<xsl:attribute name="class">ilc_table_<xsl:value-of select="@Class"/></xsl:attribute>
+	</xsl:if>
 	<xsl:if test="$mode != 'edit' or not(@HorizontalAlign) or (@HorizontalAlign != 'RightFloat' and @HorizontalAlign != 'LeftFloat')">
 		<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 	</xsl:if>
@@ -1340,14 +1383,6 @@
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">edit</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
 	
-	<!--
-	<xsl:if test="$hier_id != 'pg'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">switchEnable</xsl:with-param>
-			<xsl:with-param name="langvar">ed_enable</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>-->
-
 	<xsl:if test = "$javascript = 'disable'">
 		<xsl:call-template name="EditMenuInsertItems"/>
 	</xsl:if>
@@ -1355,30 +1390,13 @@
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">delete</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete</xsl:with-param></xsl:call-template>	
 
-	<xsl:if test="$javascript = 'disable'">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveAfter</xsl:with-param>
-		<xsl:with-param name="langvar">ed_moveafter</xsl:with-param></xsl:call-template>	
-	
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveBefore</xsl:with-param>
-		<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
-	</xsl:if>
+	<!-- move menu items -->
+	<xsl:call-template name="MoveMenuItems"/>
 
-	<!-- split page -->
-	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">splitPage</xsl:with-param>
-			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-	
-	<!-- split page to next page -->
-	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_next = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">splitPageNext</xsl:with-param>
-			<xsl:with-param name="langvar">ed_split_page_next</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-
+	<!-- split page menu items -->
+	<xsl:call-template name="SplitMenuItems">
+		<xsl:with-param name="hier_id" select="$hier_id"/>
+	</xsl:call-template>
 
 	<xsl:call-template name="EditMenuAlignItems"/>
 		
@@ -1390,7 +1408,7 @@
 	<!-- <xsl:value-of select="..@HierId"/> -->
 	<xsl:call-template name="EditReturnAnchors"/>
 	<xsl:if test="@Type = 'Ordered'">
-		<ol>
+		<ol class="ilc_list_o_NumberedList">
 		<xsl:choose>
 			<xsl:when test="@NumberingType = 'Roman'"><xsl:attribute name="type">I</xsl:attribute></xsl:when>
 			<xsl:when test="@NumberingType = 'roman'"><xsl:attribute name="type">i</xsl:attribute></xsl:when>
@@ -1401,7 +1419,7 @@
 		</ol>
 	</xsl:if>
 	<xsl:if test="@Type = 'Unordered'">
-		<ul>
+		<ul class="ilc_list_u_BulletedList">
 		<xsl:apply-templates/>
 		</ul>
 	</xsl:if>
@@ -1427,7 +1445,7 @@
 
 <!-- List Item -->
 <xsl:template match="ListItem">
-	<li>
+	<li class="ilc_list_item_StandardListItem">
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -1502,25 +1520,25 @@
 
 <!-- SimpleBulletList -->
 <xsl:template match="SimpleBulletList">
-	<ul><xsl:apply-templates/></ul>
+	<ul class="ilc_list_u_BulletedList"><xsl:apply-templates/></ul>
 </xsl:template>
 <xsl:template match="SimpleNumberedList">
-	<ol><xsl:apply-templates/></ol>
+	<ol class="ilc_list_o_NumberedList"><xsl:apply-templates/></ol>
 </xsl:template>
 <xsl:template match="SimpleListItem">
-	<li><xsl:apply-templates/></li>
+	<li class="ilc_list_item_StandardListItem"><xsl:apply-templates/></li>
 </xsl:template>
 
 <!-- FileList -->
 <xsl:template match="FileList">
 	<xsl:call-template name="EditReturnAnchors"/>
-	<table class="ilc_FileList">
-		<tr><th class="ilc_FileList">
-		<xsl:value-of select="./Title"/>
-		</th></tr>
+	<div class="ilc_flist_cont_FileListContainer">
+		<div class="ilc_flist_head_FileListHeading"><xsl:value-of select="./Title"/></div>
+		<ul class="ilc_flist_FileList">
 		<xsl:apply-templates select="FileItem"/>
+		</ul>
 		<!-- <xsl:apply-templates select="FileItem"/> -->
-	</table>
+	</div>
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
@@ -1533,7 +1551,7 @@
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="pc_id" select="../@PCID" />
-			<xsl:with-param name="edit">p</xsl:with-param>
+			<xsl:with-param name="type">filelist</xsl:with-param>
 		</xsl:call-template>
 		<xsl:if test = "$javascript='disable'">
 			<br/>
@@ -1541,10 +1559,51 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- File List Menu -->
+<xsl:template name="FileListMenu">
+	<xsl:param name="hier_id"/>
+
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">edit</xsl:with-param>
+		<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param>
+	</xsl:call-template>
+
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">editFiles</xsl:with-param>
+		<xsl:with-param name="langvar">ed_edit_files</xsl:with-param>
+	</xsl:call-template>
+
+	<xsl:if test = "$javascript = 'disable'">
+		<xsl:call-template name="EditMenuInsertItems"/>
+	</xsl:if>
+	
+	<!-- delete -->
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">delete</xsl:with-param>
+		<xsl:with-param name="langvar">ed_delete</xsl:with-param>
+	</xsl:call-template>
+		
+	<!-- activate/deactivate -->
+	<xsl:if test = "$javascript = 'enable'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">deactivate</xsl:with-param>
+			<xsl:with-param name="langvar">de_activate</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
+	<!-- move menu items -->
+	<xsl:call-template name="MoveMenuItems"/>
+	
+	<!-- split page menu items -->
+	<xsl:call-template name="SplitMenuItems">
+		<xsl:with-param name="hier_id" select="$hier_id"/>
+	</xsl:call-template>
+
+</xsl:template>
+
 <!-- FileItem -->
 <xsl:template match="FileItem">
-	<tr class="ilc_FileItem">
-		<td class="ilc_FileItem">
+	<li class="ilc_flist_li_FileListItem">
 		<xsl:call-template name="EditReturnAnchors"/>
 		<!-- <xsl:value-of select="@HierId"/> -->
 		<xsl:if test="$mode = 'edit'">
@@ -1598,8 +1657,7 @@
 				<xsl:call-template name="FileItemText"/>
 			</span>
 		</xsl:if>
-		</td>
-	</tr>
+	</li>
 </xsl:template>
 
 
@@ -1664,7 +1722,13 @@
 <xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
 
-	<table class="ilc_Media" width="1">
+	<table width="1">
+		<xsl:if test="@Class">
+			<xsl:attribute name="class">ilc_media_cont_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="not(@Class)">
+			<xsl:attribute name="class">ilc_media_cont_MediaContainer</xsl:attribute>
+		</xsl:if>
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
 			and $mode != 'fullscreen' and $mode != 'media'">
@@ -1812,28 +1876,28 @@
 		<!-- mob caption -->
 		<xsl:choose>			<!-- derive -->
 			<xsl:when test="count(../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-				<tr><td class="ilc_MediaCaption">
+				<tr><td><div class="ilc_media_caption_MediaCaption">
 				<xsl:call-template name="FullscreenLink">
 					<xsl:with-param name="cmobid" select="$cmobid"/>
 				</xsl:call-template>
 				<xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Caption[1]"/>
-				</td></tr>
+				</div></td></tr>
 			</xsl:when>
 			<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
-				<tr><td class="ilc_MediaCaption">
+				<tr><td><div class="ilc_media_caption_MediaCaption">
 				<xsl:call-template name="FullscreenLink">
 					<xsl:with-param name="cmobid" select="$cmobid"/>
 				</xsl:call-template>
 				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]"/>
-				</td></tr>
+				</div></td></tr>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1">
-					<tr><td class="ilc_MediaCaption">
+					<tr><td><div class="ilc_media_caption_MediaCaption">
 					<xsl:call-template name="FullscreenLink">
 						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
-					</td></tr>
+					</div></td></tr>
 				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -1880,15 +1944,6 @@
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">editAlias</xsl:with-param>
 	<xsl:with-param name="langvar">ed_edit_prop</xsl:with-param></xsl:call-template>
-	
-	<!--
-	<xsl:if test="$hier_id != 'pg'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">switchEnable</xsl:with-param>
-			<xsl:with-param name="langvar">ed_enable</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>-->
-
 
 	<xsl:if test = "$javascript = 'disable'">
 		<xsl:call-template name="EditMenuInsertItems"/>
@@ -1897,29 +1952,13 @@
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">delete</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete</xsl:with-param></xsl:call-template>
 
-	<xsl:if test="$javascript = 'disable'">
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveAfter</xsl:with-param>
-		<xsl:with-param name="langvar">ed_moveafter</xsl:with-param></xsl:call-template>
-	
-		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveBefore</xsl:with-param>
-		<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
-	</xsl:if>
-	
-	<!-- split page -->
-	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">splitPage</xsl:with-param>
-			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
-	
-	<!-- split page to next page -->
-	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_next = 'y'">
-		<xsl:call-template name="EditMenuItem">
-			<xsl:with-param name="command">splitPageNext</xsl:with-param>
-			<xsl:with-param name="langvar">ed_split_page_next</xsl:with-param>
-		</xsl:call-template>
-	</xsl:if>
+	<!-- move menu items -->
+	<xsl:call-template name="MoveMenuItems"/>
+
+	<!-- split page menu items -->
+	<xsl:call-template name="SplitMenuItems">
+		<xsl:with-param name="hier_id" select="$hier_id"/>
+	</xsl:call-template>
 
 	<xsl:call-template name="EditMenuAlignItems"/>
 	
@@ -2368,7 +2407,12 @@
 <xsl:template match="Section">
 	<div>
 		<xsl:if test="@Characteristic">
-			<xsl:attribute name="class"><xsl:value-of select="@Characteristic"/></xsl:attribute>
+			<xsl:if test="substring(@Characteristic, 1, 4) = 'ilc_'">
+				<xsl:attribute name="class">ilc_section_<xsl:value-of select="substring-after(@Characteristic, 'ilc_')"/></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="substring(@Characteristic, 1, 4) != 'ilc_'">
+				<xsl:attribute name="class">ilc_section_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+			</xsl:if>
 		</xsl:if>
 		<xsl:call-template name="EditReturnAnchors"/>
 		<!-- command selectbox -->
@@ -2445,7 +2489,7 @@
 				<xsl:attribute name="style">clear:both; float:right;</xsl:attribute>
 			</xsl:if>
 		</xsl:if>
-		<table class="ilc_Media" width="1">
+		<table class="ilc_media_cont_MediaContainer" width="1">
 			<xsl:if test="(./Layout[1]/@HorizontalAlign = 'LeftFloat')">
 				<xsl:attribute name="style">margin-left: 0px; style="float:left;"</xsl:attribute>
 			</xsl:if>
@@ -2459,9 +2503,9 @@
 				</div>
 			</td></tr>
 			<xsl:if test="count(./MapCaption[1]) != 0">
-				<tr><td class="ilc_MediaCaption">
+				<tr><td><div class="ilc_media_caption_MediaCaption">
 				<xsl:value-of select="./MapCaption[1]"/>
-				</td></tr>
+				</div></td></tr>
 			</xsl:if>
 		</table>
 		<xsl:if test="$mode = 'edit'">
@@ -2632,7 +2676,7 @@
 
 <!-- Question -->
 <xsl:template match="Question">
-	<div class="ilc_Question">
+	<div class="ilc_question_Standard">
 	[[[[[Question;]]]]]
 	<xsl:call-template name="EditReturnAnchors"/>
 

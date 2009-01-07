@@ -16,48 +16,8 @@
 	<td class="submit" colspan="5"><small><span class="asterisk">*</span> {TXT_REQUIRED_FLD}<br /></small>
 	</td>
 </tr>
-<!-- BEGIN StyleTag -->
-<tr class="tblheader">
-	<td class="std" colspan="4">
-	<div class="il_ContainerItemCommands" style="float:right">
-	<a href="{LINK_EDIT_TAG_STYLE}" class="il_ContainerItemCommand">{TXT_EDIT}</a>
-	</div>
-	{TXT_TAG}</td>
-	<td class="il_no_style" rowspan="{STY_ROWSPAN}">
-	<!-- BEGIN Example_a -->
-	<a src="" class="{EX_CLASS}">{EX_TEXT}</a>
-	<!-- END Example_a -->
-	<!-- BEGIN Example_div -->
-	<div class="{EX_CLASS}">{EX_TEXT}</div>
-	<!-- END Example_div -->
-	<!-- BEGIN Example_span -->
-	<span class="{EX_CLASS}">{EX_TEXT}</span>
-	<!-- END Example_span -->
-	<!-- BEGIN Example_p -->
-	<p class="{EX_CLASS}">{EX_TEXT}</p>
-	<!-- END Example_p -->
-	<!-- BEGIN Example_td -->
-	<table border="0" cellpadding="0" cellspacing="0"><tr>
-	<td class="{EX_CLASS}">{EX_TEXT}</td>
-	</tr></table>
-	<!-- END Example_td -->
-	</td>
-</tr>
-<!-- BEGIN StyleParameter -->
-<tr>
-	<td class="option"><input type="checkbox" name="sty_select[{PAR_ID}]"></td>
-	<td class="option">{TXT_PAR}</td>
-	<td class="option_value">{INPUT_VAL}</td>
-</tr>
-<!-- END StyleParameter -->
-<!-- END StyleTag -->
-<tr>
-	<td class="submit" colspan="5">{SELECT_TAG}&nbsp;{SELECT_PAR}&nbsp;
-		<input class="submit" type="submit" name="cmd[{BTN_NEW_PAR}]" value="{TXT_NEW_PAR}"/></td>
-</tr>
-<tr><td class="submit" colspan="5">
-<input class="submit" type="submit" name="cmd[{BTN_DELETE}]" value="{TXT_DELETE}"/>&nbsp;
-<input class="submit" type="submit" name="cmd[{BTN_REFRESH}]" value="{TXT_REFRESH}"/>&nbsp;
-<input class="submit" type="submit" name="cmd[{BTN_SAVE}]" value="{TXT_SAVE}"/>
+<tr><td class="submit" style="text-align:right;" colspan="5">
+	<input class="submit" type="submit" name="cmd[{BTN_SAVE}]" value="{TXT_SAVE}"/>
+	</td></tr>
 </table>
 </form>

@@ -391,6 +391,9 @@ class ilPageEditorGUI
 				include_once ("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$par_gui->setEnableWikiLinks($this->page_gui->getEnabledWikiLinks());
+				// scorm2004-start
+				$par_gui->setStyleId($this->page_gui->getStyleId());
+				// scorm2004-end
 				$ret =& $this->ctrl->forwardCommand($par_gui);
 				break;
 
@@ -399,6 +402,9 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCTableGUI.php");
 				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				// scorm2004-start
+				$tab_gui->setStyleId($this->page_gui->getStyleId());
+				// scorm2004-end
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
@@ -415,6 +421,9 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCDataTableGUI.php");
 				$tab_gui =& new ilPCDataTableGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				// scorm2004-start
+				$tab_gui->setStyleId($this->page_gui->getStyleId());
+				// scorm2004-end
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
@@ -431,6 +440,9 @@ class ilPageEditorGUI
 //				{
 //echo "%".$cont_obj->getPcId()."%";
 					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id, $pc_id);
+					// scorm2004-start
+					$pcmob_gui->setStyleId($this->page_gui->getStyleId());
+					// scorm2004-end
 					$pcmob_gui->setEnabledMapAreas($this->page_gui->getEnabledInternalLinks());
 					/*
 					if (is_object ($cont_obj))
@@ -513,6 +525,9 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCFileListGUI.php");
 				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				// scorm2004-start
+				$file_list_gui->setStyleId($this->page_gui->getStyleId());
+				// scorm2004-end
 				//$ret =& $file_list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($file_list_gui);
 				break;
@@ -544,6 +559,9 @@ class ilPageEditorGUI
 				$this->tabs_gui->clearTargets();
 				include_once ("./Services/COPage/classes/class.ilPCSectionGUI.php");
 				$sec_gui =& new ilPCSectionGUI($this->page, $cont_obj, $hier_id, $pc_id);
+				// scorm2004-start
+				$sec_gui->setStyleId($this->page_gui->getStyleId());
+				// scorm2004-end
 				$ret =& $this->ctrl->forwardCommand($sec_gui);
 				break;
 

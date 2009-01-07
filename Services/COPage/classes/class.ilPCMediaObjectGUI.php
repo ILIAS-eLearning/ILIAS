@@ -51,6 +51,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		
+		$this->setCharacteristics(array("Media" => $this->lng->txt("cont_Media")));
+
 	}
 
 	function setHeader($a_title = "")
@@ -89,6 +92,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	function &executeCommand()
 	{
 		global $tpl, $lng, $ilTabs;
+		
+		$this->getCharacteristicsOfCurrentStyle("media");	// scorm-2004
 		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -1077,6 +1082,95 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	}
 
 	/**
+	* Checks whether style selection shoudl be available or not
+	*/
+	function checkStyleSelection()
+	{
+		// check whether there is more than one style class
+		$chars = $this->getCharacteristics();
+
+		if (count($chars) > 1 ||
+			($this->content_obj->getClass() != "" && $this->content_obj->getClass() != "Media"))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	* Edit Style
+	*/
+	function editStyle()
+	{
+		global $ilCtrl, $tpl, $lng;
+		
+		$this->displayValidationError();
+		
+		// edit form
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("cont_edit_style"));
+		
+		// characteristic selection
+		require_once("./Services/Form/classes/class.ilRadioMatrixInputGUI.php");
+		$char_prop = new ilRadioMatrixInputGUI($this->lng->txt("cont_characteristic"),
+			"characteristic");
+			
+		$chars = $this->getCharacteristics();
+		if (is_object($this->content_obj))
+		{
+			if ($chars[$a_seleted_value] == "" && ($this->content_obj->getClass() != ""))
+			{
+				$chars = array_merge(
+					array($this->content_obj->getClass() => $this->content_obj->getClass()),
+					$chars);
+			}
+		}
+
+		$selected = $this->content_obj->getClass();
+		if ($selected == "")
+		{
+			$selected = "Media";
+		}
+			
+		foreach ($chars as $k => $char)
+		{
+			$chars[$k] = '<table class="ilc_media_'.$k.'"><tr><td>'.
+				$char.'</td></tr></table>';
+		}
+
+		$char_prop->setValue($selected);
+		$char_prop->setOptions($chars);
+		$form->addItem($char_prop);
+		
+		// save button
+		$form->addCommandButton("saveStyle", $lng->txt("save"));
+
+		$html = $form->getHTML();
+		$tpl->setContent($html);
+		return $ret;
+	}
+	
+	/**
+	* Save Style
+	*/
+	function saveStyle()
+	{
+		$this->content_obj->setClass($_POST["characteristic"]);
+		$this->updated = $this->pg_obj->update();
+		if ($this->updated === true)
+		{
+			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+		}
+		else
+		{
+			$this->pg_obj->addHierIDs();
+			$this->editStyle();
+		}
+	}
+
+	/**
 	* add tabs to ilTabsGUI object
 	*
 	* @param	object		$tab_gui		ilTabsGUI object
@@ -1088,6 +1182,13 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		if (!$a_create)
 		{
+			if ($this->checkStyleSelection())
+			{
+				$ilTabs->addTarget("cont_style",
+					$ilCtrl->getLinkTarget($this, "editStyle"), "editStyle",
+					get_class($this));
+			}
+			
 			$ilTabs->addTarget("cont_mob_inst_prop",
 				$ilCtrl->getLinkTarget($this, "editAlias"), "editAlias",
 				get_class($this));

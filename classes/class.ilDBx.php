@@ -845,6 +845,25 @@ else
 
 	
 	/**
+	* Check, whether a given table exists
+	*
+	* @param	string		table name
+	* @return	boolean		true, if table exists
+	*/
+	function tableExists($a_table)
+	{
+		$tables = $this->listTables();
+		if (is_array($tables))
+		{
+			if (in_array($a_table, $tables))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	* Checks for the existence of a table column
 	*
 	* @param string $a_table The table name which should be examined
@@ -883,12 +902,10 @@ else
 		return $column_visibility;*/
 	}
 	
-		/**
-	* Checks for the existence of a table column
+	/**
+	* Get all tables
 	*
-	* @param string $a_table The table name which should be examined
-	* @param string $a_column_name The name of the column
-	* @return boolean TRUE if the table column exists, FALSE otherwise
+	* @return array		Array of table names
 	*/
 	function listTables()
 	{

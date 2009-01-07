@@ -44,6 +44,7 @@ class ilPCFileListGUI extends ilPageContentGUI
 	function ilPCFileListGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		$this->setCharacteristics(array("FileListItem" => $this->lng->txt("cont_FileListItem")));
 	}
 
 	/**
@@ -53,6 +54,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 	{
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
+		
+		$this->getCharacteristicsOfCurrentStyle("flist_li");	// scorm-2004
 
 		// get current command
 		$cmd = $this->ctrl->getCmd();
@@ -309,6 +312,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 	*/
 	function edit()
 	{
+		$this->setTabs(false);
+		
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_list_edit.html", "Services/COPage");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_file_list_properties"));
@@ -383,5 +388,146 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$ilCtrl->setParameter($this, "subCmd", "");
 	}
 
+	/**
+	* Edit Files
+	*/
+	function editFiles()
+	{
+		global $tpl;
+		
+		$this->setTabs(false);
+		include_once("./Services/COPage/classes/class.ilPCFileListTableGUI.php");
+		$table_gui = new ilPCFileListTableGUI($this, "editFiles", $this->content_obj);
+		$tpl->setContent($table_gui->getHTML());
+	}
+
+	/**
+	* Set Tabs
+	*/
+	function setTabs($a_create = true)
+	{
+		global $ilTabs, $ilCtrl, $lng;
+
+		if ($a_create)
+		{
+			$cmd = "insert";
+			
+			$ilCtrl->setParameter($this, "subCmd", "insertNew");
+			$ilTabs->addSubTabTarget("cont_new_file",
+				$ilCtrl->getLinkTarget($this, $cmd), $cmd);
+	
+			$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
+			$ilTabs->addSubTabTarget("cont_file_from_repository",
+				$ilCtrl->getLinkTarget($this, $cmd), $cmd);
+			$ilCtrl->setParameter($this, "subCmd", "");
+		}
+		else
+		{
+			$ilTabs->setBackTarget($lng->txt("pg"),
+				$this->ctrl->getParentReturn($this));
+	
+			$ilTabs->addTarget("cont_ed_edit_prop",
+				$ilCtrl->getLinkTarget($this, "edit"), "edit",
+				get_class($this));
+	
+			$ilTabs->addTarget("cont_ed_edit_files",
+				$ilCtrl->getLinkTarget($this, "editFiles"), "editFiles",
+				get_class($this));
+		}
+	}
+
+	/**
+	* Add file item. This function is called from file list table and calls
+	* newItemAfter function.
+	*/
+	function addFileItem()
+	{
+		global $ilCtrl;
+		
+		$files = $this->content_obj->getFileList();
+		
+		$ilCtrl->setParameterByClass("ilpcfileitemgui", "hier_id",
+			$files[count($files) - 1]["hier_id"]);
+		$ilCtrl->setParameterByClass("ilpcfileitemgui", "pc_id",
+			$files[count($files) - 1]["pc_id"]);
+		$ilCtrl->redirectByClass("ilpcfileitemgui", "newItemAfter");
+	}
+	
+	/**
+	* Delete file items from list
+	*/
+	function deleteFileItem()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["fid"]))
+		{
+			$ids = array();
+			foreach($_POST["fid"] as $k => $v)
+			{
+				$ids[] = $k;
+			}
+			$this->content_obj->deleteFileItems($ids);
+		}
+		$this->updated = $this->pg_obj->update();
+		$ilCtrl->redirect($this, "editFiles");
+	}
+	
+	/**
+	* Save positions of file items
+	*/
+	function savePositions()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["position"]))
+		{
+			$this->content_obj->savePositions($_POST["position"]);
+		}
+		$this->updated = $this->pg_obj->update();
+		$ilCtrl->redirect($this, "editFiles");
+	}
+
+	/**
+	* Save positions of file items and style classes
+	*/
+	function savePositionsAndClasses()
+	{
+		global $ilCtrl;
+		
+		if (is_array($_POST["position"]))
+		{
+			$this->content_obj->savePositions($_POST["position"]);
+		}
+		if (is_array($_POST["class"]))
+		{
+			$this->content_obj->saveStyleClasses($_POST["class"]);
+		}
+		$this->updated = $this->pg_obj->update();
+		$ilCtrl->redirect($this, "editFiles");
+	}
+
+	/**
+	* Checks whether style selection shoudl be available or not
+	*/
+	function checkStyleSelection()
+	{
+		// check whether there is more than one style class
+		$chars = $this->getCharacteristics();
+
+		$classes = $this->content_obj->getAllClasses();
+		if (count($chars) > 1)
+		{
+			return true;
+		}
+		foreach ($classes as $class)
+		{
+			if ($class != "" && $class != "FileListItem")
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
 ?>

@@ -120,7 +120,7 @@ class ilPCMediaObject extends ilPageContent
 	*
 	* @param	object	$a_pg_obj		page object
 	* @param	string	$a_hier_id		hierarchical ID
-	*/
+	w*/
 	function createAlias(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
 	{
 		$this->node =& $this->dom->create_element("PageContent");
@@ -215,5 +215,51 @@ class ilPCMediaObject extends ilPageContent
 		$xml = $this->dom->dump_node($this->node);
 		return $xml;
 	}
+	
+	/**
+	* Set Style Class of table
+	*
+	* @param	string	$a_class		class
+	*/
+	function setClass($a_class)
+	{
+		if (is_object($this->mob_node))
+		{
+			$mal_node = $this->mob_node->first_child();
+			if (is_object($mal_node))
+			{
+				if (!empty($a_class))
+				{
+					$mal_node->set_attribute("Class", $a_class);
+				}
+				else
+				{
+					if ($mal_node->has_attribute("Class"))
+					{
+						$mal_node->remove_attribute("Class");
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	* Get characteristic of section.
+	*
+	* @return	string		characteristic
+	*/
+	function getClass()
+	{
+		if (is_object($this->mob_node))
+		{
+			$mal_node = $this->mob_node->first_child();
+			if (is_object($mal_node))
+			{
+				$class =  $mal_node->get_attribute("Class");
+				return $class;
+			}
+		}
+	}
+
 }
 ?>

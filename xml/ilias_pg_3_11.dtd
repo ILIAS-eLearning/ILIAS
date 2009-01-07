@@ -69,6 +69,7 @@
 <!ELEMENT MediaAlias EMPTY>
 <!ATTLIST MediaAlias
 	OriginId CDATA #REQUIRED
+	Class CDATA #IMPLIED
 >
 <!-- MediaAliasItem -->
 <!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*, MapArea*)>
@@ -171,6 +172,7 @@
 <!ELEMENT FileItem (Identifier, Location, Format?)>
 <!ATTLIST FileItem
 	PCID CDATA #IMPLIED
+	Class CDATA #IMPLIED
 >
 
 

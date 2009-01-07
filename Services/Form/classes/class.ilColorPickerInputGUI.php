@@ -32,8 +32,6 @@
 
 class ilColorPickerInputGUI extends ilTextInputGUI
 {
-	const DEFAULT_COLOR = '04427e';
-	
 	protected $hex;
 
 
@@ -47,6 +45,7 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	{
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("color");
+		$this->setDefaultColor("04427e");
 	}
 	
 	/**
@@ -69,10 +68,30 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 	 */
 	public function setValue($a_value)
 	{
-		$this->hex = $a_value;
+		$this->hex = ilColorPickerInputGUI::determineHexcode($a_value);
 		parent::setValue($this->getHexcode());
 	}
 	
+	/**
+	* Set Default Color.
+	*
+	* @param	mixed	$a_defaultcolor	Default Color
+	*/
+	function setDefaultColor($a_defaultcolor)
+	{
+		$this->defaultcolor = $a_defaultcolor;
+	}
+
+	/**
+	* Get Default Color.
+	*
+	* @return	mixed	Default Color
+	*/
+	function getDefaultColor()
+	{
+		return $this->defaultcolor;
+	}
+
 	/**
 	 * get hexcode
 	 *
@@ -85,7 +104,70 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 		{
 			return substr($this->hex,1);
 		}
-		return $this->hex ? $this->hex : self::DEFAULT_COLOR;
+		return $this->hex ? $this->hex : $this->getDefaultColor();
+	}
+	
+	/**
+	* Determine hex code for a given value
+	*/
+	static function determineHexcode($a_value)
+	{
+		$a_value = trim(strtolower($a_value));
+
+		// remove leading #
+		if(strpos($a_value,'#') === 0)
+		{
+			$a_value = substr($a_value,1);
+		}
+		
+		// handle named colors
+		switch ($a_value)
+		{
+			case "black": $a_value = "000000"; break;
+			case "maroon": $a_value = "800000"; break;
+			case "green": $a_value = "008000"; break;
+			case "olive": $a_value = "808000"; break;
+			case "navy": $a_value = "000080"; break;
+			case "purple": $a_value = "800080"; break;
+			case "teal": $a_value = "008080"; break;
+			case "silver": $a_value = "C0C0C0"; break;
+			case "gray": $a_value = "808080"; break;
+			case "red": $a_value = "ff0000"; break;
+			case "lime": $a_value = "00ff00"; break;
+			case "yellow": $a_value = "ffff00"; break;
+			case "blue": $a_value = "0000ff"; break;
+			case "fuchsia": $a_value = "ff00ff"; break;
+			case "aqua": $a_value = "00ffff"; break;
+			case "white": $a_value = "ffffff"; break;
+		}
+		
+		// handle rgb values
+		if (substr($a_value, 0, 3) == "rgb")
+		{
+			$pos1 = strpos($a_value, "(");
+			$pos2 = strpos($a_value, ")");
+			$rgb = explode(",", substr($a_value, $pos1 + 1, $pos2 - $pos1 - 1));
+			$r = str_pad(dechex($rgb[0]), 2, "0", STR_PAD_LEFT);
+			$g = str_pad(dechex($rgb[1]), 2, "0", STR_PAD_LEFT);
+			$b = str_pad(dechex($rgb[2]), 2, "0", STR_PAD_LEFT);
+			$a_value = $r.$g.$b;
+		}
+		
+		$a_value = trim(strtolower($a_value));
+		
+		// expand three digit hex numbers
+		if (preg_match("/^[0-9a-f]3/", $a_value))
+		{
+			$a_value = "".$a_value;
+			$a_value = "0".$a_value[0]."0".$a_value[1]."0".$a_value[2];
+		}
+		
+		if (!preg_match("/^[a-f0-9]{6}/", $a_value))
+		{
+			$a_value = "";
+		}
+
+		return strtoupper($a_value);
 	}
 	
 	/**
@@ -108,8 +190,14 @@ class ilColorPickerInputGUI extends ilTextInputGUI
 		$js_tpl->setVariable('THUMB_PATH',ilUtil::getImagePath('color_picker_thumb.png','Services/Form'));
 		$js_tpl->setVariable('HUE_THUMB_PATH',ilUtil::getImagePath('color_picker_hue_thumb.png','Services/Form'));
 		$js_tpl->setVariable('COLOR_ID',$this->getFieldId());
+		$ic = ilColorPickerInputGUI::determineHexcode($this->getHexcode());
+		if ($ic == "")
+		{
+			$ic = "FFFFFF";
+		}
+		$js_tpl->setVariable('INIT_COLOR_SHORT',$ic);
 		$js_tpl->setVariable('INIT_COLOR','#'.$this->getHexcode());
-		$js_tpl->setVariable('INIT_COLOR_SHORT',$this->getHexcode());
+		$js_tpl->setVariable('POST_VAR', $this->getPostVar());
 		
 		
 		if($this->getDisabled())

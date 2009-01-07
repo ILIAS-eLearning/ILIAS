@@ -45,29 +45,26 @@ class ilPCParagraphGUI extends ilPageContentGUI
 	{
 		$this->setEnableWikiLinks(false);
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+		
+		// characteristics (should be flexible in the future)
+		$this->setCharacteristics(array("" => $this->lng->txt("none"),
+			"Headline1" => $this->lng->txt("cont_Headline1"),
+			"Headline2" => $this->lng->txt("cont_Headline2"),
+			"Headline3" => $this->lng->txt("cont_Headline3"),
+			"Hint" => $this->lng->txt("cont_Hint"),
+			"Citation" => $this->lng->txt("cont_Citation"),
+			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
+			"Ressources" => $this->lng->txt("cont_Ressources"),
+			"Reading" => $this->lng->txt("cont_Reading"),
+			"Example" => $this->lng->txt("cont_Example"),
+			"Additional" => $this->lng->txt("cont_Additional"),
+			"Remark" => $this->lng->txt("cont_Remark"),
+			"List" => $this->lng->txt("cont_List"),
+			"TableContent" => $this->lng->txt("cont_TableContent")
+		));
+
 	}
 
-	/**
-	* Get characteristics
-	*/
-	static function getCharacteristics()
-	{
-		global $lng;
-		
-		return  array("" => $lng->txt("none"),
-			"Headline1" => $lng->txt("cont_Headline1"),
-			"Headline2" => $lng->txt("cont_Headline2"),
-			"Headline3" => $lng->txt("cont_Headline3"),
-			"Citation" => $lng->txt("cont_Citation"),
-			"Mnemonic" => $lng->txt("cont_Mnemonic"),
-			"Example" => $lng->txt("cont_Example"),
-			"Additional" => $lng->txt("cont_Additional"),
-			"Remark" => $lng->txt("cont_Remark"),
-			"List" => $lng->txt("cont_List"),
-			"TableContent" => $lng->txt("cont_TableContent")
-			);
-	}
-	
 	/**
 	* execute command
 	*/
@@ -76,6 +73,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
 
+		$this->getCharacteristicsOfCurrentStyle("text_block");	// scorm-2004
+		
 		// get current command
 		$cmd = $this->ctrl->getCmd();
 
@@ -314,7 +313,10 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(0));
+			if ($this->pg_obj->getParentType() != "sahs")
+			{
+				$this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(0));
+			}
 		}
 	}
 	
