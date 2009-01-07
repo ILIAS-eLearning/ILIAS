@@ -12,9 +12,9 @@
 			</Query>
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="thr_subject" name="propertyMedium" />
-			<Field store="YES" index="ANALYZED" column="thr_usr_id" name="owner" />
-			<Field store="YES" index="ANALYZED" column="thr_pk" name="subItem" />
-			<Field store="YES" index="ANALYZED" column="top_frm_fk" name="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="thr_usr_id" name="owner" />
+			<Field store="YES" index="NOT_ANALYZED" column="thr_pk" name="subItem" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="top_frm_fk" name="objId" />
 			<DataSource type="JDBC" action="append">
 				<Query>
 					SELECT pos_usr_id, pos_message, pos_subject 
@@ -27,7 +27,7 @@
 					<Transformer name="QuotingSanitizer" />
 				</Field>
 				<Field store="YES" index="ANALYZED" column="pos_subject" name="propertyLow" />
-				<Field store="YES" index="ANALYZED" column="pos_usr_id" name="owner" />
+				<Field store="YES" index="NOT_ANALYZED" column="pos_usr_id" name="owner" />
 			</DataSource>
 		</DataSource>
 	</Document>

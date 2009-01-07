@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="glo">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+	</Document>
+	<Document type="subItem">
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT term,short_text,glo_id
+				FROM glossary_term gt
+				JOIN glossary_definition gd ON gt.id = term_id
+				WHERE glo_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="term" name="priorityHigh" />
+			<Field store="YES" index="ANALYZED" column="short_text" name="priorityMedium" />
+			<Field store="YES" index="NOT_ANALYZED" column="glo_id" name="objId" global="NO" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>
