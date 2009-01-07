@@ -212,7 +212,8 @@ class ilStartUpGUI
 		//instantiate language
 		$lng = new ilLanguage($_GET["lang"]);
 
-		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
+                $tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
+ 		$tpl->setVariable("TXT_OK", $lng->txt("ok"));
 
 		$languages = $lng->getInstalledLanguages();
 
