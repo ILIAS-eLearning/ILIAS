@@ -130,7 +130,7 @@ class ilBackgroundImageInputGUI extends ilFormPropertyGUI
 		
 		$int_options = array_merge(array("" => ""), $this->getImages());
 		
-		$value = strtolower(trim($this->getValue()));
+		$value = trim($this->getValue());
 
 		if (is_int(strpos($value, "/")))
 		{
@@ -149,6 +149,7 @@ class ilBackgroundImageInputGUI extends ilFormPropertyGUI
 			$tpl->setCurrentBlock("int_option");
 			$tpl->setVariable("VAL_INT", $option);
 			$tpl->setVariable("TXT_INT", $option);
+
 			if ($current_type == "int" && $value == $option)
 			{
 				$tpl->setVariable("INT_SELECTED", 'selected="selected"');

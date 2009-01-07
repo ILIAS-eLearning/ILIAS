@@ -1193,7 +1193,12 @@
 		<tr valign="top">
 			<xsl:for-each select = "TableData">
 				<td>
-					<xsl:attribute name = "class"><xsl:value-of select = "@Class"/></xsl:attribute>
+					<xsl:if test="substring(@Class, 1, 4) = 'ilc_'">
+						<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select="substring-after(@Class, 'ilc_')"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="substring(@Class, 1, 4) != 'ilc_'">
+						<xsl:attribute name = "class">ilc_table_cell_<xsl:value-of select = "@Class"/></xsl:attribute>
+					</xsl:if>
 					<xsl:attribute name = "width"><xsl:value-of select = "@Width"/></xsl:attribute>
 					<!-- insert commands -->
 					<!-- <xsl:value-of select="@HierId"/> -->
@@ -1604,6 +1609,9 @@
 <!-- FileItem -->
 <xsl:template match="FileItem">
 	<li class="ilc_flist_li_FileListItem">
+		<xsl:if test="@Class">
+			<xsl:attribute name="class">ilc_flist_li_<xsl:value-of select="@Class"/></xsl:attribute>
+		</xsl:if>
 		<xsl:call-template name="EditReturnAnchors"/>
 		<!-- <xsl:value-of select="@HierId"/> -->
 		<xsl:if test="$mode = 'edit'">

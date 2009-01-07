@@ -370,25 +370,6 @@ class ilPCFileListGUI extends ilPageContentGUI
 	}
 
 	/**
-	* output tabs
-	*/
-	function setTabs()
-	{
-		global $ilTabs, $ilCtrl;
-
-		$cmd = "insert";
-		
-		$ilCtrl->setParameter($this, "subCmd", "insertNew");
-		$ilTabs->addSubTabTarget("cont_new_file",
-			$ilCtrl->getLinkTarget($this, $cmd), $cmd);
-
-		$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
-		$ilTabs->addSubTabTarget("cont_file_from_repository",
-			$ilCtrl->getLinkTarget($this, $cmd), $cmd);
-		$ilCtrl->setParameter($this, "subCmd", "");
-	}
-
-	/**
 	* Edit Files
 	*/
 	function editFiles()

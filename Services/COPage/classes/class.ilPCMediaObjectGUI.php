@@ -93,7 +93,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	{
 		global $tpl, $lng, $ilTabs;
 		
-		$this->getCharacteristicsOfCurrentStyle("media");	// scorm-2004
+		$this->getCharacteristicsOfCurrentStyle("media_cont");	// scorm-2004
 		
 		// get next class that processes or forwards current command
 		$next_class = $this->ctrl->getNextClass($this);
@@ -1136,7 +1136,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			
 		foreach ($chars as $k => $char)
 		{
-			$chars[$k] = '<table class="ilc_media_'.$k.'"><tr><td>'.
+			$chars[$k] = '<table class="ilc_media_cont_'.$k.'"><tr><td>'.
 				$char.'</td></tr></table>';
 		}
 

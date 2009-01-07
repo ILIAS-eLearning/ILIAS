@@ -967,7 +967,11 @@ class ilLMPresentationGUI
 
 		if ($_GET["lmexpand"] == "")
 		{
-			$expand_keys = array_keys($_SESSION["lmexpand"]);
+			$expand_keys = array();
+			if (is_array($_SESSION["lmexpand"]))
+			{
+				$expand_keys = array_keys($_SESSION["lmexpand"]);
+			}
 			$_SESSION["lmexpand"] = array($this->lm_tree->readRootId());
 			$expanded = $this->lm_tree->readRootId();
 		}

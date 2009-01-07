@@ -266,7 +266,7 @@ class ilObjStyleSheet extends ilObject
 		"list" => array("list_o", "list_u", "list_item"),
 		"flist" => array("flist_cont", "flist_head", "flist", "flist_li"),
 		"media" => array("media_cont", "media_caption"),
-		"question" => array("question", "qtitle", "qanswer", "qinput", "qsubmit", "qfeedr", "qfeedw"),
+		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw"),
 		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
@@ -303,6 +303,7 @@ class ilObjStyleSheet extends ilObject
 		"qtitle" => "div",
 		"qanswer" => "div",
 		"qinput" => "input",
+		"qlinput" => "textarea",
 		"qsubmit" => "input",
 		"qfeedr" => "div",
 		"qfeedw" => "div",
@@ -367,7 +368,8 @@ class ilObjStyleSheet extends ilObject
 			array("type" => "question", "class" => "ClozeTest"),
 			array("type" => "qtitle", "class" => "Title"),
 			array("type" => "qanswer", "class" => "Answer"),
-			array("type" => "qinput", "class" => "Input"),
+			array("type" => "qinput", "class" => "TextInput"),
+			array("type" => "qlinput", "class" => "LongTextInput"),
 			array("type" => "qsubmit", "class" => "Submit"),
 			array("type" => "qfeedr", "class" => "FeedbackRight"),
 			array("type" => "qfeedw", "class" => "FeedbackWrong"),
@@ -979,7 +981,7 @@ class ilObjStyleSheet extends ilObject
 			$entries = ilUtil::getDir($dir);
 			foreach($entries as $entry)
 			{
-				if (($entry["entry"] == ".") || ($entry["entry"] == ".."))
+				if (substr($entry["entry"],0,1) == ".")
 				{
 					continue;
 				}
