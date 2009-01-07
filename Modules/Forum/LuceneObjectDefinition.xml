@@ -20,10 +20,12 @@
 					SELECT pos_usr_id, pos_message, pos_subject 
 					FROM frm_posts 
 					JOIN frm_data ON pos_top_fk = top_pk 
-					WHERE top_frm_fk IN (?)
+					WHERE pos_thr_fk IN (?)
 				</Query>
-				<Param format="single" type="int" value="top_frm_fk" />
-				<Field store="YES" index="ANALYZED" column="pos_message" name="content" />
+				<Param format="single" type="int" value="thr_pk" />
+				<Field store="YES" index="ANALYZED" column="pos_message" name="content">
+					<Transformer name="QuotingSanitizer" />
+				</Field>
 				<Field store="YES" index="ANALYZED" column="pos_subject" name="propertyLow" />
 				<Field store="YES" index="ANALYZED" column="pos_usr_id" name="owner" />
 			</DataSource>
