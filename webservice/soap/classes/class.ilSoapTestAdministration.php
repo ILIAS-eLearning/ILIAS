@@ -338,7 +338,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		$writer->xmlElement("param", array("name" => "active_id"), $active_id);
 		$writer->xmlEndTag("params");
 		$writer->xmlElement("result", array(), "true");
-		$writer->xmlEndTag("saveQuestion")
+		$writer->xmlEndTag("saveQuestion");
 		return $writer->xmlDumpMem();
 //		return array_values($userdata);
 	}
