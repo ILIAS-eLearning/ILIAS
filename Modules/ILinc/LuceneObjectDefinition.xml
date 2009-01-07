@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="icrs">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT contact_name,contact_responsibility,contact_phone,contact_email FROM ilinc_data
+				WHERE obj_id IN(?);
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="contact_name" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_responsibility" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_phone" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_email" name="propertyMedium" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>
