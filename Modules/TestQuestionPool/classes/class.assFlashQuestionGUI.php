@@ -349,13 +349,14 @@ class assFlashQuestionGUI extends assQuestionGUI
 		array_push($params, "client=" . urlencode(CLIENT_ID));
 		array_push($params, "points_max=" . urlencode($this->object->getPoints()));
 		array_push($params, "server=" . urlencode(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl"));
-		if (strlen($pass))
+		if (!is_null($pass))
 		{
 			array_push($params, "pass=" . $pass);
 		}
 		else
 		{
-			array_push($params, "pass=0");
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			array_push($params, "pass=" . ilObjTest::_getPass($active_id));
 		}
 		if ($active_id)
 		{
@@ -485,7 +486,8 @@ class assFlashQuestionGUI extends assQuestionGUI
 		}
 		else
 		{
-			array_push($params, "pass=0");
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			array_push($params, "pass=" . ilObjTest::_getPass($active_id));
 		}
 		if ($active_id)
 		{
