@@ -188,6 +188,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			);
 			$ilDB->query($deletequery);
 		}
+		$queries = "";
 		for($i = 0; $i < count($solutions); $i += 3)
 		{
 			$query = sprintf("INSERT INTO tst_solutions ".
@@ -204,9 +205,10 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$ilDB->quote($solutions[$i+2]),
 				$ilDB->quote($pass . "")
 			);
+			$queries .= " $query "
 			$ilDB->query($query);
 		}
-		return "TRUE";
+		return $queries;
 	}
 
 	/**
