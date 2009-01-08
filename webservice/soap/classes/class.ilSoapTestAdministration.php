@@ -215,7 +215,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 		else
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$question = _instanciateQuestion($question_id);
+			$question = assQuestion::_instanciateQuestion($question_id);
 			$question->calculateResultsFromSolution($active_id, $pass);
 		}
 		return "TRUE";
