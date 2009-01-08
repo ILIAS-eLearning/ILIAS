@@ -173,9 +173,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		if (count($solutions) == 0)
 		{
-			$queries = "Params: sid = $sid, active_id = $active_id, question_id = $question_id, pass = $pass, solution = $solution, Extracted Solution params: [" . join($solutions, ",") . "], SQL-Queries: ";
-			return $queries;
-//			return $this->__raiseError("Wrong solution data. ILIAS did not find one or more solution triplets: $solution", "");
+			return $this->__raiseError("Wrong solution data. ILIAS did not find one or more solution triplets: $solution", "");
 		}
 		
 		// Include main header
@@ -190,7 +188,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			);
 			$ilDB->query($deletequery);
 		}
-		$queries = "Params: sid = $sid, active_id = $active_id, question_id = $question_id, pass = $pass, solution = $solution, Extracted Solution params: [" . join($solutions, ",") . "], SQL-Queries: ";
+		$queries = array();
 		for($i = 0; $i < count($solutions); $i += 3)
 		{
 			$query = sprintf("INSERT INTO tst_solutions ".
@@ -207,10 +205,20 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$ilDB->quote($solutions[$i+2]),
 				$ilDB->quote($pass . "")
 			);
-			$queries .= " $query ";
 			$ilDB->query($query);
+			array_push($queries, $query);
 		}
-		return $queries;
+		if (count($queries) == 0)
+		{
+			return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries: $solution", "");
+		}
+		else
+		{
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			$question = _instanciateQuestion($question_id);
+			$question->calculateResultsFromSolution($active_id, $pass);
+		}
+		return "TRUE";
 	}
 
 	/**

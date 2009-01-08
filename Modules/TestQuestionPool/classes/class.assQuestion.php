@@ -871,17 +871,14 @@ class assQuestion
 	{
 		return 0;
 	}
-
-	/**
-	* Saves the learners input of the question to the database
-	*
-	* Saves the learners input of the question to the database
-	*
-*	* @param integer $test_id The database id of the test containing this question
-	* @access public
-	* @see $answers
-	*/
-	function saveWorkingData($active_id, $pass = NULL)
+	
+		/**
+		* Calculates the question results from a previously saved question solution
+		*
+		* @param integer $active_id Active id of the user
+		* @param integer $pass Test pass
+		*/
+	public function calculateResultsFromSolution($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -910,7 +907,18 @@ class assQuestion
 		// Update objective status
 		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
 		ilCourseObjectiveResult::_updateObjectiveResult($ilUser->getId(),$active_id,$this->getId());
-		
+
+	}
+
+	/**
+	* Saves the learners input of the question to the database
+	*
+	* @param integer $active_id Active id of the user
+	* @param integer $pass Test pass
+	*/
+	function saveWorkingData($active_id, $pass = NULL)
+	{
+		$this->calculateResultsFromSolution($active_id, $pass);
 	}
 
 	function _updateTestPassResults($active_id, $pass)
