@@ -173,7 +173,9 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
 		if (count($solutions) == 0)
 		{
-			return $this->__raiseError("Wrong solution data. ILIAS did not find one or more solution triplets: $solution", "");
+			$queries = "Params: sid = $sid, active_id = $active_id, question_id = $question_id, pass = $pass, solution = $solution, Extracted Solution params: [" . join($solutions, ",") . "], SQL-Queries: ";
+			return $queries;
+//			return $this->__raiseError("Wrong solution data. ILIAS did not find one or more solution triplets: $solution", "");
 		}
 		
 		// Include main header
