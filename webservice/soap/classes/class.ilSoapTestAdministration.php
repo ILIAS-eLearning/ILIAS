@@ -207,7 +207,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$ilDB->quote($solutions[$i+2]),
 				$ilDB->quote($pass . "")
 			);
-			$queries .= " $query "
+			$queries .= " $query ";
 			$ilDB->query($query);
 		}
 		return $queries;
