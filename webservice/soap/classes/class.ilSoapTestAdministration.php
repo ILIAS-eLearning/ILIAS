@@ -110,6 +110,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			);
 			$ilDB->query($deletequery);
 		}
+		$queries = array();
 		for($i = 0; $i < count($solution); $i += 3)
 		{
 			$query = sprintf("INSERT INTO tst_solutions ".
@@ -127,6 +128,17 @@ class ilSoapTestAdministration extends ilSoapAdministration
 				$ilDB->quote($pass . "")
 			);
 			$ilDB->query($query);
+			array_push($queries, $query);
+		}
+		if (count($queries) == 0)
+		{
+			return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries: Solution data: " . print_r($solution, true));
+		}
+		else
+		{
+			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			$question = assQuestion::_instanciateQuestion($question_id);
+			$question->calculateResultsFromSolution($active_id, $pass);
 		}
 		return true;
 	}
