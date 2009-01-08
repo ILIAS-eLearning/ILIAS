@@ -188,7 +188,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 			);
 			$ilDB->query($deletequery);
 		}
-		$queries = "";
+		$queries = "Params: sid = $sid, active_id = $active_id, question_id = $question_id, pass = $pass, solution = $solution, Extracted Solution params: [" . join($solutions, ",") . "], SQL-Queries: ";
 		for($i = 0; $i < count($solutions); $i += 3)
 		{
 			$query = sprintf("INSERT INTO tst_solutions ".
