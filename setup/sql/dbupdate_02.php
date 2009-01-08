@@ -6577,3 +6577,8 @@ UPDATE `style_data` SET `uptodate` = 0;
 		}
 	}
 ?>
+<#1390>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
