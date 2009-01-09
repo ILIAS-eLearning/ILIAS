@@ -6413,36 +6413,43 @@ remove_on_update TINYINT( 1 ) NOT NULL
 <#1378>
 <?php
 	// add activation start/end fields
-	$ilDB->alterTable("page_object",
-		array("add" => array(
-			"activation_start" => array(
-				"type" => "timestamp", "default" => "0000-00-00 00:00:00", "notnull" => true),
-			"activation_end" => array(
-				"type" => "timestamp", "default" => "0000-00-00 00:00:00", "notnull" => true)
-			)
-		));
+	if (!$ilDB->tableColumnExists("page_object", "activation_start"))
+	{
+		$ilDB->alterTable("page_object",
+			array("add" => array(
+				"activation_start" => array(
+					"type" => "timestamp", "default" => "0000-00-00 00:00:00", "notnull" => true),
+				"activation_end" => array(
+					"type" => "timestamp", "default" => "0000-00-00 00:00:00", "notnull" => true)
+				)
+			));
+	}
 ?>
 <#1379>
 <?php
-	// add activation start/end fields
-	$ilDB->alterTable("page_object",
-		array("add" => array(
-			"active" => array(
-				"type" => "boolean", "default" => true, "notnull" => true)
-			)
-		));
+	// step move to 1380
 ?>
 <#1380>
 <?php
-	$st = $ilDB->prepare("SELECT * FROM lm_data WHERE type = ?", array("text"));
-	$res = $ilDB->execute($st, array("pg"));
-
-	while ($rec = $ilDB->fetchAssoc($res))
+	if (!$ilDB->tableColumnExists("page_object", "active"))
 	{
-		$st2 = $ilDB->prepareManip("UPDATE page_object SET active = ? WHERE ".
-			"page_id = ? AND (parent_type = ? OR parent_type = ?) AND parent_id = ?",
-			array("boolean", "integer", "text", "text", "integer"));
-		$ilDB->execute($st2, array(($rec["active"]!="n"), $rec["obj_id"], "lm", "dbk", $rec["lm_id"]));
+		$ilDB->alterTable("page_object",
+			array("add" => array(
+				"active" => array(
+					"type" => "boolean", "default" => true, "notnull" => true)
+				)
+			));
+			
+		$st = $ilDB->prepare("SELECT * FROM lm_data WHERE type = ?", array("text"));
+		$res = $ilDB->execute($st, array("pg"));
+	
+		while ($rec = $ilDB->fetchAssoc($res))
+		{
+			$st2 = $ilDB->prepareManip("UPDATE page_object SET active = ? WHERE ".
+				"page_id = ? AND (parent_type = ? OR parent_type = ?) AND parent_id = ?",
+				array("boolean", "integer", "text", "text", "integer"));
+			$ilDB->execute($st2, array(($rec["active"]!="n"), $rec["obj_id"], "lm", "dbk", $rec["lm_id"]));
+		}
 	}
 ?>
 <#1381>
