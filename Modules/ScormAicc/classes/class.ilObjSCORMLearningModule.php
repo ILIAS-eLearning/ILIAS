@@ -801,6 +801,51 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		exit;	
 	}
 	
+	function getAllScoIds(){
+		global $ilDB;
+		
+		$scos = array();
+		//get all SCO's of this object
+		$query = "SELECT *,scorm_object.obj_id AS scoid FROM scorm_object,sc_item,sc_resource ".
+		  		 "WHERE(scorm_object.slm_id=".$ilDB->quote($this->getID())." AND scorm_object.obj_id=sc_item.obj_id ".
+				 "AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
+			     "GROUP BY scorm_object.obj_id";
+
+		$val_set = $ilDB->query($query);
+
+		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+			array_push($scos,$val_rec['scoid']);
+		}
+		return $scos;
+	}
+	
+	function getStatusForUser($a_user,$a_allScoIds,$a_numerical=false){
+		global $ilDB;
+		$scos = $a_allScoIds;
+		//loook up status
+		//check if all SCO's are completed
+		$scos_c = implode(',',$scos); 
+		$query = "SELECT * FROM scorm_tracking WHERE (user_id=".$ilDB->quote($a_user)." AND obj_id=".$ilDB->quote($this->getID()).
+				 " AND sco_id in (".$scos_c.")".
+			     " AND ((lvalue='cmi.core.lesson_status' AND rvalue='completed') OR (lvalue='cmi.core.lesson_status' AND rvalue='passed') ) )";
+		$val_set = $ilDB->query($query);	
+		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) {
+			$key = array_search($val_rec['sco_id'], $scos); 
+			unset ($scos[$key]);
+		}		
+		//check for completion
+		if (count($scos) == 0) {
+			$completion ($a_numerical===true)  ? true: $this->lng->txt("cont_complete");
+		}	
+		if (count($scos) > 0) {
+			$completion ($a_numerical===true)  ? false: $this->lng->txt("cont_incomplete");
+		}
+		return $completion;
+	}
+	
+	function getCourseCompletionForUser($a_user) {
+		return $this->getStatusForUser($a_user,$this->getAllScoIds,true);
+	}
 	
 
 } // END class.ilObjSCORMLearningModule
