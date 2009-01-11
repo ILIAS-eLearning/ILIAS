@@ -45,13 +45,54 @@ class ilPCSectionGUI extends ilPageContentGUI
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
-		$this->setCharacteristics(array("Block" => $this->lng->txt("cont_Block"),
-			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
-			"Remark" => $this->lng->txt("cont_Remark"),
-			"Example" => $this->lng->txt("cont_Example"),
-			"Additional" => $this->lng->txt("cont_Additional"),
-			"Special" => $this->lng->txt("cont_Special"),
-			"Excursus" => $this->lng->txt("cont_Excursus")));
+		$this->setCharacteristics(ilPCSectionGUI::_getStandardCharacteristics());
+	}
+
+	/**
+	* Get standard characteristics
+	*/
+	static function _getStandardCharacteristics()
+	{
+		global $lng;
+		
+		return array("Block" => $lng->txt("cont_Block"),
+			"Mnemonic" => $lng->txt("cont_Mnemonic"),
+			"Remark" => $lng->txt("cont_Remark"),
+			"Example" => $lng->txt("cont_Example"),
+			"Additional" => $lng->txt("cont_Additional"),
+			"Special" => $lng->txt("cont_Special"),
+			"Excursus" => $lng->txt("cont_Excursus"));
+	}
+	
+	/**
+	* Get characteristics
+	*/
+	static function _getCharacteristics($a_style_id)
+	{
+		$chars = ilPCSectionGUI::_getStandardCharacteristics();
+
+		if ($a_style_id > 0 &&
+			ilObject::_lookupType($a_style_id) == "sty")
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$style = new ilObjStyleSheet($a_style_id);
+			$chars = $style->getCharacteristics("section");
+			$new_chars = array();
+			foreach ($chars as $char)
+			{
+				if ($chars[$char] != "")	// keep lang vars for standard chars
+				{
+					$new_chars[$char] = $chars[$char];
+				}
+				else
+				{
+					$new_chars[$char] = $char;
+				}
+				asort($new_chars);
+			}
+			$chars = $new_chars;
+		}
+		return $chars;
 	}
 
 	/**
