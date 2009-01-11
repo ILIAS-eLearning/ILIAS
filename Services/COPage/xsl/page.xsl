@@ -803,10 +803,13 @@
 <xsl:template name="ShowParagraph">
 	<xsl:param name="p_id" select = "-1"/>
 	<xsl:if test="not(@Characteristic)">
-	<xsl:attribute name="class">ilc_text_block_Standard</xsl:attribute>
+		<xsl:attribute name="class">ilc_text_block_Standard</xsl:attribute>
 	</xsl:if>
 	<xsl:if test="@Characteristic and not (@Characteristic = 'Code')">
-	<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+		<xsl:attribute name="class">ilc_text_block_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+	</xsl:if>
+	<xsl:if test="$mode = 'edit'">
+		<xsl:attribute name="style">position:static;</xsl:attribute>
 	</xsl:if>
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- content -->
@@ -2421,6 +2424,9 @@
 			<xsl:if test="substring(@Characteristic, 1, 4) != 'ilc_'">
 				<xsl:attribute name="class">ilc_section_<xsl:value-of select="@Characteristic"/></xsl:attribute>
 			</xsl:if>
+		</xsl:if>
+		<xsl:if test="$mode = 'edit'">
+			<xsl:attribute name="style">position:static;</xsl:attribute>
 		</xsl:if>
 		<xsl:call-template name="EditReturnAnchors"/>
 		<!-- command selectbox -->
