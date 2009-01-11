@@ -403,7 +403,7 @@ class ilLMPageObject extends ilLMObject
 	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
 	*/
 	function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
-		$a_include_numbers = false)
+		$a_include_numbers = false, $a_time_scheduled_activation = false)
 	{
 		global $ilDB;
 
@@ -439,7 +439,7 @@ class ilLMPageObject extends ilLMObject
 				{
 					include_once("./Services/COPage/classes/class.ilPageObject.php");
 					$active = ilPageObject::_lookupActive($child["obj_id"],
-						ilObject::_lookupType($pg_rec["lm_id"]));
+						ilObject::_lookupType($pg_rec["lm_id"]), $a_time_scheduled_activation);
 
 					if ($child["type"] != "pg" || $active)
 					{
