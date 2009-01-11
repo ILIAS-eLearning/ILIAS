@@ -47,21 +47,61 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 		
 		// characteristics (should be flexible in the future)
-		$this->setCharacteristics(array("" => $this->lng->txt("none"),
-			"Headline1" => $this->lng->txt("cont_Headline1"),
-			"Headline2" => $this->lng->txt("cont_Headline2"),
-			"Headline3" => $this->lng->txt("cont_Headline3"),
-			"Citation" => $this->lng->txt("cont_Citation"),
-			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
-			"Example" => $this->lng->txt("cont_Example"),
-			"Additional" => $this->lng->txt("cont_Additional"),
-			"Remark" => $this->lng->txt("cont_Remark"),
-			"List" => $this->lng->txt("cont_List"),
-			"TableContent" => $this->lng->txt("cont_TableContent")
-		));
-
+		$this->setCharacteristics(ilPCParagraphGUI::_getStandardCharacteristics());
+	}
+	
+	/**
+	* Get standard characteristics
+	*/
+	static function _getStandardCharacteristics()
+	{
+		global $lng;
+		
+		return array("" => $lng->txt("none"),
+			"Headline1" => $lng->txt("cont_Headline1"),
+			"Headline2" => $lng->txt("cont_Headline2"),
+			"Headline3" => $lng->txt("cont_Headline3"),
+			"Citation" => $lng->txt("cont_Citation"),
+			"Mnemonic" => $lng->txt("cont_Mnemonic"),
+			"Example" => $lng->txt("cont_Example"),
+			"Additional" => $lng->txt("cont_Additional"),
+			"Remark" => $lng->txt("cont_Remark"),
+			"List" => $lng->txt("cont_List"),
+			"TableContent" => $lng->txt("cont_TableContent")
+		);
 	}
 
+	/**
+	* Get characteristics
+	*/
+	static function _getCharacteristics($a_style_id)
+	{
+		$chars = ilPCParagraphGUI::_getStandardCharacteristics();
+
+		if ($a_style_id > 0 &&
+			ilObject::_lookupType($a_style_id) == "sty")
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			$style = new ilObjStyleSheet($a_style_id);
+			$chars = $style->getCharacteristics("text_block");
+			$new_chars = array();
+			foreach ($chars as $char)
+			{
+				if ($chars[$char] != "")	// keep lang vars for standard chars
+				{
+					$new_chars[$char] = $chars[$char];
+				}
+				else
+				{
+					$new_chars[$char] = $char;
+				}
+				asort($new_chars);
+			}
+			$chars = $new_chars;
+		}
+		return $chars;
+	}
+	
 	/**
 	* execute command
 	*/

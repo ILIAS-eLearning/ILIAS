@@ -844,7 +844,7 @@ return true;
 			$select_prop = new ilSelectInputGUI($this->lng->txt("cont_choose_characteristic_text"),
 				"char_par");
 			include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-			$options = ilPCParagraphGUI::getCharacteristics();
+			$options = ilPCParagraphGUI::_getCharacteristics($this->page_gui->getStyleId());
 			$select_prop->setOptions($options);
 			$this->form->addItem($select_prop);
 		}
@@ -853,7 +853,7 @@ return true;
 			$select_prop = new ilSelectInputGUI($this->lng->txt("cont_choose_characteristic_section"),
 				"char_sec");
 			include_once("./Services/COPage/classes/class.ilPCSectionGUI.php");
-			$options = ilPCSectionGUI::getCharacteristics();
+			$options = ilPCSectionGUI::_getCharacteristics($this->page_gui->getStyleId());
 			$select_prop->setOptions($options);
 			$this->form->addItem($select_prop);
 		}
