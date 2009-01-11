@@ -1432,7 +1432,8 @@ class ilLMPresentationGUI
 
 		$page_object_gui->setPresentationTitle(
 			ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
-			$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+			$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+			$this->lm_set->get("time_scheduled_page_activation")));
 #		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setLinkParams("ref_id=".$_SESSION["tr_id"]);
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
@@ -1625,7 +1626,8 @@ class ilLMPresentationGUI
 		{
 			$page_object_gui->setPresentationTitle(
 				ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+				$this->lm_set->get("time_scheduled_page_activation")));
 		}
 
 		// ADDED FOR CITATION
@@ -2296,7 +2298,8 @@ class ilLMPresentationGUI
 			// get presentation title
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			$prev_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+				$this->lm_set->get("time_scheduled_page_activation"));
 			$prev_title = ilUtil::shortenText($prev_title, 50, true);
 			$prev_img = 
 				ilUtil::getImagePath("nav_arr_L.gif", false, "output", $this->offlineMode());
@@ -2351,7 +2354,8 @@ class ilLMPresentationGUI
 			// get presentation title
 			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+				$this->lm_set->get("time_scheduled_page_activation"));
 			$succ_title = ilUtil::shortenText($succ_title,50,true);
 			$succ_img =
 				ilUtil::getImagePath("nav_arr_R.gif", false, "output", $this->offlineMode());
@@ -2818,7 +2822,8 @@ class ilLMPresentationGUI
 				case "pg":
 					$this->tpl->setVariable("TXT_TITLE",
 					ilLMPageObject::_getPresentationTitle($node["obj_id"],
-					$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+					$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+					$this->lm_set->get("time_scheduled_page_activation")));
 					
 					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased)&&
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
@@ -2890,7 +2895,8 @@ class ilLMPresentationGUI
 			$this->tpl->setCurrentBlock("lm_item");
 			$this->tpl->setVariable("TXT_TITLE",
 				ilLMPageObject::_getPresentationTitle($_GET["obj_id"],
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering()));
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+				$this->lm_set->get("time_scheduled_page_activation")));
 			
 			if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
 			   $this->lm_gui->object->getPublicAccessMode() == "selected")
@@ -3150,7 +3156,8 @@ class ilLMPresentationGUI
 					if ($this->lm->getPageHeader() == IL_PAGE_TITLE || $node["free"] === true)
 					{
 						$page_title = ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
-								$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
+								$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+								$this->lm_set->get("time_scheduled_page_activation"));
 
 						// prevent page title after chapter title
 						// that have the same content
