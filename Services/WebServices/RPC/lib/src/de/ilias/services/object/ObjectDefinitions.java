@@ -95,7 +95,7 @@ public class ObjectDefinitions {
 	}
 	
 	/**
-	 * 
+	 * Get object definition by object type 
 	 * @param objType
 	 * @return
 	 * @throws ObjectDefinitionException

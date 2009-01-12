@@ -269,17 +269,15 @@ public class FieldDefinition {
 		// TODO: call transformer
 		try {
 			Object value = res.getObject(getColumn());
-			String purged = callTransformers(value.toString());
-			
-			
 			if(value != null && value.toString() != "") {
+				String purged = callTransformers(value.toString());
 				logger.debug("Found value: " + purged + " for name: " + getName());
 				DocumentHolder.factory().add(getName(),purged, isGlobal(), store, index);
 			}
 			return;
 		}
 		catch(NullPointerException e) {
-			logger.error(e.getMessage());
+			logger.error("Caught NullPointerException: " + e.getMessage());
 		}
 	}
 
