@@ -9,8 +9,8 @@
 				WHERE obj_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="local_information" name="priorityMedium" /> 
-			<Field store="YES" index="ANALYZED" column="organization" name="priorityHigh" /> 
+			<Field store="YES" index="ANALYZED" column="local_information" name="propertyMedium" /> 
+			<Field store="YES" index="ANALYZED" column="organization" name="propertyHigh" /> 
 		</DataSource>
 	</Document>
 </ObjectDefinition>
