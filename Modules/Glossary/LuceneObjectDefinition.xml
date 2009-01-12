@@ -12,8 +12,8 @@
 				WHERE glo_id IN (?)
 			</Query>
 			<Param format="list" type="int" value="objId" />
-			<Field store="YES" index="ANALYZED" column="term" name="priorityHigh" />
-			<Field store="YES" index="ANALYZED" column="short_text" name="priorityMedium" />
+			<Field store="YES" index="ANALYZED" column="term" name="propertyHigh" />
+			<Field store="YES" index="ANALYZED" column="short_text" name="propertyMedium" />
 			<Field store="YES" index="NOT_ANALYZED" column="glo_id" name="objId" global="NO" />
 		</DataSource>
 	</Document>
