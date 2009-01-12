@@ -23,22 +23,23 @@
 package de.ilias.services.lucene.search;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocCollector;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import de.ilias.services.lucene.index.FieldInfo;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
@@ -61,65 +62,67 @@ public class RPCSearchHandler {
 	}
 	
 	/**
+	 * Multi field searcher
+	 * Searches in all defined fields.
+	 * @todo allow configuration of searchable fields.
+	 * 
 	 * 
 	 * @param clientKey
 	 * @param query
 	 */
-	public boolean search(String clientKey, String queryString) {
+	public Vector<Integer> search(String clientKey, String queryString) {
 
 		LocalSettings.setClientKey(clientKey);
 		ClientSettings client;
 		Directory directory;
 		IndexSearcher searcher;
+		FieldInfo fieldInfo;
+		
+		Vector<Integer> results = new Vector<Integer>();
 		
 		try {
 			
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
+			
+			// Append doctype
+			queryString += " AND docType:combined";
 			
 			logger.info("Searching for: " + queryString);
 			directory = FSDirectory.getDirectory(client.getIndexPath());
 			searcher = new IndexSearcher(directory);
 			
-			//parser = new QueryParser("title",new StandardAnalyzer());
-			
-			String[] fields = {"objId","type","title",
-					"description","propertyHigh","propertyMedium","propertyLow",
-					"owner"};
-			BooleanClause.Occur[] flags = {BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD,
-					BooleanClause.Occur.SHOULD};
+			Vector<Occur> occurs = new Vector<Occur>();
+			for(int i = 0; i < fieldInfo.getFieldSize(); i++) {
+				occurs.add(BooleanClause.Occur.SHOULD);
+			}
 			
 			Query query = MultiFieldQueryParser.parse(queryString,
-					fields, 
-					flags,
+					fieldInfo.getFieldsAsStringArray(),
+					occurs.toArray(new Occur[0]),
 					new StandardAnalyzer());
-			
-			//parser.parse(queryString);
-			//Query query = parser.parse(queryString);
-			
+
+			for(Object f : fieldInfo.getFields()) {
+				logger.info(((String) f).toString());
+			}
 			
 			TopDocCollector collector = new TopDocCollector(1000);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
 			
-			
 			logger.info("Found " + hits.length + " matches");
-			
 			for(int i = 0; i < hits.length;i++) {
 				
 				Document hitDoc = searcher.doc(hits[i].doc);
-				Explanation expl = searcher.explain(query,hits[i].doc);
+				//Explanation expl = searcher.explain(query,hits[i].doc);
 				//logger.info("Explaination: " + expl.toString());
-				logger.info("Found objId: " + hitDoc.get("objId") + 
+				logger.debug("Found objId: " + hitDoc.get("objId") + 
 						" type: " + hitDoc.get("type") + " title: " + hitDoc.get("title"));
-				logger.info("Score: "+ hits[i].score);
+				logger.debug("Score: "+ hits[i].score);
+				
+				results.add(Integer.parseInt(hitDoc.get("objId")));
 			}
-			return true;
+			return results;
 		}
 		catch(ConfigurationException e) {
 			logger.error(e);
@@ -134,7 +137,7 @@ public class RPCSearchHandler {
 			logger.error(e);
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 	
 }

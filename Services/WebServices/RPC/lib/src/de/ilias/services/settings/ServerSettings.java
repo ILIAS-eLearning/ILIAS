@@ -202,7 +202,7 @@ public class ServerSettings {
                     this.logFile.getAbsolutePath());
             
             // TODO: increase max file size
-            file_appender.setMaxFileSize("1MB");
+            file_appender.setMaxFileSize("100MB");
             logger.removeAllAppenders();
             logger.addAppender(file_appender);
             logger.setLevel(this.getLogLevel());

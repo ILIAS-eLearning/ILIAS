@@ -34,6 +34,11 @@ import javax.print.attribute.standard.Finishings;
 import org.apache.log4j.Logger;
 
 import de.ilias.services.db.DBFactory;
+import de.ilias.services.object.ObjectDefinition;
+import de.ilias.services.object.ObjectDefinitions;
+import de.ilias.services.settings.ClientSettings;
+import de.ilias.services.settings.ConfigurationException;
+import de.ilias.services.settings.LocalSettings;
 
 
 /**
@@ -111,9 +116,13 @@ public class CommandQueue {
 	 * @throws SQLException 
 	 * 
 	 */
-	private void loadFromDb() throws SQLException {
+	private synchronized void loadFromDb() throws SQLException {
 
 		logger.debug("Start reading command queue");
+		
+		// Handle rebuild_index
+		substituteRebuildCommand();
+		
 		
 		// Substitute all reset_all commands withc reset command for each undeleted object id 
 		substituteResetCommands();
@@ -142,6 +151,55 @@ public class CommandQueue {
 			counter++;
 		}
 		logger.info("Found " + counter + " new update events!");
+	}
+	
+	/**
+	 * 
+	 * @throws SQLException
+	 */
+	private void substituteRebuildCommand() throws SQLException {
+		
+		try {
+			PreparedStatement sta = db.prepareStatement("SELECT COUNT(*) num FROM search_command_queue " +
+				"WHERE command = ?");
+			sta.setString(1, "rebuild_index");
+			
+			ResultSet res = sta.executeQuery();
+			while(res.next()) {
+				if(res.getInt("num") <= 0) {
+					return;
+				}
+			}
+			
+			// Received rebuildIndex command
+			Statement delete = db.createStatement();
+			delete.executeUpdate("DELETE FROM search_command_queue");
+			
+			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
+				
+				logger.info("Adding reset command for " + ((ObjectDefinition) def).getType());
+				PreparedStatement pst = db.prepareStatement("INSERT INTO search_command_queue " +
+					"SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+					pst.setInt(1,0);
+					pst.setString(2, ((ObjectDefinition) def).getType());
+					pst.setInt(3,0);
+					pst.setString(4,"");
+					pst.setString(5,"reset_all");
+					pst.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+					pst.setInt(7,0);
+				pst.executeUpdate();
+			}
+			return;
+		} 
+		catch(SQLException e) {
+			logger.fatal("Invalid SQL statement!");
+			throw e;
+		} 
+		catch (ConfigurationException e) {
+			logger.error("Missing client key. " + e.getMessage());
+		}
+		
 	}
 
 
