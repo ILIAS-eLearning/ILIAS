@@ -53,7 +53,6 @@ class ilTable2GUI extends ilTableGUI
 		$this->header_commands = array();
 		$this->multi = array();
 		$this->hidden_inputs = array();
-		$this->data_id_index = '';
 		$this->formname = "table_" . $this->unique_id;
 		$this->tpl = new ilTemplate("tpl.table2.html", true, true, "Services/Table");
 		
@@ -187,14 +186,6 @@ class ilTable2GUI extends ilTableGUI
 		$this->prefix = $a_prefix;
 	}
 	
-	public function setDataIdIndex($a_data_id_index)
-	{
-		$this->data_id_index = $a_data_id_index;
-	}
-	public function getDataIdIndex()
-	{
-		return $this->data_id_index;
-	}
 
 	/**
 	* Set Form action parameter.
@@ -508,13 +499,6 @@ class ilTable2GUI extends ilTableGUI
 		// slice
 		$data = array_slice($data, $this->getOffset(), $this->getLimit());
 		
-		if($this->getDataIdIndex() != '')
-		{
-			$data_ids = array();
-			foreach($data as $dat) $data_ids[] = $dat[$this->getDataIdIndex()];
-			if( count($data_ids) > 0 ) $this->addHiddenInput( 'data_ids', implode(',',$data_ids) );
-		}
-
 		// fill rows
 		if(count($data) > 0)
 		{
