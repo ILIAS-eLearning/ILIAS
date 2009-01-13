@@ -456,23 +456,25 @@ echo htmlentities($a_text);*/
 
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
 			"((page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|sahs|mcst|obj)$ws=$ws([\"0-9])*)$ws".
-			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws))\]", $a_text, $found))
+			"(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			$inst_str = $attribs["inst"];
 			// pages
 			if (isset($attribs["page"]))
 			{
+				$tframestr = "";
 				if (!empty($found[10]))
 				{
 					$tframestr = " TargetFrame=\"".$found[10]."\" ";
 				}
-				else
+				$ancstr = "";
+				if ($attribs["anchor"] != "")
 				{
-					$tframestr = "";
+					$ancstr = ' Anchor="'.$attribs["anchor"].'" ';
 				}
 				$a_text = eregi_replace("\[".$found[1]."\]",
-					"<IntLink Target=\"il_".$inst_str."_pg_".$attribs[page]."\" Type=\"PageObject\"".$tframestr.">", $a_text);
+					"<IntLink Target=\"il_".$inst_str."_pg_".$attribs[page]."\" Type=\"PageObject\"".$tframestr.$ancstr.">", $a_text);
 			}
 			// chapters
 			else if (isset($attribs["chap"]))
@@ -575,8 +577,6 @@ echo htmlentities($a_text);*/
 
 		// external link
 		$ws= "[ \t\r\f\v\n]*";
-
-		//while (eregi("\[(xln$ws(url$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
 		while (eregi("\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
@@ -596,11 +596,16 @@ echo htmlentities($a_text);*/
 			}
 		}
 		$a_text = eregi_replace("\[\/xln\]","</ExtLink>",$a_text);
-		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
-		$blob = ereg_replace("<NR>"," ",$blob);*/
-//echo "<br>-".htmlentities($a_text)."-";
-		//$a_text = nl2br($a_text);
-		//$a_text = addslashes($a_text);
+		
+		// anchor
+		$ws= "[ \t\r\f\v\n]*";
+		while (eregi("\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]", $a_text, $found))
+		{
+			$attribs = ilUtil::attribsToArray($found[2]);
+			$a_text = str_replace("[".$found[1]."]", "<Anchor Name=\"".$attribs["name"]."\">", $a_text);
+		}
+		$a_text = eregi_replace("\[\/anc\]","</Anchor>",$a_text);
+
 		return $a_text;
 	}
 	
@@ -870,7 +875,10 @@ echo htmlentities($a_text);*/
 					$tframestr = (!empty($attribs["TargetFrame"]))
 						? " target=\"".$attribs["TargetFrame"]."\""
 						: "";
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."page=\"".$target_id."\"$tframestr]",$a_text);
+					$ancstr = (!empty($attribs["Anchor"]))
+						? ' anchor="'.$attribs["Anchor"].'"'
+						: "";
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."page=\"".$target_id."\"$tframestr$ancstr]",$a_text);
 					break;
 
 				case "StructureObject":
@@ -933,6 +941,15 @@ echo htmlentities($a_text);*/
 			$a_text = str_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"$tstr]",$a_text);
 		}
 		$a_text = eregi_replace("</ExtLink>","[/xln]",$a_text);
+
+		// anchor
+		while (eregi("<Anchor($any)>", $a_text, $found))
+		{
+			$found[0];
+			$attribs = ilUtil::attribsToArray($found[1]);
+			$a_text = str_replace("<Anchor".$found[1].">","[anc name=\"".$attribs["Name"]."\"]",$a_text);
+		}
+		$a_text = eregi_replace("</Anchor>","[/anc]",$a_text);
 
 
 		// br to linefeed

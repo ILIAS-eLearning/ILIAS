@@ -319,7 +319,8 @@
 <!-- Anchor -->
 <xsl:template match="Anchor">
 <a>
-<xsl:attribute name="name"><xsl:apply-templates/></xsl:attribute>
+<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+<xsl:apply-templates/>
 </a>
 </xsl:template>
 

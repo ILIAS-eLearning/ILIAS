@@ -11,12 +11,13 @@ var help_line = {
 		i: '{TXT_ILN} [iln page=\"page_id\"]text[/iln]  (alt+i)',
 		w: '{TXT_WLN} [[{TXT_WLN}]]  (alt+w)',
 		x: '{TXT_XLN} [xln url=\"http://url\"]text[/xln]  (alt+x)',
+		n: '{TXT_ANC} [anc name="..."]text[/anc]  (alt+n)',
 		t: '{TXT_TEX} [tex]LaTeX code[/tex]  (alt+t)'
 }
 
 // Define the bbCode tags
 var bbcode = new Array();
-var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]', '[tex]','[/tex]','[[',']]');
+var bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[iln page=""]','[/iln]','[xln url="http://"]','[/xln]','[url]','[/url]', '[tex]','[/tex]','[[',']]','[anc name=""]','[/anc]');
 imageTag = false;
 
 var form_name = 'post';
@@ -38,6 +39,7 @@ var upload = false;
 <a style="color:black;" class="ilEditSubmit" href="#" accesskey="d" name="addbbcode8" onClick="bbstyle(8)" onMouseOver="helpline('d')" ><code>&nbsp;code&nbsp;</code></a>&nbsp;
 <a style="color:black;" class="ilEditSubmit" href="#" accesskey="t" name="addbbcode18" onClick="bbstyle(18)" onMouseOver="helpline('t')" ><span>&nbsp;tex&nbsp;</span></a>&nbsp;
 <a class="ilEditSubmit" href="#" accesskey="f" name="addbbcode10" onClick="bbstyle(10)" onMouseOver="helpline('f')" >&nbsp;fn&nbsp;</a>&nbsp;
+<a class="ilEditSubmit" href="#" accesskey="n" name="addbbcode22" onClick="bbstyle(22)" onMouseOver="helpline('n')" >&nbsp;anc&nbsp;</a>&nbsp;
 <a class="ilEditSubmit" href="#" accesskey="x" name="addbbcode14" onClick="bbstyle(14)" onMouseOver="helpline('x')" >&nbsp;xln&nbsp;</a>&nbsp;
 <!-- BEGIN bb_ilink_button -->
 <a class="ilEditSubmit" href="{BB_LINK_ILINK}" accesskey="i" target="tree" onMouseOver="helpline('i')">&nbsp;iln&nbsp;</a>

@@ -1567,7 +1567,6 @@ class ilLMPresentationGUI
 		
 		$ilBench->start("ContentPresentation", "ilPage_getInternalLinks");
 		$int_links = $page_object->getInternalLinks();
-
 		$ilBench->stop("ContentPresentation", "ilPage_getInternalLinks");
 		
 		$ilBench->start("ContentPresentation", "ilPage_getPageObjectGUI");
@@ -1827,6 +1826,14 @@ class ilLMPresentationGUI
 				$targetframe = ($int_link["TargetFrame"] != "")
 					? $int_link["TargetFrame"]
 					: "None";
+					
+				// anchor
+				$anc = $anc_add = "";
+				if ($int_link["Anchor"] != "")
+				{
+					$anc = $int_link["Anchor"];
+					$anc_add = "_".rawurlencode($int_link["Anchor"]);
+				}
 
 				switch($type)
 				{
@@ -1859,7 +1866,8 @@ class ilLMPresentationGUI
 								$ltarget = "";
 							}
 							$href =
-								$this->getLink($_GET["ref_id"], "layout", $target_id, $nframe, $type);
+								$this->getLink($_GET["ref_id"], "layout", $target_id, $nframe, $type,
+									"append", $anc);
 						}
 						else
 						{
@@ -1867,7 +1875,7 @@ class ilLMPresentationGUI
 							{
 								if ($type == "PageObject")
 								{
-									$href = "./goto.php?target=pg_".$target_id;
+									$href = "./goto.php?target=pg_".$target_id.$anc_add;
 								}
 								else
 								{
@@ -1878,7 +1886,7 @@ class ilLMPresentationGUI
 							{
 								if ($type == "PageObject")
 								{
-									$href = ILIAS_HTTP_PATH."/goto.php?target=pg_".$target_id."&amp;client_id=".CLIENT_ID;
+									$href = ILIAS_HTTP_PATH."/goto.php?target=pg_".$target_id.$anc_add."&amp;client_id=".CLIENT_ID;
 								}
 								else
 								{
@@ -2450,6 +2458,14 @@ class ilLMPresentationGUI
 					if ($attributes["name"] == "toc")
 					{
 						$attributes["src"].= "#".$_GET["obj_id"];
+					}
+					else
+					{
+						// Handle Anchors
+						if ($_GET["anchor"] != "")
+						{
+							$attributes["src"].= "#".rawurlencode($_GET["anchor"]);
+						}
 					}
 					$a_content .= $this->buildTag("", "frame", $attributes);
 					$this->frames[$attributes["name"]] = $attributes["name"];
@@ -3739,7 +3755,7 @@ class ilLMPresentationGUI
 	* handles links for learning module presentation
 	*/
 	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "",
-		$a_back_link = "append")
+		$a_back_link = "append", $a_anchor = "")
 	{
 		global $ilCtrl;
 		
@@ -3787,6 +3803,10 @@ class ilLMPresentationGUI
 		// handle online links
 		if (!$this->offlineMode())
 		{
+			if ($a_anchor !=  "")
+			{
+				$this->ctrl->setParameter($this, "anchor", rawurlencode($a_anchor));
+			}
 			switch ($a_cmd)
 			{
 				case "fullscreen":

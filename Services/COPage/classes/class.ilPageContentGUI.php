@@ -199,6 +199,7 @@ class ilPageContentGUI
 		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));
 		$btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
 		$btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
+		$btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor").":");
 		
 		$btpl->setVariable("PAR_TA_NAME", "par_content");
 		
