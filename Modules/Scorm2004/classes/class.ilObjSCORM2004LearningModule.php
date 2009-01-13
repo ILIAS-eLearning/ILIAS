@@ -299,6 +299,27 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 	}
 	
+	/**
+	* Return the last access timestamp for a given user
+	*
+	* @param	int		$a_obj_id		object id
+	* @param	int		$user_id		user id
+	* @return timestamp
+	*/
+	public static function _lookupLastAccess($a_obj_id, $a_usr_id)
+	{
+		global $ilDB;
+		$query = "SELECT UNIX_TIMESTAMP(MAX(TIMESTAMP)) AS last_access FROM cmi_node, cp_node WHERE".
+			" cmi_node.cp_node_id = cp_node.cp_node_id ".
+			" AND cp_node.slm_id = ".$ilDB->quote($a_obj_id)." AND user_id = " . $ilDB->quote($a_usr_id) . " ORDER BY TIMESTAMP DESC";
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["last_access"];
+		}
+		return "";
+	}
 
 	/**
 	* get all tracked items of current user
@@ -659,8 +680,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	    return $aV[0] * 3155760000 + $aV[1] * 262980000 + $aV[2] * 8640000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
 	}
 	
-	function getCourseCompletionForUser($a_user) {
-		
+	function getCourseCompletionForUser($a_user) 
+	{
 		global $ilDB, $ilUser;
 	 	$scos = array();
 		 //get all SCO's of this object		
@@ -682,6 +703,51 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				 " 	AND (completion_status='completed' OR success_status='passed'))";
 			$val_set = $ilDB->query($query);
 			if ($val_set->numRows()>0) {
+				//delete from array
+				$key = array_search($scos[$i], $scos_c); 
+				unset ($scos_c[$key]);
+			}
+		}
+		//check for completion
+		if (count($scos_c) == 0) {
+			$completion = true;
+		} else {
+			$completion = false;
+		}
+		return $completion;
+	}
+	
+	/**
+	* Get the completion of a SCORM module for a given user
+	* @param int $a_id Object id
+	* @param int $a_user User id
+	* @return boolean Completion status
+	*/
+	public static function _getCourseCompletionForUser($a_id, $a_user) 
+	{
+		global $ilDB, $ilUser;
+	 	$scos = array();
+		 //get all SCO's of the object
+		$query = "SELECT cp_node.cp_node_id FROM cp_node,cp_resource,cp_item WHERE".
+			" cp_item.cp_node_id=cp_node.cp_node_id AND cp_item.resourceId = cp_resource.id AND scormType='sco' AND nodeName='item' AND cp_node.slm_id = ".$ilDB->quote($a_id);
+        
+		$val_set = $ilDB->query($query);
+		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) 
+		{
+			array_push($scos,$val_rec['cp_node_id']);
+		}
+		
+		$scos_c = $scos;
+		//copy SCO_array
+		//check if all SCO's are completed
+		for ($i=0;$i<count($scos);$i++)
+		{
+			$query = "SELECT * FROM cmi_node WHERE (user_id=".$ilDB->quote($a_user).
+				" AND cp_node_id=".$ilDB->quote($scos[$i]).
+				" 	AND (completion_status='completed' OR success_status='passed'))";
+			$val_set = $ilDB->query($query);
+			if ($val_set->numRows()>0) 
+			{
 				//delete from array
 				$key = array_search($scos[$i], $scos_c); 
 				unset ($scos_c[$key]);

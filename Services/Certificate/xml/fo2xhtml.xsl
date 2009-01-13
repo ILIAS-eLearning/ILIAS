@@ -20,41 +20,66 @@
 	</xsl:template>
 
 	<xsl:template name="handleBlock">
-		<xsl:choose>
-			<xsl:when test="current()='&#160;'">
-				<br/>
-			</xsl:when>
-			<xsl:when test="current()='&#xA0;'">
-				<br/>
-			</xsl:when>
-			<xsl:otherwise>
-				<p>
-					<xsl:choose>
-						<xsl:when test="@text-align='left'">
-							<xsl:attribute name="align">
-								<xsl:text>left</xsl:text>
-							</xsl:attribute>
-						</xsl:when>
-						<xsl:when test="@text-align='right'">
-							<xsl:attribute name="align">
-								<xsl:text>right</xsl:text>
-							</xsl:attribute>
-						</xsl:when>
-						<xsl:when test="@text-align='center'">
-							<xsl:attribute name="align">
-								<xsl:text>center</xsl:text>
-							</xsl:attribute>
-						</xsl:when>
-						<xsl:when test="@text-align='justify'">
-							<xsl:attribute name="align">
-								<xsl:text>justify</xsl:text>
-							</xsl:attribute>
-						</xsl:when>
-					</xsl:choose>
-					<xsl:apply-templates select="node()"/>
-				</p>
-			</xsl:otherwise>
-		</xsl:choose>
+		<p>
+			<xsl:choose>
+				<xsl:when test="current()='&#160;'">
+				</xsl:when>
+				<xsl:when test="current()='&#xA0;'">
+				</xsl:when>
+				<xsl:when test="@text-align='left'">
+					<xsl:attribute name="align">
+						<xsl:text>left</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="@text-align='right'">
+					<xsl:attribute name="align">
+						<xsl:text>right</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="@text-align='center'">
+					<xsl:attribute name="align">
+						<xsl:text>center</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="@text-align='justify'">
+					<xsl:attribute name="align">
+						<xsl:text>justify</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
+			</xsl:choose>
+			<xsl:choose>
+				<xsl:when test="@padding or @padding-left or @padding-right or @padding-top or @padding-bottom">
+						<xsl:attribute name="style">
+							<xsl:if test="@padding">
+								<xsl:text>padding: </xsl:text>
+								<xsl:value-of select="@padding"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<xsl:if test="@padding-left">
+								<xsl:text>padding-left: </xsl:text>
+								<xsl:value-of select="@padding-left"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<xsl:if test="@padding-right">
+								<xsl:text>padding-right: </xsl:text>
+								<xsl:value-of select="@padding-right"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<xsl:if test="@padding-top">
+								<xsl:text>padding-top: </xsl:text>
+								<xsl:value-of select="@padding-top"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+							<xsl:if test="@padding-bottom">
+								<xsl:text>padding-bottom: </xsl:text>
+								<xsl:value-of select="@padding-bottom"/>
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+						</xsl:attribute>
+				</xsl:when>
+			</xsl:choose>
+			<xsl:apply-templates select="node()"/>
+		</p>
 	</xsl:template>
 
 	<xsl:template match="fo:flow/fo:block//fo:block" xmlns:fo="http://www.w3.org/1999/XSL/Format">
@@ -72,7 +97,7 @@
 			<xsl:text disable-output-escaping="yes">&lt;u&gt;</xsl:text>
 		</xsl:if>
 		<xsl:choose>
-			<xsl:when test="@font-family or @font-size">
+			<xsl:when test="@font-family or @font-size or @padding or @padding-left or @padding-right or @padding-top or @padding-bottom">
 				<xsl:element name="span">
 					<xsl:attribute name="style">
 						<xsl:if test="@font-family">
@@ -125,6 +150,31 @@
 
 								</xsl:when>
 							</xsl:choose>
+						</xsl:if>
+						<xsl:if test="@padding">
+							<xsl:text>padding: </xsl:text>
+							<xsl:value-of select="@padding"/>
+							<xsl:text>; </xsl:text>
+						</xsl:if>
+						<xsl:if test="@padding-left">
+							<xsl:text>padding-left: </xsl:text>
+							<xsl:value-of select="@padding-left"/>
+							<xsl:text>; </xsl:text>
+						</xsl:if>
+						<xsl:if test="@padding-right">
+							<xsl:text>padding-right: </xsl:text>
+							<xsl:value-of select="@padding-right"/>
+							<xsl:text>; </xsl:text>
+						</xsl:if>
+						<xsl:if test="@padding-top">
+							<xsl:text>padding-top: </xsl:text>
+							<xsl:value-of select="@padding-top"/>
+							<xsl:text>; </xsl:text>
+						</xsl:if>
+						<xsl:if test="@padding-bottom">
+							<xsl:text>padding-bottom: </xsl:text>
+							<xsl:value-of select="@padding-bottom"/>
+							<xsl:text>; </xsl:text>
 						</xsl:if>
 					</xsl:attribute>
 					<xsl:apply-templates select="node()"/>

@@ -76,8 +76,68 @@
 
 	<xsl:template match="//p">
 		<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">
+			<xsl:if test="contains(@style, 'padding-left')">
+				<xsl:attribute name="padding-left">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding-left:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding-right')">
+				<xsl:attribute name="padding-right">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding-right:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding-top')">
+				<xsl:attribute name="padding-top">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding-top:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding-bottom')">
+				<xsl:attribute name="padding-bottom">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding-bottom:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding:')">
+				<xsl:attribute name="padding">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="@align='left'">
+					<xsl:attribute name="text-align">
+						<xsl:text>left</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="contains(@style, 'text-align') and contains(@style, 'left')">
 					<xsl:attribute name="text-align">
 						<xsl:text>left</xsl:text>
 					</xsl:attribute>
@@ -87,7 +147,17 @@
 						<xsl:text>right</xsl:text>
 					</xsl:attribute>
 				</xsl:when>
+				<xsl:when test="contains(@style, 'text-align') and contains(@style, 'right')">
+					<xsl:attribute name="text-align">
+						<xsl:text>right</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
 				<xsl:when test="@align='center'">
+					<xsl:attribute name="text-align">
+						<xsl:text>center</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="contains(@style, 'text-align') and contains(@style, 'center')">
 					<xsl:attribute name="text-align">
 						<xsl:text>center</xsl:text>
 					</xsl:attribute>
@@ -96,6 +166,14 @@
 					<xsl:attribute name="text-align">
 						<xsl:text>justify</xsl:text>
 					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="contains(@style, 'text-align') and contains(@style, 'justify')">
+					<xsl:attribute name="text-align">
+						<xsl:text>justify</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="@class='emptyrow'">
+					<xsl:text disable-output-escaping="yes">&amp;#160;</xsl:text>
 				</xsl:when>
 			</xsl:choose>
 			<xsl:apply-templates select="node()"/>
@@ -232,6 +310,61 @@
 									/>
 								</xsl:with-param>
 							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding-left')">
+				<xsl:attribute name="padding-left">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding-left:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding-right')">
+				<xsl:attribute name="padding-right">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding-right:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding-top')">
+				<xsl:attribute name="padding-top">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding-top:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding-bottom')">
+				<xsl:attribute name="padding-bottom">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding-bottom:'), ';')"
+							/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="contains(@style, 'padding:')">
+				<xsl:attribute name="padding">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:value-of
+								select="substring-before(substring-after(@style, 'padding:'), ';')"
+							/>
 						</xsl:with-param>
 					</xsl:call-template>
 				</xsl:attribute>

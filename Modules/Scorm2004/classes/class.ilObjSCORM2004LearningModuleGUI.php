@@ -32,6 +32,7 @@ require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php
 *
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI
+* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI
 *
 * @ingroup ModulesScormAicc
 */

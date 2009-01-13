@@ -8704,9 +8704,14 @@ certificate#:#certificate_margin_body#:#Ränder des Textbereiches
 certificate#:#certificate_not_well_formed#:#Der Zertifikat-Text ist nicht wohlgeformt. Bitte verwenden Sie gültiges XHTML für den Zertifikat-Text!
 certificate#:#certificate_padding_top#:#Abstand vom oberen Seitenrand
 certificate#:#certificate_page_format#:#Seitenformat
+certificate#:#certificate_page_format_info#:#Bitte wählen Sie das Standard-Seitenformat für neue Zertifikate aus.
 certificate#:#certificate_pageheight#:#Seitenhöhe
 certificate#:#certificate_pagewidth#:#Seitenbreite
 certificate#:#certificate_passed#:#bestanden
+certificate#:#certificate_enabled_scorm#:#Aktiviert
+certificate#:#certificate_enabled_scorm_introduction#:#Wenn ausgewählt, wird das Zertifikat für alle Teilnehmer und Teilnehmerinnen des SCORM Lernmoduls angeboten, die das Lernmodul durchgearbeitet haben.
+certificate#:#certificate_ph_lastaccess#:#Datum und Uhrzeit des letzten Zugriffs des Teilnehmers oder der Teilnehmerin
+certificate#:#certificate_ph_scormtitle#:#Titel des SCORM Lernmoduls
 certificate#:#certificate_ph_date#:#Aktuelles Datum
 certificate#:#certificate_ph_datetime#:#Aktuelles Datum und Uhrzeit
 certificate#:#certificate_ph_firstname#:#Vorname des Teilnehmers oder der Teilnehmerin
@@ -8763,6 +8768,7 @@ common#:#certificate#:#Zertifikat
 certificate#:#certificate_settings#:#Einstellungen für Zertifikate
 certificate#:#default_background_info#:#Das hier angegebene Hintergrundbild wird bei allen Zertifikaten als Standard-Hintergrund verwendet, es sei denn, Sie geben im Zertifikat-Editor explizit ein anderes Hintergrundbild an.
 certificate#:#certificate_usage#:#Bitte beachten Sie, dass die Verwendung und Erstellung von Zertifikaten nur möglich ist, wenn Sie den Java-Server von ILIAS verwenden. Der Java-Server wird in der Hauptseite der Administration in der Kategorie Web-Services konfiguriert und ist unter anderem für die Generierung von PDF-Dateien erforderlich.
+certificate#:#download_certificate#:#Zertifikat herunterladen
 dateplaner#:#cal_delete_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_deleted_app#:#Die ausgewählten Termine wurden gelöscht.
 common#:#to_filter#:#Filtern

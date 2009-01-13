@@ -274,6 +274,26 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return $items;
 	}
 	
+	/**
+	* Return the last access timestamp for a given user
+	*
+	* @param	int		$a_obj_id		object id
+	* @param	int		$user_id		user id
+	* @return timestamp
+	*/
+	public static function _lookupLastAccess($a_obj_id, $a_usr_id)
+	{
+		global $ilDB;
+		$query = "SELECT user_id,UNIX_TIMESTAMP(TIMESTAMP) AS last_access FROM scorm_tracking WHERE".
+			" obj_id = ".$ilDB->quote($a_obj_id)." AND user_id = " . $ilDB->quote($a_usr_id) . " ORDER BY TIMESTAMP DESC";
+		$result = $ilDB->query($query);
+		if ($result->numRows())
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			return $row["last_access"];
+		}
+		return "";
+	}
 
 	function getTrackedUsers($a_search)
 	{
@@ -801,6 +821,75 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		exit;	
 	}
 	
+	/**
+	* Get an array of id's for all Sco's in the module
+	* @param int $a_id Object id
+	* @return array Sco id's
+	*/
+	public static function _getAllScoIds($a_id)
+	{
+		global $ilDB;
+		
+		$scos = array();
+
+		$query = "SELECT *,scorm_object.obj_id AS scoid FROM scorm_object,sc_item,sc_resource ".
+			"WHERE(scorm_object.slm_id=".$ilDB->quote($a_id)." AND scorm_object.obj_id=sc_item.obj_id ".
+			"AND sc_item.identifierref=sc_resource.import_id AND sc_resource.scormtype='sco') ".
+			"GROUP BY scorm_object.obj_id";
+		$val_set = $ilDB->query($query);
+
+		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) 
+		{
+			array_push($scos,$val_rec['scoid']);
+		}
+		return $scos;
+	}
+	
+	/**
+	* Get the status of a SCORM module for a given user
+	* @param int $a_id Object id
+	* @param int $a_user User id
+	* @param array $a_allScoIds Array of Sco id's in this module
+	* @param boolean $a_numerical Text (false) or boolean result (true)
+	* @return mixed Status result
+	*/
+	public static function _getStatusForUser($a_id, $a_user,$a_allScoIds,$a_numerical=false)
+	{
+		global $ilDB, $lng;
+		
+		$scos = $a_allScoIds;
+		//check if all SCO's are completed
+		$scos_c = implode(',',$scos); 
+		$query = "SELECT * FROM scorm_tracking WHERE (user_id=".$ilDB->quote($a_user)." AND obj_id=".$ilDB->quote($a_id) .
+			" AND sco_id in (".$scos_c.")".
+			" AND ((lvalue='cmi.core.lesson_status' AND rvalue='completed') OR (lvalue='cmi.core.lesson_status' AND rvalue='passed') ) )";
+		$val_set = $ilDB->query($query);	
+		while ($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC)) 
+		{
+			$key = array_search($val_rec['sco_id'], $scos); 
+			unset ($scos[$key]);
+		}
+		//check for completion
+		if (count($scos) == 0) {
+			$completion = ($a_numerical===true)  ? true: $lng->txt("cont_complete");
+		}	
+		if (count($scos) > 0) {
+			$completion = ($a_numerical===true)  ? false: $lng->txt("cont_incomplete");
+		}
+		return $completion;
+	}
+
+	/**
+	* Get the completion of a SCORM module for a given user
+	* @param int $a_id Object id
+	* @param int $a_user User id
+	* @return boolean Completion status
+	*/
+	public static function _getCourseCompletionForUser($a_id, $a_user) 
+	{
+		return ilObjSCORMLearningModule::_getStatusForUser($a_id, $a_user, ilObjSCORMLearningModule::_getAllScoIds($a_id), true);
+	}
+
 	function getAllScoIds(){
 		global $ilDB;
 		
@@ -835,10 +924,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		}		
 		//check for completion
 		if (count($scos) == 0) {
-			$completion ($a_numerical===true)  ? true: $this->lng->txt("cont_complete");
+			$completion = ($a_numerical===true)  ? true: $this->lng->txt("cont_complete");
 		}	
 		if (count($scos) > 0) {
-			$completion ($a_numerical===true)  ? false: $this->lng->txt("cont_incomplete");
+			$completion = ($a_numerical===true)  ? false: $this->lng->txt("cont_incomplete");
 		}
 		return $completion;
 	}
