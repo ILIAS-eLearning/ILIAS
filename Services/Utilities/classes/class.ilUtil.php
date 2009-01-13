@@ -3363,6 +3363,7 @@ class ilUtil
 		{
 			return $a_arg;
 		}
+		setlocale(LC_CTYPE, "UTF8", "en_US.UTF-8"); // fix for PHP escapeshellcmd bug. See: http://bugs.php.net/bug.php?id=45132
 		return escapeshellcmd($a_arg);
 	}
 
