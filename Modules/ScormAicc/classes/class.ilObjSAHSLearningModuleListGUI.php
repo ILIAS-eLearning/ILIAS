@@ -155,7 +155,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem;
+		global $lng, $rbacsystem, $ilUser;
 
 		$props = array();
 
@@ -171,6 +171,37 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		{
 			$props[] = array("alert" => false, "property" => $lng->txt("type"),
 				"value" => $lng->txt("sahs"));
+		}
+		
+		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($this->obj_id))
+		{
+			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+			$type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
+			switch ($type)
+			{
+				case "scorm":
+					include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
+					if (ilObjSCORMLearningModule::_getCourseCompletionForUser($this->obj_id, $ilUser->getId()))
+					{
+						$lng->loadLanguageModule('certificate');
+						$this->ctrl->setParameterByClass("ilobjsahslearningmodulegui", "ref_id", $this->ref_id);
+						$props[] = array("alert" => false, "property" => $lng->txt("condition_finished"),
+							"value" => '<a href="' . $this->ctrl->getLinkTargetByClass("ilobjsahslearningmodulegui", "downloadCertificate") . '">' . $lng->txt("download_certificate") . '</a>');
+					}
+					break;
+				case "scorm2004":
+					include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
+					if (ilObjSCORM2004LearningModule::_getCourseCompletionForUser($this->obj_id, $ilUser->getId()))
+					{
+						$lng->loadLanguageModule('certificate');
+						$this->ctrl->setParameterByClass("ilobjsahslearningmodulegui", "ref_id", $this->ref_id);
+						$props[] = array("alert" => false, "property" => $lng->txt("condition_finished"),
+							"value" => '<a href="' . $this->ctrl->getLinkTargetByClass("ilobjsahslearningmodulegui", "downloadCertificate") . '">' . $lng->txt("download_certificate") . '</a>');
+					}
+					break;
+				default:
+					break;
+			}
 		}
 
 		return $props;

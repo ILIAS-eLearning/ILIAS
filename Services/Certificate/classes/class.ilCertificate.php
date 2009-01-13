@@ -243,7 +243,8 @@ class ilCertificate
 		{
 			$pageheight = $matches[1];
 		}
-		$pagesize = "custom";
+		$certificatesettings = new ilSetting("certificate");
+		$pagesize = $certificatesettings->get("pageformat");;
 		if (((strcmp($pageheight, "29.7cm") == 0) || (strcmp($pageheight, "297mm") == 0)) && ((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0)))
 		{
 			$pagesize = "a4";
@@ -268,6 +269,7 @@ class ilCertificate
 		{
 			$pagesize = "letterlandscape";
 		}
+		if (!strlen($xslfo)) $pagesize = $certificatesettings->get("pageformat");;
 		
 		$paddingtop = "0cm";
 		if (preg_match("/padding-top\=\"([^\"]+)\"/", $xslfo, $matches))
@@ -329,8 +331,12 @@ class ilCertificate
 	public function processXHTML2FO($form_data, $for_export = FALSE)
 	{
 		$content = "<html><body>".$form_data["certificate_text"]."</body></html>";
-		$content = str_replace("<p>&nbsp;</p>", "<p><br /></p>", $content);
-		$content = str_replace("&nbsp;", " ", $content);
+		$content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
+		$content = preg_replace("/<p>(\\s)*?<\\/p>/", "<p></p>", $content);
+//		$content = str_replace("<p>&nbsp;</p>", "<p><br /></p>", $content);
+//		$content = str_replace("<p> </p>", "<p><br /></p>", $content);
+		$content = str_replace("<p></p>", "<p class=\"emptyrow\"></p>", $content);
+		$content = str_replace("&nbsp;", "&#160;", $content);
 		$content = preg_replace("//", "", $content);
 
 		include_once "./Services/Certificate/classes/class.ilXmlChecker.php";

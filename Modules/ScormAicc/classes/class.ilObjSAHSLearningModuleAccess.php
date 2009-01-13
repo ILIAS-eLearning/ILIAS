@@ -193,6 +193,17 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
     }
     //END DiskQuota: Get used disk space
 
+/**
+	* Checks whether the SCORM module has a certificate or not
+	* @param int user id.
+	* @return true/false
+	*/
+	public static function _lookupCertificate($a_id)
+	{
+		global $ilSetting;
+		$scormSetting = new ilSetting("scorm");
+		return ($scormSetting->get("certificate_" . $a_id) == 1) ? true : false;
+	}
 }
 
 ?>

@@ -58,7 +58,9 @@ class ilTinyMCE extends ilRTE
 			"paste",
 			"directionality",
 			"fullscreen",
-			"noneditable"
+			"nonbreaking",
+			"noneditable",
+			"style"
 		);
 		
 		$this->setStyleSelect(false);

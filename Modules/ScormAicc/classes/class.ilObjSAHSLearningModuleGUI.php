@@ -31,7 +31,7 @@ require_once("classes/class.ilTabsGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id$
 *
-* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjSAHSLearningModuleGUI: ilFileSystemGUI, ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -96,6 +96,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			case "ilfilesystemgui":
 				$this->fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
 				$ret =& $this->ctrl->forwardCommand($this->fs_gui);
+				break;
+
+			case "ilcertificategui":
+				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+				include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
+				$output_gui = new ilCertificateGUI(new ilSCORMCertificateAdapter($this->object));
+				$ret =& $this->ctrl->forwardCommand($output_gui);
 				break;
 
 			case "illearningprogressgui":
@@ -434,6 +441,69 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	}
 
 	/**
+	* Shows the certificate editor
+	*/
+	function certificate()
+	{
+		include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+		include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
+		$output_gui = new ilCertificateGUI(new ilSCORMCertificateAdapter($this->object));
+		$output_gui->certificateEditor();
+	}
+	
+	/**
+	* Download the certificate for the active user
+	*/
+	public function downloadCertificate()
+	{
+		global $ilUser;
+
+		$allowed = false;
+		$last_access = 0;
+		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
+		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($this->object->getId()))
+		{
+			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+			$type = ilObjSAHSLearningModule::_lookupSubType($this->object->getId());
+			switch ($type)
+			{
+				case "scorm":
+					include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
+					if (ilObjSCORMLearningModule::_getCourseCompletionForUser($this->object->getId(), $ilUser->getId()))
+					{
+						$allowed = true;
+						$last_access = ilObjSCORMLearningModule::_lookupLastAccess($this->object->getId(), $ilUser->getId());
+					}
+					break;
+				case "scorm2004":
+					include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
+					if (ilObjSCORM2004LearningModule::_getCourseCompletionForUser($this->object->getId(), $ilUser->getId()))
+					{
+						$allowed = true;
+						$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($this->object->getId(), $ilUser->getId());
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		
+		if ($allowed)
+		{
+			include_once "./Services/Certificate/classes/class.ilCertificate.php";
+			include_once "./Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
+			$certificate = new ilCertificate(new ilSCORMCertificateAdapter($this->object));
+			$params = array(
+				"user_data" => ilObjUser::_lookupFields($ilUser->getId()),
+				"last_access" => $last_access
+			);
+			$certificate->outCertificate($params, true);
+			exit;
+		}
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
@@ -470,6 +540,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$tabs_gui->addTarget("cont_tracking_data",
 			$this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
 			get_class($this));
+
+		// certificate
+		$tabs_gui->addTarget("certificate",
+			$this->ctrl->getLinkTarget($this, "certificate"),
+			array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+				"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport")
+		);
 
 		// edit meta
 /*

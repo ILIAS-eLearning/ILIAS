@@ -8756,6 +8756,7 @@ certificate#:#certificate_custom#:#Custom...
 certificate#:#certificate_edit#:#Create/Edit a Certificate Template
 certificate#:#certificate_export#:#Export Certificate
 certificate#:#certificate_page_format#:#Page Format
+certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
 certificate#:#certificate_background_image#:#Background Image
 certificate#:#certificate_padding_top#:#Top Padding
 certificate#:#certificate_margin_body#:#Body Margin
@@ -8790,6 +8791,10 @@ certificate#:#certificate_pagewidth#:#Page Width
 certificate#:#certificate_wrong_unit#:#You have entered a wrong unit
 certificate#:#certificate_wrong_units#:#You have entered a wrong set of units
 certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?
+certificate#:#certificate_enabled_scorm#:#Enabled
+certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.
+certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user
+certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module
 certificate#:#certificate_ph_introduction#:#The following placeholders may be used
 certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)
 certificate#:#certificate_ph_firstname#:#First name of the user
@@ -8821,6 +8826,7 @@ certificate#:#certificate_error_upload_bgimage#:#An error occured during the upl
 certificate#:#certificate_settings#:#Certificate Settings
 certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.
 certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.
+certificate#:#download_certificate#:#Download Certificate
 dateplaner#:#cal_delete_app_sure#:#Do you really want to delete the following appointments?
 dateplaner#:#cal_deleted_app#:#The selected appointments have been deleted.
 common#:#to_filter#:#Filter
