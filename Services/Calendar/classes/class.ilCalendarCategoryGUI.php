@@ -361,8 +361,8 @@ class ilCalendarCategoryGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarHidden.php');
 			
-		$selected_cats = $_POST['cat_ids'] ? $_POST['cat_ids'] : array();
-		$visible_cats = explode(',',$_POST['data_ids'] ? $_POST['data_ids'] : array());
+		$selected_cat_ids = $_POST['selected_cat_ids'] ? $_POST['selected_cat_ids'] : array();
+		$shown_cat_ids = $_POST['shown_cat_ids'] ? $_POST['shown_cat_ids'] : array();
 		
 		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
 		$cat_ids = $cats->getCategories();
@@ -371,12 +371,21 @@ class ilCalendarCategoryGUI
 		$hidden_cat_ids = $hidden_cats->getHidden();
 		
 		$hidden = array();
-		foreach($cat_ids as $category_id)
+		
+		foreach($hidden_cat_ids as $hidden_cat_id)
 		{
-			if( !in_array($category_id,$selected_cats) && in_array($category_id,$visible_cats)
-				|| !in_array($category_id,$selected_cats) && in_array($category_id,$hidden_cat_ids) )
+			if( !in_array($hidden_cat_id,$shown_cat_ids) )
 			{
-				$hidden[] = $category_id;
+				$hidden[] = $hidden_cat_id;
+			}
+		}
+		
+		foreach($shown_cat_ids as $shown_cat_id)
+		{
+			$shown_cat_id = (int)$shown_cat_id;
+			if( !in_array($shown_cat_id, $selected_cat_ids) )
+			{
+				$hidden[] = $shown_cat_id;
 			}
 		}
 		
@@ -980,7 +989,6 @@ class ilCalendarCategoryGUI
 		$title = $this->lng->txt('cal_table_categories');
 		$title .= $this->appendCalendarSelection();
 		
-		$table_gui->setDataIdIndex('id');
 		$table_gui->setTitle($title);
 		$table_gui->addMultiCommand('saveSelection',$this->lng->txt('show'));
 		$table_gui->addCommandButton('add',$this->lng->txt('add'));
