@@ -155,7 +155,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 	*/
 	function getProperties()
 	{
-		global $lng, $rbacsystem, $ilUser;
+		global $lng, $rbacsystem, $ilUser, $tree;
 
 		$props = array();
 
@@ -173,15 +173,45 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				"value" => $lng->txt("sahs"));
 		}
 		
+		// check for certificates
 		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($this->obj_id))
 		{
+			$lpdata = false;
+			$completed = false;
 			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 			$type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
+
+			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+			if (ilObjUserTracking::_enabledLearningProgress())
+			{
+				$path = $tree->getPathFull($_GET['ref_id']);
+				$course = 0;
+				foreach ($path as $item) if (strcmp($item["type"], "crs") == 0) $course = $item["obj_id"];
+				if ($course > 0)
+				{
+					include_once "./Services/tracking/classes/class.ilLPCollections.php";
+					$items = ilLPCollections::_getItems($course);
+					if (in_array($this->ref_id, $items))
+					{
+						include_once "./Services/tracking/classes/class.ilLPStatusWrapper.php";
+						$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($course);
+						if (in_array($ilUser->getId(), $completed_user_ids_array))
+						{
+							$completed = true;
+						}
+						$lpdata = true;
+					}
+				}
+			}
 			switch ($type)
 			{
 				case "scorm":
-					include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
-					if (ilObjSCORMLearningModule::_getCourseCompletionForUser($this->obj_id, $ilUser->getId()))
+					if (!$lpdata)
+					{
+						include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
+						$completed = ilObjSCORMLearningModule::_getCourseCompletionForUser($this->obj_id, $ilUser->getId());
+					}
+					if ($completed)
 					{
 						$lng->loadLanguageModule('certificate');
 						$this->ctrl->setParameterByClass("ilobjsahslearningmodulegui", "ref_id", $this->ref_id);
@@ -190,8 +220,12 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 					}
 					break;
 				case "scorm2004":
-					include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
-					if (ilObjSCORM2004LearningModule::_getCourseCompletionForUser($this->obj_id, $ilUser->getId()))
+					if (!$lpdata)
+					{
+						include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
+						$completed = ilObjSCORM2004LearningModule::_getCourseCompletionForUser($this->obj_id, $ilUser->getId());
+					}
+					if ($completed)
 					{
 						$lng->loadLanguageModule('certificate');
 						$this->ctrl->setParameterByClass("ilobjsahslearningmodulegui", "ref_id", $this->ref_id);
