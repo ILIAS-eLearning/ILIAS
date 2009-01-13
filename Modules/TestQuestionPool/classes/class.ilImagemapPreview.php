@@ -221,7 +221,7 @@ class ilImagemapPreview
 			}
 		}
 		
-		$source = ilUtil::escapeShellCmd(str_replace(" ", "\ ", $this->imagemap_filename));
+		$source = ilUtil::escapeShellCmd($this->imagemap_filename);
 		$target = ilUtil::escapeShellCmd($this->preview_filename);
 		$convert_cmd = $convert_prefix . $convert_cmd .  $source ." " . $target;
 		system($convert_cmd);
