@@ -1027,9 +1027,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$target = $res->nodeset[$i]->get_attribute("Target");
 			$type = $res->nodeset[$i]->get_attribute("Type");
 			$targetframe = $res->nodeset[$i]->get_attribute("TargetFrame");
-			$links[$target.":".$type.":".$targetframe] =
+			$anchor = $res->nodeset[$i]->get_attribute("Anchor");
+			$links[$target.":".$type.":".$targetframe.":".$anchor] =
 				array("Target" => $target, "Type" => $type,
-					"TargetFrame" => $targetframe);
+					"TargetFrame" => $targetframe, "Anchor" => $anchor);
 					
 			// get links (image map areas) for inline media objects
 			if ($type == "MediaObject" && $targetframe == "")
@@ -1855,6 +1856,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			
 			// save internal link information
 			$this->saveInternalLinks($this->getXMLFromDom());
+			$this->saveAnchors($this->getXMLFromDom());
 			$this->callUpdateListeners();
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 			return true;
@@ -1888,6 +1890,9 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		// delete internal links
 		$this->saveInternalLinks("<dummy></dummy>");
+
+		// delete anchors
+		$this->saveAnchors("<dummy></dummy>");
 
 		// delete all file usages
 		include_once("./Modules/File/classes/class.ilObjFile.php");
@@ -2070,6 +2075,75 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 	}
 
+	/**
+	* save anchors
+	*
+	* @param	string		xml page code
+	*/
+	function saveAnchors($a_xml)
+	{
+		$doc = domxml_open_mem($a_xml);
+
+		ilPageObject::_deleteAnchors($this->getParentType(), $this->getId());
+
+		// get all anchors
+		$xpc = xpath_new_context($doc);
+		$path = "//Anchor";
+		$res =& xpath_eval($xpc, $path);
+		$saved = array();
+		for ($i=0; $i < count($res->nodeset); $i++)
+		{
+			$name = $res->nodeset[$i]->get_attribute("Name");
+			if (trim($name) != "" && !in_array($name, $saved))
+			{
+				ilPageObject::_saveAnchor($this->getParentType(), $this->getId(), $name);
+				$saved[] = $name;
+			}
+		}
+
+	}
+
+	/**
+	* Delete anchors of a page
+	*/
+	static function _deleteAnchors($a_parent_type, $a_page_id)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("DELETE FROM page_anchor WHERE page_parent_type = ? ".
+			" AND page_id = ?", array("text", "integer"));
+		$ilDB->execute($st, array($a_parent_type, $a_page_id));
+	}
+	
+	/**
+	* Save an anchor
+	*/
+	static function _saveAnchor($a_parent_type, $a_page_id, $a_anchor_name)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("INSERT INTO page_anchor (page_parent_type, page_id, anchor_name) ".
+			" VALUES (?,?,?) ", array("text", "integer", "text"));
+		$ilDB->execute($st, array($a_parent_type, $a_page_id, $a_anchor_name));
+	}
+
+	/**
+	* Read anchors of a page
+	*/
+	static function _readAnchors($a_parent_type, $a_page_id)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepare("SELECT * FROM page_anchor WHERE page_parent_type = ? ".
+			" AND page_id = ?", array("text", "integer"));
+		$set = $ilDB->execute($st, array($a_parent_type, $a_page_id));
+		$anchors = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$anchors[] = $rec["anchor_name"];
+		}
+		return $anchors;
+	}
 
 	/**
 	* create new page (with current xml data)

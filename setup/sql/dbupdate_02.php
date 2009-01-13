@@ -6592,3 +6592,21 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1392>
+<?php
+	if (!$ilDB->tableExists("page_anchor"))
+	{
+		$ilDB->createTable("page_anchor",
+			array(
+				"page_parent_type" => array(
+					"type" => "text", "length" => 10, "default" => "", "notnull" => true),
+				"page_id" => array(
+					"type" => "integer", "default" => 0, "notnull" => true),
+				"anchor_name" => array(
+					"type" => "text", "length" => 120, "default" => "", "notnull" => true)
+				)
+			);
+		$ilDB->addPrimaryKey("page_anchor", array("page_parent_type", "page_id", "anchor_name"));
+	}
+?>
+

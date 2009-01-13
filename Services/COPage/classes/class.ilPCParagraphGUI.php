@@ -260,8 +260,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$tpl->setVariable("TXT_ANCHOR", $this->lng->txt("cont_anchor"));
 		if (!$a_insert)
 		{
-			$tpl->setVariable("VAL_ANCHOR",
-				ilUtil::prepareFormOutput($this->content_obj->getAnchor()));
+//			$tpl->setVariable("VAL_ANCHOR",
+//				ilUtil::prepareFormOutput($this->content_obj->getAnchor()));
 		}
 		
 		require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
@@ -310,7 +310,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		{
 			$a_tpl->setCurrentBlock("characteristic_cell");
 			$a_tpl->setVariable("CHAR_HTML",
-				'<div class="ilc_text_block_'.$char.'" style="margin-top:2px; margin-bottom:2px;">'.$char_lang."</div>");
+				'<div class="ilc_text_block_'.$char.'" style="margin-top:2px; margin-bottom:2px; position:static;">'.$char_lang."</div>");
 			$a_tpl->setVariable("CHAR_VALUE", $char);
 			if ($char == $a_seleted_value)
 			{
@@ -376,7 +376,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		// set language and characteristic
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
-		$this->content_obj->setAnchor(ilUtil::stripSlashes($_POST["anchor"]));
+		//$this->content_obj->setAnchor(ilUtil::stripSlashes($_POST["anchor"]));
 
 //echo "<br>PARupdate1:".$_POST["par_content"].":";
 //echo "<br>PARupdate2:".htmlentities($_POST["par_content"]).":";

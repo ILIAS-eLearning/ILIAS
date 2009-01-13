@@ -79,7 +79,7 @@ switch($target_type)
 	// exception, must be kept for now
 	case "pg":
 		require_once("./Modules/LearningModule/classes/class.ilLMPageObjectGUI.php");
-		ilLMPageObjectGUI::_goto($target_id, $target_ref_id);
+		ilLMPageObjectGUI::_goto($rest);
 		break;
 
 	// exception, must be kept for now

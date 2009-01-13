@@ -425,20 +425,41 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target, $a_target_ref_id = "")
+	function _goto($a_target)
 	{
 		global $rbacsystem, $ilErr, $lng, $ilAccess;
 
+		$first = strpos($a_target, "_");
+		$second = strpos($a_target, "_", $first + 1);
+		$page_id = substr($a_target, 0, $first);
+		if ($first > 0)
+		{
+			$page_id = substr($a_target, 0, $first);
+			if ($second > 0)
+			{
+				$ref_id = substr($a_target, $first + 1, $second - ($first + 1));
+				$anchor = substr($a_target, $second + 1);
+			}
+			else
+			{
+				$ref_id = substr($a_target, $first + 1);
+			}
+		}
+		else
+		{
+			$page_id = $a_target;
+		}
+		
 		// determine learning object
-		$lm_id = ilLMObject::_lookupContObjID($a_target);
+		$lm_id = ilLMObject::_lookupContObjID($page_id);
 
 		// get all references
 		$ref_ids = ilObject::_getAllReferences($lm_id);
 
 		// always try passed ref id first
-		if (in_array($a_target_ref_id, $ref_ids))
+		if (in_array($ref_id, $ref_ids))
 		{
-			$ref_ids = array_merge(array($a_target_ref_id), $ref_ids);
+			$ref_ids = array_merge(array($ref_id), $ref_ids);
 		}
 
 		// check read permissions
@@ -450,8 +471,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				// don't redirect anymore, just set parameters
 				// (goto.php includes  "ilias.php")
 				$_GET["baseClass"] = "ilLMPresentationGUI";
-				$_GET["obj_id"] = $a_target;
+				$_GET["obj_id"] = $page_id;
 				$_GET["ref_id"] = $ref_id;
+				$_GET["anchor"] = $anchor;
 				include_once("ilias.php");
 				exit;
 			}

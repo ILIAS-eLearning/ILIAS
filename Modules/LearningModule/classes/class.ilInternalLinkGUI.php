@@ -292,9 +292,11 @@ class ilInternalLinkGUI
 //		}
 
 		$chapterRowBlock = "chapter_row";
+		$anchor_row_block = "anchor_link";
 		if ($this->isEnabledJavaScript())
 		{
 			$chapterRowBlock .= "_js";
+			$anchor_row_block .= "_js";
 		}
 
 		$obj_id = ilObject::_lookupObjId($_SESSION["il_link_cont_obj"]);
@@ -337,6 +339,7 @@ class ilInternalLinkGUI
 						//	"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
 						$tpl->parseCurrentBlock();
 					}
+
 					if($node["type"] == "pg")
 					{
 						switch ($this->mode)
@@ -358,6 +361,18 @@ class ilInternalLinkGUI
 								break;
 
 							default:
+								$anchors = ilPageObject::_readAnchors($type, $node["obj_id"]);
+								if (count($anchors) > 0)
+								{
+									foreach ($anchors as $anchor)
+									{
+										$tpl->setCurrentBlock($anchor_row_block);
+										$tpl->setVariable("TXT_LINK", "#".$anchor);
+										$tpl->setVariable("HREF_LINK",
+											$this->prepareJavascriptOutput("[iln page=\"".$node["obj_id"]."\"".$target_str." anchor=\"$anchor\"] [/iln]"));
+										$tpl->parseCurrentBlock();
+									}
+								}
 								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
 								$tpl->setVariable("ROWCLASS", "tblrow2");

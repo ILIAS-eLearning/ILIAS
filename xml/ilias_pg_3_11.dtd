@@ -7,13 +7,13 @@
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
 <!-- Types of (textual) content -->
-<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | ExtLink | IntLink | SimpleBulletList | SimpleNumberedList">
-<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | ExtLink | IntLink">
-<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | ExtLink | IntLink">
-<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Anchor | Code | ExtLink | IntLink | SimpleBulletList | SimpleNumberedList">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Anchor | Code | ExtLink | IntLink">
+<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Anchor | Code | ExtLink | IntLink">
+<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Anchor | Code | ExtLink | IntLink">
 <!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
-<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | ExtLink | IntLink">
-<!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | ExtLink | IntLink">
+<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Anchor | ExtLink | IntLink">
+<!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | Anchor | ExtLink | IntLink">
 <!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code">
 
 <!-- PageObject -->
@@ -21,16 +21,13 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map | Plugged | Tabs), Anchor?, BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map | Plugged | Tabs), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
 	PCID CDATA #IMPLIED
 	Enabled (True|False) #IMPLIED	
 >
-
-<!-- anchor -->
-<!ELEMENT Anchor (#PCDATA)>
 
 <!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
 <!ELEMENT BibItemIdentifier EMPTY>
@@ -150,6 +147,12 @@
 	ProgrammingLanguage CDATA #IMPLIED
 >
 
+<!-- Anchor -->
+<!ELEMENT Anchor (%text;)*>
+<!ATTLIST Anchor
+	Name CDATA #IMPLIED
+>
+
 <!-- List -->
 <!ELEMENT List (Title?, ListItem+)>
 <!ATTLIST List
@@ -209,7 +212,6 @@
 
 <!-- ExtLink -->
 <!-- An element to link to _external_ resources outside the ILIAS system, e.g. to a web site-->
-<!-- It is fixed to xlink-type simple, only required attribute value is href -->
 <!ELEMENT ExtLink (%linktext;)*>
 <!ATTLIST ExtLink
 	Href CDATA #REQUIRED
@@ -218,16 +220,12 @@
 >
 
 <!-- IntLink -->
-<!-- An element to link to _internal_ resources via XML ID/IDREF -->
-<!-- Each Object has an Identifier attribute (type ID) in its Metadata/General element; only this one should be used! -->
-<!-- Other less usable Identifier attributes are in Metadata/Meta-Metadata and in Metadata/Resource element; they should be ignored! -->
-<!-- In case of Anchor the concerning attribute Id of the Anchor should be used! -->
-<!-- Target Type differs from ilias_co.dtd (there: IDREF) -->
 <!ELEMENT IntLink (%linktext;)*>
 <!ATTLIST IntLink
 	Target CDATA #REQUIRED
 	Type (StructureObject | PageObject | MediaObject | GlossaryItem | RepositoryItem) #REQUIRED
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
+	Anchor CDATA #IMPLIED
 >
 
 <!-- Question -->

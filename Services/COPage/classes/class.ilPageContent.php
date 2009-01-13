@@ -293,17 +293,19 @@ abstract class ilPageContent
 	/**
 	* Set anchor
 	*/
+/*
 	function setAnchor($a_name)
 	{
 		$node = $this->getNode();
 		
 		ilDOMUtil::setFirstOptionalElement($this->dom, $node, "Anchor",
 			array("BibItemIdentifier"), $a_name, array());
-	}
+	}*/
 	
 	/**
 	* Get Anchor
 	*/
+/*
 	function getAnchor()
 	{
 		$node = $this->getNode();
@@ -319,5 +321,6 @@ abstract class ilPageContent
 
 		return "";
 	}
+*/
 }
 ?>

@@ -63,7 +63,11 @@ body { margin:0px; }
 			<!-- BEGIN thumbnail -->
 			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
 			<!-- END thumbnail -->
-			<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}</td>
+			<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}
+			<!-- BEGIN anchor_link -->
+				<div style="padding-left:20px;" class="small">{HREF_LINK} <!-- {TXT_LINK} --></div>
+			<!-- END anchor_link -->
+			</td>
 		</tr>
 	<!-- END chapter_row -->
 
@@ -72,7 +76,12 @@ body { margin:0px; }
 			<!-- BEGIN thumbnail_js -->
 			<td>{NO_THUMB}<!-- BEGIN thumb --><img border="0" src="{SRC_THUMB}" /><!-- END thumb --></td>
 			<!-- END thumbnail_js -->
-			<td class="std"><b><a href="#" onClick="parent.content.addInternalLink('{LINK_CHAPTER}','{TXT_CHAPTER}');setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a></b></td>
+			<td class="std">
+				<a href="#" onClick="parent.content.addInternalLink('{LINK_CHAPTER}','{TXT_CHAPTER}');setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a>
+				<!-- BEGIN anchor_link_js -->
+				<div style="padding-left:20px;" class="small"><a href="#" onClick="parent.content.addInternalLink('{HREF_LINK}','{TXT_LINK}');setTimeout('window.close()',300);return(false);">{TXT_LINK}</a></div>
+				<!-- END anchor_link_js -->
+			</td>
 		</tr>
 	<!-- END chapter_row_js -->
 	
