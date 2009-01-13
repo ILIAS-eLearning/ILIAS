@@ -194,7 +194,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 					if (in_array($this->ref_id, $items))
 					{
 						include_once "./Services/tracking/classes/class.ilLPStatusWrapper.php";
-						$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($course);
+						$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($this->obj_id);
 						if (in_array($ilUser->getId(), $completed_user_ids_array))
 						{
 							$completed = true;
