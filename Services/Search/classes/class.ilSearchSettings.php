@@ -33,6 +33,10 @@
 
 class ilSearchSettings
 {
+	const LIKE_SEARCH = 0;
+	const INDEX_SEARCH = 1;
+	const LUCENE_SEARCH = 2;
+	
 	var $ilias = null;
 	var $max_hits = null;
 	var $index = null;
@@ -116,5 +120,6 @@ class ilSearchSettings
 		$this->enableIndex($this->ilias->getSetting('search_index',0));
 		$this->enableLucene($this->ilias->getSetting('search_lucene',0));
 	}
+	// BEGIN PATCH Lucene search
 }
 ?>
