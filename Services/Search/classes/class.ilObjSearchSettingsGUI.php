@@ -88,101 +88,18 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
-		global $rbacsystem;
-
-		include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-
-		$rpc_settings =& new ilRPCServerSettings();
-
-		if(!$rbacsystem->checkAccess('read',$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->object->initSettingsObject();
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.seas_settings.html','Services/Search');
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SEAS_TITLE",$this->lng->txt('seas_settings'));
-
-		// Max hits
-		$this->tpl->setVariable("TXT_MAX_HITS",$this->lng->txt('seas_max_hits'));
-		$this->tpl->setVariable("TXT_MAX_HITS_INFO",$this->lng->txt('seas_max_hits_info'));
-		for($i = 10; $i <= 100; $i += 10)
-		{
-			$max_hits[$i] = $i;
-		}
-		$this->tpl->setVariable('SELECT_MAX_HITS',ilUtil::formSelect($this->object->settings_obj->getMaxHits(),
-																	 'max_hits',
-																	 $max_hits,false,true));
-
-		$this->tpl->setVariable("TXT_DIRECT",$this->lng->txt('search_direct'));
-		$this->tpl->setVariable("TXT_INDEX",$this->lng->txt('search_index'));
-
-		$this->tpl->setVariable("TXT_TYPE",$this->lng->txt('search_type'));
-		$this->tpl->setVariable("TXT_LIKE_INFO",$this->lng->txt('search_like_info'));
-		$this->tpl->setVariable("TXT_FULL_INFO",$this->lng->txt('search_full_info'));
-
-		$this->tpl->setVariable("RADIO_TYPE_LIKE",ilUtil::formRadioButton($this->object->settings_obj->enabledIndex() ? 0 : 1,
-																		  'search_index',0));
-
-		$this->tpl->setVariable("RADIO_TYPE_FULL",ilUtil::formRadioButton($this->object->settings_obj->enabledIndex() ? 1 : 0,
-																		  'search_index',1));
-
-		// Lucene
-		$this->tpl->setVariable("TXT_LUCENE",$this->lng->txt('search_lucene'));
-		$this->tpl->setVariable("TXT_LUCENE_INFO",$this->lng->txt('search_lucene_info'));
+		global $ilAccess,$ilErr;
 		
-		$this->tpl->setVariable("CHECK_TYPE_LUCENE",ilUtil::formCheckBox($this->object->settings_obj->enabledLucene() ? 1 : 0,
-																		 'search_lucene',1));
-		$this->tpl->setVariable("LUCENE_HOST",ilUtil::prepareFormOutput($rpc_settings->getHost()));
-		$this->tpl->setVariable("LUCENE_PORT",ilUtil::prepareFormOutput($rpc_settings->getPort()));
-									
-
-		$this->tpl->setVariable("CMD_SUBMIT",'saveSettings');
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt('save'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-
+		if(!$ilAccess->checkAccess('read','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		}
+		$this->tabs_gui->setTabActive('settings');
+		$this->initFormSettings();
+		$this->tpl->setContent($this->form->getHTML());
 		return true;
 	}
 
-	/**
-	* Save settings
-	* @access	public
-	*/
-	function saveSettingsObject()
-	{
-		include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-
-		global $rbacsystem;
-
-		if(!$rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->object->initSettingsObject();
-		$this->object->settings_obj->setMaxHits((int) $_POST['max_hits']);
-		$this->object->settings_obj->enableIndex($_POST['search_index']);
-		$this->object->settings_obj->enableLucene($_POST['search_lucene']);
-
-		$rpc_settings =& new ilRPCServerSettings();
-		if($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer())
-		{
-			ilUtil::sendInfo($this->lng->txt('search_no_connection_lucene'),true);
-			$this->ctrl->redirect($this,'settings');
-
-			return false;
-		}
-
-		$this->object->settings_obj->update();
-
-		ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
-		$this->ctrl->redirect($this,'settings');
-
-		return true;
-	}
 	
 	function getAdminTabs(&$tabs_gui)
 	{
@@ -209,6 +126,102 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 			$tabs_gui->addTarget("perm_settings",
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
+	}
+	
+	/**
+	 * Init settings form 
+	 * @return void
+	 */
+	protected function initFormSettings()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		
+		$settings = new ilSearchSettings();
+		
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($this->ctrl->getFormAction($this,'updateSettings'));
+		$this->form->addCommandButton('updateSettings',$this->lng->txt('save'));
+		$this->form->setTitle($this->lng->txt('seas_settings'));
+		
+		// Max hits
+		$hits = new ilSelectInputGUI($this->lng->txt('seas_max_hits'),'max_hits');
+		$hits->setValue($settings->getMaxHits());
+		$hits->setRequired(true);
+		for($value = 10; $value <= 100; $value += 10)
+		{
+			$values[$value] = $value;
+		}
+		$hits->setOptions($values);
+		$hits->setInfo($this->lng->txt('seas_max_hits_info'));
+		$this->form->addItem($hits);
+		
+		// Search type
+		$type = new ilRadioGroupInputGUI($this->lng->txt('search_type'),'search_type');
+		
+		if($settings->enabledLucene()) 
+		{
+			$type->setValue(ilSearchSettings::LUCENE_SEARCH);
+		}
+		elseif($settings->enabledIndex()) 
+		{
+			$type->setValue(ilSearchSettings::INDEX_SEARCH);
+		}
+		else 
+		{
+			$type->setValue(ilSearchSettings::LIKE_SEARCH);
+		}
+		
+		$type->setRequired(true);
+		$this->form->addItem($type);
+		
+		$direct = new ilRadioOption($this->lng->txt('search_direct'),ilSearchSettings::LIKE_SEARCH,$this->lng->txt('search_like_info'));
+		$type->addOption($direct);
+		
+		$index = new ilRadioOption($this->lng->txt('search_index'),ilSearchSettings::INDEX_SEARCH,$this->lng->txt('search_full_info'));
+		$type->addOption($index);
+		
+		$lucene = new ilRadioOption($this->lng->txt('search_lucene'),ilSearchSettings::LUCENE_SEARCH,$this->lng->txt('java_server_info'));
+		$type->addOption($lucene);
+	}
+	
+	
+	/**
+	 * Update Settings
+	 * @return void
+	 */
+	protected function updateSettingsObject()
+	{
+		global $ilAccess,$ilErr;
+		
+		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
+		}
+		
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		$settings = new ilSearchSettings();
+		$settings->setMaxHits((int) $_POST['max_hits']);
+		
+		switch((int) $_POST['search_type'])
+		{
+			case ilSearchSettings::LIKE_SEARCH:
+				$settings->enableIndex(true);
+				$settings->enabledLucene(false);
+				break;
+			case ilSearchSettings::INDEX_SEARCH:
+				$settings->enableIndex(true);
+				$settings->enableLucene(false);
+				break;
+			case ilSearchSettings::LUCENE_SEARCH:
+				$settings->enableIndex(false);
+				$settings->enableLucene(true);
+				break;
+		}
+		$settings->update();
+		
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->settingsObject();
 	}
 } // END class.ilObjSearchSettingsGUI
 ?>
