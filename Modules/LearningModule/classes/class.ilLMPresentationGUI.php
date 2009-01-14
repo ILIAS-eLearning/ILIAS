@@ -1934,8 +1934,11 @@ class ilLMPresentationGUI
 						break;
 
 				}
+				
+				$anc_par = 'Anchor="'.$anc.'"';
+
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
 
 				// set equal link info for glossary links of target "None" and "Glossary"
 				/*

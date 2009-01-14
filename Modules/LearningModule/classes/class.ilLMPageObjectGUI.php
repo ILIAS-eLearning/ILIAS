@@ -263,6 +263,14 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 					? $int_link["TargetFrame"]
 					: "None";
 					
+				// anchor
+				$anc = $anc_add = "";
+				if ($int_link["Anchor"] != "")
+				{
+					$anc = $int_link["Anchor"];
+					$anc_add = "_".rawurlencode($int_link["Anchor"]);
+				}
+
 				switch($type)
 				{
 					case "PageObject":
@@ -289,7 +297,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						{
 							if ($type == "PageObject")
 							{
-								$href = "../goto.php?target=pg_".$target_id;
+								$href = "../goto.php?target=pg_".$target_id.$anc_add;
 							}
 							else
 							{
@@ -320,8 +328,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						$ltarget = $t_frame;
 						break;
 				}
+				
+				$anc_par = 'Anchor="'.$anc.'"';
+				
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
 			}
 		}
 		$link_info.= "</IntLinkInfos>";
