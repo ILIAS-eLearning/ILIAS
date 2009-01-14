@@ -70,10 +70,11 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 		$points = 0.0,
 		$order = 0,
 		$coords = "",
-		$area = ""
+		$area = "",
+		$id = -1
 	)
 	{
-		$this->ASS_AnswerBinaryState($answertext, $points, $order, 1);
+		$this->ASS_AnswerBinaryState($answertext, $points, $order, 1, $id);
 		$this->coords = $coords;
 		$this->area = $area;
 	}

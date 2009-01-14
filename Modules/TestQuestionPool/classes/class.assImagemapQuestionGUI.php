@@ -698,6 +698,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 			array_push($solutions, array("value1" => $found_index));
 		}
+		$solution_id = -1;
 		if (is_array($solutions))
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
@@ -707,6 +708,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				if (strcmp($solution_value["value1"], "") != 0)
 				{
 					$preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true, $this->linecolor);
+					$solution_id = $solution_value["value1"];
 				}
 			}
 			$preview->createPreview();
@@ -753,6 +755,17 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			}
 		}
 			
+		if ($show_feedback)
+		{
+			$fb = $this->object->getFeedbackSingleAnswer($solution_id);
+			if (strlen($fb))
+			{
+				$template->setCurrentBlock("feedback");
+				$template->setVariable("FEEDBACK", $fb);
+				$template->parseCurrentBlock();
+			}
+		}
+
 		$questionoutput = $template->get();
 		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
 		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);

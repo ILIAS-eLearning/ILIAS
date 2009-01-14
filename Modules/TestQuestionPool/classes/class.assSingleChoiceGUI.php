@@ -679,6 +679,19 @@ class assSingleChoiceGUI extends assQuestionGUI
 				$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
 				$template->parseCurrentBlock();
 			}
+			if ($show_feedback)
+			{
+				if (strcmp($user_solution, $answer_id) == 0)
+				{
+					$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+					if (strlen($fb))
+					{
+						$template->setCurrentBlock("feedback");
+						$template->setVariable("FEEDBACK", $fb);
+						$template->parseCurrentBlock();
+					}
+				}
+			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			if (strcmp($user_solution, $answer_id) == 0)
