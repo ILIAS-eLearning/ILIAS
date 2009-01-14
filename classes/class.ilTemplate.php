@@ -506,9 +506,27 @@ class ilTemplate extends ilTemplateX
 	
 	function fillMainMenu()
 	{
-		global $tpl, $ilMainMenu;
-		
+		global $tpl, $ilMainMenu, $ilCtrl, $ilSetting; 
 		$tpl->setVariable("MAINMENU", $this->main_menu);
+		if($this->variableExists('MAINMENU'))
+		{		
+			global $ilAuth, $lng, $tpl;
+			if ($ilSetting->get('session_reminder_enabled')== '1')
+			{
+				$tplSR = new ilTemplate('tpl.SessionReminder.js', true, true);
+				
+				$session_expires = $ilAuth->sessionValidThru();
+				$current_time = time();
+				$time_left = $session_expires - $current_time;
+				$ende = date("Y-m-d, H:i:s", $session_expires);
+				$start = date("Y-m-d, H:i:s",$current_time);
+				$time_left = $time_left * 1000;				
+				
+				$tplSR->setVariable('TIME_LEFT', $time_left);
+				$tplSR->setVariable('ALERT', $lng->txt('session_reminder_alert'));
+				$tpl->setVariable('SESSION_REMINDER', $tplSR->get());
+			}
+		}
 	}
 		
 	function fillHeaderIcon()
@@ -710,6 +728,11 @@ class ilTemplate extends ilTemplateX
 	{
 		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)
 		return ($this->blockvariables["content"][$a_blockname] ? true : false) | ($this->blockvariables[$a_blockname] ? true : false);
+	}
+	
+	private function variableExists($a_variablename)
+	{
+		return ($this->blockvariables["content"][$a_variablename] ? true : false);
 	}
 
 	/**

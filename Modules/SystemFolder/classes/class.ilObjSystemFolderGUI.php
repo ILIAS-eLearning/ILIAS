@@ -79,6 +79,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				break;
 		}
+
 		return true;
 	}
 
@@ -448,6 +449,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			//$settings["js_edit"] = $_POST["js_edit"];
 			$settings["enable_trash"] = $_POST["enable_trash"];
 			//$settings["https"] = $_POST["https"];
+			
+			//session_reminder
+			$settings['session_reminder_enabled'] = $_POST['session_reminder_enabled'];
 
 			// contact
 			$settings["admin_firstname"] = $_POST["admin_firstname"];
@@ -531,6 +535,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->ilias->setSetting('short_inst_name',$_POST['short_inst_name']);
 			$this->ilias->setSetting('enable_trash',$_POST['enable_trash']);
 
+			//session_reminder
+			$this->ilias->setSetting('session_reminder_enabled',$_POST['session_reminder_enabled']);
+			
 			// contact
 			$this->ilias->setSetting("admin_firstname",$_POST["admin_firstname"]);
 			$this->ilias->setSetting("admin_lastname",$_POST["admin_lastname"]);
@@ -731,6 +738,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ENABLE_TRASH",$this->lng->txt('enable_trash'));
 		$this->tpl->setVariable("INFO_ENABLE_TRASH",$this->lng->txt('enable_trash_info'));
 
+		$this->tpl->setVariable('TXT_SESSION_REMINDER', $this->lng->txt('session_reminder'));
+		$this->tpl->setVariable('INFO_SESSION_REMINDER', $this->lng->txt('session_reminder_info'));
+		
 		// paths
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));
 		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("path_to_convert"));
@@ -920,6 +930,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if($settings['enable_trash'])
 		{
 			$this->tpl->setVariable("ENABLE_TRASH_CHECKED","checked=\"checked\"");
+		}
+		
+		if($settings['session_reminder_enabled'])
+		{
+			$this->tpl->setVariable('SESSION_REMINDER_ENABLED','checked=checked');
 		}
 
 		if ($settings["require_login"])
