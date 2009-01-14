@@ -8818,6 +8818,160 @@ shib#:#shib_plugin_id#:#Plugin-Id
 shib#:#shib_role_selection#:#Rollenauswahl
 shib#:#shib_choose_role#:#Rolle übernehmen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
+content#:#cont_ed_insert_plach#:#Platzhalter Einfügen
+content#:#cont_ed_plachtext#:#Platzhalter Text
+content#:#cont_ed_plachmedia#:#Platzhalter Bild/Medien
+content#:#cont_ed_plachquestion#:#Platzhalter Frage
+content#:#cont_ed_plachprop#:#Platzhaltereigenschaften
+content#:#cont_media_placehl#:#Bild/Medien-Platzhalter
+content#:#cont_question_placehl#:#Fragen-Platzhalter
+content#:#cont_text_placehl#:#Text-Platzhalter
+content#:#cont_ed_pglprop#:#Seitenlayouteigenschaften
+style#:#sty_based_on#:#Basierend auf
+style#:#sty_add_pgl#:#Seitenlayout hinzufügen
+style#:#sty_create_pgl#:#Seitenlayout erstellen
+style#:#sty_name#:#Name
+style#:#sty_example#:#Beispiel
+style#:#sty_commands#:#Aktionen
+style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
+style#:#sty_style_chars#:#Styleklasse
+style#:#sty_images#:#Bilder
+style#:#sty_add_image#:#Bild hinzufügen
+style#:#sty_width_height#:#Breite x Höhe
+style#:#sty_image_file#:#Bilddatei
+style#:#sty_horizontal#:#Horizontal
+style#:#sty_vertical#:#Vertikal
+style#:#sty_text_block_char#:#Text (Block)
+style#:#sty_text_inline_char#:#Text (Zeichen)
+style#:#sty_section_char#:#Block
+style#:#sty_link_char#:#Link
+style#:#sty_table_char#:#Tabelle
+style#:#sty_table_cell_char#:#Tabellenzelle
+style#:#sty_add_characteristic#:#Neue Styleklasse hinzufügen
+style#:#sty_page_char#:#Seite
+style#:#sty_min_height#:#Minimale Höhe
+style#:#sty_confirm_char_deletion#:#Sind Sie sicher, dass Sie die folgende Styleklassen löschen möchten?
+style#:#sty_msg_characteristic_must_only_include#:#Der Styleklassentitle darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_already_exists#:#Es existiert bereits einen Styleklasse mit diesem Namen im Style Sheet.
+style#:#sty_added_characteristic#:#Styleklassehinzugefügt.
+sahs#:#sahs_new_chapter#:#Neuse Kapitel
+sahs#:#sahs_new_page#:#Neue Seite
+sahs#:#sahs_new_sco#:#Neuer SCO
+content#:#cont_assign_characteristic#:#Style Zuordnen
+content#:#cont_choose_characteristic#:#Style Auswählen
+content#:#cont_choose_characteristic_text#:#Textelemente
+content#:#cont_choose_characteristic_section#:#Blöcke
+content#:#cont_general_properties#:#Generelle Eigenschaften
+content#:#cont_current_style#:#Style
+content#:#cont_edit_style#:#Style Editieren
+content#:#cont_delete_style#:#Style Löschen
+content#:#cont_layout_toc2win_desc#:#Übersicht links, Inhalte im rechten Frame. FAQ-, Glossar- und Medienlinks öffnen ein neues Fenster.
+content#:#cont_layout_1window_desc#:#Inhalte im Hauptframe. FAQ-, Glossar- und Medienlinks öffnen ein neues Fenster.
+content#:#cont_layout_2window_desc#:#Inhalte im linken Frame. FAQ-, Glossar- und Medienlinks öffnen Inhalte im rechten Frame.
+content#:#cont_layout_3window_desc#:#Inhalte im linken Frame. FAQ-, und Medienlinks öffnen Inhalte im Frame oben rechts, Glossarlinks unten rechts.
+content#:#cont_layout_toc2windyn_desc#:#Übersicht links, Inhalte im rechten Frame. FAQ-, Glossar- und Medienlinks zeigen Inhalte in einem dynamische Frame unten rechts.
+content#:#cont_layout_presentation_desc#:#Inhalte im Hauptframe. FAQ-, Glossar- und Medienlinks öffnen ein neues Fenster. Das ILIAS-Hauptmenü ist deaktiviert.
+content#:#cont_layout_fullscreen_desc#:#Inhalte im Hauptframe. FAQ-, Glossar- und Medienlinks öffnen ein neues Fenster. Das ILIAS-Hauptmenü ist deaktiviert.
+content#:#cont_layout_toc2win#:#Übersicht links
+content#:#cont_layout_1window#:#Ein Frame
+content#:#cont_layout_2window#:#Zwei Frames
+content#:#cont_layout_3window#:#Drei Frames
+content#:#cont_layout_toc2windyn#:#Übersicht links, dynamischer Frame
+content#:#cont_layout_presentation#:#Präsentation
+content#:#cont_layout_fullscreen#:#Vollansicht
+common#:#obj_lrss#:#Lernressourcen
+common#:#obj_lrss_desc#:#Lernmodule usw. konfigurieren.
+content#:#cont_lrs_settings#:#Einstellungen
+content#:#cont_enable_time_scheduled_page_activation#:#Zeitliche Aktivierung von Seiten
+content#:#cont_enable_time_scheduled_page_activation_info#:#Die Funktion ermöglicht Aktivierungszeiten für einzelne Lernmodulseiten einzustellen.
+common#:#lrss_edit_permission#:#Rechte ändern
+common#:#lrss_visible#:#Lernressourceneinstellungen sind sichtbar
+common#:#lrss_read#:#Lesezugriff auf Lernressourceneinstellungen
+common#:#lrss_write#:#Schreibzugriff auf Lernressourceneinstellungen
+content#:#cont_edit_lrs_settings#:#Einstellungen
+content#:#cont_activation#:#Aktivierung
+content#:#cont_page_activation#:#Seitenaktivierung
+content#:#cont_activated#:#Aktiviert
+content#:#cont_deactivated#:#Deaktiviert
+content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
+content#:#cont_start#:#Start
+content#:#cont_end#:#Ende
+common#:#expanded#:#Ausgelappt
+common#:#page_layouts#:#Seitenlayouts
+common#:#page_layout#:#Seitenlayout
+style#:#sty_list_char#:#Liste
+style#:#sty_media_char#:#Medien
+style#:#sty_question_char#:#Fragen
+style#:#sty_sco_char#:#SCOs und Lernziele
+style#:#sty_ol#:#Nummerierte Liste
+style#:#sty_ul#:#Bullet-Liste
+style#:#sty_list_style_type#:#Listenstyle
+style#:#sty_list_style_position#:#Position
+style#:#sty_list_style_image#:#Bild
+style#:#sty_table#:#Tabelle
+style#:#sty_border_collapse#:#Rahmen zusammenfassen
+style#:#sty_type_media#:#Medien
+style#:#sty_type_media_caption#:#Beschriftung
+style#:#sty_type_text_block#:#Text (Block)
+style#:#sty_type_text_inline#:#Zeichen
+style#:#sty_type_section#:#Block
+style#:#sty_type_link#:#Link
+style#:#sty_type_table#:#Tabelle
+style#:#sty_type_table_cell#:#Tabellenzelle
+style#:#sty_type_list_item#:#Listeneintrag
+style#:#sty_type_list_o#:#Nummerierte Liste
+style#:#sty_type_list_u#:#Bullet-Liste
+style#:#sty_type_question#:#Frae
+style#:#sty_type_page#:#Seite
+style#:#sty_type#:#Typ
+style#:#sty_type_sco#:#SCO
+content#:#cont_StandardTable#:#Stanardtabelle
+style#:#sty_opacity#:#Deckkraft
+style#:#sty_positioning#:#Positionierung
+style#:#sty_width#:#Breite
+style#:#sty_height#:#Höhe
+style#:#sty_overflow#:#Overflow
+style#:#sty_position#:#Position
+content#:#cont_Media#:#Medien (Standard)
+style#:#sty_flist_char#:#Dateiliste
+style#:#sty_type_flist#:#Dateiliste
+style#:#sty_type_flist_cont#:#Dateilistencontainer
+style#:#sty_type_flist_li#:#Dateilisteneintrag
+style#:#sty_type_flist_head#:#Dateilistenüberschrift
+content#:#cont_file_from_repository#:#Datei aus Magazin
+content#:#cont_position#:#Position
+content#:#cont_ed_edit_files#:#Dateien editieren
+content#:#cont_save_positions#:#Reihenfolge Speichern
+content#:#cont_add_file#:#Datei hinzufügen
+content#:#cont_save_positions_and_classes#:#Positionen und Styles speichern
+content#:#cont_FileListItem#:#Dateilisteneintrag (Standard)
+style#:#sty_type_media_cont#:#Mediencontainer
+style#:#sty_type_page_fn#:#Fussnote
+style#:#sty_type_page_nav#:#Navigation
+style#:#sty_type_page_title#:#Seitentitel
+style#:#sty_float#:#Float
+style#:#sty_type_page_bnav#:#Navigation unten
+style#:#sty_type_page_tnav#:#Navigation oben
+style#:#sty_type_page_lnav#:#Navigation links
+style#:#sty_type_page_rnav#:#Navigation rechts
+style#:#sty_type_page_cont#:#Seitencontainer
+style#:#sty_type_page_frame#:#Seitenrahmen
+style#:#sty_type_page_lnavlink#:#Link Navigation links
+style#:#sty_type_page_rnavlink#:#Link Navigation rechts
+style#:#sty_type_page_lnavimage#:#Bild Navigation links
+style#:#sty_type_page_rnavimage#:#Bild Navigation rechts
+style#:#sty_type_qtitle#:#Fragentitel
+style#:#sty_type_qanswer#:#Antwort
+style#:#sty_type_qfeedr#:#Feebback, richtig
+style#:#sty_type_qfeedw#:#Feedback, falsch
+style#:#sty_type_qinput#:#Texteingabe
+style#:#sty_type_qlinput#:#Lange Texteingabe
+style#:#sty_type_qsubmit#:#Schaltknopf
+style#:#sty_type_sco_desc#:#SCO Beschreibung
+style#:#sty_type_sco_title#:#SCO Titel
+style#:#sty_type_sco_obj#:#SCO Lernziel
+style#:#sty_type_sco_keyw#:#SCO Schlagworte
+content#:#cont_anchor#:#Anker
 common#:#im_jabber#:#Jabber
 common#:#im_jabber_icon#:#Jabber Logo
 common#:#im_voip#:#VoIP
