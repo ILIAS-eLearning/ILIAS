@@ -8990,3 +8990,10 @@ common#:#im_jabber#:#Jabber
 common#:#im_jabber_icon#:#Jabber Logo
 common#:#im_voip#:#VoIP
 common#:#im_voip_icon#:#VoIP Logo
+common#:#paste_clipboard_items_into_multiple_objects#:#Paste Into Multiple Objects
+common#:#select_at_least_one_object#:#Please choose at least one object.
+common#:#msg_obj_exists_in_folder#:#The object %s already exists in the folder %s.
+common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.
+common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.
+common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object %s in itself.
+common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
