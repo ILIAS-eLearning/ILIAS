@@ -173,6 +173,61 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				"value" => $lng->txt("sahs"));
 		}
 		
+		// Proposal: Stefan
+		if(ilObjSAHSLearningModuleAccess::_lookupCertificate($this->obj_id))
+		{
+			include_once("Services/Tracking/classes/class.ilLPObjSettings.php");
+			if (ilLPObjSettings::_lookupMode($this->obj_id) != LP_MODE_DEACTIVATED)
+			{
+				include_once "./Services/Tracking/classes/class.ilLPStatusWrapper.php";
+				$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($this->obj_id);
+				if (in_array($ilUser->getId(), $completed_user_ids_array))
+				{
+					$completed = true;
+				}
+				$lpdata = true;
+			}
+
+			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+			$type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
+			switch ($type)
+			{
+				case "scorm":
+					if (!$lpdata)
+					{
+						include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
+						$completed = ilObjSCORMLearningModule::_getCourseCompletionForUser($this->obj_id, $ilUser->getId());
+					}
+					if ($completed)
+					{
+						$lng->loadLanguageModule('certificate');
+						$this->ctrl->setParameterByClass("ilobjsahslearningmodulegui", "ref_id", $this->ref_id);
+						$props[] = array("alert" => false, "property" => $lng->txt("condition_finished"),
+							"value" => '<a href="' . $this->ctrl->getLinkTargetByClass("ilobjsahslearningmodulegui", "downloadCertificate") . '">' . $lng->txt("download_certificate") . '</a>');
+					}
+					break;
+				case "scorm2004":
+					if (!$lpdata)
+					{
+						include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
+						$completed = ilObjSCORM2004LearningModule::_getCourseCompletionForUser($this->obj_id, $ilUser->getId());
+					}
+					if ($completed)
+					{
+						$lng->loadLanguageModule('certificate');
+						$this->ctrl->setParameterByClass("ilobjsahslearningmodulegui", "ref_id", $this->ref_id);
+						$props[] = array("alert" => false, "property" => $lng->txt("condition_finished"),
+							"value" => '<a href="' . $this->ctrl->getLinkTargetByClass("ilobjsahslearningmodulegui", "downloadCertificate") . '">' . $lng->txt("download_certificate") . '</a>');
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		return $props;
+		// End proposal		
+		
+		
 		// check for certificates
 		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($this->obj_id))
 		{
@@ -189,7 +244,7 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 				foreach ($path as $item) if (strcmp($item["type"], "crs") == 0) $course = $item["obj_id"];
 				if ($course > 0)
 				{
-					include_once "./Services/tracking/classes/class.ilLPCollections.php";
+					include_once "./Services/Tracking/classes/class.ilLPCollections.php";
 					$items = ilLPCollections::_getItems($course);
 					if (in_array($this->ref_id, $items))
 					{
