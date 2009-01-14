@@ -193,13 +193,17 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 					$items = ilLPCollections::_getItems($course);
 					if (in_array($this->ref_id, $items))
 					{
-						include_once "./Services/tracking/classes/class.ilLPStatusWrapper.php";
-						$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($this->obj_id);
-						if (in_array($ilUser->getId(), $completed_user_ids_array))
+						include_once("Services/Tracking/classes/class.ilLPObjSettings.php");
+						if (ilLPObjSettings::_lookupMode($this->obj_id) != LP_MODE_DEACTIVATED)
 						{
-							$completed = true;
+							include_once "./Services/tracking/classes/class.ilLPStatusWrapper.php";
+							$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($this->obj_id);
+							if (in_array($ilUser->getId(), $completed_user_ids_array))
+							{
+								$completed = true;
+							}
+							$lpdata = true;
 						}
-						$lpdata = true;
 					}
 				}
 			}
