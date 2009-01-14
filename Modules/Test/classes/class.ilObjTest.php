@@ -10235,6 +10235,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		return $results;
 	}
+	
+	/**
+	* Get zipped xml file for test
+	*/
+	function getXMLZip()
+	{
+		include_once("./Modules/Test/classes/class.ilTestExport.php");
+		$test_exp = new ilTestExport($this, "xml");
+		return $test_exp->buildExportFile();
+	}
 } // END class.ilObjTest
 
 ?>

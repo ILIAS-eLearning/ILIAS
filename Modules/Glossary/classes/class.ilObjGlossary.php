@@ -357,111 +357,30 @@ class ilObjGlossary extends ilObject
 	}
 
 	/**
-	* creates data directory for export files
-	* (data_dir/glo_data/glo_<id>/export, depending on data
-	* directory that is set in ILIAS setup/ini)
+	* Creates export directory
 	*/
 	function createExportDirectory($a_type = "xml")
 	{
-		$glo_data_dir = ilUtil::getDataDir()."/glo_data";
-		ilUtil::makeDir($glo_data_dir);
-		if(!is_writable($glo_data_dir))
-		{
-			$this->ilias->raiseError("Glossary Data Directory (".$glo_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
-		}
-		// create glossary directory (data_dir/glo_data/glo_<id>)
-		$glo_dir = $glo_data_dir."/glo_".$this->getId();
-		ilUtil::makeDir($glo_dir);
-		if(!@is_dir($glo_dir))
-		{
-			$this->ilias->raiseError("Creation of Glossary Directory failed.",$this->ilias->error_obj->FATAL);
-		}
-
-		// create Export subdirectory (data_dir/glo_data/glo_<id>/Export)
-		switch ($a_type)
-		{
-			// html
-			case "html":
-				$export_dir = $glo_dir."/export_html";
-				break;
-				
-			default:		// = xml
-				$export_dir = $glo_dir."/export";
-				break;
-		}
-		ilUtil::makeDir($export_dir);
-
-		if(!@is_dir($export_dir))
-		{
-			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
-		}
+		include_once("./Services/Export/classes/class.ilExport.php");
+		return ilExport::_createExportDirectory($this->getId(), $a_type, $this->getType());
 	}
 
 	/**
-	* get export directory of glossary
+	* Get export directory of glossary
 	*/
 	function getExportDirectory($a_type = "xml")
 	{
-		switch  ($a_type)
-		{
-			case "html":
-				$export_dir = ilUtil::getDataDir()."/glo_data"."/glo_".$this->getId()."/export_html";
-				break;
-
-			default:			// = xml
-				$export_dir = ilUtil::getDataDir()."/glo_data"."/glo_".$this->getId()."/export";
-				break;
-		}
-
-		return $export_dir;
+		include_once("./Services/Export/classes/class.ilExport.php");
+		return ilExport::_getExportDirectory($this->getId(), $a_type, $this->getType());
 	}
 
 	/**
-	* get export files
+	* Get export files
 	*/
 	function getExportFiles()
 	{
-		// initialize array
-		$file = array();
-		
-		$types = array("xml", "html");
-
-		foreach($types as $type)
-		{
-			$dir = $this->getExportDirectory($type);
-			
-			// quit if import dir not available
-			if (!@is_dir($dir) or
-				!is_writeable($dir))
-			{
-				continue;
-			}
-
-			// open directory
-			$h_dir = dir($dir);
-
-			// get files and save the in the array
-			while ($entry = $h_dir->read())
-			{
-				if ($entry != "." and
-					$entry != ".." and
-					substr($entry, -4) == ".zip" and
-					ereg("^[0-9]{10}_{2}[0-9]+_{2}(glo_)*[0-9]+\.zip\$", $entry))
-				{
-					$file[$entry.$type] = array("type" => $type, "file" => $entry,
-						"size" => filesize($dir."/".$entry));
-				}
-			}
-	
-			// close import directory
-			$h_dir->close();
-		}
-
-		// sort files
-		ksort ($file);
-		reset ($file);
-		return $file;
+		include_once("./Services/Export/classes/class.ilExport.php");
+		return ilExport::_getExportFiles($this->getId(), array("xml", "html"), $this->getType());
 	}
 	
 	/**
@@ -1041,12 +960,13 @@ class ilObjGlossary extends ilObject
 	}
 
 
+	/**
+	* Get zipped xml file for glossary.
+	*/
 	function getXMLZip()
 	{
 		include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
-
 		$glo_exp = new ilGlossaryExport($this);
-
 		return $glo_exp->buildExportFile();
 	}
 
