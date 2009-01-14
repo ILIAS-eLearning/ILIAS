@@ -8394,20 +8394,20 @@ mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von au�
 mcst#:#mcst_default_visibility#:#Standardzugriff
 mcst#:#mcst_visibility_users#:#Öffentlich
 mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
-ps#:#ps_account_security_mode#:#Account Sicherheit
-ps#:#ps_account_security_mode_default#:#Standard Ilias Account Sicherheit
-ps#:#ps_account_security_mode_customized#:#Benutzerdefinierte Account Sicherheit
-ps#:#ps_password_min_length#:#Minimale Passwort Länge
-ps#:#ps_password_max_length#:#Maximale Passwort Länge
+ps#:#ps_account_security_mode#:#Account-Sicherheit
+ps#:#ps_account_security_mode_default#:#Standardeinstellung für Account-Sicherheit
+ps#:#ps_account_security_mode_customized#:#Benutzerdefinierte Account-Sicherheit
+ps#:#ps_password_min_length#:#Minimale Länge des Passworts
+ps#:#ps_password_max_length#:#Maximale Länge des Passworts
 ps#:#ps_password_chars_and_numbers_enabled#:#Buchstaben und Zahlen
 ps#:#ps_password_special_chars_enabled#:#Sonderzeichen
-ps#:#ps_password_max_age#:#Maximales Passwort Alter
+ps#:#ps_password_max_age#:#Maximales Alter von Passwörtern
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
 ps#:#ps_password_chars_and_numbers_enabled_info#:#Wenn aktiviert, müssen Passwörter Buchstaben und Zahlen enthalten.
 ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten.
-ps#:#ps_password_max_length_info#:#Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist können Passwörter beliebige Längen haben.
-ps#:#ps_password_max_age_info#:#Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist laufen Passwörter nicht ab.
-ps#:#ps_login_max_attempts_info#:# Setzt die maximal Anzahl von fehlgeschlagenen Anmeldeversuchen. Wenn der Wert auf 0 gesetzt ist werden fehlgeschlagene Anmeldeversuche nicht gezählt.
+ps#:#ps_password_max_length_info#:#Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist, können Passwörter beliebige Längen haben.
+ps#:#ps_password_max_age_info#:#Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist, laufen Passwörter nicht ab.
+ps#:#ps_login_max_attempts_info#:# Setzt die maximal Anzahl von fehlgeschlagenen Anmeldeversuchen. Wenn der Wert auf 0 gesetzt ist, werden fehlgeschlagene Anmeldeversuche nicht gezählt.
 ps#:#ps_error_message_invalid_password_min_length#:#Minimale Passwortlänge darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_password_max_length#:#Maximale Passwortlänge darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf nicht kleiner als 0 sein.
@@ -8416,15 +8416,15 @@ ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlä
 ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimale Passwortlänge darf nicht kleiner als 3 wenn es Buchstaben, Zahlen und Sonderzeichen enthalten muss.
 ps#:#ps_error_message_password_max_less_min#:#Maximale Passwortlänge darf nicht kleiner sein als die minimale Passwortlänge.
 common#:#password_empty#:#Das Passwort darf nicht leer sein.
-common#:#password_expired#:#Ihr Passwort ist abgelaufen und muß geändert werden, da zuletzt vor %s Tag(en) geändert wurde.
-common#:#new_pass_equals_old_pass#:#Das neue Passwort stimmt mit dem alten überein.
-common#:#password_to_short#:#Das Passwort muß mindestens %s Zeichen lang sein.
+common#:#password_expired#:#Ihr Passwort ist abgelaufen und muss geändert werden, da es zuletzt vor %s Tag(en) geändert wurde.
+common#:#new_pass_equals_old_pass#:#Das neue Passwort ist identisch mit dem alten Passwort.
+common#:#password_to_short#:#Das Passwort muss mindestens %s Zeichen lang sein.
 common#:#password_to_long#:#Das Passwort darf höchstens %s Zeichen lang sein.
-common#:#password_must_chars_and_numbers#:#Das Passwort muß Buchstaben und Zahlen enthalten.
-common#:#password_must_special_chars#:#Das Passwort muß Sonderzeichen enthalten.
-ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erst-Anmeldung
-ps#:#ps_password_change_on_first_login_enabled_info#:#Wenn aktiviert, müßen Benutzer bei der ersten Anmeldung ihr Paswort ändern (außer selbst registrierte Benutzer):
-common#:#password_change_on_first_login_demand#:#Ihr initiales Passwort muß geändert werden bevor Sie die ILIAS Services nutzen können.
+common#:#password_must_chars_and_numbers#:#Das Passwort muss Buchstaben und Zahlen enthalten.
+common#:#password_must_special_chars#:#Das Passwort muss Sonderzeichen enthalten.
+ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erstanmeldung
+ps#:#ps_password_change_on_first_login_enabled_info#:#Wenn aktiviert, müssen Benutzer bei der ersten Anmeldung ihr Passwort ändern (außer selbstregistrierte Benutzer):
+common#:#password_change_on_first_login_demand#:#Ihr Erstpasswort muss geändert werden, bevor Sie ILIAS nutzen können.
 common#:#wiki_read#:#Wiki-Inhalte lesen
 common#:#wiki_delete#:#Wiki löschen
 common#:#wiki_copy#:#Wiki kopieren
