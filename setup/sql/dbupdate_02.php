@@ -6609,4 +6609,24 @@ $ilCtrlStructureReader->getStructure();
 		$ilDB->addPrimaryKey("page_anchor", array("page_parent_type", "page_id", "anchor_name"));
 	}
 ?>
-
+<#1393>
+<?php
+if(!$ilDB->tableColumnExists("usr_data", "im_jabber"))
+{
+	$ilDB->alterTable("usr_data",
+		array("add" => array(
+			"im_jabber" => array(
+				"type" => "text", "length" => 40, "fixed" => false)
+			)
+		));
+}
+if(!$ilDB->tableColumnExists("usr_data", "im_voip"))
+{
+	$ilDB->alterTable("usr_data",
+		array("add" => array(
+			"im_voip" => array(
+				"type" => "text", "length" => 40, "fixed" => false)
+			)
+		));
+}
+?>

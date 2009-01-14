@@ -287,7 +287,7 @@ class ilPublicUserProfileGUI
 		// display available IM contacts
 		if ($ilSetting->get("usr_settings_hide_instant_messengers") != 1)
 		{
-			$im_arr = array("icq","yahoo","msn","aim","skype");
+			$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
 			
 			foreach ($im_arr as $im_name)
 			{
