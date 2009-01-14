@@ -8983,3 +8983,6 @@ common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Obje
 common#:#msg_no_perm_paste_object_in_folder#:#Sie besitzen keine ausreichende Berechtigung, um das Objekt %s in den Ordner %s einzufügen.
 common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
 common#:#mgs_objects_linked_to_the_following_folders#:#Das/Die Objekt(e) wurde(n) in folgende Bereiche verknüpft: %s
+common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab.  
+common#:#session_reminder#:#Session-Reminder
+common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
