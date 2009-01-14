@@ -458,7 +458,14 @@ class ilContainerGUI extends ilObjectGUI
 			else
 			{
 				$GLOBALS["tpl"]->addAdminPanelCommand("paste",
-					$this->lng->txt("paste_clipboard_items"));
+					$this->lng->txt("paste_clipboard_items"));				
+					
+				if($_SESSION["clipboard"]["cmd"] == "link")
+				{					
+					$GLOBALS["tpl"]->addAdminPanelCommand("pasteIntoMultipleObjects",
+						$this->lng->txt("paste_clipboard_items_into_multiple_objects"));
+				}
+				
 				$GLOBALS["tpl"]->addAdminPanelCommand("clear",
 					$this->lng->txt("clear_clipboard"));
 			}
@@ -1472,6 +1479,301 @@ class ilContainerGUI extends ilObjectGUI
 			//ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
 		}
 	}
+	
+	public function performPasteIntoMultipleObjectsObject()
+	{
+		global $rbacsystem, $rbacadmin, $rbacreview, $log, $tree, $ilObjDataCache;
+		
+		if(!in_array($_SESSION['clipboard']['cmd'], array('link')))
+		{
+			$message = get_class($this)."::performPasteIntoMultipleObjectsObject(): cmd was not 'link'; may be a hack attempt!";
+			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
+		}
+		
+		if(!is_array($_POST['nodes']) || empty($_POST['nodes']))
+		{
+			ilUtil::sendInfo($this->lng->txt('select_at_least_one_object'));
+			$this->pasteIntoMultipleObjectsObject();
+			return;
+		}	
+		
+		// this loop does all checks
+		$folder_objects_cache = array();
+		foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+			$current_parent_id = $this->tree->getParentId($obj_data->getRefId());
+			
+			foreach($_POST['nodes'] as $folder_ref_id)
+			{
+				if(!array_key_exists($folder_ref_id, $folder_objects_cache))
+				{
+					$folder_objects_cache[$folder_ref_id] = $this->ilias->obj_factory->getInstanceByRefId($folder_ref_id);
+				}
+
+				// CHECK ACCESS
+				if (!$rbacsystem->checkAccess('create', $folder_ref_id, $obj_data->getType()))
+				{
+					$no_paste[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'), $obj_data->getTitle().' ['.$obj_data->getRefId().']', $folder_objects_cache[$folder_ref_id]->getTitle().' ['.$folder_objects_cache[$folder_ref_id]->getRefId().']');
+				}
+				
+				// CHECK IF REFERENCE ALREADY EXISTS
+				if ($folder_ref_id == $current_parent_id)
+				{
+					$exists[] = sprintf($this->lng->txt('msg_obj_exists_in_folder'), $obj_data->getTitle().' ['.$obj_data->getRefId().']', $folder_objects_cache[$folder_ref_id]->getTitle().' ['.$folder_objects_cache[$folder_ref_id]->getRefId().']');
+				}
+	
+				// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
+				if ($this->tree->isGrandChild($ref_id, $folder_ref_id))
+				{
+					$is_child[] = sprintf($this->lng->txt('msg_paste_object_not_in_itself'), $obj_data->getTitle().' ['.$obj_data->getRefId().']');
+				}
+	
+				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT	
+				if (!in_array($obj_data->getType(), array_keys($this->objDefinition->getSubObjects($folder_objects_cache[$folder_ref_id]->getType()))))
+				{
+					$not_allowed_subobject[] = sprintf($this->lng->txt('msg_obj_may_not_contain_objects_of_type'), $folder_objects_cache[$folder_ref_id]->getTitle().' ['.$folder_objects_cache[$folder_ref_id]->getRefId().']', $obj_data->getType());
+				}				
+			}		
+		}		
+		
+		////////////////////////////
+		// process checking results
+		if(count($exists))
+		{
+			$error .= implode('<br />', $exists);
+		}
+
+		if(count($is_child))
+		{
+			$error .= $error != '' ? '<br />' : '';
+			$error .= implode('<br />', $is_child);
+		}
+
+		if(count($not_allowed_subobject))
+		{
+			$error .= $error != '' ? '<br />' : '';
+			$error .= implode('<br />', $not_allowed_subobject);
+		}
+
+		if(count($no_paste))
+		{
+			$error .= $error != '' ? '<br />' : '';
+			$error .= implode('<br />', $not_allowed_subobject);
+		}
+		
+		if($error != '')
+		{
+			ilUtil::sendInfo($error);
+			$this->pasteIntoMultipleObjectsObject();
+			return;
+		}
+
+		// log pasteObject call
+		$log->write( get_class($this)."::performPasteIntoMultipleObjectsObject(), cmd: ".$_SESSION["clipboard"]["cmd"]);
+
+		////////////////////////////////////////////////////////
+		// everything ok: now paste the objects to new location
+
+		// to prevent multiple actions via back/reload button
+		$ref_ids = $_SESSION["clipboard"]["ref_ids"];
+		unset($_SESSION["clipboard"]["ref_ids"]);		
+		
+		$linked_to_folders = array();
+		
+		// process LINK command
+		if ($_SESSION["clipboard"]["cmd"] == "link")
+		{
+			foreach($_POST['nodes'] as $folder_ref_id)
+			{		
+				$linked_to_folders[] = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($folder_ref_id));
+						
+				foreach ($ref_ids as $ref_id)
+				{
+					// get node data
+					$top_node = $this->tree->getNodeData($ref_id);
+	
+					// get subnodes of top nodes
+					$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
+				}
+	
+				// now move all subtrees to new location
+				foreach ($subnodes as $key => $subnode)
+				{
+					// first paste top_node....
+					$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
+					$new_ref_id = $obj_data->createReference();
+					$obj_data->putInTree($folder_ref_id);
+					$obj_data->setPermissions($folder_ref_id);
+	
+					// ... remove top_node from list ...
+					array_shift($subnode);
+	
+					// ... store mapping of old ref_id => new_ref_id in hash array ...
+					$mapping[$new_ref_id] = $key;
+	
+					// save old ref_id & create rolefolder if applicable
+					$old_ref_id = $obj_data->getRefId();
+					$obj_data->setRefId($new_ref_id);
+					$obj_data->initDefaultRoles();
+					$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
+	
+					if (isset($rolf_data["child"]))
+					{
+						// a role folder was created, so map it to old role folder
+						$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
+	
+						// ... use mapping array to find out the correct new parent node where to put in the node...
+						//$new_parent = array_search($node["parent"],$mapping);
+						// ... append node to mapping for further possible subnodes ...
+						$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];
+	
+						// log creation of role folder
+						$log->write(get_class($this)."::performPasteIntoMultipleObjectsObject(), created role folder (ref_id): ".$rolf_data["child"].
+							", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
+							", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
+	
+					}
+	
+					// ... insert subtree of top_node if any subnodes exist ...
+					if (count($subnode) > 0)
+					{
+						foreach ($subnode as $node)
+						{
+							if ($node["type"] != 'rolf')
+							{
+								$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+								$new_ref_id = $obj_data->createReference();
+	
+								// ... use mapping array to find out the correct new parent node where to put in the node...
+								$new_parent = array_search($node["parent"],$mapping);
+								// ... append node to mapping for further possible subnodes ...
+								$mapping[$new_ref_id] = (int) $node["child"];
+	
+								$obj_data->putInTree($new_parent);
+								$obj_data->setPermissions($new_parent);
+	
+								// save old ref_id & create rolefolder if applicable
+								$old_ref_id = $obj_data->getRefId();
+								$obj_data->setRefId($new_ref_id);
+								$obj_data->initDefaultRoles();
+								$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
+	
+								if (isset($rolf_data["child"]))
+								{
+									// a role folder was created, so map it to old role folder
+									$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
+	
+									// ... use mapping array to find out the correct new parent node where to put in the node...
+									//$new_parent = array_search($node["parent"],$mapping);
+									// ... append node to mapping for further possible subnodes ...
+									$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];
+	
+									// log creation of role folder
+									$log->write(get_class($this)."::performPasteIntoMultipleObjectsObject(), created role folder (ref_id): ".$rolf_data["child"].
+										", for object ref_id:".$obj_data->getRefId().", obj_id: ".$obj_data->getId().
+										", type: ".$obj_data->getType().", title: ".$obj_data->getTitle());
+	
+								}
+							}
+	
+							// re-map $subnodes
+							foreach ($subnodes as $old_ref => $subnode)
+							{
+								$new_ref = array_search($old_ref,$mapping);
+	
+								foreach ($subnode as $node)
+								{
+									$node["child"] = array_search($node["child"],$mapping);
+									$node["parent"] = array_search($node["parent"],$mapping);
+									$new_subnodes[$ref_id][] = $node;
+								}
+							}
+	
+						}
+					}
+				}
+	
+				$log->write(get_class($this)."::performPasteIntoMultipleObjectsObject(), link finished");
+			}
+			// inform other objects in hierarchy about link operation
+			//$this->object->notify("link",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
+		} // END LINK
+
+		// save cmd for correct message output after clearing the clipboard
+		$last_cmd = $_SESSION["clipboard"]["cmd"];
+
+
+		// clear clipboard
+		$this->clearObject();
+
+		ilUtil::sendInfo(sprintf($this->lng->txt('mgs_objects_linked_to_the_following_folders'), implode(', ', $linked_to_folders)), true);
+
+		$this->ctrl->returnToParent($this);
+	}
+	
+	public function pasteIntoMultipleObjectsObject()
+	{		
+		global $ilTabs;
+	
+		$ilTabs->setTabActive('view_content');
+		
+		if(!in_array($_SESSION['clipboard']['cmd'], array('link')))
+		{
+			$message = get_class($this)."::pasteIntoMultipleObjectsObject(): cmd was not 'link'; may be a hack attempt!";
+			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
+		}
+
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');	
+		
+		include_once 'classes/class.ilPasteMultipleItemsExplorer.php';
+		$exp = new ilPasteMultipleItemsExplorer('repository.php?cmd=goto');	
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'pasteIntoMultipleObjects'));
+		$exp->setTargetGet('ref_id');		
+		$exp->addFilter('root');
+		$exp->addFilter('icrs');
+		$exp->addFilter('crs');				
+		$exp->addFilter('grp');
+		$exp->addFilter('cat');		
+		$exp->addFilter('fold');
+		
+		$exp->addCheckboxForType('icrs');
+		$exp->addCheckboxForType('crs');
+		$exp->addCheckboxForType('grp');
+		$exp->addCheckboxForType('cat');
+		$exp->addCheckboxForType('fold');		
+		$exp->setCheckboxPostVar('nodes[]');
+		is_array($_POST['nodes']) ? $exp->setCheckedItems((array)$_POST['nodes']) : $exp->setCheckedItems(array());
+
+		if($_GET['repexpand'] == '')
+		{
+			$expanded = $this->tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET['repexpand'];
+		}
+		
+		$this->tpl->setVariable('FORM_TARGET', '_self');
+		$this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performPasteIntoMultipleObjects'));
+
+		$exp->setExpand($expanded);
+
+		$exp->forceExpandAll(true, false);
+		
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setVariable('OBJECT_TREE', $output);
+		
+		$this->tpl->setVariable('CMD_SUBMIT', 'performPasteIntoMultipleObjects');
+		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
+				
+		$this->tpl->setVariable('BACK_LINK', $this->ctrl->getParentReturnByClass(get_class($this)));
+		$this->tpl->setVariable('TXT_BACK_LINK', $this->lng->txt('back'));
+	}
+	
 
 	/**
 	* paste object from clipboard to current place

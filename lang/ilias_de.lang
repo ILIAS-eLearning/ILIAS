@@ -8822,3 +8822,10 @@ common#:#im_jabber#:#Jabber
 common#:#im_jabber_icon#:#Jabber Logo
 common#:#im_voip#:#VoIP
 common#:#im_voip_icon#:#VoIP Logo
+common#:#paste_clipboard_items_into_multiple_objects#:#In mehrere Objekte einfügen
+common#:#select_at_least_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
+common#:#msg_obj_exists_in_folder#:#Das Objekt %s existiert bereits im Ordner %s.
+common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Objekte des folgenden Typs beinhalten: %s.
+common#:#msg_no_perm_paste_object_in_folder#:#Sie besitzen keine ausreichende Berechtigung, um das Objekt %s in den Ordner %s einzufügen.
+common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
+common#:#mgs_objects_linked_to_the_following_folders#:#Das/Die Objekt(e) wurde(n) in folgende Bereiche verknüpft: %s
