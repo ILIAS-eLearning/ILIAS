@@ -200,13 +200,16 @@ class ilECSParticipant
 	 */
 	private function read()
 	{
+	 	global $ilLog;
+	 	
 	 	$this->mid = $this->json_obj->mid;
 	 	$this->email = $this->json_obj->email;
-	 	$this->certid = strtolower($this->json_obj->certid);
+	 	$this->certid = hexdec($this->json_obj->certid);
 	 	$this->dns = $this->json_obj->dns;
 	 	$this->description = $this->json_obj->description;
 	 	$this->participantname = $this->json_obj->participantname;
 	 	$this->abr = $this->json_obj->abr;
+	 	$ilLog->write(__METHOD__.': Received certId '.$this->getCertId().' for '.$this->getParticipantName());
 		return true;
 	}
 }

@@ -639,6 +639,18 @@ class ilECSSettings
 	 */
 	private function fetchSerialID()
 	{
+	 	global $ilLog;
+	 	
+	 	if(function_exists('openssl_x509_parse') and $cert = openssl_x509_parse('file://'.$this->getClientCertPath()))
+	 	{
+	 		if(isset($cert['serialNumber']) and $cert['serialNumber'] and dechex($cert['serialNumber'] != '7fffffff'))
+	 		{
+	 			$this->setCertSerialNumber($cert['serialNumber']);
+	 			$ilLog->write(__METHOD__.': Serial number is '.$cert['serialNumber']);
+	 			return true;
+	 		}
+	 	}
+	 	
 	 	if(!file_exists($this->getClientCertPath()) or !is_readable($this->getClientCertPath()))
 	 	{
 	 		return false;
