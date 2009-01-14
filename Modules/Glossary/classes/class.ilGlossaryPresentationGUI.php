@@ -891,6 +891,14 @@ class ilGlossaryPresentationGUI
 					? $int_link["TargetFrame"]
 					: "None";
 					
+				// anchor
+				$anc = $anc_add = "";
+				if ($int_link["Anchor"] != "")
+				{
+					$anc = $int_link["Anchor"];
+					$anc_add = "_".rawurlencode($int_link["Anchor"]);
+				}
+
 				if ($targetframe == "New")
 				{
 					$ltarget = "_blank";
@@ -908,7 +916,7 @@ class ilGlossaryPresentationGUI
 						$cont_obj =& $this->content_object;
 						if ($type == "PageObject")
 						{
-							$href = "./goto.php?target=pg_".$target_id;
+							$href = "./goto.php?target=pg_".$target_id.$anc_add;
 						}
 						else
 						{
@@ -960,8 +968,11 @@ class ilGlossaryPresentationGUI
 						break;
 
 				}
+				
+				$anc_par = 'Anchor="'.$anc.'"';
+				
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" $anc_par/>";
 				
 				$this->ctrl->clearParameters($this);
 			}

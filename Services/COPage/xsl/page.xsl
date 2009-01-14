@@ -209,6 +209,7 @@
 				<!-- determine link_href and link_target -->
 				<xsl:variable name="target" select="@Target"/>
 				<xsl:variable name="type" select="@Type"/>
+				<xsl:variable name="anchor" select="@Anchor"/>
 				<xsl:variable name="targetframe">
 					<xsl:choose>
 						<xsl:when test="@TargetFrame and @TargetFrame!=''">
@@ -218,10 +219,10 @@
 					</xsl:choose>
 				</xsl:variable>
 				<xsl:variable name="link_href">
-					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkHref"/>
+					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=$anchor]/@LinkHref"/>
 				</xsl:variable>
 				<xsl:variable name="link_target">
-					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
+					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=$anchor]/@LinkTarget"/>
 				</xsl:variable>
 
 				<!-- set attributes -->
@@ -1020,6 +1021,7 @@
 		<xsl:when test="@Type != 'MediaObject' or @TargetFrame">
 			<xsl:variable name="target" select="@Target"/>
 			<xsl:variable name="type" select="@Type"/>
+			<xsl:variable name="anchor" select="@Anchor"/>
 			<xsl:variable name="targetframe">
 				<xsl:choose>
 					<xsl:when test="@TargetFrame">
@@ -1029,10 +1031,10 @@
 				</xsl:choose>
 			</xsl:variable>
 			<xsl:variable name="link_href">
-				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkHref"/>
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=$anchor]/@LinkHref"/>
 			</xsl:variable>
 			<xsl:variable name="link_target">
-				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=$anchor]/@LinkTarget"/>
 			</xsl:variable>
 			<xsl:if test="$mode != 'print'">
 				<a class="ilc_link_IntLink">
