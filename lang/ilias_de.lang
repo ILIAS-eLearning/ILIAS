@@ -44,7 +44,7 @@ administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. 
 administration#:#clean#:#Räume auf
 administration#:#cleaning_final#:#Endgültig bereinigen...
 administration#:#cleaning#:#Bereinigen...
-administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Wenn Sie diese Änderung bestätigen werden alle Kurs-Nutzungsvereinbarungen zurückgesetzt.
+administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Wenn Sie diese Änderung bestätigen, werden alle Kursnutzungsvereinbarungen zurückgesetzt.
 administration#:#course_export#:#Kurs-Export
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
@@ -54,13 +54,13 @@ administration#:#dumping_tree#:#Liste Tree auf...
 administration#:#found_none#:#Nicht gefunden
 administration#:#found#:#Gefunden
 administration#:#initializing_gaps#:#Initialisiere Lücken in der Baumstruktur...
-administration#:#language_administration#:#Sprach-Administration
+administration#:#language_administration#:#Sprachverwaltung
 administration#:#language_all_modules#:#Alle Module
 administration#:#language_change_settings#:#Spracheinstellungen ändern
 administration#:#language_clear_local_changes#:#Lokale Änderungen in der Datenbank löschen
 administration#:#language_cleared_local#:#Die lokalen Änderungen wurden in der Datenbank gelöscht.
 administration#:#language_compare#:#Vergleiche mit:
-administration#:#language_default_entries#:# (Standard-Einträge)
+administration#:#language_default_entries#:# (Standardeinträge)
 administration#:#language_delete_local_changes#:#Lokale Ändrungen in der Datenbank löschen
 administration#:#language_error_clear_local#:#Die lokalen Änderungen konnten in der Datenbank nicht gelöscht werden!
 administration#:#language_error_read_local#:#Die lokale Sprachdatei existiert nicht oder kann nicht gelesen werden!
@@ -106,7 +106,7 @@ administration#:#nothing_to_purge#:#Nichts zu eliminieren...
 administration#:#nothing_to_remove#:#Nichts zu entfernen...
 administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#options#:#Optionen
-administration#:#output_options#:#Ausgabe-Optionen
+administration#:#output_options#:#Ausgabeoptionen
 administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
 administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind,  aus dem System entfernt.
 administration#:#purge_age_limit#:#Begrenze Alter
@@ -125,7 +125,7 @@ administration#:#purging#:#Eliminiert...
 administration#:#removing_invalid_childs#:#Entfernt ungültige Einträge in der Baumstruktur...
 administration#:#removing_invalid_refs#:#Entfernt ungültige Referenzen...
 administration#:#removing_invalid_rolfs#:#Entfernt ungültige Rollenordner...
-administration#:#repair_options#:#Reparatur-Optionen
+administration#:#repair_options#:#Reparaturoptionen
 administration#:#restore_missing_desc#:#Stelle verlorene und nichtzugeordnete Objekte wieder her und lege sie in den Rettungsordner.
 administration#:#restore_missing#:#Stelle verlorene Objekte wieder her...
 administration#:#restore_trash_desc#:#Stelle alle Objekte im Papierkorb wieder her und verschiebe sie in den Rettungsordner.
@@ -230,7 +230,7 @@ assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß-/Kleinschreibung beachten
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Abstand von %s
-assessment#:#cloze_textgap_rating#:#Textlücken-Bewertung
+assessment#:#cloze_textgap_rating#:#Textlückenbewertung
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
 assessment#:#concatenation#:#Verknüpfung
@@ -303,10 +303,10 @@ assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Fra
 assessment#:#error_image_upload_copy_file#:#Beim Verschieben einer hochgeladenen Grafik in ihren Zielordner ist ein Fehler aufgetreten!
 assessment#:#error_image_upload_wrong_format#:#Bitte laden Sie eine gültige Bilddatei hoch. Unterstützte Formate sind GIF, JPEG und PNG.
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
-assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
+assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
 assessment#:#error_open_java_file#:#Fehler beim Öffnen eines Java-Applets!
 assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfragen ist ein unbekannter Fehler aufgetreten. Bitte kontaktieren Sie Ihren ILIAS-Administrator und geben Sie die folgende Information weiter: Das ILIAS-System konnte keine Aktivitäts-ID für die Benutzer-ID %s und die Test-ID %s erzeugen.
-assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bild-Datei!
+assessment#:#error_save_image_file#:#Fehler beim Speichern einer Bilddatei!
 assessment#:#eval_all_users#:#Auswertung für alle NutzerInnen
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -420,7 +420,7 @@ assessment#:#matching_shuffle_terms_definitions#:#Beides (Terme und Definitionen
 assessment#:#matching_shuffle_terms_pictures#:#Beides (Terme und Bilder)
 assessment#:#matching_shuffle_terms#:#Nur Terme
 assessment#:#material_download#:#Materialien zum Herunterladen
-assessment#:#material_file#:#Material-Datei
+assessment#:#material_file#:#Materialdatei
 assessment#:#material#:#Material
 assessment#:#maxchars#:#Maximale Anzahl von Zeichen
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Testdurchläufen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
@@ -504,7 +504,7 @@ assessment#:#qpl_general_properties#:#Allgemeine Eigenschaften
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.
 assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
 assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
-assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-dateien, die nicht von einem ILIAS-System erstellt wurden. bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
+assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-Dateien, die nicht von einem ILIAS-System erstellt wurden. bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie importieren wollen.
 assessment#:#qpl_move_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden zum Verschieben markiert
 assessment#:#qpl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus
@@ -593,7 +593,7 @@ assessment#:#term#:#Term
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#test_reference#:#Test-Verknüpfung
 assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!
-assessment#:#text_gap#:#Text-Lücke
+assessment#:#text_gap#:#Textlücke
 assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten.
 assessment#:#text_rating#:#Methode für Textvergleiche
 assessment#:#time_format#:#HH MM SS
@@ -609,7 +609,7 @@ assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Anwo
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anonymity_description#:#Wenn Anonymität aktiviert ist, werden die Namen der Testteilnehmer für die Testautoren unkenntlich gemacht.
 assessment#:#tst_anonymity#:#Anonymität
-assessment#:#tst_answer_sheet#:#Test & Assessment - Anworten Übersicht
+assessment#:#tst_answer_sheet#:#Test & Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
@@ -770,9 +770,9 @@ assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
 assessment#:#tst_report_after_date#:#Nach einem festgelegten Datum
-assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach dem Test-Start anbieten
+assessment#:#tst_report_after_first_question#:#Testergebnisse bereits direkt nach Start des Tests anbieten
 assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage anzeigen
-assessment#:#tst_report_after_test#:#Testergebnisse erst nach dem Abschluss eines Testdurchlaufs anbieten
+assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_results_access_always#:#Immer
@@ -786,7 +786,7 @@ assessment#:#tst_results_back_introduction#:#Zurück zur Startseite
 assessment#:#tst_results_back_overview#:#Zurück zur Ergebnisübersicht
 assessment#:#tst_results_overview_pass#:#Ergebnisübersicht für Testdurchlauf %s
 assessment#:#tst_results_overview#:#Übersicht der Testdurchläufe
-assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht für laufende Tests angeboten, erhalten die Teilnehmer die Möglichkeit, Fragentitel und erzielte Punkte der jeweiligen Fragen in der Ergebnisübersicht einzusehen. Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt. Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten" Karteireiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angzeigt. Ist "Unterschrift-Platzhalter anzeigen" ausgewählt, wird für den Ausdruck ein Unterschrift-Platzhalter angezeigt.
+assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht für laufende Tests angeboten, erhalten die Teilnehmer die Möglichkeit, Fragentitel und erzielte Punkte der jeweiligen Fragen in der Ergebnisübersicht einzusehen. Wenn die Bewertungsdetails in den Testergebnissen angezeigt werden, bekommen die Teilnehmer neben ihrer eigenen Lösung auch die korrekte Lösung einer Frage angezeigt. Wenn die Liste der Antworten angezeigt wird, erhalten die Teilnehmer eine Übersicht mit ihren Antworten zu den einzelnen Testfragen. Diese Übersicht wird vor dem endgültigen Abschicken des Tests und nach Beendigung auf der Info-Seite des Tests angeboten. Wenn die antwortspezifischen Rückmeldungen ausgewählt sind, werden diese Rückmeldungen (falls vorhanden) in den Testergebnissen angezeigt. Wenn "Druckausgabe der Ergebnisse (nur Antworten)" ausgewählt ist, werden ILIAS-Inhalte, die Sie über den "Inhalt bearbeiten" Karteireiter der Fragen vor und hinter dem eigentlichen Fragentext platzieren können, in einem Ausdruck nicht angezeigt. Ist "Unterschrift-Platzhalter anzeigen" ausgewählt, wird für den Ausdruck ein Platzhalter für die Unterschrift des Testteilnehmers angezeigt.
 assessment#:#tst_results_presentation#:#Präsentation der Testergebnisse
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_resume_test#:#Test fortsetzen
@@ -810,18 +810,18 @@ assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Kopieren aus
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählen Nutzerin(nen) wurden erfolgreich gelöscht
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
-assessment#:#tst_sequence_properties#:#Reihenfolge-Einstellungen
+assessment#:#tst_sequence_properties#:#Einstellungen Reihenfolge
 assessment#:#tst_sequence#:#Reihenfolge
-assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
-assessment#:#tst_set_feedback_done#:#Die Manuelle Rückmeldung wurde gespeichert
-assessment#:#tst_set_feedback_not_done#:#Es ist ein Fehler aufgetreten! Die Manuelle Rückmeldung konnte nicht gespeichert werden
+assessment#:#tst_session_settings#:#Einstellungen Arbeitssitzung
+assessment#:#tst_set_feedback_done#:#Die manuelle Rückmeldung wurde gespeichert
+assessment#:#tst_set_feedback_not_done#:#Es ist ein Fehler aufgetreten! Die manuelle Rückmeldung konnte nicht gespeichert werden
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche zum Unterbrechen des Tests an.
 assessment#:#tst_show_cancel#:#"Test unterbrechen" Option anzeigen
 assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbieten
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_solution_details#:#Bewertungsdetails
-assessment#:#tst_show_solution_signature#:#Unterschrift-Platzhalter anzeigen
+assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift anzeigen
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
 assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in den Testergebnissen anzeigen
 assessment#:#tst_show_solution_printview#:#Liste der Antworten anzeigen
@@ -928,7 +928,7 @@ barometer#:#edit#:#Bearbeiten
 barometer#:#every#:#alle
 barometer#:#feedb_edit_feedback#:#barometer bearbeiten
 barometer#:#feedb_feedback_list#:#Liste der Barometer
-barometer#:#feedb_feedback_settings#:#Brometer-Einstellungen
+barometer#:#feedb_feedback_settings#:#Einstellungen Barometer
 barometer#:#feedb_time#:#Zeit
 barometer#:#first_vote#:#1. Wertung ist die
 barometer#:#from#:#von
@@ -1081,7 +1081,7 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
-chat#:#chat_moderator_password#:#Moderatoren-Passwort
+chat#:#chat_moderator_password#:#Moderatorenpasswort
 chat#:#chat_navy#:#navy
 chat#:#chat_new_message#:#Neue Nachricht
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
@@ -1270,7 +1270,7 @@ common#:#apply#:#Übernehmen
 common#:#appointment_list#:#Terminliste
 common#:#appointment#:#Termin
 common#:#approve_date#:#Freigegeben am
-common#:#approve_recipient#:#Mail-Benachrichtigung für (Benutzername ID)
+common#:#approve_recipient#:#E-Mail-Benachrichtigung für (Benutzername ID)
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
 common#:#arrow_downright#:#Pfeil von oben nach unten rechts
@@ -1302,7 +1302,7 @@ common#:#assessment_log_select_test#:#--- Bitte wählen Sie einen Test aus ---
 common#:#assessment_log_text#:#Protokolleintrag
 common#:#assessment_log_user_answer#:#Ein Nutzerin beantwortete eine Frage
 common#:#assessment_log_user_answers#:#Aktionen der NutzerInnen anzeigen
-common#:#assessment_log#:#Eine Test&Assessment-Protokollierung für eine bestimmte Zeitperiode erzeugen
+common#:#assessment_log#:#Test&Assessment-Aktivitäten für eine bestimmte Zeitperiode protokollieren
 common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assessment_settings#:#Test&Assessment-Adminstration
 common#:#assessment_use_javascript_desc#:#Selektiert die JavaScript-Unterstützung für Ziehen und Ablegen in Tests, wenn NutzerInnen diese zum ersten Mal aufrufen
@@ -1486,10 +1486,10 @@ common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_new#:#Neue Kategorie
-common#:#cat_pages_clear#:#Kategorie-Seite geleert
-common#:#cat_pages_not_created#:#Kategorie-Seite wurde noch nicht erzeugt.
-common#:#cat_pages_undone#:#Letzte Änderung der Kategorie-Seite rückgängig machen
-common#:#cat_pages#:#Kategorien-Seiten
+common#:#cat_pages_clear#:#Kategorienseite geleert
+common#:#cat_pages_not_created#:#Kategorienseite wurde noch nicht erzeugt.
+common#:#cat_pages_undone#:#Letzte Änderung der Kategorienseite rückgängig machen
+common#:#cat_pages#:#Kategorienseiten
 common#:#cat_read_users#:#Lesezugriff auf lokale Benutzer
 common#:#cat_read#:#Lesezugriff auf Kategorie
 common#:#cat_undo_last_page_changes#:#Letzte Änderung der Seite rückgängig machen
@@ -1636,12 +1636,12 @@ common#:#cron_forum_notification_desc#:#Wenn diese Option eingeschaltet ist, wer
 common#:#cron_forum_notification_directly#:#sofort bei Neueintrag
 common#:#cron_forum_notification_never#:#nie
 common#:#cron_forum_notification#:#Foren-Benachrichtigungen versenden
-common#:#cron_jobs_desc#:#Ein Cron-job ist ein automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.
+common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
 common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
 common#:#cron_mail_notification_never#:#nie
 common#:#cron_mail_notification_cron#:#regelmäßig per Cron-Job
 common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Mails an die Benutzer versendet, die bei neuen Mails benachrichtigt werden wollen, falls neue Mails vorliegen.
-common#:#cron_jobs#:#Cron-jobs
+common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie voher den Lucene-Server unter 'Administration -> Suche'.
 common#:#cron_lucene_index#:#Lucene Suchindex aktualisieren
 common#:#crs_a#:#einen Kurs
@@ -1685,10 +1685,10 @@ common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_info#:#Info
 common#:#crs_join#:#Kurs beitreten
 common#:#crs_leave#:#Kursabonnement aufheben
-common#:#crs_management_system#:#Kursmanagement-System
+common#:#crs_management_system#:#Kursmanagementsystem
 common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_member_passed#:#Bestanden
-common#:#crs_members_gallery#:#Mitglieder-Galerie
+common#:#crs_members_gallery#:#Mitgliedergalerie
 common#:#crs_new#:#Neuer Kurs
 common#:#crs_no_content#:#Ohne Inhalt
 common#:#crs_read#:#Kurs lesen
@@ -1822,7 +1822,7 @@ common#:#err_auth_soap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die SOAP-Authen
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_enter_current_passwd#:#Bitte geben Sie Ihr momentanes Passwort an!
 common#:#err_in_line#:#Fehler in Zeile
-common#:#err_inactive#:#Dieser Benutzer ist noch nicht aktiviert worden. Bitte kontaktieren Sie den System-Administrator.
+common#:#err_inactive#:#Dieser Benutzer ist noch nicht aktiviert worden. Bitte kontaktieren Sie den Systemadministrator.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_ldap_auth_failed#:#Benutzer konnte nicht authentifiziert werden! Bitte überprüfen Sie, ob ILIAS- und LDAP-Passwort übereinstimmen
 common#:#err_ldap_connect_failed#:#Verbindung zum LDAP-Server fehlgeschlagen! Bitte überprüfen Sie Serveradresse und Port
@@ -2124,19 +2124,19 @@ common#:#group_new_registrations#:#Aufnahmeanträge
 common#:#group_no_registration#:#Zur Gruppe beitreten
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
-common#:#group_password_registration_msg#:#Wenn Ihnen ein Gruppen-Administrator das Gruppen-Passwort mitgeteilt hat, können Sie zur Gruppe beitreten.
+common#:#group_password_registration_msg#:#Wenn Ihnen ein Gruppenadministrator das Gruppenpasswort mitgeteilt hat, können Sie zur Gruppe beitreten.
 common#:#group_registration_expiration_date#:#Ablaufdatum
 common#:#group_registration_expiration_time#:#Ablaufzeit
-common#:#group_registration_expired_msg#:#Der Zeitraum für Beitritte in die Gruppe ist abgelaufen.<br />Bitte wenden Sie sich an einen Gruppen-Administrator.
+common#:#group_registration_expired_msg#:#Der Zeitraum für Beitritte in die Gruppe ist abgelaufen.<br />Bitte wenden Sie sich an einen Gruppenadministrator.
 common#:#group_registration_expired#:#Zeitraum für Beitritte ist abgelaufen
 common#:#group_registration_mode#:#Beitrittsverfahren
 common#:#group_registration_time#:#Zeitraum
 common#:#group_registration#:#Gruppenbeitritt
 common#:#group_req_direct#:#Direkter Beitritt
 common#:#group_req_password#:#Beitritt mit Gruppenpasswort
-common#:#group_req_registration_msg#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppen-Administrator Ihren Antrag angenommen oder abgelehnt hat.
+common#:#group_req_registration_msg#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat.
 common#:#group_req_registration#:#Antrag mit Bestätigung
-common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
+common#:#group_reset#:#Rechteeinstellungen der Gruppe zurücksetzen
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die Rollenvorlage 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen wird.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann mit dem ausgewählten Beitrittsverfahren in die Gruppe beitreten.<br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
 common#:#group_status_public#:#Öffentlich
@@ -2188,7 +2188,7 @@ common#:#grp_edit_learning_progress#:#Lernfortschritt bearbeiten
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
-common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein Gruppen-Administrator benötigt
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein Gruppenadministrator benötigt
 common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgeführt
 common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
 common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
@@ -2205,7 +2205,7 @@ common#:#grp_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
-common#:#grp_members_gallery#:#Mitglieder-Galerie
+common#:#grp_members_gallery#:#Mitgliedergalerie
 common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt
 common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
@@ -2319,7 +2319,7 @@ common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
 common#:#icrs_edit#:#LearnLinc-Seminar bearbeiten
 common#:#icrs_join#:#Benutzer kann LearnLinc-Seminar beitreten
 common#:#icrs_leave#:#Benutzer kann LearnLinc-Seminar verlassen
-common#:#icrs_members_gallery#:#Mitglieder-Galerie
+common#:#icrs_members_gallery#:#Mitgliedergalerie
 common#:#icrs_new#:#Neues LearnLinc-Seminar
 common#:#icrs_read#:#Lesezugriff auf LearnLinc-Seminar
 common#:#icrs_visible#:#LearnLinc-Seminar ist sichtbar
@@ -2331,12 +2331,12 @@ common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdesse
 common#:#if_no_title_then_url#:#Geben Sie keinen Titel ein, wird stattdessen die URL angezeigt
 common#:#ignore_on_conflict#:#Ignoriere bei Konflikt
 common#:#il_chat_moderator#:#Chat-Moderator
-common#:#il_crs_admin#:#Kurs-Administrator
-common#:#il_crs_member#:#Kurs-Mitglied
-common#:#il_crs_tutor#:#Kurs-Tutor
-common#:#il_frm_moderator#:#Forum-Moderator
-common#:#il_grp_admin#:#Gruppen-Administrator
-common#:#il_grp_member#:#Gruppen-Mitglied
+common#:#il_crs_admin#:#Kursadministrator
+common#:#il_crs_member#:#Kursmitglied
+common#:#il_crs_tutor#:#Kurstutor
+common#:#il_frm_moderator#:#Forenmoderator
+common#:#il_grp_admin#:#Gruppenadministrator
+common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_icrs_admin#:#LearnLinc-Seminar-Administrator
 common#:#il_icrs_member#:#LearnLinc-Seminar-Mitglied
 common#:#ilias_version#:#ILIAS-Version
@@ -2588,13 +2588,13 @@ common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert.
 common#:#link_check_subject#:#[ILIAS 3] Link überprüfen
 common#:#link_check#:#Links überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
-common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-Id an den Web-Link anhängen.
+common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-ID an den Web-Link anhängen.
 common#:#link#:#Verknüpfen
 common#:#linked_object#:#Das Objekt wurde verknüpft.
 common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#links_add_param#:#Parameter hinzufügen:
 common#:#links_dyn_parameter#:#Dynamische Parameter
-common#:#links_dynamic_info#:#Wenn aktiviert, können Web-Links dynamische Parameter wie z.B die ILIAS Benutzer-Id oder der Benutzername hinzugefügt werden.
+common#:#links_dynamic_info#:#Wenn aktiviert, können Web-Links dynamische Parameter wie z.B die ILIAS Benutzer-ID oder der Benutzername hinzugefügt werden.
 common#:#links_dynamic#:#Dynamische Parameter
 common#:#links_existing_params#:#Vorhandene Parameter:
 common#:#links_name#:#Parameter Name
@@ -2603,8 +2603,8 @@ common#:#links_no_value_given#:#Bitte wählen Sie einen Parameterwert aus.
 common#:#links_not_available#:#Nicht vorhanden
 common#:#links_parameter_deleted#:#Der Parameter wurde gelöscht.
 common#:#links_select_one#:#- Bitte treffen Sie eine Auswahl -
-common#:#links_session_id#:#ILIAS Session-Id
-common#:#links_user_id#:#ILIAS Benutzer-Id
+common#:#links_session_id#:#ILIAS Session-ID
+common#:#links_user_id#:#ILIAS Benutzer-ID
 common#:#links_user_name#:#ILIAS Benutzername
 common#:#links_value#:#Parameter Wert
 common#:#list_of_pages#:#Seitenliste
@@ -2937,7 +2937,7 @@ common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Li
 common#:#no_user_defined_fields_defined#:#Keine Felder vorhanden.
 common#:#no_users_applied#:#Sie haben keine Benutzer angelegt.
 common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
-common#:#no_xml_file_found_in_zip#:#Die XML-Datei konnte nicht innerhalb der zip-Datei gefunden werden:
+common#:#no_xml_file_found_in_zip#:#Die XML-Datei konnte nicht innerhalb der ZIP-Datei gefunden werden:
 common#:#no_zip_file#:#Es wurde keine ZIP-Datei gefunden
 common#:#no#:#Nein
 common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
@@ -3019,7 +3019,7 @@ common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
 common#:#obj_nwss_desc#:#Einstellungen für interne Nachrichten und externe Webfeeds
 common#:#obj_nwss#:#Nachrichten und Webfeeds
-common#:#obj_objf_desc#:#ILIAS-Objektetypen und -rechte. (Nur für Experten!)
+common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
@@ -3028,7 +3028,7 @@ common#:#obj_pdts_desc#:#Persönlichen Schreibtisch anpassen
 common#:#obj_pdts#:#Persönlicher Schreibtisch
 common#:#obj_pg#:#Seite
 common#:#obj_ps_desc#:#Globale Einstellungen zum Datenschutz.
-common#:#obj_ps#:#Datenschutz und Server-Sicherheit
+common#:#obj_ps#:#Datenschutz und Serversicherheit
 common#:#obj_qpl#:#Fragenpool für Test
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck
 common#:#obj_recf#:#Wiederhergestellte Objekte
@@ -3159,8 +3159,8 @@ common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss
 common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#passwd#:#Passwort
-common#:#password_assistance_disabled#:#Passwort-Unterstützung ist nur dann verfügbar, wenn die Authentisierung der Benutzer über die ILIAS-Datenbank erfolgt.
-common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Anmelde-Seite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
+common#:#password_assistance_disabled#:#Passwort-Unterstützung ist nur dann verfügbar, wenn die Authentifizierung der Benutzer über die ILIAS-Datenbank erfolgt.
+common#:#password_assistance_info#:#Wenn die Passwort-Unterstützung aktiviert ist, erscheint ein Link mit der Bezeichnung "Passwort vergessen?" auf der Anmeldeseite von ILIAS. Benutzer können diese Funktion verwenden, um automatisch ein neues Passwort zu erhalten.
 common#:#password#:#Passwort
 common#:#paste#:#Einfügen
 common#:#pasteChapter#:#Einfügen
@@ -3278,11 +3278,11 @@ common#:#refresh_list#:#Liste aktualisieren
 common#:#refresh#:#Aktualisieren
 common#:#refuse#:#Antrag ablehnen
 common#:#reg_mail_body_salutation#:#Hallo
-common#:#reg_mail_body_text1#:#Willkommen bei der eLearning-Plattform ILIAS!
+common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
 common#:#reg_mail_body_text3#:#Weitere persönliche Angaben:
 common#:#reg_mail_subject#:#ILIAS eLearning - Ihre Zugangsdaten
-common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene Email-Adresse geschickt.
+common#:#reg_passwd_via_mail#:#Das Passwort wird an die unten anzugebene E-Mail-Adresse geschickt.
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich zu registrieren (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#register#:#Registrieren
 common#:#registered_since#:#Eingetragen seit
@@ -3502,7 +3502,7 @@ common#:#shib_language#:#Attribut für Sprache
 common#:#shib_lastname#:#Attribut für Nachnamen
 common#:#shib_login_button#:#Pfad zum Shibboleth-Login-Button
 common#:#shib_login_external_wayf#:#Einen externen WAYF-Dienst benutzen
-common#:#shib_login_internal_wayf#:#Den ILIAS WAYF-Dienst benutzen
+common#:#shib_login_internal_wayf#:#Den ILIAS-WAYF-Dienst benutzen
 common#:#shib_login_type#:#Auswahl der Organisation
 common#:#shib_login#:#Eindeutiges Shibboleth Attribut
 common#:#shib_member_of#:#Ich bin Mitglied von ...
@@ -3573,7 +3573,7 @@ common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject_module#:#Subject Module
 common#:#subject#:#Betreff
 common#:#submit#:#Abschicken
-common#:#subobjects#:#Unter-Objekte
+common#:#subobjects#:#Unterobjekte
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
 common#:#sure_delete_selected_users#:#Sind sie sicher, dass die ausgewählten Benutzer gelöscht werden sollen?
@@ -3666,8 +3666,8 @@ common#:#tracking_data#:#Tracking-Daten
 common#:#tracking_settings#:#Einstellungen
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
-common#:#tree_frame_info#:#Legt fest, ob die Baumansicht (z.B. Magazin-Baumansicht) tree) auf der linken oder der rechten Seite erscheinen soll
-common#:#tree_frame#:#Baumanzeige
+common#:#tree_frame_info#:#Legt fest, ob die Baumansicht (z.B. im Magazin) auf der linken oder der rechten Seite erscheinen soll
+common#:#tree_frame#:#Baumansicht
 common#:#tree_left#:#Links
 common#:#tree_right#:#Rechts
 common#:#treeview#:#Baumansicht
@@ -3693,7 +3693,7 @@ common#:#tst#:#Test
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte auf den untenstehenden Button, um in ILIAS zu gelangen.
-common#:#txt_registered_passw_gen#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie werden in Kürze eine e-Mail mit Ihrem Passwort erhalten.
+common#:#txt_registered_passw_gen#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie werden in Kürze eine E-Mail mit Ihrem Passwort erhalten.
 common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Benutzerkonto muss noch vom Systemadministrator freigegeben werden. Wir bitten um Ihre Geduld.
 common#:#typ#:#Objekttyp-Definition
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
@@ -3954,7 +3954,7 @@ content#:#cont_caption#:#Bildunterschrift
 content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
 content#:#cont_chap_copy_select_target_now#:#Das Kapitel wurde für das Kopieren markiert. Wählen Sie jetzt das Ziel.
-content#:#cont_chap_select_target_now#:#Wählen Sie jetzt die Check-Box, hinter die das Kapitel verschoben werden soll.
+content#:#cont_chap_select_target_now#:#Wählen Sie jetzt die Checkbox, hinter die das Kapitel verschoben werden soll.
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
 content#:#cont_chapters_only#:#Nur Kapitel
 content#:#cont_chapters#:#Kapitel
@@ -4057,7 +4057,7 @@ content#:#cont_ed_split_page#:#Seite aufteilen
 content#:#cont_ed_width#:#Breite
 content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
-content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Medienobjekt-Instanz bearbeiten
+content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Instanz des Medienobjekts bearbeiten
 content#:#cont_edit_mob_files#:#Objektdateien
 content#:#cont_edit_mob_properties#:#Eigenschaften des Medienobjekts bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
@@ -4285,7 +4285,7 @@ content#:#cont_structure#:#Struktur
 content#:#cont_bb_tip#:#Das Menü erlaubt die schnelle Zuweisung von Textauszeichnungen.
 content#:#cont_style#:#Style
 content#:#cont_subchapters#:#Unterkapitel
-content#:#cont_synchronize_frames_desc#:#Diese Funktion aktualisiert das Inhaltsverzeichnis entsprechend der Position im Inhalts-Fenster. Bei der Drei-Fenster-Ansicht aktualisiert es die Zusatzfenster. Wird diese Funktion genutzt, kann es zu einem längeren Seitenaufbau kommen.
+content#:#cont_synchronize_frames_desc#:#Diese Funktion aktualisiert das Inhaltsverzeichnis entsprechend der Position im Inhaltsfenster. Bei der Drei-Fenster-Ansicht aktualisiert es die Zusatzfenster. Wird diese Funktion genutzt, kann es zu einem längeren Seitenaufbau kommen.
 content#:#cont_synchronize_frames#:#Frames synchronisieren
 content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
@@ -4417,7 +4417,7 @@ crs#:#crs_archives_deleted#:#Das/die Archiv(e) wurde(n) gelöscht
 crs#:#crs_auto_fill#:#Automatisch auffüllen
 crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Beitrittsart!
 crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Beitrittsart - nur während eines definierten Zeitraums freizuschalten.
-crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kurs-Administratoren und Tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
+crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kursadministratoren und -tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
 crs#:#crs_blocked_member_body#:#Ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
 crs#:#crs_blocked_member#:#Status in Kurs "\%s\"
 crs#:#crs_blocked#:#Zugang gesperrt
@@ -4506,9 +4506,9 @@ crs#:#crs_important_info#:#Wichtige Informationen
 crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Kursadministratoren eingesehen werden können.
 crs#:#crs_info_agreement#:#Die folgenden Daten können von Kursadministratoren eingesehen werden:
 crs#:#crs_info_download#:#Dateien zum Herunterladen
-crs#:#crs_info_reg_confirmation#:#Sie können die Aufnahme in diesen Kurs beantragen. Sie erhalten eine Nachricht, wenn ein Kurs-Administrator Ihren Antrag angenommen oder abgelehnt hat.
+crs#:#crs_info_reg_confirmation#:#Sie können die Aufnahme in diesen Kurs beantragen. Sie erhalten eine Nachricht, wenn ein Kursadministrator Ihren Antrag angenommen oder abgelehnt hat.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Aufnahme möglich.
-crs#:#crs_info_reg_password#:#Wenn Sie das Kurs-Passwort von einem Kurs-Administrator erhalten haben, können Sie in diesen Kurs beitreten.
+crs#:#crs_info_reg_password#:#Wenn Sie das Kurspasswort von einem Kursadministrator erhalten haben, können Sie in diesen Kurs beitreten.
 crs#:#crs_info_reg#:#Aufnahmeverfahren
 crs#:#crs_info_settings#:#Kursinfo
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
@@ -4643,7 +4643,7 @@ crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg_deactivated#:#Ausgeschaltet
 crs#:#crs_reg_lim_info#:#Beitritte sind nur während eines festen Zeitraumes möglich. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
 crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl von Kursmitgliedern fest. Wird die Zahl überschritten, sind keine Beitritte mehr möglich. ('0' bedeutet unbegrenzt)
-crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kurs-Administratoren und Tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
+crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und -tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
 crs#:#crs_reg_subscription_deactivated#:#Die Registrierung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Zeit für Beitritte ist abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
@@ -4953,16 +4953,16 @@ dateplaner#:#group#:#Gruppe
 dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
 dateplaner#:#help_day#:#Kalender Tagesansicht
 dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
+dateplaner#:#help_enddate#:#Enddatum - Syntax [dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
-dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]
-dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
-dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
+dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax [dd/mm/yyyy]
+dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24h-Format des zu erstellenden Termins.
+dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h-Format
 dateplaner#:#help_filename#:#dp_help_de.html
-dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br /> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
-dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
+dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin, der einen ganzen Tag betrifft, so ist diese Option zu wählen.<br /> Dabei werden dann Startzeit, Enddatum und Endzeit ausgeblendet.
+dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax [an/aus]
 dateplaner#:#help_further#:#<br /> <b>weitere Informationen durch klicken.</b>
-dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br /> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
+dateplaner#:#help_group_l#:#Beinhaltet die Gruppen, für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br /> Nach der Auswahl ist es möglich, die unverplante Zeit der Gruppe zu erkennen.
 dateplaner#:#help_group#:#Gruppentermine Auswahl
 dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
 dateplaner#:#help_inbox#:#Kalender Inbox
@@ -5127,7 +5127,7 @@ form#:#form_msg_file_partially_uploaded#:#Die Datei konnte nicht vollständig ho
 form#:#form_msg_file_size_exceeds#:#Die hochzuladende Datei überschreitet die maximale Dateigrösse.
 form#:#form_msg_file_upload_stopped_ext#:#Upload durch PHP-Extension abgebrochen.
 form#:#form_msg_file_virus_found#:#In der hochzuladenden Datei wurde ein Virus gefunden!
-form#:#form_msg_file_wrong_file_type#:#Falscher Datei-Typ
+form#:#form_msg_file_wrong_file_type#:#Falscher Dateityp
 form#:#form_seconds#:#Sekunden
 forum#:#threads_moved_successfully#:#Die gewählten Themen wurden erfolgreich in ein anderes Forum verschoben.
 forum#:#select_at_least_one_thread#:#Es muss mindestens ein Thema gewählt werden.
@@ -5138,10 +5138,10 @@ forum#:#to_forum#:#In Forum
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
 forum#:#sure_move_threads#:#Sollen die gewählten Themen wirklich verschoben werden?
 forum#:#sticky#:#sticky
-forum#:#make_topics_sticky#:#Themen "sticky" machen
-forum#:#make_topics_non_sticky#:#Themen nicht-"sticky" machen
-forum#:#make_topic_sticky#:#Thema "sticky" machen
-forum#:#make_topic_non_sticky#:#Thema nicht-"sticky" machen
+forum#:#make_topics_sticky#:#Thema zu "Top-Thema" machen
+forum#:#make_topics_non_sticky#:#"Top-Thema"-Einstufung aufheben
+forum#:#make_topic_sticky#:#Thema zu "Top-Thema" machen
+forum#:#make_topic_non_sticky#:#"Top-Thema"-Einstufung aufheben
 forum#:#topic_close#:#geschlossen
 forum#:#close_topics#:#Schließen
 forum#:#reopen_topics#:#Wiedereröffnen
@@ -5240,7 +5240,7 @@ grp#:#crs_grouping_delete_sure#:#Sind Sie sicher, dass diese Mitgliedschaftsbesc
 grp#:#crs_grouping_deleted#:#Die Mitgliedschaftsbeschränkung wurde gelöscht.
 grp#:#crs_grouping_select_one#:#Bitte treffen Sie eine Auswahl.
 grp#:#crs_grp_added_grouping#:#Eine neue Mitgliedschaftsbeschränkung wurde angelegt.
-grp#:#crs_grp_assign_crs#:#Gruppen-Zuordnung
+grp#:#crs_grp_assign_crs#:#Gruppenzuordnung
 grp#:#crs_grp_enter_title#:#Bitte füllen Sie alle notwendigen Felder aus.
 grp#:#crs_grp_info_reg#:#Sie können Sie nur für eine der folgenden Gruppen anmelden:
 grp#:#crs_grp_no_courses_assigned#:#Es sind keine Gruppen zugeordnet.
@@ -5319,7 +5319,7 @@ jscalendar#:#s_th#:#Do
 jscalendar#:#s_tu#:#Di
 jscalendar#:#s_we#:#Mi
 jscalendar#:#select_date#:#Datum auswählen
-jscalendar#:#time_part#:#(Umschalten-)Klick oder Festhalten und Ziehen um den Wert zu ändern
+jscalendar#:#time_part#:#(Umschalten-)Klick oder festhalten und ziehen, um den Wert zu ändern
 jscalendar#:#time#:#Zeit
 jscalendar#:#today#:#Heute
 jscalendar#:#tt_date_format#:#%a, %b %e
@@ -5462,7 +5462,7 @@ mail#:#mail_in_addressbook#:#Bereits im Adressbuch
 mail#:#mail_entry_of_addressbook#:#Eintrag aus dem Adressbuch
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung
 mail#:#mail_incoming_local#:#Nur lokal
-mail#:#mail_incoming_smtp#:#An eingetragene E-mail-Adresse weiterleiten
+mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_incoming#:#Nachrichten Empfang
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
@@ -5485,9 +5485,9 @@ mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
 mail#:#mail_mailing_lists#:#Verteilerlisten
 mail#:#mail_mailing_list#:#Verteilerliste
-mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben noch keine Adressbuch-Einträge.
-mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Adressbuch-Einträge diesem Verteiler zugeordnet.
-mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Adressbuch-Eintrages zum Verteiler
+mail#:#mail_mailing_lists_no_addressbook_entries#:#Sie haben noch keine Adressbucheinträge.
+mail#:#mail_mailing_lists_all_addressbook_entries_assigned#:#Sie haben bereits all Ihre Adressbucheinträge diesem Verteiler zugeordnet.
+mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Adressbucheintrags zum Verteiler
 mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_nacc_admin_mail#:#E-Mail-Adresse des Administrators
@@ -5531,7 +5531,7 @@ mail#:#mail_sure_delete_file#:#Sind Sie sicher, dass die markierten Dateien gel�
 mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
 mail#:#mail_sure_delete#:#Sind Sie sicher, dass die markierten Nachrichten gelöscht werden sollen?
 mail#:#mail_to#:#An
-mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
+mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail-Adresse
 mail#:#search_bc_recipient#:#BC-Empfänger suchen
 mail#:#search_cc_recipient#:#CC-Empfänger suchen
 mail#:#send_mail_to#:#Mail an
@@ -5539,7 +5539,7 @@ mail#:#mail_cronjob_notification_info#:#Hier können Sie eine regelmäßige Bena
 mail#:#mail_no_valid_mailing_list#:#Kein Gültiger Verteiler
 mail#:#mail_received_x_new_mails#:#Sie haben %s neue Nachrichten erhalten.
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
-mail#:#placeholders_advise#:#Platzhalter werden nur für Empfänger im An-Feld ersetzt.%sEmpfänger im CC- und BCC-Feld erhalten Mails ohne ersetzte Platzhalter.
+mail#:#placeholders_advise#:#Platzhalter werden nur für Empfänger im «An»-Feld ersetzt.%sEmpfänger im CC- und BCC-Feld erhalten Mails ohne ersetzte Platzhalter.
 mail#:#search_recipients#:#Empfänger suchen
 mcst#:#mcst_add_new_item#:#Neues Mediacast-Objekt hinzufügen
 mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
@@ -6077,7 +6077,7 @@ meta#:#meta_problem_statement#:#Problemstellung
 meta#:#meta_publisher#:#Herausgeber
 meta#:#meta_purpose#:#Zweck
 meta#:#meta_questionnaire#:#Fragebogen
-meta#:#meta_quickedit#:#Schnell-Bearbeitung
+meta#:#meta_quickedit#:#Schnellbearbeitung
 meta#:#meta_reference#:#Referenz
 meta#:#meta_references#:#Referenzen
 meta#:#meta_relation#:#Beziehung
@@ -6199,7 +6199,7 @@ payment#:#pay_bmf_credit_card#:#Kreditkarte
 payment#:#pay_bmf_debit_entry_data#:#Lastschriftverfahren
 payment#:#pay_bmf_debit_entry_not_valid#:#Ihre Angaben für das Lastschriftverfahren sind ungültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pay_bmf_debit_entry#:#Lastschriftverfahren (nur mit deutschen Konten)
-payment#:#pay_bmf_description_credit_card#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kreditkarten-Daten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
+payment#:#pay_bmf_description_credit_card#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kreditkartendaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
 payment#:#pay_bmf_description_debit_entry#:#Bitte überprüfen Sie zunächst, ob sich alle Artikel, die Sie bestellen möchten, im Warenkorb befinden. Durch Eingabe Ihrer Kontodaten und Anklicken des "Speichern"-Buttons bestätigen Sie Ihre Bestellung, die daraufhin ausgeführt wird. Die Prüfung der Bestelldaten kann einige Sekunden dauern.
 payment#:#pay_bmf_description_payment_type#:#Bitte wählen Sie eine Bezahlart aus.
 payment#:#pay_bmf_description_personal_data#:#Bitte füllen Sie das nachfolgende Formular vollständig aus.
@@ -6393,7 +6393,7 @@ payment#:#pays_pay_methods#:#Bezahlarten
 payment#:#pays_paypal_settings_not_valid#:#Ihre Einstellungen für PayPal sind nicht gültig. Bitte überprüfen Sie, ob alle Felder korrekt ausgefüllt sind.
 payment#:#pays_paypal_settings#:#Einstellungen für PayPal
 payment#:#pays_paypal#:#PayPal
-payment#:#pays_pdf_path#:#Pfad zur Rechnungs-Generierung als PDF-Datei
+payment#:#pays_pdf_path#:#Pfad zur Rechnungsgenerierung als PDF-Datei
 payment#:#pays_server_host#:#Server Host (z.B. www.paypal.com)
 payment#:#pays_server_path#:#Pfad zu den Skripten (z.B. /cgi-bin/webscr)
 payment#:#pays_sure_delete_selected_vendors#:#Sind sie sicher, dass die ausgewählten Verkäufer gelöscht werden sollen?
@@ -6483,7 +6483,7 @@ ps#:#ps_warning_modify#:#Achtung: mindestens ein Benutzer hat der Nutzungsverein
 ps#:#show_privacy#:#Datenschutz
 ps#:#show_security#:#Sicherheit
 pwassist#:#password_assistance#:#Passwort-Unterstützung
-pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die Email eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der Passwort-Vergessen-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
+pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die Email eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_invalid_auth_mode#:#Der angegebene Nutzer wird nicht direkt am ILIAS System authentifiziert. Eine Zusendung des Kennworts ist daher nicht möglich.
@@ -6497,7 +6497,7 @@ pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen 
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Nachricht ist automatisch von folgendem ILIAS Server generiert worden:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die Emailadresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie dieses E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen.
 rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
 rbac#:#filter_all_roles#:#Zeige alle Rollen im aktuellen Kontext
 rbac#:#filter_global_roles#:#Zeige nur globale Rollen
@@ -7061,8 +7061,8 @@ survey#:#select_questionpool_short#:#Fragenpool für Umfrage
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
 survey#:#select_relation#:#Relation auswählen
 survey#:#select_svy_option#:#--- Bitte wählen Sie eine Umfrage ---
-survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
-survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Antworten zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
+survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfügen-Schaltflächen!
+survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Antworten zu verschieben und drücken Sie dann eine der beiden Einfügen-Schaltflächen!
 survey#:#select_value#:#Wert auswählen
 survey#:#selection#:#Auswahl
 survey#:#set_filter#:#Filter setzen
@@ -7128,7 +7128,7 @@ survey#:#svy_general_properties#:#Allgemeine Einstellungen
 survey#:#svy_maintenance_information_no_results#:#Es liegen keine Teilnehmerdatensätze für diese Umfrage vor. Um die Umfrage zu warten, muss wenigstens ein Teilnehmerdatensatz vorliegen.
 survey#:#svy_missing_author#:#Sie haben den Autor oder die Autorin nicht in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie einen Autor oder eine Autorin hinzu.
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
-survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
+survey#:#svy_missing_title#:#Sie haben keinen Umfragetitel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 survey#:#svy_page_error#:#Beim Beantworten einer Frage ist ein Fehler aufgetreten. Die Fehlermeldung finden Sie bei der betroffenen Frage!
 survey#:#svy_page_errors#:#Beim Beantworten mehrerer Fragen sind Fehler aufgetreten. Die Fehlermeldungen finden Sie bei den betroffenen Fragen!
 survey#:#svy_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
@@ -7555,7 +7555,7 @@ common#:#res_links#:#Verknüpfungen im Magazin
 common#:#header_zip#:#Mehrere Dateien als ZIP-Archiv hochladen
 common#:#take_over_structure#:#Ordnerstruktur des Archives übernehmen
 common#:#take_over_structure_info#:#Wenn aktiviert, werden Verzeichnisse im Archiv als Kategorien oder Ordner übernommen.
-common#:#msg_wrong_filetype#:#Datei ist kein zip-Archiv
+common#:#msg_wrong_filetype#:#Datei ist kein ZIP-Archiv
 common#:#zip_structure_error#:#Archiv enthält gleiche Dateinamen. Upload abgebrochen
 common#:#archive_broken#:#Archiv scheint beschädigt oder leer zu sein.
 common#:#precondition#:#Vorbedingung
@@ -7658,7 +7658,7 @@ news#:#news_1_file_created#:#Es wurde eine Datei hinzugefügt.
 news#:#news_1_file_updated#:#Es wurde eine Datei aktualisiert.
 news#:#news_x_postings#:#%s Beiträge hinzugefügt.
 news#:#news_1_postings#:#Es wurde ein Beitrag hinzugefügt.
-news#:#news_block_information#:#Der Nachrichten-Block zeigt alle <b>Nachrichten</b> in chronologischer Reihenfolge an, die sich auf Ihre <b>Ausgewählten Angebote</b> auf dem persönlichen Schreibtisch beziehen.
+news#:#news_block_information#:#Der Nachrichtenblock zeigt alle <b>Nachrichten</b> in chronologischer Reihenfolge an, die sich auf Ihre <b>Ausgewählten Angebote</b> auf dem persönlichen Schreibtisch beziehen.
 news#:#news_rss_period#:#RSS Zeitraum
 news#:#news_period_x_days#:#Letzte %s Tage
 news#:#news_period_1_week#:#Letzte Woche
@@ -7716,9 +7716,9 @@ rbac#:#mds_write#:#Schreibzugriff auf Metadata-Einstellungen
 common#:#obj_cals#:#Kalender
 common#:#obj_cals_desc#:#Enthält globale Einstellungen für den Kalender.
 rbac#:#cals_edit_permission#:#Rechteeinstellung ändern
-rbac#:#cals_visible#:#Kalender-Einstellungen sind sichtbar
-rbac#:#cals_read#:#Lesezugriff auf Kalender-Einstellungen
-rbac#:#cals_write#:#Schreibzugriff auf Kalender-Einstellungen
+rbac#:#cals_visible#:#Kalendereinstellungen sind sichtbar
+rbac#:#cals_read#:#Lesezugriff auf Kalendereinstellungen
+rbac#:#cals_write#:#Schreibzugriff auf Kalendereinstellungen
 common#:#obj_cat_duplicate#:#Kategorie kopieren
 common#:#obj_cat_select#:#-- Bitte wählen Sie einen Kategorie aus --
 common#:#cat_copy_threads_info#:#Bitte wählen Sie aus welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
@@ -7754,8 +7754,8 @@ common#:#filename_windows_empty_extension#:#Wegen des Zeichens . am Ende des Nam
 common#:#filename_windows_webdav_issue#:#Wegen des Zeichens # ist dieses Objekt in Windows Webordnern nicht sichtbar
 common#:#filename_special_filename#:#Objekte mit den Namen . und .. sind in Webordnern nicht sichtbar
 common#:#filename_extension_missing#:#Dateiendung fehlt
-common#:#readcount_anonymous_users#:#Anzahl anonyme Lesezugriffe
-common#:#readcount_users#:#Anzahl nicht-anonyme Lesezugriffe
+common#:#readcount_anonymous_users#:#Anzahl anonymer Lesezugriffe
+common#:#readcount_users#:#Anzahl nicht-anonymer Lesezugriffe
 common#:#accesscount_registered_users#:#Gelesen von ILIAS-Benutzern (Anzahl)
 common#:#state_changed#:#geändert
 common#:#state_changed_inside#:#Inhalt geändert
@@ -7794,7 +7794,7 @@ cmps#:#cmps_file_version#:#Dateiversion aktualisieren
 cmps#:#cmps_refresh_plugins_inf#:#Informationen über Plugins aktualisieren
 cmps#:#cmps_module#:#Modul
 cmps#:#cmps_no_language_file_available#:#Keine Sprachdatei verfügbar
-cmps#:#cmps_no_db_update_file_available#:#Kein Datenbankupdate-Skript verfügbar
+cmps#:#cmps_no_db_update_file_available#:#Kein Datenbank-Update-Skript verfügbar
 cmps#:#cmps_version#:#Version
 cmps#:#cmps_responsible#:#Verantwortlich
 cmps#:#cmps_update#:#Aktualisieren
@@ -7958,7 +7958,7 @@ ecs#:#ecs_account_duration_info#:#Die Aktivierungszeit neuer ECS-Nutzer ist auf 
 common#:#udf_type_datetime#:#Datum und Uhrzeit
 ecs#:#ecs_no_value#:#Nicht angegeben
 ecs#:#ecs_field_semester_hours#:#Semesterwochenstunden
-common#:#object_id#:#Objekt-Id
+common#:#object_id#:#Objekt-ID
 ecs#:#ecs_field_courseID#:#Veranstaltungs-ID
 common#:#organization#:#Anbieter
 common#:#auth_ecs#:#ECS
@@ -8143,8 +8143,8 @@ dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_details#:#Termindetails
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Allgemeine Einstellungen des Mediacasts
-grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppen-Administrator Ihren Antrag angenommen oder abgelehnt hat.
-grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppen-Passwort von einem Gruppen-Administrator erhalten haben, können Sie in dieser Gruppe beitreten.
+grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sie erhalten eine Nachricht, wenn ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat.
+grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
 common#:#cal_from#:#Von:
@@ -8404,6 +8404,7 @@ ps#:#ps_password_special_chars_enabled#:#Sonderzeichen
 ps#:#ps_password_max_age#:#Maximales Alter von Passwörtern
 ps#:#ps_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen
 ps#:#ps_password_chars_and_numbers_enabled_info#:#Wenn aktiviert, müssen Passwörter Buchstaben und Zahlen enthalten.
+ps#:#ps_password_chars_and_numbers_enabled_info#:#Wenn aktiviert, müssen Passwörter Buchstaben und Zahlen enthalten.
 ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten.
 ps#:#ps_password_max_length_info#:#Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist, können Passwörter beliebige Längen haben.
 ps#:#ps_password_max_age_info#:#Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist, laufen Passwörter nicht ab.
@@ -8412,8 +8413,8 @@ ps#:#ps_error_message_invalid_password_min_length#:#Minimale Passwortlänge darf
 ps#:#ps_error_message_invalid_password_max_length#:#Maximale Passwortlänge darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen darf nicht kleiner als 0 sein.
-ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als 2 sein wenn es Buchstaben und Zahlen enthalten muss.
-ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimale Passwortlänge darf nicht kleiner als 3 wenn es Buchstaben, Zahlen und Sonderzeichen enthalten muss.
+ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als 2 sein, wenn es Buchstaben und Zahlen enthalten muss.
+ps#:#ps_error_message_password_min3_because_chars_numbers_specialchars#:#Minimale Passwortlänge darf nicht kleiner als 3 sein, wenn es Buchstaben, Zahlen und Sonderzeichen enthalten muss.
 ps#:#ps_error_message_password_max_less_min#:#Maximale Passwortlänge darf nicht kleiner sein als die minimale Passwortlänge.
 common#:#password_empty#:#Das Passwort darf nicht leer sein.
 common#:#password_expired#:#Ihr Passwort ist abgelaufen und muss geändert werden, da es zuletzt vor %s Tag(en) geändert wurde.
@@ -8435,7 +8436,7 @@ common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
 ps#:#ps_password_min_length_info#:#Setzt die minimale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist müssen Passwörter trotzdem mindestens 1 Zeichen enthalten.
 crs#:#crs_archive_language_selection#:#Sprachauswahl
-common#:#zip_test_failed#:#Der Zip-Test ist fehlgeschlagen. Bitte kontaktieren Sie ihren ILIAS Administrator.
+common#:#zip_test_failed#:#Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie ihren ILIAS Administrator.
 common#:#ext_link#:#Link
 pd#:#pd_enable_my_offers#:#Aktiviere 'Meine Angebote'
 pd#:#pd_enable_my_offers_info#:#Die Sicht 'Meine Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
@@ -8490,7 +8491,7 @@ content#:#cont_add_elements#:#Klicken Sie auf einen Platzhalter, um ein neues El
 content#:#cont_syntax_help#:#Syntax-Hilfe
 content#:#cont_bullet_list#:#Unnummerierte Liste
 content#:#cont_numbered_list#:#Nummerierte Liste
-content#:#cont_wiki_page_link#:#Wikiseiten-Link
+content#:#cont_wiki_page_link#:#Wiki-Seiten-Link
 content#:#cont_drag_and_drop_elements#:#Um Content-Elemente zu bewegen, ziehen Sie diese mit der Maus auf die Platzhalter.
 content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für die De-/Aktivierung und für das Löschen aus.
 form#:#form_hierarchy_add_elements#:#Um neue Elemente hinzuzufügen, klicken Sie auf die Platzhalter.
@@ -8562,7 +8563,7 @@ content#:#cont_rollback_confirmation#:#Wollen Sie wirklich diese alte Version de
 assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
 common#:#enable_download_folder#:#Ordner herunterladen aktivieren
-common#:#enable_download_folder_info#:#Erlaubt Ordner inklusive Unterstrukturen als Zip-Datei herunterzuladen.
+common#:#enable_download_folder_info#:#Erlaubt Ordner inklusive Unterstrukturen als ZIP-Datei herunterzuladen.
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar
 rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
@@ -8625,7 +8626,7 @@ wiki#:#wiki_page_deletion_confirmation#:#Wollen Sie diese Wiki-Seite wirklich l�
 wiki#:#wiki_other_pages_linking#:#Andere Seiten, die zu dieser Seite verlinken
 wiki#:#wiki_number_users_notes_or_comments#:#Anzahl Benutzer, die Notizen oder Kommentare zu dieser Seite verfasst haben.
 wiki#:#wiki_page_deleted#:#Die Wiki-Seite wurde gelöscht.
-wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.###03 11 2008 new variable
+wiki#:#wiki_no_start_page#:#Das Wiki hat keine gültige Startseite
 crs#:#crs_timings_visibility_short#:#Sichtbarkeit
 assessment#:#no_selection#:#--- Keine Auswahl ---
 assessment#:#customstyle#:#Eigener Stil
