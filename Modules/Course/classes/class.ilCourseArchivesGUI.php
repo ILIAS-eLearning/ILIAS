@@ -316,6 +316,20 @@ class ilCourseArchivesGUI
 		return true;
 	}
 
+	/**
+	* Select items for archive
+	*/
+	function selectXMLArchiveItems()
+	{
+		global $tpl;
+		
+		include_once("./Services/Export/classes/class.ilSubItemSelectionTableGUI.php");
+		$sel_table = new ilSubItemSelectionTableGUI($this, "selectXMlArchiveItems",
+			$this->course_obj->getRefId(), "addXMLArchive",
+			$this->lng->txt("crs_add_archive_xml"));
+		$tpl->setContent($sel_table->getHTML());
+	}
+	
 	function addXMLArchive()
 	{
 		global $ilAccess;
@@ -440,7 +454,7 @@ class ilCourseArchivesGUI
 
 		// create xml archive button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "addXMLArchive"));
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "selectXMLArchiveItems"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("crs_add_archive_xml"));
 		$this->tpl->parseCurrentBlock();
 

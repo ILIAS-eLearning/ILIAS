@@ -9000,3 +9000,12 @@ common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were li
 common#:#session_reminder_alert#:#Your session expires in 5 minutes.
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
+export#:#export_select_resources#:#Select Resources
+export#:#export_resource#:#Resource
+export#:#export_last_export_file#:#Use Last Export File
+export#:#export_last_export#:#Last Export
+export#:#export_create_new_file#:#Create New Export File
+export#:#export_omit_resource#:#Omit Resource
+export#:#export_omit#:#Omit
+export#:#export_create#:#Create
+export#:#export_last_file#:#Last File
