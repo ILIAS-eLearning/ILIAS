@@ -8818,3 +8818,7 @@ shib#:#shib_plugin_id#:#Plugin-Id
 shib#:#shib_role_selection#:#Rollenauswahl
 shib#:#shib_choose_role#:#Rolle übernehmen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
+common#:#im_jabber#:#Jabber
+common#:#im_jabber_icon#:#Jabber Logo
+common#:#im_voip#:#VoIP
+common#:#im_voip_icon#:#VoIP Logo

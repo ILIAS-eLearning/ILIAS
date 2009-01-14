@@ -282,7 +282,7 @@ class ilUserXMLWriter extends ilXmlWriter
 		$udf_data = new ilUserDefinedData($row['usr_id']);
 		$udf_data->addToXML($this, $this->settings);
 
-		$msgrs = array ("skype" => "im_skype", "yahoo" => "im_yahoo", "msn"=>"im_msn", "aim"=>"im_aim", "icq"=>"im_icq", "delicious" => "delicious", "external" => "ext_account");
+		$msgrs = array ("skype" => "im_skype", "yahoo" => "im_yahoo", "msn"=>"im_msn", "aim"=>"im_aim", "icq"=>"im_icq", "delicious" => "delicious", "external" => "ext_account", "jabber" => "im_jabber", "voip" => "im_voip");
 		foreach ($msgrs as $type => $fieldname) {
 			$this->__addElement("AccountInfo", $row[$fieldname], array("Type" => $type), "instant_messengers");
 		}

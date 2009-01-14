@@ -1282,6 +1282,8 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getInstantMessengerId("icq"))) $updateUser->setInstantMessengerId("icq", $this->userObj->getInstantMessengerId("icq"));
 							if (! is_null($this->userObj->getInstantMessengerId("yahoo"))) $updateUser->setInstantMessengerId("yahoo", $this->userObj->getInstantMessengerId("yahoo"));
 							if (! is_null($this->userObj->getInstantMessengerId("skype"))) $updateUser->setInstantMessengerId("skype", $this->userObj->getInstantMessengerId("skype"));
+							if (! is_null($this->userObj->getInstantMessengerId("jabber"))) $updateUser->setInstantMessengerId("jabber", $this->userObj->getInstantMessengerId("jabber"));
+							if (! is_null($this->userObj->getInstantMessengerId("voip"))) $updateUser->setInstantMessengerId("voip", $this->userObj->getInstantMessengerId("voip"));
 
 							// Special handlin since it defaults to 7 (USER_FOLDER_ID)
 							if($this->time_limit_owner_set)

@@ -100,6 +100,8 @@ class ilObjUser extends ilObject
 	var $im_msn;
 	var $im_aim;
 	var $im_skype;
+	var $im_jabber;
+	var $im_voip;
 
 	var $delicious;
 	var $latitude;
@@ -325,6 +327,8 @@ class ilObjUser extends ilObject
 		$this->setInstantMessengerId('msn',$a_data["im_msn"]);
 		$this->setInstantMessengerId('aim',$a_data["im_aim"]);
 		$this->setInstantMessengerId('skype',$a_data["im_skype"]);
+		$this->setInstantMessengerId('jabber',$a_data["im_jabber"]);
+		$this->setInstantMessengerId('voip',$a_data["im_voip"]);
 
 		// other data
 		$this->setDelicious($a_data["delicious"]);
@@ -407,7 +411,7 @@ class ilObjUser extends ilObject
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,agree_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
-                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom,last_password_change) "
+                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom,last_password_change,im_jabber,im_voip) "
                 . "VALUES "
                 . "(".
 				$ilDB->quote($this->id).",".
@@ -451,7 +455,9 @@ class ilObjUser extends ilObject
 				$ilDB->quote($this->latitude).",".
 				$ilDB->quote($this->longitude).",".
 				$ilDB->quote($this->loc_zoom).",".
-				$ilDB->quote($this->last_password_change_ts).
+				$ilDB->quote($this->last_password_change_ts).",".
+				$ilDB->quote($this->im_jabber).",".
+				$ilDB->quote($this->im_voip).
 				")";
 		}
 		else
@@ -462,7 +468,7 @@ class ilObjUser extends ilObject
                 . "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date,"
                 . "referral_comment,matriculation,client_ip, approve_date,agree_date,active,"
                 . "time_limit_unlimited,time_limit_until,time_limit_from,time_limit_owner,auth_mode,ext_account,profile_incomplete,"
-                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom,last_password_change) "
+                . "im_icq,im_yahoo,im_msn,im_aim,im_skype,delicious,latitude,longitude,loc_zoom,last_password_change,im_jabber,im_voip) "
                 . "VALUES "
                 ."(".
 				$ilDB->quote($this->id).",".
@@ -506,7 +512,9 @@ class ilObjUser extends ilObject
 				$ilDB->quote($this->latitude).",".
 				$ilDB->quote($this->longitude).",".
 				$ilDB->quote($this->loc_zoom).",".
-				$ilDB->quote($this->last_password_change_ts).
+				$ilDB->quote($this->last_password_change_ts).",".
+				$ilDB->quote($this->im_jabber).",".
+				$ilDB->quote($this->im_voip).
 				")";
 		}
 
@@ -621,7 +629,9 @@ class ilObjUser extends ilObject
 			"longitude= ".$ilDB->quote($this->getLongitude()).",".
 			"loc_zoom= ".$ilDB->quote($this->getLocationZoom()).",".
             "last_update=now()".",".
-            "last_password_change= ".$ilDB->quote($this->getLastPasswordChangeTS()).
+            "last_password_change= ".$ilDB->quote($this->getLastPasswordChangeTS()).",".
+            "im_jabber= ".$ilDB->quote($this->getInstantMessengerId('jabber')).",".
+            "im_voip= ".$ilDB->quote($this->getInstantMessengerId('voip')).
 		//	"ilinc_id= ".$ilDB->quote($this->ilinc_id).",".
 		//	"ilinc_login= ".$ilDB->quote($this->ilinc_login).",".
 		//	"ilinc_passwd= ".$ilDB->quote($this->ilinc_passwd)." ".

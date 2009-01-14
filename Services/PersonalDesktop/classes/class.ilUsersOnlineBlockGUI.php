@@ -321,7 +321,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 								"yahoo" => 1,
 								"msn" => 0,
 								"aim" => 0,
-								"skype" => 1);
+								"skype" => 1,
+								"jabber" => 0,
+								"voip" => 0);
 											
 				// use onlinestatus.org
 				// when enabled all instant messengers are checked online and ignores settings above

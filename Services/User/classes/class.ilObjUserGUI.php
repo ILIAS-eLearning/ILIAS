@@ -1267,6 +1267,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["im_msn"] = $this->object->getInstantMessengerId('msn');
 		$data["im_aim"] = $this->object->getInstantMessengerId('aim');
 		$data["im_skype"] = $this->object->getInstantMessengerId('skype');
+		$data["im_jabber"] = $this->object->getInstantMessengerId('jabber');
+		$data["im_voip"] = $this->object->getInstantMessengerId('voip');
 
 		// other data
 		$data["matriculation"] = $this->object->getMatriculation();
@@ -1515,7 +1517,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->form_gui->addItem($sec_im);
 
 		// icq, yahoo, msn, aim, skype
-		$fields = array("icq", "yahoo", "msn", "aim", "skype");
+		$fields = array("icq", "yahoo", "msn", "aim", "skype", "jabber", "voip");
 		foreach ($fields as $field)
 		{
 			$im = new ilTextInputGUI($lng->txt("im_".$field), "im_".$field);
@@ -1740,6 +1742,8 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["im_msn"] = $this->object->getInstantMessengerId('msn');
 		$data["fields"]["im_aim"] = $this->object->getInstantMessengerId('aim');
 		$data["fields"]["im_skype"] = $this->object->getInstantMessengerId('skype');
+		$data["fields"]["im_jabber"] = $this->object->getInstantMessengerId('jabber');
+		$data["fields"]["im_voip"] = $this->object->getInstantMessengerId('voip');
 		$data["fields"]["matriculation"] = $this->object->getMatriculation();
 		$data["fields"]["client_ip"] = $this->object->getClientIP();
 		$data["fields"]["referral_comment"] = $this->object->getComment();

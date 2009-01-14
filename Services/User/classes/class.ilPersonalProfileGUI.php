@@ -495,6 +495,8 @@ class ilPersonalProfileGUI
 			$ilUser->setInstantMessengerId('msn',ilUtil::stripSlashes($_POST["usr_im_msn"]));
 			$ilUser->setInstantMessengerId('aim',ilUtil::stripSlashes($_POST["usr_im_aim"]));
 			$ilUser->setInstantMessengerId('skype',ilUtil::stripSlashes($_POST["usr_im_skype"]));
+			$ilUser->setInstantMessengerId('jabber',ilUtil::stripSlashes($_POST["usr_im_jabber"]));
+			$ilUser->setInstantMessengerId('voip',ilUtil::stripSlashes($_POST["usr_im_voip"]));
 		}
 
 		// Set user defined data
@@ -1151,7 +1153,7 @@ class ilPersonalProfileGUI
 		{
 			$this->tpl->setVariable("TXT_INSTANT_MESSENGERS", $this->lng->txt("user_profile_instant_messengers"));
 
-			$im_arr = array("icq","yahoo","msn","aim","skype");
+			$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
 			$im_disabled = !$this->userSettingEnabled("instant_messengers") ? "disabled=\"disabled\"": "";
 
 			foreach ($im_arr as $im_name)
@@ -1939,7 +1941,7 @@ exit; // comes later
 			$sh->setTitle($this->lng->txt("user_profile_instant_messengers"));
 			$this->form->addItem($sh);
 
-			$im_arr = array("icq","yahoo","msn","aim","skype");
+			$im_arr = array("icq","yahoo","msn","aim","skype","jabber","voip");
 			foreach ($im_arr as $im_name)
 			{
 				$this->input["im_".$im_name] =
