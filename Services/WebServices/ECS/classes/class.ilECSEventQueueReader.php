@@ -96,9 +96,10 @@ class ilECSEventQueueReader
 			$reader->read();
 			$all_content = $reader->getEContent();
 			
+			
 			$imported = ilECSImport::_getAllImportedLinks();
 			$exported = ilECSExport::_getAllEContentIds();
-			
+
 			// read update events
 			foreach($all_content as $content)
 			{

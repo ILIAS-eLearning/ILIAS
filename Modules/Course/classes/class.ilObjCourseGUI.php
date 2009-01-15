@@ -1476,6 +1476,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$reader = ilECSCommunityReader::_getInstance();
 			if(count($parts = $reader->getPublishableParticipants()) > 1)
 			{
+				$ilLog->write(__METHOD__.': Found '.count($parts).' participants for publishing');
 				$publish_as = new ilCustomInputGUI('','');
 				$publish_as->setHtml('<strong>'.$this->lng->txt('ecs_publish_as').'</strong>');
 				
@@ -1493,12 +1494,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$publish_as->addSubItem($coms);
 				$on->addSubItem($publish_as);
 			}
-			elseif(count($parts) == 1)
+			//elseif(count($parts) == 1)
+			else
 			{
+				$ilLog->write(__METHOD__.': Found '.count($parts).' participants for publishing');
 				$hidden = new ilHiddenInputGUI('ecs_owner');
 				$owner_ids = $reader->getOwnMIDs();
 				$hidden->setValue($owner_ids[0]);
-				$on->addSubItem($hidden);
+				$this->form->addItem($hidden);
 			}
 			
 			$publish_for = new ilCustomInputGUI('','');

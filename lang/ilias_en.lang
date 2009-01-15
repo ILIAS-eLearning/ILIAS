@@ -8320,8 +8320,8 @@ ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course
 ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.
 ecs#:#ecs_participants#:#Participants
 ecs#:#ecs_participants_infos#:#Further Informations
-ecs#:#ecs_active_header#:#Export Allowed
-ecs#:#ecs_enable_participant#:#Allow Export
+ecs#:#ecs_active_header#:#Import/Export Allowed
+ecs#:#ecs_enable_participant#:#Allow Im/Export
 ecs#:#ecs_dns#:#Domainname
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data
@@ -8999,6 +8999,8 @@ common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object 
 common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
 common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session
 common#:#session_reminder#:#Session-Reminder
+common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
+ecs#:#ecs_no_owner#:#Please select one community name.
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
 export#:#export_select_resources#:#Select Resources
 export#:#export_resource#:#Resource

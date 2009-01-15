@@ -643,7 +643,7 @@ class ilECSSettings
 	 	
 	 	if(function_exists('openssl_x509_parse') and $cert = openssl_x509_parse('file://'.$this->getClientCertPath()))
 	 	{
-	 		if(isset($cert['serialNumber']) and $cert['serialNumber'] and dechex($cert['serialNumber'] != '7fffffff'))
+	 		if(isset($cert['serialNumber']) and $cert['serialNumber'])
 	 		{
 	 			$this->setCertSerialNumber($cert['serialNumber']);
 	 			$ilLog->write(__METHOD__.': Serial number is '.$cert['serialNumber']);
