@@ -536,7 +536,7 @@ class ilFormat
 	* @param	string	datetime
 	* @return	integer	unix timestamp  
 	*/
-	function _secondsToString($seconds)
+	function _secondsToString($seconds, $force_with_seconds = false)
 	{
 		global $lng;
 
@@ -551,6 +551,7 @@ class ilFormat
 		$rest = $rest % 3600;
 
 		$minutes = floor($rest / 60);
+		$seconds = $rest % 60;
 
 		if($days)
 		{
@@ -571,6 +572,14 @@ class ilFormat
 				$message .= ' ';
 			}
 			$message .= ($minutes . ' '. $lng->txt('minutes'));
+		}
+		if($force_with_seconds && $seconds)
+		{
+			if($message)
+			{
+				$message .= ' ';
+			}
+			$message .= ($seconds . ' '. $lng->txt('seconds'));
 		}
 		if(!$days and !$hours and !$minutes)
 		{
