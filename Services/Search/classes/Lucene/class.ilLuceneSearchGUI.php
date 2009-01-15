@@ -87,20 +87,32 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function search()
 	{
+		global $ilUser;
+		
 		if(!strlen(ilUtil::stripSlashes($_POST['query'])))
 		{
 			ilUtil::sendInfo($this->lng->txt('msg_no_search_string'));
 			$this->showSavedResults();
 			return false;
 		}
-		
+
 		include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
 		$adapter = new ilLuceneRPCAdapter();
 		$adapter->setQueryString(ilUtil::stripSlashes($_POST['query']));
 		$adapter->setMode('search');
-		
 		$res = $adapter->send();
-		var_dump('<pre>',$res,'</pre>');
+		// TODO: Error handling
+		
+		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
+		$filter = ilLuceneSearchResultFilter::getInstance($ilUser->getId());
+		$filter->setResultIds($res);
+		$filter->filter();
+				
+		foreach($filter->getFilteredIds() as $ref_id)
+		{
+			echo "Result: ".ilObject::_lookupTitle($ref_id)."<br />";
+		}
+		
 		$this->showSavedResults();
 	}
 	
@@ -118,6 +130,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->form->addCommandButton('search',$this->lng->txt('search'));
 		
 		$term = new ilTextInputGUI($this->lng->txt('search_search_term'),'query');
+		$term->setValue("der OR die");
 		$term->setSize(40);
 		$term->setMaxLength(255);
 		$term->setRequired(true);
