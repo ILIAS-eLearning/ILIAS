@@ -37,6 +37,8 @@ class ilSearchSettings
 	const INDEX_SEARCH = 1;
 	const LUCENE_SEARCH = 2;
 	
+	protected static $instance = null;
+	
 	var $ilias = null;
 	var $max_hits = null;
 	var $index = null;
@@ -47,6 +49,21 @@ class ilSearchSettings
 
 		$this->ilias =& $ilias;
 		$this->__read();
+	}
+	
+	/**
+	 * 
+	 *
+	 * @return
+	 * @static
+	 */
+	public static function getInstance()
+	{
+		if(self::$instance == null)
+		{
+			return self::$instance = new ilSearchSettings();
+		}
+		return self::$instance;
 	}
 
 	/**

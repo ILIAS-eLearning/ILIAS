@@ -30,6 +30,7 @@
 * @package ilias-search
 *
 * @ilCtrl_Calls ilSearchController: ilSearchGUI, ilAdvancedSearchGUI, ilSearchResultGUI
+* @ilCtrl_Calls ilSearchController: ilLuceneSearchGUI
 *
 */
 
@@ -55,7 +56,17 @@ class ilSearchController
 
 	function getLastClass()
 	{
-		return $_SESSION['search_last_class'] ? $_SESSION['search_last_class'] : 'ilsearchgui';
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		if(ilSearchSettings::getInstance()->enabledLucene())
+		{
+			$default = 'illucenesearchgui';
+		}
+		else
+		{
+			$default = 'ilsearchgui'; 
+		}
+		
+		return $_SESSION['search_last_class'] ? $_SESSION['search_last_class'] : $default;
 	}
 	function setLastClass($a_class)
 	{
@@ -102,6 +113,18 @@ class ilSearchController
 
 		switch($forward_class)
 		{
+			case 'illucenesearchgui':
+				$this->setLastClass('illucenesearchgui');
+				include_once './Services/Search/classes/Lucene/class.ilLuceneSearchGUI.php';
+				$this->ctrl->forwardCommand(new ilLuceneSearchGUI());
+				break;
+				
+			case 'illuceneadvancedsearchgui':
+				$this->setLastClass('illuceneadvancedsearchgui');
+				include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchGUI.php';
+				$this->ctrl->forwardCommand(new ilLuceneAdvancedSearchGUI());
+				break;
+				
 			case 'ilsearchresultgui':
 				// Remember last class
 				$this->setLastClass('ilsearchresultgui');
