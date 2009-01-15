@@ -95,6 +95,20 @@ class ilExport
 	}
 	
 	/**
+	* Get last export file information
+	*/
+	static function _getLastExportFileInformation($a_obj_id, $a_type = "", $a_obj_type = "")
+	{
+		$files = ilExport::_getExportFiles($a_obj_id, $a_type, $a_obj_type);
+		if (is_array($files))
+		{
+			$files = ilUtil::sortArray($files, "timestamp", "desc");
+			return $files[0];
+		}
+		return false;
+	}
+
+	/**
 	* Get export directory
 	*
 	* @param	integer		Object ID
@@ -230,4 +244,41 @@ class ilExport
 		}
 	}
 
+	/**
+	* Generates an index.html file including links to all xml files included
+	* (for container exports)
+	*/
+	function _generateIndexFile($a_filename, $a_obj_id, $a_files, $a_type = "")
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("export");
+		
+		if ($a_type == "")
+		{
+			$a_type = ilObject::_lookupType($a_obj_id);
+		}
+		$a_tpl = new ilTemplate("tpl.main.html", true, true);
+		$location_stylesheet = ilUtil::getStyleSheetLocation();
+		$a_tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
+		$a_tpl->getStandardTemplate();
+		$a_tpl->setTitle(ilObject::_lookupTitle($a_obj_id));
+		$a_tpl->setDescription($lng->txt("export_export_date").": ".
+			date('Y-m-d H:i:s', time())." (".date_default_timezone_get().")");
+		$f_tpl = new ilTemplate("tpl.export_list.html", true, true, "Services/Export");
+		foreach ($a_files as $file)
+		{
+			$f_tpl->setCurrentBlock("file_row");
+			$f_tpl->setVariable("TITLE", $file["title"]);
+			$f_tpl->setVariable("TYPE", $lng->txt("obj_".$file["type"]));
+			$f_tpl->setVariable("FILE", $file["file"]);
+			$f_tpl->parseCurrentBlock();
+		}
+		$a_tpl->setContent($f_tpl->get());
+		$index_content = $a_tpl->get("DEFAULT", false, false, false, true, false, false);
+
+		$f = fopen ($a_filename, "w");
+		fwrite($f, $index_content);
+		fclose($f);
+	}
 }

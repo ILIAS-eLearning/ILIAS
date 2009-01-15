@@ -9063,3 +9063,13 @@ common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab.
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 ecs#:#ecs_no_owner#:#Bitte wählen Sie aus, unter welcher Community Sie diesen Kurs veröffentlich möchten.
+export#:#export_select_resources#:#Materialien Auswählen
+export#:#export_resource#:#Ressource
+export#:#export_last_export_file#:#Letzte Exportdatei benutzen
+export#:#export_last_export#:#Letzter Export
+export#:#export_create_new_file#:#Neue Exportdatei erstellen
+export#:#export_omit_resource#:#Ressource auslassen
+export#:#export_omit#:#Auslassen
+export#:#export_create#:#Erstellen
+export#:#export_last_file#:#Letzte Datei
+export#:#export_export_date#:#Exportdatum

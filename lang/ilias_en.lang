@@ -9010,5 +9010,6 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_create#:#Create
 export#:#export_last_file#:#Last File
+export#:#export_export_date#:#Export Date
 common#:#session_reminder_extended#:#Your Session was extended for %s
 common#:#session_reminder_session_duration#:#(Session Duration: %s).
