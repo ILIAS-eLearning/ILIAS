@@ -212,8 +212,6 @@ assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um de
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
-<<<<<<< .working
-=======
 assessment#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
 assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
 assessment#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
@@ -291,7 +289,6 @@ assessment#:#certificate_visibility#:#Sichtbarkeit
 assessment#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine falsche Einheit eingetragen
 assessment#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
 assessment#:#certificate#:#Zertifikat
->>>>>>> .merge-right.r18482
 assessment#:#change_properties_from_random_to_standard#:#Sie wollen Ihre Testeinstellungen von einem Zufallstest zu einem Test mit festen Fragen ändern. Die Fragenpools, die Sie bereits zu diesem Zufallstest hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_properties_from_standard_to_random#:#Sie wollen Ihre Testeinstellungen von einem Test mit festen Fragen zu einem Zufallstest ändern. Die Fragen, die Sie bereits zu diesem Test hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_solution#:#Musterlösung wechseln

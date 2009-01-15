@@ -9001,7 +9001,6 @@ common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choo
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
 ecs#:#ecs_no_owner#:#Please select one community name.
-common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
 export#:#export_select_resources#:#Select Resources
 export#:#export_resource#:#Resource
 export#:#export_last_export_file#:#Use Last Export File
