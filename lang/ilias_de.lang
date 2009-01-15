@@ -212,6 +212,86 @@ assessment#:#cannot_export_test#:#Sie besitzen keine ausreichenden Rechte, um de
 assessment#:#cannot_maintain_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu warten!
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
+<<<<<<< .working
+=======
+assessment#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
+assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
+assessment#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
+assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
+assessment#:#certificate_background_image#:#Hintergrundbild
+assessment#:#certificate_bottom#:#Unten
+assessment#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikatvorlage und alle zugehörigen Daten löschen?
+assessment#:#certificate_custom#:#Eigenes Format...
+assessment#:#certificate_delete#:#Zertifikat löschen
+assessment#:#certificate_edit#:#Zertifikatvorlage erstellen/bearbeiten
+assessment#:#certificate_error_import#:#Während des Zertifikatimports ist ein Fehler aufgetreten!
+assessment#:#certificate_error_upload_bgimage#:#Beim Hochladen des Hintergrundbildes ist ein Fehler aufgetreten!
+assessment#:#certificate_export#:#Zertifikat exportieren
+assessment#:#certificate_failed#:#nicht bestanden
+assessment#:#certificate_left#:#Links
+assessment#:#certificate_letter_landscape#:#US Brief Quer (8,5 inch x 11 inch)
+assessment#:#certificate_letter#:#US Brief (11 inch x 8.5 inch)
+assessment#:#certificate_margin_body#:#Ränder des Textbereiches
+assessment#:#certificate_not_well_formed#:#Der Zertifikatstext ist nicht wohlgeformt. Bitte verwenden Sie gültiges XHTML für den Text!
+assessment#:#certificate_padding_top#:#Abstand vom oberen Seitenrand
+assessment#:#certificate_page_format#:#Seitenformat
+assessment#:#certificate_pageheight#:#Seitenhöhe
+assessment#:#certificate_pagewidth#:#Seitenbreite
+assessment#:#certificate_passed#:#bestanden
+assessment#:#certificate_ph_date#:#Aktuelles Datum
+assessment#:#certificate_ph_datetime#:#Aktuelles Datum und Uhrzeit
+assessment#:#certificate_ph_firstname#:#Vorname des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_fullname#:#Name des Teilnehmers oder der Teilnehmerin (Titel, Vorname und Nachname)
+assessment#:#certificate_ph_introduction#:#Die folgenden Platzhalter dürfen verwendet werden
+assessment#:#certificate_ph_lastname#:#Nachname des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_marklong#:#Erreichte Note (Offizielle Bezeichnung)
+assessment#:#certificate_ph_markshort#:#Erreichte Note (Kurzbezeichnung)
+assessment#:#certificate_ph_maxpoints#:#Maximal erreichbare Punktezahl
+assessment#:#certificate_ph_passed#:#"bestanden" oder "nicht bestanden", abhängig vom Testergebnis
+assessment#:#certificate_ph_resultpercent#:#Erreichte Gesamtprozentzahl des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_resultpoints#:#Erreichte Punkte des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_testtitle#:#Titel des Tests
+assessment#:#certificate_preview#:#Vorschau des Zertifikats anzeigen
+assessment#:#certificate_right#:#Rechts
+assessment#:#certificate_show#:#Zertifikat anzeigen
+assessment#:#certificate_status_complete#:#Das Zertifikat ist vollständig und kann verwendet werden
+assessment#:#certificate_status_incomplete#:#Das Zertifikat ist unvollständig
+assessment#:#certificate_status#:#Status
+assessment#:#certificate_text#:#Zertifikatstext
+assessment#:#certificate_top#:#Oben
+assessment#:#certificate_unit_description#:#Geben Sie Maße immer in der Form WERT[cm|mm|in|pt|pc|px|em] an, d.h. 10mm oder 3in
+assessment#:#certificate_var_max_points#:#46
+assessment#:#certificate_var_result_mark_long#:#Gut
+assessment#:#certificate_var_result_mark_short#:#2
+assessment#:#certificate_var_result_passed#:#bestanden
+assessment#:#certificate_var_result_percent#:#83%
+assessment#:#certificate_var_result_points#:#38
+assessment#:#certificate_var_user_firstname#:#Erika
+assessment#:#certificate_var_user_fullname#:#Erika Mustermann
+assessment#:#certificate_var_user_lastname#:#Mustermann
+assessment#:#certificate_var_user_title#:#Dr.
+assessment#:#certificate_var_user_institution#:#ILIAS Open Source
+assessment#:#certificate_var_user_department#:#Benutzerbetreuung
+assessment#:#certificate_var_user_street#:#Heidestraße 17
+assessment#:#certificate_var_user_city#:#Köln
+assessment#:#certificate_var_user_zipcode#:#51147
+assessment#:#certificate_var_user_country#:#Deutschland
+assessment#:#certificate_ph_title#:#Titel des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_institution#:#Institution des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_department#:#Abteilung des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_street#:#Straße der Adresse des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_city#:#Stadt der Adresse des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_zipcode#:#Postleitzahl der Adresse des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_ph_country#:#Land der Adresse des Teilnehmers oder der Teilnehmerin
+assessment#:#certificate_visibility_always#:#Immer sichtbar
+assessment#:#certificate_visibility_introduction#:#Die Schaltfläche, die den Teilnehmern und Teilnehmerinnen in der Ergebnisansicht das Zertifikat anbietet ist
+assessment#:#certificate_visibility_never#:#Nicht sichtbar
+assessment#:#certificate_visibility_passed#:#Nur sichtbar, wenn der Teilnehmer oder die Teilnehmerin den Test bestanden hat
+assessment#:#certificate_visibility#:#Sichtbarkeit
+assessment#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine falsche Einheit eingetragen
+assessment#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
+assessment#:#certificate#:#Zertifikat
+>>>>>>> .merge-right.r18482
 assessment#:#change_properties_from_random_to_standard#:#Sie wollen Ihre Testeinstellungen von einem Zufallstest zu einem Test mit festen Fragen ändern. Die Fragenpools, die Sie bereits zu diesem Zufallstest hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_properties_from_standard_to_random#:#Sie wollen Ihre Testeinstellungen von einem Test mit festen Fragen zu einem Zufallstest ändern. Die Fragen, die Sie bereits zu diesem Test hinzugefügt haben werden aus dem Test entfernt. Wollen Sie die Testeinstellungen wirklich ändern?
 assessment#:#change_solution#:#Musterlösung wechseln
@@ -7899,8 +7979,8 @@ ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue
 ecs#:#ecs_error_extract_serial#:#Fehler beim Auslesen Seriennummer des Zertifikates. Bitte überprüfen Sie das Clientzertifikat.
 ecs#:#ecs_participants#:#Teilnehmer
 ecs#:#ecs_participants_infos#:#Weitere Informationen
-ecs#:#ecs_active_header#:#Export erlaubt
-ecs#:#ecs_enable_participant#:#Kursexport erlauben
+ecs#:#ecs_active_header#:#Export/Import erlaubt
+ecs#:#ecs_enable_participant#:#Kursimport und Export zulassen
 ecs#:#ecs_dns#:#Domänenname
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu ILIAS Erweiterten Metadaten
@@ -8408,7 +8488,6 @@ ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörte
 ps#:#ps_password_max_length_info#:#Setzt die maximale Länge von Passwörtern. Wenn der Wert auf 0 gesetzt ist, können Passwörter beliebige Längen haben.
 ps#:#ps_password_max_age_info#:#Setzt das maximale Alter von Passwörtern in Tagen. Wenn der Wert auf 0 gesetzt ist, laufen Passwörter nicht ab.
 ps#:#ps_login_max_attempts_info#:# Setzt die maximal Anzahl von fehlgeschlagenen Anmeldeversuchen. Wenn der Wert auf 0 gesetzt ist, werden fehlgeschlagene Anmeldeversuche nicht gezählt.
-ps#:#ps_error_message_invalid_password_min_length#:#Minimale Passwortlänge darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_password_max_length#:#Maximale Passwortlänge darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_password_max_age#:#Maximales Passwortalter darf nicht kleiner als 0 sein.
 ps#:#ps_error_message_invalid_login_max_attempts#:#Maximale Anzahl von Anmeldeversuchen darf nicht kleiner als 0 sein.
@@ -8983,8 +9062,7 @@ common#:#msg_obj_may_not_contain_objects_of_type#:#Das Objekt %s darf keine Obje
 common#:#msg_no_perm_paste_object_in_folder#:#Sie besitzen keine ausreichende Berechtigung, um das Objekt %s in den Ordner %s einzufügen.
 common#:#msg_paste_object_not_in_itself#:#Es ist nicht möglich das Objekte %s in sich selbst einzufügen.
 common#:#mgs_objects_linked_to_the_following_folders#:#Das/Die Objekt(e) wurde(n) in folgende Bereiche verknüpft: %s
-common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab. Bitte wählen Sie OK um die Sitzung zu verlängern.  
+common#:#session_reminder_alert#:#Ihre Sitzung läuft in 5 Minuten ab.  
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
-common#:#session_reminder_extended#:#Ihre Session wurde um %s verlängert.
-common#:#session_reminder_session_duration#:#(Sitzungsdauer: %s)
+ecs#:#ecs_no_owner#:#Bitte wählen Sie aus, unter welcher Community Sie diesen Kurs veröffentlich möchten.
