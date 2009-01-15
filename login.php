@@ -44,7 +44,11 @@ if (!file_exists(getcwd()."/ilias.ini.php"))
 // if no client_id is given, default client is loaded (in class.ilias.php)
 if (isset($_GET["client_id"]))
 {
-	setcookie("ilClientId",$_GET["client_id"]);
+	$cookie_domain = $_SERVER['SERVER_NAME'];
+	$cookie_path = dirname( $_SERVER['PHP_SELF'] ).'/';
+	
+	setcookie("ilClientId", $_GET["client_id"], 0, $cookie_path, $cookie_domain);
+	
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
