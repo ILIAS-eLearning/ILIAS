@@ -313,20 +313,22 @@ class ilECSConnector
 	 		$this->prepareConnection();
 	 		$this->curl->setOpt(CURLOPT_PUT,true);
 
-	 		$fp = fopen('ecs_content.txt','w');
+			$tempfile = ilUtil::ilTempnam();
+			$ilLog->write(__METHOD__.': Created new tempfile: '.$tempfile);
+
+	 		$fp = fopen($tempfile,'w');
 	 		fwrite($fp,$a_post_string);
 	 		fclose($fp);
 	 		
 	 		#$this->curl->setOpt(CURLOPT_POSTFIELDS,$a_post_string);
 
 			$this->curl->setOpt(CURLOPT_UPLOAD,true);
-	 		$this->curl->setOpt(CURLOPT_INFILESIZE,filesize('ecs_content.txt'));
-			$fp = fopen('ecs_content.txt','r');
+	 		$this->curl->setOpt(CURLOPT_INFILESIZE,filesize($tempfile));
+			$fp = fopen($tempfile,'r');
 	 		$this->curl->setOpt(CURLOPT_INFILE,$fp);
-	 		#fclose($fp);
 	 		
 			$res = $this->call();
-			
+			unlink($tempfile);
 			return new ilECSResult($res);
 	 	}
 	 	catch(ilCurlConnectionException $exc)
