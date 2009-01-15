@@ -161,7 +161,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function get($part = "DEFAULT", $add_error_mess = false,
 		$handle_referer = false, $add_ilias_footer = false,
-		$add_standard_elements = false)
+		$add_standard_elements = false, $a_main_menu = true, $a_tabs = true)
 	{
 		if ($add_error_mess)
 		{
@@ -204,10 +204,16 @@ class ilTemplate extends ilTemplateX
 			if ($this->blockExists("content"))
 			{
 				$this->setCurrentBlock("content");
-				$this->fillTabs();
+				if ($a_tabs)
+				{
+					$this->fillTabs();
+				}
 				$this->fillMainContent();
 				$this->fillTitle();
-				$this->fillMainMenu();
+				if ($a_main_menu)
+				{
+					$this->fillMainMenu();
+				}
 				$this->parseCurrentBlock();
 			}
 		}

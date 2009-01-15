@@ -162,7 +162,12 @@ class ilCourseArchives
 		
 	}
 
-	function addXML()
+	/**
+	* Add XML archive
+	*
+	* @param	array		selection array: key is ref_id, value is "last_file", "omit" or "create"
+	*/
+	function addXML($a_selection = "")
 	{
 		$this->setType($this->ARCHIVE_XML);
 		$this->setName(time().'__'.$this->ilias->getSetting('inst_id').'__crs_'.$this->course_obj->getId());
@@ -183,13 +188,18 @@ class ilCourseArchives
 		// add objects directory
 		$this->course_files_obj->addArchiveSubDirectory($this->getName().'/objects');
 		
-		$this->__addZipFiles($this->course_obj->getRefId());
+		$this->copied_files = array();
+		$this->__addZipFiles($this->course_obj->getRefId(), $a_selection);
 
+		// Step four: Write index file
+		include_once("./Services/Export/classes/class.ilExport.php");
+		ilExport::_generateIndexFile($this->course_files_obj->getArchiveDirectory().'/'.
+			$this->getName().'/index.html', $this->course_obj->getId(),$this->copied_files);
 
-		// Step four zip
+		// Step five zip
 		$this->setSize($this->course_files_obj->zipArchive($this->getName(),$this->getName().'.zip'));
 		
-		
+
 		// Finally add entry in crs_archives table
 		$this->add();
 
@@ -288,7 +298,13 @@ class ilCourseArchives
 	}
 
 	// PRIVATE
-	function __addZipFiles($a_parent_id)
+	
+	/**
+	* Add zip files to folder
+	*
+	* @param	array		selection array: key is ref_id, value is "last_file", "omit" or "create"
+	*/
+	function __addZipFiles($a_parent_id, $a_selection = "")
 	{
 		$this->course_obj->initCourseItemObject();
 		$this->course_obj->items_obj->setParentId($a_parent_id);
@@ -299,16 +315,48 @@ class ilCourseArchives
 			{
 				continue;
 			}
+			$action = $a_selection[$item['child']];
+			if ($a_selection == "")
+			{
+				$action = "create";
+			}
+			
+			if  ($action == "omit")
+			{
+				continue;
+			}
+			
+			if ($action == "create")
+			{
+				$abs_file_name = $tmp_obj->getXMLZip();
+			}
+			else
+			{
+				include_once("./Services/Export/classes/class.ilExport.php");
+				$info = ilExport::_getLastExportFileInformation($item['obj_id'], "xml", $item['type']);
+				$abs_file_name = ilExport::_getExportDirectory($item['obj_id'], "xml", $item['type'])."/".$info["file"];
+				if (!@is_file($abs_file_name))
+				{
+					$abs_file_name = "";
+				}
+			}
 			
 			// must return absolute path to zip file
-			if($abs_file_name = $tmp_obj->getXMLZip())
+			if ($abs_file_name != "")
 			{
 				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['obj_id'].'.zip';
 				$this->course_files_obj->copyFile($abs_file_name,$this->course_files_obj->getArchiveDirectory().'/'.
 																$this->getName().'/objects'.
 																$new_name);
+				if (is_file($this->course_files_obj->getArchiveDirectory().'/'.
+					$this->getName().'/objects'.$new_name))
+				{
+					$this->copied_files[] = array("title" => $item['title'],
+						"file" => 'objects'.$new_name, "type" => $item['type']);
+				}
 			}
 			$this->__addZipFiles($item['child']);
+			
 			unset($tmp_obj);
 		}
 		return true;

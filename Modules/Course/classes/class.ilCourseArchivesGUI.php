@@ -341,7 +341,7 @@ class ilCourseArchivesGUI
 		}
 
 		$this->course_obj->initCourseArchiveObject();
-		$this->course_obj->archives_obj->addXML();
+		$this->course_obj->archives_obj->addXML($_POST["sel"]);
 		
 		ilUtil::sendInfo($this->lng->txt("crs_added_new_archive"));
 		$this->view();
