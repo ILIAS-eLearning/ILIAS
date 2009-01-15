@@ -127,6 +127,12 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 			case 'flush':
 				$this->__prepareFlushIndex();
 				break;
+				
+			// BEGIN PATCH Lucene search
+			case 'search':
+				$this->__prepareSearchParams();
+				break;
+			// END PATCH Lucene Search
 
 			default:
 				$this->log->write('ilLuceneRPCHandler(): No valid mode given');
@@ -193,6 +199,29 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 		$this->__initMessage('Indexer.ilClearIndex',array(new XML_RPC_Value($this->__getClientId(),"string")));
 
 		return true;
+	}
+	
+	// BEGIN PATCH Lucene search
+	/**
+	 * Prepare search parameters 
+	 */
+	protected function __prepareSearchParams()
+	{
+		$this->setResponseTimeout(5);
+		$this->__initMessage('search.search',array(
+			new XML_RPC_Value($this->getClientKey(),'string'),
+			new XML_RPC_Value($this->getQueryString(),'string')));
+		
+		return true;
+	}
+	
+	/**
+	 * Get client key 
+	 * @return string client key
+	 */
+	protected function getClientKey()
+	{
+		return 'ilias310_hslu_3998';
 	}
 }
 ?>
