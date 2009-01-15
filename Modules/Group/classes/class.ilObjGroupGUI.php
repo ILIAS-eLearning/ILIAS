@@ -1102,7 +1102,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function assignSubscribersObject()
 	{
-		global $lng, $ilIliasIniFile;
+		global $lng, $ilIliasIniFile,$ilUser;
 
 		$this->checkPermission('write');
 		
@@ -1115,7 +1115,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		foreach($_POST['subscribers'] as $usr_id)
 		{
-			$mail = new ilMail($_SESSION["AccountId"]);
+			$mail = new ilMail($ilUser->getId());
 
 			// XXX - The message should be sent in the language of the receiver,
 			// instead of in the language of the current user
