@@ -2631,7 +2631,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 	public function assignSubscribersObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilErr;
 
 
 		$this->checkPermission('write');
@@ -2647,9 +2647,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		if(!$this->object->members_obj->assignSubscribers($_POST["subscribers"]))
 		{
-			ilUtil::sendInfo($this->object->getMessage());
+			ilUtil::sendInfo($ilErr->getMessage());
 			$this->membersObject();
-
 			return false;
 		}
 		else

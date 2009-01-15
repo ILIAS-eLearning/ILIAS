@@ -9013,3 +9013,4 @@ export#:#export_last_file#:#Last File
 export#:#export_export_date#:#Export Date
 common#:#session_reminder_extended#:#Your Session was extended for %s
 common#:#session_reminder_session_duration#:#(Session Duration: %s).
+crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this course.
