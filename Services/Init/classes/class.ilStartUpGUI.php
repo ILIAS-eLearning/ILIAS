@@ -122,7 +122,7 @@ class ilStartUpGUI
 		{
 			if (empty($_GET['cookies']))
 			{
-				setcookie("iltest","cookie");
+				ilUtil::setCookie("iltest","cookie",false);
 				//header('Location: '.$_SERVER['PHP_SELF']."?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".$_GET['client_id']."&lang=".$_GET['lang']);
 				header("Location: login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".rawurlencode(CLIENT_ID)."&lang=".$_GET['lang']);
 			}
@@ -625,8 +625,7 @@ class ilStartUpGUI
 
 		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
-		setcookie("ilClientId","");
-		$_COOKIE["ilClientId"] = "";
+		ilUtil::setCookie("ilClientId","");
 
 		//instantiate logout template
 		$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
@@ -965,7 +964,7 @@ class ilStartUpGUI
 
 			// reset cookie
 			$client_id = $_COOKIE["ilClientId"];
-			setcookie("ilClientId","");
+			setcookie ("ilClientId","");
 			$_COOKIE["ilClientId"] = "";
 
 			$_GET["client_id"] = $client_id;

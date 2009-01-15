@@ -4362,6 +4362,17 @@ class ilUtil
 	{
 		return md5(rand(1,9999999) + str_replace(" ", "", (string) microtime()));
 	}
+	
+	public static function setCookie($a_cookie_name,$a_cookie_value = '', $a_also_set_super_global = true, $a_set_cookie_invalid = false)
+	{
+		if(!(bool)$a_set_cookie_invalid) $expire = IL_COOKIE_EXPIRE;
+		else $expire = time() - (365*24*60*60);
+		
+		setcookie($a_cookie_name,$a_cookie_value,$expire,
+					IL_COOKIE_PATH,IL_COOKIE_DOMAIN,IL_COOKIE_SECURE,IL_COOKIE_HTTPONLY);
+					
+		if((bool)$a_also_set_super_global) $_COOKIE[$a_cookie_name] = $a_cookie_value;
+	}
 
 } // END class.ilUtil
 

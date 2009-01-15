@@ -97,18 +97,23 @@ switch($_GET['target'])
 	unset($jump_to);
 }
 
+
+$session_name = session_name();
+$cookie_domain = $_SERVER['SERVER_NAME'];
+$cookie_path = dirname( $_SERVER['PHP_SELF'] ).'/';
+
 if (isset($_GET['sess_id']))
 {	
-	setcookie('PHPSESSID',$_GET['sess_id']);
-	$_COOKIE['PHPSESSID'] = $_GET['sess_id'];
+	setcookie($session_name,$_GET['sess_id'], 0, $cookie_path, $cookie_domain);
+	$_COOKIE[$session_name] = $_GET['sess_id'];
 } else {
 	unset($jump_to);
 }
 
 if (isset($_GET['client_id']))
 {	
-	setcookie('ilClientId',$_GET['client_id']);
-	$_COOKIE['ilClientId'] = $_GET['client_id'];
+	setcookie("ilClientId", $_GET["client_id"], 0, $cookie_path, $cookie_domain);
+	$_COOKIE["ilClientId"] = $_GET["client_id"];
 } else {
 	unset($jump_to);
 }

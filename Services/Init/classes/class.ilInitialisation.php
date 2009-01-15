@@ -240,7 +240,7 @@ class ilInitialisation
 				define("IL_VIRUS_SCANNER", "None");
 				break;
 		}
-
+		
 		//$this->buildHTTPPath();
 	}
 
@@ -314,15 +314,13 @@ class ilInitialisation
 		// set to default client if empty
 		if ($_GET["client_id"] != "")
 		{
-			setcookie("ilClientId", $_GET["client_id"]);
-			$_COOKIE["ilClientId"] = $_GET["client_id"];
+			ilUtil::setCookie("ilClientId", $_GET["client_id"]);
 		}
 		else if (!$_COOKIE["ilClientId"])
 		{
 			// to do: ilias ini raus nehmen
 			$client_id = $ilIliasIniFile->readVariable("clients","default");
-			setcookie("ilClientId", $client_id);
-			$_COOKIE["ilClientId"] = $client_id;
+			ilUtil::setCookie("ilClientId", $client_id);
 //echo "set cookie";
 		}
 //echo "-".$_COOKIE["ilClientId"]."-";
@@ -472,6 +470,23 @@ class ilInitialisation
 			die("Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini");
 		}
 
+	}
+	/**
+	* set session cookie params for path, domain, etc.
+	*/
+	function setCookieParams()
+	{
+		$cookie_domain = $_SERVER['SERVER_NAME'];
+		$cookie_path = dirname( $_SERVER['PHP_SELF'] ).'/';
+		
+		define('IL_COOKIE_EXPIRE',0);
+		define('IL_COOKIE_PATH',$cookie_path);
+		define('IL_COOKIE_DOMAIN',$cookie_domain);
+		define('IL_COOKIE_SECURE',false); // Default Value
+		define('IL_COOKIE_HTTPONLY',false); // Default Value
+		
+		session_set_cookie_params(IL_COOKIE_EXPIRE,IL_COOKIE_PATH,IL_COOKIE_DOMAIN,
+												IL_COOKIE_SECURE,IL_COOKIE_HTTPONLY);
 	}
 
 	/**
@@ -864,7 +879,9 @@ class ilInitialisation
 
 		// prepare file access to work with safe mode (has been done in class ilias before)
 		umask(0117);
-
+		
+		// set cookie params
+		$this->setCookieParams();
 
 		// $ilIliasIniFile initialisation
 		$this->initIliasIniFile();
@@ -880,8 +897,7 @@ class ilInitialisation
 		if (!$this->initClientIniFile())
 		{
 			$c = $_COOKIE["ilClientId"];
-			setcookie("ilClientId", $ilIliasIniFile->readVariable("clients","default"));
-			$_COOKIE["ilClientId"] = $ilIliasIniFile->readVariable("clients","default");
+			ilUtil::setCookie("ilClientId", $ilIliasIniFile->readVariable("clients","default"));
 			if (CLIENT_ID != "" && CLIENT_ID != $ilIliasIniFile->readVariable("clients","default"))
 			{
 				ilUtil::redirect("index.php?client_id=".$ilIliasIniFile->readVariable("clients","default"));
@@ -1334,8 +1350,7 @@ class ilInitialisation
 		if (!$this->initClientIniFile())
 		{
 			$c = $_COOKIE["ilClientId"];
-			setcookie("ilClientId", $ilIliasIniFile->readVariable("clients","default"));
-			$_COOKIE["ilClientId"] = $ilIliasIniFile->readVariable("clients","default");
+			ilUtil::setCookie("ilClientId", $ilIliasIniFile->readVariable("clients","default"));
 			echo ("Client $c does not exist. Please reload this page to return to the default client.");
 			exit;
 		}
