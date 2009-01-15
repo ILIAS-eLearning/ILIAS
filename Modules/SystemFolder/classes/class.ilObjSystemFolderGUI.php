@@ -619,7 +619,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function displayBasicSettings()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $rbacsystem, $ilCtrl, $ilClientIniFile;
 
 		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
 
@@ -740,6 +740,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		$this->tpl->setVariable('TXT_SESSION_REMINDER', $this->lng->txt('session_reminder'));
 		$this->tpl->setVariable('INFO_SESSION_REMINDER', $this->lng->txt('session_reminder_info'));
+		$expires = $ilClientIniFile->readVariable("session", "expire");
+		$time = ilFormat::_secondsToString($expires, true);
+		$this->tpl->setVariable('SESSION_REMINDER_SESSION_DURATION',
+			sprintf($this->lng->txt('session_reminder_session_duration'), $time));
+		
 		
 		// paths
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));

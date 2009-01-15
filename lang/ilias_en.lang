@@ -8997,7 +8997,7 @@ common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain
 common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.
 common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object %s in itself.
 common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s
-common#:#session_reminder_alert#:#Your session expires in 5 minutes.
+common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session
 common#:#session_reminder#:#Session-Reminder
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
 export#:#export_select_resources#:#Select Resources
@@ -9009,3 +9009,5 @@ export#:#export_omit_resource#:#Omit Resource
 export#:#export_omit#:#Omit
 export#:#export_create#:#Create
 export#:#export_last_file#:#Last File
+common#:#session_reminder_extended#:#Your Session was extended for %s
+common#:#session_reminder_session_duration#:#(Session Duration: %s).
