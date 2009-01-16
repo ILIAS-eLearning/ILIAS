@@ -478,10 +478,10 @@ class ilInitialisation
 	{
 		$cookie_domain = $_SERVER['SERVER_NAME'];
 		$cookie_path = dirname( $_SERVER['PHP_SELF'] ).'/';
-		
+
 		define('IL_COOKIE_EXPIRE',0);
 		define('IL_COOKIE_PATH',$cookie_path);
-		define('IL_COOKIE_DOMAIN',$cookie_domain);
+		define('IL_COOKIE_DOMAIN','');
 		define('IL_COOKIE_SECURE',false); // Default Value
 		define('IL_COOKIE_HTTPONLY',false); // Default Value
 		
