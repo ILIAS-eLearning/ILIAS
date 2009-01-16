@@ -70,9 +70,12 @@ else
 
 		//highly insecure
 		$param=urldecode($HTTP_POST_VARS["session_id"]);
-		if (!empty($param) && substr_count($param, "_")==2)
+		if (!empty($param) && substr_count($param, "_")==3)
 		{
-			list($session_id, $ref_id, $obj_id)=explode("_",$param);
+			list($session_id, $client_id, $ref_id, $obj_id)=explode("_",$param);
+			
+			$_COOKIE[session_name()] = $session_id;
+			$_COOKIE['ilClientId'] = $client_id;
 
 //			session_id($session_id);
 			require_once "./include/inc.header.php";
