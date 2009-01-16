@@ -35,6 +35,8 @@ if (isset($_GET["client_id"]))
 	$cookie_domain = $_SERVER['SERVER_NAME'];
 	$cookie_path = dirname( $_SERVER['PHP_SELF'] ).'/';
 	
+	$cookie_domain = ''; // Temporary Fix
+	
 	setcookie("ilClientId", $_GET["client_id"], 0, $cookie_path, $cookie_domain);
 	
 	$_COOKIE["ilClientId"] = $_GET["client_id"];

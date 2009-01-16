@@ -102,6 +102,8 @@ $session_name = session_name();
 $cookie_domain = $_SERVER['SERVER_NAME'];
 $cookie_path = dirname( $_SERVER['PHP_SELF'] ).'/';
 
+$cookie_domain = ''; // Temporary Fix
+
 if (isset($_GET['sess_id']))
 {	
 	setcookie($session_name,$_GET['sess_id'], 0, $cookie_path, $cookie_domain);
