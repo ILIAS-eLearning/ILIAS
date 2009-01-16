@@ -826,15 +826,17 @@ class ilNewsItem extends ilNewsItemGen
 		
 		// delete multimedia object
 		$mob = $this->getMobId();
+		
+		// delete 
+		parent::delete();
+		
+		// delete mob after news, to have a "mob usage" of 0
 		if ($mob > 0 and ilObject::_exists($mob))
 		{
 			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 			$mob = new ilObjMediaObject($mob);
 			$mob->delete();
 		}
-		
-		// delete 
-		parent::delete();
 	}
 	
 	/**
