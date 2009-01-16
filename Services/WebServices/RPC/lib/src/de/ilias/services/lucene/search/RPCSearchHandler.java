@@ -23,10 +23,14 @@
 package de.ilias.services.lucene.search;
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
@@ -34,8 +38,14 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Scorer;
 import org.apache.lucene.search.TopDocCollector;
 import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.highlight.Fragmenter;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleFragmenter;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
@@ -128,10 +138,88 @@ public class RPCSearchHandler {
 			logger.error(e);
 		} 
 		catch (IOException e) {
-			logger.error(e);	
+			logger.warn(e);	
 		} 
 		catch (ParseException e) {
+			logger.info(e);
+		}
+		catch(Exception e) {
 			logger.error(e);
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param clientKey
+	 * @param objIds
+	 * @return
+	 */
+	public Vector<HashMap<String, String>> highlight(String clientKey, Vector<Integer> objIds, String queryString) {
+
+		LocalSettings.setClientKey(clientKey);
+		ClientSettings client;
+		FieldInfo fieldInfo;
+		FSDirectory directory;
+		IndexSearcher searcher;
+		
+		Vector<HashMap<String, String> > results = new Vector<HashMap<String,String>>();
+		
+		// Rewrite query
+		StringBuffer newQuery = new StringBuffer();
+		newQuery.append(queryString);
+		newQuery.append('(');
+		for(int i = 0; i < objIds.size(); i++) {
+			newQuery.append("+objId:");
+			newQuery.append(objIds.get(i));
+			newQuery.append(' ');
+		}
+		newQuery.append(')');
+		
+		try {
+			
+			client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
+			
+			logger.info("Searching for: " + newQuery);
+			directory = FSDirectory.getDirectory(client.getIndexPath());
+			searcher = new IndexSearcher(directory);
+			
+			Vector<Occur> occurs = new Vector<Occur>();
+			for(int i = 0; i < fieldInfo.getFieldSize(); i++) {
+				occurs.add(BooleanClause.Occur.SHOULD);
+			}
+			
+			Query query = searcher.rewrite(MultiFieldQueryParser.parse(newQuery.toString(),
+					fieldInfo.getFieldsAsStringArray(),
+					occurs.toArray(new Occur[0]),
+					new StandardAnalyzer()));
+			
+			TopDocCollector collector = new TopDocCollector(500);
+			searcher.search(query,collector);
+			ScoreDoc[] hits = collector.topDocs().scoreDocs;
+
+			QueryScorer queryScorer = new QueryScorer(query);
+			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter(
+					"<strong>", "</strong>"); 
+			Highlighter highlighter = new Highlighter(formatter,
+					queryScorer);
+			Fragmenter fragmenter = new SimpleFragmenter(100);
+			highlighter.setTextFragmenter(fragmenter);
+
+			for(int i = 0; i < hits.length;i++) {
+				
+				Document hitDoc = searcher.doc(hits[i].doc);
+				String title = hitDoc.get("title");
+				if(title == null) {
+					continue;
+				}
+			
+				TokenStream token =
+					new StandardAnalyzer().tokenStream("title", new StringReader(title));
+				String fragment = highlighter.getBestFragment(token, title);
+				logger.info("Fragmented: " + fragment);
+			}
 		}
 		catch(Exception e) {
 			logger.error(e);
