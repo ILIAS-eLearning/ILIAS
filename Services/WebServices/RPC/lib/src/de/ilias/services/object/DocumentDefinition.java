@@ -127,15 +127,25 @@ public class DocumentDefinition implements DocumentHandler {
 			throws DocumentHandlerException, IOException {
 
 		
-		DocumentHolder doc = DocumentHolder.factory();
-		doc.newDocument();
-
-		for(int i = 0; i < getDataSource().size();i++) {
+		try {
+			DocumentHolder doc = DocumentHolder.factory();
+			doc.newDocument();
+	
+			for(int i = 0; i < getDataSource().size();i++) {
+				
+				getDataSource().get(i).writeDocument(el);
+			}
 			
-			getDataSource().get(i).writeDocument(el);
+			IndexHolder writer = IndexHolder.getInstance();
+			if(doc.getDocument() == null) {
+				logger.warn("Found empty document.");
+			}
+			else {
+				writer.getWriter().addDocument(doc.getDocument());
+			}
 		}
-		
-		IndexHolder writer = IndexHolder.getInstance();
-		writer.getWriter().addDocument(doc.getDocument());
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

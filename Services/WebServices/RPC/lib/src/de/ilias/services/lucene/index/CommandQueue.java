@@ -29,8 +29,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import javax.print.attribute.standard.Finishings;
-
 import org.apache.log4j.Logger;
 
 import de.ilias.services.db.DBFactory;
