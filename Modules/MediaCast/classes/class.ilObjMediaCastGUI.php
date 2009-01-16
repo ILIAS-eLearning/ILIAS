@@ -137,7 +137,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->checkPermission("read");
 		
 		$med_items = $this->object->getItemsArray();
-		
+
 		include_once("./Modules/MediaCast/classes/class.ilMediaCastTableGUI.php");
 		$table_gui = new ilMediaCastTableGUI($this, "listItems");
 				
