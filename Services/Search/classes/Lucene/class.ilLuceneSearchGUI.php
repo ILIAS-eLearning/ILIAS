@@ -87,7 +87,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function search()
 	{
-		global $ilUser;
+		global $ilUser,$ilBench;
 		
 		if(!strlen(ilUtil::stripSlashes($_POST['query'])))
 		{
@@ -96,24 +96,36 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			return false;
 		}
 
+		// Search in combined index
+		$ilBench->start('Lucene','RPCAdapter');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
 		$adapter = new ilLuceneRPCAdapter();
 		$adapter->setQueryString(ilUtil::stripSlashes($_POST['query']));
 		$adapter->setMode('search');
 		$res = $adapter->send();
+		$ilBench->stop('Lucene','RPCAdapter');
 		// TODO: Error handling
 		
+		// Filter results
+		$ilBench->start('Lucene','ResultFilter');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
 		$filter = ilLuceneSearchResultFilter::getInstance($ilUser->getId());
 		$filter->setResultIds($res);
 		$filter->filter();
+		$ilBench->stop('Lucene','ResultFilter');
 				
-		foreach($filter->getFilteredIds() as $ref_id)
-		{
-			echo "Result: ".ilObject::_lookupTitle($ref_id)."<br />";
-		}
+		// TODO: search in seperated index
 		
-		$this->showSavedResults();
+		// Show results
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
+		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
+		$presentation = new ilLuceneSearchResultPresentation();
+		$presentation->setResults($filter->getFilteredIds());
+		$this->tpl->setVariable('SEARCH_RESULTS',$presentation->render());
+		
+		// and finally add search form
+		$this->initFormSearch();
+		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
 	}
 	
 	
@@ -130,7 +142,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->form->addCommandButton('search',$this->lng->txt('search'));
 		
 		$term = new ilTextInputGUI($this->lng->txt('search_search_term'),'query');
-		$term->setValue("der OR die");
+		$term->setValue(ilUtil::stripSlashes($_POST['query']));
 		$term->setSize(40);
 		$term->setMaxLength(255);
 		$term->setRequired(true);
