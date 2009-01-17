@@ -91,7 +91,8 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 
 			return false;
 		}
-		if (!ilUtil::is_email($_POST[$this->getPostVar()]))
+		if (!ilUtil::is_email($_POST[$this->getPostVar()]) &&
+			trim($_POST[$this->getPostVar()]) != "")
 		{
 			$this->setAlert($lng->txt("email_not_valid"));
 
