@@ -204,7 +204,7 @@ assessment#:#assOrderingQuestion#:#Sorrendbe rakó kérdés
 assessment#:#assQuestions#:#Kérdések
 assessment#:#assSingleChoice#:#Többszörös választási lehetőségű kérdés (egyszeres válasz)
 assessment#:#assTextQuestion#:#Esszékérdés
-assessment#:#assTextSubset#:#Szövegrész kérdés
+assessment#:#assTextSubset#:#Szövegrészhalmaz kérdés
 assessment#:#ass_create_export_file#:#Export fájl létrehozása
 assessment#:#ass_create_export_test_results#:#Teszteredmények exportja
 assessment#:#ass_export_files#:#Export fájlok
@@ -224,77 +224,77 @@ assessment#:#cannot_export_test#:#Nincs megfelelő jogosultsága a teszt export�
 assessment#:#cannot_maintain_test#:#Nincs megfelelő jogosultsága a teszt karbantartásához.
 assessment#:#cannot_read_questionpool#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához.
 assessment#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok elmentéséhez.
-common#:#certificate#:#Bizonyítvány
-certificate#:#certificate_top#:#Fenn
-certificate#:#certificate_right#:#Jobbra
-certificate#:#certificate_bottom#:#Alul
-certificate#:#certificate_left#:#Balra
-certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
-certificate#:#certificate_a4_landscape#:#A4 fekvő (210 mm x 297 mm)
-certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
-certificate#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
-certificate#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
-certificate#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
-certificate#:#certificate_custom#:#Egyedi…
-certificate#:#certificate_edit#:#Bizonyítványsablon létrehozása/szerkesztése
-certificate#:#certificate_export#:#Bizonyítvány exportálása
-certificate#:#certificate_page_format#:#Lapformátum
-certificate#:#certificate_background_image#:#Háttérkép
-certificate#:#certificate_padding_top#:#Felső cellaköz
-certificate#:#certificate_margin_body#:#Szövegmargó
-certificate#:#certificate_not_well_formed#:#A bizonyítványszöveg nem jólformázott. Érvényes XHTML-t adjon meg a bizonyítványszövegnek!
-certificate#:#certificate_show#:#Bizonyítvány mutatása
-certificate#:#certificate_status#:#Státusz
-certificate#:#certificate_status_complete#:#A bizonyítvány teljes és használható
-certificate#:#certificate_status_incomplete#:#A bizonyítvány nem teljes
-certificate#:#certificate_delete#:#Bizonyítványadatok törlése
-certificate#:#certificate_preview#:#Bizonyítvány előnézete
-certificate#:#certificate_text#:#Bizonyítványszöveg
-certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
-certificate#:#certificate_var_user_firstname#:#Jane
-certificate#:#certificate_var_user_lastname#:#Doe
-certificate#:#certificate_var_user_title#:#Dr.
-certificate#:#certificate_var_user_institution#:#ILIAS Open Source
-certificate#:#certificate_var_user_department#:#Felhasználói támogatás
-certificate#:#certificate_var_user_street#:#Etele út 68.
-certificate#:#certificate_var_user_city#:#Budapest
-certificate#:#certificate_var_user_zipcode#:#1115
-certificate#:#certificate_var_user_country#:#Magyarország
-certificate#:#certificate_var_result_passed#:#teljesítve
-certificate#:#certificate_var_result_points#:#38
-certificate#:#certificate_var_result_percent#:#83%
-certificate#:#certificate_var_max_points#:#46
-certificate#:#certificate_var_result_mark_short#:#B
-certificate#:#certificate_var_result_mark_long#:#Jó
-certificate#:#certificate_passed#:#teljesítve
-certificate#:#certificate_failed#:#nem teljesítve
-certificate#:#certificate_pageheight#:#Lapmagasság
-certificate#:#certificate_pagewidth#:#Lapszélesség
-certificate#:#certificate_wrong_unit#:#Rossz egységet adott meg.
-certificate#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
-certificate#:#certificate_confirm_deletion_text#:#Valóban törli a bizonyítványt és annak minden kapcsolódó adatát?
-certificate#:#certificate_ph_introduction#:#Az alábbi dzsókerelemek használhatók
-certificate#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, vezetéknév, keresztnév)
-certificate#:#certificate_ph_firstname#:#A felhasználó vezetékneve
-certificate#:#certificate_ph_lastname#:#A felhasználó keresztneve
-certificate#:#certificate_ph_passed#:#"teljesítve" vagy "nem teljesítve", a teszteredményektől függően
-certificate#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
-certificate#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
-certificate#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
-certificate#:#certificate_ph_markshort#:#A felhasználó jegye (rövid változat)
-certificate#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változat)
-certificate#:#certificate_ph_testtitle#:#Teszt címe
-certificate#:#certificate_ph_date#:#Aktuális dátum
-certificate#:#certificate_ph_datetime#:#Aktuális dátum és idő
-certificate#:#certificate_ph_institution#:#Felhasználó intézménye
-certificate#:#certificate_ph_title#:#Név előtag
-certificate#:#certificate_ph_department#:#Felhasználó szervezeti egysége
-certificate#:#certificate_ph_street#:#Felhasználói cím - utca
-certificate#:#certificate_ph_city#:#Felhasználói cím - város
-certificate#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
-certificate#:#certificate_ph_country#:#Felhasználói cím - ország
-certificate#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
-certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
+assessment#:#certificate#:#Bizonyítvány
+assessment#:#certificate_top#:#Fenn
+assessment#:#certificate_right#:#Jobbra
+assessment#:#certificate_bottom#:#Alul
+assessment#:#certificate_left#:#Balra
+assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
+assessment#:#certificate_a4_landscape#:#A4 fekvő (210 mm x 297 mm)
+assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
+assessment#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
+assessment#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
+assessment#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
+assessment#:#certificate_custom#:#Egyedi…
+assessment#:#certificate_edit#:#Bizonyítványsablon létrehozása/szerkesztése
+assessment#:#certificate_export#:#Bizonyítvány exportálása
+assessment#:#certificate_page_format#:#Lapformátum
+assessment#:#certificate_background_image#:#Háttérkép
+assessment#:#certificate_padding_top#:#Felső cellaköz
+assessment#:#certificate_margin_body#:#Szövegmargó
+assessment#:#certificate_not_well_formed#:#A bizonyítványszöveg nem jólformázott. Érvényes XHTML-t adjon meg a bizonyítványszövegnek!
+assessment#:#certificate_show#:#Bizonyítvány mutatása
+assessment#:#certificate_status#:#Státusz
+assessment#:#certificate_status_complete#:#A bizonyítvány teljes és használható
+assessment#:#certificate_status_incomplete#:#A bizonyítvány nem teljes
+assessment#:#certificate_delete#:#Bizonyítványadatok törlése
+assessment#:#certificate_preview#:#Bizonyítvány előnézete
+assessment#:#certificate_text#:#Bizonyítványszöveg
+assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
+assessment#:#certificate_var_user_firstname#:#Jane
+assessment#:#certificate_var_user_lastname#:#Doe
+assessment#:#certificate_var_user_title#:#Dr.
+assessment#:#certificate_var_user_institution#:#ILIAS Open Source
+assessment#:#certificate_var_user_department#:#Felhasználói támogatás
+assessment#:#certificate_var_user_street#:#Etele út 68.
+assessment#:#certificate_var_user_city#:#Budapest
+assessment#:#certificate_var_user_zipcode#:#1115
+assessment#:#certificate_var_user_country#:#Magyarország
+assessment#:#certificate_var_result_passed#:#teljesítve
+assessment#:#certificate_var_result_points#:#38
+assessment#:#certificate_var_result_percent#:#83%
+assessment#:#certificate_var_max_points#:#46
+assessment#:#certificate_var_result_mark_short#:#B
+assessment#:#certificate_var_result_mark_long#:#Jó
+assessment#:#certificate_passed#:#teljesítve
+assessment#:#certificate_failed#:#nem teljesítve
+assessment#:#certificate_pageheight#:#Lapmagasság
+assessment#:#certificate_pagewidth#:#Lapszélesség
+assessment#:#certificate_wrong_unit#:#Rossz egységet adott meg.
+assessment#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
+assessment#:#certificate_confirm_deletion_text#:#Valóban törli a bizonyítványt és annak minden kapcsolódó adatát?
+assessment#:#certificate_ph_introduction#:#Az alábbi dzsókerelemek használhatók
+assessment#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, vezetéknév, keresztnév)
+assessment#:#certificate_ph_firstname#:#A felhasználó vezetékneve
+assessment#:#certificate_ph_lastname#:#A felhasználó keresztneve
+assessment#:#certificate_ph_passed#:#"teljesítve" vagy "nem teljesítve", a teszteredményektől függően
+assessment#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
+assessment#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
+assessment#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
+assessment#:#certificate_ph_markshort#:#A felhasználó jegye (rövid változat)
+assessment#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változat)
+assessment#:#certificate_ph_testtitle#:#Teszt címe
+assessment#:#certificate_ph_date#:#Aktuális dátum
+assessment#:#certificate_ph_datetime#:#Aktuális dátum és idő
+assessment#:#certificate_ph_institution#:#Felhasználó intézménye
+assessment#:#certificate_ph_title#:#Név előtag
+assessment#:#certificate_ph_department#:#Felhasználó szervezeti egysége
+assessment#:#certificate_ph_street#:#Felhasználói cím - utca
+assessment#:#certificate_ph_city#:#Felhasználói cím - város
+assessment#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
+assessment#:#certificate_ph_country#:#Felhasználói cím - ország
+assessment#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
+assessment#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
 assessment#:#change_properties_from_random_to_standard#:#Ön a tesztet véletlenkiválasztásosról nem véletlenkiválasztásos tesztre akarja módosítani. A kérdéssorhoz adott információk kikerülnek a véletlenkiválasztásos tesztből. Tényleg meg akarja változtatni a teszt tulajdonságait?
 assessment#:#change_properties_from_standard_to_random#:#Ön a tesztet nem véletlenkiválasztásosról véletlenkiválasztásos tesztre akarja módosítani. A teszthez adott kérdések törlésre kerülnek, mert Önnek kérdéssorokat kell kiválasztania a véletlenkiválasztásos teszthez. Tényleg meg akarja változtatni a teszt tulajdonságait?
 assessment#:#change_solution#:#Javasolt megoldás változtatása.
@@ -851,7 +851,7 @@ assessment#:#tst_list_of_questions_yes#:#Igen, és további
 assessment#:#tst_list_of_questions_start#:#Kérdések listájának megjelenítése az első kérdést megelőzően
 assessment#:#tst_list_of_questions_end#:#Kérdések listájának megjelenítése mielőtt a résztvevők befejezik a tesztet
 assessment#:#tst_list_of_questions_with_description#:#Kérdésleírások megjelenítése a kérdéslistában
-assessment#:#tst_participants_no#:#Senki nem kezdte még a tesztet.
+assessment#:#tst_participants_no#:#Senki nem kezdte még el a tesztet.
 assessment#:#tst_participants_no_fixed#:#Senki nincs állandó tesztrésztvevőnek felvéve ehhez a teszthez.
 assessment#:#tst_mark#:#Jelölés
 assessment#:#tst_mark_create_new_mark_step#:#Új jelöléslépés létrehozása
@@ -1657,7 +1657,7 @@ common#:#objs_wiki#:#Wikik
 common#:#objs_lres#:#Tananyagok
 common#:#wiki_new#:#Új wiki
 common#:#wiki_add#:#Wiki hozzáadása
-wiki#:#wiki_contributors#:#Együttműködők
+wiki#:#wiki_contributors#:#Közreműködők
 wiki#:#wiki_wiki_page#:#Wikilap
 wiki#:#wiki_last_visited_page#:#Utoljára látogatott lap
 wiki#:#wiki_short_title_already_in_use#:#Ezt a címet már használja egy másik wiki. Válasszon másik címet!
@@ -1689,8 +1689,9 @@ wiki#:#wiki_created_by#:#Létrehozta
 wiki#:#wiki_last_changed#:#Legutolsó módosítás
 wiki#:#wiki_page_hits#:#Laplátogatások
 wiki#:#wiki_history#:#Történet
-wiki#:#wiki_recent_changes#:#Új lapok
-wiki#:#wiki_what_links_here#:#Mi linkel ide?
+wiki#:#wiki_navigation#:#Navigáció
+wiki#:#wiki_recent_changes#:#Módosított lapok
+wiki#:#wiki_what_links_here#:#Ide mutató linkek
 wiki#:#wiki_print_view#:#Nyomtatási nézet
 wiki#:#wiki_random_page#:#Véletlen lap
 wiki#:#wiki_all_pages#:#Minden lap
@@ -1926,7 +1927,7 @@ common#:#create_date#:#Létrehozva:
 common#:#create_export_file#:#Exportfájl létrehozása
 common#:#create_in#:#Létrehozva:
 common#:#create_stylesheet#:#Stílus létrehozása
-common#:#created#:#Dátum létrehozása
+common#:#created#:#Létrehozás dátuma
 common#:#cron_forum_notification#:#Fórumértesítések küldése
 common#:#cron_forum_notification_cron#:#rendszeresen cron job-okként
 common#:#cron_forum_notification_desc#:#Ha engedélyezett, azon felhasználó, aki meghatározott fórumtémákban értesülni szeretne új hozzászólásokról, e-mail-ben kap értesítést.
@@ -3915,7 +3916,7 @@ rating#:#rating_average_rating#:#Átlagértékelés
 rating#:#rating_nr_users#:#%s Felhasználó(k)
 tagging#:#tagging_resources_for_tag#:#Források ezzel a címkével: %s
 tagging#:#tagging_all_users#:#Minden felhasználó
-common#:#tagging_my_tags#:#Az én címkéim
+common#:#tagging_my_tags#:#Saját címkék
 notes#:#notes_public_comments#:#Nyilvános megjegyzések
 notes#:#notes_add_comment#:#Megjegyzés hozzáadása
 notes#:#notes_show_comments#:#Megjegyzések megjelenítése
@@ -4344,7 +4345,7 @@ content#:#cont_pc_new#:#Új tartalom
 content#:#cont_pc_modified#:#Módosított tartalom
 content#:#cont_pc_deleted#:#Törölt tartalom
 content#:#cont_page_compare#:#Kiválasztott átdolgozások összehasolítása
-content#:#cont_previous_rev#:#Previous Revision
+content#:#cont_previous_rev#:#Korábbi átdolgozás
 content#:#cont_next_rev#:#Következő átdolgozás
 content#:#cont_latest_rev#:#Legfrissebb átdolgozás
 content#:#content_page_history#:#Laptörténet
@@ -4374,6 +4375,7 @@ content#:#cont_right#:#Jobbra
 content#:#cont_center#:#Középre
 content#:#cont_left_float#:#Balra, körbefuttatás
 content#:#cont_right_float#:#Jobbra, körbefuttatás
+content#:#cont_Alphabetic#:#Ábécérend a, b,…
 content#:#cont_alphabetic_s#:#Alfabetikus a, b, ...
 content#:#cont_Circle#:#Kör
 content#:#cont_delete_track_data#:#Nyomkövetési adatok törlése
@@ -4386,12 +4388,14 @@ content#:#cont_Headline1#:#Címsor 1
 content#:#cont_Headline2#:#Címsor 2
 content#:#cont_Headline3#:#Címsor 3
 content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#Helyi fájl
 content#:#cont_Mnemonic#:#Emlékeztető
 content#:#cont_Block#:#Blokk
 content#:#cont_Number#:#Szám
 content#:#cont_Poly#:#Sokszög
 content#:#cont_Rect#:#Téglalap
 content#:#cont_Remark#:#Észrevétel
+content#:#cont_Roman#:#Római I, II,...
 content#:#cont_roman_s#:#Római i, ii,...
 content#:#cont_TableContent#:#Tartalomtáblázat
 content#:#cont_Unordered#:#Listajeles
@@ -4426,7 +4430,7 @@ content#:#cont_caption#:#Felirat
 content#:#cont_change_type#:#Típus cseréje
 content#:#cont_chap_and_pages#:#Fejezetek és lapok
 content#:#cont_chap_copy_select_target_now#:#A fejezet be van jelölve másolásra. Most válassza ki a célt.
-content#:#cont_chap_select_target_now#:#A fejezet áthelyezésre bejelölt. Jelölje ki a célutat most.
+content#:#cont_chap_select_target_now#:#A fejezet áthelyezésre bejelölt. Most jelölje ki, hogy mi után kerüljön beszúrásra!
 content#:#cont_chapters#:#Fejezetek
 content#:#cont_chapters_and_pages#:#Fejezetek és lapok
 content#:#cont_chapters_only#:#Csak fejezetek
@@ -4525,10 +4529,10 @@ content#:#cont_ed_insert_filelist#:#Fájllista beszúrása
 content#:#cont_ed_insert_list#:#Továbbfejlesztett lista beszúrása.
 content#:#cont_ed_insert_media#:#Média beszúrása
 content#:#cont_ed_insert_par#:#Szöveg beszúrása
-content#:#cont_ed_insert_dtable#:#adattábla beszúrása
-content#:#cont_ed_insert_atable#:#továbbfejlesztett táblázat beszúrása
+content#:#cont_ed_insert_dtable#:#Adattábla beszúrása
+content#:#cont_ed_insert_atable#:#Továbbfejlesztett táblázat beszúrása
 content#:#cont_ed_edit_data#:#Adatok szerkesztése
-content#:#cont_ed_insert_section#:#bekezdés beszúrása
+content#:#cont_ed_insert_section#:#Bekezdés beszúrása
 content#:#cont_ed_item_down#:#elem lefelé mozgatása
 content#:#cont_ed_item_up#:#elem felfelé mozgatása
 content#:#cont_ed_moveafter#:#mozgatás utána
@@ -4539,7 +4543,7 @@ content#:#cont_ed_new_item_after#:#új elem utána
 content#:#cont_ed_new_item_before#:#új elem elé
 content#:#cont_ed_new_row_after#:#új sor utána
 content#:#cont_ed_new_row_before#:#új sor elé
-content#:#cont_ed_paste_clip#:#beszúrás vágólapról
+content#:#cont_ed_paste_clip#:#Beszúrás vágólapról
 content#:#cont_ed_row_down#:#sor lefelé mozgatása
 content#:#cont_ed_row_up#:#sor felfelé mozgatása
 content#:#cont_ed_split_page#:#új lapra tördelés
@@ -4865,8 +4869,8 @@ content#:#seq_abandon#:#Egy feladott navigációs kérést kapott egy feldolgozo
 content#:#seq_abandonall#:#A jelenlegi kurzusszakasz el lett hagyva.
 content#:#seq_toc#:#Válasszon egy tevékenységet a bal oldali tartalomjegyzékből a kurzus megkezdéséhez.
 content#:#seq_close#:#Zárja be a lejátszóablakot!
-content#:#scplayer_showtree#:#Fa megjelenítése
-content#:#scplayer_hidetree#:#Fa elrejtése
+content#:#scplayer_showtree#:#Tartalomjegyzék megjelenítése
+content#:#scplayer_hidetree#:#Tartalomjegyzék elrejtése
 content#:#scplayer_continue#:#Folytatás
 content#:#scplayer_previous#:#Előző
 content#:#scplayer_suspendall#:#Minden felfüggesztése
@@ -4896,7 +4900,7 @@ crs#:#crs_add_starter#:#Kezdőobjektum felvétele
 crs#:#crs_add_subscribers#:#Feliratkozás felvétele
 crs#:#crs_added#:#Felvett új kurzus
 crs#:#crs_added_member#:#Felvétel kurzusba "%s"
-crs#:#crs_added_member_body#:#Fel lett véve ebbe a kurzusba "%s".
+crs#:#crs_added_member_body#:#Felvételre került a(z) kurzusba "%s" kurzusba.
 crs#:#crs_added_new_archive#:#Új tömörített állomány lett felvéve.
 crs#:#crs_added_objective#:#Új tanulási célkitűzés lett létrehozva.
 crs#:#crs_added_starters#:#Engedélyezett kezdő objektum(ok).
@@ -4921,7 +4925,7 @@ crs#:#crs_auto_fill#:#Automatikus kitöltés
 crs#:#crs_availability_limitless_info#:#Válassza ezt a módot a kurzus felhasználók számára elérhetővé és hozzáférhetővé tételére (az alábbi regisztrációs beállítások függvényében).
 crs#:#crs_availability_until_info#:#Válassza ezt a módot a kurzus felhasználók számára elérhetővé és hozzáférhetővé tételére egy meghatározott időtartamra (az alább látható regisztrációs beállítások szerint).
 crs#:#crs_availability_unvisible_info#:#Válassza ezt a módot a kurzus elkészítésére. Csak kurzusadminisztrátorok és tutorok láthatják és szerkeszthetik a kurzust.
-crs#:#crs_blocked#:#Elérés visszautasítva.
+crs#:#crs_blocked#:#Hozzáférés visszavonása
 crs#:#crs_blocked_member#:#Tagság állapota a kurzusban "%s"
 crs#:#crs_blocked_member_body#:#"%s" kurzushoz fűződő tagsága blokkolásra került.
 crs#:#crs_cancel_subscription#:#Lemondás a "%s" kurzusról
@@ -5032,7 +5036,7 @@ crs#:#crs_member_of#:#Kurzustag:
 crs#:#crs_member_unblocked#:#Tag (nem blokkolt)
 crs#:#crs_member_updated#:#A tag frissítésre került.
 crs#:#crs_members#:#Tagok
-crs#:#crs_members_deleted#:#Törölt tagok
+crs#:#crs_members_deleted#:#Tag(ok) törölve
 crs#:#crs_members_footer#:#kurzustag(ok)
 crs#:#crs_members_footer_passed#:#teljesített
 crs#:#crs_members_print_title#:#Kurzustagok
@@ -5188,7 +5192,7 @@ crs#:#crs_sortorder#:#Sorrend
 crs#:#crs_sortorder_abo#:#Tartalomelemek sorba rendezése
 crs#:#crs_start#:#Kezdés
 crs#:#crs_start_objects#:#Kezdőobjektumok
-crs#:#crs_starter_deleted#:#Eltávolított hozzárendelés.
+crs#:#crs_starter_deleted#:#Hozzárendelés eltávolítva.
 crs#:#crs_starters_already_assigned#:#Ez az objektum már hozzárendelt volt.
 crs#:#crs_status#:#Állapot
 crs#:#crs_status_changed#:#Állapot "%s" kurzusban
@@ -5256,9 +5260,9 @@ crs#:#crs_unblocked_member_body#:#Tagsága a "%s" kurzusban letárolásra kerül
 crs#:#crs_unlimited#:#Nem limitált
 crs#:#crs_unsubscribe#:#Leiratkozás
 crs#:#crs_unsubscribe_sure#:#Le akar iratkozni erről a kurzusról?
-crs#:#crs_unsubscribed_from_crs#:#Már leiratkozott erről a kurzusról
+crs#:#crs_unsubscribed_from_crs#:#Leiratkozott a kurzusról.
 crs#:#crs_update_objective#:#Tanulási célkitűzés szerkesztése
-crs#:#crs_users_added#:#Kurzushoz felvett felhasználók
+crs#:#crs_users_added#:#Felhasználók felvéve a kurzusba.
 crs#:#crs_users_already_assigned#:#A felhasználót hozzárendeltük ehhez a kurzushoz
 crs#:#crs_users_removed_from_list#:#A kiválasztott felhasználók eltávolításra kerültek a várólistáról
 crs#:#crs_view_archive#:#Tömörített állományok nézet
@@ -5276,7 +5280,7 @@ cntr#:#cntr_back_to_old_editor#:#Vissza a régi szerkesztőhöz
 cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. Használja ezt a tartalomlap beállításához. Ha a következő linkre kattint, a tartalombemutató a taneszköz tárolóban átkapcsol a régi szerkesztő tartalmáról erre a lapra.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Kapcsolás ehhez a laphoz bemutatóhoz
 cntr#:#cntr_switched_editor#:#Új tartalomhoz kapcsolva.
-cntr#:#cntr_view_sessions#:#Munkamenetek nézete
+cntr#:#cntr_view_sessions#:#Kurzusesemények nézete
 cntr#:#cntr_view_simple#:#Egyszerű  nézet
 cntr#:#cntr_view_by_type#:#Típus szerint csoportosított nézet
 crs#:#crs_view_timing#:#Időzítésnézet
@@ -5291,12 +5295,12 @@ crs#:#crs_youre_position#:#Az Ön helye a várólistán
 crs#:#edit_content#:#Tartalom szerkesztése
 crs#:#edit_timings_list#:#Időzítés szerkesztése
 crs#:#event#:#Munkamenet
-crs#:#event_add_new_event#:#Új munkamenet hozzáadása
+crs#:#event_add_new_event#:#Új kurzusesemény hozzáadása
 crs#:#event_assign_materials#:#Anyagok hozzárendelése
 crs#:#event_assign_materials_info#:#A hozzárendelt kurzusok közvetlenül az esemény alatt fognak megjelenni.
 crs#:#event_assign_materials_table#:#Kurzusanyagok hozzárendelése
-crs#:#event_btn_add#:#Munkamenet hozzáadása
-crs#:#event_date#:#Munkamenet dátuma
+crs#:#event_btn_add#:#Kurzusesemény hozzáadása
+crs#:#event_date#:#Kurzusesemény dátuma
 crs#:#event_date_time#:#Dátum és idő
 crs#:#event_delete_file#:#Törli a fájl?
 crs#:#event_delete_sure#:#Valóban törölni akarja ezt az munkamenetet?
@@ -5322,12 +5326,12 @@ crs#:#event_participation#:#Résztvevő
 crs#:#event_register#:#Regisztráció
 crs#:#event_registered#:#Regisztrálásra került erre a munkamenetre.
 crs#:#event_registration#:#Regisztráció
-crs#:#event_registration_info#:#Felhasználók számára regisztráció engedélyezése a munkamenetre.
+crs#:#event_registration_info#:#Felhasználók számára regisztráció engedélyezése a kurzuseseményre.
 crs#:#event_registration_participance#:#Regisztráció
 crs#:#event_save_participants#:#Résztvevő mentése
 crs#:#event_start_date#:#Kezdés
-crs#:#event_table_create#:#Új munkamenet
-crs#:#event_table_update#:#Munkamenet szerkesztése
+crs#:#event_table_create#:#Új kurzusesemény
+crs#:#event_table_update#:#Kurzusesemény szerkesztése
 crs#:#event_tbl_participants#:#Résztvevők listája
 crs#:#event_tbl_participated#:#Résztvevő
 crs#:#event_tbl_registered#:#Bejegyezve
@@ -5337,8 +5341,8 @@ crs#:#event_tutor_data#:#Információk az előadóról
 crs#:#event_unregister#:#Regisztráció visszavonása
 crs#:#event_unregistered#:#Regisztrációja visszavonásra került.
 crs#:#event_updated#:#Beállítások mentése.
-crs#:#events#:#Munkamenetek
-crs#:#events_deleted#:#Munkamenet törölve.
+crs#:#events#:#Kurzusesemények
+crs#:#events_deleted#:#Kurzusesemények törölve.
 crs#:#import_crs#:#Kurzus importálása
 crs#:#learners_view#:#Hallgatói nézet
 crs#:#subscription_times_not_valid#:#A regisztrációs periódus nem érvényes.
@@ -5499,9 +5503,9 @@ dateplaner#:#help_rotation_l#:#Az ismétlődés / ismétlés típusát tartalmaz
 dateplaner#:#help_shorttext#:#Maximum 50 karakternyi rövid szöveg
 dateplaner#:#help_shorttext_l#:#Itt vihető be a rövid szöveg egy adott dátumhoz.
 dateplaner#:#help_startdate#:#Kezdődátum - szintaxis [nn/hh/éééé]
-dateplaner#:#help_startdate_l#:#A találkozó kezdőidőpontját tartalmazza.<BR /> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztásához.
+dateplaner#:#help_startdate_l#:#Az esemény kezdőidőpontját tartalmazza.<BR /> A szimbólum egy kis naptárt nyit meg a megfelelő dátum kiválasztásához.
 dateplaner#:#help_starttime#:#Kezdőidő - szintaxis [óó/pp] 24 órás formátum
-dateplaner#:#help_starttime_l#:#A találkozó kezdőidőpontját tartalmazza 24 órás formátumot használva.
+dateplaner#:#help_starttime_l#:#Az esemény kezdőidőpontját tartalmazza 24 órás formátumot használva.
 dateplaner#:#help_text#:#Szöveg
 dateplaner#:#help_text_l#:#Itt vihető be a szöveg egy adott eseményhez.
 dateplaner#:#help_week#:#Határidőnapló heti nézet
@@ -7281,7 +7285,7 @@ survey#:#survey_skip_finish#:#ugrás és a kérdőív befejezése
 survey#:#survey_skip_next#:#következő >>
 survey#:#survey_skip_previous#:#<< előző
 survey#:#survey_skip_start#:#ugrás és vissza a kezdőlapra
-survey#:#survey_start#:#vissza a kezdőlapra
+survey#:#survey_start#:#Vissza a kezdőlapra
 survey#:#survey_use_start_button#:#Meg kell nyomnia a kérdőív használatához a kezdés gombot!
 survey#:#svy_all_user_data_deleted#:#Minden, ehhez a kérdőívhez kapcsolódó felhasználói adat törlésre került.
 survey#:#svy_check_evaluation_access_introduction#:#Mivel ez a kérdőíves kiértékelés csak a kérdőívben résztvevők számára elérhető, meg kell adnia kérdőívelérési kódját a kiértékelés megnyitásához.
@@ -7415,24 +7419,24 @@ trac#:#stats_sel_lng#:#Angol
 trac#:#stats_session#:#Munkamenet
 trac#:#stats_session_average_length#:#Átlagos munkamenet idő
 trac#:#stats_session_average_page_access#:#Átlag lapelérés munkamenetenként
-trac#:#stats_session_evaluable#:#Értékelhető munkamenetek
-trac#:#stats_session_evaluable_access#:#Értékelhető munkamenet-elérés
+trac#:#stats_session_evaluable#:#Értékelhető kurzusesemények
+trac#:#stats_session_evaluable_access#:#Értékelhető kurzusesemény-elérés
 trac#:#stats_session_evaluable_usr#:#Értékelhető felhasználó
 trac#:#stats_session_involved_usr#:#Bevont felhasználók száma
 trac#:#stats_session_listing#:#Munkamenet listázása
 trac#:#stats_session_longest#:#Leghosszabb munkamenet
 trac#:#stats_session_longest_total_duration_usr#:#Leghosszabb teljes időtartam felhasználónként
 trac#:#stats_session_most#:#Legtöbb munkamenet
-trac#:#stats_session_number#:#Munkamenetek száma
-trac#:#stats_session_total_duration#:#Az összes munkamenet teljes időtartama
-trac#:#stats_session_total_statistic#:#Teljes munkamenet-statisztika
-trac#:#stats_sessions#:#munkamenetek
-trac#:#stats_sessions_statisics#:#Munkamenet-statisztika
+trac#:#stats_session_number#:#Kurzusesemények száma
+trac#:#stats_session_total_duration#:#Az összes kurzusesemények teljes időtartama
+trac#:#stats_session_total_statistic#:#Teljes kurzusesemény-statisztika
+trac#:#stats_sessions#:#kurzusesemények
+trac#:#stats_sessions_statisics#:#Kurzusesemények statisztikája
 trac#:#stats_start#:#kezdés
 trac#:#stats_summation#:#Összegzés
 trac#:#stats_tracked_user#:#Kiválasztott felhasználók
 trac#:#stats_until#:#meddig:
-trac#:#stats_user#:#Felhasználó(k)
+trac#:#stats_user#:#felhasználó
 common#:#access_until#:#Hozzáférés (meddig)
 common#:#access_from#:#Hozzáférés (honnan)
 common#:#access_restrict_enter#:#Adja meg a korlátozott hozzáférés megszorításhoz a periódust
@@ -7483,8 +7487,8 @@ trac#:#trac_info_edited#:#Állítsa 'Befejezett'-re az állapotot, ha úgy gondo
 trac#:#trac_last_access#:#Legutolsó hozzáférés
 trac#:#trac_learning_progress#:#Tanulmányi előmenetel
 trac#:#trac_learning_progress_tbl_header#:#Tanulmányi előmenetel:
-trac#:#trac_lm_statistics#:#Hozzáférés statisztikához
-trac#:#trac_lp_determination#:#Tanulmányokban való előrehaladási állapot meghatározása
+trac#:#trac_lm_statistics#:#Statisztika
+trac#:#trac_lp_determination#:#Tanulmányi előrehaladási állapot meghatározása
 trac#:#trac_lp_determination_info_crs#:#Elem kiválasztása, amely meghatározza a kurzus teljes tanulmányi előrehaladásának állapotát.
 trac#:#trac_lp_determination_info_sco#:#Elem kiválasztása, amely meghatározza a SCORM tananyag teljes tanulmányi előrehaladásának állapotát.
 trac#:#trac_lp_filter#:#Szűrő
@@ -7508,7 +7512,7 @@ trac#:#trac_modus#:#Módus
 trac#:#trac_no_attempted#:#Nem csatlakozott
 trac#:#trac_no_content#:#Nem érhető el információ a tanulmányi előmenetelről.
 trac#:#trac_no_sahs_items_found#:#Nem találhatók objektumok.
-trac#:#trac_not_accessed#:#Nem fért hozzá
+trac#:#trac_not_accessed#:#Már nem használja
 trac#:#trac_not_assigned#:#Nem hozzárendelt
 trac#:#trac_not_attempted#:#Nem csatlakozott
 trac#:#trac_not_completed#:#Nem fejezte be
@@ -7731,7 +7735,7 @@ crs#:#crs_user_agreement_info#:#Látható adatok a kurzusadminisztrátor számá
 ps#:#ps_required_info#:#További kurzusspecifikus adatok szükségesek a kurzustartalom hozzárendeléshez.
 ps#:#ps_warning_modify#:#Figyelmeztetés: Legalább egy felhasználó elfogadta a felhasználói megállapodást. Ezeknek a kurzusspecifikus mezőknek a módosítása visszaállítja alapértékre az összes felhasználói elfogadást.
 mail#:#mail_select_group#:#Legalább egy csoportot válasszon!
-mail#:#mail_my_entries#:#Bejegyzéseim
+mail#:#mail_my_entries#:#Saját e-mail címtáram
 mail#:#mail_my_courses#:#Kurzusaim
 mail#:#mail_my_groups#:#Csoportjaim
 mail#:#mail_my_mailing_lists#:#Levelezőlistám
@@ -7800,7 +7804,7 @@ crs#:#crs_objective_add_qst#:#Hozzárendelt kérdések
 common#:#objs_qst#:#Kérdések
 common#:#container_no_items#:#Nem érhetők el segédanyagok
 common#:#no_items#:#Nincsenek tételek
-common#:#search_engine#:#Keresőmotrok
+common#:#search_engine#:#Keresőmotorok
 common#:#enable_search_engine#:#Nyilvános terület internetes keresőmotroknak (pl. Google)
 common#:#mod_rewrite_disabled#:#Az Apache-modul 'mod_rewrite' nem érhető el.
 common#:#allow_override_alert#:#.htaccess szabályok nem értelmezettek korrektül.
@@ -7836,10 +7840,10 @@ common#:#wizard_search_list#:#Keresése az alábbi találatokat eredményezte. V
 trac#:#trac_mode_tlt_info#:#Azok a felhasználók, akik elérik a tipikus tanulási időt, megkapják a 'befejezett' állapotot.
 trac#:#trac_mode_visits_info#:#Adja meg a látogatások számát, amelyek ennek a tanulási segédanyagnak a befejezéséhez kellenek.
 trac#:#trac_mode_manual_info#:#A hallgatóknak el kell dönteniük, hogy állapotuk befejezett vagy sem.
-trac#:#trac_mode_objectives_info#:#A tanulmányokban való előrehaladás automatikusan kerül kiértékelésre a teljesített tanulási objektumok száma szerint.
-trac#:#trac_mode_collection_info#:#Adja meg a segédanyagokat, amelyek a tanulmányokban való előrehaladást fogják meghatározni.
-trac#:#trac_mode_scorm_info#:#A tanulmányokban való előrehaladás a SCO-k állapotával kerül meghatározásra.
-trac#:#trac_mode_scorm_package_info#:#A tanulmányokban való előrehaladási állapotot a SCORM kurzuscsomag állapota fogja közvetlenül meghatározni.
+trac#:#trac_mode_objectives_info#:#A tanulmányi előrehaladás automatikusan kerül kiértékelésre a teljesített tanulási objektumok száma szerint.
+trac#:#trac_mode_collection_info#:#Adja meg a segédanyagokat, amelyek a tanulmányi előrehaladást fogják meghatározni.
+trac#:#trac_mode_scorm_info#:#A tanulmányi előrehaladás a SCO-k állapotával kerül meghatározásra.
+trac#:#trac_mode_scorm_package_info#:#A tanulmányi előrehaladási állapotot a SCORM kurzuscsomag állapota fogja közvetlenül meghatározni.
 trac#:#trac_mode_test_finished_info#:#A felhasználóknak teljesen be kell fejezniük egy tesztet.
 trac#:#trac_mode_test_passed_info#:#A tesztet teljesítenie kell a felhasználónak, hogy megkapja a 'befejezett' állapotot.
 trac#:#trac_mode_exercise_returned_info#:#A 'befejezett' állapotot csak tutorok állíthatják be.
@@ -7919,8 +7923,8 @@ payment#:#pays_bmf_timeout#:#Időtúllépés
 payment#:#pays_updated_bmf_settings#:#Beállításai a BMF-beállításokhoz frissítve lettek.
 payment#:#pays_bmf_settings_not_valid#:#Az Ön BMF-beállításai nem érvényesek. Ellenőrizze hogy korrektül kitöltötte-e az összes mezőt!
 payment#:#import_use_only_textfile#:#Útmutatás: Egyszerű szöveges fájlt használjon egy kóddal soronként.
-crs#:#crs_show_link_session#:#Munkamenetek mutatása
-crs#:#crs_hide_link_session#:#Munkamenetek elrejtése
+crs#:#crs_show_link_session#:#Kurzusesemények mutatása
+crs#:#crs_hide_link_session#:#Kurzusesemények elrejtése
 crs#:#save_status#:#Állapotok mentése
 crs#:#crs_selected_users#:#Kiválasztott résztvevők
 common#:#err_auth_ldap_no_ilias_user#:#A bejelentkezés nem sikerült. Az LDAP-azonosítás sikerült, de nem létezik megfelelő ILIAS-felhasználó. Vegye fel a kapcsolatot rendszeradminisztrátorával!
@@ -8201,17 +8205,17 @@ dateplaner#:#cal_weekday#:#Hétköznap
 dateplaner#:#cal_day_of_month#:#A hónap napja
 common#:#display_webdav_actions#:#WebDAV tevékenységek kijelzése
 common#:#display_webdav_actions_info#:#Megjeleníti a 'megnyitás webmappaként' tevékenységet minden kategória, mappa, kurzus és csoport mellett a taneszköz tárolóban.
-rbac#:#sess_visible#:#A munkamenetek láthatóak
-rbac#:#sess_read#:#Olvasási elérés a munkamenetekhez
-rbac#:#sess_write#:#Munkamenetek szerkesztése
+rbac#:#sess_visible#:#A kurzusesemények láthatók
+rbac#:#sess_read#:#Olvasási elérés a kurzuseseményekhez
+rbac#:#sess_write#:#Kurzusesemények szerkesztése
 rbac#:#sess_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#obj_sess#:#Munkamenet
-common#:#objs_sess#:#Munkamenetek
-rbac#:#crs_create_sess#:#Munkamenet létrehozása
-rbac#:#sess_copy#:#Munkamenet másolása
-common#:#obj_sess_duplicate#:#Munkamenet másolása
-common#:#obj_sess_select#:#-- Válasszon egy munkamenetet --
-common#:#sess#:#Munkamenet
+common#:#obj_sess#:#Kurzusesemény
+common#:#objs_sess#:#Kurzusesemények
+rbac#:#crs_create_sess#:#Kurzusesemény létrehozása
+rbac#:#sess_copy#:#Kurzusesemény másolása
+common#:#obj_sess_duplicate#:#Kurzusesemény másolása
+common#:#obj_sess_select#:#-- Válasszon egy kurzuseseményt --
+common#:#sess#:#Kurzusesemény
 survey#:#specialusers#:#Speciális felhasználók
 survey#:#adm_no_users_found#:#Nem találhatók olyan felhasználók, akik illeszkednek a keresőszövegre.
 survey#:#adm_search_string_too_small#:#Legalább 2 karaktert adjon meg a keresési mezőben!
@@ -8499,7 +8503,7 @@ dateplaner#:#cal_share_decline#:#Meghívás elutasítása
 dateplaner#:#cal_changed_events_header#:#Megváltozott időpontok
 dateplaner#:#cal_accepted#:#Elfogadott
 dateplaner#:#cal_declined#:#Elutasított
-trac#:#trac_mode_event#:#Részvétel munkamenetekben
+trac#:#trac_mode_event#:#Részvétel kurzuseseményeken
 dateplaner#:#cal_user_time_format#:#Időformátum
 dateplaner#:#cal_time_format_info#:#Válasszon formátumot az  idő megjelenítésére!
 dateplaner#:#cal_def_time_format_info#:#Válasszon formátumot az  idő megjelenítésére!
@@ -8674,57 +8678,3 @@ common#:#crsr_edit#:#Kurzusajánlás szerkesztése
 common#:#crsr_edit_info#:#Válasszon egy kurzust új ajánlás létrehozásához!
 common#:#catr_edit_info#:#Válasszon egy kategóriát új ajánlás létrehozásához!
 common#:#reference_deleted#:#A végcél nem érhető el
-cmps#:#cmps_responsible#:#Responsible###03 11 2008 new variable
-wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?###03 11 2008 new variable
-wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page###03 11 2008 new variable
-wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page###03 11 2008 new variable
-wiki#:#wiki_page_deleted#:#Wiki page deleted.###03 11 2008 new variable
-wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.###03 11 2008 new variable
-wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation###03 11 2008 new variable
-content#:#cont_alphabetic#:#Alphabetic A, B, ...###03 11 2008 new variable
-content#:#cont_localfile#:#Local File###03 11 2008 new variable
-content#:#cont_roman#:#Roman I, II, ...###03 11 2008 new variable
-content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.###03 11 2008 new variable
-content#:#cont_page_currently_deactivated#:#Sorry, but this page is currently deactivated.###03 11 2008 new variable
-common#:#clone_target_title#:#Selection of Target Folder (Step 1/2)###03 11 2008 new variable
-common#:#clone_target#:#Target Folder###03 11 2008 new variable
-common#:#clone_option_in_cat#:#Copy in Existing Category###03 11 2008 new variable
-common#:#clone_option_in_crs#:#Copy in Existing Course###03 11 2008 new variable
-common#:#cat_title#:#Category Title###03 11 2008 new variable
-common#:#crs_title#:#Course Title###03 11 2008 new variable
-common#:#clone_existing_course#:#Copy Existing Course###03 11 2008 new variable
-survey#:#use_google_chart_api#:#Use Google Chart API###03 11 2008 new variable
-survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.###03 11 2008 new variable
-dateplaner#:#cal_cal_details#:#Calendar Details###03 11 2008 new variable
-dateplaner#:#cal_type_crs#:#Course Calendar###03 11 2008 new variable
-dateplaner#:#cal_type_grp#:#Group Calendar###03 11 2008 new variable
-content#:#cont_versions#:#Versions###06 11 2008 new variable
-content#:#cont_current_version#:#Current Version###06 11 2008 new variable
-crs#:#crs_timings_visibility_short#:#Visibility###06 11 2008 new variable
-assessment#:#no_selection#:#--- No Selection ---###06 11 2008 new variable
-assessment#:#customstyle#:#Custom Style###06 11 2008 new variable
-assessment#:#customstyle_description#:#It is possible to use a custom style sheet for this test. Please select one of the available style sheets to assign it to this test.###06 11 2008 new variable
-dateplaner#:#cal_type_info#:#Please choose one calendar type. "Public Calendars" are visible for all ILIAS users.###06 11 2008 new variable
-rbac#:#root_create_catr#:#Create Category Reference###06 11 2008 new variable
-rbac#:#mcts_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#mcts_read#:#Read access to mediacast settings###06 11 2008 new variable
-rbac#:#mcts_visible#:#Mediacast settings are visible###06 11 2008 new variable
-rbac#:#mcts_write#:#Edit mediacast settings###06 11 2008 new variable
-rbac#:#cmps_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#cmps_read#:#Read access to component settings###06 11 2008 new variable
-rbac#:#cmps_visible#:#Component settings are visible###06 11 2008 new variable
-rbac#:#cmps_write#:#Edit component settings###06 11 2008 new variable
-rbac#:#pdts_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#pdts_read#:#Read access to personal desktop settings###06 11 2008 new variable
-rbac#:#pdts_visible#:#Personal desktop settings are visible###06 11 2008 new variable
-rbac#:#pdts_write#:#Edit personal desktop settings###06 11 2008 new variable
-rbac#:#sess_delete#:#Delete Session###06 11 2008 new variable
-rbac#:#svyf_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#svyf_read#:#Read access to survey settings###06 11 2008 new variable
-rbac#:#svyf_visible#:#Survey settings are visible###06 11 2008 new variable
-rbac#:#svyf_write#:#Edit survey settings###06 11 2008 new variable
-rbac#:#facs_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#facs_read#:#Read access to files & foldes settings###06 11 2008 new variable
-rbac#:#facs_visible#:#Files & foldes settings are visible###06 11 2008 new variable
-rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
-common#:#objs_mail#:#Mail###06 11 2008 new variable
