@@ -184,42 +184,6 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 	}
 
 	/**
-	* Handler for cmd[addSuggestedSolution] to add a suggested solution for the question
-	*
-	* Handler for cmd[addSuggestedSolution] to add a suggested solution for the question
-	*
-	* @access public
-	*/
-	function addSuggestedSolution()
-	{
-		// this method is inherited from assQuestionGUI
-		
-		// overwrite it here and define your own code which adds a suggested solution to the question
-		// the following code is example code and you have to exchange it with your own code:
-		$_SESSION["subquestion_index"] = 0;
-		if ($_POST["cmd"]["addSuggestedSolution"])
-		{
-			if ($this->writePostData())
-			{
-				ilUtil::sendInfo($this->getErrorMessage());
-				$this->editQuestion();
-				return;
-			}
-			if (!$this->checkInput())
-			{
-				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-				$this->editQuestion();
-				return;
-			}
-		}
-		$this->object->saveToDb();
-		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate();
-		parent::addSuggestedSolution();
-	}
-
-	/**
 	* Saves the feedback for a question type
 	*
 	* Saves the feedback for a question type
@@ -317,9 +281,7 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", "addSuggestedSolution",
-					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
-					"saveEdit"),
+				array("editQuestion", "save", "cancel", "saveEdit"),
 				$classname, "", $force_active);
 		}
 

@@ -238,20 +238,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		// call to other question data i.e. estimated working time block
 		$this->outOtherQuestionData();
 
-		$internallinks = array(
-			"lm" => $this->lng->txt("obj_lm"),
-			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg"),
-			"glo" => $this->lng->txt("glossary_term")
-		);
-		foreach ($internallinks as $key => $value)
-		{
-			$this->tpl->setCurrentBlock("internallink");
-			$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-			$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		$this->tpl->setCurrentBlock("HeadContent");
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
@@ -333,21 +319,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		elseif ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 		{
 			$this->tpl->setVariable("SELECTED_PICTURES", " selected=\"selected\"");
-		}
-		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-		if (count($this->object->suggested_solutions))
-		{
-			$solution_array = $this->object->getSuggestedSolution(0);
-			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
-			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-		}
-		else
-		{
-			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
 		}
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
@@ -476,7 +447,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$this->object->setQuestion($questiontext);
-		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setShuffle($_POST["shuffle"]);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
@@ -963,31 +933,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	}
 
 
-	function addSuggestedSolution()
-	{
-		$_SESSION["subquestion_index"] = 0;
-		if ($_POST["cmd"]["addSuggestedSolution"])
-		{
-			if ($this->writePostData())
-			{
-				ilUtil::sendInfo($this->getErrorMessage());
-				$this->editQuestion();
-				return;
-			}
-			if (!$this->checkInput())
-			{
-				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-				$this->editQuestion();
-				return;
-			}
-		}
-		$this->object->saveToDb();
-		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate();
-		parent::addSuggestedSolution();
-	}	
-
 	function editMode()
 	{
 		global $ilUser;
@@ -1092,10 +1037,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", "addSuggestedSolution",
-					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
-					"addPair", "addTerm", "delete", "deleteTerms", "editMode", "upload",
-					"saveEdit"),
+				array("editQuestion", "save", "cancel", "addPair", "addTerm", "delete", 
+				"deleteTerms", "editMode", "upload","saveEdit"),
 				$classname, "", $force_active);
 		}
 
@@ -1107,6 +1050,18 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				$classname, "");
 		}
 		
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("solution_hint",
+				$this->ctrl->getLinkTargetByClass($classname, "suggestedsolution"),
+				array("suggestedsolution", "saveSuggestedSolution", "outSolutionExplorer", "cancel", 
+				"addSuggestedSolution","cancelExplorer", "linkChilds", "removeSuggestedSolution"
+				),
+				$classname, 
+				""
+			);
+		}
+
 		// Assessment of questions sub menu entry
 		if ($_GET["q_id"])
 		{

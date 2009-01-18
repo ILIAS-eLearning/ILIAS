@@ -453,6 +453,7 @@ class assJavaApplet extends assQuestion
 
 		// duplicate the image
 		$clone->duplicateApplet($this_id);
+		$clone->onDuplicate($this_id);
 		return $clone->id;
 	}
 
@@ -492,6 +493,7 @@ class assJavaApplet extends assQuestion
 
 		// duplicate the image
 		$clone->copyApplet($original_id, $source_questionpool);
+		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->id;
 	}
 	

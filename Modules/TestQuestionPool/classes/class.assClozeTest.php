@@ -899,6 +899,8 @@ class assClozeTest extends assQuestion
 		// duplicate the generic feedback
 		$clone->duplicateFeedbackGeneric($this_id);
 
+		$clone->onDuplicate($this_id);
+
 		return $clone->getId();
 	}
 
@@ -933,6 +935,7 @@ class assClozeTest extends assQuestion
 		// duplicate the generic feedback
 		$clone->duplicateFeedbackGeneric($original_id);
 
+		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->getId();
 	}
 

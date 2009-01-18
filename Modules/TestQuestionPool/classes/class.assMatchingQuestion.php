@@ -384,6 +384,7 @@ class assMatchingQuestion extends assQuestion
 
 		// duplicate the image
 		$clone->duplicateImages($this_id);
+		$clone->onDuplicate($this_id);
 		return $clone->id;
 	}
 
@@ -423,6 +424,7 @@ class assMatchingQuestion extends assQuestion
 
 		// duplicate the image
 		$clone->copyImages($original_id, $source_questionpool);
+		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->id;
 	}
 

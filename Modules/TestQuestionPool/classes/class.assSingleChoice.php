@@ -346,6 +346,7 @@ class assSingleChoice extends assQuestion
 		$clone->duplicateFeedbackGeneric($this_id);
 		// duplicate the answer specific feedback
 		$clone->duplicateFeedbackAnswer($this_id);
+		$clone->onDuplicate($this_id);
 
 		return $clone->id;
 	}
@@ -387,6 +388,7 @@ class assSingleChoice extends assQuestion
 		$clone->duplicateFeedbackGeneric($original_id);
 		// duplicate the answer specific feedback
 		$clone->duplicateFeedbackAnswer($original_id);
+		$clone->onCopy($this->getObjId(), $this->getId());
 
 		return $clone->id;
 	}

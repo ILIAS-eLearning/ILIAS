@@ -760,13 +760,10 @@ class assQuestion
 	/**
 	* Returns the number of suggested solutions associated with a question
 	*
-	* Returns the number of suggested solutions associated with a question
-	*
 	* @param integer $question_id The database Id of the question
 	* @return integer The number of suggested solutions
-	* @access public static
 	*/
-	function _getSuggestedSolutionCount($question_id)
+	public static function _getSuggestedSolutionCount($question_id)
 	{
 		global $ilDB;
 
@@ -775,6 +772,42 @@ class assQuestion
 		);
 		$result = $ilDB->query($query);
 		return $result->numRows();
+	}
+
+	/**
+	* Returns the output of the suggested solution
+	*
+	* @param integer $question_id The database Id of the question
+	* @return string Suggested solution
+	*/
+	public static function _getSuggestedSolutionOutput($question_id)
+	{
+		$question =& assQuestion::_instanciateQuestion($question_id);
+		return $question->getSuggestedSolutionOutput();
+	}
+
+	public function getSuggestedSolutionOutput()
+	{
+		$output = array();
+		foreach ($this->suggested_solutions as $solution)
+		{
+			switch ($solution["type"])
+			{
+				case "lm":
+				case "st":
+				case "pg":
+				case "git":
+					array_push($output, '<a href="' . assQuestion::_getInternalLinkHref($solution["internal_link"]) . '">' . $this->lng->txt("solution_hint") . '</a>');
+					break;
+				case "file":
+					array_push($output, '<a href="' . $this->getSuggestedSolutionPathWeb() . $solution["value"]["name"] . '">' . ((strlen($solution["value"]["filenme"])) ? ilUtil::prepareFormOutput($solution["value"]["filenme"]) : $this->lng->txt("solution_hint")) . '</a>');
+					break;
+				case "text":
+					array_push($output, $this->prepareTextareaOutput($solution["value"]));
+					break;
+			}
+		}
+		return join($output, "<br />");
 	}
 
 /**
@@ -1021,6 +1054,15 @@ class assQuestion
 	}
 	
 	/**
+	* Returns the path for a suggested solution
+	*
+	* @access public
+	*/
+	function getSuggestedSolutionPath() {
+		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/solution/";
+	}
+
+	/**
 	* Returns the image path for web accessable images of a question
 	*
 	* Returns the image path for web accessable images of a question.
@@ -1070,6 +1112,18 @@ class assQuestion
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/java/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+	}
+
+	/**
+	* Returns the web path for a suggested solution
+	*
+	* @access public
+	*/
+	function getSuggestedSolutionPathWeb() 
+	{
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/solution/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
@@ -1666,9 +1720,13 @@ class assQuestion
 		$this->suggested_solutions = array();
 		if ($result->numRows())
 		{
+			include_once("./Services/RTE/classes/class.ilRTE.php");
 			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
+				$value = (is_array(unserialize($row["value"]))) ? unserialize($row["value"]) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
 				$this->suggested_solutions[$row["subquestion_index"]] = array(
+					"type" => $row["type"],
+					"value" => $value,
 					"internal_link" => $row["internal_link"],
 					"import_id" => $row["import_id"]
 				);
@@ -1679,35 +1737,15 @@ class assQuestion
 	/**
 	* Saves the question to the database
 	*
-	* Saves the question to the database
-	*
 	* @param integer $original_id
 	* @access public
 	*/
 	function saveToDb($original_id = "")
 	{
 		global $ilDB;
+
+		$this->updateSuggestedSolutions();
 		
-		include_once "./Services/COPage/classes/class.ilInternalLink.php";
-		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$ilDB->quote($this->getId() . "")
-		);
-		$result = $ilDB->query($query);
-		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
-		foreach ($this->suggested_solutions as $index => $solution)
-		{
-			$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-				$ilDB->quote($this->getId() . ""),
-				$ilDB->quote($solution["internal_link"] . ""),
-				$ilDB->quote($solution["import_id"] . ""),
-				$ilDB->quote($index . "")
-			);
-			$ilDB->query($query);
-			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
-			{
-				ilInternalLink::_saveLink("qst", $this->getId(), $matches[2], $matches[3], $matches[1]);
-			}
-		}
 		// remove unused media objects from ILIAS
 		$this->cleanupMediaObjectUsage();
 		// update question count of question pool
@@ -1721,9 +1759,23 @@ class assQuestion
 		$ilDB->query($query);
 	}
 	
+	/**
+	* Will be called when a question is duplicated (inside a question pool or for insertion in a test)
+	*/
+	protected function onDuplicate($source_question_id)
+	{
+		$this->duplicateSuggestedSolutionFiles($source_question_id);
+	}
+	
+	/**
+	* Will be called when a question is copied (into another question pool)
+	*/
+	protected function onCopy($source_questionpool_id, $source_question_id)
+	{
+		$this->copySuggestedSolutionFiles($source_questionpool_id, $source_question_id);
+	}
+	
 /**
-* Deletes all suggestes solutions in the database
-*
 * Deletes all suggestes solutions in the database
 *
 * @access public
@@ -1740,6 +1792,7 @@ class assQuestion
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
 		$this->suggested_solutions = array();
+		ilUtil::delDir($this->getSuggestedSolutionPath());
 	}
 	
 /**
@@ -1814,6 +1867,100 @@ class assQuestion
 			);
 		}
 	}
+
+	/**
+	* Duplicates the files of a suggested solution if the question is duplicated
+	*/
+	protected function duplicateSuggestedSolutionFiles($question_id)
+	{
+		global $ilLog;
+
+		foreach ($this->suggested_solutions as $index => $solution)
+		{
+			if (strcmp($solution["type"], "file") == 0)
+			{
+				$filepath = $this->getSuggestedSolutionPath();
+				$filepath_original = str_replace("/$this->id/solution", "/$question_id/solution", $filepath);
+				if (!file_exists($filepath))
+				{
+					ilUtil::makeDirParents($filepath);
+				}
+				$filename = $solution["value"]["name"];
+				if (strlen($filename))
+				{
+					if (!copy($filepath_original . $filename, $filepath . $filename))
+					{
+						$ilLog->write("File could not be duplicated!!!!", $ilLog->ERROR);
+						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					}
+				}
+			}
+		}
+	}
+
+	protected function copySuggestedSolutionFiles($source_questionpool_id, $source_question_id)
+	{
+		global $ilLog;
+
+		foreach ($this->suggested_solutions as $index => $solution)
+		{
+			if (strcmp($solution["type"], "file") == 0)
+			{
+				$filepath = $this->getSuggestedSolutionPath();
+				$filepath_original = str_replace("/$this->obj_id/$this->id/solution", "/$source_questionpool_id/$source_question_id/solution", $filepath);
+				if (!file_exists($filepath))
+				{
+					ilUtil::makeDirParents($filepath);
+				}
+				$filename = $solution["value"]["name"];
+				if (strlen($filename))
+				{
+					if (!copy($filepath_original . $filename, $filepath . $filename))
+					{
+						$ilLog->write("File could not be copied!!!!", $ilLog->ERROR);
+						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	* Update the suggested solutions of a question based on the suggested solution array attribute
+	*/
+	public function updateSuggestedSolutions()
+	{
+		global $ilDB;
+
+		include_once "./Services/COPage/classes/class.ilInternalLink.php";
+		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+			$ilDB->quote($this->getId() . "")
+		);
+		$result = $ilDB->query($query);
+		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
+		include_once("./Services/RTE/classes/class.ilRTE.php");
+		foreach ($this->suggested_solutions as $index => $solution)
+		{
+			$statement = $ilDB->prepareManip("INSERT INTO qpl_suggested_solutions (question_fi, type, value, internal_link, import_id, subquestion_index) VALUES (?, ?, ?, ?, ?, ?)", 
+				array("integer", "text", "text", "text", "text", "integer")
+			);
+			$data = array(
+				$this->getId(),
+				$solution["type"],
+				ilRTE::_replaceMediaObjectImageSrc((is_array($solution["value"])) ? serialize($solution["value"]) : $solution["value"], 0),
+				$solution["internal_link"],
+				"",
+				$index
+			);
+			$affectedRows = $ilDB->execute($statement, $data);
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			{
+				ilInternalLink::_saveLink("qst", $this->getId(), $matches[2], $matches[3], $matches[1]);
+			}
+		}
+
+		$this->cleanupMediaObjectUsage();
+	}
 	
 	/**
 	* Saves a suggested solution for the question.
@@ -1824,7 +1971,7 @@ class assQuestion
 	* @param boolean $is_import A boolean indication that the internal link was imported from another ILIAS installation
 	* @access public
 	*/
-	function saveSuggestedSolution($solution_id = "", $subquestion_index = 0)
+	function saveSuggestedSolution($type, $solution_id = "", $subquestion_index = 0, $value = "")
 	{
 		global $ilDB;
 
@@ -1837,16 +1984,21 @@ class assQuestion
 		);
 		$affectedRows = $ilDB->execute($statement, $data);
 
-		$statement = $ilDB->prepareManip("INSERT INTO qpl_suggested_solutions (question_fi, internal_link, import_id, subquestion_index) VALUES (?, ?, ?, ?)", 
-			array("integer", "text", "text", "integer")
+		$statement = $ilDB->prepareManip("INSERT INTO qpl_suggested_solutions (question_fi, type, value, internal_link, import_id, subquestion_index) VALUES (?, ?, ?, ?, ?, ?)", 
+			array("integer", "text", "text", "text", "text", "integer")
 		);
+		include_once("./Services/RTE/classes/class.ilRTE.php");
 		$data = array(
 			$this->getId(),
+			$type,
+			ilRTE::_replaceMediaObjectImageSrc((is_array($value)) ? serialize($value) : $value, 0),
 			$solution_id,
 			"",
 			$subquestion_index
 		);
 		$affectedRows = $ilDB->execute($statement, $data);
+
+		$this->cleanupMediaObjectUsage();
 	}
 
 	function _resolveInternalLink($internal_link)
@@ -2059,8 +2211,6 @@ class assQuestion
 /**
 * Returns true if the question already exists in the database
 *
-* Returns true if the question already exists in the database
-*
 * @param integer $question_id The database id of the question
 * @result boolean True, if the question exists, otherwise False
 * @access public
@@ -2091,8 +2241,6 @@ class assQuestion
 /**
 * Creates an instance of a question with a given question id
 *
-* Creates an instance of a question with a given question id
-*
 * @param integer $question_id The question id
 * @return object The question instance
 * @access public
@@ -2112,8 +2260,6 @@ class assQuestion
 /**
 * Returns the maximum available points for the question
 *
-* Returns the maximum available points for the question
-*
 * @return integer The points
 * @access public
 */
@@ -2131,8 +2277,6 @@ class assQuestion
 
 	
 /**
-* Sets the maximum available points for the question
-*
 * Sets the maximum available points for the question
 *
 * @param integer $a_points The points
@@ -2157,8 +2301,6 @@ class assQuestion
 	}
 
 /**
-* Returns the maximum pass a users question solution
-*
 * Returns the maximum pass a users question solution
 *
 * @param return integer The maximum pass of the users solution
@@ -2192,8 +2334,6 @@ class assQuestion
 	}
 
 /**
-* Returns true if the question is writeable by a certain user
-*
 * Returns true if the question is writeable by a certain user
 *
 * @param integer $question_id The database id of the question
@@ -2230,8 +2370,6 @@ class assQuestion
 	/**
 	* Checks whether the question is used in a random test or not
 	*
-	* Checks whether the question is used in a random test or not
-	*
 	* @return boolean The number how often the question is used in a random test
 	* @access public
 	*/
@@ -2248,8 +2386,6 @@ class assQuestion
 	}
 
 	/**
-	* Returns the points, a learner has reached answering the question
-	*
 	* Returns the points, a learner has reached answering the question
 	* The points are calculated from the given answers including checks
 	* for all special scoring options in the test container.
@@ -2282,16 +2418,13 @@ class assQuestion
 
 	/**
 	* Returns true if the question was worked through in the given pass
-	*
-	* Returns true if the question was worked through in the given pass
 	* Worked through means that the user entered at least one value
 	*
 	* @param integer $user_id The database ID of the learner
 	* @param integer $test_id The database Id of the test containing the question
 	* @param integer $question_id The database Id of the question
-	* @access public static
 	*/
-	function _isWorkedThrough($active_id, $question_id, $pass = NULL)
+	public static function _isWorkedThrough($active_id, $question_id, $pass = NULL)
 	{
 		global $ilDB;
 
@@ -2334,16 +2467,15 @@ class assQuestion
 		global $ilUser;
 		$ilUser->writePref("tst_multiline_answers", $a_setting);
 	}
+	
 	/**
 	* Checks if an array of question ids is answered by an user or not
 	*
 	* @param int user_id
 	* @param array $question_ids user id array
-	
 	* @return boolean 
-	* @access public static
 	*/
-	function _areAnswered($a_user_id,$a_question_ids)
+	public static function _areAnswered($a_user_id,$a_question_ids)
 	{
 		global $ilDB;
 
@@ -2552,8 +2684,6 @@ class assQuestion
 	}
 	
 /**
-* Gets the question text
-*
 * Gets the question string of the question object
 *
 * @return string The question string of the question object
@@ -2566,8 +2696,6 @@ class assQuestion
   }
 
 /**
-* Sets the question text
-*
 * Sets the question string of the question object
 *
 * @param string $question A string containing the question text
@@ -2580,8 +2708,6 @@ class assQuestion
   }
 
 	/**
-	* Returns the question type of the question
-	*
 	* Returns the question type of the question
 	*
 	* @return integer The question type of the question
@@ -2618,8 +2744,6 @@ class assQuestion
 	}
 	
 	/**
-	* Saves generic feedback to the database
-	*
 	* Saves generic feedback to the database. Generic feedback is either
 	* feedback for either the complete solution of the question or at least one
 	* incorrect answer.
@@ -2660,8 +2784,6 @@ class assQuestion
 	}
 	
 	/**
-	* Returns the generic feedback for a given question state
-	*
 	* Returns the generic feedback for a given question state. The
 	* state is either the complete solution of the question or at least one
 	* incorrect answer
@@ -2690,8 +2812,6 @@ class assQuestion
 	}
 
 	/**
-	* Duplicates the generic feedback of a question
-	*
 	* Duplicates the generic feedback of a question
 	*
 	* @param integer $original_id The database ID of the original question
@@ -2764,6 +2884,10 @@ class assQuestion
 		$collected = $this->getQuestion();
 		$collected .= $this->getFeedbackGeneric(0);
 		$collected .= $this->getFeedbackGeneric(1);
+		foreach ($this->suggested_solutions as $solution_array)
+		{
+			$collected .= $this->solution_array["value"];
+		}
 		return $collected;
 	}
 
@@ -2932,8 +3056,6 @@ class assQuestion
 	}
 
 /**
-* Creates an instance of a question gui with a given question id
-*
 * Creates an instance of a question gui with a given question id
 *
 * @param integer $question_id The question id

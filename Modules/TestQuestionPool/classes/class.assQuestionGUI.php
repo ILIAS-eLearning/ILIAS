@@ -599,8 +599,6 @@ class assQuestionGUI
 					ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), false);
 				}
 				$this->editQuestion();
-	//			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
-	//			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 			}
 		}
 		else
@@ -619,148 +617,6 @@ class assQuestionGUI
 		$this->object->saveToDb();
 		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		$this->editQuestion();
-	}
-	
-	function cancelExplorer()
-	{
-//		unset($_SESSION["subquestion_index"]);
-//		unset($_SESSION["link_new_type"]);
-		$this->ctrl->redirect($this, "editQuestion");
-//		$this->editQuestion();
-	}
-	
-	/**
-	* Handler for cmd[addSuggestedSolution] to add a suggested solution for the question
-	*
-	* Handler for cmd[addSuggestedSolution] to add a suggested solution for the question
-	*
-	* @access public
-	*/
-	function addSuggestedSolution()
-	{
-		global $tree;
-
-		include_once("./Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php");
-		if (strlen($_POST["internalLinkType"]))
-		{
-					switch ($_POST["internalLinkType"])
-					{
-						case "lm":
-							$type = "lm";
-							$search = "lm";
-			//				$_SESSION["link_new_type"] = "lm";
-			//				$_SESSION["search_link_type"] = "lm";
-							break;
-						case "glo":
-							$type = "glo";
-							$search = "glo";
-			//				$_SESSION["link_new_type"] = "glo";
-			//				$_SESSION["search_link_type"] = "glo";
-							break;
-						case "st":
-							$type = "lm";
-							$search = "st";
-			//				$_SESSION["link_new_type"] = "lm";
-			//				$_SESSION["search_link_type"] = "st";
-							break;
-						case "pg":
-							$type = "lm";
-							$search = "pg";
-			//				$_SESSION["link_new_type"] = "lm";
-			//				$_SESSION["search_link_type"] = "pg";
-							break;
-			//			default:
-			//				if (!$_SESSION["link_new_type"])
-			//				{
-			//					$_SESSION["link_new_type"] = "lm";
-			//				}
-			//				break;
-					}
-		}
-		else
-		{
-			$type = $_GET["link_new_type"];
-			$search = $_GET["search_link_type"];
-		}
-		$this->ctrl->setParameter($this, "link_new_type", $type);
-		$this->ctrl->setParameter($this, "search_link_type", $search);
-		$this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
-
-		ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
-		
-		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this,'addSuggestedSolution'), get_class($this));
-
-		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'addSuggestedSolution'));
-		$exp->setTargetGet("ref_id");
-		$exp->setRefId($this->cur_ref_id);
-//		$exp->addFilter($_SESSION["link_new_type"]);
-//		$exp->setSelectableType($_SESSION["link_new_type"]);
-		$exp->addFilter($type);
-		$exp->setSelectableType($type);
-
-		// build html-output
-		$exp->setOutput(0);
-
-		$this->tpl->addBlockFile("EXPLORER", "explorer", "tpl.il_as_qpl_explorer.html", "Modules/TestQuestionPool");
-		$this->tpl->setVariable("EXPLORER_TREE",$exp->getOutput());
-		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-	}
-	
-	function removeSuggestedSolution()
-	{
-		$this->object->suggested_solutions = array();
-		$this->object->saveToDb();
-		$this->editQuestion();
-	}
-	
-	function addPG()
-	{
-		$subquestion_index = 0;
-		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
-		{
-			$subquestion_index = $_GET["subquestion_index"];
-		}
-		$this->object->saveSuggestedSolution("il__pg_" . $_GET["pg"], $subquestion_index);
-//		unset($_GET["subquestion_index"]);
-//		unset($_GET["link_new_type"]);
-//		unset($_GET["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
-		$this->ctrl->redirect($this, "editQuestion");
-//		$this->editQuestion();
-	}
-	
-	function addST()
-	{
-		$subquestion_index = 0;
-		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
-		{
-			$subquestion_index = $_GET["subquestion_index"];
-		}
-		$this->object->saveSuggestedSolution("il__st_" . $_GET["st"], $subquestion_index);
-//		unset($_GET["subquestion_index"]);
-//		unset($_GET["link_new_type"]);
-//		unset($_GET["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
-		$this->ctrl->redirect($this, "editQuestion");
-//		$this->editQuestion();
-	}
-
-	function addGIT()
-	{
-		$subquestion_index = 0;
-		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
-		{
-			$subquestion_index = $_GET["subquestion_index"];
-		}
-		$this->object->saveSuggestedSolution("il__git_" . $_GET["git"], $subquestion_index);
-//		unset($_GET["subquestion_index"]);
-//		unset($_GET["link_new_type"]);
-//		unset($_GET["search_link_type"]);
-		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
-		$this->ctrl->redirect($this, "editQuestion");
-//		$this->editQuestion();
 	}
 	
 	/**
@@ -789,150 +645,6 @@ class assQuestionGUI
 		return $path;
 	}
 
-	function linkChilds()
-	{
-		$this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
-		switch ($_GET["search_link_type"])
-		{
-			case "pg":
-				include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
-				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-				$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
-				$cont_obj = $cont_obj_gui->object;
-				$pages = ilLMPageObject::getPageList($cont_obj->getId());
-				$shownpages = array();
-				$tree = $cont_obj->getLMTree();
-				$chapters = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
-				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-				$this->tpl->setVariable("HEADER", $this->object->getTitle());
-				$this->getQuestionTemplate();
-				$color_class = array("tblrow1", "tblrow2");
-				$counter = 0;
-				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", "Modules/TestQuestionPool");
-				foreach ($chapters as $chapter)
-				{
-					$chapterpages = $tree->getChildsByType($chapter["obj_id"], "pg");
-					foreach ($chapterpages as $page)
-					{
-						if($page["type"] == $_GET["search_link_type"])
-						{
-							array_push($shownpages, $page["obj_id"]);
-							$this->tpl->setCurrentBlock("linktable_row");
-							$this->tpl->setVariable("TEXT_LINK", $page["title"]);
-							$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
-							$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
-							$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-							if ($tree->isInTree($page["obj_id"]))
-							{
-								$path_str = $this->getContextPath($cont_obj, $page["obj_id"]);
-							}
-							else
-							{
-								$path_str = "---";
-							}
-							$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($path_str));
-							$this->tpl->parseCurrentBlock();
-							$counter++;
-						}
-					}
-				}
-				foreach ($pages as $page)
-				{
-					if (!in_array($page["obj_id"], $shownpages))
-					{
-						$this->tpl->setCurrentBlock("linktable_row");
-						$this->tpl->setVariable("TEXT_LINK", $page["title"]);
-						$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
-						$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
-						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-						$path_str = "---";
-						$this->tpl->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($path_str));
-						$this->tpl->parseCurrentBlock();
-						$counter++;
-					}
-				}
-				$this->tpl->setCurrentBlock("link_selection");
-				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_GET["search_link_type"]));
-				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
-				break;
-			case "st":
-				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-				$this->tpl->setVariable("HEADER", $this->object->getTitle());
-				$this->getQuestionTemplate();
-				$color_class = array("tblrow1", "tblrow2");
-				$counter = 0;
-				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
-				$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
-				$cont_obj = $cont_obj_gui->object;
-				// get all chapters
-				$ctree =& $cont_obj->getLMTree();
-				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
-				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", "Modules/TestQuestionPool");
-				foreach($nodes as $node)
-				{
-					if($node["type"] == $_GET["search_link_type"])
-					{
-						$this->tpl->setCurrentBlock("linktable_row");
-						$this->tpl->setVariable("TEXT_LINK", $node["title"]);
-						$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
-						$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($node["type"])) . "&" . $node["type"] . "=" . $node["obj_id"]);
-						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-						$this->tpl->parseCurrentBlock();
-						$counter++;
-					}
-				}
-				$this->tpl->setCurrentBlock("link_selection");
-				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_GET["search_link_type"]));
-				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
-				break;
-			case "glo":
-				$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-				$this->tpl->setVariable("HEADER", $this->object->getTitle());
-				$this->getQuestionTemplate();
-				$color_class = array("tblrow1", "tblrow2");
-				$counter = 0;
-				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", "Modules/TestQuestionPool");
-				include_once "./Modules/Glossary/classes/class.ilObjGlossary.php";
-				$glossary =& new ilObjGlossary($_GET["source_id"], true);
-				// get all glossary items
-				$terms = $glossary->getTermList();
-				foreach($terms as $term)
-				{
-					$this->tpl->setCurrentBlock("linktable_row");
-					$this->tpl->setVariable("TEXT_LINK", $term["term"]);
-					$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
-					$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "addGIT") . "&git=" . $term["id"]);
-					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-				$this->tpl->setCurrentBlock("link_selection");
-				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("glossary_term"));
-				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-				$this->tpl->parseCurrentBlock();
-				break;
-			case "lm":
-				$subquestion_index = 0;
-				if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
-				{
-					$subquestion_index = $_GET["subquestion_index"];
-				}
-				$this->object->saveSuggestedSolution("il__lm_" . $_GET["source_id"], $subquestion_index);
-//				unset($_GET["subquestion_index"]);
-//				unset($_GET["link_new_type"]);
-//				unset($_GET["search_link_type"]);
-				ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
-				$this->ctrl->redirect($this, "editQuestion");
-//				$this->editQuestion();
-				break;
-		}
-	}
-	
 	function setSequenceNumber($nr) 
 	{
 		$this->sequence_no = $nr;
@@ -1071,5 +783,452 @@ class assQuestionGUI
 		$template->setVariable("TEXT_QUESTION_TYPE", assQuestion::_getQuestionTypeName($this->object->getQuestionType()));
 		return $template->get();
 	}
+	
+	/**
+	* Allows to add suggested solutions for questions
+	*
+	* @access public
+	*/
+	public function suggestedsolution()
+	{
+		if ($_POST["deleteSuggestedSolution"] == 1)
+		{
+			$this->object->suggested_solutions = array();
+			$this->object->updateSuggestedSolutions();
+			ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+			$this->ctrl->redirect($this, "suggestedsolution");
+		}
+
+		$save = (is_array($_POST["cmd"]) && array_key_exists("suggestedsolution", $_POST["cmd"])) ? TRUE : FALSE;
+		$output = "";
+		$solution_array = $this->object->getSuggestedSolution(0);
+		$options = array(
+			"lm" => $this->lng->txt("obj_lm"),
+			"st" => $this->lng->txt("obj_st"),
+			"pg" => $this->lng->txt("obj_pg"),
+			"git" => $this->lng->txt("glossary_term"),
+			"file" => $this->lng->txt("fileDownload"),
+			"text" => $this->lng->txt("solutionText")
+		);
+
+		if ((strcmp($_POST["solutiontype"], "file") == 0) && (strcmp($solution_array["type"], "file") != 0))
+		{
+			$solution_array = array(
+				"type" => "file"
+			);
+		} 
+		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
+		{
+			$solution_array = array(
+				"type" => "text"
+			);
+		}
+		if ($save && strlen($_POST["filename"]))
+		{
+			$solution_array["value"]["filename"] = $_POST["filename"];
+		}
+		if ($save && strlen($_POST["solutiontext"]))
+		{
+			$solution_array["value"] = $_POST["solutiontext"];
+		}
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		if (count($solution_array))
+		{
+			$form = new ilPropertyFormGUI();
+			$form->setFormAction($this->ctrl->getFormAction($this));
+			$form->setTitle($this->lng->txt("solution_hint"));
+			$form->setMultipart(TRUE);
+			$form->setTableWidth("100%");
+			$form->setId("suggestedsolutiondisplay");
+
+			// suggested solution output
+			include_once "./Modules/TestQuestionPool/classes/class.ilSolutionTitleInputGUI.php";
+			$title = new ilSolutionTitleInputGUI($this->lng->txt("showSuggestedSolution"), "solutiontype");
+			$template = new ilTemplate("tpl.il_as_qpl_suggested_solution_input_presentation.html", TRUE, TRUE, "Modules/TestQuestionPool");
+			if (strlen($solution_array["internal_link"]))
+			{
+				$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
+				$template->setCurrentBlock("preview");
+				$template->setVariable("TEXT_SOLUTION", $this->lng->txt("solution_hint"));
+				$template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("link"). "</a> ");
+				$template->parseCurrentBlock();
+			}
+			elseif ((strcmp($solution_array["type"], "file") == 0) && (is_array($solution_array["value"])))
+			{
+				$href = $this->object->getSuggestedSolutionPathWeb() . $solution_array["value"]["name"];
+				$template->setCurrentBlock("preview");
+				$template->setVariable("TEXT_SOLUTION", $this->lng->txt("solution_hint"));
+				$template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilUtil::prepareFormOutput((strlen($solution_array["value"]["filename"])) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]). "</a> ");
+				$template->parseCurrentBlock();
+			}
+			$template->setVariable("TEXT_TYPE", $this->lng->txt("type"));
+			$template->setVariable("VALUE_TYPE", $options[$solution_array["type"]]);
+			$title->setHtml($template->get());
+			$deletesolution = new ilCheckboxInputGUI("", "deleteSuggestedSolution");
+			$deletesolution->setOptionTitle($this->lng->txt("deleteSuggestedSolution"));
+			$title->addSubItem($deletesolution);
+			$form->addItem($title);
+
+			if (strcmp($solution_array["type"], "file") == 0)
+			{
+				// file
+				$file = new ilFileInputGUI($this->lng->txt("fileDownload"), "file");
+				$file->setRequired(TRUE);
+				$file->enableFileNameSelection("filename");
+				//$file->setSuffixes(array("doc","xls","png","jpg","gif","pdf"));
+				if ($_FILES["file"]["tmp_name"])
+				{
+					if (!file_exists($this->object->getSuggestedSolutionPath())) ilUtil::makeDirParents($this->object->getSuggestedSolutionPath());
+					$res = ilUtil::moveUploadedFile($_FILES["file"]["tmp_name"], $_FILES["file"]["name"], $this->object->getSuggestedSolutionPath() . $_FILES["file"]["name"]);
+					if ($res)
+					{
+						// remove an old file download
+						if (is_array($solution_array["value"])) @unlink($this->object->getSuggestedSolutionPath() . $solution_array["value"]["name"]);
+						$file->setValue($_FILES["file"]["name"]);
+						$this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
+						ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+						$this->ctrl->redirect($this, "suggestedsolution");
+					}
+					else
+					{
+						ilUtil::sendInfo($res);
+					}
+				}
+				else
+				{
+					if (is_array($solution_array["value"]))
+					{
+						$file->setValue($solution_array["value"]["name"]);
+						$file->setFilename((strlen($solution_array["value"]["filename"])) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]);
+					}
+				}
+				$form->addItem($file);
+				$hidden = new ilHiddenInputGUI("solutiontype");
+				$hidden->setValue("file");
+				$form->addItem($hidden);
+			}
+			else if (strcmp($solution_array["type"], "text") == 0)
+			{
+				$question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
+				$question->setValue($this->object->prepareTextareaOutput($solution_array["value"]));
+				$question->setRequired(TRUE);
+				$question->setRows(10);
+				$question->setCols(80);
+				$question->setUseRte(TRUE);
+				$question->addPlugin("latex");
+				$question->addButton("latex");
+				$question->setRTESupport($this->object->obj_id, $this->object->type, "assessment");
+				$hidden = new ilHiddenInputGUI("solutiontype");
+				$hidden->setValue("text");
+				$form->addItem($hidden);
+				$form->addItem($question);
+			}
+			$form->addCommandButton("suggestedsolution", $this->lng->txt("save"));
+			if ($save)
+			{
+				if ($form->checkInput())
+				{
+					switch ($solution_array["type"])
+					{
+						case "file":
+							$this->object->saveSuggestedSolution("file", "", 0, array("name" => $solution_array["value"]["name"], "type" => $solution_array["value"]["type"], "size" => $solution_array["value"]["size"], "filename" => $_POST["filename"]));
+							ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+							$this->ctrl->redirect($this, "suggestedsolution");
+							break;
+						case "text":
+							$this->object->saveSuggestedSolution("text", "", 0, $solution_array["value"]);
+							ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+							$this->ctrl->redirect($this, "suggestedsolution");
+							break;
+					}
+				}
+			}
+			$output = $form->getHTML();
+		}
+		
+		$savechange = (strcmp($this->ctrl->getCmd(), "saveSuggestedSolution") == 0) ? TRUE : FALSE;
+
+		$formchange = new ilPropertyFormGUI();
+		$formchange->setFormAction($this->ctrl->getFormAction($this));
+		$formchange->setTitle((count($solution_array)) ? $this->lng->txt("changeSuggestedSolution") : $this->lng->txt("addSuggestedSolution"));
+		$formchange->setMultipart(FALSE);
+		$formchange->setTableWidth("100%");
+		$formchange->setId("suggestedsolution");
+
+		$solutiontype = new ilRadioMatrixInputGUI($this->lng->txt("suggestedSolutionType"), "solutiontype");
+		$solutiontype->setOptions($options);
+		if (count($solution_array))
+		{
+			$solutiontype->setValue($solution_array["type"]);
+		}
+		$solutiontype->setRequired(TRUE);
+		$formchange->addItem($solutiontype);
+
+		$formchange->addCommandButton("saveSuggestedSolution", (count($solution_array)) ? $this->lng->txt("change") : $this->lng->txt("save"));
+
+		if ($savechange) 
+		{
+			$formchange->checkInput();
+		}
+		
+		$this->tpl->setVariable("ADM_CONTENT", $formchange->getHTML() . $output);
+	}
+	
+	public function outSolutionExplorer()
+	{
+		global $tree;
+
+		include_once("./Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php");
+		$type = $_GET["link_new_type"];
+		$search = $_GET["search_link_type"];
+		$this->ctrl->setParameter($this, "link_new_type", $type);
+		$this->ctrl->setParameter($this, "search_link_type", $search);
+		$this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
+
+		ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
+
+		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this, 'suggestedsolution'), get_class($this));
+
+		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'outSolutionExplorer'));
+		$exp->setTargetGet("ref_id");
+		$exp->setRefId($this->cur_ref_id);
+		$exp->addFilter($type);
+		$exp->setSelectableType($type);
+
+		// build html-output
+		$exp->setOutput(0);
+
+		$template = new ilTemplate("tpl.il_as_qpl_explorer.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$template->setVariable("EXPLORER_TREE",$exp->getOutput());
+		$template->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		$template->setVariable("FORMACTION",$this->ctrl->getFormAction($this, "suggestedsolution"));
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+	}
+	
+	public function saveSuggestedSolution()
+	{
+		global $tree;
+
+		include_once("./Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php");
+		switch ($_POST["solutiontype"])
+		{
+			case "lm":
+				$type = "lm";
+				$search = "lm";
+				break;
+			case "git":
+				$type = "glo";
+				$search = "glo";
+				break;
+			case "st":
+				$type = "lm";
+				$search = "st";
+				break;
+			case "pg":
+				$type = "lm";
+				$search = "pg";
+				break;
+			case "file":
+			case "text":
+				return $this->suggestedsolution();
+				break;
+			default:
+				return $this->suggestedsolution();
+				break;
+		}
+		$this->ctrl->setParameter($this, "link_new_type", $type);
+		$this->ctrl->setParameter($this, "search_link_type", $search);
+		$this->ctrl->redirect($this, "outSolutionExplorer");
+	}
+
+	function cancelExplorer()
+	{
+		$this->ctrl->redirect($this, "suggestedsolution");
+	}
+	
+	function outPageSelector()
+	{
+		include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+		$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
+		$cont_obj = $cont_obj_gui->object;
+		$pages = ilLMPageObject::getPageList($cont_obj->getId());
+		$shownpages = array();
+		$tree = $cont_obj->getLMTree();
+		$chapters = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		$template = new ilTemplate("tpl.il_as_qpl_internallink_selection.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		foreach ($chapters as $chapter)
+		{
+			$chapterpages = $tree->getChildsByType($chapter["obj_id"], "pg");
+			foreach ($chapterpages as $page)
+			{
+				if($page["type"] == $_GET["search_link_type"])
+				{
+					array_push($shownpages, $page["obj_id"]);
+					$template->setCurrentBlock("linktable_row");
+					$template->setVariable("TEXT_LINK", $page["title"]);
+					$template->setVariable("TEXT_ADD", $this->lng->txt("add"));
+					$template->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
+					$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					if ($tree->isInTree($page["obj_id"]))
+					{
+						$path_str = $this->getContextPath($cont_obj, $page["obj_id"]);
+					}
+					else
+					{
+						$path_str = "---";
+					}
+					$template->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($path_str));
+					$template->parseCurrentBlock();
+					$counter++;
+				}
+			}
+		}
+		foreach ($pages as $page)
+		{
+			if (!in_array($page["obj_id"], $shownpages))
+			{
+				$template->setCurrentBlock("linktable_row");
+				$template->setVariable("TEXT_LINK", $page["title"]);
+				$template->setVariable("TEXT_ADD", $this->lng->txt("add"));
+				$template->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($page["type"])) . "&" . $page["type"] . "=" . $page["obj_id"]);
+				$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$path_str = "---";
+				$template->setVariable("TEXT_DESCRIPTION", ilUtil::prepareFormOutput($path_str));
+				$template->parseCurrentBlock();
+				$counter++;
+			}
+		}
+		$template->setCurrentBlock("link_selection");
+		$template->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		$template->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_GET["search_link_type"]));
+		$template->setVariable("FORMACTION",$this->ctrl->getFormAction($this, "cancelExplorer"));
+		$template->parseCurrentBlock();
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+	}
+	
+	public function outChapterSelector()
+	{
+		$template = new ilTemplate("tpl.il_as_qpl_internallink_selection.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
+		$cont_obj_gui =& new ilObjContentObjectGUI("", $_GET["source_id"], true);
+		$cont_obj = $cont_obj_gui->object;
+		// get all chapters
+		$ctree =& $cont_obj->getLMTree();
+		$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+		foreach($nodes as $node)
+		{
+			if($node["type"] == $_GET["search_link_type"])
+			{
+				$template->setCurrentBlock("linktable_row");
+				$template->setVariable("TEXT_LINK", $node["title"]);
+				$template->setVariable("TEXT_ADD", $this->lng->txt("add"));
+				$template->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($node["type"])) . "&" . $node["type"] . "=" . $node["obj_id"]);
+				$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$template->parseCurrentBlock();
+				$counter++;
+			}
+		}
+		$template->setCurrentBlock("link_selection");
+		$template->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		$template->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_GET["search_link_type"]));
+		$template->setVariable("FORMACTION",$this->ctrl->getFormAction($this, "cancelExplorer"));
+		$template->parseCurrentBlock();
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+	}
+
+	public function outGlossarySelector()
+	{
+		$template = new ilTemplate("tpl.il_as_qpl_internallink_selection.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		include_once "./Modules/Glossary/classes/class.ilObjGlossary.php";
+		$glossary =& new ilObjGlossary($_GET["source_id"], true);
+		// get all glossary items
+		$terms = $glossary->getTermList();
+		foreach($terms as $term)
+		{
+			$template->setCurrentBlock("linktable_row");
+			$template->setVariable("TEXT_LINK", $term["term"]);
+			$template->setVariable("TEXT_ADD", $this->lng->txt("add"));
+			$template->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "addGIT") . "&git=" . $term["id"]);
+			$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+			$template->parseCurrentBlock();
+			$counter++;
+		}
+		$template->setCurrentBlock("link_selection");
+		$template->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+		$template->setVariable("TEXT_LINK_TYPE", $this->lng->txt("glossary_term"));
+		$template->setVariable("FORMACTION",$this->ctrl->getFormAction($this, "cancelExplorer"));
+		$template->parseCurrentBlock();
+		$this->tpl->setVariable("ADM_CONTENT", $template->get());
+	}
+	
+	function linkChilds()
+	{
+		$this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
+		switch ($_GET["search_link_type"])
+		{
+			case "pg":
+				return $this->outPageSelector();
+				break;
+			case "st":
+				return $this->outChapterSelector();
+				break;
+			case "glo":
+				return $this->outGlossarySelector();
+				break;
+			case "lm":
+				$subquestion_index = ($_GET["subquestion_index"] > 0) ? $_GET["subquestion_index"] : 0;
+				$this->object->saveSuggestedSolution("lm", "il__lm_" . $_GET["source_id"], $subquestion_index);
+				ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+				$this->ctrl->redirect($this, "suggestedsolution");
+				break;
+		}
+	}
+
+	function addPG()
+	{
+		$subquestion_index = 0;
+		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
+		{
+			$subquestion_index = $_GET["subquestion_index"];
+		}
+		$this->object->saveSuggestedSolution("pg", "il__pg_" . $_GET["pg"], $subquestion_index);
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		$this->ctrl->redirect($this, "suggestedsolution");
+	}
+
+	function addST()
+	{
+		$subquestion_index = 0;
+		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
+		{
+			$subquestion_index = $_GET["subquestion_index"];
+		}
+		$this->object->saveSuggestedSolution("st", "il__st_" . $_GET["st"], $subquestion_index);
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		$this->ctrl->redirect($this, "suggestedsolution");
+	}
+
+	function addGIT()
+	{
+		$subquestion_index = 0;
+		if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0)
+		{
+			$subquestion_index = $_GET["subquestion_index"];
+		}
+		$this->object->saveSuggestedSolution("git", "il__git_" . $_GET["git"], $subquestion_index);
+		ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+		$this->ctrl->redirect($this, "suggestedsolution");
+	}		
 }
 ?>

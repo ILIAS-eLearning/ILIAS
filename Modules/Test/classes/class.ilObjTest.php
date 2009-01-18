@@ -4238,19 +4238,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$percentvalue = 0;
 			}
 			if ($percentvalue < 0) $percentvalue = 0.0;
-			if (assQuestion::_getSuggestedSolutionCount($value) == 1)
-			{
-				$solution_array =& assQuestion::_getSuggestedSolution($value, 0);
-				$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
-			}
-			elseif (assQuestion::_getSuggestedSolutionCount($value) > 1)
-			{
-				$href = "see_details_for_further_information";
-			}
-			else
-			{
-				$href = "";
-			}
 			$info =& assQuestion::_getQuestionInfo($value);
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
 			$row = array(
@@ -4259,7 +4246,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				"max" => $max_points,
 				"reached" => $reached_points,
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
-				"solution" => $href,
+				"solution" => assQuestion::_getSuggestedSolutionOutput($value),
 				"type" => $info["type_tag"],
 				"qid" => $value,
 				"original_id" => $info["original_id"],

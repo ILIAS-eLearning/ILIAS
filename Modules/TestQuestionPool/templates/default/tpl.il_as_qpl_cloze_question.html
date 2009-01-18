@@ -79,24 +79,6 @@
 <tr>
 <td class="option" colspan="5"><input type="submit" class="submit" name="cmd[addGapText_{VALUE_GAP_COUNTER}]" value="{ADD_TEXT_GAP}" /></td>
 </tr>
-<!-- BEGIN textgap_suggested_solution -->
-<tr>
-	<td class="option">{TEXT_SOLUTION_HINT}</td>
-	<td class="option_value" colspan="4">
-		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
-		{TEXT_VALUE_SOLUTION_HINT}
-		<!-- BEGIN textgap_remove_solution -->
-		<input type="submit" class="submit" name="cmd[removeSuggestedSolution_{VALUE_GAP_COUNTER_REMOVE}]" value="{BUTTON_REMOVE_SOLUTION}" />
-		<!-- END textgap_remove_solution -->
-		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
-		<select name="internalLinkType_{VALUE_GAP_COUNTER}">
-<!-- BEGIN textgap_internallink -->
-		<option value="{TYPE_INTERNAL_LINK}">{TEXT_INTERNAL_LINK}</option>
-<!-- END textgap_internallink -->
-		</select>
-	</td>
-</tr>
-<!-- END textgap_suggested_solution -->
 <!-- END textgap -->
 <!-- BEGIN selectgap -->
 <!-- BEGIN selectgap_value -->
@@ -111,24 +93,6 @@
 <tr>
 <td class="option" colspan="5"><input type="submit" class="submit" name="cmd[addSelectGapText_{VALUE_GAP_COUNTER}]" value="{ADD_SELECT_GAP}" /></td>
 </tr>
-<!-- BEGIN selectgap_suggested_solution -->
-<tr>
-	<td class="option">{TEXT_SOLUTION_HINT}</td>
-	<td class="option_value" colspan="4">
-		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
-		{TEXT_VALUE_SOLUTION_HINT}
-		<!-- BEGIN selectgap_remove_solution -->
-		<input type="submit" class="submit" name="cmd[removeSuggestedSolution_{VALUE_GAP_COUNTER_REMOVE}]" value="{BUTTON_REMOVE_SOLUTION}" />
-		<!-- END selectgap_remove_solution -->
-		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
-		<select name="internalLinkType_{VALUE_GAP_COUNTER}">
-<!-- BEGIN selectgap_internallink -->
-		<option value="{TYPE_INTERNAL_LINK}">{TEXT_INTERNAL_LINK}</option>
-<!-- END selectgap_internallink -->
-		</select>
-	</td>
-</tr>
-<!-- END selectgap_suggested_solution -->
 <tr>
   <td class="option">{TEXT_SHUFFLE_ANSWERS}</td>
   <td class="option_value" colspan="4"><select name="shuffle_{VALUE_GAP_COUNTER}" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
@@ -153,24 +117,6 @@
   <td class="option_value" colspan="3"></td>
 </tr>
 <!-- END numericgap_value -->
-<!-- BEGIN numericgap_suggested_solution -->
-<tr>
-	<td class="option">{TEXT_SOLUTION_HINT}</td>
-	<td class="option_value" colspan="4">
-		<input type="hidden" name="solution_hint_{VALUE_GAP_COUNTER}" value="{VALUE_SOLUTION_HINT}" />
-		{TEXT_VALUE_SOLUTION_HINT}
-		<!-- BEGIN numericgap_remove_solution -->
-		<input type="submit" class="submit" name="cmd[removeSuggestedSolution_{VALUE_GAP_COUNTER_REMOVE}]" value="{BUTTON_REMOVE_SOLUTION}" />
-		<!-- END numericgap_remove_solution -->
-		<input type="submit" class="submit" name="cmd[addSuggestedSolution_{VALUE_GAP_COUNTER}]" value="{BUTTON_ADD_SOLUTION}" />
-		<select name="internalLinkType_{VALUE_GAP_COUNTER}">
-<!-- BEGIN numericgap_internallink -->
-		<option value="{TYPE_INTERNAL_LINK}">{TEXT_INTERNAL_LINK}</option>
-<!-- END numericgap_internallink -->
-		</select>
-	</td>
-</tr>
-<!-- END numericgap_suggested_solution -->
 <!-- END numericgap -->
 <!-- END answer_row -->
 <tr><td colspan="5" class="submit">

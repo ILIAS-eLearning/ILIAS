@@ -310,8 +310,6 @@ class assMultipleChoice extends assQuestion
 	/**
 	* Duplicates an assMultipleChoiceQuestion
 	*
-	* Duplicates an assMultipleChoiceQuestion
-	*
 	* @access public
 	*/
 	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
@@ -361,6 +359,8 @@ class assMultipleChoice extends assQuestion
 		// duplicate the answer specific feedback
 		$clone->duplicateFeedbackAnswer($this_id);
 
+		$clone->onDuplicate($this_id);
+
 		return $clone->id;
 	}
 
@@ -402,6 +402,9 @@ class assMultipleChoice extends assQuestion
 		// duplicate the answer specific feedback
 		$clone->duplicateFeedbackAnswer($original_id);
 
+		$clone->onDuplicate($source_questionpool, $this->getId());
+
+		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->id;
 	}
 

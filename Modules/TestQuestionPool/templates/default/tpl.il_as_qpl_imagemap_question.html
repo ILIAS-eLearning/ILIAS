@@ -28,22 +28,6 @@
   <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
 </tr>
 <tr>
-	<td class="option">{TEXT_SOLUTION_HINT}:</td>
-	<td class="option_value" colspan="4">
-		<input type="hidden" name="solution_hint" value="{VALUE_SOLUTION_HINT}" />
-		{TEXT_VALUE_SOLUTION_HINT}
-		<!-- BEGIN remove_solution -->
-		<input type="submit" class="submit" name="cmd[removeSuggestedSolution]" value="{BUTTON_REMOVE_SOLUTION}" />
-		<!-- END remove_solution -->
-		<input type="submit" class="submit" name="cmd[addSuggestedSolution]" value="{BUTTON_ADD_SOLUTION}" />
-		<select name="internalLinkType">
-<!-- BEGIN internallink -->
-		<option value="{TYPE_INTERNAL_LINK}">{TEXT_INTERNAL_LINK}</option>
-<!-- END internallink -->
-		</select>
-	</td>
-</tr>
-<tr>
 	<td class="option">{TEXT_IMAGE}:</td>
 	<td class="option_value" colspan="4">
 		<input name="imageName" type="file" id="image" size="30" />
