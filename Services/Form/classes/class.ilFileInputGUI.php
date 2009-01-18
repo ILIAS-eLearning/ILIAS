@@ -202,7 +202,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI
 				case UPLOAD_ERR_NO_FILE:
 					if ($this->getRequired())
 					{
-						if (!strlen($this->getFilename()))
+						if (!strlen($this->getValue()))
 						{
 							$this->setAlert($lng->txt("form_msg_file_no_upload"));
 							return false;

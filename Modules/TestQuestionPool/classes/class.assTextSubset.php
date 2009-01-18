@@ -354,6 +354,7 @@ class assTextSubset extends assQuestion
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
 		$clone->duplicateFeedbackGeneric($this_id);
+		$clone->onDuplicate($this_id);
 
 		return $clone->id;
 	}
@@ -391,6 +392,7 @@ class assTextSubset extends assQuestion
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 		// duplicate the generic feedback
 		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->onCopy($this->getObjId(), $this->getId());
 
 		return $clone->id;
 	}

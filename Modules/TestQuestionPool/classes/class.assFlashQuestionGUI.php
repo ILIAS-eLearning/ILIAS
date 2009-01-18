@@ -91,7 +91,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 	*/
 	function editQuestion()
 	{
-		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0) || (strcmp($this->ctrl->getCmd(), "addSuggestedSolution") == 0)) ? TRUE : FALSE;
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 		$this->getQuestionTemplate();
 
@@ -99,7 +99,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("assFlashQuestion"));
-		$form->setMultipart(TRUE);
+		$form->setMultipart(FALSE);
 		$form->setTableWidth("100%");
 		$form->setId("flash");
 
@@ -140,24 +140,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$duration->setSeconds($ewt["s"]);
 		$duration->setRequired(FALSE);
 		$form->addItem($duration);
-		// suggested solution
-		include_once "./Modules/TestQuestionPool/classes/class.ilSuggestedSolutionSelectorGUI.php";
-		$solution = new ilSuggestedSolutionSelectorGUI($this->lng->txt("solution_hint"), "internalLinkType");
-		$internallinks = array(
-			"lm" => $this->lng->txt("obj_lm"),
-			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg"),
-			"glo" => $this->lng->txt("glossary_term")
-		);
-		$solution->setOptions($internallinks);
-		$solution->setAddCommand("addSuggestedSolution");
-		$solution_array = $this->object->getSuggestedSolution(0);
-		if ($solution_array["internal_link"])
-		{
-			$solution->setInternalLink(assQuestion::_getInternalLinkHref($solution_array["internal_link"]));
-			$solution->setInternalLinkText($this->lng->txt("solution_hint"));
-		}
-		$form->addItem($solution);
 		
 		// flash file
 		$flash = new ilFlashFileInputGUI($this->lng->txt("flashfile"), "flash");
@@ -247,10 +229,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 		{
 			$this->object->deleteApplet();
 		}
-		if ($_POST["internalLinkType_delete"] == 1)
-		{
-			$this->object->deleteSuggestedSolutions();
-		}
 		if ($_FILES["flash"]["tmp_name"])
 		{
 			if ($_SESSION["flash_upload_filename"]) @unlink($_SESSION["flash_upload_filename"]);
@@ -296,7 +274,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$formtags = ",input,select,option,button";
 		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment") . $formtags);
 		$this->object->setQuestion($questiontext);
-		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		$this->object->setEstimatedWorkingTime(
 			ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
 			ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
@@ -516,28 +493,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 		return $pageoutput;
 	}
 
-	function addSuggestedSolution()
-	{
-		$_SESSION["subquestion_index"] = 0;
-		if ($_POST["cmd"]["addSuggestedSolution"])
-		{
-			if ($this->writePostData())
-			{
-				ilUtil::sendInfo($this->getErrorMessage());
-				$this->editQuestion();
-				return;
-			}
-		}
-		$this->object->saveToDb();
-		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate();
-		parent::addSuggestedSolution();
-	}
-
 	/**
-	* Saves the feedback for a single choice question
-	*
 	* Saves the feedback for a single choice question
 	*
 	* @access public
@@ -552,8 +508,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates the output of the feedback page for a single choice question
-	*
 	* Creates the output of the feedback page for a single choice question
 	*
 	* @access public
@@ -642,8 +596,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", "addSuggestedSolution",
-					"cancelExplorer", "linkChilds", "removeSuggestedSolution",
+				array("editQuestion", "save", "cancel", 
 					"flashAddParam", "saveEdit"),
 				$classname, "", $force_active);
 		}
@@ -656,6 +609,18 @@ class assFlashQuestionGUI extends assQuestionGUI
 				$classname, "");
 		}
 		
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("solution_hint",
+				$this->ctrl->getLinkTargetByClass($classname, "suggestedsolution"),
+				array("suggestedsolution", "saveSuggestedSolution", "outSolutionExplorer", "cancel", 
+				"addSuggestedSolution","cancelExplorer", "linkChilds", "removeSuggestedSolution"
+				),
+				$classname, 
+				""
+			);
+		}
+
 		// Assessment of questions sub menu entry
 		if ($_GET["q_id"])
 		{

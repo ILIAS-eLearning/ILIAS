@@ -6630,3 +6630,38 @@ if(!$ilDB->tableColumnExists("usr_data", "im_voip"))
 		));
 }
 ?>
+<#1394>
+<?php
+if(!$ilDB->tableColumnExists("qpl_suggested_solutions", "type"))
+{
+	$ilDB->alterTable("qpl_suggested_solutions",
+		array("add" => array(
+			"type" => array(
+				"type" => "text", "length" => 32, "notnull" => true),
+			"value" => array(
+				"type" => "text", "notnull" => false)
+			)
+		));
+}
+?>
+<#1395>
+<?php
+$statement = $ilDB->prepare("SELECT * FROM qpl_suggested_solutions");
+$result = $ilDB->execute($statement);
+if ($result->numRows() > 0)
+{
+	while ($data = $ilDB->fetchAssoc($result))
+	{
+		if (strlen($data["tpye"]) == 0)
+		{
+			if (preg_match("/il_+(\\w+)_+\\d+/", $data["internal_link"], $matches))
+			{
+				$updatestatement = $ilDB->prepareManip("UPDATE qpl_suggested_solutions SET type = ? WHERE suggested_solution_id = ?",
+					array("text", "text")
+				);
+				$affectedRows = $ilDB->execute($updatestatement, array($matches[1], $data["suggested_solution_id"]));
+			}
+		}
+	}
+}
+?>

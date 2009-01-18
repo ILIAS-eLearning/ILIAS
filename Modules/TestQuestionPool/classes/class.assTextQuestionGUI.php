@@ -120,24 +120,6 @@ class assTextQuestionGUI extends assQuestionGUI
 		$duration->setSeconds($ewt["s"]);
 		$duration->setRequired(FALSE);
 		$form->addItem($duration);
-		// suggested solution
-		include_once "./Modules/TestQuestionPool/classes/class.ilSuggestedSolutionSelectorGUI.php";
-		$solution = new ilSuggestedSolutionSelectorGUI($this->lng->txt("solution_hint"), "internalLinkType");
-		$internallinks = array(
-			"lm" => $this->lng->txt("obj_lm"),
-			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg"),
-			"glo" => $this->lng->txt("glossary_term")
-		);
-		$solution->setOptions($internallinks);
-		$solution->setAddCommand("addSuggestedSolution");
-		$solution_array = $this->object->getSuggestedSolution(0);
-		if ($solution_array["internal_link"])
-		{
-			$solution->setInternalLink(assQuestion::_getInternalLinkHref($solution_array["internal_link"]));
-			$solution->setInternalLinkText($this->lng->txt("solution_hint"));
-		}
-		$form->addItem($solution);
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
 		$points->setValue($this->object->getPoints());
@@ -552,6 +534,18 @@ class assTextQuestionGUI extends assQuestionGUI
 				$classname, "");
 		}
 		
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("solution_hint",
+				$this->ctrl->getLinkTargetByClass($classname, "suggestedsolution"),
+				array("suggestedsolution", "saveSuggestedSolution", "outSolutionExplorer", "cancel", 
+				"addSuggestedSolution","cancelExplorer", "linkChilds", "removeSuggestedSolution"
+				),
+				$classname, 
+				""
+			);
+		}
+
 		// Assessment of questions sub menu entry
 		if ($_GET["q_id"])
 		{

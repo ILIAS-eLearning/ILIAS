@@ -303,6 +303,7 @@ class assImagemapQuestion extends assQuestion
 
 		// duplicate the image
 		$clone->duplicateImage($this_id);
+		$clone->onDuplicate($this_id);
 		return $clone->id;
 	}
 
@@ -344,6 +345,7 @@ class assImagemapQuestion extends assQuestion
 
 		// duplicate the image
 		$clone->copyImage($original_id, $source_questionpool);
+		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->id;
 	}
 	

@@ -70,7 +70,7 @@ class assClozeTestGUI extends assQuestionGUI
 
 	function getCommand($cmd)
 	{
-		if (preg_match("/^(addGapText|addSelectGapText|addSuggestedSolution|removeSuggestedSolution)_(\d+)$/", $cmd, $matches))
+		if (preg_match("/^(addGapText|addSelectGapText)_(\d+)$/", $cmd, $matches))
 		{
 			$cmd = $matches[1];
 			$this->gapIndex = $matches[2];
@@ -379,17 +379,6 @@ class assClozeTestGUI extends assQuestionGUI
 		$this->object->setClozeText($cloze_text);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
-		$this->object->suggested_solutions = array();
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/^solution_hint_(\d+)/", $key, $matches))
-			{
-				if ($value)
-				{
-					$this->object->setSuggestedSolution($value, $matches[1]);
-				}
-			}
-		}
 
 		if (strcmp($this->ctrl->getCmd(), "createGaps") == 0)
 		{
@@ -434,13 +423,6 @@ class assClozeTestGUI extends assQuestionGUI
 	function editQuestion()
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		$internallinks = array(
-			"lm" => $this->lng->txt("obj_lm"),
-			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg"),
-			"glo" => $this->lng->txt("glossary_term")
-		);
-		//$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate();
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_question.html", "Modules/TestQuestionPool");
 		for ($i = 0; $i < $this->object->getGapCount(); $i++)
@@ -464,32 +446,6 @@ class assClozeTestGUI extends assQuestionGUI
 					$this->tpl->parseCurrentBlock();
 				}
 
-				foreach ($internallinks as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("textgap_internallink");
-					$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-					$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("textgap_suggested_solution");
-				$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-				if (array_key_exists($i, $this->object->suggested_solutions))
-				{
-					$solution_array = $this->object->getSuggestedSolution($i);
-					$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
-					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-				}
-				else
-				{
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
-				}
-				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
-				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("textgap");
 				$this->tpl->setVariable("ADD_TEXT_GAP", $this->lng->txt("add_gap"));
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", "$i");
@@ -518,32 +474,6 @@ class assClozeTestGUI extends assQuestionGUI
 					$this->tpl->parseCurrentBlock();
 				}
 
-				foreach ($internallinks as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("numericgap_internallink");
-					$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-					$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("numericgap_suggested_solution");
-				$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-				if (array_key_exists($i, $this->object->suggested_solutions))
-				{
-					$solution_array = $this->object->getSuggestedSolution($i);
-					$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
-					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-				}
-				else
-				{
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
-				}
-				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
-				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("numericgap");
 				$this->tpl->parseCurrentBlock();
 			}
@@ -566,32 +496,6 @@ class assClozeTestGUI extends assQuestionGUI
 					$this->tpl->parseCurrentBlock();
 				}
 
-				foreach ($internallinks as $key => $value)
-				{
-					$this->tpl->setCurrentBlock("selectgap_internallink");
-					$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
-					$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("selectgap_suggested_solution");
-				$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-				if (array_key_exists($i, $this->object->suggested_solutions))
-				{
-					$solution_array = $this->object->getSuggestedSolution($i);
-					$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
-					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
-					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
-					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
-				}
-				else
-				{
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
-				}
-				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
-				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("selectgap");
 				$this->tpl->setVariable("ADD_SELECT_GAP", $this->lng->txt("add_gap"));
 				$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
@@ -830,7 +734,6 @@ class assClozeTestGUI extends assQuestionGUI
 		include_once "./classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$output = $this->object->getClozeText();
-		$ssc = $this->object->_getSuggestedSolutionCount($this->object->getId());
 		foreach ($this->object->getGaps() as $gap_index => $gap)
 		{
 			$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution_gap.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -866,17 +769,6 @@ class assClozeTestGUI extends assQuestionGUI
 							$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
 							$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 						}
-						$gaptemplate->parseCurrentBlock();
-					}
-				}
-				if ($ssc > 0)
-				{
-					$ss = $this->object->_getSuggestedSolution($this->object->getId(), $gap_index);
-					if (count($ss))
-					{
-						$gaptemplate->setCurrentBlock("solution_hint");
-						$gaptemplate->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-						$gaptemplate->setVariable("URL_SOLUTION_HINT", $this->object->_getInternalLinkHref($ss["internal_link"]));
 						$gaptemplate->parseCurrentBlock();
 					}
 				}
@@ -1074,62 +966,6 @@ class assClozeTestGUI extends assQuestionGUI
 		return $pageoutput;
 	}
 
-	function addSuggestedSolution()
-	{
-		$addForGap = -1;
-		if (array_key_exists("cmd", $_POST))
-		{
-			foreach ($_POST["cmd"] as $key => $value)
-			{
-				if (preg_match("/addSuggestedSolution_(\d+)/", $key, $matches))
-				{
-					$addForGap = $matches[1];
-				}
-			}
-		}
-		if ($addForGap > -1)
-		{
-			if ($this->writePostData())
-			{
-				ilUtil::sendInfo($this->getErrorMessage());
-				$this->editQuestion();
-				return;
-			}
-			if (!$this->checkInput())
-			{
-				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
-				$this->editQuestion();
-				return;
-			}
-			$_POST["internalLinkType"] = $_POST["internalLinkType_$addForGap"];
-			$this->ctrl->setParameter($this, "subquestion_index", $addForGap);
-//			$_SESSION["subquestion_index"] = $addForGap;
-		}
-		$this->object->saveToDb();
-		$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		$this->tpl->setVariable("HEADER", $this->object->getTitle());
-		$this->getQuestionTemplate();
-		parent::addSuggestedSolution();
-	}
-
-	function removeSuggestedSolution()
-	{
-		$removeFromGap = -1;
-		foreach ($_POST["cmd"] as $key => $value)
-		{
-			if (preg_match("/removeSuggestedSolution_(\d+)/", $key, $matches))
-			{
-				$removeFromGap = $matches[1];
-			}
-		}
-		if ($removeFromGap > -1)
-		{
-			unset($this->object->suggested_solutions[$removeFromGap]);
-		}
-		$this->object->saveToDb();
-		$this->editQuestion();
-	}
-
 	/**
 	* Saves the feedback for a single choice question
 	*
@@ -1225,9 +1061,7 @@ class assClozeTestGUI extends assQuestionGUI
 				if (preg_match("/^delete_.*/", $key, $matches) || 
 					preg_match("/^addSelectGapText_.*/", $key, $matches) ||
 					preg_match("/^addGapText_.*/", $key, $matches) ||
-					preg_match("/^upload_.*/", $key, $matches) ||
-					preg_match("/^addSuggestedSolution_.*/", $key, $matches) ||
-					preg_match("/^removeSuggestedSolution_.*/", $key, $matches)
+					preg_match("/^upload_.*/", $key, $matches)
 					)
 				{
 					$force_active = true;
@@ -1241,8 +1075,7 @@ class assClozeTestGUI extends assQuestionGUI
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", "addSuggestedSolution",
-					 "cancelExplorer", "linkChilds", "removeSuggestedSolution",
+				array("editQuestion", "save", "cancel", 
 					 "createGaps", "saveEdit", "changeGapType"),
 				$classname, "", $force_active);
 		}
@@ -1255,6 +1088,18 @@ class assClozeTestGUI extends assQuestionGUI
 				$classname, "");
 		}
 		
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("solution_hint",
+				$this->ctrl->getLinkTargetByClass($classname, "suggestedsolution"),
+				array("suggestedsolution", "saveSuggestedSolution", "outSolutionExplorer", "cancel", 
+				"addSuggestedSolution","cancelExplorer", "linkChilds", "removeSuggestedSolution"
+				),
+				$classname, 
+				""
+			);
+		}
+
 		// Assessment of questions sub menu entry
 		if ($_GET["q_id"])
 		{

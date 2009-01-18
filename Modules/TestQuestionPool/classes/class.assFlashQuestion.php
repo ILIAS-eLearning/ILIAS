@@ -282,6 +282,8 @@ class assFlashQuestion extends assQuestion
 
 		// duplicate the applet
 		$clone->duplicateApplet($this_id);
+
+		$clone->onDuplicate($this_id);
 		return $clone->id;
 	}
 
@@ -321,6 +323,7 @@ class assFlashQuestion extends assQuestion
 
 		// duplicate the applet
 		$clone->copyApplet($original_id, $source_questionpool);
+		$clone->onCopy($this->getObjId(), $this->getId());
 
 		return $clone->id;
 	}

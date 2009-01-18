@@ -474,6 +474,8 @@ class ilTestServiceGUI
 				{
 					$template->setCurrentBlock("question_suggested_solution");
 					$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$template->setVariable("SOLUTION_HINT", $value["solution"]);
+					/*
 					if ((preg_match("/http/", $value["solution"])) || (preg_match("/goto/", $value["solution"])))
 					{
 						$template->setVariable("SOLUTION_HINT", "<a href=\"".$value["solution"]."\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
@@ -489,6 +491,7 @@ class ilTestServiceGUI
 							$template->setVariable("SOLUTION_HINT", "");
 						}
 					}
+					*/
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock("question");
