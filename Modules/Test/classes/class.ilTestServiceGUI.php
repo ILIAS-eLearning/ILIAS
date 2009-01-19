@@ -355,6 +355,15 @@ class ilTestServiceGUI
 					$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
 
+					$solout = $question_gui->object->getSuggestedSolutionOutput();
+					if (strlen($solout))
+					{
+						$scoretemplate->setCurrentBlock("suggested_solution");
+						$scoretemplate->setVariable("TEXT_SUGGESTED_SOLUTION", $this->lng->txt("solution_hint"));
+						$scoretemplate->setVariable("VALUE_SUGGESTED_SOLUTION", $solout);
+						$scoretemplate->parseCurrentBlock();
+					}
+					
 					$scoretemplate->setCurrentBlock("feedback");
 					$scoretemplate->setVariable("FEEDBACK_NAME_INPUT", $question);
 					$feedback = $this->object->getManualFeedback($active_id, $question, $pass);
