@@ -282,7 +282,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
 		
 		$this->setSideBlock($_GET["wpg_id"]);
-		$table_gui = new ilWikiPagesTableGUI($this, "",
+		$table_gui = new ilWikiPagesTableGUI($this, "whatLinksHere",
 			$this->getWikiPage()->getWikiId(), IL_WIKI_WHAT_LINKS_HERE, $_GET["wpg_id"]);
 			
 		$tpl->setContent($table_gui->getHTML());
