@@ -141,16 +141,19 @@ class ilHistoryGUI
 						case "st":
 							$img_type = "st";
 							$class = "ilstructureobjectgui";
+							$cmd = "view";
 							break;
 							
 						case "pg":
 							$img_type = "pg";
 							$class = "illmpageobjectgui";
+							$cmd = "edit";
 							break;
 
 						default:
 							$img_type = $obj_arr[0];
 							$class = "";
+							$cmd = "view";
 							break;
 					}
 
@@ -163,7 +166,7 @@ class ilHistoryGUI
 						$this->tpl->setCurrentBlock("item_link");
 						$this->ctrl->setParameterByClass($class, "obj_id", $entry["obj_id"]);
 						$this->tpl->setVariable("HREF_LINK", 
-							$this->ctrl->getLinkTargetByClass($class, "view"));
+							$this->ctrl->getLinkTargetByClass($class, $cmd));
 						$this->tpl->setVariable("TXT_LINK", $entry["title"]);
 						$this->tpl->parseCurrentBlock();
 					}
