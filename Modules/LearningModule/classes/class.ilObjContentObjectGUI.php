@@ -2952,8 +2952,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				"editBibItem", get_class($this));
 		}
 		// learning progress
-		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if(ilObjUserTracking::_enabledLearningProgress() and ($this->object->getType() == 'lm') and $ilUser->getId() != ANONYMOUS_USER_ID)
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and $this->object->getType() == 'lm')
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),

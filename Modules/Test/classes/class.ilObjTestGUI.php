@@ -5815,21 +5815,18 @@ class ilObjTestGUI extends ilObjectGUI
 					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails")
 					 , "");
 			}
+
+			include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+			if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+			{
+				$tabs_gui->addTarget('learning_progress',
+									 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
+									 '',
+									 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+			}
 			
 			if ($ilAccess->checkAccess("write", "", $this->ref_id))
 			{
-				// learning progress
-				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-				if(ilObjUserTracking::_enabledLearningProgress() and $ilAccess->checkAccess("edit_learning_progress", "", $this->ref_id) and $ilUser->getId() != ANONYMOUS_USER_ID)
-				{
-					$tabs_gui->addTarget('learning_progress',
-						$this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
-							'',
-							array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui',
-								'illplistofprogressgui')
-					);
-				}
-
 				// history
 				$tabs_gui->addTarget("history",
 					 $this->ctrl->getLinkTarget($this,'history'),
