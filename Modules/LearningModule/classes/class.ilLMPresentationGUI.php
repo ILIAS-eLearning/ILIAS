@@ -2945,7 +2945,7 @@ class ilLMPresentationGUI
 	*/
 	function showPrintView($a_free_page = 0)
 	{
-		global $ilBench,$ilUser;
+		global $ilBench,$ilUser,$lng,$ilCtrl;
 
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		
@@ -3063,15 +3063,23 @@ class ilLMPresentationGUI
 		}
 
 		// add free selected pages
-		foreach($_POST["item"] as $k => $item)
+		if (is_array($_POST["item"]))
 		{
-			if ($item == "y" && $k > 0 && !$this->lm_tree->isInTree($k))
+			foreach($_POST["item"] as $k => $item)
 			{
-				if (ilLMObject::_lookupType($k) == "pg")
+				if ($item == "y" && $k > 0 && !$this->lm_tree->isInTree($k))
 				{
-					$nodes[] = array("obj_id" => $k, "type" => "pg", "free" => true);
+					if (ilLMObject::_lookupType($k) == "pg")
+					{
+						$nodes[] = array("obj_id" => $k, "type" => "pg", "free" => true);
+					}
 				}
 			}
+		}
+		else
+		{
+			ilUtil::sendInfo($lng->txt("cont_print_no_page_selected"),true);
+			$ilCtrl->redirect($this, "showPrintViewSelection");
 		}
 		
 		foreach ($nodes as $node_key => $node)
