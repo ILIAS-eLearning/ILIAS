@@ -9022,3 +9022,4 @@ assessment#:#addSuggestedSolution#:#Add suggested solution
 assessment#:#fileDownload#:#File download
 assessment#:#solutionText#:#Text
 content#:#cont_print_no_page_selected#:#Please select at least one page.
+assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s

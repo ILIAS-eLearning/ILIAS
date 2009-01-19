@@ -9788,6 +9788,15 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($feedback, 0) . "")
 			);
 			$result = $ilDB->query($query);
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				global $lng, $ilUser;
+				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+				$username = ilObjTestAccess::_getParticipantData($active_id);
+				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+				$this->logAction(sprintf($lng->txtlng("assessment", "log_manual_feedback", ilObjAssessmentFolder::_getLogLanguage()), $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")", $username, assQuestion::_getQuestionTitle($question_id), $feedback));
+			}
 		}
 		if (PEAR::isError($result)) 
 		{

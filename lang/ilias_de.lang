@@ -9081,3 +9081,4 @@ assessment#:#changeSuggestedSolution#:#Musterlösung ändern
 assessment#:#addSuggestedSolution#:#Musterlösung hinzufügen
 assessment#:#fileDownload#:#Dateidownload
 assessment#:#solutionText#:#Text
+assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
