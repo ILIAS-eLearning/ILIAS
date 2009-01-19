@@ -35,6 +35,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -102,8 +103,7 @@ public class RPCSearchHandler {
 			rewrittenQuery.append(" ) AND docType:combined");
 			
 			logger.info("Searching for: " + rewrittenQuery.toString());
-			directory = FSDirectory.getDirectory(client.getIndexPath());
-			searcher = new IndexSearcher(directory);
+			searcher = SearchHolder.getInstance().getSearcher();
 			
 			Vector<Occur> occurs = new Vector<Occur>();
 			for(int i = 0; i < fieldInfo.getFieldSize(); i++) {
@@ -126,8 +126,15 @@ public class RPCSearchHandler {
 			logger.info("Found " + hits.length + " matches");
 			for(int i = 0; i < hits.length;i++) {
 				
+				logger.debug("New Document");
 				Document hitDoc = searcher.doc(hits[i].doc);
 				//Explanation expl = searcher.explain(query,hits[i].doc);
+				/*
+				for(Object el : expl.getDetails()) {
+					logger.debug("Explaination: " + ((Explanation) el).getDescription());
+					logger.debug("Value is: " + ((Explanation) el).getValue());
+				}
+				*/
 				//logger.info("Explaination: " + expl.toString());
 				logger.debug("Found objId: " + hitDoc.get("objId") + 
 						" type: " + hitDoc.get("type") + " title: " + hitDoc.get("title"));
@@ -185,8 +192,8 @@ public class RPCSearchHandler {
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
 			
 			logger.info("Searching for: " + newQuery);
-			directory = FSDirectory.getDirectory(client.getIndexPath());
-			searcher = new IndexSearcher(directory);
+
+			searcher = SearchHolder.getInstance().getSearcher();
 			
 			Vector<Occur> occurs = new Vector<Occur>();
 			for(int i = 0; i < fieldInfo.getFieldSize(); i++) {
@@ -211,18 +218,28 @@ public class RPCSearchHandler {
 			Fragmenter fragmenter = new SimpleFragmenter(100);
 			highlighter.setTextFragmenter(fragmenter);
 
+			String[] fields = fieldInfo.getFieldsAsStringArray();
 			for(int i = 0; i < hits.length;i++) {
 				
+				StringBuffer allContent = new StringBuffer();
 				Document hitDoc = searcher.doc(hits[i].doc);
-				String title = hitDoc.get("title");
-				if(title == null) {
-					logger.debug("Not in title");
+				
+				for(int j = 0; j < fields.length; j++) {
+					
+					if(hitDoc.get(fields[j]) != null) {
+						allContent.append(hitDoc.get(fields[j]));
+						allContent.append(' ');
+					}
+				}
+				
+				if(allContent.length() == 0) {
+					logger.warn("Found no matching content");
 					continue;
 				}
 			
 				TokenStream token =
-					new StandardAnalyzer().tokenStream("title", new StringReader(title));
-				String fragment = highlighter.getBestFragment(token, title);
+					new StandardAnalyzer().tokenStream("allContent", new StringReader(allContent.toString()));
+				String fragment = highlighter.getBestFragments(token,allContent.toString(), 2, "...");
 				logger.info("Fragmented: " + fragment);
 			}
 		}
