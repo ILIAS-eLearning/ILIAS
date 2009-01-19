@@ -1287,8 +1287,9 @@ class ilPageObjectGUI
 
 		//$content = $this->obj->getXMLFromDom(false, true, true,
 		//	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
+		$link_xml = $this->getLinkXML();
 		$content = $this->obj->getXMLFromDom(false, true, true,
-			$this->getLinkXML().$this->getQuestionXML());
+			$link_xml.$this->getQuestionXML());
 
 //echo "<br>-".htmlentities($content)."-";
 
@@ -1446,7 +1447,7 @@ class ilPageObjectGUI
 		
 		// run xslt
 		
-		$md5 = md5(serialize($params));
+		$md5 = md5(serialize($params).$link_xml);
 		
 //$a = microtime();
 		
