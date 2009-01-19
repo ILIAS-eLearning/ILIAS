@@ -368,7 +368,6 @@ class ilTestServiceGUI
 					$scoretemplate->setVariable("FEEDBACK_NAME_INPUT", $question);
 					$feedback = $this->object->getManualFeedback($active_id, $question, $pass);
 					$scoretemplate->setVariable("VALUE_FEEDBACK", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($feedback, TRUE)));
-					$scoretemplate->setVariable("VALUE_SAVE", $this->lng->txt("save"));
 					$scoretemplate->setVariable("TEXT_MANUAL_FEEDBACK", $this->lng->txt("set_manual_feedback"));
 					$scoretemplate->parseCurrentBlock();
 
@@ -377,8 +376,8 @@ class ilTestServiceGUI
 					$this->ctrl->setParameter($this, "pass", $pass);
 					$scoretemplate->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "manscoring"));
 					$scoretemplate->setVariable("LABEL_INPUT", $this->lng->txt("tst_change_points_for_question"));
-					$scoretemplate->setVariable("BUTTON_POINTS", $this->lng->txt("change"));
 					$scoretemplate->setVariable("VALUE_INPUT", " value=\"" . assQuestion::_getReachedPoints($active_id, $question_data["qid"], $pass) . "\"");
+					$scoretemplate->setVariable("VALUE_SAVE", $this->lng->txt("save"));
 					
 					$template->setVariable("SOLUTION_OUTPUT", $result_output);
 					$maintemplate->setCurrentBlock("printview_question");

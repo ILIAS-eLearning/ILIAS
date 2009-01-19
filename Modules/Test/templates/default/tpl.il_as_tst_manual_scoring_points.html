@@ -3,14 +3,11 @@
 <table class="fullwidth">
 <tr>
 	<td class="submit">
-		<label for="{NAME_INPUT}">{LABEL_INPUT}:</label> <input type="text" size="3" name="question[{NAME_INPUT}]" id="{NAME_INPUT}"{VALUE_INPUT} /> {TEXT_MAXIMUM_POINTS}
-		<input type="submit" class="submit" name="cmd[setPointsManual]" value="{BUTTON_POINTS}" />
 <!-- BEGIN feedback -->		
 		<div class="manfeedback">
 		<div class="toggle-button yes off">{TEXT_MANUAL_FEEDBACK}</div>
 		<div id="feedback_{FEEDBACK_NAME_INPUT}" style="display: block;">
 			<textarea name="feedback[{FEEDBACK_NAME_INPUT}]" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_FEEDBACK}</textarea>
-			<input type="submit" class="submit" name="cmd[setFeedbackManual]" value="{VALUE_SAVE}" />
 <!-- BEGIN suggested_solution -->
 			<h2>{TEXT_SUGGESTED_SOLUTION}</h2>
 			<div>{VALUE_SUGGESTED_SOLUTION}</div>
@@ -18,6 +15,8 @@
 		</div>
 		</div>
 <!-- END feedback -->		
+		<label for="{NAME_INPUT}">{LABEL_INPUT}:</label> <input type="text" size="3" name="question[{NAME_INPUT}]" id="{NAME_INPUT}"{VALUE_INPUT} /> {TEXT_MAXIMUM_POINTS}
+		<div><input type="submit" class="submit" name="cmd[setFeedbackManual]" value="{VALUE_SAVE}" /></div>
 	</td>
 </tr>
 </table>
