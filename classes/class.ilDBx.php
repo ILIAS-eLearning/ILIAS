@@ -560,7 +560,7 @@ else
 	{
 		return $a_set->fetchRow(DB_FETCHMODE_ASSOC);
 	}
-
+	
 	/**
 	* Free a result set
 	*/
@@ -579,6 +579,37 @@ else
 		return $a_set->fetchObject(DB_FETCHMODE_OBJECT);
 	}
 
+	/**
+	* Get abstract in-clause for given array.
+	* Returns an array "field_name IN (?,?,?,...)" depending on the size of the array
+	*/
+	function getInClause($a_field, $a_values)
+	{
+		if (count($a_values) == 0)
+		{
+			return " 1=2 ";		// return a false statement on empty array
+		}
+		$str = $a_field." IN (?".str_repeat(",?", count($a_values) - 1).")";
+		
+		return $str;
+	}
+	
+	/**
+	* Adds a type x times to an array
+	*/
+	function addTypesToArray($a_arr, $a_type, $a_cnt)
+	{
+		if ($a_cnt > 0)
+		{
+			$type_arr = array_fill(0, $a_cnt, $a_type);
+		}
+		else
+		{
+			$type_arr = array();
+		}
+		return array_merge($a_arr, $type_arr);
+	}
+	
 	/**
 	* Check error
 	*/
