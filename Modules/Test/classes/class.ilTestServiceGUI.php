@@ -387,6 +387,9 @@ class ilTestServiceGUI
 		}
 		$maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("manscoring_results_pass"), $pass+1));
 
+		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+		ilYuiUtil::initDomEvent();
+
 		return $maintemplate->get();
 	}
 

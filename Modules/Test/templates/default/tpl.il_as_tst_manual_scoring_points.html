@@ -1,13 +1,3 @@
-<script type="text/javascript">
-	function toggleFeedback(element)
-	{
-		var area = document.getElementById(element);
-		if (area != null)
-		{
-	    area.style.display = (area.style.display=='block'?'none':'block');
-		}
-	}
-</script>
 <a name="form{NAME_INPUT}" />
 <form name="form{NAME_INPUT}" method="post" action="{FORMACTION}">
 <table class="fullwidth">
@@ -16,25 +6,16 @@
 		<label for="{NAME_INPUT}">{LABEL_INPUT}:</label> <input type="text" size="3" name="question[{NAME_INPUT}]" id="{NAME_INPUT}"{VALUE_INPUT} /> {TEXT_MAXIMUM_POINTS}
 		<input type="submit" class="submit" name="cmd[setPointsManual]" value="{BUTTON_POINTS}" />
 <!-- BEGIN feedback -->		
-		<br />
-		<a href="#" onclick="javascript:toggleFeedback('feedback_{FEEDBACK_NAME_INPUT}');">{TEXT_MANUAL_FEEDBACK}</a>
+		<div class="manfeedback">
+		<div class="toggle-button yes off">{TEXT_MANUAL_FEEDBACK}</div>
 		<div id="feedback_{FEEDBACK_NAME_INPUT}" style="display: block;">
 			<textarea name="feedback[{FEEDBACK_NAME_INPUT}]" rows="10" cols="80" wrap="virtual" style="width:95%;">{VALUE_FEEDBACK}</textarea>
 			<input type="submit" class="submit" name="cmd[setFeedbackManual]" value="{VALUE_SAVE}" />
 			<br />
+		</div>
 		</div>
 <!-- END feedback -->		
 	</td>
 </tr>
 </table>
 </form>
-<script type="text/javascript">
-	var divs = document.getElementsByTagName("div");
-	for (i = 0; i < divs.length; i++)
-	{
-		if (divs[i].id.indexOf("feedback_") >= 0)
-		{
-			divs[i].style.display = 'none';
-		}
-	}
-</script>

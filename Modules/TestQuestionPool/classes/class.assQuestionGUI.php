@@ -820,7 +820,8 @@ class assQuestionGUI
 		elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0))
 		{
 			$solution_array = array(
-				"type" => "text"
+				"type" => "text",
+				"value" => $this->getSolutionOutput(0, NULL, FALSE, FALSE, TRUE, FALSE, TRUE)
 			);
 		}
 		if ($save && strlen($_POST["filename"]))
@@ -917,7 +918,7 @@ class assQuestionGUI
 				$question->setUseRte(TRUE);
 				$question->addPlugin("latex");
 				$question->addButton("latex");
-				$question->setRTESupport($this->object->obj_id, $this->object->type, "assessment");
+				$question->setRTESupport($this->object->getId(), "qpl", "assessment");
 				$hidden = new ilHiddenInputGUI("solutiontype");
 				$hidden->setValue("text");
 				$form->addItem($hidden);
@@ -964,7 +965,7 @@ class assQuestionGUI
 		$solutiontype->setRequired(TRUE);
 		$formchange->addItem($solutiontype);
 
-		$formchange->addCommandButton("saveSuggestedSolution", (count($solution_array)) ? $this->lng->txt("change") : $this->lng->txt("save"));
+		$formchange->addCommandButton("saveSuggestedSolution", $this->lng->txt("select"));
 
 		if ($savechange) 
 		{

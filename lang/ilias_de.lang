@@ -9074,3 +9074,10 @@ export#:#export_create#:#Erstellen
 export#:#export_last_file#:#Letzte Datei
 export#:#export_export_date#:#Exportdatum
 crs#:#crs_user_already_assigned#:#Der/die BenutzerIn ist bereits TeilnehmerIn dieses Kurses.
+assessment#:#showSuggestedSolution#:#Musterlösung
+assessment#:#deleteSuggestedSolution#:#Musterlösung entfernen
+assessment#:#suggestedSolutionType#:#Art der Musterlösung
+assessment#:#changeSuggestedSolution#:#Musterlösung ändern
+assessment#:#addSuggestedSolution#:#Musterlösung hinzufügen
+assessment#:#fileDownload#:#Dateidownload
+assessment#:#solutionText#:#Text

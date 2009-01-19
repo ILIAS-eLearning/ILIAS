@@ -201,3 +201,24 @@ div.textbox {
 .filterinactive {
 	background-color: #fff;
 }
+
+.manfeedback .toggle-button
+{
+	padding-left:20px;
+	background:transparent url(images/del_sprite_arrows.gif) 3px -318px no-repeat;
+	cursor:pointer;
+}
+
+.manfeedback .yes
+{
+	padding-left:20px;
+	background:transparent url(images/del_sprite_arrows.gif) 3px -359px no-repeat;
+	cursor:pointer;
+}
+
+.manfeedback .off
+{
+	padding-left:20px;
+	background:none;
+	cursor:default;
+}
