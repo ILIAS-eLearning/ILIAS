@@ -1562,14 +1562,17 @@ return;
 		$save_sort_order = $_GET["sort_order"];		// hack, because exercise sort parameters
 		$save_sort_by = $_GET["sort_by"];			// must not be forwarded to learning progress
 		$save_offset = $_GET["offset"];
-		$_GET["offset"] = $_GET["sort_by"] = $_GET["sort_order"] = ""; 
-		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if($ilAccess->checkAccess("read", "", $this->ref_id) and ilObjUserTracking::_enabledLearningProgress() and $ilUser->getId() != ANONYMOUS_USER_ID)
+		$_GET["offset"] = $_GET["sort_by"] = $_GET["sort_order"] = "";
+		
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
 			$tabs_gui->addTarget('learning_progress',
-			$this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''),
-		 '',array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
+								 $this->ctrl->getLinkTargetByClass(array('ilobjexercisegui','illearningprogressgui'),''),
+								 '',
+								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
+
 		$_GET["sort_order"] = $save_sort_order;		// hack, part ii
 		$_GET["sort_by"] = $save_sort_by;
 		$_GET["offset"] = $save_offset;

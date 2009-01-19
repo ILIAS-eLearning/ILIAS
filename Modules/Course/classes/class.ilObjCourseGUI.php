@@ -3395,19 +3395,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 
 		// learning progress
-		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
-
-		if(ilObjUserTracking::_enabledLearningProgress() and
-			$ilUser->getId() != ANONYMOUS_USER_ID and
-		   (($ilAccess->checkAccess('read','',$this->ref_id) and (ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED)) or
-		   ($ilAccess->checkAccess('write','',$this->ref_id))))
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('ilobjcoursegui','illearningprogressgui'),''),
 								 '',
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
+
 		if ($ilAccess->checkAccess('edit_permission','',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
