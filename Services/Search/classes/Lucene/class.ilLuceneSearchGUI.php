@@ -114,14 +114,33 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$filter->filter();
 		$ilBench->stop('Lucene','ResultFilter');
 				
-		// TODO: search in seperated index
-		
+		if($objIds = $filter->getFilteredObjIds())
+		{
+			// Search in combined index
+			$ilBench->start('Lucene','RPCAdapterHighlight');
+			include_once './Services/Search/classes/Lucene/class.ilLuceneRPCAdapter.php';
+			$adapter = new ilLuceneRPCAdapter();
+			$adapter->setQueryString(ilUtil::stripSlashes($_POST['query']));
+			$adapter->setMode('highlight');
+			$adapter->setResultIds($filter->getFilteredObjIds());
+			$res = $adapter->send();
+			$ilBench->stop('Lucene','RPCAdapterHighlight');
+			// TODO: Error handling
+		}		
+
 		// Show results
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
 		$presentation = new ilLuceneSearchResultPresentation();
 		$presentation->setResults($filter->getFilteredIds());
-		$this->tpl->setVariable('SEARCH_RESULTS',$presentation->render());
+		if($presentation->render())
+		{
+			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt('search_no_match'));
+		}
 		
 		// and finally add search form
 		$this->initFormSearch();

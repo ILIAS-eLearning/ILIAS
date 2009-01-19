@@ -132,6 +132,10 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 			case 'search':
 				$this->__prepareSearchParams();
 				break;
+				
+			case 'highlight':
+				$this->__prepareHighlightParams();
+				break;
 			// END PATCH Lucene Search
 
 			default:
@@ -216,12 +220,54 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	}
 	
 	/**
+	 * Prepare search parameters 
+	 */
+	protected function __prepareHighlightParams()
+	{
+		$this->setResponseTimeout(5);
+		
+		$objIds = array();
+		foreach($this->getResultIds() as $obj_id)
+		{
+			$objIds[] = new XML_RPC_Value($obj_id,'int');
+		}
+		
+		$this->__initMessage('search.highlight',array(
+			new XML_RPC_Value($this->getClientKey(),'string'),
+			new XML_RPC_VAlue($objIds,'array'),
+			new XML_RPC_Value($this->getQueryString(),'string')));
+		
+		return true;
+	}
+	
+	/**
+	 * set result ids 
+	 * @param array array of obj ids
+	 * @return
+	 */
+	public function setResultIds($a_ids)
+	{
+		$this->result_ids = $a_ids;
+	}
+	
+	/**
+	 * get result ids 
+	 * @return
+	 */
+	public function getResultIds()
+	{
+		return $this->result_ids ? $this->result_ids : array();
+	}
+	
+	
+	/**
 	 * Get client key 
 	 * @return string client key
 	 */
 	protected function getClientKey()
 	{
-		return 'ilias310_hslu_3998';
+		return 'ilias311_ares_1347';
 	}
+	// END PATCH Lucene Search
 }
 ?>

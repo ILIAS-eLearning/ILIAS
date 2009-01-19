@@ -66,14 +66,22 @@ class ilLuceneSearchResultPresentation
 	}
 	
 	/**
+	 * Get HTML 
+	 * @return string HTML 
+	 */
+	public function getHTML()
+	{
+		return $this->html;
+	}
+	
+	/**
 	 * Parse results 
 	 * @param void
 	 * @return string html
 	 */
 	public function render()
 	{
-		$this->renderItemList();
-		return $this->html;
+		return $this->renderItemList();
 	}
 	
 	/**
@@ -84,6 +92,7 @@ class ilLuceneSearchResultPresentation
 	{
 		$this->html = '';
 		$this->newBockTemplate();
+		$item_html = array();
 		foreach($this->getResults() as $ref_id => $res_data)
 		{
 			$obj_id = $res_data;
@@ -101,11 +110,18 @@ class ilLuceneSearchResultPresentation
 				$item_html[$ref_id]['type'] = $type;
 			}
 		}
+		
+		if(!count($item_html))
+		{
+			return false;
+		}
+		$this->newBockTemplate();
 		foreach($item_html as $ref_id => $data)
 		{
 			$this->addStandardRow($ref_id,$data['type'],$data['html']);
 		}
 		$this->html = $this->tpl->get();
+		return true;
 	}
 	
 	/**

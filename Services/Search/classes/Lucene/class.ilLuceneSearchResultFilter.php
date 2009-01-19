@@ -124,6 +124,18 @@ class ilLuceneSearchResultFilter
 		return $this->checked ? $this->checked : array();
 	}
 	
+	/**
+	 * get filtered ids 
+	 * @return array array of filtered ref_ids
+	 */
+	public function getFilteredObjIds()
+	{
+		foreach($this->checked as $obj_id)
+		{
+			$obj_ids[] = $obj_id;
+		}
+		return $obj_ids ? $obj_ids : array();
+	}
 	
 	/**
 	 * Filter search results.
