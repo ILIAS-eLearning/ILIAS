@@ -972,6 +972,29 @@ class ilObject
 		}
 	}
 
+	/**
+	* Get last update for a set of media objects.
+	*
+	* @param	array
+	*/
+	function _getLastUpdateOfObjects($a_objs)
+	{
+		global $ilDB;
+		
+		if (!is_array($a_objs))
+		{
+			$a_objs = array($a_objs);
+		}
+		$types = array();
+		$st = $ilDB->prepare("SELECT max(last_update) as last_update FROM object_data ".
+			"WHERE ".$ilDB->getInClause("obj_id", $a_objs),
+			$ilDB->addTypesToArray($types, "integer", count($a_objs)));
+		$set = $ilDB->execute($st, $a_objs);
+		$rec = $ilDB->fetchAssoc($set);
+		
+		return ($rec["last_update"]);
+	}
+
 	function _lookupObjId($a_id)
 	{
 		global $ilObjDataCache;

@@ -1934,8 +1934,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*/
 	function saveMobUsage($a_xml, $a_old_nr = 0)
 	{
-//echo "<br>PageObject::saveMobUsage[".$this->getId()."]";
-
 		$doc = domxml_open_mem($a_xml);
 
 		// media aliases
@@ -1996,7 +1994,6 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	*/
 	function saveFileUsage($a_xml = "", $a_old_nr = 0)
 	{
-//echo "<br>PageObject::saveFileUsage[".$this->getId()."]";
 		$file_ids = $this->collectFileItems($a_xml, $a_old_nr);
 		include_once("./Modules/File/classes/class.ilObjFile.php");
 		ilObjFile::_deleteAllUsages($this->getParentType().":pg", $this->getId(), $a_old_nr);
@@ -2006,6 +2003,21 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 
+	/**
+	* Get last update of included elements (media objects and files).
+	* This is needed for cache logic, cache must be reloaded if anything has changed.
+	*/
+	function getLastUpdateOfIncludedElements()
+	{
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		include_once("./Modules/File/classes/class.ilObjFile.php");
+		$mobs = ilObjMediaObject::_getMobsOfObject($this->getParentType().":pg",
+			$this->getId());
+		$files = ilObjFile::_getFilesOfObject($this->getParentType().":pg",
+			$this->getId());
+		$objs = array_merge($mobs, $files);
+		return ilObject::_getLastUpdateOfObjects($objs);
+	}
 
 	/**
 	* save internal links of page

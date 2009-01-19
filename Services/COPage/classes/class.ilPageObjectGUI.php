@@ -1441,6 +1441,9 @@ class ilPageObjectGUI
 		// this ensures that cache is emptied with every update
 		$params["version"] = ILIAS_VERSION;
 		
+		// ensure no cache hit, if included files/media objects have been changed
+		$params["incl_elements_date"] = $this->obj->getLastUpdateOfIncludedElements();
+		
 		// run xslt
 		
 		$md5 = md5(serialize($params));

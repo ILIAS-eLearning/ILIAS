@@ -849,6 +849,9 @@ class ilObjMediaObject extends ilObject
 		return $mobs;
 	}
 
+	/**
+	* Save usage of mob within another container (e.g. page)
+	*/
 	function _saveUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0)
 	{
 		global $ilDB;
@@ -860,6 +863,9 @@ class ilObjMediaObject extends ilObject
 		$ilDB->query($q);
 	}
 
+	/**
+	* Remove usage of mob in another container
+	*/
 	function _removeUsage($a_mob_id, $a_type, $a_id, $a_usage_hist_nr = 0)
 	{
 		global $ilDB;
