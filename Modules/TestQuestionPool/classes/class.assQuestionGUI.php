@@ -791,6 +791,8 @@ class assQuestionGUI
 	*/
 	public function suggestedsolution()
 	{
+		global $ilUser;
+		
 		if ($_POST["deleteSuggestedSolution"] == 1)
 		{
 			$this->object->suggested_solutions = array();
@@ -887,8 +889,16 @@ class assQuestionGUI
 						if (is_array($solution_array["value"])) @unlink($this->object->getSuggestedSolutionPath() . $solution_array["value"]["name"]);
 						$file->setValue($_FILES["file"]["name"]);
 						$this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
-						ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
-						$this->ctrl->redirect($this, "suggestedsolution");
+						$originalexists = $this->object->_questionExists($this->object->original_id);
+						if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+						{
+							return $this->originalSyncForm("suggestedsolution");
+						}
+						else
+						{
+							ilUtil::sendInfo($this->lng->txt("suggested_solution_added_successfully"), TRUE);
+							$this->ctrl->redirect($this, "suggestedsolution");
+						}
 					}
 					else
 					{
@@ -933,14 +943,20 @@ class assQuestionGUI
 					{
 						case "file":
 							$this->object->saveSuggestedSolution("file", "", 0, array("name" => $solution_array["value"]["name"], "type" => $solution_array["value"]["type"], "size" => $solution_array["value"]["size"], "filename" => $_POST["filename"]));
-							ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
-							$this->ctrl->redirect($this, "suggestedsolution");
 							break;
 						case "text":
 							$this->object->saveSuggestedSolution("text", "", 0, $solution_array["value"]);
-							ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
-							$this->ctrl->redirect($this, "suggestedsolution");
 							break;
+					}
+					$originalexists = $this->object->_questionExists($this->object->original_id);
+					if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+					{
+						return $this->originalSyncForm("suggestedsolution");
+					}
+					else
+					{
+						ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
+						$this->ctrl->redirect($this, "suggestedsolution");
 					}
 				}
 			}
