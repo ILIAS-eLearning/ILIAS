@@ -1880,11 +1880,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$d = $this->actions;
 
-		foreach ($d as $row)
+		if (is_array($d))
 		{
-			if (!in_array($row["name"], $notoperations))
+			foreach ($d as $row)
 			{
-				$operations[] = $row;
+				if (!in_array($row["name"], $notoperations))
+				{
+					$operations[] = $row;
+				}
 			}
 		}
 
