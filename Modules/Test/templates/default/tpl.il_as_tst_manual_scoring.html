@@ -29,3 +29,43 @@
 	window.location = "#form{LAST_CHANGED}";
 </script>
 <!-- END lastchanged -->
+<script type="text/javascript">
+	function togglebutton(e, obj)
+	{
+		if (YAHOO.util.Dom.hasClass(obj, 'yes'))
+		{
+			YAHOO.util.Dom.removeClass(obj, 'yes');
+			next = YAHOO.util.Dom.getNextSibling(obj);
+			if (next != null)
+			{
+				YAHOO.util.Dom.setStyle(next, 'display', 'block');
+			}
+		}
+		else
+		{
+			YAHOO.util.Dom.addClass(obj, 'yes');
+			next = YAHOO.util.Dom.getNextSibling(obj);
+			if (next != null)
+			{
+				YAHOO.util.Dom.setStyle(next, 'display', 'none');
+			}
+		}
+	}
+	
+	function togglehandler()
+	{
+		toggles = YAHOO.util.Dom.getElementsByClassName("toggle-button");
+		for (i = 0; i < toggles.length; i++)
+		{
+			YAHOO.util.Dom.removeClass(toggles[i], 'off');
+			YAHOO.util.Event.addListener(toggles[i], 'click', togglebutton, toggles[i]);
+			next = YAHOO.util.Dom.getNextSibling(toggles[i]);
+			if (next != null)
+			{
+				YAHOO.util.Dom.setStyle(next, 'display', 'none');
+			}
+		}
+	}
+
+	YAHOO.util.Event.onDOMReady(togglehandler); 
+</script>
