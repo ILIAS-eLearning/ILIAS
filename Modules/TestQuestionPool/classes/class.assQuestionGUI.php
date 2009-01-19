@@ -851,7 +851,7 @@ class assQuestionGUI
 				$href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
 				$template->setCurrentBlock("preview");
 				$template->setVariable("TEXT_SOLUTION", $this->lng->txt("solution_hint"));
-				$template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("link"). "</a> ");
+				$template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("download"). "</a> ");
 				$template->parseCurrentBlock();
 			}
 			elseif ((strcmp($solution_array["type"], "file") == 0) && (is_array($solution_array["value"])))
