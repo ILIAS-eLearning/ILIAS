@@ -65,7 +65,7 @@ class ilTagging
 				if (!in_array($tag, $inserted))
 				{
 					$tag = str_replace(" ", "_", trim($tag));
-					$q = "INSERT INTO il_tag (user_id, obj_id, obj_type,".
+					$q = "REPLACE INTO il_tag (user_id, obj_id, obj_type,".
 						"sub_obj_id, sub_obj_type, tag) VALUES (".
 						$ilDB->quote($a_user_id).",".
 						$ilDB->quote($a_obj_id).",".
