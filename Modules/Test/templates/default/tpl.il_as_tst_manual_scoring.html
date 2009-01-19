@@ -29,6 +29,11 @@
 	window.location = "#form{LAST_CHANGED}";
 </script>
 <!-- END lastchanged -->
+<!-- BEGIN manscoring_done -->
+<form name="formSetDone" action="{FORMACTION}" method="post">
+<div><input type="checkbox" id="manscoring_done" name="manscoring_done" value="1"{CHECKED_MANSCORING_DONE} /> <label for="manscoring_done">{TEXT_MANSCORING_DONE}</label> <input type="submit" class="submit" name="cmd[setManscoringDone]" value="{SAVE}" /></div>
+</form>
+<!-- END manscoring_done -->
 <script type="text/javascript">
 	function togglebutton(e, obj)
 	{

@@ -89,6 +89,17 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	{
 		$this->manscoring();
 	}
+	
+	/**
+	* Save a user as manual scored
+	*/
+	public function setManScoringDone()
+	{
+		$manscoring_done = ($_POST["manscoring_done"]) ? 1 : 0;
+		$assessmentSetting = new ilSetting("assessment");
+		$assessmentSetting->set("manscoring_done_" . $_GET["active_id"], $manscoring_done);
+		$this->manscoring();
+	}
 
 	/**
 	* Shows the test scoring GUI
@@ -141,6 +152,21 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$this->ctrl->setParameter($this, "userfilter", $userfiltervalue);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_manual_scoring.html", "Modules/Test");
+
+		if ($active_id > 0)
+		{
+			$this->tpl->setCurrentBlock("manscoring_done");
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "scoringfilter"));
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("TEXT_MANSCORING_DONE", $this->lng->txt("set_manscoring_done"));
+			$assessmentSetting = new ilSetting("assessment");
+			$manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
+			if ($manscoring_done)
+			{
+				$this->tpl->setVariable("CHECKED_MANSCORING_DONE", ' checked="checked"');
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 
 		if (array_key_exists("question", $_POST))
 		{
