@@ -1898,6 +1898,37 @@ class assQuestion
 		}
 	}
 
+	/**
+	* Syncs the files of a suggested solution if the question is synced
+	*/
+	protected function syncSuggestedSolutionFiles($original_id)
+	{
+		global $ilLog;
+
+		$filepath = $this->getSuggestedSolutionPath();
+		$filepath_original = str_replace("/$this->id/solution", "/$original_id/solution", $filepath);
+		ilUtil::delDir($filepath_original);
+		foreach ($this->suggested_solutions as $index => $solution)
+		{
+			if (strcmp($solution["type"], "file") == 0)
+			{
+				if (!file_exists($filepath_original))
+				{
+					ilUtil::makeDirParents($filepath_original);
+				}
+				$filename = $solution["value"]["name"];
+				if (strlen($filename))
+				{
+					if (!@copy($filepath . $filename, $filepath_original . $filename))
+					{
+						$ilLog->write("File could not be duplicated!!!!", $ilLog->ERROR);
+						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					}
+				}
+			}
+		}
+	}
+
 	protected function copySuggestedSolutionFiles($source_questionpool_id, $source_question_id)
 	{
 		global $ilLog;
@@ -1928,16 +1959,17 @@ class assQuestion
 	/**
 	* Update the suggested solutions of a question based on the suggested solution array attribute
 	*/
-	public function updateSuggestedSolutions()
+	public function updateSuggestedSolutions($original_id = "")
 	{
 		global $ilDB;
 
+		$id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
 		include_once "./Services/COPage/classes/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-			$ilDB->quote($this->getId() . "")
+			$ilDB->quote($id . "")
 		);
 		$result = $ilDB->query($query);
-		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
+		ilInternalLink::_deleteAllLinksOfSource("qst", $id);
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
@@ -1945,7 +1977,7 @@ class assQuestion
 				array("integer", "text", "text", "text", "text", "integer")
 			);
 			$data = array(
-				$this->getId(),
+				$id,
 				$solution["type"],
 				ilRTE::_replaceMediaObjectImageSrc((is_array($solution["value"])) ? serialize($solution["value"]) : $solution["value"], 0),
 				$solution["internal_link"],
@@ -1955,10 +1987,10 @@ class assQuestion
 			$affectedRows = $ilDB->execute($statement, $data);
 			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
 			{
-				ilInternalLink::_saveLink("qst", $this->getId(), $matches[2], $matches[3], $matches[1]);
+				ilInternalLink::_saveLink("qst", $id, $matches[2], $matches[3], $matches[1]);
 			}
 		}
-
+		if (strlen($original_id) && is_numeric($original_id)) $this->syncSuggestedSolutionFiles($id);
 		$this->cleanupMediaObjectUsage();
 	}
 	
@@ -2186,27 +2218,7 @@ class assQuestion
 
 			$this->setId($id);
 			$this->setOriginalId($original);
-
-			include_once "./Services/COPage/classes/class.ilInternalLink.php";
-			$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
-				$ilDB->quote($this->getOriginalId() . "")
-			);
-			$result = $ilDB->query($query);
-			ilInternalLink::_deleteAllLinksOfSource("qst", $this->original_id);
-			foreach ($this->suggested_solutions as $index => $solution)
-			{
-				$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-					$ilDB->quote($this->getOriginalId() . ""),
-					$ilDB->quote($solution["internal_link"] . ""),
-					$ilDB->quote($solution["import_id"] . ""),
-					$ilDB->quote($index . "")
-				);
-				$ilDB->query($query);
-				if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
-				{
-					ilInternalLink::_saveLink("qst", $this->getOriginalId(), $matches[2], $matches[3], $matches[1]);
-				}
-			}
+			$this->updateSuggestedSolutions($original);
 			$this->syncFeedbackGeneric();
 			$this->syncXHTMLMediaObjectsOfQuestion();
 		}
