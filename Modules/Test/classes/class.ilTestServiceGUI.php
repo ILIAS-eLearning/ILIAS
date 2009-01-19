@@ -434,7 +434,7 @@ class ilTestServiceGUI
 			// change sortorder of result array
 			usort($result_array, "sortResults");
 		}
-		$color_class = array("tblrow1", "tblrow2");
+		$color_class = array("tblrow1top", "tblrow2top");
 		$counter = 0;
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview.html", TRUE, TRUE, "Modules/Test");
 		$this->ctrl->setParameterByClass($targetclass, "pass", "$pass");
