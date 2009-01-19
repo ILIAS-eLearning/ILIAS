@@ -719,7 +719,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function viewPageObject()
 	{
-		global $lng, $ilCtrl, $tpl, $ilTabs;
+		global $lng, $ilCtrl, $tpl, $ilTabs, $ilAccess;
 		
 		$this->checkPermission("read");
 
@@ -754,6 +754,12 @@ class ilObjWikiGUI extends ilObjectGUI
 		//$wpage_gui->setSideBlock();
 		$ilCtrl->setCmdClass("ilwikipagegui");
 		$ilCtrl->setCmd("preview");
+		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+				!$ilAccess->checkAccess("edit_content", "", $this->object->getRefId()))
+		{
+			$wpage_gui->setEnableEditing(false);
+		}
+
 		$html = $ilCtrl->forwardCommand($wpage_gui);
 		//$this->addPageTabs();
 		
