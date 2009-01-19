@@ -1997,7 +1997,15 @@ class assQuestion
 			$subquestion_index
 		);
 		$affectedRows = $ilDB->execute($statement, $data);
-
+		if ($affectedRows == 1)
+		{
+			$this->suggested_solutions["subquestion_index"] = array(
+				"type" => $type,
+				"value" => $value,
+				"internal_link" => $solution_id,
+				"import_id" => ""
+			);
+		}
 		$this->cleanupMediaObjectUsage();
 	}
 
@@ -2886,7 +2894,7 @@ class assQuestion
 		$collected .= $this->getFeedbackGeneric(1);
 		foreach ($this->suggested_solutions as $solution_array)
 		{
-			$collected .= $this->solution_array["value"];
+			$collected .= $solution_array["value"];
 		}
 		return $collected;
 	}
