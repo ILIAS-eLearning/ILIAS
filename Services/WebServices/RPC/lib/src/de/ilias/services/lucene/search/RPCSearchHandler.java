@@ -87,6 +87,7 @@ public class RPCSearchHandler {
 		Directory directory;
 		IndexSearcher searcher;
 		FieldInfo fieldInfo;
+		StringBuffer rewrittenQuery = new StringBuffer();
 		
 		Vector<Integer> results = new Vector<Integer>();
 		
@@ -96,9 +97,11 @@ public class RPCSearchHandler {
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
 			
 			// Append doctype
-			queryString += " AND docType:combined";
+			rewrittenQuery.append("( ");
+			rewrittenQuery.append(queryString);
+			rewrittenQuery.append(" ) AND docType:combined");
 			
-			logger.info("Searching for: " + queryString);
+			logger.info("Searching for: " + rewrittenQuery.toString());
 			directory = FSDirectory.getDirectory(client.getIndexPath());
 			searcher = new IndexSearcher(directory);
 			
@@ -107,7 +110,7 @@ public class RPCSearchHandler {
 				occurs.add(BooleanClause.Occur.SHOULD);
 			}
 			
-			Query query = MultiFieldQueryParser.parse(queryString,
+			Query query = MultiFieldQueryParser.parse(rewrittenQuery.toString(),
 					fieldInfo.getFieldsAsStringArray(),
 					occurs.toArray(new Occur[0]),
 					new StandardAnalyzer());
@@ -167,17 +170,17 @@ public class RPCSearchHandler {
 		
 		// Rewrite query
 		StringBuffer newQuery = new StringBuffer();
+		newQuery.append("( ");
 		newQuery.append(queryString);
-		newQuery.append('(');
+		newQuery.append(" ) AND ((");
 		for(int i = 0; i < objIds.size(); i++) {
-			newQuery.append("+objId:");
+			newQuery.append("objId:");
 			newQuery.append(objIds.get(i));
 			newQuery.append(' ');
 		}
-		newQuery.append(')');
+		newQuery.append(" ) AND docType:separated)");
 		
 		try {
-			
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
 			
@@ -194,6 +197,7 @@ public class RPCSearchHandler {
 					fieldInfo.getFieldsAsStringArray(),
 					occurs.toArray(new Occur[0]),
 					new StandardAnalyzer()));
+			logger.debug("Rewritten query is: " + query.toString());
 			
 			TopDocCollector collector = new TopDocCollector(500);
 			searcher.search(query,collector);
@@ -212,6 +216,7 @@ public class RPCSearchHandler {
 				Document hitDoc = searcher.doc(hits[i].doc);
 				String title = hitDoc.get("title");
 				if(title == null) {
+					logger.debug("Not in title");
 					continue;
 				}
 			
