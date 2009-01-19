@@ -3,7 +3,7 @@
 *
 * @module		language file Danish
 * @modulegroup	language
-* @author 		Jesper Goedvad <jesper@inetworks.dk> Ole Stilund Jeppesen <ole.stilund@ftf.dk>
+* @author 		Jesper Goedvad <jesper@inetworks.dk> www.ilias.dk
 * @version		$Id$
 */
 
@@ -491,7 +491,7 @@ common#:#mcst_add#:#Tilføj mediaCast
 common#:#obj_pdts#:#Skrivebords indstillinger
 common#:#obj_pdts_desc#:#Konfigurer det personlige skrivebord
 common#:#move_blocks#:#Flyt blokke
-common#:#stop_moving_blocks#:#Stop blokflytning
+common#:#stop_moving_blocks#:#Afslut blokflytning
 common#:#cat_a#:#en kategori
 common#:#cat_add#:#Tilføj kategori
 common#:#cat_added#:#Kategori tilføjet
@@ -8693,28 +8693,28 @@ dateplaner#:#cal_type_crs#:#Kursuskalender
 dateplaner#:#cal_type_grp#:#Gruppekalender
 wiki#:#wiki_page_deletion_confirmation#:#Sikker på du vil slette denne wiki side?
 wiki#:#wiki_other_pages_linking#:#Ander sider der linker til denne
-wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page###17 10 2008 new variable
+wiki#:#wiki_number_users_notes_or_comments#:#Antallet af brugere der har skrevet noter til denne side
 wiki#:#wiki_page_deleted#:#Wikiside slettet.
-content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.###17 10 2008 new variable
+content#:#cont_no_page_in_chapter#:#Der er intet aktiveret indhold i dette kapitel.
 content#:#cont_page_currently_deactivated#:#Denne side er i øjeblikket deaktiveret.
 wiki#:#wiki_no_start_page#:#Wiki mangler en brugbar startside
 content#:#cont_versions#:#Versioner
 content#:#cont_current_version#:#Nuværende version
 crs#:#crs_timings_visibility_short#:#Synlighed
 assessment#:#no_selection#:#--- Intet valgt ---
-assessment#:#customstyle#:#Custom Style###06 11 2008 new variable
+assessment#:#customstyle#:#Eget stilark
 assessment#:#customstyle_description#:#It is possible to use a custom style sheet for this test. Please select one of the available style sheets to assign it to this test.###06 11 2008 new variable
 dateplaner#:#cal_type_info#:#Vælg en kalendertype. Offentlige kalendere er synlige for alle ILIAS brugere.
-rbac#:#root_create_catr#:#Create Category Reference###06 11 2008 new variable
-rbac#:#mcts_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#mcts_read#:#Read access to mediacast settings###06 11 2008 new variable
-rbac#:#mcts_visible#:#Mediacast settings are visible###06 11 2008 new variable
-rbac#:#mcts_write#:#Edit mediacast settings###06 11 2008 new variable
-rbac#:#cmps_edit_permission#:#Change permission settings###06 11 2008 new variable
-rbac#:#cmps_read#:#Read access to component settings###06 11 2008 new variable
-rbac#:#cmps_visible#:#Component settings are visible###06 11 2008 new variable
-rbac#:#cmps_write#:#Edit component settings###06 11 2008 new variable
-rbac#:#pdts_edit_permission#:#Change permission settings###06 11 2008 new variable
+rbac#:#root_create_catr#:#Opret kategorireference
+rbac#:#mcts_edit_permission#:#Ret sikkerhedsindstillinger
+rbac#:#mcts_read#:#Læseadgang til mediecast indstillinger
+rbac#:#mcts_visible#:#Mediecast indstillinger er synlige
+rbac#:#mcts_write#:#Ret mediecast indstillinger
+rbac#:#cmps_edit_permission#:#Ret sikkerhedsindstilinnger
+rbac#:#cmps_read#:#Læseadgang til komponent indstillinger
+rbac#:#cmps_visible#:#Komponentindstillinger er synlige
+rbac#:#cmps_write#:#Ret komponentindstillinger
+rbac#:#pdts_edit_permission#:#Ret sikkerhedsindstillinger
 rbac#:#pdts_read#:#Læseadgang til Mit Skrivebord indstillinger
 rbac#:#pdts_visible#:#Mit Skrivebord indstillinger er synlige
 rbac#:#pdts_write#:#Ret Mit Skrivebord indstillinger
