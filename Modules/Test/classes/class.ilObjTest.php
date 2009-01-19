@@ -9717,8 +9717,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 	/**
 	* Delivers a PDF file from a XSL-FO string
 	*
-	* Delivers a PDF file from a XSL-FO string
-	*
 	* @param string $fo The XSL-FO string
 	* @access public
 	*/
@@ -9732,7 +9730,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$fo2pdf->setFOString($fo);
 		$result = $fo2pdf->send();
 		$filename = (strlen($title)) ? $title : $this->getTitle();
-		ilUtil::deliverData($result, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf");
+		ilUtil::deliverData($result, ilUtil::getASCIIFilename($filename) . ".pdf", "application/pdf", false, true);
 	}
 	
 	/**

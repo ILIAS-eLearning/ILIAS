@@ -145,7 +145,7 @@ class ilTestExport
 
 		$excelfile = $this->exportToExcel($deliver = FALSE);
 		@copy($excelfile, $this->export_dir . "/" . str_replace($this->getExtension(), "xls", $this->filename));
-
+		@unlink($excelfile);
 		// end
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export of Results");
 
@@ -209,7 +209,7 @@ class ilTestExport
 		$workbook->close();
 		if ($deliver)
 		{
-			ilUtil::deliverFile($excelfile, $testname, "application/vnd.ms-excel");
+			ilUtil::deliverFile($excelfile, $testname, "application/vnd.ms-excel", false, true);
 			exit;
 		}
 		else
@@ -523,7 +523,7 @@ class ilTestExport
 		$workbook->close();
 		if ($deliver)
 		{
-			ilUtil::deliverFile($excelfile, $testname, "application/vnd.ms-excel");
+			ilUtil::deliverFile($excelfile, $testname, "application/vnd.ms-excel", false, true);
 			exit;
 		}
 		else
