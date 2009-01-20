@@ -9025,3 +9025,4 @@ content#:#cont_print_no_page_selected#:#Please select at least one page.
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s
 assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
 assessment#:#tst_show_solution_suggested#:#Show Suggested Solution
+survey#:#err_no_pool_name#:#Please enter the name of a survey question pool

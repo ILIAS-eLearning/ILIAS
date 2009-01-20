@@ -1,23 +1,31 @@
 <form name="form_spl_select" method="POST" action="{FORM_ACTION}">
 <table class="invisible">
+<!-- BEGIN selection -->
 <tr>
-<td><label for="sel_spl">{TXT_QPL_SELECT}</label>:</td>
-<td><select name="sel_spl" id="sel_qpl">
+	<td><label for="sel_spl">{TXT_QPL_SELECT}</label>:</td>
+	<td>
+		<select name="sel_spl" id="sel_qpl">
 <!-- BEGIN option --> 
-<option value="{VALUE_OPTION}">{TEXT_OPTION}</option>
+			<option value="{VALUE_OPTION}">{TEXT_OPTION}</option>
 <!-- END option -->
-</select>
-</td>
+		</select>
+	</td>
 </tr>
-<tr><td colspan="2" height="15"></td></tr>
-<tr><td colspan="2" align="right">
-<!-- BEGIN submitbutton -->
-<input class="submit" type="submit" name="cmd[executeCreateQuestion]" value="{BTN_SUBMIT}" />
-<!-- END submitbutton -->
-<input class="submit" type="submit" name="cmd[cancelCreateQuestion]" value="{BTN_CANCEL}" />
-<!-- BEGIN hidden -->
-<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
-<!-- END hidden -->
-</td></tr>
+<!-- END selection -->
+<!-- BEGIN input -->
+<tr>
+	<td><label for="name_spl">{TXT_QPL_ENTER}</label>:</td>
+	<td><input type="text" name="name_spl" id="name_spl" size="50" /></td>
+</tr>
+<!-- END input -->
+<tr>
+	<td colspan="2" height="15"></td>
+</tr>
+<tr>
+	<td colspan="2" align="right">
+		<input class="submit" type="submit" name="cmd[executeCreateQuestion]" value="{BTN_SUBMIT}" />
+		<input class="submit" type="submit" name="cmd[cancelCreateQuestion]" value="{BTN_CANCEL}" />
+	</td>
+</tr>
 </table>
 </form>

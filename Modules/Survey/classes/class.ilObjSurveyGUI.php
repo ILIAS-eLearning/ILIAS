@@ -1083,32 +1083,33 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		global $ilUser;
 		$this->questionsSubtabs("questions");
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_qpl_select.html", "Modules/Survey");
+		$tpl = new ilTemplate("tpl.il_svy_svy_qpl_select.html", TRUE, TRUE, "Modules/Survey");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, TRUE, TRUE, "write");
-		foreach ($questionpools as $key => $value)
-		{
-			$this->tpl->setCurrentBlock("option");
-			$this->tpl->setVariable("VALUE_OPTION", $key);
-			$this->tpl->setVariable("TEXT_OPTION", $value);
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
-		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "executeCreateQuestion"));
-		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("select_questionpool"));
 		if (count($questionpools))
 		{
-			$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+			foreach ($questionpools as $key => $value)
+			{
+				$tpl->setCurrentBlock("option");
+				$tpl->setVariable("VALUE_OPTION", $key);
+				$tpl->setVariable("TEXT_OPTION", $value);
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("selection");
+			$tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("select_questionpool"));
+			$tpl->parseCurrentBlock();
 		}
 		else
 		{
-			ilUtil::sendInfo($this->lng->txt("create_questionpool_before_add_question"));
+			$tpl->setCurrentBlock("selection");
+			$tpl->setVariable("TXT_QPL_ENTER", $this->lng->txt("cat_create_spl"));
+			$tpl->parseCurrentBlock();
 		}
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
+		$tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+		$sel_question_types = (strlen($_POST["sel_question_types"])) ? $_POST["sel_question_types"] : $_GET["sel_question_types"];
+		$this->ctrl->setParameter($this, "sel_question_types", $sel_question_types);
+		$tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "executeCreateQuestion"));
+		$tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("ADM_CONTENT", $tpl->get());
 	}
 
 /**
@@ -1132,10 +1133,48 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function executeCreateQuestionObject()
 	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_POST["sel_question_types"]);
+		if (strlen($_POST["sel_spl"]))
+		{
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_GET["sel_question_types"]);
+		}
+		elseif (strlen($_POST["name_spl"]))
+		{
+			$ref_id = $this->createQuestionPool($_POST["name_spl"]);
+			ilUtil::redirect("ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&ref_id=" . $ref_id . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_GET["sel_question_types"]);
+		}
+		else
+		{
+			ilUtil::sendInfo($this->lng->txt("err_no_pool_name"), true);
+			$this->ctrl->setParameter($this, "sel_question_types", $_GET["sel_question_types"]);
+			$this->ctrl->redirect($this, "createQuestion");
+		}
 	}
 	
+	/**
+	* Creates a new questionpool and returns the reference id
+	*
+	* @return integer Reference id of the newly created questionpool
+	* @access	public
+	*/
+	private function createQuestionPool($name = "dummy")
+	{
+		global $tree;
+		$parent_ref = $tree->getParentId($this->object->getRefId());
+		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
+		$qpl = new ilObjSurveyQuestionPool();
+		$qpl->setType("spl");
+		$qpl->setTitle($name);
+		$qpl->setDescription("");
+		$qpl->create();
+		$qpl->createReference();
+		$qpl->putInTree($parent_ref);
+		$qpl->setPermissions($parent_ref);
+		$qpl->setOnline(1); // must be online to be available
+		$qpl->saveToDb();
+		return $qpl->getRefId();
+	}
+
 /**
 * Creates a form to add a heading to a survey
 *
