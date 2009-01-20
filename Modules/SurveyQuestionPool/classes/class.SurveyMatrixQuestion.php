@@ -1335,13 +1335,33 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				case 0:
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						array_push($data, array("value" => $value, "row" => $matches[1]));
+						if (is_array($value))
+						{
+							foreach ($value as $val)
+							{
+								array_push($data, array("value" => $val, "row" => $matches[1]));
+							}
+						}
+						else
+						{
+							array_push($data, array("value" => $value, "row" => $matches[1]));
+						}
 					}
 					break;
 				case 1:
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						array_push($data, array("value" => $value, "row" => $matches[1]));
+						if (is_array($value))
+						{
+							foreach ($value as $val)
+							{
+								array_push($data, array("value" => $val, "row" => $matches[1]));
+							}
+						}
+						else
+						{
+							array_push($data, array("value" => $value, "row" => $matches[1]));
+						}
 					}
 					break;
 			}
