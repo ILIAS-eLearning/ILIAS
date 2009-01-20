@@ -32,6 +32,7 @@ import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause;
@@ -51,6 +52,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import de.ilias.services.lucene.index.FieldInfo;
+import de.ilias.services.lucene.search.highlight.HitHighlighter;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
@@ -88,7 +90,7 @@ public class RPCSearchHandler {
 		Directory directory;
 		IndexSearcher searcher;
 		FieldInfo fieldInfo;
-		StringBuffer rewrittenQuery = new StringBuffer();
+		String rewrittenQuery;
 		
 		Vector<Integer> results = new Vector<Integer>();
 		
@@ -98,19 +100,18 @@ public class RPCSearchHandler {
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
 			
 			// Append doctype
-			rewrittenQuery.append("( ");
-			rewrittenQuery.append(queryString);
-			rewrittenQuery.append(" ) AND docType:combined");
-			
-			logger.info("Searching for: " + rewrittenQuery.toString());
 			searcher = SearchHolder.getInstance().getSearcher();
+			
+			// Rewrite query
+			QueryRewriter rewriter = new QueryRewriter(QueryRewriter.MODE_SEARCH,queryString);
+			rewrittenQuery = rewriter.rewrite();
 			
 			Vector<Occur> occurs = new Vector<Occur>();
 			for(int i = 0; i < fieldInfo.getFieldSize(); i++) {
 				occurs.add(BooleanClause.Occur.SHOULD);
 			}
 			
-			Query query = MultiFieldQueryParser.parse(rewrittenQuery.toString(),
+			Query query = MultiFieldQueryParser.parse(rewrittenQuery,
 					fieldInfo.getFieldsAsStringArray(),
 					occurs.toArray(new Occur[0]),
 					new StandardAnalyzer());
@@ -165,33 +166,24 @@ public class RPCSearchHandler {
 	 * @param objIds
 	 * @return
 	 */
-	public Vector<HashMap<String, String>> highlight(String clientKey, Vector<Integer> objIds, String queryString) {
+	public String highlight(String clientKey, Vector<Integer> objIds, String queryString) {
 
 		LocalSettings.setClientKey(clientKey);
 		ClientSettings client;
 		FieldInfo fieldInfo;
 		FSDirectory directory;
 		IndexSearcher searcher;
+		String rewrittenQuery;
 		
-		Vector<HashMap<String, String> > results = new Vector<HashMap<String,String>>();
-		
-		// Rewrite query
-		StringBuffer newQuery = new StringBuffer();
-		newQuery.append("( ");
-		newQuery.append(queryString);
-		newQuery.append(" ) AND ((");
-		for(int i = 0; i < objIds.size(); i++) {
-			newQuery.append("objId:");
-			newQuery.append(objIds.get(i));
-			newQuery.append(' ');
-		}
-		newQuery.append(" ) AND docType:separated)");
 		
 		try {
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
 			
-			logger.info("Searching for: " + newQuery);
+			// Rewrite query
+			QueryRewriter rewriter = new QueryRewriter(QueryRewriter.MODE_HIGHLIGHT,queryString);
+			rewrittenQuery = rewriter.rewrite(objIds);
+			logger.info("Searching for: " + rewrittenQuery);
 
 			searcher = SearchHolder.getInstance().getSearcher();
 			
@@ -200,7 +192,7 @@ public class RPCSearchHandler {
 				occurs.add(BooleanClause.Occur.SHOULD);
 			}
 			
-			Query query = searcher.rewrite(MultiFieldQueryParser.parse(newQuery.toString(),
+			Query query = searcher.rewrite(MultiFieldQueryParser.parse(rewrittenQuery,
 					fieldInfo.getFieldsAsStringArray(),
 					occurs.toArray(new Occur[0]),
 					new StandardAnalyzer()));
@@ -209,42 +201,25 @@ public class RPCSearchHandler {
 			TopDocCollector collector = new TopDocCollector(500);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-
-			QueryScorer queryScorer = new QueryScorer(query);
-			SimpleHTMLFormatter formatter = new SimpleHTMLFormatter(
-					"<strong>", "</strong>"); 
-			Highlighter highlighter = new Highlighter(formatter,
-					queryScorer);
-			Fragmenter fragmenter = new SimpleFragmenter(100);
-			highlighter.setTextFragmenter(fragmenter);
-
-			String[] fields = fieldInfo.getFieldsAsStringArray();
-			for(int i = 0; i < hits.length;i++) {
-				
-				StringBuffer allContent = new StringBuffer();
-				Document hitDoc = searcher.doc(hits[i].doc);
-				
-				for(int j = 0; j < fields.length; j++) {
-					
-					if(hitDoc.get(fields[j]) != null) {
-						allContent.append(hitDoc.get(fields[j]));
-						allContent.append(' ');
-					}
-				}
-				
-				if(allContent.length() == 0) {
-					logger.warn("Found no matching content");
-					continue;
-				}
 			
-				TokenStream token =
-					new StandardAnalyzer().tokenStream("allContent", new StringReader(allContent.toString()));
-				String fragment = highlighter.getBestFragments(token,allContent.toString(), 2, "...");
-				logger.info("Fragmented: " + fragment);
-			}
+			HitHighlighter hh = new HitHighlighter(query,hits);
+			hh.highlight();
+			logger.debug(hh.toXML());
+			return hh.toXML();
 		}
-		catch(Exception e) {
+		catch(CorruptIndexException e) {
+			logger.fatal(e);
+		} 
+		catch (ConfigurationException e) {
 			logger.error(e);
+		} 
+		catch (ParseException e) {
+			logger.warn(e);
+		}
+		catch (IOException e) {
+			logger.error(e);
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

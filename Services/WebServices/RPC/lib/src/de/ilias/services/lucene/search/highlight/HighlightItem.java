@@ -25,6 +25,7 @@ package de.ilias.services.lucene.search.highlight;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.jdom.Element;
 
 /**
  * 
@@ -32,7 +33,7 @@ import org.apache.log4j.Logger;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightItem {
+public class HighlightItem implements HighlightResultExport {
 
 	protected static Logger logger = Logger.getLogger(HighlightItem.class); 
 	
@@ -86,6 +87,21 @@ public class HighlightItem {
 	 */
 	public Vector<HighlightField> getFields() {
 		return fields;
+	}
+
+	/**
+	 * Add xml
+	 * @see de.ilias.services.lucene.search.highlight.HighlightResultExport#addXML(org.jdom.Element)
+	 */
+	public Element addXML() {
+
+		Element item = new Element("Item").setAttribute("id", String.valueOf(getSubId()));
+		
+		for(Object field : fields) {
+			
+			item.addContent(((HighlightResultExport) field).addXML());
+		}
+		return item;
 	}
 
 }

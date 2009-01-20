@@ -23,6 +23,7 @@
 package de.ilias.services.lucene.search.highlight;
 
 import org.apache.log4j.Logger;
+import org.jdom.Element;
 
 /**
  * 
@@ -30,7 +31,7 @@ import org.apache.log4j.Logger;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightField {
+public class HighlightField implements HighlightResultExport {
 
 	protected static Logger logger = Logger.getLogger(HighlightField.class);
 	
@@ -40,7 +41,10 @@ public class HighlightField {
 	/**
 	 * 
 	 */
-	public HighlightField() {
+	public HighlightField(String name, String highlight) {
+		
+		setName(name);
+		setHighlight(highlight);
 	}
 
 	/**
@@ -69,6 +73,19 @@ public class HighlightField {
 	 */
 	public String getHighlight() {
 		return highlight;
+	}
+
+	/**
+	 * Add xml
+	 * @see de.ilias.services.lucene.search.highlight.HighlightResultExport#addXML(org.jdom.Element)
+	 */
+	public Element addXML() {
+
+		Element field = new Element("Field");
+		field.setAttribute("name", getName());
+		field.addContent(getHighlight());
+		
+		return field;
 	}
 
 }
