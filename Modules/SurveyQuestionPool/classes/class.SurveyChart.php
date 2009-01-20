@@ -63,6 +63,12 @@ class SurveyChart
 		$this->graph->SetYTitle($YLabel);
 		$this->graph->SetXDataLabelPos("plotdown");
 		$this->makeDataForOneQuestion($DataArray, $GraphTyp);
+		$max = 0;
+		foreach ($this->graphData as $value)
+		{
+			if ($value[1] > $max) $max = $value[1];
+		}
+		$this->graph->SetYTickIncrement(ceil($max / 4));
 		$this->graph->SetDataValues($this->graphData);
 		$this->graph->SetPlotAreaWorld(NULL, 0, NULL, NULL);
 		$this->draw();
