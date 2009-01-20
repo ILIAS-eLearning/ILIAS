@@ -124,6 +124,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			$adapter->setMode('highlight');
 			$adapter->setResultIds($filter->getFilteredObjIds());
 			$res = $adapter->send();
+			
+			include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
+			$parser = new ilLuceneHighlighterResultParser();
+			$parser->setResultString($res);
+			$parser->parse();
 			$ilBench->stop('Lucene','RPCAdapterHighlight');
 			// TODO: Error handling
 		}		
@@ -133,6 +138,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultPresentation.php';
 		$presentation = new ilLuceneSearchResultPresentation();
 		$presentation->setResults($filter->getFilteredIds());
+		$presentation->setHighlighter($parser);
 		if($presentation->render())
 		{
 			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
