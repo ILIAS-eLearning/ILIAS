@@ -219,10 +219,10 @@
 					</xsl:choose>
 				</xsl:variable>
 				<xsl:variable name="link_href">
-					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=$anchor]/@LinkHref"/>
+					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 				</xsl:variable>
 				<xsl:variable name="link_target">
-					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=$anchor]/@LinkTarget"/>
+					<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkTarget"/>
 				</xsl:variable>
 
 				<!-- set attributes -->
@@ -1031,10 +1031,10 @@
 				</xsl:choose>
 			</xsl:variable>
 			<xsl:variable name="link_href">
-				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=$anchor]/@LinkHref"/>
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 			</xsl:variable>
 			<xsl:variable name="link_target">
-				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=$anchor]/@LinkTarget"/>
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkTarget"/>
 			</xsl:variable>
 			<xsl:if test="$mode != 'print'">
 				<a class="ilc_link_IntLink">
