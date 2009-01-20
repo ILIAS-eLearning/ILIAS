@@ -56,7 +56,7 @@
 	
 	<xsl:template match="//div">
 		<xsl:choose>
-			<xsl:when test="@class='questionPrintview'">
+			<xsl:when test="contains(@class, 'questionPrintview')">
 				<fo:block xmlns:fo="http://www.w3.org/1999/XSL/Format">
 					<xsl:attribute name="background-color">#F0F0F0</xsl:attribute>
 					<xsl:attribute name="margin-top">1em</xsl:attribute>
