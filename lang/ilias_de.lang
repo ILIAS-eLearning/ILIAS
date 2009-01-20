@@ -3659,18 +3659,18 @@ common#:#svy_copy#:#Umfrage kopieren
 common#:#svy_delete#:#Umfrage löschen
 common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_evaluation#:#Statistik
-common#:#svy_finished#:#beendet
+common#:#svy_finished#:#Sie haben bereits an dieser Umfrage teilgenommen
 common#:#svy_invite#:#NutzerInnen zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
-common#:#svy_not_finished#:#nicht beendet
-common#:#svy_not_started#:#nicht gestartet
+common#:#svy_not_finished#:#Sie haben diese Umfrage begonnen, aber noch nicht abgeschlossen
+common#:#svy_not_started#:#Sie haben an dieser Umfrage noch nicht teilgenommen
 common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
 common#:#svy_run#:#Ausführen
 common#:#svy_upload_file#:#Datei hochladen
 common#:#svy_visible#:#Umfrage ist sichtbar
-common#:#svy_warning_survey_not_complete#:#Die Umfrage ist nicht vollständig!
+common#:#svy_warning_survey_not_complete#:#Die Umfrage ist unvollständig
 common#:#svy_write#:#Umfrage kann bearbeitet werden
 common#:#svy#:#Umfrage
 common#:#system_check#:#Systemcheck

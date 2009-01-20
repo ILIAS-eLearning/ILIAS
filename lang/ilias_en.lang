@@ -3905,18 +3905,18 @@ common#:#svy_add#:#Add survey
 common#:#svy_delete#:#Delete survey
 common#:#svy_edit_permission#:#Change permission settings
 common#:#svy_evaluation#:#Statistics
-common#:#svy_finished#:#finished
+common#:#svy_finished#:#You have completed the survey
 common#:#svy_invite#:#Invite users to a survey
 common#:#svy_new#:#New survey
 common#:#svy_no_content#:#No surveys available
-common#:#svy_not_finished#:#not finished
-common#:#svy_not_started#:#not started
+common#:#svy_not_finished#:#The survey has not been completed yeta
+common#:#svy_not_started#:#You did not take part in this survey
 common#:#svy_participate#:#Participate in a survey
 common#:#svy_read#:#Read access to survey
 common#:#svy_run#:#Run
 common#:#svy_upload_file#:#Upload file
 common#:#svy_visible#:#Survey is visible
-common#:#svy_warning_survey_not_complete#:#The survey is not finished!
+common#:#svy_warning_survey_not_complete#:#The survey is incomplete
 common#:#svy_write#:#Edit survey
 common#:#system#:#System
 common#:#system_check#:#System Check
