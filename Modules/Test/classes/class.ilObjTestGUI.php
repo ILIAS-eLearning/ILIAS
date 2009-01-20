@@ -1114,6 +1114,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$data["show_solution_printview"] = ($_POST["chb_show_solution_printview"] == 1) ? 1 : 0;
 		$data["show_solution_feedback"] = ($_POST["chb_show_solution_feedback"] == 1) ? 1 : 0;
+		$data["show_solution_suggested"] = ($_POST["chb_show_solution_suggested"] == 1) ? 1 : 0;
 		$data["show_solution_details"] = $_POST["chb_show_solution_details"];
 		$data["show_solution_answers_only"] = $_POST["chb_show_solution_answers_only"];
 		$data["show_solution_signature"] = $_POST["chb_show_solution_signature"];
@@ -1134,6 +1135,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setScoreReporting($data["results_access"]);
 		$this->object->setShowSolutionPrintview($data["show_solution_printview"]);
 		$this->object->setShowSolutionFeedback($data["show_solution_feedback"]);
+		$this->object->setShowSolutionSuggested($data["show_solution_suggested"]);
 		if ($data["results_access"] == REPORT_AFTER_DATE)
 		{
 			$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d",
@@ -1182,6 +1184,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$data["answer_feedback_points"] = $this->object->getAnswerFeedbackPoints();
 		$data["show_solution_printview"] = $this->object->getShowSolutionPrintview();
 		$data["show_solution_feedback"] = $this->object->getShowSolutionFeedback();
+		$data["show_solution_suggested"] = $this->object->getShowSolutionSuggested();
 		$data["show_solution_details"] = $this->object->getShowSolutionDetails();
 		$data["show_solution_answers_only"] = $this->object->getShowSolutionAnswersOnly();
 		$data["show_solution_signature"] = $this->object->getShowSolutionSignature();
@@ -1388,6 +1391,11 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_SIGNATURE", " checked=\"checked\"");
 			}
+		}
+		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_SUGGESTED", $this->lng->txt("tst_show_solution_suggested"));
+		if ($data["show_solution_suggested"])
+		{
+			$this->tpl->setVariable("CHECKED_SHOW_SOLUTION_SUGGESTED", " checked=\"checked\"");
 		}
 
 		$this->tpl->setVariable("TEXT_SHOW_SOLUTION_FEEDBACK", $this->lng->txt("tst_show_solution_feedback"));

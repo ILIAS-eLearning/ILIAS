@@ -5966,15 +5966,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 				case "reset_processing_time":
 					$this->setResetProcessingTime($metadata["entry"]);
 					break;
-				case "show_solution_details":
-					$this->setShowSolutionDetails($metadata["entry"]);
-					break;
-				case "show_solution_printview":
-					$this->setShowSolutionPrintview($metadata["entry"]);
-					break;
-				case "show_solution_feedback":
-					$this->setShowSolutionFeedback($metadata["entry"]);
-					break;
 				case "instant_verification":
 					$this->setInstantFeedbackSolution($metadata["entry"]);
 					break;
@@ -6117,7 +6108,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$a_xml_writer->xmlElement("duration", NULL, sprintf("P0Y0M0DT%dH%dM%dS", $matches[1], $matches[2], $matches[3]));
 		}
 
--		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
+		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
 		$a_xml_writer->xmlStartTag("qtimetadata");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "ILIAS_VERSION");
@@ -8713,6 +8704,24 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 
+	/**
+	* Returns if the suggested solutions should be shown in the test results
+	*
+	* @return boolean TRUE if the suggested solutions should be shown, FALSE otherwise
+	* @access public
+	*/
+	function getShowSolutionSuggested()
+	{
+		if (($this->results_presentation & 64) > 0)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
 /**
 * Sets the combined results presentation value
 *
@@ -8876,6 +8885,27 @@ function loadQuestions($active_id = "", $pass = NULL)
 				}
 			}
 		}
+
+	/**
+	* Set to TRUE, if the suggested solution should be shown in the solution
+	*
+	* @param boolean $a_solution TRUE if the suggested solution should be shown, FALSE otherwise
+	* @access public
+	*/
+	function setShowSolutionSuggested($a_solution = FALSE)
+	{
+		if ($a_solution)
+		{
+			$this->results_presentation = $this->results_presentation | 64;
+		}
+		else
+		{
+			if ($this->getShowSolutionSuggested())
+			{
+				$this->results_presentation = $this->results_presentation ^ 64;
+			}
+		}
+	}
 
 	/**
 	* Returns a new, unused test access code
