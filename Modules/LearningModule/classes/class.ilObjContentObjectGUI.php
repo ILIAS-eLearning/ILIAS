@@ -3678,9 +3678,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function cutItems($a_return = "chapters")
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		if (!is_array($items))
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, $a_return);
+		}
+
 		$todel = array();			// delete IDs < 0 (needed for non-js editing)
 		foreach($items as $k => $item)
 		{
@@ -3695,7 +3701,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		ilLMObject::clipboardCut($this->object->getId(), $items);
 		ilEditClipboard::setAction("cut");
-		ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
+		ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_cut"), true);
 		
 		$ilCtrl->redirect($this, $a_return);
 	}
@@ -3705,9 +3711,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function copyItems()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		if (!is_array($items))
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "chapters");
+		}
+
 		$todel = array();				// delete IDs < 0 (needed for non-js editing)
 		foreach($items as $k => $item)
 		{
@@ -3722,7 +3734,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		ilLMObject::clipboardCopy($this->object->getId(), $items);
 		ilEditClipboard::setAction("copy");
-		
+		ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_copied"), true);
 		$ilCtrl->redirect($this, "chapters");
 	}
 

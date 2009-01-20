@@ -342,6 +342,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		global $ilCtrl, $lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		if (!is_array($items))
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "showHierarchy");
+		}
+		
 		$todel = array();			// delete IDs < 0 (needed for non-js editing)
 		foreach($items as $k => $item)
 		{
@@ -377,6 +383,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		global $ilCtrl, $lng;
 		
 		$items = ilUtil::stripSlashesArray($_POST["id"]);
+		if (!is_array($items))
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "showHierarchy");
+		}
+		
 		$todel = array();				// delete IDs < 0 (needed for non-js editing)
 		foreach($items as $k => $item)
 		{
@@ -850,8 +862,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*/
 	function activatePages()
 	{
-		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		global $lng;
 		
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		if (is_array($_POST["id"]))
 		{
 			$act_items = array();
@@ -896,7 +909,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				}
 			}
 		}
-
+		else
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+		}
+		
 		$this->ctrl->redirect($this, "view");
 	}
 
