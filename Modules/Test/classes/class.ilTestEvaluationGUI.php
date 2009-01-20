@@ -1501,7 +1501,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$table->enable("sort");
 		$table->setLimit($maxentries);
 
-		$header_params = $this->ctrl->getParameterArray($this, "eval_a");
+		$header_params = $this->ctrl->getParameterArray($this, "singleResults");
 		$header_vars = array("question_title", "number_of_answers", "export");
 		$table->setHeaderVars($header_vars, $header_params);
 		$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
@@ -1534,7 +1534,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				array(
 						$question_title, 
 						$answered,
-						"<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants"). "\">" . $this->lng->txt("pdf_export") . "</a>"
+						"<a href=\"" . $this->ctrl->getLinkTarget($this, "singleResults"). "\">" . $this->lng->txt("pdf_export") . "</a>"
 				)
 			);
 		}
