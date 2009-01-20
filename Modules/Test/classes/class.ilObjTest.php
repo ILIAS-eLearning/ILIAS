@@ -7488,7 +7488,12 @@ function loadQuestions($active_id = "", $pass = NULL)
 						{
 							if ($row["manual"]) $found++;
 						}
-						if ($found == 0) $filtered_participants[$active_id] = $participant;
+						if ($found == 0) 
+						{
+							$assessmentSetting = new ilSetting("assessment");
+							$manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
+							if (!$manscoring_done) $filtered_participants[$active_id] = $participant;
+						}
 						break;
 					case 6:
 						// partially scored participants
