@@ -2256,7 +2256,9 @@ class ilTree
 			ilDBx::_lockTables(array($this->table_tree => 'WRITE',
 									 $this->table_obj_data => 'WRITE',
 									 $this->table_obj_reference => 'WRITE',
-									 'object_translation' => 'WRITE'));
+									 'object_translation' => 'WRITE',
+									 'object_data od' => 'WRITE',
+									 'container_reference cr' => 'WRITE'));
 		}
 		$return = $this->__renumber($node_id,$i);
 		if($this->__isMainTree())
