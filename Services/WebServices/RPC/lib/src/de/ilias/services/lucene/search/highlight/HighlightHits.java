@@ -23,9 +23,11 @@
 package de.ilias.services.lucene.search.highlight;
 
 import java.util.HashMap;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
 
 /**
  * Highlight results (top most xml element)
@@ -33,7 +35,7 @@ import org.apache.log4j.Logger;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightHits {
+public class HighlightHits implements HighlightResultExport {
 
 	protected static Logger logger = Logger.getLogger(HighlightHits.class);
 	
@@ -60,5 +62,30 @@ public class HighlightHits {
 	 */
 	public HashMap<Integer, HighlightObject> getObjects() {
 		return objects;
+	}
+	
+	
+	public String toXML() {
+		
+		Document doc = new Document(addXML()); 
+		
+		XMLOutputter outputter = new XMLOutputter();
+		return outputter.outputString(doc);
+		
+	}
+
+	/**
+	 * Add xml
+	 * @see de.ilias.services.lucene.search.highlight.HighlightResultExport#addXML(org.jdom.Element)
+	 */
+	public Element addXML() {
+
+		Element hits = new Element("Hits");
+		
+		for(Object obj : objects.values()) {
+			
+			hits.addContent(((HighlightResultExport) obj).addXML());
+		}
+		return hits;
 	}
 }
