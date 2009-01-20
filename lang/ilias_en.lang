@@ -9026,3 +9026,4 @@ assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s a
 assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
 assessment#:#tst_show_solution_suggested#:#Show Suggested Solution
 survey#:#err_no_pool_name#:#Please enter the name of a survey question pool
+assessment#:#err_no_numeric_value#:#Please enter a numeric value
