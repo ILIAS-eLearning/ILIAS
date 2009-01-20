@@ -36,6 +36,7 @@ class ilLuceneSearchResultPresentation
 	protected $lng;
 
 	private $results = array();
+	private $highlighter = null;
 	
 	/**
 	 * Constructor 
@@ -75,6 +76,16 @@ class ilLuceneSearchResultPresentation
 	}
 	
 	/**
+	 * set highlighter 
+	 * @param
+	 * @return
+	 */
+	public function setHighlighter($a_highlighter)
+	{
+		$this->highlighter = $a_highlighter;
+	}
+	
+	/**
 	 * Parse results 
 	 * @param void
 	 * @return string html
@@ -99,7 +110,8 @@ class ilLuceneSearchResultPresentation
 			#$obj_id = ilObject::_lookupObjId($res_data);
 			$type = ilObject::_lookupType($obj_id);
 			$title = ilObject::_lookupTitle($obj_id);
-			$description = ilObject::_lookupDescription($obj_id);
+			$title = $this->lookupTitle($obj_id,0);
+			$description = $this->lookupDescription($obj_id,0);
 			
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
 			$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
@@ -169,5 +181,35 @@ class ilLuceneSearchResultPresentation
 		$this->tpl->touchBlock("container_row");
 		
 	}
+	
+	// Highlighter
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	protected function lookupTitle($a_obj_id,$a_sub_id)
+	{
+		if(strlen($title = $this->highlighter->getTitle($a_obj_id,$a_sub_id)))
+		{
+			return $title;
+		}
+		return ilObject::_lookupTitle($a_obj_id);
+	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	protected function lookupDescription($a_obj_id,$a_sub_id)
+	{
+		if(strlen($title = $this->highlighter->getDescription($a_obj_id,$a_sub_id)))
+		{
+			return $title;
+		}
+		return ilObject::_lookupDescription($a_obj_id);
+	}
+	
 }
 ?>

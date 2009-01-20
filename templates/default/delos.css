@@ -2154,3 +2154,8 @@ div#agreement
 	overflow:auto;
 	overflow-x:hidden;
 }
+
+span.ilSearchHighlight
+{
+	background:yellow;
+}
