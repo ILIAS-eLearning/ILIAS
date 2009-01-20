@@ -221,7 +221,7 @@ class assNumericRange
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
 		$result = $eval->e($value);
-		if ($result === FALSE) return FALSE;
+		if (($result === FALSE) || ($result === TRUE)) return FALSE;
 		if (($result >= $eval->e($this->lowerlimit)) && ($result <= $eval->e($this->upperlimit)))
 		{
 			return TRUE;

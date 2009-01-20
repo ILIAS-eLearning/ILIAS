@@ -606,6 +606,17 @@ class assNumeric extends assQuestion
 		}
 		$entered_values = 0;
 		$numeric_result = str_replace(",",".",$_POST["numeric_result"]);
+
+		include_once "./Services/Math/classes/class.EvalMath.php";
+		$math = new EvalMath();
+		$math->suppress_errors = TRUE;
+		$result = $math->evaluate($numeric_result);
+		$returnvalue = true;
+		if (($result === FALSE) || ($result === TRUE))
+		{
+			ilUtil::sendInfo($this->lng->txt("err_no_numeric_value"), true);
+			$returnvalue = false;
+		}
 		$query = sprintf("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			$ilDB->quote($active_id . ""),
 			$ilDB->quote($this->getId() . ""),
@@ -663,8 +674,9 @@ class assNumeric extends assQuestion
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-    parent::saveWorkingData($active_id, $pass);
-		return true;
+		parent::saveWorkingData($active_id, $pass);
+
+		return $returnvalue;
 	}
 
 	/**
