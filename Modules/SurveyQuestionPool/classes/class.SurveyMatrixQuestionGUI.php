@@ -1218,12 +1218,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
   function addPhrase() 
 	{
 		$complete = $this->writeRowColData(true);
-		if (!$complete)
-		{
-			$_SESSION["spl_modified"] = TRUE;
-			ilUtil::sendInfo($this->errormessage);
-			return $this->categories();
-		}
 		$this->ctrl->setParameterByClass(get_class($this), "q_id", $this->object->getId());
 		$this->ctrl->setParameterByClass("ilobjsurveyquestionpoolgui", "q_id", $this->object->getId());
 
@@ -1506,8 +1500,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     // Delete all existing columns and create new columns from the form data
     $this->object->flushColumns();
     $this->object->flushRows();
-		$complete = TRUE;
-		
+		$columnscomplete = TRUE;
+		$rowscomplete = TRUE;
     // Add standard columns and rows
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$cats = "";
@@ -1528,12 +1522,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
 		if (strlen($cats) == 0) 
 		{
-			$complete = FALSE;
+			$columnscomplete = FALSE;
 			$this->addErrorMessage($this->lng->txt("matrix_error_no_columns"));
 		}
 		if (strlen($rows) == 0) 
 		{
-			$complete = FALSE;
+			$rowscomplete = FALSE;
 			$this->addErrorMessage($this->lng->txt("matrix_error_no_rows"));
 		}
 
@@ -1554,7 +1548,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			}
 		}
 
-		return $complete;
+		return $columnscomplete && $rowscomplete;
 	}
 
 /**
