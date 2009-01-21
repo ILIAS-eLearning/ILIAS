@@ -2159,3 +2159,13 @@ span.ilSearchHighlight
 {
 	background:yellow;
 }
+
+div.il_SearchFragment
+{
+	margin-top:2px;
+	margin-bottom:5px;
+	font-size: 90%;
+	font-weight:normal;
+	text-align:left;
+}
+

@@ -115,6 +115,7 @@ class ilLuceneSearchResultPresentation
 			
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
 			$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
+			$item_list_gui->setSearchFragment($this->lookupContent($obj_id,0));
 			
 			if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
 			{
@@ -209,6 +210,16 @@ class ilLuceneSearchResultPresentation
 			return $title;
 		}
 		return ilObject::_lookupDescription($a_obj_id);
+	}
+	
+	/**
+	 * get content 
+	 * @param
+	 * @return
+	 */
+	protected function lookupContent($a_obj_id,$a_sub_id)
+	{
+		return $this->highlighter->getContent($a_obj_id,$a_sub_id);
 	}
 	
 }

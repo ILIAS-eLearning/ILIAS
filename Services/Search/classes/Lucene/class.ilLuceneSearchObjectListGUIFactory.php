@@ -64,6 +64,7 @@ class ilLuceneSearchObjectListGUIFactory
 		$item_list_gui->enableSubscribe(false);
 		$item_list_gui->enablePayment(false);
 		$item_list_gui->enableLink(false);
+		$item_list_gui->enableSearchFragments(true);
 
 		return self::$item_list_gui[$a_type] = $item_list_gui;
  	}	

@@ -6665,3 +6665,13 @@ if ($result->numRows() > 0)
 	}
 }
 ?>
+<#1396>
+<?php
+
+if(!$ilDB->tableColumnExists('usr_search','query'))
+{
+	$ilDB->alterTable('usr_search',array('add'	=> array('query' => array('type' => 'text',
+																		'notnull'	=> false))));
+}
+?>
+
