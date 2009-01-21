@@ -22,14 +22,13 @@
 */
 
 
-// include pear
-//require_once("DB.php");
-
 /**
 * Database Update class
 *
 * @author Peter Gabriel <pgabriel@databay.de>
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+* @ingroup ServicesDatabase
 */
 class ilDBUpdate
 {

@@ -21,9 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+/** @defgroup ServicesDatabase Services/Database
+ */
 
-//pear DB abstraction layer
-//require_once ("DB.php");
+//pear MDB2 abstraction layer
 include_once ("MDB2.php");
 
 define("DB_FETCHMODE_ASSOC", MDB2_FETCHMODE_ASSOC);
@@ -40,11 +41,10 @@ define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 * in case of a db-error in any database query the ilDB-class raises an error
 *
 * @author Peter Gabriel <peter@gabriel-online.net>
-*
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
-* @access public
+* @ingroup ServicesDatabase
 */
-
 class ilDB extends PEAR
 {
 	/**
@@ -215,13 +215,55 @@ class ilDB extends PEAR
 	}
 
 	/**
+	* Modify a field within a table.
+	* Use this only on aleady "abstracted" tables.
+	*
+	* @param	string		table name
+	* @param	string		field name
+	* @param	array		attributes to be changed, e.g. array("length" => 10, "default" => "t")
+	*/
+	function modifyTableField($a_table, $a_field, $a_attributes)
+	{
+		$manager = $this->db->loadModule('Manager');
+		$reverse = $this->db->loadModule('Reverse');
+		$def = $reverse->getTableFieldDefinition($a_table, $a_field);
+		$def = $def[0];
+		unset($def["nativetype"]);
+		foreach ($a_attributes as $a => $v)
+		{
+			$def[$a] = $v;
+		}
+		
+		$a_attributes["definition"] = $def;
+		
+		$changes = array(
+			"change" => array(
+				$a_field => $a_attributes
+				)
+			);
+
+		$r = $manager->alterTable($a_table, $changes, false);
+
+		if (MDB2::isError($r))
+		{
+			//$err = "<br>Details: ".mysql_error();
+			var_dump($a_changes);
+			$this->raiseError($r->getMessage()."<br><font size=-1>MODIFY TABLE FIELD $a_name</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+
+	/**
 	* Add a primary key to a table
 	*
 	* @param	string		table name
 	* @param	array		fields for primary key
 	* @param	string		key name
 	*/
-	function addPrimaryKey($a_table, $a_fields, $a_name = "pk")
+	function addPrimaryKey($a_table, $a_fields, $a_name = "PRIMARY")
 	{
 		$manager = $this->db->loadModule('Manager');
 		
@@ -254,7 +296,7 @@ class ilDB extends PEAR
 	* @param	string		table name
 	* @param	string		key name
 	*/
-	function dropPrimaryKey($a_table, $a_name = "pk")
+	function dropPrimaryKey($a_table, $a_name = "PRIMARY")
 	{
 		$manager = $this->db->loadModule('Manager');
 		
@@ -262,6 +304,7 @@ class ilDB extends PEAR
 
 		if (MDB2::isError($r))
 		{
+//var_dump($r);
 			$this->raiseError($r->getMessage()."<br><font size=-1>DROP PRIMARY KEY $a_table, $a_name</font>", $this->error_class->FATAL);
 		}
 		else
