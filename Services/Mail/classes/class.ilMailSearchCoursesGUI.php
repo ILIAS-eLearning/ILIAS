@@ -244,7 +244,11 @@ class ilMailSearchCoursesGUI
 				if (!$this->abook->checkEntry($login))
 				{
 					$name = ilObjUser::_lookupName($member);
-					$email = ilObjUser::_lookupEmail($member);
+					$email = '';
+					if(ilObjUser::_lookupPref((int)$member, 'public_email') == 'y')
+					{
+						$email = ilObjUser::_lookupEmail($member);	
+					}
 					$this->abook->addEntry(
 						$login,
 						$name["firstname"],
