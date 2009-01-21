@@ -1538,7 +1538,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$this->object->setBipolarAdjective(0, ilUtil::stripSlashes($_POST["bipolar1"]));
 		$this->object->setBipolarAdjective(1, ilUtil::stripSlashes($_POST["bipolar2"]));
 
-		if (($save) && ($complete))
+		if ($save)
 		{	
 			$this->object->saveColumnsToDb();
 			$this->object->saveRowsToDb();
