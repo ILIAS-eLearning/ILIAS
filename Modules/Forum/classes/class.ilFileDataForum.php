@@ -109,6 +109,7 @@ class ilFileDataForum extends ilFileData
 				if(!is_dir($this->forum_path.'/'.$file))
 				{
 					$files[] = array(
+						'md5'	   => md5($this->obj_id.'_'.$this->pos_id.'_'.$rest),
 						'name'     => $rest,
 						'size'     => filesize($this->forum_path.'/'.$file),
 						'ctime'    => ilFormat::formatDate(date('Y-m-d H:i:s',filectime($this->forum_path.'/'.$file))));
@@ -138,6 +139,7 @@ class ilFileDataForum extends ilFileData
 					if(!is_dir($this->forum_path.'/'.$file))
 					{
 						$files[] = array(
+							'md5'	   => md5($this->obj_id.'_'.$this->pos_id.'_'.$rest),
 							'name'     => $rest,
 							'size'     => filesize($this->forum_path.'/'.$file),
 							'ctime'    => ilFormat::formatDate(date('Y-m-d H:i:s',filectime($this->forum_path.'/'.$file))));
@@ -268,6 +270,65 @@ class ilFileDataForum extends ilFileData
 	function getAbsolutePath($a_path)
 	{
 		return $this->forum_path.'/'.$this->obj_id.'_'.$this->pos_id."_".$a_path;
+	}
+	
+	/**
+	* get file data of a specific attachment
+	* @param string md5 encrypted filename
+	* @access public
+	* @return array filedata
+	*/
+	public function getFileDataByMD5Filename($a_md5_filename)
+	{
+		$files = ilUtil::getDir( $this->forum_path );
+		foreach((array)$files as $file)
+		{
+			if($file['type'] == 'file' && md5($file['entry']) == $a_md5_filename)
+			{
+				return array(
+					'path' => $this->forum_path.'/'.$file['entry'],
+					'filename' => $file['entry'],
+					'clean_filename' => str_replace($this->obj_id.'_'.$this->pos_id.'_', '', $file['entry'])
+				);
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	* get file data of a specific attachment
+	* @param string|array md5 encrypted filename or array of multiple md5 encrypted files
+	* @access public
+	* @return boolean status
+	*/
+	function unlinkFilesByMD5Filenames($a_md5_filename)
+	{
+		$files = ilUtil::getDir( $this->forum_path );
+		if(is_array($a_md5_filename))
+		{
+			foreach((array)$files as $file)
+			{
+				if($file['type'] == 'file' && in_array(md5($file['entry']), $a_md5_filename))
+				{
+					unlink( $this->forum_path.'/'.$file['entry'] );
+				}
+			}
+			
+			return true;
+		}
+		else
+		{
+			foreach((array)$files as $file)
+			{
+				if($file['type'] == 'file' && md5($file['entry']) == $a_md5_filename)
+				{
+					return unlink( $this->forum_path.'/'.$file['entry'] );
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	/**
