@@ -261,11 +261,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			$this->search_cache->setResultPageNumber((int) $_GET['page_number']);
 		}
-		else
-		{
-			$this->search_cache->delete();
-			unset($_SESSION['max_page']);
-		}
 		if($_POST['query'])
 		{
 			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']));
