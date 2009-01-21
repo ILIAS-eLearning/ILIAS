@@ -622,6 +622,12 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		} else {
 			$shortenedPath = $fullPath;
 		}
+		if ($objDAV->isCollection())
+		{
+			$shortenedPath .= '/';
+			$fullPath .= '/';
+		}
+
 		// Prepend client id to path
 		$shortenedPath = '/'.CLIENT_ID.$shortenedPath;
 		$fullPath = '/'.CLIENT_ID.$fullPath;
@@ -1732,33 +1738,33 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		} else {
 			$baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:");
 
-			// FIXME - For browsers which supports the webdav mounting protocol
-			// the query string must by 'mount'.
-			$query = 'mount-instructions';
+		// FIXME - For browsers which supports the webdav mounting protocol
+		// the query string must by 'mount'.
+		$query = 'mount-instructions';
 		}
 		$baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
 		$baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
 
-                // Create a nice URI for the root-node of the tree
+		// Create a nice URI for the root-node of the tree
 		if ($refId == 1) {
-                        global $tree;
-                        $nodePath = $tree->getNodePath($refId);
+			global $tree;
+			$nodePath = $tree->getNodePath($refId);
 
-                        if (count($nodePath) > 1)
-                        {
+			if (count($nodePath) > 1)
+			{
 				$uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 2]['child'].'/'.
 						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
-                                                '/');
+						'/');
 			} else {
 				$uri = $baseUri.'/'.
 						$this->davUrlEncode($nodePath[count($nodePath) - 1]['title'].
-                                                '/');
-                        }
+						'/');
+			}
 		}
-                else
-                {
-                        $uri = $baseUri.'/ref_'.$refId.'/';
-                }
+		else
+		{
+			$uri = $baseUri.'/ref_'.$refId.'/';
+		}
 
 		// Display instructions for browsers which can't mount a dav volume
 		if ($query != null)
