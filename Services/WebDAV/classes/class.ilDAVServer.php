@@ -279,35 +279,49 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$files['files'][] =& $this->fileinfo($encodedPath, $encodedPath, $objDAV);
 
 		// information for contained resources requested?
-		if (!empty($options['depth']))  { // TODO check for is_dir() first?
-			// read directory contents
-			$childrenDAV =& $objDAV->childrenWithPermission('visible');
-			foreach ($childrenDAV as $childDAV)
-			{
-				// On duplicate names, work with the older object (the one with the
-				// smaller object id).
-				foreach ($childrenDAV as $duplChildDAV)
+		if (!empty($options['depth']))  {
+			// The breadthFirst list holds the collections which we have not
+			// processed yet. If depth is infinity we append unprocessed collections
+			// to the end of this list, and remove processed collections from
+			// the beginning of this list.
+			$breadthFirst = array($objDAV);
+			$objDAV->encodedPath = $encodedPath;
+
+			while (count($breadthFirst) > 0) {
+				// remove a collection from the beginning of the breadthFirst list
+				$collectionDAV = array_shift($breadthFirst);
+				$childrenDAV =& $collectionDAV->childrenWithPermission('visible');
+				foreach ($childrenDAV as $childDAV)
 				{
-					if ($duplChildDAV->getObjectId() < $childDAV->getObjectId() &&
-							$duplChildDAV->getResourceName() == $childDAV->getResourceName())
+					// On duplicate names, work with the older object (the one with the
+					// smaller object id).
+					foreach ($childrenDAV as $duplChildDAV)
 					{
-						continue 2;
+						if ($duplChildDAV->getObjectId() < $childDAV->getObjectId() &&
+								$duplChildDAV->getResourceName() == $childDAV->getResourceName())
+						{
+							continue 2;
+						}
+					}
+
+					// only add visible objects to the file list
+					if (!$this->isFileHidden($childDAV))
+					{
+						$this->writelog('PROPFIND() child ref_id='.$childDAV->getRefId());
+						$files['files'][] =& $this->fileinfo(
+							$collectionDAV->encodedPath.'/'.$this->davUrlEncode($childDAV->getResourceName()),
+							$collectionDAV->encodedPath.'/'.$this->davUrlEncode($childDAV->getDisplayName()),
+							$childDAV
+						);
+
+						if ($options['depth']=='infinity' && $childDAV->isCollection()) {
+							// add a collection to the end of the breadthFirst list
+							$breadthFirst[] = $childDAV;
+							$childDAV->encodedPath = $collectionDAV->encodedPath.'/'.$this->davUrlEncode($childDAV->getResourceName());
+						}
 					}
 				}
-
-				// only add visible objects to the file list
-				if (!$this->isFileHidden($childDAV))
-				{
-					$this->writelog('PROPFIND() child ref_id='.$childDAV->getRefId());
-					$files['files'][] =& $this->fileinfo(
-						$encodedPath.'/'.$this->davUrlEncode($childDAV->getResourceName()),
-						$encodedPath.'/'.$this->davUrlEncode($childDAV->getDisplayName()),
-						$childDAV
-					);
-				}
 			}
-			// TODO recursion needed if "Depth: infinite"
-			// According to RFC 2518, Chapter 8.1, we MUST support this feature
 		}
 
 		// Record read event but don't catch up with write events, because
@@ -383,14 +397,16 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$this->writelog('fileinfo('.$resourcePath.')');
 		// create result array
 		$info = array();
-		/* MAC OS X does not like trailing slash
-		if ($objDAV->isCollection())
-		{
-			$info['path'] =& $this->davUrlEncode($resourcePath.'/');
+		/* Some clients, for example WebDAV-Sync, need a trailing slash at the
+		 * end of a resource path to a collection.
+		 * However Mac OS X does not like this!
+		 * XXX -> Check with Mac OS X 10.5 whether this is still a problem
+		 */
+		if ($objDAV->isCollection()) {
+			$info['path'] = $resourcePath.'/';
 		} else {
-			$info['path'] =& $this->davUrlEncode($resourcePath);
-		}*/
-		$info['path'] =& $resourcePath;
+			$info['path'] = $resourcePath;
+		}
 
 		$info['props'] = array();
 
@@ -467,7 +483,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			$info["props"][] = $this->mkprop($prop['namespace'], $prop['name'], $prop['value']);
 		}
 
-		$this->writelog('fileinfo():'.var_export($info, true));
+		//$this->writelog('fileinfo():'.var_export($info, true));
 
 		return $info;
 	}
@@ -1667,14 +1683,14 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		// Only write log message, if we are in debug mode
 		if ($this->isDebug)
 		{
-			global $log, $ilias;
-			if ($log)
+			global $ilLog, $ilias;
+			if ($ilLog)
 			{
 				if ($message == '---')
 				{
-						$log->write('');
+						$ilLog->write('');
 				} else {
-						$log->write(
+						$ilLog->write(
 								$ilias->account->getLogin()
 						.' '.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT']
 						.' ilDAVServer.'.str_replace("\n",";",$message)
