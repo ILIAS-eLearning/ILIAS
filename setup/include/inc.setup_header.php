@@ -54,7 +54,7 @@ require_once "./classes/class.ilLanguage.php";	// modified class. needs to be me
 require_once "../Services/Logging/classes/class.ilLog.php";
 require_once "../Services/Utilities/classes/class.ilUtil.php";
 require_once "../classes/class.ilIniFile.php";
-require_once "../classes/class.ilDBx.php";
+require_once "../Services/Database/classes/class.ilDB.php";
 require_once "./classes/class.ilSetupGUI.php";
 require_once "./classes/class.Session.php";
 require_once "./classes/class.ilClientList.php";

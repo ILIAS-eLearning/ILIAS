@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./classes/class.ilDBUpdate.php");
+include_once("./Services/Database/classes/class.ilDBUpdate.php");
 
 /**
 * Database Update class

@@ -190,10 +190,10 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	// PRIVATE
 	function __checkSOAPEnabled()
 	{
-		include_once './classes/class.ilDBx.php';
+		include_once './Services/Database/classes/class.ilDB.php';
 
 
-		$db =& new ilDBx($this->dsn);
+		$db =& new ilDB($this->dsn);
 
 		$query = "SELECT * FROM settings WHERE keyword = 'soap_user_administration' AND value = 1";
 

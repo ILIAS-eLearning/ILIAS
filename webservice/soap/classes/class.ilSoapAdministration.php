@@ -402,8 +402,8 @@ class ilSoapAdministration
 					 "/".$ilClientIniFile->readVariable("db", "name");
 		
 				
-		require_once "classes/class.ilDBx.php";
-		$ilDB = new ilDBx($dsn);
+		require_once "./Services/Database/classes/class.ilDB.php";
+		$ilDB = new ilDB($dsn);
 		$GLOBALS['ilDB'] = $ilDB;
 
 		require_once("Services/Administration/classes/class.ilSetting.php");

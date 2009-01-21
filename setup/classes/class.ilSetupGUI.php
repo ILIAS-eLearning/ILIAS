@@ -1860,7 +1860,7 @@ class ilSetupGUI extends ilSetup
 			}
 			else
 			{
-				include_once "../classes/class.ilDBUpdate.php";
+				include_once "../Services/Database/classes/class.ilDBUpdate.php";
 				include_once "../Services/AccessControl/classes/class.ilRbacAdmin.php";
 				include_once "../Services/AccessControl/classes/class.ilRbacReview.php";
 				include_once "../Services/AccessControl/classes/class.ilRbacSystem.php";
@@ -1872,7 +1872,7 @@ class ilSetupGUI extends ilSetup
 				$this->lng->setDbHandler($this->client->db);
 
 				// referencing does not work in dbupdate-script
-				$ilDB = new ilDbx($this->client->dsn);
+				$ilDB = new ilDB($this->client->dsn);
 
 				// run dbupdate
 				$dbupdate = new ilDBUpdate($ilDB);
@@ -1907,8 +1907,8 @@ class ilSetupGUI extends ilSetup
 			// referencing db handler in language class
 			$this->lng->setDbHandler($this->client->db);
 
-			include_once "../classes/class.ilDBUpdate.php";
-			$ilDB = new ilDbx($this->client->dsn);
+			include_once "../Services/Database/classes/class.ilDBUpdate.php";
+			$ilDB = new ilDB($this->client->dsn);
 			$dbupdate = new ilDBUpdate($ilDB);
 
 			if (!$db_status = $dbupdate->getDBVersionStatus())
@@ -1957,7 +1957,7 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("DB_CREATE_CHECK",$checked);
 			$this->tpl->parseCurrentBlock();
 
-			$ilDB = new ilDbx($this->client->dsn_host);
+			$ilDB = new ilDB($this->client->dsn_host);
 			
 			if ($ilDB->isMySQL4_1OrHigher())
 			{
@@ -2508,7 +2508,7 @@ class ilSetupGUI extends ilSetup
 		}
 
 		// referencing does not work in dbupdate-script
-		$GLOBALS["ilDB"] = new ilDbx($this->client->dsn);
+		$GLOBALS["ilDB"] = new ilDB($this->client->dsn);
 // BEGIN WebDAV
 		// read module and service information into db
 		require_once "./classes/class.ilModuleReader.php";
