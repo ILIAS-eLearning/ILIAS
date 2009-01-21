@@ -124,7 +124,7 @@ class ilInitialisation
 
 		//include classes and function libraries
 		require_once "include/inc.db_session_handler.php";
-		require_once "classes/class.ilDBx.php";
+		require_once "./Services/Database/classes/class.ilDB.php";
 		require_once "./Services/AuthShibboleth/classes/class.ilShibboleth.php";
 		require_once "classes/class.ilias.php";
 		require_once './Services/User/classes/class.ilObjUser.php';
@@ -435,8 +435,8 @@ class ilInitialisation
 		}
 
 		// build dsn of database connection and connect
-		require_once("classes/class.ilDBx.php");
-		$ilDB = new ilDBx(IL_DSN);
+		require_once("./Services/Database/classes/class.ilDB.php");
+		$ilDB = new ilDB(IL_DSN);
 		$GLOBALS['ilDB'] =& $ilDB;
 	}
 

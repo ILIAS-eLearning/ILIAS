@@ -37,7 +37,7 @@ define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 * Database Wrapper
 *
 * this class should extend PEAR::DB, add error Management
-* in case of a db-error in any database query the ilDBx-class raises an error
+* in case of a db-error in any database query the ilDB-class raises an error
 *
 * @author Peter Gabriel <peter@gabriel-online.net>
 *
@@ -45,7 +45,7 @@ define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 * @access public
 */
 
-class ilDBx extends PEAR
+class ilDB extends PEAR
 {
 	/**
 	* error class
@@ -80,7 +80,7 @@ class ilDBx extends PEAR
 	*
 	* @param string dsn database-connection-string for pear-db
 	*/
-	function ilDBx($dsn)
+	function ilDB($dsn)
 	{
 		//call parent constructor
 		$parent = get_parent_class($this);
@@ -120,9 +120,8 @@ class ilDBx extends PEAR
 		// SET 'max_allowed_packet' (only possible for mysql version 4)
 		$this->setMaxAllowedPacket();
 		
-		// NOTE: Three sourcecodes use this or a similar handling:
-		// - classes/class.ilDBx.php
-		// - calendar/classes/class.ilCalInterface.php->setNames
+		// NOTE: Two sourcecodes use this or a similar handling:
+		// - classes/class.ilDB.php
 		// - setup/classes/class.ilClient.php
 		if ($this->isMysql4_1OrHigher())
 		{
@@ -136,7 +135,7 @@ class ilDBx extends PEAR
 	/**
 	* destructor
 	*/
-	function _ilDBx(){
+	function _ilDB(){
 		//$this->db->disconnect();
 	} //end destructor
 
@@ -749,9 +748,8 @@ else
 	/**
 	* check wether current MySQL server is version 4.1.x or higher
 	*
-	* NOTE: Three sourcecodes use this or a similar handling:
-	* - classes/class.ilDBx.php
-	* - calendar/classes/class.ilCalInterface.php->setNames
+	* NOTE: Two sourcecodes use this or a similar handling:
+	* - classes/class.ilDB.php
 	* - setup/classes/class.ilClient.php
 	*/
 	function isMysql4_1OrHigher()

@@ -665,7 +665,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("VAL_HEADER_TITLE",
 			ilObjSystemFolder::_getHeaderTitle());
 
-		include_once ("./classes/class.ilDBUpdate.php");
+		include_once ("./Services/Database/classes/class.ilDBUpdate.php");
 		$dbupdate = new ilDBUpdate($this->ilias->db,true);
 
 		if (!$dbupdate->getDBVersionStatus())
