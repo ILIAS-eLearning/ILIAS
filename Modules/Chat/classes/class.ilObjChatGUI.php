@@ -1382,8 +1382,8 @@ class ilObjChatGUI extends ilObjectGUI
 				$oUser = new ilObjUser();				
 				$oUser->setId($user['user_id']);
 				$oUser->read();
-	
-				if($oUser->getPref('hide_own_online_status') != 'n')
+
+				if($oUser->getPref('hide_own_online_status') == 'y')
 				{
 					continue;
 				}
