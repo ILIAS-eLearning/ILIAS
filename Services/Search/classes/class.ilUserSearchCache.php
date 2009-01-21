@@ -39,6 +39,7 @@ class ilUserSearchCache
 	const SHOP_CONTENT = 2;
 	const SHOP_ADVANCED_SEARCH = 3;
 	const ADVANCED_MD_SEARCH = 4;
+	const LUCENE_DEFAULT = 5;
 
 	private static $instance = null;
 	private $db;
@@ -50,6 +51,7 @@ class ilUserSearchCache
 	private $checked = array();
 	private $failed = array();
 	private $page_number = 1;
+	private $query;
 	
 	
 	/**
@@ -108,7 +110,7 @@ class ilUserSearchCache
 	 */
 	public function getResults()
 	{
-		return $this->search_result ? $this->search_result : array();	 	
+		return $this->search_result ? $this->search_result : array();
 	}
 	
 	/**
@@ -225,6 +227,26 @@ class ilUserSearchCache
 	}
 	
 	/**
+	 * set query 
+	 * @param mixed query string or array (for advanced search)
+	 * @return
+	 */
+	public function setQuery($a_query)
+	{
+		$this->query = $a_query;
+	}
+	
+	/**
+	 * get query
+	 *  
+	 * @return
+	 */
+	public function getQuery()
+	{
+		return $this->query;
+	}
+	
+	/**
 	 * Delete user entries
 	 *
 	 * @access public
@@ -258,14 +280,15 @@ class ilUserSearchCache
 	 		"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
 	 		"AND search_type = ".$this->db->quote($this->search_type);
 		$res = $this->db->query($query);
-
+		
 	 	$query = "INSERT INTO usr_search ".
 	 		"SET usr_id = ".$this->db->quote($this->usr_id).", ".
 	 		"search_result = '".addslashes(serialize($this->search_result))."', ".
 	 		"checked = '".addslashes(serialize($this->checked))."', ".
 	 		"failed = '".addslashes(serialize($this->failed))."', ".
 	 		"page = ".$this->db->quote($this->page_number).", ".
-	 		"search_type = ".$this->db->quote($this->search_type);
+	 		"search_type = ".$this->db->quote($this->search_type).", ".
+	 		"query = ".$this->db->quote(serialize($this->getQuery()));
 	 	$res = $this->db->query($query);
 	}
 	
@@ -305,6 +328,8 @@ class ilUserSearchCache
 	 			$this->failed = unserialize(stripslashes($row->failed));
 	 		}
 	 		$this->page_number = $row->page;
+			$this->setQuery(unserialize($row->query));
+
 	 	}
 		return true;			
 	}

@@ -36,6 +36,8 @@ include_once('classes/class.ilLink.php');
 */
 class ilSearchResultPresentationGUI
 {
+	
+	
 	protected $search_cache = null;
 
 	var $tpl;
@@ -272,7 +274,7 @@ class ilSearchResultPresentationGUI
 					$tpl->parseCurrentBlock();
 				}
 				break;
-				
+							
 			case 'glo':
 				include_once './Modules/Glossary/classes/class.ilGlossaryTerm.php';
 
@@ -326,10 +328,10 @@ class ilSearchResultPresentationGUI
 			default:
 				;
 		}
+
 		return $html . $tpl->get();
 	}
 	
 
 }
-
 ?>

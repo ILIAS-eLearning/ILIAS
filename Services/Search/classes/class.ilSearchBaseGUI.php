@@ -150,6 +150,5 @@ class ilSearchBaseGUI
 	 	
 	 	$this->ctrl->clearParameters($this);
 	}
-	
 }
 ?>

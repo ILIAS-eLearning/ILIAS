@@ -67,6 +67,9 @@ class ilObjectListGUI
 	protected $item_detail_links = array();
 	protected $item_detail_links_intro = '';
 	
+	protected $search_fragments_enabled = false;
+	protected $search_fragment = '';
+
 	protected $expand_enabled = false;
 	protected $is_expanded = true;
 	protected $bold_title = false;
@@ -227,6 +230,30 @@ class ilObjectListGUI
 	function getDescriptionStatus()
 	{
 		return $this->description_enabled;
+	}
+	
+	/**
+	* Show hide search result fragments
+	*
+	* @param bool
+	* @return bool
+	*/
+	function getSearchFragmentStatus()
+	{
+		return $this->search_fragment_enabled;
+	}
+	
+	/**
+	* En/disable description
+	*
+	* @param bool
+	* @return void
+	*/
+	function enableSearchFragments($a_status)
+	{
+		$this->search_fragment_enabled = $a_status;
+
+		return;
 	}
 	
 	/**
@@ -647,6 +674,26 @@ class ilObjectListGUI
 	{
 		return $this->description;
 	}
+	
+	/**
+	 * set search fragment 
+	 * @param string $a_text highlighted search fragment
+	 * @return
+	 */
+	public function setSearchFragment($a_text)
+	{
+		$this->search_fragment = $a_text; 
+	}
+	
+	/**
+	 * get search fragment
+	 * @return
+	 */
+	public function getSearchFragment()
+	{
+		return $this->search_fragment;	 
+	}
+	
 	
 	/**
 	 * get command id
@@ -1160,6 +1207,20 @@ class ilObjectListGUI
 		$this->tpl->setCurrentBlock("item_description");
 		$this->tpl->setVariable("TXT_DESC", $this->getDescription());
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	 * Insert highlighted search fragment 
+	 * @return
+	 */
+	public function insertSearchFragment()
+	{
+		if(strlen($this->getSearchFragment()))
+		{
+			$this->tpl->setCurrentBlock('search_fragment');
+			$this->tpl->setVariable('TXT_SEARCH_FRAGMENT','... '.$this->getSearchFragment().' ...');
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
@@ -1960,6 +2021,11 @@ class ilObjectListGUI
 			}
 		}
 		$ilBench->stop("ilObjectListGUI", "3000_insert_title_desc");
+
+		if($this->getSearchFragmentStatus())
+		{
+			$this->insertSearchFragment();
+		}
 
 		// properties
 		$ilBench->start("ilObjectListGUI", "6000_insert_properties$type");

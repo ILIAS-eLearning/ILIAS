@@ -71,6 +71,11 @@ class ilLuceneHighlighterResultParser
 	 */
 	public function parse()
 	{
+		if(!strlen($this->getResultString()))
+		{
+			return false;
+		}
+		
 		$root = new SimpleXMLElement($this->getResultString());
 		foreach($root->children() as $object) 
 		{
@@ -85,6 +90,7 @@ class ilLuceneHighlighterResultParser
 				}
 			}
 		}
+		return true;
 	}
 	
 	/**
