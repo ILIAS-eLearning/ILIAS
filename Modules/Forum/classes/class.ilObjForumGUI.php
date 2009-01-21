@@ -1634,19 +1634,19 @@ class ilObjForumGUI extends ilObjectGUI
 		// delete file
 		if (isset($_POST['cmd']['delete_file']))
 		{
-			$file_obj->unlinkFiles($_POST['del_file']);
-			ilUtil::sendInfo('File deleted');
+			$file_obj->unlinkFilesByMD5Filenames($_POST['del_file']);
+			ilUtil::sendInfo('File(s) deleted');
 		}
 		// download file
-		if ($_GET['file'])
+		if($_GET['file'])
 		{
-			if(!$path = $file_obj->getAbsolutePath(urldecode($_GET['file'])))
+			if(!$path = $file_obj->getFileDataByMD5Filename($_GET['file']))
 			{
 				ilUtil::sendInfo('Error reading file!');
 			}
 			else
 			{
-				ilUtil::deliverFile($path, urldecode($_GET['file']));
+				ilUtil::deliverFile($path['path'], $path['clean_filename']);
 			}
 		}		
 
@@ -1953,7 +1953,7 @@ class ilObjForumGUI extends ilObjectGUI
 									{
 										$tpl->setCurrentBlock('attachment_edit_row');
 										$tpl->setVariable('FILENAME', $file['name']);
-										$tpl->setVariable('CHECK_FILE', ilUtil::formCheckbox(0, 'del_file[]', $file['name']));
+										$tpl->setVariable('CHECK_FILE', ilUtil::formCheckbox(0, 'del_file[]', $file['md5']));
 										$tpl->parseCurrentBlock();
 									}
 			
@@ -2263,8 +2263,8 @@ class ilObjForumGUI extends ilObjectGUI
 							foreach ($tmp_file_obj->getFilesOfPost() as $file)
 							{
 								$tpl->setCurrentBlock('attachment_download_row');
-								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
-								$this->ctrl->setParameter($this, 'file', urlencode($file['name']));
+								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());								
+								$this->ctrl->setParameter($this, 'file', $file['md5']);
 								$tpl->setVariable('HREF_DOWNLOAD', $this->ctrl->getLinkTarget($this, 'viewThread'));
 								$tpl->setVariable('TXT_FILENAME', $file['name']);
 								$this->ctrl->clearParameters($this);
