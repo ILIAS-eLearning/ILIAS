@@ -37,6 +37,7 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	var $mode = '';
 	var $files = array();
 	var $query_str = '';
+	var $page_number;
 	var $filter = '';
 
 
@@ -77,6 +78,14 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	function getQueryString()
 	{
 		return $this->query_str;
+	}
+	function setPageNumber($a_number)
+	{
+		$this->page_number = $a_number;
+	}
+	function getPageNumber()
+	{
+		return $this->page_number;
 	}
 	
 	function setSearchFilter($a_filter)
@@ -214,7 +223,8 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 		$this->setResponseTimeout(5);
 		$this->__initMessage('search.search',array(
 			new XML_RPC_Value($this->getClientKey(),'string'),
-			new XML_RPC_Value($this->getQueryString(),'string')));
+			new XML_RPC_Value($this->getQueryString(),'string'),
+			new XML_RPC_Value($this->getPageNumber(),'int')));
 		
 		return true;
 	}

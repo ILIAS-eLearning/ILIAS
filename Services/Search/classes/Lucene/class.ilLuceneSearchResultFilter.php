@@ -78,7 +78,7 @@ class ilLuceneSearchResultFilter
 	
 	/**
 	 * Set result ids 
-	 * @param array $a_ids Lucene result ids
+	 * @param mixed $a_ids Lucene result ids or instance of Iterator
 	 * @return void
 	 */
 	public function setCandidates($a_ids)

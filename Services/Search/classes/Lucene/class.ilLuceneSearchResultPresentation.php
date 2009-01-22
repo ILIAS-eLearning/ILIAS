@@ -36,7 +36,7 @@ class ilLuceneSearchResultPresentation
 	protected $lng;
 
 	private $results = array();
-	private $highlighter = null;
+	private $searcher = null;
 	
 	/**
 	 * Constructor 
@@ -76,13 +76,13 @@ class ilLuceneSearchResultPresentation
 	}
 	
 	/**
-	 * set highlighter 
+	 * set searcher 
 	 * @param
 	 * @return
 	 */
-	public function setHighlighter($a_highlighter)
+	public function setSearcher($a_searcher)
 	{
-		$this->highlighter = $a_highlighter;
+		$this->searcher = $a_searcher;
 	}
 	
 	/**
@@ -183,7 +183,7 @@ class ilLuceneSearchResultPresentation
 		
 	}
 	
-	// Highlighter
+	// searcher
 	/**
 	 * 
 	 * @param
@@ -191,7 +191,7 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function lookupTitle($a_obj_id,$a_sub_id)
 	{
-		if(strlen($title = $this->highlighter->getTitle($a_obj_id,$a_sub_id)))
+		if(strlen($title = $this->searcher->getHighlighter()->getTitle($a_obj_id,$a_sub_id)))
 		{
 			return $title;
 		}
@@ -205,7 +205,7 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function lookupDescription($a_obj_id,$a_sub_id)
 	{
-		if(strlen($title = $this->highlighter->getDescription($a_obj_id,$a_sub_id)))
+		if(strlen($title = $this->searcher->getHighlighter()->getDescription($a_obj_id,$a_sub_id)))
 		{
 			return $title;
 		}
@@ -219,8 +219,7 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function lookupContent($a_obj_id,$a_sub_id)
 	{
-		return $this->highlighter->getContent($a_obj_id,$a_sub_id);
+		return $this->searcher->getHighlighter()->getContent($a_obj_id,$a_sub_id);
 	}
-	
 }
 ?>
