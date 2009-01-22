@@ -29,13 +29,15 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 
+import de.ilias.services.lucene.search.ResultExport;
+
 /**
  * Highlight results (top most xml element)
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightHits implements HighlightResultExport {
+public class HighlightHits implements ResultExport {
 
 	protected static Logger logger = Logger.getLogger(HighlightHits.class);
 	
@@ -84,7 +86,7 @@ public class HighlightHits implements HighlightResultExport {
 		
 		for(Object obj : objects.values()) {
 			
-			hits.addContent(((HighlightResultExport) obj).addXML());
+			hits.addContent(((ResultExport) obj).addXML());
 		}
 		return hits;
 	}

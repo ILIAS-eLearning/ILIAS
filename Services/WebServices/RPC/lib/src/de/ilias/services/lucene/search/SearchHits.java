@@ -20,14 +20,13 @@
         +-----------------------------------------------------------------------------+
 */
 
-package de.ilias.services.lucene.search.highlight;
+package de.ilias.services.lucene.search;
 
-import java.util.HashMap;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 
-import de.ilias.services.lucene.search.ResultExport;
 
 /**
  * 
@@ -35,70 +34,83 @@ import de.ilias.services.lucene.search.ResultExport;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightObject implements ResultExport {
+public class SearchHits implements ResultExport {
 
-	protected static Logger logger = Logger.getLogger(HighlightObject.class);
+	protected static Logger logger = Logger.getLogger(SearchHits.class);
 	
-	private HashMap<Integer, HighlightItem> items = new HashMap<Integer, HighlightItem>();
-	private int objId;
+	private int totalHits = 0;
+	private int limit = 0;
+	private double maxScore = 0.0;
+	private Vector<SearchObject> objects = new Vector<SearchObject>();
+
+	/**
+	 *  
+	 */
+	public SearchHits() {
+
+	}
+	
 	/**
 	 * 
+	 * @param object
 	 */
-	public HighlightObject() {
-
-	}
-
-	/**
-	 * @param objId
-	 */
-	public HighlightObject(int objId) {
+	public void addObject(SearchObject object) {
 		
-		this.setObjId(objId);
+		objects.add(object);
 	}
 
-	public HighlightItem addItem(int subId) {
-		
-		if(items.containsKey(subId)) {
-			return items.get(subId);
-		}
-		items.put(subId, new HighlightItem(subId));
-		return items.get(subId);
-	}
+	
 	/**
-	 * @return the items
+	 * @return the totalHits
 	 */
-	public HashMap<Integer, HighlightItem> getItems() {
-		return items;
+	public int getTotalHits() {
+		return totalHits;
 	}
-
 	/**
-	 * @param objId the objId to set
+	 * @param totalHits the totalHits to set
 	 */
-	public void setObjId(int objId) {
-		this.objId = objId;
+	public void setTotalHits(int totalHits) {
+		this.totalHits = totalHits;
 	}
-
 	/**
-	 * @return the objId
+	 * @return the limit
 	 */
-	public int getObjId() {
-		return objId;
+	public int getLimit() {
+		return limit;
+	}
+	/**
+	 * @param limit the limit to set
+	 */
+	public void setLimit(int limit) {
+		this.limit = limit;
 	}
 
 	/**
-	 * Add xml
-	 * @see de.ilias.services.lucene.search.highlight.HighlightResultExport#addXML(org.jdom.Element)
+	 * @see de.ilias.services.lucene.search.ResultExport#addXML()
 	 */
 	public Element addXML() {
-
-		Element obj = new Element("Object");
-		obj.setAttribute("id",String.valueOf(getObjId()));
 		
-		for(Object item : items.values()) {
-			
-			obj.addContent(((ResultExport) item).addXML());
+		Element hits = new Element("Hits");
+		hits.setAttribute("totalHits", String.valueOf(getTotalHits()));
+		hits.setAttribute("maxScore", String.valueOf(getMaxScore()));
+		hits.setAttribute("limit", String.valueOf(getLimit()));
+		
+		for(Object obj : objects) {
+			hits.addContent(((ResultExport) obj).addXML());
 		}
-		return obj;
+		return hits;
+	}
+	/**
+	 * @param maxScore the maxScore to set
+	 */
+	public void setMaxScore(double maxScore) {
+		this.maxScore = maxScore;
+	}
+	/**
+	 * @return the maxScore
+	 */
+	public double getMaxScore() {
+		return maxScore;
 	}
 
 }

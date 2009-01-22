@@ -27,13 +27,15 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 
+import de.ilias.services.lucene.search.ResultExport;
+
 /**
  * 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightItem implements HighlightResultExport {
+public class HighlightItem implements ResultExport {
 
 	protected static Logger logger = Logger.getLogger(HighlightItem.class); 
 	
@@ -99,7 +101,7 @@ public class HighlightItem implements HighlightResultExport {
 		
 		for(Object field : fields) {
 			
-			item.addContent(((HighlightResultExport) field).addXML());
+			item.addContent(((ResultExport) field).addXML());
 		}
 		return item;
 	}

@@ -23,16 +23,16 @@
 package de.ilias.services.lucene.search;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.search.ScoreDoc;
+import org.jdom.output.XMLOutputter;
 
-import de.ilias.services.lucene.index.IndexHolder;
-import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
-import de.ilias.services.settings.LocalSettings;
 
 /**
  * 
@@ -40,80 +40,89 @@ import de.ilias.services.settings.LocalSettings;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class SearchHolder {
+public class SearchResultWriter {
 
-	public static int SEARCH_LIMIT = 5;
-	
-	protected static Logger logger = Logger.getLogger(IndexHolder.class);
-	
-	private static HashMap<String, SearchHolder> instances = new HashMap<String, SearchHolder>();
+	protected Logger logger = Logger.getLogger(SearchResultWriter.class);
 	
 	private IndexSearcher searcher = null;
+	private ScoreDoc[] hits = null;
+	private SearchHits result = null;
+	private int offset = 0;
 
-	
 	/**
-	 * @param indexPath
-	 * @param indexType
+	 * @param hits
 	 * @throws ConfigurationException 
 	 * @throws IOException 
-	 * @throws IOException 
 	 */
-	private SearchHolder() throws ConfigurationException, IOException {
+	public SearchResultWriter(ScoreDoc[] hits) throws IOException, ConfigurationException {
 		
-		init();
-
+		this.hits = hits;
+		
+		searcher = SearchHolder.getInstance().getSearcher();
+		result = new SearchHits();
 	}
 
 	/**
-	 * @throws ConfigurationException 
 	 * @throws IOException 
+	 * @throws CorruptIndexException 
 	 * 
 	 */
-	private void init() throws ConfigurationException, IOException {
+	public void write() throws CorruptIndexException, IOException {
 
-		ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
-		FSDirectory directory = FSDirectory.getDirectory(client.getIndexPath());
-		searcher = new IndexSearcher(directory);
-	}
+		result.setTotalHits(hits.length);
+		logger.info("Found " + result.getTotalHits() + " hits!");
+		result.setLimit(SearchHolder.SEARCH_LIMIT);
 
-	/**
-	 * 
-	 * @param clientKey
-	 * @return
-	 * @throws IOException
-	 * @throws ConfigurationException 
-	 */
-	public static synchronized SearchHolder getInstance(String clientKey) throws 
-		IOException, ConfigurationException { 
-		
-		String hash = clientKey;
-		
-		if(instances.containsKey(hash)) {
-			return instances.get(hash);
+		SearchObject object;
+		Document hitDoc;
+		for(int i = 0; i < hits.length;i++) {
+			// Set max score
+			if(i == 0) {
+				result.setMaxScore(hits[i].score);
+			}
+			if(i < getOffset()) {
+				continue;
+			}
+			if(i >= getOffset() + SearchHolder.SEARCH_LIMIT) {
+				logger.debug("Reached result limit. Aborting!");
+				break;
+			}
+			try {
+				object = new SearchObject();
+				hitDoc = searcher.doc(hits[i].doc);
+				object.setId(Integer.parseInt(hitDoc.get("objId")));
+				object.setAbsoluteScore(hits[i].score);
+				result.addObject(object);
+			}
+			catch (NumberFormatException e) {
+				logger.warn("Found invalid document (missing objId) with document id: " + hits[i].doc);
+			}
 		}
-		instances.put(hash,new SearchHolder());
-		return instances.get(hash);
 	}
-	
+
 	/**
-	 * 
-	 * @param indexType
 	 * @return
-	 * @throws IOException 
-	 * @throws IOException
-	 * @throws ConfigurationException 
 	 */
-	public static synchronized SearchHolder getInstance() throws IOException, ConfigurationException {
+	public String toXML() {
+
+		org.jdom.Document doc = new org.jdom.Document(result.addXML());
+		XMLOutputter outputter = new XMLOutputter();
+		return outputter.outputString(doc);
 		
-		return getInstance(LocalSettings.getClientKey());
 	}
 
 	/**
-	 * @return the searcher
+	 * @param offset the offset to set
 	 */
-	public IndexSearcher getSearcher() {
-		return searcher;
+	public void setOffset(int offset) {
+		this.offset = offset;
 	}
 
+	/**
+	 * @return the offset
+	 */
+	public int getOffset() {
+		return offset;
+	}
 
 }
