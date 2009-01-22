@@ -49,6 +49,7 @@ class ilContainer extends ilObject
 	const VIEW_SIMPLE = 4;
 	const VIEW_BY_TYPE = 5;
 	const VIEW_INHERIT = 6;
+	const VIEW_ILINC = 7;
 
 	
 	const SORT_TITLE = 0;

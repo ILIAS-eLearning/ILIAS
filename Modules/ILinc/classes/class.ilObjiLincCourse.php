@@ -31,10 +31,10 @@
 * @extends ilObject
 */
 
-require_once ('./classes/class.ilObject.php');
-require_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
+require_once 'Services/Container/classes/class.ilContainer.php';
+require_once 'Modules/ILinc/classes/class.ilnetucateXMLAPI.php';
 
-class ilObjiLincCourse extends ilObject
+class ilObjiLincCourse extends ilContainer
 {
 	/**
 	* Constructor
@@ -42,15 +42,20 @@ class ilObjiLincCourse extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjiLincCourse($a_id = 0,$a_call_by_reference = true)
+	public function ilObjiLincCourse($a_id = 0,$a_call_by_reference = true)
 	{
-		$this->type = "icrs";
+		$this->type = 'icrs';
 		$this->ilObject($a_id,$a_call_by_reference);
 		$this->setRegisterMode(false);
 		$this->ilincAPI = new ilnetucateXMLAPI();
 		
 		$this->docent_ids = array();
 		$this->student_ids = array();
+	}
+	
+	public function getViewMode()
+	{
+		return ilContainer::VIEW_ILINC;
 	}
 	
 	/**
@@ -68,7 +73,7 @@ class ilObjiLincCourse extends ilObject
 			 "WHERE obj_id = ".$ilDB->quote($this->id);
 		$r = $ilDB->query($q);
 
-		if ($r->numRows() > 0)
+		if($r->numRows() > 0)
 		{
 			$data = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -79,7 +84,7 @@ class ilObjiLincCourse extends ilObject
 		}
 		else
 		{
-			 $ilErr->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
+			$ilErr->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 	}
 	
@@ -1153,20 +1158,27 @@ class ilObjiLincCourse extends ilObject
 	{
 		// empty
 	}
-
-	function _goto($a_target)
+	
+	/**
+	* get all subitems of the container
+	* overwrites method in ilContainerGUI
+	*/
+	function getSubItems()
 	{
-		global $ilAccess, $ilErr, $lng;
+		$objects = array();
 
-		if ($ilAccess->checkAccess("read", "", $a_target))
+		if(!($objects = $this->getClassrooms()))
 		{
-			$_GET["cmd"] = "frameset";
-			$_GET["ref_id"] = $a_target;
+			ilUtil::sendInfo($this->lng->txt($this->getErrorMsg()));	
+			return array();
 		}
-		else
+
+		foreach((array)$objects as $key => $object)
 		{
-			$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+			$this->items['icla'][$key] = $object;
 		}
+
+		return is_array($this->items) ? $this->items : array();
 	}
 	
 	/**
