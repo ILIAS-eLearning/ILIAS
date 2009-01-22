@@ -157,7 +157,7 @@ public class HitHighlighter {
 		
 			token =	new StandardAnalyzer().tokenStream("allContent", new StringReader(allContent.toString()));
 			fragment = highlighter.getBestFragments(token,allContent.toString(), NUM_HIGHLIGHT, HIGHLIGHT_SEPARATOR);
-			logger.debug("Fragmented: " + fragment);
+			//logger.debug("Fragmented: " + fragment);
 			
 			if(fragment.length() != 0) {
 				resItem.addField(new HighlightField("content",fragment));

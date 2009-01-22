@@ -23,37 +23,23 @@
 package de.ilias.services.lucene.search;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.HashMap;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Scorer;
 import org.apache.lucene.search.TopDocCollector;
 import org.apache.lucene.search.BooleanClause.Occur;
-import org.apache.lucene.search.highlight.Fragmenter;
-import org.apache.lucene.search.highlight.Highlighter;
-import org.apache.lucene.search.highlight.QueryScorer;
-import org.apache.lucene.search.highlight.SimpleFragmenter;
-import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 
 import de.ilias.services.lucene.index.FieldInfo;
 import de.ilias.services.lucene.search.highlight.HitHighlighter;
-import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 
@@ -83,20 +69,18 @@ public class RPCSearchHandler {
 	 * @param clientKey
 	 * @param query
 	 */
-	public Vector<Integer> search(String clientKey, String queryString) {
+	public String search(String clientKey, String queryString,int pageNumber) {
 
 		LocalSettings.setClientKey(clientKey);
-		ClientSettings client;
-		Directory directory;
 		IndexSearcher searcher;
 		FieldInfo fieldInfo;
 		String rewrittenQuery;
 		
-		Vector<Integer> results = new Vector<Integer>();
-		
 		try {
 			
-			client = ClientSettings.getInstance(LocalSettings.getClientKey());
+			long start = new java.util.Date().getTime();
+			
+			
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
 			
 			// Append doctype
@@ -121,29 +105,20 @@ public class RPCSearchHandler {
 			}
 			
 			TopDocCollector collector = new TopDocCollector(1000);
+			long s_start = new java.util.Date().getTime();
 			searcher.search(query,collector);
+			long s_end = new java.util.Date().getTime();
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
 			
-			logger.info("Found " + hits.length + " matches");
-			for(int i = 0; i < hits.length;i++) {
-				
-				logger.debug("New Document");
-				Document hitDoc = searcher.doc(hits[i].doc);
-				//Explanation expl = searcher.explain(query,hits[i].doc);
-				/*
-				for(Object el : expl.getDetails()) {
-					logger.debug("Explaination: " + ((Explanation) el).getDescription());
-					logger.debug("Value is: " + ((Explanation) el).getValue());
-				}
-				*/
-				//logger.info("Explaination: " + expl.toString());
-				logger.debug("Found objId: " + hitDoc.get("objId") + 
-						" type: " + hitDoc.get("type") + " title: " + hitDoc.get("title"));
-				logger.debug("Score: "+ hits[i].score);
-				
-				results.add(Integer.parseInt(hitDoc.get("objId")));
-			}
-			return results;
+			SearchResultWriter writer = new SearchResultWriter(hits);
+			writer.setOffset(SearchHolder.SEARCH_LIMIT * pageNumber);
+			writer.write();
+
+			long end = new java.util.Date().getTime();
+			logger.info("Total time: " + (end - start));
+			logger.info("Query time: " + (s_end - s_start));
+
+			return writer.toXML();
 		}
 		catch(ConfigurationException e) {
 			logger.error(e);
@@ -157,7 +132,7 @@ public class RPCSearchHandler {
 		catch(Exception e) {
 			logger.error(e);
 		}
-		return null;
+		return "";
 	}
 
 	/**
@@ -169,16 +144,15 @@ public class RPCSearchHandler {
 	public String highlight(String clientKey, Vector<Integer> objIds, String queryString) {
 
 		LocalSettings.setClientKey(clientKey);
-		ClientSettings client;
 		FieldInfo fieldInfo;
-		FSDirectory directory;
 		IndexSearcher searcher;
 		String rewrittenQuery;
 		
 		
 		try {
-			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
+			
+			long start = new java.util.Date().getTime();
 			
 			// Rewrite query
 			QueryRewriter rewriter = new QueryRewriter(QueryRewriter.MODE_HIGHLIGHT,queryString);
@@ -201,10 +175,16 @@ public class RPCSearchHandler {
 			TopDocCollector collector = new TopDocCollector(500);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-			
+			long h_start = new java.util.Date().getTime();
 			HitHighlighter hh = new HitHighlighter(query,hits);
 			hh.highlight();
-			logger.debug(hh.toXML());
+			long h_end = new java.util.Date().getTime();
+			
+			//logger.debug(hh.toXML());
+			long end = new java.util.Date().getTime();
+			
+			logger.info("Highlighter time: " + (h_end - h_start));
+			logger.info("Total time: " + (end - start));
 			return hh.toXML();
 		}
 		catch(CorruptIndexException e) {
@@ -222,7 +202,7 @@ public class RPCSearchHandler {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "";
 	}
 	
 }

@@ -25,13 +25,15 @@ package de.ilias.services.lucene.search.highlight;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 
+import de.ilias.services.lucene.search.ResultExport;
+
 /**
  * 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightField implements HighlightResultExport {
+public class HighlightField implements ResultExport {
 
 	protected static Logger logger = Logger.getLogger(HighlightField.class);
 	
