@@ -347,7 +347,8 @@ class ilDB extends PEAR
 	}
 
 	/**
-	* Drop a primary key from a table
+	* Drop an index from a table.
+	* Note: The index must have been created using MDB2
 	*
 	* @param	string		table name
 	* @param	string		index name
@@ -360,7 +361,7 @@ class ilDB extends PEAR
 
 		if (MDB2::isError($r))
 		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>DROP INDEX $a_table, $a_name</font>", $this->error_class->FATAL);
+			$this->raiseError($r->getMessage()."<br />DROP INDEX $a_table, $a_name<br />".$r->getUserInfo(), $this->error_class->FATAL);
 		}
 		else
 		{

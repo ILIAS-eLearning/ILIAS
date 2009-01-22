@@ -63,20 +63,20 @@ class ilMySQLAbstraction
 
 		// get primary key information
 		$pk = $this->analyzer->getPrimaryKeyInformation($a_table_name);
-		
+
 		// get indices information
 		$indices = $this->analyzer->getIndicesInformation($a_table_name);
 		
 		// get field information
 		$fields = $this->analyzer->getFieldInformation($a_table_name);
-
+		
 		// remove auto increment
 		$this->removeAutoIncrement($a_table_name, $auto_inc_field, $fields);
 
 		// remove primary key
 		$this->removePrimaryKey($a_table_name, $pk);
 
-		// remove indices
+		// remove indices (@todo: fulltext index handling)
 		$this->removeIndices($a_table_name, $indices);
 				
 		// alter table using mdb2 field types
@@ -97,8 +97,11 @@ class ilMySQLAbstraction
 	
 	/**
 	* Remove auto_increment attribute of a field
+	*
+	* @param	string		table name
+	* @param	string		autoincrement field
 	*/
-	function removeAutoIncrement($a_table_name, $a_auto_inc_field, $a_fields)
+	function removeAutoIncrement($a_table_name, $a_auto_inc_field)
 	{
 		if ($a_auto_inc_field != "")
 		{
@@ -111,22 +114,39 @@ class ilMySQLAbstraction
 	* Remove primary key from table
 	*
 	* @param	string		table name
+	* @param	array		primary key information
 	*/
-	function removePrimaryKey($a_table_name, $a_pk)
+	function removePrimaryKey($a_table, $a_pk)
 	{
 		if ($a_pk["name"] != "")
 		{
-			$this->il_db->dropPrimaryKey($a_table_name, $a_pk["name"]);
+			$this->il_db->dropPrimaryKey($a_table, $a_pk["name"]);
 		}
 	}
 
-	function removeIndices($a_table_name, $a_indices)
+	/**
+	* Remove Indices
+	*
+	* @param	string		table name
+	* @param	array		indices information
+	*/
+	function removeIndices($a_table, $a_indices)
 	{
+		if (is_array($a_indices))
+		{
+			foreach($a_indices as $index)
+			{
+				$this->il_db->query("ALTER TABLE `".$a_table."` DROP INDEX `".$index["name"]."`");
+			}
+		}
 	}
 	
 	/**
 	* Use abstract types as delivered by MDB2 to alter table
 	* and make it use only MDB2 known types.
+	*
+	* @param	string		table name
+	* @param	array		fields information
 	*/
 	function alterTable($a_table, $a_fields)
 	{
@@ -170,16 +190,65 @@ class ilMySQLAbstraction
 		}
 	}
 	
-	function addPrimaryKey($a_table_name, $a_indices)
+	/**
+	* Add primary key
+	*
+	* @param	string		table name
+	* @param	array		primary key information
+	*/
+	function addPrimaryKey($a_table, $a_pk)
 	{
+		if (is_array($a_pk["fields"]))
+		{
+			$fields = array();
+			foreach ($a_pk["fields"] as $f => $pos)
+			{
+				$fields[] = $f;
+			}
+			$this->il_db->addPrimaryKey($a_table, $fields);
+		}
 	}
 
-	function addIndices($a_table_name, $a_indices)
+	/**
+	* Add indices
+	*
+	* @param	string		table name
+	* @param	array		indices information
+	*/
+	function addIndices($a_table, $a_indices)
 	{
+		if (is_array($a_indices))
+		{
+			foreach ($a_indices as $index)
+			{
+				if (is_array($index["fields"]))
+				{
+					$fields = array();
+					foreach ($index["fields"] as $f => $pos)
+					{
+						$fields[] = $f;
+					}
+					$this->il_db->addIndex($a_table, $fields, $index["name"]);
+				}
+			}
+		}
 	}
 	
-	function addAutoIncrementSequence($a_table_name, $a_auto_inc_field)
+	/**
+	* Add autoincrement sequence
+	*
+	* @param	string		table name
+	* @param	string		autoincrement field
+	*/
+	function addAutoIncrementSequence($a_table, $a_auto_inc_field)
 	{
+		if ($a_auto_inc_field != "")
+		{
+			$set = $this->il_db->query("SELECT MAX(`".$a_auto_inc_field."`) ma FROM `".$a_table."`");
+			$rec = $this->il_db->fetchAssoc($set);
+			$next = $rec["ma"] + 1;
+			$this->il_db->createSequence($a_table, $next);
+		}
 	}
 }
 ?>
