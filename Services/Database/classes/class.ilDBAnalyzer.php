@@ -41,7 +41,8 @@ class ilDBAnalyzer
 		global $ilDB;
 		
 		$this->manager = $ilDB->db->loadModule('Manager');
-		$this->reverse = $ilDB->db->loadModule('Reverse');		
+		$this->reverse = $ilDB->db->loadModule('Reverse');
+		$this->il_db = $ilDB;		
 	}
 	
 	
@@ -49,6 +50,7 @@ class ilDBAnalyzer
 	* Get field information of a table.
 	*
 	* @param	string		table name
+	* @return	array		field information array
 	*/
 	function getFieldInformation($a_table)
 	{
@@ -82,6 +84,7 @@ class ilDBAnalyzer
 	* This should be used on ILIAS 3.10.x "MySQL" tables only.
 	*
 	* @param	string		table name
+	* @return	string		name of autoincrement field
 	*/
 	function getAutoIncrementField($a_table)
 	{
@@ -103,6 +106,7 @@ class ilDBAnalyzer
 	* Get primary key of a table
 	*
 	* @param	string		table name
+	* @return	array		primary key information array
 	*/
 	function getPrimaryKeyInformation($a_table)
 	{
@@ -132,6 +136,7 @@ class ilDBAnalyzer
 	* Fulltext indices are included but not marked (@todo)
 	*
 	* @param	string		table name
+	* @return	array		indices information array
 	*/
 	function getIndicesInformation($a_table)
 	{
@@ -160,21 +165,35 @@ class ilDBAnalyzer
 	}
 
 	/**
-	* Get information on indices of a table.
-	* Primary key is NOT included!
-	* Fulltext indices are included but not marked (@todo)
+	* Check whether sequence is defined for current table (only works on "abstraced" tables)
 	*
 	* @param	string		table name
+	* @return	mixed		false, if no sequence is defined, start number otherwise
 	*/
-	function getSequencesInformation($a_table)
+	function hasSequence($a_table)
 	{
-		$seq = $this->manager->listTableSequences($a_table);
-
-		foreach ($seq as $s)
+		$seq = $this->manager->listSequences();
+		if (is_array($seq) && in_array($a_table, $seq))
 		{
-		}
+			// sequence field is (only) primary key field of table
+			$pk = $this->getPrimaryKeyInformation($a_table);
+			if (is_array($pk["fields"]) && count($pk["fields"] == 1))
+			{
+				$seq_field = key($pk["fields"]);
+			}
+			else
+			{
+				die("ilDBAnalyzer::hasSequence: Error, sequence defined, but no one-field primary key given. Table: ".$a_table.".");
+			}
+			
+			$set = $this->il_db->query("SELECT MAX(`".$seq_field."`) ma FROM `".$a_table."`");
+			$rec = $this->il_db->fetchAssoc($set);
+			$next = $rec["ma"] + 1;
 
-		// @todo: finish implementation
+			return $next;
+		}
+		return false;
 	}
+
 }
 ?>
