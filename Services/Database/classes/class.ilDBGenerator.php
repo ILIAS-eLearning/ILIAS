@@ -94,6 +94,14 @@ class ilDBGenerator
 	}
 
 	/**
+	* Set filter
+	*/
+	function setFilter($a_filter, $a_value)
+	{
+		$this->filter[$a_filter] = $a_value;
+	}
+	
+	/**
 	* Get (all) tables
 	*/
 	function getTables()
@@ -168,7 +176,10 @@ class ilDBGenerator
 		{
 			echo "</pre>";
 		}
-
+		else
+		{
+			fclose($file);
+		}
 	}
 	
 	/**
@@ -224,6 +235,10 @@ class ilDBGenerator
 		{
 			echo $create_st;
 		}
+		else
+		{
+			fwrite($a_file, $create_st);
+		}
 	}
 	
 	/**
@@ -251,6 +266,10 @@ class ilDBGenerator
 			if ($a_file == "")
 			{
 				echo $pk_st;
+			}
+			else
+			{
+				fwrite($a_file, $pk_st);
 			}
 		}
 	}
@@ -283,6 +302,10 @@ class ilDBGenerator
 				{
 					echo $in_st;
 				}
+				else
+				{
+					fwrite($a_file, $in_st);
+				}
 			}
 		}
 	}
@@ -303,6 +326,10 @@ class ilDBGenerator
 			if ($a_file == "")
 			{
 				echo $seq_st;
+			}
+			else
+			{
+				fwrite($a_file, $seq_st);
 			}
 		}
 	}
@@ -341,7 +368,7 @@ class ilDBGenerator
 			$values = array();
 			foreach ($rec as $f => $v)
 			{
-				$values[] = '"'.$v.'"';
+				$values[] = "'".$v."'";
 			}
 			$values_str = "array(".implode($values, ",").")";
 			$ins_st.= '$ilDB->execute($st,'.$values_str.');'."\n";
@@ -351,8 +378,134 @@ class ilDBGenerator
 			{
 				echo $ins_st;
 			}
+			else
+			{
+				fwrite($a_file, $ins_st);
+			}
 			$ins_st = "";
 		}
+	}
+
+	/**
+	* Get table definition overview in HTML
+	*
+	* @param	string		output filename, if no filename is given, script is echoed
+	*/
+	function getHTMLOverview($a_filename = "")
+	{
+		$tpl = new ilTemplate("tpl.db_overview.html", true, true, "Services/Database");
+		
+		$this->getTables();
+		$cnt = 1;
+		foreach ($this->tables as $table)
+		{
+			if ($this->checkProcessing($table))
+			{
+				// create table statement
+				if ($this->addTableToOverview($table, $tpl, $cnt))
+				{
+					$cnt++;
+				}
+			}
+		}
+		
+		$tpl->setVariable("TXT_TITLE", "ILIAS Abstract DB Tables (".ILIAS_VERSION.")");
+		
+		if ($a_filename == "")
+		{
+			echo $tpl->get();
+		}
+	}
+	
+	/**
+	* Add table to overview template
+	*/
+	function addTableToOverview($a_table, $a_tpl, $a_cnt)
+	{
+		$fields = $this->analyzer->getFieldInformation($a_table);
+		$indices = $this->analyzer->getIndicesInformation($a_table);
+		$pk = $this->analyzer->getPrimaryKeyInformation($a_table);
+		$auto = $this->analyzer->getAutoIncrementField($a_table);
+		$has_sequence = $this->analyzer->hasSequence($a_table);
+		
+		// filter
+		if (isset($this->filter["has_sequence"]))
+		{
+			if ((!$has_sequence && $auto == "" && $this->filter["has_sequence"]) ||
+				(($has_sequence || $auto != "") && !$this->filter["has_sequence"]))
+			{
+				return false;
+			}
+		}
+		
+		// indices
+		if (is_array($indices) && count($indices) > 0)
+		{
+			foreach ($indices as $index => $def)
+			{
+				$f2 = array();
+				foreach ($def["fields"] as $f => $pos)
+				{
+					$f2[] = $f;
+				}
+				$a_tpl->setCurrentBlock("index");
+				$a_tpl->setVariable("VAL_INDEX", $def["name"]);
+				$a_tpl->setVariable("VAL_FIELDS", implode($f2, ", "));
+				$a_tpl->parseCurrentBlock();
+			}
+			$a_tpl->setCurrentBlock("index_table");
+			$a_tpl->parseCurrentBlock();
+		}
+
+		// fields
+		foreach ($fields as $field => $def)
+		{
+			$a_tpl->setCurrentBlock("field");
+			if (empty($pk["fields"][$field]))
+			{
+				$a_tpl->setVariable("VAL_FIELD", strtolower($field));
+			}
+			else
+			{
+				$a_tpl->setVariable("VAL_FIELD", "<u>".strtolower($field)."</u>");
+			}
+			$a_tpl->setVariable("VAL_TYPE", $def["type"]);
+			$a_tpl->setVariable("VAL_LENGTH", (!is_null($def["length"])) ? $def["length"] : "&nbsp;");
+			
+			if (strtolower($def["default"]) == "current_timestamp")
+			{
+				//$def["default"] = "0000-00-00 00:00:00";
+				unset($def["default"]);
+			}
+			
+			$a_tpl->setVariable("VAL_DEFAULT", (!is_null($def["default"])) ? $def["default"] : "&nbsp;");
+			$a_tpl->setVariable("VAL_NOT_NULL", (!is_null($def["notnull"]))
+				? (($def["notnull"]) ? "true" : "false")
+				: "&nbsp;");
+			$a_tpl->setVariable("VAL_FIXED", (!is_null($def["fixed"]))
+				? (($def["fixed"]) ? "true" : "false")
+				: "&nbsp;");
+			$a_tpl->setVariable("VAL_UNSIGNED", (!is_null($def["unsigned"]))
+				? (($def["unsigned"]) ? "true" : "false")
+				: "&nbsp;");
+			$a_tpl->parseCurrentBlock();
+		}
+		
+		// table information
+		$a_tpl->setCurrentBlock("table");
+		$a_tpl->setVariable("TXT_TABLE_NAME", strtolower($a_table));
+		if ($has_sequence || $auto != "")
+		{
+			$a_tpl->setVariable("TXT_SEQUENCE", "Has Sequence");
+		}
+		else
+		{
+			$a_tpl->setVariable("TXT_SEQUENCE", "No Sequence");
+		}
+		$a_tpl->setVariable("VAL_CNT", (int) $a_cnt);
+		$a_tpl->parseCurrentBlock();
+		
+		return true;
 	}
 
 }

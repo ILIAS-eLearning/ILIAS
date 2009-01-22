@@ -160,7 +160,14 @@ class ilMySQLAbstraction
 			if (strtolower($def["nativetype"]) == "timestamp" &&
 				strtolower($def["default"]) == "current_timestamp")
 			{
-				unset($def["default"]);
+/*				if ($def["notnull"])
+				{
+					$def["default"] = "0000-00-00 00:00:00";
+				}
+				else
+				{*/
+					unset($def["default"]);
+//				}
 			}
 			unset($def["nativetype"]);
 			$a = array();
