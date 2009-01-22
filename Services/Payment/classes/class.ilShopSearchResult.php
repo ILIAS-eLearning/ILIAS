@@ -38,12 +38,27 @@ class ilShopSearchResult extends ilSearchResult
 	protected $result_page_number = 0;
 	protected $topics = array();
 	protected $presentation_results = array();
+	protected $search_type = '';
 	
-	public function ilShopSearchResult()
+	public function ilShopSearchResult($a_search_type)
 	{
 		global $ilUser;
 		
+		$this->search_type = $a_search_type;
+		
 		parent::__construct($ilUser->getId());	
+	}
+	
+	public function setSearchType($_search_type)
+	{
+		$this->search_type = $_search_type;
+		
+		return $this;
+	}
+	
+	public function getSearchType()
+	{
+		return $this->search_type;
 	}
 	
 	protected function assignEntries($a_entries)
@@ -303,6 +318,13 @@ class ilShopSearchResult extends ilSearchResult
 	public function getPresentationResults()
 	{
 		return is_array($this->presentation_results) ? $this->presentation_results : array();
+	}
+	
+	protected function initUserSearchCache()
+	{
+	 	parent::initUserSearchCache();
+	 	
+	 	$this->search_cache->switchSearchType($this->search_type);
 	}
 } 
 ?>

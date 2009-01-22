@@ -216,7 +216,7 @@ class ilShopGUI extends ilShopBaseGUI
 		
 		if(!is_object($oResult))
 		{
-			$oResult = new ilShopSearchResult($ilUser->getId());		
+			$oResult = new ilShopSearchResult(SHOP_CONTENT);		
 			if((bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
 			{		
 				ilShopTopics::_getInstance()->setIdFilter((int)$this->getTopicId());

@@ -106,7 +106,7 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		{
 			if(method_exists($this, $this->ctrl->getCmd()))
 				ilUtil::sendInfo($this->lng->txt('search_choose_object_type'));
-			$this->showForm(new ilShopSearchResult());
+			$this->showForm(new ilShopSearchResult(SHOP_ADVANCED_SEARCH));
 
 			return false;
 		}
@@ -115,7 +115,7 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 		if(!is_object($query_parser = $this->parseQueryString()))
 		{
 			ilUtil::sendInfo($query_parser);
-			$this->showForm(new ilShopSearchResult());
+			$this->showForm(new ilShopSearchResult(SHOP_ADVANCED_SEARCH));
 			
 			return false;
 		}
@@ -156,7 +156,7 @@ class ilShopAdvancedSearchGUI extends ilShopBaseGUI
 	private function searchObjects($query_parser)
 	{
 		// create new search result object and assign the sorted topics
-		$oSearchResult = new ilShopSearchResult();
+		$oSearchResult = new ilShopSearchResult(SHOP_ADVANCED_SEARCH);
 		if((bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
 		{		
 			ilShopTopics::_getInstance()->setIdFilter((int)$this->getTopicId());
