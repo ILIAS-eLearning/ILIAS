@@ -7805,7 +7805,7 @@ common#:#objs_wiki#:#Wikier
 common#:#objs_lres#:#Læreresurser
 common#:#wiki_new#:#Ny Wiki
 common#:#wiki_add#:#Tilføj Wiki
-wiki#:#wiki_settings#:#Wiki indstillinger
+wiki#:#wiki_settings#:#Wikiopsætning
 wiki#:#wiki_what_links_to_page#:#Hvad linker til siden "%s"?
 wiki#:#wiki_start_page#:#Startside
 wiki#:#wiki_start_page_title#:#Startsidens titel
@@ -8130,9 +8130,9 @@ grp#:#grp_reg_direct_info#:#Direkte tilmelding
 grp#:#grp_pass_request#:#Tilmelding med fælles gruppe-password
 grp#:#grp_reg_password_info#:#Brugere skal kende det fælles gruppe-password for at blive indmeldt i gruppen.
 grp#:#grp_reg_limit_time#:#Tilmeldingsperiode
-grp#:#grp_reg_limit_num#:#Maks antal brugere
-grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.###02 06 2008 new variable
-grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.###02 06 2008 new variable
+grp#:#grp_reg_limit_num#:#Begræns antallet af medlemmer
+grp#:#grp_reg_max_members_info#:#Antal medlemmer der samtidigt kan være i gruppen.
+grp#:#grp_waiting_list_info#:#Når pladserne er fyldt placeres brugere på ventelisten.
 grp#:#grp_waiting_list#:#Aktiver venteliste
 grp#:#grp_reg_limit_num_info#:#Begrænset tilmeldingsperiode
 grp#:#grp_reg_start#:#Tilmelding fra:
@@ -8369,8 +8369,8 @@ rbac#:#fold_create_wiki#:#Lav Wiki
 common#:#csv_export#:#CSV-eksport
 ecs#:#ecs_duration#:#Varighed
 ecs#:#ecs_event_appointment#:#Begivenhed dato
-common#:#res_links_short#:#Links###23 07 2008 new variable
-grp#:#reg_grp_max_members_short#:#Number of Members###23 07 2008 new variable
+common#:#res_links_short#:#Links
+grp#:#reg_grp_max_members_short#:#Antal medlemmer
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.###23 07 2008 new variable
 crs#:#crs_subscription_max_members_short#:#Antal medlemmer
 crs#:#max_members_not_numeric#:#Please check the maximum number of users.###23 07 2008 new variable
