@@ -562,7 +562,7 @@ class ilSearchResult
 	 * @access private
 	 * 
 	 */
-	private function initUserSearchCache()
+	protected function initUserSearchCache()
 	{
 	 	include_once('Services/Search/classes/class.ilUserSearchCache.php');
 	 	$this->search_cache = ilUserSearchCache::_getInstance($this->getUserId());
