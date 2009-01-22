@@ -7995,7 +7995,11 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$bestpoints = -1;
 			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
-				if ($row["points"] > $bestpoints) $bestrow = $row;
+				if ($row["points"] > $bestpoints) 
+				{
+					$bestrow = $row;
+					$bestpoints = $row["points"];
+				}
 			}
 			if (is_array($bestrow))
 			{

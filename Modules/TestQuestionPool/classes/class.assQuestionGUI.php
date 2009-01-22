@@ -737,7 +737,7 @@ class assQuestionGUI
 		$incorrect_feedback = $this->object->getFeedbackGeneric(0);
 		if (strlen($correct_feedback.$incorrect_feedback))
 		{
-			$reached_points = $this->object->calculateReachedPoints($active_id);
+			$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
 			$max_points = $this->object->getMaximumPoints();
 			if ($reached_points == $max_points)
 			{
