@@ -6674,4 +6674,7 @@ if(!$ilDB->tableColumnExists('usr_search','query'))
 																		'notnull'	=> false))));
 }
 ?>
-
+<#1397>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
