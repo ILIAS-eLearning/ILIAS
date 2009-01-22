@@ -220,10 +220,9 @@ switch($target_type)
 		break;
 		
 	// please migrate to default branch implementation
-	case "icrs":
-		require_once("ilinc/classes/class.ilObjiLincCourse.php");
-		ilObjiLincCourse::_goto($target_id);
-		include("repository.php");
+	case 'icrs':
+		require_once 'Modules/ILinc/classes/class.ilObjiLincCourseGUI.php';
+		ilObjiLincCourseGUI::_goto($target_id);
 		break;
 	
 	// please migrate to default branch implementation
