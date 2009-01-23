@@ -312,10 +312,11 @@ class ilObjForumGUI extends ilObjectGUI
 		}		
 
 		// button: enable/disable forum notification
-		if ($this->ilias->getSetting('forum_notification') != 0)
+		if($ilUser->getId() != ANONYMOUS_USER_ID &&
+		   $this->ilias->getSetting('forum_notification') != 0)
 		{
 			$this->tpl->setCurrentBlock('btn_cell');			
-			if ($frm->isForumNotificationEnabled($ilUser->getId()))
+			if($frm->isForumNotificationEnabled($ilUser->getId()))
 			{
 				$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'disableForumNotification'));
 				$this->tpl->setVariable('BTN_TXT', $this->lng->txt('forums_disable_forum_notification'));
@@ -421,8 +422,9 @@ class ilObjForumGUI extends ilObjectGUI
 							$this->tpl->setVariable('TXT_IS_CLOSED', $this->lng->txt('topic_close'));
 						}					
 						
-						if ($this->ilias->getSetting('forum_notification') != 0 &&
-							$thread->isNotificationEnabled($ilUser->getId()))
+						if($ilUser->getId() != ANONYMOUS_USER_ID && 
+						   $this->ilias->getSetting('forum_notification') != 0 &&
+						   $thread->isNotificationEnabled($ilUser->getId()))
 						{
 							$this->tpl->setVariable('NOTIFICATION_ENABLED', $this->lng->txt('forums_notification_enabled'));
 						}
@@ -446,8 +448,17 @@ class ilObjForumGUI extends ilObjectGUI
 							$this->tpl->touchBlock('linked_title_b');
 						}
 						
-						$this->tpl->setVariable('NUM_POSTS', $num_posts.' ('.$num_unread.')');						
-						$this->tpl->setVariable('NEW_POSTS', $num_new);
+						if($ilUser->getId() != ANONYMOUS_USER_ID)
+						{
+							$this->tpl->setVariable('NUM_POSTS', $num_posts.' ('.$num_unread.')');
+							$this->tpl->setVariable('NEW_POSTS', $num_new);
+						}
+						else
+						{
+							$this->tpl->setVariable('NUM_POSTS', $num_posts);
+							$this->tpl->setVariable('NEW_POSTS', 0);
+						}
+						
 						
 						$this->tpl->setVariable('NUM_VISITS', $thread->getVisits());	
 				
@@ -566,7 +577,8 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->tpl->setVariable('TXT_EXPORT_HTML', $this->lng->txt('export_html'));
 				
 				// options: enable/disable notification
-				if ($this->ilias->getSetting('forum_notification') != 0)
+				if($ilUser->getId() != ANONYMOUS_USER_ID &&
+				   $this->ilias->getSetting('forum_notification') != 0)
 				{
 					$this->tpl->setVariable('TXT_DISABLE_NOTIFICATION', $this->lng->txt('forums_disable_notification'));
 					$this->tpl->setVariable('TXT_ENABLE_NOTIFICATION', $this->lng->txt('forums_enable_notification'));
@@ -596,16 +608,26 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->tpl->setVariable('IMGPATH', $this->tpl->tplPath);
 				
 				// button: mark all read
-				$this->tpl->setCurrentBlock('btn_cell');
-				$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'markAllRead'));
-				$this->tpl->setVariable('BTN_TXT', $this->lng->txt('forums_mark_read'));
-				$this->tpl->parseCurrentBlock();
+				if($ilUser->getId() != ANONYMOUS_USER_ID)
+				{
+					$this->tpl->setCurrentBlock('btn_cell');
+					$this->tpl->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'markAllRead'));
+					$this->tpl->setVariable('BTN_TXT', $this->lng->txt('forums_mark_read'));
+					$this->tpl->parseCurrentBlock();
+				}
 				
 				$this->tpl->setVariable('TXT_DATE', $this->lng->txt('date'));
 				$this->tpl->setVariable('TXT_TITLE', $this->lng->txt('title'));
 				$this->tpl->setVariable('TXT_TOPIC', $this->lng->txt('forums_thread'));
 				$this->tpl->setVariable('TXT_AUTHOR', $this->lng->txt('forums_created_by'));
-				$this->tpl->setVariable('TXT_NUM_POSTS', $this->lng->txt('forums_articles').' ('.$this->lng->txt('unread').')');
+				if($ilUser->getId() != ANONYMOUS_USER_ID)
+				{
+					$this->tpl->setVariable('TXT_NUM_POSTS', $this->lng->txt('forums_articles').' ('.$this->lng->txt('unread').')');
+				}
+				else
+				{
+					$this->tpl->setVariable('TXT_NUM_POSTS', $this->lng->txt('forums_articles'));
+				}
 				$this->tpl->setVariable('TXT_NEW_POSTS',$this->lng->txt('forums_new_articles'));
 				$this->tpl->setVariable('TXT_NUM_VISITS', $this->lng->txt('visits'));
 				$this->tpl->setVariable('TXT_LAST_POST', $this->lng->txt('forums_last_post'));		
@@ -1704,7 +1726,8 @@ class ilObjForumGUI extends ilObjectGUI
 			}*/
 		
 			// mark read
-			if($forumObj->getCountUnread($ilUser->getId(), (int) $this->objCurrentTopic->getId()))
+			if($ilUser->getId() != ANONYMOUS_USER_ID &&
+			   $forumObj->getCountUnread($ilUser->getId(), (int) $this->objCurrentTopic->getId()))
 			{
 				$menutpl->setCurrentBlock('btn_cell');
 				$this->ctrl->setParameter($this, 'mark_read', '1');
@@ -1727,7 +1750,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$menutpl->parseCurrentBlock();
 		
 			// enable/disable notification
-			if($this->ilias->getSetting('forum_notification') != 0)
+			if($ilUser->getId() != ANONYMOUS_USER_ID &&
+			   $this->ilias->getSetting('forum_notification') != 0)
 			{
 				$menutpl->setCurrentBlock('btn_cell');
 				if ($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
@@ -2239,7 +2263,8 @@ class ilObjForumGUI extends ilObjectGUI
 							}												
 							
 							// button: mark read
-							if (!$node->isRead($ilUser->getId()))
+							if ($ilUser->getId() != ANONYMOUS_USER_ID &&
+							    !$node->isRead($ilUser->getId()))
 							{	
 								$tpl->setCurrentBlock('commands');
 								$this->ctrl->setParameter($this, 'pos_pk', $node->getId());
@@ -2489,7 +2514,8 @@ class ilObjForumGUI extends ilObjectGUI
 		
 					$tpl->setVariable('TXT_CREATE_DATE', $lng->txt('forums_thread_create_date'));
 		
-					if ($node->isRead($ilUser->getId()))
+					if($ilUser->getId() == ANONYMOUS_USER_ID ||
+					   $node->isRead($ilUser->getId()))
 					{
 						$tpl->setVariable('SUBJECT', $node->getSubject());
 					}

@@ -199,15 +199,29 @@ class ilObjForumListGUI extends ilObjectListGUI
 			}
 		}
 
-		// Posts (Unread)
-		$alert = ($num_unread_total > 0) ? true : false;
-		$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_articles').' ('.$lng->txt('unread').')',
-			'value' => $num_posts_total.' ('.$num_unread_total.')');			
-		
-		// New
-		$alert = ($num_new_total > 0)	? true : false;
-		$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_new_articles'),
-			'value' => $num_new_total);
+		// Posts (Unread)		
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$alert = ($num_unread_total > 0) ? true : false;
+			$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_articles').' ('.$lng->txt('unread').')',
+				'value' => $num_posts_total.' ('.$num_unread_total.')');
+				
+			// New
+			$alert = ($num_new_total > 0)	? true : false;
+			$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_new_articles'),
+				'value' => $num_new_total);			
+		}
+		else
+		{
+			$alert = false;
+			$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_articles'),
+				'value' => $num_posts_total);
+				
+			// New
+			$alert = false;
+			$props[] = array('alert' => $alert, 'property' => $lng->txt('forums_new_articles'),
+				'value' => 0);
+		}	
 
 		// Visits
 		$props[] = array('alert' => false, 'property' => $lng->txt('visits'),
