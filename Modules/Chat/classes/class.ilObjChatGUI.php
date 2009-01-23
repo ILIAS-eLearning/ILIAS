@@ -1045,7 +1045,7 @@ class ilObjChatGUI extends ilObjectGUI
 	*/
 	function showUserFrameObject()
 	{
-		global $ilCtrl, $ilMainMenu, $ilLocator;
+		global $ilCtrl, $ilMainMenu, $ilLocator, $ilUser;
 				
 		$this->object->chat_room->setUserId($_SESSION["AccountId"]);
 		$this->object->chat_room->updateLastVisit();
@@ -1075,11 +1075,14 @@ class ilObjChatGUI extends ilObjectGUI
 
 		$this->__showRooms();
 
-		$ilCtrl->setParameter($this, "room_id", $this->object->chat_room->getRoomId());
-		$this->tpl->setVariable("ADD_FORMACTION",
-			$ilCtrl->getFormAction($this, "addPrivateRoom"));
-		$this->tpl->setVariable("TXT_ADD_PRIVATE_CHATROOM", $this->lng->txt("chat_add_private_chatroom"));
-		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$ilCtrl->setParameter($this, "room_id", $this->object->chat_room->getRoomId());
+			$this->tpl->setVariable("ADD_FORMACTION",
+				$ilCtrl->getFormAction($this, "addPrivateRoom"));
+			$this->tpl->setVariable("TXT_ADD_PRIVATE_CHATROOM", $this->lng->txt("chat_add_private_chatroom"));
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		}
 
 		$this->__showActiveUsers();
 		if($this->object->chat_room->isOwner())
@@ -1103,7 +1106,7 @@ class ilObjChatGUI extends ilObjectGUI
 	
 	function showInputFrameObject()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $rbacsystem, $ilCtrl, $ilUser;
 		
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		$this->__loadStylesheet();
@@ -1113,93 +1116,96 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($this->error);
 		}
-		if($_GET["p_id"])
-		{
-			$user_obj =& new ilObjUser((int) $_GET["p_id"]);
-			$message = $this->lng->txt("chat_private_message")." ";
-			$message .= $this->object->chat_user->getLogin()." -> ".$user_obj->getLogin();
-			ilUtil::sendInfo($message);
-		}
-		else if($_GET["a_id"])
-		{
-			$user_obj =& new ilObjUser((int) $_GET["a_id"]);
-			$message = $this->lng->txt("chat_address_user")." ".$user_obj->getLogin();
-			ilUtil::sendInfo($message);
-		}
-		
-		$ilCtrl->setParameter($this, "room_id", $_REQUEST["room_id"]);
-		if ($_GET["p_id"])
-		{
-			$ilCtrl->setParameter($this, "p_id", $_GET["p_id"]);
-		}
-		else if ($_GET["a_id"])
-		{
-			$ilCtrl->setParameter($this, "a_id", $_GET["a_id"]);
-		}
-		$this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this, "input"));
-		$ilCtrl->clearParameters($this);
-
-		$this->tpl->setVariable("TXT_NEW_MESSAGE",$this->lng->txt('chat_new_message'));
-		$this->tpl->setVariable("TXT_COLOR",$this->lng->txt("chat_color"));
-		$this->tpl->setVariable("TXT_TYPE",$this->lng->txt("chat_type"));
-		$this->tpl->setVariable("TXT_FACE",$this->lng->txt("chat_face"));
-		$this->tpl->setVariable("TXT_INPUT",$this->lng->txt("chat_input"));
-
-		if ($_GET["p_id"])
-		{
-			$this->tpl->setCurrentBlock("cancel");
-			$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel_whisper"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
-		}
-		elseif($_GET["a_id"])
-		{
-			$this->tpl->setCurrentBlock("cancel");
-			$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel_talk"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
-		}
-		$this->tpl->setVariable("TXT_HTML_EXPORT",$this->lng->txt('exp_html'));
-		$this->tpl->setVariable("SELECT_COLOR",$this->__getColorSelect());
-		$this->tpl->setVariable("RADIO_TYPE",$this->__getFontType());
-		$this->tpl->setVariable("CHECK_FACE",$this->__getFontFace());
-
-		if ($rbacsystem->checkAccess("moderate", $this->object->getRefId()))
-		{
-			$this->object->__initChatRecording();
-			$this->tpl->setCurrentBlock("moderator");
-			$this->object->chat_recording->setRoomId($this->object->chat_room->getRoomId());
-			if ($this->object->chat_recording->isRecording())
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{		
+			if($_GET["p_id"])
 			{
-				if ($this->object->chat_recording->getTitle() != "")
-				{
-					$this->tpl->setVariable("TXT_TITLE_STOP_RECORDING", $this->lng->txt("chat_recording_title"));
-					$this->tpl->setVariable("VAL_TITLE_STOP_RECORDING", $this->object->chat_recording->getTitle());
-				}
-				if ($this->object->chat_recording->getDescription() != "")
-				{
-					$this->tpl->setVariable("TXT_DESCRIPTION_STOP_RECORDING", $this->lng->txt("chat_recording_description"));
-					$this->tpl->setVariable("VAL_DESCRIPTION_STOP_RECORDING", $this->object->chat_recording->getDescription());
-				}
-				$this->tpl->setVariable("TXT_SUBMIT_STOP_RECORDING", $this->lng->txt("chat_stop_recording"));
+				$user_obj =& new ilObjUser((int) $_GET["p_id"]);
+				$message = $this->lng->txt("chat_private_message")." ";
+				$message .= $this->object->chat_user->getLogin()." -> ".$user_obj->getLogin();
+				ilUtil::sendInfo($message);
+			}
+			else if($_GET["a_id"])
+			{
+				$user_obj =& new ilObjUser((int) $_GET["a_id"]);
+				$message = $this->lng->txt("chat_address_user")." ".$user_obj->getLogin();
+				ilUtil::sendInfo($message);
+			}
+			
+			$ilCtrl->setParameter($this, "room_id", $_REQUEST["room_id"]);
+			if ($_GET["p_id"])
+			{
+				$ilCtrl->setParameter($this, "p_id", $_GET["p_id"]);
+			}
+			else if ($_GET["a_id"])
+			{
+				$ilCtrl->setParameter($this, "a_id", $_GET["a_id"]);
+			}
+			$this->tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this, "input"));
+			$ilCtrl->clearParameters($this);
+	
+			$this->tpl->setVariable("TXT_NEW_MESSAGE",$this->lng->txt('chat_new_message'));
+			$this->tpl->setVariable("TXT_COLOR",$this->lng->txt("chat_color"));
+			$this->tpl->setVariable("TXT_TYPE",$this->lng->txt("chat_type"));
+			$this->tpl->setVariable("TXT_FACE",$this->lng->txt("chat_face"));
+			$this->tpl->setVariable("TXT_INPUT",$this->lng->txt("chat_input"));
+	
+			if ($_GET["p_id"])
+			{
+				$this->tpl->setCurrentBlock("cancel");
+				$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel_whisper"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
+			}
+			elseif($_GET["a_id"])
+			{
+				$this->tpl->setCurrentBlock("cancel");
+				$this->tpl->setVariable("TXT_SUBMIT_CANCEL",$this->lng->txt("cancel_talk"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
 			}
 			else
 			{
-				$this->tpl->setVariable("TXT_TITLE_START_RECORDING", $this->lng->txt("chat_recording_title"));
-				$this->tpl->setVariable("TXT_DESCRIPTION_START_RECORDING", $this->lng->txt("chat_recording_description"));
-				$this->tpl->setVariable("TXT_SUBMIT_START_RECORDING", $this->lng->txt("chat_start_recording"));
+				$this->tpl->setVariable("TXT_SUBMIT_OK",$this->lng->txt("ok"));
 			}
-			
-			$ilCtrl->setParameter($this, "room_id", $this->object->chat_room->getRoomId());
-			$this->tpl->setVariable("MODERATOR_FORMACTION",
-				$ilCtrl->getFormAction($this, "startRecording"));
-			$this->tpl->setVariable("TXT_RECORDINGS",$this->lng->txt('chat_recordings'));
-			$this->tpl->setVariable("MODERATOR_TARGET","_top");
-			$this->tpl->parseCurrentBlock("moderator");
+			$this->tpl->setVariable("TXT_HTML_EXPORT",$this->lng->txt('exp_html'));
+			$this->tpl->setVariable("SELECT_COLOR",$this->__getColorSelect());
+			$this->tpl->setVariable("RADIO_TYPE",$this->__getFontType());
+			$this->tpl->setVariable("CHECK_FACE",$this->__getFontFace());
+	
+			if ($rbacsystem->checkAccess("moderate", $this->object->getRefId()))
+			{
+				$this->object->__initChatRecording();
+				$this->tpl->setCurrentBlock("moderator");
+				$this->object->chat_recording->setRoomId($this->object->chat_room->getRoomId());
+				if ($this->object->chat_recording->isRecording())
+				{
+					if ($this->object->chat_recording->getTitle() != "")
+					{
+						$this->tpl->setVariable("TXT_TITLE_STOP_RECORDING", $this->lng->txt("chat_recording_title"));
+						$this->tpl->setVariable("VAL_TITLE_STOP_RECORDING", $this->object->chat_recording->getTitle());
+					}
+					if ($this->object->chat_recording->getDescription() != "")
+					{
+						$this->tpl->setVariable("TXT_DESCRIPTION_STOP_RECORDING", $this->lng->txt("chat_recording_description"));
+						$this->tpl->setVariable("VAL_DESCRIPTION_STOP_RECORDING", $this->object->chat_recording->getDescription());
+					}
+					$this->tpl->setVariable("TXT_SUBMIT_STOP_RECORDING", $this->lng->txt("chat_stop_recording"));
+				}
+				else
+				{
+					$this->tpl->setVariable("TXT_TITLE_START_RECORDING", $this->lng->txt("chat_recording_title"));
+					$this->tpl->setVariable("TXT_DESCRIPTION_START_RECORDING", $this->lng->txt("chat_recording_description"));
+					$this->tpl->setVariable("TXT_SUBMIT_START_RECORDING", $this->lng->txt("chat_start_recording"));
+				}
+				
+				$ilCtrl->setParameter($this, "room_id", $this->object->chat_room->getRoomId());
+				$this->tpl->setVariable("MODERATOR_FORMACTION",
+					$ilCtrl->getFormAction($this, "startRecording"));
+				$this->tpl->setVariable("TXT_RECORDINGS",$this->lng->txt('chat_recordings'));
+				$this->tpl->setVariable("MODERATOR_TARGET","_top");
+				$this->tpl->parseCurrentBlock("moderator");
+			}
 		}
 		// permanent link
 		$this->tpl->setCurrentBlock('perma_link');
@@ -1275,13 +1281,13 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			$this->object->chat_room->invite((int) $_GET["i_id"]);
 			$this->object->sendMessage((int) $_GET["i_id"]);
-			if ($this->object->chat_room->getRoomId() > 0)
+			if((int)$this->object->chat_room->getRoomId())
 			{
-				ilUtil::sendInfo($this->lng->txt("chat_user_invited_private"),true);
+				ilUtil::sendInfo(sprintf($this->lng->txt("chat_user_invited_private"), $this->object->chat_room->getTitle()),true);
 			}
 			else
 			{
-				ilUtil::sendInfo($this->lng->txt("chat_user_invited_public"),true);
+				ilUtil::sendInfo(sprintf($this->lng->txt("chat_user_invited_public"), $this->object->getTitle()),true);
 			}
 			$this->showFramesObject();
 		}
@@ -1362,7 +1368,7 @@ class ilObjChatGUI extends ilObjectGUI
 	// PRIVATE
 	function __showOnlineUsers()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
 		include_once 'Modules/Chat/classes/class.ilChatBlockedUsers.php';
 
@@ -1374,7 +1380,8 @@ class ilObjChatGUI extends ilObjectGUI
 		{
 			if(!ilChatBlockedUsers::_isBlocked($this->object->getId(),$user['user_id']))
 			{
-				if($user['user_id'] == $_SESSION['AccountId'])
+				if($user['user_id'] == $_SESSION['AccountId'] ||
+				   $user['user_id'] == ANONYMOUS_USER_ID)
 				{
 					continue;
 				}
@@ -1424,43 +1431,50 @@ class ilObjChatGUI extends ilObjectGUI
 				}
 
 				$this->tpl->setCurrentBlock('online');
-				if ($_GET['p_id'] == $user->getId() ||
-					$_GET['a_id'] == $user->getId())
+				if($ilUser->getId() != ANONYMOUS_USER_ID)
 				{
-					$this->tpl->setVariable('ONLINE_FONT_A','smallred');
+					if ($_GET['p_id'] == $user->getId() ||
+						$_GET['a_id'] == $user->getId())
+					{
+						$this->tpl->setVariable('ONLINE_FONT_A','smallred');
+					}
+					else
+					{
+						$this->tpl->setVariable('ONLINE_FONT_A','small');
+					}				
+					if($this->object->chat_room->isInvited($user->getId()))
+					{
+						$img = 'minus.gif';
+						$cmd = 'drop';
+					}
+					else
+					{
+						$img = 'plus.gif';
+						$cmd = 'invite';
+					}
+					$ilCtrl->setParameter($this, 'room_id', $_REQUEST['room_id']);
+					$ilCtrl->setParameter($this, 'i_id', $user->getId());
+					$this->tpl->setVariable('ONLINE_LINK_A',
+						$ilCtrl->getLinkTarget($this, $cmd));
+					$ilCtrl->clearParameters($this);
+					$this->tpl->setVariable('TXT_INVITE_USER',$cmd == 'invite' ? $this->lng->txt('chat_invite_user') :
+											$this->lng->txt('chat_disinvite_user'));				
+					if($user->getPref('public_profile') == 'y')
+					{
+	        			$this->tpl->setVariable('ONLINE_USER_NAME_A',
+	        				$user->getFirstname().' '.$user->getLastname().' ('.$user->getLogin().')');										
+					}
+					else
+					{
+						$this->tpl->setVariable('ONLINE_USER_NAME_A', $user->getLogin());										
+					}
+					$this->tpl->setVariable('INVITE_IMG_SRC', 
+						ilUtil::getImagePath($img, 'Modules/Chat'));
 				}
 				else
 				{
-					$this->tpl->setVariable('ONLINE_FONT_A','small');
+					$this->tpl->setVariable('ONLINE_USER_NAME_A_NOT_INVITEABLE', $user->getLogin());		
 				}				
-				if($this->object->chat_room->isInvited($user->getId()))
-				{
-					$img = 'minus.gif';
-					$cmd = 'drop';
-				}
-				else
-				{
-					$img = 'plus.gif';
-					$cmd = 'invite';
-				}
-				$ilCtrl->setParameter($this, 'room_id', $_REQUEST['room_id']);
-				$ilCtrl->setParameter($this, 'i_id', $user->getId());
-				$this->tpl->setVariable('ONLINE_LINK_A',
-					$ilCtrl->getLinkTarget($this, $cmd));
-				$ilCtrl->clearParameters($this);
-				$this->tpl->setVariable('TXT_INVITE_USER',$cmd == 'invite' ? $this->lng->txt('chat_invite_user') :
-										$this->lng->txt('chat_disinvite_user'));				
-				if($user->getPref('public_profile') == 'y')
-				{
-        			$this->tpl->setVariable('ONLINE_USER_NAME_A',
-        				$user->getFirstname().' '.$user->getLastname().' ('.$user->getLogin().')');										
-				}
-				else
-				{
-					$this->tpl->setVariable('ONLINE_USER_NAME_A', $user->getLogin());										
-				}
-				$this->tpl->setVariable('INVITE_IMG_SRC', 
-					ilUtil::getImagePath($img, 'Modules/Chat'));				
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
@@ -1472,7 +1486,7 @@ class ilObjChatGUI extends ilObjectGUI
 	
 	function __showActiveUsers()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $rbacsystem, $ilCtrl, $ilUser;
 
 		if(isset($_GET["a_users"]))
 		{
@@ -1566,30 +1580,33 @@ class ilObjChatGUI extends ilObjectGUI
 					}
 					$this->tpl->setVariable("ACTIVE_USER_NAME_A",$user_obj->getLogin());
 					$this->tpl->parseCurrentBlock();
-				}
-
-				if($user_obj->getPref('public_profile') == 'y')
-				{
-					$this->tpl->setVariable('ACTIVE_ROW_TXT_PROFILE', $this->lng->txt('chat_profile'));
-					$ilCtrl->setParameter($this, "user", $user_obj->getId());
-					$this->tpl->setVariable('ACTIVE_ROW_PROFILE_LINK',
-						$ilCtrl->getLinkTarget($this, "showUserProfile"));
-					$ilCtrl->clearParameters($this);
-				}
+				}								
 				$this->tpl->setCurrentBlock("active");
 
-				$ilCtrl->setParameter($this, "room_id", $_REQUEST["room_id"]);
-				$ilCtrl->setParameter($this, "a_id", $user);
-				$this->tpl->setVariable("ACTIVE_ADDRESS_A",
-					$ilCtrl->getLinkTarget($this, "showInputFrame"));
-				$this->tpl->setVariable("ACTIVE_TXT_ADDRESS_A",$this->lng->txt("chat_address"));
-
-				$ilCtrl->setParameter($this, "p_id", $user);
-				$ilCtrl->setParameter($this, "a_id", "");
-				$this->tpl->setVariable("ACTIVE_LINK_A",
-					$ilCtrl->getLinkTarget($this, "showInputFrame"));
-				$this->tpl->setVariable("ACTIVE_TXT_WHISPER_A",$this->lng->txt("chat_whisper"));
-				$ilCtrl->setParameter($this, "p_id", "");
+				if($ilUser->getId() != ANONYMOUS_USER_ID && $user != ANONYMOUS_USER_ID)
+				{
+					if($user_obj->getPref('public_profile') == 'y')
+					{
+						$this->tpl->setVariable('ACTIVE_ROW_TXT_PROFILE', $this->lng->txt('chat_profile'));
+						$ilCtrl->setParameter($this, "user", $user_obj->getId());
+						$this->tpl->setVariable('ACTIVE_ROW_PROFILE_LINK',
+							$ilCtrl->getLinkTarget($this, "showUserProfile"));
+						$ilCtrl->clearParameters($this);
+					}
+					
+					$ilCtrl->setParameter($this, "room_id", $_REQUEST["room_id"]);
+					$ilCtrl->setParameter($this, "a_id", $user);
+					$this->tpl->setVariable("ACTIVE_ADDRESS_A",
+						$ilCtrl->getLinkTarget($this, "showInputFrame"));
+					$this->tpl->setVariable("ACTIVE_TXT_ADDRESS_A",$this->lng->txt("chat_address"));
+	
+					$ilCtrl->setParameter($this, "p_id", $user);
+					$ilCtrl->setParameter($this, "a_id", "");
+					$this->tpl->setVariable("ACTIVE_LINK_A",
+						$ilCtrl->getLinkTarget($this, "showInputFrame"));
+					$this->tpl->setVariable("ACTIVE_TXT_WHISPER_A",$this->lng->txt("chat_whisper"));
+					$ilCtrl->setParameter($this, "p_id", "");
+				}
 
 				$this->tpl->parseCurrentBlock();
 			}

@@ -3,6 +3,7 @@
   </style>
   <p>{MESSAGE}</p>
   <table class="fullwidth_invisible" border="0">
+  <!-- BEGIN visible_chat_box -->
   <tr>
   	<td class="ilInvisibleBorder" valign="top">
   <!--<div class="invisible_border">-->
@@ -29,6 +30,12 @@
 <!--			<td class="option">{TXT_INPUT}</td>//-->
 			<td class="option_value" colspan="3" style="text-align:center">
 				<input type="text" name="message" size="50" maxlength="1800" />
+				<script language="JavaScript">
+				<!--
+					if(document.txt_input.message.value!="") document.txt_input.message.focus();
+					else document.txt_input.message.focus();
+				//-->
+				</script>
 			  </td>
 		</tr>
 		<tr class="tblfooter">
@@ -95,6 +102,7 @@
 	</td>
 <!-- END moderator -->
   </tr>
+  <!-- END visible_chat_box -->
    <tr>
   	<td class="ilInvisibleBorder" valign="top" colspan="2">  		
 		<!-- BEGIN perma_link -->
@@ -105,9 +113,3 @@
   	</td>
   </tr>
   </table>
-<script language="JavaScript">
-<!--
-	if(document.txt_input.message.value!="") document.txt_input.message.focus();
-	else document.txt_input.message.focus();
-//-->
-</script>
