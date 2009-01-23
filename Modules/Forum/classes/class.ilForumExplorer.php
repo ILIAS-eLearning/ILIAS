@@ -312,7 +312,8 @@ class ilForumExplorer extends ilExplorer
 			$tpl->setVariable("TITLE", $a_option["title"]);
 		}
 
-		if($this->forum_obj->isRead($ilUser->getId(),$a_node_id))
+		if($ilUser->getId() == ANONYMOUS_USER_ID ||
+		   $this->forum_obj->isRead($ilUser->getId(),$a_node_id))
 		{
 			$tpl->setVariable("A_CLASS",'class="postread"');
 		}
