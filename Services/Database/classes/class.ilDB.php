@@ -163,6 +163,7 @@ class ilDB extends PEAR
 		if (MDB2::isError($r))
 		{
 			var_dump($a_definition_array);
+			var_dump($r);
 			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$a_name."</font>", $this->error_class->FATAL);
 		}
 		else

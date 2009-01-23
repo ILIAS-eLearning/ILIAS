@@ -428,7 +428,7 @@ class ilDBGenerator
 		$auto = $this->analyzer->getAutoIncrementField($a_table);
 		$has_sequence = $this->analyzer->hasSequence($a_table);
 		
-		// filter
+		// table filter
 		if (isset($this->filter["has_sequence"]))
 		{
 			if ((!$has_sequence && $auto == "" && $this->filter["has_sequence"]) ||
@@ -439,7 +439,8 @@ class ilDBGenerator
 		}
 		
 		// indices
-		if (is_array($indices) && count($indices) > 0)
+		$indices_output = false;
+		if (is_array($indices) && count($indices) > 0 && !$this->filter["skip_indices"])
 		{
 			foreach ($indices as $index => $def)
 			{
@@ -452,14 +453,40 @@ class ilDBGenerator
 				$a_tpl->setVariable("VAL_INDEX", $def["name"]);
 				$a_tpl->setVariable("VAL_FIELDS", implode($f2, ", "));
 				$a_tpl->parseCurrentBlock();
+				$indices_output = true;
 			}
 			$a_tpl->setCurrentBlock("index_table");
 			$a_tpl->parseCurrentBlock();
 		}
 
 		// fields
+		$fields_output = false;
 		foreach ($fields as $field => $def)
 		{
+			// field filter
+			if (isset($this->filter["alt_types"]))
+			{
+				if (($def["alt_types"] == "" && $this->filter["alt_types"]) ||
+					($def["alt_types"] != "" && !$this->filter["alt_types"]))
+				{
+					continue;
+				}
+			}
+			if (isset($this->filter["type"]))
+			{
+				if ($def["type"] != $this->filter["type"])
+				{
+					continue;
+				}
+			}
+			if (isset($this->filter["nativetype"]))
+			{
+				if ($def["nativetype"] != $this->filter["nativetype"])
+				{
+					continue;
+				}
+			}
+			
 			$a_tpl->setCurrentBlock("field");
 			if (empty($pk["fields"][$field]))
 			{
@@ -488,24 +515,38 @@ class ilDBGenerator
 			$a_tpl->setVariable("VAL_UNSIGNED", (!is_null($def["unsigned"]))
 				? (($def["unsigned"]) ? "true" : "false")
 				: "&nbsp;");
+			$a_tpl->setVariable("VAL_ALTERNATIVE_TYPES", ($def["alt_types"] != "") ? $def["alt_types"] : "&nbsp;");
+			$a_tpl->setVariable("VAL_NATIVETYPE", ($def["nativetype"] != "") ? $def["nativetype"] : "&nbsp;");
+			$a_tpl->parseCurrentBlock();
+			$fields_output = true;
+		}
+		
+		if ($fields_output)
+		{
+			$a_tpl->setCurrentBlock("field_table");
 			$a_tpl->parseCurrentBlock();
 		}
 		
 		// table information
-		$a_tpl->setCurrentBlock("table");
-		$a_tpl->setVariable("TXT_TABLE_NAME", strtolower($a_table));
-		if ($has_sequence || $auto != "")
+		if ($indices_output || $fields_output)
 		{
-			$a_tpl->setVariable("TXT_SEQUENCE", "Has Sequence");
+			$a_tpl->setCurrentBlock("table");
+			$a_tpl->setVariable("TXT_TABLE_NAME", strtolower($a_table));
+			if ($has_sequence || $auto != "")
+			{
+				$a_tpl->setVariable("TXT_SEQUENCE", "Has Sequence");
+			}
+			else
+			{
+				$a_tpl->setVariable("TXT_SEQUENCE", "No Sequence");
+			}
+			$a_tpl->setVariable("VAL_CNT", (int) $a_cnt);
+			$a_tpl->parseCurrentBlock();
+			
+			return true;
 		}
-		else
-		{
-			$a_tpl->setVariable("TXT_SEQUENCE", "No Sequence");
-		}
-		$a_tpl->setVariable("VAL_CNT", (int) $a_cnt);
-		$a_tpl->parseCurrentBlock();
 		
-		return true;
+		return false;
 	}
 
 }

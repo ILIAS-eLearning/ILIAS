@@ -154,22 +154,32 @@ class ilMySQLAbstraction
 		foreach ($a_fields as $field => $d)
 		{
 			$def = $this->reverse->getTableFieldDefinition($a_table, $field);
-			$def = $def[0];
+			$best_alt = $this->analyzer->getBestDefinitionAlternative($def);
+			$def = $def[$best_alt];
 
 			// remove "current_timestamp" default for timestamps (not supported)
 			if (strtolower($def["nativetype"]) == "timestamp" &&
 				strtolower($def["default"]) == "current_timestamp")
 			{
-/*				if ($def["notnull"])
-				{
-					$def["default"] = "0000-00-00 00:00:00";
-				}
-				else
-				{*/
-					unset($def["default"]);
-//				}
+				unset($def["default"]);
 			}
+			
+			// remove nativetype
 			unset($def["nativetype"]);
+			
+			// determine length for decimal type
+			if ($def["type"] == "decimal")
+			{
+				$l_arr = explode(",",$def["length"]);
+				$def["length"] = $l_arr[0];
+			}
+			
+			// remove lenght values for float
+			if ($def["type"] == "float")
+			{
+				unset($def["length"]);
+			}
+
 			$a = array();
 			foreach ($def as $k => $v)
 			{

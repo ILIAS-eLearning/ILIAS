@@ -65,18 +65,63 @@ class ilDBAnalyzer
 			{
 				echo "ilDBAnalyzer::getFielInformation: Found type != mdb2type: $a_table, $field";
 			}
+			
+			$best_alt = $this->getBestDefinitionAlternative($rdef);
+			
+			// collect other alternatives
+			reset($rdef);
+			$alt_types = "";
+			foreach ($rdef as $k => $rd)
+			{
+				if ($k != $best_alt)
+				{
+					$alt_types.= $rdef[$k]["type"].$rdef[$k]["length"]." ";
+				}
+			}
+			
 			$inf[$field] = array(
-				"notnull" => $rdef[0]["notnull"],
-				"nativetype" => $rdef[0]["nativetype"],
-				"length" => $rdef[0]["length"],
-				"unsigned" => $rdef[0]["unsigned"],
-				"default" => $rdef[0]["default"],
-				"fixed" => $rdef[0]["fixed"],
-				"autoincrement" => $rdef[0]["autoincrement"],
-				"type" => $rdef[0]["type"]
+				"notnull" => $rdef[$best_alt]["notnull"],
+				"nativetype" => $rdef[$best_alt]["nativetype"],
+				"length" => $rdef[$best_alt]["length"],
+				"unsigned" => $rdef[$best_alt]["unsigned"],
+				"default" => $rdef[$best_alt]["default"],
+				"fixed" => $rdef[$best_alt]["fixed"],
+				"autoincrement" => $rdef[$best_alt]["autoincrement"],
+				"type" => $rdef[$best_alt]["type"],
+				"alt_types" => $alt_types,
 				);
+				
 		}
 		return $inf;
+	}
+	
+	function getBestDefinitionAlternative($a_def)
+	{
+		// determine which type to choose
+		$car = array(
+			"boolean" => 10,
+			"integer" => 20,
+			"decimal" => 30,
+			"float" => 40,
+			"date" => 50,
+			"time" => 60,
+			"timestamp" => 70,
+			"text" => 80,
+			"clob" => 90,
+			"blob" => 100);
+			
+		$cur_car = 0;
+		$best_alt = 0;	// best alternatice
+		foreach ($a_def as $k => $rd)
+		{
+			if ($car[$rd["type"]] > $cur_car)
+			{
+				$cur_car = $car[$rd["type"]];
+				$best_alt = $k;
+			}
+		}
+		
+		return $best_alt;
 	}
 	
 	/**

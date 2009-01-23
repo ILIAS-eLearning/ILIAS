@@ -89,6 +89,7 @@
 <!-- BEGIN table -->
 <div class="il_db_table">
 <h2 class="il_db_table_name">{TXT_TABLE_NAME} <span class="il_db_seq">({TXT_SEQUENCE})</span></h2>
+<!-- BEGIN field_table -->
 <table class="il_db_table_table" cellspacing="0">
 <tr>
 	<th>Field</th>
@@ -98,6 +99,8 @@
 	<th>Not Null</th>
 	<th>Fixed</th>
 	<th>Unsigned</th>
+	<th>Native Type</th>
+	<th>Alternative Types</th>
 </tr>
 <!-- BEGIN field -->
 <tr>
@@ -108,9 +111,12 @@
 	<td>{VAL_NOT_NULL}</td>
 	<td>{VAL_FIXED}</td>
 	<td>{VAL_UNSIGNED}</td>
+	<td>{VAL_NATIVETYPE}</td>
+	<td>{VAL_ALTERNATIVE_TYPES}</td>
 </tr>
 <!-- END field -->
 </table>
+<!-- END field_table -->
 <!-- BEGIN index_table -->
 <table class="il_db_table_table">
 <tr>
