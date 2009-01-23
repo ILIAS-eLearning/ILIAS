@@ -367,22 +367,14 @@ class ilObjFileGUI extends ilObjectGUI
 			}
 			else
 			{
-				// BEGIN WebDAV: Enforce filename extension in object title.
-				// If the file extension does not match the one in the title, append it to the title
+				// BEGIN WebDAV: Ensure that object title ends with the filename extension
 				$fileExtension = ilObjFileAccess::_getFileExtension($upload_file["name"]);
 				$titleExtension = ilObjFileAccess::_getFileExtension($title);
 				if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
 				{
-					if (strlen($titleExtension) == 0)
-					{
-						$title .= (substr($title, -1) == '.') ? $fileExtension : '.'.$fileExtension;
-					}
-					else
-					{
-						$title = substr($title, 0, -strlen($titleExtension)).$fileExtension;
-					}
+					$title .= '.'.$fileExtension;
 				}
-				// END WebDAV: Enforce filename extension in object title.
+				// END WebDAV: Ensure that object title ends with the filename extension
 			}
 
 			// create and insert file in grp_tree
@@ -473,33 +465,25 @@ class ilObjFileGUI extends ilObjectGUI
 			$data["name"] = substr($data["name"],0,-1);
 		}
 		
-		if(strlen($this->form->getInput('title')))
+		$filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
+		$title = $this->form->getInput('title');
+		if(strlen(trim($title)) == 0)
 		{
-			$this->object->setTitle($this->form->getInput('title'));
+			$title = $filename;
 		}
-		elseif(isset($data['name']))
+		else
 		{
-			$this->object->setTitle($data['name']);
+			// BEGIN WebDAV: Ensure that object title ends with the filename extension
+			$fileExtension = ilObjFileAccess::_getFileExtension($filename);
+			$titleExtension = ilObjFileAccess::_getFileExtension($title);
+			if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
+			{
+				$title .= '.'.$fileExtension;
+			}
+			// END WebDAV: Ensure that object title ends with the filename extension
 		}
-		$fileExtension = ilObjFileAccess::_getFileExtension(
-			isset($data['name']) ?
-				$data['name'] :
-				$this->object->getFilename());
+		$this->object->setTitle($title);
 				
-		$titleExtension = ilObjFileAccess::_getFileExtension($this->object->getTitle());
-		if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
-		{
-				if (strlen($titleExtension) == 0)
-				{
-					$title = $this->object->getTitle();
-					$title .= (substr($this->object->getTitle(), -1) == '.') ? $fileExtension : '.'.$fileExtension;
-					$this->object->setTitle($title);
-				}
-				else
-				{
-					$this->object->setTitle(substr($this->object->getTitle(),0,-strlen($titleExtension)).$fileExtension);
-				}
-		}
 
 		if (!empty($data["name"]["file"]))
 		{
@@ -534,72 +518,6 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit'));
-		return true;
-
-		
-		
-		
-		$data = $_FILES["Fobject"];
-
-
-		if (empty($data["name"]["file"]) && empty($_POST["Fobject"]["title"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (empty($_POST["Fobject"]["title"]))
-		{
-			$filename = empty($data["name"]["file"]) ? $this->object->getFileName() : $data["name"]["file"];
-			$_POST["Fobject"]["title"] = $filename;
-		}
-
-		// BEGIN WebDAV: Enforce filename extension in object title.
-		// If the file extension does not match the one in the title, append it to the title
-		$filename = empty($data["name"]["file"]) ? $this->object->getFileName() : $data["name"]["file"];
-		$fileExtension = ilObjFileAccess::_getFileExtension($filename);
-		$titleExtension = ilObjFileAccess::_getFileExtension($_POST['Fobject']['title']);
-		if ($titleExtension != $fileExtension && strlen($fileExtension) > 0)
-		{
-				if (strlen($titleExtension) == 0)
-				{
-					$_POST['Fobject']['title'] .= (substr($_POST['Fobject']['title'], -1) == '.') ? $fileExtension : '.'.$fileExtension;
-				}
-				else
-				{
-					$_POST['Fobject']['title'] = substr($_POST['Fobject']['title'],0,-strlen($titleExtension)).$fileExtension;
-				}
-		}
-		// END WebDAV: Enforce filename extension in object title.
-
-		if (!empty($data["name"]["file"]))
-		{
-			$this->object->replaceFile($_FILES["Fobject"]["tmp_name"]["file"],$_FILES["Fobject"]["name"]["file"]);
-			$this->object->setFileName($_FILES["Fobject"]["name"]["file"]);
-			$this->object->setFileType($_FILES["Fobject"]["type"]["file"]);
-			$this->object->setFileSize($_FILES["Fobject"]["size"]["file"]);
-		}
-		
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-
-		$this->update = $this->object->update();
-
-		// BEGIN ChangeEvent: Record update event.
-		if (!empty($data["name"]["file"]))
-		{
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			if (ilChangeEvent::_isActive())
-			{
-				global $ilUser;
-				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
-			}
-		}
-		// END ChangeEvent: Record update event.
-
-		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"),true);
-//echo "-".$this->ctrl->getLinkTarget($this)."-";
-		ilUtil::redirect($this->getReturnLocation("update",$this->ctrl->getLinkTarget($this, "edit")));
 	}
 
 	
