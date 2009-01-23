@@ -139,7 +139,10 @@ class ilLuceneHighlighterResultParser
 		}
 		foreach($this->result[$a_obj_id] as $sub_item_id => $data)
 		{
-			$sub_item_ids[] = $sub_item_id;
+			if($sub_item_id)
+			{
+				$sub_item_ids[] = $sub_item_id;
+			}
 		}
 		return $sub_item_ids ? $sub_item_ids : array();
 	}

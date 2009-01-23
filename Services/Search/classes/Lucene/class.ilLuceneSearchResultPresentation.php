@@ -231,14 +231,12 @@ class ilLuceneSearchResultPresentation
 			return $html;
 		}
 		
+		$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
+
 		foreach($this->searcher->getHighlighter()->getSubItemIds($obj_id) as $sub_id)
 		{
-			$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
-			$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
-			
 			switch($type)
 			{
-	
 				case 'frm':
 					include_once './Modules/Forum/classes/class.ilObjForum.php';
 					
@@ -247,7 +245,7 @@ class ilLuceneSearchResultPresentation
 
 					$item_list_gui->setChildId($sub_id);
 					$tpl->setVariable("SEPERATOR",': ');
-					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('posting'));
+					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('thread'));
 					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame(''));
 					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($sub_id));
 					$tpl->setVariable('TXT_FRAGMENT',$this->searcher->getHighlighter()->getContent($obj_id,$sub_id));
@@ -258,8 +256,8 @@ class ilLuceneSearchResultPresentation
 					;
 			}
 		}
+		$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
 		return $html . $tpl->get();
 	}
-	
 }
 ?>
