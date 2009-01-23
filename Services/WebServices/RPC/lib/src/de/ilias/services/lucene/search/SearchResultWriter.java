@@ -83,11 +83,12 @@ public class SearchResultWriter {
 			if(i < getOffset()) {
 				continue;
 			}
-			if(i >= getOffset() + SearchHolder.SEARCH_LIMIT) {
+			if(i >= (getOffset() + SearchHolder.SEARCH_LIMIT)) {
 				logger.debug("Reached result limit. Aborting!");
 				break;
 			}
 			try {
+				logger.debug("Added object");
 				object = new SearchObject();
 				hitDoc = searcher.doc(hits[i].doc);
 				object.setId(Integer.parseInt(hitDoc.get("objId")));
