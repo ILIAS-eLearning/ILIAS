@@ -75,7 +75,6 @@ class ilLuceneHighlighterResultParser
 		{
 			return false;
 		}
-		
 		$root = new SimpleXMLElement($this->getResultString());
 		foreach($root->children() as $object) 
 		{
@@ -124,6 +123,25 @@ class ilLuceneHighlighterResultParser
 	public function getContent($a_obj_id,$a_sub_id)
 	{
 		return isset($this->result[$a_obj_id][$a_sub_id]['content']) ? $this->result[$a_obj_id][$a_sub_id]['content'] : null;
+	}
+	
+	/**
+	 * get subitem ids 
+	 * @param
+	 * @return
+	 */
+	public function getSubItemIds($a_obj_id)
+	{
+		$sub_item_ids = array();
+		if(!isset($this->result[$a_obj_id]))
+		{
+			return array();
+		}
+		foreach($this->result[$a_obj_id] as $sub_item_id => $data)
+		{
+			$sub_item_ids[] = $sub_item_id;
+		}
+		return $sub_item_ids ? $sub_item_ids : array();
 	}
 }
 ?>

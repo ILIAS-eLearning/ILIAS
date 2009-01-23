@@ -41,6 +41,7 @@ class ilLuceneSearchResult implements Iterator
 	private $max_score = 0;
 	
 	private $objects;
+	private $relevance;
 	
 
 	/**

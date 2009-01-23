@@ -119,6 +119,8 @@ class ilLuceneSearchResultPresentation
 			
 			if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
 			{
+				$html = $this->appendChildLinks($ref_id,$obj_id,$type,$item_list_gui,$html);
+				
 				$item_html[$ref_id]['html'] = $html;
 				$item_html[$ref_id]['type'] = $type;
 			}
@@ -221,5 +223,43 @@ class ilLuceneSearchResultPresentation
 	{
 		return $this->searcher->getHighlighter()->getContent($a_obj_id,$a_sub_id);
 	}
+	
+	function appendChildLinks($ref_id,$obj_id,$type,$item_list_gui,$html)
+	{
+		if(!count($this->searcher->getHighlighter()->getSubItemIds($obj_id)))
+		{
+			return $html;
+		}
+		
+		foreach($this->searcher->getHighlighter()->getSubItemIds($obj_id) as $sub_id)
+		{
+			$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
+			$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
+			
+			switch($type)
+			{
+	
+				case 'frm':
+					include_once './Modules/Forum/classes/class.ilObjForum.php';
+					
+					$tpl->setCurrentBlock("link_row");
+					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('thread'));
+
+					$item_list_gui->setChildId($sub_id);
+					$tpl->setVariable("SEPERATOR",': ');
+					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('posting'));
+					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame(''));
+					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($sub_id));
+					$tpl->setVariable('TXT_FRAGMENT',$this->searcher->getHighlighter()->getContent($obj_id,$sub_id));
+					$tpl->parseCurrentBlock();
+					break;
+	
+				default:
+					;
+			}
+		}
+		return $html . $tpl->get();
+	}
+	
 }
 ?>
