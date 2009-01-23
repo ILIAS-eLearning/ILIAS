@@ -126,7 +126,7 @@ class ilObjChatGUI extends ilObjectGUI
 		unset($_SESSION["room_id_rename"]);
 		unset($_SESSION["room_id_delete"]);
 		unset($_SESSION['saved_post']);
-		ilUtil::sendInfo($this->lng->txt("msg_cancel"));
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		$this->ctrl->redirect($this);
 	}
 
@@ -1228,6 +1228,14 @@ class ilObjChatGUI extends ilObjectGUI
 	}
 
 	function cancel()
+	{
+		unset($_GET["p_id"]);
+		unset($_GET["a_id"]);
+
+		$this->showInputFrameObject();
+	}
+	
+	public function cancelAddressOrWhisperModeObject()
 	{
 		unset($_GET["p_id"]);
 		unset($_GET["a_id"]);
