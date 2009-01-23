@@ -111,7 +111,7 @@ public class RPCSearchHandler {
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
 			
 			SearchResultWriter writer = new SearchResultWriter(hits);
-			writer.setOffset(SearchHolder.SEARCH_LIMIT * pageNumber);
+			writer.setOffset(SearchHolder.SEARCH_LIMIT * (pageNumber - 1));
 			writer.write();
 
 			long end = new java.util.Date().getTime();

@@ -54,7 +54,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class HitHighlighter {
 
-	private static int NUM_HIGHLIGHT = 3;
+	private static int NUM_HIGHLIGHT = 8;
 	private static String HIGHLIGHT_SEPARATOR = "...";
 	
 	private static String HIGHLIGHT_BEGIN_TAG = "<span class=\"ilSearchHighlight\">";
@@ -177,7 +177,7 @@ public class HitHighlighter {
 		SimpleHTMLFormatter formatter = new SimpleHTMLFormatter(HIGHLIGHT_BEGIN_TAG,HIGHLIGHT_END_TAG);
 		highlighter = new Highlighter(formatter,
 				queryScorer);
-		Fragmenter fragmenter = new SimpleFragmenter(100);
+		Fragmenter fragmenter = new SimpleFragmenter(50);
 		highlighter.setTextFragmenter(fragmenter);
 		
 		// init fieldinfo

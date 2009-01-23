@@ -42,7 +42,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class SearchHolder {
 
-	public static int SEARCH_LIMIT = 5;
+	public static int SEARCH_LIMIT = 100;
 	
 	protected static Logger logger = Logger.getLogger(IndexHolder.class);
 	
