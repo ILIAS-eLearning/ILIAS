@@ -7979,8 +7979,8 @@ auth#:#auth_radius_charset_info#:#Please choose the character encoding for the c
 common#:#frm_add_post#:#Add new post
 common#:#frm_moderate_frm#:#Delete a post, censorship
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.
-chat#:#chat_user_invited_public#:#The user was invited to the public chat.
-chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.
+chat#:#chat_user_invited_public#:#The user was invited to the chat '%s'.
+chat#:#chat_user_invited_private#:#The user was invited to the private chatroom '%s'.
 chat#:#chat_disinvite_user#:#Disinvite/remove user from private chatroom
 chat#:#chat_no_online_users#:#No further users online.
 search#:#search_lom#:#LOM Metadata
