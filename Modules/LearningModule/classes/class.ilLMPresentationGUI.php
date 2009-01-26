@@ -22,7 +22,7 @@
 */
 
 require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-require_once("./classes/class.ilMainMenuGUI.php");
+require_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
 require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 
 /**

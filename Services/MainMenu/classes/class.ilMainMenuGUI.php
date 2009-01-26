@@ -51,7 +51,8 @@ class ilMainMenuGUI
 		global $ilias;
 		
 		
-		$this->tpl = new ilTemplate("tpl.main_buttons.html", true, true);
+		$this->tpl = new ilTemplate("tpl.main_menu.html", true, true,
+			"Services/MainMenu");
 		$this->ilias =& $ilias;
 		$this->target = $a_target;
 		$this->start_template = $a_use_start_template;

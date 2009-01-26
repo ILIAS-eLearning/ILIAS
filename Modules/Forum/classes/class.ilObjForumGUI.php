@@ -721,7 +721,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->ilias->getSetting("enable_fora_statistics", true)?false:true));
 
 		// show ilias 2 forum import for administrators only
-		include_once("classes/class.ilMainMenuGUI.php");
+		include_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
 		if(ilMainMenuGUI::_checkAdministrationPermission())
 		{
 			$this->tpl->setCurrentBlock("forum_import");
