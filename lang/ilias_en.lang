@@ -996,7 +996,7 @@ assessment#:#with_order#:#with order
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Working Time
 assessment#:#working_time_avg#:#Avg. Working Time
-assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
+assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
 barometer#:#anonymous#:#Anonymous
 barometer#:#barometer_title#:#Feedback
 barometer#:#best#:#Best
@@ -9027,3 +9027,11 @@ assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
 assessment#:#tst_show_solution_suggested#:#Show Suggested Solution
 survey#:#err_no_pool_name#:#Please enter the name of a survey question pool
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
+assessment#:#matching_pairs#:#Matching Pairs
+assessment#:#error_duplicate_term#:#You selected a matching term more than once
+assessment#:#matching_type#:#Matching Question Subtype
+common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.
+assessment#:#thumb_geometry#:#Thumbnail Geometry
+assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
+assessment#:#element_height#:#Minimum Height
+assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.

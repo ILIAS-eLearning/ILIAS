@@ -222,7 +222,7 @@ class assQuestion
 			$this->author = $this->ilias->account->fullname;
 		}
 		$this->owner = $owner;
-		if ($this->owner == -1)
+		if ($this->owner <= 0)
 		{
 			$this->owner = $this->ilias->account->id;
 		}
@@ -1735,6 +1735,49 @@ class assQuestion
 	}
 
 	/**
+	* Creates a new question without an owner when a new question is created
+	* This assures that an ID is given to the question if a file upload or something else occurs
+	*
+	* @return integer ID of the new question
+	*/
+	public function createNewQuestion()
+	{
+		global $ilDB;
+		
+		$complete = "0";
+		$estw_time = $this->getEstimatedWorkingTime();
+		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+		$now = getdate();
+		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
+		$obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
+		if ($obj_id > 0)
+		{
+			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", 
+				array("integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "timestamp")
+			);
+			$data = array(
+				$this->getQuestionTypeID(), 
+				$obj_id, 
+				"", 
+				"", 
+				$this->getAuthor(), 
+				0, 
+				"", 
+				0,
+				$estw_time,
+				$complete,
+				$created,
+				NULL
+			);
+			$affectedRows = $ilDB->execute($statement, $data);
+			$this->setId($ilDB->getLastInsertId());
+			// create page object of question
+			$this->createPageObject();
+		}
+		return $this->getId();
+	}
+
+	/**
 	* Saves the question to the database
 	*
 	* @param integer $original_id
@@ -1753,8 +1796,9 @@ class assQuestion
 		ilObjQuestionPool::_updateQuestionCount($this->obj_id);
 
 			// update the question time stamp
-		$query = sprintf("UPDATE qpl_questions SET TIMESTAMP = NULL WHERE question_id = %s",
-			$this->getId()
+		$query = sprintf("UPDATE qpl_questions SET TIMESTAMP = NULL, owner = %s WHERE question_id = %s",
+			$ilDB->quote(($this->getOwner() <= 0) ? $this->ilias->account->id : $this->getOwner()),
+			$ilDB->quote($this->getId())
 		);
 		$ilDB->query($query);
 	}

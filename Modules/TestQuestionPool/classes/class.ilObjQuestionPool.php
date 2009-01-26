@@ -593,7 +593,7 @@ class ilObjQuestionPool extends ilObject
 		{
 			$maxentries = 9999;
 		}
-		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.owner > 0 AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -605,7 +605,7 @@ class ilObjQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
@@ -680,7 +680,7 @@ class ilObjQuestionPool extends ilObject
 				$order = " ORDER BY timestamp14,title";
 				break;
 		}
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $order";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $order";
 		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
@@ -1027,7 +1027,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND original_id IS NULL",
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND original_id IS NULL",
 			$ilDB->quote($this->getId())
 		);
 
@@ -1045,7 +1045,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT question_id, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(original_id) AND obj_fi = %s AND complete = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+		$query = sprintf("SELECT question_id, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type WHERE ISNULL(original_id) AND qpl_questions.owner > 0 AND obj_fi = %s AND complete = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
 			$ilDB->quote($this->getId()),
 			$ilDB->quote("1")
 		);
@@ -1129,7 +1129,7 @@ class ilObjQuestionPool extends ilObject
 	function _getQuestionCount($questionpool_id, $complete_questions_only = FALSE)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE obj_fi = %s AND ISNULL(original_id)",
+		$query = sprintf("SELECT COUNT(question_id) AS question_count FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND ISNULL(original_id)",
 			$ilDB->quote($questionpool_id . "")
 		);
 		if ($complete_questions_only)
@@ -1209,13 +1209,13 @@ class ilObjQuestionPool extends ilObject
 		
 		if ($is_reference)
 		{
-			$query = sprintf("SELECT count(DISTINCT qpl_questions.points) AS equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
+			$query = sprintf("SELECT count(DISTINCT qpl_questions.points) AS equal_points FROM qpl_questions, object_reference WHERE object_reference.ref_id = %s AND qpl_questions.owner > 0 AND object_reference.obj_id = qpl_questions.obj_fi AND qpl_questions.original_id IS NULL",
 				$ilDB->quote($a_obj_id . "")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT count(DISTINCT points) AS equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.original_id IS NULL",
+			$query = sprintf("SELECT count(DISTINCT points) AS equal_points FROM qpl_questions WHERE obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.original_id IS NULL",
 				$ilDB->quote($a_obj_id . "")
 			);
 		}
@@ -1609,7 +1609,7 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$questions = array();
-		$query = sprintf("SELECT qpl_questions.question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s",
+		$query = sprintf("SELECT qpl_questions.question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND qpl_questions.obj_fi = %s",
 			$ilDB->quote($this->getId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -1699,7 +1699,7 @@ class ilObjQuestionPool extends ilObject
 		global $ilDB;
 		
 		$questions = array();
-		$query = sprintf("SELECT qpl_questions.*, qpl_questions.TIMESTAMP+0 AS timestamp14, qpl_question_type.* FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+		$query = sprintf("SELECT qpl_questions.*, qpl_questions.TIMESTAMP+0 AS timestamp14, qpl_question_type.* FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
 			$ilDB->quote($this->getId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -1744,6 +1744,26 @@ class ilObjQuestionPool extends ilObject
 		else
 		{
 			return FALSE;
+		}
+	}
+	
+	/*
+	* Remove all questions with owner = 0
+	*/
+	public function purgeQuestions()
+	{
+		global $ilDB;
+		
+		$statement = $ilDB->prepare("SELECT question_id FROM qpl_questions WHERE owner = ?", 
+			array("integer", "timestamp")
+		);
+		$data = array(
+			0
+		);
+		$result = $ilDB->execute($statement, $data);
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			$this->deleteQuestion($data["question_id"]);
 		}
 	}
 } // END class.ilObjQuestionPool

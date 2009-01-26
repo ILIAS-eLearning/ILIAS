@@ -4,7 +4,7 @@
 <table style="width: 100%">
 	<tr>
 		<td style="width: 66%; vertical-align: top;">
-<!-- BEGIN droparea --><div class="droparea" id="{ID_DROPAREA}">
+<!-- BEGIN droparea --><div class="droparea" id="{ID_DROPAREA}"{ELEMENT_HEIGHT}>
 <!-- BEGIN js_match_definition -->
 				{DEFINITION}
 <!-- END js_match_definition -->		
@@ -17,7 +17,7 @@
 	</div><!-- END droparea -->
 		</td>
 		<td id="sourceArea" style="width: 33% vertical-align: top; float: right;">
-<!-- BEGIN draggable --><div class="draggable" id="{ID_DRAGGABLE}">{VALUE_DRAGGABLE}</div><!-- END draggable -->
+<!-- BEGIN draggable --><div class="draggable" id="{ID_DRAGGABLE}"{ELEMENT_HEIGHT}>{VALUE_DRAGGABLE}</div><!-- END draggable -->
 		</td>
 	</tr>
 </table>
@@ -252,7 +252,7 @@ results = function() {
 <table class="nobackground">
 <!-- BEGIN standard_matching_row -->
 	<tr>
-		<td class="nobackground">
+		<td class="nobackground"{ELEMENT_HEIGHT}>
 <!-- BEGIN standard_matching_terms -->
 			<strong>{DEFINITION}</strong>
 <!-- END standard_matching_terms -->		
@@ -263,7 +263,7 @@ results = function() {
 <!-- END standard_matching_pictures -->		
 		</td>
 		<td class="nobackground">{MATCHES}</td>
-		<td class="nobackground">
+		<td class="nobackground"{ELEMENT_HEIGHT}>
 			<select name="sel_matching_{DEFINITION_ID}">
 				<option value="-1">{PLEASE_SELECT}</option>
 <!-- BEGIN matching_selection -->

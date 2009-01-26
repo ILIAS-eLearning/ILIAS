@@ -79,6 +79,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
 		if ($_GET["q_id"] < 1)
 		{
 			$q_type = ($_POST["sel_question_types"] != "")
@@ -611,6 +613,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$q_gui =& assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
+		$q_gui->object->createNewQuestion();
+		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_POST["sel_question_types"]);
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
@@ -623,6 +627,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$q_gui =& assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
 		$q_gui->object->setObjId($this->object->getId());
+		$q_gui->object->createNewQuestion();
+		$this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $q_gui->object->getId());
 		$this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $_GET["sel_question_types"]); 
 		$this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
 	}
@@ -839,6 +845,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		global $rbacsystem;
 		global $ilUser;
 
+		$this->object->purgeQuestions();
 		$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
 		$type = $_GET["sel_question_types"];
 
