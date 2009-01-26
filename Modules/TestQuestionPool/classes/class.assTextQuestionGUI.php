@@ -101,7 +101,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$question->setUseRte(TRUE);
 		$question->addPlugin("latex");
 		$question->addButton("latex");
-		$question->setRTESupport($obj_id, $obj_type, "assessment");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
 		$form->addItem($question);
 		// maxchars
 		$maxchars = new ilTextInputGUI($this->lng->txt("maxchars"), "maxchars");

@@ -1,0 +1,30 @@
+<div id="{ELEMENT_ID}">
+<!-- BEGIN row -->
+<div class="{ROW_CLASS}">
+<!-- BEGIN definitions -->
+	<input type="text" class="definition" size="{SIZE}" id="definition_{INDEX_DEFINITION}" maxlength="{MAXLENGTH}" name="{POST_VAR_DEFINITION}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->/>
+<!-- END definitions -->
+<!-- BEGIN pictures -->
+<!-- BEGIN image -->
+		<input type="checkbox" id="{ID_PICTURE_DELETE}" name="{POST_VAR_PICTURE_DELETE}" value="1" /> <label for="{ID_PICTURE_DELETE}">{TXT_DELETE_EXISTING}</label><br />
+		<input type="hidden" name="{NAME_IMAGE_FILENAME}" value="{VALUE_IMAGE_FILENAME}" />
+		<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+<!-- END image -->
+		<input type="file" id="picture_{INDEX_PICTURE}" name="{POST_VAR_PICTURE}" size="30" />
+		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
+<!-- BEGIN allowed_image_suffixes -->
+		<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_SUFFIXES}</span></div>
+<!-- END allowed_image_suffixes -->
+<!-- END pictures -->
+	{TEXT_MATCHES}
+	<select id="matchingterms_{INDEX}" name="{SELECT_NAME}">
+<!-- BEGIN select_option -->
+		<option value="{OPTION_VALUE}"{OPTION_SELECTED}>{OPTION_NAME}</option>
+<!-- END select_option -->
+	</select>
+	<input type="text" size="5" class="numeric" id="points_{INDEX}" maxlength="10" name="{NAME_POINTS}" <!-- BEGIN prop_points_propval -->value="{VALUE_POINTS}" <!-- END prop_points_propval -->/>
+	<input type="image" name="cmd[addMatchingDefinition][{INDEX}]" class="matchingdefinition_add" id="add_matchingdefinition_{INDEX}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
+	<input type="image" name="cmd[removeMatchingDefinition][{INDEX}]" class="matchingdefinition_remove" id="remove_matchingdefinition_{INDEX}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+</div>
+<!-- END row -->
+</div>

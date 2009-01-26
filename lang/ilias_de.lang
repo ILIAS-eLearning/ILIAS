@@ -986,7 +986,7 @@ assessment#:#with_order#:#mit der Reihenfolge
 assessment#:#worked_through#:#Beantwortet
 assessment#:#working_time_avg#:#Durchschnittliche Bearbeitungdauer
 assessment#:#working_time#:#Bearbeitungsdauer
-assessment#:#you_received_a_of_b_points#:#Sie haben %d von %d möglichen Punkten erreicht.
+assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
 barometer#:#anonymous#:#Anonym
 barometer#:#bar_create#:#Neues Barometer
 barometer#:#barometer_add#:#neues Barometer
@@ -9086,3 +9086,11 @@ assessment#:#set_manscoring_done#:#Diesen Teilnehmer als Bewertet markieren
 assessment#:#tst_show_solution_suggested#:#Musterlösungen anzeigen
 survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
+assessment#:#matching_pairs#:#Zuordnungspaare
+assessment#:#error_duplicate_term#:#Sie haben einen Term mehrfach einem Zuordnungspaar zugewiesen
+assessment#:#matching_type#:#Untertyp der Zuordnungsfrage
+common#:#msg_form_save_error#:#Die Formulardaten konnten nicht gespeichert werden. Bitte überprüfen Sie die Formularfelder auf detaillierte Fehlermeldungen.
+assessment#:#thumb_geometry#:#Vorschaugröße
+assessment#:#thumb_geometry_info#:#Geben Sie einen Wert in Bildpunkten für die maximale Vorschaugröße der Grafiken an. Abhängig vom Seitenverhältnis wird die Vorschau entweder in der Höhe oder in der Breite auf die maximale Vorschaugröße umgewandelt.
+assessment#:#element_height#:#Minimale Höhe
+assessment#:#element_height_info#:#Dieser Wert legt die minimale Höhe von Termen und Definitionen/Bildern während der Testausgabe fest.

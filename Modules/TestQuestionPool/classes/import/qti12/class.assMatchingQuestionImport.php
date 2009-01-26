@@ -221,6 +221,8 @@ class assMatchingQuestionImport extends assQuestionImport
 		$this->object->setObjId($questionpool_id);
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$extended_shuffle = $item->getMetadataEntry("shuffle");
+		$this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
+		$this->object->setElementHeight($item->getMetadataEntry("element_height"));
 		foreach ($terms as $termindex => $term)
 		{
 			$this->object->setTerm($term["term"], $term["ident"]);

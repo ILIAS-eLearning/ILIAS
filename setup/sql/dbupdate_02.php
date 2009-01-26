@@ -6678,3 +6678,17 @@ if(!$ilDB->tableColumnExists('usr_search','query'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1398>
+<?php
+if (!$ilDB->tableColumnExists("qpl_question_matching", "thumb_geometry"))
+{
+	$ilDB->alterTable('qpl_question_matching',array('add'	=> array('thumb_geometry' => array('type' => 'integer','notnull'	=> true, "default" => 100))));
+}
+?>
+<#1399>
+<?php
+if (!$ilDB->tableColumnExists("qpl_question_matching", "element_height"))
+{
+	$ilDB->alterTable('qpl_question_matching',array('add'	=> array('element_height' => array('type' => 'integer','notnull'	=> false))));
+}
+?>

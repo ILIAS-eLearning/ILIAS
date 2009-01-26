@@ -35,15 +35,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class ASS_AnswerMatching
 {
 	/**
-	* Term
-	*
-	* A term which has to be matched with a picture or a definition
-	*
-	* @var string
-	*/
-	var $term;
-
-	/**
 	* Points for selected matching pair
 	*
 	* The number of points given for the selected matching pair
@@ -90,32 +81,17 @@ class ASS_AnswerMatching
 * @param string $matchingtext A string defining the matching text for the answer text
 * @access public
 */
-  function ASS_AnswerMatching (
-    $term = "",
-    $points = 0.0,
-    $term_id = 0,
-    $picture_or_definition = "",
-    $picture_or_definition_id = 0
-  )
-  {
-    $this->term = $term;
-    $this->term_id = $term_id;
+	function ASS_AnswerMatching (
+		$points = 0.0,
+		$term_id = 0,
+		$picture_or_definition = "",
+		$picture_or_definition_id = 0
+	)
+	{
+		$this->term_id = $term_id;
 		$this->picture_or_definition = $picture_or_definition;
 		$this->picture_or_definition_id = $picture_or_definition_id;
 		$this->points = $points;
-	}
-
-	/**
-	* Gets the term
-	*
-	* Returns the term
-	* @return string term
-	* @access public
-	* @see $term
-	*/
-	function getTerm()
-	{
-		return $this->term;
 	}
 
 	/**
@@ -241,20 +217,6 @@ class ASS_AnswerMatching
 		{
 			$this->picture_or_definition_id = $definition_id;
 		}
-	}
-
-	/**
-	* Sets the term
-	*
-	* Sets the term
-	*
-	* @param string $term Term
-	* @access public
-	* @see $term
-	*/
-	function setTerm($term = "")
-	{
-		$this->term = $term;
 	}
 
 	/**

@@ -60,6 +60,20 @@ class assMatchingQuestion extends assQuestion
 	* @var array
 	*/
 	var $terms;
+	
+	/**
+	* Maximum thumbnail geometry
+	*
+	* @var integer
+	*/
+	var $thumb_geometry = 100;
+
+	/**
+	* Minimum element height
+	*
+	* @var integer
+	*/
+	var $element_height;
 
 	/**
 	* assMatchingQuestion constructor
@@ -169,10 +183,12 @@ class assMatchingQuestion extends assQuestion
 			else
 			{
 				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO qpl_question_matching (question_fi, shuffle, matching_type) VALUES (%s, %s, %s)",
+				$query = sprintf("INSERT INTO qpl_question_matching (question_fi, shuffle, matching_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id . ""),
 					$ilDB->quote($this->shuffle . ""),
-					$ilDB->quote($this->matching_type. "")
+					$ilDB->quote($this->matching_type. ""),
+					$ilDB->quote($this->getThumbGeometry(). ""),
+					($this->getElementHeight() > 20) ? $ilDB->quote($this->getElementHeight(). "") : "NULL"
 				);
 				$ilDB->query($query);
 
@@ -201,9 +217,11 @@ class assMatchingQuestion extends assQuestion
 				$ilDB->quote($this->id. "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_matching SET shuffle = %s, matching_type = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE qpl_question_matching SET shuffle = %s, matching_type = %s, thumb_geometry = %s, element_height = %s WHERE question_fi = %s",
 				$ilDB->quote($this->shuffle . ""),
 				$ilDB->quote($this->matching_type. ""),
+				$ilDB->quote($this->getThumbGeometry(). ""),
+				($this->getElementHeight() > 20) ? $ilDB->quote($this->getElementHeight(). "") : "NULL",
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
@@ -226,6 +244,7 @@ class assMatchingQuestion extends assQuestion
 			
 			// write terms
 			$newterms = array();
+			$matchingpairs = $this->getMatchingPairs();
 			foreach ($this->terms as $key => $value)
 			{
 				$query = sprintf("INSERT INTO qpl_answer_matching_term (term_id, question_fi, term) VALUES (NULL, %s, %s)",
@@ -235,15 +254,7 @@ class assMatchingQuestion extends assQuestion
 				$term_result = $ilDB->query($query);
 				$newTermID = $ilDB->getLastInsertId();
 				$newterms[$newTermID] = $value;
-				foreach ($this->matchingpairs as $mkey => $mvalue)
-				{
-					if (strcmp($this->matchingpairs[$mkey]->getTerm(), $key) == 0)
-					{
-						$this->matchingpairs[$mkey]->setTerm($newTermID);
-					}
-				}
 			}
-			$this->terms = $newterms;
 
 			// alte Antworten löschen
 			$query = sprintf("DELETE FROM qpl_answer_matching WHERE question_fi = %s",
@@ -252,20 +263,39 @@ class assMatchingQuestion extends assQuestion
 			$result = $ilDB->query($query);
 
 			// Anworten wegschreiben
-			foreach ($this->matchingpairs as $key => $value)
+			foreach ($matchingpairs as $key => $value)
 			{
-				$matching_obj = $this->matchingpairs[$key];
-				$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s, %s)",
+				$matching_obj = $matchingpairs[$key];
+				$term = $this->terms[$matching_obj->getTermId()];
+				$termindex = array_search($term, $newterms);
+				$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, points, aorder, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id),
-					$ilDB->quote($matching_obj->getTerm() . ""),
 					$ilDB->quote($matching_obj->getPoints() . ""),
-					$ilDB->quote($matching_obj->getTerm() . ""),
+					$ilDB->quote($termindex . ""),
 					$ilDB->quote($matching_obj->getDefinition() . ""),
 					$ilDB->quote($matching_obj->getDefinitionId() . "")
 				);
 				$matching_result = $ilDB->query($query);
 			}
 		}
+		
+		if ($this->getMatchingType() == MT_TERMS_PICTURES)
+		{
+			if ($this->getMatchingPairCount())
+			{
+				if (@file_exists($this->getImagePath() . $this->getMatchingPair(0)->getPicture()  . ".thumb.jpg"))
+				{
+					$size = getimagesize($this->getImagePath() . $this->getMatchingPair(0)->getPicture()  . ".thumb.jpg");
+					$max = ($size[0] > $size[1]) ? $size[0] : $size[1];
+					if ($this->getThumbGeometry() != $max)
+					{
+						$this->rebuildThumbnails();
+					}
+				}
+			}
+		}
+		
+		
 		parent::saveToDb($original_id);
 	}
 
@@ -298,35 +328,39 @@ class assMatchingQuestion extends assQuestion
 			$this->original_id = $data->original_id;
 			$this->owner = $data->owner;
 			$this->matching_type = $data->matching_type;
+			$this->thumb_geometry = $data->thumb_geometry;
+			$this->element_height = $data->element_height;
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->question = ilRTE::_replaceMediaObjectImageSrc($data->question_text, 1);
 			$this->points = $data->points;
 			$this->shuffle = $data->shuffle;
 			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 
-			$query = sprintf("SELECT * FROM qpl_answer_matching WHERE question_fi = %s ORDER BY answer_id ASC",
-				$ilDB->quote($question_id)
-			);
-			$result = $ilDB->query($query);
-			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
-			if ($result->numRows() > 0)
-			{
-				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
-				{
-					array_push($this->matchingpairs, new ASS_AnswerMatching($data->answertext, $data->points, $data->aorder, $data->matchingtext, $data->matching_order));
-				}
-			}
-
 			$query = sprintf("SELECT * FROM qpl_answer_matching_term WHERE question_fi = %s ORDER BY term ASC",
 				$ilDB->quote($question_id)
 			);
 			$result = $ilDB->query($query);
 			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
+			$this->terms = array();
 			if ($result->numRows() > 0)
 			{
 				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
 				{
-					$this->terms[$data->term_id] = $data->term;
+					array_push($this->terms, $data->term);
+				}
+			}
+
+			$query = sprintf("SELECT qpl_answer_matching.*, qpl_answer_matching_term.term FROM qpl_answer_matching, qpl_answer_matching_term WHERE qpl_answer_matching.question_fi = %s AND qpl_answer_matching_term.term_id = qpl_answer_matching.aorder ORDER BY answer_id ASC",
+				$ilDB->quote($question_id)
+			);
+			$result = $ilDB->query($query);
+			include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
+			if ($result->numRows() > 0)
+			{
+				while ($data = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+				{
+					$index = array_search($data->term, $this->getTerms());
+					array_push($this->matchingpairs, new ASS_AnswerMatching($data->points, $index, $data->matchingtext, $data->matching_order));
 				}
 			}
 		}
@@ -441,11 +475,12 @@ class assMatchingQuestion extends assQuestion
 			foreach ($this->matchingpairs as $answer)
 			{
 				$filename = $answer->getPicture();
-				if (!copy($imagepath_original . $filename, $imagepath . $filename))
+				$sourcefilename = $imagepath_original . $filename;
+				if (!copy($sourcefilename, $imagepath . $filename))
 				{
 					print "image could not be duplicated!!!! ";
 				}
-				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
+				if (!copy($sourcefilename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
 				{
 					print "image thumbnail could not be duplicated!!!! ";
 				}
@@ -467,11 +502,12 @@ class assMatchingQuestion extends assQuestion
 			foreach ($this->matchingpairs as $answer)
 			{
 				$filename = $answer->getPicture();
-				if (!copy($imagepath_original . $filename, $imagepath . $filename))
+				$sourcefilename = $imagepath_original . $filename;
+				if (!@copy($sourcefilename, $imagepath . $filename))
 				{
 					print "image could not be duplicated!!!! ";
 				}
-				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
+				if (!@copy($sourcefilename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg"))
 				{
 					print "image thumbnail could not be duplicated!!!! ";
 				}
@@ -513,6 +549,43 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
+	* Inserts a matching pair for an matching choice question. The students have to fill in an order for the matching pair.
+	* The matching pair is an ASS_AnswerMatching object that will be created and assigned to the array $this->matchingpairs.
+	*
+	* @param string $answertext The answer text
+	* @param string $matchingtext The matching text of the answer text
+	* @param double $points The points for selecting the matching pair (even negative points can be used)
+	* @param integer $order A possible display order of the matching pair
+	* @access public
+	* @see $matchingpairs
+	* @see ASS_AnswerMatching
+	*/
+	function insertMatchingPair(
+		$position,
+		$picture_or_definition = "",
+		$points = 0.0,
+		$term_id = 0,
+		$picture_or_definition_id = 0
+	)
+	{
+		if ($picture_or_definition_id == 0)
+		{
+			$picture_or_definition_id = $this->get_random_id();
+		}
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
+		$matchingpair = new ASS_AnswerMatching($points, $term_id, $picture_or_definition, $picture_or_definition_id);
+		if ($position < count($this->matchingpairs))
+		{
+			$part1 = array_slice($this->matchingpairs, 0, $position);
+			$part2 = array_slice($this->matchingpairs, $position);
+			$this->matchingpairs = array_merge($part1, array($matchingpair), $part2);
+		}
+		else
+		{
+			array_push($this->matchingpairs, $matchingpair);
+		}
+	}
+	/**
 	* Adds an matching pair for an matching question
 	*
 	* Adds an matching pair for an matching choice question. The students have to fill in an order for the matching pair.
@@ -527,25 +600,18 @@ class assMatchingQuestion extends assQuestion
 	* @see ASS_AnswerMatching
 	*/
 	function addMatchingPair(
-		$term = "",
 		$picture_or_definition = "",
 		$points = 0.0,
 		$term_id = 0,
 		$picture_or_definition_id = 0
 	)
 	{
-		// append answer
-		if ($term_id == 0)
-		{
-			$term_id = $this->get_random_id();
-		}
-
 		if ($picture_or_definition_id == 0)
 		{
 			$picture_or_definition_id = $this->get_random_id();
 		}
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatching.php";
-		$matchingpair = new ASS_AnswerMatching($term, $points, $term_id, $picture_or_definition, $picture_or_definition_id);
+		$matchingpair = new ASS_AnswerMatching($points, $term_id, $picture_or_definition, $picture_or_definition_id);
 		array_push($this->matchingpairs, $matchingpair);
 	}
 
@@ -594,8 +660,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Deletes a matching pair
-	*
 	* Deletes a matching pair with a given index. The index of the first
 	* matching pair is 0, the index of the second matching pair is 1 and so on.
 	*
@@ -603,7 +667,7 @@ class assMatchingQuestion extends assQuestion
 	* @access public
 	* @see $matchingpairs
 	*/
-	function delete_matchingpair($index = 0)
+	function deleteMatchingPair($index = 0)
 	{
 		if ($index < 0)
 		{
@@ -659,7 +723,7 @@ class assMatchingQuestion extends assQuestion
 	*/
 	function getTerms()
 	{
-		natcasesort($this->terms);
+//		natcasesort($this->terms);
 		return $this->terms;
 	}
 	
@@ -695,20 +759,38 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Adds a term
 	*
-	* Adds a term
-	*
 	* @param string $term The text of the term
 	* @access public
 	* @see $terms
 	*/
 	function addTerm($term)
 	{
-		$newkey = count($this->terms);
-		while (array_key_exists("term_" . $newkey, $this->terms))
+		array_push($this->terms, $term);
+	}
+	
+	/**
+	* Inserts a term
+	*
+	* @param string $term The text of the term
+	* @access public
+	* @see $terms
+	*/
+	function insertTerm($position, $term)
+	{
+		if ($position < count($this->terms))
 		{
-			$newkey += 11;
+			$part1 = array_slice($this->terms, 0, $position);
+			$part2 = array_slice($this->terms, $position);
+			$this->terms = array_merge($part1, array($term), $part2);
+			foreach ($this->matchingpairs as $index => $pair)
+			{
+				if ($pair->getTermId() >= $position) $this->matchingpairs[$index]->setTermId($pair->getTermId()+1);
+			}
 		}
-		$this->terms["term_" . $newkey] = $term;
+		else
+		{
+			array_push($this->terms, $term);
+		}
 	}
 	
 	/**
@@ -727,15 +809,18 @@ class assMatchingQuestion extends assQuestion
 	/**
 	* Deletes a term
 	*
-	* Deletes a term
-	*
 	* @param string $term_id The id of the term to delete
 	* @access public
 	* @see $terms
 	*/
-	function deleteTerm($term_id)
+	function deleteTerm($position)
 	{
-		unset($this->terms[$term_id]);
+		unset($this->terms[$position]);
+		$this->terms = array_values($this->terms);
+		foreach ($this->matchingpairs as $index => $pair)
+		{
+			if ($pair->getTermId() >= $position) $this->matchingpairs[$index]->setTermId($pair->getTermId()-1);
+		}
 	}
 
 	/**
@@ -751,6 +836,7 @@ class assMatchingQuestion extends assQuestion
 	function setTerm($term, $index)
 	{
 		$this->terms[$index] = $term;
+		ksort($this->terms);
 	}
 
 	/**
@@ -793,7 +879,7 @@ class assMatchingQuestion extends assQuestion
 		{
 			foreach ($this->matchingpairs as $answer_key => $answer_value)
 			{
-				if (($answer_value->getDefinitionId() == $value) and ($answer_value->getTerm() == $found_value1[$key]))
+				if (($answer_value->getDefinitionId() == $value) and ($answer_value->getTermId() == $found_value1[$key]))
 				{
 					$points += $answer_value->getPoints();
 				}
@@ -824,6 +910,38 @@ class assMatchingQuestion extends assQuestion
 		}
 		return $points;
 	}
+	
+	/*
+	* Returns the encrypted save filename of a matching picture
+	* Images are saved with an encrypted filename to prevent users from
+	* cheating by guessing the solution from the image filename
+	* 
+	* @param string $filename Original filename
+	* @return string Encrypted filename
+	*/
+	public function getEncryptedFilename($filename)
+	{
+		$extension = "";
+		if (preg_match("/.*\\.(\\w+)$/", $filename, $matches))
+		{
+			$extension = $matches[1];
+		}
+		return md5($filename) . "." . $extension;
+	}
+
+	/*
+	* Deletes an imagefile from the system if the file is deleted manually
+	* 
+	* @param string $filename Image file filename
+	* @return boolean Success
+	*/
+	public function deleteImagefile($filename)
+	{
+		$deletename = $$filename;
+		$result = @unlink($this->getImagePath().$deletename);
+		$result = $result & @unlink($this->getImagePath().$deletename.".thumb.jpg");
+		return $result;
+	}
 
 	/**
 	* Sets the image file
@@ -835,10 +953,10 @@ class assMatchingQuestion extends assQuestion
 	* @return integer An errorcode if the image upload fails, 0 otherwise
 	* @access public
 	*/
-	function setImageFile($image_filename, $image_tempfilename = "")
+	function setImageFile($image_tempfilename, $image_filename, $previous_filename)
 	{
-		$result = 0;
-		if (!empty($image_tempfilename))
+		$result = TRUE;
+		if (strlen($image_tempfilename))
 		{
 			$image_filename = str_replace(" ", "_", $image_filename);
 			$imagepath = $this->getImagePath();
@@ -846,26 +964,20 @@ class assMatchingQuestion extends assQuestion
 			{
 				ilUtil::makeDirParents($imagepath);
 			}
-			//if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
-			if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath.$image_filename))
+			$savename = $image_filename;
+			if (!ilUtil::moveUploadedFile($image_tempfilename, $savename, $imagepath.$savename))
 			{
-				$result = 2;
+				$result = FALSE;
 			}
 			else
 			{
-				include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-				$mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
-				if (!preg_match("/^image/", $mimetype))
-				{
-					unlink($imagepath . $image_filename);
-					$result = 1;
-				}
-				else
-				{
-					// create thumbnail file
-					$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
-					ilUtil::convertImage($imagepath.$image_filename, $thumbpath, "JPEG", 100);
-				}
+				// create thumbnail file
+				$thumbpath = $imagepath . $savename . "." . "thumb.jpg";
+				ilUtil::convertImage($imagepath.$savename, $thumbpath, "JPEG", 100);
+			}
+			if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename)))
+			{
+				$this->deleteImagefile($previous_filename);
 			}
 		}
 		return $result;
@@ -1140,13 +1252,75 @@ class assMatchingQuestion extends assQuestion
 				}
 				if ($answer->getTermId() == $solution["value1"])
 				{
-					if (strlen($answer->getTerm())) $worksheet->writeString($startrow + $i, 2, ilExcelUtils::_convert_text($terms[$answer->getTermId()]));
+					if (strlen($answer->getTermId())) $worksheet->writeString($startrow + $i, 2, ilExcelUtils::_convert_text($terms[$answer->getTermId()]));
 				}
 			}
 			$i++;
 		}
 		return $startrow + $i + 1;
 	}
+	
+	/*
+	* Get the thumbnail geometry
+	*
+	* @return integer Geometry
+	*/
+	public function getThumbGeometry()
+	{
+		return $this->thumb_geometry;
+	}
+	
+	/*
+	* Set the thumbnail geometry
+	*
+	* @param integer $a_geometry Geometry
+	*/
+	public function setThumbGeometry($a_geometry)
+	{
+		$this->thumb_geometry = ($a_geometry < 1) ? 100 : $a_geometry;
+	}
+
+	/*
+	* Get the minimum element height
+	*
+	* @return integer Height
+	*/
+	public function getElementHeight()
+	{
+		return $this->element_height;
+	}
+	
+	/*
+	* Set the minimum element height
+	*
+	* @param integer $a_height Height
+	*/
+	public function setElementHeight($a_height)
+	{
+		$this->element_height = ($a_height < 20) ? "" : $a_height;
+	}
+
+	/*
+	* Rebuild the thumbnail images with a new thumbnail size
+	*/
+	protected function rebuildThumbnails()
+	{
+		if ($this->getMatchingType() == MT_TERMS_PICTURES)
+		{
+			if ($this->getMatchingPairCount())
+			{
+				foreach ($this->getMatchingPairs() as $pair)
+				{
+					if (@file_exists($this->getImagePath() . $pair->getPicture()))
+					{
+						$thumbpath = $this->getImagePath() . $pair->getPicture() . "." . "thumb.jpg";
+						ilUtil::convertImage($this->getImagePath() . $pair->getPicture(), $thumbpath, "JPEG", $this->getThumbGeometry());
+					}
+				}
+			}
+		}
+	}
+
 }
 
 ?>

@@ -127,7 +127,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$question->setUseRte(TRUE);
 		$question->addPlugin("latex");
 		$question->addButton("latex");
-		$question->setRTESupport($obj_id, $obj_type, "assessment");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
 		$form->addItem($question);
 		// duration
 		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");

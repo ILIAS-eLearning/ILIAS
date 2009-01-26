@@ -5379,7 +5379,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 		// get all existing questions in the test
-		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
+		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND qpl_questions.owner > 0 AND tst_test_question.test_fi = %s",
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$result = $ilDB->query($query);
@@ -5429,11 +5429,11 @@ function loadQuestions($active_id = "", $pass = NULL)
 					$constraint_qpls = " AND qpl_questions.obj_fi IN ('" . join($qplidx, "','") . "')";
 				}
 			}
-			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.complete = '1'$original_clause";
+			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause";
 		}
 			else
 		{
-			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s$original_clause",
+			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND obj_fi = %s$original_clause",
 				$ilDB->quote("$questionpool")
 			);
 		}
@@ -5444,11 +5444,11 @@ function loadQuestions($active_id = "", $pass = NULL)
 			// take all available questions
 			if ($questionpool == 0)
 			{
-				$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.complete = '1'$original_clause";
+				$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause";
 			}
 				else
 			{
-				$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.complete = '1'$original_clause",
+				$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause",
 					$ilDB->quote("$questionpool")
 				);
 			}
@@ -5471,11 +5471,11 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				if ($questionpool == 0)
 				{
-					$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1";
+					$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1";
 				}
 					else
 				{
-					$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1",
+					$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1",
 						$ilDB->quote("$questionpool")
 					);
 				}
@@ -5788,7 +5788,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$original_clause = " ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN ('" . join($original_ids, "','") . "')";
 		}
 
-		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query = "SELECT qpl_questions.question_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause$available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
     $query_result = $ilDB->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -5800,7 +5800,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
+		$query = "SELECT qpl_questions.*, qpl_questions.TIMESTAMP + 0 AS timestamp14, qpl_question_type.type_tag, qpl_question_type.plugin FROM qpl_questions, qpl_question_type, object_data WHERE $original_clause $available AND object_data.obj_id = qpl_questions.obj_fi AND qpl_questions.owner > 0 AND qpl_questions.question_type_fi = qpl_question_type.question_type_id $where$order$limit";
 		$query_result = $ilDB->query($query);
 		$rows = array();
 		if ($query_result->numRows())
@@ -7069,7 +7069,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
 				{
-					$countquery = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND original_id IS NULL",
+					$countquery = sprintf("SELECT question_id FROM qpl_questions WHERE obj_fi =  %s AND qpl_questions.owner > 0 AND original_id IS NULL",
 						$ilDB->quote($row["questionpool_fi"] . "")
 					);
 					$countresult = $ilDB->query($countquery);

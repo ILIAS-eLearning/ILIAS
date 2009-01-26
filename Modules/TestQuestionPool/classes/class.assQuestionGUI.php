@@ -77,7 +77,6 @@ class assQuestionGUI
 
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->errormessage = $this->lng->txt("fill_out_all_required_fields");
-		$this->object = new assQuestion();
 	}
 
 	/**
@@ -603,7 +602,7 @@ class assQuestionGUI
 		}
 		else
 		{
-      ilUtil::sendInfo($this->getErrorMessage());
+			ilUtil::sendInfo($this->getErrorMessage());
 			$this->editQuestion();
 		}
 	}
