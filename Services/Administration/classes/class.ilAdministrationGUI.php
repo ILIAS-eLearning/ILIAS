@@ -119,7 +119,7 @@ class ilAdministrationGUI
 		global $tree, $rbacsystem, $ilias, $lng;
 		
 		// permission checks
-		include_once './classes/class.ilMainMenuGUI.php';
+		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
 		if(!ilMainMenuGUI::_checkAdministrationPermission())
 		{
 			$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);

@@ -1,0 +1,22 @@
+<!-- BEGIN no_js_section -->
+<noscript>
+{NO_JS_CONTENT}
+</noscript>
+<!-- END no_js_section -->
+<!-- BEGIN js_section -->
+<span onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" id ="ilAdvSelListAnchorElement_{ID}">
+<a class="{CLASS_SEL_TOP}" href="#" target="_top">
+<img border="0" src="{IMG_DOWN}" alt="{TXT_SEL_TOP}"/> {TXT_SEL_TOP}
+</a>
+</span>
+<table onmouseover="ilAdvSelListOn('{ID}');" onmouseout="ilAdvSelListOff('{ID}');" style="display:none; position:absolute;" class="std" id="ilAdvSelListTable_{ID}">
+<!-- BEGIN item -->
+<tr class="{CSS_ROW}" onclick="parent.location='{HREF_ITEM}';"><!-- BEGIN image --><td class="std"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="std"><a class="small" target="_top" href="{HREF_ITEM}">{TXT_ITEM}</a></td></tr>
+<!-- END item -->
+</table>
+<script type="text/javascript">
+//<![CDATA[
+il_adv_sel_lists.push('{ID}');
+//]]>
+</script>
+<!-- END js_section -->

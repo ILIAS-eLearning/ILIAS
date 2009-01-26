@@ -1293,7 +1293,7 @@ class ilInitialisation
 		$GLOBALS['ilTabs'] =& $ilTabs;
 
 		// main menu
-		include_once 'classes/class.ilMainMenuGUI.php';
+		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
 		$ilMainMenu = new ilMainMenuGUI("_top");
 		$GLOBALS['ilMainMenu'] =& $ilMainMenu;
 

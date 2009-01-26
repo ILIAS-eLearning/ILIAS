@@ -42,6 +42,23 @@ class ilNavigationHistoryGUI
 	}
 
 	/**
+	* Get HTML for navigation history
+	*/
+	function getHTMLNew()
+	{
+		global $lng;
+		
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$selection = new ilAdvancedSelectionListGUI();
+		$selection->setListTitle($lng->txt("last_visited"));
+		$selection->setId("lastvisited");
+		$selection->addItem("Test 1");
+		$selection->addItem("Test 2");
+		
+		return $selection->getHTML();
+	}
+	
+	/**
 	* Get HTML for navigation history.
 	*/
 	public function getHTML()
