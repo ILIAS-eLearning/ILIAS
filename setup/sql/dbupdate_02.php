@@ -6692,3 +6692,13 @@ if (!$ilDB->tableColumnExists("qpl_question_matching", "element_height"))
 	$ilDB->alterTable('qpl_question_matching',array('add'	=> array('element_height' => array('type' => 'integer','notnull'	=> false))));
 }
 ?>
+<#1400>
+<?php
+if(!$ilDB->tableColumnExists('usr_search','root'))
+{
+	$ilDB->alterTable('usr_search',array('add'	=> array('root' => array('type' => 'integer',
+																		'notnull'	=> false,
+																		'default'	=> ROOT_FOLDER_ID))));
+}
+?>
+
