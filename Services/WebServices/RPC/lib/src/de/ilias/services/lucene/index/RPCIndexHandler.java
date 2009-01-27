@@ -60,6 +60,7 @@ public class RPCIndexHandler {
 		
 		CommandController controller;
 		
+		
 		try {
 			client = ClientSettings.getInstance(LocalSettings.getClientKey());
 			properties = ObjectDefinitionReader.getInstance(client.getAbsolutePath());
@@ -90,8 +91,9 @@ public class RPCIndexHandler {
 		catch (SQLException e) {
 			logger.error(e);
 		}
-		logger.debug("Start connection");
-
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 

@@ -31,7 +31,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.Field;
 import org.jdom.Element;
 import org.xml.sax.SAXException;
 
@@ -52,8 +51,6 @@ public class ObjectDefinitionParser {
 	private Vector<File> objectPropertyFiles = new Vector<File>();
 	private ClientSettings settings;
 	private ObjectDefinitions definitions;
-	private FieldInfo fieldInfo;
-	
 	
 	/**
 	 * @throws ConfigurationException 
@@ -62,8 +59,10 @@ public class ObjectDefinitionParser {
 	public ObjectDefinitionParser() throws ConfigurationException {
 
 		settings = ClientSettings.getInstance(LocalSettings.getClientKey());
+		// reset definiitons to avoíd duplicate entries
 		definitions = ObjectDefinitions.getInstance(settings.getAbsolutePath());
-		fieldInfo = FieldInfo.getInstance(LocalSettings.getClientKey());
+		definitions.reset();
+		FieldInfo.getInstance(LocalSettings.getClientKey());
 	}
 
 	/**

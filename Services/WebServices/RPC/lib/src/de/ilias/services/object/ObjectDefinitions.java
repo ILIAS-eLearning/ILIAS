@@ -66,6 +66,14 @@ public class ObjectDefinitions {
 	}
 	
 	/**
+	 * reset object definitons
+	 */
+	public void reset() {
+		
+		this.definitions = new Vector<ObjectDefinition>(); 
+	}
+	
+	/**
 	 * @param absolutePath the absolutePath to set
 	 */
 	public void setAbsolutePath(File absolutePath) {

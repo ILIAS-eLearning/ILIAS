@@ -52,8 +52,10 @@ public class HighlightHits implements ResultExport {
 	public HighlightObject initObject(int objId) {
 		
 		if(objects.containsKey(objId)) {
+			//logger.debug("Reusing object with id: " + String.valueOf(objId));
 			return objects.get(objId);
 		}
+		//logger.debug("New object with id: " + String.valueOf(objId));
 		objects.put(objId, new HighlightObject(objId));
 		return objects.get(objId);
 	}

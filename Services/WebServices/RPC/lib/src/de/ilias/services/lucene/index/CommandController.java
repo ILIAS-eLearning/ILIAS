@@ -66,7 +66,11 @@ public class CommandController {
 		IOException, 
 		ConfigurationException {
 
-		setQueue(new CommandQueue());
+		queue = new CommandQueue();
+		//queue.debug("frm");
+		queue.debugAll("frm");
+		queue.loadFromDb();
+		
 		this.objDefinitions = objDefinitions;
 		
 		holder = IndexHolder.getInstance();
@@ -184,6 +188,7 @@ public class CommandController {
 	 */
 	private void deleteDocument(CommandQueueElement el) throws CorruptIndexException, IOException {
 
+		logger.debug("Deleteing document with objId: " + String.valueOf(el.getObjId()));
 		holder.getWriter().deleteDocuments(new Term("objId",String.valueOf(el.getObjId())));
 	}
 
