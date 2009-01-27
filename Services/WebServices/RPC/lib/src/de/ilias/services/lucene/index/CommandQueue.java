@@ -60,8 +60,6 @@ public class CommandQueue {
 	public CommandQueue() throws SQLException {
 
 		db = DBFactory.factory();
-		
-		loadFromDb();
 	}
 	
 	/**
@@ -114,7 +112,7 @@ public class CommandQueue {
 	 * @throws SQLException 
 	 * 
 	 */
-	private synchronized void loadFromDb() throws SQLException {
+	public synchronized void loadFromDb() throws SQLException {
 
 		logger.debug("Start reading command queue");
 		
@@ -309,6 +307,45 @@ public class CommandQueue {
 	public Vector<CommandQueueElement> getElements() {
 		return elements;
 	}
+	
+	/**
+	 * 
+	 * @param type
+	 * @throws SQLException 
+	 */
+	public void debug(String type) throws SQLException {
+		
+		PreparedStatement resetType = db.prepareStatement(
+				"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+		resetType.setInt(1,0);
+		resetType.setString(2,type);
+		resetType.setInt(3,0);
+		resetType.setString(4,"");
+		resetType.setString(5,"reset_all");
+		resetType.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+		resetType.setInt(7,0);
 
+		resetType.executeUpdate();
+	}
+
+	/**
+	 * 
+	 * @param type
+	 * @throws SQLException 
+	 */
+	public void debugAll(String type) throws SQLException {
+		
+		PreparedStatement resetType = db.prepareStatement(
+				"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+		resetType.setInt(1,0);
+		resetType.setString(2,"");
+		resetType.setInt(3,0);
+		resetType.setString(4,"");
+		resetType.setString(5,"rebuild_index");
+		resetType.setDate(6,new java.sql.Date(new java.util.Date().getTime()));
+		resetType.setInt(7,0);
+
+		resetType.executeUpdate();
+	}
 
 }

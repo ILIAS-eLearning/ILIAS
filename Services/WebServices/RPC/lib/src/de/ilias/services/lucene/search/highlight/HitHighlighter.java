@@ -24,8 +24,6 @@ package de.ilias.services.lucene.search.highlight;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
@@ -54,7 +52,8 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class HitHighlighter {
 
-	private static int NUM_HIGHLIGHT = 8;
+	private static int NUM_HIGHLIGHT = 3;
+	private static int FRAGMENT_SIZE = 30;
 	private static String HIGHLIGHT_SEPARATOR = "...";
 	
 	private static String HIGHLIGHT_BEGIN_TAG = "<span class=\"ilSearchHighlight\">";
@@ -155,7 +154,7 @@ public class HitHighlighter {
 				}
 			}
 		
-			token =	new StandardAnalyzer().tokenStream("allContent", new StringReader(allContent.toString()));
+			token =	new StandardAnalyzer().tokenStream("content", new StringReader(allContent.toString()));
 			fragment = highlighter.getBestFragments(token,allContent.toString(), NUM_HIGHLIGHT, HIGHLIGHT_SEPARATOR);
 			//logger.debug("Fragmented: " + fragment);
 			
@@ -175,9 +174,8 @@ public class HitHighlighter {
 		// init highlighter
 		QueryScorer queryScorer = new QueryScorer(query);
 		SimpleHTMLFormatter formatter = new SimpleHTMLFormatter(HIGHLIGHT_BEGIN_TAG,HIGHLIGHT_END_TAG);
-		highlighter = new Highlighter(formatter,
-				queryScorer);
-		Fragmenter fragmenter = new SimpleFragmenter(50);
+		highlighter = new Highlighter(formatter,queryScorer);
+		Fragmenter fragmenter = new SimpleFragmenter(FRAGMENT_SIZE);
 		highlighter.setTextFragmenter(fragmenter);
 		
 		// init fieldinfo
