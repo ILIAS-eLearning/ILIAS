@@ -745,6 +745,7 @@ class assSingleChoice extends assQuestion
 		if ($this->getOriginalId())
 		{
 			$this->syncFeedbackSingleAnswers();
+			$this->syncImages();
 			parent::syncWithOriginal();
 		}
 	}
@@ -925,6 +926,46 @@ class assSingleChoice extends assQuestion
 		}
 	}
 	
+	/**
+	* Sync images of a MC question on synchronisation with the original question
+	**/
+	protected function syncImages()
+	{
+		global $ilLog;
+		$question_id = $this->getOriginalId();
+		$imagepath = $this->getImagePath();
+		$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+		if (!file_exists($imagepath))
+		{
+			ilUtil::makeDirParents($imagepath);
+		}
+		ilUtil::delDir($imagepath_original);
+		ilUtil::makeDir($imagepath_original);
+		foreach ($this->answers as $answer)
+		{
+			$filename = $answer->getImage();
+			if (strlen($filename))
+			{
+				if (@file_exists($imagepath . $filename))
+				{
+					if (!@copy($imagepath . $filename, $imagepath_original . $filename))
+					{
+						$ilLog->write("image could not be duplicated!!!!", $ilLog->ERROR);
+						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					}
+				}
+				if (@file_exists($imagepath . $filename . ".thumb.jpg"))
+				{
+					if (!@copy($imagepath . $filename . ".thumb.jpg", $imagepath_original . $filename . ".thumb.jpg"))
+					{
+						$ilLog->write("image thumbnail could not be duplicated!!!!", $ilLog->ERROR);
+						$ilLog->write("object: " . print_r($this, TRUE), $ilLog->ERROR);
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	* Saves feedback for a single selected answer to the database
 	*
