@@ -486,6 +486,13 @@ class ilDBGenerator
 					continue;
 				}
 			}
+			if (isset($this->filter["unsigned"]))
+			{
+				if ($def["unsigned"] != $this->filter["unsigned"])
+				{
+					continue;
+				}
+			}
 			
 			$a_tpl->setCurrentBlock("field");
 			if (empty($pk["fields"][$field]))

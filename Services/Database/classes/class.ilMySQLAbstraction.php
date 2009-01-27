@@ -54,7 +54,7 @@ class ilMySQLAbstraction
 	*
 	* @param	string		table name
 	*/
-	function performAbstraction($a_table_name)
+	function performAbstraction($a_table_name, $a_set_text_fields_notnull_false = true)
 	{
 		// to do: log this procedure
 		
