@@ -43,6 +43,8 @@ class ilLuceneSearchResultFilter
 	protected $required_permission = 'visible';
 	protected $limit_reached = false;
 	protected $offset = 0;
+	
+	protected $filters = array();
 
 
 	/**
@@ -74,6 +76,16 @@ class ilLuceneSearchResultFilter
 			return self::$instance = new ilLuceneSearchResultFilter($a_user_id);
 		}
 		return self::$instance;
+	}
+	
+	/**
+	 * add filter 
+	 * @param
+	 * @return
+	 */
+	public function addFilter(ilLuceneResultFilter $filter)
+	{
+		$this->filters[] = $filter;
 	}
 	
 	/**
@@ -194,6 +206,12 @@ class ilLuceneSearchResultFilter
 			// Check referenced objects
 			foreach(ilObject::_getAllReferences($obj_id) as $ref_id)
 			{
+				// Check filter
+				if(!$this->checkFilter($ref_id))
+				{
+					continue;
+				}
+
 				// Access failed by prior check
 				if($this->cache->isFailed($ref_id))
 				{
@@ -231,6 +249,23 @@ class ilLuceneSearchResultFilter
 		}
 		$this->cache->setResults($this->getResultIds());
 		$this->cache->save();
+		return true;
+	}
+	
+	/**
+	 * check appended filter 
+	 * @param int $a_ref_id reference id
+	 * @return bool
+	 */
+	protected function checkFilter($a_ref_id)
+	{
+		foreach($this->filters as $filter)
+		{
+			if(!$filter->filter($a_ref_id))
+			{
+				return false;
+			}
+		}
 		return true;
 	}
 	

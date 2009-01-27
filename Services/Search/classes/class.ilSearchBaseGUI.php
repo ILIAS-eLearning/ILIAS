@@ -150,5 +150,31 @@ class ilSearchBaseGUI
 	 	
 	 	$this->ctrl->clearParameters($this);
 	}
+	
+	/**
+	 * Build path for search area
+	 * @return
+	 */
+	protected function buildSearchAreaPath($a_root_node)
+	{
+		global $tree;
+
+		$path_arr = $tree->getPathFull($a_root_node,ROOT_FOLDER_ID);
+		$counter = 0;
+		foreach($path_arr as $data)
+		{
+			if($counter++)
+			{
+				$path .= " > ";
+				$path .= $data['title'];
+			}
+			else
+			{
+				$path .= $this->lng->txt('repository');
+			}
+			
+		}
+		return $path;
+	}
 }
 ?>
