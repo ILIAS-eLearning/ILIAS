@@ -571,7 +571,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		{
 			foreach ($eval_data["textvalues"] as $textvalue)
 			{
-				$worksheet->write($rowcounter++, 1, $textvalue);
+				$worksheet->write($rowcounter++, 1, ilExcelUtils::_convert_text($textvalue));
 			}
 		}
 	}
