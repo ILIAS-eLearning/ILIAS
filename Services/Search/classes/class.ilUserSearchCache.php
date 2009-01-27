@@ -52,6 +52,7 @@ class ilUserSearchCache
 	private $failed = array();
 	private $page_number = 1;
 	private $query;
+	private $root = ROOT_FOLDER_ID;
 	
 	
 	/**
@@ -247,6 +248,44 @@ class ilUserSearchCache
 	}
 	
 	/**
+	 * set root node of search
+	 * @param int root id
+	 * @return
+	 */
+	public function setRoot($a_root)
+	{
+		$this->root = $a_root;
+	}
+	
+	/**
+	 * get root node
+	 *  
+	 * @return
+	 */
+	public function getRoot()
+	{
+		return $this->root ? $this->root : ROOT_FOLDER_ID;
+	}
+	
+	/**
+	 * delete cached entries
+	 * @param
+	 * @return
+	 */
+	public function deleteCachedEntries()
+	{
+		$query = "UPDATE usr_search SET ".
+			"search_result = ".$this->db->quote(serialize(array())).", ".
+			"checked = ".$this->db->quote(serialize(array())).", ".
+			"failed = ".$this->db->quote(serialize(array())).", ".
+			"page = 0 ".
+			"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
+			"AND search_type = ".$this->db->quote($this->search_type);
+		$this->db->query($query);
+	}	
+	
+	
+	/**
 	 * Delete user entries
 	 *
 	 * @access public
@@ -288,7 +327,8 @@ class ilUserSearchCache
 	 		"failed = '".addslashes(serialize($this->failed))."', ".
 	 		"page = ".$this->db->quote($this->page_number).", ".
 	 		"search_type = ".$this->db->quote($this->search_type).", ".
-	 		"query = ".$this->db->quote(serialize($this->getQuery()));
+	 		"query = ".$this->db->quote(serialize($this->getQuery())).", ".
+	 		"root = ".$this->db->quote($this->getRoot());
 	 	$res = $this->db->query($query);
 	}
 	
@@ -329,7 +369,7 @@ class ilUserSearchCache
 	 		}
 	 		$this->page_number = $row->page;
 			$this->setQuery(unserialize($row->query));
-
+			$this->setRoot($row->root);
 	 	}
 		return true;			
 	}

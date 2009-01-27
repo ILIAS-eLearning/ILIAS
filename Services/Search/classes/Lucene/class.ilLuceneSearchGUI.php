@@ -128,9 +128,8 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			$this->showSavedResults();
 			return false;
 		}
-
 		unset($_SESSION['max_page']);
-		$this->search_cache->delete();
+		$this->search_cache->deleteCachedEntries();
 		$this->performSearch();
 	}
 	
@@ -148,16 +147,20 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$qp->parse();
 		$searcher = ilLuceneSearcher::getInstance($qp);
 		$searcher->search();
-
+		
 		// Filter results
 		$ilBench->start('Lucene','ResultFilter');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
+		include_once './Services/Search/classes/Lucene/class.ilLucenePathFilter.php';
 		$filter = ilLuceneSearchResultFilter::getInstance($ilUser->getId());
+		$filter->addFilter(new ilLucenePathFilter($this->search_cache->getRoot()));
 		$filter->setCandidates($searcher->getResult());
 		$filter->filter();
 		$ilBench->stop('Lucene','ResultFilter');
 				
-		$searcher->highlight($filter->getResultObjIds());
+		if($filter->getResultObjIds()) {
+			$searcher->highlight($filter->getResultObjIds());
+		}
 
 		// Show results
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
@@ -185,6 +188,8 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function initFormSearch()
 	{
+		global $tree;
+		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		
 		$this->form = new ilPropertyFormGUI();
@@ -199,7 +204,102 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$term->setRequired(true);
 		$this->form->addItem($term);
 		
+		
+		$path = new ilCustomInputGUI($this->lng->txt('search_area'),'root');
+		$tpl = new ilTemplate('tpl.root_selection.html',true,true,'Services/Search');
+		switch($this->search_cache->getRoot())
+		{
+			default:
+				$pathIds = $tree->getPathId($this->search_cache->getRoot(),ROOT_FOLDER_ID);
+				$counter = 0;
+				foreach($pathIds as $ref_id)
+				{
+					if($counter++) {
+						$tpl->touchBlock('path_separator');
+					}
+					if(($counter % 3) == 0) {
+						$tpl->touchBlock('line_break');
+					}
+					if($ref_id == ROOT_FOLDER_ID) {
+						$title = $this->lng->txt('search_in_magazin');
+					}
+					else {
+						$title = ilUtil::shortenText(ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)),30,true);
+					}
+					$this->ctrl->setParameter($this,'root_id',$ref_id);
+					$tpl->setCurrentBlock('item');
+					$tpl->setVariable('ITEM_LINK',$this->ctrl->getLinkTarget($this,'selectRoot'));
+					$tpl->setVariable('NAME_WITH_DOTS',$title);
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setVariable('LINK_SELECT',$this->ctrl->getLinkTarget($this,'chooseRoot'));
+				$tpl->setVariable('TXT_CHANGE',$this->lng->txt('change'));
+				break;
+				
+		}
+		$path->setHTML($tpl->get());
+		$this->form->addItem($path);
+		
+		
+		/*
+		$path = new ilRadioGroupInputGUI($this->lng->txt('search_area'),'root');
+		$path->setValue($this->search_cache->enabledSearchArea() ?
+			$this->search_cache->getRoot() : 
+			ROOT_FOLDER_ID);
+		$path->setRequired(true);
+		
+			// In repository
+			$repos = new ilRadioOption($this->lng->txt('search_in_magazin'),1);
+			$path->addOption($repos);
+			
+			// Sub area
+			$path_link = $this->buildSearchAreaPath($this->search_cache->getRoot());
+			$path_link .= (' <a href="'.$this->ctrl->getLinkTarget($this,'chooseRoot').'">['.$this->lng->txt('change').']</a>');
+			
+			$sub_area = new ilRadioOption($path_link,$this->search_cache->getRoot());
+			$path->addOption($sub_area);
+			
+		$this->form->addItem($path);
+		*/
 		return true;
+	}
+	
+	/**
+	 * Show root node selection 
+	 * @param
+	 * @return
+	 */
+	protected function chooseRoot()
+	{
+		global $tree;
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search_root_selector.html','Services/Search');
+
+		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
+
+		ilUtil::sendInfo($this->lng->txt('search_area_info'));
+
+		$exp = new ilSearchRootSelector($this->ctrl->getLinkTarget($this,'chooseRoot'));
+		$exp->setTargetClass(get_class($this));
+		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'chooseRoot'));
+
+		// build html-output
+		$exp->setOutput(0);
+
+		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+	
+	}
+	
+	/**
+	 * Select root 
+	 * @return
+	 */
+	protected function selectRoot()
+	{
+		$this->search_cache->setRoot((int) $_GET['root_id']);
+		$this->search_cache->save();
+		$this->search();
 	}
 	
 	/**
