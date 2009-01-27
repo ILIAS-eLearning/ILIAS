@@ -802,26 +802,14 @@ class ilDB extends PEAR
 	/**
 	* Wrapper for quote method. Deprecated, use prepare/prepareManip instead.
 	*/
-	function quote($a_query, $null_as_empty_string = true)
+	function quote($a_query, $a_type = null)
 	{
-		if ($null_as_empty_string)
+		if ($a_query == "")
 		{
-			// second test against 0 is crucial for MDB2
-			//if ($a_query == "" && $a_query !== 0)
-			if ($a_query == "")
-			{
-				$a_query = "";
-			}
+			$a_query = "";
 		}
 
-		if (method_exists($this->db, "quoteSmart"))
-		{
-			return $this->db->quoteSmart($a_query);
-		}
-		else
-		{
-			return $this->db->quote($a_query);
-		}
+		return $this->db->quote($a_query, $a_type);
 	}
 	
 	/**
