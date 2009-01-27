@@ -139,6 +139,11 @@ class ilDB extends PEAR
 		//$this->db->disconnect();
 	} //end destructor
 
+	
+	//
+	// General and MDB2 related functions
+	//
+
 	/**
 	* disconnect from database
 	*/
@@ -146,7 +151,36 @@ class ilDB extends PEAR
 	{
 //		$this->db->disconnect();
 	}
+	
+	/**
+	 * load additional mdb2 extensions and set their constants 
+	 *
+	 * @access protected
+	 */
+	protected function loadMDB2Extensions()
+	{
+		if (!$this->isDbError($this->db))
+		{
+			$this->db->loadModule('Extended');
+			define('DB_AUTOQUERY_SELECT',MDB2_AUTOQUERY_SELECT);
+			define('DB_AUTOQUERY_INSERT',MDB2_AUTOQUERY_INSERT);
+			define('DB_AUTOQUERY_UPDATE',MDB2_AUTOQUERY_UPDATE);
+			define('DB_AUTOQUERY_DELETE',MDB2_AUTOQUERY_DELETE);
+		}
+	}
 
+	/**
+	* Check error
+	*/
+	static function isDbError($a_res)
+	{
+		return MDB2::isError($a_res);
+	}
+
+	//
+	// Data Definition Methods
+	//
+	
 	/**
 	* Create a new table in the database
 	*/
@@ -216,18 +250,18 @@ class ilDB extends PEAR
 	}
 
 	/**
-	* Modify a field within a table.
+	* Modify a column within a table.
 	* Use this only on aleady "abstracted" tables.
 	*
 	* @param	string		table name
-	* @param	string		field name
+	* @param	string		column name
 	* @param	array		attributes to be changed, e.g. array("length" => 10, "default" => "t")
 	*/
-	function modifyTableField($a_table, $a_field, $a_attributes)
+	function modifyTableColumn($a_table, $a_column, $a_attributes)
 	{
 		$manager = $this->db->loadModule('Manager');
 		$reverse = $this->db->loadModule('Reverse');
-		$def = $reverse->getTableFieldDefinition($a_table, $a_field);
+		$def = $reverse->getTableFieldDefinition($a_table, $a_column);
 		$def = $def[0];
 		unset($def["nativetype"]);
 		foreach ($a_attributes as $a => $v)
@@ -239,7 +273,7 @@ class ilDB extends PEAR
 		
 		$changes = array(
 			"change" => array(
-				$a_field => $a_attributes
+				$a_column => $a_attributes
 				)
 			);
 
@@ -249,7 +283,7 @@ class ilDB extends PEAR
 		{
 			//$err = "<br>Details: ".mysql_error();
 			var_dump($a_changes);
-			$this->raiseError($r->getMessage()."<br><font size=-1>MODIFY TABLE FIELD $a_name</font>", $this->error_class->FATAL);
+			$this->raiseError($r->getMessage()."<br><font size=-1>MODIFY TABLE COLUMN $a_name</font>", $this->error_class->FATAL);
 		}
 		else
 		{
@@ -389,22 +423,6 @@ class ilDB extends PEAR
 		}
 	}
 	
-	/**
-	* Get next ID for an index
-	*/
-	function nextId($a_table_name)
-	{
-		$r = $this->db->nextId($a_table_name);
-
-		if (MDB2::isError($r))
-		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>nextId $a_table_name</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
-	}
 	
 	/**
 	* Drop a sequence for a table
@@ -425,6 +443,11 @@ class ilDB extends PEAR
 		}
 	}
 
+	
+	//
+	// Data query and manupilation functions
+	//
+	
 	/**
 	* Simple query. This function should only be used for simple select queries
 	* without parameters. Data manipulation should not be done with it.
@@ -442,37 +465,71 @@ class ilDB extends PEAR
 	{
 		$r = $this->db->query($sql);
 
-/*$pos1 = strpos(strtolower($sql), "from ");
-$table = "";
-if ($pos1 > 0)
-{
-	$tablef = substr($sql, $pos1+5);
-	$pos2 = strpos(strtolower($tablef), " ");
-	if ($pos2 > 0)
-	{
-		$table =substr($tablef, 0, $pos2);
-	}
-	else
-	{
-		$table = $tablef;
-	}
-}
-if (trim($table) != "")
-{
-	if (!is_array($this->ttt) || !in_array($table, $this->ttt))
-	{
-		echo "<br>".$table;
-		$this->ttt[] = $table;
-	}
-}
-else
-{
-	echo "<br><b>".$sql."</b>";
-}*/
+		//$this->logStatement($sql);
+
 		if (MDB2::isError($r))
 		{
 			$err = "<br>Details: ".mysql_error();
 			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql.$err."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $r;
+		}
+	}
+
+	/**
+	* Helper function, should usually not be called
+	*/
+	function logStatement($a_sql)
+	{
+		$pos1 = strpos(strtolower($sql), "from ");
+		$table = "";
+		if ($pos1 > 0)
+		{
+			$tablef = substr($sql, $pos1+5);
+			$pos2 = strpos(strtolower($tablef), " ");
+			if ($pos2 > 0)
+			{
+				$table =substr($tablef, 0, $pos2);
+			}
+			else
+			{
+				$table = $tablef;
+			}
+		}
+		if (trim($table) != "")
+		{
+			if (!is_array($this->ttt) || !in_array($table, $this->ttt))
+			{
+				echo "<br>".$table;
+				$this->ttt[] = $table;
+			}
+		}
+		else
+		{
+			echo "<br><b>".$sql."</b>";
+		}
+	}
+	
+	/**
+	* Set limit and offset for a query
+	*/
+	function setLimit($a_limit, $a_offset = 0)
+	{
+		$this->db->setLimit($a_limit, $a_offset);
+	}
+	
+	/**
+	* Get next ID for an index
+	*/
+	function nextId($a_table_name)
+	{
+		$r = $this->db->nextId($a_table_name);
+
+		if (MDB2::isError($r))
+		{
+			$this->raiseError($r->getMessage()."<br><font size=-1>nextId $a_table_name</font>", $this->error_class->FATAL);
 		}
 		else
 		{
@@ -623,6 +680,10 @@ else
 		return $a_set->fetchObject(DB_FETCHMODE_OBJECT);
 	}
 
+	//
+	// function and clauses abstraction
+	//
+	
 	/**
 	* Get abstract in-clause for given array.
 	* Returns an array "field_name IN (?,?,?,...)" depending on the size of the array
@@ -655,13 +716,129 @@ else
 	}
 	
 	/**
-	* Check error
+	* now()
+	*
+	* @todo: oracle version
 	*/
-	static function isDbError($a_res)
+	function now()
 	{
-		return MDB2::isError($a_res);
+		return "now()";
 	}
 	
+	//
+	// Schema related functions
+	//
+	
+	/**
+	* Check, whether a given table exists
+	*
+	* @param	string		table name
+	* @return	boolean		true, if table exists
+	*/
+	function tableExists($a_table)
+	{
+		$tables = $this->listTables();
+		if (is_array($tables))
+		{
+			if (in_array($a_table, $tables))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	* Checks for the existence of a table column
+	*
+	* @param string $a_table The table name which should be examined
+	* @param string $a_column_name The name of the column
+	* @return boolean TRUE if the table column exists, FALSE otherwise
+	*/
+	function tableColumnExists($a_table, $a_column_name)
+	{
+		
+		$column_visibility = false;
+		$manager = $this->db->loadModule('Manager');
+		$r = $manager->listTableFields($a_table);
+
+		if (!MDB2::isError($r))
+		{
+			foreach($r as $field)
+			{
+				if ($field == $a_column_name)
+				{
+					$column_visibility = true;
+				}
+			}
+		}
+
+		return $column_visibility;
+	}
+	
+	/**
+	* Get all tables
+	*
+	* @return array		Array of table names
+	*/
+	function listTables()
+	{
+		$manager = $this->db->loadModule('Manager');
+		$r = $manager->listTables();
+
+		if (!MDB2::isError($r))
+		{
+			return $r;
+		}
+		
+		return false;
+	}
+
+	
+	//
+	// Quote Functions
+	//
+	
+	/**
+	* Wrapper for quote method. Deprecated, use prepare/prepareManip instead.
+	*/
+	function quote($a_query, $null_as_empty_string = true)
+	{
+		if ($null_as_empty_string)
+		{
+			// second test against 0 is crucial for MDB2
+			//if ($a_query == "" && $a_query !== 0)
+			if ($a_query == "")
+			{
+				$a_query = "";
+			}
+		}
+
+		if (method_exists($this->db, "quoteSmart"))
+		{
+			return $this->db->quoteSmart($a_query);
+		}
+		else
+		{
+			return $this->db->quote($a_query);
+		}
+	}
+	
+	/**
+	* Quote table and field names.
+	*
+	* Note: IF POSSIBLE, THIS METHOD SHOULD NOT BE USED. Rename
+	* your table or field, if it conflicts with a reserved word.
+	*
+	*/
+	function quoteIdentifier($a_identifier)
+	{
+		return $this->db->quoteIdentifier($a_identifier);
+	}
+
+	//
+	// Transaction and Locking methods
+	//
 	
 	/**
 	* Begin Transaction. Please note that we currently do not use savepoints.
@@ -712,19 +889,6 @@ else
 	}
 
 	/**
-	* get last insert id
-	*/
-	function getLastInsertId()
-	{
-		$res = $this->db->lastInsertId();
-		if(MDB2::isError($res))
-		{
-			return false;
-		}
-		return $res;
-	}
-	
-	/**
 	* Lock existing table
 	* @param array (tablename => lock type READ, WRITE, READ LOCAL or LOW_PRIORITY) e.g array('tree' => 'WRITE')
 	* @return boolean
@@ -753,6 +917,11 @@ else
 
 		return true;
 	}
+	
+	
+	//
+	// MySQL specific, should go to another class
+	//
 	
 	/**
 	* get mysql version
@@ -810,23 +979,6 @@ else
 	}
 
 	/**
-	 * load additional mdb2 extensions and set their constants 
-	 *
-	 * @access protected
-	 */
-	protected function loadMDB2Extensions()
-	{
-		if (!$this->isDbError($this->db))
-		{
-			$this->db->loadModule('Extended');
-			define('DB_AUTOQUERY_SELECT',MDB2_AUTOQUERY_SELECT);
-			define('DB_AUTOQUERY_INSERT',MDB2_AUTOQUERY_INSERT);
-			define('DB_AUTOQUERY_UPDATE',MDB2_AUTOQUERY_UPDATE);
-			define('DB_AUTOQUERY_DELETE',MDB2_AUTOQUERY_DELETE);
-		}
-	}
-
-	/**
 	* Check query size
 	*/
 	function checkQuerySize($a_query)
@@ -843,36 +995,10 @@ else
 		}
 	}
 
-//
-//
-// Older functions. Must be checked.
-//
-//
-
-	/**
-	* Wrapper for Pear autoExecute
-	* @param string tablename
-	* @param array fields values
-	* @param int MDB2_AUTOQUERY_INSERT or MDB2_AUTOQUERY_UPDATE
-	* @param string where condition (e.g. "obj_id = '7' AND ref_id = '5'")
-	* @return mixed a new DB_result/DB_OK  or a DB_Error, if fail
-	*/
-	function autoExecute($a_tablename,$a_fields,$a_mode = MDB2_AUTOQUERY_INSERT,$a_where = false)
-	{
-		$res = $this->db->autoExecute($a_tablename,$a_fields,$a_mode,$a_where);
-
-		if (MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $res;
-		}
-	}
-
 	/**
 	* Set maximum allowed packet size
+	*
+	* todo@: This is MySQL specific and should go to a MySQL specific class.
 	*/
 	private function setMaxAllowedPacket()
 	{
@@ -917,81 +1043,32 @@ else
 		return true;
 	}
 
-	
+//
+//
+// Older functions. Must be checked.
+//
+//
+
 	/**
-	* Check, whether a given table exists
-	*
-	* @param	string		table name
-	* @return	boolean		true, if table exists
+	* Wrapper for Pear autoExecute
+	* @param string tablename
+	* @param array fields values
+	* @param int MDB2_AUTOQUERY_INSERT or MDB2_AUTOQUERY_UPDATE
+	* @param string where condition (e.g. "obj_id = '7' AND ref_id = '5'")
+	* @return mixed a new DB_result/DB_OK  or a DB_Error, if fail
 	*/
-	function tableExists($a_table)
+	function autoExecute($a_tablename,$a_fields,$a_mode = MDB2_AUTOQUERY_INSERT,$a_where = false)
 	{
-		$tables = $this->listTables();
-		if (is_array($tables))
-		{
-			if (in_array($a_table, $tables))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	* Checks for the existence of a table column
-	*
-	* @param string $a_table The table name which should be examined
-	* @param string $a_column_name The name of the column
-	* @return boolean TRUE if the table column exists, FALSE otherwise
-	*/
-	function tableColumnExists($a_table, $a_column_name)
-	{
-		
-		$column_visibility = false;
-		$manager = $this->db->loadModule('Manager');
-		$r = $manager->listTableFields($a_table);
+		$res = $this->db->autoExecute($a_tablename,$a_fields,$a_mode,$a_where);
 
-		if (!MDB2::isError($r))
+		if (MDB2::isError($res))
 		{
-			foreach($r as $field)
-			{
-				if ($field == $a_column_name)
-				{
-					$column_visibility = true;
-				}
-			}
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
 		}
-
-		return $column_visibility;
-
-		/*$query = "SHOW COLUMNS FROM `$a_table`";
-		$res = $this->db->query($query);
-		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		else
 		{
-			if ((strcmp($data["Field"], $a_column_name) == 0) || (strcmp($data["field"], $a_column_name) == 0))
-			{
-				$column_visibility = TRUE;
-			}
+			return $res;
 		}
-		return $column_visibility;*/
-	}
-	
-	/**
-	* Get all tables
-	*
-	* @return array		Array of table names
-	*/
-	function listTables()
-	{
-		$manager = $this->db->loadModule('Manager');
-		$r = $manager->listTables();
-
-		if (!MDB2::isError($r))
-		{
-			return $r;
-		}
-		
-		return false;
 	}
 
 //
@@ -1001,28 +1078,16 @@ else
 //
 
 	/**
-	* Wrapper for quote method. Deprecated, use prepare/prepareManip instead.
+	* Get last insert id
 	*/
-	function quote($a_query, $null_as_empty_string = true)
+	function getLastInsertId()
 	{
-		if ($null_as_empty_string)
+		$res = $this->db->lastInsertId();
+		if(MDB2::isError($res))
 		{
-			// second test against 0 is crucial for MDB2
-			//if ($a_query == "" && $a_query !== 0)
-			if ($a_query == "")
-			{
-				$a_query = "";
-			}
+			return false;
 		}
-
-		if (method_exists($this->db, "quoteSmart"))
-		{
-			return $this->db->quoteSmart($a_query);
-		}
-		else
-		{
-			return $this->db->quote($a_query);
-		}
+		return $res;
 	}
 
 	/**
@@ -1076,20 +1141,5 @@ else
 		}
 	} //end function
 
-
-	/**
-	* Wrapper to find number of rows affected by a data changing query
-	* 
-	* DEPRECATED: use manipulate or prepareManip/execute instead;
-	* both will return affected rows
-	*
-	* @return integer  number of rows
-	*/
-/*	function affectedRows()
-	{
-		return $this->db->affectedRows();
-	}
-*/
-	
 } //end Class
 ?>
