@@ -282,7 +282,11 @@ class ilUserSearchCache
 			"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
 			"AND search_type = ".$this->db->quote($this->search_type);
 		$this->db->query($query);
-		$this->read();
+
+		$this->setResultPageNumber(1);
+		$this->search_result = array();
+		$this->checked = array();
+		$this->failed = array();
 	}	
 	
 	
