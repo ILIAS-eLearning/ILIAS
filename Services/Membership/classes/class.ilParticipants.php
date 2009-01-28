@@ -122,7 +122,7 @@ class ilParticipants
 	 * @param int user id
 	 * @static
 	 */
-	public function _isParticipant($a_ref_id,$a_usr_id)
+	public static function _isParticipant($a_ref_id,$a_usr_id)
 	{
 		global $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
 
