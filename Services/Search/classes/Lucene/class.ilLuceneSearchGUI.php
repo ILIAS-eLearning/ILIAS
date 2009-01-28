@@ -340,7 +340,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			$this->search_cache->setResultPageNumber((int) $_GET['page_number']);
 		}
-		if($_POST['query'])
+		if(isset($_POST['query']))
 		{
 			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']));
 		}
