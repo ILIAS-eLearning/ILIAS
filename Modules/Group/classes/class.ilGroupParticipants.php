@@ -66,5 +66,33 @@ class ilGroupParticipants extends ilParticipants
 		return self::$instances[$a_obj_id] = new ilGroupParticipants($a_obj_id);
 	}
 	
+	/**
+	 * Static function to check if a user is a participant of the container object
+	 *
+	 * @access public
+	 * @param int ref_id
+	 * @param int user id
+	 * @static
+	 */
+	public static function _isParticipant($a_ref_id,$a_usr_id)
+	{
+		global $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
+
+		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
+		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
+		{
+			$title = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($a_ref_id));
+			$ilLog->write(__METHOD__.': Found object without role folder. Ref_id: '.$a_ref_id.', title: '.$title);
+			$ilLog->logStack();
+			
+			return false;
+		}
+		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		$user_roles = $rbacreview->assignedRoles($a_usr_id);
+		
+		return count(array_intersect((array) $local_roles,(array) $user_roles)) ? true : false;
+	}
+	
+	
 }
 ?>
