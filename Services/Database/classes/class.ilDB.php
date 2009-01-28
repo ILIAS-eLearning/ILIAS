@@ -45,7 +45,7 @@ define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 * @version $Id$
 * @ingroup ServicesDatabase
 */
-class ilDB extends PEAR
+class ilDB
 {
 	/**
 	* error class
@@ -83,16 +83,16 @@ class ilDB extends PEAR
 	function ilDB($dsn)
 	{
 		//call parent constructor
-		$parent = get_parent_class($this);
-		$this->$parent();
+//		$parent = get_parent_class($this);
+//		$this->$parent();
 
 		//set up error handling
 		$this->error_class = new ilErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
+//		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
 
 		//check dsn
 		if ($dsn=="")
-			$this->raiseError("no DSN given", $this->error_class->FATAL);
+			$this->raiseError("No DSN given");
 
 		$this->dsn = $dsn;
 
@@ -113,10 +113,8 @@ class ilDB extends PEAR
 		}
 
 		//check error
-		if (MDB2::isError($this->db)) {
-			$this->raiseError($this->db->getMessage(), $this->error_class->FATAL);
-		}
-
+		$this->handleError($this->db);
+		
 		// SET 'max_allowed_packet' (only possible for mysql version 4)
 		$this->setMaxAllowedPacket();
 		
@@ -132,24 +130,43 @@ class ilDB extends PEAR
 		return true;
 	} //end constructor
 
-	/**
-	* destructor
-	*/
-	function _ilDB(){
-		//$this->db->disconnect();
-	} //end destructor
-
 	
 	//
 	// General and MDB2 related functions
 	//
 
 	/**
-	* disconnect from database
+	* Handle MDB2 Errors
+	*
+	* @param	mixed 	result set or anything that is a MDB2::error if
+	*					something went wrong
 	*/
-	function disconnect()
+	function handleError($a_res, $a_info = "", $a_level = "")
 	{
-//		$this->db->disconnect();
+		if (MDB2::isError($a_res))
+		{
+			if ($a_level == "")
+			{
+				$a_level = $this->error_class->FATAL;
+			}
+
+			$this->raiseError("ilDB Error: ".$a_info."<br />".
+				$a_res->getMessage()."<br />".$a_res->getUserInfo(), $a_level);
+		}
+		
+		return $a_res;
+	}
+	
+	/**
+	* Raise an error
+	*/
+	function raiseError($a_message, $a_level = "")
+	{
+		if ($a_level == "")
+		{
+			$a_level = $this->error_class->FATAL;
+		}
+		$this->error_class->raiseError($a_message, $a_level);
 	}
 	
 	/**
@@ -194,16 +211,7 @@ class ilDB extends PEAR
 		$manager = $this->db->loadModule('Manager');
 		$r = $manager->createTable($a_name, $a_definition_array, $a_options);
 
-		if (MDB2::isError($r))
-		{
-			var_dump($a_definition_array);
-			var_dump($r);
-			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$a_name."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "createTable(".$a_name.")");
 	}
 	
 	/**
@@ -214,14 +222,7 @@ class ilDB extends PEAR
 		$manager = $this->db->loadModule('Manager');
 		$r = $manager->dropTable($a_name);
 
-		if (MDB2::isError($r))
-		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>Drop Table: ".$a_name."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "dropTable(".$a_name.")");
 	}
 	
 	/**
@@ -237,16 +238,7 @@ class ilDB extends PEAR
 		$manager = $this->db->loadModule('Manager');
 		$r = $manager->alterTable($a_name, $a_changes, false);
 
-		if (MDB2::isError($r))
-		{
-			//$err = "<br>Details: ".mysql_error();
-			var_dump($a_changes);
-			$this->raiseError($r->getMessage()."<br><font size=-1>ALTER TABLE $a_name</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "alterTable(".$a_name.")");
 	}
 
 	/**
@@ -262,6 +254,9 @@ class ilDB extends PEAR
 		$manager = $this->db->loadModule('Manager');
 		$reverse = $this->db->loadModule('Reverse');
 		$def = $reverse->getTableFieldDefinition($a_table, $a_column);
+		
+		$this->handleError($def, "modifyTableColumn(".$a_table.")");
+		
 		$def = $def[0];
 		unset($def["nativetype"]);
 		foreach ($a_attributes as $a => $v)
@@ -279,16 +274,7 @@ class ilDB extends PEAR
 
 		$r = $manager->alterTable($a_table, $changes, false);
 
-		if (MDB2::isError($r))
-		{
-			//$err = "<br>Details: ".mysql_error();
-			var_dump($a_changes);
-			$this->raiseError($r->getMessage()."<br><font size=-1>MODIFY TABLE COLUMN $a_name</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "modifyTableColumn(".$a_table.")");
 	}
 
 	/**
@@ -313,16 +299,7 @@ class ilDB extends PEAR
 		);
 		$r = $manager->createConstraint($a_table, $a_name, $definition);
 
-		if (MDB2::isError($r))
-		{
-			//$err = "<br>Details: ".mysql_error();
-			var_dump($a_definition);
-			$this->raiseError($r->getMessage()."<br><font size=-1>ADD PRIMARY KEY $a_table</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "addPrimaryKey(".$a_table.")");
 	}
 	
 	/**
@@ -337,15 +314,7 @@ class ilDB extends PEAR
 		
 		$r = $manager->dropConstraint($a_table, $a_name, true);
 
-		if (MDB2::isError($r))
-		{
-//var_dump($r);
-			$this->raiseError($r->getMessage()."<br><font size=-1>DROP PRIMARY KEY $a_table, $a_name</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "dropPrimaryKey(".$a_table.")");
 	}
 
 	/**
@@ -369,16 +338,7 @@ class ilDB extends PEAR
 		);
 		$r = $manager->createIndex($a_table, $a_name, $definition);
 
-		if (MDB2::isError($r))
-		{
-			//$err = "<br>Details: ".mysql_error();
-			var_dump($fields);
-			$this->raiseError($r->getMessage()."<br><font size=-1>ADD INDEX $a_table</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "addIndex(".$a_table.")");
 	}
 
 	/**
@@ -394,14 +354,7 @@ class ilDB extends PEAR
 		
 		$r = $manager->dropIndex($a_table, $a_name);
 
-		if (MDB2::isError($r))
-		{
-			$this->raiseError($r->getMessage()."<br />DROP INDEX $a_table, $a_name<br />".$r->getUserInfo(), $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "dropIndex(".$a_table.")");
 	}
 
 	/**
@@ -413,14 +366,7 @@ class ilDB extends PEAR
 		
 		$r = $manager->createSequence($a_table_name, $a_start);
 
-		if (MDB2::isError($r))
-		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>Create Sequence $a_table_name</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "createSequence(".$a_table_name.")");
 	}
 	
 	
@@ -433,14 +379,7 @@ class ilDB extends PEAR
 		
 		$r = $manager->dropSequence($a_table_name);
 
-		if (MDB2::isError($r))
-		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>Drop Sequence $a_table_name</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "dropSequence(".$a_table_name.")");
 	}
 
 	
@@ -467,15 +406,7 @@ class ilDB extends PEAR
 
 		//$this->logStatement($sql);
 
-		if (MDB2::isError($r))
-		{
-			$err = "<br>Details: ".mysql_error();
-			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql.$err."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "query(".$sql.")");
 	}
 
 	/**
@@ -525,16 +456,12 @@ class ilDB extends PEAR
 	*/
 	function nextId($a_table_name)
 	{
-		$r = $this->db->nextId($a_table_name);
+		// we do not create missing sequences automatically here
+		// otherwise misspelled statements result in additional tables
+		// please create sequences explicitly in the db update script
+		$r = $this->db->nextId($a_table_name, false);
 
-		if (MDB2::isError($r))
-		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>nextId $a_table_name</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "nextId(".$a_table_name.")");
 	}
 
 	/**
@@ -554,15 +481,7 @@ class ilDB extends PEAR
 	{
 		$r = $this->db->exec($sql);
 
-		if (MDB2::isError($r))
-		{
-			$err = "<br>Details: ".mysql_error();
-			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql.$err."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		return $this->handleError($r, "manipulate(".$sql.")");
 	}
 
 	/**
@@ -576,14 +495,8 @@ class ilDB extends PEAR
 	function prepare($a_query, $a_types = null, $a_result_types = null)
 	{		
 		$res = $this->db->prepare($a_query, $a_types, $a_result_types);
-		if (MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$a_query."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $res;
-		}
+		
+		return $this->handleError($res, "prepare(".$a_query.")");
 	}
 
 	/**
@@ -597,14 +510,8 @@ class ilDB extends PEAR
 	function prepareManip($a_query, $a_types = null)
 	{
 		$res = $this->db->prepare($a_query, $a_types, MDB2_PREPARE_MANIP);
-		if (MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$a_query."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $res;
-		}
+		
+		return $this->handleError($res, "prepareManip(".$a_query.")");
 	}
 
 	/**
@@ -619,14 +526,7 @@ class ilDB extends PEAR
 	{
 		$res = $a_stmt->execute($a_data);
 
-		if (MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$a_stmt->query . " with data " . print_r($a_data, true) ."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $res;
-		}
+		return $this->handleError($res, "execute(".$a_stmt->query.")");
 	}
 
 	/**
@@ -642,14 +542,7 @@ class ilDB extends PEAR
 	{
 		$res = $this->db->extended->executeMultiple($a_stmt,$a_data);
 
-		if (MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $res;
-		}
+		return $this->handleError($res, "executeMultiple(".$a_stmt->query.")");
 	}
 	
 	/**
@@ -687,8 +580,15 @@ class ilDB extends PEAR
 	/**
 	* Get abstract in-clause for given array.
 	* Returns an array "field_name IN (?,?,?,...)" depending on the size of the array
+	*
+	* Example:
+	*	$ids = array(10,12,18);
+	*	$st = $ilDB->prepare("SELECT * FROM table ".
+	*		"WHERE ".$ilDB->in("id", $ids),
+	*		$ilDB->addTypesToArray($types, "integer", count($ids)));
+	*	$set = $ilDB->execute($st, $ids);
 	*/
-	function getInClause($a_field, $a_values)
+	function in($a_field, $a_values)
 	{
 		if (count($a_values) == 0)
 		{
@@ -704,6 +604,10 @@ class ilDB extends PEAR
 	*/
 	function addTypesToArray($a_arr, $a_type, $a_cnt)
 	{
+		if (!is_array($a_arr))
+		{
+			$a_arr = array();
+		}
 		if ($a_cnt > 0)
 		{
 			$type_arr = array_fill(0, $a_cnt, $a_type);
@@ -725,6 +629,7 @@ class ilDB extends PEAR
 		return "now()";
 	}
 	
+
 	//
 	// Schema related functions
 	//
@@ -840,12 +745,8 @@ class ilDB extends PEAR
 			$this->raiseError("ilDB::beginTransaction: Transactions are not supported.", $this->error_class->FATAL);
 		}
 		$res = $this->db->beginTransaction();
-		if(MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
-		}
 		
-		return $res;
+		return $this->handleError($res, "beginTransaction()");
 	}
 	
 	/**
@@ -854,12 +755,8 @@ class ilDB extends PEAR
 	function commit()
 	{
 		$res = $this->db->commit();
-		if(MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
-		}
 		
-		return $res;
+		return $this->handleError($res, "commit()");
 	}
 
 	/**
@@ -868,12 +765,8 @@ class ilDB extends PEAR
 	function rollback()
 	{
 		$res = $this->db->rollback();
-		if(MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
-		}
 		
-		return $res;
+		return $this->handleError($res, "rollback()");
 	}
 
 	/**
@@ -881,7 +774,7 @@ class ilDB extends PEAR
 	* @param array (tablename => lock type READ, WRITE, READ LOCAL or LOW_PRIORITY) e.g array('tree' => 'WRITE')
 	* @return boolean
 	*/
-	function _lockTables($a_table_params)
+	static function _lockTables($a_table_params)
 	{
 		global $ilDB;
 		
@@ -897,7 +790,11 @@ class ilDB extends PEAR
 
 		return true;
 	}
-	function _unlockTables()
+	
+	/**
+	* unlock tables
+	*/
+	static function _unlockTables()
 	{
 		global $ilDB;
 		
@@ -990,14 +887,9 @@ class ilDB extends PEAR
 	*/
 	private function setMaxAllowedPacket()
 	{
-
 		// GET MYSQL VERSION
 		$query = "SHOW VARIABLES LIKE 'version'";
-		$res = $this->db->query($query);
-		if(MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
-		}
+		$res = $this->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$version = $row->Value;
@@ -1008,26 +900,17 @@ class ilDB extends PEAR
 		{
 			ini_get("post_max_size");
 			$query = "SET GLOBAL max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
-			$this->db->query($query);
-			if(MDB2::isError($res))
-			{
-				$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
-			}
+			$this->query($query);
 		}
 		// STORE NEW max_size in member variable
 		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
-		if(MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$query."</font>", $this->error_class->FATAL);
-		}
 		$res = $this->db->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->max_allowed_packet_size = $row->Value;
-			//$this->max_allowed_packet_size = $row->value;
 		}
-		#var_dump("<pre>",$this->max_allowed_packet_size,"<pre>");
+
 		return true;
 	}
 
@@ -1049,14 +932,7 @@ class ilDB extends PEAR
 	{
 		$res = $this->db->autoExecute($a_tablename,$a_fields,$a_mode,$a_where);
 
-		if (MDB2::isError($res))
-		{
-			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $res;
-		}
+		return $this->handleError($res, "autoExecute(".$a_tablename.")");
 	}
 
 //
@@ -1092,17 +968,15 @@ class ilDB extends PEAR
 		//$r = $this->db->getOne($sql);
 		$set = $this->db->query($sql);
 		
-		if (MDB2::isError($set))
-		{
-			$this->raiseError($set->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
-			return;
-		}
+		$this->handleError($set, "getOne(".$sql.")");
 		
-		$r = $set->fetchRow(DB_FETCHMODE_ASSOC);
-
-		return $r[0];
-
-	} //end function
+		if (!MDB2::isError($set))
+		{
+			$r = $set->fetchRow(DB_FETCHMODE_ASSOC);
+	
+			return $r[0];
+		}
+	}
 
 	/**
 	* getRow. DEPRECATED. Should not be used anymore
@@ -1119,14 +993,9 @@ class ilDB extends PEAR
 		$r = $set->fetchRow($mode);
 		//$r = $this->db->getrow($sql,$mode);
 
-		if (MDB2::isError($r))
-		{
-			$this->raiseError($r->getMessage()."<br><font size=-1>SQL: ".$sql."</font>", $this->error_class->FATAL);
-		}
-		else
-		{
-			return $r;
-		}
+		$this->handleError($r, "getRow(".$sql.")");
+		
+		return $r;
 	} //end function
 
 } //end Class
