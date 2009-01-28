@@ -987,7 +987,7 @@ class ilObject
 		}
 		$types = array();
 		$st = $ilDB->prepare("SELECT max(last_update) as last_update FROM object_data ".
-			"WHERE ".$ilDB->getInClause("obj_id", $a_objs),
+			"WHERE ".$ilDB->in("obj_id", $a_objs),
 			$ilDB->addTypesToArray($types, "integer", count($a_objs)));
 		$set = $ilDB->execute($st, $a_objs);
 		$rec = $ilDB->fetchAssoc($set);
