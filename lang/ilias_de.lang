@@ -9094,3 +9094,9 @@ assessment#:#thumb_geometry#:#Vorschaugröße
 assessment#:#thumb_geometry_info#:#Geben Sie einen Wert in Bildpunkten für die maximale Vorschaugröße der Grafiken an. Abhängig vom Seitenverhältnis wird die Vorschau entweder in der Höhe oder in der Breite auf die maximale Vorschaugröße umgewandelt.
 assessment#:#element_height#:#Minimale Höhe
 assessment#:#element_height_info#:#Dieser Wert legt die minimale Höhe von Termen und Definitionen/Bildern während der Testausgabe fest.
+common#:#loginname_settings#:#Loginnamens-Einstellungen
+common#:#allow_change_loginname#:#Ändern des Login-Namens erlauben
+common#:#create_history_loginname#:#Eine Historie für die Änderung des Login-Namens erstellen
+common#:#allow_history_loginname_again#:#Es dürfen bereits genutzte Login-Namen aus der Historie wieder verwendet werden
+common#:#loginname_already_exists#:#Dieser Login-Name existiert bereits.
+common#:#create_history_loginname_must_be_enabled#:#Für die Wiederverwendung des Login-Namens muss die Historie aktiviert sein.

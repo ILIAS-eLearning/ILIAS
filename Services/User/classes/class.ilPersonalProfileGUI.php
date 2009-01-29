@@ -309,7 +309,7 @@ class ilPersonalProfileGUI
 	*/
 	function saveProfile()
 	{
-		global $ilUser;
+		global $ilUser ,$ilSetting, $ilAuth;
 
 		//init checking var
 		$form_valid = true;
@@ -501,6 +501,55 @@ class ilPersonalProfileGUI
 
 		// Set user defined data
 		$ilUser->setUserDefinedData($_POST['udf']);
+		
+		// if loginname is changeable -> validate	
+		
+		if($ilSetting->get('allow_change_loginname') == 1 && 
+		   $_POST['usr_login'] != $ilUser->getLogin())
+		{
+				
+			if($_POST['usr_login'] == '' || 
+			   !ilUtil::isLogin(ilUtil::stripSlashes($_POST['usr_login'])))
+			{
+				ilUtil::sendInfo($this->lng->txt('no_valid_login'));
+				$form_valid = false;	
+			}
+			else if(ilObjUser::_loginExists(ilUtil::stripSlashes($_POST['usr_login']), $ilUser->getId()))
+			{
+
+				ilUtil::sendInfo($this->lng->txt('loginname_already_exists'));
+				$form_valid = false;
+			}				
+			else if($ilSetting->get('create_history_loginname') == 1)
+			{	
+				// falls Loginname in historie vorkommt prüfen, ob er noch benutzt werden darf					
+				$found = ilObjUser::getLoginHistory($_POST['usr_login']);
+			
+				if($found == 1 && $ilSetting->get('allow_history_loginname_again') == 0)
+				{
+					ilUtil::sendInfo($this->lng->txt('loginname_already_exists'));
+					$form_valid = false;
+				}
+				else if($ilSetting->get('allow_history_loginname_again') == 1 || !$found)
+				{	
+					$ilUser->setLogin(ilUtil::stripSlashes($_POST['usr_login']));
+					
+					$ilUser->updateLogin($ilUser->login);
+					
+					$ilAuth->setAuth($ilUser->getLogin());
+					$ilAuth->start();
+					
+					ilObjUser::_writeHistory($ilUser->getId(), $ilUser->getLogin());
+				}
+			}
+			else if($ilSetting->get('create_history_loginname') == 0)
+			{
+				$ilUser->setLogin(ilUtil::stripSlashes($_POST['usr_login']));				
+				$ilUser->updateLogin($ilUser->login);
+				$ilAuth->setAuth($ilUser->getLogin());
+				$ilAuth->start();
+			}
+	}	
 
 		// everthing's ok. save form data
 		if ($form_valid)
@@ -880,7 +929,8 @@ class ilPersonalProfileGUI
 		switch ($ilUser->getAuthMode(true))
 		{
 			case AUTH_LOCAL :
-				$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("username"));
+				$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("username")); 
+				
 				break;
 			case AUTH_SHIBBOLETH :
 				require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
@@ -896,7 +946,9 @@ class ilPersonalProfileGUI
 			default :
 				$this->tpl->setVariable("TXT_NICKNAME", $this->lng->txt("ilias_username"));
 				break;
+				
 		}
+
 		$this->tpl->setVariable("TXT_PUBLIC_PROFILE", $this->lng->txt("public_profile"));
 
 		$data = array();
@@ -1057,7 +1109,18 @@ class ilPersonalProfileGUI
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
 
 		//values
-		$this->tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilUser->getLogin()));
+		if((int)$ilSetting->get('allow_change_loginname'))
+		{			
+			$this->tpl->setCurrentBlock('nickname_req');
+			$this->tpl->touchBlock('nickname_req');
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setVariable('NICKNAME_CHANGEABLE', ilUtil::prepareFormOutput($ilUser->getLogin()));
+		}
+		else
+		{
+			$this->tpl->setVariable('NICKNAME_FIX', ilUtil::prepareFormOutput($ilUser->getLogin()));	
+		}		
 
 		if ($this->userSettingVisible("firstname"))
 		{
@@ -1670,6 +1733,7 @@ exit; // comes later
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
+		
 		$this->form->setSubformMode("right");
 
 		// user data
@@ -1678,10 +1742,24 @@ exit; // comes later
 			strtolower($this->lng->txt("of"))." ".$ilUser->getFullname());
 		$this->form->addItem($sh);
 
-		// user account name
-		$val = new ilNonEditableValueGUI($this->lng->txt("username"));
-		$val->setValue($ilUser->getLogin());
+		if((int)$ilSetting->get('allow_change_loginname'))
+		{
+			$val = new ilTextInputGUI($lng->txt('username'),'username');
+			$val->setValue($ilUser->getLogin());
+			$val->setMaxLength(32);
+			$val->setSize(40);
+			$val->setRequired(true);
+			
+		}
+		else
+		{
+			// user account name
+			$val = new ilNonEditableValueGUI($this->lng->txt("username"));	
+			$val->setValue($ilUser->getLogin());
+		}
+		
 		$this->form->addItem($val);
+	
 
 		// default roles
 		$global_roles = $rbacreview->getGlobalRoles();

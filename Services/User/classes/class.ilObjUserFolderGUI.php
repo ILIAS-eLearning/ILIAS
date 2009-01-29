@@ -3859,9 +3859,61 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tabs_gui->addSubTabTarget("user_new_account_mail",
 												 $this->ctrl->getLinkTarget($this,'newAccountMail'),
 												 "newAccountMail",get_class($this));
+				$this->tabs_gui->addSubTabTarget('loginname_settings',
+					$this->ctrl->getLinkTarget($this, 'showLoginnameSettings'), 'showLoginnameSettings', get_class($this));												 
+												 
 				break;
 		}
 	}
+	
+	public function showLoginnameSettingsObject()
+	{
+		global $ilSetting;
+		
+		$this->setSubTabs('settings');
+		$this->tabs_gui->setTabActive('global_settings');
+		$this->tabs_gui->setSubTabActive('loginname_settings');
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI;
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveLoginnameSettings'));
+		$form->setTitle($this->lng->txt('loginname_settings'));
+		$check = new ilCheckboxInputGUI($this->lng->txt('allow_change_loginname'), 'allow_change_loginname');
+		$check->setValue('1');
+		$check->setChecked((bool)$ilSetting->get('allow_change_loginname'));
+		$form->addItem($check);
+		$check = new ilCheckboxInputGUI($this->lng->txt('create_history_loginname'), 'create_history_loginname');
+		$check->setValue('1');
+		$check->setChecked((bool)$ilSetting->get('create_history_loginname'));
+		$form->addItem($check);	
+		$info = new ilCustomInputGUI($this->lng->txt('create_history_loginname_must_be_enabled'),'create_history_loginname_must_be_enabled');
+		$form->addItem($info);
+		$check = new ilCheckboxInputGUI($this->lng->txt('allow_history_loginname_again'), 'allow_history_loginname_again');
+		$check->setValue('1');
+		$check->setChecked((bool)$ilSetting->get('allow_history_loginname_again'));
+		$form->addItem($check);	
+		$form->addCommandButton('saveLoginnameSettings', $this->lng->txt('save'));
+		
+		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
+	}
+	
+	public function saveLoginnameSettingsObject()
+	{
+		global $ilUser, $ilSetting;
+		
+		$allow_change_loginname = (int)$_POST['allow_change_loginname'];
+		$create_history_loginname = (int)$_POST['create_history_loginname'];
+		$allow_history_loginname_again = (int)$_POST['allow_history_loginname_again'];		
+
+		$ilSetting->set('allow_change_loginname', (string)$allow_change_loginname);
+		$ilSetting->set('create_history_loginname', (string)$create_history_loginname);
+		$ilSetting->set('allow_history_loginname_again', (string)$allow_history_loginname_again);
+		
+		ilUtil::sendInfo($this->lng->txt('saved_successfully'));
+	
+		return $this->showLoginnameSettingsObject();		
+	} 
+	
 	/*
 	function showUpperIcon()
 	{

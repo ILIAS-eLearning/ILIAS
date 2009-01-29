@@ -6701,4 +6701,18 @@ if(!$ilDB->tableColumnExists('usr_search','root'))
 																		'default'	=> ROOT_FOLDER_ID))));
 }
 ?>
+<#1401>
+<?php
 
+	if (!$ilDB->tableExists("loginname_history"))
+	{
+		$ilDB->createTable("loginname_history",
+			array(
+				"usr_id" => array("type" => "integer", "length" => 10, "notnull" => true),
+				"login" => array("type" => "text", "length" => 80, "fixed" => false, "notnull" => true),
+				"date" => array("type" => "integer", "length" => 11, "notnull" => true)
+			)
+		);
+		$ilDB->addPrimaryKey("loginname_history", array("usr_id", "login", "date"));
+	}
+?>

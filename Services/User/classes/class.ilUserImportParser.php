@@ -1137,6 +1137,16 @@ class ilUserImportParser extends ilSaxParser
 
 							//insert user data in table user_data
 							$this->userObj->saveAsNew(false);
+							
+							//check if loginname exists in history 
+							if((int)$ilSetting->get('create_history_loginname'))
+						    {
+								ilObjUser::_writeHistory($this->userObj->getId(),$this->userObj->getLogin());
+							}
+							else
+							{ 	
+								ilObjUser::_writeHistory($this->userObj->getId(), $this->userObj->getLogin());
+							}						
 
 							// Set default prefs						
 							$this->userObj->setPref('hits_per_page',$ilSetting->get('hits_per_page',30));
@@ -1346,7 +1356,21 @@ class ilUserImportParser extends ilSaxParser
 
 							// update login
 							if (!is_null($this->userObj->getLogin()) && $this->user_id != -1)
+							{
+								
+								//check if loginname exists in history								
+								if((int)$ilSetting->get('create_history_loginname'))
+							    {
+									ilObjUser::_writeHistory($this->userObj->getId(), $this->userObj->getLogin());
+								}
+								else
+								{
+									ilObjUser::_writeHistory($this->userObj->getId(), $this->userObj->getLogin());
+								}
+								
 								$updateUser->updateLogin($this->userObj->getLogin());
+							}
+								
 
 						    // if language has changed
 

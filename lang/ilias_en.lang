@@ -9035,3 +9035,9 @@ assessment#:#thumb_geometry#:#Thumbnail Geometry
 assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#element_height#:#Minimum Height
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
+common#:#loginname_settings#:#Loginname-Settings
+common#:#allow_change_loginname#:#Allow to change the login name
+common#:#create_history_loginname#:#Create a history for changed login names
+common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history
+common#:#loginname_already_exists#:#This login name already exists.
+common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.
