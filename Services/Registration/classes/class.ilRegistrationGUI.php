@@ -374,7 +374,7 @@ class ilRegistrationGUI
 
 	function saveForm()
 	{
-		global $ilias, $lng, $rbacadmin, $ilDB, $ilErr;
+		global $ilias, $lng, $rbacadmin, $ilDB, $ilErr, $ilSetting;
 
 		//load ILIAS settings
 		$settings = $ilias->getAllSettings();
@@ -570,7 +570,27 @@ class ilRegistrationGUI
 		$this->userObj->setLastPasswordChangeTS( time() );
 
 		//insert user data in table user_data
-		$this->userObj->saveAsNew();
+//		$this->userObj->saveAsNew();
+		
+		
+		//check if loginname exists in history
+		$login_exists_in_history = $this->userObj->getLoginHistory($this->login);
+		
+		if($ilSetting->get('create_history_loginname')== 1 &&
+			$ilSetting->get('allow_history_loginname_again') == 0 &&
+			$login_exists_in_history == 1)
+		{
+			ilUtil::sendInfo($lng->txt("login_exists"),true);
+			$this->displayForm();
+			return false;	
+		}
+		else 
+		{
+			//ilObjUser::_writeHistory($this->userObj->getId(), $this->userObj->getLogin());
+			
+			//insert user data in table user_data
+			$this->userObj->saveAsNew();
+		}
 
 		// store acceptance of user agreement
 		$this->userObj->writeAccepted();
@@ -637,7 +657,6 @@ class ilRegistrationGUI
 		return $rbacadmin->assignUser((int) $registration_role_assignments->getRoleByEmail($this->userObj->getEmail()),
 									  $this->userObj->getId(),
 									  true);
-
 	}
 
 	function __showRoleSelection()

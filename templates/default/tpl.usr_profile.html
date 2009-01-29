@@ -5,8 +5,11 @@
     <th class="std" colspan="4">{TXT_USR_DATA} {TXT_OF} {USR_FULLNAME}</th>
 </tr>
 <tr>
-    <td class="option">{TXT_NICKNAME}</td>
-    <td class="option_value" colspan="3">{NICKNAME}</td>
+    <td class="option">{TXT_NICKNAME}<!-- BEGIN nickname_req --> <span class="asterisk">*</span><!-- END nickname_req --></td>
+    <td class="option_value" colspan="3">
+<!-- BEGIN nickname_changeable --><input type="text" name="usr_login" maxlength="32" size="40" value="{NICKNAME_CHANGEABLE}" /><!-- END nickname_changeable -->
+<!-- BEGIN nickname_fix -->{NICKNAME_FIX}<!-- END nickname_fix -->
+    </td>
 </tr>
 <tr>
     <td class="option">{TXT_DEFAULT_ROLES}</td>

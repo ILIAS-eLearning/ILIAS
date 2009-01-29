@@ -195,15 +195,14 @@ class ilObjUser extends ilObject
 	* @access private
 	*/
 	function read()
-	{
-		global $ilErr, $ilDB;
+	{	global $ilErr, $ilDB;
 
 		// TODO: fetching default role should be done in rbacadmin
 		$q = "SELECT * FROM usr_data ".
 			 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
 			 "WHERE usr_data.usr_id= ".$ilDB->quote($this->id);
 		$r = $this->ilias->db->query($q);
-
+	
 		if ($r->numRows() > 0)
 		{
 			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
@@ -370,8 +369,8 @@ class ilObjUser extends ilObject
 	* @param	boolean	user data from formular (addSlashes) or not (prepareDBString)
 	*/
 	function saveAsNew($a_from_formular = true)
-	{
-		global $ilErr, $ilDB;
+	{ 
+		global $ilErr, $ilDB, $ilSetting, $ilUser;
 
 		switch ($this->passwd_type)
 		{
@@ -519,7 +518,7 @@ class ilObjUser extends ilObject
 		}
 
 		$this->ilias->db->query($q);
-
+		
 		// add new entry in usr_defined_data
 		$this->addUserDefinedFieldEntry();
 		// ... and update
@@ -996,7 +995,22 @@ class ilObjUser extends ilObject
 
 		return false;
 	}
-
+	
+	function getLoginHistory($a_login)
+	{
+		global $ilBD;
+			
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM loginname_history
+			WHERE login = ?',
+			array('text')
+		);
+		$data = array($a_login);
+		$result = $this->ilias->db->execute($statement, $data);
+		
+		return $result->numRows() ? true : false;
+	}	
+	
 	/**
 	* update login name
 	* @param	string	new login
@@ -1005,7 +1019,7 @@ class ilObjUser extends ilObject
 	*/
 	function updateLogin($a_login)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
 
 		if (func_num_args() != 1)
 		{
@@ -1016,16 +1030,40 @@ class ilObjUser extends ilObject
 		{
 			return false;
 		}
+	
+		//check if loginname exists in history
+		$login_exists_in_history = $this->getLoginHistory($this->login);		
 
-		//update login
-		$this->login = $a_login;
+		if($ilSetting->get('create_history_loginname')== 1 &&
+			$ilSetting->get('allow_history_loginname_again') == 0 &&
+			$login_exists_in_history == 1)
+		{
+			ilUtil::sendInfo($this->lng->txt('loginname_already_exists'));
+		}
+		else 			
+		{
+			ilUtil::sendInfo($this->lng->txt('loginname_changed_successfully'));
+			
+			if($ilSetting->get('create_history_loginname') == 1)
+			{
+				ilObjUser::_writeHistory($this->id, $this->login);	
+			}
 
-		$q = "UPDATE usr_data SET ".
-			 "login= ".$ilDB->quote($this->login)." ".
-			 "WHERE usr_id= ".$ilDB->quote($this->id);
-		$this->ilias->db->query($q);
+			//update login
+			$this->login = $a_login;
 
-		return true;
+			$statement = $this->ilias->db->prepareManip('
+				UPDATE usr_data
+				SET login = ?
+				WHERE usr_id = ?',
+				array('text', 'integer')
+			);
+
+			$data = array($this->login, $this->id);
+			$res = $this->ilias->db->execute($statement, $data);
+			
+		}
+		//return true;
 	}
 
 	/**
@@ -4547,6 +4585,19 @@ class ilObjUser extends ilObject
 			return $this->getLogin();
 		
 	}
+	
+	public static function _writeHistory($a_usr_id, $a_login)
+	{
+		global $ilDB;
+		
+		$statement = $ilDB->prepareManip('REPLACE INTO loginname_history (usr_id, login, date) VALUES (?, ?, ?)', 
+			array('integer', 'text', 'integer'));
+		$data = array($a_usr_id, $a_login, time());
+		$affectedRows = $ilDB->execute($statement, $data);	
+
+		return true;
+	}
+	
 
 } // END class ilObjUser
 ?>
