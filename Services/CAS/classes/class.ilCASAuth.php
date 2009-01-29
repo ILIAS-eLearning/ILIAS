@@ -42,7 +42,14 @@ class ilCASAuth extends Auth
 	*/
 	function ilCASAuth($a_params)
 	{
-		parent::Auth("");
+		if ($a_params["sessionName"] != "")
+		{
+			parent::Auth("", array("sessionName" => $a_params["sessionName"]));
+		}
+		else
+		{
+			parent::Auth("");
+		}
 		
 		include_once("./Services/CAS/phpcas/source/CAS/CAS.php");
 		$this->server_version = CAS_VERSION_2_0;

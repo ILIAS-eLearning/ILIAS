@@ -41,8 +41,15 @@ class ilSOAPAuth extends Auth
 	*/
 	function ilSOAPAuth($a_params)
 	{
-		parent::Auth("");
-		
+		if ($a_params["sessionName"] != "")
+		{
+			parent::Auth("", array("sessionName" => $a_params["sessionName"]));
+		}
+		else
+		{
+			parent::Auth("");
+		}
+
 		$this->server_hostname = $a_params["server_hostname"];
 		$this->server_port = (int) $a_params["server_port"];
 		$this->server_uri = $a_params["server_uri"];
