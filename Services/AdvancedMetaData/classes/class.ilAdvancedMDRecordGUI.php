@@ -420,7 +420,7 @@ class ilAdvancedMDRecordGUI
 						}
 						else
 						{
-							$time->setDate(new iDateTime(mktime(8,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
+							$time->setDate(new ilDateTime(mktime(8,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
 						}
 	 					$check->addSubItem($time);
 
@@ -439,7 +439,7 @@ class ilAdvancedMDRecordGUI
 						}
 						else
 						{
-							$time->setDate(new iDateTime(mktime(16,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
+							$time->setDate(new ilDateTime(mktime(16,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
 						}
 	 					$check->addSubItem($time);
 
