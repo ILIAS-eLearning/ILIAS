@@ -92,6 +92,7 @@ class ilPageObject
 		$this->id_elements =
 			array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
 				"Section", "Tab");
+		$this->setActive(true);
 		
 		if($a_id != 0)
 		{
