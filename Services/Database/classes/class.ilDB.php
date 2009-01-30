@@ -570,7 +570,7 @@ class ilDB
 	*/
 	function fetchObject($a_set)
 	{
-		return $a_set->fetchObject(DB_FETCHMODE_OBJECT);
+		return $a_set->fetchRow(DB_FETCHMODE_OBJECT);
 	}
 
 	//
