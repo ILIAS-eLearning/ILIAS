@@ -102,17 +102,20 @@ class ilPageContentGUI
 			$style = new ilObjStyleSheet($this->getStyleId());
 			$chars = $style->getCharacteristics($a_type);
 			$new_chars = array();
-			foreach ($chars as $char)
+			if (is_array($chars))
 			{
-				if ($this->chars[$char] != "")	// keep lang vars for standard chars
+				foreach ($chars as $char)
 				{
-					$new_chars[$char] = $this->chars[$char];
+					if ($this->chars[$char] != "")	// keep lang vars for standard chars
+					{
+						$new_chars[$char] = $this->chars[$char];
+					}
+					else
+					{
+						$new_chars[$char] = $char;
+					}
+					asort($new_chars);
 				}
-				else
-				{
-					$new_chars[$char] = $char;
-				}
-				asort($new_chars);
 			}
 			$this->setCharacteristics($new_chars);
 		}
