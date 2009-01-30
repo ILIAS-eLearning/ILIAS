@@ -6848,8 +6848,8 @@ survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Umfrage
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie den Textblock entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#constraint_add#:#Vorbedingung hinzufügen
-survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbediungungen besitzen, da es keine vorherigen Einträge gibt
-survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmer, die in früheren Fragen gegeben wurden, berechnet und ausgewertet.
+survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Vorbedingungen besitzen, da es keine vorherigen Einträge gibt
+survey#:#constraints_introduction#:#Für jeden Eintrag (eine einzelne Frage oder ein Fragenblock mit mehreren Fragen) können eine oder mehrere Vorbedingungen definiert werden. Die Vorbedingungen werden zur Laufzeit aus den Antworten der Teilnehmer, die in früheren Fragen gegeben wurden, berechnet und ausgewertet. Hat eine Frage mehrere Vorbedingungen, so müssen immer alle Vorbedingungen erfüllt sein!
 survey#:#constraints_list_of_entities#:#Verfügbare Umfrage-Elemente für Vorbedingungen
 survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Vorbedingungen verwendet werden können.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
