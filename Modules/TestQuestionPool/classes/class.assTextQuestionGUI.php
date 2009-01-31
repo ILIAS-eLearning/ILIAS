@@ -44,11 +44,9 @@ class assTextQuestionGUI extends assQuestionGUI
 	* @param integer $id The database id of a text question object
 	* @access public
 	*/
-	function assTextQuestionGUI(
-			$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assTextQuestion.php";
 		$this->object = new assTextQuestion();
 		if ($id >= 0)

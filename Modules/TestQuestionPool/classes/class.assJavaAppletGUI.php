@@ -44,11 +44,9 @@ class assJavaAppletGUI extends assQuestionGUI
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function assJavaAppletGUI(
-		$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assJavaApplet.php";
 		$this->object = new assJavaApplet();
 		if ($id >= 0)

@@ -44,11 +44,9 @@ class assTextSubsetGUI extends assQuestionGUI
 	* @param integer $id The database id of a text subset question object
 	* @access public
 	*/
-	function assTextSubsetGUI(
-			$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assTextSubset.php";
 		$this->object = new assTextSubset();
 		if ($id >= 0)

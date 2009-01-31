@@ -38,165 +38,140 @@ class assQuestion
 	/**
 	* Question id
 	*
-	* A unique question id
-	*
 	* @var integer
 	*/
-	var $id;
+	protected $id;
 
 	/**
 	* Question title
 	*
-	* A title string to describe the question
-	*
 	* @var string
 	*/
-	var $title;
+	protected $title;
 
 	/**
 	* Question comment
 	*
-	* A comment string to describe the question more detailed as the title
-	*
 	* @var string
 	*/
-	var $comment;
+	protected $comment;
 
 	/**
 	* Question owner/creator
 	*
-	* A unique positive numerical ID which identifies the owner/creator of the question.
-	* This can be a primary key from a database table for example.
-	*
 	* @var integer
 	*/
-	var $owner;
+	protected $owner;
 
 	/**
 	* Contains the name of the author
 	*
-	* A text representation of the authors name. The name of the author must
-	* not necessary be the name of the owner.
-	*
 	* @var string
 	*/
-	var $author;
+	protected $author;
 
 	/**
 	* The question text
 	*
-	* The question text
-	*
 	* @var string
 	*/
-  var $question;
+	protected $question;
 
 	/**
 	* The maximum available points for the question
 	*
-	* Contains the calculated maximum available points for the
-	* question. This should be caculated normally be a method of
-	* one of the derived classes
-	*
-	* @var integer
-	*/
-	var $points;
-
-	/**
-	* Contains estimates working time on a question (HH MM SS)
-	*
-	* Contains estimates working time on a question (HH MM SS)
-	*
-	* @var array
-	*/
-	var $est_working_time;
-
-	/**
-	* Indicates whether the answers will be shuffled or not
-	*
-	* Indicates whether the answers will be shuffled or not
-	*
-	* @var array
-	*/
-	var $shuffle;
-
-	/**
-	* The database id of a test in which the question is contained
-	*
-	* The database id of a test in which the question is contained
-	*
-	* @var integer
-	*/
-	var $test_id;
-
-	/**
-	* Object id of the container object
-	*
-	* Object id of the container object
-	*
 	* @var double
 	*/
-	var $obj_id;
+	protected $points;
+
+	/**
+	* Contains estimates working time on a question (HH MM SS)
+	*
+	* @var array
+	*/
+	protected $est_working_time;
+
+	/**
+	* Indicates whether the answers will be shuffled or not
+	*
+	* @var boolean
+	*/
+	protected $shuffle;
+
+	/**
+	* The database id of a test in which the question is contained
+	*
+	* @var integer
+	*/
+	protected $test_id;
+
+	/**
+	* Object id of the container object
+	*
+	* @var integer
+	*/
+	protected $obj_id;
 
 	/**
 	* The reference to the ILIAS class
 	*
-	* The reference to the ILIAS class
-	*
 	* @var object
 	*/
-	var $ilias;
+	protected $ilias;
 
 	/**
 	* The reference to the Template class
 	*
-	* The reference to the Template class
-	*
 	* @var object
 	*/
-	var $tpl;
+	protected $tpl;
 
 	/**
 	* The reference to the Language class
 	*
-	* The reference to the Language class
-	*
 	* @var object
 	*/
-	var $lng;
+	protected $lng;
 
 	/**
-	* The domxml representation of the question in qti
-	*
-	* The domxml representation of the question in qti
-	*
-	* @var object
-	*/
-	var $domxml;
-
-	/**
-	* Contains the output type of a question
-	*
 	* Contains the output type of a question
 	*
 	* @var integer
 	*/
-	var $outputType;
+	protected $outputType;
 
-	var $suggested_solutions;
-	var $original_id;
+	/**
+	* Array of suggested solutions
+	*
+	* @var array
+	*/
+	protected $suggested_solutions;
+
+	/**
+	* ID of the "original" question
+	*
+	* @var integer
+	*/
+	protected $original_id;
+
+	/**
+	* Page object
+	*
+	* @var object
+	*/
+	protected $page;
+
 	/**
 	* assQuestion constructor
-	*
-	* The constructor takes possible arguments an creates an instance of the assQuestion object.
 	*
 	* @param string $title A title string to describe the question
 	* @param string $comment A comment string to describe the question
 	* @param string $author A string containing the name of the questions author
 	* @param integer $owner A numerical ID to identify the owner/creator
+	* @param string $question Question text
 	* @access public
 	*/
-	function assQuestion(
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -215,6 +190,7 @@ class assQuestion
 		$this->original_id = null;
 		$this->title = $title;
 		$this->comment = $comment;
+		$this->page = null;
 		$this->author = $author;
 		$this->setQuestion($question);
 		if (!$this->author)
@@ -232,15 +208,6 @@ class assQuestion
 		$this->shuffle = 1;
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
-		register_shutdown_function(array(&$this, '_assQuestion'));
-	}
-
-	function _assQuestion()
-	{
-		if (!empty($this->domxml))
-		{
-			$this->domxml->free();
-		}
 	}
 
 	/**
@@ -266,9 +233,6 @@ class assQuestion
 	
 	/**
 	* Returns a QTI xml representation of the question
-	*
-	* Returns a QTI xml representation of the question and sets the internal
-	* domxml variable with the DOM XML representation of the QTI xml representation
 	*
 	* @return string The QTI xml representation of the question
 	* @access public
@@ -841,6 +805,16 @@ class assQuestion
 		{
 			return array();
 		}
+	}
+	
+	/**
+	* Return the suggested solutions
+	*
+	* @return array Suggested solutions
+	*/
+	public function getSuggestedSolutions()
+	{
+		return $this->suggested_solutions;
 	}
 	
 	/**
@@ -1622,8 +1596,7 @@ class assQuestion
 			include_once "./Services/COPage/classes/class.ilPageObject.php";
 			$page = new ilPageObject("qpl", $a_q_id);
 
-			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id,
-				$page->getXMLContent());
+			$xml = str_replace("il__qst_".$a_q_id, "il__qst_".$this->id, $page->getXMLContent());
 			$this->page->setXMLContent($xml);
 			$this->page->saveMobUsage($xml);
 			$this->page->updateFromXML();
@@ -1770,7 +1743,8 @@ class assQuestion
 				NULL
 			);
 			$affectedRows = $ilDB->execute($statement, $data);
-			$this->setId($ilDB->getLastInsertId());
+			$id = $ilDB->getLastInsertId();
+			$this->setId($id);
 			// create page object of question
 			$this->createPageObject();
 		}
@@ -3154,6 +3128,126 @@ class assQuestion
 	public function setExportDetailsXLS(&$worksheet, $startrow, $active_id, $pass, &$format_title, &$format_bold)
 	{
 		return $startrow;
+	}
+
+	/**
+	* Object getter
+	*/
+	protected function __get($value)
+	{
+		switch ($value)
+		{
+			case "id":
+				return $this->getId();
+				break;
+			case "title":
+				return $this->getTitle();
+				break;
+			case "comment":
+				return $this->getComment();
+				break;
+			case "owner":
+				return $this->getOwner();
+				break;
+			case "author":
+				return $this->getAuthor();
+				break;
+			case "question":
+				return $this->getQuestion();
+				break;
+			case "points":
+				return $this->getPoints();
+				break;
+			case "est_working_time":
+				return $this->getEstimatedWorkingTime();
+				break;
+			case "shuffle":
+				return $this->getShuffle();
+				break;
+			case "test_id":
+				return $this->getTestId();
+				break;
+			case "obj_id":
+				return $this->getObjId();
+				break;
+			case "ilias":
+				return $this->ilias;
+				break;
+			case "tpl":
+				return $this->tpl;
+				break;
+			case "page":
+				return $this->page;
+				break;
+			case "outputType":
+				return $this->getOutputType();
+				break;
+			case "suggested_solutions":
+				return $this->getSuggestedSolutions();
+				break;
+			case "original_id":
+				return $this->getOriginalId();
+				break;
+			default:
+				break;
+		}
+	}
+
+	/**
+	* Object setter
+	*/
+	protected function __set($key, $value)
+	{
+		switch ($key)
+		{
+			case "id":
+				$this->setId($value);
+				break;
+			case "title":
+				$this->setTitle($value);
+				break;
+			case "comment":
+				$this->setComment($value);
+				break;
+			case "owner":
+				$this->setOwner($value);
+				break;
+			case "author":
+				$this->setAuthor($value);
+				break;
+			case "question":
+				$this->setQuestion($value);
+				break;
+			case "points":
+				$this->setPoints($value);
+				break;
+			case "est_working_time":
+				if (is_array($value))
+				{
+					$this->setEstimatedWorkingTime($value["h"], $value["m"], $value["s"]);
+				}
+				break;
+			case "shuffle":
+				$this->setShuffle($value);
+				break;
+			case "test_id":
+				$this->setTestId($value);
+				break;
+			case "obj_id":
+				$this->setObjId($value);
+				break;
+			case "outputType":
+				$this->setOutputType($value);
+				break;
+			case "original_id":
+				$this->setOriginalId($value);
+				break;
+			case "page":
+				$this->page =& $value;
+				break;
+			default:
+				break;
+		}
 	}
 }
 

@@ -87,7 +87,7 @@ class assMatchingQuestion extends assQuestion
 	* @param string $question The question string of the matching question
 	* @access public
 	*/
-	function assMatchingQuestion (
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -96,7 +96,7 @@ class assMatchingQuestion extends assQuestion
 		$matching_type = MT_TERMS_DEFINITIONS
 	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner, $question);
+		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->matchingpairs = array();
 		$this->matching_type = $matching_type;
 		$this->terms = array();
@@ -268,7 +268,7 @@ class assMatchingQuestion extends assQuestion
 				$matching_obj = $matchingpairs[$key];
 				$term = $this->terms[$matching_obj->getTermId()];
 				$termindex = array_search($term, $newterms);
-				$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, points, aorder, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s)",
+				$query = sprintf("INSERT INTO qpl_answer_matching (answer_id, question_fi, points, term_fi, matchingtext, matching_order) VALUES (NULL, %s, %s, %s, %s, %s)",
 					$ilDB->quote($this->id),
 					$ilDB->quote($matching_obj->getPoints() . ""),
 					$ilDB->quote($termindex . ""),
@@ -350,7 +350,7 @@ class assMatchingQuestion extends assQuestion
 				}
 			}
 
-			$query = sprintf("SELECT qpl_answer_matching.*, qpl_answer_matching_term.term FROM qpl_answer_matching, qpl_answer_matching_term WHERE qpl_answer_matching.question_fi = %s AND qpl_answer_matching_term.term_id = qpl_answer_matching.aorder ORDER BY answer_id ASC",
+			$query = sprintf("SELECT qpl_answer_matching.*, qpl_answer_matching_term.term FROM qpl_answer_matching, qpl_answer_matching_term WHERE qpl_answer_matching.question_fi = %s AND qpl_answer_matching_term.term_id = qpl_answer_matching.term_fi ORDER BY answer_id ASC",
 				$ilDB->quote($question_id)
 			);
 			$result = $ilDB->query($query);

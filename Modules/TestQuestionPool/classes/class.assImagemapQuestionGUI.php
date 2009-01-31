@@ -46,12 +46,10 @@ class assImagemapQuestionGUI extends assQuestionGUI
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function assImagemapQuestionGUI(
-			$id = -1
-	)
+	function __construct($id = -1)
 	{
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assImagemapQuestion.php";
-		$this->assQuestionGUI();
 		$this->object = new assImagemapQuestion();
 		if ($id >= 0)
 		{

@@ -46,11 +46,9 @@ class assMultipleChoiceGUI extends assQuestionGUI
 	* @param integer $id The database id of a multiple choice question object
 	* @access public
 	*/
-	function assMultipleChoiceGUI(
-			$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assMultipleChoice.php";
 		$this->object = new assMultipleChoice();
 		if ($id >= 0)

@@ -44,11 +44,9 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	* @param integer $id The database id of a image map question object
 	* @access public
 	*/
-	function assMatchingQuestionGUI(
-		$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assMatchingQuestion.php";
 		$this->object = new assMatchingQuestion();
 		$this->setErrorMessage($this->lng->txt("msg_form_save_error"));

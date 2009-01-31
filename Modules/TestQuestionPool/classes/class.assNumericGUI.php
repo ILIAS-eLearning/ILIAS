@@ -45,11 +45,9 @@ class assNumericGUI extends assQuestionGUI
 	* @param integer $id The database id of a Numeric question object
 	* @access public
 	*/
-	function assNumericGUI(
-			$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assNumeric.php";
 		$this->object = new assNumeric();
 		if ($id >= 0)

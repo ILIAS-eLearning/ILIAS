@@ -66,7 +66,7 @@ class assOrderingQuestion extends assQuestion
 	* @param string $question The question string of the ordering test
 	* @access public
 	*/
-	function assOrderingQuestion (
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -75,7 +75,7 @@ class assOrderingQuestion extends assQuestion
 		$ordering_type = OQ_TERMS
 	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner, $question);
+		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->answers = array();
 		$this->ordering_type = $ordering_type;
 	}

@@ -45,11 +45,9 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	* @param integer $id The database id of a ordering question object
 	* @access public
 	*/
-	function assOrderingQuestionGUI(
-			$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assOrderingQuestion.php";
 		$this->object = new assOrderingQuestion();
 		if ($id >= 0)

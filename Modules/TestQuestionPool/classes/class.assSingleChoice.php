@@ -67,16 +67,16 @@ class assSingleChoice extends assQuestion
 	* @access public
 	* @see assQuestion:assQuestion()
 	*/
-	function assSingleChoice(
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
 		$owner = -1,
 		$question = "",
 		$output_type = OUTPUT_ORDER
-	  )
+	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner, $question);
+		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->output_type = $output_type;
 		$this->answers = array();
 	}

@@ -25,22 +25,20 @@ include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
-* The assFlashQuestionGUI class encapsulates the GUI representation
-* for Mathematik Online based questions.
+* The assOrderingHorizontalGUI class encapsulates the GUI representation
+* for horizontal ordering questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool
-* @ilctrl_iscalledby assFlashQuestionGUI: ilObjQuestionPoolGUI
+* @ilctrl_iscalledby assOrderingHorizontalGUI: ilObjQuestionPoolGUI
 * */
-class assFlashQuestionGUI extends assQuestionGUI
+class assOrderingHorizontalGUI extends assQuestionGUI
 {
-	private $newUnitId;
-	
 	/**
-	* assFlashQuestionGUI constructor
+	* assOrderingHorizontalGUI constructor
 	*
-	* The constructor takes possible arguments an creates an instance of the assFlashQuestionGUI object.
+	* The constructor takes possible arguments an creates an instance of the assOrderingHorizontalGUI object.
 	*
 	* @param integer $id The database id of a single choice question object
 	* @access public
@@ -48,9 +46,9 @@ class assFlashQuestionGUI extends assQuestionGUI
 	function __construct($id = -1)
 	{
 		parent::__construct();
-		include_once "./Modules/TestQuestionPool/classes/class.assFlashQuestion.php";
-		$this->object = new assFlashQuestion();
-		$this->newUnitId = null;
+		include_once "./Modules/TestQuestionPool/classes/class.assOrderingHorizontal.php";
+		$this->object = new assOrderingHorizontal();
+		$this->setErrorMessage($this->lng->txt("msg_form_save_error"));
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
@@ -59,35 +57,34 @@ class assFlashQuestionGUI extends assQuestionGUI
 
 	function getCommand($cmd)
 	{
-		if (preg_match("/suggestrange_(.*?)/", $cmd, $matches))
-		{
-			$cmd = "suggestRange";
-		}
 		return $cmd;
 	}
 
 	/**
-	* Suggest a range for a result
-	*
-	* @access public
+	* Sets the object values using the $_POST array
 	*/
-	function suggestRange()
+	protected function fillObjectFromPost()
 	{
-		if ($this->writePostData())
-		{
-			ilUtil::sendInfo($this->getErrorMessage());
-		}
-		$this->editQuestion();
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$this->object->setQuestion($questiontext);
+		$this->object->setPoints(ilUtil::stripSlashes($_POST["points"]));
+		// adding estimated working time
+		$this->writeOtherPostData();
+		$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
+		$this->object->setOrderText(ilUtil::stripSlashes($_POST["ordertext"]));
+		return $this->editQuestion(TRUE);
 	}
-
+	
 	/**
 	* Creates an output of the edit form for the question
 	*
-	* Creates an output of the edit form for the question
-	*
 	* @access public
 	*/
-	function editQuestion()
+	public function editQuestion($checkonly = FALSE)
 	{
 		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
@@ -96,10 +93,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("assFlashQuestion"));
+		$form->setTitle($this->lng->txt("assOrderingHorizontal"));
 		$form->setMultipart(FALSE);
 		$form->setTableWidth("100%");
-		$form->setId("flash");
+		$form->setId("orderinghorizontal");
 
 		// title
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -139,30 +136,28 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$duration->setRequired(FALSE);
 		$form->addItem($duration);
 		
-		// flash file
-		$flash = new ilFlashFileInputGUI($this->lng->txt("flashfile"), "flash");
-		$flash->setRequired(TRUE);
-		if ($_SESSION["flash_upload_filename"])
-		{
-			$flash->setApplet($_SESSION["flash_upload_filename"]);
-		}
-		else
-		{
-			if (strlen($this->object->getApplet()))
-			{
-				$flash->setApplet($this->object->getFlashPathWeb() . $this->object->getApplet());
-			}
-		}
-		$flash->setWidth($this->object->getWidth());
-		$flash->setHeight($this->object->getHeight());
-		$flash->setParameters($this->object->getParameters());
-		$form->addItem($flash);
 		if ($this->object->getId())
 		{
 			$hidden = new ilHiddenInputGUI("", "ID");
 			$hidden->setValue($this->object->getId());
 			$form->addItem($hidden);
 		}
+		// ordertext
+		$ordertext = new ilTextAreaInputGUI($this->lng->txt("ordertext"), "ordertext");
+		$ordertext->setValue($this->object->prepareTextareaOutput($this->object->getOrderText()));
+		$ordertext->setRequired(TRUE);
+		$ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->separator));
+		$ordertext->setRows(10);
+		$ordertext->setCols(80);
+		$form->addItem($ordertext);
+		// textsize
+		$textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
+		$textsize->setValue($this->object->getTextSize());
+		$textsize->setInfo($this->lng->txt("textsize_info"));
+		$textsize->setSize(6);
+		$textsize->setMinValue(10);
+		$textsize->setRequired(FALSE);
+		$form->addItem($textsize);
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
 		$points->setValue($this->object->getPoints());
@@ -173,46 +168,18 @@ class assFlashQuestionGUI extends assQuestionGUI
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
 		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
-		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		
+		$errors = false;
 		
 		if ($save)
 		{
-			$form->checkInput();
+			$errors = !$form->checkInput();
 		}
 		
-		$this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
 	}
 	
-	public function parseQuestion()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-	/**
-	* check input fields
-	*/
-	function checkInput()
-	{
-		$cmd = $this->ctrl->getCmd();
-
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!strlen($_POST["points"])))
-		{
-			$this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
-			return FALSE;
-		}
-		
-		
-		return TRUE;
-	}
-
-	function flashAddParam()
-	{
-		$this->writePostData();
-		$this->object->addParameter("", "");
-		$this->editQuestion();
-	}
-
 	/**
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
@@ -221,82 +188,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 	*/
 	function writePostData()
 	{
-		global $ilLog;
-		$this->setErrorMessage("");
-		if ($_POST["flash_delete"] == 1)
-		{
-			$this->object->deleteApplet();
-		}
-		if ($_FILES["flash"]["tmp_name"])
-		{
-			if ($_SESSION["flash_upload_filename"]) @unlink($_SESSION["flash_upload_filename"]);
-			$filename = $this->object->moveUploadedMediaFile($_FILES["flash"]["tmp_name"], $_FILES["flash"]["name"]);
-			if ($filename) $_SESSION["flash_upload_filename"] = $filename;
-			$this->object->setApplet($_FILES["flash"]["name"]);
-		}
-		else if ($_SESSION["flash_upload_filename"])
-		{
-			if (@file_exists($_SESSION["flash_upload_filename"]))
-			{
-				$filename = basename($_SESSION["flash_upload_filename"]);
-				if (preg_match("/(.*?)____.*/", $filename, $matches))
-				{
-					$this->object->setApplet($matches[1]);
-				}
-				else
-				{
-					unset($_SESSION["flash_upload_filename"]);
-				}
-			}
-			else
-			{
-				unset($_SESSION["flash_upload_filename"]);
-			}
-		}
-		$this->object->clearParameters();
-		if (is_array($_POST["flash_flash_param_name"]))
-		{
-			foreach ($_POST["flash_flash_param_name"] as $key => $value)
-			{
-				if ($_POST["flash_flash_param_delete"][$key] != 1)
-				{
-					$this->object->addParameter($value, $_POST["flash_flash_param_value"][$key]);
-				}
-			}
-		}
-		$checked = $this->checkInput();
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$formtags = ",input,select,option,button";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment") . $formtags);
-		$this->object->setQuestion($questiontext);
-		$this->object->setEstimatedWorkingTime(
-			ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
-			ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
-			ilUtil::stripSlashes($_POST["Estimated"]["ss"])
-		);
-		$this->object->setWidth($_POST["flash_width"]);
-		$this->object->setHeight($_POST["flash_height"]);
-		$this->object->setPoints($_POST["points"]);
-
-		// Set the question id from a hidden form parameter
-		if ($_POST["id"] > 0)
-		{
-			$this->object->setId($_POST["id"]);
-		}
-
-		if ($saved)
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		}
-		return ($checked) ? 0 : 1;
+		return $this->fillObjectFromPost();
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
@@ -312,32 +204,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		$params = array();
-		if (is_array($this->object->getParameters()))
-		{
-			foreach ($this->object->getParameters() as $name => $value)
-			{
-				array_push($params, urlencode($name) . "=" . urlencode($value));
-			}
-		}
-
-		array_push($params, "session_id=" . urlencode($_COOKIE["PHPSESSID"]));
-		array_push($params, "client=" . urlencode(CLIENT_ID));
-		array_push($params, "points_max=" . urlencode($this->object->getPoints()));
-		array_push($params, "server=" . urlencode(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl"));
-		if (!is_null($pass))
-		{
-			array_push($params, "pass=" . $pass);
-		}
-		else
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			array_push($params, "pass=" . ilObjTest::_getPass($active_id));
-		}
-		if ($active_id)
-		{
-			array_push($params, "active_id=" . $active_id);
-		}
-		array_push($params, "question_id=" . $this->object->getId());
 
 		if ($show_correct_solution)
 		{
@@ -375,21 +241,8 @@ class assFlashQuestionGUI extends assQuestionGUI
 			}
 		}
 
-		if (count($params))
-		{
-			$template->setCurrentBlock("flash_vars");
-			$template->setVariable("FLASH_VARS", join($params, "&"));
-			$template->parseCurrentBlock();
-			$template->setCurrentBlock("applet_parameters");
-			$template->setVariable("PARAM_VALUE", join($params, "&"));
-			$template->parseCurrentBlock();
-		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
-		$template->setVariable("APPLET_WIDTH", $this->object->getWidth());
-		$template->setVariable("APPLET_HEIGHT", $this->object->getHeight());
 		$template->setVariable("ID", $this->object->getId());
-		$template->setVariable("APPLET_PATH", $this->object->getFlashPathWeb() . $this->object->getApplet());
-		$template->setVariable("APPLET_FILE", $this->object->getApplet());
 
 		$questionoutput = $template->get();
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
@@ -405,36 +258,26 @@ class assFlashQuestionGUI extends assQuestionGUI
 	
 	function getPreview($show_question_only = FALSE)
 	{
-		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$params = array();
-		if (is_array($this->object->getParameters()))
+		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$elements = $this->object->getOrderingElements();
+		foreach ($elements as $id => $element)
 		{
-			foreach ($this->object->getParameters() as $name => $value)
-			{
-				array_push($params, urlencode($name) . "=" . urlencode($value));
-			}
-		}
-		if (count($params))
-		{
-			$template->setCurrentBlock("flash_vars");
-			$template->setVariable("FLASH_VARS", join($params, "&"));
-			$template->parseCurrentBlock();
-			$template->setCurrentBlock("applet_parameters");
-			$template->setVariable("PARAM_VALUE", join($params, "&"));
+			$template->setCurrentBlock("element");
+			$template->setVariable("ELEMENT_ID", "e$id");
+			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
-		$template->setVariable("APPLET_WIDTH", $this->object->getWidth());
-		$template->setVariable("APPLET_HEIGHT", $this->object->getHeight());
-		$template->setVariable("ID", $this->object->getId());
-		$template->setVariable("APPLET_PATH", $this->object->getFlashPathWeb() . $this->object->getApplet());
-		$template->setVariable("APPLET_FILE", $this->object->getApplet());
+		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
+		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+		ilYuiUtil::initDragDropAnimation();
+		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		return $questionoutput;
 	}
 

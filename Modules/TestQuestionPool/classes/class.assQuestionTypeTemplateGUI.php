@@ -46,11 +46,9 @@ class assQuestionTypeTemplateGUI extends assQuestionGUI
 	* @param integer $id The database id of the question object
 	* @access public
 	*/
-	function assQuestionTypeTemplateGUI(
-			$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 
 		// instanciate the question type class, save it in the object attribute
 		// and load the question type data from the database

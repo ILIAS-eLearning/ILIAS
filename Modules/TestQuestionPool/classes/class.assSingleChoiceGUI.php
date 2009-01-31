@@ -46,11 +46,9 @@ class assSingleChoiceGUI extends assQuestionGUI
 	* @param integer $id The database id of a single choice question object
 	* @access public
 	*/
-	function assSingleChoiceGUI(
-			$id = -1
-	)
+	function __construct($id = -1)
 	{
-		$this->assQuestionGUI();
+		parent::__construct();
 		include_once "./Modules/TestQuestionPool/classes/class.assSingleChoice.php";
 		$this->object = new assSingleChoice();
 		if ($id >= 0)

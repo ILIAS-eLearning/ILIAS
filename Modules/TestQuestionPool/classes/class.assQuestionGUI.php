@@ -60,12 +60,8 @@ class assQuestionGUI
 	
 	/**
 	* assQuestionGUI constructor
-	*
-	* assQuestionGUI constructor
-	*
-	* @access public
 	*/
-	function assQuestionGUI()
+	function __construct()
 	{
 		global $lng, $tpl, $ilCtrl;
 
