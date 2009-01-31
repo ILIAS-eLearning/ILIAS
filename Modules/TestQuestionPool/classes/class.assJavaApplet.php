@@ -112,7 +112,7 @@ class assJavaApplet extends assQuestion
 	* @access public
 	* @see assQuestion:assQuestion()
 	*/
-	function assJavaApplet(
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -121,7 +121,7 @@ class assJavaApplet extends assQuestion
 		$javaapplet_filename = ""
 	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner, $question);
+		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->javaapplet_filename = $javaapplet_filename;
 		$this->parameters = array();
 	}

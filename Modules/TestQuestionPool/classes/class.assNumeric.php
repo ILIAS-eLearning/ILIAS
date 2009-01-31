@@ -67,15 +67,15 @@ class assNumeric extends assQuestion
 	* @access public
 	* @see assQuestion:assQuestion()
 	*/
-	function assNumeric(
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
 		$owner = -1,
 		$question = ""
-	  )
+	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner, $question);
+		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->ranges = array();
 		$this->maxchars = 6;
 	}

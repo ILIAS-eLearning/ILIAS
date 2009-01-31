@@ -9035,6 +9035,11 @@ assessment#:#thumb_geometry#:#Thumbnail Geometry
 assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#element_height#:#Minimum Height
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
+assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)
+assessment#:#ordertext#:#Ordering Text
+assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.
+assessment#:#textsize#:#Text Size
+assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.
 common#:#loginname_settings#:#Loginname-Settings
 common#:#allow_change_loginname#:#Allow to change the login name
 common#:#create_history_loginname#:#Create a history for changed login names

@@ -159,6 +159,18 @@ class ilYuiUtil
 	}
 	
 	/**
+	* init drag & drop and animation
+	*/
+	static function initDragDropAnimation()
+	{
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/yahoo-dom-event/yahoo-dom-event.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/animation/animation-min.js");
+		$tpl->addJavaScript("./Services/YUI/js/2_5_0/dragdrop/dragdrop-min.js");
+	}
+	
+	/**
 	* get a drag & drop list
 	*/
 	static function getDragDropList($id_source, $title_source, $source, $id_dest, $title_dest, $dest)

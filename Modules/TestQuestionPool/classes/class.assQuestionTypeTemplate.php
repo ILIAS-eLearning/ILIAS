@@ -45,15 +45,15 @@ class assQuestionTypeTemplate extends assQuestion
 	* @access public
 	* @see assQuestion:assQuestion()
 	*/
-	function assQuestionTypeTemplate(
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
 		$owner = -1,
 		$question = ""
-	  )
+	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner, $question);
+		parent::__construct($title, $comment, $author, $owner, $question);
 
 		// do your own initialization stuff here
 	}

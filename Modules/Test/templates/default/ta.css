@@ -245,3 +245,17 @@ div.even {
 div.last {
 	border-bottom: none;
 }
+
+ul#horizontal {
+	list-style: none; 
+	padding: 0; 
+	margin: 8px 0 0 0;
+}
+
+ul#horizontal li {
+	float: left; 
+	padding: 5px;
+	margin: 10px;
+	font-weight: bold;
+	border: 1px black solid;
+}

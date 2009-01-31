@@ -3338,10 +3338,10 @@ $q = "CREATE TABLE IF NOT EXISTS dav_lock ( ".
 " KEY expires (expires) ".
 ")"; //") ENGINE=InnoDB;";
 $r = $ilDB->db->query($q);
-if ($ilDB->isError($r) || $ilDB->isError($r->result))
+if (MDB2::isError($r) || MDB2::isError($r->result))
 {
 	return 'could\'nt create table "dav_lock": '.
-	(($ilDB->isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
+	((MDB2::isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
 }
 // Create data table for WebDAV Properties
 $q = "CREATE TABLE IF NOT EXISTS dav_property ( ".
@@ -3354,10 +3354,10 @@ $q = "CREATE TABLE IF NOT EXISTS dav_property ( ".
 " KEY path (obj_id,node_id) ".
 ")"; //") ENGINE=InnoDB;";
 $r = $ilDB->db->query($q);
-if ($ilDB->isError($r) || $ilDB->isError($r->result))
+if (MDB2::isError($r) || MDB2::isError($r->result))
 {
 	return 'could\'nt create table "dav_property": '.
-	(($ilDB->isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
+	((MDB2::isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
 }
 // END WebDAV
 
@@ -6703,7 +6703,6 @@ if(!$ilDB->tableColumnExists('usr_search','root'))
 ?>
 <#1401>
 <?php
-
 	if (!$ilDB->tableExists("loginname_history"))
 	{
 		$ilDB->createTable("loginname_history",
@@ -6714,5 +6713,546 @@ if(!$ilDB->tableColumnExists('usr_search','root'))
 			)
 		);
 		$ilDB->addPrimaryKey("loginname_history", array("usr_id", "login", "date"));
+	}
+?>
+<#1402>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_cloze MODIFY `shuffle` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1403>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_cloze MODIFY `cloze_type` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1404>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_cloze MODIFY `gap_id` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1405>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_cloze MODIFY `aorder` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1406>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_cloze MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1407>
+<?php
+if ($ilDB->tableColumnExists('qpl_answer_cloze','name')) $ilDB->query("ALTER TABLE qpl_answer_cloze DROP `name`");
+?>
+<#1408>
+<?php
+if ($ilDB->tableColumnExists('qpl_answer_cloze','correctness')) $ilDB->query("ALTER TABLE qpl_answer_cloze DROP `correctness`");
+?>
+<#1409>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_imagemap MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1410>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_imagemap MODIFY `aorder` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1411>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_matching MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1412>
+<?php
+if ($ilDB->tableColumnExists('qpl_answer_matching','answertext'))
+{
+	$ilDB->query("ALTER TABLE qpl_answer_matching CHANGE `answertext` `term_fi` INT NOT NULL DEFAULT  0");
+} 
+?>
+<#1413>
+<?php
+if ($ilDB->tableColumnExists('qpl_answer_matching','aorder')) $ilDB->query("ALTER TABLE qpl_answer_matching DROP `aorder`");
+?>
+<#1414>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_matching MODIFY `matching_order` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1415>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_matching ADD INDEX `term_fi` ( `term_fi` )");
+?>
+<#1416>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_multiplechoice MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1417>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_multiplechoice MODIFY `aorder` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1418>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_ordering MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1419>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_ordering MODIFY `aorder` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1420>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_ordering MODIFY `solution_order` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1421>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_singlechoice MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1422>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_singlechoice MODIFY `aorder` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1423>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_textsubset MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1424>
+<?php
+$ilDB->query("ALTER TABLE qpl_answer_textsubset MODIFY `aorder` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1425>
+<?php
+$ilDB->query("ALTER TABLE qpl_feedback_generic MODIFY `correctness` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1426>
+<?php
+$ilDB->query("ALTER TABLE qpl_questionpool MODIFY `online` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1427>
+<?php
+$ilDB->query("ALTER TABLE qpl_questions MODIFY `complete` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1428>
+<?php
+$ilDB->query("ALTER TABLE qpl_questions MODIFY `question_type_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1429>
+<?php
+$ilDB->query("ALTER TABLE qpl_questions MODIFY `obj_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1430>
+<?php
+$ilDB->query("ALTER TABLE qpl_questions ADD INDEX `obj_fi` ( `obj_fi` )");
+?>
+<#1431>
+<?php
+$ilDB->query("ALTER TABLE qpl_questions DROP INDEX `title_desc`");
+?>
+<#1432>
+<?php
+$ilDB->query("ALTER TABLE qpl_questions ADD INDEX `title` ( `title` )");
+?>
+<#1433>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_cloze MODIFY `identical_scoring` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1434>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_cloze MODIFY `textgap_rating` VARCHAR(2) NULL");
+?>
+<#1435>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_essay MODIFY `textgap_rating` VARCHAR(2) NULL");
+?>
+<#1436>
+<?php
+if ($ilDB->tableExists('qpl_question_flashapp'))
+{
+	$ilDB->dropTable('qpl_question_flashapp');
+}
+?>
+<#1437>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_matching MODIFY `shuffle` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1438>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_matching MODIFY `matching_type` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1439>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_multiplechoice MODIFY `shuffle` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1440>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_ordering MODIFY `ordering_type` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1441>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_singlechoice MODIFY `shuffle` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1442>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_textsubset MODIFY `textgap_rating` VARCHAR(2) NULL");
+?>
+<#1443>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_type MODIFY `type_tag` VARCHAR(35) NOT NULL");
+?>
+<#1444>
+<?php
+$ilDB->query("ALTER TABLE qpl_question_type MODIFY `question_type_id` INT NOT NULL");
+?>
+<#1445>
+<?php
+$ilDB->query("ALTER TABLE tst_active MODIFY `user_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1446>
+<?php
+$ilDB->query("ALTER TABLE tst_active MODIFY `test_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1447>
+<?php
+$ilDB->query("ALTER TABLE tst_active MODIFY `submitted` TINYINT NOT NULL DEFAULT 0");
+?>
+<#1448>
+<?php
+$ilDB->query("ALTER TABLE tst_active_qst_sol_settings MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1449>
+<?php
+$ilDB->query("ALTER TABLE tst_active_qst_sol_settings MODIFY `solved` TINYINT NOT NULL DEFAULT 0");
+?>
+<#1450>
+<?php
+if ($ilDB->tableExists('tst_eval_settings'))
+{
+	$ilDB->dropTable('tst_eval_settings');
+}
+?>
+<#1451>
+<?php
+$ilDB->query("ALTER TABLE tst_mark MODIFY `passed` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1452>
+<?php
+$ilDB->query("ALTER TABLE tst_mark MODIFY `test_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1453>
+<?php
+$ilDB->query("ALTER TABLE tst_solutions MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1454>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `instant_verification` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1455>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `answer_feedback` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1456>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `answer_feedback_points` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1457>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `fixed_participants` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1458>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `show_cancel` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1459>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `anonymity` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1460>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `use_previous_answers` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1461>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `title_output` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1462>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `enable_processing_time` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1463>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `shuffle_questions` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1464>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `ects_output` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1465>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `complete` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1466>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `random_test` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1467>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `count_system` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1468>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `mc_scoring` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1469>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `score_cutting` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1470>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `pass_scoring` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1471>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `show_question_titles` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1472>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `certificate_visibility` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1473>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `sequence_settings` TINYINT NOT NULL DEFAULT 0");
+?>
+<#1474>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `score_reporting` TINYINT NOT NULL DEFAULT 0");
+?>
+<#1475>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `nr_of_tries` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1476>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `reset_processing_time` TINYINT NOT NULL DEFAULT 0");
+?>
+<#1477>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `keep_questions` TINYINT NOT NULL DEFAULT 0");
+?>
+<#1478>
+<?php
+$ilDB->query("ALTER TABLE tst_tests MODIFY `show_marker` TINYINT NOT NULL DEFAULT 0");
+?>
+<#1479>
+<?php
+$ilDB->query("ALTER TABLE tst_test_pass_result MODIFY `maxpoints` DOUBLE NOT NULL DEFAULT 0");
+?>
+<#1480>
+<?php
+$ilDB->query("ALTER TABLE tst_test_question MODIFY `sequence` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1481>
+<?php
+$ilDB->query("ALTER TABLE tst_test_random MODIFY `num_of_q` INT NOT NULL DEFAULT 0");
+?>
+<#1482>
+<?php
+$ilDB->query("ALTER TABLE tst_test_random_question MODIFY `sequence` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1483>
+<?php
+$ilDB->query("ALTER TABLE tst_test_result MODIFY `question_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1484>
+<?php
+$ilDB->query("ALTER TABLE tst_test_result DROP INDEX `active_fi`");
+?>
+<#1485>
+<?php
+$statement = $ilDB->prepare("SHOW INDEXES FROM tst_test_result");
+$result = $ilDB->execute($statement);
+while ($data = $ilDB->fetchAssoc($result))
+{
+	if (strpos($data['Key_name'], 'active_fi_') !== FALSE)
+	{
+		$statement = $ilDB->prepareManip("ALTER TABLE tst_test_result DROP INDEX " . $data['Key_name']);
+		$ilDB->execute($statement);
+	}
+}
+?>
+<#1486>
+<?php
+$ilDB->query("ALTER TABLE tst_test_result ADD INDEX `active_fi` ( `active_fi` )");
+?>
+<#1487>
+<?php
+$ilDB->query("ALTER TABLE tst_test_result ADD INDEX `question_fi` ( `question_fi` )");
+?>
+<#1488>
+<?php
+$ilDB->query("ALTER TABLE tst_test_result ADD INDEX `pass` ( `pass` )");
+?>
+<#1489>
+<?php
+$ilDB->query("ALTER TABLE tst_times MODIFY `pass` SMALLINT NOT NULL DEFAULT 0");
+?>
+<#1490>
+<?php
+$ilDB->query("ALTER TABLE ass_log MODIFY `test_only` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1491>
+<?php
+$ilDB->query("ALTER TABLE survey_category MODIFY `defaultvalue` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1492>
+<?php
+$ilDB->query("ALTER TABLE survey_category MODIFY `neutral` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1493>
+<?php
+$ilDB->query("ALTER TABLE survey_finished MODIFY `state` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1494>
+<?php
+$ilDB->query("ALTER TABLE survey_phrase MODIFY `defaultvalue` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1495>
+<?php
+$ilDB->query("ALTER TABLE survey_question MODIFY `obligatory` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1496>
+<?php
+$ilDB->query("ALTER TABLE survey_question MODIFY `complete` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1497>
+<?php
+$ilDB->query("ALTER TABLE survey_question MODIFY `obj_fi` INT NOT NULL DEFAULT 0");
+?>
+<#1498>
+<?php
+$ilDB->query("ALTER TABLE survey_questionblock MODIFY `show_questiontext` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1499>
+<?php
+$ilDB->query("ALTER TABLE survey_questionpool MODIFY `online` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1500>
+<?php
+$ilDB->query("ALTER TABLE survey_questiontype MODIFY `plugin` TINYINT NOT NULL DEFAULT 0");
+?>
+<#1501>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `column_separators` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1502>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `row_separators` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1503>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `neutral_column_separator` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1504>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `legend` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1505>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `singleline_row_caption` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1506>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `repeat_column_header` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1507>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `column_header_position` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1508>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `random_rows` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1509>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `column_order` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1510>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `column_images` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1511>
+<?php
+$ilDB->query("ALTER TABLE survey_question_matrix MODIFY `row_images` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1512>
+<?php
+$ilDB->query("ALTER TABLE survey_question_metric MODIFY `subtype` VARCHAR(1) NOT NULL DEFAULT '3'");
+?>
+<#1513>
+<?php
+$ilDB->query("ALTER TABLE survey_question_nominal MODIFY `subtype` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1514>
+<?php
+$ilDB->query("ALTER TABLE survey_question_nominal MODIFY `orientation` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1515>
+<?php
+$ilDB->query("ALTER TABLE survey_question_obligatory MODIFY `obligatory` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1516>
+<?php
+$ilDB->query("ALTER TABLE survey_question_ordinal MODIFY `orientation` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1517>
+<?php
+$ilDB->query("ALTER TABLE survey_relation MODIFY `shortname` VARCHAR(2) NOT NULL");
+?>
+<#1518>
+<?php
+$ilDB->query("ALTER TABLE survey_survey MODIFY `status` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1519>
+<?php
+$ilDB->query("ALTER TABLE survey_survey MODIFY `evaluation_access` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1520>
+<?php
+$ilDB->query("ALTER TABLE survey_survey MODIFY `invitation` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1521>
+<?php
+$ilDB->query("ALTER TABLE survey_survey MODIFY `invitation_mode` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1522>
+<?php
+$ilDB->query("ALTER TABLE survey_survey MODIFY `complete` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1523>
+<?php
+$ilDB->query("ALTER TABLE survey_survey MODIFY `anonymize` VARCHAR(1) NOT NULL DEFAULT '0'");
+?>
+<#1524>
+<?php
+$ilDB->query("ALTER TABLE survey_survey MODIFY `show_question_titles` VARCHAR(1) NOT NULL DEFAULT '1'");
+?>
+<#1525>
+<?php
+	$query = "SELECT * FROM qpl_question_type WHERE type_tag = 'assOrderingHorizontal'";
+	$res = $ilDB->query($query);
+	if ($res->numRows() == 0)
+	{
+		$query = "INSERT INTO qpl_question_type (type_tag, plugin) VALUES ('assOrderingHorizontal', '0')";
+		$ilDB->query($query);
+	}
+?>
+<#1526>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1527>
+<?php
+	if (!$ilDB->tableExists("qpl_question_orderinghorizontal"))
+	{
+		$ilDB->createTable("qpl_question_orderinghorizontal",
+			array(
+				"question_fi" => array(
+					"type" => "integer", "notnull" => true),
+				"ordertext" => array(
+					"type" => "text", "notnull" => true),
+				"textsize" => array(
+					"type" => "float", "notnull" => false)
+				)
+			);
+		$ilDB->addPrimaryKey("qpl_question_orderinghorizontal", array("question_fi"));
 	}
 ?>

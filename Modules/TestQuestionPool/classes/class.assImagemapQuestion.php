@@ -87,7 +87,7 @@ class assImagemapQuestion extends assQuestion
 * @param string $question The question string of the imagemap question
 * @access public
 */
-	function assImagemapQuestion(
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
@@ -97,7 +97,7 @@ class assImagemapQuestion extends assQuestion
 		$image_filename = ""
 	)
 	{
-		$this->assQuestion($title, $comment, $author, $owner, $question);
+		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->imagemap_filename = $imagemap_filename;
 		$this->image_filename = $image_filename;
 		$this->answers = array();

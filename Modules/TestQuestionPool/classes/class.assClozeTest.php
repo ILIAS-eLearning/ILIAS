@@ -102,17 +102,17 @@ class assClozeTest extends assQuestion
 	* @param string $cloze_text The question string of the cloze test
 	* @access public
 	*/
-	function assClozeTest(
+	function __construct(
 		$title = "",
 		$comment = "",
 		$author = "",
 		$owner = -1,
-		$cloze_text = ""
+		$question = ""
 	)
 	{
+		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->start_tag = "[gap]";
 		$this->end_tag = "[/gap]";
-		$this->assQuestion($title, $comment, $author, $owner);
 		$this->gaps = array();
 		$this->setClozeText($cloze_text);
 		$this->fixedTextLength = "";
