@@ -477,7 +477,8 @@ class ilInitialisation
 	function setCookieParams()
 	{
 		$cookie_domain = $_SERVER['SERVER_NAME'];
-		$cookie_path = dirname( $_SERVER['PHP_SELF'] ).'/';
+		$cookie_path = dirname( $_SERVER['PHP_SELF'] );
+		$cookie_path .= (!preg_match("/\/$/", $cookie_path)) ? "/" : "";
 
 		define('IL_COOKIE_EXPIRE',0);
 		define('IL_COOKIE_PATH',$cookie_path);
