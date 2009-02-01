@@ -109,5 +109,94 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 		}
 		return file_get_contents($imsFilename);
 	}
+	
+	public function hasSCORMCertificate($sid, $ref_id, $usr_id)
+	{
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->sauth->getMessage(),$this->sauth->getMessageCode());
+		}
+		if(!strlen($ref_id))
+		{
+			return $this->__raiseError('No ref id given. Aborting!',
+									   'Client');
+		}
+		include_once './include/inc.header.php';
+		global $rbacsystem, $tree, $ilLog;
+
+		// get obj_id
+		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
+		{
+			return $this->__raiseError('No exercise found for id: '.$ref_id,
+									   'Client');
+		}
+
+		if(ilObject::_isInTrash($ref_id))
+		{
+			return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
+		}
+
+		$result = false;
+		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
+		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($obj_id))
+		{
+			$lpdata = false;
+			$completed = false;
+			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
+			$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
+
+			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+			if (ilObjUserTracking::_enabledLearningProgress())
+			{
+				$path = $tree->getPathFull($_GET['ref_id']);
+				$course = 0;
+				foreach ($path as $item) if (strcmp($item["type"], "crs") == 0) $course = $item["obj_id"];
+				if ($course > 0)
+				{
+					include_once "./Services/tracking/classes/class.ilLPCollections.php";
+					$items = ilLPCollections::_getItems($course);
+					if (in_array($ref_id, $items))
+					{
+						include_once "./Services/tracking/classes/class.ilLPStatusWrapper.php";
+						$completed_user_ids_array = ilLPStatusWrapper::_getCompleted($course);
+						if (in_array($usr_id, $completed_user_ids_array))
+						{
+							$completed = true;
+						}
+						$lpdata = true;
+					}
+				}
+			}
+			switch ($type)
+			{
+				case "scorm":
+					if (!$lpdata)
+					{
+						include_once "./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php";
+						$completed = ilObjSCORMLearningModule::_getCourseCompletionForUser($obj_id, $usr_id);
+					}
+					if ($completed)
+					{
+						$result = true;
+					}
+					break;
+				case "scorm2004":
+					if (!$lpdata)
+					{
+						include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php";
+						$completed = ilObjSCORM2004LearningModule::_getCourseCompletionForUser($obj_id, $usr_id);
+					}
+					if ($completed)
+					{
+						$result = true;
+					}
+					break;
+				default:
+					break;
+			}
+		}
+
+		return $result;
+	}
 }
 ?>
