@@ -45,7 +45,8 @@ if (!file_exists(getcwd()."/ilias.ini.php"))
 if (isset($_GET["client_id"]))
 {
 	$cookie_domain = $_SERVER['SERVER_NAME'];
-	$cookie_path = dirname( $_SERVER['PHP_SELF'] ).'/';
+	$cookie_path = dirname( $_SERVER['PHP_SELF'] );
+	$cookie_path .= (!preg_match("/\/$/", $cookie_path)) ? "/" : "";
 	
 	$cookie_domain = ''; // Temporary Fix
 	
