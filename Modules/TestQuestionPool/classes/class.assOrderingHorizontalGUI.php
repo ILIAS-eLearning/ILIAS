@@ -201,21 +201,44 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
-		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		$params = array();
-
-		if ($show_correct_solution)
+		$solutionvalue = "";
+		if (($active_id > 0) && (!$show_correct_solution))
 		{
-
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			if (strlen($solutions[0]["value1"]))
+			{
+				$elements = split("{::}", $solutions[0]["value1"]);
+				foreach ($elements as $id => $element)
+				{
+					$template->setCurrentBlock("element");
+					$template->setVariable("ELEMENT_ID", "e$id");
+					$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+					$template->parseCurrentBlock();
+				}
+			}
+			$solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
+		}
+		else
+		{
+			$elements = $this->object->getOrderingElements();
+			foreach ($elements as $id => $element)
+			{
+				$template->setCurrentBlock("element");
+				$template->setVariable("ELEMENT_ID", "e$id");
+				$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+				$template->parseCurrentBlock();
+			}
+			$solutionvalue = join($this->object->getOrderingElements(), " ");
 		}
 
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
+			$reached_points = $this->object->getReachedPoints($active_id, $pass);
 			if ($graphicalOutput)
 			{
 				// output of ok/not ok icons for user entered solutions
-				$reached_points = $this->object->getReachedPoints($active_id, $pass);
 				if ($reached_points == $this->object->getMaximumPoints())
 				{
 					$template->setCurrentBlock("icon_ok");
@@ -240,9 +263,19 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 				}
 			}
 		}
+		else
+		{
+			$reached_points = $this->object->getPoints();
+		}
 
+		if ($result_output)
+		{
+			$resulttext = ($reached_points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")"; 
+			$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
+		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
-		$template->setVariable("ID", $this->object->getId());
+//		$template->setVariable("SOLUTION_TEXT", ilUtil::prepareFormOutput($solutionvalue));
+		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
 
 		$questionoutput = $template->get();
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
@@ -259,7 +292,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	function getPreview($show_question_only = FALSE)
 	{
 		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$elements = $this->object->getOrderingElements();
+		$elements = $this->object->getRandomOrderingElements();
 		foreach ($elements as $id => $element)
 		{
 			$template->setCurrentBlock("element");
@@ -284,52 +317,43 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
 		// generate the question output
-		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$params = array();
-		if (is_array($this->object->getParameters()))
-		{
-			foreach ($this->object->getParameters() as $name => $value)
-			{
-				array_push($params, urlencode($name) . "=" . urlencode($value));
-			}
-		}
-
-		array_push($params, "session_id=" . urlencode($_COOKIE["PHPSESSID"]));
-		array_push($params, "client=" . urlencode(CLIENT_ID));
-		array_push($params, "points_max=" . urlencode($this->object->getPoints()));
-		array_push($params, "server=" . urlencode(ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/webservice/soap/server.php?wsdl"));
-		if (strlen($pass))
-		{
-			array_push($params, "pass=" . $pass);
-		}
-		else
-		{
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			array_push($params, "pass=" . ilObjTest::_getPass($active_id));
-		}
+		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$elements = $this->object->getRandomOrderingElements();
+		
 		if ($active_id)
 		{
-			array_push($params, "active_id=" . $active_id);
+			$solutions = NULL;
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
+			{
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
+			}
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			if (count($solutions) == 1)
+			{
+				$elements = split("{::}", $solutions[0]["value1"]);
+			}
 		}
-		array_push($params, "question_id=" . $this->object->getId());
-
-		if (count($params))
-		{
-			$template->setCurrentBlock("flash_vars");
-			$template->setVariable("FLASH_VARS", join($params, "&"));
-			$template->parseCurrentBlock();
-			$template->setCurrentBlock("applet_parameters");
-			$template->setVariable("PARAM_VALUE", join($params, "&"));
-			$template->parseCurrentBlock();
-		}
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
-		$template->setVariable("APPLET_WIDTH", $this->object->getWidth());
-		$template->setVariable("APPLET_HEIGHT", $this->object->getHeight());
-		$template->setVariable("ID", $this->object->getId());
-		$template->setVariable("APPLET_PATH", $this->object->getFlashPathWeb() . $this->object->getApplet());
-		$template->setVariable("APPLET_FILE", $this->object->getFlashPathWeb() . $this->object->getApplet());
-		$questionoutput = $template->get();
 		
+		foreach ($elements as $id => $element)
+		{
+			$template->setCurrentBlock("element");
+			$template->setVariable("ELEMENT_ID", "e$id");
+			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+			$template->parseCurrentBlock();
+		}
+		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$questionoutput = $template->get();
+		if (!$show_question_only)
+		{
+			// get page object output
+			$questionoutput = $this->getILIASPage($questionoutput);
+		}
+		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+		ilYuiUtil::initDragDropAnimation();
+		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
+		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;
 	}

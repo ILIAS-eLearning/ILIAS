@@ -5,33 +5,27 @@ var DDM = YAHOO.util.DragDropMgr;
 YAHOO.example.DDApp = {
 	init: function() 
 	{
-		ddelements = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'ddelement') ? true : false; }, 'li', YAHOO.util.Dom.get('horizontal'));
+		ddelements = Dom.getElementsBy(function (el) { return (el.className == 'ddelement') ? true : false; }, 'li', Dom.get('horizontal'));
 		for (i = 0; i < ddelements.length; i++)
 		{
 			new YAHOO.example.DDList(ddelements[i].id);
 			new YAHOO.util.DDTarget(ddelements[i].id);
 		}
-
-		Event.on("showButton", "click", this.showOrder);
-		Event.on("switchButton", "click", this.switchStyles);
+		this.saveOrder();
 	},
 
-	showOrder: function() {
-		var parseList = function(ul, title) {
-			var items = ul.getElementsByTagName("li");
-			var out = title + ": ";
-			for (i=0;i<items.length;i=i+1) {
-				out += items[i].id + " ";
-			}
-			return out;
-		};
-		var ul1=Dom.get("ul1"), ul2=Dom.get("ul2");
-		alert(parseList(ul1, "List 1") + "\n" + parseList(ul2, "List 2"));
-	},
-
-	switchStyles: function() {
-		Dom.get("ul1").className = "draglist_alt";
-		Dom.get("ul2").className = "draglist_alt";
+	saveOrder: function(e) {
+		items = Dom.getElementsBy(function (el) { return (el.className == 'ddelement') ? true : false; }, 'li', Dom.get('horizontal'));
+		resultStr = '';
+		for (i = 0; i < items.length; i++)
+		{
+			textStr = "";
+			for (j = 0; j < items[i].childNodes.length; j++) textStr += items[i].childNodes[j].nodeValue;
+			resultStr += textStr;
+			if (i < items.length-1) resultStr += "{::}";
+		}
+		hidden = Dom.get('orderresult');
+		hidden.value = resultStr;
 	}
 };
 
@@ -88,6 +82,7 @@ Dom.setStyle(dragEl, "font-weight", Dom.getStyle(clickEl, "font-weight"));
                 Dom.setStyle(thisid, "visibility", "");
             });
         a.animate();
+				YAHOO.example.DDApp.saveOrder();
     },
 
     onDragDrop: function(e, id) {

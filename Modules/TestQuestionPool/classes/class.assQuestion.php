@@ -895,13 +895,27 @@ class assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		$reached_points = $this->calculateReachedPoints($active_id, $pass);
-		$query = sprintf("REPLACE INTO tst_test_result (active_fi, question_fi, pass, points) VALUES (%s, %s, %s, %s)",
-			$ilDB->quote($active_id . ""),
-			$ilDB->quote($this->getId() . ""),
-			$ilDB->quote($pass . ""),
-			$ilDB->quote($reached_points . "")
+
+		$statement = $ilDB->prepareManip("DELETE FROM tst_test_result WHERE active_fi = ? AND question_fi = ? AND pass = ?",
+			array("integer", "integer", "integer")
 		);
-		$result = $ilDB->query($query);
+		$data = array(
+			$active_id,
+			$this->getId(),
+			$pass
+		);
+		$affectedRows = $ilDB->execute($statement, $data);
+
+		$statement = $ilDB->prepareManip("INSERT INTO tst_test_result (active_fi, question_fi, pass, points) VALUES (?, ?, ?, ?)", 
+			array("integer", "integer", "integer", "float")
+		);
+		$data = array(
+			$active_id,
+			$this->getId(),
+			$pass,
+			$reached_points
+		);
+		$affectedRows = $ilDB->execute($statement, $data);
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{

@@ -83,7 +83,7 @@ class assOrderingHorizontal extends assQuestion
 	*/
 	public function saveToDb($original_id = "")
 	{
-		global $ilDB, $ilLog;
+		global $ilDB;
 
 		$complete = "0";
 		if ($this->isComplete())
@@ -292,7 +292,7 @@ class assOrderingHorizontal extends assQuestion
 	*/
 	public function getMaximumPoints()
 	{
-		return $this->points;
+		return $this->getPoints();
 	}
 
 	/**
@@ -318,11 +318,11 @@ class assOrderingHorizontal extends assQuestion
 		$result = $ilDB->execute($statement, array($active_id, $this->getId(), $pass));
 
 		$points = 0;
-		while ($data = $ilDB->fetchAssoc($result))
+		$data = $ilDB->fetchAssoc($result);
+		if (strcmp($data["value1"], join($this->getOrderingElements(), "{::}")) == 0)
 		{
-			$points += $data["points"];
+			$points = $this->getPoints();
 		}
-
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
@@ -336,6 +336,57 @@ class assOrderingHorizontal extends assQuestion
 	*/
 	public function saveWorkingData($active_id, $pass = NULL)
 	{
+		global $ilDB;
+		global $ilUser;
+
+		if (is_null($pass))
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$pass = ilObjTest::_getPass($active_id);
+		}
+
+		$statement = $ilDB->prepareManip("DELETE FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?", 
+			array("integer", "integer", "integer")
+		);
+		$data = array(
+			$active_id, 
+			$this->getId(), 
+			$pass
+		);
+		$affectedRows = $ilDB->execute($statement, $data);
+		
+		$entered_values = false;
+		if (strlen($_POST["orderresult"]))
+		{
+			$statement = $ilDB->prepareManip("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, NULL)", 
+				array("integer", "integer", "text", "text", "integer")
+			);
+			$data = array(
+				$active_id, 
+				$this->getId(),
+				$_POST["orderresult"],
+				NULL,
+				$pass
+			);
+			$affectedRows = $ilDB->execute($statement, $data);
+			$entered_values = true;
+		}
+		if ($entered_values)
+		{
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+			}
+		}
+		else
+		{
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+			}
+		}
 		parent::saveWorkingData($active_id, $pass);
 		return true;
 	}
@@ -469,6 +520,18 @@ class assOrderingHorizontal extends assQuestion
 			$result = split($this->separator, $text);
 		}
 		return $result;
+	}
+	
+	/**
+	* Get ordering elements from order text in random sequence
+	*
+	* @return array Ordering elements
+	*/
+	public function getRandomOrderingElements()
+	{
+		$elements = $this->getOrderingElements();
+		shuffle($elements);
+		return $elements;
 	}
 	
 	/**
