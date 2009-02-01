@@ -1083,6 +1083,15 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_USE,
 								'ILIAS getIMSManifestXML(): returns xml of ims manifest file (scorm learning module) referred by refid');
 
+$this->server->register('hasSCORMCertificate',
+	array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'usr_id' => 'xsd:int'),
+	array('success' => 'xsd:boolean'),
+	SERVICE_NAMESPACE,
+	SERVICE_NAMESPACE.'#hasSCORMCertificate',
+	SERVICE_STYLE,
+	SERVICE_USE,
+	'ILIAS hasSCORMCertificate(): returns true if a certficate is available for a user referred by usr_id in a SCORM learning module referred by ref_id');
+
 
 		$this->server->register('copyObject',
 								array('sid' => 'xsd:string', 'xml' => 'xsd:string'),

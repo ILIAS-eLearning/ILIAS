@@ -743,6 +743,14 @@ class ilSoapFunctions {
 		return $sua->getIMSManifestXML($sid,$ref_id);
 	}
 
+	public static function hasSCORMCertificate($sid, $ref_id, $usr_id) {
+		include_once './webservice/soap/classes/class.ilSoapSCORMAdministration.php';
+
+		$sua =& new ilSoapSCORMAdministration();
+
+		return $sua->hasSCORMCertificate($sid,$ref_id,$usr_id);
+	}
+
 	/**
 	 * copy object in repository
 	 * $sid	session id
