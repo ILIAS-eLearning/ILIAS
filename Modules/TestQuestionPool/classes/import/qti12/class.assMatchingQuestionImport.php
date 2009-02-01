@@ -248,11 +248,11 @@ class assMatchingQuestionImport extends assQuestionImport
 			}
 			if ($type == 0)
 			{
-				$this->object->addMatchingPair($term["ident"], $picture_or_definition["answerimage"]["label"], $response["points"], $term["ident"], $picture_or_definition["answerorder"]);
+				$this->object->addMatchingPair($picture_or_definition["answerimage"]["label"], $response["points"], $term["ident"], $picture_or_definition["answerorder"]);
 			}
 			else
 			{
-				$this->object->addMatchingPair($term["ident"], $picture_or_definition["answertext"], $response["points"], $term["ident"], $picture_or_definition["answerorder"]);
+				$this->object->addMatchingPair($picture_or_definition["answertext"], $response["points"], $term["ident"], $picture_or_definition["answerorder"]);
 			}
 		}
 		$this->object->saveToDb();
