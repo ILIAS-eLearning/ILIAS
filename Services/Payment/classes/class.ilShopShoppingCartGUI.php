@@ -401,6 +401,10 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 								}
 							}
 						}
+						else
+						{
+							$price = $price_arr['unit_value'].".".$price_arr['sub_unit_value'];	
+						}
 
 						$f_result[$counter][] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
 						$f_result[$counter][] = "<a href=\"goto.php?target=".$obj_type."_".$tmp_pobject->getRefId() . "\">".$obj_title."</a>";
@@ -450,8 +454,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							}	
 							break;
 		
-						case PAY_METHOD_PAYPAL:
-							#$tpl->setVariable("SCRIPT_LINK", "https://".$this->paypalConfig["server_host"].$this->paypalConfig["server_path"]);							
+						case PAY_METHOD_PAYPAL:							
 							if ($this->totalAmount[PAY_METHOD_PAYPAL] == 0)
 							{
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
@@ -460,7 +463,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							else
 							{
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-								$tpl->setVariable('SCRIPT_LINK', ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'finishPaypal'));								
+								$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->paypalConfig['server_host'].$this->paypalConfig['server_path']);								
 							}	
 							
 							$tpl->setVariable("POPUP_BLOCKER", $this->lng->txt('popup_blocker'));
