@@ -88,7 +88,7 @@ class ilCalendarAppointmentPanelGUI
 		
 		// Panel variables
 		$this->tpl->setVariable('PANEL_NUM',self::$counter);
-		$this->tpl->setVariable('PANEL_TITLE',$a_app['event']->getTitle());
+		$this->tpl->setVariable('PANEL_TITLE',$a_app['event']->getPresentationTitle());
 		$this->tpl->setVariable('PANEL_DETAILS',$this->lng->txt('cal_details'));
 		$this->tpl->setVariable('PANEL_TXT_DATE',$this->lng->txt('date'));
 		
