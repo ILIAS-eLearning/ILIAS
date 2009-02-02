@@ -1408,12 +1408,13 @@ class ilObjQuestionPool extends ilObject
 */
 	function &getDeleteableQuestionDetails($question_ids)
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 		
 		$result = array();
 		$whereclause = join($question_ids, " OR qpl_questions.question_id = ");
 		$whereclause = " AND (qpl_questions.question_id = " . $whereclause . ")";
 		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id$whereclause ORDER BY qpl_questions.title";
+		$ilLog->write($query);
 		$query_result = $ilDB->query($query);
 		if ($query_result->numRows())
 		{

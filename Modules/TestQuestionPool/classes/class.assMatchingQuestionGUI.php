@@ -67,22 +67,13 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	}
 
 	/**
-	* Sets the object values using the $_POST array
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
 	*/
-	protected function fillObjectFromPost()
+	public function writePostData()
 	{
-		if (($result) and ($_POST["cmd"]["addPair"]))
-		{
-			// You cannot add matching pairs before you enter the required data
-			$this->error .= $this->lng->txt("fill_out_all_required_fields_add_matching") . "<br />";
-		}
-
-		if (($result) and ($_POST["cmd"]["addTerm"]))
-		{
-			// You cannot add matching pairs before you enter the required data
-			$this->error .= $this->lng->txt("empty_terms_exist") . "<br />";
-		}
-
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
@@ -93,7 +84,11 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->object->setThumbGeometry($_POST["thumb_geometry"]);
 		$this->object->setElementHeight($_POST["element_height"]);
 		// adding estimated working time
-		$saved = $saved | $this->writeOtherPostData($result);
+		$this->object->setEstimatedWorkingTime(
+			ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+			ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+			ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+		);
 		$typechange = ((strcmp($this->ctrl->getCmd(), "changeToPictures") == 0) || (strcmp($this->ctrl->getCmd(), "changeToDefinitions") == 0)) ? TRUE : FALSE;
 		if (!$typechange) $this->object->setMatchingType($_POST["matching_type"]);
 		//$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
@@ -248,7 +243,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	
 	public function addMatchingDefinition()
 	{
-		$this->fillObjectFromPost();
+		$this->writePostData();
 		$position = key($_POST["cmd"]["addMatchingDefinition"]);
 		$this->object->insertMatchingPair($position+1);
 		$this->editQuestion();
@@ -256,7 +251,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 	public function removeMatchingDefinition()
 	{
-		$this->fillObjectFromPost();
+		$this->writePostData();
 		$position = key($_POST["cmd"]["removeMatchingDefinition"]);
 		$this->object->deleteMatchingPair($position);
 		$this->editQuestion();
@@ -264,7 +259,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 	public function addterms()
 	{
-		$this->fillObjectFromPost();
+		$this->writePostData();
 		$position = key($_POST["cmd"]["addterms"]);
 		$this->object->insertTerm($position+1, "");
 		$this->editQuestion();
@@ -272,7 +267,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 	public function removeterms()
 	{
-		$this->fillObjectFromPost();
+		$this->writePostData();
 		$position = key($_POST["cmd"]["removeterms"]);
 		$this->object->deleteTerm($position);
 		$this->editQuestion();
@@ -280,14 +275,14 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 	public function changeToPictures()
 	{
-		$this->fillObjectFromPost();
+		$this->writePostData();
 		$this->object->setMatchingType(MT_TERMS_PICTURES);
 		$this->editQuestion();
 	}
 	
 	public function changeToDefinitions()
 	{
-		$this->fillObjectFromPost();
+		$this->writePostData();
 		$this->object->setMatchingType(MT_TERMS_DEFINITIONS);
 		$this->editQuestion();
 	}
@@ -419,17 +414,6 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData()
-	{
-		return $this->fillObjectFromPost();
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)

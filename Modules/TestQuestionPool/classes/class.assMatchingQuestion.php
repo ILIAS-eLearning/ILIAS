@@ -944,8 +944,6 @@ class assMatchingQuestion extends assQuestion
 	}
 
 	/**
-	* Sets the image file
-	*
 	* Sets the image file and uploads the image to the object's image directory.
 	*
 	* @param string $image_filename Name of the original image file
@@ -973,7 +971,7 @@ class assMatchingQuestion extends assQuestion
 			{
 				// create thumbnail file
 				$thumbpath = $imagepath . $savename . "." . "thumb.jpg";
-				ilUtil::convertImage($imagepath.$savename, $thumbpath, "JPEG", 100);
+				ilUtil::convertImage($imagepath.$savename, $thumbpath, "JPEG", $this->getThumbGeometry());
 			}
 			if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename)))
 			{

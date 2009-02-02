@@ -55,6 +55,20 @@ class assOrderingQuestion extends assQuestion
 	var $ordering_type;
 
 	/**
+	* Maximum thumbnail geometry
+	*
+	* @var integer
+	*/
+	var $thumb_geometry = 100;
+
+	/**
+	* Minimum element height
+	*
+	* @var integer
+	*/
+	var $element_height;
+
+	/**
 	* assOrderingQuestion constructor
 	*
 	* The constructor takes possible arguments an creates an instance of the assOrderingQuestion object.
@@ -102,8 +116,6 @@ class assOrderingQuestion extends assQuestion
 
 	/**
 	* Saves a assOrderingQuestion object to a database
-	*
-	* Saves a assOrderingQuestion object to a database (experimental)
 	*
 	* @param object $db A pear DB object
 	* @access public
@@ -160,9 +172,11 @@ class assOrderingQuestion extends assQuestion
 			else
 			{
 				$this->id = $ilDB->getLastInsertId();
-				$query = sprintf("INSERT INTO qpl_question_ordering (question_fi, ordering_type) VALUES (%s, %s)",
+				$query = sprintf("INSERT INTO qpl_question_ordering (question_fi, ordering_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s)",
 					$ilDB->quote($this->id . ""),
-					$ilDB->quote($this->ordering_type . "")
+					$ilDB->quote($this->ordering_type . ""),
+					$ilDB->quote($this->getThumbGeometry(). ""),
+					($this->getElementHeight() > 20) ? $ilDB->quote($this->getElementHeight(). "") : "NULL"
 				);
 				$ilDB->query($query);
 
@@ -190,8 +204,10 @@ class assOrderingQuestion extends assQuestion
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
-			$query = sprintf("UPDATE qpl_question_ordering SET ordering_type = %s WHERE question_fi = %s",
+			$query = sprintf("UPDATE qpl_question_ordering SET ordering_type = %s, thumb_geometry = %s, element_height = %s WHERE question_fi = %s",
 				$ilDB->quote($this->ordering_type . ""),
+				$ilDB->quote($this->getThumbGeometry(). ""),
+				($this->getElementHeight() > 20) ? $ilDB->quote($this->getElementHeight(). "") : "NULL",
 				$ilDB->quote($this->id . "")
 			);
 			$result = $ilDB->query($query);
@@ -214,16 +230,32 @@ class assOrderingQuestion extends assQuestion
 			foreach ($this->answers as $key => $value)
 			{
 				$answer_obj = $this->answers[$key];
-				$query = sprintf("INSERT INTO qpl_answer_ordering (answer_id, question_fi, answertext, points, aorder, solution_order) VALUES (NULL, %s, %s, %s, %s, %s)",
+				$query = sprintf("INSERT INTO qpl_answer_ordering (answer_id, question_fi, answertext, solution_order, random_id) VALUES (NULL, %s, %s, %s, %s)",
 					$ilDB->quote($this->id),
 					$ilDB->quote(ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0)),
-					$ilDB->quote($answer_obj->getPoints() . ""),
-					$ilDB->quote($answer_obj->getOrder() . ""),
-					$ilDB->quote($answer_obj->getSolutionOrder() . "")
+					$ilDB->quote($key . ""),
+					$ilDB->quote($answer_obj->getRandomID() . "")
 				);
 				$answer_result = $ilDB->query($query);
 			}
+
+			if ($this->getOrderingType() == OQ_PICTURES)
+			{
+				if (count($this->getAnswers()))
+				{
+					if (@file_exists($this->getImagePath() . $this->getAnswer(0)->getAnswertext()  . ".thumb.jpg"))
+					{
+						$size = getimagesize($this->getImagePath() . $this->getAnswer(0)->getAnswertext()  . ".thumb.jpg");
+						$max = ($size[0] > $size[1]) ? $size[0] : $size[1];
+						if ($this->getThumbGeometry() != $max)
+						{
+							$this->rebuildThumbnails();
+						}
+					}
+				}
+			}
 		}
+		$this->cleanImagefiles();
 		parent::saveToDb($original_id);
 	}
 
@@ -259,9 +291,11 @@ class assOrderingQuestion extends assQuestion
 			$this->solution_hint = $data->solution_hint;
 			$this->ordering_type = $data->ordering_type;
 			$this->points = $data->points;
+			$this->thumb_geometry = $data->thumb_geometry;
+			$this->element_height = $data->element_height;
 			$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 
-			$query = sprintf("SELECT * FROM qpl_answer_ordering WHERE question_fi = %s ORDER BY aorder ASC",
+			$query = sprintf("SELECT * FROM qpl_answer_ordering WHERE question_fi = %s ORDER BY solution_order ASC",
 				$ilDB->quote($question_id)
 			);
 			$result = $ilDB->query($query);
@@ -272,7 +306,7 @@ class assOrderingQuestion extends assQuestion
 				{
 					include_once("./Services/RTE/classes/class.ilRTE.php");
 					$data->answertext = ilRTE::_replaceMediaObjectImageSrc($data->answertext, 1);
-					array_push($this->answers, new ASS_AnswerOrdering($data->answertext, $data->points, $data->aorder, $data->solution_order));
+					array_push($this->answers, new ASS_AnswerOrdering($data->answertext, $data->random_id));
 				}
 			}
 		}
@@ -448,8 +482,6 @@ class assOrderingQuestion extends assQuestion
 	}
 
 	/**
-	* Adds an answer for an ordering question
-	*
 	* Adds an answer for an ordering choice question. The students have to fill in an order for the answer.
 	* The answer is an ASS_AnswerOrdering object that will be created and assigned to the array $this->answers.
 	*
@@ -464,38 +496,40 @@ class assOrderingQuestion extends assQuestion
 	*/
 	function addAnswer(
 		$answertext = "",
-		$points = 0.0,
-		$order = 0,
-		$solution_order = 0
+		$solution_order = -1
 	)
 	{
-		$found = -1;
-		foreach ($this->answers as $key => $value)
-		{
-			if ($value->getOrder() == $order)
-			{
-				$found = $order;
-			}
-		}
 		include_once "./Modules/TestQuestionPool/classes/class.assAnswerOrdering.php";
-		if ($found >= 0)
+		$answer = new ASS_AnswerOrdering($answertext, $this->getRandomID());
+		if (($solution_order >= 0) && ($solution_order < count($this->answers)))
 		{
-			// Antwort einfügen
-			$answer = new ASS_AnswerOrdering($answertext, $points, $found, $solution_order);
-			array_push($this->answers, $answer);
-			for ($i = $found + 1; $i < count($this->answers); $i++)
-			{
-				$this->answers[$i] = $this->answers[$i-1];
-			}
-			$this->answers[$found] = $answer;
+			$part1 = array_slice($this->answers, 0, $solution_order);
+			$part2 = array_slice($this->answers, $solution_order);
+			$this->answers = array_merge($part1, array($answer), $part2);
 		}
 		else
 		{
-			// Anwort anhängen
-			$answer = new ASS_AnswerOrdering($answertext, $points,
-				count($this->answers), $solution_order);
 			array_push($this->answers, $answer);
 		}
+	}
+
+	protected function getRandomID()
+	{
+		$random_number = mt_rand(1, 100000);
+		$found = true;
+		while ($found)
+		{
+			$found = false;
+			foreach ($this->getAnswers() as $answer)
+			{
+				if ($answer->getRandomID() == $random_number)
+				{
+					$found = true;
+					$random_number++;
+				}
+			}
+		}
+		return $random_number;
 	}
 
 	/**
@@ -644,23 +678,18 @@ class assOrderingQuestion extends assQuestion
 		}
 		ksort($user_order);
 		$user_order = array_values($user_order);
-		$answer_order = array();
-		foreach ($this->answers as $key => $answer)
-		{
-			$answer_order[$answer->getSolutionOrder()] = $key;
-		}
-		ksort($answer_order);
-		$answer_order = array_values($answer_order);
 		$points = 0;
-		foreach ($answer_order as $index => $answer_id)
+		$correctcount = 0;
+		foreach ($this->answers as $index => $answer)
 		{
-			if (strcmp($user_order[$index], "") != 0)
+			if ($index == $user_order[$index])
 			{
-				if ($answer_id == $user_order[$index])
-				{
-					$points += $this->answers[$answer_id]->getPoints();
-				}
+				$correctcount++;
 			}
+		}
+		if ($correctcount == count($this->answers))
+		{
+			$points = $this->getPoints();
 		}
 
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
@@ -670,24 +699,81 @@ class assOrderingQuestion extends assQuestion
 	/**
 	* Returns the maximum points, a learner can reach answering the question
 	*
-	* Returns the maximum points, a learner can reach answering the question
-	*
-	* @access public
+	* @return double Points
 	* @see $points
 	*/
-	function getMaximumPoints()
+	public function getMaximumPoints()
 	{
-		$points = 0;
-		foreach ($this->answers as $key => $value)
+		return $this->getPoints();
+	}
+
+	/*
+	* Returns the encrypted save filename of a matching picture
+	* Images are saved with an encrypted filename to prevent users from
+	* cheating by guessing the solution from the image filename
+	* 
+	* @param string $filename Original filename
+	* @return string Encrypted filename
+	*/
+	public function getEncryptedFilename($filename)
+	{
+		$extension = "";
+		if (preg_match("/.*\\.(\\w+)$/", $filename, $matches))
 		{
-			$points += $value->getPoints();
+			$extension = $matches[1];
 		}
-		return $points;
+		return md5($filename) . "." . $extension;
+	}
+	
+	protected function cleanImagefiles()
+	{
+		if ($this->getOrderingType() == OQ_PICTURES)
+		{
+			if (@file_exists($this->getImagePath()))
+			{
+				$contents = ilUtil::getDir($this->getImagePath());
+				foreach ($contents as $f)
+				{
+					if (strcmp($f['type'], 'file') == 0)
+					{
+						$found = false;
+						foreach ($this->getAnswers() as $answer)
+						{
+							if (strcmp($f['entry'], $answer->getAnswertext()) == 0) $found = true;
+							if (strcmp($f['entry'], $answer->getAnswertext() . ".thumb.jpg") == 0) $found = true;
+						}
+						if (!$found)
+						{
+							if (@file_exists($this->getImagePath() . $f['entry'])) @unlink($this->getImagePath() . $f['entry']);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			if (@file_exists($this->getImagePath()))
+			{
+				ilUtil::delDir($this->getImagePath());
+			}
+		}
+	}
+
+	/*
+	* Deletes an imagefile from the system if the file is deleted manually
+	* 
+	* @param string $filename Image file filename
+	* @return boolean Success
+	*/
+	public function deleteImagefile($filename)
+	{
+		$deletename = $$filename;
+		$result = @unlink($this->getImagePath().$deletename);
+		$result = $result & @unlink($this->getImagePath().$deletename.".thumb.jpg");
+		return $result;
 	}
 
 	/**
-	* Sets the image file
-	*
 	* Sets the image file and uploads the image to the object's image directory.
 	*
 	* @param string $image_filename Name of the original image file
@@ -695,35 +781,31 @@ class assOrderingQuestion extends assQuestion
 	* @return integer An errorcode if the image upload fails, 0 otherwise
 	* @access public
 	*/
-	function setImageFile($image_filename, $image_tempfilename = "")
+	function setImageFile($image_tempfilename, $image_filename, $previous_filename)
 	{
-		$result = 0;
-		if (!empty($image_tempfilename))
+		$result = TRUE;
+		if (strlen($image_tempfilename))
 		{
+			$image_filename = str_replace(" ", "_", $image_filename);
 			$imagepath = $this->getImagePath();
 			if (!file_exists($imagepath))
 			{
 				ilUtil::makeDirParents($imagepath);
 			}
-			if (!ilUtil::moveUploadedFile($image_tempfilename,$image_filename, $imagepath.$image_filename))
+			$savename = $image_filename;
+			if (!ilUtil::moveUploadedFile($image_tempfilename, $savename, $imagepath.$savename))
 			{
-				$result = 2;
+				$result = FALSE;
 			}
 			else
 			{
-				include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-				$mimetype = ilObjMediaObject::getMimeType($imagepath . $image_filename);
-				if (!preg_match("/^image/", $mimetype))
-				{
-					unlink($imagepath . $image_filename);
-					$result = 1;
-				}
-				else
-				{
-					// create thumbnail file
-					$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
-					ilUtil::convertImage($imagepath.$image_filename, $thumbpath, strtoupper($extension), 100);
-				}
+				// create thumbnail file
+				$thumbpath = $imagepath . $savename . "." . "thumb.jpg";
+				ilUtil::convertImage($imagepath.$savename, $thumbpath, "JPEG", $this->getThumbGeometry());
+			}
+			if ($result && (strcmp($image_filename, $previous_filename) != 0) && (strlen($previous_filename)))
+			{
+				$this->deleteImagefile($previous_filename);
 			}
 		}
 		return $result;
@@ -809,16 +891,26 @@ class assOrderingQuestion extends assQuestion
 					$ordervalue = 1;
 					foreach ($orderarray as $index)
 					{
-						$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-							$ilDB->quote($active_id . ""),
-							$ilDB->quote($this->getId() . ""),
-							$ilDB->quote(trim($index) . ""),
-							$ilDB->quote(trim($ordervalue) . ""),
-							$ilDB->quote($pass . "")
-						);
-						$result = $ilDB->query($query);
-						$ordervalue++;
-						$entered_values++;
+						if (preg_match("/id_(\\d+)/", $index, $idmatch))
+						{
+							$randomid = $idmatch[1];
+							foreach ($this->getAnswers() as $answeridx => $answer)
+							{
+								if ($answer->getRandomID() == $randomid)
+								{
+									$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+										$ilDB->quote($active_id . ""),
+										$ilDB->quote($this->getId() . ""),
+										$ilDB->quote($answeridx . ""),
+										$ilDB->quote(trim($ordervalue) . ""),
+										$ilDB->quote($pass . "")
+									);
+									$result = $ilDB->query($query);
+									$ordervalue++;
+									$entered_values++;
+								}
+							}
+						}
 					}
 				}
 			}
@@ -832,15 +924,21 @@ class assOrderingQuestion extends assQuestion
 						{
 							if (strlen($value))
 							{
-								$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-									$ilDB->quote($active_id . ""),
-									$ilDB->quote($this->getId() . ""),
-									$ilDB->quote($matches[1] . ""),
-									$ilDB->quote($value . ""),
-									$ilDB->quote($pass . "")
-								);
-								$result = $ilDB->query($query);
-								$entered_values++;
+								foreach ($this->getAnswers() as $answeridx => $answer)
+								{
+									if ($answer->getRandomID() == $matches[1])
+									{
+										$query = sprintf("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+											$ilDB->quote($active_id . ""),
+											$ilDB->quote($this->getId() . ""),
+											$ilDB->quote($answeridx . ""),
+											$ilDB->quote($value . ""),
+											$ilDB->quote($pass . "")
+										);
+										$result = $ilDB->query($query);
+										$entered_values++;
+									}
+								}
 							}
 						}
 					}
@@ -867,23 +965,6 @@ class assOrderingQuestion extends assQuestion
 		return $saveWorkingDataResult;
 	}
 
-	function pc_array_shuffle($array) {
-		mt_srand((double)microtime()*1000000);
-		$i = count($array);
-		while(--$i) 
-		{
-			$j = mt_rand(0, $i);
-			if ($i != $j) 
-			{
-				// swap elements
-				$tmp = $array[$j];
-				$array[$j] = $array[$i];
-				$array[$i] = $tmp;
-			}
-		}
-		return $array;
-	}
-	
 	/**
 	* Returns the question type of the question
 	*
@@ -996,6 +1077,67 @@ class assOrderingQuestion extends assQuestion
 			$i++;
 		}
 		return $startrow + $i + 1;
+	}
+
+	/*
+	* Get the thumbnail geometry
+	*
+	* @return integer Geometry
+	*/
+	public function getThumbGeometry()
+	{
+		return $this->thumb_geometry;
+	}
+	
+	/*
+	* Set the thumbnail geometry
+	*
+	* @param integer $a_geometry Geometry
+	*/
+	public function setThumbGeometry($a_geometry)
+	{
+		$this->thumb_geometry = ($a_geometry < 1) ? 100 : $a_geometry;
+	}
+
+	/*
+	* Get the minimum element height
+	*
+	* @return integer Height
+	*/
+	public function getElementHeight()
+	{
+		return $this->element_height;
+	}
+	
+	/*
+	* Set the minimum element height
+	*
+	* @param integer $a_height Height
+	*/
+	public function setElementHeight($a_height)
+	{
+		$this->element_height = ($a_height < 20) ? "" : $a_height;
+	}
+
+	/*
+	* Rebuild the thumbnail images with a new thumbnail size
+	*/
+	protected function rebuildThumbnails()
+	{
+		if ($this->getOrderingType() == OQ_PICTURES)
+		{
+			if (count($this->getAnswers()))
+			{
+				foreach ($this->getAnswers() as $answer)
+				{
+					if (@file_exists($this->getImagePath() . $answer->getAnswertext()))
+					{
+						$thumbpath = $this->getImagePath() . $answer->getAnswertext() . "." . "thumb.jpg";
+						ilUtil::convertImage($this->getImagePath() . $answer->getAnswertext(), $thumbpath, "JPEG", $this->getThumbGeometry());
+					}
+				}
+			}
+		}
 	}
 }
 

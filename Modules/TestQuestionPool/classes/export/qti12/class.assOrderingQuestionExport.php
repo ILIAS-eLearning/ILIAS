@@ -80,6 +80,18 @@ class assOrderingQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "AUTHOR");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getAuthor());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "thumb_geometry");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getThumbGeometry());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "element_height");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getElementHeight());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "points");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getPoints());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 
@@ -238,14 +250,14 @@ class assOrderingQuestionExport extends assQuestionExport
 					"respident" => "OQT"
 				);
 			}
-			$attrs["index"] = $answer->getSolutionOrder();
+			$attrs["index"] = $index;
 			$a_xml_writer->xmlElement("varequal", $attrs, $index);
 			$a_xml_writer->xmlEndTag("conditionvar");
 			// qti setvar
 			$attrs = array(
 				"action" => "Add"
 			);
-			$a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
+			$a_xml_writer->xmlElement("setvar", $attrs, $this->object->getPoints() / count($this->object->getAnswers()));
 			// qti displayfeedback
 			$attrs = array(
 				"feedbacktype" => "Response",
@@ -280,7 +292,7 @@ class assOrderingQuestionExport extends assQuestionExport
 						"respident" => "OQT"
 					);
 				}
-				$attrs["index"] = $answer->getSolutionOrder();
+				$attrs["index"] = $index;
 				$a_xml_writer->xmlElement("varequal", $attrs, $index);
 			}
 
@@ -320,7 +332,7 @@ class assOrderingQuestionExport extends assQuestionExport
 						"respident" => "OQT"
 					);
 				}
-				$attrs["index"] = $answer->getSolutionOrder();
+				$attrs["index"] = $index;
 				$a_xml_writer->xmlElement("varequal", $attrs, $index);
 			}
 

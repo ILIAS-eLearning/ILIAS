@@ -34,6 +34,7 @@ class ilTextWizardInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $maxlength = 200;
 	protected $size = 40;
 	protected $validationRegexp;
+	protected $allowMove = false;
 	
 	/**
 	* Constructor
@@ -105,6 +106,26 @@ class ilTextWizardInputGUI extends ilSubEnabledFormPropertyGUI
 	function getMaxLength()
 	{
 		return $this->maxlength;
+	}
+
+	/**
+	* Set allow move
+	*
+	* @param	boolean	$a_allow_move Allow move
+	*/
+	function setAllowMove($a_allow_move)
+	{
+		$this->allowMove = $a_allow_move;
+	}
+
+	/**
+	* Get allow move
+	*
+	* @return	boolean	Allow move
+	*/
+	function getAllowMove()
+	{
+		return $this->allowMove;
 	}
 
 	/**
@@ -182,6 +203,16 @@ class ilTextWizardInputGUI extends ilSubEnabledFormPropertyGUI
 			{
 				$tpl->setCurrentBlock("prop_text_propval");
 				$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value));
+				$tpl->parseCurrentBlock();
+			}
+			if ($this->getAllowMove())
+			{
+				$tpl->setCurrentBlock("move");
+				$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("ID", $this->getFieldId() . "[$i]");
+				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.gif'));
+				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.gif'));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("row");

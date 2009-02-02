@@ -70,250 +70,321 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		return $cmd;
 	}
 
+	public function changeToPictures()
+	{
+		$this->object->setOrderingType(OQ_PICTURES);
+		$this->writePostData();
+		$this->editQuestion();
+	}
+	
+	public function changeToText()
+	{
+		$this->object->setOrderingType(OQ_TERMS);
+		$this->writePostData();
+		$this->editQuestion();
+	}
+
+	public function addanswers()
+	{
+		$this->writePostData();
+		$position = key($_POST["cmd"]["addanswers"]);
+		$this->object->addAnswer("", $position+1);
+		$this->editQuestion();
+	}
+
+	public function removeanswers()
+	{
+		$this->writePostData();
+		$position = key($_POST["cmd"]["removeanswers"]);
+		$this->object->deleteAnswer($position);
+		$this->editQuestion();
+	}
 
 	/**
-	* Creates an output of the edit form for the question
+	* Evaluates a posted edit form and writes the form data in the question object
 	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
+	*/
+	public function writePostData()
+	{
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
+		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
+		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		$this->object->setQuestion($questiontext);
+		$this->object->setThumbGeometry($_POST["thumb_geometry"]);
+		$this->object->setElementHeight($_POST["element_height"]);
+		// adding estimated working time
+		$this->object->setEstimatedWorkingTime(
+			ilUtil::stripSlashes($_POST["Estimated"]["hh"]),
+			ilUtil::stripSlashes($_POST["Estimated"]["mm"]),
+			ilUtil::stripSlashes($_POST["Estimated"]["ss"])
+		);
+		$typechange = ((strcmp($this->ctrl->getCmd(), "changeToPictures") == 0) || (strcmp($this->ctrl->getCmd(), "changeToText") == 0)) ? TRUE : FALSE;
+		if (!$typechange) $this->object->setOrderingType($_POST["ordering_type"]);
+		//$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
+
+		// Delete all existing answers and create new answers from the form data
+		$this->object->flushAnswers();
+		$saved = false;
+
+		// add answers
+		if ($this->object->getOrderingType() == OQ_TERMS)
+		{
+			$answers = $_POST["answers"];
+			if (is_array($answers))
+			{
+				foreach ($answers as $index => $answer)
+				{
+					$this->object->addAnswer(ilUtil::stripSlashes($answer));
+				}
+			}
+		}
+		else
+		{
+			$pictures = $_FILES["answers"];
+			if (is_array($pictures))
+			{
+				foreach ($pictures["name"] as $index => $name)
+				{
+					$picturefile = $_POST["picture_answers"][$index];
+					if (strlen($name))
+					{
+						$uploadcheck = true;
+						// remove trailing '/'
+						while (substr($name, -1) == '/')
+						{
+							$name = substr($name, 0, -1);
+						}
+
+						$filename = $name;
+						$filename_arr = pathinfo($name);
+						$suffix = $filename_arr["extension"];
+						$mimetype = $pictures["type"][$index];
+						$size_bytes = $pictures["size"][$index];
+						$temp_name = $pictures["tmp_name"][$index];
+						$error = $pictures["error"][$index];
+						// error handling
+						if ($error > 0)
+						{
+							switch ($error)
+							{
+								case UPLOAD_ERR_INI_SIZE:
+									$uploadcheck = false;
+									break;
+
+								case UPLOAD_ERR_FORM_SIZE:
+									$uploadcheck = false;
+									break;
+
+								case UPLOAD_ERR_PARTIAL:
+									$uploadcheck = false;
+									break;
+
+								case UPLOAD_ERR_NO_FILE:
+									$uploadcheck = false;
+									break;
+
+								case UPLOAD_ERR_NO_TMP_DIR:
+									$uploadcheck = false;
+									break;
+
+								case UPLOAD_ERR_CANT_WRITE:
+									$uploadcheck = false;
+									break;
+
+								case UPLOAD_ERR_EXTENSION:
+									$uploadcheck = false;
+									break;
+							}
+						}
+
+						// check suffixes
+						$suffixes = array("jpg", "jpeg", "png", "gif");
+						if (strlen($pictures["tmp_name"][$index]))
+						{
+							if (!in_array(strtolower($suffix), $suffixes))
+							{
+								$uploadcheck = false;
+							}
+						}
+
+						// virus handling
+						if ($pictures["tmp_name"][$index] != "")
+						{
+							$vir = ilUtil::virusHandling($temp_name, $filename);
+							if ($vir[0] == false)
+							{
+								$uploadcheck = false;
+							}
+						}
+						if ($uploadcheck)
+						{
+							// upload the new file
+							if ($this->object->setImageFile($pictures["tmp_name"][$index], $this->object->getEncryptedFilename($name), $picturefile))
+							{
+								$picturefile = $this->object->getEncryptedFilename($name);
+								$this->object->addAnswer($picturefile);
+							}
+						}
+						else
+						{
+							$this->object->addAnswer($picturefile);
+						}
+					}
+					else
+					{
+						$this->object->addAnswer($picturefile);
+					}
+				}
+			}
+		}
+		$this->object->setPoints(ilUtil::stripSlashes($_POST["points"]));
+		return $this->editQuestion(TRUE);
+	}
+	
+	/**
 	* Creates an output of the edit form for the question
 	*
 	* @access public
 	*/
-	function editQuestion($ok = true)
+	function editQuestion($checkonly = FALSE)
 	{
-		$multiline_answers = $this->object->getMultilineAnswerSetting();
-		$this->getQuestionTemplate();
-		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", "Modules/TestQuestionPool");
-
-		// Output of existing answers
-		for ($i = 0; $i < $this->object->getAnswerCount(); $i++)
-		{
-			$this->tpl->setCurrentBlock("deletebutton");
-			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("ANSWER_ORDER", $i);
-			$this->tpl->parseCurrentBlock();
-
-			$thisanswer = $this->object->getAnswer($i);
-			if ($this->object->getOrderingType() == OQ_PICTURES)
-			{
-				$this->tpl->setCurrentBlock("order_pictures");
-				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->getOrder() + 1);
-				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
-
-				$filename = $thisanswer->getAnswertext();
-				$extension = "jpg";
-				if (preg_match("/.*\.(png|jpg|gif|jpeg)$/", $filename, $matches))
-				{
-					$extension = $matches[1];
-				}
-				if ($filename)
-				{
-					$imagepath = $this->object->getImagePathWeb() . $thisanswer->getAnswertext();
-					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->getAnswertext() . "\" border=\"\" />");
-					$this->tpl->setVariable("IMAGE_FILENAME", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
-					$this->tpl->setVariable("VALUE_ANSWER", "");
-					//$thisanswer->getAnswertext()
-				}
-				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
-			}
-			elseif ($this->object->getOrderingType() == OQ_TERMS)
-			{
-				if ($multiline_answers)
-				{
-					$this->tpl->setCurrentBlock("show_textarea");
-					$this->tpl->setVariable("ANSWER_ORDER", $i);
-					$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
-					$this->tpl->parseCurrentBlock();
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("show_textinput");
-					$this->tpl->setVariable("ANSWER_ORDER", $i);
-					$this->tpl->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($thisanswer->getAnswertext()));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("answers");
-			$anchor = "#answer_" . ($thisanswer->getOrder() + 1);
-			$this->tpl->setVariable("ANSWER_ORDER", $thisanswer->getOrder());
-			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-			$this->tpl->setVariable("VALUE_ORDER", $thisanswer->getSolutionOrder());
-			$this->tpl->setVariable("VALUE_ORDERING_POINTS", $thisanswer->getPoints());
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if (($this->ctrl->getCmd() == "addItem") and ($ok))
-		{
-			$i = $this->object->getAnswerCount() - 1;
-			for ($j = 1; $j <= $_POST["itemcount"]; $j++)
-			{
-				if ($this->object->getOrderingType() == OQ_PICTURES)
-				{
-					$this->tpl->setCurrentBlock("order_pictures");
-					$this->tpl->setVariable("ANSWER_ORDER", $i+$j);
-					$this->tpl->setVariable("VALUE_ANSWER", "");
-					$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
-				}
-				elseif ($this->object->getOrderingType() == OQ_TERMS)
-				{
-					if ($multiline_answers)
-					{
-						$this->tpl->setCurrentBlock("show_textarea");
-						$this->tpl->setVariable("ANSWER_ORDER", $i+$j);
-						$this->tpl->parseCurrentBlock();
-					}
-					else
-					{
-						$this->tpl->setCurrentBlock("show_textinput");
-						$this->tpl->setVariable("ANSWER_ORDER", $i+$j);
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-				$this->tpl->parseCurrentBlock();
-
-				// Create an empty answer
-				$this->tpl->setCurrentBlock("answers");
-				//$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-				$anchor = "#answer_" . ($this->object->getAnswerCount() + $j);
-				$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
-				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				if ($this->object->getOrderingType() == OQ_PICTURES)
-				{
-					$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				}
-				$this->tpl->setVariable("ANSWER_ORDER", $i+$j);
-				$this->tpl->setVariable("VALUE_ORDER", $this->object->getMaxSolutionOrder() + $j);
-				$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%s", 0));
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		// call to other question data i.e. estimated working time block
-		if ($this->object->getAnswerCount())
-		{
-			$this->tpl->setCurrentBlock("answerheader");
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			if ($this->object->getOrderingType() == OQ_PICTURES)
-			{
-				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-			}
-			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if ($this->object->getOrderingType() == OQ_TERMS)
-		{
-			if ($multiline_answers)
-			{
-				$this->tpl->setVariable("SELECTED_SHOW_MULTILINE_ANSWERS", " selected=\"selected\"");
-			}
-			$this->tpl->setVariable("TEXT_HIDE_MULTILINE_ANSWERS", $this->lng->txt("multiline_terms_hide"));
-			$this->tpl->setVariable("TEXT_SHOW_MULTILINE_ANSWERS", $this->lng->txt("multiline_terms_show"));
-		}
-		
-		$this->outOtherQuestionData();
-		
-		$this->tpl->setCurrentBlock("HeadContent");
+		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-		$javascript = "<script type=\"text/javascript\">ilAddOnLoad(initialSelect);\n".
-			"function initialSelect() {\n%s\n}</script>";
-		switch ($this->ctrl->getCmd())
+		$this->getQuestionTemplate();
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("assOrderingQuestion"));
+		$form->setMultipart(($this->object->getOrderingType() == OQ_PICTURES) ? TRUE : FALSE);
+		$form->setTableWidth("100%");
+		$form->setId("ordering");
+
+		// Edit mode
+		$hidden = new ilHiddenInputGUI("ordering_type");
+		$hidden->setValue($this->object->getOrderingType());
+		$form->addItem($hidden);
+		// title
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setValue($this->object->getTitle());
+		$title->setRequired(TRUE);
+		$form->addItem($title);
+		// author
+		$author = new ilTextInputGUI($this->lng->txt("author"), "author");
+		$author->setValue($this->object->getAuthor());
+		$author->setRequired(TRUE);
+		$form->addItem($author);
+		// description
+		$description = new ilTextInputGUI($this->lng->txt("description"), "comment");
+		$description->setValue($this->object->getComment());
+		$description->setRequired(FALSE);
+		$form->addItem($description);
+		// questiontext
+		$question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
+		$question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
+		$question->setRequired(TRUE);
+		$question->setRows(10);
+		$question->setCols(80);
+		$question->setUseRte(TRUE);
+		$question->addPlugin("latex");
+		$question->addButton("latex");
+		$question->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($question);
+		// duration
+		$duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
+		$duration->setShowHours(TRUE);
+		$duration->setShowMinutes(TRUE);
+		$duration->setShowSeconds(TRUE);
+		$ewt = $this->object->getEstimatedWorkingTime();
+		$duration->setHours($ewt["h"]);
+		$duration->setMinutes($ewt["m"]);
+		$duration->setSeconds($ewt["s"]);
+		$duration->setRequired(FALSE);
+		$form->addItem($duration);
+		$element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
+		$element_height->setValue($this->object->getElementHeight());
+		$element_height->setRequired(false);
+		$element_height->setMaxLength(6);
+		$element_height->setMinValue(20);
+		$element_height->setSize(6);
+		$element_height->setInfo($this->lng->txt("element_height_info"));
+		$form->addItem($element_height);
+		if ($this->object->getOrderingType() == OQ_PICTURES)
 		{
-			case "addItem":
-				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_ordering.answer_".($this->object->getAnswerCount()).".focus(); document.frm_ordering.answer_".($this->object->getAnswerCount()).".scrollIntoView(\"true\");"));
-				break;
-			default:
-				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_ordering.title.focus();"));
-				break;
+			$geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
+			$geometry->setValue($this->object->getThumbGeometry());
+			$geometry->setRequired(true);
+			$geometry->setMaxLength(6);
+			$geometry->setMinValue(20);
+			$geometry->setSize(6);
+			$geometry->setInfo($this->lng->txt("thumb_geometry_info"));
+			$form->addItem($geometry);
 		}
-		$this->tpl->parseCurrentBlock();
-		for ($a = 1; $a < 9; $a++)
+		if (count($this->object->getAnswers()) == 0)
 		{
-			$this->tpl->setCurrentBlock("itemcountvalues");
-			$this->tpl->setVariable("ITEMCOUNTVALUE", $a);
-			if ($a > 1)
-			{
-				$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answers"));
-			}
-			else
-			{
-				$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-			}
-			$this->tpl->parseCurrentBlock();
+			$this->object->addAnswer();
 		}
-		$this->tpl->setCurrentBlock("question_data");
-		$this->tpl->setVariable("VALUE_ADD", $this->lng->txt("add"));
-		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
-		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
-		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-		if ($this->object->getShuffle())
+		// Answers
+		if ($this->object->getOrderingType() == OQ_PICTURES)
 		{
-			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+			$answers = new ilImageWizardInputGUI($this->lng->txt("answers"), "answers");
+			$answers->setRequired(TRUE);
+			$answers->setImagePathWeb($this->object->getImagePathWeb());
+			$answers->setAllowMove(TRUE);
+			$answervalues = array();
+			foreach ($this->object->getAnswers() as $index => $answervalue)
+			{
+				$answervalues[$index] = $answervalue->getAnswertext();
+			}
+			ksort($answervalues);
+			$answers->setFilenames($answervalues);
+			$form->addItem($answers);
 		}
 		else
 		{
-			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+			$answers = new ilTextWizardInputGUI($this->lng->txt("answers"), "answers");
+			$answers->setRequired(TRUE);
+			$answers->setAllowMove(TRUE);
+			$answervalues = array();
+			foreach ($this->object->getAnswers() as $index => $answervalue)
+			{
+				$answervalues[$index] = $answervalue->getAnswertext();
+			}
+			ksort($answervalues);
+			$answers->setValues($answervalues);
+			$form->addItem($answers);
 		}
-		$this->tpl->setVariable("ORDERING_ID", $this->object->getId());
-		$this->tpl->setVariable("VALUE_ORDERING_TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
-		$this->tpl->setVariable("VALUE_ORDERING_COMMENT", ilUtil::prepareFormOutput($this->object->getComment()));
-		$this->tpl->setVariable("VALUE_ORDERING_AUTHOR", ilUtil::prepareFormOutput($this->object->getAuthor()));
-		$questiontext = $this->object->getQuestion();
-		$this->tpl->setVariable("VALUE_QUESTION", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($questiontext)));
-		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
-		$this->tpl->setVariable("TEXT_TYPE_PICTURES", $this->lng->txt("order_pictures"));
-		$this->tpl->setVariable("TEXT_TYPE_TERMS", $this->lng->txt("order_terms"));
-		if ($this->object->getOrderingType() == OQ_TERMS)
-		{
-			$this->tpl->setVariable("SELECTED_TERMS", " selected=\"selected\"");
-		}
-		elseif ($this->object->getOrderingType() == OQ_PICTURES)
-		{
-			$this->tpl->setVariable("SELECTED_PICTURES", " selected=\"selected\"");
-		}
-
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("SET_EDIT_MODE", $this->lng->txt("set_edit_mode"));
-		$this->ctrl->setParameter($this, "sel_question_types", "assOrderingQuestion");
-		$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->outQuestionType());
-		$this->tpl->setVariable("ACTION_ORDERING_QUESTION",	$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->parseCurrentBlock();
-
-		if ($this->error)
-		{
-			ilUtil::sendInfo($this->error);
-		}
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
+		// points
+		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
+		$points->setValue($this->object->getPoints());
+		$points->setRequired(TRUE);
+		$points->setSize(3);
+		$points->setMinValue(0.0);
+		$form->addItem($points);
 		
-		$this->tpl->setCurrentBlock("adm_content");
-		//$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
-		$this->tpl->parseCurrentBlock();
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
+		if ($this->object->getOrderingType() == OQ_PICTURES)
+		{
+			$form->addCommandButton("changeToText", $this->lng->txt("order_terms"));
+		}
+		else
+		{
+			$form->addCommandButton("changeToPictures", $this->lng->txt("order_pictures"));
+		}
+		$errors = false;
+		
+		if ($save)
+		{
+			$errors = !$form->checkInput();
+		}
+		
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
 	}
 
 
@@ -391,7 +462,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData()
+	function _writePostData()
 	{
 		$result = 0;
 		$saved = false;
@@ -503,7 +574,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		{
 			foreach ($this->object->answers as $index => $answer)
 			{
-				array_push($solutions, array("value1" => $index, "value2" => $answer->getSolutionOrder()));
+				array_push($solutions, array("value1" => $index, "value2" => $index+1));
 			}
 		}
 		foreach ($keys as $idx)
@@ -523,7 +594,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 					$ans = array();
 					foreach ($this->object->answers as $k => $a)
 					{
-						$ans[$k] = $a->getSolutionOrder();
+						$ans[$k] = $k;
 					}
 					asort($ans);
 					$ans = array_keys($ans);
@@ -608,10 +679,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	{
 		// shuffle output
 		$keys = array_keys($this->object->answers);
-		if ($this->object->getShuffle())
-		{
-			$keys = $this->object->pcArrayShuffle($keys);
-		}
+		shuffle($keys);
 
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
@@ -627,18 +695,18 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				$template->setVariable("THUMB_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext() . ".thumb.jpg");
 				$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
 				$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
-				$template->setVariable("ANSWER_ID", $idx);
+				$template->setVariable("ANSWER_ID", $answer->getRandomID());
 				$template->parseCurrentBlock();
 			}
 			else
 			{
 				$template->setCurrentBlock("ordering_row_standard_text");
 				$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-				$template->setVariable("ANSWER_ID", $idx);
+				$template->setVariable("ANSWER_ID", $answer->getRandomID());
 				$template->parseCurrentBlock();
 			}
 			$template->setCurrentBlock("ordering_row_standard");
-			$template->setVariable("ANSWER_ID", $idx);
+			$template->setVariable("ANSWER_ID", $answer->getRandomID());
 			$template->parseCurrentBlock();
 		}
 
@@ -664,10 +732,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		else
 		{
 			$keys = array_keys($this->object->answers);
-			if ($this->object->getShuffle())
-			{
-				$keys = $this->object->pcArrayShuffle($keys);
-			}
+			shuffle($keys);
 		}
 		$_SESSION["ordering_keys"] = $keys;
 
@@ -711,7 +776,13 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				{
 					if (preg_match("/order_(\d+)/", $key, $matches))
 					{
-						array_push($solutions, array("value1" => $matches[1], "value2" => $value));
+						foreach ($this->object->getAnswers() as $answeridx => $answer)
+						{
+							if ($answer->getRandomID() == $matches[1])
+							{
+								array_push($solutions, array("value1" => $answeridx, "value2" => $value));
+							}
+						}
 					}
 				}
 			}
@@ -737,7 +808,10 @@ class assOrderingQuestionGUI extends assQuestionGUI
 					$js = "";
 					foreach ($jssolutions as $key => $value)
 					{
-						$js .= "initialorder.push($value);";
+						if (is_object($this->object->getAnswer($value)))
+						{
+							$js .= "initialorder.push('id_" . $this->object->getAnswer($value)->getRandomID() . "');";
+						}
 					}
 					$js .= "restoreInitialOrder();";
 				}
@@ -762,18 +836,18 @@ class assOrderingQuestionGUI extends assQuestionGUI
 					$template->setVariable("THUMB_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext() . ".thumb.jpg");
 					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
 					$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
-					$template->setVariable("ANSWER_ID", $idx);
+					$template->setVariable("ANSWER_ID", $answer->getRandomID());
 					$template->parseCurrentBlock();
 				}
 				else
 				{
 					$template->setCurrentBlock("ordering_row_standard_text");
 					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-					$template->setVariable("ANSWER_ID", $idx);
+					$template->setVariable("ANSWER_ID", $answer->getRandomID());
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock("ordering_row_standard");
-				$template->setVariable("ANSWER_ID", $idx);
+				$template->setVariable("ANSWER_ID", $answer->getRandomID());
 				if (is_array($solutions))
 				{
 					foreach ($solutions as $solution)
@@ -802,14 +876,14 @@ class assOrderingQuestionGUI extends assQuestionGUI
 					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.gif", FALSE));
 					$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
 					$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
-					$template->setVariable("ANSWER_ID", $idx);
+					$template->setVariable("ANSWER_ID", $answer->getRandomID());
 					$template->parseCurrentBlock();
 				}
 				else
 				{
 					$template->setCurrentBlock("ordering_row_javascript_text");
 					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-					$template->setVariable("ANSWER_ID", $idx);
+					$template->setVariable("ANSWER_ID", $answer->getRandomID());
 					$template->parseCurrentBlock();
 				}
 			}

@@ -215,19 +215,31 @@ class assOrderingQuestionImport extends assQuestionImport
 		$this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
 		$this->object->setOrderingType($type);
 		$this->object->setObjId($questionpool_id);
+		$this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
+		$this->object->setElementHeight($item->getMetadataEntry("element_height"));
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setShuffle($shuffle);
+		$points = 0;
+		$solanswers = array();
 		foreach ($answers as $answer)
 		{
+			$solanswers[$answer["solutionorder"]] = $answer;
+		}
+		ksort($solanswers);
+		foreach ($solanswers as $answer)
+		{
+			$points += $answer["points"];
 			if ($type == 1)
 			{
-				$this->object->addAnswer($answer["answertext"], $answer["points"], $answer["answerorder"], $answer["solutionorder"]);
+				$this->object->addAnswer($answer["answertext"]);
 			}
 			else
 			{
-				$this->object->addAnswer($answer["answerimage"]["label"], $answer["points"], $answer["answerorder"], $answer["solutionorder"]);
+				$this->object->addAnswer($answer["answerimage"]["label"]);
 			}
 		}
+		$points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry("points") : $points;
+		$this->object->setPoints($points);
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))
 		{
@@ -263,7 +275,7 @@ class assOrderingQuestionImport extends assQuestionImport
 				}
 				// create thumbnail file
 				$thumbpath = $imagepath . "." . "thumb.jpg";
-				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", $this->object->getThumbGeometry());
 			}
 		}
 		foreach ($feedbacksgeneric as $correctness => $material)

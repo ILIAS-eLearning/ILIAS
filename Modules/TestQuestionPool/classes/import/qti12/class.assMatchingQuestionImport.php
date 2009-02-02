@@ -302,7 +302,7 @@ class assMatchingQuestionImport extends assQuestionImport
 				}
 				// create thumbnail file
 				$thumbpath = $imagepath . "." . "thumb.jpg";
-				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", 100);
+				ilUtil::convertImage($imagepath, $thumbpath, "JPEG", $this->object->getThumbGeometry());
 			}
 		}
 

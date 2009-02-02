@@ -1,10 +1,14 @@
-function cleanTextWizardElements(rootel)
+function cleanImageWizardElements(rootel)
 {
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rootel);
+	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', rootel);
 	for (i = 0; i < textinputs.length; i++) textinputs[i].value = '';
+	hidden = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'hidden') ? true : false; }, 'input', rootel);
+	for (i = 0; i < hidden.length; i++) rootel.removeChild(hidden[i]);
+	images = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'img', rootel);
+	for (i = 0; i < images.length; i++) rootel.removeChild(images[i]);
 }
 
-function reindexTextWizardElements(rootel)
+function reindexImageWizardElements(rootel)
 {
 	// reindex rows
 	rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className.indexOf('odd') >= 0 || el.className.indexOf('even') >= 0) ? true : false; }, 'div', rootel);
@@ -19,31 +23,36 @@ function reindexTextWizardElements(rootel)
 		add = (i == 0) ? "first" : ((i == rows.length-1) ? "last" : "");
 		if (add.length > 0) YAHOO.util.Dom.addClass(rows[i], add);
 	}
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rootel);
+	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', rootel);
 	for (i = 0; i < textinputs.length; i++)
 	{
 		textinputs[i].id = rootel.id + '[' + i + ']';
 		textinputs[i].name = rootel.id + '[' + i + ']';
 	}
-	addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_add') ? true : false; }, 'input', rootel);
+	hiddenfields = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'hidden') ? true : false; }, 'input', rootel);
+	for (i = 0; i < hiddenfields.length; i++)
+	{
+		hiddenfields[i].name = 'picture_' + rootel.id + '[' + i + ']';
+	}
+	addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_add') ? true : false; }, 'input', rootel);
 	for (i = 0; i < addbuttons.length; i++)
 	{
 		addbuttons[i].id = 'add_' + rootel.id + '[' + i + ']';
 		addbuttons[i].name = 'cmd[add' + rootel.id + '][' + i + ']';
 	}
-	removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_remove') ? true : false; }, 'input', rootel);
+	removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_remove') ? true : false; }, 'input', rootel);
 	for (i = 0; i < removebuttons.length; i++)
 	{
 		removebuttons[i].id = 'remove_' + rootel.id + '[' + i + ']';
 		removebuttons[i].name = 'cmd[remove' + rootel.id + '][' + i + ']';
 	}
-	upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_up') ? true : false; }, 'input', rootel);
+	upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_up') ? true : false; }, 'input', rootel);
 	for (i = 0; i < upbuttons.length; i++)
 	{
 		upbuttons[i].id = 'up_' + rootel.id + '[' + i + ']';
 		upbuttons[i].name = 'cmd[up' + rootel.id + '][' + i + ']';
 	}
-	downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_down') ? true : false; }, 'input', rootel);
+	downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_down') ? true : false; }, 'input', rootel);
 	for (i = 0; i < downbuttons.length; i++)
 	{
 		downbuttons[i].id = 'down_' + rootel.id + '[' + i + ']';
@@ -57,29 +66,29 @@ function addTextField(e, obj)
 	maincontainer = parent.parentNode;
 	
 	parentclone = parent.cloneNode(true);
-	cleanTextWizardElements(parentclone);
-	addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_add') ? true : false; }, 'input', parentclone);
+	cleanImageWizardElements(parentclone);
+	addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_add') ? true : false; }, 'input', parentclone);
 	for (i = 0; i < addbuttons.length; i++)
 	{
 		YAHOO.util.Event.addListener(addbuttons[i], 'click', addTextField);
 	}
-	removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_remove') ? true : false; }, 'input', parentclone);
+	removebuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_remove') ? true : false; }, 'input', parentclone);
 	for (i = 0; i < removebuttons.length; i++)
 	{
 		YAHOO.util.Event.addListener(removebuttons[i], 'click', removeTextField);
 	}
-	upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_up') ? true : false; }, 'input', parentclone);
+	upbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_up') ? true : false; }, 'input', parentclone);
 	for (i = 0; i < upbuttons.length; i++)
 	{
 		YAHOO.util.Event.addListener(upbuttons[i], 'click', moveTextFieldUp);
 	}
-	downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_down') ? true : false; }, 'input', parentclone);
+	downbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_down') ? true : false; }, 'input', parentclone);
 	for (i = 0; i < downbuttons.length; i++)
 	{
 		YAHOO.util.Event.addListener(downbuttons[i], 'click', moveTextFieldDown);
 	}
 	
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', maincontainer);
+	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
 	parentindex = 0;
 	for (i = 0; i < textinputs.length; i++)
 	{
@@ -93,8 +102,8 @@ function addTextField(e, obj)
 	{
 		maincontainer.insertBefore(parentclone, textinputs[parentindex].parentNode);
 	}
-	reindexTextWizardElements(maincontainer);
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', parentclone);
+	reindexImageWizardElements(maincontainer);
+	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', parentclone);
 	textinputs[0].focus();
 	return false;
 }
@@ -103,7 +112,7 @@ function removeTextField(e, obj)
 {
 	parent = this.parentNode;
 	maincontainer = parent.parentNode;
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', maincontainer);
+	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
 	if (textinputs.length == 1)
 	{
 		id = this.id.substr(7, this.id.length);
@@ -113,7 +122,7 @@ function removeTextField(e, obj)
 	else
 	{
 		maincontainer.removeChild(parent);
-		reindexTextWizardElements(maincontainer);
+		reindexImageWizardElements(maincontainer);
 	}
 }
 
@@ -121,7 +130,7 @@ function moveTextFieldUp(e, obj)
 {
 	parent = this.parentNode;
 	maincontainer = parent.parentNode;
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', maincontainer);
+	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
 	rows = new Array();
 	foundindex = 0;
 	for (i = 0; i < textinputs.length; i++)
@@ -144,7 +153,7 @@ function moveTextFieldUp(e, obj)
 		{
 			maincontainer.appendChild(rows[j]);
 		}
-		reindexTextWizardElements(maincontainer);
+		reindexImageWizardElements(maincontainer);
 	}
 }
 
@@ -152,7 +161,7 @@ function moveTextFieldDown(e, obj)
 {
 	parent = this.parentNode;
 	maincontainer = parent.parentNode;
-	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', maincontainer);
+	textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'file') ? true : false; }, 'input', maincontainer);
 	rows = new Array();
 	foundindex = 0;
 	for (i = 0; i < textinputs.length; i++)
@@ -175,31 +184,31 @@ function moveTextFieldDown(e, obj)
 		{
 			maincontainer.appendChild(rows[j]);
 		}
-		reindexTextWizardElements(maincontainer);
+		reindexImageWizardElements(maincontainer);
 	}
 }
 
-function textwizardEvents(e)
+function imagewizardEvents(e)
 {
-	addbuttons = YAHOO.util.Dom.getElementsByClassName('textwizard_add');
+	addbuttons = YAHOO.util.Dom.getElementsByClassName('imagewizard_add');
 	for (i = 0; i < addbuttons.length; i++)
 	{
 		button = addbuttons[i];
 		YAHOO.util.Event.addListener(button, 'click', addTextField);
 	}
-	removebuttons = YAHOO.util.Dom.getElementsByClassName('textwizard_remove');
+	removebuttons = YAHOO.util.Dom.getElementsByClassName('imagewizard_remove');
 	for (i = 0; i < removebuttons.length; i++)
 	{
 		button = removebuttons[i];
 		YAHOO.util.Event.addListener(button, 'click', removeTextField);
 	}
-	upbuttons = YAHOO.util.Dom.getElementsByClassName('textwizard_up');
+	upbuttons = YAHOO.util.Dom.getElementsByClassName('imagewizard_up');
 	for (i = 0; i < upbuttons.length; i++)
 	{
 		button = upbuttons[i];
 		YAHOO.util.Event.addListener(button, 'click', moveTextFieldUp);
 	}
-	downbuttons = YAHOO.util.Dom.getElementsByClassName('textwizard_down');
+	downbuttons = YAHOO.util.Dom.getElementsByClassName('imagewizard_down');
 	for (i = 0; i < downbuttons.length; i++)
 	{
 		button = downbuttons[i];
@@ -207,4 +216,4 @@ function textwizardEvents(e)
 	}
 }
 
-YAHOO.util.Event.onDOMReady(textwizardEvents);
+YAHOO.util.Event.onDOMReady(imagewizardEvents);
