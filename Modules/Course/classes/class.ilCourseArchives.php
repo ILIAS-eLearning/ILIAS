@@ -344,15 +344,15 @@ class ilCourseArchives
 			// must return absolute path to zip file
 			if ($abs_file_name != "")
 			{
-				$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['obj_id'].'.zip';
+				//$new_name = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['obj_id'].'.zip';
+				$new_name = basename($abs_file_name);
 				$this->course_files_obj->copyFile($abs_file_name,$this->course_files_obj->getArchiveDirectory().'/'.
-																$this->getName().'/objects'.
-																$new_name);
+																$this->getName().'/'.$new_name);
 				if (is_file($this->course_files_obj->getArchiveDirectory().'/'.
-					$this->getName().'/objects'.$new_name))
+					$this->getName().'/'.$new_name))
 				{
 					$this->copied_files[] = array("title" => $item['title'],
-						"file" => 'objects'.$new_name, "type" => $item['type']);
+						"file" => $new_name, "type" => $item['type']);
 				}
 			}
 			$this->__addZipFiles($item['child']);
