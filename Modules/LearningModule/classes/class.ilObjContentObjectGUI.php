@@ -1239,7 +1239,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			$style = new ilObjStyleSheet();
-			$style->createFromXMLFile($style_file);
+			$style->import($style_file);
 			$newObj->writeStyleSheetId($style->getId());
 		}
 
