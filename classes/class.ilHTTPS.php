@@ -116,6 +116,11 @@ class ilHTTPS
            		$_SERVER["HTTPS"] = "on";
 		    	return true;
 		    }
+		    if(strcasecmp($_SERVER[$this->header_name],$this->header_value) == 0)
+		    {
+		    	$_SERVER['HTTPS'] = 'on';
+		    	return true;
+		    }
 		}
 
         return false;

@@ -851,7 +851,9 @@ class ilObjSessionGUI extends ilObjectGUI
 
 		$tpl->setVariable("ATTENDANCE_LIST",$this->lng->txt('sess_attendance_list'));
 		$tpl->setVariable("EVENT_NAME",$this->object->getTitle());
+		ilDatePresentation::setUseRelativeDates(false);
 		$tpl->setVariable("DATE",ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd()));
+		ilDatePresentation::setUseRelativeDates(true);
 		
 		$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
 		if($_POST['show_mark'])
