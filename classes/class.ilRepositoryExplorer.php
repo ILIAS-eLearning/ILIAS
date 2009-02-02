@@ -618,16 +618,51 @@ class ilRepositoryExplorer extends ilExplorer
 	 */
 	public function sortNodes($a_nodes,$a_parent_obj_id)
 	{
-		return parent::sortNodes($a_nodes,$a_parent_obj_id);
-
-		// TODO: fix manual sorting 
-		include_once('./Services/Container/classes/class.ilContainerSorting.php');
-		$sort = ilContainerSorting::_getInstance($a_parent_obj_id);
-		if($sort->isManualSortingEnabled())
+		global $objDefinition;
+		
+		if ($a_parent_obj_id > 0)
 		{
-			$sorted = $sort->sortTreeData($a_nodes);
-			return $sorted;
+			$parent_type = ilObject::_lookupType($a_parent_obj_id);
 		}
+		else
+		{
+			$parent_type  = "dummy";
+			$this->type_grps["dummy"] = array("root" => "dummy");
+		}
+
+		if (empty($this->type_grps[$parent_type]))
+		{
+			$this->type_grps[$parent_type] =
+				$objDefinition->getGroupedRepositoryObjectTypes($parent_type);
+		}
+		
+		$group = array();
+		
+		foreach ($a_nodes as $node)
+		{
+			$group[$node["type"]][] = $node;
+		}
+
+		$nodes = array();
+		foreach ($this->type_grps[$parent_type] as $t => $g)
+		{
+			if (is_array($group[$t]))
+			{
+				// do we have to sort this group??
+				include_once("./Services/Container/classes/class.ilContainer.php");
+				include_once("./Services/Container/classes/class.ilContainerSorting.php");
+				$sort = ilContainerSorting::_getInstance($a_parent_obj_id);
+				$group = $sort->sortItems($group);
+				
+				foreach ($group[$t] as $k => $item)
+				{
+					$nodes[] = $item;
+				}
+			}
+		}
+		
+		return $nodes;
+		//return parent::sortNodes($a_nodes,$a_parent_obj_id);
 	}
 
 } // END class ilRepositoryExplorer
