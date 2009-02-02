@@ -135,11 +135,20 @@ class ilStyleMigration
 	protected static $basic_style_image_dir = "../Services/Migration/DBUpdate_1385/basic_style/images";
 	protected static $basic_style_dom;
 	
-	function addMissingStyleCharacteristics()
+	/**
+	* Add missing style characteristics to styles
+	*/
+	function addMissingStyleCharacteristics($a_id = "")
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT DISTINCT style_id, tag, class FROM style_parameter WHERE type = ''");
+		$add_str = "";
+		if ($a_id != "")
+		{
+			$add_str = " AND style_id = ".$a_id;
+		}
+
+		$st = $ilDB->prepare("SELECT DISTINCT style_id, tag, class FROM style_parameter WHERE type = ''".$add_str);
 		$set = $ilDB->execute($st);
 		while ($rec = $ilDB->fetchAssoc($set))
 		{

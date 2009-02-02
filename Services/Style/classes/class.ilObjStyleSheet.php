@@ -688,21 +688,24 @@ class ilObjStyleSheet extends ilObject
 	/**
 	* Create a new style
 	*/
-	function create($a_from_style = 0)
+	function create($a_from_style = 0, $a_import_mode = false)
 	{
 		global $ilDB;
-		
+
 		parent::create();
 
 		if ($a_from_style == 0)
 		{
-			// copy styles from basic style
-			$this->createFromXMLFile(self::$basic_style_file, true);
-			
-			// copy images from basic style
-			$this->createImagesDirectory();
-			ilUtil::rCopy(self::$basic_style_image_dir,
-				$this->getImagesDirectory());
+			if (!$a_import_mode)
+			{
+				// copy styles from basic style
+				$this->createFromXMLFile(self::$basic_style_file, true);
+				
+				// copy images from basic style
+				$this->createImagesDirectory();
+				ilUtil::rCopy(self::$basic_style_image_dir,
+					$this->getImagesDirectory());
+			}
 		}
 		else
 		{
@@ -763,7 +766,10 @@ class ilObjStyleSheet extends ilObject
 		}
 
 		$this->read();
-		$this->writeCSSFile();
+		if (!$a_import_mode)
+		{
+			$this->writeCSSFile();
+		}
 	}
 	
 	/**
@@ -1606,23 +1612,47 @@ class ilObjStyleSheet extends ilObject
 		parent::create();
 		
 		$im_dir = $this->createImportDirectory();
-		$file = pathinfo($a_file["name"]);
-		ilUtil::moveUploadedFile($a_file["tmp_name"],
-			$a_file["name"], $im_dir."/".$a_file["name"]);
+
+		// handle uploaded files
+		if (is_array($a_file))
+		{
+			ilUtil::moveUploadedFile($a_file["tmp_name"],
+				$a_file["name"], $im_dir."/".$a_file["name"]);
+			$file_name = $a_file["name"];
+		}
+		else	// handle not directly uploaded files
+		{
+			$pi = pathinfo($a_file);
+			$file_name = $pi["basename"];
+			copy($a_file, $im_dir."/".$file_name);
+		}
+		$file = pathinfo($file_name);
 
 		// unzip file
-		ilUtil::unzip($im_dir."/".$a_file["name"]);
+		if (strtolower($file["extension"] == "zip"))
+		{
+			ilUtil::unzip($im_dir."/".$file_name);
+			$subdir = basename($file["basename"],".".$file["extension"]);
+			$xml_file = $im_dir."/".$subdir."/style.xml";
+		}
+		else	// handle xml file directly (old style)
+		{
+			$xml_file = $im_dir."/".$file_name;
+		}
 
 		// load information from xml file
-		$subdir = basename($file["basename"],".".$file["extension"]);
-		$xml_file = $im_dir."/".$subdir."/style.xml";
+//echo "-$xml_file-";
 		$this->createFromXMLFile($xml_file, true);
 		
 		// copy images
 		$this->createImagesDirectory();
-		ilUtil::rCopy($im_dir."/".$subdir."/images",
-			$this->getImagesDirectory());
+		if (is_dir($im_dir."/".$subdir."/images"))
+		{
+			ilUtil::rCopy($im_dir."/".$subdir."/images",
+				$this->getImagesDirectory());
+		}
 
+		ilObjStyleSheet::_addMissingStyleClassesToStyle($this->getId());
 	}
 	
 	/**
@@ -1631,6 +1661,8 @@ class ilObjStyleSheet extends ilObject
 	function createFromXMLFile($a_file, $a_skip_parent_create = false)
 	{
 		global $ilDB;
+		
+		$this->is_3_10_skin = false;
 		
 		if (!$a_skip_parent_create)
 		{
@@ -1657,23 +1689,35 @@ class ilObjStyleSheet extends ilObject
 		}
 		
 		// store characteristics
-		foreach ($this->chars as $char)
+		$this->is_3_10_skin = true;
+		if (is_array($this->chars))
 		{
-			$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
-				"(".$ilDB->quote($this->getId()).",".
-				$ilDB->quote($char["type"]).",".
-				$ilDB->quote($char["class"]).")";
-			$this->ilias->db->query($q);
+			foreach ($this->chars as $char)
+			{
+				if ($char["type"] != "")
+				{
+					$q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
+						"(".$ilDB->quote($this->getId()).",".
+						$ilDB->quote($char["type"]).",".
+						$ilDB->quote($char["class"]).")";
+					$this->ilias->db->query($q);
+					$this->is_3_10_skin = false;
+				}
+			}
 		}
 		
 		// add style_data record
 		$q = "INSERT INTO style_data (id, uptodate) VALUES ".
 			"(".$ilDB->quote($this->getId()).", 0)";
 		$ilDB->query($q);
-		
+
 		$this->update();
 		$this->read();
-		$this->writeCSSFile();
+		if ($this->is_3_10_skin)
+		{
+			$this->do_3_10_Migration();
+		}
+		//$this->writeCSSFile();
 	}
 	
 	/**
@@ -1805,14 +1849,31 @@ class ilObjStyleSheet extends ilObject
 		return $pars;
 	}
 	
+	
 	/**
 	* Add missing style classes to all styles
 	*/
-	static function _addMissingStyleClassesToAllStyles()
+	static function _addMissingStyleClassesToStyle($a_id)
+	{
+		$styles = array(array("id" => $a_id));
+		ilObjStyleSheet::_addMissingStyleClassesToAllStyles($styles);
+	}
+	
+	/**
+	* Add missing style classes to all styles
+	*/
+	static function _addMissingStyleClassesToAllStyles($a_styles = "")
 	{
 		global $ilDB;
-		
-		$styles = ilObject::_getObjectsDataForType("sty");
+
+		if ($a_styles == "")
+		{
+			$styles = ilObject::_getObjectsDataForType("sty");
+		}
+		else
+		{
+			$styles = $a_styles;
+		}
 		$core_styles = ilObjStyleSheet::_getCoreStyles();
 		$bdom = ilObjStyleSheet::_getBasicStyleDom();
 		
@@ -1888,5 +1949,59 @@ class ilObjStyleSheet extends ilObject
 		}
 	}
 	
+	/**
+	* Migrates 3.10 style to 3.11 style
+	*/
+	function do_3_10_Migration()
+	{
+		global $ilDB;
+
+		include_once("./Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
+		ilStyleMigration::addMissingStyleCharacteristics($this->getId());
+		// style_char: type for characteristic
+		$st = $ilDB->prepareManip("UPDATE style_char SET type = ? WHERE characteristic = ?".
+			" AND style_id = ? ", array("text", "text", "integer"));
+		$ilDB->execute($st, array("media_cont", "Media", $this->getId()));
+		$ilDB->execute($st, array("media_caption", "MediaCaption", $this->getId()));
+		$ilDB->execute($st, array("page_fn", "Footnote", $this->getId()));
+		$ilDB->execute($st, array("page_nav", "LMNavigation", $this->getId()));
+		$ilDB->execute($st, array("page_title", "PageTitle", $this->getId()));
+		$ilDB->execute($st, array("page_cont", "Page", $this->getId()));
+
+		// style_parameter: type for class
+		$st = $ilDB->prepareManip("UPDATE style_parameter SET type = ? WHERE class = ?".
+			" AND style_id = ? ", array("text", "text", "integer"));
+		$ilDB->execute($st, array("media_cont", "Media", $this->getId()));
+		$ilDB->execute($st, array("media_caption", "MediaCaption", $this->getId()));
+		$ilDB->execute($st, array("page_fn", "Footnote", $this->getId()));
+		$ilDB->execute($st, array("page_nav", "LMNavigation", $this->getId()));
+		$ilDB->execute($st, array("page_title", "PageTitle", $this->getId()));
+		$ilDB->execute($st, array("table", "Page", $this->getId()));
+
+		$st = $ilDB->prepareManip("UPDATE style_parameter SET tag = ? WHERE class = ?".
+			" AND style_id = ? ", array("text", "text", "integer"));
+		$ilDB->execute($st, array("div", "MediaCaption", $this->getId()));
+
+		// style_char: characteristic for characteristic
+		$st = $ilDB->prepareManip("UPDATE style_char SET characteristic = ? WHERE characteristic = ?".
+			" AND style_id = ? ", array("text", "text", "integer"));
+		$ilDB->execute($st, array("MediaContainer", "Media", $this->getId()));
+		$ilDB->execute($st, array("PageContainer", "Page", $this->getId()));
+
+		// style_parameter: class for class
+		$st = $ilDB->prepareManip("UPDATE style_parameter SET class = ? WHERE class = ?".
+			" AND style_id = ? ", array("text", "text", "integer"));
+		$ilDB->execute($st, array("MediaContainer", "Media", $this->getId()));
+		$ilDB->execute($st, array("PageContainer", "Page", $this->getId()));
+		
+		// force rewriting of container style
+		$st = $ilDB->prepareManip("DELETE FROM style_char WHERE type = ?".
+			" AND style_id = ? ", array("text", "integer"));
+		$ilDB->execute($st, array("page_cont", $this->getId()));
+		$st = $ilDB->prepareManip("DELETE FROM style_parameter WHERE type = ?".
+			" AND style_id = ? ", array("text", "integer"));
+		$ilDB->execute($st, array("page_cont", $this->getId()));
+
+	}
 } // END class.ilObjStyleSheet
 ?>
