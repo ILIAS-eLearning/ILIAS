@@ -273,6 +273,25 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->viewObject();
 	}
 	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	protected function forwardToTimingsView()
+	{
+		if(!$this->ctrl->getCmd() and $this->object->getViewMode() == ilContainer::VIEW_TIMING)
+		{
+			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
+			$course_content_obj = new ilCourseContentGUI($this);
+	
+			$this->ctrl->setCmdClass(get_class($course_content_obj));
+			$this->ctrl->forwardCommand($course_content_obj);
+			return true;
+		}
+		return false;
+	}
+	
 	
 	function viewObject()
 	{
@@ -319,7 +338,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		if ($this->object->getViewMode() == ilContainer::VIEW_SIMPLE ||
 			$this->object->getViewMode() == ilContainer::VIEW_BY_TYPE ||
 			$this->object->getViewMode() == ilContainer::VIEW_SESSIONS ||
-			$this->object->getViewMode() == IL_CRS_VIEW_TIMING ||
+			$this->object->getViewMode() == ilContainer::VIEW_TIMING ||
 			$this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE
 			)
 		{
@@ -4743,6 +4762,12 @@ class ilObjCourseGUI extends ilContainerGUI
 					include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
 					$feedbackGUI = new ilFeedbackGUI();
 					$feedbackGUI->handleRequiredFeedback($this->object->getRefId());
+				}
+				
+				// Dirty hack for course timings view
+				if($this->forwardToTimingsView())
+				{
+					break;
 				}
 
 				if(!$cmd)
