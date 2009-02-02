@@ -6707,9 +6707,9 @@ if(!$ilDB->tableColumnExists('usr_search','root'))
 	{
 		$ilDB->createTable("loginname_history",
 			array(
-				"usr_id" => array("type" => "integer", "length" => 10, "notnull" => true),
+				"usr_id" => array("type" => "integer", "length" => 4, "notnull" => true),
 				"login" => array("type" => "text", "length" => 80, "fixed" => false, "notnull" => true),
-				"date" => array("type" => "integer", "length" => 11, "notnull" => true)
+				"date" => array("type" => "integer", "length" => 4, "notnull" => true)
 			)
 		);
 		$ilDB->addPrimaryKey("loginname_history", array("usr_id", "login", "date"));
