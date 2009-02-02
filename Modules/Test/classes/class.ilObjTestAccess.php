@@ -187,7 +187,7 @@ class ilObjTestAccess extends ilObjectAccess
 	{
 		global $ilUser;
 		
-		$a_usr_id = $a_usr_id ? $a_usr_id : $iUser->getId();
+		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 		
 		switch($a_operator)
 		{

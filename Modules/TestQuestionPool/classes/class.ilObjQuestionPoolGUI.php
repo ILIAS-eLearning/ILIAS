@@ -729,10 +729,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("qpl_delete_select_none"), true);
 			$this->ctrl->redirect($this, "questions");
 		}
-		
+		global $ilLog;
+		$ilLog->write("getQuestionDetails");
 		$checked_questions =& $this->object->getQuestionDetails($_POST["q_id"]);
+		$ilLog->write("getDeleteableQuestionDetails");
 		$deleteable_questions =& $this->object->getDeleteableQuestionDetails($_POST["q_id"]);
+		$ilLog->write("getUsedQuestionDetails");
 		$used_questions =& $this->object->getUsedQuestionDetails($_POST["q_id"]);
+		$ilLog->write("done");
 		$_SESSION["ass_q_id"] = $deleteable_questions;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_confirm_delete_questions.html", "Modules/TestQuestionPool");
 

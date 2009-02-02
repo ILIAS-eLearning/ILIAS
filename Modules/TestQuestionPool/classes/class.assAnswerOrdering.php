@@ -36,14 +36,11 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class ASS_AnswerOrdering extends ASS_AnswerSimple {
 /**
-* The order of the correct solution
-* 
-* An integer value indicating the order of the correct solution. This value must be unique in a set of
-* ASS_AnwerOrdering objects use by an ordering question.
+* The random id of the answer
 *
 * @var integer
 */
-  var $solution_order;
+	protected $random_id;
   
 /**
 * ASS_AnswerOrdering constructor
@@ -51,49 +48,40 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 * The constructor takes possible arguments an creates an instance of the ASS_AnswerOrdering object.
 *
 * @param string $answertext A string defining the answer text
-* @param double $points The number of points given for the selected answer
-* @param boolean $correctness A boolean value indicating the correctness of the answer
-* @param integer $order A nonnegative value representing a possible display or sort order
-* @param integer $solution_order An integer value representing the correct order of that answer in the solution of a question
+* @param integer $random_id A random ID
 * @access public
 */
-  function ASS_AnswerOrdering (
-    $answertext = "",
-    $points = 0.0,
-    $order = 0,
-    $solution_order = 0
-  )
-  {
-    $this->ASS_AnswerSimple($answertext, $points, $order);
-    $this->solution_order = $solution_order;
-  }
+	function ASS_AnswerOrdering (
+		$answertext = "",
+		$random_id = 0
+	)
+	{
+		$this->ASS_AnswerSimple($answertext, 0, 0);
+		$this->setRandomID($random_id);
+	}
   
   
 /**
-* Gets the solution order
-* 
-* Returns the solution order of the answer
-
-* @return integer The solution order value
-* @access public
-* @see $solution_order
-*/
-  function getSolutionOrder() {
-    return $this->solution_order;
-  }
-  
-/**
-* Sets the solution order
-* 
-* Sets the solution order of the answer using an integer value
+* Returns the random ID of the answer
 *
-* @param integer $solution_order An integer value representing the correct order of that answer in the solution of a question
-* @access public
-* @see $solution_order
+* @return integer Random ID
+* @see $random_id
 */
-  function setSolutionOrder($solution_order = 0) {
-    $this->solution_order = $solution_order;
-  }
+	public function getRandomID() 
+	{
+		return $this->random_id;
+	}
+
+/**
+* Sets the random ID of the answer
+*
+* @param integer $random_id A random integer value
+* @see $random_id
+*/
+	public function setRandomID($random_id = 0) 
+	{
+		$this->random_id = $random_id;
+	}
 }
 
 ?>

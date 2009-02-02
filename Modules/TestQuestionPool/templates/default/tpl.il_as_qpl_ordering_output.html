@@ -4,14 +4,14 @@
 <!-- BEGIN ordering_row_standard -->
 	<tr>
 		<td class="nobackground" width="30">
-			<input type="text" size="2" name="order_{ANSWER_ID}" id="{ANSWER_ID}"{ANSWER_ORDER} />
+			<input type="text" size="2" name="order_{ANSWER_ID}" id="id_{ANSWER_ID}"{ANSWER_ORDER} />
 		</td>
 		<td class="nobackground">
 <!-- BEGIN ordering_row_standard_text -->
-			<label for="{ANSWER_ID}">{ANSWER_TEXT}</label>
+			<label for="id_{ANSWER_ID}">{ANSWER_TEXT}</label>
 <!-- END ordering_row_standard_text -->
 <!-- BEGIN ordering_row_standard_pictures -->
-			<label for="{ANSWER_ID}"><a target="_new" href="{PICTURE_HREF}"><img border="0" src="{THUMB_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></a></label>
+			<label for="id_{ANSWER_ID}"><a target="_new" href="{PICTURE_HREF}"><img border="0" src="{THUMB_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></a></label>
 <!-- END ordering_row_standard_pictures -->
 		</td>
 	</tr>
@@ -29,10 +29,10 @@
 
 <ul id="orderlist" class="boxy">
 <!-- BEGIN ordering_row_javascript_text -->
-	<li id="{ANSWER_ID}">{ANSWER_TEXT}</li>
+	<li id="id_{ANSWER_ID}">{ANSWER_TEXT}</li>
 <!-- END ordering_row_javascript_text -->
 <!-- BEGIN ordering_row_javascript_pictures -->
-	<li id="{ANSWER_ID}">
+	<li id="id_{ANSWER_ID}">
 		<table border="0">
 			<tr>
 				<td align="left">

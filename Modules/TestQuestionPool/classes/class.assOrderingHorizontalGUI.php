@@ -61,9 +61,12 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 	}
 
 	/**
-	* Sets the object values using the $_POST array
+	* Evaluates a posted edit form and writes the form data in the question object
+	*
+	* @return integer A positive value, if one of the required fields wasn't set, else 0
+	* @access private
 	*/
-	protected function fillObjectFromPost()
+	function writePostData()
 	{
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
@@ -78,7 +81,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		$this->object->setOrderText(ilUtil::stripSlashes($_POST["ordertext"]));
 		return $this->editQuestion(TRUE);
 	}
-	
+
 	/**
 	* Creates an output of the edit form for the question
 	*
@@ -180,17 +183,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI
 		return $errors;
 	}
 	
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData()
-	{
-		return $this->fillObjectFromPost();
-	}
-
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 

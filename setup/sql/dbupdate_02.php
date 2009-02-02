@@ -7256,3 +7256,51 @@ $ilCtrlStructureReader->getStructure();
 		$ilDB->addPrimaryKey("qpl_question_orderinghorizontal", array("question_fi"));
 	}
 ?>
+<#1528>
+<?php
+if (!$ilDB->tableColumnExists("qpl_answer_ordering", "random_id"))
+{
+	$query = "ALTER TABLE qpl_answer_ordering ADD COLUMN random_id INT NOT NULL DEFAULT 0";
+	$res = $ilDB->query($query);
+}
+?>
+<#1529>
+<?php
+$statement = $ilDB->prepare("SELECT * FROM qpl_answer_ordering");
+$result = $ilDB->execute($statement);
+while ($data = $ilDB->fetchAssoc($result))
+{
+	$statement = $ilDB->prepareManip("UPDATE qpl_answer_ordering SET random_id = ? WHERE answer_id = ?", array("integer", "integer"));
+	$random_number = mt_rand(1, 100000);
+	$values = array($random_number, $data["answer_id"]);
+	$ilDB->execute($statement, $values);
+}
+?>
+<#1530>
+<?php
+if (!$ilDB->tableColumnExists("qpl_question_ordering", "thumb_geometry"))
+{
+	$ilDB->query("ALTER TABLE qpl_question_ordering ADD COLUMN thumb_geometry INT NOT NULL DEFAULT 100");
+}
+?>
+<#1531>
+<?php
+if (!$ilDB->tableColumnExists("qpl_question_ordering", "element_height"))
+{
+	$ilDB->query("ALTER TABLE qpl_question_ordering ADD COLUMN element_height INT NULL");
+}
+?>
+<#1532>
+<?php
+if (!$ilDB->tableColumnExists("qpl_answer_ordering", "points"))
+{
+	$ilDB->query("ALTER TABLE qpl_answer_ordering DROP points");
+}
+?>
+<#1533>
+<?php
+if (!$ilDB->tableColumnExists("qpl_answer_ordering", "aorder"))
+{
+	$ilDB->query("ALTER TABLE qpl_answer_ordering DROP aorder");
+}
+?>
