@@ -842,11 +842,12 @@ class ilCourseContentGUI
 		$counter = 0;
 		foreach($this->cont_arr as $item)
 		{
+			/*
 			if($item['type'] == 'sess')
 			{
 				continue;
 			}
-			
+			*/
 			$item = $this->__loadFromPost($item);
 			$item_prefix = "item[$item[ref_id]]";
 			$item_change_prefix = "item_change[$item[ref_id]]";
@@ -906,7 +907,7 @@ class ilCourseContentGUI
 				$this->tpl->setVariable("VAL_DURATION_A",intval(($end-$start)/(60*60*24)));
 			}
 
-			$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDateTime($item['suggestion_end'],IL_CAL_UNIX)));
+			$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDate($item['suggestion_end'],IL_CAL_UNIX)));
 
 			// Limit
 			if(is_array($_POST['item']["$item[ref_id]"]['lim_end']))
@@ -1140,8 +1141,8 @@ class ilCourseContentGUI
 
 		if($item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
 		{
-			$this->tpl->setVariable('SUG_START',ilDatePresentation::formatDate(new ilDateTime($item['suggestion_start'],IL_CAL_UNIX)));
-			$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDateTime($item['suggestion_end'],IL_CAL_UNIX)));
+			$this->tpl->setVariable('SUG_START',ilDatePresentation::formatDate(new ilDate($item['suggestion_start'],IL_CAL_UNIX)));
+			$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDate($item['suggestion_end'],IL_CAL_UNIX)));
 		}
 
 		if($item['changeable'] and $item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
@@ -1154,7 +1155,7 @@ class ilCourseContentGUI
 			{
 				$start = $item['suggestion_start'];
 			}
-			$this->tpl->setVariable('OWN_START',ilDatePresentation::formatDate(new ilDateTime($start,IL_CAL_UNIX)));
+			$this->tpl->setVariable('OWN_START',ilDatePresentation::formatDate(new ilDate($start,IL_CAL_UNIX)));
 
 			if($usr_planed->getPlanedEndingTime())
 			{
@@ -1174,7 +1175,7 @@ class ilCourseContentGUI
 				$this->tpl->setVariable("OK_IMG",ilUtil::getImagePath('icon_not_ok.gif'));
 				$this->tpl->setVariable("OK_ALT",$this->lng->txt('crs_timings_not_changed'));
 			}
-			$this->tpl->setVariable('OWN_END',ilDatePresentation::formatDate(new ilDateTime($end,IL_CAL_UNIX)));
+			$this->tpl->setVariable('OWN_END',ilDatePresentation::formatDate(new ilDate($end,IL_CAL_UNIX)));
 		}
 
 		$this->tpl->parseCurrentBlock();
@@ -1243,10 +1244,11 @@ class ilCourseContentGUI
 		{
 			switch($item['type'])
 			{
+				/*
 				case 'sess':
 					$this->__renderEvent($item);
 					break;
-
+				*/
 				default:
 					$this->__renderItem($item,0);
 					break;
@@ -1295,10 +1297,11 @@ class ilCourseContentGUI
 		{
 			switch($item['type'])
 			{
+				/*
 				case 'sess':
 					$this->__renderEvent($item);
 					break;
-
+				*/
 				default:
 					$this->__renderItem($item,0);
 					break;
@@ -1355,8 +1358,8 @@ class ilCourseContentGUI
 		}
 		
 
-		$this->tpl->setVariable('SUG_START',ilDatePresentation::formatDate(new ilDateTime($item['start'],IL_CAL_UNIX)));
-		$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDateTime($item['end'],IL_CAL_UNIX)));
+		$this->tpl->setVariable('SUG_START',ilDatePresentation::formatDate(new ilDate($item['start'],IL_CAL_UNIX)));
+		$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDate($item['end'],IL_CAL_UNIX)));
 
 		$this->tpl->setCurrentBlock("tlt");
 		$this->tpl->setVariable("TXT_TLT",$this->lng->txt('event_date'));
@@ -1446,8 +1449,8 @@ class ilCourseContentGUI
 
 		if($item['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
 		{
-			$this->tpl->setVariable('SUG_START',ilDatePresentation::formatDate(new ilDateTime($item['suggestion_start'],IL_CAL_UNIX)));
-			$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDateTime($item['suggestion_end'],IL_CAL_UNIX)));
+			$this->tpl->setVariable('SUG_START',ilDatePresentation::formatDate(new ilDate($item['suggestion_start'],IL_CAL_UNIX)));
+			$this->tpl->setVariable('SUG_END',ilDatePresentation::formatDate(new ilDate($item['suggestion_end'],IL_CAL_UNIX)));
 		}
 
 		if($item['changeable'])
@@ -1485,7 +1488,7 @@ class ilCourseContentGUI
 				#echo "Empfehlung end<br>";
 				$end = $item['suggestion_end'];
 			}
-			$this->tpl->setVariable('OWN_END',ilDatePresentation::formatDate(new ilDateTime($end,IL_CAL_UNIX)));
+			$this->tpl->setVariable('OWN_END',ilDatePresentation::formatDate(new ilDate($end,IL_CAL_UNIX)));
 			$this->tpl->setVariable("NAME_DURATION",$item_prefix."[duration]");
 
 			// Duration
@@ -1497,8 +1500,8 @@ class ilCourseContentGUI
 			{
 				$this->tpl->setVariable("VAL_DURATION",intval(($end - $start) / (60 * 60 * 24)));
 			}
-			$this->tpl->setVariable('LIM_START',ilDatePresentation::formatDate(new ilDateTime($item['earliest_start'],IL_CAL_UNIX)));
-			$this->tpl->setVariable('LIM_END',ilDatePresentation::formatDate(new ilDateTime($item['latest_end'],IL_CAL_UNIX)));
+			$this->tpl->setVariable('LIM_START',ilDatePresentation::formatDate(new ilDate($item['earliest_start'],IL_CAL_UNIX)));
+			$this->tpl->setVariable('LIM_END',ilDatePresentation::formatDate(new ilDate($item['latest_end'],IL_CAL_UNIX)));
 		}
 
 		$this->tpl->parseCurrentBlock();
@@ -1853,7 +1856,7 @@ class ilCourseContentGUI
 
 	function __toUnix($date,$time = array())
 	{
-		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
+		return gmmktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
 	}
 
 	function __prepareDateSelect($a_unix_time)

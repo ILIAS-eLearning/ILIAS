@@ -561,7 +561,6 @@ class ilCourseItems
 				$this->items[] = $item;
 			}
 		}
-
 		$ilBench->start("Course", "ilCouseItems_read - getItemData");
 		for($i = 0;$i < count($this->items); ++$i)
 		{
@@ -632,7 +631,6 @@ class ilCourseItems
 			"AND parent_id = ".$ilDB->quote($a_item['parent'])." ";
 		$res = $this->ilDB->query($query);
 		$ilBench->stop("Course", "ilCourseItems_getItemData - 1");
-		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ilBench->start("Course", "ilCourseItems_getItemData - 2");
@@ -668,21 +666,6 @@ class ilCourseItems
 			$ilBench->stop("Course", "ilCourseItems_getItemData - 3");
 
 			//if($ilObjDataCache->lookupType($obj_id = $ilObjDataCache->lookupObjId($row->obj_id)) == 'sess')
-			if ($obj_type == 'sess')
-			{
-				include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
-				
-				$ilBench->start("Course", "ilCourseItems_getItemData - lookupAppointment");
-				$info = ilSessionAppointment::_lookupAppointment($obj_id);
-				$ilBench->stop("Course", "ilCourseItems_getItemData - lookupAppointment");
-				
-				$a_item['timing_type'] = IL_CRS_TIMINGS_FIXED;
-				$a_item['start'] = $info['start'];
-				$a_item['end'] = $info['end'];
-				$a_item['fullday'] = $info['fullday'];
-				$a_item['activation_info'] = 'crs_timings_suggested_info';
-				continue;
-			}
 
 			// Check for user entry
 			$ilBench->start("Course", "ilCourseItems_getItemData - 4");
@@ -713,6 +696,20 @@ class ilCourseItems
 				$a_item['start'] = $row->timing_start;
 				$a_item['end'] = $row->timing_end;
 				$a_item['activation_info'] = 'activation';
+			}
+			elseif($obj_type == 'sess')
+			{
+				include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+				
+				$ilBench->start("Course", "ilCourseItems_getItemData - lookupAppointment");
+				$info = ilSessionAppointment::_lookupAppointment($obj_id);
+				$ilBench->stop("Course", "ilCourseItems_getItemData - lookupAppointment");
+				
+				$a_item['timing_type'] = IL_CRS_TIMINGS_FIXED;
+				$a_item['start'] = $info['start'];
+				$a_item['end'] = $info['end'];
+				$a_item['fullday'] = $info['fullday'];
+				$a_item['activation_info'] = 'crs_timings_suggested_info';
 			}
 			else
 			{
