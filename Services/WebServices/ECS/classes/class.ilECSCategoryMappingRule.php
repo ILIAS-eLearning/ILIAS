@@ -309,6 +309,11 @@ class ilECSCategoryMappingRule
 		switch($this->getMappingType())
 		{
 			case self::TYPE_FIXED:
+			
+				if($this->getFieldName() == 'part_id')
+				{
+					return $lng->txt('ecs_field_'.$this->getFieldName()).': '.$this->participantsToString();
+				}
 				return $lng->txt('ecs_field_'.$this->getFieldName()).': '.$this->getMappingValue();
 				
 			case self::TYPE_DURATION:
@@ -319,6 +324,38 @@ class ilECSCategoryMappingRule
 		}	 
 	}
 	
+	/**
+	 * get strong presentation of participants 
+	 * @param
+	 * @return
+	 */
+	public function participantsToString()
+	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
+		
+		$part_string = "";
+		$part = explode(',',$this->getMappingValue());
+		$counter = 0;
+		foreach($part as $part_id)
+		{
+			if($counter++)
+			{
+				$part_string .= ', ';				
+			}
+			$part_string .= '"';
+			if($name = ilECSUtils::lookupParticipantName($part_id))
+			{
+				$part_string .= $name;
+			}
+			else
+			{
+				$part_string .= $part_id;
+			}
+			$part_string .= '"';
+		}
+		return $part_string;
+	}
+
 	/**
 	 * Check if rule matches a specific econtent 
 	 * @param object	$econtent	ilECSEContent

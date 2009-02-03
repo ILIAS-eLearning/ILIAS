@@ -86,16 +86,16 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
 	 */
 	public function parse($a_rules)
 	{
-		 foreach($a_rules as $rule)
-		 {
-		 	$tmp_arr['id'] = $rule->getMappingId();
-		 	$tmp_arr['category_id'] = $rule->getContainerId();
-		 	$tmp_arr['category'] = ilObject::_lookupTitle(ilObject::_lookupObjId($rule->getContainerId()));
-		 	$tmp_arr['kind'] = $rule->conditionToString();
-		 	
-		 	$content[] = $tmp_arr;
-		 }
-		 $this->setData($content ? $content : array());
+		foreach($a_rules as $rule)
+		{
+			$tmp_arr['id'] = $rule->getMappingId();
+			$tmp_arr['category_id'] = $rule->getContainerId();
+			$tmp_arr['category'] = ilObject::_lookupTitle(ilObject::_lookupObjId($rule->getContainerId()));
+			$tmp_arr['kind'] = $rule->conditionToString();
+			
+			$content[] = $tmp_arr;
+		}
+		$this->setData($content ? $content : array());
 	}
 }
 ?>

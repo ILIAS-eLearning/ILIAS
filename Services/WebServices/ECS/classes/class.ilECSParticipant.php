@@ -209,7 +209,7 @@ class ilECSParticipant
 	 	$this->description = $this->json_obj->description;
 	 	$this->participantname = $this->json_obj->participantname;
 	 	$this->abr = $this->json_obj->abr;
-	 	$ilLog->write(__METHOD__.': Received certId '.$this->getCertId().' for '.$this->getParticipantName());
+	 	#$ilLog->write(__METHOD__.': Received certId '.$this->getCertId().' for '.$this->getParticipantName());
 		return true;
 	}
 }
