@@ -28,12 +28,9 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilImageWizardInputGUI extends ilSubEnabledFormPropertyGUI
+class ilImageWizardInputGUI extends ilImageFileInputGUI
 {
-	protected $suffixes = array();
 	protected $filenames = array();
-	protected $maxlength = 200;
-	protected $size = 40;
 	protected $allowMove = false;
 	protected $imagepath_web = "";
 	
@@ -46,7 +43,6 @@ class ilImageWizardInputGUI extends ilSubEnabledFormPropertyGUI
 	function __construct($a_title = "", $a_postvar = "")
 	{
 		parent::__construct($a_title, $a_postvar);
-		$this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
 	}
 
 	/**
@@ -90,26 +86,6 @@ class ilImageWizardInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Set Max Length.
-	*
-	* @param	int	$a_maxlength	Max Length
-	*/
-	function setMaxLength($a_maxlength)
-	{
-		$this->maxlength = $a_maxlength;
-	}
-
-	/**
-	* Get Max Length.
-	*
-	* @return	int	Max Length
-	*/
-	function getMaxLength()
-	{
-		return $this->maxlength;
-	}
-
-	/**
 	* Set allow move
 	*
 	* @param	boolean	$a_allow_move Allow move
@@ -130,26 +106,6 @@ class ilImageWizardInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Set Size.
-	*
-	* @param	int	$a_size	Size
-	*/
-	function setSize($a_size)
-	{
-		$this->size = $a_size;
-	}
-
-	/**
-	* Get Size.
-	*
-	* @return	int	Size
-	*/
-	function getSize()
-	{
-		return $this->size;
-	}
-	
-	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -164,7 +120,6 @@ class ilImageWizardInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			foreach ($pictures['name'] as $index => $name)
 			{
-				$uploadcheck = true;
 				// remove trailing '/'
 				while (substr($name, -1) == '/')
 				{
@@ -304,8 +259,6 @@ class ilImageWizardInputGUI extends ilSubEnabledFormPropertyGUI
 			$tpl->setVariable("ID", $this->getFieldId() . "[$i]");
 			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
 			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("SIZE", $this->getSize());
-			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
 			if ($this->getDisabled())
 			{
 				$tpl->setVariable("DISABLED",
@@ -327,71 +280,5 @@ class ilImageWizardInputGUI extends ilSubEnabledFormPropertyGUI
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initDomEvent();
 		$tpl->addJavascript("./Services/Form/templates/default/imagewizard.js");
-	}
-
-	protected function getMaxFileSizeString()
-	{
-		// get the value for the maximal uploadable filesize from the php.ini (if available)
-		$umf = get_cfg_var("upload_max_filesize");
-		// get the value for the maximal post data from the php.ini (if available)
-		$pms = get_cfg_var("post_max_size");
-
-		//convert from short-string representation to "real" bytes
-		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
-
-		$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-		$pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-
-		if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
-		if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
-
-		// use the smaller one as limit
-		$max_filesize = min($umf, $pms);
-
-		if (!$max_filesize) $max_filesize=max($umf, $pms);
-
-		//format for display in mega-bytes
-		$max_filesize = sprintf("%.1f MB",$max_filesize/1024/1024);
-
-		return $max_filesize;
-	}
-
-	protected function outputSuffixes($a_tpl, $a_block = "allowed_suffixes")
-	{
-		global $lng;
-		
-		if (is_array($this->getSuffixes()))
-		{
-			$suff_str = $delim = "";
-			foreach($this->getSuffixes() as $suffix)
-			{
-				$suff_str.= $delim.".".$suffix;
-				$delim = ", ";
-			}
-			$a_tpl->setCurrentBlock($a_block);
-			$a_tpl->setVariable("TXT_ALLOWED_SUFFIXES",
-				$lng->txt("file_allowed_suffixes")." ".$suff_str);
-			$a_tpl->parseCurrentBlock();
-		}
-	}
-	
-	/**
-	* Set Accepted Suffixes.
-	*
-	* @param	array	$a_suffixes	Accepted Suffixes
-	*/
-	function setSuffixes($a_suffixes)
-	{
-		$this->suffixes = $a_suffixes;
-	}
-
-	/**
-	* Get Accepted Suffixes.
-	*
-	* @return	array	Accepted Suffixes
-	*/
-	function getSuffixes()
-	{
-		return $this->suffixes;
 	}
 }

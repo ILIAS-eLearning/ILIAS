@@ -28,12 +28,9 @@
 * @version $Id$
 * @ingroup	ServicesForm
 */
-class ilTextWizardInputGUI extends ilSubEnabledFormPropertyGUI
+class ilTextWizardInputGUI extends ilTextInputGUI
 {
 	protected $values = array();
-	protected $maxlength = 200;
-	protected $size = 40;
-	protected $validationRegexp;
 	protected $allowMove = false;
 	
 	/**
@@ -69,46 +66,6 @@ class ilTextWizardInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Set validation regexp.
-	*
-	* @param	string	$a_value	regexp
-	*/
-	function setValidationRegexp($a_value)
-	{
-		$this->validationRegexp = $a_value;
-	}
-
-	/**
-	* Get validation regexp.
-	*
-	* @return	string	regexp
-	*/
-	function getValidationRegexp()
-	{
-		return $this->validationRegexp;
-	}
-
-	/**
-	* Set Max Length.
-	*
-	* @param	int	$a_maxlength	Max Length
-	*/
-	function setMaxLength($a_maxlength)
-	{
-		$this->maxlength = $a_maxlength;
-	}
-
-	/**
-	* Get Max Length.
-	*
-	* @return	int	Max Length
-	*/
-	function getMaxLength()
-	{
-		return $this->maxlength;
-	}
-
-	/**
 	* Set allow move
 	*
 	* @param	boolean	$a_allow_move Allow move
@@ -128,26 +85,6 @@ class ilTextWizardInputGUI extends ilSubEnabledFormPropertyGUI
 		return $this->allowMove;
 	}
 
-	/**
-	* Set Size.
-	*
-	* @param	int	$a_size	Size
-	*/
-	function setSize($a_size)
-	{
-		$this->size = $a_size;
-	}
-
-	/**
-	* Get Size.
-	*
-	* @return	int	Size
-	*/
-	function getSize()
-	{
-		return $this->size;
-	}
-	
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*

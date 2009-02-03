@@ -226,8 +226,12 @@ class assOrderingQuestionGUI extends assQuestionGUI
 							if ($this->object->setImageFile($pictures["tmp_name"][$index], $this->object->getEncryptedFilename($name), $picturefile))
 							{
 								$picturefile = $this->object->getEncryptedFilename($name);
-								$this->object->addAnswer($picturefile);
 							}
+							else
+							{
+								$picturefile = "";
+							}
+							$this->object->addAnswer($picturefile);
 						}
 						else
 						{
@@ -452,99 +456,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	{
 		$this->writePostData();
 		$this->editQuestion();
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function _writePostData()
-	{
-		$result = 0;
-		$saved = false;
-
-		// Delete all existing answers and create new answers from the form data
-		$this->object->flushAnswers();
-
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$questiontext = ilUtil::stripSlashes($_POST["question"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-		$this->object->setQuestion($questiontext);
-		$this->object->setShuffle($_POST["shuffle"]);
-
-		// adding estimated working time
-		$saved = $saved | $this->writeOtherPostData($result);
-		$this->object->setOrderingType($_POST["ordering_type"]);
-		if ($this->object->getOrderingType() == OQ_TERMS)
-		{
-			$this->object->setMultilineAnswerSetting($_POST["multilineAnswers"]);
-		}
-
-		// Add answers from the form
-		foreach ($_POST as $key => $value)
-		{
-			if (preg_match("/answer_(\d+)/", $key, $matches))
-			{
-				if ($this->object->getOrderingType() == OQ_PICTURES)
-				{
-					if ($_FILES[$key]["tmp_name"])
-					{
-						// upload the ordering picture
-						if ($this->object->getId() <= 0)
-						{
-							$this->object->saveToDb();
-							$saved = true;
-							$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
-						}
-						$image_file = $this->object->createNewImageFileName($_FILES[$key]["name"]);
-						$upload_result = $this->object->setImageFile($image_file, $_FILES[$key]['tmp_name']);
-						switch ($upload_result)
-						{
-							case 0:
-								$_POST[$key] = $image_file;
-								break;
-							case 1:
-								$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
-								break;
-							case 2:
-								$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
-								break;
-						}
-					}
-				}
-				$points = $_POST["points_$matches[1]"];
-				if ($points < 0)
-				{
-					$result = 1;
-					$this->setErrorMessage($this->lng->txt("negative_points_not_allowed"));
-				}
-				$answer = $_POST["$key"];
-				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-				$answer = ilUtil::stripSlashes($answer, false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
-				$this->object->addAnswer(
-					$answer,
-					ilUtil::stripSlashes($points),
-					ilUtil::stripSlashes($matches[1]),
-					ilUtil::stripSlashes($_POST["order_$matches[1]"])
-				);
-			}
-		}
-		if ($saved)
-		{
-			// If the question was saved automatically before an upload, we have to make
-			// sure, that the state after the upload is saved. Otherwise the user could be
-			// irritated, if he presses cancel, because he only has the question state before
-			// the upload process.
-			$this->object->saveToDb();
-			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-		}
-		return $result;
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
