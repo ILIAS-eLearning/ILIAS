@@ -85,6 +85,8 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_EMAIL',$this->lng->txt('ecs_email'));
 		$this->tpl->setVariable('TXT_DNS',$this->lng->txt('ecs_dns'));
 		$this->tpl->setVariable('TXT_ABR',$this->lng->txt('ecs_abr'));
+		$this->tpl->setVariable('TXT_ID',$this->lng->txt('ecs_unique_id'));
+		
 		
 		
 		if($a_set['checked'])

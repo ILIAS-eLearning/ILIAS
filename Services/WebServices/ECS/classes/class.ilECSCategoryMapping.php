@@ -21,70 +21,53 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
+
 /** 
 * 
-* @author Stefan Meyer <smeyer@databay.de>
+* 
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
-* 
-* @ilCtrl_Calls 
+*
 * @ingroup ServicesWebServicesECS 
 */
-
-class ilECSUtils
+class ilECSCategoryMapping
 {
 	/**
-	 * fetch new econtent id from location header
+	 * get active rules
 	 *
-	 * @access public
+	 * @return array
 	 * @static
-	 *
-	 * @param array header array
 	 */
-	public static function _fetchEContentIdFromHeader($a_header)
+	public static function getActiveRules()
 	{
-		global $ilLog;
+		global $ilDB;
 		
-		if(!isset($a_header['Location']))
+		$res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping');
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return false;
+			$rules[] = new ilECSCategoryMappingRule($row->mapping_id);
 		}
-		$end_path = strrpos($a_header['Location'],"/");
-		
-		if($end_path === false)
-		{
-			$ilLog->write(__METHOD__.': Cannot find path seperator.');
-			return false;
-		}
-		$econtent_id = substr($a_header['Location'],$end_path + 1);
-		$ilLog->write(__METHOD__.': Received EContentId '.$econtent_id);
-		return (int) $econtent_id;
+		return $rules ? $rules : array();
 	}
+	
 	
 	/**
-	 * get optional econtent fields
-	 * These fields might be mapped against AdvancedMetaData field definitions
+	 * 
 	 *
-	 * @access public
+	 * @return
 	 * @static
-	 *
 	 */
-	public static function _getOptionalEContentFields()
+	public static function getPossibleFields()
 	{
 		return array(
+			'part_id',
 			'study_courses',
-			'lecturer',
 			'courseType',
-			'courseID',
 			'term',
 			'credits',
-			'semester_hours',
-			'begin',
-			'end',
-			'room',
-			'cycle');
+			'begin');
 	}
-	
 }
-
 ?>
