@@ -144,11 +144,18 @@ class ilMailbox
 	function getInboxFolder()
 	{
 		global $ilDB;
+
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM '.$this->table_mail_obj_data.'
+			WHERE user_id = ?
+			AND type = ?',
+			array('integer', 'text')
+		);
 		
-		$query = "SELECT * FROM ".$this->table_mail_obj_data." ".
-				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
-				 "AND type = 'inbox'";
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$data = array($this->user_id, 'inbox');
+		
+		$res = $this->ilias->db->execute($statement, $data);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $row->obj_id;
 	}
@@ -161,11 +168,19 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM ".$this->table_mail_obj_data ." ".
-				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
-				 "AND type = 'drafts'";
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM '.$this->table_mail_obj_data.'
+			WHERE user_id = ?
+			AND type = ?',
+			array('integer', 'text')
+		);
+		
+		$data = array($this->user_id, 'drafts');
+		
+		$res = $this->ilias->db->execute($statement, $data);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		
 		return $row->obj_id;
 	}
 
@@ -177,11 +192,19 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM ".$this->table_mail_obj_data ." ".
-				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
-				 "AND type = 'trash'";
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM '.$this->table_mail_obj_data.'
+			WHERE user_id = ?
+			AND type = ?',
+			array('integer', 'text')
+		);
+		
+		$data = array($this->user_id, 'trash');
+		
+		$res = $this->ilias->db->execute($statement, $data);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+				
 		return $row->obj_id;
 	}
 
@@ -193,11 +216,19 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
-			 	 "AND type = 'sent'";
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM '.$this->table_mail_obj_data.'
+			WHERE user_id = ?
+			AND type = ?',
+			array('integer', 'text')
+		);
+		
+		$data = array($this->user_id, 'sent');
+		
+		$res = $this->ilias->db->execute($statement, $data);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		
 		return $row->obj_id;
 	}
 
@@ -251,24 +282,39 @@ class ilMailbox
 		}
 
 		// CHECK FOR SYSTEM MAIL
-		$query = "SELECT mail_id FROM mail WHERE folder_id = 0 AND user_id = ".$ilDB->quote($a_user_id)." ".
-			"AND m_status = 'unread'";
+		$statement = $this->ilias->db->prepare('
+			SELECT mail_id FROM mail 
+			WHERE folder_id = ? 
+			AND user_id = ?
+			AND m_status = ?',
+			array('integer', 'integer', 'text')
+		);
 
-		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$data = array('0', $a_user_id, 'unread');
+
+		$res = $this->ilias->db->execute($statement, $data);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		if($row->mail_id)
 		{
 			return $row->mail_id;
 		}
 
-		$query = "SELECT m.mail_id FROM mail AS m,mail_obj_data AS mo ".
-				 "WHERE m.user_id = mo.user_id ".
-				 "AND m.folder_id = mo.obj_id ".
-				 "AND mo.type = 'inbox' ".
-				 "AND m.user_id = ".$ilDB->quote($a_user_id)." ".
-			 	 "AND m.m_status = 'unread'";
-		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$statement = $this->ilias->db->prepare('
+			SELECT m.mail_id FROM mail AS m,mail_obj_data AS mo 
+			WHERE m.user_id = mo.user_id 
+			AND m.folder_id = mo.obj_id 
+			AND mo.type = ?
+			AND m.user_id = ?
+			AND m.m_status = ?',
+			array('text', 'integer', 'text')
+		);	
 
+		$data =	array('inbox', $a_user_id, 'unread');
+
+		$res = $this->ilias->db->execute($statement, $data);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
 		return $row ? $row->mail_id : 0;
 	}
 
@@ -290,18 +336,31 @@ class ilMailbox
 		}
 
 		// CHECK FOR SYSTEM MAIL
-		$query = "SELECT count(*) as cnt FROM mail WHERE folder_id = 0 AND user_id = ".$ilDB->quote($a_user_id)." ".
-			"AND m_status = 'unread'";
-
-		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-
-		$query = "SELECT count(*) as cnt FROM mail AS m,mail_obj_data AS mo ".
-				 "WHERE m.user_id = mo.user_id ".
-				 "AND m.folder_id = mo.obj_id ".
-				 "AND mo.type = 'inbox' ".
-				 "AND m.user_id = ".$ilDB->quote($a_user_id)." ".
-			 	 "AND m.m_status = 'unread'";
-		$row2 = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$statement = $this->ilias->db->prepare('
+			SELECT count(*) as cnt FROM mail 
+			WHERE folder_id = ? 
+			AND user_id = ?
+			AND m_status = ?',
+			array('integer', 'integer', 'text')
+		);
+		
+		$data = array('0', $a_user_id, 'unread');
+		$res = $this->ilias->db->execute($statement, $data);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+					
+		$statement = $this->ilias->db->prepare('
+			SELECT count(*) as cnt FROM mail AS m,mail_obj_data AS mo 
+		 	WHERE m.user_id = mo.user_id 
+		 	AND m.folder_id = mo.obj_id 
+		 	AND mo.type = ?
+			AND m.user_id = ?
+	 		AND m.m_status = ?',
+			array('text', 'integer', 'text')
+		);
+				
+		$data = array('inbox', $a_user_id, 'unread');
+		$res = $this->ilias->db->execute($statement, $data);
+		$row2 = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return $row->cnt + $row2->cnt;
 	}
@@ -316,12 +375,18 @@ class ilMailbox
 
 		$root_id = $this->getLastInsertId();
 		++$root_id;
-
-		$query = "INSERT INTO $this->table_mail_obj_data ".
-				 "SET user_id = ".$ilDB->quote($this->user_id).", ".
-				 "title = 'a_root',".
-				 "type = 'root'";
-		$res = $this->ilias->db->query($query);
+	
+		$statement = $this->ilias->db->prepareManip('
+			INSERT INTO '. $this->table_mail_obj_data .' 
+			SET user_id = ?,
+				title = ?,
+				type = ?',
+			array('integer', 'text', 'text')
+		);
+		
+		$data = array($this->user_id, 'a_root', 'root');
+		$res = $this->ilias->db->execute($statement, $data);
+		
 		$this->mtree->addTree($this->user_id,$root_id);
 		
 		foreach ($this->default_folder as $key => $folder)
@@ -329,11 +394,17 @@ class ilMailbox
 			$last_id = $this->getLastInsertId();
 			++$last_id;
 
-			$query = "INSERT INTO $this->table_mail_obj_data ".
-					 "SET user_id = ".$ilDB->quote($this->user_id).", ".
-					 "title = ".$ilDB->quote($key).", ".
-					 "type = ".$ilDB->quote($folder);
-			$res = $this->ilias->db->query($query);
+			$statement = $this->ilias->db->prepareManip('
+				INSERT INTO '. $this->table_mail_obj_data .' 
+				SET user_id = ?,
+					title = ?,
+					type = ?',
+				array('integer', 'text', 'text')
+			);
+
+			$data = array($this->user_id, $key, $folder);
+			$res = $this->ilias->db->execute($statement, $data);
+			
 			$this->mtree->insertNode($last_id,$root_id);
 		}
 	}
@@ -353,12 +424,19 @@ class ilMailbox
 			return 0;
 		}
 		// ENTRY IN mail_obj_data
-		$query = "INSERT INTO $this->table_mail_obj_data ".
-			 	 "SET user_id = ".$ilDB->quote($this->user_id).", ".
-				 "title = ".$ilDB->quote($a_folder_name).",".
-			 	 "type = 'user_folder'";
-		$res = $this->ilias->db->query($query);
 
+		$statement = $this->ilias->db->prepareManip('
+			INSERT INTO '. $this->table_mail_obj_data .'
+			 	 SET user_id = ?,
+				 title = ?,
+			 	 type = ?',
+			array('integer', 'text', 'text')
+		);
+		
+		$data = array($this->user_id, $a_folder_name, 'user_folder');
+		
+		$res = $this->ilias->db->execute($statement, $data);
+		
 		// ENTRY IN mail_tree
 		$new_id = $this->getLastInsertId();
 		$this->mtree->insertNode($new_id,$a_parent_id);
@@ -381,12 +459,17 @@ class ilMailbox
 		{
 			return false;
 		}
-
-		$query = "UPDATE $this->table_mail_obj_data ".
-				 "SET title = ".$ilDB->quote($a_new_folder_name)." ".
-				 "WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
-		$res = $this->ilias->db->query($query);
 		
+		$statement = $this->ilias->db->prepareManip('
+			UPDATE '. $this->table_mail_obj_data .'
+			SET title = ?
+			WHERE obj_id = ?',
+			array('text', 'integer')
+		);
+		
+		$data = array($a_new_folder_name, $a_obj_id);
+		$res = $this->ilias->db->execute($statement, $data);		
+
 		return true;
 	}
 
@@ -400,11 +483,17 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$query = "SELECT obj_id FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
-				 "AND title = ".$ilDB->quote($a_folder_name)." ";
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-
+		$statement = $this->ilias->db->prepare('
+			SELECT obj_id FROM '. $this->table_mail_obj_data .'
+			WHERE user_id = ?
+			AND title = ?',
+			array('integer', 'text')
+		);
+		
+		$data = array($this->user_id, $a_folder_name);
+		$res = $this->ilias->db->execute($statement, $data);		
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			
 		return $row->obj_id ? true : false;
 	}
 
@@ -443,9 +532,16 @@ class ilMailbox
 			}
 
 			// DELETE mobj_data entries
-			$query = "DELETE FROM $this->table_mail_obj_data ".
-					 "WHERE obj_id = ".$ilDB->quote($node["obj_id"])." ";
-			$res = $this->ilias->db->query($query);
+			$statement = $this->ilias->db->prepareManip('
+				DELETE FROM '. $this->table_mail_obj_data .' 
+				WHERE obj_id = ?',
+				array('integer')
+			);
+			
+			$data = array($node['obj_id']);
+			$res = $this->ilias->db->execute($statement, $data);				
+
+			
 		}
 
 		return true;
@@ -467,13 +563,19 @@ class ilMailbox
 	function getFolderData($a_obj_id)
 	{
 		global $ilDB;
-
-		$query = "SELECT * FROM $this->table_mail_obj_data ".
-				 "WHERE user_id = ".$ilDB->quote($this->user_id)." ".
-				 "AND obj_id = ".$ilDB->quote($a_obj_id)." ";
-
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-
+	
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM '. $this->table_mail_obj_data .' 
+			WHERE user_id = ?
+			AND obj_id = ?',
+			array('integer', 'integer')
+		);
+		
+		$data = array($this->user_id, $a_obj_id);
+		
+		$res = $this->ilias->db->execute($statement, $data);		
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
 		return array(
 					"title"    => stripslashes($row->title),
 					"type"     => $row->type
@@ -488,10 +590,18 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM $this->table_tree ".
-				 "WHERE child = ".$ilDB->quote($a_obj_id)." ";
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-	
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM  '. $this->table_tree .' 
+			WHERE child = ?',
+			array('integer')
+		);
+
+		$data = array($a_obj_id);
+		
+		$res = $this->ilias->db->execute($statement, $data);		
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
+		
 		return $row->parent;
 	}
 	/**
@@ -502,6 +612,7 @@ class ilMailbox
 	*/
 	function getSubFolders($a_folder = 0,$a_folder_parent = 0)
 	{
+	
 		global $ilDB;
 
 		if (!$a_folder)
@@ -511,10 +622,17 @@ class ilMailbox
 		
 		foreach ($this->default_folder as $key => $value)
 		{
-			$query = "SELECT obj_id,type FROM $this->table_mail_obj_data ".
-				"WHERE user_id = ".$ilDB->quote($this->user_id). " ".
-				"AND title = ".$ilDB->quote($key)." ";
-			$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$statement = $this->ilias->db->prepare('
+				SELECT obj_id,type FROM '. $this->table_mail_obj_data .' 
+				WHERE user_id = ?
+				AND title = ?',
+				array('integer', 'text')
+			);
+			$data = array($this->user_id, $key);
+						
+			$res = $this->ilias->db->execute($statement, $data);		
+			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			
 			
 			$user_folder[] = array(
 				"title"    => $key,
@@ -522,14 +640,19 @@ class ilMailbox
 				"obj_id"   => $row->obj_id);
 		} 
 
-		$query = "SELECT * FROM $this->table_tree, $this->table_mail_obj_data ".
-			"WHERE $this->table_mail_obj_data.obj_id = $this->table_tree.child ".
-			"AND $this->table_tree.depth > '2' ".
-			"AND $this->table_tree.tree = ".$ilDB->quote($this->user_id)." ".
-			"ORDER BY $this->table_mail_obj_data.title";
-
-		$res = $this->ilias->db->query($query);
-
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM '. $this->table_tree. ', .'. $this->table_mail_obj_data .'
+			WHERE '. $this->table_mail_obj_data.'.obj_id = '. $this->table_tree.'.child 
+			AND '. $this->table_tree.'.depth  > ?
+			AND '. $this->table_tree.'.tree  = ?
+			ORDER BY '. $this->table_mail_obj_data.'.title  ',
+			array('integer', 'integer')
+		);
+		
+		$data = array('2', $this->user_id);
+		
+		$res = $this->ilias->db->execute($statement, $data);		
+					
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$user_folder[] = array(
@@ -563,17 +686,31 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM mail_obj_data WHERE user_id=".$ilDB->quote($this->user_id)." ";
-		$this->ilias->db->query($q);
+		$data = array($this->user_id);
+		
+		$statement = $this->ilias->db->prepareManip('
+			DELETE FROM mail_obj_data WHERE user_id = ?',
+			array('integer')
+		);
+		$this->ilias->db->execute($statement, $data);
 
-		$q = "DELETE FROM mail_options WHERE user_id= ".$ilDB->quote($this->user_id)." ";
-		$this->ilias->db->query($q);
+		$statement = $this->ilias->db->prepareManip('
+			DELETE FROM mail_options WHERE user_id = ?',
+			array('integer')
+		);
+		$this->ilias->db->execute($statement, $data);
 
-		$q = "DELETE FROM mail_saved WHERE user_id= ".$ilDB->quote($this->user_id)." ";
-		$this->ilias->db->query($q);
-
-		$q = "DELETE FROM mail_tree WHERE tree=".$ilDB->quote($this->user_id)." ";
-		$this->ilias->db->query($q);
+		$statement = $this->ilias->db->prepareManip('
+			DELETE FROM mail_saved WHERE user_id = ?',
+			array('integer')
+		);
+		$this->ilias->db->execute($statement, $data);
+		
+		$statement = $this->ilias->db->prepareManip('
+			DELETE FROM mail_tree WHERE tree = ?',
+			array('integer')
+		);
+		$this->ilias->db->execute($statement, $data);
 		
 		return true;
 	}
@@ -591,11 +728,18 @@ class ilMailbox
 
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($this->user_id,false);
 
-		$query = "UPDATE mail SET sender_id = '0',import_name = ".$ilDB->quote($tmp_user->getLogin())." ".
-			"WHERE sender_id = ".$ilDB->quote($this->user_id)." ";
-
-		$this->ilias->db->query($query);
-
+		$statement = $this->ilias->db->prepareManip('
+			UPDATE mail 
+			SET sender_id = ?,
+				import_name = ?
+			WHERE sender_id = ?',
+			array('integer', 'text', 'integer')
+		);
+		
+		$data = array('0', $tmp_user->getLogin(), $this->user_id);
+		
+		$this->ilias->db->execute($statement, $data);		
+		
 		return true;
 	}
 		

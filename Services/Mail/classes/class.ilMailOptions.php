@@ -95,12 +95,16 @@ class ilMailOptions
 			$incomingMail = IL_MAIL_BOTH;
 		}
 
-        $query = "INSERT INTO $this->table_mail_options " .
-                 "VALUES(" . $ilDB->quote($this->user_id) . ", " . 
-                 			 $ilDB->quote(DEFAULT_LINEBREAK) . ", '', " . 
-							 $ilDB->quote($incomingMail) . ", '0')";
+		$statement = $this->ilias->db->prepareManip('
+			INSERT INTO '.$this->table_mail_options.'
+			VALUES(?, ?, ?, ?, ?)', 
+			array('integer', 'integer', 'text', 'integer', 'integer')
+		);
+		
+		$data = array($this->user_id, DEFAULT_LINEBREAK,'', $incomingMail, '0');
+		
+		$res = $this->ilias->db->execute($statement, $data);
 
-        $res = $this->ilias->db->query($query);
         return true;
     }
 
@@ -114,11 +118,18 @@ class ilMailOptions
 	function getOptions()
 	{
 		global $ilDB;
-		
-		$query = "SELECT * FROM $this->table_mail_options ".
-			"WHERE user_id = ".$ilDB->quote($this->user_id)." ";
 
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM '.$this->table_mail_options.'
+			WHERE user_id = ?',
+			array('integer')
+		);
+		
+		$data = array($this->user_id);
+		
+		$res = $this->ilias->db->execute($statement, $data);
+		
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		$this->cronjob_notification = stripslashes($row->cronjob_notification);
 		$this->signature = stripslashes($row->signature);
@@ -144,22 +155,32 @@ class ilMailOptions
 	function updateOptions($a_signature, $a_linebreak, $a_incoming_type, $a_cronjob_notification)
 	{
 		global $ilDB, $ilias;
-		
+
+		$data = array();
+		$data_types = array();
+				
 		$query = 'UPDATE '.$this->table_mail_options.' 
-				  SET
-				  signature = '.$ilDB->quote($a_signature).', 
-			      linebreak = '.$ilDB->quote($a_linebreak).', ';		
+				SET signature = ?,
+				linebreak = ?, ';
+	
+		array_push($data_types, 'text', 'integer');
+		array_push($data, $a_signature, $a_linebreak);
+		
 		if ($ilias->getSetting('mail_notification'))
 		{		
-			$query .= 'cronjob_notification = '.$ilDB->quote($a_cronjob_notification).', ';
+			$query .= 'cronjob_notification = ?, ';
+			array_push($data_types, 'integer');
+			array_push($data, $a_cronjob_notification);			
 		}
-						
-		$query .='incoming_type = '.$ilDB->quote($a_incoming_type).'
-				  WHERE 1
-				  AND user_id = '.$ilDB->quote($this->user_id).' ';			
 
-		$res = $this->ilias->db->query($query);
-
+		$query .='incoming_type = ? WHERE 1 AND user_id =  ?';			
+		array_push($data, $a_incoming_type, $this->user_id);
+		array_push($data_types, 'integer', 'integer');
+		
+		$statement = $this->ilias->db->prepareManip($query, $data_types);
+		$res = $this->ilias->db->execute($statement, $data);
+		
+		
 		$this->cronjob_notification = $a_cronjob_notification;
 		$this->signature = $a_signature;
 		$this->linebreak = $a_linebreak;
