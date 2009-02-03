@@ -138,6 +138,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 
 		$result = false;
 		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php");
+
 		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($obj_id))
 		{
 			$lpdata = false;
@@ -148,7 +149,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 			if (ilObjUserTracking::_enabledLearningProgress())
 			{
-				$path = $tree->getPathFull($_GET['ref_id']);
+				$path = $tree->getPathFull($ref_id);
 				$course = 0;
 				foreach ($path as $item) if (strcmp($item["type"], "crs") == 0) $course = $item["obj_id"];
 				if ($course > 0)
@@ -167,6 +168,7 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 					}
 				}
 			}
+
 			switch ($type)
 			{
 				case "scorm":
@@ -190,6 +192,8 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 					{
 						$result = true;
 					}
+					
+					
 					break;
 				default:
 					break;
