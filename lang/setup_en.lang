@@ -473,3 +473,7 @@ step_access#:#Access
 determine_tools_paths#:#Try to Determine Tools Paths
 client_deleted#:#Client deleted.
 create_directory#:#Create Directory
+db_selection#:#Database Selection
+db_service_name#:#Service Name
+db_mysql#:#MySQL
+db_oracle#:#Oracle
