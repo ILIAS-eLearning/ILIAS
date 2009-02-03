@@ -439,8 +439,8 @@ class ilECSTaskScheduler
 	 	$this->log->write(__METHOD__.': Starting ECS tasks.');
 	 	
 	 	// Debug
-	 	#$this->startTaskExecution();
-	 	#return true;
+	 	$this->startTaskExecution();
+	 	return true;
 	 	
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 

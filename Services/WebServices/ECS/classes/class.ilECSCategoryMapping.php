@@ -83,8 +83,85 @@ class ilECSCategoryMapping
 		return ilECSSettings::_getInstance()->getImportId();
 	}
 	
-	
-	
+	/**
+	 * Handle update of ecs content and create references. 
+	 *
+	 * @return
+	 * @static
+	 */
+	 public static function handleUpdate(ilECSEContent $econtent,$a_obj_id)
+	 {
+	 	global $tree,$ilLog;
+	 	
+	 	$a_ref_id = current(ilObject::_getAllReferences($a_obj_id));
+	 	
+	 	$references = ilObject::_getAllReferences(ilObject::_lookupObjId($a_ref_id));
+	 	$cat = self::getMatchingCategory($econtent);
+	 	$all_cats = self::lookupHandledCategories();
+	 	
+	 	
+	 	$exists = false;
+	 	foreach($references as $ref_id => $null)
+	 	{
+	 		if($tree->getParentId($ref_id) == $cat)
+	 		{
+	 			$exists = true;
+	 		}
+	 	}
+		$ilLog->write(__METHOD__.': Creating/Deleting references...');	 	
+	 	include_once './classes/class.ilObjectFactory.php';
+	 	
+	 	if(!$exists)
+	 	{
+			$ilLog->write(__METHOD__.': Add new reference. STEP 1');
+			
+			if($obj_data = ilObjectFactory::getInstanceByRefId($a_ref_id,false))
+			{
+				$new_ref_id = $obj_data->createReference();
+				$obj_data->putInTree($cat);
+				$obj_data->setPermissions($cat);
+				$ilLog->write(__METHOD__.': Add new reference.');
+			}
+	 	}
+	 	// Now delete old references
+		foreach($references as $ref_id => $null)
+		{
+			$parent = $tree->getParentId($ref_id);
+			if($parent == $cat)
+			{
+				continue;
+			}
+			if(!in_array($parent,$all_cats))
+			{
+				continue;
+			}
+			if($to_delete = ilObjectFactory::getInstanceByRefId($ref_id))
+			{
+				$to_delete->delete();
+				$ilLog->write(__METHOD__.': Deleted deprecated reference.');
+			}
+		}
+		return true;
+	}
+	 
+	/**
+	 *  
+	 *
+	 * @return
+	 * @static
+	 */
+	public static function lookupHandledCategories()
+	{
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT container_id FROM ecs_container_mapping ");
+	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	{
+	 		$ref_ids[] = $row->container_id;
+	 	}
+		return $ref_ids ? $ref_ids : array();
+	}
+
 	/**
 	 * 
 	 *

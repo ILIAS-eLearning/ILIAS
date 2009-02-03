@@ -638,6 +638,11 @@ class ilObjRemoteCourse extends ilObject
 			$value->setValue($ecs_content->getTimePlace()->getCycle());
 			$value->save();
 		}
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
+		ilECSCategoryMapping::handleUpdate($ecs_content,$this->getId());
+		
+		
 		return true;
 	}
 	
