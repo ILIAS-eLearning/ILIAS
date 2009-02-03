@@ -86,9 +86,10 @@ class ilSetup extends PEAR
 	*/
 	function ilSetup($a_auth,$a_auth_type)
 	{
-		global $log;
+		global $log, $lng;
 
 		$this->PEAR();
+		$this->lng = $lng;
 		
 		$this->db_connections = new ilDBConnections();
 		
@@ -133,6 +134,26 @@ class ilSetup extends PEAR
 		}
 	}
 
+	/**
+	* Set Client
+	*
+	* @param	object		client
+	*/
+	function setClient($a_cl)
+	{
+		$this->client = $a_cl;
+	}
+
+	/**
+	* Get Client
+	*
+	* @return	object		client
+	*/
+	function getClient()
+	{
+		return $this->client;
+	}
+	
 	/**
 	* init setup
 	* load settings from ilias.ini if exists and sets some constants
@@ -212,39 +233,6 @@ class ilSetup extends PEAR
 		$this->ini_client_exists = true;
 
 		return true;		
-	}
-
-	/**
-	* execute a query
-	* @param	string
-	* @param	string
-	* @return	boolean	ture if query was processed successfully
-	*/
-	function execQuery($db,$str)
-	{
-		$sql = explode("\n",trim($str));
-		for ($i=0; $i<count($sql); $i++)
-		{
-			$sql[$i] = trim($sql[$i]);
-			if ($sql[$i] != "" && substr($sql[$i],0,1)!="#")
-			{
-				//take line per line, until last char is ";"
-				if (substr($sql[$i],-1)==";")
-				{
-					//query is complete
-					$q .= " ".substr($sql[$i],0,-1);
-					$r = $db->query($q);
-					if ($r == false)
-						return false;
-					unset($q);
-				} //if
-				else
-				{
-					$q .= " ".$sql[$i];
-				} //else
-			} //if
-		} //for
-		return true;
 	}
 
 	/**
@@ -1729,17 +1717,6 @@ class ilSetup extends PEAR
 		}
 	}
 	
-	function unzipTiny()
-	{
-		$this->unzip(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce.zip", TRUE);
-		$this->ini->setVariable("tools", "tiny_md5", md5_file(ILIAS_ABSOLUTE_PATH . "/Services/RTE/tiny_mce.zip"));
-		if ($this->ini->write() == false)
-		{
-			$this->error = $this->ini->getError();
-			return false;
-		}
-		return TRUE;
-	}
 
 	/**
 	* unzip file

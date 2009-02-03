@@ -248,15 +248,17 @@ class ilClient
 	*/
 	function isInstalledDB(&$a_db)
 	{
-		$q = "SHOW TABLES";
-		$r = $a_db->query($q);
-		
-		$tables = array();
+		//$q = "SHOW TABLES";
+		//$r = $a_db->query($q);
+		$manager = $a_db->loadModule('Manager');
+		$tables = $manager->listTables();
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		//$tables = array();
+
+		/*while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$tables[] = implode($row);
-		}
+		}*/
 
 		// check existence of some basic tables from ilias3 to determine if ilias3 is already installed in given database
 		if (in_array("object_data",$tables) and in_array("object_reference",$tables) and in_array("usr_data",$tables) and in_array("rbac_ua",$tables))
@@ -274,9 +276,19 @@ class ilClient
 	*/
 	function setDSN()
 	{
-
-		$this->dsn_host = "mysql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost();
-		$this->dsn = "mysql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost()."/".$this->getdbName();
+		switch($this->getDbType())
+		{
+			case "oracle":
+				$this->dsn_host = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost();
+				$this->dsn = "oci8://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost()."/?service=".$this->getdbName();
+				break;
+				
+			case "mysql":
+			default:
+				$this->dsn_host = "mysql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost();
+				$this->dsn = "mysql://".$this->getdbUser().":".$this->getdbPass()."@".$this->getdbHost()."/".$this->getdbName();
+				break;
+		}				
 	}
 
 	/**
@@ -353,6 +365,24 @@ class ilClient
 	}
 
 	/**
+	* set the type of database
+	* @param	string
+	*/
+	function setDbType($a_str)
+	{
+		$this->ini->setVariable("db","type",$a_str);
+	}
+
+	/**
+	* get type of database
+	* @return	string	name of database
+	*/
+	function getDbType()
+	{
+		return $this->ini->readVariable("db","type");
+	}
+
+	/**
 	* get client datadir path
 	* @return	string	client datadir path
 	*/
@@ -378,9 +408,14 @@ class ilClient
 	{
 		global $lng;
 		
+		if ($this->getDbType() == "oracle")
+		{
+			return true;
+		}
+		
 		//connect to databasehost
 		$db = $this->db_connections->connectHost($this->dsn_host);
-
+//var_dump($db); exit;
 		if (MDB2::isError($db))
 		{
 			//$this->error = $db->getMessage()."! Please check database hostname, username & password.";

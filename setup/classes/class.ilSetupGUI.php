@@ -32,7 +32,7 @@
 
 require_once "class.ilSetup.php";
 
-class ilSetupGUI extends ilSetup
+class ilSetupGUI
 {
 	var $tpl;       // template object
 	var $lng;       // language objet
@@ -61,8 +61,8 @@ class ilSetupGUI extends ilSetup
 	{
 		global $tpl, $lng;
 
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
+		$this->tpl = $tpl;
+		$this->lng = $lng;
 
 		// CVS - REVISION - DO NOT MODIFY
 		$this->revision = '$Revision$';
@@ -70,19 +70,19 @@ class ilSetupGUI extends ilSetup
 		$this->lang = $this->lng->lang_key;
 
 		// init setup
-		$this->ilSetup($_SESSION["auth"],$_SESSION["access_mode"]);
+		$this->setup = new ilSetup($_SESSION["auth"],$_SESSION["access_mode"]);
 
 		// init client object if exists
 		$client_id = ($_GET["client_id"]) ? $_GET["client_id"] : $_SESSION["ClientId"];
 
 		// for security
-		if (!$this->isAdmin() and $client_id != $_SESSION["ClientId"])
+		if (!$this->setup->isAdmin() and $client_id != $_SESSION["ClientId"])
 		{
 			$client_id = $_SESSION["ClientId"];
 		}
 
-		$this->ini_client_exists = $this->newClient($client_id);
-		$this->client->status = $this->getStatus();
+		$this->setup->ini_client_exists = $this->setup->newClient($client_id);
+		$this->setup->getClient()->status = $this->setup->getStatus();
 
 		// determine command
 		if (($this->cmd = $_GET["cmd"]) == "gateway")
@@ -94,7 +94,7 @@ class ilSetupGUI extends ilSetup
 		// determine display mode here
 		// TODO: depending on previous setting (session)
 		// OR switch to 'setup'-mode if someone logs in as client and client's setup wasn't finished (-> entry in settings table does not exist)
-		if ($this->isAuthenticated() and !$this->client->status["finish"]["status"] and $this->cmd != "clientlist" and $this->cmd != "")
+		if ($this->setup->isAuthenticated() and !$this->setup->getClient()->status["finish"]["status"] and $this->cmd != "clientlist" and $this->cmd != "")
 		{
 			$this->setDisplayMode("setup");
 		}
@@ -109,10 +109,10 @@ class ilSetupGUI extends ilSetup
 		$this->displayHeader();
 
 		// main cmd handling
-		if (!$this->isAuthenticated() or !$this->isInstalled())
+		if (!$this->setup->isAuthenticated() or !$this->setup->isInstalled())
 		{
 			// check for first time installation or migrate an old one first
-			if (!$this->isInstalled() or !($this->ini->readVariable("clients","path")))
+			if (!$this->setup->isInstalled() or !($this->setup->ini->readVariable("clients","path")))
 			{
 				$this->cmdInstall();
 			}
@@ -123,7 +123,7 @@ class ilSetupGUI extends ilSetup
 		}
 		else
 		{
-			if ($this->isAdmin())
+			if ($this->setup->isAdmin())
 			{
 				$this->cmdAdmin();
 			}
@@ -135,8 +135,8 @@ class ilSetupGUI extends ilSetup
 
 		if (DEBUG)
 		{
-			echo "cmd: ".$this->cmd." | access: ".$this->access_mode." | display: ".$this->display_mode;
-			var_dump($this->client->status);
+			echo "cmd: ".$this->cmd." | access: ".$this->setup->access_mode." | display: ".$this->display_mode;
+			var_dump($this->setup->getClient()->status);
 		}
 
 		// display footer
@@ -157,7 +157,7 @@ class ilSetupGUI extends ilSetup
 		{
 			case NULL:
 			case "preliminaries":
-				$this->checkPreliminaries();
+				$this->setup->checkPreliminaries();
 				$this->displayPreliminaries();
 				break;
 
@@ -208,15 +208,22 @@ class ilSetupGUI extends ilSetup
 				break;  
 
 			case "newclient":
+				$this->cmd = "selectdb";
+				$this->setDisplayMode("setup");
+				$this->setup->ini_client_exists = $this->setup->newClient();
+				$this->selectDBType();
+				break;  
+
+			case "selectdbtype":
 				$this->cmd = "ini";
 				$this->setDisplayMode("setup");
-				$this->ini_client_exists = $this->newClient();
+				$this->setup->ini_client_exists = $this->setup->newClient();
 				$this->displayIni();
 				break;  
 
 			case "startup":
 				$this->setDisplayMode("setup");
-				$this->ini_client_exists = $this->newClient();
+				$this->setup->ini_client_exists = $this->setup->newClient();
 				$this->displayStartup();
 				break;
 
@@ -231,7 +238,7 @@ class ilSetupGUI extends ilSetup
 				break;
 
 			case "preliminaries":
-				$this->checkPreliminaries();
+				$this->setup->checkPreliminaries();
 				$this->displayPreliminaries();
 				break;
 
@@ -250,7 +257,7 @@ class ilSetupGUI extends ilSetup
 		{
 			case NULL:
 			case "view":
-				if ($this->client->db_installed)
+				if ($this->setup->getClient()->db_installed)
 				{
 					$this->setDisplayMode("view"); 
 					$this->displayClientOverview();
@@ -264,7 +271,7 @@ class ilSetupGUI extends ilSetup
 				
 			case "ini":
 				// only allow access to ini if db does not exist yet
-				//if ($this->client->db_installed)
+				//if ($this->setup->getClient()->db_installed)
 				//{
 				//	$this->cmd = "db";
 				//	$this->displayDatabase();
@@ -280,7 +287,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "lang":
-				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "lang" and $this->error === true)
+				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "lang" and $this->setup->error === true)
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -291,7 +298,7 @@ class ilSetupGUI extends ilSetup
 				break;
 
 			case "contact":
-				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "contact")
+				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "contact")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -302,7 +309,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "nic":
-				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "nic")
+				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "nic")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -313,7 +320,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "finish":
-				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "finish")
+				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "finish")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -333,18 +340,18 @@ class ilSetupGUI extends ilSetup
 
 			case "login":
 				session_destroy();
-				ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
+				ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->setup->getClient()->getId());
 				break;
 
 			case "login_new":
-				if ($this->client->ini->readVariable("client","access") != "1")
+				if ($this->setup->getClient()->ini->readVariable("client","access") != "1")
 				{
-					$this->client->ini->setVariable("client","access","1");
-					$this->client->ini->write();
+					$this->setup->getClient()->ini->setVariable("client","access","1");
+					$this->setup->getClient()->ini->write();
 				}
 
 				session_destroy();
-				ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
+				ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->setup->getClient()->getId());
 				break;
 
 			case "tools":
@@ -372,16 +379,16 @@ class ilSetupGUI extends ilSetup
 	
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.client_overview.html");
 
-		if ($this->client->db_installed)
+		if ($this->setup->getClient()->db_installed)
 		{
-			$settings = $this->client->getAllSettings();
+			$settings = $this->setup->getClient()->getAllSettings();
 		}
 		
 		$txt_no_database = $this->lng->txt("no_database");
 
-		$access_status = ($this->client->status["access"]["status"]) ? "online" : "disabled";
-		$access_button = ($this->client->status["access"]["status"]) ? "disable" : "enable";
-		$access_link = "&nbsp;&nbsp;[<a href=\"setup.php?cmd=changeaccess&client_id=".$this->client->getId()."&back=view\">".$this->lng->txt($access_button)."</a>]";
+		$access_status = ($this->setup->getClient()->status["access"]["status"]) ? "online" : "disabled";
+		$access_button = ($this->setup->getClient()->status["access"]["status"]) ? "disable" : "enable";
+		$access_link = "&nbsp;&nbsp;[<a href=\"setup.php?cmd=changeaccess&client_id=".$this->setup->getClient()->getId()."&back=view\">".$this->lng->txt($access_button)."</a>]";
 		
 		// basic data
 		$this->tpl->setVariable("TXT_BASIC_DATA", $this->lng->txt("client_info"));
@@ -418,11 +425,11 @@ class ilSetupGUI extends ilSetup
 		// display formula data
 
 		// client data
-		$this->tpl->setVariable("INST_ID",($this->client->db_installed) ? $settings["inst_id"] : $txt_no_database);
-		$this->tpl->setVariable("CLIENT_ID2",$this->client->getId());
-		$this->tpl->setVariable("INST_NAME",($this->client->getName()) ? $this->client->getName() : "&lt;".$this->lng->txt("no_client_name")."&gt;");
-		$this->tpl->setVariable("INST_INFO",$this->client->getDescription());
-		$this->tpl->setVariable("DB_VERSION",($this->client->db_installed) ? $settings["db_version"] : $txt_no_database);
+		$this->tpl->setVariable("INST_ID",($this->setup->getClient()->db_installed) ? $settings["inst_id"] : $txt_no_database);
+		$this->tpl->setVariable("CLIENT_ID2",$this->setup->getClient()->getId());
+		$this->tpl->setVariable("INST_NAME",($this->setup->getClient()->getName()) ? $this->setup->getClient()->getName() : "&lt;".$this->lng->txt("no_client_name")."&gt;");
+		$this->tpl->setVariable("INST_INFO",$this->setup->getClient()->getDescription());
+		$this->tpl->setVariable("DB_VERSION",($this->setup->getClient()->db_installed) ? $settings["db_version"] : $txt_no_database);
 		$this->tpl->setVariable("ACCESS_STATUS",$this->lng->txt($access_status).$access_link);
 
 		// server data
@@ -435,21 +442,21 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("IP_ADDRESS", $_SERVER["SERVER_ADDR"]);
 		$this->tpl->setVariable("ILIAS_VERSION", ILIAS_VERSION);
 
-		$this->tpl->setVariable("FEEDBACK_RECIPIENT",($this->client->db_installed) ? $settings["feedback_recipient"] : $txt_no_database);
-		$this->tpl->setVariable("ERROR_RECIPIENT",($this->client->db_installed) ? $settings["error_recipient"] : $txt_no_database);
+		$this->tpl->setVariable("FEEDBACK_RECIPIENT",($this->setup->getClient()->db_installed) ? $settings["feedback_recipient"] : $txt_no_database);
+		$this->tpl->setVariable("ERROR_RECIPIENT",($this->setup->getClient()->db_installed) ? $settings["error_recipient"] : $txt_no_database);
 
 		// paths to tools
 		$not_set = $this->lng->txt("path_not_set");
 				
-		$convert = $this->ini->readVariable("tools","convert");
-		$zip = $this->ini->readVariable("tools","zip");
-		$unzip = $this->ini->readVariable("tools","unzip");
-		$java = $this->ini->readVariable("tools","java");
-		$htmldoc = $this->ini->readVariable("tools","htmldoc");
-		$latex = $this->ini->readVariable("tools", "latex");
-		$vscan = $this->ini->readVariable("tools","vscantype");
-		$scancomm = $this->ini->readVariable("tools","scancommand");
-		$cleancomm = $this->ini->readVariable("tools","cleancommand");
+		$convert = $this->setup->ini->readVariable("tools","convert");
+		$zip = $this->setup->ini->readVariable("tools","zip");
+		$unzip = $this->setup->ini->readVariable("tools","unzip");
+		$java = $this->setup->ini->readVariable("tools","java");
+		$htmldoc = $this->setup->ini->readVariable("tools","htmldoc");
+		$latex = $this->setup->ini->readVariable("tools", "latex");
+		$vscan = $this->setup->ini->readVariable("tools","vscantype");
+		$scancomm = $this->setup->ini->readVariable("tools","scancommand");
+		$cleancomm = $this->setup->ini->readVariable("tools","cleancommand");
 		
 		$this->tpl->setVariable("CONVERT_PATH",($convert) ? $convert : $not_set);
 		$this->tpl->setVariable("ZIP_PATH",($zip) ? $zip : $not_set);
@@ -522,10 +529,10 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->touchBlock("lng_empty_cell");
 		}
 
-		if ($this->cmd != "logout" and $this->isInstalled())
+		if ($this->cmd != "logout" and $this->setup->isInstalled())
 		{
 			// add client link
-			if ($this->isAdmin())
+			if ($this->setup->isAdmin())
 			{
 				if ($this->display_mode == "view" or $this->cmd == "clientlist" or $this->cmd == "changepassword" or $this->cmd == "mastersettings")
 				{
@@ -556,7 +563,7 @@ class ilSetupGUI extends ilSetup
 			}
 
 			// logout link
-			if ($this->isAuthenticated())
+			if ($this->setup->isAuthenticated())
 			{
 				$this->tpl->setCurrentBlock("logout");
 				$this->tpl->setVariable("TXT_LOGOUT",$this->lng->txt("logout"));
@@ -586,11 +593,11 @@ class ilSetupGUI extends ilSetup
 		// footer (not really)
 		if ($this->cmd != "logout")
 		{
-			if ($this->ini_ilias_exists and $this->display_mode == "setup" and $this->client->getId() != "")
+			if ($this->setup->ini_ilias_exists and $this->display_mode == "setup" and $this->setup->getClient()->getId() != "")
 			{
-				$this->tpl->setVariable("TXT_ACCESS_MODE","(".$this->lng->txt("client_id").": ".$this->client->getId().")");
+				$this->tpl->setVariable("TXT_ACCESS_MODE","(".$this->lng->txt("client_id").": ".$this->setup->getClient()->getId().")");
 			}
-			elseif ($this->isAdmin())
+			elseif ($this->setup->isAdmin())
 			{
 				$this->tpl->setVariable("TXT_ACCESS_MODE","(".$this->lng->txt("root_access").")");
 			}
@@ -706,7 +713,7 @@ class ilSetupGUI extends ilSetup
 		{
 			$this->tpl->setCurrentBlock("preliminary");
 			$this->tpl->setVariable("TXT_PRE", $this->lng->txt("pre_".$preliminary));
-			if ($this->preliminaries_result[$preliminary]["status"] == true)
+			if ($this->setup->preliminaries_result[$preliminary]["status"] == true)
 			{
 				$this->tpl->setVariable("STATUS_PRE", $OK);
 			}
@@ -714,14 +721,14 @@ class ilSetupGUI extends ilSetup
 			{
 				$this->tpl->setVariable("STATUS_PRE", $FAILED);
 			}
-			$this->tpl->setVariable("COMMENT_PRE", $this->preliminaries_result[$preliminary]["comment"]);
+			$this->tpl->setVariable("COMMENT_PRE", $this->setup->preliminaries_result[$preliminary]["comment"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
 		// summary
-		if ($this->preliminaries === true)
+		if ($this->setup->preliminaries === true)
 		{
-			if ($this->isInstalled())
+			if ($this->setup->isInstalled())
 			{
 				$cmd = "mastersettings";
 			}
@@ -749,14 +756,14 @@ class ilSetupGUI extends ilSetup
 	{
 		if ($_POST["form"])
 		{
-			if (!$this->checkDataDirSetup($_POST["form"]))
+			if (!$this->setup->checkDataDirSetup($_POST["form"]))
 			{
-				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
 			}
 	
-			if (!$this->checkLogSetup($_POST["form"]))
+			if (!$this->setup->checkLogSetup($_POST["form"]))
 			{
-				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
 			}
 
 			if ($a_det)
@@ -764,19 +771,19 @@ class ilSetupGUI extends ilSetup
 				$_POST["form"] = $this->determineTools($_POST["form"]);
 			}
 			
-			/*if (!$this->checkToolsSetup($_POST["form"]))
+			/*if (!$this->setup->checkToolsSetup($_POST["form"]))
 			{
-				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
 			}*/
 			
-			if (!$this->checkPasswordSetup($_POST["form"]))
+			if (!$this->setup->checkPasswordSetup($_POST["form"]))
 			{
-				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
 			}
 
-			if (!$this->saveMasterSetup($_POST["form"]))
+			if (!$this->setup->saveMasterSetup($_POST["form"]))
 			{
-				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
 			}           
 			
 			ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
@@ -802,7 +809,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_first_install")."<br/>".$this->lng->txt("info_text_pathes"));
 
 		
-		if ($this->safe_mode)
+		if ($this->setup->safe_mode)
 		{
 			$this->tpl->setVariable("SAFE_MODE_STYLE", " class=\"message\" ");
 			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", $this->lng->txt("safe_mode_enabled"));
@@ -829,14 +836,14 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_DATADIR_COMMENT1", $this->lng->txt("datadir_path_comment1"));
 		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("create_directory"));
 		// values
-		//echo $this->ini->readVariable($this->ini->readVariable("server","presetting"),"data_dir");
+		//echo $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"data_dir");
 		if ($_SESSION["error_post_vars"]["form"])
 		{
 			$this->tpl->setVariable("DATADIR_PATH", $_SESSION["error_post_vars"]["form"]["datadir_path"]);
 		}
-		elseif ($this->ini->readVariable("server","presetting") != "")
+		elseif ($this->setup->ini->readVariable("server","presetting") != "")
 		{
-			$this->tpl->setVariable("DATADIR_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"data_dir"));
+			$this->tpl->setVariable("DATADIR_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"data_dir"));
 		}
 
 
@@ -858,9 +865,9 @@ class ilSetupGUI extends ilSetup
 		{
 			$this->tpl->setVariable("LOG_PATH", $_SESSION["error_post_vars"]["form"]["log_path"]);
 		}
-		elseif ($this->ini->readVariable("server","presetting") != "")
+		elseif ($this->setup->ini->readVariable("server","presetting") != "")
 		{
-			$this->tpl->setVariable("LOG_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"log"));
+			$this->tpl->setVariable("LOG_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"log"));
 		}
 
 		$chk_log_path = ($_SESSION["error_post_vars"]["form"]["chk_log_status"]) ? $checked : "";
@@ -896,14 +903,14 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("HTMLDOC_PATH", $_SESSION["error_post_vars"]["form"]["htmldoc_path"]);
 			$this->tpl->setVariable("LATEX_URL", $_SESSION["error_post_vars"]["form"]["latex_url"]);
 		}
-		elseif ($this->ini->readVariable("server","presetting") != "")
+		elseif ($this->setup->ini->readVariable("server","presetting") != "")
 		{
-			$this->tpl->setVariable("CONVERT_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"convert"));
-			$this->tpl->setVariable("ZIP_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"zip"));
-			$this->tpl->setVariable("UNZIP_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"unzip"));
-			$this->tpl->setVariable("JAVA_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"java"));
-			$this->tpl->setVariable("HTMLDOC_PATH", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"htmldoc"));
-			$this->tpl->setVariable("LATEX_URL", $this->ini->readVariable($this->ini->readVariable("server","presetting"),"latex"));
+			$this->tpl->setVariable("CONVERT_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"convert"));
+			$this->tpl->setVariable("ZIP_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"zip"));
+			$this->tpl->setVariable("UNZIP_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"unzip"));
+			$this->tpl->setVariable("JAVA_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"java"));
+			$this->tpl->setVariable("HTMLDOC_PATH", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"htmldoc"));
+			$this->tpl->setVariable("LATEX_URL", $this->setup->ini->readVariable($this->setup->ini->readVariable("server","presetting"),"latex"));
 		}
 		else
 		{
@@ -951,7 +958,7 @@ class ilSetupGUI extends ilSetup
 		
 		$this->setButtonPrev("preliminaries");
 
-		if ($this->isInstalled())
+		if ($this->setup->isInstalled())
 		{
 			$this->setButtonNext("list");
 		}
@@ -964,7 +971,7 @@ class ilSetupGUI extends ilSetup
 	{
 		session_destroy();
 		
-		ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->client->getId());
+		ilUtil::redirect(ILIAS_HTTP_PATH."/login.php?client_id=".$this->setup->getClient()->getId());
 	}
 	
 	/**
@@ -979,19 +986,19 @@ class ilSetupGUI extends ilSetup
 			// first check client login
 			if (empty($_POST["form"]["admin_password"]))
 			{
-				if (!$this->loginAsClient($_POST["form"]))
+				if (!$this->setup->loginAsClient($_POST["form"]))
 				{
-					if ($error_msg = $this->getError())
+					if ($error_msg = $this->setup->getError())
 					{
-						$this->raiseError($this->lng->txt($error_msg),$this->error_obj->MESSAGE);
+						$this->setup->raiseError($this->lng->txt($error_msg),$this->setup->error_obj->MESSAGE);
 					}
 				}
 			}
 			else
 			{
-				if (!$this->loginAsAdmin($_POST["form"]["admin_password"]))
+				if (!$this->setup->loginAsAdmin($_POST["form"]["admin_password"]))
 				{
-					$this->raiseError($this->lng->txt("login_invalid"),$this->error_obj->MESSAGE);
+					$this->setup->raiseError($this->lng->txt("login_invalid"),$this->setup->error_obj->MESSAGE);
 				}
 			}
 
@@ -1025,7 +1032,7 @@ class ilSetupGUI extends ilSetup
 		
 		$_GET["sort_by"] = ($_GET["sort_by"]) ? $_GET["sort_by"] : "name";
 
-		$clientlist = new ilClientList($this->db_connections);
+		$clientlist = new ilClientList($this->setup->db_connections);
 		$list = $clientlist->getClients();
 
 		if (count($list) == 0)
@@ -1042,7 +1049,7 @@ class ilSetupGUI extends ilSetup
 		foreach ($list as $key => $client)
 		{
 			// check status 
-			$status_arr = $this->getStatus($client);
+			$status_arr = $this->setup->getStatus($client);
 
 			if (!$status_arr["db"]["status"])
 			{
@@ -1119,8 +1126,8 @@ class ilSetupGUI extends ilSetup
 
 		// common
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("available_clients"));
-		$this->tpl->setVariable("TXT_LISTSTATUS",($this->ini->readVariable("clients","list")) ? $this->lng->txt("display_clientlist") : $this->lng->txt("hide_clientlist"));
-		$this->tpl->setVariable("TXT_TOGGLELIST",($this->ini->readVariable("clients","list")) ? $this->lng->txt("disable") : $this->lng->txt("enable"));
+		$this->tpl->setVariable("TXT_LISTSTATUS",($this->setup->ini->readVariable("clients","list")) ? $this->lng->txt("display_clientlist") : $this->lng->txt("hide_clientlist"));
+		$this->tpl->setVariable("TXT_TOGGLELIST",($this->setup->ini->readVariable("clients","list")) ? $this->lng->txt("disable") : $this->lng->txt("enable"));
 
 		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway");
 
@@ -1276,14 +1283,14 @@ class ilSetupGUI extends ilSetup
 	{
 		if ($_POST["form"])
 		{
-			if (!$this->checkLogSetup($_POST["form"]))
+			if (!$this->setup->checkLogSetup($_POST["form"]))
 			{
-				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
 			}
 
-			/*if (!$this->checkToolsSetup($_POST["form"]))
+			/*if (!$this->setup->checkToolsSetup($_POST["form"]))
 			{
-				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
 			}*/
 
 			if ($a_det)
@@ -1291,9 +1298,9 @@ class ilSetupGUI extends ilSetup
 				$_POST["form"] = $this->determineTools($_POST["form"]);
 			}
 			
-			if (!$this->updateMasterSettings($_POST["form"]))
+			if (!$this->setup->updateMasterSettings($_POST["form"]))
 			{
-				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt($this->setup->getError()),$this->setup->error_obj->MESSAGE);
 			}
 
 			ilUtil::sendInfo($this->lng->txt("settings_saved"),true);
@@ -1321,7 +1328,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_ENTER_DIR_AND_FILENAME", $this->lng->txt("enter_dir_and_filename"));
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_pathes"));
 		
-		if ($this->safe_mode)
+		if ($this->setup->safe_mode)
 		{
 			$this->tpl->setVariable("SAFE_MODE_STYLE", " class=\"message\" ");
 			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", $this->lng->txt("safe_mode_enabled"));
@@ -1343,7 +1350,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_DATADIR_PATH_IN_WS", $this->lng->txt("data_directory_in_ws"));
 		$this->tpl->setVariable("DATADIR_IN_WS", $data_dir_ws);
 		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("data_directory_outside_ws"));
-		$this->tpl->setVariable("DATADIR_PATH", $this->ini->readVariable("clients","datadir"));
+		$this->tpl->setVariable("DATADIR_PATH", $this->setup->ini->readVariable("clients","datadir"));
 		$this->tpl->setVariable("TXT_DATADIR_COMMENT2", $this->lng->txt("datadir_path_comment2"));
 		$this->tpl->parseCurrentBlock();
 
@@ -1361,8 +1368,8 @@ class ilSetupGUI extends ilSetup
 		}
 		else
 		{
-			$this->tpl->setVariable("LOG_PATH",$this->ini->readVariable("log","path")."/".$this->ini->readVariable("log","file"));
-			$chk_log_status = ($this->ini->readVariable("log","enabled")) ? "" : $checked;
+			$this->tpl->setVariable("LOG_PATH",$this->setup->ini->readVariable("log","path")."/".$this->setup->ini->readVariable("log","file"));
+			$chk_log_status = ($this->setup->ini->readVariable("log","enabled")) ? "" : $checked;
 
 		}
 
@@ -1404,16 +1411,16 @@ class ilSetupGUI extends ilSetup
 		}
 		else
 		{
-			$vals["convert_path"] = $this->ini->readVariable("tools","convert");
-			$vals["zip_path"] = $this->ini->readVariable("tools","zip");
-			$vals["unzip_path"] = $this->ini->readVariable("tools","unzip");
-			$vals["java_path"] = $this->ini->readVariable("tools","java");
-			$vals["htmldoc_path"] = $this->ini->readVariable("tools","htmldoc");
-			$vals["latex_url"] = $this->ini->readVariable("tools","latex");
-			$vals["fop_path"] = $this->ini->readVariable("tools","fop");
-			$vals["vscanner_type"] = $this->ini->readVariable("tools", "vscantype");
-			$vals["scan_command"] = $this->ini->readVariable("tools", "scancommand");
-			$vals["clean_command"] = $this->ini->readVariable("tools", "cleancommand");
+			$vals["convert_path"] = $this->setup->ini->readVariable("tools","convert");
+			$vals["zip_path"] = $this->setup->ini->readVariable("tools","zip");
+			$vals["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
+			$vals["java_path"] = $this->setup->ini->readVariable("tools","java");
+			$vals["htmldoc_path"] = $this->setup->ini->readVariable("tools","htmldoc");
+			$vals["latex_url"] = $this->setup->ini->readVariable("tools","latex");
+			$vals["fop_path"] = $this->setup->ini->readVariable("tools","fop");
+			$vals["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
+			$vals["scan_command"] = $this->setup->ini->readVariable("tools", "scancommand");
+			$vals["clean_command"] = $this->setup->ini->readVariable("tools", "cleancommand");
 		}
 		
 		$tools = array("convert" => "testConvert", "zip" => "testZip",
@@ -1424,7 +1431,7 @@ class ilSetupGUI extends ilSetup
 			$end = ($tool == "latex")
 				? "url"
 				: "path";
-			if (($err = $this->$func($vals[$tool."_".$end])) != "")
+			if (($err = $this->setup->$func($vals[$tool."_".$end])) != "")
 			{
 				$this->tpl->setCurrentBlock("warning_".$tool);
 				$this->tpl->setVariable("TXT_WARNING_".strtoupper($tool), $this->lng->txt($err));
@@ -1469,134 +1476,172 @@ class ilSetupGUI extends ilSetup
 	}
 
 	/**
+	 * Select database type
+	 *
+	 */
+	function selectDBType()
+	{
+		$this->checkDisplayMode("create_new_client");
+		
+
+		// output
+		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_select_db.html");
+		
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("TXT_DB_TYPE", $this->lng->txt("db_type"));
+		$this->tpl->setVariable("TXT_DB_SELECTION", $this->lng->txt("db_selection"));
+
+		if ($this->setup->getClient()->status["ini"]["status"])
+		{
+			$this->setButtonNext("db");
+		}
+		
+		$this->checkPanelMode();
+	}
+
+	/**
 	 * display setup in step
 	 */
 	function displayIni()
 	{
 		$this->checkDisplayMode("create_new_client");
 		
+		if ($_POST["form"]["db_type"] != "")
+		{
+			$_SESSION["db_type"] = $_POST["form"]["db_type"];
+		}
+		else
+		{
+			$_POST["form"]["db_type"] = $_SESSION["db_type"];
+		}
+		
 		// checkings
-		if ($_POST["form"])
+		if ($_POST["form"] && count($_POST["form"]) != 1)
 		{
 			// check client name
 			if (!$_POST["form"]["client_id"])
 			{
-				$this->raiseError($this->lng->txt("ini_no_client_id"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("ini_no_client_id"),$this->setup->error_obj->MESSAGE);
 			}
 
 			if (strlen($_POST["form"]["client_id"]) != strlen(urlencode(($_POST["form"]["client_id"]))))
 			{
-				$this->raiseError($this->lng->txt("ini_client_id_invalid"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("ini_client_id_invalid"),$this->setup->error_obj->MESSAGE);
 			}           
 
 			if (strlen($_POST["form"]["client_id"]) < 4)
 			{
-				$this->raiseError($this->lng->txt("ini_client_id_too_short"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("ini_client_id_too_short"),$this->setup->error_obj->MESSAGE);
 			}
 
 			if (strlen($_POST["form"]["client_id"]) > 32)
 			{
-				$this->raiseError($this->lng->txt("ini_client_id_too_long"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("ini_client_id_too_long"),$this->setup->error_obj->MESSAGE);
 			}
 
 			// check database
 			if (!$_POST["form"]["db_host"])
 			{
-				$this->raiseError($this->lng->txt("ini_no_db_host"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("ini_no_db_host"),$this->setup->error_obj->MESSAGE);
 			}
 
 			if (!$_POST["form"]["db_name"])
 			{
-				$this->raiseError($this->lng->txt("ini_no_db_name"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("ini_no_db_name"),$this->setup->error_obj->MESSAGE);
 			}
 			
 			if (!$_POST["form"]["db_user"])
 			{
-				$this->raiseError($this->lng->txt("ini_no_db_user"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("ini_no_db_user"),$this->setup->error_obj->MESSAGE);
 			}
 
 			// create new client object if it does not exist
-			if (!$this->ini_client_exists)
+			if (!$this->setup->ini_client_exists)
 			{
 				$client_id = $_POST["form"]["client_id"];
 				
 				// check for existing client dir (only for newly created clients not renaming)
-				if (!$this->ini_client_exists and file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$client_id))
+				if (!$this->setup->ini_client_exists and file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$client_id))
 				{
-					$this->raiseError($this->lng->txt("ini_client_id_exists"),$this->error_obj->MESSAGE);
+					$this->setup->raiseError($this->lng->txt("ini_client_id_exists"),$this->setup->error_obj->MESSAGE);
 				}
 
-				$this->newClient($client_id);
+				$this->setup->newClient($client_id);
 			}
 
 			// save some old values
-			$old_db_name = $this->client->getDbName();
-			$old_client_id = $this->client->getId();            
+			$old_db_name = $this->setup->getClient()->getDbName();
+			$old_db_type = $this->setup->getClient()->getDbType();
+			$old_client_id = $this->setup->getClient()->getId();            
 			// set client data 
-			$this->client->setId($_POST["form"]["client_id"]);
-			$this->client->setDbHost($_POST["form"]["db_host"]);
-			$this->client->setDbName($_POST["form"]["db_name"]);
-			$this->client->setDbUser($_POST["form"]["db_user"]);
-			$this->client->setDbPass($_POST["form"]["db_pass"]);
-			$this->client->setDSN();
+			$this->setup->getClient()->setId($_POST["form"]["client_id"]);
+			$this->setup->getClient()->setDbHost($_POST["form"]["db_host"]);
+			$this->setup->getClient()->setDbName($_POST["form"]["db_name"]);
+			$this->setup->getClient()->setDbUser($_POST["form"]["db_user"]);
+			$this->setup->getClient()->setDbPass($_POST["form"]["db_pass"]);
+			$this->setup->getClient()->setDbType($_POST["form"]["db_type"]);
+			$this->setup->getClient()->setDSN();
 			
 			// try to connect to database
-			if (!$this->client->checkDatabaseHost())
+			if (!$this->setup->getClient()->checkDatabaseHost())
 			{
-				$this->raiseError($this->client->getError(),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->setup->getClient()->getError(),$this->setup->error_obj->MESSAGE);
 			}
 
 			// check database version
-			if (!$this->client->isMysql4_1OrHigher())
+			if (!$this->setup->getClient()->isMysql4_1OrHigher() && 
+				$this->setup->getClient()->getDbType() != "oracle")
 			{
-				$this->raiseError($this->lng->txt("need_mysql_4_1_or_higher"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("need_mysql_4_1_or_higher"),$this->setup->error_obj->MESSAGE);
 			}
 			
 			// check if db exists
-			$db_installed = $this->client->checkDatabaseExists();
+			$db_installed = $this->setup->getClient()->checkDatabaseExists();
 
-			if ($db_installed and (!$this->ini_ilias_exists or ($this->client->getDbName() != $old_db_name)))
+			if ($db_installed and (!$this->setup->ini_ilias_exists or ($this->setup->getClient()->getDbName() != $old_db_name)))
 			{
 				$_POST["form"]["db_name"] = $old_db_name;
-				$message = ucfirst($this->lng->txt("database"))." \"".$this->client->getDbName()."\" ".$this->lng->txt("ini_db_name_exists");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$message = ucfirst($this->lng->txt("database"))." \"".$this->setup->getClient()->getDbName()."\" ".$this->lng->txt("ini_db_name_exists");
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 			
-			if ($this->ini_client_exists and $old_client_id != $this->client->getId())
+			if ($this->setup->ini_client_exists and $old_client_id != $this->setup->getClient()->getId())
 			{
 				$message = $this->lng->txt("ini_client_id_no_change");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 
 			// all ok. create client.ini and save posted data
-			if (!$this->ini_client_exists)
+			if (!$this->setup->ini_client_exists)
 			{
-				if ($this->saveNewClient())
+				if ($this->setup->saveNewClient())
 				{
 					ilUtil::sendInfo($this->lng->txt("settings_saved"));
-					$this->client->status["ini"]["status"] = true;
+					$this->setup->getClient()->status["ini"]["status"] = true;
 				}
 				else
 				{
-					$err = $this->getError();
+					$err = $this->setup->getError();
 					ilUtil::sendInfo($this->lng->txt("save_error").": ".$err);
-					$this->client->status["ini"]["status"] = false;
-					$this->client->status["ini"]["comment"] = $err;
+					$this->setup->getClient()->status["ini"]["status"] = false;
+					$this->setup->getClient()->status["ini"]["comment"] = $err;
 				}
 			}
 			else
 			{
-				if ($this->client->ini->write())
+				if ($this->setup->getClient()->ini->write())
 				{
 					ilUtil::sendInfo($this->lng->txt("settings_changed"));
-					$this->client->status["ini"]["status"] = true;
+					$this->setup->getClient()->status["ini"]["status"] = true;
 				}
 				else
 				{
-					$err = $this->client->ini->getError();
+					$err = $this->setup->getClient()->ini->getError();
 					ilUtil::sendInfo($this->lng->txt("save_error").": ".$err);
-					$this->client->status["ini"]["status"] = false;
-					$this->client->status["ini"]["comment"] = $err;
+					$this->setup->getClient()->status["ini"]["status"] = false;
+					$this->setup->getClient()->status["ini"]["comment"] = $err;
 				}
 			}
 		}
@@ -1617,14 +1662,21 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("DB_NAME", $_SESSION["error_post_vars"]["form"]["db_name"]);        
 			$this->tpl->setVariable("DB_USER", $_SESSION["error_post_vars"]["form"]["db_user"]);        
 			$this->tpl->setVariable("DB_PASS", $_SESSION["error_post_vars"]["form"]["db_pass"]);
+			$this->tpl->setVariable("DB_TYPE", $_SESSION["error_post_vars"]["form"]["db_type"]);
+			$this->tpl->setVariable("VAL_DB_TYPE", $this->lng->txt("db_".
+				$_SESSION["error_post_vars"]["form"]["db_type"]));
+			$db_type = $_SESSION["error_post_vars"]["form"]["db_type"];
 		}
 		else
 		{
-			$this->tpl->setVariable("CLIENT_ID", $this->client->getId());
-			$this->tpl->setVariable("DB_HOST", $this->client->getDbHost()); 
-			$this->tpl->setVariable("DB_NAME", $this->client->getDbName());     
-			$this->tpl->setVariable("DB_USER", $this->client->getDbUser());     
-			$this->tpl->setVariable("DB_PASS", $this->client->getDbPass());     
+			$this->tpl->setVariable("CLIENT_ID", $this->setup->getClient()->getId());
+			$this->tpl->setVariable("DB_HOST", $this->setup->getClient()->getDbHost()); 
+			$this->tpl->setVariable("DB_NAME", $this->setup->getClient()->getDbName());     
+			$this->tpl->setVariable("DB_USER", $this->setup->getClient()->getDbUser());     
+			$this->tpl->setVariable("DB_PASS", $this->setup->getClient()->getDbPass());
+			$this->tpl->setVariable("DB_TYPE", $_POST["form"]["db_type"]);
+			$this->tpl->setVariable("VAL_DB_TYPE", $this->lng->txt("db_".$_POST["form"]["db_type"]));
+			$db_type = $_POST["form"]["db_type"];
 		}
 
 		$this->tpl->setVariable("TXT_CLIENT_HEADER", $this->lng->txt("inst_identification"));
@@ -1632,11 +1684,18 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_DB_HEADER", $this->lng->txt("db_conn"));
 		$this->tpl->setVariable("TXT_DB_TYPE", $this->lng->txt("db_type"));
 		$this->tpl->setVariable("TXT_DB_HOST", $this->lng->txt("db_host"));
-		$this->tpl->setVariable("TXT_DB_NAME", $this->lng->txt("db_name")); 
+		if ($db_type == "mysql")
+		{
+			$this->tpl->setVariable("TXT_DB_NAME", $this->lng->txt("db_name"));
+		}
+		else if ($db_type == "oracle")
+		{
+			$this->tpl->setVariable("TXT_DB_NAME", $this->lng->txt("db_service_name"));
+		}
 		$this->tpl->setVariable("TXT_DB_USER", $this->lng->txt("db_user"));
 		$this->tpl->setVariable("TXT_DB_PASS", $this->lng->txt("db_pass"));
 
-		if ($this->client->status["ini"]["status"])
+		if ($this->setup->getClient()->status["ini"]["status"])
 		{
 			$this->setButtonNext("db");
 		}
@@ -1688,7 +1747,7 @@ class ilSetupGUI extends ilSetup
 		$OK = "<font color=\"green\"><strong>OK</strong></font>";
 		
 		$steps = array();
-		$steps = $this->getStatus();
+		$steps = $this->setup->getStatus();
 		
 		// remove access step
 		unset($steps["access"]);
@@ -1739,9 +1798,9 @@ class ilSetupGUI extends ilSetup
 
 		$this->tpl->setVariable("TXT_OVERALL_STATUS", $this->lng->txt("overall_status"));
 		// display status
-		if ($this->client->status)
+		if ($this->setup->getClient()->status)
 		{
-			foreach ($this->client->status as $key => $val)
+			foreach ($this->setup->getClient()->status as $key => $val)
 			{
 				$status = ($val["status"]) ? $OK : "&nbsp;";
 				$this->tpl->setCurrentBlock("status_row");
@@ -1766,8 +1825,8 @@ class ilSetupGUI extends ilSetup
 				$this->tpl->addBlockFile("CONTENT","content","tpl.clientview.html");
 				// display tabs
 				include "./include/inc.client_tabs.php";
-				$client_name = ($this->client->getName()) ? $this->client->getName() : $this->lng->txt("no_client_name");
-				$this->tpl->setVariable("TXT_HEADER",$client_name." (".$this->lng->txt("client_id").": ".$this->client->getId().")");       
+				$client_name = ($this->setup->getClient()->getName()) ? $this->setup->getClient()->getName() : $this->lng->txt("no_client_name");
+				$this->tpl->setVariable("TXT_HEADER",$client_name." (".$this->lng->txt("client_id").": ".$this->setup->getClient()->getId().")");       
 				break;
 			
 			case "setup":
@@ -1828,30 +1887,30 @@ class ilSetupGUI extends ilSetup
 		{
 			$message = "";
 			
-			if (!$this->client->db_installed)
+			if (!$this->setup->getClient()->db_installed)
 			{
-				if (!$this->client->db_exists)
+				if (!$this->setup->getClient()->db_exists)
 				{
 					if ($_POST["form"]["chk_db_create"])
 					{
-						if (!$this->createDatabase($_POST["collation"]))
+						if (!$this->setup->createDatabase($_POST["collation"]))
 						{
-							$message = $this->lng->txt($this->getError());
-							$this->raiseError($message,$this->error_obj->MESSAGE);
+							$message = $this->lng->txt($this->setup->getError());
+							$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 						}
 					}
 					else
 					{
 						$message = $this->lng->txt("database_not_exists_create_first");
-						$this->raiseError($message,$this->error_obj->MESSAGE);                  
+						$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);                  
 					}
 				}
 				
-				if (!$this->installDatabase())
+				if (!$this->setup->installDatabase())
 				{
-					$message = $this->lng->txt($this->getError());
-					$this->client->status["db"]["status"] = false;
-					$this->client->status["db"]["comment"] = "install_error";
+					$message = $this->lng->txt($this->setup->getError());
+					$this->setup->getClient()->status["db"]["status"] = false;
+					$this->setup->getClient()->status["db"]["comment"] = "install_error";
 				}
 				else
 				{
@@ -1869,10 +1928,10 @@ class ilSetupGUI extends ilSetup
 				include_once "../Services/Object/classes/class.ilObjectDefinition.php";
 
 				// referencing db handler in language class
-				$this->lng->setDbHandler($this->client->db);
+				$this->lng->setDbHandler($this->setup->getClient()->db);
 
 				// referencing does not work in dbupdate-script
-				$ilDB = new ilDB($this->client->dsn);
+				$ilDB = new ilDB($this->setup->getClient()->dsn);
 
 				// run dbupdate
 				$dbupdate = new ilDBUpdate($ilDB);
@@ -1897,18 +1956,18 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html");
 		
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
-		$this->tpl->setVariable("DB_HOST", $this->client->getDbHost());
-		$this->tpl->setVariable("DB_NAME", $this->client->getDbName());     
-		$this->tpl->setVariable("DB_USER", $this->client->getDbUser());     
-		$this->tpl->setVariable("DB_PASS", $this->client->getDbPass());
+		$this->tpl->setVariable("DB_HOST", $this->setup->getClient()->getDbHost());
+		$this->tpl->setVariable("DB_NAME", $this->setup->getClient()->getDbName());     
+		$this->tpl->setVariable("DB_USER", $this->setup->getClient()->getDbUser());     
+		$this->tpl->setVariable("DB_PASS", $this->setup->getClient()->getDbPass());
 
-		if ($this->client->db_installed)
+		if ($this->setup->getClient()->db_installed)
 		{
 			// referencing db handler in language class
-			$this->lng->setDbHandler($this->client->db);
+			$this->lng->setDbHandler($this->setup->getClient()->db);
 
 			include_once "../Services/Database/classes/class.ilDBUpdate.php";
-			$ilDB = new ilDB($this->client->dsn);
+			$ilDB = new ilDB($this->setup->getClient()->dsn);
 			$dbupdate = new ilDBUpdate($ilDB);
 
 			if (!$db_status = $dbupdate->getDBVersionStatus())
@@ -1925,8 +1984,8 @@ class ilSetupGUI extends ilSetup
 			else
 			{
 				$this->tpl->setVariable("TXT_INFO",$this->lng->txt("database_is_uptodate"));
-				$this->client->status["db"]["status"] = true;
-				$this->client->status["db"]["comment"] = "version ".$dbupdate->getCurrentVersion();
+				$this->setup->getClient()->status["db"]["status"] = true;
+				$this->setup->getClient()->status["db"]["comment"] = "version ".$dbupdate->getCurrentVersion();
 			}
 			
 			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
@@ -1957,7 +2016,7 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("DB_CREATE_CHECK",$checked);
 			$this->tpl->parseCurrentBlock();
 
-			$ilDB = new ilDB($this->client->dsn_host);
+			$ilDB = new ilDB($this->setup->getClient()->dsn_host);
 			
 			if ($ilDB->isMySQL4_1OrHigher())
 			{
@@ -2042,12 +2101,12 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_DB_PASS", $this->lng->txt("db_pass"));
 		
 		// only allow to return to ini if db does not exist yet
-		if (!$this->client->db_installed)
+		if (!$this->setup->getClient()->db_installed)
 		{
 			$this->setButtonPrev("ini");
 		}
 		
-		if ($this->client->db_installed and $db_status)
+		if ($this->setup->getClient()->db_installed and $db_status)
 		{
 			$this->setButtonNext("lang");
 		}
@@ -2062,7 +2121,7 @@ class ilSetupGUI extends ilSetup
 	{
 		$this->checkDisplayMode("setup_languages");
 
-		if (!$this->client->db_installed)
+		if (!$this->setup->getClient()->db_installed)
 		{
 			// program should never come to this place
 			$message = "No database found! Please install database first.";
@@ -2075,14 +2134,14 @@ class ilSetupGUI extends ilSetup
 			if (empty($_POST["form"]["lang_id"]))
 			{
 				$message = $this->lng->txt("lang_min_one_language");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 			
 			if (!in_array($_POST["form"]["lang_default"],$_POST["form"]["lang_id"]))
 			{
 				$message = $this->lng->txt("lang_not_installed_default");
-				$this->error = true;
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->error = true;
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 
 			}
 			
@@ -2104,7 +2163,7 @@ class ilSetupGUI extends ilSetup
 				}
 			}
 
-			$this->client->setDefaultLanguage($_POST["form"]["lang_default"]);
+			$this->setup->getClient()->setDefaultLanguage($_POST["form"]["lang_default"]);
 			$message = $this->lng->txt("languages_installed");
 			
 			if ($result !== true)
@@ -2121,7 +2180,7 @@ class ilSetupGUI extends ilSetup
 		$installed_langs = $this->lng->getInstalledLanguages();
 		$installed_local_langs = $this->lng->getInstalledLocalLanguages();
 		$local_langs = $this->lng->getLocalLanguages();
-		$default_lang = $this->client->getDefaultLanguage();
+		$default_lang = $this->setup->getClient()->getDefaultLanguage();
 		
 		$lang_count = count($installed_langs);
 		
@@ -2138,13 +2197,13 @@ class ilSetupGUI extends ilSetup
 		
 		if ($lang_count > 0)
 		{
-			$this->client->status["lang"]["status"] = true;
-			$this->client->status["lang"]["comment"] = $lang_count." ".$this->lng->txt("languages_installed");
+			$this->setup->getClient()->status["lang"]["status"] = true;
+			$this->setup->getClient()->status["lang"]["comment"] = $lang_count." ".$this->lng->txt("languages_installed");
 		}
 		else
 		{
-			$this->client->status["lang"]["status"] = false;
-			$this->client->status["lang"]["comment"] = $this->lng->txt("lang_none_installed");
+			$this->setup->getClient()->status["lang"]["status"] = false;
+			$this->setup->getClient()->status["lang"]["comment"] = $this->lng->txt("lang_none_installed");
 		}
 
 		foreach ($languages as $lang_key)
@@ -2194,7 +2253,7 @@ class ilSetupGUI extends ilSetup
 	{
 		$this->checkDisplayMode("setup_contact_data");
 	
-		$settings = $this->client->getAllSettings();
+		$settings = $this->setup->getClient()->getAllSettings();
 
 		// formular sent
 		if ($_POST["form"])
@@ -2211,7 +2270,7 @@ class ilSetupGUI extends ilSetup
 			{
 				$form_valid = false;
 				$message = $this->lng->txt("fill_out_required_fields");
-				//$this->raiseError($message,$this->error_obj->MESSAGE);
+				//$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 				ilUtil::sendInfo($message);
 			}
 			
@@ -2221,7 +2280,7 @@ class ilSetupGUI extends ilSetup
 				$form_valid = false;
 				$message = $this->lng->txt("input_error").": '".$this->lng->txt("email")."'<br/>".$this->lng->txt("email_not_valid");
 				ilUtil::sendInfo($message);
-				//$this->raiseError($message,$this->error_obj->MESSAGE);
+				//$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 
 			if (!$form_valid)   //required fields not satisfied. Set formular to already fill in values
@@ -2250,27 +2309,27 @@ class ilSetupGUI extends ilSetup
 
 				// write new settings
 				// contact
-				$this->client->setSetting("admin_firstname",ilUtil::stripSlashes($_POST["form"]["admin_firstname"]));
-				$this->client->setSetting("admin_lastname",ilUtil::stripSlashes($_POST["form"]["admin_lastname"]));
-				$this->client->setSetting("admin_title",ilUtil::stripSlashes($_POST["form"]["admin_title"]));
-				$this->client->setSetting("admin_position",ilUtil::stripSlashes($_POST["form"]["admin_position"]));
-				$this->client->setSetting("admin_institution",ilUtil::stripSlashes($_POST["form"]["admin_institution"]));
-				$this->client->setSetting("admin_street",ilUtil::stripSlashes($_POST["form"]["admin_street"]));
-				$this->client->setSetting("admin_zipcode",ilUtil::stripSlashes($_POST["form"]["admin_zipcode"]));
-				$this->client->setSetting("admin_city",ilUtil::stripSlashes($_POST["form"]["admin_city"]));
-				$this->client->setSetting("admin_country",ilUtil::stripSlashes($_POST["form"]["admin_country"]));
-				$this->client->setSetting("admin_phone",ilUtil::stripSlashes($_POST["form"]["admin_phone"]));
-				$this->client->setSetting("admin_email",ilUtil::stripSlashes($_POST["form"]["admin_email"]));
-				$this->client->setSetting("inst_institution",ilUtil::stripSlashes($_POST["form"]["inst_institution"]));
-				$this->client->setSetting("inst_name",ilUtil::stripSlashes($_POST["form"]["inst_name"]));
+				$this->setup->getClient()->setSetting("admin_firstname",ilUtil::stripSlashes($_POST["form"]["admin_firstname"]));
+				$this->setup->getClient()->setSetting("admin_lastname",ilUtil::stripSlashes($_POST["form"]["admin_lastname"]));
+				$this->setup->getClient()->setSetting("admin_title",ilUtil::stripSlashes($_POST["form"]["admin_title"]));
+				$this->setup->getClient()->setSetting("admin_position",ilUtil::stripSlashes($_POST["form"]["admin_position"]));
+				$this->setup->getClient()->setSetting("admin_institution",ilUtil::stripSlashes($_POST["form"]["admin_institution"]));
+				$this->setup->getClient()->setSetting("admin_street",ilUtil::stripSlashes($_POST["form"]["admin_street"]));
+				$this->setup->getClient()->setSetting("admin_zipcode",ilUtil::stripSlashes($_POST["form"]["admin_zipcode"]));
+				$this->setup->getClient()->setSetting("admin_city",ilUtil::stripSlashes($_POST["form"]["admin_city"]));
+				$this->setup->getClient()->setSetting("admin_country",ilUtil::stripSlashes($_POST["form"]["admin_country"]));
+				$this->setup->getClient()->setSetting("admin_phone",ilUtil::stripSlashes($_POST["form"]["admin_phone"]));
+				$this->setup->getClient()->setSetting("admin_email",ilUtil::stripSlashes($_POST["form"]["admin_email"]));
+				$this->setup->getClient()->setSetting("inst_institution",ilUtil::stripSlashes($_POST["form"]["inst_institution"]));
+				$this->setup->getClient()->setSetting("inst_name",ilUtil::stripSlashes($_POST["form"]["inst_name"]));
 
 				// update client.ini
-				$this->client->setName(ilUtil::stripSlashes($_POST["form"]["inst_name"]));
-				$this->client->setDescription(ilUtil::stripSlashes($_POST["form"]["inst_info"]));
-				$this->client->ini->write();
+				$this->setup->getClient()->setName(ilUtil::stripSlashes($_POST["form"]["inst_name"]));
+				$this->setup->getClient()->setDescription(ilUtil::stripSlashes($_POST["form"]["inst_info"]));
+				$this->setup->getClient()->ini->write();
 
 				// reload settings
-				$settings = $this->client->getAllSettings();
+				$settings = $this->setup->getClient()->getAllSettings();
 				// feedback
 				ilUtil::sendInfo($this->lng->txt("saved_successfully"));
 			}
@@ -2280,8 +2339,8 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_contact.html");
 
 		// client values
-		$this->tpl->setVariable("INST_NAME",ilUtil::prepareFormOutput(($this->client->getName()) ? $this->client->getName() : $this->client->getId()));
-		$this->tpl->setVariable("INST_INFO",ilUtil::prepareFormOutput($this->client->getDescription()));
+		$this->tpl->setVariable("INST_NAME",ilUtil::prepareFormOutput(($this->setup->getClient()->getName()) ? $this->setup->getClient()->getName() : $this->setup->getClient()->getId()));
+		$this->tpl->setVariable("INST_INFO",ilUtil::prepareFormOutput($this->setup->getClient()->getDescription()));
 		$this->tpl->setVariable("INST_INSTITUTION",ilUtil::prepareFormOutput($settings["inst_institution"]));
 
 		// contact values
@@ -2325,10 +2384,10 @@ class ilSetupGUI extends ilSetup
 		
 		$this->setButtonPrev("lang");
 		
-		$check = $this->checkClientContact($this->client);
+		$check = $this->setup->checkClientContact($this->setup->client);
 
-		$this->client->status["contact"]["status"] = $check["status"];
-		$this->client->status["contact"]["comment"] = $check["comment"];
+		$this->setup->getClient()->status["contact"]["status"] = $check["status"];
+		$this->setup->getClient()->status["contact"]["comment"] = $check["comment"];
 
 		if ($check["status"])
 		{
@@ -2344,8 +2403,8 @@ class ilSetupGUI extends ilSetup
 	function displayNIC()
 	{
 		$this->checkDisplayMode("nic_registration");
-		$settings = $this->client->getAllSettings();
-		$nic_key = $this->client->getNICkey();
+		$settings = $this->setup->getClient()->getAllSettings();
+		$nic_key = $this->setup->getClient()->getNICkey();
 		
 		// formular sent
 		if ($_POST["form"])
@@ -2354,19 +2413,19 @@ class ilSetupGUI extends ilSetup
 			if ($_POST["form"]["register"] == 1)
 			{
 				// update nic
-				$this->client->updateNIC($this->ilias_nic_server);
+				$this->setup->getClient()->updateNIC($this->setup->ilias_nic_server);
 				
 				// online registration failed
-				if (empty($this->client->nic_status[2]))
+				if (empty($this->setup->getClient()->nic_status[2]))
 				{
-					$this->client->setSetting("nic_enabled","-1");
+					$this->setup->getClient()->setSetting("nic_enabled","-1");
 					$message = $this->lng->txt("nic_reg_failed");               
 				}
 				else
 				{
-					$this->client->setSetting("inst_id",$this->client->nic_status[2]);
-					$this->client->setSetting("nic_enabled","1");
-					$this->client->status["nic"]["status"] = true;
+					$this->setup->getClient()->setSetting("inst_id",$this->setup->getClient()->nic_status[2]);
+					$this->setup->getClient()->setSetting("nic_enabled","1");
+					$this->setup->getClient()->status["nic"]["status"] = true;
 					$message = $this->lng->txt("nic_reg_enabled");      
 				}
 			}
@@ -2382,15 +2441,15 @@ class ilSetupGUI extends ilSetup
 				}
 				else
 				{
-					$this->client->setSetting("inst_id",$nic_by_email);
-					$this->client->setSetting("nic_enabled","1");
+					$this->setup->getClient()->setSetting("inst_id",$nic_by_email);
+					$this->setup->getClient()->setSetting("nic_enabled","1");
 					$message = $this->lng->txt("nic_reg_enabled");      
 				}
 			}
 			else
 			{
-				$this->client->setSetting("inst_id","0");
-				$this->client->setSetting("nic_enabled","0");
+				$this->setup->getClient()->setSetting("inst_id","0");
+				$this->setup->getClient()->setSetting("nic_enabled","0");
 				$message = $this->lng->txt("nic_reg_disabled");
 			}
 
@@ -2398,7 +2457,7 @@ class ilSetupGUI extends ilSetup
 		}
 		
 		// reload settings
-		$settings = $this->client->getAllSettings();
+		$settings = $this->setup->getClient()->getAllSettings();
 		
 		if ($settings["nic_enabled"] == "1" && $settings["inst_id"] > 0)
 		{
@@ -2407,10 +2466,10 @@ class ilSetupGUI extends ilSetup
 		else
 		{
 			// reload settings
-			$settings = $this->client->getAllSettings();
+			$settings = $this->setup->getClient()->getAllSettings();
 			
 			$email_subject = rawurlencode("NIC registration request");
-			$email_body = base64_encode($this->client->getURLStringForNIC($this->ilias_nic_server));
+			$email_body = base64_encode($this->setup->getClient()->getURLStringForNIC($this->setup->ilias_nic_server));
 			$email_link = "<a href=\"mailto:ilias-nic@uni-koeln.de?subject=".$email_subject."&body=".$email_body."\">".$this->lng->txt("email")."</a>";
 
 			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_nic1")." ".$email_link." ".$this->lng->txt("info_text_nic2"));
@@ -2445,13 +2504,13 @@ class ilSetupGUI extends ilSetup
 	
 			if (isset($settings["nic_enabled"]))
 			{
-				$this->client->status["nic"]["status"] = true;
+				$this->setup->getClient()->status["nic"]["status"] = true;
 			}
 		}
 
 		$this->setButtonPrev("contact");
 		
-		if ($this->client->status["nic"]["status"])
+		if ($this->setup->getClient()->status["nic"]["status"])
 		{
 			$this->setButtonNext("finish","finish");
 		}
@@ -2475,7 +2534,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_RELOAD", $this->lng->txt("reload"));
 
 		$q = "SELECT count(*) as cnt FROM ctrl_calls";
-		$cset = $this->client->db->query($q);
+		$cset = $this->setup->getClient()->db->query($q);
 		$crec = $cset->fetchRow(DB_FETCHMODE_ASSOC);
 		if ($crec["cnt"] == 0)
 		{
@@ -2500,7 +2559,7 @@ class ilSetupGUI extends ilSetup
 	{
 		global $ilCtrlStructureReader;
 		
-		if (!$this->client->db_installed)
+		if (!$this->setup->getClient()->db_installed)
 		{
 			ilUtil::sendInfo($this->lng->txt("no_db"), true);
 			$this->displayTools();
@@ -2508,7 +2567,7 @@ class ilSetupGUI extends ilSetup
 		}
 
 		// referencing does not work in dbupdate-script
-		$GLOBALS["ilDB"] = new ilDB($this->client->dsn);
+		$GLOBALS["ilDB"] = new ilDB($this->setup->getClient()->dsn);
 // BEGIN WebDAV
 		// read module and service information into db
 		require_once "./classes/class.ilModuleReader.php";
@@ -2560,42 +2619,42 @@ class ilSetupGUI extends ilSetup
 		// formular sent
 		if ($_POST["form"])
 		{
-			$pass_old = $this->getPassword();
+			$pass_old = $this->setup->getPassword();
 
 			if (empty($_POST["form"]["pass_old"]))
 			{
 				$message = $this->lng->txt("password_enter_old");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 				
 			if (md5($_POST["form"]["pass_old"]) != $pass_old)
 			{
 				$message = $this->lng->txt("password_old_wrong");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 			
 			if (empty($_POST["form"]["pass"]))
 			{
 				$message = $this->lng->txt("password_empty");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 			
 			if ($_POST["form"]["pass"] != $_POST["form"]["pass2"])
 			{
 				$message = $this->lng->txt("password_not_match");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 			
 			if (md5($_POST["form"]["pass"]) == $pass_old)
 			{
 				$message = $this->lng->txt("password_same");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 			
-			if (!$this->setPassword($_POST["form"]["pass"]))
+			if (!$this->setup->setPassword($_POST["form"]["pass"]))
 			{
 				$message = $this->lng->txt("save_error");
-				$this->raiseError($message,$this->error_obj->MESSAGE);
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
 			}
 
 			ilUtil::sendInfo($this->lng->txt("password_changed"),true);
@@ -2632,13 +2691,13 @@ class ilSetupGUI extends ilSetup
 				$this->lng->txt("password").": <b>homer</b></p>";
 			$this->setButtonNext("login_new","login");
 //echo "<b>2</b>";
-			$this->client->reconnect();		// if this is not done, the writing of
+			$this->setup->getClient()->reconnect();		// if this is not done, the writing of
 											// the setup_ok fails (with MDB2 and a larger
 											// client list), alex 17.1.2008
-			$this->client->setSetting("setup_ok",1);
-//$this->client->setSetting("zzz", "Z");
+			$this->setup->getClient()->setSetting("setup_ok",1);
+//$this->setup->getClient()->setSetting("zzz", "Z");
 //echo "<b>3</b>";
-			$this->client->status["finish"]["status"] = true;
+			$this->setup->getClient()->status["finish"]["status"] = true;
 //echo "<b>4</b>";
 		}
 		else
@@ -2691,7 +2750,7 @@ class ilSetupGUI extends ilSetup
 			}
 			*/
 			
-			$msg = $this->client->delete($ini,$db,$files);
+			$msg = $this->setup->getClient()->delete($ini,$db,$files);
 
 			ilUtil::sendInfo($this->lng->txt("client_deleted"),true);
 			ilUtil::redirect("setup.php");
@@ -2718,11 +2777,11 @@ class ilSetupGUI extends ilSetup
 	 */
 	function changeAccessMode($a_back)
 	{
-		if ($this->client->status["finish"]["status"])
+		if ($this->setup->getClient()->status["finish"]["status"])
 		{
-			$val = ($this->client->ini->readVariable("client","access")) ? "0" : true;
-			$this->client->ini->setVariable("client","access",$val);
-			$this->client->ini->write();
+			$val = ($this->setup->getClient()->ini->readVariable("client","access")) ? "0" : true;
+			$this->setup->getClient()->ini->setVariable("client","access",$val);
+			$this->setup->getClient()->ini->write();
 			$message = "client_access_mode_changed";
 		}
 		else
@@ -2742,19 +2801,19 @@ class ilSetupGUI extends ilSetup
 	{
 		if ($_POST["form"])
 		{
-			$client = new ilClient($_POST["form"]["default"], $this->db_connections);
+			$client = new ilClient($_POST["form"]["default"], $this->setup->db_connections);
 
 			if (!$client->init())
 			{
-				$this->raiseError($this->lng->txt("no_valid_client_id"),$this->error_obj->MESSAGE);
+				$this->setup->raiseError($this->lng->txt("no_valid_client_id"),$this->setup->error_obj->MESSAGE);
 			}
 			
-			$status = $this->getStatus($client);
+			$status = $this->setup->getStatus($client);
 		
 			if ($status["finish"]["status"])
 			{
-				$this->ini->setVariable("clients","default",$client->getId());
-				$this->ini->write();
+				$this->setup->ini->setVariable("clients","default",$client->getId());
+				$this->setup->ini->write();
 				$message = "default_client_changed";
 			}
 			else
@@ -2774,7 +2833,7 @@ class ilSetupGUI extends ilSetup
 	 */
 	function validateSetup()
 	{
-		foreach ($this->client->status as $key => $val)
+		foreach ($this->setup->getClient()->status as $key => $val)
 		{
 			if ($key != "finish" and $key != "access")
 			{
@@ -2785,20 +2844,20 @@ class ilSetupGUI extends ilSetup
 			}
 		}
 		
-//$this->client->setSetting("zzz", "V");
-		$clientlist = new ilClientList($this->db_connections);
-//$this->client->setSetting("zzz", "W");
+//$this->setup->getClient()->setSetting("zzz", "V");
+		$clientlist = new ilClientList($this->setup->db_connections);
+//$this->setup->getClient()->setSetting("zzz", "W");
 		$list = $clientlist->getClients();
-//$this->client->setSetting("zzz", "X");
+//$this->setup->getClient()->setSetting("zzz", "X");
 		if (count($list) == 1)
 		{
-			$this->ini->setVariable("clients","default",$this->client->getId());
-			$this->ini->write();
+			$this->setup->ini->setVariable("clients","default",$this->setup->getClient()->getId());
+			$this->setup->ini->write();
 
-			$this->client->ini->setVariable("client","access",1);
-			$this->client->ini->write();
+			$this->setup->getClient()->ini->setVariable("client","access",1);
+			$this->setup->getClient()->ini->write();
 		}
-//$this->client->setSetting("zzz", "Y");
+//$this->setup->getClient()->setSetting("zzz", "Y");
 		return true;
 	}
 	
@@ -2807,31 +2866,31 @@ class ilSetupGUI extends ilSetup
 	 */
 	function jumpToFirstUnfinishedSetupStep()
 	{
-		if (!$this->client->status["db"]["status"])
+		if (!$this->setup->getClient()->status["db"]["status"])
 		{
 			$this->cmd = "db";
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayDatabase();
 		}
-		elseif (!$this->client->status["lang"]["status"])
+		elseif (!$this->setup->getClient()->status["lang"]["status"])
 		{
 			$this->cmd = "lang";
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayLanguages();      
 		}
-		elseif (!$this->client->status["contact"]["status"])
+		elseif (!$this->setup->getClient()->status["contact"]["status"])
 		{
 			$this->cmd = "contact";
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayContactData();        
 		}
-		elseif (!$this->client->status["nic"]["status"])
+		elseif (!$this->setup->getClient()->status["nic"]["status"])
 		{
 			$this->cmd = "nic";
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayNIC();        
 		}
-		elseif (!$this->client->status["finish"]["status"])
+		elseif (!$this->setup->getClient()->status["finish"]["status"])
 		{
 			$this->cmd = "finish";
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
@@ -2848,16 +2907,16 @@ class ilSetupGUI extends ilSetup
 	 */
 	function toggleClientList()
 	{
-		if ($this->ini->readVariable("clients","list"))
+		if ($this->setup->ini->readVariable("clients","list"))
 		{
-			$this->ini->setVariable("clients","list","0");
-			$this->ini->write();
+			$this->setup->ini->setVariable("clients","list","0");
+			$this->setup->ini->write();
 			ilUtil::sendInfo($this->lng->txt("list_disabled"),true);
 		}
 		else
 		{
-			$this->ini->setVariable("clients","list","1");
-			$this->ini->write();
+			$this->setup->ini->setVariable("clients","list","1");
+			$this->setup->ini->write();
 			ilUtil::sendInfo($this->lng->txt("list_enabled"),true);             
 		}
 		
