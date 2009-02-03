@@ -85,6 +85,30 @@ class ilECSUtils
 			'cycle');
 	}
 	
+	/**
+	 * Lookup participant name 
+	 * @param int	$a_owner	Mid of participant
+	 * @return
+	 */
+	public static function lookupParticipantName($a_owner)
+	{
+		global $ilLog;
+		
+		try {
+			include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+			$reader = ilECSCommunityReader::_getInstance();
+			if($part = $reader->getParticipantByMID($a_owner))
+			{
+				return $part->getParticipantName();
+			}
+			return '';
+		}
+		catch(ilECSConnectorException $e)
+		{
+			$ilLog->write(__METHOD__.': Error reading participants.');
+			return '';	
+		}
+	}
 }
 
 ?>
