@@ -489,6 +489,7 @@ class ilObjRemoteCourse extends ilObject
 		global $ilAppEventHandler;
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSSettings.php');
+		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
 		$ecs_settings = ilECSSettings::_getInstance();
 		
 		$remote_crs = new ilObjRemoteCourse();
@@ -496,7 +497,7 @@ class ilObjRemoteCourse extends ilObject
 		$remote_crs->setOwner(6);
 		$new_obj_id = $remote_crs->create();
 		$remote_crs->createReference();
-		$remote_crs->putInTree($ecs_settings->getImportId());		
+		$remote_crs->putInTree(ilECSCategoryMapping::getMatchingCategory($ecs_content));
 		$remote_crs->setPermissions($ecs_settings->getImportId());
 		
 		$remote_crs->setECSImported($ecs_content->getEContentId(),$a_mid,$new_obj_id);

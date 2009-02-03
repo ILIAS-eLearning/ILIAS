@@ -761,6 +761,7 @@ class ilECSSettingsGUI
 			$options[$field] = $this->lng->txt('ecs_field_'.$field);
 		}
 		$select = new ilSelectInputGUI($this->lng->txt('ecs_attribute_name'),'field');
+		$select->setValue($this->rule->getFieldName());
 		$select->setRequired(true);
 		$select->setOptions($options);
 		$this->form->addItem($select);

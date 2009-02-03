@@ -9059,6 +9059,6 @@ ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.
 ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the ending time.
 ecs#:#ecs_err_invalid_type#:#Please choose an assignment mode.
 ecs#:#ecs_field_part_id#:#Participant ID
-ecs#:#ecs_category_mapping#:#Assignment to categories
+ecs#:#ecs_category_mapping#:#Assignment to Categories
 ecs#:#ecs_tbl_active_rules#:#Active Rules for Category Assignment
 ecs#:#ecs_edit_category_mapping#:#Edit Assignment
