@@ -313,10 +313,12 @@ class ilECSTaskScheduler
 			 			$this->log->write(__METHOD__.': Cannot instantiate remote course. Got object type '.$remote->getType());
 			 			continue;
 			 		}
+			 		$ilLog->write(__METHOD__.': ... update called.');
 			 		$remote->updateFromECSContent($content);
 				}
 				else
 				{
+			 		$ilLog->write(__METHOD__.': ... create called.');
 		 			include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
 					$remote_crs = ilObjRemoteCourse::_createFromECSEContent($content,$mid);
 				}
@@ -436,6 +438,9 @@ class ilECSTaskScheduler
 	 		
 	 	$this->log->write(__METHOD__.': Starting ECS tasks.');
 	 	
+	 	// Debug
+	 	#$this->startTaskExecution();
+	 	#return true;
 	 	
 		include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
 

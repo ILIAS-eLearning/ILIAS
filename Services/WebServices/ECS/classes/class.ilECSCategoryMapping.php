@@ -34,6 +34,8 @@ include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.
 */
 class ilECSCategoryMapping
 {
+	private static $cached_active_rules = null;
+
 	/**
 	 * get active rules
 	 *
@@ -51,6 +53,36 @@ class ilECSCategoryMapping
 		}
 		return $rules ? $rules : array();
 	}
+	
+	/**
+	 * get matching category
+	 *
+	 * @param object	$econtent	ilECSEcontent
+	 * @return
+	 * @static
+	 */
+	public static function getMatchingCategory(ilECSEContent $econtent)
+	{
+		global $ilLog;
+		
+		if(is_null(self::$cached_active_rules))
+		{
+			self::$cached_active_rules = self::getActiveRules();
+		}
+		foreach(self::$cached_active_rules as $rule)
+		{
+			if($rule->matches($econtent))
+			{
+				$ilLog->write(__METHOD__.': Found assignment for field type: '.$rule->getFieldName());
+				return $rule->getContainerId();
+			}
+			$ilLog->write(__METHOD__.': Category assignment failed for field: '.$rule->getFieldName());
+		}
+		// Return default container
+		$ilLog->write(__METHOD__.': Using default container');
+		return ilECSSettings::_getInstance()->getImportId();
+	}
+	
 	
 	
 	/**

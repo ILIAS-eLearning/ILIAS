@@ -34,6 +34,10 @@ include_once './Services/Calendar/classes/class.ilDate.php';
 */
 class ilECSCategoryMappingRule
 {
+	const ATTR_STRING = 1;
+	const ATTR_INT = 2;
+	const ATTR_ARRAY = 3;
+	
 	const TYPE_FIXED = 0;
 	const TYPE_DURATION = 1;
 	
@@ -205,6 +209,15 @@ class ilECSCategoryMappingRule
 	}
 	
 	/**
+	 * get mapping values as array 
+	 * @return
+	 */
+	public function getMappingAsArray()
+	{
+		return explode(',',$this->getMappingValue());
+	}
+	
+	/**
 	 * delete rule
 	 * @return
 	 */
@@ -304,6 +317,100 @@ class ilECSCategoryMappingRule
 					$this->getDateRangeStart(),
 					$this->getDateRangeEnd());
 		}	 
+	}
+	
+	/**
+	 * Check if rule matches a specific econtent 
+	 * @param object	$econtent	ilECSEContent
+	 * @return bool
+	 */
+	public function matches(ilECSEcontent $econtent)
+	{
+		global $ilLog;
+		
+		switch($this->getFieldName())
+		{
+			case 'study_courses':
+				return $this->matchesValue($econtent->getStudyCourses(),self::ATTR_ARRAY);
+
+			case 'part_id':
+				return $this->matchesValue($econtent->getOwner(),self::ATTR_INT);
+				
+			case 'begin':
+				if(!is_object($econtent->getTimePlace()))
+				{
+					return false;
+				}
+				return $this->matchesValue($econtent->getTimePlace()->getUTBegin(),self::ATTR_INT);
+			
+			case 'courseType':
+				return $this->matchesValue($econtent->getCourseType(),self::ATTR_STRING);
+				
+			case 'term':
+				return $this->matchesValue($econtent->getTerm(),self::ATTR_STRING);
+				
+			case 'credits':
+				return $this->matchesValue($econtent->getCredits(),self::ATTR_STRING);
+		}
+		return false;
+	}
+	
+	/**
+	 * Check if value matches
+	 * @param	mixed	$a_value	Econtent value
+	 * @param	int		$a_type		Parameter type
+	 * @return
+	 */
+	protected function matchesValue($a_value,$a_type)
+	{
+		global $ilLog;
+		
+		
+		switch($a_type)
+		{
+			case self::ATTR_ARRAY:
+				$values = explode(',',$a_value);
+				$ilLog->write(__METHOD__.': Checking for value: '. $a_value);
+				$ilLog->write(__METHOD__.': Checking against attribute values: '. $this->getMappingValue());
+				break;
+				
+			case self::ATTR_INT:
+				$ilLog->write(__METHOD__.': Checking for value: '. $a_value);
+				$ilLog->write(__METHOD__.': Checking against attribute values: '. $this->getMappingValue());
+				$values = array($a_value);
+				break;
+				
+			case self::ATTR_INT:
+				$values = array($a_value);
+				break;
+		}
+		$values = explode(',',$a_value);
+		
+		foreach($values as $value)
+		{
+			$value = trim($value);
+			switch($this->getMappingType())
+			{
+				case self::TYPE_FIXED:
+					
+					foreach($this->getMappingAsArray() as $attribute_value)
+					{
+						$attribute_value = trim($attribute_value);
+						if(strcasecmp($attribute_value,$value) == 0)
+						{
+							return true;
+						}
+					}
+					break;
+					
+				case self::TYPE_DURATION:
+					include_once './Services/Calendar/classes/class.ilDateTime.php';
+					$tmp_date = new ilDate($a_value,IL_CAL_UNIX);
+					return ilDateTime::_after($tmp_date,$this->getDateRangeStart()) and 
+						ilDateTime::_before($tmp_date,$this->getDateRangeEnd());
+			}
+		}
+		return false;
 	}
 	
 	/**
