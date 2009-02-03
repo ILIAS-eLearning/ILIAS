@@ -68,11 +68,17 @@ class ilMailingLists
 	
 	public function getAll()
 	{
-		$query = "SELECT * FROM addressbook_mailing_lists "
-				."WHERE 1 "
-				."AND user_id = " . $this->db->quote($this->user->getId()) . " ";
-		$res = $this->db->query($query);
-
+		$statement = $this->db->prepare('
+			SELECT * FROM addressbook_mailing_lists
+			WHERE 1
+			AND user_id = ?',
+			array('integer')
+		);
+		
+		$data = array($this->user->getId());
+		
+		$res = $this->db->execute($statement, $data);
+		
 		$entries = array();
 		
 		$counter = 0;

@@ -55,17 +55,24 @@ class ilMailingList
 	
 	public function insert()
 	{
-		$query = "INSERT INTO addressbook_mailing_lists "
-				."(ml_id, user_id, title, description, createdate, changedate) "
-				."VALUES ( "
-				."'', "
-				.$this->db->quote($this->user_id).", "
-				.$this->db->quote($this->title).", "
-				.$this->db->quote($this->description).", "
-				.$this->db->quote($this->createdate).", "
-				."'' "
-				.") ";
-		$this->db->query($query);	
+		$statement = $this->db->prepareManip('
+			INSERT INTO addressbook_mailing_lists 
+			SET ml_id = ?, 
+				user_id = ?, 
+				title = ?, 
+				description = ?, 
+				createdate = ?, 
+				changedate = ?',
+			array(	'integer',
+					'integer',
+					'text', 
+					'text', 
+					'timestamp',
+					'timestamp')
+		);
+		
+		$data = array('', $this->getUserId(), $this->getTitle(), $this->getDescription(), $this->getCreatedate(), '');
+		$this->db->execute($statement, $data);
 		
 		$this->mail_id = $this->db->getLastInsertId();
 		
@@ -76,16 +83,30 @@ class ilMailingList
 	{
 		if ($this->mail_id && $this->user_id)
 		{
-			$query = "UPDATE addressbook_mailing_lists "
-					."SET "				
-					."title = " . $this->db->quote($this->title) . ", "
-					."description = " . $this->db->quote($this->description) . ", "
-					."changedate = " . $this->db->quote($this->changedate) . " "
-					."WHERE 1 "
-					."AND ml_id = " . $this->db->quote($this->mail_id) . " "
-					."AND user_id = " . $this->db->quote($this->user_id). " ";
-					
-			$this->db->query($query);
+			$statement = $this->db->prepareManip('
+				UPDATE addressbook_mailing_lists
+				SET title = ?,
+					description = ?,
+					changedate =  ?
+				WHERE 1
+				AND ml_id =  ?
+				AND user_id =  ?',
+				array(	'text',
+						'text',
+						'timestamp',
+						'integer',
+						'integer'
+				)
+			);
+			
+			$data = array(	$this->getTitle(),
+							$this->getDescription(),
+							$this->getChangedate(),
+							$this->getId(),
+							$this->getUserId()
+			);
+			
+			$this->db->execute($statement, $data);
 			
 			return true;
 		}
@@ -100,13 +121,18 @@ class ilMailingList
 		if ($this->mail_id && $this->user_id)
 		{
 			$this->deassignAllEntries();
+
+			$statement = $this->db->prepareManip('
+				DELETE FROM addressbook_mailing_lists
+				WHERE 1 
+				AND ml_id = ?
+				AND user_id = ?',
+				array('integer', 'integer')
+			);	
+
+			$data = array($this->getId(), $this->getUserId());
 			
-			$query = "DELETE FROM addressbook_mailing_lists "
-					."WHERE 1 "
-					."AND ml_id = " . $this->db->quote($this->mail_id) . " "
-					."AND user_id = " . $this->db->quote($this->user_id) . " ";
-			
-			$this->db->query($query);
+			$this->db->execute($statement, $data);
 			
 			return true;
 		}
@@ -118,37 +144,51 @@ class ilMailingList
 	
 	private function read()
 	{		
-		if ($this->mail_id && $this->user_id)
-		{
-			$query = "SELECT * FROM addressbook_mailing_lists "
-					."WHERE 1 "
-					."AND ml_id = " . $this->db->quote($this->mail_id) . " "
-					."AND user_id = " . $this->db->quote($this->user_id) . " ";
 	
-			$row = $this->db->getRow($query);
+	if ($this->getId() && $this->getUserId())
+		{
+			$statement = $this->db->prepare('
+				SELECT * FROM addressbook_mailing_lists 
+				WHERE 1 
+				AND ml_id = ?
+				AND user_id =?',
+				array('integer', 'integer')
+			);
+			$data = array($this->getId(), $this->getUserId()); 
+	
+			$res = $this->db->execute($statement, $data);
+			
+			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 	
 			if (is_object($row))
 			{
-				$this->mail_id = $row->ml_id;
-				$this->user_id = $row->user_id;
-				$this->title = $row->title;
-				$this->description = $row->description;
-				$this->createdate = $row->createdate;
-				$this->changedate = $row->changedae;		
+				$this->setId($row->ml_id);
+				$this->setUserId($row->user_id);
+				$this->setTitle($row->title);
+				$this->setDescription($row->description);
+				$this->setCreatedate($row->createdate);
+				$this->setChangedate($row->changedae);		
 			}
-		}
+		}		
+		
 		
 		return true;
 	}
 	
 	public function getAssignedEntries()
 	{
-		$query = "SELECT * FROM addressbook_mailing_lists_assignments "
-				."INNER JOIN addressbook ON addressbook.addr_id = addressbook_mailing_lists_assignments.addr_id "
-				."WHERE 1 "
-				."AND ml_id = " . $this->db->quote($this->mail_id) . " ";
-		$res = $this->db->query($query);
-
+		$statement = $this->db->prepare('
+			SELECT * FROM addressbook_mailing_lists_assignments 
+			INNER JOIN addressbook ON addressbook.addr_id = addressbook_mailing_lists_assignments.addr_id 
+			WHERE 1
+			AND ml_id = ?',
+			array('integer')
+		);
+		
+		$data = array($this->getId());
+		
+		$res = $this->db->execute($statement, $data);
+		
 		$entries = array();
 		
 		$counter = 0;
@@ -170,36 +210,50 @@ class ilMailingList
 	
 	public function assignAddressbookEntry($addr_id = 0)	
 	{
-		$query = "INSERT INTO addressbook_mailing_lists_assignments "
-				."(a_id, ml_id, addr_id) "
-				."VALUES ( "
-				."'', "
-				.$this->db->quote($this->mail_id).", "
-				.$this->db->quote($addr_id)." "
-				.") ";
-		$this->db->query($query);
+		$statement = $this->db->prepareManip('
+			INSERT INTO addressbook_mailing_lists_assignments 
+			SET a_id = ?, 
+				ml_id = ?, 
+				addr_id = ?',
+			array('integer', 'integer', 'integer')
+		);
+			
+		$data = array('', $this->getId(), $addr_id);
+		
+		$this->db->execute($statement, $data);
 		
 		return true;
 	}
 	
 	public function deassignAddressbookEntry($a_id = 0)	
 	{
-		$query = "DELETE FROM addressbook_mailing_lists_assignments "
-				."WHERE 1 "
-				."AND a_id = " . $this->db->quote($a_id) . " ";
+	
+		$statement = $this->db->prepareManip('	
+		DELETE FROM addressbook_mailing_lists_assignments 
+				WHERE 1 
+				AND a_id = ?',
+				array('integer')
+		);	
 		
-		$this->db->query($query);
+		$data = array($a_id);
+			
+		$this->db->execute($statement, $data);
 		
 		return true;
 	}
 	
 	public function deassignAllEntries()	
 	{
-		$query = "DELETE FROM addressbook_mailing_lists_assignments "
-				."WHERE 1 "
-				."AND ml_id = " . $this->db->quote($this->mail_id) . " ";
+		$statement = $this->db->prepareManip('	
+		DELETE FROM addressbook_mailing_lists_assignments 
+				WHERE 1 
+				AND ml_id = ?',
+				array('integer')
+		);	
 		
-		$this->db->query($query);
+		$data = array($this->getId());
+			
+		$this->db->execute($statement, $data);
 		
 		return true;
 	}
