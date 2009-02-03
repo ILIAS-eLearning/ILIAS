@@ -178,13 +178,16 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->objProperties->setDefaultView(((int) $_POST['default_view']));
 		if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
 		{
-			$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);		
+			//$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);
+			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);		
 		}
 		if ($ilSetting->get('enable_fora_statistics'))
 		{
-			$this->objProperties->setStatisticsStatus(((int) $_POST['statistics_enabled'] == 1) ? true : false);
+			//$this->objProperties->setStatisticsStatus(((int) $_POST['statistics_enabled'] == 1) ? true : false);
+			$this->objProperties->setStatisticsStatus((int) $_POST['statistics_enabled']);
 		}
-		$this->objProperties->setPostActivation(((int) $_POST['post_activation'] == 1) ? true : false);
+		//$this->objProperties->setPostActivation(((int) $_POST['post_activation'] == 1) ? true : false);
+		$this->objProperties->setPostActivation((int) $_POST['post_activation']);
 				
 		if (strlen(trim($_POST['title'])))
 		{			
@@ -295,8 +298,9 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm =& $this->object->Forum;
 		$frm->setForumId($this->object->getId());
 		$frm->setForumRefId($this->object->getRefId());
-		$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($frm->getForumId()));				
-
+			
+		$frm->setMDB2Wherecondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
+		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_liste.html',	'Modules/Forum');
 		
 		$this->tpl->addBlockfile('BUTTONS', 'buttons', 'tpl.buttons.html');
@@ -336,7 +340,9 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
-			$frm->setWhereCondition('top_pk = '.$ilDB->quote($topicData['top_pk']));
+
+			$frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topicData['top_pk'])); 
+			
 			$frm->updateVisits($topicData['top_pk']);
 						
 			// get list of threads
@@ -820,9 +826,11 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->objProperties->setDefaultView(((int) $_POST['sort']));
 		if (!$this->ilias->getSetting('disable_anonymous_fora') || $this->objProperties->isAnonymized())
 		{
-			$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);
+			//$this->objProperties->setAnonymisation(((int) $_POST['anonymized'] == 1) ? true : false);
+			$this->objProperties->setAnonymisation((int) $_POST['anonymized']);
 		}
-		$this->objProperties->setStatisticsStatus(((int) $_POST['statistics_enabled'] == 1) ? true : false);
+		//$this->objProperties->setStatisticsStatus(((int) $_POST['statistics_enabled'] == 1) ? true : false);
+		$this->objProperties->setStatisticsStatus((int) $_POST['statistics_enabled']);
 		$this->objProperties->insert();		
 			
 		$forumObj->createSettings();
@@ -1122,7 +1130,8 @@ class ilObjForumGUI extends ilObjectGUI
 			// if complete thread was deleted ...
 			if ($dead_thr == $this->objCurrentTopic->getId())
 			{
-				$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($forumObj->getId()));
+				$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($forumObj->getId()));
+				
 				$topicData = $frm->getOneTopic();
 		
 				ilUtil::sendInfo($lng->txt('forums_post_deleted'), true);
@@ -1685,7 +1694,8 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 				
 		// get forum- and thread-data
-		$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($frm->getForumId()));		
+		$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
+		
 		if(is_array($topicData = $frm->getOneTopic()))
 		{
 			// Visit-Counter for topic
@@ -3019,7 +3029,7 @@ class ilObjForumGUI extends ilObjectGUI
 				{
 					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $ilObjDataCache->lookupObjId($ref_id))
 					{
-						$this->object->Forum->setWhereCondition(" top_frm_fk = '".$ilObjDataCache->lookupObjId($ref_id)."' ");
+						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($ilObjDataCache->lookupObjId($ref_id)));
 							
 						if(!is_null($frmData = $this->object->Forum->getOneTopic()))
 						{
@@ -3053,7 +3063,8 @@ class ilObjForumGUI extends ilObjectGUI
 				{
 					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $val['obj_id'])
 					{	
-						$this->object->Forum->setWhereCondition(" top_frm_fk = '".$val['obj_id']."' ");		
+						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($val['obj_id']));	
+							
 						if(!is_null($frmData = $this->object->Forum->getOneTopic()))				
 						{
 							$check = 0;			
@@ -3113,8 +3124,9 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
+
+		$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
 		
-		$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($frm->getForumId()));
 		$topicData = $frm->getOneTopic();		
 		
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_new.html',	'Modules/Forum');
@@ -3184,6 +3196,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function addThreadObject($a_prevent_redirect = false)
 	{
+		
 		global $lng, $tpl, $ilDB, $ilUser;
 		
 		$forumObj = new ilObjForum($_GET['ref_id']);
@@ -3191,7 +3204,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
 
-		$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($frm->getForumId()));
+		$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
+		
 		$topicData = $frm->getOneTopic();
 
 		$formData = $_POST['formData'];
@@ -3241,12 +3255,16 @@ class ilObjForumGUI extends ilObjectGUI
 			}
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
-			$frm->setWhereCondition('top_pk = '.$ilDB->quote($topicData['top_pk']));
+			
+			$frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topicData['top_pk']));			
+			
+			
 			$frm->updateVisits($topicData['top_pk']);
 			// on success: change location
-			$frm->setWhereCondition('thr_top_fk = '.$ilDB->quote($topicData['top_pk']).' AND thr_subject = '.
-									$ilDB->quote(ilUtil::stripSlashes($formData['subject'])).' AND thr_num_posts = 1');		
-	
+			
+			$frm->setMDB2WhereCondition('thr_top_fk = ? AND thr_subject = ? AND thr_num_posts = 1 ', 
+										array('integer', 'text'), array($topicData['top_pk'], $formData['subject']));			
+			
 			if (!$a_prevent_redirect)
 			{
 				ilUtil::redirect('repository.php?ref_id='.$forumObj->getRefId());

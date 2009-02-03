@@ -78,7 +78,8 @@ class ilForumExportGUI
 		$tplEx->setVariable('CSSPATH', $tpl->tplPath);
 		
 		// get forum- and thread-data
-		$this->frm->setWhereCondition('top_pk = '.$ilDB->quote($_GET['thr_top_fk']));
+		$this->frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($_GET['thr_top_fk']));
+		
 		if (is_array($frmData = $this->frm->getOneTopic()))
 		{
 			$objCurrentTopic = new ilForumTopic(addslashes($_GET['print_thread']), $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));	
@@ -188,7 +189,8 @@ class ilForumExportGUI
 		$tplEx->setVariable('CSSPATH', $tpl->tplPath);
 				
 		// get forum- and thread-data
-		$this->frm->setWhereCondition('top_pk = '.$ilDB->quote($_GET['top_pk']));
+		$this->frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($_GET['top_pk']));
+		
 		if (is_array($frmData = $this->frm->getOneTopic()))
 		{
 			// post object			
@@ -290,7 +292,8 @@ class ilForumExportGUI
 			$objCurrentTopic = new ilForumTopic(addslashes($_POST['forum_id'][$j]), $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));
 
 			// get forum- and thread-data
-			$this->frm->setWhereCondition('top_pk = '.$ilDB->quote($objCurrentTopic->getForumId()));
+			$this->frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($objCurrentTopic->getForumId()));
+			
 			if (is_array($frmData = $this->frm->getOneTopic()))
 			{				
 				$objFirstPostNode = $objCurrentTopic->getFirstPostNode();

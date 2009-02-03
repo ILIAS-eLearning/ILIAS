@@ -88,9 +88,15 @@ class ilObjForumAccess extends ilObjectAccess
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT pos_thr_fk FROM frm_posts WHERE pos_pk = ".
-			$ilDB->quote($a_pos_id));
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$statement = $ilDB->prepare('
+			SELECT pos_thr_fk FROM frm_posts WHERE pos_pk = ?',
+			array('integer')
+		);
+		
+		$data = array($a_pos_id);
+		$res = $ilDB->execute($statement, $data);
+		
+		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		return $rec["pos_thr_fk"];
 	}

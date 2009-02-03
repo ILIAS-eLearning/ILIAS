@@ -291,7 +291,9 @@ class ilForumImportParser extends ilSaxParser
 		$this->__initForumObject();
 
 		$this->forum_obj->setImportName($this->thread["login"]);
-		$this->forum_obj->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->forum->getId()));
+
+		$this->forum_obj->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($this->forum->getId()));
+	
 		$topic = $this->forum_obj->getOneTopic();
 
 		// GENERATE IT AND 'INCREMENT' parent variable
@@ -303,7 +305,9 @@ class ilForumImportParser extends ilSaxParser
 																	 $this->post["message"],0,0,'',date("Y-m-d H:i:s",$this->thread["c_time"])));
 		
 		$this->forum_obj->setDbTable("frm_data");
-		$this->forum_obj->setWhereCondition("top_pk = ".$ilDB->quote($topic["top_pk"]));
+
+		$this->forum_obj->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topic['top_pk']));
+		
 		$this->forum_obj->updateVisits($topic["top_pk"]);
 
 	}
@@ -313,7 +317,10 @@ class ilForumImportParser extends ilSaxParser
 		global $ilDB;
 		
 		$this->forum_obj->setImportName($this->post["login"]);
-		$this->forum_obj->setWhereCondition("top_frm_fk = ".$ilDB->quote($this->forum->getId()));
+
+		$this->forum_obj->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($this->forum->getId()));
+
+		
 		$topic = $this->forum_obj->getOneTopic();
 		$post = $this->forum_obj->getPostById($this->__getParentId());
 		#$post = $this->forum_obj->getPostById($this->parent[count($this->parent)-1]);
@@ -342,20 +349,54 @@ class ilForumImportParser extends ilSaxParser
 	{
 		global $ilDB;
 
-		$query = "INSERT INTO frm_data VALUES('0',".
-			$ilDB->quote($this->forum->getId()).",".
-			$ilDB->quote($this->forum->getTitle()).",".
-			$ilDB->quote($this->forum->getDescription()).",'".
-			"0','0','".
-			"',".$ilDB->quote($this->roles[0]).",'".
-			date("Y:m:d H:i:s")."','".
-			"0','".
-			date("Y:m:d H:i:s")."','".
-			"0',".
-			$ilDB->quote($_SESSION["AccountId"]).")";
+		$statement = $ilDB->prepareManip('
+			INSERT INTO frm_data 
+			SET top_pk = ?,
+				top_frm_fk = ?,
+				top_name = ?,
+				top_description = ?,
+				top_num_posts = ?,
+				top_num_threads = ?,
+				top_las_post = ?,
+				top_mods = ?,
+				top_date = ?,
+				visits = ?,
+				top_update = ?,
+				update_user = ?,
+				top_usr_id = ?',
 		
-		$ilDB->query($query);
-
+			array(	'integer',
+					'integer',
+					'text', 
+					'text',
+					'integer', 
+					'integer', 
+					'text',
+					'integer',
+					'timestamp',
+					'integer',
+					'timestamp',
+					'integer',
+					'integer')
+		);
+		
+		$data = array(	'0',
+						$this->forum->getId(),
+						$this->forum->getTitle(),
+						$this->forum->getDescription(),
+						'0',
+						'0',
+						'',
+						$this->roles[0],
+						date("Y:m:d H:i:s"),
+						'0',
+						date("Y:m:d H:i:s"),
+						'0',
+						$_SESSION["AccountId"]
+		);
+		
+		$ilDB->execute($statement, $data);
+		
 		// TO ENSURE THERE IS MINIMUM ONE MODERATOR 
 		$this->__addModerator($_SESSION["AccountId"]);
 		return true;
