@@ -28,11 +28,11 @@ function reindexImageWizardElements(rootel)
 	{
 		textinputs[i].id = rootel.id + '[' + i + ']';
 		textinputs[i].name = rootel.id + '[' + i + ']';
-	}
-	hiddenfields = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'hidden') ? true : false; }, 'input', rootel);
-	for (i = 0; i < hiddenfields.length; i++)
-	{
-		hiddenfields[i].name = 'picture_' + rootel.id + '[' + i + ']';
+		hiddenfields = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'hidden') ? true : false; }, 'input', textinputs[i].parentNode);
+		for (j = 0; j < hiddenfields.length; j++)
+		{
+			hiddenfields[j].name = 'picture_' + rootel.id + '[' + i + ']';
+		}
 	}
 	addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'imagewizard_add') ? true : false; }, 'input', rootel);
 	for (i = 0; i < addbuttons.length; i++)
