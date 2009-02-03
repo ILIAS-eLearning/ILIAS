@@ -101,25 +101,62 @@ class ilForumPost
 	{
 		if ($this->forum_id && $this->thread_id)
 		{		
-			$query = "INSERT INTO frm_posts "
-					."SET "
-					."pos_pk = " . $this->db->quote($this->id). ", "
-					."pos_top_fk = " . $this->db->quote($this->forum_id). ", "
-					."pos_thr_fk = " . $this->db->quote($this->thread_id). ", "
-					."pos_usr_id = " . $this->db->quote($this->user_id). ", "
-					."pos_usr_alias = " . $this->db->quote($this->user_alias). ", "
-					."pos_subject = " . $this->db->quote($this->subject). ", "
-					."pos_message = " . $this->db->quote($this->message). ", "
-					."pos_date = " . $this->db->quote($this->createdate). ", "					
-					."pos_update = " . $this->db->quote($this->changedate). ", "
-					."update_user = " . $this->db->quote($this->user_id_update). ", "
-					."pos_cens = " . $this->db->quote($this->censored). ", "
-					."pos_cens_com = " . $this->db->quote($this->censorship_comment). ", "
-					."notify = " . $this->db->quote($this->notification). ", "
-					."import_name = " . $this->db->quote($this->import_name). ", "
-					."pos_status = " . $this->db->quote($this->status). " ";
-			$this->db->query($query);
 			
+			$statement = $this->db->prepareManip('
+				INSERT INTO frm_posts 
+				SET pos_pk = ?,
+					pos_top_fk = ?, 
+					pos_thr_fk = ?,
+					pos_usr_id = ?, 
+					pos_usr_alias = ?,
+					pos_subject = ?, 
+					pos_message = ?,
+					pos_date = ?, 
+					pos_update = ?, 
+					update_user = ?, 
+					pos_cens = ?,
+					pos_cens_com = ?, 
+					notify = ?,
+					import_name = ?, 
+					pos_status = ? ',
+				array(	'integer',
+						'integer',
+						'integer',
+						'integer',
+						'text',
+						'text',
+						'text',
+						'timestamp',
+						'timestamp',
+						'integer',
+						'integer',
+						'text',
+						'integer',
+						'text',
+						'integer'
+				)
+			); 
+			
+			$data = array(	$this->id,
+							$this->forum_id,
+							$this->thread_id,
+							$this->user_id, 
+							$this->user_alias,
+							$this->subject,
+							$this->message,
+							$this->createdate,
+							$this->changedate,
+							$this->user_id_update,
+							$this->censored,
+							$this->censorship_comment,
+							(int)$this->notification,
+							(string)$this->import_name,
+							$this->status
+			);
+							
+
+			$this->db->execute($statement, $data);
+						
 			$this->id = $this->db->getLastInsertId();
 			
 			return true;
@@ -132,19 +169,44 @@ class ilForumPost
 	{
 		if ($this->id)
 		{		
-			$query = "UPDATE frm_posts "
-					."SET "
-					."pos_top_fk = " . $this->db->quote($this->forum_id). ", "
-					."pos_thr_fk = " . $this->db->quote($this->thread_id). ", "
-					."pos_subject = " . $this->db->quote($this->subject). ", "
-					."pos_message = " . $this->db->quote($this->message). ", "
-					."pos_update = " . $this->db->quote($this->changedate). ", "
-					."update_user = " . $this->db->quote($this->user_id_update). ", "
-					."pos_cens = " . $this->db->quote($this->censored). ", "
-					."pos_cens_com = " . $this->db->quote($this->censorship_comment). ", "
-					."notify = " . $this->db->quote($this->notification). " "					
-					."WHERE pos_pk = ". $this->db->quote($this->id) ." ";
-			$this->db->query($query);
+
+			$statement = $this->db->prepareManip('
+				UPDATE frm_posts
+				SET pos_top_fk = ?,
+					pos_thr_fk = ?,
+					pos_subject = ?,
+					pos_message = ?, 
+					pos_update = ?, 
+					update_user = ?, 
+					pos_cens = ?,
+					pos_cens_com = ?, 
+					notify = ?	
+					WHERE pos_pk = ?', 
+				array(	'integer',
+						'integer',
+						'text',
+						'text',
+						'timestamp',
+						'integer',
+						'integer',
+						'text',
+						'integer',
+						'integer')
+			);
+			
+			$data = array(	$this->forum_id,
+			 				$this->thread_id,
+			 				$this->subject,
+							 $this->message,
+							 $this->changedate,
+							 $this->user_id_update,
+							 $this->censored,
+							 $this->censorship_comment,
+							 $this->notification,				
+							 $this->id
+			);
+			 
+			$this->db->execute($statement, $data);
 			
 			if ($this->objThread->getFirstPostId() == $this->id)
 			{
@@ -220,11 +282,18 @@ class ilForumPost
 	{	
 		if ($this->id)
 		{
-			$query = "SELECT * FROM frm_posts
-					  INNER JOIN frm_posts_tree ON pos_fk = pos_pk
-					  WHERE pos_pk = " . $this->db->quote($this->id) . " ";
-			$row = $this->db->getrow($query);
-	
+			$statement = $this->db->prepare('
+				SELECT * FROM frm_posts
+				INNER JOIN frm_posts_tree ON pos_fk = pos_pk
+				WHERE pos_pk = ?',
+				array('integer')
+			);
+			
+			$data = array($this->id);
+			
+			$res = $this->db->execute($statement, $data);
+			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			
 			if (is_object($row))
 			{
 				$this->id = $row->pos_pk;
@@ -265,15 +334,19 @@ class ilForumPost
 	{
 		if ($this->id)
 		{
-			$query = "SELECT * 
-					  FROM frm_posts_tree
-					  INNER JOIN frm_posts ON pos_pk = pos_fk
-				  	  WHERE 1
-					  AND pos_status = '0'
-					  AND lft < ".$this->db->quote($this->lft)." AND rgt > ".$this->db->quote($this->rgt)." 
-				  	  AND thr_fk = ".$this->db->quote($this->thread_id)." ";
+			$statement = $this->db->prepare('
+				SELECT * FROM frm_posts_tree
+				INNER JOIN frm_posts ON pos_pk = pos_fk
+				WHERE 1
+				AND pos_status = ?
+				AND lft < ? AND rgt > ?
+				AND thr_fk = ?',
+				array('integer', 'integer', 'integer', 'integer')
+			);
+
+			$data = array('0', $this->lft, $this->rgt, $this->thread_id);
 			
-			$res = $this->db->query($query);
+			$res = $this->db->execute($statement, $data);
 			
 			return $res->numRows();
 		}
@@ -331,8 +404,14 @@ class ilForumPost
 	{
 		if ($this->id)
 		{
-			$query = "UPDATE frm_posts SET pos_status = '1' WHERE pos_pk = " . $this->db->quote($this->id) . " ";
-			$this->db->query($query);
+			$statement = $this->db->prepareManip('
+				UPDATE frm_posts SET pos_status = ? 
+				WHERE pos_pk = ?',
+				array('integer', 'integer')
+			);
+
+			$data = array('1', $this->id);
+			$this->db->execute($statement, $data);
 			
 			$this->activateParentPosts();
 			
@@ -346,14 +425,31 @@ class ilForumPost
 	{
 		if ($this->id)
 		{					  
-			$query = "UPDATE frm_posts_tree	AS treea		   
-					  INNER JOIN frm_posts_tree AS treeb ON treeb.thr_fk = treea.thr_fk  AND treeb.lft BETWEEN treea.lft AND treea.rgt
-					  INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
-					  SET pos_status = '1' 
-					  WHERE 1 
-					  AND treea.pos_fk = " . $this->db->quote($this->id) . " ";
-					  
-			$this->db->query($query);
+/*			$statement = $this->db->prepareManip('
+				UPDATE frm_posts_tree	AS treea
+				INNER JOIN frm_posts_tree AS treeb ON treeb.thr_fk = treea.thr_fk  
+					AND treeb.lft BETWEEN treea.lft AND treea.rgt
+				INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
+				SET pos_status = ?
+				WHERE 1 
+				AND treea.pos_fk = ?',
+				array('integer', 'integer')
+			);
+*/
+			$statement = $this->db->prepareManip('
+				UPDATE frm_posts_tree treea
+				INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk  
+					AND treeb.lft BETWEEN treea.lft AND treea.rgt
+				INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
+				SET pos_status = ?
+				WHERE 1 
+				AND treea.pos_fk = ?',
+				array('integer', 'integer')
+			);
+			
+			$data = array('1', $this->id);
+			
+			$this->db->execute($statement, $data);
 			
 			$this->activateParentPosts();
 				
@@ -367,15 +463,20 @@ class ilForumPost
 	{
 		if ($this->id)
 		{					  
-			$query = "UPDATE frm_posts
-					  INNER JOIN frm_posts_tree ON pos_fk = pos_pk
-					  SET pos_status = '1'
-				  	  WHERE 1					  
-					  AND lft < ".$this->db->quote($this->lft)." AND rgt > ".$this->db->quote($this->rgt)." 
-				  	  AND thr_fk = ".$this->db->quote($this->thread_id)." ";
+			$statement = $this->db->prepareManip('
+				UPDATE frm_posts
+				INNER JOIN frm_posts_tree ON pos_fk = pos_pk
+				SET pos_status = ?
+				WHERE 1
+				AND lft < ? AND rgt > ?
+				AND thr_fk = ?',
+				array('integer', 'integer', 'integer', 'integer')
+			);
 
-			$this->db->query($query);
-				
+			$data = array('1', $this->lft, $this->rgt, $this->thread_id);
+			
+			$this->db->execute($statement, $data);
+			
 			return true;
 		}
 		
@@ -386,14 +487,20 @@ class ilForumPost
 	{
 		if ($this->id)
 		{
-			$query = "UPDATE frm_posts_tree	AS treea		   
-					  INNER JOIN frm_posts_tree AS treeb ON treeb.thr_fk = treea.thr_fk  AND treeb.lft BETWEEN treea.lft AND treea.rgt
-					  INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
-					  SET pos_status = '0' 
-					  WHERE 1 
-					  AND treea.pos_fk = " . $this->db->quote($this->id) . " ";
-
-			$this->db->query($query);
+			$statement = $this->db->prepareManip('
+				UPDATE frm_posts_tree treea		   
+				INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk  
+					AND treeb.lft BETWEEN treea.lft AND treea.rgt
+				INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
+				SET pos_status = ?
+				WHERE 1 
+				AND treea.pos_fk = ?',
+				array('integer', 'integer')
+			);		
+			
+			$data = array('0', $this->id);
+			
+			$this->db->execute($statement, $data);
 			
 			return true;
 		}
@@ -405,13 +512,19 @@ class ilForumPost
 	{
 		if ($a_user_id && $this->id)
 		{
-			$query = "SELECT * 
-					  FROM frm_user_read 
-					  WHERE 1
-					  AND usr_id = ".$this->db->quote($a_user_id)."
-					  AND post_id = ".$this->db->quote($this->id)." ";
-			$res = $this->db->query($query);
 
+			$statement = $this->db->prepare('
+				SELECT * FROM frm_user_read 
+			  	WHERE 1
+			 	AND usr_id = ?
+			 	AND post_id = ?',
+				array('integer', 'integer')
+			);
+			
+			$data = array($a_user_id, $this->id);
+			
+			$res = $this->db->execute($statement, $data);
+			
 			return $res->numRows() ? true : false;
 		}
 		
@@ -422,14 +535,19 @@ class ilForumPost
 	{
 		if ($this->id && $this->rgt && $this->lft)
 		{
-			$query = "SELECT *
-				 	  FROM frm_posts_tree			  		 
-				  	  WHERE 1 
-				  	  AND lft > ".$this->db->quote($this->lft)." AND rgt < ".$this->db->quote($this->rgt)." 
-				  	  AND thr_fk = ".$this->db->quote($this->thread_id);
-		
-			$res = $this->db->query($query);
 
+			$statemtent = $this->db->prepare('
+				SELECT * FROM frm_posts_tree			  		 
+		  	 	WHERE 1 
+		  	 	AND lft > ? AND rgt < ?
+		  	  	AND thr_fk = ?',
+				array('integer', 'integer', 'integer')
+			);
+			
+			$data = array($this->lft, $this->rgt, $this->id);
+			
+			$res = $this->db->execute($statemtent, $data);
+			
 			return $res->numRows() ? true : false;
 		}
 		

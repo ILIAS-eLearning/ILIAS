@@ -355,7 +355,8 @@ class ilForumExplorer extends ilExplorer
 		global $lng, $ilias, $ilDB;
 
 		$frm = new ilForum();
-		$frm->setWhereCondition("thr_pk = ".$ilDB->quote($this->thread_id));
+
+		$frm->setMDB2WhereCondition('thr_pk = ? ', array('integer'), array($this->thread_id));
 		$threadData = $frm->getOneThread();
 
 		$tpl->setCurrentBlock("icon");

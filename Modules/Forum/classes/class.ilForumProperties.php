@@ -45,19 +45,19 @@ class ilForumProperties
 	 * Defines if a forum is anonymized or not
 	 * @access	private
 	 */
-	private $anonymized = false;
+	private $anonymized = 0; //false;
 	
 	/**
 	 * Defines if a forum can show ranking statistics
 	 * @access private 
 	 */	
-	private $statistics_enabled = false;
+	private $statistics_enabled = 0; //false;
 	
 	/**
 	 * Activation of new posts
 	 * @access	private
 	 */
-	private $post_activation_enabled = false;
+	private $post_activation_enabled = 0; //false;
 
 	/**
 	 * DB Object
@@ -94,18 +94,22 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$query = "SELECT * 
-					  FROM frm_settings 
-					  WHERE 1
-					  AND obj_id = " . $this->db->quote($this->obj_id) . " ";
-			$row = $this->db->getrow($query);
-	
+			$statement = $this->db->prepare('
+				SELECT * FROM frm_settings
+				WHERE 1
+				AND obj_id = ?',
+			array('integer'));
+			$data = array($this->obj_id);
+			
+			$res = $this->db->execute($statement, $data);
+			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			
 			if (is_object($row))
 			{
 				$this->default_view = $row->default_view;
-				$this->anonymized = $row->anonymized == 1 ? true : false;
-				$this->statistics_enabled = $row->statistics_enabled == 1 ? true : false;
-				$this->post_activation_enabled = $row->post_activation == 1 ? true : false;
+				$this->anonymized = $row->anonymized ;// == 1 ? true : false;
+				$this->statistics_enabled = $row->statistics_enabled ;// == 1 ? true : false;
+				$this->post_activation_enabled = $row->post_activation ;// == 1 ? true : false;
 				
 				return true;
 			}
@@ -120,14 +124,16 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$query = "INSERT INTO frm_settings "
-					."SET "
-					."obj_id = " . $this->db->quote($this->obj_id). ", "
-					."default_view = " . $this->db->quote($this->default_view). ", "
-					."anonymized = " . $this->db->quote($this->anonymized). ", "
-					."statistics_enabled = " . $this->db->quote($this->statistics_enabled). ", "
-					."post_activation = " . $this->db->quote($this->post_activation_enabled). " ";
-			$this->db->query($query);
+			$statement = $this->db->prepareManip('INSERT INTO frm_settings 
+				SET obj_id = ?, 
+					default_view = ?, 
+					anonymized = ?, 
+					statistics_enabled = ?,
+					post_activation = ?',
+			array('integer', 'integer', 'integer', 'integer', 'integer'));
+					
+			$data = array($this->obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled);
+			$this->db->execute($statement, $data);
 			
 			return true;
 		}
@@ -139,18 +145,19 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$query = "UPDATE frm_settings "
-					."SET "
-					."default_view = " . $this->db->quote($this->default_view). ", "
-					."anonymized = " . $this->db->quote($this->anonymized). ", "
-					."statistics_enabled = " . $this->db->quote($this->statistics_enabled). ", "
-					."post_activation = " . $this->db->quote($this->post_activation_enabled). " "
-					."WHERE obj_id = ". $this->db->quote($this->obj_id) ." ";
-			$this->db->query($query);
+			$statement = $this->db->prepareManip('UPDATE frm_settings 
+				SET default_view = ?, 
+					anonymized = ?, 
+					statistics_enabled = ?, 
+					post_activation  = ? 
+				WHERE obj_id = ?', 
+				array ('integer', 'integer', 'integer', 'integer', 'integer'));
+					
+			$data = array($this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->obj_id);
+			$this->db->execute($statement, $data);
 			
 			return true;
-		}
-		
+		}		
 		return false;		
 	}
 	
@@ -158,19 +165,22 @@ class ilForumProperties
 	{
 		if ($a_new_obj_id)
 		{		
-			$query = "INSERT INTO frm_settings "
-					."SET "
-					."obj_id = " . $this->db->quote($a_new_obj_id). ", "
-					."default_view = " . $this->db->quote($this->default_view). ", "
-					."anonymized = " . $this->db->quote($this->anonymized). ", "
-					."statistics_enabled = " . $this->db->quote($this->statistics_enabled). ", "
-					."post_activation = " . $this->db->quote($this->post_activation_enabled). " ";
-			$this->db->query($query);
+			$statement = $this->db->prepareManip('INSERT INTO frm_settings
+				SET obj_id = ?,
+					default_view = ?,
+					anonymized = ?,
+					statistics_enabled = ?,
+					post_activation = ?',
+				array ('integer', 'integer', 'integer', 'integer', 'integer'));
+
+			$data = array($a_new_obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled);
 			
+
+			$this->db->execute($statement, $data);
 			return true;
 		}
 		
-		return false;		
+		return false;
 	}
 	
 	public function setDefaultView($a_default_view)
