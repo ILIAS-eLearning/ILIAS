@@ -282,13 +282,20 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		if(!$this->ctrl->getCmd() and $this->object->getViewMode() == ilContainer::VIEW_TIMING)
 		{
-			include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
-			$course_content_obj = new ilCourseContentGUI($this);
-	
-			$this->ctrl->setCmdClass(get_class($course_content_obj));
-			$this->ctrl->forwardCommand($course_content_obj);
-			return true;
+			if(!isset($_SESSION['crs_timings'])) {
+				$_SESSION['crs_timings'] = true;
+			}
+			
+			if($_SESSION['crs_timings'] == true) {
+				include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
+				$course_content_obj = new ilCourseContentGUI($this);
+				$this->ctrl->setCmdClass(get_class($course_content_obj));
+				$this->ctrl->setCmd('editUserTimings');
+				$this->ctrl->forwardCommand($course_content_obj);
+				return true;
+			}	
 		}
+		$_SESSION['crs_timings'] = false;
 		return false;
 	}
 	
