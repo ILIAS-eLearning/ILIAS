@@ -7304,3 +7304,15 @@ if (!$ilDB->tableColumnExists("qpl_answer_ordering", "aorder"))
 	$ilDB->query("ALTER TABLE qpl_answer_ordering DROP aorder");
 }
 ?>
+<#1534>
+ CREATE TABLE IF NOT EXISTS `ecs_container_mapping` (
+`mapping_id` INT NOT NULL ,
+`container_id` INT NOT NULL ,
+`field_name` VARCHAR( 255 ) NOT NULL ,
+`mapping_type` TINYINT NOT NULL ,
+`mapping_value` VARCHAR( 255 ) NOT NULL ,
+`date_range_start` INT NOT NULL ,
+`date_range_end` INT NOT NULL ,
+PRIMARY KEY ( `mapping_id` )
+) Type = MYISAM;
+

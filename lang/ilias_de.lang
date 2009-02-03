@@ -9100,3 +9100,19 @@ common#:#create_history_loginname#:#Eine Historie für die Änderung des Login-N
 common#:#allow_history_loginname_again#:#Es dürfen bereits genutzte Login-Namen aus der Historie wieder verwendet werden
 common#:#loginname_already_exists#:#Dieser Login-Name existiert bereits.
 common#:#create_history_loginname_must_be_enabled#:#Für die Wiederverwendung des Login-Namens muss die Historie aktiviert sein.
+ecs#:#ecs_unique_id#:#Teilnehmer-ID
+ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten Kurs-Links zu Kategorien
+ecs#:#ecs_attribute_name#:#Attributname
+ecs#:#ecs_cat_mapping_type#:#Art der Zuordnung
+ecs#:#ecs_cat_mapping_fixed#:#Feste Werte
+ecs#:#ecs_cat_mapping_values#:#Attributwert
+ecs#:#ecs_cat_mapping_fixed_info#:#Wählen Sie diese Einstellung, um die Zuordnung anhand von festen Werten vorzunehmen. Mehrere Werte können durch Komma getrennt eingegeben werden.
+ecs#:#ecs_cat_mapping_duration#:#Zeitrahmen
+ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um Kurs-Links z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
+ecs#:#ecs_err_missing_value#:#Bitte überprüfen Sie Ihre Eingaben für die Attributwerte.
+ecs#:#ecs_err_invalid_dates#:#Der Starttermin muss vor dem Endtermin liegen. Bitte überpfüfen Sie Ihre Eingabe.
+ecs#:#ecs_err_invalid_type#:#Bitte wählen Sie eine Art der Zuordnung aus.
+ecs#:#ecs_field_part_id#:#Teilnehmer-ID
+ecs#:#ecs_category_mapping#:#Zuordnung zu Kategorien
+ecs#:#ecs_tbl_active_rules#:#Aktive Regeln für die Zuordnung zu Kategorien
+ecs#:#ecs_edit_category_mapping#:#Zuordnung bearbeiten

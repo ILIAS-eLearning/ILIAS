@@ -9046,3 +9046,19 @@ common#:#create_history_loginname#:#Create a history for changed login names
 common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history
 common#:#loginname_already_exists#:#This login name already exists.
 common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.
+ecs#:#ecs_unique_id#:#Participant-ID
+ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories
+ecs#:#ecs_attribute_name#:#Attribute Name
+ecs#:#ecs_cat_mapping_type#:#Assignment Type
+ecs#:#ecs_cat_mapping_fixed#:#Fixed Values
+ecs#:#ecs_cat_mapping_values#:#Attribute Value
+ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning Course-Links to categories based on fixed values.
+ecs#:#ecs_cat_mapping_duration#:#Date Range
+ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course-Links based on date ranges (e.g starting time of a course).
+ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.
+ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the ending time.
+ecs#:#ecs_err_invalid_type#:#Please choose an assignment mode.
+ecs#:#ecs_field_part_id#:#Participant ID
+ecs#:#ecs_category_mapping#:#Assignment to categories
+ecs#:#ecs_tbl_active_rules#:#Active Rules for Category Assignment
+ecs#:#ecs_edit_category_mapping#:#Edit Assignment

@@ -538,6 +538,268 @@ class ilECSSettingsGUI
 	}
 	
 	/**
+	 * Category mappings 
+	 * @return
+	 */
+	protected function categoryMapping()
+	{
+		$this->tabs_gui->setSubTabActive('ecs_category_mapping');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.category_mapping.html','Services/WebServices/ECS');
+		
+		$this->initRule();
+		$this->initCategoryMappingForm();
+		
+		
+		$this->tpl->setVariable('NEW_RULE_TABLE',$this->form->getHTML());
+		if($html = $this->showRulesTable())
+		{
+			$this->tpl->setVariable('RULES_TABLE',$html);			
+		}
+	}
+	
+	/**
+	 * save category mapping 
+	 * @return
+	 */
+	protected function addCategoryMapping()
+	{
+		$this->initRule();
+		
+		$this->initCategoryMappingForm('add');
+		if($this->form->checkInput())
+		{
+			$this->rule->setContainerId($this->form->getInput('import_id'));
+			$this->rule->setMappingType($this->form->getInput('type'));
+			$this->rule->setMappingValue($this->form->getInput('mapping_value'));
+			$this->rule->setFieldName($this->form->getInput('field'));
+			$this->rule->setDateRangeStart($this->form->getItemByPostVar('dur_begin')->getDate());
+			$this->rule->setDateRangeEnd($this->form->getItemByPostVar('dur_end')->getDate());
+			
+			if($err = $this->rule->validate())
+			{
+				ilUtil::sendInfo($this->lng->txt($err));
+				$this->form->setValuesByPost();
+				$this->categoryMapping();
+				return false;
+			}
+			$this->rule->save();
+			ilUtil::sendInfo($this->lng->txt('settings_saved'));
+			unset($this->rule);
+			$this->categoryMapping();
+			return true;
+		}
+		ilUtil::sendInfo($this->lng->txt('err_check_input'));
+		$this->form->setValuesByPost();
+		$this->categoryMapping();
+		return false;
+	}
+	
+	/**
+	 * Edit category mapping
+	 * @return
+	 */
+	protected function editCategoryMapping()
+	{
+		if(!$_REQUEST['rule_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->categoryMapping();
+			return false;
+		}
+
+		$this->tabs_gui->setSubTabActive('ecs_category_mapping');
+		$this->ctrl->saveParameter($this,'rule_id');
+		$this->initRule((int) $_REQUEST['rule_id']);
+		
+		$this->initCategoryMappingForm('edit');
+		$this->tpl->setContent($this->form->getHTML());
+		return true;
+	}
+	
+	/**
+	 * update category mapping 
+	 * @return
+	 */
+	protected function updateCategoryMapping()
+	{
+		if(!$_REQUEST['rule_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('select_one'));
+			$this->categoryMapping();
+			return false;
+		}
+		$this->ctrl->saveParameter($this,'rule_id');
+		$this->initRule((int) $_REQUEST['rule_id']);
+		$this->initCategoryMappingForm('edit');
+		if($this->form->checkInput())
+		{
+			$this->rule->setContainerId($this->form->getInput('import_id'));
+			$this->rule->setMappingType($this->form->getInput('type'));
+			$this->rule->setMappingValue($this->form->getInput('mapping_value'));
+			$this->rule->setFieldName($this->form->getInput('field'));
+			$this->rule->setDateRangeStart($this->form->getItemByPostVar('dur_begin')->getDate());
+			$this->rule->setDateRangeEnd($this->form->getItemByPostVar('dur_end')->getDate());
+			
+			if($err = $this->rule->validate())
+			{
+				ilUtil::sendInfo($this->lng->txt($err));
+				$this->form->setValuesByPost();
+				$this->editCategoryMapping();
+				return false;
+			}
+			$this->rule->update();
+			ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
+			$this->ctrl->redirect($this,'categoryMapping');
+			return true;
+		}
+		ilUtil::sendInfo($this->lng->txt('err_check_input'));
+		$this->form->setValuesByPost();
+		$this->editCategoryMapping();
+		return false;
+		
+	}
+	
+	/**
+	 * Delete selected category mappings 
+	 */
+	protected function deleteCategoryMappings()
+	{
+		if(!is_array($_POST['rules']) or !$_POST['rules'])
+		{
+			ilUtil::sendInfo($this->lng->txt('no_checkbox'));
+			$this->categoryMapping();
+			return false;
+		}
+		foreach($_POST['rules'] as $rule_id)
+		{
+			include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
+			$rule = new ilECSCategoryMappingRule($rule_id);
+			$rule->delete();			
+		}
+		ilUtil::sendInfo($this->lng->txt('settings_saved'));
+		$this->categoryMapping();
+		return true;
+	}
+	
+	/**
+	 * Show rules table 
+	 * @return
+	 */
+	protected function showRulesTable()
+	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
+		
+		if(!$rules = ilECSCategoryMapping::getActiveRules())
+		{
+			return false;
+		}
+		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingTableGUI.php';
+		$rule_table = new ilECSCategoryMappingTableGUI($this,'categoryMapping');
+		$rule_table->parse($rules);
+		return $rule_table->getHTML();
+	}
+	
+	/**
+	 * Init rule 
+	 * @param int	$rule_id	rule id
+	 * @return
+	 */
+	protected function initRule($a_rule_id = 0)
+	{
+		if(is_object($this->rule))
+		{
+			return $this->rule;
+		}
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
+		$this->rule = new ilECSCategoryMappingRule($a_rule_id);
+	}
+	
+	/**
+	 * Init category mapping form 
+	 * @return
+	 */
+	protected function initCategoryMappingForm($a_mode = 'add')
+	{
+		if(is_object($this->form))
+		{
+			return true;
+		}
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
+		
+		$this->form = new ilPropertyFormGUI();
+		
+		if($a_mode == 'add') 
+		{
+			$this->form->setTitle($this->lng->txt('ecs_new_category_mapping'));
+			$this->form->setFormAction($this->ctrl->getFormAction($this,'categoryMapping'));
+			$this->form->addCommandButton('addCategoryMapping',$this->lng->txt('save'));
+			$this->form->addCommandButton('categoryMapping',$this->lng->txt('cancel'));
+		}
+		else
+		{
+			$this->form->setTitle($this->lng->txt('ecs_edit_category_mapping'));
+			$this->form->setFormAction($this->ctrl->getFormAction($this,'editCategoryMapping'));
+			$this->form->addCommandButton('updateCategoryMapping',$this->lng->txt('save'));
+			$this->form->addCommandButton('categoryMapping',$this->lng->txt('cancel'));
+		}
+		
+		$imp = new ilTextInputGUI($this->lng->txt('ecs_import_id'),'import_id');
+		$imp->setSize(5);
+		$imp->setMaxLength(6);
+		$imp->setValue($this->rule->getContainerId());
+		$imp->setInfo($this->lng->txt('ecs_import_id_info'));
+		$imp->setRequired(true);
+		$this->form->addItem($imp);
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php');
+		$fields = ilECSCategoryMapping::getPossibleFields();
+		foreach($fields as $field)
+		{
+			$options[$field] = $this->lng->txt('ecs_field_'.$field);
+		}
+		$select = new ilSelectInputGUI($this->lng->txt('ecs_attribute_name'),'field');
+		$select->setRequired(true);
+		$select->setOptions($options);
+		$this->form->addItem($select);
+
+		//	Value
+		$value = new ilRadioGroupInputGUI($this->lng->txt('ecs_cat_mapping_type'),'type');
+		$value->setValue($this->rule->getMappingType());
+		$value->setRequired(true);
+		
+		$fixed = new ilRadioOption($this->lng->txt('ecs_cat_mapping_fixed'),ilECSCategoryMappingRule::TYPE_FIXED);
+		$fixed->setInfo($this->lng->txt('ecs_cat_mapping_fixed_info'));
+		
+			$fixed_val = new ilTextInputGUI($this->lng->txt('ecs_cat_mapping_values'),'mapping_value');
+			$fixed_val->setValue($this->rule->getMappingValue());
+			$fixed_val->setMaxLength(255);
+			$fixed_val->setSize(40);
+			$fixed->addSubItem($fixed_val);
+		
+		$value->addOption($fixed);
+
+		$duration = new ilRadioOption($this->lng->txt('ecs_cat_mapping_duration'),ilECSCategoryMappingRule::TYPE_DURATION);
+		$duration->setInfo($this->lng->txt('ecs_cat_mapping_duration_info'));
+		
+			$dur_start = new ilDateTimeInputGUI($this->lng->txt('from'),'dur_begin');
+			$dur_start->setDate($this->rule->getDateRangeStart());
+			$duration->addSubItem($dur_start);
+			
+			$dur_end = new ilDateTimeInputGUI($this->lng->txt('to'),'dur_end');
+			$dur_end->setDate($this->rule->getDateRangeEnd());
+			$duration->addSubItem($dur_end);
+		
+		$value->addOption($duration);
+		
+		$this->form->addItem($value);
+		
+	}
+	
+	
+	/**
 	 * Show imported materials
 	 *
 	 * @access protected
@@ -864,6 +1126,9 @@ class ilECSSettingsGUI
 		$this->tabs_gui->addSubTabTarget('ecs_mappings',
 			$this->ctrl->getLinkTarget($this,'mappings'),
 			'mappings',get_class($this));
+			
+		$this->tabs_gui->addSubTabTarget('ecs_category_mapping',
+			$this->ctrl->getLinkTarget($this,'categoryMapping'));
 			
 		$this->tabs_gui->addSubTabTarget('ecs_import',
 			$this->ctrl->getLinkTarget($this,'imported'));
