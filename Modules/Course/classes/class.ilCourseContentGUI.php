@@ -72,6 +72,9 @@ class ilCourseContentGUI
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->WARNING);
 		}
+		
+		// Handle timings view
+		$_SESSION['crs_timings'] = true;
 
 		$this->__setSubTabs();
 		$this->tabs_gui->setTabActive('view_content');
