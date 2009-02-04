@@ -1,6 +1,76 @@
 ilAddOnLoad(ilInitAdvSelectionLists);
 var il_adv_sel_lists = new Array();
 
+/**
+* Get inner height of window
+*/
+function ilGetWinInnerHeight()
+{
+	if (self.innerHeight)
+	{
+		return self.innerHeight;
+	}
+	// IE 6 strict Mode
+	else if (document.documentElement && document.documentElement.clientHeight)
+	{
+		return document.documentElement.clientHeight;
+	}
+	// other IE
+	else if (document.body)
+	{
+		return document.body.clientHeight;
+	}
+}
+
+function ilGetWinPageYOffset()
+{
+	if (typeof(window.pageYOffset ) == 'number')
+	{
+		return window.pageYOffset;
+	}
+	else if(document.body && (document.body.scrollLeft || document.body.scrollTop ))
+	{
+		return document.body.scrollTop;
+	}
+	else if(document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop))
+	{
+		return document.documentElement.scrollTop;
+	}
+	return 0;
+}
+
+function getBodyWidth()
+{
+	if (document.body && document.body.offsetWidth)
+	{
+		return document.body.offsetWidth;
+	}
+	else if (document.documentElement && document.documentElement.offsetWidth)
+	{
+		return document.documentElement.offsetWidth;
+	}
+	return 0;
+}
+
+function ilGetOffsetTop(el)
+{
+	var y = 0;
+	
+	if (typeof(el) == "object" && document.getElementById)
+	{
+		y = el.offsetTop;
+		if (el.offsetParent)
+		{
+			y += ilGetOffsetTop(el.offsetParent);
+		}
+		return y;
+	}
+	else 
+	{
+		return false;
+	}
+}
+
 /** 
 * Init selection lists
 */
@@ -27,13 +97,59 @@ function ilInitAdvSelectionLists()
 	}
 }
 
+function absTop(el) {
+return (el.offsetParent)?
+el.offsetTop+absTop(el.offsetParent) : el.offsetTop;
+}
+
+function absLeft(el) {
+	left = eval(el).offsetLeft;
+	op = eval(el).offsetParent;
+  	while (op != null) {
+  		left += op.offsetLeft;
+  		op = op.offsetParent;
+  	}
+	return left;
+}
+
 /**
 * Show selection list
 */
 function ilAdvSelListOn(id)
 {
 	obj = document.getElementById('ilAdvSelListTable_' + id);
+	anchor = document.getElementById('ilAdvSelListAnchorElement_' + id);
+	
+	var wih = ilGetWinInnerHeight();
+	var yoff = ilGetWinPageYOffset();
+	
+/*alert("anchor.offsetLeft:" + anchor.offsetLeft
+	);*/
+
+	//obj.style.left = anchor.offsetLeft + 'px';
+	obj.style.left = absLeft(anchor) + 'px';
+	obj.style.top = (absTop(anchor) + anchor.offsetHeight) + 'px';
 	obj.style.display='';
+	
+	var top = ilGetOffsetTop(obj);
+	
+	// if too low: show it higher
+	if (top + (obj.offsetHeight + 10) > wih + yoff)
+	{
+		obj.style.top = (wih + yoff - (obj.offsetHeight + 10)) + "px";
+	}
+
+	var wiw = getBodyWidth();
+	// if too far on the right: show it more left
+	if ((absLeft(obj) + (obj.offsetWidth + 10)) > wiw)
+	{
+/*alert ("absleft: " + absLeft(obj)
+		+ "\n width: " + obj.offsetWidth
+		+ "\n window width: " + wiw
+	);*/
+		obj.style.left = (wiw - (obj.offsetWidth + 10)) + "px";
+	}
+
 }
 
 /**
@@ -43,4 +159,14 @@ function ilAdvSelListOff(id)
 {
 	obj = document.getElementById('ilAdvSelListTable_' + id);
 	obj.style.display='none';
+}
+
+function ilAdvSelItemOn(obj)
+{
+	obj.className = "il_adv_sel_act";
+}
+
+function ilAdvSelItemOff(obj)
+{
+	obj.className = "il_adv_sel";
 }

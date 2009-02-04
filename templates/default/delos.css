@@ -2169,3 +2169,37 @@ div.il_SearchFragment
 	text-align:left;
 }
 
+/* Selection Lists */
+table.il_adv_sel {
+	color:#000000;
+	background-color:#FFFFFF;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color: #E0E0E0;
+	opacity: 0.93;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=93)";
+	filter: alpha(opacity=93);
+	-moz-opacity: 0.93;
+}
+
+tr.il_adv_sel {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #E0E0E0;
+	background-color: #FFFFFF;
+}
+
+tr.il_adv_sel_act {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #E0E0E0;
+	background-color: #FFFFA9;
+}
+
+td.il_adv_sel {
+	padding: 5px;
+	text-align: left;
+	white-space: nowrap;
+}

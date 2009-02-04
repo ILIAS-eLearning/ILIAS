@@ -211,6 +211,21 @@ class ilObjFileListGUI extends ilObjectListGUI
 		return $cmd_link;
 	}*/
 
+	/**
+	* Get command icon image
+	*/
+	function getCommandImage($a_cmd)
+	{
+		switch ($a_cmd)
+		{
+			case "versions":
+				return ilUtil::getImagePath("cmd_versions_s.gif");
+			
+			default:
+				return "";
+		}
+	}
+
 
 
 } // END class.ilObjFileListGUI

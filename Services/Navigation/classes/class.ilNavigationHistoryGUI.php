@@ -44,24 +44,43 @@ class ilNavigationHistoryGUI
 	/**
 	* Get HTML for navigation history
 	*/
-	function getHTMLNew()
+	function getHTML()
 	{
-		global $lng;
+		global $ilNavigationHistory, $lng;
 		
 		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setListTitle($lng->txt("last_visited"));
 		$selection->setId("lastvisited");
-		$selection->addItem("Test 1");
-		$selection->addItem("Test 2");
+		$selection->setSelectionHeaderClass("MMInactive");
+		$selection->setHeaderIcon(ilAdvancedSelectionListGUI::NO_ICON);
+		$selection->setItemLinkClass("small");
+		$selection->setUseImages(true);
 		
+		$items = $ilNavigationHistory->getItems();
+		//$sel_arr = array(0 => "-- ".$lng->txt("last_visited")." --");
+		reset($items);
+		$cnt = 0;
+		foreach($items as $item)
+		{
+			if ($cnt++ > 20) break;
+			
+			if ($item["ref_id"] != $_GET["ref_id"])			// do not list current item
+			{
+				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
+				$selection->addItem($item["title"], $item["ref_id"], $item["link"],
+					ilObject::_getIcon($obj_id, "tiny", $item["type"]),
+					$lng->txt("obj_".$item["type"]), "_top");
+			}
+		}
+
 		return $selection->getHTML();
 	}
 	
 	/**
 	* Get HTML for navigation history.
 	*/
-	public function getHTML()
+	public function getHTMLOld()
 	{
 		global $ilNavigationHistory, $lng;
 		
