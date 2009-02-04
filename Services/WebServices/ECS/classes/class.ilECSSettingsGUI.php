@@ -756,12 +756,22 @@ class ilECSSettingsGUI
 			$this->form->addCommandButton('categoryMapping',$this->lng->txt('cancel'));
 		}
 		
-		$imp = new ilTextInputGUI($this->lng->txt('ecs_import_id'),'import_id');
-		$imp->setSize(5);
-		$imp->setMaxLength(6);
-		$imp->setValue($this->rule->getContainerId());
-		$imp->setInfo($this->lng->txt('ecs_import_id_info'));
+		$imp = new ilCustomInputGUI($this->lng->txt('ecs_import_id'),'import_id');
 		$imp->setRequired(true);
+		
+		$tpl = new ilTemplate('tpl.ecs_import_id_form.html',true,true,'Services/WebServices/ECS');
+		$tpl->setVariable('SIZE',5);
+		$tpl->setVariable('MAXLENGTH',11);
+		$tpl->setVariable('POST_VAR','import_id');
+		$tpl->setVariable('PROPERTY_VALUE',$this->rule->getContainerId());
+		
+		if($this->settings->getImportId())
+		{
+			$tpl->setVariable('COMPLETE_PATH',$this->buildPath($this->rule->getContainerId()));
+		}		
+		
+		$imp->setHTML($tpl->get());
+		$imp->setInfo($this->lng->txt('ecs_import_id_info'));
 		$this->form->addItem($imp);
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php');

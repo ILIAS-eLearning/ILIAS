@@ -73,6 +73,7 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_CAT_TITLE',$a_set['category']);
 		$this->tpl->setVariable('VAL_CONDITION',$a_set['kind']);
 		$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
+		$this->tpl->setVariable('PATH',$this->buildPath($a_set['category_id']));
 		
 		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'rule_id',$a_set['id']);
 		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'editCategoryMapping'));
@@ -97,5 +98,18 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
 		}
 		$this->setData($content ? $content : array());
 	}
+	
+	private function buildPath($a_ref_id)
+	{
+		// TODO: Implement another class for creating the path
+		include_once './classes/class.ilLocatorGUI.php';
+		
+		$loc = new ilLocatorGUI();
+		$loc->setTextOnly(false);
+		$loc->addContextItems($a_ref_id);
+		
+		return $loc->getHTML();
+	}
+	
 }
 ?>

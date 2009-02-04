@@ -87,5 +87,22 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 		$a_tpl->setVariable("CUSTOM_CONTENT", $this->getHtml());
 		$a_tpl->parseCurrentBlock();
 	}
-
+	
+	/**
+	* Check input, strip slashes etc. set alert, if input is not ok.
+	*
+	* @return	boolean		Input ok, true/false
+	*/	
+	function checkInput()
+	{
+		global $lng;
+		
+		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
+		{
+			$this->setAlert($lng->txt("msg_input_is_required"));
+			return false;
+		}
+		return true;
+	}
 }
