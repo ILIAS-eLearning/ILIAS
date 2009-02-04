@@ -231,6 +231,21 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		return $props;
 	}
 
+	/**
+	* Get command icon image
+	*/
+	function getCommandImage($a_cmd)
+	{
+		switch ($a_cmd)
+		{
+			case "continue":
+				return ilUtil::getImagePath("cmd_continue_s.gif");
+			
+			default:
+				return "";
+		}
+	}
+
 
 } // END class.ilObjCategoryGUI
 ?>

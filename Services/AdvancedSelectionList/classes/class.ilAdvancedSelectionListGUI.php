@@ -32,6 +32,10 @@ class ilAdvancedSelectionListGUI
 {
 	private $items = array();
 	private $id = "asl";
+	
+	const DOWN_ARROW_LIGHT = "mm_down_arrow.gif";
+	const DOWN_ARROW_DARK = "mm_down_arrow_dark.gif";
+	const NO_ICON = "";
 
 	/**
 	* Constructor.
@@ -39,6 +43,7 @@ class ilAdvancedSelectionListGUI
 	*/
 	public function __construct()
 	{
+		$this->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 	}
 
 	/**
@@ -50,10 +55,10 @@ class ilAdvancedSelectionListGUI
 	* @param	string		image href attribute
 	* @param	string		image alt attribute
 	*/
-	function addItem($a_title, $a_value = "", $a_link = "", $a_img = "", $a_alt = "")
+	function addItem($a_title, $a_value = "", $a_link = "", $a_img = "", $a_alt = "", $a_frame = "")
 	{
 		$this->items[] = array("title" => $a_title, "value" => $a_value,
-			"link" => $a_link, "img" => $a_img, "alt" => $a_alt);
+			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame);
 	}
 	
 	/**
@@ -107,44 +112,84 @@ class ilAdvancedSelectionListGUI
 	}
 
 	/**
-	* Set Submit Button Text.
+	* Set Selection Header Class.
 	*
-	* @param	string	$a_submitbuttontext	Submit Button Text
+	* @param	string	$a_selectionheaderclass	Selection Header Class
 	*/
-/*	function setSubmitButtonText($a_submitbuttontext)
+	function setSelectionHeaderClass($a_selectionheaderclass)
 	{
-		$this->submitbuttontext = $a_submitbuttontext;
-	}*/
+		$this->selectionheaderclass = $a_selectionheaderclass;
+	}
 
 	/**
-	* Get Submit Button Text.
+	* Get Selection Header Class.
 	*
-	* @return	string	Submit Button Text
+	* @return	string	Selection Header Class
 	*/
-/*	function getSubmitButtonText()
+	function getSelectionHeaderClass()
 	{
-		return $this->submitbuttontext;
-	}*/
+		return $this->selectionheaderclass;
+	}
 
 	/**
-	* Set Form Action.
+	* Set Header Icon.
 	*
-	* @param	string	$a_formaction	Form Action
+	* @param	string	$a_headericon	Header Icon
 	*/
-/*	function setFormAction($a_formaction)
+	function setHeaderIcon($a_headericon)
 	{
-		$this->formaction = $a_formaction;
-	}*/
+		$this->headericon = $a_headericon;
+	}
 
 	/**
-	* Get Form Action.
+	* Get Header Icon.
 	*
-	* @return	string	Form Action
+	* @return	string	Header Icon
 	*/
-/*	function getFormAction()
+	function getHeaderIcon()
 	{
-		return $this->formaction;
-	}*/
+		return $this->headericon;
+	}
+
+	/**
+	* Set No Javascript Link Style Class.
+	*
+	* @param	string	$a_nojslinkclass	No Javascript Link Style Class
+	*/
+	function setNoJSLinkClass($a_nojslinkclass)
+	{
+		$this->nojslinkclass = $a_nojslinkclass;
+	}
+
+	/**
+	* Get No Javascript Link Style Class.
+	*
+	* @return	string	No Javascript Link Style Class
+	*/
+	function getNoJSLinkClass()
+	{
+		return $this->nojslinkclass;
+	}
+
+	/**
+	* Set Item Link Class.
+	*
+	* @param	string	$a_itemlinkclass	Item Link Class
+	*/
+	function setItemLinkClass($a_itemlinkclass)
+	{
+		$this->itemlinkclass = $a_itemlinkclass;
+	}
+
+	/**
+	* Get Item Link Class.
+	*
+	* @return	string	Item Link Class
+	*/
+	function getItemLinkClass()
+	{
+		return $this->itemlinkclass;
+	}
 
 	/**
 	* Set Id.
@@ -164,6 +209,26 @@ class ilAdvancedSelectionListGUI
 	function getId()
 	{
 		return $this->id;
+	}
+
+	/**
+	* Set Use Images.
+	*
+	* @param	boolean	$a_useimages	Use Images
+	*/
+	function setUseImages($a_useimages)
+	{
+		$this->useimages = $a_useimages;
+	}
+
+	/**
+	* Get Use Images.
+	*
+	* @return	boolean	Use Images
+	*/
+	function getUseImages()
+	{
+		return $this->useimages;
 	}
 
 	/**
@@ -200,27 +265,69 @@ class ilAdvancedSelectionListGUI
 				? "tblrow1_mo"
 				: "tblrow2_mo";
 				
-			if ($item["image"])
+			if ($this->getUseImages())
 			{
-				$tpl->setCurrentBlock("image");
-				$tpl->setVariable("IMG_ITEM", $item["image"]);
+				if ($item["img"])
+				{
+					$tpl->setCurrentBlock("image");
+					$tpl->setVariable("IMG_ITEM", $item["img"]);
+					$tpl->setVariable("ALT_ITEM", $item["alt"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->touchBlock("no_image");
+				}
+			}
+			
+			if ($item["frame"])
+			{
+				$tpl->setCurrentBlock("frame");
+				$tpl->setVariable("TARGET_ITEM", $item["frame"]);
 				$tpl->parseCurrentBlock();
 			}
 				
+			if ($this->getItemLinkClass() != "")
+			{
+				$tpl->setCurrentBlock("item_link_class");
+				$tpl->setVariable("ITEM_LINK_CLASS", $this->getItemLinkClass());
+				$tpl->parseCurrentBlock();
+			}
+
 			$tpl->setCurrentBlock("item");
 			$tpl->setVariable("HREF_ITEM", $item["link"]);
 			$tpl->setVariable("CSS_ROW", $this->css_row);
 			$tpl->setVariable("TXT_ITEM", $item["title"]);
 			
-			$tpl->setVariable("ALT_ITEM", $item["alt"]);
 			$tpl->parseCurrentBlock();
 		}
 	
+		if ($this->getHeaderIcon() != ilAdvancedSelectionListGUI::NO_ICON)
+		{
+			$tpl->setCurrentBlock("top_img");
+			switch ($this->getHeaderIcon())
+			{
+				case ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT:
+					$tpl->setVariable("IMG_DOWN",
+						ilUtil::getImagePath(ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT));
+					break;
+				case ilAdvancedSelectionListGUI::DOWN_ARROW_DARK:
+					$tpl->setVariable("IMG_DOWN",
+						ilUtil::getImagePath(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK));
+					break;
+				default:
+					$tpl->setVariable("IMG_DOWN", $this->getHeaderIcon());
+					break;
+			}
+			$tpl->setVariable("ALT_SEL_TOP", $this->getListTitle());
+			$tpl->parseCurrentBlock();
+		}
+		
 		// js section
 		$tpl->setCurrentBlock("js_section");
 		$tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
-		$tpl->setVariable("IMG_DOWN", ilUtil::getImagePath("mm_down_arrow.gif"));
 		$tpl->setVariable("ID", $this->getId());
+		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
 		$tpl->parseCurrentBlock();
 		
 		// no js section

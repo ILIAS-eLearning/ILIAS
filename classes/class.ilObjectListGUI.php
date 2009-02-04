@@ -822,6 +822,19 @@ class ilObjectListGUI
 		return "";
 	}
 
+	/**
+	* Get command icon image
+	*
+	* Overwrite this method if an icon is provided
+	*
+	* @param	string		$a_cmd			command
+	*
+	* @return	string		image path
+	*/
+	function getCommandImage($a_cmd)
+	{
+		return "";
+	}
 
 	/**
 	* Get item properties
@@ -1064,6 +1077,7 @@ class ilObjectListGUI
 			{
 				$cmd_link = $this->getCommandLink($command["cmd"]);
 				$cmd_frame = $this->getCommandFrame($command["cmd"]);
+				$cmd_image = $this->getCommandImage($command["cmd"]);
 				$access_granted = true;
 			}
 			else
@@ -1080,6 +1094,7 @@ class ilObjectListGUI
 				"lang_var" => $lang_var,
 				"granted" => $access_granted,
 				"access_info" => $info_object,
+				"img" => $cmd_image,
 				"default" => $command["default"]
 			);
 		}
@@ -1499,7 +1514,7 @@ class ilObjectListGUI
 	* @param	string		$a_text		link text
 	* @param	string		$a_frame	link frame target
 	*/
-	function insertCommand($a_href, $a_text, $a_frame = "")
+	function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "")
 	{
 		if ($a_frame != "")
 		{
@@ -1512,6 +1527,8 @@ class ilObjectListGUI
 		$this->tpl->setVariable("HREF_COMMAND", $a_href);
 		$this->tpl->setVariable("TXT_COMMAND", $a_text);
 		$this->tpl->parseCurrentBlock();
+		
+		$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame);
 	}
 
 	/**
@@ -1533,7 +1550,8 @@ class ilObjectListGUI
 				$this->container_obj->object->getRefId());
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
-			$this->insertCommand($cmd_link, $this->lng->txt("delete"));
+			$this->insertCommand($cmd_link, $this->lng->txt("delete"), "",
+				ilUtil::getImagePath("cmd_delete_s.gif"));
 			$this->adm_commands_included = true;
 		}
 	}
@@ -1561,7 +1579,8 @@ class ilObjectListGUI
 				$this->container_obj->object->getRefId());
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
-			$this->insertCommand($cmd_link, $this->lng->txt("link"));
+			$this->insertCommand($cmd_link, $this->lng->txt("link"), "",
+				ilUtil::getImagePath("cmd_link_s.gif"));
 			$this->adm_commands_included = true;
 		}
 	}
@@ -1589,7 +1608,8 @@ class ilObjectListGUI
 				$this->container_obj->object->getRefId());
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut");
-			$this->insertCommand($cmd_link, $this->lng->txt("move"));
+			$this->insertCommand($cmd_link, $this->lng->txt("move"), "",
+				ilUtil::getImagePath("cmd_move_s.gif"));
 			$this->adm_commands_included = true;
 		}
 	}
@@ -1651,14 +1671,15 @@ class ilObjectListGUI
 						$this->ctrl->setParameter($this->container_obj, "type", $type);
 						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
-						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
+						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"), "",
+							ilUtil::getImagePath("cmd_pd_put_s.gif"));
 					}					
 					else
 					{
 						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "type", $type);
 						$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui",
-							"addItem");
+							"addItem", "", ilUtil::getImagePath("cmd_pd_put_s.gif"));
 						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"));
 					}
 				}
@@ -1674,7 +1695,8 @@ class ilObjectListGUI
 					$this->ctrl->setParameter($this->container_obj, "type", $type);
 					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
-					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"));
+					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"), "",
+						ilUtil::getImagePath("cmd_pd_rem_s.gif"));
 				}
 				else
 				{
@@ -1682,7 +1704,8 @@ class ilObjectListGUI
 					$this->ctrl->setParameterByClass("ilpersonaldesktopgui", "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui",
 						"dropItem");
-					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"));
+					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"), "",
+						ilUtil::getImagePath("cmd_pd_rem_s.gif"));
 				}
 			}
 		}
@@ -1700,7 +1723,8 @@ class ilObjectListGUI
 		}
 		$cmd_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
-		$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame);
+		$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
+			ilUtil::getImagePath("cmd_info_s.gif"));
 	}
 
 	/**
@@ -1712,16 +1736,29 @@ class ilObjectListGUI
 	*/
 	function insertCommands()
 	{
+		global $lng;
+		
 		if (!$this->getCommandsStatus())
 		{
 			return;
 		}
+		
+		include_once("./Services/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$this->current_selection_list = new ilAdvancedSelectionListGUI();
+		$this->current_selection_list->setListTitle($lng->txt("actions"));
+		$this->current_selection_list->setId("act_".$this->ref_id);
+		//$this->current_selection_list->setSelectionHeaderClass("il_ContainerItemCommand2");
+		$this->current_selection_list->setNoJSLinkClass("il_ContainerItemCommand2");
+		$this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+		$this->current_selection_list->setUseImages(true);
+
 		
 		include_once './payment/classes/class.ilPaymentObject.php';
 		
 		$this->ctrl->setParameterByClass($this->gui_class_name, "ref_id", $this->ref_id);
 
 		$commands = $this->getCommands($this->ref_id, $this->obj_id);
+		
 
 		$this->default_command = false;
 		
@@ -1736,10 +1773,16 @@ class ilObjectListGUI
 						// workaround for repository frameset
 						$command["link"] = 
 							$this->appendRepositoryFrameParameter($command["link"]);
+							
+						// standard edit icon
+						if ($command["lang_var"] == "edit" && $command["img"] == "")
+						{
+							$command["img"] = ilUtil::getImagePath("cmd_edit_s.gif");
+						}
 						
 						$cmd_link = $command["link"];
 						$this->insertCommand($cmd_link, $this->lng->txt($command["lang_var"]),
-							$command["frame"]);
+							$command["frame"], $command["img"]);
 					}
 				}
 				else
@@ -1793,6 +1836,9 @@ class ilObjectListGUI
 			}
 		}
 		$this->ctrl->clearParametersByClass($this->gui_class_name);
+		
+		$this->tpl->setVariable("COMMAND_SELECTION_LIST",
+			$this->current_selection_list->getHTML());
 	}
 
 	/**
