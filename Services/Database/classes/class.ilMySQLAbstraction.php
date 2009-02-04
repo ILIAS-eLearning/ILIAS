@@ -58,6 +58,10 @@ class ilMySQLAbstraction
 	{
 		// to do: log this procedure
 		
+		// convert table name to lowercase
+		$this->lowerCaseTableName($a_table_name);
+		$a_table_name = strtolower($a_table_name);
+		
 		// get auto increment information
 		$auto_inc_field = $this->analyzer->getAutoIncrementField($a_table_name);
 
@@ -80,7 +84,10 @@ class ilMySQLAbstraction
 		$this->removeIndices($a_table_name, $indices);
 				
 		// alter table using mdb2 field types
-		$this->alterTable($a_table_name, $fields);
+		$this->alterTable($a_table_name, $fields, $a_set_text_fields_notnull_false);
+		
+		// lower case field names
+		$this->lowerCaseColumnNames($a_table_name);
 		
 		// add primary key
 		$this->addPrimaryKey($a_table_name, $pk);
@@ -93,6 +100,69 @@ class ilMySQLAbstraction
 		{
 			$this->addAutoIncrementSequence($a_table_name, $auto_inc_field);
 		}
+		
+		// replace empty strings with null values in text fields
+		$this->replaceEmptyStringsWithNull($a_table_name);
+	}
+	
+	
+	/**
+	* Replace empty strings with null values
+	*/
+	function replaceEmptyStringsWithNull($a_table)
+	{
+		global $ilDB;
+		
+		$fields = $this->analyzer->getFieldInformation($a_table);
+		$upfields = array();
+		foreach ($fields as $field => $def)
+		{
+			if ($def["type"] == "text" && $def["fixed"] == false &&
+				($def["length"] >= 1 && $def["length"] <= 4000))
+			{
+				$upfields[] = $field;
+			}
+		}
+		foreach ($upfields as $uf)
+		{
+			$ilDB->query("UPDATE `".$a_table."` SET `".$uf."` = null WHERE `".$uf."` = ''");
+		}
+	}
+	
+	/**
+	* Lower case table and field names
+	*
+	* @param	string	table name
+	*/
+	function lowerCaseTableName($a_table_name)
+	{
+		global $ilDB;
+		
+		if ($a_table_name != strtolower($a_table_name))
+		{
+			// this may look strange, but it does not work directly
+			// (seems that mysql does not see no difference whether upper or lowercase characters are used
+			mysql_query("ALTER TABLE `".$a_table_name."` RENAME `".strtolower($a_table_name)."xxx"."`");
+			mysql_query("ALTER TABLE `".strtolower($a_table_name)."xxx"."` RENAME `".strtolower($a_table_name)."`");
+		}
+	}
+	
+	/**
+	* lower case column names
+	*/
+	function lowerCaseColumnNames($a_table_name)
+	{
+		global $ilDB;
+		
+		$result = mysql_query("SHOW COLUMNS FROM `".$a_table_name."`");
+		while ($row = mysql_fetch_assoc($result))
+		{
+			if ($row["Field"] != strtolower($row["Field"]))
+			{
+				$ilDB->renameTableColumn($a_table_name, $row["Field"], strtolower($row["Field"]));
+			}
+		}
+
 	}
 	
 	/**
@@ -105,8 +175,7 @@ class ilMySQLAbstraction
 	{
 		if ($a_auto_inc_field != "")
 		{
-			$this->il_db->modifyTableField($a_table_name, $a_auto_inc_field,
-				array("autoincrement" => false));
+			$this->il_db->modifyTableColumn($a_table_name, $a_auto_inc_field, array());
 		}
 	}
 	
@@ -148,7 +217,7 @@ class ilMySQLAbstraction
 	* @param	string		table name
 	* @param	array		fields information
 	*/
-	function alterTable($a_table, $a_fields)
+	function alterTable($a_table, $a_fields, $a_set_text_fields_notnull_false = true)
 	{
 		$n_fields = array();
 		foreach ($a_fields as $field => $d)
@@ -178,6 +247,18 @@ class ilMySQLAbstraction
 			if ($def["type"] == "float")
 			{
 				unset($def["length"]);
+			}
+			
+			// set notnull to false for text fields
+			if ($a_set_text_fields_notnull_false && $def["type"] == "text")
+			{
+				$def["notnull"] = false;
+			}
+			
+			// set unsigned to false for integers
+			if ($def["type"] == "integer")
+			{
+				$def["unsigned"] = false;
 			}
 
 			$a = array();
@@ -220,7 +301,7 @@ class ilMySQLAbstraction
 			$fields = array();
 			foreach ($a_pk["fields"] as $f => $pos)
 			{
-				$fields[] = $f;
+				$fields[] = strtolower($f);
 			}
 			$this->il_db->addPrimaryKey($a_table, $fields);
 		}
@@ -243,9 +324,9 @@ class ilMySQLAbstraction
 					$fields = array();
 					foreach ($index["fields"] as $f => $pos)
 					{
-						$fields[] = $f;
+						$fields[] = strtolower($f);
 					}
-					$this->il_db->addIndex($a_table, $fields, $index["name"]);
+					$this->il_db->addIndex($a_table, $fields, strtolower($index["name"]));
 				}
 			}
 		}
@@ -261,7 +342,7 @@ class ilMySQLAbstraction
 	{
 		if ($a_auto_inc_field != "")
 		{
-			$set = $this->il_db->query("SELECT MAX(`".$a_auto_inc_field."`) ma FROM `".$a_table."`");
+			$set = $this->il_db->query("SELECT MAX(`".strtolower($a_auto_inc_field)."`) ma FROM `".$a_table."`");
 			$rec = $this->il_db->fetchAssoc($set);
 			$next = $rec["ma"] + 1;
 			$this->il_db->createSequence($a_table, $next);

@@ -355,7 +355,6 @@ class ilDB
 	*/
 	function modifyTableColumn($a_table, $a_column, $a_attributes)
 	{
-
 		$manager = $this->db->loadModule('Manager');
 		$reverse = $this->db->loadModule('Reverse');
 		$def = $reverse->getTableFieldDefinition($a_table, $a_column);
@@ -370,14 +369,14 @@ class ilDB
 		unset($def["mdb2type"]);
 
 		// check attributes
-		if ($a_attributes["type"] != "")		// remove attributes not allowed by new type
+		$type = ($a_attributes["type"] != "")
+			? $a_attributes["type"]
+			: $def["type"];
+		foreach ($def as $k => $v)
 		{
-			foreach ($def as $k => $v)
+			if ($k != "type" && !in_array($k, $this->allowed_attributes[$type]))
 			{
-				if ($k != "type" && !in_array($k, $this->allowed_attributes[$a_attributes["type"]]))
-				{
-					unset($def[$k]);
-				}
+				unset($def[$k]);
 			}
 		}
 		$check_array = $def;
