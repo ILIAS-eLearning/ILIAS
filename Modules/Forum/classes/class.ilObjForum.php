@@ -85,13 +85,13 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepare('
+		$statement = $ilDB->prepare('
 			SELECT thr_subject FROM frm_threads WHERE thr_pk = ?',
 			array('integer')
 		);
 		
 		$data = array($a_thread_id);
-		$res = $this->ilias->db->execute($statement, $data);
+		$res = $ilDB->execute($statement, $data);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
