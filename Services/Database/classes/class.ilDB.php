@@ -72,6 +72,16 @@ class ilDB
 	*/
 	var $max_allowed_packet_size;
 
+	var $allowed_attributes = array(
+			"text" => array("length", "notnull", "default", "fixed"),
+			"integer" => array("length", "notnull", "default", "unsigned"),
+			"float" => array("notnull", "default"),
+			"date" => array("notnull", "default"),
+			"time" => array("notnull", "default"),
+			"timestamp" => array("notnull", "default"),
+			"clob" => array("notnull", "default"),
+			"blob" => array("notnull", "default")
+		);
 
 	/**
 	* constructor
@@ -200,12 +210,36 @@ class ilDB
 	
 	/**
 	* Create a new table in the database
+	*
+	* @param	string		table name
+	* @param	array		definition array: array("col1" => array("type" => "text", ...))
+	* @param	boolean		drop table automatically, if it already exists
 	*/
-	function createTable($a_name, $a_definition_array, $a_options = "")
+	function createTable($a_name, $a_definition_array, $a_drop_table = false)
 	{
+		// (removed options; should only be activated restricted, if necessary
 		if ($a_options == "")
 		{
 			$a_options = array();
+		}
+		
+		// check table name
+		if (!$this->checkTableName($a_name))
+		{
+			$this->raiseError("ilDB Error: createTable(".$a_name.")<br />".
+				$this->error_str);
+		}
+		
+		// check definition array
+		if (!$this->checkTableColumns($a_definition_array))
+		{
+			$this->raiseError("ilDB Error: createTable(".$a_name.")<br />".
+				$this->error_str);
+		}
+
+		if ($a_drop_table)
+		{
+			$this->dropTable($a_name, false);
 		}
 		
 		$manager = $this->db->loadModule('Manager');
@@ -216,9 +250,21 @@ class ilDB
 	
 	/**
 	* Drop a table
+	*
+	* @param	string		table name
+	* @param	boolean		raise an error, if table already exists
 	*/
-	function dropTable($a_name)
+	function dropTable($a_name, $a_error_if_not_existing = true)
 	{
+		if (!$a_error_if_not_existing)
+		{
+			$tables = $this->listTables();
+			if (!in_array($a_name, $tables))
+			{
+				return;
+			}
+		}
+		
 		$manager = $this->db->loadModule('Manager');
 		$r = $manager->dropTable($a_name);
 
@@ -242,7 +288,65 @@ class ilDB
 	}
 
 	/**
-	* Modify a column within a table.
+	* Add table column
+	* Use this only on aleady "abstracted" tables.
+	*
+	* @param	string		table name
+	* @param	string		column name
+	* @param	array		attributes array("length" => 10, "default" => "t")
+	*/
+	function addTableColumn($a_table, $a_column, $a_attributes)
+	{
+
+		$manager = $this->db->loadModule('Manager');
+
+		if (!$this->checkColumnName($a_column))
+		{
+			$this->raiseError("ilDB Error: addTableColumn(".$a_table.", ".$a_column.")<br />".
+				$this->error_str);
+		}
+		if (!$this->checkColumnDefinition($a_attributes))
+		{
+			$this->raiseError("ilDB Error: addTableColumn(".$a_table.", ".$a_column.")<br />".
+				$this->error_str);
+		}
+		
+		$changes = array(
+			"add" => array(
+				$a_column => $a_attributes
+				)
+			);
+
+		$r = $manager->alterTable($a_table, $changes, false);
+
+		return $this->handleError($r, "addTableColumn(".$a_table.", ".$a_column.")");
+	}
+
+	/**
+	* Drop table column
+	* Use this only on aleady "abstracted" tables.
+	*
+	* @param	string		table name
+	* @param	string		column name
+	*/
+	function dropTableColumn($a_table, $a_column)
+	{
+
+		$manager = $this->db->loadModule('Manager');
+
+		$changes = array(
+			"remove" => array(
+				$a_column => array()
+				)
+			);
+
+		$r = $manager->alterTable($a_table, $changes, false);
+
+		return $this->handleError($r, "dropTableColumn(".$a_table.", ".$a_column.")");
+	}
+
+	/**
+	* Modify a table column
 	* Use this only on aleady "abstracted" tables.
 	*
 	* @param	string		table name
@@ -251,14 +355,42 @@ class ilDB
 	*/
 	function modifyTableColumn($a_table, $a_column, $a_attributes)
 	{
+
 		$manager = $this->db->loadModule('Manager');
 		$reverse = $this->db->loadModule('Reverse');
 		$def = $reverse->getTableFieldDefinition($a_table, $a_column);
 		
 		$this->handleError($def, "modifyTableColumn(".$a_table.")");
-		
-		$def = $def[0];
+
+		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+		$analyzer = new ilDBAnalyzer();
+		$best_alt = $analyzer->getBestDefinitionAlternative($def);
+		$def = $def[$best_alt];
 		unset($def["nativetype"]);
+		unset($def["mdb2type"]);
+
+		// check attributes
+		if ($a_attributes["type"] != "")		// remove attributes not allowed by new type
+		{
+			foreach ($def as $k => $v)
+			{
+				if ($k != "type" && !in_array($k, $this->allowed_attributes[$a_attributes["type"]]))
+				{
+					unset($def[$k]);
+				}
+			}
+		}
+		$check_array = $def;
+		foreach ($a_attributes as $k => $v)
+		{
+			$check_array[$k] = $v;
+		}
+		if (!$this->checkColumnDefinition($check_array, true))
+		{
+			$this->raiseError("ilDB Error: modifyTableColumn(".$a_table.", ".$a_column.")<br />".
+				$this->error_str);
+		}
+
 		foreach ($a_attributes as $a => $v)
 		{
 			$def[$a] = $v;
@@ -275,6 +407,71 @@ class ilDB
 		$r = $manager->alterTable($a_table, $changes, false);
 
 		return $this->handleError($r, "modifyTableColumn(".$a_table.")");
+	}
+
+	/**
+	* Rename a table column
+	* Use this only on aleady "abstracted" tables.
+	*
+	* @param	string		table name
+	* @param	string		old column name
+	* @param	string		new column name
+	*/
+	function renameTableColumn($a_table, $a_column, $a_new_column)
+	{
+		// check table name
+		if (!$this->checkColumnName($a_new_column))
+		{
+			$this->raiseError("ilDB Error: renameTableColumn(".$a_table.",".$a_column.",".$a_new_column.")<br />".
+				$this->error_str);
+		}
+
+		$manager = $this->db->loadModule('Manager');
+		$reverse = $this->db->loadModule('Reverse');
+		$def = $reverse->getTableFieldDefinition($a_table, $a_column);
+		
+		$this->handleError($def, "renameTableColumn(".$a_table.",".$a_column.",".$a_new_column.")");
+
+		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+		$analyzer = new ilDBAnalyzer();
+		$best_alt = $analyzer->getBestDefinitionAlternative($def);
+		$def = $def[$best_alt];
+		unset($def["nativetype"]);
+		unset($def["mdb2type"]);
+		
+		$f["definition"] = $def;
+		$f["name"] = $a_new_column;
+		
+		$changes = array(
+			"rename" => array(
+				$a_column => $f
+				)
+			);
+
+		$r = $manager->alterTable($a_table, $changes, false);
+
+		return $this->handleError($r, "renameTableColumn(".$a_table.",".$a_column.",".$a_new_column.")");
+	}
+
+	/**
+	* Rename a table
+	*
+	* @param	string		old table name
+	* @param	string		new table name
+	*/
+	function renameTable($a_name, $a_new_name)
+	{
+		// check table name
+		if (!$this->checkTableName($a_new_name))
+		{
+			$this->raiseError("ilDB Error: renameTable(".$a_name.",".$a_new_name.")<br />".
+				$this->error_str);
+		}
+
+		$manager = $this->db->loadModule('Manager');
+		$r = $manager->alterTable($a_name, array("name" => $a_new_name), false);
+
+		return $this->handleError($r, "renameTable(".$a_name.",".$a_new_name.")");
 	}
 
 	/**
@@ -382,7 +579,148 @@ class ilDB
 		return $this->handleError($r, "dropSequence(".$a_table_name.")");
 	}
 
+	/**
+	* Check whether a table name is valid
+	*
+	* @param	string		$a_name
+	*/
+	function checkTableName($a_name)
+	{
+		if (!preg_match ("/^[a-z]+[_a-z0-9]*$/", $a_name))
+		{
+			$this->error_str = "Table name must only contain _a-z0-9 and must start with a-z.";
+			return false;
+		}
+		
+		return true;
+	}
 	
+	/**
+	* Check table columns definition
+	*
+	* @param	array		definition array
+	*/
+	function checkTableColumns($a_cols)
+	{
+		foreach ($a_cols as $col => $def)
+		{
+			if (!$this->checkColumn($col, $def))
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	* Check column definition
+	*/
+	function checkColumn($a_col, $a_def)
+	{
+		if (!$this->checkColumnName($a_col))
+		{
+			return false;
+		}
+
+		if (!$this->checkColumnDefinition($a_def))
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	* Check whether a column definition is valid
+	*
+	* @param	array		definition array
+	*/
+	function checkColumnDefinition($a_def, $a_modify_mode = false)
+	{
+		// check valid type
+		if (!in_array($a_def["type"], array("text", "integer", "float", "date", "time", "timestamp", "clob", "blob")))
+		{
+			switch ($a_def["type"])
+			{
+				case "boolean":
+					$this->error_str = "Invalid column type '".$a_def["type"]."'. Use integer(1) instead.";
+					break;
+
+				case "decimal":
+					$this->error_str = "Invalid column type '".$a_def["type"]."'. Use float or integer instead.";
+					break;
+					
+				default:
+					$this->error_str = "Invalid column type '".$a_def["type"]."'. Allowed types are: ".
+						"text, integer, float, date, time, timestamp, clob and blob.";
+			}
+		}
+		
+		// check used attributes
+		$allowed_attributes = $this->allowed_attributes;
+		
+		foreach ($a_def as $k => $v)
+		{
+			if ($k != "type" && !in_array($k, $allowed_attributes[$a_def["type"]]))
+			{
+				$this->error_str = "Attribute '".$k."' is not allowed for column type '".$a_def["type"]."'.";
+				return false;
+			}
+		}
+		
+		// type specific checks
+		switch ($a_def["type"])
+		{
+			case "text":
+				if ($a_def["length"] < 1 || $a_def["length"] > 4000)
+				{
+					if (!$a_modify_mode || isset($a_def["length"]))
+					{
+						$this->error_str = "Invalid length '".$a_def["length"]."' for type text.".
+							" Length must be >=1 and <= 4000.";
+						return false;
+					}
+				}
+				break;
+
+			case "integer":
+				if (!in_array($a_def["length"], array(1, 2, 3, 4, 8)))
+				{
+					if (!$a_modify_mode || isset($a_def["length"]))
+					{
+						$this->error_str = "Invalid length '".$a_def["length"]."' for type integer.".
+							" Length must be 1, 2, 3, 4 or 8 (bytes).";
+						return false;
+					}
+				}
+				if ($a_def["unsigned"])
+				{
+					$this->error_str = "Unsigned attribut must not be true for type integer.";
+					return false;
+				}
+				break;
+		}
+		
+		return true;
+	}
+	
+	/**
+	* Check whether a column name is valid
+	*
+	* @param	string		$a_name
+	*/
+	function checkColumnName($a_name)
+	{
+		if (!preg_match ("/^[a-z]+[_a-z0-9]*$/", $a_name))
+		{
+			$this->error_str = "Invalid column name '".$a_name."'. Column name must only contain _a-z0-9 and must start with a-z.";
+			return false;
+		}
+		
+		return true;
+	}
+
 	//
 	// Data query and manupilation functions
 	//
