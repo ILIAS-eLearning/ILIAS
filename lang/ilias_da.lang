@@ -161,7 +161,7 @@ common#:#disabled#:#Ikke tilsluttet
 common#:#options#:#Indstillinger###Faneblad i mail
 common#:#search_results#:#Søgeresultater
 common#:#action#:#Handling
-common#:#apply#:#Godkend
+common#:#apply#:#Send
 common#:#by#:#Af
 common#:#user_profile_instant_messengers#:#Kontakt til Instant Messengers
 common#:#instant_messengers#:#Instant Messengers
@@ -313,7 +313,7 @@ common#:#approve_recipient#:#Login ID på administratoren
 common#:#archive#:#Arkiver
 common#:#are_you_sure#:#Er du sikker?
 common#:#arrow_downright#:#Pil fra top til nederst højre
-common#:#articels_unread#:#ulæste artikler
+common#:#articels_unread#:#ulæste indlæg
 common#:#as_of#:#as of###21 Apr 2005 new variable
 common#:#ascending_order#:#Stigende orden
 common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###18 12 2006 new variable
@@ -1206,9 +1206,9 @@ common#:#grp_register#:#Tilmeld
 common#:#grp_registration#:#Tilmeld
 common#:#grp_registration_completed#:#Registreringen er gennemført
 common#:#grp_search_enter_search_string#:#Skriv et søgeord
-common#:#grp_search_members#:#Bruger søgning
-common#:#grp_select_one_file#:#Please select one file.
-common#:#grp_select_one_file_only#:#Please select exactly one file.
+common#:#grp_search_members#:#Søg bruger
+common#:#grp_select_one_file#:#Vælg en fil.
+common#:#grp_select_one_file_only#:#Vælg kun en enkelt fil.
 common#:#grp_visible#:#Gruppe er synlig
 common#:#grp_write#:#Rediger gruppe
 common#:#guest#:#Gæst
@@ -1283,7 +1283,7 @@ common#:#icla_deleted#:#LearnLinc klasseværrelse(r) slettet
 common#:#icla_edit#:#Rediger LearnLinc klasseværelse
 common#:#icla_new#:#New iLinc klasseværrelse
 common#:#icon_settings#:#Ikoner
-common#:#icons_in_header#:#Header row
+common#:#icons_in_header#:#Overskriftsrække
 common#:#icons_in_item_rows#:#Item rows
 common#:#icons_in_typed_lists#:#Icon position in item lists
 common#:#icons_in_typed_lists_info#:#Determines where to display icons in item lists that are ordered by type within the repository and on the personal desktop.
