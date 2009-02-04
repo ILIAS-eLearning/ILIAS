@@ -82,7 +82,7 @@ $this->tpl->setVariable("TAB_TEXT",$this->lng->txt("settings"));
 $this->tpl->parseCurrentBlock();*/
 
 // delete confirmation
-if ($this->isAdmin())
+if ((is_object($this->setup) && $this->setup->isAdmin()) || $this->isAdmin())
 {
 	$this->tpl->setCurrentBlock("tab");
 	$this->tpl->setVariable("TAB_TYPE",$tab == "delete" ? "tabactive" : "tabinactive");
