@@ -11,5 +11,8 @@
 			<Param format="list" type="int" value="objId" />
 			<Field store="YES" index="ANALYZED" column="file_name" name="propertyHigh" />
 		</DataSource>
+		<DataSource type="File" action="append">
+			<Field store="YES" index="ANALYZED" name="content" />
+		</DataSource>
 	</Document>
 </ObjectDefinition>

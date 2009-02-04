@@ -276,7 +276,9 @@ class ilLuceneRPCAdapter extends ilRPCServerAdapter
 	 */
 	protected function getClientKey()
 	{
-		return 'ilias311_ares_1347';
+		global $ilSetting;
+
+		return CLIENT_ID.'_'.$ilSetting->get('inst_id',0);
 	}
 	// END PATCH Lucene Search
 }
