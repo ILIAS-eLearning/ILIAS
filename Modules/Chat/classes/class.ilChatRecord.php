@@ -119,17 +119,22 @@ class ilChatRecord
 			$this->setRecordId($a_id);
 		}
 
-		$query = "SELECT * FROM chat_records WHERE 
-					record_id = ".$ilDB->quote($this->getRecordId())."";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecord::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
-		$data = array();
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM chat_records WHERE record_id = ?',
+			array('integer')
+		);
+		
+		$data = array($this->getRecordId());
+		$res = $this->ilias->db->execute($statement, $data);
+		if (ilDB::isDbError($res)) die("ilChatRecord::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+				
+		
+		$row = array();
 		if ($res->numRows() > 0)
 		{
-			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		}
-		$this->setRecord($data);
+		$this->setRecord($row);
 	}
 
 	function setTitle($a_title)
@@ -153,40 +158,54 @@ class ilChatRecord
 	function startRecording($a_title = "")
 	{
 		global $ilDB;
+	
+		$statement = $this->ilias->db->pepareManip('
+			INSERT INTO chat_records 
+			SET moderator_id = ?, 
+				chat_id = ?,
+				room_id = ?,
+				title = ?,
+				start_time = ?',
+			array('integer', 'integer', 'integer', 'text', 'integer')
+		);
 		
-		$query = "INSERT INTO chat_records SET 
-					moderator_id = ".$ilDB->quote($this->getModeratorId()).", 
-					chat_id = ".$ilDB->quote($this->getRefId()).", 
-					room_id = ".$ilDB->quote($this->getRoomId()).", 
-					title = ".$ilDB->quote($a_title).", 
-					start_time = '" . time() . "'";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
-		$query = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
+		$data = array($this->getModeratorId(), $this->getRefId(), $this->getRoomId(), $a_title, time());
+		$res = $this->ilias->db->execute($statement, $data);
+		if (ilDB::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
+		$statement = "SELECT LAST_INSERT_ID()";
+		$res = $this->ilias->db->prepare($statement);
+		if (ilDB::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
 		if ($res->numRows() > 0)
 		{
-			$lastId = $res->fetchRow();
+			$lastId = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->setRecordId($lastId[0]);
 
 			$this->getRecord();
-		}
+		}		
+		
 	}
 
 	function stopRecording()
 	{
 		global $ilDB;
 		
-		$query = "UPDATE chat_records SET 
-					end_time = '" . time() . "' WHERE 
-					chat_id = ".$ilDB->quote($this->getRefId())." AND 
-					room_id = ".$ilDB->quote($this->getRoomId())."";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecord::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
+		$statement = $this->ilias->db->prepareManip('
+			UPDATE chat_records 
+			SET end_time = ?
+			WHERE chat_id = ?
+			AND room_id = ?
+			AND record_id = ?',
+			array('integer', 'integer', 'integer', 'integer')
+		);
+		
+		$data = array(time(), $this->getRefId(), $this->getRoomId(), $this->getRecordId());
+		$res = $this->ilias->db->execute($statement, $data);
+		
+		if (ilDB::isDbError($res)) die("ilChatRecord::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);	
+		
+		
 		$this->setRecordId(0);
 
 		$data = array();
@@ -197,14 +216,20 @@ class ilChatRecord
 	{
 		global $ilDB;
 		
-		$query = "SELECT record_id FROM chat_records WHERE 
-					chat_id = ".$ilDB->quote($this->getRefId())." AND 
-					room_id = ".$ilDB->quote($this->getRoomId())." AND 
-					start_time > 0 AND 
-					end_time = 0";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecord::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
+		$statement = $this->ilias->db->prepare('
+			SELECT record_id FROM chat_records 
+			WHERE chat_id = ? 
+			AND room_id = ? 
+			AND start_time > ? 
+			AND end_time = ?',
+			array('integer', 'integer', 'integer', 'integer')
+		);
+		
+		$data = array($this->getRefId(), $this->getRoomId(), '0', '0');
+		$res = $this->ilias->db->execute($statement, $data);
+		
+		if (ilDB::isDbError($res)) die("ilChatRecord::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
 		if ($res->numRows() > 0)
 		{
 			$id = $res->fetchRow(DB_FETCHMODE_ASSOC);

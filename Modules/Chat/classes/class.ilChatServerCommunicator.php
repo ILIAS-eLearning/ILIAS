@@ -273,10 +273,16 @@ class ilChatServerCommunicator
 	{
 		global $ilias;
 		
-		$query = "SELECT ref_id FROM object_data NATURAL JOIN object_reference ".
-			"WHERE type = 'chac'";
+		$statement = $ilias->db->prepare('
+			SELECT ref_id FROM object_data 
+			NATURAL JOIN object_reference
+			WHERE type = ?',
+		array('text'));
 		
-		$res = $ilias->db->query($query);
+		$data = array('chac');
+		
+		$res = $ilias->db->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ref_id = $row->ref_id;
