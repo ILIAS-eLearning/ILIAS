@@ -653,13 +653,13 @@ class ilForumTopic
 	{
 		if ($this->id)
 		{
+			$this->db->setLimit(1);
 			$statement = $this->db->prepare('
 				SELECT pos_pk
 				FROM frm_posts 
 				WHERE 1
 				AND pos_thr_fk = ?				 
-				ORDER BY pos_date DESC
-				LIMIT 1',
+				ORDER BY pos_date DESC',
 				array('integer')
 			);
 
@@ -686,6 +686,7 @@ class ilForumTopic
 		
 		if ($this->id)
 		{
+			$this->db->setLimit(1);
 			$statement = $this->db->prepare('
 				SELECT pos_pk
 				FROM frm_posts 
@@ -693,8 +694,7 @@ class ilForumTopic
 				AND pos_thr_fk = ?		
 				AND (pos_status = ? OR 
 					(pos_status = ? AND pos_usr_id = ?))							 
-				ORDER BY pos_date DESC
-				LIMIT 1',
+				ORDER BY pos_date DESC',
 				array('integer', 'integer', 'integer', 'integer')
 			);
 			
