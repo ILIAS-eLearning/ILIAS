@@ -944,13 +944,13 @@ class ilForum
 				}				
 				
 				// update frm_data source forum
+				$this->ilias->db->setLimit(1);
 				$statement = $this->ilias->db->prepare('
 					SELECT pos_thr_fk, pos_pk 
 					FROM frm_posts						  
 					WHERE 1 
 					AND pos_top_fk = ?
-					ORDER BY pos_date DESC
-					LIMIT 1',
+					ORDER BY pos_date DESC',
 					array('integer')
 				);
 				$data = array($oldFrmData['top_pk']);
@@ -982,13 +982,14 @@ class ilForum
 				
 				
 				// update frm_data destination forum
+				
+				$this->ilias->db->setLimit(1);
 				$statement = $this->ilias->db->prepare('
 					SELECT pos_thr_fk, pos_pk 
 				 	FROM frm_posts						  
 					WHERE 1 
 					AND pos_top_fk = ?
-					ORDER BY pos_date DESC
-					LIMIT 1',
+					ORDER BY pos_date DESC',
 					array('integer')
 				);
 				
