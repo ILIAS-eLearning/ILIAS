@@ -1,5 +1,6 @@
 ilAddOnLoad(ilInitAdvSelectionLists);
 var il_adv_sel_lists = new Array();
+var openedMenu="";					// menu currently opened
 
 /**
 * Get inner height of window
@@ -112,10 +113,70 @@ function absLeft(el) {
 	return left;
 }
 
+var menuBlocked = false;
+function nextMenuClick() {
+	menuBlocked = false;
+}
+
 /**
 * Show selection list
 */
 function ilAdvSelListOn(id)
+{
+	doCloseContextMenuCounter=-1;
+
+	if (openedMenu == id)
+	{
+		return;
+	}
+	if(menuBlocked) return;
+	menuBlocked = true;
+	setTimeout("nextMenuClick()",100);
+	
+	var nextMenu = id;
+	
+	if (openedMenu != "" || openedMenu == nextMenu) 
+	{
+		ilHideAdvSelList(openedMenu);
+		oldOpenedMenu = openedMenu;
+		openedMenu = "";
+	}
+	else
+	{
+		oldOpenedMenu = "";
+	}
+	
+	if (openedMenu == "" && nextMenu != oldOpenedMenu)
+	{
+		openedMenu = nextMenu;
+		ilShowAdvSelList(openedMenu);
+	}
+	doCloseContextMenuCounter = 20;
+
+}
+
+var doCloseContextMenuCounter = -1;
+function doCloseContextMenu() 
+{
+	if (doCloseContextMenuCounter>-1) 
+	{
+		doCloseContextMenuCounter--;
+		if(doCloseContextMenuCounter==0) 
+		{
+			if(openedMenu!="") 
+			{
+				ilHideAdvSelList(openedMenu);
+				openedMenu = "";
+				oldOpenedMenu = "";
+			}
+			doCloseContextMenuCounter=-1;
+		}
+	}
+	setTimeout("doCloseContextMenu()",100);
+}
+setTimeout("doCloseContextMenu()",200);
+
+function ilShowAdvSelList(id)
 {
 	obj = document.getElementById('ilAdvSelListTable_' + id);
 	anchor = document.getElementById('ilAdvSelListAnchorElement_' + id);
@@ -156,6 +217,16 @@ function ilAdvSelListOn(id)
 * Hide selection list
 */
 function ilAdvSelListOff(id)
+{
+	doCloseContextMenuCounter=5;
+//	obj = document.getElementById('ilAdvSelListTable_' + id);
+//	obj.style.display='none';
+}
+
+/**
+* Hide selection list
+*/
+function ilHideAdvSelList(id)
 {
 	obj = document.getElementById('ilAdvSelListTable_' + id);
 	obj.style.display='none';
