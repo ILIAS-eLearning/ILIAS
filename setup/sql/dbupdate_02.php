@@ -7316,3 +7316,14 @@ if (!$ilDB->tableColumnExists("qpl_answer_ordering", "aorder"))
 PRIMARY KEY ( `mapping_id` )
 ) Type = MYISAM;
 
+<#1535>
+CREATE TABLE IF NOT EXISTS `search_command_queue` (
+  `obj_id` INT NOT NULL,
+  `obj_type` char(4) NOT NULL,
+  `sub_id` INT NOT NULL,
+  `sub_type` char(4) NOT NULL,
+  `command` char(16) NOT NULL,
+  `last_update` datetime NOT NULL,
+  `finished` tinyint NOT NULL,
+  PRIMARY KEY  (`obj_id`,`obj_type`,`sub_id`)
+) Type=MyISAM;
