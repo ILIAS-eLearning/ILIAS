@@ -222,12 +222,22 @@ class ilECSSettingsGUI
 		$pol->setInfo($this->lng->txt('ecs_polling_info'));
 		$this->form->addItem($pol);
 		
-		$imp = new ilTextInputGUI($this->lng->txt('ecs_import_id'),'import_id');
-		$imp->setSize(5);
-		$imp->setMaxLength(6);
-		$imp->setValue($this->settings->getImportId() ? $this->settings->getImportId() : '');
-		$imp->setInfo($this->lng->txt('ecs_import_id_info'));
+		$imp = new ilCustomInputGUI($this->lng->txt('ecs_import_id'));
 		$imp->setRequired(true);
+		
+		$tpl = new ilTemplate('tpl.ecs_import_id_form.html',true,true,'Services/WebServices/ECS');
+		$tpl->setVariable('SIZE',5);
+		$tpl->setVariable('MAXLENGTH',11);
+		$tpl->setVariable('POST_VAR','import_id');
+		$tpl->setVariable('PROPERTY_VALUE',$this->settings->getImportId());
+		
+		if($this->settings->getImportId())
+		{
+			$tpl->setVariable('COMPLETE_PATH',$this->buildPath($this->settings->getImportId()));
+		}		
+		
+		$imp->setHTML($tpl->get());
+		$imp->setInfo($this->lng->txt('ecs_import_id_info'));
 		$this->form->addItem($imp);
 		
 		$loc = new ilFormSectionHeaderGUI();
@@ -1159,6 +1169,18 @@ class ilECSSettingsGUI
 			$select[$role_id] = ilObject::_lookupTitle($role_id);
 		}
 		return $select;
+	}
+	
+	private function buildPath($a_ref_id)
+	{
+		// TODO: Implement another class for creating the path
+		include_once './classes/class.ilLocatorGUI.php';
+		
+		$loc = new ilLocatorGUI();
+		$loc->setTextOnly(false);
+		$loc->addContextItems($a_ref_id);
+		
+		return $loc->getHTML();
 	}
 	
 }
