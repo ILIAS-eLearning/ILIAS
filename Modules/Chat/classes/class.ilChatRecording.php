@@ -128,21 +128,27 @@ class ilChatRecording
 			$this->setRecordId($a_id);
 		}
 
-		$query = "SELECT * FROM chat_records WHERE 
-					record_id = " . $ilDB->quote( $this->getRecordId() ) . "";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecording::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM chat_records WHERE record_id = ?',
+			array('integer')
+		);
 
-		$data = array();
+		$data = array($this->getRecordId());
+		$res = $this->ilias->db->execute($statement, $data);
+		if (ilDB::isDbError($res)) die("ilChatRecording::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
+		$row = array();
 		$status = false;
+		
 		if ($res->numRows() > 0)
 		{
 			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			$status = true;
 		}
 
-		$this->setRecord($data);
+		$this->setRecord($row);
 		return $status;
+		
 	}
 
 	function setTitle($a_title)
@@ -166,42 +172,53 @@ class ilChatRecording
 	function startRecording($a_title = "")
 	{
 		global $ilDB;
+
+		$statement = $this->ilias->db->prepareManip('
+			INSERT INTO chat_records 
+			SET moderator_id = ?,
+				chat_id = ?,
+				room_id = ?,
+				title =  ?,
+				start_time = ?',
+			array('integer', 'integer', 'integer', 'text', 'integer')
+		);
 		
-		$query = "INSERT INTO chat_records SET 
-					moderator_id = ".$ilDB->quote($this->getModeratorId()).", 
-					chat_id = ".$ilDB->quote($this->getObjId()).", 
-					room_id = ".$ilDB->quote($this->getRoomId()).", 
-					title = ".$ilDB->quote((($a_title == "") ? "-N/A-" : $a_title)).", 
-					start_time = '" . time() . "'";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) 
-			die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
-		$query = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) 
-			die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
+		$data = array($this->getModeratorId(), $this->getObjId(), $this->getRoomId(), (($a_title == "") ? "-N/A-" : $a_title), time());
+		$res = $this->ilias->db->execute($statement, $data);
+		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
+		$statement = $this->ilias->db->prepare('SELECT LAST_INSERT_ID()');
+		$res = $this->ilias->db->execute($statement);
+		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
 		if ($res->numRows() > 0)
 		{
-			$lastId = $res->fetchRow();
+			$lastId = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			$this->setRecordId($lastId[0]);
 
 			$this->getRecord();
-		}
+		}				
+		
+		
 	}
 
 	function stopRecording()
 	{
 		global $ilDB;
-		
-		$query = "UPDATE chat_records SET 
-					end_time = '" . time() . "' WHERE 
-					chat_id = ".$ilDB->quote($this->getObjId())." AND 
-					room_id = ".$ilDB->quote($this->getRoomId())."";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecording::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
+		$statement = $this->ilias->db->prepareManip('
+			UPDATE chat_records 
+			SET end_time = ? 
+			WHERE chat_id = ? 
+			AND room_id = ?
+			AND record_id = ?',
+			array('integer', 'integer', 'integer', 'integer')
+		);
+		
+		$data = array(time(), $this->getObjId(), $this->getRoomId(), $this->getRecordId());
+		$res = $this->ilias->db->execute($statement, $data);
+		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);		
+		
 		$this->setRecordId(0);
 
 		$data = array();
@@ -212,14 +229,20 @@ class ilChatRecording
 	{
 		global $ilDB;
 		
-		$query = "SELECT record_id FROM chat_records WHERE 
-					chat_id = ".$ilDB->quote($this->getObjId())." AND 
-					room_id = ".$ilDB->quote($this->getRoomId())." AND 
-					start_time > 0 AND 
-					end_time = 0";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecording::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
+		$statement = $this->ilias->db->prepare('
+			SELECT record_id FROM chat_records 
+			WHERE chat_id = ? 
+			AND room_id = ? 
+			AND start_time > ? 
+			AND end_time = ?',
+			array('integer', 'integer', 'integer', 'integer')
+		);
+		
+		$data = array($this->getObjId(), $this->getRoomId(), '0', '0');
+		
+		$res = $this->ilias->db->execute($statement, $data);
+		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);	
+		
 		if ($res->numRows() > 0)
 		{
 			$id = $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -235,20 +258,24 @@ class ilChatRecording
 	function getRecordings()
 	{
 		global $ilDB;
-		
-		$query = "SELECT * FROM chat_records WHERE 
-					chat_id = ".$ilDB->quote($this->getObjId())."";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecording::getRecordings(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
+		$statement = $this->ilias->db->prepare('
+			SELECT * FROM chat_records WHERE chat_id = ?',
+			array('integer')
+		);
+		
+		$data = array($this->getObjId());
+		$res = $this->ilias->db->execute($statement, $data);
+		if (ilDB::isDbError($res)) die("ilChatRecording::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);	
+			
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)
 			{
-				$data[] = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$row[] = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			}
-			return $data;
-		}
+			return $row;
+		}		
 		
 		return false;
 	}
@@ -277,35 +304,50 @@ class ilChatRecording
 			$this->setRecord($data);
 		}
 
-		$query = "DELETE FROM chat_records WHERE 
-					record_id = ".$ilDB->quote($a_id)."";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
-
-		$query = "DELETE FROM chat_record_data WHERE 
-					record_id = ".$ilDB->quote($a_id)."";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
+		$statement = $this->ilias->db->prepareManip('
+			DELETE FROM chat_records WHERE record_id = ?',
+			array('integer')
+		);
+		
+		$sql_data = array($a_id);
+		$res = $this->ilias->db->execute($statement, $sql_data);
+		if (ilDB::isDbError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
+		$statement = $this->ilias->db->prepareManip('
+			DELETE FROM chat_record_data WHERE record_id = ?',
+			array('integer')
+		);
+		
+		$sql_data = array($a_id);
+		$res = $this->ilias->db->execute($statement, $sql_data);
+		if (ilDB::isDbError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
+		
 	}
 
 	function exportMessages()
 	{
 		global $ilDB;
-		
-		$query = "SELECT message FROM chat_record_data WHERE 
-					record_id = ".$ilDB->quote($this->getRecordId())." ORDER BY 
-					msg_time ASC";
-		$res = $this->ilias->db->query($query);
-		if (ilDB::isDbError($res)) die("ilChatRecording::exportMessages(): " . $res->getMessage() . "<br>SQL-Statement: ".$query);
 
+		$statement = $this->ilias->db->prepare('
+			SELECT message FROM chat_record_data 
+			WHERE record_id = ?
+			ORDER BY msg_time ASC',
+			array('integer')
+		);
+		
+		$data = array($this->getRecordId());
+		$res = $this->ilias->db->execute($statement, $data);
+		if (ilDB::isDbError($res)) die("ilChatRecording::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		
 		$html = "";
 		if (($num = $res->numRows()) > 0)
 		{
 			$html = "";
 			for ($i = 0; $i < $num; $i++)
 			{
-				$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-				$html .= $data["message"] . "<br />\n";
+				$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+				$html .= $row["message"] . "<br />\n";
 			}
 		}
 		

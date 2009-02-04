@@ -69,11 +69,17 @@ class ilChatBlockedUsers
 		{
 			return false;
 		}
-		$query = "INSERT INTO chat_blocked ".
-			"SET chat_id = ".$ilDB->quote($this->id).", ".
-			"usr_id = ".$ilDB->quote((int) $a_usr_id)."";
 
-		$this->db->query($query);
+		$statement = $this->db->prepareManip('
+			INSERT INTO chat_blocked 
+			SET chat_id = ?,
+				usr_id = ?',
+			array('integer', 'integer')
+		);
+		
+		$data = array($this->id, $a_usr_id);
+		$this->db->execute($statement, $data);
+		
 		$this->__read();
 
 		return true;
@@ -87,11 +93,17 @@ class ilChatBlockedUsers
 		{
 			return false;
 		}
-		$query = "DELETE FROM chat_blocked ".
-			"WHERE chat_id = ".$ilDB->quote($this->id)." ".
-			"AND usr_id = ".$ilDB->quote((int) $a_usr_id). "";
 
-		$this->db->query($query);
+		$statement = $this->db->prepareManip('
+			DELETE FROM chat_blocked 
+			WHERE chat_id = ?
+			AND	usr_id = ?',
+			array('integer', 'integer')
+		);
+		
+		$data = array($this->id, $a_usr_id);
+		$this->db->execute($statement, $data);
+		
 		$this->__read();
 
 		return true;
@@ -104,12 +116,17 @@ class ilChatBlockedUsers
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM chat_blocked ".
-			"WHERE chat_id = ".$ilDB->quote($a_chat_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id )."";
-
-		$res = $ilDB->query($query);
-
+		$statement = $ilDB->prepare('
+			SELECT * FROM chat_blocked 
+			WHERE chat_id = ?
+			AND	usr_id = ?',
+			array('integer', 'integer')
+		);
+		
+		$data = array($this->id, $a_usr_id);
+		$res = $ilDB->execute($statement, $data);
+		
+		
 		return $res->numRows() ? true : false;
 	}
 
@@ -118,22 +135,28 @@ class ilChatBlockedUsers
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM chat_blocked ".
-			"WHERE usr_id = ".$ilDB->quote((int) $a_usr_id)."";
-
-		$ilDB->query($query);
-
+		$statement = $ilDB->prepareManip('
+			DELETE FROM chat_blocked WHERE usr_id = ?',
+			array('integer')
+		);
+		
+		$data = $array((int) $a_usr_id);
+		$ilDB->execute($statement, $data);
+		
 		return true;
 	}
 	function _deleteChat($a_chat_id)
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM chat_blocked ".
-			"WHERE chat_id = ".$ilDB->quote((int) $a_chat_id)."";
-
-		$ilDB->query($query);
-
+		$statement = $ilDB->prepareManip('
+			DELETE FROM chat_blocked WHERE chat_id = ?',
+			array('integer')
+		);
+		
+		$data = array((int) $a_chat_id);
+		$ilDB->execute($statement, $data);
+		
 		return true;
 	}		
 
@@ -145,10 +168,14 @@ class ilChatBlockedUsers
 		
 		$this->blocked = array();
 
-		$query = "SELECT * FROM chat_blocked ".
-			"WHERE chat_id = ".$ilDB->quote($this->id)."";
+		$statement = $this->db->prepare('
+			SELECT * FROM chat_blocked WHERE chat_id = ?',
+			array('integer')
+		);
 
-		$res = $this->db->query($query);
+		$data = array($this->id);
+		$res = $this->db->execute($statement, $data);
+			
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->blocked[] = $row->usr_id;
