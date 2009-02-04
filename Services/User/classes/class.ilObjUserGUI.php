@@ -102,7 +102,7 @@ class ilObjUserGUI extends ilObjectGUI
 				break;
 
 			case "ilobjilincusergui":
-				include_once './ilinc/classes/class.ilObjiLincUserGUI.php';
+				include_once './Modules/ILinc/classes/class.ilObjiLincUserGUI.php';
 				$new_gui =& new ilObjiLincUserGUI($this->object,$this->usrf_ref_id);
 				$this->ctrl->forwardCommand($new_gui);
 				break;
