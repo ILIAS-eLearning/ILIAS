@@ -311,7 +311,7 @@ class ilMySQLAbstraction
 		$changes = array(
 			"change" => $n_fields
 			);
-var_dump($n_fields);
+//var_dump($n_fields);
 		if (!$this->getTestMode())
 		{
 			$r = $this->manager->alterTable($a_table, $changes, false);
