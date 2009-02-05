@@ -7327,3 +7327,15 @@ CREATE TABLE IF NOT EXISTS `search_command_queue` (
   `finished` tinyint NOT NULL,
   PRIMARY KEY  (`obj_id`,`obj_type`,`sub_id`)
 ) Type=MyISAM;
+<#1536>
+<?php
+	$ilMySQLAbstraction->performAbstraction("settings");
+?>
+<#1537>
+CREATE TABLE `abstraction_progress` (
+  `table_name` VARCHAR(100),
+  `step` INT NOT NULL,
+  PRIMARY KEY  (`table_name`,`step`),
+  INDEX t(table_name)
+) Type=MyISAM;
+

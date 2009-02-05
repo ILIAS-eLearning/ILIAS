@@ -188,14 +188,19 @@ class ilCronClients extends PEAR
 
 	function __checkDBVersion()
 	{
-		$query = "SELECT value FROM settings ".
+		$GLOBALS["ilDB"] = $this->db;
+		include_once '../Services/Administration/classes/class.ilSetting.php';
+		$setting = new ilSetting();
+
+		/*$query = "SELECT value FROM sett ings ".
 			"WHERE keyword = 'db_version'";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$db_version = $row->value;
-		}
+		}*/
+		$db_version = $setting->get("db_version");
 
 		return $db_version == $this->file_version;
 	}

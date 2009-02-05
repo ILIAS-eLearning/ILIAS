@@ -461,28 +461,25 @@ class ilClient
 	*/
 	function getSetting($a_keyword)
 	{
-		$q = "SELECT value FROM settings WHERE keyword='".$a_keyword."'";
+		$ilDB = new ilDB($this->dsn);
+		$GLOBALS["ilDB"] = $ilDB;
+		include_once '../Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		return $set->get($a_keyword);
+
+		/*
+		$q = "SELECT value FROM sett ings WHERE keyword='".$a_keyword."'";
 		$r = $this->db->query($q);
 		
-/*if ($r->db->database_name == "ilias3blabla")
-{
-	var_dump($r);
-}*/
-
 		if ($r->numRows() > 0)
 		{
 			$row = $r->fetchRow();
-/*if ($r->db->database_name == "ilias3blabla")
-{//
-	var_dump($row);
-}*/
 			return $row[0];
 		}
 		else
 		{
-//echo "-nosetting-";
 			return false;
-		}
+		}*/
 	}
 
 	/**
@@ -492,7 +489,13 @@ class ilClient
 	*/
 	function getAllSettings()
 	{
-		$q = "SELECT * FROM settings";
+		$ilDB = new ilDB($this->dsn);
+		$GLOBALS["ilDB"] = $ilDB;
+		include_once '../Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		return $set->getAll();
+
+		/*$q = "SELECT * FROM sett ings";
 		$r = $this->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -500,7 +503,7 @@ class ilClient
 			$arr[$row["keyword"]] = $row["value"];
 		}
 		
-		return $arr;
+		return $arr;*/
 	}
 
 	/**
@@ -512,30 +515,16 @@ class ilClient
 	*/
 	function setSetting($a_key, $a_val)
 	{
-		//$q = "REPLACE INTO settings SET keyword = '".$a_key."', value = '".$a_val."'";
-		//$r = $this->db->query($q);
-
-//echo "<br><b>SETTING:$a_key-$a_val-</b>";
+		$ilDB = new ilDB($this->dsn);
+		$GLOBALS["ilDB"] = $ilDB;
+		include_once '../Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		$set->set($a_key, $a_val);
 		
-		$q = "REPLACE INTO settings (keyword,value) VALUES ('".$a_key."', '".$a_val."')";
+		/*$q = "REPLACE INTO sett ings (keyword,value) VALUES ('".$a_key."', '".$a_val."')";
 		$r = $this->db->query($q);
 
-		$set = $this->db->query("SELECT * FROM settings WHERE keyword = '".$a_key."'");
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
-
-if ($a_key == "setup_ok")
-{
-//	nj();
-}
-		
-/*if ($set->db->database_name == "ilias3blabla")
-{
-	var_dump($set);
-	var_dump($rec);
-}*/
-
-		
-		return true;
+		return true;*/
 	}
 	
 	/**

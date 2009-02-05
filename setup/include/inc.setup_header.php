@@ -120,5 +120,8 @@ require_once "../classes/class.ilBenchmark.php";
 $ilBench =& new ilBenchmark();
 $GLOBALS['ilBench'] =& $ilBench;
 
+include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
+include_once("../Services/Database/classes/class.ilMySQLAbstraction.php");
+include_once("../Services/Database/classes/class.ilDBGenerator.php");
 
 ?>
