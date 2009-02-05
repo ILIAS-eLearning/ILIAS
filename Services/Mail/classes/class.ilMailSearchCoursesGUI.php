@@ -304,9 +304,9 @@ class ilMailSearchCoursesGUI
 		$this->ctrl->clearParameters($this);
 
 		$lng->loadLanguageModule('crs');
-	
-		$user = new ilObjUser($ilUser->getId());
-		$crs_ids = $user->getCourseMemberships();
+
+		//$user = new ilObjUser($ilUser->getId());
+		//$crs_ids = $user->getCourseMemberships();
 		
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		$crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), 'crs');
