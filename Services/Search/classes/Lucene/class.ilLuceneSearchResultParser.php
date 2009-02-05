@@ -65,7 +65,6 @@ class ilLuceneSearchResultParser
 		if(!strlen($this->getXML())) {
 			return $result;
 		}
-		
 		$hits = new SimpleXMLElement($this->getXML());
 		$result->setLimit($result->getLimit() +  (string) $hits['limit']);
 		$result->setMaxScore( (string) $hits['maxScore']);
@@ -74,7 +73,7 @@ class ilLuceneSearchResultParser
 		foreach($hits->children() as $object)
 		{
 			// TODO: addScore
-			$result->addObject((string) $object['id']);
+			$result->addObject((string) $object['id'],(float) $object['absoluteScore']);
 		}
 		return $result;
 	}
