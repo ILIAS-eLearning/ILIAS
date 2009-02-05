@@ -147,9 +147,24 @@ class ilLuceneSearchResult implements Iterator
 	 * 
 	 * @return
 	 */
-	public function addObject($a_value)
+	public function addObject($a_value,$a_relevance = 0)
 	{
 		$this->objects[] = $a_value;
+		$this->relevance[$a_value] = $a_relevance;
+	}
+	
+	/**
+	 * get relevance 
+	 * @param int obj_id
+	 * @return int	relevance in percent
+	 */
+	public function getRelevance($a_obj_id)
+	{
+		if(!$this->getMaxScore())
+		{
+			return 0;
+		}
+		return isset($this->relevance[$a_obj_id]) ? $this->relevance[$a_obj_id] / $this->getMaxScore() * 100 : 0; 
 	}
 	
 	
