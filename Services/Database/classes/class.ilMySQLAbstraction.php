@@ -45,6 +45,27 @@ class ilMySQLAbstraction
 		$this->reverse = $ilDB->db->loadModule('Reverse');
 		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 		$this->analyzer = new ilDBAnalyzer();
+		$this->setTestMode(false);
+	}
+
+	/**
+	* Set Test Mode.
+	*
+	* @param	boolean	$a_testmode	Test Mode
+	*/
+	function setTestMode($a_testmode)
+	{
+		$this->testmode = $a_testmode;
+	}
+
+	/**
+	* Get Test Mode.
+	*
+	* @return	boolean	Test Mode
+	*/
+	function getTestMode()
+	{
+		return $this->testmode;
 	}
 
 	/**
@@ -59,8 +80,11 @@ class ilMySQLAbstraction
 		// to do: log this procedure
 		
 		// convert table name to lowercase
-		$this->lowerCaseTableName($a_table_name);
-		$a_table_name = strtolower($a_table_name);
+		if (!$this->getTestMode())
+		{
+			$this->lowerCaseTableName($a_table_name);
+			$a_table_name = strtolower($a_table_name);
+		}
 		
 		// get auto increment information
 		$auto_inc_field = $this->analyzer->getAutoIncrementField($a_table_name);
@@ -74,17 +98,24 @@ class ilMySQLAbstraction
 		// get field information
 		$fields = $this->analyzer->getFieldInformation($a_table_name);
 		
-		// remove auto increment
-		$this->removeAutoIncrement($a_table_name, $auto_inc_field, $fields);
-
-		// remove primary key
-		$this->removePrimaryKey($a_table_name, $pk);
-
-		// remove indices (@todo: fulltext index handling)
-		$this->removeIndices($a_table_name, $indices);
-				
+		if (!$this->getTestMode())
+		{
+			// remove auto increment
+			$this->removeAutoIncrement($a_table_name, $auto_inc_field, $fields);
+	
+			// remove primary key
+			$this->removePrimaryKey($a_table_name, $pk);
+	
+			// remove indices (@todo: fulltext index handling)
+			$this->removeIndices($a_table_name, $indices);
+		}
+		
 		// alter table using mdb2 field types
 		$this->alterTable($a_table_name, $fields, $a_set_text_fields_notnull_false);
+		if ($this->getTestMode())
+		{
+			$a_table_name = strtolower($a_table_name)."_copy";
+		}
 		
 		// lower case field names
 		$this->lowerCaseColumnNames($a_table_name);
@@ -233,8 +264,14 @@ class ilMySQLAbstraction
 				unset($def["default"]);
 			}
 			
-			// remove nativetype
-			unset($def["nativetype"]);
+			// remove all invalid attributes
+			foreach ($def as $k => $v)
+			{
+				if (!in_array($k, array("type", "default", "notnull", "length", "unsigned", "fixed")))
+				{
+					unset($def[$k]);
+				}
+			}
 			
 			// determine length for decimal type
 			if ($def["type"] == "decimal")
@@ -274,8 +311,15 @@ class ilMySQLAbstraction
 		$changes = array(
 			"change" => $n_fields
 			);
-
-		$r = $this->manager->alterTable($a_table, $changes, false);
+var_dump($n_fields);
+		if (!$this->getTestMode())
+		{
+			$r = $this->manager->alterTable($a_table, $changes, false);
+		}
+		else
+		{
+			$r = $this->manager->createTable(strtolower($a_table)."_copy", $n_fields);
+		}
 
 		if (MDB2::isError($r))
 		{
