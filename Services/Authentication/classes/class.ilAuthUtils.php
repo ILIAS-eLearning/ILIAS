@@ -516,8 +516,8 @@ class ilAuthUtils
 	
 	function _getAuthMode($a_auth_mode,$a_db_handler = '')
 	{
-		global $ilDB;
-		
+		global $ilDB, $ilSetting;
+
 		$db =& $ilDB;
 		
 		if ($a_db_handler != '')
@@ -558,13 +558,8 @@ class ilAuthUtils
 			case 'ecs':
 				return AUTH_ECS;
 
-
 			default:
-				$q = "SELECT value FROM settings WHERE ".
-			 		 "keyword='auth_mode'";
-				$r = $db->query($q);
-				$row = $r->fetchRow();
-				return $row[0];
+				return $ilSetting->get("auth_mode");
 				break;	
 		}
 	}

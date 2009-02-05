@@ -314,7 +314,10 @@ class ilInitialisation
 		// set to default client if empty
 		if ($_GET["client_id"] != "")
 		{
-			ilUtil::setCookie("ilClientId", $_GET["client_id"]);
+			if (!defined("IL_PHPUNIT_TEST"))
+			{
+				ilUtil::setCookie("ilClientId", $_GET["client_id"]);
+			}
 		}
 		else if (!$_COOKIE["ilClientId"])
 		{
@@ -324,7 +327,14 @@ class ilInitialisation
 //echo "set cookie";
 		}
 //echo "-".$_COOKIE["ilClientId"]."-";
-		define ("CLIENT_ID", $_COOKIE["ilClientId"]);
+		if (!defined("IL_PHPUNIT_TEST"))
+		{
+			define ("CLIENT_ID", $_COOKIE["ilClientId"]);
+		}
+		else
+		{
+			define ("CLIENT_ID", $_GET["client_id"]);
+		}
 	}
 
 	/**
@@ -1005,7 +1015,12 @@ class ilInitialisation
 		////require_once('Log.php');
 		////$ilAuth->logger = Log::singleton('error_log',PEAR_LOG_TYPE_SYSTEM,'TEST');
                 ////$ilAuth->enableLogging = true;
-		$ilAuth->start();
+				
+		if (!defined("IL_PHPUNIT_TEST"))
+		{
+			$ilAuth->start();
+		}
+
 //var_dump($_SESSION);
 		$ilias->setAuthError($ilErr->getLastError());
 		$ilBench->stop("Core", "HeaderInclude_Authentication");
@@ -1077,7 +1092,8 @@ class ilInitialisation
 		//
 //echo "<br>B-".$ilAuth->getAuth()."-".$ilAuth->_sessionName."-";
 //var_dump ($session[_authsession]);
-		if ($ilAuth->getAuth() && $ilias->account->isCurrentUserActive())
+		if (($ilAuth->getAuth() && $ilias->account->isCurrentUserActive()) ||
+			(defined("IL_PHPUNIT_TEST") && DEVMODE))
 		{
 //echo "C"; exit;
 			$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");

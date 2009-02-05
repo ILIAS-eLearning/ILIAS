@@ -417,24 +417,28 @@ class ilECSTaskScheduler
 	 	// If it's greater than time() directly increase this value with the polling time
 	 	// and exceute a new task.
 	 	// These operations should be thread-safe
-	 	$query = "SELECT value FROM settings WHERE module = 'ecs' ".
+	 	/* do not access settings table directly here!
+		$query = "SELECT value FROM sett ings WHERE module = 'ecs' ".
 	 		"AND keyword = 'next_execution'";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$time = $row->value;
-	 	}
+	 	}*/
+		$sett = new ilSetting("ecs");
+		$time = $sett->get("next_execution");
 	 	if(time() < ($time + $this->settings->getPollingTime()))
 	 	{
 			return true;
 			// Nothing to do
 	 	}
 	 	// Set new execution time
-	 	$query = "REPLACE INTO settings SET ".
+	 	/*$query = "REPLACE INTO settings SET ".
 	 		"module = 'ecs', ".
 	 		"keyword = 'next_execution', ".
 	 		"value = ".$this->db->quote(time() + $this->settings->getPollingTime());
-	 	$this->db->query($query);
+	 	$this->db->query($query);*/
+		$sett->set("next_execution", time() + $this->settings->getPollingTime());
 	 		
 	 	$this->log->write(__METHOD__.': Starting ECS tasks.');
 	 	

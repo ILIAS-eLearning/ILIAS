@@ -47,15 +47,25 @@ class ilSetting
 		{
 			die ("Fatal Error: ilSettings object instantiated without DB initialisation.");
 		}
+		$this->read();
+	}
 		
-		$query = "SELECT * FROM settings WHERE module=" . $ilDB->quote($this->module);
-		$res = $ilDB->query($query);
+	/**
+	* Read settings data
+	*/
+	function read()
+	{
+		global $ilDB;
+		
+		$this->setting = array();
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		$st = $ilDB->prepare("SELECT * FROM settings WHERE module = ?", array("text"));
+		$res = $ilDB->execute($st, array($this->module));
+
+		while ($row = $ilDB->fetchAssoc($res))
 		{
 			$this->setting[$row["keyword"]] = $row["value"];
 		}
-
 	}
 	
 	/**
@@ -95,12 +105,32 @@ class ilSetting
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM settings WHERE module = ".$ilDB->quote($this->module)." ";
-		$ilDB->query($query);
-		$this->settings = array();
+		$st = $ilDB->prepareManip("DELETE FROM settings WHERE module = ?", array("text"));
+		$ilDB->execute($st, array($this->module));
+
+		$this->setting = array();
+
 		return true;
 	}
 	
+	/**
+	 * Delete all settings corresponding to a like string
+	 *
+	 * @access public
+	 * 
+	 */
+	public function deleteLike($a_like)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("DELETE FROM settings WHERE module = ? AND keyword ".
+			$ilDB->like(), array("text", "text"));
+		$ilDB->execute($st, array($this->module, $a_like));
+
+		$this->read();
+		return true;
+	}
+
 	/**
 	* delete one value from settingstable
 	* @access	public
@@ -111,9 +141,9 @@ class ilSetting
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM settings WHERE keyword = ".
-			$ilDB->quote($a_keyword) . " AND module=" . $ilDB->quote($this->module);
-		$ilDB->query($query);
+		$st = $ilDB->prepareManip("DELETE FROM settings WHERE keyword = ? AND module = ?", array("text", "text"));
+		$ilDB->execute($st, array($a_keyword, $this->module));
+
 		unset($this->setting[$a_keyword]);
 
 		return true;
@@ -142,14 +172,12 @@ class ilSetting
 	{
 		global $ilDB;
 		
-		$sql = "DELETE FROM settings WHERE keyword=".$ilDB->quote($a_key).
-			" AND module=" . $ilDB->quote($this->module);
-		$ilDB->query($sql);
+		$this->delete($a_key);
 
-		$sql = "INSERT INTO settings (module, keyword, value) VALUES (".
-			$ilDB->quote($this->module) . ",".$ilDB->quote($a_key).",".$ilDB->quote($a_val).")";
-		$ilDB->query($sql);
-		
+		$st = $ilDB->prepareManip("INSERT INTO settings (module, keyword, value) VALUES (?,?,?)",
+			array("text", "text", "clob"));
+		$ilDB->execute($st, array($this->module, $a_key, $a_val));
+
 		$this->setting[$a_key] = $a_val;
 
 		return true;

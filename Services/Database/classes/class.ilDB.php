@@ -749,7 +749,7 @@ class ilDB
 	/**
 	* Helper function, should usually not be called
 	*/
-	function logStatement($a_sql)
+	function logStatement($sql)
 	{
 		$pos1 = strpos(strtolower($sql), "from ");
 		$table = "";
@@ -966,6 +966,10 @@ class ilDB
 		return "now()";
 	}
 	
+	function like()
+	{
+		return "LIKE(?)";
+	}
 
 	//
 	// Schema related functions

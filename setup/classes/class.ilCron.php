@@ -42,6 +42,11 @@ class ilCron
 		define('SOCKET_TIMEOUT',5);
 
 		$this->db = $db;
+		
+		$GLOBALS["ilDB"] = $this->db;
+		include_once '../Services/Administration/classes/class.ilSetting.php';
+		$this->setting = new ilSetting();
+
 	}
 
 	function initLog($path,$file,$client)
@@ -155,7 +160,8 @@ class ilCron
 
 	function __readSetting($a_keyword)
 	{
-		$query = "SELECT * FROM settings ".
+		return $this->setting->get($a_keyword);
+/*		$query = "SELECT * FROM sett ings ".
 			"WHERE keyword = '".$a_keyword."'";
 
 		$res = $this->db->query($query);
@@ -163,7 +169,7 @@ class ilCron
 		{
 			return $row->value ? $row->value : 0;
 		}
-		return 0;
+		return 0;	*/
 	}
 }
 ?>

@@ -43,7 +43,6 @@ class ilMySQLAbstraction
 		$this->il_db = $ilDB;
 		$this->manager = $ilDB->db->loadModule('Manager');
 		$this->reverse = $ilDB->db->loadModule('Reverse');
-		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 		$this->analyzer = new ilDBAnalyzer();
 		$this->setTestMode(false);
 	}
@@ -84,6 +83,7 @@ class ilMySQLAbstraction
 		{
 			$this->lowerCaseTableName($a_table_name);
 			$a_table_name = strtolower($a_table_name);
+			$this->storeStep($a_table_name, 10);
 		}
 		
 		// get auto increment information
@@ -102,12 +102,15 @@ class ilMySQLAbstraction
 		{
 			// remove auto increment
 			$this->removeAutoIncrement($a_table_name, $auto_inc_field, $fields);
+			$this->storeStep($a_table_name, 20);
 	
 			// remove primary key
 			$this->removePrimaryKey($a_table_name, $pk);
+			$this->storeStep($a_table_name, 30);
 	
 			// remove indices (@todo: fulltext index handling)
 			$this->removeIndices($a_table_name, $indices);
+			$this->storeStep($a_table_name, 40);
 		}
 		
 		// alter table using mdb2 field types
@@ -116,26 +119,59 @@ class ilMySQLAbstraction
 		{
 			$a_table_name = strtolower($a_table_name)."_copy";
 		}
+		else
+		{
+			$this->storeStep($a_table_name, 50);
+		}
 		
 		// lower case field names
 		$this->lowerCaseColumnNames($a_table_name);
+		if (!$this->getTestMode())
+		{
+			$this->storeStep($a_table_name, 60);
+		}
 		
 		// add primary key
 		$this->addPrimaryKey($a_table_name, $pk);
+		if (!$this->getTestMode())
+		{
+			$this->storeStep($a_table_name, 70);
+		}
 
 		// add indices
 		$this->addIndices($a_table_name, $indices);
+		if (!$this->getTestMode())
+		{
+			$this->storeStep($a_table_name, 80);
+		}
 		
 		// add "auto increment" sequence
 		if ($auto_inc_field != "")
 		{
 			$this->addAutoIncrementSequence($a_table_name, $auto_inc_field);
 		}
+		if (!$this->getTestMode())
+		{
+			$this->storeStep($a_table_name, 90);
+		}
 		
 		// replace empty strings with null values in text fields
 		$this->replaceEmptyStringsWithNull($a_table_name);
+		if (!$this->getTestMode())
+		{
+			$this->storeStep($a_table_name, 100);
+		}
 	}
 	
+	/**
+	* Store performed step
+	*/
+	function storeStep($a_table, $a_step)
+	{
+		$st = $this->il_db->prepareManip("REPLACE INTO abstraction_progress (table_name, step)".
+			" VALUES (?,?)", array("text", "integer"));
+		$this->il_db->execute($st, array($a_table, $a_step));
+	}
 	
 	/**
 	* Replace empty strings with null values

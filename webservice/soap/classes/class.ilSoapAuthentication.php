@@ -192,14 +192,17 @@ class ilSoapAuthentication extends ilBaseAuthentication
 	{
 		include_once './Services/Database/classes/class.ilDB.php';
 
+		//$db =& new ilDB($this->dsn);
+		$GLOBALS["ilDB"] = new ilDB($this->dsn);
+		include_once './Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		return ($set->get("soap_user_administration") == 1);
 
-		$db =& new ilDB($this->dsn);
-
-		$query = "SELECT * FROM settings WHERE keyword = 'soap_user_administration' AND value = 1";
+		/*$query = "SELECT * FROM set tings WHERE keyword = 'soap_user_administration' AND value = 1";
 
 		$res = $db->query($query);
 
-		return $res->numRows() ? true : false;
+		return $res->numRows() ? true : false;*/
 	}
 	
 	function __checkClientEnabled()

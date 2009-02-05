@@ -149,26 +149,19 @@ class ilDBUpdate
 
 	function getCurrentVersion()
 	{
-		$q = "SELECT value FROM settings ".
-			 "WHERE keyword = 'db_version'";
-		$r = $this->db->query($q);
-			
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-			
-		$this->currentVersion = (integer) $row->value;
+		$GLOBALS["ilDB"] = $this->db;
+		include_once '../Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		$this->currentVersion = (integer) $set->get("db_version");
 
 		return $this->currentVersion;
 	}
 
 	function setCurrentVersion ($a_version)
 	{
-		{
-			$q = "UPDATE settings SET ".
-				 "value = ".$this->db->quote($a_version)." ".
-				 "WHERE keyword = 'db_version'";
-		}
-
-		$this->db->query($q);
+		include_once '../Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
+		$set->set("db_version", $a_version);
 		$this->currentVersion = $a_version;
 		
 		return true;
@@ -262,7 +255,10 @@ class ilDBUpdate
 	*/
 	function applyUpdate()
 	{
-		global $ilCtrlStructureReader;
+		global $ilCtrlStructureReader, $ilMySQLAbstraction;
+		
+		$ilMySQLAbstraction = new ilMySQLAbstraction();
+		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
 		
 		$f = $this->fileVersion;
 		$c = $this->currentVersion;
@@ -303,7 +299,6 @@ class ilDBUpdate
 		{
 			$this->updateMsg = "no_changes";
 		}
-//global $ilDB; $ilDB->query("UPDATE settings SET value='1146' WHERE keyword='db_version'");
 
 		return $this->loadXMLInfo();
 	}
@@ -355,7 +350,7 @@ class ilDBUpdate
 	 */
 	function applyUpdateNr($nr)
 	{
-		global $ilDB,$ilErr,$ilUser,$ilCtrlStructureReader,$ilModuleReader;
+		global $ilDB,$ilErr,$ilUser,$ilCtrlStructureReader,$ilModuleReader,$ilMySQLAbstraction;
 
 		//search for desired $nr
 		reset($this->filecontent);

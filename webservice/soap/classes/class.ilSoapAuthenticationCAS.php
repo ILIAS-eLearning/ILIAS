@@ -245,8 +245,10 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		$this->init->initSettings();
 		
 		$this->init->buildHTTPPath();
+		include_once './Services/Administration/classes/class.ilSetting.php';
+		$set = new ilSetting();
 
-		$query = "SELECT * FROM settings WHERE ".
+		/*$query = "SELECT * FROM sett ings WHERE ".
 			" keyword = ".$this->db->quote("cas_server")." OR ".
 			" keyword = ".$this->db->quote("cas_port")." OR ".
 			" keyword = ".$this->db->quote("cas_uri");
@@ -255,7 +257,10 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 		while ($rec = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$cas_set[$rec["keyword"]] = $rec["value"];
-		}
+		}*/
+		$cas_set["cas_server"] = $set->get("cas_server");
+		$cas_set["cas_port"] = $set->get("cas_port");
+		$cas_set["cas_uri"] = $set->get("cas_uri");
 
 		$auth_params = array(
 			"server_version" => CAS_VERSION_2_0,

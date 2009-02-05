@@ -231,8 +231,7 @@ class ilRadiusSettings
 	public function save()
 	{
 	 	// first delete old servers
-	 	$query = "DELETE FROM settings WHERE keyword LIKE('radius_server%')";
-	 	$this->db->query($query);
+		$this->settings->deleteLike('radius_server%');
 	 	
 		$this->settings->set('radius_active',$this->isActive() ? 1 : 0);
 		$this->settings->set('radius_port',$this->getPort());
@@ -335,12 +334,22 @@ class ilRadiusSettings
 	 	$this->enableAccountMigration($all_settings['radius_migration']);
 	 	$this->setCharset($all_settings['radius_charset']);
 	 	
-		$query = "SELECT value FROM settings WHERE keyword LIKE 'radius_server%' ORDER BY keyword ASC";
+		/* do not access settings table directly here!
+		$query = "SELECT value FROM sett ings WHERE keyword LIKE 'radius_server%' ORDER BY keyword ASC";
 		$res = $this->db->query($query);
 		
 		while ($row = $res->fetchRow())
 		{
 			$this->servers[] = $row[0];
+		}*/
+		
+		reset($all_settings);
+		foreach($all_settings as $k => $v)
+		{
+			if (substr($k, 0, 13) == "radius_server")
+			{
+				$this->servers[] = $v;
+			}
 		}
 		
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
