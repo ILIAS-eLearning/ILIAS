@@ -463,7 +463,14 @@ class ilClient
 	{
 		$ilDB = new ilDB($this->dsn);
 		$GLOBALS["ilDB"] = $ilDB;
-		include_once '../Services/Administration/classes/class.ilSetting.php';
+		if (is_file('../Services/Administration/classes/class.ilSetting.php'))
+		{
+			include_once '../Services/Administration/classes/class.ilSetting.php';
+		}
+		else
+		{
+			include_once './Services/Administration/classes/class.ilSetting.php';
+		}
 		$set = new ilSetting();
 		return $set->get($a_keyword);
 
