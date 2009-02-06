@@ -45,7 +45,7 @@ class ilChatInvitationGUI
 	
 	public function getHTML()	
 	{
-		global $ilUser, $ilObjDataCache, $ilAccess, $ilSetting;
+		global $ilUser, $ilObjDataCache, $ilAccess, $ilSetting, $rbacsystem;
 		
 		// chat invitations
 		include_once 'Modules/Chat/classes/class.ilChatInvitations.php';	
@@ -70,16 +70,14 @@ class ilChatInvitationGUI
 		$invitations = array();
 		foreach($items as $item)
 		{
-			if ($cnt > 4) break;
-			
-			$chat_ref_id = 0;			
+			$chat_ref_id = 0;
 			foreach((array)ilObject::_getAllReferences((int)$item['chat_id']) as $ref_id)
 			{
-				if($ilAccess->checkAccess('read', '', $ref_id))
+				if($rbacsystem->checkAccess('read', $ref_id))
 				{
 					$chat_ref_id = $ref_id;
 					break;
-				}				
+				}		
 			}
 			if(!(int)$chat_ref_id) continue;
 			
@@ -118,8 +116,7 @@ class ilChatInvitationGUI
 			
 			$invitations[] = (int)$chat_ref_id.'_'.(int)$item['room_id'];
 			if((int)$ilSetting->get('chat_sound_status') &&
-			   (int)$ilSetting->get('chat_new_invitation_sound_status') &&
-			   !isset($_SESSION['chat']['_already_beeped'][(int)$chat_ref_id.'_'.(int)$item['room_id']]))
+			   (int)$ilSetting->get('chat_new_invitation_sound_status'))
 			{
 				$beep = true;
 			}

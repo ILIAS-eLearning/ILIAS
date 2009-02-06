@@ -1302,7 +1302,7 @@ class ilObjChatGUI extends ilObjectGUI
 	}
 
 	// Direct invitations from personal desktop
-	function invitePD()
+	function invitePDObject()
 	{
 		global $ilUser;
 
@@ -1321,14 +1321,21 @@ class ilObjChatGUI extends ilObjectGUI
 		if(!$id = $this->object->chat_room->lookupRoomId())
 		{
 			$id = $this->object->chat_room->add();
-			ilUtil::sendInfo($this->lng->txt("chat_user_invited_private"),true);
-		}
-			
+		}			
 
 		// Send message
 		$this->object->chat_room->setRoomId($id);
 		$this->object->chat_room->invite((int) $_GET["usr_id"]);
 		$this->object->sendMessage((int) $_GET['usr_id']);
+		
+		if((int)$this->object->chat_room->getRoomId())
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt("chat_user_invited_private"), $this->object->chat_room->getTitle()),true);
+		}
+		else
+		{
+			ilUtil::sendInfo(sprintf($this->lng->txt("chat_user_invited_public"), $this->object->getTitle()),true);
+		}
 
 		ilUtil::redirect('ilias.php?baseClass=ilChatPresentationGUI&ref_id='.$this->object->getRefId().'&room_id='.$id);
 	}

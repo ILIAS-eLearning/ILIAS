@@ -49,10 +49,11 @@ class ilChatPresentationGUI
 		
 //echo "*".$ilCtrl->getCmd()."*";
 		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd();
 		if ($next_class == "")
 		{
 			$ilCtrl->setCmdClass("ilobjchatgui");
-			$ilCtrl->setCmd("showFrames");
+			if($cmd == '') $ilCtrl->setCmd("showFrames");
 			$next_class = $ilCtrl->getNextClass($this);
 		}
 		
@@ -95,7 +96,7 @@ class ilChatPresentationGUI
 					echo $tmp_tpl->get();
 					exit();
 				}
-				
+						
 				$chat_gui->object->server_comm->setRecipientId((int) $_GET["p_id"]);
 				$ret = $ilCtrl->forwardCommand($chat_gui);
 				break;

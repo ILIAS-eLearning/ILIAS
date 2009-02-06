@@ -9062,3 +9062,6 @@ ecs#:#ecs_field_part_id#:#Participant ID
 ecs#:#ecs_category_mapping#:#Assignment to Categories
 ecs#:#ecs_tbl_active_rules#:#Active Rules for Category Assignment
 ecs#:#ecs_edit_category_mapping#:#Edit Assignment
+common#:#chat_enter_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat.
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat.

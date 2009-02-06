@@ -9116,3 +9116,6 @@ ecs#:#ecs_field_part_id#:#Teilnehmer-ID
 ecs#:#ecs_category_mapping#:#Zuordnung zu Kategorien
 ecs#:#ecs_tbl_active_rules#:#Aktive Regeln für die Zuordnung zu Kategorien
 ecs#:#ecs_edit_category_mapping#:#Zuordnung bearbeiten
+common#:#chat_enter_public_room#:#Öffentl. Chat
+common#:#chat_enter_public_room_tooltip#:#In den öffentl. Chat eintreten.
+common#:#chat_invite_public_room_tooltip#:#In den öffentl. Chat einladen.
