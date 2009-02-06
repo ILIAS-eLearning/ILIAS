@@ -2650,7 +2650,7 @@ class ilTree
             return true;
     }
 
- /**
+ 	/**
      * build sql query for type filter
      *
      * @param mixed $types may be a single value or an array of value

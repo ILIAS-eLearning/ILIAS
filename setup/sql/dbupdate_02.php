@@ -7342,3 +7342,22 @@ CREATE TABLE `abstraction_progress` (
 <?php
 	$ilMySQLAbstraction->performAbstraction("usr_session");
 ?>
+
+<#1539>
+DROP TABLE `dp_changed_dates`;
+
+<#1540>
+DROP TABLE `dp_dates`;
+
+<#1541>
+DROP TABLE `dp_keyword`;
+
+<#1542>
+DROP TABLE `dp_keywords`;
+
+<#1543>
+DROP TABLE `dp_neg_dates`;
+
+<#1544>
+DROP TABLE `dp_properties`;
+
