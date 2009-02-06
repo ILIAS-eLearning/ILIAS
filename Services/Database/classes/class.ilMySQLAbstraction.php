@@ -323,7 +323,7 @@ class ilMySQLAbstraction
 			}
 			
 			// set notnull to false for text fields
-			if ($a_set_text_fields_notnull_false && $def["type"] == "text" &&
+			if ($a_set_text_fields_notnull_false && $def["type"] == "text" && !$def["fixed"] &&
 				(!is_array($pk) || !isset($field,$pk["fields"][$field])))
 			{
 				$def["notnull"] = false;

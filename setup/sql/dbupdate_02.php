@@ -7376,7 +7376,8 @@ DROP TABLE `meta_techn_format`;
 <#1549>
 DROP TABLE `meta_techn_loc`;
 
-
-
-
+<#1550>
+<?php
+	$ilMySQLAbstraction->performAbstraction("il_object_def");
+?>
 
