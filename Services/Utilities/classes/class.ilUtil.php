@@ -1508,40 +1508,8 @@ class ilUtil
 	*/
 	function getUsersOnline($a_user_id = 0)
 	{
-		global $ilias, $ilDB;
-
-		$pd_set = new ilSetting("pd");
-		$atime = $pd_set->get("user_activity_time") * 60;
-		$ctime = time();
-
-		if ($a_user_id == 0)
-		{
-			$where = "WHERE user_id != 0 AND agree_date != '0000-00-00 00:00:00'";
-		}
-		else
-		{
-			$where = "WHERE user_id = ".$ilDB->quote($a_user_id)." ";
-		}
-
-		// BEGIN WebDAV: Fetch max(ctime) of a user
-		$q = "SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime FROM usr_session ".
-		"LEFT JOIN usr_data ON user_id=usr_id ".$where.
-		"AND expires>UNIX_TIMESTAMP() ".
-		"GROUP BY user_id ".
-		"ORDER BY lastname, firstname";
-		// ENDWebDAV: Fetch max(ctime) of a user
-		$r = $ilias->db->query($q);
-
-		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			if ($atime <= 0
-				|| $user["ctime"] + $atime > $ctime)
-			{
-				$users[$user["user_id"]] = $user;
-			}
-		}
-
-		return $users ? $users : array();
+		include_once("./Services/User/classes/class.ilObjUser.php");
+		return ilObjUser::_getUsersOnline($a_user_id);
 	}
 
 	/**
@@ -1554,76 +1522,8 @@ class ilUtil
 	*/
 	function getAssociatedUsersOnline($a_user_id)
 	{
-		global $ilias, $ilDB;
-
-		$pd_set = new ilSetting("pd");
-		$atime = $pd_set->get("user_activity_time") * 60;
-		$ctime = time();
-
-		// The difference between active time and session time
-		$time_diff = 0;
-
-		// Get a list of object id's of all courses and groups for which
-		// the current user has local roles.
-		// Note: we have to use DISTINCT here, because a user may assume
-		// multiple roles in a group or a course.
-		$q = "SELECT DISTINCT dat.obj_id as obj_id ".
-		"FROM rbac_ua AS ua ".
-		"JOIN rbac_fa AS fa ON fa.rol_id = ua.rol_id ".
-		"JOIN object_reference AS r1 ON r1.ref_id = fa.parent ".
-		"JOIN tree ON tree.child = r1.ref_id ".
-		"JOIN object_reference AS r2 ON r2.ref_id = tree.parent ".
-		"JOIN object_data AS dat ON dat.obj_id = r2.obj_id ".
-		"WHERE ua.usr_id = ".$ilDB->quote($a_user_id)." ".
-		"AND fa.assign = 'y' ".
-		"AND dat.type IN ('grp','crs')";
-		$r = $ilias->db->query($q);
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$groups_and_courses_of_user[] = $row["obj_id"];
-		}
-
-		// If the user is not in a course or a group, he has no associated users.
-		if (count($groups_and_courses_of_user) == 0)
-		{
-			$q = "SELECT count(user_id) as num,ctime,user_id,firstname,lastname,title,login,last_login ".
-			"FROM usr_session ".
-			"JOIN usr_data ON user_id=usr_id ".
-			"WHERE user_id = ".$ilDB->quote($a_user_id)." ".
-			" AND agree_date != '0000-00-00 00:00:00' ".
-			"AND expires > UNIX_TIMESTAMP() - ".$time_diff." ".
-			"GROUP BY user_id";
-		}
-		else
-		{
-			$q = "SELECT count(user_id) as num,s.ctime,s.user_id,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
-			"FROM usr_session AS s ".
-			"JOIN usr_data AS ud ON ud.usr_id = s.user_id ".
-			"JOIN rbac_ua AS ua ON ua.usr_id = s.user_id ".
-			"JOIN rbac_fa AS fa ON fa.rol_id = ua.rol_id ".
-			"JOIN tree ON tree.child = fa.parent ".
-			"JOIN object_reference AS or1 ON or1.ref_id = tree.parent ".
-			"JOIN object_data AS od ON od.obj_id = or1.obj_id ".
-			"WHERE s.user_id != 0 ".
-			"AND s.expires > UNIX_TIMESTAMP() - ".$time_diff." ".
-			"AND fa.assign = 'y' ".
-			" AND ud.agree_date != '0000-00-00 00:00:00' ".
-			"AND od.obj_id IN (".implode(",",ilUtil::quoteArray($groups_and_courses_of_user)).") ".
-			"GROUP BY s.user_id ".
-			"ORDER BY ud.lastname, ud.firstname";
-		}
-		$r = $ilias->db->query($q);
-
-		while ($user = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			if ($atime <= 0
-				|| $user["ctime"] + $atime > $ctime)
-			{
-				$users[$user["user_id"]] = $user;
-			}
-		}
-
-		return $users ? $users : array();
+		include_once("./Services/User/classes/class.ilObjUser.php");
+		return ilObjUser::_getAssociatedUsersOnline($a_user_id);
 	}
 
 	/**
