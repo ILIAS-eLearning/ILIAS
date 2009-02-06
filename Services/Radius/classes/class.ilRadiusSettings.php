@@ -343,8 +343,6 @@ class ilRadiusSettings
 			}
 		}
 		
-		var_dump('<pre>',$this->servers,'</pre>');
-		
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 		$roles = ilObjRole::_getRolesByAuthMode('radius');
 		$this->default_role = $roles[0] ? $roles[0] : 0;
