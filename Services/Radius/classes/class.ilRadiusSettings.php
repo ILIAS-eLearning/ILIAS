@@ -334,15 +334,6 @@ class ilRadiusSettings
 	 	$this->enableAccountMigration($all_settings['radius_migration']);
 	 	$this->setCharset($all_settings['radius_charset']);
 	 	
-		/* do not access settings table directly here!
-		$query = "SELECT value FROM sett ings WHERE keyword LIKE 'radius_server%' ORDER BY keyword ASC";
-		$res = $this->db->query($query);
-		
-		while ($row = $res->fetchRow())
-		{
-			$this->servers[] = $row[0];
-		}*/
-		
 		reset($all_settings);
 		foreach($all_settings as $k => $v)
 		{
@@ -351,6 +342,8 @@ class ilRadiusSettings
 				$this->servers[] = $v;
 			}
 		}
+		
+		var_dump('<pre>',$this->servers,'</pre>');
 		
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 		$roles = ilObjRole::_getRolesByAuthMode('radius');
