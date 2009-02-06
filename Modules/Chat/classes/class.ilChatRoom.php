@@ -431,7 +431,7 @@ class ilChatRoom
 	{
 		global $ilDB;
 		
-		$statement = $$ilDB->prepare('
+		$statement = $ilDB->prepare('
 			SELECT * FROM chat_user 
 			WHERE chat_id = ?
 			AND room_id = ?
