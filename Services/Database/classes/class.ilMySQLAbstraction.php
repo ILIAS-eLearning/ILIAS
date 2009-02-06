@@ -114,7 +114,7 @@ class ilMySQLAbstraction
 		}
 		
 		// alter table using mdb2 field types
-		$this->alterTable($a_table_name, $fields, $a_set_text_fields_notnull_false);
+		$this->alterTable($a_table_name, $fields, $a_set_text_fields_notnull_false, $pk);
 		if ($this->getTestMode())
 		{
 			$a_table_name = strtolower($a_table_name)."_copy";
@@ -123,7 +123,7 @@ class ilMySQLAbstraction
 		{
 			$this->storeStep($a_table_name, 50);
 		}
-		
+
 		// lower case field names
 		$this->lowerCaseColumnNames($a_table_name);
 		if (!$this->getTestMode())
@@ -284,7 +284,7 @@ class ilMySQLAbstraction
 	* @param	string		table name
 	* @param	array		fields information
 	*/
-	function alterTable($a_table, $a_fields, $a_set_text_fields_notnull_false = true)
+	function alterTable($a_table, $a_fields, $a_set_text_fields_notnull_false = true, $pk = "")
 	{
 		$n_fields = array();
 		foreach ($a_fields as $field => $d)
@@ -323,7 +323,8 @@ class ilMySQLAbstraction
 			}
 			
 			// set notnull to false for text fields
-			if ($a_set_text_fields_notnull_false && $def["type"] == "text")
+			if ($a_set_text_fields_notnull_false && $def["type"] == "text" &&
+				(!is_array($pk) || !isset($field,$pk["fields"][$field])))
 			{
 				$def["notnull"] = false;
 			}
