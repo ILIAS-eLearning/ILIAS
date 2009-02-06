@@ -1297,8 +1297,8 @@ class ilObjUser extends ilObject
 			$ilDB->quote($this->getId()));
 
 		// delete user_session
-		$this->ilias->db->query("DELETE FROM usr_session WHERE user_id= ".
-			$ilDB->quote($this->getId()));
+		include_once("./Services/Authentication/classes/class.ilSession.php");
+		ilSession::_destroyByUserId($this->getId());
 
 		// remove user from rbac
 		$rbacadmin->removeUser($this->getId());
@@ -4598,6 +4598,140 @@ class ilObjUser extends ilObject
 		return true;
 	}
 	
+	/**
+	* reads all active sessions from db and returns users that are online
+	* OR returns only one active user if a user_id is given
+	*
+	* @param	integer	user_id (optional)
+	* @return	array
+	*/
+	function _getUsersOnline($a_user_id = 0)
+	{
+		global $ilDB;
+
+		$pd_set = new ilSetting("pd");
+		$atime = $pd_set->get("user_activity_time") * 60;
+		$ctime = time();
+
+		if ($a_user_id == 0)
+		{
+			$where = "WHERE user_id != 0 AND agree_date != ? ";
+			$type_array = array("timestamp", "integer");
+			$val_array = array("0000-00-00 00:00:00", time());
+		}
+		else
+		{
+			$where = "WHERE user_id = ".$ilDB->quote($a_user_id)." ";
+			$type_array = array("integer", "integer");
+			$val_array = array($a_user_id, time());
+		}
+
+		$st = $ilDB->prepare("SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime ".
+			"FROM usr_session ".
+			"LEFT JOIN usr_data ON user_id=usr_id ".$where.
+			"AND expires > ? ".
+			"GROUP BY user_id ".
+			"ORDER BY lastname, firstname", $type_array);
+
+		$r = $ilDB->execute($st, $val_array);
+
+		while ($user = $ilDB->fetchAssoc($r))
+		{
+			if ($atime <= 0
+				|| $user["ctime"] + $atime > $ctime)
+			{
+				$users[$user["user_id"]] = $user;
+			}
+		}
+
+		return $users ? $users : array();
+	}
+
+	/**
+	* reads all active sessions from db and returns users that are online
+	* and who have a local role in a group or a course for which the
+    * the current user has also a local role.
+	*
+	* @param	integer	user_id User ID of the current user.
+	* @return	array
+	*/
+	function _getAssociatedUsersOnline($a_user_id)
+	{
+		global $ilias, $ilDB;
+
+		$pd_set = new ilSetting("pd");
+		$atime = $pd_set->get("user_activity_time") * 60;
+		$ctime = time();
+
+		// Get a list of object id's of all courses and groups for which
+		// the current user has local roles.
+		// Note: we have to use DISTINCT here, because a user may assume
+		// multiple roles in a group or a course.
+		$st = $ilDB->prepare("SELECT DISTINCT dat.obj_id as obj_id ".
+			"FROM rbac_ua AS ua ".
+			"JOIN rbac_fa AS fa ON fa.rol_id = ua.rol_id ".
+			"JOIN object_reference AS r1 ON r1.ref_id = fa.parent ".
+			"JOIN tree ON tree.child = r1.ref_id ".
+			"JOIN object_reference AS r2 ON r2.ref_id = tree.parent ".
+			"JOIN object_data AS dat ON dat.obj_id = r2.obj_id ".
+			"WHERE ua.usr_id = ? ".
+			"AND fa.assign = ? ".
+			"AND dat.type IN (?,?)", array("integer", "text", "text", "text"));
+		$r = $ilDB->execute($st, array($a_user_id, "y", "grp", "crs"));
+		while ($row = $ilDB->fetchAssoc($r))
+		{
+			$groups_and_courses_of_user[] = $row["obj_id"];
+		}
+
+		// If the user is not in a course or a group, he has no associated users.
+		if (count($groups_and_courses_of_user) == 0)
+		{
+			$st = $ilDB->prepare("SELECT count(user_id) as num,ctime,user_id,firstname,lastname,title,login,last_login ".
+				"FROM usr_session ".
+				"JOIN usr_data ON user_id=usr_id ".
+				"WHERE user_id = ? ".
+				" AND agree_date != ? ".
+				"AND expires > ? ".
+				"GROUP BY user_id", array("integer", "timestamp", "integer"));
+			$r = $ilDB->execute($st, array($a_user_id, "0000-00-00 00:00:00", time()));
+		}
+		else
+		{
+			$q = "SELECT count(user_id) as num,s.ctime,s.user_id,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
+				"FROM usr_session s ".
+				"JOIN usr_data AS ud ON ud.usr_id = s.user_id ".
+				"JOIN rbac_ua AS ua ON ua.usr_id = s.user_id ".
+				"JOIN rbac_fa AS fa ON fa.rol_id = ua.rol_id ".
+				"JOIN tree ON tree.child = fa.parent ".
+				"JOIN object_reference AS or1 ON or1.ref_id = tree.parent ".
+				"JOIN object_data AS od ON od.obj_id = or1.obj_id ".
+				"WHERE s.user_id != 0 ".
+				"AND s.expires > ? ".
+				"AND fa.assign = ? ".
+				" AND ud.agree_date != ? ".
+				"AND ".$ilDB->in("od.obj_id", $groups_and_courses_of_user)." ".
+				"GROUP BY s.user_id ".
+				"ORDER BY ud.lastname, ud.firstname";
+			$type_arr = array("integer", "text", "timestamp");
+			$type_arr = $ilDB->addTypesToArray($type_arr, "integer", count($groups_and_courses_of_user));
+			$val_arr = array(time(), "y", "0000-00-00 00:00:00");
+			$val_arr = array_merge($val_arr, $groups_and_courses_of_user);
+			$st = $ilDB->prepare($q, $type_arr);
+			$r = $ilDB->execute($st, $val_arr);
+		}
+
+		while ($user = $ilDB->fetchAssoc($r))
+		{
+			if ($atime <= 0
+				|| $user["ctime"] + $atime > $ctime)
+			{
+				$users[$user["user_id"]] = $user;
+			}
+		}
+
+		return $users ? $users : array();
+	}
+
 
 } // END class ilObjUser
 ?>

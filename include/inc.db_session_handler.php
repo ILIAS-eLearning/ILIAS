@@ -30,6 +30,7 @@
     +-----------------------------------------------------------------------------+
 */
 
+include_once("./Services/Authentication/classes/class.ilSession.php");
 
 /*
 * open session, normally a db connection would be opened here, but
@@ -64,13 +65,7 @@ function db_session_close()
 */
 function db_session_read($session_id)
 {
-	global $ilDB;
-
-	$q = "SELECT data FROM usr_session WHERE session_id = '".addslashes($session_id)."'";
-	$r = $ilDB->query($q);
-	$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
-
-	return $data["data"];
+	return ilSession::_getData($session_id);
 }
 
 /**
@@ -81,16 +76,7 @@ function db_session_read($session_id)
 */
 function db_session_write($session_id, $data)
 {
-	global $pear_session_db,$ilDB;
-
-	//var_dump("<pre>",session_decode($data),"</pre>");exit;
-	$expires = time() + ini_get("session.gc_maxlifetime");
-	$q = "REPLACE INTO usr_session (session_id, expires, data, ctime,user_id) ".
-		 "VALUES('".ilUtil::prepareDBString($session_id)."','".$expires."','".ilUtil::prepareDBString($data).
-		 "','".time()."','".$_SESSION["AccountId"]."')";
-	$ilDB->query($q);	 
-
-	return true;
+	return ilSession::_writeData($session_id, $data);
 }
 
 /**
@@ -100,12 +86,7 @@ function db_session_write($session_id, $data)
 */
 function db_session_destroy($session_id)
 {
-	global $ilDB;
-
-	$q = "DELETE FROM usr_session WHERE session_id = '".addslashes($session_id)."'";
-	$ilDB->query($q);
-  
-	return true;
+	return ilSession::_destroy($session_id);
 }
 
 
@@ -116,12 +97,7 @@ function db_session_destroy($session_id)
 */
 function db_session_gc($gc_maxlifetime)
 {
-	global $pear_session_db,$ilDB;
-
-	$q = "DELETE FROM usr_session WHERE expires < ".time();
-	$ilDB->query($q);
-	
-	return true;
+	return ilSession::_destroyExpiredSessions();
 }
 
 
@@ -150,27 +126,7 @@ function db_set_save_handler()
 
 function duplicate_session($a_session_id) 
 {
-	global $ilDB;
-	
-	// Create new session id
-	$new_session = $a_session_id;
-	do
-	{
-		$new_session = md5($new_session);
-		$query = "SELECT * FROM usr_session WHERE ".
-			"session_id = ".$ilDB->quote($new_session);
-		$res = $ilDB->query($query);		
-	} while($res->numRows());
-	
-	$query = "SELECT * FROM usr_session ".
-		"WHERE session_id = ".$ilDB->quote($a_session_id);
-	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-	{
-		db_session_write($new_session,$row->data);
-		return $new_session;
-	}
-	return false;
+	return ilSession::_duplicate($a_session_id);
 }
 
 // needs to be done to assure that $ilDB exists,
