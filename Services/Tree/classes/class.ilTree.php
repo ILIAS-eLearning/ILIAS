@@ -33,7 +33,7 @@ define("IL_FIRST_NODE", -1);
 * by Joe Celco.
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
-* @author Stefan Meyer <smeyer@databay.de>
+* @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
 * @ingroup ServicesTree
@@ -148,7 +148,7 @@ class ilTree
 		global $ilDB,$ilErr,$ilias,$ilLog;
 
 		// set db & error handler
-		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
+		$this->ilDB = $ilDB;
 
 		if (!isset($ilErr))
 		{
@@ -157,7 +157,7 @@ class ilTree
 		}
 		else
 		{
-			$this->ilErr =& $ilErr;
+			$this->ilErr = $ilErr;
 		}
 
 		$this->lang_code = "en";
@@ -173,7 +173,7 @@ class ilTree
 		}
 
 		// CREATE LOGGER INSTANCE
-		$this->log =& $ilLog;
+		$this->log = $ilLog;
 
 		//init variables
 		if (empty($a_root_id))
@@ -310,6 +310,7 @@ class ilTree
 	*/
 	function buildJoin()
 	{
+		// DONE smeyer
 		if ($this->table_obj_reference)
 		{
 			return "LEFT JOIN ".$this->table_obj_reference." ON ".$this->table_tree.".child=".$this->table_obj_reference.".".$this->ref_pk." ".
@@ -331,7 +332,7 @@ class ilTree
 	*/
 	function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
 	{
-		global $ilBench;
+		global $ilBench,$ilDB;
 		
 		if (!isset($a_node_id))
 		{
@@ -358,37 +359,26 @@ class ilTree
 			$order_clause = "ORDER BY ".$this->table_tree.".lft";
 		}
 
-	//666
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE parent = ".$this->ilDB->quote($a_node_id)." ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = ".$this->ilDB->quote($this->tree_id)." ".
-			 $order_clause;
-
-		//$ilBench->start("Tree", "getChilds_Query");
-		$r = $this->ilDB->query($q);
-		//$ilBench->stop("Tree", "getChilds_Query");
-
-		$count = $r->numRows();
-
-
-		if ($count > 0)
+			 
+		$sta = $ilDB->prepare("SELECT * FROM ".$this->table_tree.' '.
+				$this->buildJoin().
+				"WHERE parent = ? " .
+				"AND ".$this->table_tree.".".$this->tree_pk." = ? ".
+				$order_clause,
+			array('integer','integer'));
+		$res = $ilDB->execute($sta,array($a_node_id,$this->tree_id));
+		
+		if(!$count = $res->numRows())
 		{
-			//$ilBench->start("Tree", "getChilds_fetchNodeData");
-			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				$childs[] = $this->fetchNodeData($row);
-			}
-			//$ilBench->stop("Tree", "getChilds_fetchNodeData");
-
-			// mark the last child node (important for display)
-			$childs[$count - 1]["last"] = true;
-			return $childs;
+			return array();
 		}
-		else
+		
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			return $childs;
+			$childs[] = $this->fetchNodeData($row);
 		}
+		$childs[$count - 1]["last"] = true;
+		return $childs;
 	}
 
 	/**
@@ -424,30 +414,35 @@ class ilTree
 	*/
 	function getChildsByType($a_node_id,$a_type)
 	{
+		global $ilDB;
+		
 		if (!isset($a_node_id) or !isset($a_type))
 		{
 			$message = get_class($this)."::getChildsByType(): Missing parameter! node_id:".$a_node_id." type:".$a_type;
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
+		$query = "SELECT * FROM ".$this->table_tree." ".
+			$this->buildJoin().
+			"WHERE parent = ? ".
+			"AND ".$this->table_tree.".".$this->tree_pk." = ? ".
+			"AND ".$this->table_obj_data.".type = ? ".
+			"ORDER BY ".$this->table_tree.".lft";
+		
+		$sta = $ilDB->prepare($query,array('integer','integer','text'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$this->tree_id,
+			$a_type));
+
 		// init childs
 		$childs = array();
-
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE parent = '".$a_node_id."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND ".$this->table_obj_data.".type='".$a_type."' ".
-			 "ORDER BY ".$this->table_tree.".lft";
-		$r = $this->ilDB->query($q);
-		
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$childs[] = $this->fetchNodeData($row);
 		}
-
-
-		return $childs;
+		
+		return $childs ? $childs : array();
 	}
 
 
@@ -460,30 +455,38 @@ class ilTree
 	*/
 	public function getChildsByTypeFilter($a_node_id,$a_types)
 	{
-		if (!isset($a_node_id) or !isset($a_types))
+		global $ilDB;
+		
+		if (!isset($a_node_id) or !$a_types)
 		{
 			$message = get_class($this)."::getChildsByType(): Missing parameter! node_id:".$a_node_id." type:".$a_types;
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		// init childs
-		$childs = array();
-
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE parent = '".$a_node_id."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
-			 $this->buildTypeFilter($this->table_obj_data.".type", $a_types)." ".
-			 "ORDER BY ".$this->table_tree.".lft";
-		$r = $this->ilDB->query($q);
+		$query = "SELECT * FROM ".$this->table_tree." ".
+			$this->buildJoin().
+			"WHERE parent = ? ".
+			"AND ".$this->table_tree.".".$this->tree_pk." = ? ".
+			"AND ".$ilDB->in($this->table_obj_data.".type",$a_types)." ".
+			"ORDER BY ".$this->table_tree.".lft";
+			
+		$fields = array('integer','integer');
+		$data = array($a_node_id,$this->tree_id);
+		foreach($a_types as $type)
+		{
+			$fields[] = 'text';
+			$data[] = $type;
+		}
 		
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		$sta = $ilDB->prepare($query,$fields);
+		$res = $ilDB->execute($sta,$data);
+			
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$childs[] = $this->fetchNodeData($row);
-		}
-
-
-		return $childs;
+		}	
+		
+		return $childs ? $childs : array();
 	}
 	
 	/**
@@ -824,6 +827,8 @@ class ilTree
 	*/
 	function getSubTree($a_node,$a_with_data = true, $a_type = "")
 	{
+		global $ilDB;
+		
 		if (!is_array($a_node))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getSubTree(): Wrong datatype for node_data! ",$this->ilErr->WARNING);
@@ -840,25 +845,28 @@ class ilTree
 
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-
-	    $subtree = array();
 		
-		$type_str = "";
-		if ($a_type != "")
+		
+		$fields = array('integer','integer','integer');
+		$data = array($a_node['lft'],$a_node['rgt'],$this->tree_id);
+		$type_str = ''; 
+		if(strlen($a_type))
 		{
-			$type_str = "AND ".$this->table_obj_data.".type='".$a_type."' ";
+			$fields[] = 'text';
+			$data[] = $a_type;
+			$type_str = "AND ".$this->table_obj_data.".type= ? ";
 		}
-
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE ".$this->table_tree.".lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
-			 $type_str.
-			 "ORDER BY ".$this->table_tree.".lft";
-
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		
+		$query = "SELECT * FROM ".$this->table_tree." ".
+			$this->buildJoin().
+			"WHERE ".$this->table_tree.".lft BETWEEN ? AND ? ".
+			"AND ".$this->table_tree.".".$this->tree_pk." = ? ".
+			$type_str.
+			"ORDER BY ".$this->table_tree.".lft";
+			
+		$sta = $ilDB->prepare($query,$fields);
+		$res = $ilDB->execute($sta,$data);
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			if($a_with_data)
 			{
@@ -870,7 +878,7 @@ class ilTree
 			}
 			$this->in_tree_cache[$row['child']] = true;
 		}
-
+		
 		return $subtree ? $subtree : array();
 	}
 
@@ -1024,29 +1032,35 @@ class ilTree
 	*/
 	function getPathIdsUsingNestedSets($a_endnode_id, $a_startnode_id = 0)
 	{
+		global $ilDB;
+		
 		// The nested sets algorithm is very easy to implement.
 		// Unfortunately it always does a full table space scan to retrieve the path
 		// regardless whether indices on lft and rgt are set or not.
 		// (At least, this is what happens on MySQL 4.1).
 		// This algorithms performs well for small trees which are deeply nested.
 		
-		
 		if (!isset($a_endnode_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getPathId(): No endnode_id given! ",$this->ilErr->WARNING);
 		}
 		
-		$q = "SELECT T2.child ".
-			"FROM ".$this->table_tree." AS T1, ".$this->table_tree." AS T2 ".
-			"WHERE T1.child = '".$a_endnode_id."' ".
+		$fields = array('integer','integer','integer');
+		$data = array($a_endnode_id,$this->tree_id,$this->tree_id);
+		
+		$query = "SELECT T2.child ".
+			"FROM ".$this->table_tree." T1, ".$this->table_tree." T2 ".
+			"WHERE T1.child = ? ".
 			"AND T1.lft BETWEEN T2.lft AND T2.rgt ".
-			"AND T1.".$this->tree_pk." = '".$this->tree_id." '".
-			"AND T2.".$this->tree_pk." = '".$this->tree_id." '".
+			"AND T1.".$this->tree_pk." = ? ".
+			"AND T2.".$this->tree_pk." = ? ".
 			"ORDER BY T2.depth";
-
-		$r = $this->ilDB->query($q);
+			
+		$sta = $ilDB->prepare($query,$fields);
+		$res = $ilDB->execute($sta,$data);
+		
 		$takeId = $a_startnode_id == 0;
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			if ($takeId || $row['child'] == $a_startnode_id)
 			{
@@ -1054,9 +1068,9 @@ class ilTree
 				$pathIds[] = $row['child'];
 			}
 		}
-		return $pathIds;
-
+		return $pathIds ? $pathIds : array();
 	}
+	
 	/**
 	* get path from a given startnode to a given endnode
 	* if startnode is not given the rootnode is startnode
@@ -1081,20 +1095,23 @@ class ilTree
 		
 		global $log, $ilDB;
 		
-		// Determine the depth of the endnode, and fetch its parent field also.
-		$q = 'SELECT t.depth,t.parent '.
-			'FROM '.$this->table_tree.' AS t '.
-			'WHERE child='.$this->ilDB->quote($a_endnode_id).' '.
-			'AND '.$this->tree_pk.' = '.$this->tree_id.' '.
-			'LIMIT 1';
-			//$this->writelog('getIdsUsingAdjacencyMap q='.$q);
-		$r = $this->ilDB->query($q);
+		$types = array('integer','integer');
+		$data = array($a_endnode_id,$this->tree_id);
 		
-		if ($r->numRows() == 0)
+		$query = 'SELECT t.depth, t.parent '.
+			'FROM '.$this->table_tree.' t '.
+			'WHERE child = ? '.
+			'AND '.$this->tree_pk.' = ? ';
+		
+		$sta = $ilDB->prepare($query,$types);
+		$res = $ilDB->execute($sta,$data);
+		
+		if($res->numRows() == 0)
 		{
 			return array();
 		}
-		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		$row = $ilDB->fetchAssoc($res);
 		$nodeDepth = $row['depth'];
 		$parentId = $row['parent'];
 			//$this->writelog('getIdsUsingAdjacencyMap depth='.$nodeDepth);
@@ -2650,30 +2667,6 @@ class ilTree
             return true;
     }
 
- 	/**
-     * build sql query for type filter
-     *
-     * @param mixed $types may be a single value or an array of value
-     * @return string sql filter string connection with OR
-     */
-    private function buildTypeFilter ($fieldname, $types) {
-    	global $ilDB;
-    	$type_str = "";
-		if (is_array($types) && count ($types) > 0)
-		{
-			$type_str = " AND ";
-			if (is_array($types)) {
-				$type_filter = array();
-				foreach ($types as $type) {
-					$type_filter []= $fieldname."='".$type."'";
-				}
-				$type_str .= " (" . join (" OR ", $type_filter) .") ";				
-			}										
-		} elseif (is_string($types) && strlen($types) > 0) {
-				$type_str .= " AND ".$fieldname."= ".$ilDB->quote($types)." "; 
-		}	
-		return $type_str;    	
-    }
 
 } // END class.tree
 ?>

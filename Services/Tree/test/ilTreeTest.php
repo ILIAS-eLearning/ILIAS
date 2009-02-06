@@ -1,0 +1,128 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+/** 
+* Unit tests for tree table
+* 
+* @author Stefan Meyer <meyer@leifos.com>
+* @version $Id$
+* 
+*
+* @ingroup ServicesTree
+*/
+class ilTreeTest extends PHPUnit_Framework_TestCase
+{
+	protected $backupGlobals = FALSE;
+
+	protected function setUp()
+	{
+		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+		ilUnitUtil::performInitialisation();
+	}
+	
+	public function testGetChild()
+	{
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$childs = $tree->getChilds(14); // Chat settings (contains public chat)
+		
+		$this->assertEquals(count($childs),1);
+	}
+	
+	/**
+	 * get childs by type
+	 *
+	 * @static
+	 */
+	 public function testGetChildsByType()
+	 {
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$childs = $tree->getChildsByType(9,'cals'); // only calendar settings
+		
+		$this->assertEquals(count($childs),1);
+	 }
+	
+	/**
+	 * get childs by type filter
+	 *
+	 * @static
+	 */
+	 public function testGetChildsByTypeFilter()
+	 {
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$childs = $tree->getChildsByTypeFilter(9,array('cals','rolf')); // only calendar settings and role folder
+		
+		$this->assertEquals(count($childs),2);
+	 }
+
+	/**
+	 * get childs by type filter
+	 *
+	 * @static
+	 */
+	 public function testGetSubTree()
+	 {
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		
+		$root = $tree->getNodeData(1);
+		$childs = $tree->getSubTree($root,false,'cals'); // only calendar settings
+		
+		$this->assertEquals(count($childs),1);
+	 
+	 }
+	 
+	 /**
+	 * get path ids using nested set 
+	 * @param
+	 * @return
+	 */
+	public function testGetPathIdsUsingNestedSet()
+	{
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$ids = $tree->getPathIdsUsingNestedSets(24,9); // Administration -> Public Chat => should return 9,14,24 (chat server settings)
+		
+		$this->assertEquals($ids,array(9,14,24));		
+
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$ids = $tree->getPathIdsUsingNestedSets(24); // Administration -> Public Chat => should return 9,14,24 (chat server settings)
+		
+		$this->assertEquals($ids,array(1,9,14,24));
+
+	}
+	
+	/**
+	 * get path ids (adjacenca and nested set) 
+	 * @param
+	 * @return
+	 */
+	public function testGetPathIds()
+	{
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$ids_ns = $tree->getPathIdsUsingNestedSets(24);
+		$ids_al = $tree->getPathIdsUsingAdjacencyMap(24);
+		
+		$this->assertEquals($ids_ns,array_merge($ids_al));		 
+	}
+	 		
+	 
+}
+?>
