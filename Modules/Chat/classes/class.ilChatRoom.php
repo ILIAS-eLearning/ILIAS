@@ -431,7 +431,7 @@ class ilChatRoom
 	{
 		global $ilDB;
 		
-		$statement = $this->ilias->db->prepare('
+		$statement = $$ilDB->prepare('
 			SELECT * FROM chat_user 
 			WHERE chat_id = ?
 			AND room_id = ?
@@ -439,9 +439,9 @@ class ilChatRoom
 			array('integer', 'integer', 'integer')
 		);
 		
-		$data = array($chat_id, $room_id, time() - 40);
+		$data = array($this->getObjId(), $this->room_id, time() - 40);
 		
-		$res = $this->ilias->db->execute($statement, $data);		
+		$res = $ilDB->execute($statement, $data);		
 				
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
