@@ -7338,4 +7338,7 @@ CREATE TABLE `abstraction_progress` (
   PRIMARY KEY  (`table_name`,`step`),
   INDEX t(table_name)
 ) Type=MyISAM;
-
+<#1538>
+<?php
+	$ilMySQLAbstraction->performAbstraction("usr_session");
+?>
