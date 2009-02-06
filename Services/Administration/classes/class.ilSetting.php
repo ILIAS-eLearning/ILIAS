@@ -124,7 +124,7 @@ class ilSetting
 		global $ilDB;
 		
 		$st = $ilDB->prepareManip("DELETE FROM settings WHERE module = ? AND keyword ".
-			$ilDB->like(), array("text", "text"));
+			$ilDB->like("text"), array("text", "text"));
 		$ilDB->execute($st, array($this->module, $a_like));
 
 		$this->read();

@@ -966,8 +966,17 @@ class ilDB
 		return "now()";
 	}
 	
-	function like()
+	/**
+	* Like
+	*
+	* @param	string		column type; must be "text" or "clob"
+	*/
+	function like($a_type)
 	{
+		if (!in_array($a_type, array("text", "clob")))
+		{
+			$this->raiseError("Like: Invalid column type '".$a_type."'.", $this->error_class->FATAL);
+		}
 		return "LIKE(?)";
 	}
 
