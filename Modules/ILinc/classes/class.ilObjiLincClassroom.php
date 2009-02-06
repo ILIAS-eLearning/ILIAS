@@ -73,12 +73,17 @@ class ilObjiLincClassroom extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT course_id FROM ilinc_data ".
-			 "LEFT JOIN object_reference ON object_reference.obj_id=ilinc_data.obj_id ".
-			 "WHERE object_reference.ref_id = ".$ilDB->quote($a_ref_id);
-		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-
+		$statement = $ilDB->prepare('
+			SELECT course_id FROM ilinc_data 
+			LEFT JOIN object_reference ON object_reference.obj_id = ilinc_data.obj_id 
+			WHERE object_reference.ref_id = ?',
+			array('integer')
+		);
+		
+		$data = array($a_ref_id);
+		$res = $ilDB->execute($statement, $data);
+		$obj_rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		
 		return $obj_rec["course_id"];
 	}
 	
@@ -244,9 +249,17 @@ class ilObjiLincClassroom extends ilObject
 		global $ilDB, $lng;
 		
 		$fullname = false;
+
+		$ilDB->setLimit(1);
+		$statement = $ilDB->prepare('
+			SELECT title, firstname, lastname FROM usr_data
+			WHERE ilinc_id = ?',
+			array('integer')
+		);
 		
-		$q = "SELECT title,firstname,lastname FROM usr_data WHERE ilinc_id = ".$ilDB->quote($a_ilinc_user_id)." LIMIT 1";
-		$r = $ilDB->query($q);
+		$data = array($a_ilinc_user_id);
+		$r = $ilDB->execute($statement, $data);
+		
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
