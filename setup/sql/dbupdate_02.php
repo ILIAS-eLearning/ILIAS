@@ -7361,3 +7361,22 @@ DROP TABLE `dp_neg_dates`;
 <#1544>
 DROP TABLE `dp_properties`;
 
+<#1545>
+DROP TABLE `meta_data`;
+
+<#1546>
+DROP TABLE `meta_keyword`;
+
+<#1547>
+DROP TABLE `meta_technical`;
+
+<#1548>
+DROP TABLE `meta_techn_format`;
+
+<#1549>
+DROP TABLE `meta_techn_loc`;
+
+
+
+
+
