@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -55,20 +55,20 @@ class ilObjDefReader extends ilSaxParser
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM il_object_def";
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM il_object_def");
+		$ilDB->execute($st);
 		
-		$q = "DELETE FROM il_object_subobj";
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM il_object_subobj");
+		$ilDB->execute($st);
 		
-		$q = "DELETE FROM il_object_group";
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM il_object_group");
+		$ilDB->execute($st);
 
-		$q = "DELETE FROM il_pluginslot";
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM il_pluginslot");
+		$ilDB->execute($st);
 		
-		$q = "DELETE FROM il_component";
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM il_component");
+		$ilDB->execute($st);
 	}
 
 	/**
@@ -89,47 +89,47 @@ class ilObjDefReader extends ilSaxParser
 		{
 			case 'object':
 				$this->current_object = $a_attribs["id"];
-				$q = "REPLACE INTO il_object_def (id, class_name, component,location,".
-					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,default_pres_pos,sideblock,grp,system) VALUES (".
-					$ilDB->quote($a_attribs["id"]).",".
-					$ilDB->quote($a_attribs["class_name"]).",".
-					$ilDB->quote($this->current_component).",".
-					$ilDB->quote($this->current_component."/".$a_attribs["dir"]).",".
-					$ilDB->quote((int) $a_attribs["checkbox"]).",".
-					$ilDB->quote((int) $a_attribs["inherit"]).",".
-					$ilDB->quote($a_attribs["translate"]).",".
-					$ilDB->quote((int) $a_attribs["devmode"]).",".
-					$ilDB->quote((int) $a_attribs["allow_link"]).",".
-					$ilDB->quote((int) $a_attribs["allow_copy"]).",".
-					$ilDB->quote((int) $a_attribs["rbac"]).",".
-					$ilDB->quote((int) $a_attribs["default_pos"]).",".
-					$ilDB->quote((int) $a_attribs["default_pres_pos"]).",".
-					$ilDB->quote((int) $a_attribs["sideblock"]).",".
-					$ilDB->quote($a_attribs["group"]).",".
-					$ilDB->quote((int) $a_attribs["system"]).")";
-				$ilDB->query($q);
+				$st = $ilDB->prepareManip("INSERT INTO il_object_def (id, class_name, component,location,".
+					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,default_pres_pos,sideblock,grp,system) VALUES ".
+					"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+					array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
+						"integer","integer","integer","integer", "text", "integer"));
+//echo "<br>-insert-".$a_attribs["id"];
+				$ilDB->execute($st, array(
+					$a_attribs["id"],
+					$a_attribs["class_name"],
+					$this->current_component,
+					$this->current_component."/".$a_attribs["dir"],
+					(int) $a_attribs["checkbox"],
+					(int) $a_attribs["inherit"],
+					$a_attribs["translate"]."",
+					(int) $a_attribs["devmode"],
+					(int) $a_attribs["allow_link"],
+					(int) $a_attribs["allow_copy"],
+					(int) $a_attribs["rbac"],
+					(int) $a_attribs["default_pos"],
+					(int) $a_attribs["default_pres_pos"],
+					(int) $a_attribs["sideblock"],
+					$a_attribs["group"]."",
+					(int) $a_attribs["system"]));
 				break;
 			
 			case "subobj":
-				$ilDB->query("INSERT INTO il_object_subobj (parent, subobj, max) VALUES (".
-					$ilDB->quote($this->current_object).",".
-					$ilDB->quote($a_attribs["id"]).",".
-					$ilDB->quote($a_attribs["max"]).")");
+				$st = $ilDB->prepareManip("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (?,?,?)",
+					array("text", "text", "integer"));
+				$ilDB->execute($st, array($this->current_object, $a_attribs["id"], (int) $a_attribs["max"]));
 				break;
 
 			case "parent":
-				$ilDB->query("INSERT INTO il_object_subobj (parent, subobj, max) VALUES (".
-					$ilDB->quote($a_attribs["id"]).",".
-					$ilDB->quote($this->current_object).",".
-					$ilDB->quote($a_attribs["max"]).")");
+				$st = $ilDB->prepareManip("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (?,?,?)",
+					array("text", "text", "integer"));
+				$ilDB->execute($st, array($a_attribs["id"], $this->current_object, (int) $a_attribs["max"]));
 				break;
 
 			case "objectgroup":
-				$ilDB->query("INSERT INTO il_object_group (id, name, default_pres_pos) VALUES (".
-					$ilDB->quote($a_attribs["id"]).",".
-					$ilDB->quote($a_attribs["name"]).",".
-					$ilDB->quote($a_attribs["default_pres_pos"]).
-					")");
+				$st = $ilDB->prepareManip("INSERT INTO il_object_group (id, name, default_pres_pos) VALUES (?,?,?)",
+					array("text", "text", "integer"));
+				$ilDB->execute($st, array($a_attribs["id"], $a_attribs["name"], $a_attribs["default_pres_pos"]));
 				break;
 				
 			case "pluginslot":

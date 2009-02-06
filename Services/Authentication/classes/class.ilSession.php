@@ -25,7 +25,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id:$
 * 
-* @externalTableAccess: ilObjUser on usr_session
+* @externalTableAccess ilObjUser on usr_session
 * @ingroup ServicesAuthentication
 */
 class ilSession

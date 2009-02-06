@@ -7380,4 +7380,19 @@ DROP TABLE `meta_techn_loc`;
 <?php
 	$ilMySQLAbstraction->performAbstraction("il_object_def");
 ?>
+<#1551>
+ALTER TABLE `il_object_subobj` CHANGE `max` `mmax` TINYINT NOT NULL;
+<#1552>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1553>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1554>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
 

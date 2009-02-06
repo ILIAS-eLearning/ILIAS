@@ -26,12 +26,11 @@
 * parses the objects.xml
 * it handles the xml-description of all ilias objects
 *
-* @author Stefan Meyer <smeyer@databay>
+* @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @extends PEAR
+* @externalTableAccess ilObjDefReader on il_object_def, il_object_subobj, il_object_group 
 */
-//class ilObjectDefinition extends ilSaxParser
 class ilObjectDefinition extends ilSaxParser
 {
 	/**
@@ -89,32 +88,7 @@ class ilObjectDefinition extends ilSaxParser
 //		$this->startParsing();
 	}
 
-	
-/*
-	function startParsing()
-	{
-		global $ilDB;
 		
-		$ret = parent::startParsing();
-		
-		// checked:
-		// - location: ok
-		// - class_name: ok
-		// - checkbox: ok
-		// - inherit: ok
-		// - translate: ok
-		// - devmode: ok
-		// - allow_link: ok
-		// - allow_copy: ok
-		// - rbac: ok
-		// - system: ok
-		// - sideblock: ok
-		// - subobj/max: ok
-		
-		return $ret;
-	}
-*/
-	
 	/**
 	* Read object definition data
 	*/
@@ -124,8 +98,9 @@ class ilObjectDefinition extends ilSaxParser
 		
 		$this->obj_data = array();
 		
-		$set = $ilDB->query("SELECT * FROM il_object_def");
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		$st = $ilDB->prepare("SELECT * FROM il_object_def");
+		$set = $ilDB->execute($st);
+		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$this->obj_data[$rec["id"]] = array(
 				"name" => $rec["id"],
@@ -144,13 +119,14 @@ class ilObjectDefinition extends ilSaxParser
 				"default_pos" => $rec["default_pos"],
 				"sideblock" => $rec["sideblock"]);
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
-			
+
 			// get subobjects
-			$set2 = $ilDB->query("SELECT * FROM il_object_subobj WHERE parent = ".
-				$ilDB->quote($rec["id"]));
-			while ($rec2 = $set2->fetchRow(DB_FETCHMODE_ASSOC))
+			$st2 = $ilDB->prepare("SELECT * FROM il_object_subobj WHERE parent = ?",
+				array("text"));
+			$set2 = $ilDB->execute($st2, array($rec["id"]));
+			while ($rec2 = $ilDB->fetchAssoc($set2))
 			{
-				$max = $rec2["max"];
+				$max = $rec2["mmax"];
 				if ($max <= 0)				// for backward compliance
 				{
 					$max = "";
@@ -163,13 +139,14 @@ class ilObjectDefinition extends ilSaxParser
 			}
 		}
 		
-		$set = $ilDB->query("SELECT * FROM il_object_group");
+		$st = $ilDB->prepare("SELECT * FROM il_object_group");
+		$set = $ilDB->execute($st);
 		$this->obj_group = array();
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$this->obj_group[$rec["id"]] = $rec;
 		}
-
+//var_dump($this->obj_data);
 //var_dump($this->obj_data["root"]);
 //var_dump($this->obj_data2["root"]);
 
@@ -177,19 +154,6 @@ class ilObjectDefinition extends ilSaxParser
 	
 	
 // PUBLIC METHODS
-
-	/**
-	* get object definition by type
-	*
-	* @param	string	object type
-	* @access	public
-	*/
-/*	Deprecated, use more specialized functions instead
-	function getDefinition($a_obj_name)
-	{
-		return $this->obj_data[$a_obj_name];
-	}
-*/
 
 	/**
 	* get class name by type
@@ -213,20 +177,6 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		return $this->obj_data[$a_obj_name]["location"];
 	}
-
-
-	/**
-	* get module by type
-	*
-	* @param	string	object type
-	* @access	public
-	*/
-/*	Deprecated, use getLocation instead
-	function getModule($a_obj_name)
-	{
-		return $this->obj_data[$a_obj_name]["module"];
-	}
-*/
 
 	/**
 	* Get Group information
@@ -299,50 +249,6 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		return (bool) $this->obj_data[$a_obj_name]["inherit"];
 	}
-
-	/**
-	* get properties by type
-	*
-	* @param	string	object type
-	* @access	public
-	*/
-/*	Deprecated
-	function getProperties($a_obj_name)
-	{
-		// dirty hack, has to be implemented better, if ilias.php
-		// is established
-		if (defined("ILIAS_MODULE") || $_GET["baseClass"] != "")
-		{
-			$props = array();
-			if (is_array($this->obj_data[$a_obj_name]["properties"]))
-			{
-				foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
-				{
-					if ($prop["module"] != "n")
-					{
-						$props[$data] = $prop;
-					}
-				}
-			}
-			return $props;
-		}
-		else
-		{
-			$props = array();
-			if (is_array($this->obj_data[$a_obj_name]["properties"]))
-			{
-				foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
-				{
-					if ($prop["module"] != 1)
-					{
-						$props[$data] = $prop;
-					}
-				}
-			}
-			return $props;
-		}
-	}
-*/
 
 	/**
 	* get devmode status by type
@@ -614,77 +520,6 @@ class ilObjectDefinition extends ilSaxParser
 		return $subobjects;
 	}
 	
-/*	function getCreatableObjectTypes()
-	{
-		$s1 = $this->getSubObjects("cat");
-		$s2 = $this->getSubObjects("grp");
-		$s3 = $this->getSubObjects("fold");
-		
-//var_dump($s1);
-//var_dump($s2);
-	}
-*/
-	/**
-	* get possible actions by type
-	*
-	* @param	string	object type
- 	* @access	public
-	*/
-/*	Deprecated, derive from ilObjectGUI->getActions() instead
-	function getActions($a_obj_name)
-	{
-		$ret = (is_array($this->obj_data[$a_obj_name]["actions"])) ?
-			$this->obj_data[$a_obj_name]["actions"] :
-			array();
-		return $ret;
-	}
-*/
-
-	/**
-	* get default property by type
-	*
-	* @param	string	object type
-	* @access	public
-	*/
-/*	Deprecated
-	function getFirstProperty($a_obj_name)
-	{
-		if (defined("ILIAS_MODULE"))
-		{
-			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
-			{
-				if($prop["module"] != "n")
-				{
-					return $data;
-				}
-			}
-		}
-		else
-		{
-			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
-			{
-				if ($prop["module"] != 1)
-				{
-					return $data;
-				}
-			}
-		}
-	}
-*/
-	
-	/**
-	* get name of property by type
-	*
-	* @param	string	object type
-	* @access	public
-	*/
-/*	Deprecated
-	function getPropertyName($a_cmd, $a_obj_name)
-	{
-		return $this->obj_data[$a_obj_name]["properties"][$a_cmd]["lng"];
-	}
-*/
-
 	/**
 	* get a string of all subobjects by type
 	*
@@ -704,32 +539,6 @@ class ilObjectDefinition extends ilSaxParser
 		
 		return $string;
 	}
-
-	/**
-	* get all subobjects that may be imported
-	*
-	* @param	string	object type
-	* @access	public
-	*/
-/*	Deprecated
-	function getImportObjects($a_obj_type)
-	{
-		$imp = array();
-
-		if (is_array($this->obj_data[$a_obj_type]["subobjects"]))
-		{
-			foreach ($this->obj_data[$a_obj_type]["subobjects"] as $sub)
-			{
-				if ($sub["import"] == 1)
-				{
-					$imp[] = $sub["name"];
-				}
-			}
-		}
-
-		return $imp;
-	}
-*/
 	
 	/**
 	 * Check if object type is container ('crs','fold','grp' ...)
@@ -876,11 +685,12 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT * FROM il_object_def WHERE component = ".
-			$ilDB->quote($a_component_type."/".$a_component_name));
+		$st = $ilDB->prepare("SELECT * FROM il_object_def WHERE component = ?",
+			array("text"));
+		$set = $ilDB->execute($st, array($a_component_type."/".$a_component_name));
 			
 		$types = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if ($rec["system"] != 1)
 			{
@@ -898,7 +708,8 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT * FROM il_object_group");
+		$st = $ilDB->prepare("SELECT * FROM il_object_group");
+		$set = $ilDB->execute($st);
 		$groups = array();
 		while ($gr_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -907,21 +718,25 @@ class ilObjectDefinition extends ilSaxParser
 
 		if (!is_array($a_parent_obj_type))
 		{
-			$set = $ilDB->query("SELECT il_object_def.* FROM il_object_def, il_object_subobj ".
+			$st = $ilDB->prepare("SELECT il_object_def.* FROM il_object_def, il_object_subobj ".
 				" WHERE NOT (system = 1) AND NOT (sideblock = 1) AND ".
-				" parent = ".$ilDB->quote($a_parent_obj_type).
-				" AND subobj = id ");
+				" parent = ? ".
+				" AND subobj = id ", array("text"));
+			$set = $ilDB->execute($st, array($a_parent_obj_type));
 		}
 		else
 		{
-			$set = $ilDB->query("SELECT DISTINCT (id) as sid, il_object_def.* FROM il_object_def, il_object_subobj ".
+			$q = "SELECT DISTINCT (id) as sid, il_object_def.* FROM il_object_def, il_object_subobj ".
 				" WHERE NOT (system = 1) AND NOT (sideblock = 1) AND ".
-				" parent IN (".implode(",",ilUtil::quoteArray($a_parent_obj_type)).") ".
-				" AND subobj = id ");
+				$ilDB->in("parent", $a_parent_obj_type).
+				" AND subobj = id ";
+			$type_arr = $ilDB->addTypesToArray(array(), "text", count($a_parent_obj_type));
+			$st = $ilDB->prepare($q, $type_arr);
+			$set = $ilDB->execute($st, $a_parent_obj_type);
 		}
 			
 		$grouped_obj = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if ($rec["grp"] != "")
 			{
