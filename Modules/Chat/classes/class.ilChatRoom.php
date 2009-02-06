@@ -130,7 +130,7 @@ class ilChatRoom
 	{
 		global $ilDB;
 		
-		$statement = $this->ilias->db->prepare('
+		$statement = $ilDB->prepare('
 			SELECT * FROM chat_invitations
 			WHERE chat_id = ?
 			AND	room_id = ?
@@ -139,38 +139,34 @@ class ilChatRoom
 		);
 		
 		$data = array($this->getObjId(), $this->getRoomId(), $a_id);
-		$res = $this->ilias->db->execute($statement, $data);
-		
+		$res = $ilDB->execute($statement, $data);
+
 		if($res->numRows() > 0)
-		{
-			$statement = $this->ilias->db->prepareManip('
+		{		
+			$statement = $ilDB->prepareManip('
 				UPDATE chat_invitations
-				SET invitation_time = ?
+				SET invitation_time = ?,
+				guest_informed = ?
 				WHERE chat_id = ?
 				AND	room_id = ?
 				AND	guest_id = ?',
-				array('integer', 'integer', 'integer', 'integer')
+				array('integer', 'integer', 'integer', 'integer', 'integer')
 			);
 			
-			$data = array(time(), $this->getObjId(), $this->getRoomId(), $a_id);
-	
-			$res = $this->ilias->db->execute($statement, $data);
+			$data = array(time(), 0, $this->getObjId(), $this->getRoomId(), $a_id);	
+			$res = $ilDB->execute($statement, $data);
 		}
 		else
 		{
-			$statement = $this->ilias->db->prepareManip('
-				INSERT INTO chat_invitations
-				SET chat_id = ?,
-					room_id = ?,
-					guest_id = ?,
-					invitation_time = ?',
+			$statement = $ilDB->prepareManip(
+				'INSERT INTO chat_invitations (chat_id, room_id, guest_id, invitation_time) '.
+				'VALUES(?, ?, ?, ?)',
 				array('integer', 'integer', 'integer', 'integer')
 			);
 			
 			$data = array($this->getObjId(), $this->getRoomId(), $a_id, time());
-			$res = $this->ilias->db->execute($statement, $data);
-		}
-		
+			$res = $ilDB->execute($statement, $data);
+		}		
 	}
 	
 	function drop($a_id)
