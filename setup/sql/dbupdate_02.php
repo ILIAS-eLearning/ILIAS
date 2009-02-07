@@ -6601,7 +6601,7 @@ $ilCtrlStructureReader->getStructure();
 				"page_parent_type" => array(
 					"type" => "text", "length" => 10, "default" => "", "notnull" => true),
 				"page_id" => array(
-					"type" => "integer", "default" => 0, "notnull" => true),
+					"type" => "integer", "length" => 4, "default" => 0, "notnull" => true),
 				"anchor_name" => array(
 					"type" => "text", "length" => 120, "default" => "", "notnull" => true)
 				)
@@ -7246,9 +7246,9 @@ $ilCtrlStructureReader->getStructure();
 		$ilDB->createTable("qpl_question_orderinghorizontal",
 			array(
 				"question_fi" => array(
-					"type" => "integer", "notnull" => true),
+					"type" => "integer", "length" => 4, "notnull" => true),
 				"ordertext" => array(
-					"type" => "text", "notnull" => true),
+					"type" => "text", "length" => 2000, "notnull" => true),
 				"textsize" => array(
 					"type" => "float", "notnull" => false)
 				)
@@ -7329,10 +7329,16 @@ CREATE TABLE IF NOT EXISTS `search_command_queue` (
 ) Type=MyISAM;
 <#1536>
 <?php
+	$ilDB->query("CREATE TABLE `abstraction_progress` (
+		`table_name` VARCHAR(100),
+		`step` INT NOT NULL,
+		PRIMARY KEY  (`table_name`,`step`),
+		INDEX t(table_name)
+		) Type=MyISAM;");
 	$ilMySQLAbstraction->performAbstraction("settings");
 ?>
 <#1537>
-CREATE TABLE `abstraction_progress` (
+CREATE TABLE IF NOT EXISTS `abstraction_progress` (
   `table_name` VARCHAR(100),
   `step` INT NOT NULL,
   PRIMARY KEY  (`table_name`,`step`),
@@ -7394,5 +7400,3 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
-
