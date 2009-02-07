@@ -7400,3 +7400,12 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1555>
+<?php
+	$ilMySQLAbstraction->performAbstraction("il_object_subobj");
+?>
+<#1556>
+<?php
+	$ilMySQLAbstraction->performAbstraction("il_object_group");
+?>
+
