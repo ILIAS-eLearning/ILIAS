@@ -7408,4 +7408,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilMySQLAbstraction->performAbstraction("il_object_group");
 ?>
+<#1557>
+<?php
+	$ilMySQLAbstraction->performAbstraction("lng_modules");
+?>
 

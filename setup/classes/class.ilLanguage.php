@@ -500,9 +500,9 @@ class ilLanguage
 
 		if ($a_mode == 'all')
 		{
-			$query = "DELETE FROM lng_modules WHERE lang_key=".
-				$ilDB->quote($a_lang_key);
-			$ilDB->query($query);
+			$st = $ilDB->prepareManip("DELETE FROM lng_modules WHERE lang_key = ?",
+				array("text"));
+			$ilDB->execute($st, array($a_lang_key));
 		}
 	}
 
@@ -663,30 +663,39 @@ class ilLanguage
 			{
 				if ($scope == "local")
 				{
-					$q = "SELECT * FROM lng_modules WHERE ".
-						" lang_key = ".$ilDB->quote($this->key).
-						" AND module = ".$ilDB->quote($module);
-					$set = $ilDB->query($q);
-					$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
+					$st = $ilDB->prepare("SELECT * FROM lng_modules " .
+						"WHERE lang_key = ? AND module = ?",
+						array("text", "text"));
+					$set = $ilDB->execute($st, array($this->key, $module));
+					$row = $ilDB->fetchAssoc($set);
 					$arr2 = unserialize($row["lang_array"]);
 					if (is_array($arr2))
 					{
 						$lang_arr = array_merge($arr2, $lang_arr);
 					}
 				}
-				$query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES ".
-					 "(".$ilDB->quote($lang_key).", " .
-					 " ".$ilDB->quote($module).", " . 
-					 " ".$ilDB->quote(serialize($lang_arr)).") ";
-				$ilDB->query($query);
-
+				ilLanguage::replaceLangModule($lang_key, $module, $lang_arr);
 			}
 		}
 
 		chdir($tmpPath);
 	}
 
-	
+	/**
+	* Replace language module array
+	*/
+	static final function replaceLangModule($a_key, $a_module, $a_array)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("DELETE FROM lng_modules WHERE lang_key = ? AND module = ?",
+			array("text", "text"));
+		$ilDB->execute($st, array($a_key, $a_module));
+		$st = $ilDB->prepareManip("INSERT INTO lng_modules (lang_key, module, lang_array) VALUES ".
+			"(?,?,?)", array("text", "text", "clob"));
+		$ilDB->execute($st, array($a_key, $a_module, serialize($a_array)));
+	}
+
 	/**
 	 * Searches for the existence of *.lang.local files.
 	 *

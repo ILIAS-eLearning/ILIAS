@@ -150,7 +150,14 @@ class ilDBUpdate
 	function getCurrentVersion()
 	{
 		$GLOBALS["ilDB"] = $this->db;
-		include_once '../Services/Administration/classes/class.ilSetting.php';
+		if (is_file('../Services/Administration/classes/class.ilSetting.php'))
+		{
+			include_once '../Services/Administration/classes/class.ilSetting.php';
+		}
+		else
+		{
+			include_once './Services/Administration/classes/class.ilSetting.php';
+		}
 		$set = new ilSetting();
 		$this->currentVersion = (integer) $set->get("db_version");
 

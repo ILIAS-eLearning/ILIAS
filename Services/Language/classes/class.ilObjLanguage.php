@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -250,9 +250,9 @@ class ilObjLanguage extends ilObject
 
 		if ($a_mode == 'all')
 		{
-			$query = "DELETE FROM lng_modules WHERE lang_key=".
-				$ilDB->quote($this->key);
-			$ilDB->query($query);
+			$st = $ilDB->prepareManip("DELETE FROM lng_modules WHERE lang_key = ?",
+				array("text"));
+			$ilDB->execute($st, array($this->key));
 		}
 	}
 
@@ -435,22 +435,18 @@ class ilObjLanguage extends ilObject
 			{
 				if ($scope == "local")
 				{
-					$q = "SELECT * FROM lng_modules WHERE ".
-						" lang_key = ".$ilDB->quote($this->key).
-						" AND module = ".$ilDB->quote($module);
-					$set = $ilDB->query($q);
-					$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
+					$st = $ilDB->prepare("SELECT * FROM lng_modules " .
+						"WHERE lang_key = ? AND module = ?",
+						array("text", "text"));
+					$set = $ilDB->execute($st, array($this->key, $module));
+					$row = $ilDB->fetchAssoc($set);
 					$arr2 = unserialize($row["lang_array"]);
 					if (is_array($arr2))
 					{
 						$lang_arr = array_merge($arr2, $lang_arr);
 					}
 				}
-				$query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES ".
-					 "(".$ilDB->quote($this->key).", " .
-					 " ".$ilDB->quote($module).", " . 
-					 " ".$ilDB->quote(serialize($lang_arr)).") ";
-				$ilDB->query($query);
+				ilObjLanguage::replaceLangModule($this->key, $module, $lang_arr);
 			}
 		}
 
@@ -464,11 +460,12 @@ class ilObjLanguage extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES ".
-			 "(".$ilDB->quote($a_key).", " .
-			 " ".$ilDB->quote($a_module).", " . 
-			 " ".$ilDB->quote(serialize($a_array)).") ";
-		$ilDB->query($query);
+		$st = $ilDB->prepareManip("DELETE FROM lng_modules WHERE lang_key = ? AND module = ?",
+			array("text", "text"));
+		$ilDB->execute($st, array($a_key, $a_module));
+		$st = $ilDB->prepareManip("INSERT INTO lng_modules (lang_key, module, lang_array) VALUES ".
+			"(?,?,?)", array("text", "text", "clob"));
+		$ilDB->execute($st, array($a_key, $a_module, serialize($a_array)));
 	}
 
 	/**
