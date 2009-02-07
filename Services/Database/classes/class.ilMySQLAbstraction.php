@@ -78,6 +78,10 @@ class ilMySQLAbstraction
 	{
 		// to do: log this procedure
 		
+		
+		// count number of records at the beginning
+		$nr_rec = $this->countRecords($a_table_name);
+		
 		// convert table name to lowercase
 		if (!$this->getTestMode())
 		{
@@ -161,6 +165,32 @@ class ilMySQLAbstraction
 		{
 			$this->storeStep($a_table_name, 100);
 		}
+		
+		$nr_rec2 = $this->countRecords($a_table_name);
+
+		if (!$this->getTestMode())
+		{
+			if ($nr_rec != $nr_rec2)
+			{
+				die("ilMySQLAbstraction: Unexpected difference in table record number, table '".$a_table_name."'.".
+					" Before: ".((int) $nr_rec).", After: ".((int) $nr_rec2).".");
+			}
+		}
+	}
+	
+	
+	/**
+	* Check number of records before and after
+	*/
+	function countRecords($a_table_name)
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepare("SELECT count(*) AS cnt FROM `".$a_table_name."`");
+		$res = $ilDB->execute($st);
+		$rec = $ilDB->fetchAssoc($res);
+		
+		return $rec["cnt"];
 	}
 	
 	/**
