@@ -210,8 +210,9 @@ class ilObjLanguageExt extends ilObjLanguage
 			case 'delete':
 				$query = "DELETE FROM lng_data WHERE lang_key='".$this->key."'";
 				$ilDB->query($query);
-				$query = "DELETE FROM lng_modules WHERE lang_key='".$this->key."'";
-				$ilDB->query($query);
+				$st = $ilDB->prepareManip("DELETE FROM lng_modules WHERE lang_key = ?",
+					array("text"));
+				$ilDB->execute($st, array($this->key));
 				$to_keep = array();
 				break;
 				
@@ -370,21 +371,18 @@ class ilObjLanguageExt extends ilObjLanguage
 		// save the serialized module entries in lng_modules
 		foreach ($save_array as $module => $entries)
 		{
-			$q = "SELECT * FROM lng_modules WHERE ".
-				" lang_key = ".$ilDB->quote($a_lang_key).
-				" AND module = ".$ilDB->quote($module);
-			$set = $ilDB->query($q);
-			$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			$st = $ilDB->prepare("SELECT * FROM lng_modules " .
+				"WHERE lang_key = ? AND module = ?",
+				array("text", "text"));
+			$set = $ilDB->execute($st, array($a_lang_key, $module));
+			$row = $ilDB->fetchAssoc($set);
+			
 			$arr = unserialize($row["lang_array"]);
 			if (is_array($arr))
 			{
 				$entries = array_merge($arr, $entries);
 			}
-			$q = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES ".
-				 "(".$ilDB->quote($a_lang_key).", " .
-				 " ".$ilDB->quote($module).", " .
-				 " ".$ilDB->quote(serialize($entries)).") ";
-			$ilDB->query($q);
+			ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
 		}
 	}
 } // END class.ilObjLanguageExt

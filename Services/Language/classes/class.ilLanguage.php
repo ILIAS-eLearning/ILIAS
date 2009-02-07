@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -314,10 +314,10 @@ class ilLanguage
 		}
 */
 
-		$query = "SELECT * FROM lng_modules " .
-				"WHERE lang_key = ".$ilDB->quote($lang_key)." " .
-				"AND module = ".$ilDB->quote($a_module);
-		$r = $ilDB->query($query);
+		$st = $ilDB->prepare("SELECT * FROM lng_modules " .
+				"WHERE lang_key = ? AND module = ?",
+				array("text", "text"));
+		$r = $ilDB->execute($st, array($lang_key, $a_module));
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		$new_text = unserialize($row["lang_array"]);

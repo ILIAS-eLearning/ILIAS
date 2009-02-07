@@ -1928,7 +1928,8 @@ class ilSetupGUI
 				include_once "../Services/Object/classes/class.ilObjectDefinition.php";
 
 				// referencing db handler in language class
-				$this->lng->setDbHandler($this->setup->getClient()->db);
+				$ilDB = new ilDB($this->setup->getClient()->dsn);
+				$this->lng->setDbHandler($ilDB);
 
 				// referencing does not work in dbupdate-script
 				$ilDB = new ilDB($this->setup->getClient()->dsn);
@@ -1964,10 +1965,11 @@ class ilSetupGUI
 		if ($this->setup->getClient()->db_installed)
 		{
 			// referencing db handler in language class
-			$this->lng->setDbHandler($this->setup->getClient()->db);
+			//$this->lng->setDbHandler($this->setup->getClient()->db);
 
 			include_once "../Services/Database/classes/class.ilDBUpdate.php";
 			$ilDB = new ilDB($this->setup->getClient()->dsn);
+			$this->lng->setDbHandler($ilDB);
 			$dbupdate = new ilDBUpdate($ilDB);
 
 			if (!$db_status = $dbupdate->getDBVersionStatus())

@@ -941,9 +941,10 @@ class ilSetup extends PEAR
 		// TODO: move this to client class!!
 		$client->setup_ok = (bool) $client->getSetting("setup_ok");
 			
-		$this->lng->setDbHandler($client->db);
+		//$this->lng->setDbHandler($client->db);
 		include_once "../Services/Database/classes/class.ilDBUpdate.php";
 		$ilDB = new ilDB($client->dsn);
+		$this->lng->setDbHandler($ilDB);
 		$dbupdate = new ilDBUpdate($ilDB);
 				
 		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
