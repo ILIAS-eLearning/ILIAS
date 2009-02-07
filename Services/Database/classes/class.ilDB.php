@@ -45,7 +45,7 @@ define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 * @version $Id$
 * @ingroup ServicesDatabase
 */
-class ilDB
+class ilDB extends PEAR
 {
 	/**
 	* error class
@@ -98,11 +98,11 @@ class ilDB
 
 		//set up error handling
 		$this->error_class = new ilErrorHandling();
-//		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
 
 		//check dsn
 		if ($dsn=="")
-			$this->raiseError("No DSN given");
+			$this->raisePearError("No DSN given");
 
 		$this->dsn = $dsn;
 
@@ -160,7 +160,7 @@ class ilDB
 				$a_level = $this->error_class->FATAL;
 			}
 
-			$this->raiseError("ilDB Error: ".$a_info."<br />".
+			$this->raisePearError("ilDB Error: ".$a_info."<br />".
 				$a_res->getMessage()."<br />".$a_res->getUserInfo(), $a_level);
 		}
 		
@@ -170,13 +170,14 @@ class ilDB
 	/**
 	* Raise an error
 	*/
-	function raiseError($a_message, $a_level = "")
+	function raisePearError($a_message, $a_level = "")
 	{
 		if ($a_level == "")
 		{
 			$a_level = $this->error_class->FATAL;
 		}
-		$this->error_class->raiseError($a_message, $a_level);
+//echo "<br>-ilDB:raising-$a_message-$a_level-";
+		$this->raiseError($a_message, $a_level);
 	}
 	
 	/**
@@ -226,14 +227,14 @@ class ilDB
 		// check table name
 		if (!$this->checkTableName($a_name))
 		{
-			$this->raiseError("ilDB Error: createTable(".$a_name.")<br />".
+			$this->raisePearError("ilDB Error: createTable(".$a_name.")<br />".
 				$this->error_str);
 		}
 		
 		// check definition array
 		if (!$this->checkTableColumns($a_definition_array))
 		{
-			$this->raiseError("ilDB Error: createTable(".$a_name.")<br />".
+			$this->raisePearError("ilDB Error: createTable(".$a_name.")<br />".
 				$this->error_str);
 		}
 
@@ -302,12 +303,12 @@ class ilDB
 
 		if (!$this->checkColumnName($a_column))
 		{
-			$this->raiseError("ilDB Error: addTableColumn(".$a_table.", ".$a_column.")<br />".
+			$this->raisePearError("ilDB Error: addTableColumn(".$a_table.", ".$a_column.")<br />".
 				$this->error_str);
 		}
 		if (!$this->checkColumnDefinition($a_attributes))
 		{
-			$this->raiseError("ilDB Error: addTableColumn(".$a_table.", ".$a_column.")<br />".
+			$this->raisePearError("ilDB Error: addTableColumn(".$a_table.", ".$a_column.")<br />".
 				$this->error_str);
 		}
 		
@@ -386,7 +387,7 @@ class ilDB
 		}
 		if (!$this->checkColumnDefinition($check_array, true))
 		{
-			$this->raiseError("ilDB Error: modifyTableColumn(".$a_table.", ".$a_column.")<br />".
+			$this->raisePearError("ilDB Error: modifyTableColumn(".$a_table.", ".$a_column.")<br />".
 				$this->error_str);
 		}
 
@@ -421,7 +422,7 @@ class ilDB
 		// check table name
 		if (!$this->checkColumnName($a_new_column))
 		{
-			$this->raiseError("ilDB Error: renameTableColumn(".$a_table.",".$a_column.",".$a_new_column.")<br />".
+			$this->raisePearError("ilDB Error: renameTableColumn(".$a_table.",".$a_column.",".$a_new_column.")<br />".
 				$this->error_str);
 		}
 
@@ -463,7 +464,7 @@ class ilDB
 		// check table name
 		if (!$this->checkTableName($a_new_name))
 		{
-			$this->raiseError("ilDB Error: renameTable(".$a_name.",".$a_new_name.")<br />".
+			$this->raisePearError("ilDB Error: renameTable(".$a_name.",".$a_new_name.")<br />".
 				$this->error_str);
 		}
 
@@ -975,7 +976,7 @@ class ilDB
 	{
 		if (!in_array($a_type, array("text", "clob")))
 		{
-			$this->raiseError("Like: Invalid column type '".$a_type."'.", $this->error_class->FATAL);
+			$this->raisePearError("Like: Invalid column type '".$a_type."'.", $this->error_class->FATAL);
 		}
 		return "LIKE(?)";
 	}
@@ -1092,7 +1093,7 @@ class ilDB
 	{
 		if (!$this->db->supports('transactions'))
 		{
-			$this->raiseError("ilDB::beginTransaction: Transactions are not supported.", $this->error_class->FATAL);
+			$this->raisePearError("ilDB::beginTransaction: Transactions are not supported.", $this->error_class->FATAL);
 		}
 		$res = $this->db->beginTransaction();
 		
