@@ -37,7 +37,7 @@ class ilObjDefReader extends ilSaxParser
 	{
 		$this->name = $a_name;
 		$this->type = $a_type;
-//echo "-".$this->name."-".$this->type."-";
+//echo "<br>-".$a_path."-".$this->name."-".$this->type."-";
 		parent::ilSaxParser($a_path);
 	}
 	
@@ -71,6 +71,22 @@ class ilObjDefReader extends ilSaxParser
 		$ilDB->execute($st);
 	}
 
+	/**
+	* Delete an object definition (this is currently needed for test cases)
+	*/
+	static function deleteObjectDefinition($a_id)
+	{
+		global $ilDB;
+
+		$st = $ilDB->prepareManip("DELETE FROM il_object_def WHERE id = ?",
+			array("text"));
+		$ilDB->execute($st, array($a_id));
+		
+		$st = $ilDB->prepareManip("DELETE FROM il_object_subobj WHERE parent = ? OR subobj = ?",
+			array("text", "text"));
+		$ilDB->execute($st, array($a_id, $a_id));
+	}
+	
 	/**
 	* start tag handler
 	*
@@ -117,7 +133,7 @@ class ilObjDefReader extends ilSaxParser
 			case "subobj":
 				$st = $ilDB->prepareManip("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (?,?,?)",
 					array("text", "text", "integer"));
-				$ilDB->execute($st, array($this->current_object, $a_attribs["id"], (int) $a_attribs["max"]));
+				$t = $ilDB->execute($st, array($this->current_object, $a_attribs["id"], (int) $a_attribs["max"]));
 				break;
 
 			case "parent":
