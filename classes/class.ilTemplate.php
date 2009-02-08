@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -640,13 +640,11 @@ class ilTemplate extends ilTemplateX
 					$this->setVariable("C_ENTRY", $entry["class"]);
 					if (is_object($ilDB))
 					{
-						$set = $ilDB->query("SELECT file FROM ctrl_classfile WHERE LOWER(class) ".
-							" = ".$ilDB->quote(strtolower($entry["class"])));
-						$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+						$file = $ilCtrl->lookupClassPath($entry["class"]);
 						$add = $entry["mode"]." - ".$entry["cmd"];
-						if ($rec["file"] != "")
+						if ($file != "")
 						{
-							$add.= " - ".$rec["file"];
+							$add.= " - ".$file;
 						}
 						$this->setVariable("C_FILE", $add);
 					}
