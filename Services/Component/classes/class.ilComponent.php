@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -73,11 +73,10 @@ abstract class ilComponent
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT * FROM il_component WHERE type = ".
-			$ilDB->quote($this->getComponentType())." AND name = ".
-			$ilDB->quote($this->getName()));
-			
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$st = $ilDB->prepare("SELECT * FROM il_component WHERE type = ? ".
+			" AND name = ?", array("text", "text"));
+		$set = $ilDB->execute($st, array($this->getComponentType(), $this->getName()));			
+		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setId($rec["id"]);
 		$this->setPluginSlots(ilComponent::lookupPluginSlots(
@@ -134,10 +133,10 @@ abstract class ilComponent
 	{
 		global $ilDB;
 		
-		// this check is done due to security reasons
-		$set = $ilDB->query("SELECT * FROM il_component WHERE type = ".
-			$ilDB->quote($a_ctype)." AND name = ".$ilDB->quote($a_cname));
-		if ($set->numRows() == 0)
+		$st = $ilDB->prepare("SELECT * FROM il_component WHERE type = ? ".
+			" AND name = ?", array("text", "text"));
+		$set = $ilDB->execute($st, array($a_ctype, $a_cname));			
+		if (!$ilDB->fetchAssoc($set))
 		{
 			return null;
 		}
@@ -252,9 +251,11 @@ abstract class ilComponent
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT * FROM il_component WHERE type = ".
-			$ilDB->quote($a_type)." AND name = ".$ilDB->quote($a_name));
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$st = $ilDB->prepare("SELECT * FROM il_component WHERE type = ? ".
+			" AND name = ?", array("text", "text"));
+		$set = $ilDB->execute($st, array($a_type, $a_name));			
+
+		$rec = $ilDB->fetchAssoc($set);
 		
 		return $rec["id"];
 	}

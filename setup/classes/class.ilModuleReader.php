@@ -63,8 +63,8 @@ class ilModuleReader extends ilObjDefReader
 		// only this one clears parents tables (not service reader)
 		parent::clearTables();
 
-		$q = "DELETE FROM module_class";
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM module_class");
+		$ilDB->execute($st);
 	}
 
 
@@ -87,19 +87,15 @@ class ilModuleReader extends ilObjDefReader
 			case 'module':
 				$this->current_module = $this->name;
 				$this->current_component = $this->type."/".$this->name;
-				$q = "INSERT INTO il_component (type, name, id) VALUES ".
-					"(".$ilDB->quote($this->type).",".
-					$ilDB->quote($this->name).",".
-					$ilDB->quote($a_attribs["id"]).")";
-				$ilDB->query($q);
+				$st = $ilDB->prepareManip("INSERT INTO il_component (type, name, id) ".
+					"VALUES (?,?,?)", array("text", "text", "text"));
+				$ilDB->execute($st, array($this->type, $this->name, $a_attribs["id"]));
 				break;
 				
 			case 'baseclass':
-				$q = "INSERT INTO module_class (module, class, dir) VALUES ".
-					"(".$ilDB->quote($this->name).",".
-					$ilDB->quote($a_attribs["name"]).",".
-					$ilDB->quote($a_attribs["dir"]).")";
-				$ilDB->query($q);
+				$st = $ilDB->prepareManip("INSERT INTO module_class (module, class, dir) ".
+					"VALUES (?,?,?)", array("text", "text", "text"));
+				$ilDB->execute($st, array($this->name, $a_attribs["name"], $a_attribs["dir"]));
 				break;
 				
 		}

@@ -107,33 +107,30 @@ class ilCtrl
 		$baseClass = strtolower($_GET["baseClass"]);
 		
 		// get class information
-		$q = "SELECT * FROM module_class WHERE LOWER(class) = ".
-			$ilDB->quote($baseClass);
-		$mc_set = $ilDB->query($q);
-		$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$st = $ilDB->prepare("SELECT * FROM module_class WHERE LOWER(class) = ?",
+			array("text"));
+		$mc_set = $ilDB->execute($st, array($baseClass));
+		$mc_rec = $ilDB->fetchAssoc($mc_set);
 		$module = $mc_rec["module"];
 		$class = $mc_rec["class"];
 		$class_dir = $mc_rec["dir"];
 		
 		if ($module != "")
 		{
-			// get module information
-			$q = "SELECT * FROM il_component WHERE name = ".
-				$ilDB->quote($module);
-	
-			$m_set = $ilDB->query($q);
-			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$st = $ilDB->prepare("SELECT * FROM il_component WHERE name = ? ",
+				array("text"));
+			$m_set = $ilDB->execute($st, array($module));			
+			$m_rec = $ilD->fetchAssoc($m_set);
 			$this->module_dir = $m_rec["type"]."/".$m_rec["name"];
 			include_once $this->module_dir."/".$class_dir."/class.".$class.".php";
 		}
 		else		// check whether class belongs to a service
 		{
-			// get class information
-			$q = "SELECT * FROM service_class WHERE LOWER(class) = ".
-				$ilDB->quote($baseClass);
+			$st = $ilDB->prepare("SELECT * FROM service_class WHERE LOWER(class) = ?",
+				array("text"));
+			$mc_set = $ilDB->execute($st, array($baseClass));
+			$mc_rec = $ilDB->fetchAssoc($mc_set);
 
-			$mc_set = $ilDB->query($q);
-			$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
 			$service = $mc_rec["service"];
 			$class = $mc_rec["class"];
 			$class_dir = $mc_rec["dir"];
@@ -146,11 +143,10 @@ class ilCtrl
 			}
 
 			// get service information
-			$q = "SELECT * FROM il_component WHERE name = ".
-				$ilDB->quote($service);
-	
-			$m_set = $ilDB->query($q);
-			$m_rec = $m_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$st = $ilDB->prepare("SELECT * FROM il_component WHERE name = ? ",
+				array("text"));
+			$m_set = $ilDB->execute($st, array($service));			
+			$m_rec = $ilDB->fetchAssoc($m_set);
 			$this->service_dir = $m_rec["type"]."/".$m_rec["name"];
 			
 			include_once $this->service_dir."/".$class_dir."/class.".$class.".php";;
