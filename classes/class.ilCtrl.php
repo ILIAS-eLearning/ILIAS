@@ -477,10 +477,11 @@ class ilCtrl
 		
 		if (in_array($a_class, $this->stored_trees))
 		{
-			$q = "SELECT * FROM ctrl_structure WHERE root_class = ".
-				$ilDB->quote($a_class);
-			$set = $ilDB->query($q);
-			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			
+			$st = $ilDB->prepare("SELECT * FROM ctrl_structure WHERE root_class = ?",
+				array("text"));
+			$set = $ilDB->execute($st, array($a_class));
+			$rec = $ilDB->fetchAssoc($set);
 			$this->call_node = unserialize($rec["call_node"]);
 			$this->forward = unserialize($rec["forward"]);
 			$this->parent = unserialize($rec["parent"]);
@@ -529,8 +530,7 @@ class ilCtrl
 	{
 		global $ilDB;
 		
-		$q = "DELETE FROM ctrl_structure";
-		$ilDB->query($q);
+		$ilDB->manipulate("DELETE FROM ctrl_structure");
 		
 		foreach ($this->stored_trees as $root_gui_class)
 		{
@@ -538,12 +538,11 @@ class ilCtrl
 			$this->forward = array();
 			$this->parent = array();
 			$this->readCallStructure($root_gui_class);
-			$q = "INSERT INTO ctrl_structure (root_class, call_node, forward, parent) VALUES (".
-				$ilDB->quote($root_gui_class).",".
-				$ilDB->quote(serialize($this->call_node)).",".
-				$ilDB->quote(serialize($this->forward)).",".
-				$ilDB->quote(serialize($this->parent)).")";
-			$ilDB->query($q);
+			$st = $ilDB->prepareManip("INSERT INTO ctrl_structure ".
+				"(root_class, call_node, forward, parent) VALUES (?,?,?,?)",
+				array("text", "clob", "clob", "clob"));
+			$ilDB->execute($st, array($root_gui_class, serialize($this->call_node),
+				serialize($this->forward), serialize($this->parent)));
 		}
 	}
 	

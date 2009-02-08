@@ -7444,4 +7444,12 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilMySQLAbstraction->performAbstraction("ctrl_classfile");
 ?>
+<#1566>
+<?php
+	$ilMySQLAbstraction->performAbstraction("ctrl_structure");
+?>
+<#1567>
+<?php
+	$ilMySQLAbstraction->performAbstraction("ut_online");
+?>
 
