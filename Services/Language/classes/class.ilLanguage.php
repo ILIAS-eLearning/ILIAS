@@ -224,25 +224,7 @@ class ilLanguage
 		}
 		else
 		{
-			$query = sprintf("SELECT value FROM lng_data WHERE lang_key = %s AND module = %s AND identifier = %s",
-				$this->ilias->db->quote($a_language . ""),
-				$this->ilias->db->quote($a_module . ""),
-				$this->ilias->db->quote($a_topic . "")
-			);
-			$r = $this->ilias->db->query($query);
-	
-			if  ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				// remember the used topics
-				$this->used_topics[$a_topic] = $a_topic;
-				$this->used_modules[$a_module] = $a_module;
-
-				return $row->value;
-			}
-			else
-			{
-				return "-".$a_topic."-";
-			}
+			return ilLanguage::_lookupEntry($a_language, $a_module, $a_topic);
 		}
 	}
 
@@ -348,14 +330,11 @@ class ilLanguage
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM lng_data WHERE".
-			" module = ".$ilDB->quote($a_mod).
-			" AND lang_key =".$ilDB->quote($a_lang_key).
-			" AND identifier =".$ilDB->quote($a_id);
-			
-		$set = $ilDB->query($q);
-		
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$st = $ilDB->prepare("SELECT * FROM lng_data WHERE module = ? ".
+			"AND lang_key = ? AND identifier = ?",
+			array("text", "text", "text"));
+		$set = $ilDB->execute($st, array($a_mod."", $a_lang_key."", $a_id.""));
+		$rec = $ilDB->fetchAssoc($set);
 		
 		if ($rec["value"] != "")
 		{

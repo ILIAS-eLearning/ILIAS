@@ -208,8 +208,7 @@ class ilObjLanguageExt extends ilObjLanguage
 
            // delete all existing entries
 			case 'delete':
-				$query = "DELETE FROM lng_data WHERE lang_key='".$this->key."'";
-				$ilDB->query($query);
+				ilObjLanguage::_deleteLangData($this->key);
 				$st = $ilDB->prepareManip("DELETE FROM lng_modules WHERE lang_key = ?",
 					array("text"));
 				$ilDB->execute($st, array($this->key));
@@ -243,10 +242,9 @@ class ilObjLanguageExt extends ilObjLanguage
 	{
 		global $ilDB;
 		
-		$q = "SELECT DISTINCT module FROM lng_data WHERE ".
-			" lang_key = ".$ilDB->quote($a_lang_key).
-			" order by module";
-		$set = $ilDB->query($q);
+		$st = $ilDB->prepare("SELECT DISTINCT module FROM lng_data WHERE ".
+			" lang_key = ? order by module", array("text"));
+		$set = $ilDB->execute($st, array($a_lang_key));
 
 		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -272,47 +270,47 @@ class ilObjLanguageExt extends ilObjLanguage
 	{
 		global $ilDB, $lng;
 
-		if (is_array($a_modules))
-		{
-			for ($i = 0; $i < count($a_modules); $i++)
-			{
-				$a_modules[$i] = $ilDB->quote($a_modules[$i]);
-			}
-            $modules_list = implode(',', $a_modules);
-		}
-		if (is_array($a_topics))
-		{
-			for ($i = 0; $i < count($a_topics); $i++)
-			{
-				$a_topics[$i] = $ilDB->quote($a_topics[$i]);
-			}
-			$topics_list = implode(',', $a_topics);
-		}
-
 		$q = "SELECT * FROM lng_data WHERE".
-			" lang_key =".$ilDB->quote($a_lang_key);
-		if ($modules_list)
+			" lang_key = ?";
+		$type_array[] = "text";
+		$val_array[] = $a_lang_key;
+		
+		if (is_array($a_modules) && count($a_modules) > 0)
 		{
-			$q .= " AND module in (". $modules_list. ")";
+			$q .= " AND ".$ilDB->in("module", $a_modules);
+			$type_array = $ilDB->addTypesToArray($type_array,
+				"text", count($a_modules));
+			$val_array = array_merge($val_array, $a_modules);
 		}
-		if ($topics_list)
+		if (is_array($a_topics) && count($a_topics) > 0)
 		{
-			$q .= " AND identifier in (". $topics_list. ")";
+			$q .= " AND ".$ilDB->in("identifier", $a_topics);
+			$type_array = $ilDB->addTypesToArray($type_array,
+				"text", count($a_modules));
+			$val_array = array_merge($val_array, $a_topics);
+
 		}
 		if ($a_pattern)
 		{
-			$q .= " AND value like ". $ilDB->quote("%".$a_pattern."%");
+			$q .= " AND ".$ilDB->like("value", "blob");
+			$type_array[] = "blob";
+			$val_array[] = "%".$a_pattern."%";
 		}
 		if ($a_state == "changed")
 		{
-			$q .= " AND local_change <> '0000-00-00 00:00:00'";
+			$q .= " AND local_change <> ? ";
+			$type_array[] = "timestamp";
+			$val_array[] = "0000-00-00 00:00:00";
 		}
 		if ($a_state == "unchanged")
 		{
-			$q .= " AND local_change = '0000-00-00 00:00:00'";
+			$q .= " AND local_change = ? ";
+			$type_array[] = "timestamp";
+			$val_array[] = "0000-00-00 00:00:00";
 		}
 		$q .= " ORDER BY module, identifier";
-		$set = $ilDB->query($q);
+		$st = $ilDB->prepare($q, $type_array);
+		$set = $ilDB->execute($st, $val_array);
 
 		$values = array();
 		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -357,14 +355,8 @@ class ilObjLanguageExt extends ilObjLanguage
 				$local_change = $global_values[$key] == $value ?
 								"0000-00-00 00:00:00" : $save_date;
 			
-				$q = "REPLACE INTO lng_data(lang_key, module, identifier, value, local_change)"
-				. " VALUES("
-				. $ilDB->quote($a_lang_key). ","
-				. $ilDB->quote($module). ","
-				. $ilDB->quote($topic). ","
-				. $ilDB->quote($value). ","
-				. $ilDB->quote($local_change). ")";
-				$ilDB->query($q);
+				ilObjLanguage::replaceLangEntry($module, $topic,
+					$a_lang_key, $value, $local_change);
 			}
 		}
 

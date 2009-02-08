@@ -970,17 +970,26 @@ class ilDB extends PEAR
 	/**
 	* Like
 	*
-	* @param	string		column type; must be "text" or "clob"
+	* @param	string		column type; must be "text" or "clob" ("blob" added for lng_data)
 	*/
-	function like($a_type)
+	function like($a_col, $a_type)
 	{
-		if (!in_array($a_type, array("text", "clob")))
+		if (!in_array($a_type, array("text", "clob", "blob")))
 		{
 			$this->raisePearError("Like: Invalid column type '".$a_type."'.", $this->error_class->FATAL);
 		}
-		return "LIKE(?)";
+		return $a_col." LIKE(?)";
 	}
 
+	/**
+	* Optimize Table
+	* @todo needs oracle implementation
+	*/
+	function optimizeTable($a_table)
+	{
+		$this->query("OPTIMIZE TABLE ".$a_table);
+	}
+	
 	//
 	// Schema related functions
 	//

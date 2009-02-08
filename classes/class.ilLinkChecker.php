@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -248,30 +248,8 @@ class ilLinkChecker
 	{
 		global $ilDB;
 		
-		$query = "SELECT value FROM lng_data ".
-			"WHERE module = ".$ilDB->quote($module)." ".
-			"AND identifier = ".$ilDB->quote($key)." ".
-			"AND lang_key = ".$ilDB->quote($language)."";
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$value = $row->value;
-		}
-		if(!$value)
-		{
-			$query = "SELECT value FROM lng_data ".
-				"WHERE module = ".$ilDB->quote($module)." ".
-				"AND identifier = ".$ilDB->quote($key)." ".
-				"AND lang_key = 'en'";
-			
-			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$value = $row->value;
-			}
-		}
-		return $value ? $value : '-'.$key.'-';
+		include_once './Services/Language/classes/class.ilLanguage.php';
+		return ilLanguage::_lookupEntry($language, $module, $key);
 	}
 
 	function __fetchUserData($a_usr_id)

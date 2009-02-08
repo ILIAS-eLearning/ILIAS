@@ -230,6 +230,27 @@ class ilObjLanguage extends ilObject
 		return "";
 	}
 
+	/**
+	* Delete languge data
+	*
+	* @param	string		lang key
+	*/
+	static function _deleteLangData($a_lang_key, $a_keep_local_change)
+	{
+		if (!$a_keep_local_change)
+		{
+			$st = $ilDB->prepareManip("DELETE FROM lng_data WHERE lang_key = ?",
+				array("text"));
+			$ilDB->execute($st, array($a_lang_key));
+		}
+		else
+		{
+			$st = $ilDB->prepareManip("DELETE FROM lng_data WHERE lang_key = ?".
+				" AND local_change = ?",
+				array("text", "timestamp"));
+			$ilDB->execute($st, array($a_lang_key, "0000-00-00 00:00:00"));
+		}
+	}
 
 	/**
 	 * remove language data from database
@@ -239,14 +260,7 @@ class ilObjLanguage extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM lng_data WHERE lang_key=".
-			$ilDB->quote($this->key);
-			
-		if ($a_mode == 'keep_local')
-		{
-			$query .= " AND local_change='0000-00-00 00:00:00'";
-		}
-		$ilDB->query($query);
+		ilObjLanguage::_deleteLangData($this->key, ($a_mode == 'keep_local'));
 
 		if ($a_mode == 'all')
 		{
@@ -267,18 +281,20 @@ class ilObjLanguage extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM lng_data WHERE"
-				." lang_key =".$ilDB->quote($this->key);
-		if ($a_min_date <> "")
+		if ($a_min_date == "")
 		{
-			$query .= " and local_change >= ".$ilDB->quote($a_min_date);
+			$a_min_date = "1980-01-01 00:00:00";
 		}
-		if ($a_max_date <> "")
+		if ($a_max_date == "")
 		{
-			$query .= " and local_change <= ".$ilDB->quote($a_max_date);
+			$a_max_date = "2200-01-01 00:00:00";
 		}
-		$result = $ilDB->query($query);
-
+		
+		$st = $ilDB->prepare("SELECT * FROM lng_data WHERE lang_key = ? ".
+			"AND local_change >= ? AND local_change <= ?",
+			array("text", "timestamp", "timestamp"));
+		$result = $ilDB->execute($st, array($this->key, $a_min_date, $a_max_date));
+		
 		$changes = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -377,15 +393,9 @@ class ilObjLanguage extends ilObject
 							
 							// insert a new value if no local value exists
 							// reset local_change if the values are equal
-							$query = "REPLACE INTO lng_data " .
-									"(module, identifier, lang_key, value, local_change) " .
-									"VALUES " .
-									"(".$ilDB->quote($separated[0]).",".
-									$ilDB->quote($separated[1]).",".
-									$ilDB->quote($this->key).",".
-									$ilDB->quote($separated[2]).",".
-									$ilDB->quote("0000-00-00 00:00:00").")";
-							$ilDB->query($query);
+							ilObjLanguage::replaceLangEntry($separated[0], $separated[1],
+								$this->key, $separated[2]);
+
 							$lang_array[$separated[0]][$separated[1]] = $separated[2];
 						}
 					}
@@ -399,13 +409,8 @@ class ilObjLanguage extends ilObject
 						else
 						{
 							// UPDATE because the global values have already been INSERTed
-							$query = "UPDATE lng_data SET ".
-									 "value = ".$ilDB->quote($separated[2]).", " .
-									 "local_change = ".$ilDB->quote($change_date)." " .
-									 "WHERE module = ".$ilDB->quote($separated[0])." " .
-									 "AND identifier = ".$ilDB->quote($separated[1])." " .
-									 "AND lang_key = ".$ilDB->quote($this->key);
-							$ilDB->query($query);
+							ilObjLanguage::updateLangEntry($separated[0], $separated[1],
+								$this->key, $separated[2], $change_date);
 							$lang_array[$separated[0]][$separated[1]] = $separated[2];
 						}
 					}
@@ -469,6 +474,45 @@ class ilObjLanguage extends ilObject
 	}
 
 	/**
+	* Replace lang entry
+	*/
+	static final function replaceLangEntry($a_module, $a_identifier,
+		$a_lang_key, $a_value, $a_local_change = "0000-00-00 00:00:00")
+	{
+		global $ilDB;
+
+		$st = $ilDB->prepareManip("DELETE FROM lng_data WHERE module = ? AND ".
+			"identifier = ? AND lang_key = ?",
+			array("text", "text", "text"));
+		$ilDB->execute($st, array($a_module, $a_identifier, $a_lang_key));
+
+		// insert a new value if no local value exists
+		// reset local_change if the values are equal
+		$st = $ilDB->prepareManip("INSERT INTO lng_data " .
+			"(module, identifier, lang_key, value, local_change) " .
+			"VALUES (?,?,?,?,?)",
+			array("text", "text", "text", "blob", "timestamp"));
+		$ilDB->execute($st, array($a_module, $a_identifier,
+			$a_lang_key, $a_value, $a_local_change));
+	}
+	
+	/**
+	* Replace lang entry
+	*/
+	static final function updateLangEntry($a_module, $a_identifier,
+		$a_lang_key, $a_value, $a_local_change = "0000-00-00 00:00:00")
+	{
+		global $ilDB;
+		
+		$st = $ilDB->prepareManip("UPDATE lng_data " .
+			"SET value = ?, local_change = ? ".
+			"WHERE module = ? AND identifier = ? AND lang_key = ? ",
+			array("blob", "timestamp", "text", "text", "text"));
+		$ilDB->execute($st, array($a_value, $a_local_change,
+			$a_module, $a_identifier, $a_lang_key));
+	}
+	
+	/**
 	 * search ILIAS for users which have selected '$lang_key' as their prefered language and
 	 * reset them to default language (english). A message is sent to all affected users
 	 *
@@ -513,10 +557,9 @@ class ilObjLanguage extends ilObject
 	 */
 	function optimizeData()
 	{
-		// optimize
-		$query = "OPTIMIZE TABLE lng_data";
-		$this->ilias->db->query($query);
-
+		global $ilDB;
+		
+		$ilDB->optimizeTable("lng_data");
 		return true;
 	}
 
