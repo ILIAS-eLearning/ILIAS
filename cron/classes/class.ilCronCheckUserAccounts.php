@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -91,17 +91,8 @@ class ilCronCheckUserAccounts
 	}
 	function txt($language,$key,$module = 'common')
 	{
-		$query = "SELECT value FROM lng_data ".
-			"WHERE module = '".$module."' ".
-			"AND identifier = '".$key."' ".
-			"AND lang_key = '".$language."'";
-
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$value = $row->value;
-		}
-		return $value ? $value : $key;
+		include_once './Services/Language/classes/class.ilLanguage.php';
+		return ilLanguage::_lookupEntry($language, $module, $key);
 	}
 }
 
