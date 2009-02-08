@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -42,9 +42,10 @@ class ilOnlineTracking
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM ut_online WHERE usr_id = '".$a_user_id."'";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$st = $ilDB->prepare("SELECT * FROM ut_online WHERE usr_id = ?",
+			array("integer"));
+		$res = $ilDB->execute($st, array($a_user_id));
+		while ($row = $ilDB->fetchObject($res))
 		{
 			$access_time = $row->access_time;
 			$online_time = $row->online_time;
@@ -58,15 +59,17 @@ class ilOnlineTracking
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM ut_online WHERE usr_id = '".$a_user_id."'";
-		$res = $ilDB->query($query);
+		$st = $ilDB->prepare("SELECT * FROM ut_online WHERE usr_id = ?",
+			array("integer"));
+		$res = $ilDB->execute($st, array($a_user_id));
 		
-		if($res->numRows())
+		if ($ilDB->fetchAssoc($res))
 		{
 			return false;
 		}
-		$query = "INSERT INTO ut_online SET usr_id = '".$a_user_id."', access_time = '".time()."'";
-		$ilDB->query($query);
+		$st = $ilDB->prepareManip("INSERT INTO ut_online (usr_id, access_time) VALUES (?,?)",
+			array("integer", "integer"));
+		$ilDB->execute($st, array($a_user_id, time()));
 
 		return true;
 	}
@@ -75,14 +78,15 @@ class ilOnlineTracking
 	{
 		global $ilDB,$ilias;
 
-		$query = "SELECT * FROM ut_online WHERE usr_id = '".$a_usr_id."'";
-		$res = $ilDB->query($query);
+		$st = $ilDB->prepare("SELECT * FROM ut_online WHERE usr_id = ?",
+			array("integer"));
+		$res = $ilDB->execute($st, array($a_user_id));
 
-		if(!$res->numRows())
+		if (!$ilDB->fetchAssoc($res))
 		{
 			return false;
 		}
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($res))
 		{
 			$access_time = $row->access_time;
 			$online_time = $row->online_time;
@@ -92,15 +96,15 @@ class ilOnlineTracking
 
 		if(($diff = time() - $access_time) <= $time_span)
 		{
-			$query = "UPDATE ut_online SET online_time = online_time + '".$diff."', access_time = '".time().
-				"' WHERE usr_id = '".$a_usr_id."'";
-			$ilDB->query($query);
+			$st = $ilDB->prepareManip("UPDATE ut_online SET online_time = online_time + ?, ".
+				"access_time = ? WHERE usr_id = ?", array("integer", "integer", "integer"));
+			$ilDB->execute($st, array($diff, time(), $a_usr_id));
 		}
 		else
 		{
-			$query = "UPDATE ut_online SET access_time = '".time().
-				"' WHERE usr_id = '".$a_usr_id."'";
-			$ilDB->query($query);
+			$st = $ilDB->prepareManip("UPDATE ut_online SET ".
+				"access_time = ? WHERE usr_id = ?", array("integer", "integer"));
+			$ilDB->execute($st, array(time(), $a_usr_id));
 		}
 		return true;
 	}

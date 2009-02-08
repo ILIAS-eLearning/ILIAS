@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -525,8 +525,9 @@ class ilObjUserTracking extends ilObject
 		$query = "DELETE FROM ut_lp_marks WHERE usr_id = '".$a_usr_id."'";
 		$ilDB->query($query);
 
-		$query = "DELETE FROM ut_online WHERE usr_id = '".$a_usr_id."'";
-		$ilDB->query($query);
+		$st = $ilDB->prepareManip("DELETE FROM ut_online WHERE usr_id = ?",
+			array("integer"));
+		$ilDB->execute($st, array($a_usr_id));
 
 		return true;
 	}
