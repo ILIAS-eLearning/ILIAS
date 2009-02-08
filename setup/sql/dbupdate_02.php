@@ -7416,4 +7416,20 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilMySQLAbstraction->performAbstraction("lng_data");
 ?>
+<#1559>
+<?php
+	$ilMySQLAbstraction->performAbstraction("module_class");
+?>
+<#1560>
+<?php
+	$ilMySQLAbstraction->performAbstraction("service_class");
+?>
+<#1561>
+<?php
+	$ilMySQLAbstraction->performAbstraction("il_component");
+?>
+<#1562>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

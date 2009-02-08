@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -724,9 +724,10 @@ abstract class ilPlugin
 		$slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 		
 		// this check is done due to security reasons
-		$set = $ilDB->query("SELECT * FROM il_component WHERE type = ".
-			$ilDB->quote($a_ctype)." AND name = ".$ilDB->quote($a_cname));
-		if ($set->numRows() == 0)
+		$st = $ilDB->prepare("SELECT * FROM il_component WHERE type = ? ".
+			" AND name = ?", array("text", "text"));
+		$set = $ilDB->execute($st, array($a_ctype, $a_cname));			
+		if (!$ilDB->fetchAssoc($set))
 		{
 			return null;
 		}

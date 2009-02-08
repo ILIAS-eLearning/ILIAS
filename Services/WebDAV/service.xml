@@ -1,6 +1,6 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
-	name="WebDAV" short="trac" dir="Services/WebDAV">
+	name="WebDAV" short="trac" dir="Services/WebDAV" id="wbdv">
 	<objects>
 		<object id="facs" class_name="FileAccessSettings" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1">

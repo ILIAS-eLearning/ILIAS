@@ -61,8 +61,8 @@ class ilServiceReader extends ilObjDefReader
 	{
 		global $ilDB;
 
-		$q = "DELETE FROM service_class";;
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM service_class");
+		$ilDB->execute($st);
 
 	}
 
@@ -86,19 +86,15 @@ class ilServiceReader extends ilObjDefReader
 			case 'service':
 				$this->current_service = $this->name;
 				$this->current_component = $this->type."/".$this->name;
-				$q = "INSERT INTO il_component (type, name, id) VALUES ".
-					"(".$ilDB->quote($this->type).",".
-					$ilDB->quote($this->name).",".
-					$ilDB->quote($a_attribs["id"]).")";
-				$ilDB->query($q);
+				$st = $ilDB->prepareManip("INSERT INTO il_component (type, name, id) ".
+					"VALUES (?,?,?)", array("text", "text", "text"));
+				$ilDB->execute($st, array($this->type, $this->name, $a_attribs["id"]));
 				break;
 				
 			case 'baseclass':
-				$q = "INSERT INTO service_class (service, class, dir) VALUES ".
-					"(".$ilDB->quote($this->name).",".
-					$ilDB->quote($a_attribs["name"]).",".
-					$ilDB->quote($a_attribs["dir"]).")";
-				$ilDB->query($q);
+				$st = $ilDB->prepareManip("INSERT INTO service_class (service, class, dir) ".
+					"VALUES (?,?,?)", array("text", "text", "text"));
+				$ilDB->execute($st, array($this->name, $a_attribs["name"], $a_attribs["dir"]));
 				break;
 				
 		}
