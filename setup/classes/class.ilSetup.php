@@ -955,9 +955,10 @@ class ilSetup extends PEAR
 		}
 
 		// check control information
-		$q = "SELECT count(*) as cnt FROM ctrl_calls";
-		$cset = $client->db->query($q);
-		$crec = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		$st = $ilDB->prepare("SELECT count(*) as cnt FROM ctrl_calls");
+		$cset = $ilDB->execute($st);
+		$crec = $ilDB->fetchAssoc($cset);
 		if ($crec["cnt"] == 0)
 		{
 			$arr["status"] = false;

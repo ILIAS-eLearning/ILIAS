@@ -2535,9 +2535,11 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_CTRL_STRUCTURE", $this->lng->txt("ctrl_structure"));
 		$this->tpl->setVariable("TXT_RELOAD", $this->lng->txt("reload"));
 
-		$q = "SELECT count(*) as cnt FROM ctrl_calls";
-		$cset = $this->setup->getClient()->db->query($q);
-		$crec = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+		$ilDB = new ilDB($this->setup->getClient()->dsn);
+		$st = $ilDB->prepare("SELECT count(*) as cnt FROM ctrl_calls");
+		$cset = $ilDB->execute($st);
+		$crec = $ilDB->fetchAssoc($cset);
+
 		if ($crec["cnt"] == 0)
 		{
 			$this->tpl->setVariable("TXT_CTRL_STRUCTURE_DESC",

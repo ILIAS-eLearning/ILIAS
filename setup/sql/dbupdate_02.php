@@ -7432,4 +7432,16 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1563>
+<?php
+	$ilMySQLAbstraction->performAbstraction("ctrl_calls");
+?>
+<#1564>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1565>
+<?php
+	$ilMySQLAbstraction->performAbstraction("ctrl_classfile");
+?>
 

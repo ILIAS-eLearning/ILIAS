@@ -562,14 +562,11 @@ class ilCtrl
 		$this->call_node[$a_nr] = array("class" => $a_class, "parent" => $a_parent);
 		
 //echo "<br>nr:$a_nr:class:$a_class:parent:$a_parent:";
-		$q = "SELECT * FROM ctrl_calls WHERE parent=".
-			$ilDB->quote(strtolower($a_class)).
-			" ORDER BY child";
-
-		$call_set = $ilDB->query($q);
-		//$forw = array();
+		$st = $ilDB->prepare("SELECT * FROM ctrl_calls WHERE parent = ?".
+			" ORDER BY child", array("text"));
+		$call_set = $ilDB->execute($st, array(strtolower($a_class)));
 		$a_parent = $a_nr;
-		while($call_rec = $call_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($call_rec = $ilDB->fetchAssoc($call_set))
 		{
 			$a_nr = $this->readCallStructure($call_rec["child"], $a_nr, $a_parent);
 			$forw[] = $call_rec["child"];
@@ -764,10 +761,10 @@ class ilCtrl
 		global $ilDB;
 		$a_class_name = strtolower($a_class_name);
 
-		$q = "SELECT * FROM ctrl_classfile WHERE class = ".$ilDB->quote($a_class_name);
-
-		$class_set = $ilDB->query($q);
-		$class_rec = $class_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$st = $ilDB->prepare("SELECT * FROM ctrl_classfile WHERE class = ?",
+			array("text"));
+		$class_set = $ilDB->execute($st, array($a_class_name));
+		$class_rec = $ilDB->fetchAssoc($class_set);
 
 		return $class_rec["file"];
 	}

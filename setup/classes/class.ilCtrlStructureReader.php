@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -154,14 +154,22 @@ class ilCtrlStructureReader
 										$this->class_script[$parent] != $a_cdir."/".$file)
 									{
 										// delete all class to file assignments
-										$q = "DELETE FROM ctrl_classfile WHERE comp_prefix = ".
-											$ilDB->quote($this->comp_prefix);
-										$ilDB->query($q);
+										$st = $ilDB->prepareManip("DELETE FROM ctrl_classfile WHERE comp_prefix = ?",
+											array("text"));
+										$ilDB->execute($st, array($this->comp_prefix));
+										if ($comp_prefix == "")
+										{
+											$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix IS NULL");
+										}
 								
 										// delete all call entries
-										$q = "DELETE FROM ctrl_calls WHERE comp_prefix = ".
-											$ilDB->quote($this->comp_prefix);
-										$ilDB->query($q);
+										$st = $ilDB->prepareManip("DELETE FROM ctrl_calls WHERE comp_prefix = ?",
+											array("text"));
+										$ilDB->execute($st, array($this->comp_prefix));
+										if ($comp_prefix == "")
+										{
+											$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
+										}
 										
 										$this->err_object->raiseError(
 											sprintf($lng->txt("duplicate_ctrl"),
@@ -225,24 +233,31 @@ class ilCtrlStructureReader
 		global $ilDB;
 
 		// delete all class to file assignments
-		$q = "DELETE FROM ctrl_classfile WHERE comp_prefix = ".
-			$ilDB->quote($this->comp_prefix);
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM ctrl_classfile WHERE comp_prefix = ?",
+			array("text"));
+		$ilDB->execute($st, array($this->comp_prefix));
+		if ($comp_prefix == "")
+		{
+			$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix IS NULL");
+		}
 
 		// delete all call entries
-		$q = "DELETE FROM ctrl_calls WHERE comp_prefix = ".
-			$ilDB->quote($this->comp_prefix);
-		$ilDB->query($q);
+		$st = $ilDB->prepareManip("DELETE FROM ctrl_calls WHERE comp_prefix = ?",
+			array("text"));
+		$ilDB->execute($st, array($this->comp_prefix));
+		if ($comp_prefix == "")
+		{
+			$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
+		}
 
 		foreach($this->class_script as $class => $script)
 		{
 			$file = substr($script, strlen($this->start_dir) + 1);
 			
 			// store class to file assignment
-			$q = "INSERT INTO ctrl_classfile (class, file, comp_prefix) VALUES".
-				"(".$ilDB->quote($class).",".$ilDB->quote($file).
-				",".$ilDB->quote($this->comp_prefix).")";
-			$ilDB->query($q);
+			$st = $ilDB->prepareManip("INSERT INTO ctrl_classfile (class, file, comp_prefix) ".
+				" VALUES (?,?,?)", array("text", "text", "text"));
+			$ilDB->execute($st, array($class, $file, $this->comp_prefix));
 		}
 //$this->class_childs[$parent][] = $child;
 		foreach($this->class_childs as $parent => $v)
@@ -252,10 +267,9 @@ class ilCtrlStructureReader
 				foreach($this->class_childs[$parent] as $child)
 				{
 					// store call entry
-					$q = "INSERT INTO ctrl_calls (parent, child, comp_prefix) VALUES".
-						"(".$ilDB->quote($parent).",".$ilDB->quote($child).
-						",".$ilDB->quote($this->comp_prefix).")";
-					$ilDB->query($q);
+					$st = $ilDB->prepareManip("INSERT INTO ctrl_calls (parent, child, comp_prefix) ".
+						"VALUES (?,?,?)", array("text", "text", "text"));
+					$ilDB->execute($st, array($parent, $child, $this->comp_prefix));
 				}
 			}
 		}
