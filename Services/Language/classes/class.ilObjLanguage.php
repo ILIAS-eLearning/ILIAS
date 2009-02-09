@@ -237,6 +237,7 @@ class ilObjLanguage extends ilObject
 	*/
 	static function _deleteLangData($a_lang_key, $a_keep_local_change)
 	{
+		global $ilDB;
 		if (!$a_keep_local_change)
 		{
 			$st = $ilDB->prepareManip("DELETE FROM lng_data WHERE lang_key = ?",

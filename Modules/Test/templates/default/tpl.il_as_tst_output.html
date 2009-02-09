@@ -15,7 +15,7 @@
 <!-- BEGIN enableprocessingtime -->
 <div id="workingtime"><span id="userworkingtime">{USER_WORKING_TIME}</span><span id="timeleft">{USER_REMAINING_TIME}</span></div>
 <!-- END enableprocessingtime -->
-<form id="taForm" name="test_output" method="post" style="clear: both;" action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
+<form id="taForm" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
 <input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
 <table class="fullwidth_invisible">
 		<tr>
