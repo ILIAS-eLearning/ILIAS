@@ -391,8 +391,10 @@ class ilAuthUtils
 				}
 				break;
 			case AUTH_ECS:
+				$auth_params = array();
+				$auth_params['sessionName'] = "_authhttp".md5($realm);
 				require_once('./Services/WebServices/ECS/classes/class.ilAuthECS.php');
-				$ilAuth = new ilAuthECS($_GET['ecs_hash']);
+				$ilAuth = new ilAuthECS($auth_params,$_GET['ecs_hash']);
 				break;
 				
 			case AUTH_INACTIVE:
@@ -416,7 +418,7 @@ class ilAuthUtils
 				if (WebDAV_Authentication == 'HTTP')
 				{
 					// Use HTTP authentication as the frontend for WebDAV clients:
-                                        require_once("Auth/HTTP.php");
+					require_once("Auth/HTTP.php");
 					require_once 'class.ilAuthContainerMDB2.php';
 					$auth_params['sessionSharing'] = false;
 					$authContainer = new ilAuthContainerMDB2($auth_params);
