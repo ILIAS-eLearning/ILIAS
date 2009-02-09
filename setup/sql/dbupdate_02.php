@@ -7231,8 +7231,20 @@ $ilDB->query("ALTER TABLE survey_survey MODIFY `show_question_titles` VARCHAR(1)
 	$res = $ilDB->query($query);
 	if ($res->numRows() == 0)
 	{
-		$query = "INSERT INTO qpl_question_type (type_tag, plugin) VALUES ('assOrderingHorizontal', '0')";
-		$ilDB->query($query);
+		$query = "SELECT MAX(question_type_id) FROM qpl_question_type";
+		$res = $ilDB->query($query);
+		$data = $ilDB->fetchAssoc($query);
+		$max = current($data) + 1;
+
+		$statement = $ilDB->prepareManip("INSERT INTO qpl_question_type (question_type_id, type_tag, plugin) VALUES (?, ?, ?)", 
+			array("integer", "text", "integer")
+		);
+		$data = array(
+			$max, 
+			'assOrderingHorizontal', 
+			0
+		); 
+		$affectedRows = $ilDB->execute($statement, $data);
 	}
 ?>
 <#1526>
@@ -7452,4 +7464,70 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilMySQLAbstraction->performAbstraction("ut_online");
 ?>
-
+<#1568>
+<?php
+$query = "SELECT * FROM qpl_question_type WHERE type_tag = 'assFileUpload'";
+$res = $ilDB->query($query);
+if ($res->numRows() == 0)
+{
+	$query = "SELECT MAX(question_type_id) FROM qpl_question_type";
+	$res = $ilDB->query($query);
+	$data = $ilDB->fetchAssoc($res);
+	$max = current($data) + 1;
+	$statement = $ilDB->prepareManip("INSERT INTO qpl_question_type (question_type_id, type_tag, plugin) VALUES (?, ?, ?)", 
+		array("integer", "text", "integer")
+	);
+	$data = array(
+		$max, 
+		'assFileUpload', 
+		0
+	); 
+	$affectedRows = $ilDB->execute($statement, $data);
+}
+?>
+<#1569>
+<?php
+	if (!$ilDB->tableExists("qpl_question_fileupload"))
+	{
+		$ilDB->createTable("qpl_question_fileupload",
+			array(
+				"question_fi" => array(
+					"type" => "integer", "length" => 4, "notnull" => true),
+				"allowedextensions" => array(
+					"type" => "text", "length" => 255, "notnull" => false),
+				"maxsize" => array(
+					"type" => "float", "notnull" => false)
+				)
+			);
+		$ilDB->addPrimaryKey("qpl_question_fileupload", array("question_fi"));
+	}
+?>
+<#1570>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#1571>
+<?php
+$query = "SELECT * FROM qpl_question_type WHERE type_tag = 'assOrderingHorizontal'";
+$res = $ilDB->query($query);
+if ($res->numRows() == 1)
+{
+	$data = $ilDB->fetchAssoc($res);
+	if ($data['question_type_id'] == 0)
+	{
+		$query = "SELECT MAX(question_type_id) FROM qpl_question_type";
+		$res = $ilDB->query($query);
+		$data = $ilDB->fetchAssoc($res);
+		$max = current($data) + 1;
+		$statement = $ilDB->prepareManip("UPDATE qpl_question_type SET question_type_id = ? WHERE type_tag = ? AND plugin = ?", 
+			array("integer", "text", "integer")
+		);
+		$data = array(
+			$max, 
+			'assOrderingHorizontal', 
+			0
+		); 
+		$affectedRows = $ilDB->execute($statement, $data);
+	}
+}
+?>
