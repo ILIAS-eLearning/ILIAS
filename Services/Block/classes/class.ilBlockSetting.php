@@ -38,13 +38,12 @@ class ilBlockSetting
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM il_block_setting WHERE type = ".
-			$ilDB->quote($a_type)." AND user = ".
-			$ilDB->quote($a_user)." AND setting = ".
-			$ilDB->quote($a_setting)." AND block_id = ".
-			$ilDB->quote($a_block_id);
-		$set = $ilDB->query($query);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		
+		$st = $ilDB->prepare("SELECT * FROM il_block_setting WHERE type = ? ".
+			"AND user = ? AND setting = ? AND block_id = ?",
+			array("text", "integer", "text", "integer"));
+		$set = $ilDB->execute($st, array($a_type, $a_user, $a_setting, $a_block_id));
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return $rec["value"];
 		}
@@ -62,10 +61,12 @@ class ilBlockSetting
 	{
 		global $ilDB;
 		
-		$query = "REPLACE INTO il_block_setting  (type, user, setting, block_id, value) VALUES (".
-			$ilDB->quote($a_type).", ".$ilDB->quote($a_user).",".
-			$ilDB->quote($a_setting).",".$ilDB->quote($a_block_id).",".$ilDB->quote($a_value).")";
-		$ilDB->query($query);
+		$st = $ilDB->prepareManip("DELETE FROM il_block_setting WHERE type = ? AND user = ? AND block_id = ? AND setting = ?",
+			array("text", "integer", "integer", "text"));
+		$ilDB->execute($st, array($a_type, $a_user, $a_block_id, $a_setting));
+		$st = $ilDB->prepare("INSERT INTO il_block_setting  (type, user, setting, block_id, value) VALUES (?,?,?,?,?)",
+			array("text", "integer", "text", "integer", "text"));
+		$ilDB->execute($st, array($a_type, $a_user, $a_setting, $a_block_id, $a_value));
 	}
 
 	/**
@@ -145,10 +146,9 @@ class ilBlockSetting
 		
 		if ($a_user > 0)
 		{
-			$query = "DELETE FROM il_block_setting  WHERE user = ".
-				$ilDB->quote($a_user);
-
-			$ilDB->query($query);
+			$st = $ilDB->prepareManip("DELETE FROM il_block_setting WHERE user = ?",
+				array("integer"));
+			$ilDB->execute($st, array($a_user));
 		}
 	}
 
@@ -162,11 +162,9 @@ class ilBlockSetting
 		
 		if ($a_block_id > 0)
 		{
-			$query = "DELETE FROM il_block_setting  WHERE block_id = ".
-				$ilDB->quote($a_block_id).
-				" AND type = ".$ilDB->quote($a_block_type);
-
-			$ilDB->query($query);
+			$st = $ilDB->prepareManip("DELETE FROM il_block_setting WHERE block_id = ? AND type = ?",
+				array("integer", "text"));
+			$ilDB->execute($st, array($a_block_id, $a_block_type));
 		}
 	}
 	
