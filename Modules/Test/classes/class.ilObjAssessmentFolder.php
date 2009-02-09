@@ -469,22 +469,16 @@ class ilObjAssessmentFolder extends ilObject
 			{
 				if ($row["ref_id"] > 0)
 				{
-					$typequery = sprintf("SELECT object_data.type FROM object_data, object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = object_data.obj_id",
-						$ilDB->quote($row["ref_id"])
-					);
-					$typequeryresult = $ilDB->query($typequery);
-					if ($typequeryresult->numRows() == 1)
+					include_once "./classes/class.ilObject.php";
+					$type = ilObject::_lookupType($row['ref_id'], true);
+					switch ($type)
 					{
-						$typerow = $typequeryresult->fetchRow(DB_FETCHMODE_ASSOC);
-						switch ($typerow["type"])
-						{
-							case "tst":
-								$type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
-								break;
-							case "cat":
-								$type_href = sprintf("goto.php?target=cat_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
-								break;
-						}
+						case "tst":
+							$type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
+							break;
+						case "cat":
+							$type_href = sprintf("goto.php?target=cat_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
+							break;
 					}
 				}
 			}
