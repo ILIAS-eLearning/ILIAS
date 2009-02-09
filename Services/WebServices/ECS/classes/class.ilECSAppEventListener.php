@@ -65,19 +65,20 @@ class ilECSAppEventListener implements ilAppEventListener
 
 							include_once('Services/WebServices/ECS/classes/class.ilECSSettings.php');
 							$settings = ilECSSettings::_getInstance();
-							$strtotime_str = '+ '.$settings->getDuration().' months';
-							$end = strtotime($strtotime_str);
 							
-							if($user->getTimeLimitUntil() < $end)
+							$end = new ilDateTime(time(),IL_CAL_UNIX);
+							$end->increment(IL_CAL_MONTH,$settings->getDuration());
+							
+							if($user->getTimeLimitUntil() < $end->get(IL_CAL_UNIX))
 							{
-								$start = $user->getTimeLimitFrom();
-								$end = $user->getTimeLimitUntil();
-								
-								$user->setTimeLimitUntil($end);
+								$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
 								$user->update();
 								
-								// send notification only for session accounts
-								if($end - $start < 60 * 60 * 24)
+								$start = $user->getTimeLimitFrom();
+								$end = $user->getTimeLimitUntil();
+
+								// send notification only for non session accounts
+								if(($end - $start) > (60 * 60 * 24))
 								{
 									self::_sendNotification($user);
 								}

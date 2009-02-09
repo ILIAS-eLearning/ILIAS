@@ -40,6 +40,7 @@ define('IL_GRP_MEMBER',5);
 class ilParticipants
 {
 	protected $obj_id = 0;
+	protected $type = '';
 	protected $ref_id = 0;
 	
 	protected $roles = array();
@@ -72,6 +73,7 @@ class ilParticipants
 	 	$this->lng = $lng;
 	 
 	 	$this->obj_id = $a_obj_id;
+	 	$this->type = ilObject::_lookupType($a_obj_id);
 		$ref_ids = ilObject::_getAllReferences($this->obj_id);
 		$this->ref_id = current($ref_ids);
 	 	
@@ -609,7 +611,7 @@ class ilParticipants
 	 */
 	public function add($a_usr_id,$a_role)
 	{
-	 	global $rbacadmin;
+	 	global $rbacadmin,$ilLog,$ilAppEventHandler;
 	 	
 	 	if($this->isAssigned($a_usr_id))
 	 	{
@@ -641,11 +643,12 @@ class ilParticipants
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
 		$this->addDesktopItem($a_usr_id);
-	 	return true;
-	 	
-	 	// Add event: used for ecs accounts
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
-		$ilAppEventHandler->raise("Modules/Course", "addParticipant", array('usr_id' => $a_usr_id,'role_id' => $a_role));
+
+		if($this->type == 'crs') {
+		 	// Add event: used for ecs accounts
+			$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
+			$ilAppEventHandler->raise("Modules/Course", "addParticipant", array('usr_id' => $a_usr_id,'role_id' => $a_role));
+		}
 	 	return true;
 	}
 	
