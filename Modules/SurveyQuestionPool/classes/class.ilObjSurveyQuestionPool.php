@@ -938,8 +938,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	/**
 	* Returns true, if the question pool is writeable by a given user
 	* 
-	* Returns true, if the question pool is writeable by a given user
-	*
 	* @param integer $object_id The object id of the question pool
 	* @param integer $user_id The database id of the user
 	* @access public
@@ -949,20 +947,16 @@ class ilObjSurveyQuestionPool extends ilObject
 		global $rbacsystem;
 		global $ilDB;
 		
-		$result_array = array();
-		$query = sprintf("SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.obj_id = %s",
-			$ilDB->quote($object_id . "")
-		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{		
-			include_once "./classes/class.ilObject.php";
-			if ($rbacsystem->checkAccess("write", $row["ref_id"]) && (ilObject::_hasUntrashedReference($row["obj_id"])))
+		$refs = ilObject::_getAllReferences($object_id);
+		$result = false;
+		foreach ($refs as $ref)
+		{
+			if ($rbacsystem->checkAccess("write", $ref) && (ilObject::_hasUntrashedReference($object_id)))
 			{
-				return true;
+				$result = true;
 			}
 		}
-		return false;
+		return $result;
 	}
 
 	/**
@@ -1010,8 +1004,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	/**
 	* Returns the available question pools for the active user
 	*
-	* Returns the available question pools for the active user
-	*
 	* @return array The available question pools
 	* @access public
 	*/
@@ -1023,33 +1015,25 @@ class ilObjSurveyQuestionPool extends ilObject
 		$result_array = array();
 		$qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
 		$titles = ilObject::_prepareCloneSelection($qpls, "spl");
-		if (count($qpls))
+		$allqpls = array();
+		$statement = $ilDB->prepare("SELECT obj_fi, online FROM survey_questionpool");
+		$result = $ilDB->execute($statement);
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$query = "";
-			if ($could_be_offline)
+			$allqpls[$row['obj_fi']] = $row['online'];
+		}
+		foreach ($qpls as $ref_id)
+		{
+			$obj_id = ilObject::_lookupObjectId($ref_id);
+			if (($could_be_offline) || ($allqpls[$obj_id]['online'] == 1))
 			{
-				$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference, survey_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') AND survey_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
-					implode("','", $qpls)
-				);
-			}
-			else
-			{
-				$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference, survey_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') AND survey_questionpool.online = '1' AND survey_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
-					implode("','", $qpls)
-				);
-			}
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-			{
-				$title = (($showPath) ? $titles[$row["ref_id"]] : $row["title"]);
-
 				if ($use_object_id)
 				{
-					$result_array[$row["obj_id"]] = $title;
+					$result_array[$obj_id] = $titles[$ref_id];
 				}
 				else
 				{
-					$result_array[$row["ref_id"]] = $title;
+					$result_array[$ref_id] = $titles[$ref_id];
 				}
 			}
 		}
