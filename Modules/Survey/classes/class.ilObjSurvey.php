@@ -2287,23 +2287,23 @@ class ilObjSurvey extends ilObject
 /**
 * Returns the question id's of all questions of a question block
 * 
-* Returns the question id's of all questions of a question block
-*
 * @result array The id's of the the question block questions
 * @access public
 */
 	function &getQuestionblockQuestionIds($questionblock_id)
 	{
 		global $ilDB;
-		$ids = array();
-		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.question_id AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = %s AND survey_questionblock.questionblock_id = %s ORDER BY survey_survey_question.sequence ASC",
-			$ilDB->quote($this->getId()),
-			$ilDB->quote($questionblock_id)
+		$statement = $ilDB->prepare("SELECT question_fi FROM survey_questionblock_question WHERE questionblock_fi = ?",
+			array("integer")
 		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+		$result = $ilDB->execute($statement, array($questionblock_id));
+		$ids = array();
+		if ($result->numRows())
 		{
-			array_push($ids, $row->question_id);
+			while ($data = $ilDB->fetchAssoc($result))
+			{
+				array_push($ids, $data['question_fi']);
+			}
 		}
 		return $ids;
 	}
@@ -3730,29 +3730,7 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 	
-	function &getQuestionblocks($questionblock_ids)
-	{
-		global $ilDB;
-		
-		$result_array = array();
-    $query = "SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id IN ('" . join($questionblock_ids, "','") . "') ORDER BY survey_survey.survey_id, survey_survey_question.sequence";
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			if ($row["questionblock_id"] != $qbid)
-			{
-				$sequence = 1;
-			}
-			$row["sequence"] = $sequence++;
-			$result_array[$row["questionblock_id"]][$row["question_id"]] = $row;
-			$qbid = $row["questionblock_id"];
-		}
-		return $result_array;
-	}
-
 /**
-* Calculates the data for the output of the question browser
-*
 * Calculates the data for the output of the question browser
 *
 * @access public
@@ -3908,10 +3886,12 @@ class ilObjSurvey extends ilObject
 		global $ilDB;
 		global $ilUser;
 		$where = "";
-		if (strlen($filter_text) > 0) {
-			switch($sel_filter_type) {
+		if (strlen($filter_text) > 0) 
+		{
+			switch($sel_filter_type) 
+			{
 				case "title":
-					$where = " AND survey_questionblock.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
+					$where = "AND WHERE survey_questionblock.title LIKE ?";
 					break;
 			}
 		}
@@ -3923,34 +3903,17 @@ class ilObjSurvey extends ilObject
 		switch($sort) 
 		{
 			case "title":
-				$order = " ORDER BY survey_questionblock.title $sortorder";
+				$order = " ORDER BY title $sortorder";
 				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 			case "svy":
-				$order = " ORDER BY survey_survey_question.survey_fi $sortorder";
-				$images["svy"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
+//				$order = " ORDER BY survey_survey_question.survey_fi $sortorder";
+//				$images["svy"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . strtolower($sortorder) . "ending order\" />";
 				break;
 		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
-		if ($order)
-		{
-			$order .=  ",survey_survey_question.sequence ASC";
-		}
-		else
-		{
-			$order = " ORDER BY survey_survey_question.sequence ASC";
-		}
-		$query = "SELECT survey_questionblock.questionblock_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where GROUP BY survey_questionblock.questionblock_id$order$limit";
+		$query = "SELECT questionblock_id FROM survey_questionblock";
     $query_result = $ilDB->query($query);
-		$questionblock_ids = array();
-		if ($query_result->numRows())
-		{
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
-			{
-				array_push($questionblock_ids, $row["questionblock_id"]);
-			}
-		}
-		
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
 		{
@@ -3960,13 +3923,27 @@ class ilObjSurvey extends ilObject
 		{
 			$startrow = 0;
 		}
-		$limit = " LIMIT $startrow, $maxentries";
-		$query = "SELECT survey_questionblock.*, object_data.title as surveytitle FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where GROUP BY survey_questionblock.questionblock_id$order$limit";
-    $query_result = $ilDB->query($query);
+		$ilDB->setLimit($maxentries, $startrow);
+		if (strlen($where))
+		{
+			$statement = $ilDB->prepare("SELECT survey_questionblock.*, survey_survey.obj_fi FROM survey_questionblock , survey_questionblock_question, survey_survey WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi $where GROUP BY survey_questionblock.questionblock_id $order", array('text'));
+			$query_result = $ilDB->execute($statement, array($filter_text));
+		}
+		else
+		{
+			$statement = $ilDB->prepare("SELECT survey_questionblock.*, survey_survey.obj_fi FROM survey_questionblock , survey_questionblock_question, survey_survey WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi GROUP BY survey_questionblock.questionblock_id $order");
+			$query_result = $ilDB->execute($statement);
+		}
 		$rows = array();
 		if ($query_result->numRows())
 		{
-			while ($row = $query_result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			$surveys = ilObject::_getObjectsDataForType('svy', true);
+			$surveytitles = array();
+			foreach ($surveys as $data)
+			{
+				$surveytitles[$data['id']] = $data['title'];
+			}
+			while ($row = $ilDB->fetchAssoc($query_result))
 			{
 				$questions_array =& $this->getQuestionblockQuestions($row["questionblock_id"]);
 				$counter = 1;
@@ -3975,13 +3952,16 @@ class ilObjSurvey extends ilObject
 					$questions_array[$key] = "$counter. $value";
 					$counter++;
 				}
-				$rows[$row["questionblock_id"]] = array(
-					"questionblock_id" => $row["questionblock_id"],
-					"title" => $row["title"], 
-					"surveytitle" => $row["surveytitle"], 
-					"questions" => join($questions_array, ", "),
-					"owner" => $row["owner_fi"]
-				);
+				if (strlen($surveytitles[$row["obj_fi"]])) // only questionpools which are not in trash
+				{
+					$rows[$row["questionblock_id"]] = array(
+						"questionblock_id" => $row["questionblock_id"],
+						"title" => $row["title"], 
+						"surveytitle" => $surveytitles[$row["obj_fi"]], 
+						"questions" => join($questions_array, ", "),
+						"owner" => $row["owner_fi"]
+					);
+				}
 			}
 		}
 		$nextrow = $startrow + $maxentries;
@@ -4385,43 +4365,6 @@ class ilObjSurvey extends ilObject
 		return $error;
 	}
 
-/**
-* Returns the available surveys for the active user
-*
-* Returns the available surveys for the active user
-*
-* @return array The available surveys
-* @access public
-*/
-	function &_getAvailableSurveys($use_object_id = false)
-	{
-		global $ilUser;
-		global $ilDB;
-
-		$result_array = array();
-		$surveys = ilUtil::_getObjectsByOperations("svy","write", $ilUser->getId(), -1);
-		if (count($surveys))
-		{
-			$titles = ilObject::_prepareCloneSelection($surveys, "svy");
-			$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') ORDER BY object_data.title",
-				implode("','", $surveys)
-			);
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-			{
-				if ($use_object_id)
-				{
-					$result_array[$row["obj_id"]] = $titles[$row["ref_id"]];
-				}
-				else
-				{
-					$result_array[$row["ref_id"]] = $titles[$row["ref_id"]];
-				}
-			}
-		}
-		return $result_array;
-	}	
-	
 	/**
 	 * Clone object
 	 *

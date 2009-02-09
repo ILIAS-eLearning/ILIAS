@@ -601,11 +601,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$add_parameter .= "&filter_text=$filter_text";
 
-		$filter_fields = array(
-			"title" => $this->lng->txt("title"),
-			"comment" => $this->lng->txt("description"),
-			"author" => $this->lng->txt("author"),
-		);
+		if ($browsequestions)
+		{
+			$filter_fields = array(
+				"title" => $this->lng->txt("title"),
+				"comment" => $this->lng->txt("description"),
+				"author" => $this->lng->txt("author"),
+			);
+		}
+		else
+		{
+			$filter_fields = array(
+				"title" => $this->lng->txt("title")
+			);
+		}
 		$this->tpl->setCurrentBlock("filterrow");
 		foreach ($filter_fields as $key => $value) 
 		{
