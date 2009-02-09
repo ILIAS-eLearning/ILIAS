@@ -77,8 +77,8 @@ class assFileUploadGUI extends assQuestionGUI
 		$this->object->setPoints(ilUtil::stripSlashes($_POST["points"]));
 		// adding estimated working time
 		$this->writeOtherPostData();
-		$this->object->setTextSize(ilUtil::stripSlashes($_POST["textsize"]));
-		$this->object->setOrderText(ilUtil::stripSlashes($_POST["ordertext"]));
+		$this->object->setMaxSize(ilUtil::stripSlashes($_POST["maxsize"]));
+		$this->object->setAllowedExtensions(ilUtil::stripSlashes($_POST["allowedextensions"]));
 		return $this->editQuestion(TRUE);
 	}
 
@@ -99,7 +99,7 @@ class assFileUploadGUI extends assQuestionGUI
 		$form->setTitle($this->lng->txt("assFileUpload"));
 		$form->setMultipart(FALSE);
 		$form->setTableWidth("100%");
-		$form->setId("orderinghorizontal");
+		$form->setId("assfileupload");
 
 		// title
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -145,22 +145,21 @@ class assFileUploadGUI extends assQuestionGUI
 			$hidden->setValue($this->object->getId());
 			$form->addItem($hidden);
 		}
-		// ordertext
-		$ordertext = new ilTextAreaInputGUI($this->lng->txt("ordertext"), "ordertext");
-		$ordertext->setValue($this->object->prepareTextareaOutput($this->object->getOrderText()));
-		$ordertext->setRequired(TRUE);
-		$ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->separator));
-		$ordertext->setRows(10);
-		$ordertext->setCols(80);
-		$form->addItem($ordertext);
-		// textsize
-		$textsize = new ilNumberInputGUI($this->lng->txt("textsize"), "textsize");
-		$textsize->setValue($this->object->getTextSize());
-		$textsize->setInfo($this->lng->txt("textsize_info"));
-		$textsize->setSize(6);
-		$textsize->setMinValue(10);
-		$textsize->setRequired(FALSE);
-		$form->addItem($textsize);
+		// maxsize
+		$maxsize = new ilNumberInputGUI($this->lng->txt("maxsize"), "maxsize");
+		$maxsize->setValue($this->object->getMaxSize());
+		$maxsize->setInfo($this->lng->txt("maxsize_info"));
+		$maxsize->setSize(10);
+		$maxsize->setMinValue(0);
+		$maxsize->setMaxValue($this->object->getMaxFilesizeInBytes());
+		$maxsize->setRequired(FALSE);
+		$form->addItem($maxsize);
+		// allowedextensions
+		$allowedextensions = new ilTextInputGUI($this->lng->txt("allowedextensions"), "allowedextensions");
+		$allowedextensions->setInfo($this->lng->txt("allowedextensions_info"));
+		$allowedextensions->setValue($this->object->getAllowedExtensions());
+		$allowedextensions->setRequired(FALSE);
+		$form->addItem($allowedextensions);
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
 		$points->setValue($this->object->getPoints());
@@ -188,6 +187,7 @@ class assFileUploadGUI extends assQuestionGUI
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
+		$this->tpl->setVariable("ENCTYPE", 'enctype="multipart/form-data"');
 	}
 
 	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
@@ -283,34 +283,31 @@ class assFileUploadGUI extends assQuestionGUI
 	
 	function getPreview($show_question_only = FALSE)
 	{
-		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$elements = $this->object->getRandomOrderingElements();
-		foreach ($elements as $id => $element)
+		$template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		if (strlen($this->object->getAllowedExtensions()))
 		{
-			$template->setCurrentBlock("element");
-			$template->setVariable("ELEMENT_ID", "e$id");
-			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+			$template->setCurrentBlock("allowed_extensions");
+			$template->setVariable("TXT_ALLOWED_EXTENSIONS", $this->object->prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
 			$template->parseCurrentBlock();
 		}
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
+		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
+		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeInBytes() . " " . $this->lng->txt("bytes")));
+
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDragDropAnimation();
-		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		return $questionoutput;
 	}
 
 	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
 	{
 		// generate the question output
-		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$elements = $this->object->getRandomOrderingElements();
+		$template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		if ($active_id)
 		{
@@ -321,30 +318,37 @@ class assFileUploadGUI extends assQuestionGUI
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
-			if (count($solutions) == 1)
+
+			$files = $this->object->getUploadedFiles($active_id, $pass);
+			if (count($files))
 			{
-				$elements = split("{::}", $solutions[0]["value1"]);
+				include_once "./Modules/TestQuestionPool/classes/class.assFileUploadFileTableGUI.php";
+				$table_gui = new assFileUploadFileTableGUI("iltestoutputgui", 'gotoquestion');
+				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.gif', $this->lng->txt('already_delivered_files'));
+				$table_gui->setData($files);
+				$template->setCurrentBlock("files");
+				$template->setVariable('FILES', $table_gui->getHTML());	
+				$template->parseCurrentBlock();
 			}
 		}
 		
-		foreach ($elements as $id => $element)
+		if (strlen($this->object->getAllowedExtensions()))
 		{
-			$template->setCurrentBlock("element");
-			$template->setVariable("ELEMENT_ID", "e$id");
-			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+			$template->setCurrentBlock("allowed_extensions");
+			$template->setVariable("TXT_ALLOWED_EXTENSIONS", $this->object->prepareTextareaOutput($this->lng->txt("allowedextensions") . ": " . $this->object->getAllowedExtensions()));
 			$template->parseCurrentBlock();
 		}
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
+		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
+		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeInBytes() . " " . $this->lng->txt("bytes")));
+
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDragDropAnimation();
-		$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;

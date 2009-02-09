@@ -56,7 +56,6 @@ class assFileUpload extends assQuestion
 	)
 	{
 		parent::__construct($title, $comment, $author, $owner, $question);
-		$this->ordertext = "";
 	}
 	
 	/**
@@ -152,13 +151,13 @@ class assFileUpload extends assQuestion
 		);
 		$data = array($this->getId());
 		$affectedRows = $ilDB->execute($statement, $data);
-		$statement = $ilDB->prepareManip("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, ordertext, textsize) VALUES (?, ?, ?)", 
-			array("integer", "text", "float")
+		$statement = $ilDB->prepareManip("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxsize, allowedextensions) VALUES (?, ?, ?)", 
+			array("integer", "float", "text")
 		);
 		$data = array(
 			$this->getId(),
-			$this->getOrderText(),
-			($this->getTextSize() < 10) ? NULL : $this->getTextSize()
+			(strlen($this->getMaxSize())) ? $this->getMaxSize() : NULL,
+			(strlen($this->getAllowedExtensions())) ? $this->getAllowedExtensions() : NULL
 		);
 		$affectedRows = $ilDB->execute($statement, $data);
 		parent::saveToDb();
@@ -168,7 +167,7 @@ class assFileUpload extends assQuestion
 	* Loads a assFileUpload object from a database
 	*
 	* @param object $db A pear DB object
-	* @param integer $question_id A unique key which defines the multiple choice test in the database
+	* @param integer $question_id A unique key which defines the question in the database
 	*/
 	public function loadFromDb($question_id)
 	{
@@ -193,8 +192,8 @@ class assFileUpload extends assQuestion
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-			$this->setOrderText($data["ordertext"]);
-			$this->setTextSize($data["textsize"]);
+			$this->setMaxSize($data["maxsize"]);
+			$this->setAllowedExtensions($data["allowedextensions"]);
 		}
 		parent::loadFromDb($question_id);
 	}
@@ -306,26 +305,209 @@ class assFileUpload extends assQuestion
 	{
 		global $ilDB;
 		
-		$found_values = array();
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$statement = $ilDB->prepare("SELECT * FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?",
-			array("integer", "integer", "integer")
-		);
-		$result = $ilDB->execute($statement, array($active_id, $this->getId(), $pass));
-
 		$points = 0;
-		$data = $ilDB->fetchAssoc($result);
-		if (strcmp($data["value1"], join($this->getOrderingElements(), "{::}")) == 0)
-		{
-			$points = $this->getPoints();
-		}
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
 	
+	/**
+	* Check file upload
+	*
+	* @return	boolean Input ok, true/false
+	*/	
+	function checkUpload()
+	{
+		global $lng;
+
+		$this->lng->loadLanguageModule("form");
+		// remove trailing '/'
+		while (substr($_FILES["upload"]["name"],-1) == '/')
+		{
+			$_FILES["upload"]["name"] = substr($_FILES["upload"]["name"],0,-1);
+		}
+
+		$filename = $_FILES["upload"]["name"];
+		$filename_arr = pathinfo($_FILES["upload"]["name"]);
+		$suffix = $filename_arr["extension"];
+		$mimetype = $_FILES["upload"]["type"];
+		$size_bytes = $_FILES["upload"]["size"];
+		$temp_name = $_FILES["upload"]["tmp_name"];
+		$error = $_FILES["upload"]["error"];
+		
+		if ($size_bytes > $this->getMaxFilesizeInBytes())
+		{
+			ilUtil::sendInfo($lng->txt("form_msg_file_size_exceeds"), true);
+			return false;
+		}
+
+		// error handling
+		if ($error > 0)
+		{
+			switch ($error)
+			{
+				case UPLOAD_ERR_INI_SIZE:
+					ilUtil::sendInfo($lng->txt("form_msg_file_size_exceeds"), true);
+					return false;
+					break;
+					 
+				case UPLOAD_ERR_FORM_SIZE:
+					ilUtil::sendInfo($lng->txt("form_msg_file_size_exceeds"), true);
+					return false;
+					break;
+	
+				case UPLOAD_ERR_PARTIAL:
+					ilUtil::sendInfo($lng->txt("form_msg_file_partially_uploaded"), true);
+					return false;
+					break;
+	
+				case UPLOAD_ERR_NO_FILE:
+					ilUtil::sendInfo($lng->txt("form_msg_file_no_upload"), true);
+					return false;
+					break;
+	 
+				case UPLOAD_ERR_NO_TMP_DIR:
+					ilUtil::sendInfo($lng->txt("form_msg_file_missing_tmp_dir"), true);
+					return false;
+					break;
+					 
+				case UPLOAD_ERR_CANT_WRITE:
+					ilUtil::sendInfo($lng->txt("form_msg_file_cannot_write_to_disk"), true);
+					return false;
+					break;
+	 
+				case UPLOAD_ERR_EXTENSION:
+					ilUtil::sendInfo($lng->txt("form_msg_file_upload_stopped_ext"), true);
+					return false;
+					break;
+			}
+		}
+		
+		// check suffixes
+		if (strlen($suffix) && count($this->getAllowedExtensionsArray()))
+		{
+			if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray()))
+			{
+				ilUtil::sendInfo($lng->txt("form_msg_file_wrong_file_type"), true);
+				return false;
+			}
+		}
+		
+		// virus handling
+		if (strlen($temp_name))
+		{
+			$vir = ilUtil::virusHandling($temp_name, $filename);
+			if ($vir[0] == false)
+			{
+				ilUtil::sendInfo($lng->txt("form_msg_file_virus_found")."<br />".$vir[1], true);
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	/**
+	* Returns the filesystem path for file uploads
+	*/
+	protected function getFileUploadPath()
+	{
+		return ilUtil::getDataDir()."/qpl_data/$this->obj_id/$this->id/";
+	}
+	
+	/**
+	* Returns the uploaded files for an active user in a given pass
+	*
+	* @return array Results
+	*/
+	public function getUploadedFiles($active_id, $pass)
+	{
+		global $ilDB;
+		$statement = $ilDB->prepare("SELECT *, TIMESTAMP+0 AS timestamp14 FROM tst_solutions WHERE active_fi = ? AND pass = ? ORDER BY timestamp14",
+			array("integer", "integer")
+		);
+		$result = $ilDB->execute($statement, array($active_id, $pass));
+		$found = array();
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			array_push($found, $data);
+		}
+		return $found;
+	}
+	
+	/**
+	* Delete uploaded files
+	*
+  * @param array Array with ID's of the file datasets
+	*/
+	protected function deleteUploadedFiles($files)
+	{
+		global $ilDB;
+		
+		$pass = null;
+		$active_id = null;
+		foreach ($files as $solution_id)
+		{
+			$statement = $ilDB->prepare("SELECT * FROM tst_solutions WHERE solution_id = ?",
+				array("integer")
+			);
+			$result = $ilDB->execute($statement, array($solution_id));
+			if ($result->numRows() == 1)
+			{
+				$data = $ilDB->fetchAssoc($result);
+				$pass = $data['pass'];
+				$active_id = $data['active_fi'];
+				@unlink($this->getFileUploadPath() . $data['value1']);
+			}
+		}
+		foreach ($files as $solution_id)
+		{
+			$statement = $ilDB->prepareManip("DELETE FROM tst_solutions WHERE solution_id = ?", 
+				array("integer")
+			);
+			$data = array($solution_id);
+			$affectedRows = $ilDB->execute($statement, $data);
+		}
+	}
+	
+	/**
+	* Return the maximum allowed file size in bytes
+	*
+  * @return integer The number of bytes of the maximum allowed file size
+	*/
+	public function getMaxFilesizeInBytes()
+	{
+		if (strlen($this->getMaxSize()))
+		{
+			return $this->getMaxSize();
+		}
+		else
+		{
+			// get the value for the maximal uploadable filesize from the php.ini (if available)
+			$umf = get_cfg_var("upload_max_filesize");
+			// get the value for the maximal post data from the php.ini (if available)
+			$pms = get_cfg_var("post_max_size");
+
+			//convert from short-string representation to "real" bytes
+			$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+
+			$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+			$pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+
+			if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
+			if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
+
+			// use the smaller one as limit
+			$max_filesize = min($umf, $pms);
+
+			if (!$max_filesize) $max_filesize=max($umf, $pms);
+			return $max_filesize;
+		}
+	}
+
 	/**
 	* Saves the learners input of the question to the database
 	*
@@ -344,31 +526,43 @@ class assFileUpload extends assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
-		$statement = $ilDB->prepareManip("DELETE FROM tst_solutions WHERE active_fi = ? AND question_fi = ? AND pass = ?", 
-			array("integer", "integer", "integer")
-		);
-		$data = array(
-			$active_id, 
-			$this->getId(), 
-			$pass
-		);
-		$affectedRows = $ilDB->execute($statement, $data);
-		
 		$entered_values = false;
-		if (strlen($_POST["orderresult"]))
+
+		if (strcmp($_POST['cmd']['gotoquestion'], $this->lng->txt('delete')) == 0)
 		{
-			$statement = $ilDB->prepareManip("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, NULL)", 
-				array("integer", "integer", "text", "text", "integer")
-			);
-			$data = array(
-				$active_id, 
-				$this->getId(),
-				$_POST["orderresult"],
-				NULL,
-				$pass
-			);
-			$affectedRows = $ilDB->execute($statement, $data);
-			$entered_values = true;
+			$deletefiles = $_POST['file'];
+			if (is_array($deletefiles) && count($deletefiles) > 0)
+			{
+				$this->deleteUploadedFiles($deletefiles);
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
+			}
+		}
+		else
+		{
+			if ($this->checkUpload())
+			{
+				if (!@file_exists($this->getFileUploadPath())) ilUtil::makeDirParents($this->getFileUploadPath());
+				$version = time();
+				$filename_arr = pathinfo($_FILES["upload"]["name"]);
+				$extension = $filename_arr["extension"];
+				$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
+				ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath() . $newfile);
+				$statement = $ilDB->prepareManip("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, NULL)", 
+					array("integer", "integer", "text", "text", "integer")
+				);
+				$data = array(
+					$active_id, 
+					$this->getId(),
+					$newfile,
+					$_FILES["upload"]["name"],
+					$pass
+				);
+				$affectedRows = $ilDB->execute($statement, $data);
+				$entered_values = true;
+			}
 		}
 		if ($entered_values)
 		{
@@ -407,7 +601,7 @@ class assFileUpload extends assQuestion
 	*/
 	public function getAdditionalTableName()
 	{
-		return "qpl_question_orderinghorizontal";
+		return "qpl_question_fileupload";
 	}
 	
 	/**
@@ -502,98 +696,57 @@ class assFileUpload extends assQuestion
 	}
 	
 	/**
-	* Get ordering elements from order text
+	* Get max file size
 	*
-	* @return array Ordering elements
+	* @return double Max file size
 	*/
-	public function getOrderingElements()
+	public function getMaxSize()
 	{
-		$text = $this->getOrderText();
-		$result = array();
-		if (ilStr::strPos($text, $this->separator) === false)
+		return $this->maxsize;
+	}
+	
+	/**
+	* Set max file size
+	*
+	* @param double $a_value Max file size
+	*/
+	public function setMaxSize($a_value)
+	{
+		$this->maxsize = $a_value;
+	}
+	
+	/**
+	* Get allowed file extensions
+	*
+	* @return array Allowed file extensions
+	*/
+	public function getAllowedExtensionsArray()
+	{
+		if (strlen($this->allowedextensions))
 		{
-			$result = preg_split("/\\s+/", $text);
+			return split(",", $this->allowedextensions);
 		}
-		else
-		{
-			$result = split($this->separator, $text);
-		}
-		return $result;
+		return array();
 	}
 	
 	/**
-	* Get ordering elements from order text in random sequence
+	* Get allowed file extensions
 	*
-	* @return array Ordering elements
+	* @return string Allowed file extensions
 	*/
-	public function getRandomOrderingElements()
+	public function getAllowedExtensions()
 	{
-		$elements = $this->getOrderingElements();
-		shuffle($elements);
-		return $elements;
+		return $this->allowedextensions;
 	}
 	
 	/**
-	* Get order text
+	* Set allowed file extensions
 	*
-	* @return string Order text
+	* @param string $a_value Allowed file extensions
 	*/
-	public function getOrderText()
+	public function setAllowedExtensions($a_value)
 	{
-		return $this->ordertext;
-	}
-	
-	/**
-	* Set order text
-	*
-	* @param string $a_value Order text
-	*/
-	public function setOrderText($a_value)
-	{
-		$this->ordertext = $a_value;
-	}
-	
-	/**
-	* Get text size
-	*
-	* @return double Text size in percent
-	*/
-	public function getTextSize()
-	{
-		return $this->textsize;
-	}
-	
-	/**
-	* Set text size
-	*
-	* @param double $a_value Text size in percent
-	*/
-	public function setTextSize($a_value)
-	{
-		if ($a_value >= 10)
-		{
-			$this->textsize = $a_value;
-		}
-	}
-	
-	/**
-	* Get order text separator
-	*
-	* @return string Separator
-	*/
-	public function getSeparator()
-	{
-		return $this->separator;
-	}
-	
-	/**
-	* Set order text separator
-	*
-	* @param string $a_value Separator
-	*/
-	public function setSeparator($a_value)
-	{
-		$this->separator = $a_value;
+		$this->allowedextensions = strtolower(trim($a_value));
 	}
 	
 	/**
@@ -603,14 +756,11 @@ class assFileUpload extends assQuestion
 	{
 		switch ($value)
 		{
-			case "ordertext":
-				return $this->getOrderText();
+			case "maxsize":
+				return $this->getMaxSize();
 				break;
-			case "textsize":
-				return $this->getTextSize();
-				break;
-			case "separator":
-				return $this->getSeparator();
+			case "allowedextensions":
+				return $this->getAllowedExtensions();
 				break;
 			default:
 				return parent::__get($value);
@@ -625,14 +775,11 @@ class assFileUpload extends assQuestion
 	{
 		switch ($key)
 		{
-			case "ordertext":
-				$this->setOrderText($value);
+			case "maxsize":
+				$this->setMaxSize($value);
 				break;
-			case "textsize":
-				$this->setTextSize($value);
-				break;
-			case "separator":
-				$this->setSeparator($value);
+			case "allowedextensions":
+				$this->setAllowedExtensions($value);
 				break;
 			default:
 				parent::__set($key, $value);

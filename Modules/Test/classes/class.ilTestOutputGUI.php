@@ -442,7 +442,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getLinkTarget($this, "autosave"));
 
 		$this->tpl->setCurrentBlock("adm_content");
-		//$this->tpl->setVariable("FORMACTION", $formaction);
 		$this->tpl->parseCurrentBlock();
 	}
 	

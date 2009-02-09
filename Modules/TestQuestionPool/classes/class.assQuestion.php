@@ -1061,7 +1061,7 @@ class assQuestion
 	function getJavaPath() {
 		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/java/";
 	}
-
+	
 	/**
 	* Returns the image path for web accessable images of a question
 	*
