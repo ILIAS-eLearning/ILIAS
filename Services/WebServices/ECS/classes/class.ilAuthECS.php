@@ -46,7 +46,7 @@ class ilAuthECS extends Auth
 	 * @access public
 	 * 
 	 */
-	public function __construct($ecs_hash)
+	public function __construct($a_options,$ecs_hash)
 	{
 		global $ilLog;
 		
@@ -57,7 +57,7 @@ class ilAuthECS extends Auth
 		
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilAuthContainerECS.php');
-	 	parent::__construct($this->container = new ilAuthContainerECS(array('ecs_hash' => $ecs_hash)),array());
+	 	parent::__construct($this->container = new ilAuthContainerECS(array('ecs_hash' => $ecs_hash)),$a_options);
 	 	
 		$this->initLogObserver();
 	 	$this->setCallbacks();
