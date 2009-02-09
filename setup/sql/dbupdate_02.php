@@ -7551,4 +7551,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 	$ilMySQLAbstraction->performAbstraction("il_block_setting");
 ?>
+<#1576>
+ALTER TABLE usr_data MODIFY gender CHAR(1) DEFAULT 'm';
+<#1577>
+ALTER TABLE usr_data MODIFY auth_mode CHAR(10) DEFAULT 'default';
 

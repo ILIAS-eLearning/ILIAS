@@ -742,7 +742,7 @@ class ilDB extends PEAR
 	{
 		$r = $this->db->query($sql);
 
-		//$this->logStatement($sql);
+//		$this->logStatement($sql);
 
 		return $this->handleError($r, "query(".$sql.")");
 	}

@@ -195,18 +195,20 @@ class ilObjUser extends ilObject
 	* @access private
 	*/
 	function read()
-	{	global $ilErr, $ilDB;
+	{
+		global $ilErr, $ilDB;
 
-		// TODO: fetching default role should be done in rbacadmin
-		$q = "SELECT * FROM usr_data ".
+		// Alex: I have removed the JOIN to rbac_ua, since there seems to be no
+		// use (3.11.0 alpha)
+		/*$q = "SELECT * FROM usr_data ".
 			 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
-			 "WHERE usr_data.usr_id= ".$ilDB->quote($this->id);
-		$r = $this->ilias->db->query($q);
-	
-		if ($r->numRows() > 0)
-		{
-			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			 "WHERE usr_data.usr_id= ".$ilDB->quote($this->id); */
+		$st = $ilDB->prepare("SELECT * FROM usr_data ".
+			 "WHERE usr_id= ?", array("integer"));
+		$r = $ilDB->execute($st, array($this->id));
 
+		if ($data = $ilDB->fetchAssoc($r))
+		{
 			// convert password storage layout used by table usr_data into
 			// storage layout used by class ilObjUser
 			if ($data["passwd"] == "" && $data["i2passwd"] != "")
