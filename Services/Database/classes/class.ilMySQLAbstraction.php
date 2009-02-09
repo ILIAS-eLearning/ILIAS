@@ -33,6 +33,8 @@
 */
 class ilMySQLAbstraction
 {
+	public $analyzer;
+	
 	/**
 	* Constructor
 	*/
@@ -214,7 +216,7 @@ class ilMySQLAbstraction
 		$upfields = array();
 		foreach ($fields as $field => $def)
 		{
-			if ($def["type"] == "text" && $def["fixed"] == false &&
+			if ($def["type"] == "text" &&
 				($def["length"] >= 1 && $def["length"] <= 4000))
 			{
 				$upfields[] = $field;
@@ -353,7 +355,7 @@ class ilMySQLAbstraction
 			}
 			
 			// set notnull to false for text fields
-			if ($a_set_text_fields_notnull_false && $def["type"] == "text" && !$def["fixed"] &&
+			if ($a_set_text_fields_notnull_false && $def["type"] == "text" &&
 				(!is_array($pk) || !isset($field,$pk["fields"][$field])))
 			{
 				$def["notnull"] = false;

@@ -118,7 +118,7 @@ class ilObjDefReader extends ilSaxParser
 					$this->current_component."/".$a_attribs["dir"],
 					(int) $a_attribs["checkbox"],
 					(int) $a_attribs["inherit"],
-					$a_attribs["translate"]."",
+					$a_attribs["translate"],
 					(int) $a_attribs["devmode"],
 					(int) $a_attribs["allow_link"],
 					(int) $a_attribs["allow_copy"],
@@ -126,7 +126,7 @@ class ilObjDefReader extends ilSaxParser
 					(int) $a_attribs["default_pos"],
 					(int) $a_attribs["default_pres_pos"],
 					(int) $a_attribs["sideblock"],
-					$a_attribs["group"]."",
+					$a_attribs["group"],
 					(int) $a_attribs["system"]));
 				break;
 			
