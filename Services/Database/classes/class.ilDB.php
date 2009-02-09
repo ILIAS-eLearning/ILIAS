@@ -1069,7 +1069,7 @@ class ilDB extends PEAR
 	*/
 	function quote($a_query, $a_type = null)
 	{
-		if ($a_query == "")
+		if ($a_query == "" && is_null($a_type))
 		{
 			$a_query = "";
 		}

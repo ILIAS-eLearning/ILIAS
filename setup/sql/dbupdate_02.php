@@ -7547,4 +7547,8 @@ if ($res->numRows() == 1)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1575>
+<?php
+	$ilMySQLAbstraction->performAbstraction("il_block_setting");
+?>
 
