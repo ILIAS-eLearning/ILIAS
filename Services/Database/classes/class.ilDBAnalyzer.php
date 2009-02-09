@@ -54,12 +54,14 @@ class ilDBAnalyzer
 	*/
 	function getFieldInformation($a_table)
 	{
+//echo "<br>-".$a_table."-".$field."-";
 		$fields = $this->manager->listTableFields($a_table);
 		$inf = array();
 		foreach ($fields as $field)
 		{
+//echo "<br>-".$a_table."-".$field."-";
 			$rdef = $this->reverse->getTableFieldDefinition($a_table, $field);
-
+//var_dump($rdef);
 			// is this possible?
 			if ($rdef["type"] != $rdef["mdb2type"])
 			{

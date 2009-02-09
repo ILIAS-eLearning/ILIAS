@@ -7531,3 +7531,20 @@ if ($res->numRows() == 1)
 	}
 }
 ?>
+<#1572>
+<?php
+	include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
+	$analyzer = new ilDBAnalyzer();
+	$pk = $analyzer->getPrimaryKeyInformation("il_object_def");
+	$fields = $analyzer->getFieldInformation("il_object_def");
+	$ilMySQLAbstraction->performAbstraction("il_object_def", $fields, true, $pk);
+?>
+<#1573>
+<?php
+	$ilMySQLAbstraction->replaceEmptyStringsWithNull("il_object_def");
+?>
+<#1574>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
