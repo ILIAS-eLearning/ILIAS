@@ -120,7 +120,7 @@ class ilCtrl
 			$st = $ilDB->prepare("SELECT * FROM il_component WHERE name = ? ",
 				array("text"));
 			$m_set = $ilDB->execute($st, array($module));			
-			$m_rec = $ilD->fetchAssoc($m_set);
+			$m_rec = $ilDB->fetchAssoc($m_set);
 			$this->module_dir = $m_rec["type"]."/".$m_rec["name"];
 			include_once $this->module_dir."/".$class_dir."/class.".$class.".php";
 		}
