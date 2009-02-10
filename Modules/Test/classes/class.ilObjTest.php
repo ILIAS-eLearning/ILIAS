@@ -5698,7 +5698,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 
 		// get all questions in the test
-		$query = sprintf("SELECT qpl_questions.original_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, tst_test_question, object_data WHERE qpl_questions.question_id = tst_test_question.question_fi AND object_data.obj_id = qpl_questions.obj_fi AND tst_test_question.test_fi = %s",
+		$query = sprintf("SELECT qpl_questions.original_id, qpl_questions.TIMESTAMP + 0 AS timestamp14 FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND tst_test_question.test_fi = %s",
 			$ilDB->quote($this->getTestId() . "")
 		);
 		$result = $ilDB->query($query);
