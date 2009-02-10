@@ -351,7 +351,7 @@ class ilTestServiceGUI
 					}
 					
 					$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
-					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
+					$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback(), FALSE, TRUE);
 
 					$solout = $question_gui->object->getSuggestedSolutionOutput();
 					if (strlen($solout))

@@ -168,10 +168,17 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if (array_key_exists("question", $_POST))
+		if (array_key_exists("question", $_POST) || strlen($_GET["anchor"]))
 		{
-			$keys = array_keys($_POST["question"]);
-			$question_id = $keys[0];
+			if (strlen($_GET["anchor"]))
+			{
+				$question_id = $_GET["anchor"];
+			}
+			else
+			{
+				$keys = array_keys($_POST["question"]);
+				$question_id = $keys[0];
+			}
 			$this->tpl->setCurrentBlock("lastchanged");
 			$this->tpl->setVariable("LAST_CHANGED", $question_id);
 			$this->tpl->parseCurrentBlock();
@@ -299,7 +306,6 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		}
 		$this->setPointsManual();
 	}
-
 }
 
 ?>

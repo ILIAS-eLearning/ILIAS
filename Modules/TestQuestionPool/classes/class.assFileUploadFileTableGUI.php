@@ -78,7 +78,14 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 		global $ilUser,$ilAccess;
 		
 		$this->tpl->setVariable('VAL_ID', $a_set['solution_id']);
-		$this->tpl->setVariable('VAL_FILE', ilUtil::prepareFormOutput($a_set['value2']));
+		if (strlen($a_set['webpath']))
+		{
+			$this->tpl->setVariable('VAL_FILE', '<a href="' . $a_set['webpath'] . $a_set['value1'] . '">' . ilUtil::prepareFormOutput($a_set['value2']) . '</a>');
+		}
+		else
+		{
+			$this->tpl->setVariable('VAL_FILE', ilUtil::prepareFormOutput($a_set['value2']));
+		}
 		$this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set["timestamp14"],IL_CAL_TIMESTAMP)));
 	}
 	

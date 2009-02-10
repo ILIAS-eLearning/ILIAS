@@ -704,18 +704,28 @@ class assClozeTestGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates a solution output of the question
+	* Get the question solution output
 	*
-	* Creates a solution output of the question
-	*
-	* @param integer $active_id The active id of the current user from the tst_active database table
-	* @param integer $pass The test pass of the current user
-	* @param boolean $graphicalOutput If TRUE, additional graphics (checkmark, cross) are shown to indicate wrong or right answers
-	* @param boolean $result_output If TRUE, the resulting points are shown for every answer
-	* @return string HTML code which contains the solution output of the question
-	* @access public
+	* @param integer $active_id The active user id
+	* @param integer $pass The test pass
+	* @param boolean $graphicalOutput Show visual feedback for right/wrong answers
+	* @param boolean $result_output Show the reached points for parts of the question
+	* @param boolean $show_question_only Show the question without the ILIAS content around
+	* @param boolean $show_feedback Show the question feedback
+	* @param boolean $show_correct_solution Show the correct solution instead of the user solution
+	* @param boolean $show_manual_scoring Show specific information for the manual scoring output
+	* @return The solution output of the question as HTML code
 	*/
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
+	function getSolutionOutput(
+		$active_id,
+		$pass = NULL,
+		$graphicalOutput = FALSE,
+		$result_output = FALSE,
+		$show_question_only = TRUE,
+		$show_feedback = FALSE,
+		$show_correct_solution = FALSE,
+		$show_manual_scoring = FALSE
+	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$user_solution = array();
