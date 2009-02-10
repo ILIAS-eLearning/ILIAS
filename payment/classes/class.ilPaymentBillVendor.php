@@ -71,16 +71,18 @@ class ilPaymentBillVendor
 
 	function delete()
 	{
-		$query = "DELETE FROM payment_bill_vendor ".
-			"WHERE pobject_id = '".$this->pobject_id."'";
+		$statement = $this->db->prepareManip('
+			DELETE from payment_bill_vendor
+			WHERE pobject_id = ?',
+			array('integer')
+		);
+		
+		$data = array($this->pobject_id);
 
-		$this->db->query($query);
-
+		$this->db->execute($statement,$data);
+	
 		return true;
 	}
-
-
-
 
 	// SET GET
 	function getPobjectId()
@@ -291,12 +293,16 @@ class ilPaymentBillVendor
 	{
 		if(!$this->hasData())
 		{
-			$query = "INSERT INTO payment_bill_vendor ".
-				"SET pobject_id = '".$this->getPobjectId()."'";
-
-			$this->db->query($query);
+			$statement = $this->db->prepareManip('
+				INSERT INTO payment_bill_vendor
+				SET pobject_id = ?',
+				array('integer')
+			);
+			$data = array($this->getPobjectId());
+			$this->db->execute($statement, $data);
 		}
-		$query = "UPDATE payment_bill_vendor ".
+		
+/*		$query = "UPDATE payment_bill_vendor ".
 			"SET ".
 			"gender = '".ilUtil::prepareDBString($this->getGender())."',".
 			"firstname = '".ilUtil::prepareDBString($this->getFirstname())."',".
@@ -319,6 +325,71 @@ class ilPaymentBillVendor
 			"WHERE pobject_id = '".$this->getPobjectId()."'";
 
 		$this->db->query($query);
+*/
+		$statement = $this->db->prepareManip('
+			UPDATE payment_bill_vendor
+			SET	gender = ?,
+				firstname = ?,
+				lastname = ?,
+				title = ?,
+				institution = ?,
+				department = ?,
+				street = ?,
+				zipcode = ?,
+				city = ?,
+				country = ?,
+				phone = ?,
+				fax = ?,
+				email = ?,
+				account_number = ?,
+				bankcode = ?,
+				iban = ?,
+				bic = ?,
+				bankname = ?
+			WHERE pobject_id = ?',
+			array(	'integer',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text'
+			)
+		);
+		
+		$data = array(	
+			$this->getGender(),
+			$this->getFirstname(),
+			$this->getLastname(),
+			$this->getTitle(),
+			$this->getInstitution(),
+			$this->getDepartment(),
+			$this->getStreet(),
+			$this->getZipcode(),
+			$this->getCity(),
+			$this->getCountry(),
+			$this->getPhone(),
+			$this->getFax(),
+			$this->getEmail(),
+			$this->getAccountNumber(),
+			$this->getBankcode(),			
+			$this->getIban(),
+			$this->getBic(),
+			$this->getBankname(),
+			$this->getPobjectId()
+		);
+
+		$this->db->execute($statement, $data);
 		$this->__read();
 	}
 
@@ -326,10 +397,13 @@ class ilPaymentBillVendor
 	// PIRVATE
 	function __read()
 	{
-		$query = "SELECT * FROM payment_bill_vendor ".
-			"WHERE pobject_id = '".$this->getPobjectId()."'";
-
-		$res = $this->db->query($query);
+		$statement = $this->db->prepareManip('
+			SELECT * FROM payment_bill_vendor
+			WHERE pobject_id = ?',
+			array('integer'));
+		$data = array($this->getPobjectId());
+		$res = $this->db->execute($statement, $data);
+			
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->has_data = true;

@@ -174,7 +174,8 @@ class ilPaymentBaseGUI
 			if(ilPaymentVendors::_isVendor($this->user_obj->getId()) or 
 			   ilPaymentTrustees::_hasStatisticPermission($this->user_obj->getId()))
 			{
-				$this->tabs_gui->addSubTabTarget('paya_statistic',
+				//$this->tabs_gui->addSubTabTarget('paya_statistic',
+				$this->tabs_gui->addSubTabTarget('bookings',
 												 $this->ctrl->getLinkTargetByClass('ilpaymentstatisticgui'),
 												 '',
 												 '',

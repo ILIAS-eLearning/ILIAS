@@ -84,9 +84,18 @@ class ilPaypalSettings
 	{
 		$this->fetchSettingsId();
 		
-		$query = "SELECT paypal FROM payment_settings WHERE settings_id = '" .  $this->getSettingsId() . "'";
+/*		$query = "SELECT paypal FROM payment_settings WHERE settings_id = '" .  $this->getSettingsId() . "'";
 		$result = $this->db->getrow($query);
-
+*/
+		$statement = $this->db->prepare('
+			SELECT paypal FROM payment_settings WHERE settings_id = ?',
+			array('integer')
+		);
+		
+		$sql_data = array($this->getSettingsId());
+		$res = $this->db->execute($statement, $sql_data);
+		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		
 		$data = array();
 		if (is_object($result))
 		{
@@ -109,8 +118,12 @@ class ilPaypalSettings
 	 */
 	private function fetchSettingsId()
 	{
-		$query = "SELECT * FROM payment_settings";
+/*		$query = "SELECT * FROM payment_settings";
 		$result = $this->db->getrow($query);
+*/
+		$statement = $this->db->prepare('SELECT * FROM payment_settings');
+		$res = $this->db->execute($statement);
+		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		$this->setSettingsId($result->settings_id);
 	}
@@ -199,11 +212,21 @@ class ilPaypalSettings
 	 */
 	function clearAll()
 	{
-		$query = "UPDATE payment_settings "
+/*		$query = "UPDATE payment_settings "
 				."SET paypal = '' "
 				."WHERE settings_id = '" . $this->settings_id . "'";
 		$this->db->query($query);
-
+*/
+		$statement = $this->db->prepareManip('
+			UPDATE payment_settings
+			SET paypal = ?
+			WHERE settings_id = ?',
+			array('text', 'integer')
+		);
+		
+		$data = array('', $this->getSettingsId());
+		$this->db->execute($statement, $data);
+		
 		$this->settings = array();
 	}
 		
@@ -216,7 +239,7 @@ class ilPaypalSettings
 	{
 		global $ilDB;
 		
-		$values = array(
+	$values = array(
 			"server_host" => $this->getServerHost(),
 			"server_path" => $this->getServerPath(),
 			"vendor" => $this->getVendor(),
@@ -224,7 +247,7 @@ class ilPaypalSettings
 			"page_style" => $this->getPageStyle(),
 			"ssl" => $this->getSsl()			
 		);		
-		
+/*			
 		if ($this->getSettingsId())
 		{		
 			$query = "UPDATE payment_settings "
@@ -241,5 +264,33 @@ class ilPaypalSettings
 			$this->setSettingsId($this->db->getLastInsertId());
 		}		
 	}
+*/
+		if ($this->getSettingsId())
+		{
+			$statement = $this->db->prepareManip('
+				UPDATE payment_settings
+				SET paypal = ?
+				WHERE settings_id = ?',
+				array('text', 'integer')
+			);
+
+			$data = array(serialize($values), $this->getSettingsId());
+			$this->db->execute($statement, $data);
+		}
+		else
+		{
+			$statement = $this->db->prepareManip('
+				INSERT INTO payment_settings
+				SET paypal = ?',
+				array('text')
+			);
+
+			$data = array(serialize($values));
+			
+			$this->db->execute($statement, $data);
+			$this->setSettingsId($this->db->getLastInsertId());
+			
+		}
+	}	
 }
 ?>

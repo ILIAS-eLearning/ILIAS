@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -31,7 +31,6 @@
 include_once './payment/classes/class.ilPaymentVendors.php';
 include_once './payment/classes/class.ilPaymentTrustees.php';
 
-
 class ilPaymentBookings
 {
 	/*
@@ -43,8 +42,16 @@ class ilPaymentBookings
 	var $bookings = array();
 
 	var $booking_id = null;
-	var $payed = null;
-	var $access = null;
+	var $payed 		= null;
+	var $access 	= null;
+	var $voucher 	= null;
+	var $street 	= null;
+	var $house_nr 	= null;
+	var $po_box 	= null;
+	var $zipcode 	= null;
+	var $city 		= null;
+	var $country 	= null;
+	
 	var $admin_view = false;
 
 	/*
@@ -177,27 +184,125 @@ class ilPaymentBookings
 	{
 		return $this->transaction_extern;
 	}
+	
+	 function getStreet()
+	 {
+	 	return $this->street;
+	 }
+	 function setStreet($a_street, $a_house_nr)
+	 {
+	 	$street = $a_street.' '.$a_house_nr;
+	 	$this->street = $street;
+	 }
+	 
+	 function getPoBox()
+	 {
+	 	return $this->po_box;
+	 }
+	 function setPoBox($a_po_box)
+	 {
+	 	$this->po_box = $a_po_box;
+	 }
+	 
+	 function getZipcode()
+	 {
+	 	return $this->zipcode;
+	 }
+	 function setZipcode($a_zipcode)
+	 {
+	 	$this->zipcode = $a_zipcode;
+	 }
+	 function getCity()
+	 {
+	 	return $this->city;
+	 }
+	 function setCity($a_city)
+	 {
+	 	$this->city = $a_city;
+	 }
+	 
+	 function getCountry()
+	 {
+	 	return $this->country;
+	 }	
+	 function setCountry($a_country)
+	 {
+	 	$this->country = $a_country;
+	 }
+		
+		
 
 	function add()
 	{
-		$query = sprintf("INSERT INTO payment_statistic VALUES('',".
-						 "'%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
-						 $this->getTransaction(),
-						 $this->getPobjectId(),
-						 $this->getCustomerId(),
-						 $this->getVendorId(),
-						 $this->getPayMethod(),
-						 $this->getOrderDate(),
-						 $this->getDuration(),
-						 $this->getPrice(),
-						 $this->getDiscount(),
-						 $this->getPayedStatus(),
-						 $this->getAccessStatus(),
-						 $this->getVoucher(),
-						 $this->getTransactionExtern());
-
-		$this->db->query($query);
-
+		$statement = $this->db->prepareManip('
+						INSERT INTO payment_statistic
+							(
+								transaction,
+								pobject_id,
+								customer_id,
+								b_vendor_id,
+								b_pay_method,
+								order_date,
+								duration,
+								price,
+								discount,
+								payed,
+								access,
+								voucher,
+								transaction_extern,
+								street,
+								po_box,
+								zipcode,
+								city,
+								country
+							)
+						VALUES 
+							( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+						array(	
+								'text', 
+								'integer', 
+								'integer', 
+								'integer',
+								'integer',
+								'integer',
+								'text',
+								'text',
+								'text',
+								'integer',
+								'integer',
+								'text',
+								'text',
+								'text',
+								'text',
+								'text',
+								'text',
+								'text',						
+							)
+		);
+		
+		$data = array(
+						$this->getTransaction(),
+						$this->getPobjectId(),
+						$this->getCustomerId(),
+						$this->getVendorId(),
+						$this->getPayMethod(),
+						$this->getOrderDate(),
+						$this->getDuration(),
+						$this->getPrice(),
+						$this->getDiscount(),
+						$this->getPayedStatus(),
+						$this->getAccessStatus(),
+						$this->getVoucher(),
+						$this->getTransactionExtern(),
+						$this->getStreet(),
+						$this->getPoBox(),
+						$this->getZipcode(),
+						$this->getCity(),
+						$this->getCountry()
+					);
+					
+		$this->db->execute($statement, $data);	
+					
 		return $this->db->getLastInsertId();
 	}
 						 
@@ -205,12 +310,15 @@ class ilPaymentBookings
 	{
 		if($this->getBookingId())
 		{
-			$query = "UPDATE payment_statistic ".
-				"SET payed = '".(int) $this->getPayedStatus()."', ".
-				"access = '".(int) $this->getAccessStatus()."' ".
-				"WHERE booking_id = '".$this->getBookingId()."'";
-			$this->db->query($query);
-
+			$statement = $this->db->prepareManip('
+				UPDATE payment_statistic 
+				SET payed = ?, 
+					access = ?
+				WHERE booking_id = ?', 
+				array('integer', 'integer', 'integer'));
+			
+			$data = array((int) $this->getPayedStatus(), (int) $this->getAccessStatus(), $this->getBookingId());
+			$this->db->execute($statement, $data);
 			return true;
 		}
 		return false;
@@ -220,11 +328,13 @@ class ilPaymentBookings
 	{
 		if($this->getBookingId())
 		{
-			$query = "DELETE FROM payment_statistic ".
-				"WHERE booking_id = '".$this->getBookingId()."'";
-
-			$this->db->query($query);
-
+			$statement = $this->db->prepareManip('
+							DELETE FROM payment_statistic
+							WHERE booking_id = ?', array('integer'));
+			
+			$data = array((int)$this->getBookingId());
+			$this->db->execute($statement, $data);
+			
 			return true;
 		}
 		return false;
@@ -232,14 +342,19 @@ class ilPaymentBookings
 
 	function getBookingsOfCustomer($a_usr_id)
 	{
-		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po '.
-			"WHERE ps.pobject_id = po.pobject_id ".
-			"AND customer_id = '".$a_usr_id."' ".
-			"ORDER BY order_date DESC";
+		$statement = $this->db->prepare('
+			SELECT * from payment_statistic ps, payment_objects po
+			WHERE ps.pobject_id = po.pobject_id
+			AND customer_id = ?
+			ORDER BY order_date DESC',
+			array('integer')
+		);
 
-		$res = $this->db->query($query);
+		$data = array($a_usr_id);
+		$res = $this->db->execute($statement, $data);
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
+		{ 
 			$booking[$row->booking_id]['booking_id'] = $row->booking_id;
 			$booking[$row->booking_id]['transaction'] = $row->transaction;
 			$booking[$row->booking_id]['pobject_id'] = $row->pobject_id;
@@ -258,7 +373,14 @@ class ilPaymentBookings
 			$booking[$row->booking_id]['b_pay_method'] = $row->b_pay_method;
 			$booking[$row->booking_id]['voucher'] = $row->voucher;
 			$booking[$row->booking_id]['transaction_extern'] = $row->transaction_extern;
+			$booking[$row->booking_id]['street'] = $row->street;
+			$booking[$row->booking_id]['po_box'] = $row->po_box;
+			$booking[$row->booking_id]['zipcode'] = $row->zipcode;
+			$booking[$row->booking_id]['city'] = $row->city;
+			$booking[$row->booking_id]['country'] = $row->country;
+			
 		}
+
 		return $booking ? $booking : array();
 	}
 
@@ -269,11 +391,17 @@ class ilPaymentBookings
 
 	function getBooking($a_booking_id)
 	{
-		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po '.
-			"WHERE ps.pobject_id = po.pobject_id ".
-			"AND booking_id = '".$a_booking_id."'";
-
-		$res = $this->db->query($query);
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_statistic ps, payment_objects po
+			WHERE ps.pobject_id = po.pobject_id
+			AND booking_id = ?',
+			array('integer')
+		);
+		
+		$data = array($a_booking_id);
+		
+		$res = $this->db->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$booking['booking_id'] = $row->booking_id;
@@ -294,23 +422,32 @@ class ilPaymentBookings
 			$booking['b_pay_method'] = $row->b_pay_method;
 			$booking['voucher'] = $row->voucher;
 			$booking['transaction_extern'] = $row->transaction_extern;
+			$booking['street'] = $row->street;
+			$booking['po_box'] = $row->po_box;
+			$booking['zipcode'] = $row->zipcode;
+			$booking['city'] = $row->city;
+			$booking['country'] = $row->country;			
 		}
 		return $booking ? $booking : array();
 	}
-			
 
 	// STATIC
 	function _getCountBookingsByVendor($a_vendor_id)
 	{
 		global $ilDB;
-		
-		$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
-			"WHERE b_vendor_id = '".$a_vendor_id."'";
 
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$statement = $ilDB->prepare(
+			'SELECT COUNT(booking_id) bid FROM payment_statistic
+			WHERE b_vendor_id = ?',
+			array('integer')
+		);
+		$data = array($a_vendor_id);
+
+		$res = $ilDB->execute($statement, $data);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			return $row->bid;
+			return $row['bid'];
 		}
 		return 0;
 	}
@@ -319,24 +456,36 @@ class ilPaymentBookings
 	{
 		global $ilDB;
 		
-		$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
-			"WHERE customer_id = '".$a_vendor_id."'";
+		$statement = $ilDB->prepare('
+			SELECT COUNT(booking_id) bid FROM payment_statistic
+			WHERE customer_id = ?',
+			array('integer')
+		);
 
-		$res = $ilDB->query($query);
+		$data = array($a_vendor_id);
+		
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->bid;
 		}
 		return 0;
 	}
+	
 	function _getCountBookingsByObject($a_pobject_id)
 	{
 		global $ilDB;
 
-		$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
-			"WHERE pobject_id = '".$a_pobject_id."'";
-
-		$res = $ilDB->query($query);
+		$statement = $ilDB->prepare('
+			SELECT COUNT(booking_id) bid FROM payment_statistic
+			WHERE pobject_id = ?',
+			array('integer')
+		);
+		
+		$data = array($a_pobject_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->bid;
@@ -349,14 +498,20 @@ class ilPaymentBookings
 		global $ilDB,$ilias;
 
 		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
-		
-		$query = "SELECT * FROM payment_statistic ".
-			"WHERE pobject_id = '".$a_pobject_id."' ".
-			"AND customer_id = '".$usr_id."' ".
-			"AND payed = '1' ".
-			"AND access = '1'";
 
-		$res = $ilDB->query($query);
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_statistic
+			WHERE pobject_id = ?
+			AND customer_id = ?
+			AND payed = ?
+			AND access = ?',
+			array('integer', 'integer', 'integer', 'integer')
+		);
+		
+		$data = array($a_pobject_id, $usr_id, '1', '1');
+		
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$orderDateYear = date("Y", $row->order_date);
@@ -392,14 +547,22 @@ class ilPaymentBookings
 		global $ilDB,$ilias;
 
 		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
-		
-		$query = "SELECT * FROM payment_statistic ".
-			"WHERE pobject_id = '".$a_pobject_id."' ".
-			"AND customer_id = '".$usr_id."' ".
-			"AND payed = '1' ".
-			"AND access = '1'";
 
-		$res = $ilDB->query($query);
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_statistic
+			WHERE pobject_id = ?
+			AND customer_id = ?
+			AND payed = ?
+			AND access =?',
+			array('integer', 'integer', 'integer', 'integer')
+		);
+		
+		$data = array($a_pobject_id, $usr_id, '1', '1');
+		
+		$res = $this->db->execute($statement, $data);
+		
+		
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$orderDateYear = date("Y", $row->order_date);
@@ -439,10 +602,14 @@ class ilPaymentBookings
 		switch($a_pm)
 		{
 			case 'pm_bill':
-				$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
-					"WHERE pay_method = '1'";
-
-				$res = $ilDB->query($query);
+				$statement = $this->db->prepare ('
+					SELECT COUNT(booking_id) bid FROM payment_statistc
+					WHERE pay_method = ?',
+					array('integer')
+				);
+				$data = array('1');
+				$res = $this->db->execute($statement, $data);
+				
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					return $row->bid;
@@ -450,10 +617,14 @@ class ilPaymentBookings
 				return 0;
 
 			case 'pm_bmf':
-				$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
-					"WHERE pay_method = '2'";
-
-				$res = $ilDB->query($query);
+				$statement = $this->db->prepare ('
+					SELECT COUNT(booking_id) bid FROM payment_statistc
+					WHERE pay_method = ?',
+					array('integer')
+				);
+				$data = array('2');
+				$res = $this->db->execute($statement, $data);
+				
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					return $row->bid;
@@ -461,10 +632,14 @@ class ilPaymentBookings
 				return 0;
 
 			case 'pm_paypal':
-				$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
-					"WHERE pay_method = '3'";
-
-				$res = $ilDB->query($query);
+				$statement = $this->db->prepare ('
+					SELECT COUNT(booking_id) bid FROM payment_statistc
+					WHERE pay_method = ?',
+					array('integer')
+				);
+				$data = array('3');
+				$res = $this->db->execute($statement, $data);
+				
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					return $row->bid;
@@ -476,11 +651,11 @@ class ilPaymentBookings
 		}
 	}
 
-
 	// PRIVATE
 	function __read()
 	{
-		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po';
+
+/*		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po';
 		if ($_SESSION["pay_statistics"]["customer"] or $_SESSION['pay_statistics']['vendor'])
 		{
 			$query .= ', usr_data as ud';
@@ -558,8 +733,126 @@ class ilPaymentBookings
 			}
 		}
 		$query .= "ORDER BY order_date DESC";
-
 		$res = $this->db->query($query);
+*/
+		$data = array();
+		$data_types = array();
+		
+		$query = 'SELECT * FROM payment_statistic ps, payment_objects po';
+		if ($_SESSION['pay_statistics']['customer'] or $_SESSION['pay_statistics']['vendor'])
+		{
+			$query .= ', usr_data ud';
+		}
+		$query .= ' WHERE ps.pobject_id = po.pobject_id ';
+
+		if ($_SESSION['pay_statistics']['transaction_value'] != '')
+		{
+			if ($_SESSION['pay_statistics']['transaction_type'] == 0)
+			{
+				$query .= "AND transaction_extern LIKE ? ";
+				array_push($data, $_SESSION['pay_statistics']['transaction_value'].'%');
+				array_push($data_types, 'text');
+			}
+			else if ($_SESSION['pay_statistics']['transaction_type'] == 1)
+			{
+				$query .= "AND transaction_extern LIKE ? ";
+				array_push($data, '%'.$_SESSION['pay_statistics']['transaction_value']);
+				array_push($data_types, 'text');				
+			}
+		}
+		if ($_SESSION['pay_statistics']['customer'] != '')
+		{
+			$query .= "AND ud.login LIKE ?
+					  AND ud.usr_id = ps.customer_id ";
+			array_push($data, '%'.$_SESSION['pay_statistics']['customer'].'%'); 
+			array_push($data_types, 'text');			
+		}
+		if ($_SESSION['pay_statistics']['from']['day'] != '' &&
+			$_SESSION['pay_statistics']['from']['month'] != '' &&
+			$_SESSION['pay_statistics']['from']['year'] != '')
+		{
+			$from = mktime(0, 0, 0, $_SESSION['pay_statistics']['from']['month'], 
+						   $_SESSION['pay_statistics']['from']['day'], $_SESSION['pay_statistics']['from']['year']);
+			$query .= 'AND order_date >= ? ';
+			 array_push($data, $from);
+			 array_push($data_types, 'integer');
+		}
+		if ($_SESSION['pay_statistics']['til']['day'] != '' &&
+			$_SESSION['pay_statistics']['til']['month'] != '' &&
+			$_SESSION['pay_statistics']['til']['year'] != '')
+		{
+			$til = mktime(23, 59, 59, $_SESSION['pay_statistics']['til']['month'], 
+						  $_SESSION['pay_statistics']['til']['day'], $_SESSION['pay_statistics']['til']['year']);
+			$query .= 'AND order_date <= ? '; 
+			array_push($data, $til);
+			array_push($data_types, 'integer');
+		}
+		if ($_SESSION['pay_statistics']['payed'] == '0' ||
+			$_SESSION['pay_statistics']['payed'] == '1')
+		{
+			$query .= 'AND payed = ? ';
+			array_push($data, $_SESSION['pay_statistics']['payed']);
+			array_push($data_types, 'integer');
+		}
+		if ($_SESSION['pay_statistics']['access'] == '0' ||
+			$_SESSION['pay_statistics']['access'] == '1')
+		{
+			$query .= 'AND access = ? ';
+			array_push($data, $_SESSION['pay_statistics']['access']);
+			array_push($data_types, 'integer');
+		}
+		if ($_SESSION['pay_statistics']['pay_method'] == '1' ||
+			$_SESSION['pay_statistics']['pay_method'] == '2' ||
+			$_SESSION['pay_statistics']['pay_method'] == '3')
+		{
+			$query .= 'AND b_pay_method = ? ';
+			array_push($data, $_SESSION['pay_statistics']['pay_method']);
+			array_push($data_types, 'integer');
+		}
+
+		if(!$this->admin_view)
+		{
+		
+			$vendors = $this->__getVendorIds();
+			if (is_array($vendors) &&
+				count($vendors) > 1)
+			{
+				$in = 'ps.b_vendor_id IN (';
+				$in .= implode(',',$vendors);
+				$in .= ')';
+				
+				$query .= ' AND ? ';
+				array_push($data, $in);
+				array_push($data_types, 'integer');
+			}
+		}
+		else
+		{
+			if($_SESSION['pay_statistics']['vendor'])
+			{
+				$query .= 'AND ud.login LIKE ?
+							AND ud.usr_id = ps.b_vendor_id ';
+				
+				array_push($data, '%'.$_SESSION['pay_statistics']['vendor'].'%');
+				array_push($data_types, 'text');
+			}
+		}
+		$query .= 'ORDER BY order_date DESC';	
+
+		$cnt_data = count($data);
+		$cnt_data_types = count($data_types);
+		
+		if($cnt_data == 0 || $cnt_data_types == 0)
+		{
+			$statement = $this->db->prepare($query);
+			$res = $this->db->execute($statement);
+		}
+		else
+		{
+			$statement= $this->db->prepare($query, $data_types);
+			$res = $this->db->execute($statement, $data);
+		} 
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->bookings[$row->booking_id]['booking_id'] = $row->booking_id;
@@ -579,9 +872,13 @@ class ilPaymentBookings
 			$this->bookings[$row->booking_id]['b_vendor_id'] = $row->b_vendor_id;
 			$this->bookings[$row->booking_id]['b_pay_method'] = $row->b_pay_method;
 			$this->bookings[$row->booking_id]['voucher'] = $row->voucher;
-			$this->bookings[$row->booking_id]['transaction_extern'] = $row->transaction_extern;			
+			$this->bookings[$row->booking_id]['transaction_extern'] = $row->transaction_extern;	
+			$this->bookings[$row->booking_id]['street'] = $row->street;
+			$this->bookings[$row->booking_id]['po_box'] = $row->po_box;
+			$this->bookings[$row->booking_id]['zipcode'] = $row->zipcode;
+			$this->bookings[$row->booking_id]['city'] = $row->city;
+			$this->bookings[$row->booking_id]['country'] = $row->country;		
 		}
-
 	}
 
 	function __getVendorIds()
@@ -603,7 +900,5 @@ class ilPaymentBookings
 		}
 		return $vendors ? $vendors : array();
 	}
-		
-		
 }
 ?>

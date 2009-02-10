@@ -113,6 +113,7 @@ class ilPaymentObject
 	
 	public function add()
 	{	
+
 		$statement = $this->db->prepareManip(
 			'INSERT INTO payment_objects
 			 SET
@@ -183,10 +184,15 @@ class ilPaymentObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM payment_objects ".
-			"WHERE ref_id = '".$a_ref_id."'";
-
-		$res = $ilDB->query($query);
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_objects
+			WHERE ref_id = ?',
+			array('integer')
+		);
+		
+		$data = array($a_ref_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->pobject_id;
@@ -238,7 +244,7 @@ class ilPaymentObject
 				$pm = -1;
 		}		
 		
-		$statement = $ilDB->prepare('SELECT COUNT(pay_method) AS pm FROM payment_objects WHERE pay_method = ?',
+		$statement = $ilDB->prepare('SELECT COUNT(pay_method) pm FROM payment_objects WHERE pay_method = ?',
 				 	array('integer'));
 		$result = $ilDB->execute($statement, array($pm));
 		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
@@ -268,7 +274,8 @@ class ilPaymentObject
 		{
 			return array();
 		}
-		$in = " IN ('";
+
+/*		$in = " IN ('";
 		$in .= implode("','",$vendors);
 		$in .= "')";
 
@@ -276,6 +283,34 @@ class ilPaymentObject
 			"WHERE vendor_id ".$in;
 
 		$res = $ilDB->query($query);
+*/		
+		$data_types = array();
+		$data_values = array();
+		$cnt_vendors = count($vendors);
+		
+		$query = 'SELECT * FROM payment_objects WHERE vendor_id IN';
+
+		if (is_array($vendors) &&
+			$cnt_vendors > 0)
+		{
+			$in = '(';
+			$counter = 0;			
+			foreach($vendors as $vendor)
+			{
+				array_push($data_values, $vendor);
+				array_push($data_types, 'integer');
+				
+				if($counter > 0) $in .= ',';
+				$in .= '?';								
+				++$counter;				
+			}
+			$in .= ')';
+			$query .= $in;
+		}
+
+		$statement= $ilDB->prepare($query, $data_types);
+		$res = $ilDB->execute($statement, $data_values);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$objects[$row->pobject_id]['pobject_id'] = $row->pobject_id;
@@ -291,8 +326,8 @@ class ilPaymentObject
 	function _getAllObjectsData()
 	{
 		global $ilDB;
-
-		$query = "SELECT * FROM payment_objects ";
+		
+/*		$query = "SELECT * FROM payment_objects ";
 		
 		if ($_SESSION["pay_objects"]["title_value"] != "")
 		{
@@ -353,7 +388,90 @@ class ilPaymentObject
 			$query .= " AND pay_method = '" . $_SESSION["pay_objects"]["pay_method"] . "' ";
 		}		
 		
+
+		
 		$res = $ilDB->query($query);
+*/		
+		$data_types = array();
+		$data_values = array();
+		
+		$query = 'SELECT * FROM payment_objects ';
+		
+		if ($_SESSION["pay_objects"]["title_value"] != "")
+		{
+			$query .= ', object_reference obr, object_data od ';
+		}
+		
+		if ($_SESSION['pay_objects']['vendor'] != "")
+		{
+			$query .= ', usr_data ud ';
+		}
+		
+		$query .= ' WHERE 1 ';		
+		
+		if ($_SESSION["pay_objects"]["title_value"])
+		{			
+			$query .= ' AND obr.ref_id = payment_objects.ref_id AND od.obj_id = obr.obj_id ';
+			
+			$search_string = "";
+			
+			$title_search = explode(" ", trim($_SESSION["pay_objects"]["title_value"]));
+			for ($i = 0; $i < count($title_search); $i++)
+			{
+				$title_search[$i] = trim($title_search[$i]);
+				
+				if ($title_search[$i] != "")
+				{
+					//$search_string .= " od.title LIKE ".$ilDB->quote("%".$title_search[$i]."%")."  ";
+					$search_string .= ' od.title LIKE ? '; // ".$ilDB->quote("%".$title_search[$i]."%")."  ";
+					array_push($data_types, 'text');
+					array_push($data_values,'%'.$title_search[$i].'%');
+					
+					switch ($_SESSION["pay_objects"]["title_type"])
+					{
+						case "or" :
+								if ($i < count($title_search) - 1) 
+								{
+									$search_string .= ' OR ';
+								}
+								break;
+						case "and" :
+								if ($i < count($title_search) - 1) 
+								{
+									$search_string .= ' AND ';
+								}
+								break;
+					}
+				}
+			}
+			
+			if ($search_string != '')
+			{
+				$query .= ' AND (' . $search_string . ') ';
+			}
+		}
+		
+		if ($_SESSION['pay_objects']['vendor'] != "")
+		{
+			$query .= ' AND ud.usr_id = payment_objects.vendor_id AND login = ?';
+			array_push($data_types, 'text');
+			array_push($data_values, $_SESSION['pay_objects']['vendor']);
+		}
+		
+			
+		if ($_SESSION['pay_objects']['pay_method'] == "1" ||
+			$_SESSION['pay_objects']['pay_method'] == "2" ||
+			$_SESSION['pay_objects']['pay_method'] == "3")
+		{
+			$query .= ' AND pay_method = ?';
+			array_push($data_types, 'integer');
+			array_push($data_values, $_SESSION['pay_objects']['pay_method']);
+		}		
+		
+		$statement = $ilDB->prepare($query, $data_types);
+		$res = $ilDB->execute($statement, $data_values);
+		
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$objects[$row->pobject_id]['pobject_id'] = $row->pobject_id;
@@ -370,11 +488,20 @@ class ilPaymentObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM payment_objects ".
+/*		$query = "SELECT * FROM payment_objects ".
 			"WHERE pobject_id = '".$a_id."'";
 
 		$res = $ilDB->query($query);
-
+*/
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_objects
+			WHERE pobject_id = ?',
+			array('integer')
+		);
+		
+		$data = array($a_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		if (is_object($res))
 		{
 			return $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -388,7 +515,7 @@ class ilPaymentObject
 		global $ilDB;
 
 		// In the moment it's not possible to sell one object twice
-		$query = "SELECT * FROM payment_objects ".
+/*		$query = "SELECT * FROM payment_objects ".
 			"WHERE ref_id = '".$a_ref_id."' ";
 		if ($a_vendor_id > 0)
 		{
@@ -397,7 +524,25 @@ class ilPaymentObject
 		#"AND status = '1' OR status = '3' ";
 		
 		$res = $ilDB->query($query);
-
+*/
+		
+		$data = array();
+		$data_types = array();
+		
+		$query = 'SELECT * FROM payment_objects WHERE ref_id = ? ';
+		array_push($data_types, 'integer');
+		array_push($data, $a_ref_id);	
+		
+		if ($a_vendor_id > 0)
+		{
+			$query .= 'AND vendor_id = ?'; 
+			array_push($data_types, 'integer');
+			array_push($data, $a_vendor_id);
+		}
+		
+		$statement = $ilDB->prepare($query, $data_types);
+		$res = $ilDB->execute($statement, $data);
+		
 		return $res->numRows() ? false : true;
 	}
 
@@ -420,11 +565,22 @@ class ilPaymentObject
 			return true;
 		}
 		
-		$query = "SELECT * FROM payment_objects ".
+/*		$query = "SELECT * FROM payment_objects ".
 			"WHERE ref_id = '".$a_ref_id."' ".
 			"AND (status = '1' OR status = '2')";
 
 		$res = $ilDB->query($query);
+*/
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_objects 
+			WHERE ref_id = ?
+			AND (status = ? OR status = ?)',
+			array('integer', 'integer', 'integer')
+		);
+		$data = array($a_ref_id, '1', '2');		
+		
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!ilPaymentBookings::_hasAccess($row->pobject_id))
@@ -442,12 +598,22 @@ class ilPaymentObject
 
 		global $rbacsystem,$ilDB;
 
-		$query = "SELECT * FROM payment_objects ".
+/*		$query = "SELECT * FROM payment_objects ".
 			"WHERE ref_id = '".$a_ref_id."' ".
 			"AND (status = '1' OR status = '2')";
 
 		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+*/
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_objects 
+			"WHERE ref_id = ? 
+			AND (status = ? OR status = ?)', 
+			array('integer', 'integer', 'integer')
+		);
+		$data = array($a_ref_id, '1', '2');
+		$res = $ilDB->execute($statement, $data);
+		
+ 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		return ilPaymentBookings::_getActivation($row->pobject_id);
 	}
 	
@@ -461,10 +627,15 @@ class ilPaymentObject
 			return false;
 		}
 		
-		$statement = $ilDB->prepare('SELECT * FROM payment_objects
-									 WHERE ref_id = ? AND (status = 1 or status = 2)',
-	        	 	 	array('integer'));
-		$result = $ilDB->execute($statement, array($a_ref_id));
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_objects
+			WHERE ref_id = ? AND (status = ? or status = ?)',
+	        array('integer', 'integer', 'integer')
+	      );
+	    $data = array($a_ref_id, '1', '2');   
+	        
+		$result = $ilDB->execute($statement, $data);
+		
 		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return true;
@@ -482,10 +653,12 @@ class ilPaymentObject
 	{
 		global $ilDB, $ilUser;
 		
-		$statement = $ilDB->prepare('SELECT psc_id
-									 FROM payment_objects AS po, payment_shopping_cart AS psc
-									 WHERE ref_id = ? AND customer_id = ? AND po.pobject_id = psc.pobject_id',
-	        	 	 	array('integer', 'integer'));
+		$statement = $ilDB->prepare('
+			SELECT psc_id FROM payment_objects po, payment_shopping_cart psc
+			WHERE ref_id = ? 
+			AND customer_id = ? 
+			AND po.pobject_id = psc.pobject_id',
+	        array('integer', 'integer'));
 		$result = $ilDB->execute($statement, array($a_ref_id, $ilUser->getId()));
 		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{

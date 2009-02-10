@@ -9119,3 +9119,6 @@ ecs#:#ecs_edit_category_mapping#:#Zuordnung bearbeiten
 common#:#chat_enter_public_room#:#Öffentl. Chat
 common#:#chat_enter_public_room_tooltip#:#In den öffentl. Chat eintreten.
 common#:#chat_invite_public_room_tooltip#:#In den öffentl. Chat einladen.
+common#:#save_customer_address#:#Speichern der Rechnungsadresse
+common#:#save_customer_address_info#:#Wenn aktiviert, wird die vom Kunden angegebene Rechnungsadresse gespeichert
+common#:#bookings#:#Bestellungen

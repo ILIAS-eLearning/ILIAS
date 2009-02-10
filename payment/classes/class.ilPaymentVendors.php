@@ -66,22 +66,31 @@ class ilPaymentVendors
 		{
 			die("class.ilPaymentVendors::add() Vendor already exists");
 		}
-		$query = "INSERT INTO payment_vendors ".
-			"SET vendor_id = '".$a_usr_id."', ".
-			"cost_center = '".IL_INST_ID."_".$a_usr_id."'";
 
-		$this->db->query($query);
+		$statement = $this->db->prepareManip('
+			INSERT INTO payment_vendors
+			SET vendor_id = ?,
+				cost_center = ?',
+			array('integer', 'text')
+		);
+		$data = array($a_usr_id, 'IL_INST_ID_'.$a_usr_id);
+		$this->db->execute($statement, $data);
+		
 		$this->__read();
 
 		return true;
 	}
 	function update($a_usr_id, $a_cost_center)
 	{
-		$query = "UPDATE payment_vendors ".
-			"SET cost_center = '".$a_cost_center."' ".
-			"WHERE vendor_id = '".$a_usr_id."'";
-
-		$this->db->query($query);
+		$statement = $this->db->prepareManip('
+			UPDATE payment_vendors 
+			SET cost_center = ?
+			WHERE vendor_id = ?',
+			array('text', 'integer')
+		);
+		$data = array($a_cost_center, $a_usr_id);	
+		$this->db->execute($statement, $data);
+		
 		$this->__read();
 
 		return true;
@@ -92,10 +101,15 @@ class ilPaymentVendors
 		{
 			die("class.ilPaymentVendors::delete() Vendor does not exist");
 		}
-		$query = "DELETE FROM payment_vendors ".
-			"WHERE vendor_id = '".$a_usr_id."'";
 
-		$this->db->query($query);
+		$statement = $this->db->prepareManip('
+			DELETE FROM payment_vendors WHERE vendor_id = ?',
+			array('integer')
+		);
+		
+		$data = array($a_usr_id); 
+			
+		$this->db->execute($statement, $data);
 		$this->__read();
 		
 		return true;
@@ -106,9 +120,9 @@ class ilPaymentVendors
 	{
 		$this->vendors = array();
 
-		$query = "SELECT * FROM payment_vendors ";
-		$res = $this->db->query($query);
-		
+		$statement = $this->db->prepare('SELECT * FROM payment_vendors');
+		$res = $this->db->execute($statement);
+				
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->vendors[$row->vendor_id]['vendor_id'] = $row->vendor_id;
@@ -122,11 +136,14 @@ class ilPaymentVendors
 	{
 		global $ilDB;
 
-		$query = "SELECT cost_center FROM payment_vendors ".
-			"WHERE vendor_id = '".$a_usr_id."'";
-
-		$res = $ilDB->query($query);
-
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_vendors WHERE vendor_id = ?',
+			array('integer')
+		);
+		
+		$data = array($a_usr_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		return $res->numRows() ? true : false;
 	}
 
@@ -134,10 +151,15 @@ class ilPaymentVendors
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM payment_vendors ".
-			"WHERE vendor_id = '".$a_usr_id."'";
-
-		$res = $ilDB->query($query);
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_vendors WHERE vendor_id = ?',
+			array('integer')
+		);
+		
+		$data = array($a_usr_id);
+		$res = $ilDB->execute($statement, $data);
+		
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->cost_center;

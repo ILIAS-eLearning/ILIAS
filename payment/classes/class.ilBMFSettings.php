@@ -89,17 +89,32 @@ class ilBMFSettings
 	private function getSettings()
 	{
 		$this->fetchSettingsId();
-		
-		$query = "SELECT bmf FROM payment_settings WHERE settings_id = '" .  $this->getSettingsId() . "'";
-		$result = $this->db->getrow($query);
+
+		$statement = $this->db->prepare('
+			SELECT bmf FROM payment_settings
+			WHERE settings_id = ?',
+			array('integer')
+		);
+	
+		$sql_data = array($this->getSettingsId());
+		$res = $this->db->execute($statement, $sql_data);
+		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 		$data = array();
+
 		if (is_object($result))
 		{
-			if ($result->bmf != "") $data = unserialize($result->bmf);
-			else $data = array();
+			
+			if ($result->bmf != "") 
+			{
+				$data = unserialize($result->bmf);				
+			}
+			else 
+			{
+				$data = array();
+			}
 		}
-		
+
 		$this->setClientId($data["mandantNr"]);
 		$this->setBewirtschafterNr($data["bewirtschafterNr"]);
 		$this->setHaushaltsstelle($data["haushaltsstelle"]);
@@ -119,11 +134,14 @@ class ilBMFSettings
 	 */
 	private function fetchSettingsId()
 	{
-		$query = "SELECT * FROM payment_settings";
-		$result = $this->db->getrow($query);
-		
-		$this->setSettingsId($result->settings_id);
-	}
+		$statement = $this->db->prepare('SELECT settings_id FROM payment_settings');
+		$result = $this->db->execute($statement);	
+			
+		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))	
+		{	
+			$this->setSettingsId($row->settings_id);
+		}	
+}
 	
 	public function setSettingsId($a_settings_id = 0)
 	{
@@ -245,10 +263,16 @@ class ilBMFSettings
 	 */
 	public function clearAll()
 	{
-		$query = "UPDATE payment_settings "
-				."SET bmf = '' "
-				."WHERE settings_id = '" . $this->getSettingsId() . "'";
-		$this->db->query($query);		
+		$statement = $this->db->prepareManip('
+			UPDATE payment_settings
+			SET bmf = ?
+			WHERE settings_id = ?',
+			array('text', 'integer')
+		);
+		
+		$data = array('', $this->getSettingsId());
+		
+		$this->db->execute($statement, $data);
 	}
 	
 	/** 
@@ -258,6 +282,7 @@ class ilBMFSettings
 	 */
 	public function save()
 	{
+	
 		global $ilDB;
 		
 		$values = array(
@@ -275,17 +300,34 @@ class ilBMFSettings
 		
 		if ($this->getSettingsId())
 		{		
-			$query = "UPDATE payment_settings "
+/*			$query = "UPDATE payment_settings "
 					."SET bmf = " . $ilDB->quote(serialize($values)). " "
 					."WHERE settings_id = '" . $this->getSettingsId() . "'";
 			$this->db->query($query);
+*/
+			$statement = $this->db->prepareManip('
+				UPDATE payment_settings
+				SET bmf = ?
+				WHERE settings_id = ?',
+				array('text', 'integer')
+			);
+			
+			$data = array(serialize($values), $this->getSettingsId());
+			
+			$this->db->execute($statement, $data);
 		}
 		else
 		{
-			$query = "INSERT INTO payment_settings (bmf) VALUES (" . $ilDB->quote(serialize($values)). ") ";
+			$statement = $this->db->prepareManip('
+				INSERT into payment_settings
+				SET bmf = ?',
+				array('text')
+			);
 			
-			$this->db->query($query);		
+			$data = array(serialize($values));
 			
+			$this->db->execute($statement, $data);
+							
 			$this->setSettingsId($this->db->getLastInsertId());
 		}		
 	}	

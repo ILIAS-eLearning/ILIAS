@@ -394,7 +394,7 @@ class ilPurchasePaypal
 		$transaction = $a_array["txn_id"];
 
 		include_once './classes/class.ilTemplate.php';
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		include_once './Services/Utilities/classes/class.ilUtil.php';
 		include_once './payment/classes/class.ilGeneralSettings.php';
 		include_once './payment/classes/class.ilPaymentShoppingCart.php';
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
