@@ -2962,48 +2962,42 @@ class assQuestion
 	function &getInstances()
 	{
 		global $ilDB;
-		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
-			$ilDB->quote($this->getId())
+
+		$statement = $ilDB->prepare("SELECT question_id FROM qpl_questions WHERE original_id = ?",
+			array("integer")
 		);
-		$result = $ilDB->query($query);
+		$result = $ilDB->execute($statement, array($this->getId()));
 		$instances = array();
 		$ids = array();
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($ids, $row["question_id"]);
 		}
 		foreach ($ids as $question_id)
 		{
-			$query = sprintf("SELECT DISTINCT object_data.obj_id, object_data.title FROM tst_test_question, object_data, tst_tests WHERE question_fi = %s AND tst_tests.test_id = tst_test_question.test_fi AND object_data.obj_id = tst_tests.obj_fi",
-				$ilDB->quote($question_id . "")
+			// check non random tests
+			$statement = $ilDB->prepare("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_question WHERE tst_test_question.question_fi = ? AND tst_test_question.test_fi = tst_tests.test_id",
+				array("integer")
 			);
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			$result = $ilDB->execute($statement, array($question_id));
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$instances[$row["obj_id"]] = $row["title"];
+				$instances[$row['obj_fi']] = ilObject::_lookupTitle($row['obj_fi']);
 			}
-			$query = sprintf("SELECT DISTINCT object_data.obj_id, object_data.title FROM tst_test_random_question, tst_active, object_data, tst_tests WHERE tst_test_random_question.active_fi = tst_active.active_id AND tst_test_random_question.question_fi = %s AND tst_tests.test_id = tst_active.test_fi AND object_data.obj_id = tst_tests.obj_fi",
-				$ilDB->quote($question_id . "")
+			// check random tests
+			$statement = $ilDB->prepare("SELECT tst_tests.obj_fi FROM tst_tests, tst_test_random_question, tst_active WHERE tst_test_random_question.active_fi = tst_active.active_id AND tst_test_random_question.question_fi = ? AND tst_tests.test_id = tst_active.test_fi",
+				array("integer")
 			);
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			$result = $ilDB->execute($statement, array($question_id));
+			while ($row = $ilDB->fetchAssoc($result))
 			{
-				$instances[$row["obj_id"]] = $row["title"];
+				$instances[$row['obj_fi']] = ilObject::_lookupTitle($row['obj_fi']);
 			}
 		}
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		foreach ($instances as $key => $value)
 		{
-			$query = sprintf("SELECT object_reference.ref_id FROM object_reference WHERE obj_id = %s",
-				$ilDB->quote($key . "")
-			);
-			$result = $ilDB->query($query);
-			$refs = array();
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-			{
-				array_push($refs, $row["ref_id"]);
-			}
-			$instances[$key] = array("obj_id" => $key, "title" => $value, "author" => ilObjTest::_lookupAuthor($key), "refs" => $refs);
+			$instances[$key] = array("obj_id" => $key, "title" => $value, "author" => ilObjTest::_lookupAuthor($key), "refs" => ilObject::_getAllReferences($key));
 		}
 		return $instances;
 	}
