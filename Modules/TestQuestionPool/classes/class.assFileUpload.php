@@ -415,9 +415,21 @@ class assFileUpload extends assQuestion
 	*/
 	protected function getFileUploadPath()
 	{
-		return ilUtil::getDataDir()."/qpl_data/$this->obj_id/$this->id/";
+		return CLIENT_WEB_DIR . "/assessment/$this->obj_id/$this->id/files/";
 	}
-	
+
+	/**
+	* Returns the file upload path for web accessible files of a question
+	*
+	* @access public
+	*/
+	function getFileUploadPathWeb()
+	{
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/$this->obj_id/$this->id/files/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+	}
+
 	/**
 	* Returns the uploaded files for an active user in a given pass
 	*
@@ -438,6 +450,21 @@ class assFileUpload extends assQuestion
 		return $found;
 	}
 	
+	/**
+	* Returns the web accessible uploaded files for an active user in a given pass
+	*
+	* @return array Results
+	*/
+	public function getUploadedFilesForWeb($active_id, $pass)
+	{
+		$found = $this->getUploadedFiles($active_id, $pass);
+		foreach ($found as $idx => $data)
+		{
+			$found[$idx]['webpath'] = $this->getFileUploadPathWeb();
+		}
+		return $found;
+	}
+
 	/**
 	* Delete uploaded files
 	*
@@ -786,6 +813,7 @@ class assFileUpload extends assQuestion
 				break;
 		}
 	}
+	
 }
 
 ?>

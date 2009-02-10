@@ -5820,7 +5820,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$tabs_gui->addTarget("statistics",
 					 $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outEvaluation"),
 					 array("statistics", "outEvaluation", "exportEvaluation", "detailedEvaluation", "eval_a", "evalSettings", "saveEvalSettings", "evalUserDetail",
-					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails")
+					 	"passDetails", "outStatisticsResultsOverview", "statisticsPassDetails", "singleResults")
 					 , "");
 			}
 

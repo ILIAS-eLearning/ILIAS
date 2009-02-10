@@ -423,7 +423,29 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
+	/**
+	* Get the question solution output
+	*
+	* @param integer $active_id The active user id
+	* @param integer $pass The test pass
+	* @param boolean $graphicalOutput Show visual feedback for right/wrong answers
+	* @param boolean $result_output Show the reached points for parts of the question
+	* @param boolean $show_question_only Show the question without the ILIAS content around
+	* @param boolean $show_feedback Show the question feedback
+	* @param boolean $show_correct_solution Show the correct solution instead of the user solution
+	* @param boolean $show_manual_scoring Show specific information for the manual scoring output
+	* @return The solution output of the question as HTML code
+	*/
+	function getSolutionOutput(
+		$active_id,
+		$pass = NULL,
+		$graphicalOutput = FALSE,
+		$result_output = FALSE,
+		$show_question_only = TRUE,
+		$show_feedback = FALSE,
+		$show_correct_solution = FALSE,
+		$show_manual_scoring = FALSE
+	)
 	{
 		// generate the question output
 		include_once "./classes/class.ilTemplate.php";
