@@ -144,7 +144,7 @@ class ilObjTestAccess extends ilObjectAccess
 	function _isPassed($user_id, $a_obj_id)
 	{
 		global $ilDB;
-		$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests, object_data WHERE object_data.obj_id = tst_tests.obj_fi AND tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND object_data.obj_id = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
+		$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
 			$ilDB->quote($user_id . ""),
 			$ilDB->quote($a_obj_id . "")
 		);
@@ -649,7 +649,7 @@ function _getQuestionCount($test_id)
 			while ($userrow = $userresult->fetchRow(MDB2_FETCHMODE_ASSOC))
 			{
 				$user_id = $userrow["user_fi"];
-				$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests, object_data WHERE object_data.obj_id = tst_tests.obj_fi AND tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND object_data.obj_id = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
+				$query = sprintf("SELECT tst_test_pass_result.*, tst_tests.pass_scoring, tst_tests.random_test, tst_tests.test_id FROM tst_test_pass_result, tst_active, tst_tests WHERE tst_active.test_fi = tst_tests.test_id AND tst_active.user_fi = %s AND tst_tests.obj_fi = %s AND tst_test_pass_result.active_fi = tst_active.active_id ORDER BY tst_test_pass_result.pass",
 					$ilDB->quote($user_id . ""),
 					$ilDB->quote($a_obj_id . "")
 				);
