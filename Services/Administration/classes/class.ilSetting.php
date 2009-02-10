@@ -176,7 +176,7 @@ class ilSetting
 
 		$st = $ilDB->prepareManip("INSERT INTO settings (module, keyword, value) VALUES (?,?,?)",
 			array("text", "text", "clob"));
-		$ilDB->execute($st, array($this->module, $a_key, $a_val));
+		$ilDB->execute($st, array($this->module, $a_key, (string) $a_val));
 
 		$this->setting[$a_key] = $a_val;
 
