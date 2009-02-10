@@ -367,38 +367,6 @@ class assFileUploadGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates the output of the feedback page for a single choice question
-	*
-	* @access public
-	*/
-	function feedback()
-	{
-		$template = new ilTemplate("tpl.il_as_qpl_flash_question_feedback.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$template->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
-		$template->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
-		$template->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
-		$template->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
-		$template->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE));
-		$template->setVariable("FEEDBACK_ANSWERS", $this->lng->txt("feedback_answers"));
-		$template->setVariable("SAVE", $this->lng->txt("save"));
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-		$this->tpl->setVariable("ADM_CONTENT", $template->get());
-	}
-	
-	/**
-	* Sets the ILIAS tabs for this question type
-	*
 	* Sets the ILIAS tabs for this question type
 	*
 	* @access public

@@ -842,9 +842,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	}
 
 	/**
-	* Saves the feedback for a single choice question
-	*
-	* Saves the feedback for a single choice question
+	* Saves the feedback for the question
 	*
 	* @access public
 	*/
@@ -858,38 +856,6 @@ class assOrderingQuestionGUI extends assQuestionGUI
 	}
 
 	/**
-	* Creates the output of the feedback page for a single choice question
-	*
-	* Creates the output of the feedback page for a single choice question
-	*
-	* @access public
-	*/
-	function feedback()
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "feedback", "tpl.il_as_qpl_ordering_feedback.html", "Modules/TestQuestionPool");
-		$this->tpl->setVariable("FEEDBACK_TEXT", $this->lng->txt("feedback"));
-		$this->tpl->setVariable("FEEDBACK_COMPLETE", $this->lng->txt("feedback_complete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_COMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)), FALSE));
-		$this->tpl->setVariable("FEEDBACK_INCOMPLETE", $this->lng->txt("feedback_incomplete_solution"));
-		$this->tpl->setVariable("VALUE_FEEDBACK_INCOMPLETE", ilUtil::prepareFormOutput($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)), FALSE));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		$rtestring = ilRTE::_getRTEClassname();
-		include_once "./Services/RTE/classes/class.$rtestring.php";
-		$rte = new $rtestring();
-		$rte->addPlugin("latex");
-		$rte->addButton("latex"); $rte->addButton("pastelatex");
-		include_once "./classes/class.ilObject.php";
-		$obj_id = $_GET["q_id"];
-		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
-		$rte->addRTESupport($obj_id, $obj_type, "assessment");
-	}
-
-	/**
-	* Sets the ILIAS tabs for this question type
-	*
 	* Sets the ILIAS tabs for this question type
 	*
 	* @access public
