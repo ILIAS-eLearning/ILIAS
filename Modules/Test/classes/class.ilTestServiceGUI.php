@@ -728,16 +728,16 @@ class ilTestServiceGUI
 		}
 
 		$invited_user = array_pop($this->object->getInvitedUsers($user_id));
-		if (strlen($invited_user->clientip))
+		if (strlen($invited_user["clientip"]))
 		{
 			$template->setCurrentBlock("user_clientip");
 			$template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("user_clientip_value");
-			$template->setVariable("VALUE_CLIENT_IP", $invited_user->clientip);
+			$template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
 			$template->parseCurrentBlock();
 			$template->touchBlock("user_clientip_separator");
-			$title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user->clientip;
+			$title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user["clientip"];
 		}
 
 		$template->setVariable("TXT_TEST_TITLE", $this->lng->txt("title"));
@@ -904,16 +904,16 @@ class ilTestServiceGUI
 		}
 
 		$invited_user = array_pop($this->object->getInvitedUsers($user_id));
-		if (strlen($invited_user->clientip))
+		if (strlen($invited_user["clientip"]))
 		{
 			$template->setCurrentBlock("user_clientip");
 			$template->setVariable("TXT_CLIENT_IP", $this->lng->txt("client_ip"));
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("user_clientip_value");
-			$template->setVariable("VALUE_CLIENT_IP", $invited_user->clientip);
+			$template->setVariable("VALUE_CLIENT_IP", $invited_user["clientip"]);
 			$template->parseCurrentBlock();
 			$template->touchBlock("user_clientip_separator");
-			$title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user->clientip;
+			$title_client = " - " . $this->lng->txt("clientip") . ": " . $invited_user["clientip"];
 		}
 
 		$template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));

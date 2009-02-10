@@ -395,8 +395,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			if (count ($solved_array) > 0) 
 			{
 				$solved = array_pop($solved_array);
-				$solved = $solved->solved;
-			}			
+				$solved = $solved["solved"];
+			}
 			
 			if ($solved==1) 
 			{
@@ -1259,7 +1259,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			
 		$user = array_pop($user);
 		// check if client ip is set and if current remote addr is equal to stored client-ip			
-		if (strcmp($user->clientip,"")!=0 && strcmp($user->clientip,$_SERVER["REMOTE_ADDR"])!=0)
+		if (strcmp($user["clientip"],"")!=0 && strcmp($user["clientip"],$_SERVER["REMOTE_ADDR"])!=0)
 		{
 			ilUtil::sendInfo($this->lng->txt("user_wrong_clientip"), true);
 			$this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
@@ -1514,7 +1514,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					if (array_key_exists($value["qid"], $marked_questions))
 					{
 						$obj = $marked_questions[$value["qid"]];
-						if ($obj->solved == 1)
+						if ($obj["solved"] == 1)
 						{
 							$this->tpl->setVariable("ALT_MARKED_IMAGE", $this->lng->txt("tst_question_marked"));
 							$this->tpl->setVariable("TITLE_MARKED_IMAGE", $this->lng->txt("tst_question_marked"));
@@ -1690,9 +1690,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
 		$invited_user =& $this->object->getInvitedUsers($ilUser->getId());
 		$pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") . 
-			": " . $invited_user[$ilUser->getId()]->clientip . " - " . 
+			": " . $invited_user[$ilUser->getId()]["clientip"] . " - " . 
 			$this->lng->txt("matriculation") . ": " . 
-			$invited_user[$ilUser->getId()]->matriculation;
+			$invited_user[$ilUser->getId()]["matriculation"];
 		$this->tpl->setVariable("PAGETITLE", $pagetitle);
 		$this->tpl->parseCurrentBlock();
 	}
