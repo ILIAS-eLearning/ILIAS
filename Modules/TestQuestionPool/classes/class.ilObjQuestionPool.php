@@ -1340,28 +1340,24 @@ class ilObjQuestionPool extends ilObject
 /**
 * Returns true, if the question pool is writeable by a given user
 * 
-* Returns true, if the question pool is writeable by a given user
-*
-* @param integer $object_id The object id of the question pool
+* @param integer $object_id The object id of the question pool object
 * @param integer $user_id The database id of the user
 * @access public
 */
 	function _isWriteable($object_id, $user_id)
 	{
 		global $rbacsystem;
-		global $ilDB;
-		
-		$result_array = array();
-		$query = sprintf("SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.obj_id = %s",
-			$ilDB->quote($object_id . "")
-		);
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{		
-			include_once "./classes/class.ilObject.php";
-			if ($rbacsystem->checkAccess("write", $row["ref_id"]) && (ilObject::_hasUntrashedReference($row["obj_id"])))
+
+		include_once "./classes/class.ilObject.php";
+		$refs = ilObject::_getAllReferences($object_id);
+		if (count($refs))
+		{
+			foreach ($refs as $ref_id)
 			{
-				return true;
+				if ($rbacsystem->checkAccess("write", $ref_id) && (ilObject::_hasUntrashedReference($object_id)))
+				{
+					return true;
+				}
 			}
 		}
 		return false;
@@ -1556,36 +1552,53 @@ class ilObjQuestionPool extends ilObject
 		$result_array = array();
 		$permission = (strlen($permission) == 0) ? "read" : $permission;
 		$qpls = ilUtil::_getObjectsByOperations("qpl", $permission, (strlen($usr_id)) ? $usr_id : $ilUser->getId(), -1);
+		$obj_ids = array();
+		foreach ($qpls as $ref_id)
+		{
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			$obj_ids[$ref_id] = $obj_id;
+		}
 		$titles = ilObject::_prepareCloneSelection($qpls, "qpl");
-		if (count($qpls))
+		if (count($obj_ids))
 		{
 			$query = "";
+			$in = $ilDB->in('object_data.obj_id', $obj_ids);
+			$paramtypes = array();
+			$paramvalues = array();
+			foreach ($obj_ids as $obj_id)
+			{
+				array_push($paramtypes, "integer");
+				array_push($paramvalues, $obj_id);
+			}
 			if ($could_be_offline)
 			{
-				$query = sprintf("SELECT object_data.*, object_reference.ref_id, qpl_questionpool.questioncount FROM object_data, object_reference, qpl_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') AND qpl_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
-					implode("','", $qpls)
+				$statement = $ilDB->prepare("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in ORDER BY object_data.title",
+					$paramtypes
 				);
 			}
 			else
 			{
-				$query = sprintf("SELECT object_data.*, object_reference.ref_id, qpl_questionpool.questioncount FROM object_data, object_reference, qpl_questionpool WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') AND qpl_questionpool.online = '1' AND qpl_questionpool.obj_fi = object_data.obj_id ORDER BY object_data.title",
-					implode("','", $qpls)
+				array_push($paramtypes, "text");
+				array_push($paramvalues, "1");
+				$statement = $ilDB->prepare("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.online = ? ORDER BY object_data.title",
+					$paramtypes
 				);
 			}
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			$result = $ilDB->execute($statement, $paramvalues);
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$add = TRUE;
 				if ($equal_points)
 				{
-					if (!ilObjQuestionPool::_hasEqualPoints($row["obj_id"]))
+					if (!ilObjQuestionPool::_hasEqualPoints($row["obj_fi"]))
 					{
 						$add = FALSE;
 					}
 				}
 				if ($add)
 				{
-					$title = (($showPath) ? $titles[$row["ref_id"]] : $row["title"]);
+					$ref_id = array_search($row["obj_fi"], $obj_ids);
+					$title = (($showPath) ? $titles[$ref_id] : $row["title"]);
 					if ($with_questioncount)
 					{
 						$title .= " [" . $row["questioncount"] . " " . ($row["questioncount"] == 1 ? $this->lng->txt("ass_question") : $this->lng->txt("assQuestions")) . "]";
@@ -1593,11 +1606,11 @@ class ilObjQuestionPool extends ilObject
 
 					if ($use_object_id)
 					{
-						$result_array[$row["obj_id"]] = array("title" => $title, "count" => $row["questioncount"]);
+						$result_array[$row["obj_fi"]] = array("title" => $title, "count" => $row["questioncount"]);
 					}
 					else
 					{
-						$result_array[$row["ref_id"]] = array("title" => $title, "count" => $row["questioncount"]);
+						$result_array[$ref_id] = array("title" => $title, "count" => $row["questioncount"]);
 					}
 				}
 			}
