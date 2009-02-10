@@ -75,32 +75,31 @@ class ilChangeEvent
 		
 		if ($parent_obj_id == null)
 		{
-			$q = "INSERT INTO write_event ".
-				"(obj_id, parent_obj_id, usr_id, action, ts) ".
-				"SELECT ".
-				$ilDB->quote($obj_id).",".
-				"r2.obj_id,".
-				$ilDB->quote($usr_id).",".
-				$ilDB->quote($action).",".
-				"NOW() ".
-				"FROM object_reference AS r1 ".
-				"JOIN tree AS t ON t.child = r1.ref_id ".
-				"JOIN object_reference AS r2 ON r2.ref_id = t.parent ".
-				"WHERE r1.obj_id = ".$ilDB->quote($obj_id);
+			$query = 'INSERT INTO write_event '.
+				'(obj_id, parent_obj_id, usr_id, action, ts) '.
+					'SELECT ?,r2.obj_id,?,?,'.$ilDB->now().' FROM object_reference r1 '.
+					'JOIN tree t ON t.child = r1.ref_id '.
+					'JOIN object_reference r2 ON r2.ref_id = t.parent '.
+					'WHERE r1.obj_id = ? ';
+			$sta = $ilDB->prepare($query,array('integer','integer','text','integer'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id,
+				$usr_id,
+				$action,
+				$obj_id));
 		}
 		else
 		{
-			$q = "INSERT INTO write_event ".
-				"(obj_id, parent_obj_id, usr_id, action, ts) ".
-				"VALUES (".
-				$ilDB->quote($obj_id).",".
-				$ilDB->quote($parent_obj_id).",".
-				$ilDB->quote($usr_id).",".
-				$ilDB->quote($action).",".
-				"NOW()".
-				")";
+			$query = 'INSERT INTO write_event '.
+				'(obj_id, parent_obj_id, usr_id, action, ts) '.
+				'VALUES(?,?,?,?,'.$ilDB->now().')';
+			$sta = $ilDB->prepare($query,array('integer','integer','integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id,
+				$parent_obj_id,
+				$usr_id,
+				$action));
 		}
-		$r = $ilDB->query($q);
 		//error_log ('ilChangeEvent::_recordWriteEvent '.$q);
 	}
 	
@@ -234,15 +233,35 @@ class ilChangeEvent
 			$catchup = $row['ts'];
 		}
 		
-		$q = "SELECT * ".
-			"FROM write_event ".
-			"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-			"AND usr_id <> ".$ilDB->quote($usr_id)." ".
-			($catchup == null ? "" : "AND ts > ".$ilDB->quote($catchup))." ".
-			"ORDER BY ts DESC";
-		$r = $ilDB->query($q);
+		if($catchup == null)
+		{
+			$query = 'SELECT * FROM write_event '.
+				'WHERE obj_id = ? '.
+				'AND usr_id <> ? '.
+				'ORDER BY ts DESC';
+			$sta = $ilDB->prepare($query,array('integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id,
+				$usr_id));
+				
+		}
+		else
+		{
+			$query = 'SELECT * FROM write_event '.
+				'WHERE obj_id = ? '.
+				'AND usr_id <> ? '.
+				'AND ts >= ? '.
+				'ORDER BY ts DESC';
+
+			$sta = $ilDB->prepare($query,array('integer','integer','timestamp'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id,
+				$usr_id,
+				$catchup));
+			
+		}
 		$events = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$events[] = $row;
 		}
@@ -271,18 +290,39 @@ class ilChangeEvent
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
-		$q = "SELECT * ".
-			"FROM write_event ".
-			"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-			"AND usr_id <> ".$ilDB->quote($usr_id)." ".
-			($catchup == null ? "" : "AND ts > ".$ilDB->quote($catchup))." ".
-			"ORDER BY ts DESC ".
-			"LIMIT 1";
-		$r = $ilDB->query($q);
-		$numRows = $r->numRows();
+			
+		if($catchup == null)
+		{
+			$query = 'SELECT * FROM write_event '.
+				'WHERE obj_id = ? '.
+				'AND usr_id <> ? '.
+				'ORDER BY ts DESC ';
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,array('integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id,
+				$usr_id));
+		}
+		else
+		{
+			$query = 'SELECT * FROM write_event '.
+				'WHERE obj_id = ? '.
+				'AND usr_id <> ? '.
+				'AND ts > ? '.
+				'ORDER BY ts DESC ';
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,array('integer','integer','timestamp'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id,
+				$usr_id,
+				$catchup));
+			
+		}
+
+		$numRows = $res->numRows();
 		if ($numRows > 0)
 		{
-			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($res);
 			// if we have write events, and user never catched one, report as new (1)
 			// if we have write events, and user catched an old write event, report as changed (2)
 			return ($catchup == null) ? 1 : 2;
@@ -320,18 +360,38 @@ class ilChangeEvent
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC)) {
 			$catchup = $row['ts'];
 		}
-		$q = "SELECT * ".
-			"FROM write_event ".
-			"WHERE parent_obj_id=".$ilDB->quote($parent_obj_id)." ".
-			"AND usr_id <> ".$ilDB->quote($usr_id)." ".
-			($catchup == null ? "" : "AND ts > ".$ilDB->quote($catchup))." ".
-			"ORDER BY ts DESC ".
-			"LIMIT 1";
-		$r = $ilDB->query($q);
-		$numRows = $r->numRows();
+		
+		if($catchup == null)
+		{
+			$query = 'SELECT * FROM write_event '.
+				'WHERE parent_obj_id = ? '.
+				'AND usr_id <> ? '.
+				'ORDER BY ts DESC ';
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,array('integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$parent_obj_id,
+				$usr_id));
+		}
+		else
+		{
+			$query = 'SELECT * FROM write_event '.
+				'WHERE parent_obj_id = ? '.
+				'AND usr_id <> ? '.
+				'AND ts > ? '.
+				'ORDER BY ts DESC ';
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,array('integer','integer','timestamp'));
+			$res = $ilDB->execute($sta,array(
+				$parent_obj_id,
+				$usr_id,
+				$catchup));
+			
+		}
+		$numRows = $res->numRows();
 		if ($numRows > 0)
 		{
-			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($res);
 			// if we have write events, and user never catched one, report as new (1)
 			// if we have write events, and user catched an old write event, report as changed (2)
 			return ($catchup == null) ? 1 : 2;
@@ -431,15 +491,23 @@ class ilChangeEvent
 			// We need to do this here, because we need
 			// to catch up write events that occured while the change event tracking was
 			// deactivated.
-			$q = "INSERT IGNORE INTO write_event ".
-				"(obj_id,parent_obj_id,usr_id,action,ts) ".
-				"SELECT r1.obj_id,r2.obj_id,d.owner,'create',d.create_date ".
-				"FROM object_data AS d ".
-				"JOIN object_reference AS r1 ON d.obj_id=r1.obj_id ".
-				"JOIN tree AS t ON t.child=r1.ref_id ".
-				"JOIN object_reference as r2 on r2.ref_id=t.parent ";
-			$r = $ilDB->db->query($q);
-			if ($ilDB->isError($r) || $ilDB->isError($r->result))
+
+			// IGNORE isn't supported in oracle
+			$query = 'INSERT INTO write_event '.
+				'(obj_id,parent_obj_id,usr_id,action,ts) '.
+				'SELECT r1.obj_id,r2.obj_id,d.owner,?,d.create_date '.
+				'FROM object_data AS d '.
+				'LEFT JOIN write_event w ON d.obj_id = w.obj_id '.
+				'JOIN object_reference AS r1 ON d.obj_id=r1.obj_id '.
+				'JOIN tree t ON t.child=r1.ref_id '.
+				'JOIN object_reference r2 on r2.ref_id=t.parent '.
+				'WHERE w.obj_id IS NULL';
+
+			$sta = $ilDB->prepareManip($query,array('text'));
+			$res = $ilDB->execute($sta,array('create'));
+			
+			
+			if ($ilDB->isError($res) || $ilDB->isError($res->result))
 			{
 				return 'couldn\'t insert initial data into table "write_event": '.
 				(($ilDB->isError($r->result)) ? $r->result->getMessage() : $r->getMessage());
@@ -449,7 +517,7 @@ class ilChangeEvent
 			global $ilias;
 			$ilias->setSetting('enable_change_event_tracking', '1');
 
-			return true;
+			return $res;
 		}
 	}
 
@@ -473,6 +541,26 @@ class ilChangeEvent
 		global $ilias;
 		return $ilias->getSetting('enable_change_event_tracking', '0') == '1';
 		
+	}
+	
+	/**
+	 * Delete object entries
+	 *
+	 * @return
+	 * @static
+	 */
+	public static function _delete($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM write_event WHERE obj_id = ? ";
+		$sta = $ilDB->prepare($query,array('integer'));
+		$res = $ilDB->execute($sta,array($a_obj_id));
+		
+		$query = "DELETE FROM read_event WHERE obj_id = ? ";
+		$sta = $ilDB->prepare($query,array('integer'));
+		$res = $ilDB->execute($sta,array($a_obj_id));
+		return true;
 	}
 }
 ?>

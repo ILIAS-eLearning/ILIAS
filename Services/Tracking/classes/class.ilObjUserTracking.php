@@ -513,12 +513,14 @@ class ilObjUserTracking extends ilObject
 		$query = "DELETE FROM ut_access WHERE user_id = '".$a_usr_id."'";
 		$ilDB->query($query);
 
-		$query = "DELETE FROM read_event WHERE usr_id = '".$a_usr_id."'";
-		$ilDB->query($query);
+		$query = 'DELETE FROM read_event WHERE usr_id = ? ';
+		$sta = $ilDB->prepare($query,array('integer'));
+		$res = $ilDB->execute($sta,array($a_usr_id));
 
-		$query = "DELETE FROM write_event WHERE usr_id = '".$a_usr_id."'";
-		$ilDB->query($query);
-		
+		$query = 'DELETE FROM write_event WHERE usr_id = ? ';
+		$sta = $ilDB->prepare($query,array('integer'));
+		$res = $ilDB->execute($sta,array($a_usr_id));
+
 		$query = "DELETE FROM ut_lp_filter WHERE usr_id = '".$a_usr_id."'";
 		$ilDB->query($query);
 		
