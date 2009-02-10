@@ -299,6 +299,16 @@ class ilTable2GUI extends ilTableGUI
 		return $this->defaultorderdirection;
 	}
 	
+	/*
+	* Removes all command buttons from the table
+	*
+	* @access	public
+	*/
+	public function clearCommandButtons()
+	{
+		$this->buttons = array();
+	}
+	
 	/**
 	* Add Command button
 	*

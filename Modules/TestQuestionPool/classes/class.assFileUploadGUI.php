@@ -193,36 +193,34 @@ class assFileUploadGUI extends assQuestionGUI
 	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
-		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$template = new ilTemplate("tpl.il_as_qpl_fileupload_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		$solutionvalue = "";
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			$solutions =& $this->object->getSolutionValues($active_id, $pass);
-			if (strlen($solutions[0]["value1"]))
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
 			{
-				$elements = split("{::}", $solutions[0]["value1"]);
-				foreach ($elements as $id => $element)
-				{
-					$template->setCurrentBlock("element");
-					$template->setVariable("ELEMENT_ID", "e$id");
-					$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-					$template->parseCurrentBlock();
-				}
+				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
-		}
-		else
-		{
-			$elements = $this->object->getOrderingElements();
-			foreach ($elements as $id => $element)
+			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+
+			$files = $this->object->getUploadedFiles($active_id, $pass);
+			if (count($files))
 			{
-				$template->setCurrentBlock("element");
-				$template->setVariable("ELEMENT_ID", "e$id");
-				$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
+				include_once "./Modules/TestQuestionPool/classes/class.assFileUploadFileTableGUI.php";
+				$table_gui = new assFileUploadFileTableGUI("iltestoutputgui", 'gotoquestion');
+				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.gif', $this->lng->txt('already_delivered_files'));
+				$table_gui->setData($files);
+				$table_gui->setRowTemplate("tpl.il_as_qpl_fileupload_file_view_row.html", "Modules/TestQuestionPool");
+				$table_gui->setSelectAllCheckbox("");
+				$table_gui->clearCommandButtons();
+				$table_gui->disable('select_all');
+				$template->setCurrentBlock("files");
+				$template->setVariable('FILES', $table_gui->getHTML());	
 				$template->parseCurrentBlock();
 			}
-			$solutionvalue = join($this->object->getOrderingElements(), " ");
 		}
 
 		if (($active_id > 0) && (!$show_correct_solution))
@@ -266,11 +264,11 @@ class assFileUploadGUI extends assQuestionGUI
 			$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
 		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
-//		$template->setVariable("SOLUTION_TEXT", ilUtil::prepareFormOutput($solutionvalue));
-		if ($this->object->textsize >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
 
 		$questionoutput = $template->get();
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 		$solutionoutput = $solutiontemplate->get(); 
 		if (!$show_question_only)
@@ -443,23 +441,11 @@ class assFileUploadGUI extends assQuestionGUI
 		{
 			$url = "";
 			if ($classname) $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-			$commands = $_POST["cmd"];
-			if (is_array($commands))
-			{
-				foreach ($commands as $key => $value)
-				{
-					if (preg_match("/^suggestrange_.*/", $key, $matches))
-					{
-						$force_active = true;
-					}
-				}
-			}
 			// edit question properties
 			$ilTabs->addTarget("edit_properties",
 				$url,
-				array("editQuestion", "save", "cancel", 
-					"flashAddParam", "saveEdit"),
-				$classname, "", $force_active);
+				array("editQuestion", "save", "cancel", "saveEdit"),
+				$classname, "");
 		}
 
 		if ($_GET["q_id"])
