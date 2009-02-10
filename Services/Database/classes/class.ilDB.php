@@ -926,13 +926,13 @@ class ilDB extends PEAR
 	*		$ilDB->addTypesToArray($types, "integer", count($ids)));
 	*	$set = $ilDB->execute($st, $ids);
 	*/
-	function in($a_field, $a_values)
+	function in($a_field, $a_values, $negate = false)
 	{
 		if (count($a_values) == 0)
 		{
 			return " 1=2 ";		// return a false statement on empty array
 		}
-		$str = $a_field." IN (?".str_repeat(",?", count($a_values) - 1).")";
+		$str = $a_field.(($negate) ? " NOT" : "")." IN (?".str_repeat(",?", count($a_values) - 1).")";
 		
 		return $str;
 	}

@@ -915,6 +915,19 @@ class ilObject
 		return $tit;
 	}
 	
+	/**
+	* lookup object owner
+	*
+	* @param	int		$a_id		object id
+	*/
+	function _lookupOwner($a_id)
+	{
+		global $ilObjDataCache;
+
+		$owner = $ilObjDataCache->lookupOwner($a_id);
+		return $owner;
+	}
+
 	public static function _getIdsForTitle($title, $type = '', $partialmatch = false)
 	{
 		global $ilDB;

@@ -1645,8 +1645,6 @@ class ilObjTest extends ilObject
 	/**
 	* Generates new random questions for the active user
 	*
-	* Generates new random questions for the active user
-	*
 	* @access private
 	* @see $questions
 */
@@ -1717,7 +1715,7 @@ class ilObjTest extends ilObject
 			{
 				if ($value["count"] > 0)
 				{
-					$rndquestions = $this->randomSelectQuestions($value["count"], $value["qpl"], 1, $pass);
+					$rndquestions = $this->randomSelectQuestions($value["count"], $value["qpl"], 1, "", $pass);
 					foreach ($rndquestions as $question_id)
 					{
 						array_push($allquestions, $question_id);
@@ -5315,50 +5313,38 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		global $rbacsystem;
 		global $ilDB;
-		// get the questionpool id if a questionpool ref id was entered
-		if ($questionpool != 0)
-		{
-			// retrieve object id
-			if (!$use_obj_id)
-			{
-				$query = sprintf("SELECT obj_id FROM object_reference WHERE ref_id = %s",
-					$ilDB->quote("$questionpool")
-				);
-				$result = $ilDB->query($query);
-				$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
-				$questionpool = $row[0];
-			}
-		}
 
-		// get all existing questions in the test
-		$query = sprintf("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND qpl_questions.owner > 0 AND tst_test_question.test_fi = %s",
-			$ilDB->quote($this->getTestId() . "")
+		// retrieve object id instead of ref id if necessary
+		if (($questionpool != 0) && (!$use_obj_id)) $questionpool = ilObject::_lookupObjId($questionpool);
+
+		// get original ids of all existing questions in the test
+		$statement = $ilDB->prepare("SELECT qpl_questions.original_id FROM qpl_questions, tst_test_question WHERE qpl_questions.question_id = tst_test_question.question_fi AND qpl_questions.owner > 0 AND tst_test_question.test_fi = ?",
+			array("integer")
 		);
-		$result = $ilDB->query($query);
+		$result = $ilDB->execute($statement, array($this->getTestId()));
 		$original_ids = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
+		$paramtypes = array();
+		$paramvalues = array();
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			if (strcmp($row[0], "") != 0)
-			{
-				array_push($original_ids, $row[0]);
-			}
-		}
-		$original_clause = "";
-		if (count($original_ids))
-		{
-			$original_clause = " AND ISNULL(qpl_questions.original_id) AND qpl_questions.question_id NOT IN ('" . join($original_ids, "','") . "')";
+			array_push($original_ids, $row['original_id']);
 		}
 
-		// get a list of questionpools which are not allowed for the test (only for random selection of questions in test questions editor)
+		// get a list of all available questionpools
 		if (($questionpool == 0) && (!is_array($qpls)))
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-			$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE));
+			$available_pools = array_keys(ilObjQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $equal_points = FALSE, $could_be_offline = FALSE, $showPath = FALSE, $with_questioncount = FALSE, "read", ilObject::_lookupOwner($this->getId())));
 			$available = "";
 			$constraint_qpls = "";
 			if (count($available_pools))
 			{
-				$available = " AND qpl_questions.obj_fi IN ('" . join($available_pools, "','") . "')";
+				foreach ($available_pools as $pool_id)
+				{
+					array_push($paramtypes, 'integer');
+					array_push($paramvalues, $pool_id);
+				}
+				$available = " AND " . $ilDB->in('obj_fi', $available_pools);
 			}
 			else
 			{
@@ -5373,75 +5359,65 @@ function loadQuestions($active_id = "", $pass = NULL)
 			{
 				if (count($qpls) > 0)
 				{
-					$qplidx = array();
 					foreach ($qpls as $idx => $arr)
 					{
-						array_push($qplidx, $arr["qpl"]);
+						array_push($paramtypes, 'integer');
+						array_push($paramvalues, $arr["qpl"]);
 					}
-					$constraint_qpls = " AND qpl_questions.obj_fi IN ('" . join($qplidx, "','") . "')";
+					$constraint_qpls = " AND " . $ilDB->in('obj_fi', $qpls);
 				}
 			}
-			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause";
 		}
-			else
+
+		if ($questionpool > 0)
 		{
-			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.owner > 0 AND obj_fi = %s$original_clause",
-				$ilDB->quote("$questionpool")
+			array_push($paramtypes, 'integer');
+			array_push($paramvalues, $questionpool);
+		}
+		array_push($paramtypes, 'integer');
+		array_push($paramvalues, 0);
+		array_push($paramtypes, 'text');
+		array_push($paramvalues, "1");
+
+		$original_clause = "";
+		if (count($original_ids))
+		{
+			foreach ($original_ids as $original_id)
+			{
+				array_push($paramtypes, 'integer');
+				array_push($paramvalues, $original_id);
+			}
+			$original_clause = " AND " . $ilDB->in('question_id', $original_ids, true);
+		}
+
+		if ($questionpool == 0)
+		{
+			$statement = $ilDB->prepare("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) $available $constraint_qpls AND owner > ? AND complete = ? $original_clause",
+				$paramtypes
 			);
+			$result = $ilDB->execute($statement, $paramvalues);
 		}
-		$result = $ilDB->query($query);
-		$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
-		if (($row[0]) <= $nr_of_questions)
+		else
 		{
-			// take all available questions
-			if ($questionpool == 0)
-			{
-				$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause";
-			}
-				else
-			{
-				$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause",
-					$ilDB->quote("$questionpool")
-				);
-			}
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
-			{
-				if ((!in_array($row[0], $this->questions)) && (strcmp($row[0], "") != 0))
-				{
-					$result_array[$row[0]] = $row[0];
-				}
-			}
+			$statement = $ilDB->prepare("SELECT question_id FROM qpl_questions WHERE ISNULL(original_id) AND obj_fi = ? AND owner > ? AND complete = ? $original_clause",
+				$paramtypes
+			);
+			$result = $ilDB->execute($statement, $paramvalues);
 		}
-			else
+		$found_ids = array();
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			// select a random number out of the maximum number of questions
-			mt_srand((double)microtime()*1000000);
-			$random_number = mt_rand(0, $row[0] - 1);
-			$securitycounter = 500;
-			while ((count($result_array) < $nr_of_questions) && ($securitycounter > 0))
-			{
-				if ($questionpool == 0)
-				{
-					$query = "SELECT question_id FROM qpl_questions, object_data WHERE ISNULL(qpl_questions.original_id) AND object_data.type = 'qpl' AND object_data.obj_id = qpl_questions.obj_fi$available$constraint_qpls AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1";
-				}
-					else
-				{
-					$query = sprintf("SELECT question_id FROM qpl_questions WHERE ISNULL(qpl_questions.original_id) AND obj_fi = %s AND qpl_questions.owner > 0 AND qpl_questions.complete = '1'$original_clause LIMIT $random_number, 1",
-						$ilDB->quote("$questionpool")
-					);
-				}
-				$result = $ilDB->query($query);
-				$result_row = $result->fetchRow(DB_FETCHMODE_ARRAY);
-				if ((!in_array($result_row[0], $this->questions)) && (strcmp($result_row[0], "") != 0))
-				{
-					$result_array[$result_row[0]] = $result_row[0];
-				}
-				$random_number = mt_rand(0, $row[0] - 1);
-				$securitycounter--;
-			}
+			array_push($found_ids, $row['question_id']);
 		}
-		return $result_array;
+		$nr_of_questions = ($nr_of_questions > count($found_ids)) ? count($found_ids) : $nr_of_questions;
+		if ($nr_of_questions == 0) return array();
+		$rand_keys = array_rand($found_ids, $nr_of_questions);
+		$result = array();
+		foreach ($rand_keys as $key)
+		{
+			$result[$found_ids[$key]] = $found_ids[$key];
+		}
+		return $result;
 	}
 
 /**
