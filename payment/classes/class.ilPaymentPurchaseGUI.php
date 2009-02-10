@@ -142,12 +142,29 @@ class ilPaymentPurchaseGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_INFO",$this->lng->txt('info'));
 			switch($this->pobject->getPayMethod())
 			{
-				case $this->pobject->PAY_METHOD_BILL:
+/*				case $this->pobject->PAY_METHOD_BILL:
 					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_bill'));
 					$this->tpl->setVariable("INPUT_CMD",'getBill');
 					$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_get_bill'));
 					break;
-
+*/
+				case $this->pobject->PAY_METHOD_BILL:
+					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_info'));
+					if (is_array($buyedObject))
+					{
+						if (is_array($prices) && count($prices) > 1)
+						{
+							$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+							$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_change_price'));
+						}
+					}
+					else
+					{
+						$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
+						$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
+					}
+					break;
+					
 				case $this->pobject->PAY_METHOD_BMF:
 					$this->tpl->setVariable("INFO_PAY",$this->lng->txt('pay_info'));
 					if (is_array($buyedObject))

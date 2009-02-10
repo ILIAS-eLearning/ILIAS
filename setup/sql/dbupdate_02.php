@@ -7555,4 +7555,14 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE usr_data MODIFY gender CHAR(1) DEFAULT 'm';
 <#1577>
 ALTER TABLE usr_data MODIFY auth_mode CHAR(10) DEFAULT 'default';
+<#1578>
+ALTER TABLE `payment_statistic` ADD `street` VARCHAR( 40 ) NULL;
+<#1579>
+ALTER TABLE `payment_statistic` ADD `po_box` VARCHAR( 40 ) NULL;
+<#1580>
+ALTER TABLE `payment_statistic` ADD `zipcode` VARCHAR( 40 ) NULL;
+<#1581>
+ALTER TABLE `payment_statistic` ADD `city` VARCHAR( 40 ) NULL;
+<#1582>
+ALTER TABLE `payment_statistic` ADD `country` VARCHAR( 40 ) NULL;
 

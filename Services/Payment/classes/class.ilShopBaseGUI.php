@@ -128,7 +128,8 @@ class ilShopBaseGUI
 				if(ilPaymentVendors::_isVendor($ilUser->getId()) || 
 				   ilPaymentTrustees::_hasStatisticPermission($ilUser->getId()))
 				{
-					$ilTabs->addSubTabTarget('paya_statistic', $this->ctrl->getLinkTargetByClass('ilpaymentstatisticgui'), '', '', '');
+					//$ilTabs->addSubTabTarget('paya_statistic', $this->ctrl->getLinkTargetByClass('ilpaymentstatisticgui'), '', '', '');
+					$ilTabs->addSubTabTarget('bookings', $this->ctrl->getLinkTargetByClass('ilpaymentstatisticgui'), '', '', '');
 				}		
 				if(ilPaymentVendors::_isVendor($ilUser->getId()) || 
 				   ilPaymentTrustees::_hasObjectPermission($ilUser->getId()))

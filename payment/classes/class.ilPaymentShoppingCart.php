@@ -75,12 +75,15 @@ class ilPaymentShoppingCart
 
 	function getEntries($a_pay_method = 0)
 	{
+
 		if ($a_pay_method == 0)
 		{
+
 			return $this->sc_entries ? $this->sc_entries : array();
 		}
 		else
 		{
+		
 			$tmp_entries = array();
 			foreach($this->sc_entries as $entry)
 			{
@@ -103,45 +106,62 @@ class ilPaymentShoppingCart
 
 	function isInShoppingCart($a_pobject_id)
 	{
-		$query = "SELECT * FROM payment_shopping_cart ".
-			"WHERE customer_id = '".$this->user_obj->getId()."' ".
-			"AND pobject_id = '".$a_pobject_id."'";
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_shopping_cart
+			WHERE customer_id = ?
+			AND pobject_id = ?',
+			array('integer', 'integer')
+		);
 
-		$res = $this->db->query($query);
+		$data = array($this->user_obj->getId(), $a_pobject_id);
+		$res = $this->db->execute($statement, $data);
 		
 		return $res->numRows() ? true : false;
 	}
 
 	function getEntry($a_pobject_id)
 	{
-		$query = "SELECT * FROM payment_shopping_cart ".
-			"WHERE customer_id = '".$this->user_obj->getId()."' ".
-			"AND pobject_id = '".$a_pobject_id."'";
-
-		$r = $this->db->query($query);
-
-		if (is_object($r))
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_shopping_cart
+			WHERE customer_id = ?
+			AND pobject_id = ?',
+			array('integer', 'integer')
+		);
+		$data = array($this->user_obj->getId(), $a_pobject_id);
+		$res = $this->db->execute($statement, $data);
+		
+		if (is_object($res))
 		{
-			return $r->fetchRow(DB_FETCHMODE_ASSOC);
+			return $res->fetchRow(DB_FETCHMODE_ASSOC);
 		}
 	}
 
 	function add()
 	{
+
+
+	
 		// Delete old entries for same pobject_id
-		$query = "DELETE FROM payment_shopping_cart ".
-			"WHERE customer_id = '".$this->user_obj->getId()."' ".
-			"AND pobject_id = '".$this->getPobjectId()."'";
+		$statement = $this->db->prepareManip('
+			DELETE FROM payment_shopping_cart
+			WHERE customer_id = ?
+			AND pobject_id = ?',
+			array('integer', 'integer')
+		);
+		$data = array($this->user_obj->getId(), $this->getPobjectId());
+		$this->db->execute($statement, $data);
 
-		$this->db->query($query);
+		$statement = $this->db->prepareManip('
+			INSERT INTO payment_shopping_cart
+			SET customer_id = ?,
+				pobject_id = ?,
+				price_id = ?', 
+			array('integer', 'integer', 'integer')
+		);
 		
-		$query = "INSERT INTO payment_shopping_cart ".
-			"SET customer_id = '".$this->user_obj->getId()."', ".
-			"pobject_id = '".$this->getPobjectId()."', ".
-			"price_id = '".$this->getPriceId()."'";
-
-		$this->db->query($query);
-
+		$data = array($this->user_obj->getId(), $this->getPobjectId(), $this->getPriceId());
+		$this->db->execute($statement, $data);
+		
 		$this->__read();
 
 		return true;
@@ -149,14 +169,23 @@ class ilPaymentShoppingCart
 
 	function update($a_psc_id)
 	{
-		$query = "UPDATE payment_shopping_cart ".
-			"SET customer_id = '".$this->user_obj->getId()."',' ".
-			"pobject_id = '".$this->getPobjectId()."',' ".
-			"price_id = '".$this->getPriceId()."' ".
-			"WHERE psc_id = '".$a_psc_id."'";
-
-		$this->db->query($query);
-
+		$statement = $this->db->prepareManip('
+			UPDATE payment_shopping_cart
+			SET customer_id = ?,
+				pobject_id = ?,
+				price_id = ?
+			WHERE psc_id = ?',
+			array('integer', 'integer', 'integer', 'integer')
+		);
+		
+		$data = array(	$this->user_obj->getId(), 
+						$this->getPobjectId(),
+						$this->getPriceId(),
+						$a_psc_id
+		);
+		
+		$this->db->execute($statement, $data);
+		
 		$this->__read();
 
 		return true;
@@ -164,21 +193,29 @@ class ilPaymentShoppingCart
 			
 	function delete($a_psc_id)
 	{
-		$query = "DELETE FROM payment_shopping_cart ".
-			"WHERE psc_id = '".$a_psc_id."'";
+		$statement = $this->db->prepareManip('
+			DELETE FROM payment_shopping_cart
+			WHERE psc_id = ?',
+			array('integer')
+		);	
 
-		$this->db->query($query);
-
+		$data = array($a_psc_id);
+		$this->db->execute($statement, $data);
+		
 		$this->__read();
 	}
 
 	function emptyShoppingCart()
 	{
-		$query = "DELETE FROM payment_shopping_cart ".
-			"WHERE customer_id = '".$this->user_obj->getId()."'";
+		$statement = $this->db->prepareManip('
+			DELETE FROM payment_shopping_cart
+			WHERE customer_id = ?',
+			array('integer')
+		);	
 
-		$this->db->query($query);
-
+		$data = array($this->user_obj->getId());
+		
+		$this->db->execute($statement, $data);
 		$this->__read();
 
 		return true;
@@ -189,11 +226,13 @@ class ilPaymentShoppingCart
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM payment_shopping_cart ".
-			"WHERE customer_id = '".$a_user_id."'";
-
-		$res = $ilDB->query($query);
-
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_shopping_cart
+			WHERE customer_id = ?',
+			array('integer')
+		);		
+		$data = array($a_user_id);
+		$res = $ilDB->execute($statement, $data);
 		return $res->numRows() ? true : false;
 	}
 
@@ -205,11 +244,14 @@ class ilPaymentShoppingCart
 
 		$this->sc_entries = array();
 
-		$query = "SELECT * FROM payment_shopping_cart ".
-			"WHERE customer_id = '".$this->user_obj->getId()."'";
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_shopping_cart
+			WHERE customer_id = ?',
+			array('integer')
+		);		
+		$data = array($this->user_obj->getId());
+		$res = $this->db->execute($statement, $data);
 		
-		$res = $this->db->query($query);
-
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->sc_entries[$row->psc_id]["psc_id"] = $row->psc_id;
@@ -231,19 +273,22 @@ class ilPaymentShoppingCart
 			
 			// check pay method
 			$tmp_pobj =& new ilPaymentObject($this->user_obj,$entry['pobject_id']);
-			if(($pay_method = $tmp_pobj->getPayMethod()) == $tmp_pobj->PAY_METHOD_BILL)
+			
+			$pay_method = $tmp_pobj->getPayMethod();
+/*			if(($pay_method = $tmp_pobj->getPayMethod()) == $tmp_pobj->PAY_METHOD_BILL)
 			{
 				$this->delete($entry['psc_id']);
 				return false;
 			}
-
+*/
 			// if payment is expired
 			if($tmp_pobj->getStatus() == $tmp_pobj->STATUS_EXPIRES)
-			{
+			{ 
 				$this->delete($entry['psc_id']);
 
 				return false;
 			}
+
 
 			$this->sc_entries[$entry["psc_id"]]["pay_method"] = $pay_method;
 

@@ -39,8 +39,12 @@ class ilPaymentCoupons
 	public function getCoupons()
 	{
 		$this->coupons = array();
+		
+		$data = array();
+		$data_types = array();
 
-		$query = "SELECT * FROM payment_coupons WHERE 1 ";
+		$query = 'SELECT * FROM payment_coupons WHERE 1 ';
+		
 		
 		if ($this->getSearchFromDay() != "" &&
 			$this->getSearchFromMonth() != "" &&
@@ -56,46 +60,81 @@ class ilPaymentCoupons
 			$this->getSearchTillYear() != "" &&
 			$this->getSearchTillDateEnabled()
 		)
-		{
+		{		
 			$till = mktime(23, 59, 59, $this->getSearchTillMonth(), $this->getSearchTillDay(), $this->getSearchTillYear());			
 		}
 
 		if ($from && $till)
 		{
-			$query .= " AND ((pc_from != '0000-00-00' AND pc_till != '0000-00-00' AND pc_from_enabled = '1' AND pc_till_enabled = '1' AND 
-					  (UNIX_TIMESTAMP(pc_from) >= " . $this->db->quote($from). " AND UNIX_TIMESTAMP(pc_till) <= " . $this->db->quote($till). "
-					  OR UNIX_TIMESTAMP(pc_till) >= " . $this->db->quote($from). " AND UNIX_TIMESTAMP(pc_till) <= " . $this->db->quote($till). "
-					  OR UNIX_TIMESTAMP(pc_from) >= " . $this->db->quote($from). " AND UNIX_TIMESTAMP(pc_from) <= " . $this->db->quote($till). "
-					  OR UNIX_TIMESTAMP(pc_from) <= " . $this->db->quote($from). " AND UNIX_TIMESTAMP(pc_till) >= " . $this->db->quote($till). "
-						))
-					  OR (pc_from != '0000-00-00' AND pc_from_enabled = '1' AND UNIX_TIMESTAMP(pc_from) <= " . $this->db->quote($till). ")
-					  OR (pc_till != '0000-00-00' AND pc_till_enabled = '1' AND UNIX_TIMESTAMP(pc_till) >= " . $this->db->quote($from). ")					  					 
-					  )";	
+			$query .= ' 
+				AND ((	pc_from != ?
+						AND pc_till != ?
+						AND pc_from_enabled = ? 
+						AND pc_till_enabled = ? 
+						AND UNIX_TIMESTAMP(pc_from) >= ? 
+						AND UNIX_TIMESTAMP(pc_till) <= ?
+						
+						OR UNIX_TIMESTAMP(pc_till) >= ?
+						AND UNIX_TIMESTAMP(pc_till) <= ?
+						
+						OR UNIX_TIMESTAMP(pc_from) >= ?
+						AND UNIX_TIMESTAMP(pc_from) <= ?
+		  				
+						OR UNIX_TIMESTAMP(pc_from) <= ?
+		  				AND UNIX_TIMESTAMP(pc_till) >= ?
+					))
+		  		OR (pc_from != ? AND pc_from_enabled = ? AND UNIX_TIMESTAMP(pc_from) <= ?)
+		  		OR (pc_till != ? AND pc_till_enabled = ? AND UNIX_TIMESTAMP(pc_till) >= ?)					  					 
+			)';
+			array_push($data, '0000-00-00','0000-00-00', '1', '1', $from, $till, 
+						$from, $till, $from, $till, $from, $till,
+						'0000-00-00', '1', $till,
+						'0000-00-00', '1', $from); 
+			array_push($data_types, 'date', 'date', 'integer', 'integer', 'date', 
+						'date', 'date', 'date', 'date', 'date', 'date', 'date',
+						'date', 'integer', 'date',
+						'date', 'integer', 'date');
 		}
 		else if ($from)
-		{
-			$query .= " AND ((pc_till != '0000-00-00' AND pc_till_enabled = '1' AND UNIX_TIMESTAMP(pc_till) >= " . $this->db->quote($from). ") OR (pc_from != '0000-00-00' AND pc_till = '0000-00-00')) ";
+		{	
+			$query .= ' AND ((pc_till != ? AND pc_till_enabled = ? AND UNIX_TIMESTAMP(pc_till) >= ?) 
+						OR (pc_from != ? AND pc_till = ?)) ';
+			array_push($data, '0000-00-00', '1', $from,
+						'0000-00-00', '0000-00-00');
+			array_push($data_types, 'date', 'integer', 'date',
+						'date', 'date');
 		}
 		else if ($till)
 		{
-			$query .= " AND ((pc_from != '0000-00-00' AND pc_from_enabled = '1' AND UNIX_TIMESTAMP(pc_from) <= " . $this->db->quote($till). ") OR (pc_from = '0000-00-00' AND pc_till != '0000-00-00')) ";			 
+			$query .= ' AND ((pc_from != ? AND pc_from_enabled = ? AND UNIX_TIMESTAMP(pc_from) <= ?) 
+						OR (pc_from = ? AND pc_till != ?)) ';			 
+			array_push($data, '0000-00-00', '1', $from,
+						'0000-00-00', '0000-00-00');
+			array_push($data_types, 'date', 'integer', 'date',
+						'date', 'date');		
 		}		
 		
 		if ($this->getSearchTitleValue() != "")
 		{
 			if ($this->getSearchTitleType() == 0)
 			{
-				$query .= " AND pc_title LIKE '" . $this->getSearchTitleValue() . "%' ";
+				$query .= " AND pc_title LIKE ? ";
+				array_push($data, $this->getSearchTitleValue().'%');
+				array_push($data_types, 'text');
 			}
 			else if ($this->getSearchTitleType() == 1)
 			{
-				$query .= " AND pc_title LIKE '%" . $this->getSearchTitleValue() . "' ";
+				$query .= " AND pc_title LIKE ? ";
+				array_push($data, '%'.$this->getSearchTitleValue());
+				array_push($data_types,'text');				
 			}
 		}
 		
 		if ($this->getSearchType() != "")
 		{
-			$query .= " AND pc_type = " . $this->db->quote($this->getSearchType()) . " ";			
+			$query .= ' AND pc_type = ?';
+			array_push($data, $this->getSearchType());
+			array_push($data_types, 'text');			
 		}
 
 		$vendors = $this->getVendorIds();		
@@ -103,13 +142,36 @@ class ilPaymentCoupons
 			count($vendors) > 0)
 		{
 			$in = 'usr_id IN (';
-			$in .= implode(',',$vendors);
+			$counter = 0;			
+			foreach($vendors as $vendor)
+			{
+				array_push($data, $vendor);
+				array_push($data_types, 'integer');
+				
+				if($counter > 0) $in .= ',';
+				$in .= '?';								
+				++$counter;				
+			}
 			$in .= ')';
-
-			$query .= " AND ".$in." ";
+			
+			$query .= ' AND '.$in;			
 		}
 
-		$res = $this->db->query($query);
+	
+		$cnt_data = count($data);
+		$cnt_data_types = count($data_types);
+
+		if($cnt_data == 0 && $cnt_data_types == 0)
+		{
+			$statement = $this->db->prepare($query);
+			$res = $this->db->execute($statement);
+		}
+		else
+		{
+			$statement= $this->db->prepare($query, $data_types);
+			$res = $this->db->execute($statement, $data);
+		} 
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->coupons[$row->pc_pk]['pc_pk'] = $row->pc_pk;
@@ -369,24 +431,53 @@ class ilPaymentCoupons
 	
 	public function add()
 	{
-		$query = sprintf("INSERT INTO payment_coupons VALUES('', ".
-						 " %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-						 $this->db->quote($this->getCouponUser()),
-						 $this->db->quote($this->getTitle()),
-						 $this->db->quote($this->getDescription()),
-						 $this->db->quote($this->getType()),
-						 $this->db->quote($this->getValue()),
-						 $this->db->quote($this->getFromDate()),
-						 $this->db->quote($this->getTillDate()),
-						 $this->db->quote($this->getFromDateEnabled()),
-						 $this->db->quote($this->getTillDateEnabled()),
-						 $this->db->quote($this->getUses()),
-						 "''",
-						 "''"						 		 
-						 );
 
-		$this->db->query($query);
-
+		$statement = $this->db->prepareManip('
+			INSERT INTO payment_coupons
+			SET usr_id = ?,
+				pc_title = ?,
+				pc_description = ?,
+				pc_type = ?,
+				pc_value = ?,
+				pc_from = ?,
+				pc_till = ?,
+				pc_from_enabled = ?,
+				pc_till_enabled = ?,
+				pc_uses = ?,
+				pc_last_change_usr_id = ?,
+				pc_last_changed = ?', 
+			array(	'integer', 
+					'text', 
+					'text', 
+					'text',
+					'text', 
+					'decimal',
+					'date',
+					'date',
+					'integer',
+					'integer',
+					'integer',
+					'integer',
+					'datetime'
+			)
+		);
+		
+		$data = array(	$this->getCouponUser(),
+						$this->getTitle(),
+						$this->getDescription(),
+						$this->getType(),
+						$this->getValue(),
+						$this->getFromDate(),
+						$this->getTillDate(),
+						$this->getFromDateEnabled(),
+						$this->getTillDateEnabled(),
+						$this->getUses(),
+						'',
+						''
+		);
+		
+		$this->db->execute($statement, $data);
+	
 		return $this->db->getLastInsertId();
 	}
 						 
@@ -394,22 +485,51 @@ class ilPaymentCoupons
 	{
 		if ($this->getId())
 		{
-			$query = "UPDATE payment_coupons  
-					  SET 
-					  pc_title = ".$this->db->quote($this->getTitle()).",
-					  pc_description = ".$this->db->quote($this->getDescription()).",
-					  pc_type = ".$this->db->quote($this->getType()).",
-					  pc_value = ".$this->db->quote($this->getValue()).",
-					  pc_from = ".$this->db->quote($this->getFromDate()).",
-  					  pc_till = ".$this->db->quote($this->getTillDate()).",
-					  pc_from_enabled = ".$this->db->quote($this->getFromDateEnabled()).",
-  					  pc_till_enabled = ".$this->db->quote($this->getTillDateEnabled()).",
-   					  pc_uses = ".$this->db->quote($this->getUses()).",
-					  pc_last_change_usr_id = ".$this->db->quote($this->getCouponUser()).", 
-					  pc_last_changed = ".$this->db->quote($this->getChangeDate())." 
-					  WHERE pc_pk = ".$this->db->quote($this->getId())." ";
-			$this->db->query($query);
-
+			$statement = $this->db->prepareManip('
+				UPDATE payment_coupons
+				SET	pc_title = ?,
+					pc_description = ?,
+					pc_type = ?,
+					pc_value = ?,
+					pc_from = ?,
+					pc_till = ?,
+					pc_from_enabled = ?,
+					pc_till_enabled = ?,
+					pc_uses = ?,
+					pc_last_change_usr_id = ?,
+					pc_last_changed = ?
+				WHERE pc_pk = ?',
+				array(	'text', 
+						'text', 
+						'text',
+						'decimal',
+						'date',
+						'date',
+						'integer',
+						'integer',
+						'integer',
+						'integer',
+						'timestamp',
+						'integer'
+				)
+			);
+			
+			$data = array(	$this->getTitle(),
+							$this->getDescription(),
+							$this->getType(),
+							$this->getValue(),
+							$this->getFromDate(),
+							$this->getTillDate(),
+							$this->getFromDateEnabled(),
+							$this->getTillDateEnabled(),
+							$this->getUses(),	
+							$this->getCouponUser(),
+							$this->getChangeDate(),		
+							$this->getId()
+			);
+			
+			$this->db->execute($statement, $data);
+				
 			return true;
 		}
 		return false;
@@ -419,10 +539,12 @@ class ilPaymentCoupons
 	{
 		if ($this->getId())
 		{
-			$query = "DELETE FROM payment_coupons WHERE pc_pk = ".$this->db->quote($this->getId())." ";
-
-			$this->db->query($query);
-
+			$statement = $this->db->prepareManip('
+				DELETE FROM payment_coupons WHERE pc_pk = ?',
+				array('integer'));
+			$data = array($this->getId());
+			
+			$this->db->execute($statement, $data);
 			return true;
 		}
 		return false;
@@ -430,12 +552,14 @@ class ilPaymentCoupons
 		
 	public function getCouponById($a_coupon_id)
 	{
-		$query = "SELECT * 
-				  FROM payment_coupons 
-				  WHERE 1 
-				  AND pc_pk = ".$this->db->quote($a_coupon_id)." ";
-
-		$res = $this->db->query($query);
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_coupons
+			WHERE pc_pk = ?', array('integer')
+		);
+		$data = array($a_coupon_id);
+		
+		$res = $this->db->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{			
 			$this->setId($row->pc_pk);
@@ -472,10 +596,15 @@ class ilPaymentCoupons
 	public function getObjectsByCouponId($a_coupon_id)
 	{
 		$this->objects = array();
-		
-		$query = "SELECT * FROM payment_coupons_objects WHERE 1 AND pco_pc_fk = ".$this->db->quote($a_coupon_id);
 
-		$res = $this->db->query($query);
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_coupons_objects
+			WHERE pco_pc_fk = ?', array('integer')
+		);
+		$data = array($a_coupon_id);
+
+		$res = $this->db->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->objects[] = $row->ref_id;
@@ -487,14 +616,17 @@ class ilPaymentCoupons
 	public function getCodesByCouponId($a_coupon_id)
 	{
 		$this->codes = array();
+	
+		$statement = $this->db->prepare('
+			SELECT payment_coupons_codes.*, COUNT(pct_pcc_fk) pcc_used 
+		 	FROM payment_coupons_codes
+		 	LEFT JOIN payment_coupons_tracking ON  pct_pcc_fk = pcc_pk 
+		  	WHERE 1 AND pcc_pc_fk = ?
+		  	GROUP BY pcc_pk', array('integer')
+		);
+		$data = array($a_coupon_id);
+		$res = $this->db->execute($statement, $data);	
 		
-		$query = "SELECT payment_coupons_codes.*, COUNT(pct_pcc_fk) AS pcc_used 
-				  FROM payment_coupons_codes
-				  LEFT JOIN payment_coupons_tracking ON  pct_pcc_fk = pcc_pk 
-				  WHERE 1 AND pcc_pc_fk = ".$this->db->quote($a_coupon_id)."
-				  GROUP BY pcc_pk";
-
-		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->codes[$row->pcc_pk]['pcc_pk'] = $row->pcc_pk;
@@ -508,14 +640,17 @@ class ilPaymentCoupons
 	public function getUsedCouponsByCouponId($a_coupon_id)
 	{
 		$this->used_codes = array();
-		
-		$query = "SELECT * 
-				  FROM payment_coupons_tracking
-				  INNER JOIN payment_coupons_codes ON pcc_pk = pct_pcc_fk
-				  WHERE 1
-				  AND pcc_pc_fk = ".$this->db->quote($a_coupon_id);
 
-		$res = $this->db->query($query);
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_coupons_tracking
+			INNER JOIN payment_coupons_codes ON pcc_pk = pct_pcc_fk
+			WHERE 1
+			AND pcc_pc_fk = ?', array('integer')
+		);
+		
+		$data = array($a_coupon_id);
+		$res = $this->db->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->used_codes[$row->pct_pk]['pct_pk'] = $row->pct_pk;
@@ -530,13 +665,15 @@ class ilPaymentCoupons
 	
 	public function getCouponByCode($a_coupon_code)
 	{
-		$query = "SELECT * 
-				  FROM payment_coupons_codes
-				  INNER JOIN payment_coupons ON pc_pk = pcc_pc_fk
-				  WHERE 1
-				  AND pcc_code = ".$this->db->quote($a_coupon_code). " ";
-
-		$res = $this->db->query($query);
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_coupons_codes
+			INNER JOIN payment_coupons ON pc_pk = pcc_pc_fk
+			WHERE 1
+			AND pcc_code = ?', array('text')
+		);
+		$data = array($a_coupon_code);
+		$this->db->execute($statement, $data);
+				
 		if (is_object($row = $res->fetchRow(DB_FETCHMODE_OBJECT)))
 		{
 			$coupon['pc_pk'] = $row->pc_pk;			
@@ -592,12 +729,15 @@ class ilPaymentCoupons
 		
 		if (is_numeric($coupon["pc_uses"]) && $coupon["pc_uses"] > 0)
 		{
-			$query = "SELECT COUNT(*) AS used_coupons
-					  FROM payment_coupons_tracking					  
-					  WHERE pct_pcc_fk = ".$this->db->quote($coupon["pcc_pk"])." ";
+			$statement = $this->db->prepare('
+				SELECT COUNT(*) used_coupons
+				FROM payment_coupons_tracking					  
+				WHERE pct_pcc_fk = ?', array('integer')
+			);
 
-			$this->db->query($query);
-			$res = $this->db->query($query);
+			$data = array($coupon['pcc_pk']);
+			$res = $this->db->execute($statement, $data);
+			
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 			
 			if ($row->used_coupons >= $coupon["pc_uses"]) return $this->COUPON_TOO_MUCH_USED;
@@ -610,10 +750,14 @@ class ilPaymentCoupons
 	{
 		if ($a_code_id)
 		{
-			$query = "DELETE FROM payment_coupons_codes WHERE pcc_pk = ".$this->db->quote($a_code_id)." ";
-
-			$this->db->query($query);
-
+			$statement = $this->db->prepareManip('
+				DELETE FROM payment_coupons_codes WHERE pcc_pk = ?',
+				array('integer')
+			);
+			
+			$data = array($a_code_id);
+			$this->db->execute($statement, $data);
+			
 			return true;
 		}		
 		return false;
@@ -623,10 +767,14 @@ class ilPaymentCoupons
 	{
 		if ($a_coupon_id)
 		{
-			$query = "DELETE FROM payment_coupons_codes WHERE pcc_pc_fk = ".$this->db->quote($a_coupon_id)." ";
+			$statement = $this->db->prepareManip('
+				DELETE FROM payment_coupons_codes WHERE pcc_pc_fk = ?',
+				array('integer')
+			);
 
-			$this->db->query($query);
-
+			$data = array($a_coupon_id);
+			$this->db->execute($statement, $data);
+			
 			return true;
 		}		
 		return false;
@@ -634,12 +782,16 @@ class ilPaymentCoupons
 	
 	public function getCode($a_code_id)
 	{
-		$query = "SELECT * 
-				  FROM payment_coupons_codes 
-				  WHERE 1 
-				  AND pcc_pk = ".$this->db->quote($a_code_id)." ";
-
-		$res = $this->db->query($query);
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_coupons_codes 
+			WHERE 1 
+			AND pcc_pk = ?',
+			array('integer')
+		);
+		
+		$data = array($a_code_id);
+		$res = $this->db->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$code['pcc_pk'] = $row->pcc_pk;
@@ -653,14 +805,16 @@ class ilPaymentCoupons
 	{
 		if ($a_code && $a_coupon_id)
 		{
-			$query = sprintf("INSERT INTO payment_coupons_codes VALUES('', ".
-						 " %s, %s)",						 
-						 $this->db->quote($a_coupon_id),
-						 $this->db->quote($a_code)					 
-						 );
-
-			$this->db->query($query);
-
+			$statement = $this->db->prepareManip('
+				INSERT INTO payment_coupons_codes
+				SET pcc_pc_fk = ?,
+					pcc_code = ?',
+				array('integer', 'text')
+			);
+			
+			$data = array($a_coupon_id, $a_code);
+			$this->db->execute($statement, $data);
+			
 			return $this->db->getLastInsertId();
 		}
 		return false;
@@ -672,15 +826,16 @@ class ilPaymentCoupons
 		
 		if ($a_booking_id && is_array($current_coupon))
 		{		
+			$statement = $this->db->prepareManip('
+				INSERT INTO payment_statistic_coupons 
+				SET psc_ps_fk = ?,
+					psc_pc_fk = ?,
+					psc_pcc_fk = ?',
+				array('integer', 'integer', 'integer')
+			);
+			$data = array($a_booking_id, $current_coupon['pc_pk'], $current_coupon['pcc_pk']);
 			
-			$query = sprintf("INSERT INTO payment_statistic_coupons VALUES(%s, %s, %s)",						 
-						 $this->db->quote($a_booking_id),
-						 $this->db->quote($current_coupon["pc_pk"]),
-						 $this->db->quote($current_coupon["pcc_pk"])				 
-						 );
-
-			$this->db->query($query);
-
+			$this->db->execute($statement, $data);
 			return $this->db->getLastInsertId();
 		}
 		return false;
@@ -692,14 +847,16 @@ class ilPaymentCoupons
 		
 		if (is_array($current_coupon))
 		{
-			$query = "INSERT INTO payment_coupons_tracking "
-					."SET "
-					."pct_pcc_fk = ".$this->db->quote($current_coupon["pcc_pk"]). ", "
-					."usr_id = ".$this->db->quote($this->user_obj->getId()). ", "
-					."pct_date = ".$this->db->quote(date("Y-m-d H:i:s")). " ";	
+			$statement = $this->db->prepareManip('
+				INSERT INTO payment_coupons_tracking
+				SET pct_pcc_fk = ?,
+					usr_id = ?,
+					pct_date = ?',
+				array('integer', 'integer', 'timestamp')
+			);
 
-			$this->db->query($query);		
-
+			$data = array($current_coupon['pcc_pk'], $this->user_obj->getId(), date("Y-m-d H:i:s"));
+			$this->db->execute($statement, $data);
 			return $this->db->getLastInsertId();
 		}
 		return false;
@@ -715,14 +872,16 @@ class ilPaymentCoupons
 	{
 		if ($a_ref_id && is_numeric($this->getId()))
 		{
-			$query = "SELECT * 
-					  FROM payment_coupons_objects
-					  WHERE 1
-					  AND ref_id = ".$this->db->quote($a_ref_id)." 
-					  AND pco_pc_fk = ".$this->db->quote($this->getId())." ";
+			$statement = $this->db->prepare('
+				SELECT * FROM payment_coupons_objects
+				WHERE 1
+				AND ref_id = ? 
+				AND pco_pc_fk = ?',
+				array('integer', 'integer')
+			);
+			$data = array($a_ref_id, $this->getId());
 
-			$res = $this->db->query($query);
-			
+			$res = $this->db->execute($statement, $data);
 			if ($res->numRows()) return true;
 			
 			return false;
@@ -740,12 +899,15 @@ class ilPaymentCoupons
 	{
 		if ($a_ref_id && is_numeric($this->getId()))
 		{
-			$query = sprintf("INSERT INTO payment_coupons_objects VALUES(%s, %s)",
-						 $this->db->quote($this->getId()),
-						 $this->db->quote($a_ref_id)											 
-						 );
+			$statement = $this->db->prepareManip('
+				INSERT INTO payment_coupons_objects
+				SET pco_pc_fk = ?,
+					ref_id = ?',
+				array('integer', 'integer')
+			);
 
-			$this->db->query($query);
+			$data = array($this->getId(), $a_ref_id);
+			$this->db->execute($statement, $data);
 			
 			return true;
 		}		
@@ -762,18 +924,19 @@ class ilPaymentCoupons
 	{
 		if ($a_ref_id && is_numeric($this->getId()))
 		{
-			$query = "DELETE  
-					  FROM payment_coupons_objects
-					  WHERE 1
-					  AND ref_id = ".$this->db->quote($a_ref_id)." 
-					  AND pco_pc_fk = ".$this->db->quote($this->getId())." ";
+			$statement = $this->db->prepareManip('
+				DELETE FROM payment_coupons_objects
+				WHERE 1
+				AND ref_id = ?
+				AND pco_pc_fk = ?',
+				array('integer', 'integer')
+			);
 
-			$this->db->query($query);
-			
+			$data = array($a_ref_id, $this->getId());
+			$this->db->execute($statement, $data);
 			return true;
 		}		
 		return false;
 	}
-
 }
 ?>

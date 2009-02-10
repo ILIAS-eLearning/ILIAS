@@ -174,7 +174,8 @@ class ilPaymentBuyedObjectsGUI extends ilPaymentBaseGUI
 		$tpl->parseCurrentBlock();
 
 
-		$tbl->setTitle($this->lng->txt("paya_buyed_objects"),"icon_pays_access.gif",$this->lng->txt("paya_statistic"));
+		//$tbl->setTitle($this->lng->txt("paya_buyed_objects"),"icon_pays_access.gif",$this->lng->txt("paya_statistic"));
+		$tbl->setTitle($this->lng->txt("paya_buyed_objects"),"icon_pays_access.gif",$this->lng->txt("bookings"));
 		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),
 								   $this->lng->txt("title"),
 								   $this->lng->txt("paya_vendor"),

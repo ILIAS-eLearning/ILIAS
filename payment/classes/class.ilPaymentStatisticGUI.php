@@ -54,12 +54,15 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		parent::prepareOutput();
 
 		$ilTabs->setTabActive('paya_header');
-		$ilTabs->setSubTabActive('paya_statistic');
+		//$ilTabs->setSubTabActive('paya_statistic');
+		
+		$ilTabs->setSubTabActive('bookings');
 	}
 	
 	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
+		
 		switch ($this->ctrl->getNextClass($this))
 		{
 			default:
@@ -324,7 +327,8 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 
 		$workbook =& $pewa->getWorkbook();
-		$worksheet =& $workbook->addWorksheet($this->lng->txt('paya_statistic'));
+		//$worksheet =& $workbook->addWorksheet($this->lng->txt('paya_statistic'));
+		$worksheet =& $workbook->addWorksheet($this->lng->txt('bookings'));
 		
 		$worksheet->mergeCells(0,0,0,8);
 		$worksheet->setColumn(0,0,16);
@@ -338,7 +342,8 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$worksheet->setColumn(0,8,12);
 		$worksheet->setColumn(0,9,16);
 
-		$title = $this->lng->txt('paya_statistic');
+		//$title = $this->lng->txt('paya_statistic');
+		$title = $this->lng->txt('bookings');
 		$title .= ' '.$this->lng->txt('as_of');
 		$title .= strftime('%Y-%m-%d %R',time());
 
@@ -906,7 +911,8 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$tpl->parseCurrentBlock();
 		*/
 
-		$tbl->setTitle($this->lng->txt("paya_statistic"),"icon_pays.gif",$this->lng->txt("paya_statistic"));
+		//$tbl->setTitle($this->lng->txt("paya_statistic"),"icon_pays.gif",$this->lng->txt("paya_statistic"));
+		$tbl->setTitle($this->lng->txt("bookings"),"icon_pays.gif",$this->lng->txt("bookings"));
 		$tbl->setHeaderNames(array($this->lng->txt("paya_transaction"),
 								   $this->lng->txt("title"),
 								   $this->lng->txt("paya_vendor"),
@@ -981,6 +987,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 
 		$this->tpl->parseCurrentBlock();
+				vd($a_cmd.$a_text.$a_target);
 	}		
 
 	function __search($a_search_string)

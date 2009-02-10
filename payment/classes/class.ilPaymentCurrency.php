@@ -33,10 +33,10 @@ class ilPaymentCurrency
 	function _getAvailableCurrencies()
 	{
 		global $ilDB;
-		
-		$query = "SELECT * FROM payment_currencies ";
-		$res = $ilDB->query($query);
 
+		$statement = $ilDB->prepare('SELECT * FROM payment_currencies');
+		$res = $ilDB->execute($statement);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$currencies[$row->currency_id]['currency_id']		= $row->currency_id;
@@ -48,11 +48,14 @@ class ilPaymentCurrency
 	function _getCurrency($a_currency_id)
 	{
 		global $ilDB;
-		
-		$query = "SELECT * FROM payment_currencies ".
-			"WHERE currency_id = '".$a_currency_id."'";
 
-		$res = $ilDB->query($query);
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_currencies WHERE currency_id = ?',
+			array('integer')
+		);
+		$data = array($a_currency_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$currencies['currency_id']		= $row->currency_id;
@@ -65,10 +68,13 @@ class ilPaymentCurrency
 	{
 		global $ilDB;
 
-		$query = "SELECT unit FROM payment_currencies ".
-			"WHERE currency_id = '".$a_currency_id."'";
-
-		$res = $ilDB->query($query);
+		$statement = $ilDB->prepare('
+			SELECT unit FROM payment_currencies WHERE currency_id = ?',
+			array('integer')
+		);
+		$data = array($a_currency_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->unit;
@@ -79,10 +85,13 @@ class ilPaymentCurrency
 	{
 		global $ilDB;
 
-		$query = "SELECT subunit FROM payment_currencies ".
-			"WHERE currency_id = '".$a_currency_id."'";
-
-		$res = $ilDB->query($query);
+		$statement = $ilDB->prepare('
+			SELECT subunit FROM payment_currencies WHERE currency_id = ?',
+			array('integer')
+		);
+		$data = array($a_currency_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->subunit;

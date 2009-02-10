@@ -46,6 +46,7 @@ include_once 'Services/Payment/classes/class.ilShopInfoGUI.php';
 * @ilCtrl_Calls ilShopController: ilShopGUI, ilShopAdvancedSearchGUI, ilShopShoppingCartGUI
 * @ilCtrl_Calls ilShopController: ilShopBoughtObjectsGUI, ilPurchaseBMFGUI, ilShopPersonalSettingsGUI
 * @ilCtrl_Calls ilShopController: ilPaymentGUI, ilPaymentAdminGUI, ilShopInfoGUI
+* @ilCtrl_Calls ilShopController: ilPurchaseBillGUI
 */
 class ilShopController
 {	
@@ -74,11 +75,17 @@ class ilShopController
 		}
 		
 		$this->buildTabs();
-		
 		$next_class = $this->ctrl->getNextClass();
-		$cmd = $this->ctrl->getCmd();			
+		$cmd = $this->ctrl->getCmd();	
+			
 		switch($next_class)
 		{
+			case 'ilpurchasebillgui':
+				include_once 'payment/classes/class.ilPurchaseBillGUI.php';
+				$pt = new ilPurchaseBillGUI($ilUser);				
+				$this->ctrl->forwardCommand($pt);
+				break;
+								
 			case 'ilpurchasebmfgui':
 				include_once 'payment/classes/class.ilPurchaseBMFGUI.php';
 				$pt = new ilPurchaseBMFGUI($ilUser);				

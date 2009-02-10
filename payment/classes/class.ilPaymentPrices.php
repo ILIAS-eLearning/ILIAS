@@ -71,11 +71,14 @@ class ilPaymentPrices
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM payment_prices ".
-			"WHERE price_id = '".$a_price_id."'";
-
-		$res = $ilDB->query($query);
-
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_prices 
+			WHERE price_id = ?',
+			array('integer')
+		);
+		$data = array($a_price_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$price['duration'] = $row->duration;
@@ -88,10 +91,21 @@ class ilPaymentPrices
 
 	function _countPrices($a_pobject_id)
 	{
-		$query = "SELECT count(price_id) FROM payment_prices ".
+		global $ilDB;		
+/*		$query = "SELECT count(price_id) FROM payment_prices ".
 			"WHERE pobject_id = '".$a_pobject_id."'";
 
 		$res = $this->db->query($query);
+*/
+		
+		$statement = $ilDB->prepare('
+			SELECT count(price_id) FROM payment_prices 
+			WHERE pobject_id = ?',
+			array('integer')
+		);
+		$data = array($a_pobject_id);
+		$res = $ilDB->execute($statement, $data);
+				
 		$row = $res->fetchRow(DB_FETCHMODE_ARRAY);
 
 		return ($row[0]);
@@ -227,42 +241,62 @@ class ilPaymentPrices
 
 	function add()
 	{
-		$query = "INSERT INTO payment_prices SET ".
-			"pobject_id = '".$this->getPobjectId()."', ".
-			"currency = '".$this->__getCurrency()."', ".
-			"duration = '".$this->__getDuration()."', ".
-			"unit_value = '".$this->__getUnitValue()."', ".
-			"sub_unit_value = '".$this->__getSubUnitValue()."'";
-
-		$res = $this->db->query($query);
-
+		$statement = $this->db->prepareManip('
+			INSERT INTO payment_prices 
+			SET pobject_id = ?,
+				currency = ?,
+				duration = ?,
+				unit_value = ?,
+				sub_unit_value = ?',
+			array('integer', 'integer', 'integer', 'text', 'text')
+		);
+		
+		$data = array(	$this->getPobjectId(),
+						$this->__getCurrency(),
+						$this->__getDuration(),
+						$this->__getUnitValue(),
+						$this->__getSubUnitValue()
+		);
+		
+		$res = $this->db->execute($statement, $data);
+		
 		$this->__read();
 		
 		return true;
 	}
 	function update($a_price_id)
 	{
-
-		$query = "UPDATE payment_prices SET ".
-			"currency = '".$this->__getCurrency()."', ".
-			"duration = '".$this->__getDuration()."', ".
-			"unit_value = '".$this->__getUnitValue()."', ".
-			"sub_unit_value = '".$this->__getSubUnitValue()."' ".
-			"WHERE price_id = '".$a_price_id."'";
-
-		$res = $this->db->query($query);
-
+		$statement = $this->db->prepareManip('
+			UPDATE payment_prices SET
+			currency = ?,
+			duration = ?,
+			unit_value = ?,
+			sub_unit_value = ?',
+			array('integer', 'integer', 'integer', 'text', 'integer')
+		);
+		
+		$data = array(	$this->__getCurrency(),
+						$this->__getDuration(),
+						$this->__getUnitValue(),
+						$this->__getSubUnitValue(),
+						$a_price_id
+		);
+		$res = $this->db->execute($statement, $data);
 		$this->__read();
 
 		return true;
 	}
 	function delete($a_price_id)
 	{
-		$query = "DELETE FROM payment_prices ".
-			"WHERE price_id = '".$a_price_id."'";
+		$statement = $this->db->prepareManip('
+			DELETE FROM payment_prices
+			WHERE price_id = ?',
+			array('integer')
+		);
 
-		$res = $this->db->query($query);
+		$data = array($a_price_id);
 		
+		$res = $this->db->execute($statement, $data);
 
 		$this->__read();
 
@@ -270,10 +304,15 @@ class ilPaymentPrices
 	}
 	function deleteAllPrices()
 	{
-		$query = "DELETE FROM payment_prices ".
-			"WHERE pobject_id = '".$this->getPobjectId()."'";
+		$statement = $this->db->prepareManip('
+			DELETE FROM payment_prices
+			WHERE pobject_id = ?',
+			array('integer')
+		);
 
-		$res = $this->db->query($query);
+		$data = array($this->getPobjectId());
+		
+		$res = $this->db->execute($statement, $data);
 		
 		$this->__read();
 
@@ -307,12 +346,16 @@ class ilPaymentPrices
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM payment_prices ".
-			"WHERE price_id = '".$a_price_id."' ".
-			"AND pobject_id = '".$a_pobject_id."'";
-
-		$res = $ilDB->query($query);
-
+		$statement = $ilDB->prepare('
+			SELECT * FROM payment_prices
+			WHERE price_id = ?
+			AND pobject_id = ?',
+			array('integer', 'integer')
+		);
+		
+		$data = array($a_price_id, $a_pobject_id);
+		$res = $ilDB->execute($statement, $data);
+		
 		return $res->numRows() ? true : false;
 	}
 
@@ -340,11 +383,14 @@ class ilPaymentPrices
 	{
 		$this->prices = array();
 
-		$query = "SELECT * FROM payment_prices ".
-			"WHERE pobject_id = '".$this->getPobjectId()."' ".
-			"ORDER BY duration";
-
-		$res = $this->db->query($query);
+		$statement = $this->db->prepare('
+			SELECT * FROM payment_prices
+			WHERE pobject_id = ?
+			ORDER BY duration', array('integer')
+		);
+		$data  = array($this->getPobjectId());
+		$res = $this->db->execute($statement, $data);
+				
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->prices[$row->price_id]['pobject_id'] = $row->pobject_id;
