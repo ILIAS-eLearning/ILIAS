@@ -119,10 +119,79 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		$ids_ns = $tree->getPathIdsUsingNestedSets(24);
 		$ids_al = $tree->getPathIdsUsingAdjacencyMap(24);
-		
-		$this->assertEquals($ids_ns,array_merge($ids_al));		 
+
+		$this->assertEquals($ids_ns,$ids_al);
+	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	public function testGetNodePath()
+	{
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$res = $tree->getNodePath(1,29);
 	}
 	 		
+	/**
+	 * get path ids (adjacenca and nested set) 
+	 * @param
+	 * @return
+	 */
+	public function testMaxDepth()
+	{
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$tree->getMaximumDepth();			 
+	}
 	 
+	/**
+	 * get path ids (adjacenca and nested set) 
+	 * @param
+	 * @return
+	 */
+	public function testAllOthers()
+	{
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$d = $tree->getDepth(24);
+		
+		$this->assertEquals($d,4);
+		
+		$node = $tree->getNodeData(24);
+		$this->assertEquals($node['title'],'Public chat');
+		
+		$bool = $tree->isInTree(24);
+		$this->assertEquals($bool,true);
+		
+		$bool = $tree->isInTree(24242424);
+		$this->assertEquals($bool,false);
+		
+		$node = $tree->getParentNodeData(24);
+		$this->assertEquals($node['title'],'Chat Server');
+		
+		$bool = $tree->isGrandChild(9,24);
+		$this->assertEquals($bool,1);
+		
+		$node = $tree->getNodeDataByType('chac');
+		$this->assertEquals($node[0]['title'],'Chat Server');
+		
+		$bool = $tree->isDeleted(24);
+		$this->assertEquals($bool,false);
+		
+		$id = $tree->getParentId(24);
+		$this->assertEquals($id,14);
+		
+		$lft = $tree->getLeftValue(24);
+		$this->assertEquals($lft,14);
+		
+		$seq = $tree->getChildSequenceNumber(24);
+		$this->assertEquals($seq,0);
+		
+		// Round trip
+		$tree = new ilTree(ROOT_FOLDER_ID);
+		$suc = $tree->fetchSuccessorNode(16); // cals
+		$cals = $tree->fetchPredecessorNode($suc['child']);
+		$this->assertEquals($cals['child'],16);
+	}
 }
 ?>

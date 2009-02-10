@@ -360,7 +360,7 @@ class ilTree
 		}
 
 			 
-		$sta = $ilDB->prepare("SELECT * FROM ".$this->table_tree.' '.
+		$sta = $ilDB->prepare('SELECT * FROM '.$this->table_tree.' '.
 				$this->buildJoin().
 				"WHERE parent = ? " .
 				"AND ".$this->table_tree.".".$this->tree_pk." = ? ".
@@ -498,6 +498,8 @@ class ilTree
 	*/
 	function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE, $a_reset_deletion_date = false)
 	{
+		global $ilDB;
+		
 //echo "+$a_node_id+$a_parent_id+";
 		// CHECK node_id and parent_id > 0 if in main tree
 		if($this->__isMainTree())
@@ -536,11 +538,14 @@ class ilTree
 				}
 
 				// get left value of parent
-				$q = "SELECT * FROM ".$this->table_tree." ".
-					"WHERE child = '".$a_parent_id."' ".
-					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$res = $this->ilDB->query($q);
-				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				$query = 'SELECT * FROM '.$this->table_tree.' '.
+					'WHERE child = ? '.
+					'AND '.$this->tree_pk.' = ? ';
+				$sta = $ilDB->prepare($query,array('integer','integer'));
+				$res = $ilDB->execute($sta,array(
+					$a_parent_id,
+					$this->tree_id));
+				$r = $ilDB->fetchObject($res);
 
 				if ($r->parent == NULL)
 				{
@@ -557,19 +562,16 @@ class ilTree
 				$rgt = $left + 2;
 
 				// spread tree
-				$q = "UPDATE ".$this->table_tree." SET ".
-					"lft = CASE ".
-					"WHEN lft > ".$left." ".
-					"THEN lft + 2 ".
-					"ELSE lft ".
-					"END, ".
-					"rgt = CASE ".
-					"WHEN rgt > ".$left." ".
-					"THEN rgt + 2 ".
-					"ELSE rgt ".
-					"END ".
-					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-				$this->ilDB->query($q);
+				$query = 'UPDATE '.$this->table_tree.' SET '.
+					'lft = CASE WHEN lft > ? THEN lft + 2 ELSE lft END, '.
+					'rgt = CASE WHEN rgt > ? THEN rgt + 2 ELSE rgt END '.
+					'WHERE '.$this->tree_pk.' = ? ';
+				$sta = $ilDB->prepareManip($query,array('integer','integer','integer'));
+				$res = $ilDB->execute($sta,array(
+					$left,
+					$left,
+					$this->tree_id));
+				
 				break;
 
 			case IL_LAST_NODE:
@@ -582,14 +584,16 @@ class ilTree
 					}
 
 					// get lft and rgt value of parent
-					$q = 'SELECT rgt,lft,parent FROM '.$this->table_tree.' '.
-						'WHERE child = '.$a_parent_id.' '.
-						'AND '.$this->tree_pk.' = '.$this->tree_id;
-					$res = $this->ilDB->query($q);
-					$r = $res->fetchRow(DB_FETCHMODE_ASSOC);
+					$query = 'SELECT rgt,lft,parent FROM '.$this->table_tree.' '.
+						'WHERE child = ? '.
+						'AND '.$this->tree_pk.' =  ?';
+					$sta = $ilDB->prepare($query,array('integer','integer'));
+					$res = $ilDB->execute($sta,array(
+						$a_parent_id,
+						$this->tree_id));
+					$r = $ilDB->fetchAssoc($res);
 
-									
-					if ($r['parent'] == NULL)
+					if ($r['parent'] == null)
 					{
 						if($this->__isMainTree())
 						{
@@ -614,11 +618,15 @@ class ilTree
 						// If there is space between parent lft and rgt, we need to check
 						// whether there is space left between the rightmost child of the
 						// parent and parent rgt.
-						$q = 'SELECT MAX(rgt) AS max_rgt FROM '.$this->table_tree.' '.
-							'WHERE parent = '.$a_parent_id.' '.
-							'AND '.$this->tree_pk.' = '.$this->tree_id;
-						$res = $this->ilDB->query($q);
-						$r = $res->fetchRow(DB_FETCHMODE_ASSOC);
+						$query = 'SELECT MAX(rgt) max_rgt FROM '.$this->table_tree.' '.
+							'WHERE parent = ? '.
+							'AND '.$this->tree_pk.' = ? ';
+						$sta = $ilDB->prepare($query,array('integer','integer'));
+						$res = $ilDB->execute($sta,array(
+							$a_parent_id,
+							$this->tree_id));
+						$r = $ilDB->fetchAssoc($res);
+
 						if (isset($r['max_rgt']))
 						{
 							// If the parent has children, we compute the available space
@@ -641,19 +649,17 @@ class ilTree
 					if ($availableSpace < 2)
 					{
 						//$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') creating gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.'+'.(2 + $this->gap * 2));
-						$q = "UPDATE ".$this->table_tree." SET ".
-							"lft = CASE ".
-							"WHEN lft > ".$parentRgt." ".
-							"THEN lft + ".(2 + $this->gap * 2).' '.
-							"ELSE lft ".
-							"END, ".
-							"rgt = CASE ".
-							"WHEN rgt >= ".$parentRgt." ".
-							"THEN rgt + ".(2 + $this->gap * 2).' '.
-							"ELSE rgt ".
-							"END ".
-							"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-						$this->ilDB->query($q);
+						$query = 'UPDATE '.$this->table_tree.' SET '.
+							'lft = CASE WHEN lft  > ? THEN lft + ? ELSE lft END, '.
+							'rgt = CASE WHEN rgt >= ? THEN rgt + ? ELSE rgt END '.
+							'WHERE '.$this->tree_pk.' = ? ';
+						$sta = $ilDB->prepareManip($query,array('integer','integer','integer','integer','integer'));
+						$res = $ilDB->execute($sta,array(
+							$parentRgt,
+							(2 + $this->gap * 2),
+							$parentRgt,
+							(2 + $this->gap * 2),
+							$this->tree_id));
 					}
 					else
 					{
@@ -669,13 +675,16 @@ class ilTree
 					}
 
 					// get right value of parent
-					$q = "SELECT * FROM ".$this->table_tree." ".
-						"WHERE child = '".$a_parent_id."' ".
-						"AND ".$this->tree_pk." = '".$this->tree_id."'";
-					$res = $this->ilDB->query($q);
-					$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+					$query = 'SELECT * FROM '.$this->table_tree.' '.
+						'WHERE child = ? '.
+						'AND '.$this->tree_pk.' = ? ';
+					$sta = $ilDB->prepare($query,array('integer','integer'));
+					$res = $ilDB->execute($sta,array(
+						$a_parent_id,
+						$this->tree_id));
+					$r = $ilDB->fetchObject($res);
 
-					if ($r->parent == NULL)
+					if ($r->parent == null)
 					{
 						if($this->__isMainTree())
 						{
@@ -690,19 +699,15 @@ class ilTree
 					$rgt = $right + 1;
 
 					// spread tree
-					$q = "UPDATE ".$this->table_tree." SET ".
-						"lft = CASE ".
-						"WHEN lft > ".$right." ".
-						"THEN lft + 2 ".
-						"ELSE lft ".
-						"END, ".
-						"rgt = CASE ".
-						"WHEN rgt >= ".$right." ".
-						"THEN rgt + 2 ".
-						"ELSE rgt ".
-						"END ".
-						"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-					$this->ilDB->query($q);
+					$query = 'UPDATE '.$this->table_tree.' SET '.
+						'lft = CASE WHEN lft >  ? THEN lft + 2 ELSE lft END, '.
+						'rgt = CASE WHEN rgt >= ? THEN rgt + 2 ELSE rgt END '.
+						'WHERE '.$this->tree_pk.' = ?';
+					$sta = $ilDB->prepareManip($query,array('integer','integer','integer'));
+					$res = $ilDB->execute($sta,array(
+						$right,
+						$right,
+						$this->tree_id));
 				}
 
 				break;
@@ -716,11 +721,14 @@ class ilTree
 				}
 
 				// get right value of preceeding child
-				$q = "SELECT * FROM ".$this->table_tree." ".
-					"WHERE child = '".$a_pos."' ".
-					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$res = $this->ilDB->query($q);
-				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+				$query = 'SELECT * FROM '.$this->table_tree.' '.
+					'WHERE child = ? '.
+					'AND '.$this->tree_pk.' = ? ';
+				$sta = $ilDB->prepare($query,array('integer','integer'));
+				$res = $ilDB->execute($sta,array(
+					$a_pos,
+					$this->tree_id));
+				$r = $ilDB->fetchObject($res);
 
 				// crosscheck parents of sibling and new node (must be identical)
 				if ($r->parent != $a_parent_id)
@@ -738,19 +746,15 @@ class ilTree
 				$rgt = $right + 2;
 
 				// update lft/rgt values
-				$q = "UPDATE ".$this->table_tree." SET ".
-					"lft = CASE ".
-					"WHEN lft > ".$right." ".
-					"THEN lft + 2 ".
-					"ELSE lft ".
-					"END, ".
-					"rgt = CASE ".
-					"WHEN rgt > ".$right." ".
-					"THEN rgt + 2 ".
-					"ELSE rgt ".
-					"END ".
-					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-				$this->ilDB->query($q);
+				$query = 'UPDATE '.$this->table_tree.' SET '.
+					'lft = CASE WHEN lft >  ? THEN lft + 2 ELSE lft END, '.
+					'rgt = CASE WHEN rgt >  ? THEN rgt + 2 ELSE rgt END '.
+					'WHERE '.$this->tree_pk.' = ?';
+				$sta = $ilDB->prepareManip($query,array('integer','integer','integer'));
+				$res = $ilDB->execute($sta,array(
+					$right,
+					$right,
+					$this->tree_id));
 				break;
 
 		}
@@ -760,11 +764,16 @@ class ilTree
 
 		// insert node
 		//$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') inserting node:'.$a_node_id.' parent:'.$a_parent_id." ".$lft."..".$rgt." depth:".$depth);
-		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.",child,parent,lft,rgt,depth) ".
-			 "VALUES ".
-			 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
-
-		$this->ilDB->query($q);
+		$query = 'INSERT INTO '.$this->table_tree.' ('.$this->tree_pk.',child,parent,lft,rgt,depth) '.
+			'VALUES (?,?,?,?,?,?)';
+		$sta = $ilDB->prepareManip($query,array('integer','integer','integer','integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$this->tree_id,
+			$a_node_id,
+			$a_parent_id,
+			$lft,
+			$rgt,
+			$depth));
 
 		// Finally unlock tables
 		if($this->__isMainTree())
@@ -849,7 +858,8 @@ class ilTree
 		
 		$fields = array('integer','integer','integer');
 		$data = array($a_node['lft'],$a_node['rgt'],$this->tree_id);
-		$type_str = ''; 
+		$type_str = '';
+		
 		if(strlen($a_type))
 		{
 			$fields[] = 'text';
@@ -863,7 +873,7 @@ class ilTree
 			"AND ".$this->table_tree.".".$this->tree_pk." = ? ".
 			$type_str.
 			"ORDER BY ".$this->table_tree.".lft";
-			
+						
 		$sta = $ilDB->prepare($query,$fields);
 		$res = $ilDB->execute($sta,$data);
 		while($row = $ilDB->fetchAssoc($res))
@@ -912,6 +922,8 @@ class ilTree
 	*/
 	function deleteTree($a_node)
 	{
+		global $ilDB;
+		
 		if (!is_array($a_node))
 		{
 			$this->ilErr->raiseError(get_class($this)."::deleteTree(): Wrong datatype for node_data! ",$this->ilErr->WARNING);
@@ -949,12 +961,16 @@ class ilTree
 			ilDB::_lockTables(array('tree' => 'WRITE'));
 		}
 
-		$query = "SELECT * FROM ".$this->table_tree." ".
-			"WHERE child = '".$a_node['child']."' ".
-			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE child = ? '.
+			'AND '.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node['child'],
+			$a_node[$this->tree_pk]));
 
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		
+		while($row = $ilDB->fetchObject($res))
 		{
 			$a_node['lft'] = $row->lft;
 			$a_node['rgt'] = $row->rgt;
@@ -962,33 +978,37 @@ class ilTree
 		}
 
 		// delete subtree
-		$q = "DELETE FROM ".$this->table_tree." ".
-			"WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
-			"AND rgt BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
-			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
-		$this->ilDB->query($q);
-
+		$query = 'DELETE FROM '.$this->table_tree.' '.
+			'WHERE lft BETWEEN ? AND ? '.
+			'AND rgt BETWEEN ? AND ? '.
+			'AND '.$this->tree_pk.' = ?';
+		$sta = $ilDB->prepareManip($query,array('integer','integer','integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node['lft'],
+			$a_node['rgt'],
+			$a_node['lft'],
+			$a_node['rgt'],
+			$a_node[$this->tree_pk]));
+			
                 // Performance improvement: We only close the gap, if the node 
                 // is not in a trash tree, and if the resulting gap will be 
                 // larger than twice the gap value 
-		if ($a_node[$this->tree_pk] >= 0 && 
-                    $a_node['rgt'] - $a_node['lft'] >= $this->gap * 2)
+		if ($a_node[$this->tree_pk] >= 0 && $a_node['rgt'] - $a_node['lft'] >= $this->gap * 2)
 		{
 			//$this->log->write('ilTree.deleteTree('.$a_node['child'].') closing gap at '.$a_node['lft'].'...'.$a_node['rgt']);
 			// close gaps
-			$q = "UPDATE ".$this->table_tree." SET ".
-				 "lft = CASE ".
-				 "WHEN lft > '".$a_node["lft"]." '".
-				 "THEN lft - '".$diff." '".
-				 "ELSE lft ".
-				 "END, ".
-				 "rgt = CASE ".
-				 "WHEN rgt > '".$a_node["lft"]." '".
-				 "THEN rgt - '".$diff." '".
-				 "ELSE rgt ".
-				 "END ".
-				 "WHERE ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
-			$this->ilDB->query($q);
+			$query = 'UPDATE '.$this->table_tree.' SET '.
+				'lft CASE WHEN lft > ? THEN lft - ? ELSE lft END, '.
+				'rgt CASE WHEN rgt > ? THEN rgt - ? ELSE rgt END '.
+				'WHERE '.$this->tree_pk.' = ? ';
+			$sta = $ilDB->prepare($query,array('integer','integer','integer','integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$a_node['lft'],
+				$diff,
+				$a_node['lft'],
+				$diff,
+				$a_node[$this->tree_pk]));
+							
 		}
 		else
 		{
@@ -1150,26 +1170,32 @@ class ilTree
 			// We can further reduce the number of self-joins by 1
 			// by taking into account, that each row in table tree
 			// contains the id of itself and of its parent.
-			$qSelect = 't1.child as c0';
+			$qSelect = 't1.child c0';
 			$qJoin = '';
 			for ($i = 1; $i < $nodeDepth - 2; $i++)
 			{
-				$qSelect .= ', t'.$i.'.parent as c'.$i;
-				$qJoin .= ' JOIN '.$this->table_tree.' AS t'.$i.' ON '.
+				$qSelect .= ', t'.$i.'.parent c'.$i;
+				$qJoin .= ' JOIN '.$this->table_tree.' t'.$i.' ON '.
 							't'.$i.'.child=t'.($i - 1).'.parent AND '.
-							't'.$i.'.'.$this->tree_pk.' = '.$this->tree_id;
+							't'.$i.'.'.$this->tree_pk.' = '.(int) $this->tree_id;
 			}
-			$q = 'SELECT '.$qSelect.' '.
-				'FROM '.$this->table_tree.' AS t0 '.$qJoin.' '.
-				'WHERE t0.'.$this->tree_pk.' = '.$this->tree_id.' '.
-				'AND t0.child='.$parentId.' '.
-				'LIMIT 1';
-			$r = $this->ilDB->query($q);
-			if ($r->numRows() == 0)
+			
+			$types = array('integer','integer');
+			$query = 'SELECT '.$qSelect.' '.
+				'FROM '.$this->table_tree.' t0 '.$qJoin.' '.
+				'WHERE t0.'.$this->tree_pk.' = ? '.
+				'AND t0.child = ? ';
+				
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,$types);
+			$data = array($this->tree_id,$parentId);
+			$res = $ilDB->execute($sta,$data);
+
+			if ($res->numRows() == 0)
 			{
 				return array();
 			}
-			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($res);
 			
 			$takeId = $takeId || $this->root_id == $a_startnode_id;			
 			if ($takeId) $pathIds[] = $this->root_id;
@@ -1360,7 +1386,7 @@ class ilTree
 	{
 		global $ilDB;
 
-		$pathIds =& $this->getPathId($a_endnode_id, $a_startnode_id);
+		$pathIds = $this->getPathId($a_endnode_id, $a_startnode_id);
 
 		// Abort if no path ids were found
 		if (count($pathIds) == 0)
@@ -1368,24 +1394,26 @@ class ilTree
 			return null;
 		}
 
-		$inClause = 't.child IN (';
-		for ($i=0; $i < count($pathIds); $i++)
-		{
-			if ($i > 0) $inClause .= ',';
-			$inClause .= $ilDB->quote($pathIds[$i]);
-		}
-		$inClause .= ')';
-
-		$q = 'SELECT t.depth,t.parent,t.child,d.obj_id,d.type,d.title '.
-			'FROM '.$this->table_tree.' AS t '.
-			'JOIN '.$this->table_obj_reference.' AS r ON r.ref_id=t.child '.
-			'JOIN '.$this->table_obj_data.' AS d ON d.obj_id=r.obj_id '.
-			'WHERE '.$inClause.' '.
-			'ORDER BY t.depth ';
-		$r = $ilDB->query($q);
 		
+		$types = array();
+		$data = array();
+		for ($i = 0; $i < count($pathIds); $i++)
+		{
+			$types[] = 'integer';
+			$data[] = $pathIds[$i];
+		}
+
+		$query = 'SELECT t.depth,t.parent,t.child,d.obj_id,d.type,d.title '.
+			'FROM '.$this->table_tree.' t '.
+			'JOIN '.$this->table_obj_reference.' AS r ON r.ref_id = t.child '.
+			'JOIN '.$this->table_obj_data.' AS d ON d.obj_id = r.obj_id '.
+			'WHERE '.$ilDB->in('t.child',$data).' '.
+			'ORDER BY t.depth ';
+		$sta = $ilDB->prepare($query,$types);
+		$res = $ilDB->execute($sta,$data);
+
 		$titlePath = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($res))
 		{
 			$titlePath[] = $row;
 		}
@@ -1401,12 +1429,15 @@ class ilTree
 	*/
 	function checkTree()
 	{
-		$q = "SELECT lft,rgt FROM ".$this->table_tree." ".
-			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		global $ilDB;
+		
+		$types = array('integer');
+		$query = 'SELECT lft,rgt FROM '.$this->table_tree.' '.
+			'WHERE '.$this->tree_pk.' = ? ';
+		
+		$sta = $ilDB->prepare($query,$types);
+		$res = $ilDB->execute($sta,array($this->tree_id));
+		while ($row = $ilDB->fetchObject($res))
 		{
 			$lft[] = $row->lft;
 			$rgt[] = $row->rgt;
@@ -1432,11 +1463,15 @@ class ilTree
 	*/
 	function checkTreeChilds($a_no_zero_child = true)
 	{
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
-			 "ORDER BY lft";
-		$r1 = $this->ilDB->query($q);
-		while ($row = $r1->fetchRow(DB_FETCHMODE_ASSOC))
+		global $ilDB;
+		
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+				'WHERE '.$this->tree_pk.' = ? '.
+				'ORDER BY lft';
+		$sta = $ilDB->prepare($query,array('integer'));
+		$r1 = $ilDB->execute($sta,array($this->tree_id));
+		
+		while ($row = $ilDB->fetchAssoc($r1))
 		{
 //echo "tree:".$row[$this->tree_pk].":lft:".$row["lft"].":rgt:".$row["rgt"].":child:".$row["child"].":<br>";
 			if (($row["child"] == 0) && $a_no_zero_child)
@@ -1447,8 +1482,10 @@ class ilTree
 			if ($this->table_obj_reference)
 			{
 				// get object reference data
-				$q = "SELECT * FROM ".$this->table_obj_reference." WHERE ".$this->ref_pk."='".$row["child"]."'";
-				$r2 = $this->ilDB->query($q);
+				$query = 'SELECT * FROM '.$this->table_obj_reference.' WHERE '.$this->ref_pk.' = ? ';
+				$sta = $ilDB->prepare($query,array('integer'));
+				$r2 = $ilDB->execute($sta,array($row['child']));
+				
 //echo "num_childs:".$r2->numRows().":<br>";
 				if ($r2->numRows() == 0)
 				{
@@ -1462,10 +1499,11 @@ class ilTree
 				}
 
 				// get object data
-				$obj_ref = $r2->fetchRow(DB_FETCHMODE_ASSOC);
+				$obj_ref = $ilDB->fetchAssoc($r2);
 
-				$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$obj_ref[$this->obj_pk]."'";
-				$r3 = $this->ilDB->query($q);
+				$query = 'SELECT * FROM '.$this->table_obj_data.' WHERE '.$this->obj_pk.' = ?';
+				$sta = $ilDB->prepare($query,array('integer'));
+				$r3 = $ilDB->execute($sta,array($obj_ref[$this->obj_pk]));
 				if ($r3->numRows() == 0)
 				{
 					$this->ilErr->raiseError(get_class($this)."::checkTree(): No child found for ID ".
@@ -1481,8 +1519,9 @@ class ilTree
 			else
 			{
 				// get only object data
-				$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$row["child"]."'";
-				$r2 = $this->ilDB->query($q);
+				$query = 'SELECT * FROM '.$this->table_obj_data.' WHERE '.$this->obj_pk.' = ?';
+				$sta = $ilDB->prepare($query,array('integer'));
+				$r2 = $ilDB->execute($sta,array($row['child']));
 //echo "num_childs:".$r2->numRows().":<br>";
 				if ($r2->numRows() == 0)
 				{
@@ -1507,11 +1546,12 @@ class ilTree
 	*/
 	function getMaximumDepth()
 	{
-		$q = "SELECT MAX(depth) FROM ".$this->table_tree;
-		$r = $this->ilDB->query($q);
-
-		$row = $r->fetchRow();
-
+		global $ilDB;
+		
+		$query = 'SELECT MAX(depth) FROM '.$this->table_tree;
+		$res = $ilDB->query($query);		
+		
+		$row = $ilDB->fetchAssoc($res);
 		return $row[0];
 	}
 
@@ -1523,14 +1563,16 @@ class ilTree
 	*/
 	function getDepth($a_node_id)
 	{
+		global $ilDB;
+		
 		if ($a_node_id)
 		{
-			$q = "SELECT depth FROM ".$this->table_tree." ".
-				 "WHERE child = '".$a_node_id."' ".
-				 "AND ".$this->tree_pk." = '".$this->tree_id."'";
-
-			$res = $this->ilDB->query($q);
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$query = 'SELECT depth FROM '.$this->table_tree.' '.
+				'WHERE child = ? '.
+				'AND '.$this->tree_pk.' = ? ';
+			$sta = $ilDB->prepare($query,array('integer','integer'));
+			$res = $ilDB->execute($sta,array($a_node_id,$this->tree_id));
+			$row = $ilDB->fetchObject($res);
 
 			return $row->depth;
 		}
@@ -1553,6 +1595,8 @@ class ilTree
 	function getNodeData($a_node_id, $a_tree_pk = null)
 	// END PATCH WebDAV: Pass tree id to this method
 	{
+		global $ilDB;
+		
 		if (!isset($a_node_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
@@ -1571,15 +1615,16 @@ class ilTree
 		}
 
 		// BEGIN WebDAV: Pass tree id to this method
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".
-			 (($a_tree_pk === null) ? $this->tree_id : $a_tree_pk).
-			 "'";
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			$this->buildJoin().
+			'WHERE '.$this->table_tree.'.child = ? '.
+			'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$a_tree_pk === null ? $this->tree_id : $a_tree_pk));
 		// END WebDAV: Pass tree id to this method
-		$r = $this->ilDB->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($res);
 		$row[$this->tree_pk] = $this->tree_id;
 
 		return $this->fetchNodeData($row);
@@ -1594,7 +1639,7 @@ class ilTree
 	*/
 	function fetchNodeData($a_row)
 	{
-		global $objDefinition, $lng, $ilBench;
+		global $objDefinition, $lng, $ilBench,$ilDB;
 
 		//$ilBench->start("Tree", "fetchNodeData_getRow");
 		$data = $a_row;
@@ -1629,13 +1674,16 @@ class ilTree
 		elseif ($translation_type == "db")
 		{
 			//$ilBench->start("Tree", "fetchNodeData_getTranslation");
-			$q = "SELECT title,description FROM object_translation ".
-				 "WHERE obj_id = ".$data["obj_id"]." ".
-				 "AND lang_code = '".$this->lang_code."' ".
-				 "AND NOT lang_default = 1";
-			$r = $this->ilDB->query($q);
-
-			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			$query = 'SELECT title,description FROM object_translation '.
+				'WHERE obj_id = ? '.
+				'AND lang_code = ? '.
+				'AND NOT lang_default = ?';
+			$sta = $ilDB->prepare($query,array('integer','integer','text'));
+			$res = $ilDB->execute($sta,array(
+				$data['obj_id'],
+				$this->lang_code,
+				1));
+			$row = $ilDB->fetchObject($res);
 
 			if ($row)
 			{
@@ -1666,6 +1714,8 @@ class ilTree
 	*/
 	function isInTree($a_node_id)
 	{
+		global $ilDB;
+
 		if (!isset($a_node_id))
 		{
 			return false;
@@ -1678,13 +1728,16 @@ class ilTree
 //echo "<br>in_tree_hit";
 			return $this->in_tree_cache[$a_node_id];
 		}
+		
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE '.$this->table_tree.'.child = ? '.
+			'AND '.$this->table_tree.'.'.$this->tree_pk.' = ?';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$this->tree_id));
 
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE ".$this->table_tree.".child = ".$this->ilDB->quote($a_node_id)." ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilDB->query($q);
-
-		if ($r->numRows() > 0)
+		if ($res->numRows() > 0)
 		{
 			$this->in_tree_cache[$a_node_id] = true;
 			return true;
@@ -1694,7 +1747,6 @@ class ilTree
 			$this->in_tree_cache[$a_node_id] = false;
 			return false;
 		}
-
 	}
 
 	/**
@@ -1705,6 +1757,8 @@ class ilTree
 	*/
 	function getParentNodeData($a_node_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_node_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getParentNodeData(): No node_id given! ",$this->ilErr->WARNING);
@@ -1720,18 +1774,20 @@ class ilTree
 			$leftjoin = "LEFT JOIN ".$this->table_obj_data." ON v.child=".$this->table_obj_data.".".$this->obj_pk." ";
 		}
 
-		$q = "SELECT * FROM ".$this->table_tree." s,".$this->table_tree." v ".
-			 $leftjoin.
-			 "WHERE s.child = '".$a_node_id."' ".
-			 "AND s.parent = v.child ".
-			 "AND s.lft > v.lft ".
-			 "AND s.rgt < v.rgt ".
-			 "AND s.".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND v.".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilDB->query($q);
-
-		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
-
+		$query = 'SELECT * FROM '.$this->table_tree.' s, '.$this->table_tree.' v '.
+			$leftjoin.
+			'WHERE s.child = ? '.
+			'AND s.parent = v.child '.
+			'AND s.lft > v.lft '.
+			'AND s.rgt < v.rgt '.
+			'AND s.'.$this->tree_pk.' = ? '.
+			'AND v.'.$this->tree_pk.' = ?';
+		$sta = $ilDB->prepare($query,array('integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$this->tree_id,
+			$this->tree_id));
+		$row = $ilDB->fetchAssoc($res);
 		return $this->fetchNodeData($row);
 	}
 
@@ -1744,24 +1800,28 @@ class ilTree
 	*/
 	function isGrandChild($a_startnode_id,$a_querynode_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_startnode_id) or !isset($a_querynode_id))
 		{
 			return false;
-			// No raise error, since it is a already a check function
-			#$this->ilErr->raiseError(get_class($this)."::isGrandChild(): Missing parameter! startnode: ".$a_startnode_id." querynode: ".
-			#						 $a_querynode_id,$this->ilErr->WARNING);
 		}
 
-		$q = "SELECT * FROM ".$this->table_tree." s,".$this->table_tree." v ".
-			 "WHERE s.child = '".$a_startnode_id."' ".
-			 "AND v.child = '".$a_querynode_id."' ".
-			 "AND s.".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND v.".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND v.lft BETWEEN s.lft AND s.rgt ".
-			 "AND v.rgt BETWEEN s.lft AND s.rgt";
-		$r = $this->ilDB->query($q);
-
-		return $r->numRows();
+		$query = 'SELECT * FROM '.$this->table_tree.' s, '.$this->table_tree.' v '.
+			'WHERE s.child = ? '.
+			'AND v.child = ? '.
+			'AND s.'.$this->tree_pk.' = ? '.
+			'AND v.'.$this->tree_pk.' = ? '.
+			'AND v.lft BETWEEN s.lft AND s.rgt '.
+			'AND v.rgt BETWEEN s.lft AND s.rgt';
+		$sta = $ilDB->prepare($query,array('integer','integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_startnode_id,
+			$a_querynode_id,
+			$this->tree_id,
+			$this->tree_id));
+		
+		return $res->numRows();
 	}
 
 	/**
@@ -1774,8 +1834,9 @@ class ilTree
 	*/
 	function addTree($a_tree_id,$a_node_id = -1)
 	{
+		global $ilDB;
+
 		// FOR SECURITY addTree() IS NOT ALLOWED ON MAIN TREE
-		// IF SOMEONE WILL NEED FEATURES LIKE $tree->addTree(2) ON THE MAIN TREE PLEASE CONTACT ME (smeyer@databay.de)
 		if($this->__isMainTree())
 		{
 			$message = sprintf('%s::addTree(): Operation not allowed on main tree! $a_tree_if: %s $a_node_id: %s',
@@ -1796,11 +1857,18 @@ class ilTree
 			$a_node_id = $a_tree_id;
 		}
 
-		$q = "INSERT INTO ".$this->table_tree." (".$this->tree_pk.", child, parent, lft, rgt, depth) ".
-			 "VALUES ".
-			 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
-
-		$this->ilDB->query($q);
+		$query = 'INSERT INTO '.$this->table_tree.' ('.
+			$this->tree_pk.', child,parent,lft,rgt,depth) '.
+			'VALUES '.
+			'(?,?,?,?,?,?)';
+		$sta = $ilDB->prepareManip($query,'integer','integer','integer','integer','integer','integer');
+		$res = $ilDB->execute($sta,array(
+			$a_tree_id,
+			$a_node_id,
+			0,
+			1,
+			2,
+			1));
 
 		return true;
 	}
@@ -1814,6 +1882,8 @@ class ilTree
 	*/
 	function getNodeDataByType($a_type)
 	{
+		global $ilDB;
+		
 		if (!isset($a_type) or (!is_string($a_type)))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getNodeDataByType(): Type not given or wrong datatype!",$this->ilErr->WARNING);
@@ -1824,26 +1894,36 @@ class ilTree
 		$left = "";			// tree_left
 		$right = "";		// tree_right
 
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'".
-			 "AND parent = '0'";
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE '.$this->tree_pk.' = ? '.
+			'AND parent = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$this->tree_id,
+			0));
+		
+		while ($row = $ilDB->fetchObject($res))
 		{
 			$left = $row->lft;
 			$right = $row->rgt;
 		}
 
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE ".$this->table_obj_data.".type = '".$a_type."' ".
-			 "AND ".$this->table_tree.".lft BETWEEN '".$left."' AND '".$right."' ".
-			 "AND ".$this->table_tree.".rgt BETWEEN '".$left."' AND '".$right."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilDB->query($q);
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			$this->buildJoin().
+			'WHERE '.$this->table_obj_data.'.type = ? '.
+			'AND '.$this->table_tree.'.lft BETWEEN ? AND ? '.
+			'AND '.$this->table_tree.'.rgt BETWEEN ? AND ? '.
+			'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('text','integer','integer','integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_type,
+			$left,
+			$right,
+			$left,
+			$right,
+			$this->tree_id));
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$data[] = $this->fetchNodeData($row);
 		}
@@ -1874,9 +1954,11 @@ class ilTree
 			$this->ilErr->raiseError(get_class($this)."::removeTree(): No tree_id given! Action aborted",$this->ilErr->MESSAGE);
 		}
 
-		$q = "DELETE FROM ".$this->table_tree." WHERE ".$this->tree_pk." = '".$a_tree_id."'";
-		$this->ilDB->query($q);
-
+		$query = 'DELETE FROM '.$this->table_tree.
+			' WHERE '.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_tree_id));
 		return true;
 	}
 
@@ -1908,25 +1990,32 @@ class ilTree
 		}
 
 		// GET LEFT AND RIGHT VALUE
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND child = '".$a_node_id."' ";
-		$r = $this->ilDB->query($q);
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE '.$this->tree_pk.' = ? '.
+			'AND child = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$this->tree_id,
+			$a_node_id));
 
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$lft = $row->lft;
 			$rgt = $row->rgt;
 		}
 
 		// GET ALL SUBNODES
-		$q = "SELECT child FROM ".$this->table_tree." ".
-			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
-			 "AND lft BETWEEN '".$lft."' AND '".$rgt."'";
-		$r = $this->ilDB->query($q);
+		$query = 'SELECT child FROM '.$this->table_tree.' '.
+			'WHERE '.$this->tree_pk.' = ? '.
+			'AND lft BETWEEN ? AND ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$this->tree_id,
+			$lft,
+			$rgt));
 
 		$subnodes = array();
-		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$subnodes[] = $row['child'];
 		}
@@ -1947,24 +2036,25 @@ class ilTree
 		// SAVE SUBTREE
 		foreach($subnodes as $child)
 		{
-			#$q = "INSERT INTO ".$this->table_tree." ".
-			#	 "VALUES ('".-$a_node_id."','".$node["child"]."','".$node["parent"]."','".
-			#	 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."')";
-			#$r = $this->ilDB->query($q);
-			
 			// set node as deleted
 			if ($a_set_deleted)
 			{
+				// TODO: new method that expects an array of ids
 				ilObject::_setDeletedDate($child);
 			}
 		}
 		
 		// Set the nodes deleted (negative tree id)
-		$query = "UPDATE ".$this->table_tree." ".
-			"SET tree = ".$ilDB->quote(-$a_node_id)." ".
-			"WHERE ".$this->tree_pk." = ".$ilDB->quote($this->tree_id)." ".
-			"AND lft BETWEEN ".$ilDB->quote($lft)." AND ".$ilDB->quote($rgt)." ";
-		$res = $ilDB->query($query);
+		$query = 'UPDATE '.$this->table_tree.' '.
+			'SET tree = ? '.
+			'WHERE '.$this->tree_pk.' = ? '.
+			'AND lft BETWEEN ? AND ? ';
+		$sta = $ilDB->prepareManip($query,array('integer','integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			-$a_node_id,
+			$this->tree_id,
+			$lft,
+			$rgt));
 		
 		
 		if($this->__isMainTree())
@@ -1989,6 +2079,8 @@ class ilTree
 	*/
 	function isSaved($a_node_id)
 	{
+		global $ilDB;
+		
 		// is saved cache
 		if ($this->use_cache && isset($this->is_saved_cache[$a_node_id]))
 		{
@@ -1996,12 +2088,14 @@ class ilTree
 			return $this->is_saved_cache[$a_node_id];
 		}
 		
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 "WHERE child = '".$a_node_id."'";
-		$s = $this->ilDB->query($q);
-		$r = $s->fetchRow(DB_FETCHMODE_ASSOC);
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE child = ? ';
+		$sta = $ilDB->prepare($query,array('integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id));
+		$row = $ilDB->fetchAssoc($res);
 
-		if ($r[$this->tree_pk] < 0)
+		if ($row[$this->tree_pk] < 0)
 		{
 			$this->is_saved_cache[$a_node_id] = true;
 			return true;
@@ -2023,18 +2117,23 @@ class ilTree
 	*/
 	function getSavedNodeData($a_parent_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_parent_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getSavedNodeData(): No node_id given!",$this->ilErr->WARNING);
 		}
 
-		$q =	"SELECT * FROM ".$this->table_tree." ".
-				$this->buildJoin().
-				"WHERE ".$this->table_tree.".".$this->tree_pk." < 0 ".
-				"AND ".$this->table_tree.".parent = '".$a_parent_id."' ";
-		$r = $this->ilDB->query($q);
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			$this->buildJoin().
+			'WHERE '.$this->table_tree.'.'.$this->tree_pk.' < ? '.
+			'AND '.$this->table_tree.'.parent = ?';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			0,
+			$a_parent_id));
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$saved[] = $this->fetchNodeData($row);
 		}
@@ -2050,18 +2149,22 @@ class ilTree
 	*/
 	function getParentId($a_node_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_node_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getParentId(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
-		$q = "SELECT parent FROM ".$this->table_tree." ".
-			 "WHERE child='".$a_node_id."' ".
-			 "AND ".$this->tree_pk."='".$this->tree_id."'";
-		$r = $this->ilDB->query($q);
+		$query = 'SELECT parent FROM '.$this->table_tree.' '.
+			'WHERE child = ? '.
+			'AND '.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$this->tree_id));
 
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
+		$row = $ilDB->fetchObject($res);
 		return $row->parent;
 	}
 
@@ -2073,18 +2176,22 @@ class ilTree
 	*/
 	function getLeftValue($a_node_id)
 	{
+		global $ilDB;
+		
 		if (!isset($a_node_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getLeftValued(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
-		$q = "SELECT lft FROM ".$this->table_tree." ".
-			 "WHERE child='".$a_node_id."' ".
-			 "AND ".$this->tree_pk."='".$this->tree_id."'";
-		$r = $this->ilDB->query($q);
-
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
+		$query = 'SELECT lft FROM '.$this->table_tree.' '.
+			'WHERE child = ? '.
+			'AND '.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$this->tree_id));
+		
+		$row = $ilDB->fetchObject($res);
 		return $row->lft;
 	}
 
@@ -2096,24 +2203,43 @@ class ilTree
 	*/
 	function getChildSequenceNumber($a_node, $type = "")
 	{
+		global $ilDB;
+		
 		if (!isset($a_node))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getChildSequenceNumber(): No node_id given! ",$this->ilErr->WARNING);
 		}
-
-		$type_str = ($type != "")
-			? "AND type='$type'"
-			: "";
-
-		$q = "SELECT count(*) AS cnt FROM ".$this->table_tree." ".
-			$this->buildJoin().
-			"WHERE lft <=".$this->ilDB->quote($a_node["lft"])." ".
-			$type_str.
-			"AND parent=".$this->ilDB->quote($a_node["parent"])." ".
-			"AND ".$this->table_tree.".".$this->tree_pk."=".$this->ilDB->quote($this->tree_id);
-		$r = $this->ilDB->query($q);
-
-		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		if($type)
+		{
+			$query = 'SELECT count(*) cnt FROM '.$this->table_tree.' '.
+				$this->buildJoin().
+				'WHERE lft <= ? '.
+				'AND type = ? '.
+				'AND parent = ? '.
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? ';
+			$sta = $ilDB->prepare($query,array('integer','text','integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$a_node['lft'],
+				$type,
+				$a_node['parent'],
+				$this->tree_id));
+		}
+		else
+		{
+			$query = 'SELECT count(*) cnt FROM '.$this->table_tree.' '.
+				$this->buildJoin().
+				'WHERE lft <= ? '.
+				'AND parent = ? '.
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? ';
+			$sta = $ilDB->prepare($query,array('integer','integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$a_node['lft'],
+				$a_node['parent'],
+				$this->tree_id));
+			
+		}
+		$row = $ilDB->fetchAssoc($res);
 
 		return $row["cnt"];
 	}
@@ -2126,11 +2252,16 @@ class ilTree
 	*/
 	function readRootId()
 	{
-		$query = "SELECT child FROM $this->table_tree ".
-			"WHERE parent = '0'".
-			"AND ".$this->tree_pk." = '".$this->tree_id."'";
-		$row = $this->ilDB->getRow($query,DB_FETCHMODE_OBJECT);
-
+		global $ilDB;
+		
+		$query = 'SELECT child FROM '.$this->table_tree.' '.
+			'WHERE parent = ? '.
+			'AND '.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			0,
+			$this->tree_id));
+		$row = $ilDB->fetchObject($res);
 		$this->root_id = $row->child;
 		return $this->root_id;
 	}
@@ -2178,37 +2309,59 @@ class ilTree
 	*/
 	function fetchSuccessorNode($a_node_id, $a_type = "")
 	{
+		global $ilDB;
+		
 		if (!isset($a_node_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		// get lft value for current node
-		$q = "SELECT lft FROM ".$this->table_tree." ".
-			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilDB->query($q);
-		$curr_node = $r->fetchRow(DB_FETCHMODE_ASSOC);
+		$query = 'SELECT lft FROM '.$this->table_tree.' '.
+			'WHERE '.$this->table_tree.'.child = ? '.
+			'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$this->tree_id));
+		$curr_node = $ilDB->fetchAssoc($res);
+		
+		if($a_type)
+		{
+			$query = 'SELECT * FROM '.$this->table_tree.' '.
+				$this->buildJoin().
+				'WHERE lft > ? '.
+				'AND '.$this->table_obj_data.'.type = ? '.
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? '.
+				'ORDER BY lft ';
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,array('integer','text','integer'));
+			$res = $ilDB->execute($sta,array(
+				$curr_node['lft'],
+				$a_type,
+				$this->tree_id));
+		}
+		else
+		{
+			$query = 'SELECT * FROM '.$this->table_tree.' '.
+				$this->buildJoin().
+				'WHERE lft > ? '.
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? '.
+				'ORDER BY lft ';
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,array('integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$curr_node['lft'],
+				$this->tree_id));
+		}
 
-		// get data of successor node
-		$type_where = ($a_type != "")
-			? "AND ".$this->table_obj_data.".type = '$a_type' "
-			: "";
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE lft > '".$curr_node["lft"]."' ".
-			 $type_where.
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'".
-			 "ORDER BY lft LIMIT 1";
-		$r = $this->ilDB->query($q);
-
-		if ($r->numRows() < 1)
+		if ($res->numRows() < 1)
 		{
 			return false;
 		}
 		else
 		{
-			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($res);
 			return $this->fetchNodeData($row);
 		}
 	}
@@ -2222,37 +2375,59 @@ class ilTree
 	*/
 	function fetchPredecessorNode($a_node_id, $a_type = "")
 	{
+		global $ilDB;
+		
 		if (!isset($a_node_id))
 		{
 			$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
 
 		// get lft value for current node
-		$q = "SELECT lft FROM ".$this->table_tree." ".
-			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
-		$r = $this->ilDB->query($q);
-		$curr_node = $r->fetchRow(DB_FETCHMODE_ASSOC);
-
-		// get data of predecessor node
-		$type_where = ($a_type != "")
-			? "AND ".$this->table_obj_data.".type = '$a_type' "
-			: "";
-		$q = "SELECT * FROM ".$this->table_tree." ".
-			 $this->buildJoin().
-			 "WHERE lft < '".$curr_node["lft"]."' ".
-			 $type_where.
-			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'".
-			 "ORDER BY lft DESC LIMIT 1";
-		$r = $this->ilDB->query($q);
-
-		if ($r->numRows() < 1)
+		$query = 'SELECT lft FROM '.$this->table_tree.' '.
+			'WHERE '.$this->table_tree.'.child = ? '.
+			'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$this->tree_id));
+		$curr_node = $ilDB->fetchAssoc($res);
+		
+		if($a_type)
+		{
+			$query = 'SELECT * FROM '.$this->table_tree.' '.
+				$this->buildJoin().
+				'WHERE lft < ? '.
+				'AND '.$this->table_obj_data.'.type = ? '.
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? '.
+				'ORDER BY lft DESC';
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,array('integer','text','integer'));
+			$res = $ilDB->execute($sta,array(
+				$curr_node['lft'],
+				$a_type,
+				$this->tree_id));
+		}
+		else
+		{
+			$query = 'SELECT * FROM '.$this->table_tree.' '.
+				$this->buildJoin().
+				'WHERE lft < ? '.
+				'AND '.$this->table_tree.'.'.$this->tree_pk.' = ? '.
+				'ORDER BY lft DESC';
+			$ilDB->setLimit(1);
+			$sta = $ilDB->prepare($query,array('integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$curr_node['lft'],
+				$this->tree_id));
+		}
+		
+		if ($res->numRows() < 1)
 		{
 			return false;
 		}
 		else
 		{
-			$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($res);
 			return $this->fetchNodeData($row);
 		}
 	}
@@ -2298,8 +2473,13 @@ class ilTree
 	*/
 	function __renumber($node_id = 1, $i = 1)
 	{
-		$q = "UPDATE ".$this->table_tree." SET lft='".$i."' WHERE child='".$node_id."'";
-		$this->ilDB->query($q);
+		global $ilDB;
+		
+		$query = 'UPDATE '.$this->table_tree.' SET lft = ? WHERE child = ?';
+		$sta = $ilDB->prepareManip($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$i,
+			$node_id));
 
 		$childs = $this->getChilds($node_id);
 
@@ -2307,7 +2487,6 @@ class ilTree
 		{
 			$i = $this->__renumber($child["child"],$i+1);
 		}
-
 		$i++;
 		
 		// Insert a gap at the end of node, if the node has children
@@ -2316,8 +2495,12 @@ class ilTree
 			$i += $this->gap * 2;
 		}
 		
-		$q = "UPDATE ".$this->table_tree." SET rgt='".$i."' WHERE child='".$node_id."'";
-		$this->ilDB->query($q);
+		
+		$query = 'UPDATE '.$this->table_tree.' SET rgt = ? WHERE child = ?';
+		$sta = $ilDB->prepareManip($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$i,
+			$node_id));
 
 		return $i;
 	}
@@ -2376,32 +2559,17 @@ class ilTree
 				$ilErr->raiseError($message,$ilErr->WARNING);
 			}
 		}
-
-		$q = "DELETE from ".$a_db_table." WHERE tree='".$a_tree."' AND child='".$a_child."'";
-		$ilDB->query($q);
+		
+		$query = 'DELETE FROM '.$a_db_table.' '.
+			'WHERE tree = ? '.
+			'AND child = ? ';
+		$sta = $ilDB->prepareManip($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_tree,
+			$a_child));
+		
 	}
 	
-	/**
-	* 
-	* @access	public
-	*
-	* DO NOT USE THIS FUNCTION YET. It is a proposal
-	*/
-	function moveSubTreeAlex($a_source_id, $a_target_id)
-	{
-		// check if both IDs are > 0
-		if($a_source_id <= 0 or $a_target_id <= 0)
-		{
-			$message = sprintf('%s::insertNode(): Invalid parameters! $a_source_id: %s $a_target_id: %s',
-							   get_class($this),
-							   $a_source_id,
-							   $a_target_id);
-			$this->log->write($message,$this->log->FATAL);
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
-		}
-	}
-
-
 	// PRIVATE METHODS
 	/**
 	* Check if operations are done on main tree
@@ -2424,17 +2592,21 @@ class ilTree
 	*/
 	function __checkDelete($a_node)
 	{
+		global $ilDB;
+		
 		// get subtree by lft,rgt
-		$query = "SELECT * FROM ".$this->table_tree." ".
-			"WHERE lft >= ".$a_node['lft']." ".
-			"AND rgt <= ".$a_node['rgt']." ".
-			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
-
-
-		$res = $this->ilDB->query($query);
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE lft >= ? '.
+			'AND rgt <= ? '.
+			'AND '.$this->tree_pk.' = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node['lft'],
+			$a_node['rgt'],
+			$a_node[$this->tree_pk]));
 
 		$counter = (int) $lft_childs = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$lft_childs[$row->child] = $row->parent;
 			++$counter;
@@ -2460,14 +2632,19 @@ class ilTree
 
 	function __getSubTreeByParentRelation($a_node_id,&$parent_childs)
 	{
+		global $ilDB;
+		
 		// GET PARENT ID
-		$query = "SELECT * FROM ".$this->table_tree." ".
-			"WHERE child = '".$a_node_id."' ".
-			"AND tree = '".$this->tree_id."'";
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE child = ? '.
+			'AND tree = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			$this->tree_id));
 
-		$res = $this->ilDB->query($query);
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$parent_childs[$a_node_id] = $row->parent;
 			++$counter;
@@ -2483,11 +2660,13 @@ class ilTree
 		}
 
 		// GET ALL CHILDS
-		$query = "SELECT * FROM ".$this->table_tree." ".
-			"WHERE parent = '".$a_node_id."'";
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE parent = ? ';
+		$sta = $ilDB->prepare($query,array('integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id));
 
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			// RECURSION
 			$this->__getSubTreeByParentRelation($row->child,$parent_childs);
@@ -2539,132 +2718,133 @@ class ilTree
 	* @param int target ref_id
 	* @param int location IL_LAST_NODE or IL_FIRST_NODE (IL_FIRST_NODE not implemented yet)
 	*
-	* DO NOT USE THIS FUNCTION YET. It is a proposal
 	*/
 	public function moveTree($a_source_id,$a_target_id,$a_location = IL_LAST_NODE)
     {
-            if($this->__isMainTree())
-            {
-            	ilDB::_lockTables(array('tree' => 'WRITE'));
-            }
-            // Receive node infos for source and target
-            $query = "SELECT * FROM ".$this->table_tree." ".
-                    "WHERE (child = ".$this->ilDB->quote($a_source_id)." ".
-                    "OR child = ".$this->ilDB->quote($a_target_id).") ".
-                    "AND tree = ".$this->ilDB->quote($this->tree_id);
-            $res = $this->ilDB->query($query);
-            #var_dump("<pre>",$query,"<pre>");
-
-            // Check in tree
-            if($res->numRows() != 2)
-            {
-	            if($this->__isMainTree())
-    	        {
-        	            ilDB::_unlockTables();
-            	}
-				$this->log->write(__METHOD__.' Objects not found in tree!',$this->log->FATAL);
-				$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
-            }
-            while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-            {
-                    if($row->child == $a_source_id)
-                    {
-                            $source_lft = $row->lft;
-                            $source_rgt = $row->rgt;
-                            $source_depth = $row->depth;
-                            $source_parent = $row->parent;
-                    }
-                    else
-                    {
-                            $target_lft = $row->lft;
-                            $target_rgt = $row->rgt;
-                            $target_depth = $row->depth;
-                    }
-            }
-
-            #var_dump("<pre>",$source_lft,$source_rgt,$source_depth,$target_lft,$target_rgt,$target_depth,"<pre>");
-            // Check target not child of source
-            if($target_lft >= $source_lft and $target_rgt <= $source_rgt)
-            {
-	            if($this->__isMainTree())
-    	        {
-        	            ilDB::_unlockTables();
-            	}
-				$this->log->write(__METHOD__.' Target is child of source',$this->log->FATAL);
-				$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
-            }
-
-            // Now spread the tree at the target location. After this update the table should be still in a consistent state.
-            // implementation for IL_LAST_NODE
-            $spread_diff = $source_rgt - $source_lft + 1;
-            #var_dump("<pre>","SPREAD_DIFF: ",$spread_diff,"<pre>");
-
-            $query = "UPDATE ".$this->table_tree ." SET ".
-                    "lft = CASE ".
-                    "WHEN lft > ".$this->ilDB->quote($target_rgt)." ".
-                    "THEN lft + ".$this->ilDB->quote($spread_diff)." ".
-                    "ELSE lft ".
-                    "END, ".
-                    "rgt = CASE ".
-                    "WHEN rgt >= ".$this->ilDB->quote($target_rgt)." ".
-                    "THEN rgt + ".$this->ilDB->quote($spread_diff)." ".
-                    "ELSE rgt ".
-                    "END ".
-                    "WHERE tree = ".$this->ilDB->quote($this->tree_id);
-            #var_dump("<pre>",$query,"<pre>");
-            $res = $this->ilDB->query($query);
-
-            // Ok, maybe the source node has been updated, too.
-            // Check this:
-            if($source_lft > $target_rgt)
-            {
-                    $where_offset = $spread_diff;
-                    $move_diff = $target_rgt - $source_lft - $spread_diff;
-            }
-            else
-            {
-                    $where_offset = 0;
-                    $move_diff = $target_rgt - $source_lft;
-            }
-            $depth_diff = $target_depth - $source_depth + 1;
-
-            // Update source subtree:
-            $query = "UPDATE ".$this->table_tree ." SET ".
-                    "parent = CASE ".
-					"WHEN parent = ".$this->ilDB->quote($source_parent)." ".
-         			"THEN ".$this->ilDB->quote($a_target_id)." ".
-         			"ELSE parent ".
-         			"END, ".
-                    "rgt = rgt + ".$this->ilDB->quote($move_diff).", ".
-                    "lft = lft + ".$this->ilDB->quote($move_diff).", ".
-                    "depth = depth + ".$this->ilDB->quote($depth_diff)." ".
-                    "WHERE lft >= ".$this->ilDB->quote(($source_lft + $where_offset))." ".
-                    "AND rgt <= ".$this->ilDB->quote(($source_rgt + $where_offset))." ".
-                    "AND tree = ".$this->ilDB->quote($this->tree_id);
-            #var_dump("<pre>",$query,"<pre>");
-            $res = $this->ilDB->query($query);
-
-			// done: close old gap
-            $query = "UPDATE ".$this->table_tree ." SET ".
-                    "lft = CASE ".
-                    "WHEN lft >= ".$this->ilDB->quote(($source_lft + $where_offset))." ".
-                    "THEN lft - ".$this->ilDB->quote($spread_diff)." ".
-                    "ELSE lft ".
-                    "END, ".
-                    "rgt = CASE ".
-                    "WHEN rgt >= ".$this->ilDB->quote(($source_rgt + $where_offset))." ".
-                    "THEN rgt - ".$this->ilDB->quote($spread_diff)." ".
-                    "ELSE rgt ".
-                    "END ".
-                    "WHERE tree = ".$this->tree_id;
-			#var_dump("<pre>",$query,"</pre>");
-			$res = $this->ilDB->query($query);
-
-            if($this->__isMainTree())
-            {
-                    ilDB::_unlockTables();
-            }
-            return true;
+		global $ilDB;
+		
+		if($this->__isMainTree())
+		{
+			ilDB::_lockTables(array('tree' => 'WRITE'));
+		}
+		// Receive node infos for source and target
+		$query = 'SELECT * FROM '.$this->table_tree.' '.
+			'WHERE ( child = ? OR child = ? ) '.
+			'AND tree = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_source_id,
+			$a_target_id,
+			$this->tree_id));
+		
+		// Check in tree
+		if($res->numRows() != 2)
+		{
+			if($this->__isMainTree())
+			{
+				ilDB::_unlockTables();
+			}
+			$this->log->write(__METHOD__.' Objects not found in tree!',$this->log->FATAL);
+			$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
+		}
+		while($row = $ilDB->fetchObject($res))
+		{
+			if($row->child == $a_source_id)
+			{
+				$source_lft = $row->lft;
+				$source_rgt = $row->rgt;
+				$source_depth = $row->depth;
+				$source_parent = $row->parent;
+			}
+			else
+			{
+				$target_lft = $row->lft;
+				$target_rgt = $row->rgt;
+				$target_depth = $row->depth;
+			}
+		}
+		
+		#var_dump("<pre>",$source_lft,$source_rgt,$source_depth,$target_lft,$target_rgt,$target_depth,"<pre>");
+		// Check target not child of source
+		if($target_lft >= $source_lft and $target_rgt <= $source_rgt)
+		{
+			if($this->__isMainTree())
+			{
+			        ilDB::_unlockTables();
+			}
+			$this->log->write(__METHOD__.' Target is child of source',$this->log->FATAL);
+			$this->ilErr->raiseError('Error moving node',$this->ilErr->WARNING);
+		}
+		
+		// Now spread the tree at the target location. After this update the table should be still in a consistent state.
+		// implementation for IL_LAST_NODE
+		$spread_diff = $source_rgt - $source_lft + 1;
+		#var_dump("<pre>","SPREAD_DIFF: ",$spread_diff,"<pre>");
+		        
+		$query = 'UPDATE '.$this->table_tree.' SET '.
+			'lft = CASE WHEN lft >  ? THEN lft + ? ELSE lft END, '.
+			'rgt = CASE WHEN rgt >= ? THEN rgt + ? ELSE rgt END '.
+			'WHERE tree = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer','integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$target_rgt,
+			$spread_diff,
+			$target_rgt,
+			$spread_diff,
+			$this->tree_id));
+		
+		// Maybe the source node has been updated, too.
+		// Check this:
+		if($source_lft > $target_rgt)
+		{
+			$where_offset = $spread_diff;
+			$move_diff = $target_rgt - $source_lft - $spread_diff;
+		}
+		else
+		{
+			$where_offset = 0;
+			$move_diff = $target_rgt - $source_lft;
+		}
+		$depth_diff = $target_depth - $source_depth + 1;
+		
+		
+		$query = 'UPDATE '.$this->table_tree.' SET '.
+			'parent = CASE WHEN parent = ? THEN ? ELSE parent END, '.
+			'rgt = rgt + ?, '.
+			'lft = lft + ?, '.
+			'depth = depth + ? '.
+			'WHERE lft >= ? '.
+			'AND rgt <= ? '.
+			'AND tree = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer','integer','integer','integer','integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$source_parent,
+			$a_target_id,
+			$move_diff,
+			$move_diff,
+			$depth_diff,
+			$source_lft + $where_offset,
+			$source_rgt + $where_offset,
+			$this->tree_id));
+		
+		// done: close old gap
+		$query = 'UPDATE '.$this->table_tree.' SET '.
+			'lft = CASE WHEN lft >= ? THEN lft - ? ELSE lft END, '.
+			'rgt = CASE WHEN rgt >= ? THEN rgt - ? ELSE rgt END '.
+			'WHERE tree = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer','integer','integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$source_lft + $where_offset,
+			$spread_diff,
+			$source_rgt +$where_offset,
+			$spread_diff,
+			$this->tree_id));
+			
+		if($this->__isMainTree())
+		{
+			ilDB::_unlockTables();
+		}
+		return true;
     }
 
 

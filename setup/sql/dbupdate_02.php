@@ -7566,3 +7566,8 @@ ALTER TABLE `payment_statistic` ADD `city` VARCHAR( 40 ) NULL;
 <#1582>
 ALTER TABLE `payment_statistic` ADD `country` VARCHAR( 40 ) NULL;
 
+<#1583>
+<?php
+	$ilMySQLAbstraction->performAbstraction("tree");
+?>
+
