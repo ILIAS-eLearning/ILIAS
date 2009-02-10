@@ -190,7 +190,8 @@ class assFileUploadGUI extends assQuestionGUI
 		$this->tpl->setVariable("ENCTYPE", 'enctype="multipart/form-data"');
 	}
 
-	function getSolutionOutput($active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
+	function getSolutionOutput(
+		$active_id, $pass = NULL, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = TRUE, $show_feedback = FALSE, $show_correct_solution = FALSE)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
 		$template = new ilTemplate("tpl.il_as_qpl_fileupload_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");

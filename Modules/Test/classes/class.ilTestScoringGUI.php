@@ -180,7 +180,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		foreach ($participants as $participant_active_id => $data)
 		{
 			$this->tpl->setCurrentBlock("participants");
-			$this->tpl->setVariable("ID_PARTICIPANT", $data->active_id);
+			$this->tpl->setVariable("ID_PARTICIPANT", $data["active_id"]);
 			$suffix = "";
 			if ($this->object->getAnonymity())
 			{
@@ -188,12 +188,12 @@ class ilTestScoringGUI extends ilTestServiceGUI
 			}
 			if ($active_id > 0)
 			{
-				if ($active_id == $data->active_id)
+				if ($active_id == $data["active_id"])
 				{
 					$this->tpl->setVariable("SELECTED_PARTICIPANT", " selected=\"selected\""); 
 				}
 			}
-			$this->tpl->setVariable("TEXT_PARTICIPANT", $this->object->userLookupFullName($data->usr_id, FALSE, TRUE, $suffix)); 
+			$this->tpl->setVariable("TEXT_PARTICIPANT", $this->object->userLookupFullName($data["usr_id"], FALSE, TRUE, $suffix)); 
 			$this->tpl->parseCurrentBlock();
 		}
 		$userfilter = array(
