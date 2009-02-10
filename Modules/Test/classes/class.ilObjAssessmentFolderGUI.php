@@ -515,18 +515,16 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		
 		// get test titles with ref_id
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$available_tests =& ilObjTest::_getAvailableTests(FALSE);
+		$available_tests =& ilObjTest::_getAvailableTests(true);
 		$count = count($available_tests);
 		if ($count)
 		{
 			$data = array();
 			$i=0;
-			foreach ($available_tests as $ref_id => $title)
+			foreach ($available_tests as $obj_id => $title)
 			{
-				$path = $this->object->getFullPath($ref_id);
-				$obj_id = $this->object->_lookupObjectId($ref_id);
 				$nr = $this->object->getNrOfLogEntries($obj_id);
-				array_push($data, array("<input type=\"checkbox\" name=\"chb_test[]\" value=\"$obj_id\" />", $title, $nr, $path));
+				array_push($data, array("<input type=\"checkbox\" name=\"chb_test[]\" value=\"$obj_id\" />", $title, $nr));
 			}
 
 			$offset = ($_GET["offset"]) ? $_GET["offset"] : 0;
@@ -547,7 +545,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				"",
 				$this->lng->txt("title"),
 				$this->lng->txt("ass_log_count_datasets"),
-				$this->lng->txt("ass_log_path")
 			);
 			$table->setHeaderNames($header_names);
 	
@@ -562,7 +559,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			$table->setFormName("formLogAdmin");
 			$table->setSelectAllCheckbox("chb_test");
 			$header_params = $this->ctrl->getParameterArray($this, "logAdmin");
-			$header_vars = array("", "title", "count", "path");
+			$header_vars = array("", "title", "count");
 			$table->setHeaderVars($header_vars, $header_params);
 			$table->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
 	
