@@ -640,13 +640,16 @@ class ilObjectDAV
 	*/
 	function removeDeletedNodes($a_node_id, $a_checked, $a_delete_objects = true)
 	{
-		global $log, $ilias, $tree;
+		global $ilDB, $log, $ilias, $tree;
 		
-		$q = "SELECT tree FROM tree WHERE parent='".$a_node_id."' AND tree < 0";
+		$query = "SELECT tree FROM tree WHERE parent = ? AND tree < 0 ";
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_node_id,
+			0));
 		
-		$r = $ilias->db->query($q);
 
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			// only continue recursion if fetched node wasn't touched already!
 			if (!in_array($row->tree,$a_checked))

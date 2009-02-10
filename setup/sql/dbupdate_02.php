@@ -7588,3 +7588,7 @@ if ($res->numRows() == 1)
 	}
 }
 ?>
+<#1585>
+<?php
+	$ilMySQLAbstraction->performAbstraction('write_event');
+?>

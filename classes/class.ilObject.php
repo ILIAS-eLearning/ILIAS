@@ -1418,14 +1418,8 @@ class ilObject
 		$this->ilias->db->query($q);
 		// END WebDAV: Delete WebDAV properties
 
-		// BEGIN ChangeEvent: Delete read and write events
-		$q = "DELETE FROM write_event ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
-		$q = "DELETE FROM read_event ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
-		// END ChangeEvent: Delete read and write events
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		ilChangeEvent::_delete($this->getId());
 
 		return $remove;
 	}

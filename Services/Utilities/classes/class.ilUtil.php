@@ -2201,28 +2201,6 @@ class ilUtil
 		return array_merge($dirs, $files);
 	}
 
-
-	/**
-	* get the tree_id of a group where an object with the passed ref_id belongs to.
-	* DEPRECATED
-	* @param	string	ref_id of an object that is in a group
-	* @access	public
-	* @return	integer	the ref_id of the group or boolean false if no group was found
-	*/
-	function getGroupId($a_parent_ref)
-	{
-		return false;
-
-		global $ilias, $ilDB;
-
-		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child=".
-			$ilDB->quote($a_parent_ref);
-		$r = $ilias->db->query($q);
-		$row = $r->fetchRow();
-
-		return $row[0] ? $row[0] : false;
-	}
-
 	/**
 	* Strip slashes from array
 	*/
