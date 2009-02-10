@@ -915,13 +915,13 @@ class ilObject
 		return $tit;
 	}
 	
-	public static function _getIdsForTitle($title, $type = '')
+	public static function _getIdsForTitle($title, $type = '', $partialmatch = false)
 	{
 		global $ilDB;
 		
-		$query = "SELECT obj_id FROM object_data WHERE title = ?";
+		$query = (!$partialmatch) ? "SELECT obj_id FROM object_data WHERE title = ?" : "SELECT obj_id FROM object_data WHERE title LIKE ?" ;
 		$datatypes = array('text');
-		$values = array($title);
+		$values = (!$partialmatch) ? array($title) : array('%' . $title . '%');
 		if($type != '')
 		{
 			$query .= " AND type = ?";

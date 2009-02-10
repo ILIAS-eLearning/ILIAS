@@ -1001,32 +1001,6 @@ class ilObjTest extends ilObject
 		}
 	}
 
-
-/**
-* Returns TRUE if the test title exists in the database
-*
-* Returns TRUE if the test title exists in the database
-*
-* @param string $title The title of the test
-* @return boolean The result of the title check
-* @access public
-*/
-	function testTitleExists($title)
-	{
-		global $ilDB;
-
-		$query = sprintf("SELECT * FROM object_data WHERE title = %s AND type = %s",
-			$ilDB->quote($title),
-			$ilDB->quote("tst")
-		);
-		$result = $ilDB->query($query);
-		if ($result->numRows() == 1)
-		{
-			return TRUE;
-		}
-		return FALSE;
-	}
-
 /**
 * Returns true, if a test is complete for use
 *
@@ -4887,28 +4861,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 			}
 		}
 		return $qpass;
-	}
-	
-	private function getMembershipByType($a_usr_id,$a_type)
-	{
-		global $ilDB;
-		
-		$query = "SELECT DISTINCT obd.obj_id,obr.ref_id FROM rbac_ua AS ua ".
-			"JOIN rbac_fa AS fa ON ua.rol_id = fa.rol_id ".
-			"JOIN tree AS t1 ON t1.child = fa.parent ".
-			"JOIN object_reference AS obr ON t1.parent = obr.ref_id ".
-			"JOIN object_data AS obd ON obr.obj_id = obd.obj_id ".
-			"WHERE obd.type = ".$ilDB->quote($a_type)." ".
-			"AND fa.assign = 'y' ".
-			"AND ua.usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$res = $ilDB->query($query);
-		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$ref_ids[] = $row->obj_id;
-		}
-		
-		return $ref_ids ? $ref_ids : array();			
 	}
 	
 	function getUnfilteredEvaluationData()
