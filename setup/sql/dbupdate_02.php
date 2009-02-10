@@ -7565,9 +7565,26 @@ ALTER TABLE `payment_statistic` ADD `zipcode` VARCHAR( 40 ) NULL;
 ALTER TABLE `payment_statistic` ADD `city` VARCHAR( 40 ) NULL;
 <#1582>
 ALTER TABLE `payment_statistic` ADD `country` VARCHAR( 40 ) NULL;
-
 <#1583>
 <?php
 	$ilMySQLAbstraction->performAbstraction("tree");
 ?>
+<#1584>
+<?php
+$query = "SELECT * FROM qpl_question_type WHERE type_tag = 'assFileUpload'";
+$res = $ilDB->query($query);
+if ($res->numRows() == 1)
+{
+	$row = $ilDB->fetchAssoc($res);
+	$id = $row["question_type_id"];
 
+	$setting = new ilSetting("assessment");
+	$types = $setting->get("assessment_manual_scoring");
+	$manualtypes = explode(",", $types);
+	if (!in_array($id, $manualtypes))
+	{
+		array_push($manualtypes, $id);
+		$setting->set("assessment_manual_scoring", implode($manualtypes, ","));
+	}
+}
+?>

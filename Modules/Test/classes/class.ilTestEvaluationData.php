@@ -221,13 +221,15 @@ class ilTestEvaluationData
 						if (!(strpos(strtolower($participant->getName()), strtolower($this->filtertext)) !== FALSE)) $remove = TRUE;
 						break;
 					case "group":
-						$groups = ilObjUser::_lookupMembershipByType($participant->getUserID(), "grp");
+						include_once "./Services/Membership/classes/class.ilParticipants.php";
+						$groups = ilParticipants::_getMembershipByType($participant->getUserID(), "grp");
 						$foundfilter = FALSE;
 						if (count(array_intersect($groupids, $groups))) $foundfilter = TRUE;
 						if (!$foundfilter) $remove = TRUE;
 						break;
 					case "course":
-						$courses = ilObjUser::_lookupMembershipByType($participant->getUserID(), "crs");
+						include_once "./Services/Membership/classes/class.ilParticipants.php";
+						$courses = ilParticipants::_getMembershipByType($participant->getUserID(), "crs");
 						$foundfilter = FALSE;
 						if (count(array_intersect($courseids, $courses))) $foundfilter = TRUE;
 						if (!$foundfilter) $remove = TRUE;
