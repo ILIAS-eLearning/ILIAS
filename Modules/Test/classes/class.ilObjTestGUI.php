@@ -3973,7 +3973,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$invited_users = $this->object->getInvitedUsers();
 		foreach ($invited_users as $user_object)
 		{
-			$this->object->disinviteUser($user_object->usr_id);
+			$this->object->disinviteUser($user_object["usr_id"]);
 		}
 		$this->object->setFixedParticipants($fixed_participants);
 		$this->object->saveToDb();
@@ -4684,7 +4684,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$maxpass = $this->object->_getMaxPass($data->active_id);
+					$maxpass = $this->object->_getMaxPass($data["active_id"]);
 					if (!is_null($maxpass))
 					{
 						$maxpass += 1;
@@ -4692,17 +4692,17 @@ class ilObjTestGUI extends ilObjectGUI
 					$passes = ($maxpass) ? (($maxpass == 1) ? sprintf($this->lng->txt("pass_finished"), $maxpass) : sprintf($this->lng->txt("passes_finished"), $maxpass)) : "&nbsp;";
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $data->usr_id);
-					$this->tpl->setVariable("VALUE_IV_USR_ID", $data->usr_id);
-					$this->tpl->setVariable("VALUE_IV_LOGIN", $data->login);
-					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
-					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
-					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data->clientip);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished.$passes:$passes);
-					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started:"&nbsp;");
-					if (strlen($data->usr_id))
+					$this->tpl->setVariable("COUNTER", $data["usr_id"]);
+					$this->tpl->setVariable("VALUE_IV_USR_ID", $data["usr_id"]);
+					$this->tpl->setVariable("VALUE_IV_LOGIN", $data["login"]);
+					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data["firstname"]);
+					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data["lastname"]);
+					$this->tpl->setVariable("VALUE_IV_CLIENT_IP", $data["clientip"]);
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data["test_finished"]==1)?$finished.$passes:$passes);
+					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data["test_started"]==1)?$started:"&nbsp;");
+					if (strlen($data["usr_id"]))
 					{
-						$last_access = $this->object->_getLastAccess($data->active_id);
+						$last_access = $this->object->_getLastAccess($data["active_id"]);
 						if (!strlen($last_access))
 						{
 							$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $this->lng->txt("not_yet_accessed"));
@@ -4717,11 +4717,11 @@ class ilObjTestGUI extends ilObjectGUI
 						$last_access = $this->lng->txt("not_yet_accessed");
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
 					}
-					$this->ctrl->setParameter($this, "active_id", $data->active_id);
-					if ($data->test_started)
+					$this->ctrl->setParameter($this, "active_id", $data["active_id"]);
+					if ($data["test_started"])
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
-						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data->active_id);
+						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data["active_id"]);
 						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outParticipantsResultsOverview"));
 					}
 					$counter++;
@@ -4769,7 +4769,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$counter = 0;
 				foreach ($data_array as $data)
 				{
-					$maxpass = $this->object->_getMaxPass($data->active_id);
+					$maxpass = $this->object->_getMaxPass($data["active_id"]);
 					if (!is_null($maxpass))
 					{
 						$maxpass += 1;
@@ -4777,16 +4777,16 @@ class ilObjTestGUI extends ilObjectGUI
 					$passes = ($maxpass) ? (($maxpass == 1) ? sprintf($this->lng->txt("pass_finished"), $maxpass) : sprintf($this->lng->txt("passes_finished"), $maxpass)) : "&nbsp;";
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $data->active_id);
-					$this->tpl->setVariable("VALUE_IV_USR_ID", $data->active_id);
-					$this->tpl->setVariable("VALUE_IV_LOGIN", $data->login);
-					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data->firstname);
-					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data->lastname);
-					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data->test_finished==1)?$finished.$passes:$passes);
-					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data->test_started==1)?$started:"&nbsp;");
-					if (strlen($data->active_id))
+					$this->tpl->setVariable("COUNTER", $data["active_id"]);
+					$this->tpl->setVariable("VALUE_IV_USR_ID", $data["active_id"]);
+					$this->tpl->setVariable("VALUE_IV_LOGIN", $data["login"]);
+					$this->tpl->setVariable("VALUE_IV_FIRSTNAME", $data["firstname"]);
+					$this->tpl->setVariable("VALUE_IV_LASTNAME", $data["lastname"]);
+					$this->tpl->setVariable("VALUE_IV_TEST_FINISHED", ($data["test_finished"]==1)?$finished.$passes:$passes);
+					$this->tpl->setVariable("VALUE_IV_TEST_STARTED", ($data["test_started"]==1)?$started:"&nbsp;");
+					if (strlen($data["active_id"]))
 					{
-						$last_access = $this->object->_getLastAccess($data->active_id);
+						$last_access = $this->object->_getLastAccess($data["active_id"]);
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME)));
 						
 					}
@@ -4795,11 +4795,11 @@ class ilObjTestGUI extends ilObjectGUI
 						$last_access = $this->lng->txt("not_yet_accessed");
 						$this->tpl->setVariable("VALUE_IV_LAST_ACCESS", $last_access);
 					}
-					$this->ctrl->setParameter($this, "active_id", $data->active_id);
-					if ($data->test_started)
+					$this->ctrl->setParameter($this, "active_id", $data["active_id"]);
+					if ($data["test_started"])
 					{
 						$this->tpl->setVariable("VALUE_TST_SHOW_RESULTS", $this->lng->txt("tst_show_results"));
-						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data->active_id);
+						$this->ctrl->setParameterByClass("iltestevaluationgui", "active_id", $data["active_id"]);
 						$this->tpl->setVariable("URL_TST_SHOW_RESULTS", $this->ctrl->getLinkTargetByClass("iltestevaluationgui", "outParticipantsResultsOverview"));
 					}
 					$counter++;
@@ -4829,11 +4829,11 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-					$this->tpl->setVariable("COUNTER", $data->usr_id);
-					$this->tpl->setVariable("VALUE_LOGIN", $data->login);
-					$this->tpl->setVariable("VALUE_FIRSTNAME", $data->firstname);
-					$this->tpl->setVariable("VALUE_LASTNAME", $data->lastname);
-					$this->tpl->setVariable("VALUE_CLIENT_IP", $data->clientip);
+					$this->tpl->setVariable("COUNTER", $data["usr_id"]);
+					$this->tpl->setVariable("VALUE_LOGIN", $data["login"]);
+					$this->tpl->setVariable("VALUE_FIRSTNAME", $data["firstname"]);
+					$this->tpl->setVariable("VALUE_LASTNAME", $data["lastname"]);
+					$this->tpl->setVariable("VALUE_CLIENT_IP", $data["clientip"]);
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}
@@ -4871,8 +4871,8 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock($block_row);
 					$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
 					$this->tpl->setVariable("COUNTER", $key);
-					$this->tpl->setVariable("VALUE_TITLE", $data->title);
-					$this->tpl->setVariable("VALUE_DESCRIPTION", $data->description);
+					$this->tpl->setVariable("VALUE_TITLE", $data["title"]);
+					$this->tpl->setVariable("VALUE_DESCRIPTION", $data["description"]);
 					$counter++;
 					$this->tpl->parseCurrentBlock();
 				}

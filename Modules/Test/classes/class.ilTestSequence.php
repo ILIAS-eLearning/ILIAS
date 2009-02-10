@@ -508,7 +508,7 @@ class ilTestSequence
 				$solved  = 0;
 				if (array_key_exists($question->getId(), $solved_questions))
 				{
-					$solved =  $solved_questions[$question->getId()]->solved;
+					$solved =  $solved_questions[$question->getId()]["solved"];
 				}
 				$is_postponed = $this->isPostponedQuestion($question->getId());
 

@@ -6745,8 +6745,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns the available tests for the active user
 *
-* Returns the available tests for the active user
-*
 * @return array The available tests
 * @access public
 */
@@ -6760,19 +6758,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if (count($tests))
 		{
 			$titles = ilObject::_prepareCloneSelection($tests, "tst");
-			$query = sprintf("SELECT object_data.*, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_reference.ref_id IN ('%s') ORDER BY object_data.title",
-				implode("','", $tests)
-			);
-			$result = $ilDB->query($query);
-			while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC))
+			foreach ($tests as $ref_id)
 			{
 				if ($use_object_id)
 				{
-					$result_array[$row["obj_id"]] = $titles[$row["ref_id"]];
+					$obj_id = ilObject::_lookupObjId($ref_id);
+					$result_array[$obj_id] = $titles[$ref_id];
 				}
 				else
 				{
-					$result_array[$row["ref_id"]] = $titles[$row["ref_id"]];
+					$result_array[$ref_id] = $titles[$ref_id];
 				}
 			}
 		}
@@ -7352,9 +7347,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$data = $this->getArrayData($q, "active_id");
 		foreach ($data as $index => $participant)
 		{
-			if (strlen(trim($participant->firstname.$participant->lastname)) == 0)
+			if (strlen(trim($participant["firstname"].$participant["lastname"])) == 0)
 			{
-				$data[$index]->lastname = $this->lng->txt("deleted_user");
+				$data[$index]["lastname"] = $this->lng->txt("deleted_user");
 			}
 		}
 		return $data;
@@ -7477,55 +7472,66 @@ function loadQuestions($active_id = "", $pass = NULL)
 /**
 * Returns a data as id key list
 *
-* Returns a data as id key list
-*
 * @param $query
 * @param $id_field index for array
 * @return array with data with id as key
-* @access private
 */
-	function &getArrayData($query, $id_field)
-	{
-		return ilObjTest::_getArrayData ($query, $id_field);
-	}
-
-	function &_getArrayData($query, $id_field)
+	protected function &getArrayData($query, $id_field)
 	{
 		global $ilDB;
-		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(MDB2_FETCHMODE_OBJECT))
+
+		$statement = $ilDB->prepare($query);
+		$result = $ilDB->execute($statement);
+		$result_array = array();
+		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$result_array[$row->$id_field]= $row;
+			$result_array[$row[$id_field]]= $row;
 		}
-		return ($result_array)?$result_array:array();
+		return $result_array;
+	}
+
+	/**
+	* Returns a data as id key list
+	*
+	* @param $query
+	* @param $id_field index for array
+	* @return array with data with id as key
+	*/
+	public static function &_getArrayData($query, $id_field)
+	{
+		global $ilDB;
+
+		$statement = $ilDB->prepare($query);
+		$result = $ilDB->execute($statement);
+		$result_array = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$result_array[$row[$id_field]]= $row;
+		}
+		return $result_array;
 	}
 
 	function &getGroupData($ids)
 	{
-		if (!is_array($ids) || count($ids) ==0)
-			return array();
-
-		$result_array = array();
-
-		$query = sprintf("SELECT ref_id, title, description FROM `grp_settings` g, object_data o, object_reference r WHERE o.obj_id=grp_id AND o.obj_id = r.obj_id AND ref_id IN ('%s')",
-			join ($ids,"','")
-		);
-
-		return $this->getArrayData ($query, "ref_id");
+		if (!is_array($ids) || count($ids) ==0) return array();
+		$result = array();
+		foreach ($ids as $ref_id)
+		{
+			$obj_id = ilObject::_lookupObjId($ref_id);
+			$result[$ref_id] = array("ref_id" => $ref_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
+		}
+		return $result;
 	}
 
 	function &getRoleData($ids)
 	{
-		if (!is_array($ids) || count($ids) ==0)
-			return array();
-
-		$result_array = array();
-
-		$query = sprintf("SELECT obj_id, description, title FROM role_data, object_data o WHERE o.obj_id=role_id AND role_id IN ('%s')",
-			join ($ids,"','")
-		);
-
-		return $this->getArrayData ($query, "obj_id");
+		if (!is_array($ids) || count($ids) ==0) return array();
+		$result = array();
+		foreach ($ids as $obj_id)
+		{
+			$result[$obj_id] = array("obj_id" => $ref_id, "title" => ilObject::_lookupTitle($obj_id), "description" => ilObject::_lookupDescription($obj_id));
+		}
+		return $result;
 	}
 
 
