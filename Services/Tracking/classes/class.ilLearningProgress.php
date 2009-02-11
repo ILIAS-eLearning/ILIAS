@@ -58,9 +58,14 @@ class ilLearningProgress
 	{
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		$events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
+		
+		include_once './Services/Calendar/classes/class.ilDateTime.php';
 
 		foreach($events as $row)
 		{
+			$tmp_date = new ilDateTime($row['last_access'],IL_CAL_UNIX);
+			$row['last_access'] = $tmp_date->get(IL_CAL_TIMESTAMP);
+			
 			if ($progress)
 			{
 				$progress['spent_seconds'] += $row['spent_seconds'];

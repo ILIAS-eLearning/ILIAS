@@ -140,15 +140,14 @@ class ilLPStatusManual extends ilLPStatus
 		global $ilDB;
 
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-		$query = "SELECT DISTINCT(usr_id) FROM read_event ".
-			"WHERE obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
+		foreach($all as $user_id)
 		{
-			if(!in_array($row->usr_id,$completed))
+			if(!in_array($user_id,$completed))
 			{
-				$user_ids[] = $row->usr_id;
+				$user_ids[] = $user_id;
 			}
 		}
 		return $user_ids ? $user_ids : array();
@@ -164,15 +163,13 @@ class ilLPStatusManual extends ilLPStatus
 		$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 		$members = $members_obj->getParticipants();
 
-		$query = "SELECT DISTINCT(usr_id) FROM read_event ".
-			"WHERE obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
+		foreach($all as $user_id)
 		{
-			if(!in_array($row->usr_id,$completed) and in_array($row->usr_id,$members))
+			if(!in_array($user_id,$completed) and in_array($user_id,$members))
 			{
-				$user_ids[] = $row->usr_id;
+				$user_ids[] = $user_id;
 			}
 		}
 		return $user_ids ? $user_ids : array();
@@ -187,15 +184,13 @@ class ilLPStatusManual extends ilLPStatus
 		include_once './Modules/Group/classes/class.ilObjGroup.php';
 		$members = ilObjGroup::_getMembers($a_obj_id);
 
-		$query = "SELECT DISTINCT(user_id) FROM read_event ".
-			"WHERE obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
+		foreach($all as $user_id)
 		{
-			if(!in_array($row->user_id,$completed) and in_array($row->user_id,$members))
+			if(!in_array($user_id,$completed) and in_array($user_id,$members))
 			{
-				$user_ids[] = $row->user_id;
+				$user_ids[] = $user_id;
 			}
 		}
 		return $user_ids ? $user_ids : array();

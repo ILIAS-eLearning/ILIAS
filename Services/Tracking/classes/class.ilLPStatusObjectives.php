@@ -72,15 +72,13 @@ class ilLPStatusObjectives extends ilLPStatus
 		$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
 		$members = $members_obj->getParticipants();
 
-		$query = "SELECT DISTINCT(usr_id) FROM read_event ".
-			"WHERE obj_id = '".$a_obj_id."'";
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
+		foreach($all as $user_id)
 		{
-			if(!in_array($row->usr_id,$completed) and in_array($row->usr_id,$members))
+			if(!in_array($user_id,$completed) and in_array($user_id,$members))
 			{
-				$user_ids[] = $row->usr_id;
+				$user_ids[] = $user_id;
 			}
 		}
 		return $user_ids ? $user_ids : array();

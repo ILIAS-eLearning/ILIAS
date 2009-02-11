@@ -558,11 +558,11 @@ class ilInfoScreenGUI
 				if ($count_user_reads > 0)
 				{
 					$this->addProperty($this->lng->txt("readcount_users"),$count_user_reads);
-                                }
+                }
 				if ($count_users > 0)
 				{
 					$this->addProperty($this->lng->txt("accesscount_registered_users"),$count_users);
-                                }
+				}
 			}
 		}
 		// END ChangeEvent: Display change event info
