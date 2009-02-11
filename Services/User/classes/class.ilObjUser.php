@@ -4609,17 +4609,18 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		// the current user has local roles.
 		// Note: we have to use DISTINCT here, because a user may assume
 		// multiple roles in a group or a course.
-		$st = $ilDB->prepare("SELECT DISTINCT dat.obj_id as obj_id ".
+		$q = "SELECT DISTINCT dat.obj_id as obj_id ".
 			"FROM rbac_ua AS ua ".
 			"JOIN rbac_fa AS fa ON fa.rol_id = ua.rol_id ".
 			"JOIN object_reference AS r1 ON r1.ref_id = fa.parent ".
 			"JOIN tree ON tree.child = r1.ref_id ".
 			"JOIN object_reference AS r2 ON r2.ref_id = tree.parent ".
 			"JOIN object_data AS dat ON dat.obj_id = r2.obj_id ".
-			"WHERE ua.usr_id = ? ".
-			"AND fa.assign = ? ".
-			"AND dat.type IN (?,?)", array("integer", "text", "text", "text"));
-		$r = $ilDB->execute($st, array($a_user_id, "y", "grp", "crs"));
+			"WHERE ua.usr_id = ".$ilDB->quote($a_user_id, "integer")." ".
+			"AND fa.assign = ".$ilDB->quote("y", "text")." ".
+			"AND dat.type IN (".$ilDB->quote("usr", "text").",".
+			$ilDB->quote("grp", "text").")";
+		$r = $ilDB->query($q);
 		while ($row = $ilDB->fetchAssoc($r))
 		{
 			$groups_and_courses_of_user[] = $row["obj_id"];
@@ -4628,19 +4629,19 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		// If the user is not in a course or a group, he has no associated users.
 		if (count($groups_and_courses_of_user) == 0)
 		{
-			$st = $ilDB->prepare("SELECT count(user_id) as num,ctime,user_id,firstname,lastname,title,login,last_login ".
+			$q = "SELECT count(user_id) as num,ctime,user_id,firstname,lastname,title,login,last_login ".
 				"FROM usr_session ".
 				"JOIN usr_data ON user_id=usr_id ".
-				"WHERE user_id = ? ".
-				" AND agree_date != ? ".
-				"AND expires > ? ".
-				"GROUP BY user_id", array("integer", "timestamp", "integer"));
-			$r = $ilDB->execute($st, array($a_user_id, "0000-00-00 00:00:00", time()));
+				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
+				" AND agree_date != ".$ilDB->quote("0000-00-00 00:00:00", "timestamp")." ".
+				"AND expires > ".$ilDB->quote(time(), "integer")." ".
+				"GROUP BY user_id";
+			$r = $ilDB->query($q);
 		}
 		else
 		{
 			$q = "SELECT count(user_id) as num,s.ctime,s.user_id,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
-				"FROM usr_session s ".
+				"FROM usr_session AS s ".
 				"JOIN usr_data AS ud ON ud.usr_id = s.user_id ".
 				"JOIN rbac_ua AS ua ON ua.usr_id = s.user_id ".
 				"JOIN rbac_fa AS fa ON fa.rol_id = ua.rol_id ".
@@ -4648,18 +4649,13 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 				"JOIN object_reference AS or1 ON or1.ref_id = tree.parent ".
 				"JOIN object_data AS od ON od.obj_id = or1.obj_id ".
 				"WHERE s.user_id != 0 ".
-				"AND s.expires > ? ".
-				"AND fa.assign = ? ".
-				" AND ud.agree_date != ? ".
-				"AND ".$ilDB->in("od.obj_id", $groups_and_courses_of_user)." ".
+				"AND s.expires > ".$ilDB->quote(time(),"integer")." ".
+				"AND fa.assign = ".$ilDB->quote("y", "text")." ".
+				" AND ud.agree_date != ".$ilDB->quote("0000-00-00 00:00:00", "timestamp")." ".
+				"AND ".$ilDB->in("od.obj_id", $groups_and_courses_of_user, false, "integer")." ".
 				"GROUP BY s.user_id ".
 				"ORDER BY ud.lastname, ud.firstname";
-			$type_arr = array("integer", "text", "timestamp");
-			$type_arr = $ilDB->addTypesToArray($type_arr, "integer", count($groups_and_courses_of_user));
-			$val_arr = array(time(), "y", "0000-00-00 00:00:00");
-			$val_arr = array_merge($val_arr, $groups_and_courses_of_user);
-			$st = $ilDB->prepare($q, $type_arr);
-			$r = $ilDB->execute($st, $val_arr);
+			$r = $ilDB->query($q);
 		}
 
 		while ($user = $ilDB->fetchAssoc($r))

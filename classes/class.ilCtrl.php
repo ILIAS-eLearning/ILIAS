@@ -107,9 +107,8 @@ class ilCtrl
 		$baseClass = strtolower($_GET["baseClass"]);
 		
 		// get class information
-		$st = $ilDB->prepare("SELECT * FROM module_class WHERE LOWER(class) = ?",
-			array("text"));
-		$mc_set = $ilDB->execute($st, array($baseClass));
+		$mc_set = $ilDB->query("SELECT * FROM module_class WHERE LOWER(class) = ".
+			$ilDB->quote($baseClass, "text"));
 		$mc_rec = $ilDB->fetchAssoc($mc_set);
 		$module = $mc_rec["module"];
 		$class = $mc_rec["class"];
@@ -117,18 +116,16 @@ class ilCtrl
 		
 		if ($module != "")
 		{
-			$st = $ilDB->prepare("SELECT * FROM il_component WHERE name = ? ",
-				array("text"));
-			$m_set = $ilDB->execute($st, array($module));			
+			$m_set = $ilDB->query("SELECT * FROM il_component WHERE name = ".
+				$ilDB->quote($module, "text"));
 			$m_rec = $ilDB->fetchAssoc($m_set);
 			$this->module_dir = $m_rec["type"]."/".$m_rec["name"];
 			include_once $this->module_dir."/".$class_dir."/class.".$class.".php";
 		}
 		else		// check whether class belongs to a service
 		{
-			$st = $ilDB->prepare("SELECT * FROM service_class WHERE LOWER(class) = ?",
-				array("text"));
-			$mc_set = $ilDB->execute($st, array($baseClass));
+			$mc_set = $ilDB->query("SELECT * FROM service_class WHERE LOWER(class) = ".
+				$ilDB->quote($baseClass, "text"));
 			$mc_rec = $ilDB->fetchAssoc($mc_set);
 
 			$service = $mc_rec["service"];
@@ -143,9 +140,8 @@ class ilCtrl
 			}
 
 			// get service information
-			$st = $ilDB->prepare("SELECT * FROM il_component WHERE name = ? ",
-				array("text"));
-			$m_set = $ilDB->execute($st, array($service));			
+			$m_set = $ilDB->query("SELECT * FROM il_component WHERE name = ".
+				$ilDB->quote($service, "text"));
 			$m_rec = $ilDB->fetchAssoc($m_set);
 			$this->service_dir = $m_rec["type"]."/".$m_rec["name"];
 			
@@ -478,9 +474,8 @@ class ilCtrl
 		if (in_array($a_class, $this->stored_trees))
 		{
 			
-			$st = $ilDB->prepare("SELECT * FROM ctrl_structure WHERE root_class = ?",
-				array("text"));
-			$set = $ilDB->execute($st, array($a_class));
+			$set = $ilDB->query("SELECT * FROM ctrl_structure WHERE root_class = ".
+				$ilDB->quote($a_class, "text"));
 			$rec = $ilDB->fetchAssoc($set);
 			$this->call_node = unserialize($rec["call_node"]);
 			$this->forward = unserialize($rec["forward"]);
@@ -538,11 +533,12 @@ class ilCtrl
 			$this->forward = array();
 			$this->parent = array();
 			$this->readCallStructure($root_gui_class);
-			$st = $ilDB->prepareManip("INSERT INTO ctrl_structure ".
-				"(root_class, call_node, forward, parent) VALUES (?,?,?,?)",
-				array("text", "clob", "clob", "clob"));
-			$ilDB->execute($st, array($root_gui_class, serialize($this->call_node),
-				serialize($this->forward), serialize($this->parent)));
+			$ilDB->manipulate(sprintf("INSERT INTO ctrl_structure ".
+				"(root_class, call_node, forward, parent) VALUES (%s,%s,%s,%s)",
+				$ilDB->quote($root_gui_class, "text"),
+				$ilDB->quote(serialize($this->call_node), "clob"),
+				$ilDB->quote(serialize($this->forward), "clob"),
+				$ilDB->quote(serialize($this->parent), "clob")));
 		}
 	}
 	
@@ -561,9 +557,9 @@ class ilCtrl
 		$this->call_node[$a_nr] = array("class" => $a_class, "parent" => $a_parent);
 		
 //echo "<br>nr:$a_nr:class:$a_class:parent:$a_parent:";
-		$st = $ilDB->prepare("SELECT * FROM ctrl_calls WHERE parent = ?".
+		$call_set = $ilDB->query("SELECT * FROM ctrl_calls WHERE parent = ".
+			$ilDB->quote(strtolower($a_class), "text").
 			" ORDER BY child", array("text"));
-		$call_set = $ilDB->execute($st, array(strtolower($a_class)));
 		$a_parent = $a_nr;
 		while ($call_rec = $ilDB->fetchAssoc($call_set))
 		{
@@ -760,9 +756,8 @@ class ilCtrl
 		global $ilDB;
 		$a_class_name = strtolower($a_class_name);
 
-		$st = $ilDB->prepare("SELECT * FROM ctrl_classfile WHERE class = ?",
-			array("text"));
-		$class_set = $ilDB->execute($st, array($a_class_name));
+		$class_set = $ilDB->query("SELECT * FROM ctrl_classfile WHERE class = ".
+			$ilDB->quote($a_class_name, "text"));
 		$class_rec = $ilDB->fetchAssoc($class_set);
 
 		return $class_rec["file"];
@@ -1027,9 +1022,9 @@ class ilCtrl
 			if (is_object($ilDB) && is_object($ilUser) && $ilUser->getId() > 0 &&
 				$ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				$st = $ilDB->prepare("SELECT token FROM il_request_token WHERE user_id = ? AND session = ?",
-					array("integer", "text"));
-				$res =$ilDB->execute($st, array($ilUser->getId(), session_id()));
+				$res = $ilDB->query("SELECT token FROM il_request_token WHERE user_id = ".
+					$ilDB->quote($ilUser->getId(), "integer").
+					" AND session = ".$ilDB->quote(session_id(), "text"));
 				$rec = $ilDB->fetchAssoc($res);
 				
 				if ($rec["token"] != "")
@@ -1043,9 +1038,9 @@ class ilCtrl
 				// session basis. This will fail due to framesets that are used
 				// occasionally in ILIAS, e.g. in the chat, where multiple
 				// forms are loaded in different frames.
-				$ilDB->query("INSERT INTO il_request_token (user_id, token, session) VALUES ".
-					"(".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($this->rtoken).
-					",".$ilDB->quote(session_id()).")");
+				$ilDB->manipulate("INSERT INTO il_request_token (user_id, token, session) VALUES ".
+					"(".$ilDB->quote($ilUser->getId(), "integer").",".$ilDB->quote($this->rtoken, "text").
+					",".$ilDB->quote(session_id(), "text").")");
 				return $this->rtoken;
 			}
 			//$this->rtoken = md5(uniqid(rand(), true));
@@ -1070,8 +1065,8 @@ class ilCtrl
 			}
 
 			$set = $ilDB->query("SELECT * FROM il_request_token WHERE ".
-				" user_id = ".$ilDB->quote($ilUser->getId())." AND ".  	 	 
-				" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME])); 		 
+				" user_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ".  	 	 
+				" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME]), "text"); 		 
 			if ($set->numRows() > 0) 		 
 			{
 				// remove used token
@@ -1082,9 +1077,9 @@ class ilCtrl
 				*/
 
 				// remove tokens from older sessions
-				$ilDB->query("DELETE FROM il_request_token WHERE ". 		 
-					" user_id = ".$ilDB->quote($ilUser->getId())." AND ". 		 
-					" session != ".$ilDB->quote(session_id()));
+				$ilDB->manipulate("DELETE FROM il_request_token WHERE ". 		 
+					" user_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ". 		 
+					" session != ".$ilDB->quote(session_id(), "text"));
 				return true; 		 
 			} 		 
 			else

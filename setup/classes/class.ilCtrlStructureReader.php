@@ -154,18 +154,16 @@ class ilCtrlStructureReader
 										$this->class_script[$parent] != $a_cdir."/".$file)
 									{
 										// delete all class to file assignments
-										$st = $ilDB->prepareManip("DELETE FROM ctrl_classfile WHERE comp_prefix = ?",
-											array("text"));
-										$ilDB->execute($st, array($this->comp_prefix));
+										$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = ".
+											$ilDB->quote($this->comp_prefix, "text"));
 										if ($comp_prefix == "")
 										{
 											$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix IS NULL");
 										}
 								
 										// delete all call entries
-										$st = $ilDB->prepareManip("DELETE FROM ctrl_calls WHERE comp_prefix = ?",
-											array("text"));
-										$ilDB->execute($st, array($this->comp_prefix));
+										$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = ".
+											$ilDB->quote($this->comp_prefix, "text"));
 										if ($comp_prefix == "")
 										{
 											$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
@@ -233,18 +231,16 @@ class ilCtrlStructureReader
 		global $ilDB;
 
 		// delete all class to file assignments
-		$st = $ilDB->prepareManip("DELETE FROM ctrl_classfile WHERE comp_prefix = ?",
-			array("text"));
-		$ilDB->execute($st, array($this->comp_prefix));
+		$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = ".
+			$ilDB->quote($this->comp_prefix, "text"));
 		if ($comp_prefix == "")
 		{
 			$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix IS NULL");
 		}
 
 		// delete all call entries
-		$st = $ilDB->prepareManip("DELETE FROM ctrl_calls WHERE comp_prefix = ?",
-			array("text"));
-		$ilDB->execute($st, array($this->comp_prefix));
+		$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = ".
+			$ilDB->quote($this->comp_prefix, "text"));
 		if ($comp_prefix == "")
 		{
 			$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
@@ -255,9 +251,11 @@ class ilCtrlStructureReader
 			$file = substr($script, strlen($this->start_dir) + 1);
 			
 			// store class to file assignment
-			$st = $ilDB->prepareManip("INSERT INTO ctrl_classfile (class, file, comp_prefix) ".
-				" VALUES (?,?,?)", array("text", "text", "text"));
-			$ilDB->execute($st, array($class, $file, $this->comp_prefix));
+			$ilDB->manipulate(sprintf("INSERT INTO ctrl_classfile (class, file, comp_prefix) ".
+				" VALUES (%s,%s,%s)",
+				$ilDB->quote($class, "text"),
+				$ilDB->quote($file, "text"),
+				$ilDB->quote($this->comp_prefix, "text")));
 		}
 //$this->class_childs[$parent][] = $child;
 		foreach($this->class_childs as $parent => $v)
@@ -267,9 +265,11 @@ class ilCtrlStructureReader
 				foreach($this->class_childs[$parent] as $child)
 				{
 					// store call entry
-					$st = $ilDB->prepareManip("INSERT INTO ctrl_calls (parent, child, comp_prefix) ".
-						"VALUES (?,?,?)", array("text", "text", "text"));
-					$ilDB->execute($st, array($parent, $child, $this->comp_prefix));
+					$ilDB->manipulate(sprintf("INSERT INTO ctrl_calls (parent, child, comp_prefix) ".
+						"VALUES (%s,%s,%s)",
+						$ilDB->quote($parent, "text"),
+						$ilDB->quote($child, "text"),
+						$ilDB->quote($this->comp_prefix, "text")));
 				}
 			}
 		}

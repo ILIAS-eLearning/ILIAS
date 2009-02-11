@@ -1011,13 +1011,27 @@ class ilDB extends PEAR
 	*		$ilDB->addTypesToArray($types, "integer", count($ids)));
 	*	$set = $ilDB->execute($st, $ids);
 	*/
-	function in($a_field, $a_values, $negate = false)
+	function in($a_field, $a_values, $negate = false, $a_type = "")
 	{
 		if (count($a_values) == 0)
 		{
 			return " 1=2 ";		// return a false statement on empty array
 		}
-		$str = $a_field.(($negate) ? " NOT" : "")." IN (?".str_repeat(",?", count($a_values) - 1).")";
+		if ($a_type == "")		// untyped: used ? for prepare/execute
+		{
+			$str = $a_field.(($negate) ? " NOT" : "")." IN (?".str_repeat(",?", count($a_values) - 1).")";
+		}
+		else					// typed, use values for query/manipulate
+		{
+			$str = $a_field.(($negate) ? " NOT" : "")." IN (";
+			$sep = "";
+			foreach ($a_values as $v)
+			{
+				$str.= $sep.$this->quote($v, $a_type);
+				$sep = ",";
+			}
+			$str.= ")";
+		}
 		
 		return $str;
 	}

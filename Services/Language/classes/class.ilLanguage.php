@@ -296,10 +296,10 @@ class ilLanguage
 		}
 */
 
-		$st = $ilDB->prepare("SELECT * FROM lng_modules " .
-				"WHERE lang_key = ? AND module = ?",
-				array("text", "text"));
-		$r = $ilDB->execute($st, array($lang_key, $a_module));
+		$q = "SELECT * FROM lng_modules " .
+				"WHERE lang_key = ".$ilDB->quote($lang_key, "text")." AND module = ".
+				$ilDB->quote($a_module, "text");
+		$r = $ilDB->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		$new_text = unserialize($row["lang_array"]);
@@ -330,10 +330,10 @@ class ilLanguage
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM lng_data WHERE module = ? ".
-			"AND lang_key = ? AND identifier = ?",
-			array("text", "text", "text"));
-		$set = $ilDB->execute($st, array($a_mod."", $a_lang_key."", $a_id.""));
+		$set = $ilDB->query(sprintf("SELECT * FROM lng_data WHERE module = %s ".
+			"AND lang_key = %s AND identifier = %s",
+			$ilDB->quote((string) $a_mod, "text"), $ilDB->quote((string) $a_lang_key, "text"),
+			$ilDB->quote((string) $a_id, "text")));
 		$rec = $ilDB->fetchAssoc($set);
 		
 		if ($rec["value"] != "")

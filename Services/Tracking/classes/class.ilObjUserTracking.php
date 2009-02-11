@@ -529,9 +529,8 @@ class ilObjUserTracking extends ilObject
 		$query = "DELETE FROM ut_lp_marks WHERE usr_id = '".$a_usr_id."'";
 		$ilDB->query($query);
 
-		$st = $ilDB->prepareManip("DELETE FROM ut_online WHERE usr_id = ?",
-			array("integer"));
-		$ilDB->execute($st, array($a_usr_id));
+		$ilDB->manipulate("DELETE FROM ut_online WHERE usr_id = ".
+			$ilDB->quote($a_usr_id, "integer"));
 
 		return true;
 	}
