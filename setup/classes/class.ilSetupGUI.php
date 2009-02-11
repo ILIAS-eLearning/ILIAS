@@ -2536,8 +2536,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_RELOAD", $this->lng->txt("reload"));
 
 		$ilDB = new ilDB($this->setup->getClient()->dsn);
-		$st = $ilDB->prepare("SELECT count(*) as cnt FROM ctrl_calls");
-		$cset = $ilDB->execute($st);
+		$cset = $ilDB->query("SELECT count(*) as cnt FROM ctrl_calls");
 		$crec = $ilDB->fetchAssoc($cset);
 
 		if ($crec["cnt"] == 0)

@@ -42,9 +42,8 @@ class ilOnlineTracking
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT * FROM ut_online WHERE usr_id = ?",
-			array("integer"));
-		$res = $ilDB->execute($st, array($a_user_id));
+		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
+			$ilDB->quote($a_user_id, "integer"));
 		while ($row = $ilDB->fetchObject($res))
 		{
 			$access_time = $row->access_time;
@@ -59,17 +58,16 @@ class ilOnlineTracking
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT * FROM ut_online WHERE usr_id = ?",
-			array("integer"));
-		$res = $ilDB->execute($st, array($a_user_id));
+		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
+			$ilDB->quote($a_user_id, "integer"));
 		
 		if ($ilDB->fetchAssoc($res))
 		{
 			return false;
 		}
-		$st = $ilDB->prepareManip("INSERT INTO ut_online (usr_id, access_time) VALUES (?,?)",
-			array("integer", "integer"));
-		$ilDB->execute($st, array($a_user_id, time()));
+		$ilDB->manipulate(sprintf("INSERT INTO ut_online (usr_id, access_time) VALUES (%s,%s)",
+			$ilDB->quote($a_user_id, "integer"),
+			$ilDB->quote(time(), "integer")));
 
 		return true;
 	}
@@ -78,9 +76,8 @@ class ilOnlineTracking
 	{
 		global $ilDB,$ilias;
 
-		$st = $ilDB->prepare("SELECT * FROM ut_online WHERE usr_id = ?",
-			array("integer"));
-		$res = $ilDB->execute($st, array($a_user_id));
+		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
+			$ilDB->quote($a_user_id, "integer"));
 
 		if (!$ilDB->fetchAssoc($res))
 		{
@@ -96,15 +93,18 @@ class ilOnlineTracking
 
 		if(($diff = time() - $access_time) <= $time_span)
 		{
-			$st = $ilDB->prepareManip("UPDATE ut_online SET online_time = online_time + ?, ".
-				"access_time = ? WHERE usr_id = ?", array("integer", "integer", "integer"));
-			$ilDB->execute($st, array($diff, time(), $a_usr_id));
+			$ilDB->manipulate(sprintf("UPDATE ut_online SET online_time = online_time + %s, ".
+				"access_time = %s WHERE usr_id = %s",
+				$ilDB->quote($diff, "integer"),
+				$ilDB->quote(time(), "integer"),
+				$ilDB->quote($a_usr_id, "integer")));
 		}
 		else
 		{
-			$st = $ilDB->prepareManip("UPDATE ut_online SET ".
-				"access_time = ? WHERE usr_id = ?", array("integer", "integer"));
-			$ilDB->execute($st, array(time(), $a_usr_id));
+			$ilDB->manipulate(sprintf("UPDATE ut_online SET ".
+				"access_time = %s WHERE usr_id = %s",
+				$ilDB->quote(time(), "integer"),
+				$ilDB->quote($a_usr_id, "integer")));
 		}
 		return true;
 	}
