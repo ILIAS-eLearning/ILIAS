@@ -114,27 +114,48 @@ class ilChangeEvent
 	function _recordReadEvent($obj_id, $usr_id, $isCatchupWriteEvents = true)
 	{
 		global $ilDB;
+		
 		include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
 		$validTimeSpan = ilObjUserTracking::_getValidTimeSpan();
+		
+		
+		$query = 'SELECT * FROM read_event '.
+			'WHERE obj_id = ? '.
+			'AND usr_id = ? ';
+		$sta = $ilDB->prepare($query,array('integer','integer'));
+		$res = $ilDB->execute($sta,array(
+			$obj_id,
+			$usr_id));
 
-		// Important: In the SQL statement below, it is important that ts
-		//            is updated after spent_seconds is updated, because
-		//            spent_seconds computes its value from the old value of ts.
-		$q = "INSERT INTO read_event ".
-				"(obj_id, usr_id, first_access, last_access, read_count) ".
-				"VALUES (".
-				$ilDB->quote($obj_id).",".
-				$ilDB->quote($usr_id).",".
-				"NOW(), NOW(), 1".
-				") ".
-			"ON DUPLICATE KEY ".
-			"UPDATE ".
-				"read_count=read_count+1, ".
-				"spent_seconds = IF (TIME_TO_SEC(TIMEDIFF(NOW(),last_access))<=".$ilDB->quote($validTimeSpan).",spent_seconds+TIME_TO_SEC(TIMEDIFF(NOW(),last_access)),spent_seconds),".
-				"last_access=NOW()".
-			"";
-		$r = $ilDB->query($q);
-		//error_log ('ilChangeEvent::_recordReadEvent '.$q);
+		if($res->numRows())
+		{
+			$row = $ilDB->fetchObject($res);
+			// Update
+			$query = 'UPDATE read_event SET '.
+				'read_count = read_count + 1, '.
+				'spent_seconds = ?, '.
+				'last_access = ? '.
+				'WHERE obj_id = ? '.
+				'AND usr_id = ? ';
+			$sta = $ilDB->prepareManip($query,array('integer','integer','integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				(time() - $row->last_access) <= $validTimeSpan ? $row->spent_seconds + time() - $row->last_access : $row->spent_seconds,
+				time(),
+				$obj_id,
+				$usr_id));
+		}			
+		else
+		{
+			$query = 'INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access) '.
+				'VALUES (?,?,?,?,?,'.$ilDB->now().') ';
+			$sta = $ilDB->prepare($query,array('integer','integer','integer','integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id,
+				$usr_id,
+				time(),
+				1,
+				0));
+		}
 		
 		if ($isCatchupWriteEvents)
 		{
@@ -451,27 +472,62 @@ class ilChangeEvent
 		
 		if ($usr_id == null)
 		{
-			$q = "SELECT * ".
-				"FROM read_event ".
-				"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-				"ORDER BY last_access DESC";
+			$query = 'SELECT * FROM read_event '.
+				'WHERE obj_id = ? '.
+				'ORDER BY last_access DESC';
+			$sta = $ilDB->prepare($query,array('integer'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id));
 		}
 		else 
 		{
-			$q = "SELECT * ".
-				"FROM read_event ".
-				"WHERE obj_id=".$ilDB->quote($obj_id)." ".
-				"AND usr_id=".$ilDB->quote($usr_id)." ".
-				"ORDER BY last_access DESC";
+			$query = 'SELECT * FROM read_event '.
+				'WHERE obj_id = ? '.
+				'AND usr_id = ? '.
+				'ORDER BY last_access DESC';
+			$sta = $ilDB->prepare($query,array('integer','integer'));
+			$res = $ilDB->execute($sta,array(
+				$obj_id,
+				$usr_id));
 		}
-		$r = $ilDB->query($q);
-		$events = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+
+		$counter = 0;
+		while ($row = $ilDB->fetchAssoc($res))
 		{
-			$events[] = $row;
+			$events[$counter]['obj_id'] 		= $row['obj_id'];
+			$events[$counter]['usr_id'] 		= $row['usr_id'];
+			$events[$counter]['last_access'] 	= $row['last_access'];
+			$events[$counter]['read_count'] 	= $row['read_count'];
+			$events[$counter]['spent_seconds'] 	= $row['spent_seconds'];
+			$events[$counter]['first_access'] 	= $row['first_access'];
+			
+			$counter++;
+			 
 		}
-		return $events;
+		return $events ? $events : array();
 	}
+	
+	/**
+	 * Lookup users in progress 
+	 *
+	 * @return
+	 * @static
+	 */
+	 public static function lookupUsersInProgress($a_obj_id)
+	 {
+	 	global $ilDB;
+	 	
+	 	$query = 'SELECT DISTINCT(usr_id) usr FROM read_event '.
+	 		'WHERE obj_id = ? ';
+	 	$sta = $ilDB->prepare($query,array('integer'));
+	 	$res = $ilDB->execute($sta,array(
+	 		$a_obj_id));
+	 	while($row = $ilDB->fetchObject($res))
+	 	{
+	 		$users[] = $row->usr;
+	 	}
+	 	return $users ? $users : array();
+	 }
 
 	/**
 	 * Activates change event tracking.
@@ -553,11 +609,11 @@ class ilChangeEvent
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM write_event WHERE obj_id = ? ";
+		$query = 'DELETE FROM write_event WHERE obj_id = ? ';
 		$sta = $ilDB->prepare($query,array('integer'));
 		$res = $ilDB->execute($sta,array($a_obj_id));
 		
-		$query = "DELETE FROM read_event WHERE obj_id = ? ";
+		$query = 'DELETE FROM read_event WHERE obj_id = ? ';
 		$sta = $ilDB->prepare($query,array('integer'));
 		$res = $ilDB->execute($sta,array($a_obj_id));
 		return true;

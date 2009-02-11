@@ -341,11 +341,15 @@ class ilObjUserTracking extends ilObject
 	function getDuration($a_obj_id)
 	{
 		global $ilDB;
-		$q = "SELECT AVG(spent_seconds) FROM read_event"
-			." WHERE obj_id = " . $ilDB->quote($a_obj_id)
-			." GROUP BY obj_id";
-		$res = $ilDB->query($q);
-		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$query = 'SELECT AVG(spent_seconds) FROM read_event '.
+			'WHERE obj_id = ? '.
+			'GROUP BY obj_id ';
+		$sta = $ilDB->prepare($query,array('integer'));
+		$res = $ilDB->execute($sta,array(
+			$a_obj_id));
+
+		$data = $ilDB->fetchAssoc($res);
 		return $data["spent_seconds"];
 	}
 

@@ -7601,4 +7601,36 @@ if ($res->numRows() == 1)
 	$ilMySQLAbstraction->performAbstraction("desktop_item");
 ?>
 
+<#1588>
+<?php
+
+// Convert read_event last_access to unixtime for faster updates of user entries
+$query = "SELECT *,UNIX_TIMESTAMP(last_access) ut FROM read_event ";
+$res = $ilDB->query($query);
+while($row = $ilDB->fetchAssoc($res))
+{
+	$events[] = $row;
+}
+
+// Convert table 
+$query = 'ALTER TABLE `read_event` CHANGE `last_access` `last_access` INT';
+$ilDB->query($query);
+
+// Update existing values
+foreach($events as $event)
+{
+	$query = 'UPDATE read_event '.
+		'SET last_access = '.$ilDB->quote($event['ut']).' '.
+		'WHERE obj_id = '.$ilDB->quote($event['obj_id']).' '.
+		'AND usr_id = '.$ilDB->quote($event['usr_id']);
+	$ilDB->query($query);
+}
+?>
+
+<#1589>
+<?php
+	$ilMySQLAbstraction->performAbstraction('read_event');
+?>
+
+
 
