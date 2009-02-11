@@ -2501,9 +2501,9 @@ class ilObjUser extends ilObject
 	* @static
 	* @access	public
 	*/
-	function searchUsers($a_search_str, $active = 1, $a_return_ids_only = false, $filter_settings = FALSE)
+	static function searchUsers($a_search_str, $active = 1, $a_return_ids_only = false, $filter_settings = FALSE)
 	{
-		global $ilias, $ilDB;
+		global $ilias, $ilDB, $ilLog;
 
 		
 		$query = "SELECT usr_data.usr_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.email, usr_data.active FROM usr_data ";
@@ -2609,7 +2609,7 @@ class ilObjUser extends ilObject
 						break;
 					case 4:
 						$date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
-						$query.= " AND last_login < ?";
+						$query.= " AND last_login < ? ";
 						$types[] = "timestamp";
 						$values[] = $date;
 						break;
