@@ -1363,7 +1363,7 @@ common#:#image_gen_unsucc#:#Billeddannelse ikke successfuldt udført. Kontakt di
 common#:#import#:#Import
 common#:#import_alm#:#Importer AICCpakke
 common#:#import_cat_localrol#:#Opret lokal rolle for hver ny kategori.
-common#:#import_cat_table#:#The following table is only meaningful if the checkbox is set
+common#:#import_cat_table#:#Nedenstående tabel giver kun mening hvis afkrydsningsboksen er udfyldt.
 common#:#import_categories#:#Importer kategorier
 common#:#import_dbk#:#Importer digilibbog
 common#:#import_failure_log#:#Import af log fejlede
@@ -1707,7 +1707,7 @@ common#:#module#:#modul
 common#:#modules#:#Moduler
 common#:#month_01_long#:#Januar
 common#:#month_01_short#:#jan
-common#:#month_02_long#:#Feburar
+common#:#month_02_long#:#Februar
 common#:#month_02_short#:#feb
 common#:#month_03_long#:#Marts
 common#:#month_03_short#:#mar
@@ -2903,7 +2903,7 @@ common#:#object_copy_in_progress#:#Kopiering begyndt
 common#:#further_informations#:#Yderligere information
 common#:#applications#:#Ansøgninger
 common#:#wizard_title_info#:#Indtast titlen på det objekt du ønsker at kopiere.
-common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them###20 06 2007 new variable
+common#:#wizard_search_list#:#Din søgning matchede nedenstående. Vælg en af resultaterne.
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
 common#:#ext_acccount_required#:#Please enter the name of the external account.###09 07 2007 new variable
 common#:#err_check_input#:#The settings could not be saved. Please check your input.###09 07 2007 new variable
@@ -2913,7 +2913,7 @@ common#:#passwd_list#:#List of Passwords###30 07 2007 new variable
 common#:#default_auth_mode#:#Default Authentication Method###16 08 2007 new variable
 common#:#default_auth_mode_info#:#Please choose the authentication method that is preselected on the login page.###16 08 2007 new variable
 common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.###16 08 2007 new variable
-search#:#search_user_extended#:#Udviddet brugersøgning
+search#:#search_user_extended#:#Udvidet brugersøgning
 search#:#search_user_simple#:#Simpel brugersøgning
 search#:#last_search_result#:#Seneste søgeresultat
 search#:#search_results#:#Søgeresultater
@@ -3122,7 +3122,7 @@ certificate#:#certificate_error_upload_bgimage#:#An error occured during the upl
 assessment#:#change_properties_from_random_to_standard#:#You are about to change your test properties from a random test to a non random test. The information on the question pools you already added to the random test will be removed from test. Do you really want to change the test properties?###10 05 2007 new variable
 assessment#:#change_properties_from_standard_to_random#:#You are about to change your test properties from a non random test to a random test. The questions you already added to the test will be removed, because you have to select question pools for a random test. Do you really want to change the test properties?###10 05 2007 new variable
 assessment#:#change_solution#:#Ændre foreslået løsning
-assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.
+assessment#:#changelog_description#:#Tabellen indeholder alle forfatternes ændringer som er lavet til testen.
 assessment#:#changelog_heading#:#Changelog
 assessment#:#checkbox_checked#:#Kontrolleret
 assessment#:#checkbox_unchecked#:#Ikke afkrydset
@@ -3422,8 +3422,8 @@ assessment#:#qpl_questions_deleted#:#Spørgsmål slettet.
 assessment#:#qpl_select_file_for_import#:#Du må vælge en fil at importere!
 assessment#:#qt_multiple_choice#:#Multiple choice spørgsmål
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics###08 12 2006 new variable
-assessment#:#question_instances_title#:#This question is used in the following tests###08 12 2006 new variable
-assessment#:#question_marking#:#Show Question Marking###29 05 2007 new variable
+assessment#:#question_instances_title#:#Dette spørgsmål anvendes i følgende tests
+assessment#:#question_marking#:#Vis karakter for besvarelse
 assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).###29 05 2007 new variable
 assessment#:#question_not_answered#:#The question was not answered###25 02 2007 new variable
 assessment#:#question_saved_for_upload#:#Spørgsmålet blev gemt automatisk for at gemme harddisk plads til at gemme uploaded filer. Hvis du stopper dette nu skal du slette spørgsmålet i spørgsmålsgruppen hvis du ikke ønsker at beholde det!
@@ -3492,10 +3492,10 @@ assessment#:#show_pass_overview#:#Show Marked Pass Overview###31 05 2007 new var
 assessment#:#show_user_answers#:#Show User's Marked Anwers###31 05 2007 new variable
 assessment#:#shuffle_answers#:#Bland svar
 assessment#:#solution_hint#:#Foreslået løsning
-assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
+assessment#:#solution_may_contain_keywords#:#Løsningen må indeholde et af de følgende ord
 assessment#:#solution_order#:#Løsnings række
 assessment#:#start_tag#:#Start mærke
-assessment#:#starting_time_not_reached#:#Du har ikek nået start tidspunktet
+assessment#:#starting_time_not_reached#:#Du har ikke nået begyndelsestidspunktet
 assessment#:#statistical_data#:#Statistisk data
 assessment#:#statistics#:#Statistik
 assessment#:#suggested_solution_added_successfully#:#Du har sat en foreslået løsning!
@@ -3795,7 +3795,7 @@ assessment#:#tst_type_comment#:#Advarsel: Hvis du ændre test typen på en aktiv
 assessment#:#tst_types#:#Test typer
 assessment#:#tst_use_javascript#:#Brug Javascript for træk og slip aktioner
 assessment#:#tst_your_answer_was#:#Dit svar var
-assessment#:#tst_your_answers#:#These are your answers given to the following questions.###17 Aug 2005 new variable
+assessment#:#tst_your_answers#:#Dette er dine svar til følgende spørgsmål
 assessment#:#tt_assessment#:#Opgave test
 assessment#:#tt_online_exam#:#Online eksamen
 assessment#:#tt_self_assessment#:#Selv vurderingstest
@@ -4137,7 +4137,7 @@ news#:#news_internal_news#:#Interne nyheder
 news#:#news_get_feed_url#:#Hent feed URL
 news#:#news_feed_url_for#:#Feed URL for '%s'###25 02 2007 new variable
 news#:#news_get_feed_title#:#Personlig feed URL
-news#:#news_get_feed_info#:#Detete er en personlig nyhedsfeed URL. Feedet inkluderer kun nyheder som er angivet som offentlige af skribenten. Feeded er ikke beskyttet af autentificerings procerurer. Undlad venligst at dele denne URL med andre.
+news#:#news_get_feed_info#:#Dette er en personlig nyhedsfeed URL. Feedet inkluderer kun nyheder som er angivet som offentlige af skribenten. Feeded er ikke beskyttet af autentificeringsprocedurer. Undlad venligst at dele denne URL med andre.
 news#:#news_feed_url#:#Feed URL
 news#:#news_settings#:#Nyhedsindstillinger
 news#:#news_notifications_public#:#Offentlige adviseringer
@@ -4265,7 +4265,7 @@ content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target
 content#:#cont_chapters#:#Kapitler
 content#:#cont_chapters_and_pages#:#Kapitler og Sider
 content#:#cont_chapters_only#:#Kun Kapitler
-content#:#cont_characteristic#:#Karakteristisk
+content#:#cont_characteristic#:#Skrifttypestil
 content#:#cont_choose_cont_obj#:#Vælg indhold til objektet
 content#:#cont_choose_glossary#:#Vælg ordbog
 content#:#cont_choose_media_source#:#Vælg media kilde
@@ -4323,17 +4323,17 @@ content#:#cont_downloads#:#Downloads
 content#:#cont_downloads_desc#:#Aktiverer download af alle offentlige eksportfiler
 content#:#cont_downloads_public_desc#:#Tillad download for anonyme brugere (i offentligt område)
 content#:#cont_ed_align_center#:#align: center###21 Apr 2005 new variable
-content#:#cont_ed_align_left#:#align: left###21 Apr 2005 new variable
-content#:#cont_ed_align_left_float#:#align: left float###21 Apr 2005 new variable
-content#:#cont_ed_align_right#:#align: right###21 Apr 2005 new variable
-content#:#cont_ed_align_right_float#:#align: right float###21 Apr 2005 new variable
+content#:#cont_ed_align_left#:#juster: venstre
+content#:#cont_ed_align_left_float#:#juster: venstre flyd
+content#:#cont_ed_align_right#:#juster: højre
+content#:#cont_ed_align_right_float#:#juster: højre flyd
 content#:#cont_ed_class#:#Stilark
 content#:#cont_ed_col_left#:#flyt kolonne til venstre
 content#:#cont_ed_col_right#:#flyt kolonne til højre
 content#:#cont_ed_copy_clip#:#kopier til udklipsholder
 content#:#cont_ed_delete#:#slet
 content#:#cont_ed_delete_col#:#Slet række
-content#:#cont_ed_delete_item#:#delete item###21 Apr 2005 new variable
+content#:#cont_ed_delete_item#:#slet element
 content#:#cont_ed_delete_row#:#Slet række
 content#:#cont_ed_edit#:#ændre
 content#:#cont_ed_edit_prop#:#edit properties###21 Apr 2005 new variable
@@ -4343,7 +4343,7 @@ content#:#cont_ed_insert_code#:#Insæt kode
 content#:#cont_ed_insert_filelist#:#Indsæt filliste
 content#:#cont_ed_insert_list#:#Indsæt liste
 content#:#cont_ed_insert_media#:#insæt medie
-content#:#cont_ed_insert_par#:#insæt paragraf
+content#:#cont_ed_insert_par#:#indsæt sektion
 content#:#cont_ed_item_down#:#flyt element ned
 content#:#cont_ed_item_up#:#flyt element op
 content#:#cont_ed_moveafter#:#flyt efter
@@ -4892,8 +4892,8 @@ crs#:#crs_objectives_deassign_question_sure#:#Er du sikker på, at du vil fjerne
 crs#:#crs_objectives_deleted#:#Fjern læremål
 crs#:#crs_objectives_edit_question_assignments#:#Edit question assignment###21 Apr 2005 new variable
 crs#:#crs_objectives_info_final#:#You did not accomplish all course objectives in the previous exam. <br />Please select all red marked objectives one after another and review the related lerning materials. <br />After you have reviewed all red marked objectives, you can take the exam aga
-crs#:#crs_objectives_info_finished#:#Congratulations, you have accomplished all objectives of this course!###21 Apr 2005 new variable
-crs#:#crs_objectives_info_none#:#The following is a list of the course objectives.<br /> Please select the objectives one after another and work through the related learning materials.###21 Apr 2005 new variable
+crs#:#crs_objectives_info_finished#:#Tillykke. Du har gennemført alle målene med kurset.
+crs#:#crs_objectives_info_none#:#Det følgende er en liste over kursusmålene.<br /> Please select the objectives one after another and work through the related learning materials.###21 Apr 2005 new variable
 crs#:#crs_objectives_info_pretest#:#The following are the results of your self assessment. <br />Please select the red marked objectives one after another and work through their related learning material. <br />After you have processed all red marked objectives, you can take the final exam 
 crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.###21 Apr 2005 new variable
 crs#:#crs_objectives_lm_assignment#:#Learning material assignment###21 Apr 2005 new variable
@@ -5131,8 +5131,8 @@ crs#:#tutor_lastname#:#Efternavn
 crs#:#tutor_name#:#Navn
 crs#:#tutor_phone#:#Phone
 crs#:#tutor_title#:#Titel
-crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:###07 09 2006 new variable
-crs#:#crs_grp_added_grouping#:#Added new membership limitation.###05 10 2006 new variable
+crs#:#crs_mail_permanent_link#:#Klik på dette link for at tilgå kursusmaterialet
+crs#:#crs_grp_added_grouping#:#Tilføjet ny medlemsbegrænsning.
 crs#:#crs_map_settings#:#Kortindstillinger
 crs#:#crs_enable_map#:#Brug kortet
 crs#:#crs_map_location#:#Placering
@@ -5141,7 +5141,7 @@ crs#:#grouping_change_assignment#:#Change Assignment###05 10 2006 new variable
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'###29 11 2006 new variable
 crs#:#crs_subscriber#:#Tilmeldt
 crs#:#export_members#:#Eksporter kursister
-crs#:#crs_agreement_header#:#Brugeraftele
+crs#:#crs_agreement_header#:#Brugeraftale
 crs#:#crs_user_agreement#:#Released Data Types###25 02 2007 new variable
 crs#:#crs_info_agreement#:#The following data tyes are visible for course administrators:###25 02 2007 new variable
 crs#:#crs_agree#:#Acceptance###25 02 2007 new variable
@@ -5152,21 +5152,21 @@ crs#:#crs_user_agreement_info#:#Visible Personal Data for Course Administrators#
 crs#:#event_overview#:#Participations in Sessions###25 02 2007 new variable
 crs#:#event_digit#:#Ciffer
 crs#:#event_csv_export#:#CSV eksport
-crs#:#event_participated#:#Participated###25 02 2007 new variable
-crs#:#event_not_participated#:#Not Participated###25 02 2007 new variable
-crs#:#crs_objective_assigned_materials#:#Assigned Learning Materials###02 04 2007 new variable
-crs#:#crs_objective_assigned_qst#:#Assigned Questions###02 04 2007 new variable
-crs#:#crs_objective_add_mat#:#Assign Materials###02 04 2007 new variable
+crs#:#event_participated#:#Deltog
+crs#:#event_not_participated#:#Deltog ikke
+crs#:#crs_objective_assigned_materials#:#Tildelt læremateriale
+crs#:#crs_objective_assigned_qst#:#Tildelte spørgsmål
+crs#:#crs_objective_add_mat#:#Tildel materialer
 crs#:#crs_objective_add_qst#:#Tildel spørgsmål
-crs#:#crs_show_link_session#:#Show sessions###13 06 2007 new variable
+crs#:#crs_show_link_session#:#Vis sessioner
 crs#:#crs_hide_link_session#:#Skjul sessioner
-crs#:#save_status#:#Save Status###19 06 2007 new variable
+crs#:#save_status#:#Gem status
 crs#:#crs_selected_users#:#Valgte deltagere
-crs#:#event_select_one#:# Please select one session ###09 07 2007 new variable
-crs#:#events_clone_title#:#Duplicate Session###09 07 2007 new variable
+crs#:#event_select_one#:#Vælg venligst en session
+crs#:#events_clone_title#:#Kopier session
 crs#:#event_clone_btn#:#Duplicate Session###09 07 2007 new variable
-crs#:#event_cloned#:#The Session has been duplicated.###09 07 2007 new variable
-crs#:#event_files#:#Assigned File###09 07 2007 new variable
+crs#:#event_cloned#:#Sessionen blev kopieret.
+crs#:#event_files#:#Tildelt fil
 dateplaner#:#apply#:#Godkend
 dateplaner#:#month#:#måned
 dateplaner#:#year#:#år
@@ -5332,11 +5332,11 @@ dateplaner#:#long_04#:#April###21 Apr 2005 new variable
 dateplaner#:#long_05#:#Maj
 dateplaner#:#long_06#:#Juni
 dateplaner#:#long_07#:#Juli
-dateplaner#:#long_08#:#August###21 Apr 2005 new variable
+dateplaner#:#long_08#:#August
 dateplaner#:#long_09#:#September###21 Apr 2005 new variable
 dateplaner#:#long_10#:#Oktober
-dateplaner#:#long_11#:#November###21 Apr 2005 new variable
-dateplaner#:#long_12#:#December###21 Apr 2005 new variable
+dateplaner#:#long_11#:#November
+dateplaner#:#long_12#:#December
 dateplaner#:#main_dates#:#Vigtige aftaler
 dateplaner#:#menue#:#Menu###21 Apr 2005 new variable
 dateplaner#:#mmonth#:#sidste måned
@@ -6758,9 +6758,9 @@ survey#:#back#:#<< Tilbage
 survey#:#categories#:#Svar
 survey#:#offline#:#Deaktiveret
 survey#:#search_for#:#Søg efter
-survey#:#select_questionpool#:#Vælg en spørgs,ålsgruppe for at gemme spørgsmålet
+survey#:#select_questionpool#:#Vælg en spørgsmålsgruppe for at gemme spørgsmålet
 survey#:#end_date#:#Slutdato
-survey#:#SurveyMatrixQuestion#:#Matrix Question###29 11 2006 new variable
+survey#:#SurveyMatrixQuestion#:#Matrix spørgsmål
 survey#:#SurveyMetricQuestion#:#Talspørgsmål
 survey#:#SurveyNominalQuestion#:#Multiple choice
 survey#:#SurveyOrdinalQuestion#:#Ordinal question
@@ -8022,14 +8022,14 @@ content#:#cont_ed_insert_map#:#Indsæt kort
 content#:#cont_ed_insert_dtable#:#Indsæt datatabel
 content#:#cont_ed_insert_atable#:#Indsæt avanceret tabel
 content#:#cont_ed_edit_data#:#Ret data
-cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.###02 06 2008 new variable
-cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
-cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.###02 06 2008 new variable
-cntr#:#cntr_view_simple#:#Simple View###02 06 2008 new variable
-cntr#:#cntr_view_by_type#:#Gruper-efter-type visning
-trac#:#trac_user_activities#:#Benutzeraktivitäten###02 06 2008 new variable
-trac#:#trac_repository_changes#:#Changes in the repository###02 06 2008 new variable
-common#:#webdav_pear_auth_http_needed#:#You need to install Pear Auth_HTTP to use this function. To do this, enter <code>pear install Auth_HTTP</code> on the terminal.###02 06 2008 new variable
+cntr#:#cntr_view_info_sessions#:#Denne præsentationstype placerer alle sessionerne øverst og andet kursusmateriale nederst. 
+cntr#:#cntr_view_info_simple#:#Denne præsentationstype viser alt kursusmaterialet på en liste.
+cntr#:#cntr_view_info_by_type#:#Kursusmaterialet grupperes efter hvilken resursetype det er.
+cntr#:#cntr_view_simple#:#Simpel
+cntr#:#cntr_view_by_type#:#Gruper-efter-type
+trac#:#trac_user_activities#:#Brugeraktiviteter
+trac#:#trac_repository_changes#:#Ændringer i oversigten
+common#:#webdav_pear_auth_http_needed#:#Det er nødvendigt du installerer Pear Auth_HTTP for at bruge denne funktion. For at gøre dette skal du taste <code>pear install Auth_HTTP</code> i din terminal. Hvis du ikke ved hvad du laver, så lad være.
 dateplaner#:#cal_table_categories#:#Kalenderudvalg
 dateplaner#:#cal_type_usr#:#Personlig kalender
 dateplaner#:#yui_cal_choose_month#:#Måned:
