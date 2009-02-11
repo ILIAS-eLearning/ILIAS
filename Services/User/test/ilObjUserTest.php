@@ -42,18 +42,52 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 			"login" => "aatestuser",
 			"passwd_type" => IL_PASSWD_PLAIN,
 			"passwd" => "password",
+			"gender" => "m",
 			"firstname" => "Max",
-			"lastname" => "Mutzke"
+			"lastname" => "Mutzke",
+			"email" => "de@de.de",
+			"client_ip" => "1.2.3.4",
+			"ext_account" => "ext_mutzke"
 		);
 		$user->assignData($d);
 		$user->create();
 		$user->saveAsNew();
-		
 		$id = $user->getId();
-		
 		$value.= $user->getFirstname()."-";
 		
-		$this->assertEquals("Max-", $value);
+		// update
+		$user->setFirstname("Maxi");
+		$user->update();
+		$value.= $user->getFirstname()."-";
+		
+		// other update methods
+		$user->writeAccepted();
+		$user->refreshLogin();
+		
+		// lookups
+		$value.= ilObjUser::_lookupEmail($id)."-";
+		$value.= ilObjUser::_lookupGender($id)."-";
+		$value.= ilObjUser::_lookupClientIP($id)."-";
+		$n = ilObjUser::_lookupName($id);
+		$value.= $n["lastname"]."-";
+		ilObjUser::_lookupFields($id);
+		$value.= ilObjUser::_lookupLogin($id)."-";
+		$value.= ilObjUser::_lookupExternalAccount($id)."-";
+		$value.= ilObjUser::_lookupId("aatestuser")."-";
+		ilObjUser::_lookupLastLogin($id);
+		
+		// password methods
+		$user->replacePassword(md5("password2"));
+		$user->updatePassword("password2", "password3", "password3");
+		$user->resetPassword("password4", "password4");
+		
+		// preferences...
+		
+		// deletion
+		$user->delete();
+		
+		$this->assertEquals("Max-Maxi-de@de.de-m-1.2.3.4-Mutzke-aatestuser-ext_mutzke-$id-",
+			$value);
 	}
 }
 ?>
