@@ -301,7 +301,6 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	function checkInput()
 	{
 		global $lng;
-		
 		include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
 		
 		$_POST[$this->getPostVar()] = ($this->getUseRte())

@@ -884,6 +884,96 @@ class ilDB extends PEAR
 	}
 	
 	/**
+	* Convenient method for standard insert statements, example field array:
+	*
+	* array("field1" => array("text", $name),				// will use "?"
+	*		"field2" => array("integer", $id),				// will use "?"
+	*		"field3" => array("", "", $ilDB->now())			// will use $ilDB->now()
+	*		"field4" => array("integer, $add, "(? + 10)");	// will use (? + 10)
+	*/
+	function insert($a_table, $a_columns)
+	{
+		$fields = array();
+		$placeholders = array();
+		$types = array();
+		$values = array();
+		foreach ($a_columns as $k => $col)
+		{
+			$fields[] = $k;
+			if ($col[2] == "")
+			{
+				$col[2] = "?";
+			}
+			$placeholders[] = $col[2];
+			if ($col[0] != "")
+			{
+				$types[] = $col[0];
+				$values[] = $col[1];
+			}
+		}
+		$q = "INSERT INTO ".$a_table." (".implode($fields,",").") VALUES (".
+			implode($placeholders,",").")";
+		$st = $this->prepareManip($q, $types);
+		$r = $this->execute($st, $values);
+		return $r;
+	}
+	
+	/**
+	* Convenient method for standard update statements, example field array:
+	*
+	* array("field1" => array("text", $name),				// will use "?"
+	*		"field2" => array("integer", $id),				// will use "?"
+	*		"field3" => array("", "", $ilDB->now())			// will use $ilDB->now()
+	*		"field4" => array("integer, $add, "(? + 10)");	// will use (? + 10)
+	*
+	* Example where array: array("id" => array("integer", $id))
+	*/
+	function update($a_table, $a_columns, $a_where)
+	{
+		$fields = array();
+		$placeholders = array();
+		$types = array();
+		$values = array();
+		foreach ($a_columns as $k => $col)
+		{
+			$fields[] = $k;
+			if ($col[2] == "")
+			{
+				$col[2] = "?";
+			}
+			$placeholders[] = $col[2];
+			if ($col[0] != "")
+			{
+				$types[] = $col[0];
+				$values[] = $col[1];
+			}
+		}
+		foreach ($a_where as $k => $col)
+		{
+			$types[] = $col[0];
+			$values[] = $col[1];
+		}
+		$q = "UPDATE ".$a_table." SET ";
+		$lim = "";
+		foreach ($fields as $k => $field)
+		{
+			$q.= $lim.$field." = ".$placeholders[$k];
+			$lim = ", ";
+		}
+		$q.= " WHERE ";
+		$lim = "";
+		foreach ($a_where as $k => $col)
+		{
+			$q.= $lim.$k." = ?";
+			$lim = " AND ";
+		}
+		
+		$st = $this->prepareManip($q, $types);
+		$r = $this->execute($st, $values);
+		return $r;
+	}
+
+	/**
 	* Fetch row as associative array from result set
 	*
 	* @param	object	result set

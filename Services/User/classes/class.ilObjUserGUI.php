@@ -892,13 +892,13 @@ class ilObjUserGUI extends ilObjectGUI
 	
 		$this->initCreate();
 		$this->initForm("create");
+
 		if ($this->form_gui->checkInput())
 		{
 // @todo: external account; time limit check and savings
 
 			// set password type manually
 			$_POST["passwd_type"] = IL_PASSWD_PLAIN;
-
 			// checks passed. save user
 			$userObj = new ilObjUser();
 			
