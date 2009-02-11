@@ -342,13 +342,11 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$query = 'SELECT AVG(spent_seconds) FROM read_event '.
-			'WHERE obj_id = ? '.
-			'GROUP BY obj_id ';
-		$sta = $ilDB->prepare($query,array('integer'));
-		$res = $ilDB->execute($sta,array(
-			$a_obj_id));
-
+		$query = sprintf('SELECT AVG(spent_seconds) FROM read_event '.
+			'WHERE obj_id = %s '.
+			'GROUP BY obj_id ',
+			$ilDB->quote($a_obj_id,'integer'));
+		$res = $ilDB->query($query);
 		$data = $ilDB->fetchAssoc($res);
 		return $data["spent_seconds"];
 	}
@@ -517,9 +515,9 @@ class ilObjUserTracking extends ilObject
 		$query = "DELETE FROM ut_access WHERE user_id = '".$a_usr_id."'";
 		$ilDB->query($query);
 
-		$query = 'DELETE FROM read_event WHERE usr_id = ? ';
-		$sta = $ilDB->prepare($query,array('integer'));
-		$res = $ilDB->execute($sta,array($a_usr_id));
+		$query = sprintf('DELETE FROM read_event WHERE usr_id = %s ',
+			$ilDB->quote($a_usr_id,'integer'));
+		$aff = $ilDB->manipulate($query);			
 
 		$query = 'DELETE FROM write_event WHERE usr_id = ? ';
 		$sta = $ilDB->prepare($query,array('integer'));
