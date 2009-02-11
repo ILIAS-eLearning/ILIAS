@@ -726,14 +726,12 @@ class ilDB extends PEAR
 	//
 	
 	/**
-	* Simple query. This function should only be used for simple select queries
-	* without parameters. Data manipulation should not be done with it.
+	* Query
 	*
 	* Example:
 	* - "SELECT * FROM data"
 	*
-	* For simple data manipulation use manipulate().
-	* For complex queries/manipulations use prepare()/prepareManip() and execute.
+	* For multiple similar queries/manipulations you may use prepare() and execute().
 	*
 	* @param string
 	* @return object DB
@@ -803,14 +801,11 @@ class ilDB extends PEAR
 	}
 
 	/**
-	* Simple data manipulatoin. This function should only be used for simple data
-	* manipulations without parameters. Queries should not be done with it.
+	* Data manipulation. This statement should be used for DELETE,  UPDATE
+	* and INSERT statements.
 	*
 	* Example:
-	* - "DELETE * FROM data"
-	*
-	* For simple data queries use query().
-	* For complex queries/manipulations use prepare()/prepareManip() and execute.
+	* - "DELETE * FROM data WHERE id =".$ilDB->quote($id, "integer");
 	*
 	* @param	string		DML string
 	* @return	int			affected rows
@@ -984,11 +979,11 @@ class ilDB extends PEAR
 	}
 	
 	/**
-	* Free a result set
+	* Free a statement / result set
 	*/
-	function free($a_set)
+	function free($a_st)
 	{
-		return $a_set->free();
+		return $a_st->free();
 	}
 
 	/**
@@ -1062,13 +1057,20 @@ class ilDB extends PEAR
 	*
 	* @param	string		column type; must be "text" or "clob" ("blob" added for lng_data)
 	*/
-	function like($a_col, $a_type)
+	function like($a_col, $a_type, $a_value = "?")
 	{
 		if (!in_array($a_type, array("text", "clob", "blob")))
 		{
 			$this->raisePearError("Like: Invalid column type '".$a_type."'.", $this->error_class->FATAL);
 		}
-		return $a_col." LIKE(?)";
+		if ($a_value == "?")
+		{
+			return $a_col." LIKE(?)";
+		}
+		else
+		{
+			return $a_col." LIKE(".$this->quote($a_value, $a_type).")";
+		}
 	}
 
 	/**

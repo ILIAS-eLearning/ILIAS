@@ -81,6 +81,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		$value.= ilObjUser::_lookupId("aatestuser")."-";
 		ilObjUser::_lookupLastLogin($id);
 		$value.= ilObjUser::_lookupLanguage($id)."-";
+		ilObjUser::_readUsersProfileData(array($id));
 		
 		// password methods
 		if (ilObjUser::_checkPassword($id, "password"))
@@ -145,9 +146,9 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 	
 	
 	/**
-	* Auth related methods
+	* Auth and email related methods
 	*/
-	public function testAuthMethods()
+	public function testAuthAndEmailMethods()
 	{
 		include_once("./Services/User/classes/class.ilObjUser.php");
 		
@@ -195,6 +196,63 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	* Personal Desktop Items
+	*/
+	public function testPersonalDesktopItems()
+	{
+		include_once("./Services/User/classes/class.ilObjUser.php");
+		
+		$value = "";
+		
+		// creation
+		$user = new ilObjUser();
+		$d = array(
+			"login" => "aatestuser3",
+			"passwd_type" => IL_PASSWD_PLAIN,
+			"passwd" => "password",
+			"gender" => "f",
+			"firstname" => "Heidi",
+			"lastname" => "Kabel",
+			"email" => "de@de.de"
+		);
+		$user->assignData($d);
+		$user->setActive(true);
+		$user->create();
+		$user->saveAsNew();
+		$user->setLanguage("de");
+		$user->writePrefs();
+		$id = $user->getId();
+		
+		$user->addDesktopItem(ROOT_FOLDER_ID, "root");
+		if ($user->isDesktopItem(ROOT_FOLDER_ID, "root"))
+		{
+			$value.= "desk1-";
+		}
+		$user->setDesktopItemParameters(ROOT_FOLDER_ID, "root", "par1");
+		$di = $user->getDesktopItems();
+		if ($item = current($di))
+		{
+			if ($item["type"] == "root" && $item["ref_id"] == ROOT_FOLDER_ID)
+			{
+				$value.= "desk2-";
+			}
+		}
+		
+		$user->dropDesktopItem(ROOT_FOLDER_ID, "root");
+		if (!$user->isDesktopItem(ROOT_FOLDER_ID, "root"))
+		{
+			$value.= "desk3-";
+		}
+		$user->_removeItemFromDesktops(ROOT_FOLDER_ID);
+		
+		// deletion
+		$user->delete();
+		
+		$this->assertEquals("desk1-desk2-desk3-",
+			$value);
+	}
+
+	/**
 	* Search methods
 	*/
 	public function testSearch()
@@ -212,6 +270,31 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		ilObjUser::searchUsers("test", 1, false, 5);
 		ilObjUser::searchUsers("test", 1, false, 6);
 		ilObjUser::searchUsers("test", 1, false, 7);
+		
+		ilObjUser::_getAllUserData(array("lastname", "online_time"));
+		ilObjUser::_getAllUserData(array("lastname", "online_time"), 1);
+		ilObjUser::_getAllUserData(array("lastname", "online_time"), 2);
+		ilObjUser::_getAllUserData(array("lastname", "online_time"), 3);
+		ilObjUser::_getAllUserData(array("lastname", "online_time"), 4);
+		ilObjUser::_getAllUserData(array("lastname", "online_time"), 5);
+		ilObjUser::_getAllUserData(array("lastname", "online_time"), 6);
+		ilObjUser::_getAllUserData(array("lastname", "online_time"), 7);
+		
+		$this->assertEquals("",
+			$value);
+	}
+
+	/**
+	* Miscellaneous
+	*/
+	public function testMiscellaneous()
+	{
+		$value = "";
+		
+		include_once("./Services/User/classes/class.ilObjUser.php");
+		ilObjUser::_getNumberOfUsersForStyle("default", "delos");
+		ilObjUser::_getAllUserAssignedStyles();
+		ilObjUser::_moveUsersToStyle("default", "delos", "default", "delos");
 		
 		$this->assertEquals("",
 			$value);
