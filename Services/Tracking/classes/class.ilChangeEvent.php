@@ -75,30 +75,30 @@ class ilChangeEvent
 		
 		if ($parent_obj_id == null)
 		{
-			$query = 'INSERT INTO write_event '.
+			$query = sprintf('INSERT INTO write_event '.
 				'(obj_id, parent_obj_id, usr_id, action, ts) '.
-					'SELECT ?,r2.obj_id,?,?,'.$ilDB->now().' FROM object_reference r1 '.
-					'JOIN tree t ON t.child = r1.ref_id '.
-					'JOIN object_reference r2 ON r2.ref_id = t.parent '.
-					'WHERE r1.obj_id = ? ';
-			$sta = $ilDB->prepare($query,array('integer','integer','text','integer'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id,
-				$usr_id,
-				$action,
-				$obj_id));
+				'SELECT %s,r2.obj_id,%s,%s,'.$ilDB->now().' FROM object_reference r1 '.
+				'JOIN tree t ON t.child = r1.ref_id '.
+				'JOIN object_reference r2 ON r2.ref_id = t.parent '.
+				'WHERE r1.obj_id = %s ',
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'),
+				$ilDB->quote($action,'text'),
+				$ilDB->quote($obj_id,'integer'));
+								
+			$aff = $ilDB->manipulate($query);
 		}
 		else
 		{
-			$query = 'INSERT INTO write_event '.
+			$query = sprintf('INSERT INTO write_event '.
 				'(obj_id, parent_obj_id, usr_id, action, ts) '.
-				'VALUES(?,?,?,?,'.$ilDB->now().')';
-			$sta = $ilDB->prepare($query,array('integer','integer','integer','integer'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id,
-				$parent_obj_id,
-				$usr_id,
-				$action));
+				'VALUES(%s,%s,%s,%s,'.$ilDB->now().')',
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($parent_obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'),
+				$ilDB->quote($action,'text'));
+			$aff = $ilDB->manipulate($query);
+			
 		}
 		//error_log ('ilChangeEvent::_recordWriteEvent '.$q);
 	}
@@ -119,42 +119,40 @@ class ilChangeEvent
 		$validTimeSpan = ilObjUserTracking::_getValidTimeSpan();
 		
 		
-		$query = 'SELECT * FROM read_event '.
-			'WHERE obj_id = ? '.
-			'AND usr_id = ? ';
-		$sta = $ilDB->prepare($query,array('integer','integer'));
-		$res = $ilDB->execute($sta,array(
-			$obj_id,
-			$usr_id));
+		$query = sprintf('SELECT * FROM read_event '.
+			'WHERE obj_id = %s '.
+			'AND usr_id = %s ',
+			$ilDB->quote($obj_id,'integer'),
+			$ilDB->quote($usr_id,'integer'));
+		$res = $ilDB->query($query);
 
 		if($res->numRows())
 		{
 			$row = $ilDB->fetchObject($res);
 			// Update
-			$query = 'UPDATE read_event SET '.
+			$query = sprintf('UPDATE read_event SET '.
 				'read_count = read_count + 1, '.
-				'spent_seconds = ?, '.
-				'last_access = ? '.
-				'WHERE obj_id = ? '.
-				'AND usr_id = ? ';
-			$sta = $ilDB->prepareManip($query,array('integer','integer','integer','integer'));
-			$res = $ilDB->execute($sta,array(
-				(time() - $row->last_access) <= $validTimeSpan ? $row->spent_seconds + time() - $row->last_access : $row->spent_seconds,
-				time(),
-				$obj_id,
-				$usr_id));
+				'spent_seconds = %s, '.
+				'last_access = %s '.
+				'WHERE obj_id = %s '.
+				'AND usr_id = %s ',
+				$ilDB->quote((time() - $row->last_access) <= $validTimeSpan ? $row->spent_seconds + time() - $row->last_access : $row->spent_seconds,'integer'),
+				$ilDB->quote(time(),'integer'),
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'));
+			$aff = $ilDB->manipulate($query);
 		}			
 		else
 		{
-			$query = 'INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access) '.
-				'VALUES (?,?,?,?,?,'.$ilDB->now().') ';
-			$sta = $ilDB->prepare($query,array('integer','integer','integer','integer','integer'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id,
-				$usr_id,
-				time(),
-				1,
-				0));
+			$query = sprintf('INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access) '.
+				'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().') ',
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'),
+				$ilDB->quote(time(),'integer'),
+				$ilDB->quote(1,'integer'),
+				$ilDB->quote(0,'integer'));
+				
+			$aff = $ilDB->manipulate($query);
 		}
 		
 		if ($isCatchupWriteEvents)
@@ -179,8 +177,8 @@ class ilChangeEvent
 		$q = "INSERT INTO catch_write_events ".
 			"(obj_id, usr_id, ts) ".
 			"VALUES (".
-			$ilDB->quote($obj_id).",".
-			$ilDB->quote($usr_id).",";
+			$ilDB->quote($obj_id,'integer').",".
+			$ilDB->quote($usr_id,'integer').",";
 		if ($timestamp == null)
 		{
 			$q .= "NOW()".
@@ -256,30 +254,25 @@ class ilChangeEvent
 		
 		if($catchup == null)
 		{
-			$query = 'SELECT * FROM write_event '.
-				'WHERE obj_id = ? '.
-				'AND usr_id <> ? '.
-				'ORDER BY ts DESC';
-			$sta = $ilDB->prepare($query,array('integer','integer'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id,
-				$usr_id));
-				
+			$query = sprintf('SELECT * FROM write_event '.
+				'WHERE obj_id = %s '.
+				'AND usr_id <> %s '.
+				'ORDER BY ts DESC',
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'));
+			$res = $ilDB->query($query);
 		}
 		else
 		{
-			$query = 'SELECT * FROM write_event '.
-				'WHERE obj_id = ? '.
-				'AND usr_id <> ? '.
-				'AND ts >= ? '.
-				'ORDER BY ts DESC';
-
-			$sta = $ilDB->prepare($query,array('integer','integer','timestamp'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id,
-				$usr_id,
-				$catchup));
-			
+			$query = sprintf('SELECT * FROM write_event '.
+				'WHERE obj_id = %s '.
+				'AND usr_id <> %s '.
+				'AND ts >= %s '.
+				'ORDER BY ts DESC',
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'),
+				$ilDB->quote($catchup,'timestamp'));
+			$res = $ilDB->query($query);
 		}
 		$events = array();
 		while($row = $ilDB->fetchAssoc($res))
@@ -314,30 +307,27 @@ class ilChangeEvent
 			
 		if($catchup == null)
 		{
-			$query = 'SELECT * FROM write_event '.
-				'WHERE obj_id = ? '.
-				'AND usr_id <> ? '.
-				'ORDER BY ts DESC ';
 			$ilDB->setLimit(1);
-			$sta = $ilDB->prepare($query,array('integer','integer'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id,
-				$usr_id));
+			$query = sprintf('SELECT * FROM write_event '.
+				'WHERE obj_id = %s '.
+				'AND usr_id <> %s '.
+				'ORDER BY ts DESC ',
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'));
+			$res = $ilDB->query($query);
 		}
 		else
 		{
-			$query = 'SELECT * FROM write_event '.
-				'WHERE obj_id = ? '.
-				'AND usr_id <> ? '.
-				'AND ts > ? '.
-				'ORDER BY ts DESC ';
 			$ilDB->setLimit(1);
-			$sta = $ilDB->prepare($query,array('integer','integer','timestamp'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id,
-				$usr_id,
-				$catchup));
-			
+			$query = sprintf('SELECT * FROM write_event '.
+				'WHERE obj_id = %s '.
+				'AND usr_id <> %s '.
+				'AND ts > %s '.
+				'ORDER BY ts DESC ',
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'),
+				$ilDB->quote($catchup,'timestamp'));
+			$res = $ilDB->query($query);
 		}
 
 		$numRows = $res->numRows();
@@ -384,30 +374,27 @@ class ilChangeEvent
 		
 		if($catchup == null)
 		{
-			$query = 'SELECT * FROM write_event '.
-				'WHERE parent_obj_id = ? '.
-				'AND usr_id <> ? '.
-				'ORDER BY ts DESC ';
 			$ilDB->setLimit(1);
-			$sta = $ilDB->prepare($query,array('integer','integer'));
-			$res = $ilDB->execute($sta,array(
-				$parent_obj_id,
-				$usr_id));
+			$query = sprintf('SELECT * FROM write_event '.
+				'WHERE parent_obj_id = %s '.
+				'AND usr_id <> %s '.
+				'ORDER BY ts DESC ',
+				$ilDB->quote($parent_obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'));
+			$res = $ilDB->query($query);
 		}
 		else
 		{
-			$query = 'SELECT * FROM write_event '.
-				'WHERE parent_obj_id = ? '.
-				'AND usr_id <> ? '.
-				'AND ts > ? '.
-				'ORDER BY ts DESC ';
 			$ilDB->setLimit(1);
-			$sta = $ilDB->prepare($query,array('integer','integer','timestamp'));
-			$res = $ilDB->execute($sta,array(
-				$parent_obj_id,
-				$usr_id,
-				$catchup));
-			
+			$query = sprintf('SELECT * FROM write_event '.
+				'WHERE parent_obj_id = %s '.
+				'AND usr_id <> %s '.
+				'AND ts > %s '.
+				'ORDER BY ts DESC ',
+				$ilDB->quote($parent_obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'),
+				$ilDB->quote($catchup,'timestamp'));
+			$res = $ilDB->query($query);
 		}
 		$numRows = $res->numRows();
 		if ($numRows > 0)
@@ -472,23 +459,21 @@ class ilChangeEvent
 		
 		if ($usr_id == null)
 		{
-			$query = 'SELECT * FROM read_event '.
-				'WHERE obj_id = ? '.
-				'ORDER BY last_access DESC';
-			$sta = $ilDB->prepare($query,array('integer'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id));
+			$query = sprintf('SELECT * FROM read_event '.
+				'WHERE obj_id = %s '.
+				'ORDER BY last_access DESC',
+				$ilDB->quote($obj_id,'integer'));
+			$res = $ilDB->query($query);
 		}
 		else 
 		{
-			$query = 'SELECT * FROM read_event '.
-				'WHERE obj_id = ? '.
-				'AND usr_id = ? '.
-				'ORDER BY last_access DESC';
-			$sta = $ilDB->prepare($query,array('integer','integer'));
-			$res = $ilDB->execute($sta,array(
-				$obj_id,
-				$usr_id));
+			$query = sprintf('SELECT * FROM read_event '.
+				'WHERE obj_id = %s '.
+				'AND usr_id = %s '.
+				'ORDER BY last_access DESC',
+				$ilDB->quote($obj_id,'integer'),
+				$ilDB->quote($usr_id,'integer'));
+			$res = $ilDB->query($query);
 		}
 
 		$counter = 0;
@@ -517,11 +502,10 @@ class ilChangeEvent
 	 {
 	 	global $ilDB;
 	 	
-	 	$query = 'SELECT DISTINCT(usr_id) usr FROM read_event '.
-	 		'WHERE obj_id = ? ';
-	 	$sta = $ilDB->prepare($query,array('integer'));
-	 	$res = $ilDB->execute($sta,array(
-	 		$a_obj_id));
+	 	$query = sprintf('SELECT DISTINCT(usr_id) usr FROM read_event '.
+	 		'WHERE obj_id = %s ',
+	 		$ilDB->quote($a_obj_id,'integer'));
+	 	$res = $ilDB->query($query);
 	 	while($row = $ilDB->fetchObject($res))
 	 	{
 	 		$users[] = $row->usr;
@@ -549,18 +533,17 @@ class ilChangeEvent
 			// deactivated.
 
 			// IGNORE isn't supported in oracle
-			$query = 'INSERT INTO write_event '.
+			$query = sprintf('INSERT INTO write_event '.
 				'(obj_id,parent_obj_id,usr_id,action,ts) '.
-				'SELECT r1.obj_id,r2.obj_id,d.owner,?,d.create_date '.
+				'SELECT r1.obj_id,r2.obj_id,d.owner,%s,d.create_date '.
 				'FROM object_data AS d '.
 				'LEFT JOIN write_event w ON d.obj_id = w.obj_id '.
 				'JOIN object_reference AS r1 ON d.obj_id=r1.obj_id '.
 				'JOIN tree t ON t.child=r1.ref_id '.
 				'JOIN object_reference r2 on r2.ref_id=t.parent '.
-				'WHERE w.obj_id IS NULL';
-
-			$sta = $ilDB->prepareManip($query,array('text'));
-			$res = $ilDB->execute($sta,array('create'));
+				'WHERE w.obj_id IS NULL',
+				$ilDB->quote('create','text'));
+			$res = $ilDB->manipulate($query);
 			
 			
 			if ($ilDB->isError($res) || $ilDB->isError($res->result))
@@ -609,13 +592,13 @@ class ilChangeEvent
 	{
 		global $ilDB;
 		
-		$query = 'DELETE FROM write_event WHERE obj_id = ? ';
-		$sta = $ilDB->prepare($query,array('integer'));
-		$res = $ilDB->execute($sta,array($a_obj_id));
+		$query = sprintf('DELETE FROM write_event WHERE obj_id = %s ',
+			$ilDB->quote($a_obj_id,'integer'));
+		$aff = $ilDB->manipulate($query);
 		
-		$query = 'DELETE FROM read_event WHERE obj_id = ? ';
-		$sta = $ilDB->prepare($query,array('integer'));
-		$res = $ilDB->execute($sta,array($a_obj_id));
+		$query = sprintf('DELETE FROM read_event WHERE obj_id = %s ',
+			$ilDB->quote($a_obj_id,'integer'));
+		$aff = $ilDB->manipulate($query);
 		return true;
 	}
 }
