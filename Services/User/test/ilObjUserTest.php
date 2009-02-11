@@ -77,16 +77,33 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		ilObjUser::_lookupLastLogin($id);
 		
 		// password methods
+		if (ilObjUser::_checkPassword($id, "password")
+		{
+			$value.= "pw1-";
+		}
 		$user->replacePassword(md5("password2"));
+		if (ilObjUser::_checkPassword($id, "password2")
+		{
+			$value.= "pw2-";
+		}
 		$user->updatePassword("password2", "password3", "password3");
+		if (ilObjUser::_checkPassword($id, "password3")
+		{
+			$value.= "pw3-";
+		}
 		$user->resetPassword("password4", "password4");
+		if (ilObjUser::_checkPassword($id, "password4")
+		{
+			$value.= "pw4-";
+		}
 		
 		// preferences...
 		
 		// deletion
 		$user->delete();
 		
-		$this->assertEquals("Max-Maxi-de@de.de-m-1.2.3.4-Mutzke-aatestuser-ext_mutzke-$id-",
+		$this->assertEquals("Max-Maxi-de@de.de-m-1.2.3.4-Mutzke-aatestuser-ext_mutzke-$id-".
+			"pw1-pw2-pw3-pw4-",
 			$value);
 	}
 }
