@@ -302,30 +302,6 @@ class ilPaymentBillVendor
 			$this->db->execute($statement, $data);
 		}
 		
-/*		$query = "UPDATE payment_bill_vendor ".
-			"SET ".
-			"gender = '".ilUtil::prepareDBString($this->getGender())."',".
-			"firstname = '".ilUtil::prepareDBString($this->getFirstname())."',".
-			"lastname = '".ilUtil::prepareDBString($this->getLastname())."',".
-			"title = '".ilUtil::prepareDBString($this->getTitle())."',".
-			"institution = '".ilUtil::prepareDBString($this->getInstitution())."',".
-			"department = '".ilUtil::prepareDBString($this->getDepartment())."',".
-			"street = '".ilUtil::prepareDBString($this->getStreet())."',".
-			"zipcode = '".ilUtil::prepareDBString($this->getZipcode())."',".
-			"city = '".ilUtil::prepareDBString($this->getCity())."',".
-			"country = '".ilUtil::prepareDBString($this->getCountry())."',".
-			"phone = '".ilUtil::prepareDBString($this->getPhone())."',".
-			"fax = '".ilUtil::prepareDBString($this->getFax())."',".
-			"email = '".ilUtil::prepareDBString($this->getEmail())."', ".
-			"account_number = '".ilUtil::prepareDBString($this->getAccountNumber())."',".
-			"bankcode = '".ilUtil::prepareDBString($this->getBankcode())."',".
-			"iban = '".ilUtil::prepareDBString($this->getIban())."',".
-			"bic = '".ilUtil::prepareDBString($this->getBic())."',".
-			"bankname = '".ilUtil::prepareDBString($this->getBankname())."'".
-			"WHERE pobject_id = '".$this->getPobjectId()."'";
-
-		$this->db->query($query);
-*/
 		$statement = $this->db->prepareManip('
 			UPDATE payment_bill_vendor
 			SET	gender = ?,
@@ -397,7 +373,7 @@ class ilPaymentBillVendor
 	// PIRVATE
 	function __read()
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->prepare('
 			SELECT * FROM payment_bill_vendor
 			WHERE pobject_id = ?',
 			array('integer'));
