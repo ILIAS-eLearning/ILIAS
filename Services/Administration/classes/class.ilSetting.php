@@ -59,8 +59,8 @@ class ilSetting
 		
 		$this->setting = array();
 
-		$st = $ilDB->prepare("SELECT * FROM settings WHERE module = ?", array("text"));
-		$res = $ilDB->execute($st, array($this->module));
+		$query = "SELECT * FROM settings WHERE module=".$ilDB->quote($this->module, "text");
+		$res = $ilDB->query($query);
 
 		while ($row = $ilDB->fetchAssoc($res))
 		{
@@ -105,8 +105,8 @@ class ilSetting
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepareManip("DELETE FROM settings WHERE module = ?", array("text"));
-		$ilDB->execute($st, array($this->module));
+		$query = "DELETE FROM settings WHERE module = ".$ilDB->quote($this->module, "text");
+		$ilDB->manipulate($query);
 
 		$this->setting = array();
 
@@ -122,11 +122,11 @@ class ilSetting
 	public function deleteLike($a_like)
 	{
 		global $ilDB;
-		
-		$st = $ilDB->prepareManip("DELETE FROM settings WHERE module = ? AND ".
-			$ilDB->like("keyword", "text"), array("text", "text"));
-		$ilDB->execute($st, array($this->module, $a_like));
 
+		$query = "DELETE FROM settings WHERE module = ".$ilDB->quote($this->module, "text").
+			" AND ".$ilDB->like("keyword", "text", $a_like);
+		$ilDB->manipulate($query);
+		
 		$this->read();
 		return true;
 	}
@@ -141,8 +141,9 @@ class ilSetting
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM settings WHERE keyword = ? AND module = ?", array("text", "text"));
-		$ilDB->execute($st, array($a_keyword, $this->module));
+		$st = $ilDB->manipulate("DELETE FROM settings WHERE keyword = ".
+			$ilDB->quote($a_keyword, "text")." AND module = ".
+			$ilDB->quote($this->module, "text"));
 
 		unset($this->setting[$a_keyword]);
 
@@ -174,9 +175,10 @@ class ilSetting
 		
 		$this->delete($a_key);
 
-		$st = $ilDB->prepareManip("INSERT INTO settings (module, keyword, value) VALUES (?,?,?)",
-			array("text", "text", "clob"));
-		$ilDB->execute($st, array($this->module, $a_key, (string) $a_val));
+		$sql = "INSERT INTO settings (module, keyword, value) VALUES (".
+			$ilDB->quote($this->module, "text") .
+			",".$ilDB->quote($a_key, "text").",".$ilDB->quote((string) $a_val, "clob").")";
+		$ilDB->manipulate($sql);
 
 		$this->setting[$a_key] = $a_val;
 

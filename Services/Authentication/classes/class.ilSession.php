@@ -40,9 +40,9 @@ class ilSession
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT data FROM usr_session WHERE session_id = ?",
-			array("text"));
-		$set = $ilDB->execute($st, array($a_session_id));
+		$q = "SELECT data FROM usr_session WHERE session_id = ".
+			$ilDB->quote($a_session_id, "text");
+		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
 	
 		return $rec["data"];
@@ -61,16 +61,25 @@ class ilSession
 		$expires = time() + ini_get("session.gc_maxlifetime");
 		if (ilSession::_exists($a_session_id))
 		{
-			$st = $ilDB->prepareManip("UPDATE usr_session SET expires = ?, ".
-				"data = ?, ctime = ?, user_id = ? WHERE session_id = ?",
-				 array("integer", "clob", "integer", "integer", "text"));
-			$ilDB->execute($st, array($expires, $a_data, time(), (int) $_SESSION["AccountId"], $a_session_id));
+			$q = "UPDATE usr_session SET ".
+				"expires = ".$ilDB->quote($expires, "integer").", ".
+				"data = ".$ilDB->quote($a_data, "clob").
+				", ctime = ".$ilDB->quote(time(), "integer").
+				", user_id = ".$ilDB->quote((int) $_SESSION["AccountId"], "integer").
+				" WHERE session_id = ".$ilDB->quote($a_session_id, "text");
+				array("integer", "clob", "integer", "integer", "text");
+			$ilDB->manipulate($q);
 		}
 		else
 		{
-			$st = $ilDB->prepareManip("INSERT INTO usr_session (session_id, expires, data, ctime,user_id) ".
-				 "VALUES (?,?,?,?,?)", array("text", "integer", "clob", "integer", "integer"));
-			$ilDB->execute($st, array($a_session_id, $expires, $a_data, time(), (int) $_SESSION["AccountId"]));
+			$q = "INSERT INTO usr_session (session_id, expires, data, ctime,user_id) ".
+					"VALUES(".$ilDB->quote($a_session_id, "text").",".
+					$ilDB->quote($expires, "integer").",".
+					$ilDB->quote($a_data, "clob").",".
+					$ilDB->quote(time(), "integer").",".
+					$ilDB->quote((int) $_SESSION["AccountId"], "integer").")";
+			$ilDB->manipulate($q);
+
 		}
 		
 		return true;
@@ -86,9 +95,9 @@ class ilSession
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT data FROM usr_session WHERE session_id = ?",
-			array("text"));
-		$set = $ilDB->execute($st, array($a_session_id));
+		$q = "SELECT data FROM usr_session WHERE session_id = ".
+			$ilDB->quote($a_session_id, "text");
+		$set = $ilDB->query($q);
 		if ($ilDB->fetchAssoc($set))
 		{
 			return true;
@@ -105,9 +114,10 @@ class ilSession
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM usr_session WHERE session_id = ?",
-			 array("text"));
-		$ilDB->execute($st, array($a_session_id));
+		$q = "DELETE FROM usr_session WHERE session_id = ".
+			$ilDB->quote($a_session_id, "text");
+		$ilDB->manipulate($q);
+
 		return true;
 	}
 
@@ -120,9 +130,10 @@ class ilSession
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM usr_session WHERE user_id = ?",
-			 array("integer"));
-		$ilDB->execute($st, array($a_user_id));
+		$q = "DELETE FROM usr_session WHERE user_id = ".
+			$ilDB->quote($a_user_id, "integer");
+		$ilDB->manipulate($q);
+		
 		return true;
 	}
 
@@ -133,9 +144,10 @@ class ilSession
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM usr_session WHERE expires < ?",
-			 array("integer"));
-		$ilDB->execute($st, array(time()));
+		$q = "DELETE FROM usr_session WHERE expires < ".
+			$ilDB->quote(time(), "integer");
+		$ilDB->manipulate($q);
+
 		return true;
 	}
 	
@@ -154,14 +166,15 @@ class ilSession
 		do
 		{
 			$new_session = md5($new_session);
-			$st = $ilDB->prepare("SELECT * FROM usr_session WHERE ".
-				"session_id = ?", array("text"));
-			$res = $ilDB->execute($st, array($new_session));		
+			$q ="SELECT * FROM usr_session WHERE ".
+				"session_id = ".$ilDB->quote($new_session, "text");
+			$res = $ilDB->query($q);
 		} while($ilDB->fetchAssoc($res));
 		
-		$st = $ilDB->prepare("SELECT * FROM usr_session WHERE ".
-			"session_id = ?", array("text"));
-		$res = $ilDB->execute($st, array($a_session_id));		
+		$query = "SELECT * FROM usr_session ".
+			"WHERE session_id = ".$ilDB->quote($a_session_id, "text");
+		$res = $ilDB->query($query);
+
 		while ($row = $ilDB->fetchObject($res))
 		{
 			ilSession::_writeData($new_session,$row->data);
