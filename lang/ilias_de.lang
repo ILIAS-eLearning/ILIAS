@@ -9094,6 +9094,11 @@ assessment#:#thumb_geometry#:#Vorschaugröße
 assessment#:#thumb_geometry_info#:#Geben Sie einen Wert in Bildpunkten für die maximale Vorschaugröße der Grafiken an. Abhängig vom Seitenverhältnis wird die Vorschau entweder in der Höhe oder in der Breite auf die maximale Vorschaugröße umgewandelt.
 assessment#:#element_height#:#Minimale Höhe
 assessment#:#element_height_info#:#Dieser Wert legt die minimale Höhe von Termen und Definitionen/Bildern während der Testausgabe fest.
+assessment#:#assOrderingHorizontal#:#Anordnungsfrage (Horizontal)
+assessment#:#ordertext#:#Anzuordnender Text
+assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte stattdessen den Trenner %s anstelle der Leerzeichen.
+assessment#:#textsize#:#Textgröße
+assessment#:#textsize_info#:#Geben Sie bitte die Textgröße des anzuordnenden Texts in Prozent der Normalgröße an. Wenn Sie keinen Wert angeben, wird die Normalgröße (100 Prozent) verwendet.
 common#:#loginname_settings#:#Loginnamens-Einstellungen
 common#:#allow_change_loginname#:#Ändern des Login-Namens erlauben
 common#:#create_history_loginname#:#Eine Historie für die Änderung des Login-Namens erstellen
