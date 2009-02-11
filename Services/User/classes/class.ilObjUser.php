@@ -656,7 +656,7 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* lookup user name
+	* lookup fields (deprecated; use more specific methods instead)
 	*/
 	function _lookupFields($a_user_id)
 	{
