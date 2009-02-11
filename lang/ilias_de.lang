@@ -9122,3 +9122,8 @@ common#:#chat_invite_public_room_tooltip#:#In den öffentl. Chat einladen.
 common#:#save_customer_address#:#Speichern der Rechnungsadresse
 common#:#save_customer_address_info#:#Wenn aktiviert, wird die vom Kunden angegebene Rechnungsadresse gespeichert
 common#:#bookings#:#Bestellungen
+assessment#:#assFileUpload#:#Datei hochladen
+assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
+assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,xls,odt).
+assessment#:#maxsize#:#Maximale Dateigröße
+assessment#:#maxsize_info#:#Geben Sie die maximale Größe in Bytes an, die eine hochgeladene Datei haben darf. Wenn Sie das Feld leer lassen, wird die Einstellung des zugrunde liegenden Systems verwendet.
