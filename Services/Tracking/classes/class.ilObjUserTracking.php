@@ -519,9 +519,9 @@ class ilObjUserTracking extends ilObject
 			$ilDB->quote($a_usr_id,'integer'));
 		$aff = $ilDB->manipulate($query);			
 
-		$query = 'DELETE FROM write_event WHERE usr_id = ? ';
-		$sta = $ilDB->prepare($query,array('integer'));
-		$res = $ilDB->execute($sta,array($a_usr_id));
+		$query = sprintf('DELETE FROM write_event WHERE usr_id = %s ',
+			$ilDB->quote($a_usr_id,'integer'));
+		$aff = $ilDB->manipulate($query);
 
 		$query = "DELETE FROM ut_lp_filter WHERE usr_id = '".$a_usr_id."'";
 		$ilDB->query($query);
