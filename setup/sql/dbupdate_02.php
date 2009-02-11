@@ -7592,3 +7592,13 @@ if ($res->numRows() == 1)
 <?php
 	$ilMySQLAbstraction->performAbstraction('write_event');
 ?>
+<#1586>
+<?php
+	$ilMySQLAbstraction->performAbstraction("usr_data");
+?>
+<#1587>
+<?php
+	$ilMySQLAbstraction->performAbstraction("desktop_item");
+?>
+
+

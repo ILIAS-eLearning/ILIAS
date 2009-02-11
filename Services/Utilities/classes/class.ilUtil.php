@@ -1151,6 +1151,7 @@ class ilUtil
 				if (! is_a($addresses, 'PEAR_Error') &&
 					count($addresses) == 1 && $addresses[0]->host != 'ilias')
 				{
+					PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 					return true;
 				}
 			} catch (Exception $e) {
@@ -2687,26 +2688,7 @@ class ilUtil
 	*/
 	function removeItemFromDesktops($a_id)
 	{
-		global $ilDB;
-
-		$q = "SELECT user_id FROM desktop_item WHERE item_id = ".$ilDB->quote($a_id);
-		$r = $ilDB->query($q);
-
-		$users = array();
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$users[] = $row->user_id;
-		} // while
-
-		if (count($users) > 0)
-		{
-			$q = "DELETE FROM desktop_item WHERE item_id = ".
-				$ilDB->quote($a_id);
-			$ilDB->query($q);
-		}
-
-		return $users;
+		return ilObjUser::_removeItemFromDesktops($a_id);
 	}
 
 

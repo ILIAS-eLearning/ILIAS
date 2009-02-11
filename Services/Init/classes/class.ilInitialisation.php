@@ -606,8 +606,12 @@ class ilInitialisation
 		//get user id
 		if (empty($_SESSION["AccountId"]))
 		{
-			$_SESSION["AccountId"] = $ilUser->checkUserId();
-
+			$uid = $ilUser->checkUserId();
+			$_SESSION["AccountId"] = $uid;
+			if ($uid > 0)
+			{
+				$ilUser->setId($uid);
+			}
 			// assigned roles are stored in $_SESSION["RoleId"]
 			// DISABLED smeyer 20070510
 			#$rbacreview = new ilRbacReview();
