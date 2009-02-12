@@ -724,9 +724,9 @@ abstract class ilPlugin
 		$slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 		
 		// this check is done due to security reasons
-		$st = $ilDB->prepare("SELECT * FROM il_component WHERE type = ? ".
-			" AND name = ?", array("text", "text"));
-		$set = $ilDB->execute($st, array($a_ctype, $a_cname));			
+		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
+			" AND name = %s", array("text", "text"),
+			array($a_ctype, $a_cname));
 		if (!$ilDB->fetchAssoc($set))
 		{
 			return null;

@@ -55,20 +55,15 @@ class ilObjDefReader extends ilSaxParser
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM il_object_def");
-		$ilDB->execute($st);
+		$ilDB->manipulate("DELETE FROM il_object_def");
 		
-		$st = $ilDB->prepareManip("DELETE FROM il_object_subobj");
-		$ilDB->execute($st);
+		$ilDB->manipulate("DELETE FROM il_object_subobj");
 		
-		$st = $ilDB->prepareManip("DELETE FROM il_object_group");
-		$ilDB->execute($st);
+		$ilDB->manipulate("DELETE FROM il_object_group");
 
-		$st = $ilDB->prepareManip("DELETE FROM il_pluginslot");
-		$ilDB->execute($st);
+		$ilDB->manipulate("DELETE FROM il_pluginslot");
 		
-		$st = $ilDB->prepareManip("DELETE FROM il_component");
-		$ilDB->execute($st);
+		$ilDB->manipulate("DELETE FROM il_component");
 	}
 
 	/**
@@ -78,13 +73,11 @@ class ilObjDefReader extends ilSaxParser
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM il_object_def WHERE id = ?",
-			array("text"));
-		$ilDB->execute($st, array($a_id));
+		$ilDB->manipulateF("DELETE FROM il_object_def WHERE id = %s",
+			array("text"), array($a_id));
 		
-		$st = $ilDB->prepareManip("DELETE FROM il_object_subobj WHERE parent = ? OR subobj = ?",
-			array("text", "text"));
-		$ilDB->execute($st, array($a_id, $a_id));
+		$ilDB->manipulateF("DELETE FROM il_object_subobj WHERE parent = %s OR subobj = %s",
+			array("text", "text"), array($a_id, $a_id));
 	}
 	
 	/**
@@ -105,47 +98,46 @@ class ilObjDefReader extends ilSaxParser
 		{
 			case 'object':
 				$this->current_object = $a_attribs["id"];
-				$st = $ilDB->prepareManip("INSERT INTO il_object_def (id, class_name, component,location,".
+				$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
 					"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,default_pres_pos,sideblock,grp,system) VALUES ".
-					"(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+					"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
 					array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
-						"integer","integer","integer","integer", "text", "integer"));
-//echo "<br>-insert-".$a_attribs["id"];
-				$ilDB->execute($st, array(
-					$a_attribs["id"],
-					$a_attribs["class_name"],
-					$this->current_component,
-					$this->current_component."/".$a_attribs["dir"],
-					(int) $a_attribs["checkbox"],
-					(int) $a_attribs["inherit"],
-					$a_attribs["translate"],
-					(int) $a_attribs["devmode"],
-					(int) $a_attribs["allow_link"],
-					(int) $a_attribs["allow_copy"],
-					(int) $a_attribs["rbac"],
-					(int) $a_attribs["default_pos"],
-					(int) $a_attribs["default_pres_pos"],
-					(int) $a_attribs["sideblock"],
-					$a_attribs["group"],
-					(int) $a_attribs["system"]));
+						"integer","integer","integer","integer", "text", "integer"),
+					array(
+						$a_attribs["id"],
+						$a_attribs["class_name"],
+						$this->current_component,
+						$this->current_component."/".$a_attribs["dir"],
+						(int) $a_attribs["checkbox"],
+						(int) $a_attribs["inherit"],
+						$a_attribs["translate"],
+						(int) $a_attribs["devmode"],
+						(int) $a_attribs["allow_link"],
+						(int) $a_attribs["allow_copy"],
+						(int) $a_attribs["rbac"],
+						(int) $a_attribs["default_pos"],
+						(int) $a_attribs["default_pres_pos"],
+						(int) $a_attribs["sideblock"],
+						$a_attribs["group"],
+						(int) $a_attribs["system"]));
 				break;
 			
 			case "subobj":
-				$st = $ilDB->prepareManip("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (?,?,?)",
-					array("text", "text", "integer"));
-				$t = $ilDB->execute($st, array($this->current_object, $a_attribs["id"], (int) $a_attribs["max"]));
+				$ilDB->manipulateF("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
+					array("text", "text", "integer"),
+					array($this->current_object, $a_attribs["id"], (int) $a_attribs["max"]));
 				break;
 
 			case "parent":
-				$st = $ilDB->prepareManip("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (?,?,?)",
-					array("text", "text", "integer"));
-				$ilDB->execute($st, array($a_attribs["id"], $this->current_object, (int) $a_attribs["max"]));
+				$ilDB->manipulateF("INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
+					array("text", "text", "integer"),
+					array($a_attribs["id"], $this->current_object, (int) $a_attribs["max"]));
 				break;
 
 			case "objectgroup":
-				$st = $ilDB->prepareManip("INSERT INTO il_object_group (id, name, default_pres_pos) VALUES (?,?,?)",
-					array("text", "text", "integer"));
-				$ilDB->execute($st, array($a_attribs["id"], $a_attribs["name"], $a_attribs["default_pres_pos"]));
+				$ilDB->manipulateF("INSERT INTO il_object_group (id, name, default_pres_pos) VALUES (%s,%s,%s)",
+					array("text", "text", "integer"),
+					array($a_attribs["id"], $a_attribs["name"], $a_attribs["default_pres_pos"]));
 				break;
 				
 			case "pluginslot":

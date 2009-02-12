@@ -7631,6 +7631,8 @@ foreach($events as $event)
 <?php
 	$ilMySQLAbstraction->performAbstraction('read_event');
 ?>
-
-
+<#1590>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
