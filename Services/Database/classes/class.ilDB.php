@@ -746,6 +746,54 @@ class ilDB extends PEAR
 	}
 
 	/**
+	* Formatted query (for SELECTS). Use %s as placeholder!
+	*
+	* @param		string		query
+	* @param		array		type array
+	* @param		arraay		value array
+	*/
+	function queryF($a_query, $a_types, $a_values)
+	{
+		if (!is_array($a_types) || !is_array($a_values) ||
+			count($a_types) != count($a_values))
+		{
+			$this->raisePearError("ilDB::queryF: types and values must be arrays of same size.");
+		}
+		$quoted_values = array();
+		foreach($a_types as $k => $t)
+		{
+			$quoted_values[] = $this->quote($a_values[$k], $t);
+		}
+		$query = vsprintf($a_query, $quoted_values);
+		
+		return $this->query($query);
+	}
+	
+	/**
+	* Formatted manupulate (for DELETE, UPDATE, INSERT). Use %s as placeholder!
+	*
+	* @param		string		query
+	* @param		array		type array
+	* @param		arraay		value array
+	*/
+	function manipulateF($a_query, $a_types, $a_values)
+	{
+		if (!is_array($a_types) || !is_array($a_values) ||
+			count($a_types) != count($a_values))
+		{
+			$this->raisePearError("ilDB::queryF: types and values must be arrays of same size.");
+		}
+		$quoted_values = array();
+		foreach($a_types as $k => $t)
+		{
+			$quoted_values[] = $this->quote($a_values[$k], $t);
+		}
+		$query = vsprintf($a_query, $quoted_values);
+		
+		return $this->manipulate($query);
+	}
+
+	/**
 	* Helper function, should usually not be called
 	*/
 	function logStatement($sql)

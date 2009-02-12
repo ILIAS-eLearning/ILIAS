@@ -98,8 +98,7 @@ class ilObjectDefinition extends ilSaxParser
 		
 		$this->obj_data = array();
 		
-		$st = $ilDB->prepare("SELECT * FROM il_object_def");
-		$set = $ilDB->execute($st);
+		$set = $ilDB->query("SELECT * FROM il_object_def");
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$this->obj_data[$rec["id"]] = array(
@@ -121,9 +120,8 @@ class ilObjectDefinition extends ilSaxParser
 			$this->obj_data[$rec["id"]]["subobjects"] = array();
 
 			// get subobjects
-			$st2 = $ilDB->prepare("SELECT * FROM il_object_subobj WHERE parent = ?",
-				array("text"));
-			$set2 = $ilDB->execute($st2, array($rec["id"]));
+			$set2 = $ilDB->queryF("SELECT * FROM il_object_subobj WHERE parent = %s",
+				array("text"), array($rec["id"]));
 			while ($rec2 = $ilDB->fetchAssoc($set2))
 			{
 				$max = $rec2["mmax"];
@@ -139,8 +137,7 @@ class ilObjectDefinition extends ilSaxParser
 			}
 		}
 		
-		$st = $ilDB->prepare("SELECT * FROM il_object_group");
-		$set = $ilDB->execute($st);
+		$set = $ilDB->query("SELECT * FROM il_object_group");
 		$this->obj_group = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
@@ -685,9 +682,8 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM il_object_def WHERE component = ?",
-			array("text"));
-		$set = $ilDB->execute($st, array($a_component_type."/".$a_component_name));
+		$set = $ilDB->queryF("SELECT * FROM il_object_def WHERE component = %s",
+			array("text"), array($a_component_type."/".$a_component_name));
 			
 		$types = array();
 		while($rec = $ilDB->fetchAssoc($set))
@@ -708,8 +704,7 @@ class ilObjectDefinition extends ilSaxParser
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM il_object_group");
-		$set = $ilDB->execute($st);
+		$set = $ilDB->query("SELECT * FROM il_object_group");
 		$groups = array();
 		while ($gr_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -718,21 +713,18 @@ class ilObjectDefinition extends ilSaxParser
 
 		if (!is_array($a_parent_obj_type))
 		{
-			$st = $ilDB->prepare("SELECT il_object_def.* FROM il_object_def, il_object_subobj ".
+			$set = $ilDB->queryF("SELECT il_object_def.* FROM il_object_def, il_object_subobj ".
 				" WHERE NOT (system = 1) AND NOT (sideblock = 1) AND ".
-				" parent = ? ".
-				" AND subobj = id ", array("text"));
-			$set = $ilDB->execute($st, array($a_parent_obj_type));
+				" parent = %s ".
+				" AND subobj = id ", array("text"), array($a_parent_obj_type));
 		}
 		else
 		{
 			$q = "SELECT DISTINCT (id) as sid, il_object_def.* FROM il_object_def, il_object_subobj ".
 				" WHERE NOT (system = 1) AND NOT (sideblock = 1) AND ".
-				$ilDB->in("parent", $a_parent_obj_type).
+				$ilDB->in("parent", $a_parent_obj_type, false, "text").
 				" AND subobj = id ";
-			$type_arr = $ilDB->addTypesToArray(array(), "text", count($a_parent_obj_type));
-			$st = $ilDB->prepare($q, $type_arr);
-			$set = $ilDB->execute($st, $a_parent_obj_type);
+			$set = $ilDB->query($q);
 		}
 			
 		$grouped_obj = array();

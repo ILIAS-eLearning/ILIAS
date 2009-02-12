@@ -73,9 +73,9 @@ abstract class ilComponent
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM il_component WHERE type = ? ".
-			" AND name = ?", array("text", "text"));
-		$set = $ilDB->execute($st, array($this->getComponentType(), $this->getName()));			
+		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
+			" AND name = %s", array("text", "text"),
+			array($this->getComponentType(), $this->getName()));			
 		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setId($rec["id"]);
@@ -133,9 +133,9 @@ abstract class ilComponent
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM il_component WHERE type = ? ".
-			" AND name = ?", array("text", "text"));
-		$set = $ilDB->execute($st, array($a_ctype, $a_cname));			
+		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
+			" AND name = %s", array("text", "text"),
+			array($a_ctype, $a_cname));
 		if (!$ilDB->fetchAssoc($set))
 		{
 			return null;
@@ -251,10 +251,9 @@ abstract class ilComponent
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT * FROM il_component WHERE type = ? ".
-			" AND name = ?", array("text", "text"));
-		$set = $ilDB->execute($st, array($a_type, $a_name));			
-
+		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
+			" AND name = %s", array("text", "text"),
+			array($a_type, $a_name));
 		$rec = $ilDB->fetchAssoc($set);
 		
 		return $rec["id"];

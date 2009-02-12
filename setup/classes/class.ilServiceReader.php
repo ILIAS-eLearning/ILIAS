@@ -61,9 +61,7 @@ class ilServiceReader extends ilObjDefReader
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM service_class");
-		$ilDB->execute($st);
-
+		$ilDB->manipulate("DELETE FROM service_class");
 	}
 
 
@@ -86,15 +84,15 @@ class ilServiceReader extends ilObjDefReader
 			case 'service':
 				$this->current_service = $this->name;
 				$this->current_component = $this->type."/".$this->name;
-				$st = $ilDB->prepareManip("INSERT INTO il_component (type, name, id) ".
-					"VALUES (?,?,?)", array("text", "text", "text"));
-				$ilDB->execute($st, array($this->type, $this->name, $a_attribs["id"]));
+				$ilDB->manipulateF("INSERT INTO il_component (type, name, id) ".
+					"VALUES (%s,%s,%s)", array("text", "text", "text"),
+					array($this->type, $this->name, $a_attribs["id"]));
 				break;
 				
 			case 'baseclass':
-				$st = $ilDB->prepareManip("INSERT INTO service_class (service, class, dir) ".
-					"VALUES (?,?,?)", array("text", "text", "text"));
-				$ilDB->execute($st, array($this->name, $a_attribs["name"], $a_attribs["dir"]));
+				$ilDB->manipulateF("INSERT INTO service_class (service, class, dir) ".
+					"VALUES (%s,%s,%s)", array("text", "text", "text"),
+					array($this->name, $a_attribs["name"], $a_attribs["dir"]));
 				break;
 				
 		}
