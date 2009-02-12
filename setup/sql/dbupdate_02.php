@@ -7233,7 +7233,7 @@ $ilDB->query("ALTER TABLE survey_survey MODIFY `show_question_titles` VARCHAR(1)
 	{
 		$query = "SELECT MAX(question_type_id) FROM qpl_question_type";
 		$res = $ilDB->query($query);
-		$data = $ilDB->fetchAssoc($query);
+		$data = $ilDB->fetchAssoc($res);
 		$max = current($data) + 1;
 
 		$statement = $ilDB->prepareManip("INSERT INTO qpl_question_type (question_type_id, type_tag, plugin) VALUES (?, ?, ?)", 
