@@ -76,8 +76,8 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "DELETE FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$this->ilDB->query($q);
+		$query = "DELETE FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer');
+		$res = $ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -114,9 +114,9 @@ class ilRbacAdmin
 		// This is done in ilObjRole. Should be better moved to this place?
 		
 		// delete user assignements
-		$q = "DELETE FROM rbac_ua ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id) ." ";
-		$this->ilDB->query($q);
+		$query = "DELETE FROM rbac_ua ".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer');
+		$res = $ilDB->manipulate($query);
 		
 		// delete permission assignments
 		$q = "DELETE FROM rbac_pa ".
@@ -223,12 +223,9 @@ class ilRbacAdmin
 		// enhanced: only if we haven't had this role for this user
 		if (!$alreadyAssigned) 
 		{
-			$q = "REPLACE INTO rbac_ua ".
-			 "VALUES (".$ilDB->quote($a_usr_id).",".$ilDB->quote($a_rol_id).")";
-
-			 // Finally assign desktop items assigned to this role
-
-			 $res = $this->ilDB->query($q);
+			$query = "INSERT INTO rbac_ua (usr_id, rol_id) ".
+			 "VALUES (".$ilDB->quote($a_usr_id,'integer').",".$ilDB->quote($a_rol_id,'integer').")";
+			$res = $ilDB->manipulate($query);
 		
 			include_once './classes/class.ilRoleDesktopItem.php';
 	
@@ -270,10 +267,10 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "DELETE FROM rbac_ua ".
-			 "WHERE usr_id= ".$ilDB->quote($a_usr_id)." ".
-			 "AND rol_id=".$ilDB->quote($a_rol_id)." ";
-		$this->ilDB->query($q);
+		$query = "DELETE FROM rbac_ua ".
+			 "WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer')." ".
+			 "AND rol_id = ".$ilDB->quote($a_rol_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$mapping = ilLDAPRoleGroupMapping::_getInstance();

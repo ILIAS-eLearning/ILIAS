@@ -944,22 +944,21 @@ class ilRbacReview
                 $select = addslashes($select);
             }
 
-	        $q = "SELECT ".$select." FROM usr_data ".
-                 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
-                 "WHERE rbac_ua.rol_id=".$ilDB->quote($a_rol_id)." ";
-            $r = $this->ilDB->query($q);
-
-            while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+	        $query = "SELECT ".$select." FROM usr_data ".
+                 "LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id ".
+                 "WHERE rbac_ua.rol_id =".$ilDB->quote($a_rol_id,'integer');
+            $res = $ilDB->query($query);
+            while($row = $ilDB->fetchAssoc($res))
             {
                 $result_arr[] = $row;
             }
         }
         else
         {
-		    $q = "SELECT usr_id FROM rbac_ua WHERE rol_id=".$ilDB->quote($a_rol_id)." ";
-            $r = $this->ilDB->query($q);
-
-            while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		    $query = "SELECT usr_id FROM rbac_ua WHERE rol_id= ".$ilDB->quote($a_rol_id,'integer');
+			
+			$res = $ilDB->query($query);
+            while($row = $ilDB->fetchAssoc($res))
             {
                 array_push($result_arr,$row["usr_id"]);
             }
@@ -994,17 +993,12 @@ class ilRbacReview
 		
 		$role_arr = array();
 		
-		$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$r = $this->ilDB->query($q);
+		$query = "SELECT rol_id FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer');
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
 		{
 			$role_arr[] = $row->rol_id;
-		}
-
-		if (!count($role_arr))
-		{
-			$message = get_class($this)."::assignedRoles(): No assigned roles found or user does not exist!";
 		}
 		return $role_arr ? $role_arr : array();
 	}
@@ -1548,7 +1542,7 @@ class ilRbacReview
 		}
 		
 		$query = 'SELECT ops_id FROM rbac_operations '.
-			$ilDB->in('operation',$operations,false,'text');
+			'WHERE '.$ilDB->in('operation',$operations,false,'text');
 		
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))
