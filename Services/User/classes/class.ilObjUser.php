@@ -204,9 +204,8 @@ class ilObjUser extends ilObject
 		/*$q = "SELECT * FROM usr_data ".
 			 "LEFT JOIN rbac_ua ON usr_data.usr_id=rbac_ua.usr_id ".
 			 "WHERE usr_data.usr_id= ".$ilDB->quote($this->id); */
-		$st = $ilDB->prepare("SELECT * FROM usr_data ".
-			 "WHERE usr_id= ?", array("integer"));
-		$r = $ilDB->execute($st, array($this->id));
+		$r = $ilDB->queryF("SELECT * FROM usr_data ".
+			 "WHERE usr_id= %s", array("integer"), array($this->id));
 
 		if ($data = $ilDB->fetchAssoc($r))
 		{
@@ -587,9 +586,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("UPDATE usr_data SET agree_date = ".$ilDB->now().
-			 " WHERE usr_id = ?", array("integer"));
-		$ilDB->execute($st, array($this->getId()));
+		$ilDB->manipulateF("UPDATE usr_data SET agree_date = ".$ilDB->now().
+			 " WHERE usr_id = %s", array("integer"), array($this->getId()));
 	}
 
 	/**
@@ -599,9 +597,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT ".$a_field." FROM usr_data WHERE usr_id = ?",
-			array("integer"));
-		$res = $ilDB->execute($st, array($a_user_id));
+		$res = $ilDB->queryF("SELECT ".$a_field." FROM usr_data WHERE usr_id = %s",
+			array("integer"), array($a_user_id));
 
 		while($set = $ilDB->fetchAssoc($res))
 		{
@@ -645,9 +642,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT firstname, lastname, title FROM usr_data WHERE usr_id = ?",
-			array("integer"));
-		$res = $ilDB->execute($st, array($a_user_id));
+		$res = $ilDB->queryF("SELECT firstname, lastname, title FROM usr_data WHERE usr_id = %s",
+			array("integer"), array($a_user_id));
 		$user_rec = $ilDB->fetchAssoc($res);
 		return array("user_id" => $a_user_id,
 			"firstname" => $user_rec["firstname"],
@@ -662,9 +658,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT * FROM usr_data WHERE usr_id = ?",
-			array("integer"));
-		$res = $ilDB->execute($st, array($a_user_id));
+		$res = $ilDB->queryF("SELECT * FROM usr_data WHERE usr_id = %s",
+			array("integer"), array($a_user_id));
 		$user_rec = $ilDB->fetchAssoc($res);
 		return $user_rec;
 	}
@@ -692,9 +687,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT usr_id FROM usr_data WHERE login = ?",
-			array("text"));
-		$res = $ilDB->execute($st, array($a_user_str));
+		$res = $ilDB->queryF("SELECT usr_id FROM usr_data WHERE login = %s",
+			array("text"), array($a_user_str));
 		$user_rec = $ilDB->fetchAssoc($res);
 		return $user_rec["usr_id"];
 	}
@@ -717,11 +711,10 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("UPDATE usr_data SET ".
+		$ilDB->manipulateF("UPDATE usr_data SET ".
 			 "last_login = ".$ilDB->now().
-			 "WHERE usr_id = ?",
-			 array("integer"));
-		$ilDB->execute($st, array($this->id));
+			 "WHERE usr_id = %s",
+			 array("integer"), array($this->id));
 	}
 
 	/**
@@ -737,11 +730,10 @@ class ilObjUser extends ilObject
 		$this->passwd_type = IL_PASSWD_MD5;
 		$this->passwd = $new_md5;
 
-		$st = $ilDB->prepareManip("UPDATE usr_data SET ".
-			 "passwd = ? ".
-			 "WHERE usr_id = ?",
-			 array("text", "integer"));
-		$ilDB->execute($st, array($this->passwd, $this->id));
+		$ilDB->manipulateF("UPDATE usr_data SET ".
+			 "passwd = %s ".
+			 "WHERE usr_id = %s",
+			 array("text", "integer"), array($this->passwd, $this->id));
 
 		return true;
 	}
@@ -808,11 +800,10 @@ class ilObjUser extends ilObject
 		$this->passwd = md5($a_new1);
 		$this->passwd_type = IL_PASSWD_MD5;
 
-		$st = $ilDB->prepareManip("UPDATE usr_data SET ".
-			 "passwd = ? ".
-			 "WHERE usr_id = ?",
-			 array("text", "integer"));
-		$ilDB->execute($st, array($this->passwd, $this->id));
+		$ilDB->manipulateF("UPDATE usr_data SET ".
+			 "passwd = %s ".
+			 "WHERE usr_id = %s",
+			 array("text", "integer"), array($this->passwd, $this->id));
 
 		return true;
 	}
@@ -847,11 +838,11 @@ class ilObjUser extends ilObject
 		$this->passwd = md5($a_new1);
 		$this->passwd_type = IL_PASSWD_MD5;
 
-		$st = $ilDB->prepareManip("UPDATE usr_data SET ".
-			 "passwd = ? ".
-			 "WHERE usr_id = ?",
-			 array("text", "integer"));
-		$ilDB->execute($st, array($this->passwd, $this->id));
+		$ilDB->manipulateF("UPDATE usr_data SET ".
+			 "passwd = %s ".
+			 "WHERE usr_id = %s",
+			 array("text", "integer"),
+			 array($this->passwd, $this->id));
 
 		return true;
 	}
@@ -871,9 +862,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilias, $ilDB;
 
-		$st = $ilDB->prepare("SELECT i2passwd FROM usr_data ".
-			 "WHERE login = ?", array("text"));
-		$user_set = $ilDB->execute($st, array($a_user_login));
+		$user_set = $ilDB->queryF("SELECT i2passwd FROM usr_data ".
+			 "WHERE login = %s", array("text"), array($a_user_login));
 		if ($user_rec = $ilDB->fetchAssoc($user_set))
 		{
 			if ($user_rec["i2passwd"] != "")
@@ -892,16 +882,16 @@ class ilObjUser extends ilObject
 	{
 		global $ilias, $ilDB;
 
-		$st = $ilDB->prepare("SELECT i2passwd FROM usr_data ".
-			 "WHERE login = ?", array("text"));
-		$user_set = $ilDB->execute($st, array($a_user_login));
+		$user_set = $ilDB->queryF("SELECT i2passwd FROM usr_data ".
+			 "WHERE login = %s", array("text"), array($a_user_login));
 		if ($user_rec = $ilDB->fetchAssoc($user_set))
 		{
 			if ($user_rec["i2passwd"] == ilObjUser::_makeIlias2Password($a_pw))
 			{
-				$st = $ilDB->prepareManip("UPDATE usr_data SET passwd = ?, i2passwd = ?".
-					"WHERE login = ?", array("text", "text", "text"));
-				$ilDB->execute($st, array(md5($a_pw), "", $a_user));
+				$ilDB->manipulateF("UPDATE usr_data SET passwd = %s, i2passwd = %s".
+					"WHERE login = %s",
+					array("text", "text", "text"),
+					array(md5($a_pw), "", $a_user));
 				return true;
 			}
 		}
@@ -916,13 +906,10 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 			
-		$statement = $ilDB->prepare('
+		$result = $ilDB->queryF('
 			SELECT * FROM loginname_history
-			WHERE login = ?',
-			array('text')
-		);
-		$data = array($a_login);
-		$result = $ilDB->execute($statement, $data);
+			WHERE login = %s',
+			array('text'), array($a_login));
 		
 		return $ilDB->fetchAssoc($result) ? true : false;
 	}	
@@ -968,15 +955,11 @@ class ilObjUser extends ilObject
 			//update login
 			$this->login = $a_login;
 
-			$statement = $ilDB->prepareManip('
+			$res = $ilDB->manipulateF('
 				UPDATE usr_data
-				SET login = ?
-				WHERE usr_id = ?',
-				array('text', 'integer')
-			);
-
-			$data = array($this->login, $this->id);
-			$res = $ilDB->execute($statement, $data);
+				SET login = %s
+				WHERE usr_id = %s',
+				array('text', 'integer'), array($this->login, $this->id));
 			
 		}
 		//return true;
@@ -1014,9 +997,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM usr_pref WHERE usr_id = ? AND keyword = ?",
-			array("integer", "text"));
-		$ilDB->execute($st, array($a_user_id, $a_keyword));
+		$ilDB->manipulateF("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+			array("integer", "text"), array($a_user_id, $a_keyword));
 	}
 
 	/**
@@ -1028,9 +1010,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM usr_pref WHERE usr_id = ?",
-			array("integer"));
-		$ilDB->execute($st, array($a_user_id));
+		$ilDB->manipulateF("DELETE FROM usr_pref WHERE usr_id = %s",
+			array("integer"), array($a_user_id));
 	}
 
 	/**
@@ -1043,9 +1024,8 @@ class ilObjUser extends ilObject
 		ilObjUser::_deletePref($a_usr_id, $a_keyword);
 		if (strlen($a_value))
 		{
-			$st = $ilDB->prepareManip("INSERT INTO usr_pref (usr_id, keyword, value) VALUES (?,?,?)",
-				array("integer", "text", "text"));
-			$ilDB->execute($st, array($a_usr_id, $a_keyword, $a_value));
+			$ilDB->manipulateF("INSERT INTO usr_pref (usr_id, keyword, value) VALUES (%s,%s,%s)",
+				array("integer", "text", "text"), array($a_usr_id, $a_keyword, $a_value));
 		}
 	}
 
@@ -1210,9 +1190,8 @@ class ilObjUser extends ilObject
 		ilBlockSetting::_deleteSettingsOfUser($this->getId());
 
 		// delete user_account
-		$st = $ilDB->prepareManip("DELETE FROM usr_data WHERE usr_id = ?",
-			array("integer"));
-		$ilDB->execute($st, array($this->getId()));
+		$ilDB->manipulateF("DELETE FROM usr_data WHERE usr_id = %s",
+			array("integer"), array($this->getId()));
 
 		// delete user_prefs
 		ilObjUser::_deleteAllPref($this->getId());
@@ -1255,6 +1234,9 @@ class ilObjUser extends ilObject
 
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
+		
+		// Delete clipboard entries
+		$this->clipboardDeleteAll();
 
 		// delete object data
 		parent::delete();
@@ -1420,10 +1402,9 @@ class ilObjUser extends ilObject
 			return true;
 		}
 
-		$st = $ilDB->prepare("SELECT usr_id FROM usr_data ".
-			"WHERE login = ? AND agree_date != ?",
-			array("text", "timestamp"));
-		$res = $ilDB->execute($st, array($a_username, '0000-00-00 00:00:00'));
+		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
+			"WHERE login = %s AND agree_date != %s",
+			array("text", "timestamp"), array($a_username, '0000-00-00 00:00:00'));
 		return $ilDB->fetchAssoc($res) ? true : false;
 	}
 
@@ -1902,20 +1883,20 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("UPDATE usr_data ".
-			" SET ext_account = ? WHERE usr_id = ?",
-			array("text", "integer"));
-		$ilDB->execute($st, array($a_ext_id, $a_usr_id));
+		$ilDB->manipulateF("UPDATE usr_data ".
+			" SET ext_account = %s WHERE usr_id = %s",
+			array("text", "integer"),
+			array($a_ext_id, $a_usr_id));
 	}
 
 	function _writeAuthMode($a_usr_id, $a_auth_mode)
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("UPDATE usr_data ".
-			" SET auth_mode = ? WHERE usr_id = ?",
-			array("text", "integer"));
-		$ilDB->execute($st, array($a_auth_mode, $a_usr_id));
+		$ilDB->manipulateF("UPDATE usr_data ".
+			" SET auth_mode = %s WHERE usr_id = %s",
+			array("text", "integer"),
+			array($a_auth_mode, $a_usr_id));
 	}
 
 	/**
@@ -2238,9 +2219,10 @@ class ilObjUser extends ilObject
     	$this->setLastPasswordChangeTS( time() );
 
     	$query = "UPDATE usr_data SET usr_data.last_password_change = ? " .
-    			"WHERE usr_data.usr_id = ?";
-    	$statement = $ilDB->prepareManip( $query, array('integer','integer') );
-    	$affected = $ilDB->execute( $statement, array($this->getLastPasswordChangeTS(),$this->id) );
+    			"WHERE usr_data.usr_id = %s";
+    	$affected = $ilDB->manipulateF($query,
+		 	array('integer','integer'),
+			array($this->getLastPasswordChangeTS(),$this->id));
     	if($affected) return true;
     	else return false;
     }
@@ -2250,9 +2232,9 @@ class ilObjUser extends ilObject
 		global $ilDB;
 		
 		$query = "UPDATE usr_data SET usr_data.last_password_change = 0 " .
-				"WHERE usr_data.usr_id = ?";
-		$statement = $ilDB->prepareManip( $query, array('integer') );
-    	$affected = $ilDB->execute( $statement, array($this->getId()) );
+				"WHERE usr_data.usr_id = %s";
+		$affected = $ilDB->manipulateF( $query, array('integer'),
+    		array($this->getId()) );
     	if($affected) return true;
     	else return false;
     }
@@ -2342,9 +2324,10 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT usr_id FROM usr_data ".
-			"WHERE time_limit_owner = ?", array("integer"));
-		$res = $ilDB->execute($st, array($a_parent_id));
+		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
+			"WHERE time_limit_owner = %s",
+			array("integer"),
+			array($a_parent_id));
 		while ($row = $ilDB->fetchObject($res))
 		{
 			$this->applied_users[] = $row->usr_id;
@@ -2403,9 +2386,9 @@ class ilObjUser extends ilObject
 		global $ilDB,$ilAuth;
 
 		$login = ilObjUser::getLoginFromAuth();
-		$st = $ilDB->prepare("SELECT active FROM usr_data WHERE login= ?",
-			array("text"));
-		$set = $ilDB->execute($st, array($login));
+		$set = $ilDB->queryF("SELECT active FROM usr_data WHERE login= %s",
+			array("text"),
+			array($login));
         //query has got a result
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
@@ -2443,9 +2426,10 @@ class ilObjUser extends ilObject
 	{
 		global $ilias, $ilDB;
 
-		$st = $ilDB->prepare("SELECT login FROM usr_data ".
-			"WHERE email = ? and active = 1", array("text"));
- 		$res = $ilDB->execute($st, array($a_email));
+		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			"WHERE email = %s and active = 1",
+			array("text"),
+			array($a_email));
  		$ids = array ();
         while($row = $ilDB->fetchObject($res))
         {
@@ -2469,9 +2453,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT usr_id FROM usr_data ".
-			"WHERE email = ?", array("text"));
-		$res = $ilDB->execute($st, array($a_email));
+		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
+			"WHERE email = %s", array("text"), array($a_email));
 
 		$row = $ilDB->fetchObject($res);
 		return $row->usr_id ? $row->usr_id : 0;
@@ -2507,8 +2490,6 @@ class ilObjUser extends ilObject
 
 		
 		$query = "SELECT usr_data.usr_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.email, usr_data.active FROM usr_data ";
-		$types = array();
-		$values = array();
 		
 		$without_anonymous_users = true;
 
@@ -2528,9 +2509,7 @@ class ilObjUser extends ilObject
 					if ($ref_id)
 					{
 						$join_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = ".
-							"(SELECT obj_id FROM object_reference WHERE ref_id = ?) AND ";
-						$types[] = "integer";
-						$values[] = $ref_id;
+							"(SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($ref_id, "integer").") AND ";
 					}
 					break;
 				case 6:
@@ -2542,9 +2521,8 @@ class ilObjUser extends ilObject
 						$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
 						if (is_array($local_roles) && count($local_roles))
 						{
-							$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE ".$ilDB->in("rbac_ua.rol_id", $local_roles)." AND ";
-							$types = $ilDB->addTypesToArray($types, "integer", count($local_roles));
-							$values = array_merge($values, $local_roles);
+							$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE ".
+								$ilDB->in("rbac_ua.rol_id", $local_roles, false, $local_roles)." AND ";
 						}
 					}
 					break;
@@ -2553,9 +2531,8 @@ class ilObjUser extends ilObject
 					$rol_id = $_SESSION["user_filter_data"];
 					if ($rol_id)
 					{
-						$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = ? AND ";
-						$types[] = "integer";
-						$values[] = $rol_id;
+						$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = ".
+							$ilDB->quote($rol_id, "integer")." AND ";
 						$without_anonymous_users = false;
 					}
 					break;
@@ -2567,73 +2544,53 @@ class ilObjUser extends ilObject
 		{
 			$query = "SELECT DISTINCT usr_data.usr_id,usr_data.login,usr_data.firstname,usr_data.lastname,usr_data.email ".
 				"FROM object_data,rbac_ua,usr_data ".
-				"WHERE ".$ilDB->like("object_data.title", "text").
+				"WHERE ".$ilDB->like("object_data.title", "text", "%".substr($a_search_str,5)."%").
 				" AND object_data.type = 'role' ".
 				"AND rbac_ua.rol_id = object_data.obj_id ".
 				"AND usr_data.usr_id = rbac_ua.usr_id ".
-				"AND rbac_ua.usr_id != ?";
-			$types[] = "text";
-			$types[] = "integer";
-			$values[] = "%".substr($a_search_str,5)."%";
-			$values[] = ANONYMOUS_USER_ID;
+				"AND rbac_ua.usr_id != ".$illDB->quote(ANONYMOUS_USER_ID, "integer");
 		}
 		else
 		{
 			$query.= $join_filter.
-				"(".$ilDB->like("usr_data.login", "text")." ".
-				"OR ".$ilDB->like("usr_data.firstname", "text")." ".
-				"OR ".$ilDB->like("usr_data.lastname", "text")." ".
-				"OR ".$ilDB->like("usr_data.email", "text").") ";
-			$types = array_merge($types, array("text", "text", "text", "text"));
-			$values = array_merge($values, array("%".$a_search_str."%",
-				"%".$a_search_str."%", "%".$a_search_str."%", "%".$a_search_str."%"));
+				"(".$ilDB->like("usr_data.login", "text", "%".$a_search_str."%")." ".
+				"OR ".$ilDB->like("usr_data.firstname", "text", "%".$a_search_str."%")." ".
+				"OR ".$ilDB->like("usr_data.lastname", "text", "%".$a_search_str."%")." ".
+				"OR ".$ilDB->like("usr_data.email", "text", "%".$a_search_str."%").") ";
 
 			if ($filter_settings !== FALSE && strlen($filter_settings))
 			{
 				switch ($filter_settings)
 				{
 					case 0:
-						$query.= " AND usr_data.active = ? ";
-						$types[] = "integer";
-						$values[] = 0;
+						$query.= " AND usr_data.active = ".$ilDB->quote(0, "integer")." ";
 						break;
 					case 1:
-						$query.= " AND usr_data.active = ? ";
-						$types[] = "integer";
-						$values[] = 1;
+						$query.= " AND usr_data.active = ".$ilDB->quote(1, "integer")." ";
 						break;
 					case 2:
-						$query.= " AND usr_data.time_limit_unlimited = ? ";
-						$types[] = "integer";
-						$values[] = 0;
+						$query.= " AND usr_data.time_limit_unlimited = ".$ilDB->quote(0, "integer")." ";
 						break;
 					case 4:
 						$date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
-						$query.= " AND last_login < ? ";
-						$types[] = "timestamp";
-						$values[] = $date;
+						$query.= " AND last_login < ".$ilDB->quote($date, "timestamp")." ";
 						break;
 				}
 			}
 				
 			if ($without_anonymous_users)
 			{
-				$query.= "AND usr_data.usr_id != ?";
-				$types[] = "integer";
-				$values[] = ANONYMOUS_USER_ID;
+				$query.= "AND usr_data.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 			}
 
 			if (is_numeric($active) && $active > -1 && $filter_settings === FALSE)
 			{
-				$query.= " AND active = ? ";
-				$types[] = "integer";
-				$values[] = $active;
+				$query.= " AND active = ".$ilDB->quote($active, "integer")." ";
 			}
 
 		}
 		$ilLog->write($query);
-		$st = $ilDB->prepare($query, $types);
-		$res = $ilDB->execute($st, $values);
+		$res = $ilDB->query($query);
 		while ($row = $ilDB->fetchObject($res))
 		{
 			$users[] = array(
@@ -2803,8 +2760,7 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	*/
 	function _getAllUserLogins(&$ilias)
 	{
-		$st = $ilDB->prepare("SELECT login FROM usr_data");
-		$res = $ilDB->exeute($st);
+		$res = $ilDB->query("SELECT login FROM usr_data");
 		while($row = $ilDB->fetchObject($res))
 		{
 			$logins[] = $row->login;
@@ -2823,9 +2779,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	public static function _readUsersProfileData($a_user_ids)
 	{
 		global $ilDB;
-		$st = $ilDB->prepare("SELECT * FROM usr_data WHERE ".$ilDB->in("usr_id", $a_user_ids),
-			$ilDB->addTypesToArray("", "integer", count($a_user_ids)));
-		$res = $ilDB->execute($st, $a_user_ids);
+		$res = $ilDB->query("SELECT * FROM usr_data WHERE ".
+			$ilDB->in("usr_id", $a_user_ids, false, "integer"));
 		while ($row = $ilDB->fetchAssoc($res))
 		{
 			$user_data["$row[usr_id]"] = $row;
@@ -2881,20 +2836,15 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 			{
 				case 0:
 				case 1:
-					$q .= "WHERE active= ?";
-					$types[] = "integer";
-					$values[] = $active;
+					$q .= "WHERE active = ".$ilDB->quote($active, "integer");
 					break;
 				case 2:
-					$q .= "WHERE time_limit_unlimited= ?";
-					$types[] = "integer";
-					$values[] = 0;
+					$q .= "WHERE time_limit_unlimited= ".$ilDB->quote(0, "integer");;
 					break;
 				case 3:
 					$qtemp = $q . ", rbac_ua, object_data WHERE rbac_ua.rol_id = object_data.obj_id AND ".
-						$ilDB->like("object_data.title", "text")." AND usr_data.usr_id = rbac_ua.usr_id";
-					$st = $ilDB->prepare($qtemp, array("text"));
-					$r = $ilDB->execute($st, array("%crs%"));
+						$ilDB->like("object_data.title", "text", "%crs%")." AND usr_data.usr_id = rbac_ua.usr_id";
+					$r = $ilDB->query($qtemp);
 					$course_users = array();
 					while ($row = $ilDB->fetchAssoc($r))
 					{
@@ -2902,9 +2852,7 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 					}
 					if (count($course_users))
 					{
-						$q .= " WHERE NOT ".$ilDB->in("usr_data.usr_id", $course_users)." ";
-						$values = array_merge($values, $course_users);
-						$types = $ilDB->addTypesToArray($types, "integer", count($course_users));
+						$q .= " WHERE ".$ilDB->in("usr_data.usr_id", $course_users, true, "integer")." ";
 					}
 					else
 					{
@@ -2913,17 +2861,15 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 					break;
 				case 4:
 					$date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
-					$q.= " AND last_login < ?";
-					$types[] = "timestamp";
-					$values[] = $date;
+					$q.= " AND last_login < ".$ilDB->quote($date, "timestamp");
 					break;
 				case 5:
 					$ref_id = $_SESSION["user_filter_data"];
 					if ($ref_id)
 					{
-						$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference WHERE ref_id = ?) ";
-						$types[] = "integer";
-						$values[] = $ref_id;
+						$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id ".
+							"WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference ".
+							"WHERE ref_id = ".$ilDB->quote($ref_id, "integer").") ";
 					}
 					break;
 				case 6:
@@ -2935,9 +2881,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 						$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
 						if (is_array($local_roles) && count($local_roles))
 					{
-							$q.= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE ".$ilDB->in("rbac_ua.rol_id", $local_roles)." ";
-							$types = $ilDB->addTypesToArray($types, "integer", count($local_roles));
-							$values = array_merge($values, $local_roles);
+							$q.= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE ".
+								$ilDB->in("rbac_ua.rol_id", $local_roles, false, "integer")." ";
 						}
 					}
 					break;
@@ -2945,15 +2890,13 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 					$rol_id = $_SESSION["user_filter_data"];
 					if ($rol_id)
 					{
-						$q .= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = ?";
-						$types[] = "integer";
-						$values[] = $rol_id;
+						$q .= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE rbac_ua.rol_id = ".
+							$ilDB->quote($rol_id, "integer");
 					}
 					break;
 			}
 
-			$st = $ilDB->prepare($q, $types);
-			$r = $ilDB->execute($st, $values);
+			$r = $ilDB->query($q);
 
 			while ($row = $ilDB->fetchAssoc($r))
 			{
@@ -3042,17 +2985,17 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT * FROM desktop_item WHERE ".
-			"item_id = ? AND type = ? AND user_id = ?",
-			array("integer", "text", "integer"));
-		$item_set = $ilDB->execute($st, array($a_item_id, $a_type, $a_usr_id));
+		$item_set = $ilDB->queryF("SELECT * FROM desktop_item WHERE ".
+			"item_id = %s AND type = %s AND user_id = %s",
+			array("integer", "text", "integer"),
+			array($a_item_id, $a_type, $a_usr_id));
 
 		// only insert if item is not already on desktop
 		if (!$ilDB->fetchAssoc($item_set))
 		{
-			$st = $ilDB->prepareManip("INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ".
-				" (?,?,?,?)", array("integer", "text", "integer", "text"));
-			$ilDB->execute($st, array($a_item_id,$a_type,$a_usr_id,$a_par));
+			$ilDB->manipulateF("INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ".
+				" (%s,%s,%s,%s)", array("integer", "text", "integer", "text"),
+				array($a_item_id,$a_type,$a_usr_id,$a_par));
 		}
 	}
 
@@ -3080,10 +3023,10 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("UPDATE desktop_item SET parameters = ? ".
-			" WHERE item_id = ? AND type = ? AND user_id = ?",
-			array("text", "integer", "text", "integer"));
-		$ilDB->execute($st, array($a_par, $a_item_id, $a_type, $this->getId()));
+		$ilDB->manipulateF("UPDATE desktop_item SET parameters = %s ".
+			" WHERE item_id = %s AND type = %s AND user_id = %s",
+			array("text", "integer", "text", "integer"),
+			array($a_par, $a_item_id, $a_type, $this->getId()));
 	}
 
 
@@ -3100,10 +3043,10 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM desktop_item WHERE ".
-			" item_id = ? AND type = ?  AND user_id = ?",
-			array("integer", "text", "integer"));
-		$ilDB->execute($st, array($a_item_id, $a_type, $a_usr_id));
+		$ilDB->manipulateF("DELETE FROM desktop_item WHERE ".
+			" item_id = %s AND type = %s  AND user_id = %s",
+			array("integer", "text", "integer"),
+			array($a_item_id, $a_type, $a_usr_id));
 	}
 
 	/**
@@ -3128,9 +3071,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT user_id FROM desktop_item WHERE item_id = ?",
-			array("integer"));
-		$r = $ilDB->execute($st, array($a_id));
+		$r = $ilDB->queryF("SELECT user_id FROM desktop_item WHERE item_id = %s",
+			array("integer"), array($a_id));
 
 		$users = array();
 
@@ -3141,9 +3083,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
 		if (count($users) > 0)
 		{
-			$st = $ilDB->prepareManip("DELETE FROM desktop_item WHERE item_id = ?",
-				array("integer"));
-			$ilDB->execute($st, array($a_id));
+			$ilDB->manipulateF("DELETE FROM desktop_item WHERE item_id = %s",
+				array("integer"), array($a_id));
 		}
 
 		return $users;
@@ -3162,10 +3103,9 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT * FROM desktop_item WHERE ".
-			"item_id = ? AND type = ? AND user_id = ?",
-			array("integer", "text", "integer"));
-		$item_set = $ilDB->execute($st,
+		$item_set = $ilDB->queryF("SELECT * FROM desktop_item WHERE ".
+			"item_id = %s AND type = %s AND user_id = %s",
+			array("integer", "text", "integer"),
 			array($a_item_id, $a_type, $a_usr_id));
 
 		if ($ilDB->fetchAssoc($item_set))
@@ -3207,15 +3147,13 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
 		if ($a_types == "")
 		{
-			$st = $ilDB->prepare("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type ".
+			$item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type ".
 				" FROM desktop_item it, object_reference oref ".
 					", object_data obj".
 				" WHERE ".
 				"it.item_id = oref.ref_id AND ".
 				"oref.obj_id = obj.obj_id AND ".
-				"it.user_id = ?", array("integer"));
-
-			$item_set = $ilDB->execute($st, array($user_id));
+				"it.user_id = %s", array("integer"), array($user_id));
 			$items = array();
 			while ($item_rec = $ilDB->fetchAssoc($item_set))
 			{
@@ -3250,14 +3188,15 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 			$foundsurveys = array();
 			foreach($a_types as $a_type)
 			{
-				$st = $ilDB->prepare("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+				$item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
 					", object_data AS obj WHERE ".
 					"it.item_id = oref.ref_id AND ".
 					"oref.obj_id = obj.obj_id AND ".
-					"it.type = ? AND ".
-					"it.user_id = ? ".
-					"ORDER BY title", array("text", "integer"));
-				$item_set = $ilDB->execute($st, array($a_type, $user_id));
+					"it.type = %s AND ".
+					"it.user_id = %s ".
+					"ORDER BY title",
+					array("text", "integer"),
+					array($a_type, $user_id));
 				
 				while ($item_rec = $ilDB->fetchAssoc($item_set))
 				{
@@ -3292,28 +3231,26 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 			$a_time = date("Y-m-d H:i:s", time());
 		}
 
-		$st = $ilDB->prepare("SELECT * FROM personal_clipboard WHERE ".
-			"parent = ? AND item_id = ? AND type = ? AND user_id = ?",
-			array("integer", "integer", "text", "integer"));
-		$item_set = $ilDB->execute($st,
+		$item_set = $ilDB->queryF("SELECT * FROM personal_clipboard WHERE ".
+			"parent = %s AND item_id = %s AND type = %s AND user_id = %s",
+			array("integer", "integer", "text", "integer"),
 			array(0, $a_item_id, $a_type, $this->getId()));
 
 		// only insert if item is not already in clipboard
 		if (!$d = $item_set->fetchRow())
 		{
-			$st = $ilDB->prepareManip("INSERT INTO personal_clipboard ".
+			$ilDB->manipulateF("INSERT INTO personal_clipboard ".
 				"(item_id, type, user_id, title, parent, insert_time, order_nr) VALUES ".
-				" (?,?,?,?,?,?,?)",
-				array("integer", "text", "integer", "text", "integer", "timestamp", "integer"));
-			$ilDB->execute($st,
+				" (%s,%s,%s,%s,%s,%s,%s)",
+				array("integer", "text", "integer", "text", "integer", "timestamp", "integer"),
 				array($a_item_id, $a_type, $this->getId(), $a_title, $a_parent, $a_time, $a_order_nr));
 		}
 		else
 		{
-			$st = $ilDB->prepareManip("UPDATE personal_clipboard SET insert_time = ? ".
-				"WHERE user_id = ? AND item_id = ? AND type = ? AND parent = 0",
-				array("timestamp", "integer", "integer", "text"));
-			$ilDB->execute($st, array($a_time, $this->getId(), $a_item_id, $a_type));
+			$ilDB->manipulateF("UPDATE personal_clipboard SET insert_time = %s ".
+				"WHERE user_id = %s AND item_id = %s AND type = %s AND parent = 0",
+				array("timestamp", "integer", "integer", "text"),
+				array($a_time, $this->getId(), $a_item_id, $a_type));
 		}
 	}
 
@@ -3324,10 +3261,9 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT * FROM personal_clipboard WHERE ".
-			"parent = ? AND type = ? AND user_id = ?",
-			array("integer", "text", "integer"));
-		$set = $ilDB->execute($st,
+		$set = $ilDB->queryF("SELECT * FROM personal_clipboard WHERE ".
+			"parent = %s AND type = %s AND user_id = %s",
+			array("integer", "text", "integer"),
 			array(0, $a_type, $this->getId()));
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
@@ -3344,11 +3280,21 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepareManip("DELETE FROM personal_clipboard WHERE ".
-			"type = ? AND user_id = ?",
-			array("text", "integer"));
-		$ilDB->execute($st,
+		$ilDB->manipulateF("DELETE FROM personal_clipboard WHERE ".
+			"type = %s AND user_id = %s",
+			array("text", "integer"),
 			array($a_type, $this->getId()));
+	}
+
+	/**
+	* Delete objects of type for user
+	*/
+	function clipboardDeleteAll()
+	{
+		global $ilDB;
+
+		$ilDB->manipulateF("DELETE FROM personal_clipboard WHERE ".
+			"user_id = %s", array("integer"), array($this->getId()));
 	}
 
 	/**
@@ -3393,11 +3339,10 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB, $ilUser;
 
-		$st = $ilDB->prepare("SELECT * FROM personal_clipboard WHERE ".
-			"user_id = ? AND parent = ? AND insert_time = ? ".
+		$objs = $ilDB->queryF("SELECT * FROM personal_clipboard WHERE ".
+			"user_id = %s AND parent = %s AND insert_time = %s ".
 			" ORDER BY order_nr",
-			array("integer", "integer", "timestamp"));
-		$objs = $ilDB->execute($st,
+			array("integer", "integer", "timestamp"),
 			array($ilUser->getId(), $a_parent, $a_insert_time));
 		$objects = array();
 		while ($obj = $objs->fetchRow(DB_FETCHMODE_ASSOC))
@@ -3459,10 +3404,10 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		global $ilDB;
 
 		$query = "SELECT obj_id FROM object_data WHERE import_id = ".
-			$ilDB->quote($i2_id);
+			$ilDB->quote($i2_id, "text");
 
-		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
 		{
 			$id = $row->obj_id;
 		}
@@ -3552,18 +3497,17 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
 	 	include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 	 	$q = "SELECT login,usr_id,ext_account,auth_mode FROM usr_data ".
-	 		"WHERE auth_mode = ?";
+	 		"WHERE auth_mode = %s";
 		$types[] = "text";
 		$values[] = $a_auth_mode;
 	 	if($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode',AUTH_LOCAL)) == $a_auth_mode)
 	 	{
-	 		$q.= " OR auth_mode = ? ";
+	 		$q.= " OR auth_mode = %s ";
 			$types[] = "text";
 			$values[] = 'default';
 	 	}
 
-		$st = $ilDB->prepare($q, $types);
-		$res = $ilDB->execute($st, $values);
+		$res = $ilDB->queryF($q, $types, $values);
 		while ($row = $ilDB->fetchObject($res))
 		{
 			if($row->auth_mode == 'default')
@@ -3593,13 +3537,9 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	 	{
 	 		return false;
 	 	}
-		$types[] = "integer";
-		$values[] = ($a_status ? 1 : 0);
-	 	$q = "UPDATE usr_data SET active = ? WHERE ".$ilDB->in("usr_id", $a_usr_ids);
-		$types = $ilDB->addTypesToArray($types, "integer", count($a_usr_ids));
-		$values = array_merge($values, $a_usr_ids);
-	 	$st = $ilDB->prepareManip($q, $types);
-		$ilDB->execute($st, $values);
+	 	$q = "UPDATE usr_data SET active = %s WHERE ".
+			$ilDB->in("usr_id", $a_usr_ids, false, "integer");
+	 	$ilDB->manipulateF($q, array("integer"), array(($a_status ? 1 : 0)));
 
 		return true;
 	}
@@ -3629,18 +3569,20 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		global $ilDB,$ilSetting;
 
 		// Check directly with auth_mode
-		$st = $ilDB->prepare("SELECT * FROM usr_data WHERE ".
-			" ext_account = ? AND auth_mode = ?", array("text", "text"));
-		$r = $ilDB->execute($st, array($a_account, $a_auth));
+		$r = $ilDB->queryF("SELECT * FROM usr_data WHERE ".
+			" ext_account = %s AND auth_mode = %s",
+			array("text", "text"),
+			array($a_account, $a_auth));
 		if ($usr = $ilDB->fetchAssoc($r))
 		{
 			return $usr["login"];
 		}
 
 		// For compatibility, check for login (no ext_account entry given)
-		$st = $ilDB->prepare("SELECT login FROM usr_data ".
-			"WHERE login = ? AND auth_mode = ?", array("text", "text"));
-		$res = $ilDB->execute($st, array($a_account, $a_auth));
+		$res = $ilDB->queryF("SELECT login FROM usr_data ".
+			"WHERE login = %s AND auth_mode = %s",
+			array("text", "text"),
+			array($a_account, $a_auth));
 		if($usr = $ilDB->fetchAssoc($res))
 		{
 			return $usr['login'];
@@ -3649,19 +3591,20 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		// If auth_default == $a_auth => check for login
 		if(ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode')) == $a_auth)
 		{
-			$st = $ilDB->prepare("SELECT login FROM usr_data WHERE ".
-				" ext_account = ? AND auth_mode = ?", array("text", "text"));
-			$res = $ilDB->execute($st, array($a_account, "default"));
+			$res = $ilDB->queryF("SELECT login FROM usr_data WHERE ".
+				" ext_account = %s AND auth_mode = %s",
+				array("text", "text"),
+				array($a_account, "default"));
 			if ($usr = $ilDB->fetchAssoc($res))
 			{
 				return $usr["login"];
 			}
 
 			// Search for login (no ext_account given)
-			$st = $ilDB->prepare("SELECT login FROM usr_data ".
-				"WHERE login = ? AND AND ext_account = ? AND auth_mode = ?",
-				array("text", "text", "text"));
-			$res = $ilDB->execute($st, array($a_account, "", "default"));
+			$res = $ilDB->queryF("SELECT login FROM usr_data ".
+				"WHERE login = %s AND AND ext_account = %s AND auth_mode = %s",
+				array("text", "text", "text"),
+				array($a_account, "", "default"));
 			if($usr = $ilDB->fetchAssoc($res))
 			{
 				return $usr["login"];
@@ -3677,9 +3620,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT count(*) AS cnt, auth_mode FROM usr_data ".
+		$r = $ilDB->query("SELECT count(*) AS cnt, auth_mode FROM usr_data ".
 			"GROUP BY auth_mode");
-		$r = $ilDB->execute($st);
 		$cnt_arr = array();
 		while($cnt = $ilDB->fetchAssoc($r))
 		{
@@ -3701,22 +3643,21 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		// default set to local (1)?
 
 		$q = "SELECT * FROM usr_data WHERE ".
-			" email = ? AND (auth_mode = ? ".
+			" email = %s AND (auth_mode = %s ";
 		$types = array("text", "text");
 		$values = array($a_email, "local");
 
 		if ($ilSetting->get("auth_mode") == 1)
 		{
-			$q.=" OR auth_mode = ?";
-			$types = "text";
-			$values = "default";
+			$q.=" OR auth_mode = %s";
+			$types[] = "text";
+			$values[] = "default";
 		}
 		
 		$q.= ")";
 
 		$users = array();
-		$st = $ilDB->prepare($q, $types);
-		$usr_set = $ilDB->execute($st, $values);
+		$usr_set = $ilDB->queryF($q, $types, $values);
 		while ($usr_rec = $ilDB->fetchAssoc($usr_set))
 		{
 			$users[$usr_rec["usr_id"]] = $usr_rec["login"];
@@ -3782,11 +3723,10 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		global $ilDB;
 
 		// BEGIN DiskQuota: Fetch all user preferences in a single query
-		$st = $ilDB->prepare("SELECT * FROM usr_pref WHERE ".
-			"keyword IN (?,?) ".
-			"AND usr_id = ?",
-			array("text", "text", "integer"));
-		$res = $ilDB->execute($st,
+		$res = $ilDB->queryF("SELECT * FROM usr_pref WHERE ".
+			"keyword IN (%s,%s) ".
+			"AND usr_id = %s",
+			array("text", "text", "integer"),
 			array('public_upload', 'public_profile', $a_usr_id));
 		while ($row = $ilDB->fetchAssoc($res))
 		{
@@ -4114,9 +4054,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
 		if ($a_user_id > 0)
 		{
-			$st = $ilDB->prepare("SELECT feed_hash from usr_data WHERE usr_id = ?",
-				array("integer"));
-			$set = $ilDB->execute($st, $a_user_id);
+			$set = $ilDB->queryF("SELECT feed_hash from usr_data WHERE usr_id = %s",
+				array("integer"), array($a_user_id));
 			if ($rec = $ilDB->fetchAssoc($set))
 			{
 				if (strlen($rec["feed_hash"]) == 32)
@@ -4126,9 +4065,10 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 				else if($a_create)
 				{
 					$hash = md5(rand(1,9999999) + str_replace(" ", "", (string) microtime()));
-					$st = $ilDB->prepareManip("UPDATE usr_data SET feed_hash = ?".
-						" WHERE usr_id = ?", array("text", "integer"));
-					$ilDB->execute($st, array($hash, $a_user_id));
+					$ilDB->manipulateF("UPDATE usr_data SET feed_hash = %s".
+						" WHERE usr_id = %s",
+						array("text", "integer"),
+						array($hash, $a_user_id));
 					return $hash;
 				}
 			}
@@ -4180,19 +4120,18 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		global $ilDB;
 
 		$q = "SELECT DISTINCT login FROM usr_data ".
-			 "WHERE login = ?";
+			 "WHERE login = %s";
 		$types[] = "text";
 		$values[] = $a_login;
 			 
 		if ($a_user_id != 0)
 		{
-			$q.= " AND usr_id != ? ";
+			$q.= " AND usr_id != %s ";
 			$types[] = "integer";
 			$values[] = $a_user_id;
 		}
 			 
-		$st = $ilDB->prepare($q, $types);
-		$r = $ilDB->execute($st, $values);
+		$r = $ilDB->queryF($q, $types, $values);
 
 		if ($ilDB->fetchAssoc($r))
 		{
@@ -4215,10 +4154,10 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$st = $ilDB->prepare("SELECT * FROM usr_data ".
-			"WHERE ext_account = ? AND auth_mode = ?",
-			array("text", "text"));
-		$res = $ilDB->execute($st, array($a_external_account, $a_auth_mode));
+		$res = $ilDB->queryF("SELECT * FROM usr_data ".
+			"WHERE ext_account = %s AND auth_mode = %s",
+			array("text", "text"),
+			array($a_external_account, $a_auth_mode));
 		return $ilDB->fetchAssoc($res) ? true :false;
 	}
 
@@ -4242,25 +4181,22 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 							FROM usr_data
-							LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = ?
-							WHERE ".$ilDB->in("usr_data.usr_id", $ids);
+							LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s
+							WHERE ".$ilDB->in("usr_data.usr_id", $ids, false, "integer");
 		$values[] = "language";
 		$types[] = "text";
-		$values = array_merge($values, $ids);
-		$types = $ilDB->addTypesToArray($types, "integer", count($ids));
 
 
 		if (is_numeric($active) && $active > -1)
 		{
-			$query .= " AND usr_data.active = ?";
+			$query .= " AND usr_data.active = %s";
 			$values[] = $active;
 			$types[] = "integer";
 		}
 		
 		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 		
-		$st = $ilDB->prepare($query, $types);
-		$r = $ilDB->execute($st, $values);
+		$r = $ilDB->queryF($query, $types, $values);
 		$data = array();
 		while ($row = $ilDB->fetchAssoc($r))
 		{
@@ -4278,32 +4214,31 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	public static function _getUsersForFolder ($ref_id, $active) {
 		global $ilDB;
 		$data = array();
-		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id and usr_pref.keyword = ? WHERE 1 ";
+		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id and usr_pref.keyword = %s WHERE 1 ";
 		$types[] = "text";
 		$values[] = "language";
 
 		if (is_numeric($active) && $active > -1)
 		{
-			$query .= " AND usr_data.active = ?";
+			$query .= " AND usr_data.active = %s";
 			$values[] = $active;
 			$types[] = "integer";
 		}
 
 		if ($ref_id != USER_FOLDER_ID)
 		{
-		    $query.= " AND usr_data.time_limit_owner = ?";
+		    $query.= " AND usr_data.time_limit_owner = %s";
 			$values[] = $ref_id;
 			$types[] = "integer";
 		}
 
-		$query .=	" AND usr_data.usr_id != ? ";
+		$query .=	" AND usr_data.usr_id != %s ";
 		$values[] = ANONYMOUS_USER_ID;
 		$types[] = "integer";
 
 		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
-		$st = $ilDB->prepare($query, $types);
-		$result = $ilDB->execute($st, $values);
+		$result = $ilDB->queryF($query, $types, $values);
 		$data = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
@@ -4342,26 +4277,24 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
-		          LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = ?
-		          WHERE ".$ilDB->in("usr_data.usr_id", $ids)."
-					AND usr_data.usr_id != ?";
+		          LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s
+		          WHERE ".$ilDB->in("usr_data.usr_id", $ids, false, "integer")."
+					AND usr_data.usr_id != %s";
 		$values[] = "language";
 		$types[] = "text";
-		$values = array_merge($values, $ids);
-		$types = $ilDB->addTypesToArray($types, "integer", count($ids));
 		$values[] = ANONYMOUS_USER_ID;
 		$types[] = "integer";
 
   	    if (is_numeric($active) && $active > -1)
 		{
-			$query .= " AND active = ?";
+			$query .= " AND active = %s";
 			$values[] = $active;
 			$types[] = "integer";
 		}
 
   		if ($timelimitowner != USER_FOLDER_ID && $timelimitowner != -1)
 		{
-		    $query.= " AND usr_data.time_limit_owner = ?";
+		    $query.= " AND usr_data.time_limit_owner = %s";
 			$values[] = $timelimitowner;
 			$types[] = "integer";
 
@@ -4369,8 +4302,7 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
   		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
-		$st = $ilDB->prepare($query, $types);
-		$result = $ilDB->execute($st, $values);
+		$result = $ilDB->queryF($query, $types, $values);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$mem_arr[] = $row;
@@ -4412,18 +4344,15 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
 		          LEFT JOIN usr_pref
-		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = ?
-		          WHERE ".$ilDB->in("usr_data.usr_id", $ids);
+		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s
+		          WHERE ".$ilDB->in("usr_data.usr_id", $ids, false, "integer");
 		$values[] = "language";
 		$types[] = "text";
-		$values = array_merge($values, $ids);
-		$types = $ilDB->addTypesToArray($types, "integer", count($ids));
 
 		$query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
 
 		$data = array();
-		$st = $ilDB->prepare($query, $types);
-		$result = $ilDB->execute($st, $values);
+		$result = $ilDB->queryF($query, $types, $values);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$data[] = $row;
@@ -4443,9 +4372,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
 		$prefs = array();
 
-		$st = $ilDB->prepare("SELECT * FROM usr_pref WHERE usr_id = ?",
-			array("integer"));
-		$r = $ilDB->execute($st, array($user_id));
+		$r = $ilDB->queryF("SELECT * FROM usr_pref WHERE usr_id = %s",
+			array("integer"), array($user_id));
 
 		while($row = $ilDB->fetchAssoc($r))
 		{
@@ -4460,9 +4388,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.login_attempts = 0 WHERE usr_data.usr_id = ?";
-		$statement = $ilDB->prepareManip( $query, array('integer') );
-		$affected = $ilDB->execute( $statement, array($a_usr_id) );
+		$query = "UPDATE usr_data SET usr_data.login_attempts = 0 WHERE usr_data.usr_id = %s";
+		$affected = $ilDB->manipulateF( $query, array('integer'), array($a_usr_id) );
 
 		if($affected) return true;
 		else return false;
@@ -4472,9 +4399,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$query = "SELECT usr_data.login_attempts FROM usr_data WHERE usr_data.usr_id = ?";
-		$statement = $ilDB->prepare( $query, array('integer') );
-		$result = $ilDB->execute( $statement, array($a_usr_id) );
+		$query = "SELECT usr_data.login_attempts FROM usr_data WHERE usr_data.usr_id = %s";
+		$result = $ilDB->queryF( $query, array('integer'), array($a_usr_id) );
 		$record = $ilDB->fetchAssoc( $result );
 		$login_attempts = $record['login_attempts'];
 
@@ -4485,9 +4411,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.login_attempts = (usr_data.login_attempts + 1) WHERE usr_data.usr_id = ?";
-		$statement = $ilDB->prepareManip( $query, array('integer') );
-		$affected = $ilDB->execute( $statement, array($a_usr_id) );
+		$query = "UPDATE usr_data SET usr_data.login_attempts = (usr_data.login_attempts + 1) WHERE usr_data.usr_id = %s";
+		$affected = $ilDB->manipulateF( $query, array('integer'), array($a_usr_id) );
 
 		if($affected) return true;
 		else return false;
@@ -4497,9 +4422,8 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.active = 0 WHERE usr_data.usr_id = ?";
-		$statement = $ilDB->prepareManip( $query, array('integer') );
-		$affected = $ilDB->execute( $statement, array($a_usr_id) );
+		$query = "UPDATE usr_data SET usr_data.active = 0 WHERE usr_data.usr_id = %s";
+		$affected = $ilDB->manipulateF( $query, array('integer'), array($a_usr_id) );
 
 		if($affected) return true;
 		else return false;
@@ -4557,25 +4481,23 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 
 		if ($a_user_id == 0)
 		{
-			$where = "WHERE user_id != 0 AND agree_date != ? ";
+			$where = "WHERE user_id != 0 AND agree_date != %s ";
 			$type_array = array("timestamp", "integer");
 			$val_array = array("0000-00-00 00:00:00", time());
 		}
 		else
 		{
-			$where = "WHERE user_id = ".$ilDB->quote($a_user_id)." ";
+			$where = "WHERE user_id = %s ";
 			$type_array = array("integer", "integer");
 			$val_array = array($a_user_id, time());
 		}
 
-		$st = $ilDB->prepare("SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime ".
+		$r = $ilDB->queryF("SELECT count(user_id) as num,user_id,firstname,lastname,title,login,last_login,max(ctime) AS ctime ".
 			"FROM usr_session ".
 			"LEFT JOIN usr_data ON user_id=usr_id ".$where.
-			"AND expires > ? ".
+			"AND expires > %s ".
 			"GROUP BY user_id ".
-			"ORDER BY lastname, firstname", $type_array);
-
-		$r = $ilDB->execute($st, $val_array);
+			"ORDER BY lastname, firstname", $type_array, $val_array);
 
 		while ($user = $ilDB->fetchAssoc($r))
 		{

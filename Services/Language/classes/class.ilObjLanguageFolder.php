@@ -269,9 +269,9 @@ class ilObjLanguageFolder extends ilObject
 
 				// update object_data table
 				$query = "DELETE FROM object_data ".
-						 "WHERE type = 'lng' ".
-						 "AND title = ".$ilDB->quote($lang_key);
-				$this->ilias->db->query($query);
+						 "WHERE type = ".$ilDB->quote("lng", "text")." ".
+						 "AND title = ".$ilDB->quote($lang_key, "text");
+				$ilDB->manipulate($query);
 			}
 		}
 

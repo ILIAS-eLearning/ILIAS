@@ -415,23 +415,23 @@ class ilObjLanguage extends ilObject
 					}
 				}
 
+				$ld = "";
 				if (empty($scope))
 				{
-					$query = "UPDATE object_data SET " .
-							"description = 'installed', " .
-							"last_update = now() " .
-							"WHERE title = ".$ilDB->quote($this->key)." " .
-							"AND type = 'lng'";
-                    $ilDB->query($query);
+					$ld = "installed";
 				}
 				else if ($scope == 'local')
 				{
+					$ld = "installed_local";
+				}
+				if ($ld)
+				{
 					$query = "UPDATE object_data SET " .
-							"description = 'installed_local', " .
-							"last_update = now() " .
-							"WHERE title = ".$ilDB->quote($this->key)." " .
+							"description = ".$ilDB->quote($ld, "text").", " .
+							"last_update = ".$ilDB->now()." " .
+							"WHERE title = ".$ilDB->quote($this->key, "text")." " .
 							"AND type = 'lng'";
-                    $ilDB->query($query);
+					$ilDB->manipulate($query);
 				}
 			}
 			

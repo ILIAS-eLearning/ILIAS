@@ -3125,8 +3125,8 @@ class ilUtil
 		$clause = ($a_id) ? " AND obj_id != ".$ilDB->quote($a_id)." " : "";
 
 		$q = "SELECT obj_id FROM object_data ".
-		"WHERE title = ".$ilDB->quote($a_group_name)." ".
-		"AND type = 'grp'".
+		"WHERE title = ".$ilDB->quote($a_group_name, "text")." ".
+		"AND type = ".$ilDB->quote("grp", "text").
 		$clause;
 
 		$r = $ilDB->query($q);
@@ -3153,8 +3153,8 @@ class ilUtil
 
 		$q = "SELECT * ".
 			"FROM object_data ,object_reference ".
-			"WHERE (object_data.title LIKE ".$ilDB->quote("%".$a_search_str."%")." ".
-			"OR object_data.description LIKE ".$ilDB->quote("%".$a_search_str."%").") ".
+			"WHERE (".$ilDB->like("object_data.title", "text", "%".$a_search_str."%")." ".
+			"OR ".$ilDB->like("object_data.description", "text", "%".$a_search_str."%").") ".
 			"AND object_data.type = 'grp' ".
 			"AND object_data.obj_id = object_reference.obj_id ".
 			"ORDER BY title ";
@@ -3646,13 +3646,11 @@ class ilUtil
 
 		if(!is_array($a_obj_type))
 		{
-			$where = "WHERE type = ".$ilDB->quote($a_obj_type)." ";
+			$where = "WHERE type = ".$ilDB->quote($a_obj_type, "text")." ";
 		}
 		else
 		{
-			$where = "WHERE type IN(";
-			$where .= implode(",",ilUtil::quoteArray($a_obj_type));
-			$where .= ") ";
+			$where = "WHERE ".$ilDB->in("type", $a_obj_type, false, "text")." ";
 		}
 
 		// limit number of results default is search result limit
@@ -3673,14 +3671,14 @@ class ilUtil
 		// is assigned to the system role
 		if($rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
 		{
-			$query = "SELECT ref_id FROM object_reference AS obr LEFT JOIN object_data AS obd USING(obj_id) ".
+			$query = "SELECT ref_id FROM object_reference obr LEFT JOIN object_data obd USING(obj_id) ".
 				"LEFT JOIN tree ON obr.ref_id = tree.child ".
 				$where.
 				"AND tree = 1";
 
 			$res = $ilDB->query($query);
 			$counter = 0;
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $ilDB->fetchObject($res))
 			{
 
 				if($counter++ >= $limit)
@@ -3699,21 +3697,21 @@ class ilUtil
 		}
 		else
 		{
-			$check_owner = "OR owner = ".$ilDB->quote($a_usr_id).") ";
+			$check_owner = "OR owner = ".$ilDB->quote($a_usr_id, "integer").") ";
 		}
 
 		$ops_ids = ilRbacReview::_getOperationIdsByName(array($a_operation));
 		$ops_id = $ops_ids[0];
 
-		$and = "AND ((rol_id IN(".implode(",",ilUtil::quoteArray($a_roles)).") ";
+		$and = "AND ((".$ilDB->in("rol_id", $a_roles, false, "integer")." ";
 
 		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM object_reference AS obr ".
 			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
 			"JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id ".
 			$where.
 			$and.
-			"AND (ops_id LIKE ".$ilDB->quote("%i:".$ops_id."%"). " ".
-			"OR ops_id LIKE".$ilDB->quote("%:\"".$ops_id."\";%").")) ".
+			"AND (".$ilDB->like("ops_id", "text","%i:".$ops_id."%"). " ".
+			"OR ".$ilDB->like("ops_id", "text", "%:\"".$ops_id."\";%").")) ".
 			$check_owner;
 
 		$res = $ilDB->query($query);

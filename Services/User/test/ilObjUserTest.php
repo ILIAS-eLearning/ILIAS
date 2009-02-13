@@ -82,6 +82,10 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		ilObjUser::_lookupLastLogin($id);
 		$value.= ilObjUser::_lookupLanguage($id)."-";
 		ilObjUser::_readUsersProfileData(array($id));
+		if (ilObjUser::_loginExists("aatestuser"))
+		{
+			$value.= "le-";
+		}
 		
 		// password methods
 		if (ilObjUser::_checkPassword($id, "password"))
@@ -135,12 +139,17 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		{
 			$value.= "act2-";
 		}
+		ilObjUser::_toggleActiveStatusOfUsers(array($id), false);
+		if (!ilObjUser::getStoredActive($id));
+		{
+			$value.= "act3-";
+		}
 		
 		// deletion
 		$user->delete();
 		
-		$this->assertEquals("Max-Maxi-de@de.de-m-1.2.3.4-Mutzke-aatestuser-ext_mutzke-$id-no-".
-			"pw1-pw2-pw3-pw4-pref1-pref2-agr1-agr2-act1-act2-",
+		$this->assertEquals("Max-Maxi-de@de.de-m-1.2.3.4-Mutzke-aatestuser-ext_mutzke-$id-no-le-".
+			"pw1-pw2-pw3-pw4-pref1-pref2-agr1-agr2-act1-act2-act3-",
 			$value);
 	}
 	
@@ -188,10 +197,40 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 			$value.= "email2-";
 		}
 		
+		$acc = ilObjUser::_getExternalAccountsByAuthMode("cas");
+		foreach ($acc as $k => $v)
+		if ($k == $id && $v == "ext_kabel")
+		{
+			$value.= "auth1-";
+		}
+		
+		if (ilObjUser::_lookupAuthMode($id) == "cas")
+		{
+			$value.= "auth2-";
+		}
+
+		if (ilObjUser::_checkExternalAuthAccount("cas", "ext_kabel") == "aatestuser2")
+		{
+			$value.= "auth3-";
+		}
+		
+		if (ilObjUser::_externalAccountExists("ext_kabel","cas"))
+		{
+			$value.= "auth4-";
+		}
+		
+		ilObjUser::_getNumberOfUsersPerAuthMode();
+		$la = ilObjUser::_getLocalAccountsForEmail("qwe@ty.de");
+		
+		ilObjUser::_incrementLoginAttempts($id);
+		ilObjUser::_getLoginAttempts($id);
+		ilObjUser::_resetLoginAttempts($id);
+		ilObjUser::_setUserInactive($id);
+		
 		// deletion
 		$user->delete();
 		
-		$this->assertEquals("email1-email2-",
+		$this->assertEquals("email1-email2-auth1-auth2-auth3-auth4-",
 			$value);
 	}
 
@@ -281,6 +320,67 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 		ilObjUser::_getAllUserData(array("lastname", "online_time"), 7);
 		
 		$this->assertEquals("",
+			$value);
+	}
+
+	/**
+	* Clipboard
+	*/
+	public function testClipboard()
+	{
+		$value = "";
+		
+		// creation
+		$user = new ilObjUser();
+		$d = array(
+			"login" => "aatestuser3",
+			"passwd_type" => IL_PASSWD_PLAIN,
+			"passwd" => "password",
+			"gender" => "f",
+			"firstname" => "Heidi",
+			"lastname" => "Kabel",
+			"email" => "de@de.de"
+		);
+		$user->assignData($d);
+		$user->setActive(true);
+		$user->create();
+		$user->saveAsNew();
+		$user->setLanguage("de");
+		$user->writePrefs();
+		$id = $user->getId();
+		
+		$user->addObjectToClipboard($id, "user", "aatestuser");
+		$user->addObjectToClipboard(56, "mump", "mumpitz");
+		if ($user->clipboardHasObjectsOfType("user"))
+		{
+			$value.= "clip1-";
+		}
+		
+		$user->clipboardDeleteObjectsOfType("user");
+		if ($user->clipboardHasObjectsOfType("mump") &&
+			!$user->clipboardHasObjectsOfType("user"))
+		{
+			$value.= "clip2-";
+		}
+		
+		$objs = $user->getClipboardObjects("mump");
+		if (is_array($objs) && count($objs) == 1 &&  $objs[0]["id"] == 56)
+		{
+			$value.= "clip3-";
+		}
+		
+		$objs = $user->getClipboardChilds(56, "2008-10-10");
+		
+		$us = ilObjUser::_getUsersForClipboadObject("mump", 56);
+
+		if (is_array($us) && count($us) == 1 &&  $us[0] == $id)
+		{
+			$value.= "clip4-";
+		}
+		
+		$user->delete();
+		
+		$this->assertEquals("clip1-clip2-clip3-clip4-",
 			$value);
 	}
 

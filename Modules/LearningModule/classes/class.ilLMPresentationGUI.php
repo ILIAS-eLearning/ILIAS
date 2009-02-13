@@ -308,10 +308,7 @@ class ilLMPresentationGUI
 				//$this->lm_gui->offlineexport();
 				$_GET["frame"] = "maincontent";
 
-				$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id=".
-					$ilDB->quote($_GET["ref_id"])." AND object_reference.obj_id=object_data.obj_id ";
-				$result = $this->ilias->db->query($query);
-				$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$objRow["obj_id"] = ilObject::_lookupObjId($_GET["ref_id"]);
 				$_GET["obj_id"] = $objRow["obj_id"];
 
 				$query = "SELECT * FROM lm_data WHERE lm_id = ".$ilDB->quote($objRow["obj_id"]).
@@ -482,11 +479,8 @@ class ilLMPresentationGUI
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id= ".
-			$ilDB->quote($_GET["ref_id"])." AND object_reference.obj_id=object_data.obj_id ";
-		$result = $this->ilias->db->query($query);
-
-		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$objRow["obj_id"] = ilObject::_lookupObjId($_GET["ref_id"]);
+		$objRow["title"] = ilObject::_lookupTitle($objRow["obj_id"]);
 
 		$filename = preg_replace('/[^a-z0-9_]/i', '_', $objRow["title"]);
 

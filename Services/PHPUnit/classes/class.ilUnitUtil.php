@@ -40,6 +40,13 @@ class ilUnitUtil
 		$_POST["username"] = "alex";
 		$_GET["client_id"] = "second";
 		include_once("./include/inc.header.php");
+		$ilUnitUtil = new ilUnitUtil;
+		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilUnitUtil, "errorHandler"));
+	}
+	
+	function errorHandler($a_error_obj)
+	{
+		var_dump($a_error_obj);
 	}
 }
 ?>

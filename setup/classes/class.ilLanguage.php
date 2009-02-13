@@ -216,6 +216,8 @@ class ilLanguage
 	 */
 	function installLanguages($a_lang_keys, $a_local_keys)
 	{
+		global $ilDB;
+		
 		if (empty($a_lang_keys))
 		{
 			$a_lang_keys = array();
@@ -254,19 +256,26 @@ class ilLanguage
 				{
 					if (in_array($lang_key, $a_local_keys))
 					{
-						$query = "INSERT INTO object_data ".
-								"(type,title,description,owner,create_date,last_update) ".
-								"VALUES ".
-								"('lng','".$lang_key."','installed_local','-1',now(),now())";
+						$itype = 'installed_local';
 					}
 					else
 					{
-						$query = "INSERT INTO object_data ".
-								"(type,title,description,owner,create_date,last_update) ".
-								"VALUES ".
-								"('lng','".$lang_key."','installed','-1',now(),now())";
+						$itype = 'installed';
 					}
-					$this->db->query($query);
+					$lid = $ilDB->nextId("object_data");
+					$query = "INSERT INTO object_data ".
+							"(obj_id,type,title,description,owner,create_date,last_update) ".
+							"VALUES ".
+							"(".
+							$ilDB->quote($lid, "integer").",".
+							$ilDB->quote("lng", "text").",".
+							$ilDB->quote($lang_key, "text").",".
+							$ilDB->quote($itype, "text").",".
+							$ilDB->quote('-1',"integer").",".
+							$ilDB->now().",".
+							$ilDB->now().
+							")";
+					$this->db->manipulate($query);
 				}
 			}
 			else
@@ -283,21 +292,18 @@ class ilLanguage
 				{
 					if (in_array($key, $a_local_keys))
 					{
-						$query = "UPDATE object_data SET " .
-								"description = 'installed_local', " .
-								"last_update = now() " .
-								"WHERE obj_id='".$val["obj_id"]."' " .
-								"AND type='lng'";
+						$ld = 'installed_local';
 					}
 					else
 					{
-						$query = "UPDATE object_data SET " .
-								"description = 'installed', " .
-								"last_update = now() " .
-								"WHERE obj_id='".$val["obj_id"]."' " .
-								"AND type='lng'";
+						$ld = 'installed';
 					}
-					$this->db->query($query);
+					$query = "UPDATE object_data SET " .
+							"description = ".$ilDB->quote($ld, "text").", " .
+							"last_update = ".$ilDB->now()." " .
+							"WHERE obj_id = ".$ilDB->quote($val["obj_id"], "integer")." " .
+							"AND type = ".$ilDB->quote("lng", "text");
+					$ilDB->manipulate($query);
 				}
 				else
 				{
@@ -306,11 +312,11 @@ class ilLanguage
 					if (substr($val["status"], 0, 9) == "installed")
 					{
 						$query = "UPDATE object_data SET " .
-								"description = 'not_installed', " .
-								"last_update = now() " .
-								"WHERE obj_id='" . $val["obj_id"] . "' " .
-								"AND type='lng'";
-						$this->db->query($query);
+								"description = ".$ilDB->quote("not_installed", "text").", " .
+								"last_update = ".$ilDB->now()." " .
+								"WHERE obj_id = ".$ilDB->quote($val["obj_id"], "integer")." " .
+								"AND type = ".$ilDB->quote("lng", "text");
+						$ilDB->manipulate($query);
 					}
 				}
 			}
@@ -328,14 +334,16 @@ class ilLanguage
 	 */
 	function getInstalledLanguages()
 	{
+		global $ilDB;
+		
 		$arr = array();
 
 		$query = "SELECT * FROM object_data ".
-				"WHERE type = 'lng' ".
-				"AND description LIKE 'installed%'";
-		$r = $this->db->query($query);
+				"WHERE type = ".$ilDB->quote("lng", "text")." ".
+				"AND ".$ilDB->like("description", "text", 'installed%');
+		$r = $ilDB->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($r))
 		{
 			$arr[] = $row->title;
 		}
@@ -350,14 +358,16 @@ class ilLanguage
 	 */
 	function getInstalledLocalLanguages()
 	{
+		global $ilDB;
+		
 		$arr = array();
 
 		$query = "SELECT * FROM object_data ".
-				"WHERE type = 'lng' ".
-				"AND description = 'installed_local'";
-		$r = $this->db->query($query);
+				"WHERE type = ".$ilDB->quote("lng", "text")." ".
+				"AND description = ".$ilDB->quote('installed_local', "text");
+		$r = $ilDB->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($r))
 		{
 			$arr[] = $row->title;
 		}
@@ -371,13 +381,15 @@ class ilLanguage
 	 */
 	function getAvailableLanguages()
 	{
+		global $ilDB;
+		
 		$arr = array();
 
 		$query = "SELECT * FROM object_data ".
-				"WHERE type = 'lng'";
-		$r = $this->db->query($query);
+				"WHERE type = ".$ilDB->quote("lng", "text");
+		$r = $ilDB->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($r))
 		{
 			$arr[$row->title]["obj_id"] = $row->obj_id;
 			$arr[$row->title]["status"] = $row->description;

@@ -615,10 +615,9 @@ class ilObjStyleSheet extends ilObject
 		
 		$clonable_styles = array();
 		
-		$q = "SELECT * FROM style_data, object_data ".
-			" WHERE object_data.obj_id = style_data.id ";
+		$q = "SELECT * FROM style_data";
 		$style_set = $ilDB->query($q);
-		while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($style_rec = $ilDB->fetchAssoc($style_set))
 		{
 			$clonable = false;
 			if ($style_rec["standard"] == 1)
@@ -647,7 +646,7 @@ class ilObjStyleSheet extends ilObject
 			if ($clonable)
 			{
 				$clonable_styles[$style_rec["id"]] =
-					$style_rec["title"];
+					ilObject::_lookupTitle($style_rec["id"]);
 			}
 		}
 		return $clonable_styles;

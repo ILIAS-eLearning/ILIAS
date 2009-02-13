@@ -175,21 +175,27 @@ class ilObjCourseGrouping
 		global $ilUser,$ilDB;
 
 		// INSERT IN object_data
+		$this->setId($ilDB->nextId("object_data"));
 		$query = "INSERT INTO object_data ".
-			"(type,title,description,owner,create_date,last_update,import_id) ".
+			"(obj_id, type,title,description,owner,create_date,last_update) ".
 			"VALUES ".
-			"(".$ilDB->quote($this->type).",".$this->db->quote($this->getTitle()).",".$ilDB->quote($this->getDescription()).",".
-			" ".$ilDB->quote($ilUser->getId()).",now(),now(),'')";
+			"(".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($this->type, "text").",".
+			$this->db->quote($this->getTitle(), "text").",".
+			$ilDB->quote($this->getDescription(), "text").",".
+			$ilDB->quote($ilUser->getId(), "integer").",".
+			$ilDB->now().",$ilDB->now())";
 			
-		$this->db->query($query);
+		$ilDB->manipulate($query);
 
 		// READ this id
-		$query = "SELECT LAST_INSERT_ID() as last";
+		/*$query = "SELECT LAST_INSERT_ID() as last";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setId($row->last);
-		}
+		}*/
 
 
 		// INSERT in crs_groupings

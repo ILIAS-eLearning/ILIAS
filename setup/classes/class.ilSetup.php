@@ -715,6 +715,8 @@ class ilSetup extends PEAR
 	*/
 	function loginAsClient($a_auth_data)
 	{
+		global $ilDB;
+		
 		if (empty($a_auth_data["client_id"]))
 		{
 			$this->error = "no_client_id";
@@ -751,8 +753,8 @@ class ilSetup extends PEAR
 			 "LEFT JOIN rbac_ua ON rbac_ua.usr_id=usr_data.usr_id ".
 			 "LEFT JOIN settings ON settings.value = rbac_ua.rol_id ".
 			 "WHERE settings.keyword='system_role_id' ".
-			 "AND usr_data.login='".$a_auth_data["username"]."' ".
-			 "AND usr_data.passwd='".md5($a_auth_data["password"])."'";
+			 "AND usr_data.login= ".$ilDB->quote($a_auth_data["username"], "text")." ".
+			 "AND usr_data.passwd= ".$ilDB->quote(md5($a_auth_data["password"]), "text")." ";
 		$r = $this->client->db->query($q);
 		
 		if (!$r->numRows())

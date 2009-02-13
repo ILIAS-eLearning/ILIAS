@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -103,21 +103,22 @@ class ilLocalUser
 			case 0:
 				if(ilLocalUser::_getFolderIds())
 				{
-					$where = "WHERE time_limit_owner IN ";
-					$where .= '(';
-					$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
-					$where .= ')';
+					$where = "WHERE ".$ilDB->in("time_limit_owner", ilLocalUser::_getFolderIds(), false, "integer")." ";
+					//$where .= '(';
+					//$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
+					//$where .= ')';
 
 				}
 				else
 				{
-					$where = "WHERE time_limit_owner IN ('')";
+					//$where = "WHERE time_limit_owner IN ('')";
+					return array();
 				}
 
 				break;
 
 			default:
-				$where = "WHERE time_limit_owner = ".$ilDB->quote($a_filter)." ";
+				$where = "WHERE time_limit_owner = ".$ilDB->quote($a_filter, "integer")." ";
 
 				break;
 		}
@@ -125,7 +126,7 @@ class ilLocalUser
 		$query = "SELECT usr_id FROM usr_data ".$where;
 		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$users[] = $row->usr_id;
 		}

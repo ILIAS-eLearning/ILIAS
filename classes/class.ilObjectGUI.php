@@ -2891,6 +2891,6 @@ class ilObjectGUI
 			}
 		}
 	}
-
+	
 } // END class.ilObjectGUI
 ?>

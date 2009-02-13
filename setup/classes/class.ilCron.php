@@ -80,16 +80,18 @@ class ilCron
 
 	function __checkUserAccounts()
 	{
+		global $ilDB;
+		
 		$two_weeks_in_seconds = 60 * 60 * 24 * 14;
 
 		$this->log->write('Cron: Start checkUserAccounts()');
 		$query = "SELECT * FROM usr_data,usr_pref ".
-			"WHERE time_limit_message = '0' ".
-			"AND time_limit_unlimited = '0' ".
-			"AND time_limit_from < '".time()."' ".
-			"AND time_limit_until > '".$two_weeks_in_seconds."' ".
+			"WHERE time_limit_message = ".$ilDB->quote(0, "integer")." ".
+			"AND time_limit_unlimited = ".$ilDB->quote(0, "integer")." ".
+			"AND time_limit_from < ".$ilDB->quote(time(), "integer")." ".
+			"AND time_limit_until > ".$ilDB->quote($two_weeks_in_seconds, "integer")." ".
 			"AND usr_data.usr_id = usr_pref.usr_id ".
-			"AND keyword = 'language'";
+			"AND keyword = ".$ilDB->quote("language", "text");
 
 		$res = $this->db->query($query);
 
@@ -105,7 +107,7 @@ class ilCron
 			$data['owner'] = $row->time_limit_owner;
 
 			// Get owner
-			$query = "SELECT email FROM usr_data WHERE usr_id = '".$data['owner']."'";
+			$query = "SELECT email FROM usr_data WHERE usr_id = ".$ilDB->quote($data['owner'], "integer");
 			
 			$res2 = $this->db->query($query);
 			while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
@@ -123,8 +125,9 @@ class ilCron
 			$mail->send();
 
 			// set status 'mail sent'
-			$query = "UPDATE usr_data SET time_limit_message = '1' WHERE usr_id = '".$data['usr_id']."'";
-			$this->db->query($query);
+			$query = "UPDATE usr_data SET time_limit_message = ".$ilDB->quote(1, "integer").
+				" WHERE usr_id = ".$ilDB->quote($data['usr_id'], "integer");
+			$ilDB->manipulate($query);
 			
 			// Send log message
 			$this->log->write('Cron: (checkUserAccounts()) sent message to '.$data['login'].'.');

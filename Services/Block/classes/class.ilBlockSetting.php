@@ -170,7 +170,7 @@ class ilBlockSetting
 		{
 			$ilDB->manipulate("DELETE FROM il_block_setting WHERE block_id = ".
 				$ilDB->quote($a_block_id, "integer").
-				"AND type = ".$ilDB->quote($a_block_type, "text"));
+				" AND type = ".$ilDB->quote($a_block_type, "text"));
 		}
 	}
 	

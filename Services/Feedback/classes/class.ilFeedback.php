@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -397,10 +397,10 @@ class ilFeedback {
 	function getChartData(){
 		global $ilDB;
 		if($this->user_id!='')
-			$user_filter = ' feedback_results.user_id='.$ilDB->quote($this->user_id).' AND ';
+			$user_filter = ' feedback_results.user_id='.$ilDB->quote($this->user_id, "integer").' AND ';
 		$q='SELECT usr_data.login, feedback_results.user_id,feedback_results.vote, feedback_results.votetime, FROM_UNIXTIME(feedback_results.votetime,"%d.%m.%Y %H:%i") as timelabel FROM'.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id WHERE '.
-			' '.$user_filter.' feedback_results.fb_id='.$ilDB->quote($this->id).
+			' '.$user_filter.' feedback_results.fb_id='.$ilDB->quote($this->id, "integer").
 			' ORDER BY feedback_results.votetime,usr_data.login';
 
 		$res = $ilDB->query($q);
@@ -455,11 +455,11 @@ class ilFeedback {
 	function getNotes(){
 	global $ilDB;
 		if($this->user_id!='')
-			$user_filter = ' AND feedback_results.user_id='.$ilDB->quote($this->user_id);
+			$user_filter = ' AND feedback_results.user_id='.$ilDB->quote($this->user_id, "integer");
 		$q='SELECT usr_data.login, feedback_results.user_id,feedback_results.note,feedback_results.vote, feedback_results.votetime, FROM_UNIXTIME(feedback_results.votetime,"%d.%m.%Y %H:%i") as timelabel FROM'.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id'.
 			' WHERE  feedback_results.note<>""'.
-			' '.$user_filter.' AND feedback_results.fb_id='.$ilDB->quote($this->id).
+			' '.$user_filter.' AND feedback_results.fb_id='.$ilDB->quote($this->id, "integer").
 			' ORDER BY feedback_results.votetime,usr_data.login';
 
 		$res = $ilDB->query($q);
@@ -480,7 +480,7 @@ class ilFeedback {
 		global $ilDB;
 		$q='SELECT distinct(usr_data.login), feedback_results.user_id  FROM'.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id'.
-			' WHERE feedback_results.fb_id='.$ilDB->quote($this->id).
+			' WHERE feedback_results.fb_id='.$ilDB->quote($this->id, "integer").
 			' ORDER BY feedback_results.votetime,usr_data.login';
 
 		$res = $ilDB->query($q);

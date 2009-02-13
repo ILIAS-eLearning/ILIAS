@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -643,9 +643,10 @@ class ilObjUserFolder extends ilObject
 		//$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
 		$settings =& $this->getExportSettings();
 		$data = array();
-		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language' ORDER BY usr_data.lastname, usr_data.firstname";
+		$query = "SELECT usr_data.*, usr_pref.value AS language FROM usr_data, usr_pref WHERE usr_pref.usr_id = usr_data.usr_id ".
+			"AND usr_pref.keyword = ".$ilDB->quote("language", "text")." ORDER BY usr_data.lastname, usr_data.firstname";
 		$result = $ilDB->query($query);
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($result))
 		{
 			if (is_array($user_data_filter))
 			{
@@ -781,9 +782,9 @@ class ilObjUserFolder extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "UPDATE usr_data SET time_limit_owner = ".$ilDB->quote($a_new_id)." ".
-			"WHERE time_limit_owner = ".$ilDB->quote($a_old_id)." ";
-		$ilDB->query($query);
+		$query = "UPDATE usr_data SET time_limit_owner = ".$ilDB->quote($a_new_id, "integer")." ".
+			"WHERE time_limit_owner = ".$ilDB->quote($a_old_id, "integer")." ";
+		$ilDB->manipulate($query);
 		
 		return true;
 	}
