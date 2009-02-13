@@ -114,6 +114,8 @@ class ilRbacReview
 	*/
 	function searchRolesByMailboxAddressList($a_address_list)
 	{
+		global $ilDB;
+		
 		$role_ids = array();
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
@@ -138,13 +140,13 @@ class ilRbacReview
 				if (substr($local_part,0,8) == 'il_role_')
 				{
 					$role_id = substr($local_part,8);
-					$q = "SELECT t.tree ".
-						"FROM rbac_fa AS fa ".
-						"JOIN tree AS t ON t.child=fa.parent ".
-						"WHERE fa.rol_id=".$this->ilDB->quote($role_id)." ".
-						"AND fa.assign='y' ".
-						"AND t.tree=1";
-					$r = $this->ilDB->query($q);
+					$query = "SELECT t.tree ".
+						"FROM rbac_fa fa ".
+						"JOIN tree t ON t.child = fa.parent ".
+						"WHERE fa.rol_id = ".$this->ilDB->quote($role_id,'integer')." ".
+						"AND fa.assign = 'y' ".
+						"AND t.tree = 1";
+					$r = $ilDB->query($query);
 					if ($r->numRows() > 0)
 					{
 						$role_ids[] = $role_id;
@@ -168,11 +170,11 @@ class ilRbacReview
 				if (strtolower($address->host) == 'ilias')
 				{
 					// Search for roles = local-part in the whole repository
-					$q = "SELECT dat.obj_id ".
-						"FROM object_data AS dat ".
-						"JOIN rbac_fa AS fa ON fa.rol_id = dat.obj_id ".
-						"JOIN tree AS t ON t.child = fa.parent ".
-						"WHERE dat.title =".$this->ilDB->quote($local_part)." ".
+					$query = "SELECT dat.obj_id ".
+						"FROM object_data dat ".
+						"JOIN rbac_fa fa ON fa.rol_id = dat.obj_id ".
+						"JOIN tree t ON t.child = fa.parent ".
+						"WHERE dat.title =".$this->ilDB->quote($local_part,'text')." ".
 						"AND dat.type = 'role' ".
 						"AND fa.assign = 'y' ".
 						"AND t.tree = 1";
@@ -180,20 +182,20 @@ class ilRbacReview
 				else
 				{
 					// Search for roles like local-part in objects = host
-					$q = "SELECT rdat.obj_id ".
+					$query = "SELECT rdat.obj_id ".
 						"FROM object_data AS odat ".
-						"JOIN object_reference AS oref ON oref.obj_id = odat.obj_id ".
-						"JOIN tree AS otree ON otree.child = oref.ref_id ".
-						"JOIN tree AS rtree ON rtree.parent = otree.child ".
-						"JOIN rbac_fa AS rfa ON rfa.parent = rtree.child ".
-						"JOIN object_data AS rdat ON rdat.obj_id = rfa.rol_id ".
-						"WHERE odat.title = ".$this->ilDB->quote($domain)." ".
+						"JOIN object_reference oref ON oref.obj_id = odat.obj_id ".
+						"JOIN tree otree ON otree.child = oref.ref_id ".
+						"JOIN tree rtree ON rtree.parent = otree.child ".
+						"JOIN rbac_fa rfa ON rfa.parent = rtree.child ".
+						"JOIN object_data rdat ON rdat.obj_id = rfa.rol_id ".
+						"WHERE odat.title = ".$this->ilDB->quote($domain,'text')." ".
 						"AND otree.tree = 1 AND rtree.tree = 1 ".
 						"AND rfa.assign = 'y' ".
 						"AND rdat.title LIKE ".
-							$this->ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%');
+							$this->ilDB->quote('%'.preg_replace('/([_%])/','\\\\$1',$local_part).'%','text');
 				}
-				$r = $this->ilDB->query($q);
+				$r = $ilDB->query($query);
 
 				$count = 0;
 				while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -325,23 +327,23 @@ class ilRbacReview
 	 */
 	function getRoleMailboxAddress($a_role_id, $is_localize = true)
 	{
-		global $log, $lng;
+		global $log, $lng,$ilDB;
 
 		include_once "Services/Mail/classes/class.ilMail.php";
 		if (ilMail::_usePearMail())
 		{
 			// Retrieve the role title and the object title.
-			$q = "SELECT rdat.title AS role_title,odat.title AS object_title, ".
-					" oref.ref_id AS object_ref ".
-				"FROM object_data AS rdat ".
-				"JOIN rbac_fa AS fa ON fa.rol_id = rdat.obj_id ".
-				"JOIN tree AS rtree ON rtree.child = fa.parent ".
-				"JOIN object_reference AS oref ON oref.ref_id = rtree.parent ".
-				"JOIN object_data AS odat ON odat.obj_id = oref.obj_id ".
-				"WHERE rdat.obj_id = ".$this->ilDB->quote($a_role_id)." ".
+			$query = "SELECT rdat.title role_title,odat.title AS object_title, ".
+				" oref.ref_id object_ref ".
+				"FROM object_data rdat ".
+				"JOIN rbac_fa fa ON fa.rol_id = rdat.obj_id ".
+				"JOIN tree rtree ON rtree.child = fa.parent ".
+				"JOIN object_reference oref ON oref.ref_id = rtree.parent ".
+				"JOIN object_data odat ON odat.obj_id = oref.obj_id ".
+				"WHERE rdat.obj_id = ".$this->ilDB->quote($a_role_id,'integer')." ".
 				"AND fa.assign = 'y' ";
-			$r = $this->ilDB->query($q);
-			if (! ($row = $r->fetchRow(DB_FETCHMODE_OBJECT)))
+			$r = $ilDB->query($query);
+			if (!$row = $ilDB->fetchObject($r))
 			{
 				//$log->write('class.ilRbacReview->getMailboxAddress('.$a_role_id.'): error role does not exist');
 				return null; // role does not exist
@@ -424,15 +426,14 @@ class ilRbacReview
 			}
 			else
 			{
-				$q = "SELECT COUNT(rd.obj_id) AS count ".
-					 "FROM object_data AS rd ".
-					 "JOIN rbac_fa AS fa ON rd.obj_id = fa.rol_id ".
-					 "JOIN tree AS t ON t.child = fa.parent ". 
+				$q = "SELECT COUNT(rd.obj_id) count ".
+					 "FROM object_data rd ".
+					 "JOIN rbac_fa fa ON rd.obj_id = fa.rol_id ".
+					 "JOIN tree t ON t.child = fa.parent ". 
 					 "WHERE fa.assign = 'y' ".
-					 "AND t.parent = ".$this->ilDB->quote($object_ref)." ".
+					 "AND t.parent = ".$this->ilDB->quote($object_ref,'integer')." ".
 					 "AND rd.title LIKE ".$this->ilDB->quote(
-						'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%')
-					;
+						'%'.preg_replace('/([_%])/','\\\\$1', $local_part).'%','text');
 			}
 
 			$r = $this->ilDB->query($q);
@@ -724,13 +725,13 @@ class ilRbacReview
 
 		$where = $this->__setTemplateFilter($a_templates);
 	
-		$q = "SELECT * FROM object_data ".
+		$query = "SELECT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.parent = ".$ilDB->quote($a_ref_id)." ";
-		$r = $this->ilDB->query($q);
+			 "AND rbac_fa.parent = ".$ilDB->quote($a_ref_id,'integer')." ";
+		$res = $ilDB->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($res))
 		{
 			$row["desc"] = $row["description"];
 			$row["user_id"] = $row["owner"];
@@ -756,13 +757,13 @@ class ilRbacReview
 
 		$where = $this->__setTemplateFilter($a_templates);
 
-		$q = "SELECT DISTINCT * FROM object_data ".
+		$query = "SELECT DISTINCT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
 			 "AND rbac_fa.assign = 'y'";
-		$r = $this->ilDB->query($q);
+		$res = $ilDB->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($row = $ilDB->fetchAssoc($res))
 		{
 			$row["desc"] = $row["description"];
 			$row["user_id"] = $row["owner"];
@@ -782,28 +783,30 @@ class ilRbacReview
 	*/
 	function getAssignableRolesInSubtree($ref_id)
 	{
+		global $ilDB;
+		
 		$role_list = array();
-
-		$where = $this->__setTemplateFilter($a_templates);
-
-		$q = "SELECT fa.*, dat.* ".
-			"FROM tree AS root ".
-			"JOIN tree AS node ON node.tree = root.tree AND node.lft > root.lft AND node.rgt < root.rgt ".
-			"JOIN object_reference AS ref ON ref.ref_id = node.child ".
-			"JOIN rbac_fa AS fa ON fa.parent = ref.ref_id ".
-			"JOIN object_data AS dat ON dat.obj_id = fa.rol_id ".
-			"WHERE root.child = ".$this->ilDB->quote($ref_id)." AND root.tree = 1 ".
+		$where = $this->__setTemplateFilter(false);
+		
+		$query = "SELECT fa.*, dat.* ".
+			"FROM tree root ".
+			"JOIN tree node ON node.tree = root.tree ".
+			"AND node.lft > root.lft AND node.rgt < root.rgt ".
+			"JOIN object_reference ref ON ref.ref_id = node.child ".
+			"JOIN rbac_fa fa ON fa.parent = ref.ref_id ".
+			"JOIN object_data dat ON dat.obj_id = fa.rol_id ".
+			"WHERE root.child = ".$this->ilDB->quote($ref_id,'integer')." ".
+			"AND root.tree = 1 ".
 			"AND fa.assign = 'y' ".
 			"ORDER BY dat.title";
-		$r = $this->ilDB->query($q);
+		$res = $ilDB->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$role_list[] = $row;
 		}
 		
 		$role_list = $this->__setRoleType($role_list);
-		
 		return $role_list;
 	}
 
@@ -815,23 +818,21 @@ class ilRbacReview
 	*/
 	function getAssignableChildRoles($a_ref_id)
 	{
+		global $ilDB;
 		global $tree;
 
-		//$roles_data = $this->getAssignableRoles();
-		$q = "SELECT fa.*, rd.* ".
-			 "FROM object_data AS rd ".
-			 "JOIN rbac_fa AS fa ON rd.obj_id = fa.rol_id ".
-			 "JOIN tree AS t ON t.child = fa.parent ". 
+		$query = "SELECT fa.*, rd.* ".
+			 "FROM object_data rd ".
+			 "JOIN rbac_fa fa ON rd.obj_id = fa.rol_id ".
+			 "JOIN tree t ON t.child = fa.parent ". 
 			 "WHERE fa.assign = 'y' ".
-			 "AND t.parent = ".$this->ilDB->quote($a_ref_id)." "
+			 "AND t.parent = ".$this->ilDB->quote($a_ref_id,'integer')." "
 			;
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$roles_data[] = $row;
 		}
-		
 		return $roles_data ? $roles_data : array();
 	}
 	
@@ -1025,7 +1026,6 @@ class ilRbacReview
 		if ($a_rol_id == SYSTEM_ROLE_ID)
 		{
 			$ilBench->stop("RBAC", "review_isAssignable");
-
 			return true;
 		}
 
@@ -1035,14 +1035,13 @@ class ilRbacReview
 					   " role_id: ".$a_rol_id." ,ref_id: ".$a_ref_id;
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-		
-		$q = "SELECT * FROM rbac_fa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
-			 "AND parent = ".$ilDB->quote($a_ref_id)." ";
-		$row = $this->ilDB->getRow($q);
+		$query = "SELECT * FROM rbac_fa ".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".
+			 "AND parent = ".$ilDB->quote($a_ref_id,'integer')." ";
+		$res = $ilDB->query($query);
+		$row = $ilDB->fetchObject($res);
 
 		$ilBench->stop("RBAC", "review_isAssignable");
-
 		return $row->assign == 'y' ? true : false;
 	}
 
@@ -1071,15 +1070,14 @@ class ilRbacReview
 			$where = " AND assign ='y'";
 		}
 
-		$q = "SELECT DISTINCT parent FROM rbac_fa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".$where;
-		$r = $this->ilDB->query($q);
+		$query = "SELECT DISTINCT parent FROM rbac_fa ".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".$where;
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
 		{
 			$folders[] = $row->parent;
 		}
-
 		return $folders ? $folders : array();
 	}
 
@@ -1109,13 +1107,12 @@ class ilRbacReview
 			$and = " AND assign='y'";
 		}
 
-		$q = "SELECT rol_id FROM rbac_fa ".
-			 "WHERE parent = ".$ilDB->quote($a_ref_id)." ".
+		$query = "SELECT rol_id FROM rbac_fa ".
+			 "WHERE parent = ".$ilDB->quote($a_ref_id,'integer')." ".
 			 $and;
 
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
 		{
 			$rol_id[] = $row->rol_id;
 		}
@@ -1177,16 +1174,16 @@ class ilRbacReview
 	*/
 	function __getAllRoleFolderIds()
 	{
-		$parent = array();
+		global $ilDB;
 		
-		$q = "SELECT DISTINCT parent FROM rbac_fa";
-		$r = $this->ilDB->query($q);
+		$query = "SELECT DISTINCT parent FROM rbac_fa";
+		$res = $ilDB->query($query);
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$parent = array();
+		while($row = $ilDB->fetchObject($res))
 		{
 			$parent[] = $row->parent;
 		}
-
 		return $parent;
 	}
 
@@ -1459,20 +1456,14 @@ class ilRbacReview
 
             // all (assignable) global roles
             case 2:
-				$where = "WHERE rbac_fa.rol_id IN ";
-				$where .= '(';
-				$where .= implode(',',ilUtil::quoteArray($this->getGlobalRoles()));
-				$where .= ')';
+				$where = 'WHERE '.$ilDB->in('rbac_fa.rol_id',$this->getGlobalRoles(),false,'integer').' ';
 				break;
 
             // all (assignable) local roles
             case 3:
             case 4:
             case 5:
-				$where = "WHERE rbac_fa.rol_id NOT IN ";
-				$where .= '(';
-				$where .= implode(',',ilUtil::quoteArray($this->getGlobalRoles()));
-				$where .= ')';
+				$where = 'WHERE '.$ilDB->in('rbac_fa.rol_id',$this->getGlobalRoles(),true,'integer');
 				break;
 				
             // all role templates
@@ -1484,24 +1475,22 @@ class ilRbacReview
             // only assigned roles, handled by ilObjUserGUI::roleassignmentObject()
             case 0:
 			default:
-                if (!$a_user_id) return array();
-                
-				$where = "WHERE rbac_fa.rol_id IN ";
-				$where .= '(';
-				$where .= implode(',',ilUtil::quoteArray($this->assignedRoles($a_user_id)));
-				$where .= ')';
+                if(!$a_user_id) 
+                	return array();
+
+				$where = 'WHERE '.$ilDB->in('rbac_fa.rol_id',$this->assignedRoles($a_user_id),false,'integer').' ';
                 break;
 		}
 		
 		$roles = array();
 
-		$q = "SELECT DISTINCT * FROM object_data ".
+		$query = "SELECT DISTINCT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
-			 "AND rbac_fa.assign = ".$ilDB->quote($assign)." ";
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+			 "AND rbac_fa.assign = ".$ilDB->quote($assign,'text')." ";
+		
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
 		{
             $prefix = (substr($row["title"],0,3) == "il_") ? true : false;
 
@@ -1614,12 +1603,11 @@ class ilRbacReview
 		
 		$and = " AND assign='n'";
 
-		$q = "SELECT rol_id FROM rbac_fa ".
-			 "WHERE parent = ".$ilDB->quote($a_ref_id)." ".
+		$query = "SELECT rol_id FROM rbac_fa ".
+			 "WHERE parent = ".$ilDB->quote($a_ref_id,'integer')." ".
 			 $and;
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $this->ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
 		{
 			$rol_id[] = $row->rol_id;
 		}
@@ -1632,13 +1620,13 @@ class ilRbacReview
 	{
 		global $ilDB;
 		
-		$q = "SELECT protected FROM rbac_fa ".
-			 "WHERE rol_id= ".$ilDB->quote($a_role_id)." ".
-			 "AND parent= ".$ilDB->quote($a_ref_id)." ";
-		$r = $this->ilDB->query($q);
-		$row = $r->fetchRow();
+		$query = "SELECT protected FROM rbac_fa ".
+			 "WHERE rol_id = ".$ilDB->quote($a_role_id,'integer')." ".
+			 "AND parent = ".$ilDB->quote($a_ref_id,'integer')." ";
+		$res = $ilDB->query($query);
+		$row = $ilDB->fetchAssoc($res);
 		
-		return ilUtil::yn2tf($row[0]);
+		return ilUtil::yn2tf($row['protected']);
 	}
 	
 	// this method alters the protected status of role regarding the current user's role assignment
@@ -1771,14 +1759,14 @@ class ilRbacReview
 	{
 		global $ilDB;
 		
-		$query = "SELECT obr.obj_id FROM rbac_fa as rfa ".
+		$query = "SELECT obr.obj_id FROM rbac_fa rfa ".
 			"JOIN tree ON rfa.parent = tree.child ".
-			"JOIN object_reference AS obr ON tree.parent = obr.ref_id ".
+			"JOIN object_reference obr ON tree.parent = obr.ref_id ".
 			"WHERE tree.tree = 1 ".
 			"AND assign = 'y' ".
-			"AND rol_id = ".$ilDB->quote($a_role_id)." ";
+			"AND rol_id = ".$ilDB->quote($a_role_id,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$obj_id = $row->obj_id;
 		}
@@ -1818,15 +1806,14 @@ class ilRbacReview
 
 		$where = $this->__setTemplateFilter($use_templates);
 
-		$q = "SELECT DISTINCT * FROM object_data ".
+		$query = "SELECT DISTINCT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
 			 "AND rbac_fa.assign = 'y' " .
-			 "AND object_data.obj_id IN (".implode(",", $role_ids).")";
+			 'AND '.$ilDB->in('object_data.obj_id',$role_ids,false,'integer');
 		
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
 		{
 			$row["desc"] = $row["description"];
 			$row["user_id"] = $row["owner"];
@@ -1862,6 +1849,28 @@ class ilRbacReview
 		}
 		return $info ? $info : array();
 		
+	}
+	
+	/**
+	 * Filter empty role folder.
+	 * This method is used after deleting
+	 * roles, to check which empty role folders have to deleted.
+	 *  
+	 * @param array	$a_rolf_candidates
+	 * @return array
+	 */
+	public function filterEmptyRoleFolders($a_rolf_candidates)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT DISTINCT(parent) parent FROM rbac_fa '.
+			'WHERE '.$ilDB->in('parent',$a_rolf_candidates,false,'integer');
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
+		{
+			$non_empty[] = $row->parent;
+		}
+		return $non_empty ? $non_empty : array();
 	}
 } // END class.ilRbacReview
 ?>

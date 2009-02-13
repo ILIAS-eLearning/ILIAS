@@ -7649,3 +7649,14 @@ ALTER TABLE `rbac_operations` ADD INDEX `operation` ( `operation` );
 <?php
 	$ilMySQLAbstraction->performAbstraction('rbac_operations');
 ?>
+
+<#1595>
+ALTER TABLE rbac_fa MODIFY `assign` CHAR(1);
+
+<#1596>
+ALTER TABLE `rbac_fa` CHANGE `protected` `protected` CHAR( 1 ) NULL DEFAULT 'n'; 
+
+<#1597>
+<?php
+	$ilMySQLAbstraction->performAbstraction('rbac_fa');
+?>
