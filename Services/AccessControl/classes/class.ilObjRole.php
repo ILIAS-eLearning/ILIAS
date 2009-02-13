@@ -285,8 +285,8 @@ class ilObjRole extends ilObject
 			//
 			// Performance improvement: In the code section below, we
 			// only need to consider _global_ roles. We don't need
-                        // to check for _local_ roles, because a user who has
-                        // a local role _always_ has a global role too.
+			// to check for _local_ roles, because a user who has
+			// a local role _always_ has a global role too.
 			$last_role_user_ids = array();
 			if ($this->getParent() == ROLE_FOLDER_ID)
 			{
@@ -359,28 +359,21 @@ class ilObjRole extends ilObject
 		//
 		// Performance improvement: We filter out all role folders
 		// which still contain roles, _before_ we attempt to purge them.
-                // This is faster than attempting to purge all role folders,
-                // and let function purge() of the role folder find out, if
-                // purging is possible.
-		$q = "SELECT DISTINCT parent FROM rbac_fa ".
-			 "WHERE parent IN (".implode(',',$role_folders).")";
-
-		$r = $ilDB->query($q);
-		$non_empty_role_folders = array();
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$non_empty_role_folders[] = $row->parent;
-		}
-		$role_folders = array_diff($role_folders,$non_empty_role_folders);                
-                
-                // Attempt to purge the role folders
+        // This is faster than attempting to purge all role folders,
+        // and let function purge() of the role folder find out, if
+        // purging is possible.
+        
+        $non_empty_role_folders = $rbacreview->filterEmptyRoleFolders($role_folders);
+		$role_folders = array_diff($role_folders,$non_empty_role_folders);
+        
+		// Attempt to purge the role folders
 		foreach ($role_folders as $rolf)
 		{
 			if (ilObject::_exists($rolf,true))
 			{
 				$rolfObj = $this->ilias->obj_factory->getInstanceByRefId($rolf);
 				$rolfObj->purge();
-				unset($roleObj);
+				unset($rolfObj);
 			}
 		}
 		

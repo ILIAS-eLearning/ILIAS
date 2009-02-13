@@ -149,9 +149,9 @@ class ilRbacAdmin
 			 "WHERE rol_id = ".$ilDB->quote($a_obj_id) ." ";
 		$this->ilDB->query($q);
 
-		$q = "DELETE FROM rbac_fa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_obj_id) ." ";
-		$this->ilDB->query($q);
+		$query = 'DELETE FROM rbac_fa '.
+			'WHERE rol_id = '.$ilDB->quote($a_obj_id,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -181,14 +181,13 @@ class ilRbacAdmin
 
 		if ($a_ref_id != 0)
 		{
-			$clause = "AND parent = ".$ilDB->quote($a_ref_id)." ";
+			$clause = 'AND parent = '.$ilDB->quote($a_ref_id,'integer').' ';
 		}
 		
-		$q = "DELETE FROM rbac_fa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
+		$query = 'DELETE FROM rbac_fa '.
+			 'WHERE rol_id = '.$ilDB->quote($a_rol_id,'integer').' '.
 			 $clause;
-
-		$this->ilDB->query($q);
+		$res = $ilDB->manipulate($query);
 
 		$q = "DELETE FROM rbac_templates ".
 			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
@@ -755,9 +754,13 @@ class ilRbacAdmin
 			$a_assign = "n";
 		}
 
-		$q = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
-			 "VALUES (".$ilDB->quote($a_rol_id).",".$ilDB->quote($a_parent).",".$ilDB->quote($a_assign).")";
-		$this->ilDB->query($q);
+		$query = sprintf('INSERT INTO rbac_fa (rol_id, parent, assign, protected) '.
+			'VALUES (%s,%s,%s,%s)',
+			$ilDB->quote($a_rol_id,'integer'),
+			$ilDB->quote($a_parent,'integer'),
+			$ilDB->quote($a_assign,'text'),
+			$ilDB->quote('n','text'));
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -821,13 +824,12 @@ class ilRbacAdmin
 	{
 		global $ilDB;
 		
-		// ref_id not used yet. protected permission acts 'global' for each role, regardless of any broken inheritance before
-		$q = "UPDATE rbac_fa ".
-			 "SET protected = ".$ilDB->quote($a_value)." ".
-			 //"WHERE parent = '".$a_ref_id."' ".
-			 "WHERE rol_id = ".$ilDB->quote($a_role_id)." ";
-		$this->ilDB->query($q);
-		
+		// ref_id not used yet. protected permission acts 'global' for each role, 
+		// regardless of any broken inheritance before
+		$query = 'UPDATE rbac_fa '.
+			'SET protected = '.$ilDB->quote($a_value,'text').' '.
+			'WHERE rol_id = '.$ilDB->quote($a_role_id,'integer');
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
