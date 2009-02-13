@@ -439,7 +439,15 @@ class ilDB extends PEAR
 		
 		$this->handleError($def, "renameTableColumn(".$a_table.",".$a_column.",".$a_new_column.")");
 
-		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
+		{
+			include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		else
+		{
+			include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+
 		$analyzer = new ilDBAnalyzer();
 		$best_alt = $analyzer->getBestDefinitionAlternative($def);
 		$def = $def[$best_alt];
