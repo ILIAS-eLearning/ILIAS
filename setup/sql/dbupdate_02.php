@@ -7636,3 +7636,16 @@ foreach($events as $event)
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1591>
+ALTER TABLE rbac_operations MODIFY `class` CHAR(16);
+
+<#1592>
+ALTER TABLE `rbac_operations` DROP INDEX `operation`;
+
+<#1593>
+ALTER TABLE `rbac_operations` ADD INDEX `operation` ( `operation` );
+
+<#1594>
+<?php
+	$ilMySQLAbstraction->performAbstraction('rbac_operations');
+?>
