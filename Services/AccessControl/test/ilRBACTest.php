@@ -86,5 +86,18 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		
 		$rbacreview->getRolesForIDs(array(4),false);
 	}
+	
+	/**
+	 * test rbac_ua 
+	 */
+	public function testRbacUA()
+	{
+		global $rbacreview,$rbacadmin;
+		
+		$obj = ilUtil::_getObjectsByOperations('crs','join');
+		
+		$rbacreview->assignedUsers(4);
+		$rbacreview->assignedRoles(6);
+	}
 }
 ?>
