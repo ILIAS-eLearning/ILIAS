@@ -153,12 +153,8 @@ class ilObjDlBook extends ilObjContentObject
 		// ------------------------------------------------------
 		// anhand der ref_id die obj_id ermitteln.
 		// ------------------------------------------------------
-		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id= ".
-			$ilDB->quote($this->getRefId())." AND object_reference.obj_id=object_data.obj_id ";
-        $result = $this->ilias->db->query($query);
-
-		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
-
+		$objRow["obj_id"] = ilOject::_lookupObjId();
+		$objRow["title"] = ilOject::_lookupTitle($objRow["obj_id"]);
 		$obj_id = $objRow["obj_id"];
 
         $this->mob_ids = array();
@@ -434,95 +430,12 @@ class ilObjDlBook extends ilObjContentObject
 		switch($a_search_in)
 		{
 			case 'meta':
-				// FILTER ALL DBK OBJECTS
-				$in		= $search_obj->getInStatement("r.ref_id");
-				$where	= $search_obj->getWhereCondition("fulltext",array("xv.tag_value"));
-
-				/* very slow on mysql < 4.0.18
-				$query = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
-					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
-					$where.
-					$in.
-					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id) OR ".
-					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('dbk','bib'))) ".
-					"AND xm.ns_tag_fk=xv.tag_fk ".
-					"AND o.type= 'dbk'"; */
-
-				$query1 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
-					"xmlnestedset AS xm,xmlvalue AS xv ".
-					$where.
-					$in.
-					"AND r.obj_id=o.obj_id AND ( ".
-					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('dbk','bib'))) ".
-					"AND xm.ns_tag_fk=xv.tag_fk ".
-					"AND o.type= 'dbk'";
-
-				// BEGINNING SELECT WITH SEARCH RESULTS IS MUCH FASTER
-				$query1 = "SELECT DISTINCT(r.ref_id) as ref_id FROM xmlvalue AS xv ".
-					"LEFT JOIN xmlnestedset AS xm ON xm.ns_tag_fk=xv.tag_fk ".
-					"LEFT JOIN object_data AS o ON o.obj_id = xm.ns_book_fk ".
-					"LEFT JOIN object_reference AS r ON o.obj_id = r.obj_id ".
-					$where.
-					$in.
-					" AND o.type = 'dbk' AND xm.ns_type IN ('dbk','bib')";
-
-				$query2 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
-					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
-					$where.
-					$in.
-					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id) ".
-					") ".
-					"AND xm.ns_tag_fk=xv.tag_fk ".
-					"AND o.type= 'dbk'";
-
-				$query2 = "SELECT DISTINCT(r.ref_id) as ref_id FROM xmlvalue AS xv ".
-					" LEFT JOIN xmlnestedset AS xm ON xm.ns_tag_fk = xv.tag_fk ".
-					" LEFT JOIN lm_data AS l ON l.obj_id = xm.ns_book_fk ".
-					" LEFT JOIN object_data AS o ON o.obj_id = l.lm_id ".
-					" LEFT JOIN object_reference AS r ON r.obj_id = o.obj_id ".
-					$where.
-					$in.
-					"AND o.type = 'dbk'";
-					
-
-				/*
-				$query = "SELECT DISTINCT(r.ref_id) AS ref_id FROM object_reference AS r ".
-					"INNER JOIN object_data AS o ON r.obj_id=o.obj_id ".
-					"INNER JOIN lm_data AS l ON l.lm_id = o.obj_id ".
-					"INNER JOIN xmlnestedset AS xm ON (xm.ns_book_fk = l.obj_id OR xm.ns_type IN ('dbk','bib')) ".
-					"INNER JOIN xmlvalue AS xv ON xm.ns_tag_fk = xv.tag_fk ".
-					$where.
-					$in.
-					"AND o.type = 'dbk'";
-				*/
-
-				$ilBench->start("Search", "ilObjDlBook_search_meta");
-				$res1 = $search_obj->ilias->db->query($query1);
-				$res2 = $search_obj->ilias->db->query($query2);
-				$ilBench->stop("Search", "ilObjDlBook_search_meta");
-
-				$counter = 0;
-				$ids = array();
-				while($row = $res1->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					$ids[] = $row->ref_id;
-					$result[$counter]["id"]		=  $row->ref_id;
-
-					++$counter;
-				}
-				while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					if(in_array($row->ref_id,$ids))
-					{
-						continue;
-					}
-					$result[$counter]["id"]		=  $row->ref_id;
-
-					++$counter;
-				}
+				die("ilObjContentObject::_search/meta is deprecated.");
 				break;
 
 			case 'content':
+				die("ilObjContentObject::_search/content is deprecated.");
+/*
 				$in		= $search_obj->getInStatement("ref_id");
 				$where	= $search_obj->getWhereCondition("fulltext",array("pg.content"));
 
@@ -544,6 +457,7 @@ class ilObjDlBook extends ilObjContentObject
 
 					++$counter;
 				}
+*/
 				break;
 		}
 		return $result ? $result : array();

@@ -1095,91 +1095,14 @@ class ilObjContentObject extends ilObject
 		switch($a_search_in)
 		{
 			case 'meta':
-				// FILTER ALL DBK OBJECTS
-				$in		= $search_obj->getInStatement("r.ref_id");
-				$where	= $search_obj->getWhereCondition("fulltext",array("xv.tag_value"));
-
-				/* very slow on mysql < 4.0.18 (? or everytime ?)
-				$query = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
-					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
-					$where.
-					$in.
-					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id) OR ".
-					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('lm','bib'))) ".
-					"AND xm.ns_tag_fk=xv.tag_fk ".
-					"AND o.type= 'lm'";*/
-
-				$query1 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
-					"xmlnestedset AS xm,xmlvalue AS xv ".
-					$where.
-					$in.
-					"AND r.obj_id=o.obj_id AND ( ".
-					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('lm','bib'))) ".
-					"AND xm.ns_tag_fk=xv.tag_fk ".
-					"AND o.type= 'lm'";
-
-				// BEGINNING SELECT WITH SEARCH RESULTS IS MUCH FASTER
-				$query1 = "SELECT DISTINCT(r.ref_id) as ref_id FROM xmlvalue AS xv ".
-					"LEFT JOIN xmlnestedset AS xm ON xm.ns_tag_fk=xv.tag_fk ".
-					"LEFT JOIN object_data AS o ON o.obj_id = xm.ns_book_fk ".
-					"LEFT JOIN object_reference AS r ON o.obj_id = r.obj_id ".
-					$where.
-					$in.
-					" AND o.type = 'lm' AND xm.ns_type IN ('lm','bib')";
-
-				$query2 = "SELECT DISTINCT(r.ref_id) FROM object_reference AS r,object_data AS o, ".
-					"lm_data AS l,xmlnestedset AS xm,xmlvalue AS xv ".
-					$where.
-					$in.
-					"AND r.obj_id=o.obj_id AND ((o.obj_id=l.lm_id AND xm.ns_book_fk=l.obj_id)".
-					") ".
-					"AND xm.ns_tag_fk=xv.tag_fk ".
-					"AND o.type= 'lm'";
-
-				$query2 = "SELECT DISTINCT(r.ref_id) as ref_id FROM xmlvalue AS xv ".
-					"LEFT JOIN xmlnestedset AS xm ON xm.ns_tag_fk = xv.tag_fk ".
-					"LEFT JOIN lm_data AS l ON l.obj_id = xm.ns_book_fk ".
-					"LEFT JOIN object_data AS o ON o.obj_id = l.lm_id ".
-					"LEFT JOIN object_reference AS r ON r.obj_id = o.obj_id ".
-					$where.
-					$in.
-					"AND o.type = 'lm'";
-
-				$ilBench->start("Search", "ilObjContentObject_search_meta");
-				$res1 = $search_obj->ilias->db->query($query1);
-				$res2 = $search_obj->ilias->db->query($query2);
-				$ilBench->stop("Search", "ilObjContentObject_search_meta");
-
-				$counter = 0;
-				$ids = array();
-				while($row = $res1->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					$ids[] = $row->ref_id;
-					$result[$counter]["id"]		=  $row->ref_id;
-					++$counter;
-				}
-				while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					if(in_array($row->ref_id,$ids))
-					{
-						continue;
-					}
-					$result[$counter]["id"]		=  $row->ref_id;
-					++$counter;
-				}
+				die("ilObjContentObject::_search/meta is deprecated.");
 				break;
 
 			case 'content':
+				die("ilObjContentObject::_search/content is deprecated.");
+/*
 				$in		= $search_obj->getInStatement("r.ref_id");
 				$where	= $search_obj->getWhereCondition("fulltext",array("pg.content"));
-
-				// slow on mysql < 4.0.18 (join bug)
-				/*
-				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
-					"INNER JOIN object_reference AS r ON pg.parent_id = r.obj_id ".
-					$where.
-					$in.
-					"AND pg.parent_type = 'lm' ";*/
 
 				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
 					", object_reference AS r ".
@@ -1206,6 +1129,7 @@ class ilObjContentObject extends ilObject
 					$result[$counter]["page_id"] = $row->page_id;
 					++$counter;
 				}
+*/
 				break;
 		}
 		return $result ? $result : array();

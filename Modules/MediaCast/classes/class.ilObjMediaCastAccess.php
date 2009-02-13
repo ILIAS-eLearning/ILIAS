@@ -207,13 +207,12 @@ class ilObjMediaCastAccess extends ilObjectAccess
 	{
 		global $ilDB, $lng;
 		
-		$q = "SELECT obj_id FROM object_data WHERE type = 'mcst' AND owner = $user_id";
-		$us_set = $ilDB->query($q);
 		$size = 0;
 		$count = 0;
-		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		$obs = ilObject::_getObjectsByType("mcst", $user_id);
+		foreach($obs as $ob)
 		{
-			$size += ilObjMediaCastAccess::_getDiskSpaceUsed($us_rec["obj_id"]);
+			$size += ilObjMediaCastAccess::_getDiskSpaceUsed($ob["obj_id"]);
 			$count++;
 		}
 		

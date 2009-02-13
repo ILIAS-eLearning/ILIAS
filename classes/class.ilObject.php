@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -194,18 +194,18 @@ class ilObject
 				 "WHERE object_reference.ref_id='".$this->ref_id."'"; */
 
 			$q = "SELECT * FROM object_data, object_reference WHERE object_data.obj_id=object_reference.obj_id ".
-				 "AND object_reference.ref_id= ".$ilDB->quote($this->ref_id);
-			$object_set = $this->ilias->db->query($q);
+				 "AND object_reference.ref_id= ".$ilDB->quote($this->ref_id, "integer");
+			$object_set = $ilDB->query($q);
 			$ilBench->stop("Core", "ilObject_read_readData");
 
 			// check number of records
-			if ($object_set->numRows() == 0)
+			if ($ilDB->numRows($object_set) == 0)
 			{
 				$message = "ilObject::read(): Object with ref_id ".$this->ref_id." not found! (".$this->type.")";
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
-			$obj = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$obj = $ilDB->fetchAssoc($object_set);
 		}
 		else
 		{
@@ -218,17 +218,17 @@ class ilObject
 
 			// read object data
 			$q = "SELECT * FROM object_data ".
-				 "WHERE obj_id = ".$ilDB->quote($this->id);
+				 "WHERE obj_id = ".$ilDB->quote($this->id, "integer");
 			$object_set = $ilDB->query($q);
 
 			// check number of records
-			if ($object_set->numRows() == 0)
+			if ($ilDB->numRows($object_set) == 0)
 			{
 				$message = "ilObject::read(): Object with obj_id: ".$this->id." (".$this->type.") not found!";
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
-			$obj = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$obj = $ilDB->fetchAssoc($object_set);
 		}
 
 		$this->id = $obj["obj_id"];
@@ -480,10 +480,10 @@ class ilObject
 		global $ilDB;
 
 		$query = "SELECT * FROM object_data ".
-			"WHERE import_id = ".$ilDB->quote($a_import_id)." ".
+			"WHERE import_id = ".$ilDB->quote($a_import_id, "text")." ".
 			"ORDER BY create_date DESC";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->obj_id;
 		}
@@ -622,19 +622,23 @@ class ilObject
 		{
 			$owner = 0;
 		}
+		$this->id = $ilDB->nextId("object_data");
 		$q = "INSERT INTO object_data ".
-			 "(type,title,description,owner,create_date,last_update,import_id) ".
+			 "(obj_id,type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
 			 "(".
-			 $ilDB->quote($this->type).",".
-			 $ilDB->quote($this->getTitle()).",".
-			 $ilDB->quote($this->getDescription()).",".
-			 $ilDB->quote($owner).",now(),now(),".
-			 $ilDB->quote($this->getImportId()).")";
+			 $ilDB->quote($this->id, "integer").",".
+			 $ilDB->quote($this->type, "text").",".
+			 $ilDB->quote($this->getTitle(), "text").",".
+			 $ilDB->quote($this->getDescription(), "text").",".
+			 $ilDB->quote($owner, "integer").",".
+			 $ilDB->now().",".
+			 $ilDB->now().",".
+			 $ilDB->quote($this->getImportId(), "text").")";
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 
-		$this->id = $ilDB->getLastInsertId();
+		//$this->id = $ilDB->getLastInsertId();
 
 
 		
@@ -653,9 +657,9 @@ class ilObject
 		// that is not saved at this time, gets lost, so we query for the dates alone
 		//$this->read();
 		$q = "SELECT last_update, create_date FROM object_data".
-			 " WHERE obj_id = ".$ilDB->quote($this->id);
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			 " WHERE obj_id = ".$ilDB->quote($this->id, "integer");
+		$obj_set = $ilDB->query($q);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		$this->last_update = $obj_rec["last_update"];
 		$this->create_date = $obj_rec["create_date"];
 
@@ -681,20 +685,20 @@ class ilObject
 
 		$q = "UPDATE object_data ".
 			"SET ".
-			"title = ".$ilDB->quote($this->getTitle()).",".
-			"description = ".$ilDB->quote($this->getDescription()).", ".
-			"import_id = ".$ilDB->quote($this->getImportId()).",".
-			"last_update = now() ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+			"title = ".$ilDB->quote($this->getTitle(), "text").",".
+			"description = ".$ilDB->quote($this->getDescription(), "text").", ".
+			"import_id = ".$ilDB->quote($this->getImportId(), "text").",".
+			"last_update = ".$ilDB->now()." ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 
 		// the line ($this->read();) messes up meta data handling: meta data,
 		// that is not saved at this time, gets lost, so we query for the dates alone
 		//$this->read();
 		$q = "SELECT last_update FROM object_data".
-			 " WHERE obj_id = ".$ilDB->quote($this->getId());
-		$obj_set = $this->ilias->db->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			 " WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
+		$obj_set = $ilDB->query($q);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 		$this->last_update = $obj_rec["last_update"];
 
 		if($objDefinition->isRBACObject($this->getType()))
@@ -840,15 +844,15 @@ class ilObject
 		
         $q = "UPDATE object_data ".
             "SET ".
-            "owner = ".$ilDB->quote($this->getOwner()).", ".
-            "last_update = now() ".
-            "WHERE obj_id = ".$ilDB->quote($this->getId());
-        $this->ilias->db->query($q);
+            "owner = ".$ilDB->quote($this->getOwner(), "integer").", ".
+            "last_update = ".$ilDB->now()." ".
+            "WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
+        $ilDB->manipulate($q);
 
         $q = "SELECT last_update FROM object_data".
-             " WHERE obj_id = ".$ilDB->quote($this->getId());
-        $obj_set = $this->ilias->db->query($q);
-        $obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+             " WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
+        $obj_set = $ilDB->query($q);
+        $obj_rec = $ilDB->fetchAssoc($obj_set);
         $this->last_update = $obj_rec["last_update"];
 
         return true;
@@ -865,11 +869,11 @@ class ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM object_data WHERE import_id = ".$ilDB->quote($a_import_id).
+		$q = "SELECT * FROM object_data WHERE import_id = ".$ilDB->quote($a_import_id, "text").
 			" ORDER BY create_date DESC LIMIT 1";
 		$obj_set = $ilDB->query($q);
 
-		if ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			return $obj_rec["obj_id"];
 		}
@@ -932,18 +936,15 @@ class ilObject
 	{
 		global $ilDB;
 		
-		$query = (!$partialmatch) ? "SELECT obj_id FROM object_data WHERE title = ?" : "SELECT obj_id FROM object_data WHERE title LIKE ?" ;
-		$datatypes = array('text');
-		$values = (!$partialmatch) ? array($title) : array('%' . $title . '%');
+		$query = (!$partialmatch)
+			? "SELECT obj_id FROM object_data WHERE title = ".$ilDB->quote($title, "text")
+			: "SELECT obj_id FROM object_data WHERE ".$ilDB->like("title", "text", '%'.$title.'%');
 		if($type != '')
 		{
-			$query .= " AND type = ?";
-			$datatypes[] = 'text';
-			$values[] = $type;
+			$query .= " AND type = ".$ilDB->quote($type. "text");
 		}
 		
-		$statement = $ilDB->prepare($query, $datatypes);
-		$result = $ilDB->execute($statement, $values);
+		$result = $ilDB->query($query);
 		
 		$object_ids = array();
 		while($row = $ilDB->fetchAssoc($result))
@@ -999,10 +1000,8 @@ class ilObject
 			$a_objs = array($a_objs);
 		}
 		$types = array();
-		$st = $ilDB->prepare("SELECT max(last_update) as last_update FROM object_data ".
-			"WHERE ".$ilDB->in("obj_id", $a_objs),
-			$ilDB->addTypesToArray($types, "integer", count($a_objs)));
-		$set = $ilDB->execute($st, $a_objs);
+		$set = $ilDB->query("SELECT max(last_update) as last_update FROM object_data ".
+			"WHERE ".$ilDB->in("obj_id", $a_objs, false, "integer"));
 		$rec = $ilDB->fetchAssoc($set);
 		
 		return ($rec["last_update"]);
@@ -1038,6 +1037,22 @@ class ilObject
 			" WHERE ref_id = ".$ilDB->quote($a_ref_id);
 		$ilDB->query($q);
 	}
+	
+	/**
+	* only called in ilObjectGUI::insertSavedNodes
+	*/
+	function _lookupDeletedDate($a_ref_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT deleted FROM object_reference".
+			" WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer");
+		$set = $ilDB->query($q);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec["deleted"];
+	}
+
 
 	/**
 	* write title to db (static)
@@ -1052,11 +1067,11 @@ class ilObject
 
 		$q = "UPDATE object_data ".
 			"SET ".
-			"title = ".$ilDB->quote($a_title).",".
+			"title = ".$ilDB->quote($a_title, "text").",".
 			"last_update = now() ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -1075,11 +1090,11 @@ class ilObject
 
 		$q = "UPDATE object_data ".
 			"SET ".
-			"description = ".$ilDB->quote($desc).",".
-			"last_update = now() ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+			"description = ".$ilDB->quote($desc, "text").",".
+			"last_update = ".$ilDB->now()." ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 
 		if($objDefinition->isRBACObject($this->getType()))
 		{
@@ -1115,11 +1130,11 @@ class ilObject
 
 		$q = "UPDATE object_data ".
 			"SET ".
-			"import_id = ".$ilDB->quote($a_import_id).",".
+			"import_id = ".$ilDB->quote($a_import_id, "text").",".
 			"last_update = now() ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id. "integer");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -1142,7 +1157,7 @@ class ilObject
 		if ($a_reference === true)
 		{
 			$q = "SELECT type FROM object_reference as obr, object_data as obd ".
-				"WHERE obr.ref_id = ".$ilDB->quote($a_id)." ".
+				"WHERE obr.ref_id = ".$ilDB->quote($a_id, "integer")." ".
 				"AND obr.obj_id = obd.obj_id ";
 			
 			#$q = "SELECT type FROM object_data as obj ".
@@ -1151,11 +1166,11 @@ class ilObject
 		}
 		else
 		{
-			$q = "SELECT type FROM object_data WHERE obj_id = ".$ilDB->quote($a_id);
+			$q = "SELECT type FROM object_data WHERE obj_id = ".$ilDB->quote($a_id, "integer");
 		}
 
 		$obj_set = $ilDB->query($q);
-		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$obj_rec = $ilDB->fetchAssoc($obj_set);
 
 		return $obj_rec["type"];
 	}
@@ -1213,11 +1228,11 @@ class ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM object_data WHERE type = ".$ilDB->quote($a_type);
+		$q = "SELECT * FROM object_data WHERE type = ".$ilDB->quote($a_type, "text");
 		$obj_set = $ilDB->query($q);
 
 		$objects = array();
-		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			if ((!$a_omit_trash) || ilObject::_hasUntrashedReference($obj_rec["obj_id"]))
 			{
@@ -1352,13 +1367,13 @@ class ilObject
 
 			// delete entry in object_data
 			$q = "DELETE FROM object_data ".
-				"WHERE obj_id = ".$ilDB->quote($this->getId());
-			$this->ilias->db->query($q);
+				"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
+			$ilDB->manipulate($q);
 
 			// delete long description
 			$query = "DELETE FROM object_description WHERE obj_id = ".
-				$ilDB->quote($this->getId());
-			$this->ilias->db->query($query);
+				$ilDB->quote($this->getId(), "integer");
+			$ilDB->manipulate($query);
 
 			// write log entry
 			$log->write("ilObject::delete(), deleted object, obj_id: ".$this->getId().", type: ".
@@ -1487,16 +1502,16 @@ class ilObject
 		{
 			$q = "SELECT * FROM object_data ".
 				 "LEFT JOIN object_reference ON object_reference.obj_id=object_data.obj_id ".
-				 "WHERE object_reference.ref_id= ".$ilDB->quote($a_id);
+				 "WHERE object_reference.ref_id= ".$ilDB->quote($a_id, "integer");
 		}
 		else
 		{
-			$q = "SELECT * FROM object_data WHERE obj_id=".$ilDB->quote($a_id);
+			$q = "SELECT * FROM object_data WHERE obj_id=".$ilDB->quote($a_id, "integer");
 		}
 		
 		$r = $ilDB->query($q);
 
-		return $r->numRows() ? true : false;
+		return $ilDB->numRows($r) ? true : false;
 	}
 
 	/**
@@ -1557,26 +1572,31 @@ class ilObject
 	/**
 	* Get objects by type
 	*/
-	static function _getObjectsByType($a_obj_type = "")
+	static function _getObjectsByType($a_obj_type = "", $a_owner = "")
 	{
 		global $ilDB;
-		
+				
 		$order = " ORDER BY title";
 
 		// where clause
 		if ($a_obj_type)
 		{
 			$where_clause = "WHERE type = ".
-				$ilDB->quote($a_obj_type);
+				$ilDB->quote($a_obj_type, "text");
+				
+			if ($a_owner != "")
+			{
+				$where_clause.= " AND owner = ".$ilDB->quote($a_owner, "integer");
+			}
 		}
 	
 		$q = "SELECT * FROM object_data ".$where_clause.$order;
 		$r = $ilDB->query($q);
-	
+
 		$arr = array();
-		if ($r->numRows() > 0)
+		if ($ilDB->numRows($r) > 0)
 		{
-			while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($r))
 			{
 				$row["desc"] = $row["description"];
 				$arr[$row["obj_id"]] = $row;
@@ -1603,12 +1623,12 @@ class ilObject
 			"JOIN object_data as obj_data ON obj_ref.obj_id = obj_data.obj_id ".
 			"JOIN object_reference as path_ref ON parent = path_ref.ref_id ".
 			"JOIN object_data as path_data ON path_ref.obj_id = path_data.obj_id ".
-			"WHERE child IN (".implode(',',ilUtil::quoteArray($a_ref_ids)).") ".
+			"WHERE ".$ilDB->in("child", $a_ref_ids, false, "integer")." ".
 			"ORDER BY obj_data.title ";
 		$res = $ilDB->query($query);
 		
 		$options[0] = $lng->txt('obj_'.$new_type.'_select');
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			if(strlen($title = $row->obj_title) > 40)
 			{

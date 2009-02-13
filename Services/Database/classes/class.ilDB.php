@@ -944,10 +944,9 @@ class ilDB extends PEAR
 	/**
 	* Convenient method for standard insert statements, example field array:
 	*
-	* array("field1" => array("text", $name),				// will use "?"
-	*		"field2" => array("integer", $id),				// will use "?"
+	* array("field1" => array("text", $name),				// will use "%s"
+	*		"field2" => array("integer", $id),				// will use "%s"
 	*		"field3" => array("", "", $ilDB->now())			// will use $ilDB->now()
-	*		"field4" => array("integer, $add, "(? + 10)");	// will use (? + 10)
 	*/
 	function insert($a_table, $a_columns)
 	{
@@ -960,7 +959,7 @@ class ilDB extends PEAR
 			$fields[] = $k;
 			if ($col[2] == "")
 			{
-				$col[2] = "?";
+				$col[2] = "%s";
 			}
 			$placeholders[] = $col[2];
 			if ($col[0] != "")
@@ -971,18 +970,16 @@ class ilDB extends PEAR
 		}
 		$q = "INSERT INTO ".$a_table." (".implode($fields,",").") VALUES (".
 			implode($placeholders,",").")";
-		$st = $this->prepareManip($q, $types);
-		$r = $this->execute($st, $values);
+		$r = $this->manipulateF($q, $types, $values);
 		return $r;
 	}
 	
 	/**
 	* Convenient method for standard update statements, example field array:
 	*
-	* array("field1" => array("text", $name),				// will use "?"
-	*		"field2" => array("integer", $id),				// will use "?"
+	* array("field1" => array("text", $name),				// will use "%s"
+	*		"field2" => array("integer", $id),				// will use "%s"
 	*		"field3" => array("", "", $ilDB->now())			// will use $ilDB->now()
-	*		"field4" => array("integer, $add, "(? + 10)");	// will use (? + 10)
 	*
 	* Example where array: array("id" => array("integer", $id))
 	*/
@@ -997,7 +994,7 @@ class ilDB extends PEAR
 			$fields[] = $k;
 			if ($col[2] == "")
 			{
-				$col[2] = "?";
+				$col[2] = "%s";
 			}
 			$placeholders[] = $col[2];
 			if ($col[0] != "")
@@ -1022,12 +1019,11 @@ class ilDB extends PEAR
 		$lim = "";
 		foreach ($a_where as $k => $col)
 		{
-			$q.= $lim.$k." = ?";
+			$q.= $lim.$k." = %s";
 			$lim = " AND ";
 		}
 		
-		$st = $this->prepareManip($q, $types);
-		$r = $this->execute($st, $values);
+		$r = $this->manipulateF($q, $types, $values);
 		return $r;
 	}
 
@@ -1057,6 +1053,16 @@ class ilDB extends PEAR
 	function fetchObject($a_set)
 	{
 		return $a_set->fetchRow(DB_FETCHMODE_OBJECT);
+	}
+
+	/**
+	* Fetch row as associative array from result set
+	*
+	* @param	object	result set
+	*/
+	function numRows($a_set)
+	{
+		return $a_set->numRows();
 	}
 
 	//

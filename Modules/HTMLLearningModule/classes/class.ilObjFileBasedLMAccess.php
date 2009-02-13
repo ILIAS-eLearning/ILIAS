@@ -204,17 +204,12 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		// store the disk space used in table file_data.
 		global $ilDB, $lng;
 		
-		
-		$q = "SELECT obj_id ".
-			"FROM object_data ".
-			"WHERE type = 'htlm' ".
-			"AND owner = ".$ilDB->quote($user_id);
-		$us_set = $ilDB->query($q);
 		$size = 0;
 		$count = 0;
-		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		$obs = ilObject::_getObjectsByType("htlm", $user_id);
+		foreach($obs as $ob)
 		{
-			$size += ilObjFileBasedLMAccess::_getDiskSpaceUsed($us_rec["obj_id"]);
+			$size += ilObjFileBasedLMAccess::_getDiskSpaceUsed($ob["obj_id"]);
 			$count++;
 		}
 		include_once("Modules/File/classes/class.ilObjFileAccess.php");

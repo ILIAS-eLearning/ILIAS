@@ -103,9 +103,9 @@ class ilObjLanguageAccess
 		global $ilDB;
 		
 		$q = "SELECT ref_id FROM object_reference r, object_data d".
-		" WHERE r.obj_id = d.obj_id AND d.type='lngf'";
+		" WHERE r.obj_id = d.obj_id AND d.type = ".$ilDB->quote("lngf", "text");
 		$set = $ilDB->query($q);
-		$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($set);
 		return $row['ref_id'];
 	}
 	
@@ -122,10 +122,10 @@ class ilObjLanguageAccess
 		global $ilDB;
 
 		$q = "SELECT obj_id FROM object_data ".
-		" WHERE type = 'lng' ".
-		" AND title = ".$ilDB->quote($a_key);
+		" WHERE type = ".$ilDB->quote("lng", "text").
+		" AND title = ".$ilDB->quote($a_key, "text");
 		$set = $ilDB->query($q);
-		$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$row = $ilDB->fetchAssoc($set);
 		return $row['obj_id'];
 	}
 }

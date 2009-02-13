@@ -7660,3 +7660,8 @@ ALTER TABLE `rbac_fa` CHANGE `protected` `protected` CHAR( 1 ) NULL DEFAULT 'n';
 <?php
 	$ilMySQLAbstraction->performAbstraction('rbac_fa');
 ?>
+<#1598>
+<?php
+	$ilMySQLAbstraction->performAbstraction("object_data");
+?>
+
