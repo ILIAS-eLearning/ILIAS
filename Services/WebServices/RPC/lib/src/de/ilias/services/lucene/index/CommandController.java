@@ -68,7 +68,12 @@ public class CommandController {
 
 		queue = new CommandQueue();
 		//queue.debug("frm");
-		queue.debugAll("frm");
+		//queue.debug("frm");
+		//queue.debug("cat");
+		//queue.debug("crs");
+		//queue.debug("fold");
+		//queue.debug("grp");
+		queue.debugAll();
 		queue.loadFromDb();
 		
 		this.objDefinitions = objDefinitions;

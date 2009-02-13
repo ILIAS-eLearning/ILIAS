@@ -172,11 +172,13 @@ public class CommandQueue {
 			delete.executeUpdate("DELETE FROM search_command_queue");
 			
 			ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
+
+			PreparedStatement pst = db.prepareStatement("INSERT INTO search_command_queue " +
+			"SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+
 			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
 				
 				logger.info("Adding reset command for " + ((ObjectDefinition) def).getType());
-				PreparedStatement pst = db.prepareStatement("INSERT INTO search_command_queue " +
-					"SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
 					pst.setInt(1,0);
 					pst.setString(2, ((ObjectDefinition) def).getType());
 					pst.setInt(3,0);
@@ -279,13 +281,14 @@ public class CommandQueue {
 		
 		logger.debug("Adding commands for object type: " + objType);
 		
+		// Add each single object
+		PreparedStatement objReset = db.prepareStatement(
+				"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
+
 		while(res.next()) {
 			
 			logger.debug("Added new reset command");
 			
-			// Add each single object
-			PreparedStatement objReset = db.prepareStatement(
-					"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");
 			objReset.setInt(1,res.getInt("obj_id"));
 			objReset.setString(2, objType);
 			objReset.setInt(3,0);
@@ -296,6 +299,7 @@ public class CommandQueue {
 			
 			objReset.executeUpdate();
 		}
+		objReset.close();
 		return;
 		
 	}
@@ -333,7 +337,7 @@ public class CommandQueue {
 	 * @param type
 	 * @throws SQLException 
 	 */
-	public void debugAll(String type) throws SQLException {
+	public void debugAll() throws SQLException {
 		
 		PreparedStatement resetType = db.prepareStatement(
 				"INSERT INTO search_command_queue SET obj_id = ?,obj_type = ?, sub_id = ?, sub_type = ?, command = ?, last_update = ?, finished = ? ");

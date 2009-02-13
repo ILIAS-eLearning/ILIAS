@@ -23,6 +23,8 @@
 package de.ilias.services.lucene.index;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -92,7 +94,10 @@ public class RPCIndexHandler {
 			logger.error(e);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
 		}
 		return true;
 	}
