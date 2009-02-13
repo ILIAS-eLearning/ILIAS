@@ -518,34 +518,22 @@ class ilObjRole extends ilObject
 	// private
 	function __getPermissionDefinitions()
 	{
-		global $ilDB, $lng, $objDefinition;		
+		global $ilDB, $lng, $objDefinition,$rbacreview;		
 
-		// build array with all rbac object types
-		$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
-			 "JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
-			 "JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
-		$r = $ilDB->query($q);
-		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$operation_info = $rbacreview->getOperationAssignment();
+		foreach($operation_info as $info)
 		{
-			if($objDefinition->getDevMode($row->title))
+			if($objDefinition->getDevMode($info['type']))
 			{
 				continue;
 			}
-			// FILTER SUBOJECTS OF adm OBJECT
-			#if(in_array($row->title,$to_filter))
-			#{
-			#	continue;
-			#}
-			$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
-											    "type"		=> $row->title
-												);
-
-			$rbac_operations[$row->typ_id][$row->ops_id] = array(
-									   							"ops_id"	=> $row->ops_id,
-									  							"title"		=> $row->operation,
-																"name"		=> $lng->txt($row->title."_".$row->operation)
-															   );
+			$rbac_objects[$info['typ_id']] = array("obj_id"	=> $info['typ_id'],
+											   	   "type"	=> $info['type']);
+			$rbac_operations[$info['typ_id']][$info['ops_id']] = array(
+									   							"ops_id"	=> $info['ops_id'],
+									  							"title"		=> $info['operation'],
+																"name"		=> $lng->txt($info['type']."_".$info['operation']));
+			
 		}
 		return array($rbac_objects,$rbac_operations);
 	}

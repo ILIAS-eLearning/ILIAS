@@ -1236,10 +1236,9 @@ class ilRbacReview
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM rbac_operations ORDER BY ops_id ";
-
+		$query = 'SELECT * FROM rbac_operations ORDER BY ops_id ';
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$ops[] = array('ops_id' => $row->ops_id,
 						   'operation' => $row->operation,
@@ -1258,10 +1257,9 @@ class ilRbacReview
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM rbac_operations WHERE ops_id = ".$ilDB->quote($ops_id)." ";
-
+		$query = 'SELECT * FROM rbac_operations WHERE ops_id = '.$ilDB->quote($ops_id,'integer');
 		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$ops = array('ops_id' => $row->ops_id,
 						 'operation' => $row->operation,
@@ -1559,13 +1557,12 @@ class ilRbacReview
 		{
 			return array();
 		}
-		$where = "WHERE operation IN (";
-		$where .= implode(",",ilUtil::quoteArray($operations));
-		$where .= ")";
-
-		$query = "SELECT ops_id FROM rbac_operations ".$where;
+		
+		$query = 'SELECT ops_id FROM rbac_operations '.
+			$ilDB->in('operation',$operations,false,'text');
+		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$ops_ids[] = $row->ops_id;
 		}
@@ -1589,10 +1586,10 @@ class ilRbacReview
 			$ilErr->raiseError($message,$ilErr->WARNING);	
 		}
 	
-		$q = "SELECT DISTINCT ops_id FROM rbac_operations ".
-			 "WHERE operation = ".$ilDB->quote($a_operation)." ";		    
-		$row = $ilDB->getRow($q);
-	
+		$query = 'SELECT DISTINCT(ops_id) FROM rbac_operations '.
+			 'WHERE operation = '.$ilDB->quote($a_operation,'text');	
+		$res = $ilDB->query($query);
+		$row = $ilDB->fetchObject($res);
 		return $row->ops_id;
 	}
 
@@ -1718,21 +1715,25 @@ class ilRbacReview
 	
 		if ($a_type)
 		{
-			$q = "SELECT * FROM rbac_operations ".
-				 "LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
-				 "LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
-				 "WHERE object_data.title= ".$ilDB->quote($a_type)." AND object_data.type='typ' ".
-				 "ORDER BY 'op_order' ASC"; 
+			$query = sprintf('SELECT * FROM rbac_operations '.
+				'JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id '.
+				'JOIN object_data ON rbac_ta.typ_id = object_data.obj_id '.
+				'WHERE object_data.title = %s '.
+				'AND object_data.type = %s '.
+				'ORDER BY %s ASC',
+				$ilDB->quote($a_type,'text'),
+				$ilDB->quote('typ','text'),
+				$ilDB->quote('op_order','text'));
 		}
 		else
 		{
-			$q = "SELECT * FROM rbac_operations ".
+			$q = 'SELECT * FROM rbac_operations '.
 				 "ORDER BY 'op_order' ASC";
 		}
 		
-		$r = $ilDB->query($q);
+		$res = $ilDB->query($query);
 	
-		while ($row = $r->fetchRow())
+		while ($row = $ilDB->fetchAssoc($res))
 		{
 			$arr[] = array(
 						"ops_id"	=> $row[0],
@@ -1835,6 +1836,32 @@ class ilRbacReview
 		$role_list = $this->__setRoleType($role_list);
 
 		return $role_list;
+	}
+	
+	/**
+	 * get operation assignments 
+	 * @return array array(array('typ_id' => $typ_id,'title' => $title,'ops_id => '$ops_is,'operation' => $operation),...
+	 */
+	public function getOperationAssignment()
+	{
+		global $ilDB;
+
+		$query = 'SELECT ta.typ_id, obj.title, ops.ops_id, ops.operation FROM rbac_ta ta '.
+			 'JOIN object_data obj ON obj.obj_id = ta.typ_id '.
+			 'JOIN rbac_operations ops ON ops.ops_id = ta.ops_id ';
+		$res = $ilDB->query($query);
+		
+		$counter = 0;
+		while($row = $ilDB->fetchObject($res))
+		{
+			$info[$counter]['typ_id'] = $row->typ_id;
+			$info[$counter]['type'] = $row->title;
+			$info[$counter]['ops_id'] = $row->ops_id;
+			$info[$counter]['operation'] = $row->operation;
+			$counter++;
+		}
+		return $info ? $info : array();
+		
 	}
 } // END class.ilRbacReview
 ?>

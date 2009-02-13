@@ -195,12 +195,10 @@ class ilRbacSystem
 		
 		$ops = array();
 
-		$q = "SELECT ops_id FROM rbac_operations ".
-				 "WHERE operation = ".$ilDB->quote($a_operation)." ";
-		
-		$r = $this->ilDB->query($q);
-
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$query = 'SELECT ops_id FROM rbac_operations '.
+			'WHERE operation = '.$ilDB->quote($a_operation,'text');
+		$res = $ilDB->query($query);		
+		while($row = $ilDB->fetchObject($res))
 		{
 			$ops_id = $row->ops_id;
 		}
