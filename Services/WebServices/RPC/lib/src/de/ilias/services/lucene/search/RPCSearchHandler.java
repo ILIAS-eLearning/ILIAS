@@ -23,6 +23,8 @@
 package de.ilias.services.lucene.search;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -32,6 +34,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -95,11 +98,14 @@ public class RPCSearchHandler {
 				occurs.add(BooleanClause.Occur.SHOULD);
 			}
 			
-			Query query = MultiFieldQueryParser.parse(rewrittenQuery,
+			BooleanQuery.setMaxClauseCount(10000);
+			BooleanQuery query = (BooleanQuery) MultiFieldQueryParser.parse(rewrittenQuery,
 					fieldInfo.getFieldsAsStringArray(),
 					occurs.toArray(new Occur[0]),
 					new StandardAnalyzer());
+			logger.info("Max clauses allowed: " + BooleanQuery.getMaxClauseCount());
 
+			
 			for(Object f : fieldInfo.getFields()) {
 				logger.info(((String) f).toString());
 			}
@@ -130,7 +136,10 @@ public class RPCSearchHandler {
 			logger.info(e);
 		}
 		catch(Exception e) {
-			logger.error(e);
+			
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
 		}
 		return "";
 	}
@@ -200,7 +209,9 @@ public class RPCSearchHandler {
 			logger.error(e);
 		} 
 		catch (Exception e) {
-			e.printStackTrace();
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
 		}
 		return "";
 	}

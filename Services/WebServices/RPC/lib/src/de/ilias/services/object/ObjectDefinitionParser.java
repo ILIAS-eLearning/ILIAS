@@ -223,7 +223,7 @@ public class ObjectDefinitionParser {
 			
 			
 		}
-		else if(source.getAttributeValue("File").equalsIgnoreCase("File")) {
+		else if(source.getAttributeValue("type").equalsIgnoreCase("File")) {
 			
 			ds = new FileDataSource(DataSource.TYPE_FILE);
 			ds.setAction(source.getAttributeValue("action"));
