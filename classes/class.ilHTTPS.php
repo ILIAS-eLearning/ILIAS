@@ -116,11 +116,13 @@ class ilHTTPS
            		$_SERVER["HTTPS"] = "on";
 		    	return true;
 		    }
+		    /*
 		    if(isset($_SERVER[$this->headerName]) && (strcasecmp($_SERVER[$this->headerName],$this->headerValue) == 0))
 		    {
 		    	$_SERVER['HTTPS'] = 'on';
 		    	return true;
 		    }
+		    */
 		}
 
         return false;
@@ -179,7 +181,6 @@ class ilHTTPS
 		global $ilLog,$ilClientIniFile;
 		
 		$secure_disabled = $ilClientIniFile->readVariable('session','disable_secure_cookies');
-		
 		if(!$secure_disabled and !$this->enabled and $this->isDetected() and !session_id())
 		{
 			$ilLog->write(__CLASS__.': Enabled secure cookies');
