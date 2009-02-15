@@ -66,13 +66,13 @@ class ilBlockSetting
 		$ilDB->manipulate(sprintf("DELETE FROM il_block_setting WHERE type = %s AND user = %s AND block_id = %s AND setting = %s",
 			$ilDB->quote($a_type, "text"),
 			$ilDB->quote($a_user, "integer"),
-			$ilDB->quote($a_block_id, "integer"),
+			$ilDB->quote((int) $a_block_id, "integer"),
 			$ilDB->quote($a_setting, "text")));
 		$ilDB->manipulate(sprintf("INSERT INTO il_block_setting  (type, user, setting, block_id, value) VALUES (%s,%s,%s,%s,%s)",
 			$ilDB->quote($a_type, "text"),
 			$ilDB->quote($a_user, "integer"),
 			$ilDB->quote($a_setting, "text"),
-			$ilDB->quote($a_block_id, "integer"),
+			$ilDB->quote((int) $a_block_id, "integer"),
 			$ilDB->quote($a_value, "text")));
 	}
 
