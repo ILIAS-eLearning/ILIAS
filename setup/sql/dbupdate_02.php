@@ -7701,3 +7701,11 @@ ALTER TABLE `note` CHANGE `text` `note_text` MEDIUMTEXT;
 <?php
 	$ilMySQLAbstraction->performAbstraction('bookmark_tree');
 ?>
+<#1609>
+<?php
+	$ilMySQLAbstraction->performAbstraction('feedback_items');
+?>
+<#1610>
+<?php
+	$ilMySQLAbstraction->performAbstraction('feedback_results');
+?>

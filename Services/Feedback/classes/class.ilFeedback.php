@@ -179,105 +179,126 @@ class ilFeedback {
 	/**
 	* create an new barometer
 	*/
-	function create(){
+	function create()
+	{
 		global $ilDB;
-		$q = "INSERT INTO feedback_items (title, description, anonymous,".
+
+		$this->id = $ilDB->nextId("feedback_items");
+		$q = "INSERT INTO feedback_items (fb_id,title, description, anonymous,".
 			"required, show_on, text_answer, votes, starttime, endtime, ".
 			"repeat_interval, interval_unit, first_vote_best, ref_id,obj_id) VALUES(".
-			$ilDB->quote($this->title).", ".
-			$ilDB->quote($this->description).", ".
-			$ilDB->quote($this->anonymous).", ".
-			$ilDB->quote($this->required).", ".
-			$ilDB->quote($this->show_on).", ".
-			$ilDB->quote($this->text_answer).", ".
-			$ilDB->quote($this->votes).", ".
-			$ilDB->quote($this->starttime).", ".
-			$ilDB->quote($this->endtime).", ".
-			$ilDB->quote($this->interval).", ".
-			$ilDB->quote($this->interval_unit).", ".
-			$ilDB->quote($this->first_vote_best).", ".
-			$ilDB->quote($this->ref_id).", ".
-			$ilDB->quote($this->obj_id).")";
-		$ilDB->query($q);
-		$this->id = $ilDB->getLastInsertId();
-
-
+			$ilDB->quote($this->id, "integer").", ".
+			$ilDB->quote($this->title, "text").", ".
+			$ilDB->quote($this->description, "clob").", ".
+			$ilDB->quote((int) $this->anonymous, "integer").", ".
+			$ilDB->quote((int) $this->required, "integer").", ".
+			$ilDB->quote($this->show_on, "text").", ".
+			$ilDB->quote((int) $this->text_answer, "integer").", ".
+			$ilDB->quote($this->votes, "clob").", ".
+			$ilDB->quote((int) $this->starttime, "integer").", ".
+			$ilDB->quote((int) $this->endtime, "integer").", ".
+			$ilDB->quote((int) $this->interval, "integer").", ".
+			$ilDB->quote((int) $this->interval_unit, "integer").", ".
+			$ilDB->quote((int) $this->first_vote_best, "integer").", ".
+			$ilDB->quote((int) $this->ref_id, "integer").", ".
+			$ilDB->quote((int) $this->obj_id, "integer").")";
+//echo "-$q-";
+		$ilDB->manipulate($q);
 	}
 
 	/**
 	* update a barometer
 	*/
-	function update(){
+	function update()
+	{
 		global $ilDB;
+		
 		$q = "UPDATE feedback_items set ".
-			"title=".$ilDB->quote($this->title).", ".
-			"description=".$ilDB->quote($this->description).", ".
-			"anonymous=".$ilDB->quote($this->anonymous).", ".
-			"required=".$ilDB->quote($this->required).", ".
-			"show_on=".$ilDB->quote($this->show_on).", ".
-			"text_answer=".$ilDB->quote($this->text_answer).", ".
-			"votes=".$ilDB->quote($this->votes).", ".
-			"starttime=".$ilDB->quote($this->starttime).", ".
-			"endtime=".$ilDB->quote($this->endtime).", ".
-			"repeat_interval=".$ilDB->quote($this->interval).", ".
-			"interval_unit=".$ilDB->quote($this->interval_unit).", ".
-			"first_vote_best=".$ilDB->quote($this->first_vote_best)." WHERE fb_id=".$ilDB->quote($this->id);
+			"title=".$ilDB->quote($this->title, "text").", ".
+			"description=".$ilDB->quote($this->description, "clob").", ".
+			"anonymous=".$ilDB->quote((int) $this->anonymous, "integer").", ".
+			"required=".$ilDB->quote((int) $this->required, "integer").", ".
+			"show_on=".$ilDB->quote($this->show_on, "text").", ".
+			"text_answer=".$ilDB->quote((int) $this->text_answer, "integer").", ".
+			"votes=".$ilDB->quote($this->votes, "clob").", ".
+			"starttime=".$ilDB->quote((int) $this->starttime, "integer").", ".
+			"endtime=".$ilDB->quote((int) $this->endtime, "integer").", ".
+			"repeat_interval=".$ilDB->quote((int) $this->interval, "integer").", ".
+			"interval_unit=".$ilDB->quote((int) $this->interval_unit, "integer").", ".
+			"first_vote_best=".$ilDB->quote((int) $this->first_vote_best, "integer").
+			" WHERE fb_id=".$ilDB->quote($this->id, "integer");
 
-		$ilDB->query($q);
-		$this->id = $ilDB->getLastInsertId();
-
-
+		$ilDB->manipulate($q);
 	}
 
 	/**
 	* get a baromter by id
 	*/
-	function getBarometer(){
+	function getBarometer()
+	{
 		global $ilDB;
-		$q = "SELECT * FROM feedback_items WHERE fb_id=".$ilDB->quote($this->id);
+		
+		$q = "SELECT * FROM feedback_items WHERE fb_id = ".
+			$ilDB->quote($this->id, "integer");
 		$res = $ilDB->query($q);
-		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($row = $ilDB->fetchAssoc($res))
+		{
 			$this->setAllData($row);
-
-
+		}
 	}
-	/**
-	* get a barometer by obj_id
-	*/
-	function getBarometerByObjId(){
-		global $ilDB;
-		$q = "SELECT * FROM feedback_items WHERE obj_id=".$ilDB->quote($this->obj_id);
-		$res = $ilDB->query($q);
-		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-			$this->setAllData($row);
 
+	/**
+	* Get a barometer by obj_id
+	*/
+	function getBarometerByObjId()
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM feedback_items WHERE obj_id = ".
+			$ilDB->quote($this->obj_id, "integer");
+		$res = $ilDB->query($q);
+		if($row = $ilDB->fetchAssoc($res))
+		{
+			$this->setAllData($row);
+		}
 	}
 
 	/**
 	* get a baromter by ref_id
 	*/
-	function getBarometerByRefId(){
+	function getBarometerByRefId()
+	{
 		global $ilDB;
-		$q = "SELECT * FROM feedback_items WHERE ref_id=".$ilDB->quote($this->ref_id);
+		$q = "SELECT * FROM feedback_items WHERE ref_id = ".
+			$ilDB->quote($this->ref_id, "integer");
 		$res = $ilDB->query($q);
-		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if($row = $ilDB->fetchAssoc($res))
+		{
 			$this->setAllData($row);
-
+		}
 	}
 
 	/**
 	* get a required baromter for a certain ref_id
 	*/
-	function getFeedback($required=0){
+	function getFeedback($required = 0)
+	{
 		global $ilDB;
-		$filter_req = ($required) ? ' required=1 AND ' : '';
+
+		$filter_req = ($required)
+			? ' required = 1 AND '
+			: '';
 		$q = "SELECT * FROM feedback_items WHERE ".
 		 	$filter_req.
-			" ((starttime<=UNIX_TIMESTAMP() AND".
-			" endtime>=UNIX_TIMESTAMP()) OR(starttime<=0 AND endtime<=0))";
+			" ((starttime <= ".$ilDB->quote(time(), "integer")." AND".
+			" endtime >= ".$ilDB->quote(time(), "integer").
+			") OR (starttime <= 0 AND endtime <= 0))";
+
 		$res = $ilDB->query($q);
-		if($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		if($row = $ilDB->fetchAssoc($res))
+		{
 			$this->setAllData($row);
+		}
 	}
 
 	/**
@@ -285,28 +306,42 @@ class ilFeedback {
 	* if no ref_id is set we get all barometers,
 	* this is needed for the personal desktop box.
 	*/
-	function getAllBarometer($a_show_inactive=1,$a_only_req=0){
+	function getAllBarometer($a_show_inactive = 1,$a_only_req = 0)
+	{
 		global $ilDB;
 
-		if($this->ref_id)
-			 $where.=" ref_id=".$ilDB->quote($this->ref_id);
-		if($a_only_req==1)
-			if($where!='')
-				$where .= ' AND required=1 ';
+		if ($this->ref_id)
+		{
+			 $where.=" ref_id = ".$ilDB->quote($this->ref_id, "integer");
+		}
+		if ($a_only_req == 1)
+		{
+			if ($where != '')
+			{
+				$where .= ' AND required = 1 ';
+			}
 			else
+			{
 				$where = ' required = 1 ';
+			}
+		}
 		$q = "SELECT * FROM feedback_items WHERE ".$where;
 		
-		if($a_show_inactive==0){
-			if($where!='')
-				$where = ' AND'.$where;
+		if ($a_show_inactive == 0)
+		{
+			if ($where != '')
+			{
+				$where = ' AND '.$where;
+			}
 			$q = "SELECT * FROM feedback_items WHERE ".
-			" ((starttime<=UNIX_TIMESTAMP() AND".
-			" endtime>=UNIX_TIMESTAMP()) OR(starttime<=0 AND endtime<=0))".$where;
+			" ((starttime <= ".$ilDB->quote(time(), "integer")." AND".
+			" endtime >= ".$ilDB->quote(time(), "integer").
+			") OR (starttime <= 0 AND endtime <=0 ))".$where;
 		}
 		$res = $ilDB->query($q);
 		$i = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
+		while($row = $ilDB->fetchAssoc($res))
+		{
 			$barometers[$i] = new ilFeedback();
 			$barometers[$i]->setAllData($row);
 			$i++;
@@ -314,19 +349,26 @@ class ilFeedback {
 
 		return $barometers ? $barometers : array();
 	}
+
 	/**
 	* delete a barometer and its results
 	*/
-	function delete(){
+	function delete()
+	{
 		global $ilDB;
+
 		foreach ($this->ids as $k => $v)
+		{
 			$this->ids[$k] = $ilDB->quote($v);
+		}
 		$q = "DELETE FROM feedback_items WHERE ".
-			"fb_id IN (".implode(',',$this->ids).")";
-		$ilDB->query($q);
+			$ilDB->in("fb_id", $this->ids, false, "integer");
+			//"fb_id IN (".implode(',',$this->ids).")";
+		$ilDB->manipulate($q);
 		$q = "DELETE FROM feedback_results WHERE ".
-			"fb_id IN (".implode(',',$this->ids).")";
-		$ilDB->query($q);
+			$ilDB->in("fb_id", $this->ids, false, "integer");
+			//"fb_id IN (".implode(',',$this->ids).")";
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -336,14 +378,16 @@ class ilFeedback {
 		global $ilDB;
 		//Save Only if there is not already a result from this user for this barometer
 
-		if($this->canVote($this->user_id,$this->id)==1 || $this->user_id == 0){
+		if($this->canVote($this->user_id,$this->id)==1 || $this->user_id == 0)
+		{
 			$q = "INSERT INTO feedback_results (".
 				"fb_id,user_id,vote,note,votetime) VALUES (".
-				$ilDB->quote($this->id).", ".
-				$ilDB->quote($this->user_id).", ".
-				$ilDB->quote($this->vote).", ".
-				$ilDB->quote($this->note).", UNIX_TIMESTAMP())";
-			$ilDB->query($q);
+				$ilDB->quote($this->id, "integer").", ".
+				$ilDB->quote($this->user_id, "integer").", ".
+				$ilDB->quote($this->vote, "integer").", ".
+				$ilDB->quote($this->note, "clob").", ".
+				$ilDB->quote(time(), "integer").")";
+			$ilDB->manipulate($q);
 		}
 	}
 
@@ -355,15 +399,16 @@ class ilFeedback {
 		include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 		
 		$q = "SELECT * FROM feedback_results WHERE ".
-			"fb_id=".$ilDB->quote($a_fb_id)." AND ".
-			"user_id=".$ilDB->quote($a_user_id)." ORDER BY votetime DESC";;
+			"fb_id = ".$ilDB->quote($a_fb_id, "integer")." AND ".
+			"user_id = ".$ilDB->quote($a_user_id, "integer").
+			" ORDER BY votetime DESC";;
 		$res = $ilDB->query($q);
 
-		$row_results = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$row_results = $ilDB->fetchAssoc($res);
 		$q = "SELECT * FROM feedback_items WHERE ".
-			"fb_id = ".$ilDB->quote($a_fb_id);
+			"fb_id = ".$ilDB->quote($a_fb_id, "integer");
 		$res1 = $ilDB->query($q);
-		$row_items = $res1->fetchRow(DB_FETCHMODE_ASSOC);
+		$row_items = $ilDB->fetchAssoc($res1);
 		
 		// check end time
 		if (!($row_items["starttime"]<=time() && $row_items["endtime"]>=time()))
@@ -394,11 +439,15 @@ class ilFeedback {
 	/**
 	* get the information to display on the charts
 	*/
-	function getChartData(){
+	function getChartData()
+	{
 		global $ilDB;
+
 		if($this->user_id!='')
-			$user_filter = ' feedback_results.user_id='.$ilDB->quote($this->user_id, "integer").' AND ';
-		$q='SELECT usr_data.login, feedback_results.user_id,feedback_results.vote, feedback_results.votetime, FROM_UNIXTIME(feedback_results.votetime,"%d.%m.%Y %H:%i") as timelabel FROM'.
+		{
+			$user_filter = ' feedback_results.user_id = '.$ilDB->quote($this->user_id, "integer").' AND ';
+		}
+		$q='SELECT usr_data.login, feedback_results.user_id,feedback_results.vote, feedback_results.votetime FROM'.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id WHERE '.
 			' '.$user_filter.' feedback_results.fb_id='.$ilDB->quote($this->id, "integer").
 			' ORDER BY feedback_results.votetime,usr_data.login';
@@ -410,12 +459,17 @@ class ilFeedback {
 		$n=0;
 		$pvt='';
 		$datapie[0][0] = 'Vote';
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
-
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$row["timelabel"] = date("d.m.Y H:i", $row["votetime"]);
 			if(!isset($tmp[$row['user_id']]))
+			{
 				$tmp[$row['user_id']]=$j++;
+			}
 			if(!isset($tmpv[$row['vote']]))
+			{
 				$tmpv[$row['vote']] = $k++;
+			}
 			$data[$i][0] = $row['timelabel'];
 			$data[$i][$tmp[$row['user_id']]] = $row['vote'];
 			$legend[$row['login']] = $row['login'];
@@ -434,8 +488,10 @@ class ilFeedback {
 			$table[$n]['vote'] = $row['vote'];
 			$n++;
 		}
-		if(is_array($data)){
-			foreach($data as $k => $v){
+		if(is_array($data))
+		{
+			foreach($data as $k => $v)
+			{
 				/* Look if there are set all Y-values. If a user has no Y value for a certain date, the Y value has to be set to something otherwise PHPlot will not work correctly.
 				The array keys have also to be sorted for PHPlot */
 				if(count($v)<=count($tmp)){
@@ -452,11 +508,15 @@ class ilFeedback {
 	/**
 	* get the comments of an user or all users
 	*/
-	function getNotes(){
-	global $ilDB;
+	function getNotes()
+	{
+		global $ilDB;
+		
 		if($this->user_id!='')
+		{
 			$user_filter = ' AND feedback_results.user_id='.$ilDB->quote($this->user_id, "integer");
-		$q='SELECT usr_data.login, feedback_results.user_id,feedback_results.note,feedback_results.vote, feedback_results.votetime, FROM_UNIXTIME(feedback_results.votetime,"%d.%m.%Y %H:%i") as timelabel FROM'.
+		}
+		$q='SELECT usr_data.login, feedback_results.user_id,feedback_results.note,feedback_results.vote, feedback_results.votetime FROM'.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id'.
 			' WHERE  feedback_results.note<>""'.
 			' '.$user_filter.' AND feedback_results.fb_id='.$ilDB->quote($this->id, "integer").
@@ -464,7 +524,9 @@ class ilFeedback {
 
 		$res = $ilDB->query($q);
 		$i=0;
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$row["timelabel"] = date("d.m.Y H:i", $row["votetime"]);
 			$data[$i]['user'] = $row['login'];
 			$data[$i]['votetime'] = $row['timelabel'];
 			$data[$i]['note'] = $row['note'];
@@ -475,9 +537,10 @@ class ilFeedback {
 	/**
 	* get all users that have answerd a certain barometer
 	*/
-	function getResultUsers(){
-
+	function getResultUsers()
+	{
 		global $ilDB;
+
 		$q='SELECT distinct(usr_data.login), feedback_results.user_id  FROM'.
 			' feedback_results LEFT JOIN usr_data ON usr_data.usr_id = feedback_results.user_id'.
 			' WHERE feedback_results.fb_id='.$ilDB->quote($this->id, "integer").
@@ -485,7 +548,8 @@ class ilFeedback {
 
 		$res = $ilDB->query($q);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)){
+		while($row = $ilDB->fetchAssoc($res))
+		{
  			$users[$row['user_id']] = $row['login'];
 		}
 		return($users);
@@ -495,8 +559,10 @@ class ilFeedback {
 	* convert a interval with unit to seconds
 	* ex. 4 days to seconds
 	*/
-	function interval2seconds($a_interval,$a_interval_unit){
-		switch($a_interval_unit){
+	function interval2seconds($a_interval,$a_interval_unit)
+	{
+		switch($a_interval_unit)
+		{
 			case 1:
 				//Days
 				$multi_by = 24 * 60 * 60;
