@@ -247,20 +247,21 @@ class ilNote
 	{
 		global $ilDB;
 		
-		$q = "INSERT INTO note (rep_obj_id, obj_id, obj_type, type,".
-			"author, text, subject, label, creation_date) VALUES (".
-			$ilDB->quote($this->rep_obj_id).",".
-			$ilDB->quote($this->obj_id).",".
-			$ilDB->quote($this->obj_type).",".
-			$ilDB->quote($this->type).",".
-			$ilDB->quote($this->author).",".
-			$ilDB->quote($this->text).",".
-			$ilDB->quote($this->subject).",".
-			$ilDB->quote($this->label).",".
-			"now())";
-		$ilDB->query($q);
+		$this->id = $ilDB->nextId("note");
+		$q = "INSERT INTO note (id, rep_obj_id, obj_id, obj_type, type,".
+			"author, note_text, subject, label, creation_date) VALUES (".
+			$ilDB->quote($this->id, "integer").",".
+			$ilDB->quote((int) $this->rep_obj_id, "integer").",".
+			$ilDB->quote((int) $this->obj_id, "integer").",".
+			$ilDB->quote((string) $this->obj_type, "text").",".
+			$ilDB->quote((int) $this->type, "integer").",".
+			$ilDB->quote((int) $this->author, "integer").",".
+			$ilDB->quote((string) $this->text, "clob").",".
+			$ilDB->quote((string) $this->subject, "text").",".
+			$ilDB->quote((int) $this->label, "integer").",".
+			$ilDB->now().")";
+		$ilDB->manipulate($q);
 		
-		$this->id = $ilDB->getLastInsertId();
 		$this->creation_date = ilNote::_lookupCreationDate($this->getId());
 	}
 
@@ -269,18 +270,18 @@ class ilNote
 		global $ilDB;
 		
 		$q = "UPDATE note SET ".
-			"rep_obj_id = ".$ilDB->quote($this->rep_obj_id).",".
-			"obj_id = ".$ilDB->quote($this->obj_id).",".
-			"obj_type = ".$ilDB->quote($this->obj_type).",".
-			"type = ".$ilDB->quote($this->type).",".
-			"author = ".$ilDB->quote($this->author).",".
-			"text = ".$ilDB->quote($this->text).",".
-			"subject = ".$ilDB->quote($this->subject).",".
-			"update_date = now(),".
-			"label = ".$ilDB->quote($this->label).
-			"WHERE id =".$ilDB->quote($this->getId());
+			"rep_obj_id = ".$ilDB->quote((int) $this->rep_obj_id, "integer").",".
+			"obj_id = ".$ilDB->quote((int) $this->obj_id, "integer").",".
+			"obj_type = ".$ilDB->quote((string) $this->obj_type, "text").",".
+			"type = ".$ilDB->quote((int) $this->type, "integer").",".
+			"author = ".$ilDB->quote((int) $this->author,"integer").",".
+			"note_text = ".$ilDB->quote((string) $this->text, "clob").",".
+			"subject = ".$ilDB->quote((string) $this->subject, "text").",".
+			"update_date = ".$ilDB->now().",".
+			"label = ".$ilDB->quote((int) $this->label, "integer").
+			"WHERE id =".$ilDB->quote((int) $this->getId(), "integer");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 		
 		$this->update_date = ilNote::_lookupUpdateDate($this->getId());
 	}
@@ -290,9 +291,9 @@ class ilNote
 		global $ilDB;
 		
 		$q = "SELECT * FROM note WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote((int) $this->getId(), "integer");
 		$set = $ilDB->query($q);
-		$note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$note_rec = $ilDB->fetchAssoc($set);
 		$this->setAllData($note_rec);
 	}
 	
@@ -304,8 +305,8 @@ class ilNote
 		global $ilDB;
 		
 		$q = "DELETE FROM note WHERE id = ".
-			$ilDB->quote($this->getId());
-		$ilDB->query($q);
+			$ilDB->quote((int) $this->getId(), "integer");
+		$ilDB->manipulate($q);
 	}
 	
 	/**
@@ -317,7 +318,7 @@ class ilNote
 		$this->setObject($a_note_rec["obj_type"], $a_note_rec["rep_obj_id"], $a_note_rec["obj_id"]);
 		$this->setType($a_note_rec["type"]);
 		$this->setAuthor($a_note_rec["author"]);
-		$this->setText($a_note_rec["text"]);
+		$this->setText($a_note_rec["note_text"]);
 		$this->setSubject($a_note_rec["subject"]);
 		$this->setLabel($a_note_rec["label"]);
 		$this->setCreationDate($a_note_rec["creation_date"]);
@@ -332,9 +333,9 @@ class ilNote
 		global $ilDB;
 		
 		$q = "SELECT * FROM note WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote((int) $this->getId(), "integer");
 		$set = $ilDB->query($q);
-		$note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$note_rec = $ilDB->fetchAssoc($set);
 
 		return $note_rec["creation_date"];
 	}
@@ -347,9 +348,9 @@ class ilNote
 		global $ilDB;
 		
 		$q = "SELECT * FROM note WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote((int) $this->getId(), "integer");
 		$set = $ilDB->query($q);
-		$note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$note_rec = $ilDB->fetchAssoc($set);
 
 		return $note_rec["update_date"];
 	}
@@ -364,24 +365,24 @@ class ilNote
 		global $ilDB, $ilUser;
 		
 		$author_where = ($a_type == IL_NOTE_PRIVATE || $a_all_public == "n")
-			? " AND author = ".$ilDB->quote($ilUser->getId())
+			? " AND author = ".$ilDB->quote((int) $ilUser->getId(), "integer")
 			: "";
 
 		$sub_where = (!$a_incl_sub)
-			? " AND obj_id = ".$ilDB->quote($a_obj_id).
-			  " AND obj_type = ".$ilDB->quote($a_obj_type)
+			? " AND obj_id = ".$ilDB->quote((int) $a_obj_id, "integer").
+			  " AND obj_type = ".$ilDB->quote((string) $a_obj_type, "text")
 			: "";
 		
 		$q = "SELECT * FROM note WHERE ".
-			" rep_obj_id = ".$ilDB->quote($a_rep_obj_id).
+			" rep_obj_id = ".$ilDB->quote((int) $a_rep_obj_id, "integer").
 			$sub_where.
-			" AND type = ".$ilDB->quote($a_type).
+			" AND type = ".$ilDB->quote((int) $a_type, "integer").
 			$author_where.
 			" ORDER BY creation_date DESC";
 
 		$set = $ilDB->query($q);
 		$notes = array();
-		while($note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($note_rec = $ilDB->fetchAssoc($set))
 		{
 			if ($a_filter != "")
 			{
@@ -410,14 +411,14 @@ class ilNote
 		global $ilDB, $ilUser;
 		
 		$q = "SELECT * FROM note WHERE ".
-			" type = ".$ilDB->quote(IL_NOTE_PRIVATE).
-			" AND author = ".$ilDB->quote($ilUser->getId()).
+			" type = ".$ilDB->quote((int) IL_NOTE_PRIVATE, "integer").
+			" AND author = ".$ilDB->quote((int) $ilUser->getId(), "integer").
 			" ORDER BY creation_date DESC";
 
 		$ilDB->quote($q);
 		$set = $ilDB->query($q);
 		$notes = array();
-		while($note_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($note_rec = $ilDB->fetchAssoc($set))
 		{
 			$cnt = count($notes);
 			$notes[$cnt] = new ilNote();
@@ -435,14 +436,14 @@ class ilNote
 		global $ilDB, $ilUser;
 		
 		$q = "SELECT DISTINCT rep_obj_id FROM note WHERE ".
-			" type = ".$ilDB->quote(IL_NOTE_PRIVATE).
-			" AND author = ".$ilDB->quote($ilUser->getId()).
+			" type = ".$ilDB->quote((int) IL_NOTE_PRIVATE, "integer").
+			" AND author = ".$ilDB->quote($ilUser->getId(), "integer").
 			" ORDER BY rep_obj_id";
 
 		$ilDB->quote($q);
 		$set = $ilDB->query($q);
 		$reps = array();
-		while($rep_rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rep_rec = $ilDB->fetchAssoc($set))
 		{
 			$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
 		}
@@ -461,11 +462,10 @@ class ilNote
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepare("SELECT count(DISTINCT author) cnt FROM note WHERE ".
-			"rep_obj_id = ? AND obj_id = ? AND obj_type = ?",
-			array("integer", "integer", "text"));
-		
-		$set = $ilDB->execute($st, array($a_rep_obj_id, $a_obj_id, $a_type));
+		$set = $ilDB->queryF("SELECT count(DISTINCT author) cnt FROM note WHERE ".
+			"rep_obj_id = %s AND obj_id = %s AND obj_type = %s",
+			array("integer", "integer", "text"),
+			array((int) $a_rep_obj_id, (int) $a_obj_id, (int) $a_type));
 		$rec = $ilDB->fetchAssoc($set);
 		
 		return (int) $rec["cnt"];
