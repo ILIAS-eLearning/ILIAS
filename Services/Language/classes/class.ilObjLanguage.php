@@ -522,10 +522,10 @@ class ilObjLanguage extends ilObject
 		global $ilDB;
 		
 		$query = "UPDATE usr_pref SET " .
-				"value = ".$ilDB->quote($this->lang_default)." " .
-				"WHERE keyword = 'language' " .
-				"AND value = ".$ilDB->quote($lang_key);
-		$this->ilias->db->query($query);
+				"value = ".$ilDB->quote($this->lang_default, "text")." " .
+				"WHERE keyword = ".$ilDB->quote('language', "text")." ".
+				"AND value = ".$ilDB->quote($lang_key, "text");
+		$ilDB->manipulate($query);
 	}
 
 	/**

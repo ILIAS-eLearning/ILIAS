@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -3451,9 +3451,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 
 		// remove saved user passwords
 		$query = sprintf("DELETE FROM usr_pref WHERE keyword = %s",
-			$ilDB->quote("tst_password_".$this->getTestId())
+			$ilDB->quote("tst_password_".$this->getTestId(), "text")
 		);
-		$result = $ilDB->query($query);
+		$result = $ilDB->manipulate($query);
 	}
 
 	function removeSelectedTestResults($active_ids)
@@ -3514,10 +3514,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 			if ($usr_id > 0)
 			{
 				$query = sprintf("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-					$ilDB->quote($usr_id),
-					$ilDB->quote("tst_password_".$this->getTestId())
+					$ilDB->quote($usr_id, "integer"),
+					$ilDB->quote("tst_password_".$this->getTestId(), "text")
 				);
-				$result = $ilDB->query($query);
+				$result = $ilDB->manipulate($query);
 			}
 		}
 	}
@@ -3575,10 +3575,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 		if ($user_id > 0)
 		{
 			$query = sprintf("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-				$ilDB->quote($user_id),
-				$ilDB->quote("tst_password_".$this->getTestId())
+				$ilDB->quote($user_id, "integer"),
+				$ilDB->quote("tst_password_".$this->getTestId(), "text")
 			);
-			$result = $ilDB->query($query);
+			$result = $ilDB->manipulate($query);
 		}
 	}
 

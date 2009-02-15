@@ -262,11 +262,11 @@ class ilLinkChecker
 
 		$data['email'] = $row->email;
 
-		$query = "SELECT * FROM usr_pref ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND keyword = 'language'";
+		$set = $ilDB->query("SELECT * FROM usr_pref ".
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id, "integer")." ".
+			"AND keyword = ".$ilDB->quote('language', "text"));
 
-		$row = $this->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $ilDB->fetchObject($set);
 
 		$data['lang'] = $row->value;
 

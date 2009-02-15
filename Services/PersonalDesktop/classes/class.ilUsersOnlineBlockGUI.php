@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -244,10 +244,12 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				// check for profile
 				// todo: use user class!
 				$q = "SELECT value FROM usr_pref WHERE usr_id = ".
-					$ilDB->quote($user_id)." AND keyword='public_profile' AND value='y'";
+					$ilDB->quote($user_id, "integer").
+					" AND keyword = ".$ilDB->quote('public_profile', "text").
+					" AND value = ".$ilDB->quote('y', "text");
 				$r = $ilDB->query($q);
 				$profile = false;
-				if ($r->numRows())
+				if ($ilDB->numRows($r))
 				{
 					$profile = true;
 				}

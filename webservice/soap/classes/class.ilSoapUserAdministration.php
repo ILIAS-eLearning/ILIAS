@@ -3,7 +3,7 @@
    +-----------------------------------------------------------------------------+
    | ILIAS open source                                                           |
    +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+   | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
    |                                                                             |
    | This program is free software; you can redistribute it and/or               |
    | modify it under the terms of the GNU General Public License                 |
@@ -1194,7 +1194,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
 		          LEFT JOIN usr_pref
-		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = 'language'
+		          ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = ".
+				  $ilDB->quote("language", "text").
+				  "'language'
 		          WHERE 1 ".$query;
 
   	     if (is_numeric($active) && $active > -1)
@@ -1208,7 +1210,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
   	     $data = array();
 
-		 while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		 while($row = $ilDB->fetchAssoc($r))
 		 {
 		      $data[] = $row;
 		 }
