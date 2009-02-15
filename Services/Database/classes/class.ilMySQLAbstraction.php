@@ -331,6 +331,11 @@ class ilMySQLAbstraction
 			{
 				unset($def["default"]);
 			}
+
+			if (strtolower($def["type"]) == "float")
+			{
+				unset($def["length"]);
+			}
 			
 			// remove all invalid attributes
 			foreach ($def as $k => $v)

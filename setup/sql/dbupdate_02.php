@@ -7689,4 +7689,15 @@ ALTER TABLE `note` CHANGE `text` `note_text` MEDIUMTEXT;
 <?php
 	$ilMySQLAbstraction->performAbstraction('note');
 ?>
-
+<#1606>
+<?php
+	$ilMySQLAbstraction->performAbstraction('benchmark');
+?>
+<#1607>
+<?php
+	$ilMySQLAbstraction->performAbstraction('bookmark_data');
+?>
+<#1608>
+<?php
+	$ilMySQLAbstraction->performAbstraction('bookmark_tree');
+?>

@@ -4,7 +4,7 @@
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
     +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
     |                                                                             |
     | This program is free software; you can redistribute it and/or               |
     | modify it under the terms of the GNU General Public License                 |
@@ -63,7 +63,7 @@ class ilBenchmark
 		global $ilDB;
 
 		$q = "DELETE FROM benchmark";
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 
@@ -110,8 +110,12 @@ class ilBenchmark
 				foreach($bench as $time)
 				{
 					$q = "INSERT INTO benchmark (cdate, duration, module, benchmark) VALUES ".
-						"(now(), ".$ilDB->quote($time).", ".$ilDB->quote($bench_module).", ".$ilDB->quote($benchmark).")";
-					$ilDB->query($q);
+						"(".
+						$ilDB->now().", ".
+						$ilDB->quote($time, "float").", ".
+						$ilDB->quote($bench_module, "text").", ".
+						$ilDB->quote($benchmark, "text").")";
+					$ilDB->manipulate($q);
 				}
 			}
 			$this->bench = array();
@@ -134,12 +138,12 @@ class ilBenchmark
 		$q = "SELECT COUNT(*) AS cnt, AVG(duration) AS avg_dur, benchmark,".
 			" MIN(duration) AS min_dur, MAX(duration) AS max_dur".
 			" FROM benchmark".
-			" WHERE module = ".$ilDB->quote($a_module)." ".
+			" WHERE module = ".$ilDB->quote($a_module, "text")." ".
 			" GROUP BY benchmark".
 			" ORDER BY benchmark";
 		$bench_set = $ilDB->query($q);
 		$eva = array();
-		while($bench_rec = $bench_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($bench_rec = $ilDB->fetchAssoc($bench_set))
 		{
 			$eva[] = array("benchmark" => $bench_rec["benchmark"],
 				"cnt" => $bench_rec["cnt"], "duration" => $bench_rec["avg_dur"],
@@ -158,7 +162,7 @@ class ilBenchmark
 
 		$q = "SELECT COUNT(*) AS cnt FROM benchmark";
 		$cnt_set = $ilDB->query($q);
-		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$cnt_rec = $ilDB->fetchAssoc($cnt_set);
 
 		return $cnt_rec["cnt"];
 	}
@@ -226,7 +230,7 @@ class ilBenchmark
 		$mod_set = $ilDB->query($q);
 
 		$modules = array();
-		while ($mod_rec = $mod_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($mod_rec = $ilDB->fetchAssoc($mod_set))
 		{
 			$modules[$mod_rec["module"]] = $mod_rec["module"];
 		}

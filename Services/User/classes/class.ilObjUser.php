@@ -1206,12 +1206,12 @@ class ilObjUser extends ilObject
 		// remove bookmarks
 		// TODO: move this to class.ilBookmarkFolder
 		$q = "DELETE FROM bookmark_tree WHERE tree = ".
-			$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+			$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 
-		$q = "DELETE FROM bookmark_data WHERE user_id= ".
-			$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$q = "DELETE FROM bookmark_data WHERE user_id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 
 		// DELETE FORUM ENTRIES (not complete in the moment)
 		include_once './Modules/Forum/classes/class.ilObjForum.php';
