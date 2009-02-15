@@ -7681,3 +7681,12 @@ ALTER TABLE `rbac_fa` CHANGE `protected` `protected` CHAR( 1 ) NULL DEFAULT 'n';
 	$ilMySQLAbstraction->performAbstraction('il_request_token');
 ?>
 
+<#1603>
+DROP TABLE IF EXISTS note_data;
+<#1604>
+ALTER TABLE `note` CHANGE `text` `note_text` MEDIUMTEXT;
+<#1605>
+<?php
+	$ilMySQLAbstraction->performAbstraction('note');
+?>
+
