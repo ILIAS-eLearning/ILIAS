@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1038,9 +1038,12 @@ class ilCtrl
 				// session basis. This will fail due to framesets that are used
 				// occasionally in ILIAS, e.g. in the chat, where multiple
 				// forms are loaded in different frames.
-				$ilDB->manipulate("INSERT INTO il_request_token (user_id, token, session) VALUES ".
-					"(".$ilDB->quote($ilUser->getId(), "integer").",".$ilDB->quote($this->rtoken, "text").
-					",".$ilDB->quote(session_id(), "text").")");
+				$ilDB->manipulate("INSERT INTO il_request_token (user_id, token, stamp, session) VALUES ".
+					"(".
+					$ilDB->quote($ilUser->getId(), "integer").",".
+					$ilDB->quote($this->rtoken, "text").",".
+					$ilDB->now().",".
+					$ilDB->quote(session_id(), "text").")");
 				return $this->rtoken;
 			}
 			//$this->rtoken = md5(uniqid(rand(), true));
@@ -1067,7 +1070,7 @@ class ilCtrl
 			$set = $ilDB->query("SELECT * FROM il_request_token WHERE ".
 				" user_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ".  	 	 
 				" token = ".$ilDB->quote($_GET[self::IL_RTOKEN_NAME]), "text"); 		 
-			if ($set->numRows() > 0) 		 
+			if ($ilDB->numRows($set) > 0) 		 
 			{
 				// remove used token
 				/*

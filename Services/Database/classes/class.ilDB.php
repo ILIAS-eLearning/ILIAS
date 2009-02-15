@@ -1157,6 +1157,21 @@ class ilDB extends PEAR
 	}
 
 	/**
+	* Use this only on text fields.
+	*/
+	function equals($a_col, $a_value, $a_type, $a_empty_or_null = false)
+	{
+		if (!$a_empty_or_null || $a_value != "")
+		{
+			return $a_col." = ".$this->quote($a_value, $a_type);
+		}
+		else
+		{
+			return "(".$a_col." = ".$this->quote($a_value, "text")." OR $a_col IS NULL)";
+		}
+	}
+	
+	/**
 	* Optimize Table
 	* @todo needs oracle implementation
 	*/

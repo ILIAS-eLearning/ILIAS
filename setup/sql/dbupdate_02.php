@@ -7668,4 +7668,16 @@ ALTER TABLE `rbac_fa` CHANGE `protected` `protected` CHAR( 1 ) NULL DEFAULT 'n';
 <?php
 	$ilMySQLAbstraction->performAbstraction('rbac_ua');
 ?>
+<#1600>
+<?php
+	$ilMySQLAbstraction->performAbstraction('usr_pref');
+?>
+<#1601>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_custom_block');
+?>
+<#1602>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_request_token');
+?>
 

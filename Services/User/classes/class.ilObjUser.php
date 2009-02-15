@@ -1119,8 +1119,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM usr_pref WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND keyword = ".$ilDB->quote($a_keyword);
+		$query = "SELECT * FROM usr_pref WHERE usr_id = ".$ilDB->quote($a_usr_id, "integer")." ".
+			"AND keyword = ".$ilDB->quote($a_keyword, "text");
 		$res = $ilDB->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1856,10 +1856,11 @@ class ilObjUser extends ilObject
 		global $ilDB;
 
 		$q = "SELECT value FROM usr_pref WHERE usr_id= ".
-			$ilDB->quote($a_usr_id)." AND keyword = 'language'";
+			$ilDB->quote($a_usr_id, "integer")." AND keyword = ".
+			$ilDB->quote('language', "text");
 		$r = $ilDB->query($q);
 
-		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($row = $ilDB->fetchAssoc($r))
 		{
 			return $row['value'];
 		}
@@ -2914,14 +2915,16 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 	{
 		global $ilDB;
 
-		$q = "SELECT count(*) as cnt FROM usr_pref AS up1, usr_pref AS up2 ".
-			" WHERE up1.keyword= ".$ilDB->quote("style")." AND up1.value= ".$ilDB->quote($a_style).
-			" AND up2.keyword= ".$ilDB->quote("skin")." AND up2.value= ".$ilDB->quote($a_skin).
+		$q = "SELECT count(*) as cnt FROM usr_pref up1, usr_pref up2 ".
+			" WHERE up1.keyword= ".$ilDB->quote("style", "text").
+			" AND up1.value= ".$ilDB->quote($a_style, "text").
+			" AND up2.keyword= ".$ilDB->quote("skin", "text").
+			" AND up2.value= ".$ilDB->quote($a_skin, "text").
 			" AND up1.usr_id = up2.usr_id ";
 
 		$cnt_set = $ilDB->query($q);
 
-		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$cnt_rec = $ilDB->fetchAssoc($cnt_set);
 
 		return $cnt_rec["cnt"];
 	}
@@ -2934,15 +2937,15 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		global $ilDB;
 
 		$q = "SELECT DISTINCT up1.value as style, up2.value as skin FROM usr_pref AS up1, usr_pref AS up2 ".
-			" WHERE up1.keyword= ".$ilDB->quote("style").
-			" AND up2.keyword= ".$ilDB->quote("skin").
+			" WHERE up1.keyword= ".$ilDB->quote("style", "text").
+			" AND up2.keyword= ".$ilDB->quote("skin", "text").
 			" AND up1.usr_id = up2.usr_id ";
 
 
 		$sty_set = $ilDB->query($q);
 
 		$styles = array();
-		while($sty_rec = $sty_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($sty_rec = $ilDB->fetchAssoc($sty_set))
 		{
 			$styles[] = $sty_rec["skin"].":".$sty_rec["style"];
 		}
@@ -2958,13 +2961,15 @@ die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please se
 		global $ilDB;
 
 		$q = "SELECT up1.usr_id as usr_id FROM usr_pref AS up1, usr_pref AS up2 ".
-			" WHERE up1.keyword= ".$ilDB->quote("style")." AND up1.value= ".$ilDB->quote($a_from_style).
-			" AND up2.keyword= ".$ilDB->quote("skin")." AND up2.value= ".$ilDB->quote($a_from_skin).
+			" WHERE up1.keyword= ".$ilDB->quote("style", "text").
+			" AND up1.value= ".$ilDB->quote($a_from_style, "text").
+			" AND up2.keyword= ".$ilDB->quote("skin", "text").
+			" AND up2.value= ".$ilDB->quote($a_from_skin, "text").
 			" AND up1.usr_id = up2.usr_id ";
 
 		$usr_set = $ilDB->query($q);
 
-		while ($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($usr_rec = $ilDB->fetchAssoc($usr_set))
 		{
 			ilObjUser::_writePref($usr_rec["usr_id"], "skin", $a_to_skin);
 			ilObjUser::_writePref($usr_rec["usr_id"], "style", $a_to_style);

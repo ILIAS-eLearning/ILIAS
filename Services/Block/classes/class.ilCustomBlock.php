@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -91,7 +91,7 @@ class ilCustomBlock
 	*/
 	public function getContextObjId()
 	{
-		return $this->context_obj_id;
+		return (int) $this->context_obj_id;
 	}
 
 	/**
@@ -131,7 +131,7 @@ class ilCustomBlock
 	*/
 	public function getContextSubObjId()
 	{
-		return $this->context_sub_obj_id;
+		return (int) $this->context_sub_obj_id;
 	}
 
 	/**
@@ -202,24 +202,24 @@ class ilCustomBlock
 	{
 		global $ilDB;
 		
+		$this->setId($ilDB->nextId("il_custom_block"));
 		$query = "INSERT INTO il_custom_block (".
-			" context_obj_id".
+			" id".
+			", context_obj_id".
 			", context_obj_type".
 			", context_sub_obj_id".
 			", context_sub_obj_type".
 			", type".
 			", title".
 			" ) VALUES (".
-			$ilDB->quote($this->getContextObjId())
-			.",".$ilDB->quote($this->getContextObjType())
-			.",".$ilDB->quote($this->getContextSubObjId())
-			.",".$ilDB->quote($this->getContextSubObjType())
-			.",".$ilDB->quote($this->getType())
-			.",".$ilDB->quote($this->getTitle()).")";
-		$ilDB->query($query);
-		$this->setId($ilDB->getLastInsertId());
-		
-
+			$ilDB->quote($this->getId(), "integer")
+			.",".$ilDB->quote($this->getContextObjId(), "integer")
+			.",".$ilDB->quote($this->getContextObjType(), "text")
+			.",".$ilDB->quote($this->getContextSubObjId(), "integer")
+			.",".$ilDB->quote($this->getContextSubObjType(), "text")
+			.",".$ilDB->quote($this->getType(), "text")
+			.",".$ilDB->quote($this->getTitle(), "text").")";
+		$ilDB->manipulate($query);
 	}
 
 	/**
@@ -231,9 +231,9 @@ class ilCustomBlock
 		global $ilDB;
 		
 		$query = "SELECT * FROM il_custom_block WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setContextObjId($rec["context_obj_id"]);
 		$this->setContextObjType($rec["context_obj_type"]);
@@ -253,15 +253,15 @@ class ilCustomBlock
 		global $ilDB;
 		
 		$query = "UPDATE il_custom_block SET ".
-			" context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-			", context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-			", context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-			", context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
-			", type = ".$ilDB->quote($this->getType()).
-			", title = ".$ilDB->quote($this->getTitle()).
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+			", context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
+			", context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+			", context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text").
+			", type = ".$ilDB->quote($this->getType(), "text").
+			", title = ".$ilDB->quote($this->getTitle(), "text").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 	}
 
@@ -274,9 +274,9 @@ class ilCustomBlock
 		global $ilDB;
 		
 		$query = "DELETE FROM il_custom_block".
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 	}
 
@@ -291,14 +291,15 @@ class ilCustomBlock
 		$query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title ".
 			"FROM il_custom_block ".
 			"WHERE ".
-				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType())."";
-				
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true);
+				//" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text")."";
+
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$result[] = $rec;
 		}
@@ -318,14 +319,15 @@ class ilCustomBlock
 		$query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title ".
 			"FROM il_custom_block ".
 			"WHERE ".
-				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType())."";
-				
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true);
+				//" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text")."";
+//echo "$query";
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$result[] = $rec;
 		}
@@ -341,7 +343,8 @@ class ilCustomBlock
 	public function queryTitleForId()
 	{
 		global $ilDB;
-		
+die("ilCustomBlock::queryTitleForId is deprecated");
+/*
 		$query = "SELECT id ".
 			"FROM il_custom_block ".
 			"WHERE "."";
@@ -354,7 +357,7 @@ class ilCustomBlock
 		}
 		
 		return $result;
-
+*/
 	}
 
 	/**
@@ -368,15 +371,15 @@ class ilCustomBlock
 		$query = "SELECT count(*) as cnt ".
 			"FROM il_custom_block ".
 			"WHERE ".
-				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
-				" AND type = ".$ilDB->quote($this->getType())."";
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true).
+				" AND type = ".$ilDB->quote($this->getType(), "text")."";
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$result[] = $rec;
 		}

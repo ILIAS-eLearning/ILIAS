@@ -355,9 +355,10 @@ class ilUserXMLWriter extends ilXmlWriter
 	private function getPictureValue ($usr_id) {
 		global $ilDB;
 		// personal picture
-		$q = sprintf("SELECT value FROM usr_pref WHERE usr_id=%s AND keyword='profile_image'", $ilDB->quote($usr_id . ""));
+		$q = sprintf("SELECT value FROM usr_pref WHERE usr_id = %s AND keyword = %s",
+			$ilDB->quote($usr_id, "integer"), $ilDB->quote('profile_image', "text"));
 		$r = $ilDB->query($q);
-		if ($r->numRows() == 1)
+		if ($ilDB->numRows($r) == 1)
 		{
 			$personal_picture_data = $r->fetchRow(DB_FETCHMODE_ASSOC);
 			$personal_picture = $personal_picture_data["value"];

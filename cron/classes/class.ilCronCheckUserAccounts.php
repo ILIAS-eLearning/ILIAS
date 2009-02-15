@@ -43,6 +43,8 @@ class ilCronCheckUserAccounts
 
 	function check()
 	{
+		global $ilDB;
+		
 		$two_weeks_in_seconds = 60 * 60 * 24 * 14;
 
 		$this->log->write('Cron: Start ilCronCheckUserAccounts::check()');
@@ -50,14 +52,14 @@ class ilCronCheckUserAccounts
 		$query = "SELECT * FROM usr_data,usr_pref ".
 			"WHERE time_limit_message = '0' ".
 			"AND time_limit_unlimited = '0' ".
-			"AND time_limit_from < '".time()."' ".
-			"AND time_limit_until > '".$two_weeks_in_seconds."' ".
+			"AND time_limit_from < ".$ilDB->quote(time(), "integer")." ".
+			"AND time_limit_until > ".$ilDB->quote($two_weeks_in_seconds, "integer")." ".
 			"AND usr_data.usr_id = usr_pref.usr_id ".
-			"AND keyword = 'language'";
+			"AND keyword = ".$ilDB->quote("language", "text");
 
-		$res = $this->db->query($query);
+		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			include_once 'Services/Mail/classes/class.ilMimeMail.php';
 

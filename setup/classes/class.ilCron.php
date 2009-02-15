@@ -93,9 +93,9 @@ class ilCron
 			"AND usr_data.usr_id = usr_pref.usr_id ".
 			"AND keyword = ".$ilDB->quote("language", "text");
 
-		$res = $this->db->query($query);
+		$res = $ilDB->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			include_once '../Services/Mail/classes/class.ilMimeMail.php';
 
