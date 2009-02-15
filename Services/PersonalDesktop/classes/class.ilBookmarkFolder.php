@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -81,18 +81,19 @@ class ilBookmarkFolder
 	*/
 	function read()
 	{
-		global $ilias;
+		global $ilias, $ilDB;
 
-		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".$this->ilias->db->quote($this->getId());
-		$bmf_set = $this->ilias->db->query($q);
-		if ($bmf_set->numRows() == 0)
+		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$bmf_set = $ilDB->query($q);
+		if ($ilDB->numRows($bmf_set) == 0)
 		{
 			$message = "ilBookmarkFolder::read(): Bookmark Folder with id ".$this->getId()." not found!";
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 		else
 		{
-			$bmf = $bmf_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$bmf = $ilDB->fetchAssoc($bmf_set);
 			$this->setTitle($bmf["title"]);
 			$this->setParent($this->tree->getParentId($this->getId()));
 		}
@@ -103,8 +104,10 @@ class ilBookmarkFolder
 	*/
 	function delete()
 	{
-		$q = "DELETE FROM bookmark_data WHERE obj_id = ".$this->ilias->db->quote($this->getId());
-		$this->ilias->db->query($q);
+		global $ilDB;
+		
+		$q = "DELETE FROM bookmark_data WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->query($q);
 	}
 
 	/**
@@ -129,27 +132,36 @@ class ilBookmarkFolder
 	*/
 	function create()
 	{
+		global $ilDB;
+		
+		$this->setId($ilDB->nextId("bookmark_data"));
 		$q = sprintf(
-				"INSERT INTO bookmark_data (user_id, title, type) ".
-				"VALUES (%s,%s,%s)",
-				$this->ilias->db->quote($_SESSION["AccountId"]),
-				$this->ilias->db->quote($this->getTitle()),
-				$this->ilias->db->quote('bmf')
+				"INSERT INTO bookmark_data (obj_id, user_id, title, type) ".
+				"VALUES (%s,%s,%s,%s)",
+				$ilDB->quote($this->getId(), "integer"),
+				$ilDB->quote($_SESSION["AccountId"], "integer"),
+				$ilDB->quote($this->getTitle(), "text"),
+				$ilDB->quote('bmf', "text")
 			);
 
-		$this->ilias->db->query($q);
-		$this->setId($this->ilias->db->getLastInsertId());
+		$ilDB->manipulate($q);
 		$this->tree->insertNode($this->getId(), $this->getParent());
 	}
+	
+	/**
+	* Update bookmark folder item
+	*/
 	function update()
 	{
+		global $ilDB;
+		
 		$q = sprintf(
 				"UPDATE bookmark_data SET title=%s ".
 				"WHERE obj_id=%s",
-				$this->ilias->db->quote($this->getTitle()),
-				$this->ilias->db->quote($this->getId())
+				$ilDB->quote($this->getTitle(), "text"),
+				$ilDB->quote($this->getId(), "integer")
 			);
-		$this->ilias->db->query($q);
+		$ilDB->manipulate($q);
 	}
 
 
@@ -190,9 +202,10 @@ class ilBookmarkFolder
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".$ilDB->quote($a_bmf_id);
+		$q = "SELECT * FROM bookmark_data WHERE obj_id = ".
+			$ilDB->quote($a_bmf_id, "integer");
 		$bmf_set = $ilDB->query($q);
-		$bmf = $bmf_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$bmf = $ilDB->fetchAssoc($bmf_set);
 
 		return $bmf["title"];
 	}
