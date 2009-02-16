@@ -197,15 +197,6 @@ class ilForumTopic
 	
 		if ($this->id)
 		{
-/*			$statement = $this->db->prepare('
-				SELECT frm_threads.*, top_frm_fk AS frm_obj_id
-				FROM frm_threads
-				INNER JOIN frm_data ON top_pk = thr_top_fk
-				WHERE 1
-				AND thr_pk = ?',
-				array('integer')
-			);
-*/
 			$statement = $this->db->prepare('
 				SELECT frm_threads.*, top_frm_fk frm_obj_id
 				FROM frm_threads
@@ -352,14 +343,6 @@ class ilForumTopic
 	*/
 	public function countPosts()
 	{
-/*		$statement = $this->db->prepare('
-			SELECT COUNT(*) AS cnt
-			FROM frm_posts
-			WHERE 1				  
-			AND pos_thr_fk = ?',
-			array('integer')
-		);
-*/
 		$statement = $this->db->prepare('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
@@ -387,17 +370,7 @@ class ilForumTopic
 	public function countActivePosts()
 	{
 		global $ilUser;
-	
-/*		$statement = $this->db->prepare('
-			SELECT COUNT(*) AS cnt
-			FROM frm_posts
-			WHERE 1				 
-			AND (pos_status = ?
-				 OR (pos_status = ? AND pos_usr_id = ?))
-			AND pos_thr_fk = ?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
-*/
+
 		$statement = $this->db->prepare('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
@@ -426,15 +399,7 @@ class ilForumTopic
 	*/
 	public function countReadPosts($a_user_id)
 	{	
-/*		$statement = $this->db->prepare('
-			SELECT COUNT(*) AS cnt FROM frm_user_read
-			INNER JOIN frm_posts ON pos_pk = post_id
-			WHERE 1	
-			AND usr_id = ?
-			AND thread_id = ?',
-			array('integer', 'integer')
-		);	
-*/
+
 		$statement = $this->db->prepare('
 			SELECT COUNT(*) cnt FROM frm_user_read
 			INNER JOIN frm_posts ON pos_pk = post_id
@@ -463,19 +428,7 @@ class ilForumTopic
 	public function countReadActivePosts($a_user_id)
 	{
 		global $ilUser;
-		
-/*		$statement = $this->db->prepare('
-			SELECT COUNT(*) AS cnt				  
-			FROM frm_user_read
-			INNER JOIN frm_posts ON pos_pk = post_id
-			WHERE 1			  
-			AND usr_id = ?
-			AND thread_id = ?
-			AND (pos_status = ? 
-				OR (pos_status = ? AND pos_usr_id = ?))',
-			array('integer', 'integer', 'integer', 'integer', 'integer')
-		);
-*/
+
 		$statement = $this->db->prepare('
 			SELECT COUNT(*) cnt				  
 			FROM frm_user_read
@@ -509,18 +462,6 @@ class ilForumTopic
 	{
 		$timest = $this->getLastThreadAccess($a_user_id);
 
-/*		$statement = $this->db->prepare('
-			SELECT COUNT(pos_pk) AS cnt
-			FROM frm_posts
-			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = ? 
-			WHERE 1
-			AND pos_thr_fk = ?
-			AND (pos_date > ? OR pos_update > ?) 
-			AND pos_usr_id != ? 
-			AND usr_id IS NULL',
-			array('integer', 'integer', 'timestamp','timestamp', 'integer')
-		);
-*/
 		$statement = $this->db->prepare('
 			SELECT COUNT(pos_pk) cnt
 			FROM frm_posts
@@ -560,26 +501,6 @@ class ilForumTopic
 		
 		$timest = $this->getLastThreadAccess($a_user_id);
 		
-/*		$statement = $this->db->prepare('
-			SELECT COUNT(pos_pk) AS cnt
-			FROM frm_posts
-			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = ?
-			WHERE 1
-			AND pos_thr_fk = ?
-			AND (pos_date > ? OR pos_update > ?) 
-			AND pos_usr_id != ?
-			AND (pos_status = ? OR (pos_status = ? AND pos_usr_id = ?))
-			AND usr_id IS NULL',
-			array(	'integer',
-					'integer',
-					'timestamp', 
-					'timestamp',
-					'integer',
-					'integer',
-					'integer',
-					'integer') 
-		);
-*/
 		$statement = $this->db->prepare('
 			SELECT COUNT(pos_pk) cnt
 			FROM frm_posts
@@ -980,12 +901,6 @@ class ilForumTopic
 	{
 		if ($this->id && $a_user_id)
 		{					
-/*			$statement = $this->db->prepare('
-				SELECT COUNT(*) AS cnt FROM frm_notification 
-				WHERE user_id = ? AND thread_id = ?',
-				array('integer', 'integer')
-			);
-*/
 			$statement = $this->db->prepare('
 				SELECT COUNT(*) cnt FROM frm_notification 
 				WHERE user_id = ? AND thread_id = ?',
@@ -1179,7 +1094,7 @@ class ilForumTopic
 		
 		return false;
 	}
-	
+
 	public function setId($a_id)
 	{
 		$this->id = $a_id;

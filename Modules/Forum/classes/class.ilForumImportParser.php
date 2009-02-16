@@ -291,7 +291,6 @@ class ilForumImportParser extends ilSaxParser
 		$this->__initForumObject();
 
 		$this->forum_obj->setImportName($this->thread["login"]);
-
 		$this->forum_obj->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($this->forum->getId()));
 	
 		$topic = $this->forum_obj->getOneTopic();
@@ -305,7 +304,6 @@ class ilForumImportParser extends ilSaxParser
 																	 $this->post["message"],0,0,'',date("Y-m-d H:i:s",$this->thread["c_time"])));
 		
 		$this->forum_obj->setDbTable("frm_data");
-
 		$this->forum_obj->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topic['top_pk']));
 		
 		$this->forum_obj->updateVisits($topic["top_pk"]);
@@ -317,7 +315,6 @@ class ilForumImportParser extends ilSaxParser
 		global $ilDB;
 		
 		$this->forum_obj->setImportName($this->post["login"]);
-
 		$this->forum_obj->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($this->forum->getId()));
 
 		

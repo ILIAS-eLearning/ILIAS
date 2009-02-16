@@ -1,4 +1,6 @@
-<form method="post" name="cmd" action="{FORMACTION}">
+<!-- BEGIN confirmation -->{CONFIRMATION_GUI}
+
+<!-- END confirmation --><form method="post" name="cmd" action="{FORMACTION}">
 
 <table class="fullwidth">
 <tr class="tbltitle">
@@ -71,6 +73,9 @@
 		<option value="close">{TXT_CLOSE_THREADS}</option>
 		<option value="reopen">{TXT_REOPEN_THREADS}</option>
 <!-- END close_reopen_threads -->
+<!-- BEGIN delete_threads -->
+		<option value="confirmDeleteThreads">{TXT_DELETE_THREADS}</option>		
+<!-- END delete_threads -->
 		<option value="html">{TXT_EXPORT_HTML}</option>
 	</select>
 	<input class="submit" type="submit" name="cmd[performThreadsAction]" value="{TXT_OK}" />
