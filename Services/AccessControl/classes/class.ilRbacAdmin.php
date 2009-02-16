@@ -145,9 +145,9 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "DELETE FROM rbac_templates ".
-			 "WHERE rol_id = ".$ilDB->quote($a_obj_id) ." ";
-		$this->ilDB->query($q);
+		$query = 'DELETE FROM rbac_templates '.
+			 'WHERE rol_id = '.$ilDB->quote($a_obj_id,'integer');
+		$res = $ilDB->manipulate($query);
 
 		$query = 'DELETE FROM rbac_fa '.
 			'WHERE rol_id = '.$ilDB->quote($a_obj_id,'integer');
@@ -189,11 +189,10 @@ class ilRbacAdmin
 			 $clause;
 		$res = $ilDB->manipulate($query);
 
-		$q = "DELETE FROM rbac_templates ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
+		$query = 'DELETE FROM rbac_templates '.
+			 'WHERE rol_id = '.$ilDB->quote($a_rol_id,'integer').' '.
 			 $clause;
-		$this->ilDB->query($q);
-
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -529,22 +528,23 @@ class ilRbacAdmin
 			return true;
 		}
 		
-		$query = "DELETE FROM rbac_templates WHERE rol_id = ".$ilDB->quote($a_dest_id)." ".
-			"AND parent = ".$ilDB->quote($a_dest_parent);
-		$ilDB->query($query);
-		
+		$query = 'DELETE FROM rbac_templates WHERE rol_id = '.$ilDB->quote($a_dest_id,'integer').' '.
+			'AND parent = '.$ilDB->quote($a_dest_parent,'integer');
+		$res = $ilDB->manipulate($query);
 
-		$q = "SELECT * FROM rbac_templates ".
-			 "WHERE rol_id = ".$ilDB->quote($a_source_id)." ".
-			 "AND parent = ".$ilDB->quote($a_source_parent)." ";
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$query = 'SELECT * FROM rbac_templates '.
+			 'WHERE rol_id = '.$ilDB->quote($a_source_id,'integer').' '.
+			 'AND parent = '.$ilDB->quote($a_source_parent,'integer');
+		$res = $ilDB->query($query);
+		while ($row = $ilDB->fetchObject($res))
 		{
-			$q = "INSERT INTO rbac_templates ".
-				 "VALUES ".
-				 "(".$ilDB->quote($a_dest_id).",".$ilDB->quote($row->type).",".$ilDB->quote($row->ops_id).",".$ilDB->quote($a_dest_parent).")";
-			$this->ilDB->query($q);
+			$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
+				 'VALUES ('.
+				 $ilDB->quote($a_dest_id,'integer').",".
+				 $ilDB->quote($row->type,'text').",".
+				 $ilDB->quote($row->ops_id,'integer').",".
+				 $ilDB->quote($a_dest_parent,'integer').")";
+			$ilDB->manipulate($query);
 		}
 		
 		// copy also protection status if applicable
@@ -599,22 +599,26 @@ class ilRbacAdmin
 			return true;
 		}
 
-		$q = "SELECT s1.type, s1.ops_id ".
-                        "FROM rbac_templates AS s1, rbac_templates AS s2 ".
-                        "WHERE s1.rol_id = ".$ilDB->quote($a_source1_id)." ".
-                        "AND s1.parent = ".$ilDB->quote($a_source1_parent)." ".
-                        "AND s2.rol_id = ".$ilDB->quote($a_source2_id)." ".
-                        "AND s2.parent = ".$ilDB->quote($a_source2_parent)." ".
+		$query = "SELECT s1.type, s1.ops_id ".
+                        "FROM rbac_templates s1, rbac_templates s2 ".
+                        "WHERE s1.rol_id = ".$ilDB->quote($a_source1_id,'integer')." ".
+                        "AND s1.parent = ".$ilDB->quote($a_source1_parent,'integer')." ".
+                        "AND s2.rol_id = ".$ilDB->quote($a_source2_id,'integer')." ".
+                        "AND s2.parent = ".$ilDB->quote($a_source2_parent,'integer')." ".
                         "AND s1.type = s2.type ".
                         "AND s1.ops_id = s2.ops_id";
-		$r = $this->ilDB->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->query($query);
+		
+		$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
+			'VALUES (?,?,?,?)';
+		$sta = $ilDB->prepareManip($query,array('integer','text','integer','integer'));
+		while($row = $ilDB->fetchObject($res))
 		{
-			$q = "INSERT INTO rbac_templates ".
-				 "VALUES ".
-				 "(".$ilDB->quote($a_dest_id).",".$ilDB->quote($row->type).",".$ilDB->quote($row->ops_id).",".$ilDB->quote($a_dest_parent).")";
-			$this->ilDB->query($q);
+			$ilDB->execute($sta,array(
+				$a_dest_id,
+				$row->type,
+				$row->ops_id,
+				$a_dest_parent));
 		}
 
 		return true;
@@ -648,14 +652,14 @@ class ilRbacAdmin
 		
 		if ($a_type !== false)
 		{
-			$and_type = " AND type=".$ilDB->quote($a_type)." ";
+			$and_type = " AND type=".$ilDB->quote($a_type,'text')." ";
 		}
 
-		$q = "DELETE FROM rbac_templates ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
-			 "AND parent = ".$ilDB->quote($a_ref_id)." ".
+		$query = 'DELETE FROM rbac_templates '.
+			 'WHERE rol_id = '.$ilDB->quote($a_rol_id,'integer').' '.
+			 'AND parent = '.$ilDB->quote($a_ref_id,'integer').' '.
 			 $and_type;
-		$this->ilDB->query($q);
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -701,13 +705,18 @@ class ilRbacAdmin
 		{
 			return true;
 		}
-		
+
+		$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
+			'VALUES (?,?,?,?)';
+		$sta = $ilDB->prepareManip($query,array('integer','text','integer','integer'));
 		foreach ($a_ops as $op)
 		{
-			$q = "INSERT INTO rbac_templates ".
-				 "VALUES ".
-				 "(".$ilDB->quote($a_rol_id).",".$ilDB->quote($a_type).",".$ilDB->quote($op).",".$ilDB->quote($a_ref_id).")";
-			$this->ilDB->query($q);
+			$res = $ilDB->execute($sta,array(
+				$a_rol_id,
+				$a_type,
+				$op,
+				$a_ref_id
+			));
 		}
 
 		return true;

@@ -1198,7 +1198,6 @@ class ilRbacReview
 			$message = get_class($this)."::getRoleFolderOfObject(): No ref_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
-
 		$childs = $tree->getChildsByType($a_ref_id,"rolf");
 
 		$ilBench->stop("RBAC", "review_getRoleFolderOfObject");
@@ -1291,14 +1290,12 @@ class ilRbacReview
 			$a_parent = ROLE_FOLDER_ID;
 		}
 		
-		$q = "SELECT ops_id FROM rbac_templates ".
-			 "WHERE type =".$ilDB->quote($a_type)." ".
-			 "AND rol_id = ".$ilDB->quote($a_rol_id)." ".
-			 "AND parent = ".$ilDB->quote($a_parent)."";
-		$r  = $this->ilDB->query($q);
-
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		$query = "SELECT ops_id FROM rbac_templates ".
+			 "WHERE type =".$ilDB->quote($a_type,'text')." ".
+			 "AND rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".
+			 "AND parent = ".$ilDB->quote($a_parent,'integer');
+		$res = $ilDB->query($query);
+		while ($row = $ilDB->fetchObject($res))
 		{
 			$ops_arr[] = $row->ops_id;
 		}
@@ -1709,23 +1706,20 @@ class ilRbacReview
 		}
 		else
 		{
-			$q = 'SELECT * FROM rbac_operations '.
+			$query = 'SELECT * FROM rbac_operations '.
 				 "ORDER BY 'op_order' ASC";
 		}
-		
 		$res = $ilDB->query($query);
-	
 		while ($row = $ilDB->fetchAssoc($res))
 		{
 			$arr[] = array(
-						"ops_id"	=> $row[0],
-						"operation"	=> $row[1],
-						"desc"		=> $row[2],
-						"class"		=> $row[3],
-						"order"		=> $row[4]
+						"ops_id"	=> $row['ops_id'],
+						"operation"	=> $row['operation'],
+						"desc"		=> $row['description'],
+						"class"		=> $row['class'],
+						"order"		=> $row['op_order']
 						);
 		}
-	
 		return $arr;
 	}
 	

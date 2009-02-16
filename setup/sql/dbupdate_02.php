@@ -7713,3 +7713,7 @@ ALTER TABLE `note` CHANGE `text` `note_text` MEDIUMTEXT;
 <?php
 	$ilMySQLAbstraction->performAbstraction('rbac_ta');
 ?>
+<#1612>
+<?php
+	$ilMySQLAbstraction->performAbstraction('rbac_templates');
+?>
