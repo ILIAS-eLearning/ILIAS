@@ -99,5 +99,25 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		$rbacreview->assignedUsers(4);
 		$rbacreview->assignedRoles(6);
 	}
+	
+	/**
+	 * rbac ta test 
+	 * @param
+	 * @return
+	 */
+	public function testRbacTA()
+	{
+		global $rbacreview,$rbacadmin;
+		
+		$sess_ops = $rbacreview->getOperationsOnTypeString('sess');
+		
+		$rbacadmin->assignOperationToObject($rbacreview->getTypeId('sess'),'7');
+		//$new_sess_ops = $rbacreview->getOperationsOnTypeString('sess');
+		//$this->assertEquals(array_merge($sess_ops,array(7)),$new_sess_ops);
+		
+		$rbacadmin->deassignOperationFromObject($rbacreview->getTypeId('sess'),'7');
+		$new_sess_ops = $rbacreview->getOperationsOnTypeString('sess');
+		$this->assertEquals($sess_ops,$new_sess_ops);
+	}
 }
 ?>

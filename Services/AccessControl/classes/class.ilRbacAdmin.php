@@ -782,10 +782,9 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "INSERT INTO rbac_ta ".
-			 "VALUES(".$ilDB->quote($a_type_id).",".$ilDB->quote($a_ops_id).")";
-		$this->ilDB->query($q);
-
+		$query = "INSERT INTO rbac_ta (typ_id, ops_id) ".
+			 "VALUES(".$ilDB->quote($a_type_id,'integer').",".$ilDB->quote($a_ops_id,'integer').")";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -809,10 +808,10 @@ class ilRbacAdmin
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "DELETE FROM rbac_ta ".
-			 "WHERE typ_id = ".$ilDB->quote($a_type_id)." ".
-			 "AND ops_id = ".$ilDB->quote($a_ops_id)." ";
-		$this->ilDB->query($q);
+		$query = "DELETE FROM rbac_ta ".
+			 "WHERE typ_id = ".$ilDB->quote($a_type_id,'integer')." ".
+			 "AND ops_id = ".$ilDB->quote($a_ops_id,'integer');
+		$res = $ilDB->manipulate($query);
 	
 		return true;
 	}
