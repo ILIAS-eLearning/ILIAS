@@ -7770,3 +7770,9 @@ ALTER TABLE content_object MODIFY prevent_glossary_appendix_active CHAR(1) DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('ldap_server_settings');
 ?>
+
+<#1624>
+<?php
+	$ilMySQLAbstraction->performAbstraction('content_object');
+?>
+

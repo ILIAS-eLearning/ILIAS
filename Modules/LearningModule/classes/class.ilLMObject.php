@@ -478,11 +478,12 @@ class ilLMObject
 		{
 			$lm_id = ilLMObject::_lookupContObjId($a_node_id);
 
-			$q = "SELECT public_access_mode FROM content_object WHERE id=".$ilDB->quote($lm_id);
+			$q = "SELECT public_access_mode FROM content_object WHERE id = ".
+				$ilDB->quote($lm_id, "integer");
 			$r = $ilDB->query($q);
-			$row = $r->fetchRow();
+			$row = $ilDB->fetchAssoc($r);
 			
-			if ($row[0] == "complete")
+			if ($row["public_access_mode"] == "complete")
 			{
 				return true;
 			}
