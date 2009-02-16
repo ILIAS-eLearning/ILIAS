@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -424,8 +424,9 @@ class ilObjContentObject extends ilObject
 		ilUtil::delDir($this->getDataDirectory());
 
 		// delete content object record
-		$q = "DELETE FROM content_object WHERE id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$q = "DELETE FROM content_object WHERE id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 
 		// delete lm menu entries
 		$q = "DELETE FROM lm_menu WHERE lm_id = ".$ilDB->quote($this->getId());
@@ -479,9 +480,9 @@ class ilObjContentObject extends ilObject
 		global $ilDB;
 
 		$q = "UPDATE content_object SET ".
-			" stylesheet = ".$ilDB->quote($a_style_id).
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$ilDB->query($q);
+			" stylesheet = ".$ilDB->quote((int) $a_style_id, "integer").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 
 		$this->style_id = $a_style_id;
 	}
@@ -497,16 +498,16 @@ class ilObjContentObject extends ilObject
 		{
 			$q = "SELECT stylesheet FROM content_object, style_data ".
 				" WHERE content_object.stylesheet = style_data.id ".
-				" AND style_data.standard = 0 ".
-				" AND content_object.stylesheet > 0";
+				" AND style_data.standard = ".$ilDB->quote(0, "integer").
+				" AND content_object.stylesheet > ".$ilDB->quote(0, "integer");
 			$style_set = $ilDB->query($q);
-			while($style_rec = $style_set->fetchRow(DB_FETCHMODE_ASSOC))
+			while($style_rec = $ilDB->fetchAssoc($style_set))
 			{
 				// assign learning modules to new style
 				$q = "UPDATE content_object SET ".
-					" stylesheet = ".$ilDB->quote($a_to_style).
-					" WHERE stylesheet = ".$ilDB->quote($style_rec["stylesheet"]);
-				$ilDB->query($q);
+					" stylesheet = ".$ilDB->quote((int) $a_to_style, "integer").
+					" WHERE stylesheet = ".$ilDB->quote($style_rec["stylesheet"], "integer");
+				$ilDB->manipulate($q);
 				
 				// delete style
 				$style_obj =& $ilias->obj_factory->getInstanceByObjId($style_rec["stylesheet"]);
@@ -516,9 +517,9 @@ class ilObjContentObject extends ilObject
 		else
 		{
 			$q = "UPDATE content_object SET ".
-				" stylesheet = ".$ilDB->quote($a_to_style).
-				" WHERE stylesheet = ".$ilDB->quote($a_from_style);
-			$ilDB->query($q);
+				" stylesheet = ".$ilDB->quote((int) $a_to_style, "integer").
+				" WHERE stylesheet = ".$ilDB->quote($a_from_style, "integer");
+			$ilDB->manipulate($q);
 		}
 	}
 
@@ -530,9 +531,9 @@ class ilObjContentObject extends ilObject
 		global $ilDB;
 
 		$q = "SELECT stylesheet FROM content_object ".
-			" WHERE id = ".$ilDB->quote($a_cont_obj_id);
+			" WHERE id = ".$ilDB->quote($a_cont_obj_id, "integer");
 		$res = $ilDB->query($q);
-		$sheet = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		$sheet = $ilDB->fetchAssoc($res);
 
 		return $sheet["stylesheet"];
 	}
@@ -545,10 +546,10 @@ class ilObjContentObject extends ilObject
 		global $ilDB;
 
 		$q = "SELECT id FROM content_object ".
-			" WHERE stylesheet = ".$ilDB->quote($a_style_id);
+			" WHERE stylesheet = ".$ilDB->quote($a_style_id, "integer");
 		$res = $ilDB->query($q);
 		$obj_ids = array();
-		while($cont = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while($cont = $ilDB->fetchAssoc($res))
 		{
 			$obj_ids[] = $cont["id"];
 		}
@@ -565,9 +566,9 @@ class ilObjContentObject extends ilObject
 		global $ilDB;
 		
 		$q = "SELECT count(*) as cnt FROM content_object ".
-			" WHERE stylesheet = ".$ilDB->quote($a_style_id);
+			" WHERE stylesheet = ".$ilDB->quote($a_style_id, "integer");
 		$cset = $ilDB->query($q);
-		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+		$crow = $ilDB->fetchAssoc($cset);
 
 		return (int) $crow["cnt"];
 	}
@@ -583,9 +584,9 @@ class ilObjContentObject extends ilObject
 		// joining with style table (not perfectly nice)
 		$q = "SELECT count(*) as cnt FROM content_object, style_data ".
 			" WHERE stylesheet = style_data.id ".
-			" AND standard = 0";
+			" AND standard = ".$ilDB->quote(0, "integer");
 		$cset = $ilDB->query($q);
-		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+		$crow = $ilDB->fetchAssoc($cset);
 
 		return (int) $crow["cnt"];
 	}
@@ -598,9 +599,9 @@ class ilObjContentObject extends ilObject
 		global $ilDB;
 		
 		$q = "SELECT count(*) as cnt FROM content_object ".
-			" WHERE stylesheet = 0";
+			" WHERE stylesheet = ".$ilDB->quote(0, "integer");
 		$cset = $ilDB->query($q);
-		$crow = $cset->fetchRow(DB_FETCHMODE_ASSOC);
+		$crow = $ilDB->fetchAssoc($cset);
 
 		return (int) $crow["cnt"];
 	}
@@ -615,10 +616,10 @@ class ilObjContentObject extends ilObject
 		global $ilDB;
 		
 		$q = "UPDATE content_object SET ".
-			" stylesheet = ".$ilDB->quote("0").
-			" WHERE stylesheet = ".$ilDB->quote($this->getId($a_style_id));
+			" stylesheet = ".$ilDB->quote(0, "integer").
+			" WHERE stylesheet = ".$ilDB->quote((int) $this->getId($a_style_id), "integer");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -807,11 +808,12 @@ class ilObjContentObject extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($this->getId());
-		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM content_object WHERE id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$lm_set = $ilDB->query($q);
+		$lm_rec = $ilDB->fetchAssoc($lm_set);
 		$this->setLayout($lm_rec["default_layout"]);
-		$this->setStyleSheetId($lm_rec["stylesheet"]);
+		$this->setStyleSheetId((int) $lm_rec["stylesheet"]);
 		$this->setPageHeader($lm_rec["page_header"]);
 		$this->setTOCMode($lm_rec["toc_mode"]);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
@@ -824,8 +826,8 @@ class ilObjContentObject extends ilObject
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
 		$this->setPublicNotes(ilUtil::yn2tf($lm_rec["pub_notes"]));
-		$this->setHeaderPage($lm_rec["header_page"]);
-		$this->setFooterPage($lm_rec["footer_page"]);
+		$this->setHeaderPage((int) $lm_rec["header_page"]);
+		$this->setFooterPage((int) $lm_rec["footer_page"]);
 		$this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
 		$this->setPublicAccessMode($lm_rec["public_access_mode"]);
 		$this->setPublicExportFile("xml", $lm_rec["public_xml_file"]);
@@ -833,35 +835,35 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
-	* update content object properties
+	* Update content object properties
 	*/
 	function updateProperties()
 	{
 		global $ilDB;
 		
 		$q = "UPDATE content_object SET ".
-			" default_layout = ".$ilDB->quote($this->getLayout()).", ".
-			" stylesheet = ".$ilDB->quote($this->getStyleSheetId()).",".
-			" page_header = ".$ilDB->quote($this->getPageHeader()).",".
-			" toc_mode = ".$ilDB->quote($this->getTOCMode()).",".
-			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
-			" toc_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveTOC())).",".
-			" numbering = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveNumbering())).",".
-			" print_view_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePrintView())).",".
-			" prevent_glossary_appendix_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePreventGlossaryAppendix())).",".
-			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads())).",".
-			" downloads_public_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic())).",".
-			" clean_frames = ".$ilDB->quote(ilUtil::tf2yn($this->cleanFrames())).",".
-			" pub_notes = ".$ilDB->quote(ilUtil::tf2yn($this->publicNotes())).",".
-			" hist_user_comments = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveHistoryUserComments())).",".
-			" public_access_mode = ".$ilDB->quote($this->getPublicAccessMode()).",".
-			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml")).",".
-			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html")).",".
-			" header_page = ".$ilDB->quote($this->getHeaderPage()).",".
-			" footer_page = ".$ilDB->quote($this->getFooterPage()).",".
-			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()))." ".
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+			" default_layout = ".$ilDB->quote($this->getLayout(), "text").", ".
+			" stylesheet = ".$ilDB->quote($this->getStyleSheetId(), "integer").",".
+			" page_header = ".$ilDB->quote($this->getPageHeader(), "text").",".
+			" toc_mode = ".$ilDB->quote($this->getTOCMode(), "text").",".
+			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
+			" toc_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveTOC()), "text").",".
+			" numbering = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveNumbering()), "text").",".
+			" print_view_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePrintView()), "text").",".
+			" prevent_glossary_appendix_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePreventGlossaryAppendix()), "text").",".
+			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").",".
+			" downloads_public_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloadsPublic()), "text").",".
+			" clean_frames = ".$ilDB->quote(ilUtil::tf2yn($this->cleanFrames()), "text").",".
+			" pub_notes = ".$ilDB->quote(ilUtil::tf2yn($this->publicNotes()), "text").",".
+			" hist_user_comments = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveHistoryUserComments()), "text").",".
+			" public_access_mode = ".$ilDB->quote($this->getPublicAccessMode(), "text").",".
+			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml"), "text").",".
+			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html"), "text").",".
+			" header_page = ".$ilDB->quote($this->getHeaderPage(), "integer").",".
+			" footer_page = ".$ilDB->quote($this->getFooterPage(), "integer").",".
+			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text")." ".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -871,8 +873,8 @@ class ilObjContentObject extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "INSERT INTO content_object (id) VALUES (".$ilDB->quote($this->getId()).")";
-		$this->ilias->db->query($q);
+		$q = "INSERT INTO content_object (id) VALUES (".$ilDB->quote($this->getId(), "integer").")";
+		$ilDB->manipulate($q);
 		$this->readProperties();		// to get db default values
 	}
 
@@ -885,9 +887,9 @@ class ilObjContentObject extends ilObject
 		
 //echo "class ilObjContentObject::_lookupOnline($a_id) called. Use Access class instead.";
 
-		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($a_id);
-		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($a_id, "integer");
+		$lm_set = $ilDB->query($q);
+		$lm_rec = $ilDB->fetchAssoc($lm_set);
 
 		return ilUtil::yn2tf($lm_rec["online"]);
 	}
@@ -924,7 +926,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function _checkPreconditionsOfPage($cont_ref_id,$cont_obj_id, $page_id)
 	{
-		global $ilias,$ilUser,$ilErr;
+		global $ilUser,$ilErr;
 
 		$lm_tree = new ilTree($cont_obj_id);
 		$lm_tree->setTableNames('lm_tree','lm_data');
@@ -1674,7 +1676,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportHTML($a_target_dir, $log, $a_zip_file = true, $a_export_format = "html")
 	{
-		global $ilias, $tpl, $ilBench, $ilLocator;
+		global $tpl, $ilBench, $ilLocator, $ilUser;
 
 		// initialize temporary target directory
 		ilUtil::delDir($a_target_dir);
@@ -1689,7 +1691,7 @@ class ilObjContentObject extends ilObject
 
 		// export system style sheet
 		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
-		$style_name = $ilias->account->prefs["style"].".css";
+		$style_name = $ilUser->prefs["style"].".css";
 		copy($location_stylesheet, $a_target_dir."/".$style_name);
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		
@@ -2047,7 +2049,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportPageHTML(&$a_lm_gui, $a_target_dir, $a_lm_page_id, $a_frame = "")
 	{
-		global $ilias, $tpl, $ilBench;
+		global $tpl, $ilBench;
 		
 //echo "<br>B: export Page HTML ($a_lm_page_id)"; flush();
 		// template workaround: reset of template 
