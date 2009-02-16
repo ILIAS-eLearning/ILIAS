@@ -1339,10 +1339,10 @@ class ilRbacReview
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
-		$q = "SELECT * FROM rbac_ta WHERE typ_id = ".$ilDB->quote($a_typ_id)." ";
-		$r = $this->ilDB->query($q);
+		$query = "SELECT * FROM rbac_ta WHERE typ_id = ".$ilDB->quote($a_typ_id,'integer');
+		$res = $ilDB->query($query);
 
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$ops_id[] = $row->ops_id;
 		}

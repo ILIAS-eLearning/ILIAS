@@ -7709,3 +7709,7 @@ ALTER TABLE `note` CHANGE `text` `note_text` MEDIUMTEXT;
 <?php
 	$ilMySQLAbstraction->performAbstraction('feedback_results');
 ?>
+<#1611>
+<?php
+	$ilMySQLAbstraction->performAbstraction('rbac_ta');
+?>
