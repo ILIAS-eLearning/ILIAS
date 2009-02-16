@@ -7748,6 +7748,7 @@ ALTER TABLE `role_data` CHANGE `assign_users` `assign_users` TINYINT( 1 ) NULL D
 <?php
 	$ilMySQLAbstraction->performAbstraction('role_data');
 ?>
+
 <#1621>
 ALTER TABLE content_object MODIFY page_header CHAR(8) DEFAULT 'st_title';
 ALTER TABLE content_object MODIFY online CHAR(1) DEFAULT 'n';
@@ -7764,3 +7765,8 @@ ALTER TABLE content_object MODIFY downloads_public_active CHAR(1) DEFAULT 'y';
 ALTER TABLE content_object MODIFY pub_notes CHAR(1) DEFAULT 'y';
 <#1622>
 ALTER TABLE content_object MODIFY prevent_glossary_appendix_active CHAR(1) DEFAULT 'n';
+
+<#1623>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ldap_server_settings');
+?>

@@ -97,12 +97,12 @@ class ilLDAPRoleGroupMappingSettings
 	{
 		global $ilDB,$rbacreview;
 		
-		$query = "SELECT rgm.* FROM ldap_role_group_mapping as rgm JOIN ldap_server_settings as lss ".
+		$query = "SELECT rgm.* FROM ldap_role_group_mapping rgm JOIN ldap_server_settings lss ".
 			"ON rgm.server_id = lss.server_id ".
 			"WHERE lss.active = 1 ".
 			"AND lss.role_sync_active = 1 ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$data['server_id']		= $row->server_id;
 			$data['url']			= $row->url;

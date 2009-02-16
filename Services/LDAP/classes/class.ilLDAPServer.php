@@ -46,6 +46,10 @@ class ilLDAPServer
 	const DEBUG = false;
 	const DEFAULT_VERSION = 3;
 	
+	private $role_bind_dn = '';
+	private $role_bind_pass = '';
+	private $role_sync_active = 0;
+	
 	private $server_id = null;
 	private $fallback_urls = array();
 
@@ -73,7 +77,7 @@ class ilLDAPServer
 			"WHERE active = 1 ".
 			"ORDER BY name ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -95,7 +99,7 @@ class ilLDAPServer
 			"ORDER BY name";
 			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -116,8 +120,9 @@ class ilLDAPServer
 		$query = "SELECT server_id FROM ldap_server_settings ".
 			"WHERE active = 1 ".
 			"AND role_sync_active = 1 ";
+			
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -162,8 +167,9 @@ class ilLDAPServer
 		global $ilDB;
 		
 		$query = "SELECT server_id FROM ldap_server_settings ORDER BY name";
+		
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$server_ids[] = $row->server_id;
 		}
@@ -572,77 +578,89 @@ class ilLDAPServer
 	
 	public function create() 
 	{
-		$query = "INSERT INTO  ldap_server_settings SET ".
-			"active = ".$this->db->quote($this->isActive()).", ".
-			"name = ".$this->db->quote($this->getName()).", ".
-			"url = ".$this->db->quote($this->getUrlString()).", ".
-			"version = ".$this->db->quote($this->getVersion()).", ".
-			"base_dn = ".$this->db->quote($this->getBaseDN()).", ".
-			"referrals = ".$this->db->quote($this->isActiveReferrer()).", ".
-			"tls = ".$this->db->quote($this->isActiveTLS()).", ".
-			"bind_type = ".$this->db->quote($this->getBindingType()).", ".
-			"bind_user = ".$this->db->quote($this->getBindUser()).", ".
-			"bind_pass = ".$this->db->quote($this->getBindPassword()).", ".
-			"search_base = ".$this->db->quote($this->getSearchBase()).", ".
-			"user_scope = ".$this->db->quote($this->getUserScope()).", ".
-			"user_attribute = ".$this->db->quote($this->getUserAttribute()).", ".
-			"filter = ".$this->db->quote($this->getFilter())." ";
-			"group_dn = ".$this->db->quote($this->getGroupDN()).", ".
-			"group_scope = ".$this->db->quote($this->getGroupScope()).", ".
-			"group_filter = ".$this->db->quote($this->getGroupFilter()).", ".
-			"group_member = ".$this->db->quote($this->getGroupMember()).", ".
-			"group_memberisdn =".$this->db->quote((int) $this->enabledGroupMemberIsDN()).", ".
-			"group_name = ".$this->db->quote($this->getGroupName()).", ".
-			"group_attribute = ".$this->db->quote($this->getGroupAttribute()).", ".
-			"group_optional = ".$this->db->quote((int) $this->isMembershipOptional()).", ".
-			"group_user_filter = ".$this->db->quote($this->getGroupUserFilter()).", ".
-			"sync_on_login = ".$this->db->quote($this->enabledSyncOnLogin() ? 1 : 0).", ".
-			"sync_per_cron = ".$this->db->quote($this->enabledSyncPerCron() ? 1 : 0).", ".
-			"role_sync_active = ".$this->db->quote($this->enabledRoleSynchronization()).", ".
-			"role_bind_dn = ".$this->db->quote($this->getRoleBindDN()).", ".
-			"role_bind_pass = ".$this->db->quote($this->getRoleBindPassword())." ";
-			
-			
-			
-			
-		$this->db->query($query);
-		return $this->db->getLastInsertId();
+		global $ilDB;
+		
+		$next_id = $ilDB->nextId('ldap_server_settings');
+		
+		$query = 'INSERT INTO ldap_server_settings (server_id,active,name,url,version,base_dn,referrals,tls,bind_type,bind_user,bind_pass,'.
+			'search_base,user_scope,user_attribute,filter,group_dn,group_scope,group_filter,group_member,group_memberisdn,group_name,'.
+			'group_attribute,group_optional,group_user_filter,sync_on_login,sync_per_cron,role_sync_active,role_bind_dn,role_bind_pass) '.
+			'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
+		$res = $ilDB->queryF($query,
+			array(
+				'integer','integer','text','text','integer','text','integer','integer','integer','text','text','text','integer',
+				'text','text','text','integer','text','text','integer','text','text','integer','text','integer','integer','integer',
+				'text','text'),
+			array(
+				$next_id,
+				$this->isActive(),
+				$this->getName(),
+				$this->getUrlString(),
+				$this->getVersion(),
+				$this->getBaseDN(),
+				$this->isActiveReferrer(),
+				$this->isActiveTLS(),
+				$this->getBindingType(),
+				$this->getBindUser(),
+				$this->getBindPassword(),
+				$this->getSearchBase(),
+				$this->getUserScope(),
+				$this->getUserAttribute(),
+				$this->getFilter(),
+				$this->getGroupDN(),
+				$this->getGroupScope(),
+				$this->getGroupFilter(),
+				$this->getGroupMember(),
+				$this->enabledGroupMemberIsDN(),
+				$this->getGroupName(),
+				$this->getGroupAttribute(),
+				$this->isMembershipOptional(),
+				$this->getGroupUserFilter(),
+				$this->enabledSyncOnLogin(),
+				$this->enabledSyncPerCron(),
+				$this->enabledRoleSynchronization(),
+				$this->getRoleBindDN(),
+				$this->getRoleBindPassword()
+			));
+		return $next_id;
 	}
 	
 	public function update()
 	{
-		$query = "UPDATE ldap_server_settings SET ".
-			"active = ".$this->db->quote($this->isActive()).", ".
-			"name = ".$this->db->quote($this->getName()).", ".
-			"url = ".$this->db->quote($this->getUrlString()).", ".
-			"version = ".$this->db->quote($this->getVersion()).", ".
-			"base_dn = ".$this->db->quote($this->getBaseDN()).", ".
-			"referrals = ".$this->db->quote($this->isActiveReferrer()).", ".
-			"tls = ".$this->db->quote($this->isActiveTLS()).", ".
-			"bind_type = ".$this->db->quote($this->getBindingType()).", ".
-			"bind_user = ".$this->db->quote($this->getBindUser()).", ".
-			"bind_pass = ".$this->db->quote($this->getBindPassword()).", ".
-			"search_base = ".$this->db->quote($this->getSearchBase()).", ".
-			"user_scope = ".$this->db->quote($this->getUserScope()).", ".
-			"user_attribute = ".$this->db->quote($this->getUserAttribute()).", ".
-			"filter = ".$this->db->quote($this->getFilter()).", ".
-			"group_dn = ".$this->db->quote($this->getGroupDN()).", ".
-			"group_scope = ".$this->db->quote($this->getGroupScope()).", ".
-			"group_filter = ".$this->db->quote($this->getGroupFilter()).", ".
-			"group_member = ".$this->db->quote($this->getGroupMember()).", ".
-			"group_memberisdn =".$this->db->quote((int) $this->enabledGroupMemberIsDN()).", ".
-			"group_name = ".$this->db->quote($this->getGroupName()).", ".
-			"group_attribute = ".$this->db->quote($this->getGroupAttribute()).", ".
-			"group_optional = ".$this->db->quote((int) $this->isMembershipOptional()).", ".
-			"group_user_filter = ".$this->db->quote($this->getGroupUserFilter()).", ".
-			"sync_on_login = ".$this->db->quote($this->enabledSyncOnLogin() ? 1 : 0).", ".
-			"sync_per_cron = ".$this->db->quote($this->enabledSyncPerCron() ? 1 : 0).", ".
-			"role_sync_active = ".$this->db->quote($this->enabledRoleSynchronization()).", ".
-			"role_bind_dn = ".$this->db->quote($this->getRoleBindDN()).", ".
-			"role_bind_pass = ".$this->db->quote($this->getRoleBindPassword())." ".
-			"WHERE server_id = ".$this->db->quote($this->getServerId());
+		global $ilDB;
 
-		$this->db->query($query);
+		$query = "UPDATE ldap_server_settings SET ".
+			"active = ".$this->db->quote($this->isActive(),'integer').", ".
+			"name = ".$this->db->quote($this->getName(),'text').", ".
+			"url = ".$this->db->quote($this->getUrlString(),'text').", ".
+			"version = ".$this->db->quote($this->getVersion(),'integer').", ".
+			"base_dn = ".$this->db->quote($this->getBaseDN(),'text').", ".
+			"referrals = ".$this->db->quote($this->isActiveReferrer(),'integer').", ".
+			"tls = ".$this->db->quote($this->isActiveTLS(),'integer').", ".
+			"bind_type = ".$this->db->quote($this->getBindingType(),'integer').", ".
+			"bind_user = ".$this->db->quote($this->getBindUser(),'text').", ".
+			"bind_pass = ".$this->db->quote($this->getBindPassword(),'text').", ".
+			"search_base = ".$this->db->quote($this->getSearchBase(),'text').", ".
+			"user_scope = ".$this->db->quote($this->getUserScope(),'integer').", ".
+			"user_attribute = ".$this->db->quote($this->getUserAttribute(),'text').", ".
+			"filter = ".$this->db->quote($this->getFilter(),'text').", ".
+			"group_dn = ".$this->db->quote($this->getGroupDN(),'text').", ".
+			"group_scope = ".$this->db->quote($this->getGroupScope(),'integer').", ".
+			"group_filter = ".$this->db->quote($this->getGroupFilter(),'text').", ".
+			"group_member = ".$this->db->quote($this->getGroupMember(),'text').", ".
+			"group_memberisdn =".$this->db->quote((int) $this->enabledGroupMemberIsDN(),'integer').", ".
+			"group_name = ".$this->db->quote($this->getGroupName(),'text').", ".
+			"group_attribute = ".$this->db->quote($this->getGroupAttribute(),'text').", ".
+			"group_optional = ".$this->db->quote((int) $this->isMembershipOptional(),'integer').", ".
+			"group_user_filter = ".$this->db->quote($this->getGroupUserFilter(),'text').", ".
+			"sync_on_login = ".$this->db->quote(($this->enabledSyncOnLogin() ? 1 : 0),'integer').", ".
+			"sync_per_cron = ".$this->db->quote(($this->enabledSyncPerCron() ? 1 : 0),'integer').", ".
+			"role_sync_active = ".$this->db->quote($this->enabledRoleSynchronization(),'integer').", ".
+			"role_bind_dn = ".$this->db->quote($this->getRoleBindDN(),'text').", ".
+			"role_bind_pass = ".$this->db->quote($this->getRoleBindPassword(),'text')." ".
+			"WHERE server_id = ".$this->db->quote($this->getServerId(),'integer');
+			
+		$res = $ilDB->manipulate($query);
 		return true;		
 	}
 	
