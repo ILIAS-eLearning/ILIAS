@@ -7746,5 +7746,5 @@ ALTER TABLE `role_data` CHANGE `assign_users` `assign_users` TINYINT( 1 ) NULL D
 
 <#1620>
 <?php
-	#$ilMySQLAbstraction->performAbstraction('role_data');
+	$ilMySQLAbstraction->performAbstraction('role_data');
 ?>
