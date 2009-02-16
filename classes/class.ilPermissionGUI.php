@@ -695,6 +695,7 @@ class ilPermissionGUI
 			}
 			
 			$this->roles[$role['obj_id']]['permissions'] = $grouped_ops;
+			
 			unset($grouped_ops);
 		}
 	}

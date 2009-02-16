@@ -433,7 +433,7 @@ class ilTree
 			$ilDB->quote($a_node_id,'integer'),
 			$ilDB->quote($this->tree_id,'integer'),
 			$ilDB->quote($a_type,'text'));
-		$res = $ilDB->query($query);			
+		$res = $ilDB->query($query);
 		
 		// init childs
 		$childs = array();
@@ -1517,11 +1517,11 @@ class ilTree
 	{
 		global $ilDB;
 		
-		$query = 'SELECT MAX(depth) FROM '.$this->table_tree;
+		$query = 'SELECT MAX(depth) depth FROM '.$this->table_tree;
 		$res = $ilDB->query($query);		
 		
 		$row = $ilDB->fetchAssoc($res);
-		return $row[0];
+		return $row['depth'];
 	}
 
 	/**
