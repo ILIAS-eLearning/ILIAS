@@ -7738,3 +7738,13 @@ ALTER TABLE `note` CHANGE `text` `note_text` MEDIUMTEXT;
 $ilCtrlStructureReader->getStructure();
 ?>
 
+<#1618>
+ALTER TABLE `role_data` CHANGE `auth_mode` `auth_mode` CHAR( 16 ) NOT NULL DEFAULT 'default';
+
+<#1619>
+ALTER TABLE `role_data` CHANGE `assign_users` `assign_users` TINYINT( 1 ) NULL DEFAULT '0';
+
+<#1620>
+<?php
+	#$ilMySQLAbstraction->performAbstraction('role_data');
+?>

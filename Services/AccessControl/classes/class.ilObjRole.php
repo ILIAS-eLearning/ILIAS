@@ -70,10 +70,9 @@ class ilObjRole extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT assign_users FROM role_data WHERE role_id = ".$ilDB->quote($a_role_id)." ";
-
+		$query = "SELECT assign_users FROM role_data WHERE role_id = ".$ilDB->quote($a_role_id,'integer')." ";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->assign_users ? true : false;
 		}
@@ -88,12 +87,12 @@ class ilObjRole extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM role_data WHERE role_id= ".$ilDB->quote($this->id)." ";
-		$r = $this->ilias->db->query($q);
+		$query = "SELECT * FROM role_data WHERE role_id= ".$ilDB->quote($this->id,'integer')." ";
 
-		if ($r->numRows() > 0)
+		$res = $ilDB->query($query);
+		if ($res->numRows() > 0)
 		{
-			$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
+			$data = $ilDB->fetchAssoc($res);
 
 			// fill member vars in one shot
 			$this->assignData($data);
@@ -127,12 +126,11 @@ class ilObjRole extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "UPDATE role_data SET ".
-			"allow_register= ".$ilDB->quote($this->allow_register).", ".
-			"assign_users = ".$ilDB->quote($this->getAssignUsersStatus())." ".
-			"WHERE role_id= ".$ilDB->quote($this->id)." ";
-
-		$this->ilias->db->query($q);
+		$query = "UPDATE role_data SET ".
+			"allow_register= ".$ilDB->quote($this->allow_register,'integer').", ".
+			"assign_users = ".$ilDB->quote($this->getAssignUsersStatus(),'integer')." ".
+			"WHERE role_id= ".$ilDB->quote($this->id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		parent::update();
 
@@ -154,11 +152,13 @@ class ilObjRole extends ilObject
 		
 		$this->id = parent::create();
 
-		$q = "INSERT INTO role_data ".
+		$query = "INSERT INTO role_data ".
 			"(role_id,allow_register,assign_users) ".
 			"VALUES ".
-			"(".$ilDB->quote($this->id).",".$ilDB->quote($this->getAllowRegister()).",".$ilDB->quote($this->getAssignUsersStatus()).")";
-		$this->ilias->db->query($q);
+			"(".$ilDB->quote($this->id,'integer').",".
+			$ilDB->quote($this->getAllowRegister(),'integer').",".
+			$ilDB->quote($this->getAssignUsersStatus(),'integer').")";
+		$res = $ilDB->query($query);
 
 		return $this->id;
 	}
@@ -200,14 +200,13 @@ class ilObjRole extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM role_data ".
-			"LEFT JOIN object_data ON object_data.obj_id = role_data.role_id ".
+		$query = "SELECT * FROM role_data ".
+			"JOIN object_data ON object_data.obj_id = role_data.role_id ".
 			"WHERE allow_register = 1";
-			
-		$r = $ilDB->query($q);
+		$res = $ilDB->query($query);			
 	
 		$roles = array();
-		while ($role = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		while($role = $ilDB->fetchAssoc($res))
 		{
 			$roles[] = array("id" => $role["obj_id"],
 							 "title" => $role["title"],
@@ -227,12 +226,11 @@ class ilObjRole extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM role_data ".
-			" WHERE role_id =".$ilDB->quote($a_role_id);
+		$query = "SELECT * FROM role_data ".
+			" WHERE role_id =".$ilDB->quote($a_role_id,'integer');
 			
-		$role_set = $ilDB->query($q);
-		
-		if ($role_rec = $role_set->fetchRow(DB_FETCHMODE_ASSOC))
+		$res = $ilDB->query($query);
+		if ($role_rec = $ilDB->fetchAssoc($res))
 		{
 			if ($role_rec["allow_register"])
 			{
@@ -340,8 +338,8 @@ class ilObjRole extends ilObject
 				parent::delete();
 					
 				// delete role_data entry
-				$q = "DELETE FROM role_data WHERE role_id = ".$ilDB->quote($this->getId())." ";
-				$this->ilias->db->query($q);
+				$query = "DELETE FROM role_data WHERE role_id = ".$ilDB->quote($this->getId(),'integer');
+				$res = $ilDB->manipulate($query);
 
 				include_once './classes/class.ilRoleDesktopItem.php';
 				$role_desk_item_obj =& new ilRoleDesktopItem($this->getId());
@@ -451,10 +449,10 @@ class ilObjRole extends ilObject
 
 		foreach ($a_roles as $role_id => $auth_mode)
 		{
-			$q = "UPDATE role_data SET ".
-				 "auth_mode= ".$ilDB->quote($auth_mode)." ".
-				 "WHERE role_id= ".$ilDB->quote($role_id)." ";
-			$ilDB->query($q);
+			$query = "UPDATE role_data SET ".
+				 "auth_mode= ".$ilDB->quote($auth_mode,'text')." ".
+				 "WHERE role_id= ".$ilDB->quote($role_id,'integer')." ";
+			$res = $ilDB->manipulate($query);
 		}
 	}
 
@@ -462,12 +460,12 @@ class ilObjRole extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT auth_mode FROM role_data ".
-			 "WHERE role_id= ".$ilDB->quote($a_role_id)." ";
-		$r = $ilDB->query($q);
-		$row = $r->fetchRow();
+		$query = "SELECT auth_mode FROM role_data ".
+			 "WHERE role_id= ".$ilDB->quote($a_role_id,'integer')." ";
+		$res = $ilDB->query($query);
+		$row = $ilDB->fetchAssoc($res);
 		
-		return $row[0];
+		return $row['auth_mode'];
 	}
 	
 	/**
@@ -482,9 +480,9 @@ class ilObjRole extends ilObject
 		global $ilDB;
 		
 	 	$query = "SELECT * FROM role_data ".
-	 		"WHERE auth_mode = ".$ilDB->quote($a_auth_mode);
+	 		"WHERE auth_mode = ".$ilDB->quote($a_auth_mode,'text');
 	 	$res = $ilDB->query($query);
-	 	while($row  = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $ilDB->fetchObject($res))
 	 	{
 	 		$roles[] = $row->role_id;
 	 	}
@@ -503,8 +501,8 @@ class ilObjRole extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "UPDATE role_data SET auth_mode = 'default' WHERE auth_mode = ".$ilDB->quote($a_auth_mode);
-		$ilDB->query($query);
+		$query = "UPDATE role_data SET auth_mode = 'default' WHERE auth_mode = ".$ilDB->quote($a_auth_mode,'text');
+		$res = $ilDB->manipulate($query);
 	}
 	
 	// returns array of operation/objecttype definitions
