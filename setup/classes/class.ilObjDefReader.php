@@ -143,10 +143,10 @@ class ilObjDefReader extends ilSaxParser
 			case "pluginslot":
 				$this->current_object = $a_attribs["id"];
 				$q = "INSERT INTO il_pluginslot (component, id, name) VALUES (".
-					$ilDB->quote($this->current_component).",".
-					$ilDB->quote($a_attribs["id"]).",".
-					$ilDB->quote($a_attribs["name"]).")";
-				$ilDB->query($q);
+					$ilDB->quote($this->current_component, "text").",".
+					$ilDB->quote($a_attribs["id"], "text").",".
+					$ilDB->quote($a_attribs["name"], "text").")";
+				$ilDB->manipulate($q);
 				break;
 		}
 	}

@@ -195,10 +195,10 @@ abstract class ilComponent
 		global $ilDB;
 		
 		$set = $ilDB->query("SELECT * FROM il_pluginslot WHERE component = ".
-			$ilDB->quote($a_type."/".$a_name));
+			$ilDB->quote($a_type."/".$a_name, "text"));
 		$ps = array();
 //echo "<br>".$a_type."/".$a_name;
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$rec["dir"] = "Customizing/global/plugins/".$a_type."/".$a_name."/".$rec["name"];
 			$rec["dir_pres"] = "Customizing/global/plugins/<br />".$a_type."/".$a_name."/".$rec["name"];

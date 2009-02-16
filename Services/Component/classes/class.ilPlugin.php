@@ -264,13 +264,13 @@ abstract class ilPlugin
 		
 		$this->setDBVersion($a_dbversion);
 		
-		$q = "UPDATE il_plugin SET db_version = ".$ilDB->quote($this->getDBVersion()).
-			" WHERE component_type = ".$ilDB->quote($this->getComponentType()).
-			" AND component_name = ".$ilDB->quote($this->getComponentName()).
-			" AND slot_id = ".$ilDB->quote($this->getSlotId()).
-			" AND name = ".$ilDB->quote($this->getPluginName());
+		$q = "UPDATE il_plugin SET db_version = ".$ilDB->quote((int) $this->getDBVersion(), "integer").
+			" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
+			" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
+			" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
+			" AND name = ".$ilDB->quote($this->getPluginName(), "text");
 
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 	}
 
 	
@@ -498,30 +498,30 @@ abstract class ilPlugin
 		
 		// read/set basic data
 		$q = "SELECT * FROM il_plugin".
-			" WHERE component_type = ".$ilDB->quote($a_ctype).
-			" AND component_name = ".$ilDB->quote($a_cname).
-			" AND slot_id = ".$ilDB->quote($a_slot_id).
-			" AND name = ".$ilDB->quote($a_pname);
+			" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
+			" AND component_name = ".$ilDB->quote($a_cname, "text").
+			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
+			" AND name = ".$ilDB->quote($a_pname, "text");
 		$set = $ilDB->query($q);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return $rec;
 		}
 		else		// no record? create one
 		{
 			$q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)".
-				" VALUES (".$ilDB->quote($a_ctype).",".
-				$ilDB->quote($a_cname).",".
-				$ilDB->quote($a_slot_id).",".
-				$ilDB->quote($a_pname).")";
-			$ilDB->query($q);
+				" VALUES (".$ilDB->quote($a_ctype, "text").",".
+				$ilDB->quote($a_cname, "text").",".
+				$ilDB->quote($a_slot_id, "text").",".
+				$ilDB->quote($a_pname, "text").")";
+			$ilDB->manipulate($q);
 			$q = "SELECT * FROM il_plugin".
-				" WHERE component_type = ".$ilDB->quote($a_ctype).
-				" AND component_name = ".$ilDB->quote($a_cname).
-				" AND slot_id = ".$ilDB->quote($a_slot_id).
-				" AND name = ".$ilDB->quote($a_pname);
+				" WHERE component_type = ".$ilDB->quote($a_ctype, "text").
+				" AND component_name = ".$ilDB->quote($a_cname, "text").
+				" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
+				" AND name = ".$ilDB->quote($a_pname, "text");
 			$set = $ilDB->query($q);
-			return $set->fetchRow(DB_FETCHMODE_ASSOC);
+			return $ilDB->fetchAssoc($set);
 		}
 	}
 	
@@ -637,13 +637,13 @@ abstract class ilPlugin
 		// activate plugin
 		if ($result === true)
 		{
-			$q = "UPDATE il_plugin SET active = 1".
-				" WHERE component_type = ".$ilDB->quote($this->getComponentType()).
-				" AND component_name = ".$ilDB->quote($this->getComponentName()).
-				" AND slot_id = ".$ilDB->quote($this->getSlotId()).
-				" AND name = ".$ilDB->quote($this->getPluginName());
+			$q = "UPDATE il_plugin SET active = ".$ilDB->quote(1, "integer").
+				" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
+				" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
+				" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
+				" AND name = ".$ilDB->quote($this->getPluginName(), "text");
 				
-			$ilDB->query($q);
+			$ilDB->manipulate($q);
 		}
 	}
 
@@ -656,13 +656,13 @@ abstract class ilPlugin
 		
 		$result = true;
 		
-		$q = "UPDATE il_plugin SET active = 0".
-			" WHERE component_type = ".$ilDB->quote($this->getComponentType()).
-			" AND component_name = ".$ilDB->quote($this->getComponentName()).
-			" AND slot_id = ".$ilDB->quote($this->getSlotId()).
-			" AND name = ".$ilDB->quote($this->getPluginName());
+		$q = "UPDATE il_plugin SET active = ".$ilDB->quote(0, "integer").
+			" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
+			" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
+			" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
+			" AND name = ".$ilDB->quote($this->getPluginName(), "text");
 			
-		$ilDB->query($q);
+		$ilDB->manipulate($q);
 
 		return $result;
 	}
@@ -696,13 +696,13 @@ abstract class ilPlugin
 		// set last update version to current version
 		if ($result === true)
 		{
-			$q = "UPDATE il_plugin SET last_update_version = ".$ilDB->quote($this->getVersion()).
-				" WHERE component_type = ".$ilDB->quote($this->getComponentType()).
-				" AND component_name = ".$ilDB->quote($this->getComponentName()).
-				" AND slot_id = ".$ilDB->quote($this->getSlotId()).
-				" AND name = ".$ilDB->quote($this->getPluginName());
+			$q = "UPDATE il_plugin SET last_update_version = ".$ilDB->quote($this->getVersion(), "text").
+				" WHERE component_type = ".$ilDB->quote($this->getComponentType(), "text").
+				" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
+				" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
+				" AND name = ".$ilDB->quote($this->getPluginName(), "text");
 				
-			$ilDB->query($q);
+			$ilDB->manipulate($q);
 		}
 
 		return $result;
@@ -756,14 +756,14 @@ abstract class ilPlugin
 		global $ilDB;
 		
 		$q = "SELECT * FROM il_plugin WHERE ".
-				" component_type = ".$ilDB->quote($a_ctype)." AND ".
-				" component_name = ".$ilDB->quote($a_cname)." AND ".
-				" slot_id = ".$ilDB->quote($a_slot_id)." AND ".
-				" name = ".$ilDB->quote($a_pname);
+				" component_type = ".$ilDB->quote($a_ctype, "text")." AND ".
+				" component_name = ".$ilDB->quote($a_cname, "text")." AND ".
+				" slot_id = ".$ilDB->quote($a_slot_id, "text")." AND ".
+				" name = ".$ilDB->quote($a_pname, "text");
 
 		$set = $ilDB->query($q);
 		
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		
 		return $rec;
 	}
@@ -775,14 +775,14 @@ abstract class ilPlugin
 	{
 		global $ilDB, $ilPluginAdmin;
 		
-		$q = "SELECT * FROM il_plugin WHERE component_type = ".$ilDB->quote($a_ctype).
-			" AND component_name = ".$ilDB->quote($a_cname).
-			" AND slot_id = ".$ilDB->quote($a_slot_id).
-			" AND active = 1";
+		$q = "SELECT * FROM il_plugin WHERE component_type = ".$ilDB->quote($a_ctype, "text").
+			" AND component_name = ".$ilDB->quote($a_cname, "text").
+			" AND slot_id = ".$ilDB->quote($a_slot_id, "text").
+			" AND active = ".$ilDB->quote(1, "integer");
 
 		$set = $ilDB->query($q);
 		$plugins = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"]))
 			{
