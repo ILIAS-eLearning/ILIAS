@@ -7748,3 +7748,19 @@ ALTER TABLE `role_data` CHANGE `assign_users` `assign_users` TINYINT( 1 ) NULL D
 <?php
 	$ilMySQLAbstraction->performAbstraction('role_data');
 ?>
+<#1621>
+ALTER TABLE content_object MODIFY page_header CHAR(8) DEFAULT 'st_title';
+ALTER TABLE content_object MODIFY online CHAR(1) DEFAULT 'n';
+ALTER TABLE content_object MODIFY toc_active CHAR(1) DEFAULT 'y';
+ALTER TABLE content_object MODIFY lm_menu_active CHAR(1) DEFAULT 'y';
+ALTER TABLE content_object MODIFY toc_mode CHAR(8) DEFAULT 'chapters';
+ALTER TABLE content_object MODIFY clean_frames CHAR(1) DEFAULT 'n';
+ALTER TABLE content_object MODIFY print_view_active CHAR(1) DEFAULT 'y';
+ALTER TABLE content_object MODIFY numbering CHAR(1) DEFAULT 'n';
+ALTER TABLE content_object MODIFY hist_user_comments CHAR(1) DEFAULT 'n';
+ALTER TABLE content_object MODIFY public_access_mode CHAR(8) DEFAULT 'complete';
+ALTER TABLE content_object MODIFY downloads_active CHAR(1) DEFAULT 'n';
+ALTER TABLE content_object MODIFY downloads_public_active CHAR(1) DEFAULT 'y';
+ALTER TABLE content_object MODIFY pub_notes CHAR(1) DEFAULT 'y';
+<#1622>
+ALTER TABLE content_object MODIFY prevent_glossary_appendix_active CHAR(1) DEFAULT 'n';
