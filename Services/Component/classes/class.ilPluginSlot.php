@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -62,10 +62,10 @@ class ilPluginSlot
 		global $ilDB;
 		
 		$q = "SELECT * FROM il_pluginslot WHERE component = ".
-			$ilDB->quote($this->getComponentType()."/".$this->getComponentName()).
-			" AND id = ".$ilDB->quote($this->getSlotId());
+			$ilDB->quote($this->getComponentType()."/".$this->getComponentName(), "text").
+			" AND id = ".$ilDB->quote($this->getSlotId(), "text");
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		$this->setSlotName($rec["name"]);
 	}
 	
@@ -284,10 +284,10 @@ class ilPluginSlot
 		global $ilDB;
 		
 		$q = "SELECT * FROM il_pluginslot WHERE component = ".
-			$ilDB->quote($a_ctype."/".$a_cname).
-			" AND name = ".$ilDB->quote($a_slot_name);
+			$ilDB->quote($a_ctype."/".$a_cname, "text").
+			" AND name = ".$ilDB->quote($a_slot_name, "text");
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		return $rec["id"];
 	}
 
@@ -299,10 +299,10 @@ class ilPluginSlot
 		global $ilDB;
 		
 		$q = "SELECT * FROM il_pluginslot WHERE component = ".
-			$ilDB->quote($a_ctype."/".$a_cname).
-			" AND id = ".$ilDB->quote($a_slot_id);
+			$ilDB->quote($a_ctype."/".$a_cname, "text").
+			" AND id = ".$ilDB->quote($a_slot_id, "text");
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		return $rec["name"];
 	}
 

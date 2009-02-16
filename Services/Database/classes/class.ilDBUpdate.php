@@ -264,6 +264,15 @@ class ilDBUpdate
 	{
 		global $ilCtrlStructureReader, $ilMySQLAbstraction;
 		
+		if (is_file('../Services/Database/classes/class.ilMySQLAbstraction.php'))
+		{
+			include_once '../Services/Database/classes/class.ilMySQLAbstraction.php';
+		}
+		else
+		{
+			include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
+		}
+
 		$ilMySQLAbstraction = new ilMySQLAbstraction();
 		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
 		

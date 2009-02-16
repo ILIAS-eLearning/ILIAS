@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -116,12 +116,12 @@ class ilPluginDBUpdate extends ilDBUpdate
 	function getCurrentVersion()
 	{
 		$q = "SELECT db_version FROM il_plugin ".
-			" WHERE component_type = ".$this->db->quote($this->ctype).
-			" AND component_name = ".$this->db->quote($this->cname).
-			" AND slot_id = ".$this->db->quote($this->slot_id).
-			" AND name = ".$this->db->quote($this->pname);
+			" WHERE component_type = ".$this->db->quote($this->ctype, "text").
+			" AND component_name = ".$this->db->quote($this->cname, "text").
+			" AND slot_id = ".$this->db->quote($this->slot_id, "text").
+			" AND name = ".$this->db->quote($this->pname, "text");
 		$set = $this->db->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $this->db->fetchAssoc($set);
 
 		$this->currentVersion = (int) $rec["db_version"];
 
@@ -133,12 +133,12 @@ class ilPluginDBUpdate extends ilDBUpdate
 	*/
 	function setCurrentVersion($a_version)
 	{
-		$q = "UPDATE il_plugin SET db_version = ".$this->db->quote($a_version).
-			" WHERE component_type = ".$this->db->quote($this->ctype).
-			" AND component_name = ".$this->db->quote($this->cname).
-			" AND slot_id = ".$this->db->quote($this->slot_id).
-			" AND name = ".$this->db->quote($this->pname);
-		$this->db->query($q);
+		$q = "UPDATE il_plugin SET db_version = ".$this->db->quote((int) $a_version, "integer").
+			" WHERE component_type = ".$this->db->quote($this->ctype, "text").
+			" AND component_name = ".$this->db->quote($this->cname, "text").
+			" AND slot_id = ".$this->db->quote($this->slot_id, "text").
+			" AND name = ".$this->db->quote($this->pname, "text");
+		$this->db->manipulate($q);
 		$this->currentVersion = $a_version;
 		return true;
 	}

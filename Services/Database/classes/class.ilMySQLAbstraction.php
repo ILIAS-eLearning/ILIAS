@@ -45,6 +45,14 @@ class ilMySQLAbstraction
 		$this->il_db = $ilDB;
 		$this->manager = $ilDB->db->loadModule('Manager');
 		$this->reverse = $ilDB->db->loadModule('Reverse');
+		if (is_file('../Services/Database/classes/class.ilDBAnalyzer.php'))
+		{
+			include_once '../Services/Database/classes/class.ilDBAnalyzer.php';
+		}
+		else
+		{
+			include_once './Services/Database/classes/class.ilDBAnalyzer.php';
+		}
 		$this->analyzer = new ilDBAnalyzer();
 		$this->setTestMode(false);
 	}

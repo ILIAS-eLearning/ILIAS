@@ -7721,3 +7721,20 @@ ALTER TABLE `note` CHANGE `text` `note_text` MEDIUMTEXT;
 <?php
 	$ilMySQLAbstraction->performAbstraction('rbac_pa');
 ?>
+<#1614>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_log');
+?>
+<#1615>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_plugin');
+?>
+<#1616>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_pluginslot');
+?>
+<#1617>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -77,41 +77,41 @@ die("Deprecated. Plugin information is stored in plugin.php");
 				
 				// check whether record exists
 				$q = "SELECT * FROM il_plugin WHERE ".
-					" component_type = ".$ilDB->quote($this->ctype).
-					" AND component_name = ".$ilDB->quote($this->cname).
-					" AND slot_id = ".$ilDB->quote($this->slot_id).
-					" AND name = ".$ilDB->quote($this->pname);
+					" component_type = ".$ilDB->quote($this->ctype, "text").
+					" AND component_name = ".$ilDB->quote($this->cname, "text").
+					" AND slot_id = ".$ilDB->quote($this->slot_id, "text").
+					" AND name = ".$ilDB->quote($this->pname, "text");
 				$set = $ilDB->query($q);
-				if ($set->numRows() == 0)
+				if ($ilDB->numRows($set) == 0)
 				{
-					$q = "REPLACE INTO il_plugin (component_type,component_name,slot_id,".
+					$q = "INSERT INTO il_plugin (component_type,component_name,slot_id,".
 						"name, id, last_update_version, current_version, ilias_min_version,".
 						" ilias_max_version, active) VALUES ".
-						"(".$ilDB->quote($this->ctype).",".
-						$ilDB->quote($this->cname).",".
-						$ilDB->quote($this->slot_id).",".
-						$ilDB->quote($this->pname).",".
-						$ilDB->quote($a_attribs["id"]).",".
-						$ilDB->quote("0.0.0").",".
-						$ilDB->quote($a_attribs["version"]).",".
-						$ilDB->quote($a_attribs["ilias_min_version"]).",".
-						$ilDB->quote($a_attribs["ilias_max_version"]).",".
-						"0)";
-					$ilDB->query($q);
+						"(".$ilDB->quote($this->ctype, "text").",".
+						$ilDB->quote($this->cname, "text").",".
+						$ilDB->quote($this->slot_id, "text").",".
+						$ilDB->quote($this->pname, "text").",".
+						$ilDB->quote($a_attribs["id"], "text").",".
+						$ilDB->quote("0.0.0", "text").",".
+						$ilDB->quote($a_attribs["version"], "text").",".
+						$ilDB->quote($a_attribs["ilias_min_version"], "text").",".
+						$ilDB->quote($a_attribs["ilias_max_version"], "text").",".
+						$ilDB->quote(0, "integer").")";
+					$ilDB->manipulate($q);
 				}
 				else
 				{
 					$q = "UPDATE il_plugin SET ".
-						" id = ".$ilDB->quote($a_attribs["id"]).",".
-						" current_version = ".$ilDB->quote($a_attribs["version"]).",".
-						" ilias_min_version = ".$ilDB->quote($a_attribs["ilias_min_version"]).",".
-						" ilias_max_version = ".$ilDB->quote($a_attribs["ilias_max_version"]).
+						" id = ".$ilDB->quote($a_attribs["id"], "text").",".
+						" current_version = ".$ilDB->quote($a_attribs["version"], "text").",".
+						" ilias_min_version = ".$ilDB->quote($a_attribs["ilias_min_version"], "text").",".
+						" ilias_max_version = ".$ilDB->quote($a_attribs["ilias_max_version"], "text").
 						" WHERE ".
-						" component_type = ".$ilDB->quote($this->ctype).
-						" AND component_name = ".$ilDB->quote($this->cname).
-						" AND slot_id = ".$ilDB->quote($this->slot_id).
-						" AND name = ".$ilDB->quote($this->pname);
-					$ilDB->query($q);
+						" component_type = ".$ilDB->quote($this->ctype, "text").
+						" AND component_name = ".$ilDB->quote($this->cname, "text").
+						" AND slot_id = ".$ilDB->quote($this->slot_id, "text").
+						" AND name = ".$ilDB->quote($this->pname, "text");
+					$ilDB->manipulate($q);
 				}
 				break;
 		}
