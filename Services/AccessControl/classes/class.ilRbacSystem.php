@@ -152,21 +152,15 @@ class ilRbacSystem
 				$ops_id = ilRbacReview::_getOperationIdByName($operation);
 			}
 			
-			// Um nur eine Abfrage zu haben
-			$in = " IN (";
-			$in .= implode(",",ilUtil::quoteArray($roles));
-			$in .= ")";
-
-			$q = "SELECT * FROM rbac_pa ".
-				 "WHERE rol_id ".$in." ".
-				 "AND ref_id = ".$ilDB->quote($a_ref_id)." ";
-			$r = $this->ilDB->query($q);
+			$query = "SELECT * FROM rbac_pa ".
+				 "WHERE ".$ilDB->in('rol_id',$roles,false,'integer').' '.
+				 "AND ref_id = ".$ilDB->quote($a_ref_id,'integer')." ";
+			$res = $ilDB->query($query);
 
 			$ops = array();
-
-			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			while($row = $ilDB->fetchObject($res))
 			{
-				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
+				$ops = array_merge($ops,unserialize($row->ops_id));
 			}
 			if (in_array($ops_id,$ops))
 			{
@@ -203,15 +197,14 @@ class ilRbacSystem
 			$ops_id = $row->ops_id;
 		}
 	
-		$q = "SELECT * FROM rbac_pa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ".
-			 "AND ref_id = ".$ilDB->quote($a_ref_id)." ";
-		
-		$r = $this->ilDB->query($q);
+		$query = "SELECT * FROM rbac_pa ".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ".
+			 "AND ref_id = ".$ilDB->quote($a_ref_id,'integer')." ";
+		$res = $ilDB->query($query);		
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
-			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
+			$ops = array_merge($ops,unserialize($row->ops_id));
 		}
 		return in_array($ops_id,$ops);
 	}

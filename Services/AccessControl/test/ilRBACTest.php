@@ -119,5 +119,19 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		$new_sess_ops = $rbacreview->getOperationsOnTypeString('sess');
 		$this->assertEquals($sess_ops,$new_sess_ops);
 	}
+
+	/**
+	 * test rbac_pa 
+	 */
+	public function testRbacPA()
+	{
+		global $rbacreview,$rbacadmin;
+		
+		$sess_ops = $rbacreview->getOperationsOnTypeString('cat');
+		
+		$rbacadmin->revokePermission(1,4);
+		$rbacadmin->grantPermission(4,array(2,3),1);
+
+	}
 }
 ?>
