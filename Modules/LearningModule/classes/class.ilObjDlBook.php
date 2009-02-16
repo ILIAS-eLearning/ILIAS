@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -345,15 +345,21 @@ class ilObjDlBook extends ilObjContentObject
 	{
 		global $ilDB;
 		
-		$query = "REPLACE INTO dbk_translations ".
-			"SET id = ".$ilDB->quote($this->ref_id).", ".
-			"tr_id = ".$ilDB->quote($a_ref_id)." ";
-		$res = $this->ilias->db->query($query);
+		$ilDB->manipulate("DELETE FROM dbk_translations ".
+			" WHERE id = ".$ilDB->quote($this->ref_id, "integer")." ".
+			" AND tr_id = ".$ilDB->quote($a_ref_id, "integer"));
+		
+		$ilDB->manipulate("INSERT INTO dbk_translations (id, tr_id) VALUES ".
+			"(".$ilDB->quote($this->ref_id, "integer").", ".
+			"".$ilDB->quote($a_ref_id, "integer").")");
 
-		$query = "REPLACE INTO dbk_translations ".
-			"SET id = ".$ilDB->quote($a_ref_id).", ".
-			"tr_id = ".$ilDB->quote($this->ref_id)." ";
-		$res = $this->ilias->db->query($query);
+		$ilDB->manipulate("DELETE FROM dbk_translations ".
+			" WHERE id = ".$ilDB->quote($a_ref_id, "integer")." ".
+			" AND tr_id = ".$ilDB->quote($this->ref_id, "integer"));
+
+		$ilDB->manipulate("INSERT INTO dbk_translations (id, tr_id) VALUES ".
+			"(".$ilDB->quote($a_ref_id, "integer").", ".
+			"".$ilDB->quote($this->ref_id, "integer").")");
 
 		// UPDATE MEMBER VARIABLE
 		$this->readAssignedTranslations();
@@ -382,17 +388,13 @@ class ilObjDlBook extends ilObjContentObject
 			return false;
 		}
 
-		$query = "DELETE FROM dbk_translations ".
-			"WHERE id = ".$ilDB->quote($this->ref_id)." ".
-			"AND tr_id = ".$ilDB->quote($a_ref_id)." ";
+		$ilDB->manipulate("DELETE FROM dbk_translations ".
+			"WHERE id = ".$ilDB->quote($this->ref_id, "integer")." ".
+			"AND tr_id = ".$ilDB->quote($a_ref_id, "integer"));
 
-		$res = $this->ilias->db->query($query);
-
-		$query = "DELETE FROM dbk_translations ".
-			"WHERE id = ".$ilDB->quote($a_ref_id)." ".
-			"AND tr_id = ".$ilDB->quote($this->ref_id)." ";
-
-		$res = $this->ilias->db->query($query);
+		$ilDB->manipulate("DELETE FROM dbk_translations ".
+			"WHERE id = ".$ilDB->quote($a_ref_id, "integer")." ".
+			"AND tr_id = ".$ilDB->quote($this->ref_id, "integer"));
 
 		// UPDATE MEMBER VARIABLE
 		$this->readAssignedTranslations();
@@ -475,10 +477,10 @@ class ilObjDlBook extends ilObjContentObject
 		global $ilDB;
 		
 		$query = "SELECT tr_id FROM dbk_translations ".
-			"WHERE id = ".$ilDB->quote($this->ref_id)." ";
+			"WHERE id = ".$ilDB->quote($this->ref_id, "integer");
 
-		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->query($query);
+		while ($row = $ilDB->fetchObject($res))
 		{
 			$tmp_tr_ids[] = $row->tr_id;
 		}
