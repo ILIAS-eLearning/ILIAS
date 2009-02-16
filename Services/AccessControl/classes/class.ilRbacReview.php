@@ -1308,13 +1308,13 @@ class ilRbacReview
 		global $ilDB;
 		
 		$query = "SELECT * FROM rbac_pa ".
-			"WHERE rol_id = ".$ilDB->quote($a_role_id)." ".
-			"AND ref_id = ".$ilDB->quote($a_ref_id)." ";
+			"WHERE rol_id = ".$ilDB->quote($a_role_id,'integer')." ".
+			"AND ref_id = ".$ilDB->quote($a_ref_id,'integer')." ";
 
-		$res = $this->ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
 		{
-			$ops = unserialize(stripslashes($row->ops_id));
+			$ops = unserialize($row->ops_id);
 		}
 
 		return $ops ? $ops : array();

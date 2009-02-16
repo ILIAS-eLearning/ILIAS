@@ -119,9 +119,9 @@ class ilRbacAdmin
 		$res = $ilDB->manipulate($query);
 		
 		// delete permission assignments
-		$q = "DELETE FROM rbac_pa ".
-			 "WHERE rol_id = ".$ilDB->quote($a_rol_id)." ";
-		$this->ilDB->query($q);
+		$query = "DELETE FROM rbac_pa ".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		
 		//delete rbac_templates and rbac_fa
 		$this->deleteLocalRole($a_rol_id);
@@ -320,12 +320,18 @@ class ilRbacAdmin
 		}
 
 		// Serialization des ops_id Arrays
-		$ops_ids = addslashes(serialize($a_ops));
+		$ops_ids = serialize($a_ops);
+		
+		$query = 'DELETE FROM rbac_pa '.
+			'WHERE rol_id = %s '.
+			'AND ref_id = %s';
+		$res = $ilDB->queryF($query,array('integer','integer'),
+			array($a_rol_id,$a_ref_id));
 
-		$q = "REPLACE INTO rbac_pa (rol_id,ops_id,ref_id) ".
+		$query = "INSERT INTO rbac_pa (rol_id,ops_id,ref_id) ".
 			 "VALUES ".
-			 "(".$ilDB->quote($a_rol_id).",".$ilDB->quote($ops_ids).",".$ilDB->quote($a_ref_id).")";
-		$this->ilDB->query($q);
+			 "(".$ilDB->quote($a_rol_id,'integer').",".$ilDB->quote($ops_ids,'text').",".$ilDB->quote($a_ref_id,'integer').")";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -361,18 +367,17 @@ class ilRbacAdmin
 	
 			if ($a_rol_id)
 			{
-				$and1 = " AND rol_id = ".$ilDB->quote($a_rol_id)." ";
+				$and1 = " AND rol_id = ".$ilDB->quote($a_rol_id,'integer')." ";
 			}
 			else
 			{
 				$and1 = "";
 			}
 	
-			// TODO: rename db_field from obj_id to ref_id and remove db-field set_id
-			$q = "DELETE FROM rbac_pa ".
-				 "WHERE ref_id = ".$ilDB->quote($a_ref_id)." ".
+			$query = "DELETE FROM rbac_pa ".
+				 "WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
 				 $and1;
-			$this->ilDB->query($q);
+			$res = $ilDB->manipulate($query);
 	
 			return true;
 		}
@@ -404,10 +409,10 @@ class ilRbacAdmin
 				return true;
 			}
 			
-			$q = "DELETE FROM rbac_pa ".
-				 "WHERE rol_id IN (".implode(',',ilUtil::quoteArray($role_ids)).") ".
-				 "AND ref_id = ".$ilDB->quote($a_ref_id)." ";
-			$this->ilDB->query($q);
+			$query = 'DELETE FROM rbac_pa '.
+				'WHERE '.$ilDB->in('rol_id',$role_ids,false,'integer').' '.
+				'AND ref_id = '.$ilDB->quote($a_ref_id,'integer');
+			$res = $ilDB->manipulate($query);
 		}
 		else
 		{
@@ -424,10 +429,10 @@ class ilRbacAdmin
 				return true;
 			}
 
-			$q = "DELETE FROM rbac_pa ".
-				 "WHERE ref_id = ".$ilDB->quote($a_ref_id)." ".
-				 "AND rol_id = ".$ilDB->quote($a_rol_id)." ";
-			$this->ilDB->query($q);
+			$query = "DELETE FROM rbac_pa ".
+				 "WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer')." ".
+				 "AND rol_id = ".$ilDB->quote($a_rol_id,'integer')." ";
+			$res = $ilDB->manipulate($query);
 		}
 
 		return true;
@@ -462,13 +467,10 @@ class ilRbacAdmin
 			return true;
 		}
 
-		$ref_ids = implode(",",ilUtil::quoteArray($a_ref_ids));
-
-		// TODO: rename db_field from obj_id to ref_id and remove db-field set_id
-		$q = "DELETE FROM rbac_pa ".
-			 "WHERE ref_id IN (".$ref_ids.") ".
-			 "AND rol_id = ".$ilDB->quote($a_rol_id);
-		$this->ilDB->query($q);
+		$query = "DELETE FROM rbac_pa ".
+			 "WHERE ".$ilDB->in('ref_id',$a_ref_ids,false,'integer').' '.
+			 "AND rol_id = ".$ilDB->quote($a_rol_id,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
