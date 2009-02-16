@@ -434,14 +434,6 @@ class ilFileDataForum extends ilFileData
 		
 		$mail_data_dir = ilUtil::getDataDir('filesystem').DIRECTORY_SEPARATOR."forum";
 	
-/*		$statement = $ilDB->prepare('
-			SELECT top_frm_fk, pos_pk FROM frm_posts AS p
-			JOIN frm_data AS d ON d.top_pk = p.pos_top_fk
-			WHERE p.pos_usr_id = ?',
-			array('integer')
-		);
-*/		
-		// for mdb2
 		$statement = $ilDB->prepare('
 			SELECT top_frm_fk, pos_pk FROM frm_posts p
 			JOIN frm_data d ON d.top_pk = p.pos_top_fk
@@ -449,10 +441,8 @@ class ilFileDataForum extends ilFileData
 			array('integer')
 		);
 		
-		
 		$data = array($user_id);
 		$result_set = $ilDB->execute($statement, $data);
-
 		
 		$size = 0;
 		$count = 0;

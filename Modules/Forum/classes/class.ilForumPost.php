@@ -425,17 +425,6 @@ class ilForumPost
 	{
 		if ($this->id)
 		{					  
-/*			$statement = $this->db->prepareManip('
-				UPDATE frm_posts_tree	AS treea
-				INNER JOIN frm_posts_tree AS treeb ON treeb.thr_fk = treea.thr_fk  
-					AND treeb.lft BETWEEN treea.lft AND treea.rgt
-				INNER JOIN frm_posts ON pos_pk = treeb.pos_fk
-				SET pos_status = ?
-				WHERE 1 
-				AND treea.pos_fk = ?',
-				array('integer', 'integer')
-			);
-*/
 			$statement = $this->db->prepareManip('
 				UPDATE frm_posts_tree treea
 				INNER JOIN frm_posts_tree treeb ON treeb.thr_fk = treea.thr_fk  

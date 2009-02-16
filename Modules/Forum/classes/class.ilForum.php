@@ -278,32 +278,6 @@ class ilForum
 		}
 	}
 	
-
-	/**  don't use this!
-	* set content of WHERE condition
-	* @param	string	$whereCondition 
-	* @see				$whereCondition
-	* @access	public
-	*/
-/*	function setWhereCondition($whereCondition = "1")
-	{
-	
-		$this->whereCondition = $whereCondition;
-		return true;
-	}
-	
-	/** don't use this!
-	* get content of whereCondition
-	* @return	string 
-	* @see				$whereCondition
-	* @access	public
-	*/
-/*	function getWhereCondition()
-	{
-		
-		return $this->whereCondition;
-	}
-	
 	/**
 	* set number of max. visible datasets
 	* @param	integer	$pageHits 

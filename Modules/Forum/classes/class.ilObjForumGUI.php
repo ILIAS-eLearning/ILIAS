@@ -84,7 +84,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-		
+
 		// workaround for new cancel button in edit/reply-post view, because form action does not "support" cmd=post
 		if ($_POST['cmd']['cancelPost'] != '')
 		{
@@ -298,10 +298,15 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm =& $this->object->Forum;
 		$frm->setForumId($this->object->getId());
 		$frm->setForumRefId($this->object->getRefId());
-			
+
 		$frm->setMDB2Wherecondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
 		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_liste.html',	'Modules/Forum');
+		
+		if((int)strlen($this->confirmation_gui_html))
+		{
+			 $this->tpl->setVariable('CONFIRMATION_GUI', $this->confirmation_gui_html);
+		}
 		
 		$this->tpl->addBlockfile('BUTTONS', 'buttons', 'tpl.buttons.html');
 			
@@ -341,7 +346,7 @@ class ilObjForumGUI extends ilObjectGUI
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
 
-			$frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topicData['top_pk'])); 
+		  	$frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topicData['top_pk'])); 
 			
 			$frm->updateVisits($topicData['top_pk']);
 						
@@ -610,6 +615,11 @@ class ilObjForumGUI extends ilObjectGUI
 					$this->tpl->setVariable('TXT_MOVE_THREADS', $this->lng->txt('move'));
 				}
 				
+				// options: deleteThread
+				if($ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
+				{
+					$this->tpl->setVariable('TXT_DELETE_THREADS', $this->lng->txt('delete'));
+				}
 				
 				$this->tpl->setVariable('IMGPATH', $this->tpl->tplPath);
 				
@@ -854,14 +864,34 @@ class ilObjForumGUI extends ilObjectGUI
             'top_date' 			=> date("Y-m-d H:i:s")
         );
 	
-		$q = "INSERT INTO frm_data ";
-		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id) ";
-		$q .= "VALUES ";
-		$q .= "(".$ilDB->quote($top_data["top_frm_fk"]).",".$ilDB->quote($top_data["top_name"]).",".$ilDB->quote($top_data["top_description"]).",".
-			$ilDB->quote($top_data["top_num_posts"]).",".$ilDB->quote($top_data["top_num_threads"]).",".$ilDB->quote($top_data["top_last_post"]).",".
-			$ilDB->quote($top_data["top_mods"]).",'".$top_data["top_date"]."',".$ilDB->quote($top_data["top_usr_id"]).")";
-		$this->ilias->db->query($q);
-
+        $statement = $ilDB->prepareManip('
+        	INSERT INTO frm_data 
+        	SET top_frm_fk = ?,
+        		top_name = ?,
+        		top_description = ?,
+        		top_num_posts = ?,
+        		top_num_threads = ?,
+        		top_last_post = ?,
+        		top_mods = ?,
+        		top_date = ?,
+        		top_usr_id = ?',
+        	array('integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'timestamp', 'integer')
+        );
+        
+        $data = array(
+        	$top_data['top_frm_fk'],
+        	$top_data['top_name'],
+        	$top_data['top_description'],
+        	$top_data['top_num_posts'],
+			$top_data['top_num_threads'],
+			$top_data['top_last_post'],
+			$top_data['top_mods'],
+			$top_data['top_date'],
+			$top_data['top_usr_id']
+		);
+		
+		$ilDB->execute($statement, $data);
+		
 		$this->object = $forumObj;
 		
 		// always send a message
@@ -1095,6 +1125,83 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
+	
+	public function performDeleteThreadsObject()
+	{
+		global $lng, $ilDB, $ilAccess, $ilCtrl;
+		
+		if(!is_array($_POST['forum_id']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('please select at least one topic'));
+	 		return $this->showThreadsObject();
+	 	}
+	 	
+		if(!$ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
+		{
+		
+			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			return $this->showThreadsObject();
+		}
+
+		require_once './Modules/Forum/classes/class.ilForum.php';
+		require_once './Modules/Forum/classes/class.ilObjForum.php';
+		
+		$lng->loadLanguageModule('forum');
+		$forumObj = new ilObjForum($_GET['ref_id']);
+		
+		$this->objProperties->setObjId($forumObj->getId());
+
+		for ($i = 0; $i < count($_POST['forum_id']); $i++)
+		{
+			$frm = new ilForum();
+			$frm->setForumId($forumObj->getId());
+			$frm->setForumRefId($forumObj->getRefId());
+
+			$first_node = $frm->getFirstPostNode($_POST['forum_id'][$i]);
+
+			if((int)$first_node['pos_pk'])
+			{
+				$frm->deletePost($first_node['pos_pk']);
+				ilUtil::sendInfo($lng->txt('forums_post_deleted'));
+			}						
+		}
+		
+		$this->ctrl->redirect($this, 'showThreads');
+	}
+	
+	public function confirmDeleteThreads()
+	{
+		global $ilAccess;
+		
+		if(!is_array($_POST['forum_id']))
+	 	{
+	 		ilUtil::sendInfo($this->lng->txt('please select at least one topic'));
+	 		return $this->showThreadsObject();
+	 	}
+	 	
+	 	if(!$ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
+		{
+			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			return $this->showThreadsObject();
+		}
+	 	
+	 	include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
+		$c_gui = new ilConfirmationGUI();
+		
+		$c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDeleteThreads'));
+		$c_gui->setHeaderText($this->lng->txt('frm_sure_delete_threads'));
+		$c_gui->setCancel($this->lng->txt('cancel'), 'showThreads');
+		$c_gui->setConfirm($this->lng->txt('confirm'), 'performDeleteThreads');
+
+		foreach((array)$_POST['forum_id'] as $thread_id)
+		{
+			$c_gui->addHiddenItem('forum_id[]', $thread_id);
+		}
+		
+		$this->confirmation_gui_html = $c_gui->getHTML();
+		
+		return $this->showThreadsObject();
+	}
 
 	/**
 	* Output forum frameset.
@@ -1130,6 +1237,7 @@ class ilObjForumGUI extends ilObjectGUI
 			// if complete thread was deleted ...
 			if ($dead_thr == $this->objCurrentTopic->getId())
 			{
+
 				$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($forumObj->getId()));
 				
 				$topicData = $frm->getOneTopic();
@@ -2684,7 +2792,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function performThreadsActionObject()
 	{
-		global $ilUser, $ilAccess;
+		global $lng, $ilUser, $ilAccess;
 		
 		unset($_SESSION['threads2move']);
 		unset($_SESSION['forums_search_submitted']);
@@ -2777,11 +2885,45 @@ class ilObjForumGUI extends ilObjectGUI
 	
 				$this->ctrl->redirect($this, 'showThreads');
 			}
-			else if ($_POST['action'] == 'html')
+/*			else if ($_POST['action'] == 'delete')
+			{
+				//delete thread/s  
+				//add confirmation gui
+				if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
+				{
+					require_once './Modules/Forum/classes/class.ilForum.php';
+					require_once './Modules/Forum/classes/class.ilObjForum.php';
+					
+					$lng->loadLanguageModule('forum');
+					$forumObj = new ilObjForum($_GET['ref_id']);
+					
+					$this->objProperties->setObjId($forumObj->getId());
+
+					for ($i = 0; $i < count($_POST['forum_id']); $i++)
+					{
+						$frm = new ilForum();
+						$frm->setForumId($forumObj->getId());
+						$frm->setForumRefId($forumObj->getRefId());
+
+						$first_node = $frm->getFirstPostNode($_POST['forum_id'][$i]);
+						if((int)$first_node['pos_pk'])
+						{
+							$frm->deletePost($first_node['pos_pk']);
+							ilUtil::sendInfo($lng->txt('forums_post_deleted'));
+						}						
+					}
+				}
+				$this->ctrl->redirect($this, 'showThreads');
+			}
+*/			else if ($_POST['action'] == 'html')
 			{
 				$this->ctrl->setCmd('exportHTML');
 				$this->ctrl->setCmdClass('ilForumExportGUI');
 				$this->executeCommand();
+			}
+			else if ($_POST['action'] == 'confirmDeleteThreads')
+			{
+				return $this->confirmDeleteThreads();
 			}
 			else
 			{
@@ -3063,6 +3205,7 @@ class ilObjForumGUI extends ilObjectGUI
 				{
 					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $val['obj_id'])
 					{	
+
 						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($val['obj_id']));	
 							
 						if(!is_null($frmData = $this->object->Forum->getOneTopic()))				
@@ -3107,6 +3250,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		return true;
 	}
+	
 	
 	/**
 	* New Thread form.
@@ -3190,7 +3334,8 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		return true;
 	}	
-	
+
+
 	/**
 	* Add New Thread.
 	*/
@@ -3255,13 +3400,12 @@ class ilObjForumGUI extends ilObjectGUI
 			}
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
-			
 			$frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topicData['top_pk']));			
 			
 			
 			$frm->updateVisits($topicData['top_pk']);
 			// on success: change location
-			
+
 			$frm->setMDB2WhereCondition('thr_top_fk = ? AND thr_subject = ? AND thr_num_posts = 1 ', 
 										array('integer', 'text'), array($topicData['top_pk'], $formData['subject']));			
 			
@@ -3304,7 +3448,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_notification.html', 'Modules/Forum');
 		$ilTabs->setTabActive('forums_notification');		
 		
-		// get forum- and thread-data
+		// get forum- and thread-data 
+		// use setMDB2WhereCondition ..
 		$frm->setWhereCondition('top_frm_fk = '.$ilDB->quote($frm->getForumId()));		
 		if (is_array($topicData = $frm->getOneTopic()))
 		{
