@@ -70,7 +70,7 @@ class ilForum
 	* @access private
 	*/
 	var $orderField;
-
+	
 	var $mdb2Query;
 	var $mdb2DataValue;
 	var $mdb2DataType;
@@ -228,16 +228,18 @@ class ilForum
 	
 	function setMDB2WhereCondition($query_string, $data_type, $data_value)
 	{
+		
 		$this->mdb2Query = $query_string;
 		$this->mdb2DataValue = $data_value;
 		$this->mdb2DataType = $data_type;
 	
+		
 		return true;
 	}	
 	
 
 	/**
-	 * get content of additional condition
+	// get content of additional condition
 	 *
 	 * @return string 
 	 */	
@@ -251,7 +253,7 @@ class ilForum
 	}
 	
 	/**
-	 * get content of additional condition
+	 /* get content of additional condition
 	 *
 	 * @return array 
 	 */		
@@ -277,7 +279,7 @@ class ilForum
 	}
 	
 
-	/*  don't use this!
+	/**  don't use this!
 	* set content of WHERE condition
 	* @param	string	$whereCondition 
 	* @see				$whereCondition
@@ -301,7 +303,7 @@ class ilForum
 		
 		return $this->whereCondition;
 	}
-*/	
+	
 	/**
 	* set number of max. visible datasets
 	* @param	integer	$pageHits 
@@ -341,6 +343,8 @@ class ilForum
 	*/
 	function getOneDataset()
 	{	
+		global $ilDB;
+		
 		$data_type = array();
 		$data_value = array();
 		
@@ -357,8 +361,8 @@ class ilForum
 			$data_value = $data_value + $this->getMDB2DataValue();
 			
 			
-			$statement = $this->ilias->db->prepare($query, $data_type);
-			$res = $this->ilias->db->execute($statement, $data_value);		
+			$statement = $ilDB->prepare($query, $data_type);
+			$res = $ilDB->execute($statement, $data_value);		
 		}
 		else
 		{
@@ -369,13 +373,14 @@ class ilForum
 				$query .= " ORDER BY ".$this->orderField;
 			}
 			
-			$statement = $this->ilias->db->prepare($query);
-			$res = $this->ilias->db->execute($statement);		
+			$statement = $ilDB->prepare($query);
+			$res = $ilDB->execute($statement);		
 			
 		}
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		return $row;
+
 	}
 
 	/**
@@ -385,7 +390,8 @@ class ilForum
 	*/
 	function getOneTopic()
 	{
-
+		global $ilDB;
+		
 		$data_type = array();
 		$data_value = array();
 		
@@ -398,8 +404,8 @@ class ilForum
 			$data_type = $data_type + $this->getMDB2DataType();
 			$data_value = $data_value + $this->getMDB2DataValue();
 			
-			$statement = $this->ilias->db->prepare($query, $data_type);
-			$res = $this->ilias->db->execute($statement, $data_value);
+			$statement = $ilDB->prepare($query, $data_type);
+			$res = $ilDB->execute($statement, $data_value);
 			
 			$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			
@@ -407,7 +413,7 @@ class ilForum
 			
 			$row["top_name"] = trim($row["top_name"]);
 			$row["top_description"] = nl2br($row["top_description"]);
-	
+
 			return $row;
 			
 		}
@@ -416,8 +422,8 @@ class ilForum
 			
 			$query .= '1';
 			
-				$statement = $this->ilias->db->prepare($query);
-				$res = $this->ilias->db->execute($statement);
+				$statement = $ilDB->prepare($query);
+				$res = $ilDB->execute($statement);
 				
 				$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 				
@@ -429,7 +435,6 @@ class ilForum
 				return $row;
 			
 		}
-		
 	}
 	
 	/**
@@ -485,7 +490,9 @@ class ilForum
 	* @access	public
 	*/
 	function getOneThread()
-	{		
+	{	
+		global $ilDB;
+			
 		$data_type = array();
 		$data_value = array();
 		
@@ -497,13 +504,13 @@ class ilForum
 			$data_type = $data_type + $this->getMDB2DataType();
 			$data_value = $data_value + $this->getMDB2DataValue();
 			
-			$statement = $this->ilias->db->prepare($query, $data_type);
-			$sql_res = $this->ilias->db->execute($statement, $data_value);
+			$statement = $ilDB->prepare($query, $data_type);
+			$sql_res = $ilDB->execute($statement, $data_value);
 			$result = $sql_res->fetchRow(DB_FETCHMODE_ASSOC);
 			$result["thr_subject"] = trim($result["thr_subject"]);
 		}
+
 		return $result;
-		
 	}
 	
 	/**
@@ -827,7 +834,6 @@ class ilForum
 		return true;		
 	}
 	
-	
 	/**
 	* update dataset in frm_threads
 	* @param	integer	thr_pk
@@ -851,11 +857,10 @@ class ilForum
 		
 		return true;		
 	}
-	
-
 
 	public function getAllForums()
 	{
+		global $ilDB;
 		$data_type = array();
 		$data_value = array(); 
 			
@@ -869,15 +874,15 @@ class ilForum
 			$data_type = $data_type + $this->getMDB2DataType();
 			$data_value = $data_value + $this->getMDB2DataValue();
 			
-			$statement = $this->ilias->db->prepare($query, $data_type);
-			$res = $this->ilias->db->execute($statement, $data_value);
+			$statement = $ilDB->prepare($query, $data_type);
+			$res = $ilDB->execute($statement, $data_value);
 		}
 		else
 		{
 			$query .= '1';
 			
-			$statement = $this->ilias->db->prepare($query);
-			$res = $this->ilias->db->execute($statement);
+			$statement = $ilDB->prepare($query);
+			$res = $ilDB->execute($statement);
 			
 		}	
 		
@@ -902,10 +907,13 @@ class ilForum
 	*/
 	public function moveThreads($tread_ids = array(), $src_ref_id = 0, $dest_top_frm_fk = 0)
 	{	
+		global $ilDB;
+		
 		$src_top_frm_fk = ilObject::_lookupObjectId($src_ref_id);		
 		
 		if (is_numeric($src_top_frm_fk) && $src_top_frm_fk > 0 && is_numeric($dest_top_frm_fk) && $dest_top_frm_fk > 0)
 		{	
+
 			$this->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($src_top_frm_fk));
 			
 			$oldFrmData = $this->getOneTopic();			
@@ -944,8 +952,8 @@ class ilForum
 				}				
 				
 				// update frm_data source forum
-				$this->ilias->db->setLimit(1);
-				$statement = $this->ilias->db->prepare('
+				$ilDB->setLimit(1);
+				$statement = $ilDB->prepare('
 					SELECT pos_thr_fk, pos_pk 
 					FROM frm_posts						  
 					WHERE 1 
@@ -955,12 +963,12 @@ class ilForum
 				);
 				$data = array($oldFrmData['top_pk']);
 				
-				$res = $this->ilias->db->execute($statement, $data);
+				$res = $ilDB->execute($statement, $data);
 								
 				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);				
 				$last_post_src = $oldFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
 				
-				$statement = $this->ilias->db->prepareManip('
+				$statement = $ilDB->prepareManip('
 					UPDATE frm_data
 					SET top_num_posts = top_num_posts - ?,
 						top_num_threads = top_num_threads - ?,
@@ -977,14 +985,14 @@ class ilForum
 								$last_post_src, 
 								$oldFrmData['top_pk']);
 				
-				$this->ilias->db->execute($statement, $data);
+				$ilDB->execute($statement, $data);
 				
 				
 				
 				// update frm_data destination forum
 				
-				$this->ilias->db->setLimit(1);
-				$statement = $this->ilias->db->prepare('
+				$ilDB->setLimit(1);
+				$statement = $ilDB->prepare('
 					SELECT pos_thr_fk, pos_pk 
 				 	FROM frm_posts						  
 					WHERE 1 
@@ -994,12 +1002,12 @@ class ilForum
 				);
 				
 				$data = array($newFrmData['top_kp']);
-				$res = $this->ilias->db->execute($statement, $data);
+				$res = $ilDB->execute($statement, $data);
 				
 				$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 				$last_post_dest = $newFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
 
-				$statement =$this->ilias->db->prepareManip('
+				$statement = $ilDB->prepareManip('
 					UPDATE frm_data
 					SET top_num_posts = top_num_posts + ?,
 						top_num_threads = top_num_threads + ?,
@@ -1012,7 +1020,7 @@ class ilForum
 				
 				$data = array($moved_posts, $moved_threads, $visits, $last_post_dest, $newFrmData['top_pk']);
 				
-				$this->ilias->db->execute($statement, $data);
+				$ilDB->execute($statement, $data);
 				
 				
 				/*
@@ -1033,7 +1041,7 @@ class ilForum
 				*/
 			}
 		}
-	}
+}
 	
 	
 	/**
@@ -1047,7 +1055,7 @@ class ilForum
 	{		
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepareManip('
+		$statement = $ilDB->prepareManip('
 			UPDATE frm_posts
 			SET pos_cens_com = ?,
 				pos_update = ?,
@@ -1059,7 +1067,7 @@ class ilForum
 		
 		$data = array($message, date("Y-m-d H:i:s"), $cens, $_SESSION['AccountId'], $pos_pk);
 		
-		$this->ilias->db->execute($statement, $data);
+		$ilDB->execute($statement, $data);
 		
 		// Change news item accordingly
 		include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -1077,7 +1085,7 @@ class ilForum
 			else				// revoke censorship
 			{
 				// get original message
-				$statement = $this->ilias->db->prepare('
+				$statement = $ilDB->prepare('
 					SELECT * FROM frm_posts
 					WHERE pos_pk = ?',
 					array('integer')
@@ -1105,12 +1113,13 @@ class ilForum
 	function deletePost($post)
 	{
 		global $ilDB;
-		
+
 		include_once "./Modules/Forum/classes/class.ilObjForum.php";
-		
+
 		// delete tree and get id's of all posts to delete
 		$p_node = $this->getPostNode($post);	
 		$del_id = $this->deletePostTree($p_node);
+
 
 		// Delete User read entries
 		foreach($del_id as $post_id)
@@ -1135,7 +1144,7 @@ class ilForum
 			// delete thread
 			$dead_thr = $p_node["tree"];
 
-			$statement = $this->ilias->db->prepareManip('
+			$statement = $ilDB->prepareManip('
 				DELETE FROM frm_threads
 				WHERE thr_pk = ?',
 				array('integer')
@@ -1143,11 +1152,11 @@ class ilForum
 			
 			$data = array($p_node['tree']);
 			
-			$this->ilias->db->execute($statement, $data);
+			$ilDB->execute($statement, $data);
 			
 
 			// update num_threads
-			$statement = $this->ilias->db->prepareManip('
+			$statement = $ilDB->prepareManip('
 				UPDATE frm_data 
 				SET top_num_threads = top_num_threads - 1 
 				WHERE top_frm_fk = ?',
@@ -1156,11 +1165,11 @@ class ilForum
 			
 			$data = array($this->id);
 			
-			$this->ilias->db->execute($statement, $data);
+			$ilDB->execute($statement, $data);
 			
 			
 			// delete all related news
-			$statement = $this->ilias->db->prepare('
+			$statement = $ilDB->prepare('
 				SELECT * FROM frm_posts
 				WHERE pos_thr_fk = ?',
 				array('integer')
@@ -1168,7 +1177,7 @@ class ilForum
 			
 			$data = array($p_node['tree']);
 			
-			$posset = $this->ilias->db->execute($statement, $data);
+			$posset = $ilDB->execute($statement, $data);
 	
 			
 			while ($posrec = $posset->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1185,7 +1194,7 @@ class ilForum
 			
 			
 			// delete all posts of this thread
-			$statement = $this->ilias->db->prepareManip('
+			$statement = $ilDB->prepareManip('
 				DELETE FROM frm_posts
 				WHERE pos_thr_fk = ?',
 				array('integer')
@@ -1193,21 +1202,23 @@ class ilForum
 			
 			$data = array($p_node['tree']);
 			
-			$this->ilias->db->execute($statement, $data);
+			$ilDB->execute($statement, $data);
 		}
 		else
 		{
+
 			// delete this post and its sub-posts
 			for ($i = 0; $i < $dead_pos; $i++)
 			{
-				$statement = $this->ilias->db->prepareManip('
+
+				$statement = $ilDB->prepareManip('
 					DELETE FROM frm_posts
 					WHERE pos_pk = ?',
 					array('integer')
 				);
-
+			
 				$data = array($del_id[$i]);
-				$this->ilias->db->execute($statement, $data);
+				$ilDB->execute($statement, $data);
 				
 				// delete related news item
 				include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -1221,7 +1232,7 @@ class ilForum
 			}
 			
 			// update num_posts in frm_threads
-			$statement = $this->ilias->db->prepareManip('
+			$statement = $ilDB->prepareManip('
 				UPDATE frm_threads
 				SET thr_num_posts = thr_num_posts - ?
 				WHERE thr_pk = ?',
@@ -1230,11 +1241,11 @@ class ilForum
 			
 			$data = array($dead_pos, $p_node['tree']);
 			
-			$this->ilias->db->execute($statement, $data);
+			$ilDB->execute($statement, $data);
 			
 			
 			// get latest post of thread and update last_post
-			$statement = $this->ilias->db->prepare('
+			$statement = $ilDB->prepare('
 				SELECT * FROM frm_posts 
 				WHERE pos_thr_fk = ?
 				ORDER BY pos_date DESC',
@@ -1242,7 +1253,7 @@ class ilForum
 			);
 
 			$data = array($p_node['tree']);
-			$res1 = $this->ilias->db->execute($statement, $data);
+			$res1 = $ilDB->execute($statement, $data);
 			
 			if ($res1->numRows() == 0)
 			{
@@ -1264,7 +1275,7 @@ class ilForum
 				}
 			}
 			
-			$statement = $this->ilias->db->prepareManip('
+			$statement = $ilDB->prepareManip('
 				UPDATE frm_threads
 				SET thr_last_post = ?
 				WHERE thr_pk = ?',
@@ -1272,12 +1283,12 @@ class ilForum
 			);
 			
 			$data = array($lastPost_thr, $p_node['tree']);
-			$this->ilias->db->execute($statement, $data);
+			$ilDB->execute($statement, $data);
 		
 		}
 		
 		// update num_posts in frm_data
-		$statement = $this->ilias->db->prepareManip('
+		$statement = $ilDB->prepareManip('
 			UPDATE frm_data
 			SET top_num_posts = top_num_posts - ?
 			WHERE top_frm_fk = ?',
@@ -1285,10 +1296,10 @@ class ilForum
 		);
 		
 		$data = array($dead_pos, $this->id);
-		$this->ilias->db->execute($statement, $data);
+		$ilDB->execute($statement, $data);
 		
 		// get latest post of forum and update last_post
-		$statement = $this->ilias->db->prepare('
+		$statement = $ilDB->prepare('
 			SELECT * FROM frm_posts, frm_data 
 			WHERE pos_top_fk = top_pk 
 			AND top_frm_fk = ?
@@ -1297,7 +1308,7 @@ class ilForum
 		);
 		
 		$data = array($this->id);
-		$res2 = $this->ilias->db->execute($statement, $data);
+		$res2 = $ilDB->execute($statement, $data);
 		
 		if ($res2->numRows() == 0)
 		{
@@ -1319,7 +1330,7 @@ class ilForum
 			}
 		}
 		
-		$statement = $this->ilias->db->prepareManip('
+		$statement = $ilDB->prepareManip('
 			UPDATE frm_data
 			SET top_last_post = ?
 			WHERE top_frm_fk = ?',
@@ -1327,7 +1338,7 @@ class ilForum
 		);
 		
 		$data = array($lastPost_top, $this->id);
-		$this->ilias->db->execute($statement, $data);
+		$ilDB->execute($statement, $data);
 		
 		return $dead_thr;		
 	}
@@ -1347,12 +1358,7 @@ class ilForum
 		
 		$data = array();
 		$data_types = array();
-		
-/*		$query = 'SELECT *, MAX(pos_date) AS post_date 
-				  FROM frm_threads
-				  LEFT JOIN frm_posts ON pos_thr_fk = thr_pk';
-*/
-		//for mdb2
+
 		$query = 'SELECT *, MAX(pos_date) post_date 
 				  FROM frm_threads
 				  LEFT JOIN frm_posts ON pos_thr_fk = thr_pk';
@@ -1436,12 +1442,6 @@ class ilForum
 		$data_types = array();
 		$data = array();
 		
-/*		$query = 	"SELECT COUNT(f.pos_usr_id) as ranking, u.login, 
-						IF(p.value<>'n',u.lastname,'') as lastname, IF (p.value<>'n',u.firstname,'') as firstname 
-	 				FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d , usr_pref p
-					WHERE p.usr_id = u.usr_id 
-					AND p.keyword = ?";
-*/
 		$query = 	"SELECT COUNT(f.pos_usr_id) ranking, u.login, 
 						IF(p.value<>'n',u.lastname,'') lastname, IF (p.value<>'n',u.firstname,'') firstname 
 	 				FROM frm_posts f, frm_posts_tree t, frm_threads th, usr_data u, frm_data d , usr_pref p
@@ -1754,7 +1754,7 @@ class ilForum
 	function insertPostNode($a_node_id, $a_parent_id, $tree_id, $a_date = '')
 	{		
 		global $ilDB;
-		
+
 		$a_date = $a_date ? $a_date : date("Y-m-d H:i:s");
 		
 		// get left value
@@ -1765,7 +1765,9 @@ class ilForum
 			array('integer', 'integer')
 		);
 		$data = array($a_parent_id, $tree_id);
-		$res = $ilDB->execute($statement, $data); 
+		$sql_res = $ilDB->execute($statement, $data); 
+		
+		$res = $sql_res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		$left = $res->lft;
 
@@ -1838,8 +1840,10 @@ class ilForum
 				array('integer', 'integer')
 			);
 			$data = array($a_node_id, $tree_id);
-			$res = $ilDB->execute($statement, $data);
-				
+			$sql_res = $ilDB->execute($statement, $data);
+			
+			$res = $sql_res->fetchRow(DB_FETCHMODE_OBJECT);
+			
 			return $res->depth;
 		}
 		else
@@ -1981,7 +1985,7 @@ class ilForum
 	function getPostNode($post_id)
 	{
 		global $ilDB;
-	
+
 		$statement = $ilDB->prepare('
 			SELECT * FROM frm_posts, frm_posts_tree 
 			WHERE pos_pk = pos_fk 
@@ -2047,7 +2051,7 @@ class ilForum
 		
 		// why this line? data should be stored without slashes in db
 		//$data["message"] = stripslashes($data["message"]);
-		
+
 		return $data ? $data : array();
 	}
 
@@ -2134,6 +2138,7 @@ class ilForum
 		);
 		
 		$data = array($a_node['lft'], $a_node['rgt'], $a_node['tree']);
+
 		$ilDB->execute($statement, $data);
 		
 		// close gaps
@@ -2158,6 +2163,7 @@ class ilForum
 		$ilDB->execute($statement, $data);
 		
 		return $del_id;
+
 	}
 
 	/**
@@ -2168,6 +2174,8 @@ class ilForum
 	function updateVisits($ID)
 	{
 
+		global $ilDB;
+		
 		$checkTime = time() - (60*60);
 			
 		if ($_SESSION["frm_visit_".$this->dbTable."_".$ID] < $checkTime)
@@ -2185,8 +2193,8 @@ class ilForum
 				$data_type = $data_type + $this->getMDB2DataType();
 				$data_value = $data_value + $this->getMDB2DataValue();
 
-				$statement = $this->ilias->db->prepare($query, $data_type);
-				$res = $this->ilias->db->execute($statement, $data_value);
+				$statement = $ilDB->prepare($query, $data_type);
+				$res = $ilDB->execute($statement, $data_value);
 			}
 		}
 	}
@@ -2200,7 +2208,7 @@ class ilForum
 	*/
 	function prepareText($text, $edit=0, $quote_user = "", $type = '')
 	{
-		global $lng;
+		global $lng; 
 		
 		if ($type == 'export')
 		{
@@ -2352,7 +2360,6 @@ class ilForum
 			$tmp_user =& new ilObjUser($parent_data["pos_usr_id"]);
 
 			// NONSENSE
-			//$this->setWhereCondition("thr_pk = ".$ilDB->quote($parent_data["pos_thr_fk"])."");
 			$this->setMDB2WhereCondition('thr_pk = ? ', array('integer'), array($parent_data["pos_thr_fk"]));
 
 			$thread_data = $this->getOneThread();
@@ -2399,13 +2406,13 @@ class ilForum
 
 		if($a_id && ilObject::_exists($a_id) && ilObjectFactory::getInstanceByObjId($a_id,false))
 		{
-			$statement = $this->ilias->db->prepare('
+			$statement = $ilDB->prepare('
 				SELECT * FROM usr_data WHERE usr_id = ?',
 				array('integer')
 			);
 			
 			$data = array($a_id);
-			$res = $this->ilias->db->execute($statement, $data);
+			$res = $ilDB->execute($statement, $data);
 			
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -2553,10 +2560,6 @@ class ilForum
 	{
 		global $ilDB;
 
-/*		$statement = $ilDB->prepare('SELECT COUNT(*) AS cnt FROM frm_notification WHERE user_id = ? AND frm_id = ?',
-		    array('integer', 'integer')
-		 );
-*/
 		$statement = $ilDB->prepare('SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = ? AND frm_id = ?',
 		    array('integer', 'integer')
 		 );
@@ -2612,13 +2615,6 @@ class ilForum
 	{
 		global $ilDB;
 
-/*		$statement = $ilDB->prepare('
-			SELECT COUNT(*) AS cnt FROM frm_notification 
-			WHERE user_id = ? 
-			AND thread_id = ?',
-			array('integer', 'integer')
-		);
- */
 		$statement = $ilDB->prepare('
 			SELECT COUNT(*) cnt FROM frm_notification 
 			WHERE user_id = ? 
