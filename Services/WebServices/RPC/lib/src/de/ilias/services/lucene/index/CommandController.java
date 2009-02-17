@@ -67,12 +67,14 @@ public class CommandController {
 		ConfigurationException {
 
 		queue = new CommandQueue();
+		queue.debugDelete();
 		//queue.debug("frm");
 		//queue.debug("frm");
 		//queue.debug("cat");
 		//queue.debug("crs");
 		//queue.debug("fold");
 		//queue.debug("grp");
+		//queue.debug("lm");
 		queue.debugAll();
 		queue.loadFromDb();
 		

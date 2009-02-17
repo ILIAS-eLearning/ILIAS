@@ -351,5 +351,11 @@ public class CommandQueue {
 
 		resetType.executeUpdate();
 	}
+	
+	public void debugDelete() throws SQLException {
+		
+		Statement delete = db.createStatement();
+		delete.execute("DELETE FROM search_command_queue");
+	}
 
 }
