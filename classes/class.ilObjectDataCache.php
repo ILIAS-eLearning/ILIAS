@@ -212,8 +212,8 @@ class ilObjectDataCache
 			{
 				//$ilBench->start("Tree", "fetchNodeData_getTranslation");
 				$q = "SELECT title,description FROM object_translation ".
-					 "WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
-					 "AND lang_code = ".$ilDB->quote($a_lang)." ".
+					 "WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+					 "AND lang_code = ".$ilDB->quote($a_lang,'text')." ".
 					 "AND NOT lang_default = 1";
 				$r = $ilDB->query($q);
 
@@ -272,8 +272,8 @@ class ilObjectDataCache
 			{
 				//$ilBench->start("Tree", "fetchNodeData_getTranslation");
 				$q = "SELECT title,description FROM object_translation ".
-					 "WHERE obj_id = ".$ilDB->quote($row->obj_id)." ".
-					 "AND lang_code = ".$ilDB->quote($a_lang)." ".
+					 "WHERE obj_id = ".$ilDB->quote($row->obj_id,'integer')." ".
+					 "AND lang_code = ".$ilDB->quote($a_lang,'text')." ".
 					 "AND NOT lang_default = 1";
 				$r = $ilDB->query($q);
 
