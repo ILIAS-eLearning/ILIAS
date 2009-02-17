@@ -76,8 +76,8 @@ class ilLDAPRoleGroupMappingSettings
 		global $ilDB;
 		
 		$query = "DELETE FROM ldap_role_group_mapping ".
-			"WHERE role = ".$ilDB->quote($a_role_id);
-		$ilDB->query($query);
+			"WHERE role = ".$ilDB->quote($a_role_id,'integer');
+		$res = $ilDB->manipulate($query);
 		
 		return true;	
 	}
@@ -87,9 +87,9 @@ class ilLDAPRoleGroupMappingSettings
 		global $ilDB;
 		
 		$query = "DELETE FROM ldap_role_group_mapping ".
-			"WHERE server_id = ".$ilDB->quote($a_server_id);
-			
-		$ilDB->query($query);
+			"WHERE server_id = ".$ilDB->quote($a_server_id,'integer');
+		$res = $ilDB->manipulate($query);
+
 		return true;
 	}
 	
@@ -205,37 +205,41 @@ class ilLDAPRoleGroupMappingSettings
 	 */
 	public function save()
 	{
+		global $ilDB;
+
 	 	foreach($this->mappings as $mapping_id => $data)
 	 	{
 	 		if(!$mapping_id)
 	 		{
-			 	$query = "INSERT INTO ldap_role_group_mapping ".
-		 			"SET server_id = ".$this->db->quote($this->getServerId()).", ".
-		 			"url = ".$this->db->quote($data['url']).", ".
-	 				"dn = ".$this->db->quote($data['dn']).", ".
-	 				"member_attribute = ".$this->db->quote($data['member_attribute']).", ".
-	 				"member_isdn = ".$this->db->quote($data['member_isdn']).", ".
-	 				"role = ".$this->db->quote($data['role']).", ".
-	 				"mapping_info = ".$this->db->quote($data['info']).", ".
-	 				"mapping_info_type = ".$this->db->quote($data['info_type']);
-	 				
-	 		
-	 			$this->db->query($query);
+			 	$next_id = $ilDB->nextId('ldap_role_group_mapping');
+			 	$query = "INSERT INTO ldap_role_group_mapping (mapping_id,server_id,url,dn,member_attribute,member_isdn,role,mapping_info,mapping_info_type) ".
+			 		"VALUES ( ".
+			 		$ilDB->quote($next_id,'integer').", ".
+		 			$this->db->quote($this->getServerId(),'integer').", ".
+		 			$this->db->quote($data['url'],'text').", ".
+	 				$this->db->quote($data['dn'],'text').", ".
+	 				$this->db->quote($data['member_attribute'],'text').", ".
+	 				$this->db->quote($data['member_isdn'],'integer').", ".
+	 				$this->db->quote($data['role'],'integer').", ".
+	 				$this->db->quote($data['info'],'text').", ".
+	 				$this->db->quote($data['info_type'],'integer').
+	 				")";
+				$res = $ilDB->manipulate($query);	 				
 	 		}
 	 		else
 	 		{
 			 	$query = "UPDATE ldap_role_group_mapping ".
-		 			"SET server_id = ".$this->db->quote($this->getServerId()).", ".
-		 			"url = ".$this->db->quote($data['url']).", ".
-	 				"dn =".$this->db->quote($data['dn']).", ".
-	 				"member_attribute = ".$this->db->quote($data['member_attribute']).", ".
-	 				"member_isdn = ".$this->db->quote($data['member_isdn']).", ".
-	 				"role = ".$this->db->quote($data['role']).", ".
-	 				"mapping_info = ".$this->db->quote($data['info']).", ".
-	 				"mapping_info_type = ".$this->db->quote($data['info_type'])." ".
-	 				"WHERE mapping_id = ".$this->db->quote($mapping_id);
+		 			"SET server_id = ".$this->db->quote($this->getServerId(),'integer').", ".
+		 			"url = ".$this->db->quote($data['url'],'text').", ".
+	 				"dn =".$this->db->quote($data['dn'],'text').", ".
+	 				"member_attribute = ".$this->db->quote($data['member_attribute'],'text').", ".
+	 				"member_isdn = ".$this->db->quote($data['member_isdn'],'integer').", ".
+	 				"role = ".$this->db->quote($data['role'],'integer').", ".
+	 				"mapping_info = ".$this->db->quote($data['info'],'text').", ".
+	 				"mapping_info_type = ".$this->db->quote($data['info_type'],'integer')." ".
+	 				"WHERE mapping_id = ".$this->db->quote($mapping_id,'integer');
+	 			$res = $ilDB->manipulate($query);
 
-	 			$this->db->query($query);
 	 		}
 	 	}
 	 	$this->read();
@@ -251,11 +255,12 @@ class ilLDAPRoleGroupMappingSettings
 	 */
 	public function delete($a_mapping_id)
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM ldap_role_group_mapping ".
-	 		"WHERE server_id = ".$this->db->quote($this->getServerId())." ".
-	 		"AND mapping_id = ".$this->db->quote($a_mapping_id);
-	 	$this->db->query($query);
-			
+	 		"WHERE server_id = ".$this->db->quote($this->getServerId(),'integer')." ".
+	 		"AND mapping_id = ".$this->db->quote($a_mapping_id ,'integer');
+		$res = $ilDB->manipulate($query);
 		$this->read();
 	}
 	
@@ -288,7 +293,7 @@ class ilLDAPRoleGroupMappingSettings
 		$this->mappings = array();
 	 	$query = "SELECT * FROM ldap_role_group_mapping LEFT JOIN object_data ".
 	 		"ON role = obj_id ".
-	 		"WHERE server_id =".$this->db->quote($this->getServerId()).' '.
+	 		"WHERE server_id =".$this->db->quote($this->getServerId(),'integer').' '.
 	 		"ORDER BY title,dn";
 			
 		$res = $this->db->query($query);

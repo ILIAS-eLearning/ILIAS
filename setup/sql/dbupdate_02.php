@@ -7800,5 +7800,9 @@ ALTER TABLE content_object MODIFY prevent_glossary_appendix_active CHAR(1) DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('ldap_role_assignments');
 ?>
+<#1631>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ldap_role_group_mapping');
+?>
 
 
