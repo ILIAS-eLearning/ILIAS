@@ -22,39 +22,56 @@
 
 package de.ilias.services.lucene.transform;
 
-import java.util.HashMap;
-
-import javax.xml.transform.Transformer;
+import java.io.IOException;
+import java.io.StringReader;
 
 import org.apache.log4j.Logger;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
- * A caching transformer factory
+ * 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class TransformerFactory {
+public class ContentObjectTransformer implements ContentTransformer {
 
-	protected static Logger logger = Logger.getLogger(Transformer.class);
+	protected Logger logger = Logger.getLogger(ContentObjectTransformer.class);
 	
-	private static HashMap<String, ContentTransformer> map = new HashMap<String, ContentTransformer>();
 	
-	public static ContentTransformer factory(String name) {
+
+	/**
+	 * Extract text from page_objects
+	 * @see de.ilias.services.lucene.transform.ContentTransformer#transform(java.lang.String)
+	 */
+	public String transform(String content) {
+
+		XMLReader reader = null;
+		PageObjectHandler handler = null;
+		StringReader stringReader = new StringReader(content);
 		
-		if(map.containsKey(name))
-			return map.get(name);
+		try {
+			reader = XMLReaderFactory.createXMLReader();
+			handler = new PageObjectHandler();
+			
+			reader.setContentHandler(handler);
+			reader.parse(new InputSource(stringReader));
+			
+			return handler.getContent();
+			
+		} 
+		catch (SAXException e) {
+			logger.warn("Cannot parse page_object content." + e);
+		} 
+		catch (IOException e) {
+			logger.warn("Found invalid content." + e);
+		}
 		
-		if(name.equalsIgnoreCase("QuotingSanitizer")) {
-			map.put(name,new QuotingSanitizer());
-			return map.get(name);
-		}
-		if(name.equalsIgnoreCase("ContentObjectTransformer")) {
-			map.put(name, new ContentObjectTransformer());
-			return map.get(name);
-		}
-		logger.error("Cannot find transformer with name: " + name);
-		return null;
+		return "";
 	}
-	
+
+
 }

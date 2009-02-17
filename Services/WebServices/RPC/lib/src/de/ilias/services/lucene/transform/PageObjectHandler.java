@@ -22,39 +22,105 @@
 
 package de.ilias.services.lucene.transform;
 
-import java.util.HashMap;
-
-import javax.xml.transform.Transformer;
+import java.util.Stack;
 
 import org.apache.log4j.Logger;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * A caching transformer factory
+ * 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class TransformerFactory {
+public class PageObjectHandler extends DefaultHandler {
 
-	protected static Logger logger = Logger.getLogger(Transformer.class);
+	protected Logger logger = Logger.getLogger(PageObjectHandler.class);
 	
-	private static HashMap<String, ContentTransformer> map = new HashMap<String, ContentTransformer>();
+	private StringBuffer buffer = new StringBuffer();
+	private boolean isContent = false;
 	
-	public static ContentTransformer factory(String name) {
+	public void endDocument() {
 		
-		if(map.containsKey(name))
-			return map.get(name);
-		
-		if(name.equalsIgnoreCase("QuotingSanitizer")) {
-			map.put(name,new QuotingSanitizer());
-			return map.get(name);
-		}
-		if(name.equalsIgnoreCase("ContentObjectTransformer")) {
-			map.put(name, new ContentObjectTransformer());
-			return map.get(name);
-		}
-		logger.error("Cannot find transformer with name: " + name);
-		return null;
 	}
-	
+    
+	/**
+	 * 
+	 */
+    public void startElement (String uri, String localName, String qName, Attributes attributes)
+	throws SAXException
+	{
+    	if(localName.equalsIgnoreCase("Paragraph")) {
+    		isContent = true;
+    	}
+    	/*
+    	if(localName.equalsIgnoreCase("Strong")) {
+    	}
+    	if(localName.equalsIgnoreCase("Comment")) {
+    		
+    	}
+    	if(localName.equalsIgnoreCase("Emph")) {
+    		
+    	}
+    	if(localName.equalsIgnoreCase("Footnote")) {
+    		
+    	}
+    	if(localName.equalsIgnoreCase("Quotation")) {
+    		
+    	}
+    	if(localName.equalsIgnoreCase("Code")) {
+    		
+    	}
+    	*/
+	}
+
+	/**
+	 * 
+	 */
+	public void endElement (String uri, String localName, String qName)
+	throws SAXException
+    {
+		if(localName.equalsIgnoreCase("Paragraph")) {
+			isContent = false;
+		}
+    }
+
+	/**
+	 * 
+	 */
+    public void characters (char ch[], int start, int length)
+	throws SAXException
+    {
+    	if(!isContent) {
+    		return;
+    	}
+    	
+    	for(int i = start; i < start + length; i++) {
+    		
+    		switch(ch[i]) {
+    		
+    		case '\\':
+    		case '"':
+    		case '\r':
+    		case '\n':
+    		case '\t':
+    			break;
+    		default:
+    			buffer.append(ch[i]);
+    		}
+    	}
+    	buffer.append(' ');
+    }
+
+	/**
+	 * @return
+	 */
+	public String getContent() {
+
+		logger.debug("Parsed content:" + buffer.toString());
+		return buffer.toString();
+	}
+
 }
