@@ -379,17 +379,18 @@ class ilCalendarCategories
 	protected function readReposCalendars()
 	{
 		global $ilAccess,$tree;
+		global $ilDB;
 		
 		$this->readPublicCalendars();
 		$this->readPrivateCalendars();
-		$query = "SELECT ref_id,obd.obj_id AS obj_id FROM tree AS t1 ".
-			"JOIN object_reference AS obr ON t1.child = obr.ref_id ".
-			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
-			"WHERE t1.lft >= (SELECT lft FROM tree WHERE child = ".$this->db->quote($this->root_ref_id)." ) ".
-			"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id)." ) ".
-			"AND type IN('crs','grp','sess') ".
+		$query = "SELECT ref_id,obd.obj_id obj_id FROM tree t1 ".
+			"JOIN object_reference obr ON t1.child = obr.ref_id ".
+			"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
+			"WHERE t1.lft >= (SELECT lft FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
+			"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
+			"AND ".$ilDB->in('type',array('crs','grp','sess'),false,'text')." ".
 			"AND tree = 1";
-		$res = $this->db->query($query);
+		$res = $ilDB->query($query);
 		$obj_ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -571,7 +572,7 @@ class ilCalendarCategories
 			"JOIN cal_categories cc ON od2.obj_id = cc.obj_id ".
 			"WHERE od2.type = 'sess' ".
 			"AND od1.type = 'crs' ".
-			"AND od1.obj_id IN (".implode(',',ilUtil::quoteArray($course_ids)).') '.
+			"AND ".$ilDB->in('od1.obj_id',$course_ids,false,'integer').' '.
 			"AND or2.deleted = '0000-00-00 00:00:00'";
 
 		$res = $ilDB->query($query);

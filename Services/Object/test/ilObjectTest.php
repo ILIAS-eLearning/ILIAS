@@ -267,5 +267,22 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("tree1-tree2-tree3-tree4-tree5-tree6-tree7-", $value);
 
 	}
+	
+	/**
+	 * test object reference queries 
+	 */
+	public function testObjectReference()
+	{
+		include_once './classes/class.ilObject.php';
+		
+		$ref_ids = ilObject::_getAllReferences(1);
+		$bool = ilObject::_setDeletedDate(1);
+		$bool = ilObject::_resetDeletedDate(1);
+		$date = ilObject::_lookupDeletedDate(1);
+		
+		$this->assertEquals($date,'0000-00-00 00:00:00');
+		
+		
+	}
 }
 ?>

@@ -193,13 +193,17 @@ class ilLuceneSearchResultPresentation
 	 */
 	protected function lookupTitle($a_obj_id,$a_sub_id)
 	{
-		$prefix = '<strong>'.sprintf("%.02f%%",$this->searcher->getResult()->getRelevance($a_obj_id)).' </strong>';
-
+		if(is_object($this->searcher->getResult()))
+		{
+			#$score = '  <strong>'.sprintf("%.02f%%",$this->searcher->getResult()->getRelevance($a_obj_id)).'</strong>';
+			$prefix = '<strong>'.sprintf("%.02f%%",$this->searcher->getResult()->getRelevance($a_obj_id)).' </strong>';
+		}
+		
 		if(strlen($title = $this->searcher->getHighlighter()->getTitle($a_obj_id,$a_sub_id)))
 		{
-			return $prefix.$title;
+			return $prefix.$title.$score;
 		}
-		return $prefix.ilObject::_lookupTitle($a_obj_id);
+		return $prefix.ilObject::_lookupTitle($a_obj_id).$score;
 	}
 	
 	/**

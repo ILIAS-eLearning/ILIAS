@@ -954,7 +954,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		//
 		// access to db table object_reference is not allowed here!
         $r = $ilias->db->query("SELECT * FROM object_reference WHERE ref_id=".
-			$ilDB->quote($_GET["ref_id"]));
+			$ilDB->quote($_GET["ref_id"],'integer'));
         $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
         include_once("./classes/class.ilNestedSetXML.php");

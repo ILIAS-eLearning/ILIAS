@@ -165,7 +165,7 @@ class ilObjectDataCache
 	{
 		global $ilDB;
 		
-		$query = "SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($a_ref_id);
+		$query = "SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -295,9 +295,10 @@ class ilObjectDataCache
 		if (!is_array($a_ref_ids)) return;
 		if (count($a_ref_ids) == 0) return;
 		
-		$query = "SELECT ref_id, obj_id FROM object_reference WHERE ref_id IN (".
-			implode(",",ilUtil::quoteArray($a_ref_ids)).")";
-		$res = $this->db->query($query);
+		$query = "SELECT ref_id, obj_id FROM object_reference ".
+			"WHERE ".$ilDB->in('ref_id',$a_ref_ids,false,'integer');
+		$res = $ilDB->query($query);
+		
 		$obj_ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{

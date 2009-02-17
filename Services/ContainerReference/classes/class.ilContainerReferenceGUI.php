@@ -292,12 +292,12 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	{
 		global $ilDB,$lng;
 		
-		$query = "SELECT obj_data.title as obj_title,path_data.title as path_title,child FROM tree ".
-			"JOIN object_reference as obj_ref ON child = obj_ref.ref_id ".
-			"JOIN object_data as obj_data ON obj_ref.obj_id = obj_data.obj_id ".
-			"JOIN object_reference as path_ref ON parent = path_ref.ref_id ".
-			"JOIN object_data as path_data ON path_ref.obj_id = path_data.obj_id ".
-			"WHERE child IN (".implode(',',ilUtil::quoteArray($a_ref_ids)).") ".
+		$query = "SELECT obj_data.title obj_title,path_data.title path_title,child FROM tree ".
+			"JOIN object_reference obj_ref ON child = obj_ref.ref_id ".
+			"JOIN object_data obj_data ON obj_ref.obj_id = obj_data.obj_id ".
+			"JOIN object_reference path_ref ON parent = path_ref.ref_id ".
+			"JOIN object_data path_data ON path_ref.obj_id = path_data.obj_id ".
+			"WHERE ".$ilDB->in('child',$a_ref_ids,false,'integer').' '.
 			"ORDER BY obj_data.title ";
 		$res = $ilDB->query($query);
 		

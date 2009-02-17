@@ -298,6 +298,7 @@ class ilUserSearchCache
 	 */
 	public function delete()
 	{
+	 	
 	 	$query = "DELETE FROM usr_search ".
 	 		"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
 	 		"AND search_type = ".$this->db->quote($this->search_type);
@@ -319,7 +320,7 @@ class ilUserSearchCache
 		{
 			return false;
 		}
-
+		
 	 	$query = "DELETE FROM usr_search ".
 	 		"WHERE usr_id = ".$this->db->quote($this->usr_id)." ".
 	 		"AND search_type = ".$this->db->quote($this->search_type);
