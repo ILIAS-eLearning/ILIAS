@@ -256,7 +256,7 @@ class ilObject
 		if($objDefinition->isRBACObject($this->getType()))
 		{
 			// Read long description
-			$query = "SELECT * FROM object_description WHERE obj_id = ".$ilDB->quote($this->id);
+			$query = "SELECT * FROM object_description WHERE obj_id = ".$ilDB->quote($this->id,'integer');
 			$res = $this->ilias->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -641,11 +641,11 @@ class ilObject
 		// Save long form of description if is rbac object
 		if($objDefinition->isRBACObject($this->getType()))
 		{
-			$query = "INSERT INTO object_description SET ".
-				"obj_id = ".$ilDB->quote($this->id).",".
-				"description = ".$ilDB->quote($this->getLongDescription());
+			$query = "INSERT INTO object_description (obj_id,description) VALUES ( ".
+				" ".$ilDB->quote($this->id,'integer').",".
+				" ".$ilDB->quote($this->getLongDescription(),'text').' ';
 			
-			$ilDB->query($query);
+			$res = $ilDB->manipulate($query);
 		}
 		
 
@@ -701,19 +701,21 @@ class ilObject
 		{
 			// Update long description
 			$res = $this->ilias->db->query("SELECT * FROM object_description WHERE obj_id = ".
-				$ilDB->quote($this->getId()));
+				$ilDB->quote($this->getId(),'integer'));
 			if($res->numRows())
 			{
 				$query = "UPDATE object_description SET description = ".
-					$ilDB->quote($this->getLongDescription())." ".
-					"WHERE obj_id = ".$ilDB->quote($this->getId());
+					$ilDB->quote($this->getLongDescription(),'text')." ".
+					"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
+				$res = $ilDB->query($query);
 			}
 			else
 			{
-				$query = "INSERT INTO object_description SET obj_id = ".$ilDB->quote($this->getId()).", ".
-					"description = ".$ilDB->quote($this->getLongDescription());
+				$query = "INSERT INTO object_description (obj_id,description) ".
+					"VALUES(".$ilDB->quote($this->getId(),'integer').",".
+					$ilDB->quote($this->getLongDescription(),'text').')';
+				$res = $ilDB->manipulate($query);
 			}
-			$this->ilias->db->query($query);
 		}		
 
 		return true;
@@ -1096,20 +1098,22 @@ class ilObject
 		{
 			// Update long description
 			$res = $ilDB->query("SELECT * FROM object_description WHERE obj_id = ".
-				$ilDB->quote($a_obj_id));
+				$ilDB->quote($a_obj_id).'integer');
 			if($res->numRows())
 			{
 				$query = "UPDATE object_description SET description = ".
-					$ilDB->quote($a_desc)." ".
-					"WHERE obj_id = ".$ilDB->quote($this->getId());
+					$ilDB->quote($a_desc,'text')." ".
+					"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
+				$res = $ilDB->query($query);
 			}
 			else
 			{
-				$query = "INSERT INTO object_description SET obj_id = ".
-					$ilDB->quote($this->getId()).", ".
-					"description = ".$ilDB->quote($a_desc);
+				$query = "INSERT INTO object_description (obj_id,description) ".
+					"VALUES(".$ilDB->quote($this->getId(),'integer').",".
+					$ilDB->quote($this->getLongDescription(),'text').')';
+				$res = $ilDB->manipulate($query);
+
 			}
-			$ilDB->query($query);
 		}
 	}
 
