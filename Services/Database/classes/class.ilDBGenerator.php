@@ -48,6 +48,8 @@ class ilDBGenerator
 		$this->il_db = $ilDB;
 		include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 		$this->analyzer = new ilDBAnalyzer();
+		
+		$this->allowed_attributes = $ilDB->getAllowedAttributes();
 	}
 	
 	/**
@@ -144,6 +146,10 @@ class ilDBGenerator
 		if ($a_filename != "")
 		{
 			$file = fopen($a_filename, "w");
+			
+			$start = '<?php'."\n".'function setupILIASDatabase()'."\n{\n";
+			$start.= "\t".'global $ilDB;'."\n\n";
+			fwrite($file, $start);
 		}
 		else
 		{
@@ -178,7 +184,9 @@ class ilDBGenerator
 		}
 		else
 		{
-			fclose($file);
+			$end = "\n}\n?>\n";
+			fwrite ($file, $end);
+			fclose ($file);
 		}
 	}
 	
@@ -190,9 +198,8 @@ class ilDBGenerator
 	*/
 	function buildCreateTableStatement($a_table, $a_file = "")
 	{
-		$fields = $this->analyzer->getFieldInformation($a_table);
+		$fields = $this->analyzer->getFieldInformation($a_table, true);
 		$this->fields = $fields;
-		
 		$create_st = "\n\n//\n// ".$a_table."\n//\n";
 		$create_st.= '$fields = array ('."\n";
 		$f_sep = "";
@@ -204,7 +211,7 @@ class ilDBGenerator
 			$a_sep = "";
 			foreach ($def as $k => $v)
 			{
-				if ($k != "nativetype" && $k != "autoincrement" && !is_null($v))
+				if ($k != "nativetype" && $k != "alt_types" && $k != "autoincrement" && !is_null($v))
 				{
 					switch ($k)
 					{
@@ -342,8 +349,7 @@ class ilDBGenerator
 	*/
 	function buildInsertStatements($a_table, $a_file = "")
 	{
-		$st = $this->il_db->prepare("SELECT * FROM `".$a_table."`");
-		$set = $this->il_db->execute($st, array());
+		$set = $this->il_db->query("SELECT * FROM `".$a_table."`");
 		$ins_st = "";
 		$first = true;
 		while ($rec = $this->il_db->fetchAssoc($set))
@@ -368,7 +374,7 @@ class ilDBGenerator
 			$values = array();
 			foreach ($rec as $f => $v)
 			{
-				$values[] = "'".$v."'";
+				$values[] = "'".str_replace("'", "\'", $v)."'";
 			}
 			$values_str = "array(".implode($values, ",").")";
 			$ins_st.= '$ilDB->execute($st,'.$values_str.');'."\n";

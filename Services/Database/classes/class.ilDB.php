@@ -345,7 +345,7 @@ class ilDB extends PEAR
 
 		return $this->handleError($r, "dropTableColumn(".$a_table.", ".$a_column.")");
 	}
-
+	
 	/**
 	* Modify a table column
 	* Use this only on aleady "abstracted" tables.
@@ -736,6 +736,11 @@ class ilDB extends PEAR
 		return true;
 	}
 
+	function getAllowedAttributes()
+	{
+		return $this->allowed_attributes;
+	}
+	
 	//
 	// Data query and manupilation functions
 	//

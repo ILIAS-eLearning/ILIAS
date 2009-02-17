@@ -42,7 +42,8 @@ class ilDBAnalyzer
 		
 		$this->manager = $ilDB->db->loadModule('Manager');
 		$this->reverse = $ilDB->db->loadModule('Reverse');
-		$this->il_db = $ilDB;		
+		$this->il_db = $ilDB;
+		$this->allowed_attributes = $ilDB->getAllowedAttributes();		
 	}
 	
 	
@@ -52,7 +53,7 @@ class ilDBAnalyzer
 	* @param	string		table name
 	* @return	array		field information array
 	*/
-	function getFieldInformation($a_table)
+	function getFieldInformation($a_table, $a_remove_not_allowed_attributes = false)
 	{
 //echo "<br>-".$a_table."-".$field."-";
 		$fields = $this->manager->listTableFields($a_table);
@@ -93,7 +94,18 @@ class ilDBAnalyzer
 				"alt_types" => $alt_types,
 				);
 				
+			if ($a_remove_not_allowed_attributes)
+			{
+				foreach ($inf[$field] as $k => $v)
+				{
+					if ($k != "type" && !in_array($k, $this->allowed_attributes[$inf[$field]["type"]]))
+					{
+						unset($inf[$field][$k]);
+					}
+				}
+			}
 		}
+
 		return $inf;
 	}
 	
