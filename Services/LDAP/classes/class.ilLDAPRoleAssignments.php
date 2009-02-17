@@ -95,9 +95,10 @@ class ilLDAPRoleAssignments
 	{
 		global $ilDB;
 		
-		$query = "SELECT DISTINCT(att_name) as att FROM ldap_role_assignments ".
-			"WHERE type = ".ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE." ".
-			"AND server_id = ".$ilDB->quote($a_server_id)." ";
+		$query = "SELECT DISTINCT(att_name) att FROM ldap_role_assignments ".
+			"WHERE type = ".$ilDB->quote(ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE,'integer')." ".
+			"AND server_id = ".$ilDB->quote($a_server_id,'integer')." ";
+			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -240,9 +241,11 @@ class ilLDAPRoleAssignments
 	 */
 	private function fetchAttributeMappings()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM ldap_role_assignments ".
-	 		"WHERE server_id = ".$this->db->quote($this->server_id)." ".
-	 		"AND type = ".ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE." ";
+	 		"WHERE server_id = ".$this->db->quote($this->server_id,'integer')." ".
+	 		"AND type = ".$ilDB->quote(ilLDAPRoleAssignmentRule::TYPE_ATTRIBUTE,'integer')." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
@@ -259,9 +262,12 @@ class ilLDAPRoleAssignments
 	 */
 	private function fetchGroupMappings()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM ldap_role_assignments ".
-	 		"WHERE server_id = ".$this->db->quote($this->server_id)." ".
-	 		"AND type = ".ilLDAPRoleAssignmentRule::TYPE_GROUP." ";
+	 		"WHERE server_id = ".$this->db->quote($this->server_id,'integer')." ".
+	 		"AND type = ".$ilDB->quote(ilLDAPRoleAssignmentRule::TYPE_GROUP,'integer')." ";
+	 		
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
