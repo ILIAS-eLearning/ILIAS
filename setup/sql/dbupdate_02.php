@@ -7607,6 +7607,7 @@ if ($res->numRows() == 1)
 // Convert read_event last_access to unixtime for faster updates of user entries
 $query = "SELECT *,UNIX_TIMESTAMP(last_access) ut FROM read_event ";
 $res = $ilDB->query($query);
+$events = array();
 while($row = $ilDB->fetchAssoc($res))
 {
 	$events[] = $row;
