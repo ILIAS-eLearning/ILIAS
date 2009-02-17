@@ -32,6 +32,8 @@
 */
 class ilLuceneSearchResultPresentation
 {
+	const MAX_CHILDS = 5;
+	
 	protected $tpl;
 	protected $lng;
 
@@ -239,8 +241,14 @@ class ilLuceneSearchResultPresentation
 		
 		$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
 
+		$counter = 0;
 		foreach($this->searcher->getHighlighter()->getSubItemIds($obj_id) as $sub_id)
 		{
+			if(++$counter > self::MAX_CHILDS)
+			{
+				break;
+			}
+			
 			switch($type)
 			{
 				case 'frm':

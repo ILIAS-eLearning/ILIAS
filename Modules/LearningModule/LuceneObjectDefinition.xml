@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="lm">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+	</Document>
+	<Document type="subItem">
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT content, lm_id, obj_id,parent_type FROM lm_data ld
+				JOIN page_object po ON ld.obj_id = po.page_id
+				WHERE parent_type = 'lm'
+				AND type = 'pg'
+				AND lm_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="content" name="content">
+				<Transformer name="ContentObjectTransformer" />
+			</Field>
+			<Field store="YES" index="NOT_ANALYZED" column="lm_id" name="objId" global="NO" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="parent_type" name="type" global="NO"/>
+		</DataSource>
+	</Document>
+</ObjectDefinition>
