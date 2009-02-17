@@ -3705,8 +3705,8 @@ class ilUtil
 
 		$and = "AND ((".$ilDB->in("rol_id", $a_roles, false, "integer")." ";
 
-		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM object_reference AS obr ".
-			"JOIN object_data AS obd ON obd.obj_id = obr.obj_id ".
+		$query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM object_reference obr ".
+			"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
 			"JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id ".
 			$where.
 			$and.

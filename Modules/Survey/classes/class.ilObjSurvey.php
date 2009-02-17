@@ -4671,8 +4671,9 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
+		// TODO: please use ilObject::_getAllReferences() stefan
 		$query = sprintf("SELECT ref_id FROM object_reference WHERE obj_id=%s",
-			$ilDB->quote($obj_id)
+			$ilDB->quote($obj_id,'integer')
 			
 		);
 		$result = $ilDB->query($query);

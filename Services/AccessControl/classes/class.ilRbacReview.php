@@ -333,7 +333,7 @@ class ilRbacReview
 		if (ilMail::_usePearMail())
 		{
 			// Retrieve the role title and the object title.
-			$query = "SELECT rdat.title role_title,odat.title AS object_title, ".
+			$query = "SELECT rdat.title role_title,odat.title object_title, ".
 				" oref.ref_id object_ref ".
 				"FROM object_data rdat ".
 				"JOIN rbac_fa fa ON fa.rol_id = rdat.obj_id ".
@@ -361,11 +361,11 @@ class ilRbacReview
 
 
 			// Determine if the object title is unique
-			$q = "SELECT COUNT(DISTINCT dat.obj_id) AS count ".
-				"FROM object_data AS dat ".
-				"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
+			$q = "SELECT COUNT(DISTINCT dat.obj_id) count ".
+				"FROM object_data dat ".
+				"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 				"JOIN tree ON tree.child = ref.ref_id ".
-				"WHERE title = ".$this->ilDB->quote($object_title)." ".
+				"WHERE title = ".$this->ilDB->quote($object_title,'text')." ".
 				"AND tree.tree = 1";
 			$r = $this->ilDB->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
@@ -417,11 +417,11 @@ class ilRbacReview
 			// domain.
 			if ($domain == null)
 			{
-				$q = "SELECT COUNT(DISTINCT dat.obj_id) AS count ".
-					"FROM object_data AS dat ".
-					"JOIN object_reference AS ref ON ref.obj_id = dat.obj_id ".
+				$q = "SELECT COUNT(DISTINCT dat.obj_id) count ".
+					"FROM object_data dat ".
+					"JOIN object_reference ref ON ref.obj_id = dat.obj_id ".
 					"JOIN tree ON tree.child = ref.ref_id ".
-					"WHERE title = ".$this->ilDB->quote($local_part)." ".
+					"WHERE title = ".$this->ilDB->quote($local_part,'text')." ".
 					"AND tree.tree = 1";
 			}
 			else
@@ -571,11 +571,11 @@ class ilRbacReview
 		
 		// role folder of objects in path
 		$query = "SELECT * FROM tree ".
-			"JOIN object_reference as obr ON child = ref_id ".
-			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
+			"JOIN object_reference obr ON child = ref_id ".
+			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 			"WHERE type = 'rolf' ".
-			"AND lft < ".$lft." ".
-			"AND rgt > ".$rgt;
+			"AND lft < ".$ilDB->quote($lft,'integer')." ".
+			"AND rgt > ".$ilDB->quote($rgt,'integer');
 	
 	
 		$res = $ilDB->query($query);

@@ -1641,7 +1641,7 @@ class ilObjGroup extends ilContainer
 		$where_condition = $a_search_obj->getWhereCondition("like",array("title","description"));
 		$in = $a_search_obj->getInStatement("ore.ref_id");
 
-		$query = "SELECT ore.ref_id AS ref_id FROM object_data AS od, object_reference AS ore ".
+		$query = "SELECT ore.ref_id ref_id FROM object_data od, object_reference ore ".
 			$where_condition." ".
 			$in." ".
 			"AND od.obj_id = ore.obj_id ".

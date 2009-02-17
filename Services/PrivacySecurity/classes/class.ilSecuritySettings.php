@@ -401,7 +401,7 @@ class ilSecuritySettings
 		global $ilDB;
 
 	    $query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data ".
-				"WHERE tree.parent = ".$ilDB->quote(SYSTEM_FOLDER_ID)." ".
+				"WHERE tree.parent = ".$ilDB->quote(SYSTEM_FOLDER_ID,'integer')." ".
 				"AND object_data.type = 'ps' ".
 				"AND object_reference.ref_id = tree.child ".
 				"AND object_reference.obj_id = object_data.obj_id";

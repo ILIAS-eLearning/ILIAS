@@ -200,11 +200,11 @@ class ilCourseObjectiveMaterials
 	{
 		global $ilDB;
 		
-		$query = "SELECT DISTINCT(com.ref_id) as ref_id FROM crs_objectives as co ".
-			"JOIN crs_objective_lm as com ON co.objective_id = com.objective_id ".
-			"JOIN object_reference as obr ON com.ref_id = obr.ref_id ".
-			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
-			"WHERE co.crs_id = ".$ilDB->quote($a_container_id)." ".
+		$query = "SELECT DISTINCT(com.ref_id) ref_id FROM crs_objectives co ".
+			"JOIN crs_objective_lm com ON co.objective_id = com.objective_id ".
+			"JOIN object_reference obr ON com.ref_id = obr.ref_id ".
+			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
+			"WHERE co.crs_id = ".$ilDB->quote($a_container_id,'integer')." ".
 			"ORDER BY obd.title ";
 			
 		$res = $ilDB->query($query);
@@ -383,11 +383,11 @@ class ilCourseObjectiveMaterials
 		$container_ref_id  = current($container_ref_ids);
 
 		$this->lms = array();
-		$query = "SELECT lm_ass_id,lm.ref_id,lm.obj_id,lm.type FROM crs_objective_lm as lm ".
-			"JOIN object_reference as obr ON lm.ref_id = obr.ref_id ".
-			"JOIN object_data as obd ON obr.obj_id = obd.obj_id ".
-			"LEFT JOIN lm_data as lmd ON lmd.obj_id = lm.obj_id ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId())." ".
+		$query = "SELECT lm_ass_id,lm.ref_id,lm.obj_id,lm.type FROM crs_objective_lm lm ".
+			"JOIN object_reference obr ON lm.ref_id = obr.ref_id ".
+			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
+			"LEFT JOIN lm_data lmd ON lmd.obj_id = lm.obj_id ".
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId(),'integer')." ".
 			"ORDER BY obd.title,lmd.title";
 			
 		$res = $this->db->query($query);

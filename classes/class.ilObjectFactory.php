@@ -70,11 +70,11 @@ class ilObjectFactory
 
 		$query = "SELECT * FROM object_data,object_reference ".
 			"WHERE object_reference.obj_id = object_data.obj_id ".
-			" AND object_data.type=".$ilDB->quote($object_type).
+			" AND object_data.type=".$ilDB->quote($object_type,'text').
 			" AND object_reference.deleted = '0000-00-00 00:00:00'".
-			" AND object_data.owner = ".$ilDB->quote($owner_id);
-				
-		$res = $ilias->db->query($query);
+			" AND object_data.owner = ".$ilDB->quote($owner_id,'integer');
+		$res = $ilDB->query($query);
+
 		$obj_ids = array();
 		while($object_rec = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
 			$obj_ids [] = $object_rec["obj_id"];
@@ -180,15 +180,10 @@ class ilObjectFactory
 
 		// read object data
 		
-		// Much too slow
-		#$q = "SELECT * FROM object_data ".
-		#	 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
-		#	 "WHERE object_reference.ref_id='".$a_ref_id."'";
-		$q = "SELECT * FROM object_data,object_reference ".
+		$query = "SELECT * FROM object_data,object_reference ".
 			"WHERE object_reference.obj_id = object_data.obj_id ".
-			"AND object_reference.ref_id = ".$ilDB->quote($a_ref_id);
-
-		$object_set = $ilias->db->query($q);
+			"AND object_reference.ref_id = ".$ilDB->quote($a_ref_id,'integer');
+		$object_set = $ilDB->query($query);
 
 		// check number of records
 		if ($object_set->numRows() == 0)
@@ -259,7 +254,7 @@ class ilObjectFactory
 		// read object data
 		$q = "SELECT * FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
-			 "WHERE object_reference.ref_id=".$ilDB->quote($a_ref_id);
+			 "WHERE object_reference.ref_id=".$ilDB->quote($a_ref_id,'integer');
 		$object_set = $ilias->db->query($q);
 
 		if ($object_set->numRows() == 0)

@@ -7779,4 +7779,9 @@ ALTER TABLE content_object MODIFY prevent_glossary_appendix_active CHAR(1) DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('dbk_translations');
 ?>
+<#1626>
+<?php
+	$ilMySQLAbstraction->performAbstraction('object_reference');
+?>
+
 

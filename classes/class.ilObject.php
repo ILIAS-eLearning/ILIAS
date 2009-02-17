@@ -188,10 +188,6 @@ class ilObject
 
 			// read object data
 			$ilBench->start("Core", "ilObject_read_readData");
-			/* old query (very slow)
-			$q = "SELECT * FROM object_data ".
-				 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
-				 "WHERE object_reference.ref_id='".$this->ref_id."'"; */
 
 			$q = "SELECT * FROM object_data, object_reference WHERE object_data.obj_id=object_reference.obj_id ".
 				 "AND object_reference.ref_id= ".$ilDB->quote($this->ref_id, "integer");
@@ -892,12 +888,12 @@ class ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM object_reference WHERE obj_id = ".
-			$ilDB->quote($a_id);
-		$obj_set = $ilDB->query($q);
+		$query = "SELECT * FROM object_reference WHERE obj_id = ".
+			$ilDB->quote($a_id,'integer');
+			
+		$res = $ilDB->query($query);
 		$ref = array();
-
-		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($obj_rec = $ilDB->fetchAssoc($res))
 		{
 			$ref[$obj_rec["ref_id"]] = $obj_rec["ref_id"];
 		}
@@ -1021,9 +1017,9 @@ class ilObject
 	{
 		global $ilDB;
 		
-		$q = "UPDATE object_reference SET deleted=now() ".
-			"WHERE ref_id = ".$ilDB->quote($a_ref_id);
-		$ilDB->query($q);
+		$query = "UPDATE object_reference SET deleted= ".$ilDB->now().' '.
+			"WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
+		$res = $ilDB->manipulate($query);
 	}
 
 	/**
@@ -1033,9 +1029,9 @@ class ilObject
 	{
 		global $ilDB;
 		
-		$q = "UPDATE object_reference SET deleted= ".$ilDB->quote("0000-00-00 00:00:00").
-			" WHERE ref_id = ".$ilDB->quote($a_ref_id);
-		$ilDB->query($q);
+		$query = "UPDATE object_reference SET deleted= ".$ilDB->quote("0000-00-00 00:00:00",'timestamp').
+			" WHERE ref_id = ".$ilDB->quote($a_ref_id,'integer');
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -1045,9 +1041,9 @@ class ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT deleted FROM object_reference".
+		$query = "SELECT deleted FROM object_reference".
 			" WHERE ref_id = ".$ilDB->quote($a_ref_id, "integer");
-		$set = $ilDB->query($q);
+		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 
 		return $rec["deleted"];
@@ -1159,10 +1155,6 @@ class ilObject
 			$q = "SELECT type FROM object_reference as obr, object_data as obd ".
 				"WHERE obr.ref_id = ".$ilDB->quote($a_id, "integer")." ".
 				"AND obr.obj_id = obd.obj_id ";
-			
-			#$q = "SELECT type FROM object_data as obj ".
-			#	 "LEFT JOIN object_reference as ref ON ref.obj_id=obj.obj_id ".
-			#	 "WHERE ref.ref_id = '".$a_id."'";
 		}
 		else
 		{
@@ -1298,9 +1290,9 @@ class ilObject
 			$this->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		$q = "INSERT INTO object_reference ".
-			 "(obj_id) VALUES (".$ilDB->quote($this->id).")";
-		$this->ilias->db->query($q);
+		$query = "INSERT INTO object_reference ".
+			 "(ref_id, obj_id) VALUES (".$ilDB->nextId('object_reference').','.$ilDB->quote($this->id).")";
+		$this->ilias->db->query($query);
 
 		$this->ref_id = $ilDB->getLastInsertId();
 		$this->referenced = true;
@@ -1317,15 +1309,18 @@ class ilObject
 	*/
 	function countReferences()
 	{
+		global $ilDB;
+		
 		if (!isset($this->id))
 		{
 			$message = "ilObject::countReferences(): No obj_id given!";
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		$q = "SELECT COUNT(ref_id) AS num FROM object_reference ".
-		 	"WHERE obj_id = '".$this->id."'";
-		$row = $this->ilias->db->getRow($q);
+		$query = "SELECT COUNT(ref_id) num FROM object_reference ".
+		 	"WHERE obj_id = ".$ilDB->quote($this->id,'integer');
+		$res = $ilDB->query($query);
+		$row = $ilDB->fetchObject($res);
 
 		return $row->num;
 	}
@@ -1393,10 +1388,10 @@ class ilObject
 		if ($this->referenced)
 		{
 			// delete entry in object_reference
-			$q = "DELETE FROM object_reference ".
-				"WHERE ref_id = ".$ilDB->quote($this->getRefId());
-			$this->ilias->db->query($q);
-
+			$query = "DELETE FROM object_reference ".
+				"WHERE ref_id = ".$ilDB->quote($this->getRefId(),'integer');
+			$res = $ilDB->manipulate($query);
+			
 			// write log entry
 			$log->write("ilObject::delete(), reference deleted, ref_id: ".$this->getRefId().
 				", obj_id: ".$this->getId().", type: ".

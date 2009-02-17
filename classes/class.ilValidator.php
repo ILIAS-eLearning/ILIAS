@@ -573,6 +573,8 @@ class ilValidator extends PEAR
 	*/
 	function findMissingObjects()
 	{
+		global $ilDB;
+		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
 		{
@@ -595,7 +597,7 @@ class ilValidator extends PEAR
 			 "WHERE tree.child IS NULL ".
 			 "AND (object_reference.obj_id IS NOT NULL ".
 			 "    OR object_data.type <> 'file' AND ".
-			 "       object_data.type IN (".$this->rbac_object_types.") ".
+			 $ilDB->in('object_data.type',$this->rbac_object_types,false,'text');
 			 ")";
 		$r = $this->db->query($q);
 		
@@ -681,7 +683,7 @@ class ilValidator extends PEAR
 		$q = "SELECT object_data.*, ref_id FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
 			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
-			 "WHERE object_reference.ref_id = ".$ilDB->quote(RECOVERY_FOLDER_ID)." ".
+			 "WHERE object_reference.ref_id = ".$ilDB->quote(RECOVERY_FOLDER_ID,'integer')." ".
 			 "AND object_data.type='rolf'";
 		$r = $this->db->query($q);
 		
@@ -820,6 +822,8 @@ class ilValidator extends PEAR
  	*/	
 	function findInvalidReferences()
 	{
+		global $ilDB;
+		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
 		{
@@ -834,7 +838,7 @@ class ilValidator extends PEAR
 		$q = "SELECT object_reference.* FROM object_reference ".
 			 "LEFT JOIN object_data ON object_data.obj_id = object_reference.obj_id ".
 			 "WHERE object_data.obj_id IS NULL ".
-			 "OR object_data.type NOT IN (".$this->rbac_object_types.")";
+			 "OR ".$ilDB->in('object_data.type',$this->rbac_object_types,true,'text');
 		$r = $this->db->query($q);
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -881,6 +885,8 @@ class ilValidator extends PEAR
 	*/
 	function findInvalidChilds()
 	{
+		global $ilDB;
+		
 		// check mode: analyze
 		if ($this->mode["scan"] !== true)
 		{
@@ -1012,16 +1018,19 @@ class ilValidator extends PEAR
 		$this->writeScanLogLine("\nfindDeletedObjects:");
 
 		// Delete objects, start with the oldest objects first
-		$q = "SELECT object_data.*,tree.tree,tree.child,tree.parent,deleted,UNIX_TIMESTAMP(deleted) as deleted_timestamp ".
+		$query = "SELECT object_data.*,tree.tree,tree.child,tree.parent,deleted ".
 			 "FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
 			 "LEFT JOIN tree ON tree.child=object_reference.ref_id ".
-			 " WHERE tree !=1 ".
+			 " WHERE tree != 1 ".
 			 " ORDER BY deleted";
-		$r = $this->db->query($q);
+		$r = $this->db->query($query);
 		
+		include_once './Services/Calendar/classes/class.ilDateTime.php';
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			$tmp_date = new ilDateTime($row->deleted,IL_CAL_TIMESTAMP);
+			
 			$this->deleted_objects[] = array(
 											"child"			=> $row->child,
 											"parent"		=> $row->parent,
@@ -1031,7 +1040,7 @@ class ilValidator extends PEAR
 											"desc"			=> $row->description,
 											"owner"			=> $row->owner,
 											"deleted"		=> $row->deleted,
-											"deleted_timestamp"	=> $row->deleted_timestamp,
+											"deleted_timestamp"	=> $tmp_date->get(IL_CAL_UNIX),
 											"create_date"	=> $row->create_date,
 											"last_update"	=> $row->last_update
 											);
@@ -1103,7 +1112,8 @@ class ilValidator extends PEAR
 	function removeInvalidReferences($a_invalid_refs = NULL)
 	{
 		global $ilLog;
-
+		global $ilDB;
+		
 		// check mode: clean
 		if ($this->mode["clean"] !== true)
 		{
@@ -1140,10 +1150,10 @@ removal starts here
 
 		foreach ($a_invalid_refs as $entry)
 		{
-			$q = "DELETE FROM object_reference WHERE ref_id= ".$this->db->quote($entry["ref_id"]).
-				" AND obj_id = ".$this->db->quote($entry["obj_id"])." ";
-			$this->db->query($q);
-
+			$query = "DELETE FROM object_reference WHERE ref_id= ".$this->db->quote($entry["ref_id"],'integer').
+				" AND obj_id = ".$this->db->quote($entry["obj_id"],'integer')." ";
+			$res = $ilDB->manipulate($query);
+	
 			$message = sprintf('%s::removeInvalidReferences(): Reference %s removed',
 							   get_class($this),
 							   $entry["ref_id"]);
@@ -1384,6 +1394,7 @@ restore starts here
 	function restoreReference($a_obj_id)
 	{
 		global $ilLog;
+		global $ilDB;
 
 		if (empty($a_obj_id))
 		{
@@ -1391,16 +1402,16 @@ restore starts here
 			return false;
 		}
 		
-		$q = "INSERT INTO object_reference (ref_id,obj_id) VALUES ('0',".$this->db->quote($a_obj_id)." )";
-		$this->db->query($q);
+		$query = "INSERT INTO object_reference (ref_id,obj_id) VALUES (".$next_id = $ilDB->nextId().",".$this->db->quote($a_obj_id,'integer')." )";
+		$res = $ilDB->manipulate($query);
 
 		$message = sprintf('%s::restoreReference(): new reference %s for obj_id %s created',
 						   get_class($this),
-						   $this->db->getLastInsertId(),
+						   $next_id,
 						   $a_obj_id);
 		$ilLog->write($message,$ilLog->WARNING);
 
-		return $this->db->getLastInsertId();
+		return $next_id;
 	}
 
 	/**
@@ -2058,6 +2069,8 @@ restore starts here
  	*/	
 	function dumpTree()
 	{
+		global $ilDB;
+		
 		$this->writeScanLogLine("BEGIN dumpTree:");
 
 		// collect nodes with duplicate child Id's
@@ -2072,11 +2085,11 @@ restore starts here
 		}		
 		
 		// dump tree
-		$q = "SELECT tree.*,ref.ref_id,ref.obj_id AS refobj_id,ref.deleted,dat.*,usr.login "
+		$q = "SELECT tree.*,ref.ref_id,ref.obj_id refobj_id,ref.deleted,dat.*,usr.login "
 			."FROM tree "
-			."RIGHT JOIN object_reference AS ref ON tree.child = ref.ref_id "
-			."RIGHT JOIN object_data AS dat ON ref.obj_id = dat.obj_id "
-			."LEFT JOIN usr_data AS usr ON usr.usr_id = dat.owner "
+			."RIGHT JOIN object_reference ref ON tree.child = ref.ref_id "
+			."RIGHT JOIN object_data dat ON ref.obj_id = dat.obj_id "
+			."LEFT JOIN usr_data usr ON usr.usr_id = dat.owner "
 		 	."ORDER BY tree, lft, type, title";
 		$r = $this->db->query($q);
 		
