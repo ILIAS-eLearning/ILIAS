@@ -7788,5 +7788,9 @@ ALTER TABLE content_object MODIFY prevent_glossary_appendix_active CHAR(1) DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('object_description');
 ?>
+<#1628>
+<?php
+	$ilMySQLAbstraction->performAbstraction('object_description');
+?>
 
 
