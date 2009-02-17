@@ -316,18 +316,25 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function create()
 	{
-	 	$query = "INSERT INTO ldap_role_assignments ".
-	 		"SET server_id = ".$this->db->quote($this->getServerId()).", ".
-	 		"type = ".$this->db->quote($this->getType()).", ".
-	 		"dn = ".$this->db->quote($this->getDN()).", ".
-	 		"attribute = ".$this->db->quote($this->getMemberAttribute()).", ".
-	 		"isdn = ".$this->db->quote($this->isMemberAttributeDN()).", ".
-	 		"att_name = ".$this->db->quote($this->getAttributeName()).", ".
-	 		"att_value = ".$this->db->quote($this->getAttributeValue()).", ".
-	 		"role_id = ".(int) $this->getRoleId()." ";
-	 	$res = $this->db->query($query);
-	 	
-	 	$this->rule_id = $this->db->getLastInsertId();
+		global $ilDB;
+		
+		$next_id = $ilDB->nextId('ldap_role_assignments');
+
+	 	$query = "INSERT INTO ldap_role_assignments (server_id,rule_id,type,dn,attribute,isdn,att_name,att_value,role_id) ".
+	 		"VALUES( ".
+			$this->db->quote($this->getServerId(),'integer').", ".
+			$this->db->quote($next_id,'integer').", ".
+	 		$this->db->quote($this->getType(),'integer').", ".
+	 		$this->db->quote($this->getDN(),'text').", ".
+	 		$this->db->quote($this->getMemberAttribute(),'text').", ".
+	 		$this->db->quote($this->isMemberAttributeDN(),'integer').", ".
+	 		$this->db->quote($this->getAttributeName(),'text').", ".
+	 		$this->db->quote($this->getAttributeValue(),'text').", ".
+	 		$this->db->quote($this->getRoleId(),'integer')." ".
+	 		")";
+		$res = $ilDB->manipulate($query);
+		$this->rule_id = $next_id;
+			 	
 	 	return true;
 	}
 
@@ -339,20 +346,19 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function update()
 	{
-	 	$query = "UPDATE ldap_role_assignments ".
-	 		"SET server_id = ".$this->db->quote($this->getServerId()).", ".
-	 		"type = ".$this->db->quote($this->getType()).", ".
-	 		"dn = ".$this->db->quote($this->getDN()).", ".
-	 		"attribute = ".$this->db->quote($this->getMemberAttribute()).", ".
-	 		"isdn = ".$this->db->quote($this->isMemberAttributeDN()).", ".
-	 		"att_name = ".$this->db->quote($this->getAttributeName()).", ".
-	 		"att_value = ".$this->db->quote($this->getAttributeValue()).", ".
-	 		"role_id = ".(int) $this->getRoleId()." ".
-	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId())." ";
-			
-	 	$res = $this->db->query($query);
+	 	global $ilDB;
 	 	
-	 	$this->rule_id = $this->db->getLastInsertId();
+	 	$query = "UPDATE ldap_role_assignments ".
+	 		"SET server_id = ".$this->db->quote($this->getServerId(),'integer').", ".
+	 		"type = ".$this->db->quote($this->getType(),'integer').", ".
+	 		"dn = ".$this->db->quote($this->getDN(),'text').", ".
+	 		"attribute = ".$this->db->quote($this->getMemberAttribute(),'text').", ".
+	 		"isdn = ".$this->db->quote($this->isMemberAttributeDN(),'integer').", ".
+	 		"att_name = ".$this->db->quote($this->getAttributeName(),'text').", ".
+	 		"att_value = ".$this->db->quote($this->getAttributeValue(),'text').", ".
+	 		"role_id = ".$this->db->quote($this->getRoleId(),'integer')." ".
+	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer')." ";
+		$res = $ilDB->manipulate($query);			
 	 	return true;
 	}
 	
@@ -405,9 +411,11 @@ class ilLDAPRoleAssignmentRule
 	 */
 	public function delete()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM ldap_role_assignments ".
-	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId())." ";
-	 	$this->db->query($query);
+	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer')." ";
+		$res = $ilDB->manipulate($query);
 	 	return true;
 			
 	}
@@ -419,8 +427,10 @@ class ilLDAPRoleAssignmentRule
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM ldap_role_assignments ".
-	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId())." ";
+	 		"WHERE rule_id = ".$this->db->quote($this->getRuleId(),'integer')." ";
 		
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
