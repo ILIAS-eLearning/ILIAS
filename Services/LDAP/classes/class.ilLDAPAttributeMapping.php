@@ -84,8 +84,8 @@ class ilLDAPAttributeMapping
 		global $ilDB;
 		
 		$query = "DELETE FROM ldap_attribute_mapping ".
-			"WHERE server_id =".$ilDB->quote($a_server_id);
-		$res = $ilDB->query($query);
+			"WHERE server_id =".$ilDB->quote($a_server_id,'integer');
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -100,8 +100,8 @@ class ilLDAPAttributeMapping
 	 	global $ilDB;
 	 	
 	 	$query = "SELECT value FROM ldap_attribute_mapping ".
-	 		"WHERE server_id =".$ilDB->quote($a_server_id)." ".
-	 		"AND keyword = ".$ilDB->quote('global_role');
+	 		"WHERE server_id =".$ilDB->quote($a_server_id,'integer')." ".
+	 		"AND keyword = ".$ilDB->quote('global_role','text');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -229,16 +229,20 @@ class ilLDAPAttributeMapping
 	 */
 	public function save()
 	{
+	 	global $ilDB;
+	 	
 	 	$this->delete();
 	 	
 	 	foreach($this->mapping_rules as $keyword => $options)
 	 	{
-	 		$query = "INSERT INTO ldap_attribute_mapping SET ".
-	 			"server_id =".$this->db->quote($this->server_id).", ".
-	 			"keyword = ".$this->db->quote($keyword).", ".
-	 			"value = ".$this->db->quote($options['value']).", ".
-	 			"perform_update = ".$this->db->quote($options['performUpdate']);
-	 		$this->db->query($query);
+	 		$query = "INSERT INTO ldap_attribute_mapping (server_id,keyword,value,perform_update) ".
+				"VALUES( ".
+	 			$this->db->quote($this->server_id,'integer').", ".
+	 			$this->db->quote($keyword,'text').", ".
+	 			$this->db->quote($options['value'],'text').", ".
+	 			$this->db->quote($options['performUpdate'],'integer').
+	 			')';
+			$res = $ilDB->manipulate($query);
 	 	}
 	}
 	
@@ -295,9 +299,11 @@ class ilLDAPAttributeMapping
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM ldap_attribute_mapping ".
-	 		"WHERE server_id =".$this->db->quote($this->server_id)." ";
-	 		
+	 		"WHERE server_id =".$this->db->quote($this->server_id,'integer')." ";
+
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
