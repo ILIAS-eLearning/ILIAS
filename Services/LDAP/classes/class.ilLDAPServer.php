@@ -622,6 +622,7 @@ class ilLDAPServer
 				$this->getRoleBindDN(),
 				$this->getRoleBindPassword()
 			));
+			
 		return $next_id;
 	}
 	
