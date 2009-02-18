@@ -1381,7 +1381,7 @@ class ilTree
 			'FROM '.$this->table_tree.' t '.
 			'JOIN '.$this->table_obj_reference.' r ON r.ref_id = t.child '.
 			'JOIN '.$this->table_obj_data.' d ON d.obj_id = r.obj_id '.
-			'WHERE '.$ilDB->in('t.child',$data).' '.
+			'WHERE '.$ilDB->in('t.child',$data,false,'integer').' '.
 			'ORDER BY t.depth ';
 			
 		$res = $ilDB->queryF($query,$types,$data);

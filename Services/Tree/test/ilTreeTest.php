@@ -187,6 +187,8 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 		$seq = $tree->getChildSequenceNumber(24);
 		$this->assertEquals($seq,0);
 		
+		$tree->getNodePath(9,1);
+		
 		// Round trip
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		$suc = $tree->fetchSuccessorNode(16); // cals
