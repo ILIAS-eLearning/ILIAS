@@ -32,12 +32,11 @@
 */
 class ilPathGUI
 {
-	private static $instance = null;
-	
 	private $startnode = ROOT_FOLDER_ID;
 	private $endnode = ROOT_FOLDER_ID;
 	
 	private $textOnly = true;
+	private $useImages = false;
 	
 	protected $lng = null;
 	protected $tree = null;
@@ -45,27 +44,13 @@ class ilPathGUI
 	/**
 	 * Constructor 
 	 */
-	private function __construct()
+	public function __construct()
 	{
 		global $tree,$lng;
 		
 		$this->tree = $tree;
 		$this->lng = $lng;
 		
-	}
-	
-	/**
-	 * get singleton instance 
-	 *
-	 * @return
-	 * @static
-	 */
-	public static function getInstance()
-	{
-		if(self::$instance) {
-			return self::$instance;
-		}
-		return self::$instance = new ilPathGUI();
 	}
 	
 	/**
@@ -99,6 +84,25 @@ class ilPathGUI
 	public function textOnly()
 	{
 		return $this->textOnly;
+	}
+	
+	/**
+	 * set use images 
+	 * @param	bool
+	 * @return
+	 */
+	public function setUseImages($a_status)
+	{
+		$this->useImages = $a_status;
+	}
+	
+	/**
+	 * get use images 
+	 * @return
+	 */
+	public function getUseImages()
+	{
+		return $this->useImages;
 	}
 	
 	/**
@@ -161,11 +165,13 @@ class ilPathGUI
 				{
 					$tpl->touchBlock('locator_separator_prefix');
 				}
-				$tpl->setCurrentBlock('locator_img');
-				$tpl->setVariable('IMG_SRC',ilUtil::getTypeIconPath($type,$obj_id));
-				$tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$type));
-				$tpl->parseCurrentBlock();
-				
+				if($this->getUseImages())
+				{
+					$tpl->setCurrentBlock('locator_img');
+					$tpl->setVariable('IMG_SRC',ilUtil::getTypeIconPath($type,$obj_id));
+					$tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$type));
+					$tpl->parseCurrentBlock();
+				}				
 				$tpl->setCurrentBlock('locator_item');
 				$tpl->setVariable('LINK_ITEM',ilLink::_getLink($ref_id,$type));
 				$tpl->setVariable('ITEM',$title);

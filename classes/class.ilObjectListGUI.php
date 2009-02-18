@@ -71,6 +71,9 @@ class ilObjectListGUI
 	protected $search_fragment = '';
 	protected $path_linked = false;
 
+	protected $enabled_relevance = false;
+	protected $relevance = 0; 
+
 	protected $expand_enabled = false;
 	protected $is_expanded = true;
 	protected $bold_title = false;
@@ -266,7 +269,45 @@ class ilObjectListGUI
 	{
 		$this->path_linked = $a_status;
 	}
-
+	
+	/**
+	 * enabled relevance 
+	 * @return
+	 */
+	public function enabledRelevance()
+	{
+		return $this->enabled_relevance;
+	}
+	
+	/**
+	 * enable relevance 
+	 * @return
+	 */
+	public function enableRelevance($a_status)
+	{
+		$this->enabled_relevance = $a_status;	 
+	}
+	
+	/**
+	 * set relevance 
+	 * @param int
+	 * @return
+	 */
+	public function setRelevance($a_rel)
+	{
+		$this->relevance = $a_rel; 
+	}
+	
+	/**
+	 * get relevance 
+	 * @param
+	 * @return
+	 */
+	public function getRelevance()
+	{
+		return $this->relevance;
+	}
+	
 	/**
 	* En/Dis-able icons
 	*
@@ -1248,6 +1289,34 @@ class ilObjectListGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	/**
+	 * insert relevance 
+	 * @param
+	 * @return
+	 */
+	public function insertRelevance()
+	{
+		global $lng;
+		
+		if(!$this->enabledRelevance() or !(int) $this->getRelevance())
+		{
+			return false;
+		}
+		
+		$width1 = (int) $this->getRelevance();
+		$width2 = (int) (100 - $width1);
+		
+		$this->tpl->setCurrentBlock('relevance');
+		#$this->tpl->setVariable('TXT_RELEVANCE',$lng->txt('search_relevance'));
+		$this->tpl->setVariable('VAL_REL',sprintf("%.02f %%",$this->getRelevance()));
+		$this->tpl->setVariable('WIDTH_A',$width1);
+		$this->tpl->setVariable('WIDTH_B',$width2);
+		$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
+		$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.gif"));
+		$this->tpl->parseCurrentBlock();
+		
+	}
 
 	/**
 	* set output mode
@@ -1883,9 +1952,10 @@ class ilObjectListGUI
 		if($this->getPathStatus() != false)
 		{
 			include_once './Services/Tree/classes/class.ilPathGUI.php';
-			$path_gui = ilPathGUI::getInstance();
+			$path_gui = new ilPathGUI();
 			$path_gui->enableTextOnly(!$this->path_linked);
-			
+			$path_gui->setUseImages(false);
+				
 			$this->tpl->setCurrentBlock("path_item");
 			$this->tpl->setVariable('PATH_ITEM',$path_gui->getPath(ROOT_FOLDER_ID,$this->ref_id));
 			$this->tpl->parseCurrentBlock();
@@ -2075,6 +2145,10 @@ class ilObjectListGUI
 		if($this->getSearchFragmentStatus())
 		{
 			$this->insertSearchFragment();
+		}
+		if($this->enabledRelevance())
+		{
+			$this->insertRelevance();
 		}
 
 		// properties
