@@ -36,6 +36,17 @@ class ilDBWrapperFactory
 {
 	static function getWrapper($a_type)
 	{
+		global $ilClientIniFile;
+		
+		if ($a_type == "" && is_object($ilClientIniFile))
+		{
+			$a_type = $ilClientIniFile->readVariable("db","type");
+		}
+		if ($a_type == "")
+		{
+			$a_type = "mysql";
+		}
+		
 		switch ($a_type)
 		{
 			case "mysql":

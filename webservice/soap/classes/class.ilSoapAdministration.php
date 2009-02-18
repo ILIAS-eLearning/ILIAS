@@ -3,7 +3,7 @@
    +-----------------------------------------------------------------------------+
    | ILIAS open source                                                           |
    +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+   | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
    |                                                                             |
    | This program is free software; you can redistribute it and/or               |
    | modify it under the terms of the GNU General Public License                 |
@@ -396,10 +396,10 @@ class ilSoapAdministration
 		}
 
 		// build dsn of database connection and connect
-		$dsn = $ilClientIniFile->readVariable("db","type")."://".$ilClientIniFile->readVariable("db", "user").
-					 ":".$ilClientIniFile->readVariable("db", "pass").
-					 "@".$ilClientIniFile->readVariable("db", "host").
-					 "/".$ilClientIniFile->readVariable("db", "name");
+		require_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
+		$ilDB = ilDBWrapperFactory::getWrapper();
+		$ilDB->initFromIniFile();
+		$dsn = $ilDB->getDSN();
 		
 				
 		require_once "./Services/Database/classes/class.ilDB.php";

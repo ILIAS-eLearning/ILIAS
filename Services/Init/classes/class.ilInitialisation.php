@@ -442,12 +442,9 @@ class ilInitialisation
 		// build dsn of database connection and connect
 		require_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 		$ilDB = ilDBWrapperFactory::getWrapper(IL_DB_TYPE);
-		$ilDB->setDBUser($ilClientIniFile->readVariable("db", "user"));
-		$ilDB->setDBHost($ilClientIniFile->readVariable("db", "host"));
-		$ilDB->setDBPassword($ilClientIniFile->readVariable("db", "pass"));
-		$ilDB->setDBName($ilClientIniFile->readVariable("db", "name"));
+		$ilDB->initFromIniFile();
 		$ilDB->connect();
-		$GLOBALS['ilDB'] =& $ilDB;
+		$GLOBALS['ilDB'] = $ilDB;
 		
 		define ("IL_DSN", $ilDB->getDSN());
 	}

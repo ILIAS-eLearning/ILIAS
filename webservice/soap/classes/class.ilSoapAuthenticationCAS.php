@@ -237,8 +237,11 @@ class ilSoapAuthenticationCAS extends ilSOAPAuthentication
 
 		if (!is_object($this->db))
 		{
-			include_once './Services/Database/classes/class.ilDB.php';
-			$this->db =& new ilDB($this->dsn);
+			require_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
+			$ilDB = ilDBWrapperFactory::getWrapper();
+			$ilDB->initFromIniFile();
+			$ilDB->connect();
+			$this->db = $ilDB;
 		}
 
 		$GLOBALS["ilDB"] = $this->db;
