@@ -234,10 +234,10 @@ class ilObjCourseGrouping
 
 			// UPDATE conditions
 			$query = "UPDATE conditions ".
-				"SET value = ".$ilDB->quote($this->getUniqueField())." ".
-				"WHERE trigger_obj_id = ".$ilDB->quote($this->getId())." ".
+				"SET value = ".$ilDB->quote($this->getUniqueField(),'text')." ".
+				"WHERE trigger_obj_id = ".$ilDB->quote($this->getId(),'integer')." ".
 				"AND trigger_type = 'crsg'";
-			$this->db->query($query);
+			$res = $ilDB->manipulate($query);
 
 			return true;
 		}
