@@ -133,5 +133,45 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		$rbacadmin->grantPermission(4,array(2,3),1);
 
 	}
+
+	/**
+	 * test preconditions
+	 * @param
+	 * @return
+	 */
+	public function testConditions()
+	{
+		include_once './classes/class.ilConditionHandler.php';
+		
+		ilConditionHandler::_getDistinctTargetRefIds();
+		ilConditionHandler::_deleteTargetConditionsByRefId(1);
+		
+		$handler = new ilConditionHandler();
+		$handler->setTargetRefId(99999);
+		$handler->setTargetObjId(99998);
+		$handler->setTargetType('xxx');
+		$handler->setTriggerRefId(99997);
+		$handler->setTriggerObjId(99996);
+		$handler->setTriggerType('yyy');
+		$handler->setReferenceHandlingType(0);
+		$handler->enableAutomaticValidation(false);
+		$suc = $handler->storeCondition();
+		$this->assertEquals($suc,true);
+		
+		$suc = $handler->checkExists();
+		$this->assertEquals($suc,false);
+		
+		$suc = $handler->delete(99999);
+		$this->assertEquals($suc,true);
+		
+		// syntax check
+		$handler->deleteByObjId(-1);
+		$handler->deleteCondition(-1);
+		ilConditionHandler::_getConditionsOfTrigger(-1,-1);
+		ilConditionHandler::_getConditionsOfTarget(-1,-1);
+		ilConditionHandler::_getCondition(-1);
+	}
+	
+	
 }
 ?>

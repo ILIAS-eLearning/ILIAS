@@ -7804,5 +7804,12 @@ ALTER TABLE content_object MODIFY prevent_glossary_appendix_active CHAR(1) DEFAU
 <?php
 	$ilMySQLAbstraction->performAbstraction('ldap_role_group_mapping');
 ?>
+<#1632>
+<?php
+	$ilMySQLAbstraction->performAbstraction('conditions');
+?>
+<#1633>
+ALTER TABLE `conditions` CHANGE `id` `condition_id` INT( 11 ) NOT NULL DEFAULT '0';
+
 
 
