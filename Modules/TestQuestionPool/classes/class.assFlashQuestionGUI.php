@@ -83,11 +83,9 @@ class assFlashQuestionGUI extends assQuestionGUI
 	/**
 	* Creates an output of the edit form for the question
 	*
-	* Creates an output of the edit form for the question
-	*
 	* @access public
 	*/
-	function editQuestion()
+	public function editQuestion($checkonly = FALSE)
 	{
 		$save = ((strcmp($this->ctrl->getCmd(), "save") == 0) || (strcmp($this->ctrl->getCmd(), "saveEdit") == 0)) ? TRUE : FALSE;
 		$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
@@ -97,7 +95,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("assFlashQuestion"));
-		$form->setMultipart(FALSE);
+		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("flash");
 
@@ -177,35 +175,13 @@ class assFlashQuestionGUI extends assQuestionGUI
 		
 		if ($save)
 		{
-			$form->checkInput();
+			$errors = !$form->checkInput();
 		}
 		
-		$this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
+		return $errors;
 	}
 	
-	public function parseQuestion()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-	/**
-	* check input fields
-	*/
-	function checkInput()
-	{
-		$cmd = $this->ctrl->getCmd();
-
-		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]) or (!strlen($_POST["points"])))
-		{
-			$this->addErrorMessage($this->lng->txt("fill_out_all_required_fields"));
-			return FALSE;
-		}
-		
-		
-		return TRUE;
-	}
-
 	function flashAddParam()
 	{
 		$this->writePostData();
@@ -264,7 +240,6 @@ class assFlashQuestionGUI extends assQuestionGUI
 				}
 			}
 		}
-		$checked = $this->checkInput();
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
@@ -296,7 +271,7 @@ class assFlashQuestionGUI extends assQuestionGUI
 			$this->object->saveToDb();
 			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 		}
-		return ($checked) ? 0 : 1;
+		return $this->editQuestion(TRUE);
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
