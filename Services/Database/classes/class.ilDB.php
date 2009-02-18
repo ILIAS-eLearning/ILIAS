@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -45,7 +45,7 @@ define("DB_FETCHMODE_OBJECT", MDB2_FETCHMODE_OBJECT);
 * @version $Id$
 * @ingroup ServicesDatabase
 */
-class ilDB extends PEAR
+abstract class ilDB extends PEAR
 {
 	/**
 	* error class
@@ -66,11 +66,6 @@ class ilDB extends PEAR
 	*/
 	var $result;
 
-	/**
-	* myqsl max_allowed_packet size
-	* @var int
-	*/
-	var $max_allowed_packet_size;
 
 	var $allowed_attributes = array(
 			"text" => array("length", "notnull", "default", "fixed"),
@@ -90,26 +85,139 @@ class ilDB extends PEAR
 	*
 	* @param string dsn database-connection-string for pear-db
 	*/
-	function ilDB($dsn)
+	function ilDB()
 	{
-		//call parent constructor
-//		$parent = get_parent_class($this);
-//		$this->$parent();
+	}
+	
+	/**
+	* Set database user
+	*
+	* @param	string		database user
+	*/
+	function setDBUser($a_user)
+	{
+		$this->db_user = $a_user;
+	}
+	
+	/**
+	* Get database user
+	*
+	* @param	string		database user
+	*/
+	function getDBUser()
+	{
+		return $this->db_user;
+	}
 
+	/**
+	* Set database host
+	*
+	* @param	string		database host
+	*/
+	function setDBHost($a_host)
+	{
+		$this->db_host = $a_host;
+	}
+	
+	/**
+	* Get database host
+	*
+	* @param	string		database host
+	*/
+	function getDBHost()
+	{
+		return $this->db_host;
+	}
+
+	/**
+	* Set database password
+	*
+	* @param	string		database password
+	*/
+	function setDBPassword($a_password)
+	{
+		$this->db_password = $a_password;
+	}
+	
+	/**
+	* Get database password
+	*
+	* @param	string		database password
+	*/
+	function getDBPassword()
+	{
+		return $this->db_password;
+	}
+
+	/**
+	* Set database name
+	*
+	* @param	string		database name
+	*/
+	function setDBName($a_name)
+	{
+		$this->db_name = $a_name;
+	}
+	
+	/**
+	* Get database name
+	*
+	* @param	string		database name
+	*/
+	function getDBName()
+	{
+		return $this->db_name;
+	}
+
+	/**
+	* Get DSN. This must be overwritten in DBMS specific class.
+	*/
+	abstract function getDSN();
+	
+	/**
+	* Get DB version
+	*/
+	function getDBVersion()
+	{
+		return "Unknown";
+	}
+
+	/**
+	* Get DSN. This must be overwritten in DBMS specific class.
+	*/
+	abstract function getDBType();
+
+	/**
+	* Get reserved words. This must be overwritten in DBMS specific class.
+	* This is mainly used to check whether a new identifier can be problematic
+	* because it is a reserved word. So createTable / alterTable usually check
+	* these.
+	*/
+	abstract function getReservedWords();
+
+	/**
+	* Open the connection
+	*/
+	function connect($a_return_false_for_error = false)
+	{
 		//set up error handling
 		$this->error_class = new ilErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
-
+		
 		//check dsn
-		if ($dsn=="")
+		if ($this->getDSN() == "")
+		{
 			$this->raisePearError("No DSN given");
-
-		$this->dsn = $dsn;
+		}
 
 		//connect to database
-		//$this->db = DB::connect($this->dsn, true);
-		$this->db = MDB2::connect($this->dsn, array("use_transactions" => true));
-		
+		$this->db = MDB2::connect($this->getDSN(),
+			array("use_transactions" => true));
+		if ($a_return_false_for_error && MDB2::isError($this->db))
+		{
+			return false;
+		}
+			
 		$this->loadMDB2Extensions();
 		
 		// set empty value portability to PEAR::DB behaviour
@@ -125,25 +233,93 @@ class ilDB extends PEAR
 		//check error
 		$this->handleError($this->db);
 		
-		// SET 'max_allowed_packet' (only possible for mysql version 4)
-		$this->setMaxAllowedPacket();
-		
-		// NOTE: Two sourcecodes use this or a similar handling:
-		// - classes/class.ilDB.php
-		// - setup/classes/class.ilClient.php
-		if ($this->isMysql4_1OrHigher())
-		{
-			$this->query("SET NAMES utf8");
-			$this->query("SET SESSION SQL_MODE = ''");
-		}
+		// anything, that must be done to initialize the connection
+		$this->initConnection();
 
 		return true;
-	} //end constructor
-
+	}
+	
+	/**
+	* Disconnect
+	*/
+	function disconnect()
+	{
+		$this->db->disconnect();
+	}
 	
 	//
 	// General and MDB2 related functions
 	//
+
+	/**
+	* Initialize the database connection
+	*/
+	protected function initConnection()
+	{
+	}
+	
+	/**
+	* Should return a valid value, if host connections are possible
+	* (connectHost) to create a new database from scratch
+	*
+	* @return	string		host dsn (similar to dsn WITHOUT a specific database name)
+	*/
+	function getHostDSN()
+	{
+		return false;
+	}
+
+	/**
+	* Sets up a host connection only (no specific database used). This is optional
+	* during the setup procudure to create databases from scratch.
+	*/
+	function connectHost()
+	{
+		//set up error handling
+		$this->error_class = new ilErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
+		
+		//check dsn
+		if ($this->getHostDSN() == "")
+		{
+			$this->raisePearError("No Host DSN given");
+		}
+
+		//connect to database
+		$this->db = MDB2::connect($this->getHostDSN(),
+			array("use_transactions" => true));
+		if ($a_return_false_for_error && MDB2::isError($this->db))
+		{
+			return false;
+		}
+			
+		$this->loadMDB2Extensions();
+		
+		// set empty value portability to PEAR::DB behaviour
+		if (!$this->isDbError($this->db))
+		{
+			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
+			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
+
+			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_FIX_CASE);
+			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
+		}
+
+		//check error
+		$this->handleError($this->db);
+		
+		// anything, that must be done to initialize the connection
+		$this->initHostConnection();
+
+		return true;
+	}
+	
+	/**
+	* Initialize the host connection (no specific database)
+	*/
+	protected function initHostConnection()
+	{
+	}
 
 	/**
 	* Handle MDB2 Errors
@@ -509,7 +685,8 @@ class ilDB extends PEAR
 			'primary' => true,
 			'fields' => $fields
 		);
-		$r = $manager->createConstraint($a_table, $a_name, $definition);
+		$r = $manager->createConstraint($a_table,
+			$this->constraintName($a_table, $a_name), $definition);
 
 		return $this->handleError($r, "addPrimaryKey(".$a_table.")");
 	}
@@ -524,7 +701,8 @@ class ilDB extends PEAR
 	{
 		$manager = $this->db->loadModule('Manager');
 		
-		$r = $manager->dropConstraint($a_table, $a_name, true);
+		$r = $manager->dropConstraint($a_table,
+			$this->constraintName($a_table, $a_name), true);
 
 		return $this->handleError($r, "dropPrimaryKey(".$a_table.")");
 	}
@@ -741,6 +919,16 @@ class ilDB extends PEAR
 		return $this->allowed_attributes;
 	}
 	
+	/**
+	* Determine contraint name by table name and constraint name.
+	* In MySQL these are "unique" per table, but they
+	* must be "globally" unique in oracle. (so this one is overwritten there)
+	*/
+	function constraintName($a_table, $a_constraint)
+	{
+		return $a_constraint;
+	}
+
 	//
 	// Data query and manupilation functions
 	//
@@ -1178,11 +1366,11 @@ class ilDB extends PEAR
 	
 	/**
 	* Optimize Table
-	* @todo needs oracle implementation
 	*/
 	function optimizeTable($a_table)
 	{
-		$this->query("OPTIMIZE TABLE ".$a_table);
+		// needs to be overwritten in DBMS specific class
+		// if necessary and possible
 	}
 	
 	//
@@ -1359,116 +1547,6 @@ class ilDB extends PEAR
 	}
 	
 	
-	//
-	// MySQL specific, should go to another class
-	//
-	
-	/**
-	* get mysql version
-	*/
-	function getMySQLVersion()
-	{
-		return mysql_get_server_info();
-	}
-	
-
-	/**
-	* check wether current MySQL server is version 4.0.x or higher
-	*/
-	function isMysql4_0OrHigher()
-	{
-		$version = explode(".", $this->getMysqlVersion());
-		if((int) $version[0] >= 4)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	* check wether current MySQL server is version 4.1.x
-	*/
-	function isMysql4_1()
-	{
-		$version = explode(".", $this->getMysqlVersion());
-		if ($version[0] == "4" && $version[1] == "1")
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-	/**
-	* check wether current MySQL server is version 4.1.x or higher
-	*
-	* NOTE: Two sourcecodes use this or a similar handling:
-	* - classes/class.ilDB.php
-	* - setup/classes/class.ilClient.php
-	*/
-	function isMysql4_1OrHigher()
-	{
-		$version = explode(".", $this->getMysqlVersion());
-		if ((int)$version[0] >= 5 ||
-			((int)$version[0] == 4 && (int)$version[1] >= 1))
-		{
-			return true;
-		}
-		
-		return false;
-	}
-
-	/**
-	* Check query size
-	*/
-	function checkQuerySize($a_query)
-	{
-		global $lang;
-
-		if(strlen($a_query) >= $this->max_allowed_packet_size)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	/**
-	* Set maximum allowed packet size
-	*
-	* todo@: This is MySQL specific and should go to a MySQL specific class.
-	*/
-	private function setMaxAllowedPacket()
-	{
-		// GET MYSQL VERSION
-		$query = "SHOW VARIABLES LIKE 'version'";
-		$res = $this->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$version = $row->Value;
-		}
-
-		// CHANG VALUE IF MYSQL VERSION > 4.0
-		if(substr($version,0,1) == "4")
-		{
-			ini_get("post_max_size");
-			$query = "SET GLOBAL max_allowed_packet = ".(int) ini_get("post_max_size") * 1024 * 1024;
-			$this->query($query);
-		}
-		// STORE NEW max_size in member variable
-		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
-		$res = $this->db->query($query);
-
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$this->max_allowed_packet_size = $row->Value;
-		}
-
-		return true;
-	}
-
 //
 //
 // Older functions. Must be checked.

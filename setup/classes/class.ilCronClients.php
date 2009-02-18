@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -87,7 +87,7 @@ class ilCronClients extends PEAR
 
 	function __readClients()
 	{
-		include_once '../classes/class.ilIniFile.php';
+		include_once './classes/class.ilIniFile.php';
 
 		$ini_file_obj =& new ilIniFile(INI_FILE_PATH);
 
@@ -134,7 +134,7 @@ class ilCronClients extends PEAR
 	{
 		foreach($this->client_ini as $client_data)
 		{
-			include_once '../classes/class.ilIniFile.php';
+			include_once './classes/class.ilIniFile.php';
 
 			$ini_file_obj =& new ilIniFile($client_data['path']);
 
@@ -145,7 +145,7 @@ class ilCronClients extends PEAR
 
 			if($this->__openDb())
 			{
-				include_once './classes/class.ilCron.php';
+				include_once './setup/classes/class.ilCron.php';
 				
 				$cron_obj =& new ilCron($this->db);
 				if($this->log['enabled'])
@@ -159,7 +159,7 @@ class ilCronClients extends PEAR
 				}
 				else
 				{
-					include_once '../Services/Logging/classes/class.ilLog.php';
+					include_once './Services/Logging/classes/class.ilLog.php';
 					
 					$log =& new ilLog($this->log['path'],$this->log['file']);
 					$log->write('Cron: Database not up to date. Aborting');
@@ -189,7 +189,7 @@ class ilCronClients extends PEAR
 	function __checkDBVersion()
 	{
 		$GLOBALS["ilDB"] = $this->db;
-		include_once '../Services/Administration/classes/class.ilSetting.php';
+		include_once './Services/Administration/classes/class.ilSetting.php';
 		$setting = new ilSetting();
 
 		/*$query = "SELECT value FROM sett ings ".
@@ -210,9 +210,9 @@ class ilCronClients extends PEAR
 		$this->db_version = 99999;
 
 		// GET FILE VERSION
-		if(!$content = file('../setup/sql/dbupdate_02.php'))
+		if(!$content = file('./setup/sql/dbupdate_02.php'))
 		{
-			echo 'Cannot open ../setup/sql/dbupdate_02.php';
+			echo 'Cannot open ./setup/sql/dbupdate_02.php';
 			return false;
 		}
 		foreach($content as $row)
@@ -232,7 +232,7 @@ class ilCronClients extends PEAR
 			{
 				if($this->log['enabled'])
 				{
-					include_once '../Services/Logging/classes/class.ilLog.php';
+					include_once './Services/Logging/classes/class.ilLog.php';
 
 					$this->log =& new ilLog($this->log['path'],$this->log['file']);
 

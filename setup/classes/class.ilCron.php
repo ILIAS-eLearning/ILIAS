@@ -44,14 +44,14 @@ class ilCron
 		$this->db = $db;
 		
 		$GLOBALS["ilDB"] = $this->db;
-		include_once '../Services/Administration/classes/class.ilSetting.php';
+		include_once './Services/Administration/classes/class.ilSetting.php';
 		$this->setting = new ilSetting();
 
 	}
 
 	function initLog($path,$file,$client)
 	{
-		include_once '../Services/Logging/classes/class.ilLog.php';
+		include_once './Services/Logging/classes/class.ilLog.php';
 
 		$this->log =& new ilLog($path,$file,$client);
 
@@ -60,7 +60,7 @@ class ilCron
 
 	function txt($language,$key,$module = 'common')
 	{
-		include_once '../Services/Language/classes/class.ilLanguage.php';
+		include_once './Services/Language/classes/class.ilLanguage.php';
 		return ilLanguage::_lookupEntry($language, $module, $key);
 	}
 
@@ -97,7 +97,7 @@ class ilCron
 
 		while($row = $ilDB->fetchObject($res))
 		{
-			include_once '../Services/Mail/classes/class.ilMimeMail.php';
+			include_once './Services/Mail/classes/class.ilMimeMail.php';
 
 			$data['expires'] = $row->time_limit_until;
 			$data['email'] = $row->email;
@@ -138,7 +138,7 @@ class ilCron
 
 	function __checkLinks()
 	{
-		include_once'../classes/class.ilLinkChecker.php';
+		include_once'./classes/class.ilLinkChecker.php';
 
 		$link_checker =& new ilLinkChecker($this->db);
 		$link_checker->setMailStatus(true);

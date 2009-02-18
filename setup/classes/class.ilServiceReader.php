@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./classes/class.ilObjDefReader.php");
+include_once("./setup/classes/class.ilObjDefReader.php");
 
 /**
 * Class ilServiceReader

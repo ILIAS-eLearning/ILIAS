@@ -280,11 +280,13 @@ class ilBaseAuthentication
 		$this->ini =& new ilIniFile("./".$this->ilias_ini->readVariable('clients','path')."/".$this->getClient()."/client.ini.php");
 		$this->ini->read();
 		
-		$this->dsn = $this->ini->readVariable("db","type").
-					 "://".$this->ini->readVariable("db", "user").
-					 ":".$this->ini->readVariable("db", "pass").
-					 "@".$this->ini->readVariable("db", "host").
-					 "/".$this->ini->readVariable("db", "name");
+		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
+		$this->db = ilDBWrapperFactory::getWrapper($this->ini->readVariable("db","type"));
+		$this->db->setDBUser($this->ini->readVariable("db", "user"));
+		$this->db->setDBPassword($this->ini->readVariable("db", "pass"));
+		$this->db->setDBName($this->ini->readVariable("db", "name"));
+		$this->db->setDBHost($this->ini->readVariable("db", "host"));
+		$this->dsn = $this->db->getDSN();
 
 		return true;
 	}		
@@ -304,7 +306,7 @@ class ilBaseAuthentication
 		// END WebDAV
 
 		$this->auth_params = array(
-			'dsn'		  => $this->dsn,
+			'dsn'		  => $this->db->getDSN(),
 			'table'       => $this->ini->readVariable("auth", "table"),
 			'usernamecol' => $this->ini->readVariable("auth", "usercol"),
 			'passwordcol' => $this->ini->readVariable("auth", "passcol"),
@@ -330,8 +332,8 @@ class ilBaseAuthentication
 		include_once './classes/class.ilErrorHandling.php';
 		include_once './Services/Database/classes/class.ilDB.php';
 
-		
-		$GLOBALS['ilDB'] =& new ilDB($this->dsn);
+		$this->db->connect();
+		$GLOBALS['ilDB'] = $this->db;
 
 		if(ini_get('session.save_handler') != 'user')
 		{
