@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -22,9 +22,10 @@
 */
 
 /**
-* client management
+* Client Management
 *
 * @author Sascha Hofmann <shofmann@databay.de> 
+* @author Alex Killing <alex.killing@gmx.de> 
 * @version $Id$
 *
 */
@@ -68,7 +69,7 @@ class ilClient
 	function init()
 	{
 		$this->ini = new ilIniFile($this->ini_file_path);
-	
+
 		// load defaults only if no client.ini was found
 		if (!@file_exists($this->ini_file_path))
 		{
@@ -96,7 +97,6 @@ class ilClient
 		define ("SYSTEM_ROLE_ID",2);
 		
 		$this->db_exists = $this->connect();
-		
 		if ($this->db_exists)
 		{
 			$this->db_installed = $this->isInstalledDB($this->db);
@@ -163,31 +163,19 @@ class ilClient
 	/**
 	* get mysql version
 	*/
-	function getMySQLVersion()
+/*	function getMySQLVersion()
 	{
 		return mysql_get_server_info();
-	}
+	}*/
 
 	/**
-	* check wether current MySQL server is version 4.1.x or higher
-	*
-	* NOTE: Three sourcecodes use this or a similar handling:
-	* - classes/class.ilDB.php
-	* - calendar/classes/class.ilCalInterface.php->setNames
-	* - setup/classes/class.ilClient.php
+	* Get DB object
 	*/
-	function isMysql4_1OrHigher()
+	function getDB()
 	{
-		$version = explode(".", $this->getMysqlVersion());
-		if ((int)$version[0] >= 5 ||
-			((int)$version[0] == 4 && (int)$version[1] >= 1))
-		{
-			return true;
-		}
-		
-		return false;
+		return $this->db;
 	}
-
+	
 	/**
 	* connect to client database
 	* @return	boolean	true on success
@@ -201,41 +189,21 @@ class ilClient
 			return false;
 		}
 
-		$this->setDSN();
-
-//echo "A";
-/*		if (is_object($this->db))
+		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
+		$this->db = ilDBWrapperFactory::getWrapper($this->getdbType());
+		$this->db->setDBUser($this->getdbUser());
+		$this->db->setDBPassword($this->getdbPass());
+		$this->db->setDBHost($this->getdbHost());
+		$this->db->setDBName($this->getdbName());
+		
+		$con = $this->db->connect(true);
+		
+		if (!$con)
 		{
-			if (!MDB2::isError($this->db))
-			{
-				$this->db->disconnect();
-			}
-			else
-			{
-				echo "+".$this->db->getMessage()."+";
-			}
-//echo "A";
-		}
-*/
-//if (!is_object($this->db))
-//{
-		$this->db = $this->db_connections->connectDB($this->dsn);
-//}
-
-		if (MDB2::isError($this->db))
-		{
-			$this->error = $this->db->getMessage()."! not_connected_to_db";
+			$this->error = "Database connection failed.";
 			return false;
 		}
-		
-		// NOTE: Two sourcecodes use this or a similar handling:
-		// - classes/class.ilDB.php
-		// - setup/classes/class.ilClient.php
-		if ($this->isMysql4_1OrHigher())
-		{
-			$this->db->query("SET NAMES utf8");
-			$this->db->query("SET SESSION SQL_MODE = ''");
-		}
+		$GLOBALS["ilDB"] = $this->db;
 		
 		$this->db_exists = true;
 		return true;
@@ -248,18 +216,7 @@ class ilClient
 	*/
 	function isInstalledDB(&$a_db)
 	{
-		//$q = "SHOW TABLES";
-		//$r = $a_db->query($q);
-		$manager = $a_db->loadModule('Manager');
-		$tables = $manager->listTables();
-
-		//$tables = array();
-
-		/*while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$tables[] = implode($row);
-		}*/
-
+		$tables = $a_db->listTables();
 		// check existence of some basic tables from ilias3 to determine if ilias3 is already installed in given database
 		if (in_array("object_data",$tables) and in_array("object_reference",$tables) and in_array("usr_data",$tables) and in_array("rbac_ua",$tables))
 		{
@@ -274,6 +231,7 @@ class ilClient
 	/**
 	* set the dsn and dsn_host
 	*/
+/*
 	function setDSN()
 	{
 		switch($this->getDbType())
@@ -290,6 +248,7 @@ class ilClient
 				break;
 		}				
 	}
+*/
 
 	/**
 	* set the host
@@ -379,7 +338,15 @@ class ilClient
 	*/
 	function getDbType()
 	{
-		return $this->ini->readVariable("db","type");
+		$val =  $this->ini->readVariable("db","type");
+		if ($val == "")
+		{
+			return "mysql";
+		}
+		else
+		{
+			return $val;
+		}
 	}
 
 	/**
@@ -407,7 +374,7 @@ class ilClient
 	function checkDatabaseHost()
 	{
 		global $lng;
-		
+return true;
 		if ($this->getDbType() == "oracle")
 		{
 			return true;
@@ -450,7 +417,7 @@ class ilClient
 
 	function reconnect()
 	{
-		$this->db = $this->db_connections->connectDB($this->dsn);
+		$this->connect();
 	}
 	
 	/**
@@ -461,32 +428,9 @@ class ilClient
 	*/
 	function getSetting($a_keyword)
 	{
-		$ilDB = new ilDB($this->dsn);
-		$GLOBALS["ilDB"] = $ilDB;
-		if (is_file('../Services/Administration/classes/class.ilSetting.php'))
-		{
-			include_once '../Services/Administration/classes/class.ilSetting.php';
-		}
-		else
-		{
-			include_once './Services/Administration/classes/class.ilSetting.php';
-		}
+		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting();
 		return $set->get($a_keyword);
-
-		/*
-		$q = "SELECT value FROM sett ings WHERE keyword='".$a_keyword."'";
-		$r = $this->db->query($q);
-		
-		if ($r->numRows() > 0)
-		{
-			$row = $r->fetchRow();
-			return $row[0];
-		}
-		else
-		{
-			return false;
-		}*/
 	}
 
 	/**
@@ -496,21 +440,9 @@ class ilClient
 	*/
 	function getAllSettings()
 	{
-		$ilDB = new ilDB($this->dsn);
-		$GLOBALS["ilDB"] = $ilDB;
-		include_once '../Services/Administration/classes/class.ilSetting.php';
+		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting();
 		return $set->getAll();
-
-		/*$q = "SELECT * FROM sett ings";
-		$r = $this->db->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$arr[$row["keyword"]] = $row["value"];
-		}
-		
-		return $arr;*/
 	}
 
 	/**
@@ -522,16 +454,9 @@ class ilClient
 	*/
 	function setSetting($a_key, $a_val)
 	{
-		$ilDB = new ilDB($this->dsn);
-		$GLOBALS["ilDB"] = $ilDB;
-		include_once '../Services/Administration/classes/class.ilSetting.php';
+		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting();
 		$set->set($a_key, $a_val);
-		
-		/*$q = "REPLACE INTO sett ings (keyword,value) VALUES ('".$a_key."', '".$a_val."')";
-		$r = $this->db->query($q);
-
-		return true;*/
 	}
 	
 	/**

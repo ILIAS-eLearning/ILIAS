@@ -6218,7 +6218,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <?php
 $wd = getcwd();
-chdir('..');
+
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
 
 
@@ -6250,7 +6250,7 @@ foreach($webr_ids as $id => $data)
 		$md_creator->create();
 	}
 }
-chdir($wd);
+
 ?>
 <#427>
 ALTER  TABLE  `tst_tests`  ADD  `count_system` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `random_question_count` ;
@@ -6378,7 +6378,6 @@ UPDATE glossary_term SET language='uk' WHERE language='ua';
 <#439>
 <?php
 $wd = getcwd();
-chdir('..');
 
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
@@ -6407,7 +6406,7 @@ foreach($webr_ids as $id => $data)
 
 	$md_creator->create();
 }
-chdir($wd);
+
 ?>
 <#440>
 <?php
@@ -6827,7 +6826,6 @@ foreach($tables as $table)
 <#443>
 <?php
 $wd = getcwd();
-chdir('..');
 
 include_once 'Services/Migration/DBUpdate_439/classes/class.ilNestedSetXML.php';
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
@@ -6895,7 +6893,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 $log->write("MetaData (Migration type 'mob'): Finished migration");
 
-chdir($wd);
 ?>
 
 <#444>
@@ -6948,7 +6945,6 @@ $ilDB->query("ALTER TABLE tmp_migration ADD INDEX (obj_id)");
 <#448>
 <?php
 $wd = getcwd();
-chdir('..');
 
 include_once 'Services/Migration/DBUpdate_439/classes/class.ilNestedSetXML.php';
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
@@ -7059,7 +7055,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 $log->write("MetaData (Migration type 'lm'): Finished migration");
 
-chdir($wd);
 ?>
 <#449>
 DROP TABLE IF EXISTS tmp_migration;
@@ -7071,7 +7066,6 @@ CREATE TABLE `tmp_migration` (
 <?php
 // Migration of glossaries
 $wd = getcwd();
-chdir('..');
 
 include_once 'Services/Migration/DBUpdate_439/classes/class.ilNestedSetXML.php';
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
@@ -7184,7 +7178,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 $log->write("MetaData (Migration type 'glo'): Finished migration");
 
-chdir($wd);
 ?>
 <#451>
 DROP TABLE IF EXISTS tmp_migration;
@@ -7196,7 +7189,6 @@ CREATE TABLE `tmp_migration` (
 <?php
   // Migration of type tst,svy,crs,sahs,icla,icrs
 $wd = getcwd();
-chdir('..');
 
 include_once 'Services/Migration/DBUpdate_439/classes/class.ilNestedSetXML.php';
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
@@ -7262,7 +7254,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 }
 $log->write("MetaData (Migration): Finished migration");
 
-chdir($wd);
 ?>
 <#453>
 DROP TABLE IF EXISTS tmp_migration;
@@ -7838,7 +7829,6 @@ CREATE TABLE `tmp_migration` (
 <#491>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $log;
 
@@ -7912,7 +7902,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query("INSERT INTO tmp_migration SET page_id = '".$row->page_id."', parent_id = '".$row->parent_id."', passed = 1");
 }
 $log->write("Page object: Finished migration");
-chdir($wd);
 ?>
 <#492>
 DROP TABLE IF EXISTS `tmp_migration`;
@@ -9065,7 +9054,7 @@ while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 <#588>
 <?php
 $wd = getcwd();
-chdir('..');
+
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
 
@@ -9114,7 +9103,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 	$technical->update();
 
 }
-chdir($wd);
+
 ?>
 <#589>
 <?php
@@ -9539,7 +9528,7 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#635>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('entity','date','description');
 $table = 'il_meta_annotation';
@@ -9549,7 +9538,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#636>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('purpose','description');
 $table = 'il_meta_classification';
@@ -9559,7 +9548,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#637>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('role','date');
 $table = 'il_meta_contribute';
@@ -9569,7 +9558,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#638>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('description');
 $table = 'il_meta_description';
@@ -9579,7 +9568,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#639>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('interactivity_type','learning_resource_type','interactivity_level','semantic_density','intended_end_user_role',
 				'context','difficulty','typical_learning_time');
@@ -9590,7 +9579,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#640>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('entity');
 $table = 'il_meta_entity';
@@ -9600,7 +9589,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#641>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('format');
 $table = 'il_meta_format';
@@ -9610,7 +9599,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#642>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('general_structure','title','coverage');
 $table = 'il_meta_general';
@@ -9620,7 +9609,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#643>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('catalog','entry');
 $table = 'il_meta_identifier';
@@ -9630,7 +9619,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#644>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('catalog','entry');
 $table = 'il_meta_identifier_';
@@ -9640,7 +9629,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#645>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('keyword');
 $table = 'il_meta_keyword';
@@ -9650,7 +9639,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#646>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('language');
 $table = 'il_meta_language';
@@ -9660,7 +9649,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#647>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('lifecycle_status','meta_version','version_language');
 $table = 'il_meta_lifecycle';
@@ -9670,7 +9659,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#648>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('location','location_type');
 $table = 'il_meta_location';
@@ -9680,7 +9669,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#649>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('meta_data_scheme','language');
 $table = 'il_meta_meta_data';
@@ -9690,7 +9679,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#650>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('kind');
 $table = 'il_meta_relation';
@@ -9700,7 +9689,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#651>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('operating_system_name','operating_system_minimum_version','operating_system_maximum_version',
 				'browser_name','browser_minimum_version','browser_maximum_version');
@@ -9711,7 +9700,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#652>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('description','costs','copyright_and_other_restrictions');
 $table = 'il_meta_rights';
@@ -9721,7 +9710,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#653>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('taxon','taxon_id');
 $table = 'il_meta_taxon';
@@ -9731,7 +9720,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#654>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('source','source_language');
 $table = 'il_meta_taxon_path';
@@ -9741,7 +9730,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#655>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('size','installation_remarks','other_platform_requirements','duration');
 $table = 'il_meta_technical';
@@ -9751,7 +9740,7 @@ ilMDConvert($table,$fields,$key);
 ?>
 <#656>
 <?php
-include_once '../Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
+include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('typical_age_range','typical_age_range_max','typical_age_range_min');
 $table = 'il_meta_typical_age_range';

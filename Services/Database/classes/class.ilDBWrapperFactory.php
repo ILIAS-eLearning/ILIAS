@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,32 +21,34 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+include_once ("./Services/Database/classes/class.ilDB.php");
+
 /**
-* setup file for ilias
-* 
-* this file helps setting up ilias
-* main purpose is writing the ilias.ini to the filesystem
-* it can set up the database to if the settings are correct and the dbuser has the rights
+* DB Wrapper Factory. Delivers a DB wrapper object depending on given
+* DB type and DSN.
 *
-* @author Sascha Hofmann <shofmann@databay.de> 
-* @version $Id$
-*
-* @package ilias-setup
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id: class.ilDB.php 18989 2009-02-15 12:57:19Z akill $
+* @ingroup ServicesDatabase
 */
-
-chdir("..");
-
-// get pear
-// look for embedded pear
-if (is_dir("./pear"))
+class ilDBWrapperFactory
 {
-	ini_set("include_path", "./pear:".ini_get("include_path"));
+	static function getWrapper($a_type)
+	{
+		switch ($a_type)
+		{
+			case "mysql":
+				include_once("./Services/Database/classes/class.ilDBMySQL.php");
+				$ilDB = new ilDBMySQL();
+				break;
+
+			case "oracle":
+				include_once("./Services/Database/classes/class.ilDBOracle.php");
+				$ilDB = new ilDBOracle();
+				break;
+		}
+		
+		return $ilDB;
+	}
 }
-
-require_once "./setup/include/inc.setup_header.php";
-
-// display info messages
-//ilUtil::sendInfo();
-
-$setup =& new ilSetupGUI();
-?>

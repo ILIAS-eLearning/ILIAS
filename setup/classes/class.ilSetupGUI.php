@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -30,7 +30,7 @@
  * @version  $Id$
  */
 
-require_once "class.ilSetup.php";
+require_once "./setup/classes/class.ilSetup.php";
 
 class ilSetupGUI
 {
@@ -1132,7 +1132,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway");
 
 		// build table
-		include_once "../Services/Table/classes/class.ilTableGUI.php";
+		include_once "./Services/Table/classes/class.ilTableGUI.php";
 		$tbl = new ilTableGUI();
 		$tbl->disable("sort");
 		//$tbl->enable("header");
@@ -1582,7 +1582,7 @@ class ilSetupGUI
 			$this->setup->getClient()->setDbUser($_POST["form"]["db_user"]);
 			$this->setup->getClient()->setDbPass($_POST["form"]["db_pass"]);
 			$this->setup->getClient()->setDbType($_POST["form"]["db_type"]);
-			$this->setup->getClient()->setDSN();
+			//$this->setup->getClient()->setDSN();
 			
 			// try to connect to database
 			if (!$this->setup->getClient()->checkDatabaseHost())
@@ -1591,11 +1591,13 @@ class ilSetupGUI
 			}
 
 			// check database version
+/*
 			if (!$this->setup->getClient()->isMysql4_1OrHigher() && 
 				$this->setup->getClient()->getDbType() != "oracle")
 			{
 				$this->setup->raiseError($this->lng->txt("need_mysql_4_1_or_higher"),$this->setup->error_obj->MESSAGE);
 			}
+*/
 			
 			// check if db exists
 			$db_installed = $this->setup->getClient()->checkDatabaseExists();
@@ -1824,7 +1826,7 @@ class ilSetupGUI
 			case "view":
 				$this->tpl->addBlockFile("CONTENT","content","tpl.clientview.html");
 				// display tabs
-				include "./include/inc.client_tabs.php";
+				include "./setup/include/inc.client_tabs.php";
 				$client_name = ($this->setup->getClient()->getName()) ? $this->setup->getClient()->getName() : $this->lng->txt("no_client_name");
 				$this->tpl->setVariable("TXT_HEADER",$client_name." (".$this->lng->txt("client_id").": ".$this->setup->getClient()->getId().")");       
 				break;
@@ -1886,7 +1888,6 @@ class ilSetupGUI
 		if ($_POST["form"]["db_flag"] == 1)
 		{
 			$message = "";
-			
 			if (!$this->setup->getClient()->db_installed)
 			{
 				if (!$this->setup->getClient()->db_exists)
@@ -1905,7 +1906,6 @@ class ilSetupGUI
 						$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);                  
 					}
 				}
-				
 				if (!$this->setup->installDatabase())
 				{
 					$message = $this->lng->txt($this->setup->getError());
@@ -1919,20 +1919,17 @@ class ilSetupGUI
 			}
 			else
 			{
-				include_once "../Services/Database/classes/class.ilDBUpdate.php";
-				include_once "../Services/AccessControl/classes/class.ilRbacAdmin.php";
-				include_once "../Services/AccessControl/classes/class.ilRbacReview.php";
-				include_once "../Services/AccessControl/classes/class.ilRbacSystem.php";
-				include_once "../Services/Tree/classes/class.ilTree.php";
-				include_once "../classes/class.ilSaxParser.php";
-				include_once "../Services/Object/classes/class.ilObjectDefinition.php";
+				include_once "./Services/Database/classes/class.ilDBUpdate.php";
+				include_once "./Services/AccessControl/classes/class.ilRbacAdmin.php";
+				include_once "./Services/AccessControl/classes/class.ilRbacReview.php";
+				include_once "./Services/AccessControl/classes/class.ilRbacSystem.php";
+				include_once "./Services/Tree/classes/class.ilTree.php";
+				include_once "./classes/class.ilSaxParser.php";
+				include_once "./Services/Object/classes/class.ilObjectDefinition.php";
 
 				// referencing db handler in language class
-				$ilDB = new ilDB($this->setup->getClient()->dsn);
+				$ilDB = $this->setup->getClient()->db;
 				$this->lng->setDbHandler($ilDB);
-
-				// referencing does not work in dbupdate-script
-				$ilDB = new ilDB($this->setup->getClient()->dsn);
 
 				// run dbupdate
 				$dbupdate = new ilDBUpdate($ilDB);
@@ -1967,8 +1964,8 @@ class ilSetupGUI
 			// referencing db handler in language class
 			//$this->lng->setDbHandler($this->setup->getClient()->db);
 
-			include_once "../Services/Database/classes/class.ilDBUpdate.php";
-			$ilDB = new ilDB($this->setup->getClient()->dsn);
+			include_once "./Services/Database/classes/class.ilDBUpdate.php";
+			$ilDB = $this->setup->getClient()->db;
 			$this->lng->setDbHandler($ilDB);
 			$dbupdate = new ilDBUpdate($ilDB);
 
@@ -1991,7 +1988,7 @@ class ilSetupGUI
 			}
 			
 			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
-			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
+			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getDBVersion());
 			//$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
 			
 			/*if ($ilDB->isMySQL4_1OrHigher())
@@ -2018,23 +2015,16 @@ class ilSetupGUI
 			$this->tpl->setVariable("DB_CREATE_CHECK",$checked);
 			$this->tpl->parseCurrentBlock();
 
-			$ilDB = new ilDB($this->setup->getClient()->dsn_host);
+			$ilDB = $this->setup->getClient()->db;
 			
-			if ($ilDB->isMySQL4_1OrHigher())
-			{
-				$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_install"));
-				$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_db")."<br />".
-					"<p><code>CREATE DATABASE &lt;your_db&gt; CHARACTER SET utf8 COLLATE &lt;your_collation&gt;</code></p>".
-					"<p><b>".$this->lng->txt("info_text_db2")."</b></p><br/>");
-			}
-			else
-			{
-				$this->tpl->setVariable("TXT_INFO", "<p><b>".$this->lng->txt("need_mysql_4_1_or_higher")."</b></p><br />");
-			}
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_install"));
+			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_db")."<br />".
+				"<p><code>CREATE DATABASE &lt;your_db&gt; CHARACTER SET utf8 COLLATE &lt;your_collation&gt;</code></p>".
+				"<p><b>".$this->lng->txt("info_text_db2")."</b></p><br/>");
 			
 			// output version
 			$this->tpl->setVariable("TXT_DB_VERSION", $this->lng->txt("version"));
-			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getMySQLVersion());
+			$this->tpl->setVariable("VAL_DB_VERSION", $ilDB->getDBVersion());
 			//$this->tpl->setVariable("TXT_DB_MODE", $this->lng->txt("ilias_db_mode"));
 			
 			/*if ($ilDB->isMySQL4_1OrHigher())
@@ -2049,7 +2039,7 @@ class ilSetupGUI
 			
 			// collation selection ( see utf8 collations at
 			// http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html )
-			if ($ilDB->isMySQL4_1OrHigher())
+			if ($this->setup->getClient()->getDBType() == "mysql")
 			{
 				$collations = array
 				(
@@ -2535,7 +2525,7 @@ class ilSetupGUI
 		$this->tpl->setVariable("TXT_CTRL_STRUCTURE", $this->lng->txt("ctrl_structure"));
 		$this->tpl->setVariable("TXT_RELOAD", $this->lng->txt("reload"));
 
-		$ilDB = new ilDB($this->setup->getClient()->dsn);
+		$ilDB = $this->setup->getClient()->db;
 		$cset = $ilDB->query("SELECT count(*) as cnt FROM ctrl_calls");
 		$crec = $ilDB->fetchAssoc($cset);
 
@@ -2573,16 +2563,14 @@ class ilSetupGUI
 		$GLOBALS["ilDB"] = new ilDB($this->setup->getClient()->dsn);
 // BEGIN WebDAV
 		// read module and service information into db
-		require_once "./classes/class.ilModuleReader.php";
-		require_once "./classes/class.ilServiceReader.php";
-		require_once "./classes/class.ilCtrlStructureReader.php";
+		require_once "./setup/classes/class.ilModuleReader.php";
+		require_once "./setup/classes/class.ilServiceReader.php";
+		require_once "./setup/classes/class.ilCtrlStructureReader.php";
 
-		chdir("..");
 		require_once "./Services/Component/classes/class.ilModule.php";
 		require_once "./Services/Component/classes/class.ilService.php";
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
-		chdir("./setup");
 
 		ilModuleReader::clearTables();
 		foreach($modules as $module)

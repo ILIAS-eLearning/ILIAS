@@ -368,7 +368,6 @@ ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 <#908>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -428,7 +427,6 @@ foreach($file_ids as $file_id)
 	$ilLog->write('DB Migration 905: File size is '.$size.' Bytes');
 }
 
-chdir($wd);
 ?>
 <#909>
 DROP TABLE IF EXISTS tmp_migration;
@@ -582,7 +580,6 @@ CREATE TABLE `tmp_migration` (
 <#927>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -634,7 +631,6 @@ foreach($event_ids as $event_id)
 	$ilDB->query($query);
 }
 
-chdir($wd);
 ?>
 <#928>
 DROP TABLE IF EXISTS tmp_migration;
@@ -648,7 +644,6 @@ CREATE TABLE `tmp_migration` (
 <#930>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -709,7 +704,6 @@ foreach($archive_ids as $archive_id => $data)
 	$ilDB->query($query);
 }
 
-chdir($wd);
 ?>
 <#931>
 DROP TABLE IF EXISTS tmp_migration;
@@ -869,7 +863,6 @@ if(!$res->numRows())
 <#944>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -914,7 +907,6 @@ if(@is_dir($dir = ilUpdateUtils::getDataDir().'/course'))
 
 	}
 }
-chdir($wd);
 ?>
 <#945>
 <?php
@@ -1699,7 +1691,6 @@ ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 <#1024>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -1759,7 +1750,6 @@ foreach($file_ids as $file_id)
 	$ilLog->write('DB Migration 905: File size is '.$size.' Bytes');
 }
 
-chdir($wd);
 ?>
 <#1025>
 DROP TABLE IF EXISTS tmp_migration;
@@ -1776,7 +1766,6 @@ ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 <#1027>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -1828,7 +1817,6 @@ foreach($event_ids as $event_id)
 	$ilDB->query($query);
 }
 
-chdir($wd);
 ?>
 <#1028>
 DROP TABLE IF EXISTS tmp_migration;
@@ -1844,7 +1832,6 @@ ALTER TABLE `tmp_migration` ADD INDEX `obj_passed` ( `obj_id` ,`passed` );
 <#1030>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -1905,7 +1892,6 @@ foreach($archive_ids as $archive_id => $data)
 	$ilDB->query($query);
 }
 
-chdir($wd);
 ?>
 <#1031>
 DROP TABLE IF EXISTS tmp_migration;
@@ -1913,7 +1899,6 @@ DROP TABLE IF EXISTS tmp_migration;
 <#1032>
 <?php
 $wd = getcwd();
-chdir('..');
 
 
 global $ilLog;
@@ -1959,7 +1944,6 @@ if(@is_dir($dir = ilUpdateUtils::getDataDir().'/course'))
 
 	}
 }
-chdir($wd);
 ?>
 
 <#1033>
@@ -4343,7 +4327,6 @@ $ilDB->query($query);
 <?php
 
 $wd = getcwd();
-chdir('..');
 
 include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 
@@ -4441,14 +4424,12 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 
-chdir($wd);
 ?>
 
 <#1249>
 <?php
 
 $wd = getcwd();
-chdir('..');
 
 include_once('Services/Calendar/classes/class.ilCalendarAppointmentColors.php');
 
@@ -4514,7 +4495,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 
-chdir($wd);
 ?>
 <#1250>
 <?php
@@ -4646,7 +4626,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 <#1255>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -4690,13 +4669,11 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 
 }
-chdir($wd);
 ?>
 
 <#1256>
 <?php
 $wd = getcwd();
-chdir('..');
 
 global $ilLog;
 
@@ -4737,7 +4714,6 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->query($query);
 }
 
-chdir($wd);
 ?>
 <#1257>
 ALTER TABLE il_wiki_data ADD COLUMN introduction TEXT;
@@ -6484,7 +6460,7 @@ ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plug
 ?>
 <#1385>
 <?php
-	include_once("../Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
+	include_once("./Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
 	ilStyleMigration::addMissingStyleCharacteristics();
 ?>
 <#1386>
@@ -6553,7 +6529,7 @@ ALTER TABLE `shib_role_assignment` ADD `plugin_id` INT( 3 ) NOT NULL AFTER `plug
 	$q = "DELETE FROM `style_parameter` WHERE type = 'page_cont'";
 	$ilDB->query($q);
 
-	include_once("../Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
+	include_once("./Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
 	ilStyleMigration::_addMissingStyleClassesToAllStyles();
 ?>
 <#1388>
@@ -7533,7 +7509,7 @@ if ($res->numRows() == 1)
 ?>
 <#1572>
 <?php
-	include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
+	include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
 	$analyzer = new ilDBAnalyzer();
 	$pk = $analyzer->getPrimaryKeyInformation("il_object_def");
 	$fields = $analyzer->getFieldInformation("il_object_def");

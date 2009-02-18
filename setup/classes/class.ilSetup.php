@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./classes/class.ilDBConnections.php");
+include_once("./setup/classes/class.ilDBConnections.php");
 
 /**
 * Setup class
@@ -52,7 +52,7 @@ class ilSetup extends PEAR
 	* @var		string
 	* @access	private
 	*/
-	var $SQL_FILE = "../setup/sql/ilias3.sql";
+	var $SQL_FILE = "./setup/sql/ilias3.sql";
 
 	/**
 	*  database connector
@@ -247,14 +247,15 @@ class ilSetup extends PEAR
 			return false;
 		}
 		
+		$this->client->getDB()->connectHost(true);
+		
 		//create database
-		$db = $this->db_connections->connectHost($this->client->dsn_host);
+		$db = $this->client->getDB();
 		if (MDB2::isError($db))
 		{
 			$this->error = "connection_failed";
 			return false;
 		}
-
 		if ($a_collation != "")
 		{
 			$sql = "CREATE DATABASE ".$this->client->getdbName().
@@ -265,8 +266,10 @@ class ilSetup extends PEAR
 		{
 			$sql = "CREATE DATABASE ".$this->client->getdbName();
 		}
+
 		$r = $db->query($sql);
 
+		
 		if (MDB2::isError($r))
 		{
 			$this->error = "create_database_failed";
@@ -286,11 +289,11 @@ class ilSetup extends PEAR
 	*/
 	function installDatabase()
 	{
-		if (!$this->client->checkDatabaseHost())
+/*		if (!$this->client->checkDatabaseHost())
 		{
 			$this->error = "no_connection_to_host";
 			return false;
-		}
+		}*/
 
 		if (!$this->client->connect())
 		{
@@ -330,39 +333,49 @@ class ilSetup extends PEAR
 	*/
 	function readDump($db, $file)
 	{
-		$fp = fopen($file, 'r');
-
-		while(!feof($fp))
+		// mysql (old procedure)
+		if ($db->getDBType() == "mysql")
 		{
-			//$line = trim(fgets($fp, 200000));
-			$line = trim($this->getline($fp, "\n"));
-
-			if ($line != "" && substr($line,0,1)!="#"
-				&& substr($line,0,1)!="-")
+			$fp = fopen($file, 'r');
+	
+			while(!feof($fp))
 			{
-				//take line per line, until last char is ";"
-				if (substr($line,-1)==";")
+				//$line = trim(fgets($fp, 200000));
+				$line = trim($this->getline($fp, "\n"));
+	
+				if ($line != "" && substr($line,0,1)!="#"
+					&& substr($line,0,1)!="-")
 				{
-					//query is complete
-					$q .= " ".substr($line,0,-1);
-					$r = $db->query($q);
-					if (mysql_errno() > 0)
+					//take line per line, until last char is ";"
+					if (substr($line,-1)==";")
 					{
-						echo "<br />ERROR: ".mysql_error().
-							"<br />SQL: $q";
-						return false;
-					}
-					unset($q);
-					unset($line);
+						//query is complete
+						$q .= " ".substr($line,0,-1);
+						$r = $db->query($q);
+						if (mysql_errno() > 0)
+						{
+							echo "<br />ERROR: ".mysql_error().
+								"<br />SQL: $q";
+							return false;
+						}
+						unset($q);
+						unset($line);
+					} //if
+					else
+					{
+						$q .= " ".$line;
+					} //else
 				} //if
-				else
-				{
-					$q .= " ".$line;
-				} //else
-			} //if
-		} //for
+			} //for
+			
+			fclose($fp);
+		}
 		
-		fclose($fp);
+		if ($db->getDBType() == "oracle")
+		{
+			include_once("./setup/sql/ilDBTemplate.php");
+			setupILIASDatabase();
+		}
 		return true;
 	}
 
@@ -944,10 +957,10 @@ class ilSetup extends PEAR
 		$client->setup_ok = (bool) $client->getSetting("setup_ok");
 			
 		//$this->lng->setDbHandler($client->db);
-		include_once "../Services/Database/classes/class.ilDBUpdate.php";
-		$ilDB = new ilDB($client->dsn);
-		$this->lng->setDbHandler($ilDB);
-		$dbupdate = new ilDBUpdate($ilDB);
+		include_once "./Services/Database/classes/class.ilDBUpdate.php";
+		$ilDB = $client->db;
+		$this->lng->setDbHandler($client->db);
+		$dbupdate = new ilDBUpdate($client->db);
 				
 		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
 		{
@@ -1544,7 +1557,7 @@ class ilSetup extends PEAR
 		}
 				
 		// open the URL
-		include_once "class.ilHttpRequest.php";
+		include_once "./setup/classes/class.ilHttpRequest.php";
 		$http = new ilHttpRequest(ilUtil::stripSlashes($a_latex_url) . "?x_0");
 		$result = @$http->downloadToString();
 		if ((strpos((substr($result, 0, 5)), "PNG") !== FALSE) || (strpos((substr($result, 0, 5)), "GIF") !== FALSE))

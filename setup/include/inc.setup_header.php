@@ -31,7 +31,7 @@
 
 define("DEBUG",false);
 
-require_once "../include/inc.check_pear.php";
+require_once "./include/inc.check_pear.php";
 
 //include files from PEAR
 require_once "PEAR.php";
@@ -41,31 +41,31 @@ require_once "PEAR.php";
 @include_once "HTML/Template/ITX.php";		// new implementation
 if (class_exists("HTML_Template_ITX"))
 {
-	include_once "../classes/class.ilTemplateHTMLITX.php";
+	include_once "./classes/class.ilTemplateHTMLITX.php";
 }
 else
 {
 	include_once "HTML/ITX.php";		// old implementation
-	include_once "../classes/class.ilTemplateITX.php";
+	include_once "./classes/class.ilTemplateITX.php";
 }
-require_once "./classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class 
+require_once "./setup/classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class 
 
-require_once "./classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class 
-require_once "../Services/Logging/classes/class.ilLog.php";
-require_once "../Services/Utilities/classes/class.ilUtil.php";
-require_once "../classes/class.ilIniFile.php";
-require_once "../Services/Database/classes/class.ilDB.php";
-require_once "./classes/class.ilSetupGUI.php";
-require_once "./classes/class.Session.php";
-require_once "./classes/class.ilClientList.php";
-require_once "./classes/class.ilClient.php";
-require_once "../classes/class.ilFile.php";
-require_once "./classes/class.ilCtrlStructureReader.php";
-require_once "../classes/class.ilSaxParser.php";
-require_once "../include/inc.ilias_version.php";
+require_once "./setup/classes/class.ilLanguage.php";	// modified class. needs to be merged with base language class 
+require_once "./Services/Logging/classes/class.ilLog.php";
+require_once "./Services/Utilities/classes/class.ilUtil.php";
+require_once "./classes/class.ilIniFile.php";
+require_once "./Services/Database/classes/class.ilDB.php";
+require_once "./setup/classes/class.ilSetupGUI.php";
+require_once "./setup/classes/class.Session.php";
+require_once "./setup/classes/class.ilClientList.php";
+require_once "./setup/classes/class.ilClient.php";
+require_once "./classes/class.ilFile.php";
+require_once "./setup/classes/class.ilCtrlStructureReader.php";
+require_once "./classes/class.ilSaxParser.php";
+require_once "./include/inc.ilias_version.php";
 
 // include error_handling
-require_once "../classes/class.ilErrorHandling.php";
+require_once "./classes/class.ilErrorHandling.php";
 
 $ilErr = new ilErrorHandling();
 $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
@@ -109,19 +109,19 @@ $ilLog =& $log;
 
 // init template - in the main program please use ILIAS Template class
 // instantiate main template
-$tpl = new ilTemplate("./templates");
+$tpl = new ilTemplate("./setup/templates");
 $tpl->loadTemplatefile("tpl.main.html", true, true);
 
 // make instance of structure reader
 $ilCtrlStructureReader = new ilCtrlStructureReader();
 $ilCtrlStructureReader->setErrorObject($ilErr);
 
-require_once "../classes/class.ilBenchmark.php";
+require_once "./classes/class.ilBenchmark.php";
 $ilBench =& new ilBenchmark();
 $GLOBALS['ilBench'] =& $ilBench;
 
-include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
-include_once("../Services/Database/classes/class.ilMySQLAbstraction.php");
-include_once("../Services/Database/classes/class.ilDBGenerator.php");
+include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+include_once("./Services/Database/classes/class.ilMySQLAbstraction.php");
+include_once("./Services/Database/classes/class.ilDBGenerator.php");
 
 ?>

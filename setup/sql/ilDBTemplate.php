@@ -186,6 +186,8 @@ $fields = array (
 		,"fixed" => true
 		,"type" => "text"
 	)
+);
+/*
 	,"online" => array (
 		"notnull" => false
 		,"length" => 1
@@ -303,7 +305,7 @@ $fields = array (
 		,"fixed" => true
 		,"type" => "text"
 	)
-);
+);*/
 $ilDB->createTable("content_object", $fields);
 
 $pk_fields = array("id");
@@ -908,7 +910,7 @@ $fields = array (
 		,"fixed" => false
 		,"type" => "text"
 	)
-	,"file" => array (
+	,"file2" => array (
 		"notnull" => false
 		,"length" => 250
 		,"fixed" => false
@@ -927,7 +929,7 @@ $pk_fields = array("class");
 $ilDB->addPrimaryKey("ctrl_classfile", $pk_fields);
 
 $st = $ilDB->prepareManip("INSERT INTO ctrl_classfile 
-	(class,file,comp_prefix)
+	(class,file2,comp_prefix)
 	VALUES (?,?,?)",
 	array("text","text","text"));
 $ilDB->execute($st,array('illpfiltergui','Services/Tracking/classes/class.ilLPFilterGUI.php',''));

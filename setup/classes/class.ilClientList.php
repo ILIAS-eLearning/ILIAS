@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -49,8 +49,8 @@ class ilClientList
 	{
 		// set path to directory where clients reside
 		$d = dir($this->path);
-		$tmpPath = getcwd();
-		chdir ($this->path);
+//		$tmpPath = getcwd();
+//		chdir ($this->path);
 
 		// get available lang-files
 		while ($entry = $d->read())
@@ -66,7 +66,7 @@ class ilClientList
 			}
 		}
 
-		chdir($tmpPath);
+//		chdir($tmpPath);
 	}
 	
 	/**

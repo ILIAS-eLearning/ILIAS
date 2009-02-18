@@ -1,6 +1,6 @@
 <?php
 
-include "classes/class.ilCtrlStructureReader.php";
+include "./setup/classes/class.ilCtrlStructureReader.php";
 
 $reader = new ilCtrlStructureReader();
 

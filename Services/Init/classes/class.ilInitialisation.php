@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -397,13 +397,15 @@ class ilInitialisation
 		define ("CLIENT_WEB_DIR",ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".CLIENT_ID);
 		define ("CLIENT_NAME",$ilClientIniFile->readVariable('client','name')); // Change SS
 
-		// build dsn of database connection and connect
-		define ("IL_DSN", $ilClientIniFile->readVariable("db","type").
-					 "://".$ilClientIniFile->readVariable("db", "user").
-					 ":".$ilClientIniFile->readVariable("db", "pass").
-					 "@".$ilClientIniFile->readVariable("db", "host").
-					 "/".$ilClientIniFile->readVariable("db", "name"));
-
+		$val = $ilClientIniFile->readVariable("db","type");
+		if ($val == "")
+		{
+			define ("IL_DB_TYPE", "mysql");
+		}
+		else
+		{
+			define ("IL_DB_TYPE", $val);
+		}
 		return true;
 	}
 
@@ -432,22 +434,22 @@ class ilInitialisation
 	/**
 	* initialise database object $ilDB
 	*
-	* precondition: IL_DSN must be set
 	*/
 	function initDatabase()
 	{
-		global $ilDB;
-
-		// check whether ILIAS_WEB_DIR is set.
-		if (IL_DSN == "")
-		{
-			die ("Fatal Error: ilInitialisation::initDatabase called without IL_DSN.");
-		}
+		global $ilDB, $ilClientIniFile;
 
 		// build dsn of database connection and connect
-		require_once("./Services/Database/classes/class.ilDB.php");
-		$ilDB = new ilDB(IL_DSN);
+		require_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
+		$ilDB = ilDBWrapperFactory::getWrapper(IL_DB_TYPE);
+		$ilDB->setDBUser($ilClientIniFile->readVariable("db", "user"));
+		$ilDB->setDBHost($ilClientIniFile->readVariable("db", "host"));
+		$ilDB->setDBPassword($ilClientIniFile->readVariable("db", "pass"));
+		$ilDB->setDBName($ilClientIniFile->readVariable("db", "name"));
+		$ilDB->connect();
 		$GLOBALS['ilDB'] =& $ilDB;
+		
+		define ("IL_DSN", $ilDB->getDSN());
 	}
 
 	/**
