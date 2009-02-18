@@ -360,12 +360,12 @@ class ilDBGenerator
 				$types = array();
 				foreach ($rec as $f => $v)
 				{
-					$fields[] = "`".$f."`";
+					$fields[] = $f;
 					$types[] = '"'.$this->fields[$f]["type"].'"';
 				}
 				$fields_str = "(".implode($fields, ",").")";
 				$types_str = "array(".implode($types, ",").")";
-				$ins_st = "\n".'$st = $ilDB->prepareManip("INSERT INTO `'.$a_table.'` '."\n";
+				$ins_st = "\n".'$st = $ilDB->prepareManip("INSERT INTO '.$a_table.' '."\n";
 				$ins_st.= "\t".$fields_str."\n";
 				$ins_st.= "\t".'VALUES '."(?".str_repeat(",?", count($fields) - 1).')"'.",\n";
 				$ins_st.= "\t".$types_str.');'."\n";
