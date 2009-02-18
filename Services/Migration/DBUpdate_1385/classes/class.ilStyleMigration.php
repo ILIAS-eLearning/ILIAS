@@ -131,8 +131,8 @@ class ilStyleMigration
 		);
 	
 	// basic style xml file, image directory and dom
-	protected static $basic_style_file = "../Services/Migration/DBUpdate_1385/basic_style/style.xml";
-	protected static $basic_style_image_dir = "../Services/Migration/DBUpdate_1385/basic_style/images";
+	protected static $basic_style_file = "./Services/Migration/DBUpdate_1385/basic_style/style.xml";
+	protected static $basic_style_image_dir = "./Services/Migration/DBUpdate_1385/basic_style/images";
 	protected static $basic_style_dom;
 	
 	/**
