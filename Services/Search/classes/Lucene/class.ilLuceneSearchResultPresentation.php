@@ -118,6 +118,7 @@ class ilLuceneSearchResultPresentation
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
 			$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
 			$item_list_gui->setSearchFragment($this->lookupContent($obj_id,0));
+			$item_list_gui->setRelevance($this->getRelevance($obj_id));
 			
 			if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
 			{
@@ -189,23 +190,27 @@ class ilLuceneSearchResultPresentation
 	
 	// searcher
 	/**
+	 * get relevance 
+	 * @param
+	 * @return
+	 */
+	protected function getRelevance($a_obj_id)
+	{
+		return $this->searcher->getResult()->getRelevance($a_obj_id);
+	}
+	
+	/**
 	 * 
 	 * @param
 	 * @return
 	 */
 	protected function lookupTitle($a_obj_id,$a_sub_id)
 	{
-		if(is_object($this->searcher->getResult()))
-		{
-			#$score = '  <strong>'.sprintf("%.02f%%",$this->searcher->getResult()->getRelevance($a_obj_id)).'</strong>';
-			$prefix = '<strong>'.sprintf("%.02f%%",$this->searcher->getResult()->getRelevance($a_obj_id)).' </strong>';
-		}
-		
 		if(strlen($title = $this->searcher->getHighlighter()->getTitle($a_obj_id,$a_sub_id)))
 		{
-			return $prefix.$title.$score;
+			return $title;
 		}
-		return $prefix.ilObject::_lookupTitle($a_obj_id).$score;
+		return ilObject::_lookupTitle($a_obj_id);
 	}
 	
 	/**
