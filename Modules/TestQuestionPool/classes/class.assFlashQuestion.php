@@ -34,7 +34,7 @@ class assFlashQuestion extends assQuestion
 {
 	private $width;
 	private $height;
-	private $paramters;
+	private $parameters;
 	private $applet;
 
 	/**
