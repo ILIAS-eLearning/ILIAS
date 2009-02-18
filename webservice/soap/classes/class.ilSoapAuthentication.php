@@ -193,7 +193,10 @@ class ilSoapAuthentication extends ilBaseAuthentication
 		include_once './Services/Database/classes/class.ilDB.php';
 
 		//$db =& new ilDB($this->dsn);
-		$GLOBALS["ilDB"] = new ilDB($this->dsn);
+		$ilDB = $this->db;
+		$ilDB->connect();
+
+		$GLOBALS["ilDB"] = $ilDB;
 		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting();
 		return ($set->get("soap_user_administration") == 1);

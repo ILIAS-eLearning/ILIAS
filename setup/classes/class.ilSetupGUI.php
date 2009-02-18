@@ -2560,7 +2560,7 @@ class ilSetupGUI
 		}
 
 		// referencing does not work in dbupdate-script
-		$GLOBALS["ilDB"] = new ilDB($this->setup->getClient()->dsn);
+		$GLOBALS["ilDB"] = $this->setup->getClient()->getDB();
 // BEGIN WebDAV
 		// read module and service information into db
 		require_once "./setup/classes/class.ilModuleReader.php";

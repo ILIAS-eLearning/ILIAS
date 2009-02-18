@@ -196,6 +196,22 @@ abstract class ilDB extends PEAR
 	abstract function getReservedWords();
 
 	/**
+	* Init db parameters from ini file
+	*/
+	function initFromIniFile()
+	{
+		global $ilClientIniFile;
+		
+		if (is_object($ilClientIniFile))
+		{
+			$this->setDBUser($ilClientIniFile->readVariable("db", "user"));
+			$this->setDBHost($ilClientIniFile->readVariable("db", "host"));
+			$this->setDBPassword($ilClientIniFile->readVariable("db", "pass"));
+			$this->setDBName($ilClientIniFile->readVariable("db", "name"));
+		}
+	}
+	
+	/**
 	* Open the connection
 	*/
 	function connect($a_return_false_for_error = false)
