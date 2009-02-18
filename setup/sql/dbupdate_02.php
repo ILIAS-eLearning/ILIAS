@@ -7821,3 +7821,7 @@ ALTER TABLE `conditions` CHANGE `id` `condition_id` INT( 11 ) NOT NULL DEFAULT '
 	$ilMySQLAbstraction->performAbstraction('link_check_report');
 ?>
 
+<#1636>
+<?php
+	$ilMySQLAbstraction->performAbstraction('role_desktop_items');
+?>

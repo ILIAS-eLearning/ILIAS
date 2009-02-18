@@ -66,13 +66,15 @@ class ilRoleDesktopItem
 		
 		if($a_item_type and $a_item_id)
 		{
-			$query = "INSERT INTO role_desktop_items ".
-				"SET role_id = ".$ilDB->quote($this->getRoleId()).", ".
-				"item_id = ".$ilDB->quote($a_item_id).", ".
-				"item_type = ".$ilDB->quote($a_item_type);
-
-			$this->db->query($query);
-
+			$next_id = $ilDB->nextId('role_desktop_items');
+			$query = "INSERT INTO role_desktop_items (role_item_id,role_id,item_id,item_type) ".
+				"VALUES (".
+				$ilDB->quote($next_id,'integer').','.
+				$ilDB->quote($this->getRoleId(),'integer').", ".
+				$ilDB->quote($a_item_id,'integer').", ".
+				$ilDB->quote($a_item_type,'text')." ".
+				")";
+			$res = $ilDB->manipulate($query);
 			$this->__assign($a_item_id,$a_item_type);
 			
 			return true;
@@ -84,9 +86,8 @@ class ilRoleDesktopItem
 		global $ilDB;
 		
 		$query = "DELETE FROM role_desktop_items ".
-			"WHERE role_item_id = ".$ilDB->quote($a_role_item_id);
-
-		$this->db->query($query);
+			"WHERE role_item_id = ".$ilDB->quote($a_role_item_id,'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -96,9 +97,8 @@ class ilRoleDesktopItem
 		global $ilDB;
 		
 		$query = "DELETE FROM role_desktop_items ".
-			"WHERE role_id = ".$ilDB->quote($this->getRoleId());
-
-		$this->db->query($query);
+			"WHERE role_id = ".$ilDB->quote($this->getRoleId(),'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -108,10 +108,9 @@ class ilRoleDesktopItem
 		global $ilDB;
 		
 		$query = "SELECT * FROM role_desktop_items ".
-			"WHERE role_id = ".$ilDB->quote($this->getRoleId())." ".
-			"AND item_id = ".$ilDB->quote($a_item_ref_id)." ";
-
-		$res = $this->db->query($query);
+			"WHERE role_id = ".$ilDB->quote($this->getRoleId(),'integer')." ".
+			"AND item_id = ".$ilDB->quote($a_item_ref_id,'integer')." ";
+		$res = $ilDB->query($query);
 
 		return $res->numRows() ? true : false;
 	}
@@ -121,10 +120,10 @@ class ilRoleDesktopItem
 		global $ilDB;
 		
 		$query = "SELECT * FROM role_desktop_items ".
-			"WHERE role_id = ".$ilDB->quote($this->getRoleId())." ".
-			"AND role_item_id = ".$ilDB->quote($a_role_item_id)." ";
+			"WHERE role_id = ".$ilDB->quote($this->getRoleId(),'integer')." ".
+			"AND role_item_id = ".$ilDB->quote($a_role_item_id,'integer')." ";
 
-		$res = $this->db->query($query);
+		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$item['item_id'] = $row->item_id;
@@ -139,11 +138,12 @@ class ilRoleDesktopItem
 	function getAll()
 	{
 		global $tree;
+		global $ilDB;
 
 		$query = "SELECT * FROM role_desktop_items ".
-			"WHERE role_id = ".$this->db->quote($this->getRoleId())." ";
+			"WHERE role_id = ".$this->db->quote($this->getRoleId(),'integer')." ";
 
-		$res = $this->db->query($query);
+		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			// TODO this check must be modified for non tree objects
