@@ -315,12 +315,10 @@ class ilDBUpdate
 		require_once "./setup/classes/class.ilServiceReader.php";
 		require_once "./setup/classes/class.ilCtrlStructureReader.php";
 
-		chdir("..");
 		require_once "./Services/Component/classes/class.ilModule.php";
 		require_once "./Services/Component/classes/class.ilService.php";
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
-		chdir("./setup");
 
 		ilModuleReader::clearTables();
 		foreach($modules as $module)
