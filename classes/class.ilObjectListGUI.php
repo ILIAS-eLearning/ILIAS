@@ -69,6 +69,7 @@ class ilObjectListGUI
 	
 	protected $search_fragments_enabled = false;
 	protected $search_fragment = '';
+	protected $path_linked = false;
 
 	protected $expand_enabled = false;
 	protected $is_expanded = true;
@@ -256,6 +257,16 @@ class ilObjectListGUI
 		return;
 	}
 	
+	/**
+	 * Enable linked path 
+	 * @param bool
+	 * @return
+	 */
+	public function enableLinkedPath($a_status)
+	{
+		$this->path_linked = $a_status;
+	}
+
 	/**
 	* En/Dis-able icons
 	*
@@ -1868,28 +1879,21 @@ class ilObjectListGUI
 	function insertPath()
 	{
 		global $tree, $lng;
-
-		if ($this->getPathStatus() != false)
+		
+		if($this->getPathStatus() != false)
 		{
-			$path = $tree->getPathId($this->ref_id);
-			$sep = false;
-			unset($path[count($path) - 1]);
-			unset($path[0]);
-			foreach ($path as $id)
-			{
-				$this->tpl->setCurrentBlock("path_item");
-				if ($sep)
-				{
-					$this->tpl->setVariable("SEPARATOR", " > ");
-				}
-				$this->tpl->setVariable("PATH_ITEM",
-					ilObject::_lookupTitle(ilObject::_lookupObjId($id)));
-				$this->tpl->parseCurrentBlock();
-				$sep = true;
-			}
+			include_once './Services/Tree/classes/class.ilPathGUI.php';
+			$path_gui = ilPathGUI::getInstance();
+			$path_gui->enableTextOnly(!$this->path_linked);
+			
+			$this->tpl->setCurrentBlock("path_item");
+			$this->tpl->setVariable('PATH_ITEM',$path_gui->getPath(ROOT_FOLDER_ID,$this->ref_id));
+			$this->tpl->parseCurrentBlock();
+
 			$this->tpl->setCurrentBlock("path");
 			$this->tpl->setVariable("TXT_LOCATION", $lng->txt("locator"));
 			$this->tpl->parseCurrentBlock();
+			return true;
 		}
 	}
 	
