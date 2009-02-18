@@ -65,7 +65,8 @@ class ilDBUpdate
 			}
 			else
 			{
-				$this->PATH = "../";
+				$this->PATH = "./";
+				//$this->PATH = "../";
 			}
 		}
 		else
@@ -150,14 +151,7 @@ class ilDBUpdate
 	function getCurrentVersion()
 	{
 		$GLOBALS["ilDB"] = $this->db;
-		if (is_file('../Services/Administration/classes/class.ilSetting.php'))
-		{
-			include_once '../Services/Administration/classes/class.ilSetting.php';
-		}
-		else
-		{
-			include_once './Services/Administration/classes/class.ilSetting.php';
-		}
+		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting();
 		$this->currentVersion = (integer) $set->get("db_version");
 
@@ -166,7 +160,7 @@ class ilDBUpdate
 
 	function setCurrentVersion ($a_version)
 	{
-		include_once '../Services/Administration/classes/class.ilSetting.php';
+		include_once './Services/Administration/classes/class.ilSetting.php';
 		$set = new ilSetting();
 		$set->set("db_version", $a_version);
 		$this->currentVersion = $a_version;
@@ -264,14 +258,7 @@ class ilDBUpdate
 	{
 		global $ilCtrlStructureReader, $ilMySQLAbstraction;
 		
-		if (is_file('../Services/Database/classes/class.ilMySQLAbstraction.php'))
-		{
-			include_once '../Services/Database/classes/class.ilMySQLAbstraction.php';
-		}
-		else
-		{
-			include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
-		}
+		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
 
 		$ilMySQLAbstraction = new ilMySQLAbstraction();
 		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
@@ -324,9 +311,9 @@ class ilDBUpdate
 		global $ilCtrlStructureReader;
 		
 		// read module and service information into db
-		require_once "./classes/class.ilModuleReader.php";
-		require_once "./classes/class.ilServiceReader.php";
-		require_once "./classes/class.ilCtrlStructureReader.php";
+		require_once "./setup/classes/class.ilModuleReader.php";
+		require_once "./setup/classes/class.ilServiceReader.php";
+		require_once "./setup/classes/class.ilCtrlStructureReader.php";
 
 		chdir("..");
 		require_once "./Services/Component/classes/class.ilModule.php";

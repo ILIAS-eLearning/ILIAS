@@ -961,7 +961,7 @@ class ilSetup extends PEAR
 		$ilDB = $client->db;
 		$this->lng->setDbHandler($client->db);
 		$dbupdate = new ilDBUpdate($client->db);
-				
+
 		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
 		{
 			$arr["comment"] = $this->lng->txt("db_needs_update");
