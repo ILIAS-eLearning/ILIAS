@@ -7811,5 +7811,13 @@ ALTER TABLE content_object MODIFY prevent_glossary_appendix_active CHAR(1) DEFAU
 <#1633>
 ALTER TABLE `conditions` CHANGE `id` `condition_id` INT( 11 ) NOT NULL DEFAULT '0';
 
+<#1634>
+<?php
+	$ilMySQLAbstraction->performAbstraction('link_check');
+?>
 
+<#1635>
+<?php
+	$ilMySQLAbstraction->performAbstraction('link_check_report');
+?>
 

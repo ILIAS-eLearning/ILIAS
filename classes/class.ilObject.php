@@ -1428,9 +1428,9 @@ class ilObject
 		ilBlockSetting::_deleteSettingsOfBlock($this->getId(), "news");
 
 		// BEGIN WebDAV: Delete WebDAV properties
-		$q = "DELETE FROM dav_property ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+		$query = "DELETE FROM dav_property ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
+		$res = $ilDB->manipulate($query);
 		// END WebDAV: Delete WebDAV properties
 
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
@@ -1684,11 +1684,11 @@ class ilObject
 		ilAdvancedMDValues::_cloneValues($this->getId(),$new_obj->getId());
 
 		// BEGIN WebDAV: Clone WebDAV properties
-		$q = "INSERT INTO dav_property (obj_id,node_id,ns,name,value) ".
-			"SELECT ".$ilDB->quote($new_obj->getId()).",node_id,ns,name,value ".
+		$query = "INSERT INTO dav_property (obj_id,node_id,ns,name,value) ".
+			"SELECT ".$ilDB->quote($new_obj->getId(),'integer').",node_id,ns,name,value ".
 			"FROM dav_property ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
-		$this->ilias->db->query($q);
+			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
+		$res = $ilDB->manipulate($query);
 		// END WebDAV: Clone WebDAV properties
 		
 		return $new_obj;

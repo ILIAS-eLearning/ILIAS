@@ -61,11 +61,12 @@ class ilLinkCheckNotify
 		
 		$this->deleteNotifier();
 
-		$query = "INSERT INTO link_check_report ".
-			"SET obj_id = ".$ilDB->quote($this->getObjId()).", ".
-			"usr_id = ".$ilDB->quote($this->getUserId())."";
-
-		$this->db->query($query);
+		$query = "INSERT INTO link_check_report (obj_id,usr_id) ".
+			"VALUES ( ".
+			$ilDB->quote($this->getObjId(),'integer').", ".
+			$ilDB->quote($this->getUserId(),'integer').
+			")";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -75,10 +76,9 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "DELETE FROM link_check_report ".
-			"WHERE obj_id = ".$ilDB->quote($this->getObjId())." ".
-			"AND usr_id = ".$ilDB->quote($this->getUserId())." ";
-
-		$this->db->query($query);
+			"WHERE obj_id = ".$ilDB->quote($this->getObjId(),'integer')." ".
+			"AND usr_id = ".$ilDB->quote($this->getUserId(),'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -89,9 +89,8 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "SELECT * FROM link_check_report ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ";
-
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
 
 		return $res->numRows() ? true : false;
@@ -102,10 +101,8 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "DELETE FROM link_check_report ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
-
-		$ilDB->query($query);
-
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer');
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -114,10 +111,9 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "DELETE FROM link_check_report ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
-
-		$ilDB->query($query);
-
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
+				
 		return true;
 	}
 
@@ -126,7 +122,7 @@ class ilLinkCheckNotify
 		global $ilDB;
 
 		$query = "SELECT * FROM link_check_report ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
