@@ -643,9 +643,10 @@ class ilObject
 		{
 			$query = "INSERT INTO object_description (obj_id,description) VALUES ( ".
 				" ".$ilDB->quote($this->id,'integer').",".
-				" ".$ilDB->quote($this->getLongDescription(),'text').' ';
+				" ".$ilDB->quote($this->getLongDescription(),'text').' )';
 			
 			$res = $ilDB->manipulate($query);
+	
 		}
 		
 

@@ -389,7 +389,8 @@ class ilTemplate extends ilTemplateX
 		
 		if ($this->header_page_title != "")
 		{
-			$this->setVariable("PAGETITLE", "- ".$this->header_page_title);
+			$a_title = ilUtil::stripScriptHTML($this->header_page_title);	
+			$this->setVariable("PAGETITLE", "- ".$a_title);
 		}
 		
 		if ($ilSetting->get('short_inst_name') != "")
@@ -1055,6 +1056,7 @@ class ilTemplate extends ilTemplateX
 	
 	function setHeaderPageTitle($a_title)
 	{
+		$a_title = ilUtil::stripScriptHTML($a_title);	
 		$this->header_page_title = $a_title;
 	}
 	
@@ -1079,7 +1081,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function setTitle($a_title)
 	{
-		$this->title = $a_title;
+		$a_title = ilUtil::stripScriptHTML($a_title);		
 		$this->header_page_title = $a_title;
 	}
 	
@@ -1090,6 +1092,7 @@ class ilTemplate extends ilTemplateX
 	{
 		if ($this->title != "")
 		{
+			$this->title = ilUtil::stripScriptHTML($this->title);			
 			$this->setVariable("HEADER", $this->title);
 		}
 	}
