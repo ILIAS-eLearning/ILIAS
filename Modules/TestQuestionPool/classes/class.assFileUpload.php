@@ -321,8 +321,6 @@ class assFileUpload extends assQuestion
 	*/	
 	function checkUpload()
 	{
-		global $lng;
-
 		$this->lng->loadLanguageModule("form");
 		// remove trailing '/'
 		while (substr($_FILES["upload"]["name"],-1) == '/')
@@ -340,7 +338,7 @@ class assFileUpload extends assQuestion
 		
 		if ($size_bytes > $this->getMaxFilesizeInBytes())
 		{
-			ilUtil::sendInfo($lng->txt("form_msg_file_size_exceeds"), true);
+			ilUtil::sendInfo($this->lng->txt("form_msg_file_size_exceeds"), true);
 			return false;
 		}
 
@@ -350,37 +348,37 @@ class assFileUpload extends assQuestion
 			switch ($error)
 			{
 				case UPLOAD_ERR_INI_SIZE:
-					ilUtil::sendInfo($lng->txt("form_msg_file_size_exceeds"), true);
+					ilUtil::sendInfo($this->lng->txt("form_msg_file_size_exceeds"), true);
 					return false;
 					break;
 					 
 				case UPLOAD_ERR_FORM_SIZE:
-					ilUtil::sendInfo($lng->txt("form_msg_file_size_exceeds"), true);
+					ilUtil::sendInfo($this->lng->txt("form_msg_file_size_exceeds"), true);
 					return false;
 					break;
 	
 				case UPLOAD_ERR_PARTIAL:
-					ilUtil::sendInfo($lng->txt("form_msg_file_partially_uploaded"), true);
+					ilUtil::sendInfo($this->lng->txt("form_msg_file_partially_uploaded"), true);
 					return false;
 					break;
 	
 				case UPLOAD_ERR_NO_FILE:
-					ilUtil::sendInfo($lng->txt("form_msg_file_no_upload"), true);
+					ilUtil::sendInfo($this->lng->txt("form_msg_file_no_upload"), true);
 					return false;
 					break;
 	 
 				case UPLOAD_ERR_NO_TMP_DIR:
-					ilUtil::sendInfo($lng->txt("form_msg_file_missing_tmp_dir"), true);
+					ilUtil::sendInfo($this->lng->txt("form_msg_file_missing_tmp_dir"), true);
 					return false;
 					break;
 					 
 				case UPLOAD_ERR_CANT_WRITE:
-					ilUtil::sendInfo($lng->txt("form_msg_file_cannot_write_to_disk"), true);
+					ilUtil::sendInfo($this->lng->txt("form_msg_file_cannot_write_to_disk"), true);
 					return false;
 					break;
 	 
 				case UPLOAD_ERR_EXTENSION:
-					ilUtil::sendInfo($lng->txt("form_msg_file_upload_stopped_ext"), true);
+					ilUtil::sendInfo($this->lng->txt("form_msg_file_upload_stopped_ext"), true);
 					return false;
 					break;
 			}
@@ -391,7 +389,7 @@ class assFileUpload extends assQuestion
 		{
 			if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray()))
 			{
-				ilUtil::sendInfo($lng->txt("form_msg_file_wrong_file_type"), true);
+				ilUtil::sendInfo($this->lng->txt("form_msg_file_wrong_file_type"), true);
 				return false;
 			}
 		}
@@ -402,7 +400,7 @@ class assFileUpload extends assQuestion
 			$vir = ilUtil::virusHandling($temp_name, $filename);
 			if ($vir[0] == false)
 			{
-				ilUtil::sendInfo($lng->txt("form_msg_file_virus_found")."<br />".$vir[1], true);
+				ilUtil::sendInfo($this->lng->txt("form_msg_file_virus_found")."<br />".$vir[1], true);
 				return false;
 			}
 		}
@@ -569,26 +567,29 @@ class assFileUpload extends assQuestion
 		}
 		else
 		{
-			if ($this->checkUpload())
+			if (strlen($_FILES["upload"]["tmp_name"]))
 			{
-				if (!@file_exists($this->getFileUploadPath())) ilUtil::makeDirParents($this->getFileUploadPath());
-				$version = time();
-				$filename_arr = pathinfo($_FILES["upload"]["name"]);
-				$extension = $filename_arr["extension"];
-				$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
-				ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath() . $newfile);
-				$statement = $ilDB->prepareManip("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, NULL)", 
-					array("integer", "integer", "text", "text", "integer")
-				);
-				$data = array(
-					$active_id, 
-					$this->getId(),
-					$newfile,
-					$_FILES["upload"]["name"],
-					$pass
-				);
-				$affectedRows = $ilDB->execute($statement, $data);
-				$entered_values = true;
+				if ($this->checkUpload())
+				{
+					if (!@file_exists($this->getFileUploadPath())) ilUtil::makeDirParents($this->getFileUploadPath());
+					$version = time();
+					$filename_arr = pathinfo($_FILES["upload"]["name"]);
+					$extension = $filename_arr["extension"];
+					$newfile = "file_" . $active_id . "_" . $pass . "_" . $version . "." . $extension;
+					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getFileUploadPath() . $newfile);
+					$statement = $ilDB->prepareManip("INSERT INTO tst_solutions (solution_id, active_fi, question_fi, value1, value2, pass, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, NULL)", 
+						array("integer", "integer", "text", "text", "integer")
+					);
+					$data = array(
+						$active_id, 
+						$this->getId(),
+						$newfile,
+						$_FILES["upload"]["name"],
+						$pass
+					);
+					$affectedRows = $ilDB->execute($statement, $data);
+					$entered_values = true;
+				}
 			}
 		}
 		if ($entered_values)
