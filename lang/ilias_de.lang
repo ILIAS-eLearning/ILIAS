@@ -7644,7 +7644,7 @@ administration#:#obj_mds_desc#:#Einstellungen für Metadaten
 common#:#msg_input_does_not_match_regexp#:#Bitte geben Sie einen gültigen Wert ein.
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 common#:#msg_input_either_file_or_url#:#Es muss entweder eine URL oder eine Datei angegeben werden.
-common#:#delete_existing_file#:#Bestehende Datei Löschen
+common#:#delete_existing_file#:#Bestehende Datei löschen
 common#:#reset_filter#:#Filter zurücksetzen
 common#:#activate#:#Aktivieren
 common#:#deactivate#:#Deaktivieren
