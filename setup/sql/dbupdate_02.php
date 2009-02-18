@@ -7825,3 +7825,8 @@ ALTER TABLE `conditions` CHANGE `id` `condition_id` INT( 11 ) NOT NULL DEFAULT '
 <?php
 	$ilMySQLAbstraction->performAbstraction('role_desktop_items');
 ?>
+
+<#1637>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_archives');
+?>
