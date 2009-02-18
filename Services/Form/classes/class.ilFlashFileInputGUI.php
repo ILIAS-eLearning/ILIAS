@@ -59,6 +59,7 @@ class ilFlashFileInputGUI extends ilFileInputGUI
 	function setApplet($a_applet)
 	{
 		$this->setFilename($a_applet);
+		$this->setValue($a_applet);
 	}
 
 	/**
