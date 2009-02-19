@@ -7831,4 +7831,9 @@ $ilDB->query("ALTER TABLE  `qpl_questionpool` CHANGE  `online`  `isonline` VARCH
 <?php
 	$ilDB->renameTableColumn("content_object", "online", "is_online");
 ?>
-
+<#1644>
+<?php
+	$ilDB->renameTableColumn("ctrl_classfile", "file", "filename");
+?>
+<#1645>
+ALTER TABLE file_based_lm CHANGE `online` `is_online` CHAR(1) DEFAULT 'n';

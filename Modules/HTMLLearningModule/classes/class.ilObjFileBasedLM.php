@@ -165,7 +165,7 @@ class ilObjFileBasedLM extends ilObject
 		parent::update();
 
 		$q = "UPDATE file_based_lm SET ".
-			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
+			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
 			" startfile = ".$ilDB->quote($this->getStartFile())." ".
 			" WHERE id = ".$ilDB->quote($this->getId())." ";
 		$this->ilias->db->query($q);
@@ -185,7 +185,7 @@ class ilObjFileBasedLM extends ilObject
 		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($this->getId());
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
+		$this->setOnline(ilUtil::yn2tf($lm_rec["is_online"]));
 		$this->setStartFile($lm_rec["startfile"]);
 
 	}
@@ -223,7 +223,7 @@ class ilObjFileBasedLM extends ilObject
 		$this->meta_data->create();
 */
 
-		$q = "INSERT INTO file_based_lm (id, online, startfile) VALUES ".
+		$q = "INSERT INTO file_based_lm (id, is_online, startfile) VALUES ".
 			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
 			$ilDB->quote("").")";
 		$ilDB->query($q);
@@ -275,7 +275,7 @@ class ilObjFileBasedLM extends ilObject
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		return ilUtil::yn2tf($lm_rec["online"]);
+		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
 
 

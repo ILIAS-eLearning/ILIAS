@@ -124,7 +124,7 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 		$set = $ilDB->query($q);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		return ilUtil::yn2tf($rec["online"]);
+		return ilUtil::yn2tf($rec["is_online"]);
 	}
 
 	/**

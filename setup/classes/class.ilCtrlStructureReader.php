@@ -251,7 +251,7 @@ class ilCtrlStructureReader
 			$file = substr($script, strlen($this->start_dir) + 1);
 			
 			// store class to file assignment
-			$ilDB->manipulate(sprintf("INSERT INTO ctrl_classfile (class, file, comp_prefix) ".
+			$ilDB->manipulate(sprintf("INSERT INTO ctrl_classfile (class, filename, comp_prefix) ".
 				" VALUES (%s,%s,%s)",
 				$ilDB->quote($class, "text"),
 				$ilDB->quote($file, "text"),
