@@ -58,7 +58,7 @@ class ilDBPostgreSQL extends ilDB
 	/**
 	* Get reserved words
 	*/
-	function getReservedWords()
+	static function getReservedWords()
 	{
 		// version: 8.3.6
 		// url: http://www.postgresql.org/docs/current/static/sql-keywords-appendix.html

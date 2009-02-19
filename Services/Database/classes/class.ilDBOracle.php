@@ -58,7 +58,7 @@ class ilDBOracle extends ilDB
 	/**
 	* Get reserved words
 	*/
-	function getReservedWords()
+	static function getReservedWords()
 	{
 		// version: 10g
 		// url: http://download-west.oracle.com/docs/cd/B14117_01/server.101/b10759/ap_keywd.htm#g691972

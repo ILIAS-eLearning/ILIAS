@@ -134,11 +134,11 @@ class ilObjContentObjectAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($a_id, "integer");
+		$q = "SELECT is_online FROM content_object WHERE id = ".$ilDB->quote($a_id, "integer");
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 
-		return ilUtil::yn2tf($lm_rec["online"]);
+		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
 
 	/**

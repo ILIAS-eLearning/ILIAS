@@ -395,25 +395,25 @@ class ilSetup extends PEAR
 	* @param	string	directory
 	* @return	array
 	*/
-	function checkWritable($a_dir = "..")
+	function checkWritable()
 	{
 		clearstatcache();
-		if (is_writable($a_dir))
+		if (is_writable("."))
 		{
 			$arr["status"] = true;
-			$cdir = getcwd();
-			chdir("..");
+			//$cdir = getcwd();
+			//chdir("..");
 			$arr["comment"] = getcwd();
-			chdir($cdir);
+			//chdir($cdir);
 		}
 		else
 		{
 			$arr["status"] = false;
 			$arr["comment"] = $this->lng->txt("pre_folder_write_error");
-			$cdir = getcwd();
-			chdir("..");
+			//$cdir = getcwd();
+			//chdir("..");
 			$arr["comment"] = getcwd().": ".$arr["comment"];
-			chdir($cdir);
+			//chdir($cdir);
 		}
 
 		return $arr;
@@ -424,7 +424,7 @@ class ilSetup extends PEAR
 	* @param	string	directory
 	* @return	array
 	*/
-	function checkCreatable($a_dir = "..")
+	function checkCreatable($a_dir = ".")
 	{
 		clearstatcache();
 		if (@mkdir($a_dir."/crst879dldsk9d", 0774))
@@ -437,10 +437,10 @@ class ilSetup extends PEAR
 		else
 		{
 			$arr["status"] = false;
-			$cdir = getcwd();
-			chdir("..");
+			//$cdir = getcwd();
+			//chdir("..");
 			$arr["comment"] = getcwd().": ".$this->lng->txt("pre_folder_create_error");
-			chdir($cdir);
+			//chdir($cdir);
 		}
 
 		return $arr;

@@ -193,7 +193,7 @@ abstract class ilDB extends PEAR
 	* because it is a reserved word. So createTable / alterTable usually check
 	* these.
 	*/
-	abstract function getReservedWords();
+	abstract static function getReservedWords();
 
 	/**
 	* Init db parameters from ini file
@@ -945,6 +945,32 @@ abstract class ilDB extends PEAR
 		return $a_constraint;
 	}
 
+	/**
+	* Checks whether a word is a reserved word in one
+	* of the supported databases
+	*/
+	static function isReservedWord($a_word)
+	{
+		include_once("./Services/Database/classes/class.ilDBMySQL.php");
+		$mysql_reserved_words = ilDBMySQL::getReservedWords();
+		if (in_array(strtoupper($a_word), $mysql_reserved_words))
+		{
+			return true;
+		}
+		include_once("./Services/Database/classes/class.ilDBOracle.php");
+		$oracle_reserved_words = ilDBOracle::getReservedWords();
+		if (in_array(strtoupper($a_word), $oracle_reserved_words))
+		{
+			return true;
+		}
+		include_once("./Services/Database/classes/class.ilDBPostreSQL.php");
+		$postgres_reserved_words = ilDBPostgreSQL::getReservedWords();
+		if (in_array(strtoupper($a_word), $postgres_reserved_words))
+		{
+			return true;
+		}
+	}
+	
 	//
 	// Data query and manupilation functions
 	//
