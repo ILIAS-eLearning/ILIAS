@@ -225,25 +225,10 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	*
 	* @access private
 	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1)
+	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_qpl_metric_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		$template->setVariable("MIN_MAX", $this->object->getMinMaxText());
-		/*
-		if (strlen($this->object->getMinimum()))
-		{
-			$template->setCurrentBlock("minimum");
-			$template->setVariable("TEXT_MINIMUM", $this->lng->txt("minimum"));
-			$template->setVariable("VALUE_MINIMUM", $this->object->getMinimum());
-			$template->parseCurrentBlock();
-		}
-		if (strlen($this->object->getMaximum()))
-		{
-			$template->setCurrentBlock("maximum");
-			$template->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
-			$template->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
-			$template->parseCurrentBlock();
-		}*/
 
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if ($show_questiontext)
@@ -251,7 +236,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$questiontext = $this->object->getQuestiontext();
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
-		if (! $this->object->getObligatory())
+		if (! $this->object->getObligatory($survey_id))
 		{
 			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
 		}
@@ -278,7 +263,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 *
 * @access public
 */
-	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "")
+	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_metric.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if (count($this->object->material))
@@ -311,7 +296,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 			$questiontext = $this->object->getQuestiontext();
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
-		if (! $this->object->getObligatory())
+		if (! $this->object->getObligatory($survey_id))
 		{
 			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
 		}
