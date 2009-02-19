@@ -52,13 +52,6 @@ class ilUserSearchOptions
 		global $lng;
 
 
-		// Search for login is always enabled
-		#$fields[0]['values'] = array();
-		#$fields[0]['type'] = FIELD_TYPE_TEXT;
-		#$fields[0]['lang'] = $this->lng->txt('login');
-		#$fields[0]['db'] = 'login';
-		
-
 		$counter = 1;
 		foreach(ilUserSearchOptions::_getPossibleFields($a_admin) as $field)
 		{
@@ -94,8 +87,6 @@ class ilUserSearchOptions
 			}*/
 			++$counter;
 		}
-		// TODO: add udf fields
-		// DONE
 		 $fields = ilUserSearchOptions::__appendUserDefinedFields($fields,$counter);
 
 		return $fields ? $fields : array();

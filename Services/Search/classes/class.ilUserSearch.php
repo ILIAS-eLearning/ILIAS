@@ -87,6 +87,7 @@ class ilUserSearch extends ilAbstractSearch
 		{
 			$query .= 'AND active = 0 ';
 		}
+		
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

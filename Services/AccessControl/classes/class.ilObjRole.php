@@ -385,42 +385,6 @@ class ilObjRole extends ilObject
 		return count($rbacreview->assignedUsers($this->getId()));
 	}
 
-	/**
-	 * STATIC METHOD
-	 * search for role data. This method is called from class.ilSearch
-	 * This method used by class.ilSearchGUI.php to a link to the results
-	 * @param	object object of search class
-	 * @static
-	 * @access	public
-	 */
-	function _search(&$a_search_obj)
-	{
-		global $ilBench;
-
-		// NO CLASS VARIABLES IN STATIC METHODS
-
-		$where_condition = $a_search_obj->getWhereCondition("like",array("title","description"));
-		//$in = $a_search_obj->getInStatement("ore.ref_id");
-
-		$query = "SELECT obj_id FROM object_data AS od ".
-			$where_condition." ".
-			"AND od.type = 'role' ";
-
-		$ilBench->start("Search", "ilObjRole_search");
-		$res = $a_search_obj->ilias->db->query($query);
-		$ilBench->stop("Search", "ilObjRole_search");
-
-		$counter = 0;
-
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$result_data[$counter++]["id"]				=  $row->obj_id;
-		}
-
-		return $result_data ? $result_data : array();
-	}
-	
-	
 	function _getTranslation($a_role_title)
 	{
 		global $lng;

@@ -2610,54 +2610,6 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	 * STATIC METHOD
-	 * search for user data. This method is called from class.ilSearch
-	 * @param	object object of search class
-	 * @static
-	 * @access	public
-	 */
-	function _search(&$a_search_obj, $active=1)
-	{
-		global $ilBench, $ilDB;
-die("ilObjUser::_search is deprecated.");	// Alex: If you end up here, please send a mail to Stefan or me.
-
-/*
-		// NO CLASS VARIABLES IN STATIC METHODS
-		// TODO: CHECK IF ITEMS ARE PUBLIC VISIBLE
-		$where_condition = $a_search_obj->getWhereCondition("like",array("login","firstname","lastname","title",
-																		 "email","institution","street","city",
-																		 "zipcode","country","phone_home","fax"));
-		$in = $a_search_obj->getInStatement("usr_data.usr_id");
-
-		$query = "SELECT DISTINCT(usr_data.usr_id) FROM usr_data ".
-			"LEFT JOIN usr_pref USING (usr_id) ".
-			$where_condition." ".
-			$in." ".
-			"AND usr_data.usr_id != '".ANONYMOUS_USER_ID."' ";
-#			"AND usr_pref.keyword = 'public_profile' ";
-#			"AND usr_pref.value = 'y'";
-
-  		if (is_numeric($active)  && $active > -1)
-        	$query .= "AND active = ".$ilDB->quote($active);
-
-		$ilBench->start("Search", "ilObjUser_search");
-		$res = $a_search_obj->ilias->db->query($query);
-		$ilBench->stop("Search", "ilObjUser_search");
-
-		$counter = 0;
-
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$result_data[$counter++]["id"]				=  $row->usr_id;
-
-		}
-		return $result_data ? $result_data : array();
-*/
-	}
-
-
-
-	/**
 	* STATIC METHOD
 	* get all user logins
 	* @param	ilias object
