@@ -320,7 +320,7 @@ class ilObjQuestionPool extends ilObject
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			$this->setOnline($row["online"]);
+			$this->setOnline($row["isonline"]);
 		}
 	}
 	
@@ -341,7 +341,7 @@ class ilObjQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$query = sprintf("UPDATE qpl_questionpool SET online = %s WHERE obj_fi = %s",
+			$query = sprintf("UPDATE qpl_questionpool SET isonline = %s WHERE obj_fi = %s",
 				$ilDB->quote($this->getOnline() . ""),
 				$ilDB->quote($this->getId() . "")
 			);
@@ -354,7 +354,7 @@ class ilObjQuestionPool extends ilObject
 		}
 		else
 		{
-			$query = sprintf("INSERT INTO qpl_questionpool (online, obj_fi) VALUES (%s, %s)",
+			$query = sprintf("INSERT INTO qpl_questionpool (isonline, obj_fi) VALUES (%s, %s)",
 				$ilDB->quote($this->getOnline() . ""),
 				$ilDB->quote($this->getId() . "")
 			);
@@ -1176,13 +1176,13 @@ class ilObjQuestionPool extends ilObject
 		
 		if ($is_reference)
 		{
-			$query = sprintf("SELECT qpl_questionpool.online FROM qpl_questionpool,object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questionpool.obj_fi",
+			$query = sprintf("SELECT qpl_questionpool.isonline FROM qpl_questionpool,object_reference WHERE object_reference.ref_id = %s AND object_reference.obj_id = qpl_questionpool.obj_fi",
 				$ilDB->quote($a_obj_id . "")
 			);
 		}
 		else
 		{
-			$query = sprintf("SELECT online FROM qpl_questionpool WHERE obj_fi = %s",
+			$query = sprintf("SELECT isonline FROM qpl_questionpool WHERE obj_fi = %s",
 				$ilDB->quote($a_obj_id . "")
 			);
 		}
@@ -1190,7 +1190,7 @@ class ilObjQuestionPool extends ilObject
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			return $row["online"];
+			return $row["isonline"];
 		}
 		return 0;
 	}
@@ -1580,7 +1580,7 @@ class ilObjQuestionPool extends ilObject
 			{
 				array_push($paramtypes, "text");
 				array_push($paramvalues, "1");
-				$statement = $ilDB->prepare("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.online = ? ORDER BY object_data.title",
+				$statement = $ilDB->prepare("SELECT qpl_questionpool.*, object_data.title FROM qpl_questionpool, object_data WHERE qpl_questionpool.obj_fi = object_data.obj_id AND $in AND qpl_questionpool.isonline = ? ORDER BY object_data.title",
 					$paramtypes
 				);
 			}
