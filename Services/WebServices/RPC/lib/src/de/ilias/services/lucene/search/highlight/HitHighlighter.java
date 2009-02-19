@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -150,12 +151,13 @@ public class HitHighlighter {
 					continue;
 				}
 				
-				if(hitDoc.get(fields[j]) != null) {
-					allContent.append(hitDoc.get(fields[j]));
-					allContent.append(' ');
+				Field[] separatedFields = hitDoc.getFields(fields[j]);
+				for(int k = 0; k < separatedFields.length; k++) {
+					allContent.append(separatedFields[k].stringValue());
+					allContent.append(" ");
 				}
 			}
-		
+			//logger.info("All content" + allContent.toString());
 			token =	new StandardAnalyzer().tokenStream("content", new StringReader(allContent.toString()));
 			fragment = highlighter.getBestFragments(token,allContent.toString(), NUM_HIGHLIGHT, HIGHLIGHT_SEPARATOR);
 			//logger.debug("Fragmented: " + fragment);
