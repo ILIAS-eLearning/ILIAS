@@ -72,7 +72,7 @@ class ilDBMySQL extends ilDB
 	/**
 	* Get reserved words
 	*/
-	function getReservedWords()
+	static function getReservedWords()
 	{
 		// version: 5.1
 		// url: http://dev.mysql.com/doc/refman/5.1/en/reserved-words.html

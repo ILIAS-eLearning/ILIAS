@@ -7827,3 +7827,8 @@ $ilDB->query("ALTER TABLE  `qpl_questions` CHANGE  `comment`  `description` TEXT
 <?php
 $ilDB->query("ALTER TABLE  `qpl_questionpool` CHANGE  `online`  `isonline` VARCHAR( 1 ) NOT NULL DEFAULT  '0'");
 ?>
+<#1643>
+<?php
+	$ilDB->renameTableColumn("content_object", "online", "is_online");
+?>
+

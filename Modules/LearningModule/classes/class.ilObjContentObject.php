@@ -816,7 +816,7 @@ class ilObjContentObject extends ilObject
 		$this->setStyleSheetId((int) $lm_rec["stylesheet"]);
 		$this->setPageHeader($lm_rec["page_header"]);
 		$this->setTOCMode($lm_rec["toc_mode"]);
-		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
+		$this->setOnline(ilUtil::yn2tf($lm_rec["is_online"]));
 		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
 		$this->setActiveNumbering(ilUtil::yn2tf($lm_rec["numbering"]));
 		$this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
@@ -846,7 +846,7 @@ class ilObjContentObject extends ilObject
 			" stylesheet = ".$ilDB->quote($this->getStyleSheetId(), "integer").",".
 			" page_header = ".$ilDB->quote($this->getPageHeader(), "text").",".
 			" toc_mode = ".$ilDB->quote($this->getTOCMode(), "text").",".
-			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
+			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
 			" toc_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveTOC()), "text").",".
 			" numbering = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveNumbering()), "text").",".
 			" print_view_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActivePrintView()), "text").",".
@@ -887,11 +887,11 @@ class ilObjContentObject extends ilObject
 		
 //echo "class ilObjContentObject::_lookupOnline($a_id) called. Use Access class instead.";
 
-		$q = "SELECT * FROM content_object WHERE id = ".$ilDB->quote($a_id, "integer");
+		$q = "SELECT is_online FROM content_object WHERE id = ".$ilDB->quote($a_id, "integer");
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $ilDB->fetchAssoc($lm_set);
 
-		return ilUtil::yn2tf($lm_rec["online"]);
+		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
 
 	/**
