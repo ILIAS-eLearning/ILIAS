@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -124,7 +124,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		return ilUtil::yn2tf($lm_rec["online"]);
+		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
 
 	/**

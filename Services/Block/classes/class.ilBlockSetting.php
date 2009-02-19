@@ -40,7 +40,7 @@ class ilBlockSetting
 		
 		
 		$set = $ilDB->query(sprintf("SELECT * FROM il_block_setting WHERE type = %s ".
-			"AND user = %s AND setting = %s AND block_id = %s",
+			"AND user_id = %s AND setting = %s AND block_id = %s",
 			$ilDB->quote($a_type, "text"),
 			$ilDB->quote($a_user, "integer"),
 			$ilDB->quote($a_setting, "text"),
@@ -63,12 +63,12 @@ class ilBlockSetting
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate(sprintf("DELETE FROM il_block_setting WHERE type = %s AND user = %s AND block_id = %s AND setting = %s",
+		$ilDB->manipulate(sprintf("DELETE FROM il_block_setting WHERE type = %s AND user_id = %s AND block_id = %s AND setting = %s",
 			$ilDB->quote($a_type, "text"),
 			$ilDB->quote($a_user, "integer"),
 			$ilDB->quote((int) $a_block_id, "integer"),
 			$ilDB->quote($a_setting, "text")));
-		$ilDB->manipulate(sprintf("INSERT INTO il_block_setting  (type, user, setting, block_id, value) VALUES (%s,%s,%s,%s,%s)",
+		$ilDB->manipulate(sprintf("INSERT INTO il_block_setting  (type, user_id, setting, block_id, value) VALUES (%s,%s,%s,%s,%s)",
 			$ilDB->quote($a_type, "text"),
 			$ilDB->quote($a_user, "integer"),
 			$ilDB->quote($a_setting, "text"),
@@ -153,7 +153,7 @@ class ilBlockSetting
 		
 		if ($a_user > 0)
 		{
-			$ilDB->manipulate("DELETE FROM il_block_setting WHERE user = ".
+			$ilDB->manipulate("DELETE FROM il_block_setting WHERE user_id = ".
 				$ilDB->quote($a_user, "integer"));
 		}
 	}

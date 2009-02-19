@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -64,7 +64,7 @@ class ilObjGlossary extends ilObject
 			$this->createMetaData();
 		}
 		
-		$q = "INSERT INTO glossary (id, online, virtual) VALUES ".
+		$q = "INSERT INTO glossary (id, is_online, virtual) VALUES ".
 			" (".$ilDB->quote($this->getId()).",".$ilDB->quote("n").",".$ilDB->quote($this->getVirtualMode()).")";
 		$ilDB->query($q);
 
@@ -83,7 +83,7 @@ class ilObjGlossary extends ilObject
 		$q = "SELECT * FROM glossary WHERE id = ".$ilDB->quote($this->getId());
 		$gl_set = $this->ilias->db->query($q);
 		$gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setOnline(ilUtil::yn2tf($gl_rec["online"]));
+		$this->setOnline(ilUtil::yn2tf($gl_rec["is_online"]));
 		$this->setVirtualMode($gl_rec["virtual"]);
 		$this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
 		$this->setPublicExportFile("html", $gl_rec["public_html_file"]);
@@ -187,7 +187,7 @@ class ilObjGlossary extends ilObject
 		$lm_set = $ilDB->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		return ilUtil::yn2tf($lm_rec["online"]);
+		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
 	
 	function setActiveGlossaryMenu($a_act_glo_menu)
@@ -245,7 +245,7 @@ class ilObjGlossary extends ilObject
 		$this->updateMetaData();
 
 		$q = "UPDATE glossary SET ".
-			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
+			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
 			" virtual = ".$ilDB->quote($this->getVirtualMode()).",".
 			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml")).",".
 			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html")).",".
