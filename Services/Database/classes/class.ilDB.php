@@ -239,11 +239,14 @@ abstract class ilDB extends PEAR
 		// set empty value portability to PEAR::DB behaviour
 		if (!$this->isDbError($this->db))
 		{
+if ($this->getDBType() == "mysql")
+{
 			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_EMPTY_TO_NULL);
 			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
 
 			$cur = ($this->db->getOption("portability") & MDB2_PORTABILITY_FIX_CASE);
 			$this->db->setOption("portability", $this->db->getOption("portability") - $cur);
+}
 		}
 
 		//check error
@@ -688,7 +691,7 @@ abstract class ilDB extends PEAR
 	* @param	array		fields for primary key
 	* @param	string		key name
 	*/
-	function addPrimaryKey($a_table, $a_fields, $a_name = "PRIMARY")
+	function addPrimaryKey($a_table, $a_fields)
 	{
 		$manager = $this->db->loadModule('Manager');
 		
@@ -702,9 +705,17 @@ abstract class ilDB extends PEAR
 			'fields' => $fields
 		);
 		$r = $manager->createConstraint($a_table,
-			$this->constraintName($a_table, $a_name), $definition);
+			$this->constraintName($a_table, $this->getPrimaryKeyIdentifier()), $definition);
 
 		return $this->handleError($r, "addPrimaryKey(".$a_table.")");
+	}
+	
+	/**
+	* Primary key identifier
+	*/
+	function getPrimaryKeyIdentifier()
+	{
+		return "PRIMARY";
 	}
 	
 	/**
@@ -713,12 +724,12 @@ abstract class ilDB extends PEAR
 	* @param	string		table name
 	* @param	string		key name
 	*/
-	function dropPrimaryKey($a_table, $a_name = "PRIMARY")
+	function dropPrimaryKey($a_table)
 	{
 		$manager = $this->db->loadModule('Manager');
 		
 		$r = $manager->dropConstraint($a_table,
-			$this->constraintName($a_table, $a_name), true);
+			$this->constraintName($a_table, $this->getPrimaryKeyIdentifier()), true);
 
 		return $this->handleError($r, "dropPrimaryKey(".$a_table.")");
 	}
@@ -1428,6 +1439,7 @@ abstract class ilDB extends PEAR
 	function tableExists($a_table)
 	{
 		$tables = $this->listTables();
+
 		if (is_array($tables))
 		{
 			if (in_array($a_table, $tables))
