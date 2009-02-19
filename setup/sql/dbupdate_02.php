@@ -7819,3 +7819,7 @@ $ilDB->query("ALTER TABLE  `survey_questionpool` CHANGE  `online`  `isonline` VA
 <?php
 $ilDB->query("ALTER TABLE  `survey_answer` CHANGE  `row`  `rowvalue` INT NOT NULL DEFAULT  0");
 ?>
+<#1641>
+<?php
+$ilDB->query("ALTER TABLE  `qpl_questions` CHANGE  `comment`  `description` TEXT NULL");
+?>
