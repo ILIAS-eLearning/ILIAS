@@ -42,6 +42,7 @@ public class ParameterDefinition {
 	public static final int FORMAT_LIST = 1;
 	
 	public static final int TYPE_INT = 1;
+	public static final int TYPE_STRING = 2;
 
 	protected Logger logger = Logger.getLogger(ParameterDefinition.class);
 	
@@ -73,6 +74,9 @@ public class ParameterDefinition {
 		}
 		if(type.equals("int")) {
 			this.type = TYPE_INT;
+		}
+		if(type.equals("string")) {
+			this.type = TYPE_STRING;
 		}
 		this.value = value;
 	}
@@ -152,6 +156,11 @@ public class ParameterDefinition {
 			logger.debug("ID: " + getParameterValue(el,parentResult));
 			pst.setInt(index,getParameterValue(el,parentResult));
 			break;
+			
+		case TYPE_STRING:
+			logger.debug("ID: " + getParameterValue(el, parentResult));
+			pst.setString(index, getParameterString(el,parentResult));
+			break;
 		
 		default:
 			throw new DocumentHandlerException("Invalid parameter type given. Type " + getType());
@@ -169,18 +178,31 @@ public class ParameterDefinition {
 		if(getValue().equals("objId")) {
 			return el.getObjId();
 		}
-		
 		if(parentResult != null) {
-			switch(getType()) {
-			case TYPE_INT:
-				logger.debug("Reading parameter from parent result set...");
-				return parentResult.getInt(getValue());
-			}
+			logger.debug("Reading parameter from parent result set...");
+			return parentResult.getInt(getValue());
 		}
-		
 		return 0;
 	}
 	
+	/**
+	 * @param el
+	 * @param parentResult 
+	 * @return
+	 * @throws SQLException 
+	 */
+	private String getParameterString(CommandQueueElement el, ResultSet parentResult) throws SQLException {
+		
+		if(getValue().equals("objType")) {
+			return el.getObjType();
+		}
+		
+		if(parentResult != null) {
+			logger.debug("Reading parameter from parent result set...");
+			return parentResult.getString(getValue());
+		}
+		return "";
+	}
 	
 
 }

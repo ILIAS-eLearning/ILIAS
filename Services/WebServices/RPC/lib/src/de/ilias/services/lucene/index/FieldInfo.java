@@ -116,6 +116,7 @@ public class FieldInfo {
 	private void initDefaultFields() {
 
 		addField("title");
+		addField("tag");
 		addField("description");
 		addField("propertyHigh");
 		addField("propertyMedium");
