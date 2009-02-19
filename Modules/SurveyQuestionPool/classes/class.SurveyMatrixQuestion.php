@@ -1427,7 +1427,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 				{
 					if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches))
 					{
-						$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, row, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+						$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 							$ilDB->quote($this->getId() . ""),
 							$ilDB->quote($active_id . ""),
 							$ilDB->quote($value . ""),
@@ -1447,7 +1447,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						{
 							if (strlen($checked))
 							{
-								$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, row, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+								$query = sprintf("INSERT INTO survey_answer (answer_id, question_fi, active_fi, value, textanswer, rowvalue, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 									$ilDB->quote($this->getId() . ""),
 									$ilDB->quote($active_id . ""),
 									$ilDB->quote($checked . ""),
@@ -1522,7 +1522,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		$result_array = array();
 		$cumulated = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_answer.row = %s AND survey_finished.finished_id = survey_answer.active_fi",
+		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_answer.question_fi = %s AND survey_finished.survey_fi = %s AND survey_answer.rowvalue = %s AND survey_finished.finished_id = survey_answer.active_fi",
 			$ilDB->quote($question_id . ""),
 			$ilDB->quote($survey_id . ""),
 			$ilDB->quote($rowindex . "")
@@ -1987,7 +1987,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						$checked = FALSE;
 						foreach ($resultset["answers"][$this->getId()] as $result)
 						{
-							if ($result["row"] == $i)
+							if ($result["rowvalue"] == $i)
 							{
 								$checked = TRUE;
 								array_push($a_array, $result["value"] + 1);
@@ -2006,7 +2006,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						$checked_values = array();
 						foreach ($resultset["answers"][$this->getId()] as $result)
 						{
-							if ($result["row"] == $i)
+							if ($result["rowvalue"] == $i)
 							{
 								$checked = TRUE;
 								array_push($checked_values, $result["value"] + 1);
@@ -2100,7 +2100,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		
 		$answers = array();
 
-		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi ORDER BY row, value",
+		$query = sprintf("SELECT survey_answer.* FROM survey_answer, survey_finished WHERE survey_finished.survey_fi = %s AND survey_answer.question_fi = %s AND survey_finished.finished_id = survey_answer.active_fi ORDER BY rowvalue, value",
 			$ilDB->quote($survey_id),
 			$ilDB->quote($this->getId())
 		);
@@ -2110,7 +2110,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		{
 			$column = $this->getColumn($row["value"]);
 			if (!is_array($answers[$row["active_fi"]])) $answers[$row["active_fi"]] = array();
-			array_push($answers[$row["active_fi"]], $this->getRow($row["row"]) . ": " . ($row["value"] + 1) . " - " . $column);
+			array_push($answers[$row["active_fi"]], $this->getRow($row["rowvalue"]) . ": " . ($row["value"] + 1) . " - " . $column);
 		}
 		foreach ($answers as $key => $value)
 		{

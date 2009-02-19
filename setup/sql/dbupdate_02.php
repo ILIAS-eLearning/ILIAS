@@ -7815,3 +7815,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilDB->query("ALTER TABLE  `survey_questionpool` CHANGE  `online`  `isonline` VARCHAR( 1 ) NOT NULL DEFAULT  '0'");
 ?>
+<#1640>
+<?php
+$ilDB->query("ALTER TABLE  `survey_answer` CHANGE  `row`  `rowvalue` INT NOT NULL DEFAULT  0");
+?>
