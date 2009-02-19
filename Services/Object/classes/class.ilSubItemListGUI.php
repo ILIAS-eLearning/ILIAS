@@ -22,53 +22,118 @@
 */
 
 /** 
-* List GUI factory for lucene search results
+* Base class for all sub item list gui's
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup ServicesSearch
+* @ingroup ServicesObject
 */
-class ilLuceneSearchObjectListGUIFactory
+abstract class ilSubItemListGUI
 {
-	private static $item_list_gui = array();
+	protected $tpl;
+	private $highlighter = null;
+	
+	private $subitem_ids = array();
+	private $item_list_gui;
+	private $ref_id;
+	private $obj_id;
+	private $type;
 	
 	/**
-	 * Get list gui by type
-	 * This method caches all the returned list guis
-	 * @param string $a_type object type
-	 * @return object item_list_gui
-	 * @static
+	 * Constructor 
+	 * @param
+	 * @return
 	 */
-	 public static function factory($a_type)
-	 {
-		global $objDefinition;
+	public function __construct()
+	{
+		 
+	}
+
+	/**
+	 * set highlighter 
+	 * @param
+	 * @return
+	 */
+	public function setHighlighter($a_highlighter)
+	{
+		$this->highlighter = $a_highlighter;
+	}
+	
+	/**
+	 * get highlighter 
+	 * @param
+	 * @return
+	 */
+	public function getHighlighter()
+	{
+		return $this->highlighter;
+	}
+	
+	/**
+	 * get ref id 
+	 * @return
+	 */
+	public function getRefId()
+	{
+		return $this->ref_id;
+	}
+	
+	/**
+	 * get obj id 
+	 * @return
+	 */
+	public function getObjId()
+	{
+		return $this->obj_id;
+	}
+
+	/**
+	 * get type 
+	 * @return
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+	
+	/**
+	 * get sub item ids 
+	 * @return
+	 */
+	public function getSubItemIds()
+	{
+		return $this->subitem_ids;
+	}
+	
+	/**
+	 * get item list gui 
+	 * @return
+	 */
+	public function getItemListGUI()
+	{
+		return $this->item_list_gui;	 
+	}
+
+	/**
+	 * init 
+	 * @param	
+	 * @return
+	 */
+	public function init($item_list_gui,$a_ref_id,$a_subitem_ids)
+	{
+		$this->tpl = new ilTemplate('tpl.subitem_list.html',true,true,'Services/Object');
+		$this->item_list_gui = $item_list_gui;
+		$this->ref_id = $a_ref_id;
+		$this->obj_id = ilObject::_lookupObjId($this->getRefId());
+		$this->type = ilObject::_lookupType($this->getObjId());
 		
-		if(isset(self::$item_list_gui[$a_type]))
-		{
-			return self::$item_list_gui[$a_type];
-		}
-
-		$class = $objDefinition->getClassName($a_type);
-		$location = $objDefinition->getLocation($a_type);
-
-		$full_class = "ilObj".$class."ListGUI";
-
-		include_once($location."/class.".$full_class.".php");
-		$item_list_gui = new $full_class();
-
-		$item_list_gui->enableDelete(false);
-		$item_list_gui->enableCut(false);
-		$item_list_gui->enableSubscribe(false);
-		$item_list_gui->enablePayment(false);
-		$item_list_gui->enableLink(false);
-		$item_list_gui->enablePath(false);
-		$item_list_gui->enableLinkedPath(true);
-		$item_list_gui->enableSearchFragments(false);
-		$item_list_gui->enableRelevance(false);
-
-		return self::$item_list_gui[$a_type] = $item_list_gui;
- 	}	
+		$this->subitem_ids = $a_subitem_ids;
+	}
+	
+	abstract public function getHTML();
+	
+	
 }
 ?>

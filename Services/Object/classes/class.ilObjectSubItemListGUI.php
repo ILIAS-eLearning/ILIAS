@@ -21,54 +21,26 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once('./Services/Object/classes/class.ilSubItemListGUI.php');
+
 /** 
-* List GUI factory for lucene search results
+* Default implementation of a sub item list gui 
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup ServicesSearch
+* @ingroup ServicesObject 
 */
-class ilLuceneSearchObjectListGUIFactory
+class ilObjectSubItemListGUI extends ilSubItemListGUI
 {
-	private static $item_list_gui = array();
-	
 	/**
-	 * Get list gui by type
-	 * This method caches all the returned list guis
-	 * @param string $a_type object type
-	 * @return object item_list_gui
-	 * @static
+	 * get html 
+	 * @return
 	 */
-	 public static function factory($a_type)
-	 {
-		global $objDefinition;
-		
-		if(isset(self::$item_list_gui[$a_type]))
-		{
-			return self::$item_list_gui[$a_type];
-		}
-
-		$class = $objDefinition->getClassName($a_type);
-		$location = $objDefinition->getLocation($a_type);
-
-		$full_class = "ilObj".$class."ListGUI";
-
-		include_once($location."/class.".$full_class.".php");
-		$item_list_gui = new $full_class();
-
-		$item_list_gui->enableDelete(false);
-		$item_list_gui->enableCut(false);
-		$item_list_gui->enableSubscribe(false);
-		$item_list_gui->enablePayment(false);
-		$item_list_gui->enableLink(false);
-		$item_list_gui->enablePath(false);
-		$item_list_gui->enableLinkedPath(true);
-		$item_list_gui->enableSearchFragments(false);
-		$item_list_gui->enableRelevance(false);
-
-		return self::$item_list_gui[$a_type] = $item_list_gui;
- 	}	
+	public function getHTML()
+	{
+		return '';	 
+	}
 }
 ?>
