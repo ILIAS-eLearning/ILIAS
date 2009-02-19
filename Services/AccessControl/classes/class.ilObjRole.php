@@ -63,7 +63,7 @@ class ilObjRole extends ilObject
 	}
 	function getAssignUsersStatus()
 	{
-		return $this->assign_users;
+		return $this->assign_users ? $this->assign_users : 0;
 	}
 	// Same method (static)
 	function _getAssignUsersStatus($a_role_id)
@@ -187,7 +187,7 @@ class ilObjRole extends ilObject
 	*/
 	function getAllowRegister()
 	{
-		return $this->allow_register;
+		return $this->allow_register ? $this->allow_register : false;
 	}
 
 	/**
