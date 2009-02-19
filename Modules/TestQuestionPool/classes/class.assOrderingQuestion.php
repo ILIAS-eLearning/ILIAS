@@ -149,7 +149,7 @@ class assOrderingQuestion extends assQuestion
 			$now = getdate();
 			$question_type = $this->getQuestionTypeID();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, working_time, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$ilDB->quote($question_type . ""),
 				$ilDB->quote($this->obj_id . ""),
 				$ilDB->quote($this->title . ""),
@@ -192,7 +192,7 @@ class assOrderingQuestion extends assQuestion
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, description = %s, author = %s, question_text = %s, working_time = %s, points = %s, complete = %s WHERE question_id = %s",
 				$ilDB->quote($this->obj_id. ""),
 				$ilDB->quote($this->title . ""),
 				$ilDB->quote($this->comment . ""),
@@ -282,7 +282,7 @@ class assOrderingQuestion extends assQuestion
 			$this->id = $question_id;
 			$this->title = $data->title;
 			$this->obj_id = $data->obj_fi;
-			$this->comment = $data->comment;
+			$this->comment = $data->description;
 			$this->original_id = $data->original_id;
 			$this->author = $data->author;
 			$this->owner = $data->owner;

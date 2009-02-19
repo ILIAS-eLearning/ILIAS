@@ -178,7 +178,7 @@ class assClozeTest extends assQuestion
 			$this->setId($question_id);
 			$this->setObjId($data["obj_fi"]);
 			$this->setTitle($data["title"]);
-			$this->setComment($data["comment"]);
+			$this->setComment($data["description"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setAuthor($data["author"]);
 			$this->setPoints($data["points"]);
@@ -283,7 +283,7 @@ class assClozeTest extends assQuestion
 		{
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, points, author, " .
+			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, points, author, " .
 				"owner, question_text, working_time, complete, created, original_id, TIMESTAMP) " .
 				"VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)",
 				array(
@@ -343,7 +343,7 @@ class assClozeTest extends assQuestion
 		}
 		else
 		{
-			$statement = $ilDB->prepareManip("UPDATE qpl_questions SET obj_fi = ?, title = ?, comment = ?, points = ?, author = ?,  " .
+			$statement = $ilDB->prepareManip("UPDATE qpl_questions SET obj_fi = ?, title = ?, description = ?, points = ?, author = ?,  " .
 				"question_text = ?, working_time = ?, complete = ? WHERE question_id = ?",
 				array(
 					"integer",

@@ -107,7 +107,7 @@ class assFlashQuestion extends assQuestion
 			$now = getdate();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			
-			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", 
+			$statement = $ilDB->prepareManip("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, description, author, owner, question_text, points, working_time, complete, created, original_id, TIMESTAMP) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)", 
 				array("integer", "integer", "text", "text", "text", "integer", "text", "float", "time", "text", "timestamp")
 			);
 			$data = array(
@@ -137,7 +137,7 @@ class assFlashQuestion extends assQuestion
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$statement = $ilDB->prepareManip("UPDATE qpl_questions SET obj_fi = ?, title = ?, comment = ?, author = ?, question_text = ?, points = ?, working_time=?, complete = ? WHERE question_id = ?", 
+			$statement = $ilDB->prepareManip("UPDATE qpl_questions SET obj_fi = ?, title = ?, description = ?, author = ?, question_text = ?, points = ?, working_time=?, complete = ? WHERE question_id = ?", 
 				array("integer", "text", "text", "text", "text", "float", "time", "text", "integer")
 			);
 			$data = array(
@@ -200,7 +200,7 @@ class assFlashQuestion extends assQuestion
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($question_id);
 			$this->setTitle($data["title"]);
-			$this->setComment($data["comment"]);
+			$this->setComment($data["description"]);
 			$this->setSuggestedSolution($data["solution_hint"]);
 			$this->setOriginalId($data["original_id"]);
 			$this->setObjId($data["obj_fi"]);

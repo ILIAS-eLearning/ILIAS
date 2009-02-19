@@ -251,7 +251,7 @@ class ilQuestionpoolExport
 		{
 			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["title"], "latin1"));
 			$col++;
-			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["comment"], "latin1"));
+			$worksheet->write($row, $col, ilExcelUtils::_convert_text($question["description"], "latin1"));
 			$col++;
 			$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt($question["type_tag"]), "latin1"));
 			$col++;
