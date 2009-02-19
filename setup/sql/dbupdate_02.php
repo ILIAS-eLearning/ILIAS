@@ -7811,3 +7811,7 @@ ALTER TABLE `conditions` CHANGE `id` `condition_id` INT( 11 ) NOT NULL DEFAULT '
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#1639>
+<?php
+$ilDB->query("ALTER TABLE  `survey_questionpool` CHANGE  `online`  `isonline` VARCHAR( 1 ) NOT NULL DEFAULT  '0'");
+?>
