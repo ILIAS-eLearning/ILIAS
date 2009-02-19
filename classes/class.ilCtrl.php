@@ -1024,7 +1024,7 @@ class ilCtrl
 			{
 				$res = $ilDB->query("SELECT token FROM il_request_token WHERE user_id = ".
 					$ilDB->quote($ilUser->getId(), "integer").
-					" AND session = ".$ilDB->quote(session_id(), "text"));
+					" AND session_id = ".$ilDB->quote(session_id(), "text"));
 				$rec = $ilDB->fetchAssoc($res);
 				
 				if ($rec["token"] != "")
@@ -1038,7 +1038,7 @@ class ilCtrl
 				// session basis. This will fail due to framesets that are used
 				// occasionally in ILIAS, e.g. in the chat, where multiple
 				// forms are loaded in different frames.
-				$ilDB->manipulate("INSERT INTO il_request_token (user_id, token, stamp, session) VALUES ".
+				$ilDB->manipulate("INSERT INTO il_request_token (user_id, token, stamp, session_id) VALUES ".
 					"(".
 					$ilDB->quote($ilUser->getId(), "integer").",".
 					$ilDB->quote($this->rtoken, "text").",".
@@ -1082,7 +1082,7 @@ class ilCtrl
 				// remove tokens from older sessions
 				$ilDB->manipulate("DELETE FROM il_request_token WHERE ". 		 
 					" user_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ". 		 
-					" session != ".$ilDB->quote(session_id(), "text"));
+					" session_id != ".$ilDB->quote(session_id(), "text"));
 				return true; 		 
 			} 		 
 			else

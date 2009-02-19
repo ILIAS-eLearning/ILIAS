@@ -162,7 +162,7 @@ class ilObjWiki extends ilObject
 		
 		$query = "INSERT INTO il_wiki_data (".
 			" id".
-			", online".
+			", is_online".
 			", startpage".
 			", short".
 			", rating".
@@ -206,7 +206,7 @@ class ilObjWiki extends ilObject
 		
 		// update wiki data
 		$st = $ilDB->prepareManip("UPDATE il_wiki_data SET ".
-			" online = ?, startpage = ?, short = ?, ".
+			" is_online = ?, startpage = ?, short = ?, ".
 			" rating = ?, introduction = ? ".
 			" WHERE id = ?",
 			array("boolean","text","text","boolean","text","integer")); 
@@ -245,7 +245,7 @@ class ilObjWiki extends ilObject
 		$set = $ilDB->query($query);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		$this->setOnline($rec["online"]);
+		$this->setOnline($rec["is_online"]);
 		$this->setStartPage($rec["startpage"]);
 		$this->setShortTitle($rec["short"]);
 		$this->setRating($rec["rating"]);

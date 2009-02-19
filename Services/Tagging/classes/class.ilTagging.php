@@ -126,7 +126,7 @@ class ilTagging
 		global $ilDB;
 		
 		$online_str = ($a_only_online)
-			? $online_str = " AND offline = ".$ilDB->quote(0)." "
+			? $online_str = " AND is_offline = ".$ilDB->quote(0)." "
 			: "";
 		
 		$q = "SELECT count(user_id) as cnt, tag FROM il_tag WHERE ".
@@ -156,7 +156,7 @@ class ilTagging
 		global $ilDB;
 
 		$online_str = ($a_only_online)
-			? $online_str = " AND offline = ".$ilDB->quote(0)." "
+			? $online_str = " AND is_offline = ".$ilDB->quote(0)." "
 			: "";
 
 		$st = $ilDB->prepare("SELECT count(*) as cnt, tag FROM il_tag WHERE ".
@@ -244,7 +244,7 @@ class ilTagging
 	{
 		global $ilDB;
 		
-		$st = $ilDB->prepareManip("UPDATE il_tag SET OFFLINE = ? ".
+		$st = $ilDB->prepareManip("UPDATE il_tag SET is_offline = ? ".
 			"WHERE ".
 			"obj_id = ? AND ".
 			"obj_type = ? AND ".

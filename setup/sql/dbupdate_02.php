@@ -7851,4 +7851,14 @@ ALTER TABLE glossary CHANGE `online` `is_online` CHAR(1) DEFAULT 'n';
 ALTER TABLE il_media_cast_data CHANGE `online` `is_online` TINYINT DEFAULT 0;
 <#1650>
 ALTER TABLE il_media_cast_data CHANGE `access` `def_access` TINYINT DEFAULT 0;
+<#1651>
+<?php
+	$ilDB->renameTableColumn("il_request_token", "session", "session_id");
+?>
+<#1652>
+ALTER TABLE il_tag CHANGE `offline` `is_offline` TINYINT NOT NULL DEFAULT 0;
+<#1653>
+ALTER TABLE il_wiki_data CHANGE `online` `is_online` TINYINT DEFAULT 0;
+<#1654>
+ALTER TABLE page_history CHANGE `user` `user_id` INT;
 
