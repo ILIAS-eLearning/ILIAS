@@ -5619,7 +5619,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 						$where .= " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 						break;
 					case "comment":
-						$where .= " AND qpl_questions.comment LIKE " . $ilDB->quote("%" . $filter_text . "%");
+						$where .= " AND qpl_questions.description LIKE " . $ilDB->quote("%" . $filter_text . "%");
 						break;
 					case "author":
 						$where .= " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
@@ -5652,7 +5652,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "comment":
-				$order = " ORDER BY comment $sortorder";
+				$order = " ORDER BY description $sortorder";
 				$images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "type":

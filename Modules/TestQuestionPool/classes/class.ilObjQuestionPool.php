@@ -549,7 +549,7 @@ class ilObjQuestionPool extends ilObject
 					$where = " AND qpl_questions.title LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 				case "comment":
-					$where = " AND qpl_questions.comment LIKE " . $ilDB->quote("%" . $filter_text . "%");
+					$where = " AND qpl_questions.description LIKE " . $ilDB->quote("%" . $filter_text . "%");
 					break;
 				case "author":
 					$where = " AND qpl_questions.author LIKE " . $ilDB->quote("%" . $filter_text . "%");
@@ -568,7 +568,7 @@ class ilObjQuestionPool extends ilObject
 				$images["title"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "comment":
-				$order = " ORDER BY comment $sortorder";
+				$order = " ORDER BY description $sortorder";
 				$images["comment"] = " <img src=\"" . ilUtil::getImagePath(strtolower($sortorder) . "_order.gif") . "\" alt=\"" . $this->lng->txt(strtolower($sortorder) . "ending_order")."\" />";
 				break;
 			case "type":
@@ -665,7 +665,7 @@ class ilObjQuestionPool extends ilObject
 				$order = " ORDER BY title";
 				break;
 			case "comment":
-				$order = " ORDER BY comment,title";
+				$order = " ORDER BY description,title";
 				break;
 			case "type":
 				$order = " ORDER BY question_type_id,title";

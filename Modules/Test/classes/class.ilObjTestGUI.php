@@ -2128,7 +2128,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
 					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
-					$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
+					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 					$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 					$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_TIMESTAMP)));
@@ -2545,7 +2545,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("QTab");
 			$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 			$this->tpl->setVariable("QUESTION_TITLE", $dataset->title);
-			$this->tpl->setVariable("QUESTION_COMMENT", $dataset->comment);
+			$this->tpl->setVariable("QUESTION_COMMENT", $dataset->description);
 			$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($dataset->type_tag));
 			$this->tpl->setVariable("QUESTION_AUTHOR", $dataset->author);
 			$this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->obj_fi]["title"]);
@@ -3000,7 +3000,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("row");
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 					$this->tpl->setVariable("TXT_TITLE", $data["title"]);
-					$this->tpl->setVariable("TXT_DESCRIPTION", $data["comment"]);
+					$this->tpl->setVariable("TXT_DESCRIPTION", $data["description"]);
 					$this->tpl->setVariable("TXT_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 					$this->tpl->parseCurrentBlock();
 					$counter++;
@@ -3271,7 +3271,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this, "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 					}
 				}
-				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
+				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 				$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
