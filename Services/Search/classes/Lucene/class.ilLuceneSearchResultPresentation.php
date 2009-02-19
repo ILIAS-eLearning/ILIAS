@@ -118,11 +118,12 @@ class ilLuceneSearchResultPresentation
 			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
 			$item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
 			$item_list_gui->setSearchFragment($this->lookupContent($obj_id,0));
-			$item_list_gui->setRelevance($this->getRelevance($obj_id));
 			
 			if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
 			{
-				$html = $this->appendChildLinks($ref_id,$obj_id,$type,$item_list_gui,$html);
+				$html .= $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
+				$html .= $this->appendPath($ref_id);
+				$html .= $this->appendRelevance($obj_id);
 				
 				$item_html[$ref_id]['html'] = $html;
 				$item_html[$ref_id]['type'] = $type;
@@ -237,46 +238,67 @@ class ilLuceneSearchResultPresentation
 		return $this->searcher->getHighlighter()->getContent($a_obj_id,$a_sub_id);
 	}
 	
-	function appendChildLinks($ref_id,$obj_id,$type,$item_list_gui,$html)
+	
+	/**
+	 * Append path  
+	 * @return
+	 */
+	protected function appendPath($a_ref_id)
+	{
+		include_once './Services/Tree/classes/class.ilPathGUI.php';
+		$path_gui = new ilPathGUI();
+		$path_gui->enableTextOnly(false);
+		$path_gui->setUseImages(false);
+		
+		$tpl = new ilTemplate('tpl.lucene_path.html',true,true,'Services/Search');
+		$tpl->setVariable('PATH_ITEM',$path_gui->getPath(ROOT_FOLDER_ID,$a_ref_id));
+		return $tpl->get();		
+	}
+	
+	/**
+	 * Append relevance 
+	 * @return
+	 */
+	protected function appendRelevance($a_obj_id)
+	{
+		if(!((int) $this->getRelevance($a_obj_id)))
+		{
+			return '';
+		}
+
+		$tpl = new ilTemplate('tpl.lucene_relevance.html',true,true,'Services/Search');
+		
+		$width1 = (int) $this->getRelevance($a_obj_id);
+		$width2 = (int) (100 - $width1);
+		
+		$tpl->setCurrentBlock('relevance');
+		#$tpl->setVariable('TXT_RELEVANCE',$lng->txt('search_relevance'));
+		$tpl->setVariable('VAL_REL',sprintf("%.02f %%",$this->getRelevance($a_obj_id)));
+		$tpl->setVariable('WIDTH_A',$width1);
+		$tpl->setVariable('WIDTH_B',$width2);
+		$tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
+		$tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.gif"));
+		$tpl->parseCurrentBlock();
+		return $tpl->get();
+	}
+	
+	/**
+	 * Append subitems 
+	 * @return
+	 */
+	protected function appendSubItems($item_list_gui,$ref_id,$obj_id,$a_type)
 	{
 		if(!count($this->searcher->getHighlighter()->getSubItemIds($obj_id)))
 		{
-			return $html;
+			return ;
 		}
 		
-		$tpl = new ilTemplate('tpl.detail_links.html',true,true,'Services/Search');
-
-		$counter = 0;
-		foreach($this->searcher->getHighlighter()->getSubItemIds($obj_id) as $sub_id)
-		{
-			if(++$counter > self::MAX_CHILDS)
-			{
-				break;
-			}
-			
-			switch($type)
-			{
-				case 'frm':
-					include_once './Modules/Forum/classes/class.ilObjForum.php';
-					
-					$tpl->setCurrentBlock("link_row");
-					$tpl->setVariable("CHAPTER_PAGE",$this->lng->txt('thread'));
-
-					$item_list_gui->setChildId($sub_id);
-					$tpl->setVariable("SEPERATOR",': ');
-					$tpl->setVariable("LINK",$item_list_gui->getCommandLink('thread'));
-					$tpl->setVariable("TARGET",$item_list_gui->getCommandFrame(''));
-					$tpl->setVariable("TITLE",ilObjForum::_lookupThreadSubject($sub_id));
-					$tpl->setVariable('TXT_FRAGMENT',$this->searcher->getHighlighter()->getContent($obj_id,$sub_id));
-					$tpl->parseCurrentBlock();
-					break;
-	
-				default:
-					;
-			}
-		}
-		$tpl->setVariable("HITS",$this->lng->txt('search_hits'));
-		return $html . $tpl->get();
+		include_once './Services/Search/classes/Lucene/class.ilLuceneSubItemListGUIFactory.php';
+		$sub_list = ilLuceneSubItemListGUIFactory::getInstanceByType($a_type);
+		$sub_list->setHighlighter($this->searcher->getHighlighter());
+		$sub_list->init($item_list_gui,$ref_id,$this->searcher->getHighlighter()->getSubItemIds($obj_id));
+		return $sub_list->getHTML();
+		
 	}
 }
 ?>

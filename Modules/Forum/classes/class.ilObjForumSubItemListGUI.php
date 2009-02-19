@@ -21,54 +21,46 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Object/classes/class.ilSubItemListGUI.php';
+
 /** 
-* List GUI factory for lucene search results
+* Show forum threads
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 * 
 *
-* @ingroup ServicesSearch
+* @ingroup ModulesForum
 */
-class ilLuceneSearchObjectListGUIFactory
+class ilObjForumSubItemListGUI extends ilSubItemListGUI
 {
-	private static $item_list_gui = array();
-	
 	/**
-	 * Get list gui by type
-	 * This method caches all the returned list guis
-	 * @param string $a_type object type
-	 * @return object item_list_gui
-	 * @static
+	 * get html 
+	 * @return
 	 */
-	 public static function factory($a_type)
-	 {
-		global $objDefinition;
+	public function getHTML()
+	{
+		global $lng;
 		
-		if(isset(self::$item_list_gui[$a_type]))
+		foreach($this->getSubItemIds() as $sub_item)
 		{
-			return self::$item_list_gui[$a_type];
+			if(is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(),$sub_item)))
+			{
+				$this->tpl->setCurrentBlock('sea_fragment');
+				$this->tpl->setVariable('TXT_FRAGMENT',$this->getHighlighter()->getContent($this->getObjId(),$sub_item));
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock('subitem');
+			$this->tpl->setVariable('SUBITEM_TYPE',$lng->txt('thread'));
+			$this->tpl->setVariable('SEPERATOR',':');
+			
+			$this->getItemListGUI()->setChildId($sub_item);
+			$this->tpl->setVariable('LINK',$this->getItemListGUI()->getCommandLink('thread'));
+			$this->tpl->setVariable('TARGET',$this->getItemListGUI()->getCommandFrame(''));
+			$this->tpl->setVariable('TITLE',ilObjForum::_lookupThreadSubject($sub_item));			
+			$this->tpl->parseCurrentBlock();
 		}
-
-		$class = $objDefinition->getClassName($a_type);
-		$location = $objDefinition->getLocation($a_type);
-
-		$full_class = "ilObj".$class."ListGUI";
-
-		include_once($location."/class.".$full_class.".php");
-		$item_list_gui = new $full_class();
-
-		$item_list_gui->enableDelete(false);
-		$item_list_gui->enableCut(false);
-		$item_list_gui->enableSubscribe(false);
-		$item_list_gui->enablePayment(false);
-		$item_list_gui->enableLink(false);
-		$item_list_gui->enablePath(false);
-		$item_list_gui->enableLinkedPath(true);
-		$item_list_gui->enableSearchFragments(false);
-		$item_list_gui->enableRelevance(false);
-
-		return self::$item_list_gui[$a_type] = $item_list_gui;
- 	}	
+		return $this->tpl->get();	 
+	}
 }
 ?>
