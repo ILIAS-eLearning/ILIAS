@@ -198,7 +198,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			$this->setOnline($row["online"]);
+			$this->setOnline($row["isonline"]);
 		}
 	}
 	
@@ -219,7 +219,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
-			$query = sprintf("UPDATE survey_questionpool SET online = %s WHERE obj_fi = %s",
+			$query = sprintf("UPDATE survey_questionpool SET isonline = %s WHERE obj_fi = %s",
 				$ilDB->quote($this->getOnline() . ""),
 				$ilDB->quote($this->getId() . "")
 			);
@@ -232,7 +232,7 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		else
 		{
-			$query = sprintf("INSERT INTO survey_questionpool (online, obj_fi) VALUES (%s, %s)",
+			$query = sprintf("INSERT INTO survey_questionpool (isonline, obj_fi) VALUES (%s, %s)",
 				$ilDB->quote($this->getOnline() . ""),
 				$ilDB->quote($this->getId() . "")
 			);
@@ -893,8 +893,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	/**
 	* Sets the questionpool online status
 	*
-	* Sets the questionpool online status
-	*
 	* @param integer $a_online_status Online status of the questionpool
 	* @see online
 	* @access public
@@ -923,14 +921,14 @@ class ilObjSurveyQuestionPool extends ilObject
 	{
 		global $ilDB;
 		
-		$query = sprintf("SELECT online FROM survey_questionpool WHERE obj_fi = %s",
+		$query = sprintf("SELECT isonline FROM survey_questionpool WHERE obj_fi = %s",
 			$ilDB->quote($a_obj_id . "")
 		);
 		$result = $ilDB->query($query);
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
-			return $row["online"];
+			return $row["isonline"];
 		}
 		return 0;
 	}
@@ -1016,16 +1014,16 @@ class ilObjSurveyQuestionPool extends ilObject
 		$qpls = ilUtil::_getObjectsByOperations("spl", $permission, $ilUser->getId(), -1);
 		$titles = ilObject::_prepareCloneSelection($qpls, "spl");
 		$allqpls = array();
-		$statement = $ilDB->prepare("SELECT obj_fi, online FROM survey_questionpool");
+		$statement = $ilDB->prepare("SELECT obj_fi, isonline FROM survey_questionpool");
 		$result = $ilDB->execute($statement);
 		while ($row = $ilDB->fetchAssoc($result))
 		{
-			$allqpls[$row['obj_fi']] = $row['online'];
+			$allqpls[$row['obj_fi']] = $row['isonline'];
 		}
 		foreach ($qpls as $ref_id)
 		{
 			$obj_id = ilObject::_lookupObjectId($ref_id);
-			if (($could_be_offline) || ($allqpls[$obj_id]['online'] == 1))
+			if (($could_be_offline) || ($allqpls[$obj_id]['isonline'] == 1))
 			{
 				if ($use_object_id)
 				{
