@@ -760,7 +760,7 @@ class ilCtrl
 			$ilDB->quote($a_class_name, "text"));
 		$class_rec = $ilDB->fetchAssoc($class_set);
 
-		return $class_rec["file"];
+		return $class_rec["filename"];
 	}
 
 	/**
