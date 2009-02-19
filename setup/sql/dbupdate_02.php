@@ -7861,4 +7861,35 @@ ALTER TABLE il_tag CHANGE `offline` `is_offline` TINYINT NOT NULL DEFAULT 0;
 ALTER TABLE il_wiki_data CHANGE `online` `is_online` TINYINT DEFAULT 0;
 <#1654>
 ALTER TABLE page_history CHANGE `user` `user_id` INT;
-
+<#1655>
+DROP TABLE IF EXISTS xml_tree;
+<#1656>
+DROP TABLE IF EXISTS xml_text;
+<#1657>
+DROP TABLE IF EXISTS xml_pi_target;
+<#1658>
+DROP TABLE IF EXISTS xml_pi_data;
+<#1659>
+DROP TABLE IF EXISTS xml_object;
+<#1660>
+DROP TABLE IF EXISTS xml_node_type;
+<#1661>
+DROP TABLE IF EXISTS xml_entity_reference;
+<#1662>
+DROP TABLE IF EXISTS xml_element_namespace;
+<#1663>
+DROP TABLE IF EXISTS xml_element_name;
+<#1664>
+DROP TABLE IF EXISTS xml_element_idx;
+<#1665>
+DROP TABLE IF EXISTS xml_comment;
+<#1666>
+DROP TABLE IF EXISTS xml_cdata;
+<#1667>
+DROP TABLE IF EXISTS xml_attribute_value;
+<#1668>
+DROP TABLE IF EXISTS xml_attribute_namespace;
+<#1669>
+DROP TABLE IF EXISTS xml_attribute_name;
+<#1670>
+DROP TABLE IF EXISTS xml_attribute_idx;
