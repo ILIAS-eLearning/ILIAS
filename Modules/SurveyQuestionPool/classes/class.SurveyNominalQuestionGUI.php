@@ -177,7 +177,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 *
 * @access public
 */
-	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "")
+	function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_out_nominal.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if (count($this->object->material))
@@ -348,7 +348,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			$questiontext = $this->object->getQuestiontext();
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
-		if (! $this->object->getObligatory())
+		if (!$this->object->getObligatory($survey_id))
 		{
 			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
 		}
@@ -367,7 +367,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 	*
 	* @access private
 	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1)
+	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
 	{
 		$template = new ilTemplate("tpl.il_svy_qpl_nominal_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		switch ($this->object->getOrientation())
@@ -460,7 +460,7 @@ class SurveyNominalQuestionGUI extends SurveyQuestionGUI
 			$questiontext = $this->object->getQuestiontext();
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
-		if (! $this->object->getObligatory())
+		if (! $this->object->getObligatory($survey_id))
 		{
 			$template->setVariable("OBLIGATORY_TEXT", $this->lng->txt("survey_question_optional"));
 		}

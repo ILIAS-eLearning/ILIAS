@@ -388,7 +388,7 @@ class ilSurveyExecutionGUI
 					$error_messages = $_SESSION["svy_errors"];
 				}
 				$show_questiontext = ($data["questionblock_show_questiontext"]) ? 1 : 0;
-				$question_output = $question_gui->getWorkingForm($working_data, $this->object->getShowQuestionTitles(), $show_questiontext, $error_messages[$data["question_id"]]);
+				$question_output = $question_gui->getWorkingForm($working_data, $this->object->getShowQuestionTitles(), $show_questiontext, $error_messages[$data["question_id"]], $this->object->getSurveyId());
 				$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 				$this->ctrl->setParameter($this, "qid", $data["question_id"]);
 				$this->tpl->parse("survey_content");

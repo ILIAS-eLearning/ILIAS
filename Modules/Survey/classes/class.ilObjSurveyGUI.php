@@ -3895,8 +3895,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	/**
 	* Creates a print view of the survey questions
 	*
-	* Creates a print view of the survey questions
-	*
 	* @access public
 	*/
 	function printViewObject()
@@ -3937,7 +3935,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$template->parseCurrentBlock();
 						}
 						$template->setCurrentBlock("question");
-						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"]));
+						$template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($this->object->getShowQuestionTitles(), $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
 						$template->parseCurrentBlock();
 					}
 				}
