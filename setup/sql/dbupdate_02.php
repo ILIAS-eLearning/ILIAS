@@ -7806,3 +7806,8 @@ ALTER TABLE `conditions` CHANGE `id` `condition_id` INT( 11 ) NOT NULL DEFAULT '
 <?php
 	$ilMySQLAbstraction->performAbstraction('crs_archives');
 ?>
+
+<#1638>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

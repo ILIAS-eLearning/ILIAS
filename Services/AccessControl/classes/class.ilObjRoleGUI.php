@@ -31,7 +31,7 @@ require_once "./classes/class.ilObjectGUI.php";
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjRoleGUI:
+* @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI
 *
 * @ingroup	ServicesAccessControl
 */
@@ -138,6 +138,17 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilrepositorysearchgui':
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+				$rep_search->setCallback($this,'addUserObject');
+
+				// Set tabs
+				$this->tabs_gui->setTabActive('user_assignment');
+				$this->ctrl->setReturn($this,'userassignment');
+				$ret =& $this->ctrl->forwardCommand($rep_search);
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -1122,7 +1133,9 @@ class ilObjRoleGUI extends ilObjectGUI
     }
 
 	/**
+	* Maybe deprecated, since search is done by ilRepositorySearchGUI and  addUserObject
 	* assign users to role
+	* 
 	*
 	* @access	public
 	*/
@@ -1142,7 +1155,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("err_role_not_assignable"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if (!isset($_POST["user"]))
+		if(!isset($_POST["user"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
 			$this->searchObject();
@@ -1176,6 +1189,57 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		ilUtil::sendInfo($this->lng->txt("msg_userassignment_changed"),true);
 		
+		$this->ctrl->redirect($this,'userassignment');
+	}
+	
+	/**
+	 * Assign user (callback from ilRepositorySearchGUI) 
+	 * @param	array	$a_user_ids		Array of user ids
+	 * @return
+	 */
+	public function addUserObject($a_user_ids)
+	{
+		global $rbacreview,$rbacadmin;
+		
+		if(!$this->checkAccess('edit_userassignment','edit_permission'))
+		{
+			ilUtil::sendInfo($this->lng->txt('msg_no_perm_assign_user_to_role'));
+			return false;
+		}
+		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id) &&
+			$this->rolf_ref_id != ROLE_FOLDER_ID)
+		{
+			ilUtil::sendInfo($this->lng->txt('err_role_not_assignable'));
+			return false;
+		}
+		if(!$a_user_ids)
+		{
+			ilUtil::sendInfo($this->lng->txt("no_checkbox"));
+			return false;
+		}
+		
+		$assigned_users_all = $rbacreview->assignedUsers($this->object->getId());
+				
+		// users to assign
+		$assigned_users_new = array_diff($a_user_ids,array_intersect($a_user_ids,$assigned_users_all));
+		
+		// selected users all already assigned. stop
+        if (count($assigned_users_new) == 0)
+		{
+			ilUtil::sendInfo($this->lng->txt("msg_selected_users_already_assigned"));
+			return false;
+		}
+		
+		// assign new users
+        foreach ($assigned_users_new as $user)
+		{
+			$rbacadmin->assignUser($this->object->getId(),$user,false);
+        }
+        
+    	// update object data entry (to update last modification date)
+		$this->object->update();
+
+		ilUtil::sendInfo($this->lng->txt("msg_userassignment_changed"),true);
 		$this->ctrl->redirect($this,'userassignment');
 	}
 	
@@ -1508,20 +1572,21 @@ class ilObjRoleGUI extends ilObjectGUI
         $tbl =& $this->__initTableGUI();
 		$tpl =& $tbl->getTemplateObject();
 		
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		// display button add user
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('role_add_user'));
+		$this->tpl->parseCurrentBlock();
+		
 		$this->__showButton('mailToRole',$this->lng->txt('role_mailto'),'target=\'_blank\'');
-
+		
 		$tpl->setCurrentBlock("tbl_form_header");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
-
-        $tpl->setCurrentBlock("plain_button");
-		$tpl->setVariable("PBTN_NAME","searchUserForm");
-		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("role_add_user"));
-		$tpl->parseCurrentBlock();
-		$tpl->setCurrentBlock("plain_buttons");
-		$tpl->parseCurrentBlock();
 
 		$tpl->setVariable("COLUMN_COUNTS",5);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
