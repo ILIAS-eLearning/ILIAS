@@ -7837,3 +7837,18 @@ $ilDB->query("ALTER TABLE  `qpl_questionpool` CHANGE  `online`  `isonline` VARCH
 ?>
 <#1645>
 ALTER TABLE file_based_lm CHANGE `online` `is_online` CHAR(1) DEFAULT 'n';
+<#1646>
+ALTER TABLE glossary CHANGE `online` `is_online` CHAR(1) DEFAULT 'n';
+<#1647>
+<?php
+	$ilDB->renameTableColumn("il_block_setting", "user", "user_id");
+?>
+<#1648>
+<?php
+	$ilDB->renameTableColumn("il_log", "level", "log_level");
+?>
+<#1649>
+ALTER TABLE il_media_cast_data CHANGE `online` `is_online` TINYINT DEFAULT 0;
+<#1650>
+ALTER TABLE il_media_cast_data CHANGE `access` `def_access` TINYINT DEFAULT 0;
+

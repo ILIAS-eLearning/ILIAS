@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -155,7 +155,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
 		$mc_set = $ilDB->query($q);
 		$mc_rec = $mc_set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		return $mc_rec["online"];
+		return $mc_rec["is_online"];
 	}
 
 	/**

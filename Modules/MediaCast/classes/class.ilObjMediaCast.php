@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -167,10 +167,10 @@ class ilObjMediaCast extends ilObject
 		
 		$query = "INSERT INTO il_media_cast_data (".
 			" id".
-			", online".
+			", is_online".
 			", public_files".
 			", downloadable".
-		    ", access".
+		    ", def_access".
 			" ) VALUES (".
 			$ilDB->quote($this->getId())
 			.",".$ilDB->quote($this->getOnline())
@@ -199,10 +199,10 @@ class ilObjMediaCast extends ilObject
 
 		// update media cast data
 		$query = "UPDATE il_media_cast_data SET ".
-			" online = ".$ilDB->quote($this->getOnline()).
+			" is_online = ".$ilDB->quote($this->getOnline()).
 			", public_files = ".$ilDB->quote($this->getPublicFiles()).
 			", downloadable = ".$ilDB->quote($this->getDownloadable()).
-		    ", access = ".$ilDB->quote($this->getDefaultAccess()).
+		    ", def_access = ".$ilDB->quote($this->getDefaultAccess()).
 			" WHERE id = ".$ilDB->quote($this->getId());
 		
 		$ilDB->query($query);
@@ -225,10 +225,10 @@ class ilObjMediaCast extends ilObject
 		$set = $ilDB->query($query);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		$this->setOnline($rec["online"]);
+		$this->setOnline($rec["is_online"]);
 		$this->setPublicFiles($rec["public_files"]);
 		$this->setDownloadable($rec["downloadable"]);
-		$this->setDefaultAccess($rec["access"]);
+		$this->setDefaultAccess($rec["def_access"]);
 		
 	}
 
