@@ -418,52 +418,6 @@ class ilObjDlBook extends ilObjContentObject
 	{
 		return $this->tr_ids;
 	}
-	/**
-	 * STATIC METHOD
-	 * search for dbk data. This method is called from class.ilSearch
-	 * @param	object reference on object of search class
-	 * @static
-	 * @access	public
-	 */
-	function _search(&$search_obj,$a_search_in)
-	{
-		global $ilBench;
-
-		switch($a_search_in)
-		{
-			case 'meta':
-				die("ilObjContentObject::_search/meta is deprecated.");
-				break;
-
-			case 'content':
-				die("ilObjContentObject::_search/content is deprecated.");
-/*
-				$in		= $search_obj->getInStatement("ref_id");
-				$where	= $search_obj->getWhereCondition("fulltext",array("pg.content"));
-
-				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
-					"INNER JOIN object_reference AS r ON pg.parent_id = r.obj_id ".
-					$where.
-					$in.
-					"AND pg.parent_type = 'dbk' ";
-
-				$ilBench->start("Search", "ilObjDlBook_search_content");
-				$res = $search_obj->ilias->db->query($query);
-				$ilBench->stop("Search", "ilObjDlBook_search_content");
-
-				$counter = 0;
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					$result[$counter]["id"]		= $row->ref_id;
-					$result[$counter]["page_id"] = $row->page_id;
-
-					++$counter;
-				}
-*/
-				break;
-		}
-		return $result ? $result : array();
-	}
 
 	function getXMLZip()
 	{

@@ -22,6 +22,8 @@
 */
 
 
+include_once './Services/Search/classes/class.ilQueryParser.php';
+
 /**
 * search
 * 
@@ -31,6 +33,8 @@
 */
 class ilSearch
 {
+	protected $qp = null;
+	
 	/**
 	* ilias object
 	* @var object DB
@@ -189,28 +193,14 @@ class ilSearch
 
 	function validate(&$message)
 	{
-		$ok = true;
-
-		if(!$this->getEmptySearch())
+		$this->initQueryParser();
+		
+		if(!$this->qp->validate())
 		{
-			if(!$this->getSearchString())
-			{
-				$message .= $this->lng->txt("search_no_search_term")."<br/>";
-				$ok = false;
-			}
-			$this->__parseSearchString();
-
-			if(!$this->__validateParsedString($message))
-			{
-				$ok = false;
-			}
-			if(!$this->getSearchFor())
-			{
-				$message .= $this->lng->txt("search_no_category")."<br/>";
-				$ok = false;
-			}
+			$message = $this->qp->getMessage();
+			return false;
 		}
-		return $ok;
+		return true;
 	}
 
 	function performSearch()
@@ -218,6 +208,8 @@ class ilSearch
 		global $objDefinition, $ilBench;
 
 		$ilBench->start("Search", "performSearch");
+		
+		$this->initQueryParser();
 
 		$result = array("usr" => array(),
 						"grp" => array(),
@@ -230,43 +222,23 @@ class ilSearch
 			switch($obj_type)
 			{
 				case "usr":
-					// TODO: NOT NICE BUT USEFUL
-					// THIS VAR IS USED IN __getResultIdsByType()
-					$this->act_type = 'usr';
-					$result["usr"] = ilObjUser::_search($this);
+					$result['usr'] = $this->performUserSearch();
 					break;
 
 				case "grp":
-					include_once "./Modules/Group/classes/class.ilObjGroup.php";
-
-					$this->act_type = 'grp';
-					$result["grp"] = ilObjGroup::_search($this);
-					$result["grp"] = $this->__checkAccess($result["grp"],'grp');
+					$result['grp'] = $this->performObjectSearch('grp');
 					break;
 
 				case "lm":
-					include_once "./Modules/LearningModule/classes/class.ilObjContentObject.php";
-					$this->act_type = 'lm';
-					$result["lm"][$this->getSearchInByType("lm")] = ilObjContentObject::_search($this,$this->getSearchInByType("lm"));
-					$result["lm"][$this->getSearchInByType("lm")]
-						= $this->__checkAccess($result["lm"][$this->getSearchInByType("lm")],'lm');
+					$result['lm'] = $this->performObjectSearch('lm');
 					break;
 
 				case "dbk":
-					include_once "./Modules/LearningModule/classes/class.ilObjDlBook.php";
-					$this->act_type = 'dbk';
-					$result["dbk"][$this->getSearchInByType("dbk")] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
-					$result["dbk"][$this->getSearchInByType("dbk")]
-						= $this->__checkAccess($result["dbk"][$this->getSearchInByType("dbk")],'dbk');
+					$result['dbk'] = $this->performObjectSearch('dbk');
 					break;
-
+					
 				case "role":
-					include_once "./Services/AccessControl/classes/class.ilObjRole.php";
-
-					$this->act_type = 'role';
-					$result["role"] = ilObjRole::_search($this);
-
-					#$result["role"] = $this->__checkAccess($result["role"],'role');
+					$result['role'] = $this->performRoleSearch();
 					break;
 			}
 		}
@@ -284,123 +256,8 @@ class ilSearch
 		return true;
 	}
 
-	function getWhereCondition($a_type,$a_fields)
-	{
-		switch ($a_type)
-		{
-			case "like":
-				$where = $this->__createLikeCondition($a_fields);
-				break;
-
-			case "fulltext":
-				$where = $this->__createFulltextCondition($a_fields);
-				break;
-		}
-
-		return $where;
-	}
-
-	function getInStatement($a_primary)
-	{
-		$in = '';
-
-		switch ($this->getSearchType())
-		{
-			case "new":
-				$in .= "";
-				break;
-
-			case "result":
-#				if(count($this->__getResultIdsByActualType()))
-#				{
-					$in .= "AND $a_primary IN('".implode("','",$this->__getResultIdsByActualType())."') ";
-#				}
-				break;
-
-		}
-
-		return $in;
-	}
 
 	// PRIVATE METHODS
-	function __createLikeCondition($a_fields)
-	{
-		$where = "WHERE (";
-		$concat  = "CONCAT(\" \",";
-		$concat .= implode(",\" \",",$a_fields);
-		$concat .= ") ";
-
-		$where .= "1 ";
-
-		// AND
-		foreach ($this->parsed_str["and"] as $and)
-		{
-			$where .= "AND ";
-			$where .= $concat;
-			$where .= "LIKE(\"".$and."\") ";
-		}
-		
-		// AND NOT
-		foreach ($this->parsed_str["not"] as $not)
-		{
-			$where .= "AND ";
-			$where .= $concat;
-			$where .= "NOT LIKE(\"".$not."\") ";
-		}
-		// OR
-		if (count($this->parsed_str["or"]) and
-		   !count($this->parsed_str["and"]) and
-		   !count($this->parsed_str["not"]))
-		{
-			$where .= "AND ( ";
-
-			foreach ($this->parsed_str["all"] as $or)
-			{
-				$where .= $concat;
-				$where .= "LIKE(\"".$or."\") ";
-				$where .= "OR ";
-			}
-
-			$where .= "0) ";
-		}
-
-		$where .= ") ";
-
-		return $where;
-	}
-	function __createFulltextCondition($a_fields)
-	{
-		$where = "WHERE (";
-		$match = " MATCH(".implode(",",$a_fields).") ";
-		
-		$where .= "1 ";
-		// OR
-		if (count($this->parsed_str["or"]))
-		{
-			$where .= "AND ";
-			$where .= $match;
-			$where .= " AGAINST('".implode(" ",$this->parsed_str["all"])."') ";
-		}
-		// AND	
-		foreach ($this->parsed_str["and"] as $and)
-		{
-			$where .= "AND ";
-			$where .= $match;
-			$where .= "AGAINST('".$and."') ";
-		}
-		// AND NOT
-		/*
-		foreach($this->parsed_str["not"] as $and)
-		{
-			$where .= "AND NOT ";
-			$where .= $match;
-			$where .= "AGAINST('".$and."') ";
-		}
-        */
-		$where .= ") ";
-
-		return $where;
-	}
 
 	function __parseSearchString()
 	{
@@ -444,30 +301,6 @@ class ilSearch
 			}
 		}
 	}				
-
-	function __validateParsedString(&$message)
-	{
-		foreach ($this->parsed_str as $type)
-		{
-			foreach ($type as $word)
-			{
-				if (strlen($word) < $this->getMinWordLength())
-				{
-					$to_short = true;
-				}
-			}
-		}
-
-		if ($to_short)
-		{
-			$message .= ($this->lng->txt('search_to_short').'<br />');
-			$message .= ($this->lng->txt('search_minimum_characters').' '.$this->getMinWordLength().'<br />');
-						 
-			return false;
-		}
-
-		return true;
-	}
 
 	function __updateDBResult()
 	{
@@ -519,29 +352,6 @@ class ilSearch
 		return true;
 	}
 
-	function __getResultIdsByActualType()
-	{
-		$results = $this->getResultByType($this->act_type);
-
-		// GET 'content' or 'meta' array
-		switch ($this->act_type)
-		{
-
-			case "lm":
-			case "dbk":
-				$results = $results[$this->getSearchInByType($this->act_type)];
-				break;
-		}
-
-		if(is_array($results))
-		{
-			foreach ($results as $result)
-			{
-				$ids[] = $result["id"];
-			}
-		}
-		return $ids ? $ids : array();
-	}
 
 	function __checkAccess($a_results,$a_type)
 	{
@@ -551,48 +361,16 @@ class ilSearch
 		{
 			foreach ($a_results as $result)
 			{
-				if($ilAccess->checkAccess('read','',$result['id']))
-				{
-					$checked_result[] = $result;
-				}			
+					if($ilAccess->checkAccess('read','',$result['id']))
+					{
+						$checked_result[] = $result;
+						break;
+					}
 			}
 		}
 		return $checked_result ? $checked_result : array();
 	}
 
-	// STATIC
-	function _checkParentConditions($a_ref_id)
-	{
-		include_once './payment/classes/class.ilPaymentObject.php';
-		include_once './Modules/Course/classes/class.ilObjCourse.php';
-
-		global $tree,$ilias;
-
-		if(!$tree->isInTree($a_ref_id))
-		{
-			return false;
-		}
-		foreach($tree->getPathFull($a_ref_id) as $node_data)
-		{
-			if(!ilPaymentObject::_hasAccess($node_data['child']))
-			{
-				return false;
-			}
-			/*
-			if($node_data['type'] == 'crs')
-			{
-				$tmp_obj =& ilObjectFactory::getInstanceByRefId($node_data['child']);
-				$tmp_obj->initCourseMemberObject();
-
-				if(!$tmp_obj->members_obj->hasAccess($ilias->account->getId()))
-				{
-					return false;
-				}
-			}
-			*/
-		}
-		return true;
-	}
 
 	function __validateResults()
 	{
@@ -699,6 +477,92 @@ class ilSearch
 		{
 			return '% '.str_replace('*','%',$word);
 		}
+	}
+	
+	/**
+	 * perform a search for users 
+	 * @return
+	 */
+	protected function performUserSearch()
+	{
+		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+		
+		$user_search = ilObjectSearchFactory::_getUserSearchInstance($this->qp);
+		$res = new ilSearchResult($this->getUserId());
+		
+		foreach(array("login","firstname","lastname","title",
+				"email","institution","street","city","zipcode","country","phone_home","fax") as $field)
+		{
+			$user_search->setFields(array($field));
+			$tmp_res = $user_search->performSearch();
+			
+			$res->mergeEntries($tmp_res);
+		}
+
+		foreach($res->getEntries() as $id => $data)
+		{
+			$tmp['id'] = $id;
+			$users[] = $tmp;
+		}
+		return $users ? $users : array();
+	}
+	
+	/**
+	 * perform object search 
+	 * @return
+	 */
+	protected function performObjectSearch($a_type)
+	{
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($this->qp);
+		$object_search->setFilter(array($a_type));
+		$res = $object_search->performSearch();
+		$res->filter(ROOT_FOLDER_ID,$this->getCombination());
+		
+		$counter = 0;
+		foreach($res->getResultIds() as $id)
+		{
+			$objs[$counter++]['id'] = $id;				
+		}
+		return $objs ? $objs : array(); 
+	}
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	protected function performRoleSearch()
+	{
+		// Perform like search
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($this->qp);
+		$object_search->setFilter(array('role'));
+		
+		$res = $object_search->performSearch();
+		foreach($res->getEntries() as $id => $data)
+		{
+			$tmp['id'] = $id;
+			$roles[] = $tmp;
+		}
+		return $roles ? $roles : array();
+	}
+	
+	/**
+	 * init query parser 
+	 * @return
+	 */
+	protected function initQueryParser()
+	{
+		if($this->qp)
+		{
+			return true;
+		}
+		
+		$this->qp = new ilQueryParser($this->getSearchString());
+		$this->qp->setCombination($this->getCombination() == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
+		$this->qp->setMinWordLength($this->getMinWordLength());
+		$this->qp->parse();
 	}
 
 		

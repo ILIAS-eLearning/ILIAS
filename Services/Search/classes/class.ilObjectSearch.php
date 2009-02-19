@@ -62,7 +62,7 @@ class ilObjectSearch extends ilAbstractSearch
 			"FROM object_data ".
 			$where." ".$in.' '.
 			"ORDER BY obj_id DESC";
-		
+
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

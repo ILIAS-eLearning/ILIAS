@@ -1083,59 +1083,6 @@ class ilObjContentObject extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
-	/**
-	 * STATIC METHOD
-	 * search for dbk data. This method is called from class.ilSearch
-	 * @param	object reference on object of search class
-	 * @static
-	 * @access	public
-	 */
-	function _search(&$search_obj,$a_search_in)
-	{
-		global $ilBench;
-
-		switch($a_search_in)
-		{
-			case 'meta':
-				die("ilObjContentObject::_search/meta is deprecated.");
-				break;
-
-			case 'content':
-				die("ilObjContentObject::_search/content is deprecated.");
-/*
-				$in		= $search_obj->getInStatement("r.ref_id");
-				$where	= $search_obj->getWhereCondition("fulltext",array("pg.content"));
-
-				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
-					", object_reference AS r ".
-					$where.
-					" AND pg.parent_id = r.obj_id ".
-					$in.
-					" AND pg.parent_type = 'lm' ";
-
-				$query = "SELECT DISTINCT(r.ref_id) AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
-					"LEFT JOIN object_data AS o ON o.obj_id = pg.parent_id ".
-					"LEFT JOIN object_reference AS r ON o.obj_id = r.obj_id ".
-					$where.
-					$in.
-					" AND pg.parent_type = 'lm'";
-
-				$ilBench->start("Search", "ilObjContentObject_search_content");
-				$res = $search_obj->ilias->db->query($query);
-				$ilBench->stop("Search", "ilObjContentObject_search_content");
-
-				$counter = 0;
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					$result[$counter]["id"]	= $row->ref_id;
-					$result[$counter]["page_id"] = $row->page_id;
-					++$counter;
-				}
-*/
-				break;
-		}
-		return $result ? $result : array();
-	}
 	
 	/**
 	* checks if page has a successor page
