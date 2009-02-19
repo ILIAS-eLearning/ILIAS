@@ -7831,6 +7831,7 @@ $ilDB->query("ALTER TABLE  `qpl_questionpool` CHANGE  `online`  `isonline` VARCH
 <?php
 	$ilDB->renameTableColumn("content_object", "online", "is_online");
 ?>
+
 <#1644>
 <?php
 	$ilDB->renameTableColumn("ctrl_classfile", "file", "filename");
@@ -7893,3 +7894,8 @@ DROP TABLE IF EXISTS xml_attribute_namespace;
 DROP TABLE IF EXISTS xml_attribute_name;
 <#1670>
 DROP TABLE IF EXISTS xml_attribute_idx;
+
+<#1671>
+<?php
+	$ilDB->addPrimaryKey('role_desktop_items',array('role_item_id'));
+?>
