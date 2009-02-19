@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -155,7 +155,7 @@ class ilObjWikiAccess extends ilObjectAccess
 		$wk_set = $ilDB->query($q);
 		$wk_rec = $wk_set->fetchRow(DB_FETCHMODE_ASSOC);
 
-		return $wk_rec["online"];
+		return $wk_rec["is_online"];
 	}
 
 	/**

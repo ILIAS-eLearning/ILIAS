@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -1776,7 +1776,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 					if ($old_rec["content"] != "<PageObject></PageObject>")
 					{
 						$h_query = "REPLACE INTO page_history ".
-							"(page_id, parent_type, hdate, parent_id, content, user, ilias_version, nr) VALUES (".
+							"(page_id, parent_type, hdate, parent_id, content, user_id, ilias_version, nr) VALUES (".
 							$ilDB->quote($old_rec["page_id"]).",".
 							$ilDB->quote($old_rec["parent_type"]).",".
 							$ilDB->quote($old_rec["last_change"]).",".
@@ -3234,7 +3234,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		{
 			$page_changes[] = array("date" => $page["hdate"],
 				"id" => $page["page_id"], "type" => "hist", "nr" => $page["nr"],
-				"user" => $page["user"]);
+				"user" => $page["user_id"]);
 		}
 		
 		$page_changes = ilUtil::sortArray($page_changes, "date", "desc");
@@ -3322,15 +3322,15 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$contributors[$page["last_change_user"]][$page["page_id"]] = 1;
 		}
 
-		$st = $ilDB->prepare("SELECT count(*) as cnt, page_id, user FROM page_history ".
-			" WHERE parent_id = ? AND parent_type = ? AND user != ? ".
-			" GROUP BY page_id, user ",
+		$st = $ilDB->prepare("SELECT count(*) as cnt, page_id, user_id FROM page_history ".
+			" WHERE parent_id = ? AND parent_type = ? AND user_id != ? ".
+			" GROUP BY page_id, user_id ",
 			array("integer", "text", "integer"));
 		$set = $ilDB->execute($st, array($a_parent_id, $a_parent_type, 0));
 		while ($hpage = $ilDB->fetchAssoc($set))
 		{
-			$contributors[$hpage["user"]][$hpage["page_id"]] =
-				$contributors[$hpage["user"]][$hpage["page_id"]] + $hpage["cnt"];
+			$contributors[$hpage["user_id"]][$hpage["page_id"]] =
+				$contributors[$hpage["user_id"]][$hpage["page_id"]] + $hpage["cnt"];
 		}
 		
 		$c = array();
@@ -3366,15 +3366,15 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$contributors[$page["last_change_user"]] = 1;
 		}
 
-		$st = $ilDB->prepare("SELECT count(*) as cnt, page_id, user FROM page_history ".
-			" WHERE page_id = ? AND parent_type = ? AND user != ? ".
-			" GROUP BY user ",
+		$st = $ilDB->prepare("SELECT count(*) as cnt, page_id, user_id FROM page_history ".
+			" WHERE page_id = ? AND parent_type = ? AND user_id != ? ".
+			" GROUP BY user_id ",
 			array("integer", "text", "integer"));
 		$set = $ilDB->execute($st, array($a_page_id, $a_parent_type, 0));
 		while ($hpage = $ilDB->fetchAssoc($set))
 		{
-			$contributors[$hpage["user"]] =
-				$contributors[$hpage["user"]] + $hpage["cnt"];
+			$contributors[$hpage["user_id"]] =
+				$contributors[$hpage["user_id"]] + $hpage["cnt"];
 		}
 		
 		$c = array();
