@@ -104,5 +104,13 @@ class ilDBOracle extends ilDB
 		return $a_table."_".$a_constraint;
 	}
 
+	/**
+	* Primary key identifier
+	*/
+	function getPrimaryKeyIdentifier()
+	{
+		return "pk";
+	}
+
 }
 ?>
