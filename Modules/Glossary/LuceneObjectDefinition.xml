@@ -6,7 +6,7 @@
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT term,short_text,glo_id
+				SELECT term,short_text,glo_id,term_id
 				FROM glossary_term gt
 				JOIN glossary_definition gd ON gt.id = term_id
 				WHERE glo_id IN (?)
@@ -15,6 +15,7 @@
 			<Field store="YES" index="ANALYZED" column="term" name="propertyHigh" />
 			<Field store="YES" index="ANALYZED" column="short_text" name="propertyMedium" />
 			<Field store="YES" index="NOT_ANALYZED" column="glo_id" name="objId" global="NO" />
+			<Field store="YES" index="NOT_ANALYZED" column="term_id" name="subItem" />
 		</DataSource>
 	</Document>
 </ObjectDefinition>
