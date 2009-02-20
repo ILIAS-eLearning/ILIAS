@@ -71,7 +71,7 @@ class ilVirusScannerAntiVir extends ilVirusScanner
 		$this->scanFileOrigName = $a_origname;
 
 		// Call of antivir command
-		$cmd = $this->scanCommand . " " . $a_filepath. " 2>&1";
+		$cmd = $this->scanCommand . " " . $a_filepath. " ";
 		exec($cmd, $out, $ret);
 		$this->scanResult = implode("\n", $out);
 
