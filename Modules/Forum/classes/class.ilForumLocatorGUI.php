@@ -138,7 +138,7 @@ class ilForumLocatorGUI
 			$this->tpl->setCurrentBlock("locator_item");
 			if ($row["child"] == $this->tree->getRootId())
 			{
-				$title = $this->lng->txt("repository");
+				$title = strlen($row["title"]) ? $row["title"] : $this->lng->txt("repository");
 				$link = "repository.php?ref_id=".$row["child"]
 					."&amp;cmd=frameset";
 			}
