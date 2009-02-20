@@ -354,32 +354,23 @@ class ilDBGenerator
 		$first = true;
 		while ($rec = $this->il_db->fetchAssoc($set))
 		{
-			if ($first)
-			{
-				$fields = array();
-				$types = array();
-				foreach ($rec as $f => $v)
-				{
-					$fields[] = $f;
-					$types[] = '"'.$this->fields[$f]["type"].'"';
-				}
-				$fields_str = "(".implode($fields, ",").")";
-				$types_str = "array(".implode($types, ",").")";
-				$ins_st = "\n".'$st = $ilDB->prepareManip("INSERT INTO '.$a_table.' '."\n";
-				$ins_st.= "\t".$fields_str."\n";
-				$ins_st.= "\t".'VALUES '."(?".str_repeat(",?", count($fields) - 1).')"'.",\n";
-				$ins_st.= "\t".$types_str.');'."\n";
-			}
-			reset($rec);
+			$fields = array();
+			$types = array();
 			$values = array();
 			foreach ($rec as $f => $v)
 			{
+				$fields[] = $f;
+				$types[] = '"'.$this->fields[$f]["type"].'"';
 				$values[] = "'".str_replace("'", "\'", $v)."'";
 			}
+			$fields_str = "(".implode($fields, ",").")";
+			$types_str = "array(".implode($types, ",").")";
 			$values_str = "array(".implode($values, ",").")";
-			$ins_st.= '$ilDB->execute($st,'.$values_str.');'."\n";
+			$ins_st = "\n".'$ilDB->manipulateF("INSERT INTO '.$a_table.' '."\n";
+			$ins_st.= "\t".$fields_str."\n";
+			$ins_st.= "\t".'VALUES '."(%s".str_repeat(",%s", count($fields) - 1).')"'.",\n";
+			$ins_st.= "\t".$types_str.','.$values_str.');'."\n";
 			
-			$first = false;
 			if ($a_file == "")
 			{
 				echo $ins_st;
