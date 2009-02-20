@@ -84,16 +84,10 @@ class ilPaypalSettings
 	{
 		$this->fetchSettingsId();
 		
-/*		$query = "SELECT paypal FROM payment_settings WHERE settings_id = '" .  $this->getSettingsId() . "'";
-		$result = $this->db->getrow($query);
-*/
-		$statement = $this->db->prepare('
-			SELECT paypal FROM payment_settings WHERE settings_id = ?',
-			array('integer')
-		);
-		
-		$sql_data = array($this->getSettingsId());
-		$res = $this->db->execute($statement, $sql_data);
+		$res = $this->db->queryf('
+			SELECT paypal FROM payment_settings WHERE settings_id = %s',
+			array('integer'), array($this->getSettingsId()));
+
 		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		$data = array();
@@ -118,11 +112,9 @@ class ilPaypalSettings
 	 */
 	private function fetchSettingsId()
 	{
-/*		$query = "SELECT * FROM payment_settings";
-		$result = $this->db->getrow($query);
-*/
-		$statement = $this->db->prepare('SELECT * FROM payment_settings');
-		$res = $this->db->execute($statement);
+
+		$res = $this->db->query('SELECT * FROM payment_settings');
+
 		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		$this->setSettingsId($result->settings_id);
@@ -132,54 +124,67 @@ class ilPaypalSettings
 	{
 		$this->settings_id = $a_settings_id;
 	}
+	
 	public function getSettingsId()
 	{
 		return $this->settings_id;
 	}
+	
 	public function setServerHost($a_server_host)
 	{
 		$this->server_host = $a_server_host;
 	}
+	
 	public function getServerHost()
 	{
 		return $this->server_host;
 	}
+	
 	public function setServerPath($a_server_path)
 	{
 		$this->server_path = $a_server_path;
 	}
+	
 	public function getServerPath()
 	{
 		return $this->server_path;
 	}
+	
 	public function setVendor($a_vendor)
 	{
 		$this->vendor = $a_vendor;
 	}
+	
 	public function getVendor()
 	{
 		return $this->vendor;
 	}
+	
 	public function setAuthToken($a_auth_token)
 	{
 		$this->auth_token = $a_auth_token;
 	}
+	
 	public function getAuthToken()
 	{
 		return $this->auth_token;
 	}
+	
 	public function setPageStyle($a_page_style)
 	{
 		$this->page_style = $a_page_style;
 	}
+	
 	public function getPageStyle()
 	{
 		return $this->page_style;
 	}
+	
 	public function setSsl($a_ssl)
 	{
 		$this->ssl = $a_ssl;
 	}
+	
 	public function getSsl()
 	{
 		return $this->ssl;
@@ -212,21 +217,14 @@ class ilPaypalSettings
 	 */
 	function clearAll()
 	{
-/*		$query = "UPDATE payment_settings "
-				."SET paypal = '' "
-				."WHERE settings_id = '" . $this->settings_id . "'";
-		$this->db->query($query);
-*/
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			UPDATE payment_settings
-			SET paypal = ?
-			WHERE settings_id = ?',
-			array('text', 'integer')
-		);
-		
-		$data = array('', $this->getSettingsId());
-		$this->db->execute($statement, $data);
-		
+			SET paypal = %s
+			WHERE settings_id = %s',
+			array('text', 'integer'), 
+			array('', $this->getSettingsId()));
+
+					
 		$this->settings = array();
 	}
 		
@@ -239,7 +237,7 @@ class ilPaypalSettings
 	{
 		global $ilDB;
 		
-	$values = array(
+		$values = array(
 			"server_host" => $this->getServerHost(),
 			"server_path" => $this->getServerPath(),
 			"vendor" => $this->getVendor(),
@@ -247,47 +245,24 @@ class ilPaypalSettings
 			"page_style" => $this->getPageStyle(),
 			"ssl" => $this->getSsl()			
 		);		
-/*			
-		if ($this->getSettingsId())
-		{		
-			$query = "UPDATE payment_settings "
-					."SET paypal = " . $ilDB->quote(serialize($values)). " "
-					."WHERE settings_id = '" . $this->getSettingsId() . "'";
-			$this->db->query($query);
-		}
-		else
-		{
-			$query = "INSERT INTO payment_settings (paypal) VALUES (" . $ilDB->quote(serialize($values)). ") ";
-			
-			$this->db->query($query);		
-			
-			$this->setSettingsId($this->db->getLastInsertId());
-		}		
-	}
-*/
+
 		if ($this->getSettingsId())
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $ilDB->manipulateF('
 				UPDATE payment_settings
-				SET paypal = ?
-				WHERE settings_id = ?',
-				array('text', 'integer')
-			);
+				SET paypal = %s
+				WHERE settings_id = %s',
+				array('text', 'integer'),
+				array(serialize($values), $this->getSettingsId()));
 
-			$data = array(serialize($values), $this->getSettingsId());
-			$this->db->execute($statement, $data);
 		}
 		else
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $ilDB->manipulateF('
 				INSERT INTO payment_settings
-				SET paypal = ?',
-				array('text')
-			);
-
-			$data = array(serialize($values));
+				SET paypal = %s',
+				array('text'), array(serialize($values)));
 			
-			$this->db->execute($statement, $data);
 			$this->setSettingsId($this->db->getLastInsertId());
 			
 		}

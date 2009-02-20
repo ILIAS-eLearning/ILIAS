@@ -67,8 +67,6 @@ class ilPaymentTrustees
 	{
 		return isset($this->trustees[$a_usr_id]);
 	}
-
-
 	
 	function toggleStatisticPermission($a_on)
 	{
@@ -89,24 +87,21 @@ class ilPaymentTrustees
 
 	function add()
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			INSERT INTO payment_trustees
-			SET vendor_id = ?,
-				trustee_id = ?,
-				perm_stat = ?,
-				perm_coupons = ?,
-				perm_obj = ?',
-			array('integer', 'integer', 'integer', 'integer', 'integer')
-		);
+			SET vendor_id = %s,
+				trustee_id = %s,
+				perm_stat = %s,
+				perm_coupons = %s,
+				perm_obj = %s',
+			array('integer', 'integer', 'integer', 'integer', 'integer'),
+			array(	$this->user_obj->getId(), 
+					$this->__getTrusteeId(),
+					$this->__getStatisticPermissionStatus(),
+					$this->__getCouponsPermissisonStatus(),
+					$this->__getObjectPermissisonStatus()
+		));		
 		
-		$data = array(	$this->user_obj->getId(), 
-						$this->__getTrusteeId(),
-						$this->__getStatisticPermissionStatus(),
-						$this->__getCouponsPermissisonStatus(),
-						$this->__getObjectPermissisonStatus()
-		);		
-		
-		$this->db->execute($statement, $data);
 		
 		$this->__read();
 
@@ -119,25 +114,23 @@ class ilPaymentTrustees
 			die("ilPaymentTrustees::modify() no id given");
 		}
 
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			UPDATE payment_trustees
-			SET trustee_id = ?,
-				perm_stat = ?,
-				perm_obj = ?,
-				perm_coupons = ?
-			WHERE vendor_id = ?
-			AND trustee_id = ?',
-			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer')
-		);
-		
-		$data = array(	$this->__getTrusteeId(),
-						$this->__getStatisticPermissionStatus(),
-						$this->__getObjectPermissisonStatus(),
-						$this->__getCouponsPermissisonStatus(),
-						$this->user_obj->getId(),
-						$this->__getTrusteeId()
-		);
-		$this->db->execute($statement, $data);
+			SET trustee_id = %s,
+				perm_stat = %s,
+				perm_obj = %s,
+				perm_coupons = %s
+			WHERE vendor_id = %s
+			AND trustee_id = %s',
+			array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+			array(	$this->__getTrusteeId(),
+					$this->__getStatisticPermissionStatus(),
+					$this->__getObjectPermissisonStatus(),
+					$this->__getCouponsPermissisonStatus(),
+					$this->user_obj->getId(),
+					$this->__getTrusteeId()
+		));
+	
 		
 		$this->__read();
 
@@ -150,15 +143,12 @@ class ilPaymentTrustees
 			die("ilPaymentTrustees::delete() no id given");
 		}
 		
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			DELETE FROM payment_trustees
-			WHERE vendor_id = ?
-			AND trustee_id = ? ',
-			array('integer', 'integer')
-		);
-		
-		$data = array($this->user_obj->getId(), $this->__getTrusteeId());
-		$this->db->execute($statement, $data);		
+			WHERE vendor_id = %s
+			AND trustee_id = %s ',
+			array('integer', 'integer'),
+			array($this->user_obj->getId(), $this->__getTrusteeId()));
 		
 		$this->__read();
 
@@ -167,14 +157,11 @@ class ilPaymentTrustees
 	
 	function deleteAll()
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			DELETE FROM payment_trustees
-			WHERE vendor_id = ?',
-			array('integer')
-		);
-		
-		$data = array($this->user_obj->getId());
-		$this->db->execute($statement, $data);
+			WHERE vendor_id = %s',
+			array('integer'),
+			array($this->user_obj->getId()));
 
 		$this->__read();
 
@@ -204,15 +191,11 @@ class ilPaymentTrustees
 
 		$this->trustees = array();
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM payment_trustees 
-			WHERE vendor_id = ?',
-			array('integer')
-		);
-		$data = array($this->user_obj->getId());
-				
-		$res = $this->db->execute($statement, $data);
-		
+			WHERE vendor_id = %s',
+			array('integer'),
+			array($this->user_obj->getId()));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -228,13 +211,10 @@ class ilPaymentTrustees
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->prepareManip('
+		$statement = $ilDB->manipulateF('
 			DELETE FROM payment_trustees 
-			WHERE vendor_id = ?',
-			array('integer')
-		);
-		$data = array($a_vendor_id);
-		$ilDB->execute($statement, $data);
+			WHERE vendor_id = %s',
+			array('integer'), array($a_vendor_id));
 		
 		return true;
 	}
@@ -243,15 +223,10 @@ class ilPaymentTrustees
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_trustees 
-			WHERE trustee_id = ?',
-			array('integer')
-		);
-		$data = array($a_trustee);
-				
-		$res = $ilDB->execute($statement, $data);
-		
+			WHERE trustee_id = %s',
+			array('integer'), array($a_trustee));
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -262,18 +237,17 @@ class ilPaymentTrustees
 		}
 		return false;
 	}
+	
 	function _hasObjectPermission($a_trustee)
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_trustees 
-			WHERE trustee_id = ?',
-			array('integer')
-		);
-		$data = array($a_trustee);
-				
-		$res = $ilDB->execute($statement, $data);			
+			WHERE trustee_id = %s',
+			array('integer'),
+			array($a_trustee));
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if((bool) $row->perm_obj)
@@ -283,18 +257,16 @@ class ilPaymentTrustees
 		}
 		return false;
 	}
+	
 	function _hasCouponsPermission($a_trustee)
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_trustees 
-			WHERE trustee_id = ?',
-			array('integer')
-		);
-		$data = array($a_trustee);
-				
-		$res = $ilDB->execute($statement, $data);
+			WHERE trustee_id = %s',
+			array('integer'),
+			array($a_trustee));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -305,20 +277,18 @@ class ilPaymentTrustees
 		}
 		return false;
 	}
+	
 	function _hasStatisticPermissionByVendor($a_trustee,$a_vendor)
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_trustees 
-			WHERE trustee_id = ?
-			AND vendor_id = ?
-			AND perm_stat = ?',
-			array('integer', 'integer', 'integer' )
-		);
-		$data = array($a_trustee, $a_vendor, '1');
-				
-		$res = $ilDB->execute($statement, $data);
+			WHERE trustee_id = %s
+			AND vendor_id = %s
+			AND perm_stat = %s',
+			array('integer', 'integer', 'integer' ),
+			array($a_trustee, $a_vendor, '1'));
 		
 		return $res->numRows() ? true : false;
 	}
@@ -327,16 +297,13 @@ class ilPaymentTrustees
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_trustees 
-			WHERE trustee_id = ?
-			AND vendor_id = ?
-			AND perm_obj = ?',
-			array('integer', 'integer', 'integer' )
-		);
-		$data = array($a_trustee, $a_vendor, '1');
-				
-		$res = $ilDB->execute($statement, $data);		
+			WHERE trustee_id = %s
+			AND vendor_id = %s
+			AND perm_obj = %s',
+			array('integer', 'integer', 'integer' ),
+			array($a_trustee, $a_vendor, '1'));
 		
 		return $res->numRows() ? true : false;
 	}
@@ -345,16 +312,13 @@ class ilPaymentTrustees
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_trustees 
-			WHERE trustee_id = ?
-			AND vendor_id = ?
-			AND perm_coupons = ?',
-			array('integer', 'integer', 'integer' )
-		);
-		$data = array($a_trustee, $a_vendor, '1');
-				
-		$res = $ilDB->execute($statement, $data);	
+			WHERE trustee_id = %s
+			AND vendor_id = %s
+			AND perm_coupons = %s',
+			array('integer', 'integer', 'integer' ),
+			array($a_trustee, $a_vendor, '1'));
 
 		return $res->numRows() ? true : false;
 	}
@@ -370,15 +334,12 @@ class ilPaymentTrustees
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT vendor_id FROM payment_trustees 
-			WHERE trustee_id = ?
-			AND perm_obj = ? ',
-			array('integer', 'integer')
-		);
-		$data = array($a_usr_id, '1');
-				
-		$res = $ilDB->execute($statement, $data);			
+			WHERE trustee_id = %s
+			AND perm_obj = %s ',
+			array('integer', 'integer'),
+			array($a_usr_id, '1'));
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -392,15 +353,12 @@ class ilPaymentTrustees
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT vendor_id FROM payment_trustees 
-			WHERE trustee_id = ?
-			AND perm_coupons = ? ',
-			array('integer', 'integer')
-		);
-		$data = array($a_usr_id, '1');
-				
-		$res = $ilDB->execute($statement, $data);	
+			WHERE trustee_id = %s
+			AND perm_coupons = %s ',
+			array('integer', 'integer'),
+			array($a_usr_id, '1'));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -414,15 +372,11 @@ class ilPaymentTrustees
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT trustee_id FROM payment_trustees 
-			WHERE vendor_id = ?
-			AND perm_coupons = ? ',
-			array('integer', 'integer')
-		);
-		$data = array($a_usr_id, '1');
-				
-		$res = $ilDB->execute($statement, $data);	
+			WHERE vendor_id = %s
+			AND perm_coupons = %s ',
+			array('integer', 'integer'), array($a_usr_id, '1'));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

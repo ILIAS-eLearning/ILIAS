@@ -434,16 +434,12 @@ class ilFileDataForum extends ilFileData
 		
 		$mail_data_dir = ilUtil::getDataDir('filesystem').DIRECTORY_SEPARATOR."forum";
 	
-		$statement = $ilDB->prepare('
+		$result_set = $ilDB->queryf('
 			SELECT top_frm_fk, pos_pk FROM frm_posts p
 			JOIN frm_data d ON d.top_pk = p.pos_top_fk
-			WHERE p.pos_usr_id = ?',
-			array('integer')
-		);
-		
-		$data = array($user_id);
-		$result_set = $ilDB->execute($statement, $data);
-		
+			WHERE p.pos_usr_id = %s',
+			array('integer'), array($user_id));
+				
 		$size = 0;
 		$count = 0;
 		while($row = $result_set->fetchRow(DB_FETCHMODE_ASSOC))

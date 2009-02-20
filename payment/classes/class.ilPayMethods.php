@@ -63,7 +63,5 @@ class ilPayMethods
 
 		return true;
 	}
-
-		
 }
 ?>

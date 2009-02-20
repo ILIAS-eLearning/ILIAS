@@ -55,24 +55,27 @@ class ilMailingList
 	
 	public function insert()
 	{
-		$statement = $this->db->prepareManip('
-			INSERT INTO addressbook_mailing_lists 
-			SET ml_id = ?, 
-				user_id = ?, 
-				title = ?, 
-				description = ?, 
-				createdate = ?, 
-				changedate = ?',
+		$statement = $this->db->manipulateF('
+			INSERT INTO addressbook_mlist 
+			SET ml_id = %s, 
+				user_id = %s, 
+				title = %s, 
+				description = %s, 
+				createdate = %s, 
+				changedate = %s',
 			array(	'integer',
 					'integer',
 					'text', 
 					'text', 
 					'timestamp',
-					'timestamp')
-		);
-		
-		$data = array('', $this->getUserId(), $this->getTitle(), $this->getDescription(), $this->getCreatedate(), '');
-		$this->db->execute($statement, $data);
+					'timestamp'),
+			array(	'', 
+					$this->getUserId(), 
+					$this->getTitle(), 
+					$this->getDescription(), 
+					$this->getCreatedate(), 
+					''
+		));
 		
 		$this->mail_id = $this->db->getLastInsertId();
 		
@@ -83,30 +86,26 @@ class ilMailingList
 	{
 		if ($this->mail_id && $this->user_id)
 		{
-			$statement = $this->db->prepareManip('
-				UPDATE addressbook_mailing_lists
-				SET title = ?,
-					description = ?,
-					changedate =  ?
+			$statement = $this->db->manipulateF('
+				UPDATE addressbook_mlist
+				SET title = %s,
+					description = %s,
+					changedate =  %s
 				WHERE 1
-				AND ml_id =  ?
-				AND user_id =  ?',
+				AND ml_id =  %s
+				AND user_id =  %s',
 				array(	'text',
 						'text',
 						'timestamp',
 						'integer',
 						'integer'
-				)
-			);
-			
-			$data = array(	$this->getTitle(),
+				),
+				array(	$this->getTitle(),
 							$this->getDescription(),
 							$this->getChangedate(),
 							$this->getId(),
 							$this->getUserId()
-			);
-			
-			$this->db->execute($statement, $data);
+			));
 			
 			return true;
 		}
@@ -122,17 +121,13 @@ class ilMailingList
 		{
 			$this->deassignAllEntries();
 
-			$statement = $this->db->prepareManip('
-				DELETE FROM addressbook_mailing_lists
+			$statement = $this->db->manipulateF('
+				DELETE FROM addressbook_mlist
 				WHERE 1 
-				AND ml_id = ?
-				AND user_id = ?',
-				array('integer', 'integer')
-			);	
-
-			$data = array($this->getId(), $this->getUserId());
-			
-			$this->db->execute($statement, $data);
+				AND ml_id = %s
+				AND user_id = %s',
+				array('integer', 'integer'),
+				array($this->getId(), $this->getUserId()));
 			
 			return true;
 		}
@@ -147,17 +142,14 @@ class ilMailingList
 	
 	if ($this->getId() && $this->getUserId())
 		{
-			$statement = $this->db->prepare('
-				SELECT * FROM addressbook_mailing_lists 
+			$res = $this->db->queryf('
+				SELECT * FROM addressbook_mlist 
 				WHERE 1 
-				AND ml_id = ?
-				AND user_id =?',
-				array('integer', 'integer')
-			);
-			$data = array($this->getId(), $this->getUserId()); 
+				AND ml_id = %s
+				AND user_id =%s',
+				array('integer', 'integer'),
+				array($this->getId(), $this->getUserId())); 
 	
-			$res = $this->db->execute($statement, $data);
-			
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 	
 			if (is_object($row))
@@ -177,17 +169,13 @@ class ilMailingList
 	
 	public function getAssignedEntries()
 	{
-		$statement = $this->db->prepare('
-			SELECT * FROM addressbook_mailing_lists_assignments 
-			INNER JOIN addressbook ON addressbook.addr_id = addressbook_mailing_lists_assignments.addr_id 
+		$res = $this->db->queryf('
+			SELECT * FROM addressbook_mlist_ass 
+			INNER JOIN addressbook ON addressbook.addr_id = addressbook_mlist_ass.addr_id 
 			WHERE 1
-			AND ml_id = ?',
-			array('integer')
-		);
-		
-		$data = array($this->getId());
-		
-		$res = $this->db->execute($statement, $data);
+			AND ml_id = %s',
+			array('integer'),
+			array($this->getId()));
 		
 		$entries = array();
 		
@@ -210,17 +198,13 @@ class ilMailingList
 	
 	public function assignAddressbookEntry($addr_id = 0)	
 	{
-		$statement = $this->db->prepareManip('
-			INSERT INTO addressbook_mailing_lists_assignments 
-			SET a_id = ?, 
-				ml_id = ?, 
-				addr_id = ?',
-			array('integer', 'integer', 'integer')
-		);
-			
-		$data = array('', $this->getId(), $addr_id);
-		
-		$this->db->execute($statement, $data);
+		$statement = $this->db->manipulateF('
+			INSERT INTO addressbook_mlist_ass 
+			SET a_id = %s, 
+				ml_id = %s, 
+				addr_id = %s',
+			array('integer', 'integer', 'integer'),
+			array('', $this->getId(), $addr_id));
 		
 		return true;
 	}
@@ -228,33 +212,25 @@ class ilMailingList
 	public function deassignAddressbookEntry($a_id = 0)	
 	{
 	
-		$statement = $this->db->prepareManip('	
-		DELETE FROM addressbook_mailing_lists_assignments 
+		$statement = $this->db->manipulateF('	
+		DELETE FROM addressbook_mlist_ass 
 				WHERE 1 
-				AND a_id = ?',
-				array('integer')
-		);	
-		
-		$data = array($a_id);
-			
-		$this->db->execute($statement, $data);
+				AND a_id = %s',
+				array('integer'),
+				array($a_id));
 		
 		return true;
 	}
 	
 	public function deassignAllEntries()	
 	{
-		$statement = $this->db->prepareManip('	
-		DELETE FROM addressbook_mailing_lists_assignments 
+		$statement = $this->db->manipulateF('	
+		DELETE FROM addressbook_mlist_ass 
 				WHERE 1 
-				AND ml_id = ?',
-				array('integer')
-		);	
-		
-		$data = array($this->getId());
+				AND ml_id = %s',
+				array('integer'),
+				array($this->getId()));
 			
-		$this->db->execute($statement, $data);
-		
 		return true;
 	}
 	

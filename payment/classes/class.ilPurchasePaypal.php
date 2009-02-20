@@ -176,10 +176,11 @@ class ilPurchasePaypal
 
 	function __checkTransactionId($a_id)
 	{
-		$query = "SELECT * FROM payment_statistic ".
+/*
+ 			$query = "SELECT * FROM payment_statistic ".
 			"WHERE transaction_extern = '".$a_id."'";
-
-		$res = $this->db->query($query);
+*/
+		$res = $this->db->query('SELECT * FROM payment_statistic WHERE transaction_extern = '.$ilDB->quote($a_id, 'integer'));
 
 		return $res->numRows() ? true : false;
 	}

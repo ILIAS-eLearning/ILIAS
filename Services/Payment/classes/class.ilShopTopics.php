@@ -87,41 +87,14 @@ class ilShopTopics
 		
 		if(!$this->isCustomSortingEnabled())
 		{
-/*			$query = "SELECT *
-				      FROM payment_topics WHERE 1 ";
-			
-			if((int)$this->id_filter > 0)
-			{
-				$query .= " AND pt_topic_pk = ".$this->db->quote($this->id_filter)." ";
-			}
-				      
-			switch($this->getSortingType())
-			{
-				case 3:
-					$query .= " ORDER BY pt_topic_sort ";
-					break;
-					
-				case 2:
-					$query .= " ORDER BY pt_topic_created ";
-					break;
-					
-				case 1:				
-				default:
-					$query .= " ORDER BY pt_topic_title ";
-					break;
-			}
-			$query .= ' '.strtoupper($this->getSortingDirection()).' ';			
-			$query .= " , pt_topic_title ";
-			$query .= ' '.strtoupper($this->getSortingDirection()).' ';
-*/
-			
+		
 			$data_types = array();
 			$data_values = array();
 			
 			$query = 'SELECT * FROM payment_topics WHERE 1';
 			if((int)$this->getIdFilter() > 0)
 			{
-				$query .= ' AND pt_topic_pk = ?';
+				$query .= ' AND pt_topic_pk = %s';
 				array_push($data_types, 'integer');
 				array_push($data_values, $this->getIdFilter()); 
 			}
@@ -149,41 +122,7 @@ class ilShopTopics
 		}
 		else
 		{
-/*			$query = 'SELECT * FROM payment_topics ';		
-			switch($this->getSortingType())
-			{
-				case 3:
-					$query .= " LEFT JOIN payment_topics_user_sorting ON 
-							       ptus_pt_topic_fk = pt_topic_pk AND
-								   ptus_usr_id = ".$this->db->quote($ilUser->getId())." ";
-					break;
-			}
-			$query .= " WHERE 1 ";
-			
-			if((int)$this->id_filter > 0)
-			{
-				$query .= " AND pt_topic_pk = ".$this->db->quote($this->id_filter)." ";
-			}
-			
-			switch($this->getSortingType())
-			{
-				case 3:
-					$query .= " ORDER BY ptus_sorting ";
-					break;
-					
-				case 2:
-					$query .= " ORDER BY pt_topic_created ";
-					break;
-					
-				case 1:				
-				default:
-					$query .= " ORDER BY pt_topic_title ";
-					break;
-			}				      
-			$query .= ' '.strtoupper($this->getSortingDirection()).' ';
-			$query .= " , pt_topic_sort ";
-			$query .= ' '.strtoupper($this->getSortingDirection()).' ';
-*/
+
 			$data_types = array();
 			$data_values = array();
 
@@ -191,9 +130,9 @@ class ilShopTopics
 			switch($this->getSortingType())
 			{
 				case 3:
-					$query .= ' LEFT JOIN payment_topics_user_sorting ON 
+					$query .= ' LEFT JOIN payment_topic_usr_sort ON 
 							       ptus_pt_topic_fk = pt_topic_pk AND
-								   ptus_usr_id = ?';
+								   ptus_usr_id = %s';
 					array_push($data_types, 'integer');
 					array_push($data_values, $ilUser->getId());
 					
@@ -203,7 +142,7 @@ class ilShopTopics
 			
 			if((int)$this->id_filter > 0)
 			{
-				$query .= ' AND pt_topic_pk = ?';
+				$query .= ' AND pt_topic_pk = %s';
 				array_push($data_types, 'integer');
 				array_push($data_values, $this->getIdFilter());
 			}
@@ -230,12 +169,11 @@ class ilShopTopics
 
 		if(count($data_types) > 0 && count($data_values > 0))
 		{
-			$statement = $this->db->prepare($query, $data_types);
-			$res = $this->db->execute($statement, $data_values);
+			$res = $this->db->queryf($query, $data_types, $data_values);
 		}
 		else
 		{
-			$res = $this->db->execute($this->db->prepare($query));
+			$res = $this->db->query($query);
 		}
 		
 		$counter = 0;

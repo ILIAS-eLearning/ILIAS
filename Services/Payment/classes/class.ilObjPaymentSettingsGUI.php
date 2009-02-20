@@ -2069,7 +2069,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		include_once './payment/classes/class.ilPaymentExcelWriterAdapter.php';
 
-$_ENV['TMPDIR'] = '/home/nkrzywon/public_html/ilias310/extern';
+//$_ENV['TMPDIR'] = '/home/nkrzywon/public_html/ilias310/extern';
 		$pewa =& new ilPaymentExcelWriterAdapter('payment_vendors.xls');
 
 		// add/fill worksheet

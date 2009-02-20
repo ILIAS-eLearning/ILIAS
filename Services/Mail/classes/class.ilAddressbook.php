@@ -84,34 +84,27 @@ class ilAddressbook
 	*/
 	function searchUsers($a_query_str)
 	{ 
-		
+		global $ilDB;
+
 		if($a_query_str)
 		{
-			$statement = $this->ilias->db->prepare("SELECT * FROM ".$this->table_addr." WHERE (login LIKE ? OR firstname LIKE ? OR lastname LIKE ? OR email LIKE ?) AND user_id = ?",
-				array('text', 'text', 'text', 'text', 'integer')
-			);
-
-			
-			$data = array( 	'%'.$a_query_str.'%', 
+				$res = $ilDB->queryf("SELECT * FROM ".$this->table_addr." WHERE 
+				(login LIKE %s OR firstname LIKE %s OR lastname LIKE %s OR email LIKE %s) AND user_id = %s",
+				array('text', 'text', 'text', 'text', 'integer'), 
+				array( 	'%'.$a_query_str.'%', 
 							'%'.$a_query_str.'%', 
 							'%'.$a_query_str.'%', 
 							'%'.$a_query_str.'%',
 							$this->user_id			
-			);
-
-			$res = $this->ilias->db->execute($statement, $data);
+			));
+			
 		}
 		else
 		{
-			$statement = $this->ilias->db->prepare("
-				SELECT * FROM ".$this->table_addr." WHERE user_id = ?",
-				array('text', 'integer')
-			);
-
-			$data = array($this->table_addr, $this->user_id);
-			
-			$res = $this->ilias->db->execute($statement, $data);
-		
+			$res = $ilDB->queryf("
+				SELECT * FROM ".$this->table_addr." WHERE user_id = %s",
+				array('text', 'integer'),
+				array($this->table_addr, $this->user_id));
 		}
 	
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -135,18 +128,17 @@ class ilAddressbook
 	*/
 	function addEntry($a_login,$a_firstname,$a_lastname,$a_email)
 	{
-		$statement = $this->ilias->db->prepareManip("
-			INSERT INTO ".$this->table_addr."
-			SET user_id = ?,
-				login = ?,
-				firstname = ?,
-				lastname = ?,
-				email = ?",
-			array('integer', 'text', 'text', 'text', 'text')
-		);
+		global $ilDB;
 		
-		$data = array($this->user_id, $a_login, $a_firstname, $a_lastname, $a_email);
-		$res = $this->ilias->db->execute($statement, $data);
+		$statement = $ilDB->manipulateF("
+			INSERT INTO ".$this->table_addr."
+			SET user_id = %s,
+				login = %s,
+				firstname = %s,
+				lastname = %s,
+				email = %s",
+			array('integer', 'text', 'text', 'text', 'text'),
+			array($this->user_id, $a_login, $a_firstname, $a_lastname, $a_email));
 		
 		return true;
 	}
@@ -163,20 +155,17 @@ class ilAddressbook
 	*/
 	function updateEntry($a_addr_id,$a_login,$a_firstname,$a_lastname,$a_email)
 	{
-		$statement = $this->ilias->db->prepareManip( 
+		global $ilDB;
+		$statement = $ilDB->manipulateF( 
 			"UPDATE ".$this->table_addr ."
-			SET login = ?,
-			firstname = ?,
-			lastname = ?,
-			email = ?
-			WHERE user_id = ?
-			AND addr_id = ?",
-			array('text', 'text', 'text', 'text', 'integer', 'integer')
-		);
-		
-		$data = array($a_login, $a_firstname, $a_lastname, $a_email, $this->user_id, $a_addr_id);
-		
-		$res = $this->ilias->db->execute($statement, $data);
+			SET login = %s,
+			firstname = %s,
+			lastname = %s,
+			email = %s
+			WHERE user_id = %s
+			AND addr_id = %s",
+			array('text', 'text', 'text', 'text', 'integer', 'integer'),
+			array($a_login, $a_firstname, $a_lastname, $a_email, $this->user_id, $a_addr_id));
 		
 		return true;
 	}
@@ -192,17 +181,17 @@ class ilAddressbook
 		
 		$data_types = array();
 		$data = array();
-		$query = "SELECT * FROM ".$this->table_addr." WHERE user_id = ?";
+		$query = "SELECT * FROM ".$this->table_addr." WHERE user_id = %s";
 		
 		array_push($data_types, 'integer');
 		array_push($data, $this->user_id);
 
 		if (trim($this->getSearchQuery()) != '')
 		{
-			$query .= " AND (login LIKE ? 
-				OR firstname LIKE ? 
-				OR lastname LIKE ? 
-				OR email LIKE ?) ";
+			$query .= " AND (login LIKE %s 
+				OR firstname LIKE %s 
+				OR lastname LIKE %s 
+				OR email LIKE %s) ";
 			
 			array_push($data_types, 'text', 'text', 'text', 'text');
 			array_push($data, 	'%'.trim($this->getSearchQuery()).'%', 
@@ -214,8 +203,7 @@ class ilAddressbook
 		
 		$query .= " ORDER BY login, lastname";
 		
-		$statement = $this->ilias->db->prepare($query, $data_types);
-		$res = $this->ilias->db->execute($statement, $data);
+		$res = $ilDB->queryf($query, $data_types, $data);
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -236,15 +224,14 @@ class ilAddressbook
 	*/
 	function getEntry($a_addr_id)
 	{
-		$statement = $this->ilias->db->prepare("
-			SELECT * FROM ".$this->table_addr."
-			WHERE user_id = ?
-			AND addr_id = ?",
-			array('integer', 'integer')
-		);
+		global $ilDB;
 		
-		$data = array($this->user_id, $a_addr_id);
-		$res = $this->ilias->db->execute($statement, $data);
+		$res = $ilDB->queryf("
+			SELECT * FROM ".$this->table_addr."
+			WHERE user_id = %s
+			AND addr_id = %s",
+			array('integer', 'integer'),
+			array($this->user_id, $a_addr_id));
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -283,26 +270,18 @@ class ilAddressbook
 	{ 
 		global $ilDB;
 		
-		$statement = $this->ilias->db->prepareManip('
+		$statement = $ilDB->manipulateF('
 			DELETE FROM addressbook_mailing_lists_assignments
-			WHERE addr_id = ?',
-			array('integer')
-		);
+			WHERE addr_id = %s',
+			array('integer'), array($a_addr_id));
 		
-		$data = array($a_addr_id);
-		$res = $this->ilias->db->execute($statement, $data);
-		
-		$statement = $this->ilias->db->prepareManip("
+		$statement = $ilDB->manipulateF("
 			DELETE FROM ".$this->table_addr."
-			WHERE user_id = ?
-			AND addr_id = ?",
-			array('integer', 'integer')
-		);
-		
-		$data = array($this->user_id, $a_addr_id);
-		$res = $this->ilias->db->execute($statement, $data);
-		
-		
+			WHERE user_id = %s
+			AND addr_id = %s",
+			array('integer', 'integer'),
+			array($this->user_id, $a_addr_id));
+
 		return true;
 	}
 
@@ -318,16 +297,13 @@ class ilAddressbook
 		
 		if ($a_login != '')
 		{
-			$query = $ilDB->prepare("SELECT addr_id FROM ".$this->table_addr." WHERE user_id = ? AND login = ?",
-			     	 	array('integer', 'text'));
-			
-			$result = $ilDB->execute($query, array($this->user_id, $a_login));			
+			$result = $ilDB->queryf("SELECT addr_id FROM ".$this->table_addr." WHERE user_id = %s AND login = %s",
+			     	 	array('integer', 'text'), array($this->user_id, $a_login));
+	
 			while($record = $ilDB->fetchAssoc($result))
 			{
 				return $record['addr_id'];
 			}
-		
-		
 		}
 		
 		return 0;
@@ -340,10 +316,9 @@ class ilAddressbook
 		
 		if ($a_login != "")
 		{
-			$query = $ilDB->prepare("SELECT addr_id FROM ".$this->table_addr." WHERE user_id = ? AND login = ?",
-			     	 	array('integer', 'text'));
+			$result = $ilDB->queryf("SELECT addr_id FROM ".$this->table_addr." WHERE user_id = %s AND login = %s",
+			     	 	array('integer', 'text'), array($this->user_id, $a_login));
 			
-			$result = $ilDB->execute($query, array($this->user_id, $a_login));			
 			while($record = $ilDB->fetchAssoc($result))
 			{
 				return $record['addr_id'];

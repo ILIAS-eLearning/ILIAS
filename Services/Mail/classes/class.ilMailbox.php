@@ -145,16 +145,13 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_obj_data.'
-			WHERE user_id = ?
-			AND type = ?',
-			array('integer', 'text')
-		);
-		
-		$data = array($this->user_id, 'inbox');
-		
-		$res = $this->ilias->db->execute($statement, $data);
+			WHERE user_id = %s
+			AND type = %s',
+			array('integer', 'text'),
+			array($this->user_id, 'inbox'));
+
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 		return $row->obj_id;
@@ -168,16 +165,13 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_obj_data.'
-			WHERE user_id = ?
-			AND type = ?',
-			array('integer', 'text')
-		);
+			WHERE user_id = %s
+			AND type = %s',
+			array('integer', 'text'),
+			array($this->user_id, 'drafts'));
 		
-		$data = array($this->user_id, 'drafts');
-		
-		$res = $this->ilias->db->execute($statement, $data);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		
@@ -192,18 +186,14 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_obj_data.'
-			WHERE user_id = ?
-			AND type = ?',
-			array('integer', 'text')
-		);
+			WHERE user_id = %s
+			AND type = %s',
+			array('integer', 'text'),
+			array($this->user_id, 'trash'));
 		
-		$data = array($this->user_id, 'trash');
-		
-		$res = $this->ilias->db->execute($statement, $data);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-		
 				
 		return $row->obj_id;
 	}
@@ -216,16 +206,13 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_obj_data.'
-			WHERE user_id = ?
-			AND type = ?',
-			array('integer', 'text')
-		);
+			WHERE user_id = %s
+			AND type = %s',
+			array('integer', 'text'),
+			array($this->user_id, 'sent'));
 		
-		$data = array($this->user_id, 'sent');
-		
-		$res = $this->ilias->db->execute($statement, $data);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		
@@ -282,17 +269,14 @@ class ilMailbox
 		}
 
 		// CHECK FOR SYSTEM MAIL
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT mail_id FROM mail 
-			WHERE folder_id = ? 
-			AND user_id = ?
-			AND m_status = ?',
-			array('integer', 'integer', 'text')
-		);
+			WHERE folder_id = %s 
+			AND user_id = %s
+			AND m_status = %s',
+			array('integer', 'integer', 'text'),
+			array('0', $a_user_id, 'unread'));
 
-		$data = array('0', $a_user_id, 'unread');
-
-		$res = $this->ilias->db->execute($statement, $data);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		if($row->mail_id)
@@ -300,19 +284,16 @@ class ilMailbox
 			return $row->mail_id;
 		}
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT m.mail_id FROM mail AS m,mail_obj_data AS mo 
 			WHERE m.user_id = mo.user_id 
 			AND m.folder_id = mo.obj_id 
-			AND mo.type = ?
-			AND m.user_id = ?
-			AND m.m_status = ?',
-			array('text', 'integer', 'text')
-		);	
+			AND mo.type = %s
+			AND m.user_id = %s
+			AND m.m_status = %s',
+			array('text', 'integer', 'text'),
+			array('inbox', $a_user_id, 'unread'));
 
-		$data =	array('inbox', $a_user_id, 'unread');
-
-		$res = $this->ilias->db->execute($statement, $data);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return $row ? $row->mail_id : 0;
@@ -336,31 +317,28 @@ class ilMailbox
 		}
 
 		// CHECK FOR SYSTEM MAIL
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT count(*) as cnt FROM mail 
-			WHERE folder_id = ? 
-			AND user_id = ?
-			AND m_status = ?',
-			array('integer', 'integer', 'text')
-		);
+			WHERE folder_id = %s 
+			AND user_id = %s
+			AND m_status = %s',
+			array('integer', 'integer', 'text'),
+			array('0', $a_user_id, 'unread'));
 		
-		$data = array('0', $a_user_id, 'unread');
-		$res = $this->ilias->db->execute($statement, $data);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 					
-		$statement = $this->ilias->db->prepare('
+		$res2 = $ilDB->queryf('
 			SELECT count(*) as cnt FROM mail AS m,mail_obj_data AS mo 
 		 	WHERE m.user_id = mo.user_id 
 		 	AND m.folder_id = mo.obj_id 
-		 	AND mo.type = ?
-			AND m.user_id = ?
-	 		AND m.m_status = ?',
-			array('text', 'integer', 'text')
-		);
-				
-		$data = array('inbox', $a_user_id, 'unread');
-		$res = $this->ilias->db->execute($statement, $data);
-		$row2 = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		 	AND mo.type = %s
+			AND m.user_id = %s
+	 		AND m.m_status = %s',
+			array('text', 'integer', 'text'),
+			array('inbox', $a_user_id, 'unread'));
+			
+		
+		$row2 = $res2->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return $row->cnt + $row2->cnt;
 	}
@@ -376,16 +354,13 @@ class ilMailbox
 		$root_id = $this->getLastInsertId();
 		++$root_id;
 	
-		$statement = $this->ilias->db->prepareManip('
+		$res = $ilDB->manipulateF('
 			INSERT INTO '. $this->table_mail_obj_data .' 
-			SET user_id = ?,
-				title = ?,
-				type = ?',
-			array('integer', 'text', 'text')
-		);
-		
-		$data = array($this->user_id, 'a_root', 'root');
-		$res = $this->ilias->db->execute($statement, $data);
+			SET user_id = %s,
+				title = %s,
+				type = %s',
+			array('integer', 'text', 'text'),
+			array($this->user_id, 'a_root', 'root'));
 		
 		$this->mtree->addTree($this->user_id,$root_id);
 		
@@ -394,16 +369,13 @@ class ilMailbox
 			$last_id = $this->getLastInsertId();
 			++$last_id;
 
-			$statement = $this->ilias->db->prepareManip('
+			$statement = $ilDB->manipulateF('
 				INSERT INTO '. $this->table_mail_obj_data .' 
-				SET user_id = ?,
-					title = ?,
-					type = ?',
-				array('integer', 'text', 'text')
-			);
-
-			$data = array($this->user_id, $key, $folder);
-			$res = $this->ilias->db->execute($statement, $data);
+				SET user_id = %s,
+					title = %s,
+					type = %s',
+				array('integer', 'text', 'text'),
+				array($this->user_id, $key, $folder));
 			
 			$this->mtree->insertNode($last_id,$root_id);
 		}
@@ -425,17 +397,13 @@ class ilMailbox
 		}
 		// ENTRY IN mail_obj_data
 
-		$statement = $this->ilias->db->prepareManip('
+		$statement = $ilDB->manipulateF('
 			INSERT INTO '. $this->table_mail_obj_data .'
-			 	 SET user_id = ?,
-				 title = ?,
-			 	 type = ?',
-			array('integer', 'text', 'text')
-		);
-		
-		$data = array($this->user_id, $a_folder_name, 'user_folder');
-		
-		$res = $this->ilias->db->execute($statement, $data);
+			 	 SET user_id = %s,
+				 title = %s,
+			 	 type = %s',
+			array('integer', 'text', 'text'),
+			array($this->user_id, $a_folder_name, 'user_folder'));
 		
 		// ENTRY IN mail_tree
 		$new_id = $this->getLastInsertId();
@@ -460,15 +428,12 @@ class ilMailbox
 			return false;
 		}
 		
-		$statement = $this->ilias->db->prepareManip('
+		$statement = $ilDB->manipulateF('
 			UPDATE '. $this->table_mail_obj_data .'
-			SET title = ?
-			WHERE obj_id = ?',
-			array('text', 'integer')
-		);
-		
-		$data = array($a_new_folder_name, $a_obj_id);
-		$res = $this->ilias->db->execute($statement, $data);		
+			SET title = %s
+			WHERE obj_id = %s',
+			array('text', 'integer'),
+			array($a_new_folder_name, $a_obj_id));
 
 		return true;
 	}
@@ -483,15 +448,13 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT obj_id FROM '. $this->table_mail_obj_data .'
-			WHERE user_id = ?
-			AND title = ?',
-			array('integer', 'text')
-		);
-		
-		$data = array($this->user_id, $a_folder_name);
-		$res = $this->ilias->db->execute($statement, $data);		
+			WHERE user_id = %s
+			AND title = %s',
+			array('integer', 'text'),
+			array($this->user_id, $a_folder_name));
+	
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 			
 		return $row->obj_id ? true : false;
@@ -532,16 +495,11 @@ class ilMailbox
 			}
 
 			// DELETE mobj_data entries
-			$statement = $this->ilias->db->prepareManip('
+			$statement = $ilDB->manipulateF('
 				DELETE FROM '. $this->table_mail_obj_data .' 
-				WHERE obj_id = ?',
-				array('integer')
-			);
-			
-			$data = array($node['obj_id']);
-			$res = $this->ilias->db->execute($statement, $data);				
-
-			
+				WHERE obj_id = %s',
+				array('integer'),
+				array($node['obj_id']));
 		}
 
 		return true;
@@ -564,16 +522,13 @@ class ilMailbox
 	{
 		global $ilDB;
 	
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM '. $this->table_mail_obj_data .' 
-			WHERE user_id = ?
-			AND obj_id = ?',
-			array('integer', 'integer')
-		);
+			WHERE user_id = %s
+			AND obj_id = %s',
+			array('integer', 'integer'),
+			array($this->user_id, $a_obj_id));
 		
-		$data = array($this->user_id, $a_obj_id);
-		
-		$res = $this->ilias->db->execute($statement, $data);		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return array(
@@ -590,15 +545,12 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM  '. $this->table_tree .' 
-			WHERE child = ?',
-			array('integer')
-		);
-
-		$data = array($a_obj_id);
+			WHERE child = %s',
+			array('integer'),
+			array($a_obj_id));
 		
-		$res = $this->ilias->db->execute($statement, $data);		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		
@@ -622,17 +574,14 @@ class ilMailbox
 		
 		foreach ($this->default_folder as $key => $value)
 		{
-		$statement = $this->ilias->db->prepare('
+			$res = $ilDB->queryf('
 				SELECT obj_id,type FROM '. $this->table_mail_obj_data .' 
-				WHERE user_id = ?
-				AND title = ?',
-				array('integer', 'text')
-			);
-			$data = array($this->user_id, $key);
+				WHERE user_id = %s
+				AND title = %s',
+				array('integer', 'text'),
+				array($this->user_id, $key));
 						
-			$res = $this->ilias->db->execute($statement, $data);		
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-			
 			
 			$user_folder[] = array(
 				"title"    => $key,
@@ -640,19 +589,15 @@ class ilMailbox
 				"obj_id"   => $row->obj_id);
 		} 
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM '. $this->table_tree. ', .'. $this->table_mail_obj_data .'
 			WHERE '. $this->table_mail_obj_data.'.obj_id = '. $this->table_tree.'.child 
-			AND '. $this->table_tree.'.depth  > ?
-			AND '. $this->table_tree.'.tree  = ?
+			AND '. $this->table_tree.'.depth  > %s
+			AND '. $this->table_tree.'.tree  = %s
 			ORDER BY '. $this->table_mail_obj_data.'.title  ',
-			array('integer', 'integer')
-		);
+			array('integer', 'integer'),
+			array('2', $this->user_id));
 		
-		$data = array('2', $this->user_id);
-		
-		$res = $this->ilias->db->execute($statement, $data);		
-					
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$user_folder[] = array(
@@ -688,29 +633,25 @@ class ilMailbox
 
 		$data = array($this->user_id);
 		
-		$statement = $this->ilias->db->prepareManip('
-			DELETE FROM mail_obj_data WHERE user_id = ?',
-			array('integer')
+		$statement = $ilDB->manipulateF('
+			DELETE FROM mail_obj_data WHERE user_id = %s',
+			array('integer'), array($this->user_id)
 		);
-		$this->ilias->db->execute($statement, $data);
 
-		$statement = $this->ilias->db->prepareManip('
-			DELETE FROM mail_options WHERE user_id = ?',
-			array('integer')
+		$statement = $ilDB->manipulateF('
+			DELETE FROM mail_options WHERE user_id = %s',
+			array('integer'), array($this->user_id)
 		);
-		$this->ilias->db->execute($statement, $data);
 
-		$statement = $this->ilias->db->prepareManip('
-			DELETE FROM mail_saved WHERE user_id = ?',
-			array('integer')
+		$statement = $ilDB->manipulateF('
+			DELETE FROM mail_saved WHERE user_id = %s',
+			array('integer'), array($this->user_id)
 		);
-		$this->ilias->db->execute($statement, $data);
 		
-		$statement = $this->ilias->db->prepareManip('
-			DELETE FROM mail_tree WHERE tree = ?',
-			array('integer')
+		$statement = $ilDB->manipulateF('
+			DELETE FROM mail_tree WHERE tree = %s',
+			array('integer'), array($this->user_id)
 		);
-		$this->ilias->db->execute($statement, $data);
 		
 		return true;
 	}
@@ -728,17 +669,13 @@ class ilMailbox
 
 		$tmp_user =& ilObjectFactory::getInstanceByObjId($this->user_id,false);
 
-		$statement = $this->ilias->db->prepareManip('
+		$statement = $ilDB->manipulateF('
 			UPDATE mail 
-			SET sender_id = ?,
-				import_name = ?
-			WHERE sender_id = ?',
-			array('integer', 'text', 'integer')
-		);
-		
-		$data = array('0', $tmp_user->getLogin(), $this->user_id);
-		
-		$this->ilias->db->execute($statement, $data);		
+			SET sender_id = %s,
+				import_name = %s
+			WHERE sender_id = %s',
+			array('integer', 'text', 'integer'),
+			array('0', $tmp_user->getLogin(), $this->user_id));
 		
 		return true;
 	}

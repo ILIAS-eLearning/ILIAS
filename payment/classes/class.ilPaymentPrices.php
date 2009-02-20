@@ -71,13 +71,10 @@ class ilPaymentPrices
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_prices 
-			WHERE price_id = ?',
-			array('integer')
-		);
-		$data = array($a_price_id);
-		$res = $ilDB->execute($statement, $data);
+			WHERE price_id = %s',
+			array('integer'), array($a_price_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -92,19 +89,12 @@ class ilPaymentPrices
 	function _countPrices($a_pobject_id)
 	{
 		global $ilDB;		
-/*		$query = "SELECT count(price_id) FROM payment_prices ".
-			"WHERE pobject_id = '".$a_pobject_id."'";
-
-		$res = $this->db->query($query);
-*/
-		
-		$statement = $ilDB->prepare('
+	
+		$res = $ilDB->queryf('
 			SELECT count(price_id) FROM payment_prices 
-			WHERE pobject_id = ?',
-			array('integer')
-		);
-		$data = array($a_pobject_id);
-		$res = $ilDB->execute($statement, $data);
+			WHERE pobject_id = %s',
+			array('integer'),
+			array($a_pobject_id));
 				
 		$row = $res->fetchRow(DB_FETCHMODE_ARRAY);
 
@@ -241,24 +231,20 @@ class ilPaymentPrices
 
 	function add()
 	{
-		$statement = $this->db->prepareManip('
+		$res = $this->db->manipulateF('
 			INSERT INTO payment_prices 
-			SET pobject_id = ?,
-				currency = ?,
-				duration = ?,
-				unit_value = ?,
-				sub_unit_value = ?',
-			array('integer', 'integer', 'integer', 'text', 'text')
-		);
-		
-		$data = array(	$this->getPobjectId(),
-						$this->__getCurrency(),
-						$this->__getDuration(),
-						$this->__getUnitValue(),
-						$this->__getSubUnitValue()
-		);
-		
-		$res = $this->db->execute($statement, $data);
+			SET pobject_id = %s,
+				currency = %s,
+				duration = %s,
+				unit_value = %s,
+				sub_unit_value = %s',
+			array('integer', 'integer', 'integer', 'text', 'text'),
+			array(	$this->getPobjectId(),
+					$this->__getCurrency(),
+					$this->__getDuration(),
+					$this->__getUnitValue(),
+					$this->__getSubUnitValue()
+		));
 		
 		$this->__read();
 		
@@ -266,37 +252,30 @@ class ilPaymentPrices
 	}
 	function update($a_price_id)
 	{
-		$statement = $this->db->prepareManip('
+		$res = $this->db->manipulateF('
 			UPDATE payment_prices SET
-			currency = ?,
-			duration = ?,
-			unit_value = ?,
-			sub_unit_value = ?',
-			array('integer', 'integer', 'integer', 'text', 'integer')
-		);
-		
-		$data = array(	$this->__getCurrency(),
-						$this->__getDuration(),
-						$this->__getUnitValue(),
-						$this->__getSubUnitValue(),
-						$a_price_id
-		);
-		$res = $this->db->execute($statement, $data);
+			currency = %s,
+			duration = %s,
+			unit_value = %s,
+			sub_unit_value = %s',
+			array('integer', 'integer', 'integer', 'text', 'integer'),
+			array(	$this->__getCurrency(),
+					$this->__getDuration(),
+					$this->__getUnitValue(),
+					$this->__getSubUnitValue(),
+					$a_price_id
+		));
+
 		$this->__read();
 
 		return true;
 	}
 	function delete($a_price_id)
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			DELETE FROM payment_prices
-			WHERE price_id = ?',
-			array('integer')
-		);
-
-		$data = array($a_price_id);
-		
-		$res = $this->db->execute($statement, $data);
+			WHERE price_id = %s',
+			array('integer'), array($a_price_id));
 
 		$this->__read();
 
@@ -304,15 +283,11 @@ class ilPaymentPrices
 	}
 	function deleteAllPrices()
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			DELETE FROM payment_prices
-			WHERE pobject_id = ?',
-			array('integer')
-		);
-
-		$data = array($this->getPobjectId());
-		
-		$res = $this->db->execute($statement, $data);
+			WHERE pobject_id = %s',
+			array('integer'),
+			array($this->getPobjectId()));
 		
 		$this->__read();
 
@@ -346,15 +321,12 @@ class ilPaymentPrices
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_prices
-			WHERE price_id = ?
-			AND pobject_id = ?',
-			array('integer', 'integer')
-		);
-		
-		$data = array($a_price_id, $a_pobject_id);
-		$res = $ilDB->execute($statement, $data);
+			WHERE price_id = %s
+			AND pobject_id = %s',
+			array('integer', 'integer'),
+			array($a_price_id, $a_pobject_id));
 		
 		return $res->numRows() ? true : false;
 	}
@@ -383,13 +355,13 @@ class ilPaymentPrices
 	{
 		$this->prices = array();
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM payment_prices
-			WHERE pobject_id = ?
-			ORDER BY duration', array('integer')
-		);
-		$data  = array($this->getPobjectId());
-		$res = $this->db->execute($statement, $data);
+			WHERE pobject_id = %s
+			ORDER BY duration', 
+		array('integer'),
+		array($this->getPobjectId()));
+		
 				
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

@@ -71,15 +71,11 @@ class ilPaymentBillVendor
 
 	function delete()
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			DELETE from payment_bill_vendor
-			WHERE pobject_id = ?',
-			array('integer')
-		);
-		
-		$data = array($this->pobject_id);
-
-		$this->db->execute($statement,$data);
+			WHERE pobject_id = %s',
+			array('integer'),
+			array($this->pobject_id));
 	
 		return true;
 	}
@@ -293,36 +289,36 @@ class ilPaymentBillVendor
 	{
 		if(!$this->hasData())
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				INSERT INTO payment_bill_vendor
-				SET pobject_id = ?',
-				array('integer')
+				SET pobject_id = %s',
+				array('integer'),
+				array($this->getPobjectId())
 			);
-			$data = array($this->getPobjectId());
-			$this->db->execute($statement, $data);
+		
 		}
 		
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			UPDATE payment_bill_vendor
-			SET	gender = ?,
-				firstname = ?,
-				lastname = ?,
-				title = ?,
-				institution = ?,
-				department = ?,
-				street = ?,
-				zipcode = ?,
-				city = ?,
-				country = ?,
-				phone = ?,
-				fax = ?,
-				email = ?,
-				account_number = ?,
-				bankcode = ?,
-				iban = ?,
-				bic = ?,
-				bankname = ?
-			WHERE pobject_id = ?',
+			SET	gender = %s,
+				firstname = %s,
+				lastname = %s,
+				title = %s,
+				institution = %s,
+				department = %s,
+				street = %s,
+				zipcode = %s,
+				city = %s,
+				country = %s,
+				phone = %s,
+				fax = %s,
+				email = %s,
+				account_number = %s,
+				bankcode = %s,
+				iban = %s,
+				bic = %s,
+				bankname = %s
+			WHERE pobject_id = %s',
 			array(	'integer',
 					'text',
 					'text',
@@ -339,33 +335,30 @@ class ilPaymentBillVendor
 					'text',
 					'text',
 					'text',
-					'text'
+					'text'),
+			array(	
+				$this->getGender(),
+				$this->getFirstname(),
+				$this->getLastname(),
+				$this->getTitle(),
+				$this->getInstitution(),
+				$this->getDepartment(),
+				$this->getStreet(),
+				$this->getZipcode(),
+				$this->getCity(),
+				$this->getCountry(),
+				$this->getPhone(),
+				$this->getFax(),
+				$this->getEmail(),
+				$this->getAccountNumber(),
+				$this->getBankcode(),			
+				$this->getIban(),
+				$this->getBic(),
+				$this->getBankname(),
+				$this->getPobjectId()
 			)
 		);
-		
-		$data = array(	
-			$this->getGender(),
-			$this->getFirstname(),
-			$this->getLastname(),
-			$this->getTitle(),
-			$this->getInstitution(),
-			$this->getDepartment(),
-			$this->getStreet(),
-			$this->getZipcode(),
-			$this->getCity(),
-			$this->getCountry(),
-			$this->getPhone(),
-			$this->getFax(),
-			$this->getEmail(),
-			$this->getAccountNumber(),
-			$this->getBankcode(),			
-			$this->getIban(),
-			$this->getBic(),
-			$this->getBankname(),
-			$this->getPobjectId()
-		);
 
-		$this->db->execute($statement, $data);
 		$this->__read();
 	}
 
@@ -373,13 +366,12 @@ class ilPaymentBillVendor
 	// PIRVATE
 	function __read()
 	{
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM payment_bill_vendor
-			WHERE pobject_id = ?',
-			array('integer'));
-		$data = array($this->getPobjectId());
-		$res = $this->db->execute($statement, $data);
-			
+			WHERE pobject_id = %s',
+			array('integer'),
+			array($this->getPobjectId()));
+					
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->has_data = true;
@@ -405,7 +397,5 @@ class ilPaymentBillVendor
 		}
 		return true;
 	}
-
-
 } 
 ?>

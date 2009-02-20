@@ -119,15 +119,11 @@ class ilChatRecord
 			$this->setRecordId($a_id);
 		}
 
-		$statement = $this->ilias->db->prepare('
-			SELECT * FROM chat_records WHERE record_id = ?',
-			array('integer')
-		);
-		
-		$data = array($this->getRecordId());
-		$res = $this->ilias->db->execute($statement, $data);
-		if (ilDB::isDbError($res)) die("ilChatRecord::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
-				
+		$res = $ilDB->queryf('
+			SELECT * FROM chat_records WHERE record_id = %s',
+			array('integer'), array($this->getRecordId()));
+
+		if (ilDB::isDbError($res)) die("ilChatRecord::getRecord(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		
 		$row = array();
 		if ($res->numRows() > 0)
@@ -159,23 +155,21 @@ class ilChatRecord
 	{
 		global $ilDB;
 	
-		$statement = $this->ilias->db->pepareManip('
+		$res = $ilDB->manipulateF('
 			INSERT INTO chat_records 
-			SET moderator_id = ?, 
-				chat_id = ?,
-				room_id = ?,
-				title = ?,
-				start_time = ?',
-			array('integer', 'integer', 'integer', 'text', 'integer')
-		);
+			SET moderator_id = %s, 
+				chat_id = %s,
+				room_id = %s,
+				title = %s,
+				start_time = %s',
+			array('integer', 'integer', 'integer', 'text', 'integer'),
+			array($this->getModeratorId(), $this->getRefId(), $this->getRoomId(), $a_title, time()));
 		
-		$data = array($this->getModeratorId(), $this->getRefId(), $this->getRoomId(), $a_title, time());
-		$res = $this->ilias->db->execute($statement, $data);
-		if (ilDB::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		if (ilDB::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		
-		$statement = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->prepare($statement);
-		if (ilDB::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+
+		$res = $ilDB->query("SELECT LAST_INSERT_ID()");
+		if (ilDB::isDbError($res)) die("ilChatRecord::startRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		
 		if ($res->numRows() > 0)
 		{
@@ -191,19 +185,16 @@ class ilChatRecord
 	{
 		global $ilDB;
 		
-		$statement = $this->ilias->db->prepareManip('
+		$res = $ilDB->manipulateF('
 			UPDATE chat_records 
-			SET end_time = ?
-			WHERE chat_id = ?
-			AND room_id = ?
-			AND record_id = ?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
+			SET end_time = %s
+			WHERE chat_id = %s
+			AND room_id = %s
+			AND record_id = %s',
+			array('integer', 'integer', 'integer', 'integer'),
+			array(time(), $this->getRefId(), $this->getRoomId(), $this->getRecordId()));
 		
-		$data = array(time(), $this->getRefId(), $this->getRoomId(), $this->getRecordId());
-		$res = $this->ilias->db->execute($statement, $data);
-		
-		if (ilDB::isDbError($res)) die("ilChatRecord::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);	
+		if (ilDB::isDbError($res)) die("ilChatRecord::stopRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);	
 		
 		
 		$this->setRecordId(0);
@@ -216,19 +207,16 @@ class ilChatRecord
 	{
 		global $ilDB;
 		
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT record_id FROM chat_records 
-			WHERE chat_id = ? 
-			AND room_id = ? 
-			AND start_time > ? 
-			AND end_time = ?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
+			WHERE chat_id = %s 
+			AND room_id = %s 
+			AND start_time > %s 
+			AND end_time = %s',
+			array('integer', 'integer', 'integer', 'integer'),
+			array($this->getRefId(), $this->getRoomId(), '0', '0'));
 		
-		$data = array($this->getRefId(), $this->getRoomId(), '0', '0');
-		$res = $this->ilias->db->execute($statement, $data);
-		
-		if (ilDB::isDbError($res)) die("ilChatRecord::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+		if (ilDB::isDbError($res)) die("ilChatRecord::isRecording(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		
 		if ($res->numRows() > 0)
 		{
