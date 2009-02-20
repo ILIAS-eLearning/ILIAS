@@ -7899,3 +7899,8 @@ DROP TABLE IF EXISTS xml_attribute_idx;
 <?php
 	$ilDB->addPrimaryKey('role_desktop_items',array('role_item_id'));
 ?>
+<#1672>
+<?php
+	$ilDB->renameTableColumn("content_object", "prevent_glossary_appendix_active", "no_glo_appendix");
+?>
+
