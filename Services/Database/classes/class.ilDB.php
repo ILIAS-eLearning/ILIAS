@@ -1190,33 +1190,48 @@ if ($this->getDBType() == "mysql")
 	/**
 	* Convenient method for standard insert statements, example field array:
 	*
-	* array("field1" => array("text", $name),				// will use "%s"
-	*		"field2" => array("integer", $id),				// will use "%s"
-	*		"field3" => array("", "", $ilDB->now())			// will use $ilDB->now()
+	* array("field1" => array("text", $name),
+	*		"field2" => array("integer", $id))
 	*/
 	function insert($a_table, $a_columns)
 	{
 		$fields = array();
+		$field_values = array();
 		$placeholders = array();
 		$types = array();
 		$values = array();
+		$lobs = false;
+		$lob = array();
 		foreach ($a_columns as $k => $col)
 		{
 			$fields[] = $k;
-			if ($col[2] == "")
+			$placeholders[] = "%s";
+			$placeholders2[] = ":$k";
+			$types[] = $col[0];
+			$values[] = $col[1];
+			$field_values[$k] = $col[1];
+			if ($col[0] == "blob" || $col[0] == "clob")
 			{
-				$col[2] = "%s";
-			}
-			$placeholders[] = $col[2];
-			if ($col[0] != "")
-			{
-				$types[] = $col[0];
-				$values[] = $col[1];
+				$lobs = true;
+				$lob[$k] = $k;
 			}
 		}
-		$q = "INSERT INTO ".$a_table." (".implode($fields,",").") VALUES (".
-			implode($placeholders,",").")";
-		$r = $this->manipulateF($q, $types, $values);
+		if ($lobs)	// lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
+		{
+			$st = $this->db->prepare("INSERT INTO ".$a_table." (".implode($fields,",").") VALUES (".
+				implode($placeholders2,",").")", $types, MDB2_PREPARE_MANIP, $lob);
+			$r = $st->execute($field_values);
+			
+			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
+			$this->handleError($r, "insert / prepare/execute(".$a_table.")");
+			$this->free($st);
+		}
+		else	// if no lobs are used, take simple manipulateF
+		{
+			$q = "INSERT INTO ".$a_table." (".implode($fields,",").") VALUES (".
+				implode($placeholders,",").")";
+			$r = $this->manipulateF($q, $types, $values);
+		}
 		return $r;
 	}
 	
@@ -1225,51 +1240,81 @@ if ($this->getDBType() == "mysql")
 	*
 	* array("field1" => array("text", $name),				// will use "%s"
 	*		"field2" => array("integer", $id),				// will use "%s"
-	*		"field3" => array("", "", $ilDB->now())			// will use $ilDB->now()
 	*
 	* Example where array: array("id" => array("integer", $id))
 	*/
 	function update($a_table, $a_columns, $a_where)
 	{
 		$fields = array();
+		$field_values = array();
 		$placeholders = array();
 		$types = array();
 		$values = array();
+		$lobs = false;
+		$lob = array();
 		foreach ($a_columns as $k => $col)
 		{
 			$fields[] = $k;
-			if ($col[2] == "")
+			$placeholders[] = "%s";
+			$placeholders2[] = ":$k";
+			$types[] = $col[0];
+			$values[] = $col[1];
+			$field_values[$k] = $col[1];
+			if ($col[0] == "blob" || $col[0] == "clob")
 			{
-				$col[2] = "%s";
+				$lobs = true;
+				$lob[$k] = $k;
 			}
-			$placeholders[] = $col[2];
-			if ($col[0] != "")
+		}
+		
+		if ($lobs)
+		{
+			$q = "UPDATE ".$a_table." SET ";
+			$lim = "";
+			foreach ($fields as $k => $field)
+			{
+				$q.= $lim.$field." = ".$placeholders2[$k];
+				$lim = ", ";
+			}
+			$q.= " WHERE ";
+			$lim = "";
+			foreach ($a_where as $k => $col)
+			{
+				$q.= $lim.$k." = ".$this->quote($col[1], $col[0]);
+				$lim = " AND ";
+			}
+			$st = $this->db->prepare($q, $types, MDB2_PREPARE_MANIP, $lob);
+			$r = $st->execute($field_values);
+			
+			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
+			$this->handleError($r, "update / prepare/execute(".$a_table.")");
+			$this->free($st);
+		}
+		else
+		{
+			foreach ($a_where as $k => $col)
 			{
 				$types[] = $col[0];
 				$values[] = $col[1];
+				$field_values[$k] = $col;
 			}
+			$q = "UPDATE ".$a_table." SET ";
+			$lim = "";
+			foreach ($fields as $k => $field)
+			{
+				$q.= $lim.$field." = ".$placeholders[$k];
+				$lim = ", ";
+			}
+			$q.= " WHERE ";
+			$lim = "";
+			foreach ($a_where as $k => $col)
+			{
+				$q.= $lim.$k." = %s";
+				$lim = " AND ";
+			}
+			
+			$r = $this->manipulateF($q, $types, $values);
 		}
-		foreach ($a_where as $k => $col)
-		{
-			$types[] = $col[0];
-			$values[] = $col[1];
-		}
-		$q = "UPDATE ".$a_table." SET ";
-		$lim = "";
-		foreach ($fields as $k => $field)
-		{
-			$q.= $lim.$field." = ".$placeholders[$k];
-			$lim = ", ";
-		}
-		$q.= " WHERE ";
-		$lim = "";
-		foreach ($a_where as $k => $col)
-		{
-			$q.= $lim.$k." = %s";
-			$lim = " AND ";
-		}
-		
-		$r = $this->manipulateF($q, $types, $values);
 		return $r;
 	}
 

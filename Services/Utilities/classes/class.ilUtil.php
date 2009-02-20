@@ -3536,6 +3536,14 @@ class ilUtil
   		list($std, $min, $sec) = explode(":", $uhrzeit);
   		return mktime ((int) $std, (int) $min, (int) $sec, (int) $monat, (int) $tag, (int) $jahr);
 	 }
+	 
+	 /**
+	 * Return current timestamp in Y-m-d H:i:s format
+	 */
+	 function now()
+	 {
+		 return date("Y-m-d H:i:s");
+	 }
 
 /**
 * Convertes an array for CSV usage
