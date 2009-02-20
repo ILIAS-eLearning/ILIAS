@@ -106,29 +106,24 @@ class ilPaymentShoppingCart
 
 	function isInShoppingCart($a_pobject_id)
 	{
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM payment_shopping_cart
-			WHERE customer_id = ?
-			AND pobject_id = ?',
-			array('integer', 'integer')
-		);
-
-		$data = array($this->user_obj->getId(), $a_pobject_id);
-		$res = $this->db->execute($statement, $data);
+			WHERE customer_id = %s
+			AND pobject_id = %s',
+			array('integer', 'integer'),
+			array($this->user_obj->getId(), $a_pobject_id));
 		
 		return $res->numRows() ? true : false;
 	}
 
 	function getEntry($a_pobject_id)
 	{
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM payment_shopping_cart
-			WHERE customer_id = ?
-			AND pobject_id = ?',
-			array('integer', 'integer')
-		);
-		$data = array($this->user_obj->getId(), $a_pobject_id);
-		$res = $this->db->execute($statement, $data);
+			WHERE customer_id = %s
+			AND pobject_id = %s',
+			array('integer', 'integer'),
+			array($this->user_obj->getId(), $a_pobject_id));
 		
 		if (is_object($res))
 		{
@@ -138,29 +133,21 @@ class ilPaymentShoppingCart
 
 	function add()
 	{
-
-
-	
 		// Delete old entries for same pobject_id
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			DELETE FROM payment_shopping_cart
-			WHERE customer_id = ?
-			AND pobject_id = ?',
-			array('integer', 'integer')
-		);
-		$data = array($this->user_obj->getId(), $this->getPobjectId());
-		$this->db->execute($statement, $data);
+			WHERE customer_id = %s
+			AND pobject_id = %s',
+			array('integer', 'integer'),
+			array($this->user_obj->getId(), $this->getPobjectId()));
 
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			INSERT INTO payment_shopping_cart
-			SET customer_id = ?,
-				pobject_id = ?,
-				price_id = ?', 
-			array('integer', 'integer', 'integer')
-		);
-		
-		$data = array($this->user_obj->getId(), $this->getPobjectId(), $this->getPriceId());
-		$this->db->execute($statement, $data);
+			SET customer_id = %s,
+				pobject_id = %s,
+				price_id = %s', 
+			array('integer', 'integer', 'integer'),
+			array($this->user_obj->getId(), $this->getPobjectId(), $this->getPriceId()));
 		
 		$this->__read();
 
@@ -169,22 +156,18 @@ class ilPaymentShoppingCart
 
 	function update($a_psc_id)
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			UPDATE payment_shopping_cart
-			SET customer_id = ?,
-				pobject_id = ?,
-				price_id = ?
-			WHERE psc_id = ?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
-		
-		$data = array(	$this->user_obj->getId(), 
+			SET customer_id = %s,
+				pobject_id = %s,
+				price_id = %s
+			WHERE psc_id = %s',
+			array('integer', 'integer', 'integer', 'integer'),
+			array(	$this->user_obj->getId(), 
 						$this->getPobjectId(),
 						$this->getPriceId(),
 						$a_psc_id
-		);
-		
-		$this->db->execute($statement, $data);
+		));
 		
 		$this->__read();
 
@@ -193,29 +176,21 @@ class ilPaymentShoppingCart
 			
 	function delete($a_psc_id)
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			DELETE FROM payment_shopping_cart
-			WHERE psc_id = ?',
-			array('integer')
-		);	
-
-		$data = array($a_psc_id);
-		$this->db->execute($statement, $data);
+			WHERE psc_id = %s',
+			array('integer'), array($a_psc_id));
 		
 		$this->__read();
 	}
 
 	function emptyShoppingCart()
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			DELETE FROM payment_shopping_cart
-			WHERE customer_id = ?',
-			array('integer')
-		);	
+			WHERE customer_id = %s',
+			array('integer'), array($this->user_obj->getId()));
 
-		$data = array($this->user_obj->getId());
-		
-		$this->db->execute($statement, $data);
 		$this->__read();
 
 		return true;
@@ -226,13 +201,11 @@ class ilPaymentShoppingCart
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_shopping_cart
-			WHERE customer_id = ?',
-			array('integer')
-		);		
-		$data = array($a_user_id);
-		$res = $ilDB->execute($statement, $data);
+			WHERE customer_id = %s',
+			array('integer'), array($a_user_id));
+
 		return $res->numRows() ? true : false;
 	}
 
@@ -244,14 +217,11 @@ class ilPaymentShoppingCart
 
 		$this->sc_entries = array();
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM payment_shopping_cart
-			WHERE customer_id = ?',
-			array('integer')
-		);		
-		$data = array($this->user_obj->getId());
-		$res = $this->db->execute($statement, $data);
-		
+			WHERE customer_id = %s',
+			array('integer'), array($this->user_obj->getId()));
+			
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->sc_entries[$row->psc_id]["psc_id"] = $row->psc_id;

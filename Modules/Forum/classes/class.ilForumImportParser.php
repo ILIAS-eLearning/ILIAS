@@ -291,7 +291,7 @@ class ilForumImportParser extends ilSaxParser
 		$this->__initForumObject();
 
 		$this->forum_obj->setImportName($this->thread["login"]);
-		$this->forum_obj->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($this->forum->getId()));
+		$this->forum_obj->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($this->forum->getId()));
 	
 		$topic = $this->forum_obj->getOneTopic();
 
@@ -304,7 +304,7 @@ class ilForumImportParser extends ilSaxParser
 																	 $this->post["message"],0,0,'',date("Y-m-d H:i:s",$this->thread["c_time"])));
 		
 		$this->forum_obj->setDbTable("frm_data");
-		$this->forum_obj->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topic['top_pk']));
+		$this->forum_obj->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topic['top_pk']));
 		
 		$this->forum_obj->updateVisits($topic["top_pk"]);
 
@@ -315,7 +315,7 @@ class ilForumImportParser extends ilSaxParser
 		global $ilDB;
 		
 		$this->forum_obj->setImportName($this->post["login"]);
-		$this->forum_obj->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($this->forum->getId()));
+		$this->forum_obj->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($this->forum->getId()));
 
 		
 		$topic = $this->forum_obj->getOneTopic();
@@ -346,21 +346,21 @@ class ilForumImportParser extends ilSaxParser
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepareManip('
+		$statement = $ilDB->manipulateF('
 			INSERT INTO frm_data 
-			SET top_pk = ?,
-				top_frm_fk = ?,
-				top_name = ?,
-				top_description = ?,
-				top_num_posts = ?,
-				top_num_threads = ?,
-				top_las_post = ?,
-				top_mods = ?,
-				top_date = ?,
-				visits = ?,
-				top_update = ?,
-				update_user = ?,
-				top_usr_id = ?',
+			SET top_pk = %s,
+				top_frm_fk = %s,
+				top_name = %s,
+				top_description = %s,
+				top_num_posts = %s,
+				top_num_threads = %s,
+				top_las_post = %s,
+				top_mods = %s,
+				top_date = %s,
+				visits = %s,
+				top_update = %s,
+				update_user = %s,
+				top_usr_id = %s',
 		
 			array(	'integer',
 					'integer',
@@ -374,10 +374,8 @@ class ilForumImportParser extends ilSaxParser
 					'integer',
 					'timestamp',
 					'integer',
-					'integer')
-		);
-		
-		$data = array(	'0',
+					'integer'),
+			array(	'0',
 						$this->forum->getId(),
 						$this->forum->getTitle(),
 						$this->forum->getDescription(),
@@ -390,9 +388,7 @@ class ilForumImportParser extends ilSaxParser
 						date("Y:m:d H:i:s"),
 						'0',
 						$_SESSION["AccountId"]
-		);
-		
-		$ilDB->execute($statement, $data);
+		));
 		
 		// TO ENSURE THERE IS MINIMUM ONE MODERATOR 
 		$this->__addModerator($_SESSION["AccountId"]);

@@ -62,15 +62,14 @@ class ilShopTopic
 		
 		if($this->id)
 		{
-			$query = $this->db->prepare('
+			$result = $this->db->queryf('
 				SELECT * FROM payment_topics 
-				LEFT JOIN payment_topics_user_sorting ON ptus_pt_topic_fk = pt_topic_pk
-				AND ptus_usr_id = ?
-				WHERE pt_topic_pk = ?',
-		        array('integer', 'integer')
-		       );
+				LEFT JOIN payment_topic_usr_sort ON ptus_pt_topic_fk = pt_topic_pk
+				AND ptus_usr_id = %s
+				WHERE pt_topic_pk = %s',
+		        array('integer', 'integer'),
+		        array($ilUser->getId(), $this->id));
 		        
-			$result = $this->db->execute($query, array($ilUser->getId(), $this->id));
 			while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$this->setTitle($row->pt_topic_title);
@@ -92,34 +91,22 @@ class ilShopTopic
 		{
 			$this->changedate = time();
 			
-/*			$query = "UPDATE payment_topics
-					  SET 	
-					  pt_topic_title = ".$this->db->quote($this->title).",
-					  pt_topic_sort = ".$this->db->quote($this->sorting).",										
-					  pt_topic_changed = ".$this->db->quote($this->changedate)."
-					  WHERE 1
-					  AND pt_topic_pk = ".$this->db->quote($this->id)." ";
-			
-			$this->db->query($query);
-*/
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				UPDATE payment_topics
-				SET pt_topic_title = ?,
-					pt_topic_sort = ?,
-					pt_topic_changed = ?
+				SET pt_topic_title = %s,
+					pt_topic_sort = %s,
+					pt_topic_changed = %s
 				WHERE 1
-				AND pt_topic_pk = ?',
-				array('text', 'integer', 'integer', 'integer')
-			);
-
-			$data = array(	
+				AND pt_topic_pk = %s',
+				array('text', 'integer', 'integer', 'integer'),
+				array(	
 							$this->getTitle(),
 							$this->getSorting(),
 							$this->getChangeDate(),
 							$this->getId()
-			);
+				));
 			
-			$this->db->execute($statement, $data);
+
 			
 			return true;
 		}
@@ -127,26 +114,14 @@ class ilShopTopic
 		{
 			$this->createdate = time();
 			
-/*			$query = "INSERT INTO payment_topics
-					  SET 
-					  pt_topic_title = ".$this->db->quote($this->title).",
-					  pt_topic_sort = ".$this->db->quote($this->sorting).",
-					  pt_topic_created = ".$this->db->quote($this->createdate)." ";
-			
-			$this->db->query($query);
-*/			
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				INSERT INTO payment_topics 
-				SET pt_topic_title = ?,
-					pt_topic_sort = ?,
-					pt_topic_created = ?',
-				array('text', 'integer', 'integer')
-			);
+				SET pt_topic_title = %s,
+					pt_topic_sort = %s,
+					pt_topic_created = %s',
+				array('text', 'integer', 'integer'),
+				array($this->getTitle(), $this->getSorting(), $this->getCreateDate()));
 
-			$data = array($this->getTitle(), $this->getSorting(), $this->getCreateDate());
-			
-			$this->db->execute($statement, $data);
-						
 			$this->id = $this->db->getLastInsertId();			
 			if($this->id) return true;
 		}
@@ -158,45 +133,32 @@ class ilShopTopic
 	{
 		if($this->id)
 		{
-/*			$query = "DELETE FROM payment_topics
-					  WHERE 1
-					  AND pt_topic_pk = ".$this->db->quote($this->id)." ";			
-			$this->db->query($query);
 			
-			$query = "DELETE FROM payment_topics_user_sorting
-					  WHERE 1
-					  AND ptus_pt_topic_fk = ".$this->db->quote($this->id)." ";			
-			$this->db->query($query);
-*/
-			
-			$statement = $this->db->prepareManip('
+			$result = $this->db->manipulateF('
 				DELETE FROM payment_topics		
  				WHERE 1
-				AND pt_topic_pk = ?',
-				array('integer')
+				AND pt_topic_pk = %s',
+				array('integer'),
+				array($this->getId())
 			);
-			$data = array($this->getId());
-			$result = $this->db->execute($statement, $data);
 			
 			
-			$statement = $this->db->prepareManip('	
-				DELETE FROM payment_topics_user_sorting		
+			$result = $this->db->$resF('	
+				DELETE FROM payment_topic_usr_sort		
 				WHERE 1
-				AND ptus_pt_topic_fk = ?',
-				array('integer')
+				AND ptus_pt_topic_fk = %s',
+				array('integer'),
+				array($this->getId())
 			);
-			$data = array($this->getId());
-			$result = $this->db->execute($statement, $data);					
 			
-			$statement = $this->db->prepareManip('
+			$result = $this->db->manipulateF('
 				UPDATE payment_objects
-				SET pt_topic_fk = ?
+				SET pt_topic_fk = %s
 			  	WHERE 1
-				AND pt_topic_fk = ?',
-				array('integer', 'integer') 
+				AND pt_topic_fk = %s',
+				array('integer', 'integer'),
+				array(0, $this->getId())
 			);
-			$data = array(0, $this->getId());
-			$result = $this->db->execute($statement, $data);
 			
 			return true;
 		}
@@ -208,10 +170,10 @@ class ilShopTopic
 	{
 		global $ilDB;
 				
-		$query = $ilDB->prepare("SELECT pt_topic_title FROM payment_topics WHERE pt_topic_pk = ?",
-		        	 array('integer'));
-		$result = $ilDB->execute($query, array($a_id));
-		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		$result = $ilDB->queryf("SELECT pt_topic_title FROM payment_topics WHERE pt_topic_pk = %s",
+		        	 array('integer'), array($a_id));
+
+       	 while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			return $row->pt_topic_title;
 		}
@@ -225,46 +187,38 @@ class ilShopTopic
 		
 		if($this->id)
 		{		
-/*			$query = "REPLACE INTO payment_topics_user_sorting
-					  SET 
-					  ptus_pt_topic_fk = ".$this->db->quote($this->id).",
-					  ptus_usr_id = ".$this->db->quote($ilUser->getId()).",
-					  ptus_sorting = ".$this->db->quote($this->custom_sorting)." ";
-			$this->db->query($query);  
-*/
-			$statement = $this->db->prepare('
-				SELECT * FROM payment_topics_user_sorting
-				WHERE ptus_pt_topic_fk = ?
-				AND ptus_usr_id = ?',
-				array('integer', 'integer')
+			$res = $this->db->queryf('
+				SELECT * FROM payment_topic_usr_sort
+				WHERE ptus_pt_topic_fk = %s
+				AND ptus_usr_id = %s',
+				array('integer', 'integer'),
+				array($this->getId(), $ilUser->getId())
 			);
-			$data = array($this->getId(), $ilUser->getId());
-			$res = $this->db->execute($statement, $data);
+
 			
 			if($res->numRows() > 0)
 			{
-				$statement = $this->db->prepareManip('
-					UPDATE payment_topics_user_sorting
-					SET ptus_pt_topic_fk = ?,
-						ptus_usr_id = ?,
-						ptus_sorting = ?',
-						array('integer', 'integer', 'integer')
+				$statement = $this->db->manipulateF('
+					UPDATE payment_topic_usr_sort
+					SET ptus_pt_topic_fk = %s,
+						ptus_usr_id = %s,
+						ptus_sorting = %s',
+						array('integer', 'integer', 'integer'),
+						array($this->getId(), $ilUser->getId(), $this->getCustomSorting())
 				);
 			}
 			else
 			{
-				$statement = $this->db->prepareManip('
-					INSERT INTO payment_topics_user_sorting
-					SET ptus_pt_topic_fk = ?,
-						ptus_usr_id = ?,
-						ptus_sorting = ?',
-						array('integer', 'integer', 'integer')'
+				$statement = $this->db->manipulateF('
+					INSERT INTO payment_topic_usr_sort
+					SET ptus_pt_topic_fk = %s,
+						ptus_usr_id = %s,
+						ptus_sorting = %s',
+						array('integer', 'integer', 'integer'),
+						array($this->getId(), $ilUser->getId(), $this->getCustomSorting())
 				);	
 			}
 			
-			$data = array($this->getId(), $ilUser->getId(), $this->getCustomSorting());
-			$this->db->execute($statement, $data);
-					
 			return true;
 		}
 		

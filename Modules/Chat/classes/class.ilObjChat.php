@@ -75,16 +75,9 @@ class ilObjChat extends ilObject
 		global $ilDB;
 		
 		$mod_title = 'il_chat_moderator_'.$a_ref_id;
-/*	 	$query = "SELECT * FROM object_data WHERE title = ".$ilDB->quote($mod_title);
-	 	$res = $ilDB->query($query);
-*/
-		$statement = $ilDB->prepare('
-			SELECT * FROM object_data WHERE title = ?',
-			array('text')
-		);
 
-		$data = array($mod_title);
-		$res = $ilDB->execute($statement, $data);
+		$res = $ilDB->queryf('SELECT * FROM object_data WHERE title = %s',
+			array('text'), array($mod_title));
 		
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
@@ -188,62 +181,40 @@ class ilObjChat extends ilObject
 		}
 
 		// FINALLY DELETE MESSAGES IN PUBLIC ROOM
-		$statement = $this->ilias->db->prepareManip('
-			DELETE FROM chat_room_messages 
-			WHERE chat_id = ?',
-			array('integer')
-		);
-		$data = array($this->getRefId());
+		$res = $ilDB->manipulateF('
+			DELETE FROM chat_room_messages WHERE chat_id = %s',
+			array('integer'),array($this->getRefId()));
 		
-		$res = $this->ilias->db->execute($statement, $data);
 
 		// AND ALL USERS
-		$statement = $this->ilias->db->prepareManip('
-			DELETE FROM chat_user
-			WHERE chat_id = ?', 
-			array('integer')
-		);
+		$res = $ilDB->manipulateF('
+			DELETE FROM chat_user WHERE chat_id = %s', 
+			array('integer'), array($this->getRefId()));
 
-		$data = array($this->getRefId());
-		
-		$res = $this->ilias->db->execute($statement, $data);
 
 		// AND ALL RECORDINGS
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT record_id FROM chat_records 
-			WHERE chat_id = ?',
-			array('integer')
-		); 
-		$data = array($this->getId());
-		
-		$res = $this->ilias->db->execute($statement, $data);
-		
-		if (ilDB::isDbError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$statement);
+			WHERE chat_id = %s',
+			array('integer'), array($this->getId()));
+			
+		if (ilDB::isDbError($res)) die("ilObjChat::delete(): " . $res->getMessage() . "<br>SQL-Statement: ".$res);
 		if (($num = $res->numRows()) > 0)
 		{
 			for ($i = 0; $i < $num; $i++)
 			{
 				$rec_data = $res->fetchRow(DB_FETCHMODE_ASSOC);
-				$statement = $this->ilias->db->prepareManip('
-					DELETE FROM chat_record_data
-					WHERE record_id = ?',
-					array('integer')
-				); 
-				$data = array($rec_data['record_id']);
-				
-				$res = $this->ilias->db->execute($statement, $data);				
+				$res = $ilDB->manipulateF('
+					DELETE FROM chat_record_data WHERE record_id = %s',
+					array('integer'), array($rec_data['record_id']));
+
 			}
 			
 		}
-		$statement = $this->ilias->db->prepareManip('
-			DELETE FROM chat_records WHERE 
-			chat_id = ?',
-			array('integer')
-		);
-		
-		$data = array($this->getId());			
-		$res = $this->ilias->db->execute($statement, $data);				
-		
+			$res = $ilDB->manipulateF('
+			DELETE FROM chat_records WHERE chat_id = %s',
+			array('integer'), array($this->getId()));
+			
 		return true;
 	}
 

@@ -54,8 +54,7 @@ class ilGeneralSettings
 	 */
 	private function fetchSettingsId()
 	{
-		$statement = $this->db->prepare('SELECT settings_id FROM payment_settings');
-		$result = $this->db->execute($statement);		
+		$result = $this->db->query('SELECT settings_id FROM payment_settings');		
 		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))	
 		{	
 			$this->setSettingsId($row->settings_id);
@@ -84,22 +83,22 @@ class ilGeneralSettings
 
 	function clearAll()
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			UPDATE payment_settings
-			SET	currency_unit = ?,
-				currency_subunit = ?,
-				address = ?,
-				bank_data = ?,
-				add_info = ?,
-				vat_rate = ?,
-				pdf_path = ?,
-				topics_sorting_type = ?,
-				topics_sorting_direction = ?,
-				topics_allow_custom_sorting = ?,
-				max_hits = ?,
-				shop_enabled = ?,
-				save_customer_address_enabled = ?
-			WHERE settings_id = ?', 
+			SET	currency_unit = %s,
+				currency_subunit = %s,
+				address = %s,
+				bank_data = %s,
+				add_info = %s,
+				vat_rate = %s,
+				pdf_path = %s,
+				topics_sorting_type = %s,
+				topics_sorting_direction = %s,
+				topics_allow_custom_sorting = %s,
+				max_hits = %s,
+				shop_enabled = %s,
+				save_customer_address_enabled = %s
+			WHERE settings_id = %s', 
 			array( 	'text', 
 					'text', 
 					'text',
@@ -113,26 +112,22 @@ class ilGeneralSettings
 					'integer', 
 					'integer', 
 					'integer',
-					'integer')
-		);
-		
-		$data = array(	'',
-						'',
-						'',
-						'',
-						'',
-						'',
-						'',
-						'1',
-						'asc',
-						'0',
-						'20',
-						'0',
-						'0', 
-						$this->getSettingsId()
-		);
-		
-		$this->db->execute($statement, $data);	
+					'integer'),
+			array(	'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'',
+					'1',
+					'asc',
+					'0',
+					'20',
+					'0',
+					'0', 
+					$this->getSettingsId())
+			);
 
 		return true;
 	}
@@ -143,23 +138,23 @@ class ilGeneralSettings
 
 		if ($this->getSettingsId())
 		{		
-
-			$statement = $this->db->prepareManip('
+			
+			$statement = $this->db->manipulateF('
 				UPDATE payment_settings
-				SET	currency_unit = ?,
-					currency_subunit = ?,
-					address = ?,
-					bank_data = ?,
-					add_info = ?,
-					vat_rate = ?,
-					pdf_path = ?,
-					topics_sorting_type = ?,
-					topics_sorting_direction = ?,
-					topics_allow_custom_sorting = ?,
-					max_hits = ?,
-					shop_enabled = ?,
-					save_customer_address_enabled = ?
-				WHERE settings_id = ?', 
+				SET	currency_unit = %s,
+					currency_subunit = %s,
+					address = %s,
+					bank_data = %s,
+					add_info = %s,
+					vat_rate = %s,
+					pdf_path = %s,
+					topics_sorting_type = %s,
+					topics_sorting_direction = %s,
+					topics_allow_custom_sorting = %s,
+					max_hits = %s,
+					shop_enabled = %s,
+					save_customer_address_enabled = %s
+				WHERE settings_id = %s', 
 				array( 'text', 
 						'text', 
 						'text', 
@@ -173,9 +168,8 @@ class ilGeneralSettings
 						'integer', 
 						'integer', 
 						'integer',
-						'integer')
-				);
-			$data = array(
+						'integer'),
+				array(
 					$a_values['currency_unit'],
 					$a_values['currency_subunit'],
 					$a_values['address'],
@@ -189,28 +183,28 @@ class ilGeneralSettings
 					$a_values['max_hits'],
 					$a_values['shop_enabled'],
 					$a_values['save_customer_address_enabled'],
-					$this->getSettingsId());
-			
-			$this->db->execute($statement, $data);	
+					$this->getSettingsId())
+			);
+	
 			
 		}
 		else
 		{ 
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				INSERT INTO payment_settings
-				SET currency_unit = ?,
-					currency_subunit = ?,
-					address = ?,
-					bank_data = ?,
-					add_info = ?,
-					vat_rate = ?,
-					pdf_path = ?,
-					topics_allow_custom_sorting = ?,
-					topics_sorting_type = ?,
-					topics_sorting_direction = ?,
-					shop_enabled = ?,
-					max_hits = ?,
-					save_customer_address_enabled = ?',
+				SET currency_unit = %s,
+					currency_subunit = %s,
+					address = %s,
+					bank_data = %s,
+					add_info = %s,
+					vat_rate = %s,
+					pdf_path = %s,
+					topics_allow_custom_sorting = %s,
+					topics_sorting_type = %s,
+					topics_sorting_direction = %s,
+					shop_enabled = %s,
+					max_hits = %s,
+					save_customer_address_enabled = %s',
 				array( 'text', 
 						'text', 
 						'text', 
@@ -223,11 +217,8 @@ class ilGeneralSettings
 						'text', 
 						'integer', 
 						'integer', 
-						'integer'
-				)
-			);
-				
-			$data = array(
+						'integer'),
+				array(
 					$a_values['currency_unit'],
 					$a_values['currency_subunit'],
 					$a_values['address'],
@@ -241,9 +232,8 @@ class ilGeneralSettings
 					$a_values['shop_enabled'],
 					$a_values['max_hits'],
 					$a_values['save_customer_address_enabled']
-					);
-			
-			$this->db->execute($statement, $data);	
+					)
+			);
 			
 			$this->setSettingsId($this->db->getLastInsertId());
 		}		
@@ -257,8 +247,8 @@ class ilGeneralSettings
 	{
 		$this->fetchSettingsId();
 
-		$statement = $this->db->prepare('SELECT * FROM payment_settings');
-		$result = $this->db->execute($statement);	
+		$result = $this->db->query('SELECT * FROM payment_settings');
+		 
 		$data = array();	
 		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))	
 		{	

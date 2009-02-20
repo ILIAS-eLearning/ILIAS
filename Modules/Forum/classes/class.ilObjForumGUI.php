@@ -299,7 +299,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($this->object->getId());
 		$frm->setForumRefId($this->object->getRefId());
 
-		$frm->setMDB2Wherecondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
+		$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_liste.html',	'Modules/Forum');
 		
@@ -346,7 +346,7 @@ class ilObjForumGUI extends ilObjectGUI
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
 
-		  	$frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topicData['top_pk'])); 
+		  	$frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk'])); 
 			
 			$frm->updateVisits($topicData['top_pk']);
 						
@@ -864,21 +864,19 @@ class ilObjForumGUI extends ilObjectGUI
             'top_date' 			=> date("Y-m-d H:i:s")
         );
 	
-        $statement = $ilDB->prepareManip('
+        $statement = $ilDB->manipulateF('
         	INSERT INTO frm_data 
-        	SET top_frm_fk = ?,
-        		top_name = ?,
-        		top_description = ?,
-        		top_num_posts = ?,
-        		top_num_threads = ?,
-        		top_last_post = ?,
-        		top_mods = ?,
-        		top_date = ?,
-        		top_usr_id = ?',
-        	array('integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'timestamp', 'integer')
-        );
-        
-        $data = array(
+        	SET top_frm_fk = %s,
+        		top_name = %s,
+        		top_description = %s,
+        		top_num_posts = %s,
+        		top_num_threads = %s,
+        		top_last_post = %s,
+        		top_mods = %s,
+        		top_date = %s,
+        		top_usr_id = %s',
+        	array('integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'timestamp', 'integer'),
+        	array(
         	$top_data['top_frm_fk'],
         	$top_data['top_name'],
         	$top_data['top_description'],
@@ -888,9 +886,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$top_data['top_mods'],
 			$top_data['top_date'],
 			$top_data['top_usr_id']
-		);
-		
-		$ilDB->execute($statement, $data);
+		));
 		
 		$this->object = $forumObj;
 		
@@ -1238,7 +1234,7 @@ class ilObjForumGUI extends ilObjectGUI
 			if ($dead_thr == $this->objCurrentTopic->getId())
 			{
 
-				$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($forumObj->getId()));
+				$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($forumObj->getId()));
 				
 				$topicData = $frm->getOneTopic();
 		
@@ -1802,7 +1798,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 				
 		// get forum- and thread-data
-		$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
+		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		
 		if(is_array($topicData = $frm->getOneTopic()))
 		{
@@ -3171,7 +3167,7 @@ class ilObjForumGUI extends ilObjectGUI
 				{
 					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $ilObjDataCache->lookupObjId($ref_id))
 					{
-						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($ilObjDataCache->lookupObjId($ref_id)));
+						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($ilObjDataCache->lookupObjId($ref_id)));
 							
 						if(!is_null($frmData = $this->object->Forum->getOneTopic()))
 						{
@@ -3206,7 +3202,7 @@ class ilObjForumGUI extends ilObjectGUI
 					if ($ilObjDataCache->lookupObjId($_GET['ref_id']) != $val['obj_id'])
 					{	
 
-						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($val['obj_id']));	
+						$this->object->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($val['obj_id']));	
 							
 						if(!is_null($frmData = $this->object->Forum->getOneTopic()))				
 						{
@@ -3269,7 +3265,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
 
-		$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
+		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		
 		$topicData = $frm->getOneTopic();		
 		
@@ -3349,7 +3345,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
 
-		$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
+		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		
 		$topicData = $frm->getOneTopic();
 
@@ -3400,13 +3396,13 @@ class ilObjForumGUI extends ilObjectGUI
 			}
 			// Visit-Counter
 			$frm->setDbTable('frm_data');
-			$frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($topicData['top_pk']));			
+			$frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk']));			
 			
 			
 			$frm->updateVisits($topicData['top_pk']);
 			// on success: change location
 
-			$frm->setMDB2WhereCondition('thr_top_fk = ? AND thr_subject = ? AND thr_num_posts = 1 ', 
+			$frm->setMDB2WhereCondition('thr_top_fk = %s AND thr_subject = %s AND thr_num_posts = 1 ', 
 										array('integer', 'text'), array($topicData['top_pk'], $formData['subject']));			
 			
 			if (!$a_prevent_redirect)

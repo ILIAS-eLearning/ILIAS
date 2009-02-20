@@ -78,7 +78,7 @@ class ilForumExportGUI
 		$tplEx->setVariable('CSSPATH', $tpl->tplPath);
 		
 		// get forum- and thread-data
-		$this->frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($_GET['thr_top_fk']));
+		$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($_GET['thr_top_fk']));
 		
 		if (is_array($frmData = $this->frm->getOneTopic()))
 		{
@@ -189,7 +189,7 @@ class ilForumExportGUI
 		$tplEx->setVariable('CSSPATH', $tpl->tplPath);
 				
 		// get forum- and thread-data
-		$this->frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($_GET['top_pk']));
+		$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($_GET['top_pk']));
 		
 		if (is_array($frmData = $this->frm->getOneTopic()))
 		{
@@ -292,7 +292,7 @@ class ilForumExportGUI
 			$objCurrentTopic = new ilForumTopic(addslashes($_POST['forum_id'][$j]), $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));
 
 			// get forum- and thread-data
-			$this->frm->setMDB2WhereCondition('top_pk = ? ', array('integer'), array($objCurrentTopic->getForumId()));
+			$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($objCurrentTopic->getForumId()));
 			
 			if (is_array($frmData = $this->frm->getOneTopic()))
 			{				

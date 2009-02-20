@@ -7903,4 +7903,17 @@ DROP TABLE IF EXISTS xml_attribute_idx;
 <?php
 	$ilDB->renameTableColumn("content_object", "prevent_glossary_appendix_active", "no_glo_appendix");
 ?>
-
+<#1673>
+ALTER TABLE `payment_settings` ADD `save_customer_address_enabled` TINYINT( 1 ) NOT NULL DEFAULT '0';
+<#1674>
+RENAME TABLE `addressbook_mailing_lists` TO `addressbook_mlist` ;
+<#1675>
+RENAME TABLE `addressbook_mailing_lists_assignments` TO `addressbook_mlist_ass` ;
+<#1676>
+RENAME TABLE `payment_coupons_objects` TO `payment_coupons_obj` ;
+<#1677>
+RENAME TABLE `payment_coupons_tracking` TO `payment_coupons_track` ;
+<#1678>
+RENAME TABLE `payment_statistic_coupons` TO `payment_statistic_coup` ;
+<#1679>
+RENAME TABLE `payment_topics_user_sorting` TO `payment_topic_usr_sort` ;

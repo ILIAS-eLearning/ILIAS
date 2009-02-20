@@ -85,13 +85,9 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
-			SELECT thr_subject FROM frm_threads WHERE thr_pk = ?',
-			array('integer')
-		);
-		
-		$data = array($a_thread_id);
-		$res = $ilDB->execute($statement, $data);
+		$res = $ilDB->queryf('
+			SELECT thr_subject FROM frm_threads WHERE thr_pk = %s',
+			array('integer'), array($a_thread_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -114,14 +110,10 @@ class ilObjForum extends ilObject
 		if(!$a_thread_id)
 		{
 			// Get topic_id
-			$statement = $ilDB->prepare('
-				SELECT top_pk FROM frm_data WHERE top_frm_fk = ?',
-				array('integer')
-			);
-
-			$data = array($a_frm_id);
+			$res = $ilDB->queryf('
+				SELECT top_pk FROM frm_data WHERE top_frm_fk = %s',
+				array('integer'), array($a_frm_id));
 			
-			$res = $ilDB->execute($statement, $data);
 			
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -129,30 +121,21 @@ class ilObjForum extends ilObject
 			}
 
 			// Get number of posts
-			$statement = $ilDB->prepare('
+			$res = $ilDB->queryf('
 				SELECT COUNT(pos_pk) num_posts FROM frm_posts 
-				WHERE pos_top_fk = ?',
-				array('integer')
-			);
-			
-			$data = array($topic_id);
-			
-			$res = $ilDB->execute($statement, $data);
-			
+				WHERE pos_top_fk = %s',
+				array('integer'), array($topic_id));
+	
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$num_posts = $row->num_posts;
 			}
 
-			$statement = $ilDB->prepare('
+			$res = $ilDB->queryf('
 				SELECT COUNT(post_id) count_read FROM frm_user_read
-				WHERE obj_id = ?
-				AND usr_id = ?',
-				array('integer', 'integer')
-			);
-			
-			$data = array($a_frm_id, $a_usr_id);
-			$res = $ilDB->execute($statement, $data);		
+				WHERE obj_id = %s
+				AND usr_id = %s',
+				array('integer', 'integer'), array($a_frm_id, $a_usr_id));
 			
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -165,33 +148,24 @@ class ilObjForum extends ilObject
 		}
 		else
 		{
-			$statement = $ilDB->prepare('
+			$res = $ilDB->queryf('
 				SELECT COUNT(pos_pk) num_posts FROM frm_posts
-				WHERE pos_thr_fk = ?',
-				array('integer')
-			);
+				WHERE pos_thr_fk = %s',
+				array('integer'), array($a_thread_id));
 			
-			$data = array($a_thread_id);
-			
-			$res = $ilDB->execute($statement, $data);
 			
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$num_posts = $row->num_posts;
 			}
 
-			$statement = $ilDB->prepare('
+			$res = $ilDB->queryf('
 				SELECT COUNT(post_id) count_read FROM frm_user_read 
-				WHERE obj_id = ?
-				AND usr_id = ?
-				AND thread_id = ?',
-				array('integer', 'integer', 'integer')
-			);
-			
-			$data = array($a_frm_id, $a_frm_id, $a_thread_id);
-			
-			$res = $ilDB->execute($statement, $data);
-						
+				WHERE obj_id = %s
+				AND usr_id = %s
+				AND thread_id = %s',
+				array('integer', 'integer', 'integer'), array($a_frm_id, $a_frm_id, $a_thread_id));
+				
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$count_read = $row->count_read;
@@ -211,14 +185,9 @@ class ilObjForum extends ilObject
 		global $ilDB;
 		
 		// Get all post ids
-		$statement = $ilDB->prepare('
-			SELECT * FROM frm_posts WHERE pos_thr_fk = ?',
-			array('integer')
-		);
-		
-		$data = array($a_thread_id);
-		
-		$res = $ilDB->execute($statement, $data);		
+		$res = $ilDB->queryf('
+			SELECT * FROM frm_posts WHERE pos_thr_fk = %s',
+			array('integer'), array($a_thread_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -231,17 +200,12 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM frm_data, frm_threads 
-			WHERE top_frm_fk = ?
+			WHERE top_frm_fk = %s
 			AND top_pk = thr_top_fk',
-			array('integer')
-		);
+			array('integer'), array($this->getId()));
 		
-		$data = array($this->getId());
-		
-		$res = $ilDB->execute($statement, $data);		
-				
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->markThreadRead($a_usr_id,$row->thr_pk);
@@ -256,37 +220,29 @@ class ilObjForum extends ilObject
 		global $ilDB;
 		
 		// CHECK IF ENTRY EXISTS
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM frm_user_read 
-			WHERE usr_id = ?
-			AND obj_id = ?
-			AND thread_id = ?
-			AND post_id = ?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
-		
-		$data = array($a_usr_id, $this->getId(), $a_thread_id, $a_post_id);
-		
-		$res = $ilDB->execute($statement, $data);		
+			WHERE usr_id = %s
+			AND obj_id = %s
+			AND thread_id = %s
+			AND post_id = %s',
+			array('integer', 'integer', 'integer', 'integer'),
+			array($a_usr_id, $this->getId(), $a_thread_id, $a_post_id));
 		
 		if($res->numRows())
 		{
 			return true;
 		}
 
-		$statement = $ilDB->prepareManip('
+		$res = $ilDB->manipulateF('
 			INSERT INTO frm_user_read
-			SET usr_id = ?,
-				obj_id = ?,
-				thread_id = ?,
-				post_id = ?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
+			SET usr_id = %s,
+				obj_id = %s,
+				thread_id = %s,
+				post_id = %s',
+			array('integer', 'integer', 'integer', 'integer'),
+			array($a_usr_id, $this->getId(), $a_thread_id, $a_post_id));
 		
-		$data = array($a_usr_id, $this->getId(), $a_thread_id, $a_post_id);
-		
-		$res = $ilDB->execute($statement, $data);
-				
 		return true;
 	}
 
@@ -294,15 +250,12 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM frm_user_read
-			WHERE usr_id = ?
-			AND post_id = ?',
-			array('integer', 'integer')
-		);
-		
-		$data = array($a_usr_id, $a_post_id);
-		$res = $ilDB->execute($statement, $data);
+			WHERE usr_id = %s
+			AND post_id = %s',
+			array('integer', 'integer'),
+			array($a_usr_id, $a_post_id));
 		
 		return $res->numRows() ? true : false;
 	}
@@ -326,16 +279,11 @@ class ilObjForum extends ilObject
 			$counter = 0;
 
 			// Get threads
-			$statement = $ilDB->prepare('
+			$res = $ilDB->queryf('
 				SELECT DISTINCT(pos_thr_fk) FROM frm_posts,frm_data
 				WHERE top_pk = pos_top_fk 
-				AND top_frm_fk = ?',
-				array('integer')
-			);
-			
-			$data = array($this->getId());
-			
-			$res = $ilDB->execute($statement, $data);			
+				AND top_frm_fk = %s',
+				array('integer'), array($this->getId()));
 			
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -357,18 +305,14 @@ class ilObjForum extends ilObject
 		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
 
 		// CHECK FOR NEW
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT pos_pk FROM frm_posts
-			WHERE pos_thr_fk = ?
-			AND ( pos_date > ? OR pos_update > ?)
-			AND pos_usr_id != ?',
-			array('integer', 'timestamp', 'timestamp', 'integer')
-		);
-		
-		$data = array($a_thread_id, date('Y-m-d H:i:s',$timest), date('Y-m-d H:i:s',$timest), $a_usr_id);
+			WHERE pos_thr_fk = %s
+			AND ( pos_date > %s OR pos_update > %s)
+			AND pos_usr_id != %s',
+			array('integer', 'timestamp', 'timestamp', 'integer'),
+			array($a_thread_id, date('Y-m-d H:i:s',$timest), date('Y-m-d H:i:s',$timest), $a_usr_id));
 				
-		$res = $ilDB->execute($statement, $data);					
-		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			if(!$this->isRead($a_usr_id,$row->pos_pk))
@@ -389,16 +333,14 @@ class ilObjForum extends ilObject
 		}
 		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
 		
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM frm_posts 
-			WHERE pos_pk = ?
-			AND (pos_date > ? OR pos_update > ?)
-			AND pos_usr_id != ?',
-			array('integer', 'timestamp', 'timestamp', 'integer')
-		);
-		$data = array($a_post_id, date('Y-m-d H:i:s',$timest), date('Y-m-d H:i:s',$timest), $a_usr_id);		
+			WHERE pos_pk = %s
+			AND (pos_date > %s OR pos_update > %s)
+			AND pos_usr_id != %s',
+			array('integer', 'timestamp', 'timestamp', 'integer'),
+			array($a_post_id, date('Y-m-d H:i:s',$timest), date('Y-m-d H:i:s',$timest), $a_usr_id));		
 		
-		$res = $ilDB->execute($statement, $data);					
 		return $res->numRows() ? true : false;
 	}
 
@@ -406,47 +348,38 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB;
 	
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM frm_thread_access 
-			WHERE usr_id = ?
-			AND obj_id = ?
-			AND thread_id = ?',
-			array('integer', 'integer', 'integer')
-		);
+			WHERE usr_id = %s
+			AND obj_id = %s
+			AND thread_id = %s',
+			array('integer', 'integer', 'integer'),
+			array($a_usr_id, $this->getId(), $a_thread_id));
 		
-		$data = array($a_usr_id, $this->getId(), $a_thread_id);
-		
-		$res = $ilDB->execute($statement, $data);					
-				
 		if($res->numRows())
 		{
-			$statement = $ilDB->prepareManip('
+			$res = $ilDB->manipulateF('
 				UPDATE frm_thread_access 
-				SET access_last = ?
-				WHERE usr_id = ?
-				AND obj_id = ?
-				AND thread_id = ?',
-				array('timestamp', 'integer', 'integer', 'integer')
-			);
+				SET access_last = %s
+				WHERE usr_id = %s
+				AND obj_id = %s
+				AND thread_id = %s',
+				array('timestamp', 'integer', 'integer', 'integer'),
+				array(time(), $a_usr_id, $this->getId(), $a_thread_id));
 
-			$data = array(time(), $a_usr_id, $this->getId(), $a_thread_id);
-			$res = $ilDB->execute($statement, $data);						
-			
 		}
 		else
 		{
-			$statement = $ilDB->prepareManip('
+			$res = $ilDB->manipulateF('
 				INSERT INTO frm_thread_access 
-				SET access_last = ?,
-					access_old = ?,
-				 	usr_id = ?,
-				 	obj_id = ?,
-				 	thread_id = ?',
-				array('timestamp', 'integer', 'integer', 'integer', 'integer')
-			);
-
-			$data = array(time(), '0', $a_usr_id, $this->getId(), $a_thread_id);
-			$res = $ilDB->execute($statement, $data);				
+				SET access_last = %s,
+					access_old = %s,
+				 	usr_id = %s,
+				 	obj_id = %s,
+				 	thread_id = %s',
+				array('timestamp', 'integer', 'integer', 'integer', 'integer'),
+				array(time(), '0', $a_usr_id, $this->getId(), $a_thread_id));
+			
 		}			
 
 		return true;
@@ -457,16 +390,11 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB, $ilias;
 
-		$statement = $ilDB->prepareManip('
+		$res = $ilDB->manipulateF('
 			UPDATE frm_thread_access 
 			SET access_old = access_last
-			WHERE usr_id = ?',
-			array('integer')
-		);
-		
-		$data = array($a_usr_id);
-		
-		$res = $ilDB->execute($statement, $data);				
+			WHERE usr_id = %s',
+			array('integer'), array($a_usr_id));
 					
 		// Delete old entries
 
@@ -474,13 +402,9 @@ class ilObjForum extends ilObject
 													 $ilias->getSetting('frm_store_new') : 
 													 8);
 
-			$statement = $ilDB->prepareManip('
-			DELETE FROM frm_thread_access WHERE access_last < ?',
-			array('timestamp')
-		);
-
-		$data = array($new_deadline);
-		$res = $ilDB->execute($statement, $data);					
+			$res = $ilDB->manipulateF('
+			DELETE FROM frm_thread_access WHERE access_last < %s',
+			array('timestamp'), array($new_deadline));
 		
 		return true;
 	}
@@ -492,18 +416,15 @@ class ilObjForum extends ilObject
 
 		$data = array($a_usr_id);
 		
-		$statement = $ilDB->prepareManip('
-			DELETE FROM frm_user_read WHERE usr_id = ?',
-			array('integer')
+		$res = $ilDB->manipulateF('
+			DELETE FROM frm_user_read WHERE usr_id = %s',
+			array('integer'), $data
 		);
-		$res = $ilDB->execute($statement, $data);	
 		
-		$statement = $ilDB->prepareManip('
-			DELETE FROM frm_thread_access WHERE usr_id = ?',
-			array('integer')
+		$res = $ilDB->manipulateF('
+			DELETE FROM frm_thread_access WHERE usr_id = %s',
+			array('integer'), $data
 		);
-		$res = $ilDB->execute($statement, $data);			
-		
 		
 		return true;
 	}
@@ -513,14 +434,9 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepareManip('
-			DELETE FROM frm_user_read WHERE post_id = ?',
-			array('integer')
-		);
-		
-		$data = array($a_post_id);
-		
-		$res = $ilDB->execute($statement, $data);	
+		$statement = $ilDB->manipulateF('
+			DELETE FROM frm_user_read WHERE post_id = %s',
+			array('integer'), array($a_post_id));
 		
 		return true;
 	}
@@ -529,15 +445,10 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepareManip('
-			DELETE FROM frm_thread_access WHERE thread_id = ?',
-			array('integer')
-		);
-		
-		$data = array($a_thread_id);
-		
-		$res = $ilDB->execute($statement, $data);	
-
+		$statement = $ilDB->manipulateF('
+			DELETE FROM frm_thread_access WHERE thread_id = %s',
+			array('integer'), array($a_thread_id));
+			
 		return true;
 	}
 	
@@ -553,25 +464,21 @@ class ilObjForum extends ilObject
 		if (parent::update())
 		{
 			
-			$statement = $ilDB->prepareManip('
+			$statement = $ilDB->manipulateF('
 				UPDATE frm_data 
-				SET top_name = ?,
-					top_description = ?,
-					top_update = ?,
-					update_user = ?
-				WHERE top_frm_fk =?',
-				array('text', 'text', 'timestamp', 'integer', 'integer')
-			);
-				 
-			$data = array(	$this->getTitle(),
+				SET top_name = %s,
+					top_description = %s,
+					top_update = %s,
+					update_user = %s
+				WHERE top_frm_fk =%s',
+				array('text', 'text', 'timestamp', 'integer', 'integer'),
+				array(	$this->getTitle(),
 							$this->getDescription(), 
 							date("Y-m-d H:i:s"), 
 							(int)$_SESSION["AccountId"],
 							(int)$this->getId()
-			);
+			));
 			
-			$res = $ilDB->execute($statement, $data);		
-					
 			return true;
 		}
 
@@ -594,24 +501,24 @@ class ilObjForum extends ilObject
 	 	$this->cloneAutoGeneratedRoles($new_obj);
 	 	
 	 	ilForumProperties::getInstance($a_target_id)->copy($new_obj->getId());
-		$this->Forum->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($this->getId()));
+		$this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($this->getId()));
 		
 		$topData = $this->Forum->getOneTopic();
 
-		$statement = $ilDB->prepareManip('
+		$statement = $ilDB->manipulateF('
 			INSERT INTO frm_data 
-			SET top_frm_fk = ?,
-				top_name = ?,				
-				top_description = ?,
-				top_num_posts = ?,
-				top_num_threads = ?,
-				top_last_post = ?,
-				top_mods = ?,
-				top_date = ?,
-				visits = ?,
-				top_update = ?,
-				update_user = ?,
-				top_usr_id = ?',
+			SET top_frm_fk = %s,
+				top_name = %s,				
+				top_description = %s,
+				top_num_posts = %s,
+				top_num_threads = %s,
+				top_last_post = %s,
+				top_mods = %s,
+				top_date = %s,
+				visits = %s,
+				top_update = %s,
+				update_user = %s,
+				top_usr_id = %s',
 				array(	'integer', 
 						'text', 
 						'text', 
@@ -624,10 +531,8 @@ class ilObjForum extends ilObject
 						'timestamp',
 						'integer', 
 						'integer'
-				)
-		);
-		
-		$data = array(	$new_obj->getId(),
+				),
+				array(	$new_obj->getId(),
 						$topData['top_name'],
 						$topData['top_description'],
 						'0',
@@ -638,10 +543,10 @@ class ilObjForum extends ilObject
 						'0',
 						date('Y-m-d H:i:s', time()),
 						'0',
-						$ilUser->getId()
+						$ilUser->getId())
 		);
 		
-		$ilDB->execute($statement, $data);
+		
 		// read options
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -656,14 +561,14 @@ class ilObjForum extends ilObject
 		include_once('Modules/Forum/classes/class.ilFileDataForum.php');
 		
 		$new_frm = $new_obj->Forum;
-		$new_frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($new_obj->getId()));
+		$new_frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($new_obj->getId()));
 				
 		$new_frm->setForumId($new_obj->getId());
 		$new_frm->setForumRefId($new_obj->getRefId());
 		$new_topic = $new_frm->getOneTopic();
 		foreach($options['threads'] as $thread_id)
 		{
-			$this->Forum->setMDB2WhereCondition('thr_pk = ? ', array('integer'), array($thread_id));			
+			$this->Forum->setMDB2WhereCondition('thr_pk = %s ', array('integer'), array($thread_id));			
 			
 			$old_thread = $this->Forum->getOneThread();
 			
@@ -734,7 +639,7 @@ class ilObjForum extends ilObject
 		$tmp_file_obj->delete();
 		unset($tmp_file_obj);
 
-		$this->Forum->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($this->getId()));
+		$this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($this->getId()));
 		
 		$topData = $this->Forum->getOneTopic();	
 		
@@ -744,51 +649,42 @@ class ilObjForum extends ilObject
 			$data = array($thread->getId());
 
 			// delete tree
-			$statement = $ilDB->prepareManip('
-				DELETE FROM frm_posts_tree WHERE thr_fk = ?',
-				array('integer'));
-			$ilDB->execute($statement, $data);
+			$statement = $ilDB->manipulateF('
+				DELETE FROM frm_posts_tree WHERE thr_fk = %s',
+				array('integer'), $data);
 								
 			// delete posts
-			$statement = $ilDB->prepareManip('
-				DELETE FROM frm_posts WHERE pos_thr_fk = ?',
-				array('integer'));
-			$ilDB->execute($statement, $data);
+			$statement = $ilDB->manipulateF('
+				DELETE FROM frm_posts WHERE pos_thr_fk = %s',
+				array('integer'), $data);
 			
 			// delete threads
-			$statement = $ilDB->prepareManip('
-				DELETE FROM frm_threads WHERE thr_pk = ?',
-				array('integer'));
-			$ilDB->execute($statement, $data);
-			
+			$statement = $ilDB->manipulateF('
+				DELETE FROM frm_threads WHERE thr_pk = %s',
+				array('integer'), $data);
+		
 		}
 
 		$data = array($this->getId());
-		
 		// delete forum
-		$statement = $ilDB->prepareManip('
-			DELETE FROM frm_data WHERE top_frm_fk =?',
-			array('integer'));
-		$ilDB->execute($statement, $data);
+		$statement = $ilDB->manipulateF('
+			DELETE FROM frm_data WHERE top_frm_fk = %s',
+			array('integer'), $data);
 
 		// delete settings
-		$statement = $ilDB->prepareManip('
-			DELETE FROM frm_settings WHERE obj_id =?',
-			array('integer'));
-		$ilDB->execute($statement, $data);
+		$statement = $ilDB->manipulateF('
+			DELETE FROM frm_settings WHERE obj_id = %s',
+			array('integer'), $data);
 		
 		// delete read infos
-		$statement = $ilDB->prepareManip('
-			DELETE FROM frm_user_read WHERE obj_id =?',
-			array('integer'));
-		$ilDB->execute($statement, $data);
+		$statement = $ilDB->manipulateF('
+			DELETE FROM frm_user_read WHERE obj_id = %s',
+			array('integer'), $data);
 		
 		// delete thread access entries
-		$statement = $ilDB->prepareManip('
-			DELETE FROM frm_thread_access WHERE obj_id =?',
-			array('integer'));
-		$ilDB->execute($statement, $data);
-		
+		$statement = $ilDB->manipulateF('
+			DELETE FROM frm_thread_access WHERE obj_id = %s',
+			array('integer'), $data);
 		
 		return true;
 	}
@@ -810,16 +706,14 @@ class ilObjForum extends ilObject
 		$roles[] = $role_obj->getId();
 		
 		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
-		$statement = $ilDB->prepare('
+		$statement = $ilDB->queryf('
 			SELECT obj_id FROM object_data 
-			WHERE type = ? 
-			AND title = ?',
-			array('text', 'text')
-		);
+			WHERE type = %s 
+			AND title = %s',
+			array('text', 'text'),
+			array('rolt', 'il_frm_moderator'));
 		
-		$data = array('rolt', 'il_frm_moderator');
-		$sql_res = $ilDB->execute($statement, $data);
-		$res = $sql_res->fetchRow(DB_FETCHMODE_OBJECT);
+		$res = $statement->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
 
@@ -844,13 +738,9 @@ class ilObjForum extends ilObject
 		
 		$mod_title = 'il_frm_moderator_'.$a_ref_id;
 
-		$statement = $ilDB->prepare('
-			SELECT * FROM object_data WHERE title = ?',
-			array('text')
-		);
-
-		$data = array($mod_title);
-		$res = $ilDB->execute($statement, $data);
+		$res = $ilDB->queryf('
+			SELECT * FROM object_data WHERE title = %s',
+			array('text'), array($mod_title));
 		
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
@@ -879,16 +769,12 @@ class ilObjForum extends ilObject
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM frm_thread_access 
-			WHERE thread_id = ?
-			AND usr_id = ?',
-			array('integer', 'integer')
-		);
-
-		$data = array($a_thread_id, $a_usr_id);
-		
-		$res = $ilDB->execute($statement, $data);
+			WHERE thread_id = %s
+			AND usr_id = %s',
+			array('integer', 'integer'),
+			array($a_thread_id, $a_usr_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -913,10 +799,9 @@ class ilObjForum extends ilObject
 	{		
 		global $ilDB;
 		
-		$query = $ilDB->prepare("SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = ? AND thread_id = ?",
-		         	array("integer", "integer"));
+		$result = $ilDB->queryf("SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s",
+		         	array("integer", "integer"), array($user_id, $thread_id));
 		
-		$result = $ilDB->execute($query, array($user_id, $thread_id));		
 		while($record = $ilDB->fetchAssoc($result))
 		{
 			return (bool)$record['cnt'];

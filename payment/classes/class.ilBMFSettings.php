@@ -90,14 +90,13 @@ class ilBMFSettings
 	{
 		$this->fetchSettingsId();
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT bmf FROM payment_settings
-			WHERE settings_id = ?',
-			array('integer')
+			WHERE settings_id = %s',
+			array('integer'),
+			array($this->getSettingsId())
 		);
-	
-		$sql_data = array($this->getSettingsId());
-		$res = $this->db->execute($statement, $sql_data);
+			
 		$result = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 		$data = array();
@@ -134,8 +133,7 @@ class ilBMFSettings
 	 */
 	private function fetchSettingsId()
 	{
-		$statement = $this->db->prepare('SELECT settings_id FROM payment_settings');
-		$result = $this->db->execute($statement);	
+		$result = $this->db->query('SELECT settings_id FROM payment_settings');
 			
 		while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))	
 		{	
@@ -263,16 +261,14 @@ class ilBMFSettings
 	 */
 	public function clearAll()
 	{
-		$statement = $this->db->prepareManip('
+		$statement = $this->db->manipulateF('
 			UPDATE payment_settings
-			SET bmf = ?
-			WHERE settings_id = ?',
-			array('text', 'integer')
+			SET bmf = %s
+			WHERE settings_id = %s',
+			array('text', 'integer'),
+			array('', $this->getSettingsId())
 		);
-		
-		$data = array('', $this->getSettingsId());
-		
-		$this->db->execute($statement, $data);
+
 	}
 	
 	/** 
@@ -300,34 +296,24 @@ class ilBMFSettings
 		
 		if ($this->getSettingsId())
 		{		
-/*			$query = "UPDATE payment_settings "
-					."SET bmf = " . $ilDB->quote(serialize($values)). " "
-					."WHERE settings_id = '" . $this->getSettingsId() . "'";
-			$this->db->query($query);
-*/
-			$statement = $this->db->prepareManip('
+
+			$statement = $this->db->manipulateF('
 				UPDATE payment_settings
-				SET bmf = ?
-				WHERE settings_id = ?',
-				array('text', 'integer')
+				SET bmf = %s
+				WHERE settings_id = %s',
+				array('text', 'integer'),
+ 				array(serialize($values), $this->getSettingsId())				
 			);
-			
-			$data = array(serialize($values), $this->getSettingsId());
-			
-			$this->db->execute($statement, $data);
 		}
 		else
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				INSERT into payment_settings
-				SET bmf = ?',
-				array('text')
+				SET bmf = %s',
+				array('text'),
+				array(serialize($values))				
 			);
-			
-			$data = array(serialize($values));
-			
-			$this->db->execute($statement, $data);
-							
+
 			$this->setSettingsId($this->db->getLastInsertId());
 		}		
 	}	

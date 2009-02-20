@@ -58,8 +58,8 @@ class ilFileDataShop extends ilFileData
 	
 	private function __read()
 	{
-		$statement = $this->db->prepare('SELECT image FROM payment_objects WHERE pobject_id = ?');
-		$result = $this->db->execute($statement, array($this->pobject_id));
+		$result = $this->db->queryf('SELECT image FROM payment_objects WHERE pobject_id = %s',
+			array('integer'),array($this->pobject_id));
 		
 		while($record = $this->db->fetchAssoc($result))
 		{
@@ -135,14 +135,14 @@ class ilFileDataShop extends ilFileData
 	
 	public function assignFileToPaymentObject()
 	{		
-		$statement = $this->db->prepareManip(
+		$statement = $this->db->manipulateF(
 			'UPDATE payment_objects
 			 SET
-			 image = ?
-			 WHERE pobject_id = ?', 
-			array('text', 'integer'));
-		$data = array($this->image_new, $this->pobject_id);
-		$this->db->execute($statement, $data);
+			 image = %s
+			 WHERE pobject_id = %s', 
+			array('text', 'integer'),
+			array($this->image_new, $this->pobject_id));
+
 		
 		$this->image_current = $this->image_new;
 		
@@ -151,14 +151,13 @@ class ilFileDataShop extends ilFileData
 	
 	public function deassignFileFromPaymentObject()
 	{		
-		$statement = $this->db->prepareManip(
+		$statement = $this->db->manipulateF(
 			'UPDATE payment_objects
 			 SET
-			 image = ?
-			 WHERE pobject_id = ?', 
-			array('text', 'integer'));
-		$data = array('', $this->pobject_id);
-		$this->db->execute($statement, $data);
+			 image = %s
+			 WHERE pobject_id = %s', 
+			array('text', 'integer'),
+			array('', $this->pobject_id));
 		
 		if($this->image_current != '') $this->unlinkFile($this->image_current);		
 		$this->image_current = '';

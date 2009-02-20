@@ -98,19 +98,19 @@ class ilForumTopic
 	{			
 		if ($this->forum_id)
 		{	
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				INSERT INTO frm_threads
-				SET thr_top_fk = ?,
-					thr_subject = ?,
-					thr_usr_id = ?,
-					thr_usr_alias = ?,
-					thr_num_posts = ?,
-					thr_last_post = ?,
-					thr_date = ?,					
-					thr_update = ?,
-					import_name = ?,
-					is_sticky = ?,
-					is_closed = ?',
+				SET thr_top_fk = %s,
+					thr_subject = %s,
+					thr_usr_id = %s,
+					thr_usr_alias = %s,
+					thr_num_posts = %s,
+					thr_last_post = %s,
+					thr_date = %s,					
+					thr_update = %s,
+					import_name = %s,
+					is_sticky = %s,
+					is_closed = %s',
 
 				array(	'integer',
 						'text',
@@ -122,10 +122,8 @@ class ilForumTopic
 						'timestamp',
 						'text',
 						'integer',
-						'integer')
-			);
-			
-			$data = array(	$this->forum_id,
+						'integer'),
+				array(	$this->forum_id,
 							$this->subject,
 							$this->user_id,
 							$this->user_alias,
@@ -136,9 +134,7 @@ class ilForumTopic
 							$this->import_name,
 							$this->is_sticky,
 							$this->is_closed
-			);
-			
-			$this->db->execute($statement, $data);
+			));
 			
 			$this->id = $this->db->getLastInsertId();
 			
@@ -158,26 +154,22 @@ class ilForumTopic
 	{
 		if ($this->id)
 		{		
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				UPDATE frm_threads
-				SET thr_top_fk = ?,
-					thr_subject = ?,
-					thr_update = ?,
-					thr_num_posts = ?,
-					thr_last_post = ?
-				WHERE thr_pk = ?',
-				array('integer', 'text','timestamp', 'integer', 'text', 'integer')
-			);
-			
-			$data = array(	$this->forum_id, 
+				SET thr_top_fk = %s,
+					thr_subject = %s,
+					thr_update = %s,
+					thr_num_posts = %s,
+					thr_last_post = %s
+				WHERE thr_pk = %s',
+				array('integer', 'text','timestamp', 'integer', 'text', 'integer'),
+				array(	$this->forum_id, 
 							$this->subject, 
 							$this->changedate, 
 							$this->num_posts, 
 							$this->last_post_string, 
 							$this->id
-			);
-			
-			$this->db->execute($statement, $data);
+			));
 			
 			return true;
 		}
@@ -197,17 +189,14 @@ class ilForumTopic
 	
 		if ($this->id)
 		{
-			$statement = $this->db->prepare('
+			$res = $this->db->queryf('
 				SELECT frm_threads.*, top_frm_fk frm_obj_id
 				FROM frm_threads
 				INNER JOIN frm_data ON top_pk = thr_top_fk
 				WHERE 1
-				AND thr_pk = ?',
-				array('integer')
-			);
-			
-			$data = array($this->id);
-			$res = $this->db->execute($statement, $data);
+				AND thr_pk = %s',
+				array('integer'), array($this->id));
+
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 			if (is_object($row))
@@ -255,17 +244,12 @@ class ilForumTopic
 	*/
 	public function getFirstPostId()
 	{ 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM frm_posts_tree 
 			WHERE 1
-			AND thr_fk = ?
-			AND parent_pos = ?',
-			array('integer', 'integer')
-		);	
-			
-		$data = array($this->id, '1');
-		
-		$res = $this->db->execute($statement, $data);
+			AND thr_fk = %s
+			AND parent_pos = %s',
+			array('integer', 'integer'), array($this->id, '1'));
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
@@ -285,17 +269,11 @@ class ilForumTopic
 		{
 			$_SESSION['frm_visit_frm_threads_'.$this->id] = time();		
 		
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				UPDATE frm_threads
 				SET	visits = visits + 1
-				WHERE thr_pk = ?',
-				array('integer')
-			);
-			
-			$data = array($this->id);
-			
-			$this->db->execute($statement, $data);
-			
+				WHERE thr_pk = %s',
+				array('integer'), array($this->id));
 		}
 		
 		return true;
@@ -310,17 +288,13 @@ class ilForumTopic
 	*/
 	public function getLastThreadAccess($a_user_id)
 	{	
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM frm_thread_access 
 			WHERE 1
-			AND thread_id = ?
-			AND usr_id = ?',
-			array('integer', 'integer')
-		);
-		
-		$data = array($this->id, $a_user_id);
-		
-		$res = $this->db->execute($statement, $data);
+			AND thread_id = %s
+			AND usr_id = %s',
+			array('integer', 'integer'),
+			array($this->id, $a_user_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -343,17 +317,12 @@ class ilForumTopic
 	*/
 	public function countPosts()
 	{
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
 			WHERE 1				  
-			AND pos_thr_fk = ?',
-			array('integer')
-		);
-		
-		$data = array($this->id);
-		
-		$res = $this->db->execute($statement, $data);
+			AND pos_thr_fk = %s',
+			array('integer'), array($this->id));
 		
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			
@@ -371,20 +340,15 @@ class ilForumTopic
 	{
 		global $ilUser;
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt
 			FROM frm_posts
 			WHERE 1				 
-			AND (pos_status = ?
-				 OR (pos_status = ? AND pos_usr_id = ?))
-			AND pos_thr_fk = ?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
-		
-		$data = array('1', '0', $ilUser->getId(), $this->id);
-		
-		$res = $this->db->execute($statement, $data);
-		
+			AND (pos_status = %s
+				 OR (pos_status = %s AND pos_usr_id = %s))
+			AND pos_thr_fk = %s',
+			array('integer', 'integer', 'integer', 'integer'), array('1', '0', $ilUser->getId(), $this->id));
+			
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
@@ -400,18 +364,14 @@ class ilForumTopic
 	public function countReadPosts($a_user_id)
 	{	
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt FROM frm_user_read
 			INNER JOIN frm_posts ON pos_pk = post_id
 			WHERE 1	
-			AND usr_id = ?
-			AND thread_id = ?',
-			array('integer', 'integer')
-		);	
-
-		
-		$data = array($a_user_id, $this->id);
-		$res = $this->db->execute($statement, $data);
+			AND usr_id = %s
+			AND thread_id = %s',
+			array('integer', 'integer'),
+			array($a_user_id, $this->id));
 		
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			
@@ -429,23 +389,18 @@ class ilForumTopic
 	{
 		global $ilUser;
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT COUNT(*) cnt				  
 			FROM frm_user_read
 			INNER JOIN frm_posts ON pos_pk = post_id
 			WHERE 1			  
-			AND usr_id = ?
-			AND thread_id = ?
-			AND (pos_status = ? 
-				OR (pos_status = ? AND pos_usr_id = ?))',
-			array('integer', 'integer', 'integer', 'integer', 'integer')
-		);
-		
-		$data = array($a_user_id, $this->id, '1', '0', $ilUser->getId());
-		
-		$res = $this->db->execute($statement, $data);
-		
-		
+			AND usr_id = %s
+			AND thread_id = %s
+			AND (pos_status = %s 
+				OR (pos_status = %s AND pos_usr_id = %s))',
+			array('integer', 'integer', 'integer', 'integer', 'integer'),
+			array($a_user_id, $this->id, '1', '0', $ilUser->getId()));
+
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
@@ -462,26 +417,22 @@ class ilForumTopic
 	{
 		$timest = $this->getLastThreadAccess($a_user_id);
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT COUNT(pos_pk) cnt
 			FROM frm_posts
-			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = ? 
+			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s 
 			WHERE 1
-			AND pos_thr_fk = ?
-			AND (pos_date > ? OR pos_update > ?) 
-			AND pos_usr_id != ? 
+			AND pos_thr_fk = %s
+			AND (pos_date > %s OR pos_update > %s) 
+			AND pos_usr_id != %s 
 			AND usr_id IS NULL',
-			array('integer', 'integer', 'timestamp','timestamp', 'integer')
-		);
-		
-		$data = array(	$a_user_id, 
+			array('integer', 'integer', 'timestamp','timestamp', 'integer'),
+			array(	$a_user_id, 
 						$this->id, 
 						date('Y-m-d H:i:s', $timest),
 						date('Y-m-d H:i:s', $timest), 
 						$a_user_id 
-		);
-		
-		$res = $this->db->execute($statement, $data);
+		));
 		
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			
@@ -501,15 +452,15 @@ class ilForumTopic
 		
 		$timest = $this->getLastThreadAccess($a_user_id);
 		
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT COUNT(pos_pk) cnt
 			FROM frm_posts
-			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = ?
+			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s
 			WHERE 1
-			AND pos_thr_fk = ?
-			AND (pos_date > ? OR pos_update > ?) 
-			AND pos_usr_id != ?
-			AND (pos_status = ? OR (pos_status = ? AND pos_usr_id = ?))
+			AND pos_thr_fk = %s
+			AND (pos_date > %s OR pos_update > %s) 
+			AND pos_usr_id != %s
+			AND (pos_status = %s OR (pos_status = %s AND pos_usr_id = %s))
 			AND usr_id IS NULL',
 			array(	'integer',
 					'integer',
@@ -518,10 +469,8 @@ class ilForumTopic
 					'integer',
 					'integer',
 					'integer',
-					'integer') 
-		);
-		
-		$data = array(	$a_user_id, 
+					'integer'), 
+			array(	$a_user_id, 
 						$this->id,
 						date('Y-m-d H:i:s', $timest),
 						date('Y-m-d H:i:s', $timest), 
@@ -529,10 +478,8 @@ class ilForumTopic
 						'1',
 						'0', 
 						$ilUser->getId()
-		);
-		
-		$res = $this->db->execute($statement, $data);
-		
+		));
+
 		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 			
 		return $rec['cnt'];
@@ -546,19 +493,16 @@ class ilForumTopic
 	*/
 	public function getFirstPostNode()
 	{		
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT pos_pk
 			FROM frm_posts 
 			INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 			WHERE 1				 
-			AND parent_pos = ?
-			AND thr_fk = ?',
-			array('integer', 'integer')
-		);
-		
-		$data = array('0', $this->id);
-		$res = $this->db->execute($statement, $data);
-		
+			AND parent_pos = %s
+			AND thr_fk = %s',
+			array('integer', 'integer'),
+			array('0', $this->id));
+			
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return new ilForumPost($row->pos_pk);
@@ -575,17 +519,13 @@ class ilForumTopic
 		if ($this->id)
 		{
 			$this->db->setLimit(1);
-			$statement = $this->db->prepare('
+			$res = $this->db->queryf('
 				SELECT pos_pk
 				FROM frm_posts 
 				WHERE 1
-				AND pos_thr_fk = ?				 
+				AND pos_thr_fk = %s				 
 				ORDER BY pos_date DESC',
-				array('integer')
-			);
-
-			$data = array($this->id);
-			$res = $this->db->execute($statement, $data);
+				array('integer'), array($this->id));
 			
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 			
@@ -608,20 +548,16 @@ class ilForumTopic
 		if ($this->id)
 		{
 			$this->db->setLimit(1);
-			$statement = $this->db->prepare('
+			$res = $this->db->queryf('
 				SELECT pos_pk
 				FROM frm_posts 
 				WHERE 1
-				AND pos_thr_fk = ?		
-				AND (pos_status = ? OR 
-					(pos_status = ? AND pos_usr_id = ?))							 
+				AND pos_thr_fk = %s		
+				AND (pos_status = %s OR 
+					(pos_status = %s AND pos_usr_id = %s))							 
 				ORDER BY pos_date DESC',
-				array('integer', 'integer', 'integer', 'integer')
-			);
-			
-			$data = array($this->id, '1', '0', $ilUser->getId());
-			
-			$res = $this->db->execute($statement, $data);
+				array('integer', 'integer', 'integer', 'integer'),
+				array($this->id, '1', '0', $ilUser->getId()));
 			
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 			
@@ -637,16 +573,13 @@ class ilForumTopic
 		
 		if($this->id)
 		{
-			$statement = $this->db->prepare('
+			$res = $this->db->queryf('
 				SELECT pos_pk
 				FROM frm_posts 
 				WHERE 1
-				AND pos_thr_fk = ?',
-				array('integer')
-			);					
-			$data = array($this->id);
-			
-			$res = $this->db->execute($statement, $data);
+				AND pos_thr_fk = %s',
+				array('integer'),
+				array($this->id));
 			
 			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -677,27 +610,25 @@ class ilForumTopic
 		$query = 'SELECT pos_pk FROM frm_posts_tree 
 				  INNER JOIN frm_posts ON pos_fk = pos_pk 
 				  WHERE 1 
-				  AND lft BETWEEN ? AND ? 
-				  AND thr_fk = ?';
+				  AND lft BETWEEN %s AND %s 
+				  AND thr_fk = %s';
 		
 		array_push($data_types, 'integer', 'integer', 'integer');
 		array_push($data, $a_post_node->getLft(), $a_post_node->getRgt(), $a_post_node->getThreadId());
 
 		if ($this->orderField == "frm_posts_tree.date")
 		{
-			$query .= " ORDER BY ? ASC";
+			$query .= " ORDER BY %s ASC";
 			array_push($data_types, 'text');
 			array_push($data, $this->orderField);		
 		}
 		else if ($this->orderField != "")
 		{
-			$query .= " ORDER BY ? DESC";
+			$query .= " ORDER BY %s DESC";
 			array_push($data_types, 'text');
 			array_push($data, $this->orderField);		
 		}
-		$statement = $this->db->prepare($query, $data_types);
-
-		$res = $this->db->execute($statement, $data);
+		$res = $this->db->queryf($query, $data_types, $data);
 		
 		$deactivated = array();
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -764,47 +695,34 @@ class ilForumTopic
 				}
 			}
 
-			$statement = $this->db->prepareManip('
+			$res = $this->db->manipulateF('
 				UPDATE frm_user_read
-				SET obj_id = ?
+				SET obj_id = %s
 				WHERE 1
-				AND thread_id = ?',
-				array('integer', 'integer')
-			);
+				AND thread_id = %s',
+				array('integer', 'integer'),
+				array($new_obj_id, $this->id));
 			
-			$data = array($new_obj_id, $this->id);
-			
-			$res = $ilDB->execute($statement, $data);
-			
-			$statement = $this->db->prepareManip('
+			$res = $this->db->manipulateF('
 				UPDATE frm_thread_access
-				SET obj_id = ?
+				SET obj_id = %s
 				WHERE 1
-				AND thread_id =?',
-				array('integer', 'integer')
-			);
+				AND thread_id =%s',
+				array('integer', 'integer'),  
+				array($new_obj_id, $this->id));
 			
-			$data = array($new_obj_id, $this->id);
-			$res = $ilDB->execute($statement, $data);
-			
-			$statement = $this->db->prepareManip('
+			$res = $this->db->manipulateF('
 				UPDATE frm_posts
-				SET pos_top_fk = ?
+				SET pos_top_fk = %s
 				WHERE 1
-				AND pos_thr_fk = ?',
-				array('integer', 'integer')
-			);
-			
-			$data = array($new_pk, $this->id);
-			$res = $ilDB->execute($statement, $data);
+				AND pos_thr_fk = %s',
+				array('integer', 'integer'), 
+				array($new_pk, $this->id));
 			
 			// update all related news
-			$statement = $ilDB->prepare('
-				SELECT * FROM frm_posts WHERE pos_thr_fk = ?',
-				array('integer')
-			);
-			$data = array($this->id);
-			$posts = $ilDB->execute($statement, $data);
+			$posts = $ilDB->queryf('
+				SELECT * FROM frm_posts WHERE pos_thr_fk = %s',
+				array('integer'), array($this->id));
 			
 			$old_obj_id = ilForum::_lookupObjIdForForumId($old_pk);
 
@@ -845,20 +763,17 @@ class ilForumTopic
 
 		$count = 0;
 
-		$statement = $this->db->prepare('
+		$r = $this->db->queryf('
 			SELECT pos_pk 
 			FROM frm_posts_tree 
 			INNER JOIN frm_posts ON frm_posts.pos_pk = frm_posts_tree.pos_fk 
 			WHERE 1
-			AND frm_posts_tree.parent_pos = ?
-			AND frm_posts_tree.thr_fk = ?
+			AND frm_posts_tree.parent_pos = %s
+			AND frm_posts_tree.thr_fk = %s
 			ORDER BY frm_posts_tree.lft DESC',
-			array('integer', 'integer')
-		);
+			array('integer', 'integer'),
+			array($a_node_id, $this->id));
 		
-		$data = array($a_node_id, $this->id);
-		
-		$r = $this->db->execute($statement, $data);
 		
 		$count = $r->numRows();
 
@@ -901,15 +816,12 @@ class ilForumTopic
 	{
 		if ($this->id && $a_user_id)
 		{					
-			$statement = $this->db->prepare('
+			$result = $this->db->queryf('
 				SELECT COUNT(*) cnt FROM frm_notification 
-				WHERE user_id = ? AND thread_id = ?',
-				array('integer', 'integer')
-			);
-			
-			$data = array($a_user_id, $this->id);
-			
-			$result = $this->db->execute($statement, $data);			
+				WHERE user_id = %s AND thread_id = %s',
+				array('integer', 'integer'),
+				array($a_user_id, $this->id));
+
 			while($record = $this->db->fetchAssoc($result))
 			{
 				return (bool)$record['cnt'];
@@ -934,16 +846,13 @@ class ilForumTopic
 		{
 			if (!$this->isNotificationEnabled($a_user_id))
 			{
-				$statement = $this->db->prepareManip('
+				$statement = $this->db->manipulateF('
 					INSERT INTO frm_notification
-					SET	user_id = ?, 
-						thread_id = ?',
-					array('integer', 'integer')
-				);
-				
-				$data = array($a_user_id, $this->id);
-				$this->db->execute($statement, $data);
-				
+					SET	user_id = %s, 
+						thread_id = %s',
+					array('integer', 'integer'),
+					array($a_user_id, $this->id));
+					
 				return true;
 			}
 			
@@ -963,16 +872,13 @@ class ilForumTopic
 	{
 		if ($this->id && $a_user_id)
 		{			
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				DELETE FROM frm_notification
 				WHERE 1 
-				AND user_id = ?
-				AND thread_id = ?',
-				array('integer', 'integer')
-			);
-			
-			$data = array($a_user_id, $this->id);
-			$this->db->execute($statement, $data);
+				AND user_id = %s
+				AND thread_id = %s',
+				array('integer', 'integer'),
+				array($a_user_id, $this->id));
 					
 			return false;
 		}		
@@ -990,16 +896,13 @@ class ilForumTopic
 	{
 		if ($this->id && !$this->is_sticky)
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				UPDATE frm_threads 
-				SET is_sticky = ?
+				SET is_sticky = %s
 				WHERE 1
-				AND thr_pk = ?',
-				array('integer', 'integer')
-			);
-
-			$data = array('1', $this->id);
-			$this->db->execute($statement, $data);
+				AND thr_pk = %s',
+				array('integer', 'integer'),
+				array('1', $this->id));
 			
 			$this->is_sticky = 1;
 			
@@ -1019,16 +922,13 @@ class ilForumTopic
 	{
 		if ($this->id && $this->is_sticky)
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				UPDATE frm_threads 
-				SET is_sticky = ?
+				SET is_sticky = %s
 				WHERE 1 
-				AND thr_pk = ?',
-				array('integer', 'integer')
-			);
-
-			$data = array('0', $this->id);
-			$this->db->execute($statement, $data);
+				AND thr_pk = %s',
+				array('integer', 'integer'),
+				array('0', $this->id));
 			
 			$this->is_sticky = 0;
 			
@@ -1048,16 +948,13 @@ class ilForumTopic
 	{
 		if ($this->id && !$this->is_closed)
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				UPDATE frm_threads 
-				SET is_closed = ?
+				SET is_closed = %s
 				WHERE 1 
-				AND thr_pk = ?',
-				array('integer', 'integer')
-			);
-
-			$data = array('1', $this->id);
-			$this->db->execute($statement, $data);
+				AND thr_pk = %s',
+				array('integer', 'integer'),
+				array('1', $this->id));
 				
 			$this->is_closed = 1;
 			
@@ -1077,16 +974,14 @@ class ilForumTopic
 	{
 		if ($this->id && $this->is_closed)
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				UPDATE frm_threads 
-				SET is_closed = ?
+				SET is_closed = %s
 				WHERE 1 
-				AND thr_pk = ?',
-				array('integer', 'integer')
-			);
-
-			$data = array('0', $this->id);
-			$this->db->execute($statement, $data);					
+				AND thr_pk = %s',
+				array('integer', 'integer'),
+				array('0', $this->id));
+								
 			$this->is_closed = 0;
 			
 			return true;

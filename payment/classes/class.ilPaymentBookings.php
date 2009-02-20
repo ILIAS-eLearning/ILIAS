@@ -234,75 +234,70 @@ class ilPaymentBookings
 
 	function add()
 	{
-		$statement = $this->db->prepareManip('
-						INSERT INTO payment_statistic
-							(
-								transaction,
-								pobject_id,
-								customer_id,
-								b_vendor_id,
-								b_pay_method,
-								order_date,
-								duration,
-								price,
-								discount,
-								payed,
-								access,
-								voucher,
-								transaction_extern,
-								street,
-								po_box,
-								zipcode,
-								city,
-								country
-							)
-						VALUES 
-							( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
-						array(	
-								'text', 
-								'integer', 
-								'integer', 
-								'integer',
-								'integer',
-								'integer',
-								'text',
-								'text',
-								'text',
-								'integer',
-								'integer',
-								'text',
-								'text',
-								'text',
-								'text',
-								'text',
-								'text',
-								'text',						
-							)
-		);
-		
-		$data = array(
-						$this->getTransaction(),
-						$this->getPobjectId(),
-						$this->getCustomerId(),
-						$this->getVendorId(),
-						$this->getPayMethod(),
-						$this->getOrderDate(),
-						$this->getDuration(),
-						$this->getPrice(),
-						$this->getDiscount(),
-						$this->getPayedStatus(),
-						$this->getAccessStatus(),
-						$this->getVoucher(),
-						$this->getTransactionExtern(),
-						$this->getStreet(),
-						$this->getPoBox(),
-						$this->getZipcode(),
-						$this->getCity(),
-						$this->getCountry()
-					);
-					
-		$this->db->execute($statement, $data);	
-					
+		$statement = $this->db->manipulateF('
+			INSERT INTO payment_statistic
+			(
+				transaction,
+				pobject_id,
+				customer_id,
+				b_vendor_id,
+				b_pay_method,
+				order_date,
+				duration,
+				price,
+				discount,
+				payed,
+				access,
+				voucher,
+				transaction_extern,
+				street,
+				po_box,
+				zipcode,
+				city,
+				country
+			)
+			VALUES 
+				( %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
+			array(	
+					'text', 
+					'integer', 
+					'integer', 
+					'integer',
+					'integer',
+					'integer',
+					'text',
+					'text',
+					'text',
+					'integer',
+					'integer',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text',
+					'text'),
+			array(
+					$this->getTransaction(),
+					$this->getPobjectId(),
+					$this->getCustomerId(),
+					$this->getVendorId(),
+					$this->getPayMethod(),
+					$this->getOrderDate(),
+					$this->getDuration(),
+					$this->getPrice(),
+					$this->getDiscount(),
+					$this->getPayedStatus(),
+					$this->getAccessStatus(),
+					$this->getVoucher(),
+					$this->getTransactionExtern(),
+					$this->getStreet(),
+					$this->getPoBox(),
+					$this->getZipcode(),
+					$this->getCity(),
+					$this->getCountry()
+				));
+
 		return $this->db->getLastInsertId();
 	}
 						 
@@ -310,15 +305,14 @@ class ilPaymentBookings
 	{
 		if($this->getBookingId())
 		{
-			$statement = $this->db->prepareManip('
+			$statement = $this->db->manipulateF('
 				UPDATE payment_statistic 
-				SET payed = ?, 
-					access = ?
-				WHERE booking_id = ?', 
-				array('integer', 'integer', 'integer'));
-			
-			$data = array((int) $this->getPayedStatus(), (int) $this->getAccessStatus(), $this->getBookingId());
-			$this->db->execute($statement, $data);
+				SET payed = %s, 
+					access = %s
+				WHERE booking_id = %s', 
+				array('integer', 'integer', 'integer'),
+				array((int) $this->getPayedStatus(), (int) $this->getAccessStatus(), $this->getBookingId()));
+
 			return true;
 		}
 		return false;
@@ -328,12 +322,11 @@ class ilPaymentBookings
 	{
 		if($this->getBookingId())
 		{
-			$statement = $this->db->prepareManip('
-							DELETE FROM payment_statistic
-							WHERE booking_id = ?', array('integer'));
-			
-			$data = array((int)$this->getBookingId());
-			$this->db->execute($statement, $data);
+			$statement = $this->db->manipulateF('
+				DELETE FROM payment_statistic WHERE booking_id = %s', 
+				array('integer'),
+				array((int)$this->getBookingId())
+			);
 			
 			return true;
 		}
@@ -342,16 +335,14 @@ class ilPaymentBookings
 
 	function getBookingsOfCustomer($a_usr_id)
 	{
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * from payment_statistic ps, payment_objects po
 			WHERE ps.pobject_id = po.pobject_id
-			AND customer_id = ?
+			AND customer_id = %s
 			ORDER BY order_date DESC',
-			array('integer')
+			array('integer'),
+			array($a_usr_id)
 		);
-
-		$data = array($a_usr_id);
-		$res = $this->db->execute($statement, $data);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{ 
@@ -391,16 +382,12 @@ class ilPaymentBookings
 
 	function getBooking($a_booking_id)
 	{
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM payment_statistic ps, payment_objects po
 			WHERE ps.pobject_id = po.pobject_id
-			AND booking_id = ?',
-			array('integer')
-		);
-		
-		$data = array($a_booking_id);
-		
-		$res = $this->db->execute($statement, $data);
+			AND booking_id = %s',
+			array('integer'),
+		 	array($a_booking_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -436,14 +423,11 @@ class ilPaymentBookings
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare(
+		$res = $ilDB->queryf(
 			'SELECT COUNT(booking_id) bid FROM payment_statistic
-			WHERE b_vendor_id = ?',
-			array('integer')
-		);
-		$data = array($a_vendor_id);
-
-		$res = $ilDB->execute($statement, $data);
+			WHERE b_vendor_id = %s',
+			array('integer'),
+			array($a_vendor_id));
 
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -456,15 +440,11 @@ class ilPaymentBookings
 	{
 		global $ilDB;
 		
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT COUNT(booking_id) bid FROM payment_statistic
-			WHERE customer_id = ?',
-			array('integer')
-		);
-
-		$data = array($a_vendor_id);
-		
-		$res = $ilDB->execute($statement, $data);
+			WHERE customer_id = %s',
+			array('integer'),
+			array($a_vendor_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -477,14 +457,11 @@ class ilPaymentBookings
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT COUNT(booking_id) bid FROM payment_statistic
-			WHERE pobject_id = ?',
-			array('integer')
-		);
-		
-		$data = array($a_pobject_id);
-		$res = $ilDB->execute($statement, $data);
+			WHERE pobject_id = %s',
+			array('integer'),
+			array($a_pobject_id));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -499,18 +476,14 @@ class ilPaymentBookings
 
 		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM payment_statistic
-			WHERE pobject_id = ?
-			AND customer_id = ?
-			AND payed = ?
-			AND access = ?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
-		
-		$data = array($a_pobject_id, $usr_id, '1', '1');
-		
-		$res = $ilDB->execute($statement, $data);
+			WHERE pobject_id = %s
+			AND customer_id = %s
+			AND payed = %s
+			AND access = %s',
+			array('integer', 'integer', 'integer', 'integer'),
+			array($a_pobject_id, $usr_id, '1', '1'));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -548,20 +521,14 @@ class ilPaymentBookings
 
 		$usr_id = $a_user_id ? $a_user_id : $ilias->account->getId();
 
-		$statement = $this->db->prepare('
+		$res = $this->db->queryf('
 			SELECT * FROM payment_statistic
-			WHERE pobject_id = ?
-			AND customer_id = ?
-			AND payed = ?
-			AND access =?',
-			array('integer', 'integer', 'integer', 'integer')
-		);
-		
-		$data = array($a_pobject_id, $usr_id, '1', '1');
-		
-		$res = $this->db->execute($statement, $data);
-		
-		
+			WHERE pobject_id = %s
+			AND customer_id = %s
+			AND payed = %s
+			AND access = %s',
+			array('integer', 'integer', 'integer', 'integer'),
+			array($a_pobject_id, $usr_id, '1', '1'));
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -602,13 +569,11 @@ class ilPaymentBookings
 		switch($a_pm)
 		{
 			case 'pm_bill':
-				$statement = $this->db->prepare ('
+				$res = $this->db->queryf ('
 					SELECT COUNT(booking_id) bid FROM payment_statistc
-					WHERE pay_method = ?',
-					array('integer')
-				);
-				$data = array('1');
-				$res = $this->db->execute($statement, $data);
+					WHERE pay_method = %s',
+					array('integer'),
+					array('1'));
 				
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
@@ -617,13 +582,11 @@ class ilPaymentBookings
 				return 0;
 
 			case 'pm_bmf':
-				$statement = $this->db->prepare ('
+				$res = $this->db->queryf ('
 					SELECT COUNT(booking_id) bid FROM payment_statistc
-					WHERE pay_method = ?',
-					array('integer')
-				);
-				$data = array('2');
-				$res = $this->db->execute($statement, $data);
+					WHERE pay_method = %s',
+					array('integer'),
+					array('2'));
 				
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
@@ -632,14 +595,12 @@ class ilPaymentBookings
 				return 0;
 
 			case 'pm_paypal':
-				$statement = $this->db->prepare ('
+				$res = $this->db->queryf ('
 					SELECT COUNT(booking_id) bid FROM payment_statistc
-					WHERE pay_method = ?',
-					array('integer')
-				);
-				$data = array('3');
-				$res = $this->db->execute($statement, $data);
-				
+					WHERE pay_method = %s',
+					array('integer'),
+					array('3'));
+
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					return $row->bid;
@@ -655,86 +616,6 @@ class ilPaymentBookings
 	function __read()
 	{
 
-/*		$query = 'SELECT * FROM payment_statistic as ps, payment_objects as po';
-		if ($_SESSION["pay_statistics"]["customer"] or $_SESSION['pay_statistics']['vendor'])
-		{
-			$query .= ', usr_data as ud';
-		}
-		$query .= " WHERE ps.pobject_id = po.pobject_id ";
-
-		if ($_SESSION["pay_statistics"]["transaction_value"] != "")
-		{
-			if ($_SESSION["pay_statistics"]["transaction_type"] == 0)
-			{
-				$query .= "AND transaction_extern LIKE '" . $_SESSION["pay_statistics"]["transaction_value"] . "%' ";
-			}
-			else if ($_SESSION["pay_statistics"]["transaction_type"] == 1)
-			{
-				$query .= "AND transaction_extern LIKE '%" . $_SESSION["pay_statistics"]["transaction_value"] . "' ";
-			}
-		}
-		if ($_SESSION["pay_statistics"]["customer"] != "")
-		{
-			$query .= "AND ud.login LIKE '%" . $_SESSION["pay_statistics"]["customer"] . "%' " .
-					  "AND ud.usr_id = ps.customer_id ";
-		}
-		if ($_SESSION["pay_statistics"]["from"]["day"] != "" &&
-			$_SESSION["pay_statistics"]["from"]["month"] != "" &&
-			$_SESSION["pay_statistics"]["from"]["year"] != "")
-		{
-			$from = mktime(0, 0, 0, $_SESSION["pay_statistics"]["from"]["month"], 
-						   $_SESSION["pay_statistics"]["from"]["day"], $_SESSION["pay_statistics"]["from"]["year"]);
-			$query .= "AND order_date >= '" . $from . "' ";
-		}
-		if ($_SESSION["pay_statistics"]["til"]["day"] != "" &&
-			$_SESSION["pay_statistics"]["til"]["month"] != "" &&
-			$_SESSION["pay_statistics"]["til"]["year"] != "")
-		{
-			$til = mktime(23, 59, 59, $_SESSION["pay_statistics"]["til"]["month"], 
-						  $_SESSION["pay_statistics"]["til"]["day"], $_SESSION["pay_statistics"]["til"]["year"]);
-			$query .= "AND order_date <= '" . $til . "' ";
-		}
-		if ($_SESSION["pay_statistics"]["payed"] == "0" ||
-			$_SESSION["pay_statistics"]["payed"] == "1")
-		{
-			$query .= "AND payed = '" . $_SESSION["pay_statistics"]["payed"] . "' ";
-		}
-		if ($_SESSION["pay_statistics"]["access"] == "0" ||
-			$_SESSION["pay_statistics"]["access"] == "1")
-		{
-			$query .= "AND access = '" . $_SESSION["pay_statistics"]["access"] . "' ";
-		}
-		if ($_SESSION["pay_statistics"]["pay_method"] == "1" ||
-			$_SESSION["pay_statistics"]["pay_method"] == "2" ||
-			$_SESSION["pay_statistics"]["pay_method"] == "3")
-		{
-			$query .= "AND b_pay_method = '" . $_SESSION["pay_statistics"]["pay_method"] . "' ";
-		}
-		
-		if(!$this->admin_view)
-		{
-			$vendors = $this->__getVendorIds();
-			if (is_array($vendors) &&
-				count($vendors) > 0)
-			{
-				$in = 'ps.b_vendor_id IN (';
-				$in .= implode(',',$vendors);
-				$in .= ')';
-				
-				$query .= "AND ".$in." ";
-			}
-		}
-		else
-		{
-			if($_SESSION['pay_statistics']['vendor'])
-			{
-				$query .= "AND ud.login LIKE '%" . $_SESSION["pay_statistics"]["vendor"] . "%' " .
-					"AND ud.usr_id = ps.b_vendor_id ";
-			}
-		}
-		$query .= "ORDER BY order_date DESC";
-		$res = $this->db->query($query);
-*/
 		$data = array();
 		$data_types = array();
 		
@@ -749,20 +630,20 @@ class ilPaymentBookings
 		{
 			if ($_SESSION['pay_statistics']['transaction_type'] == 0)
 			{
-				$query .= "AND transaction_extern LIKE ? ";
+				$query .= "AND transaction_extern LIKE %s ";
 				array_push($data, $_SESSION['pay_statistics']['transaction_value'].'%');
 				array_push($data_types, 'text');
 			}
 			else if ($_SESSION['pay_statistics']['transaction_type'] == 1)
 			{
-				$query .= "AND transaction_extern LIKE ? ";
+				$query .= "AND transaction_extern LIKE %s ";
 				array_push($data, '%'.$_SESSION['pay_statistics']['transaction_value']);
 				array_push($data_types, 'text');				
 			}
 		}
 		if ($_SESSION['pay_statistics']['customer'] != '')
 		{
-			$query .= "AND ud.login LIKE ?
+			$query .= "AND ud.login LIKE %s
 					  AND ud.usr_id = ps.customer_id ";
 			array_push($data, '%'.$_SESSION['pay_statistics']['customer'].'%'); 
 			array_push($data_types, 'text');			
@@ -773,7 +654,7 @@ class ilPaymentBookings
 		{
 			$from = mktime(0, 0, 0, $_SESSION['pay_statistics']['from']['month'], 
 						   $_SESSION['pay_statistics']['from']['day'], $_SESSION['pay_statistics']['from']['year']);
-			$query .= 'AND order_date >= ? ';
+			$query .= 'AND order_date >= %s ';
 			 array_push($data, $from);
 			 array_push($data_types, 'integer');
 		}
@@ -783,21 +664,21 @@ class ilPaymentBookings
 		{
 			$til = mktime(23, 59, 59, $_SESSION['pay_statistics']['til']['month'], 
 						  $_SESSION['pay_statistics']['til']['day'], $_SESSION['pay_statistics']['til']['year']);
-			$query .= 'AND order_date <= ? '; 
+			$query .= 'AND order_date <= %s '; 
 			array_push($data, $til);
 			array_push($data_types, 'integer');
 		}
 		if ($_SESSION['pay_statistics']['payed'] == '0' ||
 			$_SESSION['pay_statistics']['payed'] == '1')
 		{
-			$query .= 'AND payed = ? ';
+			$query .= 'AND payed = %s ';
 			array_push($data, $_SESSION['pay_statistics']['payed']);
 			array_push($data_types, 'integer');
 		}
 		if ($_SESSION['pay_statistics']['access'] == '0' ||
 			$_SESSION['pay_statistics']['access'] == '1')
 		{
-			$query .= 'AND access = ? ';
+			$query .= 'AND access = %s ';
 			array_push($data, $_SESSION['pay_statistics']['access']);
 			array_push($data_types, 'integer');
 		}
@@ -805,7 +686,7 @@ class ilPaymentBookings
 			$_SESSION['pay_statistics']['pay_method'] == '2' ||
 			$_SESSION['pay_statistics']['pay_method'] == '3')
 		{
-			$query .= 'AND b_pay_method = ? ';
+			$query .= 'AND b_pay_method = %s ';
 			array_push($data, $_SESSION['pay_statistics']['pay_method']);
 			array_push($data_types, 'integer');
 		}
@@ -821,7 +702,7 @@ class ilPaymentBookings
 				$in .= implode(',',$vendors);
 				$in .= ')';
 				
-				$query .= ' AND ? ';
+				$query .= ' AND %s ';
 				array_push($data, $in);
 				array_push($data_types, 'integer');
 			}
@@ -830,7 +711,7 @@ class ilPaymentBookings
 		{
 			if($_SESSION['pay_statistics']['vendor'])
 			{
-				$query .= 'AND ud.login LIKE ?
+				$query .= 'AND ud.login LIKE %s
 							AND ud.usr_id = ps.b_vendor_id ';
 				
 				array_push($data, '%'.$_SESSION['pay_statistics']['vendor'].'%');
@@ -844,13 +725,12 @@ class ilPaymentBookings
 		
 		if($cnt_data == 0 || $cnt_data_types == 0)
 		{
-			$statement = $this->db->prepare($query);
-			$res = $this->db->execute($statement);
+			$res = $this->db->query($query);
+
 		}
 		else
 		{
-			$statement= $this->db->prepare($query, $data_types);
-			$res = $this->db->execute($statement, $data);
+			$res= $this->db->queryf($query, $data_types, $data);
 		} 
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

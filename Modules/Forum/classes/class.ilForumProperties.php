@@ -94,14 +94,12 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$statement = $this->db->prepare('
+			$res = $this->db->queryf('
 				SELECT * FROM frm_settings
 				WHERE 1
-				AND obj_id = ?',
-			array('integer'));
-			$data = array($this->obj_id);
+				AND obj_id = %s',
+				array('integer'), array($this->obj_id));
 			
-			$res = $this->db->execute($statement, $data);
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 			
 			if (is_object($row))
@@ -124,16 +122,14 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$statement = $this->db->prepareManip('INSERT INTO frm_settings 
-				SET obj_id = ?, 
-					default_view = ?, 
-					anonymized = ?, 
-					statistics_enabled = ?,
-					post_activation = ?',
-			array('integer', 'integer', 'integer', 'integer', 'integer'));
-					
-			$data = array($this->obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled);
-			$this->db->execute($statement, $data);
+			$statement = $this->db->manipulateF('INSERT INTO frm_settings 
+				SET obj_id = %s, 
+					default_view = %s, 
+					anonymized = %s, 
+					statistics_enabled = %s,
+					post_activation = %s',
+			array('integer', 'integer', 'integer', 'integer', 'integer'),
+			array($this->obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled));
 			
 			return true;
 		}
@@ -145,16 +141,14 @@ class ilForumProperties
 	{
 		if ($this->obj_id)
 		{
-			$statement = $this->db->prepareManip('UPDATE frm_settings 
-				SET default_view = ?, 
-					anonymized = ?, 
-					statistics_enabled = ?, 
-					post_activation  = ? 
-				WHERE obj_id = ?', 
-				array ('integer', 'integer', 'integer', 'integer', 'integer'));
-					
-			$data = array($this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->obj_id);
-			$this->db->execute($statement, $data);
+			$statement = $this->db->manipulateF('UPDATE frm_settings 
+				SET default_view = %s, 
+					anonymized = %s, 
+					statistics_enabled = %s, 
+					post_activation  = %s 
+				WHERE obj_id = %s', 
+				array ('integer', 'integer', 'integer', 'integer', 'integer'),
+				array($this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled, $this->obj_id));
 			
 			return true;
 		}		
@@ -165,18 +159,15 @@ class ilForumProperties
 	{
 		if ($a_new_obj_id)
 		{		
-			$statement = $this->db->prepareManip('INSERT INTO frm_settings
-				SET obj_id = ?,
-					default_view = ?,
-					anonymized = ?,
-					statistics_enabled = ?,
-					post_activation = ?',
-				array ('integer', 'integer', 'integer', 'integer', 'integer'));
-
-			$data = array($a_new_obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled);
+			$statement = $this->db->manipulateF('INSERT INTO frm_settings
+				SET obj_id = %s,
+					default_view = %s,
+					anonymized = %s,
+					statistics_enabled = %s,
+					post_activation = %s',
+				array ('integer', 'integer', 'integer', 'integer', 'integer'),
+				array($a_new_obj_id, $this->default_view, $this->anonymized, $this->statistics_enabled, $this->post_activation_enabled));
 			
-
-			$this->db->execute($statement, $data);
 			return true;
 		}
 		
@@ -211,10 +202,9 @@ class ilForumProperties
 	{
 		global $ilDB;
 		
-		$query = $ilDB->prepare("SELECT anonymized FROM frm_settings WHERE obj_id = ?",
-		     	 	array('integer'));
-		
-		$result = $ilDB->execute($query, array($a_obj_id));			
+		$result = $ilDB->queryf("SELECT anonymized FROM frm_settings WHERE obj_id = %s",
+		     	 	array('integer'),array($a_obj_id));
+
 		while($record = $ilDB->fetchAssoc($result))
 		{
 			return $record['anonymized'];

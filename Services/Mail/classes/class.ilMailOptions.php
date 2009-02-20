@@ -95,17 +95,13 @@ class ilMailOptions
 			$incomingMail = IL_MAIL_BOTH;
 		}
 
-		$statement = $this->ilias->db->prepareManip('
+		$statement = $ilDB->manipulateF('
 			INSERT INTO '.$this->table_mail_options.'
-			VALUES(?, ?, ?, ?, ?)', 
-			array('integer', 'integer', 'text', 'integer', 'integer')
-		);
+			VALUES(%s, %s, %s, %s, %s)', 
+			array('integer', 'integer', 'text', 'integer', 'integer'),
+			array($this->user_id, DEFAULT_LINEBREAK,'', $incomingMail, '0'));
 		
-		$data = array($this->user_id, DEFAULT_LINEBREAK,'', $incomingMail, '0');
-		
-		$res = $this->ilias->db->execute($statement, $data);
-
-        return true;
+		return true;
     }
 
 	/**
@@ -119,15 +115,10 @@ class ilMailOptions
 	{
 		global $ilDB;
 
-		$statement = $this->ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM '.$this->table_mail_options.'
-			WHERE user_id = ?',
-			array('integer')
-		);
-		
-		$data = array($this->user_id);
-		
-		$res = $this->ilias->db->execute($statement, $data);
+			WHERE user_id = %s',
+			array('integer'), array($this->user_id));
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
@@ -160,26 +151,24 @@ class ilMailOptions
 		$data_types = array();
 				
 		$query = 'UPDATE '.$this->table_mail_options.' 
-				SET signature = ?,
-				linebreak = ?, ';
+				SET signature = %s,
+				linebreak = %s, ';
 	
 		array_push($data_types, 'text', 'integer');
 		array_push($data, $a_signature, $a_linebreak);
 		
 		if ($ilias->getSetting('mail_notification'))
 		{		
-			$query .= 'cronjob_notification = ?, ';
+			$query .= 'cronjob_notification = %s, ';
 			array_push($data_types, 'integer');
 			array_push($data, $a_cronjob_notification);			
 		}
 
-		$query .='incoming_type = ? WHERE 1 AND user_id =  ?';			
+		$query .='incoming_type = %s WHERE 1 AND user_id =  %s';			
 		array_push($data, $a_incoming_type, $this->user_id);
 		array_push($data_types, 'integer', 'integer');
 		
-		$statement = $this->ilias->db->prepareManip($query, $data_types);
-		$res = $this->ilias->db->execute($statement, $data);
-		
+		$statement = $ilDB->manipulateF($query, $data_types, $data);
 		
 		$this->cronjob_notification = $a_cronjob_notification;
 		$this->signature = $a_signature;

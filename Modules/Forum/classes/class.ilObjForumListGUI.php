@@ -89,7 +89,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$this->frm_obj =& ilObjectFactory::getInstanceByRefId($this->ref_id);
 		$this->frm =& new ilForum();
 		$this->frm->setForumRefId($a_ref_id);
-		$this->frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($a_obj_id));
+		$this->frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($a_obj_id));
 		
 	}
 
@@ -124,7 +124,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 		$frm =& $forumObj->Forum;		
 		$frm->setForumId($forumObj->getId());
 		$frm->setForumRefId($forumObj->getRefId());
-		$frm->setMDB2WhereCondition('top_frm_fk = ? ', array('integer'), array($frm->getForumId()));
+		$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 		
 		// Forum Data
 		$frmData = $frm->getOneTopic();	

@@ -48,16 +48,13 @@ class ilChatInvitations
 			return 0;
 		}
 
-		$statement = $ilias->db->prepare('
+		$res = $ilDB->queryf('
 			SELECT COUNT(*) invitations FROM chat_invitations
-			WHERE guest_id = ?
-			AND guest_informed = ?
-			AND invitation_time > ?',
-			array('integer', 'integer', 'integer')
-		);
-		
-		$data = array($a_user_id, '0', time() - 2 * 60 * 60);
-		$res = $ilias->db->execute($statement, $data);
+			WHERE guest_id = %s
+			AND guest_informed = %s
+			AND invitation_time > %s',
+			array('integer', 'integer', 'integer'),
+			array($a_user_id, '0', time() - 2 * 60 * 60));
 		
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
@@ -73,16 +70,13 @@ class ilChatInvitations
 			return array();
 		}
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT * FROM chat_invitations
-			WHERE guest_id = ?
-			AND guest_informed = ?
-			AND invitation_time > ?',
-			array('integer', 'integer', 'integer')
-		);
-
-		$data = array($a_user_id, '0', time() - 2 * 60 * 60);
-		$res = $ilDB->execute($statement, $data);
+			WHERE guest_id = %s
+			AND guest_informed = %s
+			AND invitation_time > %s',
+			array('integer', 'integer', 'integer'),
+			array($a_user_id, '0', time() - 2 * 60 * 60));
 		
 		$rows = array();
 		
