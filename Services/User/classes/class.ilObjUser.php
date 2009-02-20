@@ -423,9 +423,9 @@ class ilObjUser extends ilObject
 			"phone_home" => array("text", $this->phone_home),
 			"phone_mobile" => array("text", $this->phone_mobile),
 			"fax" => array("text", $this->fax),
-			"last_login" => array("timestamp", "0000-00-00 00:00:00"),
-			"last_update" => array("", "", $ilDB->now()),
-			"create_date" => array("", "", $ilDB->now()),
+			"last_login" => array("timestamp", "0000-00-01 00:00:00"),
+			"last_update" => array("timestamp", ilUtil::now()),
+			"create_date" => array("timestamp", ilUtil::now()),
 			"referral_comment" => array("text", $this->referral_comment),
 			"matriculation" => array("text", $this->matriculation),
 			"client_ip" => array("text", $this->client_ip),
@@ -527,7 +527,7 @@ class ilObjUser extends ilObject
 			"last_password_change" => array("integer", $this->last_password_change_ts),
 			"im_jabber" => array("text", $this->im_jabber),
 			"im_voip" => array("text", $this->im_voip),
-			"last_update" => array("", "", $ilDB->now())
+			"last_update" => array("timestamp", ilUtil::now())
 			);
 			
         if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == "0000-00-00 00:00:00"))
