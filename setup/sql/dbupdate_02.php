@@ -7917,3 +7917,13 @@ RENAME TABLE `payment_coupons_tracking` TO `payment_coupons_track` ;
 RENAME TABLE `payment_statistic_coupons` TO `payment_statistic_coup` ;
 <#1679>
 RENAME TABLE `payment_topics_user_sorting` TO `payment_topic_usr_sort` ;
+
+<#1680>
+<?php
+	$set = $ilDB->query("SELECT DISTINCT table_name FROM abstraction_progress WHERE step = ".
+		$ilDB->quote(80, "integer"));
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$ilMySQLAbstraction->fixIndexNames($rec["table_name"]);
+	}
+?>

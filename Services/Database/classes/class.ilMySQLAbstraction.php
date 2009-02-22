@@ -443,18 +443,60 @@ class ilMySQLAbstraction
 	{
 		if (is_array($a_indices))
 		{
+			$all_valid = true;
+
+			foreach ($a_indices as $index)
+			{
+				if (strlen($index["name"]) > 3)
+				{
+					$all_valid = false;
+				}
+			}
+			
+			$cnt = 1;
 			foreach ($a_indices as $index)
 			{
 				if (is_array($index["fields"]))
 				{
+					if (!$all_valid)
+					{
+						$index["name"] = "i".$cnt;
+					}
 					$fields = array();
 					foreach ($index["fields"] as $f => $pos)
 					{
 						$fields[] = strtolower($f);
 					}
 					$this->il_db->addIndex($a_table, $fields, strtolower($index["name"]));
+					$cnt++;
 				}
 			}
+		}
+	}
+	
+	/**
+	* This is only used on tables that have already been abstracted
+	* but missed the "full treatment".
+	*/
+	function fixIndexNames($a_table)
+	{
+		$all_valid = true;
+		$indices = $this->analyzer->getIndicesInformation($a_table);
+		foreach ($indices as $index)
+		{
+			if (strlen($index["name"]) > 3)
+			{
+				$all_valid = false;
+			}
+		}
+		
+		if (!$all_valid)
+		{
+			foreach($indices as $index)
+			{
+				$this->il_db->dropIndex($a_table, $index["name"]);
+			}
+			$this->addIndices($a_table, $indices);
 		}
 	}
 	
