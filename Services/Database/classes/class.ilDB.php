@@ -741,9 +741,16 @@ if ($this->getDBType() == "mysql")
 	* @param	array		fields for index
 	* @param	string		index name
 	*/
-	function addIndex($a_table, $a_fields, $a_name = "indx")
+	function addIndex($a_table, $a_fields, $a_name = "in")
 	{
 		$manager = $this->db->loadModule('Manager');
+		
+		// check index name
+		if (!$this->checkIndexName($a_name))
+		{
+			$this->raisePearError("ilDB Error: addIndex(".$a_table.",".$a_name.")<br />".
+				$this->error_str);
+		}
 		
 		$fields = array();
 		foreach ($a_fields as $f)
@@ -753,7 +760,7 @@ if ($this->getDBType() == "mysql")
 		$definition = array (
 			'fields' => $fields
 		);
-		$r = $manager->createIndex($a_table, $a_name, $definition);
+		$r = $manager->createIndex($a_table, $this->constraintName($a_table, $a_name), $definition);
 
 		return $this->handleError($r, "addIndex(".$a_table.")");
 	}
@@ -765,11 +772,11 @@ if ($this->getDBType() == "mysql")
 	* @param	string		table name
 	* @param	string		index name
 	*/
-	function dropIndex($a_table, $a_name = "indx")
+	function dropIndex($a_table, $a_name = "in")
 	{
 		$manager = $this->db->loadModule('Manager');
 		
-		$r = $manager->dropIndex($a_table, $a_name);
+		$r = $manager->dropIndex($a_table, $this->constraintName($a_table, $a_name));
 
 		return $this->handleError($r, "dropIndex(".$a_table.")");
 	}
@@ -809,6 +816,24 @@ if ($this->getDBType() == "mysql")
 		if (!preg_match ("/^[a-z]+[_a-z0-9]*$/", $a_name))
 		{
 			$this->error_str = "Table name must only contain _a-z0-9 and must start with a-z.";
+			return false;
+		}
+		
+		if ($this->isReservedWord($a_name))
+		{
+			$this->error_str = "Invalid table name '".$a_name."' (Reserved Word).";
+			return false;
+		}
+
+		if (strtolower(substr($a_name, 0, 4)) == "sys_")
+		{
+			$this->error_str = "Invalid table name '".$a_name."'. Name must not start with 'sys_'.";
+			return false;
+		}
+
+		if (strlen($a_name) > 22)
+		{
+			$this->error_str = "Invalid column name '".$a_name."'. Maximum column identifer lenght is 22 bytes.";
 			return false;
 		}
 		
@@ -938,6 +963,52 @@ if ($this->getDBType() == "mysql")
 			return false;
 		}
 		
+		if ($this->isReservedWord($a_name))
+		{
+			$this->error_str = "Invalid column name '".$a_name."' (Reserved Word).";
+			return false;
+		}
+		
+		if (strtolower(substr($a_name, 0, 4)) == "sys_")
+		{
+			$this->error_str = "Invalid column name '".$a_name."'. Name must not start with 'sys_'.";
+			return false;
+		}
+
+		if (strlen($a_name) > 30)
+		{
+			$this->error_str = "Invalid column name '".$a_name."'. Maximum column identifer lenght is 30 bytes.";
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	* Check whether an index name is valid
+	*
+	* @param	string		$a_name
+	*/
+	function checkIndexName($a_name)
+	{
+		if (!preg_match ("/^[a-z]+[_a-z0-9]*$/", $a_name))
+		{
+			$this->error_str = "Invalid column name '".$a_name."'. Column name must only contain _a-z0-9 and must start with a-z.";
+			return false;
+		}
+		
+		if ($this->isReservedWord($a_name))
+		{
+			$this->error_str = "Invalid column name '".$a_name."' (Reserved Word).";
+			return false;
+		}
+		
+		if (strlen($a_name) > 3)
+		{
+			$this->error_str = "Invalid index name '".$a_name."'. Maximum index identifer lenght is 3 bytes.";
+			return false;
+		}
+
 		return true;
 	}
 
