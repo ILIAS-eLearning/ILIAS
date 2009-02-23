@@ -75,7 +75,7 @@ class ilLDAPRoleGroupMappingSettings
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM ldap_role_group_mapping ".
+		$query = "DELETE FROM ldap_rg_mapping ".
 			"WHERE role = ".$ilDB->quote($a_role_id,'integer');
 		$res = $ilDB->manipulate($query);
 		
@@ -86,7 +86,7 @@ class ilLDAPRoleGroupMappingSettings
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM ldap_role_group_mapping ".
+		$query = "DELETE FROM ldap_rg_mapping ".
 			"WHERE server_id = ".$ilDB->quote($a_server_id,'integer');
 		$res = $ilDB->manipulate($query);
 
@@ -97,7 +97,7 @@ class ilLDAPRoleGroupMappingSettings
 	{
 		global $ilDB,$rbacreview;
 		
-		$query = "SELECT rgm.* FROM ldap_role_group_mapping rgm JOIN ldap_server_settings lss ".
+		$query = "SELECT rgm.* FROM ldap_rg_mapping rgm JOIN ldap_server_settings lss ".
 			"ON rgm.server_id = lss.server_id ".
 			"WHERE lss.active = 1 ".
 			"AND lss.role_sync_active = 1 ";
@@ -211,8 +211,8 @@ class ilLDAPRoleGroupMappingSettings
 	 	{
 	 		if(!$mapping_id)
 	 		{
-			 	$next_id = $ilDB->nextId('ldap_role_group_mapping');
-			 	$query = "INSERT INTO ldap_role_group_mapping (mapping_id,server_id,url,dn,member_attribute,member_isdn,role,mapping_info,mapping_info_type) ".
+			 	$next_id = $ilDB->nextId('ldap_rg_mapping');
+			 	$query = "INSERT INTO ldap_rg_mapping (mapping_id,server_id,url,dn,member_attribute,member_isdn,role,mapping_info,mapping_info_type) ".
 			 		"VALUES ( ".
 			 		$ilDB->quote($next_id,'integer').", ".
 		 			$this->db->quote($this->getServerId(),'integer').", ".
@@ -228,7 +228,7 @@ class ilLDAPRoleGroupMappingSettings
 	 		}
 	 		else
 	 		{
-			 	$query = "UPDATE ldap_role_group_mapping ".
+			 	$query = "UPDATE ldap_rg_mapping ".
 		 			"SET server_id = ".$this->db->quote($this->getServerId(),'integer').", ".
 		 			"url = ".$this->db->quote($data['url'],'text').", ".
 	 				"dn =".$this->db->quote($data['dn'],'text').", ".
@@ -257,7 +257,7 @@ class ilLDAPRoleGroupMappingSettings
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "DELETE FROM ldap_role_group_mapping ".
+	 	$query = "DELETE FROM ldap_rg_mapping ".
 	 		"WHERE server_id = ".$this->db->quote($this->getServerId(),'integer')." ".
 	 		"AND mapping_id = ".$this->db->quote($a_mapping_id ,'integer');
 		$res = $ilDB->manipulate($query);
@@ -291,7 +291,7 @@ class ilLDAPRoleGroupMappingSettings
 		global $ilObjDataCache,$rbacreview,$tree;
 		
 		$this->mappings = array();
-	 	$query = "SELECT * FROM ldap_role_group_mapping LEFT JOIN object_data ".
+	 	$query = "SELECT * FROM ldap_rg_mapping LEFT JOIN object_data ".
 	 		"ON role = obj_id ".
 	 		"WHERE server_id =".$this->db->quote($this->getServerId(),'integer').' '.
 	 		"ORDER BY title,dn";
