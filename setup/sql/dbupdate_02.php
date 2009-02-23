@@ -7986,5 +7986,9 @@ ALTER TABLE `crs_items` CHANGE `timing_end` `timing_end` INT( 11 ) NOT NULL DEFA
 	$ilMySQLAbstraction->performAbstraction('crs_items');
 ?>
 
+<#1693>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_lm_history');
+?>
   
 
