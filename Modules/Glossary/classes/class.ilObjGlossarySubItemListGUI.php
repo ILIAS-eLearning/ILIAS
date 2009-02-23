@@ -44,7 +44,7 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 		global $lng;
 		
 		$lng->loadLanguageModule('content');
-		foreach($this->getSubItemIds() as $sub_item)
+		foreach($this->getSubItemIds(true) as $sub_item)
 		{
 			if(is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(),$sub_item)))
 			{
@@ -63,6 +63,9 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
 			$this->tpl->setVariable('TITLE',ilGlossaryTerm::_lookGlossaryTerm($sub_item));			
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->showDetailsLink();
+		
 		return $this->tpl->get();	 
 	}
 }
