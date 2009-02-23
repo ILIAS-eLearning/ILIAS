@@ -176,6 +176,13 @@ class ilMySQLAbstraction
 			$this->storeStep($a_table_name, 100);
 		}
 		
+		// replace empty "0000-00-00..." dates with null
+		$this->replaceEmptyDatesWithNull($a_table_name);
+		if (!$this->getTestMode())
+		{
+			$this->storeStep($a_table_name, 110);
+		}
+		
 		$nr_rec2 = $this->countRecords($a_table_name);
 
 		if (!$this->getTestMode())
@@ -219,7 +226,7 @@ class ilMySQLAbstraction
 	function replaceEmptyStringsWithNull($a_table)
 	{
 		global $ilDB;
-		
+				
 		$fields = $this->analyzer->getFieldInformation($a_table);
 		$upfields = array();
 		foreach ($fields as $field => $def)
@@ -235,6 +242,49 @@ class ilMySQLAbstraction
 			$ilDB->query("UPDATE `".$a_table."` SET `".$uf."` = null WHERE `".$uf."` = ''");
 		}
 	}
+	
+	/**
+	* Replace empty dates with null
+	*/
+	function replaceEmptyDatesWithNull($a_table)
+	{
+		global $ilDB;
+		
+		if (!$this->il_db->tableExists($a_table))
+		{
+			return;
+		}
+
+		$fields = $this->analyzer->getFieldInformation($a_table);
+		$upfields = array();
+		foreach ($fields as $field => $def)
+		{
+			if ($def["type"] == "timestamp")
+			{
+				$upfields[] = $field;
+			}
+		}
+		foreach ($upfields as $uf)
+		{
+			$ilDB->query("UPDATE `".$a_table."` SET `".$uf."` = null WHERE `".$uf."` = '0000-00-00 00:00:00'");
+		}
+		
+		$upfields = array();
+		reset($fields);
+		foreach ($fields as $field => $def)
+		{
+			if ($def["type"] == "date")
+			{
+				$upfields[] = $field;
+			}
+		}
+		foreach ($upfields as $uf)
+		{
+			$ilDB->query("UPDATE `".$a_table."` SET `".$uf."` = null WHERE `".$uf."` = '0000-00-00'");
+		}
+
+	}
+
 	
 	/**
 	* Lower case table and field names
@@ -367,9 +417,9 @@ class ilMySQLAbstraction
 				unset($def["length"]);
 			}
 			
-			// set notnull to false for text/timestamp fields
+			// set notnull to false for text/timestamp/date fields
 			if ($a_set_text_ts_fields_notnull_false && ($def["type"] == "text" ||
-				$def["type"] == "timestamp") &&
+				$def["type"] == "timestamp" || $def["type"] == "date") &&
 				(!is_array($pk) || !isset($field,$pk["fields"][$field])))
 			{
 				$def["notnull"] = false;
@@ -386,7 +436,14 @@ class ilMySQLAbstraction
 			{
 				$def["notnull"] = false;
 			}
-
+			
+			// remove "0000-00-00..." default values
+			if (($def["type"] == "timestamp" && $def["default"] == "0000-00-00 00:00:00") ||
+				($def["type"] == "date" && $def["default"] == "0000-00-00"))
+			{
+				unset($def["default"]);
+			}
+			
 			$a = array();
 			foreach ($def as $k => $v)
 			{
@@ -548,6 +605,44 @@ class ilMySQLAbstraction
 			}
 		}
 	}
+	
+	/**
+	* This is only used on tables that have already been abstracted
+	* but missed the "full treatment".
+	*/
+	function fixDatetimeValues($a_table)
+	{
+		if (!$this->il_db->tableExists($a_table))
+		{
+			return;
+		}
+		$all_valid = true;
+		$fields = $this->analyzer->getFieldInformation($a_table);
+		foreach ($fields as $name => $def)
+		{
+			if ($def["type"] == "timestamp" &&
+				($def["notnull"] == true || $def["default"] == "0000-00-00 00:00:00"))
+			{
+				$nd = array("type" => "timestamp", "notnull" => false);
+				if ($def["default"] == "0000-00-00 00:00:00")
+				{
+					$nd["default"] = null;
+				}
+				$this->il_db->modifyTableColumn($a_table, $name, $nd);
+			}
+			if ($def["type"] == "date" &&
+				($def["notnull"] == true || $def["default"] == "0000-00-00"))
+			{
+				$nd = array("type" => "date", "notnull" => false);
+				if ($def["default"] == "0000-00-00")
+				{
+					$nd["default"] = null;
+				}
+				$this->il_db->modifyTableColumn($a_table, $name, $nd);
+			}
+		}
+	}
+
 
 }
 ?>

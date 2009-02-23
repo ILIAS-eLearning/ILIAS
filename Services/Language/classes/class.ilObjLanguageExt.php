@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -282,15 +282,15 @@ class ilObjLanguageExt extends ilObjLanguage
 		}
 		if ($a_pattern)
 		{
-			$q .= " AND ".$ilDB->like("value", "blob", "%".$a_pattern."%");
+			$q .= " AND ".$ilDB->like("value", "text", "%".$a_pattern."%");
 		}
 		if ($a_state == "changed")
 		{
-			$q .= " AND local_change <> ".$ilDB->quote("0000-00-00 00:00:00", "timestamp")." ";
+			$q .= " AND NOT local_change IS NULL ";
 		}
 		if ($a_state == "unchanged")
 		{
-			$q .= " AND local_change = ".$ilDB->quote("0000-00-00 00:00:00", "timestamp")." ";
+			$q .= " AND local_change IS NULL ";
 		}
 		$q .= " ORDER BY module, identifier";
 
@@ -337,7 +337,7 @@ class ilObjLanguageExt extends ilObjLanguage
 				$topic = $keys[1];
 				$save_array[$module][$topic] = $value;
 				$local_change = $global_values[$key] == $value ?
-								"0000-00-00 00:00:00" : $save_date;
+								null : $save_date;
 			
 				ilObjLanguage::replaceLangEntry($module, $topic,
 					$a_lang_key, $value, $local_change);

@@ -89,8 +89,8 @@ class ilObjUser extends ilObject
 	var $hobby;
 	var $matriculation;
 	var $referral_comment;
-	var $approve_date = "0000-00-00 00:00:00";
-	var $agree_date = "0000-00-00 00:00:00";
+	var $approve_date = null;
+	var $agree_date = null;
 	var $active;
 	//var $ilinc_id; // unique Id for netucate ilinc service
 	var $client_ip; // client ip to check before login
@@ -412,7 +412,7 @@ class ilObjUser extends ilObject
 			"title" => array("text", $this->utitle),
 			"gender" => array("text", $this->gender),
 			"email" => array("text", $this->email),
-			"hobby" => array("clob", (string) $this->hobby),
+			"hobby" => array("text", (string) $this->hobby),
 			"institution" => array("text", $this->institution),
 			"department" => array("text", $this->department),
 			"street" => array("text", $this->street),
@@ -423,14 +423,14 @@ class ilObjUser extends ilObject
 			"phone_home" => array("text", $this->phone_home),
 			"phone_mobile" => array("text", $this->phone_mobile),
 			"fax" => array("text", $this->fax),
-			"last_login" => array("timestamp", "0000-00-01 00:00:00"),
+			"last_login" => array("timestamp", null),
 			"last_update" => array("timestamp", ilUtil::now()),
 			"create_date" => array("timestamp", ilUtil::now()),
 			"referral_comment" => array("text", $this->referral_comment),
 			"matriculation" => array("text", $this->matriculation),
 			"client_ip" => array("text", $this->client_ip),
-			"approve_date" => array("timestamp", (string) $this->approve_date),
-			"agree_date" => array("timestamp", (string) $this->agree_date),
+			"approve_date" => array("timestamp", $this->approve_date),
+			"agree_date" => array("timestamp", $this->agree_date),
 			"active" => array("integer", (int) $this->active),
 			"time_limit_unlimited" => array("integer", $this->getTimeLimitUnlimited()),
 			"time_limit_until" => array("integer", $this->getTimeLimitUntil()),
@@ -491,7 +491,7 @@ class ilObjUser extends ilObject
 			"firstname" => array("text", $this->firstname),
 			"lastname" => array("text", $this->lastname),
 			"email" => array("text", $this->email),
-			"hobby" => array("clob", $this->hobby),
+			"hobby" => array("text", $this->hobby),
 			"institution" => array("text", $this->institution),
 			"department" => array("text", $this->department),
 			"street" => array("text", $this->street),
@@ -505,7 +505,7 @@ class ilObjUser extends ilObject
 			"referral_comment" => array("text", $this->referral_comment),
 			"matriculation" => array("text", $this->matriculation),
 			"client_ip" => array("text", $this->client_ip),
-			"approve_date" => array("timestamp", (string) $this->approve_date),
+			"approve_date" => array("timestamp", $this->approve_date),
 			"active" => array("integer", $this->active),
 			"time_limit_unlimited" => array("integer", $this->getTimeLimitUnlimited()),
 			"time_limit_until" => array("integer", $this->getTimeLimitUntil()),
@@ -530,9 +530,9 @@ class ilObjUser extends ilObject
 			"last_update" => array("timestamp", ilUtil::now())
 			);
 			
-        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == "0000-00-00 00:00:00"))
+        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == null))
         {
-            $update_array["agree_date"] = array("timestamp", (string) $this->agree_date);
+            $update_array["agree_date"] = array("timestamp", $this->agree_date);
 		}
 		switch ($this->passwd_type)
 		{
@@ -1403,8 +1403,8 @@ class ilObjUser extends ilObject
 		}
 
 		$res = $ilDB->queryF("SELECT usr_id FROM usr_data ".
-			"WHERE login = %s AND agree_date != %s",
-			array("text", "timestamp"), array($a_username, '0000-00-00 00:00:00'));
+			"WHERE login = %s AND NOT agree_date IS NULL",
+			array("text"), array($a_username));
 		return $ilDB->fetchAssoc($res) ? true : false;
 	}
 
@@ -1414,7 +1414,7 @@ class ilObjUser extends ilObject
 	*/
 	function hasAcceptedUserAgreement()
 	{
-		if ($this->agree_date != "0000-00-00 00:00:00" || $this->login == "root")
+		if ($this->agree_date != null || $this->login == "root")
 		{
 			return true;
 		}
@@ -1964,7 +1964,7 @@ class ilObjUser extends ilObject
 
     /**
     * set date the user account was activated
-    * 0000-00-00 00:00:00 indicates that the user has not yet been activated
+    * null indicates that the user has not yet been activated
     * @access   public
     * @return   void
     */
@@ -1995,7 +1995,7 @@ class ilObjUser extends ilObject
     }
     /**
     * set date the user account was accepted by the user
-    * 0000-00-00 00:00:00 indicates that the user has not accepted his account
+    * nullindicates that the user has not accepted his account
     * @access   public
     * @return   void
     */
@@ -2027,7 +2027,7 @@ class ilObjUser extends ilObject
         else
         {
             $this->active = 0;
-            $this->setApproveDate('0000-00-00 00:00:00');
+            $this->setApproveDate(null);
             $this->setOwner(0);
         }
     }
@@ -4344,9 +4344,9 @@ class ilObjUser extends ilObject
 
 		if ($a_user_id == 0)
 		{
-			$where = "WHERE user_id != 0 AND agree_date != %s ";
-			$type_array = array("timestamp", "integer");
-			$val_array = array("0000-00-00 00:00:00", time());
+			$where = "WHERE user_id != 0 AND NOT agree_date IS NULL ";
+			$type_array = array("integer");
+			$val_array = array(time());
 		}
 		else
 		{
@@ -4418,7 +4418,7 @@ class ilObjUser extends ilObject
 				"FROM usr_session ".
 				"JOIN usr_data ON user_id=usr_id ".
 				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
-				" AND agree_date != ".$ilDB->quote("0000-00-00 00:00:00", "timestamp")." ".
+				" AND NOT agree_date IS NULL ".
 				"AND expires > ".$ilDB->quote(time(), "integer")." ".
 				"GROUP BY user_id";
 			$r = $ilDB->query($q);
@@ -4436,7 +4436,7 @@ class ilObjUser extends ilObject
 				"WHERE s.user_id != 0 ".
 				"AND s.expires > ".$ilDB->quote(time(),"integer")." ".
 				"AND fa.assign = ".$ilDB->quote("y", "text")." ".
-				" AND ud.agree_date != ".$ilDB->quote("0000-00-00 00:00:00", "timestamp")." ".
+				" AND NOT ud.agree_date IS NULL ".
 				"AND ".$ilDB->in("od.obj_id", $groups_and_courses_of_user, false, "integer")." ".
 				"GROUP BY s.user_id ".
 				"ORDER BY ud.lastname, ud.firstname";

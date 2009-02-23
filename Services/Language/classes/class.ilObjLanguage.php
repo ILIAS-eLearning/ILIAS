@@ -247,7 +247,7 @@ class ilObjLanguage extends ilObject
 		{
 			$ilDB->manipulate("DELETE FROM lng_data WHERE lang_key = ".
 				$ilDB->quote($a_lang_key, "text").
-				" AND local_change = ".$ilDB->quote("0000-00-00 00:00:00", "timestamp"));
+				" AND local_change IS NULL");
 		}
 	}
 
@@ -476,7 +476,7 @@ class ilObjLanguage extends ilObject
 	* Replace lang entry
 	*/
 	static final function replaceLangEntry($a_module, $a_identifier,
-		$a_lang_key, $a_value, $a_local_change = "0000-00-00 00:00:00")
+		$a_lang_key, $a_value, $a_local_change = null)
 	{
 		global $ilDB;
 
@@ -491,7 +491,7 @@ class ilObjLanguage extends ilObject
 			"(module, identifier, lang_key, value, local_change) " .
 			"VALUES (%s,%s,%s,%s,%s)",
 			$ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
-			$ilDB->quote($a_lang_key, "text"), $ilDB->quote($a_value, "blob"),
+			$ilDB->quote($a_lang_key, "text"), $ilDB->quote($a_value, "text"),
 			$ilDB->quote($a_local_change, "timestamp")));
 	}
 	
@@ -499,14 +499,14 @@ class ilObjLanguage extends ilObject
 	* Replace lang entry
 	*/
 	static final function updateLangEntry($a_module, $a_identifier,
-		$a_lang_key, $a_value, $a_local_change = "0000-00-00 00:00:00")
+		$a_lang_key, $a_value, $a_local_change = null)
 	{
 		global $ilDB;
 		
 		$ilDB->manipulate(sprintf("UPDATE lng_data " .
 			"SET value = %s, local_change = %s ".
 			"WHERE module = %s AND identifier = %s AND lang_key = %s ",
-			$ilDB->quote($a_value, "blob"), $ilDB->quote($a_local_change, "timestamp"),
+			$ilDB->quote($a_value, "text"), $ilDB->quote($a_local_change, "timestamp"),
 			$ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
 			$ilDB->quote($a_lang_key, "text")));
 	}
