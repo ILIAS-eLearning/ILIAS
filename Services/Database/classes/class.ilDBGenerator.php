@@ -142,6 +142,7 @@ class ilDBGenerator
 	*/
 	function buildDBGenerationScript($a_filename = "")
 	{
+echo "<br>3"; flush();
 		$file = "";
 		if ($a_filename != "")
 		{
@@ -155,12 +156,17 @@ class ilDBGenerator
 		{
 			echo "<pre>";
 		}
-		
+echo "<br>4"; flush();
 		$this->getTables();
 		foreach ($this->tables as $table)
 		{
 			if ($this->checkProcessing($table))
 			{
+				if ($a_filename != "")
+				{
+					echo "<br>$table"; flush();
+				}
+				
 				// create table statement
 				$this->buildCreateTableStatement($table, $file);
 				
@@ -349,6 +355,11 @@ class ilDBGenerator
 	*/
 	function buildInsertStatements($a_table, $a_file = "")
 	{
+		if ($a_table == "lng_data")
+		{
+			return;
+		}
+		
 		$set = $this->il_db->query("SELECT * FROM `".$a_table."`");
 		$ins_st = "";
 		$first = true;
@@ -357,19 +368,23 @@ class ilDBGenerator
 			$fields = array();
 			$types = array();
 			$values = array();
+			$i_str = array();
 			foreach ($rec as $f => $v)
 			{
 				$fields[] = $f;
 				$types[] = '"'.$this->fields[$f]["type"].'"';
 				$values[] = "'".str_replace("'", "\'", $v)."'";
+				$i_str[] = "'".$f."' => array('".$this->fields[$f]["type"].
+					"', '".str_replace("'", "\'", $v)."')";
 			}
 			$fields_str = "(".implode($fields, ",").")";
 			$types_str = "array(".implode($types, ",").")";
 			$values_str = "array(".implode($values, ",").")";
-			$ins_st = "\n".'$ilDB->manipulateF("INSERT INTO '.$a_table.' '."\n";
-			$ins_st.= "\t".$fields_str."\n";
-			$ins_st.= "\t".'VALUES '."(%s".str_repeat(",%s", count($fields) - 1).')"'.",\n";
-			$ins_st.= "\t".$types_str.','.$values_str.');'."\n";
+			$ins_st = "\n".'$ilDB->insert("'.$a_table.'", array('."\n";
+			$ins_st.= implode($i_str, ", ").");\n";
+			//$ins_st.= "\t".$fields_str."\n";
+			//$ins_st.= "\t".'VALUES '."(%s".str_repeat(",%s", count($fields) - 1).')"'.",\n";
+			//$ins_st.= "\t".$types_str.','.$values_str.');'."\n";
 			
 			if ($a_file == "")
 			{
