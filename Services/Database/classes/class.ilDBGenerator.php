@@ -381,7 +381,7 @@ echo "<br>4"; flush();
 			$types_str = "array(".implode($types, ",").")";
 			$values_str = "array(".implode($values, ",").")";
 			$ins_st = "\n".'$ilDB->insert("'.$a_table.'", array('."\n";
-			$ins_st.= implode($i_str, ", ").");\n";
+			$ins_st.= implode($i_str, ", ")."));\n";
 			//$ins_st.= "\t".$fields_str."\n";
 			//$ins_st.= "\t".'VALUES '."(%s".str_repeat(",%s", count($fields) - 1).')"'.",\n";
 			//$ins_st.= "\t".$types_str.','.$values_str.');'."\n";
