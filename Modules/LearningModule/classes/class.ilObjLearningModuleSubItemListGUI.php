@@ -43,7 +43,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 		global $lng;
 		
 		include_once 'Modules/LearningModule/classes/class.ilLMObject.php';
-		foreach($this->getSubItemIds() as $sub_item)
+		foreach($this->getSubItemIds(true) as $sub_item)
 		{
 			if(is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(),$sub_item)))
 			{
@@ -70,6 +70,9 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 			$this->tpl->setVariable('TITLE',ilLMObject::_lookupTitle($sub_item));			
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->showDetailsLink();
+		
 		return $this->tpl->get();	 
 	}
 }

@@ -130,6 +130,11 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 		unset($_SESSION['max_page']);
 		$this->search_cache->deleteCachedEntries();
+		
+		// Reset details
+		include_once './Services/Object/classes/class.ilSubItemListGUI.php';
+		ilSubItemListGUI::resetDetails();
+		
 		$this->performSearch();
 	}
 	
