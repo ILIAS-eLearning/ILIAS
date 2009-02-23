@@ -68,21 +68,18 @@ class ilCourseLMHistory
 
 		// Delete old entries
 		$query = "DELETE FROM crs_lm_history ".
-			"WHERE lm_ref_id = ".$ilDB->quote($a_lm_ref_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_user_id)."";
-
-		$ilDB->query($query);
+			"WHERE lm_ref_id = ".$ilDB->quote($a_lm_ref_id,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_user_id,'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		// Add new entry
 		$query = "INSERT INTO crs_lm_history ".
-			"SET usr_id = ".$ilDB->quote($a_user_id).", ".
-			"crs_ref_id = ".$ilDB->quote($crs_ref_id).", ".
-			"lm_ref_id = ".$ilDB->quote($a_lm_ref_id).", ".
-			"lm_page_id = ".$ilDB->quote($a_page_id).", ".
-			"last_access = ".$ilDB->quote(time())."";
-
-		$ilDB->query($query);
-
+			"SET usr_id = ".$ilDB->quote($a_user_id,'integer').", ".
+			"crs_ref_id = ".$ilDB->quote($crs_ref_id,'integer').", ".
+			"lm_ref_id = ".$ilDB->quote($a_lm_ref_id,'integer').", ".
+			"lm_page_id = ".$ilDB->quote($a_page_id,'integer').", ".
+			"last_access = ".$ilDB->quote(time(),'integer')."";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -91,8 +88,8 @@ class ilCourseLMHistory
 		global $ilDB;
 		
 		$query = "SELECT * FROM crs_lm_history ".
-			"WHERE usr_id = ".$ilDB->quote($this->getUserId())." ".
-			"AND crs_ref_id = ".$ilDB->quote($this->getCourseRefId())." ".
+			"WHERE usr_id = ".$ilDB->quote($this->getUserId(),'integer')." ".
+			"AND crs_ref_id = ".$ilDB->quote($this->getCourseRefId(),'integer')." ".
 			"ORDER BY last_access ";
 
 		$res = $this->db->query($query);
@@ -108,8 +105,8 @@ class ilCourseLMHistory
 		global $ilDB;
 		
 		$query = "SELECT * FROM crs_lm_history ".
-			"WHERE usr_id = ".$ilDB->quote($this->getUserId())." ".
-			"AND crs_ref_id = ".$ilDB->quote($this->getCourseRefId())."";
+			"WHERE usr_id = ".$ilDB->quote($this->getUserId(),'integer')." ".
+			"AND crs_ref_id = ".$ilDB->quote($this->getCourseRefId(),'integer')."";
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -125,8 +122,8 @@ class ilCourseLMHistory
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_lm_history WHERE usr_id = ".$ilDB->quote($a_usr_id)." ";
-		$ilDB->query($query);
+		$query = "DELETE FROM crs_lm_history WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
