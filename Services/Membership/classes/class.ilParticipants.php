@@ -157,9 +157,9 @@ class ilParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_members ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND blocked = '1'";
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id,'integer')." ".
+			"AND blocked = ".$ilDB->quote(1,'integer');
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false; 
 	}
@@ -178,8 +178,8 @@ class ilParticipants
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_members ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id)." ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"AND passed = '1'";
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true : false; 
@@ -199,14 +199,12 @@ class ilParticipants
 		global $ilDB;
 
 		$query = "DELETE FROM crs_members ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
-
-		$ilDB->query($query);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		$query = "DELETE FROM il_subscribers ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)."";
-
-		$ilDB->query($query);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -223,11 +221,11 @@ class ilParticipants
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM crs_members WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
-		$ilDB->query($query);
+		$query = "DELETE FROM crs_members WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')."";
+		$res = $ilDB->manipulate($query);
 
-		$query = "DELETE FROM il_subscribers WHERE usr_id = ".$ilDB->quote($a_usr_id)."";
-		$ilDB->query($query);
+		$query = "DELETE FROM il_subscribers WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
 		ilCourseWaitingList::_deleteUser($a_usr_id);
@@ -513,9 +511,9 @@ class ilParticipants
 		}
 		
 		$query = "DELETE FROM crs_members ".
-			"WHERE usr_id = ".$ilDB->quote($a_usr_id)." ".
-			"AND obj_id = ".$ilDB->quote($this->obj_id);
-		$ilDB->query($query);
+			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer');
+		$res = $ilDB->manipulate($query);
 		
 		$this->readParticipants();
 		$this->readParticipantsStatus();
@@ -538,25 +536,29 @@ class ilParticipants
 		$this->participants_status[$a_usr_id]['blocked'] = (int) $a_blocked;
 
 		$query = "SELECT * FROM crs_members ".
-		"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
-		"AND usr_id = ".$ilDB->quote($a_usr_id);
+		"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
+		"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer');
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE crs_members SET ".
-				"blocked = ".$ilDB->quote((int) $a_blocked)." ".
-				"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
-				"AND usr_id = ".$ilDB->quote($a_usr_id);
+				"blocked = ".$ilDB->quote((int) $a_blocked ,'integer')." ".
+				"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer');
 		}
 		else
 		{
-			$query = "INSERT INTO crs_members SET ".
-				"blocked = ".$ilDB->quote((int) $a_blocked).", ".
-				"obj_id = ".$ilDB->quote($this->obj_id).", ".
-				"usr_id = ".$ilDB->quote($a_usr_id);
+			$query = "INSERT INTO crs_members (blocked,obj_id,usr_id,notification,passed) ".
+				"VALUES ( ".
+				$ilDB->quote((int) $a_blocked ,'integer').", ".
+				$ilDB->quote($this->obj_id ,'integer').", ".
+				$ilDB->quote($a_usr_id ,'integer').", ".
+				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote(0,'integer').
+				")";
 			
 		}
-		$res = $ilDB->query($query);
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 
@@ -575,26 +577,29 @@ class ilParticipants
 		$this->participants_status[$a_usr_id]['notification'] = (int) $a_notification;
 
 		$query = "SELECT * FROM crs_members ".
-		"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
-		"AND usr_id = ".$ilDB->quote($a_usr_id);
+		"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
+		"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer');
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE crs_members SET ".
-				"notification = ".$ilDB->quote((int) $a_notification)." ".
-				"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
-				"AND usr_id = ".$ilDB->quote($a_usr_id);
+				"notification = ".$ilDB->quote((int) $a_notification ,'integer')." ".
+				"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer');
 		}
 		else
 		{
-			$query = "INSERT INTO crs_members SET ".
-				"notification = ".$ilDB->quote((int) $a_notification).", ".
-				"obj_id = ".$ilDB->quote($this->obj_id).", ".
-				"usr_id = ".$ilDB->quote($a_usr_id).", ".
-				"passed = 0 ";
+			$query = "INSERT INTO crs_members (notification,obj_id,usr_id,passed,blocked) ".
+				"VALUES ( ".
+				$ilDB->quote((int) $a_notification ,'integer').", ".
+				$ilDB->quote($this->obj_id ,'integer').", ".
+				$ilDB->quote($a_usr_id ,'integer').", ".
+				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote(0,'integer').
+				")";
 			
 		}
-		$res = $ilDB->query($query);
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -801,7 +806,7 @@ class ilParticipants
 	 	global $ilDB;
 	 	
 	 	$query = "SELECT * FROM crs_members ".
-	 		"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ";
+	 		"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ";
 	 	$res = $ilDB->query($query);
 	 	$this->participants_status = array();
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
