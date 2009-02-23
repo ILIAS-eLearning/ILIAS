@@ -90,7 +90,7 @@ class ilCourseItems
 	 	$mappings = $cp_options->getMappings();
 	 	
 	 	$query = "SELECT * FROM crs_items WHERE ".
-	 		"parent_id = ".$this->ilDB->quote($this->getParentId())." ";
+	 		"parent_id = ".$this->ilDB->quote($this->getParentId(),'integer')." ";
 	 	$res = $this->ilDB->query($query);
 	 	
 	 	if(!$res->numRows())
@@ -179,8 +179,8 @@ class ilCourseItems
 		}
 		
 		$query = "SELECT * FROM crs_items ".
-			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING)." ".
-			"AND obj_id IN(".implode(",",ilUtil::quoteArray($ids)).")";
+			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING,'integer')." ".
+			"AND ".$ilDB->in('obj_id',$ids,false,'integer');
 
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;
@@ -205,9 +205,9 @@ class ilCourseItems
 		}
 
 		$query = "SELECT * FROM crs_items ".
-			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING)." ".
-			"AND obj_id IN(".implode(",",ilUtil::quoteArray($ref_ids)).") ".
-			"AND parent_id IN(".implode(",",ilUtil::quoteArray($ref_ids)).")";
+			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING,'integer')." ".
+			"AND ".$ilDB->in('obj_id',$ref_ids,false,'integer')." ".
+			"AND ".$ilDB->in('parent_id',$ref_ids,false,'integer')." ";
 
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;
@@ -225,10 +225,10 @@ class ilCourseItems
 		}
 
 		$query = "SELECT * FROM crs_items ".
-			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING)." ".
-			"AND changeable = '1' ".
-			"AND obj_id IN(".implode(",",ilUtil::quoteArray($ref_ids)).") ".
-			"AND parent_id IN(".implode(",",ilUtil::quoteArray($ref_ids)).")";
+			"WHERE timing_type = ".$ilDB->quote(IL_CRS_TIMINGS_PRESETTING,'integer')." ".
+			"AND changeable = ".$ilDB->quote(1,'integer')." ".
+			"AND ".$ilDB->in('obj_id',$ref_ids,false,'integer')." ".
+			"AND ".$ilDB->in('parent_id',$ref_ids,false,'integer')." ";
 
 		$res = $ilDB->query($query);
 		return $res->numRows() ? true :false;
@@ -465,23 +465,25 @@ class ilCourseItems
 	 */
 	public function save()
 	{
-		global $ilLog;
+		global $ilLog,$ilDB;
 		
-	 	$query = "INSERT INTO crs_items SET ".
-			"timing_type = ".$ilDB->quote($this->getTimingType()).", ".
-			"timing_start = ".$ilDB->quote($this->getTimingStart()).", ".
-			"timing_end = ".$ilDB->quote($this->getTimingEnd()).", ".
-			"suggestion_start = ".$ilDB->quote($this->getSuggestionStart()).", ".
-			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd()).", ".
-			"changeable = ".$ilDB->quote($this->enabledChangeable()).", ".
-			"earliest_start = ".$ilDB->quote($this->getEarliestStart()).", ".
-			"latest_end = ".$ilDB->quote($this->getLatestEnd()).", ".
-			"visible = ".$ilDB->quote($this->enabledVisible()).", ".
-			"parent_id = ".$ilDB->quote($this->getParentId()).", ".
-			"obj_id = ".$ilDB->quote($this->getItemId())." ";
-		$ilLog->write(__METHOD__.': '.$query);	
-
-		$res = $this->ilDB->query($query);
+	 	$query = "INSERT INTO crs_items (timing_type,timing_start,timing_end,".
+	 		"suggestion_start,suggestion_end, ".
+	 		"changeable,earliest_start,latest_end,visible,parent_id,obj_id) ".
+	 		"VALUES( ".
+			$ilDB->quote($this->getTimingType(),'integer').", ".
+			$ilDB->quote($this->getTimingStart(),'integer').", ".
+			$ilDB->quote($this->getTimingEnd(),'integer').", ".
+			$ilDB->quote($this->getSuggestionStart(),'integer').", ".
+			$ilDB->quote($this->getSuggestionEnd(),'integer').", ".
+			$ilDB->quote($this->enabledChangeable(),'integer').", ".
+			$ilDB->quote($this->getEarliestStart(),'integer').", ".
+			$ilDB->quote($this->getLatestEnd(),'integer').", ".
+			$ilDB->quote($this->enabledVisible(),'integer').", ".
+			$ilDB->quote($this->getParentId(),'integer').", ".
+			$ilDB->quote($this->getItemId(),'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 	}
 	
 
@@ -490,19 +492,18 @@ class ilCourseItems
 		global $ilDB;
 		
 		$query = "UPDATE crs_items SET ".
-			"timing_type = ".$ilDB->quote($this->getTimingType()).", ".
-			"timing_start = ".$ilDB->quote($this->getTimingStart()).", ".
-			"timing_end = ".$ilDB->quote($this->getTimingEnd()).", ".
-			"suggestion_start = ".$ilDB->quote($this->getSuggestionStart()).", ".
-			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd()).", ".
-			"changeable = ".$ilDB->quote($this->enabledChangeable()).", ".
-			"earliest_start = ".$ilDB->quote($this->getEarliestStart()).", ".
-			"latest_end = ".$ilDB->quote($this->getLatestEnd()).", ".
-			"visible = ".$ilDB->quote($this->enabledVisible())." ".
-			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ".
-			"AND obj_id = ".$ilDB->quote($a_item_id)."";
-
-		$res = $this->ilDB->query($query);
+			"timing_type = ".$ilDB->quote($this->getTimingType(),'integer').", ".
+			"timing_start = ".$ilDB->quote($this->getTimingStart(),'integer').", ".
+			"timing_end = ".$ilDB->quote($this->getTimingEnd(),'integer').", ".
+			"suggestion_start = ".$ilDB->quote($this->getSuggestionStart(),'integer').", ".
+			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd(),'integer').", ".
+			"changeable = ".$ilDB->quote($this->enabledChangeable(),'integer').", ".
+			"earliest_start = ".$ilDB->quote($this->getEarliestStart(),'integer').", ".
+			"latest_end = ".$ilDB->quote($this->getLatestEnd(),'integer').", ".
+			"visible = ".$ilDB->quote($this->enabledVisible(),'integer')." ".
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId(),'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_item_id,'integer')."";
+		$res = $ilDB->manipulate($query);
 		$this->__read();
 
 		return true;
@@ -531,14 +532,12 @@ class ilCourseItems
 		foreach($all_items as $item)
 		{
 			$query = "DELETE FROM crs_items ".
-				"WHERE parent_id = ".$ilDB->quote($item["child"])."";
-
-			$this->ilDB->query($query);
+				"WHERE parent_id = ".$ilDB->quote($item["child"],'integer')."";
+			$res = $ilDB->manipulate($query);
 		}
 		$query = "DELETE FROM crs_items ".
-			"WHERE parent_id = ".$ilDB->quote($this->course_obj->getRefId())." ";
-		
-		$this->ilDB->query($query);
+			"WHERE parent_id = ".$ilDB->quote($this->course_obj->getRefId(),'integer')." ";
+		$res = $ilDB->manipulate($query);		
 
 		return true;
 	}
@@ -595,7 +594,7 @@ class ilCourseItems
 		$all = array();
 
 		$query = "SELECT obj_id FROM crs_items ".
-			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ";
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId(),'integer')." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -613,10 +612,9 @@ class ilCourseItems
 		
 		// DELETE ENTRY
 		$query = "DELETE FROM crs_items ".
-			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id)." ";
-
-		$res = $this->ilDB->query($query);
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId(),'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -627,8 +625,8 @@ class ilCourseItems
 
 		$ilBench->start("Course", "ilCourseItems_getItemData - 1");
 		$query = "SELECT * FROM crs_items  ".
-			"WHERE obj_id = ".$ilDB->quote($a_item['child'])." ".
-			"AND parent_id = ".$ilDB->quote($a_item['parent'])." ";
+			"WHERE obj_id = ".$ilDB->quote($a_item['child'],'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_item['parent'],'integer')." ";
 		$res = $this->ilDB->query($query);
 		$ilBench->stop("Course", "ilCourseItems_getItemData - 1");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -745,22 +743,24 @@ class ilCourseItems
 		$a_item['changeable']			= 0;
 		
 
-		$query = "INSERT INTO crs_items ".
-			"VALUES(".$ilDB->quote($a_item['parent']).",".
-			$ilDB->quote($a_item["child"]).",".
-			$ilDB->quote($a_item["timing_type"]).",".
-			$ilDB->quote($a_item["timing_start"]).",".
-			$ilDB->quote($a_item["timing_end"]).",".
-			$ilDB->quote($a_item["suggestion_start"]).",".
-			$ilDB->quote($a_item["suggestion_end"]).",".
-			$ilDB->quote($a_item["changeable"]).",".
-			$ilDB->quote($a_item['earliest_start']).", ".
-			$ilDB->quote($a_item['latest_end']).", ".
-			$ilDB->quote($a_item["visible"]).", ".
-			$ilDB->quote(0).")";
-
-		$res = $this->ilDB->query($query);
-
+	 	$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,timing_end," .
+	 		"suggestion_start,suggestion_end, ".
+	 		"changeable,earliest_start,latest_end,visible,position) ".
+	 		"VALUES( ".
+			$ilDB->quote($a_item['parent'],'integer').",".
+			$ilDB->quote($a_item["child"],'integer').",".
+			$ilDB->quote($a_item["timing_type"],'integer').",".
+			$ilDB->quote($a_item["timing_start"],'integer').",".
+			$ilDB->quote($a_item["timing_end"],'integer').",".
+			$ilDB->quote($a_item["suggestion_start"],'integer').",".
+			$ilDB->quote($a_item["suggestion_end"],'integer').",".
+			$ilDB->quote($a_item["changeable"],'integer').",".
+			$ilDB->quote($a_item['earliest_start'],'integer').", ".
+			$ilDB->quote($a_item['latest_end'],'integer').", ".
+			$ilDB->quote($a_item["visible"],'integer').", ".
+			$ilDB->quote(0,'integer').")";
+		$res = $ilDB->manipulate($query);
+	
 		return $a_item;
 	}
 
@@ -769,8 +769,8 @@ class ilCourseItems
 	{
 		global $ilDB;
 		
-		$query = "SELECT MAX(position) as last_position FROM crs_items ".
-			"WHERE parent_id = ".$ilDB->quote($this->getParentId())." ";
+		$query = "SELECT MAX(position) last_position FROM crs_items ".
+			"WHERE parent_id = ".$ilDB->quote($this->getParentId(),'integer')." ";
 
 		$res = $this->ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -809,18 +809,16 @@ class ilCourseItems
 		}
 
 		$query = "UPDATE crs_items SET ".
-			"position = ".$ilDB->quote($node_a["position"])." ".
-			"WHERE obj_id = ".$ilDB->quote($node_b["obj_id"])." ".
-			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
-
-		$res = $this->ilDB->query($query);
+			"position = ".$ilDB->quote($node_a["position"],'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($node_b["obj_id"],'integer')." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId(),'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		$query = "UPDATE crs_items SET ".
-			"position = ".$ilDB->quote($node_b["position"])." ".
-			"WHERE obj_id = ".$ilDB->quote($node_a["obj_id"])." ".
-			"AND parent_id = ".$ilDB->quote($this->getParentId())."";
-
-		$res = $this->ilDB->query($query);
+			"position = ".$ilDB->quote($node_b["position"],'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($node_a["obj_id"],'integer')." ".
+			"AND parent_id = ".$ilDB->quote($this->getParentId(),'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -915,7 +913,7 @@ class ilCourseItems
 		global $ilDB,$ilUser;
 
 		$query = "SELECT * FROM crs_items ".
-			"WHERE obj_id = '".$a_item_id."'";
+			"WHERE obj_id = ".$ilDB->quote($a_item_id,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -981,7 +979,7 @@ class ilCourseItems
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_items ".
-			"WHERE obj_id = ".$ilDB->quote($a_item_id)." ";
+			"WHERE obj_id = ".$ilDB->quote($a_item_id,'integer')." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1015,7 +1013,8 @@ class ilCourseItems
 	 	}
 	 	
 	 	$query = "SELECT obj_id,timing_type,timing_start,timing_end,visible FROM crs_items ".
-	 		"WHERE obj_id IN (".implode(',',$a_ref_ids).")";
+	 		"WHERE ".$ilDB->in('obj_id',$a_ref_ids,false,'integer');
+
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{

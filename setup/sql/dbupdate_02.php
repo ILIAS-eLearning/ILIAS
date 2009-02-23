@@ -7980,5 +7980,11 @@ ALTER TABLE `crs_items` CHANGE `timing_start` `timing_start` INT( 11 ) NOT NULL 
 
 <#1691>
 ALTER TABLE `crs_items` CHANGE `timing_end` `timing_end` INT( 11 ) NOT NULL DEFAULT 0;
+
+<#1692>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_items');
+?>
+
   
 
