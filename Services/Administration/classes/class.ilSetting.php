@@ -175,10 +175,14 @@ class ilSetting
 		
 		$this->delete($a_key);
 
-		$sql = "INSERT INTO settings (module, keyword, value) VALUES (".
+		/*$sql = "INSERT INTO settings (module, keyword, value) VALUES (".
 			$ilDB->quote($this->module, "text") .
 			",".$ilDB->quote($a_key, "text").",".$ilDB->quote((string) $a_val, "clob").")";
-		$ilDB->manipulate($sql);
+		$ilDB->manipulate($sql);*/
+		$ilDB->insert("settings", array(
+			"module" => array("text", $this->module),
+			"keyword" => array("text", $a_key),
+			"value" => array("clob", $a_val)));
 
 		$this->setting[$a_key] = $a_val;
 
