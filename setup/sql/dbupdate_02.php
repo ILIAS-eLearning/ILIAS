@@ -7991,4 +7991,14 @@ ALTER TABLE `crs_items` CHANGE `timing_end` `timing_end` INT( 11 ) NOT NULL DEFA
 	$ilMySQLAbstraction->performAbstraction('crs_lm_history');
 ?>
   
+<#1694>
+<?php
+	$set = $ilDB->query("SELECT DISTINCT table_name FROM abstraction_progress WHERE step = ".
+		$ilDB->quote(80, "integer"));
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$ilMySQLAbstraction->fixDatetimeValues($rec["table_name"]);
+		$ilMySQLAbstraction->replaceEmptyDatesWithNull($rec["table_name"]);
+	}
+?>
 

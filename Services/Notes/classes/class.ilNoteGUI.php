@@ -610,7 +610,7 @@ class ilNoteGUI
 					}
 					
 					// last edited
-					if ($note->getUpdateDate() != "0000-00-00 00:00:00")
+					if ($note->getUpdateDate() != null)
 					{
 						$tpl->setCurrentBlock("last_edit");
 						$tpl->setVariable("TXT_LAST_EDIT", $lng->txt("last_edited_on"));
@@ -764,7 +764,7 @@ class ilNoteGUI
 		$tpl->parseCurrentBlock();
 		
 		// last edited
-		if ($note->getUpdateDate() != "0000-00-00 00:00:00")
+		if ($note->getUpdateDate() != null)
 		{
 			$tpl->setCurrentBlock("last_edit");
 			$tpl->setVariable("TXT_LAST_EDIT", $lng->txt("last_edited_on"));

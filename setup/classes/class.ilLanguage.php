@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -528,7 +528,7 @@ class ilLanguage
 		{
 			$ilDB->manipulate("DELETE FROM lng_data WHERE lang_key = ".
 				$ilDB->quote($a_lang_key, "text").
-				" AND local_change = ".$ilDB->quote("0000-00-00 00:00:00", "timestamp"));
+				" AND local_change = IS NULL");
 		}
 	}
 
@@ -717,7 +717,7 @@ class ilLanguage
 	* Replace lang entry
 	*/
 	static final function replaceLangEntry($a_module, $a_identifier,
-		$a_lang_key, $a_value, $a_local_change = "0000-00-00 00:00:00")
+		$a_lang_key, $a_value, $a_local_change = null)
 	{
 		global $ilDB;
 
@@ -732,7 +732,7 @@ class ilLanguage
 			"(module, identifier, lang_key, value, local_change) " .
 			"VALUES (%s,%s,%s,%s,%s)",
 			$ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
-			$ilDB->quote($a_lang_key, "text"), $ilDB->quote($a_value, "blob"),
+			$ilDB->quote($a_lang_key, "text"), $ilDB->quote($a_value, "text"),
 			$ilDB->quote($a_local_change, "timestamp")));
 	}
 
@@ -740,14 +740,14 @@ class ilLanguage
 	* Update lang entry
 	*/
 	static final function updateLangEntry($a_module, $a_identifier,
-		$a_lang_key, $a_value, $a_local_change = "0000-00-00 00:00:00")
+		$a_lang_key, $a_value, $a_local_change = null)
 	{
 		global $ilDB;
 		
 		$ilDB->manipulate(sprintf("UPDATE lng_data " .
 			"SET value = %s, local_change = %s ".
 			"WHERE module = %s AND identifier = %s AND lang_key = %s ",
-			$ilDB->quote($a_value, "blob"), $ilDB->quote($a_local_change, "timestamp"),
+			$ilDB->quote($a_value, "text"), $ilDB->quote($a_local_change, "timestamp"),
 			$ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
 			$ilDB->quote($a_lang_key, "text")));
 	}
