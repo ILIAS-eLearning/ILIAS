@@ -7975,3 +7975,10 @@ RENAME TABLE `crs_defined_field_definitions` TO `crs_f_definitions`;
 	$ilMySQLAbstraction->performAbstraction('crs_groupings');
 ?>
 
+<#1690>
+ALTER TABLE `crs_items` CHANGE `timing_start` `timing_start` INT( 11 ) NOT NULL DEFAULT 0;
+
+<#1691>
+ALTER TABLE `crs_items` CHANGE `timing_end` `timing_end` INT( 11 ) NOT NULL DEFAULT 0;
+  
+
