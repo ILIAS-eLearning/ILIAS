@@ -7937,3 +7937,13 @@ RENAME TABLE `payment_topics_user_sorting` TO `payment_topic_usr_sort` ;
 <?php
 	$ilDB->renameTable('ldap_role_group_mapping_seq','ldap_rg_mapping_seq');
 ?>
+
+<#1683>
+RENAME TABLE `crs_defined_field_definitions` TO `crs_f_definitions`;
+
+
+<#1684>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_f_definitions');
+?>
+	
