@@ -7960,10 +7960,13 @@ RENAME TABLE `crs_defined_field_definitions` TO `crs_f_definitions`;
 		$ilMySQLAbstraction->fixClobNotNull($rec["table_name"]);
 	}
 ?>
-
 <#1687>
 <?php
 	$ilMySQLAbstraction->performAbstraction('crs_file');
 ?>
 
+<#1688>
+<?php
+	$ilDB->modifyTableColumn('lng_data','value', array("type" => "text", "notnull" => false, "length" => 4000));
+?>
 
