@@ -61,24 +61,42 @@ class ilSession
 		$expires = time() + ini_get("session.gc_maxlifetime");
 		if (ilSession::_exists($a_session_id))
 		{
-			$q = "UPDATE usr_session SET ".
+			/*$q = "UPDATE usr_session SET ".
 				"expires = ".$ilDB->quote($expires, "integer").", ".
 				"data = ".$ilDB->quote($a_data, "clob").
 				", ctime = ".$ilDB->quote(time(), "integer").
 				", user_id = ".$ilDB->quote((int) $_SESSION["AccountId"], "integer").
 				" WHERE session_id = ".$ilDB->quote($a_session_id, "text");
 				array("integer", "clob", "integer", "integer", "text");
-			$ilDB->manipulate($q);
+			$ilDB->manipulate($q);*/
+
+			$ilDB->update("usr_session", array(
+				"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+				"expires" => array("integer", $expires),
+				"data" => array("clob", $a_data),
+				"ctime" => array("integer", time())
+				), array(
+				"session_id" => array("text", $a_session_id)
+				));
+
 		}
 		else
 		{
-			$q = "INSERT INTO usr_session (session_id, expires, data, ctime,user_id) ".
+			/*$q = "INSERT INTO usr_session (session_id, expires, data, ctime,user_id) ".
 					"VALUES(".$ilDB->quote($a_session_id, "text").",".
 					$ilDB->quote($expires, "integer").",".
 					$ilDB->quote($a_data, "clob").",".
 					$ilDB->quote(time(), "integer").",".
 					$ilDB->quote((int) $_SESSION["AccountId"], "integer").")";
-			$ilDB->manipulate($q);
+			$ilDB->manipulate($q);*/
+
+			$ilDB->insert("usr_session", array(
+				"session_id" => array("text", $a_session_id),
+				"expires" => array("integer", $expires),
+				"data" => array("clob", $a_data),
+				"ctime" => array("integer", time()),
+				"user_id" => array("integer", (int) $_SESSION["AccountId"])
+				));
 
 		}
 		

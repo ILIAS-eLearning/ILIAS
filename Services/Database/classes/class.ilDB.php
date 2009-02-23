@@ -1626,6 +1626,11 @@ if ($this->getDBType() == "mysql")
 		{
 			$a_query = "";
 		}
+		
+		if ($a_type == "blob" || $a_type == "clob")
+		{
+			$this->raisePearError("ilDB::quote: Quoting not allowed on type '".$a_type."'. Please use ilDB->insert and ilDB->update to write clobs.", $this->error_class->FATAL);
+		}
 
 		return $this->db->quote($a_query, $a_type);
 	}

@@ -8005,4 +8005,12 @@ ALTER TABLE `crs_items` CHANGE `timing_end` `timing_end` INT( 11 ) NOT NULL DEFA
 <?php
 	$ilMySQLAbstraction->performAbstraction('crs_members');
 ?>
+<#1696>
+<?php
+	$ilDB->modifyTableColumn('usr_data','hobby', array("type" => "text", "length" => 4000, "notnull" => false));
+?>
+<#1697>
+<?php
+	$ilDB->modifyTableColumn('write_event','ts', array("type" => "timestamp", "default" => null, "notnull" => false));
+?>
 
