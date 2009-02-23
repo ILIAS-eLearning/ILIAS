@@ -7927,3 +7927,13 @@ RENAME TABLE `payment_topics_user_sorting` TO `payment_topic_usr_sort` ;
 		$ilMySQLAbstraction->fixIndexNames($rec["table_name"]);
 	}
 ?>
+
+<#1681>
+<?php
+	$ilDB->renameTable('ldap_role_group_mapping','ldap_rg_mapping');
+?>
+
+<#1682>
+<?php
+	$ilDB->renameTable('ldap_role_group_mapping_seq','ldap_rg_mapping_seq');
+?>
