@@ -32,8 +32,12 @@
 */
 abstract class ilSubItemListGUI
 {
+	protected static $MAX_SUBITEMS = 5;
+	
 	protected $tpl;
 	private $highlighter = null;
+	
+	private static $details = array();
 	
 	private $subitem_ids = array();
 	private $item_list_gui;
@@ -50,6 +54,43 @@ abstract class ilSubItemListGUI
 	{
 		 
 	}
+	
+	/**
+	 * set show details.
+	 * Show all subitem links for a specific object 
+	 *
+	 * @return
+	 * @param	int		$a_obj_id	object id
+	 * @static
+	 */
+	 public static function setShowDetails($a_obj_id)
+	 {
+		$_SESSION['lucene_search']['details'][$a_obj_id] = true;
+	 }
+	 
+	/**
+	 * reset details 
+	 *
+	 * @return
+	 * @static
+	 */
+	public static function resetDetails()
+	{
+		$_SESSION['lucene_search']['details'] = array();
+	}
+	
+	/**
+	 * enabled show details 
+	 *
+	 * @param	int		$a_obj_id	object id
+	 * @return	bool
+	 * @static
+	 */
+	public static function enabledDetails($a_obj_id)
+	{
+		return isset($_SESSION['lucene_search']['details'][$a_obj_id]) and $_SESSION['lucene_search']['details'][$a_obj_id]; 
+	}
+	
 
 	/**
 	 * set highlighter 
@@ -100,10 +141,16 @@ abstract class ilSubItemListGUI
 	
 	/**
 	 * get sub item ids 
+	 * @param	bool	$a_limited
 	 * @return
 	 */
-	public function getSubItemIds()
+	public function getSubItemIds($a_limited = false)
 	{
+		if($a_limited and !self::enabledDetails($this->getObjId()))
+		{
+			return array_slice($this->subitem_ids,0,self::$MAX_SUBITEMS);
+		}
+		
 		return $this->subitem_ids;
 	}
 	
@@ -130,6 +177,36 @@ abstract class ilSubItemListGUI
 		$this->type = ilObject::_lookupType($this->getObjId());
 		
 		$this->subitem_ids = $a_subitem_ids;
+	}
+	
+	/**
+	 * show details link 
+	 * @return
+	 */
+	protected function showDetailsLink()
+	{
+		global $ilCtrl,$lng;
+		
+		if(count($this->getSubItemIds()) <= self::$MAX_SUBITEMS)
+		{
+			return;
+		}
+		if(self::enabledDetails($this->getObjId()))
+		{
+			return;
+		}
+
+		$additional = count($this->getSubItemIds()) - self::$MAX_SUBITEMS;
+		
+		$ilCtrl->setParameterByClass('illucenesearchgui','details',(int) $this->getObjId());
+		$link = $ilCtrl->getLinkTargetByClass('illucenesearchgui','');
+		
+		$this->tpl->setCurrentBlock('choose_details');
+		$this->tpl->setVariable('LUC_DETAILS_LINK',$link);
+		$this->tpl->setVariable('LUC_NUM_HITS',sprintf($lng->txt('lucene_more_hits_link'),$additional));
+		$this->tpl->parseCurrentBlock();
+		
+		
 	}
 	
 	abstract public function getHTML();

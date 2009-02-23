@@ -42,7 +42,7 @@ class ilObjForumSubItemListGUI extends ilSubItemListGUI
 	{
 		global $lng;
 		
-		foreach($this->getSubItemIds() as $sub_item)
+		foreach($this->getSubItemIds(true) as $sub_item)
 		{
 			if(is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(),$sub_item)))
 			{
@@ -60,6 +60,9 @@ class ilObjForumSubItemListGUI extends ilSubItemListGUI
 			$this->tpl->setVariable('TITLE',ilObjForum::_lookupThreadSubject($sub_item));			
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->showDetailsLink();
+		
 		return $this->tpl->get();	 
 	}
 }

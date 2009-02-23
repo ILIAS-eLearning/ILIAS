@@ -32,8 +32,6 @@
 */
 class ilLuceneSearchResultPresentation
 {
-	const MAX_CHILDS = 5;
-	
 	protected $tpl;
 	protected $lng;
 
@@ -48,6 +46,12 @@ class ilLuceneSearchResultPresentation
 		global $tpl,$lng;
 		
 		$this->lng = $lng;
+		
+		if(isset($_GET['details']))
+		{
+			include_once './Services/Object/classes/class.ilSubItemListGUI.php';
+			ilSubItemListGUI::setShowDetails((int) $_GET['details']);
+		}
 	}
 	
 	/**
