@@ -154,12 +154,12 @@ class ilObjCourseGrouping
 
 		if($this->getId() and $this->getType() === 'crsg')
 		{
-			$query = "DELETE FROM object_data WHERE obj_id = ".$ilDB->quote($this->getId())." ";
-			$this->db->query($query);
+			$query = "DELETE FROM object_data WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." ";
+			$res = $ilDB->manipulate($query);
 
 			$query = "DELETE FROM crs_groupings ".
-				"WHERE crs_grp_id = ".$ilDB->quote($this->getId())." ";
-			$this->db->query($query);
+				"WHERE crs_grp_id = ".$ilDB->quote($this->getId(),'integer')." ";
+			$res = $ilDB->manipulate($query);
 
 			// Delete conditions
 			$condh =& new ilConditionHandler();
@@ -189,24 +189,16 @@ class ilObjCourseGrouping
 			
 		$ilDB->manipulate($query);
 
-		// READ this id
-		/*$query = "SELECT LAST_INSERT_ID() as last";
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$this->setId($row->last);
-		}*/
-
-
 		// INSERT in crs_groupings
-		$query = "INSERT INTO crs_groupings ".
-			"SET crs_ref_id = ".$ilDB->quote($a_course_ref_id).", ".
-			"crs_id = ".$ilDB->quote($a_course_id).",".
-			"crs_grp_id = ".$ilDB->quote($this->getId()).", ".
-			"unique_field = ".$ilDB->quote($this->getUniqueField())." ";
-
-		$this->db->query($query);
-
+		$query = "INSERT INTO crs_groupings (crs_grp_id,crs_ref_id,crs_id,unique_field) ".
+			"VALUES (".
+			$ilDB->quote($this->getId(),'integer').", ".
+			$ilDB->quote($a_course_ref_id,'integer').", ".
+			$ilDB->quote($a_course_id,'integer').", ".
+			$ilDB->quote($this->getUniqueField(),'text')." ".
+			")";
+		$res = $ilDB->manipulate($query);
+		
 		return $this->getId();
 	}
 
@@ -218,19 +210,17 @@ class ilObjCourseGrouping
 		{
 			// UPDATe object_data
 			$query = "UPDATE object_data ".
-				"SET title = ".$ilDB->quote($this->getTitle()).", ".
-				"description = ".$ilDB->quote($this->getDescription())." ".
-				"WHERE obj_id = ".$ilDB->quote($this->getId())." ".
-				"AND type = ".$ilDB->quote($this->getType())." ";
-
-			$this->db->query($query);
+				"SET title = ".$ilDB->quote($this->getTitle(),'text').", ".
+				"description = ".$ilDB->quote($this->getDescription(),'text')." ".
+				"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." ".
+				"AND type = ".$ilDB->quote($this->getType(),'text')." ";
+			$res = $ilDB->manipulate($query);
 
 			// UPDATE crs_groupings
 			$query = "UPDATE crs_groupings ".
-				"SET unique_field = ".$ilDB->quote($this->getUniqueField())." ".
-				"WHERE crs_grp_id = ".$ilDB->quote($this->getId())." ";
-
-			$this->db->query($query);
+				"SET unique_field = ".$ilDB->quote($this->getUniqueField(),'text')." ".
+				"WHERE crs_grp_id = ".$ilDB->quote($this->getId(),'integer')." ";
+			$res = $ilDB->manipulate($query);
 
 			// UPDATE conditions
 			$query = "UPDATE conditions ".
@@ -271,8 +261,8 @@ class ilObjCourseGrouping
 		}
 
 		$query = "SELECT * FROM crs_groupings ".
-			"WHERE crs_grp_id = ".$ilDB->quote($this->getId())." ";
-		$res = $this->db->query($query);
+			"WHERE crs_grp_id = ".$ilDB->quote($this->getId(),'integer')." ";
+		$res = $ilDB->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -435,9 +425,8 @@ class ilObjCourseGrouping
 		}
 
 		$query = "DELETE FROM crs_groupings ".
-			"WHERE crs_id = ".$ilDB->quote($a_course_id)." ";
-
-		$ilDB->query($query);
+			"WHERE crs_id = ".$ilDB->quote($a_course_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -447,7 +436,7 @@ class ilObjCourseGrouping
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_groupings ".
-			"WHERE crs_id = ".$ilDB->quote($a_course_id)." ";
+			"WHERE crs_id = ".$ilDB->quote($a_course_id,'integer')." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

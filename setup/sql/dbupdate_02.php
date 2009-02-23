@@ -7970,3 +7970,8 @@ RENAME TABLE `crs_defined_field_definitions` TO `crs_f_definitions`;
 	$ilDB->modifyTableColumn('lng_data','value', array("type" => "text", "notnull" => false, "length" => 4000));
 ?>
 
+<#1689>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_groupings');
+?>
+
