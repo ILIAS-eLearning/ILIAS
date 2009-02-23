@@ -109,9 +109,9 @@ class ilCourseDefinedFieldDefinition
 		 	ilCourseUserData::_deleteByField($field_id);
 	 	}
 
-	 	$query = "DELETE FROM crs_defined_field_definitions ".
-	 		"WHERE obj_id = ".$ilDB->quote($a_container_id)." ";
-	 	$ilDB->query($query);
+	 	$query = "DELETE FROM crs_f_definitions ".
+	 		"WHERE obj_id = ".$ilDB->quote($a_container_id,'integer')." ";
+	 	$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -154,11 +154,11 @@ class ilCourseDefinedFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM crs_defined_field_definitions ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ".
+		$query = "SELECT * FROM crs_f_definitions ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 			"AND field_required = 1";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$req_fields[] = $row->field_id;
 		}
@@ -178,12 +178,12 @@ class ilCourseDefinedFieldDefinition
 		global $ilDB;
 		
 		
-		$query = "SELECT field_name FROM crs_defined_field_definitions ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$query = "SELECT field_name FROM crs_f_definitions ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer');
 		
 		$res = $ilDB->query($query);
 		$fields = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$fields[] = $row->field_name;
 		}
@@ -202,11 +202,11 @@ class ilCourseDefinedFieldDefinition
 	{
 		global $ilDB;
 		
-	 	$query = "SELECT field_id FROM crs_defined_field_definitions ".
-	 		"WHERE obj_id = ".$ilDB->quote($a_container_id)." ".
-	 		"ORDER BY ".$ilDB->quote($a_sort);
+	 	$query = "SELECT field_id FROM crs_f_definitions ".
+	 		"WHERE obj_id = ".$ilDB->quote($a_container_id,'integer')." ".
+	 		"ORDER BY ".$ilDB->quoteIdentifier($a_sort);
 	 	$res = $ilDB->query($query);
-	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	 	while($row = $ilDB->fetchObject($res))
 	 	{
 	 		$field_ids[] = $row->field_id;
 	 	}
@@ -225,8 +225,8 @@ class ilCourseDefinedFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM crs_defined_field_definitions ".
-			"WHERE field_id = ".$ilDB->quote($a_field_id);
+		$query = "SELECT * FROM crs_f_definitions ".
+			"WHERE field_id = ".$ilDB->quote($a_field_id,'integer');
 		
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
@@ -378,14 +378,18 @@ class ilCourseDefinedFieldDefinition
 	{
 		global $ilDB;
 		
-	 	$query = "INSERT INTO crs_defined_field_definitions ".
-	 		"SET obj_id = ".$this->db->quote($this->getObjId()).", ".
-	 		"field_name = ".$this->db->quote($this->getName()).", ".
-	 		"field_type = ".$this->db->quote($this->getType()).", ".
-	 		"field_values = ".$this->db->quote(serialize($this->getValues())).", ".
-	 		"field_required = ".$ilDB->quote($this->isRequired())." ";
-	 	$res = $this->db->query($query);
-	 	$this->id = $this->db->getLastInsertId();
+		$next_id = $ilDB->nextId('crs_f_definitions');
+	 	$query = "INSERT INTO crs_f_definitions (field_id,obj_id,field_name,field_type,field_values,field_required) ".
+	 		"VALUES ( ".
+	 		$ilDB->quote($next_id,'integer').", ".
+	 		$this->db->quote($this->getObjId(),'integer').", ".
+	 		$this->db->quote($this->getName(),"text").", ".
+	 		$this->db->quote($this->getType(),'integer').", ".
+	 		$this->db->quote(serialize($this->getValues()),'text').", ".
+	 		$ilDB->quote($this->isRequired(),'integer')." ".
+	 		") ";
+		$res = $ilDB->manipulate($query);
+	 	$this->id = $next_id;
 			
 		return true;			
 	}
@@ -399,14 +403,14 @@ class ilCourseDefinedFieldDefinition
 	{
 		global $ilDB;
 		
-	 	$query = "UPDATE crs_defined_field_definitions ".
-	 		"SET field_name = ".$this->db->quote($this->getName()).", ".
-	 		"field_type = ".$this->db->quote($this->getType()).", ".
-	 		"field_values = ".$this->db->quote(serialize($this->getValues())).", ".
-	 		"field_required = ".$ilDB->quote($this->isRequired())." ".
-	 		"WHERE field_id = ".$this->db->quote($this->getId())." ".
-	 		"AND obj_id = ".$this->db->quote($this->getObjId());
-	 	$this->db->query($query);
+	 	$query = "UPDATE crs_f_definitions ".
+	 		"SET field_name = ".$this->db->quote($this->getName(),'text').", ".
+	 		"field_type = ".$this->db->quote($this->getType(),'integer').", ".
+	 		"field_values = ".$this->db->quote(serialize($this->getValues()),'text').", ".
+	 		"field_required = ".$ilDB->quote($this->isRequired(),'integer')." ".
+	 		"WHERE field_id = ".$this->db->quote($this->getId(),'integer')." ".
+	 		"AND obj_id = ".$this->db->quote($this->getObjId(),'integer');
+		$res = $ilDB->manipulate($query);
 	 	return true;
 	}
 	
@@ -424,9 +428,9 @@ class ilCourseDefinedFieldDefinition
 	 	include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
 	 	ilCourseUserData::_deleteByField($this->getId());
 		
-	 	$query = "DELETE FROM crs_defined_field_definitions ".
-	 		"WHERE field_id = ".$this->db->quote($this->getId())." ";
-	 	$this->db->query($query);
+	 	$query = "DELETE FROM crs_f_definitions ".
+	 		"WHERE field_id = ".$this->db->quote($this->getId(),'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -437,9 +441,9 @@ class ilCourseDefinedFieldDefinition
 	 */
 	private function read()
 	{
-	 	$query = "SELECT * FROM crs_defined_field_definitions ".
-	 		"WHERE field_id = ".$this->db->quote($this->getId())." ".
-	 		"AND obj_id = ".$this->db->quote($this->getObjId())." ";
+	 	$query = "SELECT * FROM crs_f_definitions ".
+	 		"WHERE field_id = ".$this->db->quote($this->getId(),'integer')." ".
+	 		"AND obj_id = ".$this->db->quote($this->getObjId(),'integer')." ";
 	 	
 	 	$res = $this->db->query($query);
 	 	$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
