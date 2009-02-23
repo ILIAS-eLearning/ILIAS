@@ -192,14 +192,17 @@ class ilCourseFile
 			return false;
 		}
 
-		$query = "INSERT INTO crs_file ".
-			"SET course_id = ".$ilDB->quote($this->getCourseId()).", ".
-			"file_name = ".$ilDB->quote($this->getFileName()).", ".
-			"file_size = ".$ilDB->quote($this->getFileSize()).", ".
-			"file_type = ".$ilDB->quote($this->getFileType())." ";
-		
-		$res = $this->db->query($query);
-		$this->setFileId($this->db->getLastInsertId());
+		$next_id = $ilDB->nextId('crs_file');
+		$query = "INSERT INTO crs_file (file_id,course_id,file_name,file_size,file_type) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').", ".
+			$ilDB->quote($this->getCourseId(),'integer').", ".
+			$ilDB->quote($this->getFileName(),'text').", ".
+			$ilDB->quote($this->getFileSize(),'integer').", ".
+			$ilDB->quote($this->getFileType(),'text')." ".
+			")";
+		$res = $ilDB->manipulate($query);
+		$this->setFileId($next_id);
 
 		$this->fss_storage = new ilFSStorageCourse($this->getCourseId());
 		$this->fss_storage->initInfoDirectory();
@@ -221,8 +224,8 @@ class ilCourseFile
 		
 		// Delete db entry
 		$query = "DELETE FROM crs_file ".
-			"WHERE file_id = ".$ilDB->quote($this->getFileId())."";
-		$this->db->query($query);
+			"WHERE file_id = ".$ilDB->quote($this->getFileId(),'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		// Delete file
 		unlink($this->getAbsolutePath());
@@ -236,8 +239,8 @@ class ilCourseFile
 
 		// delete all course ids and delete assigned files
 		$query = "DELETE FROM crs_file ".
-			"WHERE course_id = ".$ilDB->quote($a_course_id)."";
-		$res = $ilDB->query($query);
+			"WHERE course_id = ".$ilDB->quote($a_course_id,'integer')."";
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -247,10 +250,10 @@ class ilCourseFile
 		global $ilDB;
 
 		$query = "SELECT * FROM crs_file ".
-			"WHERE course_id = ".$ilDB->quote($a_course_id)."";
+			"WHERE course_id = ".$ilDB->quote($a_course_id,'integer')."";
 
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$files[] =& new ilCourseFile($row->file_id);
 		}
@@ -259,15 +262,17 @@ class ilCourseFile
 
 	function __read()
 	{
+		global $ilDB;
+		
 		if(!$this->file_id)
 		{
 			return true;
 		}
 
 		// read file data
-		$query = "SELECT * FROM crs_file WHERE file_id = '".$this->file_id."'";
+		$query = "SELECT * FROM crs_file WHERE file_id = ".$ilDB->quote($this->file_id,'integer');
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchObject($res))
 		{
 			$this->setFileName($row->file_name);
 			$this->setFileSize($row->file_size);

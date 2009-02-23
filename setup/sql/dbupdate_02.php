@@ -7961,3 +7961,9 @@ RENAME TABLE `crs_defined_field_definitions` TO `crs_f_definitions`;
 	}
 ?>
 
+<#1687>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_file');
+?>
+
+
