@@ -7947,3 +7947,17 @@ RENAME TABLE `crs_defined_field_definitions` TO `crs_f_definitions`;
 	$ilMySQLAbstraction->performAbstraction('crs_f_definitions');
 ?>
 	
+<#1685>
+<?php
+	$ilDB->modifyTableColumn('usr_data','hobby', array("type" => "text", "length" => 4000));
+?>
+<#1686>
+<?php
+	$set = $ilDB->query("SELECT DISTINCT table_name FROM abstraction_progress WHERE step = ".
+		$ilDB->quote(80, "integer"));
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$ilMySQLAbstraction->fixClobNotNull($rec["table_name"]);
+	}
+?>
+

@@ -84,7 +84,7 @@ class ilMySQLAbstraction
 	*
 	* @param	string		table name
 	*/
-	function performAbstraction($a_table_name, $a_set_text_fields_notnull_false = true)
+	function performAbstraction($a_table_name, $a_set_text_ts_fields_notnull_false = true)
 	{
 		// to do: log this procedure
 		
@@ -128,7 +128,7 @@ class ilMySQLAbstraction
 		}
 		
 		// alter table using mdb2 field types
-		$this->alterTable($a_table_name, $fields, $a_set_text_fields_notnull_false, $pk);
+		$this->alterTable($a_table_name, $fields, $a_set_text_ts_fields_notnull_false, $pk);
 		if ($this->getTestMode())
 		{
 			$a_table_name = strtolower($a_table_name)."_copy";
@@ -324,7 +324,7 @@ class ilMySQLAbstraction
 	* @param	string		table name
 	* @param	array		fields information
 	*/
-	function alterTable($a_table, $a_fields, $a_set_text_fields_notnull_false = true, $pk = "")
+	function alterTable($a_table, $a_fields, $a_set_text_ts_fields_notnull_false = true, $pk = "")
 	{
 		$n_fields = array();
 		foreach ($a_fields as $field => $d)
@@ -367,8 +367,9 @@ class ilMySQLAbstraction
 				unset($def["length"]);
 			}
 			
-			// set notnull to false for text fields
-			if ($a_set_text_fields_notnull_false && $def["type"] == "text" &&
+			// set notnull to false for text/timestamp fields
+			if ($a_set_text_ts_fields_notnull_false && ($def["type"] == "text" ||
+				$def["type"] == "timestamp") &&
 				(!is_array($pk) || !isset($field,$pk["fields"][$field])))
 			{
 				$def["notnull"] = false;
@@ -378,6 +379,12 @@ class ilMySQLAbstraction
 			if ($def["type"] == "integer")
 			{
 				$def["unsigned"] = false;
+			}
+
+			// set notnull to false for blob and clob
+			if ($def["type"] == "blob" || $def["type"] == "clob")
+			{
+				$def["notnull"] = false;
 			}
 
 			$a = array();
@@ -480,6 +487,10 @@ class ilMySQLAbstraction
 	*/
 	function fixIndexNames($a_table)
 	{
+		if (!$this->il_db->tableExists($a_table))
+		{
+			return;
+		}
 		$all_valid = true;
 		$indices = $this->analyzer->getIndicesInformation($a_table);
 		foreach ($indices as $index)
@@ -516,5 +527,27 @@ class ilMySQLAbstraction
 			$this->il_db->createSequence($a_table, $next);
 		}
 	}
+	
+	/**
+	* This is only used on tables that have already been abstracted
+	* but missed the "full treatment".
+	*/
+	function fixClobNotNull($a_table)
+	{
+		if (!$this->il_db->tableExists($a_table))
+		{
+			return;
+		}
+		$all_valid = true;
+		$fields = $this->analyzer->getFieldInformation($a_table);
+		foreach ($fields as $name => $def)
+		{
+			if ($def["type"] == "clob" && $def["notnull"] == true)
+			{
+				$this->il_db->modifyTableColumn($a_table, $name, array("type" => "clob", "notnull" => false));
+			}
+		}
+	}
+
 }
 ?>
