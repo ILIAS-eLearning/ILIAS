@@ -94,25 +94,29 @@ class ilCourseParticipants extends ilParticipants
 		$this->participants_status[$a_usr_id]['passed'] = (int) $a_passed;
 
 		$query = "SELECT * FROM crs_members ".
-		"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
-		"AND usr_id = ".$ilDB->quote($a_usr_id);
+		"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer')." ".
+		"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
 			$query = "UPDATE crs_members SET ".
-				"passed = ".$ilDB->quote((int) $a_passed)." ".
-				"WHERE obj_id = ".$ilDB->quote($this->obj_id)." ".
-				"AND usr_id = ".$ilDB->quote($a_usr_id);
+				"passed = ".$ilDB->quote((int) $a_passed,'integer')." ".
+				"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer')." ".
+				"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		}
 		else
 		{
-			$query = "INSERT INTO crs_members SET ".
-				"passed = ".$ilDB->quote((int) $a_passed).", ".
-				"obj_id = ".$ilDB->quote($this->obj_id).", ".
-				"usr_id = ".$ilDB->quote($a_usr_id);
+			$query = "INSERT INTO crs_members (passed,obj_id,usr_id,notification,blocked) ".
+				"VALUES ( ".
+				$ilDB->quote((int) $a_passed,'integer').", ".
+				$ilDB->quote($this->obj_id,'integer').", ".
+				$ilDB->quote($a_usr_id,'integer').", ".
+				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote(0,'integer')." ".
+				")";
 			
 		}
-		$res = $ilDB->query($query);
+		$res = $ilDB->manipulate($query);
 		return true;
 	
 	}

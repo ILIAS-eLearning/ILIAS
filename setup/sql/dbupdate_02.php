@@ -8001,4 +8001,8 @@ ALTER TABLE `crs_items` CHANGE `timing_end` `timing_end` INT( 11 ) NOT NULL DEFA
 		$ilMySQLAbstraction->replaceEmptyDatesWithNull($rec["table_name"]);
 	}
 ?>
+<#1695>
+<?php
+	$ilMySQLAbstraction->performAbstraction('crs_members');
+?>
 
