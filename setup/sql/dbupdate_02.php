@@ -8080,3 +8080,9 @@ RENAME TABLE `usr_defined_data` TO `udf_data`;
 	$ilMySQLAbstraction->performAbstraction('usr_new_account_mail');
 ?>
 
+<#1710>
+<?php
+	$ilMySQLAbstraction->performAbstraction('ecs_events');
+?>
+
+

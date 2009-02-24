@@ -188,8 +188,10 @@ class ilECSEventQueueReader
 	 */
 	public function deleteAll()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM ecs_events";
-	 	$this->db->query($query);
+		$res = $ilDB->manipulate($query);
 	 	return true;
 	}
 	
@@ -200,9 +202,11 @@ class ilECSEventQueueReader
 	 */
 	public function deleteAllEContentEvents()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM ecs_events ".
-	 		"WHERE type = ".$this->db->quote(self::TYPE_ECONTENT);
-	 	$this->db->query($query);
+	 		"WHERE type = ".$this->db->quote(self::TYPE_ECONTENT,'text');
+	 	$res = $ilDB->manipulate($query);
 	 	return true;
 	}
 	
@@ -213,9 +217,11 @@ class ilECSEventQueueReader
 	 */
 	public function deleteAllExportedEvents()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM ecs_events ".
-	 		"WHERE type = ".$this->db->quote(self::TYPE_EXPORTED);
-	 	$this->db->query($query);
+	 		"WHERE type = ".$this->db->quote(self::TYPE_EXPORTED,'text');
+		$res = $ilDB->manipulate($query);
 	 	return true;
 	}
 	
@@ -334,13 +340,19 @@ class ilECSEventQueueReader
 	 */
 	public function add($a_type,$a_id,$a_op)
 	{
-	 	$query = "INSERT INTO ecs_events ".
-	 		"SET type = ".$this->db->quote($a_type).", ".
-	 		"id = ".$this->db->quote($a_id).", ".
-	 		"op = ".$this->db->quote($a_op)." ";
-	 	$res = $this->db->query($query);
+	 	global $ilDB;
 	 	
-	 	$new_event['event_id'] = $this->db->getLastInsertId();
+	 	$next_id = $ilDB->nextId('ecs_events');
+	 	$query = "INSERT INTO ecs_events (event_id,type,id,op) ".
+	 		"VALUES (".
+	 		$ilDB->quote($next_id,'integer').", ".
+			$this->db->quote($a_type,'text').", ".
+	 		$this->db->quote($a_id,'integer').", ".
+	 		$this->db->quote($a_op,'text')." ".
+	 		")";
+		$res = $ilDB->manipulate($query);
+	 	
+	 	$new_event['event_id'] = $next_id;
 	 	$new_event['type'] = $a_type;
 	 	$new_event['id'] = $a_id;
 	 	$new_event['op'] = $a_op;
@@ -358,11 +370,13 @@ class ilECSEventQueueReader
 	 */
 	private function update($a_type,$a_id,$a_operation)
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "UPDATE ecs_events ".
-	 		"SET op = ".$this->db->quote($a_operation)." ".
-	 		"WHERE type = ".$this->db->quote($a_type)." ".
-	 		"AND id = ".$this->db->quote($a_id)." ";
-	 	$this->db->query($query);
+	 		"SET op = ".$this->db->quote($a_operation,'text')." ".
+	 		"WHERE type = ".$this->db->quote($a_type,'text')." ".
+	 		"AND id = ".$this->db->quote($a_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -373,9 +387,11 @@ class ilECSEventQueueReader
 	 */
 	private function delete($a_event_id)
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM ecs_events ".
-	 		"WHERE event_id = ".$this->db->quote($a_event_id)." ";
-	 	$this->db->query($query);
+	 		"WHERE event_id = ".$this->db->quote($a_event_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	 	unset($this->econtent_ids[$a_event_id]);
 	 	return true;
 	}
@@ -386,6 +402,8 @@ class ilECSEventQueueReader
 	 */
 	public function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM ecs_events ORDER BY event_id ";
 	 	$res = $this->db->query($query);
 	 	$counter = 0;
