@@ -64,9 +64,10 @@ class ilObjGlossary extends ilObject
 			$this->createMetaData();
 		}
 		
-		$q = "INSERT INTO glossary (id, is_online, virtual) VALUES ".
-			" (".$ilDB->quote($this->getId()).",".$ilDB->quote("n").",".$ilDB->quote($this->getVirtualMode()).")";
-		$ilDB->query($q);
+		$ilDB->manipulate("INSERT INTO glossary (id, is_online, virtual) VALUES (".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote("n", "text").",".
+			$ilDB->quote($this->getVirtualMode(), "text").")");
 
 	}
 
@@ -80,9 +81,10 @@ class ilObjGlossary extends ilObject
 		parent::read();
 #		echo "Glossary<br>\n";
 
-		$q = "SELECT * FROM glossary WHERE id = ".$ilDB->quote($this->getId());
-		$gl_set = $this->ilias->db->query($q);
-		$gl_rec = $gl_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM glossary WHERE id = ".
+			$ilDB->quote($this->getId(), "integer");
+		$gl_set = $ilDB->query($q);
+		$gl_rec = $ilDB->fetchAssoc($gl_set);
 		$this->setOnline(ilUtil::yn2tf($gl_rec["is_online"]));
 		$this->setVirtualMode($gl_rec["virtual"]);
 		$this->setPublicExportFile("xml", $gl_rec["public_xml_file"]);
@@ -183,9 +185,10 @@ class ilObjGlossary extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM glossary WHERE id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM glossary WHERE id = ".
+			$ilDB->quote($a_id, "integer");
 		$lm_set = $ilDB->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$lm_rec = $ilDB->fetchAssoc($lm_set);
 
 		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
@@ -211,31 +214,6 @@ class ilObjGlossary extends ilObject
 	}
 
 	/**
-	* assign a meta data object to glossary object
-	*
-	* @param	object		$a_meta_data	meta data object
-	*/
-/*
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-*/
-
-	/**
-	* get meta data object of glossary object
-	*
-	* @return	object		meta data object
-	*/
-/*
-	function &getMetaData()
-	{
-		$this->initMeta();
-		return $this->meta_data;
-	}
-*/
-
-	/**
 	* update object
 	*/
 	function update()
@@ -244,16 +222,14 @@ class ilObjGlossary extends ilObject
 		
 		$this->updateMetaData();
 
-		$q = "UPDATE glossary SET ".
-			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
-			" virtual = ".$ilDB->quote($this->getVirtualMode()).",".
-			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml")).",".
-			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html")).",".
-			" glo_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu())).",".
-			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()))." ".
-			" WHERE id = ".$ilDB->quote($this->getId());
-			
-		$ilDB->query($q);
+		$ilDB->manipulate("UPDATE glossary SET ".
+			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
+			" virtual = ".$ilDB->quote($this->getVirtualMode(), "text").",".
+			" public_xml_file = ".$ilDB->quote($this->getPublicExportFile("xml"), "text").",".
+			" public_html_file = ".$ilDB->quote($this->getPublicExportFile("html"), "text").",".
+			" glo_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu()), "text").",".
+			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text")." ".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 		
 		parent::update();
 	}
