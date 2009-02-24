@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -64,9 +64,9 @@ class ilObjExerciseAccess extends ilObjectAccess
 		global $ilDB, $lng;
 		
 		$q = "SELECT time_stamp FROM exc_data WHERE obj_id = ".
-			$ilDB->quote($a_obj_id);
+			$ilDB->quote($a_obj_id, "integer");
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		
 		if ($rec["time_stamp"] - time() <= 0)
 		{

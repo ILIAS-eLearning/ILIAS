@@ -8024,7 +8024,8 @@ ALTER TABLE `udf_definition` CHANGE `field_name` `field_name` CHAR( 255 ) NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('udf_definition');
 ?>
-
-
-
+<#1701>
+<?php
+	$ilMySQLAbstraction->performAbstraction('exc_data');
+?>
 
