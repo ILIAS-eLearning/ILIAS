@@ -8112,4 +8112,8 @@ ALTER TABLE exc_returned CHANGE `timestamp` ts TIMESTAMP;
 <?php
 	$ilMySQLAbstraction->performAbstraction('exc_returned');
 ?>
+<#1719>
+<?php
+	$ilMySQLAbstraction->performAbstraction('exc_usr_tutor');
+?>
 
