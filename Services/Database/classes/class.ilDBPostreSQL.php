@@ -95,5 +95,14 @@ class ilDBPostgreSQL extends ilDB
 	{
 		return "now()";
 	}
+	
+	/**
+	* Is fulltext index supported?
+	*/
+	function supportsFulltext()
+	{
+		return false;
+	}
+
 }
 ?>

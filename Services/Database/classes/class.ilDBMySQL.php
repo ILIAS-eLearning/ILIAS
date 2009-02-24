@@ -259,5 +259,49 @@ class ilDBMySQL extends ilDB
 		return true;
 	}
 
+	/**
+	* Is fulltext index supported?
+	*/
+	function supportsFulltext()
+	{
+		return true;
+	}
+
+	/**
+	* Add fulltext index
+	*/
+	function addFulltextIndex($a_table, $a_fields, $a_name = "in")
+	{
+		$i_name = $this->constraintName($a_table, $a_name)."_idx";
+		$f_str = implode($a_fields, ",");
+		$q = "ALTER TABLE $a_table ADD FULLTEXT $i_name ($f_str)";
+		$this->query($q);
+	}
+
+	/**
+	* Add fulltext index
+	*/
+	function dropFulltextIndex($a_table, $a_name)
+	{
+echo "h";
+		$i_name = $this->constraintName($a_table, $a_name)."_idx";
+		$this->query("ALTER TABLE $a_table DROP FULLTEXT $i_name");
+	}
+
+	/**
+	* Is index a fulltext index?
+	*/
+	function isFulltextIndex($a_table, $a_name)
+	{
+		$set = $this->query("SHOW INDEX FROM ".$a_table);
+		while ($rec = $this->fetchAssoc($set))
+		{
+			if ($rec["Key_name"] == $a_name && $rec["Index_type"] == "FULLTEXT")
+			{
+				return true;
+			}
+		}
+	}
+
 }
 ?>

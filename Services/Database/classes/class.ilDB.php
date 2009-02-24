@@ -340,6 +340,11 @@ if ($this->getDBType() == "mysql")
 	{
 	}
 
+	function supportsFulltext()
+	{
+		return false;
+	}
+
 	/**
 	* Handle MDB2 Errors
 	*
@@ -741,7 +746,7 @@ if ($this->getDBType() == "mysql")
 	* @param	array		fields for index
 	* @param	string		index name
 	*/
-	function addIndex($a_table, $a_fields, $a_name = "in")
+	function addIndex($a_table, $a_fields, $a_name = "in", $a_fulltext = false)
 	{
 		$manager = $this->db->loadModule('Manager');
 		
@@ -760,11 +765,38 @@ if ($this->getDBType() == "mysql")
 		$definition = array (
 			'fields' => $fields
 		);
-		$r = $manager->createIndex($a_table, $this->constraintName($a_table, $a_name), $definition);
+		
+		if (!$a_fulltext)
+		{
+			$r = $manager->createIndex($a_table, $this->constraintName($a_table, $a_name), $definition);
+		}
+		else
+		{
+			if ($this->supportsFulltext())
+			{
+				$this->addFulltextIndex($a_table, $a_fields, $a_name);
+			}
+		}
 
 		return $this->handleError($r, "addIndex(".$a_table.")");
 	}
 
+	/**
+	* Add fulltext index
+	*/
+	function addFulltextIndex($a_table, $a_fields, $a_name = "in")
+	{
+		return false;
+	}
+
+	/**
+	* Is index a fulltext index?
+	*/
+	function isFulltextIndex($a_table, $a_name)
+	{
+		return false;
+	}
+	
 	/**
 	* Drop an index from a table.
 	* Note: The index must have been created using MDB2
@@ -776,7 +808,14 @@ if ($this->getDBType() == "mysql")
 	{
 		$manager = $this->db->loadModule('Manager');
 		
-		$r = $manager->dropIndex($a_table, $this->constraintName($a_table, $a_name));
+		if (!$this->isFulltextIndex($a_table, $a_name))
+		{
+			$r = $manager->dropIndex($a_table, $this->constraintName($a_table, $a_name));
+		}
+		else
+		{
+			$this->dropFulltextIndex($a_table, $a_name);
+		}
 
 		return $this->handleError($r, "dropIndex(".$a_table.")");
 	}

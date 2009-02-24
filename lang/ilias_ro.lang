@@ -6452,71 +6452,9 @@ grp#:#crs_grp_assign_crs#:#Assignment of Groups###05 10 2006 new variable
 grp#:#crs_grp_no_courses_assigned#:#No Groups Assigned###05 10 2006 new variable
 grp#:#crs_grouping_select_one#:#Please select one membership limitation.###05 10 2006 new variable
 grp#:#crs_grp_info_reg#:#You can only register to one of this groups:###05 10 2006 new variable
-assessment#:#certificate#:#Certificate###10 10 2006 new variable
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)###10 10 2006 new variable
-assessment#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###10 10 2006 new variable
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)###10 10 2006 new variable
-assessment#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###10 10 2006 new variable
-assessment#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###10 10 2006 new variable
-assessment#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###10 10 2006 new variable
-assessment#:#certificate_custom#:#Custom...###10 10 2006 new variable
-assessment#:#certificate_edit#:#Create/edit a certificate template###10 10 2006 new variable
-assessment#:#certificate_page_format#:#Page Format###10 10 2006 new variable
-assessment#:#certificate_background_image#:#Background Image###10 10 2006 new variable
-assessment#:#certificate_padding_top#:#Top Padding###10 10 2006 new variable
-assessment#:#certificate_margin_body#:#Body Margin###10 10 2006 new variable
-assessment#:#certificate_show#:#Show Certificate###10 10 2006 new variable
-assessment#:#certificate_status#:#Status###10 10 2006 new variable
-assessment#:#certificate_status_complete#:#The certificate is complete and could be used###10 10 2006 new variable
-assessment#:#certificate_status_incomplete#:#The certificate is incomplete###10 10 2006 new variable
-assessment#:#certificate_delete#:#Delete Certificate Data###10 10 2006 new variable
-assessment#:#certificate_preview#:#Show Certificate Preview###10 10 2006 new variable
-assessment#:#certificate_text#:#Certificate Text###10 10 2006 new variable
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe###10 10 2006 new variable
-assessment#:#certificate_var_user_firstname#:#Jane###10 10 2006 new variable
-assessment#:#certificate_var_user_lastname#:#Doe###10 10 2006 new variable
-assessment#:#certificate_var_result_passed#:#passed###10 10 2006 new variable
-assessment#:#certificate_var_result_points#:#38###10 10 2006 new variable
-assessment#:#certificate_var_result_percent#:#83%###10 10 2006 new variable
-assessment#:#certificate_var_max_points#:#46###10 10 2006 new variable
-assessment#:#certificate_var_result_mark_short#:#B###10 10 2006 new variable
-assessment#:#certificate_var_result_mark_long#:#Good###10 10 2006 new variable
-assessment#:#certificate_passed#:#passed###10 10 2006 new variable
-assessment#:#certificate_failed#:#failed###10 10 2006 new variable
-assessment#:#certificate_pageheight#:#Page Height###10 10 2006 new variable
-assessment#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
-assessment#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
-assessment#:#certificate_wrong_units#:#You have entered a wrong set of units###10 10 2006 new variable
-assessment#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###10 10 2006 new variable
 assessment#:#exp_type_certificate#:#Certificate (PDF)###10 10 2006 new variable
-assessment#:#certificate_ph_introduction#:#The following placeholders may be used###11 10 2006 new variable
-assessment#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###11 10 2006 new variable
-assessment#:#certificate_ph_firstname#:#First name of the user###11 10 2006 new variable
-assessment#:#certificate_ph_lastname#:#Last name of the user###11 10 2006 new variable
-assessment#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###11 10 2006 new variable
-assessment#:#certificate_ph_resultpoints#:#Reached points of the user###11 10 2006 new variable
-assessment#:#certificate_ph_resultpercent#:#Reached percentage of the user###11 10 2006 new variable
-assessment#:#certificate_ph_maxpoints#:#Maximum available points###11 10 2006 new variable
-assessment#:#certificate_ph_markshort#:#Users mark (short version)###11 10 2006 new variable
-assessment#:#certificate_ph_marklong#:#Users mark (official version)###11 10 2006 new variable
-assessment#:#certificate_ph_testtitle#:#Title of the test###11 10 2006 new variable
-assessment#:#certificate_ph_date#:#Actual date###11 10 2006 new variable
-assessment#:#certificate_ph_datetime#:#Actual date and time###11 10 2006 new variable
-assessment#:#certificate_visibility#:#Visibility###11 10 2006 new variable
-assessment#:#certificate_visibility_introduction#:#The button to offer users this certificate is###11 10 2006 new variable
-assessment#:#certificate_visibility_always#:#Always visible###11 10 2006 new variable
-assessment#:#certificate_visibility_never#:#Not visible###11 10 2006 new variable
-assessment#:#certificate_visibility_passed#:#Only visible is a user passed the test###11 10 2006 new variable
 assessment#:#passed_only#:#Passed tests only###12 10 2006 new variable
 trac#:#trac_anonymized_info_short#:#(Anonymized)###12 10 2006 new variable
-assessment#:#certificate_top#:#Top###13 10 2006 new variable
-assessment#:#certificate_right#:#Right###13 10 2006 new variable
-assessment#:#certificate_bottom#:#Bottom###13 10 2006 new variable
-assessment#:#certificate_left#:#Left###13 10 2006 new variable
-assessment#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable
-assessment#:#certificate_export#:#Export Certificate###19 10 2006 new variable
-assessment#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
-assessment#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###19 10 2006 new variable
 assessment#:#general#:#General###25 10 2006 new variable
 assessment#:#output#:#Output###25 10 2006 new variable
 assessment#:#scoring#:#Scoring###25 10 2006 new variable
@@ -6536,7 +6474,6 @@ assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default 
 common#:#usrimport_no_insert_ext_account_exists#:#Can't perform "Insert" action. External account already exists.###26 10 2006 new variable
 common#:#usrimport_no_update_ext_account_exists#:#Can't perform "Update" action. External account already exists.###26 10 2006 new variable
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.###26 10 2006 new variable
-assessment#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###12 11 2006 new variable
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s###12 11 2006 new variable
 assessment#:#manscoring#:#Manual Scoring###12 11 2006 new variable
 assessment#:#manscoring_select_user#:#Please select a participant to set the score manually###12 11 2006 new variable
@@ -7189,11 +7126,7 @@ administration#:#purge_type_limit#:#Limit type###10 05 2007 new variable
 administration#:#purge_type_limit_desc#:#If this field contains a value, only objects of the specified type will be purged.###10 05 2007 new variable
 assessment#:#delete_all_user_data#:#Delete Test Data of all Users###10 05 2007 new variable
 assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
-assessment#:#assFlashApp#:#Flash application###10 05 2007 new variable
 assessment#:#flashfile#:#Flash file###10 05 2007 new variable
-assessment#:#flash_attributes#:#Flash attributes###10 05 2007 new variable
-assessment#:#flash_parameters#:#Flash parameters###10 05 2007 new variable
-assessment#:#add_flash_parameter#:#Add Flash Parameter###10 05 2007 new variable
 assessment#:#matching_shuffle_terms_definitions#:#Both (Terms and Definitions)###10 05 2007 new variable
 assessment#:#matching_shuffle_terms_pictures#:#Both (Terms and Pictures)###10 05 2007 new variable
 assessment#:#matching_shuffle_definitions#:#Definitions only###10 05 2007 new variable
@@ -7731,20 +7664,6 @@ rbac#:#mds_edit_permission#:#Change permission settings###28 12 2007 new variabl
 rbac#:#mds_visible#:#Metadata settings are visible###28 12 2007 new variable
 rbac#:#mds_read#:#Read access to Metadata settings###28 12 2007 new variable
 rbac#:#mds_write#:#Edit Metadata setting###28 12 2007 new variable
-assessment#:#certificate_var_user_title#:#Dr.###11 03 2008 new variable
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source###11 03 2008 new variable
-assessment#:#certificate_var_user_department#:#Customer Support###11 03 2008 new variable
-assessment#:#certificate_var_user_street#:#100 Main Street###11 03 2008 new variable
-assessment#:#certificate_var_user_city#:#Anytown, NY###11 03 2008 new variable
-assessment#:#certificate_var_user_zipcode#:#12345###11 03 2008 new variable
-assessment#:#certificate_var_user_country#:#USA###11 03 2008 new variable
-assessment#:#certificate_ph_title#:#Title of the user###11 03 2008 new variable
-assessment#:#certificate_ph_institution#:#Institution of the user###11 03 2008 new variable
-assessment#:#certificate_ph_department#:#Department of the user###11 03 2008 new variable
-assessment#:#certificate_ph_street#:#Street of the user's address###11 03 2008 new variable
-assessment#:#certificate_ph_city#:#City of the user's address###11 03 2008 new variable
-assessment#:#certificate_ph_zipcode#:#ZIP code of the user's address###11 03 2008 new variable
-assessment#:#certificate_ph_country#:#Country of the user's address###11 03 2008 new variable
 common#:#obj_cmps#:#Modules, Services and Plugins###11 03 2008 new variable
 cmps#:#cmps_group#:#Group###11 03 2008 new variable
 cmps#:#cmps_current_version#:#Current Version###11 03 2008 new variable
@@ -8728,3 +8647,430 @@ rbac#:#facs_read#:#Read access to files & foldes settings###06 11 2008 new varia
 rbac#:#facs_visible#:#Files & foldes settings are visible###06 11 2008 new variable
 rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
+common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
+common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
+common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
+common#:#obj_cert#:#Certificates###24 02 2009 new variable
+common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable
+common#:#notes_and_comments#:#Notes and Comments###24 02 2009 new variable
+content#:#cont_ed_insert_plach#:#Insert Placeholder###24 02 2009 new variable
+content#:#cont_ed_plachtext#:#Placeholder Text###24 02 2009 new variable
+content#:#cont_ed_plachmedia#:#Placeholder Media###24 02 2009 new variable
+content#:#cont_ed_plachquestion#:#Placeholder Question###24 02 2009 new variable
+content#:#cont_ed_plachprop#:#Placeholder Properties###24 02 2009 new variable
+content#:#cont_media_placehl#:#Media Placeholder###24 02 2009 new variable
+content#:#cont_question_placehl#:#Question Placeholder###24 02 2009 new variable
+content#:#cont_text_placehl#:#Text Placeholder###24 02 2009 new variable
+content#:#cont_ed_pglprop#:#Page Layout Properties###24 02 2009 new variable
+style#:#sty_based_on#:#Based on###24 02 2009 new variable
+style#:#sty_add_pgl#:#Add Page Layout###24 02 2009 new variable
+style#:#sty_create_pgl#:#Create Page Layout###24 02 2009 new variable
+style#:#sty_name#:#Name###24 02 2009 new variable
+style#:#sty_example#:#Example###24 02 2009 new variable
+style#:#sty_commands#:#Commands###24 02 2009 new variable
+style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.###24 02 2009 new variable
+style#:#sty_style_chars#:#Style Classes###24 02 2009 new variable
+style#:#sty_images#:#Images###24 02 2009 new variable
+style#:#sty_add_image#:#Add Image###24 02 2009 new variable
+style#:#sty_width_height#:#Width x Height###24 02 2009 new variable
+style#:#sty_image_file#:#Image File###24 02 2009 new variable
+style#:#sty_horizontal#:#Horizontal###24 02 2009 new variable
+style#:#sty_vertical#:#Vertical###24 02 2009 new variable
+style#:#sty_text_block_char#:#Text (Block)###24 02 2009 new variable
+style#:#sty_text_inline_char#:#Text (Character)###24 02 2009 new variable
+style#:#sty_section_char#:#Section###24 02 2009 new variable
+style#:#sty_link_char#:#Link###24 02 2009 new variable
+style#:#sty_table_char#:#Table###24 02 2009 new variable
+style#:#sty_table_cell_char#:#Table Cell###24 02 2009 new variable
+style#:#sty_add_characteristic#:#Add Style Class###24 02 2009 new variable
+style#:#sty_page_char#:#Page###24 02 2009 new variable
+style#:#sty_min_height#:#Minimum Height###24 02 2009 new variable
+style#:#sty_confirm_char_deletion#:#Are you sure that you want to delete the following style classe(s)?###24 02 2009 new variable
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:###24 02 2009 new variable
+style#:#sty_msg_characteristic_already_exists#:#A style class with this title already exisits in this style.###24 02 2009 new variable
+style#:#sty_added_characteristic#:#Added style class.###24 02 2009 new variable
+sahs#:#sahs_new_chapter#:#New Chapter###24 02 2009 new variable
+sahs#:#sahs_new_page#:#New Page###24 02 2009 new variable
+sahs#:#sahs_new_sco#:#New SCO###24 02 2009 new variable
+forum#:#frm_moderators#:#Moderators###24 02 2009 new variable
+forum#:#frm_detach_moderator_role#:#Detach Moderator Role###24 02 2009 new variable
+forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderator.###24 02 2009 new variable
+forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.###24 02 2009 new variable
+forum#:#frm_moderators_search#:#User Search###24 02 2009 new variable
+forum#:#frm_moderators_search_query#:#Searchterm(s)###24 02 2009 new variable
+forum#:#frm_moderators_do_search#:#Search###24 02 2009 new variable
+forum#:#frm_moderator_role_added_successfully#:#The moderator role was added successfully.###24 02 2009 new variable
+forum#:#frm_moderators_select_one#:#Please choose one user.###24 02 2009 new variable
+forum#:#frm_moderators_not_exist_yet#:#Please choose a moderator. ###24 02 2009 new variable
+forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.###24 02 2009 new variable
+payment#:#shop_info#:#Shop Information###24 02 2009 new variable
+content#:#cont_tracking_byuser#:#By User###24 02 2009 new variable
+content#:#cont_tracking_bysco#:#By Chapter###24 02 2009 new variable
+common#:#payment_demo#:#Demo###24 02 2009 new variable
+payment#:#payment_back_to_shop#:#Back to Shop###24 02 2009 new variable
+content#:#cont_adjust_size#:#Adjust Size###24 02 2009 new variable
+content#:#cont_use_same_resource_as_above#:#Use the same resource as above###24 02 2009 new variable
+content#:#cont_constrain_proportions#:#Constrain Proportions###24 02 2009 new variable
+common#:#add_parameter#:#New Parameter###24 02 2009 new variable
+common#:#delete_parameter#:#Delete Parameter###24 02 2009 new variable
+common#:#confirm_delete_parameter#:#Do you really want to delete the parameter?###24 02 2009 new variable
+assessment#:#assFlashQuestion#:#Flash Question###24 02 2009 new variable
+content#:#cont_resource_size#:#Resource Size###24 02 2009 new variable
+content#:#cont_resize_img#:#Resize Image File###24 02 2009 new variable
+content#:#cont_autostart#:#Autostart###24 02 2009 new variable
+content#:#cont_default#:#Default###24 02 2009 new variable
+content#:#cont_custom#:#Custom###24 02 2009 new variable
+content#:#cont_no_parameters#:#No Parameters###24 02 2009 new variable
+content#:#cont_no_caption#:#No Caption###24 02 2009 new variable
+content#:#cont_custom_size#:#Custom Size###24 02 2009 new variable
+common#:#pos_top#:#Top###24 02 2009 new variable
+common#:#pos_right#:#Right###24 02 2009 new variable
+common#:#pos_bottom#:#Bottom###24 02 2009 new variable
+common#:#pos_left#:#Left###24 02 2009 new variable
+common#:#msg_unit_is_required#:#This input requires a unit. Please enter a correct value.###24 02 2009 new variable
+payment#:#payment_no_topic#:#No Topic###24 02 2009 new variable
+assessment#:#error_cloze_not_numeric#:#Please enter a numeric value.###24 02 2009 new variable
+assessment#:#error_no_upper_limit#:#Please enter an upper bound.###24 02 2009 new variable
+assessment#:#error_no_lower_limit#:#Please enter a lower bound.###24 02 2009 new variable
+content#:#cont_assign_characteristic#:#Assign Characteristic###24 02 2009 new variable
+content#:#cont_anchor#:#Anchor###24 02 2009 new variable
+content#:#cont_choose_characteristic#:#Choose Characteristic###24 02 2009 new variable
+content#:#cont_choose_characteristic_text#:#Text Elements###24 02 2009 new variable
+content#:#cont_choose_characteristic_section#:#Sections###24 02 2009 new variable
+common#:#certificate#:#Certificate###24 02 2009 new variable
+certificate#:#certificate_top#:#Top###24 02 2009 new variable
+certificate#:#certificate_right#:#Right###24 02 2009 new variable
+certificate#:#certificate_bottom#:#Bottom###24 02 2009 new variable
+certificate#:#certificate_left#:#Left###24 02 2009 new variable
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)###24 02 2009 new variable
+certificate#:#certificate_a4_landscape#:#A4 Landscape (210 mm x 297 mm)###24 02 2009 new variable
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)###24 02 2009 new variable
+certificate#:#certificate_a5_landscape#:#A5 Landscape (148 mm x 210 mm)###24 02 2009 new variable
+certificate#:#certificate_letter#:#Letter (11 inch x 8.5 inch)###24 02 2009 new variable
+certificate#:#certificate_letter_landscape#:#Letter Landscape (8.5 inch x 11 inch)###24 02 2009 new variable
+certificate#:#certificate_custom#:#Custom...###24 02 2009 new variable
+certificate#:#certificate_edit#:#Create/Edit a Certificate Template###24 02 2009 new variable
+certificate#:#certificate_export#:#Export Certificate###24 02 2009 new variable
+certificate#:#certificate_page_format#:#Page Format###24 02 2009 new variable
+certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.###24 02 2009 new variable
+certificate#:#certificate_background_image#:#Background Image###24 02 2009 new variable
+certificate#:#certificate_padding_top#:#Top Padding###24 02 2009 new variable
+certificate#:#certificate_margin_body#:#Body Margin###24 02 2009 new variable
+certificate#:#certificate_not_well_formed#:#The certificate text is not well formed. Please enter valid XHTML for the certificate text!###24 02 2009 new variable
+certificate#:#certificate_show#:#Show Certificate###24 02 2009 new variable
+certificate#:#certificate_status#:#Status###24 02 2009 new variable
+certificate#:#certificate_status_complete#:#The certificate is complete and could be used###24 02 2009 new variable
+certificate#:#certificate_status_incomplete#:#The certificate is incomplete###24 02 2009 new variable
+certificate#:#certificate_delete#:#Delete Certificate Data###24 02 2009 new variable
+certificate#:#certificate_preview#:#Show Certificate Preview###24 02 2009 new variable
+certificate#:#certificate_text#:#Certificate Text###24 02 2009 new variable
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe###24 02 2009 new variable
+certificate#:#certificate_var_user_firstname#:#Jane###24 02 2009 new variable
+certificate#:#certificate_var_user_lastname#:#Doe###24 02 2009 new variable
+certificate#:#certificate_var_user_title#:#Dr.###24 02 2009 new variable
+certificate#:#certificate_var_user_institution#:#ILIAS Open Source###24 02 2009 new variable
+certificate#:#certificate_var_user_department#:#Customer Support###24 02 2009 new variable
+certificate#:#certificate_var_user_street#:#100 Main Street###24 02 2009 new variable
+certificate#:#certificate_var_user_city#:#Anytown, NY###24 02 2009 new variable
+certificate#:#certificate_var_user_zipcode#:#12345###24 02 2009 new variable
+certificate#:#certificate_var_user_country#:#USA###24 02 2009 new variable
+certificate#:#certificate_var_result_passed#:#passed###24 02 2009 new variable
+certificate#:#certificate_var_result_points#:#38###24 02 2009 new variable
+certificate#:#certificate_var_result_percent#:#83%###24 02 2009 new variable
+certificate#:#certificate_var_max_points#:#46###24 02 2009 new variable
+certificate#:#certificate_var_result_mark_short#:#B###24 02 2009 new variable
+certificate#:#certificate_var_result_mark_long#:#Good###24 02 2009 new variable
+certificate#:#certificate_passed#:#passed###24 02 2009 new variable
+certificate#:#certificate_failed#:#failed###24 02 2009 new variable
+certificate#:#certificate_pageheight#:#Page Height###24 02 2009 new variable
+certificate#:#certificate_pagewidth#:#Page Width###24 02 2009 new variable
+certificate#:#certificate_wrong_unit#:#You have entered a wrong unit###24 02 2009 new variable
+certificate#:#certificate_wrong_units#:#You have entered a wrong set of units###24 02 2009 new variable
+certificate#:#certificate_confirm_deletion_text#:#Do you really want to delete the certificate and all its related data?###24 02 2009 new variable
+certificate#:#certificate_enabled_scorm#:#Enabled###24 02 2009 new variable
+certificate#:#certificate_enabled_scorm_introduction#:#If checked, the certificate will be offered for all users who finished the SCORM learning module.###24 02 2009 new variable
+certificate#:#certificate_ph_lastaccess#:#Last access date and time of the user###24 02 2009 new variable
+certificate#:#certificate_ph_scormtitle#:#Title of the SCORM learning module###24 02 2009 new variable
+certificate#:#certificate_ph_introduction#:#The following placeholders may be used###24 02 2009 new variable
+certificate#:#certificate_ph_fullname#:#Full name of the user (title, firstname and lastname)###24 02 2009 new variable
+certificate#:#certificate_ph_firstname#:#First name of the user###24 02 2009 new variable
+certificate#:#certificate_ph_lastname#:#Last name of the user###24 02 2009 new variable
+certificate#:#certificate_ph_passed#:#"passed" or "failed", depending on the test results###24 02 2009 new variable
+certificate#:#certificate_ph_resultpoints#:#Reached points of the user###24 02 2009 new variable
+certificate#:#certificate_ph_resultpercent#:#Reached percentage of the user###24 02 2009 new variable
+certificate#:#certificate_ph_maxpoints#:#Maximum available points###24 02 2009 new variable
+certificate#:#certificate_ph_markshort#:#Users mark (short version)###24 02 2009 new variable
+certificate#:#certificate_ph_marklong#:#Users mark (official version)###24 02 2009 new variable
+certificate#:#certificate_ph_testtitle#:#Title of the test###24 02 2009 new variable
+certificate#:#certificate_ph_date#:#Actual date###24 02 2009 new variable
+certificate#:#certificate_ph_datetime#:#Actual date and time###24 02 2009 new variable
+certificate#:#certificate_ph_title#:#Title of the user###24 02 2009 new variable
+certificate#:#certificate_ph_institution#:#Institution of the user###24 02 2009 new variable
+certificate#:#certificate_ph_department#:#Department of the user###24 02 2009 new variable
+certificate#:#certificate_ph_street#:#Street of the user's address###24 02 2009 new variable
+certificate#:#certificate_ph_city#:#City of the user's address###24 02 2009 new variable
+certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address###24 02 2009 new variable
+certificate#:#certificate_ph_country#:#Country of the user's address###24 02 2009 new variable
+certificate#:#certificate_unit_description#:#Enter units of measure as VALUE[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###24 02 2009 new variable
+certificate#:#certificate_visibility#:#Visibility###24 02 2009 new variable
+certificate#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is###24 02 2009 new variable
+certificate#:#certificate_visibility_always#:#Always Visible###24 02 2009 new variable
+certificate#:#certificate_visibility_never#:#Not Visible###24 02 2009 new variable
+certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test###24 02 2009 new variable
+certificate#:#certificate_error_import#:#An error occured during the import of a certificate!###24 02 2009 new variable
+certificate#:#certificate_error_upload_bgimage#:#An error occured during the upload of the background image!###24 02 2009 new variable
+certificate#:#certificate_settings#:#Certificate Settings###24 02 2009 new variable
+certificate#:#default_background_info#:#This background image will be chosen as default background for all certificates. If you need another background image in a certficiate, you have to upload one in the certificate editor.###24 02 2009 new variable
+certificate#:#certificate_usage#:#Please note that the usage of certificates is only available if the ILIAS Java-Server is running. The configuration for Java-Server is available on the main page of the ILIAS administration in section Webservices.###24 02 2009 new variable
+certificate#:#download_certificate#:#Download Certificate###24 02 2009 new variable
+dateplaner#:#cal_delete_app_sure#:#Do you really want to delete the following appointments?###24 02 2009 new variable
+dateplaner#:#cal_deleted_app#:#The selected appointments have been deleted.###24 02 2009 new variable
+common#:#to_filter#:#Filter###24 02 2009 new variable
+common#:#user_status#:#User Status###24 02 2009 new variable
+assessment#:#manscoring_done#:#Scored Participants###24 02 2009 new variable
+assessment#:#manscoring_none#:#Unscored Participants###24 02 2009 new variable
+assessment#:#manscoring_pending#:#Partially Scored Participants###24 02 2009 new variable
+file#:#replace_file_info#:#All files versions will be deleted.###24 02 2009 new variable
+file#:#file_new_version_info#:#Create new file version. Old versions will not be modified.###24 02 2009 new variable
+file#:#file_new_version#:#Create New Version###24 02 2009 new variable
+common#:#save_params_for_cron#:#Save Parameter for Cronjob###24 02 2009 new variable
+common#:#systemcheck_cronform#:#Activation of System Check in Cronjob###24 02 2009 new variable
+common#:#systemcheck_cron#:#Process System Check in Cronjob###24 02 2009 new variable
+content#:#cont_general_properties#:#General Properties###24 02 2009 new variable
+content#:#cont_current_style#:#Current Style###24 02 2009 new variable
+content#:#cont_edit_style#:#Edit Style###24 02 2009 new variable
+content#:#cont_delete_style#:#Delete Style###24 02 2009 new variable
+content#:#cont_layout_toc2win_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open in separate window.###24 02 2009 new variable
+content#:#cont_layout_1window_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window.###24 02 2009 new variable
+content#:#cont_layout_2window_desc#:#Content in the left frame. FAQ, glossary and media links open in right frame.###24 02 2009 new variable
+content#:#cont_layout_3window_desc#:#Content in the left frame. FAQ and media links open in top-right frame, glossary links in bottom-right frame.###24 02 2009 new variable
+content#:#cont_layout_toc2windyn_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open dynamically a frame at bottom-right.###24 02 2009 new variable
+content#:#cont_layout_presentation_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu.###24 02 2009 new variable
+content#:#cont_layout_fullscreen_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu and no navigation bar.###24 02 2009 new variable
+content#:#cont_layout_toc2win#:#Table of Contents###24 02 2009 new variable
+content#:#cont_layout_1window#:#One Window###24 02 2009 new variable
+content#:#cont_layout_2window#:#Two Windows###24 02 2009 new variable
+content#:#cont_layout_3window#:#Three Windows###24 02 2009 new variable
+content#:#cont_layout_toc2windyn#:#Table of Contents Dynamic###24 02 2009 new variable
+content#:#cont_layout_presentation#:#Presentation###24 02 2009 new variable
+content#:#cont_layout_fullscreen#:#Full Screen###24 02 2009 new variable
+common#:#obj_lrss#:#Learning Resources###24 02 2009 new variable
+common#:#obj_lrss_desc#:#Configure all types of learning modules.###24 02 2009 new variable
+content#:#cont_lrs_settings#:#Settings###24 02 2009 new variable
+content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation###24 02 2009 new variable
+content#:#cont_enable_time_scheduled_page_activation_info#:#If enabled, an activation period (date/time) can be selected in the learning module editor for each page.###24 02 2009 new variable
+common#:#lrss_edit_permission#:#Change permission settings###24 02 2009 new variable
+common#:#lrss_visible#:#Learning Resources Settings are visible###24 02 2009 new variable
+common#:#lrss_read#:#Read access to Learning Resources Settings###24 02 2009 new variable
+common#:#lrss_write#:#Edit Learning Resources Settings###24 02 2009 new variable
+content#:#cont_edit_lrs_settings#:#Edit Settings###24 02 2009 new variable
+content#:#cont_activation#:#Activation###24 02 2009 new variable
+content#:#cont_page_activation#:#Page Activation###24 02 2009 new variable
+content#:#cont_activated#:#Activated###24 02 2009 new variable
+content#:#cont_deactivated#:#Deactivated###24 02 2009 new variable
+content#:#cont_scheduled_activation#:#Scheduled Activation###24 02 2009 new variable
+content#:#cont_start#:#Start###24 02 2009 new variable
+content#:#cont_end#:#End###24 02 2009 new variable
+shib#:#shib_settings#:#Shibboleth Settings###24 02 2009 new variable
+shib#:#shib_role_assignment#:#Role Assignments###24 02 2009 new variable
+shib#:#shib_role_ass_table#:#New Rule for Role Assignments###24 02 2009 new variable
+shib#:#shib_new_rule#:#Add new Rule###24 02 2009 new variable
+shib#:#shib_role_name#:#ILIAS Role Name###24 02 2009 new variable
+shib#:#shib_global_role#:#Global Role###24 02 2009 new variable
+shib#:#shib_local_role#:#Local Role###24 02 2009 new variable
+shib#:#shib_role_name_info#:#Please choose either a global role or enter the name of a local role.###24 02 2009 new variable
+shib#:#shib_update_roles#:#Role Assignments###24 02 2009 new variable
+shib#:#shib_add_missing#:#Assign Missing Roles###24 02 2009 new variable
+shib#:#shib_remove_deprecated#:#Deassign Deprecated Roles###24 02 2009 new variable
+shib#:#shib_check_role_assignment#:#Assignment of Roles After Later Logins###24 02 2009 new variable
+shib#:#shib_assignment_type#:#Kind of Assignment###24 02 2009 new variable
+shib#:#shib_attribute#:#User Attribute###24 02 2009 new variable
+shib#:#shib_attribute_name#:#Attribute Name###24 02 2009 new variable
+shib#:#shib_attribute_value#:#Attribute Value###24 02 2009 new variable
+shib#:#shib_attr_info#:#Assign by a specific attribute in the Shibboleth User Profile.###24 02 2009 new variable
+shib#:#shib_missing_role#:#Please select one role.###24 02 2009 new variable
+shib#:#shib_missing_attr_name#:#Please enter the attribute name.###24 02 2009 new variable
+shib#:#shib_missing_attr_value#:#Please enter the attribute value.###24 02 2009 new variable
+shib#:#shib_rules_tables#:#Active Role Assignment Rules###24 02 2009 new variable
+shib#:#shib_role_by_attribute#:#Shibboleth Attribute###24 02 2009 new variable
+shib#:#shib_rule_type#:#Type of Assignment###24 02 2009 new variable
+shib#:#shib_ilias_role#:#ILIAS Role Name###24 02 2009 new variable
+shib#:#shib_rule_condition#:#Condition###24 02 2009 new variable
+shib#:#shib_confirm_del_role_ass#:#Do you really want to delete the following rules?###24 02 2009 new variable
+shib#:#shib_deleted_rule#:#Deleted role assignments.###24 02 2009 new variable
+common#:#expanded#:#Expanded###24 02 2009 new variable
+shib#:#shib_update_role_ass_table#:#Edit Role Assignment Rule###24 02 2009 new variable
+shib#:#shib_missing_plugin_id#:#Please enter a valid plugin id.###24 02 2009 new variable
+shib#:#shib_plugin#:#Assignment by Plugin###24 02 2009 new variable
+shib#:#shib_plugin_info#:#Validate the role assignment with a plugin. Please enter a valid plugin id.###24 02 2009 new variable
+shib#:#shib_role_by_plugin#:#By Plugin###24 02 2009 new variable
+shib#:#shib_plugin_id#:#Plugin Id###24 02 2009 new variable
+shib#:#shib_role_selection#:#Role Selection###24 02 2009 new variable
+shib#:#shib_choose_role#:#Choose Role###24 02 2009 new variable
+shib#:#shib_add_remove#:#Add/Remove Roles###24 02 2009 new variable
+common#:#page_layouts#:#Page Layouts###24 02 2009 new variable
+common#:#page_layout#:#Page Layout###24 02 2009 new variable
+style#:#sty_list_char#:#List###24 02 2009 new variable
+style#:#sty_media_char#:#Media###24 02 2009 new variable
+style#:#sty_question_char#:#Question###24 02 2009 new variable
+style#:#sty_sco_char#:#SCO & Objective###24 02 2009 new variable
+style#:#sty_ol#:#Numbered List###24 02 2009 new variable
+style#:#sty_ul#:#Bullet List###24 02 2009 new variable
+style#:#sty_list_style_type#:#List Style Type###24 02 2009 new variable
+style#:#sty_list_style_position#:#List Style Position###24 02 2009 new variable
+style#:#sty_list_style_image#:#List Style Image###24 02 2009 new variable
+style#:#sty_table#:#Table###24 02 2009 new variable
+style#:#sty_border_collapse#:#Border Collapse###24 02 2009 new variable
+style#:#sty_type_media#:#Media###24 02 2009 new variable
+style#:#sty_type_media_caption#:#Media Caption###24 02 2009 new variable
+style#:#sty_type_text_block#:#Text Block###24 02 2009 new variable
+style#:#sty_type_text_inline#:#Character###24 02 2009 new variable
+style#:#sty_type_section#:#Section###24 02 2009 new variable
+style#:#sty_type_link#:#Link###24 02 2009 new variable
+style#:#sty_type_table#:#Table###24 02 2009 new variable
+style#:#sty_type_table_cell#:#Table Cell###24 02 2009 new variable
+style#:#sty_type_list_item#:#List Item###24 02 2009 new variable
+style#:#sty_type_list_o#:#Numbered List###24 02 2009 new variable
+style#:#sty_type_list_u#:#Bulleted List###24 02 2009 new variable
+style#:#sty_type_question#:#Question###24 02 2009 new variable
+style#:#sty_type_page#:#Page###24 02 2009 new variable
+style#:#sty_type#:#Type###24 02 2009 new variable
+style#:#sty_type_sco#:#SCO###24 02 2009 new variable
+content#:#cont_StandardTable#:#Standard Table###24 02 2009 new variable
+style#:#sty_opacity#:#Opacity###24 02 2009 new variable
+style#:#sty_positioning#:#Positioning###24 02 2009 new variable
+style#:#sty_width#:#Width###24 02 2009 new variable
+style#:#sty_height#:#Height###24 02 2009 new variable
+style#:#sty_overflow#:#Overflow###24 02 2009 new variable
+style#:#sty_position#:#Position###24 02 2009 new variable
+content#:#cont_Media#:#Media (Standard)###24 02 2009 new variable
+style#:#sty_flist_char#:#File List###24 02 2009 new variable
+style#:#sty_type_flist#:#File List###24 02 2009 new variable
+style#:#sty_type_flist_cont#:#File List Container###24 02 2009 new variable
+style#:#sty_type_flist_li#:#File List Item###24 02 2009 new variable
+style#:#sty_type_flist_head#:#File List Heading###24 02 2009 new variable
+content#:#cont_file_from_repository#:#File From Repository###24 02 2009 new variable
+content#:#cont_position#:#Position###24 02 2009 new variable
+content#:#cont_ed_edit_files#:#Edit Files###24 02 2009 new variable
+content#:#cont_save_positions#:#Save Positions###24 02 2009 new variable
+content#:#cont_add_file#:#Add File###24 02 2009 new variable
+content#:#cont_save_positions_and_classes#:#Save Positions and Style Classes###24 02 2009 new variable
+content#:#cont_FileListItem#:#File List Item (Standard)###24 02 2009 new variable
+style#:#sty_type_media_cont#:#Media Container###24 02 2009 new variable
+style#:#sty_type_page_fn#:#Footnote###24 02 2009 new variable
+style#:#sty_type_page_nav#:#Footnote###24 02 2009 new variable
+style#:#sty_type_page_title#:#Page Title###24 02 2009 new variable
+style#:#sty_float#:#Float###24 02 2009 new variable
+style#:#sty_type_page_bnav#:#Bottom Navigation###24 02 2009 new variable
+style#:#sty_type_page_tnav#:#Top Navigation###24 02 2009 new variable
+style#:#sty_type_page_lnav#:#Left Navigation###24 02 2009 new variable
+style#:#sty_type_page_rnav#:#Right Navigation###24 02 2009 new variable
+style#:#sty_type_page_cont#:#Page Container###24 02 2009 new variable
+style#:#sty_type_page_frame#:#Page Frame###24 02 2009 new variable
+style#:#sty_type_page_lnavlink#:#Left Navigation Link###24 02 2009 new variable
+style#:#sty_type_page_rnavlink#:#Right Navigation Link###24 02 2009 new variable
+style#:#sty_type_page_lnavimage#:#Left Navigation Image###24 02 2009 new variable
+style#:#sty_type_page_rnavimage#:#Right Navigation Image###24 02 2009 new variable
+style#:#sty_type_qtitle#:#Question Title###24 02 2009 new variable
+style#:#sty_type_qanswer#:#Answer###24 02 2009 new variable
+style#:#sty_type_qfeedr#:#Feedback, Right###24 02 2009 new variable
+style#:#sty_type_qfeedw#:#Feedback, Wrong###24 02 2009 new variable
+style#:#sty_type_qinput#:#Text Input###24 02 2009 new variable
+style#:#sty_type_qlinput#:#Long Text Input###24 02 2009 new variable
+style#:#sty_type_qsubmit#:#Question Submit Buttons###24 02 2009 new variable
+style#:#sty_type_sco_desc#:#SCO Description###24 02 2009 new variable
+style#:#sty_type_sco_title#:#SCO Title###24 02 2009 new variable
+style#:#sty_type_sco_obj#:#SCO Objective###24 02 2009 new variable
+style#:#sty_type_sco_keyw#:#SCO Keywords###24 02 2009 new variable
+common#:#im_jabber#:#Jabber###24 02 2009 new variable
+common#:#im_jabber_icon#:#Jabber Logo###24 02 2009 new variable
+common#:#im_voip#:#VoIP###24 02 2009 new variable
+common#:#im_voip_icon#:#VoIP Logo###24 02 2009 new variable
+common#:#paste_clipboard_items_into_multiple_objects#:#Paste Into Multiple Objects###24 02 2009 new variable
+common#:#select_at_least_one_object#:#Please choose at least one object.###24 02 2009 new variable
+common#:#msg_obj_exists_in_folder#:#The object %s already exists in the folder %s.###24 02 2009 new variable
+common#:#msg_obj_may_not_contain_objects_of_type#:#The object %s may not contain objects of type: %s.###24 02 2009 new variable
+common#:#msg_no_perm_paste_object_in_folder#:#You have no permission to paste the object %s in the folder %s.###24 02 2009 new variable
+common#:#msg_paste_object_not_in_itself#:#It's not possible to paste the object %s in itself.###24 02 2009 new variable
+common#:#mgs_objects_linked_to_the_following_folders#:#The object(s) was/were linked to the following folder(s): %s###24 02 2009 new variable
+common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session###24 02 2009 new variable
+common#:#session_reminder#:#Session-Reminder###24 02 2009 new variable
+common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.###24 02 2009 new variable
+ecs#:#ecs_no_owner#:#Please select one community name.###24 02 2009 new variable
+export#:#export_select_resources#:#Select Resources###24 02 2009 new variable
+export#:#export_resource#:#Resource###24 02 2009 new variable
+export#:#export_last_export_file#:#Use Last Export File###24 02 2009 new variable
+export#:#export_last_export#:#Last Export###24 02 2009 new variable
+export#:#export_create_new_file#:#Create New Export File###24 02 2009 new variable
+export#:#export_omit_resource#:#Omit Resource###24 02 2009 new variable
+export#:#export_omit#:#Omit###24 02 2009 new variable
+export#:#export_create#:#Create###24 02 2009 new variable
+export#:#export_last_file#:#Last File###24 02 2009 new variable
+export#:#export_export_date#:#Export Date###24 02 2009 new variable
+common#:#session_reminder_extended#:#Your Session was extended for %s###24 02 2009 new variable
+common#:#session_reminder_session_duration#:#(Session Duration: %s).###24 02 2009 new variable
+crs#:#crs_user_already_assigned#:#The chosen user is already assigned to this course.###24 02 2009 new variable
+assessment#:#showSuggestedSolution#:#Suggested solution###24 02 2009 new variable
+assessment#:#deleteSuggestedSolution#:#Remove this suggested solution###24 02 2009 new variable
+assessment#:#suggestedSolutionType#:#Suggested solution type###24 02 2009 new variable
+assessment#:#changeSuggestedSolution#:#Change suggested solution###24 02 2009 new variable
+assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
+assessment#:#fileDownload#:#File download###24 02 2009 new variable
+assessment#:#solutionText#:#Text###24 02 2009 new variable
+content#:#cont_print_no_page_selected#:#Please select at least one page.###24 02 2009 new variable
+assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
+assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"###24 02 2009 new variable
+assessment#:#tst_show_solution_suggested#:#Show Suggested Solution###24 02 2009 new variable
+survey#:#err_no_pool_name#:#Please enter the name of a survey question pool###24 02 2009 new variable
+assessment#:#err_no_numeric_value#:#Please enter a numeric value###24 02 2009 new variable
+assessment#:#matching_pairs#:#Matching Pairs###24 02 2009 new variable
+assessment#:#error_duplicate_term#:#You selected a matching term more than once###24 02 2009 new variable
+assessment#:#matching_type#:#Matching Question Subtype###24 02 2009 new variable
+common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.###24 02 2009 new variable
+assessment#:#thumb_geometry#:#Thumbnail Geometry###24 02 2009 new variable
+assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.###24 02 2009 new variable
+assessment#:#element_height#:#Minimum Height###24 02 2009 new variable
+assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.###24 02 2009 new variable
+assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)###24 02 2009 new variable
+assessment#:#ordertext#:#Ordering Text###24 02 2009 new variable
+assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.###24 02 2009 new variable
+assessment#:#textsize#:#Text Size###24 02 2009 new variable
+assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.###24 02 2009 new variable
+common#:#loginname_settings#:#Loginname-Settings###24 02 2009 new variable
+common#:#allow_change_loginname#:#Allow to change the login name###24 02 2009 new variable
+common#:#create_history_loginname#:#Create a history for changed login names###24 02 2009 new variable
+common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history###24 02 2009 new variable
+common#:#loginname_already_exists#:#This login name already exists.###24 02 2009 new variable
+common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.###24 02 2009 new variable
+ecs#:#ecs_unique_id#:#Participant-ID###24 02 2009 new variable
+ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories###24 02 2009 new variable
+ecs#:#ecs_attribute_name#:#Attribute Name###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_type#:#Assignment Type###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_fixed#:#Fixed Values###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_values#:#Attribute Value###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning Course-Links to categories based on fixed values.###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_duration#:#Date Range###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course-Links based on date ranges (e.g starting time of a course).###24 02 2009 new variable
+ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.###24 02 2009 new variable
+ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the ending time.###24 02 2009 new variable
+ecs#:#ecs_err_invalid_type#:#Please choose an assignment mode.###24 02 2009 new variable
+ecs#:#ecs_field_part_id#:#Participant ID###24 02 2009 new variable
+ecs#:#ecs_category_mapping#:#Assignment to Categories###24 02 2009 new variable
+ecs#:#ecs_tbl_active_rules#:#Active Rules for Category Assignment###24 02 2009 new variable
+ecs#:#ecs_edit_category_mapping#:#Edit Assignment###24 02 2009 new variable
+common#:#chat_enter_public_room#:#Public Chat###24 02 2009 new variable
+common#:#chat_enter_public_room_tooltip#:#Enter public chat.###24 02 2009 new variable
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat.###24 02 2009 new variable
+assessment#:#assFileUpload#:#File Upload Question###24 02 2009 new variable
+assessment#:#allowedextensions#:#Allowed File Extensions###24 02 2009 new variable
+assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).###24 02 2009 new variable
+assessment#:#maxsize#:#Maximum file upload size ###24 02 2009 new variable
+assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.###24 02 2009 new variable
+common#:#save_customer_address#:#Store billing address###24 02 2009 new variable
+common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored###24 02 2009 new variable
+common#:#bookings#:#Bookings###24 02 2009 new variable
+forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads###24 02 2009 new variable

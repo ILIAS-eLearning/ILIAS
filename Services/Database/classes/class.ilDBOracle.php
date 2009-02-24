@@ -112,5 +112,13 @@ class ilDBOracle extends ilDB
 		return "pk";
 	}
 
+	/**
+	* Is fulltext index supported?
+	*/
+	function supportsFulltext()
+	{
+		return false;
+	}
+
 }
 ?>

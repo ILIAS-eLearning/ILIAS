@@ -202,14 +202,31 @@ class ilDBAnalyzer
 		//$constraints = $this->manager->listTableConstraints($a_table);
 		$indexes = $this->manager->listTableIndexes($a_table);
 
+		// get additional information if database is MySQL
+		$mysql_info = array();
+		if ($this->il_db->getDBType() == "mysql")
+		{
+			$set = $this->il_db->query("SHOW INDEX FROM ".$a_table);
+			while ($rec = $this->il_db->fetchAssoc($set))
+			{
+				$mysql_info[$rec["Key_name"]] = $rec;
+			}
+		}
+		
 		$ind = array();
 		foreach ($indexes as $c)
 		{
 			$info = $this->reverse->getTableIndexDefinition($a_table, $c);
+
 			$i = array();
 			if (!$info["primary"])
 			{
 				$i["name"] = $c;
+				$i["fulltext"] = false;
+				if ($mysql_info[$i["name"]]["Index_type"] == "FULLTEXT")
+				{
+					$i["fulltext"] = true;
+				}
 				foreach ($info["fields"] as $k => $f)
 				{
 					$i["fields"][$k] = array(
