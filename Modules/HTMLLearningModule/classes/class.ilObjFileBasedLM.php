@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -164,11 +164,10 @@ class ilObjFileBasedLM extends ilObject
 		$this->updateMetaData();
 		parent::update();
 
-		$q = "UPDATE file_based_lm SET ".
-			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
-			" startfile = ".$ilDB->quote($this->getStartFile())." ".
-			" WHERE id = ".$ilDB->quote($this->getId())." ";
-		$this->ilias->db->query($q);
+		$ilDB->manipulate("UPDATE file_based_lm SET ".
+			" is_online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
+			" startfile = ".$ilDB->quote($this->getStartFile(), "text")." ".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 
 		return true;
 	}
@@ -182,11 +181,11 @@ class ilObjFileBasedLM extends ilObject
 		
 		parent::read();
 
-		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($this->getId());
-		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($this->getId(), "integer");
+		$lm_set = $ilDB->query($q);
+		$lm_rec = $ilDB->fetchAssoc($lm_set);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["is_online"]));
-		$this->setStartFile($lm_rec["startfile"]);
+		$this->setStartFile((string) $lm_rec["startfile"]);
 
 	}
 
@@ -214,19 +213,10 @@ class ilObjFileBasedLM extends ilObject
 		parent::create();
 		$this->createDataDirectory();
 
-/*
-		$this->meta_data->setId($this->getId());
-		$this->meta_data->setType($this->getType());
-		$this->meta_data->setTitle($this->getTitle());
-		$this->meta_data->setDescription($this->getDescription());
-		$this->meta_data->setObject($this);
-		$this->meta_data->create();
-*/
-
-		$q = "INSERT INTO file_based_lm (id, is_online, startfile) VALUES ".
-			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
-			$ilDB->quote("").")";
-		$ilDB->query($q);
+		$ilDB->manipulate("INSERT INTO file_based_lm (id, is_online, startfile) VALUES ".
+			" (".$ilDB->quote($this->getID(), "integer").",".
+			$ilDB->quote("n", "text").",".
+			$ilDB->quote("", "text").")");
 
 		$this->createMetaData();
 	}
@@ -271,9 +261,9 @@ class ilObjFileBasedLM extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
-		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
+		$lm_set = $ilDB->query($q);
+		$lm_rec = $ilDB->fetchAssoc($lm_set);
 
 		return ilUtil::yn2tf($lm_rec["is_online"]);
 	}
@@ -317,9 +307,8 @@ class ilObjFileBasedLM extends ilObject
 		$nested->deleteAllDBData();
 
 		// delete file_based_lm record
-		$q = "DELETE FROM file_based_lm WHERE id = ".
-			$ilDB->quote($this->getID());
-		$ilDB->query($q);
+		$ilDB->manipulate("DELETE FROM file_based_lm WHERE id = ".
+			$ilDB->quote($this->getID(), "integer"));
 
 		// delete data directory
 		ilUtil::delDir($this->getDataDirectory());
