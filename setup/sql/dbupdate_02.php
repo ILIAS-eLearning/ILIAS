@@ -8044,3 +8044,36 @@ ALTER TABLE `udf_definition` CHANGE `field_name` `field_name` CHAR( 255 ) NULL;
 <?php
 	$ilDB->modifyTableColumn('rbac_pa','ops_id', array("type" => "text", "length" => 4000, "notnull" => false));
 ?>
+
+<#1705>
+RENAME TABLE `usr_defined_data` TO `udf_data`;
+
+<#1706>
+<?php
+	// rename auto generated udf data fields
+	$query = "SELECT DISTINCT(field_id) fid FROM udf_definition";
+	$res = $ilDB->query($query);
+	while($row = $ilDB->fetchObject($res))
+	{
+		$query = "ALTER TABLE udf_data CHANGE `".$row->fid."` `f_".$row->fid."` TEXT NULL";
+		$ilDB->query($query);
+	}
+?>
+
+<#1707>
+<?php
+	$ilMySQLAbstraction->performAbstraction('udf_data');
+?>
+
+<#1708>
+<?php
+	// rename auto generated udf data fields
+	$query = "SELECT DISTINCT(field_id) fid FROM udf_definition";
+	$res = $ilDB->query($query);
+	while($row = $ilDB->fetchObject($res))
+	{
+		$ilDB->modifyTableColumn('udf_data','f_'.$row->fid, array("type" => "text", "length" => 4000, "notnull" => false));
+	}
+?>
+
+
