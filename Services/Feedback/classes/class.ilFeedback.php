@@ -184,7 +184,7 @@ class ilFeedback {
 		global $ilDB;
 
 		$this->id = $ilDB->nextId("feedback_items");
-		$q = "INSERT INTO feedback_items (fb_id,title, description, anonymous,".
+		/*$q = "INSERT INTO feedback_items (fb_id,title, description, anonymous,".
 			"required, show_on, text_answer, votes, starttime, endtime, ".
 			"repeat_interval, interval_unit, first_vote_best, ref_id,obj_id) VALUES(".
 			$ilDB->quote($this->id, "integer").", ".
@@ -201,9 +201,27 @@ class ilFeedback {
 			$ilDB->quote((int) $this->interval_unit, "integer").", ".
 			$ilDB->quote((int) $this->first_vote_best, "integer").", ".
 			$ilDB->quote((int) $this->ref_id, "integer").", ".
-			$ilDB->quote((int) $this->obj_id, "integer").")";
+			$ilDB->quote((int) $this->obj_id, "integer").")";*/
+		$ilDB->insert("feedback_items", array(
+			"fb_id" => array("integer", $this->id),
+			"title" => array("text", $this->title),
+			"description" => array("clob", $this->description),
+			"anonymous" => array("integer", (int) $this->anonymous),
+			"required" => array("integer", (int) $this->required),
+			"show_on" => array("text", $this->show_on),
+			"text_answer" => array("integer", (int) $this->text_answer),
+			"votes" => array("clob", $this->votes),
+			"starttime" => array("integer", (int) $this->starttime),
+			"endtime" => array("integer", (int) $this->endtime),
+			"repeat_interval" => array("clob", (int) $this->interval),
+			"interval_unit" => array("integer", (int) $this->interval_unit),
+			"first_vote_best" => array("integer", (int) $this->first_vote_best),
+			"ref_id" => array("integer", (int) $this->ref_id),
+			"obj_id" => array("integer", (int) $this->obj_id)
+			));
+
 //echo "-$q-";
-		$ilDB->manipulate($q);
+		//$ilDB->manipulate($q);
 	}
 
 	/**
@@ -213,7 +231,7 @@ class ilFeedback {
 	{
 		global $ilDB;
 		
-		$q = "UPDATE feedback_items set ".
+		/*$q = "UPDATE feedback_items set ".
 			"title=".$ilDB->quote($this->title, "text").", ".
 			"description=".$ilDB->quote($this->description, "clob").", ".
 			"anonymous=".$ilDB->quote((int) $this->anonymous, "integer").", ".
@@ -227,8 +245,25 @@ class ilFeedback {
 			"interval_unit=".$ilDB->quote((int) $this->interval_unit, "integer").", ".
 			"first_vote_best=".$ilDB->quote((int) $this->first_vote_best, "integer").
 			" WHERE fb_id=".$ilDB->quote($this->id, "integer");
+		$ilDB->manipulate($q);*/
+		
+		$ilDB->update("feedback_items", array(
+			"title" => array("text", $this->title),
+			"description" => array("clob", $this->description),
+			"anonymous" => array("integer", (int) $this->anonymous),
+			"required" => array("integer", (int) $this->required),
+			"show_on" => array("text", $this->show_on),
+			"text_answer" => array("integer", (int) $this->text_answer),
+			"votes" => array("clob", $this->votes),
+			"starttime" => array("integer", (int) $this->starttime),
+			"endtime" => array("integer", (int) $this->endtime),
+			"repeat_interval" => array("clob", (int) $this->interval),
+			"interval_unit" => array("integer", (int) $this->interval_unit),
+			"first_vote_best" => array("integer", (int) $this->first_vote_best)
+			),array(
+			"fb_id" => array("integer", $this->id)
+			));
 
-		$ilDB->manipulate($q);
 	}
 
 	/**
@@ -380,14 +415,21 @@ class ilFeedback {
 
 		if($this->canVote($this->user_id,$this->id)==1 || $this->user_id == 0)
 		{
-			$q = "INSERT INTO feedback_results (".
+/*			$q = "INSERT INTO feedback_results (".
 				"fb_id,user_id,vote,note,votetime) VALUES (".
 				$ilDB->quote($this->id, "integer").", ".
 				$ilDB->quote($this->user_id, "integer").", ".
 				$ilDB->quote($this->vote, "integer").", ".
 				$ilDB->quote($this->note, "clob").", ".
 				$ilDB->quote(time(), "integer").")";
-			$ilDB->manipulate($q);
+			$ilDB->manipulate($q);*/
+			$ilDB->insert("feedback_results", array(
+				"fb_id" => array("integer", $this->id),
+				"user_id" => array("integer", $this->user_id),
+				"vote" => array("integer", $this->vote),
+				"note" => array("clob", $this->note),
+				"votetime" => array("integer", time())
+				));
 		}
 	}
 

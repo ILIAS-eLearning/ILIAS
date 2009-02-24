@@ -707,10 +707,15 @@ class ilLanguage
 		
 		$ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND module = %s",
 			$ilDB->quote($a_key, "text"), $ilDB->quote($a_module, "text")));
-		$ilDB->manipulate(sprintf("INSERT INTO lng_modules (lang_key, module, lang_array) VALUES ".
+		/*$ilDB->manipulate(sprintf("INSERT INTO lng_modules (lang_key, module, lang_array) VALUES ".
 			"(%s,%s,%s)", $ilDB->quote($a_key, "text"),
 			$ilDB->quote($a_module, "text"),
-			$ilDB->quote(serialize($a_array), "clob")));
+			$ilDB->quote(serialize($a_array), "clob")));*/
+		$ilDB->insert("lng_modules", array(
+			"lang_key" => array("text", $a_key),
+			"module" => array("text", $a_module),
+			"lang_array" => array("clob", serialize($a_array))
+			));
 	}
 
 	/**

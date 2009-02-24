@@ -248,7 +248,7 @@ class ilNote
 		global $ilDB;
 		
 		$this->id = $ilDB->nextId("note");
-		$q = "INSERT INTO note (id, rep_obj_id, obj_id, obj_type, type,".
+		/*$q = "INSERT INTO note (id, rep_obj_id, obj_id, obj_type, type,".
 			"author, note_text, subject, label, creation_date) VALUES (".
 			$ilDB->quote($this->id, "integer").",".
 			$ilDB->quote((int) $this->rep_obj_id, "integer").",".
@@ -260,7 +260,20 @@ class ilNote
 			$ilDB->quote((string) $this->subject, "text").",".
 			$ilDB->quote((int) $this->label, "integer").",".
 			$ilDB->now().")";
-		$ilDB->manipulate($q);
+		$ilDB->manipulate($q);*/
+		
+		$ilDB->insert("note", array(
+			"id" => array("integer", $this->id),
+			"rep_obj_id" => array("integer", (int) $this->rep_obj_id),
+			"obj_id" => array("integer", (int) $this->obj_id),
+			"obj_type" => array("text", (string) $this->obj_type),
+			"type" => array("integer", (int) $this->type),
+			"author" => array("integer", (int) $this->author),
+			"note_text" => array("clob", (string) $this->text),
+			"subject" => array("text", (string) $this->subject),
+			"label" => array("integer", (int) $this->label),
+			"creation_date" => array("timestamp", ilUtil::now())
+			));
 		
 		$this->creation_date = ilNote::_lookupCreationDate($this->getId());
 	}
@@ -269,7 +282,7 @@ class ilNote
 	{
 		global $ilDB;
 		
-		$q = "UPDATE note SET ".
+		/*$q = "UPDATE note SET ".
 			"rep_obj_id = ".$ilDB->quote((int) $this->rep_obj_id, "integer").",".
 			"obj_id = ".$ilDB->quote((int) $this->obj_id, "integer").",".
 			"obj_type = ".$ilDB->quote((string) $this->obj_type, "text").",".
@@ -280,8 +293,20 @@ class ilNote
 			"update_date = ".$ilDB->now().",".
 			"label = ".$ilDB->quote((int) $this->label, "integer").
 			"WHERE id =".$ilDB->quote((int) $this->getId(), "integer");
-
-		$ilDB->manipulate($q);
+		$ilDB->manipulate($q);*/
+		$ilDB->update("note", array(
+			"rep_obj_id" => array("integer", (int) $this->rep_obj_id),
+			"obj_id" => array("integer", (int) $this->obj_id),
+			"obj_type" => array("text", (string) $this->obj_type),
+			"type" => array("integer", (int) $this->type),
+			"author" => array("integer", (int) $this->author),
+			"note_text" => array("clob", (string) $this->text),
+			"subject" => array("text", (string) $this->subject),
+			"label" => array("integer", (int) $this->label),
+			"update_date" => array("timestamp", ilUtil::now())
+			), array(
+			"id" => array("integer", $this->getId())
+			));
 		
 		$this->update_date = ilNote::_lookupUpdateDate($this->getId());
 	}

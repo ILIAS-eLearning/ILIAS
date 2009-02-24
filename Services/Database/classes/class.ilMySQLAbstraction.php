@@ -531,7 +531,7 @@ class ilMySQLAbstraction
 					{
 						$fields[] = strtolower($f);
 					}
-					$this->il_db->addIndex($a_table, $fields, strtolower($index["name"]));
+					$this->il_db->addIndex($a_table, $fields, strtolower($index["name"]), $index["fulltext"]);
 					$cnt++;
 				}
 			}

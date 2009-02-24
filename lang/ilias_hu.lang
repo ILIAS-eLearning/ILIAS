@@ -1,7 +1,7 @@
 ﻿/**
 * ILIAS language file
 *
-* @module		language file Hungarian
+* @module		language file English
 * @modulegroup	language
 * @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
@@ -45,7 +45,7 @@ common#:#access_expired#:#lejárt
 common#:#enable_ext_lang_maint#:#Kiterjesztett karbantartás engedélyezése
 common#:#disable_ext_lang_maint#:#Kiterjesztett karbantartás kikapcsolása
 common#:#lang_refresh_confirm#:#Valóban frissíteni akarja a nyelvi fájlokat?
-common#:#lang_refresh_confirm_info#:#A kiterjesztett nyelvkarbantartás jelenleg aktív. A nyelvek frissítéséhez minden nyelvi adat letöltődik az ILIAS nyelvi fájlokból az adatbázisba. A helyi változtatások (az adatbázisban) felülíródhatnak, ha nem exportálja ki előtte. Ez nem érinti a "*.lang.local" fájlokat a Customizing könyvtárban.
+common#:#lang_refresh_confirm_info#:#A kiterjesztett nyelvkarbantartás jelenleg aktív. A nyelvek frissítéséhez minden nyelvi adat letöltődik az ILIAS nyelvi fájlokból az adatbázisba. A helyi változtatások mentésre kerülnek az adatbázisba, mielőtt az ILIAS 3.10.0 felülíródhatna, ha nem exportáltuk ki leőtte. Ez nem érinti a "*.lang.local" fájlokat a Customizing könyvtárban. A helyi változtatások mentésre kerültek a 3.10.0 vagy magasabb verzióval, ha újabbak, mint a helyi nyelvi áfjl módosítási dátuma.
 common#:#delete_existing_file#:#Meglévő fájlok törlése
 common#:#res_links#:#Taneszköz tároló linkek
 common#:#short_inst_name#:#Rövid cím
@@ -168,8 +168,6 @@ search#:#search_user_extended#:#Kiterjesztett felhasználói keresés
 search#:#search_user_simple#:#Egyszerű felhasználói keresés
 search#:#last_search_result#:#Legutolsó keresési eredmény
 common#:#search_results#:#Keresési eredmények
-administration#:#course_export#:#Kurzusexport
-administration#:#confirm_message_course_export#:#Egy vagy több mezőhöz felvette a kurzusexport funkcionalitást. Erősítse meg a változtatásait!
 assessment#:#0_unlimited#:#(0 = korlátlan)
 assessment#:#action#:#Művelet
 assessment#:#add_answer#:#Válasz hozzáadása
@@ -224,77 +222,6 @@ assessment#:#cannot_export_test#:#Nincs megfelelő jogosultsága a teszt export�
 assessment#:#cannot_maintain_test#:#Nincs megfelelő jogosultsága a teszt karbantartásához.
 assessment#:#cannot_read_questionpool#:#Nincs megfelelő jogosultsága a kérdésgyűjtemény adatainak olvasásához.
 assessment#:#cannot_save_metaobject#:#Nincs megfelelő jogosultsága a metaadatok elmentéséhez.
-assessment#:#certificate#:#Bizonyítvány
-assessment#:#certificate_top#:#Fenn
-assessment#:#certificate_right#:#Jobbra
-assessment#:#certificate_bottom#:#Alul
-assessment#:#certificate_left#:#Balra
-assessment#:#certificate_a4#:#A4 (297 mm x 210 mm)
-assessment#:#certificate_a4_landscape#:#A4 fekvő (210 mm x 297 mm)
-assessment#:#certificate_a5#:#A5 (210 mm x 148 mm)
-assessment#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
-assessment#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
-assessment#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
-assessment#:#certificate_custom#:#Egyedi…
-assessment#:#certificate_edit#:#Bizonyítványsablon létrehozása/szerkesztése
-assessment#:#certificate_export#:#Bizonyítvány exportálása
-assessment#:#certificate_page_format#:#Lapformátum
-assessment#:#certificate_background_image#:#Háttérkép
-assessment#:#certificate_padding_top#:#Felső cellaköz
-assessment#:#certificate_margin_body#:#Szövegmargó
-assessment#:#certificate_not_well_formed#:#A bizonyítványszöveg nem jólformázott. Érvényes XHTML-t adjon meg a bizonyítványszövegnek!
-assessment#:#certificate_show#:#Bizonyítvány mutatása
-assessment#:#certificate_status#:#Státusz
-assessment#:#certificate_status_complete#:#A bizonyítvány teljes és használható
-assessment#:#certificate_status_incomplete#:#A bizonyítvány nem teljes
-assessment#:#certificate_delete#:#Bizonyítványadatok törlése
-assessment#:#certificate_preview#:#Bizonyítvány előnézete
-assessment#:#certificate_text#:#Bizonyítványszöveg
-assessment#:#certificate_var_user_fullname#:#Dr. Jane Doe
-assessment#:#certificate_var_user_firstname#:#Jane
-assessment#:#certificate_var_user_lastname#:#Doe
-assessment#:#certificate_var_user_title#:#Dr.
-assessment#:#certificate_var_user_institution#:#ILIAS Open Source
-assessment#:#certificate_var_user_department#:#Felhasználói támogatás
-assessment#:#certificate_var_user_street#:#Etele út 68.
-assessment#:#certificate_var_user_city#:#Budapest
-assessment#:#certificate_var_user_zipcode#:#1115
-assessment#:#certificate_var_user_country#:#Magyarország
-assessment#:#certificate_var_result_passed#:#teljesítve
-assessment#:#certificate_var_result_points#:#38
-assessment#:#certificate_var_result_percent#:#83%
-assessment#:#certificate_var_max_points#:#46
-assessment#:#certificate_var_result_mark_short#:#B
-assessment#:#certificate_var_result_mark_long#:#Jó
-assessment#:#certificate_passed#:#teljesítve
-assessment#:#certificate_failed#:#nem teljesítve
-assessment#:#certificate_pageheight#:#Lapmagasság
-assessment#:#certificate_pagewidth#:#Lapszélesség
-assessment#:#certificate_wrong_unit#:#Rossz egységet adott meg.
-assessment#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
-assessment#:#certificate_confirm_deletion_text#:#Valóban törli a bizonyítványt és annak minden kapcsolódó adatát?
-assessment#:#certificate_ph_introduction#:#Az alábbi dzsókerelemek használhatók
-assessment#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, vezetéknév, keresztnév)
-assessment#:#certificate_ph_firstname#:#A felhasználó vezetékneve
-assessment#:#certificate_ph_lastname#:#A felhasználó keresztneve
-assessment#:#certificate_ph_passed#:#"teljesítve" vagy "nem teljesítve", a teszteredményektől függően
-assessment#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
-assessment#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
-assessment#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
-assessment#:#certificate_ph_markshort#:#A felhasználó jegye (rövid változat)
-assessment#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változat)
-assessment#:#certificate_ph_testtitle#:#Teszt címe
-assessment#:#certificate_ph_date#:#Aktuális dátum
-assessment#:#certificate_ph_datetime#:#Aktuális dátum és idő
-assessment#:#certificate_ph_institution#:#Felhasználó intézménye
-assessment#:#certificate_ph_title#:#Név előtag
-assessment#:#certificate_ph_department#:#Felhasználó szervezeti egysége
-assessment#:#certificate_ph_street#:#Felhasználói cím - utca
-assessment#:#certificate_ph_city#:#Felhasználói cím - város
-assessment#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
-assessment#:#certificate_ph_country#:#Felhasználói cím - ország
-assessment#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
-assessment#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
 assessment#:#change_properties_from_random_to_standard#:#Ön a tesztet véletlenkiválasztásosról nem véletlenkiválasztásos tesztre akarja módosítani. A kérdéssorhoz adott információk kikerülnek a véletlenkiválasztásos tesztből. Tényleg meg akarja változtatni a teszt tulajdonságait?
 assessment#:#change_properties_from_standard_to_random#:#Ön a tesztet nem véletlenkiválasztásosról véletlenkiválasztásos tesztre akarja módosítani. A teszthez adott kérdések törlésre kerülnek, mert Önnek kérdéssorokat kell kiválasztania a véletlenkiválasztásos teszthez. Tényleg meg akarja változtatni a teszt tulajdonságait?
 assessment#:#change_solution#:#Javasolt megoldás változtatása.
@@ -315,12 +242,6 @@ assessment#:#cloze_textgap_case_sensitive#:#Kis-/nagybetűre érzékeny
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-távolság %s
 assessment#:#cloze_textgap_rating#:#Szöveghely minősítés
 assessment#:#code#:#Kód
-assessment#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in!
-assessment#:#certificate_visibility#:#Láthatóság
-assessment#:#certificate_visibility_introduction#:#A teszteredményekben levő gomb a felhasználóknak a bizonyítványt felajánlja
-assessment#:#certificate_visibility_always#:#Mindig látható
-assessment#:#certificate_visibility_never#:#Nem látható
-assessment#:#certificate_visibility_passed#:#Csak akkor látható, ha a felhasználó elvégezte a tesztet
 common#:#obj_cmps#:#Modulok, szolgáltatások és plug-inek
 cmps#:#cmps_group#:#Csoportok
 cmps#:#cmps_current_version#:#Jelenlegi verzió
@@ -330,6 +251,7 @@ cmps#:#cmps_module#:#Modul
 cmps#:#cmps_no_language_file_available#:#Nem érhető el nyelvi fájl.
 cmps#:#cmps_no_db_update_file_available#:#Nem érhető el DB frissítési szkript.
 cmps#:#cmps_version#:#Verzió
+cmps#:#cmps_responsible#:#Megbízható
 cmps#:#cmps_update#:#Frissítés
 cmps#:#cmps_update_db#:#DB frissítése
 cmps#:#cmps_refresh#:#Frissítés
@@ -513,11 +435,7 @@ assessment#:#filter_show_question_types#:#Kérdéstípusok mutatása
 assessment#:#filter_show_questionpools#:#Kérdéssorok mutatása
 assessment#:#filter_users#:#Felhasználók leválogatása
 assessment#:#fixed_participants_hint#:#Ez a teszt csak az alább látható, meghatározott résztvevőcsoport számára érhető el. Módosíthatja ezt a beállítást deaktiválva a beállított résztvevők jelölőnégyzetet a %s alfülön.
-assessment#:#assFlashApp#:#Flash alkalmazás
 assessment#:#flashfile#:#Flash fájl
-assessment#:#flash_attributes#:#Flash attribútumok
-assessment#:#flash_parameters#:#Flash paraméterek
-assessment#:#add_flash_parameter#:#Flash paraméterek felvétele
 assessment#:#gap#:#Kitöltendő hely
 assessment#:#gap_definition#:#Kitöltendő hely definíciója
 assessment#:#gap_selection#:#Kitöltendő hely kiválasztása
@@ -543,7 +461,7 @@ assessment#:#keywords_hint#:#Adja meg a kulcsszavak listáját szóközökkel va
 assessment#:#last_update#:#Utolsó frissítés
 assessment#:#legend#:#Jelmagyarázat
 assessment#:#locked#:#Zárolva
-assessment#:#log_answer_changed_points#:#Pontok manuális módosítása a teszt szerzője által %d-ról/ről %d-ra/re.
+assessment#:#log_answer_changed_points#:#%s tesztkitöltő pontjainak manuális megváltoztatása %d-ról(ről) %d-ra(re) %s-val(vel)
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert a maximális számú egyidejű felhasználó éri el.
 assessment#:#log_create_new_test#:#Új teszt létrehozva.
 assessment#:#log_mark_added#:#Érdemjegy felvéve.
@@ -941,7 +859,7 @@ assessment#:#tst_report_after_date#:#Megadott pontozási jelentés dátum után
 assessment#:#tst_reset_processing_time#:#A maximális kidolgozási idő visszaállítása minden tesztkitöltéshez
 assessment#:#tst_reset_processing_time_desc#:#Ha be van jelölve, a maximális kitöltési idő vissza lesz állítva a definiált maximális kitöltési időre a teszt kitöltésének befejezése után. Ez a beállítás csak akkor működik, ha engedélyezett a maximális kitöltési idő és a többszörös tesztkitöltés.
 assessment#:#tst_result_user_name#:#%s eredményei:
-assessment#:#tst_result_user_name_pass#:#Sikeres tesztteljesítés eredményei %s következőhöz: %s
+assessment#:#tst_result_user_name_pass#:#%s befejezett teszt eredménye a következőhöz: %s
 assessment#:#tst_results#:#Teszteredmények
 assessment#:#tst_results_access#:#Teszteredményekhez hozzáférés
 assessment#:#tst_results_access_finished#:#Teszt befejezése után
@@ -1468,6 +1386,7 @@ common#:#articels_unread#:#olvasatlan hozzászólás
 common#:#as_of#:#as of
 common#:#ascending_order#:#Növekvő sorrend
 common#:#assessment_log_deleted#:#A teszt és kiértékelés naplóadatok törlésre kerültek az adminisztrációban.
+common#:#assessment_imap_line_color#:#Képtérkép vonalszíne
 common#:#assessment_log_logging#:#Bejelentkezés
 common#:#assessment_log_manual_scoring_activate#:#Manuális pontozás aktiválása következőhöz:
 common#:#assessment_log_manual_scoring#:#Manuális pontozás
@@ -1485,10 +1404,6 @@ common#:#assessment_log_user_answer#:#A felhasználó megválaszolt egy kérdés
 common#:#assessment_log_user_answers#:#Felhasználói tevékenységek mutatása
 common#:#assessment_settings#:#Globális teszt és kiértékelési beállítások
 common#:#assessment_settings_reporting_language#:#A jelentés nyelve
-common#:#assf_edit_permission#:#Engedélyezési beállítások változtatása
-common#:#assf_read#:#Teszt és kiértékelési adminisztráció elérése
-common#:#assf_visible#:#Teszt és kiértékelési adminisztráció látható
-common#:#assf_write#:#Teszt és kiértékelési adminisztráció
 common#:#assessment_defaults#:#Alapértelmezett beállítások a teszt és kiértékeléshez
 common#:#assessment_use_javascript#:#JavaScript fogd és viddhez
 common#:#assessment_use_javascript_desc#:#JavaScript kimenet aktiválása fogd és vidd műveletekhez alapértelmezettként az első alkalomhoz
@@ -1500,6 +1415,10 @@ common#:#ass_log_available_tests#:#Elérhető tesztek
 common#:#ass_log_delete_entries#:#Naplófájlbejegyzések törlése
 common#:#ass_log_deleted#:#A kiválasztott tesztekhez tartozó naplófájltadatok törlésre kerültek.
 common#:#ass_log_delete_no_selection#:#Válasszon ki legalább egy tesztet a naplófájladatok törléséhez.
+common#:#assf_edit_permission#:#Engedélyezési beállítások változtatása
+common#:#assf_read#:#Teszt és kiértékelési adminisztráció elérése
+common#:#assf_visible#:#Teszt és kiértékelési adminisztráció látható
+common#:#assf_write#:#Teszt és kiértékelési adminisztráció
 common#:#assf_questiontypes#:#Kérdésbeállítások
 common#:#assf_allowed_questiontypes#:#Elérhető kérdéstípusok
 common#:#assf_allowed_questiontypes_desc#:#Minden bejelölt kérdéstípus elérhető lesz ebben az ILIAS installációban. Ha egy kérdéstípus létrehozását nem akarja engedélyezni ebben az installációban, el kell távolítania a kiválasztó jelet a hozzárendelt jelölőnégyzetből.
@@ -1654,10 +1573,11 @@ common#:#crs_create_write#:#Wiki létrehozása
 common#:#grp_create_write#:#Wiki létrehozása
 common#:#obj_wiki#:#Wiki
 common#:#objs_wiki#:#Wikik
-common#:#objs_lres#:#Tananyagok
+common#:#objs_lres#:#Tananyagforrások
 common#:#wiki_new#:#Új wiki
 common#:#wiki_add#:#Wiki hozzáadása
 wiki#:#wiki_contributors#:#Közreműködők
+wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?
 wiki#:#wiki_wiki_page#:#Wikilap
 wiki#:#wiki_last_visited_page#:#Utoljára látogatott lap
 wiki#:#wiki_short_title_already_in_use#:#Ezt a címet már használja egy másik wiki. Válasszon másik címet!
@@ -1668,8 +1588,8 @@ wiki#:#wiki_contributor#:#Együttműködő
 wiki#:#wiki_page_changes#:#Lapmódosítások
 wiki#:#wiki_grading#:#Osztályozás
 wiki#:#wiki_notgraded#:#Nem osztályozott
-wiki#:#wiki_passed#:#Átment
-wiki#:#wiki_failed#:#Nem ment át
+wiki#:#wiki_passed#:#Megfelelt
+wiki#:#wiki_failed#:#Nem felelt meg
 wiki#:#wiki_mark#:#Osztályzat
 wiki#:#wiki_settings#:#Wikibeállítások
 wiki#:#wiki_activate_rating#:#Aktív besorolások
@@ -1685,11 +1605,15 @@ wiki#:#wiki_pages#:#Lapok
 wiki#:#wiki_discussion#:#Megbeszélés
 wiki#:#wiki_edit#:#Szerkesztés
 wiki#:#wiki_last_changed_by#:#Legutóbb változtatta
+wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page
+wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page
 wiki#:#wiki_created_by#:#Létrehozta
+wiki#:#wiki_page_deleted#:#A wikilap törölve.
 wiki#:#wiki_last_changed#:#Legutolsó módosítás
+wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.
 wiki#:#wiki_page_hits#:#Laplátogatások
 wiki#:#wiki_history#:#Történet
-wiki#:#wiki_navigation#:#Navigáció
+wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation
 wiki#:#wiki_recent_changes#:#Módosított lapok
 wiki#:#wiki_what_links_here#:#Ide mutató linkek
 wiki#:#wiki_print_view#:#Nyomtatási nézet
@@ -2827,9 +2751,9 @@ common#:#ldap_write#:#LDAP beállítások szerkesztése
 common#:#learning module#:#Tananyag
 common#:#learning_objects#:#Tananyagok
 common#:#learning_progress#:#Tanulmányi előmenetel
-common#:#learning_resourc#:#Tananyag
-common#:#learning_resource#:#Tananyag
-common#:#learning_resources#:#Tananyagok
+common#:#learning_resourc#:#Tananyagforrás
+common#:#learning_resource#:#Tananyagforrás
+common#:#learning_resources#:#Tananyagforrások
 common#:#level#:#Szint
 common#:#link#:#Csatolás
 common#:#link_check#:#Linkellenőrzés
@@ -2891,7 +2815,7 @@ common#:#lo_available#:#Tananyagok és kurzusok áttekintése
 common#:#lo_categories#:#Tananyagobjektum kategóriák
 common#:#lo_edit#:#Tananyagobjektum szerkesztése
 common#:#lo_new#:#Új tananyagobjektum
-common#:#lo_no_content#:#Nincsenek elérhető tanulási források
+common#:#lo_no_content#:#Nincsenek elérhető tananyagforrások
 common#:#lo_other_langs#:#Tananyagobjektumok más nyelveken
 common#:#lo_overview#:#Tananyagobjektum áttekintése
 common#:#local#:#Helyi
@@ -2918,7 +2842,7 @@ common#:#logs#:#Naplófájladatok
 common#:#los#:#Tananyagobjektumok
 common#:#los_last_visited#:#Utoljára látogatott tananyagobjektumok
 common#:#last_visited#:#Előzőekben látogatott
-common#:#lres#:#Tanulási források
+common#:#lres#:#Tananyagforrások
 common#:#mail#:#E-mail
 common#:#mail_a_root#:#Postaláda
 common#:#mail_addressbook#:#Címlista
@@ -2933,7 +2857,7 @@ common#:#mail_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#mail_feedback#:#E-mail visszajelzés
 common#:#mail_folders#:#E-mail mappák
 common#:#mail_import#:#Importálás
-common#:#mail_import_file#:#Fájl exportálása
+common#:#mail_import_file#:#Fájl importálása
 common#:#mail_intern_enable#:#Engedélyezett
 common#:#mail_mail_visible#:#A felhasználó használhatja a levelezőrendszert
 common#:#mail_mails_of#:#E-mail
@@ -3094,6 +3018,7 @@ common#:#msg_no_search_string#:#Gépelje be kérdését!
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Csak rendszeradminisztrátor rendelhet hozzá felhasználót a rendszeradminisztrátori szerephez.
 common#:#msg_no_title#:#Adjon meg címet!
 common#:#msg_input_is_required#:#Kötelező megadni ezt az adatot. Adjon meg egy értéket!
+common#:#msg_wrong_format#:#A megadott érték nem érvényes formátumú.
 common#:#msg_no_type_accessible#:#Nincsenek meg jogosultságai, hogy elérje a listában: [type].
 common#:#msg_no_type_available#:#Jelenleg nincs elérhető [type].
 common#:#msg_no_url#:#Nem adott meg
@@ -3159,6 +3084,10 @@ common#:#tags_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#tags_visible#:#Címkézési beállítások láthatók
 common#:#tags_read#:#Olvasási jog címkézési beállításokhoz
 common#:#tags_write#:#Címkézési beállítások szerkesztése
+common#:#cert_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#cert_visible#:#A bizonyítvány beállításai láthatók
+common#:#cert_read#:#Olvasási elérés a bizonyítvány-beálíltásokhoz
+common#:#cert_write#:#Bizonyítvány-beállítások szerkesztése
 common#:#cat_create_feed#:#Webhírforrás létrehozása
 common#:#grp_create_feed#:#Webhírforrás létrehozása
 common#:#crs_create_feed#:#Webhírforrás létrehozása
@@ -3275,7 +3204,7 @@ pdesk#:#bm_num_bookmarks#:#Könyvjelző
 pdesk#:#bm_num_bookmark_folders#:#Mappa
 pdesk#:#pdesk_intro#:#Üdvözöljük Önt Munkaasztalán!
 pdesk#:#pdesk_intro2#:#Ez az Ön személyes területe munkájának és tanulásának szervezéséhez. Más területekről elemeket helyezhet ide. Ezt két lépésben végezheti el:
-pdesk#:#pdesk_intro3#:#Kattintson ide: '%s', és böngésszen a létező munkák és tanulási források között.
+pdesk#:#pdesk_intro3#:#Kattintson ide: '%s', és böngésszen a létező munkák és tananyagforrások között.
 pdesk#:#pdesk_intro4#:#Ha valami érdekesre bukkan, adja hozzá munkaasztalához a <i>Munkaasztalra</i> gombra kattintva.
 common#:#activate_block#:#Aktiválás
 pdesk#:#pdesk_feedback_request#:#Kérés visszajelzése
@@ -3293,6 +3222,7 @@ delic#:#delic_extt_delicious#:#del.icio.us
 delic#:#delic_add_info_links#:#del.icio.us linkek felvétele az infoképernyőre
 delic#:#delic_user_profile#:#del.icio.us bejelentkezési beállítás engedélyezése a felhasználói adatokban
 gmaps#:#gmaps_api_key#:#API kulcs
+gmaps#:#gmaps_lookup_address#:#Címkeresés
 gmaps#:#gmaps_public_profile_info#:#Hely megjelenítése felhasználói adataiban.
 gmaps#:#gmaps_enable_gmaps#:#Google-térképek engedélyezése
 gmaps#:#gmaps_enable_gmaps_info#:#Google-térképek engedélyezése felhasználói adatokban, csoportokban és kurzusokban.
@@ -3428,11 +3358,13 @@ common#:#obj_recf#:#Visszaállított objektumok
 common#:#obj_recf_desc#:#Rendszerellenőrzés során helyreállított objektumok
 common#:#obj_role#:#Szerep
 common#:#obj_nwss#:#Hírek és webhírforrások
+common#:#obj_cert#:#Bizonyítvány
 common#:#obj_tags#:#Címkézés
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Általános beállítások a Mediacasthoz.
 common#:#obj_nwss_desc#:#Beállítások belső hírekhez és külső hírforrásokhoz
 common#:#obj_tags_desc#:#Beállítások a címkézési tulajdonsághoz.
+common#:#obj_cert_desc#:#Beállítások a bizonyítványokhoz
 common#:#obj_rolf#:#Szerepek
 common#:#obj_rolf_desc#:#Szerepek menedzselése
 common#:#obj_rolf_local#:#Helyi szerepek
@@ -3620,6 +3552,7 @@ common#:#previous#:#előző
 common#:#print#:#Nyomtatás
 common#:#print_view#:#Nyomtatási nézet
 common#:#private_notes#:#Jegyzeteim
+common#:#notes_and_comments#:#Notes and Comments
 common#:#pro#:#Pozitívum
 common#:#proceed#:#Folytatás
 common#:#profile#:#Adatok
@@ -3915,8 +3848,8 @@ rating#:#rating_your_rating#:#Az Ön értékelése
 rating#:#rating_average_rating#:#Átlagértékelés
 rating#:#rating_nr_users#:#%s Felhasználó(k)
 tagging#:#tagging_resources_for_tag#:#Források ezzel a címkével: %s
-tagging#:#tagging_all_users#:#Minden felhasználó
-common#:#tagging_my_tags#:#Saját címkék
+tagging#:#tagging_all_users#:#Az összes felhasználó címkéje
+common#:#tagging_my_tags#:#Az én címkéim az összes felhasználóéhoz
 notes#:#notes_public_comments#:#Nyilvános megjegyzések
 notes#:#notes_add_comment#:#Megjegyzés hozzáadása
 notes#:#notes_show_comments#:#Megjegyzések megjelenítése
@@ -4355,7 +4288,7 @@ content#:#HTML export#:#HTML-export
 content#:#cont_map_file_not_generated#:#Sajnos nem lehet térképfájlt generálni a szerkesztéshez.
 content#:#PDF export#:#PDF-export
 content#:#Pages#:#Lapok
-content#:#add_menu_entry#:#Menübejegyzés felvétele >>
+content#:#add_menu_entry#:#Menübejegyzés felvétele
 content#:#all#:#Mind
 content#:#all_pages#:#a teljes tananyag
 content#:#choose_public_mode#:#Nem regisztrált felhasználók elérhetik
@@ -4364,7 +4297,7 @@ content#:#citate#:#Idéz
 content#:#citate_from#:#Idéz honnan…
 content#:#citate_page#:#Idézi ezt a lapot
 content#:#citate_to#:#Idéz hol…
-content#:#cont_Additional#:#További
+content#:#cont_Additional#:#További információ
 content#:#cont_Special#:#Különleges
 content#:#cont_Excursus#:#Eltérések
 common#:#edit_grouping#:#Tagságkorlátozás szerkesztése
@@ -4375,7 +4308,6 @@ content#:#cont_right#:#Jobbra
 content#:#cont_center#:#Középre
 content#:#cont_left_float#:#Balra, körbefuttatás
 content#:#cont_right_float#:#Jobbra, körbefuttatás
-content#:#cont_Alphabetic#:#Ábécérend a, b,…
 content#:#cont_alphabetic_s#:#Alfabetikus a, b, ...
 content#:#cont_Circle#:#Kör
 content#:#cont_delete_track_data#:#Nyomkövetési adatok törlése
@@ -4388,14 +4320,12 @@ content#:#cont_Headline1#:#Címsor 1
 content#:#cont_Headline2#:#Címsor 2
 content#:#cont_Headline3#:#Címsor 3
 content#:#cont_List#:#Lista
-content#:#cont_LocalFile#:#Helyi fájl
 content#:#cont_Mnemonic#:#Emlékeztető
 content#:#cont_Block#:#Blokk
 content#:#cont_Number#:#Szám
 content#:#cont_Poly#:#Sokszög
 content#:#cont_Rect#:#Téglalap
 content#:#cont_Remark#:#Észrevétel
-content#:#cont_Roman#:#Római I, II,...
 content#:#cont_roman_s#:#Római i, ii,...
 content#:#cont_TableContent#:#Tartalomtáblázat
 content#:#cont_Unordered#:#Listajeles
@@ -4527,7 +4457,7 @@ content#:#cont_ed_go#:#OK
 content#:#cont_ed_insert_code#:#Kód beszúrása
 content#:#cont_ed_insert_filelist#:#Fájllista beszúrása
 content#:#cont_ed_insert_list#:#Továbbfejlesztett lista beszúrása.
-content#:#cont_ed_insert_media#:#Média beszúrása
+content#:#cont_ed_insert_media#:#Kép/média beszúrása
 content#:#cont_ed_insert_par#:#Szöveg beszúrása
 content#:#cont_ed_insert_dtable#:#Adattábla beszúrása
 content#:#cont_ed_insert_atable#:#Továbbfejlesztett táblázat beszúrása
@@ -4574,7 +4504,7 @@ content#:#cont_footer#:#Lábléc
 content#:#cont_format#:#Formázás
 content#:#cont_format_error#:#Ez a művelet nincs engedélyezve itt.
 content#:#cont_frame_botright#:#Tananyagsegédletek (fogalomtár)
-content#:#cont_frame_maincontent#:#Fő tananyag
+content#:#cont_frame_maincontent#:#Tananyagforrás fő tartalma
 content#:#cont_frame_right#:#Tananyagsegédletek
 content#:#cont_frame_toc#:#Tartalomjegyzék
 content#:#cont_frame_topright#:#Tananyagsegédletek (GYIK és média)
@@ -4594,7 +4524,7 @@ content#:#cont_imagemap#:#Képtérkép
 content#:#cont_import_id#:#azonosító
 content#:#cont_insert_file_item#:#Fájlelem beszúrása
 content#:#cont_insert_file_list#:#Fájllista beszúrása
-content#:#cont_insert_list#:#Lista beszúrása
+content#:#cont_insert_list#:#Továbbfejlesztett lista beszúrása
 content#:#cont_insert_mob#:#Médiaobjektum beszúrása
 content#:#cont_insert_new_footnote#:#új lábjegyzet beszúrása
 content#:#cont_insert_par#:#Szöveg beszúrása
@@ -4635,6 +4565,8 @@ content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Tananyag-tulajdonságok
 content#:#cont_lvalue#:#Adatelem
 content#:#cont_manifest#:#Manifest
+content#:#cont_no_page_in_chapter#:#Sorry, but there is currently no activated content within this chapter.
+content#:#cont_page_currently_deactivated#:#Ez a lap jelenleg nincs aktiválva.
 content#:#cont_map_areas#:#Linkterületek
 content#:#cont_def_map_areas#:#Alapértelmezett linkterületek
 content#:#cont_inst_map_areas#:#Példa linkterületek
@@ -4671,6 +4603,8 @@ content#:#cont_obj_removed#:#Az objektum eltávolítva.
 content#:#cont_offline#:#Off-line verziók
 content#:#cont_offline_files#:#Off-line verziók
 content#:#cont_offline_versions#:#Off-line verziók
+content#:#cont_versions#:#Verziók
+content#:#cont_current_version#:#Jelenlegi verzió
 content#:#cont_online#:#On-line
 content#:#cont_or#:#vagy
 content#:#cont_order#:#Rendezési típus
@@ -5248,7 +5182,7 @@ crs#:#crs_timings_sug_end#:#Javasolt vége
 crs#:#crs_timings_suggested_info#:#Javasolt szerkesztési idő
 crs#:#crs_timings_time_frame#:#Időkeret
 crs#:#crs_timings_update_error#:#Beállításai nem érvényesek, érvényesítse az időzítést az alábbi anyagokkal:
-crs#:#crs_timings_visibility#:#Láthatóság
+crs#:#crs_timings_visibility#:#Kiválasztás esetén a tananyag a megadott elérhetőségi területen kívüli is hozzáférhető.
 crs#:#crs_to#:#Meddig:
 crs#:#crs_tutor#:#Tutor
 crs#:#crs_tutor_no_notify#:#Tutor (nincs értesítés)
@@ -5316,7 +5250,7 @@ crs#:#event_file_name#:#Fájlnév
 crs#:#event_file_size_info#:#Fájlméret
 crs#:#event_full_time_info#:#teljes idő
 crs#:#event_fullday#:#Teljes idő
-crs#:#event_fulltime_info#:#Nincs megadva idő
+crs#:#event_fulltime_info#:#Egész napos esemény
 crs#:#event_further_informations#:#További információk
 crs#:#event_general_infos#:#Általános információk
 crs#:#event_general_properties#:#Általános információk
@@ -6337,7 +6271,7 @@ meta#:#meta_l_zh#:#kínai
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Nyelv
 meta#:#meta_learner#:#Tanuló
-meta#:#meta_learning_resource_type#:#Taneszköztípus
+meta#:#meta_learning_resource_type#:#Tananyagforrás-típus
 meta#:#meta_lecture#:#Előadás
 meta#:#meta_lifecycle#:#Életciklus
 meta#:#meta_linear#:#Lineáris
@@ -7712,6 +7646,8 @@ ps#:#ps_type_text#:#Szövegmező
 ps#:#ps_type_select#:#Mező kiválasztása
 mail#:#mail_select_only_one_entry#:#Válasszon ki egy bejegyzést!
 mail#:#mail_select_course#:#Legalább egy kurzust válasszon!
+administration#:#course_export#:#Kurzusexport
+administration#:#confirm_message_course_export#:#Egy vagy több mezőhöz felvette a kurzusexport funkcionalitást. Erősítse meg a változtatásait!
 ps#:#ps_new_select_field#:#Új kiválasztódoboz
 ps#:#ps_cdf_value#:#Érték
 ps#:#ps_btn_add_value#:#Új érték
@@ -8072,18 +8008,6 @@ rbac#:#mds_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#mds_visible#:#A metaadat-beállítások láthatók
 rbac#:#mds_read#:#Olvasási elérés a metaadat-beállításokhoz
 rbac#:#mds_write#:#Metadata-beállítások szerkesztése
-survey#:#no_user_of_group_invited#:#A kiválasztott csoport(ok) egyetlen felhasználójának sincsenek meg a szükséges jogosultságai a kérdőívhez. Nincs meghívott felhasználó.
-survey#:#no_user_of_role_invited#:#A kiválasztott szerep(ek) egyetlen felhasználójának sincsenek meg a szükséges jogosultságai a kérdőívhez. Nincs meghívott felhasználó.
-payment#:#object_deleted#:#Az objektum törölve
-payment#:#user_deleted#:#A felhasználó törölve
-payment#:#statistics_filter_advice#:#Válassza ki a kedvelt szűrőbeállításait, majd kattintson a "Nézet frissítése" gombra.
-mail#:#advice_mail_body_secured#:#Biztonsági okokból az ILIAS néhány elemet eltávolított az Ön üzenetéből. Ellenőrizze az üzenetet, és küldje újra a levelet.
-payment#:#pay_crs_max_members_exceeded#:#Ön nem tud jelentkezni erre a kurzusra, mert betelt a maximális felhasználói létszám.
-chat#:#chat_server_ssl_settings#:#SSL beállítások
-chat#:#chat_server_ssl_port#:#Szerver SSL Port
-chat#:#chat_server_ssl_active#:#SSL aktíve
-chat#:#chat_add_ssl_port#:#Vegye fel a szerver SSL portját!
-chat#:#chat_notification_intro#:#Ezt az e-mail-t automatikusan küldte Önnek az ILIAS %s, %s installációja
 common#:#obj_calendar#:#Határidőnapló
 common#:#obj_cals_desc#:#Általános határidőnapló-beállítások
 rbac#:#cals_edit_permission#:#Jogosultsági beállítások változtatása
@@ -8094,6 +8018,13 @@ common#:#obj_cat_duplicate#:#Kategória másolása
 common#:#obj_cat_select#:#-- Válasszon egy kategóriát --
 common#:#cat_wizard_page#:#Kategória másolása (2/2. lépés)
 common#:#cat_copy_threads_info#:#Döntse el melyik kategóriatételeket kell másolni, linkelni vagy kihagyni!
+survey#:#no_user_of_group_invited#:#A kiválasztott csoport(ok) egyetlen felhasználójának sincsenek meg a szükséges jogosultságai a kérdőívhez. Nincs meghívott felhasználó.
+survey#:#no_user_of_role_invited#:#A kiválasztott szerep(ek) egyetlen felhasználójának sincsenek meg a szükséges jogosultságai a kérdőívhez. Nincs meghívott felhasználó.
+payment#:#object_deleted#:#Az objektum törölve
+payment#:#user_deleted#:#A felhasználó törölve
+payment#:#statistics_filter_advice#:#Válassza ki a kedvelt szűrőbeállításait, majd kattintson a "Nézet frissítése" gombra.
+mail#:#advice_mail_body_secured#:#Biztonsági okokból az ILIAS néhány elemet eltávolított az Ön üzenetéből. Ellenőrizze az üzenetet, és küldje újra a levelet.
+payment#:#pay_crs_max_members_exceeded#:#Ön nem tud jelentkezni erre a kurzusra, mert betelt a maximális felhasználói létszám.
 common#:#webfolder#:#Webmappa
 common#:#mount_webfolder#:#Megnyitás webmappaként
 common#:#obj_file_inline#:#Tananyagfájl
@@ -8119,7 +8050,7 @@ common#:#readcount_anonymous_users#:#Anonymous olvasási elérések száma
 common#:#readcount_users#:#Nem anonymous olvasási elérések száma
 common#:#accesscount_registered_users#:#Különböző ILIAS-felhasználók által olvasva
 common#:#state_changed#:#változott
-common#:#state_changed_inside#:#változott benn
+common#:#state_changed_inside#:#módosítva
 common#:#state_new#:#új
 common#:#state_unread#:#nem olvasott
 common#:#filename_extension_short#:#Kiterjesztés
@@ -8159,8 +8090,8 @@ dateplaner#:#cal_what#:#Cím
 dateplaner#:#cal_category_selection#:#Határidőnapló kiválasztása
 dateplaner#:#cal_start#:#Kezdés
 dateplaner#:#cal_end#:#Befejezés
-dateplaner#:#cal_fullday#:#Teljes nap
-dateplaner#:#cal_fullday_title#:#Nincs megadva idő
+dateplaner#:#cal_fullday#:#Dátum/idő
+dateplaner#:#cal_fullday_title#:#Egész napos esemény
 dateplaner#:#cal_where#:#Hely
 dateplaner#:#cal_new_app#:#Új találkozó
 dateplaner#:#cal_add_appointment#:#Találkozó létrehozása
@@ -8185,7 +8116,7 @@ dateplaner#:#cal_fifth#:#Ötödször
 dateplaner#:#cal_last#:#Utoljára
 dateplaner#:#cal_in#:#in
 dateplaner#:#cal_edit_category#:#Határidőnapló szerkesztése
-dateplaner#:#cal_calendar_name#:#Cím
+dateplaner#:#cal_calendar_name#:#Határidőnapló neve
 dateplaner#:#cal_calendar_color#:#Szín
 dateplaner#:#cal_del_cal_sure#:#Biztosan törölni szeretné a kiválasztott határidőnaplókat?
 dateplaner#:#cal_no_ending#:#Nincs befejeződátum
@@ -8225,7 +8156,7 @@ survey#:#adm_special_users#:#Speciális felhasználók, akik több mint egyszer 
 survey#:#adm_removed_users#:#Felhasználók eltávolítva.
 survey#:#adm_remove_select_user#:#Legalább egy felhasználót válasszon az eltávolításhoz!
 content#:#cont_sc_max_attempt#:#Csatlakozók max. száma
-content#:#cont_first_row_style#:#Első sor stílusa
+content#:#cont_first_row_style#:#Első sor stílusosztálya
 content#:#cont_selected_items_have_been_copied#:#A kiválasztott tételek át lettek másolva a vágólapra. Kattintson a megfelelő dzsókerkarakterre a tananyagba való bemásolásukhoz.
 content#:#cont_selected_items_have_been_cut#:#A kiválasztott tételek ki lettek vágva a vágólapra. Kattintson a megfelelő dzsókerkarakterre a tananyagba való bemásolásukhoz.
 content#:#cont_choose_pages_or_chapters_only#:#Vagy csak lapokat vagy csak fejezeteket válasszon!
@@ -8372,17 +8303,17 @@ ecs#:#ecs_client_cert#:#Klienstanúsítvány
 ecs#:#ecs_ca_cert#:#CA tanúsítvány
 ecs#:#ecs_cert_key#:#Tanúsítványkulcs
 ecs#:#ecs_key_password#:#Kulcsjelszó
-ecs#:#cert_serial#:#Tanúsítvány sorozatszáma
+ecs#:#cert_serial#:#bizonyítvány sorozatszáma
 ecs#:#ecs_local_settings#:#Helyi beállítások
 ecs#:#ecs_polling#:#Szavazóidő
 ecs#:#ecs_polling_info#:#Definiálja a szavazóidőt a kurzuslinkek létrehozásához és frissítéséhez!
 ecs#:#ecs_import_id#:#ID importálása
 ecs#:#ecs_import_id_info#:#Adja meg annak a kategóriának az ID-jét, ahol új kurzuslinkek lesznek létrehozva!
-ecs#:#ecs_error_extract_serial#:#Nem olvasható a tanúsítvány sorozatszáma. Ellenőrizze a klienstanúsítvány elérési útját!
+ecs#:#ecs_error_extract_serial#:#Nem olvasható a bizonyítvány sorozatszáma. Ellenőrizze a klienstanúsítvány elérési útját!
 ecs#:#ecs_participants#:#Résztvevők
 ecs#:#ecs_participants_infos#:#További információk
-ecs#:#ecs_active_header#:#Az exportálás engedélyezett
-ecs#:#ecs_enable_participant#:#Exportálás engedélyezése
+ecs#:#ecs_active_header#:#Az imporálás/exportálás engedélyezett
+ecs#:#ecs_enable_participant#:#Importálás/exportálás engedélyezése
 ecs#:#ecs_dns#:#Domain-név
 ecs#:#ecs_email#:#E-mail
 ecs#:#ecs_mapping_tbl#:#ECS-adatok ILIAS továbbfejlesztett metaadatokra való  leképezése
@@ -8678,3 +8609,468 @@ common#:#crsr_edit#:#Kurzusajánlás szerkesztése
 common#:#crsr_edit_info#:#Válasszon egy kurzust új ajánlás létrehozásához!
 common#:#catr_edit_info#:#Válasszon egy kategóriát új ajánlás létrehozásához!
 common#:#reference_deleted#:#A végcél nem érhető el
+common#:#clone_target_title#:#Célmappa kiválasztása (1/2. lépés)
+common#:#clone_target#:#Célmappa
+common#:#clone_option_in_cat#:#Másolás létező kategóriában
+common#:#clone_option_in_crs#:#Másolás létező kurzusban
+common#:#cat_title#:#Kategóriacím
+common#:#crs_title#:#Kurzuscím
+common#:#clone_existing_course#:#Létező kurzus másolása
+survey#:#use_google_chart_api#:#Google diagram API használata
+survey#:#use_google_chart_api_desc#:#Ha bejelölt, a diagramok a kérdőívstatisztika halmozott részletes eredményeiben a <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>-val kerülnek megrajzolásra. Ne feledkezzen meg arról, hogy folyamatos internetkapcsolat szükséges a Google diagram API munkájához.
+dateplaner#:#cal_cal_details#:#Határidőnapló részletei
+dateplaner#:#cal_type_crs#:#Kurzus-határidőnapló
+dateplaner#:#cal_type_grp#:#Csoport-határidőnapló
+content#:#cont_ed_insert_plach#:#Dzsókerelem beszúrása
+content#:#cont_ed_plachtext#:#Dzsókerelemszöveg
+content#:#cont_ed_plachmedia#:#Dzsókerelemmédia
+content#:#cont_ed_plachquestion#:#Dzsókerelem-kérdés
+content#:#cont_ed_plachprop#:#Dzsókerelem-tulajdonságok
+content#:#cont_media_placehl#:#Média-dzsókerelem
+content#:#cont_question_placehl#:#Kérdés-dzsókerelem
+content#:#cont_text_placehl#:#Szöveg-dzsókerelem
+content#:#cont_ed_pglprop#:#Lapelrendezés tulajdonságok
+style#:#sty_based_on#:#Ezen alapul
+style#:#sty_add_pgl#:#Lapelrendezés hozzáadása
+style#:#sty_create_pgl#:#Lapelrendezés létrehozása
+style#:#sty_name#:#Név
+style#:#sty_example#:#Példa
+style#:#sty_commands#:#Parancsok
+style#:#sty_msg_input_must_be_numeric#:#Az input szám kell hogy legyen.
+style#:#sty_style_chars#:#Stílusosztályok
+style#:#sty_images#:#Képek
+style#:#sty_add_image#:#Kép hozzáadása
+style#:#sty_width_height#:#Szélesség x magasság
+style#:#sty_image_file#:#Képfájl
+style#:#sty_horizontal#:#Vízszintes
+style#:#sty_vertical#:#Függőleges
+style#:#sty_text_block_char#:#Szöveg (blokk)
+style#:#sty_text_inline_char#:#Szöveg (karakter)
+style#:#sty_section_char#:#Blokk
+style#:#sty_link_char#:#Link
+style#:#sty_table_char#:#Táblázat
+style#:#sty_table_cell_char#:#Táblázatcella
+style#:#sty_add_characteristic#:#Stílusosztály hozzáadása
+style#:#sty_page_char#:#Lap
+style#:#sty_min_height#:#Minimális magasság
+style#:#sty_confirm_char_deletion#:#Biztos hogy törölni akarja az alábbi stílusosztályokat?
+style#:#sty_msg_characteristic_must_only_include#:#A stílusosztályok címe csak az alábbi karaktereket tartalmazhatja:
+style#:#sty_msg_characteristic_already_exists#:#Ezzel a címmel már van stílusosztály ebben a stílusban.
+style#:#sty_added_characteristic#:#Stílusosztályok felvéve.
+sahs#:#sahs_new_chapter#:#Új fejezet
+sahs#:#sahs_new_page#:#Új lap
+sahs#:#sahs_new_sco#:#Új SCO
+crs#:#crs_timings_visibility_short#:#Láthatóság
+assessment#:#no_selection#:#--- Nincs kiválasztva ---
+assessment#:#customstyle#:#Testre szabott stílus
+assessment#:#customstyle_description#:#Ehhez a teszthez használható testre szabott stíluslap. Válasszon egyet az elérhető stíluslapok közül, hogy hozzárendelje ehhez a teszthez!
+dateplaner#:#cal_type_info#:#Válasszon egy határidőtípust! A "Nyilvános határidőnapló" minden ILIAS-felhasználó számára látható.
+rbac#:#root_create_catr#:#Kategóriahivatkozás létrehozása
+rbac#:#mcts_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#mcts_read#:#Olvasási elérés mediacast beállításokhoz
+rbac#:#mcts_visible#:#Mediacast beállítások láthatók
+rbac#:#mcts_write#:#Mediacast beállítások szerkesztése
+rbac#:#cmps_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#cmps_read#:#Olvasási elérés komponensbeállításokhoz
+rbac#:#cmps_visible#:#Komponensbeállítások láthatók
+rbac#:#cmps_write#:#Komponensbeállítások szerkesztése
+rbac#:#pdts_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#pdts_read#:#Olvasási elérés munkaasztal beállításokhoz
+rbac#:#pdts_visible#:#Munkaasztal beállítások láthatók
+rbac#:#pdts_write#:#Munkaasztal beállítások szerkesztése
+rbac#:#sess_delete#:#Munkamenet törlése
+rbac#:#svyf_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#svyf_read#:#Olvasási elérés kérdőív beállításokhoz
+rbac#:#svyf_visible#:#A kérdőívbeállítások láthatók
+rbac#:#svyf_write#:#Kérdőívbeállítások szerkesztése
+rbac#:#facs_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#facs_read#:#Olvasási elérés a fájl- és mappabeállításokhoz
+rbac#:#facs_visible#:#A fájl- és mappabeállítások láthatók
+rbac#:#facs_write#:#Fájl- és mappabeállítások szerkesztése
+common#:#objs_mail#:#E-mail
+forum#:#frm_moderators#:#Moderátorok
+forum#:#frm_detach_moderator_role#:#Moderátorszerep elvétele
+forum#:#frm_moderators_select_at_least_one#:#Legalább egy moderátort válasszon!
+forum#:#frm_moderators_detached_role_successfully#:#A moderátorszerep sikeresen elvételre került minden kiválasztott felhasználótól.
+forum#:#frm_moderators_search#:#Felhasználókeresés
+forum#:#frm_moderators_search_query#:#Keresési kifejezés(ek)
+forum#:#frm_moderators_do_search#:#Keresés
+forum#:#frm_moderator_role_added_successfully#:#A moderátorszerep sikeresen kiadásra került.
+forum#:#frm_moderators_select_one#:#Legalább egy felhasználót válasszon!
+forum#:#frm_moderators_not_exist_yet#:#Válasszon egy moderátort!
+forum#:#frm_moderators_matches_in_no_results#:#A keresésére nem illeszkedik eredmény.
+payment#:#shop_info#:#Üzleti információ
+content#:#cont_tracking_byuser#:#Felhasználó által
+content#:#cont_tracking_bysco#:#Fejezet által
+common#:#payment_demo#:#Demó
+payment#:#payment_back_to_shop#:#Vissza az üzletbe
+content#:#cont_adjust_size#:#Méretre igazítás
+content#:#cont_use_same_resource_as_above#:#Használja ugyanazt a forrást mint fent
+content#:#cont_constrain_proportions#:#Megszorítási arányok
+common#:#add_parameter#:#Új paraméter
+common#:#delete_parameter#:#Paraméter törlése
+common#:#confirm_delete_parameter#:#Valóban törölni akarja a paramétereket?
+assessment#:#assFlashQuestion#:#Flash-kérdés
+content#:#cont_resource_size#:#Forrásméret
+content#:#cont_resize_img#:#Képfájl átméretezése
+content#:#cont_autostart#:#Automatikus indítás
+content#:#cont_default#:#Alapértelmezett
+content#:#cont_custom#:#Testre szabott
+content#:#cont_no_parameters#:#Nincsenek paraméterek
+content#:#cont_no_caption#:#Nincs felirat
+content#:#cont_custom_size#:#Egyéni méret
+common#:#pos_top#:#Fel
+common#:#pos_right#:#Jobbra
+common#:#pos_bottom#:#Alulra
+common#:#pos_left#:#Balra
+common#:#msg_unit_is_required#:#Ez az input egy egységet vár. Korrekt értéket adjon meg!
+payment#:#payment_no_topic#:#Nincs téma
+assessment#:#error_cloze_not_numeric#:#Numerikus értéket adjon meg!
+assessment#:#error_no_upper_limit#:#Magasabb határt adjon meg!
+assessment#:#error_no_lower_limit#:#Alacsonyabb határt adjon meg!
+content#:#cont_assign_characteristic#:#Jellemzők hozzárendelése
+content#:#cont_anchor#:#Horgony
+content#:#cont_choose_characteristic#:#Válasszon jellemzőt
+content#:#cont_choose_characteristic_text#:#Szövegelemek
+content#:#cont_choose_characteristic_section#:#Részek
+dateplaner#:#cal_delete_app_sure#:#Valóban törölni akarja az alábbi időpontokat?
+dateplaner#:#cal_deleted_app#:#A kiválasztott időpontok törlésre kerültek.
+common#:#to_filter#:#Szűrő
+common#:#user_status#:#Felhasználó állapota
+assessment#:#manscoring_done#:#Pontozott résztvevők
+assessment#:#manscoring_none#:#Nem pontozott résztvevők
+assessment#:#manscoring_pending#:#Részben pontozott résztvevők
+file#:#replace_file_info#:#Minden fájlverzió törlésre kerül.
+file#:#file_new_version_info#:#Új fájlverzió létrehozása. A régebbi változatok nem módosulnak.
+file#:#file_new_version#:#Új verzió létrehozása
+common#:#save_params_for_cron#:#Paraméterek mentése a cronjobhoz
+common#:#systemcheck_cronform#:#Rendszerellenőrzés aktiválása a cronjobban
+common#:#systemcheck_cron#:#Rendszerellenőrzés a cronjobban
+content#:#cont_general_properties#:#Általános tulajdonságok
+content#:#cont_current_style#:#Jelenlegi stílus
+content#:#cont_edit_style#:#Stílus szerkesztése
+content#:#cont_delete_style#:#Stílus törlése
+content#:#cont_layout_toc2win_desc#:#Tartalomjegyzék a bal, tartalom a jobb oldali keretben. A GYIK-, fogalomtár- és médialinkek külön ablakban nyílnak.
+content#:#cont_layout_1window_desc#:#Tartalom a főkeretben. A GYIK-, fogalomtár- és médialinkek külön ablakban nyílnak.
+content#:#cont_layout_2window_desc#:#Tartalom a bal keretben. A GYIK-, fogalomtár- és médialinkek a jobb keretben nyílnak.
+content#:#cont_layout_3window_desc#:#Tartalom a bal keretben. A GYIK- és médialinkek a jobbfelső keretben, a fogalomtárlinkek a jobb alsó keretben nyílnak.
+content#:#cont_layout_toc2windyn_desc#:#Tartalomjegyzék a bal, tartalom a jobb oldali keretben. A GYIK-, fogalomtár- és médialinkek dinamikusan nyílnak a jobb alsó kertben.
+content#:#cont_layout_presentation_desc#:#Tartalom a főkeretben. A GYIK-, fogalomtár- és médialinkek külön ablakban nyílnak. Nincs ILIAS főmenü.
+content#:#cont_layout_fullscreen_desc#:#Tartalom a főkeretben. A GYIK- és médialinkek külön ablakban nyílnak. Nincs ILIAS főmenü és navigációs rész.
+content#:#cont_layout_toc2win#:#Tartalomjegyzék
+content#:#cont_layout_1window#:#Egy ablak
+content#:#cont_layout_2window#:#Két ablak
+content#:#cont_layout_3window#:#Három ablak
+content#:#cont_layout_toc2windyn#:#Dinamikus tartalomjegyzék
+content#:#cont_layout_presentation#:#Prezentáció
+content#:#cont_layout_fullscreen#:#Teljesképernyő
+common#:#obj_lrss#:#Tananyagforrások
+common#:#obj_lrss_desc#:#Minden tananyagtípus konfigurálása
+content#:#cont_lrs_settings#:#Beállítások
+content#:#cont_enable_time_scheduled_page_activation#:#Ütemezési lap aktiválás
+content#:#cont_enable_time_scheduled_page_activation_info#:#Ha engedélyezett, aktiválási időszak (dátum/idő) választható ki a tananyag-szerkesztőben az egyes lapokhoz.
+common#:#lrss_edit_permission#:#Jogosultsági beállítások változtatása
+common#:#lrss_visible#:#A tananyagforrások beállításai láthatók
+common#:#lrss_read#:#Olvasási elérés a tananyagforrások beállításaihoz
+common#:#lrss_write#:#Tananyagforrások beállításainak szerkesztése
+content#:#cont_edit_lrs_settings#:#Beállítások szerkesztése
+content#:#cont_activation#:#Aktiválás
+content#:#cont_page_activation#:#Lapaktiválás
+content#:#cont_activated#:#Aktiválva
+content#:#cont_deactivated#:#Deaktiválva
+content#:#cont_scheduled_activation#:#Ütemezés aktiválása
+content#:#cont_start#:#Kezdés
+content#:#cont_end#:#Befejezés
+shib#:#shib_settings#:#Shibboleth beállítások
+shib#:#shib_role_assignment#:#Szerepösszerendelés
+shib#:#shib_role_ass_table#:#Új szabály a szerepösszerendelésekhez
+shib#:#shib_new_rule#:#Új szabály felvétele
+shib#:#shib_role_name#:#ILIAS-szerepnév
+shib#:#shib_global_role#:#Globális szerep
+shib#:#shib_local_role#:#Lokális szerep
+shib#:#shib_role_name_info#:#Válasszon egy globális szerpet, vagy adja meg egy lokális szerep nevét!
+shib#:#shib_update_roles#:#Szerepösszerendelések
+shib#:#shib_add_missing#:#Hiányzó szerepek összerendelése
+shib#:#shib_remove_deprecated#:#Érvénytelen szerepek összerendelésének megszüntetése
+shib#:#shib_check_role_assignment#:#Későbbi bejelentkezések utáni szerepek összerendelése
+shib#:#shib_assignment_type#:#Összerendelés fajtája
+shib#:#shib_attribute#:#Felhasználói tulajdonság
+shib#:#shib_attribute_name#:#Tulajdonságnév
+shib#:#shib_attribute_value#:#Tulajdonságérték
+shib#:#shib_attr_info#:#A Shibboleth felhasználói profilban egy adott tulajdonsággal összerendelve.
+shib#:#shib_missing_role#:#Válasszon egy szerepet!
+shib#:#shib_missing_attr_name#:#Adja meg a tulajdonság nevét!
+shib#:#shib_missing_attr_value#:#Adja meg a tulajdonság értékét!
+shib#:#shib_rules_tables#:#Aktív szerepösszerendelés szabályai
+shib#:#shib_role_by_attribute#:#Shibboleth-tulajdonság
+shib#:#shib_rule_type#:#Összerendelés típusa
+shib#:#shib_ilias_role#:#ILIAS szerepnév
+shib#:#shib_rule_condition#:#Feltétel
+shib#:#shib_confirm_del_role_ass#:#Valóban törölni akarja az alábbi szabályokat?
+shib#:#shib_deleted_rule#:#Szerepösszerendelések törölve.
+common#:#expanded#:#Kiterjesztve
+shib#:#shib_update_role_ass_table#:#Szerepösszerendelés-szabály szerkesztése
+shib#:#shib_missing_plugin_id#:#Érvényes plug-in azonosítót adjon meg!
+shib#:#shib_plugin#:#Összerendelés plug-innal
+shib#:#shib_plugin_info#:#Szerepösszerendelés érvényesítése plug-innal. Adjon meg egy valós plug-in azonosítót!
+shib#:#shib_role_by_plugin#:#Plug-innal
+shib#:#shib_plugin_id#:#Plug-in azonosító
+shib#:#shib_role_selection#:#Szerepkiválasztás
+shib#:#shib_choose_role#:#Szerep választása
+shib#:#shib_add_remove#:#Szerepek felvétele/eltávolítása
+common#:#page_layouts#:#Lapmegjelenések
+common#:#page_layout#:#Lapmegjelenés
+style#:#sty_list_char#:#Lista
+style#:#sty_media_char#:#Média
+style#:#sty_question_char#:#Kérdés
+style#:#sty_sco_char#:#SCO és cél
+style#:#sty_ol#:#Számozott lista
+style#:#sty_ul#:#Listajeles lista
+style#:#sty_list_style_type#:#Lista stílustípusa
+style#:#sty_list_style_position#:#Lista stíluspozíciója
+style#:#sty_list_style_image#:#Lista stílusképe
+style#:#sty_table#:#Táblázat
+style#:#sty_border_collapse#:#Szegélyösszevonás
+style#:#sty_type_media#:#Média
+style#:#sty_type_media_caption#:#Médiafelirat
+style#:#sty_type_text_block#:#Szövegblokk
+style#:#sty_type_text_inline#:#Karakter
+style#:#sty_type_section#:#Rész
+style#:#sty_type_link#:#Link
+style#:#sty_type_table#:#Táblázat
+style#:#sty_type_table_cell#:#Táblázatcella
+style#:#sty_type_list_item#:#Listatétel
+style#:#sty_type_list_o#:#Számozott lista
+style#:#sty_type_list_u#:#Listajeles lista
+style#:#sty_type_question#:#Kérdés
+style#:#sty_type_page#:#Lap
+style#:#sty_type#:#Típus
+style#:#sty_type_sco#:#SCO
+content#:#cont_StandardTable#:#Standard táblázat
+style#:#sty_opacity#:#Átlátszatlanság
+style#:#sty_positioning#:#Pozicionálás
+style#:#sty_width#:#Szélesség
+style#:#sty_height#:#Magasság
+style#:#sty_overflow#:#Túlcsordulás
+style#:#sty_position#:#Pozíció
+content#:#cont_Media#:#Média (standard)
+style#:#sty_flist_char#:#Fájllista
+style#:#sty_type_flist#:#Fájllista
+style#:#sty_type_flist_cont#:#Fájllistakonténer
+style#:#sty_type_flist_li#:#Fájllisttaelem
+style#:#sty_type_flist_head#:#Fájllistacímsor
+content#:#cont_file_from_repository#:#Fájl taneszköz tárolóból
+content#:#cont_position#:#Pozíció
+content#:#cont_ed_edit_files#:#Fájlok szerkesztése
+content#:#cont_save_positions#:#Pozíciók mentése
+content#:#cont_add_file#:#Fájl felvétele
+content#:#cont_save_positions_and_classes#:#Pozíciók és stílusosztályok mentése
+content#:#cont_FileListItem#:#Fájllistatétel (standard)
+style#:#sty_type_media_cont#:#Médiakonténer
+style#:#sty_type_page_fn#:#Lábléc
+style#:#sty_type_page_nav#:#Lábléc
+style#:#sty_type_page_title#:#Lapcím
+style#:#sty_float#:#Úszó
+style#:#sty_type_page_bnav#:#Alsó navigáció
+style#:#sty_type_page_tnav#:#Felső navigáció
+style#:#sty_type_page_lnav#:#Bal oldali navigáció
+style#:#sty_type_page_rnav#:#Jobb oldali navigáció
+style#:#sty_type_page_cont#:#Lapkonténer
+style#:#sty_type_page_frame#:#Laptároló
+style#:#sty_type_page_lnavlink#:#Bal oldali navigációs link
+style#:#sty_type_page_rnavlink#:#Jobb oldali navigációs link
+style#:#sty_type_page_lnavimage#:#Bal oldali navigációs kép
+style#:#sty_type_page_rnavimage#:#Jobb oldali navigációs kép
+style#:#sty_type_qtitle#:#Kérdéscím
+style#:#sty_type_qanswer#:#Válasz
+style#:#sty_type_qfeedr#:#Visszacsatolás, helyes
+style#:#sty_type_qfeedw#:#Visszacsatolás, hibás
+style#:#sty_type_qinput#:#Szövegbevitel
+style#:#sty_type_qlinput#:#Hosszú szövegbevitel
+style#:#sty_type_qsubmit#:#Kérdéselküldési gombok
+style#:#sty_type_sco_desc#:#SCO-leírás
+style#:#sty_type_sco_title#:#SCO-cím
+style#:#sty_type_sco_obj#:#SCO-cél
+style#:#sty_type_sco_keyw#:#SCO-kulcsszavak
+common#:#im_jabber#:#Csacsogás
+common#:#im_jabber_icon#:#Csacsogáslogo
+common#:#im_voip#:#VoIP
+common#:#im_voip_icon#:#VoIP-logo
+common#:#paste_clipboard_items_into_multiple_objects#:#Beillesztés többszörös objektumokba
+common#:#select_at_least_one_object#:#Legalább egy objektumot válasszon!
+common#:#msg_obj_exists_in_folder#:#A(z) %s objektum már benne van a(z) %s mappában.
+common#:#msg_obj_may_not_contain_objects_of_type#:#A(z) %s objektum nem tartalmazhat ilyen típusú objektumokat: %s.
+common#:#msg_no_perm_paste_object_in_folder#:#Nincs jogosultsága a(z) %s objektum beillesztésére a(z) %s mappába.
+common#:#msg_paste_object_not_in_itself#:#Nem lehet beilleszteni a(z) %s objektumot saját magába.
+common#:#mgs_objects_linked_to_the_following_folders#:#Az objektum(ok) az alábbi mappá(k)ba lettek belinkelve: %s
+common#:#session_reminder_alert#:#Munkamenete 5 perc múlva lejár. Kattintson az OK gombra, ha folytatni szeretné munkamenetét!
+common#:#session_reminder#:#Munkamenet-emlékeztető
+common#:#session_reminder_info#:#Ha engedélyezett, emlékeztető üzenetet fog kapni munkamenete lejárta előtt.
+ecs#:#ecs_no_owner#:#Válasszon egy közösségnevet!
+export#:#export_select_resources#:#Források kiválasztása
+export#:#export_resource#:#Forrás
+export#:#export_last_export_file#:#Legutolsó exportfájl használata
+export#:#export_last_export#:#Legutolsó export
+export#:#export_create_new_file#:#Új exportfájl létrehozása
+export#:#export_omit_resource#:#Forrás kihagyása
+export#:#export_omit#:#Kihagyás
+export#:#export_create#:#Létrehozás
+export#:#export_last_file#:#Legutolsó fájl
+export#:#export_export_date#:#Exportálási dátum
+common#:#session_reminder_extended#:#Munkamenete meghosszabbításra került: %s
+common#:#session_reminder_session_duration#:#(Munkamenet időtartam: %s).
+crs#:#crs_user_already_assigned#:#A kiválasztott felhasználó már hozzárendelésre került ehhez a kurzushoz.
+chat#:#chat_server_ssl_settings#:#SSL beállítások
+chat#:#chat_server_ssl_port#:#Szerver SSL Port
+chat#:#chat_server_ssl_active#:#SSL aktíve
+chat#:#chat_add_ssl_port#:#Vegye fel a szerver SSL portját!
+chat#:#chat_notification_intro#:#Ezt az e-mail-t automatikusan küldte Önnek az ILIAS %s, %s installációja
+common#:#certificate#:#Bizonyítvány
+certificate#:#certificate_top#:#Fenn
+certificate#:#certificate_right#:#Jobbra
+certificate#:#certificate_bottom#:#Alul
+certificate#:#certificate_left#:#Balra
+certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
+certificate#:#certificate_a4_landscape#:#A4 fekvő (210 mm x 297 mm)
+certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
+certificate#:#certificate_a5_landscape#:#A5 fekvő (148 mm x 210 mm)
+certificate#:#certificate_letter#:#Levél (11 inch x 8,5 inch)
+certificate#:#certificate_letter_landscape#:#Levél fektetve (8,5 inch x 11 inch)
+certificate#:#certificate_custom#:#Egyedi…
+certificate#:#certificate_edit#:#Bizonyítványsablon létrehozása/szerkesztése
+certificate#:#certificate_export#:#Bizonyítvány exportálása
+certificate#:#certificate_page_format#:#Lapformátum
+certificate#:#certificate_page_format_info#:#Please select the default page format for new certificates.
+certificate#:#certificate_background_image#:#Háttérkép
+certificate#:#certificate_padding_top#:#Felső cellaköz
+certificate#:#certificate_margin_body#:#Szövegmargó
+certificate#:#certificate_not_well_formed#:#A bizonyítványszöveg nem jólformázott. Érvényes XHTML-t adjon meg a bizonyítványszövegnek!
+certificate#:#certificate_show#:#Bizonyítvány mutatása
+certificate#:#certificate_status#:#Státusz
+certificate#:#certificate_status_complete#:#A bizonyítvány teljes és használható
+certificate#:#certificate_status_incomplete#:#A bizonyítvány nem teljes
+certificate#:#certificate_delete#:#Bizonyítványadatok törlése
+certificate#:#certificate_preview#:#Bizonyítvány előnézete
+certificate#:#certificate_text#:#Bizonyítványszöveg
+certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
+certificate#:#certificate_var_user_firstname#:#Jane
+certificate#:#certificate_var_user_lastname#:#Doe
+certificate#:#certificate_var_user_title#:#Dr.
+certificate#:#certificate_var_user_institution#:#ILIAS Open Source
+certificate#:#certificate_var_user_department#:#Felhasználói támogatás
+certificate#:#certificate_var_user_street#:#Etele út 68.
+certificate#:#certificate_var_user_city#:#Budapest
+certificate#:#certificate_var_user_zipcode#:#12345
+certificate#:#certificate_var_user_country#:#Magyarország
+certificate#:#certificate_var_result_passed#:#teljesítve
+certificate#:#certificate_var_result_points#:#38
+certificate#:#certificate_var_result_percent#:#83%
+certificate#:#certificate_var_max_points#:#46
+certificate#:#certificate_var_result_mark_short#:#B
+certificate#:#certificate_var_result_mark_long#:#Jó
+certificate#:#certificate_passed#:#teljesítve
+certificate#:#certificate_failed#:#nem teljesítve
+certificate#:#certificate_pageheight#:#Lapmagasság
+certificate#:#certificate_pagewidth#:#Lapszélesség
+certificate#:#certificate_wrong_unit#:#Rossz egységet adott meg.
+certificate#:#certificate_wrong_units#:#Rossz egységcsoportot adott meg.
+certificate#:#certificate_confirm_deletion_text#:#Valóban törli a bizonyítványt és annak minden kapcsolódó adatát?
+certificate#:#certificate_enabled_scorm#:#Enabled
+certificate#:#certificate_enabled_scorm_introduction#:#Ha bejelölt, a bizonyítvány fel lesz ajánlva minden felhasználónak, aki befejezte a SCORM tananyag.
+certificate#:#certificate_ph_lastaccess#:#A felhasználó utolsó hozzáférési dátuma és ideje
+certificate#:#certificate_ph_scormtitle#:#A SCORM tananyag címe
+certificate#:#certificate_ph_introduction#:#Az alábbi dzsókerelemek használhatók
+certificate#:#certificate_ph_fullname#:#A felhasználó teljes neve (előnév, vezetéknév, keresztnév)
+certificate#:#certificate_ph_firstname#:#A felhasználó vezetékneve
+certificate#:#certificate_ph_lastname#:#A felhasználó keresztneve
+certificate#:#certificate_ph_passed#:#"teljesítve" vagy "nem teljesítve", a teszteredményektől függően
+certificate#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
+certificate#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
+certificate#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
+certificate#:#certificate_ph_markshort#:#A felhasználó jegye (rövid változat)
+certificate#:#certificate_ph_marklong#:#A felhasználó jegye (hivatalos változat)
+certificate#:#certificate_ph_testtitle#:#Teszt címe
+certificate#:#certificate_ph_date#:#Aktuális dátum
+certificate#:#certificate_ph_datetime#:#Aktuális dátum és idő
+certificate#:#certificate_ph_title#:#Név előtag
+certificate#:#certificate_ph_institution#:#Felhasználó intézménye
+certificate#:#certificate_ph_department#:#Felhasználó szervezeti egysége
+certificate#:#certificate_ph_street#:#Felhasználói cím - utca
+certificate#:#certificate_ph_city#:#Felhasználói cím - város
+certificate#:#certificate_ph_zipcode#:#Felhasználói cím - irányítószám
+certificate#:#certificate_ph_country#:#Felhasználói cím - ország
+certificate#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in!
+certificate#:#certificate_visibility#:#Láthatóság
+certificate#:#certificate_visibility_introduction#:#A teszteredményekben levő gomb a felhasználóknak a bizonyítványt felajánlja
+certificate#:#certificate_visibility_always#:#Mindig látható
+certificate#:#certificate_visibility_never#:#Nem látható
+certificate#:#certificate_visibility_passed#:#Csak akkor látható, ha a felhasználó elvégezte a tesztet
+certificate#:#certificate_error_import#:#Hiba fordult elő egy bizonyítvány importálásakor.
+certificate#:#certificate_error_upload_bgimage#:#Hiba fordult elő a háttérkép feltöltése közben.
+certificate#:#certificate_settings#:#Bizonyítvány beállításai
+certificate#:#default_background_info#:#Ez a háttérkép kerül kiválasztásra alapértelmezettként minden bizonyítványhoz. Ha másik háttérképre van szüksége a bizonyítványba, fel kell töltenie azt a bizonyítványszerkesztőbe.
+certificate#:#certificate_usage#:#A bizonyítványkezelés csak akkor elérhető, ha az ILIAS Java-szerver fut. A Java-szerver konfigurálása az ILIAS adminisztráció főlapján érhető el a webszolgáltatások részben.
+certificate#:#download_certificate#:#Bizonyítvány letöltése
+content#:#cont_alphabetic#:#Alphabetic A, B, ...###24 02 2009 new variable
+content#:#cont_localfile#:#Local File###24 02 2009 new variable
+content#:#cont_roman#:#Roman I, II, ...###24 02 2009 new variable
+assessment#:#showSuggestedSolution#:#Suggested solution###24 02 2009 new variable
+assessment#:#deleteSuggestedSolution#:#Remove this suggested solution###24 02 2009 new variable
+assessment#:#suggestedSolutionType#:#Suggested solution type###24 02 2009 new variable
+assessment#:#changeSuggestedSolution#:#Change suggested solution###24 02 2009 new variable
+assessment#:#addSuggestedSolution#:#Add suggested solution###24 02 2009 new variable
+assessment#:#fileDownload#:#File download###24 02 2009 new variable
+assessment#:#solutionText#:#Text###24 02 2009 new variable
+content#:#cont_print_no_page_selected#:#Please select at least one page.###24 02 2009 new variable
+assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s###24 02 2009 new variable
+assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"###24 02 2009 new variable
+assessment#:#tst_show_solution_suggested#:#Show Suggested Solution###24 02 2009 new variable
+survey#:#err_no_pool_name#:#Please enter the name of a survey question pool###24 02 2009 new variable
+assessment#:#err_no_numeric_value#:#Please enter a numeric value###24 02 2009 new variable
+assessment#:#matching_pairs#:#Matching Pairs###24 02 2009 new variable
+assessment#:#error_duplicate_term#:#You selected a matching term more than once###24 02 2009 new variable
+assessment#:#matching_type#:#Matching Question Subtype###24 02 2009 new variable
+common#:#msg_form_save_error#:#The form data could not be saved. Please check the input fields for any error messages.###24 02 2009 new variable
+assessment#:#thumb_geometry#:#Thumbnail Geometry###24 02 2009 new variable
+assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.###24 02 2009 new variable
+assessment#:#element_height#:#Minimum Height###24 02 2009 new variable
+assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.###24 02 2009 new variable
+assessment#:#assOrderingHorizontal#:#Ordering Question (Horizontal)###24 02 2009 new variable
+assessment#:#ordertext#:#Ordering Text###24 02 2009 new variable
+assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.###24 02 2009 new variable
+assessment#:#textsize#:#Text Size###24 02 2009 new variable
+assessment#:#textsize_info#:#Enter the text size of the ordering text in percent if you want another size than 100 percent.###24 02 2009 new variable
+common#:#loginname_settings#:#Loginname-Settings###24 02 2009 new variable
+common#:#allow_change_loginname#:#Allow to change the login name###24 02 2009 new variable
+common#:#create_history_loginname#:#Create a history for changed login names###24 02 2009 new variable
+common#:#allow_history_loginname_again#:#It is allowed to use login names again, which are saved in the history###24 02 2009 new variable
+common#:#loginname_already_exists#:#This login name already exists.###24 02 2009 new variable
+common#:#create_history_loginname_must_be_enabled#:#To reuse login names the history must be enabled.###24 02 2009 new variable
+ecs#:#ecs_unique_id#:#Participant-ID###24 02 2009 new variable
+ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories###24 02 2009 new variable
+ecs#:#ecs_attribute_name#:#Attribute Name###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_type#:#Assignment Type###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_fixed#:#Fixed Values###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_values#:#Attribute Value###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning Course-Links to categories based on fixed values.###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_duration#:#Date Range###24 02 2009 new variable
+ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course-Links based on date ranges (e.g starting time of a course).###24 02 2009 new variable
+ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.###24 02 2009 new variable
+ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the ending time.###24 02 2009 new variable
+ecs#:#ecs_err_invalid_type#:#Please choose an assignment mode.###24 02 2009 new variable
+ecs#:#ecs_field_part_id#:#Participant ID###24 02 2009 new variable
+ecs#:#ecs_category_mapping#:#Assignment to Categories###24 02 2009 new variable
+ecs#:#ecs_tbl_active_rules#:#Active Rules for Category Assignment###24 02 2009 new variable
+ecs#:#ecs_edit_category_mapping#:#Edit Assignment###24 02 2009 new variable
+common#:#chat_enter_public_room#:#Public Chat###24 02 2009 new variable
+common#:#chat_enter_public_room_tooltip#:#Enter public chat.###24 02 2009 new variable
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat.###24 02 2009 new variable
+assessment#:#assFileUpload#:#File Upload Question###24 02 2009 new variable
+assessment#:#allowedextensions#:#Allowed File Extensions###24 02 2009 new variable
+assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).###24 02 2009 new variable
+assessment#:#maxsize#:#Maximum file upload size ###24 02 2009 new variable
+assessment#:#maxsize_info#:#Enter the maximum size in bytes that should be allowed for file uploads. If you leave this field empty, the maximum size of this installation will be chosen instead.###24 02 2009 new variable
+common#:#save_customer_address#:#Store billing address###24 02 2009 new variable
+common#:#save_customer_address_info#:#If enabled, the customers billing address will be stored###24 02 2009 new variable
+common#:#bookings#:#Bookings###24 02 2009 new variable
+forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads###24 02 2009 new variable

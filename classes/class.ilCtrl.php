@@ -533,12 +533,17 @@ class ilCtrl
 			$this->forward = array();
 			$this->parent = array();
 			$this->readCallStructure($root_gui_class);
-			$ilDB->manipulate(sprintf("INSERT INTO ctrl_structure ".
+/*			$ilDB->manipulate(sprintf("INSERT INTO ctrl_structure ".
 				"(root_class, call_node, forward, parent) VALUES (%s,%s,%s,%s)",
 				$ilDB->quote($root_gui_class, "text"),
 				$ilDB->quote(serialize($this->call_node), "clob"),
 				$ilDB->quote(serialize($this->forward), "clob"),
-				$ilDB->quote(serialize($this->parent), "clob")));
+				$ilDB->quote(serialize($this->parent), "clob")));*/
+			$ilDB->insert("ctrl_structure", array(
+				"root_class" => array("text", $root_gui_class),
+				"call_node" => array("text", serialize($this->call_node)),
+				"forward" => array("text", serialize($this->forward)),
+				"parent" => array("clob", serialize($this->parent))));
 		}
 	}
 	
