@@ -8018,14 +8018,29 @@ ALTER TABLE `crs_items` CHANGE `timing_end` `timing_end` INT( 11 ) NOT NULL DEFA
 RENAME TABLE `user_defined_field_definition` TO `udf_definition`;
 
 <#1699>
-ALTER TABLE `udf_definition` CHANGE `field_name` `field_name` CHAR( 255 ) NULL;  
+ALTER TABLE `udf_definition` CHANGE `field_name` `field_name` CHAR( 255 ) NULL;
 
 <#1700>
 <?php
 	$ilMySQLAbstraction->performAbstraction('udf_definition');
 ?>
+
 <#1701>
 <?php
 	$ilMySQLAbstraction->performAbstraction('exc_data');
 ?>
 
+<#1702>
+<?php
+	$ilDB->modifyTableColumn('ldap_rg_mapping','mapping_info', array("type" => "text", "length" => 4000, "notnull" => false));
+?>
+
+<#1703>
+<?php
+	$ilDB->modifyTableColumn('ldap_role_assignments','dn', array("type" => "text", "length" => 1000, "notnull" => false));
+?>
+	
+<#1704>
+<?php
+	$ilDB->modifyTableColumn('rbac_pa','ops_id', array("type" => "text", "length" => 4000, "notnull" => false));
+?>
