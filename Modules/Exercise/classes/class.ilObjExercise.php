@@ -345,9 +345,9 @@ class ilObjExercise extends ilObject
 
 		$mem = array();
 		$q = "SELECT * FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
+			"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($q);
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if (ilObject::_exists($rec["usr_id"]) &&
 				(ilObject::_lookupType($rec["usr_id"]) == "usr"))
@@ -455,15 +455,15 @@ class ilObjExercise extends ilObject
   		$q="SELECT exc_members.status_time, exc_returned.timestamp ".
 			"FROM exc_members, exc_returned ".
 			"WHERE exc_members.status_time < exc_returned.timestamp ".
-			"AND exc_members.status_time <> '0000-00-00 00:00:00' ".
+			"AND NOT exc_members.status_time IS NULL ".
 			"AND exc_returned.obj_id = exc_members.obj_id ".
 			"AND exc_returned.user_id = exc_members.usr_id ".
-			"AND exc_returned.obj_id=".$ilDB->quote($exc_id)." AND exc_returned.user_id=".
-			$ilDB->quote($member_id);
+			"AND exc_returned.obj_id=".$ilDB->quote($exc_id, "integer")." AND exc_returned.user_id=".
+			$ilDB->quote($member_id, "integer");
 
   		$usr_set = $ilDB->query($q);
 
-  		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
+  		$array = $ilDB->fetchAssoc($usr_set);
 
 		if (count($array)==0)
 		{
@@ -485,10 +485,10 @@ class ilObjExercise extends ilObject
   		global $ilDB;
 
   		$q = "SELECT count(*) AS cnt FROM exc_members".
-			" WHERE sent_time <> '0000-00-00 00:00:00'".
-			" AND obj_id = ".$ilDB->quote($a_exc_id);
+			" WHERE NOT sent_time IS NULL".
+			" AND obj_id = ".$ilDB->quote($a_exc_id, "integer");
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		if ($rec["cnt"] > 0)
 		{
@@ -538,10 +538,11 @@ class ilObjExercise extends ilObject
 
   		$q = "SELECT * ".
 		"FROM exc_members ".
-		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
+		"WHERE obj_id= ".$ilDB->quote($exc_id, "integer").
+		" AND usr_id= ".$ilDB->quote($member_id, "integer");
 
   		$set = $ilDB->query($q);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return ilUtil::getMySQLTimestamp($rec["status_time"]);
 		}
@@ -557,10 +558,11 @@ class ilObjExercise extends ilObject
 
   		$q = "SELECT * ".
 		"FROM exc_members ".
-		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
+		"WHERE obj_id= ".$ilDB->quote($exc_id, "integer").
+		" AND usr_id= ".$ilDB->quote($member_id, "integer");
 
   		$set = $ilDB->query($q);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return ilUtil::getMySQLTimestamp($rec["sent_time"]);
 		}
@@ -576,10 +578,11 @@ class ilObjExercise extends ilObject
 
   		$q = "SELECT * ".
 		"FROM exc_members ".
-		"WHERE obj_id= ".$ilDB->quote($exc_id)." AND usr_id= ".$ilDB->quote($member_id);
+		"WHERE obj_id= ".$ilDB->quote($exc_id, "integer").
+		" AND usr_id= ".$ilDB->quote($member_id, "integer");
 
   		$set = $ilDB->query($q);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return ilUtil::getMySQLTimestamp($rec["feedback_time"]);
 		}
