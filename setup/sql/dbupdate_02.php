@@ -8075,5 +8075,8 @@ RENAME TABLE `usr_defined_data` TO `udf_data`;
 		$ilDB->modifyTableColumn('udf_data','f_'.$row->fid, array("type" => "text", "length" => 4000, "notnull" => false));
 	}
 ?>
-
+<#1709>
+<?php
+	$ilMySQLAbstraction->performAbstraction('usr_new_account_mail');
+?>
 

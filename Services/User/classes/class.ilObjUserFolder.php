@@ -746,11 +746,30 @@ class ilObjUserFolder extends ilObject
 	function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
 		global $ilDB;
-
-		$ilDB->query("REPLACE INTO usr_new_account_mail ".
-			"(lang, subject, body, sal_g, sal_f, sal_m) VALUES ".
-			"(".$ilDB->quote($a_lang).",".$ilDB->quote($a_subject).",".$ilDB->quote($a_body).
-			",".$ilDB->quote($a_sal_g).",".$ilDB->quote($a_sal_f).",".$ilDB->quote($a_sal_m).")");
+		
+		if(self::_lookupNewAccountMail($a_lang))
+		{
+			$values = array(
+				'subject'		=> array('text',$a_subject),
+				'body'			=> array('clob',$a_body),
+				'sal_g'			=> array('text',$a_sal_g),
+				'sal_f'			=> array('text',$a_sal_f),
+				'sal_m'			=> array('text',$a_sal_m)
+				);
+			$ilDB->update('usr_new_account_mail',$values,array('lang' => array('text',$a_lang)));
+		}
+		else
+		{
+			$values = array(
+				'subject'		=> array('text',$a_subject),
+				'body'			=> array('clob',$a_body),
+				'sal_g'			=> array('text',$a_sal_g),
+				'sal_f'			=> array('text',$a_sal_f),
+				'sal_m'			=> array('text',$a_sal_m),
+				'lang'			=> array('text',$a_lang)
+				);
+			$ilDB->insert('usr_new_account_mail',$values);
+		}
 	}
 
 	function _lookupNewAccountMail($a_lang)
@@ -758,7 +777,7 @@ class ilObjUserFolder extends ilObject
 		global $ilDB;
 
 		$set = $ilDB->query("SELECT * FROM usr_new_account_mail ".
-			" WHERE lang = ".$ilDB->quote($a_lang));
+			" WHERE lang = ".$ilDB->quote($a_lang,'text'));
 
 		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
