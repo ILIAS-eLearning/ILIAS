@@ -3689,7 +3689,7 @@ class ilObjUser extends ilObject
 		{
 			#$new_data[$field] = ilUtil::stripSlashes($data);
 			// Assign it directly to avoid update problems of unchangable fields
-			$this->user_defined_data[$field] = $data;
+			$this->user_defined_data['f_'.$field] = $data;
 		}
 		#$this->user_defined_data = $new_data;
 
@@ -3707,19 +3707,35 @@ class ilObjUser extends ilObject
 
 		$fields = '';
 
+		$field_def = array();
+
 		foreach($this->user_defined_data as $field => $value)
 		{
 			if($field != 'usr_id')
 			{
-				$fields .= ("`".$field."` = ".$ilDB->quote($value).", ");
+				$field_def[$field] = array('text',$value);
 			}
 		}
-
-		$query = "REPLACE INTO usr_defined_data ".
-			"SET ".$fields." ".
-			"usr_id = ".$ilDB->quote($this->getId());
-
-		$this->db->query($query);
+		
+		if(!$field_def)
+		{
+			return true;
+		}
+		
+		$query = "SELECT usr_id FROM udf_data WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
+		$res = $ilDB->query($query);
+		
+		
+		if($res->numRows())
+		{
+			// Update
+			$ilDB->update('udf_data',$field_def,array('usr_id' => array('integer',$this->getId())));
+		}
+		else
+		{
+			$field_def['usr_id'] = array('integer',$this->getId());
+			$ilDB->insert('udf_data',$field_def);
+		}
 		return true;
 	}
 
@@ -3727,8 +3743,8 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM usr_defined_data ".
-			"WHERE usr_id = ".$ilDB->quote($this->getId());
+		$query = "SELECT * FROM udf_data ".
+			"WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
 
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -3743,8 +3759,8 @@ class ilObjUser extends ilObject
 		global $ilDB;
 
 		$query = "INSERT INTO usr_defined_data ".
-			"SET usr_id = ".$ilDB->quote($this->getId());
-		$this->db->query($query);
+			"SET usr_id = ".$ilDB->quote($this->getId(),'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}
@@ -3754,8 +3770,8 @@ class ilObjUser extends ilObject
 		global $ilDB;
 
 		$query = "DELETE FROM usr_defined_data ".
-			"WHERE usr_id = ".$ilDB->quote($this->getId());
-		$this->db->query($query);
+			"WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
+		$res = $ilDB->manipulate($query);
 
 		return true;
 	}

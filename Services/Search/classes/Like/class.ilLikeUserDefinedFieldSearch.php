@@ -45,7 +45,21 @@ class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 	{
 		parent::ilUserDefinedFieldSearch($qp_obj);
 	}
-
+	
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
+	public function setFields($a_fields)
+	{
+		foreach($a_fields as $field)
+		{
+			$fields[] = 'f_'.$field;
+		}
+		parent::setFields($fields ? $fields : array());
+	}
+	
 
 	function __createWhereCondition()
 	{

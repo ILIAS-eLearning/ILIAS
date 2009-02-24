@@ -316,9 +316,8 @@ class ilUserDefinedFields
 
 		// add table field in usr_defined_data
 		$field_id = $next_id;
-
-		$query = "ALTER TABLE usr_defined_data ADD `".(int) $field_id."` TEXT NOT NULL";
-		$this->db->query($query);
+		
+		$ilDB->addTableColumn('udf_data','f_'.$field_id, array("type" => "text", "length" => 4000, "notnull" => false));
 
 		$this->__read();
 
@@ -334,9 +333,7 @@ class ilUserDefinedFields
 		$res = $ilDB->manipulate($query);
 
 		// Delete usr_data entries
-		$query = "ALTER TABLE usr_defined_data DROP `".(int) $a_id."`";
-		$this->db->query($query);
-
+		$ilDB->dropTableColumn('udf_data','f_'.$a_id);
 		$this->__read();
 
 		return true;
@@ -421,9 +418,9 @@ class ilUserDefinedFields
 		
 
 		// Update usr_data
-		$query = "UPDATE usr_defined_data ".
-			"SET `".$this->db->quote($a_field_id)."` = '' ".
-			"WHERE `".$this->db->quote($a_field_id)."` = ".$this->db->quote($old_value)."";
+		$query = "UPDATE udf_data ".
+			"SET `f_".$a_field_id."` = '' ".
+			"WHERE `f_".$this->db->quote($a_field_id)."` = ".$this->db->quote($old_value,'text')."";
 		$this->db->query($query);
 
 		// fianally read data

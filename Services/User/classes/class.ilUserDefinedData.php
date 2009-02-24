@@ -63,20 +63,36 @@ class ilUserDefinedData
 
 	function update()
 	{
+		global $ilDB;
+		
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$udf_obj =& ilUserDefinedFields::_getInstance();
 
 		$sql = '';
-
+		$field_def = array();
 		foreach($udf_obj->getDefinitions() as $definition)
 		{
+			$field_def['f_'.$definition['field_id']] = array('text',$this->get($definition['field_id']));
+			
 			$sql .= ("`".(int) $definition['field_id']."` = ".$this->db->quote($this->get($definition['field_id'])).", ");
 		}
+		if(!$field_def)
+		{
+			return true;
+		}
 
-		$query = "REPLACE INTO usr_defined_data ".
-			"SET ".$sql." ".
-			"usr_id = '".$this->getUserId()."'";
-		$this->db->query($query);
+		$query = "SELECT usr_id FROM udf_data WHERE usr_id = ".$ilDB->quote($this->getUserId(),'integer');
+		$res = $ilDB->query($query);
+		
+		if($res->numRows())
+		{
+			$ilDB->update('udf_data',$field_def,array('usr_id' => array('integer',$this->getUserId())));
+		}
+		else
+		{
+			$field_def['usr_id'] = array('integer',$this->getUserId());
+			$ilDB->insert('udf_data',$field_def);
+		}
 		return true;
 	}
 
@@ -113,8 +129,8 @@ class ilUserDefinedData
 	function __read()
 	{
 		$this->user_data = array();
-		$query = "SELECT * FROM usr_defined_data ".
-			"WHERE usr_id = ".$this->db->quote($this->usr_id)."";
+		$query = "SELECT * FROM udf_data ".
+			"WHERE usr_id = ".$this->db->quote($this->usr_id,'integer')."";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{

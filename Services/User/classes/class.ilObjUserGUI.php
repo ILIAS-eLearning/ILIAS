@@ -923,7 +923,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				if (substr($k, 0, 4) == "udf_")
 				{
-					$udf[(int) substr($k, 4)] = $v;
+					$udf[substr($k, 4)] = $v;
 				}
 			}
 			$userObj->setUserDefinedData($udf);
@@ -1118,7 +1118,7 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				if (substr($k, 0, 4) == "udf_")
 				{
-					$udf[(int) substr($k, 4)] = $v;
+					$udf[substr($k, 4)] = $v;
 				}
 			}
 			$this->object->setUserDefinedData($udf);

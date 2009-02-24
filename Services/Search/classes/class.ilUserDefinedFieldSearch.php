@@ -50,7 +50,7 @@ class ilUserDefinedFieldSearch extends ilAbstractSearch
 
 		$query = "SELECT usr_id  ".
 			$locate.
-			"FROM usr_defined_data ".
+			"FROM udf_data ".
 			$where;
 
 		$res = $this->db->query($query);
