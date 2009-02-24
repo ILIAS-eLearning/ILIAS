@@ -641,12 +641,10 @@ class ilObject
 		// Save long form of description if is rbac object
 		if($objDefinition->isRBACObject($this->getType()))
 		{
-			$query = "INSERT INTO object_description (obj_id,description) VALUES ( ".
-				" ".$ilDB->quote($this->id,'integer').",".
-				" ".$ilDB->quote($this->getLongDescription(),'text').' )';
-			
-			$res = $ilDB->manipulate($query);
-	
+			$values = array(
+				'obj_id'		=> array('integer',$this->id),
+				'description'	=> array('clob',$this->getLongDescription()));	
+			$ilDB->insert('object_description',$values);
 		}
 		
 
@@ -705,17 +703,17 @@ class ilObject
 				$ilDB->quote($this->getId(),'integer'));
 			if($res->numRows())
 			{
-				$query = "UPDATE object_description SET description = ".
-					$ilDB->quote($this->getLongDescription(),'text')." ".
-					"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
-				$res = $ilDB->query($query);
+				$values = array(
+					'description'	=> array('clob',$this->getLongDescription())
+					);
+				$ilDB->update('object_description',$values,array('obj_id' => array('integer',$this->getId())));
 			}
 			else
 			{
-				$query = "INSERT INTO object_description (obj_id,description) ".
-					"VALUES(".$ilDB->quote($this->getId(),'integer').",".
-					$ilDB->quote($this->getLongDescription(),'text').')';
-				$res = $ilDB->manipulate($query);
+				$values = array(
+					'description'	=> array('clob',$this->getLongDescription()),
+					'obj_id'		=> array('integer',$this->getId()));
+				$ilDB->insert('object_description',$values);
 			}
 		}		
 
@@ -1100,20 +1098,20 @@ class ilObject
 			// Update long description
 			$res = $ilDB->query("SELECT * FROM object_description WHERE obj_id = ".
 				$ilDB->quote($a_obj_id).'integer');
+
 			if($res->numRows())
 			{
-				$query = "UPDATE object_description SET description = ".
-					$ilDB->quote($a_desc,'text')." ".
-					"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
-				$res = $ilDB->query($query);
+				$values = array(
+					'description'	=> array('clob',$this->getLongDescription())
+					);
+				$ilDB->update('object_description',$values,array('obj_id' => array('integer',$this->getId())));
 			}
 			else
 			{
-				$query = "INSERT INTO object_description (obj_id,description) ".
-					"VALUES(".$ilDB->quote($this->getId(),'integer').",".
-					$ilDB->quote($this->getLongDescription(),'text').')';
-				$res = $ilDB->manipulate($query);
-
+				$values = array(
+					'description'	=> array('clob',$this->getLongDescription()),
+					'obj_id'		=> array('integer',$this->getId()));
+				$ilDB->insert('object_description',$values);
 			}
 		}
 	}
