@@ -53,14 +53,12 @@ class ilObjiLincUser
 	function __init(&$a_from_ilinc)
 	{
 		global $ilErr, $ilDB;
-		$statement = $ilDB->prepare('
-			SELECT ilinc_id, ilinc_login, ilinc_passwd FROM usr_data
-			WHERE usr_data.usr_id = ?',
-			array('integer')
-		);
 		
-		$data = array($this->user->getId());
-		$r = $ilDB->execute($statement, $data);
+		$r = $ilDB->queryf('
+			SELECT ilinc_id, ilinc_login, ilinc_passwd FROM usr_data
+			WHERE usr_data.usr_id = %s',
+			array('integer'),
+			array($this->user->getId()));
 		
 		if ($r->numRows() > 0)
 		{
@@ -95,17 +93,15 @@ class ilObjiLincUser
 
 		$this->ilias->db->query($q);
 */
-		$statement = $ilDB->prepareManip('
+		$statement = $ilDB->manipulateF('
 			UPDATE usr_data 
-			SET last_update = ?,
-          		ilinc_id = ?,
-            	ilinc_login = ?,
-            	ilinc_passwd = ?  
-            WHERE usr_id = 	?',
-			array('timestamp', 'integer', 'text', 'text', 'integer')
-		);
-		$data = array(date('Y-m-d H:i:s', time()), $this->id, $this->login, $this->passwd, $this->user->getId());
-		$ilDB->execute($statement, $data);
+			SET last_update = %s,
+          		ilinc_id = %s,
+            	ilinc_login = %s,
+            	ilinc_passwd = %s  
+            WHERE usr_id = 	%s',
+			array('timestamp', 'integer', 'text', 'text', 'integer'),
+			array(date('Y-m-d H:i:s', time()), $this->id, $this->login, $this->passwd, $this->user->getId()));
 		
 		return true;
 	}
