@@ -598,11 +598,15 @@ class ilExerciseMembers
 	{
 		global $ilUser, $ilDB;
 
-		// set download time
-		$q = "REPLACE INTO exc_usr_tutor (obj_id, usr_id, tutor_id, download_time) VALUES ".
-			"(".$ilDB->quote($this->getObjId()).",".$ilDB->quote($a_member_id).
-			",".$ilDB->quote($ilUser->getId()).",now())";
-		$ilDB->query($q);
+		$ilDB->manipulateF("DELETE FROM exc_usr_tutor ".
+			"WHERE obj_id = %s AND usr_id = %s AND tutor_id = %s",
+			array("integer", "integer", "integer"),
+			array($this->getObjId(), $a_member_id, $ilUser->getId()));
+
+		$ilDB->manipulateF("INSERT INTO exc_usr_tutor (obj_id, usr_id, tutor_id, download_time) VALUES ".
+			"(%s, %s, %s, %s)",
+			array("integer", "integer", "integer", "timestamp"),
+			array($this->getObjId(), $a_member_id, $ilUser->getId(), ilUtil::now()));
 	}
 
 	function downloadSelectedFiles($array_file_id)
