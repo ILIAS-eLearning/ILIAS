@@ -69,14 +69,10 @@ class ilObjiLincCourse extends ilContainer
 		parent::read();
 		
 		// TODO: fetching default role should be done in rbacadmin
-		$statement = $ilDB->prepare('
+		$r = $ilDB->queryf('
 			SELECT * FROM ilinc_data
-			WHERE obj_id = ?',
-			array('integer')
-		);
-		
-		$sql_data = array($this->id);
-		$r = $ilDB->execute($statement, $sql_data);
+			WHERE obj_id = %s',
+			array('integer'), array($this->id));
 		
 		if($r->numRows() > 0)
 		{
@@ -153,18 +149,14 @@ class ilObjiLincCourse extends ilContainer
 			return false;
 		}
 
-		$statement = $ilDB->prepareManip('
+		$r = $ilDB->manipulateF('
 			UPDATE ilinc_data 
-			SET activation_offline = ?,
-				akclassvalue1 = ?,
-				akclassvalue2 = ?
-			WHERE obj_id = ?',
-			array('text', 'text', 'text', 'integer')
-		);
-
-		$data = array($this->activated, $this->getAKClassValue1(), $this->getAKClassValue2(), $this->getId());
-		
-		$r = $ilDB->execute($statement, $data);
+			SET activation_offline = %s,
+				akclassvalue1 = %s,
+				akclassvalue2 = %s
+			WHERE obj_id = %s',
+			array('text', 'text', 'text', 'integer'),
+			array($this->activated, $this->getAKClassValue1(), $this->getAKClassValue2(), $this->getId()));
 		
 		return true;
 	}
@@ -209,25 +201,20 @@ class ilObjiLincCourse extends ilContainer
 		}
 		
 		//put here your module specific stuff
-		$statement = $ilDB->prepareManip('
-			DELETE FROM ilinc_data WHERE course_id = ?',
-			array('integer')
-		);
+		$statement = $ilDB->manipulateF('
+			DELETE FROM ilinc_data WHERE course_id = %s',
+			array('integer'), array($this->getiLincId()));
 
-		$data = array($this->getiLincId());
-		$ilDB->execute($statement, $data);
 	
 		// TODO: delete data in ilinc_registration table
 		/*
 		 * not tested yet
 		 */		
-/*		$statement = $ilDB->prepareManip('
+/*		$statement = $ilDB->manipulateF('
 			DELETE FROM ilinc_registration 
-			WHERE  obj_id = ?',
-			array('integer')
-		);
-		$data = array($this->getId());
-		$ilDB->execute($statement, $data);
+			WHERE  obj_id = %s',
+			array('integer'), array($this->getId()));
+		
 */		
 		
 		// remove course from ilinc server
@@ -242,15 +229,12 @@ class ilObjiLincCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepareManip('
+		$statement = $ilDB->manipulateF('
 			INSERT INTO ilinc_data (
 				obj_id, type, course_id, activation_offline) 
-			VALUES (?, ?, ?, ?)',
-			array('integer', 'text', 'integer', 'text')
-		);
-			
-		$data = array($this->id,'icrs',$a_icrs_id,$this->activated);
-		$ilDB->execute($statement, $data);
+			VALUES (%s, %s, %s, %s)',
+			array('integer', 'text', 'integer', 'text'),
+			array($this->id,'icrs',$a_icrs_id,$this->activated));
 				
 		$this->ilinc_id = $a_icrs_id;
 	}
@@ -260,14 +244,12 @@ class ilObjiLincCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepareManip('
+		$statement = $ilDB->manipulateF('
 			UPDATE ilinc_data 
-			SET activation_offline = ?
-			WHERE obj_id = ?',
-			array('text', 'integer')
-		);
-		$data = array($a_activated, $this->getId());
-		$res = $ilDB->execute($statement, $data);
+			SET activation_offline = %s
+			WHERE obj_id = %s',
+			array('text', 'integer'),
+			array($a_activated, $this->getId()));
 		
 	}
 	
@@ -276,17 +258,14 @@ class ilObjiLincCourse extends ilContainer
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepareManip('
+		$statement = $ilDB->manipulateF('
 			UPDATE ilinc_data 
-			SET akclassvalue1 = ?,
-				akclassvalue2 = ?
-			WHERE obj_id = ?',
-			array('text', 'text', 'integer')
-		);
+			SET akclassvalue1 = %s,
+				akclassvalue2 = %s
+			WHERE obj_id = %s',
+			array('text', 'text', 'integer'),
+			array($a_akclassvalue1, $a_akclassvalue2, $this->getId()));
 		
-		$data = array($a_akclassvalue1, $a_akclassvalue2, $this->getId());
-		$res = $ilDB->execute($statement, $data);
-
 	}
 	
 	/**
@@ -297,8 +276,9 @@ class ilObjiLincCourse extends ilContainer
 	*/
 	function initDefaultRoles()
 	{
-		global $rbacadmin, $rbacreview;
+		global $rbacadmin, $rbacreview, $ilDB;
 
+		
 		// create a local role folder
 		$rfoldObj =& $this->createRoleFolder();
 
@@ -308,13 +288,10 @@ class ilObjiLincCourse extends ilContainer
 		$this->m_roleAdminId = $roleObj->getId();
 
 		//set permission template of new local role
-		$statement = $this->ilias->db->prepare('
-			SELECT obj_id FROM object_data WHERE type=? AND title=?',
-			array('text', 'text')
-		);
+		$res = $ilDB->queryf('
+			SELECT obj_id FROM object_data WHERE type= %s AND title= %s',
+			array('text', 'text'), array('rolt', 'il_icrs_admin'));
 		
-		$data = array('rolt', 'il_icrs_admin');
-		$res = $this->ilias->db->execute($statement, $data);
 		$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
@@ -333,13 +310,10 @@ class ilObjiLincCourse extends ilContainer
 		$this->m_roleMemberId = $roleObj->getId();
 
 		//set permission template of new local role
-		$statement = $this->ilias->db->prepare('
-			SELECT obj_id FROM object_data WHERE type=? AND title=?',
-			array('text', 'text')
-		);
-		
-		$data = array('rolt', 'il_icrs_member');
-		$res = $this->ilias->db->execute($statement, $data);
+		$res = $ilDB->queryf('
+			SELECT obj_id FROM object_data WHERE type= %s AND title= %s',
+			array('text', 'text'), array('rolt', 'il_icrs_member'));
+
 		$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
 						
 		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
@@ -548,7 +522,7 @@ class ilObjiLincCourse extends ilContainer
 				array_push($data_types, 'integer');
 				
 				if($counter > 0) $in .= ',';
-				$in .= '?';								
+				$in .= '%s';								
 				++$counter;				
 			}
 			$in .= ')';
@@ -557,13 +531,13 @@ class ilObjiLincCourse extends ilContainer
 
 		if (is_numeric($active) && $active > -1)
 		{
-			$query .= ' AND active = ?';
+			$query .= ' AND active = %s';
 			array_push($data_values,$active);
 			array_push($data_types, 'integer');
 		}
   		
-		$statement= $ilDB->prepare($query, $data_types);
-		$r = $ilDB->execute($statement, $data_values);
+		$r = $ilDB->queryf($query, $data_types, $data_values);
+		
 		
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -636,8 +610,8 @@ class ilObjiLincCourse extends ilContainer
 		
 		$query = 'SELECT title FROM object_data
 					LEFT JOIN rbac_ua ON object_data.obj_id = rbac_ua.rol_id
-					WHERE object_data.type = ?
-					AND rbac_ua.usr_id = ?
+					WHERE object_data.type = %s
+					AND rbac_ua.usr_id = %s
 					AND rbac_ua.rol_id IN';
 		
 		array_push($data_types, 'text', 'integer');
@@ -657,7 +631,7 @@ class ilObjiLincCourse extends ilContainer
 				array_push($data_types, 'integer');
 				
 				if($counter > 0) $in .= ',';
-				$in .= '?';								
+				$in .= '%s';								
 				++$counter;				
 			}
 			$in .= ')';
@@ -666,10 +640,7 @@ class ilObjiLincCourse extends ilContainer
 		$cnt_data_values = count($data_values);
 		$cnt_data_types = count($data_types);
 		
-		
-		
-		$statement = $ilDB->prepare($query, $data_types);
-		$r = $ilDB->execute($statement, $data_values);	
+		$r = $ilDB->queryf($query, $data_types, $data_values);	
 
 		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -1236,13 +1207,9 @@ class ilObjiLincCourse extends ilContainer
 			return false;
 		}
 
-		$statement = $ilDB->prepare('
-			SELECT activation_offline FROM ilinc_data WHERE obj_id = ?',
-			array('integer')
-		);
-
-		$data = array($a_course_obj_id);
-		$r = $ilDB->execute($statement, $data);
+		$r = $ilDB->queryf('
+			SELECT activation_offline FROM ilinc_data WHERE obj_id = %s',
+			array('integer'), array($a_course_obj_id));
 		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
@@ -1253,12 +1220,9 @@ class ilObjiLincCourse extends ilContainer
 	{
 		global $ilDB,$ilias;
 
-		$statement = $ilDB->prepare('
-			SELECT akclassvalue1, akclassvalue2 FROM ilinc_data WHERE obj_id = ?',
-			array('integer')
-		);
-		$data = array($a_course_obj_id);
-		$r = $ilDB->execute($statement, $data);
+		$r = $ilDB->queryf('
+			SELECT akclassvalue1, akclassvalue2 FROM ilinc_data WHERE obj_id = %s',
+			array('integer'), array($a_course_obj_id));
 			
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 

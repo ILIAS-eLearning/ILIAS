@@ -73,15 +73,12 @@ class ilObjiLincClassroom extends ilObject
 	{
 		global $ilDB;
 
-		$statement = $ilDB->prepare('
+		$res = $ilDB->queryf('
 			SELECT course_id FROM ilinc_data 
 			LEFT JOIN object_reference ON object_reference.obj_id = ilinc_data.obj_id 
-			WHERE object_reference.ref_id = ?',
-			array('integer')
-		);
+			WHERE object_reference.ref_id = %s',
+			array('integer'), array($a_ref_id));
 		
-		$data = array($a_ref_id);
-		$res = $ilDB->execute($statement, $data);
 		$obj_rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		
 		return $obj_rec["course_id"];
@@ -251,15 +248,10 @@ class ilObjiLincClassroom extends ilObject
 		$fullname = false;
 
 		$ilDB->setLimit(1);
-		$statement = $ilDB->prepare('
+		$r = $ilDB->queryf('
 			SELECT title, firstname, lastname FROM usr_data
-			WHERE ilinc_id = ?',
-			array('integer')
-		);
-		
-		$data = array($a_ilinc_user_id);
-		$r = $ilDB->execute($statement, $data);
-		
+			WHERE ilinc_id = %s',
+			array('integer'), array($a_ilinc_user_id));
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
