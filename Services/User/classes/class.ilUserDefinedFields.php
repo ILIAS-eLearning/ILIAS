@@ -284,32 +284,38 @@ class ilUserDefinedFields
 
 	function nameExists($a_field_name)
 	{
-		$query = "SELECT * FROM user_defined_field_definition ".
-			"WHERE field_name = ".$this->db->quote($a_field_name)." ";
-
-		$res = $this->db->query($query);
+		global $ilDB;
+		
+		$query = "SELECT * FROM udf_definition ".
+			"WHERE field_name = ".$this->db->quote($a_field_name,'text')." ";
+		$res = $ilDB->query($query);
 
 		return (bool) $res->numRows();
 	}
 
 	function add()
 	{
+		global $ilDB;
+		
 		// Add definition entry
-		$query = "INSERT INTO user_defined_field_definition ".
-			"SET field_name = ".$this->db->quote($this->getFieldName()).", ".
-			"field_type = ".$this->db->quote($this->getFieldType()).", ".
-			"field_values = '".addslashes(serialize($this->getFieldValues()))."', ".
-			"visible = '".(int) $this->enabledVisible()."', ".
-			"changeable = '".(int) $this->enabledChangeable()."', ".
-			"required = '".(int) $this->enabledRequired()."', ".
-			"searchable = '".(int) $this->enabledSearchable()."', ".
-			"export = '".(int) $this->enabledExport()."', ".
-			"course_export = '".(int) $this->enabledCourseExport()."'";
-
-		$this->db->query($query);
+		$next_id = $ilDB->nextId('udf_definition');
+		
+		$values = array(
+			'field_id'		=> array('integer',$next_id),
+			'field_name'	=> array('text',$this->getFieldName()),
+			'field_type'	=> array('integer',$this->getFieldType()),
+			'field_values'	=> array('clob',$this->getFieldValues()),
+			'visible'		=> array('integer',$this->enabledVisible()),
+			'changeable'	=> array('integer',$this->enabledChangeable()),
+			'required'		=> array('integer',$this->enabledRequired()),
+			'searchable'	=> array('integer',$this->enabledSearchable()),
+			'export'		=> array('integer',$this->enabledExport()),
+			'course_export'	=> array('integer',$this->enabledCourseExport()));
+			
+		$ilDB->insert('udf_definition',$values);
 
 		// add table field in usr_defined_data
-		$field_id = $this->db->getLastInsertId();
+		$field_id = $next_id;
 
 		$query = "ALTER TABLE usr_defined_data ADD `".(int) $field_id."` TEXT NOT NULL";
 		$this->db->query($query);
@@ -320,10 +326,12 @@ class ilUserDefinedFields
 	}
 	function delete($a_id)
 	{
+		global $ilDB;
+
 		// Delete definitions
-		$query = "DELETE FROM user_defined_field_definition ".
-			"WHERE field_id = ".$this->db->quote($a_id)." ";
-		$this->db->query($query);
+		$query = "DELETE FROM udf_definition ".
+			"WHERE field_id = ".$this->db->quote($a_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 
 		// Delete usr_data entries
 		$query = "ALTER TABLE usr_defined_data DROP `".(int) $a_id."`";
@@ -336,19 +344,20 @@ class ilUserDefinedFields
 
 	function update($a_id)
 	{
-		$query = "UPDATE user_defined_field_definition ".
-			"SET field_name = ".$this->db->quote($this->getFieldName()).", ".
-			"field_type = ".$this->db->quote($this->getFieldType()).", ".
-			"field_values = '".addslashes(serialize($this->getFieldValues()))."', ".
-			"visible = '".(int) $this->enabledVisible()."', ".
-			"changeable = '".(int) $this->enabledChangeable()."', ".
-			"required = '".(int) $this->enabledRequired()."', ".
-			"searchable = '".(int) $this->enabledSearchable()."', ".
-			"export = '".(int) $this->enabledExport()."', ".
-			"course_export = '".(int) $this->enabledCourseExport()."' ".
-			"WHERE field_id = ".$this->db->quote($a_id)." ";
+		global $ilDB;
+		
+		$values = array(
+			'field_name'	=> array('text',$this->getFieldName()),
+			'field_type'	=> array('integer',$this->getFieldType()),
+			'field_values'	=> array('clob',$this->getFieldValues()),
+			'visible'		=> array('integer',$this->enabledVisible()),
+			'changeable'	=> array('integer',$this->enabledChangeable()),
+			'required'		=> array('integer',$this->enabledRequired()),
+			'searchable'	=> array('integer',$this->enabledSearchable()),
+			'export'		=> array('integer',$this->enabledExport()),
+			'course_export'	=> array('integer',$this->enabledCourseExport()));
 
-		$this->db->query($query);
+		$ilDB->update('udf_definition',$values,array('field_id' => array('integer',$a_id)));
 		$this->__read();
 
 		return true;
@@ -361,7 +370,7 @@ class ilUserDefinedFields
 	{
 		global $ilSetting;
 
-		$query = "SELECT * FROM user_defined_field_definition ";
+		$query = "SELECT * FROM udf_definition ";
 		$res = $this->db->query($query);
 
 		$this->definitions = array();
@@ -405,11 +414,11 @@ class ilUserDefinedFields
 				$old_value = $value;
 			}
 		}
-		$query = "UPDATE user_defined_field_definition ".
-			"SET field_values = '".addslashes(serialize($new_values))."' ".
-			"WHERE field_id = ".$this->db->quote($a_field_id)."";
-
-		$this->db->query($query);
+		
+		$values = array(
+			'field_values'		=> array('clob',serialize($new_values)));
+		$ilDB->update('udf_definition',$values,array('field_id' => array('integer',$a_field_id)));
+		
 
 		// Update usr_data
 		$query = "UPDATE usr_defined_data ".
