@@ -8084,5 +8084,11 @@ RENAME TABLE `usr_defined_data` TO `udf_data`;
 <?php
 	$ilMySQLAbstraction->performAbstraction('ecs_events');
 ?>
-
-
+<#1711>
+ALTER TABLE exc_members MODIFY status CHAR(9) DEFAULT 'notgraded';
+<#1712>
+ALTER TABLE exc_members MODIFY notice VARCHAR(4000);
+<#1713>
+<?php
+	$ilMySQLAbstraction->performAbstraction('exc_members');
+?>
