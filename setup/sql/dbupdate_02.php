@@ -8124,4 +8124,12 @@ ALTER TABLE exc_returned CHANGE `timestamp` ts TIMESTAMP;
 <?php
 	$ilMySQLAbstraction->performAbstraction('file_based_lm');
 ?>
+<#1722>
+ALTER TABLE glossary MODIFY virtual CHAR(7) DEFAULT 'none';
+ALTER TABLE glossary MODIFY glo_menu_active CHAR(1) DEFAULT 'y';
+ALTER TABLE glossary MODIFY downloads_active CHAR(1) DEFAULT 'n';
+<#1723>
+<?php
+	$ilMySQLAbstraction->performAbstraction('glossary');
+?>
 
