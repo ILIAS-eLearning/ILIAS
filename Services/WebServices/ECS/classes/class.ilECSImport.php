@@ -111,7 +111,7 @@ class ilECSImport
 		global $ilDB;
 		
 		$query = "SELECT * FROM ecs_import ".
-			"WHERE mid = ".$ilDB->quote($a_mid)." ";
+			"WHERE mid = ".$ilDB->quote($a_mid,'integer')." ";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -133,7 +133,7 @@ class ilECSImport
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM ecs_import WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
+		$query = "SELECT * FROM ecs_import WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -152,7 +152,7 @@ class ilECSImport
 	{
 	 	global $ilDB;
 	 	
-	 	$query = "SELECT obj_id FROM ecs_import WHERE econtent_id  = ".$ilDB->quote($a_econtent_id)." ";
+	 	$query = "SELECT obj_id FROM ecs_import WHERE econtent_id  = ".$ilDB->quote($a_econtent_id,'integer')." ";
 	 	$res = $ilDB->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
@@ -174,8 +174,8 @@ class ilECSImport
 		global $ilDB;
 		
 		$query = "SELECT obj_id FROM ecs_import ".
-			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id)." ".
-			"AND mid = ".$ilDB->quote($a_mid)." ";
+			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ".
+			"AND mid = ".$ilDB->quote($a_mid,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -216,7 +216,7 @@ class ilECSImport
 	{
 		global $ilDB;
 		
-		$query = "SELECT mid FROM ecs_import WHERE econtent_id = ".$ilDB->quote($a_econtent_id)." ";
+		$query = "SELECT mid FROM ecs_import WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -238,8 +238,8 @@ class ilECSImport
 		global $ilDB;
 		
 		$query = "DELETE FROM ecs_import ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
-		$ilDB->query($query);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -323,15 +323,19 @@ class ilECSImport
 	 */
 	public function save()
 	{
-		$query = "DELETE FROM ecs_import ".
-			"WHERE obj_id = ".$this->db->quote($this->obj_id)." ";
-		$this->db->query($query);
+		global $ilDB;
 		
-		$query = "INSERT INTO ecs_import ".
-			"SET obj_id = ".$this->db->quote($this->obj_id).", ".
-			"mid = ".$this->db->quote($this->mid).", ".
-			"econtent_id = ".$this->db->quote($this->econtent_id)." ";
-		$this->db->query($query);			
+		$query = "DELETE FROM ecs_import ".
+			"WHERE obj_id = ".$this->db->quote($this->obj_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
+		
+		$query = "INSERT INTO ecs_import (obj_id,mid,econtent_id) ".
+			"VALUES ( ".
+			$this->db->quote($this->obj_id,'integer').", ".
+			$this->db->quote($this->mid,'integer').", ".
+			$this->db->quote($this->econtent_id,'integer')." ".
+			")";
+		$res = $ilDB->manipulate($query);
 		
 		return true;
 	}
@@ -342,8 +346,10 @@ class ilECSImport
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM ecs_import WHERE ".
-	 		"obj_id = ".$this->db->quote($this->obj_id)." ";
+	 		"obj_id = ".$this->db->quote($this->obj_id,'integer')." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{

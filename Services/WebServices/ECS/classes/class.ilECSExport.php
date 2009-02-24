@@ -111,8 +111,9 @@ class ilECSExport
 		{
 			return true;
 		}
-		$query = "DELETE FROM ecs_export WHERE econtent_id IN (".implode(',',ilUtil::quoteArray($a_ids)).')';
-		$res = $ilDB->query($query);
+		#$query = "DELETE FROM ecs_export WHERE econtent_id IN (".implode(',',ilUtil::quoteArray($a_ids)).')';
+		$query = "DELETE FROM ecs_export WHERE ".$ilDB->in('econtent_id',$a_ids,false,'integer');
+		$res = $ilDB->manipulate($query);
 		return true;
 	}
 	
@@ -129,7 +130,7 @@ class ilECSExport
 		global $ilDB;
 		
 		$query = "SELECT obj_id FROM ecs_export ".
-			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id)." ";
+			"WHERE econtent_id = ".$ilDB->quote($a_econtent_id,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -192,16 +193,20 @@ class ilECSExport
 	 */
 	public function save()
 	{
+		global $ilDB;
+
 		$query = "DELETE FROM ecs_export ".
-			"WHERE obj_id = ".$this->db->quote($this->obj_id)." ";
-		$this->db->query($query);
-		
+			"WHERE obj_id = ".$this->db->quote($this->obj_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
+	
 		if($this->isExported())
 		{
-			$query = "INSERT INTO ecs_export ".
-				"SET obj_id = ".$this->db->quote($this->obj_id).", ".
-				"econtent_id = ".$this->db->quote($this->getEContentId())." ";
-			$this->db->query($query);			
+			$query = "INSERT INTO ecs_export (obj_id,econtent_id) ".
+				"VALUES ( ".
+				$this->db->quote($this->obj_id,'integer').", ".
+				"econtent_id = ".$this->db->quote($this->getEContentId(),'integer')." ".
+				")";
+			$res = $ilDB->manipulate($query);
 		}
 		
 		return true;
@@ -213,8 +218,10 @@ class ilECSExport
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "SELECT * FROM ecs_export WHERE ".
-	 		"obj_id = ".$this->db->quote($this->obj_id)." ";
+	 		"obj_id = ".$this->db->quote($this->obj_id,'integer')." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
