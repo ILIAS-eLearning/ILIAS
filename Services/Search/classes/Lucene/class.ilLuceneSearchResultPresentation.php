@@ -128,6 +128,7 @@ class ilLuceneSearchResultPresentation
 				$html .= $this->appendSubItems($item_list_gui,$ref_id,$obj_id,$type);
 				$html .= $this->appendPath($ref_id);
 				$html .= $this->appendRelevance($obj_id);
+				//$html = $this->appendRelevance($obj_id).$html;
 				
 				$item_html[$ref_id]['html'] = $html;
 				$item_html[$ref_id]['type'] = $type;
