@@ -34,7 +34,7 @@ class ilPaymentCurrency
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryf('SELECT * FROM payment_currencies');
+		$res = $ilDB->query('SELECT * FROM payment_currencies');
 
 		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
