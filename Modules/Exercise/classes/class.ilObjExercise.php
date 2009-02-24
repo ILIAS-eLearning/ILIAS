@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -156,11 +156,17 @@ class ilObjExercise extends ilObject
 		global $ilDB;
 
 		// SAVE ONLY EXERCISE SPECIFIC DATA
-		$query = "INSERT INTO exc_data SET ".
+		/*$query = "INSERT INTO exc_data SET ".
 			"obj_id = ".$ilDB->quote($this->getId()).", ".
 			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
 			"time_stamp = ".$ilDB->quote($this->getTimestamp());
-		$this->ilias->db->query($query);
+		$this->ilias->db->query($query);*/
+		
+		$ilDB->insert("exc_data", array(
+			"obj_id" => array("integer", $this->getId()),
+			"instruction" => array("clob", $this->getInstruction()),
+			"time_stamp" => array("integer", $this->getTimestamp())
+			));
 		return true;
 	}
 	
@@ -252,10 +258,10 @@ class ilObjExercise extends ilObject
 			return false;
 		}
 		// put here course specific stuff
-		$query = "DELETE FROM exc_data ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		$ilDB->manipulate("DELETE FROM exc_data ".
+			"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer"));
 
-		$this->ilias->db->query($query);
+		//$this->ilias->db->query($query);
 
 		$this->file_obj->delete();
 		$this->members_obj->delete();
@@ -287,10 +293,10 @@ class ilObjExercise extends ilObject
 		parent::read();
 
 		$query = "SELECT * FROM exc_data ".
-			"WHERE obj_id = ".$ilDB->quote($this->getId());
+			"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
-		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
 		{
 			$this->setInstruction($row->instruction);
 			$this->setTimestamp($row->time_stamp);
@@ -311,12 +317,20 @@ class ilObjExercise extends ilObject
 
 		parent::update();
 
-		$query = "UPDATE exc_data SET ".
+		/*$query = "UPDATE exc_data SET ".
 			"instruction = ".$ilDB->quote($this->getInstruction()).", ".
 			"time_stamp = ".$ilDB->quote($this->getTimestamp())." ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId());
+		*/
+		
+		$ilDB->update("exc_data", array(
+			"instruction" => array("clob", $this->getInstruction()),
+			"time_stamp" => array("integer", $this->getTimestamp())
+			), array(
+			"obj_id" => array("integer", $this->getId())
+			));
 
-		$res = $this->ilias->db->query($query);
+		//$res = $this->ilias->db->query($query);
 
 		#$this->members_obj->update();
 		return true;
