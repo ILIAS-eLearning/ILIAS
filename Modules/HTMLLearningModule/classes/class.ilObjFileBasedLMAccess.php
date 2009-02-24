@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -120,9 +120,9 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		return ilUtil::yn2tf($rec["is_online"]);
 	}
@@ -134,9 +134,9 @@ class ilObjFileBasedLMAccess extends ilObjectAccess
 	{
 		global $ilDB;
 
-		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id);
+		$q = "SELECT * FROM file_based_lm WHERE id = ".$ilDB->quote($a_id, "integer");
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		$start_file = $rec["startfile"];
 		$dir = ilUtil::getWebspaceDir()."/lm_data/lm_".$a_id;
 		

@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -774,9 +774,10 @@ class ilObjFile extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "DELETE FROM file_usage WHERE usage_type=".$ilDB->quote($a_type)." AND usage_id=".$ilDB->quote($a_id).
-			" AND usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr);
-		$this->ilias->db->query($q);
+		$ilDB->manipulate("DELETE FROM file_usage WHERE usage_type = ".
+			$ilDB->quote($a_type, "text").
+			" AND usage_id = ".$ilDB->quote((int) $a_id, "integer").
+			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer"));
 	}
 
 	/**
@@ -786,10 +787,17 @@ class ilObjFile extends ilObject
 	{
 		global $ilDB;
 		
-		$q = "REPLACE INTO file_usage (id, usage_type, usage_id, usage_hist_nr) VALUES".
-			" (".$ilDB->quote($a_mob_id).",".$ilDB->quote($a_type).",".$ilDB->quote($a_id).",".
-			$ilDB->quote($a_usage_hist_nr).")";
-		$this->ilias->db->query($q);
+		$ilDB->manipulate("DELETE FROM file_usage WHERE usage_type = ".
+			$ilDB->quote((string) $a_type, "text").
+			" AND usage_id = ".$ilDB->quote((int) $a_id, "integer").
+			" AND usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer").
+			" AND id = ".$ilDB->quote((int) $a_mob_id, "integer"));
+
+		$ilDB->manipulate("INSERT INTO file_usage (id, usage_type, usage_id, usage_hist_nr) VALUES".
+			" (".$ilDB->quote((int) $a_mob_id, "integer").",".
+			$ilDB->quote((string) $a_type, "text").",".
+			$ilDB->quote((int) $a_id, "integer").",".
+			$ilDB->quote((int) $a_usage_hist_nr, "integer").")");
 	}
 
 	/**
@@ -800,10 +808,10 @@ class ilObjFile extends ilObject
 		global $ilDB;
 
 		// get usages in learning modules
-		$q = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($this->getId());
+		$q = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$us_set = $ilDB->query($q);
 		$ret = array();
-		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($us_rec = $ilDB->fetchAssoc($us_set))
 		{
 			$ret[] = array("type" => $us_rec["usage_type"],
 				"id" => $us_rec["usage_id"],
@@ -826,12 +834,13 @@ class ilObjFile extends ilObject
 		global $ilDB;
 
 		// get usages in learning modules
-		$q = "SELECT * FROM file_usage WHERE usage_id = ".$ilDB->quote($a_id).
-			" AND usage_type = ".$ilDB->quote($a_type)." AND ".
-			"usage_hist_nr = ".$ilDB->quote($a_usage_hist_nr);
+		$q = "SELECT * FROM file_usage WHERE ".
+			"usage_id = ".$ilDB->quote((int) $a_id, "integer")." AND ".
+			"usage_type = ".$ilDB->quote((string) $a_type, "text")." AND ".
+			"usage_hist_nr = ".$ilDB->quote((int) $a_usage_hist_nr, "integer");
 		$file_set = $ilDB->query($q);
 		$ret = array();
-		while($file_rec = $file_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($file_rec = $ilDB->fetchAssoc($file_set))
 		{
 			$ret[$file_rec["id"]] = $file_rec["id"];
 		}
