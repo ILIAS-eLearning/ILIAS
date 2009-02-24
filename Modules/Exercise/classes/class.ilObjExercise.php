@@ -106,20 +106,25 @@ class ilObjExercise extends ilObject
 
 	function deliverFile($a_http_post_files, $user_id, $unzip = false)
 	{
+		global $ilDB;
+		
 		$deliver_result = $this->file_obj->deliverFile($a_http_post_files, $user_id, $unzip);
 //var_dump($deliver_result);
 		if ($deliver_result)
 		{
+			$next_id = $ilDB->nextId("exc_returned");
 			$query = sprintf("INSERT INTO exc_returned ".
-							 "(returned_id, obj_id, user_id, filename, filetitle, mimetype, TIMESTAMP) ".
-							 "VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$this->ilias->db->quote($this->getId() . ""),
-				$this->ilias->db->quote($user_id . ""),
-				$this->ilias->db->quote($deliver_result["fullname"]),
-				$this->ilias->db->quote($a_http_post_files["name"]),
-				$this->ilias->db->quote($deliver_result["mimetype"])
+							 "(returned_id, obj_id, user_id, filename, filetitle, mimetype, ts) ".
+							 "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+				$ilDB->quote($next_id, "integer"),
+				$ilDB->quote($this->getId(), "integer"),
+				$ilDB->quote($user_id, "integer"),
+				$ilDB->quote($deliver_result["fullname"], "text"),
+				$ilDB->quote($a_http_post_files["name"], "text"),
+				$ilDB->quote($deliver_result["mimetype"], "text"),
+				$ilDB->quote(ilUtil::now(), "timestamp")
 			);
-			$this->ilias->db->query($query);
+			$ilDB->manipulate($query);
 			if (!$this->members_obj->isAssigned($user_id))
 			{
 				$this->members_obj->assignMember($user_id);
@@ -383,21 +388,21 @@ class ilObjExercise extends ilObject
 	{
 		global $ilDB, $lng;
 
-		$q="SELECT obj_id,user_id,timestamp FROM exc_returned ".
-			"WHERE obj_id =".$ilDB->quote($this->getId())." AND user_id=".
-			$ilDB->quote($member_id).
-			" ORDER BY timestamp DESC";
+		$q="SELECT obj_id,user_id,ts FROM exc_returned ".
+			"WHERE obj_id =".$ilDB->quote($this->getId(), "integer")." AND user_id=".
+			$ilDB->quote($member_id, "integer").
+			" ORDER BY ts DESC";
 
 		$usr_set = $ilDB->query($q);
 
-		$array=$usr_set->fetchRow(DB_FETCHMODE_ASSOC);
-		if ($array["timestamp"]==NULL)
+		$array = $ilDB->fetchAssoc($usr_set);
+		if ($array["ts"]==NULL)
 		{
 			return false;
   		}
 		else
 		{
-			return ilUtil::getMySQLTimestamp($array["timestamp"]);
+			return ilUtil::getMySQLTimestamp($array["ts"]);
   		}
 	}
 
@@ -452,9 +457,9 @@ class ilObjExercise extends ilObject
 
   		global $ilDB, $lng;
 
-  		$q="SELECT exc_members.status_time, exc_returned.timestamp ".
+  		$q="SELECT exc_members.status_time, exc_returned.ts ".
 			"FROM exc_members, exc_returned ".
-			"WHERE exc_members.status_time < exc_returned.timestamp ".
+			"WHERE exc_members.status_time < exc_returned.ts ".
 			"AND NOT exc_members.status_time IS NULL ".
 			"AND exc_returned.obj_id = exc_members.obj_id ".
 			"AND exc_returned.user_id = exc_members.usr_id ".
@@ -511,16 +516,16 @@ class ilObjExercise extends ilObject
   		$q = "SELECT exc_returned.returned_id AS id ".
 			"FROM exc_usr_tutor, exc_returned ".
 			"WHERE exc_returned.obj_id = exc_usr_tutor.obj_id ".
-			"AND exc_returned.user_id = exc_usr_tutor.usr_id ".
-			"AND exc_returned.obj_id = ".$ilDB->quote($exc_id).
-			"AND exc_returned.user_id = ".$ilDB->quote($member_id).
-			"AND exc_usr_tutor.tutor_id = ".$ilDB->quote($ilUser->getId()).
-			"AND exc_usr_tutor.download_time < exc_returned.timestamp ";
+			" AND exc_returned.user_id = exc_usr_tutor.usr_id ".
+			" AND exc_returned.obj_id = ".$ilDB->quote($exc_id, "integer").
+			" AND exc_returned.user_id = ".$ilDB->quote($member_id, "integer").
+			" AND exc_usr_tutor.tutor_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			" AND exc_usr_tutor.download_time < exc_returned.ts ";
 
   		$new_up_set = $ilDB->query($q);
 
 		$new_up = array();
-  		while ($new_up_rec = $new_up_set->fetchRow(DB_FETCHMODE_ASSOC))
+  		while ($new_up_rec = $ilDB->fetchAssoc($new_up_set))
 		{
 			$new_up[] = $new_up_rec["id"];
 		}

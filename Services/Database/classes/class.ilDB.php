@@ -1573,6 +1573,21 @@ if ($this->getDBType() == "mysql")
 	}
 	
 	/**
+	* Use this only on text fields.
+	*/
+	function equalsNot($a_col, $a_value, $a_type, $a_empty_or_null = false)
+	{
+		if (!$a_empty_or_null || $a_value == "")
+		{
+			return $a_col." <> ".$this->quote($a_value, $a_type);
+		}
+		else
+		{
+			return "(".$a_col." <> ".$this->quote($a_value, $a_type)." OR $a_col IS NULL)";
+		}
+	}
+
+	/**
 	* Optimize Table
 	*/
 	function optimizeTable($a_table)

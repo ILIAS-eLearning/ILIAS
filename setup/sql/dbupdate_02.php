@@ -8103,3 +8103,13 @@ ALTER TABLE exc_members MODIFY notice VARCHAR(4000);
 <?php
 	$ilMySQLAbstraction->performAbstraction('ecs_export');
 ?>
+<#1716>
+ALTER TABLE exc_returned MODIFY filename VARCHAR(1000);
+ALTER TABLE exc_returned MODIFY filetitle VARCHAR(1000);
+<#1717>
+ALTER TABLE exc_returned CHANGE `timestamp` ts TIMESTAMP;
+<#1718>
+<?php
+	$ilMySQLAbstraction->performAbstraction('exc_returned');
+?>
+

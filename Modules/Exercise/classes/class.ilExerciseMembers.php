@@ -414,12 +414,10 @@ class ilExerciseMembers
 	{
 		global $ilDB;
 
-		$query = sprintf("SELECT returned_id FROM exc_returned WHERE obj_id = %s AND user_id = %s",
-			$this->ilias->db->quote($this->getObjId() . ""),
-			$this->ilias->db->quote($a_member_id . "")
-		);
-		$result = $this->ilias->db->query($query);
-		return $result->numRows();
+		$result = $ilDB->queryF("SELECT returned_id FROM exc_returned WHERE obj_id = %s AND user_id = %s",
+			array("integer", "integer"),
+			array($this->getObjId(), $a_member_id));
+		return $ilDB->numRows($result);
 	}
 
 	/**
@@ -430,11 +428,12 @@ class ilExerciseMembers
 		global $ilDB;
 
 		$query = "SELECT * FROM exc_returned WHERE obj_id = ".
-			$ilDB->quote($this->getObjId());
+			$ilDB->quote($this->getObjId(), "integer");
 
-		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
 		{
+			$row["timestamp"] = $row["ts"];
 			$delivered[] = $row;
 		}
 		
@@ -450,18 +449,29 @@ class ilExerciseMembers
 	* @access	public
 	* @return array An array containing the information on the delivered files
 	*/
-	function &getDeliveredFiles($a_member_id)
+	function getDeliveredFiles($a_member_id)
 	{
-		$query = sprintf("SELECT *, TIMESTAMP + 0 AS timestamp14 FROM exc_returned WHERE obj_id = %s AND user_id = %s ORDER BY timestamp14",
+		global $ilDB;
+		
+		/*$query = sprintf("SELECT *, ts + 0 AS timestamp14 FROM exc_returned WHERE obj_id = %s AND user_id = %s ORDER BY timestamp14",
 			$this->ilias->db->quote($this->getObjId() . ""),
 			$this->ilias->db->quote($a_member_id . "")
 		);
-		$result = $this->ilias->db->query($query);
+		$result = $this->ilias->db->query($query);*/
+		$result = $ilDB->queryF("SELECT * FROM exc_returned WHERE obj_id = %s AND user_id = %s ORDER BY ts",
+			array("integer", "integer"),
+			array($this->getObjId(),$a_member_id));
+		
 		$delivered_files = array();
-		if ($result->numRows())
+		if ($ilDB->numRows($result))
 		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
+				$row["timestamp"] = $row["ts"];
+				$row["timestamp14"] = substr($row["ts"], 0, 4).
+					substr($row["ts"], 5, 2).substr($row["ts"], 8, 2).
+					substr($row["ts"], 11, 2).substr($row["ts"], 14, 2).
+					substr($row["ts"], 17, 2);
 				array_push($delivered_files, $row);
 			}
 		}
@@ -483,24 +493,28 @@ class ilExerciseMembers
 
 		if (count($file_id_array))
 		{
-			$query = sprintf("SELECT * FROM exc_returned WHERE user_id = %s AND returned_id IN (".
-				implode(ilUtil::quoteArray($file_id_array) ,",").")",
-				$this->ilias->db->quote($a_member_id . "")
-			);
-			$result = $this->ilias->db->query($query);
-			if ($result->numRows())
+			$result = $ilDB->query("SELECT * FROM exc_returned WHERE user_id = ".
+				$ilDB->quote($a_member_id, "integer")." AND ".
+				$ilDB->in("returned_id", $file_id_array, false, "integer"));
+				//returned_id IN (".
+				//implode(ilUtil::quoteArray($file_id_array) ,",").")",
+				//$this->ilias->db->quote($a_member_id . "")
+			if ($ilDB->numRows($result))
 			{
 				$result_array = array();
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
+					$row["timestamp"] = $row["ts"];
 					array_push($result_array, $row);
 				}
 				// delete the entries in the database
-				$query = sprintf("DELETE FROM exc_returned WHERE user_id = %s AND returned_id IN ("
-					.implode(ilUtil::quoteArray($file_id_array) ,",").")",
-					$this->ilias->db->quote($a_member_id . "")
-				);
-				$result = $this->ilias->db->query($query);
+				$ilDB->manipulate("DELETE FROM exc_returned WHERE user_id = ".
+					$ilDB->quote($a_member_id, "integer")." AND ".
+					$ilDB->in("returned_id", $file_id_array, false, "integer"));
+					//returned_id IN ("
+					//.implode(ilUtil::quoteArray($file_id_array) ,",").")",
+					//$this->ilias->db->quote($a_member_id . "")
+
 				// delete the files
 				foreach ($result_array as $key => $value)
 				{
@@ -524,15 +538,15 @@ class ilExerciseMembers
 		if ($a_only_new)
 		{
 			$q = "SELECT download_time FROM exc_usr_tutor WHERE ".
-				" obj_id = ".$ilDB->quote($this->getObjId())." AND ".
-				" usr_id = ".$ilDB->quote($a_member_id)." AND ".
-				" tutor_id = ".$ilDB->quote($ilUser->getId());
+				" obj_id = ".$ilDB->quote($this->getObjId(), "integer")." AND ".
+				" usr_id = ".$ilDB->quote($a_member_id, "integer")." AND ".
+				" tutor_id = ".$ilDB->quote($ilUser->getId(), "integer");
 			$lu_set = $ilDB->query($q);
-			if ($lu_rec = $lu_set->fetchRow(DB_FETCHMODE_ASSOC))
+			if ($lu_rec = $ilDB->fetchAssoc($lu_set))
 			{
 				if ($lu_rec["download_time"] > 0)
 				{
-					$and_str = " AND timestamp > ".$ilDB->quote($lu_rec["download_time"]);
+					$and_str = " AND ts > ".$ilDB->quote($lu_rec["download_time"], "timestamp");
 				}
 			}
 		}
@@ -541,21 +555,20 @@ class ilExerciseMembers
 
 		$query = sprintf("SELECT * FROM exc_returned WHERE obj_id = %s AND user_id = %s".
 			$and_str,
-			$this->ilias->db->quote($this->getObjId() . ""),
-			$this->ilias->db->quote($a_member_id . "")
-		);
-		$result = $this->ilias->db->query($query);
-		$count = $result->numRows();
+			$ilDB->quote($this->getObjId(), "integer"),
+			$ilDB->quote($a_member_id, "integer"));
+		$result = $ilDB->query($query);
+		$count = $ilDB->numRows($result);
 		if ($count == 1)
 		{
-			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			$row = $ilDB->fetchAssoc($result);
 			$this->downloadSingleFile(ilObjExercise::_fixFilename($row["filename"]), $row["filetitle"]);
 		}
 		else if ($count > 0)
 		{
 			$array_files = array();
 			$filename = "";
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$filename = ilObjExercise::_fixFilename($row["filename"]);
 				$pathinfo = pathinfo($filename);
@@ -596,14 +609,17 @@ class ilExerciseMembers
 	{
 		if (count($array_file_id))
 		{
-			$query = "SELECT * FROM exc_returned WHERE returned_id IN (".
-				implode(ilUtil::quoteArray($array_file_id) ,",").")";
-			$result = $this->ilias->db->query($query);
-			if ($result->numRows())
+			//$query = "SELECT * FROM exc_returned WHERE returned_id IN (".
+			//	implode(ilUtil::quoteArray($array_file_id) ,",").")";
+			//$result = $this->ilias->db->query($query);
+			$result = $ilDB->query("SELECT * FROM exc_returned WHERE ".
+				$ilDB->in("returned_id", $array_file_id, false, "integer"));
+			if ($ilDB->numRows($result))
 			{
 				$array_found = array();
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($row = $ilDB->fetchAssoc($result))
 				{
+					$row["timestamp"] = $row["ts"];
 					array_push($array_found, $row);
 				}
 				if (count($array_found) == 1)
@@ -695,10 +711,10 @@ class ilExerciseMembers
 
 		$ilDB->manipulateF("UPDATE exc_members ".
 			"SET notice = %s, status_time= %s ".
-			" WHERE obj_id = %s AND usr_id = %s AND notice <> %s",
-			array("text", "timestamp", "integer", "integer", "text"),
-			array($a_notice, ilUtil::now(), $this->getObjId(), $a_member_id,
-				$a_notice));
+			" WHERE obj_id = %s AND usr_id = %s AND ".
+			$ilDB->equalsNot("notice", $a_notice, "text", true),
+			array("text", "timestamp", "integer", "integer"),
+			array($a_notice, ilUtil::now(), $this->getObjId(), $a_member_id));
 
 		/*$query = "UPDATE exc_members ".
 			"SET notice = ".$ilDB->quote($a_notice)." ".
