@@ -8184,4 +8184,10 @@ ALTER TABLE `adv_md_values` CHANGE `value` `value` VARCHAR( 4000 ) NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('glossary_term');
 ?>
+<#1737>
+ALTER TABLE `history` MODIFY `info_params` VARCHAR(4000);
+<#1738>
+<?php
+	$ilMySQLAbstraction->performAbstraction('history');
+?>
 
