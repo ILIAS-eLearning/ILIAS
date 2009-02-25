@@ -8191,3 +8191,10 @@ ALTER TABLE `history` MODIFY `info_params` VARCHAR(4000);
 	$ilMySQLAbstraction->performAbstraction('history');
 ?>
 
+<#1739>
+<?php
+	$ilDB->modifyTableColumn('write_event','ts', array("type" => "timestamp", "notnull" => true, "default" => '1970-01-01 00:00:00'));
+?>
+
+
+
