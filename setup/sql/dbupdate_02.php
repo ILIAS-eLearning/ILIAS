@@ -8195,6 +8195,7 @@ ALTER TABLE `history` MODIFY `info_params` VARCHAR(4000);
 <?php
 	$ilDB->modifyTableColumn('write_event','ts', array("type" => "timestamp", "notnull" => true, "default" => '1970-01-01 00:00:00'));
 ?>
+
 <#1740>
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_external_feed_block');
@@ -8211,4 +8212,13 @@ ALTER TABLE `il_media_cast_data` MODIFY `id` INT NOT NULL;
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_media_cast_data');
 ?>
+
+<#1745>
+ALTER TABLE `object_translation` CHANGE `description` `description` VARCHAR( 4000 ) NULL DEFAULT NULL;
+
+<#1746>
+<?php
+	$ilMySQLAbstraction->performAbstraction('object_description');
+?>
+
 
