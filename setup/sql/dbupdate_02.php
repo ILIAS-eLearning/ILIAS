@@ -8218,7 +8218,7 @@ ALTER TABLE `object_translation` CHANGE `description` `description` VARCHAR( 400
 
 <#1746>
 <?php
-	$ilMySQLAbstraction->performAbstraction('object_description');
+	$ilMySQLAbstraction->performAbstraction('object_translation');
 ?>
 
 
