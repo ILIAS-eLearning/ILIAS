@@ -357,6 +357,8 @@ class ilAdvancedMDSubstitution
 	 */
 	public function update()
 	{
+	 	global $ilDB;
+	 	
 	 	$counter = 0;
 	 	$substitutions = array();
 	
@@ -368,15 +370,17 @@ class ilAdvancedMDSubstitution
 	 		$counter++;
 	 	}
 	 	
+	 	$query = "DELETE FROM adv_md_substitutions WHERE obj_type = ".$ilDB->quote($this->type,'text');
+	 	$res = $ilDB->manipulate($query);
 			
-	 	$query = "REPLACE INTO adv_md_substitutions ".
-	 		"SET obj_type = ".$this->db->quote($this->type).", ".
-	 		"substitution = ".$this->db->quote(serialize($substitutions)).", ".
-	 		"hide_description = ".$this->db->quote(!$this->isDescriptionEnabled()).', '.
-	 		"hide_field_names = ".$this->db->quote(!$this->enabledFieldNames());
-			
-			
-	 	$res = $this->db->query($query);
+	 	
+	 	$values = array(
+	 		'obj_type'			=> array('text',$this->type),
+	 		'substitution'		=> array('clob',serialize($substitutions)),
+	 		'hide_description'	=> array('integer',!$this->isDescriptionEnabled()),
+	 		'hide_field_names'	=> array('integer',!$this->enabledFieldNames())
+	 		);
+	 	$ilDB->insert('adv_md_substitutions',$values);
 	}
 	
 	/**
@@ -407,7 +411,7 @@ class ilAdvancedMDSubstitution
 	 	}
 			
 	 	$query = "SELECT * FROM adv_md_substitutions ".
-	 		"WHERE obj_type = ".$this->db->quote($this->type)." ";
+	 		"WHERE obj_type = ".$this->db->quote($this->type ,'text')." ";
 	 	$res = $this->db->query($query);
 	 	$this->substitutions = array();
 	 	$this->bold = array();
