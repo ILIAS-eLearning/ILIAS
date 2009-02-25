@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -42,10 +42,12 @@ class ilNewsSubscription
 	{
 		global $ilDB;
 		
-		$query = "REPLACE INTO il_news_subscription (ref_id, user_id) VALUES (".
-			$ilDB->quote($a_ref_id).", ".
-			$ilDB->quote($a_user_id).")";
-		$ilDB->query($query);
+		$ilDB->manipulate("DELETE FROM il_news_subscription WHERE ".
+			" ref_id = ".$ilDB->quote($a_ref_id, "integer")." ".
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));
+		$ilDB->manipulate("INSERT INTO il_news_subscription (ref_id, user_id) VALUES (".
+			$ilDB->quote($a_ref_id, "integer").", ".
+			$ilDB->quote($a_user_id, "integer").")");
 	}
 
 	/**
@@ -58,10 +60,9 @@ class ilNewsSubscription
 	{
 		global $ilDB;
 		
-		$query = "DELETE FROM il_news_subscription WHERE ref_id  = ".
-			$ilDB->quote($a_ref_id)." AND user_id = ".
-			$ilDB->quote($a_user_id);
-		$ilDB->query($query);
+		$ilDB->manipulate("DELETE FROM il_news_subscription WHERE ref_id  = ".
+			$ilDB->quote($a_ref_id, "integer")." AND user_id = ".
+			$ilDB->quote($a_user_id, "integer"));
 	}
 
 	/**
@@ -76,10 +77,10 @@ class ilNewsSubscription
 		global $ilDB;
 		
 		$query = "SELECT * FROM il_news_subscription WHERE ref_id = ".
-			$ilDB->quote($a_ref_id)." AND user_id = ".
-			$ilDB->quote($a_user_id);
+			$ilDB->quote($a_ref_id, "integer")." AND user_id = ".
+			$ilDB->quote($a_user_id, "integer");
 		$set = $ilDB->query($query);
-		if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		if ($rec = $ilDB->fetchAssoc($set))
 		{
 			return true;
 		}
@@ -101,10 +102,10 @@ class ilNewsSubscription
 		global $ilDB;
 		
 		$query = "SELECT * FROM il_news_subscription WHERE user_id = ".
-			$ilDB->quote($a_user_id);
+			$ilDB->quote($a_user_id, "integer");
 		$set = $ilDB->query($query);
 		$ref_ids = array();
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$ref_ids[] = $rec["ref_id"];
 		}

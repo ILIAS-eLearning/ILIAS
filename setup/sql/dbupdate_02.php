@@ -8228,4 +8228,12 @@ ALTER TABLE il_news_item MODIFY visibility CHAR(6) DEFAULT 'users';
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_news_item');
 ?>
+<#1749>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_news_read');
+?>
+<#1750>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_news_subscription');
+?>
 

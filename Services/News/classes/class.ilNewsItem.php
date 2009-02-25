@@ -734,9 +734,12 @@ class ilNewsItem extends ilNewsItemGen
 	{
 		global $ilDB, $ilAppEventHandler;
 		
-		$q = "REPLACE INTO il_news_read (user_id, news_id) VALUES (".
-			$ilDB->quote($a_user_id).",".$ilDB->quote($a_news_id).")";
-		$ilDB->query($q);
+		$ilDB->manipulate("DELETE FROM il_news_read WHERE ".
+			"user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND news_id = ".$ilDB->quote($a_news_id, "integer"));
+		$ilDB->manipulate("INSERT INTO il_news_read (user_id, news_id) VALUES (".
+			$ilDB->quote($a_user_id, "integer").",".
+			$ilDB->quote($a_news_id, "integer").")");
 
 		$ilAppEventHandler->raise("Services/News", "readNews",
 			array("user_id" => $a_user_id, "news_ids" => array($a_news_id)));
@@ -749,10 +752,9 @@ class ilNewsItem extends ilNewsItemGen
 	{
 		global $ilDB, $ilAppEventHandler;
 		
-		$q = "DELETE FROM il_news_read (user_id, news_id) VALUES (".
-			" WHERE user_id = ".$ilDB->quote($a_user_id).
-			" AND news_id = ".$ilDB->quote($a_news_id);
-		$ilDB->query($q);
+		$ilDB->manipulate("DELETE FROM il_news_read (user_id, news_id) VALUES (".
+			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND news_id = ".$ilDB->quote($a_news_id, "integer"));
 
 		$ilAppEventHandler->raise("Services/News", "unreadNews",
 			array("user_id" => $a_user_id, "news_ids" => array($a_news_id)));
@@ -826,9 +828,8 @@ class ilNewsItem extends ilNewsItemGen
 		global $ilDB;
 		
 		// delete il_news_read entries
-		$query = "DELETE FROM il_news_read ".
-			" WHERE news_id = ".$ilDB->quote($this->getId());
-		$ilDB->query($query);
+		$ilDB->manipulate("DELETE FROM il_news_read ".
+			" WHERE news_id = ".$ilDB->quote($this->getId(), "integer"));
 		
 		// delete multimedia object
 		$mob = $this->getMobId();
