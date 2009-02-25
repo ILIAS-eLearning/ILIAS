@@ -80,12 +80,14 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 	 */
 	public function performSearch()
 	{
+	 	global $ilDB;
+	 	
 	 	$this->setFields(array('value'));
 	 	
 		$and = '';
 	 	if(count($this->getFilter()))
 	 	{
-	 		$and = "AND type IN ('".implode("','",$this->getFilter())."')";
+	 		$and = "AND ".$ilDB->in('type',$this->getFilter(),false,'text');
 	 	}
 	 	
 	 	
@@ -94,11 +96,11 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 			case ilAdvancedMDFieldDefinition::TYPE_DATE:
 			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
 				$query = "SELECT amv.obj_id,type ".
-					"FROM adv_md_values AS amv ".
+					"FROM adv_md_values amv ".
 					"JOIN object_data USING (obj_id) ".
-					"WHERE value >= ".(int) $this->range_start." ".
-					"AND value <= ".(int) $this->range_end." ".
-					"AND field_id = ".$this->db->quote($this->getDefinition()->getFieldId())." ".
+					"WHERE value >= ".$ilDB->quote($this->range_start ,'text')." ".
+					"AND value <= ".$ilDB->quote($this->range_end ,'text')." ".
+					"AND field_id = ".$this->db->quote($this->getDefinition()->getFieldId() ,'integer')." ".
 					$and;
 				break;
 			
@@ -109,10 +111,10 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 				
 				$query = "SELECT amv.obj_id,type ".
 					$locate.
-					"FROM adv_md_values as amv ".
+					"FROM adv_md_values amv ".
 					"JOIN object_data USING(obj_id) ".
 					$where.
-					"AND field_id = ".$this->db->quote($this->getDefinition()->getFieldId())." ".
+					"AND field_id = ".$this->db->quote($this->getDefinition()->getFieldId() ,'integer')." ".
 					$and;
 				break;
 			

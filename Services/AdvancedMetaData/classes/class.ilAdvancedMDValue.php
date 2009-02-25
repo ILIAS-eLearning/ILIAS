@@ -173,10 +173,12 @@ class ilAdvancedMDValue
 	 */
 	public function delete()
 	{
+	 	global $ilDB;
+	 	
 	 	$query = "DELETE FROM adv_md_values ".
-	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ".
-	 		"AND field_id = ".$this->db->quote($this->field_id);
-	 	$res = $this->db->query($query);
+	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
+	 		"AND field_id = ".$this->db->quote($this->field_id ,'integer');
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -187,12 +189,16 @@ class ilAdvancedMDValue
 	 */
 	public function save()
 	{
-	 	$query = "REPLACE INTO adv_md_values ".
-	 		"SET obj_id = ".$this->db->quote($this->obj_id).", ".
-	 		"field_id = ".$this->db->quote($this->field_id).", ".
-	 		"value = ".$this->db->quote($this->getValue()).", ".
-	 		"disabled = ".(int) $this->isDisabled()." ";
-	 	$res = $this->db->query($query);
+	 	$this->delete();
+	 	
+	 	$query = "INSERT INTO adv_md_values (obj_id,field_id,value,disabled) ".
+	 		"VALUES( ".
+	 		$this->db->quote($this->obj_id ,'integer').", ".
+	 		$this->db->quote($this->field_id ,'integer').", ".
+	 		$this->db->quote($this->getValue() ,'text').", ".
+	 		$ilDB->quote($this->isDisabled(),'integer')." ".
+	 		")";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -202,14 +208,16 @@ class ilAdvancedMDValue
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	if(!$this->obj_id or !$this->field_id)
 	 	{
 	 		return;
 	 	}
 	 	
 	 	$query = "SELECT * FROM adv_md_values ".
-	 		"WHERE obj_id = ".$this->db->quote($this->obj_id)." ".
-	 		"AND field_id = ".$this->db->quote($this->field_id)." ";
+	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ".
+	 		"AND field_id = ".$this->db->quote($this->field_id ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

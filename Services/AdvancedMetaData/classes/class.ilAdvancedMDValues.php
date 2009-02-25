@@ -52,7 +52,7 @@ class ilAdvancedMDValues
 			return self::$cached_values[$a_obj_id];
 		}
 		$query = "SELECT field_id,value FROM adv_md_values ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id);
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 		$res = $ilDB->query($query);
 		
 		self::$cached_values[$a_obj_id] = array();
@@ -148,7 +148,8 @@ class ilAdvancedMDValues
 		global $ilDB;
 		
 		$query = "SELECT obj_id,field_id,value FROM adv_md_values ".
-			"WHERE obj_id IN (".implode("','",$obj_ids).")";
+			"WHERE ".$ilDB->in('obj_id',$obj_ids,false,'integer');
+			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -171,8 +172,8 @@ class ilAdvancedMDValues
 	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM adv_md_values ".
-	 		"WHERE field_id = ".$ilDB->quote($a_field_id)." ";
-	 	$ilDB->query($query);	
+	 		"WHERE field_id = ".$ilDB->quote($a_field_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -188,8 +189,8 @@ class ilAdvancedMDValues
 	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM adv_md_values ".
-	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id)." ";
-	 	$ilDB->query($query);
+	 		"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 }
 ?>
