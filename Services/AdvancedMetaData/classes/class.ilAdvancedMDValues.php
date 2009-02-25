@@ -117,11 +117,11 @@ class ilAdvancedMDValues
 		$type = ilObject::_lookupType($a_obj_id);
 
 		// Get active field_definitions
-		$query = "SELECT field_id FROM adv_md_record AS amr ".
-			"JOIN adv_md_record_objs AS amro ON amr.record_id = amro.record_id ".
-			"JOIN adv_md_field_definition AS amfd ON amr.record_id = amfd.record_id ".
+		$query = "SELECT field_id FROM adv_md_record amr ".
+			"JOIN adv_md_record_objs amro ON amr.record_id = amro.record_id ".
+			"JOIN adv_mdf_definition amfd ON amr.record_id = amfd.record_id ".
 			"WHERE active = 1 ".
-			"AND obj_type = ".$ilDB->quote($type)." ";
+			"AND obj_type = ".$ilDB->quote($type ,'text')." ";
 			
 		$xml_writer->xmlStartTag('AdvancedMetaData');	
 		

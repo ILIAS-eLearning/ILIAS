@@ -78,8 +78,8 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT import_id FROM adv_md_field_definition ".
-			"WHERE field_id = ".$ilDB->quote($a_field_id)." ";
+		$query = "SELECT import_id FROM adv_mdf_definition ".
+			"WHERE field_id = ".$ilDB->quote($a_field_id,'integer')." ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row['import_id'] ? $row['import_id'] : '';
@@ -97,8 +97,8 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_field_definition ".
-			"WHERE import_id = ".$ilDB->quote($a_import_id)." ";
+		$query = "SELECT field_id FROM adv_mdf_definition ".
+			"WHERE import_id = ".$ilDB->quote($a_import_id,'text')." ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row['field_id'] ? $row['field_id'] : 0;
@@ -116,8 +116,8 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_type FROM adv_md_field_definition ".
-			"WHERE field_id = ".$ilDB->quote($a_field_id)." ";
+		$query = "SELECT field_type FROM adv_mdf_definition ".
+			"WHERE field_id = ".$ilDB->quote($a_field_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		return $row['field_type'] ? $row['field_type'] : 0;
@@ -136,8 +136,8 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_field_definition ".
-			"WHERE field_type = ".self::TYPE_DATETIME." ";
+		$query = "SELECT field_id FROM adv_mdf_definition ".
+			"WHERE field_type = ".$ilDB->quote(self::TYPE_DATETIME ,'integer')." ";
 		$res = $ilDB->query($query);
 		
 		$date_fields = array();
@@ -159,8 +159,8 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_field_definition ".
-			"WHERE field_type = ".self::TYPE_DATE." ";
+		$query = "SELECT field_id FROM adv_mdf_definition ".
+			"WHERE field_type = ".$ilDB->quote(self::TYPE_DATE ,'integer')." ";
 		$res = $ilDB->query($query);
 		
 		$date_fields = array();
@@ -202,8 +202,8 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_field_definition ".
-			"WHERE record_id = ".$ilDB->quote($a_record_id)." ".
+		$query = "SELECT field_id FROM adv_mdf_definition ".
+			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer')." ".
 			"ORDER BY position ";
 		$res = $ilDB->query($query);
 		$defs = array();
@@ -226,11 +226,11 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_record_objs AS aro ".
-			"JOIN adv_md_record AS amr ON aro.record_id = amr.record_id ".
-			"JOIN adv_md_field_definition AS amf ON aro.record_id = amf.record_id ".
+		$query = "SELECT field_id FROM adv_md_record_objs aro ".
+			"JOIN adv_md_record amr ON aro.record_id = amr.record_id ".
+			"JOIN adv_mdf_definition amf ON aro.record_id = amf.record_id ".
 			"WHERE active = 1 ".
-			"AND obj_type = ".$ilDB->quote($a_type)." ".
+			"AND obj_type = ".$ilDB->quote($a_type,'text')." ".
 			"ORDER BY aro.record_id,position ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -250,8 +250,8 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_record AS amr ".
-			"JOIN adv_md_field_definition AS amfd USING (record_id) ".
+		$query = "SELECT field_id FROM adv_md_record amr ".
+			"JOIN adv_mdf_definition amfd USING (record_id) ".
 			"WHERE active = 1 ".
 			"AND searchable = 1";
 		$res = $ilDB->query($query);
@@ -275,8 +275,8 @@ class ilAdvancedMDFieldDefinition
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_field_definition ".
-			"WHERE record_id = ".$ilDB->quote($a_record_id);
+		$query = "SELECT field_id FROM adv_mdf_definition ".
+			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer');
 		$res = $ilDB->query($query);	
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -286,9 +286,9 @@ class ilAdvancedMDFieldDefinition
 		}		
 
 		// Delete definitions
-		$query = "DELETE FROM adv_md_field_definition ".
-			"WHERE record_id  = ".$ilDB->quote($a_record_id)." ";
-		$res = $ilDB->query($query);	
+		$query = "DELETE FROM adv_mdf_definition ".
+			"WHERE record_id  = ".$ilDB->quote($a_record_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
@@ -549,9 +549,11 @@ class ilAdvancedMDFieldDefinition
 	 */
 	public function delete()
 	{
-	 	$query = "DELETE FROM adv_md_field_definition ".
-	 		"WHERE field_id = ".$this->db->quote($this->getFieldId())." ";
-	 	$res = $this->db->query($query);
+	 	global $ilDB;
+	 	
+	 	$query = "DELETE FROM adv_mdf_definition ".
+	 		"WHERE field_id = ".$this->db->quote($this->getFieldId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	 	
 	 	// Also delete all values
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
@@ -566,29 +568,36 @@ class ilAdvancedMDFieldDefinition
 	 */
 	public function add()
 	{
+	 	global $ilDB;
+	 	
 	 	sort($values = $this->getFieldValues(),SORT_STRING);
 	 	
 	 	$position = $this->getLastPosition();
+	 	$next_id = $ilDB->nextId('adv_mdf_definition');
 	 	
-	 	$query = "INSERT INTO adv_md_field_definition ".
-	 		"SET record_id = ".$this->db->quote($this->getRecordId()).", ".
-	 		"import_id = ".$this->db->quote($this->getImportId()).", ".
-	 		"position = ".$this->db->quote($position + 1).", ".
-	 		"field_type = ".$this->db->quote($this->getFieldType()).", ".
-			"field_values = '".addslashes(serialize($values))."', ".
-	 		"title = ".$this->db->quote($this->getTitle()).", ".
-	 		"description = ".$this->db->quote($this->getDescription()).", ".
-	 		"searchable = ".(int) $this->isSearchable().", ".
-	 		"required = ".(int) $this->isRequired();
-	 	$this->db->query($query);
-	 	$this->field_id = $this->db->getLastInsertId();
+	 	$query = "INSERT INTO adv_mdf_definition (field_id,record_id,import_id,position,field_type, ".
+			"field_values,title,description,searchable,required) ".
+			"VALUES( ".
+			$ilDB->quote($next_id,'integer').",".
+	 		$this->db->quote($this->getRecordId(),'integer').", ".
+	 		$this->db->quote($this->getImportId(),'text').", ".
+	 		$this->db->quote($position + 1 ,'integer').", ".
+	 		$this->db->quote($this->getFieldType() ,'integer').", ".
+			$ilDB->quote(serialize($values),'text').", ".
+	 		$this->db->quote($this->getTitle() ,'text').", ".
+	 		$this->db->quote($this->getDescription() ,'text').", ".
+	 		$ilDB->quote($this->isSearchable(),'integer').", ".
+	 		$ilDB->quote($this->isRequired(),'integer')." ".
+	 		")";
+		$res = $ilDB->manipulate($query);
+		$this->field_id = $next_id;
 	 	
 	 	if(!strlen($this->getImportId()))
 	 	{
-	 		$query = "UPDATE adv_md_field_definition ".
-	 			"SET import_id = ".$this->db->quote($this->generateImportId())." ".
-	 			"WHERE field_id = ".$this->db->quote($this->field_id)." ";
-	 		$this->db->query($query);
+	 		$query = "UPDATE adv_mdf_definition ".
+	 			"SET import_id = ".$this->db->quote($this->generateImportId(),'text')." ".
+	 			"WHERE field_id = ".$this->db->quote($this->field_id,'integer')." ";
+			$res = $ilDB->manipulate($query);			
 	 	}
 		return true;
 	}
@@ -619,19 +628,20 @@ class ilAdvancedMDFieldDefinition
 	 */
 	public function update()
 	{
-	 	$query = "UPDATE adv_md_field_definition ".
-	 		"SET record_id = ".$this->db->quote($this->getRecordId()).", ".
-	 		"import_id = ".$this->db->quote($this->getImportId()).", ".
-	 		"position = ".$this->db->quote($this->getPosition()).", ".
-	 		"field_type = ".$this->db->quote($this->getFieldType()).", ".
-			"field_values = '".addslashes(serialize($this->getFieldValues()))."', ".
-	 		"title = ".$this->db->quote($this->getTitle()).", ".
-	 		"description = ".$this->db->quote($this->getDescription()).", ".
-	 		"searchable = ".(int) $this->isSearchable().", ".
-	 		"required = ".(int) $this->isRequired()." ".
-	 		"WHERE field_id = ".$this->db->quote($this->getFieldId())." ";
-				 		
-	 	$this->db->query($query);
+	 	global $ilDB;
+	 	
+	 	$query = "UPDATE adv_mdf_definition ".
+	 		"SET record_id = ".$this->db->quote($this->getRecordId() ,'integer').", ".
+	 		"import_id = ".$this->db->quote($this->getImportId() ,'text').", ".
+	 		"position = ".$this->db->quote($this->getPosition() ,'integer').", ".
+	 		"field_type = ".$this->db->quote($this->getFieldType() ,'integer').", ".
+			"field_values = ".$ilDB->quote(serialize($this->getFieldValues()),'text').", ".
+	 		"title = ".$this->db->quote($this->getTitle() ,'text').", ".
+	 		"description = ".$this->db->quote($this->getDescription() ,'text').", ".
+	 		"searchable = ".$ilDB->quote($this->isSearchable() ,'integer').", ".
+	 		"required = ".$ilDB->quote($this->isRequired(),'integer')." ".
+	 		"WHERE field_id = ".$this->db->quote($this->getFieldId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);				 		
 		return true;
 	}
 	
@@ -695,12 +705,14 @@ class ilAdvancedMDFieldDefinition
 	 */
 	private function read()
 	{
+		global $ilDB;
+		
 		if(!$this->field_id)
 		{
 			return false;
 		}
-		$query = "SELECT * FROM adv_md_field_definition ".
-			"WHERE field_id = ".$this->db->quote($this->getFieldId())." ";
+		$query = "SELECT * FROM adv_mdf_definition ".
+			"WHERE field_id = ".$this->db->quote($this->getFieldId() ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -724,8 +736,8 @@ class ilAdvancedMDFieldDefinition
 	 */
 	private function getLastPosition()
 	{
-		$query = "SELECT max(position) as pos FROM adv_md_field_definition ".
-			"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
+		$query = "SELECT max(position) pos FROM adv_mdf_definition ".
+			"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

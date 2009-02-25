@@ -387,16 +387,18 @@ class ilAdvancedMDSubstitution
 	 */
 	private function read()
 	{
+	 	global $ilDB;
+	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 	$this->date_fields = ilAdvancedMDFieldDefinition::_lookupDateFields();
 	 	$this->datetime_fields = ilAdvancedMDFieldDefinition::_lookupDatetimeFields();
 	 	
 	 	// Check active status
-	 	$query = "SELECT active,field_id,amfd.title FROM adv_md_record AS amr ".
-	 		"JOIN adv_md_record_objs AS amro ON amr.record_id = amro.record_id ".
-	 		"JOIN adv_md_field_definition AS amfd ON amr.record_id = amfd.record_id ".
+	 	$query = "SELECT active,field_id,amfd.title FROM adv_md_record amr ".
+	 		"JOIN adv_md_record_objs amro ON amr.record_id = amro.record_id ".
+	 		"JOIN adv_mdf_definition amfd ON amr.record_id = amfd.record_id ".
 	 		"WHERE active = 1 ".
-	 		"AND obj_type = ".$this->db->quote($this->type)." ";
+	 		"AND obj_type = ".$this->db->quote($this->type ,'text')." ";
 	 	$res = $this->db->query($query);
 	 	$this->active = $res->numRows() ? true : false;
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
