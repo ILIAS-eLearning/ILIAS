@@ -189,6 +189,8 @@ class ilAdvancedMDValue
 	 */
 	public function save()
 	{
+	 	global $ilDB;
+	 	
 	 	$this->delete();
 	 	
 	 	$query = "INSERT INTO adv_md_values (obj_id,field_id,value,disabled) ".
