@@ -8133,3 +8133,22 @@ ALTER TABLE glossary MODIFY downloads_active CHAR(1) DEFAULT 'n';
 	$ilMySQLAbstraction->performAbstraction('glossary');
 ?>
 
+<#1724>
+RENAME TABLE `adv_md_field_definition` TO `adv_mdf_definition`;
+
+<#1725>
+ALTER TABLE `adv_mdf_definition` CHANGE `title` `title` VARCHAR( 255 ) NULL;
+ 
+<#1726>
+ALTER TABLE `adv_mdf_definition` CHANGE `description` `description` VARCHAR( 2000 ) NULL;
+
+<#1727>
+ALTER TABLE `adv_mdf_definition` CHANGE `field_values` `field_values` VARCHAR( 4000 ) NULL;
+
+<#1728>
+<?php
+	$ilMySQLAbstraction->performAbstraction('adv_mdf_definition');
+?>
+
+  
+

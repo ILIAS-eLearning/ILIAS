@@ -93,8 +93,8 @@ class ilAdvancedMDRecord
 	{
 		global $ilDB;
 		
-		$query = "SELECT DISTINCT(amr.record_id) FROM adv_md_record AS amr ".
-			"JOIN adv_md_field_definition USING (record_id) ".
+		$query = "SELECT DISTINCT(amr.record_id) FROM adv_md_record amr ".
+			"JOIN adv_mdf_definition USING (record_id) ".
 			"WHERE searchable = 1 AND active = 1";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
