@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -48,16 +48,22 @@ class ilRating
 		$a_user_id, $a_rating)
 	{
 		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM il_rating WHERE ".
+			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
+			"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true));
 		
-		$q = "REPLACE INTO il_rating (user_id, obj_id, obj_type,".
+		$ilDB->manipulate("INSERT INTO il_rating (user_id, obj_id, obj_type,".
 			"sub_obj_id, sub_obj_type, rating) VALUES (".
-			$ilDB->quote($a_user_id).",".
-			$ilDB->quote($a_obj_id).",".
-			$ilDB->quote($a_obj_type).",".
-			$ilDB->quote($a_sub_obj_id).",".
-			$ilDB->quote($a_sub_obj_type).",".
-			$ilDB->quote($a_rating).")";
-		$ilDB->query($q);
+			$ilDB->quote($a_user_id, "integer").",".
+			$ilDB->quote((int) $a_obj_id, "integer").",".
+			$ilDB->quote($a_obj_type, "text").",".
+			$ilDB->quote((int) $a_sub_obj_id, "integer").",".
+			$ilDB->quote($a_sub_obj_type, "text").",".
+			$ilDB->quote((int) $a_rating, "integer").")");
 	}
 	
 	/**
@@ -75,13 +81,13 @@ class ilRating
 		global $ilDB;
 		
 		$q = "SELECT * FROM il_rating WHERE ".
-			"user_id = ".$ilDB->quote($a_user_id)." AND ".
-			"obj_id = ".$ilDB->quote($a_obj_id)." AND ".
-			"obj_type = ".$ilDB->quote($a_obj_type)." AND ".
-			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id)." AND ".
-			"sub_obj_type = ".$ilDB->quote($a_sub_obj_type);
+			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
+			"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		return $rec["rating"];
 	}
 	
@@ -98,12 +104,12 @@ class ilRating
 		global $ilDB;
 		
 		$q = "SELECT count(*) as cnt, AVG(rating) as av FROM il_rating WHERE ".
-			"obj_id = ".$ilDB->quote($a_obj_id)." AND ".
-			"obj_type = ".$ilDB->quote($a_obj_type)." AND ".
-			"sub_obj_id = ".$ilDB->quote($a_sub_obj_id)." AND ".
-			"sub_obj_type = ".$ilDB->quote($a_sub_obj_type);
+			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
+			"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
 		$set = $ilDB->query($q);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		return array("cnt" => $rec["cnt"], "avg" => $rec["av"]);
 	}
 
