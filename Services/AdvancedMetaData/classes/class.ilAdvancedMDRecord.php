@@ -280,8 +280,8 @@ class ilAdvancedMDRecord
 		$res = $ilDB->manipulate($query);
 		
 		$query = "DELETE FROM adv_md_record_objs ".
-			"WHERE record_id = ".$ilDB->quote($a_record_id)." ";
-		$ilDB->query($query);
+			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 	}
 	
 	
@@ -331,10 +331,14 @@ class ilAdvancedMDRecord
 
 	 	foreach($this->getAssignedObjectTypes() as $type)
 	 	{
-	 		$query = "INSERT INTO adv_md_record_objs ".
-	 			"SET record_id = ".$this->db->quote($this->getRecordId()).", ".
-	 			"obj_type = ".$this->db->quote($type)." ";
-	 		$this->db->query($query);
+	 		global $ilDB;
+	 	
+	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type) ".
+	 			"VALUES( ".
+	 			$this->db->quote($this->getRecordId() ,'integer').", ".
+	 			$this->db->quote($type ,'text')." ".
+	 			")";
+			$res = $ilDB->manipulate($query);
 	 	}
 	}
 	
@@ -357,16 +361,18 @@ class ilAdvancedMDRecord
 				
 		// Delete assignments
 	 	$query = "DELETE FROM adv_md_record_objs ".
-	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
-	 	$this->db->query($query);
+	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
+		$res = $ilDB->manipulate($query);
 			
 	 	// Insert assignments
 	 	foreach($this->getAssignedObjectTypes() as $type)
 	 	{
-	 		$query = "INSERT INTO adv_md_record_objs ".
-	 			"SET record_id = ".$this->db->quote($this->getRecordId()).", ".
-	 			"obj_type = ".$this->db->quote($type)." ";
-	 		$this->db->query($query);
+	 		$query = "INSERT INTO adv_md_record_objs (record_id,obj_type) ".
+	 			"VALUES ( ".
+	 			$this->db->quote($this->getRecordId() ,'integer').", ".
+	 			$this->db->quote($type ,'text')." ".
+	 			")";
+			$res = $ilDB->manipulate($query);
 	 	}
 	}
 	
@@ -578,7 +584,7 @@ class ilAdvancedMDRecord
 			$this->setDescription($row->description);
 		}
 		$query = "SELECT * FROM adv_md_record_objs ".
-	 		"WHERE record_id = ".$this->db->quote($this->getRecordId())." ";
+	 		"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
 	 	$res = $this->db->query($query);
 	 	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
