@@ -139,7 +139,7 @@ class ilExternalFeedBlock extends ilCustomBlock
 		$query = "DELETE FROM il_external_feed_block".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 	}
 
