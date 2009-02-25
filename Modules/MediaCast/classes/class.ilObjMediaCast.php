@@ -172,13 +172,13 @@ class ilObjMediaCast extends ilObject
 			", downloadable".
 		    ", def_access".
 			" ) VALUES (".
-			$ilDB->quote($this->getId())
-			.",".$ilDB->quote($this->getOnline())
-			.",".$ilDB->quote($this->getPublicFiles())
-			.",".$ilDB->quote($this->getDownloadable())
-			.",".$ilDB->quote($this->getDefaultAccess())
+			$ilDB->quote($this->getId(), "integer")
+			.",".$ilDB->quote((int) $this->getOnline(), "integer")
+			.",".$ilDB->quote((int) $this->getPublicFiles(), "integer")
+			.",".$ilDB->quote((int) $this->getDownloadable(), "integer")
+			.",".$ilDB->quote((int) $this->getDefaultAccess(), "integer")
 			.")";
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 	}
 
@@ -199,13 +199,13 @@ class ilObjMediaCast extends ilObject
 
 		// update media cast data
 		$query = "UPDATE il_media_cast_data SET ".
-			" is_online = ".$ilDB->quote($this->getOnline()).
-			", public_files = ".$ilDB->quote($this->getPublicFiles()).
-			", downloadable = ".$ilDB->quote($this->getDownloadable()).
-		    ", def_access = ".$ilDB->quote($this->getDefaultAccess()).
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" is_online = ".$ilDB->quote((int) $this->getOnline(), "integer").
+			", public_files = ".$ilDB->quote((int) $this->getPublicFiles(), "integer").
+			", downloadable = ".$ilDB->quote((int) $this->getDownloadable(), "integer").
+		    ", def_access = ".$ilDB->quote((int) $this->getDefaultAccess(), "integer").
+			" WHERE id = ".$ilDB->quote((int) $this->getId(), "integer");
 		
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 		return true;
 	}
@@ -221,9 +221,9 @@ class ilObjMediaCast extends ilObject
 		$this->readItems();
 		
 		$query = "SELECT * FROM il_media_cast_data WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setOnline($rec["is_online"]);
 		$this->setPublicFiles($rec["public_files"]);
@@ -260,8 +260,8 @@ class ilObjMediaCast extends ilObject
 		
 		// delete record of table il_media_cast_data
 		$query = "DELETE FROM il_media_cast_data".
-			" WHERE id = ".$ilDB->quote($this->getId());
-		$ilDB->query($query);
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($query);
 		
 		return true;
 	}

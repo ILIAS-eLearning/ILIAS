@@ -8205,4 +8205,10 @@ ALTER TABLE `il_html_block` MODIFY `content` VARCHAR(4000);
 <?php
 	$ilMySQLAbstraction->performAbstraction('il_html_block');
 ?>
+<#1743>
+ALTER TABLE `il_media_cast_data` MODIFY `id` INT NOT NULL;
+<#1744>
+<?php
+	$ilMySQLAbstraction->performAbstraction('il_media_cast_data');
+?>
 
