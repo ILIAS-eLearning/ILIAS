@@ -8150,5 +8150,12 @@ ALTER TABLE `adv_mdf_definition` CHANGE `field_values` `field_values` VARCHAR( 4
 	$ilMySQLAbstraction->performAbstraction('adv_mdf_definition');
 ?>
 
+<#1729>
+ALTER TABLE `adv_md_record` CHANGE `description` `description` VARCHAR( 4000 ) NULL;
+  
+<#1730>
+<?php
+	$ilMySQLAbstraction->performAbstraction('adv_md_record');
+?>
   
 
