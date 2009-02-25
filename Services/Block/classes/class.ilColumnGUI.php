@@ -450,20 +450,29 @@ class ilColumnGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilBench;
+		
+		$ilBench->start("Column", "getHTML");
 		
 		$ilCtrl->setParameter($this, "col_side" ,$this->getSide());
 		
 		$this->tpl = new ilTemplate("tpl.column.html", true, true, "Services/Block");
 		
+		$ilBench->start("Column", "determineBlocks");
 		$this->determineBlocks();
+		$ilBench->stop("Column", "determineBlocks");
+		
+		$ilBench->start("Column", "showBlocks");
 		$this->showBlocks();
+		$ilBench->stop("Column", "showBlocks");
 		
 		if ($this->getEnableEdit() || !$this->getRepositoryMode())
 		{
 			$this->addHiddenBlockSelector();
 		}
 
+		$ilBench->stop("Column", "getHTML");
+		
 		return $this->tpl->get();
 	}
 	
@@ -472,7 +481,7 @@ class ilColumnGUI
 	*/
 	function showBlocks()
 	{
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $lng, $ilUser, $ilBench;
 		
 		$blocks = array();
 		
@@ -491,7 +500,9 @@ class ilColumnGUI
 				// get block gui class
 				include_once("./".self::$locations[$gui_class]."classes/".
 					"class.".$gui_class.".php");
+				$ilBench->start("Column", "instantiate-".$block["type"]);
 				$block_gui = new $gui_class();
+				$ilBench->stop("Column", "instantiate-".$block["type"]);
 				$block_gui->setProperties($this->block_property[$block["type"]]);
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
@@ -511,7 +522,10 @@ class ilColumnGUI
 	
 				$ilCtrl->setParameter($this, "block_type", $block_gui->getBlockType());
 				$this->tpl->setCurrentBlock("col_block");
+				
+				$ilBench->start("Column", "showBlocks-".$block_gui->getBlockType());
 				$html = $ilCtrl->getHTML($block_gui);
+				$ilBench->stop("Column", "showBlocks-".$block_gui->getBlockType());
 	
 				// dummy block, if non visible, but movement is ongoing
 				if ($html == "" && $this->getRepositoryMode() &&
@@ -528,11 +542,12 @@ class ilColumnGUI
 				}
 				
 				// don't render a block if it's empty
-				if ($html != "") {
-          $this->tpl->setVariable("BLOCK", $html);
-          $this->tpl->parseCurrentBlock();
-          $ilCtrl->setParameter($this, "block_type", "");
-        }
+				if ($html != "")
+				{
+					$this->tpl->setVariable("BLOCK", $html);
+					$this->tpl->parseCurrentBlock();
+					$ilCtrl->setParameter($this, "block_type", "");
+				}
 				
 				// count (moveable) blocks
 				if ($block["type"] != "pdsysmess" && $block["type"] != "pdfeedb" &&

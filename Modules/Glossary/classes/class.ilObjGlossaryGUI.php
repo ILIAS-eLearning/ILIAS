@@ -943,6 +943,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$page_gui =& new ilPageObjectGUI("gdf", $definition->getId());
 		$page_gui->setTemplateOutput(false);
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
+		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
+		$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$output = $page_gui->preview();
 
 		$this->tpl->setCurrentBlock("definition");

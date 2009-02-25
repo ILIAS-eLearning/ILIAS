@@ -57,6 +57,15 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$this->setAvailableDetailLevels(3);
 		$this->setEnableNumInfo(true);
 		
+		$this->dynamic = false;
+		
+if ($this->getDynamic() && false)
+{
+	$this->dynamic = true;
+	$data = array();
+}
+else if ($this->getCurrentDetailLevel() > 0)
+{
 		if (!empty(self::$st_data))
 		{
 			$data = self::$st_data;
@@ -66,6 +75,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$data = $this->getNewsData();
 			self::$st_data = $data;
 		}
+}
+else
+{
+	$data = array();
+}
 		
 		$this->setTitle($lng->txt("news_internal_news"));
 		$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
@@ -201,7 +215,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
+		if ($this->dynamic)
+		{
+			$this->setDataSection($this->getDynamicReload());
+		}
+		else if ($this->getCurrentDetailLevel() > 1 && count($this->getData()) > 0)
 		{
 			parent::fillDataSection();
 		}
@@ -302,7 +320,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			return "";
 		}
 
-		return parent::getHTML();
+		$en = "";
+		if ($ilUser->getPref("il_feed_js") == "n")
+		{
+//			$en = getJSEnabler();
+		}
+		return parent::getHTML().$en;
 	}
 
 	/**
@@ -451,6 +474,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	function showNews()
 	{
 		global $lng, $ilCtrl, $ilUser;
+		
+// workaround for dynamic mode (if cache is disabled, showNews has no data)
+if (empty(self::$st_data))
+{
+	$this->setData($this->getNewsData());
+}
 		
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
@@ -1113,6 +1142,90 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		$a_content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);
 	}
+	
+	function getDynamic()
+	{
+		global $ilCtrl, $ilUser;
+		
+		if ($ilCtrl->getCmd() == "hideNotifications" ||
+			$ilCtrl->getCmd() == "showNotifications")
+		{
+			return false;
+		}
+		
+		if ($ilCtrl->getCmdClass() != "ilcolumngui" && $ilCtrl->getCmd() != "enableJS")
+		{
+			if ($_SESSION["il_feed_js"] != "n" &&
+				($ilUser->getPref("il_feed_js") != "n" || $_SESSION["il_feed_js"] == "y"))
+			{
+				// do not get feed dynamically, if cache hit is given.
+//				if (!$this->feed->checkCacheHit())
+//				{
+					return true;
+//				}
+			}
+		}
+		
+		return false;
+	}
+
+	function getDynamicReload()
+	{
+		global $ilCtrl, $lng;
+		
+		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
+			"block_".$this->getBlockType()."_".$this->getBlockId());
+
+		$rel_tpl = new ilTemplate("tpl.dynamic_reload.html", true, true, "Services/News");
+		$rel_tpl->setVariable("TXT_LOADING", $lng->txt("news_loading_news"));
+		$rel_tpl->setVariable("BLOCK_ID", "block_".$this->getBlockType()."_".$this->getBlockId());
+		$rel_tpl->setVariable("TARGET", 
+			$ilCtrl->getLinkTargetByClass("ilcolumngui", "updateBlock", "", true));
+			
+		// no JS
+		$rel_tpl->setVariable("TXT_NEWS_CLICK_HERE", $lng->txt("news_no_js_click_here"));
+		$rel_tpl->setVariable("TARGET_NO_JS",
+			$ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "disableJS"));
+
+		return $rel_tpl->get();
+	}
+	
+	function getJSEnabler()
+	{
+		global $ilCtrl, $lng;
+		
+		$ilCtrl->setParameterByClass("ilcolumngui", "block_id",
+			"block_".$this->getBlockType()."_".$this->getBlockId());
+//echo "hh";
+		$rel_tpl = new ilTemplate("tpl.js_enabler.html", true, true, "Services/News");
+		$rel_tpl->setVariable("BLOCK_ID", "block_".$this->getBlockType()."_".$this->getBlockId());
+		$rel_tpl->setVariable("TARGET", 
+			$ilCtrl->getLinkTargetByClass(strtolower(get_class($this)), "enableJS", true));
+			
+		return $rel_tpl->get();
+	}
+	
+	
+	function disableJS()
+	{
+		global $ilCtrl, $ilUser;
+
+		$_SESSION["il_feed_js"] = "n";
+		$ilUser->writePref("il_feed_js", "n");
+$ilCtrl->returnToParent($this);
+		//$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+	}
+	
+	function enableJS()
+	{
+		global $ilUser;
+//echo "enableJS";
+		$_SESSION["il_feed_js"] = "y";
+		$ilUser->writePref("il_feed_js", "y");
+		echo $this->getHTML();
+		exit;
+	}
+
 }
 
 ?>
