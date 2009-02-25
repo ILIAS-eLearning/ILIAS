@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -100,13 +100,13 @@ class ilNewsItem extends ilNewsItemGen
 			$query = "SELECT count(*) AS cnt ".
 				"FROM il_news_item ".
 				"WHERE ".
-					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-					" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-					" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType());
+					"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
+					" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+					" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true);
 	
 			$set = $ilDB->query($query);
-			$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+			$rec = $ilDB->fetchAssoc($set);
 					
 			// if we have more records than allowed, delete them
 			if (($rec["cnt"] > $max_items) && $this->getContextObjId() > 0)
@@ -114,15 +114,15 @@ class ilNewsItem extends ilNewsItemGen
 				$query = "SELECT * ".
 					"FROM il_news_item ".
 					"WHERE ".
-						"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-						" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-						" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-						" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
-						" ORDER BY creation_date ASC".
-						" LIMIT ".($rec["cnt"] - $max_items);
+						"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+						" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
+						" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+						" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true).
+						" ORDER BY creation_date ASC";
 	
+				$ilDB->setLimit($rec["cnt"] - $max_items);
 				$del_set = $ilDB->query($query);
-				while ($del_item = $del_set->fetchRow(DB_FETCHMODE_ASSOC))
+				while ($del_item = $ilDB->fetchAssoc($del_set))
 				{
 					$del_news = new ilNewsItem($del_item["id"]);
 					$del_news->delete();
@@ -573,13 +573,16 @@ class ilNewsItem extends ilNewsItemGen
 	{
 		global $ilDB, $ilUser, $lng;
 		
-		$and = ($a_time_period > 0)
-			? " AND (TO_DAYS(now()) - TO_DAYS(creation_date)) <= ".((int)$a_time_period)
-			: "";
+		$and = "";
+		if ($a_time_period > 0)
+		{
+			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+			$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
+		}
 		
 		if ($a_starting_date != "")
 		{
-			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date)." ";
+			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date, "timestamp")." ";
 		}
 
 		if ($a_for_rss_use && ilNewsItem::getPrivateFeedId() == false)
@@ -587,21 +590,21 @@ class ilNewsItem extends ilNewsItemGen
 			$query = "SELECT * ".
 				"FROM il_news_item ".
 				" WHERE ".
-					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+					"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 					$and.
 					" ORDER BY creation_date DESC ";
 		}
 		elseif (ilNewsItem::getPrivateFeedId() != false) 
 		{
 			$query = "SELECT il_news_item.* ".
-				", il_news_read.user_id as user_read ".
+				", il_news_read.user_id user_read ".
 				"FROM il_news_item LEFT JOIN il_news_read ".
 				"ON il_news_item.id = il_news_read.news_id AND ".
-				" il_news_read.user_id = ".ilNewsItem::getPrivateFeedId().
+				" il_news_read.user_id = ".$ilDB->quote(ilNewsItem::getPrivateFeedId(), "integer").
 				" WHERE ".
-					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+					"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 					$and.
 					" ORDER BY creation_date DESC ";	
 		}
@@ -611,16 +614,16 @@ class ilNewsItem extends ilNewsItemGen
 				", il_news_read.user_id as user_read ".
 				"FROM il_news_item LEFT JOIN il_news_read ".
 				"ON il_news_item.id = il_news_read.news_id AND ".
-				" il_news_read.user_id = ".$ilDB->quote($ilUser->getId()).
+				" il_news_read.user_id = ".$ilDB->quote($ilUser->getId(), "integer").
 				" WHERE ".
-					"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
+					"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+					" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
 					$and.
 					" ORDER BY creation_date DESC ";
 		}
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if (!$a_for_rss_use || 	(ilNewsItem::getPrivateFeedId() != false) || ($rec["visibility"] == NEWS_PUBLIC ||
 				($rec["priority"] == 0 &&
@@ -647,13 +650,16 @@ class ilNewsItem extends ilNewsItemGen
 		
 		$ilBench->start("News", "queryNewsForMultipleContexts");
 		
-		$and = ($a_time_period > 0)
-			? " AND (TO_DAYS(now()) - TO_DAYS(creation_date)) <= ".((int)$a_time_period)
-			: "";
+		$and = "";
+		if ($a_time_period > 0)
+		{
+			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+			$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
+		}
 			
 		if ($a_starting_date != "")
 		{
-			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date)." ";
+			$and.= " AND creation_date > ".$ilDB->quote($a_starting_date, "timestamp")." ";
 		}
 		
 		$ids = array();
@@ -669,7 +675,7 @@ class ilNewsItem extends ilNewsItemGen
 			$query = "SELECT * ".
 				"FROM il_news_item ".
 				" WHERE ".
-					"context_obj_id IN (".implode(",",ilUtil::quoteArray($ids)).") ".
+					$ilDB->in("context_obj_id", $ids, false, "integer")." ".
 					$and.
 					" ORDER BY creation_date DESC ";
 		}
@@ -679,9 +685,9 @@ class ilNewsItem extends ilNewsItemGen
 				", il_news_read.user_id as user_read ".
 				"FROM il_news_item LEFT JOIN il_news_read ".
 				"ON il_news_item.id = il_news_read.news_id AND ".
-				" il_news_read.user_id = ".ilNewsItem::getPrivateFeedId().
+				" il_news_read.user_id = ".$ilDB->quote(ilNewsItem::getPrivateFeedId(), "integer").
 				" WHERE ".
-					"context_obj_id IN (".implode(",",ilUtil::quoteArray($ids)).") ".
+					$ilDB->in("context_obj_id", $ids, false, "integer")." ".
 					$and.
 					" ORDER BY creation_date DESC ";		
 		}		
@@ -691,16 +697,16 @@ class ilNewsItem extends ilNewsItemGen
 				", il_news_read.user_id as user_read ".
 				"FROM il_news_item LEFT JOIN il_news_read ".
 				"ON il_news_item.id = il_news_read.news_id AND ".
-				" il_news_read.user_id = ".$ilDB->quote($ilUser->getId()).
+				" il_news_read.user_id = ".$ilDB->quote($ilUser->getId(), "integer").
 				" WHERE ".
-					"context_obj_id IN (".implode(",",ilUtil::quoteArray($ids)).") ".
+					$ilDB->in("context_obj_id", $ids, false, "integer")." ".
 					$and.
 					" ORDER BY creation_date DESC ";
 		}
 
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			if ($type[$rec["context_obj_id"]] == $rec["context_obj_type"])
 			{
@@ -855,12 +861,12 @@ class ilNewsItem extends ilNewsItemGen
 		
 		// get news records
 		$query = "SELECT * FROM il_news_item".
-			" WHERE context_obj_id = ".$ilDB->quote($a_context_obj_id).
-			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type);
+			" WHERE context_obj_id = ".$ilDB->quote($a_context_obj_id, "integer").
+			" AND context_obj_type = ".$ilDB->quote($a_context_obj_type, "text");
 			
 		$news_set = $ilDB->query($query);
 		
-		while ($news = $news_set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($news = $ilDB->fetchAssoc($news_set))
 		{
 			$news_obj = new ilNewsItem($news["id"]);
 			$news_obj->delete();
@@ -875,9 +881,9 @@ class ilNewsItem extends ilNewsItemGen
 		global $ilDB;
 		
 		$query = "SELECT title FROM il_news_item WHERE id = ".
-			$ilDB->quote($a_news_id);
+			$ilDB->quote($a_news_id, "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		return $rec["title"];
 	}
 
@@ -889,9 +895,9 @@ class ilNewsItem extends ilNewsItemGen
 		global $ilDB;
 		
 		$query = "SELECT visibility FROM il_news_item WHERE id = ".
-			$ilDB->quote($a_news_id);
+			$ilDB->quote($a_news_id, "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		return $rec["visibility"];
 	}
@@ -903,21 +909,25 @@ class ilNewsItem extends ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$and = ($a_time_period > 0)
-			? " AND (TO_DAYS(now()) - TO_DAYS(creation_date)) <= ".((int)$a_time_period)
-			: "";
+		$and = "";
+		if ($a_time_period > 0)
+		{
+			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+			$and = " AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp")." ";
+		}
 
 		if ($a_starting_date != "")
 		{
-			$and.= " AND creation_date >= ".$ilDB->quote($a_starting_date);
+			$and.= " AND creation_date >= ".$ilDB->quote($a_starting_date, "timestamp");
 		}
 
 		$query = "SELECT DISTINCT(context_obj_id) AS obj_id FROM il_news_item".
-			" WHERE context_obj_id IN (".implode(ilUtil::quoteArray($a_obj_ids),",").")".$and;
+			" WHERE ".$ilDB->in("context_obj_id", $a_obj_ids, false, "integer")." ".$and;
+			//" WHERE context_obj_id IN (".implode(ilUtil::quoteArray($a_obj_ids),",").")".$and;
 
 		$set = $ilDB->query($query);
 		$objs = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$objs[] = $rec["obj_id"];
 		}
@@ -1013,13 +1023,13 @@ class ilNewsItem extends ilNewsItemGen
 		$query = "SELECT * ".
 			"FROM il_news_item ".
 			"WHERE ".
-				"context_obj_id = ".$ilDB->quote($a_context_obj_id).
-				" AND context_obj_type = ".$ilDB->quote($a_context_obj_type).
-				" AND context_sub_obj_id = ".$ilDB->quote($a_context_sub_obj_id).
-				" AND context_sub_obj_type = ".$ilDB->quote($a_context_sub_obj_type);
+				"context_obj_id = ".$ilDB->quote($a_context_obj_id, "integer").
+				" AND context_obj_type = ".$ilDB->quote($a_context_obj_type, "text").
+				" AND context_sub_obj_id = ".$ilDB->quote($a_context_sub_obj_id, "integer").
+				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true);
 				
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		
 		return $rec["id"];
 	}
@@ -1034,11 +1044,11 @@ class ilNewsItem extends ilNewsItemGen
 		$query = "SELECT * ".
 			"FROM il_news_item ".
 			"WHERE ".
-				" mob_id = ".$ilDB->quote($a_mob_id);
+				" mob_id = ".$ilDB->quote($a_mob_id, "integer");
 				
 		$usages = array();
 		$set = $ilDB->query($query);
-		while ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$usages[$rec["id"]] = array("type" => "news", "id" => $rec["id"]);
 		}
@@ -1056,9 +1066,9 @@ class ilNewsItem extends ilNewsItemGen
 		$query = "SELECT * ".
 			"FROM il_news_item ".
 			"WHERE ".
-				" id = ".$ilDB->quote($a_news_id);
+				" id = ".$ilDB->quote($a_news_id, "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 		
 		return $rec["context_obj_id"];
 	}

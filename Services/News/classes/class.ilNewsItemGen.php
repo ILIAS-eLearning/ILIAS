@@ -419,44 +419,26 @@ class ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$query = "INSERT INTO il_news_item (".
-			" title".
-			", content".
-			", context_obj_id".
-			", context_obj_type".
-			", context_sub_obj_id".
-			", context_sub_obj_type".
-			", content_type".
-			", creation_date".
-			", update_date".
-			", user_id".
-			", visibility".
-			", content_long".
-			", priority".
-			", content_is_lang_var".
-			", mob_id".
-			", playtime".
-			" ) VALUES (".
-			$ilDB->quote($this->getTitle())
-			.",".$ilDB->quote($this->getContent())
-			.",".$ilDB->quote($this->getContextObjId())
-			.",".$ilDB->quote($this->getContextObjType())
-			.",".$ilDB->quote($this->getContextSubObjId())
-			.",".$ilDB->quote($this->getContextSubObjType())
-			.",".$ilDB->quote($this->getContentType())
-			.","."now()"
-			.","."now()"
-			.",".$ilDB->quote($this->getUserId())
-			.",".$ilDB->quote($this->getVisibility())
-			.",".$ilDB->quote($this->getContentLong())
-			.",".$ilDB->quote($this->getPriority())
-			.",".$ilDB->quote($this->getContentIsLangVar())
-			.",".$ilDB->quote($this->getMobId())
-			.",".$ilDB->quote($this->getPlaytime()).")";
-		$ilDB->query($query);
-		$this->setId($ilDB->getLastInsertId());
-		
-
+		$this->setId($ilDB->nextId("il_news_item"));
+		$ilDB->insert("il_news_item", array(
+			"id" => array("integer", $this->getId()),
+			"title" => array("text", $this->getTitle()),
+			"content" => array("clob", $this->getContent()),
+			"context_obj_id" => array("integer", (int) $this->getContextObjId()),
+			"context_obj_type" => array("text", $this->getContextObjType()),
+			"context_sub_obj_id" => array("integer", (int) $this->getContextSubObjId()),
+			"context_sub_obj_type" => array("text", $this->getContextSubObjType()),
+			"content_type" => array("text", $this->getContentType()),
+			"creation_date" => array("timestamp", ilUtil::now()),
+			"update_date" => array("timestamp", ilUtil::now()),
+			"user_id" => array("integer", $this->getUserId()),
+			"visibility" => array("text", $this->getVisibility()),
+			"content_long" => array("clob", $this->getContentLong()),
+			"priority" => array("integer", $this->getPriority()),
+			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
+			"mob_id" => array("integer", $this->getMobId()),
+			"playtime" => array("text", $this->getPlaytime())
+		));
 	}
 
 	/**
@@ -468,15 +450,15 @@ class ilNewsItemGen
 		global $ilDB;
 		
 		$query = "SELECT * FROM il_news_item WHERE id = ".
-			$ilDB->quote($this->getId());
+			$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
-		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
+		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setTitle($rec["title"]);
 		$this->setContent($rec["content"]);
-		$this->setContextObjId($rec["context_obj_id"]);
+		$this->setContextObjId((int) $rec["context_obj_id"]);
 		$this->setContextObjType($rec["context_obj_type"]);
-		$this->setContextSubObjId($rec["context_sub_obj_id"]);
+		$this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
 		$this->setContextSubObjType($rec["context_sub_obj_type"]);
 		$this->setContentType($rec["content_type"]);
 		$this->setCreationDate($rec["creation_date"]);
@@ -499,26 +481,25 @@ class ilNewsItemGen
 	{
 		global $ilDB;
 		
-		$query = "UPDATE il_news_item SET ".
-			" title = ".$ilDB->quote($this->getTitle()).
-			", content = ".$ilDB->quote($this->getContent()).
-			", context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-			", context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-			", context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-			", context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
-			", content_type = ".$ilDB->quote($this->getContentType()).
-			", creation_date = ".$ilDB->quote($this->getCreationDate()).
-			", update_date = now()".
-			", user_id = ".$ilDB->quote($this->getUserId()).
-			", visibility = ".$ilDB->quote($this->getVisibility()).
-			", content_long = ".$ilDB->quote($this->getContentLong()).
-			", priority = ".$ilDB->quote($this->getPriority()).
-			", content_is_lang_var = ".$ilDB->quote($this->getContentIsLangVar()).
-			", mob_id = ".$ilDB->quote($this->getMobId()).
-			", playtime = ".$ilDB->quote($this->getPlaytime()).
-			" WHERE id = ".$ilDB->quote($this->getId());
-		
-		$ilDB->query($query);
+		$ilDB->update("il_news_item", array(
+			"title" => array("text", $this->getTitle()),
+			"content" => array("clob", $this->getContent()),
+			"context_obj_id" => array("integer", $this->getContextObjId()),
+			"context_obj_type" => array("text", $this->getContextObjType()),
+			"context_sub_obj_id" => array("integer", $this->getContextSubObjId()),
+			"context_sub_obj_type" => array("text", $this->getContextSubObjType()),
+			"content_type" => array("text", $this->getContentType()),
+			"update_date" => array("timestamp", ilUtil::now()),
+			"user_id" => array("integer", $this->getUserId()),
+			"visibility" => array("text", $this->getVisibility()),
+			"content_long" => array("clob", $this->getContentLong()),
+			"priority" => array("integer", $this->getPriority()),
+			"content_is_lang_var" => array("integer", $this->getContentIsLangVar()),
+			"mob_id" => array("integer", $this->getMobId()),
+			"playtime" => array("text", $this->getPlaytime())
+			), array(
+			"id" => array("integer", $this->getId())
+		));
 
 	}
 
@@ -531,9 +512,9 @@ class ilNewsItemGen
 		global $ilDB;
 		
 		$query = "DELETE FROM il_news_item".
-			" WHERE id = ".$ilDB->quote($this->getId());
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		
-		$ilDB->query($query);
+		$ilDB->manipulate($query);
 
 	}
 
@@ -548,16 +529,15 @@ class ilNewsItemGen
 		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime ".
 			"FROM il_news_item ".
 			"WHERE ".
-				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true).
 				" ORDER BY creation_date DESC ".
 				"";
-				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$result[] = $rec;
 		}
@@ -577,17 +557,17 @@ class ilNewsItemGen
 		$query = "SELECT id, title, content, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, content_type, creation_date, update_date, user_id, visibility, content_long, priority, content_is_lang_var, mob_id, playtime ".
 			"FROM il_news_item ".
 			"WHERE ".
-				"context_obj_id = ".$ilDB->quote($this->getContextObjId()).
-				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType()).
-				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId()).
-				" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType()).
-				" AND visibility = ".$ilDB->quote($this->getVisibility()).
+				"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
+				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true).
+				" AND visibility = ".$ilDB->quote($this->getVisibility(), "text").
 				" ORDER BY creation_date DESC ".
 				"";
 				
 		$set = $ilDB->query($query);
 		$result = array();
-		while($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$result[] = $rec;
 		}
